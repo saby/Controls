@@ -80,7 +80,7 @@ export {default as IFilter, IFilterOptions} from './_interface/IFilter';
 export {default as IFilterChanged} from './_interface/IFilterChanged';
 export {default as INavigation, INavigationOptions, INavigationOptionValue, INavigationPositionSourceConfig, INavigationPageSourceConfig, INavigationSourceConfig, IBaseSourceConfig, IBasePositionSourceConfig, IBasePageSourceConfig} from './_interface/INavigation';
 export {default as ISortingSelectorOptions} from './_interface/ISortingSelector';
-export {default as IDisplayedRanges, IDisplayedRangesOptions} from './_interface/IDisplayedRanges';
+export {default as IDisplayedRanges, IDisplayedRangesOptions, TDisplayedRangesItem} from './_interface/IDisplayedRanges';
 export {default as IOpenPopup} from './_interface/IOpenPopup';
 export {default as ISearch, ISearchOptions} from './_interface/ISearch';
 export {default as IFormOperation} from './_interface/IFormOperation';

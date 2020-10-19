@@ -1,6 +1,6 @@
 import {TemplateFunction} from 'UI/Base';
 
-type TDisplayedRangesItem = [null | Date, null | Date];
+export type TDisplayedRangesItem = [null | Date, null | Date];
 
 export interface IDisplayedRangesOptions {
     displayedRanges?: TDisplayedRangesItem[];
