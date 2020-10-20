@@ -53,7 +53,9 @@ export function getScrollPositionType(scrollPosition: number, viewportSize: numb
     let curPosition: SCROLL_POSITION;
     if (scrollPosition <= 0) {
         curPosition = SCROLL_POSITION.START;
-    } else if (scrollPosition + viewportSize >= contentSize) {
+        // На масштабе появляются дробные пиксели в размерах скролл контейнера.
+        // Прибавляем devicePixelRatio, чтобы избежать неправильных расчетов позиции скролла.
+    } else if (scrollPosition + viewportSize + window.devicePixelRatio >= contentSize) {
         curPosition = SCROLL_POSITION.END;
     } else {
         curPosition = SCROLL_POSITION.MIDDLE;
