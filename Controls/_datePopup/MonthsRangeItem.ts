@@ -20,7 +20,7 @@ import componentTmpl = require('wml!Controls/_datePopup/MonthsRangeItem');
  */
 
 var _private = {},
-    SELECTION_VEIW_TYPES = {
+    SELECTION_VIEW_TYPES = {
         days: 'days',
         months: 'months'
     };
@@ -31,7 +31,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
     _template: componentTmpl,
     _monthViewModel: modelViewModel,
 
-    _SELECTION_VEIW_TYPES: SELECTION_VEIW_TYPES,
+    _SELECTION_VIEW_TYPES: SELECTION_VIEW_TYPES,
 
     _FULL_HALF_YEAR: formatDate.FULL_HALF_YEAR,
     _FULL_QUATER: formatDate.FULL_QUATER,
@@ -104,7 +104,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
 
     _onQuarterClick: function (e, date) {
         if (this._quarterSelectionEnabled) {
-            this._selectionViewType = SELECTION_VEIW_TYPES.months;
+            this._selectionViewType = SELECTION_VIEW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
             this._notify('fixedPeriodClick', [date, dateUtils.getEndOfQuarter(date)]);
         }
@@ -124,7 +124,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
 
     _onHalfYearClick: function (e, date) {
         if (this._halfyearSelectionEnabled) {
-            this._selectionViewType = SELECTION_VEIW_TYPES.months;
+            this._selectionViewType = SELECTION_VIEW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
             this._notify('fixedPeriodClick', [date, dateUtils.getEndOfHalfyear(date)]);
         }
@@ -144,7 +144,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
 
     _onMonthTitleClick: function (e, date) {
         if (this._monthsSelectionEnabled && !this._options.selectionProcessing && this._options.monthClickable) {
-            this._selectionViewType = SELECTION_VEIW_TYPES.months;
+            this._selectionViewType = SELECTION_VIEW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
 
             this._notify('itemClick', [date]);
@@ -171,7 +171,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
 
     _onMonthClick: function (e, date) {
         if (this._options.selectionProcessing || !this._options.monthClickable) {
-            this._selectionViewType = SELECTION_VEIW_TYPES.months;
+            this._selectionViewType = SELECTION_VIEW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
             this._notify('itemClick', [date]);
         }
@@ -196,7 +196,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
 
         if (rangeSelectionUtils.isSelected(itemValue, start, end, this._options.selectionProcessing,
                 this._options.selectionBaseValue, this._options.selectionHoveredValue) &&
-            this._selectionViewType === SELECTION_VEIW_TYPES.months) {
+            this._selectionViewType === SELECTION_VIEW_TYPES.months) {
             css.push('controls-PeriodDialog-MonthsRange__item-selected');
             css.push('controls-PeriodDialog-MonthsRange__item-selected_theme-' + this._options.theme);
         } else {
@@ -204,7 +204,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
             css.push('controls-PeriodDialog-MonthsRange__item_theme-' + this._options.theme);
         }
 
-        if (this._selectionViewType === SELECTION_VEIW_TYPES.months) {
+        if (this._selectionViewType === SELECTION_VIEW_TYPES.months) {
             css.push(rangeSelectionUtils.prepareSelectionClass(
                 itemValue,
                 start,
@@ -233,11 +233,11 @@ var Component = BaseControl.extend([EventProxyMixin], {
 
 Component._private = _private;
 
-Component.SELECTION_VEIW_TYPES = SELECTION_VEIW_TYPES;
+Component.SELECTION_VIEW_TYPES = SELECTION_VIEW_TYPES;
 
 Component.getDefaultOptions = function () {
     return coreMerge({
-        selectionViewType: SELECTION_VEIW_TYPES.days
+        selectionViewType: SELECTION_VIEW_TYPES.days
     }, {} /*IPeriodSimpleDialog.getDefaultOptions()*/);
 };
 

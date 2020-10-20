@@ -1,5 +1,4 @@
 <div class="controls-MonthViewVDOM__item
-            {{newMode !== true? 'controls-MonthViewVDOM__item-old controls-MonthViewVDOM__item-old_theme-' + theme : 'controls-MonthViewVDOM__item_theme-' + theme}}
-            {{_themeCssClass}}">
+            {{newMode !== true? 'controls-MonthViewVDOM__item-old controls-MonthViewVDOM__item-old_theme-' + theme : 'controls-MonthViewVDOM__item_theme-' + theme}}">
     {{ value.caption }}
 </div>

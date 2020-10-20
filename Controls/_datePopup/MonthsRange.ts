@@ -67,18 +67,18 @@ class Component extends Control {
 
     private _updateSelectionType(options): void {
         if (dateUtils.isStartOfMonth(options.startValue) && dateUtils.isEndOfMonth(options.endValue)) {
-            this._selectionViewType = MonthsRangeItem.SELECTION_VEIW_TYPES.months;
+            this._selectionViewType = MonthsRangeItem.SELECTION_VIEW_TYPES.months;
         } else {
-            this._selectionViewType = MonthsRangeItem.SELECTION_VEIW_TYPES.days;
+            this._selectionViewType = MonthsRangeItem.SELECTION_VIEW_TYPES.days;
         }
     }
 }
 Component._theme = ['Controls/datePopup'];
-Component.SELECTION_VEIW_TYPES = MonthsRangeItem.SELECTION_VEIW_TYPES;
+Component.SELECTION_VIEW_TYPES = MonthsRangeItem.SELECTION_VIEW_TYPES;
 
 Component.getDefaultOptions = function() {
     return {
-        selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.days,
+        selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.days,
         dateConstructor: WSDate
     };
 };

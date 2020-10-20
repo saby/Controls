@@ -36,22 +36,33 @@
                   on:mouseleave="_onMonthTitleMouseLeave(month)">
                   {{ _formatDate(month, 'MMMM') }}
                </div>
-               <Controls.calendar:MonthView
-                  attr:class="controls-PeriodDialog-MonthsRange__month
-                  {{_options.monthClickable && !_options.selectionProcessing ? 'controls-PeriodDialog-MonthsRange__month_clickable ' +
-                   'controls-PeriodDialog-MonthsRange__month_clickable_theme-' + _options.theme}}"
-                  monthViewModel="{{_monthViewModel}}"
+               <div class="controls-PeriodDialog-MonthsRange__monthWrapper
+                           controls-PeriodDialog-MonthsRange__monthWrapper_theme-{{_options.theme}}
+                           {{_options.monthClickable && !_options.selectionProcessing ? ' controls-PeriodDialog-MonthsRange__monthWrapper_clickable controls-PeriodDialog-MonthsRange__monthWrapper_clickable_theme-' + _options.theme}}"
+                  on:click="_onMonthBodyClick(month)">
+                  <Controls.calendar:MonthView
+                     attr:class="controls-PeriodDialog-MonthsRange__month"
+                     monthViewModel="{{_monthViewModel}}"
 
-                  startValue="{{ _selectionViewType === _SELECTION_VEIW_TYPES.days ? _options.startValue }}"
-                  endValue="{{ _selectionViewType === _SELECTION_VEIW_TYPES.days ? _options.endValue }}"
+                     startValue="{{ _selectionViewType === _SELECTION_VIEW_TYPES.days ? _options.startValue }}"
+                     endValue="{{ _selectionViewType === _SELECTION_VIEW_TYPES.days ? _options.endValue }}"
 
-                  showWeekdays="{{false}}"
-                  month="{{month}}"
-                  captionFormat="%B"
-                  dayTemplate="{{_options.dayTemplate}}"
+                     showWeekdays="{{false}}"
+                     month="{{month}}"
+                     captionFormat="%B"
 
-                  on:click="_onMonthBodyClick(month)"
-               />
+                     newMode="{{true}}"
+                  >
+                     <ws:dayTemplate>
+                        <ws:partial template="{{_options.dayTemplate}}"
+                                    sizeStyle="monthRangeItem"
+                                    backgroundStyle="monthRangeItem"
+                                    borderStyle="monthRangeItem"
+                                    fontWeight="unset">
+                        </ws:partial>
+                     </ws:dayTemplate>
+                  </Controls.calendar:MonthView>
+               </div>
             </div>
          </div>
       </div>
