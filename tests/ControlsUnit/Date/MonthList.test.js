@@ -486,11 +486,14 @@ define([
                   component = calendarTestUtils.createComponent(
                      calendar.MonthList, coreMerge(test.options, config, { preferSource: true })
                   );
-
+               global.window = {
+                  devicePixelRatio: 1
+               };
                sandbox.stub(component, '_notify');
                component._intersectHandler(null, test.entries);
                sinon.assert.calledWith(component._notify, 'positionChanged', [test.date]);
                sandbox.restore();
+               global.window = undefined;
             });
          });
 
@@ -649,6 +652,9 @@ define([
          }].forEach(function(test) {
             it(test.title, function() {
                const sandbox = sinon.createSandbox();
+               global.window = {
+                  devicePixelRatio: 1
+               };
                const component = calendarTestUtils.createComponent(calendar.MonthList);
                sinon.replace(component, '_updateSource', () => {
                   return;
@@ -671,6 +677,7 @@ define([
                component._intersectHandler(null, test.entries);
                assert.deepEqual(component._displayedDates, test.resultDisplayedDates);
                sandbox.restore();
+               global.window = undefined;
             });
          });
       });

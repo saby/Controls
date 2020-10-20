@@ -153,6 +153,9 @@ describe('Controls/_scroll/Utils/Scroll', () => {
         }].forEach((test, i: number) => {
             it(`test ${i}. direction ${test.direction}`, () => {
                 const container = {};
+                global.window = {
+                    devicePixelRatio: 1
+                };
                 assert.strictEqual(getScrollPositionTypeByState(test.state, test.direction), test.scrollPositionType);
             });
         });
