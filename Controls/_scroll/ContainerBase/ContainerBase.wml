@@ -1,34 +1,44 @@
-<div class="controls-Scroll-ContainerBase {{_scrollCssClass}} controls-Scroll__content"
-    name="content"
-    on:scroll="_scrollHandler()">
-    <ws:partial
-        attr:class="controls-Scroll-containerBase_userContent"
-        template="{{_options.content}}"
-        scope="{{_options}}"
-        on:register="_registerIt()"
-        on:unregister="_unRegisterIt()"
-        on:doScroll="_doScrollHandler()"
+<ws:template name="scroll">
+    <div class="controls-Scroll-ContainerBase {{_scrollCssClass}} controls-Scroll__content"
+        name="content"
+        on:scroll="_scrollHandler()">
+        <ws:partial
+            attr:class="controls-Scroll-containerBase_userContent"
+            template="{{_options.content}}"
+            scope="{{_options}}"
+        />
+    </div>
+</ws:template>
 
-        on:scrollToElement="_scrollToElement()"
-        on:saveScrollPosition="_saveScrollPosition()"
-        on:restoreScrollPosition="_restoreScrollPosition()"
-        on:updatePlaceholdersSize="_updatePlaceholdersSize()"
+<!--
+Временно перенес обработчики всплывающих событий с partial контента.
+Если в шаблоне контента есть несколько корневых нод, то обработчики не срабатывают и атрибуты не навешиваются.
+https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
+-->
+<ws:partial
+    template="scroll"
+    on:register="_registerIt()"
+    on:unregister="_unRegisterIt()"
+    on:doScroll="_doScrollHandler()"
 
-        on:selectedKeysChanged="_selectedKeysChanged()"
-        on:excludedKeysChanged="_excludedKeysChanged()"
-        on:beforeSelectionChanged="_tmplNotify('beforeSelectionChanged')"
-        on:itemClick="_itemClick()"
+    on:scrollToElement="_scrollToElement()"
+    on:saveScrollPosition="_saveScrollPosition()"
+    on:restoreScrollPosition="_restoreScrollPosition()"
+    on:updatePlaceholdersSize="_updatePlaceholdersSize()"
 
-        on:itemMouseDown="_tmplNotify('itemMouseDown')"
-        on:rootChanged="_tmplNotify('rootChanged')"
-        on:expandedItemsChanged="_tmplNotify('expandedItemsChanged')"
-        on:collapsedItemsChanged="_tmplNotify('collapsedItemsChanged')"
-        on:checkboxClick="_tmplNotify('checkboxClick')"
-        on:markedKeyChanged="_tmplNotify('markedKeyChanged')"
-        on:beforeMarkedKeyChanged="_tmplNotify('beforeMarkedKeyChanged')"
-        on:actionClick="_tmplNotify('actionClick')"
-        on:editArrowClick="_tmplNotify('editArrowClick')"
-        on:navigationParamsChanged="_tmplNotify('navigationParamsChanged')"
+    on:selectedKeysChanged="_selectedKeysChanged()"
+    on:excludedKeysChanged="_excludedKeysChanged()"
+    on:beforeSelectionChanged="_tmplNotify('beforeSelectionChanged')"
+    on:itemClick="_itemClick()"
 
+    on:itemMouseDown="_tmplNotify('itemMouseDown')"
+    on:rootChanged="_tmplNotify('rootChanged')"
+    on:expandedItemsChanged="_tmplNotify('expandedItemsChanged')"
+    on:collapsedItemsChanged="_tmplNotify('collapsedItemsChanged')"
+    on:checkboxClick="_tmplNotify('checkboxClick')"
+    on:markedKeyChanged="_tmplNotify('markedKeyChanged')"
+    on:beforeMarkedKeyChanged="_tmplNotify('beforeMarkedKeyChanged')"
+    on:actionClick="_tmplNotify('actionClick')"
+    on:editArrowClick="_tmplNotify('editArrowClick')"
+    on:navigationParamsChanged="_tmplNotify('navigationParamsChanged')"
     />
-</div>
