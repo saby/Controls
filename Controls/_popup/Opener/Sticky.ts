@@ -16,7 +16,7 @@ const getStickyConfig = (config) => {
 const POPUP_CONTROLLER = 'Controls/popupTemplate:StickyController';
 
 /**
- * Контрол, открывающий всплывающее окно, которое позиционнируется относительно вызывающего элемента.
+ * Контрол, открывающий всплывающее окно, которое позиционируется относительно вызывающего элемента.
  * @remark
  * Полезные ссылки:
  * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/sticky/">руководство разработчика</a>

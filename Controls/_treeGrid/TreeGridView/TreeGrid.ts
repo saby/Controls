@@ -29,7 +29,6 @@ import { TreeControl } from 'Controls/tree';
     * @private
     * @author Авраменко А.С.
     * @category List
-    * @demo Controls-demo/List/TreeGrid/BasePG
     */
 
    /*
@@ -60,7 +59,6 @@ import { TreeControl } from 'Controls/tree';
     * @private
     * @author Авраменко А.С.
     * @category List
-    * @demo Controls-demo/List/TreeGrid/BasePG
     */
 
    var Tree = Grid.extend(/** @lends Controls/TreeGrid */{

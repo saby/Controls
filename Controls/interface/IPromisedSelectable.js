@@ -73,7 +73,7 @@ define('Controls/interface/IPromisedSelectable', [
    /*
     * @name Controls/interface/IPromisedSelectable#selectedKeys
     * @cfg {Array.<Number|String>} Array of selected items' keys.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
+    * @demo Controls-demo/list_new/MultiSelect/AllSelected/Index
     * @default []
     * @remark
     * You can pass node's {@link Controls/_interface/ISource#keyProperty key property} to select every item inside that node. To select every item in the list you should pass [null].
@@ -130,7 +130,7 @@ define('Controls/interface/IPromisedSelectable', [
    /*
     * @name Controls/interface/IPromisedSelectable#excludedKeys
     * @cfg {Array.<Number|String>} Array of keys of items that should be excluded from the selection.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FMultiselectPG">Example</a>.
+    * @demo Controls-demo/list_new/MultiSelect/AllSelected/Index
     * @default []
     * @remark
     * A node will be marked as partially selected if key of any of its children is in excludedKeys. Partially selected nodes are usually rendered with checkbox in indeterminate state near them.

@@ -42,11 +42,11 @@ export interface IMarkerListOptions {
    /*ENG
     * @name Controls/_marker/interface/IMarkerListOptions#markerVisibility
     * @cfg {String} Determines when marker is visible.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
     * @variant visible The marker is always displayed, even if the marked key entry is not specified.
     * @variant hidden The marker is always hidden.
     * @variant onactivated - The marker is displayed on List activating. For example, when user mark a record.
     * @default onactivated
+    * @demo Controls-demo/list_new/Marker/OnActivated/Index
     */
    markerVisibility?: TVisibility;
 
@@ -60,8 +60,7 @@ export interface IMarkerListOptions {
    /*ENG
     * @name Controls/_marker/interface/IMarkerListOptions#markedKey
     * @cfg {Number} Identifier of the marked collection item.
-    * @remark
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FBasePG">Example</a>.
+    * @demo Controls-demo/List/List/BasePG
     */
    markedKey?: CrudEntityKey;
 }

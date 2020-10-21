@@ -39,7 +39,7 @@ interface IReceivedState {
  * @control
  * @private
  * @author Красильников А.С.
- * @demo Controls-demo/BreadCrumbs/BreadCrumbsPG
+ * @demo Controls-demo/breadCrumbs_new/ClickHandler/Index
  */
 
 class BreadCrumbs extends Control<IBreadCrumbsOptions> {

@@ -38,7 +38,8 @@
 /*
  * @name Controls/_grid/interface/IGridControl#ladderProperties
  * @cfg {Array.<String>} Array of fields that should be sticky.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">Example</a>
+ * @demo Controls-demo/grid/Ladder/Sticky/Index
+ * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultiline/Index
  * @example
  * Set ladderProperties and render item template through the ladderWrapper:
  * <pre>
@@ -133,7 +134,7 @@
 /*
  * @name Controls/_grid/interface/IGridControl#header
  * @cfg {Array.<HeaderCell>} Describes grid's header.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
+ * @demo Controls-demo/grid/Header/Default/Index
  * @remark
  * Base header content template for Controls/grid:View: "Controls/grid:HeaderContent".
  * @example
@@ -179,7 +180,6 @@
 /*
  * @name Controls/_grid/interface/IGridControl#columns
  * @cfg {TColumns} Describes grid's columns.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
  * @remark Before rendering, make sure that {@link Controls/display:Collection Collection} contains required data, when the {@link Controls/_grid/interface/IGridControl#columns columns} option changes. Call asynchronous 'reload' method before changing {@link Controls/_grid/interface/IGridControl#columns columns} option, if necessary.
  * @example
  * <pre>
@@ -218,7 +218,8 @@
 /*
  * @name Controls/_grid/interface/IGridControl#stickyHeader
  * @cfg {Boolean} Fix the table header.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FStickyPG">Example</a>
+ * @demo Controls-demo/grid/Header/Sticky/Index
+ * @demo Controls-demo/grid/Header/NoSticky/Index
  * @default true
  */
 
@@ -303,15 +304,12 @@
  * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
  * @deprecated Опция устарела и в ближайшее время её поддержка будет прекращена. Используйте опцию {@link Controls/grid:IGridControl#rowSeparatorSize rowSeparatorSize}.
  * @cfg {Boolean} Позволяет отображать/скрывать разделитель строк.
- * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">демо-пример</a>
  * @default false
  */
 
 /*
  * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
  * @cfg {Boolean} Allows to visible or hide row separator.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FBasePG">Example</a>
  * @deprecated
  * @default false
  */

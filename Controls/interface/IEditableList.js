@@ -518,7 +518,7 @@ define('Controls/interface/IEditableList', [
 
    /*
     * @cfg {EditingConfig} Configuration for editing in place.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FEditableListPG">Example</a>.
+    * @demo Controls-demo/list_new/EditInPlace/AutoAdd/Index
     * @name Controls/interface/IEditableList#editingConfig
     * @example
     * WML:

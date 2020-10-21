@@ -35,7 +35,6 @@ const MINIMIZED_STEP_FOR_MAXIMIZED_BUTTON = 100;
  * @author Красильников А.С.
  * @implements Controls/_popupTemplate/interface/IPopupTemplate
  * @implements Controls/_popupTemplate/interface/IPopupTemplateBase
- * @demo Controls-demo/Popup/Templates/StackTemplatePG
  * @demo Controls-demo/PopupTemplate/Stack/HeaderBorderVisible/Index
  */
 

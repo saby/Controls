@@ -374,7 +374,7 @@ export interface IItemActionsOptions {
      * @name Controls/_itemActions/itemActions/interface/IItemActionsOptions#itemActionsClass
      * @cfg {String} CSS класс, позволяющий задать отступы и позицию панели с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ опциями записи} внутри элемента.
      * @default controls-itemActionsV_position_bottomRight
-     * @deprecated Используйте itemActionsClass как опцию Controls/list:ItemTemplate
+     * @deprecated Используйте {@link Controls/list:ItemTemplate#itemActionsClass itemActionsClass} как опцию {@link Controls/list:ItemTemplate}.
      */
     /*
      * @name Controls/_itemActions/itemActions/interface/IItemActionsOptions#itemActionsClass

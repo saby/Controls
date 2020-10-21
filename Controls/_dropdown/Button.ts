@@ -87,7 +87,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
  * @public
  * @author Герасимов А.М.
  * @category Button
- * @demo Controls-demo/Buttons/Menu/MenuPG
+ * @demo Controls-demo/dropdown_new/Button/Source/Index
  */
 
 export default class Button extends BaseDropdown {

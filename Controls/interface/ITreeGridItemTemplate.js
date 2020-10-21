@@ -44,7 +44,7 @@ define('Controls/interface/ITreeGridItemTemplate', [
    /*
     * @name Controls/interface/ITreeGridItemTemplate#itemTemplate
     * @cfg {Function} Template for item render.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FItemTemplatePG">Example</a>.
+    * @demo Controls-demo/treeGrid/ItemTemplate/NoHighlightOnHover/Index
     * @remark
     * Base itemTemplate for Controls.treeGrid:View: "Controls/treeGrid:ItemTemplate".
     * Inside the template scope, object itemData is available, allowing you to access the render data (for example: item, key, etc.).

@@ -10,7 +10,6 @@ import {Popup as PopupUtil} from 'Controls/dateUtils';
     * Поле ввода даты. Поддерживает как ввод с клавиатуры, так и выбор даты из всплывающего календаря с помощью мыши. Не поддерживает ввод времени.
     * @remark
     * Полезные ссылки:
-    * * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FPicker">демо-пример</a>
     * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления input</a>
     * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_datePicker.less">переменные тем оформления dateRange</a>
     *
@@ -26,14 +25,13 @@ import {Popup as PopupUtil} from 'Controls/dateUtils';
     * @mixes Controls/_interface/IOpenPopup
     * @control
     * @public
-    * @demo Controls-demo/Input/Date/PickerPG
+    * @demo Controls-demo/Input/Date/Picker
     * @category Input
     * @author Красильников А.С.
     */
 
    /*
     * Control for entering date. Also, the control allows you to select a date with the mouse using the drop-down box.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FPicker">Demo examples.</a>.
     *
     * @class Controls/_input/Date/Picker
     * @extends Core/Control
@@ -45,7 +43,7 @@ import {Popup as PopupUtil} from 'Controls/dateUtils';
     * @mixes Controls/_input/interface/IValueValidators
     * @control
     * @public
-    * @demo Controls-demo/Input/Date/PickerPG
+    * @demo Controls-demo/Input/Date/Picker
     * @category Input
     * @author Красильников А.С.
     */
