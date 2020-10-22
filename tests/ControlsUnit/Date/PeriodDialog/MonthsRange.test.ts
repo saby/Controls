@@ -5,29 +5,29 @@ import calendarTestUtils = require('ControlsUnit/Calendar/Utils');
 describe('Controls/_datePopup/MonthsRange', function() {
    const selectionViewTypeTests = [{
          options: {},
-         selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.days
+         selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.days
       }, {
          options: {
             startValue: new Date(2019, 0)
          },
-         selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.days
+         selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.days
       }, {
          options: {
             endValue: new Date(2019, 1, 0)
          },
-         selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.days
+         selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.days
       }, {
          options: {
             startValue: new Date(2019, 1, 2),
             endValue: new Date(2019, 1, 3)
          },
-         selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.days
+         selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.days
       }, {
          options: {
             startValue: new Date(2019, 0),
             endValue: new Date(2019, 1, 0)
          },
-         selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.months
+         selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.months
       }];
 
    describe('Initialisation', function() {
@@ -46,7 +46,7 @@ describe('Controls/_datePopup/MonthsRange', function() {
             endValue: new Date(2019, 0, 1),
             selectionProcessing: true
          },
-         selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.months
+         selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.months
       }].forEach(function(test) {
          it(`should set proper _selectionViewType for options ${JSON.stringify(test.options)}.`, function() {
             const component = calendarTestUtils.createComponent(

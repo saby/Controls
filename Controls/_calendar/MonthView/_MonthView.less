@@ -139,39 +139,42 @@
    }
 }
 
-.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedInner_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedStart-unfinished_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedEnd-unfinished_theme-@{themeName} {
+.controls-MonthView__item-border_theme-@{themeName},
+.controls-MonthView__item-border-start_theme-@{themeName},
+.controls-MonthView__item-border-end_theme-@{themeName} {
    outline-style: solid;
    outline-width: @monthview_item_border-thickness_monthSlider;
+   outline-color: @monthview_item_hover_border-color_monthSlider;
 }
 
-.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedStartEnd_theme-@{themeName} {
+.controls-MonthView__fontWeight_theme-@{themeName} {
    font-weight: bold;
 }
 
-.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName}:before {
+.controls-MonthView__item-border-start_theme-@{themeName}:before,
+.controls-MonthView__item-border-end_theme-@{themeName}:after {
+   width: @rangeSelection_border_thickness_datePicker;
+   background-color: @rangeSelection_border_color_datePicker;
+}
+
+.controls-MonthView__item-border-start:before,
+.controls-MonthView__item-border-end:after {
    content: "";
    position: absolute;
    height: 100%;
    top: 0;
+}
+
+.controls-MonthView__item-border-start:before {
    left: -1px;
    z-index: 1;
 }
 
-.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName}:after {
-   content: "";
-   position: absolute;
-   height: 100%;
-   top: 0;
+.controls-MonthView__item-border-end:after {
    right: -1px;
 }
 
-.controls-MonthViewVDOM__item-selectedStartEnd_theme-@{themeName} {
+.controls-MonthView__item-border-start-end_theme-@{themeName} {
    outline: @yearlist_monthview_selection-border_single_color_datePicker solid @rangeSelection_border_single_thickness_datePicker;
    outline-offset: @yearlist_monthview_selection-border_thickness_datePicker - @rangeSelection_border_single_thickness_datePicker;
    z-index: 1; //При масштабе 150% соседние блоки наезжают на outline
@@ -211,13 +214,6 @@
    border: @monthview_today_border-thickness_monthSlider solid @monthview_today_border-color_monthSlider;
 }
 
-.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedInner_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedStart-unfinished_theme-@{themeName},
-.controls-MonthViewVDOM__item-selectedEnd-unfinished_theme-@{themeName} {
-   outline-color: @monthview_item_hover_border-color_monthSlider;
-}
 .controls-MonthView__backgroundColor-currentMonthDay-unselected_theme-@{themeName},
 .controls-MonthView__backgroundColor-currentMonthDay-unselected-readOnly_theme-@{themeName} {
    background: @monthview_item_background-color_monthSlider;
@@ -231,12 +227,6 @@
 .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
 .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-readOnly_theme-@{themeName} {
    background: @rangeSelection_item_hover_background-color_datePicker;
-}
-
-.controls-MonthViewVDOM__item-selectedEnd_theme-@{themeName}:after,
-.controls-MonthViewVDOM__item-selectedStart_theme-@{themeName}:before {
-   width: @rangeSelection_border_thickness_datePicker;
-   background-color: @rangeSelection_border_color_datePicker;
 }
 
 .controls-MonthView__textColor-currentMonthDay-workday_theme-@{themeName} {
