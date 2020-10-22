@@ -109,6 +109,18 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIc
      * @link items
      */
     menuSource?: ICrudPlus;
+
+    /**
+     * @name Controls/_toolbars/IToolbarOptions#fontColorStyle
+     * @cfg {String} Стиль отображения текста элементов тулбара.
+     */
+    fontColorStyle?: string;
+
+    /**
+     * @name Controls/_toolbars/IToolbarOptions#iconStyle
+     * @cfg {String} Стиль отображения иконки элементов тулбара.
+     */
+    iconStyle?: string;
 }
 
 /**
@@ -259,7 +271,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
                     icon: item.get('icon'),
                     caption: item.get('title'),
                     iconSize: item.get('iconSize'),
-                    iconStyle: item.get('iconStyle')
+                    iconStyle: item.get('iconStyle') || options.iconStyle
                 }
             }
         };
@@ -555,7 +567,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             popupClassName: '',
             itemsSpacing: 'medium',
             iconSize: 'm',
-            itemTemplate: defaultItemTemplate
+            itemTemplate: defaultItemTemplate,
+            iconStyle: 'secondary'
         };
     }
 
