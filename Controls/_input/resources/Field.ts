@@ -353,7 +353,7 @@ class Field<Value, ModelOptions>
     protected _keyDownHandler(event: SyntheticEvent<KeyboardEvent>): void {
         const code: string = event.nativeEvent.key;
         const processedKeys: string[] = [
-            'End', 'Home', 'Space', 'ArrowLeft', 'ArrowRight',
+            'End', 'Home', 'Space', 'ArrowLeft', 'ArrowRight', ' ',
             // Поддержка значения key в IE
             'Spacebar', 'Left', 'Right'
         ];
