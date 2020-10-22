@@ -1,0 +1,5 @@
+<div class="controls-listTemplates__flatItemTemplate_theme-{{theme}}">
+    <ws:partial
+            template="{{content}}"/>
+</div>
+
