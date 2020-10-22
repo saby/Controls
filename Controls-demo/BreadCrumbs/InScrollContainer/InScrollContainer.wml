@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo_fixedWidth550">
+        <Controls.scroll:Container attr:style="height: 20px">
+            <Controls.breadcrumbs:Path items="{{_items}}" keyProperty="id" />
+        </Controls.scroll:Container>
+    </div>
+</div>
+
