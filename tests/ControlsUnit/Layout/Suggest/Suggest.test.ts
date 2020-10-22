@@ -383,7 +383,9 @@ describe('Controls/suggest', () => {
          let openCfg;
 
          suggest._notify = (event, options) => {
-            openCfg = options;
+            if (event === 'showSelector') {
+               openCfg = options;
+            }
             return eventResult;
          };
          suggest._showContent = true;
@@ -396,11 +398,13 @@ describe('Controls/suggest', () => {
             templateOptions: {}
          };
 
+         suggest._searchValue = 'testValue';
          suggest._showAllClick();
 
          assert.isFalse(stackOpened);
          assert.isFalse(suggest._showContent);
          assert.isTrue(!!openCfg);
+         assert.equal(openCfg[0].templateOptions.searchValue, suggest._searchValue);
       });
 
       it('Suggest::_moreClick', () => {
