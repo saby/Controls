@@ -2,6 +2,7 @@ import {assert} from 'chai';
 import {BaseControl, ListViewModel} from 'Controls/list';
 import {RecordSet} from 'Types/collection';
 import {Memory} from 'Types/source';
+import * as Env from 'Env/Env';
 
 const getData = (dataCount: number = 0) => {
     const data = [];
@@ -101,16 +102,32 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
+            baseControl._container = {
+                getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}]),
+                clientHeight: 1000
+            };
+            baseControl._itemsContainerReadyHandler(null, () => {
+                return {children: []};
+            });
             assert.isFalse(baseControl._pagingVisible);
-            baseControl._viewportSize = 200;
-            baseControl._viewSize = 800;
+            await baseControl.canScrollHandler({
+                scrollHeight: 1000,
+                clientHeight: 400,
+                scrollTop: 0
+            });
+            baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
             baseControl._mouseEnter(null);
             assert.isTrue(baseControl._pagingVisible);
-            await BaseControl._private.onScrollHide(baseControl);
+
+            await baseControl.cantScrollHandler(null);
             assert.isFalse(baseControl._pagingVisible, 'Wrong state _pagingVisible after scrollHide');
-            BaseControl._private.handleListScrollSync(baseControl, 200);
+            //BaseControl._private.handleListScrollSync(baseControl, 200);
+            baseControl.scrollMoveSyncHandler({scrollTop: 200});
+            assert.isFalse(baseControl._pagingVisible);
+            Env.detection.isMobilePlatform = true;
+            baseControl.scrollMoveSyncHandler({scrollTop: 200});
             assert.isTrue(baseControl._pagingVisible);
+            Env.detection.isMobilePlatform = undefined;
         });
         it('is viewport = 0', async () => {
             baseControl.saveOptions(baseControlCfg);
