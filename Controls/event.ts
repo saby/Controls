@@ -24,9 +24,9 @@ import Registrar = require('Controls/_event/Registrar');
 import {register as RegisterUtil, unregister as UnregisterUtil} from 'Controls/_event/ListenerUtils';
 export {default as Listener} from 'Controls/_event/Listener';
 export {default as RegisterClass} from 'Controls/_event/RegisterClass';
+export {default as Register} from 'Controls/_event/Register';
+export {default as Registrar} from 'Controls/_event/Registrar';
 export {
-   Register,
-   Registrar,
    RegisterUtil,
    UnregisterUtil
 };

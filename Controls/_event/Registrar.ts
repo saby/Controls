@@ -1,24 +1,20 @@
-import cExtend = require('Core/core-simpleExtend');
-
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {Control} from 'UI/Base';
 export interface IRegistrarConfig {
-   listenAll?: boolean
+   listenAll?: boolean;
 }
 
-var Registrar = cExtend.extend({
+class Registrar {
 
-   _registry: null,
+   _registry: object = {};
 
-   constructor: function(cfg) {
-      Registrar.superclass.constructor.apply(this, arguments);
-      this._registry = {};
-      this._options = cfg;
-   },
-
-   register: function(event, component, callback, config: IRegistrarConfig = {}) {
-      this._registry[component.getInstanceId()] = {
-         component: component,
-         callback: callback
-      };
+   register(
+          event: SyntheticEvent,
+          component: Control,
+          callback: Function,
+          config: IRegistrarConfig = {}): void {
+      this._registry[component.getInstanceId()] = {component, callback};
+      //TODO костыль https://online.sbis.ru/opendoc.html?guid=bc771725-ba40-4ac3-813e-962322fefd30
       const previousUnmountCallback = component.unmountCallback;
       component.unmountCallback = () => {
          if (typeof previousUnmountCallback === 'function') {
@@ -29,64 +25,65 @@ var Registrar = cExtend.extend({
       if (!config.listenAll) {
          event.stopPropagation();
       }
-   },
-   unregister: function(event, component, config: IRegistrarConfig = {}) {
+   }
+   unregister(
+       event: SyntheticEvent,
+       component: Control,
+       config: IRegistrarConfig = {}): void {
       delete this._registry[component.getInstanceId()];
       if (!config.listenAll) {
          event.stopPropagation();
       }
-   },
-   start: function() {
+   }
+   start(): void {
       if (!this._registry) {
          return;
       }
-      for (var i in this._registry) {
+      for (let i in this._registry) {
          if (this._registry.hasOwnProperty(i)) {
-            var obj = this._registry[i];
-            obj && obj.callback.apply(obj.component, arguments);
+            const obj = this._registry[i];
+            obj?.callback.apply(obj.component, arguments);
          }
       }
-   },
+   }
 
-   startAsync: function() {
+   startAsync(): Promise<any> {
       if (!this._registry) {
          return;
       }
-      var promises = [];
-      for (var i in this._registry) {
+      const promises = [];
+      for (let i in this._registry) {
          if (this._registry.hasOwnProperty(i)) {
-            var obj = this._registry[i];
-            var res = obj && obj.callback.apply(obj.component, arguments);
+            const obj = this._registry[i];
+            const res = obj?.callback.apply(obj.component, arguments);
             promises.push(res);
          }
       }
 
       return Promise.all(promises);
-   },
+   }
 
-   startOnceTarget: function(target) {
-      var argsClone;
+   startOnceTarget(target: Control): void {
+      let argsClone;
       if (!this._registry) {
          return;
       }
-      for (var i in this._registry) {
+      for (let i in this._registry) {
          if (this._registry.hasOwnProperty(i)) {
-            var obj = this._registry[i];
+            const obj = this._registry[i];
             if (obj.component === target) {
                argsClone = Array.prototype.slice.call(arguments);
                argsClone.splice(0, 1);
-               obj && obj.callback.apply(obj.component, argsClone);
+               obj?.callback.apply(obj.component, argsClone);
             }
          }
       }
-   },
+   }
 
-   destroy: function() {
-      this._options = {};
+   destroy(): void {
       this._registry = {};
    }
 
-});
+}
 
-export = Registrar;
-
+export default Registrar;

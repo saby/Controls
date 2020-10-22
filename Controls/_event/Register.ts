@@ -3,11 +3,14 @@
  * Компонент слушает события "снизу". События register и сохраняет Listener'ы в списке
  * то есть, кто-то снизу сможет услышать события верхних компонентов через это отношение
  */
-import Control = require('Core/Control');
-import template = require('wml!Controls/_event/Register');
-import entity = require('Types/entity');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import RegisterTemplate = require('wml!Controls/_event/Register');
 import {IRegistrarConfig} from './Registrar';
-import RegisterClass from './RegisterClass';
+import {default as RegisterClass, IRegisterClassOptions} from './RegisterClass';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {descriptor} from 'Types/entity';
+
+export interface IRegisterOptions extends IRegisterClassOptions, IControlOptions {}
 
 /**
  * Контрол, регистрирующий все вложенные {@link Controls/event:Listener} и генерирующий событие, заданное в опции {@link register}.
@@ -19,40 +22,56 @@ import RegisterClass from './RegisterClass';
  * Подробнее о работе с контролом читайте <a href="/doc/platform/developmentapl/interface-development/controls/tools/autoresize/">здесь</a>.
  * @author Красильников А.С.
  */
-const EventRegistrator = Control.extend({
-   _template: template,
-   _register: null,
-   _beforeMount(newOptions): void {
+class Register extends Control<IRegisterOptions> {
+   protected _template: TemplateFunction = RegisterTemplate;
+   private _register: RegisterClass = null;
+   _beforeMount(newOptions: IRegisterOptions): void {
       if (typeof window !== 'undefined') {
-         this._forceUpdate = function() {
+         this._forceUpdate = () => {
             // Do nothing
             // This method will be called because of handling event.
          };
          this._register = new RegisterClass({ register: newOptions.register });
       }
-   },
-   _registerIt(event, registerType, component, callback, config: IRegistrarConfig = {}): void {
+   }
+   protected _registerIt(
+          event: SyntheticEvent,
+          registerType: string,
+          component: Control,
+          callback: Function,
+          config: IRegistrarConfig = {}
+       ): void {
       this._register.register(event, registerType, component, callback, config);
-   },
-   _unRegisterIt(event, registerType, component, config: IRegistrarConfig = {}): void {
+   }
+
+   protected _unRegisterIt(
+          event: SyntheticEvent,
+          registerType: string,
+          component: Control,
+          config: IRegistrarConfig = {}
+       ): void {
       this._register.unregister(event, registerType, component, config);
-   },
+   }
+
    start(): void {
       this._register.start.apply(this._register, arguments);
-   },
-   _beforeUnmount(): void {
+   }
+
+   protected _beforeUnmount(): void {
       if (this._register) {
          this._register.destroy();
          this._register = null;
       }
    }
-});
 
-EventRegistrator.getOptionTypes = function() {
-   return {
-      register: entity.descriptor(String).required()
-   };
-};
+   static getOptionTypes(): object {
+      return {
+         register: descriptor(String).required()
+      };
+   }
+}
+
+export default Register;
 
 /**
  * @name Controls/_event/Register#register
@@ -62,7 +81,5 @@ EventRegistrator.getOptionTypes = function() {
 /**
  * Оповещает зарегистрированные {@link Controls/event:Listener}.
  * @name Controls/_event/Register#start
- * @function 
+ * @function
  */
-export = EventRegistrator;
-

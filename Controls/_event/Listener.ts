@@ -42,7 +42,7 @@ const getConfig = (options: IListenerOptions): IListenerOptions => {
    };
 };
 
-class EventListener extends Control<IListenerOptions> {
+class Listener extends Control<IListenerOptions> {
    protected _template: TemplateFunction = template;
    protected config: IListenerOptions =  null;
    protected _beforeMount(options: IListenerOptions): void {
@@ -69,4 +69,4 @@ class EventListener extends Control<IListenerOptions> {
    }
 }
 
-export default EventListener;
+export default Listener;

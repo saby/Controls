@@ -1,41 +1,47 @@
-import cExtend = require('Core/core-simpleExtend');
-import Registrar = require('Controls/_event/Registrar');
-import {IRegistrarConfig} from "./Registrar";
+import {Control} from 'UI/Base';
+import Registrar from 'Controls/_event/Registrar';
+import {IRegistrarConfig} from './Registrar';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
-export interface IRegisterClassConfig {
-    listenAll?: boolean;
-}
-
-export interface RegisterClassOptions {
-   register?: unknown;
+export interface IRegisterClassOptions {
+    register?: string;
 }
 
 class RegisterClass {
-    private _register: unknown;
-    private _registrar: unknown;
+    private _register: string;
+    private _registrar: Registrar;
 
-    constructor(options: RegisterClassOptions) {
+    constructor(options: IRegisterClassOptions) {
        this._register = options.register;
-       this._registrar = new Registrar({register: this._register});
+       this._registrar = new Registrar();
     }
 
-    register(event: Event, registerType: string, component, callback, config: IRegistrarConfig = {}): void {
+    register(
+        event: SyntheticEvent,
+        registerType: string,
+        component: Control,
+        callback: Function,
+        config: IRegistrarConfig = {}): void {
        if (registerType === this._register) {
           this._registrar.register(event, component, callback, config);
        }
     }
 
-    unregister(event: Event, registerType: string, component, config: IRegistrarConfig = {}): void {
+    unregister(
+        event: SyntheticEvent,
+        registerType: string,
+        component: Control,
+        config: IRegistrarConfig = {}): void {
        if (registerType === this._register) {
           this._registrar.unregister(event, component, config);
        }
     }
 
-   start(event): void {
+   start(event: SyntheticEvent): void {
       this._registrar.start.apply(this._registrar, arguments);
    }
 
-   startOnceTarget(target): void {
+   startOnceTarget(target: Control): void {
        const argsClone = Array.prototype.slice.call(arguments);
        argsClone.splice(0, 1);
        this._registrar.startOnceTarget(target, ...argsClone);
