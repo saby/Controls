@@ -3698,6 +3698,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         if (searchValueChanged) {
             _private.getPortionedSearch(self).reset();
+
+            if (newOptions.searchValue && newOptions.sourceController && _private.needScrollCalculation(newOptions.navigation)) {
+                _private.checkLoadToDirectionCapability(self, newOptions.filter, newOptions.navigation);
+            }
         }
 
         if (needReload) {
