@@ -190,6 +190,18 @@ describe('Controls/browser:Browser', () => {
         });
     });
 
+    describe('_beforeUnmount', () => {
+        it('_beforeUnmount while sourceController is loading', async () => {
+            const options = getBrowserOptions();
+            const browser = getBrowser(options);
+
+            await browser._beforeMount(options);
+
+            browser._beforeUnmount();
+            ok(!browser._sourceController);
+        });
+    });
+
     describe('_beforeUpdate', () => {
 
         describe('searchController', () => {
