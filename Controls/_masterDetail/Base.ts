@@ -36,9 +36,16 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     masterMinWidth: number | string;
     masterMaxWidth: number | string;
     contrastBackground: boolean;
+    masterVisibility: string;
 }
 
 class Base extends Control<IMasterDetail> {
+    /**
+     * @typedef {String} MasterVisibility
+     * @variant visible Мастер отображается.
+     * @variant hidden Мастер скрыт.
+     */
+
     /**
      * @name Controls/_masterDetail/Base#master
      * @cfg {Function} Задает шаблон контента master.
@@ -72,9 +79,10 @@ class Base extends Control<IMasterDetail> {
      */
 
     /**
-     * @name Controls/_masterDetail/Base#masterMaxWidth
-     * @cfg {Number|String} Максимальная ширина контентной области до которой может быть увеличена ширина {@link master}
-     * Значение можно задавать как в пикселях, так и в процентах.
+     * @name Controls/_masterDetail/Base#masterVisibility
+     * @cfg {MasterVisibility} Определяет видимость контента мастера.
+     * @default visible
+     * @demo Controls-demo/MasterDetail/MasterVisibility/Index
      */
 
     /**
@@ -318,7 +326,8 @@ class Base extends Control<IMasterDetail> {
             masterWidth: '27%',
             masterMinWidth: 30,
             masterMaxWidth: '50%',
-            contrastBackground: true
+            contrastBackground: true,
+            masterVisibility: 'visible'
         };
     }
 }

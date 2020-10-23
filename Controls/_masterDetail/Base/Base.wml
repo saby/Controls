@@ -1,20 +1,22 @@
 <div class="controls-MasterDetail">
-   <div class="controls-MasterDetail_master controls-MasterDetail_master_theme-{{_options.theme}}" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}">
-      <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
-         <ws:partial
-            template="{{_options.master}}"
-            attr:class="controls-MasterDetail_master-template controls-MasterDetail_{{_options.style || 'master'}}-template_theme-{{_options.theme}}
-                        controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}_theme-{{_options.theme}}"
-            on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
-      </Controls.event:Register>
-      <ws:if data="{{_canResizing}}">
-         <Controls.dragnDrop:ResizingLine attr:class="controls-MasterDetail_resizing-line"
-                                          minOffset="{{_minOffset}}"
-                                          maxOffset="{{_maxOffset}}"
-                                          on:dragStart="_dragStartHandler()"
-                                          on:offset="_offsetHandler()"/>
-      </ws:if>
-   </div>
+   <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
+      <div class="controls-MasterDetail_master controls-MasterDetail_master_theme-{{_options.theme}}" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}">
+            <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
+               <ws:partial
+                       template="{{_options.master}}"
+                       attr:class="controls-MasterDetail_master-template controls-MasterDetail_{{_options.style || 'master'}}-template_theme-{{_options.theme}}
+                           controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}_theme-{{_options.theme}}"
+                       on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
+            </Controls.event:Register>
+         <ws:if data="{{_canResizing}}">
+            <Controls.dragnDrop:ResizingLine attr:class="controls-MasterDetail_resizing-line"
+                                             minOffset="{{_minOffset}}"
+                                             maxOffset="{{_maxOffset}}"
+                                             on:dragStart="_dragStartHandler()"
+                                             on:offset="_offsetHandler()"/>
+         </ws:if>
+      </div>
+   </ws:if>
    <Controls.event:Register name="resizeDetectDetail" register="controlResize" attr:fixCompatible="1">
       <ws:partial
          attr:class="controls-MasterDetail_details controls-MasterDetail_details_bg-{{_options.contrastBackground ? 'contrast' : 'same'}}_theme-{{_options.theme}}"
