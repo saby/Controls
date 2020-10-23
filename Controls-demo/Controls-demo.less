@@ -2,6 +2,20 @@
 @spacing_demo_default: 12px;
 @spacing_demo_default_controls: 4px;
 
+.controlsDemo__subtask_link {
+  cursor: pointer;
+  text-decoration: none;
+  background-color: transparent;
+  color: #0055BB;
+  font-size: @font-size_m;
+}
+
+.ws-is-hover .controlsDemo__subtask_link:hover,
+.controlsDemo__subtask_link:active {
+  text-decoration: underline;
+  color: @link_hover_text-color_inline;
+}
+
 .controlsDemo__icon_active {
   cursor: pointer;
 }

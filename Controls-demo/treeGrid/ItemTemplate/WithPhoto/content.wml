@@ -2,7 +2,7 @@
             scope="{{_options}}">
     <ws:contentTemplate>
         <ws:if data="{{itemData.columnIndex === 0 && itemData.item['subtask']}}">
-            <span class="ws-link">подзадача</span>
+            <span class="controlsDemo__subtask_link">подзадача</span>
         </ws:if>
         <ws:else>
             <ws:if data="{{itemData.columnIndex === 0 && itemData.item['photo']}}">
