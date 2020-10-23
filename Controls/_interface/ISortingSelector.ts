@@ -6,6 +6,7 @@
  * @extends Core/Control
  * @public
  * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/_interface/IIconSizeOptions
  * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
  * @author Авраменко А.С.
  */
