@@ -176,70 +176,6 @@ export function getDefaultOptions(): object {
  * @category Button
  * @demo Controls-demo/Buttons/ViewModes/Index
  */
-/**
- * @name Controls/_buttons/Button#viewMode
- * @cfg {Enum} Режим отображения кнопки.
- * @variant button В виде обычной кнопки по-умолчанию.
- * @variant linkButton В виде гиперссылки.
- * @variant toolButton В виде кнопки для панели инструментов.
- * @variant functionalButton В виде кнопки выполняющей определенную функцию. Например добавление или сохранение.
- * @default button
- * @demo Controls-demo/Buttons/ViewModes/Index
- * @example
- * Кнопка в режиме отображения 'linkButton'.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="linkButton" fontSize="3xl"/>
- * </pre>
- * Кнопка в режиме отображения 'toolButton'.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="danger" viewMode="toolButton"/>
- * </pre>
- * Кнопка в режиме отображения 'button'.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
- * </pre>
- * @see Size
- */
-
-/*
- * @name Controls/_buttons/Button#viewMode
- * @cfg {Enum} Button view mode.
- * @variant link Decorated hyperlink.
- * @variant button Default button.
- * @variant toolButton Toolbar button.
- * @default button
- * @example
- * Button with 'link' viewMode.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="link" fontSize="3xl"/>
- * </pre>
- * Button with 'toolButton' viewMode.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="danger" viewMode="toolButton"/>
- * </pre>
- * Button with 'button' viewMode.
- * <pre>
- *    <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
- * </pre>
- * @see Size
- */
-
-/**
- * @name Controls/_buttons/Button#captionPosition
- * @cfg {String} Определяет, с какой стороны расположен текст кнопки относительно иконки.
- * @variant left Текст расположен перед иконкой.
- * @variant right Текст расположен после иконки.
- * @default right
- * @demo Controls-demo/Buttons/CaptionPosition/Index
- */
-
-/*
- * @name Controls/_buttons/Button#captionPosition
- * @cfg {String} Determines on which side of the icon caption is located.
- * @variant left Caption before icon.
- * @variant right Icon before caption.
- * @default right
- */
 class Button extends Control<IButtonControlOptions> implements IHref, ICaption, IIcon, IIconStyle, ITooltip, IIconSize, IClick, IFontColorStyle, IFontSize, IHeight, IButton {
     protected _template: TemplateFunction = ButtonTemplate;
 
@@ -285,5 +221,68 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
         return getDefaultOptions();
     }
 }
+/**
+ * @name Controls/_buttons/Button#viewMode
+ * @cfg {String} Режим отображения кнопки.
+ * @variant button В виде обычной кнопки по-умолчанию.
+ * @variant linkButton В виде гиперссылки.
+ * @variant toolButton В виде кнопки для панели инструментов.
+ * @variant functionalButton В виде кнопки выполняющей определенную функцию. Например добавление или сохранение.
+ * @default button
+ * @demo Controls-demo/Buttons/ViewModes/Index
+ * @example
+ * Кнопка в режиме отображения 'linkButton'.
+ * <pre class="brush: html">
+ * <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="linkButton" fontSize="3xl"/>
+ * </pre>
+ * Кнопка в режиме отображения 'toolButton'.
+ * <pre class="brush: html">
+ * <Controls.buttons:Button caption="Send document" buttonStyle="danger" viewMode="toolButton"/>
+ * </pre>
+ * Кнопка в режиме отображения 'button'.
+ * <pre class="brush: html">
+ * <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
+ * </pre>
+ * @see Size
+ */
 
+/*
+ * @name Controls/_buttons/Button#viewMode
+ * @cfg {Enum} Button view mode.
+ * @variant link Decorated hyperlink.
+ * @variant button Default button.
+ * @variant toolButton Toolbar button.
+ * @default button
+ * @example
+ * Button with 'link' viewMode.
+ * <pre>
+ *    <Controls.buttons:Button caption="Send document" buttonStyle="primary" viewMode="link" fontSize="3xl"/>
+ * </pre>
+ * Button with 'toolButton' viewMode.
+ * <pre>
+ *    <Controls.buttons:Button caption="Send document" buttonStyle="danger" viewMode="toolButton"/>
+ * </pre>
+ * Button with 'button' viewMode.
+ * <pre>
+ *    <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
+ * </pre>
+ * @see Size
+ */
+
+/**
+ * @name Controls/_buttons/Button#captionPosition
+ * @cfg {String} Определяет, с какой стороны расположен текст кнопки относительно иконки.
+ * @variant left Текст расположен перед иконкой.
+ * @variant right Текст расположен после иконки.
+ * @default right
+ * @demo Controls-demo/Buttons/CaptionPosition/Index
+ */
+
+/*
+ * @name Controls/_buttons/Button#captionPosition
+ * @cfg {String} Determines on which side of the icon caption is located.
+ * @variant left Caption before icon.
+ * @variant right Icon before caption.
+ * @default right
+ */
 export default Button;
