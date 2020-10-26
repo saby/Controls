@@ -10,8 +10,6 @@
                 _headerContentTemplate="{{_headerContentTemplate}}"
                 _itemTemplate="{{_itemTemplate}}"
                 _groupTemplate="{{_groupTemplate}}"
-                _getFooterClasses="{{_getFooterClasses}}"
-                _getFooterStyles="{{_getFooterStyles}}"
 
                 _trackVisible="{{ __trackVisible }}"
                 _isColumnScrollVisible="{{ __isColumnScrollVisible }}"

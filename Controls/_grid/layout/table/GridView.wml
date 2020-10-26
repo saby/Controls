@@ -74,13 +74,12 @@
     </ws:if>
 
     <!-- Подвал таблицы -->
-    <tr>
-        <td colspan="{{_listModel.getColspanFor('footer')}}">
-            <div class="{{_getFooterClasses()}}" style="{{_getFooterStyles()}} {{_listModel.getFooterStyles()}}">
-                <ws:partial template="{{_options.footerTemplate}}"/>
-            </div>
-        </td>
-    </tr>
+    <ws:partial template="wml!Controls/_grid/FooterTemplate"
+                columns="{{ _listModel.getFooter() }}"
+                hasColumnScroll="{{ _containerSize && _isColumnScrollVisible }}"
+                hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
+                attr:class="{{ _options.footer ? 'controls-GridView__footer' }}"
+                isFullGridSupport="{{ true }}"/>
 </table>
 
 

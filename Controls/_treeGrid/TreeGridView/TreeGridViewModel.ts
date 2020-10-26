@@ -356,6 +356,14 @@ var
 
         getDisplayChildrenCount(nodeKey, items) {
             return this._model.getDisplayChildrenCount(nodeKey, items);
+        },
+
+        _setFooter(footerColumns) {
+            TreeGridViewModel.superclass._setFooter.apply(this, arguments);
+
+            if (this._options.expanderIcon !== 'none' && this._options.expanderSize) {
+                this._footer[0].classes += ` controls-TreeGridView__footer__expanderPadding-${this._options.expanderSize.toLowerCase()}_theme-${this._options.theme}`;
+            }
         }
     });
 

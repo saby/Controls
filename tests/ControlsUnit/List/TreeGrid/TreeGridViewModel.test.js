@@ -311,42 +311,6 @@ define(['Controls/treeGrid',
          treeGrid.ViewModel.superclass.getItemDataByItem = originFn;
       });
 
-      it('getFooterStyles', function () {
-         var
-             initialColumns = [{
-                width: '1fr',
-                displayProperty: 'title'
-             }],
-             model = new treeGrid.ViewModel({
-                items: new collection.RecordSet({
-                   keyProperty: 'id',
-                   rawData: [
-                      {id: 0, title: 'i0', parent: null, type: true},
-                      {id: 1, title: 'i1', parent: null, type: false},
-                      {id: 2, title: 'i2', parent: null, type: null}
-                   ]
-                }),
-                keyProperty: 'id',
-                nodeProperty: 'type',
-                multiSelectVisibility: 'hidden',
-                multiSelectPosition: 'default',
-                parentProperty: 'parent',
-                columns: initialColumns
-             });
-
-         model._isFullGridSupport = true;
-
-         assert.equal(model.getFooterStyles(),
-             'grid-column-start: 1; grid-column-end: 2;'
-         );
-
-         model._options.multiSelectVisibility = 'visible';
-
-         assert.equal(model.getFooterStyles(),
-             'grid-column-start: 1; grid-column-end: 3;'
-         );
-      });
-
       it('row index for node footer', function() {
          let initialColumns = [{
             width: '1fr',

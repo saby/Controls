@@ -536,58 +536,88 @@
 }
 
 .controls-GridView__footer {
+   display: contents;
    box-sizing: border-box;
+   &::before {
+      display: none;
+   }
+}
+
+.controls-GridView__footer__cell {
+   box-sizing: border-box;
+}
+
+.controls-GridView__footer__cell_theme-@{themeName} {
+   display: flex;
+   align-items: baseline;
+}
+
+.controls-GridView__newFooter__cell_theme-@{themeName} {
+   min-height: @footer_min-height_list;
+   &::before {
+      content: '\200b';
+      font-size: @footer_font-size_list;
+   }
 }
 
 .controls-Grid__cell_spacingFirstCol_default_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_default_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_default_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_default_theme-@{themeName} {
    padding-left: @item_padding-left_default_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_null_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_null_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_null_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_null_theme-@{themeName} {
    padding-left: 0;
 }
 
 .controls-Grid__cell_spacingFirstCol_xs_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_xs_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_xs_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_xs_theme-@{themeName} {
    padding-left: @item_padding-left_xs_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_s_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_s_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_s_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_s_theme-@{themeName} {
    padding-left: @item_padding-left_s_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_m_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_m_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_m_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_m_theme-@{themeName} {
    padding-left: @item_padding-left_m_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_l_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_l_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_l_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_l_theme-@{themeName} {
    padding-left: @item_padding-left_l_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_xl_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_xl_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_xl_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_xl_theme-@{themeName} {
    padding-left: @item_padding-left_xl_list;
 }
 
 .controls-Grid__cell_spacingFirstCol_xxl_theme-@{themeName},
 .controls-GridView__footer__paddingLeft_xxl_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_xxl_theme-@{themeName},
 .controls-Grid__groupContent__spacingLeft_xxl_theme-@{themeName} {
    padding-left: @item_padding-left_2xl_list;
 }
 
 .controls-Grid__cell_spacingLastCol_default_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_default_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_default_theme-@{themeName} {
    padding-right: @item_padding-right_default_list;
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
@@ -596,16 +626,19 @@
 }
 
 .controls-Grid__cell_spacingLastCol_null_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_null_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_null_theme-@{themeName} {
    padding-right: 0;
 }
 
 .controls-Grid__cell_spacingLastCol_xs_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_xs_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_xs_theme-@{themeName} {
    padding-right: @item_padding-right_xs_list;
 }
 
 .controls-Grid__cell_spacingLastCol_s_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_s_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_s_theme-@{themeName} {
    padding-right: @item_padding-right_s_list;
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
@@ -614,6 +647,7 @@
 }
 
 .controls-Grid__cell_spacingLastCol_m_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_m_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_m_theme-@{themeName} {
    padding-right: @item_padding-right_m_list;
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
@@ -622,6 +656,7 @@
 }
 
 .controls-Grid__cell_spacingLastCol_l_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_l_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_l_theme-@{themeName} {
    padding-right: @item_padding-right_l_list;
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
@@ -630,6 +665,7 @@
 }
 
 .controls-Grid__cell_spacingLastCol_xl_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_xl_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_xl_theme-@{themeName} {
    padding-right: @item_padding-right_xl_list;
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
@@ -638,6 +674,7 @@
 }
 
 .controls-Grid__cell_spacingLastCol_xxl_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_xxl_theme-@{themeName},
 .controls-Grid__groupContent__spacingRight_xxl_theme-@{themeName} {
    padding-right: @item_padding-right_2xl_list;
    &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
