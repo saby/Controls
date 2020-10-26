@@ -9,9 +9,11 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
     protected _columns: IColumn[] = getCountriesStats().getColumnsWithWidths();
+    protected _columns2: IColumn[] = getCountriesStats().getColumnsWithWidths();
     protected _header: IHeader[] = getCountriesStats().getDefaultHeader();
 
     protected _beforeMount(): void {
+        this._columns2[1].width = '200px';
         this._viewSource = new Memory({
             keyProperty: 'id',
             // tslint:disable-next-line

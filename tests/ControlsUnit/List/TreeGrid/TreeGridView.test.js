@@ -29,13 +29,5 @@ define(['Controls/treeGrid'], function(treeGrid) {
          treeGridView._onLoadMoreClick(null, {});
          assert.isTrue(notifyLoadMoreClickCalled, 'Incorrect notify by "_onLoadMoreClick()".');
       });
-      it('TreeGridView._getFooterClasses', function() {
-         var treeGridView = new treeGrid.TreeGridView();
-         const savedSuper = treeGrid.TreeGridView.superclass._getFooterClasses;
-         treeGrid.TreeGridView.superclass._getFooterClasses = () => '';
-
-         assert.equal(treeGridView._getFooterClasses(), ' controls-TreeGridView__footer');
-         treeGrid.TreeGridView.superclass._getFooterClasses = savedSuper;
-      });
    });
 });

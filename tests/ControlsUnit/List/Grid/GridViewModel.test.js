@@ -1916,20 +1916,6 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.isTrue(newGridModel.isDrawResults());
          });
 
-         it('getFooterStyles', function() {
-            let gridViewModel = new gridMod.GridViewModel(cfg);
-            assert.equal('grid-column-start: 1; grid-column-end: 5;', gridViewModel.getFooterStyles());
-            gridViewModel._options.stickyColumn = {
-               index: 0,
-               property: ''
-            };
-            assert.equal('grid-column-start: 1; grid-column-end: 6;', gridViewModel.getFooterStyles());
-            gridViewModel._model._draggingItemData = {}
-            assert.equal('grid-column-start: 1; grid-column-end: 5;', gridViewModel.getFooterStyles());
-            gridViewModel._options.stickyColumn = undefined;
-            gridViewModel._model._draggingItemData = undefined;
-         });
-
          it('is multiheader', function() {
 
             let gridViewModel = new gridMod.GridViewModel(cfg);

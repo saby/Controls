@@ -1,0 +1,21 @@
+<ws:if data="{{ isFullGridSupport }}">
+    <div class="controls-GridView__footer">
+        <ws:for data="column in columns">
+            <div class="{{ column.classes }} controls-background-{{backgroundStyle || 'default'}}_theme-{{theme}}"
+                 style="{{ column.styles }}">
+                <ws:partial template="{{ column.template }}" if="{{ column.template }}"/>
+            </div>
+        </ws:for>
+    </div>
+</ws:if>
+<ws:else>
+    <tr class="controls-GridView__footer">
+        <ws:for data="column in columns">
+            <td class="{{ column.classes }} controls-background-{{backgroundStyle || 'default'}}_theme-{{theme}}"
+                style="{{ column.styles }}"
+                colspan="{{ column.colspan }}">
+                <ws:partial template="{{ column.template }}" if="{{ column.template }}" attr:style="{{ column.styles }}"/>
+            </td>
+        </ws:for>
+    </tr>
+</ws:else>
