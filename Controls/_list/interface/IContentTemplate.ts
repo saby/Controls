@@ -27,9 +27,11 @@ export default interface IContentTemplateOptions {
     * @name Controls/list:IContentTemplate#contentTemplate
     * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @remark
-    * В области видимости шаблона доступен объект **itemData**. Из него можно получить доступ к свойству **item** — это объект, который содержит данные обрабатываемого элемента.
+    * В области видимости шаблона доступны переменные **itemData** и **itemActionsTemplate**
     * 
-    * Также в области видимости шаблона есть переменная **itemActionsTemplate**, с помощью которой можно отобразить панель {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
+    * Переменная **itemData** позволяет получить доступ к свойству **item** — это объект, который содержит данные обрабатываемого элемента.
+    * 
+    * Переменная **itemActionsTemplate** позволяет отобразить панель {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ опций записи} в пользовательском шаблоне. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, что показано в примере № 4.
     * 
     * @example
     * 
