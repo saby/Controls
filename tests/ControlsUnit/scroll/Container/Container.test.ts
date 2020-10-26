@@ -104,6 +104,23 @@ describe('Controls/scroll:Container', () => {
                 component._mouseenterHandler();
                 assert.isTrue(component._scrollbars.vertical.isVisible);
             });
+
+            it('should initialize scrollbars in _updateState  after mouseenter', () => {
+                const component = createComponent(Container, {scrollMode: 'vertical'});
+                component._children = {
+                    content: {
+                        getBoundingClientRect: () => undefined
+                    }
+                };
+                component._container = {
+                    offsetHeight: 100
+                };
+
+                component._mouseenterHandler();
+                assert.isFalse(component._scrollbars.vertical.isVisible);
+                component._updateState(state);
+                assert.isTrue(component._scrollbars.vertical.isVisible);
+            });
         });
     });
 

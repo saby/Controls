@@ -95,9 +95,11 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
             changed = this._models[scrollbar].updatePosition(scrollState) || changed;
         }
         const canScroll = scrollState.canVerticalScroll || scrollState.canHorizontalScroll;
+        let canScrollChanged: boolean = false;
         if (canScroll !== this._canScroll) {
             this._canScroll = canScroll;
             changed = true;
+            canScrollChanged = true;
         }
 
         // Используем clientHeight в качестве offsetHeight если нижний скролбар не отбражается.
@@ -115,8 +117,9 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         if (changed) {
             this._nextVersion();
         }
-
-        this._updateContainerSizes();
+        if (this._canScroll || canScrollChanged) {
+            this._updateContainerSizes();
+        }
     }
 
     _updateScrollState(): void {

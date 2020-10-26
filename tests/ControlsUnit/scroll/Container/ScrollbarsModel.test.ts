@@ -105,6 +105,33 @@ describe('Controls/scroll:Container ScrollbarsModel', () => {
             assert.strictEqual(model._models.horizontal.contentSize, scrollState.scrollWidth);
         });
 
+        it('should\'t update view if can\'t scroll.', () => {
+            const
+                model: ScrollbarsModel = new ScrollbarsModel({
+                    ...getScrollbarsDefaultOptions(),
+                    scrollMode: SCROLL_MODE.VERTICAL_HORIZONTAL
+                })
+            const scrollState = {
+                scrollTop: 0,
+                scrollLeft: 0,
+                scrollHeight: 30,
+                scrollWidth: 40,
+                canVerticalScroll: false,
+                canHorizontalScroll: false
+            };
+
+            // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
+            model._updateContainerSizes = ScrollbarsModel.prototype._updateContainerSizes;
+
+            sinon.stub(model, '_nextVersion');
+
+            model.updateScrollState(scrollState, { offsetHeight: 50 });
+
+            sinon.assert.notCalled(model._nextVersion);
+
+            sinon.restore();
+        });
+
         it('should set _overflowHidden to true if content fits into the container.', () => {
             const
                 model: ScrollbarsModel = new ScrollbarsModel({

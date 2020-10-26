@@ -326,7 +326,13 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // Если до mouseenter не вычисляли скроллбар, сделаем это сейчас.
         if (!this._isScrollbarsInitialized) {
             this._isScrollbarsInitialized = true;
-            this._scrollbars.updateScrollState(this._state, this._container);
+            // При открытии плавающих панелей, когда курсор находится над скрлл контейнером,
+            // иногда события по которым инициализируется состояние скролл контейнера стреляют после mouseenter.
+            // В этом случае не обновляем скролбары, а просто делаем _isScrollbarsInitialized = true выше.
+            // Скроллбары рассчитаются после инициализации состояния скролл контейнера.
+            if (this._isStateInitialized) {
+                this._scrollbars.updateScrollState(this._state, this._container);
+            }
         }
 
         if (this._scrollbars.take()) {
