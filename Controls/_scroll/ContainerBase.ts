@@ -526,9 +526,10 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
 
     _onRegisterNewListScrollComponent(component: any): void {
-        // Если состояние еще не инициализировано, то компонент получит его после инициализации.
+        // Списку нужны события canScroll и cantScroll в момент инициализации до того,
+        // как у нас отработают обработчики и инициализируются состояние.
         if (!this._isStateInitialized) {
-            return;
+            this._updateStateAndGenerateEvents(this._getFullStateFromDOM());
         }
         this._sendByListScrollRegistrarToComponent(
             component,
