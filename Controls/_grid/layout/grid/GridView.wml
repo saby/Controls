@@ -58,7 +58,7 @@
                         js-controls-GridView__emptyTemplate
                         controls-Grid__row-cell_withRowSeparator_size-{{_options.rowSeparatorSize}}
                         controls-Grid__row-cell_withRowSeparator_size-{{_options.rowSeparatorSize}}_theme-{{_options.theme}}"
-                        _prepareEmptyEditingTemplateColumns="{{ _prepareEmptyEditingTemplateColumns }}"
+                        prepareColumnsForEmptyEditingTemplate="{{ _prepareColumnsForEmptyEditingTemplate }}"
                         isFullGridSupport="{{ true }}"
                         containerSize="{{ _containerSize }}"
                         hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
@@ -82,26 +82,12 @@
     </ws:if>
 
     <!-- Подвал таблицы -->
-    <!-- В 20.7100 добавлен базовый шаблон для подвала таблицы. Старый и новый способы определять подвалы сведены к одному -->
-    <!-- механизму. При переходе на новый достаточно поправить подвал у прикладных разработчиков, удалить опцию useNewFooterTemplate и -->
-    <!-- ветку else. -->
-    <ws:if data="{{ _options.useNewFooterTemplate }}">
-        <ws:partial template="{{_options.footerTemplate}}"
-                    _prepareFooterTemplateColumns="{{ _prepareFooterTemplateColumns }}"
-                    hasColumnScroll="{{ _containerSize && _isColumnScrollVisible }}"
-                    hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
-                    attr:class="controls-GridView__footer"
-                    isFullGridSupport="{{ true }}"/>
-    </ws:if>
-    <ws:else>
-        <ws:partial template="wml!Controls/_grid/FooterTemplate"
-                    _prepareFooterTemplateColumns="{{ _prepareFooterTemplateColumns }}"
-                    hasColumnScroll="{{ _containerSize && _isColumnScrollVisible }}"
-                    hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
-                    isFullGridSupport="{{ true }}">
-            <ws:partial template="{{_options.footerTemplate}}"/>
-        </ws:partial>
-    </ws:else>
+    <ws:partial template="wml!Controls/_grid/FooterTemplate"
+                columns="{{ _listModel.getFooter() }}"
+                hasColumnScroll="{{ _containerSize && _isColumnScrollVisible }}"
+                hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
+                attr:class="{{ _options.footer ? 'controls-GridView__footer' }}"
+                isFullGridSupport="{{ true }}"/>
 </div>
 
 

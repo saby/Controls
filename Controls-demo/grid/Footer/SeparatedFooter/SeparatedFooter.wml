@@ -54,9 +54,7 @@
                     columns="{{_smallColumns}}"
                     useNewFooterTemplate="{{ true }}">
                 <ws:footerTemplate>
-                    <ws:partial template="Controls/grid:FooterTemplate">
-                        <div class="controlsDemo__footer__separatedFooter__content">Новый способ установки подвала. Подвал растянут</div>
-                    </ws:partial>
+                    <div class="controlsDemo__footer__separatedFooter__content">Новый способ установки подвала. Подвал растянут</div>
                 </ws:footerTemplate>
             </Controls.grid:View>
         </div>
@@ -69,9 +67,7 @@
                     columns="{{_smallColumns}}"
                     useNewFooterTemplate="{{ true }}">
                 <ws:footerTemplate>
-                    <ws:partial template="Controls/grid:FooterTemplate">
-                        <div class="controlsDemo__footer__separatedFooter__content">Новый способ установки подвала. Подвал растянут</div>
-                    </ws:partial>
+                    <div class="controlsDemo__footer__separatedFooter__content">Новый способ установки подвала. Подвал растянут</div>
                 </ws:footerTemplate>
             </Controls.grid:View>
         </div>
@@ -84,29 +80,25 @@
                     source="{{_viewSource}}"
                     columns="{{_fullColumns}}"
                     useNewFooterTemplate="{{ true }}">
-                <ws:footerTemplate>
-                    <ws:partial template="Controls/grid:FooterTemplate">
-                        <ws:columns>
-                            <ws:Array>
-                                <ws:Object startIndex="{{ 2 }}">
-                                    <ws:template>
-                                        <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка под 1</div>
-                                    </ws:template>
-                                </ws:Object>
-                                <ws:Object>
-                                    <ws:template>
-                                        <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка 2</div>
-                                    </ws:template>
-                                </ws:Object>
-                                <ws:Object>
-                                    <ws:template>
-                                        <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка растянута на 3</div>
-                                    </ws:template>
-                                </ws:Object>
-                            </ws:Array>
-                        </ws:columns>
-                    </ws:partial>
-                </ws:footerTemplate>
+                <ws:footer>
+                    <ws:Array>
+                        <ws:Object startIndex="{{ 2 }}">
+                            <ws:template>
+                                <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка под 1</div>
+                            </ws:template>
+                        </ws:Object>
+                        <ws:Object>
+                            <ws:template>
+                                <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка 2</div>
+                            </ws:template>
+                        </ws:Object>
+                        <ws:Object>
+                            <ws:template>
+                                <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка растянута на 3</div>
+                            </ws:template>
+                        </ws:Object>
+                    </ws:Array>
+                </ws:footer>
             </Controls.grid:View>
         </div>
 
@@ -117,29 +109,25 @@
                     multiSelectVisibility="visible"
                     columns="{{_fullColumns}}"
                     useNewFooterTemplate="{{ true }}">
-                <ws:footerTemplate>
-                    <ws:partial template="Controls/grid:FooterTemplate">
-                        <ws:columns>
-                            <ws:Array>
-                                <ws:Object startIndex="{{ 2 }}">
-                                    <ws:template>
-                                        <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка под 1</div>
-                                    </ws:template>
-                                </ws:Object>
-                                <ws:Object>
-                                    <ws:template>
-                                        <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка 2</div>
-                                    </ws:template>
-                                </ws:Object>
-                                <ws:Object>
-                                    <ws:template>
-                                        <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка растянута на 3</div>
-                                    </ws:template>
-                                </ws:Object>
-                            </ws:Array>
-                        </ws:columns>
-                    </ws:partial>
-                </ws:footerTemplate>
+                <ws:footer>
+                    <ws:Array>
+                        <ws:Object startIndex="{{ 2 }}">
+                            <ws:template>
+                                <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка под 1</div>
+                            </ws:template>
+                        </ws:Object>
+                        <ws:Object>
+                            <ws:template>
+                                <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка 2</div>
+                            </ws:template>
+                        </ws:Object>
+                        <ws:Object>
+                            <ws:template>
+                                <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка растянута на 3</div>
+                            </ws:template>
+                        </ws:Object>
+                    </ws:Array>
+                </ws:footer>
             </Controls.grid:View>
         </div>
     </div>

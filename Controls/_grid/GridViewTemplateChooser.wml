@@ -15,8 +15,7 @@
                 _isColumnScrollVisible="{{ __isColumnScrollVisible }}"
                 _contentSizeForHScroll="{{ _contentSizeForHScroll }}"
                 _horizontalPositionChangedHandler="{{ _horizontalPositionChangedHandler }}"
-                _prepareEmptyEditingTemplateColumns="{{ _prepareEmptyEditingTemplateColumns }}"
-                _prepareFooterTemplateColumns="{{ _prepareFooterTemplateColumns }}"
+                _prepareColumnsForEmptyEditingTemplate="{{ _prepareColumnsForEmptyEditingTemplate }}"
                 _horizontalScrollWidth="{{ _horizontalScrollWidth }}"
                 _containerSize="{{ _containerSize }}"
 

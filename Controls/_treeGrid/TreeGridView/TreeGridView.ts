@@ -24,15 +24,6 @@ var
         },
         _onLoadMoreClick(e, dispItem): void {
             this._notify('loadMoreClick', [dispItem]);
-        },
-        _prepareFooterTemplateColumns(colspanColumns?, backgroundStyle: string = 'default') {
-            const prepared = TreeGridView.superclass._prepareFooterTemplateColumns.apply(this, arguments);
-
-            if (this._options.expanderIcon !== 'none' && this._options.expanderSize) {
-                prepared[0].classes += ` controls-TreeGridView__footer__expanderPadding-${this._options.expanderSize.toLowerCase()}_theme-${this._options.theme}`;
-            }
-
-            return prepared;
         }
     });
 
