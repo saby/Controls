@@ -1,5 +1,6 @@
 import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
+import {detection} from 'Env/Env';
 import {Date as WSDate, descriptor} from 'Types/entity';
 import {default as IPeriodSimpleDialog, IDateLitePopupOptions} from './IDateLitePopup';
 import {Base as dateUtils} from 'Controls/dateUtils';
@@ -23,7 +24,7 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
  * @mixes Controls/shortDatePicker/IDateLitePopup
  * @mixes Controls/_interface/IDisplayedRanges
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/ShortDatePicker/Index
@@ -88,10 +89,11 @@ class View extends Control<IDateLitePopupOptions> {
         this._position = this._getFirstPositionInMonthList(this._position, options.dateConstructor);
 
         this.monthTemplate = options.monthTemplate || monthTmpl;
+        this._isExpandButtonVisible = this._getExpandButtonVisibility(options);
     }
 
     protected _beforeUpdate(options: IDateLitePopupOptions): void {
-        this._updateIsExpandButtonVisible(options);
+        this._isExpandButtonVisible = this._getExpandButtonVisibility(options);
         this._updateCloseBtnPosition(options);
     }
 
@@ -170,13 +172,15 @@ class View extends Control<IDateLitePopupOptions> {
         return false;
     }
 
-    protected _updateIsExpandButtonVisible(options: IDateLitePopupOptions): void {
+    protected _getExpandButtonVisibility(options: IDateLitePopupOptions): boolean {
         // options.stickyPosition может не быть, если shortDatePicker:View используется отдельно
         // от dateRange:RangeShortSelector
-        if (options.stickyPosition) {
+        if (detection.isMobilePlatform) {
+            return false;
+        } else if (options.stickyPosition) {
             const openerTop = options.stickyPosition.targetPosition.top;
             const popupTop = options.stickyPosition.position.top + Math.abs(options.stickyPosition.margins.top);
-            this._isExpandButtonVisible = openerTop === popupTop;
+            return openerTop === popupTop;
         }
     }
 
