@@ -44,6 +44,7 @@ import RowEditor = require('wml!Controls/_grid/RowEditor');
 import * as ResultColumnTemplate from 'wml!Controls/_grid/layout/common/ResultCellContent';
 
 import * as EditingEmptyTemplate from 'wml!Controls/_grid/emptyTemplates/Editing';
+import * as FooterTemplate from 'wml!Controls/_grid/FooterTemplate';
 
 export {
     View,
@@ -64,6 +65,7 @@ export {
     SortingSelector,
 
     EditingEmptyTemplate,
+    FooterTemplate,
 
     GridLayoutUtil
 };

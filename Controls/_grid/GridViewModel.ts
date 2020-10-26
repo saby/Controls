@@ -2183,19 +2183,6 @@ var
             return this._options.multiSelectVisibility !== 'hidden' && this._options.multiSelectPosition === 'default';
         },
 
-        getFooterStyles(): string {
-            if (GridLayoutUtil.isFullGridSupport()) {
-                const offsetForMultiSelect: number = +(this._hasMultiSelectColumn());
-                const offsetForStickyColumn: number = +(this.stickyLadderCellsCount());
-
-                return GridLayoutUtil.getColumnStyles({
-                    columnStart: 0,
-                    columnSpan: this._columns.length + offsetForMultiSelect + offsetForStickyColumn
-                });
-            }
-            return '';
-        },
-
         getEmptyTemplateStyles(): string {
             if (GridLayoutUtil.isFullGridSupport()) {
                 const hasColumnScroll: boolean = !!this._options.columnScroll;

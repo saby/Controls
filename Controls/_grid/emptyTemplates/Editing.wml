@@ -1,7 +1,7 @@
 <ws:if data="{{ isFullGridSupport }}">
     <div class="controls-GridView__emptyTemplate__checkBoxCell controls-Grid__row-cell-background-editing_theme-{{_options.theme}}" if="{{ hasMultiSelect }}"></div>
 
-    <ws:for data="column in prepareColumnsForEmptyEditingTemplate(columns, topSpacing, bottomSpacing)">
+    <ws:for data="column in _prepareEmptyEditingTemplateColumns(columns, topSpacing, bottomSpacing)">
         <div class="{{ column.classes }}"
             style="grid-column: {{column.startIndex}} / {{ column.endIndex }};">
             <ws:if data="{{ column.template }}">
@@ -14,7 +14,7 @@
 <ws:else>
     <td class="controls-GridView__emptyTemplate__checkBoxCell controls-Grid__row-cell-background-editing_theme-{{_options.theme}}" if="{{ hasMultiSelect }}"></td>
 
-    <ws:for data="column in prepareColumnsForEmptyEditingTemplate(columns, topSpacing, bottomSpacing)">
+    <ws:for data="column in _prepareEmptyEditingTemplateColumns(columns, topSpacing, bottomSpacing)">
         <td class="{{ column.classes }}"
             colspan="{{ column.endIndex - column.startIndex }}">
             <ws:if data="{{ column.template }}">

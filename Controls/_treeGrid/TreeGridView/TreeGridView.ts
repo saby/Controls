@@ -25,18 +25,14 @@ var
         _onLoadMoreClick(e, dispItem): void {
             this._notify('loadMoreClick', [dispItem]);
         },
-        // protected
-        _getFooterClasses(): string {
-            let classes = ' controls-TreeGridView__footer';
+        _prepareFooterTemplateColumns(colspanColumns?, backgroundStyle: string = 'default') {
+            const prepared = TreeGridView.superclass._prepareFooterTemplateColumns.apply(this, arguments);
 
-            // До решения задачи https://online.sbis.ru/opendoc.html?guid=19dddced-0bd1-45bb-9c8e-cfeb1b9d1c75
-            // отключаем у подвала отступ под иконку узла. На шаблоне записи есть опция expanderIcon, отвечает стиль
-            // иконки expander'а. Если она задана как none, экспандера не должно быть. Так может быть задано у всех записей.
-            // Тогда у подвала нарисуется ненужный отступ, т.к. подвал ничего не знает про записи и их опции
             if (this._options.expanderIcon !== 'none' && this._options.expanderSize) {
-                classes += ` controls-TreeGridView__footer__expanderPadding-${this._options.expanderSize.toLowerCase()}_theme-${this._options.theme}`;
+                prepared[0].classes += ` controls-TreeGridView__footer__expanderPadding-${this._options.expanderSize.toLowerCase()}_theme-${this._options.theme}`;
             }
-            return TreeGridView.superclass._getFooterClasses.apply(this, arguments) + classes;
+
+            return prepared;
         }
     });
 
