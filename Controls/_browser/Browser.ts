@@ -99,15 +99,23 @@ export default class Browser extends Control {
         } else {
             return this._filterController.loadFilterItemsFromHistory().then((filterItems) => {
                 this._setFilterItems(filterItems);
-                return this._loadItems(options, this._sourceController.getState()).then((items) => {
-                    if (items instanceof RecordSet) {
-                        this._defineShadowVisibility(items);
+                return this._loadItems(options, this._sourceController.getState()).then((loadResult) => {
+                    if (loadResult instanceof RecordSet) {
+                        this._defineShadowVisibility(loadResult);
                         return {
                             filterItems,
-                            items
+                            items: loadResult
                         };
+                    } else {
+                        this._onDataError(
+                            null,
+                            {
+                                error: loadResult,
+                                mode: dataSourceError.Mode.include
+                            }
+                        )
                     }
-                    return items;
+                    return loadResult;
                 });
             });
         }

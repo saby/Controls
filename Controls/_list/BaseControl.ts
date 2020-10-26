@@ -3592,7 +3592,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 this._sourceController = newOptions.sourceController;
             }
 
-            if (this._listViewModel && !this._listViewModel.getCollection() || this._items !== items) {
+            if (items && (this._listViewModel && !this._listViewModel.getCollection() || this._items !== items)) {
                 _private.assignItemsToModel(this, items, newOptions);
 
                 // TODO удалить когда полностью откажемся от старой модели

@@ -90,6 +90,26 @@ define(
             });
          });
 
+         it('update source, that returns error', async function() {
+            let dataOptions = { source: source, keyProperty: 'id' };
+            let isErrorProcessed = false;
+
+            const data = getDataWithConfig(dataOptions);
+            await data._beforeMount(dataOptions);
+
+            const errorSource = new sourceLib.Memory();
+            errorSource.query = () => Promise.reject(new Error('testError'));
+            dataOptions = {...dataOptions};
+            dataOptions.source = errorSource;
+            data._onDataError = () => {
+               isErrorProcessed = true;
+            };
+            const updateResult = await data._beforeUpdate(dataOptions);
+
+            assert.ok(updateResult instanceof Error);
+            assert.ok(isErrorProcessed);
+         });
+
          it('filter, navigation, sorting changed', async () => {
             const dataOptions = {source: source, keyProperty: 'id'};
             const data = getDataWithConfig(dataOptions);

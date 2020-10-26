@@ -4,7 +4,7 @@ import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {RegisterClass} from 'Controls/event';
 import {RecordSet} from 'Types/collection';
 import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData} from 'Types/source';
-import {NewSourceController as SourceController} from 'Controls/dataSource';
+import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {IControllerOptions, IControllerState} from 'Controls/_dataSource/Controller';
 import {ContextOptions} from 'Controls/context';
 import {ISourceOptions, IHierarchyOptions, IFilterOptions, INavigationOptions, ISortingOptions} from 'Controls/interface';
@@ -172,21 +172,29 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
 
          this._loading = true;
          return this._sourceController.reload()
-             .then((items) => {
+             .then((reloadResult) => {
                 if (!newOptions.hasOwnProperty('root')) {
                    this._sourceController.setRoot(currentRoot);
                 }
-                if (items instanceof RecordSet) {
+                if (reloadResult instanceof RecordSet) {
                    if (newOptions.dataLoadCallback instanceof Function) {
-                      newOptions.dataLoadCallback(items);
+                      newOptions.dataLoadCallback(reloadResult);
                    }
-                   this._items = this._sourceController.setItems(items);
+                   this._items = this._sourceController.setItems(reloadResult);
+                } else {
+                   this._onDataError(
+                       null,
+                       {
+                          error: reloadResult,
+                          mode: dataSourceError.Mode.include
+                       }
+                   )
                 }
 
                 const controllerState = this._sourceController.getState();
                 this._updateContext(controllerState);
                 this._loading = false;
-                return items;
+                return reloadResult;
              })
              .catch((error) => error);
       } else if (isChanged) {
