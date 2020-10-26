@@ -2496,7 +2496,7 @@ const _private = {
         const eventResult: Promise<CrudEntityKey>|CrudEntityKey = self._notify('beforeMarkedKeyChanged', [newMarkedKey]);
 
         const handleResult = (key) => {
-            if (!self._options.hasOwnProperty('markedKey')) {
+            if (self._options.markedKey === undefined) {
                 markerController.setMarkedKey(key);
             }
             self._notify('markedKeyChanged', [key]);
@@ -3077,6 +3077,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                     const selection = {selected: newOptions.selectedKeys, excluded: newOptions.excludedKeys};
                     selectionController.setSelection(selection);
                 }
+            }
+
+            if (detection.isMobileIOS) {
+                _private.initPaging(this);
             }
 
             return res;

@@ -212,9 +212,9 @@
             Вместо этого, задаем пэйджингу высоту как у разделителя.
             https://online.sbis.ru/opendoc.html?guid=aafcd848-43e0-4ac3-a4b8-cffff9f04be0 -->
             <div if="{{ _isPagingPadding() }}" name="pagingPaddingContainer"
-                 class="controls-BaseControl_paging-Padding_theme-{{_options.theme}} {{(_options.task1179362156) ? 'controls-BaseControl-hide-paging'}}">
+                 class="controls-BaseControl_paging-Padding_theme-{{_options.theme}}">
             </div>
-            <div class="controls-BaseControl__pagingContainer {{_options.task1179362156 ? 'controls-BaseControl-hide-paging'}}">
+            <div class="controls-BaseControl__pagingContainer">
                 <ws:if data="{{_options.pagingLeftTemplate}}">
                     <ws:partial template="{{_options.pagingLeftTemplate}}"/>
                 </ws:if>
