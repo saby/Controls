@@ -608,7 +608,6 @@ const _private = {
                     itemContainer, toBottom, force
                 }], {bubbling: true});
             }
-
         };
         return self._scrollController ?
             self._scrollController.scrollToItem(key, toBottom, force, scrollCallback).then((result) => {
@@ -1059,6 +1058,10 @@ const _private = {
 
     scrollToEdge(self, direction) {
         _private.setMarkerAfterScroll(self);
+        let hasMoreData = {
+            up: _private.hasMoreData(self, self._sourceController, 'up'),
+            down: _private.hasMoreData(self, self._sourceController, 'down')
+        };
         if (_private.hasMoreData(self, self._sourceController, direction)) {
             let pagingMode = '';
             if (self._options.navigation && self._options.navigation.viewConfig) {
@@ -1074,9 +1077,6 @@ const _private = {
             _private.reload(self, self._options, navigationQueryConfig).addCallback(() => {
                 self._shouldNotResetPagingCache = false;
 
-                if (self._scrollPagingCtr) {
-                    self._scrollPagingCtr.setNumbersState(direction);
-                }
                 /**
                  * Если есть ошибка, то не нужно скроллить, иначе неоднозначное поведение:
                  * иногда скролл происходит раньше, чем показана ошибка, тогда показывается ошибка внутри списка;
@@ -1092,15 +1092,15 @@ const _private = {
                 }
             });
         } else if (direction === 'up') {
-            if (self._scrollPagingCtr) {
-                self._scrollPagingCtr.setNumbersState(direction);
-            }
             self._notify('doScroll', ['top'], { bubbling: true });
-        } else {
             if (self._scrollPagingCtr) {
-                self._scrollPagingCtr.setNumbersState(direction);
+                self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
             }
+        } else {
             _private.jumpToEnd(self);
+            if (self._scrollPagingCtr) {
+                self._scrollPagingCtr.shiftToEdge(direction, hasMoreData);
+            }
         }
     },
     scrollPage(self, direction) {
@@ -2198,11 +2198,13 @@ const _private = {
         // Последняя страница уже загружена но конец списка не обязательно отображается,
         // если включен виртуальный скролл. ScrollContainer учитывает это в scrollToItem
         _private.scrollToItem(self, lastItemKey, true, true).then(() => {
+            
             // После того как последний item гарантированно отобразился,
             // нужно попросить ScrollWatcher прокрутить вниз, чтобы
             // прокрутить отступ пейджинга и скрыть тень
-
             self._notify('doScroll', [self._scrollController?.calculateVirtualScrollHeight() || 'down'], { bubbling: true });
+        
+            _private.updateScrollPagingButtons(self, self._getScrollParams());            
         });
     },
 
@@ -4152,7 +4154,15 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._listViewModel.clearReloadedMarks();
             this._itemReloaded = false;
         }
-
+        if (this._wasScrollToEnd) {
+            const hasMoreData = {
+                up: _private.hasMoreData(this, this._sourceController, 'up'),
+                down: _private.hasMoreData(this, this._sourceController, 'down')
+            };
+            if (this._scrollPagingCtr) {
+                this._scrollPagingCtr.shiftToEdge('down', hasMoreData);
+            }
+        }
         this._wasScrollToEnd = false;
         this._scrollPageLocked = false;
         this._modelRecreated = false;

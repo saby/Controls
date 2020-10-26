@@ -78,9 +78,28 @@ export default class ScrollPagingController {
 
     }
 
-    setNumbersState(state: 'up' | 'down'): void {
+    shiftToEdge(state: 'up' | 'down', hasMoreData: IHasMoreData): void {
         if (this._options.pagingMode === 'numbers') {
             this._numbersState = state;
+            let pagingCfg;
+            if (state === 'up') {
+                pagingCfg = this.getPagingCfg({
+                    begin: 'readonly',
+                    prev: 'readonly',
+                    next: 'visible',
+                    end: 'visible'
+                }, hasMoreData);
+                pagingCfg.selectedPage = 1;
+            } else {
+                pagingCfg = this.getPagingCfg({
+                    begin: 'visible',
+                    prev: 'visible',
+                    next: 'readonly',
+                    end: 'readonly'
+                }, hasMoreData);
+                pagingCfg.selectedPage = this._pagingData.pagesCount;
+            }
+            this._options.pagingCfgTrigger(pagingCfg)
         }
     }
 
