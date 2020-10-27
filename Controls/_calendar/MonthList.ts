@@ -60,7 +60,7 @@ const SCALE_ROUNDING_ERROR_FIX = 1.5;
  * @mixes Controls/_calendar/interfaces/IMonthListSource
  * @mixes Controls/_interface/IDayTemplate
  * @mixes Controls/_calendar/interfaces/IMonth
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Date/MonthList
@@ -441,7 +441,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         return date ? formatDate(date, formatDate.FULL_MONTH) : '';
     }
 
-    private _updateScrollAfterViewModification(notResetPositionToScroll: boolean): void {
+    private _updateScrollAfterViewModification(notResetPositionToScroll: boolean = false): void {
         if (this._positionToScroll && this._canScroll(this._positionToScroll)) {
             if (this._scrollToDate(this._positionToScroll)) {
                 // Список после mount заказывает перерисовку, после которой он добавляет отступ 1px и устанавливает
@@ -467,6 +467,10 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             return true;
         }
         return false;
+    }
+
+    protected _scrollStateChangedHandler(): void {
+        this._updateScrollAfterViewModification();
     }
 
     private _canScroll(date: Date): boolean {
@@ -592,7 +596,9 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             order: 'asc',
             dateConstructor: WSDate,
             displayedRanges: null,
-            itemDataLoadRatio: 0.1
+            itemDataLoadRatio: 0.1,
+            // Опция при значении false позволяет загружать элементы списка 'вверх'
+            attachLoadTopTriggerToNull: true
         };
     }
 }

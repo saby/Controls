@@ -1,5 +1,6 @@
 <!-- virtualPageSize="{{3}}" - 1 item is displayed and one at a time from the top and bottom in stock  -->
 <Controls.calendar:MonthList
+   attachLoadTopTriggerToNull="{{ false }}"
    attr:class="controls-PeriodDialog-MonthsRange"
    virtualPageSize="{{3}}"
    position="{{_options.position}}"

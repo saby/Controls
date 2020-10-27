@@ -32,6 +32,7 @@
       </ws:if>
       <!-- virtualPageSize="{{4}}" - with a value of 4, scrolling the mouse wheel over the years panel works faster. -->
       <Controls.calendar:MonthList
+         attachLoadTopTriggerToNull="{{ false }}"
          name="monthList"
          virtualPageSize="{{4}}"
          _limit="{{1}}"
