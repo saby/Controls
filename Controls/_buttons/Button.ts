@@ -222,7 +222,7 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
 
 /**
  * @name Controls/_buttons/Button#viewMode
- * @cfg {Enum} Режим отображения кнопки.
+ * @cfg {String} Режим отображения кнопки.
  * @variant button В виде обычной кнопки по-умолчанию.
  * @variant linkButton В виде гиперссылки.
  * @variant toolButton В виде кнопки для панели инструментов.
