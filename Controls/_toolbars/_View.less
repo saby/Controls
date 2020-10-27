@@ -11,9 +11,8 @@
 }
 .controls-Toolbar__item_theme-@{themeName} {
   max-width: 100%;
-  .inline-flexbox();
   cursor: pointer;
-  .align-items(center);
+  display: inline-block;
 
   &:last-child {
     margin-right: 0;
@@ -29,6 +28,7 @@
   width: 100%;
   .inline-flexbox();
   .align-items(center);
+  overflow: hidden;
 
   &:before {
     content: "\200b";
@@ -39,8 +39,9 @@
   max-width: 100%;
 }
 
-.controls-Toolbar__menu {
-   display: inline-flex;
+.controls-Toolbar__menu_theme-@{themeName} {
+   display: inline-block;
+   height: @icon-size_m;
 }
 
 .controls-Toolbar__menu_enabled {

@@ -13,7 +13,7 @@
       </ws:for>
       <ws:if data="{{_needShowMenu}}">
          <div name="menuTarget" title="{[Открыть меню]}"
-              class="controls-Toolbar__menu controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}
+              class="controls-Toolbar__menu controls-Toolbar__menu_theme-{{_options.theme}} controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}
               controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}_theme-{{_options.theme}}
               controls-icon_style-{{_options.readOnly ? 'readonly': 'secondary'}}_theme-{{_options.theme}}"
               on:click="_onClickHandler()"
