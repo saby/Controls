@@ -7,8 +7,10 @@
          name="scroll"
          attr:class="MonthList-ScrollContainer"
          scrollbarVisible="{{false}}"
+         attachLoadTopTriggerToNull="{{_options.attachLoadTopTriggerToNull}}"
          topShadowVisibility="{{ _topShadowVisibility }}"
          bottomShadowVisibility="{{ _bottomShadowVisibility }}"
+         on:scrollStateChanged="_scrollStateChangedHandler()"
          on:scroll="_scrollHandler()">
          <Controls.list:View
             source="{{_viewSource}}"
