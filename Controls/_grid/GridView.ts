@@ -417,6 +417,14 @@ var
                 !GridIsEqualUtil.isEqualWithSkip(this._options.header, newCfg.header, { template: true })) {
                 this._listModel.setHeader(newCfg.header);
             }
+            // Вычисления в setHeader зависят от columnScroll.
+            if (this._isFooterChanged(this._options, newCfg)) {
+                this._listModel.setFooter(newCfg.footer || [
+                    {
+                        template: newCfg.footerTemplate
+                    }
+                ]);
+            }
             if (this._options.stickyColumn !== newCfg.stickyColumn) {
                 this._listModel.setStickyColumn(newCfg.stickyColumn);
             }
@@ -446,6 +454,25 @@ var
                     _private.setGrabbing(self, false);
                     newCfg.startDragNDropCallback();
                 });
+            }
+        },
+
+        _isFooterChanged(oldOptions, newOptions): boolean {
+            if (
+                (!oldOptions.footer && newOptions.footer) || // Появился
+                (oldOptions.footer && !newOptions.footer) || // Скрылся
+                (!oldOptions.footerTemplate && newOptions.footerTemplate) || // Появился
+                (oldOptions.footerTemplate && !newOptions.footerTemplate) // Скрылся
+            ) {
+                return true;
+            } else {
+                if (!!newOptions.footer) {
+                    return !GridIsEqualUtil.isEqual(oldOptions.footer, newOptions.footer, {
+                        template: GridIsEqualUtil.isEqualTemplates
+                    })
+                } else {
+                    return !GridIsEqualUtil.isEqualTemplates(oldOptions.footerTemplate, newOptions.footerTemplate);
+                }
             }
         },
 
