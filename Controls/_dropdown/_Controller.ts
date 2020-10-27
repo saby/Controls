@@ -5,7 +5,7 @@ import {StickyOpener} from 'Controls/popup';
 import IDropdownController, {IDropdownControllerOptions} from 'Controls/_dropdown/interface/IDropdownController';
 import {getSourceFilter, isHistorySource, getSource, getMetaHistory} from 'Controls/_dropdown/dropdownHistoryUtils';
 import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
-import {prepareEmpty} from 'Controls/_dropdown/Util';
+import {isEmptyItem, prepareEmpty} from 'Controls/_dropdown/Util';
 import {error as dataSourceError} from 'Controls/dataSource';
 import {Controller as SourceController} from 'Controls/source';
 import {factory} from 'Types/chain';
@@ -456,6 +456,11 @@ export default class _Controller implements IDropdownController {
 
    private _prepareItem(item, keyProperty, source): Model {
       if (isHistorySource(source)) {
+         // В историческом меню в emptyItem ключ пишется в поле copyOriginalId.
+         // Поле keyProperty заполняется значением по умолчанию, которое может не совпадать с emptyKey.
+         if (isEmptyItem(item, this._options.emptyText, item.getKeyProperty())) {
+            item.set(keyProperty, item.getKey());
+         }
          return source.resetHistoryFields(item, keyProperty);
       } else {
          return item;

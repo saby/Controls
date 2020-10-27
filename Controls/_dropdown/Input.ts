@@ -6,7 +6,7 @@ import * as Utils from 'Types/util';
 import {factory} from 'Types/chain';
 import {Model} from 'Types/entity';
 import {RecordSet, List} from 'Types/collection';
-import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
+import {prepareEmpty, loadItems, isEmptyItem} from 'Controls/_dropdown/Util';
 import {isEqual} from 'Types/object';
 import Controller from 'Controls/_dropdown/_Controller';
 import {TKey} from './interface/IDropdownController';
@@ -338,7 +338,7 @@ export default class Input extends BaseDropdown {
          this._selectedItems = items;
          this._needInfobox = this._options.readOnly && this._selectedItems.length > 1;
          this._item = items[0];
-         this._isEmptyItem = this.isEmptyItem(this._item);
+         this._isEmptyItem = isEmptyItem(this._item, this._options.emptyText, this._options.keyProperty);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
          this._text = this._getText(items);
          this._hasMoreText = this._getMoreText(items);
@@ -424,13 +424,9 @@ export default class Input extends BaseDropdown {
       return tooltips.join(', ');
    }
 
-   private isEmptyItem(item: Model): boolean {
-      return this._options.emptyText && (getPropValue(item, this._options.keyProperty) === null || !item);
-   }
-
    private _getText(items: Model[]): string {
       let text = '';
-      if (this.isEmptyItem(items[0])) {
+      if (isEmptyItem(items[0], this._options.emptyText, this._options.keyProperty)) {
          text = prepareEmpty(this._options.emptyText);
       } else {
          text = getPropValue(items[0], this._options.displayProperty);
