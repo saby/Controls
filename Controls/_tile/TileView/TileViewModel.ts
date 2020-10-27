@@ -4,6 +4,8 @@ import {Logger} from 'UI/Utils';
 import {object} from 'Types/util';
 import {Model} from 'Types/entity';
 import {getImageUrl, getImageSize, getImageClasses, IMAGE_FIT} from './resources/imageUtil';
+import {ZOOM_DELAY, ZOOM_COEFFICIENT, TILE_SCALING_MODE} from './resources/Constants';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 const DEFAULT_ITEM_WIDTH = 250;
 const DEFAULT_ITEM_HEIGHT = 200;
@@ -62,11 +64,12 @@ var TileViewModel = ListViewModel.extend({
         } else {
             current._tileViewModelCached = true;
         }
-
         // todo remove multiSelectVisibility, multiSelectPosition and multiSelectClassList by task:
         // https://online.sbis.ru/opendoc.html?guid=50811b1e-7362-4e56-b52c-96d63b917dc9
         current.multiSelectVisibility = this._options.multiSelectVisibility;
         current.multiSelectPosition = this._options.multiSelectPosition;
+
+        current = cMerge(current, this.getTileItemData(dispItem));
 
         if (current.hasMultiSelect) {
             current.multiSelectClassList += ` controls-TileView__checkbox_position-${current.multiSelectPosition}_theme-${current.theme} ` +
@@ -79,29 +82,6 @@ var TileViewModel = ListViewModel.extend({
         var current = TileViewModel.superclass.getCurrent.apply(this, arguments);
         current = cMerge(current, this.getTileItemData(dispItem));
         return current;
-    },
-
-    getItemWidth(
-        item: Model,
-        imageHeightProperty: string,
-        imageWidthProperty: string,
-        tileMode: string,
-        tileHeight: number,
-        itemWidth: number
-    ): number {
-        const imageHeight = imageHeightProperty && Number(item.get(imageHeightProperty));
-        const imageWidth = imageWidthProperty && Number(item.get(imageWidthProperty));
-        let widthProportion = DEFAULT_WIDTH_PROPORTION;
-        let resultWidth = null;
-        if (imageHeight && imageWidth && tileMode === 'dynamic') {
-            const imageProportion = imageWidth / imageHeight;
-            widthProportion = Math.min(DEFAULT_SCALE_COEFFICIENT,
-                              Math.max(ITEM_COMPRESSION_COEFFICIENT, imageProportion));
-        } else {
-            return itemWidth;
-        }
-        resultWidth = Math.floor(Number(tileHeight) * widthProportion);
-        return itemWidth ? Math.max(resultWidth, itemWidth) : resultWidth;
     },
 
     getTileSizes(tileSize: string, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): object {
@@ -132,7 +112,7 @@ var TileViewModel = ListViewModel.extend({
         const imageHeight = item.get(imageHeightProperty) && Number(item.get(imageHeightProperty));
         const imageWidth = item.get(imageWidthProperty) && Number(item.get(imageWidthProperty));
         let baseUrl = item.get(imageProperty);
-        if (imageHeight && imageWidth && tileMode === 'static') {
+        if (imageFit === IMAGE_FIT.COVER) {
             const sizes = getImageSize(
                 Number(itemWidth),
                 Number(itemsHeight),
@@ -140,11 +120,7 @@ var TileViewModel = ListViewModel.extend({
                 imageHeight,
                 imageWidth,
                 imageFit);
-            if (imageUrlResolver) {
-                baseUrl = imageUrlResolver(sizes.width, sizes.height, baseUrl);
-            } else {
-                baseUrl = getImageUrl(sizes.width, sizes.height, baseUrl);
-            }
+            baseUrl = getImageUrl(sizes.width, sizes.height, baseUrl, item, imageUrlResolver);
         }
         return {
             url: baseUrl,
@@ -172,22 +148,10 @@ var TileViewModel = ListViewModel.extend({
         }
         const itemContents = dispItem?.getContents();
         if (itemContents instanceof Model) {
-            const itemWidth = itemContents.get(this._options.tileWidthProperty) || this._options.tileWidth;
-            resultData.imageData = this.getImageData(
-                itemWidth,
-                resultData,
-                itemContents
-            );
-            resultData.itemWidth = this.getItemWidth(
-                itemContents,
-                this._options.imageHeightProperty,
-                this._options.imageWidthProperty,
-                this._options.tileMode,
-                this._itemsHeight,
-                itemWidth
-            );
+            resultData.itemWidth = this.getTileWidth(
+                itemContents, this._options.imageWidthProperty, this._options.imageHeightProperty);
         } else {
-            resultData.itemWidth = this._options.tileWidth;
+            resultData.itemWidth = this._options.tileWidth || DEFAULT_ITEM_WIDTH;
         }
         return resultData;
     },
@@ -277,6 +241,66 @@ var TileViewModel = ListViewModel.extend({
         const bottomSpacingClass = `controls-TileView__${classPrefix}_spacingBottom_${bottomSpacing}${theme}`;
 
         return `${leftSpacingClass} ${rightSpacingClass} ${topSpacingClass} ${bottomSpacingClass}`;
+    },
+
+    getTileWidth(
+        item: Model,
+        imageWidthProperty: string,
+        imageHeightProperty: string
+    ): number {
+        const imageHeight = imageHeightProperty && Number(item.get(imageHeightProperty));
+        const imageWidth = imageWidthProperty && Number(item.get(imageWidthProperty));
+        const itemWidth = item.get(this._options.tileWidthProperty) || this._options.tileWidth || DEFAULT_ITEM_WIDTH;
+        let widthProportion = DEFAULT_WIDTH_PROPORTION;
+        let resultWidth = null;
+        if (this.getTileMode() === 'dynamic') {
+            if (imageHeight && imageWidth) {
+                const imageProportion = imageWidth / imageHeight;
+                widthProportion = Math.min(DEFAULT_SCALE_COEFFICIENT,
+                    Math.max(imageProportion, ITEM_COMPRESSION_COEFFICIENT));
+            } else {
+                return this._itemsHeight * (this._options.tileFitProperty || ITEM_COMPRESSION_COEFFICIENT);
+            }
+        } else {
+            return itemWidth;
+        }
+        resultWidth = Math.floor(Number(this._itemsHeight) * widthProportion);
+        return itemWidth ? Math.max(resultWidth, itemWidth) : resultWidth;
+    },
+
+    getActionsMenuConfig(item, clickEvent: SyntheticEvent, opener, templateOptions): Record<string, any> {
+        if (this._options.actionMenuViewMode === 'preview') {
+            const menuOptions = templateOptions;
+            const itemData = this.getItemDataByItem(item);
+            const itemContainer = clickEvent.target.closest('.controls-TileView__item');
+            const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
+            let previewWidth = imageWrapper.clientWidth;
+            let previewHeight = imageWrapper.clientHeight;
+            menuOptions.image = itemData.imageData.url;
+            menuOptions.title = itemData.item.get(itemData.displayProperty);
+            menuOptions.additionalText = itemData.item.get(templateOptions.headerAdditionalTextProperty);
+            if (this._options.tileScalingMode === TILE_SCALING_MODE.NONE) {
+                previewHeight = previewHeight * ZOOM_COEFFICIENT;
+                previewWidth = previewWidth * ZOOM_COEFFICIENT;
+            }
+            menuOptions.previewHeight = previewHeight;
+            menuOptions.previewWidth = previewWidth;
+
+            return {
+                templateOptions,
+                target: imageWrapper,
+                className: 'controls-TileView__itemActions_menu_popup',
+                targetPoint: {
+                    vertical: 'top',
+                    horizontal: 'left'
+                },
+                opener,
+                template: 'Controls/tile:ActionsMenu',
+                actionOnScroll: 'close'
+            };
+        } else {
+            return null;
+        }
     }
 });
 

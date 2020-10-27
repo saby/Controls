@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/Tile/TileMode/Dynamic/Dynamic';
-import {items} from 'Controls-demo/Tile/ImageFit/resources/DataCatalog';
+import {Gadgets} from 'Controls-demo/Tile/DataHelpers/DataCatalog';
 import {Getter} from 'File/ResourceGetter/fileSystem';
 import {object} from 'Types/util';
 import {HierarchicalMemory} from 'Types/source';
@@ -11,12 +11,13 @@ export default class extends Control {
     protected _currentItems: any[] = null;
 
     protected _beforeMount(): void {
-        this._currentItems = items;
+        this._currentItems = Gadgets.getPreviewItems();
         this._viewSource = new HierarchicalMemory({
             keyProperty: 'id',
             parentProperty: 'parent',
             data: this._currentItems
         });
+        this._itemActions = Gadgets.getPreviewActions();
     }
 
     protected _imageUrlResolver(width: number, height: number, url: string): string {

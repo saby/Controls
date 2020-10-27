@@ -2,6 +2,10 @@ import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 import { IItemAction } from 'Controls/itemActions';
 import {yellow} from 'color-name';
 
+import {constants} from 'Env/Env';
+
+const baseURL = constants.resourceRoot + 'Controls-demo/Tile/DataHelpers/images/';
+
 interface IData {
    id: number;
    parent: null | number;
@@ -69,9 +73,11 @@ export const Gadgets = {
         titleLines: 2,
         'parent@': false,
         additionalText: 'песец лист',
+        imageWidth: 1200,
+        imageHeight: 800,
         gradientType: 'dark',
         image: explorerImages[8],
-        isDocument: true,
+        isDocument: false,
         hiddenGroup: true,
         width: 150,
         isShadow: true
@@ -80,8 +86,10 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Сравнение систем по учету рабочего времени.xlsx',
+        imageWidth: 1200,
+        imageHeight: 750,
         image: explorerImages[9],
-        isDocument: true,
+        isDocument: false,
         hiddenGroup: true,
         titleStyle: 'dark',
         'parent@': false,
@@ -94,6 +102,8 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Конфеты копия',
+        imageWidth: 1200,
+        imageHeight: 800,
         image: explorerImages[8],
         isDocument: true,
         width: 300,
@@ -104,13 +114,120 @@ export const Gadgets = {
         type: null,
         title: 'Картинка с умным градиентом',
         image: explorerImages[8],
-        titleStyle: 'lite',
+        imageWidth: 1200,
+        imageHeight: 800,
+        titleStyle: 'dark',
         gradientType: 'custom',
         gradientColor: '#E0E0E8',
         isDocument: true,
         width: 300,
         isShadow: true
-    }],
+    },
+    {
+        id: 5,
+        parent: null,
+        type: null,
+        title: 'Гепард',
+        image: `${baseURL}Cheetah.jpg`,
+        imageWidth: 198,
+        imageHeight: 200,
+        titleStyle: 'light',
+        gradientType: 'dark',
+        isDocument: true,
+        width: 300,
+        isShadow: true
+    },
+    {
+        id: 6,
+        parent: null,
+        type: null,
+        title: 'Мост',
+        image: `${baseURL}bridge.jpg`,
+        imageWidth: 1200,
+        imageHeight: 900,
+        titleStyle: 'light',
+        gradientType: 'dark',
+        gradientColor: '#E0E0E8',
+        isDocument: true,
+        width: 300,
+        isShadow: true
+    },
+    {
+        id: 7,
+        parent: null,
+        type: null,
+        title: 'Машина',
+        image: `${baseURL}car.jpg`,
+        imageWidth: 640,
+        imageHeight: 480,
+        titleStyle: 'light',
+        gradientType: 'dark',
+        gradientColor: '#E0E0E8',
+        isDocument: false,
+        width: 300,
+        isShadow: true
+    },
+    {
+        id: 8,
+        parent: null,
+        type: null,
+        title: 'Лев с короной',
+        image: `${baseURL}lion.jpg`,
+        imageWidth: 201,
+        imageHeight: 251,
+        titleStyle: 'light',
+        gradientType: 'dark',
+        gradientColor: '#E0E0E8',
+        isDocument: false,
+        width: 300,
+        isShadow: true
+    },
+    {
+        id: 9,
+        parent: null,
+        type: null,
+        title: 'Лев стоит',
+        image: `${baseURL}lion2.png`,
+        imageWidth: 184,
+        imageHeight: 183,
+        titleStyle: 'light',
+        gradientType: 'dark',
+        gradientColor: '#E0E0E8',
+        isDocument: true,
+        width: 300,
+        isShadow: true
+    },
+    {
+        id: 10,
+        parent: null,
+        type: null,
+        title: 'Просто лев',
+        image: `${baseURL}lion3.jpg`,
+        imageWidth: 300,
+        imageHeight: 168,
+        titleStyle: 'light',
+        gradientType: 'dark',
+        gradientColor: '#E0E0E8',
+        isDocument: true,
+        width: 300,
+        isShadow: true
+    },
+    {
+        id: 11,
+        parent: null,
+        type: null,
+        title: 'Медведь',
+        image: `${baseURL}medved.jpg`,
+        imageWidth: 300,
+        imageHeight: 168,
+        titleStyle: 'light',
+        gradientType: 'dark',
+        gradientColor: '#E0E0E8',
+        isDocument: true,
+        width: 300,
+        isShadow: true
+    }
+    ],
 
     getRichItems: (): IData[] => [
         {
@@ -197,6 +314,61 @@ export const Gadgets = {
          title: 'message',
          showType: 0
       }
-   ]
-
+   ],
+    getPreviewActions: (): IItemAction[] => [
+        {
+            id: 1,
+            icon: 'icon-DownloadNew',
+            title: 'download',
+            showType: 0
+        },
+        {
+            id: 2,
+            icon: 'icon-Signature',
+            title: 'signature',
+            showType: 0
+        },
+        {
+            id: 3,
+            icon: 'icon-Print',
+            title: 'print',
+            showType: 0
+        },
+        {
+            id: 4,
+            icon: 'icon-Link',
+            title: 'link',
+            showType: 0
+        },
+        {
+            id: 5,
+            icon: 'icon-Edit',
+            title: 'edit',
+            showType: 0
+        },
+        {
+            id: 6,
+            icon: 'icon-Copy',
+            title: 'copy',
+            showType: 0
+        },
+        {
+            id: 7,
+            icon: 'icon-Paste',
+            title: 'phone',
+            showType: 0
+        },
+        {
+            id: 8,
+            icon: 'icon-EmptyMessage',
+            title: 'message',
+            showType: 0
+        },
+        {
+            id: 9,
+            icon: 'icon-PhoneNull',
+            title: 'phone',
+            showType: 0
+        }
+    ]
 };

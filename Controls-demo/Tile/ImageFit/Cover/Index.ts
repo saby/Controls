@@ -15,7 +15,7 @@ export default class extends Control {
         });
     }
 
-    protected _imageUrlResolver(width: number, height: number, url: string): string {
+    protected _imageUrlResolver(width: number, height: number, url: string = ''): string {
         const [name, extension] = url.split('.');
         return `${name}${width}${height}.${extension}`;
     }

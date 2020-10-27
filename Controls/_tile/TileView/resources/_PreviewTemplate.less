@@ -62,13 +62,32 @@
 
 .controls-TileView__previewTemplate_itemActions {
    right: 0;
+   padding: 0;
 }
 
-.ws-is-hover .controls-TileView__item:hover .controls-TileView__previewTemplate_itemActions {
-   visibility: visible;
-   opacity: 1;
+.controls-itemActionsV__action_style_tileDark + .controls-itemActionsV__action_style_tileDark {
+   box-shadow: inset @border-thickness 0 @icon_style_color_tile_dark_preview_tile;
 }
 
-.controls-TileView__richTemplate_item {
-   overflow: hidden;
+.controls-itemActionsV__action_style_tileLight + .controls-itemActionsV__action_style_tileLight {
+   box-shadow: inset @border-thickness 0 @contrast_text-color;
+}
+
+.controls-icon_style-tileDark_theme-@{themeName} {
+   fill: @icon_style_color_tile_dark_preview_tile;
+   color: @icon_style_color_tile_dark_preview_tile;
+}
+
+.ws-is-hover {
+   .controls-BaseControl_showActions_visible .controls-TileView__previewTemplate.controls-ListView__item_showActions .controls-itemActionsV,
+   .controls-BaseControl_showActions_delayed .controls-TileView__previewTemplate.controls-ListView__item_showActions:hover .controls-itemActionsV,
+   .controls-BaseControl_showActions_onhover .controls-TileView__previewTemplate.controls-ListView__item_showActions:hover .controls-itemActionsV {
+      opacity: 1;
+      visibility: visible;
+   }
+}
+
+.controls-TileView__previewTemplate_footer {
+   position: absolute;
+   bottom: 0;
 }

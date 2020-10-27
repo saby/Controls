@@ -7,12 +7,17 @@
         {{itemData.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
         {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
         {{itemData.isSwiped() ? 'controls-itemActionsV_swiped'}}
+        {{actionMode === 'adaptive' ? 'controls-itemActionsV_adaptive'}}
         {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}">
-        <div attr:class="controls-itemActionsV__wrapper">
+        <div attr:class="controls-itemActionsV__wrapper
+                        {{actionMode === 'adaptive' ? 'controls-itemActionsV__wrapper_adaptive'}}">
             <ws:partial
                     template="wml!Controls/_itemActions/resources/templates/ItemActionsFor"
                     itemData="{{itemData}}"
                     getTooltip="{{getTooltip}}"
+                    actionStyle="{{actionStyle}}"
+                    actionMode="{{actionMode}}"
+                    iconStyle="{{iconStyle}}"
                     size="{{size}}"
                     showedActions="{{itemData.getActions().showed}}"/>
             <ws:if data="{{itemData.isEditing() && toolbarVisibility}}">

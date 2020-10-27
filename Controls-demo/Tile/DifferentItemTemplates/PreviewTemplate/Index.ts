@@ -7,7 +7,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: HierarchicalMemory = null;
     protected _selectedKeys: string[] = [];
-    protected _itemActions: any[] = Gadgets.getActions();
+    protected _itemActions: any[] = Gadgets.getPreviewActions();
 
     protected _beforeMount(): void {
         this._viewSource = new HierarchicalMemory({

@@ -1,8 +1,9 @@
 <div attr:class="controls-itemActionsV__action controls-itemActionsV__action_padding_theme-{{theme}}
-            controls-itemActionsV__action_style_{{action.style ? action.style : 'secondary'}}
-            {{((action.iconStyle ? action.iconStyle : 'secondary') !== 'secondary') ?
-            ('controls-icon_style-' + action.iconStyle) : ('controls-action_iconStyle_secondary')}}_theme-{{theme}}
-            {{((action.showIcon && !action.showTitle) ? ('controls-itemActionsV__action-area_size') : '')}}"
+            controls-itemActionsV__action_style_{{actionStyle || action.style || 'secondary'}}
+            {{((iconStyle || action.iconStyle || 'secondary') !== 'secondary') ?
+            ('controls-icon_style-' + (iconStyle || action.iconStyle)) : ('controls-action_iconStyle_secondary')}}_theme-{{theme}}
+            {{((action.showIcon && !action.showTitle) ? ('controls-itemActionsV__action-area_size') : '')}}
+            {{actionMode === 'adaptive' ? 'controls-itemActionsV_action_adaptive'}}"
       attr:title="{{action.tooltip}}"
       on:click="_onItemActionsClick(action, itemData)"
       attr:ws-no-focus="true">

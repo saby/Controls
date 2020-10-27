@@ -53,4 +53,15 @@ export const items = [
         isDocument: true,
         width: 200,
         isShadow: true
+    }, {
+        id: 6,
+        parent: null,
+        type: null,
+        title: 'Квадрат',
+        image: `${baseURL}square.png`,
+        imageWidth: 150,
+        imageHeight: 150,
+        isDocument: true,
+        width: 200,
+        isShadow: true
     }];

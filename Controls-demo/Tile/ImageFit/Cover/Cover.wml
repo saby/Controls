@@ -6,6 +6,7 @@
       tileHeight="150"
       imageUrlResolver="{{_imageUrlResolver}}"
       parentProperty="parent"
+      tileScalingMode="inside"
       nodeProperty="parent@"
       imageWidthProperty="imageWidth"
       imageHeightProperty="imageHeight"

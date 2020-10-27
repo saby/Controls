@@ -2573,6 +2573,7 @@ const _private = {
                 itemActionsPosition: options.itemActionsPosition,
                 style: options.hoverBackgroundStyle || options.style,
                 theme: options.theme,
+                actionMode: options.actionMode,
                 actionAlignment: options.actionAlignment,
                 actionCaptionPosition: options.actionCaptionPosition,
                 itemActionsClass: options.itemActionsClass,
@@ -5145,6 +5146,13 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         if (!this._options.itemActions && item.isSwiped()) {
             this._notify('itemSwipe', [item, swipeEvent, swipeContainer?.clientHeight]);
         }
+    },
+
+    _updateItemActionsOnItem(event: SyntheticEvent<Event>, itemKey: string | number, itemWidth: number): void {
+        event.stopImmediatePropagation();
+        const itemActionsController = _private.getItemActionsController(this);
+        itemActionsController.updateItemActions(itemKey, itemWidth);
+        this._listViewModel.nextModelVersion(true);
     },
 
     /**

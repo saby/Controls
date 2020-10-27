@@ -121,6 +121,7 @@
                 on:itemMouseLeave="_itemMouseLeave()"
                 on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
                 on:hoveredCellChanged="_notifyHandler('hoveredCellChanged')"
+                on:updateItemActionsOnItem="_updateItemActionsOnItem()"
                 on:itemSwipe="_onItemSwipe()"
                 on:editingRowKeyDown="_onEditingRowKeyDown()"
                 on:rowDeactivated="_onRowDeactivated()"

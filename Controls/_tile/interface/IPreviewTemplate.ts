@@ -1,3 +1,4 @@
+import {TemplateFunction} from 'UI/Base';
 /**
  * Шаблон для отображения элементов в режиме превью в {@link Controls/tile:View плитке}.
  * @class Controls/tile:PreviewTemplate
@@ -60,4 +61,26 @@ export default interface IPreviewTemplateOptions {
      * @see gradientType
      */
     gradientColor?: string;
+    /**
+     * @name Controls/tile:PreviewTemplate#bottomRightTemplate
+     * @cfg {TemplateFunction} Шаблон справа от заголовка плитки.
+     * @default #FFF
+     * @see gradientType
+     */
+    bottomRightTemplate: TemplateFunction;
+    /**
+     * @name Controls/tile:PreviewTemplate#footerTemplate
+     * @cfg {TemplateFunction} Шаблон подвала элемента.
+     * @default #FFF
+     * @see gradientType
+     */
+    footerTemplate: TemplateFunction;
+
+    /**
+     * @name Controls/tile:PreviewTemplate#topTemplate
+     * @cfg {TemplateFunction} Шаблон шапки элемента.
+     * @default #FFF
+     * @see gradientType
+     */
+    topTemplate: TemplateFunction;
 }

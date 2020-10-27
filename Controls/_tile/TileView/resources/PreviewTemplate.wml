@@ -14,40 +14,56 @@
                         controls-TileView__previewTemplate_title_{{titleLines === '1' || titleLines === undefined ? 'single' : 'multi'}}Line_theme-{{_options.theme}}
                         controls-TileView__previewTemplate_title_gradient_{{gradientType || 'dark' }}_theme-{{_options.theme}}
                         controls-TileView__previewTemplate_title_text_{{titleStyle || 'light'}}_theme-{{_options.theme}}
-                        controls-fontsize-{{itemData.dispItem.isNode() ? 'l' : 'm'}}_theme-{{_options.theme}}"
-                 title="{{itemData.item[itemData.displayProperty]}}">
-               <div class="controls-TileView__previewTemplate_gradient
-                        controls-TileView__previewTemplate_gradient_{{gradientType || 'dark'}}_theme-{{_options.theme}}"
-                    style="{{gradientType === 'custom' ? 'background: linear-gradient(to top, ' + gradientColor +  ' 0%, ' + gradientColor + ' calc(100% - 4px), rgba(255, 255, 255, 0) 100%);' : ''}}"></div>
-               <div class="controls-TileView__previewTemplate_title_text"
-                    title="{{itemData.item[itemData.displayProperty]}}">
-                  <div class="controls-TileView__text_ellipsis_multiLine"
-                       style="-webkit-line-clamp: {{titleLines || 1}};">
-                     {{itemData.item[itemData.displayProperty]}}</div>
-                  <ws:partial if="{{!itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
-                              template="{{itemActionsTemplate}}"
-                              highlightOnHover="{{false}}"
-                              itemData="{{itemData}}"
-                              itemActionsClass="controls-TileView__previewTemplate_itemActions"/>
-                  <ws:partial if="{{itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
-                              template="{{swipeTemplate}}"
-                              itemData="{{itemData}}"
-                              itemActionsTemplate="{{itemActionsTemplate}}"/>
-                  <ws:if data="{{bottomRightTemplate && !itemData.isHovered}}">
-                     <ws:partial template="{{bottomRightTemplate}}"
-                                 attr:class="controls-TileView__previewTemplate_bottomRightTemplate_theme-{{_options.theme}}"
-                                 itemData="{{itemData}}"/>
-                  </ws:if>
-               </div>
+                        controls-fontsize-{{itemData.dispItem.isNode() ? 'l' : 'm'}}_theme-{{_options.theme}}">
+               <ws:if data="{{hasTitle || hasTitle === undefined || (itemData.hasVisibleActions() && itemData.isHovered)}}">
+                  <div class="controls-TileView__previewTemplate_gradient
+                           controls-TileView__previewTemplate_gradient_{{gradientType || 'dark'}}_theme-{{_options.theme}}"
+                       style="{{gradientType === 'custom' ? 'background: linear-gradient(to top, ' + gradientColor +  ' 0%, ' + gradientColor + ' calc(100% - 4px), rgba(255, 255, 255, 0) 100%);' : ''}}"></div>
+               </ws:if>
+               <ws:if data="{{(!itemData.isHovered && !itemData.canShowActions || itemData.isHovered && !itemData.hasVisibleActions() || itemData.dispItem.isNode()) && (hasTitle === undefined || hasTitle)}}">
+                  <div class="controls-TileView__previewTemplate_title_text" title="{{itemData.item[itemData.displayProperty]}}">
+                     <div class="{{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}" style="-webkit-line-clamp: {{titleLines || 1}};">
+                        {{itemData.item[itemData.displayProperty]}}
+                     </div>
+                     <ws:if data="{{bottomRightTemplate && !itemData.isHovered}}">
+                        <ws:partial template="{{bottomRightTemplate}}"
+                                    attr:class="controls-TileView__previewTemplate_bottomRightTemplate_theme-{{_options.theme}}"
+                                    itemData="{{itemData}}"/>
+                     </ws:if>
+                  </div>
+               </ws:if>
+               <ws:partial if="{{!itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
+                           template="{{itemActionsTemplate}}"
+                           actionStyle="{{!titleStyle || titleStyle === 'light' ? 'tileLight' : 'tileDark'}}"
+                           iconStyle="{{!titleStyle || titleStyle === 'light' ? 'contrast' : 'tileDark'}}"
+                           actionMode="{{itemData.dispItem.isNode() ? 'menu' : 'adaptive'}}"
+                           highlightOnHover="{{false}}"
+                           itemData="{{itemData}}"
+                           itemActionsClass="controls-TileView__previewTemplate_itemActions"/>
+               <ws:partial if="{{itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
+                           template="{{swipeTemplate}}"
+                           itemData="{{itemData}}"
+                           itemActionsTemplate="{{itemActionsTemplate}}"/>
             </div>
          </ws:imageWrapperTemplate>
       </ws:partial>
+      <ws:if data="{{footerTemplate}}">
+         <ws:partial
+            attr:class="controls-TileView__previewTemplate_footer"
+            template="{{footerTemplate}}"
+            itemData="{{itemData}}"
+         />
+      </ws:if>
    </div>
 </ws:template>
 
 
 <ws:partial template="wml!Controls/_tile/TreeTileView/DefaultItemTpl"
+            attr:class="controls-TileView__previewTemplate
+                        {{itemData.dispItem && itemData.dispItem.isNode() ? 'js-controls-TileView__withoutZoom' : ''}}
+                        {{((itemData.isUnscaleable && itemData.isHovered) || itemData.canShowActions) ? 'controls-ListView__item_showActions'}}"
             itemActionsClass="controls-TileView__previewTemplate_itemActions"
+            hasTitle="{{false}}"
             itemActionsPosition="custom"
             highlightOnHover="{{false}}"
             scope="{{_options}}">

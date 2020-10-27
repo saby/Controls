@@ -16,7 +16,7 @@
    <div class="controls-TileView__richTemplate_itemContent controls-TileView__richTemplate_itemContent_theme-{{theme}}"
         style="background-color: {{(!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right' ? gradientColor || '#FFF' : ''}}">
       <div class="controls-TileView__richTemplate_title
-                  controls-TileView__text_ellipsis_multiLine
+                  {{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
                   controls-TileView__richTemplate_title_theme-{{theme}}
                   controls-fontsize-{{itemData.dispItem.isNode() ? '4xl' : 'xl'}}_theme-{{theme}}
                   controls-text-{{titleColorStyle || 'default'}}_theme-{{theme}}
@@ -25,7 +25,7 @@
            style="-webkit-line-clamp: {{titleLines || 1}};">{{itemData.item[itemData.displayProperty]}}</div>
       <ws:if data="{{description}}">
          <div class="controls-TileView__richTemplate_description
-                     controls-TileView__text_ellipsis_multiLine
+                     {{descriptionLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
                      controls-TileView__richTemplate_description_theme-{{theme}}" title="{{description}}"
               style="-webkit-line-clamp: {{descriptionLines || 1}};">{{description}}</div>
       </ws:if>

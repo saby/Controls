@@ -121,7 +121,7 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
          assert.equal(tileViewModel.getPaddingClasses('itemPaddingContainer'), 'controls-TileView__itemPaddingContainer_spacingLeft_s_theme-default controls-TileView__itemPaddingContainer_spacingRight_null_theme-default controls-TileView__itemPaddingContainer_spacingTop_default_theme-default controls-TileView__itemPaddingContainer_spacingBottom_default_theme-default');
       });
 
-      describe('getItemWidth', () => {
+      describe('getTileWidth', () => {
          it('image width proportion <= 0.5', () => {
             const tileItem = new entity.Model({
                rawData: {
@@ -130,8 +130,8 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
                   imageHeight: 200,
                }
             });
-            let width = tileViewModel.getItemWidth(tileItem, 'imageHeight', 'imageWidth', 'dynamic', 200, null);
-            assert.strictEqual(width, 140);
+            let width = tileViewModel.getTileWidth(tileItem, 'imageHeight', 'imageWidth', 'dynamic', 200, null);
+            assert.strictEqual(width, 300);
          });
          it('image width proportion > 1.5', () => {
             const tileItem = new entity.Model({
@@ -141,8 +141,8 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
                   imageHeight: 100,
                }
             });
-            let width = tileViewModel.getItemWidth(tileItem, 'imageHeight', 'imageWidth', 'dynamic', 200, null);
-            assert.strictEqual(width, 300);
+            let width = tileViewModel.getTileWidth(tileItem, 'imageHeight', 'imageWidth', 'dynamic', 200, null);
+            assert.strictEqual(width, 150);
          });
 
          it('returns custom minimal item width', () => {
@@ -153,8 +153,8 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
                   imageHeight: 100,
                }
             });
-            let width = tileViewModel.getItemWidth(tileItem, 'imageHeight', 'imageWidth', 'dynamic', 200, 400);
-            assert.strictEqual(width, 400);
+            let width = tileViewModel.getTileWidth(tileItem, 'imageHeight', 'imageWidth', 'dynamic', 200, 400);
+            assert.strictEqual(width, 150);
          });
       });
    });

@@ -133,12 +133,13 @@
  * В следующем примере показано, как установить режим наведения 'outside'.
  * <pre class="brush: html">
  *    <Controls.tile:View itemsHeight="{{200}}"
- *                   scaleTileMode="outside"
+ *                   tileScalingMode="outside"
  *                   source="{{_viewSource}}"
  *                   keyProperty="id"
  *                   parentProperty="Раздел"
  *                   nodeProperty="Раздел@"/>
  * </pre>
+ * @demo @demo Controls-demo/Tile/TileMode/Dynamic/Index
  */
 
 /*
@@ -181,6 +182,46 @@
  * </pre>
  */
 
+/**
+ * @name Controls/_tile/interface/ITile#imageHeightProperty
+ * @cfg {String} Имя свойства, содержащего высоту оригинального изображения для.
+ * @default image
+ * @demo Controls-demo/Tile/ImageFit/Index
+ * @example
+ * В следующем примере показано, как задать поле с высотой'.
+ * <pre class="brush: html">
+ *    <Controls.tile:View source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   parentProperty="Раздел"
+ *                   imageHeightProperty='imageHeight'
+ *                   nodeProperty="Раздел@">
+ *       <ws:itemTemplate>
+ *          <ws:partial template="Controls/tile:ItemTemplate">
+ *       </ws:itemTemplate>
+ *    </Controls.tile:View>
+ * </pre>
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#imageWidthProperty
+ * @cfg {String} Имя свойства, содержащего ширину оригинального изображения для.
+ * @default image
+ * @demo Controls-demo/Tile/ImageFit/Index
+ * @example
+ * В следующем примере показано, как задать поле с шириной'.
+ * <pre class="brush: html">
+ *    <Controls.tile:View source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   parentProperty="Раздел"
+ *                   imageWidthProperty='imageWidth'
+ *                   nodeProperty="Раздел@">
+ *       <ws:itemTemplate>
+ *          <ws:partial template="Controls/tile:ItemTemplate">
+ *       </ws:itemTemplate>
+ *    </Controls.tile:View>
+ * </pre>
+ */
+
 /*
  * @name Controls/_tile/interface/ITile#imageProperty
  * @cfg {String} Name of the item property that contains the link to the image.
@@ -205,12 +246,17 @@
  * @cfg {String} Режим отображения плитки с динамической/фиксированной шириной.
  * @variant static Отображается плитка с фиксированной шириной.
  * @variant dynamic Отображается плитка с динамической шириной.
+ * @see imageHeightProperty
+ * @see imageWidthProperty
+ * @remark Для автоматического расчета ширины элемента нужно указать оригинальные размеры изображения.
  * @example
  * В следующем примере показано, как отобразить плитку с динамической шириной.
  * <pre class="brush: html">
  *    <Controls.tile:View source="{{_viewSource}}"
  *                   keyProperty="id"
  *                   parentProperty="Раздел"
+  *                  imageWidthProperty="imageWidth"
+  *                  imageHeightProperty="imageHeight"
  *                   nodeProperty="Раздел@"
  *                   tileMode="dynamic">
  *       <ws:itemTemplate>
@@ -218,7 +264,11 @@
  *       </ws:itemTemplate>
  *    </Controls.tile:View>
  * </pre>
+  * @demo @demo Controls-demo/Tile/TileMode/Index
+  * @remark
+  *
  */
+
 /**
  * @name Controls/_tile/interface/ITile#tileSize
  * @cfg {String} Минимальный размер плитки с статическим видом отображения.
@@ -240,3 +290,145 @@
  * </pre>
  */
 
+/*
+ * @typedef {String} ActionMode
+ * @variant showType Опции над записью показываются согласно showType.
+ * @variant adaptive Опции над записью будут расчитаны динамически. Количество отображенных команд зависит от ширины плитки.
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#actionMode
+ * @cfg {ActionMode} Вид отображения опций над записью.
+ * @remark Динамический расчет применяется только к плиткам.
+ * @example
+ * <pre class="brush: html">
+ *    <Controls.tile:View source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   actionMode='adaptive'
+ *                   tileSize="s"
+ *                   nodeProperty="Раздел@"
+ *                   tileMode="static">
+ *       <ws:itemTemplate>
+ *          <ws:partial
+ *             template='Controls/tile:PreviewTemplate'
+ *             scope={{itemTemplate}}/>
+ *       </ws:itemTemplate>
+ *    </Controls.tile:View>
+ * </pre>
+ * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
+ */
+
+/*
+ * @typedef {String} ActionMode
+ * @variant showType Опции над записью показываются согласно showType.
+ * @variant adaptive Опции над записью будут расчитаны динамически. Количество отображенных команд зависит от ширины плитки.
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#actionMode
+ * @cfg {ActionMode} Вид отображения опций над записью.
+ * @remark Динамический расчет применяется только к плиткам.
+ * @example
+ * <pre class="brush: html">
+ *    <Controls.tile:View source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   actionMode="adaptive"
+ *                   nodeProperty="Раздел@"
+ *                   tileMode="static">
+ *       <ws:itemTemplate>
+ *          <ws:partial
+ *             template='Controls/tile:PreviewTemplate'
+ *             scope={{itemTemplate}}/>
+ *       </ws:itemTemplate>
+ *    </Controls.tile:View>
+ * </pre>
+ * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
+ */
+
+/*
+ * @typedef {String} ActionMenuViewMode
+ * @variant menu Контекстное меню в виде выпадающего списка.
+ * @variant preview Контекстное меню будет отображено в виде превью.
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#actionMenuViewMode
+ * @cfg {ActionMenuViewMode} Вид отображения меню опций записи.
+ * @example
+ * <pre class="brush: html">
+ *    <Controls.tile:View source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   actionMode="adaptive"
+ *                   nodeProperty="Раздел@"
+ *                   actionMenuViewMode="preview"
+ *                   tileMode="static">
+ *       <ws:itemTemplate>
+ *          <ws:partial
+ *             template='Controls/tile:PreviewTemplate'
+ *             scope={{itemTemplate}}/>
+ *       </ws:itemTemplate>
+ *    </Controls.tile:View>
+ * </pre>
+ * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#imageUrlResolver
+ * @cfg {Function} Функция обратного вызова для получения url изображения для плитки. Используется, если по каким-то причинам сервис previewer не подходит.
+ * @see imageFit
+ * @see imageProperty
+ * @remark Особенно актуально при использовании imageFit в режиме cover.
+ * @fuction
+ * @param {number} width - ширина изображения.
+ * @param {number} height - высота изображения.
+ * @param {string} baseUrl - url, полученный с записи через imageProperty.
+ * @param {Types/entity:Model} - элемент списка, для которого нужно изображение.
+ * @example
+ * <pre class="brush: html">
+ *    <Controls.tile:View source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   imageFit='cover'
+ *                   imageUrlResolver={{_imageUrlResolver}}
+ *                   nodeProperty="Раздел@"
+ *                   tileMode="static">
+ *       <ws:itemTemplate>
+ *          <ws:partial
+ *             template='Controls/tile:PreviewTemplate'
+ *             scope={{itemTemplate}}/>
+ *       </ws:itemTemplate>
+ *    </Controls.tile:View>
+ * </pre>
+ * @demo Controls-demo/Tile/ImageFit/Cover/Index
+ */
+
+/*
+ * @typedef {String} imageFit
+ * @variant none Изображение вставляется в центр плитки и отображается "как есть"
+ * @variant cover Изображение будет подстраиваться под размеры плитки так, чтобы заполнить всю область плитки.
+ * @variant contain Изображение полностью помещается в контейнер плитки без обрезания и масштабирования.
+ */
+
+/**
+ * @name Controls/_tile/interface/ITile#imageFit
+ * @cfg {imageFit} Режим отображения изображения в плитке
+ * @see imageUrlResolver
+ * @see imageProperty
+ * @see imageHeightProperty
+ * @see imageWidthProperty
+ * @example
+ * <pre class="brush: html">
+ *    <Controls.tile:View source="{{_viewSource}}"
+ *                   keyProperty="id"
+ *                   imageFit='cover'
+ *                   imageUrlResolver={{_imageUrlResolver}}
+ *                   nodeProperty="Раздел@"
+ *                   tileMode="static">
+ *       <ws:itemTemplate>
+ *          <ws:partial
+ *             template='Controls/tile:PreviewTemplate'
+ *             scope={{itemTemplate}}/>
+ *       </ws:itemTemplate>
+ *    </Controls.tile:View>
+ * </pre>
+ * @demo Controls-demo/Tile/ImageFit/Index
+ */

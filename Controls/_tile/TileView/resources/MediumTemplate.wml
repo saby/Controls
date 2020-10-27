@@ -11,7 +11,7 @@
          <span class="controls-TileView__mediumTemplate_title
                       controls-fontsize-l_theme-{{_options.theme}}
                       controls-text-secondary_theme-{{_options.theme}}
-                      controls-TileView__text_ellipsis_multiLine
+                      {{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
                       controls-fontweight-bold
                       controls-TileView__mediumTemplate_title_theme-{{_options.theme}}"
                style="-webkit-line-clamp: {{titleLines || 1}};"

@@ -1,6 +1,7 @@
 import {ListView} from 'Controls/list';
 import template = require('wml!Controls/_tile/TileView/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/TileView/TileTpl');
+import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
 import {TouchContextField} from 'Controls/context';
 import ItemSizeUtils = require('Controls/_tile/TileView/resources/ItemSizeUtils');
 
@@ -88,18 +89,6 @@ var _private = {
     }
 };
 
-var
-    ZOOM_DELAY = 100,
-    ZOOM_COEFFICIENT = 1.5;
-
-var TILE_SCALING_MODE = {
-    NONE: 'none',
-    OUTSIDE: 'outside',
-    INSIDE: 'inside',
-    OVERLAP: 'overlap'
-};
-
-
 var TileView = ListView.extend({
     _template: template,
     _defaultItemTemplate: defaultItemTpl,
@@ -178,15 +167,19 @@ var TileView = ListView.extend({
     _onItemMouseMove(event, itemData): void {
         const hoveredItem = this._listModel.getHoveredItem();
         const isCurrentItemHovered = hoveredItem && hoveredItem.key === itemData.key;
-
-        if (
-            this._options.tileScalingMode !== TILE_SCALING_MODE.NONE &&
-            !isCurrentItemHovered &&
+        const activeItem = this._listModel.getActiveItem();
+        if (!isCurrentItemHovered &&
+            _private.shouldProcessHover(this) &&
             !this._listModel.getDragItemData() &&
-            _private.shouldProcessHover(this)
+            !activeItem
         ) {
-            _private.clearMouseMoveTimeout(this);
-            this._calculateHoveredItemPosition(event, itemData);
+            if (this._options.tileScalingMode !== TILE_SCALING_MODE.NONE) {
+                _private.clearMouseMoveTimeout(this);
+                this._calculateHoveredItemPosition(event, itemData);
+            } else {
+                const itemWidth = event.target.closest('.controls-TileView__item').clientWidth;
+                this._setHoveredItem(itemData, null, null, true, itemWidth);
+            }
         }
 
         TileView.superclass._onItemMouseMove.apply(this, arguments);
@@ -211,9 +204,9 @@ var TileView = ListView.extend({
                 let position = _private.getPositionInContainer(itemSize, itemContainerRect, containerRect, 1, true);
                 const documentRect = documentObject.documentElement.getBoundingClientRect();
                 position = _private.getPositionInDocument(position, containerRect, documentRect, true);
-                this._setHoveredItem(itemData, position, position, true);
+                this._setHoveredItem(itemData, position, position, true, itemSize.width);
             } else {
-                this._setHoveredItem(itemData);
+                this._setHoveredItem(itemData, null, null, null, itemContainerRect.width);
             }
         } else {
             itemSize = ItemSizeUtils.getItemSize(itemContainer, this._getZoomCoefficient(), this._options.tileMode);
@@ -236,7 +229,7 @@ var TileView = ListView.extend({
                 itemStartPosition = null;
             }
             this._mouseMoveTimeout = setTimeout(function () {
-                self._setHoveredItem(itemData, _private.getPositionInDocument(position, containerRect, documentRect), itemStartPosition);
+                self._setHoveredItem(itemData, _private.getPositionInDocument(position, containerRect, documentRect), itemStartPosition, null, itemSize.width);
             }, ZOOM_DELAY);
         } else {
             this._setHoveredItem(itemData);
@@ -247,7 +240,8 @@ var TileView = ListView.extend({
         return this._options.tileScalingMode !== TILE_SCALING_MODE.NONE && this._options.tileScalingMode !== TILE_SCALING_MODE.OVERLAP ? ZOOM_COEFFICIENT : 1;
     },
 
-    _setHoveredItem: function (itemData, position, startPosition, noZoom) {
+    _setHoveredItem: function (itemData, position, startPosition, noZoom, itemWidth?: number): void {
+        const needUpdateActions = this._options.actionMode === 'adaptive' && !itemData.dispItem.isNode();
         if (this._options.tileScalingMode !== TILE_SCALING_MODE.NONE) {
             this._listModel.setHoveredItem({
                 key: itemData.key,
@@ -256,6 +250,13 @@ var TileView = ListView.extend({
                 position: _private.getPositionStyle(startPosition || position),
                 endPosition: _private.getPositionStyle(position)
             });
+        } else {
+            this._listModel.setHoveredItem({
+                key: itemData.key
+            });
+        }
+        if (needUpdateActions) {
+            this._notify('updateItemActionsOnItem', [itemData.key, itemWidth], {bubbling: true});
         }
     },
 

@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper">
+   <Controls.tile:View
+      tileMode="dynamic"
+      displayProperty="title"
+      imageProperty="image"
+      keyProperty="id"
+      itemActions="{{_itemActions}}"
+      actionMenuViewMode="preview"
+      actionMode="adaptive"
+      itemTemplate="Controls/tile:PreviewTemplate"
+      source="{{_viewSource}}"/>
+</div>

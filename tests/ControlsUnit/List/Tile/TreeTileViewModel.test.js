@@ -212,7 +212,10 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
       });
 
       it('getTileItemData', function() {
-         var tileItemData = treeTileViewModel.getTileItemData();
+         var tileItemData = treeTileViewModel.getTileItemData({
+            isNode: () => true,
+            getContents: () => null
+         });
          assert.deepEqual(tileItemData, {
             defaultFolderWidth: 250,
             defaultItemWidth: 250,
