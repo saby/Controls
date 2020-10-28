@@ -1,15 +1,24 @@
-<div attr:class="controls-itemActionsV__action controls-itemActionsV__action_padding_theme-{{theme}}
-            controls-itemActionsV__action_style_{{action.style ? action.style : 'secondary'}}
-            {{((action.iconStyle ? action.iconStyle : 'secondary') !== 'secondary') ?
-            ('controls-icon_style-' + action.iconStyle) : ('controls-action_iconStyle_secondary')}}_theme-{{theme}}
-            {{((action.showIcon && !action.showTitle) ? ('controls-itemActionsV__action-area_size') : '')}}"
-      attr:title="{{action.tooltip}}"
-      on:click="_onItemActionsClick(action, itemData)"
-      attr:ws-no-focus="true">
-    <ws:if data="{{action.showIcon}}">
-        <div attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}}_theme-{{theme}} {{action.showTitle ? ' controls-itemActionsV__icon-with-title_theme-' + theme}}"></div>
-    </ws:if>
-    <ws:if data="{{action.showTitle}}">
-        <span class="controls-itemActionsV__action_title controls-itemActionsV__action_title_theme-{{theme}}">{{action.title}}</span>
-    </ws:if>
-</div>
+<ws:template name="itemAction">
+    <div attr:class="controls-itemActionsV__action controls-itemActionsV__action_padding_theme-{{theme}}
+                controls-itemActionsV__action_style_{{action.style ? action.style : 'secondary'}}
+                {{((action.iconStyle ? action.iconStyle : 'secondary') !== 'secondary') ?
+                ('controls-icon_style-' + action.iconStyle) : ('controls-action_iconStyle_secondary')}}_theme-{{theme}}
+                {{((action.showIcon && !action.showTitle) ? ('controls-itemActionsV__action-area_size') : '')}}"
+          attr:title="{{action.tooltip}}"
+          on:click="_onItemActionsClick(action, itemData)"
+          attr:ws-no-focus="true">
+        <ws:if data="{{action.showIcon}}">
+            <div attr:class="{{action.icon}} controls-itemActionsV__action_icon_size_{{size}}_theme-{{theme}} {{action.showTitle ? ' controls-itemActionsV__icon-with-title_theme-' + theme}}"></div>
+        </ws:if>
+        <ws:if data="{{action.showTitle}}">
+            <span class="controls-itemActionsV__action_title controls-itemActionsV__action_title_theme-{{theme}}">{{action.title}}</span>
+        </ws:if>
+    </div>
+</ws:template>
+
+<ws:if data="{{action.isMenu}}">
+    <ws:partial template="itemAction" on:mouseEnter="_handleMenuActionMouseEnter()" on:mouseLeave="_handleMenuActionMouseLeave()"/>
+</ws:if>
+<ws:else>
+    <ws:partial template="itemAction"/>
+</ws:else>

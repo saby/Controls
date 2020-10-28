@@ -25,6 +25,9 @@ import {verticalMeasurer} from './measurers/VerticalMeasurer';
 import {horizontalMeasurer} from './measurers/HorizontalMeasurer';
 import {Utils} from './Utils';
 import {IContextMenuConfig} from './interface/IContextMenuConfig';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
+import * as mStubs from 'Core/moduleStubs';
+
 
 const DEFAULT_ACTION_ALIGNMENT = 'horizontal';
 
@@ -142,6 +145,11 @@ export class Controller {
     private _itemActionsPosition: TItemActionsPosition;
 
     private _activeItemKey: any;
+
+    // Таймер для погрузки зависимостей
+    private _dependenciesTimer: DependencyTimer = null;
+
+    private _loadMenuTempPromise: Promise<>;
 
     /**
      * Метод инициализации и обновления параметров.
@@ -352,6 +360,35 @@ export class Controller {
     startSwipeCloseAnimation(): void {
         const swipeItem = this.getSwipeItem();
         swipeItem.setSwipeAnimation(ANIMATION_STATE.CLOSE);
+    }
+
+    startMenuDependenciesTimer(): void {
+        if (!this._dependenciesTimer) {
+            this._dependenciesTimer = new DependencyTimer();
+        }
+        this._dependenciesTimer.start(this._loadDependencies.bind(this));
+    }
+
+    stopMenuDependenciesTimer(): void {
+        this._dependenciesTimer?.stop();
+    }
+
+    private _loadDependencies(): Promise<unknown[]> {
+        if (!this._loadMenuTempPromise) {
+            const templatesToLoad = ['Controls/menu'];
+            if (this._contextMenuConfig) {
+                const templates = ['headerTemplate', 'footerTemplate', 'itemTemplate', 'groupTemplate'];
+                templates.forEach((template) => {
+                    if (typeof this._contextMenuConfig[template] === 'string') {
+                        templatesToLoad.push(this._contextMenuConfig[template]);
+                    }
+                });
+            }
+            this._loadMenuTempPromise = mStubs.require(templatesToLoad).then((loadedDeps) => {
+                return loadedDeps[0].Control.loadCSS(this._theme);
+            });
+        }
+        return this._loadMenuTempPromise;
     }
 
     /**

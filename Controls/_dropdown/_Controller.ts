@@ -23,7 +23,7 @@ import * as Merge from 'Core/core-merge';
  * @extends Core/Control
  * @mixes Controls/_dropdown/interface/IDropdownController
  * @author Красильников А.С.
- * 
+ *
  * @private
  */
 
@@ -34,7 +34,7 @@ import * as Merge from 'Core/core-merge';
  * @extends Core/Control
  * @mixes Controls/_dropdown/interface/IDropdownController
  * @author Красильников А.С.
- * 
+ *
  * @private
  */
 
@@ -520,24 +520,6 @@ export default class _Controller implements IDropdownController {
          });
       }
       return this._loadMenuTempPromise;
-   }
-
-   private _getItemsTemplates(options) {
-      let
-          templates = {},
-          itemTemplateProperty = options.itemTemplateProperty;
-
-      if (itemTemplateProperty) {
-         this._items.each(function(item) {
-            let itemTemplate = item.get(itemTemplateProperty);
-
-            if (typeof itemTemplate === 'string') {
-               templates[itemTemplate] = true;
-            }
-         });
-      }
-
-      return Object.keys(templates);
    }
 
    private _getPopupOptions(popupOptions?): object {

@@ -99,6 +99,7 @@ import { ItemsEntity } from 'Controls/dragnDrop';
 import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
+import {DependencyTimer} from 'Controls/_utils/fastOpenUtils/FastOpen';
 
 // TODO: getDefaultOptions зовётся при каждой перерисовке,
 //  соответственно если в опции передаётся не примитив, то они каждый раз новые.
@@ -4794,6 +4795,14 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
      */
     _onItemActionsMenuClose(currentPopup): void {
         _private.closeActionsMenu(this, currentPopup);
+    },
+
+    _handleMenuActionMouseEnter(event: SyntheticEvent): void {
+        _private.getItemActionsController(this, this._options).startMenuDependenciesTimer();
+    },
+
+    _handleMenuActionMouseLeave(event: SyntheticEvent): void {
+        _private.getItemActionsController(this, this._options).stopMenuDependenciesTimer();
     },
 
     _itemMouseDown(event, itemData, domEvent) {
