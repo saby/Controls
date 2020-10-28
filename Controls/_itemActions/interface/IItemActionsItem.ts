@@ -1,6 +1,6 @@
 import {IItemActionsContainer} from './IItemActionsContainer';
-import {Model} from 'Types/entity';
 import {ANIMATION_STATE, ICollectionItem} from 'Controls/display';
+import {IButtonOptions} from 'Controls/dropdown';
 
 /**
  * Интерфейс элемента коллекции, который обладает опциями записи
@@ -92,4 +92,8 @@ export interface IItemActionsItem extends ICollectionItem {
      * @return {Controls/display:ANIMATION_STATE} Текущее состояние анимации
      */
     getSwipeAnimation?(): ANIMATION_STATE;
+
+    getMenuButtonConfig?(): Partial<IButtonOptions>;
+
+    setMenuButtonConfig?(config: Partial<IButtonOptions>): void;
 }

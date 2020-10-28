@@ -1826,7 +1826,7 @@ const _private = {
         item: CollectionItem<Model>,
         isContextMenu: boolean): Promise<void> {
         const itemActionsController = _private.getItemActionsController(self, self._options);
-        const menuConfig = itemActionsController.prepareActionsMenuConfig(item, clickEvent, action, self, isContextMenu);
+        const menuConfig = itemActionsController.prepareActionsMenuConfig(item, clickEvent, action, isContextMenu);
         if (!menuConfig) {
             return Promise.resolve();
         }
@@ -4716,6 +4716,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     // endregion
 
+    // region itemActions
+
     /**
      * Обработчик показа контекстного меню
      * @param e
@@ -4743,6 +4745,26 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
 
+    _onActionMenuItemActivate(event: SyntheticEvent<Event>, item: CollectionItem<Model>, actionModel: Model): void {
+        const action = actionModel && actionModel.getRawData();
+        if (action && !action['parent@']) {
+            _private.handleItemActionClick(this, action, event, item, true);
+        }
+    },
+
+    _onActionMenuDropDownOpen(e: SyntheticEvent<Event>, item: CollectionItem<Model>): void {
+        const contents = _private.getPlainItemContents(item);
+        const key = contents ? contents.getKey() : null;
+        this._itemActionsMenuId = 'menu_button';
+        this._itemActionsController.setActiveItem(item);
+        this.setMarkedKey(key);
+    },
+
+    _onActionMenuDropDownClose(): void {
+        this._itemActionsMenuId = null;
+        this._itemActionsController.setActiveItem(null);
+    },
+
     /**
      * Обработчик клика по операции
      * @param event
@@ -4763,7 +4785,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         const item = this._listViewModel.getItemBySourceKey(key) || itemData;
         this.setMarkedKey(key);
 
-        if (action && !action.isMenu && !action['parent@']) {
+        if (action && !action['parent@']) {
             _private.handleItemActionClick(this, action, event, item, false);
         } else {
             _private.openItemActionsMenu(this, action, event, item, false);
@@ -4795,6 +4817,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _onItemActionsMenuClose(currentPopup): void {
         _private.closeActionsMenu(this, currentPopup);
     },
+
+    // endregion itemActions
 
     _itemMouseDown(event, itemData, domEvent) {
         let hasDragScrolling = false;

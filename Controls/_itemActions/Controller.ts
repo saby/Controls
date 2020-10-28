@@ -1,5 +1,5 @@
 import * as clone from 'Core/core-clone';
-import {Control} from 'UI/Base';
+import {Control, IControlOptions} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {isEqual} from 'Types/object';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -25,6 +25,7 @@ import {verticalMeasurer} from './measurers/VerticalMeasurer';
 import {horizontalMeasurer} from './measurers/HorizontalMeasurer';
 import {Utils} from './Utils';
 import {IContextMenuConfig} from './interface/IContextMenuConfig';
+import {IButtonOptions} from 'Controls/dropdown';
 
 const DEFAULT_ACTION_ALIGNMENT = 'horizontal';
 
@@ -109,6 +110,10 @@ export interface IControllerOptions {
      * Редактируемая запись
      */
     editingItem?: IItemActionsItem;
+    /**
+     * Контрол или элемент - опенер для работы системы автофокусов в случае использования меню оций записи
+     */
+    opener?: Control<IControlOptions, unknown>;
 }
 
 /**
@@ -124,7 +129,7 @@ export class Controller {
     private _itemActionVisibilityCallback: TItemActionVisibilityCallback;
     private _editArrowVisibilityCallback: TEditArrowVisibilityCallback;
     private _editArrowAction: IItemAction;
-    private _contextMenuConfig: IContextMenuConfig;
+    private _menuTemplateOptions: IContextMenuConfig;
     private _iconSize: TItemActionsSize;
 
     // вариант расположения опций в свайпе на момент инициализации
@@ -141,6 +146,8 @@ export class Controller {
     // Текущее позиционирование опций записи
     private _itemActionsPosition: TItemActionsPosition;
 
+    private _opener: Control<IControlOptions, unknown>;
+
     private _activeItemKey: any;
 
     /**
@@ -155,11 +162,12 @@ export class Controller {
         this._theme = options.theme;
         this._editArrowVisibilityCallback = options.editArrowVisibilityCallback || ((item: Model) => true);
         this._editArrowAction = options.editArrowAction;
-        this._contextMenuConfig = options.contextMenuConfig;
+        this._menuTemplateOptions = options.contextMenuConfig;
         this._iconSize = options.iconSize || DEFAULT_ACTION_SIZE;
         this._actionsAlignment = options.actionAlignment || DEFAULT_ACTION_ALIGNMENT;
         this._itemActionsPosition = options.itemActionsPosition || DEFAULT_ACTION_POSITION;
         this._collection = options.collection;
+        this._opener = options.opener;
         this._updateActionsTemplateConfig(options);
 
         if (!options.itemActions ||
@@ -224,99 +232,42 @@ export class Controller {
      * @param item элемент коллекции, для которого выполняется действие
      * @param clickEvent событие клика
      * @param parentAction Родительская операция с записью
-     * @param opener: контрол или элемент - опенер для работы системы автофокусов
      * @param isContextMenu Флаг, указывающий на то, что расчёты производятся для контекстного меню
      */
     prepareActionsMenuConfig(
         item: IItemActionsItem,
         clickEvent: SyntheticEvent<MouseEvent>,
         parentAction: IShownItemAction,
-        opener: Element | Control<object, unknown>,
         isContextMenu: boolean
     ): IStickyPopupOptions {
         if (!item) {
             return;
         }
-        const menuActions = this._getMenuActions(item, parentAction);
-        if (!menuActions || menuActions.length === 0) {
+
+        const isActionMenu: boolean = !!parentAction;
+        const templateOptions: IMenuPopupOptions = this._getActionsMenuTemplateOptions(isActionMenu, parentAction, item);
+        if (!templateOptions) {
             return;
         }
+        const basePopupConfig: IStickyPopupOptions = this._getBasePopupConfig();
+        const target: HTMLElement = !isContextMenu ?
+            this._getFakeMenuTarget(clickEvent.target as HTMLElement) as HTMLElement :
+            null;
 
-        const target = isContextMenu ? null : this._getFakeMenuTarget(clickEvent.target as HTMLElement);
-        const isActionMenu = !!parentAction && !parentAction.isMenu;
-        const templateOptions = this._getActionsMenuTemplateConfig(isActionMenu, parentAction, menuActions);
-
-        let menuConfig: IStickyPopupOptions = {
-            // @ts-ignore
-            opener,
-            template: 'Controls/menu:Popup',
-            actionOnScroll: 'close',
-            // @ts-ignore
+        const popupConfig: IStickyPopupOptions = {
+            ...basePopupConfig,
             target,
-            templateOptions,
-            className: `controls-MenuButton_link_iconSize-medium_popup theme_${this._theme}`,
-            closeOnOutsideClick: true,
-            autofocus: false,
-            fittingMode: {
-                vertical: 'overflow',
-                horizontal: 'adaptive'
-            },
-            readOnly: false
+            templateOptions
         };
-        if (!isActionMenu) {
-            menuConfig = {
-                ...menuConfig,
-                direction: {
-                    horizontal: isContextMenu ? 'right' : 'left'
-                },
-                targetPoint: {
-                    vertical: 'top',
-                    horizontal: 'right'
-                },
-                className: `controls-ItemActions__popup__list_theme-${this._theme}`,
-                // @ts-ignore
-                nativeEvent: isContextMenu ? clickEvent.nativeEvent : null
-            };
+        // if current menu belongs any action
+        if (isActionMenu) {
+            return popupConfig;
         }
-        return menuConfig;
-    }
-
-    /**
-     * Возвращает конфиг для шаблона меню опций
-     * @param isActionMenu
-     * @param parentAction
-     * @param menuActions
-     * @private
-     */
-    private _getActionsMenuTemplateConfig(
-        isActionMenu: boolean,
-        parentAction: IItemAction,
-        menuActions: IItemAction[]
-    ): IMenuPopupOptions {
-        const source = new Memory({
-            data: menuActions,
-            keyProperty: 'id'
-        });
-        const iconSize = (this._contextMenuConfig && this._contextMenuConfig.iconSize) || DEFAULT_ACTION_SIZE;
-        const headConfig = isActionMenu ? {
-            caption: parentAction.title,
-            icon: parentAction.icon,
-            iconSize
-        } : null;
-        const root = parentAction && parentAction.id;
+        // if current menu is for ContextMenu
         return {
-            source,
-            keyProperty: 'id',
-            parentProperty: 'parent',
-            nodeProperty: 'parent@',
-            dropdownClassName: 'controls-itemActionsV__popup',
-            ...this._contextMenuConfig,
-            root,
+            ...this._getAdditionalPopupConfig(popupConfig, isContextMenu),
             // @ts-ignore
-            showHeader: isActionMenu,
-            headConfig,
-            iconSize,
-            closeButtonVisibility: !isActionMenu && !root
+            nativeEvent: isContextMenu ? clickEvent.nativeEvent : null
         };
     }
 
@@ -355,6 +306,128 @@ export class Controller {
     }
 
     /**
+     * Возвращает опции для шаблона контекстного меню или меню опции записи (кроме menuButton)
+     * @param isActionMenu
+     * @param parentAction
+     * @param item
+     * @private
+     */
+    private _getActionsMenuTemplateOptions(
+        isActionMenu: boolean,
+        parentAction: IItemAction,
+        item: IItemActionsItem
+    ): IMenuPopupOptions {
+        const baseOptions = this._getBaseMenuTemplateOptions(parentAction, item);
+        if (!baseOptions) {
+            return;
+        }
+        const headConfig = isActionMenu ? {
+            caption: parentAction.title,
+            icon: parentAction.icon,
+            iconSize: baseOptions.iconSize
+        } : null;
+        const root = parentAction && parentAction.id;
+        return {
+            ...baseOptions,
+            root,
+            // @ts-ignore
+            showHeader: isActionMenu,
+            headConfig,
+            closeButtonVisibility: !isActionMenu && !root
+        };
+    }
+
+    /**
+     * Возвращает общие настройки Popup
+     * @private
+     */
+    private _getBasePopupConfig(): IStickyPopupOptions {
+        return {
+            opener: this._opener,
+            template: 'Controls/menu:Popup',
+            actionOnScroll: 'close',
+            className: `controls-MenuButton_link_iconSize-medium_popup theme_${this._theme}`,
+            closeOnOutsideClick: true,
+            autofocus: false,
+            fittingMode: {
+                vertical: 'overflow',
+                horizontal: 'adaptive'
+            },
+            readOnly: false
+        };
+    }
+
+    /**
+     * Возвращает опции настройки Popup для контестного меню и menuButton
+     * @param menuConfig
+     * @param isContextMenu
+     * @private
+     */
+    private _getAdditionalPopupConfig(menuConfig: IStickyPopupOptions, isContextMenu: boolean): IStickyPopupOptions {
+        return {
+            ...menuConfig,
+            direction: {
+                horizontal: isContextMenu ? 'right' : 'left'
+            },
+            targetPoint: {
+                vertical: 'top',
+                horizontal: 'right'
+            },
+            className: `controls-ItemActions__popup__list_theme-${this._theme}`
+        };
+    }
+
+    /**
+     * Возвращает общие опции для шаблона меню
+     * @param parentAction
+     * @param item
+     * @private
+     */
+    private _getBaseMenuTemplateOptions(parentAction: IItemAction, item: IItemActionsItem): IMenuPopupOptions {
+        const menuActions = this._getMenuActions(item, parentAction);
+        if (!menuActions || menuActions.length === 0) {
+            return;
+        }
+        const source = new Memory({
+            data: menuActions,
+            keyProperty: 'id'
+        });
+        const iconSize = (this._menuTemplateOptions && this._menuTemplateOptions.iconSize) || DEFAULT_ACTION_SIZE;
+        return {
+            source,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'parent@',
+            dropdownClassName: 'controls-itemActionsV__popup',
+            ...this._menuTemplateOptions,
+            iconSize,
+            closeButtonVisibility: false
+        };
+    }
+
+    /**
+     * Набирает конфигурацию для menuButton
+     * @param parentAction
+     * @param item
+     * @private
+     */
+    private _getMenuButtonConfig(parentAction: IItemAction, item: IItemActionsItem): Partial<IButtonOptions> {
+        const baseOptions = this._getBaseMenuTemplateOptions(parentAction, item);
+        const menuConfig: IStickyPopupOptions = this._getAdditionalPopupConfig(this._getBasePopupConfig(), false);
+        return {
+            ...parentAction,
+            ...baseOptions,
+            ...menuConfig,
+            viewMode: 'link',
+            opener: this._opener,
+            closeButtonVisibility: true,
+            buttonIconSize: this._iconSize,
+            showHeader: false,
+            popupClassName: menuConfig.className
+        } as Partial<IButtonOptions>;
+    }
+
+    /**
      * Вычисляет операции над записью для каждого элемента коллекции
      * Для старой модели listViewModel возвращает массив id изменённых значений
      * TODO Когда мы перестанем использовать старую listViewModel,
@@ -367,8 +440,12 @@ export class Controller {
         const assignActionsOnItem = (item): void => {
             if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_display/SearchSeparator]']) {
                 const contents = Controller._getItemContents(item);
-                const actionsContainer = this._fixActionsDisplayOptions(this._getActionsContainer(item));
-                const itemChanged = Controller._setItemActions(item, actionsContainer);
+                const actionsObject = this._fixActionsDisplayOptions(this._getActionsObject(item));
+                const itemChanged = Controller._setItemActions(item, actionsObject);
+                const menuButton = actionsObject.showed.find((action: IShownItemAction) => action.isMenu);
+                if (menuButton) {
+                    item.setMenuButtonConfig(this._getMenuButtonConfig(menuButton, item));
+                }
                 hasChanges = hasChanges || itemChanged;
                 if (itemChanged) {
                     changedItemsIds.push(contents.getKey());
@@ -500,7 +577,7 @@ export class Controller {
         if (!item) {
             return;
         }
-        const menuButtonVisibility = this._getSwipeMenuButtonVisibility(this._contextMenuConfig);
+        const menuButtonVisibility = this._getSwipeMenuButtonVisibility(this._menuTemplateOptions);
         this._actionsWidth = actionsContainerWidth;
         this._actionsHeight = actionsContainerHeight;
         const actions = item.getActions().all;
@@ -577,7 +654,7 @@ export class Controller {
      * @param item
      * @private
      */
-    private _getActionsContainer(item: IItemActionsItem): IItemActionsContainer {
+    private _getActionsObject(item: IItemActionsItem): IItemActionsContainer {
         let showed;
         const actions = this._collectActionsForItem(item);
         if (this._isEditing(item)) {
@@ -591,13 +668,14 @@ export class Controller {
                 )
             );
             if (this._isMenuButtonRequired(actions)) {
-                showed.push({
+                const menuButton: IShownItemAction = {
                     id: null,
                     icon: 'icon-ExpandDown',
                     style: 'secondary',
                     iconStyle: 'secondary',
                     isMenu: true
-                });
+                };
+                showed.push(menuButton);
             }
         } else {
             showed = actions;

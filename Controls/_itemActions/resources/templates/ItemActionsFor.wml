@@ -1,7 +1,16 @@
 <ws:for data="action in showedActions">
-    <ws:partial
-            template="wml!Controls/_itemActions/resources/templates/ItemAction"
-            itemData="{{itemData}}"
-            size="{{size}}"
-            action="{{action}}"/>
+    <ws:if data="{{action.isMenu}}">
+        <Controls.dropdown:Button scope="{{(itemData.dispItem ? itemData.dispItem : itemData).getMenuButtonConfig()}}"
+                                  attr:class="controls-itemActionsV__action controls-itemActionsV__menuButton_size_{{size}}_padding_theme-{{theme}}"
+                                  on:menuItemActivate="_onActionMenuItemActivate(itemData.dispItem ? itemData.dispItem : itemData)"
+                                  on:dropDownOpen="_onActionMenuDropDownOpen(itemData.dispItem ? itemData.dispItem : itemData)"
+                                  on:dropDownClose="_onActionMenuDropDownClose()"/>
+    </ws:if>
+    <ws:else>
+        <ws:partial
+                template="wml!Controls/_itemActions/resources/templates/ItemAction"
+                itemData="{{itemData}}"
+                size="{{size}}"
+                action="{{action}}"/>
+    </ws:else>
 </ws:for>

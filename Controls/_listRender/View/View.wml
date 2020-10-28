@@ -13,5 +13,9 @@
       on:closeSwipe="_onCloseSwipe()"
       on:itemActionClick="_onItemActionClick()"
       on:itemContextMenu="_onItemContextMenu()"
-      on:itemKeyDown="_onItemKeyDown()"/>
+      on:itemKeyDown="_onItemKeyDown()"
+      on:menuItemActivate="_onActionMenuItemActivate()"
+      on:menuDropDownOpen="_onActionMenuDropDownOpen()"
+      on:menuDropDownClose="_onActionMenuDropDownClose()"
+   />
 </div>

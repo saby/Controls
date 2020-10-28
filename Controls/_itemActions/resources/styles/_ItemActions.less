@@ -124,6 +124,11 @@
   justify-content: center;
   align-items: center;
 }
+// Т.к. в Classes.less стиль задан через Important, нет никакой иной возможности его перебить
+.controls-itemActionsV__action_icon_theme-@{themeName}.controls-icon_size-m_theme-@{themeName} {
+  line-height: 1 !important;
+}
+
 .controls-itemActionsV__action {
   cursor: pointer;
   user-select: none;
@@ -137,10 +142,18 @@
   white-space: nowrap;
 }
 
+.controls-itemActionsV__menuButton_size_m_padding_theme-@{themeName},
 .controls-itemActionsV__action_padding_theme-@{themeName} {
   padding: 0 @item_padding_itemActions;
   height: 100%;
 }
+
+.controls-itemActionsV__menuButton_size_s_padding_theme-@{themeName} {
+  padding: 0 (@item_icon-size_itemActions - @icon-size_s) / 2 + @item_padding_itemActions;
+  height: 100%;
+}
+
+
 
 .controls-action_iconStyle_secondary_theme-@{themeName} {
   fill: @secondary_icon-color;

@@ -17,6 +17,7 @@ import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/IColl
 import {ICollectionItem} from './interface/ICollectionItem';
 import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from './ItemCompatibilityListViewModel';
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
+import {IButtonOptions} from 'Controls/dropdown';
 
 export interface IOptions<T> {
     contents?: T;
@@ -98,6 +99,8 @@ export default class CollectionItem<T> extends mixin<
     protected _$editing: boolean;
 
     protected _$actions: any;
+
+    protected _$menuButtonConfig: IButtonOptions;
 
     protected _$swiped: boolean;
 
@@ -377,18 +380,6 @@ export default class CollectionItem<T> extends mixin<
         }
     }
 
-    hasVisibleActions(): boolean {
-        return this._$actions && this._$actions.showed && this._$actions.showed.length > 0;
-    }
-
-    shouldDisplayActions(): boolean {
-        return this.hasVisibleActions() || this.isEditing();
-    }
-
-    hasActionWithIcon(): boolean {
-        return this.hasVisibleActions() && this._$actions.showed.some((action: any) => !!action.icon);
-    }
-
     /**
      * Флаг, определяющий состояние анимации записи при отметке её чекбоксом.
      * Используется для анимации при свайпе вправо для multiSelect
@@ -408,6 +399,20 @@ export default class CollectionItem<T> extends mixin<
         this._$animatedForSelection = animated;
         this._nextVersion();
         this._notifyItemChangeToOwner('animatedForSelection');
+    }
+
+    // region ItemActionsItem
+
+    hasVisibleActions(): boolean {
+        return this._$actions && this._$actions.showed && this._$actions.showed.length > 0;
+    }
+
+    shouldDisplayActions(): boolean {
+        return this.hasVisibleActions() || this.isEditing();
+    }
+
+    hasActionWithIcon(): boolean {
+        return this.hasVisibleActions() && this._$actions.showed.some((action: any) => !!action.icon);
     }
 
     /**
@@ -452,6 +457,16 @@ export default class CollectionItem<T> extends mixin<
     getSwipeAnimation(): ANIMATION_STATE {
         return this._$swipeAnimation;
     }
+
+    getMenuButtonConfig(): IButtonOptions {
+        return this._$menuButtonConfig;
+    }
+
+    setMenuButtonConfig(config: IButtonOptions): void {
+        this._$menuButtonConfig = config;
+    }
+
+    // endregion ItemActionsItem
 
     isActive(): boolean {
         return this._$active;

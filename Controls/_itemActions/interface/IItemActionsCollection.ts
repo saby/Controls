@@ -1,4 +1,5 @@
-import {IBaseCollection, ISwipeConfig, ANIMATION_STATE} from 'Controls/display';
+import {Model} from 'Types/entity';
+import {IBaseCollection, ISwipeConfig} from 'Controls/display';
 import {IItemActionsItem} from './IItemActionsItem';
 import {IItemActionsTemplateConfig} from './IItemActionsTemplateConfig';
 
@@ -15,7 +16,7 @@ import {IItemActionsTemplateConfig} from './IItemActionsTemplateConfig';
  * @public
  * @author Аверкиев П.А.
  */
-export interface IItemActionsCollection extends IBaseCollection<IItemActionsItem> {
+export interface IItemActionsCollection extends IBaseCollection<Model, IItemActionsItem> {
     // '[Controls/_itemActions/interface/IItemActionsCollection]': true;
 
     /**

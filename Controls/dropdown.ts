@@ -51,6 +51,8 @@ import defaultContentTemplateWithIcon = require('wml!Controls/_dropdown/Input/re
 
 export {default as IGrouped, IGroupedOptions} from 'Controls/_dropdown/interface/IGrouped';
 
+export {IButtonOptions} from 'Controls/_dropdown/Button';
+
 export {
     Button,
     Input,

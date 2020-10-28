@@ -9,7 +9,7 @@
                 name="content"
                 attr:class="controls-MenuButton__BaseButton theme_{{_options.theme}}"
                 icon="{{_options.icon}}"
-                iconSize="{{_options.iconSize}}"
+                iconSize="{{_options.buttonIconSize || _options.iconSize}}"
                 iconStyle="{{_options.iconStyle}}"
                 caption="{{_options.caption}}"
                 fontColorStyle="{{_options.fontColorStyle}}"
