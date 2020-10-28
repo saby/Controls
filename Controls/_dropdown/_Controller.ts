@@ -5,7 +5,7 @@ import {StickyOpener} from 'Controls/popup';
 import IDropdownController, {IDropdownControllerOptions} from 'Controls/_dropdown/interface/IDropdownController';
 import {getSourceFilter, isHistorySource, getSource, getMetaHistory} from 'Controls/_dropdown/dropdownHistoryUtils';
 import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
-import {isEmptyItem, prepareEmpty} from 'Controls/_dropdown/Util';
+import {prepareEmpty} from 'Controls/_dropdown/Util';
 import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
@@ -23,7 +23,7 @@ import * as Merge from 'Core/core-merge';
  * @extends Core/Control
  * @mixes Controls/_dropdown/interface/IDropdownController
  * @author Красильников А.С.
- *
+ * 
  * @private
  */
 
@@ -34,7 +34,7 @@ import * as Merge from 'Core/core-merge';
  * @extends Core/Control
  * @mixes Controls/_dropdown/interface/IDropdownController
  * @author Красильников А.С.
- *
+ * 
  * @private
  */
 
@@ -465,11 +465,6 @@ export default class _Controller implements IDropdownController {
 
    private _prepareItem(item, keyProperty, source): Model {
       if (isHistorySource(source)) {
-         // В историческом меню в emptyItem ключ пишется в поле copyOriginalId.
-         // Поле keyProperty заполняется значением по умолчанию, которое может не совпадать с emptyKey.
-         if (isEmptyItem(item, this._options.emptyText, item.getKeyProperty())) {
-            item.set(keyProperty, item.getKey());
-         }
          return source.resetHistoryFields(item, keyProperty);
       } else {
          return item;
@@ -525,6 +520,24 @@ export default class _Controller implements IDropdownController {
          });
       }
       return this._loadMenuTempPromise;
+   }
+
+   private _getItemsTemplates(options) {
+      let
+          templates = {},
+          itemTemplateProperty = options.itemTemplateProperty;
+
+      if (itemTemplateProperty) {
+         this._items.each(function(item) {
+            let itemTemplate = item.get(itemTemplateProperty);
+
+            if (typeof itemTemplate === 'string') {
+               templates[itemTemplate] = true;
+            }
+         });
+      }
+
+      return Object.keys(templates);
    }
 
    private _getPopupOptions(popupOptions?): object {
