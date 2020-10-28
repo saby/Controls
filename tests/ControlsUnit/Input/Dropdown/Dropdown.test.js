@@ -173,7 +173,11 @@ define(
             ddl._prepareDisplayState(newConfig, [null]);
             assert.equal(ddl._text, 'Не выбрано');
             assert.isNull(ddl._icon);
-            ddl._prepareDisplayState(newConfig, [{id: null}]);
+
+            const emptyItem = new entity.Model({
+               rawData: { id: null }
+            });
+            ddl._prepareDisplayState(newConfig, [emptyItem]);
             assert.equal(ddl._text, 'Не выбрано');
             assert.isNull(ddl._icon);
          });
@@ -182,7 +186,19 @@ define(
             let ddl = getDropdown(config);
             ddl._prepareDisplayState(config, [null]);
             assert.equal(ddl._tooltip, '');
-            ddl._prepareDisplayState(config, items.slice(0, 3));
+
+            const selectedItems = [
+               new entity.Model({
+                  rawData: items[0]
+               }),
+               new entity.Model({
+                  rawData: items[1]
+               }),
+               new entity.Model({
+                  rawData: items[2]
+               })
+            ];
+            ddl._prepareDisplayState(config, selectedItems);
             assert.equal(ddl._tooltip, 'Запись 1, Запись 2, Запись 3');
          });
 

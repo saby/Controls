@@ -26,6 +26,7 @@ import {constants} from 'Env/Env';
          'usemap': true
       },
       startOfGoodLinks = [
+         'data:image(//|\/)[^;]+;base64[^"]+',
          'http:(//|\\\\)',
          'https:(//|\\\\)',
          'ftp:(//|\\\\)',

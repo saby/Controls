@@ -6,7 +6,7 @@ import * as Utils from 'Types/util';
 import {factory} from 'Types/chain';
 import {Model} from 'Types/entity';
 import {RecordSet, List} from 'Types/collection';
-import {prepareEmpty, loadItems, loadSelectedItems} from 'Controls/_dropdown/Util';
+import {prepareEmpty, loadItems, loadSelectedItems, isEmptyItem} from 'Controls/_dropdown/Util';
 import {isEqual} from 'Types/object';
 import Controller from 'Controls/_dropdown/_Controller';
 import {TKey} from './interface/IDropdownController';
@@ -179,7 +179,7 @@ export default class Input extends BaseDropdown {
          this._selectedItems = items;
          this._needInfobox = options.readOnly && this._selectedItems.length > 1;
          this._item = items[0];
-         this._isEmptyItem = this._isItemEmpty(this._item, options.emptyText, options.keyProperty);
+         this._isEmptyItem = isEmptyItem(this._item, options.emptyText, options.keyProperty);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
          this._text = this._getText(items[0], options);
          this._hasMoreText = this._getMoreText(items);
@@ -265,14 +265,10 @@ export default class Input extends BaseDropdown {
       return tooltips.join(', ');
    }
 
-   private _isItemEmpty(item: Model, emptyText: string, keyProperty: string): boolean {
-      return emptyText && (getPropValue(item, keyProperty) === null || !item);
-   }
-
    private _getText(item: Model,
                     {emptyText, keyProperty, displayProperty}: Partial<IInputOptions>): string {
       let text = '';
-      if (this._isItemEmpty(item, emptyText, keyProperty)) {
+      if (isEmptyItem(item, emptyText, keyProperty)) {
          text = prepareEmpty(emptyText);
       } else {
          text = getPropValue(item, displayProperty);
