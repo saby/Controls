@@ -290,6 +290,59 @@ export class Controller {
     }
 
     /**
+     * Устанавливает активный Item в коллекции
+     * @param item Текущий элемент коллекции
+     */
+    setActiveItem(item: IItemActionsItem): void {
+        this._collection.setActiveItem(item);
+        if (item && typeof item.getContents !== 'undefined' && typeof item.getContents().getKey !== 'undefined') {
+            this._activeItemKey = item.getContents().getKey();
+        }
+    }
+
+    /**
+     * Возвращает текущий активный Item
+     */
+    getActiveItem(): IItemActionsItem {
+        let activeItem = this._collection.getActiveItem();
+
+        /**
+         * Проверяем что элемент существует, в противном случае пытаемся его найти.
+         */
+        if (activeItem === undefined && (typeof this._collection.getItemBySourceKey !== 'undefined' && this._activeItemKey)) {
+            activeItem = this._collection.getItemBySourceKey(this._activeItemKey);
+        }
+        return activeItem;
+    }
+
+    /**
+     * Устанавливает текущее сосяние анимации в модель
+     */
+    startSwipeCloseAnimation(): void {
+        const swipeItem = this.getSwipeItem();
+        swipeItem.setSwipeAnimation(ANIMATION_STATE.CLOSE);
+    }
+
+    /**
+     * Стартует таймер загрузки зависимостей меню
+     * @remark
+     * Рендер контрола Controls/dropdown:Button намного дороже, поэтому вместо menuButton используем текущую вёрстку и таймеры
+     */
+    startMenuDependenciesTimer(): void {
+        if (!this._dependenciesTimer) {
+            this._dependenciesTimer = new DependencyTimer();
+        }
+        this._dependenciesTimer.start(this._loadDependencies.bind(this));
+    }
+
+    /**
+     * Останавливает таймер и фактически загружает все зависимости
+     */
+    stopMenuDependenciesTimer(): void {
+        this._dependenciesTimer?.stop();
+    }
+
+    /**
      * Возвращает конфиг для шаблона меню опций
      * @param isActionMenu
      * @param parentAction
@@ -326,51 +379,6 @@ export class Controller {
             iconSize,
             closeButtonVisibility: !isActionMenu && !root
         };
-    }
-
-    /**
-     * Устанавливает активный Item в коллекции
-     * @param item Текущий элемент коллекции
-     */
-    setActiveItem(item: IItemActionsItem): void {
-        this._collection.setActiveItem(item);
-        if (item && typeof item.getContents !== 'undefined' && typeof item.getContents().getKey !== 'undefined') {
-            this._activeItemKey = item.getContents().getKey();
-        }
-    }
-
-    /**
-     * Возвращает текущий активный Item
-     */
-    getActiveItem(): IItemActionsItem {
-        let activeItem = this._collection.getActiveItem();
-
-        /**
-         * Проверяем что элемент существует, в противном случае пытаемся его найти.
-         */
-        if (activeItem === undefined && (typeof this._collection.getItemBySourceKey !== 'undefined' && this._activeItemKey)) {
-            activeItem = this._collection.getItemBySourceKey(this._activeItemKey);
-        }
-        return activeItem;
-    }
-
-    /**
-     * Устанавливает текущее сосяние анимации в модель
-     */
-    startSwipeCloseAnimation(): void {
-        const swipeItem = this.getSwipeItem();
-        swipeItem.setSwipeAnimation(ANIMATION_STATE.CLOSE);
-    }
-
-    startMenuDependenciesTimer(): void {
-        if (!this._dependenciesTimer) {
-            this._dependenciesTimer = new DependencyTimer();
-        }
-        this._dependenciesTimer.start(this._loadDependencies.bind(this));
-    }
-
-    stopMenuDependenciesTimer(): void {
-        this._dependenciesTimer?.stop();
     }
 
     private _loadDependencies(): Promise<unknown[]> {
