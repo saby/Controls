@@ -147,9 +147,10 @@ const hasAnyTagRegExp: RegExp = /<[a-zA-Z]+.*?>/;
     * @param json {Array} Json based on JsonML.
     * @param tagResolver {Function} exactly like in {@link Controls/_decorator/Markup#tagResolver}.
     * @param resolverParams {Object} exactly like in {@link Controls/_decorator/Markup#resolverParams}.
+    * @param unsafe {Boolean} Unsafe HTML.
     * @returns {String}
     */
-   var jsonToHtml = function(json, tagResolver?, resolverParams?) {
+   var jsonToHtml = function(json, tagResolver?, resolverParams?, unsafe?) {
       var result = template({
          _options: {
             value: json,
@@ -158,7 +159,7 @@ const hasAnyTagRegExp: RegExp = /<[a-zA-Z]+.*?>/;
          },
          _isMarkupConverter: true,
          _moduleName: 'Controls/decorator:Converter'
-      }, {}, {}, false);
+      }, {}, {}, false, {}, unsafe);
       return result;
    };
 
