@@ -288,6 +288,19 @@ export default class Area extends Text<IAreaOptions> {
         }
     }
 
+    setCursorPosition(position: string): void {
+        const input = this._children.input;
+
+        if (position === 'start') {
+            input._children.input.selectionStart = 0;
+            input._children.input.selectionEnd = 0;
+        } else if (position === 'end') {
+            const textLength = this._options.value.length;
+            input._children.input.selectionStart = textLength;
+            input._children.input.selectionEnd = textLength;
+        }
+    }
+
     static _theme: string[] = Text._theme.concat(['Controls/input']);
 
     static getDefaultOptions(): object {
