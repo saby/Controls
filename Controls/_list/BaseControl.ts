@@ -4469,7 +4469,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().edit(options && options.item).then((result) => {
+        return this._getEditInPlaceController().edit(options && options.item, { useOriginItem: !this._isMounted }).then((result) => {
             if (!(result && result.canceled)) {
                 this._editInPlaceInputHelper.shouldActivate();
             }
@@ -4489,7 +4489,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().add(options && options.item, addPosition).then((addResult) => {
+        return this._getEditInPlaceController().add(options && options.item, { addPosition, useOriginItem: !this._isMounted }).then((addResult) => {
             if (addResult && addResult.canceled) {
                 return addResult;
             }
