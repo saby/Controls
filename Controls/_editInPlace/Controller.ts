@@ -100,6 +100,11 @@ interface IEditInPlaceCallbacks {
     onAfterEndEdit?: (item: IEditableCollectionItem, isAdd: boolean) => void;
 }
 
+interface IBeginOperationParams {
+    addPosition?: 'top' | 'bottom';
+    useOriginItem?: boolean
+}
+
 /**
  * Контроллер редактирования по месту.
  *
@@ -193,8 +198,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      *
      * @remark Запуск добавления может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
-    add(item?: Model | undefined, addPosition: 'top' | 'bottom' = 'bottom'): TAsyncOperationResult {
-        return this._endPreviousAndBeginEdit(item, true, addPosition);
+    add(item?: Model | undefined, params: IBeginOperationParams = {}): TAsyncOperationResult {
+        return this._endPreviousAndBeginEdit(item, true, params);
     }
 
     /**
@@ -208,8 +213,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      *
      * @remark Запуск редактирования может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
-    edit(item?: Model): TAsyncOperationResult {
-        return this._endPreviousAndBeginEdit(item, false);
+    edit(item?: Model, params: IBeginOperationParams = {}): TAsyncOperationResult {
+        return this._endPreviousAndBeginEdit(item, false, params);
     }
 
     /**
@@ -267,7 +272,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
     }
 
     // tslint:disable-next-line:max-line-length
-    private _endPreviousAndBeginEdit(item: Model | undefined, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
+    private _endPreviousAndBeginEdit(item: Model | undefined, isAdd: boolean, params: IBeginOperationParams): TAsyncOperationResult {
         const editingItem = this._getEditingItem()?.contents;
 
         if (editingItem && item && editingItem.isEqual(item)) {
@@ -277,15 +282,15 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
                 if (result && result.canceled) {
                     return result;
                 }
-                return this._beginEdit(item, isAdd, addPosition);
+                return this._beginEdit(item, isAdd, params);
             });
         } else {
-            return this._beginEdit(item, isAdd, addPosition);
+            return this._beginEdit(item, isAdd, params);
         }
     }
 
     // TODO: Должен возвращать один промис, если вызвали несколько раз подряд
-    private _beginEdit(item: Model | undefined, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
+    private _beginEdit(item: Model | undefined, isAdd: boolean, params: IBeginOperationParams): TAsyncOperationResult {
         if (this._getEditingItem()) {
             return Promise.resolve({canceled: true});
         }
@@ -313,14 +318,19 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             }
             let model;
             if ((result && result.item) instanceof Model) {
-                model = result.item.clone();
+                model = result.item;
             } else if (item && item instanceof Model) {
-                model = item.clone();
+                model = item;
             } else {
                 Logger.error(ERROR_MSG.ITEM_MISSED, this);
                 return {canceled: true};
             }
-            this._collectionEditor[isAdd ? 'add' : 'edit'](model, addPosition);
+
+            if (!params.useOriginItem) {
+                model = model.clone();
+            }
+
+            this._collectionEditor[isAdd ? 'add' : 'edit'](model, params.addPosition || 'bottom');
 
             // Перед редактированием запись и коллекция уже могут содержать изменения.
             // Эти изменения не должны влиять на логику редактирования по месту (завершение редактирования приводит

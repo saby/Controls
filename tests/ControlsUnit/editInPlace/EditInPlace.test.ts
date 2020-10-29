@@ -374,6 +374,15 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             });
         });
 
+        it('should not clone item if option useOriginItem setted', () => {
+            return editInPlace.edit(collection.at(0).contents, { useOriginItem: true }).then((res) => {
+                assert.isUndefined(res);
+                assert.isTrue(onBeforeBeginEditCalled);
+                assert.isTrue(onAfterBeginEditCalled);
+                assert.equal(collection.find((i) => i.isEditing()).contents, collection.at(0).contents);
+            });
+        });
+
         it('callback arguments', () => {
             editInPlace.updateOptions({
                 onBeforeBeginEdit: (options, isAdd) => {
