@@ -1,7 +1,7 @@
 import {Container} from 'Controls/scroll';
 import {constants} from 'Env/Env';
 import {SHADOW_VISIBILITY} from 'Controls/_scroll/Container/Interface/IShadows';
-import {SCROLL_POSITION} from 'Controls/_scroll/Utils/Scroll';
+import {SCROLL_DIRECTION, SCROLL_POSITION} from 'Controls/_scroll/Utils/Scroll';
 
 function createComponent(Component, cfg) {
     let cmp;
@@ -279,6 +279,24 @@ describe('Controls/scroll:Container', () => {
             assert.isFalse(component._shadows._models.bottom.isVisible);
             assert.isFalse(component._stickyHeaderController._isShadowVisible.top);
             assert.isFalse(component._stickyHeaderController._isShadowVisible.bottom);
+        });
+    });
+
+    describe('_updateState', () => {
+
+        it('should update _scrollCssClass, scrollMode: "vertical"', () => {
+            const component = createComponent(Container, {scrollMode: 'vertical'});
+            component._children = {
+                content: {
+                    getBoundingClientRect: () => undefined,
+                    scrollTop: 100
+                }
+            };
+            component._container = {
+                offsetHeight: 100
+            };
+            component._positionChangedHandler({}, SCROLL_DIRECTION.VERTICAL, 10);
+            assert.strictEqual(component._children.content.scrollTop, 10);
         });
     });
 });
