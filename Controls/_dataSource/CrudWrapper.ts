@@ -203,7 +203,7 @@ export class CrudWrapper {
      * @param keys Первичный ключ, или массив первичных ключей записи
      * @param [meta] Дополнительные мета данные
      * @return Асинхронный результат выполнения: в случае успеха ничего не вернет, в случае ошибки - Error.
-     * @see Types/source/ICrud#destroy
+     * @see Types/source:ICrud#destroy
      */
     /*
      * Removes record(s) from current storage

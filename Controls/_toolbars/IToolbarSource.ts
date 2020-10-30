@@ -77,7 +77,7 @@ export default interface IToolbarSource {
 
 /**
  * @name Controls/_toolbars/IToolbarSource#source
- * @cfg {SourceCfg} Объект, который реализует интерфейс {@link Types/source/ICrud ICrud}, необходимый для работы с источником данных.
+ * @cfg {SourceCfg} Объект, который реализует интерфейс {@link Types/source:ICrud}, необходимый для работы с источником данных.
  * @default undefined
  * @remark
  * Может иметь свойства 'title' и 'showType':

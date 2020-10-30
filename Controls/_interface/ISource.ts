@@ -78,8 +78,8 @@ export default interface ISource {
  *          })
  *     }
  * </pre>
- * @see https://wi.sbis.ru/docs/js/Types/source/ICrudPlus/
- * @see https://wi.sbis.ru/docs/js/Types/source/ICrud/
+ * @see Types/source:ICrudPlus
+ * @see Types/source:ICrud
  * @see https://wi.sbis.ru/doc/platform/developmentapl/interface-development/data-sources/
  */
 /*
@@ -127,8 +127,8 @@ export default interface ISource {
  *          })
  *     }
  * </pre>
- * @see https://wi.sbis.ru/docs/js/Types/source/ICrudPlus/
- * @see https://wi.sbis.ru/docs/js/Types/source/ICrud/
+ * @see Types/sourc:/ICrudPlus
+ * @see Types/source:ICrud
  * @see https://wi.sbis.ru/doc/platform/developmentapl/interface-development/data-sources/
  */
 
