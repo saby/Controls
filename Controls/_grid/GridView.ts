@@ -282,6 +282,18 @@ var
             }
         },
         applyNewOptionsAfterReload(self, oldOptions, newOptions): void {
+
+            const action = () => {
+                self._listModel.setColumns(newOptions.columns, false);
+
+                if (
+                    oldOptions.multiSelectVisibility !== newOptions.multiSelectVisibility ||
+                    _private.isFooterChanged(oldOptions, newOptions)
+                ) {
+                    self._listModel.setFooter(newOptions.footer || [{ template: newOptions.footerTemplate }]);
+                }
+            };
+
             // todo remove isEqualWithSkip by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
             self._columnsHaveBeenChanged = !GridIsEqualUtil.isEqualWithSkip(oldOptions.columns, newOptions.columns,
                 { template: true, resultTemplate: true });
@@ -294,10 +306,10 @@ var
                         // Если колонки изменились, например, их кол-во, а данные остались те же, то
                         // то без перерисовки мы не можем корректно отобразить данные в новых колонках.
                         // правка конфликтует с https://online.sbis.ru/opendoc.html?guid=a8429971-3a3c-44d0-8cca-098887c9c717
-                        self._listModel.setColumns(newOptions.columns, false);
+                        action();
                     });
                 } else {
-                    self._listModel.setColumns(newOptions.columns);
+                    action();
                 }
             }
         },
@@ -446,9 +458,6 @@ var
                 this._listModel.setHeader(newCfg.header);
             }
 
-            if (_private.isFooterChanged(this._options, newCfg) || (this._options.multiSelectVisibility !== newCfg.multiSelectVisibility)) {
-                this._listModel.setFooter(newCfg.footer || [{ template: newCfg.footerTemplate }]);
-            }
             if (this._options.stickyColumn !== newCfg.stickyColumn) {
                 this._listModel.setStickyColumn(newCfg.stickyColumn);
             }

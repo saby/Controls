@@ -1897,7 +1897,7 @@ var
                 getContentStyles(containerSize: number): string;
                 colspan: number;
             } & IPreparedColumn>({
-                gridColumns: this._options.columns,
+                gridColumns: this._columns,
                 colspanColumns: footerColumns,
                 hasMultiSelect
             });
