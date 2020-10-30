@@ -1,3 +1,10 @@
+// Прилипающий заголовок изначально не имеет z-index, он задается после того как stickyHeader застикается.
+// При тупняках на странице, время на синхронизацию во время стика может быть большим, из-за чего визуально видно,
+// как скачет содержимое. Задаем z-index: 1; на все заголовки чтобы избежать этого.
+.controls-StickyHeader {
+   z-index: 1;
+}
+
 /*A double selector is needed so that the "position" specified on the block that wraps the StickyHeader does not work.*/
 /*Will be fixed by: https://online.sbis.ru/opendoc.html?guid=2c58d954-7fd6-4cb0-8f6a-f17d89622004*/
 .controls-StickyHeader.controls-StickyHeader_position {
