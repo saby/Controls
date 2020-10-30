@@ -208,6 +208,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._stickyHeaderController.setShadowVisibility(
                 this._shadows.top.isStickyHeadersShadowsEnabled(),
                 this._shadows.bottom.isStickyHeadersShadowsEnabled());
+        //FIXME: пока таким способом определяется есть ли виртуальный контент, необходимо переделать
+        this._updateVirtualContentState(shadowsVisibility);
     }
 
     protected _keydownHandler(event: SyntheticEvent): void {
@@ -310,6 +312,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     _updatePlaceholdersSize(e: SyntheticEvent<Event>, placeholdersSizes): void {
         super._updatePlaceholdersSize(...arguments);
         this._scrollbars.updatePlaceholdersSize(placeholdersSizes);
+    }
+
+    _updateVirtualContentState(shadowVisibility: IShadowsVisibilityByInnerComponents) {
+        super._updateVirtualContentState(shadowVisibility);
     }
 
     // Intersection observer

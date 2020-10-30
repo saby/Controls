@@ -18,6 +18,11 @@ export interface IShadowsVisibilityByInnerComponents {
     right?: SHADOW_VISIBILITY;
 }
 
+export interface IVirtualContentState {
+    top?: boolean;
+    bottom?: boolean;
+}
+
 export function getDefaultOptions(): IShadowsOptions {
     return {
         topShadowVisibility: SHADOW_VISIBILITY.AUTO,
