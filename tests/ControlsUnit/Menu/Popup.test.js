@@ -8,7 +8,32 @@ define(
       'Types/entity'
     ],
     function(menu, source, Clone, display, collection, entity) {
-        describe('Menu:Popup', function() {
+      describe('Menu:Popup', function() {
+
+         it('popup directions', () => {
+            let menuPopup = new menu.Popup();
+            let directionOptions = {
+               stickyPosition: {
+                  direction: {
+                     vertical: 'top',
+                     horizontal: 'left'
+                  }
+               }
+            };
+            menuPopup._options = {
+               stickyPosition: {}
+            };
+
+            menuPopup._beforeUpdate(directionOptions);
+            assert.equal(menuPopup._verticalDirection, 'top');
+            assert.equal(menuPopup._horizontalDirection, 'left');
+
+            menuPopup._beforeUpdate({...directionOptions, footerContentTemplate: 'test'});
+            assert.equal(menuPopup._verticalDirection, 'bottom');
+            assert.equal(menuPopup._horizontalDirection, 'left');
+
+         });
+
             it('_dataLoadCallback', function() {
                 let menuPopup = new menu.Popup();
                 let items = new collection.RecordSet({
