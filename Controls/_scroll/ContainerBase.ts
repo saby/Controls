@@ -13,6 +13,11 @@ import {SCROLL_MODE} from './Container/Type';
 import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {tmplNotify} from 'Controls/eventUtils';
 import {isHidden} from './StickyHeader/Utils';
+import {
+    IVirtualContentState,
+    IShadowsVisibilityByInnerComponents,
+    SHADOW_VISIBILITY
+} from './Container/Interface/IShadows';
 
 export interface IContainerBaseOptions extends IControlOptions {
     scrollMode?: SCROLL_MODE;
@@ -48,6 +53,11 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     // Виртуальный скролл
     private _topPlaceholderSize: number = 0;
     private _bottomPlaceholderSize: number = 0;
+
+    private _virtualContentState: IVirtualContentState = {
+        top: false,
+        bottom: false
+    };
 
     private _savedScrollTop: number = 0;
     private _savedScrollPosition: number = 0;
@@ -90,6 +100,16 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
         if (options.scrollMode !== this._options.scrollMode) {
             this._scrollCssClass = this._getScrollContainerCssClass(options);
         }
+    }
+
+    _updateVirtualContentState(shadowVisibility: IShadowsVisibilityByInnerComponents): void {
+        const top = shadowVisibility.top === SHADOW_VISIBILITY.VISIBLE || this._topPlaceholderSize > 0;
+        const bottom = shadowVisibility.bottom === SHADOW_VISIBILITY.VISIBLE || this._bottomPlaceholderSize > 0;
+
+        this._virtualContentState = {
+            top,
+            bottom
+        };
     }
 
     protected _afterUpdate(oldOptions?: IContainerBaseOptions): void {
@@ -339,8 +359,9 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
                             currentTarget: this._children.content,
                             _bubbling: false
                         }),
-                        this._state.scrollTop
-                    ], [ this._state.scrollTop ]);
+                        this._state.scrollTop,
+                        this._virtualContentState
+                    ], [ this._state.scrollTop, this._virtualContentState ]);
             }
 
             this._generateCompatibleEvents();
@@ -582,6 +603,8 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     updatePlaceholdersSize(placeholdersSizes: object): void {
         this._topPlaceholderSize = placeholdersSizes.top;
         this._bottomPlaceholderSize = placeholdersSizes.bottom;
+        this._virtualContentState.top = this._virtualContentState.top || this._topPlaceholderSize > 0;
+        this._virtualContentState.bottom = this._virtualContentState.bottom || this._bottomPlaceholderSize > 0;
     }
 
     setScrollTop(scrollTop: number, withoutPlaceholder?: boolean): void {
@@ -656,8 +679,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
 
     _updatePlaceholdersSize(e: SyntheticEvent<Event>, placeholdersSizes): void {
-        this._topPlaceholderSize = placeholdersSizes.top;
-        this._bottomPlaceholderSize = placeholdersSizes.bottom;
+        this.updatePlaceholdersSize(placeholdersSizes);
     }
 
     private _setOverflowScrolling(value: string): void {
