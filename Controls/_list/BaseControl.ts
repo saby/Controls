@@ -86,7 +86,7 @@ import {IList} from './interface/IList';
 import { IScrollControllerResult } from './ScrollContainer/interfaces';
 import { EdgeIntersectionObserver } from 'Controls/scroll';
 import { ItemsEntity } from 'Controls/dragnDrop';
-import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
+import {IMoveControllerOptions, MoveController, IMoveResult} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
 
@@ -4969,11 +4969,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     // region move
 
-    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<IMoveResult> {
         return _private.getMoveController(this).move(selection, this._filter, targetKey, position);
     },
 
-    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
+    moveItemUp(selectedKey: CrudEntityKey): Promise<IMoveResult> {
         const sibling = _private.getMoveTargetItem(this, selectedKey, LOCAL_MOVE_POSITION.Before);
         const selection: ISelectionObject = {
             selected: [selectedKey],
@@ -4982,7 +4982,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         return _private.getMoveController(this).move(selection, {}, sibling, LOCAL_MOVE_POSITION.Before);
     },
 
-    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
+    moveItemDown(selectedKey: CrudEntityKey): Promise<IMoveResult> {
         const sibling = _private.getMoveTargetItem(this, selectedKey, LOCAL_MOVE_POSITION.After);
         const selection: ISelectionObject = {
             selected: [selectedKey],
@@ -4991,7 +4991,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         return _private.getMoveController(this).move(selection, {}, sibling, LOCAL_MOVE_POSITION.After);
     },
 
-    moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+    moveItemsWithDialog(selection: ISelectionObject): Promise<IMoveResult> {
         return _private.getMoveController(this).moveWithDialog(selection, this._options.filter);
     },
 

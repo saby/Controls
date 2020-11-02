@@ -7,6 +7,7 @@ import {isEqual} from 'Types/object';
 import {ISelectionObject} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
+import {IMoveResult} from './controllers/MoveController';
 import { RecordSet } from 'Types/collection';
 
 /**
@@ -27,7 +28,7 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/interface/IMovableList
  * @mixes Controls/_marker/interface/IMarkerListOptions
- * 
+ *
  * @private
  * @author Авраменко А.С.
  */
@@ -73,19 +74,19 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
 
     // region mover
 
-    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<IMoveResult> {
         return this._children.baseControl.moveItems(selection, targetKey, position);
     }
 
-    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
+    moveItemUp(selectedKey: CrudEntityKey): Promise<IMoveResult> {
         return this._children.baseControl.moveItemUp(selectedKey);
     }
 
-    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
+    moveItemDown(selectedKey: CrudEntityKey): Promise<IMoveResult> {
         return this._children.baseControl.moveItemDown(selectedKey);
     }
 
-    moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+    moveItemsWithDialog(selection: ISelectionObject): Promise<IMoveResult> {
         return this._children.baseControl.moveItemsWithDialog(selection);
     }
 

@@ -27,6 +27,7 @@
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
  * @includes MoveController Controls/_list/Controllers/MoveController
  * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
+ * @includes IMoveResult Controls/_list/Controllers/MoveController/IMoveResult
  * @includes IRemoveControllerOptions Controls/_list/Controllers/RemoveController/IRemoveControllerOptions
  * @includes RemoveController Controls/_list/Controllers/RemoveController
  * @includes IClickableView Controls/_list/interface/IClickableView
@@ -65,6 +66,7 @@
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
  * @includes MoveController Controls/_list/Controllers/MoveController
+ * @includes IMoveResult Controls/_list/Controllers/MoveController/IMoveResult
  * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
  * @includes RemoveController Controls/_list/Controllers/RemoveController
  * @includes IClickableView Controls/_list/interface/IClickableView
@@ -131,7 +133,7 @@ export {
 
 // endregion @deprecated
 
-export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
+export {MoveController, IMoveControllerOptions, IMoveResult}  from 'Controls/_list/Controllers/MoveController';
 export {IMovableList} from 'Controls/_list/interface/IMovableList';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';

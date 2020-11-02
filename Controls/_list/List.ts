@@ -15,6 +15,7 @@ import { CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
 import {IRemovableList} from './interface/IRemovableList';
 import { RecordSet } from 'Types/collection';
+import {IMoveResult} from './controllers/MoveController';
 
 /**
  * Контрол «Плоский список» с пользовательским шаблоном элемента. Может загружать данные из источника данных.
@@ -49,7 +50,7 @@ import { RecordSet } from 'Types/collection';
  *
  * @implements Controls/_list/interface/IListNavigation
  *
- * 
+ *
  * @author Авраменко А.С.
  * @public
  * @demo Controls-demo/list_new/Base/Index
@@ -83,7 +84,7 @@ import { RecordSet } from 'Types/collection';
  *
  * @mixes Controls/_list/interface/IVirtualScroll
  *
- * 
+ *
  * @author Авраменко А.С.
  * @public
  * @demo Controls-demo/list_new/Base/Index
@@ -151,19 +152,19 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
 
     // region mover
 
-    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<IMoveResult> {
         return this._children.listControl.moveItems(selection, targetKey, position);
     }
 
-    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
+    moveItemUp(selectedKey: CrudEntityKey): Promise<IMoveResult> {
         return this._children.listControl.moveItemUp(selectedKey);
     }
 
-    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
+    moveItemDown(selectedKey: CrudEntityKey): Promise<IMoveResult> {
         return this._children.listControl.moveItemDown(selectedKey);
     }
 
-    moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+    moveItemsWithDialog(selection: ISelectionObject): Promise<IMoveResult> {
         return this._children.listControl.moveItemsWithDialog(selection);
     }
 

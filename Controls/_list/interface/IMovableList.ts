@@ -1,5 +1,6 @@
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {ISelectionObject} from 'Controls/interface';
+import {IMoveResult} from '../Controllers/MoveController';
 
 /**
  * Интерфейс контрола View, который обладает возможностью перемещения записей
@@ -17,7 +18,7 @@ export interface IMovableList {
      * @param targetKey
      * @param position
      */
-    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void>;
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<IMoveResult>;
 
     /**
      * Перемещаетодин элемент вверх и возвращает результат перемещения
@@ -25,7 +26,7 @@ export interface IMovableList {
      * @public
      * @param selectedKey
      */
-    moveItemUp(selectedKey: CrudEntityKey): Promise<void>;
+    moveItemUp(selectedKey: CrudEntityKey): Promise<IMoveResult>;
 
     /**
      * Перемещает один элемент вниз и возвращает результат перемещения
@@ -33,7 +34,7 @@ export interface IMovableList {
      * @public
      * @param selectedKey
      */
-    moveItemDown(selectedKey: CrudEntityKey): Promise<void>;
+    moveItemDown(selectedKey: CrudEntityKey): Promise<IMoveResult>;
 
     /**
      * Перемещает указанные элементы при помощи диалога MoveDialog, и
@@ -42,5 +43,5 @@ export interface IMovableList {
      * @public
      * @param selection
      */
-    moveItemsWithDialog(selection: ISelectionObject): Promise<void>;
+    moveItemsWithDialog(selection: ISelectionObject): Promise<IMoveResult>;
 }
