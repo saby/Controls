@@ -378,12 +378,6 @@ var
                 style = current.style || 'default';
                 classLists.marked = `controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
 
-                // при отсутствии поддержки grid (например в IE, Edge) фон выделенной записи оказывается прозрачным,
-                // нужно его принудительно установить как фон таблицы
-                if (!isFullGridSupport && !current.isEditing()) {
-                    classLists.marked += _private.getBackgroundStyle({backgroundStyle, theme}, true);
-                }
-
                 if (current.columnIndex === 0) {
                     classLists.marked += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
                 }
