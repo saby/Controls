@@ -3,6 +3,7 @@ import {IMenuBaseOptions} from './IMenuBase';
 import {ISourceOptions, INavigationOptions, IFilterOptions, ISelectorDialogOptions} from 'Controls/interface';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
 import {Stack} from 'Controls/popup';
+import {NewSourceController} from 'Controls/dataSource';
 
 export type TKey = string|number|null;
 
@@ -15,6 +16,7 @@ export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, I
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
     dataLoadCallback: Function;
     selectorDialogResult: Function;
+    sourceController?: NewSourceController;
 }
 
 /**

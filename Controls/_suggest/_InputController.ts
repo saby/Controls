@@ -5,7 +5,7 @@ import {getSwitcherStrFromData} from 'Controls/search';
 import {isEqual} from 'Types/object';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IStackPopupOptions, Stack as StackOpener} from 'Controls/popup';
-import {Controller as SearchController, SearchResolver as SearchResolverController, ISearchResolverOptions} from 'Controls/searchNew';
+import {Controller as SearchController, SearchResolver as SearchResolverController, ISearchResolverOptions} from 'Controls/search';
 import {NewSourceController as SourceController, ISourceControllerOptions} from 'Controls/dataSource';
 import {RecordSet} from 'Types/collection';
 import {__ContentLayer, __PopupLayer} from 'Controls/suggestPopup';
@@ -64,7 +64,7 @@ type CancelableError = Error & { canceled?: boolean };
 
 interface IInputControllerOptions extends IControlOptions, IFilterOptions, ISearchOptions,
    IValidationStatusOptions, ISuggest, ISourceOptions, INavigationOptions<INavigationSourceConfig>,
-   IFilterOptions, ISortingOptions, IValueOptions<string> {
+   ISortingOptions, IValueOptions<string> {
    suggestState: boolean;
    autoDropDown?: boolean;
    searchErrorCallback?: Function;
@@ -680,7 +680,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
 
    protected async _resolveSearch(value: string, options?: IInputControllerOptions): Promise<void> {
       if (!this._searchResolverController) {
-         const result = await import('Controls/searchNew');
+         const result = await import('Controls/search');
          this._searchResolverController = new result.SearchResolver(
             this._getSearchResolverOptions(options ?? this._options)
          );
@@ -749,8 +749,8 @@ export default class InputContainer extends Control<IInputControllerOptions> {
 
    protected async _getSearchController(): Promise<SearchController> {
       if (!this._searchController) {
-         return import('Controls/searchNew').then((result) => {
-            this._searchController = new result.Controller({
+         return import('Controls/search').then((result) => {
+            this._searchController = new result.ControllerClass({
                sourceController: this._getSourceController(),
                minSearchLength: this._options.minSearchLength,
                searchDelay: this._options.searchDelay as number,

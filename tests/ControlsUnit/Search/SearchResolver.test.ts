@@ -1,14 +1,14 @@
-import {SearchResolver} from 'Controls/searchNew';
+import {SearchResolver} from 'Controls/search';
 import {assert} from 'chai';
 import * as sinon from 'sinon';
-import {ISearchDelayOptions} from 'Controls/_searchNew/interface';
+import {ISearchResolverOptions} from 'Controls/_search/interface';
 
 const defaultOptions = {
    searchCallback: () => null,
    searchResetCallback: () => null
 };
 
-const initSearchDelay = (options?: Partial<ISearchDelayOptions>) => {
+const initSearchDelay = (options?: Partial<ISearchResolverOptions>) => {
    const searchCallback = sinon.stub();
    const searchResolver = new SearchResolver({
       ...defaultOptions,

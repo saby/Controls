@@ -63,4 +63,8 @@ export default class SearchResolver implements ISearchResolver {
          }
       }
    }
+
+   setSearchStarted(value: boolean): void {
+      this._searchStarted = value;
+   }
 }
