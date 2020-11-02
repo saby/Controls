@@ -27,7 +27,7 @@
         </td>
     </ws:if>
     <ws:else>
-        <ws:for data="listModel.resetResultsColumns(); listModel.isEndResultsColumn(); listModel.goToNextResultsColumn();">
+        <ws:for data="listModel.resetResultsColumns(); listModel.isEndResultsColumn(_onlyFixedColumns); listModel.goToNextResultsColumn();">
             <ws:partial template="cell"
                         listModel="{{ listModel }}"
                         hasMultiSelect="{{ listModel.getMultiSelectVisibility() !== 'hidden' }}"

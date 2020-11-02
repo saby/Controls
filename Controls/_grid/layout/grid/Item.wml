@@ -200,7 +200,7 @@
 </ws:if>
 <ws:else>
    <div class="{{ itemData.getRowClasses(_options) }}">
-      <ws:for data="itemData.resetColumnIndex(); itemData.hasNextColumn(colspan); itemData.goToNextColumn();">
+      <ws:for data="itemData.resetColumnIndex(); itemData.hasNextColumn(colspan, _onlyFixedColumns); itemData.goToNextColumn();">
          <ws:partial template="COLUMN" attr:key="{{itemData.getCurrentColumnKey()}}" currentColumn="{{itemData.getCurrentColumn(backgroundColorStyle)}}" attr:class="{{className}}"/>
       </ws:for>
    </div>

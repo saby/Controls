@@ -172,19 +172,28 @@ export class ColumnScroll {
         this._shadowState.end = (this._contentSize - this._containerSize - this._scrollPosition) >= 1;
     }
 
-    getShadowClasses(position: 'start' | 'end'): string {
-        const theme = this._options.theme;
-        const backgroundStyle = this._options.backgroundStyle;
+    getShadowClasses(position: 'start' | 'end', isVisible: boolean = this._shadowState[position]): string {
+        return ColumnScroll.getShadowClasses({
+            position,
+            isVisible,
+            theme: this._options.theme,
+            backgroundStyle: this._options.backgroundStyle,
+            needBottomPadding: this._options.needBottomPadding,
+        });
+    }
 
-        let shadowClasses = `controls-ColumnScroll__shadow_theme-${theme}`
-            + ` controls-ColumnScroll__shadow_with${this._options.needBottomPadding ? '' : 'out'}-bottom-padding_theme-${theme}`
-            + ` controls-ColumnScroll__shadow-${position}_theme-${theme}`
-            + ` controls-horizontal-gradient-${backgroundStyle}_theme-${theme}`;
-
-        if (!this._shadowState[position]) {
-            shadowClasses += ' controls-ColumnScroll__shadow_invisible';
-        }
-        return shadowClasses;
+    static getShadowClasses(params: {
+        position: 'start' | 'end',
+        isVisible: boolean,
+        theme: string;
+        needBottomPadding?: boolean;
+        backgroundStyle?: string;
+    }): string {
+        return `controls-ColumnScroll__shadow_theme-${params.theme}`
+            + ` controls-ColumnScroll__shadow_with${params.needBottomPadding ? '' : 'out'}-bottom-padding_theme-${params.theme}`
+            + ` controls-ColumnScroll__shadow-${params.position}_theme-${params.theme}`
+            + ` controls-horizontal-gradient-${params.backgroundStyle}_theme-${params.theme}`
+            + (!params.isVisible ? ' controls-ColumnScroll__shadow_invisible' : '');
     }
 
     getShadowStyles(position: 'start' | 'end'): string {

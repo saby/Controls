@@ -5,12 +5,12 @@
 
     <!-- Заголовок таблицы -->
     <ws:if data="{{ _listModel.getHeaderModel() && _listModel.isDrawHeaderWithEmptyList() }}">
-        <ws:partial template="{{ _baseHeaderTemplate }}" attr:name="header" headerModel="{{_listModel.getHeaderModel()}}" defaultHeaderContent="{{_headerContentTemplate}}" backgroundStyle="{{_options.backgroundStyle || _options.style}}"/>
+        <ws:partial template="{{ _baseHeaderTemplate }}" attr:name="header" headerModel="{{_listModel.getHeaderModel()}}" defaultHeaderContent="{{_headerContentTemplate}}" backgroundStyle="{{_options.backgroundStyle || _options.style}}" _onlyFixedColumns="{{ _onlyFixedColumns }}"/>
     </ws:if>
 
     <!-- Результаты сверху -->
     <ws:if data="{{ _listModel.getResultsPosition() === 'top' }}">
-        <ws:partial template="{{ _resultsTemplate }}" attr:name="results" listModel="{{_listModel}}" baseResultsTemplate="{{ _baseResultsTemplate }}" backgroundStyle="{{_options.backgroundStyle || _options.style}}"/>
+        <ws:partial template="{{ _resultsTemplate }}" attr:name="results" listModel="{{_listModel}}" baseResultsTemplate="{{ _baseResultsTemplate }}" backgroundStyle="{{_options.backgroundStyle || _options.style}}" _onlyFixedColumns="{{ _onlyFixedColumns }}"/>
     </ws:if>
 
     <tbody name="itemsContainer" class="controls-GridViewV__itemsContainer">
@@ -26,7 +26,8 @@
                     backgroundStyle="{{_options.backgroundStyle || _options.style}}"
                     isColumnScrollVisible="{{ _isColumnScrollVisible }}"
                     isEditingRowScrollToElement="{{_options.isEditingRowScrollToElement}}"
-                    tagTemplate="{{_options.tagTemplate}}">
+                    tagTemplate="{{_options.tagTemplate}}"
+                    _onlyFixedColumns="{{ _onlyFixedColumns }}">
             <ws:editArrowTemplate>
                 <ws:partial template="wml!Controls/_grid/_editArrowTemplate"></ws:partial>
             </ws:editArrowTemplate>
@@ -70,13 +71,14 @@
 
     <!-- Результаты снизу -->
     <ws:if data="{{_listModel.getResultsPosition() === 'bottom'}}">
-        <ws:partial template="{{_resultsTemplate}}" attr:name="results" listModel="{{_listModel}}" baseResultsTemplate="{{ _baseResultsTemplate }}"/>
+        <ws:partial template="{{_resultsTemplate}}" attr:name="results" listModel="{{_listModel}}" baseResultsTemplate="{{ _baseResultsTemplate }}" _onlyFixedColumns="{{ _onlyFixedColumns }}"/>
     </ws:if>
 
     <!-- Подвал таблицы -->
     <ws:partial template="wml!Controls/_grid/FooterTemplate"
                 columns="{{ _listModel.getFooter() }}"
                 containerSize="{{ _containerSize }}"
+                _onlyFixedColumns="{{ _onlyFixedColumns }}"
                 hasColumnScroll="{{ _containerSize && _isColumnScrollVisible }}"
                 hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
                 attr:class="{{ _options.footer ? 'controls-GridView__footer' }}"

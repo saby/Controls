@@ -1,8 +1,9 @@
 <ws:if data="{{ isFullGridSupport }}">
     <div class="controls-GridView__footer">
-        <ws:for data="column in columns">
+        <ws:for data="index, column in columns">
+            <ws:if data="{{ _onlyFixedColumns ? (columns.length === 1 || (index < column.stickyColumnsCount)) : true}}"></ws:if>
             <div class="{{ column.getWrapperClasses(backgroundStyle) }}"
-                 style="{{ column.getWrapperStyles(containerSize) }}">
+                 style="{{ column.getWrapperStyles(containerSize, _onlyFixedColumns) }}">
                 <ws:partial if="{{ column.template }}"
                             template="{{ column.template }}"
                             attr:class="{{ column.getContentClasses(containerSize)}}"

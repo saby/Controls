@@ -1,5 +1,5 @@
 <ws:template name="headContent">
-      <ws:for data="headerRow.resetHeaderColumns(); headerRow.isEndHeaderColumn(); headerRow.goToNextHeaderColumn();">
+      <ws:for data="headerRow.resetHeaderColumns(); headerRow.isEndHeaderColumn(_onlyFixedColumns); headerRow.goToNextHeaderColumn();">
           <ws:partial template="{{headerModel.isStickyHeader() && !headerRow.getCurrentHeaderColumn().column.isActionCell ? 'stickyCell' : 'cell'}}"
                       backgroundStyle="{{backgroundStyle}}"
                       defaultHeaderContent="{{defaultHeaderContent}}"

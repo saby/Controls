@@ -29,6 +29,7 @@
                         isColumnScrollVisible="{{ isColumnScrollVisible }}"
                         tagTemplate="{{ tagTemplate }}"
                         markerPosition="{{_options.markerPosition}}"
+                        _onlyFixedColumns="{{ _onlyFixedColumns }}"
 
                         on:contextmenu="_onItemContextMenu(itemData)"
                         on:swipe="_onItemSwipe(itemData)"
@@ -54,6 +55,7 @@
                     isColumnScrollVisible="{{ isColumnScrollVisible }}"
                     tagTemplate="{{ tagTemplate }}"
                     markerPosition="{{_options.markerPosition}}"
+                    _onlyFixedColumns="{{ _onlyFixedColumns }}"
 
                     on:click="_onItemClick(itemData.dispItem)"
                     on:contextmenu="_onItemContextMenu(itemData)"

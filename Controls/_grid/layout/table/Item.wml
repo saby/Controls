@@ -126,7 +126,7 @@
 </ws:template>
 
 <tr class="{{ itemData.getRowClasses(_options) }}">
-    <ws:for data="itemData.resetColumnIndex(); itemData.hasNextColumn(colspan); itemData.goToNextColumn();">
+    <ws:for data="itemData.resetColumnIndex(); itemData.hasNextColumn(colspan, _onlyFixedColumns); itemData.goToNextColumn();">
         <ws:partial template="COLUMN" currentColumn="{{ itemData.getCurrentColumn(backgroundColorStyle) }}" attr:key="{{ itemData.getCurrentColumnKey() }}"/>
     </ws:for>
 </tr>

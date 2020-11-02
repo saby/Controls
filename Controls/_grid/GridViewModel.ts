@@ -1004,8 +1004,13 @@ var
             obj.goToNextHeaderColumn = function() {
                 this.curHeaderColumnIndex++;
             };
-            obj.isEndHeaderColumn = function() {
-                return this.curHeaderColumnIndex < this.headerCells.length;
+            obj.isEndHeaderColumn = function(isOnlyFixedColumns: boolean) {
+                if (isOnlyFixedColumns) {
+                    const multiSelectOffset = self._options.multiSelectVisibility !== 'hidden' && self._options.multiSelectPosition !== 'custom' ? 1 : 0;
+                    return this.curHeaderColumnIndex < (self._options.stickyColumnsCount + multiSelectOffset);
+                } else {
+                    return this.curHeaderColumnIndex < this.headerCells.length;
+                }
             };
             return obj;
         },
@@ -1065,6 +1070,7 @@ var
                     hasMultiSelectColumn,
                     stickyColumnsCount: this._options.stickyColumnsCount
                 };
+                headerColumn.stickyColumnsCount = this._options.stickyColumnsCount;
                 cellClasses += _private.getColumnScrollCalculationCellClasses(params, this._options.theme);
                 if (this._options.columnScrollVisibility) {
                     cellClasses += _private.getColumnScrollCellClasses(params, this._options.theme);
@@ -1378,8 +1384,13 @@ var
             this._curResultsColumnIndex++;
         },
 
-        isEndResultsColumn: function() {
-            return this._curResultsColumnIndex < this._resultsColumns.length;
+        isEndResultsColumn: function(isOnlyFixedColumns: boolean) {
+            if (isOnlyFixedColumns) {
+                const multiSelectOffset = this._options.multiSelectVisibility !== 'hidden' && this._options.multiSelectPosition !== 'custom' ? 1 : 0;
+                return this._curResultsColumnIndex < (this._options.stickyColumnsCount + multiSelectOffset);
+            } else {
+                return this._curResultsColumnIndex < this._resultsColumns.length;
+            }
         },
 
         getResults() {
@@ -1733,7 +1744,10 @@ var
             current.getLastColumnIndex = () => {
                 return current.columns.length - 1;
             };
-            current.hasNextColumn = (isColumnColspaned: boolean) => {
+            current.hasNextColumn = (isColumnColspaned: boolean, isOnlyFixedColumns: boolean) => {
+                if (isOnlyFixedColumns) {
+                    return current.columnIndex < (current.stickyColumnsCount + (current.hasMultiSelectColumn ? 1 : 0));
+                }
                 if (isColumnColspaned) {
                     return current.columnIndex <= (current.hasMultiSelectColumn ? 1 : 0);
                 } else {
@@ -1904,6 +1918,7 @@ var
             const isFullGridSupport = GridLayoutUtil.isFullGridSupport();
 
             const prepared = prepareColumns<{
+                stickyColumnsCount?: number,
                 isFullGridSupport: boolean;
                 getWrapperClasses(backgroundStyle: string): string;
                 getWrapperStyles(containerSize: number): string;
@@ -1923,6 +1938,11 @@ var
 
             prepared.forEach((column, index, columns) => {
                 column.isFullGridSupport = isFullGridSupport;
+
+                if (this._options.columnScroll) {
+                    column.stickyColumnsCount = this._options.stickyColumnsCount;
+                }
+
                 let styles = '';
                 let classes = `controls-GridView__footer__cell controls-GridView__footer__cell_theme-${theme}`;
 
@@ -1979,10 +1999,14 @@ var
                     return `${classes} controls-background-${backgroundStyle}_theme-${theme}`;
                 };
 
-                column.getWrapperStyles = (containerSize: number) => {
+                column.getWrapperStyles = (containerSize: number, isOnlyFixedColumns: boolean = false) => {
+                    let styles = '';
                     // При горизонтальном скролле, растянутый подвал должен растягиваться только на ширину видимой области таблицы.
                     if (isFullGridSupport && prepared.length === 1 && containerSize) {
-                        return `${styles} width: ${containerSize}px;`;
+                        styles += `${styles} width: ${containerSize}px; `;
+                        if (isOnlyFixedColumns) {
+                            styles += `grid-column: ${column.startColumn} / ${column.stickyColumnsCount};`
+                        }
                     }
                     return styles
                 };
