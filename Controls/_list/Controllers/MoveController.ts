@@ -26,27 +26,41 @@ type TValidationResult = {
  */
 export interface IMoveControllerOptions {
     /**
-     * @name Controls/_list/interface/IMoveControllerOptions#source
+     * @name Controls/_list/Controllers/MoveController/IMoveControllerOptions#source
      * @cfg {TSource} Ресурс, в котором производится перемещение
      */
     source: TSource;
     /**
-     * @name Controls/_list/interface/IMoveControllerOptions#parentProperty
+     * @name Controls/_list/Controllers/MoveController/IMoveControllerOptions#parentProperty
      * @cfg {String} Имя поля, содержащего идентификатор родительского элемента.
      */
     parentProperty: string;
     /**
-     * @name Controls/_list/interface/IMoveControllerOptions#popupOptions
+     * @name Controls/_list/Controllers/MoveController/IMoveControllerOptions#popupOptions
      * @cfg {Controls/popup:IBasePopupOptions} опции диалога перемещения
      */
     popupOptions?: IBasePopupOptions
 }
 
 /**
+ * Интерфейс результата перемещения
+ * @interface Controls/_list/Controllers/MoveController/IMoveResult
+ * @public
+ * @author Аверкиев П.А.
+ */
+export interface IMoveResult {
+    /**
+     * @name Controls/_list/Controllers/MoveController/IMoveResult#targetKey
+     * @cfg {Types/source:CrudEntityKey}
+     */
+    targetKey: CrudEntityKey
+}
+
+/**
  * Контроллер для перемещения элементов списка.
  *
  * @class Controls/_list/Controllers/MoveController
- * 
+ *
  * @public
  * @author Аверкиев П.А
  */
@@ -90,7 +104,7 @@ export class MoveController {
      * @see moveUp
      * @see moveDown
      */
-    move(selection: ISelectionObject, filter: TFilterObject = {}, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+    move(selection: ISelectionObject, filter: TFilterObject = {}, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<IMoveResult> {
         return this._moveInSource(selection, filter, targetKey, position);
     }
 
@@ -103,7 +117,7 @@ export class MoveController {
      * @see moveDown
      * @see move
      */
-    moveWithDialog(selection: ISelectionObject, filter: TFilterObject = {}): Promise<void> {
+    moveWithDialog(selection: ISelectionObject, filter: TFilterObject = {}): Promise<IMoveResult> {
         const validationResult = MoveController._validateBeforeOpenDialog(selection, this._popupOptions);
         if (validationResult.message === undefined) {
             return this._openMoveDialog(selection, filter);
@@ -124,7 +138,7 @@ export class MoveController {
      * @param {TFilterObject} filter дополнительный фильтр для перемещения в SbisService.
      * @private
      */
-    private _openMoveDialog(selection: ISelectionObject, filter?: TFilterObject): Promise<void> {
+    private _openMoveDialog(selection: ISelectionObject, filter?: TFilterObject): Promise<IMoveResult> {
         const templateOptions: IMoverDialogTemplateOptions = {
             movedItems: selection.selected,
             source: this._source,
@@ -156,7 +170,7 @@ export class MoveController {
      * @param position
      * @private
      */
-    private _moveInSource(selection: ISelectionObject, filter: TFilterObject = {}, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void>  {
+    private _moveInSource(selection: ISelectionObject, filter: TFilterObject = {}, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<IMoveResult>  {
         const validationResult: TValidationResult = MoveController._validateBeforeMove(this._source, selection, filter, targetKey, position);
         if (validationResult.message !== undefined) {
             if (validationResult.isError) {
@@ -184,7 +198,9 @@ export class MoveController {
                         filter: Record.fromObject(callFilter, sourceAdapter),
                         folder_id: targetKey
                     }).then(() => {
-                        resolve();
+                        resolve({
+                            targetKey
+                        });
                     });
                 });
             })
@@ -192,7 +208,7 @@ export class MoveController {
         return this._source.move(selection.selected, targetKey, {
             position,
             parentProperty: this._parentProperty
-        });
+        }).then(() => ({targetKey}));
     }
 
     /**

@@ -20,6 +20,7 @@ import {ISelectionObject} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import { RecordSet } from 'Types/collection';
 import {calculatePath} from 'Controls/dataSource';
+import {IMoveResult} from 'Controls/list';
 
 var
       HOT_KEYS = {
@@ -681,19 +682,19 @@ var
 
       // region mover
 
-      moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+      moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<IMoveResult> {
          return this._children.treeControl.moveItems(selection, targetKey, position);
       },
 
-      moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
+      moveItemUp(selectedKey: CrudEntityKey): Promise<IMoveResult> {
          return this._children.treeControl.moveItemUp(selectedKey);
       },
 
-      moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
+      moveItemDown(selectedKey: CrudEntityKey): Promise<IMoveResult> {
          return this._children.treeControl.moveItemDown(selectedKey);
       },
 
-      moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+      moveItemsWithDialog(selection: ISelectionObject): Promise<IMoveResult> {
          return this._children.treeControl.moveItemsWithDialog(selection);
       },
 
