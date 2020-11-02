@@ -368,8 +368,7 @@ const _private = {
                         const hasMoreDataDown = list.getMetaData().more;
                         _private.updatePagingData(self, hasMoreDataDown);
                     }
-                    const
-                        listModel = self._listViewModel;
+                    let listModel = self._listViewModel;
 
                     if (cfg.afterReloadCallback) {
                         cfg.afterReloadCallback(cfg, list);
@@ -387,10 +386,23 @@ const _private = {
                         self._cachedPagingState = false;
                     }
 
+                    // Модели могло изначально не создаться (не передали receivedState и source)
+                    // https://online.sbis.ru/opendoc.html?guid=79e62139-de7a-43f1-9a2c-290317d848d0
+                    if (!listModel && cfg.useNewModel && list) {
+                        self._listViewModel = listModel = self._createNewModel(
+                            list,
+                            { ...cfg },
+                            cfg.viewModelConstructor
+                        );
+                        if (cfg.itemsReadyCallback) {
+                            cfg.itemsReadyCallback(listModel.getCollection());
+                        }
+                    }
+
                     if (listModel) {
                         if (self._groupingLoader) {
                             self._groupingLoader.resetLoadedGroups(listModel);
-                        }
+                        }if (!listModel && cfg.useNewModel && list) {
 
                         _private.assignItemsToModel(self, list, cfg);
 
