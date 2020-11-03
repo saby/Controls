@@ -9,7 +9,7 @@ import {
 } from 'Types/entity';
 import GridCollectionItem from './GridCollectionItem';
 import { TemplateFunction } from 'UI/Base';
-import { IColumn } from '../_grid/interface/IColumn';
+import { IColumn } from 'Controls/grid';
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:ColumnTemplate';
 

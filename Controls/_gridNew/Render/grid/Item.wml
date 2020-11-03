@@ -17,7 +17,12 @@
                            attr:key="{{ column.getInstanceId() }}"
                            column="{{ column.getOriginalColumn() }}"
                            item="{{ (item || itemData) }}"
-                           itemData="{{ (item || itemData) }}"/>
+                           itemData="{{ (item || itemData) }}">
+                  <ws:ladderWrapper>
+                     <ws:partial template="{{ladderWrapper.content}}"
+                                 attr:class="{{ (item || itemData ).getLadderWrapperClasses(ladderWrapper.ladderProperty) }}"/>
+                  </ws:ladderWrapper>
+               </ws:partial>
             </div>
          </ws:else>
          <ws:if data="{{ column.shouldDisplayItemActions() }}">

@@ -1,6 +1,6 @@
 import { mixin } from 'Types/util';
 import { OptionsToPropertyMixin } from 'Types/entity';
-import { THeader} from '../_grid/interface/IHeaderCell';
+import { THeader} from 'Controls/grid';
 import GridCollection from './GridCollection';
 import GridHeaderCell from './GridHeaderCell';
 

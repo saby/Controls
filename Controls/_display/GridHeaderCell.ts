@@ -17,7 +17,7 @@
 */
 
 import { TemplateFunction } from 'UI/Base';
-import { IHeaderCell } from '../_grid/interface/IHeaderCell';
+import { IHeaderCell } from 'Controls/grid';
 import GridHeader from './GridHeader';
 import { mixin } from 'Types/util';
 import { OptionsToPropertyMixin } from 'Types/entity';

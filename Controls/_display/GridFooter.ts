@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { mixin } from 'Types/util';
 import { OptionsToPropertyMixin } from 'Types/entity';
 import GridCollection from './GridCollection';
-import { TColumns } from '../_grid/interface/IColumn';
+import { TColumns } from 'Controls/grid';
 import GridFooterCell from './GridFooterCell';
 
 type TFooterCells<T> = Array<GridFooterCell<T>>;

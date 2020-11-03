@@ -1,14 +1,13 @@
 import CollectionItem, { IOptions as IBaseOptions } from './CollectionItem';
 import GridCollection from './GridCollection';
 import GridColumn, { IOptions as IGridColumnOptions } from './GridColumn';
-import { IColumn, TColumns } from '../_grid/interface/IColumn';
+import { IColumn, TColumns } from 'Controls/grid';
+
+interface ILadder {}
 
 export interface IOptions<T> extends IBaseOptions<T> {
     owner: GridCollection<T>;
     columns: TColumns;
-    /* todo заготовка для ladder
-    ladder: {};
-     */
 }
 
 export default class GridCollectionItem<T> extends CollectionItem<T> {
@@ -66,22 +65,14 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
         };
     }
 
-    /* todo заготовка для ladder
-     в шаблоне добавить:
-                       <ws:ladderWrapper>
-                          <ws:partial template="{{ladderWrapper.content}}"
-                                      attr:class="{{ (item || itemData ).getLadderWrapperClasses(ladderWrapper.ladderProperty) }}"/>
-                       </ws:ladderWrapper>
-
-    ts-код:
     getLadderWrapperClasses(ladderProperty: string): string {
         let ladderWrapperClasses = 'controls-Grid__row-cell__ladder-content';
-        const ladder = null; // this._$owner.getIndex(this);
+        const ladder = this._$owner.getLadder(this);
         if (ladder && ladder[ladderProperty].ladderLength < 1) {
             ladderWrapperClasses += ' controls-Grid__row-cell__ladder-content_hiddenForLadder';
         }
         return ladderWrapperClasses;
-    }*/
+    }
 
     // region overrides
 

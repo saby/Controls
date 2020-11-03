@@ -23,6 +23,7 @@
 
 import {default as View} from 'Controls/_grid/Grid';
 import * as GridLayoutUtil from './_grid/utils/GridLayoutUtil';
+import * as GridLadderUtil from './_grid/utils/GridLadderUtil';
 
 import GridLayoutItemTemplate = require('wml!Controls/_grid/layout/grid/Item');
 import TableLayoutItemTemplate = require('wml!Controls/_grid/layout/table/Item');
@@ -65,7 +66,8 @@ export {
 
     EditingEmptyTemplate,
 
-    GridLayoutUtil
+    GridLayoutUtil,
+    GridLadderUtil
 };
 
 export {
