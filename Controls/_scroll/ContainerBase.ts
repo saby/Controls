@@ -52,7 +52,10 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     private _savedScrollTop: number = 0;
     private _savedScrollPosition: number = 0;
 
+    private _virtualNavigationRegistrar: RegisterClass;
+
     _beforeMount(options: IContainerBaseOptions): void {
+        this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
         this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
         this._resizeObserverSupported = this._resizeObserver.isResizeObserverSupported();
         this._registrars.scrollStateChanged = new RegisterClass({register: 'scrollStateChanged'});
@@ -167,12 +170,21 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
         }
 
         this._registrars.scroll.register(event, registerType, component, callback, {listenAll: true});
+        this._virtualNavigationRegistrar.register(event, registerType, component, callback);
     }
 
-    _unRegisterIt(e: SyntheticEvent, registerType: string, component: any): void {
-        this._registrars.scrollStateChanged.unregister(e, registerType, component);
-        this._registrars.listScroll.unregister(e, registerType, component);
-        this._registrars.scroll.unregister(e, registerType, component);
+    _unRegisterIt(event: SyntheticEvent, registerType: string, component: any): void {
+        this._registrars.scrollStateChanged.unregister(event, registerType, component);
+        this._registrars.scroll.unregister(event, registerType, component);
+        this._virtualNavigationRegistrar.unregister(event, registerType, component);
+    }
+
+    protected _enableVirtualNavigationHandler(): void {
+        this._virtualNavigationRegistrar.start(true);
+    }
+
+    protected _disableVirtualNavigationHandler(): void {
+        this._virtualNavigationRegistrar.start(false);
     }
 
     // _createEdgeIntersectionObserver() {
