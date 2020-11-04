@@ -2,7 +2,7 @@ import { ListView } from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
 import { TouchContextField as isTouch } from 'Controls/context';
 import { Logger} from 'UI/Utils';
-import { GridLayoutUtil } from 'Controls/grid';
+import { GridLadderUtil, GridLayoutUtil } from 'Controls/grid';
 import * as Template from 'wml!Controls/_gridNew/Render/grid/GridView';
 import * as Item from 'wml!Controls/_gridNew/Render/grid/Item';
 import { prepareEmptyEditingColumns } from "../_grid/utils/GridEmptyTemplateUtil";
@@ -43,7 +43,10 @@ const GridView = ListView.extend({
     },
 
     _getGridViewClasses(): string {
-        const classes = `controls-Grid controls-Grid_${this._options.style}_theme-${this._options.theme}`;
+        let classes = `controls-Grid controls-Grid_${this._options.style}_theme-${this._options.theme}`;
+        if (GridLadderUtil.isSupportLadder(this._options.ladderProperties)) {
+            classes += ' controls-Grid_support-ladder';
+        }
         return classes;
     },
 

@@ -2,7 +2,6 @@ import { isEqual } from 'Types/object';
 import { isFullGridSupport } from './GridLayoutUtil';
 import { detection } from 'Env/Env';
 import { TColumns } from '../interface/IColumn';
-import { ListItemTemplate } from 'Controls/listTemplates';
 
 interface IStickyColumnsParams {
     columns: TColumns;

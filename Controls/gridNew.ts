@@ -1,3 +1,5 @@
+import { GridLadderUtil } from 'Controls/grid';
+
 import { default as View } from 'Controls/_gridNew/Grid';
 
 import * as ItemTemplate from 'wml!Controls/_gridNew/Render/grid/Item';
@@ -14,5 +16,6 @@ export {
     ResultColumnTemplate,
     ColumnTemplate,
     HeaderContent,
-    FooterContent
+    FooterContent,
+    GridLadderUtil
 };

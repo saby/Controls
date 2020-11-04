@@ -4,7 +4,8 @@ import { TemplateFunction } from 'UI/Base';
 import GridHeader from './GridHeader';
 import GridResults from './GridResults';
 import GridFooter from './GridFooter';
-import { TColumns, THeader, GridLadderUtil } from 'Controls/grid';
+import { TColumns, THeader } from 'Controls/grid';
+import { GridLadderUtil } from 'Controls/gridNew';
 
 type TResultsPosition = 'top' | 'bottom';
 

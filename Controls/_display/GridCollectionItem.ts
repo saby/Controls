@@ -68,7 +68,7 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
     getLadderWrapperClasses(ladderProperty: string): string {
         let ladderWrapperClasses = 'controls-Grid__row-cell__ladder-content';
         const ladder = this._$owner.getLadder(this);
-        if (ladder && ladder[ladderProperty].ladderLength < 1) {
+        if (ladder && !(ladder[ladderProperty].ladderLength >= 1)) {
             ladderWrapperClasses += ' controls-Grid__row-cell__ladder-content_hiddenForLadder';
         }
         return ladderWrapperClasses;
