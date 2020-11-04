@@ -1,6 +1,7 @@
 <div class="controls-Toolbar__item
             controls-Toolbar__item{{buttonTemplateOptions.readOnly ? '_readOnly'}}
-            controls-Toolbar__item_theme-{{theme}} controls-Toolbar__item_spacing_{{itemsSpacing}}_theme-{{theme}}"
+            controls-Toolbar__item_theme-{{theme}}
+            {{!isFirstItem ? 'controls-Toolbar__item_spacing_' + itemsSpacing + '_theme-' + theme}}"
      title="{{item.tooltip}}">
    <ws:partial template="{{buttonTemplate}}"
                scope="{{buttonTemplateOptions}}"

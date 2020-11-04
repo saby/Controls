@@ -486,7 +486,7 @@ const _private = {
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/interface/IMovableList
  * @extends Controls/_list/ListControl
- * 
+ *
  * @private
  */
 
@@ -570,7 +570,7 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
                 viewModel.getExpandedItems(),
                 newOptions.expandedItems
             );
-            if ((newOptions.source === this._options.source && isEqual(newOptions.filter, this._options.filter)) ||
+            if ((newOptions.source === this._options.source || newOptions.sourceController) && isEqual(newOptions.filter, this._options.filter) ||
                 (searchValueChanged && newOptions.sourceController)) {
                 viewModel.setExpandedItems(newOptions.expandedItems);
             } else {
@@ -618,7 +618,10 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             _private.clearNodesSourceControllers(this);
             // При смене корне, не надо запрашивать все открытые папки,
             // т.к. их может не быть и мы загрузим много лишних данных.
-            this._needResetExpandedItems = true;
+            // Так же учитываем, что вместе со сменой root могут поменять и expandedItems - тогда не надо их сбрасывать.
+            if (!isEqual(oldOptions.expandedItems, this._options.expandedItems)) {
+                this._needResetExpandedItems = true;
+            }
             // If filter or source was changed, do not need to reload again, baseControl reload list in beforeUpdate
             if (isEqual(this._options.filter, oldOptions.filter) && this._options.source === oldOptions.source) {
                 afterUpdateResult = this._children.baseControl.reload();

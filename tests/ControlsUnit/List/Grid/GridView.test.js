@@ -1011,5 +1011,34 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
          gridView._afterUpdate({...cfg, columnScroll: true});
          assert.isTrue(isSetHeaderCalled);
       });
+
+      it('should update footer after columns updated', () => {
+         const cfg = {
+            multiSelectVisibility: 'hidden',
+            stickyColumnsCount: 1,
+            columnScroll: false,
+            columns: [
+               { displayProperty: 'field1', template: 'column1' },
+               { displayProperty: 'field1', template: 'column2' }
+            ],
+            footer: [
+               { template: 'template1' }
+            ]
+         };
+         const stack = [];
+         const gridView = new gridMod.GridView(cfg);
+         gridView.saveOptions(cfg);
+         gridView._listModel = {
+            setColumns: () => {
+               stack.push('columns');
+            },
+            setFooter: () => {
+               stack.push('footer');
+            },
+         };
+
+         gridView._beforeUpdate({...cfg, columns: [{ displayProperty: 'field1', template: 'column1' }]});
+         assert.deepEqual(stack, ['columns', 'footer']);
+      });
    });
 });

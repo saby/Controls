@@ -679,6 +679,43 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeUpdate(baseControlOptions);
             assert.isTrue(loadStarted);
         });
+
+        it('pagingNavigation and searchValue is changed in _beforeUpdate', async () => {
+            let baseControlOptions = getBaseControlOptionsWithEmptyItems();
+            let loadStarted = false;
+            baseControlOptions.sourceController = new NewSourceController({
+                source: new Memory(),
+                keyProperty: 'key'
+            });
+            baseControlOptions.sourceController.hasMoreData = () => true;
+            baseControlOptions.sourceController.reload = () => {
+                loadStarted = true;
+                return Promise.reject();
+            };
+
+            const baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
+            baseControl._sourceController = baseControlOptions.sourceController;
+            baseControl.saveOptions(baseControlOptions);
+
+            baseControlOptions = {...baseControlOptions};
+            baseControlOptions.useNewModel = true;
+            baseControl._pagingNavigation = true;
+            baseControlOptions.searchValue = 'testSearchValue';
+            loadStarted = false;
+            baseControl._beforeUpdate(baseControlOptions);
+            assert.isFalse(loadStarted);
+
+            baseControlOptions.searchValue = 'testSearchValue';
+            baseControlOptions.filter = 'testFilter';
+            baseControl._beforeUpdate(baseControlOptions);
+            assert.isFalse(loadStarted);
+
+            baseControlOptions.searchValue = undefined;
+            baseControlOptions.filter = 'testFilter';
+            baseControl._beforeUpdate(baseControlOptions);
+            assert.isTrue(loadStarted, 'searchValue is not changed');
+        });
     });
 
     describe('_beforeMount', () => {

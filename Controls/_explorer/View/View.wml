@@ -13,6 +13,7 @@
                                  on:itemClick="_onBreadCrumbsClick()">
          <Controls.tree:TreeControl root="{{_getRoot()}}"
                                     scope="{{_options}}"
+                                    itemPadding="{{_itemPadding}}"
                                     header="{{content.header}}"
                                     name="treeControl"
                                     viewName="{{_viewName}}"

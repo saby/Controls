@@ -156,12 +156,6 @@ export default class Drag<S extends Model, T extends CollectionItem<S> = Collect
             const key = item.getContents().getKey();
             return !this._options.draggedItemsKeys.includes(key);
         });
-
-        this.source.items.filter((item) => {
-            const key = item.getContents().getKey();
-            return this._options.draggedItemsKeys.includes(key);
-        }).forEach((it) => it.setMarked(false, true));
-
         if (!this._avatarItem) {
             this._avatarItem = this._createAvatarItem();
         }
@@ -183,9 +177,11 @@ export default class Drag<S extends Model, T extends CollectionItem<S> = Collect
         const item = this.options.display.createItem({
             contents: protoItem?.getContents()
         });
-        item.setDragged(true, true);
-        item.setMarked(protoItem.isMarked(), true);
-        item.setSelected(protoItem.isSelected(), true);
+        if (item && protoItem) {
+            item.setDragged(true, true);
+            item.setMarked(protoItem.isMarked(), true);
+            item.setSelected(protoItem.isSelected(), true);
+        }
         return item;
     }
 

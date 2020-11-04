@@ -54,7 +54,7 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
             this._type = SHADOW_TYPE.AFTER;
         }
         this._options = options;
-        this._updateEnabled();
+        this.updateScrollState(this._scrollState);
     }
 
     get isEnabled() {
@@ -62,15 +62,6 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
     }
 
     get isVisible() {
-        if (this._visibilityByInnerComponents !== SHADOW_VISIBILITY.AUTO) {
-            return SHADOW_ENABLE_MAP[this._visibilityByInnerComponents];
-        }
-
-        const visibility = this._options[`${this._position}ShadowVisibility`];
-        if (visibility !== SHADOW_VISIBILITY.AUTO) {
-            return SHADOW_ENABLE_MAP[visibility];
-        }
-
         return this._isVisible;
     }
 
@@ -89,17 +80,23 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
 
     updateOptions(options: IShadowsOptions): void {
         this._options = options;
+        this.updateScrollState(this._scrollState);
     }
 
     updateScrollState(scrollState: IScrollState): boolean {
-        const position: SCROLL_POSITION = scrollState[`${this._direction}Position`];
         let isChanged = false;
 
         this._scrollState = scrollState;
         isChanged = this._updateEnabled();
 
-        const isVisible: boolean = this._isEnabled && ((this._type === SHADOW_TYPE.BEFORE && position !== SCROLL_POSITION.START) ||
-            (this._type === SHADOW_TYPE.AFTER && position !== SCROLL_POSITION.END));
+        let isVisible = false;
+        if (this._isEnabled) {
+            isVisible = this._getVisibleByOptions();
+            // _getVisibleByOptions возвращает undefined если через опции тень задается автоматически
+            if (isVisible === undefined) {
+                isVisible = this._getVisibleByState(scrollState);
+            }
+        }
 
         if (isVisible !== this._isVisible) {
             this._isVisible = isVisible;
@@ -111,6 +108,9 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
     updateVisibilityByInnerComponents(visibility: SHADOW_VISIBILITY): boolean {
         const isChanged: boolean = this._visibilityByInnerComponents !== visibility;
         this._visibilityByInnerComponents = visibility;
+        if (isChanged) {
+            this.updateScrollState(this._scrollState);
+        }
         return isChanged;
     }
 
@@ -122,6 +122,25 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
             isChanged = true;
         }
         return isChanged;
+    }
+
+    _getVisibleByOptions(): boolean | undefined {
+        if (this._visibilityByInnerComponents !== SHADOW_VISIBILITY.AUTO) {
+            return SHADOW_ENABLE_MAP[this._visibilityByInnerComponents];
+        }
+
+        const visibility = this._options[`${this._position}ShadowVisibility`];
+        if (visibility !== SHADOW_VISIBILITY.AUTO) {
+            return SHADOW_ENABLE_MAP[visibility];
+        }
+
+        return undefined;
+    }
+
+    _getVisibleByState(scrollState: IScrollState): boolean {
+        const position: SCROLL_POSITION = scrollState[`${this._direction}Position`];
+        return (this._type === SHADOW_TYPE.BEFORE && position !== SCROLL_POSITION.START) ||
+            (this._type === SHADOW_TYPE.AFTER && position !== SCROLL_POSITION.END);
     }
 
     setStickyFixed(isFixed: boolean) {

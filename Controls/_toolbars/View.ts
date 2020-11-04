@@ -109,6 +109,12 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIc
      * @link items
      */
     menuSource?: ICrudPlus;
+
+    /**
+     * @name Controls/_toolbars/IToolbarOptions#contrastBackground
+     * @cfg {Boolean} Определяет наличие подложки у кнопки открытия выпадающего меню тулбара.
+     */
+    contrastBackground?: true;
 }
 
 /**
@@ -150,6 +156,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     protected _parentProperty: string = null;
     protected _menuOptions: IMenuOptions = null;
     protected _isLoadMenuItems: boolean = false;
+    protected _firstItem: TItem = null;
     protected _buttonTemplate: TemplateFunction = getButtonTemplate();
     protected _actualItems: TItems = null;
 
@@ -322,6 +329,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
 
     private _setStateByItems(items: TItems, source?: ICrudPlus): void {
         this._fullItemsList = items;
+        this._firstItem = null;
         /**
          * https://online.sbis.ru/opendoc.html?guid=6b6e9774-afb3-4379-8578-95ad0f0035a9
          */
@@ -353,6 +361,9 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
 
     protected _beforeMount(options: IToolbarOptions, context: {}, receivedItems?: TItems): Promise<TItems> {
         this._setState(options);
+
+        //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=7d618623-243a-4aa2-a533-215f06e137e1
+        this._isShowToolbar = this._isShowToolbar.bind(this);
 
         if (options.source) {
             if (receivedItems) {
@@ -500,6 +511,12 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         }
     }
 
+    private _setFirstItem(item: TItem): void {
+        if (!this._firstItem) {
+            this._firstItem = item;
+        }
+    }
+
     /**
      * Used in template
      */
@@ -510,11 +527,16 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             return false;
         }
         const itemHasParentProperty = item.has(parentProperty) && item.get(parentProperty) !== null;
-
         if (itemHasParentProperty) {
-            return itemShowType === showType.MENU_TOOLBAR;
+            if (itemShowType === showType.MENU_TOOLBAR) {
+                // у первой записи тулбара не требуется показывать отступ слева
+                this._setFirstItem(item);
+                return true;
+            }
+            return false;
         }
 
+        this._setFirstItem(item);
         return true;
     }
 

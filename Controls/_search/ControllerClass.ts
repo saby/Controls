@@ -462,15 +462,16 @@ export default class SearchControllerClass {
     private _updateRootAfterSearch(): void {
         if (this._options.startingWith === 'root') {
             this._setRoot(
-                SearchControllerClass._getRoot(this._path, this._root, this._options.parentProperty)
+                SearchControllerClass._getRoot(this._path, this._root, this._options.parentProperty),
+                true
             );
         }
     }
 
-    private _setRoot(root: Key): void {
+    private _setRoot(root: Key, notifyChanges?: boolean): void {
         this._root = root;
         if (this._options.rootChangedCallback) {
-            this._options.rootChangedCallback(root);
+            this._options.rootChangedCallback(root, notifyChanges);
         }
     }
 
@@ -539,8 +540,12 @@ export default class SearchControllerClass {
 
     static getStateAndOptionsChangedCallbacks(self): object {
         return {
-            rootChangedCallback: (root) => {
+            rootChangedCallback: (root, notifyChanges: boolean) => {
                 self._root = root;
+
+                if (notifyChanges) {
+                    self._notify('rootChanged', [root]);
+                }
             },
             searchValueChangedCallback: (searchValue) => {
                 self._searchValue = searchValue;

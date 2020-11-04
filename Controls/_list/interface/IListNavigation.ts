@@ -19,7 +19,7 @@ export default interface IListNavigation {
 export interface IListNavigationOptions {
     /**
      * @name Controls/_list/interface/IListNavigation#moveMarkerOnScrollPaging
-     * @cfg {Boolean} Когда опция установлена в значение true, то при изменении страницы с помощью кнопок навигации ("К следующей странице", "К предыдущей странице" и т.д.) <a href="/doc/platform/developmentapl/interface-development/controls/list/list/select/#marker">маркер</a> будет установлен на первую полностью видимую запись на новой странице.
+     * @cfg {Boolean} Когда опция установлена в значение true, то при изменении страницы с помощью кнопок навигации ("К следующей странице", "К предыдущей странице" и т.д.) <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/select/#marker">маркер</a> будет установлен на первую полностью видимую запись на новой странице.
      * @default false
      */
     moveMarkerOnScrollPaging: boolean;

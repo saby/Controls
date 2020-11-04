@@ -49,7 +49,7 @@
 
 /**
  * @name Controls/dropdown:ItemTemplate#marker
- * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/select/marker/ маркером}.
+ * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/select/marker/ маркером}.
  * @default true
  */
 

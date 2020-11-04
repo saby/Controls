@@ -8,6 +8,7 @@
              nodeProperty="@parent"
              keyProperty="id"
              source="{{_source1}}"
+             contrastBackground="{{true}}"
              popupClassName="controls-Toolbar_test_popupClassName"
              on:itemClick="_itemClick()"
              itemsSpacing="big"

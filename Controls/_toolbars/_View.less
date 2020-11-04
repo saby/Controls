@@ -3,11 +3,11 @@
   max-width: 100%;
 }
 .controls-Toolbar__item_spacing_medium_theme-@{themeName} {
-  margin-right: @item_offset_s_toolbar;
+  margin-left: @item_offset_s_toolbar;
 }
 
 .controls-Toolbar__item_spacing_big_theme-@{themeName} {
-  margin-right: @item_offset_l_toolbar;
+  margin-left: @item_offset_l_toolbar;
 }
 .controls-Toolbar__item_theme-@{themeName} {
   max-width: 100%;
@@ -45,6 +45,41 @@
 
 .controls-Toolbar__menu_enabled {
    cursor: pointer;
+}
+
+.controls-Toolbar__menu {
+  display: inline-block;
+}
+
+.controls-Toolbar__menu_theme-@{themeName} {
+  height: @icon-size_m;
+}
+
+.controls-Toolbar__menu_spacing-big_theme-@{themeName} {
+  margin-left: @item_offset_l_toolbar;
+}
+
+.controls-Toolbar__menu_spacing-medium_theme-@{themeName} {
+  margin-left: @item_offset_s_toolbar;
+}
+
+.controls-Toolbar__menu_spacing-small_theme-@{themeName} {
+  margin-left: @item_offset_xs_toolbar;
+}
+
+.controls-Toolbar__menu_contrastBackground_theme-@{themeName} {
+  background-color: @background-color_contrast_button_toolButton;
+  border-radius: @border-radius_button_toolButton;
+  border: @border-thickness_button solid @border-color_button_toolButton;
+  height: @inline_height_l;
+  min-width: @inline_height_l;
+}
+
+.controls-Toolbar__menu_contrastBackground {
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 .ws-is-hover {

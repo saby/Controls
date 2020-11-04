@@ -1,5 +1,5 @@
 /**
- * Шаблон, который по умолчанию используется для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}.
+ * Шаблон, который по умолчанию используется для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}.
  *  
  * @class Controls/list:EditingTemplate
  * @author Авраменко А.С.
@@ -29,7 +29,7 @@
  * </Controls.list:View>
  * </pre>
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/#manual здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/edit/#manual здесь}.
  * @public
  */
 

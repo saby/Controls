@@ -502,8 +502,7 @@ define([
 
             instance._beforeUpdate(cfg2);
             instance.saveOptions(cfg2);
-            assert.strictEqual(instance._viewMode, 'search');
-
+            assert.strictEqual(instance._pendingViewMode, 'search');
          });
 
          it('changes viewMode on items set if both viewMode and root changed(tree -> tile)', () => {

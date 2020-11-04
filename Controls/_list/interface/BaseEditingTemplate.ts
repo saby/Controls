@@ -1,5 +1,5 @@
 /**
- * Шаблон для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}, дающий возможность выводить пользовательский контент как в режиме редактирования, так и в режиме просмотра.
+ * Шаблон для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}, дающий возможность выводить пользовательский контент как в режиме редактирования, так и в режиме просмотра.
  * 
  * @class Controls/list:BaseEditingTemplate
  * @mixes Controls/list:EditingTemplate

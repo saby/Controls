@@ -8,19 +8,24 @@
                         buttonTemplate="{{_buttonTemplate}}"
                         buttonTemplateOptions="{{_options.isNewOptions ? _getSimpleButtonTemplateOptionsByItem(item) : _getButtonTemplateOptionsByItem(item)}}"
                         theme="{{_options.theme}}"
+                        isFirstItem="{{_firstItem === item}}"
                         on:click="_itemClickHandler(item)"/>
          </ws:if>
       </ws:for>
       <ws:if data="{{_needShowMenu}}">
          <div name="menuTarget" title="{[Открыть меню]}"
-              class="controls-Toolbar__menu controls-Toolbar__menu_theme-{{_options.theme}} controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}
-              controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}_theme-{{_options.theme}}
-              controls-icon_style-{{_options.readOnly ? 'readonly': 'secondary'}}_theme-{{_options.theme}}"
+              class="controls-Toolbar__menu
+                     controls-Toolbar__menu_spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}_theme-{{_options.theme}}
+                     controls-Toolbar__menu{{_options.contrastBackground ? '_contrastBackground'}}_theme-{{_options.theme}}
+                     controls-Toolbar__menu{{_options.contrastBackground ? '_contrastBackground'}}
+                     controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}
+                     controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}_theme-{{_options.theme}}
+                     controls-icon_style-{{_options.readOnly ? 'readonly': 'secondary'}}_theme-{{_options.theme}}"
               on:click="_onClickHandler()"
               on:mousedown="_mouseDownHandler()"
               on:mouseenter="_mouseEnterHandler()"
               on:mouseleave="_mouseLeaveHandler()">
-            <i class="controls-icon controls-icon_size-m_theme-{{_options.theme}} icon-ExpandDown"/>
+            <i class="controls-icon controls-icon_size-m_theme-{{_options.theme}} icon-SettingsNew"/>
          </div>
       </ws:if>
    </div>

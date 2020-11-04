@@ -28,7 +28,7 @@ export default interface IBaseItemTemplateOptions {
    cursor?: TCursor;
    /**
     * @name Controls/list:BaseItemTemplate#marker
-    * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/select/marker/ маркером}.
+    * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/select/marker/ маркером}.
     * @default true
     */
    marker?: boolean;
@@ -39,7 +39,7 @@ export default interface IBaseItemTemplateOptions {
     */
    /**
     * @name Controls/list:BaseItemTemplate#itemActionsClass
-    * @cfg {ItemActionsClass} Расположение панели с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/item-actions/ опциями записи} внутри элемента.
+    * @cfg {ItemActionsClass} Расположение панели с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/item-actions/ опциями записи} внутри элемента.
     * @default controls-itemActionsV_position_bottomRight
     */
    itemActionsClass?: string;

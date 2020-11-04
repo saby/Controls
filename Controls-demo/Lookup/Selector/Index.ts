@@ -71,7 +71,7 @@ export default class extends Control {
       this._selectorTemplateWithTabs = {
          templateName: selectorTemplateWithTabs,
          popupOptions: {
-            width: 600
+            width: 770
          },
          templateOptions: {
             multiSelect: true,

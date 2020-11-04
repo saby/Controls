@@ -169,7 +169,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * @demo Controls-demo/list_new/MultiSelect/MultiSelectVisibility/OnHover/Index
  * @default hidden
  * @remark
- * Чтобы включить в списочном контроле режим "Множественный выбор элементов", обратитесь к <a href="/doc/platform/developmentapl/interface-development/controls/list/list/select/#multiple-choice">руководству разработчика</a>.
+ * Чтобы включить в списочном контроле режим "Множественный выбор элементов", обратитесь к <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/select/#multiple-choice">руководству разработчика</a>.
  */
 
 /*ENG
@@ -535,23 +535,26 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * Событие не происходит, если:
  *
  * * элемент нельзя отметить маркером.
- * * при клике начинается <a href="/doc/platform/developmentapl/interface-development/controls/list/list/edit/">редактирование по месту</a>.
+ * * при клике начинается <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/edit/">редактирование по месту</a>.
  */
 
 /**
  * @typedef {String} VerticalItemPaddingEnum
+ * @variant null Нулевой отступ. 
  * @variant s Маленький отступ.
  * @variant l Большой отступ.
  */
 
 /*ENG
  * @typedef {String} VerticalItemPaddingEnum
+ * @variant null Without padding.
  * @variant s Small padding.
  * @variant l Large padding.
  */
 
 /**
  * @typedef {String} HorizontalItemPaddingEnum
+ * @variant null Нулевой отступ.
  * @variant xs Минимальный отступ.
  * @variant s Маленький отступ.
  * @variant m Средний отступ.
@@ -562,6 +565,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
 
 /*ENG
  * @typedef {Object} HorizontalItemPaddingEnum
+ * @variant null Without padding.
  * @variant xs Extra small padding.
  * @variant s Small padding.
  * @variant m Medium padding.

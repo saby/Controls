@@ -19,7 +19,6 @@ import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {ISelectionObject} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import { RecordSet } from 'Types/collection';
-import {CollectionItem} from "../display";
 
 var
       HOT_KEYS = {
@@ -202,6 +201,7 @@ var
          setViewModeSync: function(self, viewMode, cfg): void {
             self._viewMode = viewMode;
             _private.setViewConfig(self, self._viewMode);
+            _private.applyNewVisualOptions(self);
          },
          setViewMode: function(self, viewMode, cfg): Promise<void> {
             var result;
@@ -221,6 +221,12 @@ var
             }
 
             return result;
+         },
+         applyNewVisualOptions(self): void {
+            if (self._newItemPadding) {
+               self._itemPadding = self._newItemPadding;
+               self._newItemPadding = null;
+            }
          },
          backByPath: function(self) {
             if (self._breadCrumbsItems && self._breadCrumbsItems.length > 0) {
@@ -393,7 +399,7 @@ var
     * @mixes Controls/_list/interface/IMovableList
     * @mixes Controls/_list/interface/IRemovableList
     * @mixes Controls/_marker/interface/IMarkerListOptions
-    * 
+    *
     * @public
     * @author Авраменко А.С.
     */
@@ -430,7 +436,7 @@ var
     * @mixes Controls/_list/interface/IMovableList
     * @mixes Controls/_list/interface/IRemovableList
     * @mixes Controls/_marker/interface/IMarkerListOptions
-    * 
+    *
     * @public
     * @author Авраменко А.С.
     */
@@ -451,12 +457,16 @@ var
       _markerForRestoredScroll: null,
       _navigation: null,
       _resetScrollAfterViewModeChange: false,
+      _itemPadding: {},
 
       _resolveItemsPromise() {
          this._itemsResolver();
       },
 
       _beforeMount: function(cfg) {
+         if (cfg.itemPadding) {
+            this._itemPadding = cfg.itemPadding;
+         }
          this._dataLoadErrback = _private.dataLoadErrback.bind(null, this, cfg);
          this._serviceDataLoadCallback = _private.serviceDataLoadCallback.bind(null, this);
          this._itemsReadyCallback = _private.itemsReadyCallback.bind(null, this);
@@ -493,8 +503,11 @@ var
          const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
          const isSearchViewMode = cfg.viewMode === 'search';
          const isRootChanged = cfg.root !== this._options.root;
+         const loadedBySourceController = isSearchViewMode && cfg.sourceController;
          this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
-
+         if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
+            this._newItemPadding = cfg.itemPadding;
+         }
          /*
          * Позиция скрола при выходе из папки восстанавливается через скроллирование к отмеченной записи.
          * Чтобы список мог восстановить позицию скрола по отмеченой записи, она должна быть в наборе данных.
@@ -512,7 +525,7 @@ var
             this._navigation = cfg.navigation;
          }
 
-         if ((isViewModeChanged && isRootChanged && !isSearchViewMode) || this._pendingViewMode && cfg.viewMode !== this._pendingViewMode) {
+         if ((isViewModeChanged && isRootChanged && !loadedBySourceController) || this._pendingViewMode && cfg.viewMode !== this._pendingViewMode) {
             // Если меняется и root и viewMode, не меняем режим отображения сразу,
             // потому что тогда мы перерисуем explorer в новом режиме отображения
             // со старыми записями, а после загрузки новых получим еще одну перерисовку.
@@ -526,11 +539,13 @@ var
             const filterChanged = !isEqual(cfg.filter, this._options.filter);
             const recreateSource = cfg.source !== this._options.source;
             const sortingChanged = !isEqual(cfg.sorting, this._options.sorting);
-            if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !isSearchViewMode) {
+            if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !loadedBySourceController) {
                _private.setPendingViewMode(this, cfg.viewMode, cfg);
             } else {
                _private.checkedChangeViewMode(this, cfg.viewMode, cfg);
             }
+         } else {
+            _private.applyNewVisualOptions(this);
          }
       },
       _beforeRender(): void {

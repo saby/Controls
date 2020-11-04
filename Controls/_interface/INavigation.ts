@@ -172,7 +172,7 @@ export interface INavigationViewConfig {
 /**
  * @typedef {Object} INavigationOptionValue
  * @description Конфигурация навигации в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}.
- * Подробнее о настройке навигации читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/navigation/ здесь}.
+ * Подробнее о настройке навигации читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/navigation/ здесь}.
  * Подробнее о настройке навигации по курсору читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/cursor/ здесь}.
  * Подробнее об источниках данных читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/data-sources/ здесь}.
  * @property {TNavigationSource} source Алгоритм, с которым работает источник данных. Варианты значений: 'position' | 'page'
@@ -223,7 +223,7 @@ export default interface INavigation {
  * @name Controls/_interface/INavigation#navigation
  * @cfg {INavigationOptionValue} Конфигурация навигации по списку. Настройка навигации источника данных (страниц, смещения, положения) и визуального отображения навигации (страниц, бесконечного скролла и т.д.).
  * @remark
- * Подробнее о конфигурации навигации по списку читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/navigation/ руководстве разработчика}.
+ * Подробнее о конфигурации навигации по списку читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/navigation/ руководстве разработчика}.
  * @example
  * В этом примере в списке будут отображаться 2 элемента.
  * <pre class="brush: html">
