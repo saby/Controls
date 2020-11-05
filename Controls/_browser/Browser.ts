@@ -1,28 +1,28 @@
-import { Control, TemplateFunction } from 'UI/Base';
+import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_browser/resources/BrowserTemplate';
-import { SyntheticEvent } from 'Vdom/Vdom';
-import { ControllerClass as OperationsController } from 'Controls/operations';
-import { ControllerClass as SearchController } from 'Controls/search';
-import { ControllerClass as FilterController, IFilterItem } from 'Controls/filter';
-import { tmplNotify } from 'Controls/eventUtils';
-import { RecordSet } from 'Types/collection';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {ControllerClass as OperationsController} from 'Controls/operations';
+import {ControllerClass as SearchController} from 'Controls/search';
+import {ControllerClass as FilterController, IFilterItem} from 'Controls/filter';
+import {tmplNotify} from 'Controls/eventUtils';
+import {RecordSet} from 'Types/collection';
 
-import { ContextOptions } from 'Controls/context';
-import { RegisterClass } from 'Controls/event';
+import {ContextOptions} from 'Controls/context';
+import {RegisterClass} from 'Controls/event';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {
     error as dataSourceError,
     ISourceControllerOptions,
     NewSourceController as SourceController
 } from 'Controls/dataSource';
-import { IControlerState } from 'Controls/_dataSource/Controller';
-import { TSelectionType, Direction } from 'Controls/interface';
+import {IControlerState} from 'Controls/_dataSource/Controller';
+import {Direction, TSelectionType} from 'Controls/interface';
 import Store from 'Controls/Store';
-import { SHADOW_VISIBILITY } from 'Controls/scroll';
+import {SHADOW_VISIBILITY} from 'Controls/scroll';
 import {detection} from 'Env/Env';
 import {ICrud, ICrudPlus, IData, PrefetchProxy} from "Types/source";
 
-type Key = string|number|null;
+type Key = string | number | null;
 
 interface IDataChildContext {
     dataOptions: unknown;
@@ -31,7 +31,7 @@ interface IDataChildContext {
 export default class Browser extends Control {
     protected _template: TemplateFunction = template;
     protected _notifyHandler: Function = tmplNotify;
-    private _selectedKeysCount: number|null;
+    private _selectedKeysCount: number | null;
     private _selectionType: TSelectionType = 'all';
     private _isAllSelected: boolean = false;
     private _operationsController: OperationsController = null;
@@ -113,7 +113,7 @@ export default class Browser extends Control {
                                 error: loadResult,
                                 mode: dataSourceError.Mode.include
                             }
-                        )
+                        );
                     }
                     return loadResult;
                 });
@@ -134,7 +134,7 @@ export default class Browser extends Control {
         }
     }
 
-    protected _beforeUpdate(newOptions, context): void|Promise<RecordSet> {
+    protected _beforeUpdate(newOptions, context): void | Promise<RecordSet> {
         let methodResult;
 
         this._operationsController.update(newOptions);
@@ -165,6 +165,7 @@ export default class Browser extends Control {
                             newOptions.dataLoadCallback(items);
                         }
                         this._items = this._sourceController.setItems(items);
+                        this._defineShadowVisibility(this._items);
                     }
 
                     const controllerState = this._sourceController.getState();
@@ -194,6 +195,9 @@ export default class Browser extends Control {
             );
         }
 
+        if (this._items) {
+            this._defineShadowVisibility(this._items);
+        }
         return methodResult;
     }
 
@@ -230,7 +234,7 @@ export default class Browser extends Control {
         this._updateFilterAndFilterItems();
     }
 
-    private _loadItems(options, controllerState): Promise<void|RecordSet|Error> {
+    private _loadItems(options, controllerState): Promise<void | RecordSet | Error> {
         let result;
 
         if (options.source) {
@@ -359,7 +363,7 @@ export default class Browser extends Control {
         this._getOperationsController().selectionTypeChanged(typeName, limit);
     }
 
-    protected _selectedKeysCountChanged(e, count: number|null, isAllSelected: boolean): void {
+    protected _selectedKeysCountChanged(e, count: number | null, isAllSelected: boolean): void {
         e.stopPropagation();
         this._selectedKeysCount = count;
         this._isAllSelected = isAllSelected;
@@ -422,7 +426,7 @@ export default class Browser extends Control {
         return this._operationsController;
     }
 
-    private _defineShadowVisibility(items: RecordSet|Error|void): void {
+    private _defineShadowVisibility(items: RecordSet | Error | void): void {
         if (detection.isMobilePlatform) {
             // На мобильных устройствах тень верхняя показывается, т.к. там есть уже загруженные данные вверху
             return;
@@ -431,13 +435,8 @@ export default class Browser extends Control {
         if (items instanceof RecordSet) {
             const more = items.getMetaData().more;
             if (more) {
-                if (more.before) {
-                    this._topShadowVisibility = SHADOW_VISIBILITY.VISIBLE;
-                }
-
-                if (more.after) {
-                    this._bottomShadowVisibility = SHADOW_VISIBILITY.VISIBLE;
-                }
+                this._topShadowVisibility = more.before ? SHADOW_VISIBILITY.VISIBLE : SHADOW_VISIBILITY.AUTO;
+                this._bottomShadowVisibility = more.after ? SHADOW_VISIBILITY.VISIBLE : SHADOW_VISIBILITY.AUTO;
             }
 
         }

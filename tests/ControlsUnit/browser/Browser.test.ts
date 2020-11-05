@@ -1,8 +1,8 @@
 import {Browser} from 'Controls/browser';
 import {Memory} from 'Types/source';
 import {equal, deepStrictEqual, ok, doesNotThrow} from 'assert';
-import { RecordSet } from 'Types/collection';
-import { detection } from 'Env/Env';
+import {RecordSet} from 'Types/collection';
+import {detection} from 'Env/Env';
 
 const browserData = [
     {
@@ -135,31 +135,39 @@ describe('Controls/browser:Browser', () => {
 
             beforeEach(() => {
                 defaultIsMobilePlatformValue = detection.isMobilePlatform;
-            })
+            });
 
             afterEach(() => {
                 detection.isMobilePlatform = defaultIsMobilePlatformValue;
-            })
+            });
 
-            it('items in receivedState',() => {
+            it('items in receivedState', async () => {
                 const newOptions = {
                     ...options,
                     topShadowVisibility: 'auto',
-                    bottomShadowVisibility: 'auto',
-                }
+                    bottomShadowVisibility: 'auto'
+                };
 
-                browser = new Browser(newOptions)
-                browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {} });
+                browser = new Browser(newOptions);
+                await browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {}});
                 equal(browser._topShadowVisibility, 'visible');
                 equal(browser._bottomShadowVisibility, 'visible');
 
                 equal(browser._topShadowVisibilityFromOptions, 'auto');
                 equal(browser._bottomShadowVisibilityFromOptions, 'auto');
 
+                browser._items = recordSet;
+                browser._items._metaData.more = {
+                    before: false, after: false
+                };
+                browser._beforeUpdate(newOptions);
+                equal(browser._topShadowVisibility, 'auto');
+                equal(browser._bottomShadowVisibility, 'auto');
+
                 detection.isMobilePlatform = true;
 
-                browser = new Browser(newOptions)
-                browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {} });
+                browser = new Browser(newOptions);
+                browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {}});
                 equal(browser._topShadowVisibility, 'auto');
                 equal(browser._bottomShadowVisibility, 'auto');
             });
@@ -220,7 +228,9 @@ describe('Controls/browser:Browser', () => {
                     testField: 'oldFilterValue'
                 };
                 browser._options.source = options.source;
-                browser._sourceController.updateOptions = () => { return true; };
+                browser._sourceController.updateOptions = () => {
+                    return true;
+                };
                 browser._beforeUpdate(options);
                 deepStrictEqual(browser._searchController._options.filter, filter);
             });
@@ -269,8 +279,9 @@ describe('Controls/browser:Browser', () => {
             await browser._beforeMount(options);
 
             function update() {
-                browser._beforeUpdate(options)
+                browser._beforeUpdate(options);
             }
+
             options = {...options};
             doesNotThrow(update);
         });
@@ -288,7 +299,7 @@ describe('Controls/browser:Browser', () => {
                 rawData: {
                     _type: 'recordset',
                     d: [],
-                    s: [{ n: 'key', t: 'Строка' }]
+                    s: [{n: 'key', t: 'Строка'}]
                 },
                 keyProperty: 'key',
                 adapter: 'adapter.sbis'
@@ -298,7 +309,7 @@ describe('Controls/browser:Browser', () => {
                 rawData: {
                     _type: 'recordset',
                     d: [],
-                    s: [{ n: 'key', t: 'Строка' }, { n: 'newKey', t: 'Строка' }]
+                    s: [{n: 'key', t: 'Строка'}, {n: 'newKey', t: 'Строка'}]
                 },
                 keyProperty: 'key',
                 adapter: 'adapter.sbis'
@@ -320,10 +331,12 @@ describe('Controls/browser:Browser', () => {
                 actualDirection = direction;
             };
             browser._filterController = {
-                handleDataLoad: () => {}
+                handleDataLoad: () => {
+                }
             };
             browser._searchController = {
-                handleDataLoad: () => {}
+                handleDataLoad: () => {
+                }
             };
 
             browser._dataLoadCallback(null, 'down');
