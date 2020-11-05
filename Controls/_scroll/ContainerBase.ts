@@ -384,28 +384,42 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
         // Раньше scrollHeight считался следующим образом.
         // newState.scrollHeight = entry.contentRect.height;
         // newState.scrollWidth = entry.contentRect.width;
-        const children = this._children.content.children;
-        let childrenIndex: number;
-        let heigthValue = 0;
-        let widthValue = 0;
-        for (childrenIndex = 0; childrenIndex < children.length; childrenIndex++) {
-            heigthValue += children[childrenIndex].offsetHeight;
-            heigthValue += parseFloat(window.getComputedStyle(children[childrenIndex]).marginTop);
-            heigthValue += parseFloat(window.getComputedStyle(children[childrenIndex]).marginBottom) ;
+        let children = this._children.content.children;
 
+        // В контроле Hint/Template:ListWrapper на корневую ноду навешивается стиль height: 100% из-за чего
+        // неправильно рассчитывается scrollHeight. Будем рассчитывать высоту через дочерние элементы.
+        for (const child of children) {
+            if (child.className.includes('Hint-ListWrapper')) {
+                children = child.children;
+                break;
+            };
         }
-        newState.scrollHeight = heigthValue;
+
+        let widthValue = 0;
+
+        newState.scrollHeight = this._calculateScrollHeight(children);
+
         if (newState.scrollHeight < newState.clientHeight) {
             newState.scrollHeight = newState.clientHeight;
         }
-        for (childrenIndex = 0; childrenIndex < children.length; childrenIndex++) {
-            widthValue += children[childrenIndex].offsetWidth;
+        for (child of children) {
+            widthValue += child.offsetWidth;
         }
         newState.scrollWidth = widthValue;
         if (newState.scrollWidth <  newState.clientWidth) {
             newState.scrollWidth = newState.clientWidth;
         }
         this._updateStateAndGenerateEvents(newState);
+    }
+
+    _calculateScrollHeight(children: HTMLElement[]): number {
+        let heigthValue = 0;
+        for (let childrenIndex = 0; childrenIndex < children.length; childrenIndex++) {
+            heigthValue += children[childrenIndex].offsetHeight;
+            heigthValue += parseFloat(window.getComputedStyle(children[childrenIndex]).marginTop);
+            heigthValue += parseFloat(window.getComputedStyle(children[childrenIndex]).marginBottom);
+        }
+        return heigthValue;
     }
 
     _getFullStateFromDOM(): IScrollState {
