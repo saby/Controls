@@ -31,6 +31,7 @@
             <ws:if data="{{(contentTemplate.charAt)}}">
                <Controls.Container.Async templateName="{{contentTemplate}}">
                   <ws:partial
+                          attr:class="controls-Menu__content-wrapper_theme-{{_options.theme}}"
                           template="{{content.resolvedTemplate}}"
                           itemData="{{itemData}}"
                   />
@@ -38,6 +39,7 @@
             </ws:if>
             <ws:else>
                <ws:partial
+                       attr:class="controls-Menu__content-wrapper_theme-{{_options.theme}}"
                        template="{{contentTemplate}}"
                        itemData="{{itemData}}"
                />

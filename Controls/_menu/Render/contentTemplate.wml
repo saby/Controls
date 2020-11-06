@@ -12,7 +12,7 @@
    <ws:if data="{{iconAlign !== 'right'}}">
       <ws:partial template="iconTemplate" iconAlign="left"/>
    </ws:if>
-   <div class="controls-Menu__content-wrapper">
+   <div class="controls-Menu__content-wrapper controls-Menu__content-wrapper_theme-{{_options.theme}}">
       <ws:if data="{{searchValue}}">
          <ws:partial template="wml!Controls/_menu/Render/searchDecoratorTemplate"
                      item="{{item}}"
