@@ -19,6 +19,7 @@ import {IIntersectionObserverObject} from './IntersectionObserver/Types';
 import StickyHeaderController from './StickyHeader/Controller';
 import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS} from './StickyHeader/Utils';
 import {POSITION} from './Container/Type';
+import {SCROLL_DIRECTION} from "./Utils/Scroll";
 
 interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, IShadows {
     backgroundStyle: string;
@@ -200,7 +201,11 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _positionChangedHandler(event, direction, position): void {
-        this.scrollTo(position, direction);
+        if (direction === SCROLL_DIRECTION.HORIZONTAL) {
+            this.scrollTo(position, direction);
+        } else {
+            this.setScrollTop(position)
+        }
     }
 
     protected _updateShadowVisibility(event: SyntheticEvent, shadowsVisibility: IShadowsVisibilityByInnerComponents): void {
