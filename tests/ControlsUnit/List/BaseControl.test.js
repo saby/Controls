@@ -3375,7 +3375,7 @@ define([
                });
             });
 
-            it('should not start editing if control in readonly mode', () => {
+            it('should not rule editing if control in readonly mode', () => {
                const defaultCfg = {
                   ...opt,
                   editingConfig: {
@@ -3391,9 +3391,15 @@ define([
                   }
                };
                let beginEditStarted = false;
+               let commitStarted = false;
 
                ctrl.beginEdit = () => {
                   beginEditStarted = true;
+                  return Promise.resolve();
+               };
+
+               ctrl._commitEdit= () => {
+                  commitStarted = true;
                   return Promise.resolve();
                };
 
@@ -3405,6 +3411,9 @@ define([
                ctrl.saveOptions(readOnlyCfg);
                ctrl._onItemClick(event, {}, event.original);
                assert.isFalse(beginEditStarted);
+
+               ctrl.commitEdit();
+               assert.isFalse(commitStarted);
             });
          });
 

@@ -2188,7 +2188,7 @@ const _private = {
         const newSourceCfg = newNavigation && newNavigation.sourceConfig ? newNavigation.sourceConfig : {};
         if (oldSourceCfg.page !== newSourceCfg.page) {
             if (_private.isEditing(self)) {
-                self.cancelEdit();
+                self._cancelEdit();
             }
         }
     },
@@ -2916,7 +2916,7 @@ const _private = {
     registerFormOperation(self): void {
         self._notify('registerFormOperation', [{
             save: self._commitEdit.bind(self, 'hasChanges'),
-            cancel: self.cancelEdit.bind(self),
+            cancel: self._cancelEdit.bind(self),
             isDestroyed: () => self._destroyed
         }], {bubbling: true});
     },
@@ -4691,6 +4691,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         if (this._options.readOnly) {
             return Promise.reject('Control is in readOnly mode.');
         }
+        return this._cancelEdit();
+    },
+
+    _cancelEdit() {
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
@@ -4701,13 +4705,13 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     commitEdit() {
+        if (this._options.readOnly) {
+            return Promise.reject('Control is in readOnly mode.');
+        }
         return this._commitEdit();
     },
 
     _commitEdit(commitStrategy?: 'hasChanges' | 'all') {
-        if (this._options.readOnly) {
-            return Promise.reject('Control is in readOnly mode.');
-        }
         if (!this._editInPlaceController) {
             return Promise.resolve();
         }
