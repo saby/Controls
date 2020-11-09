@@ -136,6 +136,7 @@ define([
             };
             sandbox.stub(component, '_createObserver');
             sandbox.stub(StickyHeaderUtils, 'isHidden').returns(true);
+            sandbox.stub(component, '_updateComputedStyle');
             component._afterMount(coreMerge(options, StickyHeader.getDefaultOptions(), {preferSource: true}));
             sandbox.stub(component._model, 'update');
 
