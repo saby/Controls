@@ -121,6 +121,42 @@ define(
             });
          });
 
+         describe('_beforeMount', () => {
+            const menuControl = getMenu();
+            const menuOptions = { ...defaultOptions };
+            menuControl._markerController = null;
+
+            it('_loadItems return error', async() => {
+               menuControl._loadItems = () => {
+                  return new Promise((resolve) => {
+                     resolve({
+                        message: 'Error'
+                     });
+                  });
+               };
+               await menuControl._beforeMount(menuOptions);
+               assert.isNull(menuControl._markerController);
+            });
+
+            it('_loadItems return items', async() => {
+               menuControl._listModel = {
+                  setMarkedKey: () => {}
+               };
+               menuControl._loadItems = () => {
+                  return new Promise((resolve) => {
+                     resolve(new collection.RecordSet({
+                        rawData: [
+                           { key: 1, title: 'Test' },
+                        ],
+                        keyProperty: 'key'
+                     }));
+                  });
+               };
+               await menuControl._beforeMount(menuOptions);
+               assert.isNotNull(menuControl._markerController);
+            });
+         });
+
          describe('getCollection', function() {
             let menuControl = new menu.Control();
             let items = new collection.RecordSet({
