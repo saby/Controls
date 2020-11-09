@@ -17,11 +17,11 @@ import * as Template from 'wml!Controls-demo/grid/Ladder/NoSticky/NoSticky';
 import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksPhoto';
 import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksDescription';
 import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived';
-import ResultsTpl from "wml!*";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
+    protected _selectedKeys: number[] = [];
     protected _columns = [
         {
             template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksPhoto',

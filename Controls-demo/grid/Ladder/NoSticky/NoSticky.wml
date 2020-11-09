@@ -5,6 +5,7 @@
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
                     multiSelectVisibility="visible"
+                    bind:selectedKeys="_selectedKeys"
                     ladderProperties="{{_ladderProperties}}"/>
     </Controls.scroll:Container>
 </div>

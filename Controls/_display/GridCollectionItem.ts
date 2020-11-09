@@ -3,6 +3,7 @@ import GridCollection from './GridCollection';
 import GridColumn, { IOptions as IGridColumnOptions } from './GridColumn';
 import { IColumn, TColumns } from 'Controls/grid';
 import GridLadderColumn from "./GridLadderColumn";
+import GridCheckboxColumn from "./GridCheckboxColumn";
 
 export interface IOptions<T> extends IBaseOptions<T> {
     owner: GridCollection<T>;
@@ -12,7 +13,7 @@ export interface IOptions<T> extends IBaseOptions<T> {
 export default class GridCollectionItem<T> extends CollectionItem<T> {
     protected _$owner: GridCollection<T>;
     protected _$columns: TColumns;
-    protected _$columnItems: Array<GridColumn<T>>;
+    protected _$columnItems: GridColumn<T>[];
 
     constructor(options?: IOptions<T>) {
         super(options);
@@ -76,6 +77,14 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
         }
     }
 
+    setSelected(selected: boolean|null, silent?: boolean): void {
+        const changed = this._$selected !== selected;
+        super.setSelected(selected, silent);
+        if (changed) {
+            this._redrawColumns('first');
+        }
+    }
+
     setActive(active: boolean, silent?: boolean): void {
         const changed = active !== this.isActive();
         super.setActive(active, silent);
@@ -100,19 +109,22 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
                 // todo ladderFactory сделать через наследование от базового columnFactory, т.к. row span нужен только
                 //      для лесенки (будет ли он нужен для обычных строк и как он будет работать в таком случае?)
                 this._$columnItems[0].setHiddenForLadder(true);
-                this._$columnItems = [
+                this._$columnItems = ([
                     new GridLadderColumn({
                         column: this._$columns[0],
                         owner: this,
                         style: stickyLadderStyle
                     })
-                ].concat(this._$columnItems);
+                ] as GridColumn<T>[]).concat(this._$columnItems);
             }
 
             if (createMultiSelectColumn) {
-                this._$columnItems = [
-                    factory({ column: {} as IColumn })
-                ].concat(this._$columnItems);
+                this._$columnItems = ([
+                    new GridCheckboxColumn({
+                        column: {} as IColumn,
+                        owner: this
+                    })
+                ] as GridColumn<T>[]).concat(this._$columnItems);
             }
         }
     }
@@ -123,7 +135,7 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
             stickyProperties = [stickyProperties];
         }
         if (!stickyProperties) {
-            return false;
+            return '';
         }
         // todo Множественный stickyProperties можно поддержать здесь:
         const stickyLadder = this._$owner.getStickyLadder(this);

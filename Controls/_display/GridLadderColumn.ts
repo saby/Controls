@@ -1,10 +1,10 @@
-import GridColumn from "./GridColumn";
+import GridColumn, { IOptions as IColumnOptions } from './GridColumn';
 import { OptionsToPropertyMixin }  from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:StickyLadderColumnTemplate';
 
-export interface IOptions<T> {
+export interface IOptions<T> extends IColumnOptions<T> {
     style: string;
 }
 
@@ -39,16 +39,12 @@ export default class GridLadderColumn<T> extends GridColumn<T> {
         return this._$style;
     }
 
-    getTemplate(): TemplateFunction|string {
+    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
         return DEFAULT_CELL_TEMPLATE;
     }
 
     getOriginalTemplate(): TemplateFunction|string {
         return super.getTemplate();
-    }
-
-    isMultiSelectColumn(): boolean {
-        return false;
     }
 
     shouldDisplayMarker(): boolean {
