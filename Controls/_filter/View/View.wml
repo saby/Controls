@@ -83,13 +83,4 @@
                      on:mousedown="openDetailPanel()"/>
       </ws:else>
    </ws:if>
-   <Controls.popup:Sticky
-           name="StickyOpener"
-           className="controls-FilterView-popup"
-           closeOnOutsideClick="{{true}}"
-           on:result="_resultHandler()">
-   </Controls.popup:Sticky>
-   <ws:if data="{{_hasSelectorTemplate}}">
-      <Controls.popup:Stack name="selectorOpener" on:result="_onSelectorTemplateResult()" />
-   </ws:if>
 </div>
