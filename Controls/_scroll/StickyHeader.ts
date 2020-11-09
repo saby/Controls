@@ -261,6 +261,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         }
     }
 
+    protected _afterUpdate(options: IStickyHeaderOptions): void {
+        this._updateComputedStyle();
+    }
+
     protected _afterMount(): void {
         if (!this._isStickySupport) {
             return;
@@ -274,6 +278,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             Logger.warn('Controls.scroll:StickyHeader: Используются фиксация заголовков вне Controls.scroll:Container. Либо используйте Controls.scroll:Container, либо уберите, либо отключите фиксацию заголовков в контролах в которых она включена.', this);
             return;
         }
+
+        this._updateComputedStyle();
 
         this._model = new Model({
             topTarget: children.observationTargetTop,
@@ -775,12 +781,25 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return  this._isShadowVisibleByController && (shadowVisible || oldShadowVisible);
     }
 
-    private _getComputedStyle(): CSSStyleDeclaration {
+    _updateComputedStyle(): void {
         const container: HTMLElement = this._getNormalizedContainer();
         if (this._cssClassName !== container.className) {
             this._cssClassName = container.className;
-            this._cachedStyles = getComputedStyle(container);
+            const styles = getComputedStyle(container);
+            // Сразу запрашиваем и сохраняем нужные стили. Recalculate Style происходит не в момент вызова
+            // getComputedStyle, а при обращении к стилям в из полученного объекта.
+            this._cachedStyles = {
+                'border-top-width': styles['border-top-width'],
+                'border-bottom-width': styles['border-bottom-width'],
+                'padding-top': styles['padding-top'],
+                'padding-bottom': styles['padding-bottom'],
+                minHeight: styles.minHeight,
+                boxSizing: styles.boxSizing
+            };
         }
+    }
+
+    private _getComputedStyle(): CSSStyleDeclaration {
         return this._cachedStyles;
     }
 
