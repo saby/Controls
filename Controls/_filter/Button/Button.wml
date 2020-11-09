@@ -25,12 +25,4 @@
            on:click="openDetailPanel()">
       </div>
    </div>
-
-   <Controls.popup:Sticky
-           name="filterStickyOpener"
-           scope="{{_popupOptions}}"
-           autofocus="{{true}}"
-           on:result="_onFilterChanged()"
-   >
-   </Controls.popup:Sticky>
 </div>
