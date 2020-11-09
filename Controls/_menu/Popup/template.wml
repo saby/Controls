@@ -106,7 +106,9 @@
    <ws:partial template="{{'Controls/list:DataContainer'}}"
                scope="{{_options}}">
       <ws:partial template="{{'Controls/search:Controller'}}">
-         <ws:partial template="menuPopup" />
+         <ws:partial template="{{'Controls/list:Container'}}">
+            <ws:partial template="menuPopup" />
+         </ws:partial>
       </ws:partial>
    </ws:partial>
 </ws:if>

@@ -4,7 +4,7 @@ import {TSelectedKeys, IOptions} from 'Controls/interface';
 import {default as IMenuControl, IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 import {Sticky as StickyOpener} from 'Controls/popup';
 import {Controller as SourceController} from 'Controls/source';
-import {RecordSet, List} from 'Types/collection';
+import {RecordSet, List, factory as CollectionFactory} from 'Types/collection';
 import {ICrudPlus, PrefetchProxy, QueryWhere} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
@@ -169,7 +169,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
         this._stack = new StackOpener();
 
-        if (options.source) {
+        if (options.sourceController) {
+            return this._createViewModel(options.sourceController.getItems(), options);
+        } else if (options.source) {
             return this._loadItems(options).then(() => {
                 if (options.markerVisibility !== MarkerVisibility.Hidden) {
                     this._markerController = this._getMarkerController(options);
@@ -190,16 +192,21 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         const filterChanged = !isEqual(newOptions.filter, this._options.filter);
         let result;
 
-        if (sourceChanged) {
-            this._sourceController = null;
-        }
-
-        if (rootChanged || sourceChanged || filterChanged) {
+        if (newOptions.sourceController && newOptions.searchParam && newOptions.searchValue &&
+            newOptions.searchValue !== this._options.searchValue) {
             this._closeSubMenu();
-            result = this._loadItems(newOptions).then(() => {
+            this._createViewModel(newOptions.sourceController.getItems(), newOptions);
+        } else if (rootChanged || sourceChanged || filterChanged) {
+            if (sourceChanged) {
+                this._sourceController = null;
+            }
+            this._closeSubMenu();
+            result = this._loadItems(newOptions).then((res) => {
                 this._notifyResizeAfterRender = true;
+                return res;
             });
         }
+
         if (this._isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
             this._updateSelectionController(newOptions);
             this._notify('selectedItemsChanged', [this._getSelectedItems()]);
@@ -847,9 +854,11 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _getTemplateOptions(item: CollectionItem<Model>): object {
         const root: TKey = item.getContents().get(this._options.keyProperty);
+        const isLoadedChildItems = this._isLoadedChildItems(root);
         const subMenuOptions: object = {
             root,
             bodyContentTemplate: 'Controls/_menu/Control',
+            dataLoadCallback: !isLoadedChildItems ? this._subMenuDataLoadCallback.bind(this) : null,
             footerContentTemplate: this._options.nodeFooterTemplate,
             footerItemData: {
                 key: root,
@@ -884,6 +893,20 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             });
         }
         return source;
+    }
+
+    private _isLoadedChildItems(root: TKey): boolean {
+        let isLoaded = false;
+        const collection =  this._listModel.getCollection() as unknown as RecordSet<Model>;
+
+        if (collection.getIndexByValue(this._options.parentProperty, root) !== -1) {
+            isLoaded = true;
+        }
+        return isLoaded;
+    }
+
+    private _subMenuDataLoadCallback(items: RecordSet): void {
+        this._listModel.getCollection().append(items);
     }
 
     private _updateItemActions(listModel: Collection<Model>, options: IMenuControlOptions): void {
