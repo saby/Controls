@@ -13,9 +13,9 @@ import {TSelectedKeys} from 'Controls/interface';
 import {CollectionItem} from 'Controls/display';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 
+const SEARCH_DEPS = ['Controls/list:DataContainer', 'Controls/search:Controller', 'Controls/list:Container',
+    'Controls/search:Input', 'Controls/search:InputContainer'];
 
-
-const SEARCH_DEPS = ['Controls/list:DataContainer', 'Controls/search:Controller', 'Controls/search:Input', 'Controls/search:InputContainer'];
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
  * @class Controls/menu:Popup
@@ -25,11 +25,13 @@ const SEARCH_DEPS = ['Controls/list:DataContainer', 'Controls/search:Controller'
  * @mixes Controls/_interface/IIconSize
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilterChanged
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
+
 class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
+    readonly '[Controls/_menu/interface/IMenuPopup]': boolean;
     protected _template: TemplateFunction = PopupTemplate;
     protected _headerTemplate: TemplateFunction;
     protected _headerTheme: string;
@@ -92,18 +94,20 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     }
 
     protected _dataLoadCallback(options: IMenuPopupOptions, items: RecordSet): void {
-        const root = options.root !== undefined ? options.root : null;
-        if (!this._headingIcon) {
-            return;
-        }
-        let needShowHeadingIcon = false;
-        factory(items).each((item) => {
-            if (item.get('icon') && (!options.parentProperty || item.get(options.parentProperty) === root)) {
-                needShowHeadingIcon = true;
+        if (this._headingIcon) {
+            const root = options.root !== undefined ? options.root : null;
+            let needShowHeadingIcon = false;
+            factory(items).each((item) => {
+                if (item.get('icon') && (!options.parentProperty || item.get(options.parentProperty) === root)) {
+                    needShowHeadingIcon = true;
+                }
+            });
+            if (!needShowHeadingIcon) {
+                this._headingIcon = null;
             }
-        });
-        if (!needShowHeadingIcon) {
-            this._headingIcon = null;
+        }
+        if (options.dataLoadCallback) {
+            options.dataLoadCallback(items);
         }
     }
 
