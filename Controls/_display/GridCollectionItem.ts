@@ -2,8 +2,7 @@ import CollectionItem, { IOptions as IBaseOptions } from './CollectionItem';
 import GridCollection from './GridCollection';
 import GridColumn, { IOptions as IGridColumnOptions } from './GridColumn';
 import { IColumn, TColumns } from 'Controls/grid';
-
-interface ILadder {}
+import GridLadderColumn from "./GridLadderColumn";
 
 export interface IOptions<T> extends IBaseOptions<T> {
     owner: GridCollection<T>;
@@ -17,28 +16,21 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
 
     constructor(options?: IOptions<T>) {
         super(options);
-        const addMultiSelectColumn = this.getMultiSelectVisibility() !== 'hidden';
-        if (this._$columns) {
-            const factory = this._getColumnsFactory();
-            this._$columnItems = this._$columns.map((column) => factory({ column }));
-            if (addMultiSelectColumn) {
-                this._$columnItems = [
-                    factory({ column: {} as IColumn })
-                ].concat(this._$columnItems);
-            }
-        }
     }
 
     getColumns(): Array<GridColumn<T>> {
+        if (!this._$columnItems) {
+            this._initializeColumns();
+        }
         return this._$columnItems;
     }
 
     getColumnsCount(): number {
-        return this._$columnItems.length;
+        return this._$columns.length;
     }
 
-    getColumnIndex(column: GridColumn<T>): number {
-        return this._$columnItems.indexOf(column);
+    getColumnIndex(column: IColumn): number {
+        return this._$columns.indexOf(column);
     }
 
     getTopPadding(): string {
@@ -93,6 +85,52 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
     }
 
     // endregion
+
+    protected _initializeColumns(): void {
+        if (this._$columns) {
+            const createMultiSelectColumn = this.getMultiSelectVisibility() !== 'hidden';
+            // todo Множественный stickyProperties можно поддержать здесь:
+            const stickyLadderStyle = this._getStickyLadderStyle(this._$columns[0]);
+            const createLadderColumn = !!stickyLadderStyle;
+            const factory = this._getColumnsFactory();
+
+            this._$columnItems = this._$columns.map((column) => factory({ column }));
+
+            if (createLadderColumn) {
+                // todo ladderFactory сделать через наследование от базового columnFactory, т.к. row span нужен только
+                //      для лесенки (будет ли он нужен для обычных строк и как он будет работать в таком случае?)
+                this._$columnItems[0].setHiddenForLadder(true);
+                this._$columnItems = [
+                    new GridLadderColumn({
+                        column: this._$columns[0],
+                        owner: this,
+                        style: stickyLadderStyle
+                    })
+                ].concat(this._$columnItems);
+            }
+
+            if (createMultiSelectColumn) {
+                this._$columnItems = [
+                    factory({ column: {} as IColumn })
+                ].concat(this._$columnItems);
+            }
+        }
+    }
+
+    protected _getStickyLadderStyle(column: IColumn): string {
+        let stickyProperties = column && column.stickyProperty;
+        if (stickyProperties && !(stickyProperties instanceof Array)) {
+            stickyProperties = [stickyProperties];
+        }
+        if (!stickyProperties) {
+            return false;
+        }
+        // todo Множественный stickyProperties можно поддержать здесь:
+        const stickyLadder = this._$owner.getStickyLadder(this);
+        const stickyColumn = this._$owner.getStickyColumn();
+        return stickyColumn && stickyColumn.index === 0 &&
+               stickyLadder && stickyLadder[stickyProperties[0]].headingStyle;
+    }
 
     protected _redrawColumns(target: 'first'|'last'|'all'): void {
         switch (target) {

@@ -17,6 +17,7 @@ import * as Template from 'wml!Controls-demo/grid/Ladder/NoSticky/NoSticky';
 import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksPhoto';
 import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksDescription';
 import 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived';
+import ResultsTpl from "wml!*";
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -24,7 +25,8 @@ export default class extends Control {
     protected _columns = [
         {
             template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksPhoto',
-            width: '98px'
+            width: '98px',
+            stickyProperty: 'photo'
         },
         {
             template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksDescription',
@@ -32,7 +34,8 @@ export default class extends Control {
         },
         {
             template: 'wml!Controls-demo/grid/resources/CellTemplates/LadderTasksReceived',
-            width: '200px'
+            width: '200px',
+            stickyProperty: 'date'
         }
     ];
     protected _ladderProperties: string[] = ['photo', 'date'];

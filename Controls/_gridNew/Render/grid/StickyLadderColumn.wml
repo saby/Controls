@@ -1,0 +1,8 @@
+<Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{'transparent'}}"
+                              shadowVisibility="hidden"
+                              mode="replaceable"
+                              attr:style="z-index: 2">
+   <div attr:class="{{ gridColumn.getOriginalContentClasses(theme, cursor, templateHighlightOnHover) }}">
+      <ws:partial template="{{ gridColumn.getOriginalTemplate() }}" scope="{{ _options }}"/>
+   </div>
+</Controls.scroll:StickyHeader>

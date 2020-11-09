@@ -159,11 +159,11 @@ export interface IColumn {
      * @default undefined
      * @remark
      * Позволяет установить пользовательский шаблон отображения ячейки (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ColumnTemplate}.
-     * 
+     *
      * По умолчанию Controls/grid:ColumnTemplate отображает значение поля, имя которого задано в конфигурации колонки в свойстве {@link displayProperty}. Также шаблон Controls/grid:ColumnTemplate поддерживает {@link Controls/grid:ColumnTemplate параметры}, с помощью которых можно изменить отображение ячейки.
-     * 
+     *
      * При настройке пользовательского шаблона следует использовать директиву <a href="/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial">ws:partial</a>. Также в опцию template можно передавать и более сложные шаблоны, которые содержат иные директивы, например <a href="/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if">ws:if</a>. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ColumnTemplate.
-     * 
+     *
      * Дополнительно о работе с шаблоном вы можете прочитать в <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/">руководстве разработчика</a>.
      * @see Controls/grid:ColumnTemplate
      * @demo Controls-demo/grid/Columns/Template/Index В демо-примере в конфигурации первой колонки задан пользовательский шаблон отображения ячейки. В конфигурации шаблона переопределён контент ячейки в опции contentTemplate.
@@ -180,14 +180,14 @@ export interface IColumn {
      *     ...
      * ]
      * </pre>
-     * 
+     *
      * <pre class="brush: html; highlight: [4]">
      * <Controls.grid:View
      *     keyProperty="id"
      *     source="{{_viewSource}}"
      *     columns="{{_columns}}" />
      * </pre>
-     * 
+     *
      * <pre class="brush: html">
      * <!-- CountryRatingNumber.wml -->
      * <ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
@@ -206,13 +206,13 @@ export interface IColumn {
      * @demo Controls-demo/grid/Results/FromMeta/CustomResultsCells/Index
      * @remark
      * Позволяет установить пользовательский шаблон отображения ячейки в строке итогов (именно шаблон, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/grid:ResultColumnTemplate}.
-     * 
+     *
      * Также шаблон {@link Controls/grid:ResultColumnTemplate} поддерживает параметры, с помощью которых можно изменить отображение ячейки.
-     * 
+     *
      * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию resultTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultColumnTemplate.
-     * 
+     *
      * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/column/ руководстве разработчика}.
-     * 
+     *
      * Для отображения строки итогов необходимо задать значение в опции {@link Controls/grid:View#resultsPosition resultsPosition}.
      * @example
      * <pre class="brush: html; highlight: [5,6,7,8,9,10,11]">
@@ -263,7 +263,7 @@ export interface IColumn {
      * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере отображение лесенкой включено для колонок "photo" (первая колонка) и "date" (последняя колонка). Прилипание данных работает для колонки photo.
      * @see Controls/grid:IGridControl#ladderProperties
      */
-    stickyProperty?: string;
+    stickyProperty?: string | string[];
     /**
      * @name Controls/grid:IColumn#textOverflow
      * @cfg {TOverflow} Как отображается текст, если он не умещается в ячейке.

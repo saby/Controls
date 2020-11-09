@@ -4,6 +4,7 @@
                     keyProperty="id"
                     source="{{_viewSource}}"
                     columns="{{_columns}}"
+                    multiSelectVisibility="visible"
                     ladderProperties="{{_ladderProperties}}"/>
     </Controls.scroll:Container>
 </div>

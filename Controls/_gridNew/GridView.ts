@@ -16,6 +16,12 @@ const _private = {
         const initialWidths = columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth()));
         let columnsWidths: string[] = [];
         columnsWidths = initialWidths;
+        const ladderStickyColumn = GridLadderUtil.getStickyColumn({
+            columns
+        });
+        if (ladderStickyColumn) {
+            columnsWidths = ['0px'].concat(columnsWidths);
+        }
         if (hasMultiSelect) {
             columnsWidths = ['max-content'].concat(columnsWidths);
         }

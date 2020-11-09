@@ -3,6 +3,11 @@ import { isFullGridSupport } from './GridLayoutUtil';
 import { detection } from 'Env/Env';
 import { TColumns } from '../interface/IColumn';
 
+export interface IStickyColumn {
+    index: number;
+    property: string;
+}
+
 interface IStickyColumnsParams {
     columns: TColumns;
     stickyColumn ?: object;
@@ -126,7 +131,7 @@ export function prepareLadder(params: IPrepareLadderParams): {} {
     };
 }
 
-export function getStickyColumn(params: IStickyColumnsParams): object {
+export function getStickyColumn(params: IStickyColumnsParams): IStickyColumn {
     let result;
     if (params.stickyColumn) {
         result = {

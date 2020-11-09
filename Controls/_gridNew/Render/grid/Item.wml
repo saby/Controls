@@ -1,22 +1,27 @@
 <div attr:class="controls-Grid__row controls-ListView__itemV controls-ListView__itemV_cursor-pointer controls-Grid__row_highlightOnHover_default_theme-default controls-Grid__row_default_theme-default">
-   <ws:for data="column in item.getColumns()">
-      <div attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style) }}">
-         <div if="{{ column.shouldDisplayMarker(marker, markerPosition) }}" attr:class="{{ column.getMarkerClasses(theme, style, markerPosition) }}"></div>
-         <ws:if data="{{ column.isMultiSelectColumn() }}">
+   <ws:for data="gridColumn in item.getColumns()">
+      <div attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style) }}"
+           attr:style="{{ gridColumn.getWrapperStyles() }}">
+         <div if="{{ gridColumn.shouldDisplayMarker(marker, markerPosition) }}" attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
+         <ws:if data="{{ gridColumn.isMultiSelectColumn() }}">
             <ws:partial template="{{ multiSelectTpl }}"
-                        attr:class="{{ column.getContentClassesMultiSelectCell(theme) }}">
+                        attr:class="{{ gridColumn.getContentClassesMultiSelectCell(theme) }}">
                <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
                                    key="{{ (item || itemData).getContents().getKey() }}"
                                    checkboxReadOnly="{{ checkboxReadOnly }}"/>
             </ws:partial>
          </ws:if>
          <ws:else>
-            <div attr:class="{{ column.getContentClasses(theme, cursor, highlightOnHover) }}"
-                 attr:style="{{ column.getCellStyles() }}">
-               <ws:partial template="{{ column.getTemplate() }}"
-                           attr:key="{{ column.getInstanceId() }}"
-                           column="{{ column.getOriginalColumn() }}"
+            <div attr:class="{{ gridColumn.getContentClasses(theme, cursor, highlightOnHover) }}"
+                 attr:style="{{ gridColumn.getContentStyles() }}">
+               <ws:partial template="{{ gridColumn.getTemplate() }}"
+                           attr:key="{{ gridColumn.getInstanceId() }}"
+                           gridColumn="{{ gridColumn }}"
+                           column="{{ gridColumn.getColumnConfig() }}"
                            item="{{ (item || itemData) }}"
+                           theme="{{ theme }}"
+                           cursor="{{ cursor }}"
+                           templateHighlightOnHover="{{ templateHighlightOnHover }}"
                            itemData="{{ (item || itemData) }}">
                   <ws:ladderWrapper>
                      <ws:partial template="{{ladderWrapper.content}}"
@@ -25,7 +30,7 @@
                </ws:partial>
             </div>
          </ws:else>
-         <ws:if data="{{ column.shouldDisplayItemActions() }}">
+         <ws:if data="{{ gridColumn.shouldDisplayItemActions() }}">
             <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
                <ws:partial template="{{ swipeTemplate }}"
                            highlightOnHover="{{ highlightOnHover }}" />

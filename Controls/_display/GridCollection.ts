@@ -20,6 +20,7 @@ export interface IOptions<
     resultsPosition: TResultsPosition;
     headerInEmptyListVisible: boolean;
     ladderProperties: string[];
+    stickyColumn: {};
 }
 
 export default class GridCollection<
@@ -32,11 +33,13 @@ export default class GridCollection<
     protected _$results: GridResults<S>;
     protected _$ladder: {};
     protected _$ladderProperties: string[];
+    protected _$stickyColumn: {};
     protected _$resultsPosition: TResultsPosition;
     protected _$headerInEmptyListVisible: boolean;
 
     constructor(options: IOptions<S, T>) {
         super(options);
+
         this._initializeLadder(this._$ladderProperties, this._$columns);
 
         this._$headerInEmptyListVisible = options.headerInEmptyListVisible;
@@ -85,6 +88,21 @@ export default class GridCollection<
         let result;
         if (this._$ladder && this._$ladder.ladder) {
             result = this._$ladder.ladder[this.getIndex(item)];
+        }
+        return result;
+    }
+
+    getStickyColumn(): GridLadderUtil.IStickyColumn {
+        return GridLadderUtil.getStickyColumn({
+            stickyColumn: this._$stickyColumn,
+            columns: this._$columns
+        });
+    }
+
+    getStickyLadder(item: T): {} {
+        let result;
+        if (this._$ladder && this._$ladder.stickyLadder) {
+            result = this._$ladder.stickyLadder[this.getIndex(item)];
         }
         return result;
     }
@@ -150,5 +168,6 @@ Object.assign(GridCollection.prototype, {
     _$columns: null,
     _$headerInEmptyListVisible: false,
     _$resultsPosition: null,
-    _$ladderProperties: null
+    _$ladderProperties: null,
+    _$stickyColumn: null
 });
