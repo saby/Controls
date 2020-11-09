@@ -137,6 +137,8 @@ export default class InputContainer extends Control<IInputControllerOptions> {
 
    private _dependenciesTimer: DependencyTimer = null;
 
+   private _onMouseenterLoadingStarted: boolean = false;
+
    /**
     * three state flag
     * null - loading is not initiated
@@ -175,6 +177,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       this._suggestDirection = null;
       this._setMisspellingCaption(null);
       this._markerVisibility = 'onactivated';
+      this._onMouseenterLoadingStarted = false;
    }
 
    private _setSuggestMarkedKey(key: Key): void {
@@ -256,7 +259,8 @@ export default class InputContainer extends Control<IInputControllerOptions> {
 
          if (!this._options.suggestState &&
             this._options.source &&
-            !sourceController.isLoading()) {
+            !sourceController.isLoading() &&
+            !this._onMouseenterLoadingStarted) {
             return sourceController.load().then((recordSet) => {
                if (recordSet instanceof RecordSet) {
                   this._setItems(recordSet);
@@ -850,7 +854,11 @@ export default class InputContainer extends Control<IInputControllerOptions> {
             this._dependenciesTimer.start(this._loadDependencies.bind(this));
          }
 
-         if (!this._filter) {
+         if (!this._filter &&
+            !this._getSourceController().isLoading() &&
+            !this._onMouseenterLoadingStarted) {
+
+            this._onMouseenterLoadingStarted = true;
             this._resolveLoad();
          }
       }

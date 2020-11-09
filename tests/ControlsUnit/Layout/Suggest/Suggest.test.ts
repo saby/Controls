@@ -1348,5 +1348,32 @@ describe('Controls/suggest', () => {
          });
 
       });
+
+      describe('Suggest::_inputMouseEnterHandler', () => {
+         it('load called once on input hover', async () => {
+            const sandbox = sinon.createSandbox();
+
+            const suggestComponent = getComponentObject({
+               autoDropDown: true,
+               suggestState: false
+            });
+            if (!document) {
+               sandbox.stub(suggestComponent, '_getActiveElement').callsFake(() => ({
+                  classList: {
+                     contains: () => false
+                  }
+               }));
+            }
+
+            const loadStub = sandbox.stub(suggestComponent._getSourceController(), 'load');
+
+            suggestComponent._inputMouseEnterHandler(null);
+            suggestComponent._inputActivated();
+
+            assert.isTrue(loadStub.calledOnce);
+
+            sandbox.restore();
+         });
+      });
    });
 });
