@@ -170,15 +170,17 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._stack = new StackOpener();
 
         if (options.source) {
-            return this._loadItems(options).then(() => {
-                if (options.markerVisibility !== MarkerVisibility.Hidden) {
-                    this._markerController = this._getMarkerController(options);
-                    const markedKey = this._markerController.calculateMarkedKeyForVisible();
-                    this._markerController.setMarkedKey(markedKey);
-                }
-                if (options.selectedKeys && options.selectedKeys.length && options.multiSelect) {
-                    this._selectionController = this._createSelectionController(options);
-                    this._selectionController.setSelection(this._selectionController.getSelection());
+            return this._loadItems(options).then((items) => {
+                if (items instanceof RecordSet) {
+                    if (options.markerVisibility !== MarkerVisibility.Hidden) {
+                        this._markerController = this._getMarkerController(options);
+                        const markedKey = this._markerController.calculateMarkedKeyForVisible();
+                        this._markerController.setMarkedKey(markedKey);
+                    }
+                    if (options.selectedKeys && options.selectedKeys.length && options.multiSelect) {
+                        this._selectionController = this._createSelectionController(options);
+                        this._selectionController.setSelection(this._selectionController.getSelection());
+                    }
                 }
             });
         }
