@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate"
+<ws:partial template="Controls/grid:ColumnTemplate"
             attr:class="js-controls-ListView__notEditable controls-Grid__row-cell__content_baseline_L"
             itemData="{{itemData}}">
     <ws:contentTemplate>
@@ -6,7 +6,7 @@
             <ws:partial template="{{ladderWrapper}}" stickyProperty="{{stickyProperty}}" ladderProperty="date">
                 <div class="ControlsDemo_dateTime-cell ControlsDemo_date-cell">{{itemData.item['date']}}</div>
             </ws:partial>
-            <ws:partial template="{{ladderWrapper}}" stickyProperty="{{stickyProperty}}" ladderProperty="time">
+            <ws:partial template="{{ladderWrapper}}" stickyProperty="{{stickyProperty}}"  ladderProperty="time">
                 <div class="ControlsDemo_dateTime-cell ControlsDemo_time-cell">{{itemData.item['time']}}</div>
             </ws:partial>
         </div>

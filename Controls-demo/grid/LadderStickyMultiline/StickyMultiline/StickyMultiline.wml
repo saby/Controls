@@ -1,6 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:class="controlsDemo__height300">
-        <Controls.gridNew:View
+        <Controls.list:Mover name="listMover"/>
+        <Controls.grid:View
                 keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
