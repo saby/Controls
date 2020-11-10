@@ -8,6 +8,8 @@ import { Model as EntityModel } from 'Types/entity';
 
 type TResultsCells<T> = Array<GridResultsCell<T>>;
 
+export type TResultsPosition = 'top' | 'bottom';
+
 export interface IOptions<T> {
     owner: GridCollection<T>;
     resultsTemplate: TemplateFunction;

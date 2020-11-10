@@ -1,8 +1,12 @@
-<Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{'transparent'}}"
+<Controls.scroll:StickyHeader position="topbottom"
+                              backgroundStyle="{{'transparent'}}"
                               shadowVisibility="hidden"
                               mode="replaceable"
-                              attr:style="z-index: 2">
+                              attr:class="{{ gridColumn.getStickyHeaderClasses() }}"
+                              attr:style="{{ gridColumn.getStickyHeaderStyles() }}">
    <div attr:class="{{ gridColumn.getOriginalContentClasses(theme, cursor, templateHighlightOnHover) }}">
-      <ws:partial template="{{ gridColumn.getOriginalTemplate() }}" scope="{{ _options }}"/>
+      <ws:partial template="{{ gridColumn.getOriginalTemplate() }}"
+                  scope="{{ _options }}"
+                  stickyProperty="{{ gridColumn.getStickyProperty() }}"/>
    </div>
 </Controls.scroll:StickyHeader>

@@ -2,8 +2,10 @@ import CollectionItem, { IOptions as IBaseOptions } from './CollectionItem';
 import GridCollection from './GridCollection';
 import GridColumn, { IOptions as IGridColumnOptions } from './GridColumn';
 import { IColumn, TColumns } from 'Controls/grid';
-import GridLadderColumn from "./GridLadderColumn";
-import GridCheckboxColumn from "./GridCheckboxColumn";
+import GridCheckboxColumn from './GridCheckboxColumn';
+import GridHeader from './GridHeader';
+import { TResultsPosition } from './GridResults';
+import GridStickyLadderColumn from './GridStickyLadderColumn';
 
 export interface IOptions<T> extends IBaseOptions<T> {
     owner: GridCollection<T>;
@@ -82,10 +84,46 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
         };
     }
 
-    getLadderWrapperClasses(ladderProperty: string): string {
+    getStickyLadder(): {} {
+        return this._$owner.getStickyLadder(this);
+    }
+
+    getHeader(): GridHeader<T> {
+        return this._$owner.getHeader();
+    }
+
+    getResultsPosition(): TResultsPosition {
+        return this._$owner.getResultsPosition();
+    }
+
+    getStickyLadderProperties(column: IColumn): string[] {
+        let stickyProperties = column && column.stickyProperty;
+        if (stickyProperties && !(stickyProperties instanceof Array)) {
+            stickyProperties = [stickyProperties];
+        }
+        return stickyProperties as string[];
+    }
+
+    getLadderWrapperClasses(ladderProperty: string, stickyProperty: string): string {
         let ladderWrapperClasses = 'controls-Grid__row-cell__ladder-content';
         const ladder = this._$owner.getLadder(this);
-        if (ladder && !(ladder[ladderProperty].ladderLength >= 1)) {
+        const stickyLadder = this.getStickyLadder();
+        const stickyProperties = this.getStickyLadderProperties(this._$columns[0]);
+        const index = stickyProperties.indexOf(stickyProperty);
+        const hasMainCell = !!(stickyLadder[stickyProperties[0]].ladderLength);
+
+        if (stickyProperty && ladderProperty && stickyProperty !== ladderProperty && (
+            index === 1 && !hasMainCell || index === 0 && hasMainCell)) {
+            ladderWrapperClasses += ' controls-Grid__row-cell__ladder-content_displayNoneForLadder';
+        }
+
+        if (stickyProperty === ladderProperty && index === 1 && hasMainCell) {
+            ladderWrapperClasses += ' controls-Grid__row-cell__ladder-content_additional-with-main';
+        }
+
+        if ((stickyProperty === ladderProperty || !stickyProperty) && ladder[ladderProperty].ladderLength >= 1 || !ladder) {
+
+        } else {
             ladderWrapperClasses += ' controls-Grid__row-cell__ladder-content_hiddenForLadder';
         }
         return ladderWrapperClasses;
@@ -123,21 +161,39 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
         if (this._$columns) {
             const createMultiSelectColumn = this.getMultiSelectVisibility() !== 'hidden';
             // todo Множественный stickyProperties можно поддержать здесь:
-            const stickyLadderStyle = this._getStickyLadderStyle(this._$columns[0]);
-            const createLadderColumn = !!stickyLadderStyle;
+            const stickyLadderProperties = this.getStickyLadderProperties(this._$columns[0]);
+            const stickyLadderStyleForFirstProperty = stickyLadderProperties &&
+                                                      this._getStickyLadderStyle(this._$columns[0], stickyLadderProperties[0]);
+            const stickyLadderStyleForSecondProperty = stickyLadderProperties && stickyLadderProperties.length === 2 &&
+                                                       this._getStickyLadderStyle(this._$columns[0], stickyLadderProperties[1]);
             const factory = this._getColumnsFactory();
 
             this._$columnItems = this._$columns.map((column) => factory({ column }));
 
-            if (createLadderColumn) {
-                // todo ladderFactory сделать через наследование от базового columnFactory, т.к. row span нужен только
-                //      для лесенки (будет ли он нужен для обычных строк и как он будет работать в таком случае?)
+            if (stickyLadderStyleForSecondProperty || stickyLadderStyleForFirstProperty) {
                 this._$columnItems[0].setHiddenForLadder(true);
+            }
+
+            if (stickyLadderStyleForSecondProperty) {
+                this._$columnItems.splice(1,0,new GridStickyLadderColumn({
+                    column: this._$columns[0],
+                    owner: this,
+                    wrapperStyle: stickyLadderStyleForSecondProperty,
+                    contentStyle: `left: -${this._$columns[0].width}; right: 0;`,
+                    stickyProperty: stickyLadderProperties[1],
+                    stickyHeaderZIndex: 1
+                }));
+            }
+
+            if (stickyLadderStyleForFirstProperty) {
                 this._$columnItems = ([
-                    new GridLadderColumn({
+                    new GridStickyLadderColumn({
                         column: this._$columns[0],
                         owner: this,
-                        style: stickyLadderStyle
+                        wrapperStyle: stickyLadderStyleForFirstProperty,
+                        contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this._$columns[0].width};` : '',
+                        stickyProperty: stickyLadderProperties[0],
+                        stickyHeaderZIndex: 2
                     })
                 ] as GridColumn<T>[]).concat(this._$columnItems);
             }
@@ -153,19 +209,9 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
         }
     }
 
-    protected _getStickyLadderStyle(column: IColumn): string {
-        let stickyProperties = column && column.stickyProperty;
-        if (stickyProperties && !(stickyProperties instanceof Array)) {
-            stickyProperties = [stickyProperties];
-        }
-        if (!stickyProperties) {
-            return '';
-        }
-        // todo Множественный stickyProperties можно поддержать здесь:
+    protected _getStickyLadderStyle(column: IColumn, stickyProperty: string): string {
         const stickyLadder = this._$owner.getStickyLadder(this);
-        const stickyColumn = this._$owner.getStickyColumn();
-        return stickyColumn && stickyColumn.index === 0 &&
-               stickyLadder && stickyLadder[stickyProperties[0]].headingStyle;
+        return stickyLadder && stickyLadder[stickyProperty].headingStyle;
     }
 
     protected _redrawColumns(target: 'first'|'last'|'all'): void {

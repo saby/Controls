@@ -20,6 +20,9 @@ const _private = {
             columns
         });
         if (ladderStickyColumn) {
+            if (ladderStickyColumn.property.length === 2) {
+                columnsWidths.splice(1, 0, '0px');
+            }
             columnsWidths = ['0px'].concat(columnsWidths);
         }
         if (hasMultiSelect) {
