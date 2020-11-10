@@ -120,11 +120,15 @@ define(
          });
 
          it('_private.getPopupConfig', function() {
-            let expectedConfig = {
+            const expectedConfig = {
                templateOptions: {
                   template: 'testTemplateName',
                   items: ['testItems'],
                   historyId: 'testHistoryId'
+               },
+               autofocus: true,
+               eventHandlers: {
+                  onResult: () => {}
                },
                fittingMode: {
                   horizontal: 'overflow',
@@ -133,7 +137,7 @@ define(
                template: 'Controls/filterPopup:_FilterPanelWrapper',
                target: 'panelTarget'
             };
-            let self = {
+            const self = {
                _options: {
                   templateName: 'testTemplateName',
                   items: ['testItems'],
@@ -141,9 +145,14 @@ define(
                },
                _children: {
                   panelTarget: 'panelTarget'
-               }
+               },
+               _onFilterChanged: () => {}
             };
-            assert.deepEqual(expectedConfig, filterMod.Selector._private.getPopupConfig(self));
+            const resultOptions = filterMod.Selector._private.getPopupConfig(self);
+            assert.deepEqual(expectedConfig.templateOptions, resultOptions.templateOptions);
+            assert.deepEqual(expectedConfig.fittingMode, resultOptions.fittingMode);
+            assert.equal(expectedConfig.template, resultOptions.template);
+            assert.equal(expectedConfig.target, resultOptions.target);
          });
 
          it('_private.setPopupOptions', function() {

@@ -15,6 +15,7 @@ import {isEqual} from 'Types/object';
 import {dropdownHistoryUtils as historyUtils} from 'Controls/dropdown';
 import {getItemsWithHistory, getUniqItems, deleteHistorySourceFromConfig} from 'Controls/_filter/HistoryUtils';
 import {Model} from 'Types/entity';
+import {StickyOpener} from 'Controls/popup';
 
       /**
        * Контрол "Быстрый фильтр". Использует выпадающие списки для выбора параметров фильтрации.
@@ -30,7 +31,7 @@ import {Model} from 'Types/entity';
        * @extends Core/Control
        * @mixes Controls/_filter/interface/IFastFilter
        * @demo Controls-demo/FastFilter/fastPG
-       * 
+       *
        * @public
        * @deprecated Данный контрол устарел и будет удалён. Вместо него используйте {@link Controls/filter:View}.
        * @author Герасимов А.М.
@@ -46,7 +47,7 @@ import {Model} from 'Types/entity';
        * @mixes Controls/_filter/interface/IFastFilter
        * @mixes Controls/_filter/Fast/FastStyles
        * @demo Controls-demo/FastFilter/fastPG
-       * 
+       *
        * @public
        * @author Герасимов А.М.
        */
@@ -250,9 +251,9 @@ import {Model} from 'Types/entity';
             }
          },
 
-         onResult: function(event, action, data) {
+         onResult: function(action, data) {
              if (action === 'footerClick') {
-                 this._children.DropdownOpener.close();
+                 this._stickyOpener.close();
              } else if (data && action !== 'menuOpened') {
                  const items = action === 'itemClick' ? [data] : data;
                  if (action === 'selectorResult') {
@@ -260,14 +261,14 @@ import {Model} from 'Types/entity';
                      _private.onSelectorResult(this._configs[this._indexOpenedFilter], items);
                  } else if (action === 'selectorDialogOpened') {
                      this._afterSelectorOpenCallback(items);
-                     this._children.DropdownOpener.close();
+                     this._stickyOpener.close();
                      return;
                  } else {
                      _private.updateHistory(this._configs[this.lastOpenIndex], items);
                  }
                  _private.selectItems.call(this, items);
                  _private.notifyChanges(this, this._items);
-                 this._children.DropdownOpener.close();
+                 this._stickyOpener.close();
              }
          },
 
@@ -389,6 +390,7 @@ import {Model} from 'Types/entity';
          _template: template,
          _configs: null,
          _items: null,
+         _stickyOpener: StickyOpener,
 
          _beforeMount: function(options, context, receivedState) {
             this._configs = [];
@@ -411,6 +413,7 @@ import {Model} from 'Types/entity';
                resultDef = _private.loadConfigFromSource(this, options);
             }
             this._hasSelectorTemplate = _private.hasSelectorTemplate(this._configs);
+            this._stickyOpener = new StickyOpener();
             return resultDef;
          },
           // TODO: убрать по задаче: https://online.sbis.ru/opendoc.html?guid=637922a8-7d23-4d18-a7f2-b58c7cfb3cb0
@@ -453,11 +456,11 @@ import {Model} from 'Types/entity';
             }
 
             const open = (config) => {
-               this._children.DropdownOpener.open(config, this);
+               this._stickyOpener.open(config, this);
             };
 
-            var selectedKeys = getPropValue(this._items.at(index), 'value');
-            var templateOptions = {
+            const selectedKeys = getPropValue(this._items.at(index), 'value');
+            const templateOptions = {
                source: new PrefetchProxy({
                   target: this._configs[index]._source,
                   data: {
@@ -472,14 +475,23 @@ import {Model} from 'Types/entity';
                navigation: this._configs[index]._sourceController.getNavigation(),
                selectorDialogResult: this._onSelectorTemplateResult.bind(this),
                afterSelectorOpenCallback: this._afterSelectorOpenCallback.bind(this),
-               dropdownClassName: `controls-FastFilter_width-popup_theme-${this._options.theme}`
+               dropdownClassName: `controls-FastFilter_width-popup_theme-${this._options.theme}`,
+               closeButtonVisibility: true,
+               selectorOpenCallback: this._selectorOpenCallback
             };
-            var config = {
+            const config = {
+               opener: this,
                templateOptions: Merge(_private.getItemPopupConfig(this._configs[index]), templateOptions),
                className: (this._configs[index].multiSelect ? 'controls-FastFilter_multiSelect-popup' : 'controls-FastFilter-popup') + '_theme_' + this._options.theme,
                fittingMode: {
                   horizontal: 'overflow',
                   vertical: 'adaptive'
+               },
+               template: 'Controls/menu:Popup',
+               closeOnOutsideClick: true,
+               actionOnScroll: 'close',
+               eventHandlers: {
+                  onResult: this._onResult.bind(this)
                },
 
                // FIXME: this._container - jQuery element in old controls envirmoment https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
@@ -503,13 +515,13 @@ import {Model} from 'Types/entity';
 
          _onSelectorTemplateResult: function(event, items) {
             let resultSelectedItems = this._notify('selectorCallback', [this._configs[this._indexOpenedFilter].initSelectorItems, items, this._indexOpenedFilter]) || items;
-            this._onResult(event, 'selectorResult', resultSelectedItems);
+            this._onResult('selectorResult', resultSelectedItems);
          },
 
          _afterSelectorOpenCallback: function(selectedItems) {
             this._indexOpenedFilter = this.lastOpenIndex;
             this._configs[this._indexOpenedFilter].initSelectorItems = selectedItems;
-            this._children.DropdownOpener.close();
+            this._stickyOpener.close();
          },
 
          _setText: function() {
@@ -546,14 +558,18 @@ import {Model} from 'Types/entity';
          },
 
          _reset: function(event, item, index) {
-            if (this._children.DropdownOpener.isOpened()) {
-               this._children.DropdownOpener.close();
+            if (this._stickyOpener.isOpened()) {
+               this._stickyOpener.close();
             }
             var newValue = getPropValue(this._items.at(index), 'resetValue');
             setPropValue(this._items.at(index), 'value', newValue);
             _private.setTextValue(this._items.at(index), '');
             _private.notifyChanges(this, this._items);
             this._setText();
+         },
+
+         _beforeUnmount(): void {
+            this._stickyOpener.destroy();
          }
       });
 

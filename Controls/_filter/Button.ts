@@ -9,6 +9,7 @@ import Deferred = require('Core/Deferred');
 import libHelper = require('Core/library');
 import {isEqual} from 'Types/object';
 import {resetFilter} from 'Controls/_filter/resetFilterUtils';
+import {StickyOpener} from 'Controls/popup';
 /**
  * Контрол "Кнопка фильтров". Предоставляет возможность отображать и редактировать фильтр в удобном для пользователя виде. Состоит из кнопки-иконки и строкового представления выбранного фильтра.
  * @remark
@@ -23,7 +24,7 @@ import {resetFilter} from 'Controls/_filter/resetFilterUtils';
  * @mixes Controls/_filter/interface/IFilterButton
  * @demo Controls-demo/Filter/Button/PanelVDom
  * @deprecated Данный контрол устарел и будет удалён. Вместо него используйте {@link Controls/filter:View}.
- * 
+ *
  * @public
  * @author Герасимов А.М.
  *
@@ -141,18 +142,24 @@ var _private = {
       });
    },
    getPopupConfig: function(self) {
-      return {
-         templateOptions: {
-            template: self._options.templateName,
-            items: self._options.items,
-            historyId: self._options.historyId
-         },
-         fittingMode: {
-            horizontal: 'overflow',
-            vertical: 'adaptive'
-         },
-         template: 'Controls/filterPopup:_FilterPanelWrapper',
-         target: self._children.panelTarget
+      return { ...{
+            opener: self,
+            templateOptions: {
+               template: self._options.templateName,
+               items: self._options.items,
+               historyId: self._options.historyId
+            },
+            fittingMode: {
+               horizontal: 'overflow',
+               vertical: 'adaptive'
+            },
+            template: 'Controls/filterPopup:_FilterPanelWrapper',
+            target: self._children.panelTarget,
+            eventHandlers: {
+               onResult: self._onFilterChanged.bind(self)
+            },
+            autofocus: true
+         }, ...self._popupOptions
       };
    }
 };
@@ -166,12 +173,14 @@ var FilterButton = Control.extend(/** @lends Controls/_filter/Button.prototype *
    _historyId: null,
    _popupOptions: null,
    _depsDeferred: null,
+   _stickyOpener: StickyOpener,
 
    _beforeMount: function(options) {
       if (options.items) {
          _private.resolveItems(this, options.items);
       }
       _private.setPopupOptions(this, options.alignment);
+      this._stickyOpener = new StickyOpener();
    },
 
    _beforeUpdate: function(options) {
@@ -205,19 +214,23 @@ var FilterButton = Control.extend(/** @lends Controls/_filter/Button.prototype *
       var self = this;
       if (!this._options.readOnly) {
          _private.requireDeps(this).addCallback(function(res) {
-            self._children.filterStickyOpener.open(_private.getPopupConfig(self));
+            self._stickyOpener.open(_private.getPopupConfig(self));
             return res;
          });
       }
    },
 
-   _onFilterChanged: function(event, data) {
+   _onFilterChanged: function(data) {
       this._notify('filterChanged', [data.filter]);
       if (data.history) {
          this._notify('historyApply', [data.history,  {bubbling: true}]);
       }
       // The format of the items from the history is different from the items in filter button, so a flag is added to the event
       this._notify('itemsChanged', [data.items, !!data.history]);
+   },
+
+   _beforeUnmount(): void {
+      this._stickyOpener.destroy();
    }
 });
 

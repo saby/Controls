@@ -23,6 +23,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {DependencyTimer} from 'Controls/fastOpenUtils';
 import {load} from 'Core/library';
 import {IFilterItem} from './View/interface/IFilterView';
+import {StickyOpener, StackOpener} from 'Controls/popup';
 
 /**
  * Контрол "Объединенный фильтр". Предоставляет возможность отображать и редактировать фильтр в удобном для пользователя виде.
@@ -163,7 +164,7 @@ var _private = {
                     }
                     popupItem.hasMoreButton = configs[item.name].sourceController.hasMoreData('down');
                     popupItem.sourceController = configs[item.name].sourceController;
-                    popupItem.selectorOpener = self._children.selectorOpener;
+                    popupItem.selectorOpener = self._stackOpener;
                     popupItem.selectorDialogResult = self._onSelectorTemplateResult.bind(self);
                 }
                 popupItems.push(popupItem);
@@ -676,6 +677,8 @@ var Filter = Control.extend({
     _dateRangeItem: null,
     _hasResetValues: true,
     _dependenciesTimer: null,
+    _stickyOpener: StickyOpener,
+    _stackOpener: StackOpener,
 
     _beforeMount: function(options, context, receivedState) {
         this._configs = {};
@@ -692,6 +695,8 @@ var Filter = Control.extend({
             resultDef = _private.reload(this, true, options.panelTemplateName);
         }
         this._hasSelectorTemplate = _private.hasSelectorTemplate(this._source);
+        this._stickyOpener = new StickyOpener();
+        this._stackOpener = new StackOpener();
         return resultDef;
     },
 
@@ -738,6 +743,8 @@ var Filter = Control.extend({
         }
         this._configs = null;
         this._displayText = null;
+        this._stickyOpener.destroy();
+        this._stackOpener.destroy();
     },
 
     openDetailPanel: function() {
@@ -812,14 +819,20 @@ var Filter = Control.extend({
             return;
         }
         var popupOptions = {
+            opener: this,
             templateOptions: {
                 items: items,
                 historyId: this._options.historyId
             },
+            eventHandlers: {
+                onResult: this._resultHandler.bind(this)
+            },
             target: this._container[0] || this._container,
-            actionOnScroll: detection.isMobileIOS ? 'none' : 'close'
+            actionOnScroll: detection.isMobileIOS ? 'none' : 'close',
+            className: 'controls-FilterView-popup',
+            closeOnOutsideClick: true
         };
-        this._children.StickyOpener.open(Merge(popupOptions, panelPopupOptions), this);
+        this._stickyOpener.open(Merge(popupOptions, panelPopupOptions), this);
     },
 
     _rangeTextChangedHandler: function(event, textValue) {
@@ -834,7 +847,7 @@ var Filter = Control.extend({
         _private.notifyChanges(this, this._source);
     },
 
-    _resultHandler: function(event, result) {
+    _resultHandler: function(result) {
         if (!result.action) {
             const filterSource = converterFilterItems.convertToFilterSource(result.items);
             _private.resolveItems(this, mergeSource(this._source, filterSource));
@@ -848,10 +861,10 @@ var Filter = Control.extend({
             }
             _private.notifyChanges(this, this._source);
         }
-        this._children.StickyOpener.close();
+        this._stickyOpener.close();
     },
 
-    _onSelectorTemplateResult: function(event, items) {
+    _onSelectorTemplateResult: function(items) {
         const config = this._configs[this._idOpenSelector];
         if (!config.items && items.getCount()) {
             config.items = new RecordSet({
@@ -861,7 +874,7 @@ var Filter = Control.extend({
             })
         }
         let resultSelectedItems = this._notify('selectorCallback', [this._configs[this._idOpenSelector].initSelectorItems, items, this._idOpenSelector]) || items;
-        this._resultHandler(event, {action: 'selectorResult', id: this._idOpenSelector, data: resultSelectedItems});
+        this._resultHandler({action: 'selectorResult', id: this._idOpenSelector, data: resultSelectedItems});
     },
 
     _isFastReseted: function() {
@@ -893,8 +906,8 @@ var Filter = Control.extend({
     },
 
     _reset: function(event, item) {
-        if (this._children.StickyOpener.isOpened()) {
-            this._children.StickyOpener.close();
+        if (this._stickyOpener.isOpened()) {
+            this._stickyOpener.close();
         }
         var newValue = object.getPropertyValue(item, 'resetValue');
         object.setPropertyValue(item, 'value', newValue);
@@ -934,14 +947,15 @@ var Filter = Control.extend({
                 });
                 this._idOpenSelector = name;
                 this._configs[name].initSelectorItems = templateOptions.selectedItems;
-                return this._children.selectorOpener.open({
+                return this._stackOpener.open({
                     template: item.editorOptions.selectorTemplate.templateName,
                     templateOptions,
                     eventHandlers: {
                         onSelectComplete: (event, result): void => {
-                            this._onSelectorTemplateResult(event, result);
+                            this._onSelectorTemplateResult(result);
                             this._children.selectorOpener.close();
-                        }
+                        },
+                        onResult: this._onSelectorTemplateResult.bind(this)
                     }
                 });
             }
@@ -949,8 +963,8 @@ var Filter = Control.extend({
     },
 
     _resetFilterText: function() {
-        if (this._children.StickyOpener.isOpened()) {
-            this._children.StickyOpener.close();
+        if (this._stickyOpener.isOpened()) {
+            this._stickyOpener.close();
         }
         factory(this._source).each(function(item) {
             // Быстрые фильтры и фильтр выбора периода
