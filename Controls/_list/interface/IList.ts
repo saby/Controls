@@ -3,14 +3,6 @@ import { IItemActionsOptions } from 'Controls/itemActions';
 import { IMarkerListOptions } from 'Controls/marker';
 import {IFontColorStyle} from 'Controls/interface';
 
-/**
- * Интерфейс для списков.
- *
- * @interface Controls/_list/interface/IList
- * @public
- * @author Авраменко А.С.
- */
-
 type TMultiSelectVisibility = 'visible'|'onhover'|'hidden';
 
 type TListStyle = 'master'|'default';
@@ -23,6 +15,22 @@ export interface IItemPadding {
     left?: THorizontalItemPadding;
     right?: THorizontalItemPadding;
 }
+
+/**
+ * Интерфейс для списков.
+ *
+ * @interface Controls/_list/interface/IList
+ * @public
+ * @author Авраменко А.С.
+ */
+
+/*ENG
+ * Interface for lists.
+ *
+ * @interface Controls/_list/interface/IList
+ * @public
+ * @author Авраменко А.С.
+ */
 
 export interface IList extends IItemActionsOptions, IMarkerListOptions {
     attachLoadTopTriggerToNull?: boolean;
@@ -56,14 +64,6 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * @name Controls/_list/interface/IList#pagingContentTemplate
  * @cfg {Function} Опция управляет отображением счетчика непрочитанных сообщений
  * @see pagingMode
- */
-
-/*ENG
- * Interface for lists.
- *
- * @interface Controls/_list/interface/IList
- * @public
- * @author Авраменко А.С.
  */
 
 /**
