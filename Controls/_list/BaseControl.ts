@@ -94,7 +94,7 @@ import 'wml!Controls/_list/BaseControl/Footer';
 
 import {IList} from './interface/IList';
 import { IScrollControllerResult } from './ScrollContainer/interfaces';
-import { EdgeIntersectionObserver } from 'Controls/scroll';
+import {EdgeIntersectionObserver, scrollToElement} from 'Controls/scroll';
 import { ItemsEntity } from 'Controls/dragnDrop';
 import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
@@ -3130,7 +3130,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _endDragNDropTimer: null, // для IE
     _draggedKey: null,
     _validateController: null,
-    _isEditingRowScrollToElement: true,
 
     // Контроллер для перемещения элементов из источника
     _moveController: null,
@@ -3138,6 +3137,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     // Контроллер для удаления элементов из источника
     _removeController: null,
     _removedItems: [],
+    _editingRowContainer: false,
+    _afterBeginEditPromiseResolver: null,
 
     constructor(options) {
         BaseControl.superclass.constructor.apply(this, arguments);
@@ -4585,12 +4586,52 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _afterBeginEditCallback(item: IEditableCollectionItem, isAdd: boolean): void {
-        // Редактирование может запуститься при построении.
-        if (this._isMounted) {
+        const addPosition = this._getEditingConfig().addPosition;
+
+        const doAfterEditingRowMount = () => {
             this._notify('afterBeginEdit', [item.contents, isAdd]);
 
             if (this._listViewModel.getCount() > 1) {
                 this.setMarkedKey(item.contents.getKey());
+            }
+
+            if (isAdd) {
+                // TODO: https://online.sbis.ru/opendoc.html?guid=b8a501c1-6148-4b6a-aba8-2b2e4365ec3a
+                const addingIndex = addPosition === 'top' ? 0 : (this.getViewModel().getCount() - 1);
+                const isPositionInRange = addingIndex >= this.getViewModel().getStartIndex() && addingIndex < this.getViewModel().getStopIndex();
+                const targetDispItem = this.getViewModel().at(addingIndex);
+                const targetItem = targetDispItem && targetDispItem.getContents();
+                const targetItemKey = targetItem && targetItem.getKey ? targetItem.getKey() : null;
+                if (!isPositionInRange && targetItemKey !== null) {
+                    _private.scrollToItem(this, targetItemKey, false, true).then(() => {
+                        setTimeout(() => {
+                            scrollToElement(this._editingRowContainer);
+                        }, 0);
+                    });
+                } else {
+                    setTimeout(() => {
+                        scrollToElement(this._editingRowContainer);
+                    }, 0);
+                }
+            } else {
+                setTimeout(() => {
+                    scrollToElement(this._editingRowContainer);
+                }, 0);
+            }
+        };
+
+        // Редактирование может запуститься при построении.
+        // При запуске с редактированием события начала редактирования не стреляют
+        if (this._isMounted) {
+            if (this._editingRowContainer) {
+                doAfterEditingRowMount();
+            } else {
+                new Promise((resolve) => {
+                    this._afterBeginEditPromiseResolver = resolve;
+                }).then(() => {
+                    this._afterBeginEditPromiseResolver = null;
+                    doAfterEditingRowMount();
+                });
             }
         }
 
@@ -4640,8 +4681,17 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _afterEndEditCallback(item: IEditableCollectionItem, isAdd: boolean): void {
         this._notify('afterEndEdit', [item.contents, isAdd]);
+        this._editingRowContainer = null;
         item.contents.unsubscribe('onPropertyChange', this._resetValidation);
         _private.updateItemActions(this, this._options);
+    },
+
+    _onEditingRowReady(e, container) {
+        e.stopImmediatePropagation();
+        this._editingRowContainer = container;
+        if (this._afterBeginEditPromiseResolver) {
+            this._afterBeginEditPromiseResolver();
+        }
     },
 
     _resetValidation() {
@@ -4683,14 +4733,13 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _startInitialEditing(editingConfig: Required<IEditableListOption['editingConfig']>) {
         const isAdd = !this._items.getRecordById(editingConfig.item.getKey());
         if (isAdd) {
-            return this._beginAdd({ item: editingConfig.item }, editingConfig.addPosition, false);
+            return this._beginAdd({ item: editingConfig.item }, editingConfig.addPosition);
         } else {
             return this._beginEdit({ item: editingConfig.item });
         }
     },
 
     _beginEdit(options) {
-        this._isEditingRowScrollToElement = true;
         _private.closeSwipe(this);
         this.showIndicator();
         return this._getEditInPlaceController().edit(options && options.item).then((result) => {
@@ -4703,8 +4752,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         });
     },
 
-    _beginAdd(options, addPosition, isScroll: boolean = true) {
-        this._isEditingRowScrollToElement = isScroll;
+    _beginAdd(options, addPosition) {
         _private.closeSwipe(this);
         this.showIndicator();
         return this._getEditInPlaceController().add(options && options.item, addPosition).then((addResult) => {
@@ -4713,17 +4761,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             }
             this._editInPlaceInputHelper.shouldActivate();
             if (!this._isMounted) {
-                return addResult;
-            }
-            // TODO: https://online.sbis.ru/opendoc.html?guid=b8a501c1-6148-4b6a-aba8-2b2e4365ec3a
-            const addingPosition = addPosition === 'top' ? 0 : (this.getViewModel().getCount() - 1);
-            const isPositionInRange = addingPosition >= this.getViewModel().getStartIndex() && addingPosition < this.getViewModel().getStopIndex();
-            const targetDispItem = this.getViewModel().at(addingPosition);
-            const targetItem = targetDispItem && targetDispItem.getContents();
-            const targetItemKey = targetItem && targetItem.getKey ? targetItem.getKey() : null;
-            if (!isPositionInRange && targetItemKey !== null) {
-                return _private.scrollToItem(this, targetItemKey, false, true).then(() => addResult);
-            } else {
                 return addResult;
             }
         }).finally(() => {
