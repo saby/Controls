@@ -110,23 +110,6 @@ define([
          });
       });
 
-      describe('_onScrollStateChangedOld', function() {
-         it('canScroll', function () {
-            const component = createComponent(StickyHeader, {});
-            component._model = {
-               fixedPosition: 'top'
-            };
-            component._onScrollStateChangedOld('canScroll');
-            assert.isTrue(component._canScroll);
-         });
-
-         it('cantScroll', function () {
-            const component = createComponent(StickyHeader, {});
-            component._onScrollStateChangedOld('cantScroll');
-            assert.isFalse(component._canScroll);
-         });
-      });
-
       describe('_observeHandler', function() {
          it('should not update state if control is hidden', function() {
             const component = createComponent(StickyHeader, {});

@@ -287,10 +287,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             position: this._options.position,
         });
 
-        // Переделать на новые события
-        // https://online.sbis.ru/opendoc.html?guid=ca70827b-ee39-4d20-bf8c-32b10d286682
-        RegisterUtil(this, 'listScroll', this._onScrollStateChangedOld);
-
         RegisterUtil(this, 'scrollStateChanged', this._onScrollStateChanged);
 
         RegisterUtil(this, 'controlResize', this._resizeHandler);
@@ -389,49 +385,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     get shadowVisibility(): SHADOW_VISIBILITY {
         return this._options.shadowVisibility;
-    }
-
-    protected _onScrollStateChangedOld(eventType: string, scrollState): void {
-
-        // После полного перехода на новый скролл контейнер эту функцию надо будет удалить.
-        let changed: boolean = false;
-
-        if (eventType === 'canScroll') {
-            this._canScroll = true;
-            changed = true;
-        } else if (eventType === 'cantScroll') {
-            this._canScroll = false;
-        } else if (eventType === 'scrollMoveSync') {
-            const negativeScrollTop = scrollState.scrollTop < 0;
-            if (negativeScrollTop !== this._negativeScrollTop) {
-                this._negativeScrollTop = negativeScrollTop;
-                // При отрицательном scrollTop ничего не обновляем
-                if (!negativeScrollTop) {
-                    changed = true;
-                }
-            }
-        }
-
-        if (this._isMobileIOS) {
-            if (eventType === 'scrollMoveSync' || eventType === 'viewportResize' || eventType === 'scrollResize') {
-                // Пока скролл вотчер полность не инициализировался могут прилетать undefined, обнуляем их.
-                this._scrollState.scrollTop = scrollState.scrollTop || 0;
-                this._scrollState.clientHeight = scrollState.clientHeight;
-                this._scrollState.scrollHeight = scrollState.scrollHeight;
-                const verticalPosition = getScrollPositionTypeByState(this._scrollState, SCROLL_DIRECTION.VERTICAL);
-                if (verticalPosition !== this._scrollState.verticalPosition) {
-                    this._scrollState.verticalPosition = verticalPosition;
-                    // Не надо обновлять представление если заголовок не зафиксирован
-                    if (this._model.fixedPosition) {
-                        changed = true;
-                    }
-                }
-            }
-        }
-
-        if (changed) {
-            this._updateStyles();
-        }
     }
 
     protected _onScrollStateChanged(scrollState: IScrollState, oldScrollState: IScrollState): void {
@@ -771,14 +724,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             (shadowPosition === POSITION.bottom && this._scrollState.verticalPosition !== SCROLL_POSITION.START ||
                 shadowPosition === POSITION.top && this._scrollState.verticalPosition !== SCROLL_POSITION.END));
 
-        let oldShadowVisible: boolean = false;
-        // Актуально только для старого скролл контейнера, удаляем в 7100
-        // https://online.sbis.ru/opendoc.html?guid=c591cddf-885c-4576-b790-c368ab9b8bb9
-        if (!this._isMobileIOS) {
-            oldShadowVisible = this._context?.stickyHeader?.shadowPosition &&
-                this._context?.stickyHeader?.shadowPosition?.indexOf(fixedPosition) !== -1;
-        }
-        return  this._isShadowVisibleByController && (shadowVisible || oldShadowVisible);
+        return  this._isShadowVisibleByController && shadowVisible;
     }
 
     _updateComputedStyle(): void {
