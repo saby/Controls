@@ -39,29 +39,6 @@ export interface ITabsTemplateOptions extends IItemTemplateOptions, IHeightOptio
 export interface ITabsOptions extends ITabsButtonsOptions, ITabsTemplateOptions {
 }
 
-/**
- * Контрол предоставляет пользователю возможность выбрать между двумя или более вкладками.
- *
- * @remark
- * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FTabs%2FButtons">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_tabs.less">переменные тем оформления</a>
- *
- * @class Controls/_tabs/Buttons
- * @extends Core/Control
- * @mixes Controls/interface:ISingleSelectable
- * @mixes Controls/interface:ISource
- * @mixes Controls/interface:IItems
- * @mixes Controls/interface:IHeight
- * @mixes Controls/_tabs/interface/ITabsButtons
- * @mixes Controls/tabs:ITabsTemplateOptions
- *
- * @public
- * @author Красильников А.С.
- * @demo Controls-demo/Tabs/Buttons
- * @cssModifier controls-Tabs__item-underline_theme-{{_options.theme}} Позволяет добавить горизонтальный разделитель к прикладному контенту, чтобы расположить его перед вкладками.
- */
-
 interface IReceivedState {
     items: RecordSet;
     itemsOrder: number[];
@@ -80,6 +57,27 @@ const isTemplateObject = (tmpl: any): boolean => {
     return isTemplate(tmpl);
 };
 
+/**
+ * Контрол предоставляет пользователю возможность выбрать между двумя или более вкладками.
+ *
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_tabs.less">переменные тем оформления</a>
+ *
+ * @class Controls/_tabs/Buttons
+ * @extends Core/Control
+ * @mixes Controls/interface:ISingleSelectable
+ * @mixes Controls/interface:ISource
+ * @mixes Controls/interface:IItems
+ * @mixes Controls/interface:IHeight
+ * @mixes Controls/_tabs/interface/ITabsButtons
+ * @mixes Controls/tabs:ITabsTemplateOptions
+ *
+ * @public
+ * @author Красильников А.С.
+ * @demo Controls-demo/Tabs/Buttons
+ * @cssModifier controls-Tabs__item-underline_theme-{{_options.theme}} Позволяет добавить горизонтальный разделитель к прикладному контенту, чтобы расположить его перед вкладками.
+ */
 class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems, ITabsTemplate, IHeight {
     readonly '[Controls/_tabs/interface/ITabsButtons]': boolean = true;
     readonly '[Controls/_interface/IItems]': boolean = true;
