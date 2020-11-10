@@ -3,6 +3,7 @@ import GridCollectionItem, { IOptions as IGridCollectionItemOptions } from './Gr
 import { TemplateFunction } from 'UI/Base';
 import { TColumns } from '../_grid/interface/IColumn';
 import { THeader } from '../_grid/interface/IHeaderCell';
+import GridColgroup from './GridColgroup';
 import GridHeader from './GridHeader';
 import GridResults from './GridResults';
 import GridFooter from './GridFooter';
@@ -30,6 +31,7 @@ export default class GridCollection<
     T extends GridCollectionItem<S> = GridCollectionItem<S>
 > extends Collection<S, T> {
     protected _$columns: TColumns;
+    protected _$colgroup: GridColgroup<S>;
     protected _$header: GridHeader<S>;
     protected _$footer: GridFooter<S>;
     protected _$results: GridResults<S>;
@@ -37,6 +39,8 @@ export default class GridCollection<
     protected _$ladder: {}; */
     protected _$resultsPosition: TResultsPosition;
     protected _$headerInEmptyListVisible: boolean;
+
+    protected _$isFullGridSupport: boolean;
 
     constructor(options: IOptions<S, T>) {
         super(options);
@@ -52,6 +56,9 @@ export default class GridCollection<
         if (this._resultsIsVisible()) {
             this._$results = this._initializeResults(options);
         }
+        if (!this._$isFullGridSupport) {
+            this._$colgroup = this._initializeColgroup(options);
+        }
         /* todo заготовка для ladder
         if (isSupportLadder(options.ladderProperties)) {
             this._$ladder = this._initializeLadder(options);
@@ -60,6 +67,10 @@ export default class GridCollection<
 
     getColumns(): TColumns {
         return this._$columns;
+    }
+
+    getColgroup(): GridColgroup<S> {
+        return this._$colgroup;
     }
 
     getHeader(): GridHeader<S> {
@@ -130,6 +141,12 @@ export default class GridCollection<
         });
     }
 
+    protected _initializeColgroup(options: IOptions<S>): GridColgroup<S> {
+        return new GridColgroup({
+            owner: this
+        });
+    }
+
     protected _getItemsFactory(): ItemsFactory<T> {
         const superFactory = super._getItemsFactory();
         return function CollectionItemsFactory(options?: IGridCollectionItemOptions<S>): T {
@@ -148,5 +165,6 @@ Object.assign(GridCollection.prototype, {
     _itemModule: 'Controls/display:GridCollectionItem',
     _$columns: null,
     _$headerInEmptyListVisible: false,
-    _$resultsPosition: null
+    _$resultsPosition: null,
+    _$isFullGridSupport: true
 });

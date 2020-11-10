@@ -1,0 +1,39 @@
+<tr attr:class="controls-Grid__row controls-ListView__itemV controls-ListView__itemV_cursor-pointer controls-Grid__row_highlightOnHover_default_theme-default controls-Grid__row_default_theme-default">
+   <ws:for data="column in item.getColumns()">
+      <td attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style) }}">
+         <div class="{{ column.getRelativeCellWrapperClasses(theme) }}">
+            <div if="{{ column.shouldDisplayMarker(marker) }}" attr:class="{{ column.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
+            <ws:if data="{{ column.isMultiSelectColumn() }}">
+               <ws:partial template="{{ multiSelectTpl }}"
+                           attr:class="{{ column.getContentClassesMultiSelectCell(theme) }}">
+                  <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
+                                      key="{{ (item || itemData).getContents().getKey() }}"
+                                      checkboxReadOnly="{{ checkboxReadOnly }}"/>
+               </ws:partial>
+            </ws:if>
+            <ws:else>
+               <div attr:class="{{ column.getContentClasses(theme, cursor, highlightOnHover) }}"
+                    attr:style="{{ column.getCellStyles() }}">
+                  <ws:partial template="{{ column.getTemplate() }}"
+                              attr:key="{{ column.getInstanceId() }}"
+                              column="{{ column.getOriginalColumn() }}"
+                              item="{{ (item || itemData) }}"
+                              itemData="{{ (item || itemData) }}"/>
+               </div>
+            </ws:else>
+            <ws:if data="{{ column.shouldDisplayItemActions() }}">
+               <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
+                  <ws:partial template="{{ swipeTemplate }}"
+                              highlightOnHover="{{ highlightOnHover }}" />
+               </ws:if>
+               <ws:else data="{{ itemActionsPosition !== 'custom' }}">
+                  <ws:partial template="{{ itemActionsTemplate }}"
+                              itemData="{{ item || itemData }}"
+                              itemActionsClass="{{ itemActionsClass }}"
+                              highlightOnHover="{{ highlightOnHover }}"/>
+               </ws:else>
+            </ws:if>
+         </div>
+      </td>
+   </ws:for>
+</tr>

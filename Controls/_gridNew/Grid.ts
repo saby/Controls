@@ -1,5 +1,6 @@
-import { ListControl as viewTemplate, View as List } from 'Controls/list';
+import { View as List } from 'Controls/list';
 import viewName = require('Controls/_gridNew/GridView');
+import viewTemplate from './GridControl';
 
 export default class Grid extends List {
     _viewName = viewName;

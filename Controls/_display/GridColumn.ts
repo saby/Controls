@@ -160,6 +160,19 @@ export default class GridColumn<T> extends mixin<
         return wrapperClasses;
     }
 
+    // Only for partial grid support
+    getRelativeCellWrapperClasses(theme: string): string {
+        const rowSeparatorSize = this._$owner.getRowSeparatorSize();
+
+        // Единственная ячейка с данными сама формирует высоту строки и не нужно применять хак для растягивания контента ячеек по высоте ячеек.
+        // Подробнее искать по #grid_relativeCell_td.
+        const shouldFixAlignment = this._$owner.getColumns().length === (this._$owner.getMultiSelectVisibility() !== 'hidden' ? 2 : 1);
+
+        return 'controls-Grid__table__relative-cell-wrapper ' +
+               `controls-Grid__table__relative-cell-wrapper_rowSeparator-${rowSeparatorSize}_theme-${theme} ` +
+               (shouldFixAlignment ? 'controls-Grid__table__relative-cell-wrapper_singleCell' : '');
+    }
+
     getContentClassesMultiSelectCell(theme: string): string {
         let contentClasses = '';
         if (this._$owner.getMultiSelectVisibility() === 'onhover' && !this._$owner.isSelected()) {

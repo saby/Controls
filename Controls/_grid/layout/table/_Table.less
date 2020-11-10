@@ -85,12 +85,16 @@
 
    // Этот стиль задаётся для tr и при display: table-row-group ломает вёрстку в IE/Edge
    .controls-Grid__results {
-      display: table-row;
+      display: table-row-group;
    }
 
   .controls-Grid__results-cell {
     display: table-cell;
     position: static;
+  }
+
+  .controls-Grid__results-cell__content_theme-@{themeName} {
+    min-height: @results_cell_min-height_grid;
   }
 
   .controls-GridView__footer {
@@ -249,7 +253,8 @@
     min-height: @cell_min-height_grid;
   }
 
-  .controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV {
+  .controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV,
+  .controls-ListView__item_editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV {
       visibility: visible;
       opacity: 1;
   }

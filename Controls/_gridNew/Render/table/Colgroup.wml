@@ -1,0 +1,6 @@
+<colgroup class="{{ colgroup.getBodyClasses() }}">
+    <ws:for data="colgroupCell in colgroup.getCells()">
+        <col class="{{ colgroupCell.getWrapperClasses(theme) }}"
+             style="{{ colgroupCell.getWrapperStyles() }}"/>
+    </ws:for>
+</colgroup>

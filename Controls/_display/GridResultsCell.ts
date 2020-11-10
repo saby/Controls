@@ -87,7 +87,7 @@ export default class GridResultsCell<T> extends mixin<OptionsToPropertyMixin>(Op
     }
 
     getContentClasses(theme: string): string {
-        return 'controls-Grid__results-cell__content';
+        return `controls-Grid__results-cell__content controls-Grid__results-cell__content_theme-${theme}`;
     }
 
     get data(): string|number {

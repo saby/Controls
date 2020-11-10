@@ -368,7 +368,7 @@ var
             if (checkBoxCell) {
                 classLists.base += ` controls-Grid__row-cell-checkbox_theme-${theme}`;
                 classLists.padding = createClassListCollection('top', 'bottom');
-                classLists.padding.top = `controls-Grid__row-checkboxCell_rowSpacingTop_${current.itemPadding.top}_theme-${theme}`;
+                classLists.padding.top = `controls-OldGrid__row-checkboxCell_rowSpacingTop_${current.itemPadding.top}_theme-${theme}`;
                 classLists.padding.bottom =  `controls-Grid__row-cell_rowSpacingBottom_${current.itemPadding.bottom}_theme-${theme}`;
             } else {
                 classLists.padding = _private.getPaddingCellClasses(current, theme);

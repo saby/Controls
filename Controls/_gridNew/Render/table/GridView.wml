@@ -1,0 +1,59 @@
+<table class="{{ _getGridViewClasses() }}" style="{{ _getGridViewStyles() }}">
+    <!-- Colgroup. Describes columns widths -->
+    <ws:partial template="wml!Controls/_gridNew/Render/table/Colgroup" colgroup="{{ _listModel.getColgroup() }}"/>
+    <!-- Header -->
+    <ws:if data="{{ _listModel.getHeader() }}">
+        <ws:partial template="wml!Controls/_gridNew/Render/table/Header"
+                    attr:name="header"
+                    header="{{ _listModel.getHeader() }}"
+                    backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+    </ws:if>
+    <!-- Results (top) -->
+    <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'top' }}">
+        <ws:partial template="wml!Controls/_gridNew/Render/table/Header"
+                    attr:name="results"
+                    header="{{ _listModel.getResults() }}"
+                    backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+    </ws:if>
+    <!-- Items -->
+    <tbody name="itemsContainer" class="controls-GridViewV__itemsContainer">
+        <ws:partial
+                template="wml!Controls/_list/Render/For"
+                itemTemplate="{{ _itemTemplate }}"
+                collection="{{ _listModel }}"
+                keyPrefix="gridView-item"
+
+                style="{{ _options.style }}"
+                theme="{{ _options.theme }}"
+                itemTemplateProperty="{{ _options.itemTemplateProperty }}"
+                itemActionsPosition="{{ _options.itemActionsPosition }}"
+                itemActionsTemplate="{{ _options.itemActionsTemplate }}"
+                itemActionsClass="{{ _options.itemActionsClass }}"
+                swipeTemplate="{{ _options.swipeTemplate }}"
+                multiSelectTpl="{{ _options.multiSelectTpl }}"
+                backgroundStyle="{{ _options.backgroundStyle || _options.style }}">
+        </ws:partial>
+    </tbody>
+    <!-- emptyTemplate -->
+<!--    <ws:if data="{{_options.emptyTemplate}}">-->
+<!--        <ws:partial template="{{ _options.emptyTemplate }}"-->
+<!--                    attr:class="{{ _listModel.getEmptyTemplateClasses(_options.theme) }}"-->
+<!--                    prepareColumnsForEmptyEditingTemplate="{{ _prepareColumnsForEmptyEditingTemplate }}"-->
+<!--                    isFullGridSupport="{{ true }}"-->
+<!--                    hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"/>-->
+<!--    </ws:if>-->
+    <!-- Results (bottom) -->
+    <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}">
+        <ws:partial template="wml!Controls/_gridNew/Render/table/Header"
+                    attr:name="results"
+                    header="{{ _listModel.getResults() }}"
+                    backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
+    </ws:if>
+    <!-- Footer -->
+<!--    <ws:if data="{{ _listModel.getFooter() }}">-->
+<!--        <ws:partial template="wml!Controls/_gridNew/Render/grid/Header"-->
+<!--                    attr:name="footer"-->
+<!--                    header="{{ _listModel.getFooter() }}"-->
+<!--                    backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>-->
+<!--    </ws:if>-->
+</table>

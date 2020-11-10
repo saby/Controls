@@ -1,0 +1,1 @@
+<ws:partial template="Controls/list:ListControl" scope="{{_options}}" isFullGridSupport="{{ _isFullGridSupport }}"/>

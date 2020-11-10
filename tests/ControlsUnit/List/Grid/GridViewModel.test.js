@@ -692,11 +692,11 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                expected = {
                   withMarker: 'controls-Grid__row-cell controls-Grid__row-cell_default_min_height-theme-default controls-Grid__row-cell-background-hover-default_theme-default ' +
                       'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default ' +
-                      'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ' +
+                      'controls-OldGrid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ' +
                       'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default controls-Grid__row-cell_selected__first-default_theme-default',
                   withoutMarker: 'controls-Grid__row-cell controls-Grid__row-cell_default_min_height-theme-default controls-Grid__row-cell-background-hover-default_theme-default ' +
                       'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default ' +
-                      'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default '
+                      'controls-OldGrid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default '
                };
 
             gridViewModel.setMarkedKey(123, true);
@@ -822,7 +822,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                expectedResult = [
                   'controls-Grid__row-cell controls-Grid__row-cell_default_min_height-theme-default  controls-Grid__row-cell-background-hover-default_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default ' +
-                  'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default ' +
+                  'controls-OldGrid__row-checkboxCell_rowSpacingTop_l_theme-default ' +
                   'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-default_theme-default controls-Grid__row-cell_selected__first-default_theme-default',
 
                   'controls-Grid__row-cell controls-Grid__row-cell_default_min_height-theme-default controls-Grid__cell_fit controls-Grid__row-cell-background-hover-default_theme-default ' +
@@ -886,7 +886,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                current,
                expectedResult = 'controls-Grid__row-cell controls-Grid__row-cell_default_min_height-theme-default  controls-Grid__row-cell-background-hover-default_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ' +
                   'controls-Grid__row-cell_withRowSeparator_size-s_theme-default controls-Grid__rowSeparator_size-s_theme-default controls-Grid__row-cell-checkbox_theme-default ' +
-                  'controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default ';
+                  'controls-OldGrid__row-checkboxCell_rowSpacingTop_l_theme-default ';
 
             current = gridViewModel.getCurrent();
 
@@ -945,7 +945,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             }
 
             var gridColumn;
-            const topSpacingClasses = ' controls-Grid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ';
+            const topSpacingClasses = ' controls-OldGrid__row-checkboxCell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default ';
 
             // check first column (multiselect checkbox column)
             assert.equal(0, current.columnIndex, 'Incorrect value "current.columnIndex".');
