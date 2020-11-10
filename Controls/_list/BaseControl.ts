@@ -4390,10 +4390,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // Редактирование может запуститься при построении.
         if (this._isMounted) {
             this._notify('afterBeginEdit', [item.contents, isAdd]);
-
-            if (this._listViewModel.getCount() > 1) {
-                this.setMarkedKey(item.contents.getKey());
-            }
         }
 
         if (this._pagingVisible && this._options.navigation.viewConfig.pagingMode === 'edge') {
@@ -4440,10 +4436,23 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         });
     },
 
-    _afterEndEditCallback(item: IEditableCollectionItem, isAdd: boolean): void {
+    _afterEndEditCallback(item: IEditableCollectionItem, willSave: boolean, isAdd: boolean): Promise<void> {
         this._notify('afterEndEdit', [item.contents, isAdd]);
         item.contents.unsubscribe('onPropertyChange', this._resetValidation);
         _private.updateItemActions(this, this._options);
+
+        // при редактировании по месту маркер поставится по mouseUp,
+        // а при добавлении маркер нужно переставлять, только если запись будет сохранена
+        if (this._listViewModel.getCount() > 1 && isAdd && willSave) {
+            return this.setMarkedKey(item.contents.getKey());
+        } else {
+            // TODO https://online.sbis.ru/opendoc.html?guid=e9eb573d-9068-4520-85da-e0dc116eb2d5
+            if (isAdd && !willSave) {
+                return _private.getMarkerControllerAsync(this).then((controller) => {
+                    controller.setMarkedKey(controller.getMarkedKey());
+                });
+            }
+        }
     },
 
     _resetValidation() {

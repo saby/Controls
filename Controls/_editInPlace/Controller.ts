@@ -94,10 +94,11 @@ interface IEditInPlaceCallbacks {
      * @name Controls/_editInPlace/IEditInPlaceCallbacks#onAfterEndEdit
      * @cfg {Function} Функция обратного вызова после завершением редактирования.
      * @param {IEditableCollectionItem} item Редактируемая запись.
+     * @param {Boolean} willSave Флаг, принимает значение true, если ожидается, что запись будет сохранена.
      * @param {Boolean} isAdd Флаг, принимает значение true, если запись добавлялась.
      * @void
      */
-    onAfterEndEdit?: (item: IEditableCollectionItem, isAdd: boolean) => void;
+    onAfterEndEdit?: (item: IEditableCollectionItem, willSave: boolean, isAdd: boolean) => void;
 }
 
 /**
@@ -376,7 +377,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             }
             this._collectionEditor[commit ? 'commit' : 'cancel']();
             (this._options.collection.getCollection() as unknown as RecordSet).acceptChanges();
-            this._options?.onAfterEndEdit(editingCollectionItem, isAdd);
+            this._options?.onAfterEndEdit(editingCollectionItem, commit, isAdd);
         }).finally(() => {
             this._operationsPromises.end = null;
         }) as TAsyncOperationResult;
