@@ -524,12 +524,11 @@ export default class CollectionItem<T> extends mixin<
                       backgroundColorStyle?: string,
                       style: string = 'default'): string {
         const hoverBackgroundStyle = this.getOwner().getHoverBackgroundStyle() || style;
-        return `controls-ListView__itemV
+        return `controls-ListView__itemV ${this._getCursorClasses(cursor)}
             controls-ListView__item_${style}
             controls-ListView__item_${style}_theme-${theme}
             controls-ListView__item_showActions
             js-controls-ItemActions__swipeMeasurementContainer
-            controls-ListView__itemV controls-ListView__itemV_cursor-${cursor}
             controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}
             ${templateHighlightOnHover && !this.isEditing() ? `controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}_theme_${theme}` : ''}
             ${this.isEditing() ? ` controls-ListView__item_editing_theme-${theme}` : ''}
@@ -643,6 +642,11 @@ export default class CollectionItem<T> extends mixin<
         }
 
         return classes;
+    }
+
+    protected _getCursorClasses(cursor: string = 'pointer', clickable: boolean = true): string {
+        const cursorStyle = clickable === false ? 'default' : cursor;
+        return `controls-ListView__itemV_cursor-${cursorStyle}`;
     }
 
     protected _setEditingContents(editingContents: T): void {

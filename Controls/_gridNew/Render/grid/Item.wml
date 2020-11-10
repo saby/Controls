@@ -1,4 +1,4 @@
-<div attr:class="controls-Grid__row controls-ListView__itemV controls-ListView__itemV_cursor-pointer controls-Grid__row_highlightOnHover_default_theme-default controls-Grid__row_default_theme-default">
+<div attr:class="{{ item.getItemClasses(highlightOnHover, theme, style, cursor, clickable) }}">
    <ws:for data="gridColumn in item.getColumns()">
       <div attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style) }}"
            attr:style="{{ gridColumn.getWrapperStyles() }}">

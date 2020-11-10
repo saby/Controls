@@ -19,6 +19,30 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
         super(options);
     }
 
+    getItemClasses(templateHighlightOnHover: boolean = true,
+                   theme: string = 'default',
+                   style: string = 'default',
+                   cursor: string = 'pointer',
+                   clickable: boolean = true): string {
+        /* todo (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData()) &&
+                (this.getCount() - 1 === current.index)*/
+        const isLastItem = false;
+
+        let itemClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor, clickable)}`;
+
+        itemClasses += ` controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
+
+        if (templateHighlightOnHover !== false && !this.isEditing()) {
+            itemClasses += ` controls-Grid__row_highlightOnHover_${style}_theme-${theme}`;
+        }
+
+        if (isLastItem) {
+            itemClasses += ' controls-Grid__row_last';
+        }
+
+        return itemClasses;
+    }
+
     getColumns(): Array<GridColumn<T>> {
         if (!this._$columnItems) {
             this._initializeColumns();

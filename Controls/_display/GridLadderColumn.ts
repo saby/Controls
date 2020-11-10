@@ -6,6 +6,7 @@ const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:StickyLadderColumnTemplate';
 
 export interface IOptions<T> extends IColumnOptions<T> {
     style: string;
+    stickyProperty: string; // из grid/item.wml
 }
 
 export default class GridLadderColumn<T> extends GridColumn<T> {
