@@ -1,4 +1,4 @@
-import numberToString from 'Controls/_utils/inputUtils/numberToString';
+import numberToString from 'Controls/_decorator/inputUtils/numberToString';
 import {Logger} from 'UI/Utils';
 
 export default function toString(original: string | number | null): string {

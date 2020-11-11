@@ -1,4 +1,4 @@
-import {partOfNumber} from 'Controls/_utils/inputUtils/RegExp';
+import {partOfNumber} from 'Controls/_decorator/inputUtils/RegExp';
 
 export const NUMBER_DIGITS_TRIAD = 3;
 export const SPLITTER = ' ';
