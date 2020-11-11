@@ -392,7 +392,7 @@ var
     * @mixes Controls/_explorer/interface/IExplorer
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_tile/interface/ITile
-    * @mixes Controls/_list/interface/IVirtualScroll
+    * @mixes Controls/_list/interface/IVirtualScrollConfig
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_grid/interface/IGridControl
     * @mixes Controls/_list/interface/IClickableView
@@ -430,7 +430,7 @@ var
     * @mixes Controls/_explorer/interface/IExplorer
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_tile/interface/ITile
-    * @mixes Controls/_list/interface/IVirtualScroll
+    * @mixes Controls/_list/interface/IVirtualScrollConfig
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_grid/interface/IGridControl
     * @mixes Controls/_list/interface/IMovableList

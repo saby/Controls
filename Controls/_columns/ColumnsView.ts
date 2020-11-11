@@ -26,7 +26,7 @@
  * @mixes Controls/_list/interface/IReloadableList
  * @mixes Controls/_list/interface/IMovableList
  * @mixes Controls/_list/interface/IRemovableList
- * @mixes Controls/_list/interface/IVirtualScroll
+ * @mixes Controls/_list/interface/IVirtualScrollConfig
  * @mixes Controls/_marker/interface/IMarkerListOptions
  * @author Авраменко А.С.
  * @public

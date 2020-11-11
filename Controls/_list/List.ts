@@ -45,7 +45,7 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/_list/interface/IRemovableList
  * @mixes Controls/_marker/interface/IMarkerListOptions
  *
- * @mixes Controls/_list/interface/IVirtualScroll
+ * @mixes Controls/_list/interface/IVirtualScrollConfig
  *
  * @implements Controls/_list/interface/IListNavigation
  *
@@ -81,7 +81,7 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/_list/interface/IRemovableList
  * @mixes Controls/_marker/interface/IMarkerListOptions
  *
- * @mixes Controls/_list/interface/IVirtualScroll
+ * @mixes Controls/_list/interface/IVirtualScrollConfig
  *
  * 
  * @author Авраменко А.С.
