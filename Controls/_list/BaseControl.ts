@@ -722,7 +722,9 @@ const _private = {
         }
 
         if (itemActions) {
-            const deleteAction = itemActions.all.find((itemAction: IItemAction) => itemAction.id === 'delete');
+            // TODO Опция выпилена в 21.1000
+            const deleteActionKey = self._options.task1180208637 ? self._options.task1180208637 : 'delete'
+            const deleteAction = itemActions.all.find((itemAction: IItemAction) => itemAction.id === deleteActionKey);
             if (deleteAction) {
                 _private.handleItemActionClick(self, deleteAction, event, toggledItem, false);
             }
