@@ -169,7 +169,7 @@ describe('Controls/browser:Browser', () => {
                 detection.isMobilePlatform = defaultIsMobilePlatformValue;
             });
 
-            it('items in receivedState', () => {
+            it('items in receivedState', async () => {
                 const newOptions = {
                     ...options,
                     topShadowVisibility: 'auto',
@@ -183,6 +183,14 @@ describe('Controls/browser:Browser', () => {
 
                 assert.equal(browser._topShadowVisibilityFromOptions, 'auto');
                 assert.equal(browser._bottomShadowVisibilityFromOptions, 'auto');
+
+                browser._items = recordSet;
+                browser._items._metaData.more = {
+                    before: false, after: false
+                };
+                browser._beforeUpdate(newOptions);
+                assert.equal(browser._topShadowVisibility, 'auto');
+                assert.equal(browser._bottomShadowVisibility, 'auto');
 
                 detection.isMobilePlatform = true;
 
@@ -284,8 +292,9 @@ describe('Controls/browser:Browser', () => {
             await browser._beforeMount(options);
 
             function update() {
-                browser._beforeUpdate(options)
+                browser._beforeUpdate(options);
             }
+
             options = {...options};
             assert.doesNotThrow(update);
         });
@@ -304,7 +313,7 @@ describe('Controls/browser:Browser', () => {
                 rawData: {
                     _type: 'recordset',
                     d: [],
-                    s: [{ n: 'key', t: 'Строка' }]
+                    s: [{n: 'key', t: 'Строка'}]
                 },
                 keyProperty: 'key',
                 adapter: 'adapter.sbis'
@@ -314,7 +323,7 @@ describe('Controls/browser:Browser', () => {
                 rawData: {
                     _type: 'recordset',
                     d: [],
-                    s: [{ n: 'key', t: 'Строка' }, { n: 'newKey', t: 'Строка' }]
+                    s: [{n: 'key', t: 'Строка'}, {n: 'newKey', t: 'Строка'}]
                 },
                 keyProperty: 'key',
                 adapter: 'adapter.sbis'
@@ -336,10 +345,12 @@ describe('Controls/browser:Browser', () => {
                 actualDirection = direction;
             };
             browser._filterController = {
-                handleDataLoad: () => {}
+                handleDataLoad: () => {
+                }
             };
             browser._searchController = {
-                handleDataLoad: () => {}
+                handleDataLoad: () => {
+                }
             };
 
             browser._dataLoadCallback(null, 'down');

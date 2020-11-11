@@ -31,7 +31,7 @@ import {IMarkerListOptions} from 'Controls/_marker/interface';
 import {IShadowsOptions} from 'Controls/_scroll/Container/Interface/IShadows';
 import {IControllerState} from 'Controls/_dataSource/Controller';
 
-type Key = string|number|null;
+type Key = string | number | null;
 
 type TViewMode = 'search' | 'tile' | 'table' | 'list';
 
@@ -243,6 +243,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                            newOptions.dataLoadCallback(items);
                        }
                        this._items = sourceController.setItems(items);
+                       this._defineShadowVisibility(this._items);
                    }
 
                    this._afterSourceLoad(sourceController, newOptions);
@@ -264,6 +265,9 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                 this._inputSearchValue = newOptions.searchValue;
             }
             methodResult = this._updateSearchController(newOptions);
+        }
+        if (this._items) {
+            this._defineShadowVisibility(this._items);
         }
 
         return methodResult;
@@ -576,7 +580,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         return this._operationsController;
     }
 
-    private _defineShadowVisibility(items: RecordSet|Error|void): void {
+    private _defineShadowVisibility(items: RecordSet | Error | void): void {
         if (detection.isMobilePlatform) {
             // На мобильных устройствах тень верхняя показывается, т.к. там есть уже загруженные данные вверху
             return;
@@ -585,13 +589,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         if (items instanceof RecordSet) {
             const more = items.getMetaData().more;
             if (more) {
-                if (more.before) {
-                    this._topShadowVisibility = SHADOW_VISIBILITY.VISIBLE;
-                }
-
-                if (more.after) {
-                    this._bottomShadowVisibility = SHADOW_VISIBILITY.VISIBLE;
-                }
+                this._topShadowVisibility = more.before ? SHADOW_VISIBILITY.VISIBLE : SHADOW_VISIBILITY.AUTO;
+                this._bottomShadowVisibility = more.after ? SHADOW_VISIBILITY.VISIBLE : SHADOW_VISIBILITY.AUTO;
             }
 
         }
