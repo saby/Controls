@@ -1,5 +1,5 @@
 import {Container} from 'Controls/scroll';
-import {constants} from 'Env/Env';
+import {compatibility, constants} from 'Env/Env';
 import {SHADOW_VISIBILITY, SHADOW_MODE} from 'Controls/_scroll/Container/Interface/IShadows';
 import {SCROLL_DIRECTION, SCROLL_POSITION} from 'Controls/_scroll/Utils/Scroll';
 
@@ -15,6 +15,34 @@ function createComponent(Component, cfg) {
 }
 
 describe('Controls/scroll:Container', () => {
+    describe('_afterMount', () => {
+        let component: Container;
+        beforeEach(() => {
+            component = createComponent(Container, {});
+            sinon.stub(component._stickyHeaderController, 'init');
+            component._children = {
+                content: {
+                    getBoundingClientRect: () => undefined,
+                    children: []
+                }
+            };
+        });
+        afterEach(() => {
+             sinon.restore();
+        });
+        it('should\'t init sticky header controller on not touch devices', () => {
+            component._afterMount({}, {});
+            sinon.assert.notCalled(component._stickyHeaderController.init);
+        });
+        it('should init sticky header controller on touch devices', () => {
+            const touch = compatibility.touch;
+            compatibility.touch = true;
+            component._afterMount({}, {});
+            sinon.assert.called(component._stickyHeaderController.init);
+            compatibility.touch = touch
+        });
+    });
+
     describe('constructor', () => {
         it('should initialize by default', () => {
             const component = createComponent(Container, {});

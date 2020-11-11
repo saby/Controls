@@ -1,4 +1,4 @@
-import {constants, detection} from 'Env/Env';
+import {constants, detection, compatibility} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TemplateFunction} from 'UI/Base';
 import ContainerBase, {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
@@ -111,7 +111,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
         super._afterMount();
 
-        this._stickyHeaderController.init(this._container);
+        if (compatibility.touch) {
+            this._stickyHeaderController.init(this._container);
+        }
     }
 
     protected _beforeUpdate(options: IContainerOptions, context) {
@@ -310,6 +312,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 this._scrollbars.updateScrollState(this._state, this._container);
             }
             this._updateShadows();
+            if (!compatibility.touch) {
+                this._stickyHeaderController.init(this._container);
+            }
         }
 
         if (this._scrollbars.take()) {
