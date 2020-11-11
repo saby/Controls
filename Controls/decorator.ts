@@ -17,6 +17,10 @@
  * @includes linkDecorate Controls/_decorator/Markup/resolvers/linkDecorate
  * @includes linkWrapResolver Controls/_decorator/Markup/resolvers/linkWrap
  * @includes noOuterTag Controls/_decorator/Markup/resolvers/noOuterTag
+ * @includes splitIntoTriads Controls/_decorator/inputUtils/splitIntoTriads
+ * @includes toString Controls/_decorator/inputUtils/toString
+ * @includes numberToString Controls/_decorator/inputUtils/numberToString
+ * @includes RegExp Controls/_decorator/inputUtils/RegExp
  * @public
  * @author Крайнов Д.О.
  */
@@ -37,6 +41,10 @@
  * @includes linkDecorate Controls/_decorator/Markup/resolvers/linkDecorate
  * @includes linkWrapResolver Controls/_decorator/Markup/resolvers/linkWrap
  * @includes noOuterTag Controls/_decorator/Markup/resolvers/noOuterTag
+ * @includes splitIntoTriads Controls/_decorator/inputUtils/splitIntoTriads
+ * @includes toString Controls/_decorator/inputUtils/toString
+ * @includes numberToString Controls/_decorator/inputUtils/numberToString
+ * @includes RegExp Controls/_decorator/inputUtils/RegExp
  * @public
  * @author Крайнов Д.О.
  */
@@ -62,11 +70,25 @@ import {default as noOuterTag} from './_decorator/Markup/resolvers/noOuterTag';
 import {default as linkDecorate} from './_decorator/Markup/resolvers/linkDecorate';
 import {default as linkWrapResolver} from './_decorator/Markup/resolvers/linkWrap';
 
+import {default as splitIntoTriads, concatTriads, NUMBER_DIGITS_TRIAD, SPLITTER} from './_decorator/inputUtils/splitIntoTriads';
+import {default as toString} from './_decorator/inputUtils/toString';
+import {default as numberToString} from './_decorator/inputUtils/numberToString';
+import {partOfNumber, escapeSpecialChars, addWordCheck} from './_decorator/inputUtils/RegExp';
+
 export {
     Converter,
     InnerText,
     noOuterTag,
     linkDecorate,
     linkWrapResolver,
-   _highlightResolver
+   _highlightResolver,
+    splitIntoTriads,
+    concatTriads,
+    NUMBER_DIGITS_TRIAD,
+    SPLITTER,
+    toString,
+    numberToString,
+    partOfNumber,
+    escapeSpecialChars,
+    addWordCheck
 };

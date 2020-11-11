@@ -1,4 +1,4 @@
-import {toString} from 'Controls/inputUtils';
+import toString from 'Controls/_decorator/inputUtils/toString';
 import DICTIONARY from './Dictionary';
 import {IFormatMaskChars} from '../resources/IMask';
 

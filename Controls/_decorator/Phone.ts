@@ -6,7 +6,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // @ts-ignore
 import * as template from 'wml!Controls/_decorator/Phone/Phone';
 
-import {toString} from 'Controls/inputUtils';
+import toString from 'Controls/_decorator/inputUtils/toString';
 
 /**
  * Интерфейс для опций контрола {@link Controls/decorator:Phone}.
