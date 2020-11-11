@@ -21,7 +21,7 @@
  * @includes ISorting Controls/_interface/ISorting
  * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
  * @includes HotKeysContainer Controls/_list/HotKeysContainer
- * @includes IVirtualScroll Controls/_list/interface/IVirtualScroll
+ * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
  * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
@@ -60,7 +60,7 @@
  * @includes IList Controls/_list/interface/IList
  * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
  * @includes HotKeysContainer Controls/_list/HotKeysContainer
- * @includes IVirtualScroll Controls/_list/interface/IVirtualScroll
+ * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
  * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate

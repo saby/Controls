@@ -2,7 +2,7 @@ export type IDirection = 'up' | 'down';
 /**
  * Интерфейс для поддержки виртуального скроллирования в списках.
  *
- * @interface Controls/_list/interface/IVirtualScroll
+ * @interface Controls/_list/interface/IVirtualScrollConfig
  * @public
  * @author Авраменко А.С.
  */
@@ -10,7 +10,7 @@ export type IDirection = 'up' | 'down';
 /*
  * Interface for lists that can use virtual scroll.
  *
- * @interface Controls/_list/interface/IVirtualScroll
+ * @interface Controls/_list/interface/IVirtualScrollConfig
  * @public
  * @author Авраменко А.С.
  */
@@ -39,7 +39,7 @@ export type IVirtualScrollMode = 'remove' | 'hide';
  */
 
 /**
- * @name Controls/_list/interface/IVirtualScroll#virtualScrollConfig
+ * @name Controls/_list/interface/IVirtualScrollConfig#virtualScrollConfig
  * @cfg {IVirtualScrollConfig} Конфигурация виртуального скроллинга.
  * Виртуальный скроллинг работает только при включенной <a href="/doc/platform/developmentapl/interface-development/controls/list/navigation/">навигации</a>.
  * @remark Подробнее о конфигурации виртуального скролла читайте <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/virtual-scroll/">здесь</a>.
