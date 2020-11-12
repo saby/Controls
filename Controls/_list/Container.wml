@@ -4,6 +4,7 @@
             on:excludedKeysChanged="_notifyEventWithBubbling('listExcludedKeysChanged')"
             on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
             on:rootChanged="_notifyEventWithBubbling('listRootChanged')"
+            on:actionClick="_notifyEventWithBubbling('listActionClick')"
             filter="{{_dataOptions.filter}}"
             navigation="{{_dataOptions.navigation}}"
             sorting="{{_dataOptions.sorting}}"
