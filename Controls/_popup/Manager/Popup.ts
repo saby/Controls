@@ -14,29 +14,17 @@ import * as PopupContent from 'wml!Controls/_popup/Manager/PopupContent';
 const RESIZE_DELAY = 10;
 
 interface IPopupControlOptions extends IPopupOptions, IControlOptions {}
-
+/**
+ * Control Popup
+ * @class Controls/_popup/Manager/Popup
+ * @mixes Controls/interface/IOpenerOwner
+ * @mixes Controls/_interface/ICanBeDefaultOpener
+ * @extends Core/Control
+ * 
+ * @private
+ * @author Красильников А.С.
+ */
 class Popup extends Control<IPopupControlOptions> {
-
-    /**
-     * Control Popup
-     * @class Controls/_popup/Manager/Popup
-     * @mixes Controls/interface/IOpenerOwner
-     * @mixes Controls/_interface/ICanBeDefaultOpener
-     * @extends Core/Control
-     * 
-     * @private
-     * @author Красильников А.С.
-     */
-
-    /**
-     * @name Controls/_popup/Manager/Popup#template
-     * @cfg {Content} Template
-     */
-
-    /**
-     * @name Controls/_popup/Manager/Popup#templateOptions
-     * @cfg {Object} Template options
-     */
 
     protected _template: TemplateFunction = template;
     protected _stringTemplate: boolean;
@@ -347,3 +335,12 @@ Object.assign(Popup.prototype, {
 });
 
 export default Popup;
+/**
+ * @name Controls/_popup/Manager/Popup#template
+ * @cfg {Content} Template
+ */
+
+/**
+ * @name Controls/_popup/Manager/Popup#templateOptions
+ * @cfg {Object} Template options
+ */

@@ -6,7 +6,8 @@ import { IPopupHelper, PopupId } from './Popup';
 
 /**
  * Показать диалог с дружелюбным сообщением об ошибке.
- * Функцияя объект со следующими свойствами:
+ * @remark
+ * Функция объект со следующими свойствами:
  * - error: Error - ошибка, которую надо обработать.
  * - handlers: Function[] - необязательный; массив дополнительных обработчиков ошибки, которые вызываются перед платформенными.
  * - postHandlers: Function[] - необязательный; массив дополнительных обработчиков ошибки, которые вызываются после платформенных.
@@ -22,7 +23,8 @@ import { IPopupHelper, PopupId } from './Popup';
  * этот идентификатор надо использовать для закрытия окна через {@link Controls/_popup/interface/IDialog#closePopup}.
  *
  * @example
- * <pre>
+ * <pre class="brush: js">
+ * // TypeScript
  * import { error as dataSourceError } from 'Controls/dataSource';
  *
  * // Функция вызывает БЛ через Types/source:SbisService, возвращает результат метода call().

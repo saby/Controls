@@ -2,6 +2,10 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_operations/MultiSelector/MultiSelector');
 import {IMultiSelectableOptions} from 'Controls/interface';
 
+export interface IMultiSelectorOptions extends IMultiSelectableOptions, IControlOptions {
+    isAllSelected: boolean;
+    selectedKeysCount: number | null;
+}
 /**
  * Контрол, который отображает выпадающий список,
  * позволяющий производить массовую отметку записей в списке: отмечать все записи, инвертировать, снимать отметку.
@@ -17,11 +21,6 @@ import {IMultiSelectableOptions} from 'Controls/interface';
  * @author Герасимов А.М.
  * @demo Controls-demo/operations/MultiSelector/Index
  */
-export interface IMultiSelectorOptions extends IMultiSelectableOptions, IControlOptions {
-    isAllSelected: boolean;
-    selectedKeysCount: number | null;
-}
-
 class MultiSelector extends Control<IMultiSelectorOptions> {
     protected _template: TemplateFunction = template;
     static _theme: string[] = ['Controls/operations'];

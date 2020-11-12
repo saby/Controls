@@ -6,25 +6,6 @@ import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {INotificationPopupOptions, INotificationOpener} from '../interface/INotification';
 import {Logger} from 'UI/Utils';
 
-/**
- * Контрол, открывающий окно, которое позиционируется в правом нижнем углу окна браузера. Одновременно может быть открыто несколько окон уведомлений. В этом случае они выстраиваются в стек по вертикали.
- * 
- * @remark
- * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FNotificationDemo%2FNotificationDemo">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/notification/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
- * 
- * @class Controls/_popup/Opener/Notification
- * @extends Controls/_popup/Opener/BaseOpener
- * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/INotification
- * 
- * @public
- * @author Красильников А.С.
- * @demo Controls-demo/Popup/Opener/NotificationPG
- */
-
 interface INotificationOpenerOptions extends INotificationPopupOptions, IBaseOpenerOptions {}
 
 const POPUP_CONTROLLER = 'Controls/popupTemplate:NotificationController';
@@ -77,7 +58,24 @@ const getCompatibleConfig = (BaseOpenerCompat: any, config: INotificationPopupOp
     delete cfg.element;
     return cfg;
 };
-
+/**
+ * Контрол, открывающий окно, которое позиционируется в правом нижнем углу окна браузера. Одновременно может быть открыто несколько окон уведомлений. В этом случае они выстраиваются в стек по вертикали.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="/materials/Controls-demo/app/Controls-demo%2FNotificationDemo%2FNotificationDemo">демо-пример</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/notification/">руководство разработчика</a>
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * 
+ * @class Controls/_popup/Opener/Notification
+ * @extends Controls/_popup/Opener/BaseOpener
+ * @mixes Controls/_popup/interface/IBaseOpener
+ * @mixes Controls/_popup/interface/INotification
+ * 
+ * @public
+ * @author Красильников А.С.
+ * @demo Controls-demo/Popup/Opener/NotificationPG
+ */
 class Notification extends BaseOpener<INotificationOpenerOptions> implements INotificationOpener {
     readonly '[Controls/_popup/interface/INotificationOpener]': boolean;
     _notificationId: string = '';

@@ -22,5 +22,5 @@ import template = require('wml!Controls/_masterDetail/List/List');
  * @event Происходит при смене выбранной записи.
  * @name Controls/_masterDetail/List#selectedMasterValueChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {Number} key  Ключ выбранного элемента.
+ * @param {Number} key Ключ выбранного элемента.
  */

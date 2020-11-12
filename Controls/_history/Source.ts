@@ -33,9 +33,9 @@ const HISTORY_META_FIELDS: string[] = ['$_favorite', '$_pinned', '$_history', '$
  * @class Controls/_history/Source
  * @extends Core/core-extend
  * @mixes Types/_entity/OptionsToPropertyMixin
- * 
  * @public
  * @author Герасимов А.М.
+ * 
  * @example
  * <pre class="brush: js">
  *    var source = new history.Source({

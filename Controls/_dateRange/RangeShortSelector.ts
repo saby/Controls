@@ -8,6 +8,23 @@ import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import dateControlsUtils from "./Utils";
 
+interface IRangeShortSelectorOptions extends IControlOptions {
+    chooseMonths: boolean;
+    chooseQuarters: boolean;
+    chooseHalfyears: boolean;
+    popupClassName: string;
+    chooseYears: boolean;
+    checkedStart: Date;
+    checkedEnd: Date;
+    emptyCaption: string;
+    source: any;
+    monthTemplate: HTMLElement;
+    itemTemplate: HTMLElement;
+    displayedRanges: Date[];
+    stubTemplate: Function;
+    captionFormatter: Function;
+    dateConstructor: Function;
+}
 /**
  * Контрол позволяет пользователю выбрать временной период: месяц, квартал, полугодие, год. Выбор происходит с помощью панели быстрого выбора периода.
  *
@@ -46,25 +63,6 @@ import dateControlsUtils from "./Utils";
  * @demo Controls-demo/Input/Date/RangeLinkLite
  *
  */
-
-interface IRangeShortSelectorOptions extends IControlOptions {
-    chooseMonths: boolean;
-    chooseQuarters: boolean;
-    chooseHalfyears: boolean;
-    popupClassName: string;
-    chooseYears: boolean;
-    checkedStart: Date;
-    checkedEnd: Date;
-    emptyCaption: string;
-    source: any;
-    monthTemplate: HTMLElement;
-    itemTemplate: HTMLElement;
-    displayedRanges: Date[];
-    stubTemplate: Function;
-    captionFormatter: Function;
-    dateConstructor: Function;
-}
-
 export default class RangeShortSelector extends BaseSelector<IRangeShortSelectorOptions> {
     protected _template: TemplateFunction = template;
     protected _fittingMode: string = 'overflow';

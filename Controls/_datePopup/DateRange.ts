@@ -11,16 +11,6 @@ import datePopupUtils from './Utils';
 import componentTmpl = require('wml!Controls/_datePopup/DateRange');
 import 'wml!Controls/_datePopup/DateRangeItem';
 
-/**
- * Component that allows you to select periods of multiple days.
- *
- * @class Controls/_datePopup/DateRange
- * @extends Core/Control
- * 
- * @author Красильников А.С.
- * @private
- */
-
 const _private = {
     updateView: function (self, options, dontUpdateScroll) {
         self._rangeModel.update(options);
@@ -55,7 +45,15 @@ const _private = {
         }
     }
 };
-
+/**
+ * Component that allows you to select periods of multiple days.
+ *
+ * @class Controls/_datePopup/DateRange
+ * @extends Core/Control
+ * 
+ * @author Красильников А.С.
+ * @private
+ */
 var Component = BaseControl.extend([EventProxy], {
     _template: componentTmpl,
 

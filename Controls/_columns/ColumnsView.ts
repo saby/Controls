@@ -97,19 +97,26 @@
  * @name Controls/columns:View#initialWidth
  * @cfg {Number} Начальная ширина, которая будет использоваться для расчетов при первом построении.
  * @default undefined
+ * @see columnsCount
  */
 
 /**
  * @name Controls/columns:View#columnsCount
  * @cfg {Number} Используется для первого построения, если не задана опция {@link initialWidth}.
  * @default 2
+ * @see initialWidth
+ */
+
+/**
+ * @typedef {String} ColumnsMode
+ * @variant auto Автоматическое распределение записей по колонкам.
+ * @variant fixed Каждая запись располагается в заранее определенную колонку.
  */
 
  /**
  * @name Controls/columns:View#columnsMode
- * @cfg {String} Режим распределения записей по колонкам.
+ * @cfg {ColumnsMode} Режим распределения записей по колонкам.
  * @default auto
- * @variant auto Автоматическое распределение записей по колонкам.
- * @variant fixed Каждая запись располагается в заранее определенную колонку.
+ * @remark
  * Дополнительно необходимо задать значение для опции {@link columnProperty}, а также для каждого элемента данных в соответствующем поле указать номер колонки.
  */

@@ -1,5 +1,9 @@
 import Entity from 'Controls/_dragnDrop/Entity';
 
+interface IItemsOptions {
+    items: Array<string|number>;
+}
+
 /**
  * Базовый класс, от которого наследуется объект перемещения в списке.
  * Объект можно любым образом кастомизировать, записав туда любые необходимые данные.
@@ -17,11 +21,13 @@ import Entity from 'Controls/_dragnDrop/Entity';
  * @public
  * @author Авраменко А.С.
  */
+export default class Items extends Entity {
+    protected _options: IItemsOptions;
 
-interface IItemsOptions {
-    items: Array<string|number>;
+    getItems(): Array<string|number> {
+        return this._options.items;
+    }
 }
-
 /**
  * @name Controls/_dragnDrop/Entity/Items#items
  * @cfg {Array.<String>} Список перемещаемых элементов.
@@ -35,11 +41,3 @@ interface IItemsOptions {
  * @remark In the process of moving, a thumbnail of the entity being moved is shown near the cursor.
  * @see Controls/_interface/IDraggable#dragStart
  */
-
-export default class Items extends Entity {
-    protected _options: IItemsOptions;
-
-    getItems(): Array<string|number> {
-        return this._options.items;
-    }
-}

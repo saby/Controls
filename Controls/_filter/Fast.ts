@@ -16,41 +16,6 @@ import {dropdownHistoryUtils as historyUtils} from 'Controls/dropdown';
 import {getItemsWithHistory, getUniqItems, deleteHistorySourceFromConfig} from 'Controls/_filter/HistoryUtils';
 import {Model} from 'Types/entity';
 
-      /**
-       * Контрол "Быстрый фильтр". Использует выпадающие списки для выбора параметров фильтрации.
-       *
-       * @remark
-       * Полезные ссылки:
-       * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
-       * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
-       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
-       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
-       *
-       * @class Controls/_filter/Fast
-       * @extends Core/Control
-       * @mixes Controls/_filter/interface/IFastFilter
-       * @demo Controls-demo/FastFilter/fastPG
-       * 
-       * @public
-       * @deprecated Данный контрол устарел и будет удалён. Вместо него используйте {@link Controls/filter:View}.
-       * @author Герасимов А.М.
-       */
-
-      /*
-       * Control "Fast Filter".
-       * Use dropDown lists for filter data.
-       *
-       *
-       * @class Controls/_filter/Fast
-       * @extends Core/Control
-       * @mixes Controls/_filter/interface/IFastFilter
-       * @mixes Controls/_filter/Fast/FastStyles
-       * @demo Controls-demo/FastFilter/fastPG
-       * 
-       * @public
-       * @author Герасимов А.М.
-       */
-
 
       var getPropValue = Utils.object.getPropertyValue.bind(Utils);
       var setPropValue = Utils.object.setPropertyValue.bind(Utils);
@@ -384,7 +349,40 @@ import {Model} from 'Types/entity';
             return needReload;
          }
       };
+/**
+       * Контрол "Быстрый фильтр". Использует выпадающие списки для выбора параметров фильтрации.
+       *
+       * @remark
+       * Полезные ссылки:
+       * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
+       * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
+       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
+       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
+       *
+       * @class Controls/_filter/Fast
+       * @extends Core/Control
+       * @mixes Controls/_filter/interface/IFastFilter
+       * @demo Controls-demo/FastFilter/fastPG
+       * 
+       * @public
+       * @deprecated Данный контрол устарел и будет удалён. Вместо него используйте {@link Controls/filter:View}.
+       * @author Герасимов А.М.
+       */
 
+      /*
+       * Control "Fast Filter".
+       * Use dropDown lists for filter data.
+       *
+       *
+       * @class Controls/_filter/Fast
+       * @extends Core/Control
+       * @mixes Controls/_filter/interface/IFastFilter
+       * @mixes Controls/_filter/Fast/FastStyles
+       * @demo Controls-demo/FastFilter/fastPG
+       * 
+       * @public
+       * @author Герасимов А.М.
+       */
       var Fast = Control.extend(/** @lends Controls/_filter/Fast.prototype */{
          _template: template,
          _configs: null,

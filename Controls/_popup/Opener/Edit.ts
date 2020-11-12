@@ -5,6 +5,9 @@ import template = require('wml!Controls/_popup/Opener/Edit/Edit');
 import CoreMerge = require('Core/core-merge');
 import cInstance = require('Core/core-instance');
 import Deferred = require('Core/Deferred');
+
+
+interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
 /**
  * Контрол, который открывает всплывающее окно с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ диалогом редактирования записи}.
  * @remark
@@ -26,9 +29,6 @@ import Deferred = require('Core/Deferred');
  * @author Красильников А.С.
  * @demo Controls-demo/Popup/Edit/Opener
  */
-
-interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
-
 class Edit extends Control<IEditOpenerOptions> implements IEditOpener {
     readonly '[Controls/_popup/interface/IEditOpener]': boolean;
     protected _template: TemplateFunction = template;

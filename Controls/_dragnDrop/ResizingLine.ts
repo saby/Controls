@@ -6,6 +6,20 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import IResizingLine from 'Controls/_dragnDrop/interface/IResizingLine';
 
 /*TODO Kingo*/
+
+interface IChildren {
+    dragNDrop: Container;
+}
+
+interface IOffset {
+    style: string;
+    value: number;
+}
+
+const enum ORIENTATION {
+    VERTICAL = 'vertical',
+    HORIZONTAL = 'horizontal'
+}
 /**
  * Контрол, позволяющий визуально отображать процесс изменения других контролов при помощи перемещения мышью
  * @remark
@@ -22,21 +36,6 @@ import IResizingLine from 'Controls/_dragnDrop/interface/IResizingLine';
  * @author Красильников А.С.
  * @demo Controls-demo/ResizingLine/Index
  */
-
-interface IChildren {
-    dragNDrop: Container;
-}
-
-interface IOffset {
-    style: string;
-    value: number;
-}
-
-const enum ORIENTATION {
-    VERTICAL = 'vertical',
-    HORIZONTAL = 'horizontal'
-}
-
 class ResizingLine extends Control<IControlOptions, IResizingLine> {
     protected _children: IChildren;
     protected _options: IResizingLine;

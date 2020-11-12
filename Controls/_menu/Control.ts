@@ -27,6 +27,15 @@ import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import { MarkerController, Visibility as MarkerVisibility } from 'Controls/marker';
 import {FlatSelectionStrategy, SelectionController, IFlatSelectionStrategyOptions} from 'Controls/multiselection';
 
+interface IMenuPosition {
+    left: number;
+    top: number;
+    height: number;
+}
+
+const SUB_DROPDOWN_DELAY = 400;
+
+const MAX_HISTORY_VISIBLE_ITEMS_COUNT = 10;
 /**
  * Контрол меню.
  * @class Controls/menu:Control
@@ -41,86 +50,6 @@ import {FlatSelectionStrategy, SelectionController, IFlatSelectionStrategyOption
  *
  * @author Герасимов А.М.
  */
-
-/**
- * @name Controls/_menu/Control#multiSelect
- * @cfg {Boolean} Определяет, установлен ли множественный выбор.
- * @default false
- * @demo Controls-demo/Menu/Control/MultiSelect/Index
- * @example
- * Множественный выбор установлен.
- * WML:
- * <pre>
- * <Controls.menu:Control
- *       selectedKeys="{{_selectedKeys}}"
- *       keyProperty="id"
- *       displayProperty="title"
- *       source="{{_source}}"
- *       multiSelect="{{true}}">
- * </Controls.menu:Control>
- * </pre>
- * JS:
- * <pre>
- * this._source = new Memory({
- *    keyProperty: 'id',
- *    data: [
- *       {id: 1, title: 'Yaroslavl'},
- *       {id: 2, title: 'Moscow'},
- *       {id: 3, title: 'St-Petersburg'}
- *    ]
- * });
- * this._selectedKeys = [1, 3];
- * </pre>
- */
-
-/**
- * @name Controls/_menu/Control#selectedKeys
- * @cfg {Array.<Number|String>} Массив ключей выбранных элементов.
- * @demo Controls-demo/Menu/Control/SelectedKeys/Index
- */
-
-/**
- * @name Controls/_menu/Control#root
- * @cfg {Number|String|null} Идентификатор корневого узла.
- * @demo Controls-demo/Menu/Control/Root/Index
- */
-
-/**
- * @event Происходит при выборе элемента.
- * @name Controls/_menu/Control#itemClick
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {Types/entity:Model} item Выбранный элемент.
- * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, подменю не закроется.
- * По умолчанию, когда выбран пункт с иерархией, подменю закрывается.
- * @example
- * В следующем примере показано, как незакрывать подменю, если кликнули на пункт с иерархией.
- * <pre>
- *    <Controls.menu:Control
- *          displayProperty="title"
- *          keyProperty="key"
- *          source="{{_source}}"
- *          on:itemClick="_itemClickHandler()" />
- * </pre>
- * TS:
- * <pre>
- *    protected _itemClickHandler(e, item): boolean {
- *       if (item.get(nodeProperty)) {
- *          return false;
- *       }
- *    }
- * </pre>
- */
-
-interface IMenuPosition {
-    left: number;
-    top: number;
-    height: number;
-}
-
-const SUB_DROPDOWN_DELAY = 400;
-
-const MAX_HISTORY_VISIBLE_ITEMS_COUNT = 10;
-
 export default class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
     readonly '[Controls/_menu/interface/IMenuControl]': boolean = true;
     protected _template: TemplateFunction = ViewTemplate;
@@ -1034,3 +963,71 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         };
     }
 }
+/**
+ * @name Controls/_menu/Control#multiSelect
+ * @cfg {Boolean} Определяет, установлен ли множественный выбор.
+ * @default false
+ * @demo Controls-demo/Menu/Control/MultiSelect/Index
+ * @example
+ * Множественный выбор установлен.
+ * WML:
+ * <pre>
+ * <Controls.menu:Control
+ *       selectedKeys="{{_selectedKeys}}"
+ *       keyProperty="id"
+ *       displayProperty="title"
+ *       source="{{_source}}"
+ *       multiSelect="{{true}}">
+ * </Controls.menu:Control>
+ * </pre>
+ * JS:
+ * <pre>
+ * this._source = new Memory({
+ *    keyProperty: 'id',
+ *    data: [
+ *       {id: 1, title: 'Yaroslavl'},
+ *       {id: 2, title: 'Moscow'},
+ *       {id: 3, title: 'St-Petersburg'}
+ *    ]
+ * });
+ * this._selectedKeys = [1, 3];
+ * </pre>
+ */
+
+/**
+ * @name Controls/_menu/Control#selectedKeys
+ * @cfg {Array.<Number|String>} Массив ключей выбранных элементов.
+ * @demo Controls-demo/Menu/Control/SelectedKeys/Index
+ */
+
+/**
+ * @name Controls/_menu/Control#root
+ * @cfg {Number|String|null} Идентификатор корневого узла.
+ * @demo Controls-demo/Menu/Control/Root/Index
+ */
+
+/**
+ * @event Происходит при выборе элемента.
+ * @name Controls/_menu/Control#itemClick
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Types/entity:Model} item Выбранный элемент.
+ * @remark Из обработчика события можно возвращать результат обработки. Если результат будет равен false, подменю не закроется.
+ * По умолчанию, когда выбран пункт с иерархией, подменю закрывается.
+ * @example
+ * В следующем примере показано, как незакрывать подменю, если кликнули на пункт с иерархией.
+ * <pre>
+ *    <Controls.menu:Control
+ *          displayProperty="title"
+ *          keyProperty="key"
+ *          source="{{_source}}"
+ *          on:itemClick="_itemClickHandler()" />
+ * </pre>
+ * TS:
+ * <pre>
+ *    protected _itemClickHandler(e, item): boolean {
+ *       if (item.get(nodeProperty)) {
+ *          return false;
+ *       }
+ *    }
+ * </pre>
+ */

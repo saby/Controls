@@ -5,20 +5,6 @@ import Clone = require('Core/core-clone');
 import chain = require('Types/chain');
 import {isEqual} from 'Types/object';
 
-/**
- * Control PropertyGrid
- * Provides a user interface for browsing and editing the properties of an object.
- *
- * @class Controls/_filterPopup/Panel/PropertyGrid
- * @extends Core/Control
- * @mixes Controls/interface/IPropertyGrid
- * @mixes Controls/_interface/ISource
- * @mixes Controls/interface/IItemTemplate
- * 
- * @private
- * @author Золотова Э.Е.
- */
-
    const observableItemProps = ['value', 'textValue', 'visibility'];
 
    var _private = {
@@ -94,7 +80,19 @@ import {isEqual} from 'Types/object';
          return last_index;
       }
    };
-
+/**
+ * Control PropertyGrid
+ * Provides a user interface for browsing and editing the properties of an object.
+ *
+ * @class Controls/_filterPopup/Panel/PropertyGrid
+ * @extends Core/Control
+ * @mixes Controls/interface/IPropertyGrid
+ * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface/IItemTemplate
+ * 
+ * @private
+ * @author Золотова Э.Е.
+ */
    var PropertyGrid = Control.extend({
       _template: template,
 

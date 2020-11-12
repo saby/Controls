@@ -13,6 +13,47 @@ import {proxyModelEvents, tmplNotify} from 'Controls/eventUtils';
 import {isValidDate, Container, InputContainer} from 'Controls/validate';
 import template = require('wml!Controls/_input/DateTime/DateTime');
 
+const _private = {
+   updateDateConstructor: function(self, options, oldOptions): void {
+      if (!oldOptions || options.mask !== oldOptions.mask) {
+          self._dateConstructor = options.dateConstructor || _private._getDateConstructor(options.mask);
+      }
+   },
+   _getDateConstructor: function(mask): Function {
+      const dateConstructorMap = {
+         [DATE_MASK_TYPE]: WSDate,
+         [DATE_TIME_MASK_TYPE]: DateTime,
+         [TIME_MASK_TYPE]: Time
+      };
+      return dateConstructorMap[getMaskType(mask)];
+   },
+   _updateValidators: function(self, validators?: ValueValidators): void {
+      const v: ValueValidators = validators || self._options.valueValidators;
+      self._validators = [
+         isValidDate.bind(null, {
+            value: self._model.value
+         }),
+         ...v.map((validator) => {
+            let
+                _validator: Function,
+               args: object;
+            if (typeof validator === 'function') {
+               _validator = validator
+            } else {
+               _validator = validator.validator;
+               args = validator.arguments;
+            }
+            return _validator.bind(null, {
+               ...(args || {}),
+               value: self._model.value
+            });
+         })
+      ];
+   },
+   _updateValidationController: function(self, options): void {
+      self._validationContainer = options.validateByFocusOut ? InputContainer : Container;
+   }
+};
 /**
  * Базовое универсальное поле ввода даты и времени. Позволяет вводить дату и время одновременно или по отдельности. Данные вводятся только с помощью клавиатуры.
  * @remark
@@ -69,49 +110,6 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  * @demo Controls-demo/Input/DateTime/DateTime
  * @author Красильников А.С.
  */
-
-const _private = {
-   updateDateConstructor: function(self, options, oldOptions): void {
-      if (!oldOptions || options.mask !== oldOptions.mask) {
-          self._dateConstructor = options.dateConstructor || _private._getDateConstructor(options.mask);
-      }
-   },
-   _getDateConstructor: function(mask): Function {
-      const dateConstructorMap = {
-         [DATE_MASK_TYPE]: WSDate,
-         [DATE_TIME_MASK_TYPE]: DateTime,
-         [TIME_MASK_TYPE]: Time
-      };
-      return dateConstructorMap[getMaskType(mask)];
-   },
-   _updateValidators: function(self, validators?: ValueValidators): void {
-      const v: ValueValidators = validators || self._options.valueValidators;
-      self._validators = [
-         isValidDate.bind(null, {
-            value: self._model.value
-         }),
-         ...v.map((validator) => {
-            let
-                _validator: Function,
-               args: object;
-            if (typeof validator === 'function') {
-               _validator = validator
-            } else {
-               _validator = validator.validator;
-               args = validator.arguments;
-            }
-            return _validator.bind(null, {
-               ...(args || {}),
-               value: self._model.value
-            });
-         })
-      ];
-   },
-   _updateValidationController: function(self, options): void {
-      self._validationContainer = options.validateByFocusOut ? InputContainer : Container;
-   }
-};
-
 var Component = Control.extend([], {
    _template: template,
    _validationContainer: null,

@@ -10,7 +10,6 @@ var Constants = {
  * * MAX_HISTORY_REPORTS — максимальное число элементов на <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/">Панели фильтров</a>, которые сохраняются историей выбора.
  * * MIN_RECENT — минимальное число элементов <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/">Панели фильтров</a>, сохраняемых для блока "Ранее отбирались".
  * @class Controls/_history/Constants
- * 
  * @public
  * @author Герасимов А.М.
  */

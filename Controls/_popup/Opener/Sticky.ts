@@ -15,6 +15,7 @@ const getStickyConfig = (config) => {
 
 const POPUP_CONTROLLER = 'Controls/popupTemplate:StickyController';
 
+interface IStickyOpenerOptions extends IStickyPopupOptions, IBaseOpenerOptions {}
 /**
  * Контрол, открывающий всплывающее окно, которое позиционируется относительно вызывающего элемента.
  * @remark
@@ -32,9 +33,6 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:StickyController';
  * @demo Controls-demo/Popup/Opener/StickyPG
  * @public
  */
-
-interface IStickyOpenerOptions extends IStickyPopupOptions, IBaseOpenerOptions {}
-
 class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {
     protected _template: TemplateFunction = Template;
     readonly '[Controls/_popup/interface/IStickyOpener]': boolean;

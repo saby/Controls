@@ -12,6 +12,19 @@ import { Model } from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import { Sticky, IStickyPopupOptions } from 'Controls/popup';
 
+const JS_CLASS_CAPTION_ITEM = '.js-controls-SelectedCollection__item__caption';
+const JS_CLASS_CROSS_ITEM = '.js-controls-SelectedCollection__item__cross';
+
+export interface ISelectedCollectionOptions extends IControlOptions{
+   displayProperty: string;
+   items: RecordSet;
+   maxVisibleItems: number;
+   itemTemplate: TemplateFunction;
+}
+
+interface ISelectedCollectionChildren {
+   infoBoxLink: HTMLElement;
+}
 /**
  * Контрол, отображающий коллекцию элементов.
  *
@@ -33,21 +46,6 @@ import { Sticky, IStickyPopupOptions } from 'Controls/popup';
  * 
  * @author Герасимов А.М.
  */
-
-const JS_CLASS_CAPTION_ITEM = '.js-controls-SelectedCollection__item__caption';
-const JS_CLASS_CROSS_ITEM = '.js-controls-SelectedCollection__item__cross';
-
-export interface ISelectedCollectionOptions extends IControlOptions{
-   displayProperty: string;
-   items: RecordSet;
-   maxVisibleItems: number;
-   itemTemplate: TemplateFunction;
-}
-
-interface ISelectedCollectionChildren {
-   infoBoxLink: HTMLElement;
-}
-
 class SelectedCollection extends Control<ISelectedCollectionOptions, number> {
    protected _template: TemplateFunction = template;
    protected _visibleItems: Model[] = null;

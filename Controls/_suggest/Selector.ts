@@ -7,6 +7,42 @@ import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
+var _private = {
+   loadSelectedItem: function(self, options) {
+      var filter = {};
+      filter[options.keyProperty] = options.selectedKey;
+      self._crudWrapper = new CrudWrapper({
+         source: options.source
+      });
+      return self._crudWrapper.query({filter}).then((items) => {
+         _private.setValue(self, items.at(0), options.displayProperty);
+         return items.at(0);
+      });
+   },
+
+   setValue: function(self, item, displayProperty) {
+      var value = object.getPropertyValue(item, displayProperty);
+      _private.updateValue(self, value);
+   },
+
+   updateValue: function(self, value) {
+      self._value = value;
+   },
+
+   prepareSuggestTemplate: function(displayProperty, suggestTemplate) {
+      var suggestTemplateConfig = { templateOptions: { displayProperty: displayProperty } };
+      return Merge(suggestTemplateConfig, suggestTemplate);
+   },
+
+   createHistorySource: function(historyId, source) {
+      return new Source({
+         originSource: source,
+         historySource: new Service({
+            historyId: historyId
+         })
+      });
+   }
+};
 /**
  * Поле ввода с выпадающим списком с возможностью автодополнения.
  *
@@ -44,44 +80,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * 
  * @public
  */
-
-var _private = {
-   loadSelectedItem: function(self, options) {
-      var filter = {};
-      filter[options.keyProperty] = options.selectedKey;
-      self._crudWrapper = new CrudWrapper({
-         source: options.source
-      });
-      return self._crudWrapper.query({filter}).then((items) => {
-         _private.setValue(self, items.at(0), options.displayProperty);
-         return items.at(0);
-      });
-   },
-
-   setValue: function(self, item, displayProperty) {
-      var value = object.getPropertyValue(item, displayProperty);
-      _private.updateValue(self, value);
-   },
-
-   updateValue: function(self, value) {
-      self._value = value;
-   },
-
-   prepareSuggestTemplate: function(displayProperty, suggestTemplate) {
-      var suggestTemplateConfig = { templateOptions: { displayProperty: displayProperty } };
-      return Merge(suggestTemplateConfig, suggestTemplate);
-   },
-
-   createHistorySource: function(historyId, source) {
-      return new Source({
-         originSource: source,
-         historySource: new Service({
-            historyId: historyId
-         })
-      });
-   }
-};
-
 var Suggest = Control.extend({
 
    _template: template,

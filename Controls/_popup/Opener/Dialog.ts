@@ -3,6 +3,17 @@ import {Logger} from 'UI/Utils';
 import {IDialogOpener, IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 import {IPropStorage, IPropStorageOptions} from 'Controls/interface';
 
+interface IDialogOpenerOptions extends IDialogPopupOptions, IBaseOpenerOptions, IPropStorageOptions {}
+
+const getDialogConfig = (config: IDialogOpenerOptions): IDialogOpenerOptions => {
+    config = config || {};
+    // The dialog is isDefaultOpener by default. For more information,
+    // see  {@link Controls/_interface/ICanBeDefaultOpener}
+    config.isDefaultOpener = config.isDefaultOpener !== undefined ? config.isDefaultOpener : true;
+    return config;
+};
+
+const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
 /**
  * Контрол, открывающий всплывающее окно, которое позиционируется по центру экрана.
  *
@@ -22,19 +33,6 @@ import {IPropStorage, IPropStorageOptions} from 'Controls/interface';
  * @demo Controls-demo/Popup/Opener/StackDemo
  * @public
  */
-
-interface IDialogOpenerOptions extends IDialogPopupOptions, IBaseOpenerOptions, IPropStorageOptions {}
-
-const getDialogConfig = (config: IDialogOpenerOptions): IDialogOpenerOptions => {
-    config = config || {};
-    // The dialog is isDefaultOpener by default. For more information,
-    // see  {@link Controls/_interface/ICanBeDefaultOpener}
-    config.isDefaultOpener = config.isDefaultOpener !== undefined ? config.isDefaultOpener : true;
-    return config;
-};
-
-const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
-
 class Dialog extends BaseOpener<IDialogOpenerOptions> implements IDialogOpener, IPropStorage {
     readonly '[Controls/_popup/interface/IDialogOpener]': boolean;
 

@@ -12,6 +12,14 @@ import monthTmpl = require('wml!Controls/_shortDatePicker/monthTemplate');
 import {Logger} from 'UI/Utils';
 import {Utils as dateControlsUtils} from 'Controls/dateRange';
 
+const enum POSITION {
+    RIGHT = 'right',
+    LEFT = 'left'
+}
+
+// В режиме 'Только года' одновременно отобржается 15 элементов.
+// Таким образом последний отображаемый элемент имеет индекс 14.
+const ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX = 14;
 /**
  * Контрол выбора даты или периода.
  *
@@ -33,16 +41,6 @@ import {Utils as dateControlsUtils} from 'Controls/dateRange';
  * @demo Controls-demo/ShortDatePicker/MonthTemplate/ContentTemplate/Index
  * @demo Controls-demo/ShortDatePicker/MonthTemplate/IconTemplate/Index
  */
-
-const enum POSITION {
-    RIGHT = 'right',
-    LEFT = 'left'
-}
-
-// В режиме 'Только года' одновременно отобржается 15 элементов.
-// Таким образом последний отображаемый элемент имеет индекс 14.
-const ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX = 14;
-
 class View extends Control<IDateLitePopupOptions> {
     protected _template: TemplateFunction = componentTmpl;
     protected _defaultListTemplate: TemplateFunction = listTmpl;

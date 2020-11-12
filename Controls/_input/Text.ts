@@ -3,6 +3,16 @@ import entity = require('Types/entity');
 import ViewModel from 'Controls/_input/Text/ViewModel';
 import {Logger} from 'UI/Utils';
 
+var _private = {
+    validateConstraint: function (constraint) {
+        if (constraint && !/^\[[\s\S]+?\]$/.test(constraint)) {
+            Logger.error('Controls/_input/Text', 'The constraint options are not set correctly. More on https://wi.sbis.ru/docs/js/Controls/_input/Text/options/constraint/');
+            return false;
+        }
+
+        return true;
+    }
+};
 /**
  * Однострочное поле ввода текста.
  * @remark
@@ -21,18 +31,6 @@ import {Logger} from 'UI/Utils';
  *
  * @author Красильников А.С.
  */
-
-var _private = {
-    validateConstraint: function (constraint) {
-        if (constraint && !/^\[[\s\S]+?\]$/.test(constraint)) {
-            Logger.error('Controls/_input/Text', 'The constraint options are not set correctly. More on https://wi.sbis.ru/docs/js/Controls/_input/Text/options/constraint/');
-            return false;
-        }
-
-        return true;
-    }
-};
-
 var Text = Base.extend({
     _defaultValue: '',
     _punycodeToUnicode: null,

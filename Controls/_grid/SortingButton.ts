@@ -1,19 +1,20 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_grid/SortingResources/SortingButton');
 
+export interface ISortingButtonOptions extends IControlOptions {
+    property: string;
+}
 /**
- * Контрол, используюемый для изменения сортировки внутри таблиц
+ * Контрол, используемый для изменения сортировки внутри таблиц
  *
  * @class Controls/_grid/SortingButton
  * @extends Core/Control
  * @mixes Controls/_grid/SortingButton/Styles
+ * 
  * @private
+ * 
  * @see Controls/grid:SortingSelector
  */
-
-export interface ISortingButtonOptions extends IControlOptions {
-    property: string;
-}
 class SortingButton extends Control<ISortingButtonOptions> {
     protected _template: TemplateFunction = template;
 

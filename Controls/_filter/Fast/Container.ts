@@ -14,9 +14,9 @@ import template = require('wml!Controls/_filter/Fast/Container');
  *
  * @class Controls/_filter/Fast/Container
  * @extends Core/Control
+ * @public
  * @author Герасимов А.М.
  * 
- * @public
  * @deprecated Данный контрол устарел и будет удалён.
  */
 

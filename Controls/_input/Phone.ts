@@ -1,6 +1,19 @@
 import Base = require('Controls/_input/Base');
 import ViewModel = require('Controls/_input/Phone/ViewModel');
 
+      var _private = {
+         isMoveCarriage: function(self) {
+            var model = self._viewModel;
+            var hasSelection = model.selection.start !== model.selection.end;
+
+            /**
+             * If the focus is not obtained with a mouse click, the user did not select anything and
+             * you do not need to select a value and the mask is not completely filled,
+             * then you need to move the cursor to the end.
+             */
+            return !self._focusByMouseDown && !hasSelection && !model.isFilled() && !self._options.selectOnClick;
+         }
+      };
       /**
        * Поле ввода телефона.
        * @remark
@@ -36,21 +49,6 @@ import ViewModel = require('Controls/_input/Phone/ViewModel');
        *
        * @author Красильников А.С.
        */
-
-      var _private = {
-         isMoveCarriage: function(self) {
-            var model = self._viewModel;
-            var hasSelection = model.selection.start !== model.selection.end;
-
-            /**
-             * If the focus is not obtained with a mouse click, the user did not select anything and
-             * you do not need to select a value and the mask is not completely filled,
-             * then you need to move the cursor to the end.
-             */
-            return !self._focusByMouseDown && !hasSelection && !model.isFilled() && !self._options.selectOnClick;
-         }
-      };
-
       var Phone = Base.extend({
           _defaultValue: '',
           _inputMode: 'tel',

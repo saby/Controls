@@ -1,21 +1,20 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/Panel/Text/Text');
 
-   /**
-    * Контрол, отображающий текст с кнопкой сброса в виде крестика.
-    * Используется для демонстрации пользователю выбранного фильтра, клик по крестику сбрасывает фильтр.
-    * 
-    * @remark
-    * Полезные ссылки:
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
-    * 
-    * @class Controls/_filterPopup/Panel/Text
-    * @extends Core/Control
-    * @mixes Controls/_interface/ITextValue
-    * 
-    * @public
-    * @author Герасимов А.М.
-    */
+/**
+ * Контрол, отображающий текст с кнопкой сброса в виде крестика.
+ * Используется для демонстрации пользователю выбранного фильтра, клик по крестику сбрасывает фильтр.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
+ * 
+ * @class Controls/_filterPopup/Panel/Text
+ * @extends Core/Control
+ * @mixes Controls/_interface/ITextValue
+ * @public
+ * @author Герасимов А.М.
+ */
 class Text extends Control<IControlOptions> {
       protected _template: TemplateFunction = template;
       protected  _afterMount(): void {

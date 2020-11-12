@@ -8,6 +8,26 @@ import rk = require('i18n!Controls');
 import template = require('wml!Controls/Container/Async/Async');
 import {ViewConfig} from "../_error/Handler";
 
+const moduleLoader = new ModuleLoader();
+
+function generateErrorMsg(templateName: string, msg?: string): string {
+   const tTemplate = `Ошибка загрузки контрола "${templateName}"`;
+   const tHint = 'Возможны следующие причины:\n\t \
+                  • Ошибка в самом контроле\n\t \
+                  • Долго отвечал БЛ метод в _beforeUpdate\n\t \
+                  • Контрола не существует';
+   return !msg ? `${tTemplate}\n${tHint}` : `${tTemplate}: ${msg}`;
+}
+
+type TStateRecivied = boolean | string;
+
+interface IOptions extends IControlOptions {
+   templateName: string;
+   templateOptions: IControlOptions;
+   errorCallback: (viewConfig: void|ViewConfig, error: unknown) => void;
+}
+
+const SUCCESS_BUILDED = 's';
 /**
  * Контейнер для асинхронной загрузки контролов.
  * Подробное описание и примеры вы можете найти <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/pattern-and-practice/async-load/'>здесь</a>.
@@ -29,68 +49,6 @@ import {ViewConfig} from "../_error/Handler";
  * @public
  * @author Санников К.А.
  */
-
-/**
- * @name Controls/Container/Async#content
- * @cfg {Content} Содержимое контейнера.
- */
-
-/**
- * @name Controls/Container/Async#content
- * @cfg {Content} Container contents.
- */
-
-/**
- * @name Controls/Container/Async#templateName
- * @cfg {String} Имя асинхронно загружаемого контрола.
- */
-
-/**
- * @name Controls/Container/Async#templateName
- * @cfg {String} Name of asynchronously loading component
- */
-
-/**
- * @name Controls/Container/Async#templateOptions
- * @cfg {Object} Параметры содержимого контейнера Async.
- */
-
-/**
- * @name Controls/Container/Async#templateOptions
- * @cfg {Object} Options for content of Async
- */
-
-/**
- * @name Controls/Container/Async#errorCallback
- * @cfg {function} Callback для обработки ошибки возникнувшей при загрузке компонента,
- * напр. если нужно показать дружелюбную ошибку вместо простого текста ошибки.
- * Если не передавать (т.е. не обрабатывать ошибку), то при ошибке загрузки компонента будет выведен текст ошибки,
- * поясняющий причину ошибки.
- * С этим callback можно обработать ошибку как нужно прикладному разработчику.
- * @see Controls/dataSource:error.Controller
- *
- */
-
-const moduleLoader = new ModuleLoader();
-
-function generateErrorMsg(templateName: string, msg?: string): string {
-   const tTemplate = `Ошибка загрузки контрола "${templateName}"`;
-   const tHint = 'Возможны следующие причины:\n\t \
-                  • Ошибка в самом контроле\n\t \
-                  • Долго отвечал БЛ метод в _beforeUpdate\n\t \
-                  • Контрола не существует';
-   return !msg ? `${tTemplate}\n${tHint}` : `${tTemplate}: ${msg}`;
-}
-
-type TStateRecivied = boolean | string;
-
-interface IOptions extends IControlOptions {
-   templateName: string;
-   templateOptions: IControlOptions;
-   errorCallback: (viewConfig: void|ViewConfig, error: unknown) => void;
-}
-
-const SUCCESS_BUILDED = 's';
 class Async extends Control<IOptions, TStateRecivied> {
    protected _template: TemplateFunction = template;
    private currentTemplateName: string;
@@ -258,3 +216,43 @@ class Async extends Control<IOptions, TStateRecivied> {
 }
 
 export = Async;
+/**
+ * @name Controls/Container/Async#content
+ * @cfg {Content} Содержимое контейнера.
+ */
+
+/**
+ * @name Controls/Container/Async#content
+ * @cfg {Content} Container contents.
+ */
+
+/**
+ * @name Controls/Container/Async#templateName
+ * @cfg {String} Имя асинхронно загружаемого контрола.
+ */
+
+/**
+ * @name Controls/Container/Async#templateName
+ * @cfg {String} Name of asynchronously loading component
+ */
+
+/**
+ * @name Controls/Container/Async#templateOptions
+ * @cfg {Object} Параметры содержимого контейнера Async.
+ */
+
+/**
+ * @name Controls/Container/Async#templateOptions
+ * @cfg {Object} Options for content of Async
+ */
+
+/**
+ * @name Controls/Container/Async#errorCallback
+ * @cfg {function} Callback для обработки ошибки возникнувшей при загрузке компонента,
+ * напр. если нужно показать дружелюбную ошибку вместо простого текста ошибки.
+ * Если не передавать (т.е. не обрабатывать ошибку), то при ошибке загрузки компонента будет выведен текст ошибки,
+ * поясняющий причину ошибки.
+ * С этим callback можно обработать ошибку как нужно прикладному разработчику.
+ * @see Controls/dataSource:error.Controller
+ *
+ */

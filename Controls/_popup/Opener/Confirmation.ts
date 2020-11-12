@@ -4,6 +4,12 @@ import Template = require('wml!Controls/_popup/Opener/BaseOpener');
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {IConfirmationOpener, IConfirmationOptions} from 'Controls/_popup/interface/IConfirmation';
 
+interface IConfirmationOpenerOptions extends IBaseOpenerOptions {
+    templateOptions?: IConfirmationOptions;
+    isCentered?: boolean;
+}
+
+const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
 /**
  * Контрол, открывающий диалог подтверждения. Диалог позиционируется в центре экрана, а также блокирует работу
  * пользователя с родительским приложением.
@@ -24,14 +30,6 @@ import {IConfirmationOpener, IConfirmationOptions} from 'Controls/_popup/interfa
  * @author Красильников А.С.
  * @demo Controls-demo/Confirmation/Confirmation
  */
-
-interface IConfirmationOpenerOptions extends IBaseOpenerOptions {
-    templateOptions?: IConfirmationOptions;
-    isCentered?: boolean;
-}
-
-const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
-
 class Confirmation extends Control<IControlOptions> implements IConfirmationOpener {
     '[Controls/_popup/interface/IConfirmationOpener]': boolean;
     protected _template: TemplateFunction = Template;

@@ -27,10 +27,13 @@ export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | '
  *
  * @class Controls/grid:ColumnTemplate
  * @author Авраменко А.С.
+ * 
  * @see Controls/_grid/interface/IGridControl/Column.typedef
  * @see Controls/grid:IGridControl#columns
+ * 
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/#_2 здесь}.
+ * 
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
  * <pre class="brush: html; highlight: [6,7,8,9,10,11,12]">

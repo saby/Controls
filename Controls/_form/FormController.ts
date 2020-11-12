@@ -82,21 +82,21 @@ export const enum INITIALIZING_WAY {
  * @remark
  * Для того, чтобы дочерние контролы могли отреагировать на начало сохранения, либо уничтожения контрола, им необходимо зарегистрировать соответствующие обработчики.
  * Обработчики регистрируются через событие registerFormOperation, в аргументах которого ожидается объект с полями
- * <ol>
- *     <li>save:Function - вызов происходит перед началом сохранения</li>
- *     <li>cancel:Function - вызов происходит перед показом вопроса о сохранении</li>
- *     <li>isDestroyed:Function - функция, которая сообщает о том, не разрушился ли контрол, зарегистрировавший операцию.
- *     В случае, если он будет разрушен - операция автоматически удалится из списка зарегистрированных</li>
- * </ol>
+ *
+ * * save:Function - вызов происходит перед началом сохранения
+ * * cancel:Function - вызов происходит перед показом вопроса о сохранении
+ * * isDestroyed:Function - функция, которая сообщает о том, не разрушился ли контрол, зарегистрировавший операцию.
+ * В случае, если он будет разрушен - операция автоматически удалится из списка зарегистрированных
+ *
  * @class Controls/_form/FormController
  * @extends Core/Control
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_form/interface/IFormController
  * @implements Controls/_interface/IErrorController
- * @demo Controls-demo/Popup/Edit/Opener
- *
  * @public
  * @author Красильников А.С.
+ * 
+ * @demo Controls-demo/Popup/Edit/Opener
  */
 
 /*

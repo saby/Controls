@@ -214,7 +214,6 @@ var _private = {
  *
  * @class Controls/_input/Base
  * @extends UI/Base:Control
- *
  * @implements Controls/interface:IHeight
  * @implements Controls/interface:IFontSize
  * @implements Controls/interface:IBorderStyle
@@ -226,9 +225,7 @@ var _private = {
  * @implements Controls/input:IBorderVisibility
  * @implements Controls/input:IPadding
  * @implements Controls/input:ISelection
- *
  * @public
- *
  * @author Красильников А.С.
  */
 

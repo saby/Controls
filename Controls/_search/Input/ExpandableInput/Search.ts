@@ -19,22 +19,6 @@ interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
  * @author Мельникова Е.А.
  */
 
-/**
- * @name Controls/_search/Input/ExpandableInput/Search#expanded
- * @cfg {Boolean} Устанавливает состояние развернутости строки поиска.
- * @variant false Строка поиска свернута.
- * @variant true Строка поиска развернута.
- * @default false
- */
-
-/**
- * @name Controls/_search/Input/ExpandableInput/Search#inlineWidth
- * @cfg {String} Устанавливает значение ширины строки поиска.
- * @variant m Строка поиска средней ширины.
- * @variant l Строка поиска большой ширины.
- * @default m
- */
-
 export default class ExpandableInput extends Control<IControlOptions> {
    protected _expanded: boolean = false;
    protected _template: TemplateFunction = template;
@@ -72,3 +56,18 @@ export default class ExpandableInput extends Control<IControlOptions> {
 
    static _theme: string[] = ['Controls/search'];
 }
+/**
+ * @name Controls/_search/Input/ExpandableInput/Search#expanded
+ * @cfg {Boolean} Устанавливает состояние развернутости строки поиска.
+ * @variant false Строка поиска свернута.
+ * @variant true Строка поиска развернута.
+ * @default false
+ */
+
+/**
+ * @name Controls/_search/Input/ExpandableInput/Search#inlineWidth
+ * @cfg {String} Устанавливает значение ширины строки поиска.
+ * @variant m Строка поиска средней ширины.
+ * @variant l Строка поиска большой ширины.
+ * @default m
+ */

@@ -37,14 +37,6 @@ import * as Merge from 'Core/core-merge';
  * 
  * @private
  */
-
-/**
- * @event Происходит при изменении набора выбранных элементов.
- * @name Controls/_dropdown/_Controller#selectedItemsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {Types/collection:RecordSet} items Выбранные элементы.
- */
-
 export default class _Controller implements IDropdownController {
    protected _items: RecordSet = null;
    protected _loadItemsTempPromise: Promise<any> = null;
@@ -617,3 +609,9 @@ _Controller.getOptionTypes = function getOptionTypes() {
       selectedKeys: descriptor(Array)
    };
 };
+/**
+ * @event Происходит при изменении набора выбранных элементов.
+ * @name Controls/_dropdown/_Controller#selectedItemsChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Types/collection:RecordSet} items Выбранные элементы.
+ */

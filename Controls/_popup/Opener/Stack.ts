@@ -4,6 +4,19 @@ import {Logger} from 'UI/Utils';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {IStackOpener, IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 
+interface IStackOpenerOptions extends IStackPopupOptions, IBaseOpenerOptions {}
+
+const getStackConfig = (stackOptions: IStackOpenerOptions = {}, popupId?: string) => {
+    const config = {...stackOptions};
+    // The stack is isDefaultOpener by default.
+    // For more information, see  {@link Controls/_interface/ICanBeDefaultOpener}
+    config.isDefaultOpener = config.isDefaultOpener !== undefined ? config.isDefaultOpener : true;
+    config._type = 'stack'; // TODO: Compatible for compoundArea
+    config.id = config.id || popupId;
+
+    return config;
+};
+const POPUP_CONTROLLER = 'Controls/popupTemplate:StackController';
 /**
  * Контрол, открывающий всплывающее окно с пользовательским шаблоном внутри. Всплывающее окно располагается в правой части контентной области приложения и растянуто на всю высоту экрана.
  *
@@ -39,21 +52,6 @@ import {IStackOpener, IStackPopupOptions} from 'Controls/_popup/interface/IStack
  * @mixes Controls/_interface/IPropStorage
  * @public
  */
-
-interface IStackOpenerOptions extends IStackPopupOptions, IBaseOpenerOptions {}
-
-const getStackConfig = (stackOptions: IStackOpenerOptions = {}, popupId?: string) => {
-    const config = {...stackOptions};
-    // The stack is isDefaultOpener by default.
-    // For more information, see  {@link Controls/_interface/ICanBeDefaultOpener}
-    config.isDefaultOpener = config.isDefaultOpener !== undefined ? config.isDefaultOpener : true;
-    config._type = 'stack'; // TODO: Compatible for compoundArea
-    config.id = config.id || popupId;
-
-    return config;
-};
-const POPUP_CONTROLLER = 'Controls/popupTemplate:StackController';
-
 class Stack extends BaseOpener<IStackOpenerOptions> implements IStackOpener {
     readonly '[Controls/_popup/interface/IStackOpener]': boolean;
 

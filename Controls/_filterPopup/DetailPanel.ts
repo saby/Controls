@@ -15,89 +15,6 @@ import 'Controls/form';
 import {Logger} from 'UI/Utils';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 
-   /**
-    * Контрол для отображения шаблона панели фильтров. Отображает каждый фильтр по заданным шаблонам.
-    * Он состоит из трех блоков: Отбираются, Еще можно отобрать, Ранее отбирались.
-    *
-    * @remark
-    * Полезные ссылки:
-    * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/#step-3">руководство разработчика</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
-    *
-    * @class Controls/_filterPopup/DetailPanel
-    * @extends Core/Control
-    * @mixes Controls/_filterPopup/interface/IFilterPanel
-    * @demo Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index
-    * @public
-    * @author Золотова Э.Е.
-    *
-    * @cssModifier controls-FilterPanel__width-s Маленькая ширина панели.
-    * @cssModifier controls-FilterPanel__width-m Средняя ширина панели.
-    * @cssModifier controls-FilterPanel__width-l Большая ширина панели.
-    * @cssModifier controls-FilterPanel__width-xl Очень большая ширина панели.
-    *
-    * @cssModifier controls-FilterPanel__DateRange Кастомизирует контрол DateRange для отображения на панели фильтров.
-    * Необходимо навесить на шаблон фильтра DateRange.
-    */
-
-   /*
-    * Component for displaying a filter panel template. Displays each filters by specified templates.
-    * It consists of three blocks: Selected, Also possible to select, Previously selected.
-    * Here you can see <a href="/materials/Controls-demo/app/Controls-demo%2FFilter%2FButton%2FPanelVDom">demo-example</a>.
-    *
-    *
-    * @class Controls/_filterPopup/DetailPanel
-    * @extends Core/Control
-    * @mixes Controls/_filterPopup/interface/IFilterPanel
-    * @demo Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index
-    * @public
-    * @author Золотова Э.Е.
-    *
-    * @cssModifier controls-FilterPanel__width-s Маленькая ширина панели.
-    * @cssModifier controls-FilterPanel__width-m Средняя ширина панели.
-    * @cssModifier controls-FilterPanel__width-l Большая ширина панели.
-    * @cssModifier controls-FilterPanel__width-xl Очень большая ширина панели.
-    */
-
-   /**
-    * @name Controls/_filterPopup/DetailPanel#topTemplate
-    * @cfg {String|Function} Шаблон отображения заголовка на Панели фильтров.
-    */
-
-   /**
-    * @typedef {String} HistorySaveMode
-    * @variant pinned По ховеру на элемент появляется команда закрепления записи.
-    * @variant favorite По ховеру на элемент появляется команда добавления записи в избранное.
-    */
-
-   /**
-    * @name Controls/_filterPopup/DetailPanel#historySaveMode
-    * @cfg {HistorySaveMode} Режим работы с историей фильтров.
-    */
-
-   /**
-    * @event Происходит при клике по кнопке "Отобрать".
-    * @name Controls/_filterPopup/DetailPanel#sendResult
-    * @param {Object} filter Объект фильтра {'filter_id': 'filter_value'}.
-    * @param {Object} items Набор элементов.
-    */
-
-   /*
-    * @event Happens when clicking the button "Select".
-    * @name Controls/_filterPopup/DetailPanel#sendResult
-    * @param {Object} filter Filter object view {'filter_id': 'filter_value'}
-    * @param {Object} items items
-    */
-
-   /**
-    * @event Происходит при применении фильтра из истории фильтров.
-    * @name Controls/_filterPopup/DetailPanel#historyApply
-    * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
-    * @param {Controls/_filter/View/interface/IFilterView#source} source Конфигурация фильтра.
-    */
-
-
    var getPropValue = Utils.object.getPropertyValue.bind(Utils);
    var setPropValue = Utils.object.setPropertyValue.bind(Utils);
 
@@ -289,7 +206,50 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
          return items;
       }
    };
+   /**
+    * Контрол для отображения шаблона панели фильтров. Отображает каждый фильтр по заданным шаблонам.
+    * Он состоит из трех блоков: Отбираются, Еще можно отобрать, Ранее отбирались.
+    *
+    * @remark
+    * Полезные ссылки:
+    * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/#step-3">руководство разработчика</a>
+    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
+    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
+    *
+    * @class Controls/_filterPopup/DetailPanel
+    * @extends Core/Control
+    * @mixes Controls/_filterPopup/interface/IFilterPanel
+    * @public
+    * @author Золотова Э.Е.
+    * 
+    * @demo Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index
+    * 
+    * @cssModifier controls-FilterPanel__width-s Маленькая ширина панели.
+    * @cssModifier controls-FilterPanel__width-m Средняя ширина панели.
+    * @cssModifier controls-FilterPanel__width-l Большая ширина панели.
+    * @cssModifier controls-FilterPanel__width-xl Очень большая ширина панели.
+    * @cssModifier controls-FilterPanel__DateRange Кастомизирует контрол DateRange для отображения на панели фильтров.
+    * Необходимо навесить на шаблон фильтра DateRange.
+    */
 
+   /*
+    * Component for displaying a filter panel template. Displays each filters by specified templates.
+    * It consists of three blocks: Selected, Also possible to select, Previously selected.
+    * Here you can see <a href="/materials/Controls-demo/app/Controls-demo%2FFilter%2FButton%2FPanelVDom">demo-example</a>.
+    *
+    *
+    * @class Controls/_filterPopup/DetailPanel
+    * @extends Core/Control
+    * @mixes Controls/_filterPopup/interface/IFilterPanel
+    * @demo Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index
+    * @public
+    * @author Золотова Э.Е.
+    *
+    * @cssModifier controls-FilterPanel__width-s Маленькая ширина панели.
+    * @cssModifier controls-FilterPanel__width-m Средняя ширина панели.
+    * @cssModifier controls-FilterPanel__width-l Большая ширина панели.
+    * @cssModifier controls-FilterPanel__width-xl Очень большая ширина панели.
+    */
    var FilterPanel = Control.extend({
       _template: template,
       _isChanged: false,
@@ -401,3 +361,39 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
    FilterPanel._private = _private;
    export = FilterPanel;
 
+/**
+ * @name Controls/_filterPopup/DetailPanel#topTemplate
+ * @cfg {String|Function} Шаблон отображения заголовка на Панели фильтров.
+ */
+
+/**
+ * @typedef {String} HistorySaveMode
+ * @variant pinned По ховеру на элемент появляется команда закрепления записи.
+ * @variant favorite По ховеру на элемент появляется команда добавления записи в избранное.
+ */
+
+/**
+ * @name Controls/_filterPopup/DetailPanel#historySaveMode
+ * @cfg {HistorySaveMode} Режим работы с историей фильтров.
+ */
+
+/**
+ * @event Происходит при клике по кнопке "Отобрать".
+ * @name Controls/_filterPopup/DetailPanel#sendResult
+ * @param {Object} filter Объект фильтра {'filter_id': 'filter_value'}.
+ * @param {Object} items Набор элементов.
+ */
+
+/*
+   * @event Happens when clicking the button "Select".
+   * @name Controls/_filterPopup/DetailPanel#sendResult
+   * @param {Object} filter Filter object view {'filter_id': 'filter_value'}
+   * @param {Object} items items
+   */
+
+/**
+ * @event Происходит при применении фильтра из истории фильтров.
+ * @name Controls/_filterPopup/DetailPanel#historyApply
+ * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
+ * @param {Controls/_filter/View/interface/IFilterView#source} source Конфигурация фильтра.
+ */

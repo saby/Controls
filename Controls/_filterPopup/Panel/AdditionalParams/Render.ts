@@ -17,7 +17,6 @@ interface IAdditionalRenderOptions extends IControlOptions {
 /**
  * @class Controls/_filterPopup/Panel/AdditionalParams/Render
  * @extends UI/Base:Control
- * 
  * @public
  * @author Михайлов С.Е
  */

@@ -3,6 +3,17 @@ import template = require('wml!Controls/_popupTemplate/InfoBox/InfoBox');
 import {IStickyPopupPosition, TVertical, THorizontal} from './Sticky/StickyController';
 import {ValidationStatus, IValidationStatus, IValidationStatusOptions} from 'Controls/interface';
 
+type TArrowPosition = 'start' | 'end' | 'center';
+type TStyle = 'danger' | 'secondary' | 'warning' | 'success' | 'info' | 'primary' | 'unaccented' | ValidationStatus;
+
+export interface IInfoboxTemplateOptions extends IControlOptions, IValidationStatusOptions {
+    stickyPosition?: IStickyPopupPosition;
+    template?: TemplateFunction;
+    templateOptions?: object;
+    style: TStyle;
+    floatCloseButton?: boolean;
+    closeButtonVisibility: boolean;
+}
 /**
  * Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ всплывающей подсказки}.
  *
@@ -19,19 +30,6 @@ import {ValidationStatus, IValidationStatus, IValidationStatusOptions} from 'Con
  * @mixes Controls/_interface/IValidationStatus
  * @demo Controls-demo/Popup/TestInfoBox
  */
-
-type TArrowPosition = 'start' | 'end' | 'center';
-type TStyle = 'danger' | 'secondary' | 'warning' | 'success' | 'info' | 'primary' | 'unaccented' | ValidationStatus;
-
-export interface IInfoboxTemplateOptions extends IControlOptions, IValidationStatusOptions {
-    stickyPosition?: IStickyPopupPosition;
-    template?: TemplateFunction;
-    templateOptions?: object;
-    style: TStyle;
-    floatCloseButton?: boolean;
-    closeButtonVisibility: boolean;
-}
-
 export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
     protected _template: TemplateFunction = template;
     protected _arrowSide: THorizontal | TVertical;

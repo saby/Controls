@@ -42,7 +42,8 @@ export function getPopupHelper(): IPopupHelper {
  * @public
  * @author Северьянов А.А.
  * @example
- * <pre>
+ * <pre class="brush: js">
+ * // TypeScript
  *     let handler = ({ error, mode }) => {
  *         if (error.code == 423) {
  *             return {

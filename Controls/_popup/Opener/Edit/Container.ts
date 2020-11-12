@@ -6,6 +6,11 @@ import template = require('wml!Controls/_popup/Opener/Edit/Container');
 import {ContextOptions} from 'Controls/context';
 import {RecordSet} from 'Types/collection';
 
+interface IContainerContext {
+    dataOptions: {
+        items: RecordSet
+    };
+}
 /**
  * Контрол используют в качестве контейнера для {@link Controls/popup:Edit}. Он получает данные и передаёт их в Controls/popup:Edit.
  * @remark
@@ -25,13 +30,6 @@ import {RecordSet} from 'Types/collection';
  * Подробнее об организации поиска и фильтрации в реестре читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
  * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/ здесь}.
  */
-
-interface IContainerContext {
-    dataOptions: {
-        items: RecordSet
-    };
-}
-
 class Container extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _items: RecordSet;

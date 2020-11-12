@@ -9,6 +9,13 @@ import * as getZIndex from 'Controls/Utils/getZIndex';
 import template = require('wml!Controls/_popup/InfoBox/InfoBox');
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 
+const CALM_DELAY: number = 100; // During what time should not move the mouse to start opening the popup.
+
+interface IInfoBoxTouchContext {
+    isTouch: {
+        isTouch: boolean;
+    };
+}
 /**
  * Контрол, отображающий всплывающую подсказку относительно указанного элемента.
  * Всплывающую подсказку вызывает событие, указанное в опции trigger.
@@ -27,15 +34,6 @@ import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
  * @author Красильников А.С.
  * @demo Controls-demo/InfoBox/InfoBox
  */
-
-const CALM_DELAY: number = 100; // During what time should not move the mouse to start opening the popup.
-
-interface IInfoBoxTouchContext {
-    isTouch: {
-        isTouch: boolean;
-    };
-}
-
 class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     readonly '[Controls/_popup/interface/IInfoBox]': boolean;
 

@@ -20,7 +20,36 @@ export interface IIntersectionObserverContainerOptions extends IControlOptions, 
  * @see Controls/_scroll/IntersectionObserver
  * @public
  */
+class  IntersectionObserverContainer extends Control<IIntersectionObserverContainerOptions> {
+   protected _template: TemplateFunction = template;
 
+   protected _afterMount(): void {
+      //TODO remove after complete https://online.sbis.ru/opendoc.html?guid=7c921a5b-8882-4fd5-9b06-77950cbe2f79
+      const container = this._container.get ? this._container.get(0) : this._container;
+      this._notify(
+         'intersectionObserverRegister',
+         [{
+            instId: this.getInstanceId(),
+            observerName: this._options.observerName,
+            element: container,
+            threshold: this._options.threshold,
+            rootMargin: this._options.rootMargin,
+            data: this._options.data,
+            handler: this._observeHandler.bind(this)
+         }],
+         { bubbling: true });
+   }
+
+   private _observeHandler(item: SyntheticEntry): void {
+      this._notify('intersect', [item]);
+   }
+
+   protected _beforeUnmount(): void {
+      this._notify('intersectionObserverUnregister', [this.getInstanceId(), this._options.observerName], { bubbling: true });
+   }
+}
+
+export default IntersectionObserverContainer;
 /**
  * @name Controls/_scroll/IntersectionObserver/Container#observerName
  * @cfg {String} Имя которое используется при регистрации в контроллере {@link Controls/scroll:IntersectionObserverController}.
@@ -58,34 +87,3 @@ export interface IIntersectionObserverContainerOptions extends IControlOptions, 
  * @name Controls/_scroll/IntersectionObserver/Container#intersect
  * @demo Controls-demo/Scroll/IntersectionObserver/Default/Index
  */
-
-class  IntersectionObserverContainer extends Control<IIntersectionObserverContainerOptions> {
-   protected _template: TemplateFunction = template;
-
-   protected _afterMount(): void {
-      //TODO remove after complete https://online.sbis.ru/opendoc.html?guid=7c921a5b-8882-4fd5-9b06-77950cbe2f79
-      const container = this._container.get ? this._container.get(0) : this._container;
-      this._notify(
-         'intersectionObserverRegister',
-         [{
-            instId: this.getInstanceId(),
-            observerName: this._options.observerName,
-            element: container,
-            threshold: this._options.threshold,
-            rootMargin: this._options.rootMargin,
-            data: this._options.data,
-            handler: this._observeHandler.bind(this)
-         }],
-         { bubbling: true });
-   }
-
-   private _observeHandler(item: SyntheticEntry): void {
-      this._notify('intersect', [item]);
-   }
-
-   protected _beforeUnmount(): void {
-      this._notify('intersectionObserverUnregister', [this.getInstanceId(), this._options.observerName], { bubbling: true });
-   }
-}
-
-export default IntersectionObserverContainer;

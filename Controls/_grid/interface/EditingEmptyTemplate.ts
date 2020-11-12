@@ -18,6 +18,8 @@ interface IEmptyColumnColumns {
  *
  * @class Controls/grid:EditingEmptyTemplate
  * @author Авраменко А.С.
+ * @public
+ *
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
  * В таблице 5 колонок. В пустом представлении поле ввода отображается во второй строке, а надпись растянута на следующие 2 колонки.
@@ -56,13 +58,15 @@ interface IEmptyColumnColumns {
  *     </ws:emptyTemplate>
  * </Controls.list:View>
  * </pre>
+ * 
  * @demo Controls-demo/grid/EmptyGrid/Editing/Index
+ * 
  * @remark
  * Колонки могут быть растянуты и спозиционированы в таблице с помощью опций <b>startIndex</b> и <b>stopIndex</b>.
  * По-умолчанию колонки не растягиваются и идут по порядку, недостающее пространство будет автоматически дополнено.
  * Таким образом, не обязательно конфигурировать все колонки, ровно как и конфигурировать пустые колонки слева, если требуется
  * отображать колонки не с начала.
- * @public
+ * 
  */
 export default interface IEditingEmptyTemplateOptions {
     /**

@@ -8,6 +8,34 @@ import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
 
 
 
+        // TODO: https://online.sbis.ru/doc/f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
+
+      var
+         _private = {
+            regExpQuantifiers: /\\({.*?}|.)/,
+
+            validateReplacer: function(replacer, mask) {
+               var validation;
+
+               if (replacer && _private.regExpQuantifiers.test(mask)) {
+                  validation = false;
+                  Logger.error('Mask', 'Used not empty replacer and mask with quantifiers. More on https://wi.sbis.ru/docs/js/Controls/_input/Mask/options/replacer/');
+               } else {
+                  validation = true;
+               }
+
+               return validation;
+            },
+            calcReplacer: function(replacer, mask) {
+               const value = _private.validateReplacer(replacer, mask) ? replacer : '';
+
+                /**
+                 * The width of the usual space is less than the width of letters and numbers.
+                 * Therefore, the width of the field after entering will increase. Increase the width of the space.
+                 */
+                return spaceToLongSpace(value);
+            }
+         },
       /**
        * Поле ввода значения с заданным форматом.
        *
@@ -48,34 +76,6 @@ import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
        * @author Красильников А.С.
        * @demo Controls-demo/Input/Masks/Index
        */
-        // TODO: https://online.sbis.ru/doc/f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
-
-      var
-         _private = {
-            regExpQuantifiers: /\\({.*?}|.)/,
-
-            validateReplacer: function(replacer, mask) {
-               var validation;
-
-               if (replacer && _private.regExpQuantifiers.test(mask)) {
-                  validation = false;
-                  Logger.error('Mask', 'Used not empty replacer and mask with quantifiers. More on https://wi.sbis.ru/docs/js/Controls/_input/Mask/options/replacer/');
-               } else {
-                  validation = true;
-               }
-
-               return validation;
-            },
-            calcReplacer: function(replacer, mask) {
-               const value = _private.validateReplacer(replacer, mask) ? replacer : '';
-
-                /**
-                 * The width of the usual space is less than the width of letters and numbers.
-                 * Therefore, the width of the field after entering will increase. Increase the width of the space.
-                 */
-                return spaceToLongSpace(value);
-            }
-         },
          Mask = Base.extend({
             _viewModel: null,
              _defaultValue: '',

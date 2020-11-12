@@ -18,6 +18,19 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {IFontColorStyle} from './interface';
 import {ILinkViewControlOptions} from './_dateRange/LinkView';
 
+const HEADER_TYPES = {
+        link: 'link',
+        input: 'input'
+};
+
+const STATES = {
+        year: 'year',
+        month: 'month'
+};
+
+const MONTH_STATE_SELECTION_DAYS = 30;
+const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
+
 /**
  * Диалоговое окно, которое позволяет выбрать даты и периоды произвольной длительности.
  *
@@ -51,20 +64,6 @@ import {ILinkViewControlOptions} from './_dateRange/LinkView';
  * @author Красильников А.С.
  * @demo Controls-demo/datePopup/datePopup
  */
-
-const HEADER_TYPES = {
-        link: 'link',
-        input: 'input'
-};
-
-const STATES = {
-        year: 'year',
-        month: 'month'
-};
-
-const MONTH_STATE_SELECTION_DAYS = 30;
-const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
-
 export default class DatePopup extends Control implements EventProxyMixin {
     _template: TemplateFunction = componentTmpl;
     _headerTmpl: TemplateFunction = headerTmpl;

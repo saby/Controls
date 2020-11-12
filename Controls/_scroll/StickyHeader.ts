@@ -1,109 +1,3 @@
-/**
- * Обеспечивает прилипание контента к верхней или нижней части родительского контейнера при прокрутке.
- * Прилипание происходит в момент пересечения верхней или нижней части контента и родительского контейнера.
- * @remark
- * Фиксация заголовка в IE и Edge версии ниже 16 не поддерживается.
- *
- * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
- *
- * @public
- * @extends Core/Control
- * @class Controls/_scroll/StickyHeader
- *
- * @mixes Control/interface:IBackgroundStyle
- *
- * @author Красильников А.С.
- */
-
-/*
- * Ensures that content sticks to the top or bottom of the parent container when scrolling.
- * Occurs at the moment of intersection of the upper or lower part of the content and the parent container.
- * @remark
- * Fixing in IE and Edge below version 16 is not supported.
- *
- * @public
- * @extends Core/Control
- * @class Controls/_scroll/StickyHeader
- * @author Красильников А.С.
- */
-
-/**
- * @name Controls/_scroll/StickyHeader#content
- * @cfg {Function} Содержимое заголовка, которое будет зафиксировано.
- */
-
-/*
- * @name Controls/_scroll/StickyHeader#content
- * @cfg {Function} Sticky header content.
- */
-
-/**
- * @name Controls/_scroll/StickyHeader#mode
- * @cfg {String} Режим прилипания заголовка.
- * @variant replaceable Заменяемый заголовок. Следующий заголовок заменяет текущий.
- * @variant stackable Составной заголовок. Следующий заголовок прилипает к нижней части текущего.
- */
-
-/*
- * @name Controls/_scroll/StickyHeader#mode
- * @cfg {String} Sticky header mode.
- * @variant replaceable Replaceable header. The next header replaces the current one.
- * @variant stackable Stackable header.  The next header is stick to the bottom of the current one.
- */
-
-/**
- * @name Controls/_scroll/StickyHeader#shadowVisibility
- * @cfg {String} Устанавливает видимость тени.
- * @variant visible Показать тень.
- * @variant hidden Не показывать.
- * @default visible
- */
-
-/*
- * @name Controls/_scroll/StickyHeader#shadowVisibility
- * @cfg {String} Shadow visibility.
- * @variant visible Show.
- * @variant hidden Do not show.
- * @default visible
- */
-
-/**
- * @name Controls/_scroll/StickyHeader#position
- * @cfg {String} Определяет позицию прилипания.
- * @variant top Прилипание к верхнему краю.
- * @variant bottom Прилипание к нижнему краю.
- * @variant topbottom Прилипание к верхнему и нижнему краю.
- * @default top
- */
-
-/*
- * @name Controls/_scroll/StickyHeader#position
- * @cfg {String} Determines which side the control can sticky.
- * @variant top Top side.
- * @variant bottom Bottom side.
- * @variant topbottom Top and bottom side.
- * @default top
- */
-
-/**
- * @name Controls/_scroll/StickyHeader#fixedZIndex
- * @cfg {Number} Устанавливает z-index у прилипающего заголовка
- */
-
-/**
- * @event Происходит при изменении состояния фиксации.
- * @name Controls/_scroll/StickyHeader#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события.
- * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Информация о событии фиксации.
- */
-
-/*
- * @event Change the fixation state.
- * @name Controls/_scroll/StickyHeader#fixed
- * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
- * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
- */
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {isStickySupport} from 'Controls/_scroll/StickyHeader/Utils';
 import {Logger} from 'UI/Utils';
@@ -149,7 +43,35 @@ interface IResizeObserver {
     unobserve: (el: HTMLElement) => void;
     disconnect: () => void;
 }
+/**
+ * Обеспечивает прилипание контента к верхней или нижней части родительского контейнера при прокрутке.
+ * Прилипание происходит в момент пересечения верхней или нижней части контента и родительского контейнера.
+ * @remark
+ * Фиксация заголовка в IE и Edge версии ниже 16 не поддерживается.
+ *
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
+ *
+ * @public
+ * @extends Core/Control
+ * @class Controls/_scroll/StickyHeader
+ *
+ * @mixes Control/interface:IBackgroundStyle
+ *
+ * @author Красильников А.С.
+ */
 
+/*
+ * Ensures that content sticks to the top or bottom of the parent container when scrolling.
+ * Occurs at the moment of intersection of the upper or lower part of the content and the parent container.
+ * @remark
+ * Fixing in IE and Edge below version 16 is not supported.
+ *
+ * @public
+ * @extends Core/Control
+ * @class Controls/_scroll/StickyHeader
+ * @author Красильников А.С.
+ */
 export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     /**
@@ -809,3 +731,79 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     static _theme: string[] = ['Controls/scroll'];
 
 }
+/**
+ * @name Controls/_scroll/StickyHeader#content
+ * @cfg {Function} Содержимое заголовка, которое будет зафиксировано.
+ */
+
+/*
+ * @name Controls/_scroll/StickyHeader#content
+ * @cfg {Function} Sticky header content.
+ */
+
+/**
+ * @name Controls/_scroll/StickyHeader#mode
+ * @cfg {String} Режим прилипания заголовка.
+ * @variant replaceable Заменяемый заголовок. Следующий заголовок заменяет текущий.
+ * @variant stackable Составной заголовок. Следующий заголовок прилипает к нижней части текущего.
+ */
+
+/*
+ * @name Controls/_scroll/StickyHeader#mode
+ * @cfg {String} Sticky header mode.
+ * @variant replaceable Replaceable header. The next header replaces the current one.
+ * @variant stackable Stackable header.  The next header is stick to the bottom of the current one.
+ */
+
+/**
+ * @name Controls/_scroll/StickyHeader#shadowVisibility
+ * @cfg {String} Устанавливает видимость тени.
+ * @variant visible Показать тень.
+ * @variant hidden Не показывать.
+ * @default visible
+ */
+
+/*
+ * @name Controls/_scroll/StickyHeader#shadowVisibility
+ * @cfg {String} Shadow visibility.
+ * @variant visible Show.
+ * @variant hidden Do not show.
+ * @default visible
+ */
+
+/**
+ * @name Controls/_scroll/StickyHeader#position
+ * @cfg {String} Определяет позицию прилипания.
+ * @variant top Прилипание к верхнему краю.
+ * @variant bottom Прилипание к нижнему краю.
+ * @variant topbottom Прилипание к верхнему и нижнему краю.
+ * @default top
+ */
+
+/*
+ * @name Controls/_scroll/StickyHeader#position
+ * @cfg {String} Determines which side the control can sticky.
+ * @variant top Top side.
+ * @variant bottom Bottom side.
+ * @variant topbottom Top and bottom side.
+ * @default top
+ */
+
+/**
+ * @name Controls/_scroll/StickyHeader#fixedZIndex
+ * @cfg {Number} Устанавливает z-index у прилипающего заголовка
+ */
+
+/**
+ * @event Происходит при изменении состояния фиксации.
+ * @name Controls/_scroll/StickyHeader#fixed
+ * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события.
+ * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Информация о событии фиксации.
+ */
+
+/*
+ * @event Change the fixation state.
+ * @name Controls/_scroll/StickyHeader#fixed
+ * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
+ * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
+ */

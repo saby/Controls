@@ -16,6 +16,13 @@ import {Logger} from 'UI/Utils';
 const ARROW_WIDTH = 16;
 const PADDING_RIGHT = 2;
 
+export interface IMultilinePathOptions extends IBreadCrumbsOptions {
+    containerWidth: number;
+}
+interface IReceivedState {
+    items: Record[];
+}
+
 /**
  * Контрол "Хлебные крошки", отображающиеся в две строки.
  * @class Controls/_breadcrumbs/MultilinePath
@@ -29,14 +36,6 @@ const PADDING_RIGHT = 2;
  * {@link Controls/breadcrumbs:Path} — хлебные крошки, отображающиеся в одну строку.
  * @see Controls/breadcrumbs:Path
  */
-
-export interface IMultilinePathOptions extends IBreadCrumbsOptions {
-    containerWidth: number;
-}
-interface IReceivedState {
-    items: Record[];
-}
-
 class MultilinePath extends Control<IMultilinePathOptions, IReceivedState> implements IFontSize {
     readonly '[Controls/_interface/IFontSize]': boolean;
     protected _template: TemplateFunction = template;

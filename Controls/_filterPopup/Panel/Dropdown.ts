@@ -16,7 +16,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
     * 
     * @class Controls/_filterPopup/Panel/Dropdown
     * @extends Controls/_dropdown/Input
-    * 
     * @public
     * @author Герасимов А.М.
     */
@@ -58,6 +57,7 @@ class FilterDropdown extends Control<IControlOptions> {
          };
       }
    }
+export default FilterDropdown;
 /**
  * @name Controls/_filterPopup/Panel/Dropdown#showCross
  * @cfg {Boolean} Показать крестик сброса рядом с выпадающим списком.
@@ -69,4 +69,3 @@ class FilterDropdown extends Control<IControlOptions> {
  * <Controls.filterPopup:Dropdown showCross="{{true}}"/>
  * </pre>
  */
-export default FilterDropdown;

@@ -31,7 +31,6 @@ var _private = {
  * Если хотите расположить поле связи с кнопкой-ссылкой в одну строку, необходимо на корневой элемет навесить класс 'ws-flexbox'.
  *
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">демо-пример</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
  *
  * @class Controls/_filterPopup/Panel/Lookup
@@ -53,10 +52,10 @@ var _private = {
  * @mixes Controls/interface/IInputTag
  * @mixes Controls/input:IValue
  * @mixes Controls/_interface/ISelectorDialog
- *
  * @public
  * @author Герасимов А.М.
- *
+ * 
+ * @demo Controls-demo/Lookup/Index
  */
 /*
  * Label with a Lookup. While the collection is empty - the Lookup is hidden.

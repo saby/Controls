@@ -5,6 +5,17 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {IPropStorageOptions} from 'Controls/interface';
 
+const RESIZE_DELAY = 50;
+
+interface IMasterDetail extends IControlOptions, IPropStorageOptions {
+    master: TemplateFunction;
+    detail: TemplateFunction;
+    masterWidth: number | string;
+    masterMinWidth: number | string;
+    masterMaxWidth: number | string;
+    contrastBackground: boolean;
+    masterVisibility: string;
+}
 /**
  * Контрол, который обеспечивает связь между двумя контролами для отображения подробной информации по выбранному элементу.
  * Подробное описание и инструкцию по настройке читайте <a href='https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/layout/master-detail/'>здесь</a>.
@@ -27,18 +38,6 @@ import {IPropStorageOptions} from 'Controls/interface';
  * @public
  * @demo Controls-demo/MasterDetail/Demo
  */
-const RESIZE_DELAY = 50;
-
-interface IMasterDetail extends IControlOptions, IPropStorageOptions {
-    master: TemplateFunction;
-    detail: TemplateFunction;
-    masterWidth: number | string;
-    masterMinWidth: number | string;
-    masterMaxWidth: number | string;
-    contrastBackground: boolean;
-    masterVisibility: string;
-}
-
 class Base extends Control<IMasterDetail> {
     /**
      * @typedef {String} MasterVisibility

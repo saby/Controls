@@ -9,31 +9,6 @@ interface IDataContext {
     dataOptions: ISourceControllerState;
 }
 
-export default class ListContainer extends Control<IControlOptions> {
-    protected _template: TemplateFunction = template;
-    protected _dataOptions: ISourceControllerState = null;
-
-    protected _beforeMount(options: IControlOptions, context: IDataContext): void {
-        this._dataOptions = context.dataOptions;
-    }
-
-    protected _beforeUpdate(options: IControlOptions, context: IDataContext): void {
-        this._dataOptions = context.dataOptions;
-    }
-
-    protected _notifyEventWithBubbling(e: SyntheticEvent, eventName: string): unknown {
-        return this._notify(eventName, Array.prototype.slice.call(arguments, 2), {
-            bubbling: true
-        });
-    }
-
-    static contextTypes(): IDataContext {
-        return {
-            dataOptions: DataOptions
-        };
-    }
-}
-
 /**
  * Контрол-контейнер для списка. Передает опции из контекста в список.
  *
@@ -62,3 +37,27 @@ export default class ListContainer extends Control<IControlOptions> {
  * @author Герасимов А.М.
  * @public
  */
+export default class ListContainer extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+    protected _dataOptions: ISourceControllerState = null;
+
+    protected _beforeMount(options: IControlOptions, context: IDataContext): void {
+        this._dataOptions = context.dataOptions;
+    }
+
+    protected _beforeUpdate(options: IControlOptions, context: IDataContext): void {
+        this._dataOptions = context.dataOptions;
+    }
+
+    protected _notifyEventWithBubbling(e: SyntheticEvent, eventName: string): unknown {
+        return this._notify(eventName, Array.prototype.slice.call(arguments, 2), {
+            bubbling: true
+        });
+    }
+
+    static contextTypes(): IDataContext {
+        return {
+            dataOptions: DataOptions
+        };
+    }
+}

@@ -71,26 +71,6 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @demo Controls-demo/dropdown_new/Combobox/Source/Index
  */
 
-/**
- * @event Происходит при изменении отображаемого значения контрола.
- * @name Controls/_dropdown/ComboBox#valueChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {String} value Отображаемое значение контрола.
- * @remark
- * Событие используется в качестве реакции на изменения, вносимые пользователем.
- * @example
- * WML:
- * <pre>
- *     <Controls.dropdown:ComboBox
- *                on:valueChanged="_valueChangedHandler()"
- *                source="{{_source}}"/>
- * </pre>
- * TS:
- *    private _valueChangedHandler(event, value) {
- *        this._text = value;
- *    }
- */
-
 class ComboBox extends BaseDropdown {
    protected _template: TemplateFunction = template;
    protected _notifyHandler: Function = tmplNotify;
@@ -265,3 +245,24 @@ class ComboBox extends BaseDropdown {
 }
 
 export = ComboBox;
+/**
+ * @event Происходит при изменении отображаемого значения контрола.
+ * @name Controls/_dropdown/ComboBox#valueChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {String} value Отображаемое значение контрола.
+ * @remark
+ * Событие используется в качестве реакции на изменения, вносимые пользователем.
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.dropdown:ComboBox
+ *     on:valueChanged="_valueChangedHandler()"
+ *     source="{{_source}}"/>
+ * </pre>
+ * <pre class="brush: js">
+ * // TypeScript
+ * private _valueChangedHandler(event, value) {
+ *     this._text = value;
+ * }
+ * </pre>
+ */

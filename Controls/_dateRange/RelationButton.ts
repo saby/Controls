@@ -2,6 +2,10 @@ import Control = require('Core/Control');
 import {descriptor} from 'Types/entity';
 import template = require('wml!Controls/_dateRange/RelationButton/RelationButton');
 
+const valueMap = {
+    normal: 'byCapacity',
+    byCapacity: 'normal'
+};
 /**
  * Кнопка для связывания периодов. Контрол, который может использоваться с {@link Controls/_dateRange/RelationController RelationController}.
  *
@@ -30,12 +34,6 @@ import template = require('wml!Controls/_dateRange/RelationButton/RelationButton
  * @demo Controls-demo/dateRange/RelationController
  *
  */
-
-const valueMap = {
-    normal: 'byCapacity',
-    byCapacity: 'normal'
-};
-
 const Component = Control.extend({
     _template: template,
 

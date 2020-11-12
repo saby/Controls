@@ -12,6 +12,13 @@ import {
     IMultiSelectableOptions, IHierarchy, IHierarchyOptions
 } from 'Controls/interface';
 
+export interface ICheckboxGroupOptions extends IControlOptions,
+            IMultiSelectableOptions,
+            IHierarchyOptions,
+            ISourceOptions,
+            IToggleGroupOptions {
+    direction?: string;
+}
 /**
  * Группа контролов, которые предоставляют пользователям возможность выбора между двумя или более параметрами.
  * 
@@ -47,15 +54,6 @@ import {
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/CheckboxGroup/Base/Index
  */
-
-export interface ICheckboxGroupOptions extends IControlOptions,
-            IMultiSelectableOptions,
-            IHierarchyOptions,
-            ISourceOptions,
-            IToggleGroupOptions {
-    direction?: string;
-}
-
 class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements ISource,
                                                                       IMultiSelectable, IHierarchy, IToggleGroup {
     '[Controls/_interface/ISource]': boolean = true;

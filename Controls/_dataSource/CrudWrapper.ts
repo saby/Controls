@@ -14,52 +14,11 @@ export interface ICrudWrapperOptions {
 }
 
 /**
- * @name Controls/dataSource/CrudWrapper#source
- * @cfg {Types/source:ICrud} Ресурс для запроса данных
- * @example
- * const source = new Memory({
- *     keyProperty: 'id',
- *     data: data
- * });
- */
-/*
- * @name Controls/dataSource/CrudWrapper#source
- * @cfg {Types/source:ICrud} Data source
- */
-
-/**
- * @name Controls/dataSource/CrudWrapper#errorController
- * @cfg {Controls/dataSource:error.Controller} Контроллер ошибки c предварительно настроенными Handlers
- * @example
- * const handlers = {
- *    handlers: [
- *        (config: HandlerConfig): error.ViewConfig) => ({
- *            template: LockedErrorTemplate,
- *            options: {
- *                // ...
- *            }
- *        })
- *        (config: HandlerConfig): error.ViewConfig) => ({
- *            template: LockedErrorTemplate,
- *            options: {
- *                // ...
- *            }
- *        })
- *    ]
- * }
- * const errorController = new error.Controller(handlers);
- */
-/*
- * @name Controls/dataSource/CrudWrapper#errorController
- * @cfg {Controls/dataSource:error.Controller} Error controller instance with previously configured handlers
- */
-
-/**
  * Прослойка между контролом и source: Types/_source/ICrud, которая позволяет перехватывать ошибку загрузки и возвращать в catch Controls/_dataSource/_error/ViewConfig конфиг для отображения ошибки
  * @remark
  * @class Controls/dataSource/CrudWrapper
  * @example
- * <pre>
+ * <pre class="brush: js>
  * const source = new Memory({
  *     keyProperty: 'id',
  *     data: data
@@ -277,3 +236,43 @@ export class CrudWrapper {
         return query;
     }
 }
+/**
+ * @name Controls/dataSource/CrudWrapper#source
+ * @cfg {Types/source:ICrud} Ресурс для запроса данных
+ * @example
+ * const source = new Memory({
+ *     keyProperty: 'id',
+ *     data: data
+ * });
+ */
+/*
+ * @name Controls/dataSource/CrudWrapper#source
+ * @cfg {Types/source:ICrud} Data source
+ */
+
+/**
+ * @name Controls/dataSource/CrudWrapper#errorController
+ * @cfg {Controls/dataSource:error.Controller} Контроллер ошибки c предварительно настроенными Handlers
+ * @example
+ * const handlers = {
+ *    handlers: [
+ *        (config: HandlerConfig): error.ViewConfig) => ({
+ *            template: LockedErrorTemplate,
+ *            options: {
+ *                // ...
+ *            }
+ *        })
+ *        (config: HandlerConfig): error.ViewConfig) => ({
+ *            template: LockedErrorTemplate,
+ *            options: {
+ *                // ...
+ *            }
+ *        })
+ *    ]
+ * }
+ * const errorController = new error.Controller(handlers);
+ */
+/*
+ * @name Controls/dataSource/CrudWrapper#errorController
+ * @cfg {Controls/dataSource:error.Controller} Error controller instance with previously configured handlers
+ */

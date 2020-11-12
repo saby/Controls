@@ -14,7 +14,6 @@ import {IFilterItem} from "Controls/_filter/View/interface/IFilterView";
  * @class Controls/_filter/View/Container
  * @extends Core/Control
  * @author Герасимов А.М.
- * 
  * @public
  */
 

@@ -24,11 +24,6 @@ export interface INumberEditorOptions extends IEditorOptions {
 }
 
 /**
- * @name Controls/_propertyGrid/defaultEditors/Number/INumberEditorOptions#inputConfig
- * @cfg Конфигурация числового поля ввода.
- */
-
-/**
  * Редактор численного типа данных.
  *
  * @class Controls/_propertyGrid/defaultEditors/Number
@@ -78,3 +73,7 @@ class NumberEditor extends Control implements IEditor {
 }
 
 export = NumberEditor;
+/**
+ * @name Controls/_propertyGrid/defaultEditors/Number/INumberEditorOptions#inputConfig
+ * @cfg Конфигурация числового поля ввода.
+ */

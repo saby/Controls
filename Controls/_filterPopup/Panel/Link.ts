@@ -10,13 +10,13 @@ import template = require('wml!Controls/_filterPopup/Panel/Link/Link');
  * 
  * @class Controls/_filterPopup/Panel/Link
  * @extends Core/Control
- * 
  * @public
  * @author Золотова Э.Е.
+ * 
  * @example
  * Пример использования контрола на панели фильтра в блоке "Еще можно отобрать"
  * AdditionalItemTemplate.wml
- * <pre>
+ * <pre class="brush: html">
  *    <ws:template name="FIO">
  *       <Controls.filterPopup:Link caption="Author"/>
  *    </ws:template>

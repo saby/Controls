@@ -13,6 +13,28 @@ import template = require('wml!Controls/_scroll/IntersectionObserver/EdgeInterse
  * @public
  */
 
+class EdgeIntersectionObserverContainer extends Control<IEdgeIntersectionObserverOptions> {
+    protected _template: TemplateFunction = template;
+    protected _observer: EdgeIntersectionObserver;
+
+    protected _afterMount(): void {
+        this._observer = new EdgeIntersectionObserver(
+            this, this._observeHandler.bind(this), this._children.topTrigger, this._children.bottomTrigger);
+    }
+
+    protected _observeHandler(eventName: string): void {
+        this._notify(eventName);
+    }
+
+    protected _beforeUnmount(): void {
+        this._observer.destroy();
+        this._observer = null;
+    }
+
+    static _theme: string[] = ['Controls/scroll'];
+}
+
+export default EdgeIntersectionObserverContainer;
 /**
  * @name Controls/_scroll/IntersectionObserver/EdgeIntersectionContainer#topOffset
  * @cfg {number} Смещение относительно верхней границы контенера. Можно отслеживать моменты когда до границы контейнера
@@ -50,26 +72,3 @@ import template = require('wml!Controls/_scroll/IntersectionObserver/EdgeInterse
  * @name Controls/_scroll/IntersectionObserver/EdgeIntersectionContainer#bottomOut
  * @demo Controls-demo/Scroll/EdgeIntersectionContainer/Default/Index
  */
-
-class EdgeIntersectionObserverContainer extends Control<IEdgeIntersectionObserverOptions> {
-    protected _template: TemplateFunction = template;
-    protected _observer: EdgeIntersectionObserver;
-
-    protected _afterMount(): void {
-        this._observer = new EdgeIntersectionObserver(
-            this, this._observeHandler.bind(this), this._children.topTrigger, this._children.bottomTrigger);
-    }
-
-    protected _observeHandler(eventName: string): void {
-        this._notify(eventName);
-    }
-
-    protected _beforeUnmount(): void {
-        this._observer.destroy();
-        this._observer = null;
-    }
-
-    static _theme: string[] = ['Controls/scroll'];
-}
-
-export default EdgeIntersectionObserverContainer;

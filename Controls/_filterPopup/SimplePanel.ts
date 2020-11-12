@@ -8,41 +8,6 @@ import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
 import {isHistorySource} from 'Controls/_filter/HistoryUtils';
 
-/**
- * Панель "быстрых фильтров" для {@link Controls/filter:View}.
- * Шаблон окна, в котором для каждого фильтра с viewMode = 'frequent' отображает список элементов в отдельном блоке.
- *
- * @remark
- * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
- *
- * @class Controls/_filterPopup/SimplePanel
- * @extends Core/Control
- * 
- * @public
- * @author Золотова Э.Е.
- * @example
- * WML:
- * <pre>
- *    <Controls.filterPopup:SimplePanel
- *          attr:class="custom-SimplePanel"
- *          items="{{_options.items}}" />
- * </pre>
- *
- */
-
-/*
- * Control dropdown list for {@link Controls/filter:View}.
- *
- * @class Controls/_filterPopup/SimplePanel
- * @extends Core/Control
- * @mixes Controls/_filterPopup/SimplePanel/SimplePanelStyles
- * 
- * @public
- * @author Золотова Э.Е.
- *
- */
-
 const DEFAULT_MIN_VISIBLE_ITEMS = 2;
 var _private = {
 
@@ -114,7 +79,40 @@ var _private = {
         return result;
     }
 };
+/**
+ * Панель "быстрых фильтров" для {@link Controls/filter:View}.
+ * Шаблон окна, в котором для каждого фильтра с viewMode = 'frequent' отображает список элементов в отдельном блоке.
+ *
+ * @remark
+ * Полезные ссылки:
+ * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
+ *
+ * @class Controls/_filterPopup/SimplePanel
+ * @extends Core/Control
+ * @public
+ * @author Золотова Э.Е.
+ * 
+ * @example
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.filterPopup:SimplePanel
+ *     attr:class="custom-SimplePanel"
+ *     items="{{_options.items}}" />
+ * </pre>
+ *
+ */
 
+/*
+ * Control dropdown list for {@link Controls/filter:View}.
+ *
+ * @class Controls/_filterPopup/SimplePanel
+ * @extends Core/Control
+ * @mixes Controls/_filterPopup/SimplePanel/SimplePanelStyles
+ * 
+ * @public
+ * @author Золотова Э.Е.
+ *
+ */
 var Panel = Control.extend({
     _template: template,
     _items: null,
