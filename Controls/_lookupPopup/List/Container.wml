@@ -3,7 +3,7 @@
             selectedKeys="{{_selectedKeys}}"
             bind:markedKey="_markedKey"
             on:itemActivate="_itemActivate()"
-            on:actionClick="_itemActionsClick()"
+            on:listActionClick="_itemActionsClick()"
             itemActions="{{_itemActions}}"
             itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
 />
