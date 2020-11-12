@@ -20,7 +20,7 @@ import {resetFilter} from 'Controls/_filter/resetFilterUtils';
 import mergeSource from 'Controls/_filter/Utils/mergeSource';
 import * as defaultItemTemplate from 'wml!Controls/_filter/View/ItemTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {DependencyTimer} from 'Controls/popup';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
 import {load} from 'Core/library';
 import {IFilterItem} from './View/interface/IFilterView';
 import {StickyOpener, StackOpener} from 'Controls/popup';

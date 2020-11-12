@@ -8,7 +8,7 @@ import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {SbisService} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {isLeftMouseButton} from 'Controls/popup';
+import {isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {IItems, IHeight} from 'Controls/interface';
 import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
 import { constants } from 'Env/Env';

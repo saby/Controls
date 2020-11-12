@@ -16,7 +16,7 @@ import {IStickyPopupOptions, InfoboxTarget} from 'Controls/popup';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
-import {isLeftMouseButton} from 'Controls/popup';
+import {isLeftMouseButton} from 'Controls/fastOpenUtils';
 
 interface IInputOptions extends IBaseDropdownOptions {
    fontColorStyle?: string;
