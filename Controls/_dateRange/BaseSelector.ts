@@ -1,7 +1,7 @@
 import {Control, IControlOptions} from 'UI/Base';
 import DateRangeModel from './DateRangeModel';
 import {proxyModelEvents} from 'Controls/eventUtils';
-import {DependencyTimer} from 'Controls/popup';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
 import {Logger} from 'UI/Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import Sticky from 'Controls/_popup/Opener/Sticky';

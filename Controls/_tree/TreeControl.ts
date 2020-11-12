@@ -8,7 +8,7 @@ import { Model } from 'Types/entity';
 
 import { saveConfig } from 'Controls/Application/SettingsController';
 import {tmplNotify, keysHandler} from 'Controls/eventUtils';
-import { MouseButtons, MouseUp } from 'Controls/popup';
+import { MouseButtons, MouseUp } from 'Controls/fastOpenUtils';
 import { Controller as SourceController } from 'Controls/source';
 import { error as dataSourceError, NewSourceController } from 'Controls/dataSource';
 import selectionToRecord = require('Controls/_operations/MultiSelector/selectionToRecord');

@@ -36,7 +36,7 @@ import {IGrouped, IGroupedOptions} from 'Controls/dropdown';
 import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
 import * as ActualAPI from 'Controls/_toolbars/ActualAPI';
-import {DependencyTimer, isLeftMouseButton} from 'Controls/popup';
+import {DependencyTimer, isLeftMouseButton} from 'Controls/fastOpenUtils';
 import {IoC} from "Env/Env";
 
 type TItem = Record;

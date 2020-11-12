@@ -16,7 +16,7 @@ import {tmplNotify} from 'Controls/eventUtils';
 import {ICrudPlus} from 'Types/source';
 import {IHashMap} from 'Types/declarations';
 import InputRenderLookup = require("./BaseLookupView/InputRender");
-import {DependencyTimer} from 'Controls/popup';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
 import {_InputController as LayoutInputContainer} from 'Controls/suggest';
 
 const KEY_CODE_F2 = 113;

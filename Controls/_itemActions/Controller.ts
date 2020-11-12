@@ -25,7 +25,7 @@ import {verticalMeasurer} from './measurers/VerticalMeasurer';
 import {horizontalMeasurer} from './measurers/HorizontalMeasurer';
 import {Utils} from './Utils';
 import {IContextMenuConfig} from './interface/IContextMenuConfig';
-import {DependencyTimer} from 'Controls/popup';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
 import * as mStubs from 'Core/moduleStubs';
 import {getActions} from './measurers/ItemActionMeasurer';
 
