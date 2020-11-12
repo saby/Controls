@@ -13,7 +13,8 @@ import {
 } from 'Controls/interface';
 import {Logger} from 'UI/Utils';
 import {descriptor, DescriptorValidator} from 'Types/entity';
-import {numberToString, splitIntoTriads} from 'Controls/inputUtils';
+import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
+import numberToString from 'Controls/_decorator/inputUtils/toString';
 
 // tslint:disable-next-line:ban-ts-ignore
 //@ts-ignore

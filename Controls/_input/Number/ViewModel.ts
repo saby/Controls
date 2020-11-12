@@ -1,10 +1,9 @@
 import BaseViewModel from '../BaseViewModel';
 import {decimalSplitter, decimalSplitters} from 'Controls/_input/Number/constant';
-import {toString, concatTriads} from 'Controls/inputUtils';
 import {format} from 'Controls/_input/Number/format';
 import {parse, IParsedNumber} from 'Controls/_input/Number/parse';
 import {InputType, ISplitValue} from '../resources/Types';
-import {IText, paste, replaceWithRepositioning} from 'Controls/decorator';
+import {IText, paste, replaceWithRepositioning, concatTriads, toString} from 'Controls/decorator';
 
 interface IViewModelOptions {
     useGrouping: boolean;
