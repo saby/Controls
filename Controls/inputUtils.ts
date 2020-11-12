@@ -9,7 +9,7 @@
  * @author Журавлев М.С.
  */
 
-export {default as splitIntoTriads, concatTriads, NUMBER_DIGITS_TRIAD, SPLITTER} from './_utils/inputUtils/splitIntoTriads';
-export {default as toString} from './_utils/inputUtils/toString';
-export {default as numberToString} from './_utils/inputUtils/numberToString';
-export {partOfNumber, escapeSpecialChars, addWordCheck} from './_utils/inputUtils/RegExp';
+export {splitIntoTriads, concatTriads, NUMBER_DIGITS_TRIAD, SPLITTER} from 'Controls/decorator';
+export {toString} from 'Controls/decorator';
+export {numberToString} from 'Controls/decorator';
+export {partOfNumber, escapeSpecialChars, addWordCheck} from 'Controls/decorator';
