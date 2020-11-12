@@ -2270,6 +2270,11 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         }
         this._$multiSelectVisibility = visibility;
         this._nextVersion();
+        this.getViewIterator().each((item: CollectionItem<T>) => {
+            if (item.setMultiSelectVisibility) {
+                item.setMultiSelectVisibility(visibility);
+            }
+        });
     }
 
     setMultiSelectPosition(position: 'default' | 'custom'): void {
@@ -3005,6 +3010,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     protected _getItemsFactory(): ItemsFactory<T> {
         return function CollectionItemsFactory(options?: ICollectionItemOptions<S>): T {
             options.owner = this;
+            options.multiSelectVisibility = this._$multiSelectVisibility;
             return create(this._itemModule, options);
         };
     }

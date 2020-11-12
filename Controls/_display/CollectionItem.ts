@@ -31,6 +31,7 @@ export interface IOptions<T> {
     owner?: ICollection<T, CollectionItem<T>>;
     isAdd?: boolean;
     addPosition?: 'top' | 'bottom';
+    multiSelectVisibility: string;
 }
 
 export interface ISerializableState<T> extends IDefaultSerializableState {
@@ -117,6 +118,8 @@ export default class CollectionItem<T> extends mixin<
     protected _$hovered: boolean;
 
     protected _$rendered: boolean;
+
+    protected _$multiSelectVisibility: string;
 
     protected _$dragged: boolean;
 
@@ -630,7 +633,17 @@ export default class CollectionItem<T> extends mixin<
     }
 
     getMultiSelectVisibility(): string {
-        return this.getOwner().getMultiSelectVisibility();
+        return this._$multiSelectVisibility;
+    }
+
+    setMultiSelectVisibility(multiSelectVisibility: string): boolean {
+        const multiSelectVisibilityUpdated = this._$multiSelectVisibility !== multiSelectVisibility;
+        if (multiSelectVisibilityUpdated) {
+            this._$multiSelectVisibility = multiSelectVisibility;
+            this._nextVersion();
+            return true;
+        }
+        return false;
     }
 
     getMultiSelectPosition(): string {
@@ -767,5 +780,6 @@ Object.assign(CollectionItem.prototype, {
     _instancePrefix: 'collection-item-',
     _contentsIndex: undefined,
     _version: 0,
-    _counters: null
+    _counters: null,
+    _$multiSelectVisibility: null
 });
