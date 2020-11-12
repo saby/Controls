@@ -7,7 +7,7 @@ import {Range, Popup as PopupUtil} from 'Controls/dateUtils';
 import {StringValueConverter, IDateTimeMask, ISelection} from 'Controls/input';
 import {tmplNotify} from 'Controls/eventUtils';
 import template = require('wml!Controls/_dateRange/Input/Input');
-import {DependencyTimer} from 'Controls/popup';
+import {DependencyTimer} from 'Controls/fastOpenUtils';
 import {Logger} from 'UI/Utils';
 
 interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
