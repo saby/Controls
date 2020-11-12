@@ -22,7 +22,6 @@ import {
 import {IFilterOptions, IHierarchyOptions, ISearchOptions, ISourceOptions, TSelectionType, Direction} from 'Controls/interface';
 import Store from 'Controls/Store';
 import {SHADOW_VISIBILITY} from 'Controls/scroll';
-import {detection} from 'Env/Env';
 import {ICrud, ICrudPlus, IData, PrefetchProxy, QueryWhereExpression} from 'Types/source';
 import {ISearchControllerOptions} from 'Controls/_search/interface';
 import {IHierarchySearchOptions} from 'Controls/interface/IHierarchySearch';
@@ -99,10 +98,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     private _searchController: SearchController = null;
     private _filterController: FilterController = null;
 
-    private _topShadowVisibilityFromOptions: SHADOW_VISIBILITY;
-    private _bottomShadowVisibilityFromOptions: SHADOW_VISIBILITY;
-    private _topShadowVisibility: SHADOW_VISIBILITY;
-    private _bottomShadowVisibility: SHADOW_VISIBILITY;
+    private _topShadowVisibility: SHADOW_VISIBILITY = SHADOW_VISIBILITY.AUTO;
+    private _bottomShadowVisibility: SHADOW_VISIBILITY  = SHADOW_VISIBILITY.AUTO;
 
     protected _beforeMount(options: IBrowserOptions,
                            context?: typeof ContextOptions,
@@ -113,7 +110,6 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         this._afterSetItemsOnReloadCallback = this._afterSetItemsOnReloadCallback.bind(this);
         this._notifyNavigationParamsChanged = this._notifyNavigationParamsChanged.bind(this);
 
-        this._initShadowVisibility(options);
         this._filterController = new FilterController(options  as IFilterControllerOptions);
 
         this._filter = options.filter;
@@ -546,14 +542,12 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         this._getOperationsController().setOperationsPanelVisible(false);
     }
 
-    protected _onScrollToFirstItemForTopPadding(): void {
-        // Возвращаем в опции значение видимости теней, которое передали прикладники
-        if (this._topShadowVisibility !== this._topShadowVisibilityFromOptions) {
-            this._topShadowVisibility = this._topShadowVisibilityFromOptions;
+    protected _resetShadowVisibility(event?: SyntheticEvent<null>): void {
+        if (event) {
+            event.stopPropagation();
         }
-        if (this._bottomShadowVisibility !== this._bottomShadowVisibilityFromOptions) {
-            this._bottomShadowVisibility = this._bottomShadowVisibilityFromOptions;
-        }
+        this._topShadowVisibility = SHADOW_VISIBILITY.AUTO;
+        this._bottomShadowVisibility = SHADOW_VISIBILITY.AUTO;
     }
 
     private _createOperationsController(options: IBrowserOptions): OperationsController {
@@ -577,29 +571,14 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     }
 
     private _defineShadowVisibility(items: RecordSet|Error|void): void {
-        if (detection.isMobilePlatform) {
-            // На мобильных устройствах тень верхняя показывается, т.к. там есть уже загруженные данные вверху
-            return;
-        }
-
         if (items instanceof RecordSet) {
             const more = items.getMetaData().more;
             if (more) {
-                if (more.before) {
-                    this._topShadowVisibility = SHADOW_VISIBILITY.VISIBLE;
-                }
-
-                if (more.after) {
-                    this._bottomShadowVisibility = SHADOW_VISIBILITY.VISIBLE;
-                }
+                this._topShadowVisibility = more.before ? SHADOW_VISIBILITY.VISIBLE : SHADOW_VISIBILITY.AUTO;
+                this._bottomShadowVisibility = more.after ? SHADOW_VISIBILITY.VISIBLE : SHADOW_VISIBILITY.AUTO;
             }
 
         }
-    }
-
-    private _initShadowVisibility(options: IBrowserOptions): void {
-        this._topShadowVisibility = this._topShadowVisibilityFromOptions = options.topShadowVisibility;
-        this._bottomShadowVisibility = this._bottomShadowVisibilityFromOptions = options.bottomShadowVisibility;
     }
 
     private _getSearchControllerOptions(options: IBrowserOptions): ISearchControllerOptions {

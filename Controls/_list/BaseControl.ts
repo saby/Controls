@@ -830,6 +830,10 @@ const _private = {
             }
 
             _private.prepareFooter(self, self._options, self._sourceController);
+
+            if (detection.isMobilePlatform && direction === 'up') {
+                 self._notify('_afterLoadItemsToUp', [], {bubbling: true});
+            }
         };
 
         const drawItemsUp = (countCurrentItems, addedItems) => {
@@ -5222,6 +5226,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         if (!this._pagingVisible) {
             _private.initPaging(this);
+        }
+
+        // Если не нужно делать отступ, значит нужно сразу сбросить shadowVisibility опции в auto
+        if (!this._needScrollToFirstItem) {
+            this._notify('_mouseEnterToBaseControl', [], { bubbling: true });
         }
     },
 
