@@ -53,6 +53,9 @@ export default class SearchResolver implements ISearchResolver {
       if (minSearchLength && valueLength >= this._options.minSearchLength) {
          this._resolveCallback(this._options.searchCallback, value, true);
       } else if (minSearchLength || !valueLength) {
+         if (this._options.delayTime) {
+            this.clearTimer();
+         }
          if (this._searchStarted) {
             if (valueLength) {
                this._resolveCallback(this._options.searchResetCallback, value, false);
