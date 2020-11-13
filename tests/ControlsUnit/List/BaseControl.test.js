@@ -7547,80 +7547,6 @@ define([
          });
       });
 
-      describe('changeMarkedKey', () => {
-         const data = [
-            {
-               id: 1,
-               title: 'Первый',
-               type: 1
-            },
-            {
-               id: 2,
-               title: 'Второй',
-               type: 2
-            }
-         ];
-         const source = new sourceLib.Memory({
-            keyProperty: 'id',
-            data: data
-         });
-         const cfg = {
-            viewName: 'Controls/List/ListView',
-            viewModelConfig: {
-               items: [],
-               keyProperty: 'id'
-            },
-            viewModelConstructor: lists.ListViewModel,
-            keyProperty: 'id',
-            markerVisibility: 'visible',
-            source: source
-         };
-         let baseControl;
-
-         beforeEach(() => {
-            baseControl = new lists.BaseControl()
-            baseControl.saveOptions(cfg);
-            baseControl._environment = {};
-            return baseControl._beforeMount(cfg);
-         });
-
-         it('notify return promise', () => {
-            baseControl._notify = (eventName, params) => {
-               assert.deepEqual(params, [1]);
-               return Promise.resolve(1);
-            };
-
-            return lists.BaseControl._private.changeMarkedKey(baseControl, 1).then((newMarkedKey) => {
-               assert.equal(newMarkedKey, 1);
-               assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-            });
-         });
-
-         it('notify return new key', () => {
-            baseControl._notify = (eventName, params) => {
-               if (eventName === 'beforeMarkedKeyChanged') {
-                  assert.deepEqual(params, [1]);
-               } else {
-                  assert.deepEqual(params, [2]);
-               }
-               return 2;
-            };
-
-            lists.BaseControl._private.changeMarkedKey(baseControl, 1);
-            assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-            assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
-         });
-
-         it('notify nothing return', () => {
-            baseControl._notify = (eventName, params) => {
-               assert.deepEqual(params, [1]);
-            };
-
-            lists.BaseControl._private.changeMarkedKey(baseControl, 1);
-            assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
-         });
-      });
-
       // region Move
 
       describe('MoveController', () => {
@@ -7768,38 +7694,59 @@ define([
          describe('_private.changeMarkedKey', () => {
             it('notify return promise', () => {
                baseControl._notify = (eventName, params) => {
-                  assert.deepEqual(params, [1]);
-                  return Promise.resolve(1);
+                  assert.deepEqual(params, [3]);
+                  return Promise.resolve(3);
                };
 
-               return lists.BaseControl._private.changeMarkedKey(baseControl, 1).then((newMarkedKey) => {
-                  assert.equal(newMarkedKey, 1);
-                  assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
+               return lists.BaseControl._private.changeMarkedKey(baseControl, 3).then((newMarkedKey) => {
+                  assert.equal(newMarkedKey, 3);
+                  assert.isTrue(baseControl.getViewModel().getItemBySourceKey(3).isMarked());
                });
             });
 
             it('notify return new key', () => {
                baseControl._notify = (eventName, params) => {
                   if (eventName === 'beforeMarkedKeyChanged') {
-                     assert.deepEqual(params, [1]);
+                     assert.deepEqual(params, [3]);
                   } else {
                      assert.deepEqual(params, [2]);
                   }
                   return 2;
                };
 
-               lists.BaseControl._private.changeMarkedKey(baseControl, 1);
-               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
+               lists.BaseControl._private.changeMarkedKey(baseControl, 3);
+               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(3).isMarked());
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
             });
 
             it('notify nothing return', () => {
                baseControl._notify = (eventName, params) => {
-                  assert.deepEqual(params, [1]);
+                  assert.deepEqual(params, [3]);
                };
 
-               lists.BaseControl._private.changeMarkedKey(baseControl, 1);
+               lists.BaseControl._private.changeMarkedKey(baseControl, 3);
+               assert.isTrue(baseControl.getViewModel().getItemBySourceKey(3).isMarked());
+            });
+
+            it('pass undefined', () => {
+               let notifyCalled = false;
+               baseControl._notify = () => {
+                  notifyCalled = true;
+               };
+               lists.BaseControl._private.changeMarkedKey(baseControl, undefined);
+               assert.isFalse(notifyCalled);
+            });
+
+            it('pass current markedKey', () => {
+               baseControl.setMarkedKey(1);
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
+
+               let notifyCalled = false;
+               baseControl._notify = () => {
+                  notifyCalled = true;
+               };
+               lists.BaseControl._private.changeMarkedKey(baseControl, 1);
+               assert.isFalse(notifyCalled);
             });
          });
 

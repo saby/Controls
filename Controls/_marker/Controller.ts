@@ -204,7 +204,7 @@ export class Controller {
 
       // Для GroupItem нет ключа, в contents хранится не Model
       if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/SearchSeparator]']) {
-         return undefined;
+         return null;
       }
 
       return contents.getKey();

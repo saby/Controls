@@ -92,13 +92,6 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     private _errorRegister: RegisterClass;
     private _storeCallbacks: string[];
 
-    private _source: ICrudPlus | ICrud & ICrudPlus & IData;
-    private _sourceController: SourceController = null;
-    private _searchResolverController: SearchResolverController = null;
-    private _operationsController: OperationsController = null;
-    private _searchController: SearchController = null;
-    private _filterController: FilterController = null;
-
     private _topShadowVisibility: SHADOW_VISIBILITY = SHADOW_VISIBILITY.AUTO;
     private _bottomShadowVisibility: SHADOW_VISIBILITY = SHADOW_VISIBILITY.AUTO;
 
@@ -111,7 +104,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         this._afterSetItemsOnReloadCallback = this._afterSetItemsOnReloadCallback.bind(this);
         this._notifyNavigationParamsChanged = this._notifyNavigationParamsChanged.bind(this);
 
-        this._filterController = new FilterController(options as IFilterControllerOptions);
+        this._filterController = new FilterController(options);
 
         this._filter = options.filter;
         this._groupHistoryId = options.groupHistoryId;

@@ -1766,9 +1766,7 @@ const _private = {
                         break;
                 }
 
-                if (newMarkedKey !== undefined && markerController.getMarkedKey() !== newMarkedKey) {
-                    _private.changeMarkedKey(self, newMarkedKey);
-                }
+                _private.changeMarkedKey(self, newMarkedKey);
             }
 
             // will updated after render
@@ -2606,13 +2604,10 @@ const _private = {
         // TODO вручную обрабатывать pagedown и делать stop propagation
         self._setMarkerAfterScroll = false;
         if (self._options.markerVisibility !== 'hidden' && self._children.listView) {
-            const controller = _private.getMarkerController(self);
             const itemsContainer = self._children.listView.getItemsContainer();
             const item = self._scrollController.getFirstVisibleRecord(itemsContainer, self._container, scrollTop);
-            const markedKey = controller.getSuitableMarkedKey(item);
-            if (markedKey !== controller.getMarkedKey()) {
-                _private.changeMarkedKey(self, markedKey);
-            }
+            const markedKey = _private.getMarkerController(self).getSuitableMarkedKey(item);
+            _private.changeMarkedKey(self, markedKey);
         }
     },
 
@@ -2623,6 +2618,10 @@ const _private = {
 
     changeMarkedKey(self: typeof BaseControl, newMarkedKey: CrudEntityKey): Promise<CrudEntityKey>|CrudEntityKey {
         const markerController = _private.getMarkerController(self);
+        if (newMarkedKey === undefined || newMarkedKey === markerController.getMarkedKey()) {
+            return newMarkedKey;
+        }
+
         const eventResult: Promise<CrudEntityKey>|CrudEntityKey = self._notify('beforeMarkedKeyChanged', [newMarkedKey]);
 
         const handleResult = (key) => {
@@ -3830,9 +3829,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 markerController.setMarkedKey(newOptions.markedKey);
             } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible') {
                 const newMarkedKey = markerController.calculateMarkedKeyForVisible();
-                if (newMarkedKey !== markerController.getMarkedKey()) {
-                    _private.changeMarkedKey(self, newMarkedKey);
-                }
+                _private.changeMarkedKey(self, newMarkedKey);
             }
         } else if (_private.hasMarkerController(this) && newOptions.markerVisibility === 'hidden') {
             _private.getMarkerController(this).destroy();
@@ -4487,9 +4484,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     // TODO удалить, когда будет выполнено наследование контролов (TreeControl <- BaseControl)
     setMarkedKey(key: CrudEntityKey): void {
         if (this._options.markerVisibility !== 'hidden') {
-            if (_private.getMarkerController(this).getMarkedKey() !== key) {
-                _private.changeMarkedKey(this, key);
-            }
+            _private.changeMarkedKey(this, key);
         }
     },
 
