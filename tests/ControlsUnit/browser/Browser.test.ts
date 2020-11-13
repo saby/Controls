@@ -183,15 +183,12 @@ describe('Controls/browser:Browser', () => {
                 equal(browser._topShadowVisibility, 'visible');
                 equal(browser._bottomShadowVisibility, 'visible');
 
-                equal(browser._topShadowVisibilityFromOptions, 'auto');
-                equal(browser._bottomShadowVisibilityFromOptions, 'auto');
-
                 detection.isMobilePlatform = true;
 
                 browser = new Browser(newOptions)
                 browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {} });
-                equal(browser._topShadowVisibility, 'auto');
-                equal(browser._bottomShadowVisibility, 'auto');
+                equal(browser._topShadowVisibility, 'visible');
+                equal(browser._bottomShadowVisibility, 'visible');
             });
         });
 

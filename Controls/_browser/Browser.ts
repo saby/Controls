@@ -16,11 +16,11 @@ import {
     NewSourceController as SourceController
 } from 'Controls/dataSource';
 import { IControlerState } from 'Controls/_dataSource/Controller';
-import { TSelectionType, Direction } from 'Controls/interface';
+import { Direction, TSelectionType } from 'Controls/interface';
 import Store from 'Controls/Store';
 import { SHADOW_VISIBILITY } from 'Controls/scroll';
-import {detection} from 'Env/Env';
-import {ICrud, ICrudPlus, IData, PrefetchProxy} from "Types/source";
+import { detection } from 'Env/Env';
+import { ICrud, ICrudPlus, IData, PrefetchProxy } from "Types/source";
 
 type Key = string|number|null;
 
@@ -62,10 +62,8 @@ export default class Browser extends Control {
     private _errorRegister: RegisterClass;
     private _storeCallbacks: string[];
 
-    private _topShadowVisibilityFromOptions: SHADOW_VISIBILITY;
-    private _bottomShadowVisibilityFromOptions: SHADOW_VISIBILITY;
-    private _topShadowVisibility: SHADOW_VISIBILITY;
-    private _bottomShadowVisibility: SHADOW_VISIBILITY;
+    private _topShadowVisibility: SHADOW_VISIBILITY = SHADOW_VISIBILITY.AUTO;
+    private _bottomShadowVisibility: SHADOW_VISIBILITY  = SHADOW_VISIBILITY.AUTO;
 
     protected _beforeMount(options,
                            context,
@@ -76,7 +74,6 @@ export default class Browser extends Control {
         this._afterSetItemsOnReloadCallback = this._afterSetItemsOnReloadCallback.bind(this);
         this._notifyNavigationParamsChanged = this._notifyNavigationParamsChanged.bind(this);
 
-        this._initShadowVisibility(options);
         this._filterController = new FilterController(options);
 
         this._filter = options.filter;
@@ -411,14 +408,12 @@ export default class Browser extends Control {
         this._getOperationsController(this._options).setOperationsPanelVisible(false);
     }
 
-    protected _onScrollToFirstItemForTopPadding(): void {
-        // Возвращаем в опции значение видимости теней, которое передали прикладники
-        if (this._topShadowVisibility !== this._topShadowVisibilityFromOptions) {
-            this._topShadowVisibility = this._topShadowVisibilityFromOptions;
+    protected _resetShadowVisibility(event?: SyntheticEvent<null>): void {
+        if (event) {
+            event.stopPropagation();
         }
-        if (this._bottomShadowVisibility !== this._bottomShadowVisibilityFromOptions) {
-            this._bottomShadowVisibility = this._bottomShadowVisibilityFromOptions;
-        }
+        this._topShadowVisibility = SHADOW_VISIBILITY.AUTO;
+        this._bottomShadowVisibility = SHADOW_VISIBILITY.AUTO;
     }
 
     private _createOperationsController(options) {
@@ -442,29 +437,14 @@ export default class Browser extends Control {
     }
 
     private _defineShadowVisibility(items: RecordSet|Error|void): void {
-        if (detection.isMobilePlatform) {
-            // На мобильных устройствах тень верхняя показывается, т.к. там есть уже загруженные данные вверху
-            return;
-        }
-
         if (items instanceof RecordSet) {
             const more = items.getMetaData().more;
             if (more) {
-                if (more.before) {
-                    this._topShadowVisibility = SHADOW_VISIBILITY.VISIBLE;
-                }
-
-                if (more.after) {
-                    this._bottomShadowVisibility = SHADOW_VISIBILITY.VISIBLE;
-                }
+                this._topShadowVisibility = more.before ? SHADOW_VISIBILITY.VISIBLE : SHADOW_VISIBILITY.AUTO;
+                this._bottomShadowVisibility = more.after ? SHADOW_VISIBILITY.VISIBLE : SHADOW_VISIBILITY.AUTO;
             }
 
         }
-    }
-
-    private _initShadowVisibility(options): void {
-        this._topShadowVisibility = this._topShadowVisibilityFromOptions = options.topShadowVisibility;
-        this._bottomShadowVisibility = this._bottomShadowVisibilityFromOptions = options.bottomShadowVisibility;
     }
 
     _createSearchController(options, context): SearchController {

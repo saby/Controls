@@ -46,6 +46,8 @@
         on:misspellCaptionClick="_misspellCaptionClick()"
         on:filterItemsChanged="_filterItemsChanged()"
         on:filterHistoryApply="_filterHistoryApply()"
-        on:_scrollToFirstItemForTopPadding="_onScrollToFirstItemForTopPadding()"
+        on:_scrollToFirstItemForTopPadding="_resetShadowVisibility()"
+        on:_mouseEnterToBaseControl="_resetShadowVisibility()"
+        on:_afterLoadItemsToUp="_resetShadowVisibility()"
 />
 
