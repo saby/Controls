@@ -85,9 +85,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _needUpdateContentSize: boolean = false;
     protected _isScrollbarsInitialized: boolean = false;
     private _isControllerInitialized: boolean;
+    private _wasMouseEnter: boolean = false;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
-        this._shadows = new ShadowsModel(options);
+        this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController();
         // При инициализации оптимизированные тени не включаем только если явно включены тени на js.
@@ -141,7 +142,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         //  из старого скроллконейнера, нужно отрефакторить. Очень запутанно
         this._updateScrollContainerPaigingSccClass(options);
         this._scrollbars.updateOptions(options);
-        this._shadows.updateOptions(options);
+        this._shadows.updateOptions(this._getShadowsModelOptions(options));
     }
 
     protected _afterUpdate() {
@@ -222,6 +223,18 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._scrollCssClass = scrollCssClass;
             this._needUpdateContentSize = true;
         }
+    }
+
+    private _getShadowsModelOptions(options: IContainerBaseOptions): any {
+        const shadowsModel = {...options};
+        // gridauto нужно для таблицы
+        if (options.topShadowVisibility === 'gridauto') {
+            shadowsModel.topShadowVisibility = this._wasMouseEnter ? 'auto' : 'visible';
+        }
+        if (options.bottomShadowVisibility === 'gridauto') {
+            shadowsModel.bottomShadowVisibility = this._wasMouseEnter ? 'auto' : 'visible';
+        }
+        return shadowsModel;
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
@@ -325,6 +338,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _mouseenterHandler(event) {
+        this._wasMouseEnter = true;
 
         // Если до mouseenter не вычисляли скроллбар, сделаем это сейчас.
         if (!this._isScrollbarsInitialized) {
@@ -336,6 +350,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (this._isStateInitialized) {
                 this._scrollbars.updateScrollState(this._state, this._container);
             }
+            this._shadows.updateOptions(this._getShadowsModelOptions(this._options));
             this._updateShadows();
             if (!compatibility.touch) {
                 this._initHeaderController();

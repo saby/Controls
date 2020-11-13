@@ -4205,6 +4205,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
         this._actualPagingVisible = this._pagingVisible;
 
+        if (this._hideTopTrigger && this._needScrollToFirstItem) {
+            this._hideTopTrigger = false;
+        }
         this._scrollToFirstItemIfNeed();
 
         if (this._updateShadowModeBeforePaint) {
@@ -4295,7 +4298,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             if (firstItem && firstItem.key !== null) {
                 _private.scrollToItem(this, firstItem.key, false, true, firstItem.skippedItemsCount);
             }
-            this._notify('_scrollToFirstItemForTopPadding', [], {bubbling: true});
         }
     },
 
@@ -5256,11 +5258,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._dragEnter(this._getDragObject());
         }
 
-        if (this._hideTopTrigger) {
-            this._hideTopTrigger = false;
-        }
         if (!this._scrollController?.getScrollTop()) {
             _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
+        }
+        if (this._hideTopTrigger && !this._needScrollToFirstItem) {
+            this._hideTopTrigger = false;
         }
 
         if (!this._pagingVisible) {

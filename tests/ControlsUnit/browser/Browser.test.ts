@@ -178,11 +178,8 @@ describe('Controls/browser:Browser', () => {
 
                 browser = new Browser(newOptions);
                 browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {} });
-                assert.equal(browser._topShadowVisibility, 'visible');
-                assert.equal(browser._bottomShadowVisibility, 'visible');
-
-                assert.equal(browser._topShadowVisibilityFromOptions, 'auto');
-                assert.equal(browser._bottomShadowVisibilityFromOptions, 'auto');
+                assert.equal(browser._topShadowVisibility, 'gridauto');
+                assert.equal(browser._bottomShadowVisibility, 'gridauto');
 
                 detection.isMobilePlatform = true;
 
