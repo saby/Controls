@@ -1966,8 +1966,12 @@ var
                 //  между записями и подвалом, но и с помощью min-height на подвал. Объяснялось
                 //  это тем, что _options._needBottomPadding иногда не работает по неясным причинам.
                 //  https://online.sbis.ru/opendoc.html?guid=3d84bd7a-039d-4a30-915b-41c75ed501cd
-                //  Данный код должен быть неактуальным. Если его удаление н вызывает проблем, можно удалить
-                //  в 21.1000
+                if ((this.getCount() || this.isEditing()) &&
+                    this._options.itemActionsPosition === 'outside' &&
+                    !this._options._needBottomPadding &&
+                    this._options.resultsPosition !== 'bottom') {
+                    classes += ` controls-GridView__footer__itemActionsV_outside_theme-${theme}`;
+                }
 
                 if (isFullGridSupport) {
                     styles += `grid-column: ${column.startColumn} / ${column.endColumn};`;
