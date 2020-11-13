@@ -184,7 +184,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     getScrollContainerClasses(): string {
         let css = '';
         if (this._useNativeScrollbar) {
-            css += ' controls-Scroll__content_auto';
+            css += this._getOverflowClass();
             if (!this._options.scrollbarVisible) {
                 css += ' controls-Scroll__content_hideNativeScrollbar';
             }
@@ -193,12 +193,16 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
             if (this._overflowHidden) {
                 css += ' controls-Scroll__content_hidden';
             } else {
-                css += this._options.scrollMode === SCROLL_MODE.VERTICAL ?
-                   ' controls-Scroll-ContainerBase__scroll_vertical' :
-                   ' controls-Scroll-ContainerBase__scroll_verticalHorizontal';
+                css += this._getOverflowClass;
             }
         }
         return css;
+    }
+
+    private _getOverflowClass(): string {
+        return this._options.scrollMode === SCROLL_MODE.VERTICAL ?
+            ' controls-Scroll-ContainerBase__scroll_vertical' :
+            ' controls-Scroll-ContainerBase__scroll_verticalHorizontal';
     }
 
     take(): boolean {
