@@ -559,7 +559,7 @@ var
       },
       _beforePaint: function() {
          if (this._markerForRestoredScroll !== null) {
-            this.scrollToItem(this._markerForRestoredScroll);
+            this.scrollToItem(this._markerForRestoredScroll, undefined, true);
             this._markerForRestoredScroll = null;
          }
       },
@@ -673,8 +673,8 @@ var
       _updateHeadingPath() {
           this._breadCrumbsItems = _private.getPath(this._items);
       },
-      scrollToItem(key: string|number, toBottom: boolean): void {
-         this._children.treeControl.scrollToItem(key, toBottom);
+      scrollToItem(key: string|number, toBottom: boolean, force: boolean): void {
+         this._children.treeControl.scrollToItem(key, toBottom, force);
       },
       reloadItem: function() {
          let treeControl = this._children.treeControl;
