@@ -17,7 +17,7 @@
         groupHistoryId="{{_groupHistoryId}}"
         inputSearchValue="{{_inputSearchValue}}"
         misspellValue="{{_misspellValue}}"
-        loading="{{_loading || _options.loading}}"
+        loading="{{_loading || (_options.loading === undefined ? false : _options.loading)}}"
         items="{{_items}}"
         filter="{{_filter}}"
         itemsReadyCallback="{{_itemsReadyCallback}}"
