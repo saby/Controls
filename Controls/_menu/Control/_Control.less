@@ -20,6 +20,7 @@
    position: relative;
    display: flex;
    align-items: center;
+   height: 100%;
 }
 
 .controls-Menu__row_state_default_theme-@{themeName} {
@@ -47,29 +48,42 @@
    position: absolute;
    display: inline-flex;
    align-items: baseline;
+   padding-top: @item_padding-top_menu;
+   width: @marker_width_menu;
    left: 0;
+   top: initial;
    &::before {
       content: '\200b';
-      font-size: inherit;
+      font-size: @font-size_xl;
    }
    &::after {
       content: '';
-      display: block;
-      background: @marker_color_menu;
+      display: inline-block;
+      background-color: @marker_color_menu;
       width: @marker_width_menu;
       height: @marker_height_menu;
    }
 }
 
-// Будет удалено после: https://online.sbis.ru/opendoc.html?guid=8b5f2552-e249-4783-b551-3e37b285aad5
+.controls-Menu__row_selected-multiLine_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: inherit;
+}
+
 .ws-is-ie11 .controls-Menu__row_selected_theme-@{themeName} {
    top: 0;
-   bottom: 0;
+}
+
+.ws-is-ie11 .controls-SimplePanel-dropdown__emptyItem .controls-Menu__row_selected_theme-@{themeName} {
    line-height: @item_height_menu + 1;
 }
 
-.ws-is-ie11 .controls-Menu__row_selected-multiLine_theme-@{themeName} {
-   line-height: inherit;
+.controls-SimplePanel-dropdown__emptyItem .controls-Menu__row_selected_theme-@{themeName} {
+   padding-top: 0;
+   &::before {
+      content: '\200b';
+      font-size: inherit;
+   }
 }
 
 .controls-Menu__row_pinned {
@@ -150,7 +164,20 @@
 .controls-Menu__content_singleLine_theme-@{themeName} {
    display: flex;
    align-items: center;
-   align-self: center;
+}
+
+.controls-Menu__content-singleLine_wrapper_theme-@{themeName} {
+   height: @item_height_menu;
+   &::before {
+      content: '\200b';
+      font-size: @font-size_xl;
+   }
+}
+
+.controls-Menu__content_wrapper_theme-@{themeName} {
+   display: flex;
+   align-items: center;
+   width: 100%;
 }
 
 .controls-Menu__content_padding_theme-@{themeName} {
