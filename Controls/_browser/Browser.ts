@@ -4,6 +4,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 import { ControllerClass as OperationsController } from 'Controls/operations';
 import { ControllerClass as SearchController } from 'Controls/search';
 import { ControllerClass as FilterController, IFilterItem } from 'Controls/filter';
+import { IFilterControllerOptions } from 'Controls/_filter/ControllerClass';
 import { tmplNotify } from 'Controls/eventUtils';
 import { RecordSet } from 'Types/collection';
 
@@ -147,7 +148,7 @@ export default class Browser extends Control {
             this._listMarkedKey = this._getOperationsController().setListMarkedKey(newOptions.markedKey);
         }
 
-        const isFilterOptionsChanged = this._filterController.update({...newOptions, searchValue: this._searchValue});
+        const isFilterOptionsChanged = this._filterController.update(this._getFilterControllerOptions(newOptions));
 
         if (isFilterOptionsChanged) {
             this._updateFilterAndFilterItems();
@@ -459,6 +460,13 @@ export default class Browser extends Control {
             filter: this._filter,
             source: this._source,
             navigationParamsChangedCallback: this._notifyNavigationParamsChanged
+        };
+    }
+
+    private _getFilterControllerOptions(options): IFilterControllerOptions {
+       return {
+            ...options,
+            searchValue: options.hasOwnProperty('searchValue') ? options.searchValue : this._searchValue
         };
     }
 
