@@ -123,8 +123,8 @@ import {Logger} from 'UI/Utils';
       }
    }
 
-   function recursiveMarkup(value, attrsToDecorate, key, parent?) {
-      var valueToBuild = resolverMode && resolver ? resolver(value, parent, resolverParams) : value,
+   function recursiveMarkup(value, attrsToDecorate, key, parent?, unsafe?) {
+      var valueToBuild = resolverMode && resolver && !unsafe ? resolver(value, parent, resolverParams) : value,
          wasResolved,
          i;
       if (isString(valueToBuild)) {
@@ -145,7 +145,7 @@ import {Logger} from 'UI/Utils';
       var children = [];
       if (Array.isArray(valueToBuild[0])) {
          for (i = 0; i < valueToBuild.length; ++i) {
-            children.push(recursiveMarkup(valueToBuild[i], attrsToDecorate, key + i + '_', valueToBuild));
+            children.push(recursiveMarkup(valueToBuild[i], attrsToDecorate, key + i + '_', valueToBuild, unsafe));
          }
          resolverMode ^= wasResolved;
          return children;
@@ -171,13 +171,13 @@ import {Logger} from 'UI/Utils';
          validAttributesInsertion(attrs.attributes, valueToBuild[1], additionalValidAttributes);
       }
       for (i = firstChildIndex; i < valueToBuild.length; ++i) {
-         children.push(recursiveMarkup(valueToBuild[i], {}, key + i + '_', valueToBuild));
+         children.push(recursiveMarkup(valueToBuild[i], {}, key + i + '_', valueToBuild, unsafe));
       }
       resolverMode ^= wasResolved;
       return [markupGenerator.createTag(tagName, attrs, children, attrsToDecorate, defCollection, control, key)];
    }
 
-   var template = function(data, attr, context, isVdom, sets?) {
+   var template = function(data, attr, context, isVdom, sets?, unsafe?) {
       markupGenerator = thelpers.createGenerator(isVdom);
       defCollection = {
          id: [],
@@ -234,7 +234,7 @@ import {Logger} from 'UI/Utils';
          };
       }
       try {
-         elements = recursiveMarkup(value, attrsToDecorate, key + '0_');
+         elements = recursiveMarkup(value, attrsToDecorate, key + '0_', null, unsafe);
       } catch (e) {
           Logger.error('UI/Executor:TClosure: ' + e.message, undefined, e);
       } finally {
