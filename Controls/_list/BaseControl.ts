@@ -3988,6 +3988,17 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         if (this._loadedItems) {
             this._shouldRestoreScrollPosition = true;
         }
+
+        if (this._wasScrollToEnd) {
+            const hasMoreData = {
+                up: _private.hasMoreData(this, this._sourceController, 'up'),
+                down: _private.hasMoreData(this, this._sourceController, 'down')
+            };
+            if (this._scrollPagingCtr) {
+                this._currentPage = this._pagingCfg.pagesCount;
+                this._scrollPagingCtr.shiftToEdge('down', hasMoreData);
+            }
+        }
     },
 
     reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Promise<Model> {
