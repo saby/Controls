@@ -5,7 +5,7 @@
  * @public
  * @author Авраменко А.С.
  */
-
+export interface IGridControl {};
 /*
  * Interface for Grid (table view).
  *
