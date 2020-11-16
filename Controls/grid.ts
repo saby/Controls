@@ -81,6 +81,8 @@ export {
 
 export {ITagColumn} from './_grid/interface/ITagColumn';
 
+export {IGridControl} from './_grid/interface/IGridControl';
+
 export {
     THeader,
     IHeaderCell
