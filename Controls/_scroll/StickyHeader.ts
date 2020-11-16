@@ -189,6 +189,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
     protected _afterUpdate(options: IStickyHeaderOptions): void {
         this._updateComputedStyle();
+        this._updateHeight();
     }
 
     protected _afterMount(): void {
@@ -198,6 +199,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         const children = this._children;
 
         this._updateComputedStyle();
+        this._updateHeight();
 
         // После реализации https://online.sbis.ru/opendoc.html?guid=36457ffe-1468-42bf-acc9-851b5aa24033
         // отказаться от closest.
@@ -434,11 +436,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
      * @private
      */
     protected _fixationStateChangeHandler(newPosition: POSITION, prevPosition: POSITION): void {
-        // If the header is hidden we cannot calculate its current height.
-        // Use the height that it had before it was hidden.
-        if (!isHidden(this._container)) {
-            this._height = this._container.offsetHeight;
-        }
         this._isFixed = !!newPosition;
         this._fixedNotifier(newPosition, prevPosition);
     }
@@ -670,6 +667,15 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                 minHeight: styles.minHeight,
                 boxSizing: styles.boxSizing
             };
+        }
+    }
+
+    private _updateHeight(): void {
+        // If the header is hidden we cannot calculate its current height.
+        // Use the height that it had before it was hidden.
+        const container: HTMLElement = this._getNormalizedContainer();
+        if (!isHidden(container)) {
+            this._height = container.offsetHeight;
         }
     }
 

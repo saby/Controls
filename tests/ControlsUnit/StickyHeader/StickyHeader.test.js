@@ -372,6 +372,7 @@ define([
                offsetHeight: 10
             };
             sinon.stub(component, '_notify');
+            component._updateHeight();
             component._fixationStateChangeHandler('', 'top');
             sinon.assert.calledWith(
                component._notify,
