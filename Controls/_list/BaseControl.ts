@@ -600,7 +600,12 @@ const _private = {
             // TODO Убрать работу с DOM, сделать через получение контейнера по его id из _children
             // логического родителя, который отрисовывает все элементы
             // https://online.sbis.ru/opendoc.html?guid=942e1a1d-15ee-492e-b763-0a52d091a05e
-            const itemsContainer = self._getItemsContainer();
+
+            // в explorer при выходе из папки, мы вызываем подскролл к этой папке (в _beforePaint).
+            // если у нас одновременно поменялся режим отображения, то сохраненный itemsContainerGetter принадлежит
+            // старому ListView. А у нового еще не сработал afterMount, и он не передал нам свой геттер. 
+            // Поэтому берем свежий itemsContainer из текущего listView.
+            const itemsContainer = self._children.listView.getItemsContainer();
             const itemContainer = _private.getItemContainerByIndex(index - self._listViewModel.getStartIndex(), itemsContainer);
 
             if (itemContainer) {
