@@ -49,7 +49,6 @@ export default interface IToolbarSource {
  * @property {String} [item.viewMode] Стиль отображения кнопки элемента. См. {@link Controls/buttons:Button#viewMode подробнее}.
  * @property {CaptionPosition} [item.captionPosition] Определяет, с какой стороны расположен текст кнопки относительно иконки.
  * @property {String} [item.buttonStyle] Стиль отображения кнопки. См. {@link Controls/buttons:IButton#buttonStyle подробнее}.
- * @property {ICrud} [item.source] Объект, который реализует интерфейс {@link Types/source:ICrud ICrud}, необходимый для работы с источником данных.
  */
 /*
  * @typedef {Object} Item
