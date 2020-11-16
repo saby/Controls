@@ -221,8 +221,6 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    }
 
    private _openWithHistory(): void {
-      let filter: QueryWhereExpression<unknown>;
-
       const openSuggestIfNeeded = (): void => {
          if (this._historyKeys.length || this._options.autoDropDown) {
             this._open();
@@ -230,23 +228,28 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       };
 
       if (!this._historyKeys) {
-         this._getRecentKeys().addCallback((keys: string[]) => {
-            this._historyKeys = keys || [];
-            filter = clone(this._options.filter || {});
-
-            if (this._historyKeys.length) {
-               filter[HISTORY_KEYS_FIELD] = this._historyKeys;
-            }
-
-            this._setFilter(filter, this._options);
-
-            openSuggestIfNeeded();
-            return this._historyKeys;
-         });
+         this._loadHistoryKeys(openSuggestIfNeeded.bind(this));
       } else {
          this._setFilter(this._options.filter, this._options);
          openSuggestIfNeeded();
       }
+   }
+
+   private _loadHistoryKeys(callback: Function): Deffered {
+      return this._getRecentKeys().addCallback((keys: string[]) => {
+         const filter: QueryWhereExpression<unknown> = clone(this._options.filter || {});
+
+         this._historyKeys = keys || [];
+
+         if (this._historyKeys.length) {
+            filter[HISTORY_KEYS_FIELD] = this._historyKeys;
+         }
+
+         this._setFilter(filter, this._options);
+
+         callback();
+         return this._historyKeys;
+      });
    }
 
    private _suggestDirectionChangedCallback(direction: TSuggestDirection): void {
@@ -262,21 +265,23 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       // https://online.sbis.ru/opendoc.html?guid=d0f7513f-7fc8-47f8-8147-8535d69b99d6
       if ((this._options.autoDropDown || this._options.historyId) && !this._options.readOnly
          && !this._getActiveElement().classList.contains('controls-Lookup__icon')) {
-         const sourceController = this._getSourceController();
 
          if (!this._options.suggestState &&
             this._options.source &&
-            !sourceController.isLoading()) {
-            return sourceController.load().then((recordSet) => {
-               if (recordSet instanceof RecordSet) {
-                  this._setItems(recordSet);
-                  if (this._options.dataLoadCallback) {
-                     this._options.dataLoadCallback(recordSet);
-                  }
-                  this._loadEnd(recordSet);
-                  this._updateSuggestState();
-               }
-            });
+            !this._getSourceController().isLoading() && !this._historyLoad) {
+
+            if (this._options.historyId) {
+
+               this._loadHistoryKeys(() => this._performLoad(this._options, true)
+                  .catch((error) => this._searchErrback(error)
+               ));
+
+               return Promise.resolve();
+            }
+
+            return this._performLoad(this._options, true).catch((error) => {
+               this._searchErrback(error);
+            }).then();
          }
       }
       return Promise.resolve();
@@ -776,18 +781,30 @@ export default class InputContainer extends Control<IInputControllerOptions> {
             return error;
          });
       } else {
-         return this._getSourceController(options).load().then((recordSet) => {
-            if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet)) {
-               this._setItems(recordSet);
-               if (this._options.dataLoadCallback) {
-                  this._options.dataLoadCallback(recordSet);
-               }
-               this._loadEnd(recordSet);
-               this._open();
-               return recordSet as RecordSet;
-            }
-         });
+         return this._performLoad(options);
       }
+   }
+
+   private _performLoad(options?: IInputControllerOptions, openWithChecks?: boolean): Promise<RecordSet> {
+      const scopeOptions = options ?? this._options;
+
+      return this._getSourceController(scopeOptions).load().then((recordSet) => {
+         if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet)) {
+            this._setItems(recordSet);
+            if (scopeOptions.dataLoadCallback) {
+               scopeOptions.dataLoadCallback(recordSet);
+            }
+            this._loadEnd(recordSet);
+
+            if (openWithChecks) {
+               this._updateSuggestState();
+            } else {
+               this._open();
+            }
+
+            return recordSet as RecordSet;
+         }
+      });
    }
 
    private _getSearchResolverOptions(options: IInputControllerOptions): ISearchResolverOptions {

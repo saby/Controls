@@ -458,6 +458,8 @@ describe('Controls/suggest', () => {
 
          const sourceController = inputContainer._getSourceController();
 
+         const loadHistoryKeysStub = sandbox.stub(inputContainer, '_loadHistoryKeys')
+            .callsFake((callback) => callback());
          const loadSpy = sandbox.spy(sourceController, 'load');
 
          inputContainer._inputActivated();
