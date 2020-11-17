@@ -806,6 +806,28 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl = undefined;
         });
 
+        it('should cancel edit on reload', () => {
+            const whatHappends = [];
+            baseControl._editInPlaceController = {
+                cancel() {
+                    whatHappends.push('cancel');
+                    return Promise.resolve();
+                },
+                isEditing() {
+                    return true;
+                }
+            };
+            baseControl._sourceController = {
+                reload() {
+                    whatHappends.push('reload');
+                    return Promise.resolve();
+                }
+            };
+            return baseControl.reload().then(() => {
+                assert.deepEqual(['cancel', 'reload'], whatHappends);
+            });
+        });
+
         it('should immediately resolve promise if cancel edit called without eipController', () => {
             let isCancelCalled = false;
             baseControl.getEditInPlaceController = () => ({
