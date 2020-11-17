@@ -366,6 +366,14 @@ const _private = {
             // Need to create new Deffered, returned success result
             // load() method may be fired with errback
             _private.setReloadingState(self, true);
+
+            if (self.isEditing()) {
+                self._ignoreEditInPlaceNotifyResult = true;
+                self._cancelEdit().then(() => {
+                    self._ignoreEditInPlaceNotifyResult = false;
+                });
+            }
+
             self._sourceController.reload(sourceConfig).addCallback(function(list) {
                 // Пока загружались данные - список мог уничтожится. Обрабатываем это.
                 // https://online.sbis.ru/opendoc.html?guid=8bd2ff34-7d72-4c7c-9ccf-da9f5160888b
@@ -4714,7 +4722,12 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 )
             );
 
-            return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd) : eventResult;
+            // Игнорируем любой результат, например, если произошла автоматическая отмена редактирования при запуске reload
+            if (this._ignoreEditInPlaceNotifyResult) {
+                return;
+            } else {
+                return shouldUseDefaultSaving ? this._saveEditingInSource(item, isAdd) : eventResult;
+            }
         });
     },
 
