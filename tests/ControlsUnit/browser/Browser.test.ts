@@ -98,6 +98,19 @@ describe('Controls/browser:Browser', () => {
                 assert.ok(browser._searchValue === 'test');
             });
 
+            it('searchValue', async () => {
+                let options = getBrowserOptions();
+                const browser = getBrowser(options);
+
+                await browser._beforeMount(options);
+                ok(browser._searchValue === '');
+
+                options = {...options};
+                options.searchValue = 'test';
+                await browser._beforeMount(options);
+                ok(browser._searchValue === 'test');
+            });
+
         });
 
         describe('searchController', () => {

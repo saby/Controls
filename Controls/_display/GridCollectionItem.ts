@@ -6,6 +6,7 @@ import GridCheckboxColumn from './GridCheckboxColumn';
 import GridHeader from './GridHeader';
 import { TResultsPosition } from './GridResults';
 import GridStickyLadderColumn from './GridStickyLadderColumn';
+import {INavigationOptionValue} from 'Controls/_interface/INavigation';
 
 export interface IOptions<T> extends IBaseOptions<T> {
     owner: GridCollection<T>;
@@ -28,10 +29,10 @@ export default class GridCollectionItem<T> extends CollectionItem<T> {
                    theme: string = 'default',
                    style: string = 'default',
                    cursor: string = 'pointer',
-                   clickable: boolean = true): string {
-        /* todo (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData()) &&
-                (this.getCount() - 1 === current.index)*/
-        const isLastItem = false;
+                   clickable: boolean = true,
+                   navigation: INavigationOptionValue = null): string {
+        const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData()) &&
+            (this.getOwner().getItems()[this.getOwner().getCount() - 1] === this);
 
         let itemClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor, clickable)}`;
 
