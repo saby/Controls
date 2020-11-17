@@ -97,7 +97,6 @@ describe('Controls/browser:Browser', () => {
                 await browser._beforeMount(options);
                 assert.ok(browser._searchValue === 'test');
             });
-
         });
 
         describe('searchController', () => {

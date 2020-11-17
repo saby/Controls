@@ -92,7 +92,7 @@ export function prepareLadder(params: IPrepareLadderParams): {} {
         if (prevDispItem && prevDispItem.isEditing()) {
             prevDispItem = null;
         }
-        if (dispItem.isEditing()) {
+        if (!item || dispItem.isEditing()) {
             continue;
         }
         prevItem = prevDispItem ? prevDispItem.getContents() : null;
