@@ -172,6 +172,14 @@ define(
                   _container: 'target'
                };
                toolbar._options = config;
+               toolbar._setMenuItems = () => {
+                  const then = (func) => {
+                     func();
+                  };
+                  return {
+                     then
+                  };
+               };
                toolbar._showMenu({
                   stopPropagation: () => {
                   }
@@ -197,7 +205,7 @@ define(
                });
                assert.equal(isNotify, true);
             });
-            it('click item with menu', function() {
+            it('click item with menu', function(done) {
                let isNotify = false;
                let eventString = '';
                toolbar._beforeMount(config, null, records);
@@ -219,24 +227,29 @@ define(
                      iconSize: 'm'
                   }
                });
-               let itemConfig = (new toolbars.View())._getMenuConfigByItem.call(toolbar, itemWithMenu);
-               if (standart.caption === itemConfig.templateOptions.headConfig.caption &&
-                  standart.icon === itemConfig.templateOptions.headConfig.icon &&
-                  standart.iconStyle === itemConfig.templateOptions.headConfig.iconStyle &&
-                  standart.iconSize === itemConfig.templateOptions.headConfig.iconSize) {
-                  isHeadConfigCorrect = true;
-               }
-               assert.isTrue(isHeadConfigCorrect);
-               toolbar._notify = (e) => {
-                  eventString += e;
-                  isNotify = true;
-               };
-               toolbar._itemClickHandler({
-                  stopPropagation: () => {
+               let itemConfigPromise = (new toolbars.View())._getMenuConfigByItem.call(toolbar, itemWithMenu);
+               itemConfigPromise.then((itemConfig) => {
+                  if (standart.caption === itemConfig.templateOptions.headConfig.caption &&
+                      standart.icon === itemConfig.templateOptions.headConfig.icon &&
+                      standart.iconStyle === itemConfig.templateOptions.headConfig.iconStyle &&
+                      standart.iconSize === itemConfig.templateOptions.headConfig.iconSize) {
+                     isHeadConfigCorrect = true;
                   }
-               }, itemWithMenu);
-               assert.equal(eventString, 'menuOpeneditemClick');
-               assert.equal(isNotify, true);
+                  assert.isTrue(isHeadConfigCorrect);
+                  toolbar._notify = (e) => {
+                     eventString += e;
+                     isNotify = true;
+                  };
+                  toolbar._itemClickHandler({
+                     stopPropagation: () => {
+                     }
+                  }, itemWithMenu);
+                  setTimeout(() => {
+                     assert.equal(eventString, 'itemClickmenuOpened');
+                     assert.equal(isNotify, true);
+                  });
+                  done();
+               });
             });
             it('menu item click', () => {
                let isMenuClosed = false;
@@ -262,7 +275,7 @@ define(
                };
                assert.equal(isMenuClosed, false);
             });
-            it('item popup config generation', function() {
+            describe('_getMenuConfigByItem', () => {
                var
                   testItem = new entity.Model({
                      rawData: {
@@ -290,7 +303,7 @@ define(
                      },
                      _source: 'items',
                      _items: { getIndexByValue: () => {} },
-                     _getSourceForMenu: () => testSelf._source,
+                     _getSourceForMenu: () => Promise.resolve(testSelf._source),
                      _getMenuOptions: () => testSelf._menuOptions
                   },
                   expectedConfig = {
@@ -322,15 +335,33 @@ define(
                         closeButtonVisibility: false
                      }
                   };
-               assert.deepEqual((new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem), expectedConfig);
+               it('should generate correct popup config', function(done) {
+                  const configPromise = (new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem);
+                  configPromise.then((config) => {
+                     assert.deepEqual(config, expectedConfig);
+                  });
+                  done();
+               });
 
-               testSelf._items = { getIndexByValue: () => { return -1; } }; // для элемента не найдены записи в списке
-               assert.deepEqual((new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem), expectedConfig);
+               it('should generate correct popup config', function (done) {
+                  testSelf._items = { getIndexByValue: () => { return -1; } }; // для элемента не найдены записи в списке
+                  const configPromise = (new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem);
+                  configPromise.then((config) => {
+                     assert.deepEqual(config, expectedConfig);
+                  });
+                  done();
+               });
 
-               testItem.set('showHeader', false);
-               expectedConfig.templateOptions.showHeader = false;
-               expectedConfig.templateOptions.closeButtonVisibility = true;
-               assert.deepEqual((new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem), expectedConfig);
+               it('should generate correct popup config', function (done) {
+                  testItem.set('showHeader', false);
+                  expectedConfig.templateOptions.showHeader = false;
+                  expectedConfig.templateOptions.closeButtonVisibility = true;
+                  const configPromise = (new toolbars.View())._getMenuConfigByItem.call(testSelf, testItem);
+                  configPromise.then((config) => {
+                     assert.deepEqual(config, expectedConfig);
+                  });
+                  done();
+               });
             });
             it('get button template options by item', function() {
                let item = new entity.Record(
@@ -539,6 +570,11 @@ define(
                Toolbar._openMenu = () => {};
                Toolbar._setMenuItems = () => {
                   isMenuItemsChanged = true;
+                  return {
+                     then: function(func) {
+                        func();
+                     }
+                  };
                };
                Toolbar._beforeMount(options);
                Toolbar._showMenu();
