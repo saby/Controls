@@ -1,0 +1,59 @@
+<div class="controlsDemo__wrapper spoiler__listCut-containerWidth ws-flexbox">
+   <div class="controlsDemo__cell poiler__listCut-width">
+      <div class="spoiler__column-header">ListCut</div>
+      <Controls.spoiler:ListCut bind:extended="_extended"
+                     collapsedNavigation="{{_collapsedNavigation}}" 		
+                     expandedNavigation="{{_expandedNavigation}}">
+            <Controls.list:View source="{{_source}}" keyProperty="id">
+               <ws:itemTemplate>
+                  <ws:partial template="Controls/list:ItemTemplate">
+                     <ws:contentTemplate>
+                        {{contentTemplate.itemData.item.title}}
+                     </ws:contentTemplate>
+                  </ws:partial>
+               </ws:itemTemplate>
+            </Controls.list:View>
+      </Controls.spoiler:ListCut>
+   </div>
+   <div class="controlsDemo__cell poiler__listCut-width">
+      <div class="spoiler__column-header">ListCut (readonly)</div>
+      <Controls.spoiler:ListCut bind:extended="_extended"
+                     readOnly="{{true}}"
+                     collapsedNavigation="{{_collapsedNavigation}}" 		
+                     expandedNavigation="{{_expandedNavigation}}">
+            <Controls.list:View source="{{_source2}}" keyProperty="id">
+               <ws:itemTemplate>
+                  <ws:partial template="Controls/list:ItemTemplate">
+                     <ws:contentTemplate>
+                        {{contentTemplate.itemData.item.title}}
+                     </ws:contentTemplate>
+                  </ws:partial>
+               </ws:itemTemplate>
+            </Controls.list:View>
+      </Controls.spoiler:ListCut>
+   </div>
+   <div class="controlsDemo__cell poiler__listCut-width">
+      <div class="spoiler__column-header">ListCut (size)</div>
+      <div class="spoiler__margin">Size s</div>
+      <Controls.spoiler:ListCut bind:extended="_extended"
+                     iconSize="s"
+                     collapsedNavigation="{{_collapsedNavigation}}" 		
+                     expandedNavigation="{{_expandedNavigation}}">
+            <invisible-node/>
+      </Controls.spoiler:ListCut>
+      <div>Size m</div>
+      <Controls.spoiler:ListCut bind:extended="_extended"
+                     iconSize="m"
+                     collapsedNavigation="{{_collapsedNavigation}}" 		
+                     expandedNavigation="{{_expandedNavigation}}">
+            <invisible-node/>
+      </Controls.spoiler:ListCut>
+      <div>Size l</div>
+      <Controls.spoiler:ListCut bind:extended="_extended"
+                     iconSize="l"
+                     collapsedNavigation="{{_collapsedNavigation}}" 		
+                     expandedNavigation="{{_expandedNavigation}}">
+            <invisible-node/>
+      </Controls.spoiler:ListCut>
+   </div>
+</div>

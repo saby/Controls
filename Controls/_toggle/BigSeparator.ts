@@ -46,32 +46,15 @@ class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable {
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = BigSeparatorTemplate;
 
-   protected _icon: string;
-
-   private _iconChangedValue(value: boolean): void {
-      if (value) {
-         this._icon = 'icon-AccordionArrowUp ';
-      } else {
-         this._icon = 'icon-AccordionArrowDown ';
-      }
-   }
-
    protected _clickHandler(): void {
       this._notify('valueChanged', [!this._options.value]);
-   }
-
-   protected _beforeMount(newOptions: IBigSeparatorOptions): void {
-      this._iconChangedValue(newOptions.value);
-   }
-
-   protected _beforeUpdate(newOptions: IBigSeparatorOptions): void {
-      this._iconChangedValue(newOptions.value);
    }
 
    static _theme: string[] = ['Controls/toggle', 'Controls/Classes'];
    static getDefaultOptions(): object {
       return {
-         value: false
+         value: false,
+         iconSize: 'm'
       };
    }
 

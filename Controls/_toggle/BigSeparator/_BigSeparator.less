@@ -3,10 +3,108 @@
    cursor: pointer;
 }
 
-.controls-BigSeparator_theme-@{themeName} {
-   width: @width_toggleBigSeparator;
-   height: @height_toggleBigSeparator;
+.controls-BigSeparator-icon_theme-@{themeName} {
+   fill: @icon-color_toggleBigSeparator;
+}
+
+.controls-BigSeparator-icon_theme-@{themeName}:hover {
+   fill: @icon-color_hover_toggleBigSeparator;
+}
+
+.controls-BigSeparator-iconContainer_theme-@{themeName} {
+   background-color: @icon-color_background-color-BigSeparator;
+}
+
+.controls-BigSeparator-readonly_theme-@{themeName} {
+   cursor: default;
+}
+
+.controls-BigSeparator-icon-readonly_theme-@{themeName} {
+   fill: @icon-color_readonly_toggleBigSeparator;
+}
+
+.controls-BigSeparator-container-size-s {
+   height: @height_BigSeparator-size-s;
+   padding-top: @offset_3xs;
+   padding-bottom: @offset_2xs;
+}
+
+.controls-BigSeparator-container-size-m {
+   height: @height_BigSeparator-size-m;
+   padding-top: @offset_3xs;
+   padding-bottom: @offset_xs;
+}
+
+.controls-BigSeparator-container-size-l {
+   height: @height_BigSeparator-size-l;
+   padding-top: @offset_xs;
+   padding-bottom: @offset_m;
+}
+
+.controls-BigSeparator-size-s {
+   width: @width_BigSeparator-size-s;
    font-size: 0;
+}
+
+.controls-BigSeparator-size-m {
+   width: @width_BigSeparator-size-m;
+   font-size: 0;
+}
+
+.controls-BigSeparator-size-l {
+   width: @width_BigSeparator-size-l;
+   font-size: 0;
+}
+
+.controls-BigSeparator-container-icon-size-s {
+   border-radius: @border-radius_s_image;
+   height: @height_BigSeparator-size-s;
+}
+
+.controls-BigSeparator-container-icon-size-m {
+   border-radius: @border-BigSeparator-size-m;
+   height: @height_BigSeparator-size-m;
+}
+
+.controls-BigSeparator-container-icon-size-l {
+   border-radius: @border-radius_m_image;
+   height: @height_BigSeparator-size-l;
+}
+
+.controls-BigSeparator-iconExpanded-size-s {
+   width: @width_BigSeparator-iconExpanded-size-s;
+   height: @height_BigSeparator-iconExpanded-size-s;
+   padding: @offset-s_BigSeparator-icon @offset-m_BigSeparator-icon;
+}
+
+.controls-BigSeparator-iconExpanded-size-m {
+   width: @width_BigSeparator-iconExpanded-size-m;
+   height: @height_BigSeparator-iconExpanded-size-m;
+   padding: @offset-s_BigSeparator-icon @offset-m_BigSeparator-icon;
+}
+
+.controls-BigSeparator-iconExpanded-size-l {
+   width: @width_BigSeparator-iconExpanded-size-l;
+   height: @height_BigSeparator-iconExpanded-size-m;
+   padding: @offset_2xs @offset_s;
+}
+
+.controls-BigSeparator-iconCollapsed-size-s {
+   width: @width_BigSeparator-iconCollapsed-size-s;
+   height: @height_BigSeparator-iconCollapsed-size-s;
+   padding: @offset_3xs @offset_s;
+}
+
+.controls-BigSeparator-iconCollapsed-size-m {
+   width: @width_BigSeparator-iconCollapsed-size-m;
+   height: @height_BigSeparator-iconCollapsed-size-m;
+   padding: @offset_3xs @offset_s;
+}
+
+.controls-BigSeparator-iconCollapsed-size-l {
+   width: @width_BigSeparator-iconCollapsed-size-l;
+   height: @height_BigSeparator-iconCollapsed-size-l;
+   padding: @offset_3xs @offset-l_BigSeparator-icon;
 }
 
 .controls-BigSeparator__icon_theme-@{themeName} {
