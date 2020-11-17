@@ -16,8 +16,10 @@ import {
 } from './Container/Interface/IScrollbars';
 import {
     IShadows,
+    IShadowsOptions,
     IShadowsVisibilityByInnerComponents,
     SHADOW_MODE,
+    SHADOW_VISIBILITY,
     getDefaultOptions as getShadowsDefaultOptions
 } from './Container/Interface/IShadows';
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
@@ -27,7 +29,7 @@ import {POSITION} from './Container/Type';
 import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {IScrollState} from './Utils/ScrollState';
 
-interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, IShadows {
+interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, IShadowsOptions {
     backgroundStyle: string;
 }
 
@@ -91,10 +93,13 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._scrollbars = new ScrollbarsModel(options, receivedState);
         this._stickyHeaderController = new StickyHeaderController();
-        // При инициализации оптимизированные тени не включаем только если явно включены тени на js.
+        // При инициализации оптимизированные тени включаем только если они явно включены, или включен режим auto.
         // В режиме mixed используем тени на css что бы не вызывать лишние синхронизации. Когда пользователь наведет
         // мышкой на скролл контейнер или по другим обнавлениям тени начнут работать через js.
-        this._isOptimizeShadowEnabled = options.shadowMode !== SHADOW_MODE.JS && Container._isCssShadowsSupported();
+        this._isOptimizeShadowEnabled = Container._isCssShadowsSupported() &&
+            (options.shadowMode === SHADOW_MODE.CSS ||
+                (options.shadowMode === SHADOW_MODE.MIXED &&
+                    (options.topShadowVisibility === SHADOW_VISIBILITY.AUTO || options.bottomShadowVisibility === SHADOW_VISIBILITY.AUTO)));
         this._optimizeShadowClass = this._getOptimizeShadowClass(options);
 
         super._beforeMount(...arguments);
