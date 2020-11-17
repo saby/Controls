@@ -192,7 +192,7 @@ class StickyHeaderController {
             this._delayedHeaders.push(data);
 
             this._observeStickyHeader(data);
-            if (!isHidden(data.inst.getContainer()) && this._initialized && this._canScroll) {
+            if (!isHidden(data.container) && this._initialized && this._canScroll) {
                 return Promise.resolve().then(this._registerDelayed.bind(this));
             }
         } else {
@@ -273,9 +273,9 @@ class StickyHeaderController {
 
     private _getStickyHeaderElements(header: TRegisterEventData): NodeListOf<HTMLElement> {
         if (header.inst.getChildrenHeaders) {
-            return header.inst.getChildrenHeaders().map(h => h.inst.getContainer());
+            return header.inst.getChildrenHeaders().map(h => h.container);
         } else {
-            return [header.inst.getContainer()];
+            return [header.container];
         }
     }
 
@@ -362,7 +362,7 @@ class StickyHeaderController {
 
         return fastUpdate.measure(() => {
             this._delayedHeaders = this._delayedHeaders.filter((header: TRegisterEventData) => {
-                if (!isHidden(header.inst.getContainer())) {
+                if (!isHidden(header.container)) {
                     this._addToHeadersStack(header.id, header.position);
                     return false;
                 }
@@ -440,7 +440,7 @@ class StickyHeaderController {
         const
             headersStack = this._headersStack[position],
             newHeaderOffset = this._getHeaderOffset(id, position),
-            headerContainerHeight = this._headers[id].inst.getContainer().getBoundingClientRect().height;
+            headerContainerHeight = this._headers[id].container.getBoundingClientRect().height;
 
         // Ищем позицию первого элемента, смещение которого больше текущего.
         // Если смещение у элементов одинаковое, но у добавляемоего заголовка высота равна нулю,
@@ -535,7 +535,7 @@ class StickyHeaderController {
                     header = this._headers[headerId];
                     nextHeader = null;
                     offsets[position][headerId] = offset;
-                    if (header.mode === 'stackable' && !isHidden(header.inst.getContainer())) {
+                    if (header.mode === 'stackable' && !isHidden(header.container)) {
                         // Проверяем, имеет ли заголовок в родителях прямых родителей предыдущих заголовков.
                         // Если имеет, значит заголовки находятся в одном контейнере -> высчитываем offset.
                         if (!this._isLastIndex(this._headersStack[position], i)) {
@@ -543,8 +543,8 @@ class StickyHeaderController {
                             nextHeader = this._headers[nextHeaderId];
                             for (let j = 0; j <= i; j++) {
                                 prevHeader = this._headers[this._headersStack[position][j]];
-                                parentElementOfPrevHeader = prevHeader.inst.getContainer().parentElement;
-                                parentElementOfNextHeader = nextHeader.inst.getContainer().parentElement;
+                                parentElementOfPrevHeader = prevHeader.container.parentElement;
+                                parentElementOfNextHeader = nextHeader.container.parentElement;
                                 while (parentElementOfNextHeader !== parentElementOfPrevHeader && parentElementOfNextHeader !== document.body) {
                                     parentElementOfNextHeader = parentElementOfNextHeader.parentElement;
                                 }
@@ -552,7 +552,7 @@ class StickyHeaderController {
                                     const height: number = header.inst.height;
                                     // Сохраним высоты по которым рассчитали позицию заголовков,
                                     // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
-                                    this._updateElementsHeight(header.inst.getContainer(), height)
+                                    this._updateElementsHeight(header.container, height)
                                     return offset + height;
                                 }
                             }
