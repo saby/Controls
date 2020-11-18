@@ -33,7 +33,8 @@
                             on:searchClick="_tmplNotify('searchClick')"
                             on:resetClick="_tmplNotify('resetClick')"
                             on:valueChanged="_tmplNotify('valueChanged')"/>
-                <div class="controls-Search__expandable-reset-button controls-Search__expandable-reset-button_theme-{{_options.theme}} icon-Close"
+                <div class="controls-Search__expandable-reset-button controls-Search__expandable-reset-button_theme-{{_options.theme}} icon-Close
+                            controls-icon_size-m_theme-{{_options.theme}}"
                      on:click="_handleCloseClick()">
                 </div>
             </div>
@@ -43,7 +44,8 @@
         <div class="controls-Search__expandable-button-container_theme-{{_options.theme}}">
             <div class="controls-Search__expandable-button controls-Search__expandable-button_theme-{{_options.theme}}
                     controls-Search__button_{{_options.readOnly ? 'readOnly' : 'enabled'}}
-                    controls-Search__searchButton_theme_{{_options.theme}}_color icon-Search2"
+                    controls-Search__searchButton_theme_{{_options.theme}}_color  icon-Search2
+                    controls-icon_size-m_theme-{{_options.theme}}"
                  on:click="_handleOpenClick()"></div>
         </div>
     </ws:else>
