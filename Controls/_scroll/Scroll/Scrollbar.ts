@@ -21,9 +21,9 @@ export interface IScrollBarOptions extends IControlOptions {
     thumbThickness?: string;
 }
 /**
- * Thin scrollbar.
+ * Контрол.
  *
- * @class Controls/_scroll/resources/Scrollbar
+ * @class Controls/_scroll/Scroll/Scrollbar
  * @extends Core/Control
  *
  * @public

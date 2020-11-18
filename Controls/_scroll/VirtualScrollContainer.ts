@@ -3,9 +3,7 @@ import template = require('wml!Controls/_scroll/VirtualScrollContainer/VirtualSc
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
 /**
- *
  * @class Controls/_scroll/VirtualScrollContainer
- * 
  * @author Красильников А.С.
  * @see Controls/_scroll/Container
  * @public

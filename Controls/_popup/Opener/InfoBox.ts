@@ -10,7 +10,7 @@ import {IInfoBoxPopupOptions, IInfoBoxOpener} from 'Controls/_popup/interface/II
  * @remark
  * Private control. This control uses Popup/Infobox and Application to open popup on openInfobox events
  * @class Controls/_popup/Opener/InfoBox
- * @mixes Controls/_popup/interface/IInfoBoxOpener
+ * @mixes Controls/_popup/interface/IInfoBoxOptionsOpener
  * @extends Core/Control
  *
  * @private

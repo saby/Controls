@@ -1,10 +1,6 @@
 /**
  * Набор полей контекста, используемых в платформенных контролах.
  * @library Controls/context
- * @includes ContextOptions Controls/_context/ContextOptions
- * @includes FilterContextField Controls/_context/FilterContextField
- * @includes SearchContextField Controls/_context/SearchContextField
- * @includes TouchContextField Controls/_context/TouchContextField
  * @deprecated 
  * @private
  * @author Крайнов Д.О.

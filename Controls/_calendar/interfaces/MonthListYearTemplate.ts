@@ -1,12 +1,12 @@
 /**
  * Шаблон, который по умолчанию используется для отображения года в {@link Controls/calendar:MonthView}.
- * @class Controls/calendar:MonthListYearTemplate
+ * @class Controls/_calendar/interfaces/MonthListYearTemplate
  * @public
  * @author Красильников А.С.
  */
 
 /**
- * @name Controls/calendar:MonthListYearTemplate#bodyTemplate
+ * @name Controls/_calendar/interfaces/MonthListYearTemplate#bodyTemplate
  * @cfg {String|Function} Шаблон отображения года.
  * @remark
  * В шаблон будет переданы:

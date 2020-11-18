@@ -3,7 +3,6 @@
  * @library Controls/tile
  * @includes View Controls/_tile/View
  * @includes ItemTemplate Controls/_tile/interface/ItemTemplate
- * @includes ITile Controls/_tile/interface/ITile
  * @includes SmallItemTemplate Controls/_tile/interface/SmallTemplate
  * @includes MediumTemplate Controls/_tile/interface/MediumTemplate
  * @includes PreviewTemplate Controls/_tile/interface/PreviewTemplate
@@ -17,7 +16,6 @@
  * @library Controls/tile
  * @includes View Controls/_tile/View
  * @includes ItemTemplate Controls/_tile/interface/ItemTemplate
- * @includes ITile Controls/_tile/interface/ITile
  * @includes IDraggable Controls/_interface/IDraggable
  * @includes SmallItemTemplate Controls/_tile/interface/SmallTemplate
  * @includes MediumTemplate Controls/_tile/interface/MediumTemplate
@@ -39,6 +37,8 @@ import {default as ActionsMenu} from 'Controls/_tile/ItemActions/Menu';
 
 import TreeViewModel = require('Controls/_tile/TreeTileView/TreeTileViewModel');
 import TreeView = require('Controls/_tile/TreeTileView/TreeTileView');
+
+export {ITile} from 'Controls/_tile/interface/ITile';
 
 export {
    View,

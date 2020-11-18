@@ -1,13 +1,13 @@
 /**
  * Шаблон, который по умолчанию используется в {@link Controls/dropdown:Input} для отображения элемента, выбранного из выпадающего списка.
- * @class Controls/dropdown:inputDefaultContentTemplate
+ * @class Controls/_dropdown/interface/inputDefaultContentTemplate
  * @public
  * @author Герасимов А.М.
  * @see Controls/dropdown:ItemTemplate
  */
 
 /**
- * @name Controls/dropdown:inputDefaultContentTemplate#contentTemplate
+ * @name Controls/_dropdown/interface/inputDefaultContentTemplate#contentTemplate
  * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
  * @default undefined
  * @remark

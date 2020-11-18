@@ -1,12 +1,12 @@
 /**
  * Шаблон, который по умолчанию используется для отображения фильтра в области значений {@link Controls/filter:View Объединенного фильтра}.
- * @class Controls/filter:ItemTemplate
+ * @class Controls/_filter/interface/ItemTemplate
  * @author Герасимов А.М.
  * @public
  */
 export default interface IItemTemplateOptions {
    /**
-    * @name Controls/filter:ItemTemplate#beforeContentTemplate
+    * @name Controls/_filter/interface/ItemTemplate#beforeContentTemplate
     * @cfg {String} Шаблон, который отображается перед фильтром.
     * @default undefined
     * @remark
@@ -15,7 +15,7 @@ export default interface IItemTemplateOptions {
     */
    beforeContentTemplate?: string;
    /**
-    * @name Controls/filter:ItemTemplate#contentTemplate
+    * @name Controls/_filter/interface/ItemTemplate#contentTemplate
     * @cfg {String|function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @remark
     * В области видимости шаблона доступны две переменные — item и text.
@@ -35,7 +35,7 @@ export default interface IItemTemplateOptions {
     */
    contentTemplate?: string;
    /**
-    * @name Controls/filter:ItemTemplate#text
+    * @name Controls/_filter/interface/ItemTemplate#text
     * @cfg {String} Текст, отображаемый в области значений.
     * @default undefined
     */

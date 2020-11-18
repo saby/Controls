@@ -1,8 +1,6 @@
 /*
  * compatiblePopup library
  * @library Controls/compatiblePopup
- * @includes BaseOpener Controls/_compatiblePopup/BaseOpener
- * @includes ShowDialogHelpers Controls/_compatiblePopup/ShowDialogHelpers
  * @private 
  * @author Крайнов Д.О.
  */

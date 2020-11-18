@@ -1,8 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют плоский список. Список может строиться по данным, полученным из источника. Также можно организовать удаление и перемещение данных.
  * @library Controls/list
- * @includes AddButton Controls/_list/AddButton
- * @includes Container Controls/_list/Container
  * @includes BaseItemTemplate Controls/_list/interface/BaseItemTemplate
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
@@ -10,30 +8,9 @@
  * @includes BaseGroupTemplate Controls/_list/interface/BaseGroupTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
- * @includes View Controls/_list/List
- * @includes BaseAction Controls/_list/BaseAction
- * @includes Mover Controls/_list/Mover
- * @includes Remover Controls/_list/Remover
- * @includes IRemovableList Controls/_list/interface/IRemovableList
- * @includes DataContainer Controls/_list/Data
- * @includes IHierarchy Controls/_interface/IHierarchy
- * @includes IList Controls/_list/interface/IList
- * @includes ISorting Controls/_interface/ISorting
- * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
- * @includes HotKeysContainer Controls/_list/HotKeysContainer
- * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
  * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
- * @includes MoveController Controls/_list/Controllers/MoveController
- * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
- * @includes IRemoveControllerOptions Controls/_list/Controllers/RemoveController/IRemoveControllerOptions
- * @includes RemoveController Controls/_list/Controllers/RemoveController
- * @includes IClickableView Controls/_list/interface/IClickableView
- * @includes IListNavigation Controls/_list/interface/IListNavigation
- * @includes IReloadableList Controls/_list/interface/IReloadableList
- * @includes IMovableList Controls/_list/interface/IMovableList
- * @includes IMarkerListOptions Controls/_marker/interface/IMarkerListOptions
  * @public
  * @author Крайнов Д.О.
  */
@@ -41,8 +18,6 @@
 /*
  * List library
  * @library Controls/list
- * @includes AddButton Controls/_list/AddButton
- * @includes Container Controls/_list/Container
  * @includes BaseItemTemplate Controls/_list/interface/BaseItemTemplate
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
@@ -50,26 +25,9 @@
  * @includes BaseGroupTemplate Controls/_list/interface/BaseGroupTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
- * @includes View Controls/_list/List
- * @includes BaseAction Controls/_list/BaseAction
- * @includes Mover Controls/_list/Mover
- * @includes Remover Controls/_list/Remover
- * @includes IRemovableList Controls/_list/interface/IRemovableList
- * @includes DataContainer Controls/_list/Data
- * @includes IHierarchy Controls/_interface/IHierarchy
- * @includes IList Controls/_list/interface/IList
- * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
- * @includes HotKeysContainer Controls/_list/HotKeysContainer
- * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
  * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
- * @includes MoveController Controls/_list/Controllers/MoveController
- * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
- * @includes RemoveController Controls/_list/Controllers/RemoveController
- * @includes IClickableView Controls/_list/interface/IClickableView
- * @includes IListNavigation Controls/_list/interface/IListNavigation
- * @includes IMovableList Controls/_list/interface/IMovableList
  * @public
  * @author Крайнов Д.О.
  */
@@ -134,8 +92,12 @@ export {
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
 export {IMovableList} from 'Controls/_list/interface/IMovableList';
 
-export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
+export {RemoveController, IRemoveControllerOptions} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
+export {IClickableView} from 'Controls/_list/interface/IClickableView';
+export {ISorting} from 'Controls/_interface/ISorting';
+export {IHierarchy} from 'Controls/_interface/IHierarchy';
+
 
 export {
     AddButton,

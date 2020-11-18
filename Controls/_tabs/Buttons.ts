@@ -18,16 +18,16 @@ import ItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
 
 import {IItemTemplateOptions, IHeightOptions} from 'Controls/interface';
 
+
+
+export interface ITabsTemplate {
+    readonly '[Controls/_tabs/ITabsTemplate]': boolean;
+}
 /**
  * Интерфейс для шаблонных опций контрола вкладок.
  * @interface Controls/_tabs/ITabsTemplateOptions
  * @public
  */
-
-export interface ITabsTemplate {
-    readonly '[Controls/_tabs/ITabsTemplate]': boolean;
-}
-
 export interface ITabsTemplateOptions extends IItemTemplateOptions, IHeightOptions {
     leftTemplateProperty?: string;
     rightTemplateProperty?: string;

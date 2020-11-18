@@ -1,18 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют панель фильтрации и её содержимое.
  * @library Controls/filterPopup
- * @includes Panel Controls/_filterPopup/Panel
- * @includes DetailPanel Controls/_filterPopup/DetailPanel
- * @includes SimplePanel Controls/_filterPopup/SimplePanel
- * @includes SimplePanelEmptyItemTemplate Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate
- * @includes SimplePanelHierarchyItemTemplate Controls/_filterPopup/SimplePanel/_HierarchyList/hierarchyItemTemplate
- * @includes Link Controls/_filterPopup/Panel/Link
- * @includes Select Controls/_filterPopup/Panel/Select
- * @includes Dropdown Controls/_filterPopup/Panel/Dropdown
- * @includes Text Controls/_filterPopup/Panel/Text
- * @includes Lookup Controls/_filterPopup/Panel/Lookup
- * @includes HierarchyLookup Controls/_filterPopup/Panel/HierarchyLookup
- * @includes IFilterButton Controls/_filterPopup/interface/IFilterPanel
  * @public
  * @author Крайнов Д.О.
  */
@@ -20,17 +8,6 @@
 /*
  * filterPopup library
  * @library Controls/filterPopup
- * @includes Panel Controls/_filterPopup/Panel
- * @includes DetailPanel Controls/_filterPopup/DetailPanel
- * @includes SimplePanel Controls/_filterPopup/SimplePanel
- * @includes SimplePanelEmptyItemTemplate Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate
- * @includes Link Controls/_filterPopup/Panel/Link
- * @includes Select Controls/_filterPopup/Panel/Select
- * @includes Dropdown Controls/_filterPopup/Panel/Dropdown
- * @includes Text Controls/_filterPopup/Panel/Text
- * @includes Lookup Controls/_filterPopup/Panel/Lookup
- * @includes HierarchyLookup Controls/_filterPopup/Panel/HierarchyLookup
- * @includes AdditionalPanelTemplate Controls/_filterPopup/Panel/AdditionalParams/Render
  * @public
  * @author Крайнов Д.О.
  */
@@ -55,6 +32,8 @@ export {default as Link} from 'Controls/_filterPopup/Panel/Link';
 export {default as Text} from 'Controls/_filterPopup/Panel/Text';
 export {default as Dropdown} from 'Controls/_filterPopup/Panel/Dropdown';
 export {default as AdditionalPanelTemplate} from 'Controls/_filterPopup/Panel/AdditionalParams/Render';
+
+export {default as IFilterButton} from 'Controls/_filterPopup/interface/IFilterPanel';
 
 export {
    Panel,

@@ -1,7 +1,6 @@
 /**
  * Библиотека, которая предоставляет функционал для работы драг'н'дроп в списках
  * @library Controls/listDragNDrop
- * @includes Controller Controls/_listDragNDrop/Controller
  * @public
  * @author Панихин К.А.
  */

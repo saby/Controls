@@ -7,7 +7,7 @@ export interface ITabsButtons {
 
 /**
  * Интерфейс для опций контрола вкладок.
- * @interface Controls/_tabs/interface/ITabsButtons
+ * @interface Controls/_tabs/interface/ITabsButtonsOptions
  * @public
  * @author Красильников А.С.
  */
@@ -33,14 +33,14 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#separatorVisible
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#separatorVisible
  * @cfg {Boolean} Определяет наличие разделителя между вкладками
  * @default true
  * @demo Controls-demo/Tabs/Buttons/SeparatorVisible/Index
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#tabSpaceTemplate
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#tabSpaceTemplate
  * @cfg {Content} Шаблон, отображаемый между вкладками.
  * @default undefined
  * @remark
@@ -64,7 +64,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /*
- * @name Controls/_tabs/interface/ITabsButtons#tabSpaceTemplate
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#tabSpaceTemplate
  * @cfg {Content} Contents of the area near the tabs.
  * @default undefined
  * @remark
@@ -97,7 +97,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#style
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#style
  * @cfg {Style} Стиль отображения вкладок.
  * @default primary
  * @demo Controls-demo/Tabs/Buttons/Style/Index
@@ -127,7 +127,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /*
- * @name Controls/_tabs/interface/ITabsButtons#style
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#style
  * @cfg {Enum} Tabs buttons display style.
  * @variant primary
  * @variant secondary
@@ -162,7 +162,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#source
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#source
  * @cfg {Types/source:Base} Объект, реализующий ISource интерфейс для доступа к данным.
  * @default undefined
  * @remark
@@ -205,7 +205,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /*
- * @name Controls/_tabs/interface/ITabsButtons#source
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#source
  * @cfg {Types/source:Base} Object that implements ISource interface for data access.
  * @default undefined
  * @remark
@@ -244,7 +244,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#itemTemplate
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#itemTemplate
  * @cfg {Function} Шаблон для рендеринга.
  * @default undefined
  * @remark
@@ -273,7 +273,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /*
- * @name Controls/_tabs/interface/ITabsButtons#itemTemplate
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#itemTemplate
  * @cfg {Function} Template for item render.
  * @default Base template 'Controls/tabs:buttonsItemTemplate'
  * @remark
@@ -301,7 +301,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#itemTemplateProperty
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#itemTemplateProperty
  * @cfg {String} Имя поля, которое содержит шаблон отображения элемента.
  * @default undefined
  * @remark
@@ -342,7 +342,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /*
- * @name Controls/_tabs/interface/ITabsButtons#itemTemplateProperty
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#itemTemplateProperty
  * @cfg {String} Name of the item property that contains template for item render.
  * @default If not set, itemTemplate is used instead.
  * @remark
@@ -377,7 +377,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#rightTemplateProperty
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#rightTemplateProperty
  * @cfg {String} Имя поля, которое содержит шаблон отображения элемента, находящегося справа от основного содержимого.
  * @example
  * <pre class="brush: html; highlight: [2]">
@@ -408,7 +408,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#leftTemplateProperty
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#leftTemplateProperty
  * @cfg {String} Имя поля, которое содержит шаблон отображения элемента, находящегося слева от основного содержимого.
  * @example
  * <pre class="brush: html; highlight: [2]">
@@ -439,7 +439,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#itemRightTemplate
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#itemRightTemplate
  * @cfg {String} Шаблон элемента, находящегося справа от основного содержимого.
  * @remark
  * Базовый шаблон itemRightTemplate поддерживает следующие параметры:
@@ -460,7 +460,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  */
 
 /**
- * @name Controls/_tabs/interface/ITabsButtons#itemLeftTemplate
+ * @name Controls/_tabs/interface/ITabsButtonsOptions#itemLeftTemplate
  * @cfg {String} Шаблон элемента, находящегося слева от основного содержимого.
  * @remark
  * Базовый шаблон itemLeftTemplate поддерживает следующие параметры:

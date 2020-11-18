@@ -6,7 +6,7 @@ import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/switchableArea:View}.
  *
- * @class Controls/switchableArea:itemTemplate
+ * @class Controls/_switchableArea/SwitchableAreaItem
  * @extends Core/Control
  * @author Красильников А.С.
  * @public
@@ -111,27 +111,27 @@ class SwitchableAreaItem extends Control<IControlOptions> {
 }
 
 /**
- * @name Controls/switchableArea:itemTemplate#selectedKey
+ * @name Controls/_switchableArea/SwitchableAreaItem#selectedKey
  * @cfg {String} Ключ выбранного элемента.
  */
 
 /**
- * @name Controls/switchableArea:itemTemplate#key
+ * @name Controls/_switchableArea/SwitchableAreaItem#key
  * @cfg {String|Number} Ключ элемента.
  */
 
 /**
- * @name Controls/switchableArea:itemTemplate#itemTemplate
+ * @name Controls/_switchableArea/SwitchableAreaItem#itemTemplate
  * @cfg {Function} Шаблон элемента.
  */
 
 /**
- * @name Controls/switchableArea:itemTemplate#templateOptions
+ * @name Controls/_switchableArea/SwitchableAreaItem#templateOptions
  * @cfg {Object} Опции шаблона элемента.
  */
 
 /**
- * @name Controls/switchableArea:itemTemplate#autofocus
+ * @name Controls/_switchableArea/SwitchableAreaItem#autofocus
  * @cfg {Boolean} Определяет, установится ли фокус на контентную область.
  * @default true
  */

@@ -1,6 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения подвала {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/input/suggest/ автодополнения}.
- * @class Controls/suggestPopup:FooterTemplate
+ * @class Controls/_suggestPopup/interface/FooterTemplate
  * @remark
  * Подробнее о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/input/suggest/ здесь}.
  * @example
@@ -25,7 +25,7 @@
  */
 export default interface IFooterTemplateOptions {
     /**
-     * @name Controls/suggestPopup:FooterTemplate#showMoreButtonTemplate
+     * @name Controls/_suggestPopup/interface/FooterTemplate#showMoreButtonTemplate
      * @cfg {Function|String} Шаблон кнопки "Ещё".
      * @example 
      * <pre class="brush: html">
@@ -40,7 +40,7 @@ export default interface IFooterTemplateOptions {
      */
     showMoreButtonTemplate?: string;
     /**
-     * @name Controls/suggestPopup:FooterTemplate#showSelectorButtonTemplate
+     * @name Controls/_suggestPopup/interface/FooterTemplate#showSelectorButtonTemplate
      * @cfg {Function|String} Шаблон кнопки "Показать всё".
      * @example 
      * <pre class="brush: html">

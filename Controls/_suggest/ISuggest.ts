@@ -1,22 +1,5 @@
 import ISuggest from "Controls/interface/ISuggest";
 
-/**
- * Интерфейс для Input.Suggest.
- *
- * @interface Controls/_suggest/ISuggest
- * @mixes Controls/interface/ISuggest
- * @public
- * @author Герасимов А.М.
- */
-
-/*
- * Interface for Input.Suggest.
- *
- * @interface Controls/_suggest/ISuggest
- * @public
- * @author Gerasimov A.M.
- */
-
 type ISuggest = ISuggest & {
       readonly _options: {
       /**
@@ -99,5 +82,20 @@ type ISuggest = ISuggest & {
       displayProperty: string;
    };
 }
+/**
+ * Интерфейс для Input.Suggest.
+ *
+ * @interface Controls/_suggest/ISuggest
+ * @mixes Controls/interface/ISuggest
+ * @public
+ * @author Герасимов А.М.
+ */
 
+/*
+ * Interface for Input.Suggest.
+ *
+ * @interface Controls/_suggest/ISuggest
+ * @public
+ * @author Gerasimov A.M.
+ */
 export default ISuggest;

@@ -1,13 +1,7 @@
 /**
  * Библиотека контролов, которые служат для отображения одного или нескольких элементов коллекции или выбора элементов из справочника.
  * @library Controls/lookup
- * @includes Selector Controls/_lookup/Button
- * @includes Input Controls/_lookup/Lookup
- * @includes MultipleInput Controls/_lookup/MultipleInput
- * @includes ItemTemplate Controls/lookup:ItemTemplate
- * @includes Link Controls/_lookup/Lookup/Link
- * @includes PlaceholderChooser Controls/_lookup/PlaceholderChooser
- * @includes Collection Controls/_lookup/SelectedCollection
+ * @includes ItemTemplate Controls/_lookup/interface/ItemTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -15,13 +9,7 @@
 /*
  * Lookup library
  * @library Controls/lookup
- * @includes Selector Controls/_lookup/Button
- * @includes Input Controls/_lookup/Lookup
- * @includes MultipleInput Controls/_lookup/MultipleInput
- * @includes ItemTemplate Controls/lookup:ItemTemplate
- * @includes PlaceholderChooser Controls/_lookup/PlaceholderChooser
- * @includes Link Controls/_lookup/Lookup/Link
- * @includes Collection Controls/_lookup/SelectedCollection
+ * @includes ItemTemplate Controls/_lookup/interface/ItemTemplate
  * @public
  * @author Крайнов Д.О.
  */

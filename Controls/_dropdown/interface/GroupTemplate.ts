@@ -1,6 +1,6 @@
 /**
  * Шаблон отображения заголовка группы.
- * @class Controls/dropdown:GroupTemplate
+ * @class Controls/_dropdown/interface/GroupTemplate
  * @public
  * @author Герасимов А.М.
  * @example
@@ -37,19 +37,19 @@
  */
 
 /**
- * @name Controls/dropdown:GroupTemplate#showText
+ * @name Controls/_dropdown/interface/GroupTemplate#showText
  * @cfg {Boolean} Определяет, отображается ли название группы.
  * @default false
  */
 
 /**
- * @name Controls/dropdown:GroupTemplate#showText
+ * @name Controls/_dropdown/interface/GroupTemplate#showText
  * @cfg {TextAlign} Выравнивание заголовка группы по горизонтали.
  * @default undefined
  */
 
 /**
- * @name Controls/dropdown:GroupTemplate#contentTemplate
+ * @name Controls/_dropdown/interface/GroupTemplate#contentTemplate
  * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
  * @default undefined
  */

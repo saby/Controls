@@ -22,8 +22,8 @@ interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
  * 
  * @class Controls/_popup/Opener/Edit
- * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/IEdit
+ * @mixes Controls/_popup/interface/IBasePopupOptions
+ * @mixes Controls/_popup/interface/IEditOptions
  * 
  * @public
  * @author Красильников А.С.

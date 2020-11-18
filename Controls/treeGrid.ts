@@ -1,9 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде дерева.
  * @library Controls/treeGrid
- * @includes View Controls/_treeGrid/View
- * @includes ItemTemplate Controls/_treeGrid/interface/ItemTemplate
- * @includes RowEditor Controls/_treeGrid/interface/RowEditor
  * @public
  * @author Крайнов Д.О.
  */

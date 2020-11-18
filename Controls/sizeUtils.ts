@@ -1,9 +1,5 @@
 /**
  * @library Controls/sizeUtils
- * @includes getDimensions Controls/_utils/sizeUtils/getDimensions
- * @includes DOMUtil Controls/_utils/sizeUtils/DOMUtil
- * @includes getTextWidth Controls/_utils/sizeUtils/getTextWidth
- * @includes getWidth Controls/_utils/sizeUtils/getWidth
  * @public
  * @author Красильников А.С.
  */

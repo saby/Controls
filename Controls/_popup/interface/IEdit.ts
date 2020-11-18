@@ -3,16 +3,17 @@ import { IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 import { IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 import {RecordSet} from 'Types/Collection';
 
-/**
- * Интерфейс для опций окна редактирования
- *
- * @interface Controls/_popup/interface/IEdit
- * @public
- * @author Красильников А.С.
- */
+
 
 type TOpenerOptions = IStickyPopupOptions|IStackPopupOptions|IDialogPopupOptions;
 
+/**
+ * Интерфейс для опций окна редактирования
+ *
+ * @interface Controls/_popup/interface/IEditOptions
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IEditOptions {
     items?: RecordSet;
     mode?: string;
@@ -30,7 +31,7 @@ export interface IEditOpener {
  *  <li>If option 'mode' is set to 'sticky' use  {@link Controls/popup:Sticky Sticky options}</li>
  * <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FEdit%2FOpener">Demo-example</a>
  * {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ Подробнее}
- * @class Controls/_popup/interface/IEdit
+ * @class Controls/_popup/interface/IEditOptions
  * 
  * @public
  * @author Красильников А.С.
@@ -39,7 +40,7 @@ export interface IEditOpener {
 
 /**
  * Открывает всплывающее окно диалога редактирования.
- * @function Controls/_popup/interface/IEdit#open
+ * @function Controls/_popup/interface/IEditOptions#open
  * @param {Object} meta Данные, по которым определяется, откуда диалог получит редактируемую запись. В объект можно передать свойства key и record. Политика обработки свойств подробно описана {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step4 здесь}.
  * @param {Object} popupOptions Опции всплывающего окна диалога редактирования.
  * В зависимости от значения опции 'mode':
@@ -71,7 +72,7 @@ export interface IEditOpener {
  */
 /*
  * Open edit popup.
- * @function Controls/_popup/interface/IEdit#open
+ * @function Controls/_popup/interface/IEditOptions#open
  * @param {Object} meta Data to edit: key, record.
  * @param {Object} popupOptions options for edit popup.
  * <ul>
@@ -112,21 +113,21 @@ export interface IEditOpener {
 /**
  * Закрывает всплывающее окно диалога редактирования.
  * @function
- * @name Controls/_popup/interface/IEdit#close
+ * @name Controls/_popup/interface/IEditOptions#close
  */
 /*
  * Close popup
- * @function Controls/_popup/interface/IEdit#close
+ * @function Controls/_popup/interface/IEditOptions#close
  */
 
 /**
  * Возвращает информацию о том, открыто ли всплывающее окно.
  * @function
- * @name Controls/_popup/interface/IEdit#isOpened
+ * @name Controls/_popup/interface/IEditOptions#isOpened
  */
 /*
  * Popup opened status
- * @function Controls/_popup/interface/IEdit#isOpened
+ * @function Controls/_popup/interface/IEditOptions#isOpened
  * @returns {Boolean} is popup opened
  */
 
@@ -138,7 +139,7 @@ export interface IEditOpener {
 
 /**
  * @event The event is called before the synchronization with the recordset.
- * @name Controls/_popup/interface/IEdit#beforeItemEndEdit
+ * @name Controls/_popup/interface/IEditOptions#beforeItemEndEdit
  * @param {Vdom/Vdom:SyntheticEvent} eventObject The event descriptor.
  * @param {String} formControllerEvent Name of event from formController(update, create, delete)
  * @param {Object} record Data from formController
@@ -146,14 +147,14 @@ export interface IEditOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IEdit#mode
+ * @name Controls/_popup/interface/IEditOptions#mode
  * @cfg {Object} Устанавливает режим отображения диалога редактирования.
  * @variant stack Отображение диалога в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/stack/ стековом окне}.
  * @variant dialog Отображение диалога в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/dialog/ диалоговом окне}.
  * @variant sticky Отображение диалога в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/sticky/ окне прилипающего блока}.
  */
 /*
- * @name Controls/_popup/interface/IEdit#mode
+ * @name Controls/_popup/interface/IEditOptions#mode
  * @cfg {Object} Sets the display mode of the dialog.
  * @variant stack Open edit dialog in the stack panel.
  * @variant dialog Open edit dialog in the dialog popup.
@@ -161,10 +162,10 @@ export interface IEditOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IEdit#items
+ * @name Controls/_popup/interface/IEditOptions#items
  * @cfg {Types/collection:RecordSet} Рекордсет для синхронизации с редактируемой записью.
  */
 /*
- * @name Controls/_popup/interface/IEdit#items
+ * @name Controls/_popup/interface/IEditOptions#items
  * @cfg {Types/collection:RecordSet} RecordSet for synchronization with the editing record.
  */
