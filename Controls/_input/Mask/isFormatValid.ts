@@ -2,6 +2,19 @@ import {IFormatMaskChars, getDefaultMaskOptions, FormatBuilder, Formatter} from 
 
 const DEFAULT_OPTIONS = getDefaultMaskOptions();
 
+function isFormatValid(
+    value: string, mask: string,
+    replacer: string = DEFAULT_OPTIONS.replacer,
+    formatMaskChars: IFormatMaskChars = DEFAULT_OPTIONS.formatMaskChars
+): boolean {
+    try {
+        const format = FormatBuilder.getFormat(mask, formatMaskChars, replacer);
+        Formatter.splitValue(format, value);
+        return true;
+    } catch {
+        return false;
+    }
+}
 /**
  * Модуль возвращает функцию isFormatValid, которая проверяет соответствие значения формату маски.
  * 
@@ -16,18 +29,4 @@ const DEFAULT_OPTIONS = getDefaultMaskOptions();
  * isFormatValid('1a.a4', 'dd.dd'); // false
  * </pre>
  */
-function isFormatValid(
-    value: string, mask: string,
-    replacer: string = DEFAULT_OPTIONS.replacer,
-    formatMaskChars: IFormatMaskChars = DEFAULT_OPTIONS.formatMaskChars
-): boolean {
-    try {
-        const format = FormatBuilder.getFormat(mask, formatMaskChars, replacer);
-        Formatter.splitValue(format, value);
-        return true;
-    } catch {
-        return false;
-    }
-}
-
 export default isFormatValid;

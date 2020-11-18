@@ -1,17 +1,14 @@
 /**
  * Библиотека контролов, которые служат для отображения элемента коллекции или выбора элемента из выпадающего окна.
  * @library Controls/dropdown
- * @includes Button Controls/_dropdown/Button
- * @includes Input Controls/_dropdown/Input
- * @includes Combobox Controls/_dropdown/ComboBox
- * @includes ItemTemplate Controls/dropdown:ItemTemplate
- * @includes HeaderTemplate Controls/dropdown:HeaderTemplate
- * @includes GroupTemplate Controls/dropdown:GroupTemplate
+ * @includes ItemTemplate Controls/_dropdown/interface/ItemTemplate
+ * @includes HeaderTemplate Controls/_dropdown/interface/HeaderTemplate
+ * @includes GroupTemplate Controls/_dropdown/interface/GroupTemplate
  * @includes IDropdownSource Controls/_dropdown/interface/IDropdownSource
  * @includes IFooterTemplate Controls/_dropdown/interface/IFooterTemplate
  * @includes IGrouped Controls/_dropdown/interface/IGrouped
  * @includes IHeaderTemplate Controls/_dropdown/interface/IHeaderTemplate
- * @includes inputDefaultContentTemplate Controls/dropdown:inputDefaultContentTemplate
+ * @includes inputDefaultContentTemplate Controls/_dropdown/interface/inputDefaultContentTemplate
  * @includes IIconSize Controls/_dropdown/interface/IIconSize
  * @public
  * @author Крайнов Д.О.
@@ -20,17 +17,14 @@
 /*
  * dropdown library
  * @library Controls/dropdown
- * @includes Button Controls/_dropdown/Button
- * @includes Input Controls/_dropdown/Input
- * @includes Combobox Controls/_dropdown/ComboBox
- * @includes ItemTemplate Controls/dropdown:ItemTemplate
- * @includes HeaderTemplate Controls/dropdown:HeaderTemplate
- * @includes GroupTemplate Controls/dropdown:GroupTemplate
+ * @includes ItemTemplate Controls/_dropdown/interface/ItemTemplate
+ * @includes HeaderTemplate Controls/_dropdown/interface/HeaderTemplate
+ * @includes GroupTemplate Controls/_dropdown/interface/GroupTemplate
  * @includes IDropdownSource Controls/_dropdown/interface/IDropdownSource
  * @includes IFooterTemplate Controls/_dropdown/interface/IFooterTemplate
  * @includes IGrouped Controls/_dropdown/interface/IGrouped
  * @includes IHeaderTemplate Controls/_dropdown/interface/IHeaderTemplate
- * @includes inputDefaultContentTemplate wml!Controls/_dropdown/Input/resources/defaultContentTemplate
+ * @includes inputDefaultContentTemplate Controls/_dropdown/interface/inputDefaultContentTemplate
  * @includes IIconSize Controls/_dropdown/interface/IIconSize
  * @public
  * @author Крайнов Д.О.
@@ -51,6 +45,11 @@ import defaultContentTemplateWithIcon = require('wml!Controls/_dropdown/Input/re
 
 export {default as IGrouped, IGroupedOptions} from 'Controls/_dropdown/interface/IGrouped';
 export {default as IDropdownSource} from 'Controls/_dropdown/interface/IDropdownSource';
+
+export {default as IDropdownSource} from 'Controls/_dropdown/interface/IDropdownSource';
+export {default as IFooterTemplate} from 'Controls/_dropdown/interface/IFooterTemplate';
+export {default as IHeaderTemplate} from 'Controls/_dropdown/interface/IHeaderTemplate';
+export {default as IIconSize} from 'Controls/_dropdown/interface/IIconSize';
 
 export {
     Button,

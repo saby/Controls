@@ -12,6 +12,10 @@
  * @author Герасимов А.М.
  */
 
+export default interface IFilterButton {
+    readonly '[Controls/_filter/interface/IFilterButton]': boolean;
+}
+
 /**
  * @typedef {Object} FilterPanelItems
  * @property {String} id Имя поля фильтра.

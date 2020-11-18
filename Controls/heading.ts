@@ -3,10 +3,6 @@
  * Сложные заголовки включают весь перечисленный функционал. Они формируются путём композиции контролов, входящих в состав библиотек {@link Controls/heading:Title}, {@link Controls/heading:Separator} и {@link Controls/heading:Counter}.
  * Подробнее о работе с заголовками читайте в <a href='/doc/platform/developmentapl/interface-development/controls/content-managment/heading/'>руководстве разработчика</a>.
  * @library Controls/heading
- * @includes Title Controls/_heading/Heading
- * @includes Back Controls/_heading/Back
- * @includes Separator Controls/_heading/Separator
- * @includes Counter Controls/_heading/Counter
  * @public
  * @author Крайнов Д.О.
  */
@@ -14,10 +10,6 @@
 /*
  * heading library
  * @library Controls/heading
- * @includes Title Controls/_heading/Heading
- * @includes Back Controls/_heading/Back
- * @includes Separator Controls/_heading/Separator
- * @includes Counter Controls/_heading/Counter
  * @public
  * @author Крайнов Д.О.
  */

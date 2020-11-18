@@ -69,7 +69,10 @@ const cancel = (config: IPreviewerPopupOptions, action: string): void => {
             break;
     }
 };
-
+/**
+ * @class Controls/_popup/Previewer
+ * @public 
+ */
 class Previewer extends BaseOpener<IPreviewerOpenerOptions> implements IPreviewerOpener {
     readonly '[Controls/_popup/interface/IPreviewerOpener]': boolean;
     private _currentConfig: IPreviewerPopupOptions = {};

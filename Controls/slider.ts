@@ -3,18 +3,12 @@
 /**
  * Библиотека контролов, которые позволяют редактировать число или диапазон при помощи перетаскивания.
  * @library Controls/slider
- * @includes Base Controls/_slider/Base
- * @includes Range Controls/_slider/Range
- * @includes ISlider Controls/_slider/interface/ISlider
  * @author Колесов В.А.
  */
 
 /*
  * A library of controls that allow you to edit a number or range by moving the slider.
  * @library Controls/slider
- * @includes ISlider Controls/_slider/interface/ISlider
- * @includes Base Controls/_slider/Base
- * @includes Range Controls/_slider/Range
  * @author Колесов В.А.
  */ 
 

@@ -11,7 +11,9 @@
  * @public
  * @author Авраменко А.С.
  */
-
+export default interface IClickableView {
+    readonly '[Controls/_list/interface/IClickableView]': boolean;
+}
 /**
  * @event Происходит при клике на элемент списка.
  * @name Controls/_list/interface/IClickableView#itemClick

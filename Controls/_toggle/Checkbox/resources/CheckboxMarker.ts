@@ -9,7 +9,7 @@ export interface ICheckboxMarkerOptions extends IControlOptions {
  * Контрол, отображающий элемент контрола "чекбокс" - галочку
  * @remark
  * Контрол служит только для отображения галочки, он не реагирует на какие-либо события и сам не стреляет событиями
- * @class Controls/_toggle/CheckboxMarker
+ * @class Controls/_toggle/Checkbox/resources/CheckboxMarker
  * @extends Core/Control
  * 
  * @public
@@ -23,7 +23,7 @@ class CheckboxMarker extends Control<ICheckboxMarkerOptions> {
 }
 
 /**
- * @name Controls/_toggle/CheckboxMarker#triState
+ * @name Controls/_toggle/Checkbox/resources/CheckboxMarker#triState
  * @cfg {Boolean} Определяет, разрешено ли устанавливать чекбоксу третье состояние — "не определен" (null).
  * @default False
  * @remark
@@ -33,7 +33,7 @@ class CheckboxMarker extends Control<ICheckboxMarkerOptions> {
  * Если установлен режим triState, то значение {@link value} может быть "null".
  */
 /**
- * @name Controls/_toggle/CheckboxMarker#value
+ * @name Controls/_toggle/Checkbox/resources/CheckboxMarker#value
  * @cfg {Boolean|null} Значение, которое определяет текущее состояние.
  * @default False
  * @remark

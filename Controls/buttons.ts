@@ -1,10 +1,6 @@
 /**
  * Библиотека контролов, отвечающих за отображение разных вариантов кнопок. Также библиотека содержит публичные интерфейсы, необходимые для работы кнопок.
  * @library Controls/buttons
- * @includes Button Controls/_buttons/Button
- * @includes ArrowButton Controls/_buttons/ArrowButton
- * @includes IClick Controls/_buttons/interface/IClick
- * @includes IButton Controls/_buttons/interface/IButton
  * @author Красильников А.С.
  */
 

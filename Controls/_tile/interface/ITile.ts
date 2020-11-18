@@ -14,6 +14,10 @@
  * @author Авраменко А.С.
  */
 
+export default interface ITile {
+    readonly '[Controls/_tile/interface/ITile]': boolean;
+}
+
 /**
  * @name Controls/_tile/interface/ITile#tileHeight
  * @cfg {Number} Высота элементов, отображаемых в виде плитки.

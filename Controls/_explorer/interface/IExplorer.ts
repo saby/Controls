@@ -14,6 +14,10 @@
  * @author Авраменко А.С.
  */
 
+export default interface IExplorer {
+    readonly '[Controls/_explorer/interface/IExplorer]': boolean;
+}
+
 /**
  * @typedef {String} ExplorerViewMode
  * @variant table Таблица.

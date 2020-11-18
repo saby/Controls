@@ -1,11 +1,6 @@
 /**
  * Библиотека контролов, которые служат для отображения данных с возможностью редактирования.
  * @library Controls/editableArea
- * @includes View Controls/_editableArea/View
- * @includes Base Controls/_editableArea/Templates/Editors/Base
- * @includes DateTime Controls/_editableArea/Templates/Editors/DateTime
- * @includes Buttons Controls/_editableArea/Templates/Buttons
- * @includes IView Controls/_editableArea/interface/IView
  * @public
  * @author Крайнов Д.О.
  */
@@ -13,9 +8,6 @@
 /*
  * editableArea library
  * @library Controls/editableArea
- * @includes View Controls/_editableArea/View
- * @includes Base Controls/_editableArea/Templates/Editors/Base
- * @includes DateTime Controls/_editableArea/Templates/Editors/DateTime
  * @public
  * @author Крайнов Д.О.
  */

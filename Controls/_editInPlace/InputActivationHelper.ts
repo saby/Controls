@@ -17,6 +17,7 @@ const typographyStyles = [
  * Интерфейс опций контроллера редактирования по месту.
  * @interface Controls/_editInPlace/InputActivationHelper
  * @author Родионов Е.А.
+ * @public
  */
 
 export class InputActivationHelper {

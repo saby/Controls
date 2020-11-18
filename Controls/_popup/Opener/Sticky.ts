@@ -26,8 +26,8 @@ interface IStickyOpenerOptions extends IStickyPopupOptions, IBaseOpenerOptions {
  *
  * @class Controls/_popup/Opener/Sticky
  * @extends Controls/_popup/Opener/BaseOpener
- * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/ISticky
+ * @mixes Controls/_popup/interface/IBasePopupOptions
+ * @mixes Controls/_popup/interface/IStickyPopupOptions
  *
  * @author Красильников А.С.
  * @demo Controls-demo/Popup/Opener/StickyPG

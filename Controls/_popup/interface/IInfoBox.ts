@@ -3,7 +3,7 @@ import {IControlOptions} from 'UI/Base';
 /**
  * Интерфейс для опций всплывающих подсказок.
  *
- * @interface Controls/_popup/interface/IInfoBox
+ * @interface Controls/_popup/interface/IInfoBoxOptions
  * @public
  * @author Красильников А.С.
  */
@@ -27,14 +27,14 @@ export interface IInfoBox {
 
 /**
  * Метод открытия всплывающей подсказки.
- * @function Controls/_popup/interface/IInfoBox#open
+ * @function Controls/_popup/interface/IInfoBoxOptions#open
  * @param {PopupOptions} popupOptions Опции всплывающей подсказки.
  * @see close
  */
 
 /*
  * Open InfoBox
- * @function Controls/_popup/interface/IInfoBox#open
+ * @function Controls/_popup/interface/IInfoBoxOptions#open
  * @param {PopupOptions} popupOptions InfoBox popup options.
  */
 
@@ -69,17 +69,17 @@ export interface IInfoBox {
 
 /**
  * Метод закрытия всплывающей подсказки
- * @function Controls/_popup/interface/IInfoBox#close
+ * @function Controls/_popup/interface/IInfoBoxOptions#close
  * @see open
  */
 
 /*
  * Сlose InfoBox
- * @function Controls/_popup/interface/IInfoBox#close
+ * @function Controls/_popup/interface/IInfoBoxOptions#close
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#targetSide
+ * @name Controls/_popup/interface/IInfoBoxOptions#targetSide
  * @cfg {String} Сторона таргета, относительно которой будет позиционнироваться всплывающая подсказка.
  * @variant top Подсказка позиционируется сверху от таргета
  * @variant bottom Подсказка позиционируется снизу от таргета
@@ -89,7 +89,7 @@ export interface IInfoBox {
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#targetSide
+ * @name Controls/_popup/interface/IInfoBoxOptions#targetSide
  * @cfg {String} Side positioning of the target relative to infobox.
  * Popup displayed on the top of the target.
  * @variant top Popup displayed on the top of the target.
@@ -100,7 +100,7 @@ export interface IInfoBox {
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#alignment
+ * @name Controls/_popup/interface/IInfoBoxOptions#alignment
  * @cfg {String} Выравнивание всплывающей подсказки относительно вызывающего её элемента.
  * @variant start Подсказка выравнивается от начала главной оси.
  * @variant center Подсказка выравнивается по центру главной оси.
@@ -109,7 +109,7 @@ export interface IInfoBox {
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#alignment
+ * @name Controls/_popup/interface/IInfoBoxOptions#alignment
  * @cfg {String} Alignment of the infobox relative to target
  * Popup aligned by start of the target.
  * @variant start Popup aligned by start of the target.
@@ -119,63 +119,63 @@ export interface IInfoBox {
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#hideDelay
+ * @name Controls/_popup/interface/IInfoBoxOptions#hideDelay
  * @cfg {Number} Определяет задержку перед началом закрытия всплывающей подсказки.
  * Значение задаётся в миллисекундах.
  * @default 300
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#hideDelay
+ * @name Controls/_popup/interface/IInfoBoxOptions#hideDelay
  * @cfg {Number} Delay before closing after mouse leaves. (measured in milliseconds)
  * @default 300
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#showDelay
+ * @name Controls/_popup/interface/IInfoBoxOptions#showDelay
  * @cfg {Number} Определяет задержку перед началом открытия всплывающей подсказки.
  * Значение задаётся в миллисекундах.
  * @default 300
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#showDelay
+ * @name Controls/_popup/interface/IInfoBoxOptions#showDelay
  * @cfg {Number} Delay before opening after mouse enters.(measured in milliseconds)
  * @default 300
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#content
+ * @name Controls/_popup/interface/IInfoBoxOptions#content
  * @cfg {function|String} Элемент управления, к которому добавляется логика открытия и закрытия всплывающей подсказки.
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#content
+ * @name Controls/_popup/interface/IInfoBoxOptions#content
  * @cfg {function|String} The content to which the logic of opening and closing the template is added.
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#template
+ * @name Controls/_popup/interface/IInfoBoxOptions#template
  * @cfg {function|String} Шаблон всплывающей подсказки
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#template
+ * @name Controls/_popup/interface/IInfoBoxOptions#template
  * @cfg {function|String} Popup template.
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#templateOptions
+ * @name Controls/_popup/interface/IInfoBoxOptions#templateOptions
  * @cfg {Object} Опции для контрола, переданного в {@link template}
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#templateOptions
+ * @name Controls/_popup/interface/IInfoBoxOptions#templateOptions
  * @cfg {Object} Popup template options.
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#trigger
+ * @name Controls/_popup/interface/IInfoBoxOptions#trigger
  * @cfg {String} Определяет, какое событие будет иницировать открытие и закрытие всплывающей подсказки.
  * @variant click Открывается по клику на контент. Закрывается по клику вне контента или шаблона.
  * @variant hover Открывается по наведению мыши на контент. Закрывается по уходу мыши с шаблона и контента. Открытие игнорируется на тач - устройствах.
@@ -185,7 +185,7 @@ export interface IInfoBox {
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#trigger
+ * @name Controls/_popup/interface/IInfoBoxOptions#trigger
  * @cfg {String} Event name trigger the opening or closing of the template.
  * @variant click Opening by click on the content. Closing by click not on the content or template.
  * @variant hover Opening by hover on the content. Closing by hover not on the content or template.
@@ -196,19 +196,19 @@ export interface IInfoBox {
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#floatCloseButton
+ * @name Controls/_popup/interface/IInfoBoxOptions#floatCloseButton
  * @cfg {Boolean} Определяет, будет ли контент обтекать кнопку закрытия.
  * @default false
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#floatCloseButton
+ * @name Controls/_popup/interface/IInfoBoxOptions#floatCloseButton
  * @cfg {Boolean} Whether the content should wrap around the cross closure.
  * @default false
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBox#style
+ * @name Controls/_popup/interface/IInfoBoxOptions#style
  * @cfg {String} Внешний вид всплывающей подсказки.
  * @variant default
  * @variant danger
@@ -221,7 +221,7 @@ export interface IInfoBox {
  */
 
 /*
- * @name Controls/_popup/interface/IInfoBox#style
+ * @name Controls/_popup/interface/IInfoBoxOptions#style
  * @cfg {String} Infobox display style.
  * @variant default
  * @variant danger

@@ -1,6 +1,6 @@
 /**
  * Шаблон отображения для шапки меню.
- * @class Controls/dropdown:HeaderTemplate
+ * @class Controls/_dropdown/interface/HeaderTemplate
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_interface/IIcon
  * @mixes Controls/_dropdown/interface/IIconSize

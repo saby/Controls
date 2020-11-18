@@ -4,7 +4,7 @@ import {Control} from 'UI/Base';
 /**
  * Интерфейс для опций стики окон
  *
- * @interface Controls/_popup/interface/ISticky
+ * @interface Controls/_popup/interface/IStickyPopupOptions
  * @public
  * @author Красильников А.С.
  */
@@ -61,13 +61,13 @@ export interface IStickyOpener extends IOpener {
  * @property {Node|Control} target Элемент (DOM-элемент или контрол), относительно которого позиционируется всплывающее окно.
  * @property {Node} opener Логический инициатор открытия всплывающего окна
  * @property {fittingMode} fittingMode Определеяет поведение окна, в случае, если оно не помещается на экране с заданным позиционнированием.
- * @property {Controls/_popup/interface/IStickyOpener.typedef} eventHandlers Функции обратного вызова на события всплывающего окна.
+ * @property {Controls/_popup/interface/IStickyPopupOptionsOpener.typedef} eventHandlers Функции обратного вызова на события всплывающего окна.
  */
 
 /*
  * Open sticky popup.
  * If you call this method while the window is already opened, it will cause the redrawing of the window.
- * @function Controls/_popup/interface/IStickyOpener#open
+ * @function Controls/_popup/interface/IStickyPopupOptionsOpener#open
  * @param {PopupOptions} popupOptions Sticky popup options.
  * @remark {@link https://wi.sbis.ru/docs/js/Controls/interface/IStickyOptions#popupOptions popupOptions}
  */
@@ -75,7 +75,7 @@ export interface IStickyOpener extends IOpener {
 /**
  * Метод открытия диалогового окна.
  * Повторный вызов этого метода инициирует перерисовку окна с новыми опциями.
- * @function Controls/_popup/interface/IStickyOpener#open
+ * @function Controls/_popup/interface/IStickyPopupOptionsOpener#open
  * @param {PopupOptions} popupOptions Конфигурация прилипающего блока {@link https://wi.sbis.ru/docs/js/Controls/interface/IStickyOptions#popupOptions popupOptions}
  * @remark Если требуется открыть окно, без создания popup:Sticky в верстке, следует использовать статический метод {@link openPopup}
  * @example
@@ -119,40 +119,40 @@ export interface IStickyOpener extends IOpener {
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#minWidth
+ * @name Controls/_popup/interface/IStickyPopupOptions#minWidth
  * @cfg {Number} Минимальная ширина всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#maxWidth
+ * @name Controls/_popup/interface/IStickyPopupOptions#maxWidth
  * @cfg {Number} Максимальная ширина всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#minHeight
+ * @name Controls/_popup/interface/IStickyPopupOptions#minHeight
  * @cfg {Number} Минимальная высота всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#maxHeight
+ * @name Controls/_popup/interface/IStickyPopupOptions#maxHeight
  * @cfg {Number} Максимальная высота всплывающего окна
  */
 /**
- * @name Controls/_popup/interface/ISticky#height
+ * @name Controls/_popup/interface/IStickyPopupOptions#height
  * @cfg {Number} Текущая высота всплывающего окна
  */
 /**
- * @name Controls/_popup/interface/ISticky#width
+ * @name Controls/_popup/interface/IStickyPopupOptions#width
  * @cfg {Number} Текущая ширина всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#target
+ * @name Controls/_popup/interface/IStickyPopupOptions#target
  * @cfg {Node|Control} Элемент (DOM-элемент или контрол), относительно которого позиционируется всплывающее окно.
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#actionOnScroll
+ * @name Controls/_popup/interface/IStickyPopupOptions#actionOnScroll
  * @cfg {String} Определяет реакцию всплывающего окна на скролл родительской области
  * @variant close Всплывающее окно закрывается
  * @variant track  Всплывающее окно движется вместе со своей точкой позиционнирования.
@@ -162,7 +162,7 @@ export interface IStickyOpener extends IOpener {
  */
 
 /*
- * @name Controls/_popup/interface/ISticky#actionOnScroll
+ * @name Controls/_popup/interface/IStickyPopupOptions#actionOnScroll
  * @cfg {String} Determines the popup action on scroll.
  * @variant close
  * @variant track
@@ -171,12 +171,12 @@ export interface IStickyOpener extends IOpener {
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#targetPoint
+ * @name Controls/_popup/interface/IStickyPopupOptions#targetPoint
  * @cfg {direction} Точка позиционнирования всплывающего окна относительно вызывающего элемента.
  */
 
 /*
- * @name Controls/_popup/interface/ISticky#targetPoint
+ * @name Controls/_popup/interface/IStickyPopupOptions#targetPoint
  * @cfg {direction} Point positioning of the target relative to sticky.
  */
 
@@ -201,22 +201,22 @@ export interface IStickyOpener extends IOpener {
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#direction
+ * @name Controls/_popup/interface/IStickyPopupOptions#direction
  * @cfg {direction} Устанавливает выравнивание всплывающего окна относительно точки позиционнирования.
  */
 
 /*
- * @name Controls/_popup/interface/ISticky#direction
+ * @name Controls/_popup/interface/IStickyPopupOptions#direction
  * @cfg {direction} Sets the alignment of the popup.
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#offset
+ * @name Controls/_popup/interface/IStickyPopupOptions#offset
  * @cfg {offset} Устанавливает отступы от точки позиционнирования до всплывающего окна
  */
 
 /*
- * @name Controls/_popup/interface/ISticky#offset
+ * @name Controls/_popup/interface/IStickyPopupOptions#offset
  * @cfg {offset} Sets the offset of the targetPoint.
  */
 
@@ -227,7 +227,7 @@ export interface IStickyOpener extends IOpener {
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#fittingMode
+ * @name Controls/_popup/interface/IStickyPopupOptions#fittingMode
  * @cfg {fittingMode} Определеяет поведение окна, в случае, если оно не помещается на экране с заданным позиционированием.
  */
 

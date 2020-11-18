@@ -20,29 +20,16 @@ const MORE_BUTTON_TEXT = rk('Ещё...');
 interface IReceivedState {
     items: RecordSet<object>;
 }
-export interface ITabsAdaptiveButtonsOptions extends ITabsButtonsOptions {
-    align?: string;
-    containerWidth: number;
-}
-
 /**
  * Интерфейс для опций контрола адаптивных вкладок.
  * @interface Controls/_tabs/ITabsAdaptiveButtonsOptions
  * @public
  * @author Красильников А.С.
  */
-/**
- * @name Controls/_tabs/ITabsAdaptiveButtonsOptions#align
- * @cfg {String} Выравнивание вкладок по правому или левому краю.
- * @variant left Вкладки выравниваются по левому краю.
- * @variant right Вкладки выравниваются по правому краю.
- * @default right
- */
-
-/**
- * @name Controls/_tabs/ITabsAdaptiveButtonsOptions#containerWidth
- * @cfg {Number} Ширина контейнера вкладок. Необходимо указывать для правильного расчета ширины вкладок.
- */
+export interface ITabsAdaptiveButtonsOptions extends ITabsButtonsOptions {
+    align?: string;
+    containerWidth: number;
+}
 
 /**
  * Контрол предоставляет пользователю возможность выбрать между двумя или более адаптивными под ширину вкладками.
@@ -300,3 +287,15 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
 }
 
 export default AdaptiveButtons;
+/**
+ * @name Controls/_tabs/ITabsAdaptiveButtonsOptions#align
+ * @cfg {String} Выравнивание вкладок по правому или левому краю.
+ * @variant left Вкладки выравниваются по левому краю.
+ * @variant right Вкладки выравниваются по правому краю.
+ * @default right
+ */
+
+/**
+ * @name Controls/_tabs/ITabsAdaptiveButtonsOptions#containerWidth
+ * @cfg {Number} Ширина контейнера вкладок. Необходимо указывать для правильного расчета ширины вкладок.
+ */

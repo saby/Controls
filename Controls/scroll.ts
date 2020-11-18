@@ -1,13 +1,6 @@
 /**
  * Библиотека контролов, которые позволяют организовать скроллирование областей. Содержит контейнер для скроллирования и механизм фиксации заголовков.
  * @library Controls/scroll
- * @includes Container Controls/_scroll/Container
- * @includes StickyHeader Controls/_scroll/StickyHeader
- * @includes HotKeysContainer Controls/_scroll/HotKeysContainer
- * @includes IntersectionObserverController Controls/_scroll/IntersectionObserver/Controller
- * @includes IntersectionObserverContainer Controls/_scroll/IntersectionObserver/Container
- * @includes Group Controls/_scroll/StickyHeader/Group
- * @includes IScrollbars Controls/_scroll/Container/Interface/IScrollbars
  * @public
  * @author Крайнов Д.О.
  */
@@ -15,13 +8,6 @@
 /*
  * Search library
  * @library Controls/scroll
- * @includes Container Controls/_scroll/Container
- * @includes StickyHeader Controls/_scroll/StickyHeader
- * @includes HotKeysContainer Controls/_scroll/HotKeysContainer
- * @includes IntersectionObserverController Controls/_scroll/IntersectionObserver/Controller
- * @includes IntersectionObserverContainer Controls/_scroll/IntersectionObserver/Container
- * @includes Group Controls/_scroll/StickyHeader/Group
- * @includes IScrollbars Controls/_scroll/Container/Interface/IScrollbars
  * @public
  * @author Крайнов Д.О.
  */

@@ -1,35 +1,6 @@
 /**
  * Библиотека контролов, которые служат для ввода значений различного типа. Примеры типов: строка, число, дата, телефон и т.д.
  * @library Controls/input
- * @includes Base Controls/_input/Base
- * @includes Area Controls/_input/Area
- * @includes Number Controls/_input/Number
- * @includes Text Controls/_input/Text
- * @includes Label Controls/_input/Label
- * @includes Mask Controls/_input/Mask
- * @includes Phone Controls/_input/Phone
- * @includes Password Controls/_input/Password
- * @includes DateBase Controls/_input/DateTime
- * @includes Date Controls/_input/Date/Picker
- * @includes DateTimeModel Controls/_input/DateTime/Model
- * @includes TimeInterval Controls/_input/TimeInterval
- * @includes Money Controls/_input/Money
- * @includes AdapterMask Controls/_input/Adapter/Mask
- * @includes INewLineKey Controls/_input/interface/INewLineKey
- * @includes IText Controls/_input/interface/IText
- * @includes INumberLength Controls/_input/interface/INumberLength
- * @includes IBase Controls/_input/interface/IBase
- * @includes ITag Controls/_input/interface/ITag
- * @includes IValueOptions Controls/_input/interface/IValueOptions
- * @includes IDateTimeMask Controls/_input/interface/IDateTimeMask
- * @includes InputCallback Controls/input/InputCallback
- * @includes IFieldData Controls/_input/interface/IFieldData
- * @includes ICallbackData Controls/_input/interface/ICallbackData
- * @includes isMaskFormatValid Controls/_input/Mask/isFormatValid
- * @includes IBorderVisibility Controls/_input/interface/IBorderVisibility
- * @includes IPadding Controls/_input/interface/IPadding
- * @includes ISelection Controls/_input/resources/Types:ISelection
- * @includes IAreaOptions Controls/_input/interface/IAreaOptions
  * @public
  * @author Крайнов Д.О.
  */
@@ -37,28 +8,6 @@
 /*
  * List library
  * @library Controls/input
- * @includes Base Controls/_input/Base
- * @includes Area Controls/_input/Area
- * @includes Number Controls/_input/Number
- * @includes Text Controls/_input/Text
- * @includes Label Controls/_input/Label
- * @includes Mask Controls/_input/Mask
- * @includes Phone Controls/_input/Phone
- * @includes Password Controls/_input/Password
- * @includes DateBase Controls/_input/DateTime
- * @includes Date Controls/_input/Date/Picker
- * @includes DateTimeModel Controls/_input/DateTime/Model
- * @includes TimeInterval Controls/_input/TimeInterval
- * @includes Money Controls/_input/Money
- * @includes INewLineKey Controls/_input/interface/INewLineKey
- * @includes IText Controls/_input/interface/IText
- * @includes IBase Controls/_input/interface/IBase
- * @includes ITag Controls/_input/interface/ITag
- * @includes IValueOptions Controls/_input/interface/IValueOptions
- * @includes IDateTimeMask Controls/_input/interface/IDateTimeMask
- * @includes IFieldData Controls/_input/interface/IFieldData
- * @includes ICallbackData Controls/_input/interface/ICallbackData
- * @includes IAreaOptions Controls/_input/interface/IAreaOptions
  * @public
  * @author Крайнов Д.О.
  */
@@ -108,6 +57,8 @@ export {default as NewBaseViewModel} from './_input/BaseViewModel';
 
 export {default as Area} from './_input/Area';
 export {IAreaOptions} from './_input/interface/IArea';
+export {default as DateTimeModel} from './_input/DateTime/Model';
+export {default as ISelection} from './_input/interface/ISelection';
 
 /**
  * ПРИВАТНЫЕ МОДУЛИ.

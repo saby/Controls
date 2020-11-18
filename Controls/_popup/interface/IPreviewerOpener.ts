@@ -4,7 +4,7 @@ import { IStickyPopupOptions } from 'Controls/_popup/interface/ISticky';
 /**
  * Интерфейс для опций окна предпросмотра.
  *
- * @interface Controls/_popup/interface/IPreviewerOpener
+ * @interface Controls/_popup/interface/IPreviewerOptionsOpener
  * @private
  * @author Красильников А.С.
  */
