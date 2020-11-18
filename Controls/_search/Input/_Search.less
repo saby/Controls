@@ -221,8 +221,7 @@
 }
 
 .controls-Search__expandable-reset-button_theme-@{themeName} {
-   .icon-size(@icon-size-expandableSearch);
-   color: @reset-button_icon-color_searchInput;
+   color: @reset-button_color-expandableSearch;
    cursor: pointer;
    background: @close-button_icon-background-expandableSearch;
    &::after {
@@ -235,13 +234,20 @@
    }
 }
 
+.controls-Search__expandable-reset-button_theme-@{themeName}:hover {
+   color: @reset-button_color_hover-expandableSearch;
+}
+
+.controls-Search__expandable-reset-button_theme-@{themeName}:active {
+   color: @reset-button_color_active-expandableSearch;
+}
+
 .controls-Search__expandable-button-container_theme-@{themeName} {
    overflow: hidden;
    width: @icon-size-expandableSearch;
 }
 
 .controls-Search__expandable-button_theme-@{themeName} {
-   .icon-size(@icon-size-expandableSearch);
    animation: iconLeftMove 0.3s;
 }
 
