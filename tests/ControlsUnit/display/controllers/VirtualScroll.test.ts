@@ -87,7 +87,34 @@ describe('Controls/_display/controllers/VirtualScroll', () => {
 
             assert.deepEqual(iteratedIndices, [5, 6, 7, 8, 9]);
         });
+        it('iterates over each item once with correct indices with sticked items', () => {
+            const collection = makeCollection();
+
+            VirtualScrollController.setup(collection);
+            VirtualScrollController.setIndices(collection, 5, 10);
+
+            const enumerator = makeEnumerator();
+
+            // 1, 7 и 15 записи застиканы и должны участвовать в обходе.
+            // 7 должна быть только 1 раз.
+            enumerator.getCurrent = () => {
+                if (enumerator._$position === 1 || 
+                    enumerator._$position === 7 || 
+                    enumerator._$position === 15) {
+                    return {
+                        isSticked: () => true
+                    }
+                }
+            }
+            collection.getEnumerator = () => enumerator;
+
+            const iteratedIndices = [];
+            VirtualScrollController.each(collection, (_item, index) => iteratedIndices.push(index));
+
+            assert.deepEqual(iteratedIndices, [1, 5, 6, 7, 8, 9, 15]);
+        });
     });
+    
 
     describe('getStartIndex()', () => {
         it('returns start index', () => {

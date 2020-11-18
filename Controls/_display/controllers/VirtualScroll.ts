@@ -64,7 +64,33 @@ export function each(
     const startIndex = getStartIndex(collection);
     const stopIndex = getStopIndex(collection);
     const enumerator = collection.getEnumerator();
+    const count = collection.getCount();
 
+    let styckyItemBefore = null;
+    let styckyItemAfter = null;
+    enumerator.setPosition(-1);
+    while (enumerator.moveNext() && enumerator.getCurrentIndex() < startIndex) {
+        let current = enumerator.getCurrent() as any;
+        if (current && current.isSticked && current.isSticked()) {
+            styckyItemBefore = { current, index: enumerator.getCurrentIndex() };
+        }
+    }
+    enumerator.setPosition(stopIndex - 1);
+    while (enumerator.moveNext() && enumerator.getCurrentIndex() < count) {
+        let current = enumerator.getCurrent() as any;
+        if (current && current.isSticked && current.isSticked()) {
+            styckyItemAfter = { current, index: enumerator.getCurrentIndex() };
+            break;
+        }
+    }
+
+    if (styckyItemBefore) {
+        callback.call(
+            context,
+            styckyItemBefore.current,
+            styckyItemBefore.index
+        );
+    }
     enumerator.setPosition(startIndex - 1);
 
     while (enumerator.moveNext() && enumerator.getCurrentIndex() < stopIndex) {
@@ -72,6 +98,14 @@ export function each(
             context,
             enumerator.getCurrent(),
             enumerator.getCurrentIndex()
+        );
+    }
+    
+    if (styckyItemAfter) {
+        callback.call(
+            context,
+            styckyItemAfter.current,
+            styckyItemAfter.index
         );
     }
 }

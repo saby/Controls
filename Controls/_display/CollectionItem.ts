@@ -504,8 +504,8 @@ export default class CollectionItem<T> extends mixin<
         return this._$dragged;
     }
 
-    isSticked(style: string = 'default'): boolean {
-        return this.isMarked() && this._isSupportSticky(style);
+    isSticked(): boolean {
+        return this.isMarked() && this._isSupportSticky(this.getOwner().getStyle());
     }
 
     protected _isSupportSticky(style: string = 'default'): boolean {

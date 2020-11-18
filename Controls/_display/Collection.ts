@@ -628,6 +628,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     protected _$markerVisibility: string;
 
     protected _$navigation: INavigationOptionValue;
+    
+    protected _$style: string;
 
     /**
      * @cfg {Boolean} Обеспечивать уникальность элементов (элементы с повторяющимися идентфикаторами будут
@@ -2351,6 +2353,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._$theme;
     }
 
+    getStyle(): string {
+        return this._$style;
+    }
+
     getHoverBackgroundStyle(): string {
         return this._$hoverBackgroundStyle;
     }
@@ -3877,6 +3883,7 @@ Object.assign(Collection.prototype, {
     _$contextMenuConfig: null,
     _$itemActionsProperty: '',
     _$markerVisibility: 'onactivated',
+    _$style: 'default',
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',
     _itemsFactory: null,
