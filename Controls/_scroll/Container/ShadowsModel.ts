@@ -4,6 +4,7 @@ import {POSITION} from './Type';
 import ShadowModel from './ShadowModel';
 import {IShadowsOptions, IShadowsVisibilityByInnerComponents, SHADOW_VISIBILITY} from './Interface/IShadows';
 import {IScrollState} from "../Utils/ScrollState";
+import {Offsets} from "./ScrollbarModel";
 
 
 export default class ShadowsModel extends mixin<VersionableMixin>(VersionableMixin) implements IVersionable {
@@ -31,16 +32,16 @@ export default class ShadowsModel extends mixin<VersionableMixin>(VersionableMix
         }
     }
 
-    updateScrollState(scrollState: IScrollState): void {
+    updateScrollState(scrollState: IScrollState, needUpdate: boolean = true): void {
         for (let shadow of Object.keys(this._models)) {
             const isStateChanged = this._models[shadow].updateScrollState(scrollState);
-            if (isStateChanged) {
+            if (isStateChanged && needUpdate) {
                 this._nextVersion();
             }
         }
     }
 
-    updateVisibilityByInnerComponents(shadowsVisibility: IShadowsVisibilityByInnerComponents): void {
+    updateVisibilityByInnerComponents(shadowsVisibility: IShadowsVisibilityByInnerComponents, needUpdate: boolean = true): void {
         let isChanged: boolean = false;
         for (const shadowPosition of Object.keys(this._models)) {
             const shadowVisibility: SHADOW_VISIBILITY = shadowsVisibility[shadowPosition];
@@ -48,7 +49,7 @@ export default class ShadowsModel extends mixin<VersionableMixin>(VersionableMix
                 isChanged = this._models[shadowPosition].updateVisibilityByInnerComponents(shadowVisibility) || isChanged;
             }
         }
-        if (isChanged) {
+        if (isChanged && needUpdate) {
             this._nextVersion();
         }
     }

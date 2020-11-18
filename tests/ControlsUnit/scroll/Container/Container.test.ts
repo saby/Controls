@@ -340,6 +340,8 @@ describe('Controls/scroll:Container', () => {
     describe('_updateShadowVisibility', () => {
         it('should set always visible', () => {
             const component = createComponent(Container, {});
+            const version: number = component._shadows.getVersion();
+            component._wasMouseEnter = true;
             component._shadows._models.top._scrollState.canVerticalScroll = true;
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
             component._shadows._models.top._isVisible = false;
@@ -350,9 +352,27 @@ describe('Controls/scroll:Container', () => {
             assert.isTrue(component._shadows._models.bottom.isVisible);
             assert.isTrue(component._stickyHeaderController._isShadowVisible.top);
             assert.isTrue(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.notEqual(component._shadows.getVersion(), version);
+        });
+        it('should\'t update version until the mouse has been hover.', () => {
+            const component = createComponent(Container, {});
+            const version: number = component._shadows.getVersion();
+            component._shadows._models.top._scrollState.canVerticalScroll = true;
+            component._shadows._models.bottom._scrollState.canVerticalScroll = true;
+            component._shadows._models.top._isVisible = false;
+            component._shadows._models.bottom._isVisible = false;
+            component._updateShadowVisibility(
+                {}, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
+            assert.isTrue(component._shadows._models.top.isVisible);
+            assert.isTrue(component._shadows._models.bottom.isVisible);
+            assert.isTrue(component._stickyHeaderController._isShadowVisible.top);
+            assert.isTrue(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.strictEqual(component._shadows.getVersion(), version);
         });
         it('should set always invisible', () => {
             const component = createComponent(Container, {});
+            const version: number = component._shadows.getVersion();
+            component._wasMouseEnter = true;
             component._shadows._models.top._scrollState.canVerticalScroll = true;
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
             component._shadows._models.top._scrollState.verticalPosition = SCROLL_POSITION.MIDDLE;
@@ -365,6 +385,7 @@ describe('Controls/scroll:Container', () => {
             assert.isFalse(component._shadows._models.bottom.isVisible);
             assert.isFalse(component._stickyHeaderController._isShadowVisible.top);
             assert.isFalse(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.notEqual(component._shadows.getVersion(), version);
         });
     });
 

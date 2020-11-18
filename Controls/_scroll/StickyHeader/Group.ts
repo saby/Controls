@@ -75,6 +75,10 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 
     private _delayedHeaders: number[] = [];
 
+    // Считаем заголовок инициализированным после того как контроллер установил ему top или bottom.
+    // До этого не синхронизируем дом дерево при изменении состояния.
+    private _initialized: boolean = false;
+
     protected _beforeMount(options: IControlOptions, context): void {
         this._isStickySupport = isStickySupport();
         this._index = getNextId();
@@ -134,6 +138,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     }
 
     private _setOffset(value: number, position: POSITION): void {
+        this._initialized = true;
         for (let id in this._headers) {
             const positionValue: number = this._headers[id][position] + value;
             this._headers[id].inst[position] = positionValue;
@@ -208,7 +213,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
                 bottom: 0
             };
 
-            if (this._options.calculateHeadersOffsets) {
+            if (this._options.calculateHeadersOffsets && this._initialized) {
                 this._updateTopBottom(data);
             } else {
                 data.inst[POSITION.top] = this._offset[POSITION.top];
