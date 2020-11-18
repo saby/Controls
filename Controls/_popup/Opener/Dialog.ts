@@ -26,8 +26,8 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
  *
  * @class Controls/_popup/Opener/Dialog
  * @extends Controls/_popup/Opener/BaseOpener
- * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/IDialog
+ * @mixes Controls/_popup/interface/IBasePopupOptions
+ * @mixes Controls/_popup/interface/IDialogPopupOptions
  * 
  * @author Красильников А.С.
  * @demo Controls-demo/Popup/Opener/StackDemo

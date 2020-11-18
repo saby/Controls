@@ -1,12 +1,12 @@
 /**
  * Шаблон, который по умолчанию используется для отображения месяца в {@link Controls/calendar:MonthView}.
- * @class Controls/calendar:MonthListMonthTemplate
+ * @class Controls/_calendar/interfaces/MonthListMonthTemplate
  * @public
  * @author Красильников А.С.
  */
 
 /**
- * @name Controls/calendar:MonthListMonthTemplate#bodyTemplate
+ * @name Controls/_calendar/interfaces/MonthListMonthTemplate#bodyTemplate
  * @cfg {String|Function} Шаблон отображения месяца
  * @remark
  * В шаблон будет переданы:

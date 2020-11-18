@@ -28,7 +28,7 @@ interface IInfoBoxTouchContext {
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
  * 
  * @class Controls/_popup/InfoBox
- * @mixes Controls/_popup/interface/IInfoBox
+ * @mixes Controls/_popup/interface/IInfoBoxOptions
  *
  * @public
  * @author Красильников А.С.

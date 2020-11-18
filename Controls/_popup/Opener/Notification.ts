@@ -69,8 +69,8 @@ const getCompatibleConfig = (BaseOpenerCompat: any, config: INotificationPopupOp
  * 
  * @class Controls/_popup/Opener/Notification
  * @extends Controls/_popup/Opener/BaseOpener
- * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/INotification
+ * @mixes Controls/_popup/interface/IBasePopupOptions
+ * @mixes Controls/_popup/interface/INotificationPopupOptions
  * 
  * @public
  * @author Красильников А.С.

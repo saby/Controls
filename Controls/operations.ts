@@ -1,13 +1,6 @@
 /**
  * Библиотека контролов, которые служат для организации преобразования данных для нескольких элементов списка.
  * @library Controls/operations
- * @includes Panel Controls/_operations/Panel
- * @includes PanelContainer Controls/_operations/Panel/Container
- * @includes Button Controls/_operations/Button
- * @includes Controller Controls/_operations/Controller
- * @includes SimpleMultiSelector Controls/_operations/__MultiSelector
- * @includes MultiSelectorCheckbox Controls/_operations/MultiSelector/Checkbox
- * @includes MultiSelector Controls/_operations/MultiSelector
  * @public
  * @author Крайнов Д.О.
  */
@@ -15,11 +8,6 @@
 /*
  * operations library
  * @library Controls/operations
- * @includes Panel Controls/_operations/Panel
- * @includes PanelContainer Controls/_operations/Panel/Container
- * @includes Button Controls/_operations/Button
- * @includes Controller Controls/_operations/Controller
- * @includes MultiSelectorCheckbox Controls/_operations/MultiSelector/Checkbox
  * @public
  * @author Крайнов Д.О.
  */

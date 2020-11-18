@@ -37,7 +37,6 @@ export function getDefaultOptions(): IShadowsOptions {
 
 /**
  * Интерфейс для контролов со скролбарами.
- *
  * @interface Controls/_scroll/Container/Interface/IShadows
  * @public
  * @author Миронов А.Ю.
@@ -48,7 +47,7 @@ export interface IShadows {
 }
 
 /**
- * @typedef {String} shadowVisibility
+ * @typedef {String} ShadowVisibility
  * @variant auto Видимость зависит от состояния скролируемой области. Тень отображается только с той стороны
  * в которую можно скролить.
  * контент, то на этой границе отображается тень.
@@ -58,14 +57,14 @@ export interface IShadows {
 
 /**
  * @name Controls/_scroll/Container/Interface/IShadows#topShadowVisibility
- * @cfg {shadowVisibility} Устанавливает режим отображения тени сверху.
+ * @cfg {ShadowVisibility} Устанавливает режим отображения тени сверху.
  * @default auto
  * @demo Controls-demo/Scroll/Container/TopShadowVisibility/Index
  */
 
 /**
  * @name Controls/_scroll/Container/Interface/IShadows#bottomShadowVisibility
- * @cfg {shadowVisibility} Устанавливает режим отображения тени снизу.
+ * @cfg {ShadowVisibility} Устанавливает режим отображения тени снизу.
  * @demo Controls-demo/Scroll/Container/BottomShadowVisibility/Index
  */
 

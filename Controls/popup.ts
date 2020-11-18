@@ -1,31 +1,6 @@
 /**
  * Библиотека контролов, открывающих всплывающие окна. Существуют окна нескольких видов, которые различаются внешним видом и алгоритмом позиционирования.
  * @library Controls/popup
- * @includes Confirmation Controls/_popup/Opener/Confirmation
- * @includes Dialog Controls/_popup/Opener/Dialog
- * @includes Stack Controls/popup:Stack
- * @includes Edit Controls/_popup/Opener/Edit
- * @includes Notification Controls/_popup/Opener/Notification
- * @includes Sticky Controls/_popup/Opener/Sticky
- * @includes InfoboxTarget Controls/_popup/InfoBox
- * @includes PreviewerTarget Controls/_popup/Previewer
- * @includes InfoboxButton Controls/_popup/InfoBox/InfoboxButton
- * @includes EditContainer Controls/_popup/Opener/Edit/Container
- * @includes IStackPopupOptions Controls/_popup/interface/IStack
- * @includes IStickyPopupOptions Controls/_popup/interface/ISticky
- * @includes IDialogPopupOptions Controls/_popup/interface/IDialog
- * @includes IConfirmationOptions Controls/_popup/interface/IConfirmation
- * @includes INotificationPopupOptions Controls/_popup/interface/INotification
- * @includes IEditOpener Controls/_popup/interface/IEdit
- * @includes IBaseOpener Controls/_popup/interface/IBaseOpener
- * @includes IPreviewerOptions Controls/_popup/interface/IPreviewer
- * @includes IInfoBoxOptions Controls/_popup/interface/IInfoBox
- * @includes StickyOpener Controls/_popup/PopupHelper/Sticky
- * @includes StackOpener Controls/_popup/PopupHelper/Stack
- * @includes DialogOpener Controls/_popup/PopupHelper/Dialog
- * @includes NotificationOpener Controls/_popup/PopupHelper/Notification
- * @includes MouseEventHelper Controls/_popup/fastOpenUtils/MouseEventHelper
- * @includes FastOpen Controls/_popup/fastOpenUtils/FastOpen
  * @public
  * @author Крайнов Д.О.
  */
@@ -33,28 +8,6 @@
 /*
  * popup library
  * @library Controls/popup
- * @includes Confirmation Controls/_popup/Opener/Confirmation
- * @includes Dialog Controls/_popup/Opener/Dialog
- * @includes Stack Controls/_popup/Opener/Stack
- * @includes Edit Controls/_popup/Opener/Edit
- * @includes Notification Controls/_popup/Opener/Notification
- * @includes Sticky Controls/_popup/Opener/Sticky
- * @includes InfoboxTarget Controls/_popup/InfoBox
- * @includes PreviewerTarget Controls/_popup/Previewer
- * @includes InfoboxButton Controls/_popup/InfoBox/InfoboxButton
- * @includes EditContainer Controls/_popup/Opener/Edit/Container
- * @includes IStackPopupOptions Controls/_popup/interface/IStack
- * @includes IStickyPopupOptions Controls/_popup/interface/ISticky
- * @includes IStickyPopupOptions Controls/_popup/interface/IDialog
- * @includes IConfirmationOptions Controls/_popup/interface/IConfirmation
- * @includes INotificationPopupOptions Controls/_popup/interface/INotification
- * @includes IEditOpener Controls/_popup/interface/IEdit
- * @includes IBaseOpener Controls/_popup/interface/IBaseOpener
- * @includes IPreviewerOptions Controls/_popup/interface/IPreviewer
- * @includes IInfoBoxOptions Controls/_popup/interface/IInfoBox
- * @includes IInfoBoxPopupOptions Controls/_popup/interface/IInfoBoxOpener
- * @includes MouseEventHelper Controls/_popup/fastOpenUtils/MouseEventHelper
- * @includes FastOpen Controls/_popup/fastOpenUtils/FastOpen
  * @public
  * @author Крайнов Д.О.
  */
@@ -102,6 +55,7 @@ export {INotificationPopupOptions} from './_popup/interface/INotification';
 export {IPreviewerOptions} from './_popup/interface/IPreviewer';
 export {IInfoBoxOptions} from './_popup/interface/IInfoBox';
 export {IInfoBoxPopupOptions} from './_popup/interface/IInfoBoxOpener';
+export {IEditOptions} from './_popup/interface/IEdit';
 
 export {isVDOMTemplate} from './_popup/utils/isVdomTemplate';
 

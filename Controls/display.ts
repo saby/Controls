@@ -1,18 +1,6 @@
 /**
  * Библиотека, которая предоставляет различные виды коллекций.
  * @library Controls/display
- * @includes Abstract Controls/_display/Abstract
- * @includes Collection Controls/_display/Collection
- * @includes Enum Controls/_display/Enum
- * @includes Flags Controls/_display/Flags
- * @includes Ladder Controls/_display/Ladder
- * @includes Search Controls/_display/Search
- * @includes Tree Controls/_display/Tree
- * @includes GroupItem Controls/_display/GroupItem
- * @includes CollectionItem Controls/_display/CollectionItem
- * @includes IBind Controls/_display/IBind
- * @includes TreeChildren Controls/_display/TreeChildren
- * @includes TreeItem Controls/_display/TreeItem
  * @public
  * @author Мальцев А.А.
  */
@@ -20,18 +8,6 @@
 /*
  * Library that provides various views over collections
  * @library Controls/display
- * @includes Abstract Controls/_display/Abstract
- * @includes Collection Controls/_display/Collection
- * @includes Enum Controls/_display/Enum
- * @includes Flags Controls/_display/Flags
- * @includes Ladder Controls/_display/Ladder
- * @includes Search Controls/_display/Search
- * @includes Tree Controls/_display/Tree
- * @includes GroupItem Controls/_display/GroupItem
- * @includes CollectionItem Controls/_display/CollectionItem
- * @includes IBind Controls/_display/IBind
- * @includes TreeChildren Controls/_display/TreeChildren
- * @includes TreeItem Controls/_display/TreeItem
  * @public
  * @author Мальцев А.А.
  */

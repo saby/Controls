@@ -1,7 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют плоский список, отображающийся в виде таблицы.
  * @library Controls/grid
- * @includes View Controls/_grid/Grid
  * @includes ItemTemplate Controls/_grid/interface/ItemTemplate
  * @includes ResultsTemplate Controls/_grid/interface/ResultsTemplate
  * @includes GroupTemplate Controls/_grid/interface/GroupTemplate
@@ -9,14 +8,7 @@
  * @includes LadderWrapper Controls/_grid/interface/LadderWrapper
  * @includes ColumnTemplate Controls/_grid/interface/ColumnTemplate
  * @includes ResultColumnTemplate Controls/_grid/interface/ResultColumnTemplate
- * @includes RowEditor Controls/_grid/interface/RowEditor
  * @includes EditingEmptyTemplate Controls/grid:EditingEmptyTemplate
- * @includes IGridControl Controls/_grid/interface/IGridControl
- * @includes IColumn Controls/_grid/interface/IColumn
- * @includes ITagColumn Controls/_grid/interface/ITagColumn
- * @includes IHeaderCell Controls/_grid/interface/IHeaderCell
- * @includes IPropStorage Controls/_grid/interface/IPropStorage
- * @includes SortingSelector Controls/grid:SortingSelector
  * @public
  * @author Крайнов Д.О.
  */

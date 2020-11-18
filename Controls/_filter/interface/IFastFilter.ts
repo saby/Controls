@@ -12,6 +12,10 @@
  * @author Герасимов А.М.
  */
 
+export default interface IFastFilter {
+    readonly '[Controls/_filter/interface/IFastFilter]': boolean;
+}
+
 /**
  * @typedef {Object} PropertiesFastFilter
  * @property {String} keyProperty Имя свойства, уникально идентифицирующего элемент коллекции.

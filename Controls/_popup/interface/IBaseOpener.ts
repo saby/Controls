@@ -7,7 +7,7 @@ import {ILoadingIndicatorOptions} from 'Controls/LoadingIndicator';
 /**
  * Интерфейс базовых опций опенеров.
  *
- * @interface Controls/_popup/interface/IBaseOpener
+ * @interface Controls/_popup/interface/IBasePopupOptions
  * @public
  * @author Красильников А.С.
  */
@@ -46,20 +46,20 @@ export interface IBaseOpener {
 
 /*  https://online.sbis.ru/opendoc.html?guid=f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
  * Открывает всплывающее окно.
- * @function Controls/_popup/interface/IBaseOpener#open
+ * @function Controls/_popup/interface/IBasePopupOptions#open
  * @param popupOptions Конфигурация всплывающего окна
  * @param controller Контрол-контроллер для всплывающего окна.
  */
 
 /*
  * Opens a popup
- * @function Controls/_popup/interface/IBaseOpener#open
+ * @function Controls/_popup/interface/IBasePopupOptions#open
  * @param popupOptions Popup configuration
  * @param controller Popup Controller
  */
 
 /* https://online.sbis.ru/opendoc.html?guid=f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
- * @name Controls/_popup/interface/IBaseOpener#close
+ * @name Controls/_popup/interface/IBasePopupOptions#close
  * @description Метод вызова закрытия всплывающего окна
  * @function
  * @example
@@ -101,19 +101,19 @@ export interface IBaseOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#isOpened
+ * @name Controls/_popup/interface/IBasePopupOptions#isOpened
  * @description Возвращает информацию о том, открыто ли всплывающее окно.
  * @function
  */
 
 /*
- * @name Controls/_popup/interface/IBaseOpener#isOpened
+ * @name Controls/_popup/interface/IBasePopupOptions#isOpened
  * @description Popup opened status.
  * @function
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#showIndicator
+ * @name Controls/_popup/interface/IBasePopupOptions#showIndicator
  * @cfg {Boolean} Определяет, будет ли показываться индикатор при открытии окна
  * @default true
  */
@@ -124,63 +124,63 @@ export interface IBaseOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#indicatorConfig
+ * @name Controls/_popup/interface/IBasePopupOptions#indicatorConfig
  * @cfg {indicatorConfig} Определяет конфигурацию индикатора загрузки, показываемого при открытии окна
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#autofocus
+ * @name Controls/_popup/interface/IBasePopupOptions#autofocus
  * @cfg {Boolean} Определяет, установится ли фокус на шаблон попапа после его открытия.
  * @default true
  */
 
 /*
- * @name Controls/_popup/interface/IBaseOpener#autofocus
+ * @name Controls/_popup/interface/IBasePopupOptions#autofocus
  * @cfg {Boolean} Determines whether focus is set to the template when popup is opened.
  * @default true
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#modal
+ * @name Controls/_popup/interface/IBasePopupOptions#modal
  * @cfg {Boolean} Определяет, будет ли открываемое окно блокировать работу пользователя с родительским приложением.
  * @default false
  */
 
 /*
- * @name Controls/_popup/interface/IBaseOpener#modal
+ * @name Controls/_popup/interface/IBasePopupOptions#modal
  * @cfg {Boolean} Determines whether the window is modal.
  * @default false
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#className
+ * @name Controls/_popup/interface/IBasePopupOptions#className
  * @cfg {String} Имена классов, которые будут применены к корневой ноде всплывающего окна.
  */
 
 /*
- * @name Controls/_popup/interface/IBaseOpener#className
+ * @name Controls/_popup/interface/IBasePopupOptions#className
  * @cfg {String} Class names of popup.
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#closeOnOutsideClick
+ * @name Controls/_popup/interface/IBasePopupOptions#closeOnOutsideClick
  * @cfg {Boolean} Определяет возможность закрытия всплывающего окна по клику вне.
  * @default false
  */
 
 /*
- * @name Controls/_popup/interface/IBaseOpener#closeOnOutsideClick
+ * @name Controls/_popup/interface/IBasePopupOptions#closeOnOutsideClick
  * @cfg {Boolean} Determines whether possibility of closing the popup when clicking past.
  * @default false
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#template
+ * @name Controls/_popup/interface/IBasePopupOptions#template
  * @cfg {String|Function} Шаблон всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#zIndexCallback
+ * @name Controls/_popup/interface/IBasePopupOptions#zIndexCallback
  * @cfg {Function} Функция, позволяющая высчитать z-index окна вручную.
  * На вход принимает параметры:
  * <b>currentItem</b> - конфигурация текущего окна, для которого высчитывается z-index.
@@ -211,33 +211,33 @@ export interface IBaseOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#topPopup
+ * @name Controls/_popup/interface/IBasePopupOptions#topPopup
  * @cfg {Boolean} Определяет, будет ли окно открываться выше всех окон на странице.
  */
 
 /*
- * @name Controls/_popup/interface/IBaseOpener#template
+ * @name Controls/_popup/interface/IBasePopupOptions#template
  * @cfg {String|Function} Template inside popup.
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#templateOptions
+ * @name Controls/_popup/interface/IBasePopupOptions#templateOptions
  * @cfg {String|Function} Опции для контрола, переданного в {@link template}
  */
 
 /*
- * @name Controls/_popup/interface/IBaseOpener#templateOptions
+ * @name Controls/_popup/interface/IBasePopupOptions#templateOptions
  * @cfg {String|Function} Template options inside popup.
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#opener
+ * @name Controls/_popup/interface/IBasePopupOptions#opener
  * @cfg {Node} Логический инициатор открытия всплывающего окна. Читайте подробнее {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
  */
 
 /**
  * @event Происходит, когда дочерний контрол всплывающего окна инициирует событие 'sendResult'.
- * @name Controls/_popup/interface/IBaseOpener#result
+ * @name Controls/_popup/interface/IBasePopupOptions#result
  * @example
  * В этом примере мы подписываемся на событие 'result' и в его обработчике сохраняем данные с шаблона.
  * <pre>
@@ -270,7 +270,7 @@ export interface IBaseOpener {
 
 /*
  * @event Occurs when child control of popup notify "sendResult" event.
- * @name Controls/_popup/interface/IBaseOpener#result
+ * @name Controls/_popup/interface/IBasePopupOptions#result
  * @example
  * In this example, we subscribe to result event and save user data.
  * <pre>
@@ -303,7 +303,7 @@ export interface IBaseOpener {
 
 /**
  * @event Происходит при открытии всплывающего окна.
- * @name Controls/_popup/interface/IBaseOpener#open
+ * @name Controls/_popup/interface/IBasePopupOptions#open
  * @example
  * В этом примере мы подписываемся на событие 'open' и в его обработчике меняем состояние '_popupOpened'
  * <pre>
@@ -324,7 +324,7 @@ export interface IBaseOpener {
 
 /*
  * @event Occurs when popup is opened.
- * @name Controls/_popup/interface/IBaseOpener#open
+ * @name Controls/_popup/interface/IBasePopupOptions#open
  * @example
  * In this example, we subscribe to open event and change text at input control
  * <pre>
@@ -345,7 +345,7 @@ export interface IBaseOpener {
 
 /**
  * @event Происходит при закрытии всплывающего окна.
- * @name Controls/_popup/interface/IBaseOpener#close
+ * @name Controls/_popup/interface/IBasePopupOptions#close
  * @example
  * В этом примере мы подписываемся на событие 'close' и в его обработчике удаляем элемент из списка.
  * <pre>
@@ -365,7 +365,7 @@ export interface IBaseOpener {
 
 /*
  * @event Occurs when popup is closed.
- * @name Controls/_popup/interface/IBaseOpener#close
+ * @name Controls/_popup/interface/IBasePopupOptions#close
  * @example
  * In this example, we subscribe to close event and remove item at list
  * <pre>
@@ -384,7 +384,7 @@ export interface IBaseOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IBaseOpener#eventHandlers
+ * @name Controls/_popup/interface/IBasePopupOptions#eventHandlers
  * @cfg {EventHandlers[]} Функции обратного вызова на события всплывающего окна.
  * @default {}
  * @remark
@@ -461,7 +461,7 @@ export interface IBaseOpener {
  */
 
 /*
- * @name Controls/_popup/interface/IBaseOpener#eventHandlers
+ * @name Controls/_popup/interface/IBasePopupOptions#eventHandlers
  * @cfg {EventHandlers[]} Callback functions on popup events.
  * @variant onClose Callback function is called when popup is closed.
  * @default {}

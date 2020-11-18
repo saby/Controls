@@ -37,10 +37,7 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
     calculateHeadersOffsets?: boolean;
 }
 /**
- * Allows you to combine sticky headers with the same behavior. It is necessary if you need to make
- * several headers fixed at the same level, which should simultaneously stick and stick out.
- * Behaves like one fixed header.
- *
+ * 
  * @remark
  * Полезные ссылки:
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
@@ -49,6 +46,11 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
  * @class Controls/_scroll/StickyHeader/Group
  * @author Красильников А.С.
  * @public
+ */
+/**
+ * Allows you to combine sticky headers with the same behavior. It is necessary if you need to make
+ * several headers fixed at the same level, which should simultaneously stick and stick out.
+ * Behaves like one fixed header.
  */
 export default class Group extends Control<IStickyHeaderGroupOptions> {
     private _index: number = null;

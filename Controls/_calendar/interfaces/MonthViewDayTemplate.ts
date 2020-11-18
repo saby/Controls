@@ -1,12 +1,12 @@
 /**
  * Шаблон, который по умолчанию используется для отображения дня в {@link Controls/calendar:MonthView}.
- * @class Controls/calendar:MonthViewDayTemplate
+ * @class Controls/_calendar/interfaces/MonthViewDayTemplate
  * @public
  * @author Красильников А.С.
  */
 
 /**
- * @name Controls/calendar:MonthViewDayTemplate#backgroundStyle
+ * @name Controls/_calendar/interfaces/MonthViewDayTemplate#backgroundStyle
  * @cfg {String} Постфикс стиля для настройки фона ячейки.
  * @remark
  * Опция добавляет постфикс к слеудющим классам. (Для примера возьмем backgroundStyle = 'secondary')
@@ -37,7 +37,7 @@
  */
 
 /**
- * @name Controls/calendar:MonthViewDayTemplate#sizeStyle
+ * @name Controls/_calendar/interfaces/MonthViewDayTemplate#sizeStyle
  * @cfg {String} Постфикс стиля для настройки размера ячейки.
  * @remark
  * Опция добавляет постфикс к классау controls-MonthView__item_theme-{theme}_style-secondary
@@ -64,7 +64,7 @@
  */
 
 /**
- * @name Controls/calendar:MonthViewDayTemplate#fontColorStyle
+ * @name Controls/_calendar/interfaces/MonthViewDayTemplate#fontColorStyle
  * @cfg {String} Постфикс стиля для настройки цвета текста ячейки.
  * @remark
  * Опция пдобавляет постфикс к следующим классам. (Для примера возьмем fontColorStyle = 'secondary')
@@ -92,7 +92,7 @@
  * </pre>
  */
 /**
- * @name Controls/calendar:MonthViewDayTemplate#contentTemplate
+ * @name Controls/_calendar/interfaces/MonthViewDayTemplate#contentTemplate
  * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
  * @remark
  * В области видимости шаблона доступен объект value.

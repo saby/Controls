@@ -17,7 +17,7 @@ const CALM_DELAY: number = 300; // During what time should not move the mouse to
  *
  * @extends Core/Control
  * 
- * @mixes Controls/_popup/interface/IPreviewer
+ * @mixes Controls/_popup/interface/IPreviewerOptions
  * @public
  * @author Красильников А.С.
  */

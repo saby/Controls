@@ -12,7 +12,7 @@ interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
 /**
  * Контрол "Разворачиваемый поиск". Является однострочным полем ввода. Контрол используют в реестрах для ввода поискового запроса.
  *
- * @class Controls/_search/Input/ExpandableInput/Search
+ * @class Controls/_search/Input/ExpandableInput/ExpandableInput
  * @extends Core/Control
  * @mixes Controls/_search/Input/Search
  * @public
@@ -57,7 +57,7 @@ export default class ExpandableInput extends Control<IControlOptions> {
    static _theme: string[] = ['Controls/search'];
 }
 /**
- * @name Controls/_search/Input/ExpandableInput/Search#expanded
+ * @name Controls/_search/Input/ExpandableInput/ExpandableInput#expanded
  * @cfg {Boolean} Устанавливает состояние развернутости строки поиска.
  * @variant false Строка поиска свернута.
  * @variant true Строка поиска развернута.
@@ -65,7 +65,7 @@ export default class ExpandableInput extends Control<IControlOptions> {
  */
 
 /**
- * @name Controls/_search/Input/ExpandableInput/Search#inlineWidth
+ * @name Controls/_search/Input/ExpandableInput/ExpandableInput#inlineWidth
  * @cfg {String} Устанавливает значение ширины строки поиска.
  * @variant m Строка поиска средней ширины.
  * @variant l Строка поиска большой ширины.

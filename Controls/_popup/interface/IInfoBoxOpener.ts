@@ -6,7 +6,7 @@ import {List} from 'Types/collection';
 /**
  * Интерфейс для опций всплывающих подсказок.
  *
- * @interface Controls/_popup/interface/IInfoBoxOpener
+ * @interface Controls/_popup/interface/IInfoBoxOptionsOpener
  * @mixes Controls/_interface/IValidationStatus
  * @private
  * @author Красильников А.С.
@@ -52,18 +52,18 @@ export interface IInfoBoxOpener {
 
 /**
  * Close popup.
- * @function Controls/_popup/interface/IInfoBoxOpener#close
+ * @function Controls/_popup/interface/IInfoBoxOptionsOpener#close
  */
 
 /**
- * @name Controls/_popup/interface/IInfoBoxOpener#isOpened
+ * @name Controls/_popup/interface/IInfoBoxOptionsOpener#isOpened
  * @function
  * @description Popup opened status.
  */
 
 /**
  * Open popup.
- * @function Controls/_popup/interface/IInfoBoxOpener#open
+ * @function Controls/_popup/interface/IInfoBoxOptionsOpener#open
  * @param {Object} Config
  * @returns {undefined}
  * @example
@@ -90,7 +90,7 @@ export interface IInfoBoxOpener {
 /**
  * Open InfoBox popup.
  * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ See more}.
- * @function Controls/_popup/interface/IInfoBoxOpener#openPopup
+ * @function Controls/_popup/interface/IInfoBoxOptionsOpener#openPopup
  * @param {Object} config InfoBox options. See {@link Controls/_popup/InfoBox description}.
  * @static
  * @see closePopup
@@ -99,7 +99,7 @@ export interface IInfoBoxOpener {
 /**
  * Close InfoBox popup.
  * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ See more}.
- * @function Controls/_popup/interface/IInfoBoxOpener#closeInfoBox
+ * @function Controls/_popup/interface/IInfoBoxOptionsOpener#closeInfoBox
  * @see openPopup
  * @static
  */

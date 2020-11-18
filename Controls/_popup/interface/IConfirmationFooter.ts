@@ -1,7 +1,7 @@
 /**
  * Интерфейс для опций футера диалога подтверждения.
  *
- * @interface Controls/_popup/interface/IConfirmationFooter
+ * @interface Controls/_popup/interface/IConfirmationOptionsFooter
  * @public
  * @author Красильников А.С.
  */
@@ -20,7 +20,7 @@ export interface IConfirmationFooter {
 }
 
 /**
- * @name Controls/_popup/interface/IConfirmationFooter#type
+ * @name Controls/_popup/interface/IConfirmationOptionsFooter#type
  * @cfg {String} Тип диалогового окна. Определяет с каким результатом будет закрыто окно диалога.
  * @variant ok (Результат: undefined)
  * @variant yesno (Результат: true/false)
@@ -29,7 +29,7 @@ export interface IConfirmationFooter {
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmationFooter#style
+ * @name Controls/_popup/interface/IConfirmationOptionsFooter#style
  * @cfg {String} Внешний вид диалога подтверждения.
  * @variant default
  * @variant success
@@ -38,25 +38,25 @@ export interface IConfirmationFooter {
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmationFooter#yesCaption
+ * @name Controls/_popup/interface/IConfirmationOptionsFooter#yesCaption
  * @cfg {String} Текст кнопки подтверждения.
  * @default Да
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmationFooter#noCaption
+ * @name Controls/_popup/interface/IConfirmationOptionsFooter#noCaption
  * @cfg {String} Текст кнопки отрицания
  * @default Нет
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmationFooter#cancelCaption
+ * @name Controls/_popup/interface/IConfirmationOptionsFooter#cancelCaption
  * @cfg {String} Текст кнопки отмены
  * @default Отмена
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmationFooter#primaryAction
+ * @name Controls/_popup/interface/IConfirmationOptionsFooter#primaryAction
  * @cfg {String} Определяет, какая кнопка будет активирована по нажатию ctrl+enter
  * @variant yes
  * @variant no
@@ -64,7 +64,7 @@ export interface IConfirmationFooter {
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmationFooter#okCaption
+ * @name Controls/_popup/interface/IConfirmationOptionsFooter#okCaption
  * @cfg {String} Текст кнопки "принять"
  * @default ОК
  */
@@ -79,7 +79,7 @@ export interface IConfirmationFooter {
 
 /**
  * @event Происходит при клике по кнопке футера.
- * @name Controls/_popup/interface/IConfirmationFooter#result
+ * @name Controls/_popup/interface/IConfirmationOptionsFooter#result
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события
  * @param {Result} Результат
  */

@@ -3,7 +3,7 @@ import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpene
 /**
  * Интерфейс для опций нотификационных окон.
  *
- * @interface Controls/_popup/interface/INotification
+ * @interface Controls/_popup/interface/INotificationPopupOptions
  * @public
  * @author Красильников А.С.
  */
@@ -17,7 +17,7 @@ export interface INotificationOpener extends IOpener {
 }
 
 /**
- * @name Controls/_popup/interface/INotification#autoClose
+ * @name Controls/_popup/interface/INotificationPopupOptions#autoClose
  * @cfg {Boolean} Автоматически закрывать окно через 5 секунд после открытия.
  * @default true
  */
@@ -35,7 +35,7 @@ export interface INotificationOpener extends IOpener {
  * Метод открытия нотификационного окна.
  * Повторный вызов этого метода вызовет переририсовку контрола.
  * @function
- * @name Controls/_popup/interface/INotification#open
+ * @name Controls/_popup/interface/INotificationPopupOptions#open
  * @param {PopupOptions} popupOptions Конфигурация окна.
  * @remark
  * Чтобы открыть окно без создания в верстке {@link Controls/popup:Notification}, используйте статический метод {@link openPopup}.
@@ -72,7 +72,7 @@ export interface INotificationOpener extends IOpener {
 /**
  * Статический метод для открытия нотификационного окна. При использовании метода не требуется создавать popup:Notification в верстке.
  * @function 
- * @name Controls/_popup/interface/INotification#openPopup
+ * @name Controls/_popup/interface/INotificationPopupOptions#openPopup
  * @param {PopupOptions} config Конфигурация окна.
  * @returns {Promise<string>} Возвращает Promise, который в качестве результата вернет идентификатор окна.
  * Такой идентификатор используют в методе {@link closePopup} для закрытия окна.
@@ -104,7 +104,7 @@ export interface INotificationOpener extends IOpener {
 /**
  * Статический метод для закрытия нотификационного окна по идентификатору.
  * @function
- * @name Controls/_popup/interface/INotification#closePopup
+ * @name Controls/_popup/interface/INotificationPopupOptions#closePopup
  * @param {String} popupId Идентификатор окна. 
  * Такой идентификатор можно получить при открытии окна методом {@link openPopup}.
  * @static

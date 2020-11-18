@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/menu:Control}.
  *
- * @class Controls/menu:ItemTemplate
+ * @class Controls/_menu/interface/ItemTemplate
  * @author Герасимов А.М.
  * @public
  * @see Controls/menu
@@ -26,7 +26,7 @@
 
 export default interface IItemTemplateOptions {
     /**
-     * @name Controls/menu:ItemTemplate#contentTemplate
+     * @name Controls/_menu/interface/ItemTemplate#contentTemplate
      * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
      * @default undefined
      * @demo Controls-demo/Menu/Control/ItemTemplate/ContentTemplate/Index
@@ -89,7 +89,7 @@ export default interface IItemTemplateOptions {
      */
     contentTemplate?: string;
     /**
-     * @name Controls/menu:ItemTemplate#additionalTextTemplate
+     * @name Controls/_menu/interface/ItemTemplate#additionalTextTemplate
      * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
      * @default undefined
      * @demo Controls-demo/Menu/Control/ItemTemplate/AdditionalTextTemplate/Index
@@ -126,7 +126,7 @@ export default interface IItemTemplateOptions {
     additionalTextTemplate?: string;
     multiLine?: boolean;
     /**
-     * @name Controls/menu:ItemTemplate#rightTemplate
+     * @name Controls/_menu/interface/ItemTemplate#rightTemplate
      * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается справа от основного контента элемента и используется для вывода дополнительного действия (комманды).
      * @default undefined
      * @demo Controls-demo/Menu/Control/ItemTemplate/ItemTemplateProperty/RightTemplate/Index

@@ -1,19 +1,7 @@
 /**
  * Библиотека контролов, которые служат для <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/">организации фильтрации в списках</a>.
  * @library Controls/filter
- * @includes Selector Controls/_filter/Button
- * @includes Fast Controls/_filter/Fast
- * @includes View Controls/_filter/View
- * @includes ViewItemTemplate Controls/filter:ItemTemplate
- * @includes ButtonContainer Controls/_filter/Button/Container
- * @includes FastContainer Controls/_filter/Fast/Container
- * @includes ViewContainer Controls/_filter/View/Container
- * @includes Controller Controls/_filter/Controller
- * @includes IFilterItem Controls/_filter/View/interface/IFilterItem
- * @includes IFastFilter Controls/_filter/View/interface/IFastFilter
- * @includes IFilterButton Controls/_filter/View/interface/IFilterButton
- * @includes IPrefetch Controls/_filter/IPrefetch
- * @includes DateRangeEditor Controls/_filter/Editors/DateRange
+ * @includes ViewItemTemplate Controls/_filter/interface/ItemTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -21,20 +9,7 @@
 /*
  * filter library
  * @library Controls/filter
- * @includes Selector Controls/_filter/Button
- * @includes Fast Controls/_filter/Fast
- * @includes View Controls/_filter/View
- * @includes ViewItemTemplate Controls/filter:ItemTemplate
- * @includes ButtonContainer Controls/_filter/Button/Container
- * @includes FastContainer Controls/_filter/Fast/Container
- * @includes ViewContainer Controls/_filter/View/Container
- * @includes Controller Controls/_filter/Controller
- * @includes IFilterItem Controls/_filter/View/interface/IFilterItem
- * @includes IFastFilter Controls/_filter/View/interface/IFastFilter
- * @includes IFilterButton Controls/_filter/View/interface/IFilterButton
- * @includes IPrefetch Controls/_filter/IPrefetch
- * @includes Prefetch Controls/_filter/Prefetch
- * @includes DateRangeEditor Controls/_filter/Editors/DateRange
+ * @includes ViewItemTemplate Controls/_filter/interface/ItemTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -55,6 +30,10 @@ export {default as DateRangeEditor} from './_filter/Editors/DateRange';
 export {default as Prefetch} from 'Controls/_filter/Prefetch';
 export {default as mergeSource} from 'Controls/_filter/Utils/mergeSource';
 export {IFilterItem} from 'Controls/_filter/View/interface/IFilterView';
+
+export {default as IPrefetch} from './_filter/IPrefetch';
+export {default as IFastFilter} from './_filter/interface/IFastFilter';
+export {default as IFilterButton} from './_filter/interface/IFilterButton';
 
 export {
    Selector,

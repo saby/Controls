@@ -9,26 +9,13 @@ import * as template from 'wml!Controls/_spoiler/View/View';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import Util from './Util';
 
+
 /**
  * Интерфейс опций контрола {@link Controls/spoiler:View}.
- *
  * @interface Controls/_spoiler/IViewOptions
  * @public
  * @author Красильников А.С.
  */
-/**
- * @name Controls/_spoiler/IViewOptions#headerContentTemplate
- * @cfg {function|String} Контент, занимающий свободное пространство справа от заголовка. Если заголовка нет, то контент занимает все пространство шапки, в этом случае заголовок можно добавить вручную в любом месте.
- * @demo Controls-demo/Spoiler/Header/Index
- * @demo Controls-demo/Spoiler/HeaderRight/Index
- * @demo Controls-demo/Spoiler/HeadingLeft/Index
- */
-/**
- * @name Controls/_spoiler/IViewOptions#content
- * @cfg {TemplateFunction} Шаблон скрываемой области.
- * @demo Controls-demo/Spoiler/View/Content/Index
- */
-
 export interface IViewOptions extends IHeadingOptions {
     content: TemplateFunction;
     headerContentTemplate?: TemplateFunction;
@@ -110,4 +97,16 @@ export default View;
  * @name Controls/_spoiler/View#headingFontColorStyle
  * @cfg {Enum} Стиль цвета текста и иконки заголовка.
  * @see Controls/spoiler:Heading#fontColorStyle
+ */
+/**
+ * @name Controls/_spoiler/IViewOptions#headerContentTemplate
+ * @cfg {function|String} Контент, занимающий свободное пространство справа от заголовка. Если заголовка нет, то контент занимает все пространство шапки, в этом случае заголовок можно добавить вручную в любом месте.
+ * @demo Controls-demo/Spoiler/Header/Index
+ * @demo Controls-demo/Spoiler/HeaderRight/Index
+ * @demo Controls-demo/Spoiler/HeadingLeft/Index
+ */
+/**
+ * @name Controls/_spoiler/IViewOptions#content
+ * @cfg {TemplateFunction} Шаблон скрываемой области.
+ * @demo Controls-demo/Spoiler/View/Content/Index
  */

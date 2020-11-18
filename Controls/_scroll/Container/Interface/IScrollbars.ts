@@ -11,7 +11,6 @@ export function getDefaultOptions(): IScrollbarsOptions {
 
 /**
  * Интерфейс для контролов со скролбарами.
- *
  * @interface Controls/_scroll/Container/Interface/IScrollbars
  * @public
  * @author Миронов А.Ю.

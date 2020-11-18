@@ -3,7 +3,7 @@
  * @remark
  * Подробнее о работе с выпадающими списками читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/dropdown-menu/ здесь}.
  * @see Controls/_menu/interface/IMenuBase#itemTemplate
- * @class Controls/dropdown:ItemTemplate
+ * @class Controls/_dropdown/interface/ItemTemplate
  * @public
  * @author Герасимов А.М.
  * @example
@@ -40,7 +40,7 @@
  */
 
 /**
- * @name Controls/dropdown:ItemTemplate#displayProperty
+ * @name Controls/_dropdown/interface/ItemTemplate#displayProperty
  * @cfg {String} Устанавливает имя поля элемента, данные которого будут отображены в шаблоне.
  * @remark
  * Опцию не используют, если задан пользовательский шаблон в опции {@link Controls/dropdown:ItemTemplate#contentTemplate contentTemplate}.
@@ -48,7 +48,7 @@
  */
 
 /**
- * @name Controls/dropdown:ItemTemplate#marker
+ * @name Controls/_dropdown/interface/ItemTemplate#marker
  * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
  * @default true
  */
@@ -60,19 +60,19 @@
  */
 
 /**
- * @name Controls/dropdown:ItemTemplate#iconAlign
+ * @name Controls/_dropdown/interface/ItemTemplate#iconAlign
  * @cfg {IconAlign} Устанавливает выравнивание иконки относительно элемента.
  * @default left
  */
 
 /**
- * @name Controls/dropdown:ItemTemplate#multiLine
+ * @name Controls/_dropdown/interface/ItemTemplate#multiLine
  * @cfg {Boolean} Определяет, может ли элемент отображаться в несколько строк.
  * @default false
  */
 
 /**
- * @name Controls/dropdown:ItemTemplate#contentTemplate
+ * @name Controls/_dropdown/interface/ItemTemplate#contentTemplate
  * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, описывающий содержимое элемента.
  * @default undefined
  * @remark
@@ -137,7 +137,7 @@
  */
 
  /**
- * @name Controls/dropdown:ItemTemplate#additionalTextTemplate
+ * @name Controls/_dropdown/interface/ItemTemplate#additionalTextTemplate
  * @cfg {String|Function|undefined} Устанавливает пользовательский шаблон, который отображается под основным контентом элемента и используется для вывода дополнительного текста (комментария).
  * @default undefined
  * @example
