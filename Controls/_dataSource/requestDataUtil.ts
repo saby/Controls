@@ -49,6 +49,7 @@ export interface IRequestDataResult {
    sorting?: SortingObject;
    historyItems?: IHistoryItems;
    collapsedGroups?: string[];
+   error?: Error;
 }
 
 export interface ISourceConfig {
@@ -108,7 +109,7 @@ export default function requestDataUtil(cfg: ISourceConfig): Promise<IRequestDat
       return sourceController.load(filter, sorting).then((data: RecordSet) => {
          return {...result, data};
       }).catch((data: Error) => {
-         return {...result, data};
+         return {...result, data, error: data};
       });
    });
 }
