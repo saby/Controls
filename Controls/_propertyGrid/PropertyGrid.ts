@@ -9,7 +9,7 @@ import {default as renderTemplate} from 'Controls/_propertyGrid/Render';
 import {IPropertyGridOptions} from 'Controls/_propertyGrid/IPropertyGrid';
 import {default as IPropertyGridItem} from './IProperty';
 import {PROPERTY_GROUP_FIELD, PROPERTY_NAME_FIELD, PROPERTY_VALUE_FIELD} from './Constants';
-import {view as constView} from '../Constants';
+import {groupConstants as constView} from '../list';
 import PropertyGridItem from './PropertyGridItem';
 
 /**

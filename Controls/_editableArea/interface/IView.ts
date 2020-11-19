@@ -120,7 +120,7 @@ export interface IView {
  *
  * <pre class="brush: js">
  * // JavaScript
- * define('ModuleName', ['Controls/Constants'], function(constants) {
+ * define('ModuleName', ['Controls/list'], function(constants) {
  *    ...
  *    beforeBeginEditHandler: function(e, options, isAdd) {
  *       if (!isAdd) { // Редактирование разрешено только в определенных ситуациях.
@@ -153,7 +153,7 @@ export interface IView {
  *
  * <pre class="brush: js">
  * // JavaScript
- * define('ModuleName', ['Controls/Constants'], function(constants) {
+ * define('ModuleName', ['Controls/list'], function(constants) {
  *    ...
  *    beforeEndEditHandler: function(e, record, commit) {
  *       //Let's say that we want to allow saving only if the field "text" is not empty (in this example the exact same effect can be achieved through validation mechanism, but sometimes condition is more complicated).

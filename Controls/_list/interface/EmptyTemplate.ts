@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения {@link Controls/list:View плоского списка} без элементов.
  * 
- * @class Controls/list:EmptyTemplate
+ * @class Controls/_list/interface/EmptyTemplate
  * @author Авраменко А.С.
  * @see Controls/list:IList#emptyTemplate
  * @see Controls/list:View
@@ -33,7 +33,7 @@ export default interface IEmptyTemplateOptions {
      */
 
     /**
-     * @name Controls/list:EmptyTemplate#topSpacing
+     * @name Controls/_list/interface/EmptyTemplate#topSpacing
      * @cfg {Spacing|null} Отступ между верхней границей  и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
@@ -42,7 +42,7 @@ export default interface IEmptyTemplateOptions {
      */
     topSpacing?: string;
     /**
-     * @name Controls/list:EmptyTemplate#bottomSpacing
+     * @name Controls/_list/interface/EmptyTemplate#bottomSpacing
      * @cfg {Spacing|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
@@ -51,7 +51,7 @@ export default interface IEmptyTemplateOptions {
      */
     bottomSpacing?: string;
     /**
-     * @name Controls/list:EmptyTemplate#contentTemplate
+     * @name Controls/_list/interface/EmptyTemplate#contentTemplate
      * @cfg {String|Function|undefined} Шаблон, описывающий контент плоского списка без элементов.
      */
     contentTemplate?: string;

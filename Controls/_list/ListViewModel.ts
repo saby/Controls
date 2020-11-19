@@ -47,7 +47,8 @@ const _private = {
         styleProperty: string,
         theme: string,
         multiSelectVisibility: string,
-        rowSeparatorSize: string
+        rowSeparatorSize: string,
+        multiSelectPosition: string
     ): string {
         let classList = '';
         const itemPadding = _private.getItemPadding(itemPaddingProperty);
@@ -58,7 +59,7 @@ const _private = {
         classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${theme}`;
         classList += ` controls-ListView__item-rightPadding_${itemPadding.right}_theme-${theme}`;
 
-        if (multiSelectVisibility !== 'hidden') {
+        if (multiSelectVisibility !== 'hidden' && multiSelectPosition !== 'custom') {
             classList += ' controls-ListView__itemContent_withCheckboxes' + `_theme-${theme}`;
         } else {
             classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase() + `_theme-${theme}`;
@@ -214,7 +215,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.markerVisibility = this._options.markerVisibility;
         itemsModelCurrent.itemTemplateProperty = this._options.itemTemplateProperty;
         itemsModelCurrent.isStickedMasterItem = itemsModelCurrent._isSelected && this._isSupportStickyMarkedItem();
-        itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options.itemPadding, this._options.style, theme, this._options.multiSelectVisibility, this._options.rowSeparatorSize);
+        itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options.itemPadding, this._options.style, theme, this._options.multiSelectVisibility, this._options.rowSeparatorSize, this._options.multiSelectPosition);
         itemsModelCurrent.itemPadding = _private.getItemPadding(this._options.itemPadding);
         itemsModelCurrent.hasMultiSelect = !!this._options.multiSelectVisibility && this._options.multiSelectVisibility !== 'hidden';
         itemsModelCurrent.multiSelectClassList = itemsModelCurrent.hasMultiSelect ?
@@ -227,12 +228,13 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             itemsModelCurrent.virtualScrollConfig = this._isSupportVirtualScroll();
         }
 
-        itemsModelCurrent.getMarkerClasses = (): string => {
+        itemsModelCurrent.getMarkerClasses = (markerClassName = 'default'): string => {
             const style = this._options.style || 'default';
             return `controls-ListView__itemV_marker
                     controls-ListView__itemV_marker_${style}_theme-${theme}
                     controls-ListView__itemV_marker_${style}_topPadding-${itemsModelCurrent.itemPadding.top}_theme-${theme}
-                    controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}_theme-${theme}`;
+                    controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}_theme-${theme}x
+                    controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (itemsModelCurrent.itemPadding.top || 'l') + '_' + markerClassName)}`;
         };
 
         if (itemsModelCurrent.isGroup) {

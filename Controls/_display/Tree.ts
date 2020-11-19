@@ -46,6 +46,7 @@ export interface IOptions<S, T> extends ICollectionOptions<S, T> {
     loadedProperty?: string;
     root?: T | any;
     rootEnumerable?: boolean;
+    hasMoreStorage?: Record<string, boolean>;
 }
 
 /**
@@ -182,6 +183,11 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
      * Соответствие узлов и их потомков
      */
     protected _childrenMap: object = {};
+    /**
+     * Объект, в котором хранится навигация для узлов
+     * @protected
+     */
+    protected _$hasMoreStorage: Record<string, boolean>;
 
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));
@@ -192,6 +198,7 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
         if (this._$childrenProperty) {
             this._setImportantProperty(this._$childrenProperty);
         }
+        this._$hasMoreStorage = options.hasMoreStorage || {};
     }
 
     destroy(): void {
@@ -439,6 +446,15 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
 
         this.setCurrent(children[0]);
         return true;
+    }
+
+    getHasMoreStorage(): Record<string, boolean> {
+        return this._$hasMoreStorage;
+    }
+
+    setHasMoreStorage(storage: Record<string, boolean>): void {
+        this._$hasMoreStorage = storage;
+        this._nextVersion();
     }
 
     // endregion

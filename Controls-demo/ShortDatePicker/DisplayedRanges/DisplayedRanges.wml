@@ -1,15 +1,18 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
         <Controls.shortDatePicker:View
+                startValue="{{_startValue}}"
+                endValue="{{_endValue}}"
                 displayedRanges="{{_displayedRanges}}"
         />
     </div>
     <div class="controlsDemo__cell">
         <Controls.shortDatePicker:View
+                startValue="{{_startValue}}"
+                endValue="{{_endValue}}"
                 chooseHalfyears="{{false}}"
                 chooseMonths="{{false}}"
                 chooseQuarters="{{false}}"
-                startValue="{{_startValue}}"
                 displayedRanges="{{_displayedRanges}}"
         />
     </div>

@@ -24,7 +24,9 @@ export default class GridCheckboxColumn<T> extends GridColumn<T> {
             contentClasses += ' controls-ListView__checkbox-onhover';
         }
         if (this._$owner.isEditing()) {
-            contentClasses += ` controls-Grid__row-cell-background-editing_theme-${theme}`;
+            const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
+            contentClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
+            contentClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
         }
         return contentClasses;
     }

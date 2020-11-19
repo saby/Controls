@@ -23,7 +23,13 @@ import {Logger} from 'UI/Utils';
 
 import {TouchContextField} from 'Controls/context';
 import {error as dataSourceError, NewSourceController as SourceController, ISourceControllerOptions} from 'Controls/dataSource';
-import {INavigationOptionValue, INavigationSourceConfig, IBaseSourceConfig, Direction, ISelectionObject} from 'Controls/interface';
+import {
+    INavigationOptionValue,
+    INavigationSourceConfig,
+    IBaseSourceConfig,
+    Direction,
+    ISelectionObject
+} from 'Controls/interface';
 import { Sticky } from 'Controls/popup';
 
 // Utils imports
@@ -77,8 +83,12 @@ import {
     IFlatSelectionStrategyOptions,
     SelectionController
 } from 'Controls/multiselection';
-import { MarkerController, Visibility as MarkerVisibility} from 'Controls/marker';
-import { DndFlatController, DndTreeController } from 'Controls/listDragNDrop';
+import { MarkerController } from 'Controls/marker';
+import {
+    DndController,
+    FlatStrategy, IDragStrategyParams,
+    TreeStrategy
+} from 'Controls/listDragNDrop';
 
 import BaseControlTpl = require('wml!Controls/_list/BaseControl/BaseControl');
 import 'wml!Controls/_list/BaseControl/Footer';
@@ -90,6 +100,7 @@ import { ItemsEntity } from 'Controls/dragnDrop';
 import {IMoveControllerOptions, MoveController} from './Controllers/MoveController';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
+import {isLeftMouseButton} from 'Controls/popup';
 
 // TODO: getDefaultOptions зовётся при каждой перерисовке,
 //  соответственно если в опции передаётся не примитив, то они каждый раз новые.
@@ -99,6 +110,9 @@ const defaultExcludedKeys = [];
 
 // = 28 + 6 + 6 см controls-BaseControl_paging-Padding_theme TODO не должно такого быть, он в разных темах разный
 const PAGING_PADDING = 40;
+
+// ключ операции удаления записи
+const DELETE_ACTION_KEY = 'delete';
 
 const PAGE_SIZE_ARRAY = [{id: 1, title: '5', pageSize: 5},
     {id: 2, title: '10', pageSize: 10},
@@ -250,6 +264,11 @@ const _private = {
     checkDeprecated(cfg) {
         if (cfg.historyIdCollapsedGroups) {
             Logger.warn('IGrouped: Option "historyIdCollapsedGroups" is deprecated and removed in 19.200. Use option "groupHistoryId".');
+        }
+        if (cfg.navigation &&
+            cfg.navigation.viewConfig &&
+            cfg.navigation.viewConfig.pagingMode === 'direct') {
+            Logger.warn('INavigation: The "direct" value in "pagingMode" was deprecated and removed in 21.1000. Use the value "basic".');
         }
     },
 
@@ -733,9 +752,7 @@ const _private = {
         }
 
         if (itemActions) {
-            // TODO Опция выпилена в 21.1000
-            const deleteActionKey = self._options.task1180208637 ? self._options.task1180208637 : 'delete'
-            const deleteAction = itemActions.all.find((itemAction: IItemAction) => itemAction.id === deleteActionKey);
+            const deleteAction = itemActions.all.find((itemAction: IItemAction) => itemAction.id === DELETE_ACTION_KEY);
             if (deleteAction) {
                 _private.handleItemActionClick(self, deleteAction, event, toggledItem, false);
             }
@@ -882,7 +899,7 @@ const _private = {
             if (self._options.groupProperty) {
                 GroupingController.prepareFilterCollapsedGroups(self._listViewModel.getCollapsedGroups(), filter);
             }
-            return self._sourceController.load(direction, self._options.root).addCallback(function(addedItems) {
+            return self._sourceController.load(direction, self._options.root).addCallback((addedItems) => {
                 // TODO https://online.sbis.ru/news/c467b1aa-21e4-41cc-883b-889ff5c10747
                 // до реализации функционала и проблемы из новости делаем решение по месту:
                 // посчитаем число отображаемых записей до и после добавления, если не поменялось, значит прилетели элементы, попадающие в невидимую группу,
@@ -2821,7 +2838,7 @@ const _private = {
     startDragNDrop(self, domEvent, item): void {
         if (
             !self._options.readOnly && self._options.itemsDragNDrop
-            && DndFlatController.canStartDragNDrop(self._options.canStartDragNDrop, domEvent, self._context?.isTouch?.isTouch)
+            && DndController.canStartDragNDrop(self._options.canStartDragNDrop, domEvent, self._context?.isTouch?.isTouch)
         ) {
             const key = item.getContents().getKey();
 
@@ -2831,7 +2848,7 @@ const _private = {
                 selected: self._options.selectedKeys || [],
                 excluded: self._options.excludedKeys || []
             };
-            selection = DndFlatController.getSelectionForDragNDrop(self._listViewModel, selection, key);
+            selection = DndController.getSelectionForDragNDrop(self._listViewModel, selection, key);
             const recordSet = self._listViewModel.getCollection();
 
             // Ограничиваем получение перемещаемых записей до 100 (максимум в D&D пишется "99+ записей"), в дальнейшем
@@ -2867,12 +2884,15 @@ const _private = {
         }
     },
 
-    createDndListController(self: any, options: any): DndFlatController|DndTreeController {
+    // TODO dnd когда будет наследование TreeControl <- BaseControl, правильно указать тип параметров
+    createDndListController(model: any, options: any): DndController<IDragStrategyParams> {
+        let strategy;
         if (options.parentProperty) {
-            return new DndTreeController(self._listViewModel);
+            strategy = TreeStrategy;
         } else {
-            return new DndFlatController(self._listViewModel);
+            strategy = FlatStrategy;
         }
+        return new DndController(model, strategy);
     },
 
     getPageXY(event): object {
@@ -3221,7 +3241,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         this._loadTriggerVisibility = {};
 
         if (newOptions.sourceController) {
-            this._sourceController = newOptions.sourceController;
+            this._sourceController = newOptions.sourceController as SourceController;
             _private.validateSourceControllerOptions(this, newOptions);
         } else if (newOptions.source) {
             this._sourceController = _private.getSourceController(this, newOptions);
@@ -3771,10 +3791,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 allowClearSelectionBySelectionViewMode) {
                 _private.changeSelection(this, { selected: [], excluded: [] });
             }
-        }
-
-        if (this._dndListController) {
-            this._dndListController.update(this._listViewModel, newOptions.canStartDragNDrop);
         }
 
         if (newOptions.collapsedGroups !== this._options.collapsedGroups) {
@@ -5068,11 +5084,14 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
      * @param itemData
      * @private
      */
-    _onItemActionsClick(
+    _onItemActionMouseDown(
         event: SyntheticEvent<MouseEvent>,
         action: IShownItemAction,
         itemData: CollectionItem<Model>
     ): void {
+        if (!isLeftMouseButton(event)) {
+            return;
+        }
         event.stopPropagation();
         // TODO нужно заменить на item.getContents() при переписывании моделей. item.getContents() должен возвращать
         //  Record https://online.sbis.ru/opendoc.html?guid=acd18e5d-3250-4e5d-87ba-96b937d8df13
@@ -5089,6 +5108,15 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     /**
+     * Обработчик клика по операции, необходимый для предотвращения срабатывания клика на записи в списке
+     * @param event
+     * @private
+     */
+    _onItemActionClick(event: SyntheticEvent<MouseEvent>) {
+        event.stopPropagation();
+    },
+
+    /**
      * Обработчик событий, брошенных через onResult в выпадающем/контекстном меню
      * @param eventName название события, брошенного из Controls/menu:Popup.
      * Варианты значений itemClick, applyClick, selectorDialogOpened, pinClick, menuOpened
@@ -5099,7 +5127,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _onItemActionsMenuResult(eventName: string, actionModel: Model, clickEvent: SyntheticEvent<MouseEvent>): void {
         if (eventName === 'itemClick') {
             const action = actionModel && actionModel.getRawData();
-            if (action && !action['parent@']) {
+            if (action) {
                 const item = _private.getItemActionsController(this, this._options).getActiveItem();
                 _private.handleItemActionClick(this, action, clickEvent, item, true);
             }
@@ -5114,6 +5142,14 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         if (!this._destroyed) {
             _private.closeActionsMenu(this, currentPopup);
         }
+    },
+
+    _handleMenuActionMouseEnter(event: SyntheticEvent): void {
+        _private.getItemActionsController(this, this._options).startMenuDependenciesTimer();
+    },
+
+    _handleMenuActionMouseLeave(event: SyntheticEvent): void {
+        _private.getItemActionsController(this, this._options).stopMenuDependenciesTimer();
     },
 
     _itemMouseDown(event, itemData, domEvent) {
@@ -5288,7 +5324,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             _private.showActions(this);
         }
 
-        if (this._dndListController instanceof DndTreeController && this._dndListController.isDragging()) {
+        // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
+        if (this._dndListController && this._dndListController.isDragging()) {
             this._notify('draggingItemMouseMove', [itemData, nativeEvent]);
         }
     },
@@ -5296,7 +5333,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         this._notify('itemMouseLeave', [itemData.item, nativeEvent]);
         if (this._dndListController) {
             this._unprocessedDragEnteredItem = null;
-            if (this._dndListController instanceof DndTreeController && this._dndListController.isDragging()) {
+
+            // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
+            if (this._dndListController && this._dndListController.isDragging()) {
                 this._notify('draggingItemMouseLeave', [itemData, nativeEvent]);
             }
         }
@@ -5721,7 +5760,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     // region Drag-N-Drop
 
-    getDndListController(): DndFlatController | DndTreeController {
+    getDndListController(): DndController {
         return this._dndListController;
     },
 
@@ -5797,10 +5836,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _dragStart(dragObject, draggedKey): void {
         if (!this._dndListController) {
-            this._dndListController = _private.createDndListController(this, this._options);
+            this._dndListController = _private.createDndListController(this._listViewModel, this._options);
         }
 
-        this._dndListController.startDrag(draggedKey, dragObject.entity);
+        const draggedItem = this._listViewModel.getItemBySourceKey(draggedKey);
+        this._dndListController.startDrag(draggedItem, dragObject.entity);
 
         // Cобытие mouseEnter на записи может сработать до dragStart.
         // И тогда перемещение при наведении не будет обработано.
@@ -5813,10 +5853,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _dragLeave(): void {
         // Это функция срабатывает при перетаскивании скролла, поэтому проверяем _dndListController
-        if (this._dndListController) {
+        if (this._dndListController && this._dndListController.isDragging()) {
             const draggableItem = this._dndListController.getDraggableItem();
             if (draggableItem && this._listViewModel.getItemBySourceKey(draggableItem.getContents().getKey())) {
-                const newPosition = this._dndListController.calculateDragPosition(null);
+                const newPosition = this._dndListController.calculateDragPosition({targetItem: null});
                 this._dndListController.setDragPosition(newPosition);
             } else {
                 // если перетаскиваемого элемента нет в модели, значит мы перетащили элемент в другой список
@@ -5828,7 +5868,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _dragEnter(dragObject): void {
         // если мы утащим в другой список, то в нем нужно создать контроллер
         if (!this._dndListController) {
-            this._dndListController = _private.createDndListController(this, this._options);
+            this._dndListController = _private.createDndListController(this._listViewModel, this._options);
         }
         if (dragObject && cInstance.instanceOfModule(dragObject.entity, 'Controls/dragnDrop:ItemsEntity')) {
             const dragEnterResult = this._notify('dragEnter', [dragObject.entity]);
@@ -5855,7 +5895,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _processItemMouseEnterWithDragNDrop(itemData): void {
         let dragPosition;
         if (this._dndListController.isDragging()) {
-            dragPosition = this._dndListController.calculateDragPosition(this._options.useNewModel ? itemData : itemData.dispItem);
+            const targetItem = this._options.useNewModel ? itemData : itemData.dispItem;
+            dragPosition = this._dndListController.calculateDragPosition({targetItem});
             if (dragPosition) {
                 const changeDragTarget = this._notify('changeDragTarget', [this._dndListController.getDragEntity(), dragPosition.dispItem.getContents(), dragPosition.position]);
                 if (changeDragTarget !== false) {
@@ -5896,6 +5937,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                     _private.changeMarkedKey(this, draggedKey);
                 }
             }
+
+            this._dndListController = null;
         };
 
         // Это функция срабатывает при перетаскивании скролла, поэтому проверяем _dndListController
@@ -5997,7 +6040,8 @@ BaseControl.getDefaultOptions = function() {
         virtualScrollConfig: {},
         filter: {},
         itemActionsVisibility: 'onhover',
-        searchValue: ''
+        searchValue: '',
+        moreFontColorStyle: 'listMore'
     };
 };
 export = BaseControl;

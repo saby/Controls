@@ -1,6 +1,6 @@
 import Control = require('Core/Control');
 import Deferred = require('Core/Deferred');
-import {editing as constEditing} from 'Controls/Constants';
+import {editing as constEditing} from 'Controls/list';
 import template = require('wml!Controls/_editableArea/View');
 import buttonsTemplate = require('Controls/_editableArea/Templates/Buttons');
 import {autoEdit, toolbarVisible, backgroundStyleClass} from './ActualAPI';

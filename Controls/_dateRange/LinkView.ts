@@ -185,4 +185,10 @@ LinkView.getOptionTypes = () => {
    }
 }
 
+/**
+ * @name Controls/_dateRange/LinkView#fontSize
+ * @cfg
+ * @demo Controls-demo/dateRange/LinkView/FontSize/Index
+ */
+
 export default LinkView;

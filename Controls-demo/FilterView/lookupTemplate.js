@@ -25,7 +25,5 @@ define('Controls-demo/FilterView/lookupTemplate',
 
       });
 
-      LookupTemplate._styles = ['Controls-demo/Dropdown/Dropdown'];
-
       return LookupTemplate;
    });

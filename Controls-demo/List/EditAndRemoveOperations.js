@@ -3,7 +3,7 @@ define('Controls-demo/List/EditAndRemoveOperations', [
    'wml!Controls-demo/List/EditAndRemoveOperations/EditAndRemoveOperations',
    'Types/source',
    'Types/entity',
-   'Controls/Constants',
+   'Controls/list',
    'Controls/validate'
 ], function(Control,
             template,

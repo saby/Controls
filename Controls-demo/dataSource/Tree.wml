@@ -11,7 +11,7 @@
       </ws:columns>
       <ws:navigation source="page" view="demand">
          <ws:sourceConfig pageSize="{{2}}" page="{{0}}" hasMore="{{false}}"/>
-         <ws:viewConfig pagingMode="direct"/>
+         <ws:viewConfig pagingMode="basic"/>
       </ws:navigation>
    </Controls.treeGrid:View>
 </div>

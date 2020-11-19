@@ -40,7 +40,7 @@
    background-color: @marker_color_list;
    top: 0;
    z-index: 2;
-   height: 100%;
+   max-height: 100%;
 }
 
 .controls-Grid__header_theme-@{themeName} {
@@ -387,15 +387,17 @@
 
 }
 
-.controls-Grid__row-cell-background-editing_theme-@{themeName} {
-   background-color: @item_editing_background-color_list;
+.controls-Grid__row-cell-editing_theme-@{themeName} {
    > .controls-itemActionsV,
    +.controls-itemActionsV__container > .controls-itemActionsV
    {
       visibility: visible;
       opacity: 1;
    }
+}
 
+.controls-Grid__row-cell-background-editing_default_theme-@{themeName} {
+   background-color: @item_editing_background-color_list;
    /** При редактировании по месту, переопределяем фон содержимого ячейки */
    .controls-Grid__row-cell__content_colspaned,
    .controls-Grid__row-cell__content {
@@ -403,6 +405,7 @@
       z-index: 1;
    }
 }
+
 .controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
    right: @cell_padding-right_default_grid;
 }

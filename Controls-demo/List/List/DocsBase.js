@@ -4,7 +4,7 @@ define('Controls-demo/List/List/DocsBase', [
    'Types/source',
    'Controls-demo/List/List/resources/Navigation/Data',
    'Controls-demo/List/List/resources/DataDemoPG',
-   'Controls/Constants',
+   'Controls/list',
 
    'wml!Controls-demo/List/List/resources/ItemTemplatePG/noHighlightOnHover',
    'wml!Controls-demo/List/List/resources/BasePG/emptyTemplate',
@@ -56,7 +56,7 @@ define('Controls-demo/List/List/DocsBase', [
          },
          _groupByBrand: function(item) {
             if (item.get('brand') === 'apple') {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('brand');
          },

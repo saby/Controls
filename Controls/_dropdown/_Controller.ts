@@ -6,8 +6,7 @@ import IDropdownController, {IDropdownControllerOptions} from 'Controls/_dropdow
 import {getSourceFilter, isHistorySource, getSource, getMetaHistory} from 'Controls/_dropdown/dropdownHistoryUtils';
 import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {isEmptyItem, prepareEmpty} from 'Controls/_dropdown/Util';
-import {error as dataSourceError} from 'Controls/dataSource';
-import {Controller as SourceController} from 'Controls/source';
+import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
 import {descriptor, Model} from 'Types/entity';
@@ -43,6 +42,10 @@ export default class _Controller implements IDropdownController {
    protected _loadItemsTempPromise: Promise<any> = null;
    protected _options: IDropdownControllerOptions = null;
    protected _source: ICrudPlus = null;
+   protected _sourceController: SourceController = null;
+   private _filter: object;
+   private _selectedItems: RecordSet<Model>;
+   private _sticky: StickyOpener;
 
    constructor(options: IDropdownControllerOptions) {
       this._options = options;
@@ -51,31 +54,65 @@ export default class _Controller implements IDropdownController {
 
    loadItems(): Promise<DropdownReceivedState> {
       return new Promise((resolve, reject) => {
-         this._loadItems(this._options)
-            .addCallback((items) => {
-               const beforeMountResult = {};
+         this._loadItems(this._options).then(
+             (items) => {
+                const beforeMountResult = {};
 
-               if (isHistorySource(this._source)) {
-                  beforeMountResult.history = this._source.getHistory();
-                  beforeMountResult.items = this._source.getItems(false);
-               } else {
-                  beforeMountResult.items = items;
-               }
-
-               resolve(beforeMountResult);
-            })
-            .addErrback((error) => {
+                if (isHistorySource(this._source)) {
+                   beforeMountResult.history = this._source.getHistory();
+                   beforeMountResult.items = this._source.getItems(false);
+                } else {
+                   beforeMountResult.items = items;
+                }
+                resolve(beforeMountResult);
+             },
+             (error) => {
                 reject(error);
-            });
+             }
+         );
       });
    }
 
-   setItems(items?: RecordSet): Promise<RecordSet> {
-      return this._getSourceController(this._options).addCallback((sourceController) => {
+   loadSelectedItems(): Promise<DropdownReceivedState> {
+      const filter = {...this._options.filter};
+      filter[this._options.keyProperty] = this._options.selectedKeys;
+      const config = {
+         source: this._options.source,
+         keyProperty: this._options.keyProperty,
+         filter,
+         emptyText: this._options.emptyText,
+         selectedKeys: this._options.selectedKeys,
+         selectedItemsChangedCallback: this._options.selectedItemsChangedCallback
+      };
+      return this._loadItems(config).then((newItems) => {
+         this._selectedItems = newItems;
+         this._setItems(null);
+         return {
+            items: newItems,
+            history: null
+         };
+      });
+   }
+
+   updateSelectedItems(items: RecordSet<Model>): void {
+      if (items) {
+         this._selectedItems = items;
+         this._updateSelectedItems(
+             this._options.emptyText,
+             this._options.selectedKeys,
+             this._options.keyProperty,
+             this._options.selectedItemsChangedCallback,
+             items);
+      }
+   }
+
+   setItems(items?: RecordSet): Promise<SourceController> {
+      return this._getSourceController(this._options).then((sourceController) => {
          this._setItems(items);
          sourceController.calculateState(this._items);
 
-         this._updateSelectedItems(this._options.emptyText, this._options.selectedKeys, this._options.keyProperty, this._options.selectedItemsChangedCallback);
+         this._updateSelectedItems(this._options.emptyText, this._options.selectedKeys,
+             this._options.keyProperty, this._options.selectedItemsChangedCallback);
          if (this._options.dataLoadCallback) {
             this._options.dataLoadCallback(this._items);
          }
@@ -282,10 +319,12 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   private _createSourceController(options) {
+   private _createSourceController(options, filter) {
       if (!this._sourceController) {
          this._sourceController = new SourceController({
             source: this._source,
+            filter,
+            keyProperty: options.keyProperty,
             navigation: options.navigation
          });
       }
@@ -332,23 +371,17 @@ export default class _Controller implements IDropdownController {
       }
       return sourcePromise.then((source) => {
          this._source = source;
-         return this._createSourceController(options);
+         this._filter = this._prepareFilterForQuery(options);
+         return this._createSourceController(options, this._filter);
       });
    }
 
-   private _loadItems(options) {
-      return this._getSourceController(options).then(
-          (sourceController) => {
-             this._filter = this._prepareFilterForQuery(options);
+   private _loadItems(options: IDropdownControllerOptions): Promise<RecordSet|Error> {
+      return this._getSourceController(options).then((sourceController) => {
 
-             return sourceController.load(this._filter).addCallback((items) => {
-                const unloadedKeys = this._getUnloadedSelectedKeys(options.selectedKeys, items);
-                if (options.needLoadSelectedItems && unloadedKeys) {
-                   return this._loadSelectedKeys(options, unloadedKeys, items);
-                } else {
-                  return this._resolveLoadedItems(options, items);
-                }
-             }).addErrback((error) => {
+             return sourceController.load().then((items) => {
+                return this._resolveLoadedItems(options, items);
+             }, (error) => {
                 this._loadError(error);
                 return error;
              });
@@ -359,6 +392,10 @@ export default class _Controller implements IDropdownController {
       if (options.dataLoadCallback) {
          options.dataLoadCallback(items);
       }
+      if (this._selectedItems) {
+         items.prepend(this._getNewItems(items, this._selectedItems, options.keyProperty));
+         this._selectedItems = null;
+      }
       this._setItems(items);
       this._updateSelectedItems(
           options.emptyText,
@@ -366,35 +403,6 @@ export default class _Controller implements IDropdownController {
           options.keyProperty,
           options.selectedItemsChangedCallback);
       return items;
-   }
-
-   private _getUnloadedSelectedKeys(selectedKeys: string[], items: RecordSet<Model>): string[] {
-      const unloadedKeys = [];
-      if (selectedKeys) {
-         selectedKeys.forEach((key) => {
-            if (!items.getRecordById(key)) {
-               unloadedKeys.push(key);
-            }
-         });
-      }
-      return unloadedKeys.length ? unloadedKeys : null;
-   }
-
-   private _loadSelectedKeys(options: IDropdownControllerOptions,
-                             selectedKeys: string[],
-                             items: RecordSet<Model>): Promise<RecordSet> {
-      const filter = {...options.filter};
-      filter[options.keyProperty] = selectedKeys;
-      const config = {
-         source: options.source,
-         keyProperty: options.keyProperty,
-         filter
-      };
-      return this._loadItems(config).then((newItems) => {
-         items.prepend(newItems);
-         this._resolveLoadedItems(options, items);
-         return items;
-      });
    }
 
    private _resetLoadPromises(): void {
@@ -413,11 +421,11 @@ export default class _Controller implements IDropdownController {
       return item;
    }
 
-   private _updateSelectedItems(emptyText, selectedKeys, keyProperty, selectedItemsChangedCallback) {
+   private _updateSelectedItems(emptyText, selectedKeys, keyProperty, selectedItemsChangedCallback, items?) {
       const selectedItems = [];
 
       const addToSelected = (key: string) => {
-         const selectedItem = this._getItemByKey(this._items, key, keyProperty);
+         const selectedItem = this._getItemByKey(items || this._items, key, keyProperty);
 
          if (selectedItem) {
             selectedItems.push(selectedItem);

@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            multiSelectVisibility="onhover"
+            multiSelectPosition="custom"
+            attr:style="display: inline-flex;"
+            bind:selectedKeys="_selectedKeys">
+        <ws:itemPadding/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    <div style="display: flex;">
+                        <ws:partial template="{{ contentTemplate.multiSelectTemplate }}" attr:style="position: absolute; top: 3px; left: 0;"/>
+                        <div style="width: 40px; height: 40px; background-color: #f6f6f6;"></div>
+                        <div style="padding-left: 12px;">{{ contentTemplate.item.contents.get('title') }}</div>
+                    </div>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.list:View>
+</div>

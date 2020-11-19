@@ -1,9 +1,11 @@
 import {ICrudPlus, ICrud} from 'Types/source';
 import {IPopupOptions} from 'Controls/popup';
 import {INavigationOptionValue} from 'Controls/interface';
+
+
 /**
  * Интерфейс для поддержки просмотра и редактирования полей фильтра.
- * @interface Controls/_filter/View/interface/IFilterView
+ * @interface Controls/_filter/View/interface/IFilterItem
  * @public
  * @author Золотова Э.Е.
  */
@@ -14,7 +16,37 @@ import {INavigationOptionValue} from 'Controls/interface';
  * @public
  * @author Золотова Э.Е.
  */
-
+export interface IFilterItem {
+    name: string;
+    id?: string;
+    value: any;
+    resetValue?: any;
+    textValue: string;
+    emptyText?: string;
+    emptyKey?: boolean | string | number;
+    doNotSaveToHistory?: boolean;
+    visibility?: boolean;
+    viewMode?: 'basic' | 'frequent' | 'extended';
+    type?: 'dateRange';
+    editorOptions?: {
+        source?: ICrudPlus | ICrud;
+        keyProperty?: string;
+        displayProperty?: string;
+        minVisibleItems?: number;
+        multiSelect?: boolean;
+        selectorTemplate?: {
+            templateName: string;
+            templateOptions?: Record<string, any>;
+            popupOptions?: IPopupOptions;
+        }
+        itemTemplate?: string;
+        editorMode?: string;
+        filter?: Record<string, any>;
+        navigation?: INavigationOptionValue<any>
+        itemTemplateProperty?: string;
+    };
+    [key: string]: any;
+}
 /**
  * @typedef {Object} EditorOptions
  * @property {String} keyProperty Имя свойства, уникально идентифицирующего элемент коллекции.
@@ -44,8 +76,8 @@ import {INavigationOptionValue} from 'Controls/interface';
  * @property {Types/source:Base} source Object that implements ICrud interface for data access. If 'items' is specified, 'source' will be ignored.
  * @property {Boolean} multiSelect Determines whether multiple selection is set.
  * @property {Controls/interface/ISelectorDialog} selectorTemplate Items selection panel template.
- * @property {Function} itemTemplate Template for item render. For more information, see {@link Controls/interface/IDropdown#itemTemplate}
- * @property {String} itemTemplateProperty Name of the item property that contains template for item render. For more information, see {@link Controls/interface/IDropdown#itemTemplateProperty}
+ * @property {Function} itemTemplate Template for item render. For more information, see {@link Controls/_menu/interface/IMenuBase#itemTemplate}
+ * @property {String} itemTemplateProperty Name of the item property that contains template for item render. For more information, see {@link Controls/_menu/interface/IMenuBase#itemTemplateProperty}
  * @property {Object} filter Filter configuration - object with field names and their values. {@link Controls/_interface/IFilter}
  * @property {Object} navigation List navigation configuration. Configures data source navigation (pages, offset, position) and navigation view (pages, infinite scroll, etc.) {@link Controls/_interface/INavigation}
  * @property {Types/collection:IList} items Special structure for the visual representation of the filter. {@link Types/collection:IList}.
@@ -97,7 +129,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#emptyText
+ * @name Controls/_filter/View/interface/IFilterItem#emptyText
  * @default Все
  * @cfg {String} Текстовое значение, которое будет использовано для отображения рядом с кнопкой, когда во всех фильтрах установлено значение "по-умолчанию"
  * @demo Controls-demo/Filter_new/FilterView/EmptyText/Index
@@ -112,7 +144,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#source
+ * @name Controls/_filter/View/interface/IFilterItem#source
  * @cfg {Array.<FilterItem>} Устанавливает список полей фильтра и их конфигурацию.
  * В числе прочего, по конфигурации определяется визуальное представление поля фильтра в составе контрола.
  * @demo Controls-demo/Filter_new/FilterView/Source/AdditionalTemplateProperty/Index
@@ -161,7 +193,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /*
- * @name Controls/_filter/View/interface/IFilterView#source
+ * @name Controls/_filter/View/interface/IFilterItem#source
  * @cfg {Array.<FilterItem>} Special structure for the visual representation of the filter.
  * @remark
  * The "value" from every item will insert in filter by "name" of this item.
@@ -210,7 +242,7 @@ import {INavigationOptionValue} from 'Controls/interface';
 
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#detailPanelTemplateName
+ * @name Controls/_filter/View/interface/IFilterItem#detailPanelTemplateName
  * @cfg {String} Шаблон всплывающей панели, которая открывается после клика по кнопке.
  * @remark
  * В качестве шаблона рекомендуется использовать контрол {@link Controls/filterPopup:DetailPanel}
@@ -249,7 +281,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /*
- * @name Controls/_filter/View/interface/IFilterView#detailPanelTemplateName
+ * @name Controls/_filter/View/interface/IFilterItem#detailPanelTemplateName
  * @cfg {String} Template for the pop-up panel, that opens after clicking on the button.
  * @remark
  * As a template, it is recommended to use the control {@link Controls/filterPopup:DetailPanel}
@@ -286,7 +318,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#panelTemplateName
+ * @name Controls/_filter/View/interface/IFilterItem#panelTemplateName
  * @cfg {String} Устанавливает шаблон всплывающей панели быстрых фильтров, которая открывается после клика по параметрам быстрого фильтра.
  * @default Controls/filterPopup:SimplePanel
  * @remark
@@ -331,7 +363,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /*
- * @name Controls/_filter/View/interface/IFilterView#panelTemplateName
+ * @name Controls/_filter/View/interface/IFilterItem#panelTemplateName
  * @cfg {String} Template for the pop-up panel, that opens after clicking on fast filter parameters.
  * @remark
  * As a template, it is recommended to use the control {@link Controls/filterPopup:SimplePanel}
@@ -373,7 +405,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#detailPanelTemplateOptions
+ * @name Controls/_filter/View/interface/IFilterItem#detailPanelTemplateOptions
  * @cfg {Object} Опции для контрола, который передан в {@link detailPanelTemplateName}
  * @example
  * <pre>
@@ -396,7 +428,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#detailPanelPopupOptions
+ * @name Controls/_filter/View/interface/IFilterItem#detailPanelPopupOptions
  * @cfg {Controls/popup:IStickyPopupOptions} Опции для Sticky-опенера, открывающего панель фильтров.
  * @example
  * <pre>
@@ -410,7 +442,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#panelTemplateOptions
+ * @name Controls/_filter/View/interface/IFilterItem#panelTemplateOptions
  * @cfg {Object} Опции для контрола, который передан в {@link panelTemplateName}.
  * @example
  * <pre>
@@ -435,7 +467,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#alignment
+ * @name Controls/_filter/View/interface/IFilterItem#alignment
  * @cfg {Alignment} Задаёт выравнивание элементов объединённого фильтра.
  * @default right
  * @example
@@ -454,7 +486,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /*
- * @name Controls/_filter/View/interface/IFilterView#alignment
+ * @name Controls/_filter/View/interface/IFilterItem#alignment
  * @cfg {Alignment} Sets the direction in which the popup panel will open.
  * @default right
  * @remark
@@ -470,7 +502,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#itemTemplate
+ * @name Controls/_filter/View/interface/IFilterItem#itemTemplate
  * @cfg {String|Function} Устанавливает шаблон отображения фильтров на панели.
  * @default Controls/filter:ViewItemTemplate
  * @demo Controls-demo/FilterView/ItemTemplates/Index
@@ -490,7 +522,7 @@ import {INavigationOptionValue} from 'Controls/interface';
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterView#historyId
+ * @name Controls/_filter/View/interface/IFilterItem#historyId
  * @cfg {String} Уникальный идентификатор для сохранения истории фильтров.
  * В истории будут храниться последние 10 применённых фильтров.
  * @remark
@@ -504,7 +536,7 @@ import {INavigationOptionValue} from 'Controls/interface';
 
 /**
  * @event Происходит при изменении фильтра.
- * @name Controls/_filter/View/interface/IFilterView#filterChanged
+ * @name Controls/_filter/View/interface/IFilterItem#filterChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} filter Новый фильтр.
  * @see sourceChanged
@@ -512,7 +544,7 @@ import {INavigationOptionValue} from 'Controls/interface';
 
 /*
  * @event Happens when filter changed.
- * @name Controls/_filter/View/interface/IFilterView#filterChanged
+ * @name Controls/_filter/View/interface/IFilterItem#filterChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} filter New filter.
  * @see sourceChanged
@@ -520,7 +552,7 @@ import {INavigationOptionValue} from 'Controls/interface';
 
 /**
  * @event Происходит при изменении структуры фильтра.
- * @name Controls/_filter/View/interface/IFilterView#sourceChanged
+ * @name Controls/_filter/View/interface/IFilterItem#sourceChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<FilterItem>} items Новая структура фильтра.
  * @see filterChanged
@@ -528,7 +560,7 @@ import {INavigationOptionValue} from 'Controls/interface';
 
 /*
  * @event Happens when source changed.
- * @name Controls/_filter/View/interface/IFilterView#sourceChanged
+ * @name Controls/_filter/View/interface/IFilterItem#sourceChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} items New items.
  * @see filterChanged
@@ -536,7 +568,7 @@ import {INavigationOptionValue} from 'Controls/interface';
 
 /**
  * Открыть панель фильтрации с шаблоном, который передан в опцию {@link detailPanelTemplateName}.
- * @name Controls/_filter/View/interface/IFilterView#openDetailPanel
+ * @name Controls/_filter/View/interface/IFilterItem#openDetailPanel
  * @function
  * @example
  * <pre>
@@ -556,7 +588,7 @@ import {INavigationOptionValue} from 'Controls/interface';
 /**
  * Сбрасывает объединенный фильтр к значениям по умолчанию.
  * Для каждого фильтра такие значения задаются через свойство resetValue при настройке структуры фильтров (см. {@link source}).
- * @name Controls/_filter/View/interface/IFilterView#reset
+ * @name Controls/_filter/View/interface/IFilterItem#reset
  * @function
  * @example
  * <pre>
@@ -613,34 +645,3 @@ import {INavigationOptionValue} from 'Controls/interface';
  * </pre>
  * @function Controls/_list/interface/IList#openDetailPanel
  */
-export interface IFilterItem {
-    name: string;
-    id?: string;
-    value: any;
-    resetValue?: any;
-    textValue: string;
-    emptyText?: string;
-    emptyKey?: boolean | string | number;
-    doNotSaveToHistory?: boolean;
-    visibility?: boolean;
-    viewMode?: 'basic' | 'frequent' | 'extended';
-    type?: 'dateRange';
-    editorOptions?: {
-        source?: ICrudPlus | ICrud;
-        keyProperty?: string;
-        displayProperty?: string;
-        minVisibleItems?: number;
-        multiSelect?: boolean;
-        selectorTemplate?: {
-            templateName: string;
-            templateOptions?: Record<string, any>;
-            popupOptions?: IPopupOptions;
-        }
-        itemTemplate?: string;
-        editorMode?: string;
-        filter?: Record<string, any>;
-        navigation?: INavigationOptionValue<any>
-        itemTemplateProperty?: string;
-    };
-    [key: string]: any;
-}

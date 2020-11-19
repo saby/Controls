@@ -10,12 +10,14 @@ import {List} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {ITextOptions, IValueOptions, IBaseOptions} from 'Controls/input';
-import {IFontSizeOptions} from 'Controls/interface';
+import {IFontSizeOptions, ISelectorDialogOptions} from 'Controls/interface';
 import {isEqual} from 'Types/object';
 import {tmplNotify} from 'Controls/eventUtils';
 import {ICrudPlus} from 'Types/source';
 import {IHashMap} from 'Types/declarations';
 import InputRenderLookup = require("./BaseLookupView/InputRender");
+import {DependencyTimer} from 'Controls/popup';
+import {_InputController as LayoutInputContainer} from 'Controls/suggest';
 
 const KEY_CODE_F2 = 113;
 
@@ -24,7 +26,8 @@ export interface ILookupInputOptions extends
     ITextOptions,
     IValueOptions<string>,
     IBaseOptions,
-    IFontSizeOptions {
+    IFontSizeOptions,
+    ISelectorDialogOptions {
     suggestSource?: ICrudPlus;
     multiLine?: boolean;
     autoDropDown?: boolean;
@@ -48,8 +51,12 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     protected _maxVisibleItems: number = 0;
     protected _listOfDependentOptions: string[];
 
+    private _loadSelectorTemplatePromise: Promise<unknown> = null;
+    private _dependenciesTimer: DependencyTimer = null;
+
     protected _children: {
         inputRender: typeof InputRenderLookup;
+        layout: LayoutInputContainer;
     };
 
     protected _inheritorBeforeMount(options: ILookupInputOptions): void {
@@ -236,9 +243,32 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
         this._notify('closeInfoBox');
     }
 
-    private _onClickShowSelector(): void {
+    private _onMouseDownShowSelector(): void {
         this.closeSuggest();
-        this._showSelector();
+        this._showSelector(null);
+    }
+
+    private _loadDependencies(): Promise<unknown> {
+        const selectorTemplate = this._options.selectorTemplate;
+
+        if (!this._loadSelectorTemplatePromise && selectorTemplate) {
+            this._loadSelectorTemplatePromise = (typeof selectorTemplate.templateName === 'string') ?
+               import(selectorTemplate.templateName) : null;
+        }
+        return this._loadSelectorTemplatePromise;
+    }
+
+    protected _linkMouseEnterHandler(event: SyntheticEvent<MouseEvent>): void {
+        if (!this._options.readOnly) {
+            if (!this._dependenciesTimer) {
+                this._dependenciesTimer = new DependencyTimer();
+            }
+            this._dependenciesTimer.start(this._loadDependencies.bind(this));
+        }
+    }
+
+    protected _linkMouseLeaveHandler(): void {
+        this._dependenciesTimer?.stop();
     }
 
     private _onClickClearRecords(): void {

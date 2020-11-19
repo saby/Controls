@@ -65,8 +65,6 @@ var MonthView = BaseControl.extend({
    _monthViewModel: null,
    _caption: null,
 
-   _themeCssClass: '',
-
    _beforeMount: function(options) {
       _private._updateView(this, options);
       this._monthViewModel = options.monthViewModel ? new options.monthViewModel(options) : new MonthViewModel(options);

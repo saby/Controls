@@ -25,14 +25,14 @@
                     маркер в списке "Cписок с хоком HotKeysContaine" на "элемент 0"
                 </div>
             </div>
-            <div class="demoWrapper">
+            <div class="demoWrapper demo-HotKeysContainer__list1">
                 <Controls.heading:Title caption="Простой список" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
                 <div>
                     <Controls.input:Text />
                 </div>
                 <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>
             </div>
-            <div class="demoWrapper">
+            <div class="demoWrapper demo-HotKeysContainer__list2">
                 <Controls.heading:Title caption="Cписок с хоком HotKeysContainer" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
                 <Controls.list:HotKeysContainer>
                     <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>

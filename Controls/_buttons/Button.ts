@@ -285,4 +285,14 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
  * @default right
  */
 
+/**
+ * @name Controls/_buttons/Button#fontSize
+ * @cfg
+ * @demo Controls-demo/Buttons/SizesAndHeights/Index
+ * @example
+ * <pre class="brush: html">
+ * <Controls.buttons:Button icon="icon-Add" fontSize="xl" viewMode="button"/>
+ * </pre>
+ */
+
 export default Button;

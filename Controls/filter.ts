@@ -9,7 +9,7 @@
  * @includes FastContainer Controls/_filter/Fast/Container
  * @includes ViewContainer Controls/_filter/View/Container
  * @includes Controller Controls/_filter/Controller
- * @includes IFilterView Controls/_filter/View/interface/IFilterView
+ * @includes IFilterItem Controls/_filter/View/interface/IFilterItem
  * @includes IFastFilter Controls/_filter/View/interface/IFastFilter
  * @includes IFilterButton Controls/_filter/View/interface/IFilterButton
  * @includes IPrefetch Controls/_filter/IPrefetch
@@ -29,7 +29,7 @@
  * @includes FastContainer Controls/_filter/Fast/Container
  * @includes ViewContainer Controls/_filter/View/Container
  * @includes Controller Controls/_filter/Controller
- * @includes IFilterView Controls/_filter/View/interface/IFilterView
+ * @includes IFilterItem Controls/_filter/View/interface/IFilterItem
  * @includes IFastFilter Controls/_filter/View/interface/IFastFilter
  * @includes IFilterButton Controls/_filter/View/interface/IFilterButton
  * @includes IPrefetch Controls/_filter/IPrefetch

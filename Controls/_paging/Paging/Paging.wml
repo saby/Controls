@@ -1,4 +1,4 @@
-<div class="controls-PagingV {{_options.contrastBackground ? 'controls-Paging__contrast_theme-' + _options.theme : 'controls-Paging__same_theme-' + _options.theme}}">
+<div class="controls-PagingV {{_options.contrastBackground ? 'controls-Paging__contrast_theme-' + _options.theme : ''}}">
     <div class="controls-Paging__wrapper controls-Paging__wrapper_theme-{{_options.theme}}">
         <ws:if data="{{_options.contentTemplate && _isShowContentTemplate()}}">
          <span class="controls-Paging__content-Template">

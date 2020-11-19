@@ -1,5 +1,5 @@
 import BaseLayer from './__BaseLayer';
-import {detection} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 import template = require('wml!Controls/_suggestPopup/Layer/__PopupContent');
 
 var _private = {
@@ -49,7 +49,8 @@ var __PopupContent = BaseLayer.extend({
       // автодополнение отобразилось вверх, если оно отобразилось вниз,
       // то при появлении клавиатуры автодополнению может не хватить места тогда оно должно будет отобразиться сверху
       const allowFixPositionOnIpad = this._reverseList ||
-                                     (document && document.activeElement && document.activeElement.tagName === 'INPUT');
+                                     (constants.isBrowserPlatform && document.activeElement &&
+                                         document.activeElement.tagName === 'INPUT');
 
       if (this._showContent && !this._positionFixed && (!detection.isMobileIOS || allowFixPositionOnIpad)) {
          this._positionFixed = true;

@@ -16,6 +16,7 @@
                           columns="{{_gridColumns}}"
                           header="{{_gridHeader}}"
                           resultsPosition="top"
+                          preventServerSideColumnScroll="{{true}}"
                           columnScroll="{{true}}"
                           columnScrollStartPosition="end"
                           stickyColumnsCount="{{_stickyColumnsCount > 0 ? _stickyColumnsCount : 1}}">

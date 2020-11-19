@@ -6,7 +6,6 @@ import cDeferred = require('Core/Deferred');
 import {delay as runDelayed} from 'Types/function';
 import trackElement = require('Core/helpers/Hcontrol/trackElement');
 import doAutofocus = require('Core/helpers/Hcontrol/doAutofocus');
-import Env = require('Env/Env');
 import EnvEvent = require('Env/Event');
 import {Controller} from 'Controls/popup';
 import {InstantiableMixin} from 'Types/entity';
@@ -15,6 +14,7 @@ import cInstance = require('Core/core-instance');
 import { SyntheticEvent } from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
 import {Bus as EventBus} from 'Env/Event';
+import {constants, detection, coreDebug} from 'Env/Env';
 
 function removeOperation(operation, array) {
    var idx = arrayFindIndex(array, function(op) {
@@ -244,7 +244,7 @@ var CompoundArea = CompoundContainer.extend([
       var container = this._childControl && this._childControl.getContainer();
 
       // не вызывается браузерная перерисовка. вызываю вручную
-      if (container && Env.constants.browser.isMobileIOS) {
+      if (container && constants.browser.isMobileIOS) {
          container = container.get ? container.get(0) : container;
          setTimeout(function() {
             container.style.webkitTransform = 'scale(1)';
@@ -384,7 +384,7 @@ var CompoundArea = CompoundContainer.extend([
       self._subscribeOnResize();
 
       self._windowResize = self._windowResize.bind(self);
-      if (window) {
+      if (constants.isBrowserPlatform) {
          window.addEventListener('resize', self._windowResize);
       }
 
@@ -484,7 +484,7 @@ var CompoundArea = CompoundContainer.extend([
    },
 
    _isIosKeyboardVisible(): boolean {
-      const isVisible =  Env.constants.browser.isMobileIOS && window.scrollY > 0;
+      const isVisible =  constants.browser.isMobileIOS && window.scrollY > 0;
       if (isVisible) {
          this._isKeyboardVisible = true;
       }
@@ -745,7 +745,7 @@ var CompoundArea = CompoundContainer.extend([
    },
    _keyDown: function(event: SyntheticEvent<KeyboardEvent>) {
       const nativeEvent = event.nativeEvent;
-      const closingByKeys = !nativeEvent.shiftKey && nativeEvent.keyCode === Env.constants.key.esc;
+      const closingByKeys = !nativeEvent.shiftKey && nativeEvent.keyCode === constants.key.esc;
       const targetInEditInPlace = Boolean(event.target.closest('.controls-editInPlace'));
 
       /**
@@ -755,7 +755,7 @@ var CompoundArea = CompoundContainer.extend([
        */
       if (closingByKeys && !targetInEditInPlace) {
          this.close();
-         if (Env.detection.safari) {
+         if (detection.safari) {
             // Need to prevent default behaviour if popup is opened
             // because safari escapes fullscreen mode on 'ESC' pressed
             event.preventDefault();
@@ -764,7 +764,7 @@ var CompoundArea = CompoundContainer.extend([
       }
    },
    _keyUp: function(event) {
-      if (!event.nativeEvent.shiftKey && event.nativeEvent.keyCode === Env.constants.key.esc) {
+      if (!event.nativeEvent.shiftKey && event.nativeEvent.keyCode === constants.key.esc) {
          event.stopPropagation();
       }
    },
@@ -1222,7 +1222,7 @@ var CompoundArea = CompoundContainer.extend([
       // Unregister CompoundArea's inner Event/Listener, before its
       // container is destroyed by compatibility layer
       this._unregisterEventListener();
-      if (window) {
+      if (constants.isBrowserPlatform) {
          window.removeEventListener('resize', this._windowResize);
       }
 
@@ -1386,7 +1386,7 @@ var CompoundArea = CompoundContainer.extend([
          if (childOps.length === 0) {
             allChildrenPendingOperation = this._allChildrenPendingOperation;
             this._allChildrenPendingOperation = null;
-            Env.coreDebug.checkAssertion(!!allChildrenPendingOperation);
+            coreDebug.checkAssertion(!!allChildrenPendingOperation);
 
             this._unregisterPendingOperation(allChildrenPendingOperation);
          }
@@ -1461,7 +1461,7 @@ var CompoundArea = CompoundContainer.extend([
       var result = !!(dOperation && (dOperation instanceof cDeferred));
       if (result) {
          this._pending.push(dOperation);
-         this._pendingTrace.push(Env.coreDebug.getStackTrace());
+         this._pendingTrace.push(coreDebug.getStackTrace());
          dOperation.addBoth(this._checkPendingOperations.bind(this));
       }
       return result;

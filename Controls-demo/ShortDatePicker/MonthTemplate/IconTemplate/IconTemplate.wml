@@ -1,5 +1,7 @@
 <div class="controlsDemo__wrapper" style="position: absolute; width:auto;">
-    <Controls.shortDatePicker:View>
+    <Controls.shortDatePicker:View
+            startValue="{{_startValue}}"
+            endValue="{{_endValue}}">
         <ws:monthTemplate>
             <div style="min-width: 110px;">
                 <ws:partial template="Controls/shortDatePicker:MonthTemplate" >

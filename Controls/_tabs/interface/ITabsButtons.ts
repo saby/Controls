@@ -20,8 +20,14 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
     displayProperty?: string;
 }
 /**
+ * @typedef {String} BorderThickness
+ * @variant s
+ * @variant l
+ */
+
+/**
  * @name Controls/_tabs/interface/ITabsButtons#borderThickness
- * @cfg {String} Определяет толщину подчеркивания вкладок
+ * @cfg {BorderThickness} Определяет толщину подчеркивания вкладок
  * @default s
  * @demo Controls-demo/Tabs/Buttons/BorderThickness/Index
  */
@@ -240,14 +246,13 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
 /**
  * @name Controls/_tabs/interface/ITabsButtons#itemTemplate
  * @cfg {Function} Шаблон для рендеринга.
- * @default Base template 'Controls/tabs:buttonsItemTemplate'
+ * @default undefined
  * @remark
  * Чтобы определить шаблон, следует вызвать базовый шаблон 'Controls/tabs:buttonsItemTemplate'.
  * Шаблон помещается в компонент с помощью тега ws:partial с атрибутом template.
  * По умолчанию в шаблоне 'Controls/tabs:buttonsItemTemplate' будет отображаться только поле 'title'. Можно изменить формат отображения записей, задав следующие параметры:
- * <ul>
- *    <li>displayProperty - определяет поле отображения записи.</li>
- * <ul>
+ * 
+ * * displayProperty - определяет поле отображения записи.
  * @example
  * Вкладки со стандартным шаблоном элемента (шаблоном по умолчанию).
  *
@@ -298,14 +303,15 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
 /**
  * @name Controls/_tabs/interface/ITabsButtons#itemTemplateProperty
  * @cfg {String} Имя поля, которое содержит шаблон отображения элемента.
- * @default Если параметр не задан, вместо него используется itemTemplate.
+ * @default undefined
  * @remark
+ * Если параметр не задан, вместо него используется itemTemplate.
+ * 
  * Чтобы определить шаблон, вы должны вызвать базовый шаблон 'Controls/tabs:buttonsItemTemplate'.
  * Шаблон помещается в компонент с помощью тега ws:partial с атрибутом template.
  * По умолчанию в шаблоне 'Controls/tabs:buttonsItemTemplate' будет отображаться только поле 'title'. Можно изменить формат отображения записей, задав следующие параметры:
- * <ul>
- *    <li>displayProperty - определяет поле отображения записи.</li>
- * <ul>
+ * 
+ * * displayProperty - определяет поле отображения записи.
  * @example
  * Вкладки с шаблоном элемента.
  * <pre class="brush: html; highlight: [2]">

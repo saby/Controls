@@ -7,6 +7,7 @@ export interface IFontSizeOptions {
  *
  * @interface Controls/_interface/IFontSize
  * @public
+ * @author Красильников А.С.
  */
 
 /*
@@ -20,7 +21,9 @@ export default interface IFontSize {
 }
 /**
  * @name Controls/_interface/IFontSize#fontSize
- * @cfg {Enum} Размер шрифта.
+ * @cfg {String} Размер шрифта.
+ * @remark
+ * Размер шрифта задается константой из стандартного набора размеров шрифта, который определен для текущей темы оформления.
  * @variant inherit
  * @variant xs
  * @variant s
@@ -33,17 +36,7 @@ export default interface IFontSize {
  * @variant 5xl
  * @variant 6xl
  * @variant 7xl
- * @demo Controls-demo/Buttons/SizesAndHeights/Index
- * @demo Controls-demo/Input/SizesAndHeights/Index
- * @demo Controls-demo/Decorator/Money/FontSize/Index
- * @demo Controls-demo/breadCrumbs_new/FontSize/Index
- * @remark
- * Размер шрифта задается константой из стандартного набора размеров шрифта, который определен для текущей темы оформления.
- * @example
- * Кнопка с размером шрифта xl.
- * <pre>
- *    <Controls.buttons:Button icon="icon-Add" fontSize="xl" viewMode="button"/>
- * </pre>
+ * @default l
  * @see Icon
  */
 

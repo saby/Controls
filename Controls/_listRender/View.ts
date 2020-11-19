@@ -209,7 +209,7 @@ export default class View extends Control<IViewOptions> {
      * @param clickEvent
      * @private
      */
-    protected _onItemActionClick(
+    protected _onItemActionMouseDown(
         e: SyntheticEvent<MouseEvent>,
         item: CollectionItem<Model>,
         action: IShownItemAction,
@@ -337,7 +337,7 @@ export default class View extends Control<IViewOptions> {
         clickEvent: SyntheticEvent<MouseEvent>): void {
         if (eventName === 'itemClick') {
             const action = actionModel && actionModel.getRawData();
-            if (action && !action['parent@']) {
+            if (action) {
                 const item = this._itemActionsController.getActiveItem();
                 this._handleItemActionClick(action, clickEvent, item, true);
             }

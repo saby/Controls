@@ -1,6 +1,8 @@
 <div class="controls-MasterDetail">
    <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
-      <div class="controls-MasterDetail_master controls-MasterDetail_master_theme-{{_options.theme}}" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}">
+      <div class="controls-MasterDetail_master controls-MasterDetail_master_theme-{{_options.theme}}" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
+           on:touchstart="_touchstartHandler()"
+           on:touchend="_touchendHandler()">
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:partial
                template="{{_options.master}}"

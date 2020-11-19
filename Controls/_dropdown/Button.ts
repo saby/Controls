@@ -41,7 +41,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
  * @mixes Controls/_menu/interface/IMenuBase
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_dropdown/interface/IDropdownSource
- * @mixes Controls/interface/IDropdown
+ * @mixes Controls/_dropdown/interface/IBaseDropdown
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_interface/ITooltip
  * @mixes Controls/_interface/IIcon
@@ -55,7 +55,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
  * @mixes Controls/_buttons/interface/IButton
  * @mixes Controls/_dropdown/interface/IGrouped
  * @mixes Controls/_interface/ISearch
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -76,7 +76,6 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
  * @mixes Controls/_dropdown/interface/IHeaderTemplate
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_dropdown/interface/IGrouped
- * @mixes Controls/interface/IDropdown
  * @mixes Controls/_buttons/interface/IButton
  * @mixes Controls/_interface/IIcon
  * @mixes Controls/_dropdown/interface/IIconSize
@@ -277,8 +276,7 @@ export default class Button extends BaseDropdown {
  */
 
 /**
- * @name Controls/_dropdown/Button#additionalProperty
- * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню.
- * Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
- * @demo Controls-demo/dropdown_new/Button/AdditionalProperty/Index
+ * @name Controls/_dropdown/Button#fontSize
+ * @cfg
+ * @demo Controls-demo/dropdown_new/Button/FontSize/Index
  */

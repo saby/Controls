@@ -5,6 +5,17 @@ export interface IDayTemplateOptions {
 }
 
 /**
+ * Интерфейс для контролов календарей, позволяющих задать шаблон дня
+ *
+ * @interface Controls/_interface/IDayTemplate
+ * @public
+ */
+
+export default interface IDayTemplate {
+    readonly '[Controls/_interface/IDayTemplate]': boolean;
+}
+
+/**
  * @name Controls/_interface/IDayTemplate#dayTemplate
  * @cfg {String|Function} Шаблон дня.
  * @remark
@@ -29,14 +40,3 @@ export interface IDayTemplateOptions {
  * </Controls.calendar:MonthView>
  * </pre>
  */
-
-/**
- * Интерфейс для контролов календарей, позволяющих задать шаблон дня
- *
- * @interface Controls/_interface/IDayTemplate
- * @public
- */
-
-export default interface IDayTemplate {
-    readonly '[Controls/_interface/IDayTemplate]': boolean;
-}

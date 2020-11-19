@@ -30,7 +30,7 @@
 <ws:template name="COLUMN_CONTENT">
    <!-- Маркер активной записи. Не должен быть выведен в фейковой ячейке лесенки -->
    <ws:if data="{{ !isLadderHeader && (marker !== false && itemData.shouldDisplayMarker(currentColumn.columnIndex)) }}">
-      <div class="{{itemData.getMarkerClasses()}}"></div>
+      <div class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
    </ws:if>
 
    <!-- Ячейка с чекбоксом -->

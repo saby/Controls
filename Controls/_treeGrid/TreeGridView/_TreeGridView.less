@@ -151,29 +151,29 @@
 }
 .controls-TreeGrid__row-expander_node_default_collapsed_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_node_master_collapsed_theme-@{themeName}:before {
-   content: '\e96e';
+   content: @node_expander_collapsed_icon-content_treeGrid;
 }
 .controls-TreeGrid__row-expander_node_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_node_master_expanded_theme-@{themeName}:before {
-   content: '\e96d';
+   content: @node_expander_icon-content_treeGrid;
 }
 
 .controls-TreeGrid__row-expander_emptyNode_default_collapsed_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_emptyNode_master_collapsed_theme-@{themeName}:before {
-   content: '\e96c';
+   content: @empty-node_expander_collapsed_icon-content_treeGrid;
 }
 
 .controls-TreeGrid__row-expander_emptyNode_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_emptyNode_master_expanded_theme-@{themeName}:before {
-   content: '\e96b';
+   content: @empty-node_expander_icon-content_treeGrid;
 }
 .controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_hiddenNode_master_collapsed_theme-@{themeName}:before {
-   content: '\e9c2';
+   content: @hidden-node_expander_collapsed_icon-content_treeGrid;
 }
 .controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_hiddenNode_master_expanded_theme-@{themeName}:before {
-   content: '\e9c1';
+   content: @hidden-node_expander_icon-content_treeGrid;
 }
 
 .controls-TreeGrid__row {
@@ -356,7 +356,7 @@
    z-index: 2;
 }
 
-.controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
+.controls-Grid__row-cell-editing_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
    visibility: visible;
    opacity: 1;
 }

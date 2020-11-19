@@ -2,7 +2,7 @@ import * as template from 'wml!Controls-demo/Tile/Grouping/Grouping';
 import {TemplateFunction, Control} from 'UI/Base';
 import {HierarchicalMemory} from 'Types/source';
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImages';
-import {view} from 'Controls/Constants';
+import {groupConstants} from 'Controls/list';
 import {Model} from 'Types/entity';
 
 export default class extends Control {
@@ -92,7 +92,7 @@ export default class extends Control {
     private _groupingKeyCallback(item: Model): string {
         let group;
         if (item.get('hiddenGroup')) {
-            group = view.hiddenGroup;
+            group = groupConstants.hiddenGroup;
         } else {
             group = item.get('isDocument') ? 'document' : 'image';
         }

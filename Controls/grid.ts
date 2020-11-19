@@ -2,18 +2,18 @@
  * Библиотека контролов, которые реализуют плоский список, отображающийся в виде таблицы.
  * @library Controls/grid
  * @includes View Controls/_grid/Grid
- * @includes ItemTemplate Controls/grid:ItemTemplate
- * @includes ResultsTemplate Controls/grid:ResultsTemplate
- * @includes GroupTemplate Controls/grid:GroupTemplate
- * @includes HeaderContent Controls/grid:HeaderContent
- * @includes LadderWrapper Controls/grid:LadderWrapper
- * @includes ColumnTemplate Controls/grid:ColumnTemplate
- * @includes ResultColumnTemplate Controls/grid:ResultColumnTemplate
- * @includes RowEditor Controls/grid:RowEditor
+ * @includes ItemTemplate Controls/_grid/interface/ItemTemplate
+ * @includes ResultsTemplate Controls/_grid/interface/ResultsTemplate
+ * @includes GroupTemplate Controls/_grid/interface/GroupTemplate
+ * @includes HeaderContent Controls/_grid/interface/HeaderContent
+ * @includes LadderWrapper Controls/_grid/interface/LadderWrapper
+ * @includes ColumnTemplate Controls/_grid/interface/ColumnTemplate
+ * @includes ResultColumnTemplate Controls/_grid/interface/ResultColumnTemplate
+ * @includes RowEditor Controls/_grid/interface/RowEditor
  * @includes EditingEmptyTemplate Controls/grid:EditingEmptyTemplate
  * @includes IGridControl Controls/_grid/interface/IGridControl
- * @includes IColumn Controls/grid:IColumn
- * @includes ITagColumn Controls/grid:ITagColumn
+ * @includes IColumn Controls/_grid/interface/IColumn
+ * @includes ITagColumn Controls/_grid/interface/ITagColumn
  * @includes IHeaderCell Controls/_grid/interface/IHeaderCell
  * @includes IPropStorage Controls/_grid/interface/IPropStorage
  * @includes SortingSelector Controls/grid:SortingSelector
@@ -39,7 +39,7 @@ import SortingButton from 'Controls/_grid/SortingButton';
 import GridView = require('Controls/_grid/GridView');
 import GridViewModel = require('Controls/_grid/GridViewModel');
 
-import SortingSelector from 'Controls/_grid/SortingSelector';
+import {default as SortingSelector, ISortingSelectorOptions} from 'Controls/_grid/SortingSelector';
 import RowEditor = require('wml!Controls/_grid/RowEditor');
 import * as ResultColumnTemplate from 'wml!Controls/_grid/layout/common/ResultCellContent';
 
@@ -62,6 +62,7 @@ export {
 
     RowEditor,
     SortingSelector,
+    ISortingSelectorOptions,
 
     EditingEmptyTemplate,
 
@@ -79,6 +80,8 @@ export {
 } from './_grid/interface/IColumn';
 
 export {ITagColumn} from './_grid/interface/ITagColumn';
+
+export {IGridControl} from './_grid/interface/IGridControl';
 
 export {
     THeader,

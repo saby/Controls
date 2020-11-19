@@ -17,7 +17,8 @@
       <div class="controls-PeriodLiteDialog__bodyWrapper controls-PeriodLiteDialog__bodyWrapper_theme-{{_options.theme}}">
          <div class="controls-PeriodLiteDialog__yearWrapper {{_getYearWrapperCssClasses()}}
                      controls-PeriodLiteDialog__yearWrapper_theme-{{_options.theme}}
-         {{(_yearHovered === _position.getFullYear())? ' controls-PeriodLiteDialog__yearHeader-background-hovered_theme-' + _options.theme}}"
+                     controls-PeriodLiteDialog__yearHeader-border{{(_yearHovered === _position.getFullYear())?
+                     '-hovered'}}_theme-{{_options.theme}}"
               title="{[Выбрать год]}">
             <div
                     class="controls-PeriodLiteDialog__year controls-PeriodLiteDialog__year_theme-{{_options.theme}}
@@ -54,7 +55,7 @@
                  stubTemplate="{{_options.stubTemplate}}"
                  _displayedRanges="{{_displayedRanges}}"
                  _position="{{_position}}"
-                 monthTemplate="{{monthTemplate}}"
+                 monthTemplate="{{_options.monthTemplate}}"
                  _yearHovered="{{_yearHovered}}"
                  formatDate="{{_formatDate}}"
                  _isFullPicker="{{_isFullPicker}}"

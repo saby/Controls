@@ -113,6 +113,7 @@ define([
 
          before(function() {
             if (isNode) {
+               Env.constants.isBrowserPlatform = true;
                var browser = new jsdom.JSDOM('', { pretendToBeVisual: false });
                global.window = browser.window;
                global.document = window.document;
@@ -122,6 +123,7 @@ define([
 
          after(function() {
             if (isNode) {
+               Env.constants.isBrowserPlatform = false;
                global.window = undefined;
                global.document = undefined;
                global.Node = undefined;

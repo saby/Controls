@@ -26,6 +26,7 @@ export interface ISelectionObject {
     * @cfg {Array<Number>|Array<String>} Идентификаторы исключённых записей.
     */
     excluded: TKeysSelection;
+    recursive?: boolean;
 }
 
 export interface ISelectionTypeOptions {

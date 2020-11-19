@@ -2,12 +2,12 @@ import {default as BaseController} from 'Controls/_popupTemplate/BaseController'
 import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy');
 import cMerge = require('Core/core-merge');
 import cClone = require('Core/core-clone');
-import Env = require('Env/Env');
 import TargetCoords = require('Controls/_popupTemplate/TargetCoords');
 import StickyContent = require('wml!Controls/_popupTemplate/Sticky/StickyContent');
 import * as cInstance from 'Core/core-instance';
 import {Logger} from 'UI/Utils';
 import {getScrollbarWidthByMeasuredBlock} from 'Controls/scroll';
+import {constants, detection} from 'Env/Env';
 
 export type TVertical = 'top' | 'bottom' | 'center';
 export type THorizontal = 'left' | 'right' | 'center';
@@ -133,10 +133,10 @@ const _private = {
     },
 
     getWindowWidth() {
-        return window && window.innerWidth;
+        return constants.isBrowserPlatform && window.innerWidth;
     },
     getWindowHeight() {
-        return window && window.innerHeight;
+        return constants.isBrowserPlatform && window.innerHeight;
     },
     setStickyContent(item) {
         item.popupOptions.content = StickyContent;
@@ -177,7 +177,7 @@ const _private = {
      * Element is created with position absolute and far beyond the screen left position
      */
     getFakeDiv(): HTMLDivElement {
-        if (!document) {
+        if (!constants.isBrowserPlatform) {
             return {
                 marginLeft: 0,
                 marginTop: 0
@@ -232,7 +232,7 @@ class StickyController extends BaseController {
 
             // In landscape orientation, the height of the screen is low when the keyboard is opened.
             // Open Windows are not placed in the workspace and chrome scrollit body.
-            if (Env.detection.isMobileAndroid) {
+            if (detection.isMobileAndroid) {
                 const height = item.position.height || container.clientHeight;
                 if (height > document.body.clientHeight) {
                     item.position.height = document.body.clientHeight;
@@ -264,7 +264,7 @@ class StickyController extends BaseController {
         const scrollTop = scroll?.scrollTop;
         container.style.maxHeight = item.popupOptions.maxHeight ? item.popupOptions.maxHeight + 'px' : '100vh';
         container.style.maxWidth = item.popupOptions.maxWidth ? item.popupOptions.maxWidth + 'px' : '100vw';
-        const hasScrollBeforeReset = document && (document.body.scrollHeight > document.body.clientHeight);
+        const hasScrollBeforeReset = constants.isBrowserPlatform && (document.body.scrollHeight > document.body.clientHeight);
         // Если значения явно заданы на опциях, то не сбрасываем то что на контейнере
         if (!item.popupOptions.width) {
             container.style.width = 'auto';
@@ -272,7 +272,7 @@ class StickyController extends BaseController {
         if (!item.popupOptions.height) {
             container.style.height = 'auto';
         }
-        let hasScrollAfterReset = document && (document.body.scrollHeight > document.body.clientHeight);
+        let hasScrollAfterReset = constants.isBrowserPlatform && (document.body.scrollHeight > document.body.clientHeight);
         if (hasScrollAfterReset) {
             // Скролл на боди может быть отключен через стили
            if (!this._bodyOverflow) {
@@ -350,7 +350,7 @@ class StickyController extends BaseController {
             position: 'fixed'
         };
 
-        if (Env.detection.isMobileIOS) {
+        if (detection.isMobileIOS) {
             item.position.top = 0;
             item.position.left = 0;
             item.position.invisible = true;
@@ -432,7 +432,7 @@ class StickyController extends BaseController {
             };
         }
 
-        if (!document) {
+        if (!constants.isBrowserPlatform) {
             return {
                 width: 0,
                 height: 0,
@@ -460,7 +460,7 @@ class StickyController extends BaseController {
         if (cInstance.instanceOfModule(cfg.popupOptions.target, 'UI/Base:Control')) {
             return cfg.popupOptions.target._container;
         }
-        return cfg.popupOptions.target || (document && document.body);
+        return cfg.popupOptions.target || (constants.isBrowserPlatform && document.body);
     }
 }
 

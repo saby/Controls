@@ -50,7 +50,7 @@ var _private = {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  * @mixes Controls/_interface/ISelectorDialog
  * @public
  * @author Герасимов А.М.
@@ -81,7 +81,7 @@ var _private = {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  *
  * @public
  * @author Kapustin I.A.

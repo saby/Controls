@@ -31,7 +31,7 @@ define('Controls/Application/Compatible', [
          this._forceUpdate = function() {
 
          };
-         if (typeof window !== 'undefined') {
+         if (Env.constants.isBrowserPlatform) {
             Env.constants.rights = true;
             Layer.load(undefined, true).addCallback(function() {
                rightsInitialized.callback();

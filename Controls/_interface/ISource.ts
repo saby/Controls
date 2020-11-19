@@ -46,11 +46,11 @@ export default interface ISource {
  *
  * JS:
  * <pre>
- *     import {Memory} from "Types/source";
+ *     import {HierarchicalMemory} from "Types/source";
  *
  *     _source: null,
  *     _beforeMount: function() {
- *         this._source = new source.Memory({
+ *         this._source = new source.HierarchicalMemory({
  *             keyProperty: 'key',
  *             data: [
  *                {
@@ -104,11 +104,11 @@ export default interface ISource {
  *
  * JS:
  * <pre>
- *     import {Memory} from "Types/source";
+ *     import {HierarchicalMemory} from "Types/source";
  *
  *     _source: null,
  *     _beforeMount: function() {
- *         this._source = new source.Memory({
+ *         this._source = new source.HierarchicalMemory({
  *             keyProperty: 'key',
  *             data: [
  *                {

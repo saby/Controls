@@ -115,7 +115,7 @@ export interface ISelectionControllerOptions {
  * @public
  * @author Панихин К.А.
  */
-export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOptions{
+export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOptions {
    selectAncestors: boolean;
    selectDescendants: boolean;
    nodesSourceControllers?: Map<string, SourceController>;

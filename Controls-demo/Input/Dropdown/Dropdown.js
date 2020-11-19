@@ -4,7 +4,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
    'Types/source',
    'Controls/Utils/Toolbar',
    'Controls-demo/Input/Dropdown/historySourceDropdown',
-   'Controls/Constants',
+   'Controls/list',
    'Controls-demo/Search/SearchMemory',
    'Controls-demo/Explorer/ExplorerMemory',
    'Controls-demo/Utils/MemorySourceFilter',
@@ -472,7 +472,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
 
       _groupingKeyCallback: function(item) {
          if (item.get('group') === 'hidden' || !item.get('group')) {
-            return ControlsConstants.view.hiddenGroup;
+            return ControlsConstants.groupConstants.hiddenGroup;
          }
          return item.get('group');
       },

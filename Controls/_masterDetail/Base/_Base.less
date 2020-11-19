@@ -126,6 +126,15 @@
    border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
 }
 
+// todo https://online.sbis.ru/opendoc.html?guid=4427d008-ac6e-4ce3-bf04-1e1b65bd6f79
+.ws-is-mobile-platform .controls-MasterDetail_resizing-line {
+   right: -@resizingLine_mobile_offset-left_stack;
+   width: @resizingLine_mobile_thickness_stack;
+   .controls-ResizingLine__areaWrapper_horizontal_theme-@{themeName} {
+      width: @resizingLine_mobile_thickness_stack - @resizingLine_mobile_offset-left_stack;
+   }
+}
+
 // Класс для css теней скролл контейнера
 .controls-Scroll__background-Shadow_style-master_theme-@{themeName} {
    background-image: linear-gradient(@master_item_background-color_list 10%, rgba(@master_item_background-color_list, 0)),
@@ -136,3 +145,4 @@
    background-repeat: no-repeat;
    background-attachment: local, local, scroll, scroll;
 }
+

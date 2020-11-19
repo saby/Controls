@@ -226,7 +226,8 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
    static getDefaultOptions(): object {
       return {
          selectedKeys: [],
-         excludedKeys: []
+         excludedKeys: [],
+         fontColorStyle: 'link'
       };
    }
 }

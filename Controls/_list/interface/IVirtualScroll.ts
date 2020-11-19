@@ -30,7 +30,7 @@ export interface IVirtualScrollConfig {
 export type IVirtualScrollMode = 'remove' | 'hide';
 
 /**
- * @typedef {object} IVirtualScrollConfig
+ * @typedef {object} VirtualScrollConfig
  * @property {number} pageSize Размер виртуальной страницы указывает максимальное количество одновременно отображаемых элементов в списке.
  * @property {IVirtualScrollMode} [mode=remove] Режим скрытия элементов в виртуальном скроллинге.
  * @property {number} [viewportHeight=undefined] Высота вьюпорта контейнера, в котором лежит список.
@@ -40,13 +40,14 @@ export type IVirtualScrollMode = 'remove' | 'hide';
 
 /**
  * @name Controls/_list/interface/IVirtualScrollConfig#virtualScrollConfig
- * @cfg {IVirtualScrollConfig} Конфигурация виртуального скроллинга.
+ * @cfg {VirtualScrollConfig} Конфигурация виртуального скроллинга.
  * Виртуальный скроллинг работает только при включенной <a href="/doc/platform/developmentapl/interface-development/controls/list/navigation/">навигации</a>.
  * @remark Подробнее о конфигурации виртуального скролла читайте <a href="/doc/platform/developmentapl/interface-development/controls/list/performance-optimization/virtual-scroll/">здесь</a>.
  * @example
  * В следующем примере показана конфигурация виртуального скролла: в свойстве pageSize задан размер виртуальной страницы.
  * Также задана конфигурация навигации в опции navigation.
- * <pre class="brush: js; highlight: [4,5]">
+ * <pre class="brush: html; highlight: [5,6]">
+ * <!-- WML -->
  * <Controls.scroll:Container ...>
  *     <Controls.list:View
  *         source="{{_viewSource}}"

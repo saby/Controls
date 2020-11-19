@@ -1,8 +1,8 @@
 import {Browser} from 'Controls/browser';
 import {Memory} from 'Types/source';
-import {equal, deepStrictEqual, ok, doesNotThrow} from 'assert';
 import { RecordSet } from 'Types/collection';
 import { detection } from 'Env/Env';
+import {assert} from 'chai';
 
 const browserData = [
     {
@@ -64,12 +64,12 @@ describe('Controls/browser:Browser', () => {
                 const browser = getBrowser(options);
 
                 await browser._beforeMount(options);
-                ok(browser._root === null);
+                assert.ok(browser._root === null);
 
                 options = {...options};
                 options.root = 'testRoot';
                 await browser._beforeMount(options);
-                ok(browser._root === 'testRoot');
+                assert.ok(browser._root === 'testRoot');
             });
 
             it('viewMode', async() => {
@@ -77,12 +77,12 @@ describe('Controls/browser:Browser', () => {
                 const browser = getBrowser(options);
 
                 await browser._beforeMount(options);
-                ok(browser._viewMode === undefined);
+                assert.ok(browser._viewMode === undefined);
 
                 options = {...options};
                 options.viewMode = 'table';
                 await browser._beforeMount(options);
-                ok(browser._viewMode === 'table');
+                assert.ok(browser._viewMode === 'table');
             });
 
             it('searchValue', async () => {
@@ -90,12 +90,12 @@ describe('Controls/browser:Browser', () => {
                 const browser = getBrowser(options);
 
                 await browser._beforeMount(options);
-                ok(browser._searchValue === '');
+                assert.ok(browser._searchValue === '');
 
                 options = {...options};
                 options.searchValue = 'test';
                 await browser._beforeMount(options);
-                ok(browser._searchValue === 'test');
+                assert.ok(browser._searchValue === 'test');
             });
 
         });
@@ -110,7 +110,7 @@ describe('Controls/browser:Browser', () => {
                     const browser = getBrowser(options);
                     return new Promise((resolve) => {
                         browser._beforeMount(options, {}).then(() => {
-                            equal(browser._searchValue, 'Sash');
+                            assert.equal(browser._searchValue, 'Sash');
                             resolve();
                         });
                     });
@@ -126,9 +126,8 @@ describe('Controls/browser:Browser', () => {
 
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {});
-                    deepStrictEqual(browser._dataOptionsContext.filter, filter);
-                    deepStrictEqual(browser._filter, filter);
-                    deepStrictEqual(browser._searchController._dataOptions.filter, filter);
+                    assert.deepStrictEqual(browser._dataOptionsContext.filter, filter);
+                    assert.deepStrictEqual(browser._filter, filter);
                 });
 
                 it('filterButtonSource and filter in context without source on _beforeMount', async () => {
@@ -150,9 +149,8 @@ describe('Controls/browser:Browser', () => {
 
                     const browser = getBrowser(options);
                     await browser._beforeMount(options, {});
-                    deepStrictEqual(browser._dataOptionsContext.filter, expectedFilter);
-                    deepStrictEqual(browser._filter, expectedFilter);
-                    deepStrictEqual(browser._searchController._dataOptions.filter, expectedFilter);
+                    assert.deepStrictEqual(browser._dataOptionsContext.filter, expectedFilter);
+                    assert.deepStrictEqual(browser._filter, expectedFilter);
                 });
 
             });
@@ -178,13 +176,13 @@ describe('Controls/browser:Browser', () => {
 
             beforeEach(() => {
                 defaultIsMobilePlatformValue = detection.isMobilePlatform;
-            })
+            });
 
             afterEach(() => {
                 detection.isMobilePlatform = defaultIsMobilePlatformValue;
-            })
+            });
 
-            it('items in receivedState',() => {
+            it('items in receivedState', () => {
                 const newOptions = {
                     ...options,
                     topShadowVisibility: 'auto',
@@ -193,15 +191,15 @@ describe('Controls/browser:Browser', () => {
 
                 browser = new Browser(newOptions);
                 browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {} });
-                equal(browser._topShadowVisibility, 'gridauto');
-                equal(browser._bottomShadowVisibility, 'gridauto');
+                assert.equal(browser._topShadowVisibility, 'gridauto');
+                assert.equal(browser._bottomShadowVisibility, 'gridauto');
 
                 detection.isMobilePlatform = true;
 
                 browser = new Browser(newOptions);
                 browser._beforeMount(newOptions, {}, {items: recordSet, filterItems: {} });
-                equal(browser._topShadowVisibility, 'auto');
-                equal(browser._bottomShadowVisibility, 'auto');
+                assert.equal(browser._topShadowVisibility, 'auto');
+                assert.equal(browser._bottomShadowVisibility, 'auto');
             });
         });
 
@@ -212,8 +210,8 @@ describe('Controls/browser:Browser', () => {
             };
             const browser = getBrowser(options);
 
-            const mountResult = await browser._beforeMount(options);
-            ok(mountResult instanceof Error);
+            const result = await browser._beforeMount(options);
+            assert.ok(result instanceof Error);
         });
 
     });
@@ -226,27 +224,13 @@ describe('Controls/browser:Browser', () => {
             await browser._beforeMount(options);
 
             browser._beforeUnmount();
-            ok(!browser._sourceController);
+            assert.ok(!browser._sourceController);
         });
     });
 
     describe('_beforeUpdate', () => {
 
         describe('searchController', () => {
-
-            it('context in searchController updated', async () => {
-                const options = getBrowserOptions();
-                const filter = {
-                    testField: 'testValue'
-                };
-                options.filter = filter;
-                const browser = getBrowser(options);
-                await browser._beforeMount(options);
-
-                browser._createSearchControllerWithContext(options, browser._dataOptionsContext);
-                browser._beforeUpdate(options);
-                deepStrictEqual(browser._searchController._dataOptions.filter, filter);
-            });
 
             it('filter in searchController updated', async () => {
                 const options = getBrowserOptions();
@@ -256,15 +240,14 @@ describe('Controls/browser:Browser', () => {
                 options.filter = filter;
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
-                browser._createSearchControllerWithContext(options, browser._dataOptionsContext);
-
                 browser._filter = {
                     testField: 'oldFilterValue'
                 };
                 browser._options.source = options.source;
                 browser._sourceController.updateOptions = () => { return true; };
-                browser._beforeUpdate(options);
-                deepStrictEqual(browser._searchController._options.filter, filter);
+                await browser._getSearchController(browser._options);
+                await browser._beforeUpdate(options);
+                assert.deepStrictEqual(browser._searchController._options.filter, filter);
             });
 
             it('update with searchValue', async () => {
@@ -281,7 +264,7 @@ describe('Controls/browser:Browser', () => {
                 options.filter = {};
                 options.searchValue = 'test';
                 browser._beforeUpdate(options);
-                deepStrictEqual(browser._filter.name, 'test');
+                assert.deepStrictEqual(browser._filter.name, 'test');
             });
 
         });
@@ -294,11 +277,11 @@ describe('Controls/browser:Browser', () => {
                 const browser = getBrowser(options);
                 await browser._beforeMount(options);
                 browser._beforeUpdate(options);
-                deepStrictEqual(browser._operationsController._savedListMarkedKey, 'testMarkedKey');
+                assert.deepStrictEqual(browser._operationsController._savedListMarkedKey, 'testMarkedKey');
 
                 options.markedKey = undefined;
                 browser._beforeUpdate(options);
-                deepStrictEqual(browser._operationsController._savedListMarkedKey, 'testMarkedKey');
+                assert.deepStrictEqual(browser._operationsController._savedListMarkedKey, 'testMarkedKey');
             });
 
         });
@@ -317,7 +300,7 @@ describe('Controls/browser:Browser', () => {
             const browserItems = browser._items;
 
             await browser._beforeUpdate(options);
-            ok(browser._items !== browserItems);
+            assert.ok(browser._items !== browserItems);
         });
 
         it('source returns error, then _beforeUpdate', async () => {
@@ -331,7 +314,7 @@ describe('Controls/browser:Browser', () => {
                 browser._beforeUpdate(options)
             }
             options = {...options};
-            doesNotThrow(update);
+            assert.doesNotThrow(update);
         });
 
     });
@@ -341,6 +324,7 @@ describe('Controls/browser:Browser', () => {
         it('itemsChanged, items with new format', async () => {
             const options = getBrowserOptions();
             const browser = getBrowser(options);
+
             await browser._beforeMount(options);
 
             browser._items = new RecordSet({
@@ -364,7 +348,7 @@ describe('Controls/browser:Browser', () => {
             });
 
             browser._itemsChanged(null, newItems);
-            ok(browser._items === newItems);
+            assert.deepStrictEqual(browser._items.getRawData(), newItems.getRawData());
         });
 
     });
@@ -386,8 +370,27 @@ describe('Controls/browser:Browser', () => {
             };
 
             browser._dataLoadCallback(null, 'down');
-            equal(actualDirection, 'down');
+            assert.equal(actualDirection, 'down');
         });
+    });
+
+    it('_startSearch', async () => {
+        const searchController = getBrowser(getBrowserOptions());
+        let errorProcessed = false;
+        const error = new Error('error');
+        error.canceled = true;
+        searchController._getSearchController = () => {
+            return Promise.resolve({
+                search: () => {
+                    return Promise.resolve(error);
+                }
+            });
+        };
+        searchController._options.dataLoadErrback = () => {
+            errorProcessed = true;
+        };
+        await searchController._startSearch('testValue');
+        assert.isFalse(errorProcessed);
     });
 
 });

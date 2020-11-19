@@ -36,8 +36,7 @@ export interface IMovableList {
     moveItemDown(selectedKey: CrudEntityKey): Promise<void>;
 
     /**
-     * Перемещает указанные элементы при помощи диалога MoveDialog, и
-     * возвращает результат moveItems()
+     * Перемещает указанные элементы при помощи диалога MoveDialog, и возвращает результат moveItems().
      * @method
      * @public
      * @param selection

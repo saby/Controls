@@ -37,6 +37,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @class Controls/_dropdown/ComboBox
  * @extends Core/Control
  * @implements Controls/_interface/ISource
+ * @implements Controls/_dropdown/interface/IBaseDropdown
  * @implements Controls/_menu/interface/IMenuBase
  * @implements Controls/_interface/IFilterChanged
  * @implements Controls/_interface/ISingleSelectable
@@ -47,8 +48,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @implements Controls/_interface/IFontColorStyle
  * @implements Controls/_interface/ITooltip
  * @implements Controls/_interface/IHeight
- * @implements Controls/interface/IDropdown
- * 
+ *
  * @public
  * @author Золотова Э.Е.
  * @demo Controls-demo/dropdown_new/Combobox/Source/Index
@@ -64,10 +64,8 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @implements Controls/interface/IItemTemplate
  * @implements Controls/_interface/IFilterChanged
  * @implements Controls/_interface/ISingleSelectable
- * @implements Controls/interface/IDropdownEmptyText
  * @implements Controls/_input/interface/IBase
- * @implements Controls/interface/IDropdown
- * 
+ *
  * @public
  * @author Золотова Э.Е.
  * @demo Controls-demo/dropdown_new/Combobox/Source/Index

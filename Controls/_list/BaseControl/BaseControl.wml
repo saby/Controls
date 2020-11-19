@@ -70,7 +70,7 @@
         </div>
     </ws:if>
     <ws:if data="{{_shouldDrawFooter}}">
-        <ws:partial template="wml!Controls/_list/BaseControl/Footer" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
+        <ws:partial template="wml!Controls/_list/BaseControl/Footer" moreFontColorStyle="{{_options.moreFontColorStyle}}" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
     </ws:if>
 </ws:template>
 <ws:template name="multiSelectTplIf">
@@ -102,6 +102,7 @@
                 listModel="{{_listViewModel}}"
                 isEditingRowScrollToElement="{{ _isEditingRowScrollToElement }}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
+                preventServerSideColumnScroll="{{ _isMounted || _options.preventServerSideColumnScroll }}"
                 on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
                 on:validateDestroyed="_onValidateDestroyed()"

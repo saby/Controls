@@ -22,7 +22,11 @@ import {
     IItemTemplate,
     IItemTemplateOptions,
     IItems,
-    IItemsOptions
+    IItemsOptions,
+    IFontColorStyle,
+    IFontColorStyleOptions,
+    IIconStyle,
+    IIconStyleOptions
 } from 'Controls/interface';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
 
@@ -58,7 +62,8 @@ export interface IMenuOptions {
  * @author Красильников А.С.
  */
 export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIconSizeOptions,
-    IItemTemplateOptions, IGroupedOptions, IToolbarSourceOptions, IItemsOptions<TItem> {
+    IItemTemplateOptions, IGroupedOptions, IToolbarSourceOptions, IItemsOptions<TItem>, IFontColorStyleOptions,
+    IIconStyleOptions {
     /**
      * @name Controls/_toolbars/IToolbarOptions#popupClassName
      * @cfg {String} Имя класса, которое будет добавлено к атрибуту class на корневой ноде выпадающего меню.
@@ -135,6 +140,8 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIc
  * @mixes Controls/_toolbars/IToolbarSource
  * @mixes Controls/interface:IItemTemplate
  * @mixes Controls/interface:IItems
+ * @mixes Controls/interface:IIconStyle
+ * @mixes Controls/interface:IFontColorStyle
  *
  * @public
  * @author Красильников А.С.
@@ -142,7 +149,7 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIc
  */
 
 class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, IIconSize, IItemTemplate,
-    IGrouped, IToolbarSource, IItems {
+    IGrouped, IToolbarSource, IItems, IFontColorStyle, IIconStyle {
     /*
      * Used in template
      */
@@ -174,6 +181,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     readonly '[Controls/_interface/IHierarchy]': boolean = true;
     readonly '[Controls/_toolbars/IToolbarSource]': boolean = true;
     readonly '[Controls/_interface/IIconSize]': boolean = true;
+    readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
+    readonly '[Controls/_interface/IIconStyle]': boolean = true;
     readonly '[Controls/_interface/IItemTemplate]': boolean = true;
     readonly '[Controls/_interface/IItems]': boolean = true;
     readonly '[Controls/_dropdown/interface/IGrouped]': boolean = true;
@@ -295,7 +304,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
                     icon: item.get('icon'),
                     caption: item.get('title'),
                     iconSize: item.get('iconSize'),
-                    iconStyle: item.get('iconStyle')
+                    iconStyle: item.get('iconStyle') || options.iconStyle
                 }
             }
         };
@@ -607,7 +616,8 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
             popupClassName: '',
             itemsSpacing: 'medium',
             iconSize: 'm',
-            itemTemplate: defaultItemTemplate
+            itemTemplate: defaultItemTemplate,
+            iconStyle: 'secondary'
         };
     }
 

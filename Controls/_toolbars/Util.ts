@@ -32,12 +32,12 @@ export function getButtonTemplateOptionsByItem(item: TItem, toolbarOptions: ICon
     const inlineHeight = viewMode === 'functionalButton' ? 'default' : ActualApi.actualHeight('m', undefined, viewMode, false);
     const iconSize = viewMode === 'functionalButton' ? 's' : item.get('iconSize') || toolbarOptions.iconSize;
 
-    const iconStyle = item.get('iconStyle');
+    const iconStyle = item.get('iconStyle') || toolbarOptions.iconStyle;
     const transparent = item.get('buttonTransparent');
     const caption = item.get('caption');
     const captionPosition = item.get('captionPosition');
     const readOnly = item.get('readOnly') || toolbarOptions.readOnly;
-    const fontColorStyle = item.get('fontColorStyle');
+    const fontColorStyle = item.get('fontColorStyle') || toolbarOptions.fontColorStyle;
     const contrastBackground = item.get('contrastBackground');
     const cfg: IButtonOptions = {};
     cfg._hoverIcon = true;
@@ -67,14 +67,14 @@ export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions
     const viewMode = item.get('viewMode') || 'link';
     const readOnly = item.get('readOnly') || toolbarOptions.readOnly;
     const buttonStyle = item.get('buttonStyle') || defaultOptions.buttonStyle;
-    const iconStyle = item.get('iconStyle') || defaultOptions.iconStyle;
+    const iconStyle = item.get('iconStyle') || toolbarOptions.iconStyle || defaultOptions.iconStyle;
 
     cfg._hoverIcon = true;
     cfg._buttonStyle = readOnly ? 'readonly' : buttonStyle;
     cfg._contrastBackground = item.get('contrastBackground');
     cfg._viewMode = viewMode;
     cfg._height = item.get('inlineHeight') || defaultHeight(viewMode);
-    cfg._fontColorStyle = item.get('fontColorStyle') || defaultFontColorStyle(viewMode);
+    cfg._fontColorStyle = item.get('fontColorStyle') || toolbarOptions.fontColorStyle || defaultFontColorStyle(viewMode);
     cfg._fontSize = item.get('fontSize') || defaultOptions.fontSize;
     cfg._hasIcon = !!icon;
     cfg._caption = caption;

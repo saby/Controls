@@ -1,6 +1,5 @@
-import Env = require('Env/Env');
 import {getScrollbarWidth} from '../Utils/getScrollbarWidth';
-
+import {constants, detection} from 'Env/Env';
 
 var _private = {
 
@@ -15,7 +14,7 @@ var _private = {
      * @return {number}
      */
     calcScrollbarWidth: function() {
-        return getScrollbarWidth(Env.detection);
+        return getScrollbarWidth(detection);
     },
 
     /**
@@ -50,14 +49,14 @@ export = {
         if (typeof _private.styleHideScrollbar[scrollMode] === 'string') {
             styleHideScrollbar = _private.styleHideScrollbar[scrollMode];
         } else {
-            scrollbarWidth = _private.calcScrollbarWidth(Env.detection);
+            scrollbarWidth = _private.calcScrollbarWidth(detection);
             styleHideScrollbar = _private.calcStyleHideScrollbar(scrollbarWidth, scrollMode);
         }
 
         /**
          * Do not cache on the server and firefox.
          */
-        if (!(typeof window === 'undefined' || Env.detection.firefox)) {
+        if (!(!constants.isBrowserPlatform || detection.firefox)) {
             _private.styleHideScrollbar[scrollMode] = styleHideScrollbar;
         }
 

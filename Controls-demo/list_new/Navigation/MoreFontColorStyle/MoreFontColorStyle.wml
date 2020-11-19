@@ -1,0 +1,155 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">default</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=link</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="link">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=primary</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="primary">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=secondary</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="secondary">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=success</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="success">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=warning</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="warning">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=danger</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="danger">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=unaccented</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="unaccented">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=label</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="label">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=info</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="info">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=default</div>
+        <Controls.scroll:Container>
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    moreFontColorStyle="default">
+                <ws:navigation source="page" view="demand">
+                    <ws:sourceConfig pageSize="{{7}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+</div>

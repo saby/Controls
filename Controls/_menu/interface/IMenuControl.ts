@@ -116,3 +116,10 @@ export default interface IMenuControl {
  * @cfg {String} Имя свойства, содержащего информацию о типе элемента (лист, узел).
  * @demo Controls-demo/Menu/Control/ParentProperty/Index
  */
+
+/**
+ * @name Controls/_menu/interface/IMenuControl#additionalProperty
+ * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню.
+ * Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
+ * @demo Controls-demo/dropdown_new/Button/AdditionalProperty/Index
+ */

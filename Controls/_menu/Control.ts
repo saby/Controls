@@ -15,7 +15,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import {view as constView} from 'Controls/Constants';
+import {groupConstants as constView} from 'Controls/list';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {TouchContextField} from 'Controls/context';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
@@ -234,7 +234,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
      * @param clickEvent
      * @private
      */
-    protected _itemActionClick(event: SyntheticEvent<MouseEvent>,
+    protected _itemActionMouseDown(event: SyntheticEvent<MouseEvent>,
                                item: CollectionItem<Model>,
                                action: IItemAction,
                                clickEvent: SyntheticEvent<MouseEvent>): void {

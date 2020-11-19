@@ -13,7 +13,7 @@ const ALL_SELECTION_VALUE = null;
 /**
  * Базовая стратегия выбора в плоском списке.
  * @class Controls/_multiselection/SelectionStrategy/Flat
- * 
+ *
  * @public
  * @author Панихин К.А.
  */
@@ -93,8 +93,9 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       selectedItems.set(false, []);
       selectedItems.set(null, []);
 
+      let resLimit = limit;
       if (limit > 0) {
-         limit -= selection.excluded.length;
+         resLimit -= selection.excluded.length;
       }
 
       const isAllSelected: boolean = this._isAllSelected(selection);
@@ -105,7 +106,7 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
          }
 
          const itemId = this._getKey(item);
-         const selected = (!limit || selectedItemsCount < limit)
+         const selected = (!resLimit || selectedItemsCount < resLimit)
              && (selection.selected.includes(itemId) || isAllSelected && !selection.excluded.includes(itemId));
 
          if (selected) {
@@ -179,8 +180,10 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       }
 
       let contents = item.getContents();
+      // tslint:disable-next-line:ban-ts-ignore
       // @ts-ignore
       if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+         // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
       }
 

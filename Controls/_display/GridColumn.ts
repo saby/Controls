@@ -10,6 +10,8 @@ import {
 import GridCollectionItem from './GridCollectionItem';
 import { TemplateFunction } from 'UI/Base';
 import { IColumn } from 'Controls/grid';
+import {TMarkerClassName} from '../_grid/interface/ColumnTemplate';
+import {IItemPadding} from '../_list/interface/IList';
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:ColumnTemplate';
 
@@ -177,7 +179,9 @@ export default class GridColumn<T> extends mixin<
         }
 
         if (this._$owner.isEditing()) {
-            contentClasses += ` controls-Grid__row-cell-background-editing_theme-${theme}`;
+            const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
+            contentClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
+            contentClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
         } else if (templateHighlightOnHover !== false) {
             contentClasses += ` controls-Grid__row-cell-background-hover-default_theme-${theme}`;
         }
@@ -234,11 +238,20 @@ export default class GridColumn<T> extends mixin<
         return this.isLastColumn() && (this._$owner.hasVisibleActions() || this._$owner.isEditing());
     }
 
-    getMarkerClasses(theme: string, style: string = 'default', markerPosition: 'left' | 'right' = 'left'): string {
+    getMarkerClasses(theme: string, style: string = 'default',
+                     markerClassName: TMarkerClassName = 'default', itemPadding: IItemPadding = {},
+                     markerPosition: 'left' | 'right' = 'left'): string {
+        let markerClass = 'controls-ListView__itemV_marker_';
+        if (markerClassName === 'default') {
+            markerClass += 'default';
+        } else {
+            markerClass += `padding-${(itemPadding.top || 'l')}_${markerClassName})`;
+        }
         return `
             controls-ListView__itemV_marker-${markerPosition}
             controls-ListView__itemV_marker controls-ListView__itemV_marker-${style}_theme-${theme}
             controls-GridView__itemV_marker controls-GridView__itemV_marker-${style}_theme-${theme}
+            ${markerClass}
         `;
     }
 
@@ -254,12 +267,14 @@ export default class GridColumn<T> extends mixin<
         const isEditing = this._$owner.isEditing();
         const isDragged = this._$owner.isDragged();
         const preparedStyle = style === 'masterClassic' ? 'default' : style;
+        const editingBackgroundStyle = this.getOwner().getEditingBackgroundStyle();
 
         classes += ` controls-Grid__row-cell controls-Grid__cell_${preparedStyle}`;
         classes += ` controls-Grid__row-cell_${preparedStyle}_theme-${theme}`;
 
         if (isEditing) {
             classes += ` controls-ListView__item_editing_theme-${theme}`;
+            classes += ` controls-ListView__item_background-editing_${editingBackgroundStyle}_theme-${theme}`;
         }
 
         if (isDragged) {

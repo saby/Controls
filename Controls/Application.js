@@ -268,7 +268,7 @@ define('Controls/Application',
             // https://online.sbis.ru/opendoc.html?guid=3ed5ebc1-0b55-41d5-a8fa-921ad24aeec3
             Env.constants.loadDataProviders = cfg.loadDataProviders;
 
-            if (typeof window !== 'undefined') {
+            if (Env.constants.isBrowserPlatform) {
                /* eslint-disable */
                if (document.getElementsByClassName('head-custom-block').length > 0) {
                   this.head = undefined;

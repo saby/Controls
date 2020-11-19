@@ -4,7 +4,7 @@
             keyProperty="id">
         <ws:navigation source="page" view="infinity">
             <ws:sourceConfig pageSize="{{9}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>
-            <ws:viewConfig pagingMode="direct"></ws:viewConfig>
+            <ws:viewConfig pagingMode="basic"></ws:viewConfig>
         </ws:navigation>
     </Controls.list:View>
 </Controls.scroll:Container>
