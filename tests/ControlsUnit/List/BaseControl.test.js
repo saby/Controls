@@ -5210,7 +5210,7 @@ define([
                                  keyProperty: 'id',
                                  rawData: [{ id: 'test' }]
                               });
-                              baseCtrl._listViewModel.setItems(recordSet);
+                              baseCtrl._listViewModel.setItems(recordSet, {});
                               baseCtrl.reloadItem('test', null, true, 'query')
                                  .addCallback(function(reloadedItems) {
                                     assert.isTrue(reloadedItems.getCount() === 0);
@@ -7527,7 +7527,6 @@ define([
             const secondBaseControl = new lists.BaseControl();
             secondBaseControl.saveOptions(cfg);
             await secondBaseControl._beforeMount(cfg);
-            secondBaseControl._listViewModel.setItems(rs);
 
             secondBaseControl._notify = () => true;
             const dragEntity = new dragNDrop.ItemsEntity({ items: [1] });
