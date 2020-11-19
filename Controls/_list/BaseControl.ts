@@ -1603,13 +1603,13 @@ const _private = {
         const showShadowUpByPortionedSearch = _private.allowLoadMoreByPortionedSearch(self, 'up');
         const showShadowDownByPortionedSearch = _private.allowLoadMoreByPortionedSearch(self, 'down');
 
-        self._notify('updateShadowMode', [{
+        self._notify('updateHasUnrenderedContent', [{
             top: (shadowVisibility?.up ||
                 showShadowByNavigation &&
-                showShadowUpByPortionedSearch && itemsCount && hasMoreData('up')) ? 'visible' : 'auto',
+                showShadowUpByPortionedSearch && itemsCount && hasMoreData('up')),
             bottom: (shadowVisibility?.down ||
                 showShadowByNavigation &&
-                showShadowDownByPortionedSearch && itemsCount && hasMoreData('down')) ? 'visible' : 'auto'
+                showShadowDownByPortionedSearch && itemsCount && hasMoreData('down'))
         }], {bubbling: true});
     },
 

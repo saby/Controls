@@ -2158,7 +2158,7 @@ define([
            }
        };
          ctrl._notify = (eventName, eventResult) => {
-            if (eventName === 'updateShadowMode') {
+            if (eventName === 'updateHasUnrenderedContent') {
                shadowMode = eventResult[0];
             }
             if (eventName === 'iterativeSearchAborted') {
@@ -2175,7 +2175,7 @@ define([
                end: 'readonly'
             }
          });
-         assert.deepEqual(shadowMode, {top: 'auto', bottom: 'auto'});
+         assert.deepEqual(shadowMode, {top: false, bottom: false});
          assert.isTrue(iterativeSearchAborted);
       });
 
