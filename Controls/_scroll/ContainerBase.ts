@@ -18,6 +18,11 @@ export interface IContainerBaseOptions extends IControlOptions {
     scrollMode?: SCROLL_MODE;
 }
 
+export interface IUnrenderedContent {
+    top: boolean;
+    bottom: boolean;
+}
+
 const KEYBOARD_SHOWING_DURATION: number = 500;
 
 export default class ContainerBase extends Control<IContainerBaseOptions> {
@@ -33,6 +38,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     protected _isStateInitialized: boolean = false;
 
     private _registrars: any = [];
+    private _hasUnrenderedContent: IVirtualScroll;
 
     private _resizeObserver: ResizeObserverUtil;
     private _observedElements: HTMLElement[] = [];
@@ -245,7 +251,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     /**
      * Скроллит к верху контейнера.
      * @name Controls/_scroll/Container#scrollToTop
-     * @function 
+     * @function
      * @see scrollToBottom
      * @see scrollToLeft
      * @see scrollToRight
@@ -375,11 +381,19 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
                             _bubbling: false
                         }),
                         this._state.scrollTop
-                    ], [ this._state.scrollTop ]);
+                    ], [
+                        this._state.scrollTop,
+                        this._state.scrollLeft,
+                        this._canVirtualScrollTop()
+                    ]);
             }
 
             this._generateCompatibleEvents();
         }
+    }
+
+    private _canVirtualScrollTop(): boolean {
+        return this._hasUnrenderedContent?.top || !!this._getVirtualScrollTop();
     }
 
     _generateEvent(eventType: string, params: object[], notifyParams: any[] = params): void {
@@ -526,7 +540,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
             const
                 clientHeight = this._state.clientHeight,
                 scrollHeight = this._state.scrollHeight,
-                currentScrollTop = this._state.scrollTop + (this._isVirtualPlaceholderMode() ? this._topPlaceholderSize : 0);
+                currentScrollTop = this._getVirtualScrollTop();
             if (scrollParam === 'bottom') {
                 this._setScrollTop(scrollHeight - clientHeight);
             } else if (scrollParam === 'pageUp') {
@@ -661,6 +675,15 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
 
     private _isVirtualPlaceholderMode(): boolean {
         return !!this._topPlaceholderSize || !!this._bottomPlaceholderSize;
+    }
+
+    protected _updateHasUnrenderedContent(hasUnrenderedContent: IUnrenderedContent): void {
+        this._hasUnrenderedContent = hasUnrenderedContent;
+    }
+
+    private _getVirtualScrollTop(): number {
+        return this._isVirtualPlaceholderMode() ? this._state.scrollTop + this._topPlaceholderSize :
+            this._state.scrollTop;
     }
 
     updatePlaceholdersSize(placeholdersSizes: object): void {

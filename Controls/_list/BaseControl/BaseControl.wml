@@ -131,7 +131,7 @@
                 on:controlResize="_viewResize()"
                 on:doScroll="_stopBubblingEvent()"
                 on:scrollToElement="_stopBubblingEvent()"
-                on:updateShadowMode="_stopBubblingEvent()"
+                on:updateHasUnrenderedContent="_stopBubblingEvent()"
                 on:updatePlaceholdersSize="_stopBubblingEvent()"
                 on:saveScrollPosition="_stopBubblingEvent()"
                 on:restoreScrollPosition="_stopBubblingEvent()"
