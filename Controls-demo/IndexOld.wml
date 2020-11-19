@@ -299,11 +299,6 @@
             <a href="Controls-demo%252FButtons%252FstandartDemoButton">Buttons: styles demo</a>
          </div>
 
-         <h1>Dropdown</h1>
-         <a href="Controls-demo%252FDropdown%252FMenuVdom?withoutLayout=true">
-            Dropdown
-         </a>
-
          <h1>Search</h1>
          <a href="Controls-demo%252FSearch%252FSearchVDom">
             Search

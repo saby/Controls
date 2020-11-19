@@ -2,6 +2,7 @@ import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editingCellTemplate';
 import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell';
 import * as CntTpl from 'wml!Controls-demo/Explorer_new/SearchWithPhoto/content';
+import * as CntTplLadder from 'wml!Controls-demo/Explorer_new/SearchWithLadderPhoto/content';
 import { IHeader } from 'Controls-demo/types';
 import { IColumn } from 'Controls/grid';
 
@@ -562,6 +563,23 @@ export const Gadgets = {
          {
             displayProperty: 'title',
             template: CntTpl,
+            width: ''
+         },
+         {
+            displayProperty: 'code',
+            width: ''
+         },
+         {
+            displayProperty: 'price',
+            width: ''
+         }
+      ];
+   },
+   getSearchColumnsWithLadderPhoto(): IColumn[] {
+      return [
+         {
+            displayProperty: 'title',
+            template: CntTplLadder,
             width: ''
          },
          {

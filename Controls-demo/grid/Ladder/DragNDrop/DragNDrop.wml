@@ -1,0 +1,23 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__height400">
+        <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
+            <Controls.list:Container>
+                <Controls.grid:View
+                        on:dragStart="_dragStart()"
+                        on:dragEnd="_dragEnd()"
+                        name="list"
+                        itemActions="{{_itemActions}}"
+                        itemsReadyCallback="{{_itemsReadyCallback}}"
+                        itemsDragNDrop="{{true}}"
+                        columns="{{_columns}}"
+                        ladderProperties="{{_ladderProperties}}">
+                    <ws:draggingTemplate>
+                        <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                                    mainText="{{draggingTemplate.entity._options.title}}">
+                        </ws:partial>
+                    </ws:draggingTemplate>
+                </Controls.grid:View>
+            </Controls.list:Container>
+        </Controls.list:DataContainer>
+    </Controls.scroll:Container>
+</div>

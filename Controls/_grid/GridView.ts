@@ -379,6 +379,21 @@ var
             // https://online.sbis.ru/opendoc.html?guid=756c49a6-13da-4e54-9333-fdd7a7fb6461
             this._prepareColumnsForEmptyEditingTemplate = this._prepareColumnsForEmptyEditingTemplate.bind(this);
 
+            if (cfg.columnScroll && cfg.columnScrollStartPosition === 'end' && GridLayoutUtil.isFullGridSupport()) {
+                // В таблице с горизонтальным скроллом изначально прокрученным в конец используется фейковая таблица.
+                // Т.к. для отрисовки горизонтального скролла требуется знать размеры таблицы, инициализация горизонтального скролла
+                // происходит на afterMount, который не вызывается на сервере. Чтобы измежать скачка, при оживлении таблицы с
+                // прокрученными в конец колонками, на сервере строится фейковая таблица, состаящая из двух гридов.
+                // Первый - фиксированные колонки, абсолютный блок, прижат к левому краю релативной обертки.
+                // Второй - все остальные колонки, абсолютный блок, прижат к правому краю релативной обертки.
+                // При построении настоящая таблица скрывается с помощью visibility и строится в обыччном порядке.
+                // Затем проскроливается вконец и только после этого заменяет фейковую.
+                // preventServerSideColumnScroll - запрещает построение с помощью данного механизма. Нужно например при поиске, когда
+                // таблица перемонтируется. Простая проверка на window нам не подходит, т.к. нас интересует только первая отрисовка view
+                // списочного контрола.
+                this._showFakeGridWithColumnScroll = !cfg.preventServerSideColumnScroll;
+            }
+
             return resultSuper;
         },
 
@@ -598,6 +613,17 @@ var
             _private.setHoveredCell(this, itemData.item, event.nativeEvent);
         },
 
+        _onViewMouseEnter: function() {
+            // При загрузке таблицы с проскроленным в конец горизонтальным скролом следует оживить таблицу при
+            // вводе в нее указателя мыши, но после отрисовки thumb'а (скрыт через visibility) во избежание скачков
+            if (this._showFakeGridWithColumnScroll) {
+                if (this._canShowRealGridWithColumnScroll) {
+                    this._showFakeGridWithColumnScroll = false;
+                }
+                this._canShowRealGridWithColumnScroll = true;
+            }
+        },
+
         _onItemMouseLeave: function() {
             GridView.superclass._onItemMouseLeave.apply(this, arguments);
             _private.setHoveredCell(this, null, null);
@@ -633,10 +659,13 @@ var
         },
 
         // Не вызывает реактивную перерисовку, т.к. данные пишутся в поля объекта. Перерисовка инициируется обновлением позиции скрола.
-        _updateColumnScrollShadowClasses(): void {
-            const newStart = this._columnScrollController.getShadowClasses('start');
-            const newEnd = this._columnScrollController.getShadowClasses('end');
+        _updateColumnScrollShadowClasses(options = this._options): void {
+            const newStart = this._getColumnScrollShadowClasses(options, 'start');
+            const newEnd = this._getColumnScrollShadowClasses(options, 'end');
 
+            if (!this._columnScrollShadowClasses) {
+                this._columnScrollShadowClasses = {};
+            }
             if (
                 this._columnScrollShadowClasses.start !== newStart ||
                 this._columnScrollShadowClasses.end !== newEnd
@@ -648,11 +677,31 @@ var
             }
         },
 
-        // Не вызывает реактивную перерисовку, т.к. данные пишутся в поля объекта. Перерисовка инициируется обновлением позиции скрола.
-        _updateColumnScrollShadowStyles(): void {
-            const newStart = this._columnScrollController.getShadowStyles('start');
-            const newEnd = this._columnScrollController.getShadowStyles('end');
+        _getColumnScrollShadowClasses(options, position: 'start' | 'end'): string {
+            if (this._showFakeGridWithColumnScroll && options.columnScrollStartPosition === 'end') {
+                let classes = '';
+                if (options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom') {
+                    classes += `controls-Grid__ColumnScroll__shadow_withMultiselect_theme-${options.theme} `;
+                }
+                return classes + ColumnScroll.getShadowClasses({
+                    position,
+                    isVisible: position === 'start',
+                    theme: options.theme,
+                    backgroundStyle: options.backgroundStyle,
+                    needBottomPadding: options.needBottomPadding
+                });
+            }
+            return this._columnScrollController.getShadowClasses(position);
+        },
 
+        // Не вызывает реактивную перерисовку, т.к. данные пишутся в поля объекта. Перерисовка инициируется обновлением позиции скрола.
+        _updateColumnScrollShadowStyles(options = this._options): void {
+            const newStart = this._getColumnScrollShadowStyles(options, 'start');
+            const newEnd = this._getColumnScrollShadowStyles(options, 'end');
+
+            if (!this._columnScrollShadowStyles) {
+                this._columnScrollShadowStyles = {};
+            }
             if (
                 this._columnScrollShadowStyles.start !== newStart ||
                 this._columnScrollShadowStyles.end !== newEnd
@@ -663,6 +712,28 @@ var
                 };
             }
         },
+
+        _getColumnScrollShadowStyles(options, position: 'start' | 'end'): string {
+            if (this._showFakeGridWithColumnScroll && options.columnScrollStartPosition === 'end') {
+                if (position === 'end') {
+                    return '';
+                }
+
+                let offsetLeft = 0;
+
+                for (let i = 0; i < options.columns.length && i < options.stickyColumnsCount; i++) {
+                    if (!(options.columns[i].width && options.columns[i].width.indexOf('px') !== -1)) {
+
+                    } else {
+                        offsetLeft += Number.parseInt(options.columns[i].width);
+                    }
+                }
+
+                return `left: ${offsetLeft}px; z-index: 5;`
+            }
+            return this._columnScrollController.getShadowStyles(position);
+        },
+
         _horizontalPositionChangedHandler(e, newScrollPosition: number): void {
             this._columnScrollController.setScrollPosition(newScrollPosition);
             this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
@@ -733,6 +804,18 @@ var
             }
             this._columnScrollController.scrollToElementIfHidden(e.target as HTMLElement);
             this._updateColumnScrollData();
+        },
+        _onNewHorizontalPositionRendered(e, newPosition) {
+            e.stopPropagation();
+
+            // При загрузке таблицы с проскроленным в конец горизонтальным скролом следует оживить таблицу при
+            // вводе в нее указателя мыши, но после отрисовки thumb'а (скрыт через visibility) во избежание скачков
+            if (this._showFakeGridWithColumnScroll && newPosition !== 0) {
+                if (this._context?.isTouch?.isTouch || this._canShowRealGridWithColumnScroll) {
+                    this._showFakeGridWithColumnScroll = false;
+                }
+                this._canShowRealGridWithColumnScroll = true;
+            }
         },
         _startDragScrolling(e, startBy: 'mouse' | 'touch'): void {
             if (this._isColumnScrollVisible() && this._dragScrollController) {
@@ -850,7 +933,8 @@ var
                 hasMultiSelect: this._options.multiSelectVisibility !== 'hidden' && this._options.multiSelectPosition === 'default',
                 colspanColumns: columns.map((c) => ({...c, startColumn: c.startIndex, endColumn: c.endIndex})),
                 itemPadding: this._options.itemPadding || {},
-                theme: this._options.theme
+                theme: this._options.theme,
+                editingBackgroundStyle: (this._options.editingConfig ? this._options.editingConfig.backgroundStyle : 'default')
             });
         }
     });

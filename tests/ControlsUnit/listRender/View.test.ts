@@ -334,13 +334,13 @@ describe('Controls/_listRender/View', () => {
             assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).calledOnce);
         });
 
-        it('_onItemActionClick', () => {
+        it('_onItemActionMouseDown', () => {
             view._itemActionsController = {
                 prepareActionsMenuConfig(): void {
                 }
             };
 
-            view._onItemActionClick({}, view._collection.getItemBySourceKey(1), null, {});
+            view._onItemActionMouseDown({}, view._collection.getItemBySourceKey(1), null, {});
 
             assert.isTrue(view._collection.getItemBySourceKey(1).isMarked());
             assert.isFalse(view._collection.getItemBySourceKey(2).isMarked());

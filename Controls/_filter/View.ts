@@ -649,7 +649,7 @@ var _private = {
  *
  * @class Controls/_filter/View
  * @extends Core/Control
- * @mixes Controls/_filter/View/interface/IFilterView
+ * @mixes Controls/_filter/View/interface/IFilterItem
  * @public
  * @author Золотова Э.Е.
  *

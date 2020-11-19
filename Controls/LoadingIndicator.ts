@@ -7,6 +7,7 @@ import LoadingIndicatorOpener from 'Controls/_LoadingIndicator/LoadingIndicatorO
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
+import {constants} from 'Env/Env';
 
 let ManagerController;
 /**
@@ -391,7 +392,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         const events = ['mousedown', 'mouseup', 'click', 'keydown', 'keyup'];
         // TODO https://online.sbis.ru/opendoc.html?guid=157084a2-d702-40b9-b54e-1a42853c301e
         for (const event of events) {
-            if (window) {
+            if (constants.isBrowserPlatform) {
                 window[action](event, LoadingIndicator._eventsHandler, true);
                 /**
                  * В оффлайне стрельнул баг: если отписываться с флагом true(несмотря на такую же подписку)

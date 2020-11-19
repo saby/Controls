@@ -3,7 +3,7 @@ define('Controls-demo/Explorer/Demo', [
    'wml!Controls-demo/Explorer/Demo/Demo',
    'Types/source',
    'Controls/Utils/Toolbar',
-   'Controls/Constants',
+   'Controls/list',
    'Controls-demo/Explorer/ExplorerImages',
    'Controls/explorer'
 ], function(BaseControl, template, source, Toolbar, constants, explorerImages) {
@@ -201,7 +201,7 @@ define('Controls-demo/Explorer/Demo', [
          _groupingKeyCallback: function(item) {
             var group;
             if (item.get('hiddenGroup')) {
-               group = constants.view.hiddenGroup;
+               group = constants.groupConstants.hiddenGroup;
             } else {
                group = item.get('isDocument') ? 'document' : 'image';
             }

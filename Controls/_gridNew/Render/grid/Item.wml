@@ -2,7 +2,7 @@
    <ws:for data="gridColumn in item.getColumns()">
       <div attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
            attr:style="{{ gridColumn.getWrapperStyles() }}">
-         <div if="{{ gridColumn.shouldDisplayMarker(marker, markerPosition) }}" attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
+         <div if="{{ gridColumn.shouldDisplayMarker(marker) }}" attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
          <div attr:class="{{ gridColumn.getContentClasses(theme, cursor, highlightOnHover) }}"
               attr:style="{{ gridColumn.getContentStyles() }}">
             <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"

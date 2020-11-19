@@ -463,7 +463,8 @@ describe('Controls/_display/CollectionItem', () => {
     it('.getWrapperClasses()', () => {
         const owner = {
             notifyItemChange(): void {},
-            getHoverBackgroundStyle: function() {}
+            getHoverBackgroundStyle: function() {},
+            getEditingBackgroundStyle: () => 'default'
         };
 
         const defaultClasses = [
@@ -473,7 +474,7 @@ describe('Controls/_display/CollectionItem', () => {
             'js-controls-ItemActions__swipeMeasurementContainer'
         ];
         const editingClasses = [
-            'controls-ListView__item_editing'
+            'controls-ListView__item_background-editing'
         ];
 
         const item = new CollectionItem({ owner });
@@ -496,6 +497,7 @@ describe('Controls/_display/CollectionItem', () => {
             getLeftPadding(): string { return '#leftSpacing#'; },
             getRightPadding(): string { return '#rightSpacing#'; },
             getMultiSelectVisibility(): string { return multiSelectVisibility; },
+            getMultiSelectPosition(): string { return 'default'; },
             getRowSeparatorSize: function () { return ''; }
         };
         const defaultClasses = [

@@ -3,7 +3,6 @@ import {RecordSet} from 'Types/collection';
 
 export function items(items: RecordSet<Record>): RecordSet<Record> {
     items.each((item) => {
-        const iconStyleValue = item.get('iconStyle');
         const iconSize = item.get('iconSize');
         const viewModeValue = item.get('viewMode');
         let captionValue = '';
@@ -14,7 +13,6 @@ export function items(items: RecordSet<Record>): RecordSet<Record> {
             captionValue = item.get('title');
         }
 
-        item.set('iconStyle', iconStyleValue || 'secondary');
         item.set('viewMode', viewModeValue || 'link');
         item.set('caption', captionValue);
         item.set('iconSize', iconSize || 'm');

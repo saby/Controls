@@ -19,6 +19,7 @@ import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {ISelectionObject} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import { RecordSet } from 'Types/collection';
+import {calculatePath} from 'Controls/dataSource';
 
 var
       HOT_KEYS = {
@@ -108,17 +109,6 @@ var
          getRoot: function(self, newRoot) {
             return typeof newRoot !== 'undefined' ? newRoot : self._root;
          },
-         getPath(data) {
-             const path = data && data.getMetaData().path;
-             let breadCrumbs;
-
-             if (path && path.getCount() > 0) {
-                 breadCrumbs = factory(path).toArray();
-             } else {
-                 breadCrumbs = null;
-             }
-             return breadCrumbs;
-         },
          resolveItemsOnFirstLoad(self, resolver, result) {
             if (self._firstLoad) {
                resolver(result);
@@ -139,7 +129,7 @@ var
             }
          },
          serviceDataLoadCallback: function(self, oldData, newData) {
-            self._breadCrumbsItems = _private.getPath(newData);
+            self._breadCrumbsItems = calculatePath(newData).path;
             _private.resolveItemsOnFirstLoad(self, self._itemsResolver, self._breadCrumbsItems);
             _private.updateSubscriptionOnBreadcrumbs(oldData, newData, self._updateHeadingPath);
          },
@@ -675,7 +665,7 @@ var
          keysHandler(event, HOT_KEYS, _private, this);
       },
       _updateHeadingPath() {
-          this._breadCrumbsItems = _private.getPath(this._items);
+          this._breadCrumbsItems = calculatePath(this._items).path;
       },
       scrollToItem(key: string|number, toBottom: boolean): void {
          this._children.treeControl.scrollToItem(key, toBottom);

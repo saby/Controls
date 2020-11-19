@@ -2,7 +2,7 @@ define('Controls-demo/List/List/GroupPG',
    [
       'Core/Control',
       'Types/source',
-      'Controls/Constants',
+      'Controls/list',
       'Controls-demo/List/List/resources/DataDemoPG',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'json!Controls-demo/List/List/resources/GroupPG/cfg',
@@ -60,7 +60,7 @@ define('Controls-demo/List/List/GroupPG',
          },
          _groupByBrand: function(item) {
             if (item.get('brand') === 'apple') {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('brand');
          },

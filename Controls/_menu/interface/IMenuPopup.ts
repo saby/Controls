@@ -1,11 +1,19 @@
 import {TemplateFunction} from 'UI/Base';
 import {ISearch} from 'Controls/interface';
 import {IMenuControlOptions} from 'Controls/menu';
+import {CollectionItem} from 'Controls/display';
+import {Model, CrudEntityKey} from 'Types/entity';
+
+export interface IFooterItemData {
+    item: CollectionItem<Model>,
+    key: CrudEntityKey
+}
 
 export interface IMenuPopupOptions extends IMenuControlOptions, ISearch {
     headerContentTemplate: TemplateFunction;
     footerContentTemplate: TemplateFunction;
     closeButtonVisibility: boolean;
+    footerItemData: IFooterItemData
 }
 
 /**
@@ -113,4 +121,9 @@ export default interface IMenuPopup {
  * @name Controls/_menu/interface/IMenuPopup#emptyTemplate
  * @cfg {Function} Шаблон, который будет отображаться в выпадающем списке, если поисковой запрос не вернул результатов.
  * @demo Controls-demo/Menu/Popup/SearchParam/EmptyTemplate/Index
+ */
+
+/**
+ * @name Controls/_menu/interface/IMenuPopup#footerItemData
+ * @cfg {IFooterItemData} Данные для {@link Controls/_menu/interface/IMenuPopup#footerContentTemplate шаблона нижней части окна}.
  */

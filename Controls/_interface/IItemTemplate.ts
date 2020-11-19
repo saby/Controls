@@ -18,7 +18,7 @@ export interface IItemTemplateOptions {
      * - contentTemplate {Function} — Шаблон содержимого элемента;
      * - highlightOnHover {Boolean} — Выделять элемент при наведении на него курсора мыши.
      * - checkboxReadOnly {Boolean} — Флаг, позволяющий установить у checkbox в multiSelect режим "только для чтения".
-     * - cursor {TCursor} - Устанавливает тип {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах элемента списка.
+     * - cursor {TCursor} — Устанавливает вид {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора мыши} при наведении на строку.
      *
      * В области видимости шаблона доступен объект itemData, позволяющий получить доступ к данным рендеринга (например, элемент, ключ и т.д.).
      *

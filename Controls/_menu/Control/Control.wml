@@ -11,7 +11,7 @@
                                 listModel="{{_listModel}}"
                                 on:itemClick="_itemClick()"
                                 on:itemSwipe="_itemSwipe()"
-                                on:itemActionClick="_itemActionClick()"
+                                on:itemActionMouseDown="_itemActionMouseDown()"
                                 on:itemMouseEnter="_itemMouseEnter()"
                                 on:checkBoxClick="_checkBoxClick()"
 

@@ -34,7 +34,7 @@
                     маркер в списке "Cписок с хоком HotKeysContainer" на "элемент 0"
                 </div>
             </div>
-            <div class="demoWrapper">
+            <div class="demoWrapper demo-HotKeysContainer__list1">
                 <Controls.heading:Title caption="Cписок с хоком HotKeysContainer (scroll)" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
                 <Controls.scroll:Container attr:class="demoWrapper__height200">
                     <Controls.scroll:HotKeysContainer>
@@ -42,7 +42,7 @@
                     </Controls.scroll:HotKeysContainer>
                 </Controls.scroll:Container>
             </div>
-            <div class="demoWrapper">
+            <div class="demoWrapper demo-HotKeysContainer__list2">
                 <Controls.heading:Title caption="Cписок с хоком HotKeysContainer" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
                 <div>
                     <Controls.input:Text />

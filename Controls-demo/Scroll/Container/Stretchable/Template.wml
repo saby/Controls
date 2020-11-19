@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo__flexColumn controls-ControlsDemo__stretch">
+    <Controls.scroll:Container attr:class="controls-ControlsDemo__stretch">
+        <div >
+            <ws:for data="key in 2">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                    cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                    anim id est laborum.
+                </p>
+            </ws:for>
+        </div>
+    </Controls.scroll:Container>
+</div>

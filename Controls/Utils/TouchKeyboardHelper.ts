@@ -77,7 +77,7 @@ const TouchKeyboardHelper = {
       // Для определения того, что клавиатура показалась и нужно на это отреагировать, в application можно проверять,
       // Куда пришел фокус, если это input/textarea/contenteditable, то через emitter/listener сообщать
       // об этом дочерним компонентам. Костыль актуален только для старых контролов, на вдом отключил.
-      if (!isNewEnvironment() && !notConsiderFocusPosition && !isVisible && document && document.activeElement) {
+      if (!isNewEnvironment() && !notConsiderFocusPosition && !isVisible && constants.isBrowserPlatform && document.activeElement) {
          const isInput = document.activeElement.tagName === 'INPUT';
          const isTextArea = document.activeElement.tagName === 'TEXTAREA';
          const isContentEditable = document.activeElement.getAttribute('contenteditable') === 'true';

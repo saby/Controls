@@ -9,7 +9,7 @@ import {Stack} from 'Controls/popup';
 import {Model} from 'Types/entity';
 import * as sinon from 'sinon';
 import {Memory} from 'Types/source';
-import {Controller as SearchController, SearchResolver as SearchResolverController} from 'Controls/searchNew';
+import {ControllerClass as SearchController, SearchResolver as SearchResolverController} from 'Controls/search';
 import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {PrefetchProxy} from 'Types/source';
 

@@ -636,6 +636,68 @@ const getCountriesStats = () => {
                 endColumn: 7
             }
         ],
+        getMultiHeaderForTextOverflow: (): IHeader[] => [
+            {
+                title: '#',
+                startRow: 1,
+                endRow: 3,
+                startColumn: 1,
+                endColumn: 2
+            },
+            {
+                title: 'Географические данные и какой-то очень длинный текст с описанием и примерами',
+                startRow: 1,
+                endRow: 2,
+                startColumn: 2,
+                endColumn: 4,
+                textOverflow: 'ellipsis',
+                align: 'center'
+            },
+            {
+                title: 'Страна',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 2,
+                endColumn: 3
+            },
+            {
+                title: 'Столица',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 3,
+                endColumn: 4
+            },
+            {
+                title: 'Цифры и какой-то очень длинный текст с описанием и примерами',
+                startRow: 1,
+                endRow: 2,
+                startColumn: 4,
+                endColumn: 7,
+                textOverflow: 'none',
+                align: 'center'
+            },
+            {
+                title: 'Население',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 4,
+                endColumn: 5
+            },
+            {
+                title: 'Площадь км2',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 5,
+                endColumn: 6
+            },
+            {
+                title: 'Плотность населения чел/км2',
+                startRow: 2,
+                endRow: 3,
+                startColumn: 6,
+                endColumn: 7
+            }
+        ],
         getMultiHeaderForDragScrolling: (): IHeader[] => [
             {
                 title: '#',
@@ -1322,6 +1384,18 @@ const getEditing = () => {
                 width: '100px',
                 template: 'wml!Controls-demo/grid/EditInPlace/Align/_cellEditor',
                 align: 'right'
+            }
+        ],
+        getEditingSizeColumns: (size): IColumn[] => [
+            {
+                displayProperty: 'title',
+                width: '180px',
+                template: `wml!Controls-demo/grid/EditInPlace/Size/${size}/_cellEditor`,
+            },
+            {
+                displayProperty: 'description',
+                width: '100px',
+                template: `wml!Controls-demo/grid/EditInPlace/Size/${size}/_cellEditor`,
             }
         ],
         getEditingColumnsValidation: () => [

@@ -89,41 +89,24 @@ export default interface IToolbarSource {
  * Для readOnly элемента, установите значение 'true' в поле readOnly.
  * @example
  * Кнопки будут отображены из источника _source. Первый элемент выравнен по левому краю, другие элементы выравнены по правому краю по умолчанию.
- * <pre>
- *    <Controls.toolbars:View keyProperty="key" source="{{_source}}" />
+ * <pre class="brush: html; highlight: [2]">
+ * <!-- WML -->
+ * <Controls.toolbars:View keyProperty="key" source="{{_source}}" />
  * </pre>
- * <pre>
- *    import {showType} from 'Controls/Utils/Toolbar';
- *      .....
- *    this._source = new source.Memory({
- *        keyProperty: 'key',
- *        data: [
- *        {
- *           id: '1',
- *           showType: showType.TOOLBAR,
- *           icon: 'icon-Time',
- *           iconStyle: 'secondary',
- *           '@parent': false,
- *           parent: null,
- *           contrastBackground: true
- *        },
- *        {
- *           id: '2',
- *           title: 'Moscow',
- *           '@parent': false,
- *           parent: null,
- *           readOnly: true
- *        },
- *        {
- *           id: '3',
- *           viewMode: 'button',
- *           captionPosition: 'left',
- *           caption: 'St-Petersburg',
- *           '@parent': false,
- *           parent: null
- *        }
- *        ]
- *    })
+ * <pre class="brush: html; highlight: [2]">
+ * import {showType} from 'Controls/Utils/Toolbar';
+ * this._source = new source.Memory({
+ *     keyProperty: 'key',
+ *     data: [{
+ *         id: '1',
+ *         showType: showType.TOOLBAR,
+ *         icon: 'icon-Time',
+ *         iconStyle: 'secondary',
+ *         '@parent': false,
+ *         parent: null,
+ *         contrastBackground: true
+ *     }]
+ * })
  * </pre>
  */
 

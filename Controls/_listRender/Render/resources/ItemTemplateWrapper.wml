@@ -5,7 +5,7 @@
       </ws:partial>
    </ws:if>
    <ws:if data="{{item.shouldDisplayMarker(marker) }}">
-      <div class="{{item.getMarkerClasses(theme, '', markerPosition)}}"></div>
+      <div class="{{item.getMarkerClasses(theme, '', markerClassName, itemPadding, markerPosition)}}"></div>
    </ws:if>
    <ws:if data="{{ contentTemplate }}">
       <div attr:class="{{ item.getContentClasses(theme, style) }}">

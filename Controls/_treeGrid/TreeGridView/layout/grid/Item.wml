@@ -78,7 +78,7 @@
    <!-- Маркер, не смотрим на него, если выводим фейковую стики ячейку для лесенки -->
    <ws:if data="{{ !isLadderHeader }}">
       <div if="{{marker !== false && itemData.shouldDisplayMarker(currentColumn.columnIndex)}}"
-           class="{{itemData.getMarkerClasses()}}"></div>
+           class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
 
       <div if="{{!!itemData.dragTargetNode}}"
            class="controls-TreeGridView__dragTargetNode_theme-{{itemData.theme}}

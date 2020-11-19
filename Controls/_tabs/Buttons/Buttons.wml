@@ -1,6 +1,6 @@
 <div class="controls-Tabs controls-Tabs_theme_{{_options.theme}}
-            controls-Tabs_inlineHeight-{{_options.inlineHeight}}_theme-{{_options.theme}}
-            controls-Tabs_borderThickness-{{_options.borderThickness}}_theme-{{_options.theme}}
+            controls-Tabs_inlineHeight-{{_inlineHeight}}_theme-{{_options.theme}}
+            controls-Tabs_borderThickness-{{_borderThickness}}_theme-{{_options.theme}}
             {{_options.tempFix_1180388539 ? 'tempFix_1180388539' }}">
     <div class="controls-Tabs-wrapper">
         <ws:for data="index, item in _items">
@@ -16,14 +16,14 @@
                 </ws:if>
                 <ws:partial
                         attr:class="controls-Tabs__itemClickableArea controls-Tabs__itemClickableArea_theme_{{_options.theme}}
-                        controls-Tabs__itemClickableArea_inlineHeight-{{_options.inlineHeight}}_theme-{{_options.theme}}
-                        controls-Tabs__itemClickableArea_borderThickness-{{_options.borderThickness}}_theme-{{_options.theme}}
+                        controls-Tabs__itemClickableArea_inlineHeight-{{_inlineHeight}}_theme-{{_options.theme}}
+                        controls-Tabs__itemClickableArea_borderThickness-{{_borderThickness}}_theme-{{_options.theme}}
                         {{_prepareItemSelectedClass(item)}}"
                         template="{{ _getTemplate(_options.itemTemplate, item, _options.itemTemplateProperty) || _defaultItemTemplate}}"
                         selected="{{item[_options.keyProperty] === _options.selectedKey}}"
                         displayProperty="{{_options.displayProperty}}"
-                        inlineHeight="{{_options.inlineHeight}}"
-                        borderThickness="{{_options.borderThickness}}"
+                        inlineHeight="{{_inlineHeight}}"
+                        borderThickness="{{_borderThickness}}"
                         keyProperty="{{_options.keyProperty}}"
                         index="{{index}}"
                         item="{{item}}"/>
@@ -52,7 +52,7 @@
             </div>
         </ws:for>
         <div class="controls-Tabs__space controls-Tabs__space_theme_{{_options.theme}}
-                    controls-Tabs__space_inlineHeight-{{_options.inlineHeight}}_theme_{{_options.theme}}">
+                    controls-Tabs__space_inlineHeight-{{_inlineHeight}}_theme_{{_options.theme}}">
             <ws:if data="{{ _options.tabSpaceTemplate }}">
                 <ws:partial template="{{_options.tabSpaceTemplate}}" scope="{{_options}}"/>
             </ws:if>

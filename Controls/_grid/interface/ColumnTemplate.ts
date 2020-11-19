@@ -7,9 +7,25 @@
 export type TCursor = 'default' | 'pointer' | 'right';
 
 /**
+ * @typedef {String} TMarkerClassName
+ * @variant default Маркер по высоте растягивается на весь контейнер записи.
+ * @variant image-l Используется для размещения маркера рядом с изображением размера "l".
+ * @variant image-m Используется для размещения маркера рядом с изображением размера "m".
+ * @variant image-s Используется для размещения маркера рядом с изображением размера "s".
+ * @variant image-xs Используется для размещения маркера рядом с изображением размера "xs".
+ * @variant text-2xl Используется для размещения маркера рядом с текстом размера "2xl".
+ * @variant text-xl Используется для размещения маркера рядом с текстом размера "xl".
+ * @variant text-l Используется для размещения маркера рядом с текстом размера "l".
+ * @variant text-m Используется для размещения маркера рядом с текстом размера "m".
+ * @variant text-xs Используется для размещения маркера рядом с текстом размера "xs".
+ */
+export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | 'image-xl' |
+    'text-2xl' | 'text-xl' | 'text-l' | 'text-m' | 'text-xs';
+
+/**
  * Шаблон, который по умолчанию используется для отображения ячеек в контроле {@link Controls/grid:View Таблица}.
  *
- * @class Controls/grid:ColumnTemplate
+ * @class Controls/_grid/interface/ColumnTemplate
  * @author Авраменко А.С.
  * 
  * @see Controls/_grid/interface/IGridControl/Column.typedef
@@ -44,12 +60,12 @@ export type TCursor = 'default' | 'pointer' | 'right';
 
  export default interface IColumnTemplateOptions {
    /**
-    * @name Controls/grid:ColumnTemplate#contentTemplate
+    * @name Controls/_grid/interface/ColumnTemplate#contentTemplate
     * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки.
     * @see Controls/grid:IGridControl#showEditArrow
     * @remark
     * В области видимости шаблона доступны переменные **itemData**, **editArrowTemplate** и **expanderTemplate**.
-    * 
+    *
     * Переменная **itemData** позволяет получить доступ к следующими свойствам:
     *
     * * **columnIndex** — порядковый номер колонки. Отсчет от 0.
@@ -59,7 +75,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * * **column** (тип {@link Controls/grid:IColumn IColumn}) — объект с конфигурацией колонки.
     *
     * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
-    * 
+    *
     * Переменная **expanderTemplate** доступна только, если шаблон используется в контроле {@link Controls/treeGrid:View}. С помощью переменной можно отобразить кнопку раскрытия узла в произвольном месте элемента. При этом опцию {@link Controls/treeGrid:View#expanderPosition expanderPosition} необходимо установить в значение custom. Переменную expanderTemplate достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 5.
     * @example
     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
@@ -156,7 +172,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *    </ws:columns>
     * </Controls.grid:View>
     * </pre>
-    * 
+    *
     * **Пример 5.** Следующий пример настраивает контрол так, что для первой колонки задан пользовательский шаблон. При этом добавлено отображение кнопки раскрытия узла.
     * <pre class="brush: html; highlight: [1,13]">
     * <Controls.treeGrid:View expanderPosition="custom">
@@ -171,7 +187,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *                <ws:partial template="Controls/grid:ColumnTemplate">
     *                   <ws:contentTemplate>
     *                      ...
-    *                      <ws:partial template="{{ contentTemplate.expanderTemplate }}" scope="{{ contentTemplate }}"/> 
+    *                      <ws:partial template="{{ contentTemplate.expanderTemplate }}" scope="{{ contentTemplate }}"/>
     *                   </ws:contentTemplate>
     *                </ws:partial>
     *             </ws:template>
@@ -184,7 +200,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
    contentTemplate?: string;
 
     /**
-     * @name Controls/grid:ColumnTemplate#cursor
+     * @name Controls/_grid/interface/ColumnTemplate#cursor
      * @cfg {TCursor} Тип {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах ячейки.
      * @default pointer
      */
@@ -201,13 +217,13 @@ export type TCursor = 'default' | 'pointer' | 'right';
      * @variant readonly
      */
     /**
-     * @name Controls/grid:ColumnTemplate#backgroundColorStyle
+     * @name Controls/_grid/interface/ColumnTemplate#backgroundColorStyle
      * @cfg {backgroundColorStyle} Стиль фона ячейки.
      */
     backgroundColorStyle?: string;
 
     /**
-     * @name Controls/grid:ColumnTemplate#tagStyle
+     * @name Controls/_grid/interface/ColumnTemplate#tagStyle
      * @cfg {String} Позволяет задать стиль для цветных индикаторов в ячейке.
      * @variant info
      * @variant danger
@@ -219,8 +235,15 @@ export type TCursor = 'default' | 'pointer' | 'right';
     tagStyle?: 'info' | 'danger' | 'primary' | 'success' | 'secondary';
 
     /**
-     * @name Controls/grid:ColumnTemplate#expanderTemplate
+     * @name Controls/_grid/interface/ColumnTemplate#expanderTemplate
      * @cfg {Function} Шаблон позволяет отобразить иконку для узла. Такой шаблон достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}.
      */
     expanderTemplate?: Function;
+
+    /**
+     * @name Controls/_grid/interface/ColumnTemplate#markerClassName
+     * @cfg {TMarkerClassName} Размер маркера.
+     * @default default
+     */
+    markerClassName?: TMarkerClassName;
 }

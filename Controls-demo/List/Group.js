@@ -4,7 +4,7 @@
 define('Controls-demo/List/Group', [
    'Core/Control',
    'wml!Controls-demo/List/Group',
-   'Controls/Constants',
+   'Controls/list',
    'Types/source',
    'wml!Controls-demo/List/DemoGroupTemplate'
 ], function (BaseControl,
@@ -64,7 +64,7 @@ define('Controls-demo/List/Group', [
          },
          _groupingKeyCallback: function(item) {
             if (item.get('brand') === 'apple') {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('brand');
          },

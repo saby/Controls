@@ -261,7 +261,7 @@ define([
          it('should not set year to _yearHovered', function() {
             const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {chooseYears: false});
             component._onYearMouseEnter();
-            assert.deepEqual(component._yearHovered, null);
+            assert.isUndefined(component._yearHovered);
          });
       });
 

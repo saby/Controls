@@ -1,5 +1,7 @@
 <div class="controlsDemo__wrapper">
     <Controls.shortDatePicker:View
+            startValue="{{_startValue}}"
+            endValue="{{_endValue}}"
             source="{{_source}}">
         <ws:monthTemplate>
             <ws:partial periods="{{_displayedRanges2}}" template="Controls/shortDatePicker:MonthTemplate">

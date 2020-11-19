@@ -212,5 +212,41 @@ define(['Controls/masterDetail'], function (masterDetail) {
 
          sandbox.restore();
       });
+
+      it('touch resize', () => {
+         const control = new masterDetail.Base();
+         let methodData;
+         control._changeOffset = (offset) => {
+            methodData = offset;
+         };
+         const getFakeEvent = (pageX, target, currentTarget) => {
+            return {
+               target,
+               currentTarget,
+               nativeEvent: {
+                  changedTouches: [{
+                     pageX
+                  }]
+               }
+            };
+         };
+         control._touchstartHandler(getFakeEvent(1, 2, 3));
+         control._touchendHandler(getFakeEvent());
+         assert.equal(methodData, undefined);
+
+         control._touchstartHandler(getFakeEvent(10, 'body', 'body'));
+         control._touchendHandler(getFakeEvent(10, 'body', 'body'));
+         assert.equal(methodData, undefined);
+
+         control._touchstartHandler(getFakeEvent(10, 'body', 'body'));
+         control._touchendHandler(getFakeEvent(50, 'body', 'body'));
+         assert.equal(methodData, 100);
+
+         control._touchstartHandler(getFakeEvent(10, 'body', 'body'));
+         control._touchendHandler(getFakeEvent(0, 'body', 'body'));
+         assert.equal(methodData, -100);
+
+         control.destroy();
+      });
    });
 });

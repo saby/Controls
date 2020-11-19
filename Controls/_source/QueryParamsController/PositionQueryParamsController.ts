@@ -4,7 +4,7 @@ import {Record} from 'Types/entity';
 import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
 import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {Logger} from 'UI/Utils';
-import {CursorDirection} from 'Controls/Constants';
+import {CursorDirection} from 'Controls/_interface/INavigation';
 
 import { Collection } from 'Controls/display';
 import { IBasePositionSourceConfig } from 'Controls/interface';

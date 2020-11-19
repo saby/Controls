@@ -9,7 +9,7 @@
  * @includes NotificationSimple Controls/_popupTemplate/Notification/Simple
  * @includes INotification Controls/_popupTemplate/Notification/interface/INotification
  * @includes IPopupTemplate Controls/_popupTemplate/interface/IPopupTemplate
- * @includes IPopupTemplateBaseOptions Controls/_popupTemplate/interface/IPopupTemplateBase
+ * @includes IPopupTemplateBaseOptions Controls/_popupTemplate/interface/IPopupTemplateBaseOptions
  * @includes Sticky Controls/_popupTemplate/Sticky
  * @public
  * @author Крайнов Д.О.

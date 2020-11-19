@@ -28,7 +28,7 @@ interface IDragObject {
  * @public
  * @author Красильников А.С.
  * @implements Controls/_popupTemplate/interface/IPopupTemplate
- * @implements Controls/_popupTemplate/interface/IPopupTemplateBase
+ * @implements Controls/_popupTemplate/interface/IPopupTemplateBaseOptions
  * @demo Controls-demo/PopupTemplate/Dialog/Index
  */
 

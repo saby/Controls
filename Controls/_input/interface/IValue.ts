@@ -39,7 +39,7 @@ export type ICallback<T> = (data: ICallbackData<T>) => IFieldData;
 /**
  * Интерфейс управления значением поля ввода.
  *
- * @interface Controls/_input/interface/IValue
+ * @interface Controls/_input/interface/IValueOptions
  * @author Красильников А.С.
  * @public
  */
@@ -160,7 +160,7 @@ export interface IValue {
 }
 
 /**
- * @name Controls/_input/interface/IValue#valueChanged
+ * @name Controls/_input/interface/IValueOptions#valueChanged
  * @event Происходит при изменении отображаемого значения контрола ввода.
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Значение контрола ввода.
@@ -201,9 +201,10 @@ export interface IValue {
  * </pre>
  *
  * @see value
+ * @see inputCompleted
  */
 /**
- * @name Controls/_input/interface/IValue#inputCompleted
+ * @name Controls/_input/interface/IValueOptions#inputCompleted
  * @event Происходит при завершении ввода. Завершение ввода — это контрол потерял фокус, или пользователь нажал клавишу "Enter".
  * @param {String} value Значение контрола ввода.
  * @param {String} displayValue Отображаемое значение контрола ввода.
@@ -224,4 +225,5 @@ export interface IValue {
  * }
  * </pre>
  * @see value
+ * @see valueChanged
  */

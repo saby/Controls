@@ -144,5 +144,9 @@ class BreadCrumbs extends Control<IBreadCrumbsOptions> {
         };
     }
 }
-
+/**
+ * @name Controls/_breadcrumbs/Path#fontSize
+ * @cfg
+ * @demo Controls-demo/breadCrumbs_new/FontSize/Index
+ */
 export default BreadCrumbs;

@@ -86,7 +86,7 @@
                         {{itemData.columnIndex === 0 && !itemData.hasMultiSelectColumn ? currentColumn.classList.padding.left }}">
                 <!-- Маркер активной записи -->
                 <ws:if data="{{ marker !== false && itemData.shouldDisplayMarker(currentColumn.columnIndex) }}">
-                    <div class="{{itemData.getMarkerClasses()}}"></div>
+                    <div class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
                 </ws:if>
 
                 <!-- Какая то запись перемещается в данную папку. Обводка -->

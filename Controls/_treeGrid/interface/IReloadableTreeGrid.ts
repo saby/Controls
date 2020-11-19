@@ -1,3 +1,5 @@
+import {IBaseSourceConfig} from 'Controls/interface';
+
 /**
  * Интерфейс для перезагрузки данных c сохранением раскрытых узлов.
  * @interface Controls/_treeGrid/interface/IReloadableTreeGrid
@@ -5,6 +7,9 @@
  * @author Авраменко А.С.
  */
 
+export interface IReloadableTreeGrid {
+    reload: (keepScroll: boolean, sourceConfig: IBaseSourceConfig) => Promise<any>;
+}
 /**
  * Перезагружает данные дерева.
  * @function Controls/_treeGrid/interface/IReloadableTreeGrid#reload

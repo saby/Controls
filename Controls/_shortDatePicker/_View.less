@@ -187,14 +187,6 @@
    background-color: @item_background-color_shortDatePicker;
 }
 
-.controls-PeriodLiteDialog__yearHeader-background-hovered_theme-@{themeName} {
-   border-color: @item_hover_border-color_shortDatePicker !important;
-}
-
-.controls-PeriodLiteDialog__background-transparent {
-   background-color: transparent !important;
-}
-
 .controls-PeriodLiteDialog__text-align-center {
    text-align: center;
 }
@@ -293,9 +285,18 @@
    padding-bottom: @item_border-thickness_shortDatePicker;
    background-color: @header_background-color_shortDatePicker;
    height: @yearselector_height_shortDatePicker;
+}
+
+.controls-PeriodLiteDialog__yearHeader-border_theme-@{themeName} {
    border-top: @item_border-thickness_shortDatePicker solid @item_border-color_shortDatePicker;
    border-left: @item_border-thickness_shortDatePicker solid @item_border-color_shortDatePicker;
    border-right: @item_border-thickness_shortDatePicker solid @item_border-color_shortDatePicker;
+}
+
+.controls-PeriodLiteDialog__yearHeader-border-hovered_theme-@{themeName} {
+   border-top: @item_border-thickness_shortDatePicker solid @item_hover_border-color_shortDatePicker;
+   border-left: @item_border-thickness_shortDatePicker solid @item_hover_border-color_shortDatePicker;
+   border-right: @item_border-thickness_shortDatePicker solid @item_hover_border-color_shortDatePicker;
 }
 
 .controls-PeriodLiteDialog__year-prev,
@@ -423,7 +424,13 @@
 .controls-PeriodLiteDialog-item__halfYear-caption_theme-@{themeName} {
    color: @quarterly_quarters_text-color_shortDatePicker;
    width: @quarterly_halfyears_width_shortDatePicker;
+}
+
+.controls-PeriodLiteDialog-item__halfYear-background_theme-@{themeName} {
    background-color: @background-color_shortDatePicker;
+}
+.controls-PeriodLiteDialog-item__halfYear-background-transparent_theme-@{themeName} {
+   background-color: transparent;
 }
 
 .controls-PeriodLiteDialog-item__quarter_theme-@{themeName} {
@@ -445,9 +452,16 @@
 }
 
 .controls-PeriodLiteDialog-item__quarter-caption_theme-@{themeName} {
-   background-color: @quarterly_quarters_background-color_shortDatePicker;
    color: @quarterly_quarters_text-color_shortDatePicker;
    width: @quarterly_quarters_width_shortDatePicker;
+}
+
+.controls-PeriodLiteDialog-item__quarter-background_theme-@{themeName} {
+   background-color: @quarterly_quarters_background-color_shortDatePicker;
+}
+
+.controls-PeriodLiteDialog-item__quarter-background-transparent_theme-@{themeName} {
+   background-color: transparent;
 }
 
 .controls-PeriodLiteDialog-item__checkBox {
@@ -460,8 +474,15 @@
 }
 
 .controls-PeriodLiteDialog-item__month-wrapper_theme-@{themeName} {
-   background-color: @background-color_shortDatePicker;
    margin: 0 (@quarterly_quarters_width_shortDatePicker + @separator_thickness_shortDatePicker) 0 0;
+}
+
+.controls-PeriodLiteDialog-item__month-background_theme-@{themeName} {
+   background-color: @background-color_shortDatePicker;
+}
+
+.controls-PeriodLiteDialog-item__month-background-transparent_theme-@{themeName} {
+   background-color: transparent;
 }
 
 .controls-PeriodLiteDialog__years-bold {
@@ -559,7 +580,7 @@
 .ws-is-mobile-android {
 
    // На android на самом маленьком масштабе элементы списка не отображаются, пока мы не поскроллим.
-   // Используем аппаратное ускорение.
+   // Используем аппаратное ускорение https://www.smashingmagazine.com/2012/06/play-with-hardware-accelerated-css/
    .controls-PeriodLiteDialog_calendarBody {
       transform: translate3d(0, 0, 0);
    }

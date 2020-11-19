@@ -44,18 +44,17 @@ const ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX = 14;
 class View extends Control<IDateLitePopupOptions> {
     protected _template: TemplateFunction = componentTmpl;
     protected _defaultListTemplate: TemplateFunction = listTmpl;
-    protected monthTemplate: TemplateFunction = null;
-    protected _position: Date = null;
-    protected _yearHovered: Date = null;
-    protected _range: Date[] = null;
-    protected _isFullPicker: boolean = null;
+    protected _position: Date;
+    protected _yearHovered: Date;
+    protected _range: Date[];
+    protected _isFullPicker: boolean = false;
     protected _limit: number = 15;
     protected _isExpandedPopup: boolean = false;
     protected _isExpandButtonVisible: boolean = true;
     protected _closeBtnPosition: POSITION = POSITION.RIGHT;
     protected _emptyCaption: string = '';
     protected _caption: string = '';
-    protected _displayedRanges: Date[] = null;
+    protected _displayedRanges: Date[];
 
     protected _beforeMount(options: IDateLitePopupOptions): void {
         this._isFullPicker = options.chooseMonths && options.chooseQuarters && options.chooseHalfyears;
@@ -70,7 +69,9 @@ class View extends Control<IDateLitePopupOptions> {
 
         if (!(options.chooseQuarters && options.chooseMonths) && options.chooseHalfyears) {
             Logger.error(
-                'shortDatePicker: Unsupported combination of chooseQuarters, chooseMonths and chooseHalfyears options',
+                'shortDatePicker: Для корректного отображения контрола, при включенной опции отображения полугодий' +
+                '(chooseHalfyears) необходимо также включить опции для отображения кварталов (chooseQuarters) ' +
+                'и месяцев (chooseMonths)',
                 this);
         }
 
@@ -85,8 +86,6 @@ class View extends Control<IDateLitePopupOptions> {
         this._displayedRanges = options.displayedRanges || options.range;
 
         this._position = this._getFirstPositionInMonthList(this._position, options.dateConstructor);
-
-        this.monthTemplate = options.monthTemplate || monthTmpl;
         this._isExpandButtonVisible = this._getExpandButtonVisibility(options);
     }
 
@@ -427,20 +426,19 @@ class View extends Control<IDateLitePopupOptions> {
 
     static _theme: string[] = ['Controls/shortDatePicker'];
 
-    static getDefaultOptions(): object {
-        return {
-            ...IPeriodSimpleDialog.getDefaultOptions(),
-            captionFormatter: dateControlsUtils.formatDateRangeCaption,
-            itemTemplate: ItemWrapper,
-            dateConstructor: WSDate
-        };
+    static getDefaultOptions(): IDateLitePopupOptions {
+        const PeriodDialogOptions: IDateLitePopupOptions = IPeriodSimpleDialog.getDefaultOptions();
+        PeriodDialogOptions.captionFormatter = dateControlsUtils.formatDateRangeCaption;
+        PeriodDialogOptions.itemTemplate = ItemWrapper;
+        PeriodDialogOptions.monthTemplate = monthTmpl;
+        PeriodDialogOptions.dateConstructor = WSDate;
+        return PeriodDialogOptions;
     }
 
-    static getOptionTypes(): object {
-        return {
-            ...IPeriodSimpleDialog.getOptionTypes(),
-            captionFormatter: descriptor(Function)
-        };
+    static getOptionTypes(): IDateLitePopupOptions {
+        const PeriodDialogTypes: IDateLitePopupOptions = IPeriodSimpleDialog.getOptionTypes();
+        PeriodDialogTypes.captionFormatter = descriptor(Function);
+        return PeriodDialogTypes;
     }
 }
 

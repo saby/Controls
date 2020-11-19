@@ -4,7 +4,7 @@
  * <h2>Аргументы функции</h2>
  *
  * Функция на вход приниает объект с полями:
- * 
+ *
  * * source: SbisService - источник данных;
  * * filterButtonSource: Array - элементы {@link Controls/filter:Controller#filterButtonSource FilterButton};
  * * fastFilterSource: Array - элементы {@link Controls/filter:Controller#fastFilterSource FastFilter};
@@ -49,6 +49,7 @@ export interface IRequestDataResult {
    sorting?: SortingObject;
    historyItems?: IHistoryItems;
    collapsedGroups?: string[];
+   error?: Error;
 }
 
 export interface ISourceConfig {
@@ -62,6 +63,7 @@ export interface ISourceConfig {
    sorting?: SortingObject;
    historyItems?: IHistoryItems;
    propStorageId?: string;
+   error?: Error;
 }
 
 const HISTORY_FILTER_TIMEOUT = 1000;
@@ -108,7 +110,7 @@ export default function requestDataUtil(cfg: ISourceConfig): Promise<IRequestDat
       return sourceController.load(filter, sorting).then((data: RecordSet) => {
          return {...result, data};
       }).catch((data: Error) => {
-         return {...result, data};
+         return {...result, data, error: data};
       });
    });
 }

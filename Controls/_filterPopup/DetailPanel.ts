@@ -395,5 +395,5 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
  * @event Происходит при применении фильтра из истории фильтров.
  * @name Controls/_filterPopup/DetailPanel#historyApply
  * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
- * @param {Controls/_filter/View/interface/IFilterView#source} source Конфигурация фильтра.
+ * @param {Controls/_filter/View/interface/IFilterItem#source} source Конфигурация фильтра.
  */

@@ -13,6 +13,13 @@ export {default as DateRangeModel} from './_dateRange/DateRangeModel';
 export {default as rangeSelection} from './_dateRange/Utils/RangeSelection';
 export {default as dateRangeQuantum} from './_dateRange/Utils/DateRangeQuantum';
 export {default as IRangeSelectable} from './_dateRange/interfaces/IRangeSelectable';
+export {default as IDatePickerSelectors} from './_dateRange/interfaces/IDatePickerSelectors';
+export {default as IDateRange} from './_dateRange/interfaces/IDateRange';
+export {default as IDayTemplate} from './_interface/IDayTemplate';
+export {default as IRangeInputTag} from './_dateRange/interfaces/IRangeInputTag';
+export {default as IPeriodLiteDialog} from './_dateRange/interfaces/IPeriodLiteDialog';
+export {default as ILinkView} from './_dateRange/interfaces/ILinkView';
+export {default as IInput} from './_dateRange/interfaces/IInput';
 import IDateRangeSelectable = require('Controls/_dateRange/interfaces/IDateRangeSelectable');
 import {default as ICaptionFormatter} from 'Controls/_dateRange/interfaces/ICaptionFormatter';
 
@@ -37,7 +44,10 @@ export {IDateRangeSelectable};
  * @includes DateSelector Controls/_dateRange/DateSelector
  * @includes RangeSelectionController Controls/_dateRange/Controllers/RangeSelectionController
  * @includes DateRangeSelectionController Controls/_dateRange/Controllers/DateRangeSelectionController
- *
+ * @includes IDatePickerSelectors Controls/_dateRange/interfaces/IDatePickerSelectors
+ * @includes IDateRange Controls/_dateRange/interfaces/IDateRange
+ * @includes IDayTemplate Controls/_interface/IDayTemplate
+ * @includes IRangeInputTag Controls/_dateRange/interfaces/IRangeInputTag
  * @public
  * @author Красильников А.С.
  */
@@ -60,7 +70,10 @@ export {IDateRangeSelectable};
  * @includes RangeSelectionController Controls/_dateRange/Controllers/RangeSelectionController
  * @includes DateRangeSelectionController Controls/_dateRange/Controllers/DateRangeSelectionController
  * @includes IRangeSelectable Controls/_dateRange/interfaces/IRangeSelectable
- *
+ * @includes IDatePickerSelectors Controls/_dateRange/interfaces/IDatePickerSelectors
+ * @includes IDateRange Controls/_dateRange/interfaces/IDateRange
+ * @includes IDayTemplate Controls/_interface/IDayTemplate
+ * @includes IRangeInputTag Controls/_dateRange/interfaces/IRangeInputTag
  * @public
  * @author Красильников А.С.
  */

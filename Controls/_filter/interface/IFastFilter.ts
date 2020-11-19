@@ -19,8 +19,8 @@
  * @property {Types/source:Base} source Объект, который реализует интерфейс ICrud для доступа к данным. Если свойство "items" указано, свойство "source" будет игнорироваться.
  * @property {Boolean} multiSelect Определяет, установлен ли множественный выбор.
  * @property {Controls/interface/ISelectorDialog} selectorTemplate Шаблон панели выбора элементов.
- * @property {Function} itemTemplate Шаблон рендеринга элементов. Подробнее - {@link Controls/interface/IDropdown#itemTemplate}
- * @property {String} itemTemplateProperty Имя свойства, содержащего шаблон для рендеринга элементов. Подробнее - {@link Controls/interface/IDropdown#itemTemplateProperty}
+ * @property {Function} itemTemplate Шаблон рендеринга элементов. Подробнее - {@link Controls/_menu/interface/IMenuBase#itemTemplate}
+ * @property {String} itemTemplateProperty Имя свойства, содержащего шаблон для рендеринга элементов. Подробнее - {@link Controls/_menu/interface/IMenuBase#itemTemplateProperty}
  * @property {Object} filter Конфигурация фильтра-объект с именами полей и их значениями. {@link Controls/_interface/IFilter}
  * @property {Object} navigation Конфигурация навигации по списку. Настройка навигации источника данных (страницы, смещение, положение) и представления навигации (страницы, бесконечная прокрутка и т. д.) {@link Controls/_interface/INavigation}
  * @property {Types/collection:IList} items Специальная структура для визуального представления фильтра. {@link Types/collection:IList}.
@@ -33,8 +33,8 @@
  * @property {Types/source:Base} source Object that implements ICrud interface for data access. If 'items' is specified, 'source' will be ignored.
  * @property {Boolean} multiSelect Determines whether multiple selection is set.
  * @property {Controls/interface/ISelectorDialog} selectorTemplate Items selection panel template.
- * @property {Function} itemTemplate Template for item render. For more information, see {@link Controls/interface/IDropdown#itemTemplate}
- * @property {String} itemTemplateProperty Name of the item property that contains template for item render. For more information, see {@link Controls/interface/IDropdown#itemTemplateProperty}
+ * @property {Function} itemTemplate Template for item render. For more information, see {@link Controls/_menu/interface/IMenuBase#itemTemplate}
+ * @property {String} itemTemplateProperty Name of the item property that contains template for item render. For more information, see {@link Controls/_menu/interface/IMenuBase#itemTemplateProperty}
  * @property {Object} filter Filter configuration - object with field names and their values. {@link Controls/_interface/IFilter}
  * @property {Object} navigation List navigation configuration. Configures data source navigation (pages, offset, position) and navigation view (pages, infinite scroll, etc.) {@link Controls/_interface/INavigation}
  * @property {Types/collection:IList} items Special structure for the visual representation of the filter. {@link Types/collection:IList}.

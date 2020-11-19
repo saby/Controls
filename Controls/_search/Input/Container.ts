@@ -1,56 +1,40 @@
-import Control = require('Core/Control');
-import template = require('wml!Controls/_search/Input/Container');
-import {constants} from 'Env/Env';
+import {Control, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_search/Input/Container';
+import {SyntheticEvent} from 'UI/Vdom';
+import SearchResolver from 'Controls/_search/SearchResolver';
+import {ISearchInputContainerOptions} from '../interface';
 import {default as Store} from 'Controls/Store';
+import {constants} from 'Env/Env';
 
-/**
- * Контрол используют в качестве контейнера для {@link Controls/search:Input}. Он обеспечивает передачу текстового значения, введённого в Controls/search:Input, в {@link Controls/search:Controller}.
- *
- * @class Controls/_search/Input/Container
- * @extends Core/Control
- * @author Герасимов А.М.
- *
- * @public
- * @remark
- * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_search.less">переменные тем оформления</a>
- */
+export default class Container extends Control<ISearchInputContainerOptions> {
+   protected _template: TemplateFunction = template;
 
-/*
- * Special container for component with {@link Controls/input:IValue}.
- * Listens for child's "valueChanged" event and notify bubbling event "search".
- * NOTE: must be located inside {@link Controls/_search/Controller}.
- *
- * More information you can read <a href='/doc/platform/developmentapl/interface-development/controls/filter-search/'>here</a>.
- *
- * <a href="/materials/Controls-demo/app/Controls-demo%2FExplorer%2FSearch">Here</a>. you a demo with search in Controls/Explorer.
- *
- * @class Controls/_search/Input/Container
- * @extends Core/Control
- * @author Герасимов А.М.
- *
- * @public
- */
+   protected _value: string;
+   protected _contextCallbackId: string;
+   protected _searchResolverController: SearchResolver = null;
 
-var SearchContainer = Control.extend(/** @lends Controls/_search/Input/Container.prototype */{
+   protected _beforeMount(options?: ISearchInputContainerOptions): void {
+      if (this._options.inputSearchValue !== options.inputSearchValue) {
+         this._value = options.inputSearchValue;
+      }
+   }
 
-   _template: template,
-   _value: '',
-   _contextCallbackId: '',
+   protected _beforeUnmount(): void {
+      if (this._searchResolverController) {
+         this._searchResolverController.clearTimer();
+      }
+      if (this._contextCallbackId) {
+         Store.unsubscribe(this._contextCallbackId);
+      }
+   }
 
-   _beforeMount: function (newOptions) {
-      this._value = newOptions.inputSearchValue;
-   },
-
-   _beforeUpdate: function (newOptions) {
+   protected _beforeUpdate(newOptions: ISearchInputContainerOptions): void {
       if (this._options.inputSearchValue !== newOptions.inputSearchValue) {
          this._value = newOptions.inputSearchValue;
       }
-   },
+   }
 
-   _afterMount: function () {
+   protected _afterMount(): void {
       if (this._options.useStore) {
          this._contextCallbackId = Store.onPropertyChanged(
              '_contextName',
@@ -60,49 +44,61 @@ var SearchContainer = Control.extend(/** @lends Controls/_search/Input/Container
              true
          );
       }
-   },
+   }
 
-   _beforeUnmount: function () {
-      if (this._contextCallbackId) {
-         Store.unsubscribe(this._contextCallbackId);
+   protected _getSearchDelayController(): SearchResolver {
+      if (!this._searchResolverController) {
+         this._searchResolverController = new SearchResolver({
+            delayTime: this._options.searchDelay,
+            minSearchLength: this._options.minSearchLength,
+            searchCallback: this._notifySearch.bind(this),
+            searchResetCallback: this._notifySearchReset.bind(this)
+         });
       }
-   },
 
-   _notifySearch: function (value, force) {
+      return this._searchResolverController;
+   }
+
+   protected _notifySearch(value: string): void {
+      this._resolve(value);
+   }
+
+   private _resolve(value: string): void {
       if (this._options.useStore) {
          Store.dispatch('searchValue', value);
       } else {
-          this._notify('search', [value || '', force], {bubbling: true});
+         this._notify('search', [value || ''], {bubbling: true});
       }
-   },
+   }
 
-   _valueChanged: function (event, value) {
+   protected _notifySearchReset(): void {
+      this._notify('searchReset', [], {bubbling: true});
+   }
+
+   protected _searchClick(event: SyntheticEvent): void {
+      if (this._value) {
+         this._getSearchDelayController().setSearchStarted(true);
+         this._resolve(this._value);
+      }
+   }
+
+   protected _valueChanged(event: SyntheticEvent, value: string): void {
       if (this._value !== value) {
          this._value = value;
-         this._notifySearch(value);
+         this._getSearchDelayController().resolve(value);
       }
-   },
+   }
 
-   _searchClick: function () {
-      this._notifySearch(this._value, true);
-   },
-
-   _resetClick: function () {
-      this._notifySearch('', true);
-   },
-
-   _keyDown: function(event) {
+   protected _keyDown(event: SyntheticEvent<KeyboardEvent>): void {
       if (event.nativeEvent.which === constants.key.enter) {
          event.stopPropagation();
       }
    }
-});
 
-SearchContainer.getDefaultOptions = function () {
-   return {
-      searchValue: ''
-   };
-};
-
-export = SearchContainer;
-
+   static getDefaultOptions(): ISearchInputContainerOptions {
+      return {
+         minSearchLength: 3,
+         searchDelay: 500
+      };
+   }
+}

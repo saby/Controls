@@ -25,7 +25,10 @@ import {verticalMeasurer} from './measurers/VerticalMeasurer';
 import {horizontalMeasurer} from './measurers/HorizontalMeasurer';
 import {Utils} from './Utils';
 import {IContextMenuConfig} from './interface/IContextMenuConfig';
+import {DependencyTimer} from 'Controls/popup';
+import * as mStubs from 'Core/moduleStubs';
 import {getActions} from './measurers/ItemActionMeasurer';
+
 
 const DEFAULT_ACTION_ALIGNMENT = 'horizontal';
 
@@ -148,6 +151,11 @@ export class Controller {
 
     private _activeItemKey: any;
 
+    // Таймер для погрузки зависимостей
+    private _dependenciesTimer: DependencyTimer = null;
+
+    private _loadMenuTempPromise: Promise<>;
+
     /**
      * Метод инициализации и обновления параметров.
      * Для старой модели listViewModel возвращает массив id изменённых значений
@@ -255,9 +263,9 @@ export class Controller {
             return;
         }
 
-        const target = isContextMenu ? null : this._getFakeMenuTarget(clickEvent.target as HTMLElement);
+        const target = isContextMenu ? null : this._cloneMenuTarget(clickEvent.target as HTMLElement);
         const isActionMenu = !!parentAction && !parentAction.isMenu;
-        const templateOptions = this._getActionsMenuTemplateConfig(isActionMenu, parentAction, menuActions);
+        const templateOptions = this._getActionsMenuTemplateConfig(item, isActionMenu, parentAction, menuActions);
         const actionMenuConfig = this._collection?.getActionsMenuConfig?.(item,
             clickEvent,
             opener,
@@ -305,45 +313,6 @@ export class Controller {
     }
 
     /**
-     * Возвращает конфиг для шаблона меню опций
-     * @param isActionMenu
-     * @param parentAction
-     * @param menuActions
-     * @private
-     */
-    private _getActionsMenuTemplateConfig(
-        isActionMenu: boolean,
-        parentAction: IItemAction,
-        menuActions: IItemAction[]
-    ): IMenuPopupOptions {
-        const source = new Memory({
-            data: menuActions,
-            keyProperty: 'id'
-        });
-        const iconSize = (this._contextMenuConfig && this._contextMenuConfig.iconSize) || DEFAULT_ACTION_SIZE;
-        const headConfig = isActionMenu ? {
-            caption: parentAction.title,
-            icon: parentAction.icon,
-            iconSize
-        } : null;
-        const root = parentAction && parentAction.id;
-        return {
-            source,
-            keyProperty: 'id',
-            parentProperty: 'parent',
-            nodeProperty: 'parent@',
-            dropdownClassName: 'controls-itemActionsV__popup',
-            ...this._contextMenuConfig,
-            root,
-            // @ts-ignore
-            showHeader: isActionMenu,
-            headConfig,
-            iconSize,
-            closeButtonVisibility: !isActionMenu && !root
-        };
-    }
-
-    /**
      * Устанавливает активный Item в коллекции
      * @param item Текущий элемент коллекции
      */
@@ -354,7 +323,7 @@ export class Controller {
         }
     }
 
-    /**
+        /**
      * Возвращает текущий активный Item
      */
     getActiveItem(): IItemActionsItem {
@@ -377,6 +346,88 @@ export class Controller {
     startSwipeCloseAnimation(): void {
         const swipeItem = this.getSwipeItem();
         swipeItem.setSwipeAnimation(ANIMATION_STATE.CLOSE);
+    }
+
+    /**
+     * Стартует таймер загрузки зависимостей меню
+     * @remark
+     * Рендер контрола Controls/dropdown:Button намного дороже, поэтому вместо menuButton используем текущую вёрстку и таймеры
+     */
+    startMenuDependenciesTimer(): void {
+        if (!this._dependenciesTimer) {
+            this._dependenciesTimer = new DependencyTimer();
+        }
+        this._dependenciesTimer.start(this._loadDependencies.bind(this));
+    }
+
+    /**
+     * Останавливает таймер и фактически загружает все зависимости
+     */
+    stopMenuDependenciesTimer(): void {
+        this._dependenciesTimer?.stop();
+    }
+
+    /**
+     * Возвращает конфиг для шаблона меню опций
+     * @param item элемент коллекции, для которого выполняется действие
+     * @param isActionMenu
+     * @param parentAction
+     * @param menuActions
+     * @private
+     */
+    private _getActionsMenuTemplateConfig(
+        item: IItemActionsItem,
+        isActionMenu: boolean,
+        parentAction: IItemAction,
+        menuActions: IItemAction[]
+    ): IMenuPopupOptions {
+        const source = new Memory({
+            data: menuActions,
+            keyProperty: 'id'
+        });
+        const iconSize = (this._contextMenuConfig && this._contextMenuConfig.iconSize) || DEFAULT_ACTION_SIZE;
+        const headConfig = isActionMenu ? {
+            caption: parentAction.title,
+            icon: parentAction.icon,
+            iconSize
+        } : null;
+        const root = parentAction && parentAction.id;
+        return {
+            source,
+            footerItemData: {
+                item,
+                key: Controller._getItemContents(item).getKey()
+            },
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'parent@',
+            dropdownClassName: 'controls-itemActionsV__popup',
+            ...this._contextMenuConfig,
+            root,
+            // @ts-ignore
+            showHeader: isActionMenu,
+            headConfig,
+            iconSize,
+            closeButtonVisibility: !isActionMenu && !root
+        };
+    }
+
+    private _loadDependencies(): Promise<unknown[]> {
+        if (!this._loadMenuTempPromise) {
+            const templatesToLoad = ['Controls/menu'];
+            if (this._contextMenuConfig) {
+                const templates = ['headerTemplate', 'footerTemplate', 'itemTemplate', 'groupTemplate'];
+                templates.forEach((template) => {
+                    if (typeof this._contextMenuConfig[template] === 'string') {
+                        templatesToLoad.push(this._contextMenuConfig[template]);
+                    }
+                });
+            }
+            this._loadMenuTempPromise = mStubs.require(templatesToLoad).then((loadedDeps) => {
+                return loadedDeps[0].Control.loadCSS(this._theme);
+            });
+        }
+        return this._loadMenuTempPromise;
     }
 
     /**
@@ -474,16 +525,14 @@ export class Controller {
     }
 
     /**
-     * Запоминает измерения для HTML элемента, к которому привязано выпадающее меню
+     * В процессе открытия меню, запись может пререрисоваться, и таргета не будет в DOM.
+     * Поэтому заменяем метод getBoundingClientRect так, чтобы он возвращал текущие координаты
      * @param realTarget
      */
-    private _getFakeMenuTarget(realTarget: HTMLElement): {
-        getBoundingClientRect(): ClientRect;
-        children: any;
-    } {
+    private _cloneMenuTarget(realTarget: HTMLElement): HTMLElement {
         const rect = realTarget.getBoundingClientRect();
         return {
-            children: [],
+            ...clone(realTarget),
             getBoundingClientRect(): ClientRect {
                 return rect;
             }

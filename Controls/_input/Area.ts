@@ -28,6 +28,7 @@ import 'Controls/decorator';
  * @class Controls/_input/Area
  * @extends Controls/input:Text
  * @mixes Controls/input:INewLineKey
+ * @mixes Controls/_input/interface/IAreaOptions
  * @public
  * 
  * @demo Controls-demo/Input/Area/MinMaxLines/Index
