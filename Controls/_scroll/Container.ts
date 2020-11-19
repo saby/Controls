@@ -1,7 +1,7 @@
 import {constants, detection, compatibility} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TemplateFunction} from 'UI/Base';
-import ContainerBase, {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
+import ContainerBase, {IContainerBaseOptions, IUnrenderedContent} from 'Controls/_scroll/ContainerBase';
 import * as ScrollData from 'Controls/_scroll/Scroll/Context';
 import Observer from './IntersectionObserver/Observer';
 import template = require('wml!Controls/_scroll/Container/Container');
@@ -280,11 +280,20 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         }
     }
 
-    protected _updateShadowVisibility(event: SyntheticEvent, shadowsVisibility: IShadowsVisibilityByInnerComponents): void {
+    protected _updateHasUnrenderedContent(event: SyntheticEvent, hasUnrenderedContent: IUnrenderedContent): void {
+        super._updateHasUnrenderedContent(hasUnrenderedContent);
+        const shadowsVisibility = {
+            top: hasUnrenderedContent.top ? 'visible' : 'auto',
+            bottom: hasUnrenderedContent.bottom ? 'visible' : 'auto'
+        };
+        this._updateShadowVisibility(shadowsVisibility);
+    }
+
+    private _updateShadowVisibility(shadowsVisibility: IShadowsVisibilityByInnerComponents): void {
         this._shadows.updateVisibilityByInnerComponents(shadowsVisibility, this._wasMouseEnter);
         this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.isStickyHeadersShadowsEnabled(),
-                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+            this._shadows.top.isStickyHeadersShadowsEnabled(),
+            this._shadows.bottom.isStickyHeadersShadowsEnabled());
     }
 
     protected _keydownHandler(event: SyntheticEvent): void {
