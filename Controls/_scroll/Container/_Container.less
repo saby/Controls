@@ -74,3 +74,14 @@
    -webkit-appearance: none;
    display: none;
 }
+
+// В рознице и админке цвет фона плавающих панелей не такой как на страницах.
+// Избавиться от каскада https://online.sbis.ru/opendoc.html?guid=758cfffc-cfde-4a52-8df0-94984c72dc4e
+.controls-StackTemplate_theme_@{themeName} {
+   .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
+      background-image: linear-gradient(@background-color_stack 10%, rgba(@background-color_stack, 0)),
+                        linear-gradient(rgba(@background-color_stack, 0), @background-color_stack 90%),
+                        linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
+                        linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
+   }
+}
