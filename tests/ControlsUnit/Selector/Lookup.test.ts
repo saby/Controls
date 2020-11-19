@@ -55,6 +55,7 @@ describe('lookup', () => {
     it('showSelector', () => {
         let isSuggestClosed = false;
         let isSelectorOpened = false;
+        let isCalculated = false;
         const sandBox = createSandbox();
         sandBox.replace(Stack, 'openPopup', () => {
             isSelectorOpened = true;
@@ -66,10 +67,13 @@ describe('lookup', () => {
                 isSuggestClosed = true;
             }
         });
-
+        sandBox.replace(lookup, '_getFieldWrapperWidth', () => {
+            isCalculated = true;
+        });
         lookup.showSelector({
             template: 'testTemplate'
         });
+        ok(isCalculated);
         ok(isSelectorOpened);
         ok(isSuggestClosed);
         sandBox.restore();

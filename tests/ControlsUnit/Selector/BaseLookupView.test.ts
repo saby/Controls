@@ -190,6 +190,7 @@ describe('Controls/_lookup/BaseLookupView', function() {
    it('_onMouseDownShowSelector', function() {
       var lookup = new Lookup();
 
+      lookup._getFieldWrapperWidth = () => {};
       lookup._suggestState = true;
       lookup._onMouseDownShowSelector();
 
