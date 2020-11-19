@@ -266,7 +266,7 @@ export default class _Controller implements IDropdownController {
 
    private _setItems(items: RecordSet|null): void {
       if (items) {
-         this._createMenuSource(items);
+         this._createMenuSource(items.clone());
       } else {
          this._loadItemsPromise = null;
       }
@@ -274,10 +274,15 @@ export default class _Controller implements IDropdownController {
    }
 
    private _createMenuSource(items: RecordSet|Error): void {
+      let menuItems = items;
+      if (this._options.needLoadSelectedItems && this._isHistoryMenu()) {
+         // FIXME https://online.sbis.ru/opendoc.html?guid=300c6a3f-6870-492e-8308-34a457ad7b85
+         menuItems = items.clone();
+      }
       this._menuSource = new PrefetchProxy({
          target: this._source,
          data: {
-            query: items
+            query: menuItems
          }
       });
    }
