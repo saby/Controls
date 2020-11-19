@@ -6,6 +6,15 @@ define('ControlsUnit/ListData', function() {
       NODE_PROPERTY: 'Раздел@',
       HAS_CHILDREN_PROPERTY: "Раздел$",
 
+      /*
+       * 1
+       *    2
+       *       3
+       *       4
+       *    5
+       * 6
+       * 7
+       */
       getItems: function() {
          return [{
             'id': 1,

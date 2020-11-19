@@ -6,6 +6,9 @@ import { MarkerController } from 'Controls/marker';
 import { ListViewModel } from 'Controls/list';
 import { RecordSet } from 'Types/collection';
 import { SearchGridViewModel } from 'Controls/treeGrid';
+import { Tree } from 'Controls/display';
+import * as ListData from 'ControlsUnit/ListData';
+import { Model } from 'Types/entity';
 
 describe('Controls/marker/Controller', () => {
    let controller, model, items;
@@ -349,6 +352,53 @@ describe('Controls/marker/Controller', () => {
          assert.isNull(newMarkedKey);
          assert.isFalse(model.getItemBySourceKey(2).isMarked());
          assert.isFalse(model.getItemBySourceKey(3).isMarked());
+      });
+   });
+
+   describe('getMarkedKeyAfterCollapseItems', () => {
+      beforeEach(() => {
+         model = new Tree({
+            collection: new RecordSet({
+               keyProperty: ListData.KEY_PROPERTY,
+               rawData: ListData.getItems()
+            }),
+            root: new Model({ rawData: { id: null }, keyProperty: ListData.KEY_PROPERTY }),
+            keyProperty: ListData.KEY_PROPERTY,
+            parentProperty: ListData.PARENT_PROPERTY,
+            nodeProperty: ListData.NODE_PROPERTY,
+            hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY
+         });
+
+         controller = new MarkerController({ model, markerVisibility: 'visible', markedKey: undefined });
+      });
+
+      it('was not set marker', () => {
+         const newMarkedKey = controller.getMarkedKeyAfterCollapseItems([model.getItemBySourceKey(1)]);
+         assert.equal(newMarkedKey, undefined);
+      });
+
+      it('empty array of collapsed items', () => {
+         controller.setMarkedKey(1);
+         const newMarkedKey = controller.getMarkedKeyAfterCollapseItems([]);
+         assert.equal(newMarkedKey, 1);
+      });
+
+      it('collapse node with marker', () => {
+         controller.setMarkedKey(2);
+         const newMarkedKey = controller.getMarkedKeyAfterCollapseItems([model.getItemBySourceKey(1)]);
+         assert.equal(newMarkedKey, 1);
+      });
+
+      it('collapse node with marker at depth of several nodes', () => {
+         controller.setMarkedKey(3);
+         const newMarkedKey = controller.getMarkedKeyAfterCollapseItems([model.getItemBySourceKey(1)]);
+         assert.equal(newMarkedKey, 1);
+      });
+
+      it('collapse node without marker', () => {
+         controller.setMarkedKey(5);
+         const newMarkedKey = controller.getMarkedKeyAfterCollapseItems([model.getItemBySourceKey(2)]);
+         assert.equal(newMarkedKey, 5);
       });
    });
 

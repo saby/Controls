@@ -1,5 +1,5 @@
 import { IOptions, TVisibility, Visibility } from './interface';
-import { Collection, CollectionItem } from 'Controls/display';
+import { Collection, CollectionItem, TreeItem } from 'Controls/display';
 import { Model } from 'Types/entity';
 import {CrudEntityKey} from 'Types/source';
 
@@ -117,6 +117,33 @@ export class Controller {
       const index = this._model.getIndex(item);
       const nextMarkedKey = this._calculateNearbyByDirectionItemKey(index + 1, true);
       return nextMarkedKey === null ? this._markedKey : nextMarkedKey;
+   }
+
+   // TODO это нужно только для дерева, возможно стоит применить наследование и вынести,
+   //  после того как будет выполнено наследование TreeControl <- BaseControl
+   getMarkedKeyAfterCollapseItems(collapsedItems: Array<TreeItem<Model>>): CrudEntityKey {
+      // не нужно высчитывать маркер если он не был проставлен
+      if (collapsedItems.length === 0 || this._markedKey === null || this._markedKey === undefined) {
+         return this._markedKey;
+      }
+
+      const markedItem = this._model.getItemBySourceKey(this._markedKey);
+      if (markedItem) {
+         // проверяем был ли внутри свернутых узлов маркированный элемент
+         let parent = markedItem.getParent(),
+             parentOfMarkedItem;
+         while (parent) {
+            if (collapsedItems.indexOf(parent) > -1) {
+               parentOfMarkedItem = parent;
+               break;
+            }
+            parent = parent.getParent();
+         }
+
+         return parentOfMarkedItem ? parentOfMarkedItem.getContents().getKey() : this._markedKey;
+      } else {
+         return this._markedKey;
+      }
    }
 
    /**
