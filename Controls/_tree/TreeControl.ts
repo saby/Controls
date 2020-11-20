@@ -215,13 +215,23 @@ const _private = {
                 shouldCancelEditing = _private.hasInParents(collection, editingCollectionItem, dispItem);
             }
 
-            return Promise.resolve(shouldCancelEditing ? self.cancelEdit() : null).then((res) => {
-                if (!(res && res.canceled)) {
-                    // маркер нужно менять до изменения модели, т.к. после маркер уже пересчитается на другой элемент
-                    _private.changeMarkedKeyOnCollapseItemIfNeed(self, [dispItem], expanded);
-                    _private.toggleExpandedOnModel(self, listViewModel, dispItem, expanded);
-                }
-            });
+            const toggle = () => {
+                // маркер нужно менять до изменения модели, т.к. после маркер уже пересчитается на другой элемент
+                _private.changeMarkedKeyOnCollapseItemIfNeed(self, [dispItem], expanded);
+                _private.toggleExpandedOnModel(self, listViewModel, dispItem, expanded);
+            };
+
+            // TODO: Переписать
+            //  https://online.sbis.ru/opendoc.html?guid=974ac162-4ee4-48b5-a2b7-4ff75dccb49c
+            if (shouldCancelEditing) {
+                return self.cancelEdit().then((res) => {
+                    if (!(res && res.canceled)) {
+                        toggle();
+                    }
+                });
+            } else {
+                toggle();
+            }
         }
     },
     hasInParents(collection: Collection, child: TreeItem, stepParent: TreeItem): boolean {
