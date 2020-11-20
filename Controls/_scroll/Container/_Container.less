@@ -75,7 +75,7 @@
    display: none;
 }
 
-// В рознице и админке цвет фона плавающих панелей не такой как на страницах.
+// В рознице и админке цвет фона плавающих панелей и в мастере(MasterDetail) не такой как на страницах.
 // Избавиться от каскада https://online.sbis.ru/opendoc.html?guid=758cfffc-cfde-4a52-8df0-94984c72dc4e
 .controls-StackTemplate_theme_@{themeName} {
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
@@ -99,6 +99,24 @@
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
       background-image: linear-gradient(@background-color_sticky 10%, rgba(@background-color_sticky, 0)),
                         linear-gradient(rgba(@background-color_sticky, 0), @background-color_sticky 90%),
+                        linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
+                        linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
+   }
+}
+
+.controls-MasterDetail_details_bg-contrast_theme-@{themeName} {
+   .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
+      background-image: linear-gradient(@detail_contrast_background-color_masterDetail 10%, rgba(@detail_contrast_background-color_masterDetail, 0)),
+                        linear-gradient(rgba(@detail_contrast_background-color_masterDetail, 0), @detail_contrast_background-color_masterDetail 90%),
+                        linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
+                        linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
+   }
+}
+
+.controls-MasterDetail_details_bg-same_theme-@{themeName} {
+   .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
+      background-image: linear-gradient(@detail_background-color_masterDetail 10%, rgba(@detail_background-color_masterDetail, 0)),
+                        linear-gradient(rgba(@detail_background-color_masterDetail, 0), @detail_background-color_masterDetail 90%),
                         linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
                         linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    }
