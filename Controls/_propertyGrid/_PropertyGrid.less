@@ -3,6 +3,7 @@
 }
 
 .controls-PropertyGrid__editor_theme-@{themeName} {
+   position: relative;
    margin-bottom: @editor_offset_propertyGrid;
 }
 
@@ -37,5 +38,12 @@
 .ws-is-hover {
    .controls-PropertyGrid__editor_highlightOnHover_theme-@{themeName}:hover {
       background-color: @hover_background-color;
+   }
+
+   .controls-PropertyGrid__editor_theme-@{themeName}:hover {
+      .controls-itemActionsV {
+         opacity: 1;
+         visibility: visible;
+      }
    }
 }

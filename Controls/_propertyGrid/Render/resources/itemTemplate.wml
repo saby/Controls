@@ -1,10 +1,20 @@
 <div class="controls-PropertyGrid__editor_theme-{{theme}}
             {{highlightOnHover ? 'controls-PropertyGrid__editor_highlightOnHover_theme-' + theme}}">
-    <ws:if data="{{item.captionTemplate}}">
-        <ws:partial template="{{item.captionTemplate}}" item="{{item}}"/>
+    <div class="controls-PropertyGrid__editor_content_theme-{{theme}}">
+        <ws:if data="{{item.captionTemplate}}">
+            <ws:partial template="{{item.captionTemplate}}" item="{{item}}"/>
+        </ws:if>
+        <ws:else data="{{item.caption !== ''}}">
+            <span class="controls-PropertyGrid__editor-caption_theme-{{theme}}">{{item.caption || item.name}}</span>
+        </ws:else>
+        <Controls.Container.Async templateName="{{item.editorTemplateName}}" templateOptions="{{item.editorOptions}}" class="{{item.editorClass}}"/>
+    </div>
+    <ws:if data="{{ collectionItem.shouldDisplayActions() }}">
+        <ws:if data="{{ !collectionItem.isSwiped() }}">
+            <ws:partial template="{{ itemActionsTemplate }}"
+                        itemData="{{collectionItem}}"
+                        scope="{{listModel.getActionsTemplateConfig()}}"
+            />
+        </ws:if>
     </ws:if>
-    <ws:else data="{{item.caption !== ''}}">
-        <span class="controls-PropertyGrid__editor-caption_theme-{{theme}}">{{item.caption || item.name}}</span>
-    </ws:else>
-    <Controls.Container.Async templateName="{{item.editorTemplateName}}" templateOptions="{{item.editorOptions}}" class="{{item.editorClass}}"/>
 </div>

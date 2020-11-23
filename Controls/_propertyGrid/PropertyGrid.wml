@@ -7,4 +7,9 @@
     editingObject="{{_options.editingObject}}"
     on:itemClick="_itemClick()"
     on:propertyValueChanged="_propertyValueChanged()"
+
+    on:mouseenter="_mouseEnterHandler()"
+    on:touchstart="_touchStartHandler()"
+    on:itemSwipe="_itemSwipe()"
+    on:itemActionMouseDown="_itemActionMouseDown()"
 />

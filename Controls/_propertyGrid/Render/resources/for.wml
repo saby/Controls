@@ -5,6 +5,9 @@
             collectionItem="{{item}}"
             item="{{item.getContents()}}"
             collapsedGroups="{{collapsedGroups}}"
+            listModel="{{listModel}}"
+            itemActionsTemplate="{{itemActionsTemplate}}"
+
             on:propertyValueChanged="_propertyValueChanged(item.getContents())"
             on:click="_itemClick(item)"/>
 </ws:for>

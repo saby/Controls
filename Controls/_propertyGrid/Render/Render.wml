@@ -5,5 +5,7 @@
                 itemTemplate="{{_options.itemTemplate}}"
                 groupTemplate="{{_options.groupTemplate || _groupTemplate}}"
                 collapsedGroups="{{_options.collapsedGroups}}"
+                itemActionsTemplate="Controls/list:ItemActionsTemplate"
+                listModel="{{_options.listModel}}"
     />
 </div>

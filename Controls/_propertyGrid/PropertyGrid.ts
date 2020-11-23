@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_propertyGrid/PropertyGrid';
 import SyntheticEvent from 'Vdom/Vdom';
-import {Tree, Collection, GroupItem} from 'Controls/display';
+import {Tree, Collection, GroupItem, CollectionItem} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {object} from 'Types/util';
@@ -11,6 +11,8 @@ import {default as IPropertyGridItem} from './IProperty';
 import {PROPERTY_GROUP_FIELD, PROPERTY_NAME_FIELD, PROPERTY_VALUE_FIELD} from './Constants';
 import {groupConstants as constView} from '../list';
 import PropertyGridItem from './PropertyGridItem';
+import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
+import {StickyOpener} from 'Controls/popup';
 
 /**
  * Контрол, который позволяет пользователям просматривать и редактировать свойства объекта.
@@ -48,6 +50,7 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
     protected _listModel: Tree<PropertyGridItem> | Collection<PropertyGridItem>;
     protected _render: Control = renderTemplate;
     protected _collapsedGroups: Record<string, boolean> = {};
+    private _itemActionsController: ItemActionsController;
 
     protected _beforeMount(
         {
@@ -173,7 +176,84 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         }
     }
 
-    static _theme: string[] = ['Controls/propertyGrid'];
+    protected _mouseEnterHandler(): void {
+        this._updateItemActions(this._listModel, this._options);
+    }
+
+    protected _touchStartHandler(): void {
+        this._updateItemActions(this._listModel, this._options);
+    }
+
+    protected _itemActionMouseDown(event: SyntheticEvent<MouseEvent>,
+                                   item: CollectionItem<Model>,
+                                   action: IItemAction,
+                                   clickEvent: SyntheticEvent<MouseEvent>): void {
+        const contents: Model = item.getContents();
+        if (action && !action['parent@'] && action.handler) {
+            action.handler(contents);
+        } else {
+            this._openItemActionMenu(item, action, clickEvent);
+        }
+    }
+
+    private _openItemActionMenu(item: CollectionItem<Model>,
+                                action: IItemAction,
+                                clickEvent: SyntheticEvent<MouseEvent>): void {
+        const menuConfig = this._itemActionsController.prepareActionsMenuConfig(item, clickEvent,
+            action, this, false);
+        if (menuConfig) {
+            if (!this._itemActionSticky) {
+                this._itemActionSticky = new StickyOpener();
+            }
+            menuConfig.eventHandlers = {
+                onResult: this._onItemActionsMenuResult.bind(this),
+                onClose: () => {
+                    this._itemActionsController.setActiveItem(null);
+                }
+            };
+            this._itemActionSticky.open(menuConfig);
+            this._itemActionsController.setActiveItem(item);
+        }
+    }
+
+    private _onItemActionsMenuResult(eventName: string, actionModel: Model,
+                                     clickEvent: SyntheticEvent<MouseEvent>): void {
+        if (eventName === 'itemClick') {
+            const action = actionModel && actionModel.getRawData();
+            if (action && !action['parent@']) {
+                const item = this._itemActionsController.getActiveItem();
+                this._itemActionMouseDown(null, item, action, clickEvent);
+                this._itemActionSticky.close();
+            }
+        }
+    }
+
+    private _updateItemActions(listModel: Collection<Model>, options: IPropertyGridOptions): void {
+        const itemActions: IItemAction[] = options.itemActions;
+
+        if (!itemActions) {
+            return;
+        }
+
+        if (!this._itemActionsController) {
+            this._itemActionsController = new ItemActionsController();
+        }
+        const editingConfig = listModel.getEditingConfig();
+        this._itemActionsController.update({
+            collection: listModel,
+            itemActions,
+            itemActionsPosition: 'inside',
+            visibilityCallback: options.itemActionVisibilityCallback,
+            style: 'default',
+            theme: options.theme,
+            actionAlignment: 'horizontal',
+            actionCaptionPosition: 'none',
+            // itemActionsClass: `controls-Menu__itemActions_position_rightCenter_theme-${options.theme}`,
+            iconSize: editingConfig ? 's' : 'm'
+        });
+    }
+
+    static _theme: string[] = ['Controls/propertyGrid', 'Controls/itemActions'];
 
     static getDefaultPropertyGridItem(): IPropertyGridItem {
         return {

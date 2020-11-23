@@ -1,0 +1,9 @@
+<div class="controls-Demo__propertyGrid">
+    <Controls.propertyGrid:PropertyGrid
+            bind:editingObject="_editingObject"
+            itemActions="{{_itemActions}}"
+            source="{{_source}}"
+            itemTemplate="wml!Controls-demo/PropertyGridNew/ItemActions/ItemTemplate"
+    >
+    </Controls.propertyGrid:PropertyGrid>
+</div>
