@@ -70,7 +70,10 @@ var SearchContainer = Control.extend(/** @lends Controls/_search/Input/Container
 
    _notifySearch: function (value, force) {
       if (this._options.useStore) {
-         Store.dispatch('searchValue', value);
+         Store.dispatch('searchValue', {
+            text: value,
+            force: !!force
+         });
       } else {
           this._notify('search', [value || '', force], {bubbling: true});
       }
