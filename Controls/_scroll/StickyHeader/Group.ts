@@ -75,6 +75,10 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 
     private _delayedHeaders: number[] = [];
 
+    // Считаем заголовок инициализированным после того как контроллер установил ему top или bottom.
+    // До этого не синхронизируем дом дерево при изменении состояния.
+    private _initialized: boolean = false;
+
     protected _beforeMount(options: IControlOptions, context): void {
         this._isStickySupport = isStickySupport();
         this._index = getNextId();
@@ -134,11 +138,20 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     }
 
     private _setOffset(value: number, position: POSITION): void {
-        for (let id in this._headers) {
-            const positionValue: number = this._headers[id][position] + value;
-            this._headers[id].inst[position] = positionValue;
-        }
+
         this._offset[position] = value;
+
+        if (!this._initialized) {
+            this._initialized = true;
+            if (this._delayedHeaders.length) {
+                Promise.resolve().then(this._updateTopBottomDelayed.bind(this));
+            }
+        } else {
+            for (let id in this._headers) {
+                const positionValue: number = this._headers[id][position] + value;
+                this._headers[id].inst[position] = positionValue;
+            }
+        }
     }
 
     protected _fixedHandler(event: SyntheticEvent<Event>, fixedHeaderData: IFixedEventData): void {
@@ -245,7 +258,7 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         // Это приводит к layout. И так для каждой ячейки для заголвков в таблице. Создадим список всех заголовков
         // которые надо обсчитать в этом синхронном участке кода и обсчитаем их за раз в микротаске,
         // один раз сняв со всех загоовков position: sticky.
-        if (!this._delayedHeaders.length) {
+        if (this._initialized && !this._delayedHeaders.length) {
             Promise.resolve().then(this._updateTopBottomDelayed.bind(this));
         }
         this._delayedHeaders.push(data.id);

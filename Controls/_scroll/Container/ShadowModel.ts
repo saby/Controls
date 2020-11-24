@@ -166,7 +166,7 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
     }
 
     private _canScrollByScrollState(): boolean {
-        return this._scrollState[`can${upperDirection[this._direction]}Scroll`];
+        return !!(this._scrollState[`can${upperDirection[this._direction]}Scroll`]);
     }
 
     private _getShadowEnable(): boolean {
