@@ -340,7 +340,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       return !!(hasItems ||
          (!this._options.historyId || this._searchValue || isSuggestHasTabs) &&
          this._options.emptyTemplate &&
-         searchResult !== null) && !!this._options.suggestTemplate;
+         searchResult) && !!this._options.suggestTemplate;
    }
 
    private _processResultData(data: RecordSet): void {
@@ -425,17 +425,18 @@ export default class InputContainer extends Control<IInputControllerOptions> {
 
    private _updateSuggestState(): boolean {
       const shouldSearch = this._shouldSearch(this._searchValue);
+      const shouldShow = this._shouldShowSuggest(this._getSourceController().getItems());
       let state = false;
 
       if (this._options.historyId && !shouldSearch && !this._options.suggestState) {
          this._openWithHistory();
          state = true;
       } else if ((shouldSearch || this._options.autoDropDown && !this._options.suggestState)
-         && this._shouldShowSuggest(this._getSourceController().getItems())) {
+         && shouldShow) {
          this._setFilter(this._options.filter, this._options);
          this._open();
          state = true;
-      } else if (!this._options.autoDropDown) {
+      } else if (!this._options.autoDropDown && !shouldShow) {
          // autoDropDown - close only on Esc key or deactivate
          this._close();
       }
