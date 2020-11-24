@@ -367,9 +367,11 @@ export default class VirtualScroll {
      * Обновляет данные о высотах элементов
      * @param itemsHeights
      */
-    updateItemsHeights(itemsHeights: IItemsHeights): void {
-        this._updateItemsHeights(itemsHeights);
-        this.rangeChanged = false;
+    updateItemsHeights(itemsHeights: IItemsHeights): void  {
+        if (itemsHeights.itemsHeights.length === this._range.stop - this._range.start) {
+            this._updateItemsHeights(itemsHeights);
+            this.rangeChanged = false;
+        }
     }
 
     /**
