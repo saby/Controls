@@ -44,10 +44,21 @@ var Container = Control.extend(/** @lends Controls/_filter/View/Container.protot
 
     _afterMount(options): void {
         if (options.useStore) {
-            this._sourceCallbackId = Store.onPropertyChanged('filterSource', (filterSource) => {
-                this._source = filterSource;
-            });
+            this._createNewStoreObserver();
+            this._storeCtxCallbackId = Store.onPropertyChanged('_contextName', () => {
+                this._createNewStoreObserver();
+            }, true);
         }
+    },
+
+    _createNewStoreObserver(): void {
+        if (this._sourceChangedCallbackId) {
+            Store.unsubscribe(this._sourceChangedCallbackId);
+        }
+
+        this._sourceChangedCallbackId = Store.onPropertyChanged('filterSource', (filterSource) => {
+            this._source = filterSource;
+        });
     },
 
     _beforeUpdate(options): void {
@@ -57,8 +68,11 @@ var Container = Control.extend(/** @lends Controls/_filter/View/Container.protot
     },
 
     _beforeUnmount(): void {
-        if (this._sourceCallbackId) {
-            Store.unsubscribe(this._sourceCallbackId);
+        if (this._sourceChangedCallbackId) {
+            Store.unsubscribe(this._sourceChangedCallbackId);
+        }
+        if (this._storeCtxCallbackId) {
+            Store.unsubscribe(this._storeCtxCallbackId);
         }
     },
 

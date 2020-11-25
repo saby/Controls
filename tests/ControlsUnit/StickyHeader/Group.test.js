@@ -82,6 +82,9 @@ define([
             component._fixedHandler(event,
                {fixedPosition: 'top', prevPosition: '', id: headerId, mode: 'replaceable', offsetHeight: 10});
 
+            assert.isTrue(component._isFixed);
+            assert.isTrue(component._fixed);
+
             sinon.assert.calledWith(
                component._notify,
                'fixed',

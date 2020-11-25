@@ -5,13 +5,19 @@
                displayProperty="{{displayProperty}}"
                readOnly="{{true}}">
       <ws:itemTemplate>
-         <ws:partial template="Controls/breadcrumbs:ItemTemplate">
-            <ws:contentTemplate>
-               <ws:partial template="wml!Controls/_menu/Render/searchDecoratorTemplate"
-                           searchValue="{{searchValue}}"
-                           item="{{contentTemplate.itemData.item}}" />
-            </ws:contentTemplate>
-         </ws:partial>
+         <ws:if data="{{breadCrumbsItemTemplate}}">
+            <ws:partial template="{{breadCrumbsItemTemplate}}"
+                        searchValue="{{searchValue}}" />
+         </ws:if>
+         <ws:else>
+            <ws:partial template="Controls/breadcrumbs:ItemTemplate">
+               <ws:contentTemplate>
+                  <ws:partial template="wml!Controls/_menu/Render/searchDecoratorTemplate"
+                              searchValue="{{searchValue}}"
+                              item="{{contentTemplate.itemData.item}}" />
+               </ws:contentTemplate>
+            </ws:partial>
+         </ws:else>
       </ws:itemTemplate>
    </ws:partial>
 </Controls.Container.Async>

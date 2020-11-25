@@ -1,7 +1,9 @@
 import BaseOpener, {IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
 import {Logger} from 'UI/Utils';
+import {Control} from 'UI/Base';
 import {IDialogOpener, IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 import {IPropStorage, IPropStorageOptions} from 'Controls/interface';
+import {getModuleByName} from 'Controls/_popup/utils/moduleHelper';
 
 interface IDialogOpenerOptions extends IDialogPopupOptions, IBaseOpenerOptions, IPropStorageOptions {}
 
@@ -53,11 +55,25 @@ class Dialog extends BaseOpener<IDialogOpenerOptions> implements IDialogOpener, 
             if (!newCfg.hasOwnProperty('opener')) {
                 Logger.error(Dialog.prototype._moduleName + ': Для открытия окна через статический метод, обязательно нужно указать опцию opener');
             }
-            BaseOpener.requireModules(newCfg, POPUP_CONTROLLER).then((result: ILoadDependencies) => {
-                BaseOpener.showDialog(result.template, newCfg, result.controller).then((popupId: string) => {
+
+            const showDialog = (templateModule: Control, newCfg: IDialogOpenerOptions, controllerModule: Control) => {
+                BaseOpener.showDialog(templateModule, newCfg, controllerModule).then((popupId: string) => {
                     resolve(popupId);
                 });
-            });
+            };
+
+            // что-то поменялось в ядре, в ie из-за частых синхронизаций(при d'n'd) отвалилась перерисовка окон,
+            // ядро пишет что создано несколько окон с таким ключом. Такой же сценарий актуален не только для диалогов.
+            // убираю асинхронную фазу, чтобы ключ окна не успевал протухнуть пока идут микротаски от промисов.
+            const tplModule = getModuleByName(newCfg.template as string);
+            const contrModule = getModuleByName(POPUP_CONTROLLER);
+            if (tplModule && contrModule) {
+                showDialog(tplModule, newCfg, contrModule);
+            } else {
+                BaseOpener.requireModules(newCfg, POPUP_CONTROLLER).then((result: ILoadDependencies) => {
+                    showDialog(result.template, newCfg, result.controller);
+                });
+            }
         });
     }
 

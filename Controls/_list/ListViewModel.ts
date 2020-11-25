@@ -795,6 +795,15 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._options.rowSeparatorSize = _private.getSeparatorSizes({rowSeparatorSize});
         this._display.setRowSeparatorSize(rowSeparatorSize);
         this._nextModelVersion();
+    },
+
+    /**
+     * Обновляет стиль фона фиксированных элемекнтов
+     * @param backgroundStyle
+     */
+    setBackgroundStyle(backgroundStyle) {
+        this._options.backgroundStyle = backgroundStyle;
+        this._nextVersion();
     }
 });
 

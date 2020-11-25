@@ -2513,11 +2513,21 @@ var
 
         goToNextColgroupColumn(): void {
             this._curColgroupColumnIndex++;
-        }
+        },
 
         // endregion Colgroup columns
 
         // endregion Table Layout
+
+        /**
+         * Обновляет стиль фона фиксированных элемекнтов
+         * @param backgroundStyle
+         */
+        setBackgroundStyle(backgroundStyle): void {
+            if (this._model) {
+                this._model.setBackgroundStyle(backgroundStyle);
+            }
+        }
 
     });
 

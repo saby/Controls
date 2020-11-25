@@ -155,7 +155,7 @@ class StickyHeaderController {
     _updateShadowsVisibility(): void {
         for (const position of [POSITION.top, POSITION.bottom]) {
             const headersStack: [] = this._headersStack[position];
-            const lastHeaderId = headersStack[headersStack.length - 1];
+            const lastHeaderId = this._getLastFixedHeaderId(position);
             for (const headerId of headersStack) {
                 if (this._fixedHeadersStack[position].includes(headerId)) {
                     const header: TRegisterEventData = this._headers[headerId];

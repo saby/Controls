@@ -10,6 +10,7 @@
                   keyProperty="{{keyProperty}}"
                   displayProperty="{{displayProperty}}"
                   searchValue="{{searchValue}}"
+                  breadCrumbsItemTemplate="{{_options.breadCrumbsItemTemplate}}"
       />
    </ws:if>
 

@@ -52,6 +52,8 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
  */
 export default class Group extends Control<IStickyHeaderGroupOptions> {
     private _index: number = null;
+    // Похоже что не используется, переделали на другой механизм.
+    // https://online.sbis.ru/opendoc.html?guid=08a36766-8ac6-4884-bd3b-c28514c9574c
     private _updateFixedRegister: RegisterClass = new RegisterClass({register: 'updateFixed'});
     protected _template: TemplateFunction = template;
     protected _isStickySupport: boolean = false;
@@ -172,7 +174,11 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 
         if (!!fixedHeaderData.fixedPosition && !this._fixed) {
             if (!fixedHeaderData.isFakeFixed) {
+                // Эти 2 поля означают одно и то же но со нюансами. _isFixed когда то назывался _shadowVisible.
+                // Свести к одному полю, либо дать адекватные названия.
+                // https://online.sbis.ru/opendoc.html?guid=08a36766-8ac6-4884-bd3b-c28514c9574c
                 this._fixed = true;
+                this._isFixed = true;
             }
             this._notifyFixed(fixedHeaderData);
         } else if (!fixedHeaderData.fixedPosition && this._fixed &&

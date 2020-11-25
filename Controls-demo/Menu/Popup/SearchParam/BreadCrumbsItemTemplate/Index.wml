@@ -1,0 +1,24 @@
+<div class="controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper controlsDemo__flexColumn">
+        <div class="controls-text-label_theme-{{_options.theme}}">С кастомным BreadCrumbsItemTemplate</div>
+        <Controls.menu:Popup
+                source="{{_source}}"
+                keyProperty="id"
+                displayProperty="title"
+                nodeProperty="@parent"
+                parentProperty="parent"
+                searchParam="title">
+            <ws:breadCrumbsItemTemplate>
+                <div class="ControlsDemo-Menu_wrapper">
+                    <span class="ControlsDemo-Menu_breadCrumbs-icon icon-medium icon-Sticker"></span>
+                    <ws:partial template="Controls/breadcrumbs:ItemTemplate">
+                        <ws:contentTemplate>
+                     <span class="ControlsDemo-Menu_breadCrumbs-text">
+                        {{breadCrumbsItemTemplate.itemData.item.get(breadCrumbsItemTemplate.displayProperty)}}</span>
+                        </ws:contentTemplate>
+                    </ws:partial>
+                </div>
+            </ws:breadCrumbsItemTemplate>
+        </Controls.menu:Popup>
+    </div>
+</div>

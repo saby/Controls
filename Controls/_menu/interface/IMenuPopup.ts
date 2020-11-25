@@ -110,6 +110,33 @@ export default interface IMenuPopup {
  */
 
 /**
+ * @name Controls/_menu/interface/IMenuPopup#breadCrumbsItemTemplate
+ * @cfg {String} Шаблон хлебных крошек, отображеющийся при поиске в иерархическом меню.
+ * @demo Controls-demo/Menu/Popup/SearchParam/BreadCrumbsItemTemplate/Index
+ * @example
+ * <pre>
+ * <Controls.menu:Popup source="{{_source}}"
+ *                      keyProperty="id"
+ *                      displayProperty="title"
+ *                      nodeProperty="@parent"
+ *                      parentProperty="parent"
+ *                      searchParam="title">
+ *      <ws:breadCrumbsItemTemplate>
+ *          <div class="demo-menu_wrapper">
+ *              <span class="demo-menu_breadCrumbs-icon"></span>
+ *              <ws:partial template="Controls/breadcrumbs:ItemTemplate">
+ *                  <ws:contentTemplate>
+ *                      <span class="demo-menu_breadCrumbs-text">
+ *                      {{breadCrumbsItemTemplate.itemData.item.get(breadCrumbsItemTemplate.displayProperty)}}</span>
+ *                  </ws:contentTemplate>
+ *              </ws:partial>
+ *          </div>
+ *      </ws:breadCrumbsItemTemplate>
+ * </Controls.menu:Popup>
+ * </pre>
+ */
+
+/**
  * @name Controls/_menu/interface/IMenuPopup#emptyTemplate
  * @cfg {Function} Шаблон, который будет отображаться в выпадающем списке, если поисковой запрос не вернул результатов.
  * @demo Controls-demo/Menu/Popup/SearchParam/EmptyTemplate/Index
