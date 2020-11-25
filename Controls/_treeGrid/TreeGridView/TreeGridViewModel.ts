@@ -34,6 +34,7 @@ var _private = {
 var
     TreeGridViewModel = GridViewModel.extend({
         _onNodeRemovedFn: null,
+        _haveItemWithChildren: null,
         constructor: function () {
             TreeGridViewModel.superclass.constructor.apply(this, arguments);
             this._onNodeRemovedFn = this._onNodeRemoved.bind(this);
@@ -361,13 +362,18 @@ var
         _setFooter(footerColumns) {
             TreeGridViewModel.superclass._setFooter.apply(this, arguments);
 
-            if (this._options.expanderIcon !== 'none' && this._options.expanderSize) {
+            let shouldDrawExpanderPadding: boolean = 
+                (this._options.expanderIcon !== 'none' && this._options.expanderPosition === 'default') &&
+                (this._options.expanderVisibility === 'hasChildren' ? this._model.thereIsChildItem() : !this._options.expanderSize);
+
+            if (shouldDrawExpanderPadding) {
                 const expanderColumnIndex = +(this._options.multiSelectVisibility !== 'hidden' && this._options.multiSelectPosition === 'default');
                 const superGetter = this._footer[expanderColumnIndex].getContentClasses;
 
                 this._footer[expanderColumnIndex].getContentClasses = () => {
+                    const expanderSize = this._options.expanderSize || 'default';
                     return superGetter.apply(this, arguments) +
-                        ` controls-TreeGridView__footer__expanderPadding-${this._options.expanderSize.toLowerCase()}_theme-${this._options.theme}`
+                        ` controls-TreeGridView__footer__expanderPadding-${expanderSize.toLowerCase()}_theme-${this._options.theme}`
                 }
             }
         }

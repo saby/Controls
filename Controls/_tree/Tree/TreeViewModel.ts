@@ -822,6 +822,9 @@ var
         getChildren: function(rootId, items) {
             return this._hierarchyRelation.getChildren(rootId, items || this._items);
         },
+        thereIsChildItem(): boolean {
+            return this._thereIsChildItem;
+        },
         getDisplayChildrenCount(nodeId: number | string | null, items: RecordSet): number {
             const display = this.getDisplay();
             const curNodeChildren: TreeChildren<Model> = display.getChildren(display.getItemBySourceKey(nodeId));
