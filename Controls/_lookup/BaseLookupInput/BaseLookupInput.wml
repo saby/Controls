@@ -100,7 +100,9 @@
                                     name="showSelector"
                                     horizontalPadding="{{_options.horizontalPadding}}"
                                     theme="{{_options.theme}}"
-                                    on:click="_onClickShowSelector()"/>
+                                    on:mousedown="_onMouseDownShowSelector()"
+                                    on:mouseleave="_linkMouseLeaveHandler()"
+                                    on:mouseenter="_linkMouseEnterHandler()"/>
                     </div>
                 </ws:if>
             </ws:rightFieldWrapper>

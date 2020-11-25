@@ -87,7 +87,7 @@ export default class extends Control {
         sourceConfig: { hasMore: false, page: 5, pageSize: 10 },
         view: 'infinity', // infinity, pages, demand
         viewConfig: {
-            pagingMode: 'direct',
+            pagingMode: 'basic',
             showEndButton: true
         }
     };

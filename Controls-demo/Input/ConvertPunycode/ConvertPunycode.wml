@@ -1,9 +1,9 @@
-<div class="controlsDemo__wrapper">
-   <div class="controlsDemo__cell">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
+   <div class="controlsDemo__cell demo-convertPunycode_false">
       <div class="controls-text-label_theme-{{_options.theme}}">convertPunycode=false</div>
       <Controls.input:Text attr:class="controlsDemo__input" convertPunycode="{{false}}" placeholder="{{_placeholder}}"/>
    </div>
-   <div class="controlsDemo__cell">
+   <div class="controlsDemo__cell demo-convertPunycode_true">
       <div class="controls-text-label_theme-{{_options.theme}}">convertPunycode=true</div>
       <Controls.input:Text attr:class="controlsDemo__input" convertPunycode="{{true}}" placeholder="{{_placeholder}}"/>
    </div>

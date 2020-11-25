@@ -9,6 +9,7 @@ import * as template from 'wml!Controls-demo/list_new/ItemActions/ContextMenuCon
 interface ISrcData {
    id: number;
    title: string;
+   menuFooterText: string;
 }
 
 const itemActions: IItemAction[] = [
@@ -22,7 +23,7 @@ const itemActions: IItemAction[] = [
       }
    },
    {
-      id: 2,
+      id: 'delete',
       icon: 'icon-Erase',
       iconStyle: 'danger',
       title: 'Remove',
@@ -36,7 +37,8 @@ const itemActions: IItemAction[] = [
 const data: ISrcData[] = [
    {
       id: 1,
-      title: 'Кнопка "Ещё" по свайпу будет показана, т.к. указан footerTemplate'
+      title: 'Кнопка "Ещё" по свайпу будет показана, т.к. указан footerTemplate',
+      menuFooterText: 'В шаблоне footerTemplate может быть размещена дополнительная информация'
    }
 ];
 

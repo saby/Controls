@@ -7,11 +7,12 @@
                     footer="{{nodeFooter}}"
                     on:click="_onLoadMoreClick(nodeFooter.dispItem)"
                     isHasMoreFooter="{{nodeFooter.hasMoreStorage}}"
+                    moreFontColorStyle="{{moreFontColorStyle}}"
                     theme="{{theme}}"/>
     </ws:for>
 </ws:if>
 <ws:else>
     <ws:for data="nodeFooter in nodeFooters">
-        <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterContent" footer="{{nodeFooter}}" theme="{{theme}}"/>
+        <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterContent" footer="{{nodeFooter}}" moreFontColorStyle="{{moreFontColorStyle}}" theme="{{theme}}"/>
     </ws:for>
 </ws:else>

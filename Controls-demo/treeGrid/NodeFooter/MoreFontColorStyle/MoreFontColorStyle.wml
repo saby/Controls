@@ -1,0 +1,155 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">default</div>
+        <Controls.treeGrid:View
+                name="tree1"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems1"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=link</div>
+        <Controls.treeGrid:View
+                name="tree2"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems2"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="link"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=primary</div>
+        <Controls.treeGrid:View
+                name="tree3"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems3"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="primary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=secondary</div>
+        <Controls.treeGrid:View
+                name="tree4"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems4"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="secondary"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=success</div>
+        <Controls.treeGrid:View
+                name="tree5"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems5"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="success"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=warning</div>
+        <Controls.treeGrid:View
+                name="tree6"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems6"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="warning"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=danger</div>
+        <Controls.treeGrid:View
+                name="tree7"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems7"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="danger"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=unaccented</div>
+        <Controls.treeGrid:View
+                name="tree8"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems8"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="unaccented"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=label</div>
+        <Controls.treeGrid:View
+                name="tree9"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems9"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="label"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=info</div>
+        <Controls.treeGrid:View
+                name="tree10"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems10"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="info"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">moreFontColorStyle=default</div>
+        <Controls.treeGrid:View
+                name="tree11"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                bind:expandedItems="_expandedItems11"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}"
+                moreFontColorStyle="default"/>
+    </div>
+</div>

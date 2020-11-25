@@ -17,16 +17,20 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
     protected _template: TemplateFunction = itemMonthsTmpl;
     protected monthCaptionTemplate: TemplateFunction = MonthCaption;
 
-    protected _yearModel: object[] = null;
+    protected _yearModel: object[];
 
-    protected _halfYearHovered: number = null;
-    protected _quarterHovered: number = null;
+    protected _halfYearHovered: number;
+    protected _quarterHovered: number;
 
     protected _formatDate: Function = formatDate;
 
     protected _beforeMount(options: IShortDatePickerOptions): void {
         this._template = this._getItemTmplByType(options);
         this._yearModel = this._getYearModel(options.currentYear, options.dateConstructor);
+    }
+
+    protected _beforeUpdate(newOptions: IShortDatePickerOptions): void {
+        this._yearModel = this._getYearModel(newOptions.currentYear, newOptions.dateConstructor);
     }
 
     protected _getItemTmplByType(options: IShortDatePickerOptions): TemplateFunction {

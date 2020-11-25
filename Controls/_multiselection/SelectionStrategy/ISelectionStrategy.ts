@@ -70,7 +70,10 @@ export default interface ISelectionStrategy {
     * @param {string} searchValue Значение поиска
     * @return {Map<boolean|null, Array<CollectionItem<Model>>>} мапа, в которой для каждого состояния хранится соответствующий список элементов
     */
-   getSelectionForModel(selection: ISelection, limit?: number, items?: Array<CollectionItem<Model>>, searchValue?: string): Map<boolean|null, Array<CollectionItem<Model>>>;
+   getSelectionForModel(selection: ISelection,
+                        limit?: number,
+                        items?: Array<CollectionItem<Model>>,
+                        searchValue?: string): Map<boolean|null, Array<CollectionItem<Model>>>;
 
    /**
     * Возвращает количество выбранных элементов

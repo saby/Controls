@@ -2,13 +2,14 @@ import {Control, IControlOptions} from 'UI/Base';
 import Popup from 'Controls/_popup/Manager/Popup';
 import Container from 'Controls/_popup/Manager/Container';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
-import {Logger, Library} from 'UI/Utils';
+import {Logger} from 'UI/Utils';
+import * as Library from 'WasabyLoader/Library';
 import {IPopupItem, IPopupOptions, IPopupController, IPopupItemInfo} from 'Controls/_popup/interface/IPopup';
 import {getModuleByName} from 'Controls/_popup/utils/moduleHelper';
 import {goUpByControlTree} from 'UI/Focus';
 import {List} from 'Types/collection';
 import {Bus as EventBus} from 'Env/Event';
-import {detection} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 import {debounce} from 'Types/function';
 import * as randomId from 'Core/helpers/Number/randomId';
 import * as Deferred from 'Core/Deferred';
@@ -484,7 +485,7 @@ class Manager {
     }
 
     private _getActiveElement(): HTMLElement {
-        return document && document.activeElement as HTMLElement;
+        return constants.isBrowserPlatform && document.activeElement as HTMLElement;
     }
 
     private _getActiveControl(): Control {

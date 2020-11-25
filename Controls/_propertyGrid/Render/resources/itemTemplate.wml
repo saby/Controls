@@ -1,4 +1,5 @@
-<div class="controls-PropertyGrid__editor_theme-{{theme}}">
+<div class="controls-PropertyGrid__editor_theme-{{theme}}
+            {{highlightOnHover ? 'controls-PropertyGrid__editor_highlightOnHover_theme-' + theme}}">
     <ws:if data="{{item.captionTemplate}}">
         <ws:partial template="{{item.captionTemplate}}" item="{{item}}"/>
     </ws:if>

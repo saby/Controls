@@ -61,7 +61,7 @@
 /**
  * @name Controls/_form/interface/IFormController#confirmationShowingCallback
  * @cfg {Function} Функция, которая определяет должно ли показаться окно с подтверждением сохранения/не сохранения измененных данных при закрытии диалога редактирования записи. Необходимо для случаев, когда есть измененные данные, не связанные с рекордом.
- * @returns {Boolean} true - окно покажется. false - нет
+ * @returns {Boolean} true - окно покажется. false - нет.
  */
 
 /**
@@ -78,7 +78,7 @@
 
 /**
  * @name Controls/_form/interface/IFormController#readMetaData
- * @cfg {Object} Устанавливает набор инициализирующих значений, которые будут использованы при чтении записи. Подробнее {@link Types/source:ICrud#read}
+ * @cfg {Object} Устанавливает набор инициализирующих значений, которые будут использованы при чтении записи. Подробнее {@link Types/source:ICrud#read}.
  * Также, это значение по умолчанию для метода read.
  */
 
@@ -120,45 +120,47 @@
  * {@link Controls/_form/interface/IFormController#record record}, параллельно выполняется метод "Создать".
  * Построение вёрстки контрола <b>не откладывается.</b>
  * @example
- * <pre>
- *    <Controls.form:Controller initializingWay={{_myInitializingWay}}”>
- *        ...
- *    </Controls.form:Controller>
+ * <pre class="brush: html; highlight: [2]">
+ * <!-- WML -->
+ * <Controls.form:Controller initializingWay={{_myInitializingWay}}”>
+ *    ...
+ * </Controls.form:Controller>
  * </pre>
- * <pre>
- *    import {INITIALIZING_WAY} from 'Controls/form';
- *    _beforeMount() {
- *       this._myInitializingWay = INITIALIZING_WAY.CREATE;
- *    }
+ * <pre class="brush: js;; highlight: [4]">
+ * // TypeScript
+ * import {INITIALIZING_WAY} from 'Controls/form';
+ * _beforeMount() {
+ *     this._myInitializingWay = INITIALIZING_WAY.CREATE;
+ * }
  * </pre>
  */
 
 /**
- * @typedef {Object} updateConfig
- * @description Параметр сохранения
- * @property {Object} additionalData Дополнительные данные, которые будут обрабатываться при синхронизации записи с реестром
+ * @typedef {Object} UpdateConfig
+ * @description Параметр сохранения.
+ * @property {Object} additionalData Дополнительные данные, которые будут обрабатываться при синхронизации записи с реестром.
  */
 
-/**
- * @typedef {Object} updateConfig
+/*
+ * @typedef {Object} UpdateConfig
  * @description Save option
  * @property {Object} additionalData Additional data that will be processed when synchronizing registry entries
  */
 
 /**
- * Обновляет запись в источнике данных. Подробнее {@link Types/source:ICrud#update}
+ * Обновляет запись в источнике данных. Подробнее {@link Types/source:ICrud#update}.
  * @function Controls/_form/interface/IFormController#update
- * @param {updateConfig} config Параметр сохранения
+ * @param {UpdateConfig} config Параметр сохранения.
  */
 
 /*
  * Updates a record in the data source.  More {@link Types/source:ICrud#update}
  * @function Controls/_form/interface/IFormController#update
- * @param {updateConfig} Save option
+ * @param {UpdateConfig} Save option
  */
 
 /**
- * Создает пустую запись через источник данных. Подробнее {@link Types/source:ICrud#create}
+ * Создает пустую запись через источник данных. Подробнее {@link Types/source:ICrud#create}.
  * @function Controls/_form/interface/IFormController#create
  * @param {Object} createMetaData
  */
@@ -170,7 +172,7 @@
  */
 
 /**
- * Считывает запись из источника данных. Подробнее {@link Types/source:ICrud#read}
+ * Считывает запись из источника данных. Подробнее {@link Types/source:ICrud#read}.
  * @function Controls/_form/interface/IFormController#read
  * @param {String} key
  * @param {Object} readMetaData
@@ -184,7 +186,7 @@
  */
 
 /**
- * Удаляет запись из источника данных. Подробнее {@link Types/source:ICrud#delete}
+ * Удаляет запись из источника данных. Подробнее {@link Types/source:ICrud#delete}.
  * @function Controls/_form/interface/IFormController#delete
  * @param {Object} destroyMetaData
  */
@@ -353,10 +355,11 @@
  * Используется, например, для асинхронной валидации или пользовательского сохранения записи.
  * @example
  * Проверяет данные на сервере перед сохранением.
- * <pre class="brush: js">
- *    _requestCustomUpdateHandler(): Promise<boolean> {
- *       return this._checkDataOnServer();
- *    }
+ * <pre class="brush: js;">
+ * // TypeScript
+ * _requestCustomUpdateHandler(): Promise<boolean> {
+ *     return this._checkDataOnServer();
+ * }
  * </pre>
  */
 

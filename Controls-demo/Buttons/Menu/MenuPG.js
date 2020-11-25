@@ -3,7 +3,7 @@ define('Controls-demo/Buttons/Menu/MenuPG',
       'Core/Control',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'Types/source',
-      'Controls/Constants',
+      'Controls/list',
       'json!Controls-demo/PropertyGrid/pgtext',
       'wml!Controls-demo/Buttons/Menu/itemTemplateComment',
       'wml!Controls-demo/Buttons/Menu/itemTemplateSub',
@@ -196,7 +196,7 @@ define('Controls-demo/Buttons/Menu/MenuPG',
                   items: [
                      { id: '1', title: 'Property is group', template: function(item) {
                         if (item.get('group') === 'hidden' || !item.get('group')) {
-                           return ControlsConstants.view.hiddenGroup;
+                           return ControlsConstants.groupConstants.hiddenGroup;
                         }
                         return item.get('group');
                      } },

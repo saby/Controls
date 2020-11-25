@@ -23,11 +23,11 @@
 </ws:template>
 
 <ws:if data="{{_options.columnScroll}}">
-    <div name="columnScrollContainer" class="{{ _columnScrollContainerClasses }}" on:wheel="_columnScrollWheelHandler()">
+    <div name="columnScrollContainer" class="{{ _columnScrollContainerClasses }}" on:wheel="_columnScrollWheelHandler()" on:mouseenter="_onViewMouseEnter()">
         <style name="columnScrollStylesContainer" data-vdom-ignore="true"></style>
 
         <!-- Тени -->
-        <ws:if data="{{ _isColumnScrollVisible() }}">
+        <ws:if data="{{ _isColumnScrollVisible() && !_showFakeGridWithColumnScroll }}">
             <div name="columnScrollShadowStart" class="{{ _columnScrollShadowClasses.start }}" style="{{ _columnScrollShadowStyles.start }}"></div>
             <div name="columnScrollShadowEnd" class="{{ _columnScrollShadowClasses.end }}" style="{{ _columnScrollShadowStyles.end }}"></div>
         </ws:if>
@@ -52,6 +52,7 @@
                     scrollWidth="{{ _horizontalScrollWidth }}"
                     listModel="{{ _listModel }}"
                     trackVisible="{{ _trackVisible }}"
+                    on:newPositionRendered="_onNewHorizontalPositionRendered()"
                     positionChangeHandler="{{ _horizontalPositionChangedHandler }}"
                     backgroundStyle="{{ _options.backgroundStyle || _options.style }}">
             </Controls._grid.ScrollWrapper>
@@ -66,13 +67,24 @@
                     _horizontalScrollWidth="{{ _horizontalScrollWidth }}"
                     __isColumnScrollVisible="{{ _isColumnScrollVisible() }}"
 
-                    attr:class="{{ _viewGrabbingClasses }}"
+                    attr:class="{{ _viewGrabbingClasses }} {{ _showFakeGridWithColumnScroll ? 'controls-Grid__ColumnScroll_hidden' }}"
+                    on:newPositionRendered="_onNewHorizontalPositionRendered()"
+
                     on:mousedown="_startDragScrolling('mouse')"
                     on:touchstart="_startDragScrolling('touch')"
                     on:mousemove="_moveDragScroll('mouse')"
                     on:touchmove="_moveDragScroll('touch')"
                     on:mouseup="_stopDragScrolling('mouse')"
                     on:touchend="_stopDragScrolling('touch')"/>
+
+        <ws:if data="{{ _showFakeGridWithColumnScroll }}">
+            <ws:partial template="gridTemplate" attr:class="controls-Grid__ColumnScroll__fixedPart"/>
+            <div class="{{ _getColumnScrollShadowClasses(_options, 'start') }}"
+                 style="{{ _getColumnScrollShadowStyles(_options, 'start') }}"></div>
+            <div class="controls-Grid__ColumnScroll__scrollablePart">
+                <ws:partial template="gridTemplate"/>
+            </div>
+        </ws:if>
 
         <Controls.event:Listener event="controlResize" on:controlResize="_resizeHandler()"/>
     </div>

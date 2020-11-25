@@ -447,6 +447,7 @@ var
             this._options = cfg;
             this._expandedItems = cfg.expandedItems ? cClone(cfg.expandedItems) : [];
             this._collapsedItems = _private.prepareCollapsedItems(this._expandedItems, cfg.collapsedItems);
+            this._hasMoreStorage = {};
             this._hierarchyRelation = new relation.Hierarchy({
                 keyProperty: cfg.keyProperty || 'id',
                 parentProperty: cfg.parentProperty || 'Раздел',
@@ -670,6 +671,8 @@ var
                 if (this._dragTargetPosition.index === current.index) {
                     current.dragTargetNode = true;
                 }
+                // Предыдущая позиция нужна, чтобы когда навели на узел, элемент не пропал из списка,
+                // а отобразился там где был до наведения на узел
                 if (this._prevDragTargetPosition && this._prevDragTargetPosition.index === current.index) {
                     current.dragTargetPosition = this._prevDragTargetPosition.position;
                     current.draggingItemData = this._draggingItemData;

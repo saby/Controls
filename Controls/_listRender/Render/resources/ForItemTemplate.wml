@@ -24,7 +24,7 @@
    <ws:itemActionsTemplate>
       <!-- We have to support setting of "itemActionsClass" option in BaseControl and while using Controls/list:ItemTemplate -->
       <ws:partial
-         template="{{ _options.itemActionsTemplate.itemActionsTemplate || 'Controls/list:ItemActionsTemplate' }}"
+         template="{{ _options.itemActionsTemplate.itemActionsTemplate || 'Controls/itemActions:ItemActionsTemplate' }}"
          scope="{{ collection.getActionsTemplateConfig() }}"
          itemActionsClass="{{ itemActionsTemplate.itemActionsClass || collection.getActionsTemplateConfig().itemActionsClass }}"
          useNewModel="{{ true }}"
@@ -32,7 +32,7 @@
    </ws:itemActionsTemplate>
    <ws:swipeTemplate>
       <ws:partial
-         template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/list:SwipeTemplate' }}"
+         template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/itemActions:SwipeActionsTemplate' }}"
          scope="{{ collection.getActionsTemplateConfig() }}"
          swipeConfig="{{ collection.getSwipeConfig() }}"
          itemData="{{ item }}" />

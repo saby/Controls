@@ -66,7 +66,7 @@ var _private = {
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FRemove">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/actions/remover/">руководство разработчика</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/remover/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
  *
  * @class Controls/_list/Remover

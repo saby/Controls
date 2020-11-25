@@ -27,7 +27,8 @@
    <ws:footerContentTemplate>
       <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser"
                   useNewNodeFooters="{{ footerContentTemplate.useNewNodeFooters }}"
-                  nodeFooters="{{ footerContentTemplate.nodeFooters }}"/>
+                  nodeFooters="{{ footerContentTemplate.nodeFooters }}"
+                  moreFontColorStyle="{{_options.moreFontColorStyle}}"/>
    </ws:footerContentTemplate>
    <ws:content>
       <ws:partial template="{{content.viewTemplate}}" on:expanderClick="_onExpanderClick()" on:loadMoreClick="_onLoadMoreClick()"

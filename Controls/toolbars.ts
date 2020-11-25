@@ -17,3 +17,4 @@ export {items as actualItems} from 'Controls/_toolbars/ActualAPI';
 export {default as View, IToolbarOptions, TItemsSpacing} from './_toolbars/View';
 export {getButtonTemplateOptionsByItem, getButtonTemplate} from './_toolbars/Util';
 export {default as BoxView} from './_toolbars/BoxView';
+export {default as IToolbarSource} from './_toolbars/IToolbarSource';

@@ -1,11 +1,15 @@
 define([
     'Controls/_propertyGrid/PropertyGrid',
     'Controls/_propertyGrid/Constants',
-    'Controls/display'
+    'Controls/display',
+    'Types/entity',
+    'Types/collection'
 ], function (
     PropertyGrid,
     Constants,
-    display
+    display,
+    entity,
+    collection
 ) {
     describe('Controls/_propertyGrid/PropertyGrid', () => {
         const ViewInstance = new PropertyGrid.default();
@@ -33,6 +37,21 @@ define([
                 const propertyValueMerged = items.every((item => item.propertyValue === editingObject[item.name]));
                 assert.isTrue(propertyValueMerged);
             });
+
+            it('RecordSet and Model case: returns merged editingObject and source items', () => {
+                const modelEditingObject = new entity.Model({
+                    rawData: editingObject
+                });
+                const recordSetSource = new collection.RecordSet({
+                    rawData: source
+                });
+
+                const itemsRS = ViewInstance._getPropertyGridItems(recordSetSource, modelEditingObject);
+                const items = itemsRS.getRawData();
+                const propertyValueMerged = items.every((item => item.propertyValue === editingObject[item.name]));
+                assert.isTrue(propertyValueMerged);
+            });
+
             it('returns editor templates by value type', () => {
                 const itemsRS = ViewInstance._getPropertyGridItems(source, editingObject);
                 let result = false;
@@ -87,7 +106,17 @@ define([
             it('toggle expand state on group item', () => {
                 const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
                 collection.moveToFirst();
-                const groupItem = collection.getCurrent();
+                const getGroup = (collection) => {
+                    let groupItem = null;
+                    collection.each((item) => {
+                        if (!groupItem && item['[Controls/_display/GroupItem]']) {
+                            groupItem = item;
+                        }
+                    });
+                    return groupItem;
+                }
+                const groupItem = getGroup(collection);
+                assert.isTrue(!!groupItem);
                 const expandedState = groupItem.isExpanded();
                 const clickEvent = {
                     target: {

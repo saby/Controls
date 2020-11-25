@@ -8,13 +8,13 @@ import PropertyGridItem from 'Controls/_propertyGrid/PropertyGridItem';
 import 'wml!Controls/_propertyGrid/Render/resources/for';
 
 interface IPropertyGridRenderOptions extends IControlOptions {
+    itemTemplate: TemplateFunction;
     groupTemplate: TemplateFunction;
     listModel: Collection<PropertyGridItem>;
 }
 
 export default class PropertyGridRender extends Control<IPropertyGridRenderOptions> {
     protected _template: TemplateFunction = template;
-    protected _itemTemplate: TemplateFunction = itemTemplate;
     protected _groupTemplate: TemplateFunction = groupTemplate;
 
     protected _itemClick(e: SyntheticEvent<MouseEvent>, item: CollectionItem<PropertyGridItem>): void {
@@ -24,5 +24,11 @@ export default class PropertyGridRender extends Control<IPropertyGridRenderOptio
     protected _propertyValueChanged(e: SyntheticEvent<Event>, item: PropertyGridItem, value: any): void {
         e.stopImmediatePropagation();
         this._notify('propertyValueChanged', [item, value]);
+    }
+
+    static getDefaultOptions(): object {
+        return {
+            itemTemplate
+        };
     }
 }

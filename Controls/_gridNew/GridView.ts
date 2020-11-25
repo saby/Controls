@@ -139,7 +139,8 @@ const GridView = ListView.extend({
             hasMultiSelect: this._options.multiSelectVisibility !== 'hidden' && this._options.multiSelectPosition === 'default',
             colspanColumns: columns,
             itemPadding: this._options.itemPadding || {},
-            theme: this._options.theme
+            theme: this._options.theme,
+            editingBackgroundStyle: (this._options.editingConfig ? this._options.editingConfig.backgroundStyle : 'default')
         });
     },
 

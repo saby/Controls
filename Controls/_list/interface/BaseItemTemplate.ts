@@ -7,27 +7,46 @@
 export type TCursor = 'default' | 'pointer' | 'right';
 
 /**
+ * @typedef {String} TMarkerClassName
+ * @variant default Маркер по высоте растягивается на весь контейнер записи.
+ * @variant image-l Используется для размещения маркера рядом с изображением размера "l".
+ * @variant image-m Используется для размещения маркера рядом с изображением размера "m".
+ * @variant image-s Используется для размещения маркера рядом с изображением размера "s".
+ * @variant image-xs Используется для размещения маркера рядом с изображением размера "xs".
+ * @variant text-2xl Используется для размещения маркера рядом с текстом размера "2xl".
+ * @variant text-xl Используется для размещения маркера рядом с текстом размера "xl".
+ * @variant text-l Используется для размещения маркера рядом с текстом размера "l".
+ * @variant text-m Используется для размещения маркера рядом с текстом размера "m".
+ * @variant text-xs Используется для размещения маркера рядом с текстом размера "xs".
+ */
+type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | 'image-xl' |
+    'text-2xl' | 'text-xl' | 'text-l' | 'text-m' | 'text-xs';
+
+/**
  * Интерфейс для шаблона отображения элемента в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}.
- * @interface Controls/list:BaseItemTemplate
+ * @interface Controls/_list/interface/IBaseItemTemplateOptions
  * @author Авраменко А.С.
  * @public
  */
 
 export default interface IBaseItemTemplateOptions {
    /**
-    * @name Controls/list:BaseItemTemplate#highlightOnHover
-    * @cfg {Boolean} В значении false элементы списка не будут подсвечиваться при наведении курсора мыши.
+    * @name Controls/_list/interface/IBaseItemTemplateOptions#highlightOnHover
+    * @cfg {Boolean} Видимость подсветки строки при наведении курсора мыши.
+    * @remark
+    * В значении false элементы списка не будут подсвечиваться при наведении курсора мыши.
     * @default true
+    * @demo Controls-demo/list_new/ItemTemplate/NoHighlightOnHover/Index
     */
    highlightOnHover?: boolean;
    /**
-    * @name Controls/list:BaseItemTemplate#cursor
-    * @cfg {TCursor} Вид {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора}, когда он находится в пределах элемента списка.
+    * @name Controls/_list/interface/IBaseItemTemplateOptions#cursor
+    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/TCursor.typedef} Вид {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора мыши} при наведении на строку.
     * @default pointer
     */
    cursor?: TCursor;
    /**
-    * @name Controls/list:BaseItemTemplate#marker
+    * @name Controls/_list/interface/IBaseItemTemplateOptions#marker
     * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
     * @default true
     */
@@ -67,7 +86,7 @@ export default interface IBaseItemTemplateOptions {
     */
    checkboxReadOnly?: boolean;
    /**
-    * @typedef {String} backgroundColorStyle
+    * @typedef {String} BackgroundColorStyle
     * @variant danger
     * @variant success
     * @variant warning
@@ -78,7 +97,17 @@ export default interface IBaseItemTemplateOptions {
     */
    /**
     * @name Controls/interface/IItemTemplate#backgroundColorStyle
-    * @cfg {backgroundColorStyle} Стиль фона элемента.
+    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/BackgroundColorStyle.typedef} Настройка фона строки.
+    * @remark 
+    * См. <a href="/doc/platform/developmentapl/interface-development/controls/list/list/background/#highlight">руководство разработчика</a>.
+    * @demo Controls-demo/list_new/ItemTemplate/BackgroundColorStyle/Index
     */
    backgroundColorStyle?: string;
+
+   /**
+    * @name Controls/interface/IItemTemplate#markerClassName
+    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/TMarkerClassName.typedef} Размер маркера.
+    * @default default
+    */
+   markerClassName?: TMarkerClassName;
 }

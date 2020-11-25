@@ -30,7 +30,7 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FtreeGrid%2FMover%2FExtended%2FExtendedMoverDialog">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/actions/mover-remover/">руководство разработчика</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/mover/mover-remover/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_moveDialog.less">переменные тем оформления</a>
  *
  * @class Controls/_moverDialog/Template
@@ -140,7 +140,7 @@ export default class extends Control<IMoverDialogTemplateOptions> {
  * @remark
  * Настройка нужна для правильной работы строки поиска.
  * Значение опции передаётся в контроллер поиска {@link Controls/search:Controller}.
- * Подробнее о работе поиска и фильтрации в Wasaby читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/">руководстве разработчика</a>.
+ * Подробнее о работе поиска и фильтрации в Wasaby читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/">руководстве разработчика</a>.
  */
 
 /**

@@ -367,7 +367,7 @@ export default class VirtualScroll {
      * Обновляет данные о высотах элементов
      * @param itemsHeights
      */
-    updateItemsHeights(itemsHeights: IItemsHeights) {
+    updateItemsHeights(itemsHeights: IItemsHeights): void {
         if (itemsHeights.itemsHeights.length === this._range.stop - this._range.start) {
             this._updateItemsHeights(itemsHeights);
             this.rangeChanged = false;
@@ -380,7 +380,8 @@ export default class VirtualScroll {
      * @private
      */
     private _updateItemsHeights(itemsHeightsData: IItemsHeights): void {
-        for (let i = 0, len = Math.min(itemsHeightsData.itemsHeights.length, this._range.stop - this._range.start); i < len; i++) {
+        for (let i = 0, len = Math.min(itemsHeightsData.itemsHeights.length, this._range.stop - this._range.start);
+                i < len; i++) {
             this._itemsHeightData.itemsHeights[this._range.start + i] = itemsHeightsData.itemsHeights[i];
             this._itemsHeightData.itemsOffsets[this._range.start + i] = itemsHeightsData.itemsOffsets[i];
         }

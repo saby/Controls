@@ -9,8 +9,9 @@ import {default as renderTemplate} from 'Controls/_propertyGrid/Render';
 import {IPropertyGridOptions} from 'Controls/_propertyGrid/IPropertyGrid';
 import {default as IPropertyGridItem} from './IProperty';
 import {PROPERTY_GROUP_FIELD, PROPERTY_NAME_FIELD, PROPERTY_VALUE_FIELD} from './Constants';
-import {view as constView} from '../Constants';
+import {groupConstants as constView} from '../list';
 import PropertyGridItem from './PropertyGridItem';
+import { factory } from 'Types/chain';
 
 /**
  * Контрол, который позволяет пользователям просматривать и редактировать свойства объекта.
@@ -81,9 +82,10 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         nodeProperty: string,
         parentProperty: string,
         editingObject: Record<string, any>,
-        source: IPropertyGridItem[]
+        source: IPropertyGridItem[] | RecordSet<IPropertyGridItem>
     ): Tree<PropertyGridItem> | Collection<PropertyGridItem> {
         const propertyGridItems = this._getPropertyGridItems(source, editingObject);
+
         if (nodeProperty && parentProperty) {
             return new Tree({
                 collection: propertyGridItems,
@@ -124,17 +126,25 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
     }
 
     private _getPropertyGridItems(
-        items: IPropertyGridItem[],
-        editingObject: Record<string, any>
+        items: IPropertyGridItem[] | RecordSet<IPropertyGridItem>,
+        editingObject: Record<string, any> | Model
     ): RecordSet<PropertyGridItem> {
-        const itemsWithPropertyValue = items.map((item: IPropertyGridItem): IPropertyGridItem => {
+        const itemsWithPropertyValue = [];
+
+        items.forEach((item: IPropertyGridItem | Model<IPropertyGridItem>): IPropertyGridItem => {
             const sourceItem = object.clone(item);
             const defaultItem = PropertyGridView.getDefaultPropertyGridItem();
-            defaultItem.propertyValue = editingObject[sourceItem.name];
-            return {
+            const nameProperty: string = object.getPropertyValue(sourceItem, 'name');
+            defaultItem.propertyValue = object.getPropertyValue(editingObject, nameProperty);
+
+            factory(sourceItem).each((key: string, value: unknown) => {
+                defaultItem[key] = value;
+            });
+
+            itemsWithPropertyValue.push({
                 ...defaultItem,
-                ...sourceItem
-            };
+                ...(sourceItem instanceof Model ? {} : sourceItem)
+            });
         });
 
         return new RecordSet({
@@ -146,10 +156,10 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
 
     protected _propertyValueChanged(event: SyntheticEvent<Event>, item: PropertyGridItem, value: any): void {
         const name = item.get(PROPERTY_NAME_FIELD);
-        const editingObjectClone = object.clone(this._options.editingObject);
+        const editingObjectClone = this._options.editingObject instanceof Model ?
+           this._options.editingObject : object.clone(this._options.editingObject);
         const itemClone = item.clone(true);
-
-        editingObjectClone[name] = value;
+        object.setPropertyValue(editingObjectClone, name, value);
         itemClone.set(PROPERTY_VALUE_FIELD, value);
 
         (this._listModel.getCollection().getRecordById(name) as Model).set(PROPERTY_VALUE_FIELD, value);

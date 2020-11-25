@@ -12,5 +12,6 @@
             root="{{_options.searchNavigationMode === 'expand' ? undefined : _root}}"
             searchParam="{{null}}"
             on:search="_search()"
+            on:searchReset="_searchReset()"
             on:listExpandedItemsChanged="_tmplNotify('expandedItemsChanged')"
             on:misspellCaptionClick="_misspellCaptionClick()"/>

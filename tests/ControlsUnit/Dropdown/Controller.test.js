@@ -549,13 +549,14 @@ define(
             let dropdownController;
             let newConfig;
             let selectedKeys;
-            let loadedItems;
+            let selectedItems;
             beforeEach(() => {
                newConfig = { ...config };
+               newConfig.selectedKeys = ['8'];
                dropdownController = getDropdownController(newConfig);
 
                selectedKeys = ['1', '2'];
-               loadedItems = new collection.RecordSet({
+               selectedItems = new collection.RecordSet({
                   rawData: [{
                      id: '1',
                      title: 'Запись 1'
@@ -570,21 +571,11 @@ define(
                });
             });
 
-            it('_getUnloadedSelectedKeys', () => {
-               let result = dropdownController._getUnloadedSelectedKeys(selectedKeys, loadedItems);
-               assert.isNull(result);
-
-               selectedKeys.push('8');
-               result = dropdownController._getUnloadedSelectedKeys(selectedKeys, loadedItems);
-               assert.deepEqual(result, ['8']);
-            });
-
-            it('_loadSelectedKeys', async () => {
+            it('loadSelectedItems', async () => {
                let loadConfig;
-               let actualWithHistory;
-               dropdownController._loadItems = (params, withHistory) => {
+               dropdownController._loadItems = (params) => {
                   loadConfig = params;
-                  actualWithHistory = withHistory;
+
                   // return new item;
                   return Promise.resolve(new collection.RecordSet({
                      rawData: [{
@@ -596,11 +587,25 @@ define(
                };
                selectedKeys.push('8');
                dropdownController._source = 'testSource';
-               await dropdownController._loadSelectedKeys(newConfig, ['8'], loadedItems);
+               await dropdownController.loadSelectedItems();
                assert.deepEqual(loadConfig.filter, { id: ['8'] });
-               assert.equal(dropdownController._items.getCount(), 4);
-               assert.equal(dropdownController._items.at(0).getKey(), '8');
-               assert.isFalse(actualWithHistory);
+               assert.equal(dropdownController._selectedItems.getCount(), 1);
+               assert.equal(dropdownController._selectedItems.at(0).getKey(), '8');
+               assert.isNull(dropdownController._items);
+            });
+
+            it('_resolveLoadedItems', () => {
+               const loadedItems = new collection.RecordSet({
+                  rawData: [{
+                     id: '2',
+                     title: 'Запись 2'
+                  }],
+                  keyProperty: 'id'
+               });
+               dropdownController._source = 'testSource';
+               dropdownController._selectedItems = selectedItems;
+               const result = dropdownController._resolveLoadedItems(newConfig, loadedItems);
+               assert.equal(result.getCount(), 3);
             });
          });
 
@@ -881,7 +886,7 @@ define(
                   let historyConfig = {...config, historyId: 'TEST_HISTORY_ID'};
                   dropdownController = getDropdownController(historyConfig);
                   return dropdownController._getSourceController(historyConfig).then((sourceController) => {
-                     assert.isTrue(cInstance.instanceOfModule(sourceController._source, 'Controls/history:Source'));
+                     assert.isTrue(cInstance.instanceOfModule(sourceController.getState().source, 'Controls/history:Source'));
                      assert.isOk(dropdownController._sourceController);
                      resolve();
                   });

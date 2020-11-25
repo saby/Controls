@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {detection} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 import * as ScrollBarTemplate from 'wml!Controls/_scroll/Scroll/Scrollbar/Scrollbar';
 import 'Controls/event';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -78,7 +78,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
         this._thumbPosition = this._getThumbCoordByScroll(this._scrollBarSize,
             this._thumbSize, position);
 
-        if (!newEnv() && window) {
+        if (!newEnv() && constants.isBrowserPlatform) {
             window.addEventListener('resize', this._resizeHandler);
         }
     }
@@ -105,7 +105,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
 
     protected _beforeUnmount(): void {
         //TODO Compatibility на старых страницах нет Register, который скажет controlResize
-        if (!newEnv() && window) {
+        if (!newEnv() && constants.isBrowserPlatform) {
             window.removeEventListener('resize', this._resizeHandler);
         }
     }

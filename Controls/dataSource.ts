@@ -19,3 +19,4 @@ export {
     IControlerState as ISourceControllerState,
     IControllerOptions as ISourceControllerOptions
 } from './_dataSource/Controller';
+export {default as calculatePath} from 'Controls/_dataSource/calculatePath';

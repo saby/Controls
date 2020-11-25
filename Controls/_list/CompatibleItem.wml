@@ -6,7 +6,7 @@
        controls-ListView__item_{{itemData.style}} controls-ListView__item_{{itemData.style}}_theme-{{itemData.theme}}
        controls-ListView__item_showActions
        {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-ListView__item_active_theme-' + itemData.theme}}
-       {{!!itemData.isEditing() ? ' controls-ListView__item_editing_theme-' + itemData.theme}}
+       {{!!itemData.isEditing() ? (' controls-ListView__item_editing_theme-' + itemData.theme + ' controls-ListView__item_background-editing_' + (itemData.getEditingBackgroundStyle() || 'default') + '_theme-' + itemData.theme)}}
        {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
        js-controls-ItemActions__swipeMeasurementContainer"
                attr:key="{{itemData.item.getId()}}"
@@ -26,7 +26,7 @@
    </ws:if>
 
    <ws:if data="{{marker !== false && itemData.markerVisibility !== 'hidden' && !itemData.isEditing() && itemData.isMarked()}}">
-      <div class="{{itemData.getMarkerClasses()}}"></div>
+      <div class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
    </ws:if>
 
    <ws:if data="{{contentTemplate}}">

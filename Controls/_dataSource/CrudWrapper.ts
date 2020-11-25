@@ -187,7 +187,7 @@ export class CrudWrapper {
      */
     private _promiseCatchCallback(error: Error): Promise<error> {
         // TODO добавить обработку ошибок
-        return Promise.resolve(error);
+        return Promise.reject(error);
     }
 
     /**

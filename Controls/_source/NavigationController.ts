@@ -248,6 +248,10 @@ export class NavigationController {
         return calculator.hasMoreData(store, direction);
     }
 
+    hasLoaded(id: TKey): boolean {
+        return this._navigationStores.getIndexByValue('id', id) !== -1;
+    }
+
     updateOptions(newOptions: INavigationControllerOptions): void {
         if ((newOptions.navigationType !== this._navigationType) ||
             !isEqual(newOptions.navigationConfig, this._navigationConfig)) {

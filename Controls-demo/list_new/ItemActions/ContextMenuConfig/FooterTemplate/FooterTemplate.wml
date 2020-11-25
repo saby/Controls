@@ -6,7 +6,7 @@
         <ws:contextMenuConfig>
             <ws:footerTemplate>
                 <div class="ControlsDemo_MenuFooterTemplate-footer">
-                    В шаблоне footerTemplate может быть<br/>размещена дополнительная информация
+                    {{footerTemplate.footerItemData.item.getContents().get('menuFooterText')}}
                 </div>
             </ws:footerTemplate>
         </ws:contextMenuConfig>

@@ -94,13 +94,12 @@ export class Controller {
     * @return {ISelectionDifference}
     */
    getSelectionDifference(newSelection: ISelection): ISelectionDifference {
-      const
-          oldSelectedKeys = this._selection.selected,
-          oldExcludedKeys = this._selection.excluded,
-          newSelectedKeys = newSelection.selected,
-          newExcludedKeys = newSelection.excluded,
-          selectedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldSelectedKeys, newSelectedKeys),
-          excludedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldExcludedKeys, newExcludedKeys);
+      const oldSelectedKeys = this._selection.selected;
+      const oldExcludedKeys = this._selection.excluded;
+      const newSelectedKeys = newSelection.selected;
+      const newExcludedKeys = newSelection.excluded;
+      const selectedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldSelectedKeys, newSelectedKeys);
+      const excludedKeysDiff = ArraySimpleValuesUtil.getArrayDifference(oldExcludedKeys, newExcludedKeys);
 
       const selectedKeysDifference: IKeysDifference = {
          keys: newSelectedKeys,
@@ -370,8 +369,10 @@ export class Controller {
       }
 
       let contents = item.getContents();
+      // tslint:disable-next-line:ban-ts-ignore
       // @ts-ignore
       if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+         // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
       }
 

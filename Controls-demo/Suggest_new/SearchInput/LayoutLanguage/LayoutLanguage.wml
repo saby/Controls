@@ -8,7 +8,9 @@
               searchParam="title"
               navigation="{{_navigation}}"
               source="{{_source}}">
-          <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/SearchInput/LayoutLanguage/resources/SuggestTemplate"/>
+          <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/SearchInput/LayoutLanguage/resources/SuggestTemplate">
+              <ws:templateOptions searchValue="{{_suggestCustomValue}}"/>
+          </ws:suggestTemplate>
       </Controls.suggest:SearchInput>
   </div>
 </div>

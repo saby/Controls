@@ -5,7 +5,7 @@ import {getSwitcherStrFromData} from 'Controls/search';
 import {isEqual} from 'Types/object';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IStackPopupOptions, Stack as StackOpener} from 'Controls/popup';
-import {Controller as SearchController, SearchResolver as SearchResolverController, ISearchResolverOptions} from 'Controls/searchNew';
+import {Controller as SearchController, SearchResolver as SearchResolverController, ISearchResolverOptions} from 'Controls/search';
 import {NewSourceController as SourceController, ISourceControllerOptions} from 'Controls/dataSource';
 import {RecordSet} from 'Types/collection';
 import {__ContentLayer, __PopupLayer} from 'Controls/suggestPopup';
@@ -29,6 +29,7 @@ import mStubs = require('Core/moduleStubs');
 import clone = require('Core/core-clone');
 import Deferred = require('Core/Deferred');
 import {TVisibility} from 'Controls/marker';
+import {DependencyTimer} from 'Controls/popup';
 
 const CURRENT_TAB_META_FIELD = 'tabsSelectedKey';
 const HISTORY_KEYS_FIELD = 'historyKeys';
@@ -63,7 +64,7 @@ type CancelableError = Error & { canceled?: boolean };
 
 interface IInputControllerOptions extends IControlOptions, IFilterOptions, ISearchOptions,
    IValidationStatusOptions, ISuggest, ISourceOptions, INavigationOptions<INavigationSourceConfig>,
-   IFilterOptions, ISortingOptions, IValueOptions<string> {
+   ISortingOptions, IValueOptions<string> {
    suggestState: boolean;
    autoDropDown?: boolean;
    searchErrorCallback?: Function;
@@ -133,7 +134,9 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    private _searchResolverController: SearchResolverController = null;
    private _sourceController: SourceController = null;
    private _searchController: SearchController = null;
-   private _searchLibraryLoader: CancelablePromise<typeof import('Controls/searchNew')> = null;
+   private _searchLibraryLoader: CancelablePromise<typeof import('Controls/search')> = null;
+
+   private _dependenciesTimer: DependencyTimer = null;
 
    /**
     * three state flag
@@ -207,7 +210,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    }
 
    private _open(): void {
-      this._loadDependencies(this._options).addCallback(() => {
+      this._loadDependencies().addCallback(() => {
          // focus can be moved out while dependencies loading
          if (this._inputActive) {
             this._suggestStateNotify(true);
@@ -448,10 +451,12 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       return templatesToLoad;
    }
 
-   private _loadDependencies(options: IInputControllerOptions): Deferred {
-      const templatesToLoad = this._getTemplatesToLoad(options);
+   private _loadDependencies(options?: IInputControllerOptions): Deferred {
+      const checkedOptions = options ?? this._options;
+
+      const templatesToLoad = this._getTemplatesToLoad(checkedOptions);
       if (!this._dependenciesDeferred || templatesToLoad.length) {
-         this._dependenciesDeferred = mStubs.require(DEPS.concat(templatesToLoad.concat([options.layerName])));
+         this._dependenciesDeferred = mStubs.require(DEPS.concat(templatesToLoad.concat([checkedOptions.layerName])));
       }
       return this._dependenciesDeferred;
    }
@@ -700,7 +705,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       this._searchValue = value;
       this._setFilter(this._filter, this._options, this._tabsSelectedKey);
       /* preload suggest dependencies on value changed */
-      this._loadDependencies(this._options);
+      this._loadDependencies();
 
       return this._resolveSearch(value);
    }
@@ -716,9 +721,9 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       }
    }
 
-   private _getSearchLibrary(): Promise<typeof import('Controls/searchNew')> {
+   private _getSearchLibrary(): Promise<typeof import('Controls/search')> {
       if (!this._searchLibraryLoader) {
-         this._searchLibraryLoader = new CancelablePromise(import('Controls/searchNew'));
+         this._searchLibraryLoader = new CancelablePromise(import('Controls/search'));
       }
       return this._searchLibraryLoader.promise;
    }
@@ -767,6 +772,9 @@ export default class InputContainer extends Control<IInputControllerOptions> {
             }
 
             return recordSet;
+         }, (error) => {
+            this._loadEnd();
+            return error;
          });
       } else {
          return this._performLoad(options);
@@ -812,7 +820,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    protected async _getSearchController(): Promise<SearchController> {
       if (!this._searchController) {
          return this._getSearchLibrary().then((result) => {
-            this._searchController = new result.Controller({
+            this._searchController = new result.ControllerClass({
                sourceController: this._getSourceController(),
                minSearchLength: this._options.minSearchLength,
                searchDelay: this._options.searchDelay as number,
@@ -872,6 +880,25 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       return Promise.resolve();
    }
 
+   protected _inputMouseEnterHandler(event: SyntheticEvent): void {
+      if (this._options.autoDropDown) {
+         if (!this._options.readOnly) {
+            if (!this._dependenciesTimer) {
+               this._dependenciesTimer = new DependencyTimer();
+            }
+            this._dependenciesTimer.start(this._loadDependencies.bind(this));
+         }
+
+         if (!this._filter) {
+            this._resolveLoad();
+         }
+      }
+   }
+
+   protected _inputMouseLeaveHandler(): void {
+      this._dependenciesTimer?.stop();
+   }
+
    protected async _tabsSelectedKeyChanged(tabId: Key): Promise<void> {
       this._setSuggestMarkedKey(null);
 
@@ -920,7 +947,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       }
    }
 
-   protected _loadEnd(result: RecordSet): void {
+   protected _loadEnd(result?: RecordSet): void {
       if (this._loading) {
          this._loading = false;
 

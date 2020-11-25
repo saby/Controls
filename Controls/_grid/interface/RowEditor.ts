@@ -1,7 +1,7 @@
 /**
  * Шаблон, который используют для настройки отображения элемента контрола {@link Controls/grid:View Таблица} в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/edit/ режиме редактирования}.
  * 
- * @class Controls/grid:RowEditor
+ * @class Controls/_grid/interface/RowEditor
  * @author Авраменко А.С.
  * @see Controls/grid:View#itemTemplate
  * @example
@@ -22,7 +22,7 @@
 
 export default interface IRowEditorOptions {
    /**
-    * @name Controls/grid:RowEditor#content
+    * @name Controls/_grid/interface/RowEditor#content
     * @cfg {String|Function} Пользовательский шаблон, описывающий содержимое элемента в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/edit/ режиме редактирования}.
     * @default undefined
     */

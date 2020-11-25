@@ -52,7 +52,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  * @mixes Controls/_interface/IValidationStatus
  * @mixes Controls/input:IBorderVisibility
  * @mixes Controls/input:IPadding
@@ -89,7 +89,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  * 
  * @public
  * @author Герасимов А.М.
@@ -564,4 +564,10 @@ export default class Lookup extends BaseLookupInput {
  *       multiSelect="{{true}}">
  *    </Controls.lookup:Input>
  * </pre>
+ */
+
+ /**
+ * @name Controls/_lookup/Lookup#fontSize
+ * @cfg
+ * @demo Controls-demo/LookupNew/Input/FontSize/Index
  */

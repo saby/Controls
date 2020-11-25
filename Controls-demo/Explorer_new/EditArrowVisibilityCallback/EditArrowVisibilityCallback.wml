@@ -1,0 +1,23 @@
+<div class="controlsDemo__wrapper">
+        <ws:if data="{{_isBoxOpen}}">
+                <div class="controlsDemo_fade-text">
+                        {{_currentText}}
+                </div>
+        </ws:if>
+        <Controls.explorer:View
+            source="{{_viewSource}}"
+            bind:root="_root"
+            attr:class="demo-Explorer ControlsDemo-Explorer"
+            keyProperty="id"
+            displayProperty="title"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            viewMode="{{_viewMode}}"
+            header="{{_gridHeader}}"
+            showEditArrow="{{true}}"
+            showActionButton="{{true}}"
+            on:editArrowClick="_editArrowClick()"
+            editArrowVisibilityCallback="{{_editArrowVisibilityCallback}}"
+            columns="{{_columns}}">
+        </Controls.explorer:View>
+</div>

@@ -8,6 +8,7 @@ import {
     ISerializableState as IDefaultSerializableState
 } from 'Types/entity';
 import {mixin} from 'Types/util';
+import { view } from 'Controls/Constants';
 
 type IGroup = string | number;
 type IGroups = IGroup[];
@@ -298,7 +299,11 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
 
             // Remember group order
             if (groupsOrder.indexOf(groupIndex) === -1) {
-                groupsOrder.push(groupIndex);
+                if (groupId === view.hiddenGroup) {
+                    groupsOrder.unshift(groupIndex);
+                } else {
+                    groupsOrder.push(groupIndex);
+                }
             }
 
             // Items of each group

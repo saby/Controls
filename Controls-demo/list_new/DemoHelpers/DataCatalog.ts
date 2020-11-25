@@ -157,6 +157,51 @@ function getGroupedCatalog(): Array<{
     ];
 }
 
+
+function getGroupedCatalogForSwitchingGroup(): Array<{
+    id: number
+    title: string
+    group?: string
+}> {
+    return [
+        {
+            id: 1,
+            title: '1 Первая запись в рекордсете',
+            group: 'CONTROLS_HIDDEN_GROUP'
+        },
+        {
+            id: 2,
+            title: '2 Вторая запись в рекордсете',
+            group: 'CONTROLS_HIDDEN_GROUP'
+        },
+        {
+            id: 3,
+            title: '3 Третья запись в рекордсете',
+            group: 'Архив'
+        },
+        {
+            id: 4,
+            title: '4 Четвертая запись в рекордсете',
+            group: 'Архив'
+        },
+        {
+            id: 5,
+            title: '5 Пятая запись в рекордсете',
+            group: 'CONTROLS_HIDDEN_GROUP'
+        },
+        {
+            id: 6,
+            title: '6 Шестая запись в рекордсете',
+            group: 'Архив'
+        },
+        {
+            id: 7,
+            title: '7 Седьмая запись в рекордсете',
+            group: 'Архив'
+        },
+    ];
+}
+
 function getGroupedCatalogWithHiddenGroup(): Array<{
     id: number
     title: string
@@ -458,6 +503,7 @@ export {
     getFewCategories,
     getCursorData,
     getGroupedCatalog,
+    getGroupedCatalogForSwitchingGroup,
     getGroupedCatalogWithHiddenGroup,
     getEditableCatalog,
     generateData,

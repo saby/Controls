@@ -9,14 +9,6 @@ import { RecordSet } from 'Types/collection';
 import { Tree, TreeItem } from 'Controls/display';
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
-   const nodesSourceControllers = {
-      get(): object {
-         return {
-            hasMoreData(): boolean { return false; }
-         };
-      }
-   };
-
    const model = new Tree({
       collection: new RecordSet({
          keyProperty: ListData.KEY_PROPERTY,
@@ -30,7 +22,6 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    });
 
    const strategy = new TreeSelectionStrategy({
-      nodesSourceControllers,
       selectDescendants: false,
       selectAncestors: false,
       rootId: null,
@@ -38,7 +29,6 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    });
 
    const strategyWithDescendantsAndAncestors = new TreeSelectionStrategy({
-      nodesSourceControllers,
       selectDescendants: true,
       selectAncestors: true,
       rootId: null,
@@ -322,7 +312,6 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('selected unloaded item', () => {
           const treeStrategyWithRootItems = new TreeSelectionStrategy({
-              nodesSourceControllers,
               selectDescendants: true,
               selectAncestors: true,
               rootId: null,
@@ -402,16 +391,12 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('selected node with more data', () => {
          const selection = {selected: [6], excluded: []};
+         model.setHasMoreStorage({
+            6: true
+         });
          const treeStrategyWithNodesMoreData = new TreeSelectionStrategy({
              selectAncestors: true,
              selectDescendants: true,
-             nodesSourceControllers: {
-                 get(): object {
-                     return {
-                         hasMoreData(): boolean { return true; }
-                     };
-                 }
-             },
              rootId: null,
              model: model
          });
@@ -475,7 +460,6 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
       it ('selected current root', () => {
          const selection = { selected: [5], excluded: [5] };
          strategy.update({
-            nodesSourceControllers,
             selectDescendants: false,
             selectAncestors: false,
             rootId: 5,
@@ -499,7 +483,6 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('empty model', () => {
          const strategy = new TreeSelectionStrategy({
-            nodesSourceControllers,
             selectDescendants: false,
             selectAncestors: false,
             rootId: null,

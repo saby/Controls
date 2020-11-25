@@ -108,6 +108,8 @@ export {isVDOMTemplate} from './_popup/utils/isVdomTemplate';
 export {isMouseEvent, MouseUp, MouseButtons} from './_popup/fastOpenUtils/MouseEventHelper';
 export {isLeftMouseButton, DependencyTimer} from './_popup/fastOpenUtils/FastOpen';
 
+export {IEditOptions} from './_popup/interface/IEdit';
+
 // TODO Compatible
 import GlobalTemplate = require('wml!Controls/_popup/Global/Global');
 export {

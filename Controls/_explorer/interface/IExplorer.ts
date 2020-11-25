@@ -15,7 +15,8 @@
  */
 
 /**
- * @typedef {String} ExplorerViewMode
+ * Режим отображения списка
+ * @typedef {String} TExplorerViewMode
  * @variant table Таблица.
  * @variant search Режим поиска.
  * @variant tile Плитка.
@@ -23,21 +24,24 @@
  */
 
 /*
- * @typedef {String} ExplorerViewMode
+ * @typedef {String} TExplorerViewMode
  * @variant table Table.
  * @variant search Search.
  * @variant tile Tiles.
+ * @variant list List.
  */
+
+export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
 
 /**
  * @name Controls/_explorer/interface/IExplorer#viewMode
- * @cfg {ExplorerViewMode} Режим отображения списка.
+ * @cfg {TExplorerViewMode} Режим отображения списка.
  * @demo Controls-demo/Explorer/Explorer
  */
 
 /*
  * @name Controls/_explorer/interface/IExplorer#viewMode
- * @cfg {explorerViewMode} List view mode.
+ * @cfg {TExplorerViewMode} List view mode.
  * @demo Controls-demo/Explorer/Explorer
  */
 

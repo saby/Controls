@@ -4,7 +4,7 @@ import themeConstantsGetter = require('Controls/_popupTemplate/InfoBox/Opener/re
 import cMerge = require('Core/core-merge');
 import StickyStrategy = require('Controls/_popupTemplate/Sticky/StickyStrategy');
 import {IPopupItem, IPopupSizes, IPopupPosition, Controller} from 'Controls/popup';
-
+import {constants} from 'Env/Env';
 import collection = require('Types/collection');
 
 interface IInfoBoxThemeConstants {
@@ -34,12 +34,12 @@ function getConstants() {
 }
 
 // todo: https://online.sbis.ru/opendoc.html?guid=b385bef8-31dd-4601-9716-f3593dfc9d41
-let constants: IInfoBoxThemeConstants = {};
+let themeConstants: IInfoBoxThemeConstants = {};
 const constantsInit = new Promise<void>((resolve, reject) => {
-    if (!document) { return resolve(); }
+    if (!constants.isBrowserPlatform) { return resolve(); }
     import('Controls/popupTemplate')
         .then(({ InfoBox }) => InfoBox.loadCSS())
-        .then(() => { constants = getConstants(); })
+        .then(() => { themeConstants = getConstants(); })
         .then(resolve, reject);
 });
 
@@ -141,7 +141,7 @@ class InfoBoxController extends StickyController.constructor {
                 // Calculate the width of the infobox before its positioning.
                 // It is impossible to count both the size and the position at the same time, because the position is related to the size.
                 cMerge(item.popupOptions, this._prepareConfig(item.popupOptions.position, item.popupOptions.target));
-            const sizes: IPopupSizes = {width: constants.MAX_WIDTH, height: 1, margins: {left: 0, top: 0}};
+            const sizes: IPopupSizes = {width: themeConstants.MAX_WIDTH, height: 1, margins: {left: 0, top: 0}};
                 const position: IPopupPosition = StickyStrategy.getPosition(this._getPopupConfig(item, sizes), this._getTargetCoords(item));
                 this.prepareConfig(item);
                 item.position.maxWidth = position.width;
@@ -219,7 +219,7 @@ class InfoBoxController extends StickyController.constructor {
         if (!topOrBottomSide) {
             // svg hasn't offsetHeight property
             const targetHeight: number = target.offsetHeight || target.clientHeight;
-            return this._getOffset(targetHeight, alignSide, constants.ARROW_V_OFFSET, constants.ARROW_WIDTH);
+            return this._getOffset(targetHeight, alignSide, themeConstants.ARROW_V_OFFSET, themeConstants.ARROW_WIDTH);
         }
     }
 
@@ -227,7 +227,7 @@ class InfoBoxController extends StickyController.constructor {
         if (topOrBottomSide) {
             // svg hasn't offsetWidth property
             const targetWidth: number = target.offsetWidth || target.clientWidth;
-            return this._getOffset(targetWidth, alignSide, constants.ARROW_H_OFFSET, constants.ARROW_WIDTH);
+            return this._getOffset(targetWidth, alignSide, themeConstants.ARROW_H_OFFSET, themeConstants.ARROW_WIDTH);
         }
     }
     private _findItemById(popupItems: collection.List<IPopupItem>, id: string): IPopupItem|null {

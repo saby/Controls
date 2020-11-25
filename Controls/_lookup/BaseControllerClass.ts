@@ -1,12 +1,12 @@
 import {IFilterOptions, ISourceOptions} from 'Controls/interface';
-import {error as dataSourceError} from 'Controls/dataSource';
-import {Controller as SourceController} from 'Controls/source';
+import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {RecordSet, List} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import {ToSourceModel} from 'Controls/_lookup/resources/ToSourceModel';
 import {isEqual} from 'Types/object';
 import {object} from 'Types/util';
+import {QueryWhereExpression} from 'Types/source';
 import { constants } from 'Env/Constants';
 
 type Key = string|number|null;
@@ -25,7 +25,7 @@ const clone = object.clone;
 export default class LookupBaseControllerClass {
     private _options: ILookupBaseControllerOptions;
     private _selectedKeys: Key[];
-    private _sourceController: typeof SourceController;
+    private _sourceController: SourceController;
     private _items: SelectedItems;
     private _historyServiceLoad: Promise<unknown>;
 
@@ -81,14 +81,16 @@ export default class LookupBaseControllerClass {
         return updateResult;
     }
 
-    loadItems(): Promise<SelectedItems> {
+    loadItems(): Promise<SelectedItems|Error> {
         const options = this._options;
         const filter = {...options.filter};
         const keyProperty = options.keyProperty;
 
         filter[keyProperty] = this._selectedKeys;
 
-        return this._getSourceController().load(filter).then(
+        const sourceController = this._getSourceController();
+        sourceController.setFilter(filter);
+        return sourceController.load().then(
             (items) => {
                 if (!constants.isProduction) {
                     LookupBaseControllerClass.checkLoadedItems(items, this._selectedKeys, keyProperty);
@@ -215,10 +217,11 @@ export default class LookupBaseControllerClass {
         return ToSourceModel(items, this._options.source, this._options.keyProperty);
     }
 
-    private _getSourceController(): typeof SourceController {
+    private _getSourceController(): SourceController {
         if (!this._sourceController) {
             this._sourceController =  new SourceController({
-                source: this._options.source
+                source: this._options.source,
+                keyProperty: this._options.keyProperty
             });
         }
         return this._sourceController;
@@ -249,7 +252,14 @@ export default class LookupBaseControllerClass {
     ): void {
         items.each((item) => {
             if (selectedKeys.indexOf(item.get(keyProperty)) === -1) {
-                Logger.error(`Controls/lookup: ошибка при загрузке записи с ключом ${item.get(keyProperty)}`);
+                Logger.error(`Controls/lookup: ошибка при загрузке записи с ключом ${item.get(keyProperty)}.
+                                   Необходимо проверить, что метод корректно вернул данные.`);
+            }
+        });
+        selectedKeys.forEach((key) => {
+            if (items.getIndexByValue(keyProperty, key) === -1) {
+                Logger.error(`Controls/lookup: ошибка при загрузке записи с ключом ${key}.
+                                   Необходимо проверить, что метод корректно вернул данные.`);
             }
         });
     }

@@ -520,6 +520,7 @@ define([
                viewName: 'Controls/List/ListView',
                source: new sourceLib.Memory({}),
                viewModelConstructor: lists.ListViewModel,
+                keyProperty: 'id',
                dataLoadCallback: function() {
                   dataLoadCallbackCalled = true;
                },
@@ -564,6 +565,7 @@ define([
                 viewName: 'Controls/List/ListView',
                 source: new sourceLib.Memory({}),
                 viewModelConstructor: lists.ListViewModel,
+                 keyProperty: 'id'
              },
              loadedItems = new collection.RecordSet({
                 keyProperty: 'id',
@@ -3851,7 +3853,6 @@ define([
             });
          });
       });
-
       it('can\'t start drag on readonly list', function() {
          let
              cfg = {
@@ -4009,8 +4010,8 @@ define([
             getDragEntity() {
                return dragEntity;
             },
-            calculateDragPosition(item) {
-               assert.deepEqual(item, itemData.dispItem);
+            calculateDragPosition(params) {
+               assert.deepEqual(params.targetItem, itemData.dispItem);
                return dragPosition;
             },
             setDragPosition(position) {
@@ -4149,6 +4150,7 @@ define([
          ctrl._nativeDragStart(fakeDragStart);
          assert.isTrue(isDefaultPrevented);
       });
+
       it('_documentDragEnd', async function() {
          const cfg = {
             viewName: 'Controls/List/ListView',
@@ -4208,6 +4210,23 @@ define([
 
          //dragend with deferred
          dragEnded = false;
+         ctrl._dndListController = {
+            endDrag() {
+               dragEnded = true;
+            },
+            getDragPosition: () => {
+               return {
+                  dispItem: {
+                     getContents: () => {}
+                  }
+               };
+            },
+            getDraggableItem: () => ({
+               getContents: () => ({
+                  getKey: () => 1
+               })
+            })
+         };
          ctrl._insideDragging = true;
          ctrl._notify = () => new cDeferred();
          ctrl._documentDragEnd({});
@@ -4534,6 +4553,7 @@ define([
                immediatePropagating: true,
                propagating: true,
                nativeEvent: {
+                  button: 0,
                   prevented: false,
                   preventDefault: function() {
                      this.prevented = true;
@@ -4712,7 +4732,7 @@ define([
                   parent: 1
                })
             };
-            await instance._onItemActionsClick(fakeEvent, action, instance._listViewModel.at(0));
+            await instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.at(0));
 
             // popup.Sticky.openPopup called in openItemActionsMenu is an async function
             // we cannot determine that it has ended
@@ -4738,6 +4758,24 @@ define([
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[2], 'Third argument has not been set');
             assert.equal(outgoingEventsMap.actionClick[2].className, 'controls-ListView__itemV');
+         });
+
+         // Клик по itemAction с подменю ('parent@': true) должен бросать событие actionClick
+         it('should emit actionClick event on submenu (\'parent@\': true) action click', async () => {
+            const fakeEvent2 = initFakeEvent();
+            const stubHandleItemActionClick = sinon.stub(lists.BaseControl._private, 'handleItemActionClick');
+            const actionModel = {
+               getRawData: () => ({
+                  id: 2,
+                  showType: 0,
+                  parent: 1,
+                  'parent@': true
+               })
+            };
+            instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
+            instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
+            sinon.assert.called(stubHandleItemActionClick);
+            stubHandleItemActionClick.restore();
          });
 
          // должен открывать меню, соответствующее новому id Popup
@@ -5006,7 +5044,7 @@ define([
                showType: 0
             };
             instance._listViewModel.getIndex = (item) => 0;
-            instance._onItemActionsClick(fakeEvent, action, instance._listViewModel.at(0));
+            instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.at(0));
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[2], 'Third argument has not been set');
             assert.equal(outgoingEventsMap.actionClick[2].className, 'controls-ListView__itemV');
@@ -5020,7 +5058,7 @@ define([
                showType: 0
             };
             instance._listViewModel.getIndex = (item) => 0;
-            instance._onItemActionsClick(fakeEvent, action, instance._listViewModel.at(0));
+            instance._onItemActionMouseDown(fakeEvent, action, instance._listViewModel.at(0));
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[3], 'Third argument has not been set');
             assert.exists(outgoingEventsMap.actionClick[3].preventDefault, 'Third argument should be nativeEvent');
@@ -5352,7 +5390,7 @@ define([
          assert.equal(lists.BaseControl._private.getListTopOffset(bc), 50);
       });
 
-      it('_itemMouseMove: notify draggingItemMouseMove', async function() {
+      /*it('_itemMouseMove: notify draggingItemMouseMove', async function() {
          var cfg = {
                 viewName: 'Controls/List/ListView',
                 itemsDragNDrop: true,
@@ -5386,9 +5424,9 @@ define([
          instance._dndListController = null;
          instance._itemMouseLeave({}, {});
          assert.equal(eName, 'itemMouseLeave');
-      });
+      });*/
 
-      it('_itemMouseLeave: notify draggingItemMouseLeave', async function() {
+      /*it('_itemMouseLeave: notify draggingItemMouseLeave', async function() {
          var cfg = {
                 viewName: 'Controls/List/ListView',
                 itemsDragNDrop: true,
@@ -5423,7 +5461,7 @@ define([
          instance._itemMouseLeave({}, {});
          assert.equal(eName, 'draggingItemMouseLeave');
       });
-
+*/
       it('should fire "drawItems" in afterMount', async function() {
          let
              cfg = {
@@ -6861,6 +6899,7 @@ define([
                   }
                },
                viewModelConstructor: lists.ListViewModel,
+                keyProperty: 'id'
             };
 
             it('call check', async function() {
@@ -7512,7 +7551,8 @@ define([
                      getKey: () => 1
                   })
                }),
-               endDrag: () => undefined
+               endDrag: () => undefined,
+               isDragging: () => true
             };
 
             const setDragPositionSpy = sinon.spy(baseControl._dndListController, 'setDragPosition');
@@ -7553,7 +7593,7 @@ define([
          });
 
          it('drag end', () => {
-            baseControl._dndListController = {
+            const dndController = {
                endDrag: () => undefined,
                getDragPosition: () => {
                   return {
@@ -7564,6 +7604,7 @@ define([
                },
                getDraggableItem: () => undefined
             };
+            baseControl._dndListController = dndController;
 
             const endDragSpy = sinon.spy(baseControl._dndListController, 'endDrag');
 
@@ -7573,7 +7614,7 @@ define([
             assert.isFalse(notifySpy.withArgs('dragEnd').called);
             assert.isFalse(notifySpy.withArgs('markedKeyChanged', [1]).called);
 
-            baseControl._dndListController.getDraggableItem = () => ({
+            dndController.getDraggableItem = () => ({
                getContents: () => ({
                   getKey: () => 1
                })
@@ -7585,6 +7626,7 @@ define([
             assert.isFalse(notifySpy.withArgs('markedKeyChanged', [1]).called);
 
             baseControl._insideDragging = true;
+            baseControl._dndListController = dndController;
 
             baseControl._documentDragEnd({ entity: baseControl._dragEntity });
 

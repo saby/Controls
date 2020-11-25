@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container>
+        <Controls.list:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                itemActions="{{_itemActions}}"
+                importantItemProperties="{{['group']}}"
+                groupProperty="group"/>
+    </Controls.scroll:Container>
+</div>

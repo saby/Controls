@@ -31,7 +31,7 @@
          <!-- Передача highlightOnHover это костыль, т.к. иначе он не виден внутри шаблона, вставляемого через ws:partial
               fixed by https://online.sbis.ru/opendoc.html?guid=da762b41-e62f-407f-8b86-1428423c8405 -->
          <ws:partial
-                 template="{{ itemActionsTemplate.itemActionsTemplate || 'Controls/list:ItemActionsTemplate' }}"
+                 template="{{ itemActionsTemplate.itemActionsTemplate || 'Controls/itemActions:ItemActionsTemplate' }}"
                  highlightOnHover="{{ itemActionsTemplate.highlightOnHover }}"
                  scope="{{ collection.getActionsTemplateConfig() }}"
                  itemActionsClass="{{ itemActionsTemplate.itemActionsClass || collection.getActionsTemplateConfig().itemActionsClass }}"
@@ -40,7 +40,7 @@
       </ws:itemActionsTemplate>
       <ws:swipeTemplate>
          <ws:partial
-                 template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/list:SwipeTemplate' }}"
+                 template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/itemActions:SwipeActionsTemplate' }}"
                  scope="{{ collection.getActionsTemplateConfig() }}"
                  swipeConfig="{{ collection.getSwipeConfig() }}"
                  itemData="{{ item }}" />

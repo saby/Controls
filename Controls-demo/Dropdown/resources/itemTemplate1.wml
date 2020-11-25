@@ -1,4 +1,0 @@
-<ws:partial template="Controls/dropdown:ItemTemplate"
-            itemData="{{itemData}}"
-            multiLine="{{true}}"
-            contentTemplate="wml!Controls-demo/Dropdown/resources/itemTemplateContent1" />

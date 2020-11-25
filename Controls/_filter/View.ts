@@ -96,7 +96,9 @@ var _private = {
                 loadPromises.push(_private.loadItems(self, item));
             }
         });
-        return Promise.all(loadPromises);
+        return Promise.all(loadPromises).then(() => {
+            return _private.loadSelectedItems(self._source, self._configs);
+        });
     },
 
     getPopupConfig: function(self, configs, items) {
@@ -641,15 +643,15 @@ var _private = {
  * При клике на параметры быстрого фильтра открывается панель "Быстрых фильтров", созданная на основе {@link Controls/filterPopup:SimplePanel}.
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/">руководство разработчика по работе с контролом</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/">руководство разработчика по работе с контролом</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
  *
  * @class Controls/_filter/View
  * @extends Core/Control
- * @mixes Controls/_filter/View/interface/IFilterView
+ * @mixes Controls/_filter/View/interface/IFilterItem
  * @public
  * @author Золотова Э.Е.
  *

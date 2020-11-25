@@ -1,7 +1,9 @@
 <div>
-   <div class="controls-PeriodLiteDialog__item-background-hovered
+   <ws:if data="{{_options._yearHovered === _options.currentYear}}">
+      <div class="controls-PeriodLiteDialog__item-background-hovered
                controls-PeriodLiteDialog__item-background-hovered_theme-{{_options.theme}}
-               border-top-hidden{{ !(_options._yearHovered === _options.currentYear) ? ' ws-hidden'}}"></div>
+               border-top-hidden"></div>
+   </ws:if>
    <ws:for data="halfYearIndex as halfYear in _yearModel">
       <div class="controls-PeriodLiteDialog-item__halfYear controls-PeriodLiteDialog-item__halfYear_theme-{{_options.theme}}">
          <div if="{{(_halfYearHovered === halfYear.number)}}"
@@ -15,7 +17,8 @@
                     class="controls-PeriodLiteDialog__item-background-hovered
                            controls-PeriodLiteDialog__item-background-hovered_theme-{{_options.theme}}"></div>
                <div class="controls-PeriodLiteDialog-item__month-wrapper_theme-{{_options.theme}}
-                           {{ _options._yearHovered === _options.currentYear || (_halfYearHovered === halfYear.number)? ' controls-PeriodLiteDialog__background-transparent'}}">
+                           controls-PeriodLiteDialog-item__month-background{{ _options._yearHovered === _options.currentYear || (_halfYearHovered === halfYear.number)?
+                           '-transparent'}}_theme-{{_options.theme}}">
                   <ws:for data="month in quarter.months">
                         <ws:partial
                                 on:click="_onMonthClick(month.date)"
@@ -29,8 +32,8 @@
                </div>
                <div class="controls-PeriodLiteDialog-item__quarter-caption
                            controls-PeriodLiteDialog-item__quarter-caption_theme-{{_options.theme}}
-                             {{ _options._yearHovered === _options.currentYear || (_quarterHovered === quarter.number) ||
-                             (_halfYearHovered === halfYear.number) ? ' controls-PeriodLiteDialog__background-transparent'}}"
+                           controls-PeriodLiteDialog-item__quarter-background{{ _options._yearHovered === _options.currentYear || (_quarterHovered === quarter.number) ||
+                           (_halfYearHovered === halfYear.number) ? '-transparent'}}_theme-{{_options.theme}}  "
                     on:click="_onQuarterClick(quarter.number, _options.currentYear)"
                     on:mouseenter="_onQuarterMouseEnter(quarter.number, _options.currentYear)"
                     on:touchstart="_onQuarterMouseEnter(quarter.number, _options.currentYear)"
@@ -43,7 +46,8 @@
          </ws:for>
          <div class="controls-PeriodLiteDialog-item__halfYear-caption
                      controls-PeriodLiteDialog-item__halfYear-caption_theme-{{_options.theme}}
-                     {{ _options._yearHovered === _options.currentYear ||  (_halfYearHovered === halfYear.number) ? ' controls-PeriodLiteDialog__background-transparent'}}"
+                     controls-PeriodLiteDialog-item__halfYear-background{{ _options._yearHovered === _options.currentYear ||
+                     (_halfYearHovered === halfYear.number) ? '-transparent'}}_theme-{{_options.theme}}"
               on:click="_onHalfYearClick(halfYear.number, _options.currentYear)"
               on:mouseenter="_onHalfYearMouseEnter(halfYear.number)"
               on:touchstart="_onHalfYearMouseEnter(halfYear.number)"

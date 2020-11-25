@@ -3,7 +3,7 @@ import {TFontWeight} from 'Controls/_interface/IFontWeight';
 /**
  * Шаблон, который по умолчанию используется для отображения ячеек итогов в контроле {@link Controls/grid:View Таблица}.
  * 
- * @class Controls/grid:ResultColumnTemplate
+ * @class Controls/_grid/interface/ResultColumnTemplate
  * @author Авраменко А.С.
  * @example
  * В следующем примере показано, как изменить параметры шаблона.

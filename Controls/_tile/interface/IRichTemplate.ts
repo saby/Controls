@@ -2,8 +2,8 @@ import {TemplateFunction} from 'UI/Base';
 
 /**
  * "Богатый" шаблон отображения элементов в  {@link Controls/tile:View плитке}.
- * @class Controls/tile:RichTemplate
- * @mixes Controls/tile:ItemTemplate
+ * @class Controls/_tile/interface/RichTemplate
+ * @mixes Controls/_tile/interface/ItemTemplate
  * @author Михайлов С.Е
  * @see Controls/tile:View
  * @example
@@ -34,7 +34,7 @@ export default interface IRichTemplateOptions {
      * @variant l Размер, соответствующий размеру l.
      */
     /**
-     * @name Controls/tile:RichTemplate#imageSize
+     * @name Controls/_tile/interface/RichTemplate#imageSize
      * @default s
      * @cfg {ImageSize} Размер изображения.
      * @remark При вертикальном располажении изображении размер фото фиксированный.
@@ -48,7 +48,7 @@ export default interface IRichTemplateOptions {
      * @variant right Изображение отображается справа.
      */
     /**
-     * @name Controls/tile:RichTemplate#imagePosition
+     * @name Controls/_tile/interface/RichTemplate#imagePosition
      * @cfg {ImagePosition} Размер изображения.
      */
     imagePosition?: 'top' | 'left' | 'right';
@@ -61,7 +61,7 @@ export default interface IRichTemplateOptions {
      * @variant none Изображение не отображается.
      */
     /**
-     * @name Controls/tile:RichTemplate#imageViewMode
+     * @name Controls/_tile/interface/RichTemplate#imageViewMode
      * @cfg {ImageViewMode} Вид отображения изображения.
      * @default rectangle
      */
@@ -74,7 +74,7 @@ export default interface IRichTemplateOptions {
      * @variant l Изображение будет иметь оригинальный размер.
      */
     /**
-     * @name Controls/tile:RichTemplate#nodesScaleSize
+     * @name Controls/_tile/interface/RichTemplate#nodesScaleSize
      * @cfg {NodesScaleSize} Коэффициент для уменьшения высоты изображения у папок.
      * @default l
      */
@@ -87,14 +87,14 @@ export default interface IRichTemplateOptions {
      * @see gradientColor
      */
     /**
-     * @name Controls/tile:RichTemplate#imageEffect
+     * @name Controls/_tile/interface/RichTemplate#imageEffect
      * @cfg {ImageEffect} Эффект у изображения.
      * @default none
      */
     imageEffect?: 'none' | 'gradient';
 
     /**
-     * @name Controls/tile:RichTemplate#gradientColor
+     * @name Controls/_tile/interface/RichTemplate#gradientColor
      * @cfg {String} Цвет градиента. Можно указывать в любом формате, который поддерживается в CSS.
      * @default #FFF
      * @see imageEffect
@@ -102,34 +102,34 @@ export default interface IRichTemplateOptions {
     gradientColor?: string;
 
     /**
-     * @name Controls/tile:RichTemplate#titleLines
+     * @name Controls/_tile/interface/RichTemplate#titleLines
      * @cfg {Number} Количество строк в заголовке.
      * @default 1
      */
     titleLines?: number;
 
     /**
-     * @name Controls/tile:RichTemplate#titleColorStyle
+     * @name Controls/_tile/interface/RichTemplate#titleColorStyle
      * @cfg {String} Цвет заголовка.
      * @default default
      */
     titleColorStyle?: string;
 
     /**
-     * @name Controls/tile:RichTemplate#descriptionLines
+     * @name Controls/_tile/interface/RichTemplate#descriptionLines
      * @cfg {Number} Количество строк в описании.
      * @default 1
      */
     descriptionLines?: number;
 
     /**
-     * @name Controls/tile:RichTemplate#description
+     * @name Controls/_tile/interface/RichTemplate#description
      * @cfg {String} Текст описания.
      */
     description?: string;
 
     /**
-     * @name Controls/tile:RichTemplate#footerTemplate
+     * @name Controls/_tile/interface/RichTemplate#footerTemplate
      * @cfg {TemplateFunction | String} Шаблон подвала элемента.
      */
     footerTemplate?: TemplateFunction | string;

@@ -14,7 +14,7 @@ export interface IOperationsButtonOptions extends IControlOptions, IExpandableOp
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/operations/">руководство разработчика</a>
+ * * <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/operations/">руководство разработчика</a>
  * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less">переменные тем оформления</a>
  *
  * @class Controls/_operations/Button

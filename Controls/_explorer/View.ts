@@ -19,6 +19,7 @@ import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {ISelectionObject} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import { RecordSet } from 'Types/collection';
+import {calculatePath} from 'Controls/dataSource';
 
 var
       HOT_KEYS = {
@@ -108,17 +109,6 @@ var
          getRoot: function(self, newRoot) {
             return typeof newRoot !== 'undefined' ? newRoot : self._root;
          },
-         getPath(data) {
-             const path = data && data.getMetaData().path;
-             let breadCrumbs;
-
-             if (path && path.getCount() > 0) {
-                 breadCrumbs = factory(path).toArray();
-             } else {
-                 breadCrumbs = null;
-             }
-             return breadCrumbs;
-         },
          resolveItemsOnFirstLoad(self, resolver, result) {
             if (self._firstLoad) {
                resolver(result);
@@ -139,7 +129,7 @@ var
             }
          },
          serviceDataLoadCallback: function(self, oldData, newData) {
-            self._breadCrumbsItems = _private.getPath(newData);
+            self._breadCrumbsItems = calculatePath(newData).path;
             _private.resolveItemsOnFirstLoad(self, self._itemsResolver, self._breadCrumbsItems);
             _private.updateSubscriptionOnBreadcrumbs(oldData, newData, self._updateHeadingPath);
          },
@@ -516,7 +506,7 @@ var
          const loadedBySourceController =
              cfg.sourceController &&
              ((isSearchViewMode && cfg.searchValue && cfg.searchValue !== this._options.searchValue) ||
-              (cfg.source !== this._options.source && cfg.task1180503140));
+              (cfg.source !== this._options.source));
          const isSourceControllerLoading = cfg.sourceController && cfg.sourceController.isLoading();
          this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
          this._headerVisibility = cfg.root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
@@ -557,7 +547,7 @@ var
             // или "tile" будет перезагрузка. Этот код нужен до тех пор, пока не будут спускаться данные сверху-вниз.
             // https://online.sbis.ru/opendoc.html?guid=f90c96e6-032c-404c-94df-cc1b515133d6
             const filterChanged = !isEqual(cfg.filter, this._options.filter);
-            const recreateSource = cfg.source !== this._options.source || (isSourceControllerLoading && cfg.task1180503140);
+            const recreateSource = cfg.source !== this._options.source || (isSourceControllerLoading);
             const sortingChanged = !isEqual(cfg.sorting, this._options.sorting);
             if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !loadedBySourceController) {
                _private.setPendingViewMode(this, cfg.viewMode, cfg);
@@ -567,8 +557,7 @@ var
          } else if (!isViewModeChanged &&
              this._pendingViewMode &&
              cfg.viewMode === this._pendingViewMode &&
-             loadedBySourceController &&
-             cfg.task1180503140) {
+             loadedBySourceController) {
             _private.setViewModeSync(this, this._pendingViewMode, cfg);
          } else {
             _private.applyNewVisualOptions(this);
@@ -697,7 +686,7 @@ var
          keysHandler(event, HOT_KEYS, _private, this);
       },
       _updateHeadingPath() {
-          this._breadCrumbsItems = _private.getPath(this._items);
+          this._breadCrumbsItems = calculatePath(this._items).path;
       },
       scrollToItem(key: string|number, toBottom: boolean): void {
          this._children.treeControl.scrollToItem(key, toBottom);

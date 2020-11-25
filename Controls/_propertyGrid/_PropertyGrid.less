@@ -1,35 +1,41 @@
 .controls-PropertyGrid_theme-@{themeName} {
-  padding: @content_padding_propertyGrid @content_padding_propertyGrid @content_padding_propertyGrid @content_padding_propertyGrid;
+   padding: @content_padding_propertyGrid @content_padding_propertyGrid @content_padding_propertyGrid @content_padding_propertyGrid;
 }
 
 .controls-PropertyGrid__editor_theme-@{themeName} {
-  margin-bottom: @editor_offset_propertyGrid;
+   margin-bottom: @editor_offset_propertyGrid;
 }
 
 .controls-PropertyGrid__editor-caption_theme-@{themeName} {
-  display: inline-flex;
-  width: @label_width_propertyGrid;
-  color: @label_text-color;
-  cursor: default;
+   display: inline-flex;
+   width: @label_width_propertyGrid;
+   color: @label_text-color;
+   cursor: default;
 }
 
 .controls-PropertyGrid__group_theme-@{themeName} {
-  margin-top: @group_padding-vertical_propertyGrid;
-  margin-bottom: @group_padding-vertical_propertyGrid;
+   margin-top: @group_padding-vertical_propertyGrid;
+   margin-bottom: @group_padding-vertical_propertyGrid;
 }
 
 .controls-PropertyGrid__group {
-  display: flex;
-  align-items: baseline;
+   display: flex;
+   align-items: baseline;
 }
 
 .controls-PropertyGrid__groupExpander {
-  cursor: pointer;
-  margin-left: auto;
-  align-self: center;
+   cursor: pointer;
+   margin-left: auto;
+   align-self: center;
 }
 
 .controls-PropertyGrid__editor_booleanGroup_item,
 .controls-PropertyGrid__editor_enum_item {
-  margin-right: @booleanEditor_offset_propertyGrid;
+   margin-right: @booleanEditor_offset_propertyGrid;
+}
+
+.ws-is-hover {
+   .controls-PropertyGrid__editor_highlightOnHover_theme-@{themeName}:hover {
+      background-color: @hover_background-color;
+   }
 }

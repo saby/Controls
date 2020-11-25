@@ -1,3 +1,3 @@
 <div class="controlsDemo__wrapper controlsDemo__maxWidth200 controlDemo_list-new_base">
-    <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>
+    <Controls.list:View source="{{_viewSource}}"/>
 </div>

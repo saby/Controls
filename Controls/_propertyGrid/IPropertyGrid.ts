@@ -1,9 +1,11 @@
 import IPropertyGridProperty from './IProperty';
 import {IControlOptions, Control} from 'UI/Base';
+import { RecordSet } from 'Types/collection';
+import { Model } from 'Types/entity';
 
 export interface IPropertyGridOptions extends IControlOptions {
-    editingObject: Object;
-    source: IPropertyGridProperty[];
+    editingObject: Object | Model | Record<string, any>;
+    source: IPropertyGridProperty[] | RecordSet<IPropertyGridProperty>;
     groupTemplate?: Function;
     collapsedGroups?: Array<string|number>;
     nodeProperty?: string;

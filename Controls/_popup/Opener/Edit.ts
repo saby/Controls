@@ -23,7 +23,7 @@ interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
  * 
  * @class Controls/_popup/Opener/Edit
  * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/IEdit
+ * @mixes Controls/_popup/interface/IEditOptions
  * 
  * @public
  * @author Красильников А.С.

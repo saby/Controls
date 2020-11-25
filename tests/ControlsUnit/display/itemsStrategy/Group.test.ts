@@ -2,6 +2,7 @@ import { assert } from 'chai';
 
 import Group from 'Controls/_display/itemsStrategy/Group';
 import IItemsStrategy from 'Controls/_display/IItemsStrategy';
+import { view } from 'Controls/Constants';
 
 import {
     GroupItem,
@@ -484,6 +485,87 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             groups.forEach((group, index) => {
                 assert.equal(group.getContents(), expectedGroups[index]);
             });
+        });
+
+        describe('hidden group is always number one', () => {
+
+            it('hidden group is first in items', () => {
+                const createItem = (id: number, group?: string) => {
+                    return {
+                        contents: { 
+                            group: group || view.hiddenGroup,
+                            id
+                        },
+                        multiSelectVisibility: 'hidden'
+                     }
+                }
+                const items = [
+                    new CollectionItem(createItem(1)),
+                    new CollectionItem(createItem(2)),
+                    new CollectionItem(createItem(3, 'one')),
+                    new CollectionItem(createItem(4, 'one'))
+                ];
+                const groups = [];
+                const options: any = {
+                    display: {
+                        getMultiSelectVisibility() {
+                            return 'hidden';
+                        }
+                    },
+                    groups,
+                    groupConstructor: GroupItem,
+                    handler: (item) => item.group
+                };
+                const expected = [0, 2, 3, 1, 4, 5];
+                const expectedGroups = [view.hiddenGroup, 'one'];
+                const given = Group.sortItems(items, options);
+    
+                assert.deepEqual(given, expected);
+    
+                assert.equal(groups.length, 2);
+                groups.forEach((group, index) => {
+                    assert.equal(group.getContents(), expectedGroups[index]);
+                });
+            });    
+            
+            it('hidden group is not first in items', () => {
+                const createItem = (id: number, group?: string) => {
+                    return {
+                        contents: { 
+                            group: group || view.hiddenGroup,
+                            id
+                        },
+                        multiSelectVisibility: 'hidden'
+                     }
+                }
+                const items = [
+                    new CollectionItem(createItem(1, 'one')),
+                    new CollectionItem(createItem(2)),
+                    new CollectionItem(createItem(3)),
+                    new CollectionItem(createItem(4, 'one'))
+                ];
+                const groups = [];
+                const options: any = {
+                    display: {
+                        getMultiSelectVisibility() {
+                            return 'hidden';
+                        }
+                    },
+                    groups,
+                    groupConstructor: GroupItem,
+                    handler: (item) => item.group
+                };
+                const expected = [1, 3, 4, 0, 2, 5];
+                const expectedGroups = ['one', view.hiddenGroup];
+                const given = Group.sortItems(items, options);
+    
+                assert.deepEqual(given, expected);
+    
+                assert.equal(groups.length, 2);
+                groups.forEach((group, index) => {
+                    assert.equal(group.getContents(), expectedGroups[index]);
+                });
+            });    
         });
 
         it('should use old groups', () => {

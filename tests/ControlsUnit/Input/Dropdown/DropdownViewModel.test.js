@@ -2,12 +2,11 @@ define(
    [
       'Controls/_dropdownPopup/DropdownViewModel',
       'Types/collection',
-      'Controls/Constants',
       'Types/entity',
       'Controls/list',
       'Core/core-clone'
    ],
-   (DropdownViewModel, collectionLib, ControlsConstants, entity, list, clone) => {
+   (DropdownViewModel, collectionLib, entity, list, clone) => {
       describe('DropdownViewModel', () => {
          let rs = new collectionLib.RecordSet({
             keyProperty: 'id',
@@ -218,7 +217,7 @@ define(
             };
             newConfig.groupingKeyCallback = function (item) {
                if (item.get('group') === 'hidden' || !item.get('group')) {
-                  return ControlsConstants.view.hiddenGroup;
+                  return list.groupConstants.hiddenGroup;
                }
                return item.get('group');
             };

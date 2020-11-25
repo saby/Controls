@@ -2,6 +2,11 @@ import { IControlOptions, TemplateFunction } from 'UI/Base';
 import { Model } from 'Types/entity';
 import { RecordSet } from 'Types/collection';
 
+
+type TNodeFooterVisibilityCallback = (item: Model) => boolean;
+
+type TNodeLoadCallback = (list: RecordSet, nodeKey: number | string) => void;
+
 /**
  * Интерфейс для древовидных списков.
  *
@@ -17,7 +22,22 @@ import { RecordSet } from 'Types/collection';
  * @public
  * @author Авраменко А.С.
  */
-
+export interface ITreeControlOptions extends IControlOptions {
+    expandByItemClick?: boolean;
+    expandedItems?: Array<number | string>;
+    collapsedItems?: Array<number | string>;
+    nodeFooterTemplate?: TemplateFunction;
+    nodeFooterVisibilityCallback?: TNodeFooterVisibilityCallback;
+    hasChildrenProperty?: string;
+    searchBreadCrumbsItemTemplate?: TemplateFunction;
+    expanderVisibility?: 'visible'|'hasChildren';
+    nodeLoadCallback?: TNodeLoadCallback;
+    deepReload?: boolean;
+    selectAncestors?: boolean;
+    selectDescendants?: boolean;
+    markItemByExpanderClick?: boolean;
+    expanderSize?: 's'|'m'|'l'|'xl';
+}
 /**
  * @typedef {String} HierarchyViewModeEnum
  * @variant tree Дерево.
@@ -60,7 +80,9 @@ import { RecordSet } from 'Types/collection';
  * @remark
  * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">демо-пример</a>
  * Чтобы развернуть все элементы списка, параметр expandedItems должен быть задан как массив, содержащий один элемент — "null". В этом случае предполагается, что все данные будут загружены сразу.
- * @see collapsedItems
+ * Настройка не работает, если источник данных задан через {@link Types/source:Memory}.
+ * @see expandByItemClick
+ * @see expanderVisibility
  */
 
 /*
@@ -435,24 +457,3 @@ import { RecordSet } from 'Types/collection';
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Идентификаторы свернутых узлов.
  */
-
-type TNodeFooterVisibilityCallback = (item: Model) => boolean;
-
-type TNodeLoadCallback = (list: RecordSet, nodeKey: number | string) => void;
-
-export interface ITreeControlOptions extends IControlOptions {
-    expandByItemClick?: boolean;
-    expandedItems?: Array<number | string>;
-    collapsedItems?: Array<number | string>;
-    nodeFooterTemplate?: TemplateFunction;
-    nodeFooterVisibilityCallback?: TNodeFooterVisibilityCallback;
-    hasChildrenProperty?: string;
-    searchBreadCrumbsItemTemplate?: TemplateFunction;
-    expanderVisibility?: 'visible'|'hasChildren';
-    nodeLoadCallback?: TNodeLoadCallback;
-    deepReload?: boolean;
-    selectAncestors?: boolean;
-    selectDescendants?: boolean;
-    markItemByExpanderClick?: boolean;
-    expanderSize?: 's'|'m'|'l'|'xl';
-}

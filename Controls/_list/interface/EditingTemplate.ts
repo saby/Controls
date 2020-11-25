@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}.
  *  
- * @class Controls/list:EditingTemplate
+ * @class Controls/_list/interface/EditingTemplate
  * @author Авраменко А.С.
  * @see Controls/list:View
  * @example
@@ -35,19 +35,19 @@
 
 export default interface IEditingTemplateOptions {
     /**
-     * @name Controls/list:EditingTemplate#editorTemplate
+     * @name Controls/_list/interface/EditingTemplate#editorTemplate
      * @cfg {String|Function} Шаблон, отображаемый поверх элемента в режиме редактирования. 
      */
     editorTemplate?: string;
     /**
-     * @name Controls/list:EditingTemplate#enabled
+     * @name Controls/_list/interface/EditingTemplate#enabled
      * @cfg {Boolean} Когда опция задана в значение true, при наведении курсора мыши на элемент в режиме редактирования будет выделяться фон у контрола-редактора.
      * @default false
      * @see editorTemplate
      */
     enabled?: boolean;
     /**
-     * @name Controls/list:EditingTemplate#value
+     * @name Controls/_list/interface/EditingTemplate#value
      * @cfg {String} Текст, отображаемый внутри элемента в режиме просмотра.
      */
     value?: string;
@@ -60,7 +60,7 @@ export default interface IEditingTemplateOptions {
      */ 
 
     /**
-     * @name Controls/list:EditingTemplate#size
+     * @name Controls/_list/interface/EditingTemplate#size
      * @cfg {Size} Размер шрифта для {@link Controls/list:EditingTemplate#value текста}, который отображается внутри элемента в режиме просмотра. 
      * @default default
      * @see Controls/list:EditingTemplate#value

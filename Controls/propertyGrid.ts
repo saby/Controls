@@ -47,6 +47,7 @@ import IPropertyGrid = require("Controls/_propertyGrid/IPropertyGrid");
 import IEditor = require("Controls/_propertyGrid/IEditor");
 import {default as IProperty} from 'Controls/_propertyGrid/IProperty';
 import GroupTemplate = require("wml!Controls/_propertyGrid/Render/resources/groupTemplate");
+import * as ItemTemplate from 'wml!Controls/_propertyGrid/Render/resources/itemTemplate';
 
 export {
     PropertyGrid,
@@ -60,5 +61,6 @@ export {
     IPropertyGrid,
     IEditor,
     IProperty,
-    GroupTemplate
+    GroupTemplate,
+    ItemTemplate
 };

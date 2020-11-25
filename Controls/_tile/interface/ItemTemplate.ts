@@ -1,8 +1,8 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/tile:View плитке}.
- * @class Controls/tile:ItemTemplate
- * @mixes Controls/list:BaseItemTemplate
- * @mixes Controls/list:IContentTemplate
+ * @class Controls/_tile/interface/ItemTemplate
+ * @mixes Controls/_list/interface/IBaseItemTemplateOptions
+ * @mixes Controls/_list/interface/IContentTemplate
  * @author Авраменко А.С.
  * @see Controls/tile:View
  * @example
@@ -28,7 +28,7 @@
 
 export default interface IItemTemplateOptions {
    /**
-    * @name Controls/tile:ItemTemplate#hasTitle
+    * @name Controls/_tile/interface/ItemTemplate#hasTitle
     * @cfg {Boolean} Подпись к плитке.
     * @see titleStyle
     */
@@ -40,14 +40,14 @@ export default interface IItemTemplateOptions {
     * @variant accent Заголовок виден всегда, выделен жирным шрифтом и цветом, при наведении на плитку появляется подчеркивание.
     */
    /**
-    * @name Controls/tile:ItemTemplate#titleStyle
+    * @name Controls/_tile/interface/ItemTemplate#titleStyle
     * @cfg {TitleStyle} Стиль отображения заголовка плитки.
     * @default onhover
     * @see hasTitle
     */
    titleStyle?: string;
    /**
-    * @name Controls/tile:ItemTemplate#itemWidth
+    * @name Controls/_tile/interface/ItemTemplate#itemWidth
     * @cfg {Number} Ширина плитки. Значение задаётся в px.
     * @remark Ширина папки настраивается в опции {@link folderWidth}.
     * @see staticHeight
@@ -55,12 +55,12 @@ export default interface IItemTemplateOptions {
     */
    itemWidth?: number;
    /**
-    * @name Controls/tile:ItemTemplate#staticHeight
+    * @name Controls/_tile/interface/ItemTemplate#staticHeight
     * @cfg {Number} Будет ли автоматически изменяться высота плитки, когда плитка отображается со статической шириной, т.е. опция {@link tileMode} установлена в значение static.
     */
    staticHeight?: boolean;
    /**
-    * @name Controls/tile:ItemTemplate#folderWidth
+    * @name Controls/_tile/interface/ItemTemplate#folderWidth
     * @cfg {Number} Ширина папки. Значение задаётся в px.
     * @see itemWidth
     * @see staticHeight
@@ -73,7 +73,7 @@ export default interface IItemTemplateOptions {
     * @variant onhover Отображается только при наведении на плитку.
     */
    /**
-    * @name Controls/tile:ItemTemplate#shadowVisibility
+    * @name Controls/_tile/interface/ItemTemplate#shadowVisibility
     * @cfg {ShadowVisibility} Нужно ли отображать тень для плитки.
     * @default visible
     */

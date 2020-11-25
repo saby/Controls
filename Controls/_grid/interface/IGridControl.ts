@@ -1,3 +1,5 @@
+import { TColumns } from './IColumn';
+import { IList } from 'Controls/list';
 /**
  * Интерфейс для контрола {@link Controls/grid:View Таблица}.
  *
@@ -5,6 +7,10 @@
  * @public
  * @author Авраменко А.С.
  */
+
+export interface IGridControl extends IList {
+    columns: TColumns;
+}
 
 /*
  * Interface for Grid (table view).

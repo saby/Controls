@@ -21,6 +21,7 @@ export {default as Render} from 'Controls/_menu/Render';
 export {default as Popup} from 'Controls/_menu/Popup';
 export {default as HeaderTemplate} from 'Controls/_menu/Popup/headerTemplate';
 
+export {IMenuBaseOptions} from 'Controls/_menu/interface/IMenuBase';
 export {default as IMenuControl, IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 export {default as IMenuPopup, IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
 

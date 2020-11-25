@@ -6,7 +6,7 @@ define(
       'Controls/display',
       'Types/collection',
       'Types/entity',
-      'Controls/Constants',
+      'Controls/list',
       'Controls/popup'
    ],
    function(menu, source, Clone, display, collection, entity, ControlsConstants, popup) {
@@ -742,7 +742,7 @@ define(
 
             it('item hasn`t group', function() {
                groupId = menuControl._groupMethod(menuOptions, item);
-               assert.equal(groupId, ControlsConstants.view.hiddenGroup);
+               assert.equal(groupId, ControlsConstants.groupConstants.hiddenGroup);
             });
 
             it('group = 0', function() {
@@ -754,13 +754,13 @@ define(
             it('item is history', function() {
                item.set('pinned', true);
                groupId = menuControl._groupMethod(menuOptions, item);
-               assert.equal(groupId, ControlsConstants.view.hiddenGroup);
+               assert.equal(groupId, ControlsConstants.groupConstants.hiddenGroup);
             });
 
             it('item is history, root = 2', function() {
                menuOptions.root = 2;
                groupId = menuControl._groupMethod(menuOptions, item);
-               assert.equal(groupId, ControlsConstants.view.hiddenGroup);
+               assert.equal(groupId, ControlsConstants.groupConstants.hiddenGroup);
             });
          });
 

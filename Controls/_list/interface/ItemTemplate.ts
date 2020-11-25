@@ -1,9 +1,9 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/list:View плоском списке}.
  * 
- * @class Controls/list:ItemTemplate
- * @mixes Controls/list:BaseItemTemplate
- * @mixes Controls/list:IContentTemplate
+ * @class Controls/_list/interface/ItemTemplate
+ * @mixes Controls/_list/interface/IBaseItemTemplateOptions
+ * @mixes Controls/_list/interface/IContentTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/IItemTemplate#itemTemplate
  * @see Controls/interface/IItemTemplate#itemTemplateProperty
@@ -27,7 +27,7 @@
  */
 export default interface IItemTemplateOptions {
    /**
-    * @name Controls/list:ItemTemplate#displayProperty
+    * @name Controls/_list/interface/ItemTemplate#displayProperty
     * @cfg {String} Имя поля элемента, данные которого будут отображены в шаблоне.
     * @remark
     * Опцию не используют, если задан пользовательский шаблон в опции {@link Controls/list:ItemTemplate#contentTemplate contentTemplate}.

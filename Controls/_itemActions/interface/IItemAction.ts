@@ -70,7 +70,7 @@ export type TItemActionsPosition = 'inside' | 'outside' | 'custom';
 export type TItemActionsSize = 'm' | 'l';
 
 /**
- * @typedef {String} TItemActionsSize
+ * @typedef {String} TMenuButtonVisibility
  * Видимость кнопки "Ещё" в свайпе
  * @variant visible - кнопка видима в любом случае
  * @variant adaptive - Расчёт происходит от количесива элементов в свайпе

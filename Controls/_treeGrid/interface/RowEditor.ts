@@ -1,7 +1,7 @@
 /**
  * Шаблон, который используют для настройки отображения элемента контрола {@link Controls/treeGrid:View Дерево} в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/edit/ режиме редактирования}.
  * 
- * @class Controls/treeGrid:RowEditor
+ * @class Controls/_treeGrid/interface/RowEditor
  * @author Авраменко А.С.
  * @see Controls/treeGrid:View#itemTemplate
  * @example
@@ -22,7 +22,7 @@
 
 export default interface IRowEditorOptions {
     /**
-     * @name Controls/treeGrid:RowEditor#content
+     * @name Controls/_treeGrid/interface/RowEditor#content
      * @cfg {String|Function} Пользовательский шаблон, описывающий содержимое элемента в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/edit/ режиме редактирования}.
      * @default undefined
      */

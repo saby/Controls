@@ -1,6 +1,0 @@
-<div class="myItemTemplate1">
-   {{itemData.getPropValue(itemData.item, 'title')}}
-   <div class="comment">
-      Комментарий к записи
-   </div>
-</div>

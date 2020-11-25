@@ -14,7 +14,7 @@
             </ws:nodeFooterTemplate>
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig pageSize="{{3}}" page="{{0}}" hasMore="{{false}}"/>
-                <ws:viewConfig pagingMode="direct"/>
+                <ws:viewConfig pagingMode="basic"/>
             </ws:navigation>
         </Controls.treeGrid:View>
     </div>

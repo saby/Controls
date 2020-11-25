@@ -63,7 +63,8 @@ export class Controller {
    calculateMarkedKeyForVisible(): CrudEntityKey {
       // TODO удалить этот метод, когда избавимся от onactivated
       let newMarkedKey = this._markedKey;
-      if (this._markerVisibility === Visibility.Visible && this._model.getCount() && !this._model.getItemBySourceKey(this._markedKey)) {
+      if (this._markerVisibility === Visibility.Visible && this._model.getCount()
+            && !this._model.getItemBySourceKey(this._markedKey)) {
          newMarkedKey = this._getFirstItemKey();
       }
 
@@ -218,6 +219,7 @@ export class Controller {
    private _getKey(item: CollectionItem<Model>): CrudEntityKey {
       let contents = item.getContents();
       if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+         // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
       }
 
@@ -257,10 +259,11 @@ export class Controller {
       let item;
 
       const indexInBounds = (i) => next ? i < count : i >= 0;
-      while (indexInBounds(index)) {
-         item = this._model.at(index);
+      let resIndex = index;
+      while (indexInBounds(resIndex)) {
+         item = this._model.at(resIndex);
          if (item && item.MarkableItem) { break; }
-         index += next ? 1 : -1;
+         resIndex += next ? 1 : -1;
       }
 
       return item ? this._getKey(item) : null;

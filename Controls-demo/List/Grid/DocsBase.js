@@ -2,7 +2,7 @@ define('Controls-demo/List/Grid/DocsBase', [
    'Core/Control',
    'wml!Controls-demo/List/Grid/resources/DocsBase/DocsBase',
    'Types/source',
-   'Controls/Constants',
+   'Controls/list',
    'Controls-demo/List/Grid/resources/DataDemoPG',
 
    'wml!Controls-demo/List/Grid/resources/BasePG/resultsTemplate',
@@ -100,7 +100,7 @@ define('Controls-demo/List/Grid/DocsBase', [
 
          _groupingKeyCallback: function(item) {
             if (item.get('description') === 'морской/речной') {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('description');
          },
