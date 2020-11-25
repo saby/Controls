@@ -865,6 +865,7 @@ const _private = {
                 self._listViewModel.prependItems(addedItems);
             }
             afterAddItems(countCurrentItems, addedItems);
+            self._needScrollToFirstItem = false;
             self._attachLoadTopTriggerToNull = false;
         };
 

@@ -28,8 +28,8 @@
 
         <!-- Тени -->
         <ws:if data="{{ _isColumnScrollVisible() && !_showFakeGridWithColumnScroll }}">
-            <div name="columnScrollShadowStart" class="{{ _columnScrollShadowClasses.start }}" style="{{ _columnScrollShadowStyles.start }}"></div>
-            <div name="columnScrollShadowEnd" class="{{ _columnScrollShadowClasses.end }}" style="{{ _columnScrollShadowStyles.end }}"></div>
+            <div name="columnScrollShadowStart" class="{{ _columnScrollShadowClasses.start }}"></div>
+            <div name="columnScrollShadowEnd" class="{{ _columnScrollShadowClasses.end }}"></div>
         </ws:if>
 
         <ws:if data="{{ _isDragScrollingEnabled(_options) }}">
@@ -80,7 +80,7 @@
         <ws:if data="{{ _showFakeGridWithColumnScroll }}">
             <ws:partial template="gridTemplate" attr:class="controls-Grid__ColumnScroll__fixedPart"/>
             <div class="{{ _getColumnScrollShadowClasses(_options, 'start') }}"
-                 style="{{ _getColumnScrollShadowStyles(_options, 'start') }}"></div>
+                 style="{{ _getColumnScrollFakeShadowStyles(_options, 'start') }}"></div>
             <div class="controls-Grid__ColumnScroll__scrollablePart">
                 <ws:partial template="gridTemplate"/>
             </div>

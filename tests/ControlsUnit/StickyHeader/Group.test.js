@@ -38,6 +38,14 @@ define([
          const
             event = {stopImmediatePropagation: sinon.fake()};
 
+         // beforeEach(() => {
+         //    sinon.stub(Utils, 'getOffset').returns(0);
+         // });
+         //
+         // afterEach(() => {
+         //    sinon.restore();
+         // });
+
          it('should add fixed header to list of fixed headers', function() {
             const
                component = createComponent(scroll.Group, options),
@@ -103,7 +111,8 @@ define([
 
          it('should not generate event on second header fixed', function() {
             const
-               component = createComponent(scroll.Group, options);
+               component = createComponent(scroll.Group, options),
+               headerId = scroll.getNextStickyId();
 
             component._fixedHandler(event,
                {
@@ -115,11 +124,15 @@ define([
                });
 
             sinon.stub(component, '_notify');
+            component._headers = {};
+            component._headers[headerId] = {
+              inst: { updateFixed: () => undefined }
+            };
             component._fixedHandler(event,
                {
                   fixedPosition: 'top',
                   prevPosition: '',
-                  id: scroll.getNextStickyId(),
+                  id: headerId,
                   mode: 'replaceable',
                   offsetHeight: 10
                });
@@ -169,6 +182,12 @@ define([
                   mode: 'replaceable',
                   offsetHeight: 10
                });
+
+            component._headers = {};
+            component._headers[headerId] = {
+              inst: { updateFixed: () => undefined }
+            };
+
             component._fixedHandler(event,
                {fixedPosition: 'top', prevPosition: '', id: headerId, mode: 'replaceable', offsetHeight: 10});
 
@@ -177,6 +196,28 @@ define([
                {fixedPosition: '', prevPosition: 'top', id: headerId, mode: 'replaceable', offsetHeight: 10});
 
             sinon.assert.notCalled(component._notify);
+            sinon.restore();
+         });
+
+         it('should update shadow state on second header fixed', function() {
+            const
+               component = createComponent(scroll.Group, options),
+               firstHeaderId = scroll.getNextStickyId(),
+               secondHeaderId = scroll.getNextStickyId(),
+               updateFixed = sinon.fake();
+
+            component._headers = {};
+            component._headers[secondHeaderId] = {
+              inst: { updateFixed: updateFixed }
+            };
+
+            component._fixedHandler(event,
+               {fixedPosition: 'top', prevPosition: '', id: firstHeaderId, mode: 'replaceable', offsetHeight: 10});
+
+            component._fixedHandler(event,
+               {fixedPosition: 'top', prevPosition: '', id: secondHeaderId, mode: 'replaceable', offsetHeight: 10});
+
+            sinon.assert.called(updateFixed);
             sinon.restore();
          });
       });

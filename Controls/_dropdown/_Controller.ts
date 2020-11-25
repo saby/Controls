@@ -311,15 +311,10 @@ export default class _Controller implements IDropdownController {
    }
 
    private _createMenuSource(items: RecordSet|Error): void {
-      let menuItems = items;
-      if (this._options.needLoadSelectedItems && this._isHistoryMenu()) {
-         // FIXME https://online.sbis.ru/opendoc.html?guid=300c6a3f-6870-492e-8308-34a457ad7b85
-         menuItems = items.clone();
-      }
       this._menuSource = new PrefetchProxy({
          target: this._source,
          data: {
-            query: menuItems
+            query: items
          }
       });
    }
@@ -480,6 +475,13 @@ export default class _Controller implements IDropdownController {
 
    private _updateHistory(items): void {
       if (isHistorySource(this._source)) {
+         // FIXME https://online.sbis.ru/opendoc.html?guid=300c6a3f-6870-492e-8308-34a457ad7b85
+         if (this._options.emptyText) {
+            const item = this._items.getRecordById(null);
+            if (item) {
+               this._items.remove(item);
+            }
+         }
          this._source.update(items, getMetaHistory());
 
          if (this._sourceController && this._source.getItems) {

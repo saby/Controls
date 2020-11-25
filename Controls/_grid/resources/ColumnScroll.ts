@@ -189,15 +189,19 @@ export class ColumnScroll {
         needBottomPadding?: boolean;
         backgroundStyle?: string;
     }): string {
-        return `controls-ColumnScroll__shadow_theme-${params.theme}`
+        return `js-controls-ColumnScroll__shadow-${params.position}`
+            + ` controls-ColumnScroll__shadow_theme-${params.theme}`
             + ` controls-ColumnScroll__shadow_with${params.needBottomPadding ? '' : 'out'}-bottom-padding_theme-${params.theme}`
             + ` controls-ColumnScroll__shadow-${params.position}_theme-${params.theme}`
-            + ` controls-horizontal-gradient-${params.backgroundStyle}_theme-${params.theme}`
-            + (!params.isVisible ? ' controls-ColumnScroll__shadow_invisible' : '');
+            + ` controls-horizontal-gradient-${params.backgroundStyle}_theme-${params.theme}`;
     }
 
     getShadowStyles(position: 'start' | 'end'): string {
         let shadowStyles = '';
+
+        if (!this._shadowState[position]) {
+            shadowStyles += 'visibility: hidden;';
+        }
 
         if (position === 'start' && this._shadowState[position]) {
             shadowStyles = 'left: ' + this._fixedColumnsWidth + 'px;';
@@ -372,7 +376,11 @@ export class ColumnScroll {
             `.${this._transformSelector} .${JS_SELECTORS.FIXED_ELEMENT} { transform: translateX(${position}px); }` +
 
             // Не скроллируем зафиксированные колонки
-            `.${this._transformSelector} .controls-Grid__cell_fixed { transform: translateX(${position}px); }`;
+            `.${this._transformSelector} .controls-Grid__cell_fixed { transform: translateX(${position}px); }` +
+
+            // Обновление теней не должно вызывать перерисовку
+            `.${this._transformSelector}>.js-controls-ColumnScroll__shadow-start { ${this.getShadowStyles('start')} }` +
+            `.${this._transformSelector}>.js-controls-ColumnScroll__shadow-end { ${this.getShadowStyles('end')} }`;
 
         // Не скроллируем операции над записью
         if (isFullGridSupport) {
