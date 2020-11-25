@@ -9,6 +9,7 @@
       paddingSize="{{ swipeConfig.paddingSize }}"
       actionCaptionPosition="{{ actionCaptionPosition }}"
       hasActionWithIcon="{{ itemData.hasActionWithIcon() }}"
+      on:mousedown="_onItemActionMouseDown(action, itemData)"
       on:click="_onItemActionsClick(action, itemData)"/>
    <ws:if data="{{actionIndex !== showedActions.length - 1}}">
        <div class="controls-Swipe__separator_theme-{{ theme }}

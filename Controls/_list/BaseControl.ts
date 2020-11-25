@@ -1706,7 +1706,7 @@ const _private = {
                                 self._addItemsIndex = newItemsIndex;
                             } else {
                                 result = self._scrollController.handleAddItems(newItemsIndex, newItems,
-                                    newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up' 
+                                    newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up'
                                     : (newItemsIndex > collectionStartIndex ? 'down' : ''));
                             }
                             break;
@@ -5146,6 +5146,21 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     ): void {
         _private.updateItemActionsOnce(this, this._options);
         _private.openContextMenu(this, tapEvent, itemData);
+    },
+
+    /**
+     * Обработчик клика по операции
+     * @param event
+     * @param action
+     * @param itemData
+     * @private
+     */
+    _onItemActionMouseDown(
+        event: SyntheticEvent<MouseEvent>,
+        action: IShownItemAction,
+        itemData: CollectionItem<Model>
+    ): void {
+        event.stopPropagation();
     },
 
     /**
