@@ -556,10 +556,16 @@ describe('Controls/list_clean/BaseControl', () => {
                     },
                     subscribe: () => {
                         return '';
-                    }
+                    },
+                    getKey: () => ''
                 }
             };
             // Эмулируем начало редактирования
+            baseControl.scrollToItem = () => Promise.resolve();
+            baseControl._editInPlaceInputHelper = {shouldActivate: () => {}};
+            baseControl._pendingEditingRowPromise = {
+                resolveStep: () => Promise.resolve()
+            };
             await baseControl._afterBeginEditCallback(item, false);
             baseControl._editInPlaceController = {isEditing: () => true};
             assert.isFalse(baseControl._pagingVisible);

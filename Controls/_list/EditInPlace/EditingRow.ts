@@ -5,21 +5,13 @@ import { constants } from 'Env/Env';
 
 export interface IEditingRowOptions extends IControlOptions {
     columnScroll?: boolean;
-    isScrollToElement?: boolean;
 }
 
 export default class EditingRow extends Control<IEditingRowOptions> {
     protected _template: TemplateFunction = template;
 
     protected _afterMount(options: IEditingRowOptions): void {
-        if (options.isScrollToElement ?? true) {
-            // TODO: this._container может быть не HTMLElement, а jQuery-элементом, убрать после https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3
-            const container = this._container.get ? this._container.get(0) : this._container;
-
-            setTimeout(function() {
-                scrollToElement(container);
-            }, 0);
-        }
+        this._notify('editingRowReady', [], {bubbling: true});
     }
 
     protected _onKeyDown(event): void {

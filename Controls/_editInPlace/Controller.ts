@@ -35,6 +35,14 @@ type TBeforeBeginEditCallback = (options: { item?: Model }, isAdd: boolean) =>
     TBeforeCallbackBaseResult | { item?: Model } | Promise<{ item?: Model }>;
 
 /**
+ * @typedef {Function} TAfterBeginEditCallback
+ * @description Функция обратного вызова после запуско редактирования.
+ * @param {IEditableCollectionItem} item Запись для которой запустилось редактирование.
+ * @param {Boolean} isAdd Флаг, принимает значение true, если запись добавляется.
+ */
+type TAfterBeginEditCallback = (item: IEditableCollectionItem, isAdd: boolean) => Promise<void> | void;
+
+/**
  * @typedef {Function} TBeforeEndEditCallback
  * @description Функция обратного вызова перед завершением редактирования
  * @param {Types/entity:Model} item Редактируемая запись для которой запускается завершение редактирования.
@@ -82,7 +90,7 @@ interface IEditInPlaceCallbacks {
      * @param {Boolean} isAdd Флаг, принимает значение true, если запись добавляется.
      * @void
      */
-    onAfterBeginEdit?: (item: IEditableCollectionItem, isAdd: boolean) => void;
+    onAfterBeginEdit?: TAfterBeginEditCallback;
 
     /**
      * @name Controls/_editInPlace/IEditInPlaceCallbacks#onBeforeEndEdit
@@ -338,7 +346,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             (this._options.collection.getCollection() as unknown as RecordSet).acceptChanges();
 
             if (this._options.onAfterBeginEdit) {
-                this._options.onAfterBeginEdit(this._getEditingItem(), isAdd);
+                return this._options.onAfterBeginEdit(this._getEditingItem(), isAdd);
             }
         }).finally(() => {
             this._operationsPromises.begin = null;

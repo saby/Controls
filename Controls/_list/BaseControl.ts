@@ -101,6 +101,7 @@ import {IMoveControllerOptions, MoveController} from './Controllers/MoveControll
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
 import {isLeftMouseButton} from 'Controls/popup';
+import {MultiPromise} from 'Controls/Utils/MultiPromise';
 
 // TODO: getDefaultOptions зовётся при каждой перерисовке,
 //  соответственно если в опции передаётся не примитив, то они каждый раз новые.
@@ -3234,7 +3235,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _endDragNDropTimer: null, // для IE
     _draggedKey: null,
     _validateController: null,
-    _isEditingRowScrollToElement: true,
 
     // Контроллер для перемещения элементов из источника
     _moveController: null,
@@ -4798,6 +4798,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 return result;
             }
 
+            // Промис, который отстреляет, когда полноценно начнется редактирование и редактор отрисуется.
+            this._pendingEditingRowPromise = MultiPromise.resolve<void>(['afterBeginEdit', 'editingRowReady']);
+
             if (isAdd && !((options && options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
                 return this.getSourceController().create().then((item) => {
                     if (item instanceof Model) {
@@ -4816,28 +4819,40 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _afterBeginEditCallback(item: IEditableCollectionItem, isAdd: boolean): void {
-        // Редактирование может запуститься при построении.
-        if (this._isMounted) {
-            this._notify('afterBeginEdit', [item.contents, isAdd]);
+        const isMounted = this._isMounted;
+        return this._pendingEditingRowPromise.resolveStep('afterBeginEdit').then(() => {
 
-            if (this._listViewModel.getCount() > 1 && !isAdd) {
-                this.setMarkedKey(item.contents.getKey());
+            // Редактирование может запуститься при построении.
+            if (isMounted) {
+                this._notify('afterBeginEdit', [item.contents, isAdd]);
+
+                if (this._listViewModel.getCount() > 1 && !isAdd) {
+                    this.setMarkedKey(item.contents.getKey());
+                }
             }
-        }
 
-        if (this._pagingVisible && this._options.navigation.viewConfig.pagingMode === 'edge') {
-            this._pagingVisible = false;
-        }
+            if (this._pagingVisible && this._options.navigation.viewConfig.pagingMode === 'edge') {
+                this._pagingVisible = false;
+            }
 
-        item.contents.subscribe('onPropertyChange', this._resetValidation);
-        /*
-         * TODO: KINGO
-         * При начале редактирования нужно обновить операции наз записью у редактируемого элемента списка, т.к. в режиме
-         * редактирования и режиме просмотра они могут отличаться. На момент события beforeBeginEdit еще нет редактируемой
-         * записи. В данном месте цикл синхронизации itemActionsControl'a уже случился и обновление через выставление флага
-         * _canUpdateItemsActions приведет к показу неактуальных операций.
-         */
-        _private.updateItemActions(this, this._options, item);
+            item.contents.subscribe('onPropertyChange', this._resetValidation);
+            /*
+             * TODO: KINGO
+             * При начале редактирования нужно обновить операции наз записью у редактируемого элемента списка, т.к. в режиме
+             * редактирования и режиме просмотра они могут отличаться. На момент события beforeBeginEdit еще нет редактируемой
+             * записи. В данном месте цикл синхронизации itemActionsControl'a уже случился и обновление через выставление флага
+             * _canUpdateItemsActions приведет к показу неактуальных операций.
+             */
+            _private.updateItemActions(this, this._options, item);
+
+            this._pendingEditingRowPromise = null;
+        }).then(() => {
+            if (isMounted) {
+                return this.scrollToItem(item.contents.getKey(), false, true);
+            }
+        }).then(() => {
+            this._editInPlaceInputHelper.shouldActivate()
+        });
     },
 
     _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean) {
@@ -4896,6 +4911,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         _private.updateItemActions(this, this._options);
     },
 
+    _onEditingRowReady(e) {
+        e.stopPropagation();
+        this._pendingEditingRowPromise.resolveStep('editingRowReady');
+    },
+
     _resetValidation() {
         this._validateController.setValidationResult(null);
     },
@@ -4942,47 +4962,24 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _beginEdit(options) {
-        this._isEditingRowScrollToElement = true;
         _private.closeSwipe(this);
         this.showIndicator();
-        return this._getEditInPlaceController().edit(options && options.item).then((result) => {
-            if (!(result && result.canceled)) {
-                this._editInPlaceInputHelper.shouldActivate();
-            }
-            return result;
-        }).finally(() => {
+        return this._getEditInPlaceController().edit(options && options.item).finally(() => {
             this.hideIndicator();
         });
     },
 
-    _beginAdd(options, addPosition, isScroll: boolean = true) {
-        this._isEditingRowScrollToElement = isScroll;
+    _beginAdd(options, addPosition) {
         _private.closeSwipe(this);
         this.showIndicator();
         return this._getEditInPlaceController().add(options && options.item, addPosition).then((addResult) => {
-            if (addResult && addResult.canceled) {
-                return addResult;
-            }
-            this._editInPlaceInputHelper.shouldActivate();
-            if (!this._isMounted) {
+            if (!this._isMounted || (addResult && addResult.canceled)) {
                 return addResult;
             }
 
             if (_private.hasSelectionController(this)) {
                 const controller = _private.getSelectionController(this);
                 controller.setSelection(controller.getSelection());
-            }
-
-            // TODO: https://online.sbis.ru/opendoc.html?guid=b8a501c1-6148-4b6a-aba8-2b2e4365ec3a
-            const addingPosition = addPosition === 'top' ? 0 : (this.getViewModel().getCount() - 1);
-            const isPositionInRange = addingPosition >= this.getViewModel().getStartIndex() && addingPosition < this.getViewModel().getStopIndex();
-            const targetDispItem = this.getViewModel().at(addingPosition);
-            const targetItem = targetDispItem && targetDispItem.getContents();
-            const targetItemKey = targetItem && targetItem.getKey ? targetItem.getKey() : null;
-            if (!isPositionInRange && targetItemKey !== null) {
-                return _private.scrollToItem(this, targetItemKey, false, true).then(() => addResult);
-            } else {
-                return addResult;
             }
         }).finally(() => {
             this.hideIndicator();

@@ -51,7 +51,7 @@
 <ws:for data="index, item in collection.getViewIterator()">
    <ws:if data="{{ item.isEditing() }}">
       <!-- Во время редактирования строки View не должна слушать событие click и mouseDown -->
-      <Controls._list.EditInPlace.EditingRow isScrollToElement="{{isScrollToElement}}" name="editingRow" on:deactivated="_onRowDeactivated()">
+      <Controls._list.EditInPlace.EditingRow name="editingRow" on:deactivated="_onRowDeactivated()">
               <ws:partial template="localItemTemplate" />
       </Controls._list.EditInPlace.EditingRow>
    </ws:if>

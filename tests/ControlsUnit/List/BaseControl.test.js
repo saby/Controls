@@ -3450,85 +3450,6 @@ define([
             });
          });
 
-         describe('beginAdd(), addPosition', () => {
-            let cfg;
-            let ctrl;
-            let sandbox;
-            let scrollToItemCalled;
-            beforeEach(() => {
-               scrollToItemCalled = false;
-               cfg = {
-                  viewName: 'Controls/List/ListView',
-                  source: source,
-                  viewConfig: {
-                     keyProperty: 'id'
-                  },
-                  viewModelConfig: {
-                     items: rs,
-                     keyProperty: 'id'
-                  },
-                  viewModelConstructor: lists.ListViewModel,
-                  editingConfig: {
-                     addPosition: 'top'
-                  },
-                  navigation: {
-                     source: 'page',
-                     sourceConfig: {
-                        pageSize: 6,
-                        page: 0,
-                        hasMore: false
-                     },
-                     view: 'infinity',
-                     viewConfig: {
-                        pagingMode: 'direct'
-                     }
-                  }
-               };
-               sandbox = sinon.createSandbox();
-               sandbox.replace(lists.BaseControl._private, 'scrollToItem', () => {
-                  scrollToItemCalled = true;
-                  return Promise.resolve();
-               });
-               sandbox.replace(lists.BaseControl._private, 'showIndicator', () => {
-               });
-               sandbox.replace(lists.BaseControl._private, 'hideIndicator', () => {
-               });
-               ctrl = new lists.BaseControl(cfg);
-               ctrl.saveOptions(cfg);
-               ctrl._container = {
-                  clientHeight: 100
-               };
-               ctrl._editInPlaceInputHelper = {
-                  shouldActivate: () => {}
-               };
-               ctrl._editInPlaceController = {
-                  add: function() {
-                     return Promise.resolve();
-                  }
-               };
-            });
-
-            afterEach(() => {
-               sandbox.restore();
-            });
-            it('scrollToItem called on beginAdd if adding item is out of range', async () => {
-               await ctrl._beforeMount(cfg);
-               ctrl._isMounted = true;
-               ctrl._listViewModel._startIndex = 2;
-               await ctrl.beginAdd({}).then(() => {
-                  assert.isTrue(scrollToItemCalled);
-               });
-            });
-            it('scrollToItem not called on beginAdd if adding item is in range', async () => {
-               await ctrl._beforeMount(cfg);
-               ctrl._isMounted = true;
-               ctrl._listViewModel._startIndex = 0;
-               await ctrl.beginAdd({}).then(() => {
-                  assert.isFalse(scrollToItemCalled);
-               });
-            });
-         });
-
          describe('api', () => {
             let cfg, ctrl, sandbox;
 
@@ -3802,7 +3723,13 @@ define([
             };
 
             baseControl.saveOptions(cfg);
-            await baseControl._beforeMount(cfg);
+            const mount = baseControl._beforeMount(cfg);
+            const origin = baseControl._afterBeginEditCallback;
+            baseControl._afterBeginEditCallback = () => {
+               baseControl._onEditingRowReady({stopPropagation: () => {}});
+               return origin.apply(baseControl, arguments);
+            };
+            await mount;
             baseControl._children.listView = {};
             assert.isFalse(isRegistered);
 

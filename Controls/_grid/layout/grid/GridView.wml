@@ -36,7 +36,6 @@
                     swipeTemplate="{{_options.swipeTemplate}}"
                     backgroundStyle="{{_options.backgroundStyle || _options.style}}"
                     isColumnScrollVisible="{{ _isColumnScrollVisible }}"
-                    isEditingRowScrollToElement="{{_options.isEditingRowScrollToElement}}"
                     tagTemplate="{{_options.tagTemplate}}">
             <ws:editArrowTemplate>
                 <ws:partial template="wml!Controls/_grid/_editArrowTemplate"></ws:partial>
