@@ -126,56 +126,20 @@ describe('Controls/grid_clean/Controllers/ColumnScroll', () => {
         // @ts-ignore
         columnScroll._shadowState = {start: true, end: true};
         let shadowClasses = columnScroll.getShadowClasses('start');
-        let expectedClasses = `controls-ColumnScroll__shadow_theme-default`
+        let expectedClasses = `js-controls-ColumnScroll__shadow-start`
+            + ` controls-ColumnScroll__shadow_theme-default`
             + ` controls-ColumnScroll__shadow_without-bottom-padding_theme-default`
             + ` controls-ColumnScroll__shadow-start_theme-default`
             + ` controls-horizontal-gradient-default_theme-default`;
         assert.equal(shadowClasses, expectedClasses, 'wrong start shadow classes for visible shadow without bottom padding');
-        
+
         // @ts-ignore
         shadowClasses = columnScroll.getShadowClasses('end');
-        expectedClasses = `controls-ColumnScroll__shadow_theme-default`
+        expectedClasses = `js-controls-ColumnScroll__shadow-end`
+            + ` controls-ColumnScroll__shadow_theme-default`
             + ` controls-ColumnScroll__shadow_without-bottom-padding_theme-default`
             + ` controls-ColumnScroll__shadow-end_theme-default`
             + ` controls-horizontal-gradient-default_theme-default`;
         assert.equal(shadowClasses, expectedClasses, 'wrong end shadow classes for visible shadow without bottom padding');
-        
-        // @ts-ignore
-        columnScroll._shadowState = {start: false, end: false};
-        shadowClasses = columnScroll.getShadowClasses('start');
-        expectedClasses = `controls-ColumnScroll__shadow_theme-default`
-            + ` controls-ColumnScroll__shadow_without-bottom-padding_theme-default`
-            + ` controls-ColumnScroll__shadow-start_theme-default`
-            + ` controls-horizontal-gradient-default_theme-default`
-            + ` controls-ColumnScroll__shadow_invisible`;
-        assert.equal(shadowClasses, expectedClasses, 'wrong start shadow classes for invisible shadow without bottom padding');
-        
-        // @ts-ignore
-        shadowClasses = columnScroll.getShadowClasses('end');
-        expectedClasses = `controls-ColumnScroll__shadow_theme-default`
-            + ` controls-ColumnScroll__shadow_without-bottom-padding_theme-default`
-            + ` controls-ColumnScroll__shadow-end_theme-default`
-            + ` controls-horizontal-gradient-default_theme-default`
-            + ` controls-ColumnScroll__shadow_invisible`;
-        assert.equal(shadowClasses, expectedClasses, 'wrong end shadow classes for invisible shadow without bottom padding');
-    
-        // @ts-ignore
-        columnScroll._shadowState = {start: true, end: true};
-        columnScroll._options.needBottomPadding = true;
-        let shadowClasses = columnScroll.getShadowClasses('start');
-        let expectedClasses = `controls-ColumnScroll__shadow_theme-default`
-            + ` controls-ColumnScroll__shadow_with-bottom-padding_theme-default`
-            + ` controls-ColumnScroll__shadow-start_theme-default`
-            + ` controls-horizontal-gradient-default_theme-default`;
-        assert.equal(shadowClasses, expectedClasses, 'wrong start shadow classes for visible shadow with bottom padding');
-        
-        // @ts-ignore
-        shadowClasses = columnScroll.getShadowClasses('end');
-        expectedClasses = `controls-ColumnScroll__shadow_theme-default`
-            + ` controls-ColumnScroll__shadow_with-bottom-padding_theme-default`
-            + ` controls-ColumnScroll__shadow-end_theme-default`
-            + ` controls-horizontal-gradient-default_theme-default`;
-        assert.equal(shadowClasses, expectedClasses, 'wrong end shadow classes for visible shadow with bottom padding');
-        
     });
 });

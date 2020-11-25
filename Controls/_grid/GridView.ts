@@ -184,7 +184,6 @@ var
             const uniqueSelector = self._columnScrollController.getTransformSelector();
             self._columnScrollContainerClasses = `${COLUMN_SCROLL_JS_SELECTORS.CONTAINER} ${uniqueSelector}`;
             self._columnScrollShadowClasses = { start: '', end: '' };
-            self._columnScrollShadowStyles = { start: '', end: '' };
 
             if (self._isDragScrollingEnabled(options) && !self._dragScrollController) {
                 _private.initDragScroll(self, options);
@@ -263,7 +262,6 @@ var
                 self._columnScrollController = null;
                 self._columnScrollContainerClasses = COLUMN_SCROLL_JS_SELECTORS.CONTAINER;
                 self._columnScrollShadowClasses = null;
-                self._columnScrollShadowStyles = null;
                 self._listModel?.setColumnScrollVisibility(false);
                 _private.destroyDragScroll(self);
             }
@@ -632,7 +630,6 @@ var
             this._children.horizontalScrollWrapper?.setPosition(value);
         },
 
-        // Не вызывает реактивную перерисовку, т.к. данные пишутся в поля объекта. Перерисовка инициируется обновлением позиции скрола.
         _updateColumnScrollShadowClasses(): void {
             const newStart = this._columnScrollController.getShadowClasses('start');
             const newEnd = this._columnScrollController.getShadowClasses('end');
@@ -648,21 +645,6 @@ var
             }
         },
 
-        // Не вызывает реактивную перерисовку, т.к. данные пишутся в поля объекта. Перерисовка инициируется обновлением позиции скрола.
-        _updateColumnScrollShadowStyles(): void {
-            const newStart = this._columnScrollController.getShadowStyles('start');
-            const newEnd = this._columnScrollController.getShadowStyles('end');
-
-            if (
-                this._columnScrollShadowStyles.start !== newStart ||
-                this._columnScrollShadowStyles.end !== newEnd
-            ) {
-                this._columnScrollShadowStyles = {
-                    start: newStart,
-                    end: newEnd
-                };
-            }
-        },
         _horizontalPositionChangedHandler(e, newScrollPosition: number): void {
             this._columnScrollController.setScrollPosition(newScrollPosition);
             this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
@@ -677,7 +659,6 @@ var
         },
         _updateColumnScrollData(): void {
             this._updateColumnScrollShadowClasses();
-            this._updateColumnScrollShadowStyles();
             this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
             this._dragScrollController?.updateScrollData({
                 scrollLength: this._columnScrollController.getScrollLength(),

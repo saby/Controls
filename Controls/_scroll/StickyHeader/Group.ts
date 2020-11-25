@@ -163,9 +163,16 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         event.stopImmediatePropagation();
         if (!fixedHeaderData.isFakeFixed) {
             if (!!fixedHeaderData.fixedPosition) {
-                this._stickyHeadersIds[fixedHeaderData.fixedPosition].push(fixedHeaderData.id);
-                if (this._isFixed === true) {
-                    this._updateFixedRegister.start(event, this._stickyHeadersIds[fixedHeaderData.fixedPosition]);
+                const headersIds: number[] = this._stickyHeadersIds[fixedHeaderData.fixedPosition]
+                headersIds.push(fixedHeaderData.id);
+                // Если это не первый заголовок в группе, то группа уже знает надо ли отображить тень,
+                // сообщим это заголовку.
+                if (headersIds.length > 1) {
+                    if (this._isFixed) {
+                        this._headers[fixedHeaderData.id].inst.updateFixed([fixedHeaderData.id]);
+                    } else {
+                        this._headers[fixedHeaderData.id].inst.updateFixed([]);
+                    }
                 }
             } else if (!!fixedHeaderData.prevPosition && this._stickyHeadersIds[fixedHeaderData.prevPosition].indexOf(fixedHeaderData.id) > -1) {
                 this._stickyHeadersIds[fixedHeaderData.prevPosition].splice(this._stickyHeadersIds[fixedHeaderData.prevPosition].indexOf(fixedHeaderData.id), 1);

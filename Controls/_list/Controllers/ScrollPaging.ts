@@ -81,6 +81,12 @@ export default class ScrollPagingController {
 
     }
 
+    viewPortResize(clientHeight: number): void {
+        var pagesCount = Math.round(this._pagingData.totalHeight / clientHeight);
+        this._pagingData.pagesCount = pagesCount;
+        this._curState = null;
+    };
+
     shiftToEdge(state: 'up' | 'down', hasMoreData: IHasMoreData): void {
         if (this._options.pagingMode === 'numbers') {
             this._numbersState = state;

@@ -28,8 +28,8 @@
 
         <!-- Тени -->
         <ws:if data="{{ _isColumnScrollVisible() }}">
-            <div name="columnScrollShadowStart" class="{{ _columnScrollShadowClasses.start }}" style="{{ _columnScrollShadowStyles.start }}"></div>
-            <div name="columnScrollShadowEnd" class="{{ _columnScrollShadowClasses.end }}" style="{{ _columnScrollShadowStyles.end }}"></div>
+            <div name="columnScrollShadowStart" class="{{ _columnScrollShadowClasses.start }}"></div>
+            <div name="columnScrollShadowEnd" class="{{ _columnScrollShadowClasses.end }}"></div>
         </ws:if>
 
         <ws:if data="{{ _isDragScrollingEnabled(_options) }}">
