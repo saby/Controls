@@ -158,7 +158,7 @@ define(
                result: false
             }].forEach(function(test) {
                it(`should return ${test.result} if offset = ${test.offset},  scrollHeight = ${test.scrollHeight},  clientHeight = ${test.clientHeight}`, function() {
-                  scroll._state = {
+                  scroll._scrollModel = {
                      scrollHeight: test.scrollHeight,
                      clientHeight: test.clientHeight
                   };
@@ -238,10 +238,16 @@ define(
                   clientHeight: 100
                };
                let result;
-               scroll._state = Object.assign({}, oldState);
+               scroll._scrollModel = Object.assign({
+                  clone: () => {
+                     return oldState;
+                  },
+                  updateState: () => {
+                     return false;
+                  }
+               }, oldState);
 
                const sandbox = sinon.createSandbox();
-               sandbox.stub(scroll.__proto__, '_updateCalculatedState');
                scroll._options.optimizeShadow = true;
                scroll._scrollbars = {
                   updateScrollState: sinon.stub().returns(true)
