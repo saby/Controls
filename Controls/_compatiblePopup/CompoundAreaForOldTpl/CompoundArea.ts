@@ -1072,6 +1072,13 @@ var CompoundArea = CompoundContainer.extend([
             this._isClosing = true;
             if (this._notifyCompound('onBeforeClose', this._closeArgs) !== false) {
                this._beforeCloseHandlerResult = true;
+               /*
+                * Если первое закрытие было прервано на onBeforeClose - может зависнуть pending на закрытие
+                * При повторном вызове close необходимо почистить removePending вручную
+                * */
+               if (this._getManagerConfig()) {
+                  this._getManagerConfig().removePending = null;
+               }
                this._notifyVDOM('close', null, { bubbling: true });
                this._notifyCompound('onClose', this._closeArgs);
                this._notifyCompound('onAfterClose', this._closeArgs);
