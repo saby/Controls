@@ -175,6 +175,7 @@ define([
           tabInstance.saveOptions(options);
           tabInstance._lastRightOrder = 144;
           tabInstance._itemsOrder = [1, 2, 2, 144];
+          tabInstance._inlineHeight = 's';
          assert.equal(expected, tabInstance._prepareItemClass(item, 0), 'wrong order cross-brwoser styles');
          assert.equal(expected2, tabInstance._prepareItemClass(item2, 1), 'wrong order cross-brwoser styles');
          assert.equal(expected3, tabInstance._prepareItemClass(item3, 2));
