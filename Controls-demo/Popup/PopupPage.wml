@@ -1,146 +1,20 @@
 <div class="popup-page">
-   <Controls.popup:Dialog name="dialog" template="Controls-demo/Popup/TestDialog">
-      <ws:templateOptions type="dialog"/>
-   </Controls.popup:Dialog>
-   <Controls.popup:Dialog name="modalDialog" modal="{{true}}" template="Controls-demo/Popup/TestDialog" zIndex="1000">
-      <ws:templateOptions type="dialog"/>
-   </Controls.popup:Dialog>
-   <Controls.popup:Sticky name="sticky"
-                          actionOnScroll="close"
-                                 onResult="{{_onResult}}"
-                                 template="Controls-demo/Popup/TestDialog"
-                                 autoHide="{{true}}"
-   >
-         <ws:direction vertical="bottom" horizontal="left"/>
-         <ws:targetPoint vertical="bottom" horizontal="left"/>
-   </Controls.popup:Sticky>
-   <Controls.popup:Notification name="notification" template="Controls-demo/Popup/TestDialog">
-      <ws:templateOptions type="notification" fromNotification="{{true}}"/>
-   </Controls.popup:Notification>
-   <Controls.popup:Stack name="stack" template="Controls-demo/Popup/TestStack" closeOnOutsideClick="{{true}}">
-      <ws:templateOptions type="stack"/>
-   </Controls.popup:Stack>
+   <div class="controls-StackTemplate__top-area controls-StackTemplate__top-area_theme_default controls-StackTemplate__top-area-background_theme_default controls-StackTemplate__top-area-border_theme_default " tabindex="0"><div class="controls-StackTemplate__top-area-content"><div class="controls-StackTemplate__headerContentTemplate controls-StackTemplate__headerContentTemplate_theme_default"><div class="wnc-card__topArea" tabindex="0"><div class="wnc-card__titlebarcontainer" tabindex="0"><div class="wnc-card-header wnc-card-header_theme-default ws-float-area-header-background" tabindex="0"><div class="wnc-card-header__top"><div class="wnc-card-header__card-type" tabindex="0"><div class="wnc-card-header__type-btn-wrapper" tabindex="0"><div class="wnc-card-header__type-btn"><div class="wnc-nomenclature-type-btn-wrapper wnc-nomenclature-type-btn-wrapper_theme-default wnc-nomenclature-type-btn-wrapper_readOnly _readOnly" tabindex="0"><div class="wnc-nomenclature-type-btn__name wnc-nomenclature-type-btn__name_theme-default _readOnly ws-flex-shrink-1" title="Лекарственные препараты">Лекарственные препараты</div><div class="wnc-nds-dropdown ws-flex-shrink-0" tabindex="0"><div class="wnc-nds-dropdown__list-control wnc-nds-dropdown__list-control_theme-default"><div class="controls-Dropdown_theme_default wnc-nds" tabindex="0"><div class="wnc-nds-dropdown__list-text wnc-nds-dropdown__list-text_theme-default _readOnly" tabindex="0"><div title="НДС 10%">НДС 10%</div>&nbsp;&nbsp;<div class="ws-ellipsis" title="ЕНВД/Патент не применим">ЕНВД/Патент не применим</div></div></div></div></div><div tabindex="0"></div></div></div></div></div><div class="wnc-card-header__actions" tabindex="0"><div class="wnc-card-header__actions-inline"><div class="wnc-card-titlebar__action" tabindex="0"><div tabindex="0"><div class="controls-MenuButton controls-MenuButton_theme_default controls-MenuButton__Wrapper theme_default warehouseStats-MovementReportButton__menuButton" tabindex="0"><span class="controls-BaseButton controls-Button_link controls-Button_link_theme-default  controls-Button_hoverIcon controls-Button_clickable  controls-Button_link_style-secondary_theme-default controls-Button_bg-same_theme-default  controls-inlineheight-m_theme-default  controls-Button-inlineheight-m_theme-default  controls-Button_link_m_theme-default controls-fontsize-m_theme-default controls-MenuButton__BaseButton theme_default" tabindex="0"><span class="controls-BaseButton__wrapper controls-Button_link__wrapper-fontsize-m_theme-default controls-Button__wrapper_viewMode-link  controls-Button__wrapper_link_m_theme-default" tabindex="0"><i class="controls-Button__icon controls-BaseButton__icon controls-icon icon-Motion controls-icon_size-m_theme-default controls-icon_style-secondary_theme-default"></i><span class="controls-BaseButton__text  controls-text-link_theme-default controls-Button__text-link_viewMode-link_theme-default  controls-Button__text_captionPosition_right_theme-default controls-Button__text_viewMode-link_theme-default" tabindex="0">Движения</span></span></span></div><div tabindex="0"></div><div tabindex="0"><div tabindex="0"></div></div></div></div><div class="wnc-card-titlebar__action" tabindex="0"><div title="На продажу/Не публикуется" tabindex="0"><div class="controls-Dropdown_theme_default wnc-publicity controls-Button_clickable" tabindex="0"><i class="icon-24 icon-Ruble wnc-icon-gray action-hover" tabindex="0"></i></div><div tabindex="0"></div></div></div><div class="wnc-card-titlebar__action" tabindex="0"><div class="pt-print-button" title="Печать" tabindex="0"><div tabindex="0"></div><div class="controls-MenuButton controls-MenuButton_theme_default controls-MenuButton__Wrapper theme_default -print-button" tabindex="0"><span class="controls-BaseButton controls-Button_link controls-Button_link_theme-default  controls-Button_hoverIcon controls-Button_clickable  controls-Button_link_style-secondary_theme-default controls-Button_bg-same_theme-default    controls-fontsize-m_theme-default controls-MenuButton__BaseButton theme_default" tabindex="0"><span class="controls-BaseButton__wrapper controls-Button_link__wrapper-fontsize-m_theme-default controls-Button__wrapper_viewMode-link " tabindex="0"><i class="controls-Button__icon controls-BaseButton__icon controls-icon icon-Print controls-icon_size-m_theme-default controls-icon_style-secondary_theme-default"></i></span></span></div></div></div><div class="wnc-card-titlebar__action_del" tabindex="0"><span title="Удалить номенклатуру" tabindex="0"><span class="controls-BaseButton controls-Button_link controls-Button_link_theme-default  controls-Button_hoverIcon controls-Button_clickable  controls-Button_link_style-secondary_theme-default controls-Button_bg-same_theme-default    controls-fontsize-m_theme-default" tabindex="0"><span class="controls-BaseButton__wrapper controls-Button_link__wrapper-fontsize-m_theme-default controls-Button__wrapper_viewMode-link " tabindex="0"><i class="controls-Button__icon controls-BaseButton__icon controls-icon icon-24 icon-error icon-Erase controls-icon_size-m_theme-default "></i></span></span><div tabindex="0"></div></span></div></div><div class="wnc-card-header__actions-main"><div class="wnc-card-header__toolbar wnc-card-header__toolbar_theme-default _right rtl-Toolbar__wrapper_theme-default" tabindex="0"><div class="controls-Toolbar" tabindex="0"><div class="controls-Toolbar_content"><div class="controls-Toolbar__menu controls-Toolbar__menu_spacing-small_theme-default controls-Toolbar__menu_theme-default controls-Toolbar__menu controls-Toolbar__menu_enabled controls-Toolbar__menu_enabled_theme-default controls-icon_style-secondary_theme-default" name="menuTarget" title="Открыть меню"><i class="controls-icon controls-icon_size-m_theme-default icon-SettingsNew"></i></div></div></div></div><span class="controls-BaseButton controls-Button_link controls-Button_link_theme-default  controls-Button_hoverIcon controls-Button_clickable  controls-Button_link_style-info_theme-default controls-Button_bg-same_theme-default    controls-fontsize-m_theme-default" tabindex="0"><span class="controls-BaseButton__wrapper controls-Button_link__wrapper-fontsize-m_theme-default controls-Button__wrapper_viewMode-link " tabindex="0"><span class="controls-BaseButton__text  controls-text-unaccented_theme-default controls-Button__text-unaccented_viewMode-link_theme-default  controls-Button__text_viewMode-link_theme-default" tabindex="0">Изменить</span></span></span></div></div></div><div class="wnc-card-header__bottom"><div class="wnc-card-header__breadcrumbs" tabindex="0"><div class="controls-BreadCrumbsView controls-BreadCrumbsView_theme-default" tabindex="0"></div></div></div></div><div tabindex="0"></div><div tabindex="0"></div><div tabindex="0"></div><div tabindex="0"></div><div tabindex="0"></div><div tabindex="0"></div><div tabindex="0"><div tabindex="0"></div></div><div tabindex="0"></div><span tabindex="0"><div tabindex="0"><div tabindex="0"></div></div></span><div tabindex="0"></div></div></div></div><div class="controls-StackTemplate__command_buttons controls-StackTemplate__command_buttons_theme_default"><span class="controls-Button__close sbisname-window-title-close controls-StackTemplate__close_button controls-StackTemplate__close_button_theme_default" sbisname="floatAreaCloseButton" tabindex="0"><span class="controls-Button__close__wrapper controls-Button__close_toolButton controls-Button__close_toolButton-theme_default controls-Button__close_toolButton_transparent-theme_default"><div class="controls-Button__close__icon_toolButton-theme_default"></div></span></span></div></div></div>
+   <Controls.popupTemplate:Stack headingCaption="Add template" attr:style="width: 500px;">
+      <ws:headerContentTemplate>
+         <div class="ControlsDemo-InputDropdown__stackTopArea">
+            <Controls.buttons:Button caption="Save" viewMode="linkButton" fontColorStyle="link" attr:class="ControlsDemo-InputDropdown__Button"/>
+            <Controls.buttons:Button caption="Add" on:click="_close()" attr:class="ControlsDemo-InputDropdown__Button"/>
+         </div>
+      </ws:headerContentTemplate>
+      <ws:bodyContentTemplate>
+         <div class="ControlsDemo-InputDropdown__inputBlock">
+            <Controls.input:Text bind:value="_value1" placeholder="Name of template "
+                                 attr:class="ControlsDemo-InputDropdown__textBox"/>
+            <Controls.input:Text bind:value="_value2" placeholder="Short description" minLines="{{3}}"
+                                 attr:class="ControlsDemo-InputDropdown__textBox"/>
+         </div>
+      </ws:bodyContentTemplate>
+   </Controls.popupTemplate:Stack>
 
-   <Controls.popup:Stack name="stack2" template="Controls-demo/Popup/TestStack" closeOnOutsideClick="{{true}}">
-      <ws:templateOptions type="stack"/>
-   </Controls.popup:Stack>
-
-   <Controls.popup:Stack name="executingStack" template="Controls-demo/Popup/TestExecutingStack" closeOnOutsideClick="{{false}}" minWidth="500" maxWidth="700">
-   </Controls.popup:Stack>
-   <Controls.popup:Stack name="executingIndicatorStack" template="Controls-demo/Popup/TestExecutingStack" closeOnOutsideClick="{{false}}" minWidth="500" maxWidth="700">
-      <ws:templateOptions delay="{{3000}}"/>
-   </Controls.popup:Stack>
-
-   <Controls.popup:Stack name="notifyStack"
-                                on:close="_notifyCloseHandler()"
-                                on:open="_notifyOpenHandler()"
-                                on:result="_notifyResultHandler()"
-                                template="Controls-demo/Popup/NotifyStack"
-                                closeOnOutsideClick="{{true}}">
-   </Controls.popup:Stack>
-
-   <Controls.popup:Stack name="maximizedStack" template="Controls-demo/Popup/TestMaximizedStack" closeOnOutsideClick="{{true}}" propStorageId="123">
-      <ws:templateOptions type="stack"/>
-   </Controls.popup:Stack>
-
-   <Controls.popup:Stack name="ignoreActivationStack" template="Controls-demo/Popup/TestIgnoreActivationStack" closeOnOutsideClick="{{true}}">
-   </Controls.popup:Stack>
-
-   <Controls.popup:Stack name="openOldTemplate" template="Controls-demo/Popup/TestFormController/TestFormController" closeOnOutsideClick="{{true}}">
-      <ws:templateOptions type="stack"/>
-   </Controls.popup:Stack>
-
-   <Controls.popup:Stack name="openStackWithPending" template="Controls-demo/Popup/PopupWithPending" closeOnOutsideClick="{{true}}">
-      <ws:templateOptions type="stack"/>
-   </Controls.popup:Stack>
-
-   <Controls.popup:Stack name="childStack" template="Controls-demo/Popup/TestStack" closeOnOutsideClick="{{true}}">
-      <ws:templateOptions type="stack" />
-   </Controls.popup:Stack>
-
-   <Controls.popup:Stack name="openStackWithFormController" template="Controls-demo/FormController/FormController" closeOnOutsideClick="{{true}}">
-      <ws:templateOptions type="stack"/>
-   </Controls.popup:Stack>
-   <div>
-      <Controls.buttons:Button name="dialogButton" caption="dialog" on:click="openDialog()" attr:class="ControlsDemo-PopupPage__dialogButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="modalDialogButton" caption="modal dialog" on:click="openModalDialog()" attr:class="ControlsDemo-PopupPage__modalDialogButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="stickyButton" caption="sticky" on:click="openSticky()" attr:class="ControlsDemo-PopupPage__stickyButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="notificationButton" caption="notification" on:click="openNotification()" attr:class="ControlsDemo-PopupPage__notificationButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="stackButton" caption="stack" on:click="openStack()" attr:class="ControlsDemo-PopupPage__stackButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="openStackWithTemplateSizes" caption="openStackWithTemplateSizes" on:click="openStackWithTemplateSizes()" attr:class="ControlsDemo-PopupPage__stackWithTemplateSizesButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="stackExecutingButton" caption="openExecutingPopup" on:click="openExecutingPopup()" attr:class="ControlsDemo-PopupPage__openExecutingPopupButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="maxButton" caption="maximizedStack" on:click="openMaximizedStack()" attr:class="ControlsDemo-PopupPage__maximizedStackButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="notifyButton" caption="notifyStack" on:click="openNotifyStack()" attr:class="ControlsDemo-PopupPage__notifyStackButton"/>
-      <span class="ControlsDemo-PopupPage__notifyStackText">{{ _notifyStackText }}</span>
-   </div>
-   <div>
-      <Controls.buttons:Button name="childButton" caption="childStack" on:click="openChildStack()" attr:class="ControlsDemo-PopupPage__childStackButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="stackIgnoreButton" caption="ignoreActivationStack" on:click="openIgnoreActivationStack()" attr:class="ControlsDemo-PopupPage__stackIgnoreButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="stackIndicatorButton" caption="openIndicatorPopup" on:click="openIndicatorPopup()" attr:class="ControlsDemo-PopupPage__openIndicatorPopupButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="stackButton2" caption="open old template" on:click="openOldTemplate()" attr:class="ControlsDemo-PopupPage__stackOldTemplateButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="stackButton3" caption="open stack with Controls-demo/Popup/PopupWithPending" on:click="openStackWithPending()" attr:class="ControlsDemo-PopupPage__withPendingButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="stackButton4" caption="open stack with Controls-demo/FormController/FormController" on:click="openStackWithFormController()" attr:class="ControlsDemo-PopupPage__withFCButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="helperButton1" caption="open InfoBox by popupHelper" on:click="openInfoBoxByHelper()" attr:class="ControlsDemo-PopupPage__helperInfoBoxButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="helperButton2" caption="open Notification by popupHelper" on:click="openNotificationByHelper()" attr:class="ControlsDemo-PopupPage__helperNotificationButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="helperButton3" caption="open Confirmation by popupHelper" on:click="openConfirmationByHelper()" attr:class="ControlsDemo-PopupPage__helperConfirmationButton"/>
-      <ws:if data="{{_helperConfirmationResult !== undefined}}">
-         <span style="margin-left: 10px;">Пользователь выбрал {{_helperConfirmationResult ? 'да' : 'нет'}}</span>
-      </ws:if>
-   </div>
-   <div>
-      <Controls.buttons:Button name="helperButton4" caption="open Sticky by popupHelper" on:click="openStickyByHelper()" attr:class="ControlsDemo-PopupPage__helperStickyButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="helperButton5" caption="open Stack by popupHelper" on:click="openStackByHelper()" attr:class="ControlsDemo-PopupPage__helperStackButton"/>
-   </div>
-   <div>
-      <Controls.buttons:Button name="helperButton6" caption="open Dialog by popupHelper" on:click="openDialogByHelper()" attr:class="ControlsDemo-PopupPage__helperDialogButton"/>
-   </div>
-   <Controls.scroll:Container attr:class="ControlsDemo-PopupPage__external-scroll-container">
-      <Controls.scroll:Container attr:class="ControlsDemo-PopupPage__internal-scroll-container" name="scrollContainer">
-         <Controls.buttons:Button name="stickyInScrollButton" caption="stickyInScroll" on:click="openStickyInScroll()" attr:class="ControlsDemo-PopupPage__stickyButton"/>
-         <Controls.popup:Sticky name="stickyInScroll"
-                                onResult="{{_onResult}}"
-                                actionOnScroll="close"
-                                template="Controls-demo/Popup/TestDialog"
-         >
-            <ws:direction vertical="bottom" horizontal="left"/>
-         </Controls.popup:Sticky>
-      </Controls.scroll:Container>
-   </Controls.scroll:Container>
-   <div style="margin-top: 10px;">
-      <Controls.input:Text placeholder="for focusing" attr:class="ControlsDemo-PopupPage__forFocusing"/>
-   </div>
 </div>
