@@ -39,8 +39,9 @@ var _private = {
         return oldList && cInstance.instanceOfModule(oldList, 'Types/collection:RecordSet') &&
             (newList.getModel() === oldList.getModel()) &&
             (newList.getKeyProperty() === oldList.getKeyProperty()) &&
-            (Object.getPrototypeOf(newList).constructor == Object.getPrototypeOf(newList).constructor) &&
-            (Object.getPrototypeOf(newList.getAdapter()).constructor == Object.getPrototypeOf(oldList.getAdapter()).constructor);
+            (Object.getPrototypeOf(newList).constructor == Object.getPrototypeOf(oldList).constructor) &&
+            (Object.getPrototypeOf(newList.getAdapter()).constructor == Object.getPrototypeOf(oldList.getAdapter()).constructor) &&
+            isEqual(newList.getFormat(), oldList.getFormat());
     },
     displayFilterGroups: function(item, index, displayItem) {
         return (item ? (item === constView.hiddenGroup || !item.get) : true) || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];

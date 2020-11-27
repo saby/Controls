@@ -174,10 +174,7 @@ describe('Controls/_multiselection/Controller', () => {
       });
 
       it('remove all', () => {
-         model.setItems(new RecordSet({
-            rawData: [],
-            keyProperty: 'id'
-         }), {});
+         model.getItems().clear();
 
          const result = controller.onCollectionRemove([]);
          assert.deepEqual(result, {selected: [], excluded: []});
