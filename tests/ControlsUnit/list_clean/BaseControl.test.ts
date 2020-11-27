@@ -948,6 +948,26 @@ describe('Controls/list_clean/BaseControl', () => {
 
         });
 
+        it('should edit next after click on apply btn if sequentialEditing is not false', function () {
+            let isEditingStarted = false;
+            const stubSwipe = sinon.stub(BaseControl._private, 'closeSwipe');
+            baseControl._editInPlaceInputHelper = { shouldActivate: () => {} };
+
+            baseControl._editInPlaceController = {
+                commit: () => Promise.resolve(),
+                getNextEditableItem: () => ({}),
+                edit: () => {
+                    isEditingStarted = true;
+                    return Promise.resolve();
+                }
+            };
+
+            return baseControl._commitEditActionHandler({}, {isAdd: false}).then(() => {
+                assert.isTrue(isEditingStarted);
+                stubSwipe.restore();
+            });
+        });
+
         describe('_beforeUpdate sourceController', () => {
 
             it('_beforeUpdate while source controller is loading', async () => {
