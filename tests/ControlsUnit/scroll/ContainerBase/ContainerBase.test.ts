@@ -491,7 +491,10 @@ describe('Controls/scroll:ContainerBase', () => {
          const inst = new ContainerBase();
          inst._children = {
             content: {
-               scrollTop: 0
+               scrollTop: 0,
+               getBoundingClientRect: () => {
+                  return {};
+               }
             }
          };
          inst._resizeObserver = {
