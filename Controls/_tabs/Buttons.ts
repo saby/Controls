@@ -12,6 +12,7 @@ import {isLeftMouseButton} from 'Controls/popup';
 import {IItems, IHeight} from 'Controls/interface';
 import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
 import { constants } from 'Env/Env';
+import {ContextOptions} from 'Controls/context';
 
 import TabButtonsTpl = require('wml!Controls/_tabs/Buttons/Buttons');
 import ItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
@@ -43,6 +44,12 @@ interface IReceivedState {
     items: RecordSet;
     itemsOrder: number[];
     lastRightOrder: number;
+}
+
+interface ITabsContext {
+    newLayoutOptions: {
+        newLayout: boolean
+    };
 }
 
 const isTemplate = (tmpl: any): boolean => {
@@ -91,18 +98,20 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     private _lastRightOrder: number;
     private _items: RecordSet;
     private _crudWrapper: CrudWrapper;
+    private _borderThickness: string;
+    private _inlineHeight: string;
 
     protected _beforeMount(options: ITabsOptions,
-                           context: object,
+                           context: ITabsContext,
                            receivedState: IReceivedState): void | Promise<IReceivedState> {
         if (receivedState) {
-            this._prepareState(receivedState);
+            this._prepareState(receivedState, options, context);
         } else if (options.items) {
             const itemsData = this._prepareItems(options.items);
-            this._prepareState(itemsData);
+            this._prepareState(itemsData, options, context);
         } else if (options.source) {
             return this._initItems(options.source).then((result: IReceivedState) => {
-                this._prepareState(result);
+                this._prepareState(result, options, context);
                 // TODO https://online.sbis.ru/opendoc.html?guid=527e3f4b-b5cd-407f-a474-be33391873d5
                 if (!TabsButtons._checkHasFunction(result)) {
                     return result;
@@ -111,15 +120,15 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
-    protected _beforeUpdate(newOptions: ITabsOptions): void {
+    protected _beforeUpdate(newOptions: ITabsOptions, context: ITabsContext): void {
         if (newOptions.source && newOptions.source !== this._options.source) {
             this._initItems(newOptions.source).then((result) => {
-                this._prepareState(result);
+                this._prepareState(result, options, context);
             });
         }
         if (newOptions.items && newOptions.items !== this._options.items) {
             const itemsData = this._prepareItems(newOptions.items);
-            this._prepareState(itemsData);
+            this._prepareState(itemsData, options, context);
         }
     }
 
@@ -133,7 +142,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const order: number = this._itemsOrder[index];
         const options: ITabsButtonsOptions = this._options;
         const classes: string[] = ['controls-Tabs__item controls-Tabs__item_theme_' + options.theme +
-        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight + '_theme-' + options.theme];
+        ' controls-Tabs__item_inlineHeight-' + this._inlineHeight + '_theme-' + options.theme];
 
         const itemAlign: string = item.get('align');
         const align: string = itemAlign ? itemAlign : 'right';
@@ -233,10 +242,18 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         });
     }
 
-    private _prepareState(data: IReceivedState): void {
+    private _prepareState(data: IReceivedState, options: ITabsOptions, context: ITabsContext): void {
         this._items = data.items;
         this._itemsOrder = data.itemsOrder;
         this._lastRightOrder = data.lastRightOrder;
+        // прокидывание опций из контекста, на новой раскладке принудительно делаем опции другие
+        if (context?.newLayoutOptions?.newLayout) {
+            this._borderThickness = 'l';
+            this._inlineHeight = 'l';
+        } else {
+            this._borderThickness = options.borderThickness;
+            this._inlineHeight = options.inlineHeight;
+        }
     }
 
     static _theme: string[] = ['Controls/tabs'];
@@ -272,6 +289,12 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
 
         return false;
+    }
+
+    static contextTypes(): ITabsContext {
+        return {
+            newLayoutOptions: ContextOptions
+        };
     }
 
     static getDefaultOptions(): ITabsOptions {
