@@ -319,7 +319,7 @@ define([
             });
          assert.equal(model._startIndex, 0, 'Invalid value of "_startIndex" after constructor.');
          assert.equal(model._stopIndex, 0, 'Invalid value of "_stopIndex" after constructor.');
-         model.setItems(items);
+         model.setItems(items, {});
          assert.equal(model._startIndex, 0, 'Invalid value of "_startIndex" after setItems(items).');
          assert.equal(model._stopIndex, 4, 'Invalid value of "_stopIndex" after setItems(items).');
          model.subscribe('onListChange', function() {

@@ -255,7 +255,7 @@ define([
          assert.equal(3, iv._stopIndex, 'Incorrect stopIndex after setItems');
 
 
-         //второй кейс - были items - рекордсет, и ставим рекордсет. Должен остаться инстанс старого, но данные новые
+         // второй кейс - были items - рекордсет, и ставим рекордсет. Должен остаться инстанс старого, но данные новые
          iv = new list.ItemsViewModel(cfg2);
          iv.setItems(rs2, cfg2);
          assert.equal(rs1, iv._items, 'Incorrect items after setItems');
@@ -270,6 +270,16 @@ define([
          assert.equal(4, iv.getVersion(), 'Incorrect version setItems');
          assert.equal(iv._items.getIdProperty(), 'key', 'Incorrect keyProperty');
 
+         var rs5 = new collection.RecordSet({
+            rawData: data3,
+            keyProperty: 'key'
+         });
+         rs5.addField({ name: 'aaa', type: 'string' });
+
+         iv.setItems(rs5, cfg2);
+         assert.equal(rs4, iv._items, 'Incorrect items after setItems');
+         assert.equal(5, iv.getVersion(), 'Incorrect version setItems');
+         assert.equal(iv._items.getIdProperty(), 'key', 'Incorrect keyProperty');
       });
 
       it('Result from options', function () {
