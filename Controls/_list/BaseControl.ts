@@ -5061,15 +5061,24 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _commitEditActionHandler(e, collectionItem) {
+        const next = this._getEditInPlaceController().getNextEditableItem();
+
         return this.commitEdit().then((result) => {
             if (result && result.canceled) {
                 return result;
             }
             const editingConfig = this._getEditingConfig();
-            if (editingConfig.autoAddByApplyButton && collectionItem.isAdd) {
-                return this._beginAdd({}, editingConfig.addPosition);
+
+            if (collectionItem.isAdd) {
+                if (editingConfig.autoAddByApplyButton) {
+                    return this._beginAdd({}, editingConfig.addPosition);
+                }
             } else {
-                return result;
+                if (editingConfig.sequentialEditing) {
+                    return !!next ? this._beginEdit({ item: next.contents }) : result;
+                } else {
+                    return result
+                }
             }
         });
     },
