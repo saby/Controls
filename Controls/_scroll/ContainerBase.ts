@@ -426,10 +426,12 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
             heigthValue += this._calculateScrollHeight(child);
         }
 
+        const clientHeight = newState.clientHeight === undefined ? this._state.clientHeight : newState.clientHeight
+
         newState.scrollHeight = heigthValue;
 
-        if (newState.scrollHeight < newState.clientHeight) {
-            newState.scrollHeight = newState.clientHeight;
+        if (newState.scrollHeight < clientHeight) {
+            newState.scrollHeight = clientHeight;
         }
         for (let child of children) {
             widthValue += child.offsetWidth;
