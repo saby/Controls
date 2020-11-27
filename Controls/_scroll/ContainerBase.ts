@@ -426,10 +426,26 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
             heigthValue += this._calculateScrollHeight(child);
         }
 
+        const clientHeight = newState.clientHeight === undefined ? this._state.clientHeight : newState.clientHeight
+
+        // Все еще находяться места где установлена height: 100%
+        // Если поле предыдущих оптимизированных проверок clientHeight === clientHeight, то проверим через детей.
+        if (heigthValue === clientHeight) {
+            let childrenHeightValue: number = 0;
+            for (const rootChild of children) {
+                for (const child of rootChild.children) {
+                    childrenHeightValue += this._calculateScrollHeight(child);
+                }
+            }
+            if (childrenHeightValue > heigthValue) {
+                heigthValue = childrenHeightValue;
+            }
+        }
+
         newState.scrollHeight = heigthValue;
 
-        if (newState.scrollHeight < newState.clientHeight) {
-            newState.scrollHeight = newState.clientHeight;
+        if (newState.scrollHeight < clientHeight) {
+            newState.scrollHeight = clientHeight;
         }
         for (let child of children) {
             widthValue += child.offsetWidth;
