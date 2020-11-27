@@ -84,13 +84,15 @@ export default class TreeController extends FlatController {
     * @param position - позиция относительно записи, на которую наведен курсор во время перемещения
     */
    calculateDragPosition(targetItem: TreeItem<Model>, position: TPosition): IDragPosition<TreeItem<Model>> {
-      if (targetItem === null) {
-         return super.calculateDragPosition(targetItem, position) as IDragPosition<TreeItem<Model>>;
+      // В плитке нельзя смешивать узлы и листья, если перетаскивают узел в листья, то мы не меняем позицию
+      if (targetItem === null || this._model['[Controls/_tile/TreeTileViewModel]'] && this._draggableItem.isNode() && !targetItem.isNode()) {
+         return super.calculateDragPosition(null, position) as IDragPosition<TreeItem<Model>>;
       }
 
-      // Если перетаскиваем лист на узел, то позиция может быть только 'on'
-      // Если нет перетаскиваемого элемента, то значит мы перетаскивам в папку другого реестра
-      if (!this._draggableItem || !this._draggableItem.isNode() && targetItem.isNode()) {
+      // Если нет перетаскиваемого элемента, то значит мы перетаскивам в папку другого реестра, т.к.
+      // если перетаскивают не в узел, то нам вернут рекорд из которого мы создадим draggableItem
+      // В плитке лист мы можем перенести только внутрь узла
+      if (!this._draggableItem || this._model['[Controls/_tile/TreeTileViewModel]'] && !this._draggableItem.isNode() && targetItem.isNode()) {
          position = 'on';
       }
 

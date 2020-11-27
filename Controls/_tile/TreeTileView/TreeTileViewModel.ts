@@ -8,6 +8,8 @@ import {Model} from 'Types/entity';
 var DEFAULT_FOLDER_WIDTH = 250;
 
 var TreeTileViewModel = TreeViewModel.extend({
+    '[Controls/_tile/TreeTileViewModel]': true,
+
     constructor: function (cfg) {
         TreeTileViewModel.superclass.constructor.apply(this, arguments);
         this._tileModel = new TileViewModel(cfg);
