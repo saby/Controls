@@ -309,6 +309,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         return baseConfig;
     }
 
+    protected _getScrollNotifyConfig(): any[] {
+        const baseConfig = super._getScrollNotifyConfig();
+        baseConfig.push(this._shadows.top.isVisible, this._shadows.bottom.isVisible);
+        return baseConfig;
+    }
+
     protected _keydownHandler(event: SyntheticEvent): void {
         // если сами вызвали событие keydown (горячие клавиши), нативно не прокрутится, прокрутим сами
         if (!event.nativeEvent.isTrusted) {
