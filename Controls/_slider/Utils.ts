@@ -30,7 +30,10 @@ const maxPercentValue = 100;
 const stepDenominator = 2;
 export default {
     _defaultLabelFormatter(value: number): number {
-        return  value;
+        // Округляем значение до 2х знаков после запятой
+        // Потому что это js и 0.6 + 0.3 = 0.8999999999999999
+        const valueFixed: string = value.toFixed(2);
+        return parseFloat(valueFixed);
     },
     getRatio(pos: number, left: number, width: number): number {
         return (pos - left) / width;
