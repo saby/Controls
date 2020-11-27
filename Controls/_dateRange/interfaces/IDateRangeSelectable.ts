@@ -39,7 +39,7 @@ export = {
        * }
        * </pre>
        */
-      options.ranges = [];
+      options.ranges = {};
       /**
        * @typedef {String} SelectionType
        * @variant range Выделение произвольного диапазона.

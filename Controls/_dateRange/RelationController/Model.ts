@@ -162,7 +162,7 @@ class ModuleClass {
     }
 
     private _getRangesFromOptions(options) {
-        var ranges = [],
+        var ranges = {},
             i, j;
         for (var field in options) {
             i = null;
