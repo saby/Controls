@@ -290,6 +290,20 @@ describe('Controls/dataSource:SourceController', () => {
         });
     });
 
+    describe('reload', () => {
+        it('reload should recreate navigation controller',  async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            const items = await controller.reload();
+            controller.setItems(items as RecordSet);
+
+            const controllerDestroyStub = stub(controller._navigationController, 'destroy');
+            await controller.reload();
+            ok(controllerDestroyStub.calledOnce);
+        });
+    });
+
     describe('setItems', () => {
 
         it('navigationController is recreated on setItems', () => {

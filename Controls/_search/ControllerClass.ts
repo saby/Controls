@@ -173,7 +173,6 @@ export default class SearchControllerClass {
         if (this._storeCallbackId) {
             Store.unsubscribe(this._storeCallbackId);
             Store.unsubscribe(this._storeCtxCallbackId);
-            Store.dispatch('searchValue', undefined);
         }
     }
 
@@ -273,7 +272,9 @@ export default class SearchControllerClass {
         return Store.onPropertyChanged('searchValue', (searchValue: unknown) => {
             // фикс нажатия лупы в .7200, в .1000 это будет неактульно и снова будет просто текст
             const searchStoreData = SearchControllerClass._convertStoreSearchValue(searchValue);
-            this.search(searchStoreData.text, searchStoreData.force);
+            if (searchStoreData) {
+                this.search(searchStoreData.text, searchStoreData.force);
+            }
         });
     }
 

@@ -55,7 +55,7 @@ export default abstract class
         if (updateResult instanceof Promise) {
             updateResult.then((items) => {
                 // Проверка items.getCount() удалена в 21.1000 https://online.sbis.ru/opendoc.html?guid=c193438b-54d5-4e13-83d3-5edde27abe84
-                if (items.getCount()) {
+                if (items.getCount() || newOptions.task1180631048) {
                     this._lookupController.setItems(items);
                     updateResultCallback();
                 }

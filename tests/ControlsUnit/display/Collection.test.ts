@@ -4576,7 +4576,17 @@ describe('Controls/_display/Collection', () => {
             assert.isFalse(notifyLaterSpy.called);
 
             display.resetDraggedItems();
-            assert.isTrue(notifyLaterSpy.called);
+            assert.isFalse(notifyLaterSpy.called);
+        });
+
+        it('resetDraggedItems', () => {
+            const draggedItem = display.createItem({contents: {getKey: () => '123'}});
+            display.setDraggedItems(draggedItem, ['123']);
+            assert.equal(display.getItems()[2].getContents().getKey(), '123');
+            assert.isTrue(notifyLaterSpy.calledOnce);
+
+            display.resetDraggedItems();
+            assert.isTrue(notifyLaterSpy.calledTwice);
         });
     });
 });

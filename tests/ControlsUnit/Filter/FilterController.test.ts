@@ -178,6 +178,21 @@ describe('Controls/filter:ControllerClass', () => {
         assert.deepEqual(filterController.getFilterButtonItems(), newFilterItems);
     });
 
+    describe('setFilterItems', () => {
+        it('save history on data load only with historyItems', () => {
+            const controller = new ControllerClass({
+                filterButtonSource: [],
+                prefetchParams: {
+                    PrefetchSessionId: 'test'
+                }
+            });
+            controller.setFilterItems([]);
+            assert.isFalse(controller._isFilterChanged);
+            controller.setFilterItems([{}]);
+            assert.isTrue(controller._isFilterChanged);
+        });
+    });
+
     describe('setFilter', () => {
         const controller = new ControllerClass({});
 

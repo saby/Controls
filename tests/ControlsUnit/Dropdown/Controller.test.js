@@ -580,8 +580,14 @@ define(
             });
 
             it('_loadSelectedKeys', async () => {
+               let itemsInHistoryUpdated = false;
                let loadConfig;
                let actualWithHistory;
+               dropdownController._source = new history.Source({ });
+               dropdownController._source.prepareItems = (loadedItems) => {
+                  itemsInHistoryUpdated = true;
+                  return loadedItems;
+               };
                dropdownController._loadItems = (params, withHistory) => {
                   loadConfig = params;
                   actualWithHistory = withHistory;
@@ -595,11 +601,11 @@ define(
                   }));
                };
                selectedKeys.push('8');
-               dropdownController._source = 'testSource';
                await dropdownController._loadSelectedKeys(newConfig, ['8'], loadedItems);
                assert.deepEqual(loadConfig.filter, { id: ['8'] });
                assert.equal(dropdownController._items.getCount(), 4);
                assert.equal(dropdownController._items.at(0).getKey(), '8');
+               assert.isTrue(itemsInHistoryUpdated);
                assert.isFalse(actualWithHistory);
             });
          });

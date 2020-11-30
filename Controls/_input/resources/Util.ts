@@ -70,13 +70,17 @@ export function getAdaptiveInputType(selection: ISelection, nativeInputType: Nat
     return (selectionLength ? execType[1] : execType[1] + execType[2]) as InputType;
 }
 
-export function processKeydownEvent(event: SyntheticEvent<KeyboardEvent>): void {
+export function processKeydownEvent(event: SyntheticEvent<KeyboardEvent>, additionalProcessedKeys?: string[]): void {
     const code: string = event.nativeEvent.key;
     const processedKeys: string[] = [
         'End', 'Home', ' ', 'ArrowLeft', 'ArrowRight',
         // Поддержка значения key в IE
         'Spacebar', 'Left', 'Right'
     ];
+
+    if (additionalProcessedKeys) {
+        processedKeys.push(...additionalProcessedKeys);
+    }
 
     /**
      * Клавиши обрабатываемые полем ввода не должны обрабатывать контролы выше.

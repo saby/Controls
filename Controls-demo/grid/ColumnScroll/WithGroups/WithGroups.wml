@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper controlDemo__grid-columnScroll-with-groups">
+    <div class="controlsDemo__cell">
+        <Controls.buttons:Button caption="Переключить separatorVisibility" on:click="_onToggleSeparatorVisibility()"/>
+    </div>
+    <Controls.scroll:Container attr:style="width: 600px; height: 400px">
+        <Controls.list:Container>
+            <Controls.grid:View
+                    attr:class=""
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    rowSeparatorSize="s"
+                    columns="{{_columns}}"
+                    columnScroll="{{true}}"
+                    stickyColumnsCount="{{2}}"
+                    groupProperty="fullName">
+                <ws:groupTemplate>
+                    <ws:partial
+                            template="Controls/grid:GroupTemplate"
+                            separatorVisibility="{{_separatorVisibility}}"
+                            expanderVisible="{{true}}"
+                            columnAlignGroup="{{3}}">
+                        <ws:contentTemplate>
+                            <span>{{contentTemplate.itemData.item}}</span>
+                        </ws:contentTemplate>
+                    </ws:partial>
+                </ws:groupTemplate>
+            </Controls.grid:View>
+        </Controls.list:Container>
+    </Controls.scroll:Container>
+</div>

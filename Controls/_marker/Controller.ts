@@ -141,9 +141,9 @@ export class Controller {
          if (removeMarkedItem) {
             const parent = removedItems[0].getParent();
             // На корневой узел ставить маркер нет смысла, т.к. в этом случае должно отработать именно удаление элементов, а не скрытие
-            if (parent && parent !== this._model.getRoot()) {
+            if (parent && parent !== this._model.getRoot() && parent.MarkableItem) {
                const parentItem = parent.getContents();
-               if (parentItem) {
+               if (parentItem ) {
                   markedKeyAfterRemove = parentItem.getKey();
                }
             }

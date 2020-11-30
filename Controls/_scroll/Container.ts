@@ -92,7 +92,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     _beforeMount(options: IContainerOptions, context, receivedState) {
         this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
         this._scrollbars = new ScrollbarsModel(options, receivedState);
-        this._stickyHeaderController = new StickyHeaderController();
+        this._stickyHeaderController = new StickyHeaderController({ resizeCallback: this._headersResizeHandler.bind(this) });
         // При инициализации оптимизированные тени включаем только если они явно включены, или включен режим auto.
         // В режиме mixed используем тени на css что бы не вызывать лишние синхронизации. Когда пользователь наведет
         // мышкой на скролл контейнер или по другим обнавлениям тени начнут работать через js.
@@ -465,9 +465,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     _stickyFixedHandler(event: SyntheticEvent<Event>, fixedHeaderData: IFixedEventData): void {
         this._stickyHeaderController.fixedHandler(event, fixedHeaderData);
-        const scrollbarOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
-        const scrollbarOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
-        this._scrollbars.setOffsets({ top: scrollbarOffsetTop, bottom: scrollbarOffsetBottom }, this._isScrollbarsInitialized);
+        this._headersResizeHandler();
         // Если включены оптимизированные тени, то мы не обновляем состояние теней при изменении состояния скрола
         // если нет зафиксированных заголовков. Что бы тени на заголовках отображались правильно, рассчитаем состояние
         // теней в скролл контейнере.
@@ -488,6 +486,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {
         this._stickyHeaderController.registerHandler(event, data, register);
+    }
+
+    protected _headersResizeHandler(): void {
+        const scrollbarOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
+        const scrollbarOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
+        this._scrollbars.setOffsets({ top: scrollbarOffsetTop, bottom: scrollbarOffsetBottom }, this._isScrollbarsInitialized);
     }
 
     getHeadersHeight(position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {

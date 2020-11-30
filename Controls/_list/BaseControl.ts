@@ -7,7 +7,7 @@ import cMerge = require('Core/core-merge');
 import cInstance = require('Core/core-instance');
 import Deferred = require('Core/Deferred');
 
-import {constants, detection, compatibility} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 
 import {IObservable, RecordSet} from 'Types/collection';
 import {isEqual} from 'Types/object';
@@ -266,12 +266,20 @@ const _private = {
     // https://online.sbis.ru/opendoc.html?guid=dbaaabae-fcca-4c79-9c92-0f7fa2e70184
     // https://online.sbis.ru/opendoc.html?guid=b6715c2a-704a-414b-b764-ea2aa4b9776b
     // p.s. в первой ошибке также прикреплены скрины консоли.
-    doAfterUpdate(self, callback): void {
+    doAfterUpdate(self, callback, beforePaint = true): void {
         if (self._updateInProgress) {
+            if (!beforePaint) {
             if (self._callbackAfterUpdate) {
                 self._callbackAfterUpdate.push(callback);
             } else {
                 self._callbackAfterUpdate = [callback];
+            }
+        } else {
+                if (self._callbackBeforePaint) {
+                    self._callbackBeforePaint.push(callback);
+                } else {
+                    self._callbackBeforePaint = [callback];
+                }
             }
         } else {
             callback();
@@ -418,13 +426,7 @@ const _private = {
                         data: list
                     });
 
-                    if (self._isMounted && self._isScrollShown && !self._wasScrollToEnd) {
-                        // При полной перезагрузке данных нужно сбросить состояние скролла
-                        // и вернуться к началу списка, иначе браузер будет пытаться восстановить
-                        // scrollTop, догружая новые записи после сброса.
-                        self._resetScrollAfterReload = !self._keepScrollAfterReload;
-                        self._keepScrollAfterReload = false;
-                    }
+                    _private.resetScrollAfterLoad(self);
 
                     // If received list is empty, make another request. If it’s not empty, the following page will be requested in resize event handler after current items are rendered on the page.
                     if (_private.needLoadNextPageAfterLoad(list, self._listViewModel, navigation)) {
@@ -535,6 +537,16 @@ const _private = {
 
         if (options.serviceDataLoadCallback instanceof Function) {
             options.serviceDataLoadCallback(self._items, loadedList);
+        }
+    },
+
+    resetScrollAfterLoad(self): void {
+        if (self._isMounted && self._isScrollShown && !self._wasScrollToEnd) {
+            // При полной перезагрузке данных нужно сбросить состояние скролла
+            // и вернуться к началу списка, иначе браузер будет пытаться восстановить
+            // scrollTop, догружая новые записи после сброса.
+            self._resetScrollAfterReload = !self._keepScrollAfterReload;
+            self._keepScrollAfterReload = false;
         }
     },
 
@@ -1251,13 +1263,15 @@ const _private = {
             // след. запрос не вернет данные, а скажет ЕстьЕще: false тогда решать будет условие ниже, по высоте
             const visibilityTriggerUp = self._loadTriggerVisibility.up;
             const visibilityTriggerDown = self._loadTriggerVisibility.down;
-
-            if ((hasMoreData.up && !visibilityTriggerUp) || (hasMoreData.down && !visibilityTriggerDown)) {
+            const triggersReady = visibilityTriggerUp !== undefined;
+            if (triggersReady && ((hasMoreData.up && !visibilityTriggerUp) || (hasMoreData.down && !visibilityTriggerDown))) {
                 result = true;
 
                 // Если пэйджинг был показан из-за hasMore, то запоминаем это,
                 // чтобы не скрыть после полной загрузки, даже если не набралось на две страницы.
                 self._cachedPagingState = true;
+            } else if (hasMoreData.up || hasMoreData.down) {
+                self._recalcPagingVisible = true;
             }
             if (!self._scrollPagingCtr && result && _private.needScrollPaging(self._options.navigation)) {
                 _private.createScrollPagingController(self, scrollParams, hasMoreData);
@@ -1373,6 +1387,9 @@ const _private = {
     getViewSize(self, update = false): number {
         if (self._container && (!self._viewSize || update)) {
             const container = self._children?.viewContainer || self._container[0] || self._container;
+            if (self._viewSize !== container.clientHeight) {
+                self._notify('controlResize', [], { bubbling: true });
+            }
             self._viewSize = container.clientHeight;
         }
         return self._viewSize;
@@ -1476,6 +1493,9 @@ const _private = {
             if (self._viewportSize) {
                 self._recalcPagingVisible = false;
                 self._pagingVisible = _private.needShowPagingByScrollSize(self, _private.getViewSize(self), self._viewportSize);
+                if (detection.isMobilePlatform) {
+                    self._recalcPagingVisible = !self._pagingVisible;
+                }
             } else {
                 self._recalcPagingVisible = true;
             }
@@ -1708,7 +1728,7 @@ const _private = {
                             } else {
                                 result = self._scrollController.handleAddItems(newItemsIndex, newItems,
                                     newItemsIndex <= collectionStartIndex && self._scrollTop !== 0 ? 'up'
-                                    : (newItemsIndex > collectionStartIndex ? 'down' : ''));
+                                    : (newItemsIndex > collectionStopIndex ? 'down' : ''));
                             }
                             break;
                         case IObservable.ACTION_MOVE:
@@ -2557,8 +2577,9 @@ const _private = {
                 }
             });
             if (result.placeholders) {
+                self._notifyPlaceholdersChanged = () => {
                 self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
-
+                }
                 if (result.placeholders.top > 0) {
                     self._notify('enableVirtualNavigation', [], { bubbling: true });
                 } else {
@@ -2852,7 +2873,7 @@ const _private = {
     startDragNDrop(self, domEvent, item): void {
         if (
             !self._options.readOnly && self._options.itemsDragNDrop
-            && DndFlatController.canStartDragNDrop(self._options.canStartDragNDrop, domEvent, !!compatibility.touch)
+            && DndFlatController.canStartDragNDrop(self._options.canStartDragNDrop, domEvent, !!self._context?.isTouch?.isTouch)
         ) {
             const key = item.getContents().getKey();
 
@@ -3145,6 +3166,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _loadTriggerVisibility: null,
     _hideIndicatorOnTriggerHideDirection: null,
     _checkTriggerVisibilityTimeout: null,
+    _notifyPlaceholdersChanged: null,
     _loadingIndicatorContainerOffsetTop: 0,
     _viewSize: null,
     _viewportSize: null,
@@ -3491,6 +3513,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         if (this._loadingIndicatorState) {
             _private.updateIndicatorContainerHeight(this, _private.getViewRect(this), this._viewportRect);
         }
+        if (this._viewportSize < this._viewSize) {
+            this._pagingVisible = false;
+        }
         if (this._pagingVisible && this._scrollPagingCtr) {
             this._scrollPagingCtr.viewPortResize(viewportHeight);
             _private.updateScrollPagingButtons(this, this._getScrollParams());
@@ -3573,6 +3598,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             if (this._pagingVisible) {
                 this._cachedPagingState = false;
                 _private.initPaging(this);
+            } else if (detection.isMobilePlatform) {
+                this._recalcPagingVisible = true;
             }
             this._viewRect = container.getBoundingClientRect();
             if (this._isScrollShown || this._scrollController && this._scrollController.isAppliedVirtualScroll()) {
@@ -3864,6 +3891,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
             if (this._loadedBySourceController) {
                 _private.executeAfterReloadCallbacks(self, items, newOptions);
+                _private.resetScrollAfterLoad(self);
             }
         }
 
@@ -4178,6 +4206,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._sourceController.destroy();
         }
 
+        if (this._notifyPlaceholdersChanged) {
+            this._notifyPlaceholdersChanged = null;
+        }
+
         if (this._groupingLoader) {
             this._groupingLoader.destroy();
         }
@@ -4244,6 +4276,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // TODO: https://online.sbis.ru/opendoc.html?guid=2be6f8ad-2fc2-4ce5-80bf-6931d4663d64
         if (this._container) {
             this._viewSize = _private.getViewSize(this, true);
+        }
+        if (this._recalcPagingVisible) {
+            if (!this._pagingVisible) {
+                _private.initPaging(this);
+            }
         }
 
         if (this._pagingVisible) {
@@ -4318,6 +4355,13 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 needCheckTriggers = true;
             }
 
+            // Для корректного отображения скроллбара во время использования виртуального скролла
+            // необходимо, чтобы события 'restoreScrollPosition' и 'updatePlaceholdersSize' 
+            // срабатывали синхронно. Иначе ползунок скачет.
+            if (this._notifyPlaceholdersChanged) {
+                this._notifyPlaceholdersChanged();
+                this._notifyPlaceholdersChanged = null;
+            }
             if (this._loadedBySourceController || needCheckTriggers || itemsUpdated || positionRestored) {
                 this.checkTriggerVisibilityAfterRedraw();
             }
@@ -4345,11 +4389,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._jumpToEndOnDrawItems = null;
         }
         this._notifyOnDrawItems();
-        if (this._callbackAfterUpdate) {
-            this._callbackAfterUpdate.forEach((callback) => {
+        if (this._callbackBeforePaint) {
+            this._callbackBeforePaint.forEach((callback) => {
                 callback();
             });
-            this._callbackAfterUpdate = null;
+            this._callbackBeforePaint = null;
         }
     },
 
@@ -4368,7 +4412,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._checkTriggerVisibilityTimeout = setTimeout(() => {
                 _private.doAfterUpdate(this, () => {
                     this.checkTriggersVisibility();
-                });
+                }, false);
             }, CHECK_TRIGGERS_DELAY_IF_NEED);
         });
     },
@@ -4481,6 +4525,12 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         this._wasScrollToEnd = false;
         this._scrollPageLocked = false;
         this._modelRecreated = false;
+        if (this._callbackAfterUpdate) {
+            this._callbackAfterUpdate.forEach((callback) => {
+                callback();
+            });
+            this._callbackAfterUpdate = null;
+        }
     },
 
     __onPagingArrowClick(e, arrow) {
@@ -5634,8 +5684,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _updateItemActionsOnItem(event: SyntheticEvent<Event>, itemKey: string | number, itemWidth: number): void {
         event.stopImmediatePropagation();
+        if (this._listViewModel.isActionsAssigned()) {
         const itemActionsController = _private.getItemActionsController(this);
         itemActionsController.updateItemActions(itemKey, itemWidth);
+        }
     },
 
     /**

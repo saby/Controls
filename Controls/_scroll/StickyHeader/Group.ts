@@ -128,7 +128,8 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 
     get shadowVisibility(): SHADOW_VISIBILITY {
         for (let id in this._headers) {
-            if (this._headers[id].inst.shadowVisibility === SHADOW_VISIBILITY.visible) {
+            const shadowVisibility = this._headers[id].inst.shadowVisibility;
+            if (shadowVisibility === SHADOW_VISIBILITY.visible || shadowVisibility === SHADOW_VISIBILITY.lastVisible) {
                 return SHADOW_VISIBILITY.visible;
             }
         }

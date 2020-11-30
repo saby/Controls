@@ -151,6 +151,13 @@ const List = Control.extend({
             this._suggestListOptions.suggestDirectionChangedCallback('down');
          }
       }
+
+      const items = this._suggestListOptions.sourceController &&
+          this._suggestListOptions.sourceController.getItems();
+
+      if (items) {
+         this._itemsReadyCallback(items);
+      }
    },
 
    _beforeUpdate(newOptions, context) {

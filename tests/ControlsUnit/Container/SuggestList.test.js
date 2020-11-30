@@ -1,6 +1,6 @@
 define(
-   ['Controls/suggestPopup', 'Env/Env', 'Types/entity', 'Types/collection'],
-   function(suggestPopup, Env, entity, collection) {
+   ['Controls/suggestPopup', 'Env/Env', 'Types/entity', 'Types/collection', 'Controls/dataSource', 'Types/source'],
+   function(suggestPopup, Env, entity, collection, dataSource, sourceLib) {
 
       'use strict';
 
@@ -65,6 +65,27 @@ define(
 
                assert.isTrue(eventFired);
                assert.equal(tab, 'test');
+            });
+         });
+
+         describe('_beforeMount', () => {
+            it('items from sourceController is saved on beforeMount', () => {
+               const suggestList = new suggestPopup.ListContainer();
+               const sourceController = new dataSource.NewSourceController({
+                  source: new sourceLib.Memory()
+               });
+               sourceController.setItems(getSuggestItems());
+
+               const contextObject = {
+                  suggestOptionsField: {
+                     options: {
+                        sourceController
+                     }
+                  }
+               };
+
+               suggestList._beforeMount({}, contextObject);
+               assert.deepStrictEqual(suggestList._items.getRawData(), getSuggestItems().getRawData());
             });
          });
 

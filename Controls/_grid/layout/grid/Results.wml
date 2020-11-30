@@ -23,6 +23,7 @@
                                     backgroundStyle="{{backgroundStyle}}"
                                     mode="stackable"
                                     task1177692247="{{true}}"
+                                    shadowVisibility="lastVisible"
                                     fixedZIndex="{{currentResultsColumn.zIndex}}">
           <ws:partial template="cellContent"/>
       </Controls.scroll:StickyHeader>
@@ -40,6 +41,7 @@
             attr:style="{{listModel.getStyleForCustomResultsTemplate()}}"
             backgroundStyle="{{backgroundStyle}}"
             mode="stackable"
+            shadowVisibility="lastVisible"
             fixedZIndex="{{listModel.getCurrentResultsColumn().zIndex}}">
             <ws:partial template="{{contentTemplate}}" results="{{ listModel.getResults() }}" listModel="{{listModel}}"/>
         </Controls.scroll:StickyHeader>

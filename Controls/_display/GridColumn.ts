@@ -347,6 +347,11 @@ export default class GridColumn<T> extends mixin<
 
         return classes;
     }
+    getColspan(): number {
+        // TODO: Полный колспан будет реализован в 21.1000 по плановой задаче
+        //  https://online.sbis.ru/opendoc.html?guid=50811b1e-7362-4e56-b52c-96d63b917dc9
+        return 1;
+    }
 }
 
 Object.assign(GridColumn.prototype, {

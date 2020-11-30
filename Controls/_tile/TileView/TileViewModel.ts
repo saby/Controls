@@ -337,7 +337,9 @@ var TileViewModel = ListViewModel.extend({
     },
 
     shouldOpenExtendedMenu(isActionMenu: boolean, isContextMenu: boolean, itemData: Record<string, any>): boolean {
-        const isScalingTile = this._options.tileScalingMode !== 'none' && !itemData.dispItem.isNode();
+        const isScalingTile = this._options.tileScalingMode !== 'none' &&
+                              this._options.tileScalingMode !== 'overlap' &&
+                              !itemData.dispItem.isNode();
         return this._options.actionMenuViewMode === 'preview' && !isActionMenu && !(isScalingTile && isContextMenu);
     },
 

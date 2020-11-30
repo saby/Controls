@@ -252,9 +252,13 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    }
 
    private _suggestDirectionChangedCallback(direction: TSuggestDirection): void {
-      this._suggestDirection = direction;
-      if (direction === 'up') {
-         this._setItems(this._sourceController.getItems());
+      // Проверка на _suggestOpened нужна, т.к. уже может быть вызвано закрытие саггеста,
+      // но попап ещё не разрушился, и может стрелять событиями, звать callback'b
+      if (this._suggestOpened) {
+         this._suggestDirection = direction;
+         if (direction === 'up') {
+            this._setItems(this._sourceController.getItems());
+         }
       }
    }
 
@@ -701,8 +705,10 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       this._setFilter(this._filter, this._options, this._tabsSelectedKey);
       /* preload suggest dependencies on value changed */
       this._loadDependencies(this._options);
-
-      return this._resolveSearch(value);
+      if (this._options.suggestTemplate) {
+         return this._resolveSearch(value);
+      }
+      return Promise.resolve();
    }
 
    private _resolveSearch(value: string, options?: IInputControllerOptions): Promise<void> {

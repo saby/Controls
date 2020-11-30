@@ -477,9 +477,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 return {children: []};
             };
             baseControl._mouseEnter(null);
+            let doScrollNotified = false;
+            let notifiedScrollTop = null;
             baseControl._notify = (event, args) => {
-                assert.equal(event, 'doScroll');
-                assert.equal(args[0], 400);
+                if (event === 'doScroll') {
+                    doScrollNotified = true;
+                    notifiedScrollTop = args[0];
+                }
             };
 
             // эмулируем появление скролла
@@ -503,6 +507,9 @@ describe('Controls/list_clean/BaseControl', () => {
             expectedScrollTop = 400;
             await baseControl.__selectedPageChanged(null, 2);
             assert.equal(baseControl._currentPage, 2);
+            assert.isTrue(doScrollNotified);
+            doScrollNotified = false;
+            assert.equal(notifiedScrollTop, expectedScrollTop);
             expectedScrollTop = 800;
             assert.isNull(baseControl._applySelectedPage);
             await baseControl.__selectedPageChanged(null, 3);
@@ -975,6 +982,21 @@ describe('Controls/list_clean/BaseControl', () => {
                 baseControlOptions.filter = 'testFilter';
                 baseControl._beforeUpdate(baseControlOptions);
                 assert.isFalse(loadStarted);
+            });
+
+            it('_beforeUpdate with new source should reset scroll', async () => {
+                let baseControlOptions = getBaseControlOptionsWithEmptyItems();
+                baseControlOptions.sourceController = new NewSourceController(baseControlOptions);
+
+                const baseControl = new BaseControl(baseControlOptions);
+                await baseControl._beforeMount(baseControlOptions);
+                baseControl.saveOptions(baseControlOptions);
+
+                const newSourceControllerOptions = {...baseControlOptions};
+                newSourceControllerOptions.source = new Memory();
+
+                baseControl._beforeUpdate(newSourceControllerOptions);
+                assert.isFalse(baseControl._resetScrollAfterReload);
             });
 
         });

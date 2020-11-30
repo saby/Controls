@@ -96,7 +96,9 @@ var _private = {
                 loadPromises.push(_private.loadItems(self, item));
             }
         });
-        return Promise.all(loadPromises);
+        return Promise.all(loadPromises).then(() => {
+            return _private.loadSelectedItems(self._source, self._configs);
+        });
     },
 
     getPopupConfig: function(self, configs, items) {
@@ -366,9 +368,7 @@ var _private = {
                             _private.getConfigByItem(self, item);
                         }
                     } else {
-                        if (!self._configs?.[item.name]) {
-                            self._configs[item.name] = {};
-                        }
+                        _private.getConfigByItem(self, item);
                         pDef.push(_private.loadSelectedItems([item], self._configs));
                     }
                 }

@@ -125,6 +125,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
         if (newOptions.sourceController && newOptions.searchParam &&
             newOptions.searchValue && searchValueChanged) {
+            this._notifyResizeAfterRender = true;
             this._closeSubMenu();
             this._createViewModel(newOptions.sourceController.getItems(), newOptions);
         } else if (rootChanged || sourceChanged || filterChanged) {

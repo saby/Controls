@@ -343,7 +343,7 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60]));
             assert.isFalse(instance.rangeChanged);
         });
-        it('do not update if count isn\'t equal to range', () => {
+        it('do not update if count is less than range', () => {
             const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
             instance.resetRange(0, 5);
             assert.isTrue(instance.rangeChanged);

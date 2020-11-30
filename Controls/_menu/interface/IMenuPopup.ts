@@ -64,9 +64,9 @@ export default interface IMenuPopup {
  *       keyProperty="key"
  *       displayProperty="title"
  *       source="{{_source}}">
- *    <ws:headerContentTemplate>
- *        <span>{[Выберите город]}</span>
- *    </ws:headerContentTemplate>
+ *     <ws:footerContentTemplate>
+ *        <div class="footerContentTemplate">+ {[Добавить]}</div>
+ *     </ws:footerContentTemplate>
  * </Controls.menu:Popup>
  * </pre>
  * JS:

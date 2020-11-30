@@ -743,6 +743,13 @@ var
                 if (changesType !== 'markedKeyChanged' && action !== 'ch') {
                     this._nextHeaderVersion();
                 }
+                if (this._options.header && action === 'a' && this.getDisplay().getCount() === newItems.length) {
+                    if (this.getHeaderModel()) {
+                        this._nextHeaderVersion();
+                    } else {
+                        this._setHeader(this._header);
+                    }
+                }
                 this._nextVersion();
             }.bind(this);
             this._onGroupsExpandChangeFn = function(event, changes) {

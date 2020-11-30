@@ -19,6 +19,7 @@ interface IHeightEntry {
 
 interface IStickyHeaderController {
     fixedCallback?: (position: string) => void;
+    resizeCallback?: () => void;
 }
 
 class StickyHeaderController {
@@ -46,7 +47,7 @@ class StickyHeaderController {
 
     // TODO: Избавиться от передачи контрола доработав логику ResizeObserverUtil
     // https://online.sbis.ru/opendoc.html?guid=4091b62e-cca4-45d8-834b-324f3b441892
-    constructor(control?: Control, options: IStickyHeaderController = {}) {
+    constructor(options: IStickyHeaderController = {}) {
         this._headersStack = {
             top: [],
             bottom: []
@@ -56,10 +57,11 @@ class StickyHeaderController {
             bottom: []
         };
         this._options.fixedCallback = options.fixedCallback;
+        this._options.resizeCallback = options.resizeCallback;
         this._headers = {};
         this._resizeHandlerDebounced = debounce(this.resizeHandler.bind(this), 50);
         this._stickyHeaderResizeObserver = new ResizeObserverUtil(
-            control, this._resizeObserverCallback.bind(this), this.resizeHandler.bind(this));
+            undefined, this._resizeObserverCallback.bind(this), this.resizeHandler.bind(this));
     }
 
     init(container: HTMLElement): void {
@@ -328,6 +330,12 @@ class StickyHeaderController {
         }
     }
 
+     private _callResizeCallback(): void {
+        if (typeof this._options.resizeCallback === 'function') {
+            this._options.resizeCallback();
+        }
+    }
+
     _updateTopBottomHandler(event: Event): void {
         event.stopImmediatePropagation();
 
@@ -380,6 +388,7 @@ class StickyHeaderController {
                 this._updateTopBottomDelayed();
                 this._updateShadowsVisibility();
                 this._clearOffsetCache();
+                this._callResizeCallback();
             }
         });
     }

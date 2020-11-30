@@ -98,7 +98,6 @@ export default class Controller {
     }
 
     reload(sourceConfig?: INavigationSourceConfig): LoadResult {
-        this._destroyNavigationController();
         this._deepReload = true;
 
         return this._load(undefined, this._root, sourceConfig).then((result) => {
@@ -302,6 +301,9 @@ export default class Controller {
         direction?: Direction
     ): void {
         if (this._hasNavigationBySource()) {
+            if (this._deepReload) {
+                this._destroyNavigationController();
+            }
             this._getNavigationController(this._options)
                 .updateQueryProperties(list, id, navigationConfig, NAVIGATION_DIRECTION_COMPATIBILITY[direction]);
         }

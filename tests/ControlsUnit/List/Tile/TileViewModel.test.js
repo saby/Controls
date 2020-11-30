@@ -186,6 +186,45 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
             let width = tileViewModel.getTileWidth(tileItem, 'imageHeight', 'imageWidth', 'dynamic', 200, 400);
             assert.strictEqual(width, 150);
          });
+
+         it('shouldOpenExtendedMenu', () => {
+            const tileViewModel2 = new TileViewModel({
+               tileMode: 'static',
+               itemsHeight: 300,
+               tileWidth: 150,
+               imageProperty: 'image',
+               keyProperty: 'id',
+               imageWidthProperty: 'imageWidth',
+               imageHeightProperty: 'imageHeight',
+               tileScalingMode: 'none',
+               multiSelectPosition: 'default',
+               actionMenuViewMode: 'preview',
+               imageFit: 'cover',
+               imageUrlResolver: urlResolver,
+               items: new collection.RecordSet({
+                  rawData: [{
+                     'id': 1
+                  }, {
+                     'id': 2
+                  }],
+                  keyProperty: 'id'
+               }),
+               theme: 'default',
+               displayProperty: 'title'
+            });
+            const itemData = {
+               dispItem: {
+                  isNode: () => false
+               }
+            };
+
+            assert.isTrue(tileViewModel2.shouldOpenExtendedMenu(false, true, itemData));
+            assert.isFalse(tileViewModel2.shouldOpenExtendedMenu(true, false, itemData));
+            tileViewModel2._options.tileScalingMode = 'overlap';
+            assert.isTrue(tileViewModel2.shouldOpenExtendedMenu(false, true, itemData));
+            tileViewModel2._options.tileScalingMode = 'inside';
+            assert.isFalse(tileViewModel2.shouldOpenExtendedMenu(false, true, itemData));
+         });
       });
    });
 });

@@ -421,6 +421,7 @@ define(
          it('stack state', () => {
             let itemConfig = {
                id: '22',
+               childs: [],
                popupOptions: item.popupOptions
             };
             popupTemplate.StackController._update = () => {

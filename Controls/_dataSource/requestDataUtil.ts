@@ -85,9 +85,13 @@ export default function requestDataUtil(cfg: ISourceConfig): Promise<IRequestDat
    if (cfg.historyId && cfg.filterHistoryLoader instanceof Function) {
       filterPromise = cfg.filterHistoryLoader(cfg.filterButtonSource, cfg.historyId);
    } else if (cfg.historyId && cfg.filterButtonSource && cfg.filter) {
-      filterPromise = import('Controls/filter').then((filterLib): Promise<IFilter> => {
-         return filterLib.Controller.getCalculatedFilter(cfg);
-      });
+      if (requirejs.defined('Controls/filter')) {
+         filterPromise = requirejs('Controls/filter').Controller.getCalculatedFilter(cfg);
+      } else {
+         filterPromise = import('Controls/filter').then((filterLib): Promise<IFilter> => {
+            return filterLib.Controller.getCalculatedFilter(cfg);
+         });
+      }
       filterPromise = wrapTimeout(filterPromise, HISTORY_FILTER_TIMEOUT).catch(() => {
          Logger.info('Controls.dataSource:requestDataUtil: Данные фильтрации не загрузились за 1 секунду');
       });

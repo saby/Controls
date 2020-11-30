@@ -85,7 +85,7 @@ export default class FilterControllerClass {
         this._applyItemsToFilter(Prefetch.applyPrefetchFromHistory(this._filter, historyItems),
             this._filterButtonItems, this._fastFilterItems);
 
-        if (this._options.prefetchParams) {
+        if (this._options.prefetchParams && (historyItems instanceof Array) && historyItems.length) {
             this._isFilterChanged = true;
         }
     }

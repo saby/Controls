@@ -391,7 +391,11 @@ export default class _Controller implements IDropdownController {
       };
       return this._loadItems(config, false).then((newItems) => {
          items.prepend(newItems);
-         this._resolveLoadedItems(options, items);
+         let resultItems = items;
+         if (isHistorySource(this._source)) {
+            resultItems = this._source.prepareItems(items);
+         }
+         this._resolveLoadedItems(options, resultItems);
          return items;
       });
    }

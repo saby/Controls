@@ -1,7 +1,8 @@
 <tr attr:class="{{ item.getItemClasses(highlightOnHover, theme, style, cursor, clickable) }}">
    <ws:for data="gridColumn in item.getColumns()">
       <td attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-           attr:style="{{ gridColumn.getWrapperStyles() }}">
+          attr:style="{{ gridColumn.getWrapperStyles() }}"
+          attr:colspan="{{ gridColumn.getColspan() }}">
          <div if="{{ gridColumn.shouldDisplayMarker(marker, markerPosition) }}" attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
          <div attr:class="{{ gridColumn.getContentClasses(theme, cursor, highlightOnHover) }}"
               attr:style="{{ gridColumn.getContentStyles() }}">
@@ -20,7 +21,7 @@
                                  attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
                   </ws:ladderWrapper>
                   <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
-                                      key="{{ (item || itemData).getContents().getKey() }}"
+                                      key="{{ (item || itemData).key }}"
                                       checkboxReadOnly="{{ checkboxReadOnly }}"/>
                </ws:partial>
             </div>

@@ -201,6 +201,16 @@ describe('Controls/_lookup/BaseControllerClass', () => {
             newOptions.source = getSource();
             ok(controller.update(newOptions as ILookupBaseControllerOptions) instanceof Promise);
         });
+
+        it('items and selectedKeys updated', async () => {
+            const controller = getLookupControllerWithEmptySelectedKeys();
+            const newOptions = getControllerOptions();
+
+            newOptions.selectedKeys = [0, 1, 2];
+            newOptions.items = new RecordSet({rawData: getData()});
+
+            ok(controller.update(newOptions as ILookupBaseControllerOptions) === true);
+        });
     });
 
     it('setItems', () => {

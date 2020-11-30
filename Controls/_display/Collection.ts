@@ -2263,20 +2263,20 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     resetDraggedItems(): void {
         const strategy = this.getStrategyInstance(this._dragStrategy) as DragStrategy<unknown>;
         if (strategy) {
+            const avatarItem = strategy.avatarItem;
             const avatarIndex = this.getIndex(strategy.avatarItem as T);
+            const avatarKey = avatarItem.getContents().getKey();
 
             this.removeStrategy(this._dragStrategy);
             this._reIndex();
 
-            this._notifyBeforeCollectionChange();
-            this._notifyCollectionChange(
-               IObservable.ACTION_REMOVE,
-               [],
-               0,
-               [strategy.avatarItem],
-               avatarIndex
-            );
-            this._notifyAfterCollectionChange();
+            // Событие remove нужно слать, только когда мы закончили перетаскивание в другом списке,
+            // т.к. только в этом случае мы отправим событие add на начало перетаскивания
+            if (!this.getCollection().getRecordById(avatarKey)) {
+                this._notifyBeforeCollectionChange();
+                this._notifyCollectionChange(IObservable.ACTION_REMOVE, [], 0, [strategy.avatarItem], avatarIndex);
+                this._notifyAfterCollectionChange();
+            }
         }
     }
 

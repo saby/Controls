@@ -18,6 +18,7 @@ export interface ILookupBaseControllerOptions extends IFilterOptions, ISourceOpt
     multiSelect: boolean;
     displayProperty: string;
     historyId: string;
+    items?: RecordSet;
 }
 
 const clone = object.clone;
@@ -36,11 +37,17 @@ export default class LookupBaseControllerClass {
 
     update(newOptions: ILookupBaseControllerOptions): Promise<RecordSet>|boolean {
         const hasSelectedKeysInOptions = newOptions.selectedKeys !== undefined;
+        const itemsChanged = this._options.items !== newOptions.items;
         let keysChanged;
 
         if (hasSelectedKeysInOptions) {
-            keysChanged = !isEqual(newOptions.selectedKeys, this._options.selectedKeys) ||
-                          !isEqual(newOptions.selectedKeys, this.getSelectedKeys());
+            if (newOptions.task1180631048) {
+                keysChanged = !isEqual(newOptions.selectedKeys, this._options.selectedKeys) &&
+                              !isEqual(newOptions.selectedKeys, this.getSelectedKeys());
+            } else {
+                keysChanged = !isEqual(newOptions.selectedKeys, this._options.selectedKeys) ||
+                              !isEqual(newOptions.selectedKeys, this.getSelectedKeys());
+            }
         }
 
         const sourceIsChanged = newOptions.source !== this._options.source;
@@ -52,6 +59,11 @@ export default class LookupBaseControllerClass {
         if (sourceIsChanged && this._sourceController) {
             this._sourceController.destroy();
             this._sourceController = null;
+        }
+
+        if (itemsChanged) {
+            this._setItems(newOptions.items);
+            updateResult = true;
         }
 
         if (keysChanged || sourceIsChanged && hasSelectedKeysInOptions) {

@@ -20,6 +20,10 @@ const enum POSITION {
 // В режиме 'Только года' одновременно отобржается 15 элементов.
 // Таким образом последний отображаемый элемент имеет индекс 14.
 const ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX = 14;
+
+// Минимальный отступ справа до края экрана. Если попап ближе чем это значение, то крестик нужно показать слева
+// Когда в контролах будут доступны переменные темы, значение должно браться с алиаса ширины крестика
+const MIN_RIGHT_OFFSET = 30;
 /**
  * Контрол выбора даты или периода.
  *
@@ -194,9 +198,9 @@ class View extends Control<IDateLitePopupOptions> {
                 const popupLeft = options.stickyPosition.position.left;
                 // Вычисляем смещения попапа влево, т.к окно выравнивается по центру открывающего элемента
                 const popupOffset = (options.stickyPosition.sizes.width - options.stickyPosition.targetPosition.width) / 2;
-                this._closeBtnPosition = (popupLeft + popupOffset) === openerLeft ?
-                    POSITION.RIGHT :
-                    POSITION.LEFT;
+                const isReverted = (popupLeft + popupOffset) !== openerLeft;
+                const isOutside = popupLeft + options.stickyPosition.sizes.width > window?.innerWidth - MIN_RIGHT_OFFSET;
+                this._closeBtnPosition = isReverted || isOutside ? POSITION.LEFT : POSITION.RIGHT;
             }
         }
     }

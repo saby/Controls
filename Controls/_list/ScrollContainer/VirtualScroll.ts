@@ -368,7 +368,9 @@ export default class VirtualScroll {
      * @param itemsHeights
      */
     updateItemsHeights(itemsHeights: IItemsHeights) {
-        if (itemsHeights.itemsHeights.length === this._range.stop - this._range.start) {
+        // Не нужно обновлять данные о высотах записей, если их меньше чем диапазон.
+        // Это значит, что записи диапазона точно еще не отрисованы.
+        if (itemsHeights.itemsHeights.length >= this._range.stop - this._range.start) {
             this._updateItemsHeights(itemsHeights);
             this.rangeChanged = false;
         }

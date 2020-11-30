@@ -472,5 +472,9 @@ describe('Controls/marker/Controller', () => {
       result = controller.onCollectionRemove(2, [breadcrumbItem]);
       assert.equal(result, 2);
       assert.isFalse(breadcrumbItem.isMarked());
+
+      controller.setMarkedKey(2);
+      result = controller.onCollectionRemove(2, [model.getItemBySourceKey(2)]);
+      assert.equal(result, 2);
    });
 });

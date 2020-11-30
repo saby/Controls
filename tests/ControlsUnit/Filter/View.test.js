@@ -311,13 +311,13 @@ define(
             view._source = defaultConfig.source;
             view._configs = {
                document: {
-                  items: Clone(defaultItems[0]),
+                  items: new collection.RecordSet({rawData: Clone(defaultItems[0])}),
                   displayProperty: 'title',
                   keyProperty: 'id',
                   source: defaultSource[0].editorOptions.source
                },
                state: {
-                  items: Clone(defaultItems[1]),
+                  items: new collection.RecordSet({rawdata: Clone(defaultItems[1])}),
                   displayProperty: 'title',
                   keyProperty: 'id',
                   source: defaultSource[1].editorOptions.source,

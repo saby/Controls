@@ -66,8 +66,8 @@
             titleStyle="none"
             attr:class="controls-TileView__previewTemplate
                         {{itemData.dispItem && itemData.dispItem.isNode() ? 'js-controls-TileView__withoutZoom controls-TileView__previewTemplate_node' : ''}}
-                        {{itemData.isUnscaleable && itemData.hasVisibleActions() ? 'controls-TileView__previewTemplate_actions_showed' : ''}}
-                        {{itemData.isUnscaleable && hasTitle === false ? 'controls-TileView__previewTemplate_withoutTitle'}}"
+                        {{itemData.hasVisibleActions && itemData.hasVisibleActions() && (itemData.isUnscaleable || itemData.canShowActions) ? 'controls-TileView__previewTemplate_actions_showed' : ''}}
+                        {{hasTitle === false ? 'controls-TileView__previewTemplate_withoutTitle'}}"
             itemActionsClass="controls-TileView__previewTemplate_itemActions"
             hasTitle="{{false}}"
             itemActionsPosition="custom"

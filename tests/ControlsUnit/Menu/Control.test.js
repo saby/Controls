@@ -115,6 +115,26 @@ define(
                assert.isTrue(menuControl._notifyResizeAfterRender);
                assert.isTrue(isClosed);
             });
+
+            it('searchValue is changed', async() => {
+               let isClosed = false;
+               let isViewModelCreated = false;
+               const menuControl = getMenu();
+               const newMenuOptions = { ...defaultOptions, searchParam: 'title' };
+
+               menuControl._closeSubMenu = () => { isClosed = true; };
+               menuControl._createViewModel = () => {
+                  isViewModelCreated = true;
+               };
+               newMenuOptions.sourceController = {
+                  getItems: () => 'test'
+               };
+               newMenuOptions.searchValue = '123';
+               await menuControl._beforeUpdate(newMenuOptions);
+               assert.isTrue(menuControl._notifyResizeAfterRender);
+               assert.isTrue(isClosed);
+               assert.isTrue(isViewModelCreated);
+            });
          });
 
          describe('_beforeMount', () => {

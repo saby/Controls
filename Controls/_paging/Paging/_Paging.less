@@ -168,3 +168,9 @@
 .controls-Paging__btn-elements-count {
    padding-left: @item_left-padding-horizontal_paging;
 }
+
+// На айпаде иногда не перерисовывается кусок экрана и
+// остаются видны артефакты от прошлого состояния элемента.
+.ws-is-mobile-safari .controls-PagingV {
+   transform: translateZ(0);
+}
