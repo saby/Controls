@@ -12,6 +12,8 @@ import * as oldForTemplate from 'wml!Controls/_list/resources/For';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
+const ITEM_ACTION_SELECTOR = '.js-controls-ItemActions__ItemAction';
+
 var _private = {
     checkDeprecated: function(cfg, self) {
         if (cfg.contextMenuEnabled !== undefined) {
@@ -230,6 +232,11 @@ var ListView = BaseControl.extend(
         },
 
         _onItemMouseDown: function(event, itemData) {
+            if (!!event.target.closest(ITEM_ACTION_SELECTOR)) {
+                event.preventDefault();
+                this._notify('mouseDown', [event]);
+                return;
+            }
             if (this._options.useNewModel) {
                 if (itemData['[Controls/_display/GroupItem]']) {
                     event.stopPropagation();
