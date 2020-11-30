@@ -19,51 +19,31 @@
 import { TemplateFunction } from 'UI/Base';
 import { IHeaderCell } from 'Controls/grid';
 import GridHeaderRow from './GridHeaderRow';
-import { mixin } from 'Types/util';
-import { OptionsToPropertyMixin } from 'Types/entity';
 import { IItemPadding } from './Collection';
+import GridCell, {IOptions as IGridCellOptions} from './GridCell';
 
-export interface IOptions<T> {
+export interface IOptions<T> extends IGridCellOptions<T> {
     owner: GridHeaderRow<T>;
-    headerCell: IHeaderCell;
-    cellPadding?: IItemPadding;
 }
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:HeaderContent';
 
-export default class GridHeaderCell<T> extends mixin<OptionsToPropertyMixin>(OptionsToPropertyMixin) {
+export default class GridHeaderCell<T> extends GridCell<T, GridHeaderRow<T>> {
     protected _$owner: GridHeaderRow<T>;
-    protected _$headerCell: IHeaderCell;
     protected _$cellPadding: IItemPadding;
 
     constructor(options?: IOptions<T>) {
-        super();
-        OptionsToPropertyMixin.call(this, options);
-    }
-
-    getCellIndex(): number {
-        return this._$owner.getCellIndex(this);
-    }
-
-    isFirstColumn(): boolean {
-        return this.getCellIndex() === 0;
-    }
-
-    isLastColumn(): boolean {
-        return this.getCellIndex() === this._$owner.getColumnsCount() - 1;
-    }
-
-    isMultiSelectColumn(): boolean {
-        return this._$owner.getMultiSelectVisibility() !== 'hidden' && this.isFirstColumn();
+        super(options);
     }
 
     getWrapperClasses(theme: string, style: string = 'default'): string {
-        let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`;
+        let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
+                          + ` controls-Grid__header-cell_theme-${theme}`
+                          + ` ${this._getWrapperPaddingClasses(theme)}`;
 
-        const isMultiHeader = false;
-        const isStickySupport = false;
+        const isMultiHeader = this._$owner.hasRowspan();
+        const isStickySupport = this._$owner.isStickyHeader();
 
-        wrapperClasses += ` controls-Grid__header-cell_theme-${theme}`;
         if (isMultiHeader) {
             wrapperClasses += ` controls-Grid__multi-header-cell_min-height_theme-${theme}`;
         } else {
@@ -73,14 +53,12 @@ export default class GridHeaderCell<T> extends mixin<OptionsToPropertyMixin>(Opt
             wrapperClasses += ' controls-Grid__header-cell_static';
         }
 
-        wrapperClasses += this._getWrapperPaddingClasses(theme);
+        if (!this.isMultiSelectColumn()) {
+            wrapperClasses += ' controls-Grid__header-cell_min-width';
+        }
 
         // _private.getBackgroundStyle(this._options, true);
         return wrapperClasses;
-    }
-
-    getWrapperStyles(): string {
-        return '';
     }
 
     getContentClasses(theme: string): string {
@@ -93,11 +71,11 @@ export default class GridHeaderCell<T> extends mixin<OptionsToPropertyMixin>(Opt
         } else {
             contentClasses += ` controls-Grid__row-header__content_baseline_theme-${theme}`;
         }
-        if (this._$headerCell.align) {
+        if (this._$column.align) {
             contentClasses += ` controls-Grid__header-cell_justify_content_${this._$headerCell.align}`;
         }
         if (isFullGridSupport) {
-            if (this._$headerCell.valign) {
+            if (this._$column.valign) {
                 contentClasses += ` controls-Grid__header-cell_align_items_${this._$headerCell.valign}`;
             }
         }
@@ -105,32 +83,28 @@ export default class GridHeaderCell<T> extends mixin<OptionsToPropertyMixin>(Opt
     }
 
     getTemplate(): TemplateFunction|string {
-        return this._$headerCell.template || DEFAULT_CELL_TEMPLATE;
-    }
-
-    getTemplateOptions(): {} {
-        return this._$headerCell.templateOptions;
+        return this._$column.template || DEFAULT_CELL_TEMPLATE;
     }
 
     getCaption(): string {
         // todo "title" - is deprecated property, use "caption"
-        return this._$headerCell.caption || this._$headerCell.title;
+        return this._$column.caption || this._$column.title;
     }
 
     getSortingProperty(): string {
-        return this._$headerCell.sortingProperty;
+        return this._$column.sortingProperty;
     }
 
     getAlign(): string {
-        return this._$headerCell.align;
+        return this._$column.align;
     }
 
     getVAlign(): string {
-        return this._$headerCell.valign;
+        return this._$column.valign;
     }
 
     getTextOverflow(): string {
-        return this._$headerCell.textOverflow;
+        return this._$column.textOverflow;
     }
 
     // todo <<< START >>> compatible with old gridHeaderModel
@@ -157,7 +131,7 @@ export default class GridHeaderCell<T> extends mixin<OptionsToPropertyMixin>(Opt
 
         if (!isMultiSelectColumn) {
             if (!isFirstColumn) {
-                if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getCellIndex() > 1) {
+                if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
                     paddingClasses += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}_theme-${theme}`;
                 }
             } else {
@@ -179,7 +153,5 @@ export default class GridHeaderCell<T> extends mixin<OptionsToPropertyMixin>(Opt
 Object.assign(GridHeaderCell.prototype, {
     _moduleName: 'Controls/display:GridHeaderCell',
     _instancePrefix: 'grid-header-cell-',
-    _$owner: null,
-    _$headerCell: null,
     _$cellPadding: null
 });

@@ -20,16 +20,16 @@ export default class GridColgroupCell<T> extends mixin<OptionsToPropertyMixin>(O
         return this._$owner.getMultiSelectVisibility() !== 'hidden' && this._$owner.getCellIndex(this) === 0;
     }
 
-    getWrapperClasses(theme: string): string {
-        let wrapperClasses = 'controls-Grid__colgroup-column';
+    getBodyClasses(theme: string): string {
+        let bodyClasses = 'controls-Grid__colgroup-column';
 
         if (this.isMultiSelectColumn()) {
-            wrapperClasses += ` controls-Grid__colgroup-columnMultiSelect_theme-${theme}`;
+            bodyClasses += ` controls-Grid__colgroup-columnMultiSelect_theme-${theme}`;
         }
-        return wrapperClasses;
+        return bodyClasses;
     }
 
-    getWrapperStyles(): string {
+    getBodyStyles(): string {
         if (this.isMultiSelectColumn()) {
             // Ширина колонки чекбоксов задается через CSS класс
             return '';

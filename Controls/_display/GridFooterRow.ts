@@ -52,16 +52,12 @@ export default class GridFooterRow<T> extends GridRow<T> {
                 this._$columnItems.push(factory({
                     column: {
                         template: this._$footerTemplate,
-                    },
-                    colspan: this._$owner.getColumnsConfig().length
+                        colspan: this._$owner.getColumnsConfig().length
+                    }
                 }));
             } else {
                 this._$columnItems = this.prepareColspanedColumns(this._$footer).map((footerColumn) => factory({
-                    column: {
-                        template: footerColumn.template,
-                    },
-                    startColumn: footerColumn.startColumn,
-                    endColumn: footerColumn.endColumn
+                    column: footerColumn
                 }));
             }
         }

@@ -44,7 +44,7 @@ export default class GridGroupItem<T> extends mixin<
         return this._$contents === 'CONTROLS_HIDDEN_GROUP';
     }
 
-    getItemTemplate(
+    getTemplate(
         itemTemplateProperty: string,
         userItemTemplate: TemplateFunction|string,
         userGroupTemplate?: TemplateFunction|string

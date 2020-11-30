@@ -4,12 +4,23 @@ import GridCollection from './GridCollection';
 import { TemplateFunction } from 'UI/Base';
 import GridCell, { IOptions as IGridCellOptions } from './GridCell';
 import { TResultsPosition } from './GridResultsRow';
-import GridStickyLadderCell from './GridStickyLadderCell';
 import { create } from 'Types/di';
 import prepareColumns from './utils/GridColspanUtil';
-import GridCheckboxCell from './GridCheckboxCell';
 import GridRow from './GridRow';
 import { IOptions as IBaseOptions } from './CollectionItem';
+
+
+interface IItemTemplateParams {
+    content?: TemplateFunction;
+    colspan?: boolean;
+    colspanTemplate?: TemplateFunction;
+
+    highlightOnHover: boolean;
+    theme: string;
+    style: string;
+    cursor: 'default' | 'pointer';
+    backgroundColorStyle: string
+}
 
 export interface IOptions<T> extends IBaseOptions<T> {
     columns: TColumns;
@@ -30,23 +41,52 @@ export default abstract class GridRowMixin<T> {
     protected _$columnItems: Array<GridCell<T, GridRow<T>>>;
     protected _$ladder: {};
 
-    getTemplate(): TemplateFunction|string {
+    protected _$templateParams: IItemTemplateParams;
+
+    getDefaultTemplate(): TemplateFunction | string {
         return 'Controls/gridNew:ItemTemplate';
     }
 
-    getItemClasses(templateHighlightOnHover: boolean = true,
-                   theme: string = 'default',
-                   style: string = 'default',
-                   cursor: string = 'pointer',
-                   clickable: boolean = true): string {
+    setTemplateParams(params: IItemTemplateParams): void {
+        const oldParams: Partial<IItemTemplateParams> = this._$templateParams || {};
+        this._$templateParams = this._getInitializedItemTemplateParams(params);
+
+        // TODO: Здесь инвалидйтить все, что нужно
+        if (oldParams.colspan !== this._$templateParams.colspan) {
+            this._reinitializeColumns() || this._initializeColumns();
+        }
+    }
+
+    protected _getInitializedItemTemplateParams(params: IItemTemplateParams): IItemTemplateParams {
+        if (params.colspan && !params.colspanTemplate && !params.content) {
+            // TODO: Написать норм ошибку
+            throw Error('При колспане необходим контент!');
+        }
+
+        // TODO: Здесь можно валидировать опции шаблона.
+
+        return {
+            colspan: params.colspan || undefined,
+            content: params.content || undefined,
+            colspanTemplate: params.colspanTemplate,
+            backgroundColorStyle: params.backgroundColorStyle || 'default',
+            style: params.style || 'default',
+            theme: params.theme || 'default',
+            cursor: params.cursor || 'pointer',
+            highlightOnHover: params.highlightOnHover || true
+        }
+    }
+
+    getItemClasses(): string {
+        const {style, theme, highlightOnHover} = this._$templateParams;
         const navigation = this.getOwner().getNavigation();
         const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
             && this.isLastItem();
-        let itemClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor, clickable)}`;
+        let itemClasses = `controls-ListView__itemV ${this._getCursorClasses(this._$templateParams.cursor)}`;
 
         itemClasses += ` controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
 
-        if (templateHighlightOnHover !== false && !this.isEditing()) {
+        if (highlightOnHover !== false && !this.isEditing()) {
             itemClasses += ` controls-Grid__row_highlightOnHover_${style}_theme-${theme}`;
         }
 
@@ -198,64 +238,16 @@ export default abstract class GridRowMixin<T> {
         return result;
     }
 
-    protected _reinitializeColumns(): void {
+    protected _reinitializeColumns(): boolean {
         if (this._$columnItems) {
-            this._initializeColumns();
+            const result = this._initializeColumns();
             this._nextVersion();
+            return result;
         }
+        return false;
     }
 
-    protected _initializeColumns(): void {
-        if (this._$columns) {
-            const createMultiSelectColumn = this.getMultiSelectVisibility() !== 'hidden';
-            // todo Множественный stickyProperties можно поддержать здесь:
-            const stickyLadderProperties = this.getStickyLadderProperties(this._$columns[0]);
-            const stickyLadderStyleForFirstProperty = stickyLadderProperties &&
-                this._getStickyLadderStyle(this._$columns[0], stickyLadderProperties[0]);
-            const stickyLadderStyleForSecondProperty = stickyLadderProperties && stickyLadderProperties.length === 2 &&
-                this._getStickyLadderStyle(this._$columns[0], stickyLadderProperties[1]);
-            const factory = this._getColumnsFactory();
-
-            this._$columnItems = this._$columns.map((column) => factory({ column }));
-
-            if (stickyLadderStyleForSecondProperty || stickyLadderStyleForFirstProperty) {
-                this._$columnItems[0].setHiddenForLadder(true);
-            }
-
-            if (stickyLadderStyleForSecondProperty) {
-                this._$columnItems.splice(1, 0, new GridStickyLadderCell({
-                    column: this._$columns[0],
-                    owner: this,
-                    wrapperStyle: stickyLadderStyleForSecondProperty,
-                    contentStyle: `left: -${this._$columns[0].width}; right: 0;`,
-                    stickyProperty: stickyLadderProperties[1],
-                    stickyHeaderZIndex: 1
-                }));
-            }
-
-            if (stickyLadderStyleForFirstProperty) {
-                this._$columnItems = ([
-                    new GridStickyLadderCell({
-                        column: this._$columns[0],
-                        owner: this,
-                        wrapperStyle: stickyLadderStyleForFirstProperty,
-                        contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this._$columns[0].width};` : '',
-                        stickyProperty: stickyLadderProperties[0],
-                        stickyHeaderZIndex: 2
-                    })
-                ] as Array<GridCell<T, GridRow<T>>>).concat(this._$columnItems);
-            }
-
-            if (createMultiSelectColumn) {
-                this._$columnItems = ([
-                    new GridCheckboxCell({
-                        column: {} as IColumn,
-                        owner: this
-                    })
-                ] as Array<GridCell<T, GridRow<T>>>).concat(this._$columnItems);
-            }
-        }
-    }
+    abstract _initializeColumns(): boolean;
 
     protected _getStickyLadderStyle(column: IColumn, stickyProperty: string): string {
         const stickyLadder = this.getStickyLadder();
@@ -299,7 +291,7 @@ export default abstract class GridRowMixin<T> {
     abstract getOwner(): GridCollection<T>;
     abstract getMultiSelectVisibility(): string;
     abstract isEditing(): boolean;
-    protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
+    protected abstract _getCursorClasses(cursor: string, clickable?: boolean): string;
     protected abstract _nextVersion(): void;
 }
 

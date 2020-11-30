@@ -1,7 +1,7 @@
 <colgroup class="{{ colgroup.getBodyClasses() }}">
     <ws:for data="colgroupCell in colgroup.getCells()">
         <col attr:key="{{ colgroupCell.getKey() }}"
-             class="{{ colgroupCell.getWrapperClasses(theme) }}"
-             style="{{ colgroupCell.getWrapperStyles() }}"/>
+             class="{{ colgroupCell.getBodyClasses(theme) }}"
+             style="{{ colgroupCell.getBodyStyles() }}"/>
     </ws:for>
 </colgroup>

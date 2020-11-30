@@ -32,11 +32,7 @@ export default class GridResultsRow<T> extends GridRow<T> {
         return this.isStickyHeader() && this.getResultsPosition() === 'top';
     }
 
-    getItemClasses(templateHighlightOnHover: boolean = true,
-                   theme: string = 'default',
-                   style: string = 'default',
-                   cursor: string = 'pointer',
-                   clickable: boolean = true): string {
+    getItemClasses(): string {
         return `controls-Grid__results`;
     }
 
@@ -51,9 +47,9 @@ export default class GridResultsRow<T> extends GridRow<T> {
             if (this._$resultsTemplate) {
                 this._$columnItems = [factory({
                     column: {
-                        resultTemplate: this._$resultsTemplate
+                        resultTemplate: this._$resultsTemplate,
+                        colspan: this._$owner.getColumnsConfig().length
                     },
-                    colspan: this._$owner.getColumnsConfig().length
                 })];
             } else {
                 this._$columnItems = this._$owner.getColumnsConfig().map((column) => factory({

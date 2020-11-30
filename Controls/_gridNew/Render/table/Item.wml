@@ -1,4 +1,15 @@
-<tr attr:class="{{ item.getItemClasses(highlightOnHover, theme, style, cursor, clickable) }}">
+{{ item.setTemplateParams({
+    'colspan': colspan,
+    'colspanTemplate': colspanTemplate,
+    'content': content || contentTemplate,
+    'highlightOnHover': highlightOnHover,
+    'theme': theme || 'default',
+    'style': style || 'default',
+    'cursor': cursor ? cursor : (clickable === false ? 'default' : 'pointer'),
+    'backgroundColorStyle': backgroundColorStyle
+}) }}
+
+<tr attr:class="{{ item.getItemClasses() }}">
    <ws:for data="gridColumn in item.getColumns()">
       <td attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
           attr:style="{{ gridColumn.getWrapperStyles() }}"

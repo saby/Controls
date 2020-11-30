@@ -1,0 +1,5 @@
+<ws:partial template="{{ (item || itemData).getDefaultTemplate() }}"
+            item="{{ item || itemData }}"
+            scope="{{ _options }}"
+            colspanTemplate="{{ (item || itemData).isEditing() ? (content || contentTemplate) }}"
+            colspan="{{ itemData.isEditing() }}"/>

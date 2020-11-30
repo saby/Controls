@@ -63,7 +63,7 @@ export default class GroupItem<T> extends mixin<
         }
     }
 
-    getItemTemplate(itemTemplateProperty: string,
+    getTemplate(itemTemplateProperty: string,
                     userItemTemplate: TemplateFunction | string,
                     userGroupTemplate?: TemplateFunction | string): TemplateFunction | string {
         return userGroupTemplate || 'Controls/listRender:groupTemplate';

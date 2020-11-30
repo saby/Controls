@@ -37,10 +37,6 @@ export default class GridCell<T, TOwner extends GridRow<T>> extends mixin<
     protected _$column: IColumn;
     protected _$hiddenForLadder: boolean;
 
-    protected _$startColumn: number;
-    protected _$endColumn: number;
-    protected _$colspan: number;
-
     getInstanceId: () => string;
 
     constructor(options?: IOptions<T>) {
@@ -63,13 +59,13 @@ export default class GridCell<T, TOwner extends GridRow<T>> extends mixin<
     // region Аспект "Объединение колонок"
 
     _getColspanParams(): Required<IColspanParams> {
-        const startColumn = typeof this._$startColumn == 'number' ? this._$startColumn : (this.getColumnIndex() + 1);
+        const startColumn = typeof this._$column.startColumn == 'number' ? this._$column.startColumn : (this.getColumnIndex() + 1);
         let endColumn;
 
-        if (typeof this._$endColumn == 'number') {
-            endColumn = this._$endColumn;
-        } else if (typeof this._$colspan == 'number') {
-            endColumn = startColumn + this._$colspan;
+        if (typeof this._$column.endColumn == 'number') {
+            endColumn = this._$column.endColumn;
+        } else if (typeof this._$column.colspan == 'number') {
+            endColumn = startColumn + this._$column.colspan;
         } else {
             endColumn = startColumn + 1;
         }
@@ -414,8 +410,5 @@ Object.assign(GridCell.prototype, {
     _instancePrefix: 'grid-cell-',
     _$owner: null,
     _$column: null,
-    _$hiddenForLadder: null,
-    _$startColumn: null,
-    _$endColumn: null,
-    _$colspan: null
+    _$hiddenForLadder: null
 });

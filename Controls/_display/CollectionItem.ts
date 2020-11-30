@@ -632,7 +632,7 @@ export default class CollectionItem<T> extends mixin<
         return result.length ? ` ${result.join(' ')} ` : ' ';
     }
 
-    getItemTemplate(itemTemplateProperty: string, userTemplate: TemplateFunction|string): TemplateFunction|string {
+    getTemplate(itemTemplateProperty: string, userTemplate: TemplateFunction|string): TemplateFunction|string {
         const templateFromProperty = itemTemplateProperty ? this.getContents().get(itemTemplateProperty) : '';
         return templateFromProperty || userTemplate;
     }

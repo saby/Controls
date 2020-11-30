@@ -1,6 +1,6 @@
 <ws:template name="localItemTemplate">
    <ws:partial
-           template="{{ item.getItemTemplate(collection.getItemTemplateProperty(), itemTemplate, groupTemplate) }}"
+           template="{{ item.getTemplate(collection.getItemTemplateProperty(), itemTemplate, groupTemplate) }}"
            item="{{ item }}"
            itemData="{{ item }}"
            isAdd="{{ isAdd }}"

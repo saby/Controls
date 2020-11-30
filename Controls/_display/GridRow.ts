@@ -2,13 +2,19 @@ import CollectionItem from './CollectionItem';
 import GridCollection from './GridCollection';
 import { mixin } from 'Types/util';
 import GridRowMixin, { IOptions as IGridRowMixinOptions } from './GridRowMixin';
+import {TemplateFunction} from "UI/_base/Control";
 
 export interface IOptions<T> extends IGridRowMixinOptions<T> {
     owner: GridCollection<T>;
 }
 
-export default class GridRow<T>
-    extends mixin<CollectionItem<any>, GridRowMixin<any>>(CollectionItem, GridRowMixin) {
+export default class GridRow<T> extends mixin<
+    CollectionItem<any>,
+    GridRowMixin<any>
+>(
+    CollectionItem,
+    GridRowMixin
+) {
     readonly '[Controls/_display/GridRow]': boolean;
 
     constructor(options?: IOptions<T>) {
@@ -17,6 +23,11 @@ export default class GridRow<T>
     }
 
     // region overrides
+
+    getTemplate(itemTemplateProperty: string, userTemplate: TemplateFunction|string): TemplateFunction | string {
+        const templateFromProperty = itemTemplateProperty ? this.getContents().get(itemTemplateProperty) : undefined;
+        return templateFromProperty || userTemplate || this.getDefaultTemplate();
+    }
 
     setMultiSelectVisibility(multiSelectVisibility: string): boolean {
         const isChangedMultiSelectVisibility = super.setMultiSelectVisibility(multiSelectVisibility);

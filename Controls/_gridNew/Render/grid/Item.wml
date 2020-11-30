@@ -43,10 +43,20 @@
       </ws:if>
 </ws:template>
 
+{{ item.setTemplateParams({
+   'colspan': colspan,
+   'colspanTemplate': colspanTemplate,
+   'content': content || contentTemplate,
+   'highlightOnHover': highlightOnHover,
+   'theme': theme || 'default',
+   'style': style || 'default',
+   'cursor': cursor ? cursor : (clickable === false ? 'default' : 'pointer'),
+   'backgroundColorStyle': backgroundColorStyle
+}) }}
 
 <ws:if data="{{ item.isSticked() }}">
    <Controls.scroll:Group>
-      <div class="{{ item.getItemClasses(highlightOnHover, theme, style, cursor, clickable) }}">
+      <div class="{{ item.getItemClasses() }}">
          <ws:for data="column in item.getColumns()">
             <Controls.scroll:StickyHeader position="topbottom"
                                           mode="stackable"
@@ -59,7 +69,7 @@
    </Controls.scroll:Group>
 </ws:if>
 <ws:else>
-   <div class="{{ item.getItemClasses(highlightOnHover, theme, style, cursor, clickable) }}">
+   <div class="{{ item.getItemClasses() }}">
       <ws:for data="column in item.getColumns()">
          <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
               style="{{ column.getWrapperStyles() }}">
