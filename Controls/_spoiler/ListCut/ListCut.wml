@@ -1,0 +1,10 @@
+<div class="controls-ListCut ws-flexbox ws-flex-column">
+   <ws:partial template="{{_options.content}}" navigation="{{ _expanded ? _options.collapsedNavigation : _options.expandedNavigation }}"/>
+   <div class="ws-flexbox ws-justify-content-center controls-ListCut__separatorContainer_{{_options.iconSize}}_theme-{{_options.theme}}">
+        <Controls.toggle:BigSeparator
+               value="{{_expanded}}"
+               iconSize="{{_options.iconSize}}"
+               readOnly="{{_options.readOnly}}"
+               on:valueChanged="_clickHandler()"/>
+   </div>
+</div>

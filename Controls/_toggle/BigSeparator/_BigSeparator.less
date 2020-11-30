@@ -3,26 +3,94 @@
    cursor: pointer;
 }
 
-.controls-BigSeparator_theme-@{themeName} {
-   width: @width_toggleBigSeparator;
-   height: @height_toggleBigSeparator;
+.controls-BigSeparator-icon_theme-@{themeName} {
+   fill: @icon-color_BigSeparator;
+}
+
+.controls-BigSeparator-icon_theme-@{themeName}:hover {
+   fill: @hover_icon-color_BigSeparator;
+}
+
+.controls-BigSeparator-iconContainer_theme-@{themeName} {
+   background-color: @icon_container_background_color_BigSeparator;
+}
+
+.controls-BigSeparator-readonly_theme-@{themeName} {
+   cursor: default;
+}
+
+.controls-BigSeparator-icon-readonly_theme-@{themeName} {
+   fill: @readonly_icon-color_BigSeparator;
+}
+
+.controls-BigSeparator-size-s_theme-@{themeName} {
+   width: @width_s_BigSeparator;
    font-size: 0;
 }
 
-.controls-BigSeparator__icon_theme-@{themeName} {
-   font-size: @icon-size_toggleBigSeparator;
-   font-family: @icon_font-family_s;
-   color: @icon-color_toggleBigSeparator;
-   width: @icon-size_toggleBigSeparator;
-   height: @icon-size_toggleBigSeparator;
+.controls-BigSeparator-size-m_theme-@{themeName} {
+   width: @width_m_BigSeparator;
+   font-size: 0;
 }
 
-.controls-BigSeparator__icon_theme-@{themeName}:active {
-   color: @icon-color_active_toggleBigSeparator;
+.controls-BigSeparator-size-l_theme-@{themeName} {
+   width: @width_l_BigSeparator;
+   font-size: 0;
+}
+
+.controls-BigSeparator-container-icon-size-s_theme-@{themeName} {
+   border-radius: @border_s_BigSeparator;
+   height: @height_s_BigSeparator;
+}
+
+.controls-BigSeparator-container-icon-size-m_theme-@{themeName} {
+   border-radius: @border_m_BigSeparator;
+   height: @height_m_BigSeparator;
+}
+
+.controls-BigSeparator-container-icon-size-l_theme-@{themeName} {
+   border-radius: @border_l_BigSeparator;
+   height: @height_l_BigSeparator;
+}
+
+.controls-BigSeparator-iconExpanded-size-s_theme-@{themeName} {
+   width: @icon_expanded_width_s_BigSeparator;
+   height: @icon_expanded_height_s_BigSeparator;
+   padding: @expanded_padding-top_s_BigSeparator @expanded_padding-horizontal_s_BigSeparator;
+}
+
+.controls-BigSeparator-iconExpanded-size-m_theme-@{themeName} {
+   width: @icon_expanded_width_m_BigSeparator;
+   height: @icon_expanded_height_m_BigSeparator;
+   padding: @expanded_padding-top_m_BigSeparator @expanded_padding-horizontal_m_BigSeparator;
+}
+
+.controls-BigSeparator-iconExpanded-size-l_theme-@{themeName} {
+   width: @icon_expanded_width_l_BigSeparator;
+   height: @icon_expanded_height_l_BigSeparator;
+   padding: @expanded_padding-top_l_BigSeparator @expanded_padding-horizontal_l_BigSeparator;
+}
+
+.controls-BigSeparator-iconCollapsed-size-s_theme-@{themeName} {
+   width: @icon_collapsed_width_s_BigSeparator;
+   height: @icon_collapsed_height_s_BigSeparator;
+   padding: @collapsed_padding-top_s_BigSeparator @collapsed_padding-horizontal_s_BigSeparator;
+}
+
+.controls-BigSeparator-iconCollapsed-size-m_theme-@{themeName} {
+   width: @icon_collapsed_width_m_BigSeparator;
+   height: @icon_collapsed_height_m_BigSeparator;
+   padding: @collapsed_padding-top_m_BigSeparator @collapsed_padding-horizontal_m_BigSeparator;
+}
+
+.controls-BigSeparator-iconCollapsed-size-l_theme-@{themeName} {
+   width: @icon_collapsed_width_l_BigSeparator;
+   height: @icon_collapsed_height_l_BigSeparator;
+   padding: @collapsed_padding-top_l_BigSeparator @collapsed_padding-horizontal_l_BigSeparator;
 }
 
 .ws-is-hover {
    .controls-BigSeparator__icon_theme-@{themeName}:hover {
-      color: @icon-color_hover_toggleBigSeparator;
+      color: @hover_icon-color_BigSeparator;
    }
 }
