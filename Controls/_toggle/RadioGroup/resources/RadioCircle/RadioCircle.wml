@@ -1,0 +1,10 @@
+<svg attr:xmlns="http://www.w3.org/2000/svg" attr:id="Слой_1" attr:data-name="Слой 1" attr:class="controls-SwitchCircle__svg controls-SwitchCircle__svg_theme-{{_options.theme}}" attr:viewBox="0 0 12 12">
+    <circle attr:xmlns="http://www.w3.org/2000/svg"
+            attr:class="controls-SwitchCircle__borderCircle controls-SwitchCircle__borderCircle_theme-{{_options.theme}}
+                        controls-SwitchCircle__borderCircle_{{readOnly ? 'disabled' : 'enabled'}}_theme-{{_options.theme}}"
+            attr:cx="6" attr:cy="6" attr:r="5"/>
+    <rect attr:xmlns="http://www.w3.org/2000/svg"
+          attr:class="controls-SwitchCircle__innerCircle
+                      controls-SwitchCircle__innerCircle_{{selected ? (readOnly ? 'selected_disabled' : 'selected_enabled') : 'unselected'}}_theme-{{_options.theme}}"
+          attr:x="3" attr:y="3" attr:width="6" attr:height="6" attr:rx="3" attr:ry="3"/>
+</svg>

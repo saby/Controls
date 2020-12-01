@@ -5,10 +5,8 @@
                {{_options.readOnly ? 'controls-Switch_disabled controls-Switch_disabled_theme-' + _options.theme : 'controls-Switch_enabled controls-Switch_enabled_theme-' + _options.theme}}
                {{_options.value ? ' controls-Switch_checked'}}"
          title="{{tooltip}}">
-      <ws:partial template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle" readOnly="{{_options.readOnly}}"
-                  selected="{{_options.value ? true : false}}"/>
-      <span class="controls-Switch__line controls-Switch__line_theme-{{_options.theme}}
-                  {{_options.readOnly ? 'controls-Switch__line_disabled_theme-' + (_options.theme) : 'controls-Switch__line_enabled_theme-' + (_options.theme)}}"></span>
+      <ws:partial template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle" readOnly="{{ _options.readOnly }}" attr:class="controls_Switch_SwitchCircle_theme-{{ _options.theme }}"
+                  selected="{{ _options.value }}"/>
    </span>
 </ws:template>
 <ws:template name="caption">

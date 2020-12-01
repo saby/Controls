@@ -41,8 +41,9 @@
 //
 // Размеры
 
-@width_switcher:                                                            46px;
-@height_switcher:                                                           @inline_height_m;
+@width_switcher:                                                            32px;
+@height_switcher:                                                           @inline_height_xs;
+@height_vertical-switcher:                                                  40px;
 
 // Обводка
 
@@ -59,14 +60,6 @@
 @readonly_text-color_switcher:                                              @text-color;
 @readonly_unselected_text-color_switcher:                                   @readonly_color;
 
-// Полоска
-
-@track_thickness_switcher:                                                  2px;
-@track_length_switcher:                                                     34px;
-@track_color_switcher:                                                      #CCC;
-@readonly_track_color_switcher:                                             #E4E4E4;
-
-
 //Маркер
 
 @marker-box_border-thickness_switcher:                                      2px;
@@ -79,7 +72,12 @@
 @readonly_marker-box_border-color_switcher:                                 #E4E4E4;
 @marker-box_hover_border-color_switcher:                                    @marker_color_switcher;
 
-
+@marker-circle_width_switcher:                                              12px;
+@marker-circle_height_switcher:                                             @marker-circle_width_switcher;
+@marker-circle_selected_color_switcher:                                     @marker_color;
+@marker-circle_unselected_color_switcher:                                   #CCC;
+@readonly_marker-circle_color_switcher:                                     @readonly_marker-color;
+@marker-circle_margin_switcher:                                             3px;
 
 // Переменные для большого разделителя
 //

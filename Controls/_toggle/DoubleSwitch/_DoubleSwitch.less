@@ -1,10 +1,8 @@
 .controls-DoubleSwitch__toggle {
    .inline-flexbox();
    .align-items(center);
-   .justify-content(center);
    .baseline-fix();
    border-style: solid;
-   box-sizing: border-box;
    user-select: none;
    position: relative;
 }
@@ -22,7 +20,6 @@
 .controls-DoubleSwitch__wrapper {
    display: inline-flex;
    width: 100%;
-   align-items: baseline;
 }
 
 .controls-DoubleSwitch__toggle_enabled {
@@ -42,7 +39,7 @@
 
 .controls-DoubleSwitch__toggle_vertical_theme-@{themeName} {
    width: @height_switcher;
-   height: @width_switcher;
+   height: @height_vertical-switcher;
    &:before {
       height: 0;
       line-height: @font-size_switcher;
@@ -56,6 +53,7 @@
 .controls-DoubleSwitch__textBlock {
    .inline-flexbox();
    .flex-direction(column);
+   justify-content: space-between;
    flex: 1;
    overflow: hidden;
 }
@@ -68,44 +66,28 @@
    position: relative;
 }
 
-.controls-DoubleSwitch__line_horizontal_theme-@{themeName} {
-   height: @track_thickness_switcher;
-   width: @track_length_switcher - @marker-box_size_switcher;
-}
-
 .controls-DoubleSwitch__line_vertical {
    position: relative;
 }
-.controls-DoubleSwitch__line_vertical_theme-@{themeName} {
-   height: @track_length_switcher - @marker-box_size_switcher;
-   width: @track_thickness_switcher;
+
+.controls-DoubleSwitch__fake-element {
+   height: @height_vertical-switcher - @marker-circle_height_switcher - @marker-circle_margin_switcher;
 }
 
-.controls-DoubleSwitch__line_vertical_checked_theme-@{themeName} {
+.controls-DoubleSwitch__fake-element_active {
    //Нельзя делать через column-reverse, т.к. иначе базовая линия начинает браться не с того элемента и всё едет
-   order: 2;
+   order: 1;
 }
 
-.controls-DoubleSwitch__line_enabled {
-   display: inline-block;
-}
-.controls-DoubleSwitch__line_enabled_theme-@{themeName} {
-   background-color: @track_color_switcher;
-}
-
-.controls-DoubleSwitch__line_disabled_theme-@{themeName} {
-   background-color: @readonly_track_color_switcher;
-}
-
-.controls-DoubleSwitch__line_disabled {
-   display: inline-block;
+.controls-DoubleSwitch__fake-element_inactive {
+   order: 0;
 }
 
 .controls-DoubleSwitch__text_vertical_theme-@{themeName} {
    //If border is in height text block base line between text and toggle circle deviates to switch border height.
    //In vertical state width = height, height = width.
-   height: @width_switcher / 2 - @border-thickness_switcher;
-   line-height: @width_switcher / 2;
+   height: @height_vertical-switcher / 2 - @border-thickness_switcher;
+   line-height: @height_vertical-switcher / 2;
 }
 
 .controls-DoubleSwitch__text_vertical {
@@ -156,43 +138,12 @@
    }
 }
 
-/**
- * TODO: holeFix
- * Поробнее в проблема описана в Switch.less
- */
-& {
-   @width_sticker: floor(@marker-box_border-thickness_switcher / 2) * 2;
-   @vertical-offset_sticker: @height_switcher / 2 - @track_thickness_switcher;
-   @horizontal-offset_sticker: (@width_switcher - @track_length_switcher - @width_sticker) / 2 - @border-thickness_switcher + @marker-box_size_switcher;
-
-   .controls-DoubleSwitch__toggle_theme-@{themeName}::after {
-      content: '';
-      position: absolute;
-      width: @width_sticker;
-      height: @track_thickness_switcher;
-   }
-   .controls-DoubleSwitch__toggle_horizontal_notChecked_theme-@{themeName}::after {
-      top: @vertical-offset_sticker;
-      right: @horizontal-offset_sticker;
-   }
-   .controls-DoubleSwitch__toggle_horizontal_checked_theme-@{themeName}::after {
-      top: @vertical-offset_sticker;
-      left: @horizontal-offset_sticker;
-   }
-   .controls-DoubleSwitch__toggle_vertical_checked_theme-@{themeName}::after {
-      left: @vertical-offset_sticker;
-      top: @horizontal-offset_sticker;
-   }
-   .controls-DoubleSwitch__toggle_vertical_notChecked_theme-@{themeName}::after {
-      left: @vertical-offset_sticker;
-      bottom: @horizontal-offset_sticker;
-   }
-}
-.controls-DoubleSwitch__toggle_enabled_theme-@{themeName}::after {
-   background-color: @track_color_switcher;
-}
-.controls-DoubleSwitch__toggle_disabled_theme-@{themeName}::after {
-   background-color: @readonly_track_color_switcher;
+.controls_DoubleSwitch_SwitchCircle_vertical_theme-@{themeName} {
+   margin-top: @marker-circle_margin_switcher - @border-thickness_switcher;
+   margin-bottom: @marker-circle_margin_switcher - @border-thickness_switcher;
 }
 
-// End holeFix
+.controls_DoubleSwitch_SwitchCircle_horizontal_theme-@{themeName} {
+   margin-right: @marker-circle_margin_switcher - @border-thickness_switcher;
+   margin-left: @marker-circle_margin_switcher - @border-thickness_switcher;
+}
