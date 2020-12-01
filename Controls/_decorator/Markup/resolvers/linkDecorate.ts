@@ -89,13 +89,13 @@ import { clearNeedDecorateGlobals, needDecorate, getDecoratedLink } from '../res
  * @public
  * @author Угриновский Н.В.
  */
-export default function linkDecorate(value, parent) {
+export default function linkDecorate(value, parent, params) {
     if (!parent) {
         clearNeedDecorateGlobals();
     }
     let result;
     if (needDecorate(value, parent)) {
-        result = getDecoratedLink(value);
+        result = getDecoratedLink(value, params);
     } else {
         result = value;
     }

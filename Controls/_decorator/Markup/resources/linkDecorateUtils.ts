@@ -340,9 +340,10 @@ export function needDecorate(jsonNode, parentNode) {
  * Get json node of decorated link. Calls after "needDecorate" function.
  * @function Controls/_decorator/Markup/resources/linkDecorateUtils#getDecoratedLink
  * @param linkNode {JsonML}
+ * @param params {object}
  * @returns {JsonML}
  */
-export function getDecoratedLink(jsonNode): any[]|string {
+export function getDecoratedLink(jsonNode, params): any[]|string {
    if (isTextNode(jsonNode)) {
       return stringReplacersArray.shift();
    }
@@ -355,7 +356,8 @@ export function getDecoratedLink(jsonNode): any[]|string {
       decoratedLinkClasses.link).trim();
    newLinkAttributes.target = '_blank';
 
-   const image = (typeof location === 'object' ? location.protocol + '//' + location.host : '') +
+   const host = params.host || (typeof location === 'object' ? location.protocol + '//' + location.host : '');
+   const image = host +
       getService() + '?method=LinkDecorator.DecorateAsSvg&params=' + encodeURIComponent(
          base64.encode('{"SourceLink":"' + newLinkAttributes.href.replace(charsToScreenRegExp, '\\$1') + '"}')
       ) + '&id=0&srv=1';
