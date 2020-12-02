@@ -275,10 +275,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     _yearsRangeSelectionEnded(e: SyntheticEvent, start: Date, end: Date): void {
         const endOfYear = dateUtils.getEndOfYear(end);
-        const ranges = this._calculateRangeSelectedCallback(start, endOfYear);
-        const startValue = ranges[0];
-        const endValue = ranges[1];
-        this.sendResult(startValue, endValue);
+        this.sendResult(start, endOfYear);
     }
 
     _onYearsItemClick(e: SyntheticEvent, item: Date): void {
@@ -299,20 +296,8 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     _monthsRangeSelectionEnded(e: SyntheticEvent<Event>, start: Date, end: Date): void {
         const endOfMonth: Date = dateUtils.getEndOfMonth(end);
-        const ranges = this._calculateRangeSelectedCallback(start, endOfMonth);
-        const startValue = ranges[0];
-        const endValue = ranges[1];
-        this.rangeChanged(startValue, endValue);
-        this.sendResult(startValue, endValue);
-    }
-
-    private _calculateRangeSelectedCallback(startValue: Date, endValue: Date): Date[] {
-        if (this._options.rangeSelectedCallback) {
-            const ranges = this._options.rangeSelectedCallback(startValue, endValue);
-            startValue = ranges[0];
-            endValue = ranges[1];
-        }
-        return [startValue, endValue];
+        this.rangeChanged(start, endOfMonth);
+        this.sendResult(start, endOfMonth);
     }
 
     _monthRangeMonthClick(e: SyntheticEvent, date: Date): void {
@@ -412,11 +397,24 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     sendResult(start: Date, end: Date): void {
+        let ranges = [start || this._rangeModel.startValue, end || this._rangeModel.endValue];
+        if (this._options.rangeSelectedCallback && this._state === 'year') {
+            // Обрабатываем период только в режиме 'Года', т.к. в режиме 'Месяца' это сделает MonthList обернутый в
+            // DateRangeSelectionController
+            ranges = this._calculateRangeSelectedCallback(ranges[0], ranges[1]);
+        }
         this._notify(
             'sendResult',
-            [start || this._rangeModel.startValue, end || this._rangeModel.endValue],
+            [ranges[0], ranges[1]],
             {bubbling: true}
         );
+    }
+
+    private _calculateRangeSelectedCallback(startValue: Date, endValue: Date): Date[] {
+        const ranges = this._options.rangeSelectedCallback(startValue, endValue);
+        startValue = ranges[0];
+        endValue = ranges[1];
+        return [startValue, endValue];
     }
 
     getViewState(options: IControlOptions, monthStateEnabled: boolean, yearStateEnabled: boolean): string {

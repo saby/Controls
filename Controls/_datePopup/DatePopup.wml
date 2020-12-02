@@ -26,7 +26,6 @@
                   selectionType="{{_yearRangeSelectionType}}"
                   quantum="{{_yearRangeQuantum}}"
                   readOnly="{{false}}"
-                  rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
                   bind:selectionProcessing="_yearsRangeSelectionProcessing"
                   on:rangeChanged="_yearsRangeChanged()"
                   on:selectionChanged="_yearsSelectionChanged()"
@@ -46,7 +45,6 @@
                endValue="{{_rangeModel.endValue}}"
                selectionType="{{_monthRangeSelectionType}}"
                quantum="{{_monthRangeQuantum}}"
-               rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
                bind:selectionProcessing="_monthRangeSelectionProcessing"
                on:rangeChanged="_monthsRangeChanged()"
                on:selectionChanged="_monthsSelectionChanged()"
@@ -56,7 +54,6 @@
             <Controls._datePopup.MonthsRange
                attr:class="controls-DateRangeBigChoose__months-month-wrapper"
                monthClickable="{{_monthStateEnabled}}"
-               rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
                bind:position="_displayedDate"
                dateConstructor="{{_options.dateConstructor}}"
                quantum="{{_options.quantum}}"
