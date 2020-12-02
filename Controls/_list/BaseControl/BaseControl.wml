@@ -102,6 +102,7 @@
                 listModel="{{_listViewModel}}"
                 isEditingRowScrollToElement="{{ _isEditingRowScrollToElement }}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
+                shouldDrawFooter="{{ _shouldDrawFooter }}"
                 on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
                 on:validateDestroyed="_onValidateDestroyed()"

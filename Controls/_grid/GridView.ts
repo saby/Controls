@@ -304,6 +304,7 @@ var
         isFooterChanged(oldOptions, newOptions): boolean {
             if (
                 // Подвал появился/скрылся
+                (oldOptions.shouldDrawFooter !== newOptions.shouldDrawFooter) ||
                 (!oldOptions.footer && newOptions.footer) ||
                 (oldOptions.footer && !newOptions.footer) ||
                 (!oldOptions.footerTemplate && newOptions.footerTemplate) ||
