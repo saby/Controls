@@ -12,6 +12,7 @@
                     <ws:template>
                         <ws:partial template="Controls/gridNew:ColumnTemplate">
                             <ws:contentTemplate>
+                                {{contentTemplate.item.getContents().get('country')}}
                                 <ws:partial template="{{contentTemplate.itemActionsTemplate}}" />
                             </ws:contentTemplate>
                         </ws:partial>

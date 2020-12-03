@@ -12,6 +12,7 @@
                      theme="{{ theme }}"
                      style="{{ style }}"
                      cursor="{{ cursor }}"
+                     itemActionsTemplate="{{ itemActionsTemplate }}"
                      templateHighlightOnHover="{{ templateHighlightOnHover }}">
             <ws:ladderWrapper>
                <ws:partial template="{{ladderWrapper.content}}"
