@@ -5,13 +5,13 @@
             {{_value ? _orientation === 'vertical' ? 'controls-DoubleSwitch__toggle_vertical_checked controls-DoubleSwitch__toggle_vertical_checked_theme-' + (_options.theme) : 'controls-DoubleSwitch__toggle_horizontal_checked controls-DoubleSwitch__toggle_horizontal_checked_theme-' + (_options.theme)}}
             {{!_value ? _orientation === 'vertical' ? 'controls-DoubleSwitch__toggle_vertical_notChecked controls-DoubleSwitch__toggle_vertical_notChecked_theme-' + (_options.theme) : 'controls-DoubleSwitch__toggle_horizontal_notChecked controls-DoubleSwitch__toggle_horizontal_notChecked_theme-' + (_options.theme)}}"
       on:click="_clickToggleHandler()">
-   <ws:if data="{{ _orientation === 'vertical' }}">
-      <span class="controls-DoubleSwitch__fake-element controls-DoubleSwitch__fake-element_{{ _value ? 'active' : 'inactive' }}"></span>
-   </ws:if>
-   <ws:partial
-           template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle"
-           readOnly="{{!_enabled}}"
-           selected="{{true}}"
-           attr:class="controls_DoubleSwitch_SwitchCircle_{{ _orientation === 'vertical' ? 'vertical' : 'horizontal' }}_theme-{{ _options.theme }}"
-   />
+   <span class="{{_orientation === 'vertical' ? 'controls-DoubleSwitch__line_vertical controls-DoubleSwitch__line_vertical_theme-' + (_options.theme) :
+                     'controls-DoubleSwitch__line_horizontal controls-DoubleSwitch__line_horizontal_theme-' + (_options.theme)}}
+               {{_value ? _orientation === 'vertical' ? 'controls-DoubleSwitch__line_vertical_checked controls-DoubleSwitch__line_vertical_checked_theme-' + (_options.theme) :
+               'controls-DoubleSwitch__line_horizontal_checked controls-DoubleSwitch__line_horizontal_checked_theme-' + (_options.theme) :
+               _orientation === 'vertical' ? 'controls-DoubleSwitch__line_vertical_notChecked controls-DoubleSwitch__line_vertical_notChecked_theme-' + (_options.theme) :
+               'controls-DoubleSwitch__line_horizontal_notChecked controls-DoubleSwitch__line_horizontal_notChecked_theme-' + (_options.theme) }}
+               {{_enabled ? 'controls-DoubleSwitch__line_enabled controls-DoubleSwitch__line_enabled_theme-' + (_options.theme) :
+               'controls-DoubleSwitch__line_disabled controls-DoubleSwitch__line_disabled_theme-' + (_options.theme)}}"></span>
+   <ws:partial template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle" readOnly="{{!_enabled}}" selected="{{true}}"/>
 </span>

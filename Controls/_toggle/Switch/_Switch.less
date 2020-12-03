@@ -9,15 +9,67 @@
 .controls-Switch__toggle__wrapper {
    .inline-flexbox();
    .align-items(center);
+   .justify-content(center);
    .baseline-fix();
    border-style: solid;
+   box-sizing: border-box;
    user-select: none;
    position: relative;
 }
 
+/**
+ * TODO: holeFix
+ * Маркер и линия касаются друг друга. Пусть маркер находится слева от линии (случай, когда маркер справа можно получить зеркальным отображением).
+ * Тогда, если взять их границы, то границей маркера будет окружность, а линии прямоугольник.
+ * Они касаются друг друга только в одной точке. Точка является центром левой границы прямоугольника. Поэтому
+ * между верхним левым или нижним левым углами прямоугольника и окружностью имеется не нулевое расстояние. Чем больше
+ * размеры контрола, тем больше это расстояние. По мере увеличения контрола, расстояние в какой-то момент может стать больше
+ * пикселя или быть округлено в большую сторону (на IPad). Тогда визуально будут наблюдаться дырки между маркером и линией.
+ * Решаем данную проблему с помощью наложения дополнительного блока, который перекроет собой дырки.
+ * Высота блока должна быть равна высоте линии. Ширину берем как половину толщины обводки маркера с округлением в меньшую сторону, чтобы
+ * избавиться от дробных пикселей, и умноженную на 2, чтобы одна половина была на маркере, а другая на линии. Смещаем его так, чтобы
+ * точка пересечения маркера и линии была на вертикальной прямой проходящей через его центр.
+ * Демо: https://codepen.io/Horek/pen/GRKbdjR
+ */
+& {
+   // Ограничиваем область видимости переменных.
+   @width_sticker: floor(@marker-box_border-thickness_switcher / 2) * 2;
+   @vertical-offset_sticker: @height_switcher / 2 - @track_thickness_switcher;
+   @horizontal-offset_sticker: (@width_switcher - @track_length_switcher - @width_sticker) / 2 - @border-thickness_switcher + @marker-box_size_switcher;
+
+   /**
+    * Чтобы не засорять верстку используем псевдоэлементы. Так как before используется для
+    * выравнивания текста, то используем after.
+    * Позиционирование необходимо производить через абсолютные свойства top, right, bottom, left.
+    * Причина в разном способе позиционирования браузерами, абсолютного элемента во flex контейнере.
+    * https://jsfiddle.net/amhtj9x7/1/
+    */
+   .controls-Switch__toggle__wrapper_theme-@{themeName}::after {
+      content: '';
+      position: absolute;
+      top: @vertical-offset_sticker;
+      width: @width_sticker;
+      height: @track_thickness_switcher;
+   }
+   .controls-Switch__toggle__wrapper_left_theme-@{themeName}::after {
+      left: @horizontal-offset_sticker;
+   }
+   .controls-Switch__toggle__wrapper_right_theme-@{themeName}::after {
+      right: @horizontal-offset_sticker;
+   }
+}
+.controls-Switch_enabled_theme-@{themeName}::after {
+   background-color: @track_color_switcher;
+}
+.controls-Switch_disabled_theme-@{themeName}::after {
+   background-color: @readonly_track_color_switcher;
+}
+
+// End holeFix
+
 .controls-Switch__toggle__wrapper_theme-@{themeName} {
    width: @width_switcher;
-   height: @height_horizontal-switcher;
+   height: @height_switcher;
    border-width: @border-thickness_switcher;
    border-color: @border-color_switcher;
    border-radius: @border-radius_switcher;
@@ -36,6 +88,19 @@
 .controls-Switch__line {
    display: inline-block;
    position: relative;
+}
+
+.controls-Switch__line_theme-@{themeName} {
+   height: @track_thickness_switcher;
+   width: @track_length_switcher - @marker-box_size_switcher;
+}
+
+.controls-Switch__line_enabled_theme-@{themeName} {
+   background-color: @track_color_switcher;
+}
+
+.controls-Switch__line_disabled_theme-@{themeName} {
+   background-color: @readonly_track_color_switcher;
 }
 
 .controls-Switch__text_rightCaption_theme-@{themeName} {
@@ -94,9 +159,4 @@
          stroke: @marker-box_hover_border-color_switcher;
       }
    }
-}
-
-.controls_Switch_SwitchCircle_theme-@{themeName} {
-   margin-right: @marker_border-offset_switcher - @border-thickness_switcher;
-   margin-left: @marker_border-offset_switcher - @border-thickness_switcher;
 }

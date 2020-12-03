@@ -41,14 +41,13 @@
 //
 // Размеры
 
-@width_switcher:                                                            32px;
-@height_horizontal-switcher:                                                @inline_height_xs;
-@height_vertical-switcher:                                                  40px;
+@width_switcher:                                                            46px;
+@height_switcher:                                                           @inline_height_m;
 
 // Обводка
 
 @border-thickness_switcher:                                                 @border-thickness;
-@border-radius_switcher:                                                    @height_horizontal-switcher/2;
+@border-radius_switcher:                                                    @height_switcher/2;
 @border-color_switcher:                                                     #E4E4E4;
 
 // Текст
@@ -59,6 +58,14 @@
 @unselected_text-color_switcher:                                            @unaccented_text-color;
 @readonly_text-color_switcher:                                              @text-color;
 @readonly_unselected_text-color_switcher:                                   @readonly_color;
+
+// Полоска
+
+@track_thickness_switcher:                                                  2px;
+@track_length_switcher:                                                     34px;
+@track_color_switcher:                                                      #CCC;
+@readonly_track_color_switcher:                                             #E4E4E4;
+
 
 //Маркер
 
@@ -75,12 +82,7 @@
 @readonly_marker-box_border-color_switcher:                                 #E4E4E4;
 @marker-box_hover_border-color_switcher:                                    @marker_color_switcher;
 
-@marker_width_switcher:                                                     12px;
-@marker_height_switcher:                                                    @marker_width_switcher;
-@selected_marker_color_switcher:                                            @marker_color;
-@unselected_marker_color_switcher:                                          #CCC;
-@readonly_marker_color_switcher:                                            @readonly_marker-color;
-@marker_border-offset_switcher:                                             3px;
+
 
 // Переменные для большого разделителя
 //

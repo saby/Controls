@@ -54,7 +54,7 @@ export {default as ButtonGroup} from './_toggle/ButtonGroup';
 
 import ItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/ItemTemplate');
 import CheckboxItemTemplate = require('wml!Controls/_toggle/CheckboxGroup/resources/ItemTemplate');
-import switchCircleTemplate = require('wml!Controls/_toggle/RadioGroup/resources/RadioCircle/RadioCircle');
+import switchCircleTemplate = require('wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle');
 
 export {
     ItemTemplate,
