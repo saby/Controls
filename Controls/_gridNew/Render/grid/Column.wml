@@ -3,7 +3,8 @@
            template="{{ contentTemplate }}"
            column="{{ column }}"
            itemData="{{ (item || itemData) }}"
-           item="{{ (item || itemData) }}"/>
+           item="{{ (item || itemData) }}"
+           itemActionsTemplate="{{ itemActionsTemplate }}"/>
 </ws:if>
 <ws:else>
    {{ (item || itemData).getContents()[column.displayProperty] }}
