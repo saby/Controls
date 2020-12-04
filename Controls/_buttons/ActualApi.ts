@@ -1,4 +1,5 @@
 import {Logger} from 'UI/Utils';
+import {constants} from 'Env/Env';
 
 const deprecatedClassesOfButton = {
    iconButtonBordered: {
@@ -18,30 +19,6 @@ const deprecatedClassesOfButton = {
       style: 'info',
       type: 'link'
    },
-   linkAdditional: {
-      style: 'info',
-      type: 'link'
-   },
-   linkAdditional2: {
-      style: 'default',
-      type: 'link'
-   },
-
-   linkAdditional3: {
-      style: 'danger',
-      type: 'link'
-   },
-
-   linkAdditional4: {
-      style: 'success',
-      type: 'link'
-   },
-
-   linkAdditional5: {
-      style: 'magic',
-      type: 'link'
-   },
-
    buttonPrimary: {
       style: 'primary',
       type: 'button'
@@ -50,11 +27,6 @@ const deprecatedClassesOfButton = {
    buttonDefault: {
       style: 'secondary',
       type: 'button'
-   },
-
-   buttonAdd: {
-      style: 'primary',
-      type: 'button'
    }
 };
 const _iconRegExp: RegExp = new RegExp('icon-(large|small|medium|default|16|24|32)\\b');
@@ -62,7 +34,6 @@ const _iconRegExp: RegExp = new RegExp('icon-(large|small|medium|default|16|24|3
 interface IButtonClass {
    viewMode: string;
    style: string;
-   buttonAdd: boolean;
 }
 
 interface IViewModeAndContrast {
@@ -84,20 +55,18 @@ const ActualApi = {
    styleToViewMode(style: string): IButtonClass {
       const currentButtonClass: IButtonClass = {
          viewMode: '',
-         style: '',
-         buttonAdd: false
+         style: ''
       };
       if (deprecatedClassesOfButton.hasOwnProperty(style)) {
           Logger.warn('Button: Используются устаревшие стили (style = ' + style + ')');
          currentButtonClass.viewMode = deprecatedClassesOfButton[style].type;
          currentButtonClass.style = deprecatedClassesOfButton[style].style;
-         if (style === 'linkMain2' || style === 'linkMain3') {
-             Logger.warn('Button: Используются устаревшие стили. Используйте компонент Controls/Label c опцией underline: hovered и fixed');
-         } else if (style === 'buttonAdd') {
-            currentButtonClass.buttonAdd = true;
-             Logger.warn('Button: Используются устаревшие стили. Используйте опцию iconStyle в различных значениях для изменения по наведению');
-         } else {
-             Logger.warn('Button: Используются устаревшие стили. Используйте опции: viewMode = ' + currentButtonClass.viewMode + ', style = ' + currentButtonClass.style);
+         if (constants.isBrowserPlatform) {
+             if (style === 'linkMain2' || style === 'linkMain3') {
+                 Logger.error('Button: Используются устаревшие стили. Используйте компонент Controls/Label c опцией underline: hovered и fixed');
+             } else {
+                 Logger.error('Button: Используются устаревшие стили. Используйте опции: viewMode = ' + currentButtonClass.viewMode + ', style = ' + currentButtonClass.style);
+             }
          }
       }
       return currentButtonClass;
@@ -113,20 +82,20 @@ const ActualApi = {
       switch (iconStyle) {
          case 'attention':
             newIconStyle = 'warning';
-            if (warnFlag) {
-                Logger.warn('Button: Используется устаревшее значение опции iconStyle. Используйте значение warning вместо attention');
+            if (warnFlag && constants.isBrowserPlatform) {
+                Logger.error('Button: Используется устаревшее значение опции iconStyle. Используйте значение warning вместо attention');
             }
             break;
          case 'done':
             newIconStyle = 'success';
-            if (warnFlag) {
-                Logger.warn('Button: Используется устаревшее значение опции iconStyle. Используйте значение success виесто done');
+            if (warnFlag && constants.isBrowserPlatform) {
+                Logger.error('Button: Используется устаревшее значение опции iconStyle. Используйте значение success виесто done');
             }
             break;
          case 'error':
             newIconStyle = 'danger';
-            if (warnFlag) {
-                Logger.warn('Button: Используется устаревшее значение опции iconStyle. Используйте значение danger вместо error');
+            if (warnFlag && constants.isBrowserPlatform) {
+                Logger.error('Button: Используется устаревшее значение опции iconStyle. Используйте значение danger вместо error');
             }
             break;
          default:
@@ -165,7 +134,7 @@ const ActualApi = {
          return options.contrastBackground;
       } else {
          if (typeof options.transparent !== 'undefined') {
-            // IoC.resolve('ILogger').warn('Button', 'Опция transparent устарела, используйте contrastBackground');
+            Logger.warn('Button: Опция transparent устарела, используйте contrastBackground');
             return !options.transparent;
          } else {
             return false;
@@ -228,11 +197,9 @@ const ActualApi = {
          }
       }
    },
-   iconStyle(iconStyle: string, icon: string, readonly: boolean, buttonAdd: boolean): string {
+   iconStyle(iconStyle: string, icon: string, readonly: boolean): string {
       if (readonly) {
          return 'readonly';
-      } else if (buttonAdd) {
-         return 'default';
       } else {
          if (iconStyle) {
             return this.iconStyleTransformation(iconStyle, true);

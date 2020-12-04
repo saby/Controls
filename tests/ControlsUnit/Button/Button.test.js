@@ -21,31 +21,6 @@ define(['Controls/buttons'], function(buttons) {
             assert.equal('link', cfg.viewMode, 'wrong cfg');
             assert.equal('info', cfg.style, 'wrong cfg');
          });
-         it('style linkAdditional', function() {
-            let cfg = actualAPI.styleToViewMode('linkAdditional');
-            assert.equal('link', cfg.viewMode, 'wrong cfg');
-            assert.equal('info', cfg.style, 'wrong cfg');
-         });
-         it('style linkAdditional2', function() {
-            let cfg = actualAPI.styleToViewMode('linkAdditional2');
-            assert.equal('link', cfg.viewMode, 'wrong cfg');
-            assert.equal('default', cfg.style, 'wrong cfg');
-         });
-         it('style linkAdditional3', function() {
-            let cfg = actualAPI.styleToViewMode('linkAdditional3');
-            assert.equal('link', cfg.viewMode, 'wrong cfg');
-            assert.equal('danger', cfg.style, 'wrong cfg');
-         });
-         it('style linkAdditional4', function() {
-            let cfg = actualAPI.styleToViewMode('linkAdditional4');
-            assert.equal('link', cfg.viewMode, 'wrong cfg');
-            assert.equal('success', cfg.style, 'wrong cfg');
-         });
-         it('style linkAdditional5', function() {
-            let cfg = actualAPI.styleToViewMode('linkAdditional5');
-            assert.equal('link', cfg.viewMode, 'wrong cfg');
-            assert.equal('magic', cfg.style, 'wrong cfg');
-         });
          it('style buttonPrimary', function() {
             let cfg = actualAPI.styleToViewMode('buttonPrimary');
             assert.equal('button', cfg.viewMode, 'wrong cfg');
@@ -55,11 +30,6 @@ define(['Controls/buttons'], function(buttons) {
             let cfg = actualAPI.styleToViewMode('buttonDefault');
             assert.equal('button', cfg.viewMode, 'wrong cfg');
             assert.equal('secondary', cfg.style, 'wrong cfg');
-         });
-         it('style buttonAdd', function() {
-            let cfg = actualAPI.styleToViewMode('buttonAdd');
-            assert.equal('button', cfg.viewMode, 'wrong cfg');
-            assert.equal('primary', cfg.style, 'wrong cfg');
          });
          it('style toolButton', function() {
             let cfg = actualAPI.styleToViewMode('toolButton');
@@ -206,10 +176,6 @@ define(['Controls/buttons'], function(buttons) {
          it('readonly', function() {
             const cfg = actualAPI.iconStyle('success', 'icon-done icon-Author', true, false);
             assert.equal('readonly', cfg, 'wrong cfg');
-         });
-         it('buttonAdd', function() {
-            const cfg = actualAPI.iconStyle('success', 'icon-done icon-Author', false, true);
-            assert.equal('default', cfg, 'wrong cfg');
          });
          it('iconStyle success', function() {
             const cfg = actualAPI.iconStyle('success', 'icon-done icon-Author', false, false);
