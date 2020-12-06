@@ -16,6 +16,7 @@
                              itemData="{{ (item || itemData) }}"
                              theme="{{ theme }}"
                              cursor="{{ cursor }}"
+                             itemActionsTemplate="{{ itemActionsTemplate }}"
                              templateHighlightOnHover="{{ templateHighlightOnHover }}">
                      <ws:ladderWrapper>
                          <ws:partial template="{{ladderWrapper.content}}"
