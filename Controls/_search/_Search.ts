@@ -26,15 +26,15 @@ var _private = {
       self._searchStartCallback = options.searchStartCallback;
    },
 
-   searchCallback: function(self, result) {
-      self._searchDeferred.callback({
+   searchCallback: function(self, result, searchDeferred) {
+      searchDeferred.callback({
          data: result,
          hasMore: self._sourceController.hasMoreData('down')
       });
    },
 
-   searchErrback: function(self, error) {
-      self._searchDeferred.errback(error);
+   searchErrback: function(self, error, searchDeferred) {
+      searchDeferred.errback(error);
    },
 
    clearSearchDelay: function(self) {
@@ -44,19 +44,19 @@ var _private = {
       }
    },
 
-   callAfterDelay: function(self, callback) {
+   callAfterDelay: function(self, callback, searchDeferred) {
       _private.clearSearchDelay(self);
       self._searchDelayTimer = setTimeout(function() {
          self._searchDelayTimer = null;
-         callback();
+         callback(searchDeferred);
       }, self._searchDelay);
    },
 
-   resolveSearchCall: function (self, callback, force) {
+   resolveSearchCall: function (self, callback, force, searchDeferred) {
       if (force || !self._searchDelay) {
-         callback();
+         callback(searchDeferred);
       } else {
-         _private.callAfterDelay(self, callback);
+         _private.callAfterDelay(self, callback, searchDeferred);
       }
    }
 
@@ -110,17 +110,17 @@ var Search  = extend({
     */
    search: function(filter, force) {
       var self = this;
-      var load = function() {
+      var load = function(searchDeffered) {
          if (self._searchStartCallback) {
             self._searchStartCallback(filter);
          }
          self._sourceController.load(filter, self._sorting)
             .addCallback(function(result) {
-               _private.searchCallback(self, result);
+               _private.searchCallback(self, result, searchDeffered);
                return result;
             })
             .addErrback(function(err) {
-               _private.searchErrback(self, err);
+               _private.searchErrback(self, err, searchDeffered);
                return err;
             });
       };
@@ -129,7 +129,7 @@ var Search  = extend({
       this.abort(true);
       this._searchDeferred = new Deferred();
 
-      _private.resolveSearchCall(this, load, force);
+      _private.resolveSearchCall(this, load, force, this._searchDeferred);
       return this._searchDeferred;
    },
 
