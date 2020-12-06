@@ -1,1 +1,1 @@
-<div></div>
+<div attr:class="{{ item.getWrapperClasses(false, _options.theme) }}"></div>

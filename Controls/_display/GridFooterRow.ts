@@ -26,16 +26,12 @@ export default class GridFooterRow<T> extends GridRow<T> {
                       cursor: string = 'pointer',
                       backgroundColorStyle?: string,
                       style: string = 'default'): string {
-        /* todo
-        // Для предотвращения скролла одной записи в таблице с экшнами.
-        // _options._needBottomPadding почему-то иногда не работает.
-        if ((this._listModel.getCount() || this._listModel.isEditing()) &&
-            this._options.itemActionsPosition === 'outside' &&
-            !this._options._needBottomPadding &&
-            this._options.resultsPosition !== 'bottom') {
-            classList = classList.add(`controls-GridView__footer__itemActionsV_outside_theme-${this._options.theme}`);
-        }*/
-        return `controls-GridView__footer`;
+        const classList = ['controls-GridView__footer'];
+        if (this._$owner.getNeedSpaceBeforeFooter() && !this._$owner.getSpaceBeforeFooter() &&
+            this.getResultsPosition() !== 'bottom') {
+            classList.push(`controls-GridView__footer__itemActionsV_outside_theme-${theme}`);
+        }
+        return classList.join(' ');
     }
 
     _initializeColumns(): void {

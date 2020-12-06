@@ -25,7 +25,6 @@ export interface IGridMixinOptions {
     resultsPosition?: TResultsPosition;
     headerVisibility?: THeaderVisibility;
     resultsVisibility?: TResultsVisibility;
-    _needBottomPadding?: boolean;
     ladderProperties?: string[];
     stickyColumn?: {};
 }
