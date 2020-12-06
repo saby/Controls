@@ -173,7 +173,19 @@ const GridView = ListView.extend({
                     `controls-ListView__empty_bottomSpacing_${bottomSpacing}_theme-${theme}`;
             }
         });
+    },
+
+    // region space before footer
+
+    _getSpaceBeforeFooterClasses(theme: string): string {
+        return `controls-itemActionsV_outside-spacing_theme-${theme}`;
+    },
+
+    _getSpaceBeforeFooterStyles(): string {
+        return '';
     }
+
+    // endregion space before footer
 });
 
 GridView._theme = ['Controls/grid', 'Controls/Classes'];

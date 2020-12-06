@@ -34,6 +34,10 @@
                 tagTemplate="{{ _options.tagTemplate }}">
         </ws:partial>
     </div>
+    <!-- space before footer -->
+    <ws:if data="{{ _options._needBottomPadding }}">
+        <div attr:class="{{ _getSpaceBeforeFooterClasses(_options.theme) }}" style="{{ _getSpaceBeforeFooterStyles() }}"></div>
+    </ws:if>
     <!-- emptyTemplate -->
     <ws:if data="{{_options.emptyTemplate}}">
         <ws:partial template="{{ _options.emptyTemplate }}"
