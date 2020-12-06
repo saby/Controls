@@ -7,9 +7,9 @@ export interface IOptions<T> extends IGridCellOptions<T> {
     template?: TemplateFunction;
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:BottomPaddingCellContent';
+const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:SpaceAfterBodyCellContent';
 
-export default class GridBottomPaddingCell<T> extends GridCell<T, GridFooterRow<T>> {
+export default class GridSpaceAfterBodyCell<T> extends GridCell<T, GridFooterRow<T>> {
 
     constructor(options?: IOptions<T>) {
         super(options);
@@ -32,7 +32,7 @@ export default class GridBottomPaddingCell<T> extends GridCell<T, GridFooterRow<
     }
 }
 
-Object.assign(GridBottomPaddingCell.prototype, {
-    _moduleName: 'Controls/display:GridBottomPaddingCell',
+Object.assign(GridSpaceAfterBodyCell.prototype, {
+    _moduleName: 'Controls/display:GridSpaceAfterBodyCell',
     _instancePrefix: 'grid-bottom-padding-cell-'
 });

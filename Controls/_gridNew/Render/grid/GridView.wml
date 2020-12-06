@@ -35,10 +35,10 @@
         </ws:partial>
     </div>
     <!-- Space before footer for outside ItemActions -->
-    <ws:if data="{{ _listModel.getSpaceBeforeFooter() }}">
-        <ws:partial template="{{ _listModel.getSpaceBeforeFooter().getTemplate() }}"
+    <ws:if data="{{ _listModel.getSpaceAfterBody() }}">
+        <ws:partial template="{{ _listModel.getSpaceAfterBody().getTemplate() }}"
                     attr:name="bottomPadding"
-                    item="{{ _listModel.getSpaceBeforeFooter() }}"/>
+                    item="{{ _listModel.getSpaceAfterBody() }}"/>
     </ws:if>
     <!-- emptyTemplate -->
     <ws:if data="{{_options.emptyTemplate}}">

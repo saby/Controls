@@ -747,7 +747,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     protected _dragStrategy: Function = DragStrategy;
 
-    protected _$needSpaceBeforeFooter: boolean;
+    protected _$needSpaceAfterBody: boolean;
 
     constructor(options: IOptions<S, T>) {
         super(options);
@@ -846,7 +846,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         }
 
         if (options.itemActionsPosition) {
-            this._setNeedSpaceBeforeFooter(options.itemActionsPosition);
+            this._setNeedSpaceAfterBody(options.itemActionsPosition);
         }
     }
 
@@ -2800,17 +2800,17 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return this._$markerVisibility;
     }
 
-    //region SpaceBeforeFooter
+    //region SpaceAfterBody
 
-    protected _setNeedSpaceBeforeFooter(itemActionsPosition: string): void {
-        this._$needSpaceBeforeFooter = (this.isEditing() || this.getCount() > 0) && itemActionsPosition === 'outside';
+    protected _setNeedSpaceAfterBody(itemActionsPosition: string): void {
+        this._$needSpaceAfterBody = (this.isEditing() || this.getCount() > 0) && itemActionsPosition === 'outside';
     }
 
-    getNeedSpaceBeforeFooter(): boolean {
-        return this._$needSpaceBeforeFooter;
+    getNeedSpaceAfterBody(): boolean {
+        return this._$needSpaceAfterBody;
     }
 
-    // endregion SpaceBeforeFooter
+    // endregion SpaceAfterBody
 
     // region SerializableMixin
 

@@ -40,11 +40,11 @@
         </ws:partial>
     </tbody>
     <!-- Space before footer for outside ItemActions -->
-    <ws:if data="{{ _listModel.getSpaceBeforeFooter() }}">
-        <ws:partial template="{{ _listModel.getSpaceBeforeFooter().getTemplate() }}"
-                    attr:class="{{ _listModel.getSpaceBeforeFooter().getWrapperClasses(false, _options.theme) }}"
-                    attr:name="bottomPadding"
-                    item="{{ _listModel.getSpaceBeforeFooter() }}"/>
+    <ws:if data="{{ _listModel.getSpaceAfterBody() }}">
+        <ws:partial template="{{ _listModel.getSpaceAfterBody().getTemplate() }}"
+                    attr:class="{{ _listModel.getSpaceAfterBody().getWrapperClasses(false, _options.theme) }}"
+                    attr:name="spaceAfterBody"
+                    item="{{ _listModel.getSpaceAfterBody() }}"/>
     </ws:if>
     <!-- emptyTemplate -->
     <ws:if data="{{_options.emptyTemplate}}">

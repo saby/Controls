@@ -27,7 +27,7 @@ export default class GridFooterRow<T> extends GridRow<T> {
                       backgroundColorStyle?: string,
                       style: string = 'default'): string {
         const classList = ['controls-GridView__footer'];
-        if (this._$owner.getNeedSpaceBeforeFooter() && !this._$owner.getSpaceBeforeFooter() &&
+        if (this._$owner.getNeedSpaceAfterBody() && !this._$owner.getSpaceAfterBody() &&
             this.getResultsPosition() !== 'bottom') {
             classList.push(`controls-GridView__footer__itemActionsV_outside_theme-${theme}`);
         }

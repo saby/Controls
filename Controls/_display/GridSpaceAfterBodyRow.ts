@@ -5,7 +5,7 @@ export interface IOptions<T> extends IGridRowOptions<T> {
     owner: GridCollection<T>;
 }
 
-export default class GridBottomPaddingRow<T> extends GridRow<T> {
+export default class GridSpaceAfterBodyRow<T> extends GridRow<T> {
 
     constructor(options?: IOptions<T>) {
         super(options);
@@ -42,8 +42,8 @@ export default class GridBottomPaddingRow<T> extends GridRow<T> {
     }
 }
 
-Object.assign(GridBottomPaddingRow.prototype, {
-    _moduleName: 'Controls/display:GridBottomPaddingRow',
+Object.assign(GridSpaceAfterBodyRow.prototype, {
+    _moduleName: 'Controls/display:GridSpaceAfterBodyRow',
     _instancePrefix: 'grid-bottom-padding-row-',
-    _cellModule: 'Controls/display:GridBottomPaddingCell'
+    _cellModule: 'Controls/display:GridSpaceAfterBodyCell'
 });
