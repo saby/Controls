@@ -34,6 +34,13 @@
                 tagTemplate="{{ _options.tagTemplate }}">
         </ws:partial>
     </div>
+    <!-- bottomPadding for outside ItemActions -->
+    <ws:if data="{{ _listModel.getSpaceBeforeFooter() }}">
+        <ws:partial template="{{ _listModel.getSpaceBeforeFooter().getTemplate() }}"
+                    attr:name="bottomPadding"
+                    attr:class="{{ _listModel.getSpaceBeforeFooter().getWrapperClasses(false, _options.theme) }}"
+                    item="{{ _listModel.getSpaceBeforeFooter() }}"/>
+    </ws:if>
     <!-- emptyTemplate -->
     <ws:if data="{{_options.emptyTemplate}}">
         <ws:partial template="{{ _options.emptyTemplate }}"

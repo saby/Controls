@@ -9,6 +9,7 @@ import { TemplateFunction } from 'UI/Base';
 import { THeader } from 'Controls/_grid/interface/IHeaderCell';
 import GridRowMixin from 'Controls/_display/GridRowMixin';
 import GridFooterRow from 'Controls/_display/GridFooterRow';
+import GridBottomPaddingRow from 'Controls/_display/GridBottomPaddingRow';
 import GridResultsRow, { TResultsPosition } from 'Controls/_display/GridResultsRow';
 
 type THeaderVisibility = 'visible' | 'hasdata';
@@ -24,6 +25,7 @@ export interface IGridMixinOptions {
     resultsPosition?: TResultsPosition;
     headerVisibility?: THeaderVisibility;
     resultsVisibility?: TResultsVisibility;
+    _needBottomPadding?: boolean;
     ladderProperties?: string[];
     stickyColumn?: {};
 }
@@ -36,6 +38,7 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
     protected _$header: GridHeader<S>;
     protected _$footer: GridFooterRow<S>;
     protected _$results: GridResultsRow<S>;
+    protected _$spaceBeforeFooter: GridBottomPaddingRow<S>;
     protected _$ladder: {};
     protected _$ladderProperties: string[];
     protected _$stickyColumn: {};
@@ -61,6 +64,9 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
         }
         if (this._resultsIsVisible()) {
             this._$results = this._initializeResults(options);
+        }
+        if (this._spaceBeforeFooterIsVisible(options)) {
+            this._$spaceBeforeFooter = this._initializeSpaceBeforeFooter(options);
         }
         if (!this._$isFullGridSupport) {
             this._$colgroup = this._initializeColgroup(options);
@@ -89,6 +95,10 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
 
     getResults(): GridResultsRow<S> {
         return this._$results;
+    }
+
+    getSpaceBeforeFooter(): GridBottomPaddingRow<S> {
+        return this._$spaceBeforeFooter;
     }
 
     getResultsPosition(): TResultsPosition {
@@ -158,8 +168,12 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
         return hasResultsPosition && (this._$resultsVisibility === 'visible' || hasMoreData || this.getCollectionCount() > 1);
     }
 
-    protected _initializeHeader(options: IGridMixinOptions): GridHeader<S> {
-        const _options = {
+    protected _spaceBeforeFooterIsVisible(options: IGridMixinOptions): boolean {
+        return this.getNeedSpaceBeforeFooter() && !options.footerTemplate && options.resultsPosition !== 'bottom';
+    }
+
+    protected _initializeHeader(options: IGridMixinOptions): GridHeaderRow<S> {
+        return new GridHeaderRow({
             ...options,
             owner: this,
             header: options.header
@@ -185,6 +199,14 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
         });
     }
 
+    protected _initializeSpaceBeforeFooter(options: IGridMixinOptions): GridBottomPaddingRow<S> {
+        return new GridBottomPaddingRow({
+            ...options,
+            owner: this,
+            columns: this._$columns
+        });
+    }
+
     protected _initializeColgroup(options: IGridMixinOptions): GridColgroup<S> {
         return new GridColgroup({
             owner: this
@@ -200,6 +222,7 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
     abstract getStartIndex(): number;
     abstract getStopIndex(): number;
     abstract getRowSeparatorSize(): string;
+    abstract getNeedSpaceBeforeFooter(): boolean;
 
     protected abstract _nextVersion(): void;
 
@@ -214,5 +237,6 @@ Object.assign(GridMixin.prototype, {
     _$resultsPosition: null,
     _$ladderProperties: null,
     _$stickyColumn: null,
-    _$isFullGridSupport: true
+    _$isFullGridSupport: true,
+    _$_needitemActionsPaddingCell: false
 });

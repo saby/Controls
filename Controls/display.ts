@@ -114,6 +114,8 @@ import {default as GridDataCell} from './_display/GridDataCell';
 export {GridDataCell};
 import {default as GridFooterCell} from './_display/GridFooterCell';
 export {GridFooterCell};
+import {default as GridBottomPaddingCell} from './_display/GridBottomPaddingCell';
+export {GridBottomPaddingCell};
 import {default as GridResultsCell} from './_display/GridResultsCell';
 export {GridResultsCell};
 import {default as GridGroupItem} from './_display/GridGroupItem';
@@ -155,6 +157,7 @@ register('Controls/display:GridDataCell', GridDataCell, {instantiate: false});
 
 register('Controls/display:GridFooterCell', GridFooterCell, {instantiate: false});
 register('Controls/display:GridResultsCell', GridResultsCell, {instantiate: false});
+register('Controls/display:GridBottomPaddingCell', GridBottomPaddingCell, {instantiate: false});
 
 register('Controls/display:GroupItem', GroupItem, {instantiate: false});
 register('Controls/display:Search', Search, {instantiate: false});

@@ -107,6 +107,7 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     importantItemProperties?: string[];
     itemActionsProperty?: string;
     navigation?: INavigationOptionValue;
+    itemActionsPosition?: string;
 }
 
 export interface ICollectionCounters {
@@ -746,6 +747,8 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     protected _dragStrategy: Function = DragStrategy;
 
+    protected _$needSpaceBeforeFooter: boolean;
+
     constructor(options: IOptions<S, T>) {
         super(options);
         SerializableMixin.call(this);
@@ -840,6 +843,10 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
                 (item, index, collectionItem, collectionIndex, hasMembers, groupItem) =>
                     collectionItem['[Controls/_display/GroupItem]'] || !groupItem || groupItem.isExpanded()
             );
+        }
+
+        if (options.itemActionsPosition) {
+            this._setNeedSpaceBeforeFooter(options.itemActionsPosition);
         }
     }
 
@@ -2447,13 +2454,13 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         if (this._$collection['[Types/_collection/RecordSet]']) {
             if (key !== undefined) {
                 const record = (this._$collection as unknown as RecordSet).getRecordById(key);
-                if (!record) {   
+                if (!record) {
 
                     // Если записи нет в наборе данных, то, возможно запрашивается добавляемая в данный момент запись.
                     // Такой записи еще нет в наборе данных.
                     if (this._$isEditing) {
                         return this.find((item) => item.isEditing() && item.isAdd && item.contents.getKey() === key);
-                    } 
+                    }
 
                     // Или требуется найти группу
                     return this.find((item) => item['[Controls/_display/GroupItem]'] && item.key === key);
@@ -2792,6 +2799,18 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     getMarkerVisibility(): string {
         return this._$markerVisibility;
     }
+
+    //region SpaceBeforeFooter
+
+    protected _setNeedSpaceBeforeFooter(itemActionsPosition: string): void {
+        this._$needSpaceBeforeFooter = (this.isEditing() || this.getCount() > 0) && itemActionsPosition === 'outside';
+    }
+
+    getNeedSpaceBeforeFooter(): boolean {
+        return this._$needSpaceBeforeFooter;
+    }
+
+    // endregion SpaceBeforeFooter
 
     // region SerializableMixin
 

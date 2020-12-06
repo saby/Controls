@@ -39,6 +39,12 @@
                 tagTemplate="{{ _options.tagTemplate }}">
         </ws:partial>
     </tbody>
+    <!-- bottomPadding for outside ItemActions -->
+    <ws:if data="{{ _listModel.getSpaceBeforeFooter() }}">
+        <ws:partial template="{{ _listModel.getSpaceBeforeFooter().getTemplate() }}"
+                    attr:name="bottomPadding"
+                    item="{{ _listModel.getSpaceBeforeFooter() }}"/>
+    </ws:if>
     <!-- emptyTemplate -->
     <ws:if data="{{_options.emptyTemplate}}">
         <td colspan="{{ _listModel.getColumnsConfig().length + (_listModel.getMultiSelectVisibility() !== 'hidden' ? 1 : 0) }}">
