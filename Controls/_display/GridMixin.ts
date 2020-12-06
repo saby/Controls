@@ -168,11 +168,11 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
     }
 
     protected _spaceAfterBodyIsVisible(options: IGridMixinOptions): boolean {
-        return this.getNeedSpaceAfterBody() && !options.footerTemplate && options.resultsPosition !== 'bottom';
+        return this.isNeedSpaceAfterBody() && !options.footerTemplate && options.resultsPosition !== 'bottom';
     }
 
-    protected _initializeHeader(options: IGridMixinOptions): GridHeaderRow<S> {
-        return new GridHeaderRow({
+    protected _initializeHeader(options: IGridMixinOptions): GridHeader<S> {
+        const _options = {
             ...options,
             owner: this,
             header: options.header
@@ -221,7 +221,7 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
     abstract getStartIndex(): number;
     abstract getStopIndex(): number;
     abstract getRowSeparatorSize(): string;
-    abstract getNeedSpaceAfterBody(): boolean;
+    abstract isNeedSpaceAfterBody(): boolean;
 
     protected abstract _nextVersion(): void;
 

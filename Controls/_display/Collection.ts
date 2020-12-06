@@ -2806,7 +2806,7 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         this._$needSpaceAfterBody = (this.isEditing() || this.getCount() > 0) && itemActionsPosition === 'outside';
     }
 
-    getNeedSpaceAfterBody(): boolean {
+    isNeedSpaceAfterBody(): boolean {
         return this._$needSpaceAfterBody;
     }
 

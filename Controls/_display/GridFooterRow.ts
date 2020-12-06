@@ -9,6 +9,9 @@ export interface IOptions<T> extends IGridRowOptions<T> {
 }
 
 export default class GridFooterRow<T> extends GridRow<T> {
+    protected '[Controls/_display/IEditableCollectionItem]': boolean = false;
+    readonly Markable: boolean = false;
+    readonly SelectableItem: boolean = false;
     protected _$footerTemplate: TemplateFunction;
     protected _$footer: TFooter;
 
@@ -27,7 +30,7 @@ export default class GridFooterRow<T> extends GridRow<T> {
                       backgroundColorStyle?: string,
                       style: string = 'default'): string {
         const classList = ['controls-GridView__footer'];
-        if (this._$owner.getNeedSpaceAfterBody() && !this._$owner.getSpaceAfterBody() &&
+        if (this._$owner.isNeedSpaceAfterBody() && !this._$owner.getSpaceAfterBody() &&
             this.getResultsPosition() !== 'bottom') {
             classList.push(`controls-GridView__footer__itemActionsV_outside_theme-${theme}`);
         }

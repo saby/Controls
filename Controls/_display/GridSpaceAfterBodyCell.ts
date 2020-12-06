@@ -1,6 +1,7 @@
 import { TemplateFunction } from 'UI/Base';
 import GridFooterRow from './GridFooterRow';
 import GridCell, {IOptions as IGridCellOptions} from './GridCell';
+import GridSpaceAfterBodyRow from 'Controls/_display/GridSpaceAfterBodyRow';
 
 export interface IOptions<T> extends IGridCellOptions<T> {
     owner: GridFooterRow<T>;
@@ -9,7 +10,7 @@ export interface IOptions<T> extends IGridCellOptions<T> {
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:SpaceAfterBodyCellContent';
 
-export default class GridSpaceAfterBodyCell<T> extends GridCell<T, GridFooterRow<T>> {
+export default class GridSpaceAfterBodyCell<T> extends GridCell<T, GridSpaceAfterBodyRow<T>> {
 
     constructor(options?: IOptions<T>) {
         super(options);

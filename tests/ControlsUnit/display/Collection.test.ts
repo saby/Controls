@@ -4624,4 +4624,14 @@ describe('Controls/_display/Collection', () => {
             assert.isTrue(notifyLaterSpy.calledTwice);
         });
     });
+
+    // Для отображения операций над записью "вне строки" к списочному контролу под ItemsContainer должно добавляться место
+    it('should init collection with itemActionsPosition', () => {
+        display = new CollectionDisplay({
+            collection: list,
+            keyProperty: 'id',
+            itemActionsPosition: 'outside'
+        });
+        assert.isTrue(display.isNeedSpaceAfterBody());
+    });
 });
