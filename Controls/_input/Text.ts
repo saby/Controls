@@ -27,6 +27,7 @@ interface ITextInputOptions extends ITextOptions, IBaseInputOptions {}
 class Text extends Base<ITextInputOptions> {
     _defaultValue: string = '';
     _punycodeToUnicode: Function;
+    protected _controlName: string = 'Text';
 
     protected _beforeMount(options: ITextInputOptions): void | Promise<void> {
         if (options.convertPunycode) {

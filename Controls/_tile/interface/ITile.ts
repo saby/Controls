@@ -32,7 +32,7 @@
  */
 
 /**
- * @cfg {Controls/_list/interface/IList/itemPadding.typedef} Конфигурация внешних отступов плитки.
+ * @cfg {Controls/_list/interface/IList/ItemPadding.typedef} Конфигурация внешних отступов плитки.
  * @name Controls/_tile/interface/ITile#itemsContainerPadding
  * @demo Controls-demo/Tile/ItemsContainerPadding/Index
  */
@@ -123,7 +123,7 @@
  */
 
 /**
- * @typedef {String} TileScalingMode
+ * @typedef {String} Controls/_tile/interface/ITile/TileScalingMode
  * @variant none При наведении курсора размер элементов не изменяется.
  * @variant outside При наведении курсора размер элементов увеличивается. Увеличенный элемент находится в окне браузера.
  * @variant inside При наведении курсора размер элементов увеличивается. Увеличенный элемент находится в контроле-контейнере.
@@ -131,7 +131,7 @@
 
 /**
  * @name Controls/_tile/interface/ITile#tileScalingMode
- * @cfg {TileScalingMode} Режим отображения плитки при наведении курсора.
+ * @cfg {Controls/_tile/interface/ITile/TileScalingMode.typedef} Режим отображения плитки при наведении курсора.
  * @default none
  * @remark Увеличенный элемент расположен в центре относительно исходного положения.
  * Если увеличенный элемент не помещается в указанный контейнер, увеличение не происходит.
@@ -145,7 +145,7 @@
  *                   parentProperty="Раздел"
  *                   nodeProperty="Раздел@"/>
  * </pre>
- * @demo @demo Controls-demo/Tile/TileMode/Dynamic/Index
+ * @demo Controls-demo/Tile/TileMode/Index
  */
 
 /*
@@ -190,8 +190,8 @@
 
 /**
  * @name Controls/_tile/interface/ITile#imageHeightProperty
- * @cfg {String} Имя свойства, содержащего высоту оригинального изображения для.
- * @default image
+ * @cfg {String} Имя свойства, содержащего высоту оригинального изображения.
+ * @default undefined
  * @demo Controls-demo/Tile/ImageFit/Index
  * @example
  * В следующем примере показано, как задать поле с высотой'.
@@ -210,8 +210,8 @@
 
 /**
  * @name Controls/_tile/interface/ITile#imageWidthProperty
- * @cfg {String} Имя свойства, содержащего ширину оригинального изображения для.
- * @default image
+ * @cfg {String} Имя свойства, содержащего ширину оригинального изображения.
+ * @default undefined
  * @demo Controls-demo/Tile/ImageFit/Index
  * @example
  * В следующем примере показано, как задать поле с шириной'.
@@ -270,7 +270,7 @@
  *       </ws:itemTemplate>
  *    </Controls.tile:View>
  * </pre>
-  * @demo @demo Controls-demo/Tile/TileMode/Index
+  * @demo Controls-demo/Tile/TileMode/Index
   * @remark
   *
  */
@@ -297,43 +297,14 @@
  */
 
 /*
- * @typedef {String} ActionMode
- * @variant strict Опции над записью показываются согласно showType.
- * @variant adaptive Опции над записью будут расчитаны динамически. Количество отображенных команд зависит от ширины плитки.
- */
-
-/**
- * @name Controls/_tile/interface/ITile#actionMode
- * @cfg {ActionMode} Вид отображения опций над записью.
- * @remark Динамический расчет применяется только к плиткам.
- * @default strict
- * @example
- * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   actionMode='adaptive'
- *                   tileSize="s"
- *                   nodeProperty="Раздел@"
- *                   tileMode="static">
- *       <ws:itemTemplate>
- *          <ws:partial
- *             template='Controls/tile:PreviewTemplate'
- *             scope={{itemTemplate}}/>
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
- * </pre>
- * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
- */
-
-/*
- * @typedef {String} ActionMode
+ * @typedef {String} Controls/_tile/interface/ITile/ActionMode
  * @variant showType Опции над записью показываются согласно showType.
  * @variant adaptive Опции над записью будут расчитаны динамически. Количество отображенных команд зависит от ширины плитки.
  */
-
 /**
  * @name Controls/_tile/interface/ITile#actionMode
- * @cfg {ActionMode} Вид отображения опций над записью.
+ * @cfg {Controls/_tile/interface/ITile/ActionMode.typedef} Вид отображения опций над записью.
+ * @default showType
  * @remark Динамический расчет применяется только к плиткам.
  * @example
  * <pre class="brush: html">
@@ -353,14 +324,14 @@
  */
 
 /*
- * @typedef {String} ActionMenuViewMode
+ * @typedef {String} Controls/_tile/interface/ITile/ActionMenuViewMode
  * @variant menu Контекстное меню в виде выпадающего списка.
  * @variant preview Контекстное меню будет отображено в виде превью.
  */
 
 /**
  * @name Controls/_tile/interface/ITile#actionMenuViewMode
- * @cfg {ActionMenuViewMode} Вид отображения меню опций записи.
+ * @cfg {Controls/_tile/interface/ITile/ActionMenuViewMode.typedef} Вид отображения меню опций записи.
  * @example
  * <pre class="brush: html">
  *    <Controls.tile:View source="{{_viewSource}}"
@@ -395,7 +366,7 @@
  *    <Controls.tile:View source="{{_viewSource}}"
  *                   keyProperty="id"
  *                   imageFit='cover'
- *                   imageUrlResolver={{_imageUrlResolver}}
+ *                   imageUrlResolver="{{_imageUrlResolver}}"
  *                   nodeProperty="Раздел@"
  *                   tileMode="static">
  *       <ws:itemTemplate>
@@ -409,7 +380,7 @@
  */
 
 /*
- * @typedef {String} imageFit
+ * @typedef {String} Controls/_tile/interface/ITile/ImageFit
  * @variant none Изображение вставляется в центр плитки и отображается "как есть"
  * @variant cover Изображение будет подстраиваться под размеры плитки так, чтобы заполнить всю область плитки.
  * @variant contain Изображение полностью помещается в контейнер плитки без обрезания и масштабирования.
@@ -417,7 +388,7 @@
 
 /**
  * @name Controls/_tile/interface/ITile#imageFit
- * @cfg {imageFit} Режим отображения изображения в плитке
+ * @cfg {Controls/_tile/interface/ITile/ImageFit.typedef} Режим отображения изображения в плитке
  * @see imageUrlResolver
  * @see imageProperty
  * @see imageHeightProperty

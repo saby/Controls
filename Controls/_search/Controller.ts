@@ -119,8 +119,9 @@ export default class Container extends Control<IContainerOptions> {
    }
 
    protected _beforeUpdate(newOptions: IContainerOptions, context: typeof DataOptions): void {
-      const mergedOptions = {...newOptions, ...context.dataOptions};
-      this._searchController.update(mergedOptions);
+      if (this._searchController) {
+         this._searchController.update({...newOptions, ...context.dataOptions});
+      }
    }
 
    private _setSearchValue(value: string): void {

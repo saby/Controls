@@ -41,6 +41,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 class Password extends Base {
     protected _defaultValue: string = '';
     private _passwordVisible: boolean = false;
+    protected _controlName: string = 'Password';
 
     protected _getViewModelOptions(options): object {
         return {

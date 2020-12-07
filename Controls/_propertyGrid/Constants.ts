@@ -1,6 +1,7 @@
 export const PROPERTY_NAME_FIELD: string = 'name';
 export const PROPERTY_GROUP_FIELD: string = 'group';
 export const PROPERTY_VALUE_FIELD: string = 'propertyValue';
+export const PROPERTY_TOGGLE_BUTTON_ICON_FIELD: string = 'toggleEditorButtonIcon';
 export const DEFAULT_EDITORS = {
     string: 'Controls/_propertyGrid/defaultEditors/String',
     boolean: 'Controls/_propertyGrid/defaultEditors/Boolean',

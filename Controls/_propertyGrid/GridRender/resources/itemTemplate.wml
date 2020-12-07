@@ -1,4 +1,4 @@
-<ws:if data="{{_options.colspan && _options.colspanTemplate}}">
+<ws:if data="{{_options.colspan || _options.colspanTemplate}}">
    <ws:partial template="{{_options.colspanTemplate}}"
                attr:class="{{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}"
                attr:style="{{getItemStyles(collectionItem, 2, true)}}"
@@ -16,7 +16,7 @@
                controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
                controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
                {{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}"
-        style="{{getItemStyles(collectionItem, 2)}}">
+        style="{{getItemStyles(collectionItem, 2, !item.caption)}}">
       <Controls.Container.Async
          templateName="{{collectionItem.getEditorTemplateName()}}"
          templateOptions="{{collectionItem.getEditorOptions()}}"/>

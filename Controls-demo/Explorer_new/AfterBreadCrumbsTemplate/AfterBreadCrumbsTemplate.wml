@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+        <Controls.explorer:View
+            source="{{_viewSource}}"
+            bind:root="_root"
+            attr:class="demo-Explorer ControlsDemo-Explorer"
+            backgroundStyle="default"
+            keyProperty="id"
+            displayProperty="title"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            viewMode="{{_viewMode}}"
+            columns="{{_columns}}">
+            <ws:afterBreadCrumbsTemplate>
+                <span class="controlsDemo-Explorer-afterBreadCrumbsTemplate">Текущий корень: {{_root}}</span>
+            </ws:afterBreadCrumbsTemplate>
+        </Controls.explorer:View>
+</div>

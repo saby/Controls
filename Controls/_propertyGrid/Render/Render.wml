@@ -1,8 +1,9 @@
 <div class="controls-PropertyGrid controls-PropertyGrid_theme-{{_options.theme}}">
     <ws:partial template="wml!Controls/_propertyGrid/Render/resources/for"
-                itemsViewModel="{{_options.listModel}}"
+                listModel="{{_options.listModel}}"
                 theme="{{_options.theme}}"
                 itemTemplate="{{_options.itemTemplate}}"
                 groupTemplate="{{_options.groupTemplate || _groupTemplate}}"
-                collapsedGroups="{{_options.collapsedGroups}}" />
+                collapsedGroups="{{_options.collapsedGroups}}"
+                toggleEditorsTemplate="{{_toggleEditorsTemplate}}"/>
 </div>

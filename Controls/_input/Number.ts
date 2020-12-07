@@ -36,6 +36,7 @@ interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions {
 class NumberInput extends Base<INumberInputOptions> {
     _defaultValue: number = 0;
     _inputMode: string = 'decimal';
+    _controlName: string = 'Number';
 
     protected _getViewModelOptions(options: INumberInputOptions): object {
         NumberInput._validateOptions(options);

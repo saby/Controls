@@ -26,12 +26,12 @@ export default class extends Control {
         source: 'page',
         view: 'demand',
         sourceConfig: {
-            pageSize: 3,
+            pageSize: 1,
             page: 0,
             hasMore: false
         },
         viewConfig: {
-            pagingMode: 'direct'
+            pagingMode: 'basic'
         }
     };
 

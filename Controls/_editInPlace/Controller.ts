@@ -26,13 +26,21 @@ type TAsyncOperationResult = Promise<void | { canceled: true }>;
 type TBeforeCallbackBaseResult = void | CONSTANTS.CANCEL | Promise<void | CONSTANTS.CANCEL>;
 
 /**
+ * @typedef IBeginEditOptions
+ * @property {Types/entity:Model} [item=undefined] item Запись для которой запускается редактирования.
+ */
+interface IBeginEditOptions {
+    item?: Model
+}
+
+/**
  * @typedef {Function} TBeforeBeginEditCallback
  * @description Функция обратного вызова перед запуском редактирования.
- * @param {Object} options Набор опций для запуска редактирования. Доступные свойства: item {Types/entity:Model} - запись для которой запускается редактирование.
+ * @param {IBeginEditOptions} options Набор опций для запуска редактирования. Доступные свойства: item {Types/entity:Model} - запись для которой запускается редактирование.
  * @param {Boolean} isAdd Флаг, принимает значение true, если запись добавляется
  */
-type TBeforeBeginEditCallback = (options: { item?: Model }, isAdd: boolean) =>
-    TBeforeCallbackBaseResult | { item?: Model } | Promise<{ item?: Model }>;
+type TBeforeBeginEditCallback = (options: IBeginEditOptions, isAdd: boolean) =>
+    TBeforeCallbackBaseResult | IBeginEditOptions | Promise<IBeginEditOptions>;
 
 /**
  * @typedef {Function} TBeforeEndEditCallback
@@ -201,8 +209,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      *
      * @remark Запуск добавления может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
-    add(item?: Model | undefined, addPosition: 'top' | 'bottom' = 'bottom'): TAsyncOperationResult {
-        return this._endPreviousAndBeginEdit(item, true, addPosition);
+    add(options: IBeginEditOptions = {}, addPosition: 'top' | 'bottom' = 'bottom'): TAsyncOperationResult {
+        return this._endPreviousAndBeginEdit(options, true, addPosition);
     }
 
     /**
@@ -216,8 +224,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      *
      * @remark Запуск редактирования может быть отменен. Для этого из функции обратного вызова IEditInPlaceOptions.onBeforeBeginEdit необхобимо вернуть константу отмены.
      */
-    edit(item?: Model): TAsyncOperationResult {
-        return this._endPreviousAndBeginEdit(item, false);
+    edit(options: IBeginEditOptions = {}): TAsyncOperationResult {
+        return this._endPreviousAndBeginEdit(options, false);
     }
 
     /**
@@ -276,25 +284,25 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
     }
 
     // tslint:disable-next-line:max-line-length
-    private _endPreviousAndBeginEdit(item: Model | undefined, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
+    private _endPreviousAndBeginEdit(options: IBeginEditOptions, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
         const editingItem = this._getEditingItem()?.contents;
 
-        if (editingItem && item && editingItem.isEqual(item)) {
+        if (editingItem && options.item && editingItem.isEqual(options.item)) {
             return Promise.resolve();
         } else if (editingItem) {
             return this._endEdit(editingItem.isChanged()).then((result) => {
                 if (result && result.canceled) {
                     return result;
                 }
-                return this._beginEdit(item, isAdd, addPosition);
+                return this._beginEdit(options, isAdd, addPosition);
             });
         } else {
-            return this._beginEdit(item, isAdd, addPosition);
+            return this._beginEdit(options, isAdd, addPosition);
         }
     }
 
     // TODO: Должен возвращать один промис, если вызвали несколько раз подряд
-    private _beginEdit(item: Model | undefined, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
+    private _beginEdit(options: IBeginEditOptions, isAdd: boolean, addPosition?: 'top' | 'bottom'): TAsyncOperationResult {
         if (this._getEditingItem()) {
             return Promise.resolve({canceled: true});
         }
@@ -305,7 +313,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
         this._operationsPromises.begin = new Promise((resolve) => {
             if (this._options.onBeforeBeginEdit) {
-                resolve(this._options.onBeforeBeginEdit({item}, isAdd));
+                resolve(this._options.onBeforeBeginEdit(options, isAdd));
             } else {
                 resolve();
             }
@@ -316,15 +324,15 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
                 delete err.errorProcessed;
             }
             return CONSTANTS.CANCEL;
-        }).then((result?: { item: Model } | CONSTANTS.CANCEL) => {
+        }).then((result?: IBeginEditOptions | CONSTANTS.CANCEL) => {
             if (result === CONSTANTS.CANCEL) {
                 return {canceled: true};
             }
             let model;
             if ((result && result.item) instanceof Model) {
                 model = result.item.clone();
-            } else if (item && item instanceof Model) {
-                model = item.clone();
+            } else if (options.item && options.item instanceof Model) {
+                model = options.item.clone();
             } else {
                 Logger.error(ERROR_MSG.ITEM_MISSED, this);
                 return {canceled: true};

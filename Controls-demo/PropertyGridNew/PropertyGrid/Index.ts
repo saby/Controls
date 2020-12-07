@@ -2,23 +2,96 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls-demo/PropertyGridNew/PropertyGrid/Index';
 import {showType} from 'Controls/Utils/Toolbar';
 import {IItemAction} from 'Controls/itemActions';
-import {RecordSet} from 'Types/collection';
+import {Enum, RecordSet} from 'Types/collection';
 import { Model } from 'Types/entity';
 import {default as IPropertyGridItem} from 'Controls/_propertyGrid/IProperty';
 import {getEditingObject, getSource} from 'Controls-demo/PropertyGridNew/resources/Data';
 
 export default class Demo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
-    protected _editingObject: Model = new Model<IPropertyGridItem>({
-        rawData: getEditingObject()
-    });
-    protected _source: RecordSet = new RecordSet<IPropertyGridItem>({
-        rawData: getSource(),
-        keyProperty: 'name'
-    });
+    protected _editingObject: Model;
+    protected _source: RecordSet;
     protected _itemActions: IItemAction[];
 
     protected _beforeMount(): void {
+        this._editingObject = new Model<IPropertyGridItem>({
+            rawData: {
+                description: 'This is http://mysite.com',
+                tileView: true,
+                showBackgroundImage: true,
+                siteUrl: 'http://mysite.com',
+                videoSource: 'http://youtube.com/video',
+                backgroundType: new Enum({
+                    dictionary: ['Фоновое изображение', 'Заливка цветом'],
+                    index: 0
+                }),
+                function: '',
+                validate: ''
+            }
+        });
+        this._source = new RecordSet<IPropertyGridItem>({
+            rawData: [
+                {
+                    name: 'description',
+                    caption: 'Описание',
+                    editorOptions: {
+                        minLines: 3
+                    },
+                    editorClass: 'controls-demo-pg-text-editor',
+                    group: 'text',
+                    type: 'text'
+                },
+                {
+                    name: 'tileView',
+                    caption: 'Список плиткой',
+                    group: 'boolean'
+                },
+                {
+                    name: 'showBackgroundImage',
+                    caption: 'Показывать изображение',
+                    group: 'boolean'
+                },
+                {
+                    caption: 'URL',
+                    name: 'siteUrl',
+                    group: 'string'
+                },
+                {
+                    caption: 'Источник видео',
+                    name: 'videoSource',
+                    group: 'string'
+                },
+                {
+                    caption: 'Тип фона',
+                    name: 'backgroundType',
+                    group: 'enum',
+                    editorClass: 'controls-demo-pg-enum-editor'
+                },
+                {
+                    name: 'function',
+                    caption: '',
+                    toggleEditorButtonIcon: 'icon-ArrangePreview',
+                    type: 'text',
+                    editorClass: 'controls-demo-pg-text-editor',
+                    editorOptions: {
+                        placeholder: 'Условие видимости поля',
+                        minLines: 3
+                    }
+                },
+                {
+                    name: 'validate',
+                    caption: '',
+                    toggleEditorButtonIcon: 'icon-CreateFolder',
+                    type: 'text',
+                    editorClass: 'controls-demo-pg-text-editor',
+                    editorOptions: {
+                        placeholder: 'Условие валидации',
+                        minLines: 3
+                    }
+                }
+            ],
+            keyProperty: 'name'
+        });
         const source = this._source;
         this._itemActions = [
             {
