@@ -175,22 +175,7 @@ const GridView = ListView.extend({
                     `controls-ListView__empty_bottomSpacing_${bottomSpacing}_theme-${theme}`;
             }
         });
-    },
-
-    // region space before footer
-
-    _getSpaceBeforeFooterClasses(theme: string): string {
-        return `controls-itemActionsV_outside-spacing_theme-${theme}`;
-    },
-
-    _getSpaceBeforeFooterStyles(): string {
-        const multiSelectOffset = this._options.multiSelectVisibility !== 'hidden' ? 1 : 0;
-        const columnStart = 1 + multiSelectOffset;
-        const columnEnd = this._listModel.getColumnsConfig().length + 1 + multiSelectOffset;
-        return `grid-column: ${columnStart} / ${columnEnd}`;
     }
-
-    // endregion space before footer
 });
 
 GridView._theme = ['Controls/grid', 'Controls/Classes'];

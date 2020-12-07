@@ -117,6 +117,21 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
         return emptyTemplateClasses;
     }
 
+    // region space before footer
+
+    getSpaceAfterItemsContainerClasses(theme: string): string {
+        return `controls-itemActionsV_outside-spacing_theme-${theme}`;
+    }
+
+    getSpaceAfterItemsContainerStyles(): string {
+        const multiSelectOffset = this.getMultiSelectVisibility() !== 'hidden' ? 1 : 0;
+        const columnStart = 1;
+        const columnEnd = this.getColumnsConfig().length + 1 + multiSelectOffset;
+        return `grid-column: ${columnStart} / ${columnEnd}`;
+    }
+
+    // endregion space before footer
+
     getStickyColumn(): GridLadderUtil.IStickyColumn {
         return GridLadderUtil.getStickyColumn({
             stickyColumn: this._$stickyColumn,
@@ -247,6 +262,7 @@ export default abstract class GridMixin<S, T extends GridRowMixin<S>> {
     abstract getStartIndex(): number;
     abstract getStopIndex(): number;
     abstract getRowSeparatorSize(): string;
+    abstract getMultiSelectVisibility(): string;
 
     protected abstract _nextVersion(): void;
 

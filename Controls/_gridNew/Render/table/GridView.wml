@@ -39,10 +39,10 @@
                 tagTemplate="{{ _options.tagTemplate }}">
         </ws:partial>
     </tbody>
-    <!-- space before footer -->
+    <!-- space after itemsContainer -->
     <ws:if data="{{ _options._needBottomPadding }}">
         <tr>
-            <td attr:class="{{ _getSpaceBeforeFooterClasses(_options.theme) }}"
+            <td attr:class="{{ _listModel.getSpaceAfterItemsContainerClasses(_options.theme) }}"
                 colspan="{{ _listModel.getColumnsConfig().length + (_listModel.getMultiSelectVisibility() !== 'hidden' ? 1 : 0) }}"></td>
         </tr>
     </ws:if>

@@ -34,9 +34,10 @@
                 tagTemplate="{{ _options.tagTemplate }}">
         </ws:partial>
     </div>
-    <!-- space before footer -->
+    <!-- space after itemsContainer -->
     <ws:if data="{{ _options._needBottomPadding }}">
-        <div attr:class="{{ _getSpaceBeforeFooterClasses(_options.theme) }}" style="{{ _getSpaceBeforeFooterStyles() }}"></div>
+        <div attr:class="{{ _listModel.getSpaceAfterItemsContainerClasses(_options.theme) }}"
+             style="{{ _listModel.getSpaceAfterItemsContainerStyles() }}"></div>
     </ws:if>
     <!-- emptyTemplate -->
     <ws:if data="{{_options.emptyTemplate}}">
