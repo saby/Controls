@@ -42,7 +42,8 @@
     <!-- space before footer -->
     <ws:if data="{{ _options._needBottomPadding }}">
         <tr>
-            <td attr:class="{{ _getSpaceBeforeFooterClasses(_options.theme) }}" colspan="{{ _getSpaceBeforeFooterStyles() }}"></td>
+            <td attr:class="{{ _getSpaceBeforeFooterClasses(_options.theme) }}"
+                colspan="{{ _listModel.getColumnsConfig().length + (_listModel.getMultiSelectVisibility() !== 'hidden' ? 1 : 0) }}"></td>
         </tr>
     </ws:if>
     <!-- emptyTemplate -->

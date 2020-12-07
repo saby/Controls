@@ -182,7 +182,10 @@ const GridView = ListView.extend({
     },
 
     _getSpaceBeforeFooterStyles(): string {
-        return '';
+        const multiSelectOffset = this._options.multiSelectVisibility !== 'hidden' ? 1 : 0;
+        const columnStart = 1 + multiSelectOffset;
+        const columnEnd = this._listModel.getColumnsConfig().length + 1 + multiSelectOffset;
+        return `grid-column: ${columnStart} / ${columnEnd}`;
     }
 
     // endregion space before footer
