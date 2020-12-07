@@ -1,9 +1,8 @@
 import { assert } from 'chai';
 import { TemplateFunction } from 'UI/Base';
 import { Model } from 'Types/entity';
-import { register } from 'Types/di';
 
-import { GridCollection, GridFooterCell } from 'Controls/display';
+import { GridCollection } from 'Controls/display';
 import GridFooterRow, { IOptions } from 'Controls/_display/GridFooterRow';
 import { TColumns } from 'Controls/_grid/interface/IColumn';
 import GridSpaceAfterBodyRow from 'Controls/_display/GridSpaceAfterBodyRow';

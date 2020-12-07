@@ -6,7 +6,7 @@ import { GridCollection, GridSpaceAfterBodyCell } from 'Controls/display';
 import GridSpaceAfterBodyRow, {IOptions} from 'Controls/_display/GridSpaceAfterBodyRow';
 import {TColumns} from 'Controls/grid';
 
-// Принудительно регистрируем, т.к. иначе display Не вызывается
+// Принудительно регистрируем, т.к. иначе display не вызывается и getColumns() вызвать нельзя
 register('Controls/display:GridSpaceAfterBodyCell', GridSpaceAfterBodyCell, {instantiate: false});
 
 describe('Controls/display/GridSpaceAfterBodyRow', () => {
