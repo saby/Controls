@@ -2541,6 +2541,23 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             assert.isTrue(gridModel.isGridListNotEmpty());
          });
+
+         it('should clear headerModel if shouldn\'t show header in empty grid', () => {
+            const gridModel = new gridMod.GridViewModel({
+               ...cfg,
+               items: new collection.RecordSet({
+                  rawData: [],
+                  keyProperty: 'id'
+               })
+            });
+
+            gridModel._headerModel = {};
+            gridModel.setHeader([{}]);
+            assert.isNull(gridModel._headerModel);
+
+            gridModel.isDrawHeaderWithEmptyList = () => true;
+            assert.isDefined(gridModel.getHeaderModel());
+         });
       });
 
       describe('getitemDataByItem should resolve showEditArrow', () => {

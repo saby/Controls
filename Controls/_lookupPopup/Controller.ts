@@ -155,6 +155,8 @@ var Controller = Control.extend({
                }
                this._selectionLoadDef = null;
                return result;
+            }).addErrback(() => {
+               this._selectionLoadDef = null;
             });
          } else {
             selectCallback(this._selectedItems);

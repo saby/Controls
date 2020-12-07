@@ -29,7 +29,7 @@
 .controls-DoubleSwitch__toggle_horizontal_theme-@{themeName} {
    margin: 0 @text_offset_switcher;
    width: @width_switcher;
-   height: @height_horizontal-switcher;
+   height: @height_horizontal_switcher;
 }
 
 .controls-DoubleSwitch__toggle_vertical {
@@ -38,8 +38,8 @@
 }
 
 .controls-DoubleSwitch__toggle_vertical_theme-@{themeName} {
-   width: @height_horizontal-switcher;
-   height: @height_vertical-switcher;
+   width: @height_horizontal_switcher;
+   height: @height_vertical_switcher;
    &:before {
       height: 0;
       line-height: @font-size_switcher;
@@ -71,7 +71,7 @@
 }
 
 .controls-DoubleSwitch__fake-element {
-   height: @height_vertical-switcher - @marker_height_switcher - @marker_border-offset_switcher;
+   height: @height_vertical_switcher - @marker_height_switcher - @marker_border-offset_switcher;
 }
 
 .controls-DoubleSwitch__fake-element_active {
@@ -86,8 +86,8 @@
 .controls-DoubleSwitch__text_vertical_theme-@{themeName} {
    //If border is in height text block base line between text and toggle circle deviates to switch border height.
    //In vertical state width = height, height = width.
-   height: @height_vertical-switcher / 2 - @border-thickness_switcher;
-   line-height: @height_vertical-switcher / 2;
+   height: @height_vertical_switcher / 2 - @border-thickness_switcher;
+   line-height: @height_vertical_switcher / 2;
 }
 
 .controls-DoubleSwitch__text_vertical {

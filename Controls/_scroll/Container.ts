@@ -179,7 +179,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _afterUpdate() {
         super._afterUpdate(...arguments);
-        this._stickyHeaderController.updateContainer(this._container);
+        this._stickyHeaderController.updateContainer(this._children.content);
         if (this._needUpdateContentSize) {
             this._needUpdateContentSize = false;
             this._updateStateAndGenerateEvents({ scrollHeight: this._children.content.scrollHeight });

@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" attr:class="js-controls-ListView__notEditable controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
+<ws:partial template="Controls/gridNew:ColumnTemplate" attr:class="js-controls-ListView__notEditable controls-Grid__row-cell__content_baseline_L" itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <div>
             <div>{{itemData.item['fullName']}}</div>

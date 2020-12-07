@@ -200,4 +200,5 @@ export default interface IProperty {
     type?: TProperty;
     group?: string;
     propertyValue?: unknown;
+    toggleEditorButtonIcon?: string;
 }

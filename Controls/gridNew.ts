@@ -18,7 +18,7 @@ const ItemTemplate = function() {
 ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
-import * as ColumnTemplate from 'wml!Controls/_gridNew/Render/grid/Column';
+import * as ColumnTemplate from 'wml!Controls/_gridNew/Render/CellContent';
 import * as StickyLadderColumnTemplate from 'wml!Controls/_gridNew/Render/grid/StickyLadderColumn';
 import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupTemplate';
 import * as HeaderContent from 'wml!Controls/_gridNew/Render/HeaderCellContent';

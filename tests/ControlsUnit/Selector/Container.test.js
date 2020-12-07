@@ -550,7 +550,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             };
             container._selectedKeys = [1, 2];
             container._options.multiSelect = true;
-            await container._selectComplete();
+            await container._selectComplete().catch(error => error);
             assert.isTrue(isIndicatorHidden);
          });
       });

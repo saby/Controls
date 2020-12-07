@@ -2,24 +2,26 @@ import {TemplateFunction, IControlOptions, Control} from 'UI/Base';
 import * as template from 'wml!Controls/_propertyGrid/GridRender/Render';
 import * as groupTemplate from 'wml!Controls/_propertyGrid/Render/resources/groupTemplate';
 import * as itemTemplate from 'wml!Controls/_propertyGrid/Render/resources/itemTemplate';
+import * as toggleEditorsTemplate from 'wml!Controls/_propertyGrid/Render/resources/toggleEditorsGroupTemplate';
 import {default as PropertyGridItem } from './PropertyGridCollectionItem';
+import PropertyGridCollection from './PropertyGridCollection';
 import {detection} from 'Env/Env';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {CollectionItem} from 'Controls/display';
 
 interface IColumnOptions {
     width: string;
     compatibleWidth: string;
 }
 interface IPropertyGridGridRenderOptions extends IControlOptions {
-    listModel?: PropertyGridItem<Model>;
+    listModel?: PropertyGridCollection<PropertyGridItem<Model>>;
     groupTemplate: TemplateFunction;
     itemTemplate: TemplateFunction;
 }
 
 export default class IPropertyGridRender extends Control<IPropertyGridGridRenderOptions> {
     protected _template: TemplateFunction = template;
+    protected _toggleEditorsTemplate: TemplateFunction = toggleEditorsTemplate;
 
     protected _beforeMount(options: IPropertyGridGridRenderOptions): void {
         this._getItemStyles = this._getItemStyles.bind(this);
@@ -66,6 +68,10 @@ export default class IPropertyGridRender extends Control<IPropertyGridGridRender
         this._notify('hoveredItemChanged', [null]);
     }
 
+    protected _toggleEditor(event: SyntheticEvent, item: Model, value: boolean): void {
+        this._notify('toggleEditor', [item, value]);
+    }
+
     protected _handleMenuActionMouseEnter(): void {
         //
     }
@@ -84,8 +90,12 @@ export default class IPropertyGridRender extends Control<IPropertyGridGridRender
         e.stopPropagation();
     }
 
-    protected _itemClick(e: SyntheticEvent<MouseEvent>, item: CollectionItem<PropertyGridItem>): void {
-        this._notify('itemClick', [item, e]);
+    protected _itemClick(e: SyntheticEvent<MouseEvent>, item: PropertyGridItem<Model>): void {
+        if (item['[Controls/_display/GroupItem]']) {
+            this._notify('groupClick', [item, e]);
+        } else {
+            this._notify('itemClick', [item, e]);
+        }
     }
 
     static getDefaultOptions = (): IPropertyGridGridRenderOptions => {

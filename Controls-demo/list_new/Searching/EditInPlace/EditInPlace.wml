@@ -1,0 +1,35 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
+        <Controls.search:Controller searchParam="title" minSearchLength="{{3}}">
+            <div class="ws-fragment">
+                <Controls.search:InputContainer>
+                    <Controls.search:Input/>
+                </Controls.search:InputContainer>
+                <Controls.list:Container>
+                    <Controls.list:View
+                            name="list"
+                            keyProperty="id"
+                            source="{{_viewSource}}"
+                            displayProperty="title">
+                        <ws:footerTemplate>
+                            <Controls.list:AddButton caption="Add record" on:click="_beginAdd()"/>
+                        </ws:footerTemplate>
+                        <ws:editingConfig editOnClick="{{true}}"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/list:ItemTemplate">
+                                <ws:contentTemplate>
+                                    <ws:partial template="Controls/list:EditingTemplate"
+                                                value="{{ itemTemplate.itemData.item.title }}">
+                                        <ws:editorTemplate>
+                                            <Controls.input:Text bind:value="itemTemplate.itemData.item.title"/>
+                                        </ws:editorTemplate>
+                                    </ws:partial>
+                                </ws:contentTemplate>
+                            </ws:partial>
+                        </ws:itemTemplate>
+                    </Controls.list:View>
+                </Controls.list:Container>
+            </div>
+        </Controls.search:Controller>
+    </Controls.list:DataContainer>
+</div>

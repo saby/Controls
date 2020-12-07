@@ -1,6 +1,5 @@
 import { isEqual } from 'Types/object';
 import isFullGridSupport from './GridSupportUtil';
-import { detection } from 'Env/Env';
 import { TColumns } from 'Controls/grid';
 
 export interface IStickyColumn {
@@ -28,7 +27,7 @@ export function shouldAddStickyLadderCell(columns, stickyColumn, draggingData): 
     return !!getStickyColumn({ stickyColumn, columns }) && !draggingData;
 }
 export function stickyLadderCellsCount(columns, stickyColumn, draggingData): number {
-    return detection.isIE || draggingData ? 0 : ( getStickyColumn({ stickyColumn, columns })?.property.length || 0 );
+    return !isFullGridSupport() || draggingData ? 0 : ( getStickyColumn({ stickyColumn, columns })?.property.length || 0 );
 }
 export function prepareLadder(params: IPrepareLadderParams): {} {
     var

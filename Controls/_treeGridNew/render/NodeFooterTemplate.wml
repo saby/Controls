@@ -1,7 +1,13 @@
 <!-- Не выводим подвал, если это не кнопка еще и при этом не был переопределен контент. -->
 <!-- В таком случае подвал просто не ожидается прикладным разработчиком. -->
 <ws:if data="{{ !(!item.getNode().hasMoreStorage() && !content) }}">
-    <div class="{{item.getItemClasses()}}" attr:key="{{item.key}}">
+    <div class="{{item.getItemClasses({
+        'highlightOnHover': highlightOnHover,
+        'theme': theme,
+        'style': style,
+        'cursor': cursor,
+        'clickable': clickable
+    })}}" attr:key="{{item.key}}">
         <ws:for data="index,column in item.getColumns(colspan)">
             <div class="{{ column.getContentClasses(theme, cursor, highlightOnHover) }} {{ cellClassName || '' }}" attr:key="{{item.key}}_column_{{index}}" style="{{ column.getColspanStyles(colspan)  }}">
                 <ws:if data="{{ index === 0 }}">

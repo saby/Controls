@@ -84,6 +84,7 @@ export {
     TColumns,
     IColumn,
     IColspanParams,
+    IRowspanParams,
     ICellPadding,
     TCellAlign,
     TCellPaddingVariant,

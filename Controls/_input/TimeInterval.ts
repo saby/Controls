@@ -49,6 +49,7 @@ type IOptions = IModelOptions;
 
 class TimeInterval extends Base {
     protected _autoWidth: boolean = true;
+    protected _controlName: string = 'TimeInterval';
 
     protected _defaultValue: TimeInterval | null = null;
 

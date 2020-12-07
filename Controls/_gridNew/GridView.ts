@@ -5,6 +5,7 @@ import { Logger} from 'UI/Utils';
 import { GridLadderUtil, GridLayoutUtil } from 'Controls/display';
 import * as GridTemplate from 'wml!Controls/_gridNew/Render/grid/GridView';
 import * as GridItem from 'wml!Controls/_gridNew/Render/grid/Item';
+import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupTemplate';
 import { prepareEmptyEditingColumns, prepareEmptyColumns } from 'Controls/Utils/GridEmptyTemplateUtil';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 
@@ -12,6 +13,7 @@ const GridView = ListView.extend({
     _template: GridTemplate,
     _hoveredCellIndex: null,
     _hoveredCellItem: null,
+    _groupTemplate: GroupTemplate,
 
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);

@@ -43,6 +43,7 @@ export default class Area extends Text<IAreaOptions> {
     protected _resizeObserver: ResizeObserverUtil;
     protected _minLines: number;
     protected _maxLines: number;
+    protected _controlName: string = 'Area';
 
     protected _syncBeforeMount(options: IAreaOptions): void {
         super._syncBeforeMount(options);

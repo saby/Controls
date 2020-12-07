@@ -28,11 +28,7 @@ export default class GridResultsRow<T> extends GridRow<T> {
         return this.isStickyHeader() && this.getResultsPosition() === 'top';
     }
 
-    getItemClasses(templateHighlightOnHover: boolean = true,
-                   theme: string = 'default',
-                   style: string = 'default',
-                   cursor: string = 'pointer',
-                   clickable: boolean = true): string {
+    getItemClasses(): string {
         return `controls-Grid__results`;
     }
 

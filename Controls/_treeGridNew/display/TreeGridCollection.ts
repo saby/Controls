@@ -98,11 +98,14 @@ export default class TreeGridCollection<
     //  но т.к. Tree используется в старой модели, чтобы ничего не сломать, добавляю здесь
     protected _createComposer(): itemsStrategy.Composer<any, TreeItem<any>> {
         const composer = super._createComposer();
+
+        // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
         composer.append(itemsStrategy.NodeFooter, {
             display: this,
             footerVisibilityCallback: this._$footerVisibilityCallback,
             nodeFooterConstructor: TreeGridNodeFooterRow
         });
+
         return composer;
     }
 

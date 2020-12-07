@@ -1,17 +1,14 @@
 <ws:partial template="Controls/gridNew:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL"
             scope="{{_options}}">
     <ws:contentTemplate>
-        <ws:if data="{{itemData.columnIndex === 0 && itemData.item['subtask']}}">
+        <ws:if data="{{gridColumn.isFirstColumn() && item.getContents()['subtask']}}">
             <span class="ws-link">подзадача</span>
         </ws:if>
         <ws:else>
-            <ws:if data="{{itemData.columnIndex === 0 && itemData.item['photo']}}">
-                <img attr:class="demoTreeWithProto__imageBlock" src="{{itemData.item['photo']}}"/>
+            <ws:if data="{{gridColumn.isFirstColumn() && item.getContents()['photo']}}">
+                <img attr:class="demoTreeWithProto__imageBlock" src="{{item.getContents()['photo']}}"/>
             </ws:if>
-            <ws:else data="{{itemData.item['type'] === null}}">
-                <div class="demoTreeWithProto__imageBlock"></div>
-            </ws:else>
-            <span>{{itemData.item['title']}}</span>
+            <span>{{item.getContents()['title']}}</span>
         </ws:else>
     </ws:contentTemplate>
 </ws:partial>

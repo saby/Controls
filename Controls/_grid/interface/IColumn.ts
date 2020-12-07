@@ -79,6 +79,12 @@ export interface IColspanParams {
     colspan?: number;
 }
 
+export interface IRowspanParams {
+    startRow?: number;
+    endRow?: number;
+    rowspan?: number;
+}
+
 /**
  * @typedef {String} TActionDisplayMode
  * @description Стиль тега

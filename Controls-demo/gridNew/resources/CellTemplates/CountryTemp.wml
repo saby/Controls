@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <div style="white-space: nowrap;
   overflow: hidden;

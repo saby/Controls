@@ -1,6 +1,7 @@
 import {DestroyableMixin, ObservableMixin} from "Types/entity";
 import {IEnumerable} from "../Abstract";
-import {IBaseCollection} from "../interface";
+import {IBaseCollection} from 'Controls/_display/interface';
+import {ICollectionItem} from 'Controls/_display/interface/ICollectionItem';
 
 export interface ISourceCollection<T> extends IEnumerable<T>, DestroyableMixin, ObservableMixin {
 }
@@ -38,7 +39,7 @@ export enum ANIMATION_STATE {
  * @private
  * @author Аверкиев П.А.
  */
-export interface ICollection<S, T> extends IBaseCollection<T> {
+export interface ICollection<S, T extends ICollectionItem> extends IBaseCollection<S, T> {
     getCollection(): ISourceCollection<S>;
     getDisplayProperty(): string;
     getMultiSelectVisibility(): string;

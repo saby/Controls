@@ -1,5 +1,5 @@
 <ws:if data="{{!collectionItem.isHiddenGroup()}}">
-    <div attr:class="controls-PropertyGrid__group
+    <div class="controls-PropertyGrid__group
                 {{highlightOnHover ? 'controls-PropertyGrid__row_highlightOnHover_theme-' + theme}}
                 controls-PropertyGrid__group_theme-{{theme}}" attr:key="group-{{item}}"
          style="{{isGridLayout ? getItemStyles(collectionItem, 2, true)}}">
@@ -17,10 +17,10 @@
         <ws:if data="{{expanderVisible}}">
             <div title="{{!collapsedGroups[item] ? 'Свернуть' : 'Развернуть'}}"
                  class="controls-PropertyGrid__groupExpander
-                    controls-icon
-                    controls-icon_size-s_theme-{{theme}}
-                    {{!collapsedGroups[item] ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}
-                    controls-PropertyGrid__groupExpander_theme-{{theme}}"></div>
+                        controls-icon
+                        controls-icon_size-s_theme-{{theme}}
+                        {{!collapsedGroups[item] ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}
+                        controls-PropertyGrid__groupExpander_theme-{{theme}}"></div>
         </ws:if>
     </div>
 </ws:if>

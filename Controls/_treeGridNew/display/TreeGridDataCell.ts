@@ -2,7 +2,7 @@ import TreeGridRow from 'Controls/_treeGridNew/display/TreeGridRow';
 import { GridDataCell, GridDataRow } from 'Controls/display';
 
 export default class TreeGridDataCell<T> extends GridDataCell<T, GridDataRow<T>> {
-    readonly '[Controls/_treeGrid/TreeGridCell]': boolean;
+    readonly '[Controls/_treeGrid/TreeGridDataCell]': boolean;
 
     protected _$owner: TreeGridRow<T>;
 
@@ -25,7 +25,8 @@ export default class TreeGridDataCell<T> extends GridDataCell<T, GridDataRow<T>>
         let classes = super._getContentPaddingClasses(theme);
 
         // если текущая колонка первая и для нее не задан мультиселект, то убираем левый отступ
-        if (this.isFirstColumn() && this._$owner.getMultiSelectVisibility() === 'hidden') {
+        const hasMultiSelect = this._$owner.getMultiSelectVisibility() !== 'hidden';
+        if (this.isFirstColumn() && !hasMultiSelect || this.getColumnIndex() === 1 && hasMultiSelect) {
             classes += ' controls-TreeGrid__row-cell__firstColumn__contentSpacing_null';
         }
 
@@ -34,7 +35,7 @@ export default class TreeGridDataCell<T> extends GridDataCell<T, GridDataRow<T>>
 }
 
 Object.assign(TreeGridDataCell.prototype, {
-    '[Controls/_treeGrid/TreeGridCell]': true,
+    '[Controls/_treeGrid/TreeGridDataCell]': true,
     _moduleName: 'Controls/treeGrid:TreeGridDataCell',
-    _instancePrefix: 'tree-grid-cell'
+    _instancePrefix: 'tree-grid-data-cell-'
 });

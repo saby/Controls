@@ -26,6 +26,27 @@ export default class GridDataCell<T, TOwner extends GridDataRow<T>> extends Grid
     }
     // region
 
+    // region Аспект "Объединение ячеек"
+
+    // Объединение ячеек данных должно быть здесь.
+    getColspan() {
+        // Пока объединение ячеек данных не реализовано, не выводим в html лишние свойства
+        return undefined;
+    };
+    getRowspan() {
+        // Пока объединение ячеек данных не реализовано, не выводим в html лишние свойства
+        return undefined;
+    };
+    getColspanStyles() {
+        // Пока объединение ячеек данных не реализовано, не выводим в html лишние свойства
+        return '';
+    };
+    getRowspanStyles() {
+        // Пока объединение ячеек данных не реализовано, не выводим в html лишние свойства
+        return '';
+    };
+    // endregion
+
     // region Аспект "Тег"
 
     /**

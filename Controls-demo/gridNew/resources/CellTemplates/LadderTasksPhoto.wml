@@ -1,6 +1,6 @@
 <ws:partial template="Controls/gridNew:ColumnTemplate"
             attr:class="js-controls-ListView__notEditable controls-Grid__row-cell__content_baseline_L"
-            itemData="{{itemData}}">
+            itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <ws:partial template="{{ladderWrapper}}" ladderProperty="photo">
             <img src="{{itemData.item['photo']}}"/>

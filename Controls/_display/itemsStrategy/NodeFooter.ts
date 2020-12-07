@@ -150,7 +150,6 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
         items: T[],
         options: ISortOptions<S, T>
     ): number[] {
-
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
             const item = items[itemIndex];
 
@@ -158,7 +157,8 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
             //  Нужно определить, что если в узле нет данных и для него не определен content, тофутер не нужно создавать
             //  Сейчас в этой ситуации, он создастся и не отобразится и это наверное сломает виртуальный скролл
             // Футер нужен только для развернутых узлов, для которых прикладник их разрешил
-            if (item.isNode() === null || !item.isExpanded() ||  options.footerVisibilityCallback instanceof Function && !options.footerVisibilityCallback(item.getContents())) {
+            if (!item['[Controls/_display/TreeItem]'] || item.isNode() === null || !item.isExpanded()
+               || options.footerVisibilityCallback instanceof Function && !options.footerVisibilityCallback(item.getContents())) {
                 continue;
             }
 

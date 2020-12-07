@@ -33,6 +33,7 @@ interface IMoneyOptions extends INumberLengthOptions {
 class Money extends Base implements INumberLength {
     _options: IMoneyOptions;
     protected _inputMode = 'decimal';
+    protected _controlName: string = 'Money';
 
     readonly '[Controls/_input/interface/INumberLength]' = true;
 

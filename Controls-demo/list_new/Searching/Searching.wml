@@ -16,4 +16,13 @@
         </Router.router:Reference>
         <Controls-demo.list_new.Searching.PortionedSearch.Index/>
     </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/Searching/EditInPlace/Index' }}">
+            <a href="{{content.href}}">Поиск с редактированием по месту</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.Searching.EditInPlace.Index/>
+    </div>
 </div>

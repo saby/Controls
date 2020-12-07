@@ -1,30 +1,82 @@
 import { assert } from 'chai';
+import { GridHeaderCell } from 'Controls/display';
 
-import { GridHeaderCell, GridHeaderRow } from 'Controls/display';
+describe('Controls/_display/GridHeaderCell', () => {
 
-describe('Controls/display/HeaderRow', () => {
+    describe('align and valign', () => {
 
-
-    describe('tag', () => {
-
-        const getOwnerMock = () => ({
-            isMultiline: () => false,
-            isFullGridSupport: () => true,
-            getColumnIndex: () => 0
+        it('should use values from header if it exist', () => {
+            const headerColumnConfig = {
+                align: 'right',
+                valign: 'bottom'
+            };
+            const cell = new GridHeaderCell({
+                owner: {
+                    getColumnsConfig: () => [{}],
+                    getHeaderConfig: () => [headerColumnConfig],
+                    getMultiSelectVisibility: () => 'hidden'
+                },
+                column: headerColumnConfig,
+            });
+            assert.equal('right', cell.getAlign());
+            assert.equal('bottom', cell.getVAlign());
         });
 
-        it('should ', function () {
+        it('should use values from columns if values on header not exist', () => {
+            const headerColumnConfig = {};
             const cell = new GridHeaderCell({
-                owner: getOwnerMock(),
-                column: {
-                    startRow: 1,
-                    endRow: 4,
-                    startColumn: 1,
-                    endColumn: 3
-                }
+                owner: {
+                    getColumnsConfig: () => [{
+                        align: 'right',
+                        valign: 'bottom'
+                    }],
+                    getHeaderConfig: () => [headerColumnConfig],
+                    getMultiSelectVisibility: () => 'hidden'
+                },
+                column: headerColumnConfig,
             });
+            assert.equal('right', cell.getAlign());
+            assert.equal('bottom', cell.getVAlign());
+        });
 
-            assert.equal(cell.getColspanStyles(), 'grid-column: 1 / 3;');
+        it('should set valign center on row spanned cell if value on cell config not exists', () => {
+            const headerColumnConfig = {
+                startRow: 1,
+                endRow: 3
+            };
+            const cell = new GridHeaderCell({
+                owner: {
+                    getColumnsConfig: () => [{
+                        align: 'right',
+                        valign: 'bottom'
+                    }],
+                    getHeaderConfig: () => [headerColumnConfig],
+                    getMultiSelectVisibility: () => 'hidden'
+                },
+                column: headerColumnConfig,
+            });
+            assert.equal('right', cell.getAlign());
+            assert.equal('center', cell.getVAlign());
+        });
+
+        it('should set align center on colspanned cell if value on cell config not exists', () => {
+            const headerColumnConfig = {
+                startColumn: 1,
+                endColumn: 3
+            };
+            const cell = new GridHeaderCell({
+                owner: {
+                    getColumnsConfig: () => [{
+                        align: 'right',
+                        valign: 'bottom'
+                    }],
+                    getHeaderConfig: () => [headerColumnConfig],
+                    getMultiSelectVisibility: () => 'hidden'
+                },
+                column: headerColumnConfig,
+            });
+            assert.equal('center', cell.getAlign());
+            assert.equal('bottom', cell.getVAlign());
         });
     });
 

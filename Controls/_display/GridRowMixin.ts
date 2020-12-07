@@ -13,6 +13,16 @@ import { IOptions as IBaseOptions } from './CollectionItem';
 
 const DEFAULT_GRID_ROW_TEMPLATE = 'Controls/gridNew:ItemTemplate';
 
+interface IItemTemplateParams {
+    highlightOnHover?: boolean,
+    style?: string,
+    cursor?: 'default' | 'pointer',
+    theme: string,
+
+    // Deprecated, use cursor
+    clickable?: boolean,
+}
+
 export interface IOptions<T> extends IBaseOptions<T> {
     columns: TColumns;
 }
@@ -36,20 +46,16 @@ export default abstract class GridRowMixin<T> {
         return DEFAULT_GRID_ROW_TEMPLATE;
     }
 
-    getItemClasses(templateHighlightOnHover: boolean = true,
-                   theme: string = 'default',
-                   style: string = 'default',
-                   cursor: string = 'pointer',
-                   clickable: boolean = true): string {
+    getItemClasses(params: IItemTemplateParams = { theme: 'default' }): string {
         const navigation = this.getOwner().getNavigation();
         const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
             && this.isLastItem();
-        let itemClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor, clickable)}`;
+        let itemClasses = `controls-ListView__itemV ${this._getCursorClasses(params.cursor, params.clickable)}`;
 
-        itemClasses += ` controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
+        itemClasses += ` controls-Grid__row controls-Grid__row_${params.style}_theme-${params.theme}`;
 
-        if (templateHighlightOnHover !== false && !this.isEditing()) {
-            itemClasses += ` controls-Grid__row_highlightOnHover_${style}_theme-${theme}`;
+        if (params.highlightOnHover !== false && !this.isEditing()) {
+            itemClasses += ` controls-Grid__row_highlightOnHover_${params.style}_theme-${params.theme}`;
         }
 
         if (isLastItem) {
@@ -76,6 +82,10 @@ export default abstract class GridRowMixin<T> {
 
     getColumnsConfig(): TColumns {
         return this._$owner.getColumnsConfig();
+    }
+
+    getHeaderConfig(): THeader {
+        return this._$owner.getHeaderConfig();
     }
 
     getColumnsCount(): number {
@@ -304,6 +314,10 @@ export default abstract class GridRowMixin<T> {
             options.owner = this;
             return create(this._cellModule, options as IGridCellOptions<T>);
         };
+    }
+
+    getIndex(): number {
+        return this._$owner.getRowIndex(this);
     }
 
     abstract getOwner(): GridCollection<T>;

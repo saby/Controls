@@ -13,12 +13,6 @@
                             columns="{{_columns}}">
                         <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}"
                                           toolbarVisibility="{{true}}"/>
-                        <ws:itemTemplate>
-                            <ws:partial template="wml!Controls-demo/gridNew/EditInPlace/DragNDrop/_rowEditor"
-                                        documentSignMemory="{{_documentSignMemory}}"
-                                        onChange="{{onChange}}"
-                                        selectedKey="{{selectedKey}}"/>
-                        </ws:itemTemplate>
                         <ws:draggingTemplate>
                             <ws:partial template="Controls/dragnDrop:DraggingTemplate"
                                         mainText="{{draggingTemplate.entity._options.title}}">
@@ -30,3 +24,12 @@
         </Controls.operations:Controller>
     </Controls.list:DataContainer>
 </div>
+
+<!--
+<ws:itemTemplate>
+    <ws:partial template="wml!Controls-demo/gridNew/EditInPlace/DragNDrop/_rowEditor"
+                documentSignMemory="{{_documentSignMemory}}"
+                onChange="{{onChange}}"
+                selectedKey="{{selectedKey}}"/>
+</ws:itemTemplate>
+-->

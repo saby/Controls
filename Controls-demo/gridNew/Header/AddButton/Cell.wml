@@ -1,1 +1,1 @@
-<ws:partial template="Controls/gridNew:HeaderContent" colData="{{colData}}" attr:class="controlsDemo__Grid_header-gridTitle__cell"/>
+<ws:partial template="Controls/gridNew:HeaderContent" colData="{{gridColumn}}" attr:class="controlsDemo__Grid_header-gridTitle__cell"/>

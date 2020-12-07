@@ -1,0 +1,32 @@
+<div class="{{ (gridColumn || itemData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}" style="{{ (gridColumn || itemData).getContentStyles() }}">
+
+    <ws:if data="{{ !!contentTemplate }}">
+        <!-- Прикладной контент -->
+        <ws:partial
+                template="{{ contentTemplate }}"
+                itemActionsTemplate="{{ itemActionsTemplate }}"
+                column="{{ column }}"
+                itemData="{{ (item || itemData) }}"
+                item="{{ (item || itemData) }}"/>
+    </ws:if>
+    <ws:else data="{{ column.textOverflow }}">
+        <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
+        <div class="controls-Grid__cell_{{column.textOverflow}}">
+            {{ (item || itemData).getContents()[column.displayProperty] }}
+        </div>
+    </ws:else>
+    <ws:else>
+        <!-- Контент по умолчанию -->
+        {{ (item || itemData).getContents()[column.displayProperty] }}
+    </ws:else>
+
+
+    <!-- Тэг -->
+    <div if="{{ (gridColumn || itemData).TagCell && (gridColumn || itemData).shouldDisplayTag(tagStyle) }}"
+         class="{{ (gridColumn || itemData).getTagClasses(theme) }}">
+        <ws:partial template="{{ tagTemplate }}"
+                    tagStyle="{{ (gridColumn || itemData).getTagStyle(tagStyle) }}"
+                    dispItem="{{ item || itemData }}"
+                    columnIndex="{{ (gridColumn || itemData).getColumnIndex() }}"/>
+    </div>
+</div>

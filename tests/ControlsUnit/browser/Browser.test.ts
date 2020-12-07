@@ -388,6 +388,20 @@ describe('Controls/browser:Browser', () => {
         });
     });
 
+    describe('_handleItemOpen', () => {
+       it ('root is changed synchronously', async () => {
+           const options = getBrowserOptions();
+           const browser = getBrowser(options);
+
+           browser._searchController = await browser._getSearchController();
+
+           browser._handleItemOpen('test123', undefined, 'test123');
+
+           assert.equal(browser._root, 'test123');
+           assert.equal(browser._searchController._root, 'test123');
+       });
+    });
+
     describe('_afterSearch', () => {
         it('filter updated', async () => {
             const filter = {

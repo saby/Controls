@@ -57,10 +57,7 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
 
    private _render(minValue: number, maxValue: number, value: number): void {
       const rangeLength = maxValue - minValue;
-      let right = Math.min(Math.max((value - minValue), 0), rangeLength) / rangeLength * maxPercentValue;
-      if (this._options.direction === 'vertical') {
-         right = maxPercentValue - right;
-      }
+      const right = Math.min(Math.max((value - minValue), 0), rangeLength) / rangeLength * maxPercentValue;
       this._pointData[0].position = right;
       this._lineData.width = right;
    }
@@ -145,9 +142,8 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    protected _onDragNDropHandler(e: SyntheticEvent<Event>, dragObject) {
       if (!this._options.readOnly) {
          const box = this._children.area.getBoundingClientRect();
-         const ratio = this._options.direction === 'vertical' ?
-             Utils.getRatio(dragObject.position.y, box.top + window.pageYOffset, box.height) :
-             Utils.getRatio(dragObject.position.x, box.left + window.pageXOffset, box.width);
+         const target = this._options.direction === 'vertical' ? dragObject.position.y : dragObject.position.x;
+         const ratio = this._getRatio(this._options.direction, target, box, window.pageXOffset, window.pageYOffset);
          this._value = Utils.calcValue(this._options.minValue, this._options.maxValue, ratio, this._options.precision);
          this._setValue(this._value);
       }

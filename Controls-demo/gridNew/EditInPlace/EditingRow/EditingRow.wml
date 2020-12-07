@@ -6,6 +6,18 @@
             on:beforeBeginEdit="_onBeforeBeginEdit()"
     >
         <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}" autoAdd="{{true}}" toolbarVisibility="{{true}}"/>
+    </Controls.gridNew:View>
+</div>
+
+<!--
+<div class="controlsDemo__cell">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            on:beforeBeginEdit="_onBeforeBeginEdit()"
+    >
+        <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}" autoAdd="{{true}}" toolbarVisibility="{{true}}"/>
         <ws:itemTemplate>
             <ws:partial template="wml!Controls-demo/gridNew/EditInPlace/EditingRow/_rowEditor"
                         documentSignMemory="{{_documentSignMemory}}"
@@ -15,3 +27,4 @@
         </ws:itemTemplate>
     </Controls.gridNew:View>
 </div>
+-->

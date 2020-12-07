@@ -1,11 +1,38 @@
 import {Tree} from 'Controls/display';
+import {IOptions as ITreeCollectionOptions} from 'Controls/_display/Tree';
 import PropertyGridCollectionItem from 'Controls/_propertyGrid/PropertyGridCollectionItem';
 import {Model} from 'Types/entity';
 import {ItemsFactory} from 'Controls/_display/Collection';
+import PropertyGridGroupItem from 'Controls/_propertyGrid/PropertyGridGroupItem';
+import TToggledEditors from './PropertyGrid';
+
+export interface IPropertyGridCollectionOptions<S, T> extends ITreeCollectionOptions<S, T> {
+    toggledEditors?: TToggledEditors;
+    editingObject: Record<string, unknown> | Model | object;
+}
 
 export default class PropertyGridCollection<S, T extends PropertyGridCollectionItem<S> = PropertyGridCollectionItem<S>>
-    extends Tree<S, T> {
-    protected _$editingObject: Object | Model | Record<string, any>;
+    extends Tree<S, PropertyGridCollectionItem<S>> {
+
+    protected _$toggledEditors: TToggledEditors;
+    protected _$editingObject: object | Model | Record<string, unknown>;
+
+    constructor(options?: IPropertyGridCollectionOptions<S, T>) {
+        super(options);
+    }
+
+    protected _getGroupItemConstructor(): new() => PropertyGridGroupItem<S> {
+        return PropertyGridGroupItem;
+    }
+
+    setToggledEditors(toggledEditors: TToggledEditors): void {
+        this._$toggledEditors = toggledEditors;
+        this._nextVersion();
+    }
+
+    getToggledEditors(): TToggledEditors {
+        return this._$toggledEditors;
+    }
 
     setEditingObject(editingObject: Object | Model | Record<string, any>): void {
         this._$editingObject = editingObject;

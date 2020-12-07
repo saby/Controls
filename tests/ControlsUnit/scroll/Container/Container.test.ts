@@ -91,6 +91,20 @@ describe('Controls/scroll:Container', () => {
         });
     });
 
+    describe('_afterUpdate', () => {
+        it('should update sticky header controller', () => {
+            const component: Container = createComponent(Container, {});
+            component._children = {
+                content: {
+                    getBoundingClientRect: () => undefined,
+                    children: []
+                }
+            };
+            component._afterUpdate({}, {});
+            assert.strictEqual(component._stickyHeaderController._container, component._children.content);
+        });
+    });
+
     describe('shadowMode', () => {
         const optimizeShadowClass: string = 'controls-Scroll__backgroundShadow controls-Scroll__background-Shadow_style-default_theme-default controls-Scroll__background-Shadow_top-auto_bottom-auto_style-default_theme-default';
         [{

@@ -68,5 +68,6 @@ Object.assign(TreeGridRow.prototype, {
     '[Controls/_treeGrid/TreeGridRow]': true,
     '[Controls/_display/GridRow]': true,
     _cellModule: 'Controls/treeGrid:TreeGridDataCell',
-    _moduleName: 'Controls/treeGrid:TreeGridRow'
+    _moduleName: 'Controls/treeGrid:TreeGridRow',
+    _instancePrefix: 'tree-grid-row-'
 });
