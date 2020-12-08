@@ -101,6 +101,7 @@
                 needShowEmptyTemplate="{{ __needShowEmptyTemplate(_options.emptyTemplate, _listViewModel) }}"
                 listModel="{{_listViewModel}}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
+                shouldDrawFooter="{{ _shouldDrawFooter }}"
                 preventServerSideColumnScroll="{{ _isMounted || _options.preventServerSideColumnScroll }}"
                 on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
