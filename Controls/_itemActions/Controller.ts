@@ -26,6 +26,7 @@ import {horizontalMeasurer} from './measurers/HorizontalMeasurer';
 import {Utils} from './Utils';
 import {IContextMenuConfig} from './interface/IContextMenuConfig';
 import {getActions} from './measurers/ItemActionMeasurer';
+import {TItemActionsVisibility} from './interface/IItemActionsOptions';
 
 const DEFAULT_ACTION_ALIGNMENT = 'horizontal';
 
@@ -38,7 +39,7 @@ const DEFAULT_ACTION_SIZE = 'm';
 const DEFAULT_ACTION_MODE = 'strict';
 
 /**
- * @interface Controls/_itemActions/IControllerOptions
+ * @interface Controls/_itemActions/Controller/IControllerOptions
  * @public
  * @author Аверкиев П.А.
  */
@@ -114,6 +115,11 @@ export interface IControllerOptions {
     editingItem?: IItemActionsItem;
 
     actionMode: 'strict' | 'adaptive';
+    /**
+     * @name Controls/_itemActions/Controller/IControllerOptions#itemActionsVisibility
+     * @cfg {Controls/_itemActions/interface/IItemActionsOptions/TItemActionsVisibility.typedef} Отображение опций записи с задержкой или без.
+     */
+    itemActionsVisibility: TItemActionsVisibility
 }
 
 /**
@@ -148,6 +154,11 @@ export class Controller {
 
     private _activeItemKey: any;
 
+    // Видимость опций записи
+    private _itemActionsVisibility: TItemActionsVisibility;
+
+    private _savedItemActions: IItemActionsContainer;
+
     /**
      * Метод инициализации и обновления параметров.
      * Для старой модели listViewModel возвращает массив id изменённых значений
@@ -166,6 +177,7 @@ export class Controller {
         this._actionsAlignment = options.actionAlignment || DEFAULT_ACTION_ALIGNMENT;
         this._itemActionsPosition = options.itemActionsPosition || DEFAULT_ACTION_POSITION;
         this._collection = options.collection;
+        this._itemActionsVisibility = options.itemActionsVisibility;
         this._updateActionsTemplateConfig(options);
 
         if (!options.itemActions ||
@@ -193,6 +205,9 @@ export class Controller {
     activateSwipe(itemKey: TItemKey, actionsContainerWidth: number, actionsContainerHeight: number): void {
         const item = this._collection.getItemBySourceKey(itemKey);
         item.setSwipeAnimation(ANIMATION_STATE.OPEN);
+        if (this._itemActionsVisibility === 'visible') {
+            this._saveItemActions(item);
+        }
         this._setSwipeItem(itemKey);
         this._collection.setActiveItem(item);
         if (this._itemActionsPosition !== 'outside') {
@@ -218,6 +233,9 @@ export class Controller {
         const currentSwipedItem = this.getSwipeItem();
         if (currentSwipedItem) {
             currentSwipedItem.setSwipeAnimation(null);
+            if (this._itemActionsVisibility === 'visible') {
+                this._restoreItemActions(currentSwipedItem);
+            }
             this._setSwipeItem(null);
             this._collection.setActiveItem(null);
             this._collection.setSwipeConfig(null);
@@ -587,6 +605,16 @@ export class Controller {
     private _addEditArrow(actions: IItemAction[]): void {
         if (!actions.find((action) => action.id === 'view')) {
             actions.unshift(this._fixShownActionOptions(this._editArrowAction));
+        }
+    }
+
+    private _saveItemActions(item: IItemActionsItem): void {
+        this._savedItemActions = item.getActions();
+    }
+
+    private _restoreItemActions(item: IItemActionsItem): void {
+        if (this._savedItemActions) {
+            item.setActions(this._savedItemActions)
         }
     }
 

@@ -23,10 +23,10 @@ define(
 
          it('_getThumbCoordByScroll', function () {
             var component = createComponent(Scrollbar.default, {contentSize: 1000});
-            result = component._getThumbCoordByScroll(100, 10, 400);
+            result = component._getThumbCoordByScroll(100, 10, 400, 1000);
             assert.equal(40, result);
 
-            result = component._getThumbCoordByScroll(100, 10, 0);
+            result = component._getThumbCoordByScroll(100, 10, 0, 1000);
             assert.equal(0, result);
          });
 
@@ -116,7 +116,7 @@ define(
             });
          });
 
-         describe('_afterUpdate', function () {
+         describe('_beforeUpdate', function () {
             it('Should update scroll position', function () {
                let
                   sandbox = sinon.sandbox.create(),
@@ -127,7 +127,7 @@ define(
                };
                sandbox.stub(component, '_setSizes');
                sandbox.stub(component, '_setPosition');
-               component._afterUpdate({contentSize: 200, position: 10});
+               component._beforeUpdate({contentSize: 200, position: 10});
                sinon.assert.called(component._setPosition);
                sandbox.restore();
             });

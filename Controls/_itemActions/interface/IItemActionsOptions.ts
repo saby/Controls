@@ -14,7 +14,7 @@ import {TActionAlignment} from './IItemActionsTemplateConfig';
  * @variant visible ItemActions will be Initialized and displayed on control mount
  * @variant delayed ItemActions will be Initialized and displayed after mouseenter with 500ms delay over Item
  */
-type TItemActionsVisibility = 'onhover'|'delayed'|'visible';
+export type TItemActionsVisibility = 'onhover'|'delayed'|'visible';
 
 /**
  * Интерфейс опций контрола, который работает с {@link Controls/_itemActions/Controller контроллером опций записи}.

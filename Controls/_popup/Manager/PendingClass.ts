@@ -117,6 +117,10 @@ class PendingClass {
         this.hideIndicators(root);
         if (this._pendings) {
             delete this._pendings[root][id];
+            // Если корень пуст - удалим корень.
+            if (Object.keys(this._pendings[root]).length === 0) {
+                delete this._pendings[root];
+            }
             // notify if no more pendings
             if (!this.hasRegisteredPendings(root)) {
                 this._notify('pendingsFinished', []);

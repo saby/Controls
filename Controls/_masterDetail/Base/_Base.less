@@ -18,7 +18,7 @@
    // and children of these elements can not overlap this pseudo element.
    &:before {
       content: '';
-      z-index: 0;
+      z-index: 1; // Чтобы перекрывать оптимизированную тень от scrollContainer'a, она сделана через background
       height: 100%;
       position: absolute;
       right: 0;
@@ -128,8 +128,8 @@
 
 // Класс для css теней скролл контейнера
 .controls-Scroll__background-Shadow_style-master_theme-@{themeName} {
-   background-image: linear-gradient(@master_item_background-color_list 10%, rgba(@master_item_background-color_list, 0)),
-              linear-gradient(rgba(@master_item_background-color_list, 0), @master_item_background-color_list 90%),
+   background-image: linear-gradient(@master_item_background-color_list 20%, rgba(@master_item_background-color_list, 0)),
+              linear-gradient(rgba(@master_item_background-color_list, 0), @master_item_background-color_list 80%),
               linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
               linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    background-position: top, bottom, top, bottom;

@@ -5,6 +5,7 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         source: options.source,
         filter: options.filter,
         selectedKeys: options.selectedKeys,
+        emptyTemplate: options.emptyTemplate,
         navigation: options.navigation,
         keyProperty: options.keyProperty,
         notifyEvent: options.notifyEvent,

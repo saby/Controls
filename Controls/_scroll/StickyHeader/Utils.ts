@@ -128,17 +128,23 @@ export function isHidden(element: HTMLElement): boolean {
     return !!element && !!element.closest('.ws-hidden');
 }
 
-// For android, use a large patch, because 1 pixel is not enough. For all platforms we use the minimum values since
-// there may be layout problems if the headers will have paddings, margins, etc.
-const
-    ANDROID_GAP_FIX_OFFSET: number = 3,
-    MOBILE_GAP_FIX_OFFSET: number = 1;
+/**
+ * On android and ios there is a gap between child elements.
+ * When the header is fixed, there is a space between the container, relative to which it is fixed,
+ * and the header, through which you can see the scrolled content. Its size does not exceed one pixel.
+ * https://jsfiddle.net/tz52xr3k/3/
+ *
+ * As a solution, move the header up and increase its size by an offset, using padding.
+ * In this way, the content of the header does not change visually, and the free space disappears.
+ * The offset must be at least as large as the free space. Take the nearest integer equal to one.
+ * This fix does't work on android platform
+ */
+
+const MOBILE_GAP_FIX_OFFSET: number = 1;
 
 export function getGapFixSize(): number {
     let offset: number = 0;
-    if (detection.isMobileAndroid) {
-        offset = ANDROID_GAP_FIX_OFFSET;
-    } else if (detection.isMobilePlatform) {
+    if (detection.isMobilePlatform && !detection.isMobileAndroid) {
         offset = MOBILE_GAP_FIX_OFFSET;
     }
     return offset;

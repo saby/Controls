@@ -157,7 +157,7 @@ class StickyHeaderController {
     _updateShadowsVisibility(): void {
         for (const position of [POSITION.top, POSITION.bottom]) {
             const headersStack: [] = this._headersStack[position];
-            const lastHeaderId = this._getLastFixedHeaderId(position);
+            const lastHeaderId = this._getLastFixedHeaderWithShadowId(position);
             for (const headerId of headersStack) {
                 if (this._fixedHeadersStack[position].includes(headerId)) {
                     const header: TRegisterEventData = this._headers[headerId];
@@ -304,8 +304,8 @@ class StickyHeaderController {
         if (!isSingleHeader) {
             for (const id in this._headers) {
                 this._headers[id].inst.updateFixed([
-                    this._getLastFixedHeaderId(POSITION.top),
-                    this._getLastFixedHeaderId(POSITION.bottom)
+                    this._getLastFixedHeaderWithShadowId(POSITION.top),
+                    this._getLastFixedHeaderWithShadowId(POSITION.bottom)
                 ]);
             }
         }
@@ -314,11 +314,17 @@ class StickyHeaderController {
         this._callFixedCallback(position);
     }
 
-    _getLastFixedHeaderId(position: POSITION): number {
+    _getLastFixedHeaderWithShadowId(position: POSITION): number {
         let header: number;
+        // Тень рисуем у последнего не заменяемого заголовка, либо у первого заменяемого.
+        // Это позволяет не перерисовывать тени при откреплении/зареплении следующих заголовков.
         for (const headerId of this._headersStack[position]) {
-            if (this._fixedHeadersStack[position].includes(headerId)) {
+            if (this._fixedHeadersStack[position].includes(headerId) &&
+                this._headers[headerId].inst.shadowVisibility !== SHADOW_VISIBILITY.hidden) {
                 header = headerId;
+                if (this._headers[header].mode === 'replaceable') {
+                    break;
+                }
             }
         }
         return header;

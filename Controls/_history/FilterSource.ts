@@ -313,7 +313,7 @@ var _private = {
 
       items.forEach(function (element) {
          objectData = element.get('ObjectData');
-         if (objectData && itemData && isEqual(JSON.parse(objectData, deserialize), itemData)) {
+         if (objectData && itemData && isEqual(JSON.parse(objectData, _private.getSerialize().deserialize), itemData)) {
             item = element;
          }
       });
@@ -344,7 +344,7 @@ var _private = {
  * @class Controls/_history/FilterSource
  * @extends Core/core-extend
  * @mixes Types/_entity/OptionsToPropertyMixin
- * 
+ *
  * @private
  * @author Герасимов А.М.
  * @example
@@ -367,7 +367,7 @@ var _private = {
  * @class Controls/_history/FilterSource
  * @extends Core/core-extend
  * @mixes Types/_entity/OptionsToPropertyMixin
- * 
+ *
  * @private
  * @author Герасимов А.М.
  * @example

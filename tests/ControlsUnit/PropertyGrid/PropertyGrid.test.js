@@ -86,8 +86,7 @@ define([
         describe('itemClick', () => {
             it('toggle expand state on group item', () => {
                 const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
-                collection.moveToFirst();
-                const groupItem = collection.getCurrent();
+                const groupItem = collection.at(2);
                 const expandedState = groupItem.isExpanded();
                 const clickEvent = {
                     target: {

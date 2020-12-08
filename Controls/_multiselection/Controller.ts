@@ -12,6 +12,7 @@ import {
    ISelectionDifference, IEntryPathItem
 } from './interface';
 import { CrudEntityKey } from 'Types/source';
+import clone = require('Core/core-clone');
 
 /**
  * Контроллер множественного выбора
@@ -156,9 +157,12 @@ export class Controller {
 
       if (status === true || status === null) {
          newSelection = this._strategy.unselect(this._selection, key);
+         if (this._limit) {
+            this._limit--;
+         }
       } else {
-         if (this._limit && !this._excludedKeys.includes(key)) {
-            newSelection = this._increaseLimit([key]);
+         if (this._limit) {
+            newSelection = this._increaseLimit(key);
          }
 
          if (newSelection) {
@@ -176,7 +180,7 @@ export class Controller {
     * @return {ISelection}
     */
    selectAll(): ISelection {
-      return this._strategy.selectAll(this._selection);
+      return this._strategy.selectAll(this._selection, this._limit);
    }
 
    /**
@@ -318,31 +322,29 @@ export class Controller {
 
    /**
     * Увеличивает лимит на количество выбранных записей, все предыдущие невыбранные записи при этом попадают в исключение
-    * @param {Array} keys
     * @private
+    * @param toggledItemKey
     */
-   private _increaseLimit(keys: TKeys): ISelection {
-      const newSelection = {...this._selection};
-      let selectedItemsCount: number = 0;
-      const limit: number = this._limit ? this._limit - this._excludedKeys.length : 0;
+   private _increaseLimit(toggledItemKey: CrudEntityKey): ISelection {
+      const newSelection = clone(this._selection);
+      let selectedItemsCount = 0;
+      const limit = this._limit ? this._limit : 0;
 
-      this._model.getCollection().forEach((item) => {
-         const key: CrudEntityKey = item.getKey();
-
-         const selectionForModel = this._strategy.getSelectionForModel(this._selection, this._limit);
-
-         let itemStatus = false;
-         if (selectionForModel.get(true).find((selectedItem) => selectedItem.getContents().getKey() === key)) {
-            itemStatus = true;
+      let stopIncreasing = false;
+      this._model.each((item) => {
+         if (stopIncreasing) {
+            return;
          }
 
-         if (selectedItemsCount < limit && itemStatus !== false) {
+         if (selectedItemsCount < limit && item.isSelected() !== false) {
             selectedItemsCount++;
-         } else if (selectedItemsCount >= limit && keys.length) {
-            selectedItemsCount++;
-            this._limit++;
-
-            if (!keys.includes(key)) {
+         } else {
+            const key = this._getKey(item);
+            if (toggledItemKey === key) {
+               selectedItemsCount++;
+               this._limit++;
+               stopIncreasing = true;
+            } else if (!newSelection.excluded.includes(key)) {
                newSelection.excluded.push(key);
             }
          }

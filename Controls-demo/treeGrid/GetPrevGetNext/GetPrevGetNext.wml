@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_wrapper-treeGrid-base-treeView">
+    <div class='controlsDemo__button_wrapper'>
+        <span class='controlsDemo__button' on:click="_goToPrev()">Предыдущая</span>
+        <span class='controlsDemo__button' on:click="_goToNext()">Следующая</span>
+    </div>
+    <Controls.scroll:Container>
+        <Controls.treeGrid:View
+                keyProperty="id"
+                name="tree"
+                markerVisibility="visible"
+                bind:expandedItems="_expandedItems"
+                bind:markedKey="_currentItem"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                itemsReadyCallback="{{_itemsReadyCallback}}"
+                parentProperty="parent"
+                on:drawItems="_drawItemsHandler()"
+                nodeProperty="nodeType"/>
+    </Controls.scroll:Container>
+</div>

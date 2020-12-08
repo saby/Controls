@@ -1,12 +1,15 @@
 <ws:template name="groupContent">
-    <div class="controls-ListView__groupSeparator-left_theme-{{theme}}">&nbsp;</div>
-    <div class="{{ gridColumn.getCaptionClasses(expanderAlign, expanderVisible, theme) }}">
+    <div class="controls-ListView__groupSeparator-left_theme-{{theme}}"
+         attr:key="{{ gridColumn.getInstanceId(true) }}_leftSeparator">&nbsp;</div>
+    <div class="{{ gridColumn.getCaptionClasses(expanderAlign, expanderVisible, theme) }}"
+         attr:key="{{ gridColumn.getInstanceId(true) }}_content">
         <ws:if data="{{contentTemplate}}">
             <ws:partial template="{{contentTemplate}}" itemData="{{ item || itemData }}"/>
         </ws:if>
         <ws:else>{{gridColumn.getCaption()}}</ws:else>
     </div>
-    <div class="controls-ListView__groupSeparator-right_theme-{{theme}}">&nbsp;</div>
+    <div class="controls-ListView__groupSeparator-right_theme-{{theme}}"
+         attr:key="{{ gridColumn.getInstanceId(true) }}_rightSeparator">&nbsp;</div>
 </ws:template>
 
 <ws:if data="{{(item || itemData).isSticked()}}">

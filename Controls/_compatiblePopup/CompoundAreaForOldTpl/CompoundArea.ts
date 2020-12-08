@@ -401,6 +401,11 @@ var CompoundArea = CompoundContainer.extend([
    },
 
    _beforeUnmount: function() {
+      if (this._beforeClosePendingDeferred && !this._beforeClosePendingDeferred.isReady()) {
+         this._beforeClosePendingDeferred.callback();
+         this._beforeClosePendingDeferred = null;
+      }
+
       if(this.__parentFromCfg && this.__parentFromCfg.unregisterChildControl){
          this.__parentFromCfg.unregisterChildControl(this);
       }
@@ -1033,7 +1038,8 @@ var CompoundArea = CompoundContainer.extend([
    },
    _createBeforeCloseHandlerPending(): void {
       const self = this;
-      self._notifyVDOM('registerPending', [new cDeferred(), {
+      this._beforeClosePendingDeferred = new cDeferred();
+      self._notifyVDOM('registerPending', [this._beforeClosePendingDeferred, {
          showLoadingIndicator: false,
          validateCompatible(): boolean {
             if (cInstance.instanceOfModule(self._childControl, 'SBIS3.CONTROLS/FormController')) {

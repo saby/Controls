@@ -1436,3 +1436,26 @@ export const DeepInside = {
         { id: 8, title: 'Лист 8', parent: null, nodeType: null }
     ])
 };
+
+
+export const DemoGetNextGetPrev = {
+    getColumns: (): IColumn[] => ([{
+        displayProperty: 'title',
+        width: ''
+    }]),
+    getData: (): IData[] => ([
+        { id: 1, title: 'Узел 1', parent: null, nodeType: true },
+        { id: 11, title: 'Узел 1-1', parent: 1, nodeType: true },
+        { id: 111, title: 'Лист 1-1-1', parent: 11, nodeType: null },
+        { id: 112, title: 'Лист 1-1-2', parent: 11, nodeType: null },
+        { id: 113, title: 'Лист 1-1-3', parent: 11, nodeType: null },
+        { id: 114, title: 'Узел 1-1-4', parent: 11, nodeType: true },
+        { id: 1141, title: 'Лист 1-1-4-1', parent: 114, nodeType: null },
+
+        { id: 12, title: 'Узел 1-2', parent: 1, nodeType: true },
+        { id: 121, title: 'Лист 1-2-1', parent: 12, nodeType: null },
+        { id: 2, title: 'Лист 2', parent: null, nodeType: null },
+        { id: 3, title: 'Лист 3', parent: null, nodeType: null },
+        { id: 4, title: 'Лист 4', parent: null, nodeType: null }
+    ])
+};

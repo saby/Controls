@@ -626,7 +626,11 @@ export default class InputContainer extends Control<IInputControllerOptions> {
             if (!this._searchResult && !this._errorConfig && !this._pendingErrorConfig) {
                this._loadDependencies(newOptions).addCallback(() => {
                   this._resolveLoad(this._searchValue, newOptions).then(() => {
-                     this._suggestOpened = newOptions.suggestState;
+                     // Проверка нужна из-за асинхронщины, которая возникает при моментальном расфокусе поля ввода, что
+                     // вызывает setCloseState, но загрузка все равно выполняется и появляется невидимый попап.
+                     if (this._inputActive) {
+                        this._suggestOpened = newOptions.suggestState;
+                     }
                   }).catch((error) => {
                      this._searchErrback(error);
                   });
@@ -762,7 +766,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
          return (await this._getSearchController()).search(value).then((recordSet) => {
             this._loadEnd(recordSet);
 
-            if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet)) {
+            if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet) && (this._inputActive || this._tabsSelectedKey !== null)) {
                this._setItems(recordSet);
                if (this._options.dataLoadCallback) {
                   this._options.dataLoadCallback(recordSet);
@@ -783,7 +787,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       const scopeOptions = options ?? this._options;
 
       return this._getSourceController(scopeOptions).load().then((recordSet) => {
-         if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet)) {
+         if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet) && (this._inputActive || this._tabsSelectedKey !== null)) {
             this._setItems(recordSet);
             if (scopeOptions.dataLoadCallback) {
                scopeOptions.dataLoadCallback(recordSet);

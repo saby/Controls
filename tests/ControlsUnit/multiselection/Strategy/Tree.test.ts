@@ -7,6 +7,7 @@ import { Model } from 'Types/entity';
 import * as ListData from 'ControlsUnit/ListData';
 import { RecordSet } from 'Types/collection';
 import { Tree, TreeItem } from 'Controls/display';
+import GroupItem from 'Controls/_display/GroupItem';
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    const nodesSourceControllers = {
@@ -356,6 +357,20 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [1, 2, 5].includes(it.id)) );
          assert.deepEqual(toArray(res.get(null)), [ ]);
          assert.deepEqual(toArray(res.get(false)), ListData.getItems().filter((it) => ![1, 2, 5].includes(it.id)) );
+      });
+
+      it('with group and search value', () => {
+         // если задан searchValue, то не должны выбираться узлы. Группа ломала это поведение
+
+         const selection = {selected: [null], excluded: [null]};
+
+         const items = model.getItems();
+         items.push(new GroupItem({}));
+
+         const res = strategy.getSelectionForModel(selection, null, items, 'asdas');
+         assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [4, 5, 7].includes(it.id)));
+         assert.deepEqual(toArray(res.get(null)), ListData.getItems().filter((it) => ![4, 5, 7].includes(it.id)));
+         assert.deepEqual(toArray(res.get(false)), []);
       });
    });
 

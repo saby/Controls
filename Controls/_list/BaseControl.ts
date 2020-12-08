@@ -144,6 +144,7 @@ const PAGING_MIN_ELEMENTS_COUNT = 5;
  */
 const CHECK_TRIGGERS_DELAY_IF_NEED = detection.isIE || detection.isMobileIOS ? 150 : 0;
 const SWIPE_MEASUREMENT_CONTAINER_SELECTOR = 'js-controls-ItemActions__swipeMeasurementContainer';
+const ITEM_ACTION_SELECTOR = '.js-controls-ItemActions__ItemAction';
 
 interface IAnimationEvent extends Event {
     animationName: string;
@@ -1513,7 +1514,8 @@ const _private = {
             _private.delayedSetMarkerAfterScrolling(self, scrollTop);
         }
 
-        self._scrollTop = scrollTop;
+        // на мобильных устройствах с overflow scrolling, scrollTop может быть отрицательным
+        self._scrollTop = scrollTop > 0 ? scrollTop : 0;
         self._scrollPageLocked = false;
         if (_private.needScrollPaging(self._options.navigation)) {
             if (!self._scrollController.getParamsToRestoreScrollPosition()) {
@@ -2168,8 +2170,8 @@ const _private = {
         if (errorConfig && (errorConfig.mode === dataSourceError.Mode.include)) {
             self._scrollController = null;
             self._observerRegistered = false;
+            self._viewReady = false;
         }
-        self._viewReady = false;
     },
 
     hideError(self: BaseControl): void {
@@ -2800,7 +2802,8 @@ const _private = {
             editingToolbarVisible: editingConfig?.toolbarVisibility,
             editArrowAction,
             editArrowVisibilityCallback: options.editArrowVisibilityCallback,
-            contextMenuConfig: options.contextMenuConfig
+            contextMenuConfig: options.contextMenuConfig,
+            itemActionsVisibility: options.itemActionsVisibility
         });
         if (itemActionsChangeResult.length > 0 && self._listViewModel.resetCachedItemData) {
             itemActionsChangeResult.forEach((recordKey: number | string) => {
@@ -3746,6 +3749,13 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         let isItemsResetFromSourceController = false;
         const self = this;
 
+        // если будут перезагружены данные, то нужно снова добавить отступ сверху, чтобы не было сразу загрузки данных вверх
+        if (sourceChanged || filterChanged || sortingChanged || recreateSource) {
+            if (_private.attachLoadTopTriggerToNullIfNeed(this, newOptions)) {
+                self._hideTopTrigger = true;
+            }
+        }
+
         this._loadedBySourceController = newOptions.sourceController &&
             // Если изменился поиск, то данные меняет контроллер поиска через sourceController
             (sourceChanged || searchValueChanged && newOptions.searchValue);
@@ -3948,7 +3958,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // Если будет выполнена перезагрузка, то мы на событие reset применим новый ключ
         if (shouldProcessMarker && !needReload) {
             const markerController = _private.getMarkerController(this, newOptions);
-            if (this._options.markedKey !== newOptions.markedKey) {
+            // могут скрыть маркер и занового показать, тогда markedKey из опций нужно проставить даже если он не изменился
+            if (this._options.markedKey !== newOptions.markedKey || this._options.markerVisibility === 'hidden' && newOptions.markerVisibility === 'visible' && newOptions.markedKey !== undefined) {
                 markerController.setMarkedKey(newOptions.markedKey);
             } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible') {
                 const newMarkedKey = markerController.calculateMarkedKeyForVisible();
@@ -5259,6 +5270,13 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _itemMouseDown(event, itemData, domEvent) {
+        // При клике в операцию записи не нужно посылать событие itemMouseDown. Останавливать mouseDown в
+        // методе _onItemActionMouseDown нельзя, т.к. тогда оно не добросится до Application
+        // task1180635987 убрано в 21.1000
+        if (this._options.task1180635987 && !!domEvent.target.closest(ITEM_ACTION_SELECTOR)) {
+            event.stopPropagation();
+            return;
+        }
         let hasDragScrolling = false;
         this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
         if (this._options.columnScroll) {

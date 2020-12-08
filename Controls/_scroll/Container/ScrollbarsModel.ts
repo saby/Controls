@@ -62,10 +62,6 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         if (options.scrollbarVisible && scrollMode.indexOf('horizontal') !== -1) {
             this._models.horizontal = new ScrollbarModel(SCROLL_DIRECTION.HORIZONTAL, options);
         }
-
-        // Размеры обновляются асинхронно по разным событиям.
-        // Рассчитываем состояние скролбара с дебоунсом что бы не было скачков.
-        this._updateContainerSizes = debounce(this._updateContainerSizes.bind(this), UPDATE_CONTAINER_SIZES_DELAY);
     }
 
     serializeState(): ISerializeState {
@@ -82,8 +78,17 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
     }
 
     _updateContainerSizes(): void {
+        let changed: boolean = false;
+        if (this._newState) {
+            for (let scrollbar of Object.keys(this._models)) {
+                changed = this._models[scrollbar].updatePosition(this._newState) || changed;
+            }
+        }
         this._updateScrollState();
         this._updatePlaceholdersSize();
+        if (changed) {
+            this._nextVersion();
+        }
     }
 
     updateScrollState(scrollState: IScrollState, container: HTMLElement): void {
@@ -91,9 +96,7 @@ export default class ScrollbarsModel extends mixin<VersionableMixin>(Versionable
         this._container = container;
 
         let changed: boolean = false;
-        for (let scrollbar of Object.keys(this._models)) {
-            changed = this._models[scrollbar].updatePosition(scrollState) || changed;
-        }
+
         const canScroll = scrollState.canVerticalScroll || scrollState.canHorizontalScroll;
         let canScrollChanged: boolean = false;
         if (canScroll !== this._canScroll) {

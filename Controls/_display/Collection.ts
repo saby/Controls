@@ -2435,12 +2435,18 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         if (this._$collection['[Types/_collection/RecordSet]']) {
             if (key !== undefined) {
                 const record = (this._$collection as unknown as RecordSet).getRecordById(key);
+                if (!record) {   
 
-                // Если записи нет в наборе данных, то, возможно запрашивается добавляемая в данный момент запись.
-                // Такой записи еще нет в наборе данных.
-                if (!record && this._$isEditing) {
-                    return this.find((item) => item.isEditing() && item.isAdd && item.contents.getKey() === key);
-                } else {
+                    // Если записи нет в наборе данных, то, возможно запрашивается добавляемая в данный момент запись.
+                    // Такой записи еще нет в наборе данных.
+                    if (this._$isEditing) {
+                        return this.find((item) => item.isEditing() && item.isAdd && item.contents.getKey() === key);
+                    } 
+
+                    // Или требуется найти группу
+                    return this.find((item) => item['[Controls/_display/GroupItem]'] && item.key === key);
+                }
+                else {
                     return this.getItemBySourceItem(record as unknown as S);
                 }
             } else {
@@ -2505,9 +2511,6 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
 
     isAllGroupsCollapsed(): boolean {
         const itemsCount = this.getCount();
-        if (!this.getCollapsedGroups()) {
-            return false;
-        }
         for (let idx = 0; idx < itemsCount; idx++) {
             const item = this.at(idx);
             if (!(item['[Controls/_display/GroupItem]']) || item.isExpanded()) {
@@ -2964,10 +2967,11 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
             }
         }
         if (items.length > 0 && !silent) {
+            items.properties = 'selected';
             const index = this.getIndex(items[0]);
             this._notifyBeforeCollectionChange();
             this._notifyCollectionChange(
-                IObservable.ACTION_REPLACE,
+                IObservable.ACTION_CHANGE,
                 items,
                 index,
                 items,

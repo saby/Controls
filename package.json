@@ -13,6 +13,7 @@
    ],
    "scripts": {
       "build": "npm run builder && npm run build:index",
+      "build:release": "wasaby-cli --task=build --release",
       "build:typescript": "wasaby-cli --tasks=prepare",
       "builder": "wasaby-cli --tasks=build",
       "builder:watch": "wasaby-cli --tasks=build --watcher",

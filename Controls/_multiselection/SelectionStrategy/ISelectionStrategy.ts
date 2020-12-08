@@ -36,9 +36,10 @@ export default interface ISelectionStrategy {
     * В плоской стратегии всегда один и тот же корень null
     *
     * @param {ISelection} selection текущее состояние выбранных ключей
+    * @param {number} limit максимальное число выбранных записей
     * @return {ISelection} новое состояние выбранных элементов
     */
-   selectAll(selection: ISelection): ISelection;
+   selectAll(selection: ISelection, limit?: number): ISelection;
 
    /**
     * Переключает выбор всех элементов в текущем корне

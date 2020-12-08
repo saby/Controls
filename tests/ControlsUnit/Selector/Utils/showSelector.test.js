@@ -172,7 +172,7 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
             }
          });
          assert.equal(lastPopupOptions.template, 'selectorTemplate');
-         assert.equal(lastPopupOptions.templateOptions.searchValue, 'testValue');
+         assert.equal(lastPopupOptions.templateOptions.searchValue, '');
       });
    });
 });

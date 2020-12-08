@@ -334,6 +334,19 @@ describe('Controls/browser:Browser', () => {
             doesNotThrow(update);
         });
 
+        it('new source in beforeUpdate returns error', async () => {
+            let options = getBrowserOptions();
+            const browser = getBrowser();
+
+            await browser._beforeMount(options);
+
+            options = {...options};
+            options.source = new Memory();
+            options.source.query = () => Promise.reject(new Error('testError'));
+            await browser._beforeUpdate(options);
+            ok(browser._errorRegister);
+        });
+
     });
 
     describe('_itemsChanged', () => {

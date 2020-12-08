@@ -56,15 +56,13 @@ export default function(self, popupOptions, multiSelect) {
 
     if (popupOptions && popupOptions.template || selectorTemplate) {
         stackPopupOptions.templateOptions = getTemplateOptions(self, multiSelect);
-
-        if (popupOptions) {
-            merge(stackPopupOptions, popupOptions);
-        }
-
         if (selectorTemplate && selectorTemplate.templateOptions) {
             merge(stackPopupOptions.templateOptions, selectorTemplate.templateOptions);
         }
 
+        if (popupOptions) {
+            merge(stackPopupOptions, popupOptions);
+        }
         self._stack.open(stackPopupOptions);
         return true;
     }

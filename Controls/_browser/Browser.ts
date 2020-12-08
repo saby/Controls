@@ -115,13 +115,7 @@ export default class Browser extends Control {
                             items: loadResult
                         };
                     } else {
-                        this._onDataError(
-                            null,
-                            {
-                                error: loadResult,
-                                mode: dataSourceError.Mode.include
-                            }
-                        )
+                        this._processLoadError(loadResult);
                     }
                     return loadResult;
                 });
@@ -173,13 +167,15 @@ export default class Browser extends Control {
         if (sourceChanged) {
             this._loading = true;
             methodResult = this._sourceController.reload()
-                .then((items) => {
+                .then((result) => {
                     // для того чтобы мог посчитаться новый prefetch Source внутри
-                    if (items instanceof RecordSet) {
+                    if (result instanceof RecordSet) {
                         if (newOptions.dataLoadCallback instanceof Function) {
-                            newOptions.dataLoadCallback(items);
+                            newOptions.dataLoadCallback(result);
                         }
-                        this._items = this._sourceController.setItems(items);
+                        this._items = this._sourceController.setItems(result);
+                    } else if (result instanceof Error) {
+                        this._processLoadError(result);
                     }
 
                     const controllerState = this._sourceController.getState();
@@ -190,7 +186,7 @@ export default class Browser extends Control {
 
                     this._loading = false;
                     this._groupHistoryId = newOptions.groupHistoryId;
-                    return items;
+                    return result;
                 })
                 .catch((error) => error);
         } else if (isChanged) {
@@ -365,6 +361,13 @@ export default class Browser extends Control {
             }
         }
         curContext.updateConsumers();
+    }
+
+    protected _processLoadError(error: Error): void {
+        this._onDataError(null, {
+            error,
+            mode: dataSourceError.Mode.include
+        });
     }
 
     protected _onDataError(event: SyntheticEvent, errbackConfig: dataSourceError.ViewConfig): void {

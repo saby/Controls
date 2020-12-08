@@ -3,41 +3,41 @@
       <td attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
           attr:style="{{ gridColumn.getWrapperStyles() }}"
           attr:colspan="{{ gridColumn.getColspan() }}">
-         <div if="{{ gridColumn.shouldDisplayMarker(marker, markerPosition) }}" attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
-         <div attr:class="{{ gridColumn.getContentClasses(theme, cursor, highlightOnHover) }}"
-              attr:style="{{ gridColumn.getContentStyles() }}">
-            <div class="{{ gridColumn.getRelativeCellWrapperClasses(theme) }}">
+         <div class="{{ gridColumn.getRelativeCellWrapperClasses(theme) }}">
+            <div if="{{ gridColumn.shouldDisplayMarker(marker, markerPosition) }}" attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
+            <div attr:class="{{ gridColumn.getContentClasses(theme, cursor, highlightOnHover) }}"
+                 attr:style="{{ gridColumn.getContentStyles() }}">
                <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
-                           attr:key="{{ gridColumn.getInstanceId() }}"
-                           gridColumn="{{ gridColumn }}"
-                           column="{{ gridColumn.getColumnConfig() }}"
-                           item="{{ (item || itemData) }}"
-                           itemData="{{ (item || itemData) }}"
-                           theme="{{ theme }}"
-                           cursor="{{ cursor }}"
-                           templateHighlightOnHover="{{ templateHighlightOnHover }}">
-                  <ws:ladderWrapper>
-                     <ws:partial template="{{ladderWrapper.content}}"
-                                 attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
-                  </ws:ladderWrapper>
-                  <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
-                                      key="{{ (item || itemData).key }}"
-                                      checkboxReadOnly="{{ checkboxReadOnly }}"/>
-               </ws:partial>
+                              attr:key="{{ gridColumn.getInstanceId() }}"
+                              gridColumn="{{ gridColumn }}"
+                              column="{{ gridColumn.getColumnConfig() }}"
+                              item="{{ (item || itemData) }}"
+                              itemData="{{ (item || itemData) }}"
+                              theme="{{ theme }}"
+                              cursor="{{ cursor }}"
+                              templateHighlightOnHover="{{ templateHighlightOnHover }}">
+                     <ws:ladderWrapper>
+                        <ws:partial template="{{ladderWrapper.content}}"
+                                    attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
+                     </ws:ladderWrapper>
+                     <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
+                                         key="{{ (item || itemData).key }}"
+                                         checkboxReadOnly="{{ checkboxReadOnly }}"/>
+                  </ws:partial>
             </div>
-         </div>
-         <ws:if data="{{ gridColumn.shouldDisplayItemActions() }}">
-            <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
-               <ws:partial template="{{ swipeTemplate }}"
-                           highlightOnHover="{{ highlightOnHover }}" />
+            <ws:if data="{{ gridColumn.shouldDisplayItemActions() }}">
+               <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
+                  <ws:partial template="{{ swipeTemplate }}"
+                              highlightOnHover="{{ highlightOnHover }}" />
+               </ws:if>
+               <ws:else data="{{ itemActionsPosition !== 'custom' }}">
+                  <ws:partial template="{{ itemActionsTemplate }}"
+                              itemData="{{ item || itemData }}"
+                              itemActionsClass="{{ itemActionsClass }}"
+                              highlightOnHover="{{ highlightOnHover }}"/>
+               </ws:else>
             </ws:if>
-            <ws:else data="{{ itemActionsPosition !== 'custom' }}">
-               <ws:partial template="{{ itemActionsTemplate }}"
-                           itemData="{{ item || itemData }}"
-                           itemActionsClass="{{ itemActionsClass }}"
-                           highlightOnHover="{{ highlightOnHover }}"/>
-            </ws:else>
-         </ws:if>
+         </div>
       </td>
    </ws:for>
 </tr>

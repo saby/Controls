@@ -10,13 +10,9 @@ define(
       'use strict';
 
       describe('Controls.Container.Scroll', function() {
-         var scroll, result;
+         var scroll;
          let event;
-         var context1 = {
-            ScrollData: {
-               pagingVisible: false
-            }
-         };
+
          beforeEach(function() {
             event = {
                stopImmediatePropagation: sinon.fake()
@@ -80,9 +76,7 @@ define(
 
             scroll._children.scrollBar = {
                _position: 0,
-               setScrollPosition: function(value) {
-                  scroll._children.scrollBar._position = value;
-               }
+               setViewportSize: sinon.fake()
             };
          });
 
@@ -136,6 +130,7 @@ define(
                   } else {
                      assert.isTrue(result);
                   }
+                  sinon.assert.called(scroll._children.scrollBar.setViewportSize);
                });
             });
          });

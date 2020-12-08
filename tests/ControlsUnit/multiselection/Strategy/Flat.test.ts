@@ -73,6 +73,13 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
          assert.deepEqual(selection.selected, [null]);
          assert.deepEqual(selection.excluded, []);
       });
+
+      it('with limit', () => {
+         let selection = { selected: [null], excluded: [2] };
+         selection = strategy.selectAll(selection, 5);
+         assert.deepEqual(selection.selected, [null]);
+         assert.deepEqual(selection.excluded, [2]);
+      });
    });
 
    describe('unselectAll', () => {

@@ -1,4 +1,5 @@
-<div attr:class="controls-itemActionsV__action {{!action.isMenu ? 'controls-itemActionsV__action_padding' + (actionPadding && '_' + actionPadding || '') + '_theme-' + theme : 'controls-itemActionsV__action_menu_padding' + (actionPadding && '_' + actionPadding || '') + '_theme-' + theme}}
+<div attr:class="js-controls-ItemActions__ItemAction
+            controls-itemActionsV__action {{!action.isMenu ? 'controls-itemActionsV__action_padding' + (actionPadding && '_' + actionPadding || '') + '_theme-' + theme : ''}}
             controls-itemActionsV__action_style_{{actionStyle || action.style || 'secondary'}}
             {{((iconStyle || action.iconStyle || 'secondary') !== 'secondary') ?
             ('controls-icon_style-' + (iconStyle || action.iconStyle)) : ('controls-action_iconStyle_secondary')}}_theme-{{theme}}

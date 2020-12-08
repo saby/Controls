@@ -175,8 +175,17 @@
 .ws-is-hover {
    .controls-Tabs__item_state_default_theme_@{themeName}:hover {
       &:after {
-         height: @marker_hover_thickness_tabs;
          background: @marker_hover_color_tabs;
+      }
+   }
+   .controls-Tabs__itemClickableArea_borderThickness-s_theme-@{themeName}:hover {
+      &:after {
+         height: @marker_hover_thickness-s_tabs;
+      }
+   }
+   .controls-Tabs__itemClickableArea_borderThickness-l_theme-@{themeName}:hover {
+      &:after {
+         height: @marker_hover_thickness-l_tabs;
       }
    }
    .controls-Tabs__item_state_default_theme_@{themeName}:hover {

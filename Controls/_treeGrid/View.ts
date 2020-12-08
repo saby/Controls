@@ -3,7 +3,8 @@ import TreeGridViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridView
 import entity = require('Types/entity');
 import TreeGridView = require('Controls/_treeGrid/TreeGridView/TreeGridView');
 import { TreeControl } from 'Controls/tree';
-
+import {CrudEntityKey} from 'Types/source';
+import { Model } from 'Types/entity';
 
    /**
     * Контрол "Дерево".
@@ -98,6 +99,26 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
    // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac
    toggleExpanded(id) {
       this._children.listControl.toggleExpanded(id);
+   }
+
+   /**
+    * Возвращает следующую запись в проекции дерева.
+    * @function Controls/_treeGrid/View#getNextItem
+    * @param {String|Number} key Ключ записи, относительно которой нужно найти следующую запись.
+    * @return {Model} Следующая запись.
+    */
+   getNextItem(key: CrudEntityKey): Model {
+      return this._children.listControl.getNextItem(key);
+   }
+
+   /**
+    * Возвращает предыдущую запись в проекции дерева.
+    * @function Controls/_treeGrid/View#getPrevItem
+    * @param {String|Number} key Ключ записи, относительно которой нужно найти предыдущую запись.
+    * @return {Model} Предыдущая запись.
+    */
+   getPrevItem(key: CrudEntityKey): Model {
+      return this._children.listControl.getPrevItem(key);
    }
 }
 /**

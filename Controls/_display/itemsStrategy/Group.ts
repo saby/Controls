@@ -308,6 +308,16 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
             groupsItems[groupIndex].push(position);
         }
 
+        const arrayMove = (arr, from, to) => {
+            arr.splice(to, 0, arr.splice(from, 1)[0]);
+        };
+
+        // Перемещаем элементы без группы в начало
+        const hiddenGroupIndex = groupsId.indexOf('CONTROLS_HIDDEN_GROUP');
+        if (hiddenGroupIndex !== -1) {
+            arrayMove(groupsOrder, hiddenGroupIndex, 0);
+        }
+
         // Fill result by groups
         const result = [];
         const groupsCount = groups.length;

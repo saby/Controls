@@ -188,10 +188,12 @@ var
             let expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`;
             let expanderIconClass = '';
 
+            let expanderIconStyle = itemData.style;
             if (expanderPosition !== 'right') {
                 expanderClasses += ` controls-TreeGrid__row_${style}-expander_size_${(expanderSize || 'default')}_theme-${theme} `;
             } else {
                 expanderClasses += ` controls-TreeGrid__row_expander_position_right_theme-${theme} `;
+                expanderIconStyle = 'default';
             }
             expanderClasses += EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE;
 
@@ -204,11 +206,11 @@ var
 
                 // могут передать node или hiddenNode в этом случае добавляем наши классы для master/default
                 if ((expanderIcon === 'node') || (expanderIcon === 'hiddenNode') || (expanderIcon === 'emptyNode')) {
-                    expanderIconClass += '_' + (itemData.style === 'master' || itemData.style === 'masterClassic' ? 'master' : 'default');
+                    expanderIconClass += '_' + (expanderIconStyle === 'master' || expanderIconStyle === 'masterClassic' ? 'master' : 'default');
                 }
             } else {
                 expanderIconClass = ' controls-TreeGrid__row-expander_' + (itemType === true ? 'node_' : 'hiddenNode_')
-                + (itemData.style === 'master' || itemData.style === 'masterClassic' ? 'master' : 'default');
+                + (expanderIconStyle === 'master' || expanderIconStyle === 'masterClassic' ? 'master' : 'default');
             }
 
             expanderClasses += expanderIconClass + `_theme-${theme}`;

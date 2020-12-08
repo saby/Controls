@@ -2,6 +2,7 @@ import {Container} from 'Controls/scroll';
 import {compatibility, constants} from 'Env/Env';
 import {SHADOW_VISIBILITY, SHADOW_MODE} from 'Controls/_scroll/Container/Interface/IShadows';
 import {SCROLL_DIRECTION, SCROLL_POSITION} from 'Controls/_scroll/Utils/Scroll';
+import ScrollbarsModel from 'Controls/_scroll/Container/ScrollbarsModel';
 
 function createComponent(Component, cfg) {
     let cmp;
@@ -88,34 +89,66 @@ describe('Controls/scroll:Container', () => {
         });
     });
 
+    describe('_afterUpdate', () => {
+        it('should update sticky header controller', () => {
+            const component: Container = createComponent(Container, {});
+            component._children = {
+                content: {
+                    getBoundingClientRect: () => undefined,
+                    children: []
+                }
+            };
+            component._afterUpdate({}, {});
+            assert.strictEqual(component._stickyHeaderController._container, component._children.content);
+        });
+    });
+
     describe('shadowMode', () => {
+        const optimizeShadowClass: string = 'controls-Scroll__backgroundShadow controls-Scroll__background-Shadow_style-default_theme-default controls-Scroll__background-Shadow_top-auto_bottom-auto_style-default_theme-default';
         [{
             shadowMode: SHADOW_MODE.JS,
+            canScroll: true,
             isOptimizeShadowEnabled: false,
             isOptimizeShadowEnabledAfterMouseEnter: false,
             optimizeShadowClass: '',
             optimizeShadowClassAfterMouseEnter: ''
         }, {
             shadowMode: SHADOW_MODE.MIXED,
+            canScroll: true,
             isOptimizeShadowEnabled: true,
             isOptimizeShadowEnabledAfterMouseEnter: false,
-            optimizeShadowClass: 'controls-Scroll__backgroundShadow controls-Scroll__background-Shadow_style-default_theme-default controls-Scroll__background-Shadow_top-auto_bottom-auto_style-default_theme-default',
+            optimizeShadowClass: optimizeShadowClass,
             optimizeShadowClassAfterMouseEnter: ''
         }, {
-            shadowMode: SHADOW_MODE.CSS,
+            shadowMode: SHADOW_MODE.MIXED,
+            canScroll: false,
             isOptimizeShadowEnabled: true,
             isOptimizeShadowEnabledAfterMouseEnter: true,
-            optimizeShadowClass: 'controls-Scroll__backgroundShadow controls-Scroll__background-Shadow_style-default_theme-default controls-Scroll__background-Shadow_top-auto_bottom-auto_style-default_theme-default',
-            optimizeShadowClassAfterMouseEnter: 'controls-Scroll__backgroundShadow controls-Scroll__background-Shadow_style-default_theme-default controls-Scroll__background-Shadow_top-auto_bottom-auto_style-default_theme-default'
+            optimizeShadowClass: optimizeShadowClass,
+            optimizeShadowClassAfterMouseEnter: optimizeShadowClass
+        }, {
+            shadowMode: SHADOW_MODE.CSS,
+            canScroll: true,
+            isOptimizeShadowEnabled: true,
+            isOptimizeShadowEnabledAfterMouseEnter: true,
+            optimizeShadowClass: optimizeShadowClass,
+            optimizeShadowClassAfterMouseEnter: optimizeShadowClass
         }].forEach((test) => {
-            it(test.shadowMode, () => {
+            it(`${test.shadowMode}, canScroll ${test.canScroll}`, () => {
                 const component = createComponent(Container, {shadowMode: test.shadowMode});
-                assert.strictEqual(component._isOptimizeShadowEnabled, test.isOptimizeShadowEnabled);
-                assert.strictEqual(component._optimizeShadowClass, test.optimizeShadowClass);
 
+                assert.strictEqual(component._isOptimizeShadowEnabled, test.isOptimizeShadowEnabled,
+                    '_isOptimizeShadowEnabled before _mouseenterHandler');
+                assert.strictEqual(component._optimizeShadowClass, test.optimizeShadowClass,
+                    '_optimizeShadowClass before _mouseenterHandler');
+
+                component._state.canVerticalScroll = test.canScroll;
                 component._mouseenterHandler();
-                assert.strictEqual(component._isOptimizeShadowEnabled, test.isOptimizeShadowEnabledAfterMouseEnter);
-                assert.strictEqual(component._optimizeShadowClass, test.optimizeShadowClassAfterMouseEnter);
+
+                assert.strictEqual(component._isOptimizeShadowEnabled, test.isOptimizeShadowEnabledAfterMouseEnter,
+                    '_isOptimizeShadowEnabled after _mouseenterHandler');
+                assert.strictEqual(component._optimizeShadowClass, test.optimizeShadowClassAfterMouseEnter,
+                    '_optimizeShadowClass after _mouseenterHandler');
             });
         });
     });
@@ -196,6 +229,8 @@ describe('Controls/scroll:Container', () => {
                 component._container = {
                     offsetHeight: 100
                 };
+                // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
+                component._scrollbars._updateContainerSizes = ScrollbarsModel.prototype._updateContainerSizes;
                 component._updateState(state);
                 assert.isFalse(component._scrollbars.vertical.isVisible);
                 component._mouseenterHandler();
@@ -212,6 +247,9 @@ describe('Controls/scroll:Container', () => {
                 component._container = {
                     offsetHeight: 100
                 };
+
+                // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
+                component._scrollbars._updateContainerSizes = ScrollbarsModel.prototype._updateContainerSizes;
 
                 component._mouseenterHandler();
                 assert.isFalse(component._scrollbars.vertical.isVisible);
@@ -369,6 +407,7 @@ describe('Controls/scroll:Container', () => {
             const version: number = component._shadows.getVersion();
             sinon.stub(component, '_updateStateAndGenerateEvents');
             component._wasMouseEnter = true;
+            component._gridAutoShadows = false;
             component._shadows._models.top._scrollState.canVerticalScroll = true;
             component._shadows._models.bottom._scrollState.canVerticalScroll = true;
             component._shadows._models.top._isVisible = false;

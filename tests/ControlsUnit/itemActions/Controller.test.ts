@@ -215,6 +215,8 @@ describe('Controls/_itemActions/Controller', () => {
             contextMenuConfig: options ? options.contextMenuConfig: null,
             iconSize: options ? options.iconSize: 'm',
             editingItem: options ? options.editingItem : null,
+            itemActionsVisibility: options ? options.itemActionsVisibility : 'onhover',
+            actionMode: "strict"
         };
     }
 
@@ -840,6 +842,26 @@ describe('Controls/_itemActions/Controller', () => {
             itemActionsController.update(initializeControllerOptions(controllerConfig));
             config = collection.getSwipeConfig();
             assert.equal(config.itemActions.showed[1].title, 'Super puper', 'First action should be \'Super puper\'');
+        });
+
+        // Необходимо запоминать предыдущие itemActions, если режим отображения itemActionsVisibility='visible'
+        it('should remember itemActions before swipe when itemActionsVisibility=\'visible\'', () => {
+            // @ts-ignore
+            itemActionsController.update(initializeControllerOptions({
+                collection,
+                itemActions,
+                theme: 'default',
+                itemActionsVisibility: 'visible'
+            }));
+            const savedItemActions = collection.at(0).getActions();
+
+            // при активации сохраняется предыдущее состояние
+            itemActionsController.activateSwipe(1, 75, 50);
+            assert.notEqual(collection.at(0).getActions().showed.length, savedItemActions.showed.length);
+
+            // при деактивации всё возвращается обратно
+            itemActionsController.deactivateSwipe();
+            assert.equal(collection.at(0).getActions().showed.length, savedItemActions.showed.length);
         });
     });
 

@@ -29,11 +29,11 @@
 }
 
 .controls-TileView__previewTemplate_gradient_dark_theme-@{themeName} {
-   background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) calc(100% - @gradient_dark_height_preview_tile), rgba(255, 255, 255, 0) 100%);
+   background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) calc(100% - @gradient_dark_height_preview_tile), transparent 100%);
 }
 
 .ws-is-hover .controls-TileView__previewTemplate_content:hover .controls-TileView__previewTemplate_gradient_dark_theme-@{themeName} {
-   background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.6) calc(100% - @gradient_dark_height_preview_tile), rgba(255, 255, 255, 0) 100%);
+   background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.6) calc(100% - @gradient_dark_height_preview_tile), transparent 100%);
 }
 
 .controls-TileView__previewTemplate_title_text {
@@ -44,6 +44,8 @@
    display: flex;
    justify-content: space-between;
    box-sizing: border-box;
+   height: 100%;
+   align-items: center;
 }
 
 .controls-TileView__previewTemplate_title_text_light_theme-@{themeName} {

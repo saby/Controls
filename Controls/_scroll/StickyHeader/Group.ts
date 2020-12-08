@@ -127,10 +127,12 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     }
 
     get shadowVisibility(): SHADOW_VISIBILITY {
+        // TODO: сделать чтобы видимость теней явно задавалась через опцию на группе.
+        // https://online.sbis.ru/opendoc.html?guid=4e5cd2c6-a2ec-4619-b9c4-fafbb21fc4b8
         for (let id in this._headers) {
             const shadowVisibility = this._headers[id].inst.shadowVisibility;
             if (shadowVisibility === SHADOW_VISIBILITY.visible || shadowVisibility === SHADOW_VISIBILITY.lastVisible) {
-                return SHADOW_VISIBILITY.visible;
+                return shadowVisibility;
             }
         }
         return SHADOW_VISIBILITY.hidden;

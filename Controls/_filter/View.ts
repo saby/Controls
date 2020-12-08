@@ -25,6 +25,7 @@ import {load} from 'Core/library';
 import {IFilterItem} from './View/interface/IFilterView';
 import {StickyOpener, StackOpener} from 'Controls/popup';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import Store from 'Controls/Store';
 
 const DEFAULT_FILTER_NAME = 'all_frequent';
 var _private = {
@@ -707,6 +708,16 @@ var Filter = Control.extend({
         return resultDef;
     },
 
+    _afterMount: function(options) {
+        if (options.useStore) {
+            this._openCallbackId = Store.declareCommand(
+                'openFilterDetailPanel',
+                this.openDetailPanel.bind(this)
+            );
+            this._resetCallbackId = Store.declareCommand('resetFilter', this.reset.bind(this));
+        }
+    },
+
     _mouseEnterHandler: function(event: SyntheticEvent<MouseEvent>) {
         if (!this._options.readOnly) {
             if (!this._dependenciesTimer) {
@@ -756,6 +767,10 @@ var Filter = Control.extend({
         }
         if (this._stackOpener) {
             this._stackOpener.destroy();
+        }
+        if (this._options.useStore) {
+            Store.unsubscribe(this._openCallbackId);
+            Store.unsubscribe(this._resetCallbackId);
         }
     },
 

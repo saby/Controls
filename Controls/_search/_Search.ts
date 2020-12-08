@@ -27,10 +27,12 @@ var _private = {
    },
 
    searchCallback: function(self, result) {
-      self._searchDeferred.callback({
-         data: result,
-         hasMore: self._sourceController.hasMoreData('down')
-      });
+      if (!self._searchDeferred.isReady()) {
+         self._searchDeferred.callback({
+            data: result,
+            hasMore: self._sourceController.hasMoreData('down')
+         });
+      }
    },
 
    searchErrback: function(self, error) {

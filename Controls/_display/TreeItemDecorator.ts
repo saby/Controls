@@ -62,6 +62,18 @@ export default class TreeItemDecorator<T> extends TreeItem<T> {
         return this._$source && this._$source.setSelected(selected, silent);
     }
 
+    isEditing(): boolean {
+        return this._$source && this._$source.isEditing();
+    }
+
+    setEditing(editing: boolean, editingContents?: T, silent?: boolean): void {
+        this._$source && this._$source.setEditing(editing, editingContents, silent);
+    }
+
+    acceptChanges(): void {
+        this._$source && this._$source.acceptChanges();
+    }
+
     // endregion
 
     // region TreeItem

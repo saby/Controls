@@ -30,6 +30,7 @@
     "Controls/context",
     "Controls/dragnDrop",
     "Controls/popup",
+    "Controls/popupConfirmation",
     "Controls/event",
     "Controls/error",
     "Controls/LoadingIndicator",

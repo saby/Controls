@@ -405,6 +405,14 @@ define(
                assert.include(result.popupClassName, 'controls-DropdownList__margin-head');
             });
 
+            it('emptyTemplate', () => {
+               const result = ddl._getControllerOptions({
+                  emptyTemplate: 'testEmptyTemplate'
+               });
+
+               assert.equal(result.emptyTemplate, 'testEmptyTemplate');
+            });
+
             it('popupClassName with multiSelect', () => {
                const result = ddl._getControllerOptions({
                   nodeFooterTemplate: 'testNodeFooterTemplate',

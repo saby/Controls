@@ -238,6 +238,7 @@ describe('Controls/_multiselection/Controller', () => {
       controller.setLimit(1);
 
       let result = controller.selectAll();
+      assert.deepEqual(result, {selected: [null], excluded: []});
       controller.setSelection(result);
       assert.equal(controller.getCountOfSelected(), 1);
       assert.isTrue(model.getItemBySourceKey(1).isSelected());
@@ -245,6 +246,7 @@ describe('Controls/_multiselection/Controller', () => {
       assert.isFalse(model.getItemBySourceKey(3).isSelected());
 
       result = controller.toggleItem(3);
+      assert.deepEqual(result, {selected: [null], excluded: [2]});
       controller.setSelection(result);
       assert.equal(controller.getCountOfSelected(), 2);
       assert.isTrue(model.getItemBySourceKey(1).isSelected());
@@ -390,6 +392,21 @@ describe('Controls/_multiselection/Controller', () => {
          assert.isFalse(model.getItemBySourceKey(2).isSelected());
          assert.isTrue(model.getItemBySourceKey(3).isSelected());
          assert.isFalse(model.getItemBySourceKey(4).isSelected());
+      });
+
+      it('getSelectionForModel', () => {
+         controller = new SelectionController({
+            model: model.getDisplay(),
+            strategy,
+            selectedKeys: [],
+            excludedKeys: [],
+            searchValue: 'asdas'
+         });
+         controller.setSelection({ selected: [null], excluded: [null] });
+         assert.isNull(model.getItemBySourceKey(1).isSelected());
+         assert.isTrue(model.getItemBySourceKey(2).isSelected());
+         assert.isNull(model.getItemBySourceKey(3).isSelected());
+         assert.isTrue(model.getItemBySourceKey(4).isSelected());
       });
    });
 });

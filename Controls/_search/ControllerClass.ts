@@ -573,7 +573,9 @@ export default class SearchControllerClass {
         return {
             rootChangedCallback: (root, notifyChanges: boolean) => {
                 self._root = root;
-
+                if (root !== undefined && self._sourceController) {
+                    self._sourceController.setRoot(root);
+                }
                 if (notifyChanges) {
                     self._notify('rootChanged', [root]);
                 }

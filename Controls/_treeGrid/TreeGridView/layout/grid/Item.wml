@@ -234,6 +234,7 @@
    <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
    <Controls.scroll:StickyHeader position="topbottom" backgroundStyle="{{itemData.style + '_sticked'}}"
                                  mode="{{stickyMode}}"
+                                 shadowVisibility="lastVisible"
                                  attr:class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
                                    {{ marker !== false ? currentColumn.classList.marked }}
                                    {{ currentColumn.columnIndex === 0 && !itemData.hasMultiSelectColumn ? currentColumn.classList.padding.left }}

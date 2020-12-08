@@ -758,9 +758,15 @@ define([
                      updateShadowVisibility: sinon.stub()
                   }
                },
-                header2: {
+               header2: {
                   inst: {
                      shadowVisibility: 'visible',
+                     updateShadowVisibility: sinon.stub()
+                  }
+               },
+               header3: {
+                  inst: {
+                     shadowVisibility: 'hidden',
                      updateShadowVisibility: sinon.stub()
                   }
                }
@@ -777,10 +783,17 @@ define([
          }, {
             _headersStack: ['header2', 'header0', 'header1'],
             resp: [true, true, true]
+         }, {
+            _headersStack: ['header0', 'header1', 'header2', 'header3'],
+            fixedHeadersStack: ['header0', 'header1', 'header2', 'header3'],
+            resp: [true, false, true, true]
          }].forEach((test, index) => {
             it('test ' + index, () => {
                component._isShadowVisible = { top: true, bottom: true };
                component._headersStack.top = test._headersStack;
+               if (test.fixedHeadersStack) {
+                  component._fixedHeadersStack.top = test.fixedHeadersStack;
+               }
                component._updateShadowsVisibility();
                for (let i = 0; i < test.resp.length; i++) {
                   sinon.assert.calledWith(component._headers['header' + i].inst.updateShadowVisibility, test.resp[i]);

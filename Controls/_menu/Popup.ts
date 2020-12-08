@@ -66,6 +66,15 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
                 newOptions.stickyPosition.direction.vertical;
             this._horizontalDirection = newOptions.stickyPosition.direction.horizontal;
         }
+
+        if (this._options.itemPadding !== newOptions.itemPadding) {
+            this._setItemPadding(newOptions);
+        }
+
+        if (this._options.headerContentTemplate !== newOptions.headerContentTemplate ||
+            this._options.headConfig !== newOptions.headConfig) {
+            this._prepareHeaderConfig(newOptions);
+        }
     }
 
     protected _sendResult(event: SyntheticEvent<MouseEvent>,
@@ -171,6 +180,9 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
             } else {
                 this._headerTemplate = options.headerContentTemplate;
             }
+        } else {
+            this._headerTemplate = null;
+            this._headingCaption = '';
         }
     }
 

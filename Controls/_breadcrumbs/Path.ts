@@ -124,9 +124,12 @@ class BreadCrumbs extends Control<IBreadCrumbsOptions> {
     }
 
     private _calculateBreadCrumbsToDraw(items: Record[], options: IBreadCrumbsOptions, getTextWidth: Function = this._getTextWidth): void {
-        this._visibleItems = this.calculateBreadcrumbsUtil.calculateItemsWithDots(items, options, 0, this._width, this._dotsWidth, getTextWidth);
-        this._visibleItems[0].hasArrow = false;
-        this._indexEdge = 0;
+        if (items?.length) {
+            this._visibleItems = this.calculateBreadcrumbsUtil.calculateItemsWithDots(items, options, 0, this._width, this._dotsWidth, getTextWidth);
+            this._visibleItems[0].hasArrow = false;
+        } else {
+            this._visibleItems = [];
+        }
     }
 
     private _itemClickHandler(e, item): void {

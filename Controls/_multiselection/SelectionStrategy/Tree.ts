@@ -9,6 +9,7 @@ import { IEntryPathItem, ITreeSelectionStrategyOptions, TKeys } from '../interfa
 import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
 import { Tree, TreeItem } from 'Controls/display';
+import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
 
 const LEAF = null;
 
@@ -163,13 +164,14 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
          if (items) {
             items.forEach((item) => {
-               if (isOnlyNodesInItems) {
+               if (isOnlyNodesInItems && item.SelectableItem) {
                   isOnlyNodesInItems = this._isNode(item);
                }
             });
          } else {
             this._model.each((item) => {
-               if (isOnlyNodesInItems) {
+               // Скипаем элементы, которые нельзя выбрать, т.к. например группа испортит значение isOnlyNodesInItems
+               if (isOnlyNodesInItems && item.SelectableItem) {
                   isOnlyNodesInItems = this._isNode(item);
                }
             });
@@ -585,8 +587,13 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
     * @param item
     * @private
     */
-   private _isNode(item: TreeItem<Model>): boolean {
-      return item instanceof TreeItem ? item.isNode() !== LEAF : true;
+   private _isNode(item: TreeItem<Model>|BreadcrumbsItem<Model>): boolean {
+      if (item instanceof TreeItem) {
+         return item.isNode() !== LEAF;
+      } else if (item instanceof BreadcrumbsItem) {
+         return true;
+      }
+      return false;
    }
 
    /**

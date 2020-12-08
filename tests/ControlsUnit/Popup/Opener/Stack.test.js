@@ -5,9 +5,10 @@ define(
       'Controls/popupTemplate',
       'Controls-demo/Popup/TestMaximizedStack',
       'Controls/_popupTemplate/BaseController',
-      'Controls/_popupTemplate/Stack/Opener/StackContent'
+      'Controls/_popupTemplate/Stack/Opener/StackContent',
+      'sinon'
    ],
-   (StackStrategy, popupMod, popupTemplate, TestMaximizedStack, BaseController, StackContent) => {
+   (StackStrategy, popupMod, popupTemplate, TestMaximizedStack, BaseController, StackContent, sinon) => {
       'use strict';
       BaseController = new BaseController.default();
       StackStrategy._goUpByControlTree = () => [];
@@ -467,6 +468,32 @@ define(
             itemConfig._destroyDeferred.addCallback(function() {
                assert.equal(itemConfig.popupState, BaseController.POPUP_STATE_DESTROYED);
             });
+         });
+
+         it('stack update childs position', () => {
+            let defaultPosition = {
+                  width: 0
+               },
+               itemConfig = {
+                  controller: popupTemplate.StackController,
+                  position: defaultPosition,
+                  childs: [
+                     {
+                        controller: popupTemplate.StackController,
+                        position: defaultPosition
+                     },
+                     {
+                        controller: popupTemplate.StickyController,
+                        position: defaultPosition
+                     }
+                  ],
+                  popupOptions: item.popupOptions
+               };
+            popupTemplate.StackController._elementUpdated(itemConfig, {});
+            const updateItemPositionSpy = sinon.spy(popupTemplate.StackController, '_update');
+
+            popupTemplate.StackController.elementAfterUpdated(itemConfig, {});
+            sinon.assert.called(updateItemPositionSpy);
          });
 
          it('stack from target container', () => {

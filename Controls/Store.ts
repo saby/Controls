@@ -6,6 +6,8 @@ interface IStore {
     onPropertyChanged: (propertyName: string, callback: (data: unknown) => void, isGlobal?: boolean) => string;
     unsubscribe: (id: string) => void;
     dispatch: (propertyName: string, data: unknown, isGlobal?: boolean) => void;
+    sendCommand: (commandName: string) => void;
+    declareCommand: (commandName: string, callback: (data: unknown) => void) => string;
 }
 
 interface IStateCallback {
@@ -61,6 +63,14 @@ class Store implements IStore {
     }
 
     /**
+     * Вызывает все обработчики для команды в текущем контексте
+     * @param commandName
+     */
+    sendCommand(commandName: string): void {
+        this._notifySubscribers(commandName);
+    }
+
+    /**
      * Подписка на изменение поля в стейте, при изменении поля вызовется колбэк с новым значением
      * @param propertyName
      * @param callback
@@ -69,6 +79,16 @@ class Store implements IStore {
      */
     onPropertyChanged(propertyName: string, callback: (data: unknown) => void, isGlobal?: boolean): string {
         return this._addCallback(propertyName, callback, isGlobal);
+    }
+
+    /**
+     * Подписывается на команду в текущем контексте
+     * @param commandName
+     * @param callback
+     * @return {string} id колбэка, чтоб отписаться при уничтожении контрола
+     */
+    declareCommand(commandName: string, callback: (data: unknown) => void): string {
+        return this._addCallback(commandName, callback);
     }
 
     /**

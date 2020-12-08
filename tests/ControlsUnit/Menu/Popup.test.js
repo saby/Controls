@@ -9,30 +9,6 @@ define(
     ],
     function(menu, source, Clone, display, collection, entity) {
         describe('Menu:Popup', function() {
-
-            it('popup directions', () => {
-                let menuPopup = new menu.Popup();
-                let directionOptions = {
-                    stickyPosition: {
-                        direction: {
-                            vertical: 'top',
-                            horizontal: 'left'
-                        }
-                    }
-                };
-                menuPopup._options = {
-                    stickyPosition: {}
-                };
-
-                menuPopup._beforeUpdate(directionOptions);
-                assert.equal(menuPopup._verticalDirection, 'top');
-                assert.equal(menuPopup._horizontalDirection, 'left');
-
-                menuPopup._beforeUpdate({...directionOptions, footerContentTemplate: 'test'});
-                assert.equal(menuPopup._verticalDirection, 'bottom');
-                assert.equal(menuPopup._horizontalDirection, 'left');
-
-            });
             it('_dataLoadCallback', function() {
                 let menuPopup = new menu.Popup();
                 let items = new collection.RecordSet({
@@ -72,6 +48,54 @@ define(
                 menuPopup._closeButtonVisibility = false;
                 menuPopup._setItemPadding({ allowPin: true });
                 assert.equal(menuPopup._itemPadding.right, 'menu-pin');
+            });
+
+            describe('_beforeUpdate', () => {
+
+                it('popup directions', () => {
+                    let menuPopup = new menu.Popup();
+                    let directionOptions = {
+                        stickyPosition: {
+                            direction: {
+                                vertical: 'top',
+                                horizontal: 'left'
+                            }
+                        }
+                    };
+                    menuPopup._options = {
+                        stickyPosition: {}
+                    };
+
+                    menuPopup._beforeUpdate(directionOptions);
+                    assert.equal(menuPopup._verticalDirection, 'top');
+                    assert.equal(menuPopup._horizontalDirection, 'left');
+
+                    menuPopup._beforeUpdate({...directionOptions, footerContentTemplate: 'test'});
+                    assert.equal(menuPopup._verticalDirection, 'bottom');
+                    assert.equal(menuPopup._horizontalDirection, 'left');
+
+                });
+
+                it('headerContentTemplate changed', function() {
+                    let menuPopup = new menu.Popup();
+                    let menuPopupOptions = {
+                        stickyPosition: {}
+                    };
+
+                    menuPopupOptions.headerContentTemplate = 'testTemplate';
+                    menuPopup._beforeUpdate(menuPopupOptions);
+                    assert.equal(menuPopup._headerTemplate, 'testTemplate');
+
+                    menuPopupOptions = {...menuPopupOptions};
+                    menuPopupOptions.headerContentTemplate = 'testTemplate2';
+                    menuPopup._beforeUpdate(menuPopupOptions);
+                    assert.equal(menuPopup._headerTemplate, 'testTemplate2');
+
+                    menuPopupOptions = {...menuPopupOptions};
+                    menuPopupOptions.headerContentTemplate = null;
+                    menuPopup._beforeUpdate(menuPopupOptions);
+                    assert.equal(menuPopup._headerTemplate, null);
+                });
             });
         });
     }

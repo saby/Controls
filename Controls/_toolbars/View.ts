@@ -385,6 +385,10 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         if (!this._sticky) {
             this._sticky = new StickyOpener();
         }
+        // Перед открытием нового меню закроем старое.
+        // Т.к. вып. список грузит данные асинхронно, то при перерисовке открытого окна будет визуальный баг,
+        // когда позиция окна обновилась, а содержимое нет, т.к. не успело загрузиться.
+        this._sticky.close();
         this._sticky.open(config);
     }
 

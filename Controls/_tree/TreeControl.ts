@@ -309,6 +309,8 @@ const _private = {
         // сейчас это требуется, т.к. ещё есть nodesSourceController'ы
         if (baseControl && (self._needResetExpandedItems || !(_private.isDeepReload(cfg, self._deepReload) && expandedItemsKeys.length && !isExpandAll))) {
             baseControl.getSourceController().setExpandedItems([]);
+        } else if (baseControl && !self._needResetExpandedItems && expandedItemsKeys.length) {
+            baseControl.getSourceController().setExpandedItems(expandedItemsKeys);
         }
     },
 
@@ -942,7 +944,16 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     _onTreeViewKeyDown: function(event) {
         keysHandler(event, HOT_KEYS, _private, this);
     },
-
+    getNextItem(key: CrudEntityKey): Model {
+        const listModel = this._children.baseControl.getViewModel();
+        const nextItem = listModel.getNextByKey(key);
+        return nextItem ? nextItem.getContents() : null;
+    },
+    getPrevItem(key: CrudEntityKey): Model {
+        const listModel = this._children.baseControl.getViewModel();
+        const prevItem = listModel.getPrevByKey(key);
+        return prevItem ? prevItem.getContents() : null;
+    },
     _beforeUnmount: function() {
         _private.clearNodesSourceControllers(this);
         TreeControl.superclass._beforeUnmount.apply(this, arguments);
