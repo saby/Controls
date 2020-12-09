@@ -604,8 +604,11 @@ var
         /* COLUMN SCROLL */
         _isColumnScrollVisible(): boolean {
             if (this._columnScrollController && this._columnScrollController.isVisible()) {
-                const items = this._options.listModel.getItems();
-                return this._options.headerInEmptyListVisible || (!!items && (!!items.getCount() || !!this._options.listModel.isEditing()));
+                const hasItems = !!this._options.listModel.getItems()?.getCount();
+                const isEditing = !!this._options.listModel.isEditing();
+                const hasVisibleHeader = this._options.headerVisibility === 'visible' || this._options.headerInEmptyListVisible === true;
+
+                return hasItems || isEditing || hasVisibleHeader;
             } else {
                 return false;
             }
