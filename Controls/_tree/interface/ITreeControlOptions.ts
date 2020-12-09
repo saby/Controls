@@ -186,7 +186,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControlOptions#searchBreadCrumbsItemTemplate
- * @cfg {TemplateFunction} Шаблон отображения элемента с хлебными крошками в {@link Controls/treeGrid:View дереве} при {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/explorer/search/mode/ режиме поиска}.
+ * @cfg {TemplateFunction} Шаблон отображения элемента с хлебными крошками в {@link Controls/treeGrid:View дереве} при {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/mode/ режиме поиска}.
  * @remark
  * По умолчанию используется базовый шаблон "Controls/treeGrid:SearchBreadCrumbsItemTemplate", который поддерживает следующий параметр:
  *
