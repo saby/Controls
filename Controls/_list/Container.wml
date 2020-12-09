@@ -9,6 +9,7 @@
             navigation="{{_dataOptions.navigation}}"
             sorting="{{_dataOptions.sorting}}"
             keyProperty="{{_dataOptions.keyProperty}}"
+            root="{{_dataOptions.root}}"
             scope="{{_options}}"
             source="{{_dataOptions.source}}"
             sourceController="{{_dataOptions.sourceController}}"/>
