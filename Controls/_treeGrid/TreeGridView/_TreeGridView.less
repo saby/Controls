@@ -10,6 +10,12 @@
 
 .controls-TreeGrid__row_expander_position_right_theme-@{themeName} {
    padding-left: @expander_position-right_padding-left_treeGrid;
+   &.controls-TreeGrid__row-expander_hiddenNode {
+      color: @hidden-node_expander_icon-color_treeGrid;
+      font-family: @hidden-node_expander_icon_font-family_treeGrid;
+      font-size: @hidden-node_expander_icon-size_treeGrid;
+      padding-left: @expander_width_treeGrid - @hidden-node_expander_icon-size_treeGrid;
+   }
 }
 .controls-TreeGrid__row_default-expander_size_s_theme-@{themeName}, .controls-TreeGrid__row-expanderPadding_size_s_theme-@{themeName} {
    padding-left: @expander_s_padding-left_treeGrid;
@@ -109,11 +115,19 @@
    padding-left: @expander_width_treeGrid - @node_expander_icon-size_treeGrid;
 }
 
-.controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
-   color: @hidden-node_expander_icon-color_treeGrid;
-   font-family: @hidden-node_expander_icon_font-family_treeGrid;
-   font-size: @hidden-node_expander_icon-size_treeGrid;
-   padding-left: @expander_width_treeGrid - @hidden-node_expander_icon-size_treeGrid;
+.controls-TreeGrid__row-expander_theme-@{themeName}:not(.controls-TreeGrid__row_expander_position_right_theme-@{themeName}) {
+   &.controls-TreeGrid__row-expander_hiddenNode_default_theme-@{themeName}:before {
+      color: @hidden-node_expander_icon-color_treeGrid;
+      font-family: @hidden-node_expander_icon_font-family_treeGrid;
+      font-size: @hidden-node_expander_icon-size_treeGrid;
+      padding-left: @expander_width_treeGrid - @hidden-node_expander_icon-size_treeGrid;
+   }
+   &.controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:before {
+      color: @master_hidden-node_expander_icon-color_treeGrid;
+      font-family: @hidden-node_expander_icon_font-family_treeGrid;
+      font-size: @master_hidden-node_expander_icon-size_treeGrid;
+      padding-left: @expander_width_treeGrid - @master_hidden-node_expander_icon-size_treeGrid;
+   }
 }
 
 .controls-TreeGrid__row-expander_node_default_theme-@{themeName}:before,
@@ -132,13 +146,6 @@
    font-family: @node_expander_icon_font-family_treeGrid;
    font-size: @master_node_expander_icon-size_treeGrid;
    padding-left: @expander_width_treeGrid - @master_node_expander_icon-size_treeGrid;
-}
-
-.controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:before {
-   color: @master_hidden-node_expander_icon-color_treeGrid;
-   font-family: @hidden-node_expander_icon_font-family_treeGrid;
-   font-size: @master_hidden-node_expander_icon-size_treeGrid;
-   padding-left: @expander_width_treeGrid - @master_hidden-node_expander_icon-size_treeGrid;
 }
 
 .controls-TreeGrid__row-expander_theme-@{themeName}:before {
