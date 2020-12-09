@@ -12,7 +12,7 @@ import {constants} from 'Env/Env';
 import {ITextOptions, IValueOptions, IBaseOptions} from 'Controls/input';
 import {IFontSizeOptions, ISelectorDialogOptions} from 'Controls/interface';
 import {isEqual} from 'Types/object';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {ICrudPlus} from 'Types/source';
 import {IHashMap} from 'Types/declarations';
 import InputRenderLookup from './BaseLookupView/InputRender';
@@ -38,7 +38,7 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     protected _template: TemplateFunction = template;
     protected _clearRecordsTemplate: TemplateFunction = clearRecordsTemplate;
     protected _showSelectorTemplate: TemplateFunction = showSelectorTemplate;
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _itemTemplateClasses: string;
     private _fieldWrapper: HTMLElement;
     private _fieldWrapperWidth: number = null;

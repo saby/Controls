@@ -34,7 +34,7 @@ import { Sticky } from 'Controls/popup';
 
 // Utils imports
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
-import {tmplNotify, keysHandler} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {getDimensions as uDimension} from 'Controls/sizeUtils';
 import { getItemsHeightsData } from 'Controls/_list/ScrollContainer/GetHeights';
 import {
@@ -3211,7 +3211,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _prevRootId: null,
     _loadedBySourceController: false,
 
-    _notifyHandler: tmplNotify,
+    _notifyHandler: EventUtils.tmplNotify,
 
     // По умолчанию считаем, что показывать экшны не надо, пока не будет установлено true
     _showActions: false,
@@ -5482,7 +5482,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 || key === 34 // PageDown
                 || key === 35 // End
                 || key === 36; // Home
-            keysHandler(event, HOT_KEYS, _private, this, dontStop);
+            EventUtils.keysHandler(event, HOT_KEYS, _private, this, dontStop);
         }
     },
 

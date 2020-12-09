@@ -7,7 +7,7 @@ import ListViewModel = require('Controls/_list/ListViewModel');
 import { Collection } from 'Controls/display';
 
 import Deferred = require('Core/Deferred');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
 import {default as ListControl} from 'Controls/_list/ListControl';
 import {ISelectionObject} from 'Controls/interface';
@@ -49,7 +49,7 @@ import { RecordSet } from 'Types/collection';
  *
  * @implements Controls/_list/interface/IListNavigation
  *
- * 
+ *
  * @author Авраменко А.С.
  * @public
  * @demo Controls-demo/list_new/Base/Index
@@ -83,7 +83,7 @@ import { RecordSet } from 'Types/collection';
  *
  * @mixes Controls/_list/interface/IVirtualScrollConfig
  *
- * 
+ *
  * @author Авраменко А.С.
  * @public
  * @demo Controls-demo/list_new/Base/Index
@@ -181,7 +181,7 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
 
     // endregion remover
 
-    _notifyHandler = tmplNotify;
+    _notifyHandler = EventUtils.tmplNotify;
 
     static getDefaultOptions() {
         return {

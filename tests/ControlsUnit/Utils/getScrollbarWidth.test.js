@@ -1,24 +1,24 @@
 define([
-   'Controls/Utils/getScrollbarWidth'
-], function(ScrollbarWidth) {
+   'Controls/scroll'
+], function(scroll) {
    describe('Controls.Utils.getScrollbarWidth', function() {
       const constWidthScrollbar = 20;
-      const getScrollbarWidthByMeasuredBlock = ScrollbarWidth.getScrollbarWidthByMeasuredBlock;
+      const getScrollbarWidthByMeasuredBlock = scroll.ScrollbarWidth.getScrollbarWidthByMeasuredBlock;
       let detection, result;
       beforeEach(function() {
-         ScrollbarWidth.getScrollbarWidthByMeasuredBlock = function() {
+         scroll.ScrollbarWidth.getScrollbarWidthByMeasuredBlock = function() {
             return constWidthScrollbar;
          };
       });
       afterEach(function() {
-         ScrollbarWidth.getScrollbarWidthByMeasuredBlock = getScrollbarWidthByMeasuredBlock;
+         scroll.ScrollbarWidth.getScrollbarWidthByMeasuredBlock = getScrollbarWidthByMeasuredBlock;
       });
       it('webKit', function() {
          detection = {
             webkit: true
          };
 
-         result = ScrollbarWidth.getScrollbarWidth(detection);
+         result = scroll.ScrollbarWidth.getScrollbarWidth(detection);
          assert.equal(result, 0);
       });
       it('ie12', function() {
@@ -27,11 +27,11 @@ define([
          };
 
          detection.IEVersion = 16;
-         result = ScrollbarWidth.getScrollbarWidth(detection);
+         result = scroll.ScrollbarWidth.getScrollbarWidth(detection);
          assert.equal(result, 12);
 
          detection.IEVersion = 17;
-         result = ScrollbarWidth.getScrollbarWidth(detection);
+         result = scroll.ScrollbarWidth.getScrollbarWidth(detection);
          assert.equal(result, 16);
       });
       it('ie11', function() {
@@ -39,7 +39,7 @@ define([
             isIE11: true
          };
 
-         result = ScrollbarWidth.getScrollbarWidth(detection);
+         result = scroll.ScrollbarWidth.getScrollbarWidth(detection);
          assert.equal(result, 17);
       });
       it('ie10', function() {
@@ -47,7 +47,7 @@ define([
             isIE10: true
          };
 
-         result = ScrollbarWidth.getScrollbarWidth(detection);
+         result = scroll.ScrollbarWidth.getScrollbarWidth(detection);
          assert.equal(result, 17);
       });
       it('firefox', function() {
@@ -55,7 +55,7 @@ define([
             firefox: true
          };
 
-         result = ScrollbarWidth.getScrollbarWidth(detection);
+         result = scroll.ScrollbarWidth.getScrollbarWidth(detection);
          if (typeof window === 'undefined') {
             assert.equal(result, undefined);
          } else {

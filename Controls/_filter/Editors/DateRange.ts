@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {isEqual} from 'Types/object';
 import DateRangeTemplate = require('wml!Controls/_filter/Editors/DateRange');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 
 /**
  * Контрол используют в качестве редактора для выбора периода дат на {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/#step-3 панели фильтров}.
@@ -14,13 +14,13 @@ import {tmplNotify} from 'Controls/eventUtils';
  * @mixes Controls/_dateRange/interfaces/IDateRange
  * @public
  * @author Герасимов А.М.
- * 
+ *
  * @see Controls/filter:View
- * 
+ *
  */
 class DateRangeEditor extends Control<IControlOptions> {
     protected _template: TemplateFunction = DateRangeTemplate;
-    protected _tmplNotify: Function = tmplNotify;
+    protected _tmplNotify: Function = EventUtils.tmplNotify;
     protected _templateName: string;
     protected _dateRangeModule: Record<string, any> = null;
     protected _emptyCaption: string;

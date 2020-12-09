@@ -3,7 +3,7 @@ define([
    'Types/entity',
    'Core/core-instance',
    'Controls/dateRange',
-   'Controls/Utils/Date'
+   'Controls/dateUtils'
 ], function(
    TypesEntity,
    cInstance,
@@ -75,7 +75,7 @@ define([
          for (let week of weeks) {
             assert.equal(week.length, 7);
          }
-         assert.isTrue(DateUtil.isDatesEqual(weeks[0][0], new Date(2016, 11, 26)));
+         assert.isTrue(DateUtil.Base.isDatesEqual(weeks[0][0], new Date(2016, 11, 26)));
          assert.isTrue(cInstance.instanceOfModule(weeks[0][0], 'Types/entity:Date'));
       });
 

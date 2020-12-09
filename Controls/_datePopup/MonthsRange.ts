@@ -2,7 +2,7 @@ import Control = require('Core/Control');
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import {DateRangeModel} from 'Controls/dateRange';
-import {proxyModelEvents, tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import MonthsRangeItem from './MonthsRangeItem';
 import componentTmpl = require('wml!Controls/_datePopup/MonthsRange');
@@ -12,7 +12,7 @@ import componentTmpl = require('wml!Controls/_datePopup/MonthsRange');
  *
  * @class Controls/_datePopup/MonthsRange
  * @extends Core/Control
- * 
+ *
  * @author Красильников А.С.
  * @private
  */
@@ -20,7 +20,7 @@ import componentTmpl = require('wml!Controls/_datePopup/MonthsRange');
 class Component extends Control {
     protected _template: Function = componentTmpl;
 
-    _proxyEvent: Function = tmplNotify;
+    _proxyEvent: Function = EventUtils.tmplNotify;
 
     _position: Date;
     _rangeModel: DateRangeModel;
@@ -32,7 +32,7 @@ class Component extends Control {
     constructor(options) {
         super();
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
-        proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
+        EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
     }
 
     _beforeMount(options) {

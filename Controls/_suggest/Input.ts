@@ -1,6 +1,6 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_suggest/Input/Input');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
 import {generateStates} from 'Controls/input';
 
@@ -55,7 +55,7 @@ import {generateStates} from 'Controls/input';
 var Suggest = Control.extend({
 
    _template: template,
-   _notifyHandler: tmplNotify,
+   _notifyHandler: EventUtils.tmplNotify,
    _suggestState: false,
    _searchState: false,
 

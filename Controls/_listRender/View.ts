@@ -19,7 +19,7 @@ import {
     IShownItemAction,
     IItemActionsOptions
 } from 'Controls/itemActions';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 
 import { load as libraryLoad } from 'Core/library';
 import { SyntheticEvent } from 'Vdom/Vdom';
@@ -46,7 +46,7 @@ export interface IViewOptions extends IItemActionsOptions, IControlOptions {
 
 export default class View extends Control<IViewOptions> {
     protected _template: TemplateFunction = template;
-    protected _tmplNotify: Function = tmplNotify;
+    protected _tmplNotify: Function = EventUtils.tmplNotify;
 
     protected _collection: Collection<Model>;
 

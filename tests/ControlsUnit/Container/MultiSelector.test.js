@@ -1,9 +1,9 @@
 define([
    'Controls/operations',
-   'Controls/Utils/tmplNotify'
+   'UI/Events'
 ], function(
    MultiSelector,
-   tmplNotify
+   events
 ) {
    'use strict';
    describe('Controls.Container.MultiSelector', function() {
@@ -46,7 +46,7 @@ define([
 
       it('_notifyHandler', function() {
          var instance = new MultiSelector.Controller();
-         assert.equal(instance._notifyHandler, tmplNotify);
+         assert.equal(instance._notifyHandler, events.EventUtils.tmplNotify);
       });
    });
 });

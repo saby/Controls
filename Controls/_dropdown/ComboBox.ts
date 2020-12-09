@@ -3,7 +3,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/ComboBox/ComboBox');
 import * as Utils from 'Types/util';
 import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -73,7 +73,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
 
 class ComboBox extends BaseDropdown {
    protected _template: TemplateFunction = template;
-   protected _notifyHandler: Function = tmplNotify;
+   protected _notifyHandler: Function = EventUtils.tmplNotify;
    protected _borderStyle: string = '';
    protected _countItems: number;
    protected _readOnly: boolean;

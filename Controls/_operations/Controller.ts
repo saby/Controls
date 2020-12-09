@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_operations/Controller/Controller');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { TKeySelection as TKey } from 'Controls/interface';
 import {default as OperationsController} from 'Controls/_operations/ControllerClass';
@@ -18,7 +18,7 @@ import { TSelectionType } from 'Controls/interface';
  * @class Controls/_operations/Controller
  * @extends Core/Control
  * @mixes Controls/interface/IPromisedSelectable
- * 
+ *
  * @author Авраменко А.С.
  * @public
  */
@@ -31,7 +31,7 @@ import { TSelectionType } from 'Controls/interface';
  * @class Controls/_operations/Controller
  * @extends Core/Control
  * @mixes Controls/interface/IPromisedSelectable
- * 
+ *
  * @author Авраменко А.С.
  * @public
  */
@@ -42,7 +42,7 @@ export default class MultiSelector extends Control {
    protected _selectionType: TSelectionType = 'all';
    protected _isAllSelected: boolean = false;
    protected _listMarkedKey: TKey = null;
-   protected _notifyHandler: Function = tmplNotify;
+   protected _notifyHandler: Function = EventUtils.tmplNotify;
    private _operationsController: OperationsController = null;
 
    protected _beforeMount(options): void {

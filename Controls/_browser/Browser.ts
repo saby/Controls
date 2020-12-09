@@ -9,7 +9,7 @@ import {
 } from 'Controls/search';
 import {ControllerClass as FilterController, IFilterItem} from 'Controls/filter';
 import { IFilterControllerOptions } from 'Controls/_filter/ControllerClass';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
 import {ContextOptions} from 'Controls/context';
 
@@ -80,7 +80,7 @@ type IFilterControllerOptions = Pick<IBrowserOptions,
  */
 export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     protected _template: TemplateFunction = template;
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
 
     private _isMounted: boolean;
     private _selectedKeysCount: number | null;

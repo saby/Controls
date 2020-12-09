@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import PrepareDataUtil from './PrepareDataUtil';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import template = require('wml!Controls/_breadcrumbs/Path/Path');
 import {IBreadCrumbsOptions} from './interface/IBreadCrumbs';
 import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
@@ -44,7 +44,7 @@ class BreadCrumbs extends Control<IBreadCrumbsOptions> {
     protected _template: TemplateFunction = template;
     protected _visibleItems =  [];
     protected _viewUpdated: boolean = false;
-    protected _notifyHandler = tmplNotify;
+    protected _notifyHandler = EventUtils.tmplNotify;
     protected _width: number = 0;
     protected _dotsWidth: number = 0;
     protected _indexEdge: number = 0;

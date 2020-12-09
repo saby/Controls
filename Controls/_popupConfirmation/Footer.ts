@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupConfirmation/footer');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {IConfirmationFooterOptions, IConfirmationFooter} from 'Controls/popupConfirmation';
 import rk = require('i18n!Controls');
 
@@ -16,14 +16,14 @@ export interface IFooterOptions extends IControlOptions, IConfirmationFooterOpti
  * @class Controls/_popupConfirmation/Footer
  * @implements Controls/_popup/interface/IConfirmationFooter
  * @extends Core/Control
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/PopupTemplate/Confirmation/Footer/Index
  */
 class Footer extends Control<IFooterOptions> implements IConfirmationFooter {
     protected _template: TemplateFunction = template;
-    protected _tmplNotify: Function = tmplNotify;
+    protected _tmplNotify: Function = EventUtils.tmplNotify;
 
     static getDefaultOptions() {
         return {

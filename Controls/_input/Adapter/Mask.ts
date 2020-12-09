@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as InputMask from 'Controls/_input/Mask';
 import * as MaskFormatterValue from 'Controls/_input/Mask/FormatterValue';
 import * as template from 'wml!Controls/_input/Adapter/Mask/Mask';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 /**
  * Контрол обертка над полем ввода маски. Обеспечивает работу со значением с разделителями.
  *
@@ -19,7 +19,7 @@ import {tmplNotify} from 'Controls/eventUtils';
  * @author Красильников А.С.
  */
 class Mask extends Control<IControlOptions> {
-    protected _notifyHandler = tmplNotify;
+    protected _notifyHandler = EventUtils.tmplNotify;
 
     protected _template: TemplateFunction = template;
 

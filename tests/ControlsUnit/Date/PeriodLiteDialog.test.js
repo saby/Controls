@@ -2,7 +2,7 @@
 define([
    'Core/core-merge',
    'Controls/shortDatePicker',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils',
    'Types/entity',
    'Types/formatter',
@@ -137,7 +137,7 @@ define([
                for (let [quarterIndex, quarter] of halfyear.quarters.entries()) {
                   for (let [monthIndex, month] of quarter.months.entries()) {
                      assert(
-                        DateUtils.isDatesEqual(
+                        DateUtils.Base.isDatesEqual(
                             component._getYearModel(year, entity.Date)[halfyearIndex].quarters[quarterIndex].months[monthIndex].name, month.name
                         )
                      );

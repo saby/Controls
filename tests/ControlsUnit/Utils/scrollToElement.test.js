@@ -1,7 +1,7 @@
 define([
-   'Controls/Utils/scrollToElement'
+   'Controls/scroll'
 ], function(
-   scrollToElement
+   scroll
 ) {
    describe('Controls/Utils/scrollToElement', function() {
 
@@ -61,7 +61,7 @@ define([
                   };
                }
             };
-            scrollToElement(element);
+            scroll.scroll.scrollToElement(element);
             assert.equal(element.parentElement.scrollTop, 5);
          });
 
@@ -90,7 +90,7 @@ define([
                   };
                }
             };
-            scrollToElement(element, false, true);
+            scroll.scroll.scrollToElement(element, false, true);
             assert.equal(element.parentElement.scrollTop, 5);
          });
 
@@ -119,7 +119,7 @@ define([
                   };
                }
             };
-            scrollToElement(element, true);
+            scroll.scrollToElement(element, true);
             assert.equal(element.parentElement.scrollTop, 55);
          });
 
@@ -164,7 +164,7 @@ define([
                },
                closest: () => []
             };
-            scrollToElement(element, false, true);
+            scroll.scrollToElement(element, false, true);
             assert.equal(element.parentElement.parentElement.scrollTop, 0);
             assert.equal(element.parentElement.scrollTop, 10);
          });
@@ -194,7 +194,7 @@ define([
                   };
                }
             };
-            scrollToElement(element, true);
+            scroll.scrollToElement(element, true);
             assert.equal(element.parentElement.scrollTop, 55);
          });
 
@@ -211,7 +211,7 @@ define([
                      };
                   }
                };
-               scrollToElement(element);
+               scroll.scrollToElement(element);
                assert.equal(element.parentElement.scrollTop, 15);
             });
 
@@ -227,7 +227,7 @@ define([
                   },
                   className: ''
                };
-               scrollToElement(element, true);
+               scroll.scrollToElement(element, true);
                assert.equal(element.parentElement.scrollTop, 75);
             });
 
@@ -243,7 +243,7 @@ define([
                   },
                   className: ''
                };
-               scrollToElement(element, true);
+               scroll.scrollToElement(element, true);
                assert.equal(element.parentElement.scrollTop, 75);
             });
          });
@@ -275,7 +275,7 @@ define([
                   };
                }
             };
-            scrollToElement(element);
+            scroll.scrollToElement(element);
             assert.equal(element.parentElement.scrollTop, -5);
          });
 
@@ -304,7 +304,7 @@ define([
                   };
                }
             };
-            scrollToElement(element, false, true);
+            scroll.scrollToElement(element, false, true);
             assert.equal(element.parentElement.scrollTop, -5);
          });
 
@@ -333,7 +333,7 @@ define([
                   };
                }
             };
-            scrollToElement(element, true);
+            scroll.scrollToElement(element, true);
             assert.equal(element.parentElement.scrollTop, -55);
          });
 
@@ -350,7 +350,7 @@ define([
                      };
                   }
                };
-               scrollToElement(element);
+               scroll.scrollToElement(element);
                assert.equal(element.parentElement.scrollTop, 10);
             });
 
@@ -366,7 +366,7 @@ define([
                      };
                   }
                };
-               scrollToElement(element, true);
+               scroll.scrollToElement(element, true);
                assert.equal(element.parentElement.scrollTop, -25);
             });
          });

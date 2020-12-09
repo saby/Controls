@@ -3,7 +3,7 @@ import {ListView, CssClassList} from 'Controls/list';
 import * as GridLayoutUtil from 'Controls/_grid/utils/GridLayoutUtil';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 import {TouchContextField as isTouch} from 'Controls/context';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {prepareEmptyEditingColumns} from 'Controls/Utils/GridEmptyTemplateUtil';
 import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS, ColumnScroll} from './resources/ColumnScroll';
 import {JS_SELECTORS as DRAG_SCROLL_JS_SELECTORS, DragScroll} from './resources/DragScroll';
@@ -336,7 +336,7 @@ var
         _defaultItemTemplate: GridItemTemplate,
         _headerContentTemplate: HeaderContentTpl,
 
-        _notifyHandler: tmplNotify,
+        _notifyHandler: EventUtils.tmplNotify,
         _columnScrollContainerClasses: '',
         _dragScrollOverlayClasses: '',
         _horizontalScrollPosition: 0,
