@@ -104,7 +104,7 @@
    }
 }
 
-.controls-MasterDetail_details_bg-contrast_theme-@{themeName} when not (@themeName = default) {
+.controls-MasterDetail_details_bg-contrast_theme-@{themeName} when not (alpha(@detail_contrast_background-color_masterDetail) = 0) {
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
       background-image: linear-gradient(@detail_contrast_background-color_masterDetail 10%, rgba(@detail_contrast_background-color_masterDetail, 0)),
                         linear-gradient(rgba(@detail_contrast_background-color_masterDetail, 0), @detail_contrast_background-color_masterDetail 90%),
