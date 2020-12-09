@@ -26,7 +26,13 @@
            <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/Input/FooterTemplate/resources/SuggestTemplate">
                <ws:templateOptions demoClass="demo-SuggestInputList"/>
            </ws:suggestTemplate>
-           <ws:footerTemplate templateName="Controls-demo/Suggest_new/Input/FooterTemplate/resources/FooterTemplate"/>
+           <ws:footerTemplate templateName="Controls/suggestPopup:FooterTemplate">
+               <ws:templateOptions>
+                   <ws:showSelectorButtonTemplate>
+                       <span>Моя компания</span>
+                   </ws:showSelectorButtonTemplate>
+               </ws:templateOptions>
+           </ws:footerTemplate>
        </Controls.suggest:Input>
    </div>
    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
@@ -44,4 +50,24 @@
           </ws:suggestTemplate>
       </Controls.suggest:Input>
    </div>
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Шаблон подвала с использованием стандарного footer'a</div>
+        <Controls.suggest:Input
+                attr:class="controlsDemo__input demo-SuggestNew__noFooter"
+                displayProperty="title"
+                searchParam="title"
+                navigation="{{_navigation}}"
+                source="{{_source}}">
+            <ws:suggestTemplate templateName="wml!Controls-demo/Suggest_new/Input/FooterTemplate/resources/SuggestTemplate">
+                <ws:templateOptions demoClass="demo-SuggestInputList"/>
+            </ws:suggestTemplate>
+            <ws:footerTemplate templateName="Controls/suggestPopup:FooterTemplate">
+                <ws:templateOptions>
+                    <ws:showSelectorButtonTemplate>
+                        <span class="demo-suggest-defaultFooter">Моя компания</span>
+                    </ws:showSelectorButtonTemplate>
+                </ws:templateOptions>
+            </ws:footerTemplate>
+        </Controls.suggest:Input>
+    </div>
 </div>
