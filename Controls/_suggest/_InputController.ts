@@ -286,10 +286,12 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    }
 
    private _setItems(recordSet: RecordSet): void {
-      if (this._suggestDirection === 'up') {
-         this._sourceController.setItems(this._reverseData(recordSet));
-      } else {
-         this._sourceController.setItems(recordSet);
+      if (this._sourceController) {
+         if (this._suggestDirection === 'up') {
+            this._sourceController.setItems(this._reverseData(recordSet));
+         } else {
+            this._sourceController.setItems(recordSet);
+         }
       }
    }
 
@@ -709,6 +711,10 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    }
 
    protected _changeValueHandler(event: SyntheticEvent, value: string): Promise<void> {
+      if (this._searchLibraryLoader) {
+         this._searchLibraryLoader.cancel('_suggest/_InputController: Value changes too fast, load cancelled');
+         this._searchLibraryLoader = null;
+      }
       value = value || '';
       this._searchValue = value;
       this._setFilter(this._filter, this._options, this._tabsSelectedKey);
@@ -747,9 +753,10 @@ export default class InputContainer extends Control<IInputControllerOptions> {
                 this._searchResolverController = new searchLibrary.SearchResolver(
                     this._getSearchResolverOptions(options ?? this._options)
                 );
+                this._searchLibraryLoader = null;
                 return this._searchResolverController;
              })
-             .catch((error) => error);
+             .catch((error) => this._searchErrback(error));
       } else {
          result = Promise.resolve(this._searchResolverController);
       }
@@ -771,7 +778,9 @@ export default class InputContainer extends Control<IInputControllerOptions> {
          return (await this._getSearchController()).search(value).then((recordSet) => {
             this._loadEnd(recordSet);
 
-            if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet) && (this._inputActive || this._tabsSelectedKey !== null)) {
+            if (recordSet instanceof RecordSet &&
+               this._shouldShowSuggest(recordSet) &&
+               (this._inputActive || this._tabsSelectedKey !== null)) {
                this._setItems(recordSet);
                if (this._options.dataLoadCallback) {
                   this._options.dataLoadCallback(recordSet);
