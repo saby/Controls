@@ -45,7 +45,7 @@ export type ICallback<T> = (data: ICallbackData<T>) => IFieldData;
  */
 export interface IValueOptions<T> {
     /**
-     * Значение поля ввода.
+     * @cfg {*|null} Значение поля ввода.
      * @remark
      * При установке опции value в контроле ввода, отображаемое значение всегда будет соответствовать её значению. В этом случае родительский контрол управляет отображаемым значением. Например, вы можете менять значение по событию {@link valueChanged}:
      * 
@@ -63,7 +63,7 @@ export interface IValueOptions<T> {
      * }
      * </pre>
      * 
-     * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
+     * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link /doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
      * 
      * <pre class="brush: html">
      * <Controls:input:Text bind:value="_value"/>

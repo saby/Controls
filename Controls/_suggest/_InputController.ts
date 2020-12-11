@@ -5,7 +5,7 @@ import {getSwitcherStrFromData} from 'Controls/search';
 import {isEqual} from 'Types/object';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IStackPopupOptions, Stack as StackOpener} from 'Controls/popup';
-import {Controller as SearchController, SearchResolver as SearchResolverController, ISearchResolverOptions} from 'Controls/search';
+import {ControllerClass as SearchController, SearchResolver as SearchResolverController, ISearchResolverOptions} from 'Controls/search';
 import {NewSourceController as SourceController, ISourceControllerOptions} from 'Controls/dataSource';
 import {RecordSet} from 'Types/collection';
 import {__ContentLayer, __PopupLayer} from 'Controls/suggestPopup';
@@ -180,6 +180,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       }
       this._searchResult = null;
 
+      this._tabsSelectedKey = null;
       // when closing popup we reset the cache with recent keys
       this._historyLoad = null;
       this._historyKeys = null;
@@ -741,6 +742,10 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       let result;
 
       if (!this._searchResolverController) {
+         if (this._searchLibraryLoader) {
+            this._searchLibraryLoader.cancel();
+            this._searchLibraryLoader = null;
+         }
          result = this._getSearchLibrary()
              .then((searchLibrary) => {
                 this._searchResolverController = new searchLibrary.SearchResolver(
@@ -767,24 +772,31 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       this._loadStart();
       if (value) {
          this._searchValue = value;
-         return (await this._getSearchController()).search(value).then((recordSet) => {
-            this._loadEnd(recordSet);
+         const searchController = await this._getSearchController();
 
-            if (recordSet instanceof RecordSet && this._shouldShowSuggest(recordSet) && (this._inputActive || this._tabsSelectedKey !== null)) {
-               this._setItems(recordSet);
-               if (this._options.dataLoadCallback) {
-                  this._options.dataLoadCallback(recordSet);
+         if (searchController instanceof SearchController) {
+            return searchController.search(value).then((recordSet) => {
+               this._loadEnd(recordSet);
+
+               if (recordSet instanceof RecordSet &&
+                  this._shouldShowSuggest(recordSet) &&
+                  (this._inputActive || this._tabsSelectedKey !== null)) {
+
+                  this._setItems(recordSet);
+                  if (this._options.dataLoadCallback) {
+                     this._options.dataLoadCallback(recordSet);
+                  }
+                  this._setFilter(this._options.filter, this._options);
+                  this._open();
+                  this._markerVisibility = 'visible';
                }
-               this._setFilter(this._options.filter, this._options);
-               this._open();
-               this._markerVisibility = 'visible';
-            }
 
-            return recordSet;
-         }, (error) => {
-            this._loadEnd();
-            return error;
-         });
+               return recordSet;
+            }, (error) => {
+               this._loadEnd();
+               return error;
+            });
+         }
       } else {
          return this._performLoad(options);
       }
@@ -813,7 +825,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
 
    private _getSearchResolverOptions(options: IInputControllerOptions): ISearchResolverOptions {
       return {
-         delayTime: options.searchDelay,
+         searchDelay: options.searchDelay,
          minSearchLength: options.minSearchLength,
          searchCallback: (validatedValue: string) => this._resolveLoad(validatedValue),
          searchResetCallback: this._searchResetCallback.bind(this)
@@ -823,13 +835,17 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    private async _searchResetCallback(): Promise<void> {
       const searchController = await this._getSearchController();
 
-      if (this._updateSuggestState() || this._options.autoDropDown) {
-         const recordSet = await searchController.reset();
-         this._setItems(recordSet);
+      if (searchController) {
+         if (this._updateSuggestState() || this._options.autoDropDown) {
+            const recordSet = await searchController.reset();
+            if (recordSet instanceof RecordSet) {
+               this._setItems(recordSet);
+            }
+         }
       }
    }
 
-   protected async _getSearchController(): Promise<SearchController> {
+   protected async _getSearchController(): Promise<SearchController | void> {
       if (!this._searchController) {
          return this._getSearchLibrary().then((result) => {
             this._searchController = new result.ControllerClass({
@@ -840,7 +856,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
                searchValueTrim: this._options.trim
             });
             return this._searchController;
-         });
+         }).catch((error) => this._searchErrback(error));
       }
       return this._searchController;
    }
@@ -959,7 +975,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       }
    }
 
-   protected _loadEnd(result?: RecordSet): void {
+   protected _loadEnd(result?: RecordSet | Error): void {
       if (this._loading) {
          this._loading = false;
 

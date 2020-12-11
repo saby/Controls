@@ -124,7 +124,7 @@ class NumberInput extends Base<INumberInputOptions> {
  *     }
  * }
  * </pre>
- * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
+ * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link /doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
  *
  * <pre class="brush: html">
  * <Controls.input:Number bind:value="_value"/>

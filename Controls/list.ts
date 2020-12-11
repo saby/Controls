@@ -213,6 +213,6 @@ const editing = {
 };
 
 import {groupConstants} from './display';
-import {CursorDirection} from './_interface/INavigation';
+import {CursorDirection} from './interface';
 
 export {CursorDirection, groupConstants, editing};

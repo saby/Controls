@@ -7,7 +7,9 @@
             nodeProperty="type"
             bind:expandedItems="_expandedItems">
         <ws:nodeFooterTemplate>
-            <Controls.list:AddButton caption="Добавить товар"/>
+            <ws:partial template="Controls/treeGridNew:NodeFooterTemplate">
+                <Controls.list:AddButton caption="Добавить товар"/>
+            </ws:partial>
         </ws:nodeFooterTemplate>
     </Controls.treeGridNew:View>
 </div>

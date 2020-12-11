@@ -1,5 +1,5 @@
 /**
- * Шаблон, который по умолчанию используется для отображения горизонтальной линии-разделителя {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/grouping/ группы} в контроле {@link Controls/grid:View Таблица}.
+ * Шаблон, который по умолчанию используется для отображения горизонтальной линии-разделителя {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы} в контроле {@link Controls/grid:View Таблица}.
  * 
  * @class Controls/_grid/interface/GroupTemplate
  * @mixes Controls/_grid/interface/BaseGroupTemplate
@@ -20,7 +20,7 @@
  * </Controls.grid:View>
  * </pre>
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/grouping/ здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ здесь}.
  * @public
  */
 export default interface IGroupTemplateOptions {

@@ -79,7 +79,6 @@ export interface IBreadCrumbsOptions extends IControlOptions, IFontSizeOptions {
  * @typedef {String} BackgroundStyle
  * @variant master Предназначен для настройки фона masterDetail
  * @variant stack Предназначен для настройки фона стековой панели.
- * @variant masterClassic
  * @variant detailContrast
  * @variant listItem
  * @variant stackHeader

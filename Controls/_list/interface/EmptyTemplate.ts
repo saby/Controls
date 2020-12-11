@@ -17,7 +17,7 @@
  * </Controls.list:View>
  * </pre>
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/list/empty-list/ здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty-list/ здесь}.
  * @public
  */
 
@@ -37,7 +37,7 @@ export default interface IEmptyTemplateOptions {
      * @cfg {Controls/_list/interface/IEmptyTemplateOptions/Spacing.typedef|null} Отступ между верхней границей  и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      * @default l
      */
     topSpacing?: string;
@@ -46,7 +46,7 @@ export default interface IEmptyTemplateOptions {
      * @cfg {Controls/_list/interface/IEmptyTemplateOptions/Spacing.typedef|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      * @default l
      */
     bottomSpacing?: string;

@@ -32,26 +32,13 @@
    }
 }
 
-.controls-MasterDetail_masterClassic-template_theme-@{themeName} {
-   &:before {
-      width: @masterClassic_separator_thickness_list;
-   }
-}
-
 .controls-MasterDetail_master-template-contrast_theme-@{themeName} {
    &:before {
       background-color: @master_separator_contrast-color_list;
    }
 }
 
-.controls-MasterDetail_masterClassic-template-contrast_theme-@{themeName} {
-   &:before {
-      background-color: @masterClassic_separator_color_list;
-   }
-}
-
-.controls-MasterDetail_master-template-same_theme-@{themeName},
-.controls-MasterDetail_masterClassic-template-same_theme-@{themeName} {
+.controls-MasterDetail_master-template-same_theme-@{themeName} {
    &:before {
       background-color: @master_separator_color_list;
    }
@@ -82,13 +69,9 @@
    z-index: 9999;
 }
 
-// Класс для установки фона контрола через backgroundStyle (master/masterClassic)
+// Класс для установки фона контрола через backgroundStyle
 // применяется к хлебным крошкам, группам. Для выбранной застиканной строки стили ниже
 .controls-background-master_theme-@{themeName} {
-   background-color: @master_item_background-color_list;
-}
-
-.controls-background-masterClassic_theme-@{themeName} {
    background-color: @master_item_background-color_list;
 }
 

@@ -4573,13 +4573,14 @@ describe('Controls/_display/Collection', () => {
     describe('drag', () => {
         let display: CollectionDisplay<unknown>;
         let notifyLaterSpy;
+        let rs;
         beforeEach(() => {
             const items = [
                 { id: 1, name: 'Ivan' },
                 { id: 2, name: 'Alexey' },
                 { id: 3, name: 'Olga' }
             ];
-            const rs = new RecordSet({
+            rs = new RecordSet({
                 rawData: items,
                 keyProperty: 'id'
             });
@@ -4590,21 +4591,21 @@ describe('Controls/_display/Collection', () => {
             notifyLaterSpy = spy(display, '_notifyLater');
         });
 
-        it('setDraggedItems', () => {
+        it('setDraggedItems and was add item', () => {
             const draggedItem = display.createItem({contents: {getKey: () => '123'}});
             display.setDraggedItems(draggedItem, ['123']);
             assert.equal(display.getItems()[2].getContents().getKey(), '123');
             assert.isTrue(notifyLaterSpy.called);
         });
 
-        it('setDraggedItems', () => {
+        it('setDraggedItems and was not add item', () => {
             const draggedItem = display.getItemBySourceKey(1);
             display.setDraggedItems(draggedItem, [1]);
             assert.equal(display.getItems()[0].getContents().getKey(), 1);
             assert.isFalse(notifyLaterSpy.called);
         });
 
-        it('resetDraggedItems', () => {
+        it('resetDraggedItems and was not add item', () => {
             const draggedItem = display.getItemBySourceKey(1);
             display.setDraggedItems(draggedItem, [1]);
             assert.equal(display.getItems()[0].getContents().getKey(), 1);
@@ -4614,7 +4615,7 @@ describe('Controls/_display/Collection', () => {
             assert.isFalse(notifyLaterSpy.called);
         });
 
-        it('resetDraggedItems', () => {
+        it('resetDraggedItems and was add item', () => {
             const draggedItem = display.createItem({contents: {getKey: () => '123'}});
             display.setDraggedItems(draggedItem, ['123']);
             assert.equal(display.getItems()[2].getContents().getKey(), '123');
@@ -4622,6 +4623,18 @@ describe('Controls/_display/Collection', () => {
 
             display.resetDraggedItems();
             assert.isTrue(notifyLaterSpy.calledTwice);
+        });
+
+        it('resetDraggedItems and item was remove on dragEnd event', () => {
+            const draggedItem = display.getItemBySourceKey(1);
+            display.setDraggedItems(draggedItem, [1]);
+            assert.equal(display.getItems()[0].getContents().getKey(), 1);
+            assert.isFalse(notifyLaterSpy.called);
+
+            rs.remove(draggedItem.getContents());
+            notifyLaterSpy.resetHistory();
+            display.resetDraggedItems();
+            assert.isTrue(notifyLaterSpy.called);
         });
     });
 

@@ -299,7 +299,7 @@ export default interface IDraggable {
  * @param {Controls/_dragnDrop/Entity/Items} entity Объект перемещения.
  * @returns {DragEnterResult}
  * @remark Событие позволяет перемещать элементы в текущий список из другого списка. Событие срабатывает у контейнера, в который была перемещена запись.
- * Отличается от события {@link https://wi.sbis.ru/docs/js/Controls/tile/IDraggable/events/dragStart/?v=19.500 dragStart}, которое срабатывает у контейнера, из которого началось перемещение записи.
+ * Отличается от события {@link /docs/js/Controls/tile/IDraggable/events/dragStart/?v=19.500 dragStart}, которое срабатывает у контейнера, из которого началось перемещение записи.
  * @example
  * В следующем примере показано, как перемещать в список объекты определенного типа.
  * <pre class="brush: html; highlight: [3]">

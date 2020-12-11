@@ -83,11 +83,12 @@ export default class BreadcrumbsItem<T> extends CollectionItem<T> {
      }
 
      getParent(): TreeItem<T> {
-         return this.getLast().getParent();
+         // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
+         return this._$owner.getRoot();
      }
 
      getChildren(withFilter: boolean = true): TreeChildren<T> {
-         return this.getOwner().getChildren(this, withFilter);
+         return this._$owner.getChildren(this, withFilter);
      }
 
      isHasChildren(): boolean {

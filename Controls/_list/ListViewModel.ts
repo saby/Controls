@@ -52,7 +52,7 @@ const _private = {
     ): string {
         let classList = '';
         const itemPadding = _private.getItemPadding(itemPaddingProperty);
-        const style = styleProperty === 'masterClassic' || !styleProperty ? 'default' : styleProperty;
+        const style = !styleProperty ? 'default' : styleProperty;
 
         classList += ` controls-ListView__itemContent controls-ListView__itemContent_${style}_theme-${theme}`;
         classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${theme}`;
@@ -261,7 +261,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
     _isSupportStickyMarkedItem(): boolean {
         return this._options.stickyMarkedItem !== false &&
-            (this._options.style === 'master' || this._options.style === 'masterClassic');
+            (this._options.style === 'master');
     },
 
     _isSupportStickyItem(): boolean {

@@ -24,7 +24,7 @@ export default interface IHierarchy {
 
 /**
  * @name Controls/_interface/IHierarchy#nodeProperty
- * @cfg {String} Имя свойства, содержащего информацию о {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy типе элемента} (лист, узел, скрытый узел).
+ * @cfg {String} Имя свойства, содержащего информацию о {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy типе элемента} (лист, узел, скрытый узел).
  * @example
  * В данном примере элемент с id: 4 является родителем для элементов с id: 5, 6, 7.
  * TMPL:

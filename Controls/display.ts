@@ -86,40 +86,42 @@ import isFullGridSupport from './_display/utils/GridSupportUtil';
 export {isFullGridSupport};
 import GridLayoutUtil from './_display/utils/GridLayoutUtil';
 export {GridLayoutUtil};
-import {default as GridMixin} from './_display/GridMixin';
+import {default as GridMixin} from './_display/grid/mixins/Grid';
 export {GridMixin};
-import {default as GridCollection} from './_display/GridCollection';
+import {default as GridCollection} from './_display/grid/Collection';
 export {GridCollection};
-import {default as GridRowMixin} from './_display/GridRowMixin';
+import {default as GridRowMixin} from './_display/grid/mixins/Row';
 export {GridRowMixin};
-import {default as GridRow} from './_display/GridRow';
-export {GridRow};
-import {IOptions as IGridRowOptions} from './_display/GridRow';
-export {IGridRowOptions};
-import {default as GridDataRow} from './_display/GridDataRow';
-export {GridDataRow};
-import {default as GridCell} from './_display/GridCell';
-export {GridCell};
-import {default as GridHeaderRow} from './_display/GridHeaderRow';
-export {GridHeaderRow};
-import {default as GridTableHeaderRow} from './_display/GridTableHeaderRow';
-export {GridTableHeaderRow};
-import {default as GridHeader} from './_display/GridHeader';
-export {GridHeader};
-import {default as GridTableHeader} from './_display/GridTableHeader';
+
+import GridRow, {IOptions as IGridRowOptions} from './_display/grid/Row';
+export {GridRow, IGridRowOptions};
+import GridCell, {IOptions as IGridCellOptions} from './_display/grid/Cell';
+export {GridCell, IGridCellOptions};
+
+import GridHeader, {IOptions as IGridHeaderOptions} from './_display/grid/Header';
+export {GridHeader, IGridHeaderOptions};
+import GridHeaderRow, {IOptions as IGridHeaderRowOptions} from './_display/grid/HeaderRow';
+export {GridHeaderRow, IGridHeaderRowOptions};
+import GridHeaderCell, {IOptions as IGridHeaderCellOptions} from './_display/grid/HeaderCell';
+export {GridHeaderCell, IGridHeaderCellOptions};
+import GridTableHeader from './_display/grid/TableHeader';
 export {GridTableHeader};
-import {default as GridHeaderCell} from './_display/GridHeaderCell';
-export {GridHeaderCell};
-import {default as GridDataCell} from './_display/GridDataCell';
-export {GridDataCell};
-import {default as GridFooterCell} from './_display/GridFooterCell';
-export {GridFooterCell};
+import GridTableHeaderRow from './_display/grid/TableHeaderRow';
+export {GridTableHeaderRow};
+
+import GridDataRow, {IOptions as IGridDataRowOptions} from './_display/grid/DataRow';
+export {GridDataRow, IGridDataRowOptions};
+import GridDataCell, {IOptions as IGridDataCellOptions} from './_display/grid/DataCell';
+export {GridDataCell, IGridDataCellOptions};
+
+import GridResultsCell, {IOptions as IGridResultsCellOptions} from './_display/grid/ResultsCell';
+export {GridResultsCell, IGridResultsCellOptions};
+import GridFooterCell, {IOptions as IGridFooterCellOptions} from './_display/grid/FooterCell';
+export {GridFooterCell, IGridFooterCellOptions};
+import GridGroupItem from './_display/grid/GroupItem';
+
 import {default as GridSpaceAfterBodyCell} from './_display/GridSpaceAfterBodyCell';
-export {GridSpaceAfterBodyCell};
-import {default as GridResultsCell} from './_display/GridResultsCell';
-export {GridResultsCell};
-import {default as GridGroupItem} from './_display/GridGroupItem';
-export {GridGroupItem};
+export {GridSpaceAfterBodyCell};export {GridGroupItem};
 
 import * as EditInPlaceController from './_display/controllers/EditInPlace';
 

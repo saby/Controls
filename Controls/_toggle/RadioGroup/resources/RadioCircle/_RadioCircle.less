@@ -24,15 +24,19 @@
    fill: @marker-box_background-color_switcher;
 }
 
-.controls-RadioCircle__borderCircle_disabled_theme-@{themeName} {
+.controls-RadioCircle__borderCircle_selected_disabled_theme-@{themeName} {
    stroke: @readonly_marker-box_border-color_switcher;
    fill: @readonly_marker-box_background-color_switcher;
 }
 
+.controls-RadioCircle__borderCircle_unselected_disabled_theme-@{themeName} {
+   stroke: @readonly_unselected_marker-box_border-color_switcher;
+   fill: @readonly_unselected_marker-box_background-color_switcher;
+}
+
 .ws-is-hover {
    .controls-RadioCircle__svg:hover {
-      .controls-RadioCircle__borderCircle_selected_theme-@{themeName},
-      .controls-RadioCircle__borderCircle_unselected_theme-@{themeName} {
+      .controls-RadioCircle__borderCircle_enabled_theme-@{themeName} {
          stroke: @marker-box_hover_border-color_switcher;
       }
    }

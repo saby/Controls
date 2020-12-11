@@ -190,7 +190,7 @@ export interface IStackOpener extends IOpener {
  * @property {Number} minWidth Минимально допустимая ширина всплывающего окна. Значение указывается в px.
  * @property {Number} maxWidth Максимально допустимая ширина всплывающего окна. Значение указывается в px.
  * @property {Number} width Текущая ширина всплывающего окна. Значение указывается в px.
- * @property {Node} opener Логический инициатор открытия всплывающего окна. Читайте подробнее {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
+ * @property {Node} opener Логический инициатор открытия всплывающего окна. Читайте подробнее {@link /doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
  * @property {Controls/_popup/interface/IBaseOpener.typedef} eventHandlers Функции обратного вызова на события стековой панели.
  */
 
@@ -206,6 +206,6 @@ export interface IStackOpener extends IOpener {
  * @property {Number} minWidth The minimum width of popup.
  * @property {Number} maxWidth The maximum width of popup.
  * @property {Number} width Width of popup.
- * @property {Node} opener Read more {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener there}.
+ * @property {Node} opener Read more {@link /doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener there}.
  * @property {Controls/_popup/interface/IBaseOpener.typedef} eventHandlers Callback functions on popup events.
  */

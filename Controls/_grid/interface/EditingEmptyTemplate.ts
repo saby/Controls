@@ -84,7 +84,7 @@ export default interface IEditingEmptyTemplateOptions {
      * @cfg {Spacing|null} Отступ между верхней границей  и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      * @default l
      */
     topSpacing?: string;
@@ -93,7 +93,7 @@ export default interface IEditingEmptyTemplateOptions {
      * @cfg {Spacing|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      * @default l
      */
     bottomSpacing?: string;

@@ -1,6 +1,6 @@
 import {TemplateFunction} from 'UI/Base';
 
-export type TextAlign = 'left' | 'right';
+export type TextAlign = 'left' | 'right' | 'center';
 export type AutoComplete = 'on' | 'off' | 'username' | 'current-password';
 
 export interface IBaseOptions {
@@ -34,6 +34,7 @@ export interface IBase {
  * @typedef {String} TextAlign
  * @variant left Текст выравнивается по левой стороне.
  * @variant right Текст выравнивается по правой стороне.
+ * @variant center Текст выравнивается по центру.
  */
 /**
  * @typedef {String} AutoComplete

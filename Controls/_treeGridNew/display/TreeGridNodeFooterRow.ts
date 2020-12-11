@@ -1,9 +1,9 @@
-import TreeGridRow from 'Controls/_treeGridNew/display/TreeGridRow';
+import TreeGridDataRow from 'Controls/_treeGridNew/display/TreeGridDataRow';
 import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import TreeGridNodeFooterCell from 'Controls/_treeGridNew/display/TreeGridNodeFooterCell';
 
-export default class TreeGridNodeFooterRow<S> extends TreeGridRow<S> {
+export default class TreeGridNodeFooterRow<S> extends TreeGridDataRow<S> {
     readonly Markable: boolean = false;
 
     readonly '[Controls/treeGrid:TreeGridNodeFooterRow]': boolean;
@@ -29,13 +29,7 @@ export default class TreeGridNodeFooterRow<S> extends TreeGridRow<S> {
         return this._$owner.getNodeFooterTemplateMoreButton();
     }
 
-    getItemClasses(
-        templateHighlightOnHover: boolean = true,
-        theme: string = 'default',
-        style: string = 'default',
-        cursor: string = 'pointer',
-        clickable: boolean = true
-    ): string {
+    getItemClasses(): string {
         return 'controls-Grid__row controls-TreeGrid__nodeFooter';
     }
 }
@@ -44,5 +38,5 @@ Object.assign(TreeGridNodeFooterRow.prototype, {
     '[Controls/treeGrid:TreeGridNodeFooterRow]': true,
     _moduleName: 'Controls/treeGrid:TreeGridNodeFooterRow',
     _cellModule: 'Controls/treeGrid:TreeGridNodeFooterCell',
-    _instancePrefix: 'tree-grid-node-footer-row'
+    _instancePrefix: 'tree-grid-node-footer-row-'
 });

@@ -82,7 +82,7 @@ export type TNavigationDirection = 'backward' | 'forward' | 'bothways';
 /*
  * @typedef {Object} IBasePositionSourceConfig
  * @description Конфигурация источника данных для перезагрузки при навигации по курсору.
- * Подробнее о данном типе навигации читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/cursor/ здесь}.
+ * Подробнее о данном типе навигации читайте {@link /doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/cursor/ здесь}.
  * @property {String|Array.<String>} position Начальная позиция для курсора.
  * @property {TNavigationDirection} direction Направление выборки.
  * @property {Number} limit Количество записей, которые запрашиваются при выборке.

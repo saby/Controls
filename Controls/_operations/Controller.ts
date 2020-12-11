@@ -26,7 +26,7 @@ import { TSelectionType } from 'Controls/interface';
 /*
  * Container for content that can work with multiselection.
  * Puts selection in child context.
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>here</a>.
  *
  * @class Controls/_operations/Controller
  * @extends Core/Control

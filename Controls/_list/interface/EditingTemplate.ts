@@ -1,5 +1,5 @@
 /**
- * Шаблон, который по умолчанию используется для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}.
+ * Шаблон, который по умолчанию используется для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}.
  *  
  * @class Controls/_list/interface/EditingTemplate
  * @author Авраменко А.С.
@@ -29,7 +29,7 @@
  * </Controls.list:View>
  * </pre>
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/edit/#manual здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/#manual здесь}.
  * @public
  */
 
@@ -65,7 +65,7 @@ export default interface IEditingTemplateOptions {
      * @default default
      * @see Controls/list:EditingTemplate#value
      * @remark
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      */
     size?: string;
  }

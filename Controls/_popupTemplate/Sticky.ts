@@ -8,7 +8,7 @@ interface IStickyTemplateOptions extends IControlOptions, IPopupTemplateBaseOpti
 }
 
 /**
- * Базовый шаблон для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/sticky/ прилипающих блоков}.
+ * Базовый шаблон для {@link /doc/platform/developmentapl/interface-development/controls/openers/sticky/ прилипающих блоков}.
  * Имеет три контентные опции - для шапки, контента и подвала, а так же крестик закрытия, соответствующие стандарту выпадающих списков.
  *
  * @remark

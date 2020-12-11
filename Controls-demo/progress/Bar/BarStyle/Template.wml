@@ -8,11 +8,11 @@
         <Controls.progress:Bar value="{{30}}" barStyle="success"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">danger</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">warning</div>
         <Controls.progress:Bar value="{{30}}" barStyle="warning"/>
     </div>
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">warning</div>
+        <div class="controls-text-label_theme-{{_options.theme}}">danger</div>
         <Controls.progress:Bar value="{{30}}" barStyle="danger"/>
     </div>
 </div>

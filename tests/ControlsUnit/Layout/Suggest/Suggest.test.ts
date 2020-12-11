@@ -868,7 +868,7 @@ describe('Controls/suggest', () => {
          assert.equal(inputContainer._suggestMarkedKey, null);
          assert.notEqual(inputContainer._searchResult, queryRecordSet);
          assert.isNull(inputContainer._searchResult);
-         assert.equal(inputContainer._tabsSelectedKey, 'testId2');
+         assert.equal(inputContainer._tabsSelectedKey, null);
          assert.equal(inputContainer._misspellingCaption, null);
       });
 

@@ -160,10 +160,18 @@ export default interface ISelectorDialog {
  */
 
 /**
+ * @typedef {String} SelectorMode
+ * @variant stack Шаблон откроется на стековой панели
+ * @variant dialog Шаблон откроется в диалоговом окне.
+ * @default stack
+ */
+
+/**
  * @typedef {Object} SelectorTemplate
  * @property {Function} templateName Шаблон панели выбора элементов.
  * @property {Object} templateOptions Параметры шаблона всплывающего окна.
  * @property {Object} popupOptions Параметры всплывающего окна.
+ * @property {SelectorMode} mode Режим отображения шаблона.
  */
 /*
  * @typedef {Object} SelectorTemplate

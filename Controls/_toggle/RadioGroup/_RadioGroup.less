@@ -61,8 +61,7 @@
 
 .ws-is-hover {
    .controls-RadioItem__wrapper:hover {
-      .controls-RadioCircle__borderCircle_selected_theme-@{themeName},
-      .controls-RadioCircle__borderCircle_unselected_theme-@{themeName} {
+      .controls-RadioCircle__borderCircle_enabled_theme-@{themeName} {
          stroke: @marker-box_hover_border-color_switcher;
       }
 
@@ -74,8 +73,7 @@
 
 //touch on radio
 .controls-RadioItem__wrapper:active {
-   .controls-RadioCircle__borderCircle_selected_theme-@{themeName},
-   .controls-RadioCircle__borderCircle_unselected_theme-@{themeName} {
+   .controls-RadioCircle__borderCircle_enabled_theme-@{themeName} {
       stroke: @marker-box_hover_border-color_switcher;
    }
 

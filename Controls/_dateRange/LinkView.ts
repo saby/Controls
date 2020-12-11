@@ -151,6 +151,7 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
             this._styleClass = '';
             if (newOption.readOnly && !(newOption.fontColorStyle || newOption.fontSize)) {
                this._styleClass = `controls-DateLinkView__style-readOnly_theme-${newOption.theme}`;
+               this._fontColorStyle = 'default';
             }
             if (newOption.clickable && !newOption.readOnly) {
                this._styleClass +=  ` controls-DateLinkView__style-clickable_theme-${newOption.theme}`;

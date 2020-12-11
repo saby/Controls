@@ -1,7 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__button_wrapper">
         <Controls.buttons:Button caption="Request" on:click="_onChangeSource()"/>
-        <Controls.buttons:Button caption="Pending" on:click="_onPen()"/>
     </div>
 
     <Controls.list:View

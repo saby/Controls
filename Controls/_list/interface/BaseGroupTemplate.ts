@@ -1,5 +1,5 @@
 /**
- * Интерфейс для шаблона отображения заголовка {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grouping/ группы} в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}.
+ * Интерфейс для шаблона отображения заголовка {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы} в {@link /doc/platform/developmentapl/interface-development/controls/list/ списке}.
  * @interface Controls/_list/interface/IBaseGroupTemplateOptions
  * @author Авраменко А.С.
  * @public
@@ -61,7 +61,7 @@ export default interface IBaseGroupTemplateOptions {
     * * {@link Types/collection:RecordSet#metaData metaData} — метаданные рекордсета, который загружен для таблицы.
     *
     * @example
-    * В следующих примерах показано, как изменять опции шаблона для контрола {@link Controls/list:View}, однако то же самое справедливо и для других {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочных контролов}.
+    * В следующих примерах показано, как изменять опции шаблона для контрола {@link Controls/list:View}, однако то же самое справедливо и для других {@link /doc/platform/developmentapl/interface-development/controls/list/ списочных контролов}.
     *
     *
     * **Пример 1.** Контрол и шаблон groupTemplate настроены в одном WML-файле.

@@ -34,12 +34,14 @@
                   <ws:partial
                           template="{{content.resolvedTemplate}}"
                           itemData="{{itemData}}"
+                          selected="{{treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected()}}"
                   />
                </Controls.Container.Async>
             </ws:if>
             <ws:else>
                <ws:partial
                        template="{{contentTemplate}}"
+                       selected="{{treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected()}}"
                        itemData="{{itemData}}"
                />
             </ws:else>

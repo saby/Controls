@@ -18,7 +18,7 @@ interface IOpenerStaticMethods {
  */
 
 export default class Base {
-    private _popupId: string;
+    protected _popupId: string;
     private _opener: IOpenerStaticMethods;
     private _indicatorId: string;
 
@@ -55,7 +55,7 @@ export default class Base {
             config._prefetchPromise = ManagerController.loadData(config.dataLoaders);
         }
 
-        this._opener.openPopup(config, popupController);
+        this._openPopup(config, popupController);
     }
 
     close(): void {
@@ -73,6 +73,10 @@ export default class Base {
         }
         this._popupId = null;
         this._opener = null;
+    }
+
+    protected _openPopup(config, popupController): void {
+        this._opener.openPopup(config, popupController);
     }
 
     private _hideIndicator(): void {

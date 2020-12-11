@@ -592,6 +592,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                style: 'default'
             };
             const nativeIsFullGridSupport = GridLayoutUtil.isFullGridSupport;
+            delete GridLayoutUtil.isFullGridSupport;
             GridLayoutUtil.isFullGridSupport = () => false;
             assert.equal(
                 ' controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_spacingFirstCol_null_theme-default controls-Grid__cell_default controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default',
@@ -2065,6 +2066,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
           it('_prepareColgroupColumns', function() {
             const originIFGS = gridViewModel.isFullGridSupport;
+            delete gridViewModel.isFullGridSupport;
             gridViewModel.isFullGridSupport = () => false;
             assert.deepEqual(gridViewModel._colgroupColumns, undefined, 'Incorrect value "_colgroupColumns" before "_prepareColgroupColumns([])" without multiselect.');
 
@@ -2541,6 +2543,23 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
             assert.isTrue(gridModel.isGridListNotEmpty());
          });
+
+         it('should clear headerModel if shouldn\'t show header in empty grid', () => {
+            const gridModel = new gridMod.GridViewModel({
+               ...cfg,
+               items: new collection.RecordSet({
+                  rawData: [],
+                  keyProperty: 'id'
+               })
+            });
+
+            gridModel._headerModel = {};
+            gridModel.setHeader([{}]);
+            assert.isNull(gridModel._headerModel);
+
+            gridModel.isDrawHeaderWithEmptyList = () => true;
+            assert.isDefined(gridModel.getHeaderModel());
+         });
       });
 
       describe('getitemDataByItem should resolve showEditArrow', () => {
@@ -2595,6 +2614,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
          beforeEach(() => {
             model = new gridMod.GridViewModel(cfg);
+            delete GridLayoutUtil.isFullGridSupport;
             GridLayoutUtil.isFullGridSupport = () => false;
             GridLayoutUtil.getDefaultColumnWidth = () => 'auto';
          });

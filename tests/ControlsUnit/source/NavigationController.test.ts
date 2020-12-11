@@ -636,6 +636,28 @@ describe('Controls/_source/NavigationController', () => {
                 assert.deepEqual([null], params[0].forwardPosition, 'Wrong query properties');
             });
 
+            it('updateQueryRange', () => {
+                const nc = new NavigationController({
+                    navigationType: 'position',
+                    navigationConfig: {
+                        field: 'id',
+                        direction: 'forward'
+                    }
+                });
+
+                const rs = new RecordSet({
+                    rawData: data,
+                    keyProperty: 'id'
+                });
+
+                rs.setMetaData({nextPosition : null, iterative: false});
+                nc.updateQueryProperties(rs, null, null, 'forward');
+                nc.updateQueryRange(rs, null, rs.at(0), rs.at(2));
+
+                const params = nc.getQueryParams({filter: {}}, null, null, 'forward');
+                assert.deepEqual(6, params.filter['id>='], 'Wrong query properties');
+            });
+
             it('hasMoreData botways compatible values false root', () => {
                 const nc = new NavigationController({
                     navigationType: 'position',

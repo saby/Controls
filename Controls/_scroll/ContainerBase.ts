@@ -228,21 +228,30 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
 
     /**
-     * Возвращает true если есть возможность вроскролить к позиции offset.
+     * Возвращает true, если можно прокрутить к позиции offset.
      * @name Controls/_scroll/Container#canScrollTo
      * @function
      * @param {Number} offset Позиция в пикселях
-     * @noshow
+     * @see scrollToTop
+     * @see scrollToBottom
+     * @see scrollToLeft
+     * @see scrollToRight
+     * @see horizontalScrollTo
      */
     canScrollTo(offset: number): boolean {
         return offset <= this._scrollModel.scrollHeight - this._scrollModel.clientHeight;
     }
 
     /**
-     * Скроллит к выбранной позиции по горизонтале. Позиция определяется в пикселях от левого края контейнера.
+     * Прокручивает к выбранной позиции по горизонтали. Позиция определяется в пикселях от левого края контейнера.
      * @name Controls/_scroll/Container#horizontalScrollTo
      * @function
      * @param {Number} offset Позиция в пикселях.
+     * @see scrollToTop
+     * @see scrollToBottom
+     * @see scrollToLeft
+     * @see scrollToRight
+     * @see canScrollTo
      */
 
     /*
@@ -255,12 +264,14 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
 
     /**
-     * Скроллит к верху контейнера.
+     * Прокручивает к верху контейнера.
      * @name Controls/_scroll/Container#scrollToTop
      * @function
      * @see scrollToBottom
      * @see scrollToLeft
      * @see scrollToRight
+     * @see horizontalScrollTo
+     * @see canScrollTo
      */
 
     /*
@@ -273,12 +284,14 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
 
     /**
-     * Скроллит к левому краю контейнера.
+     * Прокручивает к левому краю контейнера.
      * @name Controls/_scroll/Container#scrollToLeft
      * @function
      * @see scrollToTop
      * @see scrollToBottom
      * @see scrollToRight
+     * @see horizontalScrollTo
+     * @see canScrollTo
      */
 
     /*
@@ -291,12 +304,14 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
 
     /**
-     * Скроллит к низу контейнера.
+     * Прокручивает к низу контейнера.
      * @name Controls/_scroll/Container#scrollToBottom
      * @function
      * @see scrollToTop
      * @see scrollToLeft
      * @see scrollToRight
+     * @see horizontalScrollTo
+     * @see canScrollTo
      */
 
     /*
@@ -310,12 +325,14 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     }
 
     /**
-     * Скроллит к правому краю контейнера.
+     * Прокручивает к правому краю контейнера.
      * @name Controls/_scroll/Container#scrollToRight
      * @function
      * @see scrollToTop
      * @see scrollToBottom
      * @see scrollToLeft
+     * @see horizontalScrollTo
+     * @see canScrollTo
      */
 
     /*

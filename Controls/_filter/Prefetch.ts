@@ -1,5 +1,5 @@
 /**
- * Модуль, который экспортирует набор функций-хэлперов для работы с кэшированием данных на {@link https://wi.sbis.ru/doc/platform/application-optimization/reports-caching/ сервисе кэширования}.
+ * Модуль, который экспортирует набор функций-хэлперов для работы с кэшированием данных на {@link /doc/platform/application-optimization/reports-caching/ сервисе кэширования}.
  *
  * @remark
  * Полезные ссылки:

@@ -246,7 +246,7 @@ export interface IFilterItem {
  * @cfg {String} Шаблон всплывающей панели, которая открывается после клика по кнопке.
  * @remark
  * В качестве шаблона рекомендуется использовать контрол {@link Controls/filterPopup:DetailPanel}
- * Подробнее о настройке панели фильтров читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/ здесь}.
+ * Подробнее о настройке панели фильтров читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/ здесь}.
  * Важно: для ленивой загрузки шаблона в опции укажите путь до контрола.
  * @example
  * Пример настройки параметров для двух фильтров.

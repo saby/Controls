@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import pagingTemplate = require('wml!Controls/_paging/Paging/Paging');
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {TNavigationPagingMode} from '../_interface/INavigation';
+import {TNavigationPagingMode} from 'Controls/interface';
 
 type TButtonState = 'normal' | 'disabled';
 type TArrowStateVisibility = 'visible' | 'hidden' | 'readonly';

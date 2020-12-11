@@ -361,6 +361,57 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
          });
       });
 
+      it('_private::prepareRecursiveSelection for all selected', () => {
+         let items = new collection.RecordSet({
+            rawData: [
+               {
+                  'id': 0,
+                  'parent': null,
+                  '@parent': false
+               },
+               {
+                  'id': 1,
+                  'parent': null,
+                  '@parent': true
+               },
+               {
+                  'id': 2,
+                  'parent': null,
+                  '@parent': true
+               },
+               {
+                  'id': 3,
+                  'parent': 2,
+                  '@parent': false
+               },
+               {
+                  'id': 4,
+                  'parent': 2,
+                  '@parent': false
+               }
+            ],
+            keyProperty: 'id'
+         });
+         let selection = {
+            selected: [null],
+            excluded: [null, 3]
+         };
+
+         let preparedSelection = lookupPopup.Container._private.prepareNotRecursiveSelection(
+             selection,
+             items,
+             'id',
+             'parent',
+             '@parent',
+             null
+         );
+
+         assert.deepEqual(preparedSelection, {
+            selected: [null, 2],
+            excluded: [null, 3, 2]
+         });
+      });
+
       it('_private::getSelection', () => {
          let selectionType = 'invalidSelectionType';
          let selection = {

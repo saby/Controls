@@ -19,7 +19,7 @@ export default class TreeGridView extends GridView {
     }
 
     protected _onItemClick(e: SyntheticEvent, dispItem: TreeItem<Model>): void {
-        if (dispItem['[Controls/display:TreeGridNodeFooterRow]']) {
+        if (dispItem['[Controls/treeGridNew:TreeGridNodeFooterRow]']) {
             e.stopImmediatePropagation();
             return;
         }
@@ -28,7 +28,7 @@ export default class TreeGridView extends GridView {
     }
 
     protected _onItemMouseUp(e: SyntheticEvent, dispItem: TreeItem<Model>): void {
-        if (dispItem['[Controls/display:TreeGridNodeFooterRow]']) {
+        if (dispItem['[Controls/treeGridNew:TreeGridNodeFooterRow]']) {
             e.stopImmediatePropagation();
             return;
         }
@@ -37,7 +37,7 @@ export default class TreeGridView extends GridView {
     }
 
     protected _onItemMouseDown(e: SyntheticEvent, dispItem: TreeItem<Model>): void {
-        if (dispItem['[Controls/display:TreeGridNodeFooterRow]']) {
+        if (dispItem['[Controls/treeGridNew:TreeGridNodeFooterRow]']) {
             e.stopImmediatePropagation();
             return;
         }

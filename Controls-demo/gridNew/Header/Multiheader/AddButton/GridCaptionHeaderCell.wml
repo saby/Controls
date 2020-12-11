@@ -1,7 +1,7 @@
-<ws:partial template="Controls/gridNew:HeaderContent" colData="{{colData}}">
+<ws:partial template="Controls/gridNew:HeaderContent" colData="{{gridColumn}}">
     <ws:contentTemplate>
         <div>
-            <span class="controlsDemo__Grid_header-with-add-button__gridTitle" style="margin-right: 5px;">{{colData.column.title}}</span>
+            <span class="controlsDemo__Grid_header-with-add-button__gridTitle" style="margin-right: 5px;">{{gridColumn.column.title}}</span>
             <Controls.buttons:Button viewMode="toolButton" icon="icon-Add" iconStyle="secondary" iconSize="s"/>
         </div>
     </ws:contentTemplate>

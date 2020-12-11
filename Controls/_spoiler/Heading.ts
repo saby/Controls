@@ -27,7 +27,7 @@ type TIcon = 'ExpandLight' | 'CollapseLight';
 
 /**
  * Интерфейс опций контрола {@link Controls/spoiler:Heading}.
- * @interface Controls/_spoiler/IHeadingOptions
+ * @interface Controls/_spoiler/IHeading
  * @public
  * @author Красильников А.С.
  */
@@ -36,7 +36,6 @@ export interface IHeadingOptions extends IControlOptions, IExpandableOptions, IF
     /**
      * Заголовок.
      * @type string | string[]
-     * @default
      * @remark
      * Изменяемый заголовок в зависимости от {@link Controls/_spoiler/Heading#expanded состояния развернутости}
      * настраивается через массив с парой заголовков.
@@ -73,10 +72,10 @@ export interface IHeading extends IExpandable, IFontSize, ITooltip, IFontWeight,
  *
  * @class Controls/_spoiler/Heading
  * @extends UI/Base:Control
- * @mixes Controls/interface:IFontSize
- * @mixes Controls/interface:ITooltip
- * @mixes Controls/interface:IExpandable
- * @mixes Controls/spoiler:IHeadingOptions
+ * @implements Controls/interface:IFontSize
+ * @implements Controls/interface:ITooltip
+ * @implements Controls/interface:IExpandable
+ * @implements Controls/spoiler:IHeading
  *
  * @public
  * @author Красильников А.С.

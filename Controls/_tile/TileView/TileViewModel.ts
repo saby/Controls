@@ -15,7 +15,6 @@ const DEFAULT_WIDTH_PROPORTION = 1;
 const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
 const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
 const AVAILABLE_ITEM_PADDINGS = ['null', 'default', '3xs', '2xs', 'xs', 's', 'm'];
-
 interface IItemPadding {
     left: string;
     right: string;
@@ -113,6 +112,14 @@ var TileViewModel = ListViewModel.extend({
         return tileSizes;
     },
 
+    getImageProportion(proportion: string = '1:1'): number {
+        const [width, height]: string[] = proportion.split(':');
+        if (width && height) {
+            return +(Number(width) / Number(height)).toFixed(2);
+        }
+        return 1;
+    },
+
     getImageData(itemWidth: number,
                  itemData: Record<string, any>,
                  item: Model): {url: string, class: string} {
@@ -160,11 +167,13 @@ var TileViewModel = ListViewModel.extend({
             imageWidthProperty: this._options.imageWidthProperty,
             imageFit: this._options.imageFit,
             imageUrlResolver: this._options.imageUrlResolver,
-            itemClasses: this.getItemPaddingClasses()
+            itemClasses: this.getItemPaddingClasses(),
+            itemContentClasses: this.getRoundBorderClasses()
         };
         if (this._options.tileSize) {
             resultData.getTileSizes = this.getTileSizes;
         }
+        resultData.getImageProportion = this.getImageProportion;
         const itemContents = dispItem?.getContents();
         if (itemContents instanceof Model) {
             resultData.itemWidth = this.getTileWidth(
@@ -177,6 +186,11 @@ var TileViewModel = ListViewModel.extend({
 
     setTileMode: function (tileMode) {
         this._tileMode = tileMode;
+        this._nextModelVersion();
+    },
+
+    setRoundBorder(value): void {
+        this._options.roundBorder = value;
         this._nextModelVersion();
     },
 
@@ -391,6 +405,20 @@ var TileViewModel = ListViewModel.extend({
         } else {
             return null;
         }
+    },
+
+    getRoundBorderClasses(): string {
+        const theme = `_theme-${this._options.theme}`;
+        const topLeftBorder = this._options.roundBorder?.tl || 'default';
+        const topRightBorder = this._options.roundBorder?.tr || 'default';
+        const bottomLeftBorder = this._options.roundBorder?.bl || 'default';
+        const bottomRightBorder = this._options.roundBorder?.br || 'default';
+        const topLeftClass = `controls-TileView__item_roundBorder_topLeft_${topLeftBorder}${theme}`;
+        const topRightClass = `controls-TileView__item_roundBorder_topRight_${topRightBorder}${theme}`;
+        const bottomLeftClass = `controls-TileView__item_roundBorder_bottomLeft_${bottomLeftBorder}${theme}`;
+        const bottomRightClass = `controls-TileView__item_roundBorder_bottomRight_${bottomRightBorder}${theme}`;
+
+        return `${topLeftClass} ${topRightClass} ${bottomLeftClass} ${bottomRightClass}`;
     }
 });
 

@@ -39,7 +39,7 @@ export interface IEditOpener {
 /**
  * Открывает всплывающее окно диалога редактирования.
  * @function Controls/_popup/interface/IEditOptions#open
- * @param {Object} meta Данные, по которым определяется, откуда диалог получит редактируемую запись. В объект можно передать свойства key и record. Политика обработки свойств подробно описана {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step4 здесь}.
+ * @param {Object} meta Данные, по которым определяется, откуда диалог получит редактируемую запись. В объект можно передать свойства key и record. Политика обработки свойств подробно описана {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step4 здесь}.
  * @param {Object} popupOptions Опции всплывающего окна диалога редактирования.
  * В зависимости от значения опции 'mode':
  * * 'stack' — смотреть {@link Controls/_popup/interface/IStack/PopupOptions.typedef popupOptions стекового окна}
@@ -147,9 +147,9 @@ export interface IEditOpener {
 /**
  * @name Controls/_popup/interface/IEditOptions#mode
  * @cfg {Object} Режим отображения диалога редактирования.
- * @variant stack Отображение диалога в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/stack/ стековом окне}. Для открытия диалога редактирования используйте класс {@link Controls/popup:Stack}.
- * @variant dialog Отображение диалога в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/dialog/ диалоговом окне}. Для открытия диалога редактирования используйте класс {@link Controls/popup:Dialog}.
- * @variant sticky Отображение диалога в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/sticky/ окне прилипающего блока}. Для открытия диалога редактирования используйте класс {@link Controls/popup:Sticky}.
+ * @variant stack Отображение диалога в {@link /doc/platform/developmentapl/interface-development/controls/openers/stack/ стековом окне}. Для открытия диалога редактирования используйте класс {@link Controls/popup:Stack}.
+ * @variant dialog Отображение диалога в {@link /doc/platform/developmentapl/interface-development/controls/openers/dialog/ диалоговом окне}. Для открытия диалога редактирования используйте класс {@link Controls/popup:Dialog}.
+ * @variant sticky Отображение диалога в {@link /doc/platform/developmentapl/interface-development/controls/openers/sticky/ окне прилипающего блока}. Для открытия диалога редактирования используйте класс {@link Controls/popup:Sticky}.
  */
 /*
  * @name Controls/_popup/interface/IEditOptions#mode

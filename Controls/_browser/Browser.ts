@@ -159,10 +159,6 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         this._previousViewMode = this._viewMode = options.viewMode;
         this._updateViewMode(options.viewMode);
 
-        if (options.root !== undefined) {
-            this._root = options.root;
-        }
-
         if (receivedState) {
             if ('filterItems' in receivedState && 'items' in receivedState) {
                 this._setFilterItems(receivedState.filterItems as IFilterItem[]);
@@ -235,6 +231,10 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             this._source = newOptions.source;
         }
 
+        if (newOptions.root !== this._options.root) {
+            this._root = newOptions.root;
+        }
+
         const sourceController = this._getSourceController(newOptions);
 
         const isChanged = sourceController.updateOptions(this._getSourceControllerOptions(newOptions));
@@ -286,6 +286,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                         this._searchDataLoad(result, newOptions.searchValue);
                     })
                     .catch((error) => error);
+            } else if (updateResult) {
+                this._filterChanged(null, updateResult as QueryWhereExpression<unknown>);
             }
         });
     }
@@ -396,12 +398,12 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     }
 
     protected _handleItemOpen(root: Key, items: RecordSet, dataRoot: Key = null): void {
-        this._getSearchController().then((searchController) => {
+        if (this._searchController) {
             if (this._isSearchViewMode() && this._options.searchNavigationMode === 'expand') {
                 this._notifiedMarkedKey = root;
 
                 const expandedItems = Browser._prepareExpandedItems(
-                   searchController.getRoot(),
+                   this._searchController.getRoot(),
                    root,
                    items,
                    this._options.parentProperty);
@@ -412,15 +414,15 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                     this._deepReload = true;
                 }
             } else {
-                searchController.setRoot(root);
+                this._searchController.setRoot(root);
                 this._root = root;
             }
             if (root !== dataRoot) {
-                this._updateFilter(searchController);
+                this._updateFilter(this._searchController);
 
                 this._inputSearchValue = '';
             }
-        });
+        }
     }
 
     private _isSearchViewMode(): boolean {
@@ -634,6 +636,12 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     protected _search(event: SyntheticEvent, validatedValue: string): void {
         this._startSearch(validatedValue).then((result) => {
             this._searchDataLoad(result, validatedValue);
+        }).catch((error: Error & {
+            isCancelled?: boolean;
+        }) => {
+            if (!error?.isCancelled) {
+                return error;
+            }
         });
     }
 

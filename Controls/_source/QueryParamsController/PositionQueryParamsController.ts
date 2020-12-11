@@ -1,10 +1,9 @@
 import {QueryNavigationType} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
-import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
+import {IQueryParams, Direction, CursorDirection} from 'Controls/interface';
 import {IQueryParamsController} from '../interface/IQueryParamsController';
 import {Logger} from 'UI/Utils';
-import {CursorDirection} from 'Controls/_interface/INavigation';
 
 import { Collection } from 'Controls/display';
 import { IBasePositionSourceConfig } from 'Controls/interface';
@@ -141,7 +140,7 @@ class PositionQueryParamsController implements IQueryParamsController {
         }
     }
 
-    prepareQueryParams(loadDirection: Direction, callback?, config?: IBasePositionSourceConfig): IQueryParams {
+    prepareQueryParams(loadDirection: Direction, callback?: Function, config?: IBasePositionSourceConfig): IQueryParams {
         let navDirection: CursorDirection;
         let navPosition: Position;
         let sign: string = '';
@@ -358,7 +357,7 @@ class PositionQueryParamsController implements IQueryParamsController {
      * Возвращает название напрвыления
      * @private
      */
-    private _getDirection(direction?): CursorDirection {
+    private _getDirection(direction?: Direction): CursorDirection {
         return PositionQueryParamsController._convertDirection(direction || this._options.direction);
     }
 
@@ -384,7 +383,7 @@ class PositionQueryParamsController implements IQueryParamsController {
      * TODO Необходимо убрать этот метод, когда своместимость более не понадобится
      * @param position
      */
-    private static _convertDirection(position: CursorDirection | 'before' | 'after' | 'both'): CursorDirection {
+    private static _convertDirection(position: CursorDirection | Direction): CursorDirection {
         const map = {
             before: CursorDirection.backward,
             after: CursorDirection.forward,

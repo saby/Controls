@@ -1,12 +1,12 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <ws:partial template="Controls/list:EditingTemplate"
                     size="default"
-                    value="{{ itemData.item[itemData.column.displayProperty || 'title'] }}"
+                    value="{{ itemData.item[column.displayProperty || 'title'] }}"
                     itemData="{{itemData}}"
                     enabled="{{true}}">
             <ws:editorTemplate>
-                <Controls.input:Text bind:value="itemData.item[itemData.column.displayProperty || 'title']"
+                <Controls.input:Text bind:value="itemData.item[column.displayProperty || 'title']"
                                      selectOnClick="{{ false }}" />
             </ws:editorTemplate>
         </ws:partial>

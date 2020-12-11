@@ -78,11 +78,16 @@ export default class Tree extends Flat<IDraggableTreeItem, IDraggableTreeCollect
         let newPosition;
         if (relativePosition === 'after' && targetItem.isExpanded() && targetItem.getChildren().getCount()) {
             const firstChild = targetItem.getChildren().at(0);
-            newPosition = {
-                index: this._model.getIndex(targetItem),
-                position: 'before',
-                dispItem: firstChild
-            };
+
+            if (firstChild === this._draggableItem) {
+                newPosition = this._startPosition;
+            } else {
+                newPosition = {
+                    index: this._model.getIndex(targetItem),
+                    position: 'before',
+                    dispItem: firstChild
+                };
+            }
         } else {
             newPosition = {
                 index: this._model.getIndex(targetItem),

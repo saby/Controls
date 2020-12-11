@@ -6,7 +6,7 @@
         <Controls.buttons:Button caption="{{ !!_dedicatedItemProperty ? 'Выключить' : 'Включить' }} dedicatedItemProperty"
                                  on:click="_onToggleDedicatedItemProperty()" attr:style="padding-left: 5px"/>
     </div>
-    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter" parentProperty="parent" bind:root="_root">
         <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" searchStartingWith="{{_startingWith}}">
             <div class="ws-fragment">
                 <Controls.search:InputContainer>

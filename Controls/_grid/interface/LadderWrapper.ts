@@ -1,12 +1,12 @@
 /**
- * Шаблон, который по умолчанию используется для построения {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенки} в контроле {@link Controls/grid:View Таблица}.
+ * Шаблон, который по умолчанию используется для построения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенки} в контроле {@link Controls/grid:View Таблица}.
  *  
  * @class Controls/_grid/interface/LadderWrapper
  * @author Авраменко А.С.
  * @see Controls/grid:View#ladderProperties
  * @see Controls/grid:IGridControl#columns
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ здесь}.
  * @example
  * <pre class="brush: html">
  * <Controls.grid:View ladderProperties="{{ ['date'] }}">
@@ -33,7 +33,7 @@
 export default interface ILadderWrapperOptions {
    /**
     * @name Controls/_grid/interface/LadderWrapper#ladderProperty
-    * @cfg {Array.<String>|String} Имена полей, для которых будет работать {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенка}.
+    * @cfg {Array.<String>|String} Имена полей, для которых будет работать {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенка}.
     * @default undefined
     */
    [index: number]: string;

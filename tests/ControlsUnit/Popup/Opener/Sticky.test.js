@@ -587,7 +587,12 @@ define(
             };
             let position = {};
             const PAGE_TOP = 40;
+            const GET_BODY = 1200;
             const getViewPort = StickyStrategy._private.getVisualViewport;
+            const getBody = StickyStrategy._private.getBody;
+            StickyStrategy._private.getBody = () => ({
+               height: GET_BODY
+            });
             StickyStrategy._private.getVisualViewport = () => {
                return {
                   width: 1000,
@@ -605,8 +610,9 @@ define(
             popupCfg.config.maxHeight = undefined;
             popupCfg.fittingMode.vertical = 'adaptive';
             position = {};
+            // vpHeight - padding + (bodyHeight - vpHeight + pageTop) = bodyHeight - padding- pageTop;
             StickyStrategy._private.setMaxSizes(popupCfg, position);
-            assert.equal(position.maxHeight, BODY_HEIGHT);
+            assert.equal(position.maxHeight, GET_BODY - PAGE_TOP);
 
             position = {top: 20};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
@@ -614,7 +620,7 @@ define(
 
             position = {bottom: 50};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
-            assert.equal(position.maxHeight, BODY_HEIGHT - 50);
+            assert.equal(position.maxHeight, GET_BODY - 50 - PAGE_TOP);
 
             popupCfg.config.maxWidth = undefined;
             popupCfg.fittingMode.horizontal = 'adaptive';
@@ -633,7 +639,7 @@ define(
             popupCfg.fittingMode.vertical = 'fixed';
             position = {height:4096};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
-            assert.equal(position.maxHeight, BODY_HEIGHT);
+            assert.equal(position.maxHeight, GET_BODY - PAGE_TOP);
 
             position = {top: 20};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
@@ -641,7 +647,7 @@ define(
 
             position = {bottom: 50};
             StickyStrategy._private.setMaxSizes(popupCfg, position);
-            assert.equal(position.maxHeight, BODY_HEIGHT - 50);
+            assert.equal(position.maxHeight, GET_BODY - 50 - PAGE_TOP);
 
             popupCfg.config.maxWidth = undefined;
             popupCfg.fittingMode.horizontal = 'fixed';
@@ -656,6 +662,7 @@ define(
             StickyStrategy._private.setMaxSizes(popupCfg, position);
             assert.equal(position.maxWidth, 1720);
             StickyStrategy._private.getVisualViewport = getViewPort;
+            StickyStrategy._private.getBody = getBody;
          });
 
          it('Centered targetPoint sticky', () => {

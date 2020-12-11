@@ -78,7 +78,7 @@ export interface INotificationOpener extends IOpener {
  * Такой идентификатор используют в методе {@link closePopup} для закрытия окна.
  * @static
  * @remark
- * Дополнительный пример работы со статическим методом доступен {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
+ * Дополнительный пример работы со статическим методом доступен {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
  * @example
  * <pre>
  * // TypeScript
@@ -109,7 +109,7 @@ export interface INotificationOpener extends IOpener {
  * Такой идентификатор можно получить при открытии окна методом {@link openPopup}.
  * @static
  * @remark
- * Дополнительный пример работы со статическим методом доступен {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
+ * Дополнительный пример работы со статическим методом доступен {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#open-popup здесь}.
  * @example
  * <pre>
  * // TypeScript

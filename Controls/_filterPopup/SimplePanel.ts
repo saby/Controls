@@ -6,7 +6,7 @@ import * as defaultItemTemplate from 'wml!Controls/_filterPopup/SimplePanel/item
 
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import {isHistorySource} from 'Controls/_filter/HistoryUtils';
+import {HistoryUtils} from 'Controls/filter';
 
 const DEFAULT_MIN_VISIBLE_ITEMS = 2;
 var _private = {
@@ -19,7 +19,7 @@ var _private = {
             curItem.initSelectedKeys = self._items ? self._items[index].initSelectedKeys : CoreClone(item.get('selectedKeys'));
             if (curItem.loadDeferred) {
                 pDef.push(curItem.loadDeferred.addCallback(() => {
-                    if (isHistorySource(curItem.source)) {
+                    if (HistoryUtils.isHistorySource(curItem.source)) {
                         curItem.items = curItem.source.prepareItems(curItem.items);
                         curItem.hasMoreButton = curItem.sourceController.hasMoreData('down');
                     }

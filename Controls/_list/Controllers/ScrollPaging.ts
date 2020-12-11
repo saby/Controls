@@ -1,7 +1,7 @@
 /**
  * Created by kraynovdo on 13.11.2017.
  */
-import {TNavigationPagingMode} from '../../_interface/INavigation';
+import {TNavigationPagingMode} from 'Controls/interface';
 
 /**
  *

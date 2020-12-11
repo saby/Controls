@@ -59,7 +59,7 @@ export default interface IItemTemplateOptions {
      * @default s
      * @see expanderIcon
      * @remark
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      */
     expanderSize?: string;
     /**
@@ -68,7 +68,7 @@ export default interface IItemTemplateOptions {
      * @default s
      * @see withoutLevelPadding
      * @remark
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      */
     levelIndentSize?: string;
 }

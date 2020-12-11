@@ -527,7 +527,6 @@ describe('Controls/_display/itemsStrategy/Group', () => {
                     assert.equal(group.getContents(), expectedGroups[index]);
                 });
             });
-
             it('hidden group is not first in items', () => {
                 const createItem = (id: number, group?: string) => {
                     return {

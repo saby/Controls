@@ -8,6 +8,8 @@
  * @includes Controller Controls/_search/Controller
  * @includes Input Controls/_search/Input/Search
  * @includes ExpandableInput Controls/_search/Input/ExpandableInput/Search
+ * @includes SearchResolver Controls/_search/SearchResolver
+ * @includes ControllerClass Controls/_search/ControllerClass
  * @public
  * @author Крайнов Д.О.
  */
@@ -21,6 +23,8 @@
  * @includes Controller Controls/_search/Controller
  * @includes Input Controls/_search/Input/Search
  * @includes ExpandableInput Controls/_search/Input/ExpandableInput/Search
+ * @includes SearchResolver Controls/_search/SearchResolver
+ * @includes ControllerClass Controls/_search/ControllerClass
  * @public
  * @author Крайнов Д.О.
  */
@@ -36,7 +40,13 @@ export {default as ControllerClass} from './_search/ControllerClass';
 export {default as InputContainer} from './_search/Input/Container';
 export {default as SearchResolver} from './_search/SearchResolver';
 export {default as Input} from './_search/Input/Search';
-export {ISearchResolverOptions} from './_search/interface';
+export {
+   ISearchResolverOptions,
+   ISearchInputContainerOptions,
+   ISearchControllerOptions,
+   ISearchController,
+   ISearchResolver
+} from './_search/interface';
 
 export {
    Misspell,

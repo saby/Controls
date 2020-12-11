@@ -16,7 +16,7 @@ interface IDragObject {
 }
 
 /**
- * Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/dialog/#template диалогового окна}.
+ * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/dialog/#template диалогового окна}.
  * @remark
  * Полезные ссылки:
  * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/dialog/#template">руководство разработчика</a>

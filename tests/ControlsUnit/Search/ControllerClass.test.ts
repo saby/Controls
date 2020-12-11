@@ -2,7 +2,7 @@ import {ControllerClass} from 'Controls/search';
 import {assert} from 'chai';
 import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {Memory, QueryWhereExpression} from 'Types/source';
-import {createSandbox, SinonSpy, stub} from 'sinon';
+import {createSandbox, SinonSpy} from 'sinon';
 import {IControllerOptions} from 'Controls/_dataSource/Controller';
 
 const getMemorySource = (): Memory => {
@@ -174,8 +174,8 @@ describe('Controls/search:ControllerClass', () => {
 
    describe('update', () => {
       it('shouldn\'t call when searchValue is null', () => {
-         const searchStub = stub(controllerClass, 'search');
-         const resetStub = stub(controllerClass, 'reset');
+         const searchStub = sandbox.stub(controllerClass, 'search');
+         const resetStub = sandbox.stub(controllerClass, 'reset');
 
          controllerClass._options.searchValue = null;
 
@@ -188,14 +188,55 @@ describe('Controls/search:ControllerClass', () => {
       });
 
       it('shouldn\'t call when searchValue is not in options object', () => {
-         const searchStub = stub(controllerClass, 'search');
-         const resetStub = stub(controllerClass, 'reset');
+         const searchStub = sandbox.stub(controllerClass, 'search');
+         const resetStub = sandbox.stub(controllerClass, 'reset');
 
          controllerClass._options.searchValue = null;
 
          controllerClass.update({});
 
          assert.isFalse(searchStub.called);
+         assert.isFalse(resetStub.called);
+      });
+
+      it('should call reset when new sourceController in options', () => {
+         const searchStub = sandbox.stub(controllerClass, 'search');
+         const resetStub = sandbox.stub(controllerClass, 'reset');
+
+         controllerClass._options.searchValue = '';
+         controllerClass._sourceController = sandbox.mock({
+            ver: 'old'
+         });
+
+         controllerClass.update({
+            sourceController: sandbox.mock({
+               ver: 'new'
+            })
+         });
+
+         assert.isFalse(searchStub.called);
+         assert.isTrue(resetStub.called);
+      });
+
+      it('should call search when new sourceController and new SearchValue in options', () => {
+         const searchStub = sandbox.stub(controllerClass, 'search');
+         const resetStub = sandbox.stub(controllerClass, 'reset');
+         const sourceControllerMock = sandbox.mock({
+            ver: 'new'
+         });
+
+         controllerClass._options.searchValue = '';
+         controllerClass._sourceController = sandbox.mock({
+            ver: 'old'
+         });
+
+         controllerClass.update({
+            sourceController: sourceControllerMock,
+            searchValue: 'test123'
+         });
+
+         assert.isTrue(searchStub.withArgs('test123').calledOnce);
+         assert.equal(controllerClass._sourceController, sourceControllerMock);
          assert.isFalse(resetStub.called);
       });
    });

@@ -36,8 +36,8 @@ import {IHashMap} from 'Types/declarations';
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ISource
- * @mixes Controls/interface/IFontColorStyle
- * @mixes Controls/interface/IFontSize
+ * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/ITextValue
  * 
  * @public

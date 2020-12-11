@@ -19,7 +19,7 @@ export interface IDateLitePopupOptions extends IControlOptions {
    itemTemplate?: TemplateFunction;
    stickyPosition?: object;
 
-   //TODO: устаревшая опция
+   // TODO: устаревшая опция
    range?: Date[];
 }
 
@@ -86,7 +86,7 @@ export default {
              * @cfg {Boolean} Sets the option to choose a year
              * @default true
              */
-            chooseYears: true,
+            chooseYears: true
 
             /**
              * @name Controls/shortDatePicker/IDateLitePopup#monthTemplate

@@ -9,11 +9,10 @@ import { Model } from 'Types/entity';
 import { saveConfig } from 'Controls/Application/SettingsController';
 import {tmplNotify, keysHandler} from 'Controls/eventUtils';
 import { MouseButtons, MouseUp } from 'Controls/popup';
-import { Controller as SourceController } from 'Controls/source';
 import { error as dataSourceError, NewSourceController } from 'Controls/dataSource';
 import selectionToRecord = require('Controls/_operations/MultiSelector/selectionToRecord');
-import { Collection, TreeItem } from 'Controls/display';
-import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
+import { Collection, Tree, TreeItem } from 'Controls/display';
+
 
 import TreeControlTpl = require('wml!Controls/_tree/TreeControl/TreeControl');
 import {ISelectionObject, TKey} from 'Controls/interface';
@@ -44,10 +43,69 @@ const _private = {
             self._errorViewConfig = viewConfig;
         });
     },
-    toggleExpandedOnModel: function(self, listViewModel, dispItem, expanded) {
-        listViewModel.toggleExpanded(dispItem, expanded);
-        self._notify(expanded ? 'afterItemExpand' : 'afterItemCollapse', [dispItem.getContents()]);
+    toggleExpandedOnNewModel(options: any, model: Tree<TreeItem<Model>>, item: TreeItem<Model>): void {
+        if (!options.hasOwnProperty('expandedItems') && !options.hasOwnProperty('collapsedItems')) {
+            if (options.singleExpand) {
+                model.each((it) => {
+                    if (it !== item && it.getLevel() === item.getLevel()) {
+                        it.setExpanded(false, true);
+                    }
+                });
+            }
+            model.toggleExpanded(item);
+            return;
+        }
 
+        const newExpandedState = !!item.isExpanded();
+        const itemKey = item.getContents().getKey();
+
+        const newExpandedItems = cClone(options.expandedItems) || [];
+        const newCollapsedItems = cClone(options.collapsedItems) || [];
+
+        if (newExpandedState) {
+            // развернули узел
+
+            if (options.singleExpand) {
+                for (let i = 0; i < newExpandedItems.length; i++) {
+                    const it = model.getItemBySourceKey(newExpandedItems[i]);
+                    if (it && it.getLevel() === item.getLevel()) {
+                        newCollapsedItems.push(newExpandedItems.shift());
+                    }
+                }
+            }
+
+            if (!newExpandedItems.includes(itemKey)) {
+                newExpandedItems.push(itemKey);
+            }
+            if (newCollapsedItems.includes(itemKey)) {
+                newCollapsedItems.splice(newCollapsedItems.indexOf(itemKey), 1);
+            }
+        } else {
+            // свернули узел
+
+            if (newExpandedItems.includes(itemKey)) {
+                newExpandedItems.push(itemKey);
+                newExpandedItems.splice(newExpandedItems.indexOf(itemKey), 1);
+            }
+
+            if (!newCollapsedItems.includes(itemKey)) {
+                newCollapsedItems.push(itemKey);
+            }
+        }
+
+        this._notify('expandedItemsChanged', newExpandedItems);
+        this._notify('collapsedItemsChanged', newCollapsedItems);
+    },
+    toggleExpandedOnModel: function(self, listViewModel, dispItem, expanded) {
+        if (self._options.useNewModel) {
+            // TODO нужно зарефакторить логику работы с expanded/collapsed, написав единию логику в контроллере
+            //  https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
+            _private.toggleExpandedOnNewModel(self._options, listViewModel, dispItem);
+        } else {
+            listViewModel.toggleExpanded(dispItem, expanded);
+        }
+
+        self._notify(expanded ? 'afterItemExpand' : 'afterItemCollapse', [dispItem.getContents()]);
         // todo: удалить события itemExpanded и itemCollapsed в 20.2000.
         self._notify(expanded ? 'itemExpanded' : 'itemCollapsed', [dispItem.getContents()]);
     },

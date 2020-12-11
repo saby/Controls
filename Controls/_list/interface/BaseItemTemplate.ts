@@ -24,7 +24,7 @@ type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | 'image-x
     'text-2xl' | 'text-xl' | 'text-l' | 'text-m' | 'text-xs';
 
 /**
- * Интерфейс для шаблона отображения элемента в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/ списочном контроле}.
+ * Интерфейс для шаблона отображения элемента в {@link /doc/platform/developmentapl/interface-development/controls/list/ списке}.
  * @interface Controls/_list/interface/IBaseItemTemplateOptions
  * @author Авраменко А.С.
  * @public
@@ -48,7 +48,7 @@ export default interface IBaseItemTemplateOptions {
    cursor?: TCursor;
    /**
     * @name Controls/_list/interface/IBaseItemTemplateOptions#marker
-    * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
+    * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
     * @default true
     */
    marker?: boolean;
@@ -60,7 +60,7 @@ export default interface IBaseItemTemplateOptions {
     */
    /**
     * @name Controls/_list/interface/IBaseItemTemplateOptions#itemActionsClass
-    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/ItemActionsClass.typedef} Класс, используемый для позиционирования {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} при отображении её внутри элемента списка (опция {@link Controls/_itemActions/interface/IItemActionsOptions#itemActionsPosition itemActionsPosition}).
+    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/ItemActionsClass.typedef} Класс, используемый для позиционирования {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} при отображении её внутри элемента списка (опция {@link Controls/_itemActions/interface/IItemActionsOptions#itemActionsPosition itemActionsPosition}).
     * @default controls-itemActionsV_position_bottomRight
     * @remark
     * Панель опций записи абсолютно позиционируется относительно элемента списка.

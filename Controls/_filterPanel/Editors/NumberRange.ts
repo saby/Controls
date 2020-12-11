@@ -14,7 +14,7 @@ interface INumberRange {
 }
 
 /**
- * Контрол используют в качестве редактора для выбора диапазона чисел на {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/#step-3 панели фильтров}.
+ * Контрол используют в качестве редактора для выбора диапазона чисел на {@link /doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/#step-3 панели фильтров}.
  * @class Controls/_filterPanel/Editors/NumberRange
  * @extends Core/Control
  * @author Мельникова Е.А.

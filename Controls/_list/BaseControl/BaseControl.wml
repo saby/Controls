@@ -75,7 +75,7 @@
 </ws:template>
 <ws:template name="multiSelectTplIf">
     <ws:if data="{{_options.multiSelectVisibility}}">
-        <ws:partial template="wml!Controls/_list/BaseControl/multiSelect" scope="{{multiSelectTpl.templateOptions}}" />
+        <ws:partial template="wml!Controls/_list/BaseControl/multiSelect" scope="{{multiSelectTpl.templateOptions}}" triState="{{true}}"/>
     </ws:if>
 </ws:template>
 <ws:template name="emptyTemplateIf">

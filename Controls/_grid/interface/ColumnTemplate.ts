@@ -32,7 +32,7 @@ export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | '
  * @see Controls/grid:IGridControl#columns
  * 
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/#_2 здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/#_2 здесь}.
  * 
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
@@ -70,13 +70,13 @@ export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | '
     *
     * * **columnIndex** — порядковый номер колонки. Отсчет от 0.
     * * **index** — порядковый номер строки. Отсчет от 0.
-    * * **isEditing()** — возвращает true, если для записи выполняется {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/edit/ редактирование по месту}.
+    * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/grid/edit/ редактирование по месту}.
     * * **item** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
     * * **column** (тип {@link Controls/grid:IColumn IColumn}) — объект с конфигурацией колонки.
     *
-    * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
+    * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
     *
-    * Переменная **expanderTemplate** доступна только, если шаблон используется в контроле {@link Controls/treeGrid:View}. С помощью переменной можно отобразить кнопку раскрытия узла в произвольном месте элемента. При этом опцию {@link Controls/treeGrid:View#expanderPosition expanderPosition} необходимо установить в значение custom. Переменную expanderTemplate достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 5.
+    * Переменная **expanderTemplate** доступна только, если шаблон используется в контроле {@link Controls/treeGrid:View}. С помощью переменной можно отобразить кнопку раскрытия узла в произвольном месте элемента. При этом опцию {@link Controls/treeGrid:View#expanderPosition expanderPosition} необходимо установить в значение custom. Переменную expanderTemplate достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 5.
     * @example
     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
     * <pre class="brush: html; highlight: [6,7,8,9,10,11,12]">
@@ -236,7 +236,7 @@ export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | '
 
     /**
      * @name Controls/_grid/interface/ColumnTemplate#expanderTemplate
-     * @cfg {Function} Шаблон позволяет отобразить иконку для узла. Такой шаблон достаточно встроить в нужное место contentTemplate с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}.
+     * @cfg {Function} Шаблон позволяет отобразить иконку для узла. Такой шаблон достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}.
      */
     expanderTemplate?: Function;
 

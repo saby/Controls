@@ -2,7 +2,7 @@
    <Controls.dragnDrop:Container on:documentDragStart="_documentDragStart()" on:documentDragEnd="_documentDragEnd()">
       <Controls._explorer.PathController
                                  scope="{{_options}}"
-                                 header="{{_options.viewMode === 'tile' ? undefined : _options.header}}"
+                                 header="{{_header}}"
                                  itemsPromise="{{_itemsPromise}}"
                                  items="{{_breadCrumbsItems}}"
                                  rootVisible="{{_dragOnBreadCrumbs}}"
@@ -27,6 +27,7 @@
                                     markerVisibility="{{ _options.markerVisibility }}"
                                     navigation="{{ _navigation }}"
                                     useNewModel="{{_options.viewMode === 'list' ? false : _options.useNewModel}}"
+                                    backgroundStyle="{{ _backgroundStyle }}"
                                     headerVisibility="{{ _headerVisibility }}"
                                     headerInEmptyListVisible="{{ _headerVisibility }}"
                                     on:itemClick="_onItemClick()"

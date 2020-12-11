@@ -538,11 +538,6 @@
    box-sizing: border-box;
 }
 
-.controls-ListView_masterClassic_theme-@{themeName} {
-   padding-right: @masterClassic_separator_thickness_list;
-   box-sizing: border-box;
-}
-
 .controls-ListView__item__unmarked_master_theme-@{themeName} {
    font-size: @master_item_font-size_list;
 }
@@ -558,49 +553,13 @@
 }
 
 .ws-is-mobile-chrome-ios .controls-ListView__item__marked_master_theme-@{themeName},
-.ws-is-mobile-chrome-ios .controls-ListView__item__marked_masterClassic_theme-@{themeName},
 .ws-is-desktop-safari .controls-ListView__item__marked_master_theme-@{themeName},
-.ws-is-desktop-safari .controls-ListView__item__marked_masterClassic_theme-@{themeName},
-.ws-is-mobile-safari .controls-ListView__item__marked_master_theme-@{themeName},
-.ws-is-mobile-safari .controls-ListView__item__marked_masterClassic_theme-@{themeName} {
+.ws-is-mobile-safari .controls-ListView__item__marked_master_theme-@{themeName} {
    // ave safari 13
    // https://online.sbis.ru/opendoc.html?guid=6d560d7a-c140-4d06-a1b6-53b326efe950
    // иначе все position: absolute элементы внутри position: sticky
    // начинают сроиться относительно родителя уровнем выше
    transform: translateZ(0);
-}
-
-.controls-ListView__item__marked_masterClassic_theme-@{themeName} {
-   background-color: @masterClassic_item_selected_background-color_list;
-}
-.controls-ListView__item__marked_masterClassic_theme-@{themeName} {
-   z-index: 1;
-
-   &:before {
-      content: '\200b';
-      z-index: 2;
-      box-sizing: border-box;
-      border-width: @masterClassic_item_selected_border-thickness_list 0 @masterClassic_item_selected_border-thickness_list 0;
-      border-style: solid;
-      border-color: @masterClassic_item_selected_border-top-color_list transparent @masterClassic_item_selected_border-bottom-color_list transparent;
-      box-shadow: @masterClassic_item_selected_box-shadow_list;
-      width: ~'calc(100% + @{masterClassic_separator_thickness_list})';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      pointer-events: none;
-      height: 100%;
-   }
-   &:after {
-      content: '';
-      z-index: 1;
-      height: 100%;
-      top: 0;
-      width: @masterClassic_separator_thickness_list;
-      position: absolute;
-      right: -@masterClassic_separator_thickness_list;
-      background-color: @masterClassic_item_selected_background-color_list;
-   }
 }
 
 .controls-ListView__item__marked_master_theme-@{themeName} {
@@ -619,15 +578,6 @@
    left: 0;
 }
 
-.controls-ListView__itemV_marker_masterClassic_theme-@{themeName} {
-   position: absolute;
-   width: @masterClassic-marker_thickness_list;
-   background-color: @marker_color_list;
-   height: 100%;
-   left: 0;
-   top: 0;
-}
-
 .controls-ListView__groupContent_cursor-default {
    cursor: default;
 }
@@ -643,8 +593,7 @@
 //Пока страница не ожила, мы не знаем тач устройство или нет, так что на мобильных устройствах нужно скрыть операции над записью
 //TODO: после этой задачи нужно убрать not https://online.sbis.ru/opendoc.html?guid=87ddbeeb-fa7e-4462-b69b-c15188df61da
 .ws-is-hover:not(.ws-is-mobile-platform) {
-   .controls-ListView__item_master_theme-@{themeName},
-   .controls-ListView__item_masterClassic_theme-@{themeName} {
+   .controls-ListView__item_master_theme-@{themeName} {
       &:hover {
          background-color: @master_item_hover_background-color_list;
       }

@@ -12,6 +12,16 @@ interface IShortDatePickerOptions extends IControlOptions, IDateConstructorOptio
     currentYear?: number;
 }
 
+const MONTHS_IN_HALFYEAR = 6;
+const MONTHS_IN_QUARTER = 3;
+
+/**
+ * Контрол, отвечающий за отображение центральной части в окне Быстрого выбора периода.
+ * Отображение определяется значениями опций chooseHalfyears, chooseQuarters, chooseMonths, chooseYears.
+ * @private
+ * @author Красильников А.С.
+ */
+
 class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstructor {
     readonly '[Controls/_interface/IDateConstructor]': boolean = true;
     protected _template: TemplateFunction = itemMonthsTmpl;
@@ -52,8 +62,8 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
             for (let i = 0; i < 2; i++) {
                 const monthsList = [];
                 const quarter = halfYear * 2 + i;
-                const quarterMonth = quarter * 3;
-                for (let j = 0; j < 3; j++) {
+                const quarterMonth = quarter * MONTHS_IN_QUARTER;
+                for (let j = 0; j < MONTHS_IN_QUARTER; j++) {
                     const month = quarterMonth + j;
                     monthsList.push({
                         date: new dateConstructor(year, month, 1),
@@ -71,7 +81,7 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
             halfYearsList.push({
                 name: numerals[halfYear],
                 number: halfYear,
-                tooltip: formatDate(new Date(year, halfYear * 6, 1), formatDate.FULL_HALF_YEAR),
+                tooltip: formatDate(new Date(year, halfYear * MONTHS_IN_HALFYEAR, 1), formatDate.FULL_HALF_YEAR),
                 quarters: quartersList
             });
         }
@@ -99,23 +109,25 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
     }
 
     protected _onYearClick(event: Event, year: number): void {
+        const lastMonth: number = 11;
+        const lastDay: number = 31;
         if (this._options.chooseYears) {
             this._notify(
                 'sendResult',
-                [new this._options.dateConstructor(year, 0, 1), new WSDate(year, 11, 31)],
+                [new this._options.dateConstructor(year, 0, 1), new WSDate(year, lastMonth, lastDay )],
                 {bubbling: true});
         }
     }
 
     protected _onHalfYearClick(event: Event, halfYear: number, year: number): void {
-        const start = new this._options.dateConstructor(year, halfYear * 6, 1);
-        const end = new this._options.dateConstructor(year, (halfYear + 1) * 6, 0);
+        const start = new this._options.dateConstructor(year, halfYear * MONTHS_IN_HALFYEAR, 1);
+        const end = new this._options.dateConstructor(year, (halfYear + 1) * MONTHS_IN_HALFYEAR, 0);
         this._notify('sendResult', [start, end], {bubbling: true});
     }
 
     protected _onQuarterClick(event: Event, quarter: number, year: number): void {
-        const start = new this._options.dateConstructor(year, quarter * 3, 1);
-        const end = new this._options.dateConstructor(year, (quarter + 1) * 3, 0);
+        const start = new this._options.dateConstructor(year, quarter * MONTHS_IN_QUARTER, 1);
+        const end = new this._options.dateConstructor(year, (quarter + 1) * MONTHS_IN_QUARTER, 0);
         this._notify('sendResult', [start, end], {bubbling: true});
     }
 

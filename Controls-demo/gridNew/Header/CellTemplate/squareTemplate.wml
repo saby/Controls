@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:HeaderContent" colData="{{colData}}">
+<ws:partial template="Controls/gridNew:HeaderContent" gridColumn="{{gridColumn}}">
     <ws:contentTemplate>
         <div style="color: #FF7033;">
             Площадь км<sup>2</sup>

@@ -49,7 +49,7 @@ export interface IConfirmationOpener {
  * @remark
  * 1. Если требуется открыть окно, без создания popup:Confirmation в верстке, следует использовать статический метод {@link openPopup}
  * 2. Если вы хотите использовать собственный шаблон в диалоге подтверждения используйте шаблон, смотрите
- * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/confirmation/#config-template инструкцию}
+ * {@link /doc/platform/developmentapl/interface-development/controls/openers/confirmation/#config-template инструкцию}
  * @see openPopup
  * @example
  * wml
@@ -94,7 +94,7 @@ export interface IConfirmationOpener {
 
 /**
  * Статический метод для открытия окна подтверждения. При использовании метода не требуется создавать popup:Confirmation в верстке.
- * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/confirmation/#open-popup Подробнее}.
+ * {@link /doc/platform/developmentapl/interface-development/controls/openers/confirmation/#open-popup Подробнее}.
  * @function Controls/_popup/interface/IConfirmation#openPopup
  * @param {Controls/popup:IConfirmationOptions} IConfirmationOptions Конфигурация окна подтверждения
  * @return {Promise<boolean>} Результат будет возвращен после того, как пользователь закроет всплывающее окно.

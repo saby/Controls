@@ -1,10 +1,9 @@
-import TreeGridDataCell from 'Controls/_treeGridNew/display/TreeGridDataCell';
 import { TemplateFunction } from 'UI/Base';
 import { GridCell } from 'Controls/display';
 import TreeGridNodeFooterRow from 'Controls/_treeGridNew/display/TreeGridNodeFooterRow';
 
 export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeFooterRow<T>> {
-    readonly '[Controls/_treeGrid/TreeGridCell]': boolean;
+    readonly '[Controls/treeGrid:TreeGridNodeFooterCell]': boolean;
 
     getTemplate(content?: TemplateFunction): TemplateFunction|string {
         return this._$owner.getNode().hasMoreStorage() ? this._$owner.getNodeFooterTemplateMoreButton() : content;
@@ -27,7 +26,7 @@ export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeF
             /*if (!this.isFirstColumn()) {
                 classes += ` controls-TreeGrid__nodeFooterCell_columnSeparator-size_${current.getSeparatorForColumn(columns, index, current.columnSeparatorSize)}_theme-${theme}`;
             }*/
-            if (this._$owner.getMultiSelectVisibility() === 'hidden' && this.isFirstColumn()) {
+            if (!this._$owner.needMultiSelectColumn() && this.isFirstColumn()) {
                 classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${this._$owner.getLeftPadding()}_theme-${theme}`;
             }
 
@@ -35,7 +34,7 @@ export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeF
                 classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${this._$owner.getRightPadding()}_theme-${theme}`;
             }
         } else {
-            if (this._$owner.getMultiSelectVisibility() === 'hidden') {
+            if (!this._$owner.needMultiSelectColumn()) {
                 classes += ` controls-TreeGrid__nodeFooterContent_spacingLeft-${this._$owner.getLeftPadding()}_theme-${theme}`;
             }
             classes += ` controls-TreeGrid__nodeFooterContent_spacingRight-${this._$owner.getRightPadding()}_theme-${theme}`;
@@ -51,7 +50,7 @@ export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeF
 }
 
 Object.assign(TreeGridNodeFooterCell.prototype, {
-    '[Controls/_treeGrid/TreeGridNodeFooterCell]': true,
+    '[Controls/treeGrid:TreeGridNodeFooterCell]': true,
     _moduleName: 'Controls/treeGrid:TreeGridNodeFooterCell',
-    _instancePrefix: 'tree-grid-node-footer-cell'
+    _instancePrefix: 'tree-grid-node-footer-cell-'
 });

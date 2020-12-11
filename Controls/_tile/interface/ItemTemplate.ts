@@ -21,7 +21,7 @@
  * </Controls.tile:View>
  * </pre>
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tile/templates/item/ здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tile/item/ здесь}.
  * @public
  * @demo Controls-demo/Tile/DifferentItemTemplates/CustomTemplate/Index
  */
@@ -33,19 +33,6 @@ export default interface IItemTemplateOptions {
     * @see titleStyle
     */
    hasTitle?: string;
-   /**
-    * @typedef {String} TitleStyle
-    * @variant onhover Заголовок отображается только при наведении мыши на плитку.
-    * @variant partial Видна первая строка заголовка. При наведении мыши на плитку, виден весь заголовок (не более 3 строк).
-    * @variant accent Заголовок виден всегда, выделен жирным шрифтом и цветом, при наведении на плитку появляется подчеркивание.
-    */
-   /**
-    * @name Controls/_tile/interface/ItemTemplate#titleStyle
-    * @cfg {TitleStyle} Стиль отображения заголовка плитки.
-    * @default onhover
-    * @see hasTitle
-    */
-   titleStyle?: string;
    /**
     * @name Controls/_tile/interface/ItemTemplate#itemWidth
     * @cfg {Number} Ширина плитки. Значение задаётся в px.

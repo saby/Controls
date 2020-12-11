@@ -15,7 +15,7 @@ export interface IInfoboxTemplateOptions extends IControlOptions, IValidationSta
     closeButtonVisibility: boolean;
 }
 /**
- * Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ всплывающей подсказки}.
+ * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ всплывающей подсказки}.
  *
  * @remark
  * Полезные ссылки:

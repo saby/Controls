@@ -78,7 +78,7 @@ var _private = {
 
 /*
  *
- * Controller, which allows you to select data from several or one list (like {@link https://wi.sbis.ru/docs/js/Controls/grid/View/ Controls/list:View} or {@link https://wi.sbis.ru/docs/js/Controls/grid/View/ Controls/grid:View}).
+ * Controller, which allows you to select data from several or one list (like {@link /docs/js/Controls/grid/View/ Controls/list:View} or {@link /docs/js/Controls/grid/View/ Controls/grid:View}).
  * Used with containers:
  * You can use flat and hierarchical list.
  *

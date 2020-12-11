@@ -1,7 +1,7 @@
 /// <amd-module name="Controls/_dataSource/error" />
 /**
  * Компоненты для обработки и отображения ошибок.
- * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/application-architecture/error-handling/}
+ * {@link /doc/platform/developmentapl/interface-development/application-architecture/error-handling/}
  * @library Controls/dataSource/error
  * @includes Controller Controls/_dataSource/_error/Controller
  * @includes Container Controls/_dataSource/_error/Container

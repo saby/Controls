@@ -1,6 +1,6 @@
 <ws:partial template="Controls/gridNew:ColumnTemplate"
             attr:class="js-controls-ListView__notEditable controls-Grid__row-cell__content_baseline_L"
-            itemData="{{itemData}}">
+            itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <div class="{{ladderWrapperClass}}">
             <ws:partial template="{{ladderWrapper}}" stickyProperty="{{stickyProperty}}" ladderProperty="date">

@@ -126,24 +126,41 @@ describe('Controls/scroll:Container ShadowsModel', () => {
             topFixed: false,
             bottomFixed: false,
             shouldCallNextVersion: false
+        }, {
+            topFixed: true,
+            bottomFixed: true,
+            needUpdate: false,
+            shouldCallNextVersion: false
+        }, {
+            topFixed: true,
+            bottomFixed: true,
+            topVisibilityByInnerComponents: SHADOW_VISIBILITY.VISIBLE,
+            needUpdate: false,
+            shouldCallNextVersion: true
         }].forEach((test, index) => {
             it(`should ${!test.shouldCallNextVersion ? 'not' : ''} call next version ${index}`, () => {
                 const component = new ShadowsModel({
                     ...getShadowsDefaultOptions(),
                     scrollMode: 'vertical'
                 });
-                let nextVersionCalled = false;
-                component._nextVersion = () => {
-                    nextVersionCalled = true;
-                };
-                component._models.top.setStickyFixed = (arg) => {
-                    return arg;
-                };
-                component._models.bottom.setStickyFixed = (arg) => {
-                    return arg;
-                };
-                component.setStickyFixed(test.topFixed, test.bottomFixed);
-                assert.equal(test.shouldCallNextVersion, nextVersionCalled);
+
+                component._models.top._isEnabled = true;
+                component._models.bottom._isEnabled = true;
+
+                sinon.stub(component, '_nextVersion');
+
+                if (test.topVisibilityByInnerComponents) {
+                     component._models.top._visibilityByInnerComponents = test.topVisibilityByInnerComponents;
+                }
+
+                component.setStickyFixed(test.topFixed, test.bottomFixed, test.needUpdate);
+                if (test.shouldCallNextVersion) {
+                    sinon.assert.called(component._nextVersion);
+                } else {
+                    sinon.assert.notCalled(component._nextVersion);
+                }
+
+                sinon.restore();
             });
         });
     });

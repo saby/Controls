@@ -16,29 +16,27 @@ export default IGrouped;
 export interface IGroupedOptions {
     /**
      * @name Controls/_dropdown/interface/IGrouped#groupTemplate
-     * @cfg {Function} Шаблон группировки.
+     * @cfg {Function} Шаблон отображения заголовка группы.
      * @remark
-     * Для определения шаблона вызовите базовый шаблон - "Controls/dropdown:GroupTemplate".
-     * Шаблон должен быть помещен в компонент с помощью тега <ws:partial> с атрибутом "template".
-     * Базовый шаблон Controls/dropdown/GroupTemplate по умолчанию отображает только разделитель.
-     * Вы можете изменить отображение разделителя, установив опцию:
-     *    -  showText - определяет, отображается ли название группы.
-     * Содержимое можно переопределить с помощью параметра "contentTemplate".
-     * Параметр "groupProperty" тоже должен быть установлен.
+     * Позволяет установить пользовательский шаблон отображения заголовка группы (**именно шаблон**, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона {@link Controls/dropdown:GroupTemplate}. Шаблон Controls/dropdown:GroupTemplate поддерживает параметры, с помощью которых можно изменить отображение заголовка группы.
+     * 
+     * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию groupTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/dropdown:GroupTemplate.
+     * @demo Controls-demo/Menu/Control/GroupProperty/GroupTemplate/Index
+     * @see groupProperty
      * @example
-     * <pre>
+     * <pre class="brush: html; highlight: [5,7,8,9]">
      * <!-- WML -->
-     *    <Controls.dropdown:Menu
-     *          keyProperty="id"
-     *          icon="icon-small icon-AddButtonNew"
-     *          groupProperty="group"
-     *          source="{{_source}}">
-     *       <ws:groupTemplate>
-     *          <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}" />
-     *       </ws:groupTemplate>
-     *    </Controls.dropdown:Menu>
+     * <Controls.dropdown:Menu
+     *    keyProperty="id"
+     *    icon="icon-small icon-AddButtonNew"
+     *    groupProperty="group"
+     *    source="{{_source}}">
+     *    <ws:groupTemplate>
+     *       <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}" />
+     *    </ws:groupTemplate>
+     * </Controls.dropdown:Menu>
      * </pre>
-     * <pre>
+     * <pre class="brush: js">
      * // JavaScript
      * this._source = new Memory({
      *    data: [
@@ -60,17 +58,19 @@ export interface IGroupedOptions {
     /**
      * @name Controls/_dropdown/interface/IGrouped#groupProperty
      * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
-     * @param item элемент списка.
+     * @param item Элемент списка.
+     * @see groupTemplate
+     * @demo Controls-demo/Menu/Control/GroupProperty/Index
      * @example
-     * <pre>
+     * <pre class="brush: html; highlight: [6]">
      * <!-- WML -->
-     *    <Controls.dropdown:Menu
-     *          keyProperty="id"
-     *          icon="icon-small icon-AddButtonNew"
-     *          source="{{_source}}"
-     *          groupProperty="group"/>
+     * <Controls.dropdown:Menu
+     *    keyProperty="id"
+     *    icon="icon-small icon-AddButtonNew"
+     *    source="{{_source}}"
+     *    groupProperty="group"/>
      * </pre>
-     * <pre>
+     * <pre class="brush: js;">
      * // JavaScript
      * this._source = new Memory({
      *    data: [

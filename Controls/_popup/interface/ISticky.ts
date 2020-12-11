@@ -76,14 +76,14 @@ export interface IStickyOpener extends IOpener {
  * If you call this method while the window is already opened, it will cause the redrawing of the window.
  * @function Controls/_popup/interface/IStickyOpener#open
  * @param {PopupOptions} popupOptions Sticky popup options.
- * @remark {@link https://wi.sbis.ru/docs/js/Controls/interface/IStickyOptions#popupOptions popupOptions}
+ * @remark {@link /docs/js/Controls/interface/IStickyOptions#popupOptions popupOptions}
  */
 
 /**
  * Метод открытия диалогового окна.
  * Повторный вызов этого метода инициирует перерисовку окна с новыми опциями.
  * @function Controls/_popup/interface/IStickyOpener#open
- * @param {PopupOptions} popupOptions Конфигурация прилипающего блока {@link https://wi.sbis.ru/docs/js/Controls/interface/IStickyOptions#popupOptions popupOptions}
+ * @param {PopupOptions} popupOptions Конфигурация прилипающего блока {@link /docs/js/Controls/interface/IStickyOptions#popupOptions popupOptions}
  * @remark Если требуется открыть окно, без создания popup:Sticky в верстке, следует использовать статический метод {@link openPopup}
  * @example
  * wml

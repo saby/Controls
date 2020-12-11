@@ -1,4 +1,4 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <ws:partial template="Controls/list:EditingTemplate"
                     value="{{ itemData.item['document'] }}"

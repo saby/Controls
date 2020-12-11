@@ -9,7 +9,7 @@ import Deferred = require('Core/Deferred');
 
 interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
 /**
- * Контрол, который открывает всплывающее окно с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ диалогом редактирования записи}.
+ * Контрол, который открывает всплывающее окно с {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ диалогом редактирования записи}.
  * @remark
  * Полезные ссылки:
  * * <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FEdit%2FOpener">демо-пример</a>

@@ -580,6 +580,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  * @cfg {String} Цветовая схема (цвета тени и скролла).
  * @variant normal Тема по умолчанию (для ярких фонов).
  * @variant inverted Преобразованная тема (для темных фонов).
+ * @see backgroundStyle
  */
 
 /*
@@ -591,9 +592,18 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
 /**
  * @name Controls/_scroll/Container#backgroundStyle
- * @cfg {String} Определяет префикс стиля для настройки элементов которые зависят от цвета фона.
+ * @cfg {String} Определяет префикс стиля для настройки элементов, которые зависят от цвета фона.
  * @default default
  * @demo Controls-demo/Scroll/Container/BackgroundStyle/Index
+ * @see style
+ */
+
+/**
+ * @typedef {String} TPagingModeScroll
+ * @variant hidden Предназначен для отключения отображения пейджинга в реестре.
+ * @variant basic Предназначен для пейджинга в реестре с подгрузкой по скроллу.
+ * @variant edge Предназначен для пейджинга с отображением одной команды прокрутки. Отображается кнопка в конец, либо в начало, в зависимости от положения.
+ * @variant end Предназначен для пейджинга с отображением одной команды прокрутки. Отображается только кнопка в конец.
  */
 
 /**
@@ -613,6 +623,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
 /**
  * @name Controls/_scroll/Container#pagingPosition
- * @property {TPagingPosition} [pagingPosition=right] Опция управляет позицией пэйджинга.
+ * @property {TPagingPosition} pagingPosition Опция управляет позицией пэйджинга.
+ * @default right
  * @demo Controls-demo/Scroll/Paging/PositionLeft/Index
  */

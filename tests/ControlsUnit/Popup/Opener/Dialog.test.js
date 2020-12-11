@@ -214,8 +214,9 @@ define(
             let container = {
                style: {
                   width: 10,
-                  height: 10
+                  height: 10,
                },
+               querySelector: () => { return {} },
                getBoundingClientRect: () => {
                   return {
                      width: 10,

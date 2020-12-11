@@ -5,6 +5,8 @@
                     keyProperty="id"
                     source="{{_viewSource}}"
                     header="{{_header}}"
+                    rowSeparatorSize="s"
+                    columnSeparatorSize="s"
                     columns="{{_columns}}">
             </Controls.grid:View>
         </div>

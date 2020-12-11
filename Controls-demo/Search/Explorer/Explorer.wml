@@ -1,0 +1,41 @@
+<div class="controlsDemo__wrapper">
+<div class="controlsDemo__cell">
+  <div class="controls-text-label_theme-{{_options.theme}}">Поиск в Explorer</div>
+
+  <Controls.buttons:Button caption="{{'Установить startingWith в '+ _startingWithBtnCaption}}"
+                           on:click="_updateStartingWith()" attr:style="padding-left: 5px"/>
+</div>
+<div class="controlsDemo__cell">
+  <div class="controlsDemo__default">
+
+    <Controls.browser:Browser
+        keyProperty="id"
+        source="{{_viewSource}}"
+        parentProperty="parent"
+        nodeProperty="parent@"
+        searchParam="title"
+        minSearchLength="{{3}}"
+        searchStartingWith="{{_startingWith}}"
+        bind:root="_root"
+        bind:filter="_filter"
+    >
+      <div class="ws-fragment">
+        <Controls.search:InputContainer>
+          <Controls.search:Input/>
+        </Controls.search:InputContainer>
+        <Controls.list:Remover name="remover"/>
+        <Controls.list:Container>
+          <Controls.explorer:View
+              attr:class="demo-Explorer ControlsDemo-Explorer"
+              itemActions="{{_itemActions}}"
+              displayProperty="title"
+              multiSelectVisibility="{{_multiselect}}"
+              dedicatedItemProperty="{{_dedicatedItemProperty}}"
+              columns="{{_columns}}">
+          </Controls.explorer:View>
+        </Controls.list:Container>
+      </div>
+    </Controls.browser:Browser>
+  </div>
+</div>
+</div>

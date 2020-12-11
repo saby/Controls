@@ -1,8 +1,12 @@
-import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
 import {QueryNavigationType} from 'Types/source';
 import {default as PageNavigationStore, IPageNavigationState} from './PageNavigationStore';
-import {IBasePageSourceConfig, IBaseSourceConfig, INavigationPageSourceConfig} from 'Controls/interface';
-import {TNavigationDirection, TNavigationPagingMode} from 'Controls/_interface/INavigation';
+import {
+    TNavigationDirection,
+    TNavigationPagingMode,
+    IQueryParams,
+    IBasePageSourceConfig,
+    INavigationPageSourceConfig
+} from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
 import IParamsCalculator from './interface/IParamsCalculator';
 

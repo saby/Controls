@@ -20,7 +20,7 @@ export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOp
 const MINIMIZED_STEP_FOR_MAXIMIZED_BUTTON = 100;
 
 /**
- * Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/stack/ стекового окна}.
+ * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/stack/ стекового окна}.
  *
  * @remark
  * Полезные ссылки:

@@ -607,7 +607,7 @@ const getCountriesStats = () => {
                 title: 'Страна'
             },
             {
-                title: 'Столица строны из рейтинга',
+                title: 'Столица страны из рейтинга',
                 textOverflow
             },
             {
@@ -615,7 +615,7 @@ const getCountriesStats = () => {
                 textOverflow
             },
             {
-                title: 'Площадь км2',
+                title: 'Площадь территории км2',
                 textOverflow
             },
             {

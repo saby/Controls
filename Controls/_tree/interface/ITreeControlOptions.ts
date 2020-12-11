@@ -52,10 +52,9 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControlOptions#expandByItemClick
- * @cfg {Boolean} Определят режим разворачивания и сворачивания узлов в {@link Controls/treeGrid:View дереве}.
+ * @cfg {Boolean} Режим разворачивания и сворачивания узлов в {@link Controls/treeGrid:View дереве}.
  * @default false
  * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">демо-пример</a>
  * Доступные значения:
  *
  * * true — осуществляется по клику на него.
@@ -70,15 +69,13 @@ export interface ITreeControlOptions extends IControlOptions {
  * @variant true Toggle node by click on it's whole area.
  * @variant false Toggle node by click on only it's expander.
  * @default false
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">Example</a>.
  */
 
 /**
  * @name Controls/_tree/interface/ITreeControlOptions#expandedItems
- * @cfg {Array.<String>|undefined} Идентификаторы развернутых узлов {@link Controls/treeGrid:View дерева}.
+ * @cfg {Array.<String>|undefined} Идентификаторы развернутых узлов в {@link Controls/treeGrid:View дереве}.
  * @default undefined
  * @remark
- * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">демо-пример</a>
  * Чтобы развернуть все элементы списка, параметр expandedItems должен быть задан как массив, содержащий один элемент — "null". В этом случае предполагается, что все данные будут загружены сразу.
  * Настройка не работает, если источник данных задан через {@link Types/source:Memory}.
  * @see expandByItemClick
@@ -87,12 +84,11 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /*
  * @name Controls/_tree/interface/ITreeControlOptions#expandedItems
- * @cfg {{Array.<String>}} Array of identifiers of expanded items.
+ * @cfg {{Array.<String>}|undefined} Array of identifiers of expanded items.
  * <b>Note:</b>
  * To expand all items, this option must be set as array containing one element “null”.
  * In this case, it is assumed that all data will be loaded initially.
  * @notice Without binding this option will be static. Use binding to allow expanding/collapsing nodes.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTreeGrid%2FBasePG">Example</a>.
  * @example
  * <pre>
  *      <Controls.treeGrid:View
@@ -104,17 +100,17 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControlOptions#collapsedItems
- * @cfg {Boolean} Массив идентификаторов свернутых узлов в {@link Controls/treeGrid:View дереве}.
+ * @cfg {Array.<String>|undefined} Идентификаторы свернутых узлов в {@link Controls/treeGrid:View дереве}.
  * @remark
- * Этот параметр используется, когда {@link Controls/_treeGrid/interface/ITreeControlOptions#expandedItems expandedItems} установлена в значение [null].
+ * Этот параметр используется, когда {@link expandedItems} установлена в значение [null].
  * @see expandedItems
  *
  */
 
 /*
  * @name Controls/_tree/interface/ITreeControlOptions#collapsedItems
- * @cfg {Boolean} Array of identifiers of collapsed items.
- * This option is used only when the value of {@link Controls/_treeGrid/interface/ITreeControlOptions#expandedItems expandedItems} is [null].
+ * @cfg {Array.<String>|Array.<Number>} Array of identifiers of collapsed items.
+ * This option is used only when the value of {@link Controls/_tree/interface/ITreeControlOptions#expandedItems expandedItems} is [null].
  * @notice Without binding this option will be static. Use binding to allow expanding/collapsing nodes.
  * @example
  * <pre>
@@ -186,7 +182,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControlOptions#searchBreadCrumbsItemTemplate
- * @cfg {TemplateFunction} Шаблон отображения элемента с хлебными крошками в {@link Controls/treeGrid:View дереве} при {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/explorer/search/mode/ режиме поиска}.
+ * @cfg {TemplateFunction} Шаблон отображения элемента с хлебными крошками в {@link Controls/treeGrid:View дереве} при {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/mode/ режиме поиска}.
  * @remark
  * По умолчанию используется базовый шаблон "Controls/treeGrid:SearchBreadCrumbsItemTemplate", который поддерживает следующий параметр:
  *
@@ -295,7 +291,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * <Controls.treeGrid.View selectAncestors="{{false}}"/>
  * </pre>
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  * @see selectDescendants
  */
 
@@ -309,7 +305,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * <Controls.treeGrid.View selectDescendants="{{false}}"/>
  * </pre>
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  * @see selectAncestors
  */
 
@@ -317,7 +313,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @name Controls/_tree/interface/ITreeControlOptions#markItemByExpanderClick
  * @cfg {Boolean} Определяет, нужно ли выделять узел маркером.
  * @remark Узел отмечается маркером при клике на иконку разворота узла, если значение true.
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
 
 /**
@@ -371,7 +367,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Развёрнутый узел.
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
 
 /**
@@ -380,7 +376,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Разворачиваемый узел.
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
 
 /**
@@ -389,7 +385,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Разворачиваемый узел.
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  * @deprecated Событие устарело и в ближайшее время его поддержка будет прекращена. Используте {@link Controls/_tree/interface/ITreeControlOptions#beforeItemExpand beforeItemExpand}.
  */
 
@@ -399,7 +395,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Развёрнутый узел.
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  * @deprecated Событие устарело и в ближайшее время его поддержка будет прекращена. Используте {@link Controls/_tree/interface/ITreeControlOptions#afterItemExpand afterItemExpand}.
  */
 
@@ -416,7 +412,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Свёрнутый узел.
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
 
 /**
@@ -425,7 +421,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Сворачиваемый узел.
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  * @deprecated Событие устарело и в ближайшее время его поддержка будет прекращена. Используте {@link Controls/_tree/interface/ITreeControlOptions#beforeItemCollapse beforeItemCollapse}.
  */
 
@@ -435,7 +431,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Сворачиваемый узел.
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  */
 
 /**
@@ -444,7 +440,7 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} node Свёрнутый узел.
  * @remark
- * Что такое "узел" читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
+ * Что такое "узел" читайте в {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy руководстве разработчика}.
  * @deprecated Событие устарело и в ближайшее время его поддержка будет прекращена. Используте {@link Controls/_tree/interface/ITreeControlOptions#afterItemCollapse afterItemCollapse}.
  */
 

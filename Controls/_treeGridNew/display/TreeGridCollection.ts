@@ -1,5 +1,5 @@
 import { mixin } from 'Types/util';
-import TreeGridRow, {IOptions as ITreeGridRowOptions} from './TreeGridRow';
+import TreeGridDataRow, {IOptions as ITreeGridRowOptions} from './TreeGridDataRow';
 import {
     TreeItem,
     GridGroupItem,
@@ -33,9 +33,9 @@ function itemIsVisible<T>(item: TreeItem<T>): boolean  {
 
 export default class TreeGridCollection<
     S,
-    T extends TreeGridRow<S> = TreeGridRow<S>
+    T extends TreeGridDataRow<S> = TreeGridDataRow<S>
 > extends mixin<Tree<any>, GridMixin<any, any>>(Tree, GridMixin) {
-    readonly '[Controls/_treeGrid/TreeGridCollection]': boolean;
+    readonly '[Controls/treeGrid:TreeGridCollection]': boolean;
 
     constructor(options: any) {
         super(options);
@@ -94,23 +94,26 @@ export default class TreeGridCollection<
         return GridGroupItem;
     }
 
+    // endregion
+
     // TODO по идее нужно это добавлять в Tree,
     //  но т.к. Tree используется в старой модели, чтобы ничего не сломать, добавляю здесь
     protected _createComposer(): itemsStrategy.Composer<any, TreeItem<any>> {
         const composer = super._createComposer();
+
+        // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
         composer.append(itemsStrategy.NodeFooter, {
             display: this,
             footerVisibilityCallback: this._$footerVisibilityCallback,
             nodeFooterConstructor: TreeGridNodeFooterRow
         });
+
         return composer;
     }
-
-    // endregion
 }
 
 Object.assign(TreeGridCollection.prototype, {
-    '[Controls/_treeGrid/TreeGridCollection]': true,
+    '[Controls/treeGrid:TreeGridCollection]': true,
     _moduleName: 'Controls/treeGrid:TreeGridCollection',
-    _itemModule: 'Controls/treeGrid:TreeGridRow'
+    _itemModule: 'Controls/treeGrid:TreeGridDataRow'
 });

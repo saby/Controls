@@ -1,19 +1,22 @@
-<ws:if data="{{ !!contentTemplate }}">
-    <ws:partial template="{{ contentTemplate }}" colData="{{ gridColumn || colData }}"/>
-</ws:if>
-<ws:else>
-    <ws:if data="{{ (colData || gridColumn).getSortingProperty() }}">
-        <Controls._grid.SortingButton
-                align="{{ (colData || gridColumn).getAlign() }}"
-                textOverflow="{{ (colData || gridColumn).getTextOverflow() }}"
-                caption="{{ (colData || gridColumn).getCaption() }}"
-                attr:class="controls-Grid__sorting-button"
-                property="{{ (colData || gridColumn).getSortingProperty() }}"/>
+<div class="{{ (gridColumn || colData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+     style="{{ (gridColumn || colData).getContentStyles() }}">
+    <ws:if data="{{ !!contentTemplate }}">
+        <ws:partial template="{{ contentTemplate }}" colData="{{ gridColumn || colData }}"/>
     </ws:if>
     <ws:else>
-        <div title="{{ (colData || gridColumn).getCaption() }}"
-             class="controls-Grid__header-cell__content__innerWrapper controls-Grid__header-cell__content-{{ (colData || gridColumn).getTextOverflow() }}">
-            {{ (colData || gridColumn).getCaption() }}
-        </div>
+        <ws:if data="{{ (gridColumn || colData).getSortingProperty() }}">
+            <Controls._grid.SortingButton
+                    align="{{ (gridColumn || colData).getAlign() }}"
+                    textOverflow="{{ (gridColumn || colData).getTextOverflow() }}"
+                    caption="{{ (gridColumn || colData).getCaption() }}"
+                    attr:class="controls-Grid__sorting-button"
+                    property="{{ (gridColumn || colData).getSortingProperty() }}"/>
+        </ws:if>
+        <ws:else>
+            <div title="{{ (gridColumn || colData).getCaption() }}"
+                 class="controls-Grid__header-cell__content__innerWrapper controls-Grid__header-cell__content-{{ (gridColumn || colData).getTextOverflow() }}">
+                {{ (gridColumn || colData).getCaption() }}
+            </div>
+        </ws:else>
     </ws:else>
-</ws:else>
+</div>

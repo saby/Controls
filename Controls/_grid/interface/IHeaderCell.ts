@@ -62,7 +62,7 @@ export interface IHeaderCell extends IControlOptions {
      * @default Controls/grid:HeaderContent
      * @remark
      * Параметры шаблона Controls/grid:HeaderContent доступны {@link Controls/grid:HeaderContent здесь}.
-     * Подробнее о работе с шаблоном читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/header/ документации}.
+     * Подробнее о работе с шаблоном читайте в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ документации}.
      * @example
      * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
      * <pre class="brush: html">

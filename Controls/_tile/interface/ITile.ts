@@ -123,7 +123,7 @@
  */
 
 /**
- * @typedef {String} Controls/_tile/interface/ITile/TileScalingMode
+ * @typedef {String} TileScalingMode
  * @variant none При наведении курсора размер элементов не изменяется.
  * @variant outside При наведении курсора размер элементов увеличивается. Увеличенный элемент находится в окне браузера.
  * @variant inside При наведении курсора размер элементов увеличивается. Увеличенный элемент находится в контроле-контейнере.
@@ -131,7 +131,7 @@
 
 /**
  * @name Controls/_tile/interface/ITile#tileScalingMode
- * @cfg {Controls/_tile/interface/ITile/TileScalingMode.typedef} Режим отображения плитки при наведении курсора.
+ * @cfg {TileScalingMode} Режим отображения плитки при наведении курсора.
  * @default none
  * @remark Увеличенный элемент расположен в центре относительно исходного положения.
  * Если увеличенный элемент не помещается в указанный контейнер, увеличение не происходит.
@@ -261,8 +261,8 @@
  *    <Controls.tile:View source="{{_viewSource}}"
  *                   keyProperty="id"
  *                   parentProperty="Раздел"
-  *                  imageWidthProperty="imageWidth"
-  *                  imageHeightProperty="imageHeight"
+ *                   imageWidthProperty="imageWidth"
+ *                   imageHeightProperty="imageHeight"
  *                   nodeProperty="Раздел@"
  *                   tileMode="dynamic">
  *       <ws:itemTemplate>
@@ -296,14 +296,14 @@
  * </pre>
  */
 
-/*
- * @typedef {String} Controls/_tile/interface/ITile/ActionMode
+/**
+ * @typedef {String} ActionMode
  * @variant showType Опции над записью показываются согласно showType.
  * @variant adaptive Опции над записью будут расчитаны динамически. Количество отображенных команд зависит от ширины плитки.
  */
 /**
  * @name Controls/_tile/interface/ITile#actionMode
- * @cfg {Controls/_tile/interface/ITile/ActionMode.typedef} Вид отображения опций над записью.
+ * @cfg {ActionMode} Вид отображения опций над записью.
  * @default showType
  * @remark Динамический расчет применяется только к плиткам.
  * @example
@@ -323,37 +323,22 @@
  * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
  */
 
-/*
- * @typedef {String} Controls/_tile/interface/ITile/ActionMenuViewMode
+/**
+ * @typedef {String} ActionMenuViewMode
  * @variant menu Контекстное меню в виде выпадающего списка.
  * @variant preview Контекстное меню будет отображено в виде превью.
  */
 
 /**
  * @name Controls/_tile/interface/ITile#actionMenuViewMode
- * @cfg {Controls/_tile/interface/ITile/ActionMenuViewMode.typedef} Вид отображения меню опций записи.
- * @example
- * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   actionMode="adaptive"
- *                   nodeProperty="Раздел@"
- *                   actionMenuViewMode="preview"
- *                   tileMode="static">
- *       <ws:itemTemplate>
- *          <ws:partial
- *             template='Controls/tile:PreviewTemplate'
- *             scope={{itemTemplate}}/>
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
- * </pre>
+ * @cfg {ActionMenuViewMode} Вид отображения меню опций записи.
  * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
  */
 
 /**
  * @name Controls/_tile/interface/ITile#imageUrlResolver
  * @cfg {Function} Функция обратного вызова для получения url изображения для плитки. Используется, если по каким-то причинам сервис previewer не подходит.
- * @see imageFit
+ * @see ImageFit.wml
  * @see imageProperty
  * @remark Особенно актуально при использовании imageFit в режиме cover.
  * @fuction
@@ -365,13 +350,13 @@
  * <pre class="brush: html">
  *    <Controls.tile:View source="{{_viewSource}}"
  *                   keyProperty="id"
- *                   imageFit='cover'
+ *                   imageFit="cover"
  *                   imageUrlResolver="{{_imageUrlResolver}}"
  *                   nodeProperty="Раздел@"
  *                   tileMode="static">
  *       <ws:itemTemplate>
  *          <ws:partial
- *             template='Controls/tile:PreviewTemplate'
+ *             template="Controls/tile:PreviewTemplate"
  *             scope={{itemTemplate}}/>
  *       </ws:itemTemplate>
  *    </Controls.tile:View>
@@ -379,8 +364,8 @@
  * @demo Controls-demo/Tile/ImageFit/Cover/Index
  */
 
-/*
- * @typedef {String} Controls/_tile/interface/ITile/ImageFit
+/**
+ * @typedef {String} ImageFit
  * @variant none Изображение вставляется в центр плитки и отображается "как есть"
  * @variant cover Изображение будет подстраиваться под размеры плитки так, чтобы заполнить всю область плитки.
  * @variant contain Изображение полностью помещается в контейнер плитки без обрезания и масштабирования.
@@ -388,7 +373,7 @@
 
 /**
  * @name Controls/_tile/interface/ITile#imageFit
- * @cfg {Controls/_tile/interface/ITile/ImageFit.typedef} Режим отображения изображения в плитке
+ * @cfg {ImageFit} Режим отображения изображения в плитке
  * @see imageUrlResolver
  * @see imageProperty
  * @see imageHeightProperty

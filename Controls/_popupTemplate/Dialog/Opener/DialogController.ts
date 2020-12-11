@@ -49,24 +49,32 @@ class DialogController extends BaseController {
         /* start: We remove the set values that affect the size and positioning to get the real size of the content */
         const width: string = container.style.width;
         const height: string = container.style.height;
+        // Если внутри лежит скроллконтейнер, то восстанавливаем позицию скролла после изменения размеров
+        const scroll = container.querySelector('.controls-Scroll__content');
+        const scrollTop = scroll?.scrollTop;
         // We won't remove width and height, if they are set explicitly or popup is maximize.
 
         if (!item.popupOptions.maximize) {
-            if (!item.popupOptions.width) {
-                container.style.width = 'auto';
-            }
-            if (!item.popupOptions.height) {
-                container.style.height = 'auto';
-            }
             if (item.popupOptions.maxWidth) {
                 container.style.maxWidth = item.popupOptions.maxWidth + 'px';
             } else {
                 container.style.maxWidth = '';
             }
+            const bodyHeight = document?.body.clientHeight;
             if (item.popupOptions.maxHeight) {
-                container.style.maxHeight = item.popupOptions.maxHeight + 'px';
+                let maxHeight = item.popupOptions.maxHeight;
+                if (bodyHeight && bodyHeight < maxHeight) {
+                    maxHeight = bodyHeight;
+                }
+                container.style.maxHeight = maxHeight + 'px';
             } else {
-                container.style.maxHeight = '';
+                container.style.maxHeight = bodyHeight + 'px';
+            }
+            if (!item.popupOptions.width) {
+                container.style.width = 'auto';
+            }
+            if (!item.popupOptions.height) {
+                container.style.height = 'auto';
             }
         }
 
@@ -78,7 +86,7 @@ class DialogController extends BaseController {
         container.style.height = height;
         container.style.maxWidth = '';
         container.style.maxHeight = '';
-
+        scroll?.scrollTop = scrollTop;
         /* end: Return all values to the node. Need for vdom synchronizer */
 
         return true;

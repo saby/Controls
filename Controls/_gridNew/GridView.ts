@@ -2,16 +2,20 @@ import { ListView } from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
 import { TouchContextField as isTouch } from 'Controls/context';
 import { Logger} from 'UI/Utils';
-import { GridLadderUtil, GridLayoutUtil } from 'Controls/display';
+import { GridRow, GridLadderUtil, GridLayoutUtil } from 'Controls/display';
 import * as GridTemplate from 'wml!Controls/_gridNew/Render/grid/GridView';
 import * as GridItem from 'wml!Controls/_gridNew/Render/grid/Item';
+import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupTemplate';
 import { prepareEmptyEditingColumns, prepareEmptyColumns } from 'Controls/Utils/GridEmptyTemplateUtil';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
+import { Model } from 'Types/entity';
+import { SyntheticEvent } from 'Vdom/Vdom';
 
 const GridView = ListView.extend({
     _template: GridTemplate,
     _hoveredCellIndex: null,
     _hoveredCellItem: null,
+    _groupTemplate: GroupTemplate,
 
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);
@@ -69,8 +73,8 @@ const GridView = ListView.extend({
     },
 
     _getGridViewStyles(options): string {
-        const hasMultiSelect = options.multiSelectVisibility !== 'hidden';
-        return this._getGridTemplateColumns(options.columns, hasMultiSelect);
+        const hasMultiSelectColumn = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
+        return this._getGridTemplateColumns(options.columns, hasMultiSelectColumn);
     },
 
     _onItemMouseMove(event, collectionItem) {
@@ -81,6 +85,11 @@ const GridView = ListView.extend({
     _onItemMouseLeave() {
         GridView.superclass._onItemMouseLeave.apply(this, arguments);
         this._setHoveredCell(null, null);
+    },
+
+    _onEditArrowClick(event: SyntheticEvent, row: GridRow<Model>): void {
+        this._notify('editArrowClick', [row.getContents()]);
+        event.stopPropagation();
     },
 
     _getCellIndexByEventTarget(event): number {

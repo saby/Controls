@@ -32,9 +32,9 @@ define(['Types/collection', 'Controls/display', 'Env/Env'], function(Collection,
          assert.strictEqual(Util.stickyLadderCellsCount([{ title: 'photo', stickyProperty: 'photo' }]), 1);
          assert.strictEqual(Util.stickyLadderCellsCount([{ title: 'photo', stickyProperty: ['date', 'time'] }]), 2);
          assert.strictEqual(Util.stickyLadderCellsCount([{ title: 'photo', stickyProperty: 'photo' }], undefined, {}), 0);
-         Env.detection.isIE = true;
+         Env.detection.isNotFullGridSupport = true;
          assert.strictEqual(Util.stickyLadderCellsCount([{ title: 'photo', stickyProperty: ['date', 'time'] }]), 0);
-         Env.detection.isIE = false;
+         Env.detection.isNotFullGridSupport = false;
       });
       it('prepareLadder', function() {
          const date1 = new Date(2017, 00, 01);

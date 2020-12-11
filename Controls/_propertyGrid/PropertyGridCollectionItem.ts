@@ -5,7 +5,7 @@ import {Enum} from 'Types/collection';
 import * as getType from 'Core/helpers/getType';
 import {Model} from 'Types/entity';
 import {object} from 'Types/util';
-import {IOptions} from 'Controls/_display/GridCollection';
+import {IOptions} from 'Controls/_display/grid/Collection';
 
 export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
     protected _$owner: PropertyGridCollection<T>;

@@ -10,11 +10,14 @@ import {selectionToRecord} from 'Controls/operations';
 import {adapter as adapterLib} from 'Types/entity';
 import {IData, IDecorator, QueryWhereExpression} from 'Types/source';
 import {List, RecordSet} from 'Types/collection';
-import {ISelectionObject,
-        TSelectionRecord,
-        TSelectionType,
-        IHierarchyOptions,
-        IFilterOptions} from 'Controls/interface';
+import {
+    ISelectionObject,
+    TSelectionRecord,
+    TSelectionType,
+    IHierarchyOptions,
+    IFilterOptions, 
+    TKey
+} from 'Controls/interface';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import * as ArrayUtil from 'Controls/Utils/ArraySimpleValuesUtil';
 import {error as dataSourceError} from 'Controls/dataSource';
@@ -195,7 +198,8 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
              items: RecordSet,
              keyProperty: string,
              parentProperty?: string,
-             nodeProperty?: string
+             nodeProperty?: string,
+             root: TKey = null
          ): ISelectionObject {
             const isNode = (key): boolean => {
                const item = items.getRecordById(key);
@@ -219,11 +223,26 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
                return hasExcludedChild;
             };
 
-            selection.selected.forEach((key) => {
-               if (!selection.excluded.includes(key) && hasExcludedChildren(key)) {
-                  selection.excluded.push(key);
-               }
-            });
+            if (parentProperty && selection.selected.includes(root)) {
+                let key;
+                items.each((item) => {
+                    key = item.get(keyProperty);
+
+                    if (isNode(key) && !selection.excluded.includes(key) && hasExcludedChildren(key)) {
+                        selection.excluded.push(key);
+
+                        if (!selection.selected.includes(key)) {
+                            selection.selected.push(key);
+                        }
+                    }
+                });
+            } else {
+                selection.selected.forEach((key) => {
+                    if (!selection.excluded.includes(key) && hasExcludedChildren(key)) {
+                        selection.excluded.push(key);
+                    }
+                });
+            }
 
             return selection;
          },
@@ -381,7 +400,8 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
                    items,
                    keyProperty,
                    options.parentProperty,
-                   options.nodeProperty
+                   options.nodeProperty,
+                   options.root
                );
             }
             const adapter = _private.getSourceAdapter(dataOptions.source);

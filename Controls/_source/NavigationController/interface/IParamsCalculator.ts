@@ -1,7 +1,8 @@
-import {IBaseSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/_interface/INavigation';
+import {IBaseSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/interface';
 import INavigationStore from './INavigationStore';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 import {RecordSet} from 'Types/collection';
+import {Model} from 'Types/entity';
 export default interface IParamsCalculator {
      hasMoreData(store: INavigationStore, direction: TNavigationDirection): boolean;
      getQueryParams(
@@ -22,6 +23,6 @@ export default interface IParamsCalculator {
          shiftMode: TNavigationPagingMode,
          navigationQueryConfig: IBaseSourceConfig
      ): IBaseSourceConfig;
-     updateQueryRange(store: INavigationStore, list: RecordSet): void;
+     updateQueryRange(store: INavigationStore, list: RecordSet, firstItem?: Model|void, lastItems?: Model|void): void;
      destroy(): void;
 }

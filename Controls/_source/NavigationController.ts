@@ -12,9 +12,9 @@ import {default as PositionNavigationStore, IPositionNavigationState} from './Na
 import PositionParamsCalculator from './NavigationController/PositionParamsCalculator';
 
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
-import {TNavigationSource, IBaseSourceConfig, INavigationSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/_interface/INavigation';
+import {TNavigationSource, IBaseSourceConfig, INavigationSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/interface';
 import {IHashMap} from 'Types/declarations';
-import {applied, Record} from 'Types/entity';
+import {applied, Record, Model} from 'Types/entity';
 import {isEqual} from 'Types/object';
 
 /**
@@ -225,10 +225,10 @@ export class NavigationController {
         return updateResult;
     }
 
-    updateQueryRange(list: RecordSet, id: TKey = null): void {
+    updateQueryRange(list: RecordSet, id: TKey = null, firstItem?: Model | void, lastItem?: Model | void): void {
         const calculator = this._getCalculator();
         const store = this._getStore(id);
-        calculator.updateQueryRange(store, list);
+        calculator.updateQueryRange(store, list, firstItem, lastItem);
     }
 
     shiftToEdge(

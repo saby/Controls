@@ -8,7 +8,7 @@
 /**
  * @typedef {Object} SourceConfig
  * @description Конфигурация навигации ({@link Controls/interface:INavigation.INavigationPositionSourceConfig по курсору} или {@link Controls/interface:INavigation.INavigationPageSourceConfig постраничная}).,
- * так же в конфигурации можно передать опцию multiNavigation, если метод БЛ поддержимает работу с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/navigation/multi-navigation/ множественной навигацией}.
+ * так же в конфигурации можно передать опцию multiNavigation, если метод БЛ поддержимает работу с {@link /doc/platform/developmentapl/interface-development/controls/list/tree/navigation/multi-navigation/ множественной навигацией}.
  */
 
 /**

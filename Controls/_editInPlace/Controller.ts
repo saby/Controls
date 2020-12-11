@@ -5,6 +5,7 @@ import {CollectionEditor} from './CollectionEditor';
 import {RecordSet} from 'Types/collection';
 import {mixin} from 'Types/util';
 import {IEditableCollection, IEditableCollectionItem} from 'Controls/display';
+import {Object as EventObject} from 'Env/Event';
 
 const ERROR_MSG = {
     COLLECTION_IS_NOT_DEFINED: 'IEditInPlaceOptions.collection is not defined. Option is required. It must be installed at least once.',
@@ -135,9 +136,38 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
 
     constructor(options: IEditInPlaceOptions & IEditInPlaceCallbacks) {
         super();
+        if (options.task1180668135) {
+            this._onCollectionChange = this._onCollectionChange.bind(this);
+        }
         if (this._validateOptions(options)) {
             this._options = options;
             this._collectionEditor = new CollectionEditor(this._options);
+            if (options.task1180668135) {
+                this._options.collection.subscribe('onCollectionChange', this._onCollectionChange);
+            }
+        }
+    }
+
+    _onCollectionChange(event: EventObject,
+                        action: string,
+                        newItems,
+                        newItemsIndex: number,
+                        oldItems,
+                        oldItemsIndex: number): void {
+
+        if (this._options.task1180668135 && this.isEditing() && action === 'rs' && !newItems.properties) {
+            const editingCollectionItem = this._getEditingItem();
+            const editingItem = editingCollectionItem.contents;
+            const isAdd = editingCollectionItem.isAdd;
+            this._operationsPromises = {};
+
+            if (this._options.onBeforeEndEdit) {
+                this._options.onBeforeEndEdit(editingItem, false, isAdd, true);
+            }
+            this._collectionEditor.cancel();
+            if (this._options.onAfterEndEdit) {
+                this._options.onAfterEndEdit(editingCollectionItem, isAdd, false);
+            }
         }
     }
 
@@ -153,6 +183,10 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
     updateOptions(newOptions: IEditInPlaceOptions): void {
         const combinedOptions = {...this._options, ...newOptions};
         if (this._validateOptions(combinedOptions)) {
+            if (this._options.task1180668135 && (this._options.collection !== combinedOptions.collection)) {
+                this._options.collection.unsubscribe('onCollectionChange', this._onCollectionChange);
+                combinedOptions.collection.subscribe('onCollectionChange', this._onCollectionChange);
+            }
             this._collectionEditor.updateOptions(this._options);
             this._options = combinedOptions;
         }

@@ -51,6 +51,7 @@
                 maxLength="{{_options.maxLength}}"
                 value="{{_getInputValue(_options)}}"
                 tagStyle="{{_options.tagStyle}}"
+                contrastBackground="{{_options.contrastBackground}}"
                 placeholder="{{_getPlaceholder(_options)}}"
                 on:valueChanged="_changeValueHandler()"
                 on:inputCompleted="_notifyHandler('inputCompleted')"

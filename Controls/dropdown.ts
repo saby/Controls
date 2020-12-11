@@ -7,9 +7,7 @@
  * @includes ItemTemplate Controls/dropdown:ItemTemplate
  * @includes HeaderTemplate Controls/dropdown:HeaderTemplate
  * @includes GroupTemplate Controls/dropdown:GroupTemplate
- * @includes IDropdownSource Controls/_dropdown/interface/IDropdownSource
  * @includes IFooterTemplate Controls/_dropdown/interface/IFooterTemplate
- * @includes IGrouped Controls/_dropdown/interface/IGrouped
  * @includes IHeaderTemplate Controls/_dropdown/interface/IHeaderTemplate
  * @includes inputDefaultContentTemplate Controls/dropdown:inputDefaultContentTemplate
  * @includes IIconSize Controls/_dropdown/interface/IIconSize
@@ -26,9 +24,7 @@
  * @includes ItemTemplate Controls/dropdown:ItemTemplate
  * @includes HeaderTemplate Controls/dropdown:HeaderTemplate
  * @includes GroupTemplate Controls/dropdown:GroupTemplate
- * @includes IDropdownSource Controls/_dropdown/interface/IDropdownSource
  * @includes IFooterTemplate Controls/_dropdown/interface/IFooterTemplate
- * @includes IGrouped Controls/_dropdown/interface/IGrouped
  * @includes IHeaderTemplate Controls/_dropdown/interface/IHeaderTemplate
  * @includes inputDefaultContentTemplate wml!Controls/_dropdown/Input/resources/defaultContentTemplate
  * @includes IIconSize Controls/_dropdown/interface/IIconSize
@@ -51,6 +47,7 @@ import defaultContentTemplateWithIcon = require('wml!Controls/_dropdown/Input/re
 
 export {default as IGrouped, IGroupedOptions} from 'Controls/_dropdown/interface/IGrouped';
 export {default as IDropdownSource} from 'Controls/_dropdown/interface/IDropdownSource';
+export {default as IBaseDropdown} from 'Controls/_dropdown/interface/IBaseDropdown';
 
 export {
     Button,

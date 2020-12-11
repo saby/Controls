@@ -685,7 +685,8 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
              */
             textAlign: descriptor(String).oneOf([
                 'left',
-                'right'
+                'right',
+                'center'
             ]),
             tagStyle: descriptor(String).oneOf([
                 'info',

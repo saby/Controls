@@ -3,9 +3,9 @@ import * as Template from "wml!Controls-demo/Explorer_new/Search/Search";
 import {Gadgets} from '../DataHelpers/DataCatalog';
 import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/grid';
+import {IColumn} from 'Controls/grid';
 import {TRoot} from 'Controls-demo/types';
-import {IItemAction} from '../../../Controls/_itemActions/interface/IItemAction';
+import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

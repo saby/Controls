@@ -28,7 +28,7 @@ export interface IOperationsButtonOptions extends IControlOptions, IExpandableOp
 
 /*
  * Control for changing the extensibility of the "Controls/_operations/Panel".
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>here</a>.
  *
  * @class Controls/_operations/Button
  * @extends Core/Control

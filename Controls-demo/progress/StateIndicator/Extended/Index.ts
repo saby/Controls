@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/progress/StateIndicator/Extended/Template';
-import * as popupTemplate from 'wml!Controls-demo/StateIndicator/template/template';
+import * as popupTemplate from 'wml!Controls-demo/progress/StateIndicator/Extended/template/template';
 
 class Base extends Control<IControlOptions> {
     protected _template: TemplateFunction = Template;

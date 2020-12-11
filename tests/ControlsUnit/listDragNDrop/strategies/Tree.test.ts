@@ -215,6 +215,31 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
                dispItem: model.getItemBySourceKey(2)
             });
          });
+
+         it('drag first leaf from node and back to same place ', () => {
+            model.setExpandedItems([null]);
+            model.getItemBySourceKey(1).setExpanded(true);
+
+            strategy = new TreeStrategy(model, model.getItemBySourceKey(4));
+
+            const targetNode = model.getItemBySourceKey(2);
+            let mouseOffsetInTargetItem = {top: 5, bottom: 20};
+
+            let newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
+            equalPosition(newPosition, {
+               index: 1,
+               position: 'before',
+               dispItem: targetNode
+            });
+
+            mouseOffsetInTargetItem = {top: 20, bottom: 5};
+            newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
+            equalPosition(newPosition, {
+               index: 1,
+               position: 'after',
+               dispItem: model.getItemBySourceKey(2)
+            });
+         });
       });
 
       describe('drag tiles', () => {

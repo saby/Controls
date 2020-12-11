@@ -1,5 +1,6 @@
 import Base from './Base';
 import Notification from '../Opener/Notification';
+import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {INotificationPopupOptions} from '../interface/INotification';
 
 /**
@@ -33,6 +34,18 @@ export default class NotificationOpener extends Base {
      */
     open(popupOptions: INotificationPopupOptions) {
         super.open(popupOptions);
+    }
+
+    protected _openPopup(config, popupController): void {
+        // На старых страницах нотификационные окна открываются через PopupMixin
+        // Нужно учитывать, чтобы работал метод close
+        if (!isNewEnvironment()) {
+            this._opener.openPopup(config, popupController).then((popupInstance) => {
+                this._popupId = popupInstance;
+            });
+        } else {
+            super._openPopup.apply(this, arguments);
+        }
     }
 }
 /**

@@ -12,7 +12,7 @@ import {tmplNotify} from 'Controls/eventUtils';
  *
  * @class Controls/_input/Adapter/Mask
  * @extends UI/_base/Control
- *
+ * @mixes Controls/_decorator/resources/IMask
  * @public
  * @demo Controls-demo/Adapter/Mask/Index
  *

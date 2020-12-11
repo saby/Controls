@@ -147,6 +147,10 @@ var TreeTileViewModel = TreeViewModel.extend({
         this._nextModelVersion();
     },
 
+    setRoundBorder(value): void {
+        this._tileMode.setRoundBorder(value);
+    },
+
     getTileMode: function () {
         return this._tileModel.getTileMode();
     },
@@ -267,6 +271,10 @@ var TreeTileViewModel = TreeViewModel.extend({
         const itemData = this.getItemDataByItem(item);
         return this._tileModel.getActionsMenuConfig(itemData,
             clickEvent, opener, templateOptions, isActionMenu, isContextMenu);
+    },
+
+    getRoundBorderClasses(): string {
+        return this._tileModel.getRoundBorderClasses();
     }
 });
 

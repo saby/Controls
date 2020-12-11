@@ -8,7 +8,7 @@ export interface INotificationSimpleOptions extends IControlOptions, INotificati
 }
 
 /**
- * Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/ простого окна уведомления}.
+ * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/ простого окна уведомления}.
  *
  * @remark
  * Полезные ссылки:

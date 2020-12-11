@@ -1,10 +1,9 @@
-import {IQueryParams, Direction} from 'Controls/_interface/IQueryParams';
 import {QueryNavigationType} from 'Types/source';
 import {default as PositionNavigationStore, IPositionNavigationState} from './PositionNavigationStore';
 import {IBasePositionSourceConfig, IBaseSourceConfig, INavigationPositionSourceConfig} from 'Controls/interface';
-import {TNavigationDirection, TNavigationPagingMode, CursorDirection} from 'Controls/_interface/INavigation';
+import {TNavigationDirection, TNavigationPagingMode, CursorDirection, IQueryParams} from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
-import {Record} from 'Types/entity';
+import {Record, Model} from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import IParamsCalculator from './interface/IParamsCalculator';
 
@@ -202,11 +201,10 @@ class PositionParamsCalculator implements IParamsCalculator {
         return {...navigationQueryConfig, position};
     }
 
-    updateQueryRange(store: PositionNavigationStore, list: RecordSet): void {
+    updateQueryRange(store: PositionNavigationStore, list: RecordSet, firstItem: Model, lastItem: Model): void {
         const metaNextPosition = list.getMetaData().nextPosition;
-        const listCount = list.getCount();
 
-        if (!metaNextPosition && listCount) {
+        if (!metaNextPosition) {
             const storeState = store.getState();
             const queryField = PositionParamsCalculator._resolveField(storeState.field);
             // TODO поправить, как будет вынесено добавление данных из BaseControl
@@ -215,12 +213,12 @@ class PositionParamsCalculator implements IParamsCalculator {
 
             if (!isIterative || storeState.backwardPosition[0] !== null) {
                 store.setBackwardPosition(
-                    PositionParamsCalculator._resolvePosition(list.at(0), queryField)
+                    PositionParamsCalculator._resolvePosition(firstItem, queryField)
                 );
             }
             if (!isIterative || storeState.forwardPosition[0] !== null) {
                 store.setForwardPosition(
-                    PositionParamsCalculator._resolvePosition(list.at(listCount - 1), queryField)
+                    PositionParamsCalculator._resolvePosition(lastItem, queryField)
                 );
             }
         }

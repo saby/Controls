@@ -19,7 +19,7 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
             }
          };
 
-         baseController._stack = {
+         baseController._opener = {
             open: (popupOptions) => {
                isShowSelector = true;
                lastPopupOptions = popupOptions;

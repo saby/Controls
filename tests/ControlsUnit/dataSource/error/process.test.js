@@ -1,14 +1,19 @@
 /* global define, beforeEach, afterEach, describe, it, assert, sinon */
 define([
    'Controls/dataSource',
-   'Controls/error'
+   'Controls/error',
+   'Application/Env',
+   'Env/Env'
 ], function(
    { error: { process } },
-   { process: errorProcess }
+   { process: errorProcess },
+   { logger },
+   { constants }
 ) {
    describe('Controls/dataSource:error.process', () => {
       const popupId = '42';
       let _popupHelper;
+      let isServerSide = constants.isServerSide;
 
       beforeEach(() => {
          _popupHelper = {
@@ -16,10 +21,13 @@ define([
             openConfirmation: sinon.stub().resolves(),
             openDialog: sinon.stub().resolves(popupId),
          };
+         sinon.stub(logger, 'error');
+         constants.isServerSide = false;
       });
 
       afterEach(() => {
          sinon.restore();
+         constants.isServerSide = isServerSide;
       });
 
       it('is function', () => {
@@ -125,6 +133,45 @@ define([
             assert.isTrue(
                beforeOpenDialogCallback.calledBefore(_popupHelper.openDialog),
                'callback called before openDialog');
+         });
+      });
+
+      it('logs error on server side', () => {
+         constants.isServerSide = true;
+
+         const error = new Error();
+         const viewConfig = {
+            status: 123,
+            template: {},
+            options: {
+               message: 'test message',
+               details: 'test details'
+            }
+         };
+
+         return process({
+            error,
+            handlers: [() => viewConfig],
+            _popupHelper
+         }).then(() => {
+            assert.isTrue(logger.error.calledOnce, 'logger.error called');
+
+            const msg = logger.error.getCall(0).args[0];
+            assert.isString(msg, 'error message');
+            assert(msg.startsWith(
+               'Error: Controls/dataSource:error.process is being called during server-side rendering!\n' +
+               'Use Controls/dataSource:error.Container to render an error.\n' +
+               'Error config:\n' +
+               '{\n' +
+               '    "status": 123,\n' +
+               '    "options": {\n' +
+               '        "message": "test message",\n' +
+               '        "details": "test details"\n' +
+               '    }\n' +
+               '}'),
+               'error message\n ' + msg);
+
+            assert.isNotOk(_popupHelper.openDialog.called, 'popupHelper not called');
          });
       });
    });

@@ -354,6 +354,9 @@ export function getDecoratedLink(jsonNode): any[]|string {
    newLinkAttributes.class = ((newLinkAttributes.class ? newLinkAttributes.class.replace('asLink', '') + ' ' : '') +
       decoratedLinkClasses.link).trim();
    newLinkAttributes.target = '_blank';
+   if (!newLinkAttributes.rel || newLinkAttributes.rel.indexOf('noopener') === -1) {
+      newLinkAttributes.rel = 'noopener';
+   }
 
    const image = constants.decoratedLinkHost +
       getService() + '?method=LinkDecorator.DecorateAsSvg&params=' + encodeURIComponent(

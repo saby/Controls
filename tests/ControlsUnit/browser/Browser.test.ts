@@ -333,6 +333,34 @@ describe('Controls/browser:Browser', () => {
 
     });
 
+    describe('_updateSearchController', () => {
+       it('filter changed if search was reset', async () => {
+           const options = getBrowserOptions();
+           const browser = getBrowser();
+           browser.saveOptions({...options, ...{searchParam: 'param'}});
+
+           let buf;
+           browser._filterController = {
+               setFilter: (filter) => buf = filter,
+               getFilter: () => buf
+           };
+           browser._updateContext = () => {};
+           browser._dataOptionsContext = {
+               updateConsumers: () => {}
+           };
+           const notifyStub = sinon.stub(browser, '_notify');
+
+           await browser._updateSearchController({
+               searchValue: '',
+               searchParam: 'param'
+           });
+
+           assert.isTrue(notifyStub.withArgs('filterChanged', [{param: ''}]).called);
+
+           notifyStub.restore();
+       });
+    });
+
     describe('_itemsChanged', () => {
 
         it('itemsChanged, items with new format', async () => {
@@ -386,6 +414,20 @@ describe('Controls/browser:Browser', () => {
             browser._dataLoadCallback(null, 'down');
             assert.equal(actualDirection, 'down');
         });
+    });
+
+    describe('_handleItemOpen', () => {
+       it ('root is changed synchronously', async () => {
+           const options = getBrowserOptions();
+           const browser = getBrowser(options);
+
+           browser._searchController = await browser._getSearchController();
+
+           browser._handleItemOpen('test123', undefined, 'test123');
+
+           assert.equal(browser._root, 'test123');
+           assert.equal(browser._searchController._root, 'test123');
+       });
     });
 
     describe('_afterSearch', () => {

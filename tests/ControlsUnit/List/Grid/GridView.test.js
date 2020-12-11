@@ -834,7 +834,7 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
             let hasItemsRecordSet;
             let itemsCount;
             let setEditing = (hasEditing) => {
-               gridView._options.listModel.isEditing = () => hasEditing
+               gridView._options.listModel.isEditing = () => hasEditing;
             };
 
             gridView._columnScrollController = { isVisible: () => needScrollBySize };
@@ -845,47 +845,59 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                isEditing: () => false
             };
 
-            // hasItemsRecordSet, itemsCount, needScrollBySize, hasEditing, headerInEmptyListVisible,  EXPECTED_VISIBILITY
+            // hasItemsRecordSet, itemsCount, needScrollBySize, hasEditing, headerVisibility,  EXPECTED_VISIBILITY
             [
-               [false, 0, false, false, true, false],
-               [false, 0, false, true, true, false],
-               [false, 0, true, false, true, true],
-               [false, 0, true, true, true, true],
-               [false, 5, false, false, true, false],
-               [false, 5, false, true, true, false],
-               [false, 5, true, false, true, true],
-               [false, 5, true, true, true, true],
-               [true, 0, false, false, true, false],
-               [true, 0, false, true, true, false],
-               [true, 0, true, false, true, true],
-               [true, 0, true, true, true, true],
-               [true, 5, false, false, true, false],
-               [true, 5, false, true, true, false],
-               [true, 5, true, false, true, true],
-               [true, 5, true, true, true, true],
+               // 0
+               [false, 0, false, false, 'visible', false],
+               [false, 0, false, true, 'visible', false],
+               [false, 0, true, false, 'visible', true],
+               [false, 0, true, true, 'visible', true],
+               [false, 5, false, false, 'visible', false],
 
-               [false, 0, false, false, false, false],
-               [false, 0, false, true, false, false],
-               [false, 0, true, false, false, false],
-               [false, 0, true, true, false, false],
-               [false, 5, false, false, false, false],
-               [false, 5, false, true, false, false],
-               [false, 5, true, false, false, false],
-               [false, 5, true, true, false, false],
-               [true, 0, false, false, false, false],
-               [true, 0, false, true, false, false],
-               [true, 0, true, false, false, false],
-               [true, 0, true, true, false, true],
-               [true, 5, false, false, false, false],
-               [true, 5, false, true, false, false],
-               [true, 5, true, false, false, true],
-               [true, 5, true, true, false, true]
+               // 5
+               [false, 5, false, true, 'visible', false],
+               [false, 5, true, false, 'visible', true],
+               [false, 5, true, true, 'visible', true],
+               [true, 0, false, false, 'visible', false],
+               [true, 0, false, true, 'visible', false],
+
+               // 10
+               [true, 0, true, false, 'visible', true],
+               [true, 0, true, true, 'visible', true],
+               [true, 5, false, false, 'visible', false],
+               [true, 5, false, true, 'visible', false],
+               [true, 5, true, false, 'visible', true],
+
+               // 15
+               [true, 5, true, true, 'visible', true],
+               [false, 0, false, false, 'hasdata', false],
+               [false, 0, false, true, 'hasdata', false],
+               [false, 0, true, false, 'hasdata', false],
+               [false, 0, true, true, 'hasdata', true],
+
+               // 20
+               [false, 5, false, false, 'hasdata', false],
+               [false, 5, false, true, 'hasdata', false],
+               [false, 5, true, false, 'hasdata', false],
+               [false, 5, true, true, 'hasdata', true],
+               [true, 0, false, false, 'hasdata', false],
+
+               // 25
+               [true, 0, false, true, 'hasdata', false],
+               [true, 0, true, false, 'hasdata', false],
+               [true, 0, true, true, 'hasdata', true],
+               [true, 5, false, false, 'hasdata', false],
+               [true, 5, false, true, 'hasdata', false],
+
+               // 30
+               [true, 5, true, false, 'hasdata', true],
+               [true, 5, true, true, 'hasdata', true]
             ].forEach((params, index) => {
                hasItemsRecordSet = params[0];
                itemsCount = params[1];
                needScrollBySize = params[2];
                setEditing(params[3]);
-               gridView._options.headerInEmptyListVisible = params[4];
+               gridView._options.headerVisibility = params[4];
 
                assert.equal(params[5], gridView._isColumnScrollVisible(),
                    `Wrong column scroll visibility with params[${index}]: {hasItemsRecordSet: ${params[0]}, itemsCount: ${params[1]}, needScrollBySize: ${params[2]}, hasEditing: ${params[3]}, headerInEmptyListVisible: ${params[4]}.}`

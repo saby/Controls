@@ -6,7 +6,9 @@ import { TreeSelectionStrategy } from 'Controls/multiselection';
 import { Model } from 'Types/entity';
 import * as ListData from 'ControlsUnit/ListData';
 import { RecordSet } from 'Types/collection';
-import { Tree, TreeItem } from 'Controls/display';
+import { Search, Tree, TreeItem } from 'Controls/display';
+import GroupItem from 'Controls/_display/GroupItem';
+import { SearchGridViewModel } from 'Controls/treeGrid';
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    const model = new Tree({
@@ -345,6 +347,68 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [1, 2, 5].includes(it.id)) );
          assert.deepEqual(toArray(res.get(null)), [ ]);
          assert.deepEqual(toArray(res.get(false)), ListData.getItems().filter((it) => ![1, 2, 5].includes(it.id)) );
+      });
+
+      it('with group and search value', () => {
+         // если задан searchValue, то не должны выбираться узлы. Группа ломала это поведение
+
+         const selection = {selected: [null], excluded: [null]};
+
+         const items = model.getItems();
+         items.push(new GroupItem({}));
+
+         const res = strategy.getSelectionForModel(selection, null, items, 'asdas');
+         assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [4, 5, 7].includes(it.id)));
+         assert.deepEqual(toArray(res.get(null)), ListData.getItems().filter((it) => ![4, 5, 7].includes(it.id)));
+         assert.deepEqual(toArray(res.get(false)), []);
+      });
+
+      it('search model', () => {
+         const items = new RecordSet({
+            rawData: [{
+               id: 1,
+               parent: null,
+               nodeType: true,
+               title: 'test_node1'
+            }, {
+               id: 2,
+               parent: 1,
+               nodeType: null,
+               title: 'test_leaf11'
+            },
+            {
+               id: 3,
+               parent: null,
+               nodeType: true,
+               title: 'test_node2'
+            }, {
+               id: 4,
+               parent: 3,
+               nodeType: null,
+               title: 'test_leaf21'
+            }],
+            keyProperty: 'id'
+         });
+
+         const searchModel = new SearchGridViewModel({
+            items,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'nodeType',
+            columns: [{}]
+         });
+
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model: searchModel
+         });
+
+         const res = strategy.getSelectionForModel({selected: [null], excluded: [null]}, undefined, undefined, 'sad');
+         assert.deepEqual(res.get(true), [searchModel.getItemBySourceKey(2), searchModel.getItemBySourceKey(4)]);
+         assert.deepEqual(res.get(null), [searchModel.getItemBySourceKey(1), searchModel.getItemBySourceKey(3)]);
+         assert.deepEqual(res.get(false), []);
       });
    });
 

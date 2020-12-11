@@ -1,7 +1,7 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/gridNew:ColumnTemplate" item="{{item}}" gridColumn="{{gridColumn}}">
     <ws:contentTemplate>
         <div>
-            {{ contentTemplate.itemData.item.get('title') }}
+            {{ contentTemplate.item.item.get('title') }}
             <ws:partial template="{{ multiSelectTemplate }}"/>
         </div>
     </ws:contentTemplate>

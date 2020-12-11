@@ -1,73 +1,86 @@
 <ws:template name="COLUMN">
-      <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker) }}"
-           class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
-      <div class="{{ gridColumn.getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
-           style="{{ gridColumn.getContentStyles() }}">
-         <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
-                     attr:key="{{ gridColumn.getInstanceId() }}"
-                     gridColumn="{{ gridColumn }}"
-                     column="{{ gridColumn.getColumnConfig() }}"
-                     item="{{ (item || itemData) }}"
-                     itemData="{{ (item || itemData) }}"
-                     theme="{{ theme }}"
-                     style="{{ style }}"
-                     cursor="{{ cursor }}"
-                     itemActionsTemplate="{{ itemActionsTemplate }}"
-                     templateHighlightOnHover="{{ templateHighlightOnHover }}">
-            <ws:ladderWrapper>
-               <ws:partial template="{{ladderWrapper.content}}"
-                           if="{{ gridColumn.LadderContentCell && (item || itemData).shouldDrawLadderContent(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"
-                           attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
-            </ws:ladderWrapper>
-            <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
-                                key="{{ (item || itemData).key }}"
-                                checkboxReadOnly="{{ checkboxReadOnly }}"/>
-         </ws:partial>
+    <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker) }}"
+         class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
+    <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
+                attr:key="{{ gridColumn.getInstanceId() }}"
+                gridColumn="{{ gridColumn }}"
+                column="{{ gridColumn.getColumnConfig() }}"
+                item="{{ (item || itemData) }}"
+                itemData="{{ gridColumn }}"
+                colData="{{ gridColumn }}"
+                theme="{{ theme }}"
+                style="{{ style }}"
+                cursor="{{ cursor }}"
+                backgroundColorStyle="{{ backgroundColorStyle }}"
+                highlightOnHover="{{ highlightOnHover }}"
+                templateHighlightOnHover="{{ templateHighlightOnHover }}"
+                itemActionsTemplate="{{ itemActionsTemplate }}"
+                tagTemplate="{{ gridColumn.TagCell ? tagTemplate }}"
+                tagStyle="{{ gridColumn.TagCell ? tagStyle }}"
+                editArrowTemplate="{{ editArrowTemplate }}">
+        <ws:ladderWrapper>
+            <ws:partial template="{{ladderWrapper.content}}"
+                        if="{{ gridColumn.LadderContentCell && (item || itemData).shouldDrawLadderContent(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"
+                        attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
+        </ws:ladderWrapper>
+        <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
+                            key="{{ (item || itemData).key }}"
+                            checkboxReadOnly="{{ checkboxReadOnly }}"/>
+        <ws:multiSelectTemplate>
+            <ws:partial template="{{multiSelectTpl}}" attr:class="{{(item || itemData).getMultiSelectClasses(theme)}}">
+                <ws:templateOptions multiSelectStatus="{{(item || itemData).isSelected()}}" key="{{(item || itemData).key}}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+            </ws:partial>
+        </ws:multiSelectTemplate>
+    </ws:partial>
 
-         <div if="{{ gridColumn.TagCell && gridColumn.shouldDisplayTag(tagStyle) }}"
-              class="{{ gridColumn.getTagClasses(theme) }}">
-            <ws:partial template="{{ tagTemplate }}"
-                        tagStyle="{{ gridColumn.getTagStyle(tagStyle) }}"
-                        dispItem="{{ item || itemData }}"
-                        columnIndex="{{ gridColumn.getColumnIndex() }}"/>
-         </div>
-      </div>
-      <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
-         <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
+    <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
+        <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
             <ws:partial template="{{ swipeTemplate }}"
-                        highlightOnHover="{{ highlightOnHover }}" />
-         </ws:if>
-         <ws:else data="{{ itemActionsPosition !== 'custom' }}">
+                        highlightOnHover="{{ highlightOnHover }}"/>
+        </ws:if>
+        <ws:else data="{{ itemActionsPosition !== 'custom' }}">
             <ws:partial template="{{ itemActionsTemplate }}"
                         itemData="{{ item || itemData }}"
                         itemActionsClass="{{ itemActionsClass }}"
                         highlightOnHover="{{ highlightOnHover }}"/>
-         </ws:else>
-      </ws:if>
+        </ws:else>
+    </ws:if>
 </ws:template>
 
 
-<ws:if data="{{ item.isSticked() }}">
-   <Controls.scroll:Group>
-      <div class="{{ item.getItemClasses(highlightOnHover, theme, style, cursor, clickable) }}">
-         <ws:for data="column in item.getColumns()">
-            <Controls.scroll:StickyHeader position="topbottom"
-                                          mode="stackable"
-                                          attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-                                          attr:style="{{ column.getWrapperStyles() }}">
-               <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
-            </Controls.scroll:StickyHeader>
-         </ws:for>
-      </div>
-   </Controls.scroll:Group>
+<ws:if data="{{ (item || itemData).isSticked() }}">
+    <Controls.scroll:Group>
+        <div class="{{ (item || itemData).getItemClasses({
+                'highlightOnHover': highlightOnHover,
+                'theme': theme,
+                'style': style,
+                'cursor': cursor,
+                'clickable': clickable
+            }) }}">
+            <ws:for data="column in (item || itemData).getColumns()">
+                <Controls.scroll:StickyHeader position="topbottom"
+                                              mode="stackable"
+                                              attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+                                              attr:style="{{ column.getWrapperStyles() }}">
+                    <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
+                </Controls.scroll:StickyHeader>
+            </ws:for>
+        </div>
+    </Controls.scroll:Group>
 </ws:if>
 <ws:else>
-   <div class="{{ item.getItemClasses(highlightOnHover, theme, style, cursor, clickable) }}">
-      <ws:for data="column in item.getColumns()">
-         <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-              style="{{ column.getWrapperStyles() }}">
-            <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
-         </div>
-      </ws:for>
-   </div>
+    <div class="{{ (item || itemData).getItemClasses({
+                'highlightOnHover': highlightOnHover,
+                'theme': theme,
+                'style': style,
+                'cursor': cursor,
+                'clickable': clickable
+            }) }}">
+        <ws:for data="column in (item || itemData).getColumns()">
+            <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+                 style="{{ column.getWrapperStyles() }}">
+                <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
+            </div>
+        </ws:for>
+    </div>
 </ws:else>

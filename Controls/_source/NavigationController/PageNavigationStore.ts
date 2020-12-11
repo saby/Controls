@@ -1,4 +1,3 @@
-import {TNavigationDirection} from 'Controls/_interface/INavigation';
 import INavigationStore from './interface/INavigationStore';
 
 type TMore = boolean | number;

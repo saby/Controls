@@ -206,6 +206,9 @@ interface ISuggest {
        *       <ws:footerTemplate templateName="myFooter">
        *    </Controls.suggest:Input>
        * </pre>
+       * @remark
+       * Если вам требуется просто поменять текст для кнопки "Показать всё", которая отображается в подвале автодополнения,
+       * необходимо использова стандартный шаблон подвала {@link Controls/suggestPopup:FooterTemplate}
        */
 
       /*

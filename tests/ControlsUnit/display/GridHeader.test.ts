@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { GridHeader, GridHeaderRow } from 'Controls/display';
 
-describe('Controls/_display/GridHeader', () => {
+describe('Controls/display:GridHeader', () => {
 
     describe('.isSticked()', () => {
         const getOwnerMock = (isStickyHeader, isFullGridSupport) => ({
@@ -12,7 +12,8 @@ describe('Controls/_display/GridHeader', () => {
         it('should sticky header if options.stickyHeader === true in full grid support browsers', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(true, true),
-                header: [{}, {}, {}]
+                header: [{}],
+                columns: [{}]
             });
             assert.isTrue(header.isSticked());
         });
@@ -20,7 +21,8 @@ describe('Controls/_display/GridHeader', () => {
         it('should not sticky header if options.stickyHeader === false in full grid support browsers', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(false, true),
-                header: [{}, {}, {}]
+                header: [{}],
+                columns: [{}]
             });
             assert.isFalse(header.isSticked());
         });
@@ -28,7 +30,8 @@ describe('Controls/_display/GridHeader', () => {
         it('should not sticky header in browsers without grid support', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(true, false),
-                header: [{}, {}, {}]
+                header: [{}],
+                columns: [{}]
             });
             assert.isFalse(header.isSticked());
         });
@@ -38,7 +41,8 @@ describe('Controls/_display/GridHeader', () => {
         it('should returns false for solo row header', function () {
             const header = new GridHeader({
                 owner: {},
-                header: [{}, {}, {}]
+                header: [{}],
+                columns: [{}]
             });
             assert.isFalse(header.isMultiline());
         });
@@ -52,26 +56,61 @@ describe('Controls/_display/GridHeader', () => {
         it('should returns GridHeaderRow', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(),
-                header: [{}, {}, {}]
+                header: [{}],
+                columns: [{}]
             });
             const row = header.getRow();
             assert.instanceOf(row, GridHeaderRow);
         });
     });
 
-    describe('.getRows()', () => {
+    describe('.getBounds()', () => {
         const getOwnerMock = () => ({
             isFullGridSupport: () => true
         });
 
-        it('should returns GridHeaderRow', function () {
+        it('simple header', function () {
             const header = new GridHeader({
                 owner: getOwnerMock(),
-                header: [{}, {}, {}]
+                header: [{}, {}],
+                columns: [{}, {}]
             });
-            const row = header.getRows();
-            assert.instanceOf(row, Array);
-            assert.instanceOf(row[0], GridHeaderRow);
+            assert.deepEqual({
+                row: {start: 1, end: 2},
+                column: {start: 1, end: 3}
+            }, header.getBounds());
+        });
+
+        it('two line header', function () {
+            const header = new GridHeader({
+                owner: getOwnerMock(),
+                header: [
+                    {startRow: 1, endRow: 3, startColumn: 1, endColumn: 2},
+                    {startRow: 1, endRow: 2, startColumn: 2, endColumn: 3},
+                    {startRow: 2, endRow: 3, startColumn: 2, endColumn: 3},
+                ],
+                columns: [{}, {}]
+            });
+            assert.deepEqual({
+                row: {start: 1, end: 3},
+                column: {start: 1, end: 3}
+            }, header.getBounds());
+        });
+
+        it('invalid configuration', function () {
+            const header = new GridHeader({
+                owner: getOwnerMock(),
+                header: [
+                    {startRow: 1, endRow: 3, startColumn: 1, endColumn: 2},
+                    {},
+                    {startRow: 2, endRow: 3, startColumn: 2, endColumn: 3},
+                ],
+                columns: [{}, {}]
+            });
+            assert.deepEqual({
+                row: {start: 1, end: 2},
+                column: {start: 1, end: 3}
+            }, header.getBounds());
         });
     });
 });

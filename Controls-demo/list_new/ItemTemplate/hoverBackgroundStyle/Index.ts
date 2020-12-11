@@ -17,5 +17,5 @@ export default class extends Control {
         });
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/List_new/ItemTemplate/hoverBackgroundStyle/hoverBackgroundStyle'];
+    static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/list_new/ItemTemplate/hoverBackgroundStyle/hoverBackgroundStyle'];
 }
