@@ -31,7 +31,7 @@ const SIZES = {
  *
  * @class Controls/_breadcrumbs/HeadingPath
  * @extends Core/Control
- * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
+ * @mixes Controls/_breadcrumbs/interface/IBreadCrumbsOptions
  * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/IFontSize
@@ -46,7 +46,7 @@ const SIZES = {
  *
  * @class Controls/_breadcrumbs/HeadingPath
  * @extends Core/Control
- * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
+ * @mixes Controls/_breadcrumbs/interface/IBreadCrumbsOptions
  * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/IFontSize
