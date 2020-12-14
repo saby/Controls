@@ -13,24 +13,47 @@
         <ws:partial template="{{ _resultsTemplate }}" attr:name="results" listModel="{{_listModel}}" baseResultsTemplate="{{ _baseResultsTemplate }}" backgroundStyle="{{_options.backgroundStyle || _options.style}}"/>
     </ws:if>
 
-    <tbody name="itemsContainer" class="controls-GridViewV__itemsContainer">
-        <ws:partial template="wml!Controls/_list/resources/For"
-                    listModel="{{_listModel}}"
-                    itemTemplate="{{_itemTemplate}}"
-                    multiSelectTpl="{{_options.multiSelectTpl}}"
-                    itemActionsTemplate="{{_options.itemActionsTemplate}}"
-                    itemActionsClass="{{_options.itemActionsClass}}"
-                    groupTemplate="{{_groupTemplate}}"
-                    itemActionsPosition="{{_options.itemActionsPosition}}"
-                    swipeTemplate="{{_options.swipeTemplate}}"
-                    backgroundStyle="{{_options.backgroundStyle || _options.style}}"
-                    isColumnScrollVisible="{{ _isColumnScrollVisible }}"
-                    tagTemplate="{{_options.tagTemplate}}">
-            <ws:editArrowTemplate>
-                <ws:partial template="wml!Controls/_grid/_editArrowTemplate"></ws:partial>
-            </ws:editArrowTemplate>
-        </ws:partial>
-    </tbody>
+    <ws:if data="{{ _options.task1180715543 }}">
+        <Controls._grid.layout.common.Control>
+            <tbody name="itemsContainer" class="controls-GridViewV__itemsContainer">
+                <ws:partial template="wml!Controls/_list/resources/For"
+                            listModel="{{_listModel}}"
+                            itemTemplate="{{_itemTemplate}}"
+                            multiSelectTpl="{{_options.multiSelectTpl}}"
+                            itemActionsTemplate="{{_options.itemActionsTemplate}}"
+                            itemActionsClass="{{_options.itemActionsClass}}"
+                            groupTemplate="{{_groupTemplate}}"
+                            itemActionsPosition="{{_options.itemActionsPosition}}"
+                            swipeTemplate="{{_options.swipeTemplate}}"
+                            backgroundStyle="{{_options.backgroundStyle || _options.style}}"
+                            tagTemplate="{{_options.tagTemplate}}">
+                    <ws:editArrowTemplate>
+                        <ws:partial template="wml!Controls/_grid/_editArrowTemplate"></ws:partial>
+                    </ws:editArrowTemplate>
+                </ws:partial>
+            </tbody>
+        </Controls._grid.layout.common.Control>
+    </ws:if>
+    <ws:else>
+        <tbody name="itemsContainer" class="controls-GridViewV__itemsContainer">
+            <ws:partial template="wml!Controls/_list/resources/For"
+                        listModel="{{_listModel}}"
+                        itemTemplate="{{_itemTemplate}}"
+                        multiSelectTpl="{{_options.multiSelectTpl}}"
+                        itemActionsTemplate="{{_options.itemActionsTemplate}}"
+                        itemActionsClass="{{_options.itemActionsClass}}"
+                        groupTemplate="{{_groupTemplate}}"
+                        itemActionsPosition="{{_options.itemActionsPosition}}"
+                        swipeTemplate="{{_options.swipeTemplate}}"
+                        backgroundStyle="{{_options.backgroundStyle || _options.style}}"
+                        isEditingRowScrollToElement="{{_options.isEditingRowScrollToElement}}"
+                        tagTemplate="{{_options.tagTemplate}}">
+                <ws:editArrowTemplate>
+                    <ws:partial template="wml!Controls/_grid/_editArrowTemplate"></ws:partial>
+                </ws:editArrowTemplate>
+            </ws:partial>
+        </tbody>
+    </ws:else>
 
     <!-- Отступ под последней записью вслучае, если в таблице есть операции над записью "вне строки" -->
     <ws:if data="{{_options._needBottomPadding}}">

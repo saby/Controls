@@ -155,7 +155,13 @@ var
                             }
                             self._saveColumnScrollSizes(newSizes);
                             self._updateColumnScrollData();
-                            self._listModel?.setColumnScrollVisibility(self._isColumnScrollVisible());
+                            if (options.task1180715543) {
+                                if (self._isColumnScrollVisible()) {
+                                    self._shouldSetColumnScrollVisibilityLater = true;
+                                }
+                            } else {
+                                self._listModel?.setColumnScrollVisibility(self._isColumnScrollVisible());
+                            }
                         }, true);
                         result = 'created';
                     } else {
@@ -606,6 +612,13 @@ var
             return _private.getGridTemplateColumns(this, columns, hasMultiSelect);
         },
 
+        _onViewMouseEnter() {
+            if (this._options.task1180715543 && this._shouldSetColumnScrollVisibilityLater) {
+                this._shouldSetColumnScrollVisibilityLater = false;
+                this._listModel?.setColumnScrollVisibility(true);
+            }
+        },
+
         _onItemMouseMove: function(event, itemData) {
             GridView.superclass._onItemMouseMove.apply(this, arguments);
             _private.setHoveredCell(this, itemData.item, event.nativeEvent);
@@ -799,6 +812,10 @@ var
             }
         },
         _startDragScrolling(e, startBy: 'mouse' | 'touch'): void {
+            if (this._options.task1180715543 && this._shouldSetColumnScrollVisibilityLater) {
+                this._shouldSetColumnScrollVisibilityLater = false;
+                this._listModel?.setColumnScrollVisibility(true);
+            }
             if (this._isColumnScrollVisible() && this._dragScrollController) {
                 let isGrabbing: boolean;
                 if (startBy === 'mouse') {

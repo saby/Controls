@@ -1,20 +1,20 @@
 <ws:partial template="{{itemData.resolveItemTemplate(itemData)}}"
             scope="{{_options}}"
-            colspan="{{itemData.getColspan(colspan, isColumnScrollVisible)}}"
-            colspanLength="{{ itemData.getColspanLength(colspan, isColumnScrollVisible) }}"
+            colspan="{{itemData.getColspan(colspan, _options.task118071554 ? itemData.isColumnScrollVisible : isColumnScrollVisible)}}"
+            colspanLength="{{ itemData.getColspanLength(colspan, itemData.isColumnScrollVisible) }}"
             renderSeparatedColumnContent="{{ colspan === false }}"
             expanderIcon="none"
             marker="{{ false }}"
             attr:class="controls-TreeGrid__row__searchBreadCrumbs js-controls-ListView__notEditable
-            {{ itemData.columnScroll && !isColumnScrollVisible ? 'controls-TreeGrid__row__searchBreadCrumbs_colspaned' }}
-            {{ itemData.shouldHideColumnSeparator(colspan, isColumnScrollVisible) ? 'controls-Grid__row__searchBreadCrumbs_withoutColumnSeparator' }}"
+            {{ itemData.columnScroll && !(_options.task118071554 ? itemData.isColumnScrollVisible : isColumnScrollVisible) ? 'controls-TreeGrid__row__searchBreadCrumbs_colspaned' }}
+            {{ itemData.shouldHideColumnSeparator(colspan, _options.task118071554 ? itemData.isColumnScrollVisible : isColumnScrollVisible) ? 'controls-Grid__row__searchBreadCrumbs_withoutColumnSeparator' }}"
             attr:key="{{ itemData.key }}__breadcrumbs">
     <ws:colspanTemplate>
         <Controls.Container.Async templateName="Controls/breadcrumbs:Path">
             <ws:partial template="{{ content.resolvedTemplate }}"
                         items="{{colspanTemplate.itemData.item}}"
                         backgroundStyle="{{_options.backgroundStyle}}"
-                        attr:class="controls-Grid__breadCrumbs {{ itemData.columnScroll && !isColumnScrollVisible ? 'controls-TreeGrid__breadCrumbs_colspaned' }}"
+                        attr:class="controls-Grid__breadCrumbs {{ itemData.columnScroll && !(_options.task118071554 ? itemData.isColumnScrollVisible : isColumnScrollVisible) ? 'controls-TreeGrid__breadCrumbs_colspaned' }}"
                         breadCrumbsItemClickCallback="{{ itemData.breadcrumbsItemClickCallback }}"
                         keyProperty="{{itemData.keyProperty}}"
                         displayProperty="{{itemData.breadCrumbsDisplayProperty}}">

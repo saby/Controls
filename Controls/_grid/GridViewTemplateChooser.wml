@@ -69,7 +69,7 @@
 
                     attr:class="{{ _viewGrabbingClasses }} {{ _showFakeGridWithColumnScroll ? 'controls-Grid__ColumnScroll_hidden' }}"
                     on:newPositionRendered="_onNewHorizontalPositionRendered()"
-
+                    on:mouseenter="_onViewMouseEnter()"
                     on:mousedown="_startDragScrolling('mouse')"
                     on:touchstart="_startDragScrolling('touch')"
                     on:mousemove="_moveDragScroll('mouse')"
