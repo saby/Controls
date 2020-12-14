@@ -89,14 +89,10 @@
     <!-- TODO Данное поведение в этой конструкции ядром считается ошибочным и будет исправлено по задаче https://online.sbis.ru/doc/546d1109-14f5-4118-8619-362048862d27 -->
     <ws:partial template="wml!Controls/_grid/FooterTemplate"
                 columns="{{ _listModel.getFooter() }}"
-                _footer="{{ _options.footer }}"
-                _footerTemplate="{{ _options.footerTemplate }}"
-                _needBottomPadding="{{ _options._needBottomPadding }}"
-                _isEditing="{{ _listModel.isEditing() }}"
-                containerSize="{{ _containerSize }}"
-                hasColumnScroll="{{ _containerSize && _isColumnScrollVisible }}"
-                hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"
                 attr:class="{{ _options.footer ? 'controls-GridView__footer' }}"
+                listModel="{{ _listModel }}"
+                _needBottomPadding="{{ _options._needBottomPadding }}"
+                containerSize="{{ _containerSize }}"
                 backgroundStyle="{{_options.backgroundStyle || _options.style}}"
                 isFullGridSupport="{{ true }}"/>
 </div>
