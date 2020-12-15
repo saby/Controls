@@ -3,7 +3,7 @@ import DialogOpener from 'Controls/_popup/Opener/Dialog';
 import {IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 
 /**
- * Хелпер для открытия диалоговых окон
+ * Хелпер для открытия диалоговых DialogOpener
  * @class Controls/_popup/PopupHelper/Dialog
  * 
  * @author Красильников А.С.

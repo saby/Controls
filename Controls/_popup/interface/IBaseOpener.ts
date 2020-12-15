@@ -4,14 +4,11 @@ import {List} from 'Types/collection';
 import {IControlOptions} from 'UI/Base';
 import {ILoadingIndicatorOptions} from 'Controls/LoadingIndicator';
 
-/**
- * Интерфейс базовых опций опенеров.
- *
- * @interface Controls/_popup/interface/IBaseOpener
- * @public
- * @author Красильников А.С.
- */
 
+/**
+ * Опции интерфейса подробно описаны {@link Controls/_popup/interface/IBaseOpener здесь}. 
+ * @public
+ */
 export interface IBasePopupOptions {
     id?: string;
     className?: string;
@@ -41,6 +38,11 @@ export interface IOpener {
     isOpened(): boolean;
 }
 
+/**
+ * Интерфейс базовых опций опенеров.
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IBaseOpener {
     readonly '[Controls/_popup/interface/IBaseOpener]': boolean;
 }
