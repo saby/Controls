@@ -87,7 +87,7 @@ export default class Container extends Control<ISearchInputContainerOptions> {
    protected _getSearchResolverController(): SearchResolver {
       if (!this._searchResolverController) {
          this._searchResolverController = new SearchResolver({
-            delayTime: this._options.searchDelay,
+            searchDelay: this._options.searchDelay,
             minSearchLength: this._options.minSearchLength,
             searchCallback: this._notifySearch.bind(this),
             searchResetCallback: this._notifySearchReset.bind(this)
@@ -140,3 +140,10 @@ export default class Container extends Control<ISearchInputContainerOptions> {
       };
    }
 }
+
+/**
+ * @event Происходит после клика по хлебным крошкам.
+ * @name Controls/_breadcrumbs/interface/IBreadCrumbs#itemClick
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Types/entity:Record} item Элемент, по которому произвели клик.
+ */
