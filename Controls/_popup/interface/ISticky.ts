@@ -26,8 +26,8 @@ export interface IStickyPopupOptions extends IBasePopupOptions {
 }
 
 export interface IStickyPosition {
-    vertical?: string;
-    horizontal?: string;
+    vertical?: 'top' | 'bottom' | 'center';
+    horizontal?: 'top' | 'bottom' | 'center';
 }
 
 export interface IStickyPositionOffset {

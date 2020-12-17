@@ -1,4 +1,5 @@
 import {IControlOptions} from 'UI/Base';
+import {IStickyPosition, IStickyPositionOffset} from 'Controls/_popup/interface/ISticky';
 
 /**
  * Интерфейс для опций окна предпросмотра.
@@ -10,13 +11,13 @@ import {IControlOptions} from 'UI/Base';
 
 export interface IPreviewerOptions extends IControlOptions {
     content?: Function;
-    trigger: string;
+    trigger: 'click' | 'demand' | 'hover' | 'hoverAndClick';
     template?: string;
     templateOptions?: any;
+    targetPoint?: IStickyPosition;
+    direction?: IStickyPosition;
+    offset?: IStickyPositionOffset;
     isCompoundTemplate?: boolean; // TODO Compatible
-    targetPoint?: any; // why?
-    direction?: any; // why?
-    offset?: any; // why?
 }
 
 export interface IPreviewer {

@@ -1,6 +1,6 @@
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {Control, TemplateFunction} from 'UI/Base';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
-import { IOpener, IBaseOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
+import {IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
 import {loadModule, getModuleByName} from 'Controls/_popup/utils/moduleHelper';
 import * as CoreMerge from 'Core/core-merge';
@@ -16,7 +16,7 @@ import Template = require('wml!Controls/_popup/Opener/BaseOpener');
  * Base Popup opener
  * @class Controls/_popup/Opener/BaseOpener
  * @mixes Controls/_popup/interface/IBaseOpener
- * 
+ *
  * @private
  * @author Красильников А.С.
  */
@@ -26,17 +26,13 @@ export interface ILoadDependencies {
     controller: Control;
 }
 
-export interface IBaseOpenerOptions extends IBasePopupOptions, IControlOptions {
-    id?: string;
+export interface IBaseOpenerOptions extends IBasePopupOptions {
     closePopupBeforeUnmount?: boolean;
 }
 
-const OPEN_POPUP_DEBOUNCE_DELAY: number = 10;
-
 class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
-    extends Control<TBaseOpenerOptions> implements IOpener, IBaseOpener {
+    extends Control<TBaseOpenerOptions> implements IOpener {
 
-    readonly '[Controls/_popup/interface/IBaseOpener]': boolean;
     protected _template: TemplateFunction = Template;
     private _popupId: string = '';
     private _openerUnmounted: boolean = false;

@@ -1,7 +1,5 @@
 import { default as BaseOpener, IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
-import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {Logger} from 'UI/Utils';
-import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {IStackOpener, IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 
 interface IStackOpenerOptions extends IStackPopupOptions, IBaseOpenerOptions {}

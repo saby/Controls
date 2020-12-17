@@ -12,7 +12,7 @@ import {ILoadingIndicatorOptions} from 'Controls/LoadingIndicator';
  * @author Красильников А.С.
  */
 
-export interface IBasePopupOptions {
+export interface IBasePopupOptions extends IControlOptions {
     id?: string;
     className?: string;
     template?: Control<IControlOptions, unknown> | TemplateFunction | string;
@@ -28,7 +28,6 @@ export interface IBasePopupOptions {
     indicatorConfig?: ILoadingIndicatorOptions;
     dataLoaders?: IDataLoader[][];
     zIndexCallback?(item: IPopupItemInfo, popupList: List<IPopupItemInfo>): number;
-    actionOnScroll?: string; // TODO Перенести на sticky, Удалить из baseOpener
     zIndex?: number; // TODO Compatible
     isCompoundTemplate?: boolean; // TODO Compatible
     _type?: string; // TODO Compatible
@@ -39,10 +38,6 @@ export interface IOpener {
     open(popupOptions: IBasePopupOptions, controller: string): Promise<string | undefined>;
     close(): void;
     isOpened(): boolean;
-}
-
-export interface IBaseOpener {
-    readonly '[Controls/_popup/interface/IBaseOpener]': boolean;
 }
 
 /*  https://online.sbis.ru/opendoc.html?guid=f654ff87-5fa9-4c80-a16e-fee7f1d89d0f

@@ -1,5 +1,4 @@
 import {IBasePopupOptions} from './IBaseOpener';
-import {IBasePopupOptions} from './ISticky';
 import {Control} from 'UI/Base';
 import {IDragOffset} from '../../_popupTemplate/BaseController';
 
@@ -64,7 +63,6 @@ export interface IPopupOptions extends IBasePopupOptions {
    minHeight?: number;
    maxHeight?: number;
    hidden?: boolean;
-   id?: string;
    maximize?: boolean;
    content?: Function;
 }
@@ -100,8 +98,4 @@ export interface IPopupItemInfo {
       maximize: boolean,
       modal: boolean
    };
-}
-
-export default interface IPopup {
-   readonly '[Controls/_popup/interface/IPopup]': boolean;
 }

@@ -17,8 +17,8 @@ export interface IInfoBoxPopupOptions extends IValidationStatusOptions {
     opener?: Control<IControlOptions, unknown>;
     maxWidth?: number;
     style?: string;
-    targetSide?: string;
-    alignment?: string;
+    targetSide?: 'top' | 'bottom' | 'left' | 'right';
+    alignment?: 'start' | 'center' | 'end';
     floatCloseButton?: boolean;
     closeOnOutsideClick?: boolean;
     hideDelay?: number;

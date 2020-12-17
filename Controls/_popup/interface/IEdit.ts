@@ -3,8 +3,6 @@ import { IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 import { IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 import {RecordSet} from 'Types/Collection';
 
-type TOpenerOptions = IStickyPopupOptions|IStackPopupOptions|IDialogPopupOptions;
-
 /**
  * Интерфейс для опций окна редактирования
  *
@@ -12,29 +10,15 @@ type TOpenerOptions = IStickyPopupOptions|IStackPopupOptions|IDialogPopupOptions
  * @public
  * @author Красильников А.С.
  */
+
 export interface IEditOptions {
     items?: RecordSet;
-    mode?: string;
+    mode?: 'stack' | 'sticky' | 'dialog';
 }
 
 export interface IEditOpener {
     readonly '[Controls/_popup/interface/IEditOpener]': boolean;
 }
-
-/*
- * The control opens a popup with a record editing dialog.
- * When in the edit dialog the action takes place with the entry, control synchronize editable entry with recordsets.
- *  <li>If option 'mode' is set to 'stack' use {@link Controls/popup:Stack Stack options}</li>
- *  <li>If option 'mode' is set to 'dialog' use  {@link Controls/popup:Dialog Dialog options}</li>
- *  <li>If option 'mode' is set to 'sticky' use  {@link Controls/popup:Sticky Sticky options}</li>
- * <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FEdit%2FOpener">Demo-example</a>
- * {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ Подробнее}
- * @class Controls/_popup/interface/IEditOptions
- * 
- * @public
- * @author Красильников А.С.
- * @demo Controls-demo/Popup/Edit/Opener
- */
 
 /**
  * Открывает всплывающее окно диалога редактирования.
