@@ -5,18 +5,20 @@ import * as template from 'wml!Controls/_decorator/WrapURLs/WrapURLs';
 
 /**
  * Интерфейс для опций контрола {@link Controls/decorator:WrapURLs}.
- * @interface Controls/_decorator/WrapURLs/IWrapURLsOptions
+ * @interface Controls/_decorator/IWrapURLs
  * @public
  * @author Красильников А.С.
  */
 export interface IWrapURLsOptions extends IControlOptions {
     /**
-     * Декорируемый текст.
+     * @name Controls/_decorator/IWrapURLs#value
+     * @cfg {String} Декорируемый текст.
      * @demo Controls-demo/Decorator/WrapURLs/Index
      */
     value: string;
     /**
-     * Определяет, следует ли переходить в новую вкладку при клике на ссылку.
+     * @name Controls/_decorator/IWrapURLs#newTab
+     * @cfg {Boolean} Определяет, следует ли переходить в новую вкладку при клике на ссылку.
      * @default true
      * @demo Controls-demo/Decorator/WrapURLs/NewTab/Index
      * @remark
@@ -68,7 +70,7 @@ type Path = ILink | IEmail | IPlain;
  *
  * @class Controls/_decorator/WrapURLs
  * @extends UI/Base:Control
- * @mixes Controls/_decorator/WrapURLs/IWrapURLsOptions
+ * @mixes Controls/_decorator/IWrapURLs
  * @public
  * @demo Controls-demo/Decorator/WrapURLs/Index
  *

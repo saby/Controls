@@ -10,13 +10,14 @@ import toString from 'Controls/_decorator/inputUtils/toString';
 
 /**
  * Интерфейс для опций контрола {@link Controls/decorator:Phone}.
- * @interface Controls/_decorator/Phone/IPhoneOptions
+ * @interface Controls/_decorator/IPhone
  * @public
  * @author Красильников А.С.
  */
 export interface IPhoneOptions extends IControlOptions {
     /**
-     * Декорируемый телефонный номер.
+     * @name Controls/_decorator/IPhone#value
+     * @cfg {String|null} Декорируемый телефонный номер.
      * @default ''
      * @demo Controls-demo/Decorator/Phone/Index
      */
@@ -39,7 +40,7 @@ export interface IPhoneOptions extends IControlOptions {
  *
  * @class Controls/_decorator/Phone
  * @extends UI/Base:Control
- * @mixes Controls/_decorator/Phone/IPhoneOptions
+ * @mixes Controls/_decorator/IPhone
  * @public
  * @demo Controls-demo/Decorator/Phone/Index
  *

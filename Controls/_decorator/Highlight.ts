@@ -15,7 +15,7 @@ export type HighlightMode = 'word' | 'substring';
 
 /**
  * Интерфейс для опций контрола {@link Controls/decorator:Highlight}.
- * @interface Controls/_decorator/Highlight/IHighlightOptions
+ * @interface Controls/_decorator/IHighlight
  * @public
  * @author Красильников А.С.
  */
@@ -73,11 +73,9 @@ type Element = IHighlight | IPlain;
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less переменные тем оформления}
  * * {@link http://axure.tensor.ru/standarts/v7/%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D1%8B_%D0%BF%D0%BE%D0%B8%D1%81%D0%BA%D0%B0__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_02_.html алгоритм поиска}
  *
- * @mixes Controls/_decorator/Highlight/IHighlightOptions
- *
  * @class Controls/_decorator/Highlight
  * @extends UI/Base:Control
- *
+ * @mixes Controls/_decorator/IHighlight
  * @public
  * @demo Controls-demo/Decorator/Highlight/Index
  *
