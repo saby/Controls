@@ -26,13 +26,8 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:StackController';
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/stack/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  * Для открытия стековых окон из кода используйте {@link Controls/popup:StackOpener}.
- *
- * @class Controls/popup:Stack
- * @extends Controls/_popup/Opener/BaseOpener
- * 
  * @author Красильников А.С.
  * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/IStack
  * @mixes Controls/_interface/IPropStorage
  * @demo Controls-demo/Popup/Opener/StackDemo
  * @public
@@ -43,12 +38,8 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:StackController';
  * {@link /doc/platform/developmentapl/interface-development/controls/openers/stack/ See more}.
  *
  *  <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FOpener%2FStackDemo">Demo-example</a>.
- * @class Controls/_popup/Opener/Stack
- * @extends Controls/_popup/Opener/BaseOpener
- * 
  * @author Красильников А.С.
  * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/IStack
  * @mixes Controls/_interface/IPropStorage
  * @public
  */

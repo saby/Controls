@@ -1,13 +1,10 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 
 /**
- * Интерфейс для опций стековых окон.
- *
- * @interface Controls/_popup/interface/IStack
+ * Опции интерфейса описаны {@link Controls/_popup/interface/IStackOpener здесь}.
  * @public
  * @author Красильников А.С.
  */
-
 export interface IStackPopupOptions extends IBasePopupOptions {
     minWidth?: number;
     width?: number;
@@ -16,6 +13,11 @@ export interface IStackPopupOptions extends IBasePopupOptions {
     restrictiveContainer?: string;
 }
 
+/**
+ * Интерфейс для опций стековых окон.
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IStackOpener extends IOpener {
     readonly '[Controls/_popup/interface/IStackOpener]': boolean;
 }
@@ -23,7 +25,7 @@ export interface IStackOpener extends IOpener {
 /**
  * Метод открытия стековой панели.
  * Повторный вызов этого метода вызовет переририсовку контрола.
- * @function Controls/_popup/interface/IStack#open
+ * @function Controls/_popup/interface/IStackOpener#open
  * @param {PopupOptions} popupOptions Конфигурация стековой панели
  * @remark
  * Если требуется открыть окно, без создания popup:Stack в верстке, следует использовать статический метод {@link openPopup}.
@@ -57,13 +59,13 @@ export interface IStackOpener extends IOpener {
 /*
  * Open stack popup.
  * If you call this method while the window is already opened, it will cause the redrawing of the window.
- * @function Controls/_popup/interface/IStack#open
+ * @function Controls/_popup/interface/IStackOpener#open
  * @returns {Undefined}
  * @param {PopupOptions} popupOptions Stack popup options.
  */
 
 /**
- * @name Controls/_popup/interface/IStack#close
+ * @name Controls/_popup/interface/IStackOpener#close
  * @description Метод закрытия стековой панели.
  * @example
  * wml
@@ -88,12 +90,12 @@ export interface IStackOpener extends IOpener {
  */
 
 /*
- * @name Controls/_popup/interface/IStack#close
+ * @name Controls/_popup/interface/IStackOpener#close
  * @description Close Stack Popup.
  */
 
 /**
- * @name Controls/_popup/interface/IStack#minWidth
+ * @name Controls/_popup/interface/IStackOpener#minWidth
  * @cfg {Number} Минимально допустимая ширина стековой панели.
  * @remark
  * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
@@ -101,12 +103,12 @@ export interface IStackOpener extends IOpener {
  */
 
 /*
- * @name Controls/_popup/interface/IStack#minWidth
+ * @name Controls/_popup/interface/IStackOpener#minWidth
  * @cfg {Number} The minimum width of popup.
  */
 
 /**
- * @name Controls/_popup/interface/IStack#maxWidth
+ * @name Controls/_popup/interface/IStackOpener#maxWidth
  * @cfg {Number} Максимально допустимая ширина стековой панели.
  * @remark
  * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
@@ -114,12 +116,12 @@ export interface IStackOpener extends IOpener {
  */
 
 /*
- * @name Controls/_popup/interface/IStack#maxWidth
+ * @name Controls/_popup/interface/IStackOpener#maxWidth
  * @cfg {Number} The maximum width of popup.
  */
 
 /**
- * @name Controls/_popup/interface/IStack#width
+ * @name Controls/_popup/interface/IStackOpener#width
  * @cfg {Number} Текущая ширина стековой панели.
  * @remark
  * Значение может быть задано как на опциях Controls/popup:Stack, так и на дефолтных опциях шаблона {@link template}.
@@ -127,19 +129,19 @@ export interface IStackOpener extends IOpener {
  */
 
 /*
- * @name Controls/_popup/interface/IStack#width
+ * @name Controls/_popup/interface/IStackOpener#width
  * @cfg {Number} Width of popup.
  */
 
 /**
- * @name Controls/_popup/interface/IStack#propStorageId
+ * @name Controls/_popup/interface/IStackOpener#propStorageId
  * @cfg {String} Уникальный идентификатор контрола, по которому будет сохраняться конфигурация в хранилище данных.
  * С помощью этой опции включается функционал движения границ.
  * Помимо propStorageId необходимо задать опции {@link width}, {@link minWidth}, {@link maxWidth}.
  */
 
 /**
- * @name Controls/_popup/interface/IStack#restrictiveContainer
+ * @name Controls/_popup/interface/IStackOpener#restrictiveContainer
  * @cfg {String} Опция задает контейнер (через <b>селектор</b>), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
  * @remark
  * Алгоритм поиска контейнера, внутри которого будут строиться окна:

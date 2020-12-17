@@ -29,7 +29,6 @@ interface IInfoBoxTouchContext {
  * 
  * @class Controls/_popup/InfoBox
  * @mixes Controls/_popup/interface/IInfoBox
- *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/InfoBox/InfoBox

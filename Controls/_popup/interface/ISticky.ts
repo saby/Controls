@@ -2,13 +2,10 @@ import {IBasePopupOptions, IOpener} from 'Controls/_popup/interface/IBaseOpener'
 import {Control} from 'UI/Base';
 
 /**
- * Интерфейс для опций стики окон
- *
- * @interface Controls/_popup/interface/ISticky
+ * Опции интерфейса описаны {@link Controls/_popup/interface/IStickyOpener здесь}.
  * @public
  * @author Красильников А.С.
  */
-
 export interface IStickyPopupOptions extends IBasePopupOptions {
     minWidth?: number;
     width?: number;
@@ -36,9 +33,7 @@ export interface IStickyPositionOffset {
 }
 
 /**
- * Интерфейс для методов стики окон
- *
- * @interface Controls/_popup/interface/IStickyOpener
+ * Интерфейс для методов стики окон.
  * @public
  * @author Красильников А.С.
  */
@@ -126,40 +121,40 @@ export interface IStickyOpener extends IOpener {
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#minWidth
+ * @name Controls/_popup/interface/IStickyOpener#minWidth
  * @cfg {Number} Минимальная ширина всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#maxWidth
+ * @name Controls/_popup/interface/IStickyOpener#maxWidth
  * @cfg {Number} Максимальная ширина всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#minHeight
+ * @name Controls/_popup/interface/IStickyOpener#minHeight
  * @cfg {Number} Минимальная высота всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#maxHeight
+ * @name Controls/_popup/interface/IStickyOpener#maxHeight
  * @cfg {Number} Максимальная высота всплывающего окна
  */
 /**
- * @name Controls/_popup/interface/ISticky#height
+ * @name Controls/_popup/interface/IStickyOpener#height
  * @cfg {Number} Текущая высота всплывающего окна
  */
 /**
- * @name Controls/_popup/interface/ISticky#width
+ * @name Controls/_popup/interface/IStickyOpener#width
  * @cfg {Number} Текущая ширина всплывающего окна
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#target
+ * @name Controls/_popup/interface/IStickyOpener#target
  * @cfg {Node|Control} Элемент (DOM-элемент или контрол), относительно которого позиционируется всплывающее окно.
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#actionOnScroll
+ * @name Controls/_popup/interface/IStickyOpener#actionOnScroll
  * @cfg {String} Определяет реакцию всплывающего окна на скролл родительской области
  * @variant close Всплывающее окно закрывается
  * @variant track  Всплывающее окно движется вместе со своей точкой позиционнирования.
@@ -169,7 +164,7 @@ export interface IStickyOpener extends IOpener {
  */
 
 /*
- * @name Controls/_popup/interface/ISticky#actionOnScroll
+ * @name Controls/_popup/interface/IStickyOpener#actionOnScroll
  * @cfg {String} Determines the popup action on scroll.
  * @variant close
  * @variant track
@@ -178,12 +173,12 @@ export interface IStickyOpener extends IOpener {
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#targetPoint
+ * @name Controls/_popup/interface/IStickyOpener#targetPoint
  * @cfg {direction} Точка позиционнирования всплывающего окна относительно вызывающего элемента.
  */
 
 /*
- * @name Controls/_popup/interface/ISticky#targetPoint
+ * @name Controls/_popup/interface/IStickyOpener#targetPoint
  * @cfg {direction} Point positioning of the target relative to sticky.
  */
 
@@ -208,22 +203,22 @@ export interface IStickyOpener extends IOpener {
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#direction
+ * @name Controls/_popup/interface/IStickyOpener#direction
  * @cfg {direction} Устанавливает выравнивание всплывающего окна относительно точки позиционнирования.
  */
 
 /*
- * @name Controls/_popup/interface/ISticky#direction
+ * @name Controls/_popup/interface/IStickyOpener#direction
  * @cfg {direction} Sets the alignment of the popup.
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#offset
+ * @name Controls/_popup/interface/IStickyOpener#offset
  * @cfg {offset} Устанавливает отступы от точки позиционнирования до всплывающего окна
  */
 
 /*
- * @name Controls/_popup/interface/ISticky#offset
+ * @name Controls/_popup/interface/IStickyOpener#offset
  * @cfg {offset} Sets the offset of the targetPoint.
  */
 
@@ -234,7 +229,7 @@ export interface IStickyOpener extends IOpener {
  */
 
 /**
- * @name Controls/_popup/interface/ISticky#fittingMode
+ * @name Controls/_popup/interface/IStickyOpener#fittingMode
  * @cfg {fittingMode} Определеяет поведение окна, в случае, если оно не помещается на экране с заданным позиционированием.
  */
 
@@ -249,6 +244,6 @@ export interface IStickyOpener extends IOpener {
  * @typedef {Enum} fittingModeValue
  * @variant fixed Координаты точки позиционирования не меняются. Высота и ширина окна меняются так, чтобы его содержимое не выходило за пределы экрана.
  * @variant overflow Координаты точки позиционирования меняются (окно сдвигается относительно целевого элемента настолько, насколько не помещается в области видимости экрана, причем окно, возможно, будет перекрывать целевой элемент.) Если окно имеет размеры больше экрана, то ширина и высота уменьшаются так, чтобы окно поместилось.
- * @variant adaptive Координаты точки позиционирования ({@link Controls/_popup/interface/ISticky#targetPoint targetPoint}) и выравнивание ({@link Controls/_popup/interface/ISticky#direction direction}) меняются на противоположные. Если и в этом случае окно не помещается на экран, выбирается тот способ позиционирования (изначальный или инвертируемый), при котором на экране помещается наибольшая часть контента. Например если поле ввода с автодополнением находится внизу экрана, то список автодополнения раскроется вверх от поля. Ширина и высота при этом уменьшаются так, чтобы окно поместилось на экран.
+ * @variant adaptive Координаты точки позиционирования ({@link Controls/_popup/interface/IStickyOpener#targetPoint targetPoint}) и выравнивание ({@link Controls/_popup/interface/IStickyOpener#direction direction}) меняются на противоположные. Если и в этом случае окно не помещается на экран, выбирается тот способ позиционирования (изначальный или инвертируемый), при котором на экране помещается наибольшая часть контента. Например если поле ввода с автодополнением находится внизу экрана, то список автодополнения раскроется вверх от поля. Ширина и высота при этом уменьшаются так, чтобы окно поместилось на экран.
  * @default adaptive
  */

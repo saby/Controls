@@ -1,10 +1,8 @@
-import {IConfirmationFooterOptions} from 'Controls/_popup/interface/IConfirmationFooter';
+import {IConfirmationFooterOptions} from 'Controls/_popup/interface/IConfirmationOpenerFooter';
 import {IControlOptions} from 'UI/Base';
 
 /**
- * Интерфейс для опций окон подтверждения.
- *
- * @interface Controls/_popup/interface/IConfirmation
+ * Опции интерфейса описаны {@link Controls/_popup/interface/IConfirmationOpener здесь}.
  * @public
  * @author Красильников А.С.
  */
@@ -17,13 +15,18 @@ export interface IConfirmationOptions extends IConfirmationFooterOptions, IContr
     zIndex?: number; //todo: Compatible
 }
 
+/**
+ * Интерфейс для опций окон подтверждения.
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IConfirmationOpener {
     open(templateOptions: IConfirmationOptions): Promise<boolean | undefined>;
     readonly '[Controls/_popup/interface/IConfirmationOpener]': boolean;
 }
 
 /**
- * @name Controls/_popup/interface/IConfirmation#size
+ * @name Controls/_popup/interface/IConfirmationOpener#size
  * @cfg {String} Размер диалога подтверждения. Размер меняется автоматически, если длина основного сообщения превышает
  * 100 символов или длина дополнительного текста превышает 160 символов.
  * @variant m (ширина 350px)
@@ -32,18 +35,18 @@ export interface IConfirmationOpener {
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmation#message
+ * @name Controls/_popup/interface/IConfirmationOpener#message
  * @cfg {String} Основной текст диалога подтверждения.
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmation#details
+ * @name Controls/_popup/interface/IConfirmationOpener#details
  * @cfg {String} Дополнительный текст диалога подтверждения
  */
 
 /**
  * Метод открытия окна подтверждения.
- * @function Controls/_popup/interface/IConfirmation#open
+ * @function Controls/_popup/interface/IConfirmationOpener#open
  * @param {Controls/popup:IConfirmationOptions} IConfirmationOptions Конфигурация диалога подтверждения.
  * @returns {Deferred} Результат будет возвращен после того, как пользователь закроет всплывающее окно.
  * @remark
@@ -85,7 +88,7 @@ export interface IConfirmationOpener {
 
 /*
  * Open confirmation popup.
- * @function Controls/_popup/interface/IConfirmation#open
+ * @function Controls/_popup/interface/IConfirmationOpener#open
  * @param {PopupOptions} templateOptions Confirmation options.
  * @returns {Deferred} The deferral will end with the result when the user closes the popup.
  * @remark
@@ -95,7 +98,7 @@ export interface IConfirmationOpener {
 /**
  * Статический метод для открытия окна подтверждения. При использовании метода не требуется создавать popup:Confirmation в верстке.
  * {@link /doc/platform/developmentapl/interface-development/controls/openers/confirmation/#open-popup Подробнее}.
- * @function Controls/_popup/interface/IConfirmation#openPopup
+ * @function Controls/_popup/interface/IConfirmationOpener#openPopup
  * @param {Controls/popup:IConfirmationOptions} IConfirmationOptions Конфигурация окна подтверждения
  * @return {Promise<boolean>} Результат будет возвращен после того, как пользователь закроет всплывающее окно.
  * @static
