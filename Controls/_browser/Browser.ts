@@ -25,7 +25,7 @@ import Store from 'Controls/Store';
 import {SHADOW_VISIBILITY} from 'Controls/scroll';
 import {detection} from 'Env/Env';
 import {ICrud, ICrudPlus, IData, PrefetchProxy, QueryWhereExpression} from 'Types/source';
-import {ISearchControllerOptions} from 'Controls/_search/interface';
+import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
 import {IHierarchySearchOptions} from 'Controls/interface/IHierarchySearch';
 import {IFilterHistoryData} from 'Controls/_filter/ControllerClass';
 import {IMarkerListOptions} from 'Controls/_marker/interface';
@@ -77,6 +77,8 @@ type IFilterControllerOptions = Pick<IBrowserOptions,
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/ISearch
  * @mixes Controls/interface/IHierarchySearch
+ *
+ * @demo Controls-demo/Search/FlatList/Index
  */
 export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     protected _template: TemplateFunction = template;

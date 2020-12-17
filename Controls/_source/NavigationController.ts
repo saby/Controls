@@ -148,12 +148,14 @@ export class NavigationController {
      * @param navigationConfig {INavigationSourceConfig} Настройки навигации.
      * @param id {} Идентификатор запрашиваемого узла. По-умолчанию - корневой узел.
      * @param direction {TNavigationDirection} Направление навигации.
+     * @param reset {boolean} Определяет, расчитывать ли навигацию от начального состояния.
      */
 
     getQueryParams(userQueryParams: IQueryParams,
                    id: TKey = null,
                    navigationConfig?: INavigationSourceConfig,
-                   direction?: TNavigationDirection): IQueryParams {
+                   direction?: TNavigationDirection,
+                   reset: boolean = true): IQueryParams {
 
         const calculator = this._getCalculator();
         const navigationQueryConfig = navigationConfig || ({} as INavigationSourceConfig);
@@ -165,13 +167,15 @@ export class NavigationController {
             store,
             navigationQueryConfig,
             direction,
-            this._navigationParamsChangedCallback
+            this._navigationParamsChangedCallback,
+            reset
         );
         return NavigationController._mergeParams(mainQueryParams, addQueryParams);
     }
 
     getQueryParamsForHierarchy(userQueryParams: IQueryParams,
-                               navigationConfig?: INavigationSourceConfig): IQueryParams[] {
+                               navigationConfig?: INavigationSourceConfig,
+                               reset: boolean = true): IQueryParams[] {
         const calculator = this._getCalculator();
         const navigationQueryConfig = navigationConfig || ({} as INavigationSourceConfig);
         const mainQueryParams = NavigationController._getMainQueryParams(userQueryParams);
@@ -181,7 +185,12 @@ export class NavigationController {
             const store = storesItem.store;
             addQueryParamsArray.push({
                 id: storesItem.id,
-                addParams: calculator.getQueryParams(store, navigationQueryConfig)
+                addParams: calculator.getQueryParams(
+                    store,
+                    navigationQueryConfig,
+                    undefined,
+                    this._navigationParamsChangedCallback,
+                    reset)
             });
         });
         return NavigationController._mergeParamsHierarchical(mainQueryParams, addQueryParamsArray);

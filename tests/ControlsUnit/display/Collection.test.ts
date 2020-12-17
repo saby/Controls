@@ -4625,16 +4625,15 @@ describe('Controls/_display/Collection', () => {
             assert.isTrue(notifyLaterSpy.calledTwice);
         });
 
-        it('resetDraggedItems and item was remove on dragEnd event', () => {
+        it('resetDraggedItems and was not added item on dragStart', () => {
             const draggedItem = display.getItemBySourceKey(1);
             display.setDraggedItems(draggedItem, [1]);
             assert.equal(display.getItems()[0].getContents().getKey(), 1);
             assert.isFalse(notifyLaterSpy.called);
 
-            rs.remove(draggedItem.getContents());
             notifyLaterSpy.resetHistory();
             display.resetDraggedItems();
-            assert.isTrue(notifyLaterSpy.called);
+            assert.isFalse(notifyLaterSpy.called);
         });
     });
 });

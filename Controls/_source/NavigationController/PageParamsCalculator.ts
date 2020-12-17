@@ -15,7 +15,8 @@ class PageParamsCalculator implements IParamsCalculator {
         store: PageNavigationStore,
         config: INavigationPageSourceConfig,
         direction?: TNavigationDirection,
-        paramsCallback?: Function
+        paramsCallback?: Function,
+        reset?: boolean
     ): IQueryParams {
         const addParams: IQueryParams = {};
         addParams.meta = {navigationType: QueryNavigationType.Page};
@@ -31,7 +32,12 @@ class PageParamsCalculator implements IParamsCalculator {
         const pageSize = config.pageSize ? config.pageSize : storeParams.pageSize;
 
         addParams.offset = page * pageSize;
-        addParams.limit = pageSize;
+
+        if (reset) {
+            addParams.limit = pageSize;
+        } else {
+            addParams.limit = pageSize * storeParams.nextPage;
+        }
 
         if (storeParams.hasMore === false) {
             addParams.meta.hasMore = false;

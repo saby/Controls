@@ -1,0 +1,41 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
+        <div class="controls-text-label_theme-{{_options.theme}}">itemPadding = {top: null, bottom: null, left: null, right: null}</div>
+        <Controls.propertyGrid:PropertyGrid
+                bind:editingObject="_editingObject"
+                source="{{_source}}"
+                on:itemClick="_handleItemClick()">
+            <ws:itemPadding top="null" bottom="null" left="null" right="null"/>
+        </Controls.propertyGrid:PropertyGrid>
+    </div>
+
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
+        <div class="controls-text-label_theme-{{_options.theme}}">itemPadding = {top: s, bottom: s, left: null, right: null}</div>
+        <Controls.propertyGrid:PropertyGrid
+                bind:editingObject="_editingObject"
+                source="{{_source}}"
+                on:itemClick="_handleItemClick()">
+            <ws:itemPadding top="s" bottom="s" left="null" right="null"/>
+        </Controls.propertyGrid:PropertyGrid>
+    </div>
+
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
+        <div class="controls-text-label_theme-{{_options.theme}}">itemPadding = {left: l, right: l}</div>
+        <Controls.propertyGrid:PropertyGrid
+                bind:editingObject="_editingObject"
+                source="{{_source}}"
+                on:itemClick="_handleItemClick()">
+            <ws:itemPadding left="s" right="s"/>
+        </Controls.propertyGrid:PropertyGrid>
+    </div>
+
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
+        <div class="controls-text-label_theme-{{_options.theme}}">itemPadding = {top: l, bottom: l}</div>
+        <Controls.propertyGrid:PropertyGrid
+                bind:editingObject="_editingObject"
+                source="{{_source}}"
+                on:itemClick="_handleItemClick()">
+            <ws:itemPadding top="l" bottom="l"/>
+        </Controls.propertyGrid:PropertyGrid>
+    </div>
+</div>

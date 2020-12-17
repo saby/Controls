@@ -271,6 +271,7 @@
    font-size: @master_item_font-size_list;
 }
 
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed_theme-@{themeName},
 .controls-Grid__cell_fixed_theme-@{themeName} {
    z-index: 3;
    // stickyHeader считает что колонка не зафиксированна если повесить overflow-y: hidden;, а без overflow-x: hidden оявляется горизонтальный скролл
@@ -281,6 +282,7 @@
 
 // Строка редактирования имеет свой z-index, который вешается на все ячейки.
 // У фиксированных необходимо увеличить для перекрывания скроллируемых.
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName},
 .controls-Grid__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName} {
    z-index: 3;
 }

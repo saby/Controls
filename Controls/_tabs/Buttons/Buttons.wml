@@ -1,7 +1,6 @@
 <div class="controls-Tabs controls-Tabs_theme_{{_options.theme}}
             controls-Tabs_inlineHeight-{{_options.inlineHeight}}_theme-{{_options.theme}}
-            controls-Tabs_borderThickness-{{_options.borderThickness}}_theme-{{_options.theme}}
-            {{_options.tempFix_1180388539 ? 'tempFix_1180388539' }}">
+            {{_options.borderVisible ? 'controls-Tabs_border-' + _markerThickness + '_theme-' + _options.theme}}">
     <div class="controls-Tabs-wrapper">
         <ws:for data="index, item in _itemsArray">
             <div attr:class="{{_prepareItemClass(item, index)}}"
@@ -17,13 +16,13 @@
                 <ws:partial
                         attr:class="controls-Tabs__itemClickableArea controls-Tabs__itemClickableArea_theme_{{_options.theme}}
                         controls-Tabs__itemClickableArea_inlineHeight-{{_options.inlineHeight}}_theme-{{_options.theme}}
-                        controls-Tabs__itemClickableArea_borderThickness-{{_options.borderThickness}}_theme-{{_options.theme}}
+                        controls-Tabs__itemClickableArea_markerThickness-{{_markerThickness}}_theme-{{_options.theme}}
                         {{_prepareItemSelectedClass(item)}}"
                         template="{{ _getTemplate(_options.itemTemplate, item, _options.itemTemplateProperty) || _defaultItemTemplate}}"
                         selected="{{item[_options.keyProperty] === _options.selectedKey}}"
                         displayProperty="{{_options.displayProperty}}"
                         inlineHeight="{{_options.inlineHeight}}"
-                        borderThickness="{{_options.borderThickness}}"
+                        markerThickness="{{_markerThickness}}"
                         keyProperty="{{_options.keyProperty}}"
                         index="{{index}}"
                         item="{{_items.at(index)}}"/>

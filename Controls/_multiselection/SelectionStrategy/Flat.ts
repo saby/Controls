@@ -12,7 +12,7 @@ const ALL_SELECTION_VALUE = null;
 
 /**
  * Базовая стратегия выбора в плоском списке.
- * @class Controls/_multiselection/SelectionStrategy/Flat
+ * @class Controls/_multiselection/SelectionStrategy/FlatSelectionStrategy
  *
  * @public
  * @author Панихин К.А.

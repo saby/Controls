@@ -34,6 +34,19 @@ export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
         return DEFAULT_EDITORS[getType(propertyValue)];
     }
 
+    getItemPaddingClasses(theme: string, gridColumnIndex?: number): string {
+        const owner = this.getOwner();
+        let classes = `controls-PropertyGrid__editor_spacingTop_${owner.getTopPadding()}_theme-${theme}
+                       controls-PropertyGrid__editor_spacingBottom_${owner.getBottomPadding()}_theme-${theme}`;
+        if (gridColumnIndex !== 1) {
+            classes += ` controls-PropertyGrid__editor_spacingRight_${owner.getRightPadding()}_theme-${theme}`;
+        }
+        if (gridColumnIndex !== 2) {
+            classes += ` controls-PropertyGrid__editor_spacingLeft_${owner.getLeftPadding()}_theme-${theme}`;
+        }
+        return classes;
+    }
+
     getEditorOptions(): object {
         const itemContents = this.getContents();
         const editorOptions = itemContents.get('editorOptions') || {};

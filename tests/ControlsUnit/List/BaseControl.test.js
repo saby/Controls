@@ -168,7 +168,7 @@ define([
 
             ctrl._isScrollShown = true;
             ctrl._beforeUpdate(cfg);
-            ctrl._beforePaint();
+            ctrl._componentDidUpdate();
 
             // check saving loaded items after new viewModelConstructor
             // https://online.sbis.ru/opendoc.html?guid=72ff25df-ff7a-4f3d-8ce6-f19a666cbe98
@@ -186,7 +186,7 @@ define([
             );
             setTimeout(function() {
                ctrl._afterUpdate({});
-               ctrl._beforePaint();
+               ctrl._componentDidUpdate();
                assert.isTrue(dataLoadFired, 'dataLoadCallback is not fired');
                ctrl._children.listView = {
                   getItemsContainer: function() {
@@ -2498,7 +2498,7 @@ define([
 
             assert.isTrue(ctrl._scrollPageLocked, 'Paging should be locked after paging Next until _afterUpdate');
             ctrl._afterUpdate(cfg);
-            ctrl._beforePaint();
+            ctrl._componentDidUpdate();
             assert.isFalse(ctrl._scrollPageLocked, 'Paging should be unlocked in _afterUpdate');
 
             ctrl.__onPagingArrowClick({}, 'Prev');
@@ -2506,7 +2506,7 @@ define([
 
             assert.isTrue(ctrl._scrollPageLocked, 'Paging should be locked after paging Prev until _afterUpdate');
             ctrl._afterUpdate(cfg);
-            ctrl._beforePaint();
+            ctrl._componentDidUpdate();
             assert.isFalse(ctrl._scrollPageLocked, 'Paging should be unlocked in _afterUpdate');
 
             ctrl.__onPagingArrowClick({}, 'Prev');
@@ -2678,10 +2678,10 @@ define([
                               return res;
                            });
                         lnBaseControl._afterUpdate({});
-                        lnBaseControl._beforePaint();
+                        lnBaseControl._componentDidUpdate();
                      });
                   lnBaseControl._afterUpdate({});
-                  lnBaseControl._beforePaint();
+                  lnBaseControl._componentDidUpdate();
                }, 10);
             }, 10);
          });
@@ -3049,14 +3049,14 @@ define([
             await lists.BaseControl._private.reload(baseControl, cfg);
             assert.isFalse(baseControl._resetScrollAfterReload);
             await baseControl._afterUpdate(cfg);
-            baseControl._beforePaint();
+            baseControl._componentDidUpdate();
             assert.isFalse(doScrollNotified);
          });
          it('with scroll', async function() {
             baseControl._isScrollShown = true;
             await lists.BaseControl._private.reload(baseControl, cfg);
             await baseControl._afterUpdate(cfg);
-            baseControl._beforePaint();
+            baseControl._componentDidUpdate();
             assert.isFalse(doScrollNotified);
             baseControl._shouldNotifyOnDrawItems = true;
             baseControl._resetScrollAfterReload = true;
@@ -3237,7 +3237,7 @@ define([
                resolve();
             });
             ctrl._afterUpdate(cfgWithSource);
-            ctrl._beforePaint();
+            ctrl._componentDidUpdate();
          });
       });
 
@@ -5570,7 +5570,7 @@ define([
          await instance._beforeMount(cfg);
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
 
          var fakeNotify = sandbox.spy(instance, '_notify')
             .withArgs('drawItems');
@@ -5581,7 +5581,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
          assert.isTrue(fakeNotify.calledOnce);
       });
 
@@ -5627,7 +5627,7 @@ define([
          await instance._beforeMount(cfg);
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
 
          instance.saveOptions({
             ...cfg,
@@ -5646,7 +5646,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
          assert.isFalse(fakeNotify.calledOnce);
 
          const redrawChange = [{ sourceItem: true}];
@@ -5657,7 +5657,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
          assert.isTrue(fakeNotify.calledOnce);
       });
 
@@ -5678,7 +5678,7 @@ define([
          await instance._beforeMount(cfg);
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
 
          instance.saveOptions({
             ...cfg,
@@ -5697,7 +5697,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
          assert.isFalse(fakeNotify.calledOnce);
 
          const redrawChange = [{ sourceItem: true}];
@@ -5708,7 +5708,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
          assert.isTrue(fakeNotify.calledOnce);
       });
 
@@ -5732,7 +5732,7 @@ define([
          await instance._beforeMount(cfg);
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
          var fakeNotify = sandbox.spy(instance, '_notify')
             .withArgs('drawItems');
 
@@ -5742,7 +5742,7 @@ define([
          instance._beforeUpdate(cfg);
          assert.isFalse(fakeNotify.called);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
          assert.isTrue(fakeNotify.calledOnce);
       });
 
@@ -5854,7 +5854,7 @@ define([
 
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
 
          lists.BaseControl._private.showIndicator(instance, 'down');
          assert.equal(instance._loadingState, 'down');
@@ -5862,7 +5862,7 @@ define([
          cfgClone.loading = true;
          instance.saveOptions(cfg);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
          assert.equal(instance._loadingState, 'down');
       });
 
@@ -5892,7 +5892,7 @@ define([
 
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
 
          let clock = sandbox.useFakeTimers();
          let loadPromise;
@@ -5902,7 +5902,7 @@ define([
          loadPromise = instance._beforeUpdate(cfgClone);
          clock.tick(100);
          instance._afterUpdate({});
-         instance._beforePaint();
+         instance._componentDidUpdate();
          await loadPromise;
          assert.isTrue(cfgClone.dataLoadCallback.calledOnce);
          assert.isTrue(portionSearchReseted);
@@ -5913,7 +5913,7 @@ define([
          cfgClone.filter = { test: 'test' };
          loadPromise = instance._beforeUpdate(cfgClone);
          instance._afterUpdate({});
-         instance._beforePaint();
+         instance._componentDidUpdate();
          clock.tick(100);
          await loadPromise;
          assert.isTrue(cfgClone.dataLoadCallback.calledOnce);
@@ -5968,7 +5968,7 @@ define([
 
          instance._beforeUpdate(cfg);
          instance._afterUpdate(cfg);
-         instance._beforePaint();
+         instance._componentDidUpdate();
 
          assert.isTrue(portionSearchReseted);
          portionSearchReseted = false;
@@ -5977,7 +5977,7 @@ define([
          instance._beforeUpdate(cfgClone);
          assert.isTrue(instance._listViewModel._options.searchValue !== cfgClone.searchValue);
          instance._afterUpdate({});
-         instance._beforePaint();
+         instance._componentDidUpdate();
          assert.isTrue(instance._listViewModel._options.searchValue === cfgClone.searchValue);
 
          assert.isTrue(portionSearchReseted);
@@ -6322,7 +6322,7 @@ define([
          baseControl._getItemsContainer = () => {
             isGetItemsContainerCalled = true;
          };
-         baseControl._beforePaint();
+         baseControl._componentDidUpdate();
          assert.isFalse(isGetItemsContainerCalled);
          assert.isNull(baseControl._scrollController);
       });
@@ -6387,22 +6387,22 @@ define([
 
          baseControl._loadingIndicatorState = 'down';
          baseControl._loadTriggerVisibility = {down: false};
-         baseControl._beforePaint();
+         baseControl._componentDidUpdate();
          assert.isNull(baseControl._loadingIndicatorState);
 
          baseControl._loadingIndicatorState = 'up';
          baseControl._loadTriggerVisibility = {up: false};
-         baseControl._beforePaint();
+         baseControl._componentDidUpdate();
          assert.isNull(baseControl._loadingIndicatorState);
 
          baseControl._loadingIndicatorState = 'down';
          baseControl._loadTriggerVisibility = {down: true};
-         baseControl._beforePaint();
+         baseControl._componentDidUpdate();
          assert.equal(baseControl._loadingIndicatorState, 'down');
 
          baseControl._loadingIndicatorState = 'up';
          baseControl._loadTriggerVisibility = {up: true};
-         baseControl._beforePaint();
+         baseControl._componentDidUpdate();
          assert.equal(baseControl._loadingIndicatorState, 'up');
       });
 

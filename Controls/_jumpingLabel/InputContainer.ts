@@ -15,8 +15,8 @@ export interface IInputContainerOptions extends IBaseOptions {
  * @remark
  * Используется с контролами, поддерживающими интерфейс {@link Controls/_input/interface/IValueOptions IValue}.
  * Полезные ссылки
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FJumpingLabel%2FStandard%2FIndex">Демо-пример</a>
- * * <a href="http://axure.tensor.ru/StandardsV8/%D0%BF%D0%BE%D0%BB%D1%8F_%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0.html">Стандарт</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FJumpingLabel%2FStandard%2FIndex демо-пример}
+ * * {@link http://axure.tensor.ru/StandardsV8/%D0%BF%D0%BE%D0%BB%D1%8F_%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0.html Стандарт}
  *
  * @class Controls/_jumpingLabel/InputContainer
  * @extends Controls/_jumpingLabel/Base

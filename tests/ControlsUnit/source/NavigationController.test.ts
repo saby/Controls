@@ -816,6 +816,34 @@ describe('Controls/_source/NavigationController', () => {
                 assert.equal('2', params[1].filter.__root.valueOf(), 'Wrong query params');
             });
 
+            it ('Page + do not reset navigation', () => {
+                const nc = new NavigationController({
+                    navigationType: 'page',
+                    navigationConfig: {
+                        page: 0,
+                        pageSize: TEST_PAGE_SIZE
+                    }
+                });
+
+                // creating some stores in Navigation controller
+                nc.getQueryParams({}, '1');
+                nc.getQueryParams({}, '2');
+
+                const rs = new RecordSet({
+                    rawData: data,
+                    keyProperty: 'id'
+                });
+                rs.setMetaData({more: true});
+                nc.updateQueryProperties(rs, '1', null, 'forward');
+
+                const params = nc.getQueryParamsForHierarchy({filter: defFilter, sorting: defSorting}, null, false);
+                assert.equal(2, params.length, 'Wrong query params');
+                assert.equal('1', params[0].filter.__root.valueOf(), 'Wrong query params');
+                assert.equal(TEST_PAGE_SIZE * 2, params[0].limit, 'Wrong limit');
+                assert.equal('2', params[1].filter.__root.valueOf(), 'Wrong query params');
+                assert.equal(TEST_PAGE_SIZE, params[1].limit, 'Wrong limit');
+            });
+
             it ('Position', () => {
                 const QUERY_LIMIT = 3;
                 const nc = new NavigationController({

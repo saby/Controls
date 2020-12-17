@@ -1,5 +1,5 @@
 /**
- * @typedef {String} Controls/_list/interface/IBaseItemTemplateOptions/TCursor
+ * @typedef {String} TCursor
  * @description Значения, с помощью которых задается вид курсора мыши.
  * @variant default Стандартный указатель (стрелка).
  * @variant pointer Указатель.
@@ -7,7 +7,7 @@
 export type TCursor = 'default' | 'pointer' | 'right';
 
 /**
- * @typedef {String} Controls/_list/interface/IBaseItemTemplateOptions/TMarkerClassName
+ * @typedef {String} TMarkerClassName
  * @description Значения, с помощью которых задается размер маркера.
  * @variant default Маркер по высоте растягивается на весь контейнер записи.
  * @variant image-l Используется для размещения маркера рядом с изображением размера "l".
@@ -25,14 +25,13 @@ type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | 'image-x
 
 /**
  * Интерфейс для шаблона отображения элемента в {@link /doc/platform/developmentapl/interface-development/controls/list/ списке}.
- * @interface Controls/_list/interface/IBaseItemTemplateOptions
+ * @interface Controls/_list/interface/IBaseItemTemplate
  * @author Авраменко А.С.
  * @public
  */
 
 export default interface IBaseItemTemplateOptions {
    /**
-    * @name Controls/_list/interface/IBaseItemTemplateOptions#highlightOnHover
     * @cfg {Boolean} Видимость подсветки строки при наведении курсора мыши.
     * @remark
     * В значении false элементы списка не будут подсвечиваться при наведении курсора мыши.
@@ -41,26 +40,23 @@ export default interface IBaseItemTemplateOptions {
     */
    highlightOnHover?: boolean;
    /**
-    * @name Controls/_list/interface/IBaseItemTemplateOptions#cursor
-    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/TCursor.typedef} Вид {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора мыши} при наведении на строку.
+    * @cfg {TCursor} Вид {@link https://developer.mozilla.org/ru/docs/Web/CSS/cursor курсора мыши} при наведении на строку.
     * @default pointer
     */
    cursor?: TCursor;
    /**
-    * @name Controls/_list/interface/IBaseItemTemplateOptions#marker
     * @cfg {Boolean} Когда опция установлена в значение true, активный элемент будет выделяться {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
     * @default true
     */
    marker?: boolean;
    /**
-    * @typedef {String} Controls/_list/interface/IBaseItemTemplateOptions/ItemActionsClass
+    * @typedef {String} ItemActionsClass
     * @description Классы, с помощью которых задается позиционирование панели опций записи внутри элемента.
     * @variant controls-itemActionsV_position_bottomRight В правом нижнем углу элемента.
     * @variant controls-itemActionsV_position_topRight В правом верхнем углу элемента.
     */
    /**
-    * @name Controls/_list/interface/IBaseItemTemplateOptions#itemActionsClass
-    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/ItemActionsClass.typedef} Класс, используемый для позиционирования {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} при отображении её внутри элемента списка (опция {@link Controls/_itemActions/interface/IItemActionsOptions#itemActionsPosition itemActionsPosition}).
+    * @cfg {ItemActionsClass} Класс, используемый для позиционирования {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи} при отображении её внутри элемента списка (опция {@link Controls/_itemActions/interface/IItemActionsOptions#itemActionsPosition itemActionsPosition}).
     * @default controls-itemActionsV_position_bottomRight
     * @remark
     * Панель опций записи абсолютно позиционируется относительно элемента списка.
@@ -75,20 +71,18 @@ export default interface IBaseItemTemplateOptions {
     */
    itemActionsClass?: string;
    /**
-    * @name Controls/_list/interface/IBaseItemTemplateOptions#checkboxReadOnly
     * @cfg {Boolean} Флаг, позволяющий установить у checkbox в multiSelect режим "только для чтения".
     * @remark
     * В значении true режим "только для чтения" включен.
     * @default false
     */
    /*
-    * @name Controls/_list/interface/IBaseItemTemplateOptions#checkboxReadOnly
     * @cfg {boolean} Flag, allowing to set "readonly" state for checkbox within multiSelect.
     * @default false
     */
    checkboxReadOnly?: boolean;
    /**
-    * @typedef {String} Controls/_list/interface/IBaseItemTemplateOptions/BackgroundColorStyle
+    * @typedef {String} BackgroundColorStyle
     * @description Значения, с помощью которых задается фон строки.
     * @variant danger
     * @variant success
@@ -99,17 +93,15 @@ export default interface IBaseItemTemplateOptions {
     * @variant readonly
     */
    /**
-    * @name Controls/_list/interface/IBaseItemTemplateOptions#backgroundColorStyle
-    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/BackgroundColorStyle.typedef} Настройка фона строки.
+    * @cfg {BackgroundColorStyle} Настройка фона строки.
     * @remark 
-    * См. <a href="/doc/platform/developmentapl/interface-development/controls/list/list/background/#highlight">руководство разработчика</a>.
+    * См. {@link /doc/platform/developmentapl/interface-development/controls/list/list/background/#highlight руководство разработчика}.
     * @demo Controls-demo/list_new/ItemTemplate/BackgroundColorStyle/Index
     */
    backgroundColorStyle?: string;
 
    /**
-    * @name Controls/_list/interface/IBaseItemTemplateOptions#markerClassName
-    * @cfg {Controls/_list/interface/IBaseItemTemplateOptions/TMarkerClassName.typedef} Размер маркера.
+    * @cfg {TMarkerClassName} Размер маркера.
     * @default default
     */
    markerClassName?: TMarkerClassName;

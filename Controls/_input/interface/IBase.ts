@@ -23,6 +23,7 @@ export interface IBaseOptions {
  * Интерфейс базового поля ввода.
  *
  * @interface Controls/_input/interface/IBase
+ * @implements Controls/interface:IContrastBackground
  * @public
  * @author Красильников А.С.
  */
@@ -113,9 +114,7 @@ export interface IBase {
 
 /**
  * @name Controls/_input/interface/IBase#contrastBackground
- * @cfg {Boolean} Определяет контрастность фона контрола по отношению к ее окружению.
+ * @cfg
  * @default true
- * @variant true Контрастный фон.
- * @variant false Фон, гармонично сочетающийся с окружением.
  * @demo Controls-demo/Input/ContrastBackground/Index
  */

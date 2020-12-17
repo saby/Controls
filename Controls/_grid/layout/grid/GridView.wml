@@ -19,6 +19,7 @@
                 scrollWidth="{{ _horizontalScrollWidth }}"
                 listModel="{{ _listModel }}"
                 trackVisible="{{ _trackVisible }}"
+                on:newPositionRendered="_onNewHorizontalPositionRendered()"
                 positionChangeHandler="{{ _horizontalPositionChangedHandler }}"
                 backgroundStyle="{{_options.backgroundStyle || _options.style}}">
         </Controls._grid.ScrollWrapper>

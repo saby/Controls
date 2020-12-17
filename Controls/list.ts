@@ -1,8 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют плоский список. Список может строиться по данным, полученным из источника. Также можно организовать удаление и перемещение данных.
  * @library Controls/list
- * @includes AddButton Controls/_list/AddButton
- * @includes Container Controls/_list/Container
  * @includes BaseItemTemplate Controls/_list/interface/BaseItemTemplate
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
@@ -10,33 +8,10 @@
  * @includes BaseGroupTemplate Controls/_list/interface/BaseGroupTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
- * @includes View Controls/_list/List
- * @includes BaseAction Controls/_list/BaseAction
- * @includes Mover Controls/_list/Mover
- * @includes Remover Controls/_list/Remover
- * @includes IRemovableList Controls/_list/interface/IRemovableList
- * @includes DataContainer Controls/_list/Data
- * @includes IHierarchy Controls/_interface/IHierarchy
- * @includes IList Controls/_list/interface/IList
- * @includes IList Controls/_list/interface/IList/IItemPadding
- * @includes ISorting Controls/_interface/ISorting
- * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
- * @includes HotKeysContainer Controls/_list/HotKeysContainer
- * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
  * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
- * @includes MoveController Controls/_list/Controllers/MoveController
- * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
- * @includes IRemoveControllerOptions Controls/_list/Controllers/RemoveController/IRemoveControllerOptions
- * @includes RemoveController Controls/_list/Controllers/RemoveController
- * @includes IClickableView Controls/_list/interface/IClickableView
- * @includes IListNavigation Controls/_list/interface/IListNavigation
- * @includes IReloadableList Controls/_list/interface/IReloadableList
- * @includes IMovableList Controls/_list/interface/IMovableList
- * @includes IMoveDialogTemplate Controls/_list/interface/IMovableList/IMoveDialogTemplate
- * @includes IMovableOptions Controls/_list/interface/IMovableList/IMovableOptions
- * @includes IMarkerListOptions Controls/_marker/interface/IMarkerListOptions
+ * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -44,8 +19,6 @@
 /*
  * List library
  * @library Controls/list
- * @includes AddButton Controls/_list/AddButton
- * @includes Container Controls/_list/Container
  * @includes BaseItemTemplate Controls/_list/interface/BaseItemTemplate
  * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
@@ -53,29 +26,10 @@
  * @includes BaseGroupTemplate Controls/_list/interface/BaseGroupTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
- * @includes View Controls/_list/List
- * @includes BaseAction Controls/_list/BaseAction
- * @includes Mover Controls/_list/Mover
- * @includes Remover Controls/_list/Remover
- * @includes IRemovableList Controls/_list/interface/IRemovableList
- * @includes DataContainer Controls/_list/Data
- * @includes IHierarchy Controls/_interface/IHierarchy
- * @includes IList Controls/_list/interface/IList
- * @includes IList Controls/_list/interface/IList/IItemPadding
- * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
- * @includes HotKeysContainer Controls/_list/HotKeysContainer
- * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
  * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
- * @includes MoveController Controls/_list/Controllers/MoveController
- * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
- * @includes RemoveController Controls/_list/Controllers/RemoveController
- * @includes IClickableView Controls/_list/interface/IClickableView
- * @includes IListNavigation Controls/_list/interface/IListNavigation
- * @includes IMovableList Controls/_list/interface/IMovableList
- * @includes IMoveDialogTemplate Controls/_list/interface/IMovableList/IMoveDialogTemplate
- * @includes IMovableOptions Controls/_list/interface/IMovableList/IMovableOptions
+ * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -182,33 +136,17 @@ export {
 };
 
 /**
- * Константы:
- * - groupConstants.hiddenGroup — константа для определения элемента hiddenGroup в {@link Controls/interface/IGroupedList#groupProperty groupProperty};
- * - editing.CANCEL — константа, которую можно вернуть в {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} для отмены редактирования.
- * - CursorDirection - enum, направление выборки при навигации по курсору.
- *
+ * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактированием по месту}.
  * @public
- */
-
-/*
- * Constants
- * <ul>
- *    <li>
- *       groupConstants.hiddenGroup - Constant for determining item in the hiddenGroup in the {@link Controls/interface/IGroupedList#groupProperty groupProperty}
- *    </li>
- *    <li>
- *       editing.CANCEL - Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
- *    </li>
- *    <li>
- *       CursorDirection - enum, navigation direction variants for cursor navigation
- *    </li>
- * </ul>
- *
- * @class Controls/list
- * @public
- */
-
+ */ 
 const editing = {
+    /**
+     * С помощью этой константы можно отменить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
+     * Для этого константу следует вернуть из обработчика события {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}.
+     */
+    /*
+     * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
+     */
     CANCEL: 'Cancel'
 };
 

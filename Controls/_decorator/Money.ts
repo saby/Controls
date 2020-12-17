@@ -30,7 +30,7 @@ interface IPaths {
 
 /**
  * Интерфейс для опций контрола {@link Controls/decorator:Money}.
- * @interface Controls/_decorator/Money/IMoneyOptions
+ * @interface Controls/_decorator/Money/IMoney
  * @public
  * @author Красильников А.С.
  */
@@ -51,7 +51,7 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less переменные тем оформления}
  *
  * @class Controls/_decorator/Money
  * @extends UI/Base:Control
@@ -61,7 +61,7 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  * @mixes Controls/interface:IFontWeightOptions
  * @mixes Controls/interface:IFontSize
  * @mixes Controls/interface:INumberFormat
- * @mixes Controls/_decorator/Money/IMoneyOptions
+ * @mixes Controls/_decorator/Money/IMoney
  *
  * @public
  * @demo Controls-demo/Decorator/Money/Index

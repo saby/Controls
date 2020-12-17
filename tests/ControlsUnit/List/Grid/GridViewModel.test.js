@@ -2337,7 +2337,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
          });
 
          it('getColumnScrollCalculationCellClasses', function() {
-            const fixedCell = ` controls-Grid_columnScroll__fixed`;
+            const fixedCell = ` controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable`;
             const transformCell = ' controls-Grid_columnScroll__scrollable';
             const params = {
                hasMultiSelectColumn: false,

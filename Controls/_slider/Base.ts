@@ -21,8 +21,8 @@ const maxPercentValue = 100;
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2fSlider%2fBase%2fIndex">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_slider.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2fSlider%2fBase%2fIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_slider.less переменные тем оформления}
  *
  * @public
  * @extends Core/Control

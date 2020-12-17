@@ -1,7 +1,6 @@
 /**
  * Библиотека, которая предоставляет функционал для отметки маркером
  * @library Controls/marker
- * @includes Controller Controls/_marker/Controller
  * @public
  * @author Панихин К.А.
  */

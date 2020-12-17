@@ -19,6 +19,7 @@ import PropertyGridCollection from './PropertyGridCollection';
 import PropertyGridCollectionItem from './PropertyGridCollectionItem';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {StickyOpener} from 'Controls/popup';
+import { IItemPadding } from 'Controls/list';
 
 export type TToggledEditors = Record<string, boolean>;
 type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem<Model>>;
@@ -31,7 +32,7 @@ type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem
  * По умолчанию propertyGrid будет автоматически генерировать все свойства для данного объекта.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less переменные тем оформления}
  *
  * @class Controls/_propertyGrid/PropertyGrid
  * @extends Core/Control
@@ -72,12 +73,13 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             collapsedGroups,
             itemActions,
             editorColumnOptions,
-            captionColumnOptions
+            captionColumnOptions,
+            itemPadding
         }: IPropertyGridOptions
     ): void {
         this._collapsedGroups = this._getCollapsedGroups(collapsedGroups);
         this._toggledEditors = this._getToggledEditors(source);
-        this._listModel = this._getCollection(nodeProperty, parentProperty, editingObject, source);
+        this._listModel = this._getCollection(nodeProperty, parentProperty, editingObject, source, itemPadding);
         if (captionColumnOptions || editorColumnOptions) {
             this._render = gridRenderTemplate;
         }
@@ -98,8 +100,11 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
                 newOptions.nodeProperty,
                 newOptions.parentProperty,
                 newOptions.editingObject,
-                newOptions.source
+                newOptions.source,
+                newOptions.itemPadding
             );
+        } else if (newOptions.itemPadding !== this._options.itemPadding) {
+            this._listModel.setItemPadding(newOptions.itemPadding);
         }
     }
 
@@ -107,7 +112,8 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         nodeProperty: string,
         parentProperty: string,
         editingObject: Record<string, any>|Model,
-        source: IPropertyGridItem[] | RecordSet<IPropertyGridItem>
+        source: IPropertyGridItem[] | RecordSet<IPropertyGridItem>,
+        itemPadding: IItemPadding
     ): TPropertyGridCollection {
         const propertyGridItems = this._getPropertyGridItems(source, editingObject);
         return new PropertyGridCollection({
@@ -119,7 +125,8 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             root: null,
             group: this._groupCallback,
             filter: this._displayFilter.bind(this),
-            toggledEditors: this._toggledEditors
+            toggledEditors: this._toggledEditors,
+            itemPadding
         });
     }
 

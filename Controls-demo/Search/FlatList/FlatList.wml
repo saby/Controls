@@ -1,9 +1,14 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
         <div class="controlsDemo__default">
-            <div class="controls-text-label_theme-{{_options.theme}}">Поиск в плоском списке</div>
+            <div class="controls-text-label_theme-{{_options.theme}}">Поиск в плоском списке внутри Browser</div>
 
-          <Controls.browser:Browser source="{{_source}}" keyProperty="id" bind:filter="_filter">
+          <Controls.browser:Browser
+              source="{{_source}}"
+              searchParam="title"
+              minSearchLength="{{3}}"
+              keyProperty="id"
+              bind:filter="_filter">
             <div>
               <Controls.search:InputContainer>
                 <Controls.search:Input attr:class="controlsDemo__searchBase_field"/>

@@ -3,7 +3,7 @@ import DialogOpener from 'Controls/_popup/Opener/Dialog';
 import {IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 
 /**
- * Хелпер для открытия диалоговых окон
+ * Хелпер для открытия диалоговых окон.
  * @class Controls/_popup/PopupHelper/Dialog
  * 
  * @author Красильников А.С.
@@ -17,21 +17,23 @@ export default class Dialog extends Base {
      * Метод для открытия диалоговых окон.
      * @name Controls/_popup/PopupHelper/Dialog#open
      * @function
-     * @param {PopupOptions} config Конфигурация диалогового окна
+     * @param {PopupOptions} config Конфигурация диалогового окна.
      * @example
      * <pre class="brush: js">
-     *    import {DialogOpener} from 'Controls/popup';
-     *    ...
-     *    this._dialog = new DialogOpener();
-     *    openDialog() {
-     *        this._dialog.open({
-     *          template: 'Example/MyDialogTemplate',
-     *          opener: this._children.myButton
-     *        });
-     *    }
+     * import {DialogOpener} from 'Controls/popup';
+     * 
+     * this._dialog = new DialogOpener();
+     * 
+     * openDialog() {
+     *     this._dialog.open({
+     *         template: 'Example/MyDialogTemplate',
+     *         opener: this._children.myButton
+     *     });
+     * }
      * </pre>
      * @see close
      * @see destroy
+     * @see isOpened
      */
     open(popupOptions: IDialogPopupOptions): void {
         return super.open(popupOptions);
@@ -43,16 +45,17 @@ export default class Dialog extends Base {
  * @function
  * @example
  * <pre class="brush: js">
- *    import {DialogOpener} from 'Controls/popup';
- *    ...
- *    this._dialog = new DialogOpener();
+ * import {DialogOpener} from 'Controls/popup';
+ * 
+ * this._dialog = new DialogOpener();
  *
- *    closeDialog() {
- *        this._dialog.close();
- *    }
+ * closeDialog() {
+ *     this._dialog.close();
+ * }
  * </pre>
  * @see open
  * @see destroy
+ * @see isOpened
  */
 
 /**
@@ -61,15 +64,25 @@ export default class Dialog extends Base {
  * @function
  * @example
  * <pre class="brush: js">
- *    import {DialogOpener} from 'Controls/popup';
- *    ...
- *    this._dialog = new DialogOpener();
+ * import {DialogOpener} from 'Controls/popup';
+ * 
+ * this._dialog = new DialogOpener();
  *
- *    _beforeUnmount() {
- *        this._dialog.destroy();
- *        this._dialog = null;
- *    }
+ * _beforeUnmount() {
+ *     this._dialog.destroy();
+ *     this._dialog = null;
+ * }
  * </pre>
  * @see open
  * @see close
+ * @see isOpened
+ */
+
+/**
+ * @name Controls/_popup/PopupHelper/Dialog#isOpened
+ * @description Возвращает информацию о том, открыто ли диалоговое окно.
+ * @function
+ * @see open
+ * @see close
+ * @see destroy
  */

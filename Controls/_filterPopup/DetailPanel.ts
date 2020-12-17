@@ -212,9 +212,9 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     *
     * @remark
     * Полезные ссылки:
-    * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/#step-3">руководство разработчика</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
+    * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/#step-3 руководство разработчика}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less переменные тем оформления filter}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления filterPopup}
     *
     * @class Controls/_filterPopup/DetailPanel
     * @extends Core/Control

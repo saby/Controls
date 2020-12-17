@@ -73,7 +73,7 @@ var _private = {
 /*
  * Контрол, предназначенный для операций над множеством записей списка.
  * Подробное описание и инструкцию по настройке читайте <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>здесь</a>.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Демо-пример</a>.
+ * {@link /materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo демо-пример}.
  *
  * @class Controls/_operationsPanel/OperationsPanel
  * @extends Core/Control

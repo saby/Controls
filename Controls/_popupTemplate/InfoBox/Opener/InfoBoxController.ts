@@ -71,6 +71,7 @@ class InfoBoxController extends StickyController.constructor {
     TYPE: string = 'InfoBox';
 
     elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
+        const isTargetVisible = this._isTargetVisible(item);
         // Only one popup can be opened
         if (this._openedPopupId) {
             Controller.remove(this._openedPopupId);
@@ -78,7 +79,7 @@ class InfoBoxController extends StickyController.constructor {
         this._openedPopupId = item.id;
 
         // Not calculate the coordinates of target, when it is located on the hidden popup.
-        if (InfoBoxController._removeHiddenElement(item)) {
+        if (InfoBoxController._removeHiddenElement(item) || !isTargetVisible) {
             return false;
         } else {
             /**

@@ -30,11 +30,15 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
             wrapperClasses += ` controls-GridView__footer__cell__paddingRight_${this._$owner.getRightPadding()}_theme-${theme}`
         }
 
+        if (this._$owner.hasColumnScroll()) {
+            wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
+        }
+
         return wrapperClasses;
     }
 
     getWrapperStyles(): string {
-        return super.getWrapperStyles();
+        return `${this.getColspanStyles()}`;
     }
 
     getContentClasses(theme: string): string {

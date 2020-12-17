@@ -1,7 +1,7 @@
 import {SearchResolver} from 'Controls/search';
 import {assert} from 'chai';
 import * as sinon from 'sinon';
-import {ISearchResolverOptions} from 'Controls/_search/interface';
+import {ISearchResolverOptions} from 'Controls/_search/SearchResolver';
 
 const defaultOptions = {
    searchCallback: () => null,
@@ -23,7 +23,7 @@ const initSearchDelay = (options?: Partial<ISearchResolverOptions>) => {
 describe('Controls/search:SearchDelay', () => {
    const now = new Date().getTime();
 
-   describe('delayTime', () => {
+   describe('searchDelay', () => {
       it('should callback when delay is undefined', () => {
          const {searchResolver, searchCallback} = initSearchDelay({
             minSearchLength: 3
@@ -95,7 +95,7 @@ describe('Controls/search:SearchDelay', () => {
          clock.restore();
       });
 
-      it('searchStarted = true when delayTime = 0, length > minLength', () => {
+      it('searchStarted = true when searchDelay = 0, length > minLength', () => {
          const searchResetCallback = sinon.stub();
          const {searchResolver, searchCallback} = initSearchDelay({
             minSearchLength: 3,

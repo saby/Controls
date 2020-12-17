@@ -3,6 +3,7 @@ import {IControlOptions, Control} from 'UI/Base';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
+import { IItemPadding } from 'Controls/list';
 
 export interface IPropertyGridColumnOptions {
     width: string;
@@ -20,6 +21,7 @@ export interface IPropertyGridOptions extends IControlOptions {
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
     editorColumnOptions?: IPropertyGridColumnOptions;
     captionColumnOptions?: IPropertyGridColumnOptions;
+    itemPadding: IItemPadding;
 }
 
 /**
@@ -163,4 +165,3 @@ export interface IPropertyGrid {
  * @cfg {Array.<String>} Список идентификаторов свернутых групп.
  * @see groupTemplate
  */
-

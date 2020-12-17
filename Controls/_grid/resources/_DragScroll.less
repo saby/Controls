@@ -21,7 +21,7 @@
 // Доступное решение на данный момент :not(.селектор_процесса_dnd). Использование отрицания усиливает селектор и не срабатывает класс
 // .controls-Grid__DragScroll__content_grabbing отвечающий за курсор при скроллировании (сжатая в кулак лапка). Добавляем отрицание этого класса сюда.
 .controls-Grid__DragScroll__content:not(.controls-Grid_dragging_process):not(.controls-Grid__DragScroll__content_grabbing) {
-   .controls-Grid__row-cell:not(.controls-Grid__cell_fixed) {
+   .controls-Grid__row-cell:not(.js-controls-ColumnScroll__notDraggable) {
       .controls-Grid__row-cell__content {
          cursor: grab;
       }
@@ -37,7 +37,7 @@
       }
    }
 
-   .controls-Grid__header-cell:not(.controls-Grid__cell_fixed) {
+   .controls-Grid__header-cell:not(.js-controls-ColumnScroll__notDraggable) {
       // Удалить после https://online.sbis.ru/opendoc.html?guid=43399cd1-c875-42da-8b6c-3c1e3a413cbc
       cursor: grab;
 
@@ -56,7 +56,7 @@
       }
    }
 
-   .controls-Grid__results-cell:not(.controls-Grid__cell_fixed) {
+   .controls-Grid__results-cell:not(.js-controls-ColumnScroll__notDraggable) {
       // Удалить после https://online.sbis.ru/opendoc.html?guid=43399cd1-c875-42da-8b6c-3c1e3a413cbc
       cursor: grab;
 
@@ -82,13 +82,13 @@
 
 
 .controls-Grid__DragScroll__content_grabbing {
-   .controls-Grid__row-cell:not(.controls-Grid__cell_fixed) {
+   .controls-Grid__row-cell:not(.js-controls-ColumnScroll__notDraggable) {
       .controls-Grid__row-cell__content {
          cursor: grabbing;
       }
    }
 
-   .controls-Grid__header-cell:not(.controls-Grid__cell_fixed) {
+   .controls-Grid__header-cell:not(.js-controls-ColumnScroll__notDraggable) {
       // Удалить после https://online.sbis.ru/opendoc.html?guid=43399cd1-c875-42da-8b6c-3c1e3a413cbc
       cursor: grabbing;
 
@@ -97,7 +97,7 @@
       }
    }
 
-   .controls-Grid__results-cell:not(.controls-Grid__cell_fixed) {
+   .controls-Grid__results-cell:not(.js-controls-ColumnScroll__notDraggable) {
       // Удалить после https://online.sbis.ru/opendoc.html?guid=43399cd1-c875-42da-8b6c-3c1e3a413cbc
       cursor: grabbing;
 

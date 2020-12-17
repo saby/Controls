@@ -1,8 +1,12 @@
-import {ISearchResolver, ISearchResolverOptions} from './interface';
+export interface ISearchResolverOptions {
+   searchDelay?: number | null;
+   minSearchLength?: number;
+   searchCallback: (value: string) => void;
+   searchResetCallback: () => void;
+}
 
 /**
  * Контроллер, используемый для принятия решения, совершать ли поиск или производить его сброс по заданным параметрам в опциях.
- * Используется в {@link Controls/suggest:_InputController} как звено в логической цепочке поиска.
  * С помощью этого контроллера производится настройка: временная задержка между вводом символа и началом поиска; количество символов, с которых начинается поиск.
  * @remark
  * <ul>
@@ -40,14 +44,11 @@ import {ISearchResolver, ISearchResolverOptions} from './interface';
  * </pre>
  *
  * @class Controls/_search/SearchResolver
- * @implements Controls/_search/interface/ISearchResolver
+ * @private
  * @author Крюков Н.Ю.
- *
- * @public
  */
 
-export default class SearchResolver implements ISearchResolver {
-
+export default class SearchResolver {
    /**
     * Таймер для запуска поиска после паузы, заданной в опции delayTime
     * @protected
@@ -72,7 +73,7 @@ export default class SearchResolver implements ISearchResolver {
 
    /**
     * Обновляет опции контроллера
-    * @param options Новые опции контроллера
+    * @param {ISearchResolverOptions} options Новые опции контроллера
     */
    updateOptions(options: ISearchResolverOptions): void {
       this._options = options;
@@ -112,8 +113,8 @@ export default class SearchResolver implements ISearchResolver {
    }
 
    /**
-    * Инициировать проверку, какое действие предпринять по полученному в аргументе значению
-    * @param value Значение, по которому должен произзводиться поиск
+    * Инициировать проверку, какое действие предпринять по полученному через аргумент значению поиска
+    * @param {string|null} value Значение, по которому должен произзводиться поиск
     */
    resolve(value: string | null): void {
       const valueLength = value ? value.length : 0;
@@ -138,7 +139,7 @@ export default class SearchResolver implements ISearchResolver {
 
    /**
     * Устанавливает флаг начала поиска на переданное в аргументе значение
-    * @param value Начат ли поиск
+    * @param {boolean} value Флаг начала поиска
     */
    setSearchStarted(value: boolean): void {
       this._searchStarted = value;

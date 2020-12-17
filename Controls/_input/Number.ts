@@ -16,9 +16,9 @@ interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/input/number/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FExample%2FInput демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input/number/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Number
  * @extends Controls/_input/Base

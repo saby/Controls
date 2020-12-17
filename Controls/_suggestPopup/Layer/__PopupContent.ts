@@ -63,7 +63,7 @@ var __PopupContent = BaseLayer.extend({
       }
    },
 
-   _beforePaint(): void {
+   _componentDidUpdate(): void {
       if (this._shouldScrollToBottom) {
          this._children.scrollContainer.scrollToBottom();
          this._shouldScrollToBottom = false;

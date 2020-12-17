@@ -4,7 +4,6 @@
 
 .controls-PropertyGrid__editor_theme-@{themeName} {
    position: relative;
-   margin-bottom: @editor_offset_propertyGrid;
 }
 
 .controls-PropertyGrid__flex-editor_theme-@{themeName} {
@@ -55,4 +54,59 @@
 
 .controls-PropertyGrid_toggleEditorButton_offset_theme-@{themeName} {
    margin-left: @toggleEditorButton_offset_propertyGrid;
+}
+
+.controls-PropertyGrid__editor_spacingTop_null_theme-@{themeName},
+.controls-PropertyGrid__editor_spacingTop_default_theme-@{themeName} {
+   padding-top: 0;
+}
+
+.controls-PropertyGrid__editor_spacingTop_s_theme-@{themeName} {
+   padding-top: @item_padding-top_s_grid;
+}
+
+.controls-PropertyGrid__editor_spacingTop_l_theme-@{themeName} {
+   padding-top: @item_padding-top_l_grid;
+}
+
+.controls-PropertyGrid__editor_spacingBottom_default_theme-@{themeName} {
+   margin-bottom: @editor_offset_propertyGrid;
+}
+
+.controls-PropertyGrid__editor_spacingBottom_null_theme-@{themeName} {
+   padding-bottom: 0;
+}
+
+.controls-PropertyGrid__editor_spacingBottom_s_theme-@{themeName} {
+   padding-bottom: @item_padding-bottom_s_grid;
+}
+
+.controls-PropertyGrid__editor_spacingBottom_l_theme-@{themeName} {
+   padding-bottom: @item_padding-bottom_l_grid;
+}
+
+.controls-PropertyGrid__editor_spacingLeft_default_theme-@{themeName},
+.controls-PropertyGrid__editor_spacingLeft_null_theme-@{themeName} {
+   padding-left: 0;
+}
+
+.controls-PropertyGrid__editor_spacingLeft_s_theme-@{themeName} {
+   padding-left: @cell_padding-left_s_grid;
+}
+
+.controls-PropertyGrid__editor_spacingLeft_l_theme-@{themeName} {
+   padding-left: @cell_padding-left_l_grid;
+}
+
+.controls-PropertyGrid__editor_spacingRight_default_theme-@{themeName},
+.controls-PropertyGrid__editor_spacingRight_null_theme-@{themeName} {
+   padding-right: 0;
+}
+
+.controls-PropertyGrid__editor_spacingRight_s_theme-@{themeName} {
+   padding-right: @cell_padding-right_s_grid;
+}
+
+.controls-PropertyGrid__editor_spacingRight_l_theme-@{themeName} {
+   padding-right: @cell_padding-right_l_grid;
 }

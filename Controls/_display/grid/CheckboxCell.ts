@@ -27,6 +27,12 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         } else if (templateHighlightOnHover !== false) {
             wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme}`;
         }
+
+        if (this._$owner.hasColumnScroll()) {
+            wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
+            wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(backgroundColorStyle, theme)}`;
+        }
+
         return wrapperClasses;
     }
 
@@ -71,6 +77,9 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
     getRowspanStyles() {
         return '';
     };
+    _isFixedCell(): boolean {
+        return true;
+    }
 }
 
 Object.assign(CheckboxCell.prototype, {

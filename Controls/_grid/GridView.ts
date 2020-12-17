@@ -5,9 +5,17 @@ import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 import {TouchContextField as isTouch} from 'Controls/context';
 import {tmplNotify} from 'Controls/eventUtils';
 import {prepareEmptyEditingColumns} from 'Controls/Utils/GridEmptyTemplateUtil';
-import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS, ColumnScroll} from './resources/ColumnScroll';
-import {JS_SELECTORS as DRAG_SCROLL_JS_SELECTORS, DragScroll} from './resources/DragScroll';
-import {shouldAddActionsCell, shouldDrawColumnScroll, isInLeftSwipeRange} from 'Controls/_grid/utils/GridColumnScrollUtil';
+import {
+    COLUMN_SCROLL_JS_SELECTORS,
+    DRAG_SCROLL_JS_SELECTORS,
+    ColumnScrollController as ColumnScroll,
+    DragScrollController as DragScroll,
+    isInLeftSwipeRange
+} from 'Controls/columnScroll';
+import {
+    shouldAddActionsCell,
+    shouldDrawColumnScroll,
+} from 'Controls/_grid/utils/GridColumnScrollUtil';
 
 import {getDimensions} from 'Controls/sizeUtils';
 
@@ -174,6 +182,7 @@ var
         },
         createColumnScroll(self, options): void {
             self._columnScrollController = new ColumnScroll({
+                isFullGridSupport: GridLayoutUtil.isFullGridSupport(),
                 needBottomPadding: options._needBottomPadding,
                 stickyColumnsCount: options.stickyColumnsCount,
                 hasMultiSelect: options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition === 'default',
@@ -278,6 +287,15 @@ var
                 self._isGrabbing = isGrabbing;
                 self._viewGrabbingClasses = isGrabbing ? DRAG_SCROLL_JS_SELECTORS.CONTENT_GRABBING : '';
             }
+        },
+        /**
+         * Скроллит к ближайшему краю колонки
+         * @param self
+         */
+        scrollToColumn(self): void {
+            self._columnScrollController.scrollToColumnWithinContainer(self._children.header || self._children.results);
+            self._setHorizontalScrollPosition(self._columnScrollController.getScrollPosition());
+            self._updateColumnScrollData();
         },
         applyNewOptionsAfterReload(self, oldOptions, newOptions): void {
             // todo remove isEqualWithSkip by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
@@ -389,7 +407,7 @@ var
                 // preventServerSideColumnScroll - запрещает построение с помощью данного механизма. Нужно например при поиске, когда
                 // таблица перемонтируется. Простая проверка на window нам не подходит, т.к. нас интересует только первая отрисовка view
                 // списочного контрола.
-                this._showFakeGridWithColumnScroll = !cfg.preventServerSideColumnScroll;
+                this._showFakeGridWithColumnScroll = !cfg.preventServerSideColumnScrollOld;
             }
 
             return resultSuper;
@@ -684,15 +702,15 @@ var
                 if (options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom') {
                     classes += `controls-Grid__ColumnScroll__shadow_withMultiselect_theme-${options.theme} `;
                 }
-                return classes + ColumnScroll.getShadowClasses({
-                    position,
+                return classes + ColumnScroll.getShadowClasses(position, {
                     isVisible: position === 'start',
                     theme: options.theme,
                     backgroundStyle: options.backgroundStyle,
-                    needBottomPadding: options.needBottomPadding
                 });
             }
-            return this._columnScrollController.getShadowClasses(position);
+            return this._columnScrollController.getShadowClasses(position, {
+                needBottomPadding: options.needBottomPadding
+            });
         },
 
         _getColumnScrollFakeShadowStyles(options, position: 'start' | 'end'): string {
@@ -724,8 +742,7 @@ var
         _columnScrollWheelHandler(e): void {
             if (this._isColumnScrollVisible()) {
                 this._columnScrollController.scrollByWheel(e);
-                this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
-                this._updateColumnScrollData();
+                _private.scrollToColumn(this);
             }
         },
         _updateColumnScrollData(): void {
@@ -837,6 +854,7 @@ var
         },
         _stopDragScrolling(e, startBy: 'mouse' | 'touch') {
             if (this._isColumnScrollVisible() && this._dragScrollController) {
+                _private.scrollToColumn(this);
                 if (startBy === 'mouse') {
                     this._dragScrollController.onViewMouseUp(e);
                 } else {
@@ -865,14 +883,20 @@ var
             }
         },
         _onDragScrollOverlayMouseUp(e) {
+            _private.scrollToColumn(this);
             this._dragScrollController?.onOverlayMouseUp(e);
         },
         _onDragScrollOverlayTouchEnd(e) {
+            _private.scrollToColumn(this);
             this._dragScrollController?.onOverlayTouchEnd(e);
             this._leftSwipeCanBeStarted = false;
         },
         _onDragScrollOverlayMouseLeave(e) {
             this._dragScrollController?.onOverlayMouseLeave(e);
+        },
+        _onScrollWrapperMouseUp(e) {
+            e.stopPropagation();
+            _private.scrollToColumn(this);
         },
         _onItemSwipe(event, itemData) {
             const direction = event.nativeEvent.direction;

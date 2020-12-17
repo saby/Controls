@@ -949,7 +949,8 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                      contentSizeForScrollBar: 100,
                      scrollWidth: 80
                   });
-               }
+               },
+               setScrollableColumnsSizes(sizes) {}
             };
             gridView._updateColumnScrollData = () => {
                updateShadowStyleCalled = true;

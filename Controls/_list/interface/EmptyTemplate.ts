@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения {@link Controls/list:View плоского списка} без элементов.
  * 
- * @class Controls/_list/interface/IEmptyTemplateOptions
+ * @class Controls/_list/interface/EmptyTemplate
  * @author Авраменко А.С.
  * @see Controls/list:IList#emptyTemplate
  * @see Controls/list:View
@@ -23,7 +23,7 @@
 
 export default interface IEmptyTemplateOptions {
     /**
-     * @typedef {String} Controls/_list/interface/IEmptyTemplateOptions/Spacing
+     * @typedef {String} Spacing
      * @variant xs Минимальный отступ.
      * @variant s Маленький отступ.
      * @variant m Средний отступ.
@@ -33,8 +33,8 @@ export default interface IEmptyTemplateOptions {
      */
 
     /**
-     * @name Controls/_list/interface/IEmptyTemplateOptions#topSpacing
-     * @cfg {Controls/_list/interface/IEmptyTemplateOptions/Spacing.typedef|null} Отступ между верхней границей  и шаблоном contentTemplate.
+     * @name Controls/_list/interface/EmptyTemplate#topSpacing
+     * @cfg {Spacing|null} Отступ между верхней границей  и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -42,8 +42,8 @@ export default interface IEmptyTemplateOptions {
      */
     topSpacing?: string;
     /**
-     * @name Controls/_list/interface/IEmptyTemplateOptions#bottomSpacing
-     * @cfg {Controls/_list/interface/IEmptyTemplateOptions/Spacing.typedef|null} Отступ между нижней границей и шаблоном contentTemplate.
+     * @name Controls/_list/interface/EmptyTemplate#bottomSpacing
+     * @cfg {Spacing|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -51,7 +51,7 @@ export default interface IEmptyTemplateOptions {
      */
     bottomSpacing?: string;
     /**
-     * @name Controls/_list/interface/IEmptyTemplateOptions#contentTemplate
+     * @name Controls/_list/interface/EmptyTemplate#contentTemplate
      * @cfg {String|Function|undefined} Шаблон, описывающий контент плоского списка без элементов.
      */
     contentTemplate?: string;

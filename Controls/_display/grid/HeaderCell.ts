@@ -16,6 +16,7 @@
     templateOptions Опции, передаваемые в шаблон ячейки заголовка.
 */
 
+import {mixin} from 'Types/util';
 import { TemplateFunction } from 'UI/Base';
 import {IColspanParams, IHeaderCell} from 'Controls/grid';
 import HeaderRow from './HeaderRow';
@@ -26,6 +27,9 @@ export interface IOptions<T> extends ICellOptions<T> {
 }
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:HeaderContent';
+
+const FIXED_HEADER_Z_INDEX = 4;
+const STICKY_HEADER_Z_INDEX = 3;
 
 export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     protected _$owner: HeaderRow<T>;
@@ -93,7 +97,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         return params;
     }
 
-    getWrapperClasses(theme: string, style: string = 'default'): string {
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string): string {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
                           + ` controls-Grid__header-cell_theme-${theme}`
                           + ` ${this._getWrapperPaddingClasses(theme)}`;
@@ -118,8 +122,23 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             wrapperClasses += ` controls-Grid__header-cell__content_valign-${this._$valign}`;
         }
 
+        if (this._$owner.hasColumnScroll()){
+            wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
+            wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(backgroundColorStyle, theme)}`;
+        }
+
         // _private.getBackgroundStyle(this._options, true);
         return wrapperClasses;
+    }
+
+    getWrapperStyles(): string {
+        let zIndex;
+        if (this._$owner.hasColumnScroll()) {
+            zIndex = this._isFixedCell() ? FIXED_HEADER_Z_INDEX : STICKY_HEADER_Z_INDEX;
+        } else {
+            zIndex = FIXED_HEADER_Z_INDEX;
+        }
+        return `${super.getWrapperStyles()} z-index: ${zIndex};`;
     }
 
     getContentClasses(theme: string): string {

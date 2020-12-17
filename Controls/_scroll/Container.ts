@@ -53,7 +53,7 @@ const DEFAULT_BACKGROUND_STYLE = 'default';
  * Для корректной работы внутри WS3 необходимо поместить контрол в контроллер Controls/dragnDrop:Compound, который обеспечит работу функционала Drag-n-Drop.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
  * @class Controls/_scroll/Container
  * @extends Controls/_scroll/ContainerBase
@@ -83,6 +83,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _template: TemplateFunction = template;
     protected _baseTemplate: TemplateFunction = baseTemplate;
+    protected _options: IContainerOptions;
 
     protected _shadows: ShadowsModel;
     protected _scrollbars: ScrollbarsModel;
@@ -258,7 +259,13 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             }
 
             // При инициализации не обновляем скрол бары. Инициализируем их по наведению мышкой.
-            if (this._scrollModel && this._wasMouseEnter) {
+            // Оптимизация отключена для ie. С оптимизацией некоректно работал :hover для скролбаров.
+            // На демке без наших стилей иногда не появляется скролбар по ховеру. Такое впечатление что не происходит
+            // paint после ховера и после снятия ховера. Изменение любых стилей через девтулсы исправляет ситуаци.
+            // Если покрасить подложку по которой движется скролл красным, то после ховера видно, как она перерисовыатся
+            // только в местах где по ней проехал скролбар.
+            // После отключения оптимизации проблема почему то уходит.
+            if (this._scrollModel && (this._wasMouseEnter || detection.isIE)) {
                 this._scrollbars.updateScrollState(this._scrollModel, this._container);
             }
 
@@ -350,17 +357,23 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // если сами вызвали событие keydown (горячие клавиши), нативно не прокрутится, прокрутим сами
         if (!event.nativeEvent.isTrusted) {
             let offset: number;
-            const scrollTop: number = this._scrollModel.scrollTop;
+            let headersHeight = 0;
+            if (detection.isBrowserEnv) {
+                headersHeight = this._stickyHeaderController.getHeadersHeight('top', 'allFixed');
+            }
+            const
+                clientHeight = this._scrollModel.clientHeight - headersHeight,
+                scrollTop: number = this._scrollModel.scrollTop;
             const scrollContainerHeight: number = this._scrollModel.scrollHeight - this._scrollModel.clientHeight;
 
             if (event.nativeEvent.which === constants.key.pageDown) {
-                offset = scrollTop + this._scrollModel.clientHeight;
+                offset = scrollTop + clientHeight;
             }
             if (event.nativeEvent.which === constants.key.down) {
                 offset = scrollTop + SCROLL_BY_ARROWS;
             }
             if (event.nativeEvent.which === constants.key.pageUp) {
-                offset = scrollTop - this._scrollModel.clientHeight;
+                offset = scrollTop - clientHeight;
             }
             if (event.nativeEvent.which === constants.key.up) {
                 offset = scrollTop - SCROLL_BY_ARROWS;
@@ -532,7 +545,15 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _headersResizeHandler(): void {
         const scrollbarOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.initialFixed);
         const scrollbarOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.initialFixed);
-        this._scrollbars.setOffsets({ top: scrollbarOffsetTop, bottom: scrollbarOffsetBottom }, this._wasMouseEnter);
+        // Обновляе скролбары только после наведения мышкой.
+        // Оптимизация отключена для ie. С оптимизацией некоректно работал :hover для скролбаров.
+        // На демке без наших стилей иногда не появляется скролбар по ховеру. Такое впечатление что не происходит
+        // paint после ховера и после снятия ховера. Изменение любых стилей через девтулсы исправляет ситуаци.
+        // Если покрасить подложку по которой движется скролл красным, то после ховера видно, как она перерисовыатся
+        // только в местах где по ней проехал скролбар.
+        // После отключения оптимизации проблема почему то уходит.
+        this._scrollbars.setOffsets({ top: scrollbarOffsetTop, bottom: scrollbarOffsetBottom },
+            this._wasMouseEnter || detection.isIE);
         this._children.scrollBar?.setViewportSize(
             this._children.content.offsetHeight - scrollbarOffsetTop - scrollbarOffsetBottom);
     }

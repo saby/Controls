@@ -6,9 +6,9 @@ import template = require('tmpl!Controls/_lookup/Opener');
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/layout-selector-stack/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Engine-demo%2FSelector демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/layout-selector-stack/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less переменные тем оформления}
  *
  * @class Controls/_lookup/Opener
  * 

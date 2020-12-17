@@ -14,7 +14,7 @@ define('Controls/interface/IGroupedList', [
     * @name Controls/interface/IGroupedList#groupProperty
     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
     * @remark
-    * Элементы списка могут отображаться в группе без заголовка. Подробнее читайте <a href="/doc/platform/developmentapl/interface-development/controls/list/grouping/hidden/">здесь</a>.
+    * Элементы списка могут отображаться в группе без заголовка. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/hidden/ здесь}.
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -27,7 +27,7 @@ define('Controls/interface/IGroupedList', [
     * @cfg {String|Function} Устанавливает шаблон отображения заголовка группы.
     * @default Controls/list:GroupTemplate
     * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
+    * См. {@link /materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG демо-пример}.
     * Подробнее о параметрах шаблона Controls/list:GroupTemplate читайте {@link Controls/list:GroupTemplate здесь}.
     * Подробнее о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/basic/#header-group здесь}.
     * @example
@@ -57,7 +57,7 @@ define('Controls/interface/IGroupedList', [
     * @name Controls/interface/IGroupedList#collapsedGroups
     * @cfg {Array.<String>} Список идентификаторов свернутых групп. Идентификаторы групп получаются из свойства {@link groupProperty}.
     * @remark
-    * См. <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG">демо-пример</a>.
+    * См. {@link /materials/Controls-demo/app/Controls-demo%2FList%2FList%2FGroupPG демо-пример}.
     * @see groupTemplate
     * @see groupProperty
     * @see groupHistoryId

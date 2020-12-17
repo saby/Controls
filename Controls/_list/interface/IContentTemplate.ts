@@ -1,6 +1,6 @@
 /**
  * Интерфейс для контентной опции шаблона отображения элемента в {@link Controls/list:View плоском списке}.
- * @interface Controls/_list/interface/IContentTemplateOptions
+ * @interface Controls/_list/interface/IContentTemplate
  * @author Авраменко А.С.
  * @see Controls/list:View
  * @default undefined
@@ -24,7 +24,6 @@
 export default interface IContentTemplateOptions {
 
    /**
-    * @name Controls/_list/interface/IContentTemplateOptions#contentTemplate
     * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий содержимое элемента.
     * @remark
     * В области видимости шаблона доступны переменные **itemData** и **itemActionsTemplate**

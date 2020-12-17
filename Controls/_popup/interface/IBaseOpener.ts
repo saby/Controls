@@ -26,7 +26,7 @@ export interface IBasePopupOptions {
     isDefaultOpener?: boolean;
     showIndicator?: boolean;
     indicatorConfig?: ILoadingIndicatorOptions;
-    dataLoaders?: IDataLoader[];
+    dataLoaders?: IDataLoader[][];
     zIndexCallback?(item: IPopupItemInfo, popupList: List<IPopupItemInfo>): number;
     actionOnScroll?: string; // TODO Перенести на sticky, Удалить из baseOpener
     zIndex?: number; // TODO Compatible
@@ -553,11 +553,11 @@ export interface IBaseOpener {
 
 /**
  * @name Controls/_popup/interface/IBaseOpener#dataLoaders
- * @cfg {DataLoader[]} Задает массив предзагрузчиков данных, необходимых для построения {@link template шаблона}. 
+ * @cfg {DataLoader[]} Задает массив предзагрузчиков данных, необходимых для построения {@link template шаблона}.
  * Опция используется для ускорения открытия окна, за счет распараллеливания получения данных и построения верстки.
  * Полученные данные будут переданы в опцию prefetchPromise.
  * @remark
- * Обратите внимение: модуль загрузчика данных - синглтон.
+ * **Обратите внимение: модуль загрузчика данных - синглтон.**
  * @example
  *
  * Описание модуля предзагрузки
@@ -568,7 +568,7 @@ export interface IBaseOpener {
  *   const STORE_KEY = 'MyStoreKey';
  *   const LOADER_KEY = 'MyLoaderKey';
  *
- *   export default class Base {
+ *   class MyLoader {
  *       init(): void {
  *           // Инициализация, если необходимо, вызывается перед вызовом loadData
  *       }
@@ -586,6 +586,9 @@ export interface IBaseOpener {
  *           });
  *       }
  *   }
+ *   // Загрузчик является синглтоном
+ *   export default new MyLoader();
+ * </pre>
  *
  * Описание предзагрузчика при открытии окна
  * <pre>
@@ -595,13 +598,15 @@ export interface IBaseOpener {
  *      _openStack() {
  *         const popupOptions = {
  *             template: 'MyPopupTemplate',
- *             dataLoaders: [{
- *                 key: 'myLoaderKey',
- *                 module: 'MyLoader',
- *                 params: {
- *                     param1: 'data1'
- *                 }
- *             }],
+ *             dataLoaders: [
+ *                 [{
+ *                     key: 'myLoaderKey',
+ *                     module: 'MyLoader',
+ *                     params: {
+ *                         param1: 'data1'
+ *                     }
+ *                 }]
+*              ],
  *             templateOptions: {
  *                 record: null
  *             }

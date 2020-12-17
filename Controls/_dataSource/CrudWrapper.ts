@@ -3,7 +3,7 @@ import {Record, Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import * as cInstance from 'Core/core-instance';
 
-import {Controller as ErrorController, Mode as ErrorMode, ViewConfig as ErrorViewConfig} from 'Controls/_dataSource/error';
+import {Controller as ErrorController, Mode as ErrorMode, ViewConfig as ErrorViewConfig} from 'Controls/error';
 import {Logger} from 'UI/Utils';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 

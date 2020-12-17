@@ -4,6 +4,7 @@ import DataCell from './DataCell';
 import IMarkable from '../interface/IMarkable';
 import ISelectableItem from '../interface/ISelectableItem';
 import ILadderSupport from './interface/ILadderSupport';
+import ItemActionsCell from './ItemActionsCell';
 
 export interface IOptions<T> extends IRowOptions<T> {
 }
@@ -23,6 +24,17 @@ export default class DataRow<T> extends Row<T> implements IMarkable, ILadderSupp
     getTemplate(itemTemplateProperty: string, userTemplate: TemplateFunction|string): TemplateFunction|string {
         const templateFromProperty = itemTemplateProperty ? this.getContents().get(itemTemplateProperty) : '';
         return templateFromProperty || userTemplate || this.getDefaultTemplate();
+    }
+
+    _initializeColumns(): void {
+        super._initializeColumns();
+
+        if (this._$columns && this.hasItemActionsSeparatedCell()) {
+            this._$columnItems.push(new ItemActionsCell({
+                owner: this,
+                column: {}
+            }))
+        }
     }
 }
 

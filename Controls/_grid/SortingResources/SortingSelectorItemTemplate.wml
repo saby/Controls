@@ -4,10 +4,7 @@
         <div class="controls-SortingSelector_arrowWrapper">
             <ws:if data="{{itemData.item.get('paramName') !== null}}">
                 <div class="controls-SortingSelector_arrowsContainer" on:click="_arrowClick(itemData.item)">
-                    <div class="controls-SortingSelector_arrow_separator_theme-{{_options.theme}}"></div>
-                    <div class="controls-SortingSelector_arrow_spacing_theme-{{_options.theme}}">
-                        <ws:partial attr:class="controls-SortingSelector_arrow_theme-{{_options.theme}}" value="{{itemData.item.get('value')}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
-                    </div>
+                    <ws:partial attr:class="controls-SortingSelector_arrow_theme-{{_options.theme}}" value="{{itemData.item.get('value')}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
                 </div>
             </ws:if>
         </div>

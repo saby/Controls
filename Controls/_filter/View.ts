@@ -7,8 +7,7 @@ import ParallelDeferred = require('Core/ParallelDeferred');
 import Deferred = require('Core/Deferred');
 import converterFilterItems = require('Controls/_filter/converterFilterItems');
 import {isEqual} from 'Types/object';
-import {Controller as SourceController} from 'Controls/source';
-import {error as dataSourceError} from 'Controls/dataSource';
+import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {dropdownHistoryUtils as historyUtils} from 'Controls/dropdown';
 import {detection, IoC} from 'Env/Env';
 import {object} from 'Types/util';
@@ -297,13 +296,16 @@ var _private = {
     },
 
     loadItemsFromSource: function(instance, source, filter, navigation?, dataLoadCallback?, withHistory = true) {
-        let queryFilter;
+        let queryFilter = Merge({}, filter);
         if (instance.nodeProperty) {
-            queryFilter = Merge(filter, {historyId: instance.historyId});
+            queryFilter = Merge(queryFilter, {historyId: instance.historyId});
         }
             // As the data source can be history source, then you need to merge the filter
-        queryFilter = withHistory ? historyUtils.getSourceFilter(filter, source) : filter;
-        return _private.getSourceController(instance, source, navigation).load(queryFilter).addCallback(function(items) {
+        queryFilter = withHistory ? historyUtils.getSourceFilter(queryFilter, source) : queryFilter;
+        const sourceController = _private.getSourceController(instance, source, navigation);
+        sourceController.setFilter(queryFilter);
+
+        return sourceController.load().addCallback((items) => {
             instance.items = items;
             if (dataLoadCallback) {
                 dataLoadCallback(items);
@@ -652,11 +654,11 @@ var _private = {
  * При клике на параметры быстрого фильтра открывается панель "Быстрых фильтров", созданная на основе {@link Controls/filterPopup:SimplePanel}.
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/">руководство разработчика по работе с контролом</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/ руководство разработчика по работе с контролом}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ руководство разработчика по организации поиска и фильтрации в реестре}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less переменные тем оформления filter}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления filterPopup}
  *
  * @class Controls/_filter/View
  * @extends Core/Control

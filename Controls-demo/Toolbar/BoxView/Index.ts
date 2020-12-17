@@ -35,6 +35,6 @@ class ToolbarBox extends Control<IControlOptions> {
    }
    static _theme: string[] = ['Controls/Classes'];
 
-   static _styles: string[] = ['Controls-demo/Toolbar/ToolbarBox', 'Controls-demo/Controls-demo'];
+   static _styles: string[] = ['Controls-demo/Toolbar/BoxView/ToolbarBox', 'Controls-demo/Controls-demo'];
 }
 export default ToolbarBox;

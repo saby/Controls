@@ -68,7 +68,7 @@ const isTemplateObject = (tmpl: any): boolean => {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_tabs.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_tabs.less переменные тем оформления}
  *
  * @class Controls/_tabs/Buttons
  * @extends Core/Control
@@ -96,12 +96,14 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _itemsArray: ITabButtonItem[];
     private _itemsOrder: number[];
     private _lastRightOrder: number;
+    private _markerThickness: string;
     private _items: RecordSet;
     private _crudWrapper: CrudWrapper;
 
     protected _beforeMount(options: ITabsOptions,
                            context: object,
                            receivedState: IReceivedState): void | Promise<IReceivedState> {
+        this._markerThickness = TabsButtons._getMarkerThickness(options);
         if (receivedState) {
             this._prepareState(receivedState);
         } else if (options.items) {
@@ -127,6 +129,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (newOptions.items && newOptions.items !== this._options.items) {
             const itemsData = this._prepareItems(newOptions.items);
             this._prepareState(itemsData);
+        }
+        if (newOptions.markerThickness !== this._options.markerThickness
+            || newOptions.borderThickness !== this._options.borderThickness) {
+            this._markerThickness = TabsButtons._getMarkerThickness(newOptions);
         }
     }
 
@@ -284,6 +290,11 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
+    static _getMarkerThickness(options: ITabsOptions): string {
+        //  TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=21dfec57-300d-42b7-aa76-4d13bea8d53f
+        return options.borderThickness ? options.borderThickness : options.markerThickness;
+    }
+
     static _checkHasFunction(receivedState: IReceivedState): boolean {
         // Функции, передаваемые с сервера на клиент в receivedState, не могут корректно десериализоваться.
         // Поэтому, если есть функции в receivedState, заново делаем запрос за данными.
@@ -317,7 +328,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return {
             style: 'primary',
             inlineHeight: 's',
-            borderThickness: 's',
+            markerThickness: 's',
+            borderVisible: true,
             separatorVisible: true,
             displayProperty: 'title'
         };
@@ -345,32 +357,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  *     <Controls.buttons:Button .../>
  *     <Controls.buttons:Button .../>
  * </div>
- * </pre>
- */
-
-/*
- * @name Controls/_tabs/ITabsTemplate#tabSpaceTemplate
- * @cfg {Content} Contents of the area near the tabs.
- * @default undefined
- * @remark
- * Tab can be left and right aligned, this is determined by the item property 'align'.
- * If control has left and right tabs then  TabSpaceTemplate will be between them.
- * @example
- * Tabs buttons with space template.
- * <pre>
- *    <Controls.tabs:Buttons
- *       .....
- *       tabSpaceTemplate=".../spaceTemplate'"
- *       .....
- *    />
- * </pre>
- * spaceTemplate:
- * <pre>
- *    <div class="additionalContent">
- *       <Controls.buttons:Button .../>
- *       <Controls.buttons:Button .../>
- *       <Controls.buttons:Button .../>
- *    </div>
  * </pre>
  */
 
@@ -402,34 +388,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  * </Controls.tabs:Buttons>
  * </pre>
  * @see itemTemplateProperty
- */
-
-/*
- * @name Controls/_tabs/ITabsTemplate#itemTemplate
- * @cfg {Function} Template for item render.
- * @default Base template 'Controls/tabs:buttonsItemTemplate'
- * @remark
- * To determine the template, you should call the base template 'Controls/tabs:buttonsItemTemplate'.
- * The template is placed in the component using the ws:partial tag with the template attribute.
- * By default, the base template 'Controls/tabs:buttonsItemTemplate' will display only the 'title' field. You can change the display of records by setting their values for the following options:
- * <ul>
- *    <li>displayProperty - defines the display field of the record.</li>
- * <ul>
- * @example
- * Tabs buttons with item template.
- * <pre>
- *    <Controls.tabs:Buttons
- *                   bind:selectedKey='SelectedKey3'
- *                   keyProperty="id"
- *                   style="additional"
- *                   source="{{_source3}}">
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/tabs:buttonsItemTemplate"
- *                      item="{{itemTemplate.item}}"
- *                      displayProperty="caption"/>
- *       </ws:itemTemplate>
- *    </Controls.tabs:Buttons>
- * </pre>
  */
 
 /**
@@ -470,41 +428,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  * }
  * </pre>
  * @see itemTemplate
- */
-
-/*
- * @name Controls/_tabs/ITabsTemplate#itemTemplateProperty
- * @cfg {String} Name of the item property that contains template for item render.
- * @default If not set, itemTemplate is used instead.
- * @remark
- * To determine the template, you should call the base template 'Controls/tabs:buttonsItemTemplate'.
- * The template is placed in the component using the ws:partial tag with the template attribute.
- * By default, the base template 'Controls/tabs:buttonsItemTemplate' will display only the 'title' field. You can change the display of records by setting their values for the following options:
- * <ul>
- *    <li>displayProperty - defines the display field of the record.</li>
- * <ul>
- * @example
- * Tabs buttons with item template.
- * <pre>
- *    <Controls.tabs:Buttons itemTemplateProperty="myTemplate"
- *                           source="{{_source}}
- *                           ...>
- *    </Controls.tabs:Buttons>
- * </pre>
- * myTemplate
- * <pre>
- *    <div class="controls-Tabs__item_custom">{{item.get(displayProperty || 'title')}}</div>
- * </pre>
- * <pre>
- *    _source: new Memory({
- *              keyProperty: 'id',
- *              data: [
- *                     {id: 1, title: 'I agree'},
- *                     {id: 2, title: 'I not decide'},
- *                     {id: 4, title: 'Will not seem', caption: 'I not agree',  myTemplate: 'wml!.../myTemplate'}
- *              ]
- *    })
- * </pre>
  */
 
 /**
@@ -609,6 +532,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  * </Controls.tabs:Buttons>
  * </pre>
  * @see itemRightTemplate
- */ 
+ */
 
 export default TabsButtons;

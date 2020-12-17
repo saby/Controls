@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import * as MemorySourceData from 'Controls-demo/Utils/MemorySourceData';
 import * as memorySourceFilter from 'Controls-demo/Utils/MemorySourceFilter';
 
-export default class Index extends Control<IControlOptions> {
+export default class FlatList extends Control<IControlOptions> {
    protected _template: TemplateFunction = controlTemplate;
 
    protected _source: Memory;
@@ -19,5 +19,5 @@ export default class Index extends Control<IControlOptions> {
    }
 
    static _theme: string[] = ['Controls/Classes'];
-   static _styles: string[] = ['Controls-demo/Controls-demo', 'Controls-demo/Search/FlatList/FlatList'];
+   static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

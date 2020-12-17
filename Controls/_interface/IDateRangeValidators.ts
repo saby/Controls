@@ -64,6 +64,7 @@ export default interface IDateRangeValidators {
  *    </ws:startValueValidators>
  * </Controls.dateRange:Input>
  * </pre>
+ * @demo Controls-demo/dateRange/Validators/Index
  *
  * @see Controls/_interface/IDateRangeValidators#endValueValidators
  * @see Controls/_interface/IDateRangeValidators#validateByFocusOut
@@ -109,6 +110,7 @@ export default interface IDateRangeValidators {
  *     </ws:endValueValidators>
  * </Controls.dateRange:Input>
  * </pre>
+ * @demo Controls-demo/dateRange/Validators/Index
  *
  * @see Controls/_interface/IDateRangeValidators#startValueValidators
  * @see Controls/_interface/IDateRangeValidators#validateByFocusOut
@@ -126,6 +128,7 @@ export default interface IDateRangeValidators {
  * <pre class="brush: html">
  * <Controls.input:Date validateByFocusOut="{{false}}"/>
  * </pre>
+ * @demo Controls-demo/dateRange/Validators/Index
  *
  * @see Controls/_interface/IDateRangeValidators#startValueValidators
  * @see Controls/_interface/IDateRangeValidators#endValueValidators

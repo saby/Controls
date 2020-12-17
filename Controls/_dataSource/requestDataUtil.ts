@@ -21,13 +21,13 @@
  * @public
  */
 
-import {Controller as SourceController} from 'Controls/source';
 import {loadSavedConfig} from 'Controls/Application/SettingsController';
 import {RecordSet} from 'Types/collection';
 import {ICrud, PrefetchProxy} from 'Types/source';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {Logger} from 'UI/Utils';
 import groupUtil from 'Controls/_dataSource/GroupUtil';
+import SourceController from 'Controls/_dataSource/Controller';
 import {IFilterItem} from 'Controls/filter';
 import {INavigationOptionValue} from 'Controls/interface';
 
@@ -75,10 +75,6 @@ export interface ISourceConfig {
 const HISTORY_FILTER_TIMEOUT = 1000;
 
 export default function requestDataUtil(cfg: ISourceConfig): Promise<IRequestDataResult> {
-   const sourceController = new SourceController({
-      source: cfg.source,
-      navigation: cfg.navigation
-   });
    let sortingPromise;
    let filterPromise;
    let collapsedGroupsPromise;
@@ -107,7 +103,6 @@ export default function requestDataUtil(cfg: ISourceConfig): Promise<IRequestDat
       collapsedGroupsPromise = groupUtil.restoreCollapsedGroups(cfg.groupHistoryId);
    }
 
-
    return Promise.all([
        filterPromise,
       sortingPromise,
@@ -121,7 +116,13 @@ export default function requestDataUtil(cfg: ISourceConfig): Promise<IRequestDat
       }
       const result = {filter, sorting, historyItems, collapsedGroups};
 
-      return sourceController.load(filter, sorting).then((data: RecordSet) => {
+      const sourceController = new SourceController({
+         source: cfg.source,
+         navigation: cfg.navigation,
+         filter,
+         sorting
+      });
+      return sourceController.load().then((data: RecordSet) => {
          return {...result, data};
       }).catch((data: Error) => {
          return {...result, data, error: data};

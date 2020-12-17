@@ -12,9 +12,9 @@ interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
  * Контрол, который открывает всплывающее окно с {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ диалогом редактирования записи}.
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FEdit%2FOpener">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step4">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FPopup%2FEdit%2FOpener демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step4 руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  * 
  * @class Controls/_popup/Opener/Edit
  * @mixes Controls/_popup/interface/IBaseOpener

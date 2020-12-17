@@ -50,6 +50,14 @@ describe('Controls/_dataSource/_error/DataLoader', () => {
         it(
             'wrongResponse',
             async () => {
+
+                const originQuery = memory.query;
+                memory.query = (query) => {
+                    return new Promise((resolve) => {
+                        setTimeout(() => resolve(originQuery.apply(memory, query)));
+                    });
+                };
+
                 const wrapper = await getResult(defaultSourcesProp);
                 return deepStrictEqual(wrapper, 504, 'This is not the wrong response');
             }

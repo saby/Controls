@@ -16,14 +16,13 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FConfirmation%2FConfirmation">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/confirmation/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FConfirmation%2FConfirmation демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/openers/confirmation/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  * 
  * @class Controls/_popup/Opener/Confirmation
  * @extends Controls/_popup/Opener/BaseOpener
  * @mixes Controls/_popup/interface/IConfirmation
- * @mixes Controls/_popup/interface/IConfirmationFooter
  * @implements Controls/_popup/interface/IConfirmationFooter
  * 
  * @public

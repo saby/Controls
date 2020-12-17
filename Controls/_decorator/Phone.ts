@@ -10,13 +10,14 @@ import toString from 'Controls/_decorator/inputUtils/toString';
 
 /**
  * Интерфейс для опций контрола {@link Controls/decorator:Phone}.
- * @interface Controls/_decorator/Phone/IPhoneOptions
+ * @interface Controls/_decorator/IPhone
  * @public
  * @author Красильников А.С.
  */
 export interface IPhoneOptions extends IControlOptions {
     /**
-     * Декорируемый телефонный номер.
+     * @name Controls/_decorator/IPhone#value
+     * @cfg {String|null} Декорируемый телефонный номер.
      * @default ''
      * @demo Controls-demo/Decorator/Phone/Index
      */
@@ -35,11 +36,11 @@ export interface IPhoneOptions extends IControlOptions {
  * * Остальные номера отображаются как есть без формата.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less переменные тем оформления}
  *
  * @class Controls/_decorator/Phone
  * @extends UI/Base:Control
- * @mixes Controls/_decorator/Phone/IPhoneOptions
+ * @mixes Controls/_decorator/IPhone
  * @public
  * @demo Controls-demo/Decorator/Phone/Index
  *

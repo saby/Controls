@@ -27,6 +27,7 @@ export interface IDateRangeOptions {
  *       ...
  *   });
  * </pre>
+ * @demo Controls-demo/dateRange/Default/Index
  */
 
 /*
@@ -49,6 +50,7 @@ export interface IDateRangeOptions {
  *       ...
  *   });
  * </pre>
+ * @demo Controls-demo/dateRange/Default/Index
  */
 
 /**
@@ -69,6 +71,7 @@ export interface IDateRangeOptions {
  *       ...
  *   });
  * </pre>
+ * @demo Controls-demo/dateRange/Default/Index
  */
 
 /*
@@ -91,6 +94,7 @@ export interface IDateRangeOptions {
  *       ...
  *   });
  * </pre>
+ * @demo Controls-demo/dateRange/Default/Index
  */
 
 /**

@@ -37,6 +37,7 @@ define(
                   }
                }
             };
+            popupTemplate.InfoBoxController._isTargetVisible = () => true;
             let prepareConfig = popupTemplate.InfoBoxController._prepareConfig;
             popupTemplate.InfoBoxController.prepareConfig = (i, cont) => {
                assert.equal(i, item);

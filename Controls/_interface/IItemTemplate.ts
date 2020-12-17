@@ -4,13 +4,13 @@ export interface IItemTemplateOptions {
     /**
      * @name Controls/_interface/IItemTemplate#itemTemplateProperty
      * Имя свойства, содержащего ссылку на шаблон элемента. Если значение свойства не передано, то для отрисовки используется itemTemplate.
-     * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemTemplatePG">Демо-пример</a>.
+     * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemTemplatePG демо-пример}.
      */
     itemTemplateProperty: string;
     /**
      * @name Controls/_interface/IItemTemplate#itemTemplate
      * Шаблон элемента списка.
-     * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemTemplatePG">Демо-пример</a>.
+     * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemTemplatePG демо-пример}.
      * @remark
      * По умолчанию используется шаблон "Controls/list:ItemTemplate".
      *

@@ -26,14 +26,15 @@ let _private = {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_search.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ руководство разработчика по организации поиска и фильтрации в реестре}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_search.less переменные тем оформления}
  *
  * @class Controls/_search/Input/Search
  * @extends Controls/_input/Base
  *
  * @mixes Controls/_input/interface/IText
+ * @implements Controls/interface:IContrastBackground
  *
  * @ignoreOptions style
  *
@@ -57,6 +58,7 @@ let _private = {
  * @extends Controls/_input/Base
  *
  * @mixes Controls/_input/interface/IText
+ * @implements Controls/interface:IContrastBackground
  *
  * @ignoreOptions style
  *
@@ -280,11 +282,9 @@ class Search extends Base {
 
 /**
  * @name Controls/_search/Input/Search#contrastBackground
- * @cfg {Boolean} Определяет контрастность фона контрола по отношению к ее окружению.
+ * @cfg
  * @default false
  * @remark
- * * true - контрастный фон.
- * * false - фон, гармонично сочетающийся с окружением.
  * Опция используется для визуального выделения контрола, относительно окружения.
  * Например в ситуации когда цвет окружения, близкий к цвету самого контрола.
  * @demo Controls-demo/Search/Input/Base/Index

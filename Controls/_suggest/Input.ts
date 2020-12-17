@@ -8,8 +8,8 @@ import {generateStates} from 'Controls/input';
  * Поле ввода с автодополнением это одострочное поле ввода, которое помогает пользователю ввести текст, предлагая подходящие варианты по первым набранным символам.
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FSuggest%2FSuggest">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggest.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FSuggest%2FSuggest демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggest.less переменные тем оформления}
  *
  * @class Controls/_suggest/Input
  * @extends Core/Control

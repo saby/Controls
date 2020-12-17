@@ -39,4 +39,5 @@ export default interface IDayTemplate {
  *    </ws:dayTemplate>
  * </Controls.calendar:MonthView>
  * </pre>
+ * @demo Controls-demo/dateRange/DayTemplate/Index
  */

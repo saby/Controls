@@ -10,7 +10,7 @@ import {TemplateFunction} from 'UI/Base';
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/buttons-switches/toolbar/#template-standart">руководство разработчика</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/buttons-switches/toolbar/#template-standart руководство разработчика}
  */
 
 export default interface IItemTemplateOptions {

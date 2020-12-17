@@ -5,19 +5,16 @@ import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 
 /**
  * Интерфейс настройки диалогового окна выбора целевой записи для перемещения.
- * @interface Controls/_list/interface/IMovableList/IMoveDialogTemplate
  * @public
  * @author Аверкиев П.А.
  */
 export interface IMoveDialogTemplate {
     /**
-     * @name Controls/_list/interface/IMovableList/IMoveDialogTemplate#templateName
      * @cfg {UI/Base:Control<IControlOptions, unknown> | UI/Base:TemplateFunction | String} templateName
      * Имя контрола, который будет отображаться в диалоговом окне выбора целевой записи для перемещения.
      */
     templateName: Control<IControlOptions, unknown> | TemplateFunction | string,
     /**
-     * @name Controls/_list/interface/IMovableList/IMoveDialogTemplate#templateOptions
      * @cfg {Controls/moverDialog:IMoverDialogTemplateOptions} templateOptions
      * Опции для контрола, который будет отображаться в диалоговом окне.
      */
@@ -26,13 +23,11 @@ export interface IMoveDialogTemplate {
 
 /**
  * Интерфейс опций контрола View, который обладает возможностью перемещения записей
- * @interface Controls/_list/interface/IMovableList/IMovableOptions
  * @public
  * @author Аверкиев П.А.
  */
 export interface IMovableOptions {
     /**
-     * @name Controls/interface/IMovable#moveDialogTemplate
      * @cfg {IMoveDialogTemplate} moveDialogTemplate Шаблон диалогового окна выбора целевой записи для перемещения.
      * Рекомендуется использовать стандартный шаблон {@link Controls/moverDialog:Template}.
      * @see Controls/moverDialog:Template
@@ -42,7 +37,6 @@ export interface IMovableOptions {
 
 /**
  * Интерфейс контрола View, который обладает возможностью перемещения записей
- * @interface Controls/_list/interface/IMovableList
  * @public
  * @author Аверкиев П.А.
  */

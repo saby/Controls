@@ -66,6 +66,7 @@
          <ws:partial template="wml!Controls/_menu/Render/expanderTemplate" scope="{{_options}}"/>
       </ws:if>
       <ws:else data="{{rightTemplate}}">
+         <div class="controls-Menu__row__rightTemplate_separator_theme-{{_options.theme}}"></div>
          <ws:partial template="{{rightTemplate}}" scope="{{_options}}" item="{{treeItem.getContents()}}"/>
       </ws:else>
 

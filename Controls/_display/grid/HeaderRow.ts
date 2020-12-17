@@ -1,6 +1,7 @@
 import {THeader} from 'Controls/grid';
 import Row, {IOptions as IRowOptions} from './Row';
 import Header from './Header';
+import ItemActionsCell from './ItemActionsCell';
 
 export interface IOptions<T> extends IRowOptions<T> {
     header: THeader;
@@ -44,6 +45,13 @@ export default class HeaderRow<T> extends Row<T> {
                 column
             }));
             this._addCheckBoxColumnIfNeed();
+
+            if (this.hasItemActionsSeparatedCell()) {
+                this._$columnItems.push(new ItemActionsCell({
+                    owner: this,
+                    column: {}
+                }))
+            }
         }
     }
 

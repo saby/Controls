@@ -54,7 +54,8 @@
                     trackVisible="{{ _trackVisible }}"
                     on:newPositionRendered="_onNewHorizontalPositionRendered()"
                     positionChangeHandler="{{ _horizontalPositionChangedHandler }}"
-                    backgroundStyle="{{ _options.backgroundStyle || _options.style }}">
+                    backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
+                    on:mouseup="_onScrollWrapperMouseUp()">
             </Controls._grid.ScrollWrapper>
         </ws:if>
 

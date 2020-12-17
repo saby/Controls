@@ -65,9 +65,9 @@ var _private = {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FRemove">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/remover/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FRemove демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/remover/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
  *
  * @class Controls/_list/Remover
  * @extends Controls/_list/BaseAction

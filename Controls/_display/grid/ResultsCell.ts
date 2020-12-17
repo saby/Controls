@@ -11,6 +11,8 @@ export interface IOptions<T> {
 }
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:ResultColumnTemplate';
+const FIXED_RESULTS_Z_INDEX = 4;
+const STICKY_RESULTS_Z_INDEX = 3;
 
 export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
     protected _$data: string|number;
@@ -83,7 +85,22 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
 
         // todo add resultsFormat to here
 
+        if (this._$owner.hasColumnScroll()){
+            wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
+            wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(backgroundColorStyle, theme)}`;
+        }
+
         return wrapperClasses;
+    }
+
+    getWrapperStyles(): string {
+        let zIndex;
+        if (this._$owner.hasColumnScroll()) {
+            zIndex = this._isFixedCell() ? FIXED_RESULTS_Z_INDEX : STICKY_RESULTS_Z_INDEX;
+        } else {
+            zIndex = FIXED_RESULTS_Z_INDEX;
+        }
+        return `${super.getWrapperStyles()} z-index: ${zIndex};`;
     }
 
     getContentClasses(theme: string): string {

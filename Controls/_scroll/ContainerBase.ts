@@ -15,6 +15,7 @@ import {SCROLL_MODE} from './Container/Type';
 import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import {tmplNotify} from 'Controls/eventUtils';
 import {isHidden} from './StickyHeader/Utils';
+import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
 
 export interface IContainerBaseOptions extends IControlOptions {
     scrollMode?: SCROLL_MODE;
@@ -22,7 +23,7 @@ export interface IContainerBaseOptions extends IControlOptions {
 
 const KEYBOARD_SHOWING_DURATION: number = 500;
 
-export default class ContainerBase extends Control<IContainerBaseOptions> {
+export default class ContainerBase<T extends IContainerBaseOptions> extends Control<IContainerBaseOptions> {
     protected _template: TemplateFunction = template;
     protected _container: HTMLElement = null;
     protected _options: IContainerBaseOptions;
@@ -38,7 +39,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
     private _scrollLockedPosition: number = null;
     protected _scrollCssClass: string;
     private _oldScrollState: ScrollState;
-    private _scrollModel: ScrollModel;
+    protected _scrollModel: ScrollModel;
 
     protected _tmplNotify: Function = tmplNotify;
 
@@ -51,7 +52,7 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
 
     private _virtualNavigationRegistrar: RegisterClass;
 
-    _beforeMount(options: IContainerBaseOptions): void {
+    _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
         this._resizeObserver = new ResizeObserverUtil(this, this._resizeObserverCallback, this._resizeHandler);
         this._resizeObserverSupported = this._resizeObserver.isResizeObserverSupported();
@@ -544,7 +545,8 @@ export default class ContainerBase extends Control<IContainerBaseOptions> {
             this._setScrollTop(0);
         } else {
             const
-                clientHeight = this._scrollModel.clientHeight,
+                headersHeight = getHeadersHeight(this._container, 'top', 'allFixed') || 0,
+                clientHeight = this._scrollModel.clientHeight - headersHeight,
                 scrollHeight = this._scrollModel.scrollHeight,
                 currentScrollTop = this._scrollModel.scrollTop + (this._isVirtualPlaceholderMode() ? this._topPlaceholderSize : 0);
             if (scrollParam === 'bottom') {

@@ -15,6 +15,7 @@ describe('Controls/_display:GridHeaderRow', () => {
         const header = [{}];
         const headerRow = new GridHeaderRow({
             owner: {
+                hasItemActionsSeparatedCell: () => false,
                 needMultiSelectColumn: () => true,
                 getHeaderConfig: () => header,
                 getColumnsConfig: () => [{}],

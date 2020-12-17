@@ -9,7 +9,8 @@ export default interface IParamsCalculator {
          store: INavigationStore,
          navigationQueryConfig: IBaseSourceConfig,
          direction?: TNavigationDirection,
-         paramsCallback?: Function): IQueryParams;
+         paramsCallback?: Function,
+         reset?: boolean): IQueryParams;
      updateQueryProperties(
          store: INavigationStore,
          list: RecordSet,

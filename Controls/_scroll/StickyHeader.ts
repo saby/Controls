@@ -51,7 +51,7 @@ interface IResizeObserver {
  * Фиксация заголовка в IE и Edge версии ниже 16 не поддерживается.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
  * @public
  * @extends Core/Control
@@ -164,7 +164,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._updateStyles(options);
     }
 
-    protected _beforePaintOnMount(): void {
+    protected _componentDidMount(): void {
         if (!this._isStickySupport) {
             return;
         }

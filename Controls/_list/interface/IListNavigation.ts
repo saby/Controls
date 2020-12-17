@@ -9,13 +9,6 @@ export default interface IListNavigation {
     readonly '[Controls/_list/interface/IListNavigation]': boolean;
 }
 
-/**
- * @event Происходит при изменении параметров навигации.
- * @name Controls/_list/interface/IListNavigation#navigationParamsChanged
- * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
- * @param {IBaseSourceConfig} params Параметры, с которыми происходила последнаяя загрузка данных в списке.
- */
-
 export interface IListNavigationOptions {
     /**
      * @name Controls/_list/interface/IListNavigation#moveMarkerOnScrollPaging
@@ -24,3 +17,10 @@ export interface IListNavigationOptions {
      */
     moveMarkerOnScrollPaging: boolean;
 }
+
+/**
+ * @event Происходит при изменении параметров навигации.
+ * @name Controls/_list/interface/IListNavigation#navigationParamsChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {IBaseSourceConfig} params Параметры, с которыми происходила последнаяя загрузка данных в списке.
+ */

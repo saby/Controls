@@ -8,7 +8,18 @@ import {
     ISerializableState as IDefaultSerializableState
 } from 'Types/entity';
 import {mixin} from 'Types/util';
+/**
+ * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группировкой элементов}.
+ * @public
+ */
 const groupConstants = {
+    /**
+     * С помощью этой константы можно настроить группу элементов, которая отображается без заголовка в начале списка.
+     * Пример использования можно найти {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/hidden/ здесь}.
+     */
+    /*
+    * Constant for determining item in the hiddenGroup in the {@link Controls/interface/IGroupedList#groupProperty groupProperty}
+    */
     hiddenGroup: 'CONTROLS_HIDDEN_GROUP'
 };
 export {groupConstants};

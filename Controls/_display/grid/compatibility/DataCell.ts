@@ -12,4 +12,7 @@ export default class DataCellCompatibility<T> {
     get searchValue() {
         return this.getOwner().searchValue;
     }
+    get column() {
+        return this._$column;
+    }
 }

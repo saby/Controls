@@ -31,7 +31,10 @@ export default class extends Control {
         style: 'bordered',
         showType: showType.TOOLBAR,
         handler: function(item: Record): void {
-            this._children.list.removeItems({selected: [item.get('id')]}).then(() => {
+            this._children.list.removeItems({
+                selected: [item.get('id')],
+                excluded: []
+            }).then(() => {
                 this._children.list.reload();
             });
         }.bind(this)
