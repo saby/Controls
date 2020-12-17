@@ -224,6 +224,7 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
  * @name Controls/_buttons/Button#viewMode
  * @cfg {Enum} Режим отображения кнопки.
  * @variant button В виде обычной кнопки по-умолчанию.
+ * @variant link Устаревший режим отображения кнопки. Не рекомендован к использованию, потому что при его использовании кнопка выравнивается неправильно. Вместо значениея "link" используйте значение "linkButton".
  * @variant linkButton В виде гиперссылки.
  * @variant toolButton В виде кнопки для панели инструментов.
  * @variant functionalButton В виде кнопки выполняющей определенную функцию. Например добавление или сохранение.
