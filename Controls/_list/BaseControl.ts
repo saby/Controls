@@ -591,6 +591,7 @@ const _private = {
             }
         } else {
             _private.hideIndicator(self);
+            _private.hideSyncIndicator(self);
         }
     },
 
@@ -808,7 +809,11 @@ const _private = {
         const listViewModel = self._listViewModel;
         const isPortionedLoad = _private.isPortionedLoad(self);
 
-        _private.showIndicator(self, direction, false);
+        if (isPortionedLoad) {
+            _private.showIndicator(self, direction);
+        } else {
+            _private.showSyncIndicator(self, direction, 0);
+        }
 
         if (self._sourceController) {
             const filter: IHashMap<unknown> = cClone(receivedFilter || self._options.filter);
@@ -1346,9 +1351,8 @@ const _private = {
      * Показывает индикатор, обновляя состояние загрузки, высоту контейнера с индикатором
      * @param self
      * @param direction где показать скролл - сверху | снизу | глобальный
-     * @param withDelay
      */
-    showIndicator(self, direction: 'down' | 'up' | 'all' = 'all', withDelay: boolean = true): void {
+    showIndicator(self, direction: 'down' | 'up' | 'all' = 'all'): void {
         if (!self._isMounted) {
             return;
         }
@@ -1358,7 +1362,7 @@ const _private = {
             self._loadingIndicatorState = self._loadingState;
         }
         _private.updateIndicatorContainerHeight(self, _private.getViewRect(self), self._viewportRect);
-        _private.startShowLoadingIndicatorTimer(self, withDelay ? INDICATOR_DELAY : 0);
+        _private.startShowLoadingIndicatorTimer(self);
     },
 
     /**
@@ -1380,13 +1384,49 @@ const _private = {
         }
     },
 
+    showSyncIndicator(self: typeof BaseControl, direction: IDirection, delay?: number): void {
+        if (!self._syncLoadingIndicatorState) {
+            self._syncLoadingIndicatorState = direction;
+        }
+        if (self._syncLoadingIndicatorTimeout) {
+            clearTimeout(self._syncLoadingIndicatorTimeout);
+        }
+        self._syncLoadingIndicatorTimeout = setTimeout(() => {
+            _private.changeIndicatorStateHandler(self, true, direction);
+        }, delay === undefined ? INDICATOR_DELAY : delay);
+    },
+
+    hideSyncIndicator(self: typeof BaseControl): void {
+        if (self._syncLoadingIndicatorTimeout) {
+            clearTimeout(self._syncLoadingIndicatorTimeout);
+        }
+        self._syncLoadingIndicatorTimeout = null;
+        self._syncLoadingIndicatorState = null;
+
+        _private.changeIndicatorStateHandler(self, false, 'up');
+        _private.changeIndicatorStateHandler(self, false, 'down');
+    },
+
+    /**
+     * меняет видимость постоянно показанных индикаторов загрузки "тяжёлых контролов".
+     * Устанавливаем напрямую в style, чтобы не ждать и не вызывать лишний цикл синхронизации
+     */
+    changeIndicatorStateHandler(self: typeof BaseControl, state: boolean, indicatorName: IDirection): void {
+        if (indicatorName) {
+            if (state) {
+                self._children[`${indicatorName}LoadingIndicator`].style.display = '';
+            } else {
+                self._children[`${indicatorName}LoadingIndicator`].style.display = 'none';
+            }
+        }
+    },
+
     /**
      * Запускает таймер, по истечении которого показывает индикатор загрузки
      * (по стандарту 2 секунды) и стреляет событием controlResize
      * @param self
-     * @param timeout
      */
-    startShowLoadingIndicatorTimer(self, timeout: number = INDICATOR_DELAY): void {
+    startShowLoadingIndicatorTimer(self): void {
         if (!self._loadingIndicatorTimer) {
             self._loadingIndicatorTimer = setTimeout(() => {
                 self._loadingIndicatorTimer = null;
@@ -1396,7 +1436,7 @@ const _private = {
                     self._loadingIndicatorContainerOffsetTop = self._scrollTop + _private.getListTopOffset(self);
                     self._notify('controlResize');
                 }
-            }, timeout);
+            }, INDICATOR_DELAY);
         }
     },
 
@@ -3619,22 +3659,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this.handleTriggerVisible(direction);
         }
     },
-
-    // Устанавливаем напрямую в style, чтобы не ждать и не вызывать лишний цикл синхронизации
-    /**
-     * меняет видимость постоянно показанных индикаторов загрузки "тяжёлых контролов"
-     * @param state
-     * @param indicatorName
-     */
-    changeIndicatorStateHandler(state: boolean, indicatorName: IDirection): void {
-        if (indicatorName) {
-            if (state) {
-                this._children[`${indicatorName}LoadingIndicator`].style.display = '';
-            } else {
-                this._children[`${indicatorName}LoadingIndicator`].style.display = 'none';
-            }
-        }
-    },
     applyTriggerOffset(offset: {top: number, bottom: number}): void {
         // Устанавливаем напрямую в style, чтобы не ждать и не вызывать лишний цикл синхронизации
         this._children.topVirtualScrollTrigger?.style.top = `${offset.top}px`;
@@ -4057,10 +4081,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // Синхронный индикатор загрузки для реестров, в которых записи - тяжелые контролы.
         // Их отрисовка может занять много времени, поэтому следует показать индикатор, не дожидаясь ее окончания.
         if (this._syncLoadingIndicatorState) {
-            clearTimeout(this._syncLoadingIndicatorTimeout);
-            this._syncLoadingIndicatorTimeout = setTimeout(() => {
-                this.changeIndicatorStateHandler(true, this._syncLoadingIndicatorState);
-            }, INDICATOR_DELAY);
+            _private.showSyncIndicator(this, this._syncLoadingIndicatorState);
         }
 
         if (newOptions.searchValue || this._loadedBySourceController) {
@@ -4382,11 +4403,12 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         // До отрисовки элементов мы не можем понять потребуется ли еще загрузка (зависит от видимости тригеров).
         // Чтобы индикатор загрузки не мигал, показываем индикатор при загрузки, а скрываем после отрисовки.
-        const hasTrigger = this._loadTriggerVisibility.hasOwnProperty(this._loadingIndicatorState);
-        const isTriggerVisible = !this._loadTriggerVisibility[this._loadingIndicatorState];
+        const loadingIndicatorState = this._loadingIndicatorState || this._syncLoadingIndicatorState;
+        const hasTrigger = this._loadTriggerVisibility.hasOwnProperty(loadingIndicatorState);
+        const isTriggerVisible = this._loadTriggerVisibility[loadingIndicatorState];
         const isLoading = !!this._sourceController && this._sourceController.isLoading();
 
-        if (this._loadingIndicatorState && !isLoading && hasTrigger && isTriggerVisible) {
+        if (loadingIndicatorState && !isLoading && hasTrigger && !isTriggerVisible) {
             _private.hideIndicator(this);
         }
 
@@ -4401,11 +4423,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 // её по ошибке: https://online.sbis.ru/opendoc.html?guid=cd0ba66a-115c-44d1-9384-0c81675d5b08
                 correctingHeight = 33;
             }
-            if (this._syncLoadingIndicatorTimeout) {
-                clearTimeout(this._syncLoadingIndicatorTimeout);
-                this.changeIndicatorStateHandler(false, 'up');
-                this.changeIndicatorStateHandler(false, 'down');
-                this._syncLoadingIndicatorState = null;
+            if (loadingIndicatorState && !isLoading && hasTrigger && !isTriggerVisible) {
+                _private.hideSyncIndicator(this);
             }
             let itemsUpdated = false;
             if (this._listViewModel && !this._modelRecreated && this._viewReady) {
@@ -5976,7 +5995,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
      * @param position
      * @private
      */
-    _shouldShowLoadingIndicator(position: 'beforeEmptyTemplate' | 'afterList' | 'inFooter' | 'scrollUp' | 'scrollDown'): boolean {
+    _shouldShowLoadingIndicator(position: 'beforeEmptyTemplate' | 'afterList' | 'inFooter'): boolean {
         // Глобальный индикатор загрузки при пустом списке должен отображаться поверх emptyTemplate.
         // Если расположить индикатор в подвале, то он будет под emptyTemplate т.к. emptyTemplate выводится до подвала.
         // В таком случае выводим индикатор над списком.
@@ -5985,27 +6004,23 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
         const isColumnScrollVisible = !!this._children.listView &&
             !!this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible();
+        const isPortioned = _private.isPortionedLoad(this);
 
-        if (position === 'beforeEmptyTemplate') { // TODO <<<---- Если Portioned Search надо тут показывать
-            return this._loadingIndicatorState === 'all' && (
-                this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel) ||
-                isColumnScrollVisible
-            );
+        if (position === 'beforeEmptyTemplate') {
+            return isPortioned && this._loadingIndicatorState === 'up' ||
+                (this._loadingIndicatorState === 'all' && (
+                    this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel) ||
+                    isColumnScrollVisible
+                ));
 
-            // TODO | 'afterList' <<<---- Если Portioned Search надо тут показывать
+        } else if (position === 'afterList') {
+            return isPortioned && this._loadingIndicatorState === 'down';
 
         } else if (position === 'inFooter') {
             return this._loadingIndicatorState === 'all' &&
                 !this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel) &&
                 !isColumnScrollVisible;
 
-        } else if (position === 'scrollUp') { // TODO <<<---- Если Portioned Search не надо тут показывать
-            return this._loadingIndicatorState === 'up';
-            // return this._sourceController && _private.hasMoreData(this, this._sourceController, 'up');
-
-        } else if (position === 'scrollDown') { // TODO <<<---- Если Portioned Search не надо тут показывать
-            return this._loadingIndicatorState === 'down';
-            // return this._sourceController && _private.hasMoreData(this, this._sourceController, 'down');
         }
 
         return false;

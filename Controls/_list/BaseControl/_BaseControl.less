@@ -110,9 +110,10 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    z-index: 17;
 }
 
-.controls-BaseControl__loadingIndicator__state-down,
-.controls-BaseControl__loadingIndicator__state-up {
-   position: relative;
+// По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка
+.controls-BaseControl__loadingIndicator__state-down {
+   position: sticky;
+   bottom: 0;
    pointer-events: none;
 }
 
@@ -139,10 +140,11 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    padding-top: @continueSearch_padding-top_list;
 }
 
-//.controls-BaseControl__loadingIndicator__state-up .controls-BaseControl__loadingIndicatorImg-wrapper_theme-@{themeName} {
-//   position: absolute;
-//   top: 0;
-//}
+.controls-BaseControl__loadingIndicator__state-up {
+   position: sticky;
+   pointer-events: none;
+   top: 0;
+}
 
 .controls-BaseControl_empty__loadingIndicator__state-down_theme-@{themeName} {
    min-height: @content_l_padding_loadingIndicator * 2 + @spinner_l_size_loadingIndicator;

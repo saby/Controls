@@ -90,14 +90,9 @@
 <ws:template name="viewTpl">
     <div class="controls-ScrollController" name="viewContainer">
         <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? 'display: none;'}}"></div>
-        <ws:if data="{{ _shouldShowLoadingIndicator('scrollUp') }}">
-            <ws:partial template="loadingIndicator" _showLoadingIndicatorImage="{{true}}" indicatorName="scrollUp" loadingIndicatorState="up" />
-        </ws:if>
-        <ws:else>
-            <div style="height: 1px;"></div>
-        </ws:else>
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
+                attr:style="{{ _attachLoadTopTriggerToNull ? 'padding-top: 1px;'  }}"
                 name="{{name}}"
                 template="{{ _options.content }}"
                 scope="{{_options}}"
@@ -171,9 +166,6 @@
                 <ws:partial template="emptyTemplateIf"/>
             </ws:emptyTemplate>
         </ws:partial>
-        <ws:if data="{{ _shouldShowLoadingIndicator('scrollDown') }}">
-            <ws:partial template="loadingIndicator" _showLoadingIndicatorImage="{{true}}" indicatorName="scrollDown" loadingIndicatorState="down"/>
-        </ws:if>
         <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
         <ws:if data="{{_needScrollCalculation}}">
             <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>
