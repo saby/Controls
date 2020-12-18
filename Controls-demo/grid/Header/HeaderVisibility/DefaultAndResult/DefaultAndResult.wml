@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__grid-header-default ">
-    <Controls.scroll:Container attr:class="controlsDemo__inline-flex">
+    <Controls.scroll:Container attr:class="controlsDemo__inline-flex controlsDemo__maxWidth600">
         <Controls.grid:View
                 keyProperty="id"
                 source="{{_viewSource}}"
