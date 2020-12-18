@@ -92,7 +92,7 @@
         <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? 'display: none;'}}"></div>
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
-                attr:style="{{ getViewStyles() }}"
+                attr:style="{{ _getViewStyles() }}"
                 name="{{name}}"
                 template="{{ _options.content }}"
                 scope="{{_options}}"

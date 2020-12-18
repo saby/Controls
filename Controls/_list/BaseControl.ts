@@ -562,12 +562,6 @@ const _private = {
         }
     },
 
-    /**
-     * Если в RecordSet отсуствуют записи, навигация требует индикатор и moreData,
-     * то показывает индикатор загрузки в направлении moreData. Иначе скрывает.
-     * Выполняется после перезагрузки данных методом reload в doAfterUpdate
-     * и в dataLoadCallback если глобальный индикатор, не-infinity навигация, триггер невидим или нет moreData.
-     */
     resolveIndicatorStateAfterReload(self, list, navigation): void {
         if (!self._isMounted) {
             return;
@@ -3186,6 +3180,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _loadingIndicatorState: null,
     _loadingIndicatorTimer: null,
     _showLoadingIndicatorImage: null,
+    _showLoadingPlaceHolder: null,
 
     _pagingCfg: null,
     _pagingVisible: false,
@@ -4507,11 +4502,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this.handleTriggerVisible('up');
         }
     },
-
     // padding-top нужен только когда сверху есть данные и скролл проинициализирован
-    getViewStyles(): string {
+    _getViewStyles(): string {
         const hasMoreDataUp = this._sourceController && _private.hasMoreData(this, this._sourceController, 'up');
-        return hasMoreDataUp ? 'padding-top: 56px' : '';
+        return hasMoreDataUp && this._showLoadingPlaceHolder ? 'padding-top: 56px' : '';
     },
     handleTriggerVisible(direction: IDirection): void {
         // Вызываем сдвиг диапазона в направлении видимого триггера
@@ -5613,6 +5607,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // нельзя делать это в процессе обновления или загрузки
         if (!this._loadingState && !this._updateInProgress && !this._scrollController?.getScrollTop()) {
             _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
+            this._showLoadingPlaceHolder = true;
         }
         if (this._hideTopTrigger && !this._needScrollToFirstItem) {
             this._hideTopTrigger = false;
