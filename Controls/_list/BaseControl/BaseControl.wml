@@ -90,9 +90,10 @@
 <ws:template name="viewTpl">
     <div class="controls-ScrollController" name="viewContainer">
         <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? 'display: none;'}}"></div>
+<!--        attr:style="{{ _attachLoadTopTriggerToNull ? 'padding-top: 1px;'  }}"-->
         <ws:partial
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
-                attr:style="{{ _attachLoadTopTriggerToNull ? 'padding-top: 1px;'  }}"
+                attr:style="padding-top: 46px;"
                 name="{{name}}"
                 template="{{ _options.content }}"
                 scope="{{_options}}"
