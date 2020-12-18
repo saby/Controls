@@ -9,6 +9,7 @@ describe('Controls/scroll:ContainerBase', () => {
    };
 
    const contains: Function = () => false;
+   const classList = { contains: () => false };
 
    describe('_beforeMount', () => {
       it('should create models', () => {
@@ -31,6 +32,13 @@ describe('Controls/scroll:ContainerBase', () => {
             content: {
                children: children,
                getBoundingClientRect: () => {}
+            },
+            userContent: {
+               children: [{
+                  classList: {
+                     contains: () => true
+                  }
+               }]
             }
          };
          control._afterMount();
@@ -66,7 +74,14 @@ describe('Controls/scroll:ContainerBase', () => {
          control._state = {
          };
          control._children = {
-            content: content
+            content: content,
+            userContent: {
+               children: [{
+                  classList: {
+                     contains: () => true
+                  }
+               }]
+            }
          };
 
          sinon.stub(control, '_generateEvent');
@@ -165,7 +180,14 @@ describe('Controls/scroll:ContainerBase', () => {
          };
 
          control._children = {
-            content: content
+            content: content,
+            userContent: {
+               children: [{
+                  classList: {
+                     contains: () => true
+                  }
+               }]
+            }
          };
 
          control._resizeObserver = {
@@ -220,6 +242,13 @@ describe('Controls/scroll:ContainerBase', () => {
          control._children = {
             content: {
                scrollTop: 0
+            },
+            userContent: {
+               children: [{
+                  classList: {
+                     contains: () => true
+                  }
+               }]
             }
          };
 
@@ -238,6 +267,13 @@ describe('Controls/scroll:ContainerBase', () => {
             content: {
                scrollTop: position,
                getBoundingClientRect: sinon.fake()
+            },
+            userContent: {
+               children: [{
+                  classList: {
+                     contains: () => true
+                  }
+               }]
             }
          };
          control._resizeObserver = {
@@ -411,6 +447,13 @@ describe('Controls/scroll:ContainerBase', () => {
                   scrollWidth: 200,
                   clientWidth: 100,
                   getBoundingClientRect: sinon.fake()
+               },
+               userContent: {
+                  children: [{
+                     classList: {
+                        contains: () => true
+                     }
+                  }]
                }
             };
             control._resizeObserver = {
@@ -470,6 +513,13 @@ describe('Controls/scroll:ContainerBase', () => {
          inst._children = {
             content: {
                scrollTop: 0
+            },
+            userContent: {
+               children: [{
+                  classList: {
+                     contains: () => true
+                  }
+               }]
             }
          };
          inst._resizeObserver = {
@@ -495,6 +545,13 @@ describe('Controls/scroll:ContainerBase', () => {
                getBoundingClientRect: () => {
                   return {};
                }
+            },
+            userContent: {
+               children: [{
+                  classList: {
+                     contains: () => true
+                  }
+               }]
             }
          };
          inst._resizeObserver = {
@@ -527,6 +584,13 @@ describe('Controls/scroll:ContainerBase', () => {
                clientWidth: 100,
                scrollWidth: 100,
                getBoundingClientRect: sinon.fake()
+            },
+            userContent: {
+               children: [{
+                  classList: {
+                     contains: () => true
+                  }
+               }]
             }
          };
           control._resizeObserver = {
