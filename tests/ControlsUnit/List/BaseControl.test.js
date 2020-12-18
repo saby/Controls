@@ -857,6 +857,14 @@ define([
             getElementsByClassName: () => ([{ clientHeight: 100, offsetHeight: 0 }]),
             getBoundingClientRect: function() { return {}; }
          };
+         ctrl._children = {
+            upLoadingIndicator: {
+               style: {}
+            },
+            downLoadingIndicator: {
+               style: {}
+            },
+         };
          ctrl._afterMount(cfg);
 
          let loadPromise = lists.BaseControl._private.loadToDirection(ctrl, 'down');
@@ -1600,6 +1608,14 @@ define([
             clientHeight: 100,
             getBoundingClientRect: () => ({ y: 0 })
          };
+         baseControl._children = {
+            upLoadingIndicator: {
+               style: {}
+            },
+            downLoadingIndicator: {
+               style: {}
+            },
+         };
          baseControl._afterMount(cfg);
 
          const loadPromise = lists.BaseControl._private.loadToDirection(baseControl, 'up');
@@ -1637,6 +1653,14 @@ define([
          ctrl._container = {
             getElementsByClassName: () => ([{ clientHeight: 100, offsetHeight: 0 }]),
             getBoundingClientRect: function() { return {}; }
+         };
+         ctrl._children = {
+            upLoadingIndicator: {
+               style: {}
+            },
+            downLoadingIndicator: {
+               style: {}
+            },
          };
          ctrl._afterMount(cfg);
 
@@ -1705,11 +1729,29 @@ define([
             }
          };
          var ctrl = new lists.BaseControl(cfg);
+         ctrl._children = {
+            upLoadingIndicator: {
+               style: {}
+            },
+            downLoadingIndicator: {
+               style: {}
+            },
+         };
          ctrl.saveOptions(cfg);
          ctrl._beforeMount(cfg);
 
          // два таймаута, первый - загрузка начального рекордсета, второй - на последюущий запрос
          setTimeout(function() {
+
+            ctrl._children = {
+               upLoadingIndicator: {
+                  style: {}
+               },
+               downLoadingIndicator: {
+                  style: {}
+               },
+            };
+
             /**
              * _beforeMount will load some items, so _loadedItems will get set. Normally, it will reset in _afterUpdate, but since we don't have lifecycle in tests,
              * we'll reset it here manually.
@@ -6452,37 +6494,60 @@ define([
 
          /*[position, _loadingIndicatorState, __needShowEmptyTemplate, expectedResult]*/
          const testCases = [
-            ['beforeEmptyTemplate', 'up', true,    true],
-            ['beforeEmptyTemplate', 'up', false,   true],
-            ['beforeEmptyTemplate', 'down', true,  false],
-            ['beforeEmptyTemplate', 'down', false, false],
-            ['beforeEmptyTemplate', 'all', true,   true],
-            ['beforeEmptyTemplate', 'all', false,  false],
+            ['beforeEmptyTemplate', 'up', true, false,    false],
+            ['beforeEmptyTemplate', 'up', false, false,   false],
+            ['beforeEmptyTemplate', 'up', true, true,     true],
+            ['beforeEmptyTemplate', 'up', false, true,    true],
+            ['beforeEmptyTemplate', 'down', true, false,  false],
+            ['beforeEmptyTemplate', 'down', false, false, false],
+            ['beforeEmptyTemplate', 'down', true, true,   false],
+            ['beforeEmptyTemplate', 'down', false, true,  false],
+            ['beforeEmptyTemplate', 'all', true, false,   true],
+            ['beforeEmptyTemplate', 'all', false, false,  false],
+            ['beforeEmptyTemplate', 'all', true, true,    true],
+            ['beforeEmptyTemplate', 'all', false, true,   false],
 
-            ['afterList', 'up', true,     false],
-            ['afterList', 'up', false,    false],
-            ['afterList', 'down', true,   true],
-            ['afterList', 'down', false,  true],
-            ['afterList', 'all', true,    false],
-            ['afterList', 'all', false,   false],
+            ['afterList', 'up', true, false,     false],
+            ['afterList', 'up', false, false,    false],
+            ['afterList', 'up', true, true,      false],
+            ['afterList', 'up', false, true,     false],
+            ['afterList', 'down', true, false,   false],
+            ['afterList', 'down', false, false,  false],
+            ['afterList', 'down', true, true,    true],
+            ['afterList', 'down', false, true,   true],
+            ['afterList', 'all', true, false,    false],
+            ['afterList', 'all', false, false,   false],
+            ['afterList', 'all', true, true,     false],
+            ['afterList', 'all', false, true,    false],
 
-            ['inFooter', 'up', true,      false],
-            ['inFooter', 'up', false,     false],
-            ['inFooter', 'down', true,    false],
-            ['inFooter', 'down', false,   false],
-            ['inFooter', 'all', true,     false],
-            ['inFooter', 'all', false,    true]
+            ['inFooter', 'up', true, false,      false],
+            ['inFooter', 'up', false, false,     false],
+            ['inFooter', 'up', true, true,       false],
+            ['inFooter', 'up', false, true,      false],
+            ['inFooter', 'down', true, false,    false],
+            ['inFooter', 'down', false, false,   false],
+            ['inFooter', 'down', true, true,     false],
+            ['inFooter', 'down', false, true,    false],
+            ['inFooter', 'all', true, false,     false],
+            ['inFooter', 'all', false, false,    true],
+            ['inFooter', 'all', true, true,      false],
+            ['inFooter', 'all', false, true,     true]
          ];
 
          const getErrorMsg = (index, caseData) => `Test case ${index} failed. ` +
-             `Wrong return value of _shouldShowLoadingIndicator('${caseData[0]}'). Expected ${caseData[3]}. ` +
+             `Wrong return value of _shouldShowLoadingIndicator('${caseData[0]}'). Expected ${caseData[4]}. ` +
              `Params: { _loadingIndicatorState: ${caseData[1]}, __needShowEmptyTemplate: ${caseData[2]} }.`;
+
+         const stubPortionedSearch = sinon.stub(lists.BaseControl._private, 'isPortionedLoad');
 
          testCases.forEach((caseData, index) => {
             baseControl._loadingIndicatorState = caseData[1];
             baseControl.__needShowEmptyTemplate = () => caseData[2];
-            assert.equal(baseControl._shouldShowLoadingIndicator(caseData[0]), caseData[3], getErrorMsg(index, caseData));
+            stubPortionedSearch.callsFake(() => caseData[3]);
+            assert.equal(baseControl._shouldShowLoadingIndicator(caseData[0]), caseData[4], getErrorMsg(index, caseData));
          });
+
+         stubPortionedSearch.restore();
 
          baseControl._loadingIndicatorState = 'all';
          baseControl.__needShowEmptyTemplate = () => false;
@@ -6536,6 +6601,14 @@ define([
             ctrl._container = {
                getElementsByClassName: () => ([{ clientHeight: 100, offsetHeight: 0 }]),
                getBoundingClientRect: function() { return {}; }
+            };
+            ctrl._children = {
+               upLoadingIndicator: {
+                  style: {}
+               },
+               downLoadingIndicator: {
+                  style: {}
+               },
             };
             ctrl._afterMount(cfg);
 

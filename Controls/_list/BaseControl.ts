@@ -1369,6 +1369,7 @@ const _private = {
         if (self._syncLoadingIndicatorTimeout) {
             clearTimeout(self._syncLoadingIndicatorTimeout);
         }
+        self._loadingState = direction;
         self._syncLoadingIndicatorTimeout = setTimeout(() => {
             _private.changeSyncIndicatorStateHandler(self, true, direction);
         }, delay === undefined ? INDICATOR_DELAY : delay);
@@ -1378,6 +1379,10 @@ const _private = {
         if (self._syncLoadingIndicatorTimeout) {
             clearTimeout(self._syncLoadingIndicatorTimeout);
         }
+        if (!self._syncLoadingIndicatorState) {
+            return;
+        }
+        self._loadingState = null;
         self._syncLoadingIndicatorTimeout = null;
         self._syncLoadingIndicatorState = null;
 
