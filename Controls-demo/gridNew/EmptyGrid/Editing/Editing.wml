@@ -14,28 +14,28 @@
                 on:beforeEndEdit="_onBeforeEndEdit()"
                 columns="{{_columns}}">
             <ws:editingConfig editOnClick="{{true}}" toolbarVisibility="{{true}}"/>
-            <ws:emptyTemplate>
-                <ws:partial template="Controls/gridNew:EditingEmptyTemplate">
-                    <ws:columns>
-                        <ws:Array>
-                            <ws:Object>
-                                <ws:template>
-                                    <ws:partial template="Controls/list:BaseEditingTemplate" enabled="{{ true }}">
-                                        <ws:viewTemplate>
-                                            <div on:click="_beginAdd()">Введите наименование, штрих-код или артикул</div>
-                                        </ws:viewTemplate>
-                                    </ws:partial>
-                                </ws:template>
-                            </ws:Object>
-                            <ws:Object>
-                                <ws:template>
-                                    <div>или выберите из <a href="#" class="controls-text-link_theme-default">каталога</a></div>
-                                </ws:template>
-                            </ws:Object>
-                        </ws:Array>
-                    </ws:columns>
-                </ws:partial>
-            </ws:emptyTemplate>
+            <ws:emptyColumns>
+                <ws:Array>
+                    <ws:Object startColumn="{{ 1 }}" endColumn="{{ 2 }}">
+                        <ws:template>
+                            <ws:partial template="Controls/gridNew:EmptyColumnTemplate">
+                                <ws:partial template="Controls/list:BaseEditingTemplate" enabled="{{ true }}">
+                                    <ws:viewTemplate>
+                                        <div on:click="_beginAdd()">Введите наименование, штрих-код или артикул</div>
+                                    </ws:viewTemplate>
+                                </ws:partial>
+                            </ws:partial>
+                        </ws:template>
+                    </ws:Object>
+                    <ws:Object startColumn="{{ 2 }}" endColumn="{{ 6 }}">
+                        <ws:template>
+                            <ws:partial template="Controls/gridNew:EmptyColumnTemplate" >
+                                <div>или выберите из <a href="#" class="controls-text-link_theme-default">каталога</a></div>
+                            </ws:partial>
+                        </ws:template>
+                    </ws:Object>
+                </ws:Array>
+            </ws:emptyColumns>
             <ws:footerTemplate>
                 <Controls.list:AddButton if="{{ _hasItems && !_isEditing }}" caption="Запись" on:click="_beginAdd()" class="test_add_record_1"/>
             </ws:footerTemplate>

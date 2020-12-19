@@ -54,13 +54,13 @@
             </ws:partial>
         </div>
         <!-- emptyTemplate -->
-        <ws:if data="{{_options.emptyTemplate}}">
-            <ws:partial template="{{ _options.emptyTemplate }}"
-                        attr:class="{{ _listModel.getEmptyTemplateClasses(_options.theme) }}"
-                        prepareColumnsForEmptyTemplate="{{ _prepareColumnsForEmptyTemplate }}"
-                        prepareColumnsForEmptyEditingTemplate="{{ _prepareColumnsForEmptyEditingTemplate }}"
-                        hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"/>
+        <ws:if data="{{ _listModel.getEmptyGridRow() && _isEmpty() }}">
+            <ws:partial template="{{ _listModel.getEmptyGridRow().getTemplate() }}"
+                        attr:name="emptyView"
+                        item="{{ _listModel.getEmptyGridRow() }}"
+                        backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
+
         <!-- Results (bottom) -->
         <ws:if data="{{ _listModel.getResults() && _listModel.getResultsPosition() === 'bottom' }}">
             <ws:partial template="{{ _listModel.getResults().getTemplate() }}"

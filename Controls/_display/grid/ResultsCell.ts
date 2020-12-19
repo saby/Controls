@@ -87,7 +87,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
 
         if (this._$owner.hasColumnScroll()){
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
-            wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(backgroundColorStyle, theme)}`;
+            wrapperClasses += ` ${this._getBackgroundColorColumnScrollClasses(backgroundColorStyle, theme)}`;
         }
 
         return wrapperClasses;

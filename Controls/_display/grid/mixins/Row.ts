@@ -13,7 +13,7 @@ import {Model as EntityModel} from 'Types/entity';
 
 const DEFAULT_GRID_ROW_TEMPLATE = 'Controls/gridNew:ItemTemplate';
 
-interface IItemTemplateParams {
+export interface IItemTemplateParams {
     highlightOnHover?: boolean,
     style?: string,
     cursor?: 'default' | 'pointer',
@@ -42,22 +42,30 @@ export default abstract class Row<T> {
     }
 
     getItemClasses(params: IItemTemplateParams = { theme: 'default' }): string {
+        let itemClasses = `${this._getBaseItemClasses(params.style, params.theme)} `
+                        + `${this._getCursorClasses(params.cursor, params.clickable)} `
+                        + `${this._getItemHighlightClasses(params.style, params.theme, params.highlightOnHover)}`;
+
         const navigation = this.getOwner().getNavigation();
         const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
             && this.isLastItem();
-        let itemClasses = `controls-ListView__itemV ${this._getCursorClasses(params.cursor, params.clickable)}`;
-
-        itemClasses += ` controls-Grid__row controls-Grid__row_${params.style}_theme-${params.theme}`;
-
-        if (params.highlightOnHover !== false && !this.isEditing()) {
-            itemClasses += ` controls-Grid__row_highlightOnHover_${params.style}_theme-${params.theme}`;
-        }
 
         if (isLastItem) {
             itemClasses += ' controls-Grid__row_last';
         }
 
         return itemClasses;
+    }
+
+    protected _getBaseItemClasses(style: string, theme: string): string {
+        return `controls-ListView__itemV controls-Grid__row controls-Grid__row_${style}_theme-${theme}`
+    }
+
+    protected _getItemHighlightClasses(style: string, theme: string, highlightOnHover?: boolean): string {
+        if (highlightOnHover !== false && !this.isEditing()) {
+            return `controls-Grid__row_highlightOnHover_${style}_theme-${theme}`;
+        }
+        return '';
     }
 
     isLastItem(): boolean {
