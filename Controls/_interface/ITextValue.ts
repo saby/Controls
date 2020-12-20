@@ -1,7 +1,5 @@
 /**
  * Интерфейс контролов, которые могут поставлять текстовое значение.
- *
- * @interface Controls/_interface/ITextValue
  * @public
  * @author Герасимов А.М.
  */
@@ -16,19 +14,18 @@ export default interface ITextValue {
  *
  * @example
  * В следующем примере создается Controls/lookup:Selector и демонстрируется сценарий использования.
- * WML:
  * <pre>
- *    <Controls.lookup:Selector
- *       source="{{_source}}"
- *       keyProperty="id"
- *       on:textValueChanged="onTextValueChanged()">
- *    </Controls.lookup:Selector>
+ * <!-- WML -->
+ * <Controls.lookup:Selector
+ *    source="{{_source}}"
+ *    keyProperty="id"
+ *    on:textValueChanged="onTextValueChanged()" />
  * </pre>
- * JS:
  * <pre>
- *    onTextValueChanged: function(e, textValue) {
- *       UserConfig.setParam('selectedItems', textValue);
- *    }
+ * // JavaScript
+ * onTextValueChanged: function(e, textValue) {
+ *    UserConfig.setParam('selectedItems', textValue);
+ * }
  * </pre>
  */
 /*

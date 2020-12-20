@@ -138,7 +138,7 @@ export {
 /**
  * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактированием по месту}.
  * @public
- */ 
+ */
 const editing = {
     /**
      * С помощью этой константы можно отменить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
@@ -151,6 +151,7 @@ const editing = {
 };
 
 import {groupConstants} from './display';
+import {checkboxStateConstants} from './display';
 import {CursorDirection} from './interface';
 
-export {CursorDirection, groupConstants, editing};
+export {CursorDirection, groupConstants, editing, checkboxStateConstants};

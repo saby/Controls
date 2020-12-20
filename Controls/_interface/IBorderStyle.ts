@@ -7,8 +7,6 @@ export interface IBorderStyleOptions {
 
 /**
  * Интерфейс для контролов, которые поддерживают разные цвета границы.
- *
- * @interface Controls/interface/IBorderStyle
  * @public
  * @author Красильников А.С.
  */

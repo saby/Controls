@@ -1,13 +1,12 @@
+import IFilter from './IFilter';
+
 /**
  * Интерфейс для контролов, которые поддерживают фильтрацию данных.
  *
- * @interface Controls/_interface/IFilterChanged
  * @mixes Controls/_interface/IFilter
  * @public
  * @author Авраменко А.С.
  */
-import IFilter from './IFilter';
-
 export default interface IFilterChanged extends IFilter {
    readonly '[Controls/_interface/IBaseFilter]': boolean;
 }
@@ -20,12 +19,12 @@ export default interface IFilterChanged extends IFilter {
  * @remark
  * Важно помнить, что опции {@link https://ru.m.wikipedia.org/wiki/Неизменяемый_объект иммутабельны}, поэтому фильтр в аргументах события отличается от фильтра в опциях контрола.
  * @example
- * <pre>
+ * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.filter:Controller on:filterChanged="filterChanged()" filter="{{ _filter }}"/>
  * {{ _filterString }}
  * </pre>
- * <pre>
+ * <pre class="brush: js">
  * // JavaScript
  * _filter: null,
  * _beforeMount: function() {

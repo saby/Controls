@@ -62,7 +62,50 @@ function getFewCategories(): Array<{
         }
     ];
 }
-
+function getDataForComplexScroll(): Array<{id: number, title: string, withList: boolean}> {
+    return [
+        {
+            id: 1,
+            title: 'Простой элемент 1',
+            withList: false
+        },
+        {
+            id: 2,
+            title: 'Простой элемент 2',
+            withList: false
+        },
+        {
+            id: 3,
+            title: 'Сложный элемент 3',
+            withList: true
+        },
+        {
+            id: 4,
+            title: 'Простой элемент 4',
+            withList: false
+        },
+        {
+            id: 5,
+            title: 'Простой элемент 5',
+            withList: false
+        },
+        {
+            id: 6,
+            title: 'Сложный элемент 6',
+            withList: true
+        },
+        {
+            id: 7,
+            title: 'Сложный элемент 7',
+            withList: true
+        },
+        {
+            id: 8,
+            title: 'Сложный элемент 8',
+            withList: true
+        }
+    ]
+}
 function getCursorData(): Array<{id: number, value: string, cursor?: 'default' | 'pointer', hovered: boolean}> {
     return [
         {
@@ -515,5 +558,6 @@ export {
     getGroupedCatalogWithHiddenGroup,
     getEditableCatalog,
     generateData,
+    getDataForComplexScroll,
     changeSourceData
 };

@@ -21,7 +21,7 @@ import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 import {TMarkerClassName} from '../_grid/interface/ColumnTemplate';
 import {IItemPadding} from '../_list/interface/IList';
 
-export interface IOptions<T> {
+export interface IOptions<T extends Model = Model> {
     contents?: T;
     selected?: boolean;
     marked?: boolean;
@@ -33,6 +33,7 @@ export interface IOptions<T> {
     isAdd?: boolean;
     addPosition?: 'top' | 'bottom';
     multiSelectVisibility: string;
+    checkboxState: boolean|null;
 }
 
 export interface ISerializableState<T> extends IDefaultSerializableState {
@@ -60,7 +61,7 @@ const ITEMACTIONS_POSITION_CLASSES = {
  * @public
  * @author Мальцев А.А.
  */
-export default class CollectionItem<T> extends mixin<
+export default class CollectionItem<T extends Model = Model> extends mixin<
     DestroyableMixin,
     OptionsToPropertyMixin,
     InstantiableMixin,
@@ -123,6 +124,8 @@ export default class CollectionItem<T> extends mixin<
     protected _$multiSelectVisibility: string;
 
     protected _$dragged: boolean;
+
+    protected _$checkboxState: boolean|null;
 
     protected _instancePrefix: string;
 
@@ -280,6 +283,18 @@ export default class CollectionItem<T> extends mixin<
     }
 
     // endregion
+
+    // region CheckboxState
+
+    isReadonlyCheckbox(): boolean {
+        return this._$checkboxState !== true;
+    }
+
+    isVisibleCheckbox(): boolean {
+        return this._$checkboxState !== null;
+    }
+
+    // endregion CheckboxState
 
     getDisplayProperty(): string {
         return this.getOwner().getDisplayProperty();
@@ -789,6 +804,7 @@ export default class CollectionItem<T> extends mixin<
 Object.assign(CollectionItem.prototype, {
     '[Controls/_display/CollectionItem]': true,
     _moduleName: 'Controls/display:CollectionItem',
+    _instancePrefix: 'collection-item-',
     _$owner: null,
     _$contents: null,
     _$selected: false,
@@ -800,9 +816,9 @@ Object.assign(CollectionItem.prototype, {
     _$active: false,
     _$hovered: false,
     _$dragged: false,
-    _instancePrefix: 'collection-item-',
+    _$checkboxState: true,
+    _$multiSelectVisibility: null,
     _contentsIndex: undefined,
     _version: 0,
-    _counters: null,
-    _$multiSelectVisibility: null
+    _counters: null
 });

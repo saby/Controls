@@ -6,7 +6,7 @@ export interface IScrollbarsOptions {
 export function getDefaultOptions(): IScrollbarsOptions {
     return {
         scrollbarVisible: true
-    }
+    };
 }
 
 /**

@@ -21,8 +21,7 @@
                   attr:class="{{itemData.multiSelectClassList}}">
          <ws:templateOptions triState="{{true}}"
                              checkboxReadOnly="{{checkboxReadOnly}}"
-                             multiSelectStatus="{{itemData.isSelected()}}"
-                             key="{{itemData.key}}"/>
+                             item="{{ itemData.dispItem }}"/>
       </ws:partial>
          <ws:if data="{{itemData.dispItem.isNode()}}">
             <span attr:class="controls-TileView__smallTemplate_nodeIcon_theme-{{theme}} icon-large icon-Folder icon-disabled"></span>

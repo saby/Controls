@@ -28,7 +28,7 @@ export function getImageUrl(
     if (urlResolver) {
         return urlResolver(imageWidth, imageHeight, baseUrl, item);
     } else {
-        return `/previewer/r/${imageWidth ? imageWidth + '/' : ''}${imageHeight ? imageHeight + '/' : ''}${baseUrl}`;
+        return `/previewer/c${imageWidth ? '/' + imageWidth : ''}${imageHeight ? '/' + imageHeight : ''}${baseUrl}`;
     }
 }
 

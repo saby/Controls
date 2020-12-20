@@ -91,9 +91,14 @@ export default class Drag<S extends Model, T extends CollectionItem<S> = Collect
         return this.source.getCollectionIndex(index);
     }
 
-    splice(start: number, deleteCount: number, added?: S[]): T[] {
-        // TODO Make sure this works correctly
+    splice(start: number, deleteCount: number, added: S[] = []): T[] {
         this._itemsOrder = null;
+
+        // Drag содержит свой список перетаскиваемых элементов, т.к. перетаскиваемая запись - это "призрачная запись"
+        const reallyAdded: T[] = added.map(
+           (contents) => contents instanceof CollectionItem ? contents as any as T : this._createItem(contents)
+        );
+        this._items.splice(start, deleteCount, ...reallyAdded);
         return this.source.splice(
             start,
             deleteCount,

@@ -1111,7 +1111,8 @@ define([
                source,
                sourceController,
                root: 'test',
-                keyProperty: 'id'
+                keyProperty: 'id',
+               selectionType: 'all'
             };
             let afterReloadCallbackCalled = false;
             const treeCreateObject = correctCreateTreeControl(cfg, true);

@@ -130,7 +130,6 @@
                 on:itemsContainerReady="_itemsContainerReadyHandler()"
                 on:controlResize="_viewResize()"
                 on:doScroll="_stopBubblingEvent()"
-                on:scrollToElement="_stopBubblingEvent()"
                 on:updateShadowMode="_stopBubblingEvent()"
                 on:updatePlaceholdersSize="_stopBubblingEvent()"
                 on:saveScrollPosition="_stopBubblingEvent()"

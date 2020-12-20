@@ -115,39 +115,38 @@ export default class FilterControllerClass {
         let filterChanged;
         let selectionViewModeChanged;
 
-        if (!this._options.useStore) {
-            filterButtonChanged = this._options.filterButtonSource !== newOptions.filterButtonSource;
-            fastFilterChanged = this._options.fastFilterSource !== newOptions.fastFilterSource;
-            filterChanged = !isEqual(this._options.filter, newOptions.filter);
-            selectionViewModeChanged = this._options.selectionViewMode !== newOptions.selectionViewMode;
+        filterButtonChanged = this._options.filterButtonSource !== newOptions.filterButtonSource;
+        fastFilterChanged = this._options.fastFilterSource !== newOptions.fastFilterSource;
+        filterChanged = !isEqual(this._options.filter, newOptions.filter);
+        selectionViewModeChanged = this._options.selectionViewMode !== newOptions.selectionViewMode;
 
-            if (filterButtonChanged || fastFilterChanged) {
-                this._setFilterItems(
-                    filterButtonChanged ? newOptions.filterButtonSource : this._filterButtonItems,
-                    fastFilterChanged ? newOptions.fastFilterSource : this._fastFilterItems);
+        if (filterButtonChanged || fastFilterChanged) {
+            this._setFilterItems(
+                filterButtonChanged ? newOptions.filterButtonSource : this._filterButtonItems,
+                fastFilterChanged ? newOptions.fastFilterSource : this._fastFilterItems);
 
-                this._applyItemsToFilter(this._filter, this._filterButtonItems, this._fastFilterItems);
-            }
+            this._applyItemsToFilter(this._filter, this._filterButtonItems, this._fastFilterItems);
+        }
 
-            if (filterChanged) {
-                this._applyItemsToFilter(
-                    Prefetch.prepareFilter(newOptions.filter, newOptions.prefetchParams),
-                    this._filterButtonItems,
-                    this._fastFilterItems
-                );
-                if (newOptions.prefetchParams) {
-                    this._isFilterChanged = true;
-                }
-            }
-
-            if (filterButtonChanged && newOptions.prefetchParams) {
-                this._filter = Prefetch.clearPrefetchSession(this._filter);
-            }
-
-            if (newOptions.historyId !== this._options.historyId) {
-                this._crudWrapper = null;
+        if (filterChanged) {
+            this._applyItemsToFilter(
+                Prefetch.prepareFilter(newOptions.filter, newOptions.prefetchParams),
+                this._filterButtonItems,
+                this._fastFilterItems
+            );
+            if (newOptions.prefetchParams) {
+                this._isFilterChanged = true;
             }
         }
+
+        if (filterButtonChanged && newOptions.prefetchParams) {
+            this._filter = Prefetch.clearPrefetchSession(this._filter);
+        }
+
+        if (newOptions.historyId !== this._options.historyId) {
+            this._crudWrapper = null;
+        }
+
         this._options = newOptions;
         if (filterChanged || selectionViewModeChanged) {
             this._updateFilter(this._options);

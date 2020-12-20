@@ -44,6 +44,13 @@ const LOGGER = GLOBAL.console;
 const MESSAGE_READ_ONLY = 'The Display is read only. You should modify the source collection instead.';
 const VERSION_UPDATE_ITEM_PROPERTIES = ['editing', 'editingContents', 'animated', 'canShowActions', 'expanded', 'marked', 'selected'];
 
+const checkboxStateConstants = {
+    enabled: true,
+    disabled: false,
+    hidden: null
+};
+export {checkboxStateConstants};
+
 export interface ISplicedArray<T> extends Array<T> {
     start?: number;
 }
@@ -108,6 +115,7 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     importantItemProperties?: string[];
     itemActionsProperty?: string;
     navigation?: INavigationOptionValue;
+    multiSelectAccessibilityProperty?: string;
 }
 
 export interface ICollectionCounters {
@@ -402,7 +410,7 @@ function functorToImportantProperties(func: Function, add: boolean): void {
  * @public
  * @author Мальцев А.А.
  */
-export default class Collection<S, T extends CollectionItem<S> = CollectionItem<S>> extends mixin<
+export default class Collection<S extends EntityModel = EntityModel, T extends CollectionItem<S> = CollectionItem<S>> extends mixin<
     Abstract<any, any>,
     SerializableMixin,
     VersionableMixin,
@@ -635,6 +643,15 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
     protected _$style: string;
 
     protected _$navigation: INavigationOptionValue;
+
+    /**
+     * Задает состояние чекбокса
+     * @variant true Чекбокс виден и включен
+     * @variant false Чекбокс виден и задизейблен
+     * @variant null Чекбокс скрыт
+     * @protected
+     */
+    protected _$multiSelectAccessibilityProperty: boolean|null;
 
     /**
      * @cfg {Boolean} Обеспечивать уникальность элементов (элементы с повторяющимися идентфикаторами будут
@@ -3116,6 +3133,9 @@ export default class Collection<S, T extends CollectionItem<S> = CollectionItem<
         return function CollectionItemsFactory(options?: ICollectionItemOptions<S>): T {
             options.owner = this;
             options.multiSelectVisibility = this._$multiSelectVisibility;
+            if (options.contents instanceof EntityModel && options.contents.has(this._$multiSelectAccessibilityProperty)) {
+                options.checkboxState = object.getPropertyValue<boolean|null>(options.contents, this._$multiSelectAccessibilityProperty);
+            }
             return create(this._itemModule, options);
         };
     }
@@ -3938,6 +3958,7 @@ Object.assign(Collection.prototype, {
     _$contextMenuConfig: null,
     _$itemActionsProperty: '',
     _$markerVisibility: 'onactivated',
+    _$multiSelectAccessibilityProperty: '',
     _$style: 'default',
     _localize: false,
     _itemModule: 'Controls/display:CollectionItem',

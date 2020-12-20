@@ -148,7 +148,7 @@ export class Controller {
     */
    toggleItem(key: CrudEntityKey): ISelection {
       const item = this._model.getItemBySourceKey(key);
-      if (!item.SelectableItem) {
+      if (!item.SelectableItem || item.isReadonlyCheckbox()) {
          return this._selection;
       }
       const status = item.isSelected();

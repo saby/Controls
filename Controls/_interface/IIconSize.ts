@@ -4,9 +4,8 @@ export interface IIconSizeOptions {
 
 /**
  * Интерфейс для контролов, которые поддерживают разные размеры иконок
- *
- * @interface Controls/_interface/IIconSize
  * @public
+ * @author Красильников А.С.
  */
 
 /*
@@ -30,12 +29,14 @@ export default interface IIconSize {
  * @demo Controls-demo/Buttons/SizesAndHeights/Index
  * @example
  * Кнопка с размером иконки по умолчанию.
- * <pre>
- *    <Controls.buttons:Button icon="icon-Add" viewMode="button"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.buttons:Button icon="icon-Add" viewMode="button"/>
  * </pre>
  * Кнопка с иконкой большого размера (l).
- * <pre>
- *    <Controls.buttons:Button icon="icon-Add" iconSize="l" viewMode="button"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.buttons:Button icon="icon-Add" iconSize="l" viewMode="button"/>
  * </pre>
  * @see Icon
  */

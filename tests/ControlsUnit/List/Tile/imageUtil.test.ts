@@ -7,20 +7,22 @@ describe('tileImageUtil', () => {
         assert.strictEqual(getImageClasses(IMAGE_FIT.COVER), '');
     });
     describe('getImageUrl', () => {
-        const imageUrlResolver = () => 'resolvedUrl';
-        const baseUrl = '/online.sbis.ru/doc';
-        const defaultPrefix = '/previewer/r/';
-        let defaultUrl = getImageUrl(0, 100, baseUrl, null);
-        assert.strictEqual(defaultUrl, `${defaultPrefix}100/${baseUrl}`);
+        it ('get url', () => {
+            const imageUrlResolver = () => 'resolvedUrl';
+            const baseUrl = '/online.sbis.ru/doc';
+            const defaultPrefix = '/previewer/c';
+            let defaultUrl = getImageUrl(0, 100, baseUrl, null);
+            assert.strictEqual(defaultUrl, `${defaultPrefix}/100${baseUrl}`);
 
-        defaultUrl = getImageUrl(100, 0, baseUrl, null);
-        assert.strictEqual(defaultUrl, `${defaultPrefix}100/${baseUrl}`);
+            defaultUrl = getImageUrl(100, 0, baseUrl, null);
+            assert.strictEqual(defaultUrl, `${defaultPrefix}/100${baseUrl}`);
 
-        defaultUrl = getImageUrl(100, 100, baseUrl, null);
-        assert.strictEqual(defaultUrl, `${defaultPrefix}100/100/${baseUrl}`);
+            defaultUrl = getImageUrl(100, 100, baseUrl, null);
+            assert.strictEqual(defaultUrl, `${defaultPrefix}/100/100${baseUrl}`);
 
-        defaultUrl = getImageUrl(100, 0, baseUrl, null, imageUrlResolver);
-        assert.strictEqual(defaultUrl, 'resolvedUrl');
+            defaultUrl = getImageUrl(100, 0, baseUrl, null, imageUrlResolver);
+            assert.strictEqual(defaultUrl, 'resolvedUrl');
+        })
     });
     describe('getImageSize', () => {
         describe('cover image fit', () => {

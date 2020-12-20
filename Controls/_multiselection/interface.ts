@@ -21,6 +21,12 @@ export interface ISelectionItem extends ICollectionItem {
    SelectableItem: boolean;
 
    /**
+    * Определяет, запрещено ли изменение состояния чекбокса
+    * @return {Boolean}
+    */
+   isReadonlyCheckbox(): boolean;
+
+   /**
     * Флаг, определяющий состояние правого свайпа по записи.
     * @method
     * @public
@@ -118,10 +124,10 @@ export interface ISelectionControllerOptions {
 export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOptions {
    selectAncestors: boolean;
    selectDescendants: boolean;
-   nodesSourceControllers?: Map<string, SourceController>;
    hierarchyRelation: relation.Hierarchy;
    rootId: CrudEntityKey;
    entryPath: IEntryPathItem[];
+   selectionType: 'node'|'leaf'|'all';
 }
 
 /**

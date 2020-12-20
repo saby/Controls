@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper controlsDemo__maxWidth200 controlDemo_list-new_base">
+    <Controls.scroll:Container attr:style="height: 400px">
+        <Controls.list:View source="{{_viewSource}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/list:ItemTemplate">
+                    <ws:contentTemplate>
+                        <ws:if data="{{itemTemplate.itemData.item.get('withList')}}">
+                            <div>
+                                <div>{{itemTemplate.itemData.item.get('title')}}</div>
+                                <Controls-demo.list_new.ComplexScroll.InnerList/>
+                            </div>
+                        </ws:if>
+                        <ws:else>
+                            <div>{{itemTemplate.itemData.item.get('title')}}</div>
+                        </ws:else>
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:itemTemplate>
+        </Controls.list:View>
+    </Controls.scroll:Container>
+</div>

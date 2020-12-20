@@ -4,16 +4,12 @@ export interface IFontSizeOptions {
 
 /**
  * Интерфейс для контролов, которые поддерживают разные размеры шрифта.
- *
- * @interface Controls/_interface/IFontSize
  * @public
  * @author Красильников А.С.
  */
 
 /*
  * Interface for control, which has different font sizes
- *
- * @interface Controls/_interface/IFontSize
  * @public
  */
 export default interface IFontSize {

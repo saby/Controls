@@ -11,18 +11,15 @@ export type TSelectionRecord = Record<{
 }>;
 
 /**
- * @interface Controls/_interface/ISelectionObject
  * @public
  * @author Герасимов А.М.
  */
 export interface ISelectionObject {
    /**
-    * @name Controls/_interface/ISelectionObject#selected
     * @cfg {Array<Number>|Array<String>} Идентификаторы отмеченных записей.
     */
     selected: TKeysSelection;
    /**
-    * @name Controls/_interface/ISelectionObject#excluded
     * @cfg {Array<Number>|Array<String>} Идентификаторы исключённых записей.
     */
     excluded: TKeysSelection;
@@ -37,7 +34,6 @@ export interface ISelectionTypeOptions {
 /**
  * Интерфейс для контролов, поддерживающих выбор записей определённого типа.
  *
- * @interface Controls/_interface/ISelectionType
  * @public
  * @author Герасимов А.М.
  */

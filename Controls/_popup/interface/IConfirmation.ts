@@ -42,6 +42,16 @@ export interface IConfirmationOpener {
  */
 
 /**
+ * @name Controls/_popup/interface/IConfirmation#style
+ * @cfg {String} Внешний вид диалога подтверждения.
+ * @variant default
+ * @variant success
+ * @variant danger
+ * @variant primary
+ * @default default
+ */
+
+/**
  * Метод открытия окна подтверждения.
  * @function Controls/_popup/interface/IConfirmation#open
  * @param {Controls/popup:IConfirmationOptions} IConfirmationOptions Конфигурация диалога подтверждения.

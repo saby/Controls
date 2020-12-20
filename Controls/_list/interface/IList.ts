@@ -284,6 +284,18 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
+ * @name Controls/_list/interface/IList#multiSelectAccessibilityProperty
+ * @demo Controls-demo/list_new/MultiSelect/CustomPosition/Index
+ * @cfg {String} Имя свойства, содержащего информацию об состоянии чекбокса элемента.
+ * @remark Определяет возможность изменения состояния чекбокса и его видимость
+ * @property {@link Controls/list:View#checkboxStateConstants.enabled enabled} Чекбокс виден и с ним можно взаимодействовать
+ * @property {@link Controls/list:View#checkboxStateConstants.disabled disabled} Чекбокс виден, но с ним нельзя взаимодействовать
+ * @property {@link Controls/list:View#checkboxStateConstants.hidden hidden} Чекбокс скрыт
+ * @remark Для задания значения использовать {@link Controls/list:View#checkboxStateConstants константы}
+ * @demo Controls-demo/list_new/ItemTemplate/CheckboxReadOnly/Index
+ */
+
+/**
  * @event Происходит в момент, когда курсор оказывается над элементом списка.
  * @name Controls/_list/interface/IList#itemMouseEnter
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.

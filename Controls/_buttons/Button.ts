@@ -26,7 +26,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import ButtonTemplate = require('wml!Controls/_buttons/Button');
 import 'wml!Controls/_buttons/ButtonBase';
 
-export type IViewMode = 'button' | 'link' | 'toolButton' | 'functionalButton';
+export type IViewMode = 'button' | 'link' | 'linkButton' | 'toolButton' | 'functionalButton';
 
 export interface IButtonControlOptions extends IControlOptions, IHrefOptions, ICaptionOptions, IIconOptions,
     IIconStyleOptions, IIconSizeOptions, IFontColorStyleOptions, IFontSizeOptions, IHeightOptions, ITooltipOptions,
@@ -75,7 +75,7 @@ export function defaultHeight(viewMode: string): string {
 }
 
 export function defaultFontColorStyle(viewMode: string): string {
-    if (viewMode === 'link') {
+    if (viewMode === 'link' || viewMode === 'linkButton') {
         return 'link';
     }
 }
@@ -145,7 +145,7 @@ export function getDefaultOptions(): object {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/ITooltip
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Buttons/ViewModes/Index
@@ -169,7 +169,7 @@ export function getDefaultOptions(): object {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/ITooltip
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Buttons/ViewModes/Index
@@ -224,7 +224,8 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
  * @name Controls/_buttons/Button#viewMode
  * @cfg {Enum} Режим отображения кнопки.
  * @variant button В виде обычной кнопки по-умолчанию.
- * @variant linkButton В виде гиперссылки.
+ * @variant link В виде гиперссылки.
+ * @variant linkButton В виде гиперссылки, имеет высоту.
  * @variant toolButton В виде кнопки для панели инструментов.
  * @variant functionalButton В виде кнопки выполняющей определенную функцию. Например добавление или сохранение.
  * @default button
@@ -241,6 +242,10 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
  * Кнопка в режиме отображения 'button'.
  * <pre class="brush: html">
  * <Controls.buttons:Button caption="Send document" buttonStyle="success" viewMode="button"/>
+ * </pre>
+ *  * Кнопка в режиме отображения 'link'.
+ * <pre class="brush: html">
+ * <Controls.buttons:Button caption="Send document" viewMode="link"/>
  * </pre>
  * @see Size
  */

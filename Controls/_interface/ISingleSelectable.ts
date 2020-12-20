@@ -2,12 +2,10 @@ export type TSelectedKey = number|string|null;
 
 export interface ISingleSelectableOptions {
    selectedKey?: TSelectedKey;
-   keyProperty: string;
+   keyProperty?: string;
 }
 /**
  * Интерфейс для выбора элементов в списках с одиночным выбором (единовременно может быть выбран только один элемент).
- *
- * @interface Controls/_interface/ISingleSelectable
  * @public
  * @author Авраменко А.С.
  * @see Controls/_interface/IMultiSelectable
@@ -15,8 +13,6 @@ export interface ISingleSelectableOptions {
  */
 /*
  * Interface for item selection in lists where only one item can be selected at a time.
- *
- * @interface Controls/_interface/ISingleSelectable
  * @public
  * @author Авраменко А.С.
  * @see Controls/_interface/IMultiSelectable
@@ -31,13 +27,15 @@ export default interface ISingleSelectable {
  * @cfg {Number|String} Ключ выбранного элемента коллекции.
  * @default Undefined
  * @example
- * <pre>
- *    <Controls.toggle:RadioGroup bind:selectedKey="_selectedKey"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.toggle:RadioGroup bind:selectedKey="_selectedKey"/>
  * </pre>
- * <pre>
- *    _beforeMount: function() {
- *       this._selectedKey = '1';
- *    }
+ * <pre class="brush: js">
+ * // JavaScript
+ * _beforeMount: function() {
+ *    this._selectedKey = '1';
+ * }
  * </pre>
  * @see selectedKeyChanged
  * @see keyProperty
@@ -66,18 +64,20 @@ export default interface ISingleSelectable {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Number|String} key Ключ выбранного элемента коллекции.
  * @example
- * <pre>
- *    <Controls.source:SelectedKey on:selectedKeyChanged="onSelectedKeyChanged()" bind:selectedKey="_selectedKey">
- *       <Controls.operations:Panel source="{{ _panelSource }} />
- *    </Controls.source:SelectedKey>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.source:SelectedKey on:selectedKeyChanged="onSelectedKeyChanged()" bind:selectedKey="_selectedKey">
+ *    <Controls.operations:Panel source="{{ _panelSource }} />
+ * </Controls.source:SelectedKey>
  * </pre>
- * <pre>
- *    _beforeMount: function() {
- *       this._selectedKey = undefined;
- *    },
- *    onSelectedKeyChanged: function(e, selectedKey) {
- *       this._panelSource = this._getPanelSource(selectedKey);
- *    }
+ * <pre class="brush: js">
+ * // JavaScript
+ * _beforeMount: function() {
+ *    this._selectedKey = undefined;
+ * },
+ * onSelectedKeyChanged: function(e, selectedKey) {
+ *    this._panelSource = this._getPanelSource(selectedKey);
+ * }
  * </pre>
  * @see selectedKey
  */

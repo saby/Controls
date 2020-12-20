@@ -1252,7 +1252,11 @@ var
         },
 
         setHasMoreData(hasMoreData: boolean, silent: boolean = false): void {
+            const isNextModelVersion = this.getHasMoreData() !== hasMoreData;
             this._model.setHasMoreData(hasMoreData);
+            if (isNextModelVersion) {
+                this.nextModelVersion();
+            }
         },
 
         getHasMoreData(): boolean {

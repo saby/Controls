@@ -4,15 +4,11 @@ export interface ILookupOptions {
 
 /**
  * Интерфейс для полей и кнопок выбора.
- *
- * @interface Controls/_interface/ILookup
  * @public
  * @author Герасимов А.М.
  */
 /*
  * Interface for fields and selection buttons.
- *
- * @interface Controls/_interface/ILookup
  * @public
  * @author Kapustin I.A.
  */

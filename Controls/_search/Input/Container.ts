@@ -14,14 +14,14 @@ export interface ISearchInputContainerOptions extends IControlOptions {
 
 /**
  * Контрол-контейнер для полей ввода, реализует функционал проверки количества введённых символов,
- * а так же задержку между вводом символа в поле ввода и выполнением поискового запроса.
+ * а также задержку между вводом символа в строку и выполнением поискового запроса.
  * @remark
  * Контрол принимает решение по событию valueChanged, должно ли сработать событие search или нет,
  * в зависимости от заданных параметров поиска - минимальной длины для начала поиска и времени задержки.
  *
- * Если задана опция useStore, то вместо использования события, будет отправлено значение свойства searchValue в Store.
+ * Если задана опция useStore, то вместо использования события, будет отправлено значение свойства searchValue в Controls/Store.
  *
- * Использование c контролом {@link Controls/browser:Browser} можно посмотреть в демо Controls-demo/Search/FlatList
+ * Использование c контролом {@link Controls/browser:Browser} можно посмотреть в демо {@link /materials/Controls-demo/app/Controls-demo%2FSearch%2FFlatList%2FIndex Controls-demo/Search/FlatList}
  *
  * @example
  * <pre>

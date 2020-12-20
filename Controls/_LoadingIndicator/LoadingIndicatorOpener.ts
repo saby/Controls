@@ -1,7 +1,7 @@
 /**
  * Хэлпер для открытия глобального индикатора загрузки
  *
- * @module Controls/_LoadingIndicator/LoadingIndicatorOpener
+ * @module Controls/LoadingIndicator/IndicatorOpener
  * @author Красильников А.С.
  * @public
  */
@@ -14,7 +14,7 @@ import ILoadingIndicator, {ILoadingIndicatorOptions} from './interface/ILoadingI
 /**
  * Отображает индикатор загрузки.
  * @function
- * @name Controls/_LoadingIndicator/LoadingIndicatorOpener#show
+ * @name Controls/LoadingIndicator/IndicatorOpener#show
  * @param {Object} [config] Объект с параметрами. Если не задан, по умолчанию используется значение аналогичного параметра контрола.
  * @param {Boolean} [config.isGlobal=true] Определяет, показать индикатор над всей страницей или только над собственным контентом.
  * @param {String} [config.message=''] Текст сообщения индикатора.
@@ -35,7 +35,7 @@ function show(config: ILoadingIndicatorOptions = {}, waitPromise?: Promise<unkno
 /**
  * Скрывает индикатор загрузки.
  * @function
- * @name Controls/_LoadingIndicator/LoadingIndicatorOpener#hide
+ * @name Controls/LoadingIndicator/IndicatorOpener#hide
  * @param {string} id Идентификатор индикатора загрузки.
  * @see show
  */

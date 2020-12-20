@@ -3,14 +3,12 @@ import {TemplateFunction} from 'UI/Base';
 export interface IItemTemplateOptions {
     /**
      * @name Controls/_interface/IItemTemplate#itemTemplateProperty
-     * Имя свойства, содержащего ссылку на шаблон элемента. Если значение свойства не передано, то для отрисовки используется itemTemplate.
-     * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemTemplatePG демо-пример}.
+     * @cfg {String} Имя свойства, содержащего ссылку на шаблон элемента. Если значение свойства не передано, то для отрисовки используется itemTemplate.
      */
     itemTemplateProperty: string;
     /**
      * @name Controls/_interface/IItemTemplate#itemTemplate
-     * Шаблон элемента списка.
-     * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FList%2FItemTemplatePG демо-пример}.
+     * @cfg {TemplateFunction} Шаблон элемента списка.
      * @remark
      * По умолчанию используется шаблон "Controls/list:ItemTemplate".
      *
@@ -24,16 +22,17 @@ export interface IItemTemplateOptions {
      *
      * Подробнее о работе с шаблоном читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/list/item-template/">руководстве разработчика</a>.
      * @example
-     * <pre>
-     *    <Controls.list:View>
-     *       <ws:itemTemplate>
-     *          <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
-     *             <ws:contentTemplate>
-     *                <span>{{contentTemplate.itemData.item.description}}</span>
-     *             </ws:contentTemplate>
-     *          </ws:partial>
-     *       </ws:itemTemplate>
-     *    </Controls.list:View>
+     * <pre class="brush: html">
+     * <!-- WML -->
+     * <Controls.list:View>
+     *    <ws:itemTemplate>
+     *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
+     *          <ws:contentTemplate>
+     *             <span>{{contentTemplate.itemData.item.description}}</span>
+     *          </ws:contentTemplate>
+     *       </ws:partial>
+     *    </ws:itemTemplate>
+     * </Controls.list:View>
      * </pre>
      */
     itemTemplate: TemplateFunction;
@@ -41,8 +40,6 @@ export interface IItemTemplateOptions {
 
 /**
  * Интерфейс для контролов с возможностью настройки отображения элементов.
- *
- * @interface Controls/_interface/IItemTemplate
  * @private
  * @author Герасимов А.М.
  */

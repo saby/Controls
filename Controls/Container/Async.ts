@@ -55,22 +55,6 @@ export default class Async extends BaseAsync {
 }
 
 /**
- * @name Controls/Container/Async#content
- * @cfg {Content} Содержимое контейнера.
- */
-
-/**
- * @name Controls/Container/Async#templateName
- * @cfg {String} Имя асинхронно загружаемого контрола.
- * Можно использовать только {@link /doc/platform/developmentapl/interface-development/pattern-and-practice/javascript-libraries/#_2 публичные пути библиотеки}.
- */
-
-/**
- * @name Controls/Container/Async#templateOptions
- * @cfg {Object} Параметры содержимого контейнера Async.
- */
-
-/**
  * @name Controls/Container/Async#errorCallback
  * @cfg {function} Callback для обработки ошибки возникнувшей при загрузке компонента,
  * напр. если нужно показать дружелюбную ошибку вместо простого текста ошибки.

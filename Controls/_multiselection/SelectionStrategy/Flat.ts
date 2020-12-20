@@ -108,8 +108,9 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
          }
 
          const itemId = this._getKey(item);
-         const selected = (!limit || selectedItemsCount < limit)
-             && (selection.selected.includes(itemId) || isAllSelected && !selection.excluded.includes(itemId));
+         const selected = item.isReadonlyCheckbox()
+            ? selection.selected.includes(itemId)
+            : (!limit || selectedItemsCount < limit) && (selection.selected.includes(itemId) || isAllSelected && !selection.excluded.includes(itemId));
 
          if (selected) {
             selectedItemsCount++;

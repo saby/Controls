@@ -464,3 +464,12 @@ export interface ITreeControlOptions extends IControlOptions {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Number|String>} expandedItems Идентификаторы свернутых узлов.
  */
+
+/**
+ * @name Controls/_tree/interface/ITreeControl#selectionType
+ * @cfg {String} Тип записей, которые можно выбрать.
+ * @variant node только узлы доступны для выбора
+ * @variant leaf только листья доступны для выбора
+ * @variant all все типы записей доступны для выбора
+ * @remark Опция {@link Controls/_list/interface/IList#multiSelectAccessibilityProperty multiSelectAccessibilityProperty} преобладает над этой опцией
+ */

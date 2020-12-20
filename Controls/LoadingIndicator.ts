@@ -99,6 +99,11 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         this.mods = [];
         this._stack = new List();
         this._updateProperties(cfg);
+
+        // Выше коммент и задача после которой можно будет удалить.
+        // В светлом будущем нужно решать через окна. https://github.com/saby/wasaby-controls/pull/15953/files
+        this._recalcMessagePosition = this._recalcMessagePosition.bind(this);
+        this._eventsHandler = this._eventsHandler.bind(this);
     }
 
     protected _afterMount(cfg: ILoadingIndicatorOptions): void {
@@ -114,10 +119,6 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         // TODO Откатить DOM-решение или доказать невозмодность другого в задаче по ссылке ниже.
         // https://online.sbis.ru/opendoc.html?guid=2bd41176-8896-4a0a-a04d-a93b8a4c3a2d
         this._redrawOverlay();
-        // Выше коммент и задача после которой можно будет удалить.
-        // В светлом будущем нужно решать через окна. https://github.com/saby/wasaby-controls/pull/15953/files
-        this._recalcMessagePosition = this._recalcMessagePosition.bind(this);
-        this._eventsHandler = this._eventsHandler.bind(this);
         RegisterUtil(this, 'controlResize', this._recalcMessagePosition);
     }
 

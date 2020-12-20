@@ -1,25 +1,44 @@
 <div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell controlsDemo_ViewModes__buttons">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=button</div>
-        <Controls.buttons:Button caption="Button"></Controls.buttons:Button>{{' '}}
-        <Controls.buttons:Button caption="Button" buttonStyle="primary"></Controls.buttons:Button>{{' '}}
-        <Controls.buttons:Button caption="Button" icon="icon-ThumbUp2" iconStyle="success" iconSize="s"></Controls.buttons:Button>{{' '}}
-        <Controls.buttons:Button icon="icon-Send" iconStyle="primary" buttonStyle="primary" iconSize="m"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-button1'
+                                 caption="Button"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-button2'
+                                 caption="Button" buttonStyle="primary"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-button3'
+                                 caption="Button" icon="icon-ThumbUp2" iconStyle="success"
+                                 iconSize="s"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-button4'
+                                 icon="icon-Send" iconStyle="primary" buttonStyle="primary"
+                                 iconSize="m"></Controls.buttons:Button>{{' '}}
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell controlsDemo_ViewModes__link-buttons">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=linkButton</div>
-        <Controls.buttons:Button caption="Button" viewMode="linkButton"></Controls.buttons:Button>{{' '}}
-        <Controls.buttons:Button viewMode="linkButton" icon="icon-Erase" iconStyle="danger"></Controls.buttons:Button>{{' '}}
-        <Controls.buttons:Button caption="Button" viewMode="linkButton" icon="icon-Author" iconSize="s"></Controls.buttons:Button>
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-linkButton1' caption="Button" viewMode="linkButton"
+                                 icon="icon-Author" iconSize="s"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-linkButton2' viewMode="linkButton" icon="icon-Erase"
+                                 iconStyle="danger"></Controls.buttons:Button>
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell controlsDemo_ViewModes__tool-buttons">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=toolButton</div>
-        <Controls.buttons:Button viewMode="toolButton" icon="icon-Author" iconStyle="secondary" iconSize="s"></Controls.buttons:Button>
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-toolButton1' viewMode="toolButton"
+                                 icon="icon-Author" iconStyle="secondary" iconSize="s"></Controls.buttons:Button>
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell controlsDemo_ViewModes__functional-buttons">
         <div class="controls-text-label_theme-{{_options.theme}}">viewMode=functionalButton</div>
-        <Controls.buttons:Button viewMode="functionalButton" icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l" buttonStyle="success"></Controls.buttons:Button>{{' '}}
-        <Controls.buttons:Button viewMode="functionalButton" icon="icon-RoundPlus" iconStyle="contrast" iconSize="m" inlineHeight="l" buttonStyle="secondary"></Controls.buttons:Button>
-        <Controls.buttons:Button viewMode="functionalButton" icon="icon-AddButtonNew" iconStyle="label" iconSize="s" inlineHeight="m" buttonStyle="unaccented" attr:style="margin-left: 4px;"></Controls.buttons:Button>
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-funcButton1' viewMode="functionalButton"
+                                 icon="icon-Yes" iconSize="m" iconStyle="contrast" inlineHeight="l"
+                                 buttonStyle="success"></Controls.buttons:Button>{{' '}}
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-funcButton2' viewMode="functionalButton"
+                                 icon="icon-RoundPlus" iconStyle="contrast" iconSize="m" inlineHeight="l"
+                                 buttonStyle="secondary"></Controls.buttons:Button>
+        <Controls.buttons:Button attr:class='controlsDemo__viewMode-funcButton3' viewMode="functionalButton"
+                                 icon="icon-AddButtonNew" iconStyle="label" iconSize="s" inlineHeight="m"
+                                 buttonStyle="unaccented" attr:style="margin-left: 4px;"></Controls.buttons:Button>
+    </div>
+    <div class="controlsDemo__cell controlsDemo_ViewModes__links">
+        <div class="controls-text-label_theme-{{_options.theme}}">viewMode=link</div>
+        Click <Controls.buttons:Button attr:class='controlsDemo__viewMode-link1' caption="here"
+                                       viewMode="link"></Controls.buttons:Button> to see some magic
     </div>
 </div>

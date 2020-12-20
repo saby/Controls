@@ -6,7 +6,6 @@ export interface IHierarchyOptions {
 /**
  * Интерфейс иерархических списков.
  *
- * @interface Controls/_interface/IHierarchy
  * @public
  * @author Авраменко А.С.
  */
@@ -14,7 +13,6 @@ export interface IHierarchyOptions {
 /*
  * Interface for hierarchical lists.
  *
- * @interface Controls/_interface/IHierarchy
  * @public
  * @author Авраменко А.С.
  */

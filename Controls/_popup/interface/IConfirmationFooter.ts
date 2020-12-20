@@ -28,15 +28,6 @@ export interface IConfirmationFooter {
  */
 
 /**
- * @name Controls/_popup/interface/IConfirmationFooter#style
- * @cfg {String} Внешний вид диалога подтверждения.
- * @variant default
- * @variant success
- * @variant danger
- * @default default
- */
-
-/**
  * @name Controls/_popup/interface/IConfirmationFooter#yesCaption
  * @cfg {String} Текст кнопки подтверждения.
  * @default Да

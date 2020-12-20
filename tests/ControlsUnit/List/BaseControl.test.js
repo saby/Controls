@@ -8272,7 +8272,7 @@ define([
             it('select', () => {
                const notifySpy = sinon.spy(baseControl, '_notify');
 
-               baseControl._onCheckBoxClick({}, 1 );
+               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });
@@ -8289,7 +8289,7 @@ define([
                };
 
                const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, 1 );
+               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1) );
                assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[2], [2], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
 
@@ -8298,7 +8298,7 @@ define([
 
             it('readonly checkbox', () => {
                const notifySpy = sinon.spy(baseControl, '_notify');
-               baseControl._onCheckBoxClick({}, 1, false, true );
+               baseControl._onCheckBoxClick({}, baseControl._listViewModel.getItemBySourceKey(1), true );
                assert.isFalse(notifySpy.withArgs('selectedKeysChanged').calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });
