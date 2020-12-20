@@ -807,7 +807,7 @@ const _private = {
         if (isPortionedLoad) {
             _private.showIndicator(self, direction);
         } else {
-            _private.showSyncIndicator(self, direction, 0);
+            _private.showIndicator(self, direction, 0);
         }
 
         if (self._sourceController) {
@@ -1334,7 +1334,7 @@ const _private = {
         return self._viewSize;
     },
 
-    showIndicator(self, direction: 'down' | 'up' | 'all' = 'all'): void {
+    showIndicator(self, direction: 'down' | 'up' | 'all' = 'all', delay?: number): void {
         if (!self._isMounted) {
             return;
         }
@@ -1344,7 +1344,7 @@ const _private = {
             self._loadingIndicatorState = self._loadingState;
         }
         _private.updateIndicatorContainerHeight(self, _private.getViewRect(self), self._viewportRect);
-        _private.startShowLoadingIndicatorTimer(self);
+        _private.startShowLoadingIndicatorTimer(self, delay);
     },
 
     hideIndicator(self): void {
@@ -1401,7 +1401,7 @@ const _private = {
         }
     },
 
-    startShowLoadingIndicatorTimer(self): void {
+    startShowLoadingIndicatorTimer(self, delay?: number): void {
         if (!self._loadingIndicatorTimer) {
             self._loadingIndicatorTimer = setTimeout(() => {
                 self._loadingIndicatorTimer = null;
@@ -1411,7 +1411,7 @@ const _private = {
                     self._loadingIndicatorContainerOffsetTop = self._scrollTop + _private.getListTopOffset(self);
                     self._notify('controlResize');
                 }
-            }, INDICATOR_DELAY);
+            }, delay === undefined ? INDICATOR_DELAY : delay);
         }
     },
 
@@ -5991,10 +5991,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         const needShowEmptyTemplate = this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel);
 
         if (position === 'afterList') {
-            return isPortionedLoad && this._loadingIndicatorState === 'down';
+            return this._loadingIndicatorState === 'down';
 
         } else if (position === 'beforeEmptyTemplate') {
-            return (isPortionedLoad && this._loadingIndicatorState === 'up') ||
+            return (this._loadingIndicatorState === 'up') ||
                    (this._loadingIndicatorState === 'all' && (needShowEmptyTemplate || isColumnScrollVisible));
 
         } else if (position === 'inFooter') {
