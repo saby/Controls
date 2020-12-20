@@ -691,14 +691,6 @@ describe('Controls/list_clean/BaseControl', () => {
             };
 
             const baseControl = new BaseControl(baseControlOptions);
-            baseControl._children = {
-                upLoadingIndicator: {
-                    style: {}
-                },
-                downLoadingIndicator: {
-                    style: {}
-                }
-            };
             await baseControl._beforeMount(baseControlOptions);
             baseControl.saveOptions(baseControlOptions);
 
