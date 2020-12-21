@@ -806,7 +806,7 @@ const _private = {
         if (isPortionedLoad) {
             _private.showIndicator(self, direction);
         } else {
-            _private.showIndicator(self, direction, 0);
+            _private.showIndicator(self, direction, 100);
         }
 
         if (self._sourceController) {
