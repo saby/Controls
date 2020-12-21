@@ -50,13 +50,11 @@
         </tbody>
 
         <!-- emptyTemplate -->
-        <ws:if data="{{_options.emptyTemplate}}">
-            <td colspan="{{ _listModel.getColumnsConfig().length + (_listModel.getMultiSelectVisibility() !== 'hidden' ? 1 : 0) }}">
-                <ws:partial template="{{ _options.emptyTemplate }}"
-                            attr:class="{{ _listModel.getEmptyTemplateClasses(_options.theme) }}"
-                            prepareColumnsForEmptyTemplate="{{ _prepareColumnsForEmptyTemplate }}"
-                            hasMultiSelect="{{ _options.multiSelectVisibility !=='hidden' }}"/>
-            </td>
+        <ws:if data="{{ _listModel.getEmptyGridRow() && _isEmpty() }}">
+            <ws:partial template="{{ _listModel.getEmptyGridRow().getTemplate() }}"
+                        attr:name="emptyView"
+                        item="{{ _listModel.getEmptyGridRow() }}"
+                        backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
 
         <!-- Results (bottom) -->

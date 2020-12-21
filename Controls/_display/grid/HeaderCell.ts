@@ -18,7 +18,7 @@
 
 import {mixin} from 'Types/util';
 import { TemplateFunction } from 'UI/Base';
-import {IColspanParams, IHeaderCell} from 'Controls/grid';
+import {IColspanParams, IHeaderCell, IRowspanParams} from 'Controls/grid';
 import HeaderRow from './HeaderRow';
 import { IItemPadding } from '../Collection';
 import Cell, {IOptions as ICellOptions} from './Cell';
@@ -88,13 +88,59 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         return this._$owner.needMultiSelectColumn() && this._$owner.getHeaderConfig().indexOf(this._$column) === -1;
     }
 
-    _getColspanParams(): Required<IColspanParams> {
-        const params = super._getColspanParams();
-        if (this.isCheckBoxCell()) {
-            params.endColumn--;
-            params.startColumn--;
+    // region Аспект "Объединение колонок"
+    _getColspanParams(): IColspanParams {
+        if (this._$column.startColumn && this._$column.endColumn) {
+            return {
+                startColumn: this._$column.startColumn,
+                endColumn: this._$column.endColumn
+            };
         }
-        return params;
+        return super._getColspanParams();
+    }
+    // endregion
+
+    // region Аспект "Объединение строк"
+    _getRowspanParams(): Required<IRowspanParams> {
+        const startRow = typeof this._$column.startRow === 'number' ? this._$column.startRow : (this._$owner.getIndex() + 1);
+        let endRow;
+
+        if (typeof this._$column.endRow === 'number') {
+            endRow = this._$column.endRow;
+        } else if (typeof this._$column.rowspan === 'number') {
+            endRow = startRow + this._$column.rowspan;
+        } else {
+            endRow = startRow + 1;
+        }
+
+        return {
+            startRow,
+            endRow,
+            rowspan: endRow - startRow
+        };
+    }
+
+    getRowspan(): number {
+        return this._getRowspanParams().rowspan;
+    }
+
+    getRowspanStyles(): string {
+        if (!this._$owner.isFullGridSupport()) {
+            return '';
+        }
+        const {startRow, endRow} = this._getRowspanParams();
+        return `grid-row: ${startRow} / ${endRow};`;
+    }
+    // endregion
+
+    getWrapperStyles(): string {
+        let zIndex;
+        if (this._$owner.hasColumnScroll()) {
+            zIndex = this._$isFixed ? FIXED_HEADER_Z_INDEX : STICKY_HEADER_Z_INDEX;
+        } else {
+            zIndex = FIXED_HEADER_Z_INDEX;
+        }
+        return super.getWrapperStyles() + ` ${ this.getRowspanStyles() } z-index: ${zIndex};`;
     }
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string): string {
@@ -124,21 +170,11 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
         if (this._$owner.hasColumnScroll()){
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
-            wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(backgroundColorStyle, theme)}`;
+            wrapperClasses += ` ${this._getBackgroundColorColumnScrollClasses(backgroundColorStyle, theme)}`;
         }
 
         // _private.getBackgroundStyle(this._options, true);
         return wrapperClasses;
-    }
-
-    getWrapperStyles(): string {
-        let zIndex;
-        if (this._$owner.hasColumnScroll()) {
-            zIndex = this._isFixedCell() ? FIXED_HEADER_Z_INDEX : STICKY_HEADER_Z_INDEX;
-        } else {
-            zIndex = FIXED_HEADER_Z_INDEX;
-        }
-        return `${super.getWrapperStyles()} z-index: ${zIndex};`;
     }
 
     getContentClasses(theme: string): string {

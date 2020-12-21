@@ -20,6 +20,10 @@ export interface IOptions<T> extends IColspanParams, IRowspanParams {
     owner: Row<T>;
     column: IColumn;
     hiddenForLadder?: boolean;
+    startColumn?: number;
+    endColumn?: number;
+    colspan?: number;
+    isFixed?: boolean;
 }
 
 export default class Cell<T, TOwner extends Row<T>> extends mixin<
@@ -37,6 +41,10 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
     protected _$owner: TOwner;
     protected _$column: IColumn;
     protected _$hiddenForLadder: boolean;
+    protected _$startColumn: number;
+    protected _$endColumn: number;
+    protected _$colspan: number;
+    protected _$isFixed: boolean;
 
     getInstanceId: () => string;
 
@@ -65,77 +73,27 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
     }
 
     // region Аспект "Объединение колонок"
-
-    _getColspanParams(): Required<IColspanParams> {
-        let startColumn;
-        let endColumn;
-        const multiSelectOffset = +(this._$owner.needMultiSelectColumn());
-
-        if (typeof this._$column.startColumn === 'number') {
-            startColumn = this._$column.startColumn;
-        } else {
-            startColumn = this.getColumnIndex() - multiSelectOffset + 1
+    _getColspanParams(): IColspanParams {
+        if (this._$colspan) {
+            const startColumn = this.getColumnIndex() + 1;
+            const endColumn = startColumn + this._$colspan;
+            return {
+                startColumn,
+                endColumn
+            };
         }
-
-
-        if (typeof this._$column.endColumn === 'number') {
-            endColumn = this._$column.endColumn;
-        } else if (typeof this._$column.colspan === 'number') {
-            endColumn = startColumn + this._$column.colspan;
-        } else {
-            endColumn = startColumn + 1;
-        }
-
-        return {
-            startColumn: startColumn + multiSelectOffset,
-            endColumn: endColumn + multiSelectOffset,
-            colspan: endColumn - startColumn
-        };
-    }
-
-    getColspan(): number {
-        return this._getColspanParams().colspan;
-    }
+    };
 
     getColspanStyles(): string {
         if (!this._$owner.isFullGridSupport()) {
             return '';
         }
-        const {startColumn, endColumn} = this._getColspanParams();
-        return `grid-column: ${startColumn} / ${endColumn};`;
-    }
-
-    _getRowspanParams(): Required<IRowspanParams> {
-        const startRow = typeof this._$column.startRow === 'number' ? this._$column.startRow : (this._$owner.getIndex() + 1);
-        let endRow;
-
-        if (typeof this._$column.endRow === 'number') {
-            endRow = this._$column.endRow;
-        } else if (typeof this._$column.rowspan === 'number') {
-            endRow = startRow + this._$column.rowspan;
-        } else {
-            endRow = startRow + 1;
-        }
-
-        return {
-            startRow,
-            endRow,
-            rowspan: endRow - startRow
-        };
-    }
-
-    getRowspan(): number {
-        return this._getRowspanParams().rowspan;
-    }
-
-    getRowspanStyles(): string {
-        if (!this._$owner.isFullGridSupport()) {
+        const colspanParams = this._getColspanParams();
+        if (!colspanParams) {
             return '';
         }
-        const {startRow, endRow} = this._getRowspanParams();
-        return `grid-row: ${startRow} / ${endRow};`;
+        return `grid-column: ${colspanParams.startColumn} / ${colspanParams.endColumn};`;
     }
-
     // endregion
 
     // region Аспект "Лесенка"
@@ -174,19 +132,14 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
         }
 
         if (this._$owner.isEditing()) {
-            const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
             wrapperClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
-            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
-        } else if (templateHighlightOnHover !== false) {
-            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme}`;
         }
+
+        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle)}`;
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
 
-            if (!this._$owner.isEditing()) {
-                wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(backgroundColorStyle, theme)}`;
-            }
         }
 
         /*const checkBoxCell = current.multiSelectVisibility !== 'hidden' && current.columnIndex === 0;
@@ -244,7 +197,7 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
         return wrapperClasses;
     }
 
-    protected _getBackgroundColorWrapperClasses(backgroundColorStyle: string, theme: string): string {
+    protected _getBackgroundColorColumnScrollClasses(backgroundColorStyle: string, theme: string): string {
         if (backgroundColorStyle) {
             return `controls-Grid__row-cell_background_${backgroundColorStyle}_theme-${theme}`
         }
@@ -252,6 +205,19 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
         // TODO: Брать от родителя
         // return options.backgroundStyle || options.style || 'default';
         return `controls-background-${'default'}_theme-${theme}`;
+    }
+    _getBackgroundColorWrapperClasses(theme: string, templateHighlightOnHover?: boolean, backgroundColorStyle?: string, hoverBackgroundStyle?: string) {
+        let wrapperClasses = '';
+        if (this._$owner.isEditing()) {
+            const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
+            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
+        } else if (templateHighlightOnHover !== false) {
+            wrapperClasses += `controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme}`;
+            if (this._$owner.hasColumnScroll()) {
+                wrapperClasses += ` ${this._getBackgroundColorColumnScrollClasses(backgroundColorStyle, theme)}`;
+            }
+        }
+        return wrapperClasses;
     }
 
     // Only for partial grid support
@@ -268,7 +234,7 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
     }
 
     getWrapperStyles(): string {
-        return `${this.getColspanStyles()} ${this.getRowspanStyles()}`;
+        return this.getColspanStyles();
     }
 
     getContentClasses(theme: string,
@@ -380,7 +346,7 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
     }
 
     protected _getColumnScrollWrapperClasses(theme: string): string {
-        if (this._isFixedCell()) {
+        if (this._$isFixed) {
             return `${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed controls-GridNew__cell_fixed_theme-${theme}`;
         }
         return COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT;
@@ -493,14 +459,6 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
     }
 
     // endregion
-
-    protected _isFixedCell(): boolean {
-        const startColumn = this._getColspanParams().startColumn - +(this._$owner.needMultiSelectColumn());
-
-        // columnConfig.startColumn - индекс начала колонки в GridLayout, он начинается с единицы,
-        // чтобы привести его к индексу колонок таблицы, уменьшаем его на 1.
-        return (startColumn - 1) < this._$owner.getStickyColumnsCount();
-    }
 }
 
 Object.assign(Cell.prototype, {
@@ -509,5 +467,9 @@ Object.assign(Cell.prototype, {
     _instancePrefix: 'grid-cell-',
     _$owner: null,
     _$column: null,
-    _$hiddenForLadder: null
+    _$hiddenForLadder: null,
+    _$startColumn: null,
+    _$endColumn: null,
+    _$colspan: null,
+    _$isFixed: null
 });

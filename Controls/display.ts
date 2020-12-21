@@ -106,6 +106,10 @@ import GridHeaderRow, {IOptions as IGridHeaderRowOptions} from './_display/grid/
 export {GridHeaderRow, IGridHeaderRowOptions};
 import GridHeaderCell, {IOptions as IGridHeaderCellOptions} from './_display/grid/HeaderCell';
 export {GridHeaderCell, IGridHeaderCellOptions};
+import GridEmptyRow, {IOptions as IGridEmptyRowOptions} from './_display/grid/EmptyRow';
+export {GridEmptyRow, IGridEmptyRowOptions};
+import GridEmptyCell, {IOptions as IGridEmptyCellOptions} from './_display/grid/EmptyCell';
+export {GridEmptyCell, IGridEmptyCellOptions};
 import GridTableHeader from './_display/grid/TableHeader';
 export {GridTableHeader};
 import GridTableHeaderRow from './_display/grid/TableHeaderRow';
@@ -154,6 +158,9 @@ register('Controls/display:GridTableHeader', GridTableHeader, {instantiate: fals
 register('Controls/display:GridHeaderRow', GridHeaderRow, {instantiate: false});
 register('Controls/display:GridTableHeaderRow', GridTableHeaderRow, {instantiate: false});
 register('Controls/display:GridHeaderCell', GridHeaderCell, {instantiate: false});
+
+register('Controls/display:GridEmptyRow', GridEmptyRow, {instantiate: false});
+register('Controls/display:GridEmptyCell', GridEmptyCell, {instantiate: false});
 
 register('Controls/display:GridDataRow', GridDataRow, {instantiate: false});
 register('Controls/display:GridDataCell', GridDataCell, {instantiate: false});

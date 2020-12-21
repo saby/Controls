@@ -2,7 +2,8 @@ import CollectionItem from '../CollectionItem';
 import Collection from './Collection';
 import { mixin } from 'Types/util';
 import GridRowMixin, { IOptions as IGridRowMixinOptions } from './mixins/Row';
-import {TemplateFunction} from 'UI/Base';
+import { TemplateFunction } from 'UI/Base';
+import { IColumn, IColspanParams } from 'Controls/_grid/interface/IColumn';
 
 export interface IOptions<T> extends IGridRowMixinOptions<T> {
     owner: Collection<T>;
@@ -29,6 +30,14 @@ export default class Row<T>
     }
 
     // region overrides
+
+    protected _getColspanParams(column: IColumn, columnIndex: number): IColspanParams {
+        const colspanCalculationCallback = this._$owner.getColspanCalculationCallback();
+        if (colspanCalculationCallback) {
+            return colspanCalculationCallback(this.getContents(), column, columnIndex);
+        }
+        return super._getColspanParams(column, columnIndex);
+    }
 
     getTemplate(): TemplateFunction | string {
         return this.getDefaultTemplate();
@@ -65,7 +74,6 @@ export default class Row<T>
             this._redrawColumns('all');
         }
     }
-
     // endregion
 }
 

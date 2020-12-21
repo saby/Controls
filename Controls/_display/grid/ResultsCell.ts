@@ -87,7 +87,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
 
         if (this._$owner.hasColumnScroll()){
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
-            wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(backgroundColorStyle, theme)}`;
+            wrapperClasses += ` ${this._getBackgroundColorColumnScrollClasses(backgroundColorStyle, theme)}`;
         }
 
         return wrapperClasses;
@@ -96,7 +96,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
     getWrapperStyles(): string {
         let zIndex;
         if (this._$owner.hasColumnScroll()) {
-            zIndex = this._isFixedCell() ? FIXED_RESULTS_Z_INDEX : STICKY_RESULTS_Z_INDEX;
+            zIndex = this._$isFixed ? FIXED_RESULTS_Z_INDEX : STICKY_RESULTS_Z_INDEX;
         } else {
             zIndex = FIXED_RESULTS_Z_INDEX;
         }
