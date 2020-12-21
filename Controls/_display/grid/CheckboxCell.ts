@@ -64,22 +64,6 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
     shouldDisplayItemActions(): boolean {
         return false;
     }
-
-    getColspan() {
-        return undefined;
-    };
-    getRowspan() {
-        return undefined;
-    };
-    getColspanStyles() {
-        return '';
-    };
-    getRowspanStyles() {
-        return '';
-    };
-    _isFixedCell(): boolean {
-        return true;
-    }
 }
 
 Object.assign(CheckboxCell.prototype, {

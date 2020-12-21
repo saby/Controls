@@ -79,12 +79,6 @@ export interface IColspanParams {
     colspan?: number;
 }
 
-export interface IRowspanParams {
-    startRow?: number;
-    endRow?: number;
-    rowspan?: number;
-}
-
 /**
  * @typedef {String} TActionDisplayMode
  * @description Стиль тега
@@ -113,7 +107,7 @@ export type TTagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | 
  * @public
  * @author Авраменко А.С.
  */
-export interface IColumn extends IColspanParams, IRowspanParams {
+export interface IColumn extends IColspanParams {
     /**
      * @name Controls/_grid/interface/IColumn#width
      * @cfg {String} Ширина колонки.
@@ -127,7 +121,7 @@ export interface IColumn extends IColspanParams, IRowspanParams {
      * При установке ширины фиксированным колонкам рекомендуется использовать абсолютные величины (px). От конфигурации ширины фиксированных колонок зависит ширина скроллируемой области. Например, при установке ширины фиксированной колонки 1fr её контент может растянуться на всю ширину таблицы, и в результате не останется свободного пространства для скролла.
      * @see compatibleWidth
      */
-    width: string;
+    width?: string;
     /**
      * @name Controls/_grid/interface/IColumn#displayProperty
      * @cfg {String} Имя поля, данные которого отображаются в колонке.
@@ -231,7 +225,7 @@ export interface IColumn extends IColspanParams, IRowspanParams {
      * </pre>
      * @see resultTemplate
      */
-    template?: TemplateFunction;
+    template?: TemplateFunction|string;
     /**
      * @name Controls/_grid/interface/IColumn#resultTemplate
      * @cfg {String|Function} Шаблон отображения ячейки в строке итогов.

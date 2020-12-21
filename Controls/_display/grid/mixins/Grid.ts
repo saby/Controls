@@ -42,6 +42,7 @@ export interface IOptions {
     ladderProperties?: string[];
     stickyColumn?: {};
     showEditArrow?: boolean;
+    colspanCalculationCallback?: Function;
     editArrowVisibilityCallback?: TEditArrowVisibilityCallback;
     columnScroll?: boolean;
     stickyColumnsCount?: number
@@ -64,6 +65,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     protected _$resultsVisibility: TResultsVisibility;
     protected _$showEditArrow: boolean;
     protected _$editArrowVisibilityCallback: TEditArrowVisibilityCallback;
+    protected _$colspanCalculationCallback: Function;
     protected _$isFullGridSupport: boolean;
     protected _$columnScroll: boolean;
     protected _$stickyColumnsCount: number;
@@ -106,6 +108,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return this._$header;
     }
 
+    hasHeader(): boolean {
+        return !!this.getHeader();
+    }
+
     getFooter(): FooterRow<S> {
         return this._$footer;
     }
@@ -116,6 +122,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     getResultsPosition(): TResultsPosition {
         return this._$resultsPosition;
+    }
+
+    getColspanCalculationCallback(): Function {
+        return this._$colspanCalculationCallback;
     }
 
     isFullGridSupport(): boolean {
@@ -307,6 +317,7 @@ Object.assign(Grid.prototype, {
     _$isFullGridSupport: true,
     _$showEditArrow: false,
     _$editArrowVisibilityCallback: null,
+    _$colspanCalculationCallback: null,
     _$columnScroll: false,
     _$stickyColumnsCount: 1
 });

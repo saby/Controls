@@ -3,14 +3,13 @@ import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/EditingRow/Edit
 import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/gridNew/EditInPlace/EditingRow/_rowEditor';
-import { IColumn } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
+import * as cellTemplate from 'wml!Controls-demo/gridNew/EditInPlace/EditingRow/cellTemplate';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
-    protected _columns: IColumn[] = getPorts().getColumns();
     protected _documentSignMemory: Memory;
     private data: object[] = getPorts().getData().map((cur) => this.getData(cur));
     protected selectedKey: number = 1;
@@ -34,10 +33,20 @@ export default class extends Control {
             data: this.data
         });
 
+        this._cellTemplate = cellTemplate;
+
         this._documentSignMemory = new Memory({
             keyProperty: 'id',
             data: getPorts().getDocumentSigns()
         });
+    }
+
+    protected _colspanCalculationCallback(item, column, columnIndex, isEditing) {
+        if (isEditing && columnIndex === 0) {
+            return {
+                colspan: 5
+            }
+        }
     }
 
     protected _onBeforeBeginEdit(e, options, isAdd) {

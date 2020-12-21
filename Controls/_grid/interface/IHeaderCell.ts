@@ -1,5 +1,11 @@
 import {IControlOptions, TemplateFunction} from 'UI/base';
-import {TCellAlign, TCellVerticalAlign} from 'Controls/grid';
+import {IColspanParams, TCellAlign, TCellVerticalAlign} from 'Controls/grid';
+
+export interface IRowspanParams {
+    startRow?: number;
+    endRow?: number;
+    rowspan?: number;
+}
 
 /**
  * @typedef {String} THeader
@@ -16,7 +22,7 @@ export type THeader = IHeaderCell[];
  * @public
  * @author Авраменко А.С.
  */
-export interface IHeaderCell extends IControlOptions {
+export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanParams {
     /**
      * @description Текст заголовка ячейки.
      */

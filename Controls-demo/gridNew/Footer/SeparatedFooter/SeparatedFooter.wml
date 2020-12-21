@@ -79,7 +79,8 @@
                     columns="{{_fullColumns}}">
                 <ws:footer>
                     <ws:Array>
-                        <ws:Object startColumn="{{ 2 }}">
+                        <ws:Object/>
+                        <ws:Object>
                             <ws:template>
                                 <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка под 1</div>
                             </ws:template>
@@ -89,7 +90,7 @@
                                 <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка 2</div>
                             </ws:template>
                         </ws:Object>
-                        <ws:Object>
+                        <ws:Object colspan="{{ 3 }}">
                             <ws:template>
                                 <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка растянута на 3</div>
                             </ws:template>
@@ -107,7 +108,8 @@
                     columns="{{_fullColumns}}">
                 <ws:footer>
                     <ws:Array>
-                        <ws:Object startColumn="{{ 2 }}">
+                        <ws:Object/>
+                        <ws:Object>
                             <ws:template>
                                 <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка под 1</div>
                             </ws:template>
@@ -117,7 +119,7 @@
                                 <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка 2</div>
                             </ws:template>
                         </ws:Object>
-                        <ws:Object>
+                        <ws:Object colspan="{{ 3 }}">
                             <ws:template>
                                 <div class="controlsDemo__footer__separatedFooter__content">Подвал, колонка растянута на 3</div>
                             </ws:template>

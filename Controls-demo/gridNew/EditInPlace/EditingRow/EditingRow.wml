@@ -1,11 +1,39 @@
-<div class="controlsDemo__cell">
+<div class="controlsDemo__cell" xmlns:ws="http://www.w3.org/1999/html">
     <Controls.gridNew:View
             keyProperty="id"
             source="{{_viewSource}}"
-            columns="{{_columns}}"
-            on:beforeBeginEdit="_onBeforeBeginEdit()"
-    >
+            colspanCalculationCallback="{{ _colspanCalculationCallback }}"
+            on:beforeBeginEdit="_onBeforeBeginEdit()">
         <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}" autoAdd="{{true}}" toolbarVisibility="{{true}}"/>
+        <ws:columns>
+            <ws:Array>
+                <ws:Object width="100px" displayProperty="invoice">
+                    <ws:template>
+                        <ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{template.gridColumn}}">
+                            <ws:contentTemplate>
+                                <ws:partial template="Controls/list:BaseEditingTemplate" itemData="{{template.gridColumn}}">
+                                    <ws:viewTemplate>{{ template.gridColumn.item.get('invoice') }}</ws:viewTemplate>
+                                    <ws:editorTemplate>
+                                        <div>
+                                            <ws:partial template="wml!Controls-demo/gridNew/EditInPlace/EditingRow/cellTemplate"
+                                                        itemData="{{template.gridColumn}}"
+                                                        documentSignMemory="{{_documentSignMemory}}"
+                                                        onChange1="{{onChange1}}"
+                                                        onChange2="{{onChange2}}"
+                                                        selectedKey="{{selectedKey}}"/>
+                                        </div>
+                                    </ws:editorTemplate>
+                                </ws:partial>
+                            </ws:contentTemplate>
+                        </ws:partial>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object width="200px" displayProperty="documentSign"/>
+                <ws:Object width="200px" displayProperty="document"/>
+                <ws:Object width="1fr" displayProperty="description"/>
+                <ws:Object width="200px" displayProperty="taxBase"/>
+            </ws:Array>
+        </ws:columns>
     </Controls.gridNew:View>
 </div>
 

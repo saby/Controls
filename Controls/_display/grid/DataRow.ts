@@ -36,6 +36,11 @@ export default class DataRow<T> extends Row<T> implements IMarkable, ILadderSupp
             }))
         }
     }
+
+    setEditing(editing: boolean, editingContents?: T, silent?: boolean): void {
+        super.setEditing(editing, editingContents, silent);
+        this._reinitializeColumns();
+    }
 }
 
 Object.assign(DataRow.prototype, {

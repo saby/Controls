@@ -2,7 +2,8 @@ import CollectionItem from '../CollectionItem';
 import Collection from './Collection';
 import { mixin } from 'Types/util';
 import GridRowMixin, { IOptions as IGridRowMixinOptions } from './mixins/Row';
-import {TemplateFunction} from 'UI/Base';
+import { TemplateFunction } from 'UI/Base';
+import { IColumn, IColspanParams } from 'Controls/_grid/interface/IColumn';
 
 export interface IOptions<T> extends IGridRowMixinOptions<T> {
     owner: Collection<T>;
@@ -65,7 +66,6 @@ export default class Row<T>
             this._redrawColumns('all');
         }
     }
-
     // endregion
 }
 
