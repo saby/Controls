@@ -3145,7 +3145,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _loadingIndicatorState: null,
     _loadingIndicatorTimer: null,
     _showLoadingIndicatorImage: null,
-    _showUpLoadingPlaceHolder: null,
 
     _pagingCfg: null,
     _pagingVisible: false,
@@ -4487,8 +4486,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
     // padding-top нужен только когда сверху есть данные и скролл проинициализирован
     _getViewStyles(): string {
-        const hasMoreDataUp = this._sourceController && _private.hasMoreData(this, this._sourceController, 'up');
-        return hasMoreDataUp && this._showUpLoadingPlaceHolder ? 'padding-top: 56px' : '';
+        if (this._shouldShowLoadingIndicator('beforeEmptyTemplate')) {
+            return 'padding-top: 56px';
+        }
+        return this._attachLoadTopTriggerToNull ? 'padding-top: 1px' : '';
     },
     handleTriggerVisible(direction: IDirection): void {
         // Вызываем сдвиг диапазона в направлении видимого триггера
@@ -5591,7 +5592,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // нельзя делать это в процессе обновления или загрузки
         if (!this._loadingState && !this._updateInProgress && !this._scrollController?.getScrollTop()) {
             _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
-            this._showUpLoadingPlaceHolder = true;
         }
         if (this._hideTopTrigger && !this._needScrollToFirstItem) {
             this._hideTopTrigger = false;

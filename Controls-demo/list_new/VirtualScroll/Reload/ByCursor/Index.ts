@@ -29,12 +29,16 @@ class PositionSourceMock extends Memory {
             });
         }
 
-        return Promise.resolve(this._prepareQueryResult({
-            items,
-            meta: {
-                total: isPosition ? { before: true, after: true } : true
-            }
-        }, null));
+        return new Promise<DataSet>((resolve) => {
+            setTimeout(() => {
+                resolve(this._prepareQueryResult({
+                    items,
+                    meta: {
+                        total: isPosition ? { before: true, after: true } : true
+                    }
+                }, null));
+            },  2000);
+        });
     }
 }
 
