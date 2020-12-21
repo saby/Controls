@@ -41,7 +41,7 @@ export default class TreeGridCollection<
         super(options);
         GridMixin.call(this, options);
 
-        // TODO должно быть в Tree. Перенести туда, когда полностью перейдем на новую стратегии TreeGrid.
+        // TODO должно быть в Tree. Перенести туда, когда полностью перейдем на новую коллекцию TreeGrid.
         //  Если сразу в Tree положим, то все разломаем
         this.addFilter(
             (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)

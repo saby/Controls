@@ -70,8 +70,8 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
       fakeSelf = {
          _options: {
             listModel: {
-               getDragItemData: function() {
-                  return null;
+               isDragging: function() {
+                  return false;
                }
             }
          }

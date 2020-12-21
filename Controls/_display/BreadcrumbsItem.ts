@@ -95,6 +95,10 @@ export default class BreadcrumbsItem<T> extends CollectionItem<T> {
          return this.getLast().isHasChildren();
      }
 
+     isDragTargetNode(): boolean {
+        return this.getLast().isDragTargetNode();
+     }
+
     // endregion
 }
 

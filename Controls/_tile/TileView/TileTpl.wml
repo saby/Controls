@@ -1,6 +1,6 @@
 <ws:template name="itemTpl">
    <div attr:class="controls-TileView__item {{itemData.itemClasses}} controls-TileView__item_theme-{{theme}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
-                     {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}">
+                     {{!!itemData.isDragTargetNode() ? ' js-controls-TreeView__dragTargetNode'}}">
       <ws:partial template="{{content}}"/>
    </div>
 </ws:template>
@@ -25,7 +25,7 @@
                {{itemData.isScaled ? ' controls-TileView__item_scaled' }}
                {{itemData.isFixed ? ' controls-TileView__item_fixed controls-TileView__item_fixed_theme-' + theme}}
                {{itemData.isAnimated ? ' controls-TileView__item_animated'}}
-               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + theme}}
+               {{!!itemData.isDragged() ? ' controls-ListView__item_dragging_theme-' + theme}}
                {{titleStyle === 'none' ? 'controls-TileView__item_withoutTitle'}}
                {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
                {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?

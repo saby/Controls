@@ -3,7 +3,7 @@ import Abstract, {IEnumerable, IOptions as IAbstractOptions} from './Abstract';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
 import GroupItem from './GroupItem';
-import { Model as EntityModel } from 'Types/entity';
+import { Model, Model as EntityModel } from 'Types/entity';
 import IItemsStrategy from './IItemsStrategy';
 import ItemsStrategyComposer from './itemsStrategy/Composer';
 import DirectItemsStrategy from './itemsStrategy/Direct';
@@ -91,6 +91,12 @@ interface ISortItem<S, T> {
 export type SortFunction<S, T> = (a: ISortItem<S, T>, b: ISortItem<S, T>) => number;
 
 export type ItemsFactory<T> = (options: object) => T;
+
+export type StrategyConstructor<
+   F extends IItemsStrategy<S, T>,
+   S extends EntityModel = EntityModel,
+   T extends CollectionItem<S> = CollectionItem<S>
+> = new() => F;
 
 interface ISessionItems<T> extends Array<T> {
     properties?: object;
@@ -776,7 +782,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _userStrategies: Array<IUserStrategy<S, T>>;
 
-    protected _dragStrategy: Function = DragStrategy;
+    protected _dragStrategy: StrategyConstructor<DragStrategy> = DragStrategy;
     private _wasNotifyAddEventOnStartDrag: boolean = false;
 
     constructor(options: IOptions<S, T>) {
@@ -1507,6 +1513,10 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      */
     getFilter(): Array<FilterFunction<S>> {
         return this._$filter.slice();
+    }
+
+    getFilterMap(): boolean[] {
+        return this._filterMap;
     }
 
     /**
@@ -2262,24 +2272,19 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$itemsDragNDrop;
     }
 
-    getDraggingItem(): CollectionItem<T> {
-        const strategy = this.getStrategyInstance(this._dragStrategy) as DragStrategy<unknown>;
-        return strategy?.avatarItem;
-    }
-
     setDraggedItems(draggableItem: T, draggedItemsKeys: Array<number|string>): void {
         const draggableItemIndex = this.getIndex(draggableItem);
         // когда перетаскиваем в другой список, изначальная позиция будет в конце списка
         const avatarStartIndex = draggableItemIndex > -1 ? draggableItemIndex : this.getCount() - 1;
 
-        this.appendStrategy(this._dragStrategy, {
+        this.appendStrategy(this._dragStrategy as StrategyConstructor<any>, {
             draggedItemsKeys,
             draggableItem,
-            avatarIndex: avatarStartIndex
+            targetIndex: avatarStartIndex
         });
         this._reIndex();
 
-        const strategy = this.getStrategyInstance(this._dragStrategy) as DragStrategy<unknown>;
+        const strategy = this.getStrategyInstance(this._dragStrategy as StrategyConstructor<any>) as DragStrategy;
 
         if (!this.getItemBySourceKey(draggableItem.getContents().getKey())) {
             this._wasNotifyAddEventOnStartDrag = true;
@@ -2296,30 +2301,40 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     setDragPosition(position: IDragPosition<T>): void {
-        const strategy = this.getStrategyInstance(this._dragStrategy) as DragStrategy<unknown>;
+        const strategy = this.getStrategyInstance(this._dragStrategy as StrategyConstructor<any>) as DragStrategy;
         if (strategy && position) {
-            strategy.setAvatarPosition(position.index, position.position);
+            strategy.setPosition(position);
             this._reIndex();
+            this._reFilter();
             this.nextVersion();
         }
     }
 
     resetDraggedItems(): void {
-        const strategy = this.getStrategyInstance(this._dragStrategy) as DragStrategy<unknown>;
+        const strategy = this.getStrategyInstance(this._dragStrategy as StrategyConstructor<any>) as DragStrategy;
         if (strategy) {
             const avatarItem = strategy.avatarItem;
             const avatarIndex = this.getIndex(strategy.avatarItem as T);
 
-            this.removeStrategy(this._dragStrategy);
+            this.removeStrategy(this._dragStrategy as StrategyConstructor<any>);
             this._reIndex();
 
             if (this._wasNotifyAddEventOnStartDrag) {
                 this._wasNotifyAddEventOnStartDrag = false;
                 this._notifyBeforeCollectionChange();
-                this._notifyCollectionChange(IObservable.ACTION_REMOVE, [], 0, [avatarItem], avatarIndex);
+                this._notifyCollectionChange(IObservable.ACTION_REMOVE, [], 0, [avatarItem as T], avatarIndex);
                 this._notifyAfterCollectionChange();
             }
         }
+    }
+
+    isDragging(): boolean {
+        return !!this.getStrategyInstance(this._dragStrategy as StrategyConstructor<any>);
+    }
+
+    getDraggableItem(): T {
+        const strategy = this.getStrategyInstance(this._dragStrategy as StrategyConstructor<any>);
+        return strategy?.avatarItem as T;
     }
 
     // endregion Drag-N-Drop
@@ -2805,7 +2820,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this.nextVersion();
     }
 
-    getStrategyInstance<F extends IItemsStrategy<S, T>>(strategy: new() => F): F {
+    getStrategyInstance<F extends IItemsStrategy<S, T>>(strategy: StrategyConstructor<F>): F {
         return this._composer.getInstance(strategy);
     }
 

@@ -292,27 +292,5 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          };
          assert.isTrue(treeTileViewModel.isScaled(itemData));
       });
-
-      it('setDragItemData', () => {
-         const itemData = {
-            isFixed: true,
-            isHovered: true,
-            position: { },
-            canShowActions: true,
-            isAnimated: true,
-            zoomCoefficient: 1
-         };
-
-         treeTileViewModel.setDragItemData(itemData);
-         assert.isFalse(itemData.isFixed);
-         assert.isFalse(itemData.isHovered);
-         assert.isNull(itemData.position);
-         assert.isFalse(itemData.canShowActions);
-         assert.isFalse(itemData.isAnimated);
-         assert.isNull(itemData.zoomCoefficient);
-
-         treeTileViewModel.setDragItemData(null);
-         assert.isNull(treeTileViewModel.getDragItemData());
-      });
    });
 });

@@ -75,8 +75,8 @@
         }}">
         <td class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
               {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}
-              {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
-              {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
+              {{!!itemData.isDragged() ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
+              {{!!itemData.isDragTargetNode() ? ' js-controls-TreeView__dragTargetNode'}}
               {{ marker !== false ? currentColumn.classList.marked }}
               controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
             style="{{ currentColumn.tableCellStyles }}"
@@ -89,7 +89,7 @@
                 </ws:if>
 
                 <!-- Какая то запись перемещается в данную папку. Обводка -->
-                <ws:if data="{{ !!itemData.dragTargetNode }}">
+                <ws:if data="{{ !!itemData.isDragTargetNode() }}">
                     <div class="controls-TreeGridView__dragTargetNode_theme-{{itemData.theme}}
                                 {{currentColumn.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + itemData.theme}}
                                 {{currentColumn.columnIndex === itemData.getLastColumnIndex() ? 'controls-TreeGridView__dragTargetNode_last_theme-' + itemData.theme}}"></div>
@@ -161,8 +161,8 @@
     <ws:if data="{{itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
         <td class="controls-Grid-table-layout__itemActions__container {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
               {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}
-              {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
-              {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
+              {{!!itemData.isDragged() ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
+              {{!!itemData.isDragTargetNode() ? ' js-controls-TreeView__dragTargetNode'}}
               controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
             colspan="1"
             style="width: 0; min-width: 0; max-width: 0; padding: 0px; overflow: visible; z-index: 3;">

@@ -98,12 +98,6 @@
     <ws:else> <!-- Запись -->
         <ws:if data="{{listModel.isShouldBeDrawnItem(listModel.getCurrent())}}">
 
-            <!-- Перетаскивается запись в позицию перед текущей -->
-            <ws:partial if="{{ listModel.getCurrent().dragTargetPosition === 'before' }}"
-                        template="ITEM"
-                        attr:key="{{ listModel.getCurrent().draggingItemData.key }}__dragged"
-                        itemData="{{ listModel.getCurrent().draggingItemData }}"/>
-
             <!-- [ЗАПИСЬ] Текущая запись -->
             <ws:partial template="ITEM"
                         isVisible="{{ listModel.getCurrent().isVisible }}"
@@ -112,11 +106,6 @@
                         nodeFooters="{{ listModel.getCurrent().nodeFooters }}"
                         attr:key="{{ listModel.getCurrent().key }}"/>
 
-            <!-- Перетаскивается запись в позицию после текущей -->
-            <ws:partial if="{{ listModel.getCurrent().dragTargetPosition === 'after' }}"
-                        template="ITEM"
-                        itemData="{{ listModel.getCurrent().draggingItemData }}"
-                        attr:key="{{ listModel.getCurrent().draggingItemData.key }}__dragged"/>
         </ws:if>
     </ws:else>
 

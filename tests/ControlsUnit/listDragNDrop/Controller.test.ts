@@ -32,12 +32,8 @@ describe('Controls/_listDragNDrop/Controller', () => {
 
    it('startDrag', () => {
       const entity = new ItemsEntity( { items: [1] } );
-      const setDraggedItemsSpy = spy(controller, 'setDraggedItems');
-
       controller.startDrag(model.getItemBySourceKey(1), entity);
-
-      assert.isTrue(setDraggedItemsSpy.withArgs(entity, model.getItemBySourceKey(1)).calledOnce,
-         'setDraggedItems не вызвался или вызвался с неверными параметрами');
+      assert.equal(controller.getDraggableItem().contents, model.getItemBySourceKey(1).contents);
    });
 
    describe('setDraggedItems', () => {
@@ -151,10 +147,11 @@ describe('Controls/_listDragNDrop/Controller', () => {
 
          newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(2)});
          assert.equal(newPosition.index, 1);
-         assert.equal(newPosition.position, 'before');
+         assert.equal(newPosition.position, 'after');
 
          newPosition = controller.calculateDragPosition({targetItem: model.getItemBySourceKey(1)});
-         assert.deepEqual(newPosition, { index: 1, position: 'after' });
+         assert.equal(newPosition.index, 0);
+         assert.equal(newPosition.position, 'before');
       });
    });
 

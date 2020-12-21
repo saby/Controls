@@ -3,6 +3,7 @@
         <Controls.list:View
                 keyProperty="id"
                 source="{{_viewSource}}"
-                groupProperty="brand"/>
+                groupProperty="brand"
+                itemsDragNDrop="{{true}}"/>
     </Controls.scroll:Container>
 </div>

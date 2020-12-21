@@ -16,10 +16,6 @@ interface IOffset {
     bottom: number;
 }
 
-interface IDraggableTreeCollection extends IDraggableFlatCollection<IDraggableTreeItem> {
-    getPrevDragPosition(): IDragPosition<IDraggableTreeItem>;
-}
-
 type ITreeDragStrategyParams = IDragStrategyParams<IDragPosition<IDraggableTreeItem>, IDraggableTreeItem>;
 
 /**
@@ -28,22 +24,18 @@ type ITreeDragStrategyParams = IDragStrategyParams<IDragPosition<IDraggableTreeI
  * @author Панихин К.А.
  */
 
-export default class Tree extends Flat<IDraggableTreeItem, IDraggableTreeCollection> {
+export default class Tree extends Flat<IDraggableTreeItem, IDraggableFlatCollection> {
     /**
      * Запускает расчет позиции
      */
     calculatePosition(
         {currentPosition, targetItem, mouseOffsetInTargetItem}: ITreeDragStrategyParams
     ): IDragPosition<IDraggableTreeItem> {
-        if (this._draggableItem && this._draggableItem === targetItem) {
-            return this._model.getPrevDragPosition() || null;
-        }
-
         let result;
 
         const moveTileNodeToLeaves = this._model['[Controls/_tile/TreeTileViewModel]'] && this._draggableItem.isNode()
             && targetItem && !targetItem.isNode();
-        if (targetItem && targetItem.isNode() && !moveTileNodeToLeaves) {
+        if (targetItem && targetItem.isNode() && !moveTileNodeToLeaves && mouseOffsetInTargetItem) {
             result = this._calculatePositionRelativeNode(targetItem, mouseOffsetInTargetItem);
         } else {
             // В плитке нельзя смешивать узлы и листья, если перетаскивают узел в листья, то мы не меняем позицию
@@ -83,7 +75,7 @@ export default class Tree extends Flat<IDraggableTreeItem, IDraggableTreeCollect
                 newPosition = this._startPosition;
             } else {
                 newPosition = {
-                    index: this._model.getIndex(targetItem),
+                    index: this._model.getIndex(firstChild),
                     position: 'before',
                     dispItem: firstChild
                 };

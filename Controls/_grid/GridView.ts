@@ -67,7 +67,7 @@ var
             }
             let initialWidths = columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth()));
             let columnsWidths: string[] = [];
-            const stickyCellsCount = GridLadderUtil.stickyLadderCellsCount(columns, self._options.stickyColumn, self._options.listModel.getDragItemData());
+            const stickyCellsCount = GridLadderUtil.stickyLadderCellsCount(columns, self._options.stickyColumn, self._options.listModel.isDragging());
             if (stickyCellsCount === 1) {
                 columnsWidths = ['0px'].concat(initialWidths);
             } else if (stickyCellsCount === 2) {
@@ -571,7 +571,7 @@ var
                     .add('controls-Grid_table-layout_fixed', isFixedLayout)
                     .add('controls-Grid_table-layout_auto', !isFixedLayout);
             }
-            if (this._listModel.getDragItemData()) {
+            if (this._listModel.isDragging()) {
                 classes.add('controls-Grid_dragging_process');
             }
             if (this._options.columnScroll) {

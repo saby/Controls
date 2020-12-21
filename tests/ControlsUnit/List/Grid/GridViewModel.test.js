@@ -141,28 +141,6 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
       };
 
    describe('Controls.List.Grid.GridViewModel', function() {
-      describe('DragNDrop methods', function() {
-         var gridViewModel = new gridMod.GridViewModel(cfg);
-
-         it('setDragTargetPosition', function() {
-            var dragTargetPosition = {};
-            gridViewModel.setDragTargetPosition(dragTargetPosition);
-            assert.equal(gridViewModel._model._dragTargetPosition, dragTargetPosition);
-         });
-
-         it('setDragEntity', function() {
-            var dragEntity = {};
-            gridViewModel.setDragEntity(dragEntity);
-            assert.equal(gridViewModel._model._dragEntity, dragEntity);
-         });
-
-         it('setDragItemData', function() {
-            var dragItemData = {};
-            gridViewModel.setDragItemData(dragItemData);
-            assert.equal(gridViewModel.getDragItemData(), dragItemData);
-         });
-      });
-
       describe('"_private" block', function() {
          const dummyDispitem = {
             getContents: () => [],

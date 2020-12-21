@@ -20,6 +20,7 @@ import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from 
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 import {TMarkerClassName} from '../_grid/interface/ColumnTemplate';
 import {IItemPadding} from '../_list/interface/IList';
+import IDraggableItem from 'Controls/_display/interface/IDraggableItem';
 
 export interface IOptions<T extends Model = Model> {
     contents?: T;
@@ -32,8 +33,8 @@ export interface IOptions<T extends Model = Model> {
     owner?: ICollection<T, CollectionItem<T>>;
     isAdd?: boolean;
     addPosition?: 'top' | 'bottom';
-    multiSelectVisibility: string;
-    checkboxState: boolean|null;
+    multiSelectVisibility?: string;
+    checkboxState?: boolean|null;
 }
 
 export interface ISerializableState<T> extends IDefaultSerializableState {
@@ -73,13 +74,14 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     InstantiableMixin,
     SerializableMixin,
     ItemCompatibilityListViewModel
-) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable {
+) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable, IDraggableItem {
 
     // region IInstantiable
 
     readonly '[Types/_entity/IInstantiable]': boolean;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
+    readonly DraggableItem: boolean = true;
 
     getInstanceId: () => string;
 

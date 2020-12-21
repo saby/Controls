@@ -5,9 +5,8 @@ import { RecordSet, IObservable } from 'Types/collection';
 import { isEqual } from 'Types/object';
 import { TemplateFunction } from 'UI/Base';
 
-import { IDragPosition } from 'Controls/display';
 import {Logger} from 'UI/Utils';
-import { TreeChildren, TreeItem } from 'Controls/display';
+import { IDragPosition, TreeChildren, TreeItem } from 'Controls/display';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 
 var
@@ -561,7 +560,6 @@ var
                     }
                 }
                 this._display.setFilter(this.getDisplayFilter(this.prepareDisplayFilterData(), this._options));
-                this.updateDragItemIndex(this._draggingItemData);
                 this._nextModelVersion(true, 'expandedChanged', null, [dispItem]);
                 this._notify('expandedItemsChanged', this._expandedItems);
             }
@@ -680,32 +678,11 @@ var
             if (current.item && current.item.get) {
                 current.level = current.dispItem.getLevel();
             }
-
-            if (this._dragTargetPosition && this._dragTargetPosition.position === 'on') {
-                if (this._dragTargetPosition.index === current.index) {
-                    current.dragTargetNode = true;
-                }
-                // Предыдущая позиция нужна, чтобы когда навели на узел, элемент не пропал из списка,
-                // а отобразился там где был до наведения на узел
-                if (this._prevDragTargetPosition && this._prevDragTargetPosition.index === current.index) {
-                    current.dragTargetPosition = this._prevDragTargetPosition.position;
-                    current.draggingItemData = this._draggingItemData;
-                }
-            }
-
+            current.isDragTargetNode = () => current.dispItem._isDragTargetNode && current.dispItem.isDragTargetNode();
             current.useNewNodeFooters = this._options.useNewNodeFooters;
             if (current.item && current.item.get) {
                 _private.setNodeFooterIfNeed(this, current);
             }
-
-            const originalGetVersion = current.getVersion;
-            current.getVersion = () => {
-                let version = originalGetVersion();
-                if (current.dragTargetNode) {
-                    version = 'DRAGTARGETNODE_' + version;
-                }
-                return version;
-            };
 
             return current;
         },
@@ -719,78 +696,11 @@ var
                 version = 'COLLAPSED_' + version;
             }
 
+            if (this.isDragging() && this.getItemBySourceKey(key)?.isDragTargetNode()) {
+                version = 'DRAGTARGETNODE_' + version;
+            }
+
             return version;
-        },
-        resetDraggedItems(): void {
-            this._prevDragTargetPosition = null;
-            TreeViewModel.superclass.resetDraggedItems.apply(this, arguments);
-        },
-        setDragEntity: function(entity) {
-            var item;
-
-            if (entity) {
-                // Collapse all the nodes that we move.
-                entity.getItems().forEach(function(id) {
-                    item = this.getItemById(id, this.getKeyProperty());
-
-                    // Not all of the moved items can be in the current recordSet
-                    if (item) {
-                        this.toggleExpanded(item, false);
-                    }
-                }, this);
-            }
-
-            TreeViewModel.superclass.setDragEntity.apply(this, arguments);
-        },
-        updateDragItemIndex: function(itemData) {
-            if (itemData) {
-                itemData.index = this._display.getIndex(itemData.dispItem);
-            }
-        },
-        setDragItemData(itemDragData: any): void {
-            // Displays the movable item as closed
-            if (itemDragData) {
-                itemDragData.isExpanded = false;
-
-                const getVersionOrigin = itemDragData.getVersion;
-                itemDragData.getVersion = () => getVersionOrigin() + '_LEVEL_' + itemDragData.level;
-            }
-            TreeViewModel.superclass.setDragItemData.apply(this, arguments);
-        },
-
-        setDragTargetPosition: function(targetPosition) {
-            if (targetPosition && targetPosition.position === 'on') {
-
-                // When an item is moved to a folder, the fake record should be displayed at the previous position.
-                // If do not display the fake entry, there will be a visual jump of the interface.
-                this._setPrevDragTargetPosition(targetPosition);
-            } else {
-                this._prevDragTargetPosition = null;
-
-                // The fake item must be displayed at the correct level.
-                if (this._draggingItemData && targetPosition) {
-                    this._draggingItemData.level = targetPosition.dispItem.getLevel();
-                }
-            }
-            TreeViewModel.superclass.setDragTargetPosition.apply(this, arguments);
-        },
-
-        getPrevDragPosition(): IDragPosition {
-            return this._prevDragTargetPosition;
-        },
-
-        _setPrevDragTargetPosition: function(targetPosition) {
-            if (!this._prevDragTargetPosition) {
-                if (this._dragTargetPosition) {
-                    this._prevDragTargetPosition = this._dragTargetPosition;
-                } else if (this._draggingItemData) {
-                    this._prevDragTargetPosition = {
-                        index: this._draggingItemData.index,
-                        dispItem: this._draggingItemData.dispItem,
-                        position: this._draggingItemData.index > targetPosition.index ? 'after' : 'before'
-                    };
-                }
-            }
         },
 
         setHasMoreStorage: function(hasMoreStorage) {

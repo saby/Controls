@@ -8,6 +8,7 @@ import Tree from './Tree';
 import {mixin} from 'Types/util';
 import TreeChildren from './TreeChildren';
 import { TemplateFunction } from 'UI/Base';
+import { Model } from 'Types/entity';
 
 export interface IOptions<T> extends ICollectionItemOptions<T>, IExpandableMixinOptions {
     owner?: Tree<T>;
@@ -30,7 +31,7 @@ interface ISerializableState<T> extends ICollectionItemSerializableState<T> {
  * @public
  * @author Мальцев А.А.
  */
-export default class TreeItem<T> extends mixin<
+export default class TreeItem<T extends Model = Model> extends mixin<
     CollectionItem<any>,
     ExpandableMixin
     >(
@@ -38,7 +39,6 @@ export default class TreeItem<T> extends mixin<
     ExpandableMixin
 ) {
     protected _$owner: Tree<T>;
-
     /**
      * Родительский узел
      */
@@ -59,6 +59,12 @@ export default class TreeItem<T> extends mixin<
      * Название свойства, содержащего дочерние элементы узла. Используется для анализа на наличие дочерних элементов.
      */
     protected _$childrenProperty: string;
+
+    /**
+     * Признак, что узел является целью при перетаскивании
+     * @private
+     */
+    private _isDragTargetNode: boolean = false;
 
     constructor(options: IOptions<T>) {
         super(options);
@@ -105,7 +111,10 @@ export default class TreeItem<T> extends mixin<
      * @param parent Новый родительский узел
      */
     setParent(parent: TreeItem<T>): void {
-        this._$parent = parent;
+        if (this._$parent !== parent) {
+            this._$parent = parent;
+            this._nextVersion();
+        }
     }
 
     /**
@@ -161,6 +170,24 @@ export default class TreeItem<T> extends mixin<
      */
     setNode(node: boolean|null): void {
         this._$node = node;
+    }
+
+    /**
+     * Устанавливаем признак, что узел является целью при перетаскивании
+     * @param isTarget Является ли узел целью при перетаскивании
+     */
+    setDragTargetNode(isTarget: boolean): void {
+        if (this._isDragTargetNode !== isTarget) {
+            this._isDragTargetNode = isTarget;
+            this._nextVersion();
+        }
+    }
+
+    /**
+     * Возвращает признак, что узел является целью при перетаскивании
+     */
+    isDragTargetNode(): boolean {
+        return this._isDragTargetNode;
     }
 
     /**

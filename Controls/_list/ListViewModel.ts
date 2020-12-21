@@ -9,14 +9,12 @@ import { Object as EventObject } from 'Env/Event';
 import {isEqual} from 'Types/object';
 import { IObservable } from 'Types/collection';
 import { Model } from 'Types/entity';
-import { CollectionItem, IEditingConfig, ISwipeConfig } from 'Controls/display';
+import { CollectionItem, IDragPosition, IEditingConfig, ISwipeConfig } from 'Controls/display';
 import { CssClassList } from "./resources/utils/CssClassList";
 import {Logger} from 'UI/Utils';
 import {IItemAction, IItemActionsTemplateConfig} from 'Controls/itemActions';
-import { IDragPosition } from 'Controls/display';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import { IItemPadding } from './interface/IList';
-import { ItemsEntity } from 'Controls/dragnDrop';
 
 interface IListSeparatorOptions {
     rowSeparatorSize?: null | 's' | 'l';
@@ -166,9 +164,6 @@ const _private = {
 
 const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     _markedItem: null,
-    _dragEntity: null,
-    _draggingItemData: null,
-    _dragTargetPosition: null,
     _markedKey: null,
     _hoveredItem: null,
     _reloadedKeys: null,
@@ -197,7 +192,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     getItemDataByItem: function() {
         const self = this;
         const itemsModelCurrent = ListViewModel.superclass.getItemDataByItem.apply(this, arguments);
-        let dragItems;
 
         if (itemsModelCurrent._listViewModelCached) {
             return itemsModelCurrent;
@@ -230,6 +224,14 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             itemsModelCurrent.virtualScrollConfig = this._isSupportVirtualScroll();
         }
 
+        itemsModelCurrent.isDragged = () => {
+            // В display перетаскиваемый элемент создается(avatarItem) но в itemData будет лежать старый
+            const draggableItem = self.getDisplay()?.getDraggableItem();
+            if (draggableItem && draggableItem.getContents().getKey() === itemsModelCurrent.key) {
+                return draggableItem.isDragged();
+            }
+        };
+
         itemsModelCurrent.getMarkerClasses = (markerClassName = 'default'): string => {
             const style = this._options.style || 'default';
             return `controls-ListView__itemV_marker
@@ -243,19 +245,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             itemsModelCurrent.groupPaddingClasses = _private.getGroupPaddingClasses(itemsModelCurrent, theme);
         }
 
-        if (this._dragEntity) {
-            dragItems = this._dragEntity.getItems();
-            if (this._draggingItemData && this._draggingItemData.key === itemsModelCurrent.key) {
-                itemsModelCurrent.isDragging = true;
-            }
-            if (dragItems.indexOf(itemsModelCurrent.key) !== -1 && this._draggingItemData) {
-                itemsModelCurrent.isVisible = this._draggingItemData.key === itemsModelCurrent.key ? !this._dragTargetPosition : false;
-            }
-            if (this._draggingItemData && this._dragTargetPosition && this._dragTargetPosition.index === itemsModelCurrent.index) {
-                itemsModelCurrent.dragTargetPosition = this._dragTargetPosition.position;
-                itemsModelCurrent.draggingItemData = this._draggingItemData;
-            }
-        }
         return itemsModelCurrent;
     },
 
@@ -324,12 +313,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     _calcItemVersion: function(item, key) {
         var version = ListViewModel.superclass._calcItemVersion.apply(this, arguments);
 
-        if (this._dragEntity && this._dragEntity.getItems().indexOf(key) !== -1) {
+        if (this.isDragging() && this.getItemBySourceKey(key)?.isDragged()) {
             version = 'DRAG_ITEM_' + version;
-        }
-
-        if (this._dragTargetPosition && this._dragTargetPosition.item === item) {
-            version = 'DRAG_POSITION_' + this._dragTargetPosition.position + '_' + version;
         }
 
         if (this._markedKey === key) {
@@ -473,48 +458,40 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
     // region DnD
 
-    setDraggedItems(draggableItem: CollectionItem<Model>, draggedItemsKeys: Array<number|string>): void {
-        if (draggableItem) {
-            const itemData = this.getItemDataByItem(draggableItem);
-            this.setDragItemData(itemData);
-        }
-
-        const entity = new ItemsEntity({items: draggedItemsKeys});
-        this.setDragEntity(entity);
-    },
-
-    setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
-        this.setDragTargetPosition(position);
-    },
-
-    resetDraggedItems(): void {
-        this._dragEntity = null;
-        this._draggingItemData = null;
-        this._dragTargetPosition = null;
-        this._nextModelVersion(true);
-    },
-
-    setDragEntity(entity: ItemsEntity): void {
-        if (this._dragEntity !== entity) {
-            this._dragEntity = entity;
-            this._nextModelVersion(true);
+    setDraggedItems(draggableItem: CollectionItem<Model>, draggedItemsKeys: Array<number|string>): boolean {
+        if (this.getDisplay()) {
+            this.getDisplay().setDraggedItems(draggableItem, draggedItemsKeys);
+            this._nextVersion();
+            return true;
         }
     },
 
-    setDragItemData(itemData: any): void {
-        this._draggingItemData = itemData;
-        if (this._draggingItemData) {
-            this._draggingItemData.isDragging = true;
+    setDragPosition(position: IDragPosition<CollectionItem<Model>>): boolean {
+        if (this.getDisplay()) {
+            this.getDisplay().setDragPosition(position);
+            this._nextVersion();
+            return true;
         }
     },
 
-    getDragItemData(): void {
-        return this._draggingItemData;
+    resetDraggedItems(): boolean {
+        if (this.getDisplay()) {
+            this.getDisplay().resetDraggedItems();
+            this._nextVersion();
+            return true;
+        }
     },
 
-    setDragTargetPosition(position: IDragPosition<CollectionItem<Model>>): void {
-        this._dragTargetPosition = position;
-        this._nextModelVersion(true);
+    isDragging(): boolean {
+        if (this.getDisplay()) {
+            return this.getDisplay().isDragging();
+        }
+    },
+
+    getDraggableItem(): CollectionItem {
+        if (this.getDisplay()) {
+            return this.getDisplay().getDraggableItem();
+        }
     },
 
     // endregion

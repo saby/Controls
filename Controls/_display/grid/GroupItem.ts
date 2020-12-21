@@ -26,6 +26,7 @@ export default class GroupItem<T> extends mixin<
 
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly DraggableItem: boolean = false;
     readonly '[Controls/_display/grid/GroupItem]': true;
 
     protected _$columnItems: Array<Cell<T>>;

@@ -982,7 +982,7 @@ var
             return GridLadderUtil.stickyLadderCellsCount(
                 this._columns,
                 this._options.stickyColumn,
-                this.getDragItemData());
+                this.isDragging());
         },
         resetHeaderRows: function() {
             this._curHeaderRowIndex = 0;
@@ -1689,7 +1689,7 @@ var
             // лесенка не хранится для элементов вне текущего диапазона startIndex - stopIndex
             if (stickyColumn &&
                 current.isFullGridSupport() &&
-                !current.dragTargetPosition &&
+                !self.isDragging() &&
                 current.index !== -1 &&
                 self._ladder.stickyLadder[current.index]) {
 
@@ -2304,47 +2304,35 @@ var
         },
 
         setDraggedItems(draggableItem: CollectionItem<Model>, draggedItemsKeys: Array<number|string>): void {
-            this._model.setDraggedItems(draggableItem, draggedItemsKeys);
-            // Если есть прилипающая колонка, то нужно пересчитать футер,
-            // т.к. прилипающая колонка во время днд скрывается и кол-во grid cтолбцов уменьшается
-            if (_private.hasStickyColumn(this) && this._footerColumns) {
-                this._setFooter(this._footerColumns);
+            const changed = this._model.setDraggedItems(draggableItem, draggedItemsKeys);
+            if (changed) {
+                // Если есть прилипающая колонка, то нужно пересчитать футер,
+                // т.к. прилипающая колонка во время днд скрывается и кол-во grid cтолбцов уменьшается
+                if (_private.hasStickyColumn(this) && this._footerColumns) {
+                    this._setFooter(this._footerColumns);
+                }
+                this._nextVersion();
             }
         },
         setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
-            this._model.setDragPosition(position);
+            const changed = this._model.setDragPosition(position);
+            if (changed) {
+                this._nextVersion();
+            }
         },
         resetDraggedItems(): void {
-            this._model.resetDraggedItems();
-            // Если есть прилипающая колонка, то нужно пересчитать футер,
-            // т.к. прилипающая колонка во время днд скрывается и кол-во grid cтолбцов уменьшается
-            if (_private.hasStickyColumn(this) && this._footerColumns) {
-                this._setFooter(this._footerColumns);
+            const changed = this._model.resetDraggedItems();
+            if (changed) {
+                // Если есть прилипающая колонка, то нужно пересчитать футер,
+                // т.к. прилипающая колонка во время днд скрывается и кол-во grid cтолбцов уменьшается
+                if (_private.hasStickyColumn(this) && this._footerColumns) {
+                    this._setFooter(this._footerColumns);
+                }
+                this._nextVersion();
             }
         },
-
-        setDragTargetPosition: function(position) {
-            this._model.setDragTargetPosition(position);
-        },
-
-        setDragEntity: function(entity) {
-            this._model.setDragEntity(entity);
-        },
-
-        setDragItemData: function(itemData) {
-            this._model.setDragItemData(itemData);
-            if (_private.hasStickyColumn(this)) {
-                this._setHeader(this._options.header);
-                this._prepareResultsColumns(this._columns, this._hasMultiSelectColumn());
-            }
-        },
-
-        getDragItemData: function() {
-            return this._model.getDragItemData();
-        },
-
-        getPrevDragPosition(): IDragPosition<CollectionItem<Model>> {
-            return this._model.getPrevDragPosition();
+        isDragging(): boolean {
+            return this._model.isDragging();
         },
 
         getActiveItem: function() {

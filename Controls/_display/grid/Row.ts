@@ -22,6 +22,7 @@ export default class Row<T>
     //  Сейчас, т.к. нет элемента данных, его имплементирует CollectionItem.
     readonly Markable = false;
     readonly SelectableItem = false;
+    readonly DraggableItem = false;
 
     constructor(options?: IOptions<T>) {
         super(options);

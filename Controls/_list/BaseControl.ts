@@ -782,7 +782,7 @@ const _private = {
                 // TODO: должно быть убрано после того, как TreeControl будет наследоваться от BaseControl
                 const display = options.useNewModel ? self._listViewModel : self._listViewModel.getDisplay();
                 loadedDataCount = display && display['[Controls/_display/Tree]'] ?
-                    self._listViewModel.getChildren(options.root).length :
+                    self._listViewModel.getChildren(options.useNewModel ? display.getRoot() : options.root).length :
                     self._listViewModel.getCount();
             } else {
                 loadedDataCount = 0;
@@ -6129,8 +6129,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _processItemMouseEnterWithDragNDrop(itemData): void {
         let dragPosition;
-        if (this._dndListController.isDragging()) {
-            const targetItem = this._options.useNewModel ? itemData : itemData.dispItem;
+        const targetItem = this._options.useNewModel ? itemData : itemData.dispItem;
+        const targetIsNode = targetItem && targetItem['[Controls/_display/TreeItem]'] && targetItem.isNode();
+        if (this._dndListController.isDragging() && !targetIsNode) {
             dragPosition = this._dndListController.calculateDragPosition({targetItem});
             if (dragPosition) {
                 const changeDragTarget = this._notify('changeDragTarget', [this._dndListController.getDragEntity(), dragPosition.dispItem.getContents(), dragPosition.position]);

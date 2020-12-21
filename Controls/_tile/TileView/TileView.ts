@@ -173,7 +173,7 @@ var TileView = ListView.extend({
         const activeItem = this._listModel.getActiveItem();
         if (!isCurrentItemHovered &&
             _private.shouldProcessHover(this) &&
-            !this._listModel.getDragItemData() &&
+            !this._listModel.isDragging() &&
             !activeItem
         ) {
             if (this._options.tileScalingMode !== TILE_SCALING_MODE.NONE) {

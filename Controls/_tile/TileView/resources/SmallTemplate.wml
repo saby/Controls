@@ -13,8 +13,8 @@
             ' controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme
             : ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme}}
          {{!!itemData.isActive() ? ' controls-TileView__smallTemplate_item_active_them' + theme}}
-         {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
-         {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme' + theme}}"
+         {{!!itemData.isDragTargetNode() ? ' js-controls-TreeView__dragTargetNode'}}
+         {{!!itemData.isDragged() ? ' controls-ListView__item_dragging_theme' + theme}}"
         attr:style="{{'-ms-flex-preferred-size: ' + (width || (itemData.dispItem.isNode() ? itemData.defaultFolderWidth : itemData.defaultItemWidth)) + 'px; flex-basis: ' + (width || (itemData.dispItem.isNode() ? itemData.defaultFolderWidth : itemData.defaultItemWidth)) + 'px;'}}">
       <ws:partial if="{{itemData.hasMultiSelect}}"
                   template="{{multiSelectTpl}}"
@@ -32,7 +32,7 @@
                     src="{{itemData.item[itemData.imageProperty]}}"/>
             </div>
          </ws:else>
-      <ws:if data="{{!!itemData.dragTargetNode}}">
+      <ws:if data="{{!!itemData.isDragTargetNode()}}">
          <div attr:class="controls-TileView__smallTemplate_dragTargetNode_theme-{{theme}}"></div>
       </ws:if>
       <div attr:class="controls-TileView__smallTemplate_title_theme-{{_options.theme}}

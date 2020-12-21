@@ -718,15 +718,6 @@ define([
                keyProperty: 'id'
             }));
             assert.deepEqual(['123', '234'], treeViewModel.getExpandedItems(), 'Invalid value "_expandedItems" after setItems.');
-
-            treeViewModel._draggingItemData = {};
-            treeViewModel.toggleExpanded(treeViewModel.getItemById('123', cfg.keyProperty), false);
-            let dragItemIndexUpdated = false;
-            treeViewModel.updateDragItemIndex = function() {
-               dragItemIndexUpdated = true;
-            }
-            treeViewModel.toggleExpanded(treeViewModel.getItemById('123', cfg.keyProperty), true);
-            assert.isTrue(dragItemIndexUpdated);
          });
 
          it('singleExpand toggleExpanded', function() {
@@ -945,91 +936,6 @@ define([
                items: rawData_4,
                hasChildrenProperty: 'hasChild'
             }, false);
-         });
-      });
-
-      describe('DragNDrop methods', function() {
-         var tvm, dragEntity;
-
-         beforeEach(function() {
-            tvm = new tree.TreeViewModel(cfg);
-            dragEntity = {
-               items: ['123'],
-               getItems: function() {
-                  return this.items;
-               }
-            };
-         });
-
-         it('setDragEntity', function() {
-            tvm.toggleExpanded(tvm.getItemById('123', 'id'), true);
-            tvm.toggleExpanded(tvm.getItemById('456', 'id'), true);
-
-            tvm.setDragEntity(dragEntity);
-            assert.isFalse(tvm.isExpanded(tvm.getItemById('123', 'id')));
-            assert.isTrue(tvm.isExpanded(tvm.getItemById('456', 'id')));
-         });
-
-         it('setDragItemData', function() {
-            tvm.toggleExpanded(tvm.getItemById('123', 'id'), true);
-            tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('123', 'id')));
-
-            assert.isFalse(tvm.getDragItemData().isExpanded);
-            assert.include(tvm.getDragItemData().getVersion(), '_LEVEL_1');
-
-            tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('234', 'id')));
-            assert.include(tvm.getDragItemData().getVersion(), '_LEVEL_2');
-         });
-
-         describe('setDragTargetPosition', function() {
-            var itemData, dragTargetPosition;
-
-               it('on node without prev state', function() {
-                  //move item 567
-                  tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
-                  tvm.setDragEntity(dragEntity);
-
-                  //move on 123
-                  itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-                  tvm.setDragTargetPosition({
-                     index: 0,
-                     position: 'on'
-                  });
-
-                  assert.equal(tvm._prevDragTargetPosition.dispItem.getContents().getKey(), '567');
-                  assert.equal(tvm._prevDragTargetPosition.position, 'after');
-               });
-
-            it('on node', function() {
-               //move item 567
-               tvm.setDragItemData(tvm.getItemDataByItem(tvm.getItemById('567', 'id')));
-               tvm.setDragEntity(dragEntity);
-
-               //move before 456
-               itemData = tvm.getItemDataByItem(tvm.getItemById('456', 'id'));
-               tvm.setDragTargetPosition({
-                  index: 1,
-                  position: 'before',
-                  dispItem: {
-                     getLevel: () => 1,
-                     getContents: () => {
-                        return {
-                           getKey: () => 456
-                        };
-                     }
-                  }
-               });
-
-               //move on 123
-               itemData = tvm.getItemDataByItem(tvm.getItemById('123', 'id'));
-               tvm.setDragTargetPosition({
-                  index: 0,
-                  position: 'on'
-               });
-
-               assert.equal(tvm._prevDragTargetPosition.dispItem.getContents().getKey(), '456');
-               assert.equal(tvm._prevDragTargetPosition.position, 'before');
-            });
          });
       });
 

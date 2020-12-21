@@ -79,7 +79,7 @@
       <div if="{{marker !== false && itemData.shouldDisplayMarker(currentColumn.columnIndex)}}"
            class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
 
-      <div if="{{!!itemData.dragTargetNode}}"
+      <div if="{{!!itemData.isDragTargetNode()}}"
            class="controls-TreeGridView__dragTargetNode_theme-{{itemData.theme}}
            {{currentColumn.columnIndex === 0 ? 'controls-TreeGridView__dragTargetNode_first_theme-' + itemData.theme}}
            {{currentColumn.columnIndex === itemData.getLastColumnIndex() ? 'controls-TreeGridView__dragTargetNode_last_theme-' + itemData.theme}}"></div>
@@ -155,7 +155,7 @@
 
 <ws:template name="STICKY_LADDER_HEADER">
    <ws:if data="{{itemData.stickyLadder[stickyProperty].headingStyle && currentColumn.hiddenForLadder}}">
-      <div attr:class="controls-Grid__row-ladder-cell {{!!itemData.isActive() ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}"
+      <div attr:class="controls-Grid__row-ladder-cell {{!!itemData.isActive() ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragged() ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}"
            attr:key="{{itemData.key + stickyProperty + '_sticky_ladder'}}"
            attr:style="{{itemData.stickyLadder[stickyProperty].headingStyle}}">
 
@@ -197,8 +197,8 @@
                        {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
                        {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}
                        {{ marker !== false ? currentColumn.classList.marked }}
-                       {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
-                       {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
+                       {{!!itemData.isDragged() ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
+                       {{!!itemData.isDragTargetNode() ? ' js-controls-TreeView__dragTargetNode'}}
                        controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
            style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan || colspanCurrentNode) }}
                   {{ (colspan === false && !!colspanLength) && (currentColumn.columnIndex === (itemData.hasMultiSelectColumn ? 1 : 0)) ? itemData.getPartialColspanStyles(itemData.hasMultiSelectColumn ? 1 : 0, colspanLength) }}">
@@ -238,7 +238,7 @@
                                    {{ marker !== false ? currentColumn.classList.marked }}
                                    {{ currentColumn.columnIndex === 0 && !itemData.hasMultiSelectColumn ? currentColumn.classList.padding.left }}
                                    {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
-                                   {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
+                                   {{!!itemData.isDragged() ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
                                    {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
                                    controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
                                  attr:style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan || colspanCurrentNode)}}">

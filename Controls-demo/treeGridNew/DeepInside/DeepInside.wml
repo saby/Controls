@@ -12,7 +12,9 @@
             <ws:sourceConfig pageSize="{{21}}" page="{{0}}" hasMore="{{false}}"/>
         </ws:navigation>
         <ws:nodeFooterTemplate>
-            <Controls.list:AddButton caption="Добавить товар"/>
+            <ws:partial template="Controls/treeGridNew:NodeFooterTemplate">
+                <Controls.list:AddButton caption="Добавить товар" />
+            </ws:partial>
         </ws:nodeFooterTemplate>
     </Controls.treeGridNew:View>
 </div>

@@ -81,7 +81,7 @@
         attr:class="js-controls-ItemActions__swipeMeasurementContainer
                     {{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}}
                     {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}
-                    {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
+                    {{!!itemData.isDragged() ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
                     {{ marker !== false ? currentColumn.classList.marked }}
                     controls-Grid__cell_valign_{{currentColumn.column.compatibleValign || 'top'}}
                     {{className || ''}}">

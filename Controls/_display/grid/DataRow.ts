@@ -16,6 +16,7 @@ export default class DataRow<T> extends Row<T> implements IMarkable, ILadderSupp
     readonly LadderSupport = true;
     readonly Markable = true;
     readonly SelectableItem = true;
+    readonly DraggableItem = true;
 
     constructor(options?: IOptions<T>) {
         super(options);
