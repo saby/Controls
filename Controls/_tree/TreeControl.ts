@@ -152,9 +152,6 @@ const _private = {
                     listViewModel.setHasMoreStorage(
                         _private.prepareHasMoreStorage(baseSourceController, listViewModel.getExpandedItems())
                     );
-                    if (options.nodeLoadCallback) {
-                        options.nodeLoadCallback(list, nodeKey);
-                    }
                 }, (error) => {
                     _private.processError(self, error);
                     // Вернуть элемент модели в предыдущее состояние, т.к. раскрытие не состоялось.
@@ -253,6 +250,9 @@ const _private = {
             );
             if (self._options.dataLoadCallback) {
                 self._options.dataLoadCallback(list);
+            }
+            if (self._options.nodeLoadCallback) {
+                self._options.nodeLoadCallback(list, nodeKey);
             }
             self._children.baseControl.stopBatchAdding();
         }, (error) => {

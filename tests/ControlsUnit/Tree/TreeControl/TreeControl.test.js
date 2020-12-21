@@ -234,21 +234,24 @@ define([
          assert.isFalse(isSourceControllerUsed);
          assert.isFalse(nodeLoadCallbackCalled);
 
-         await tree.TreeControl._private.toggleExpanded(treeControl, {
-            getContents: function() {
-               return {
-                  getId: function() {
-                     return 2;
-                  }
-               };
-            },
-            isRoot: function() {
-               return false;
-            },
-            isExpanded: () => false
-         });
+         const dispItem = {
+             getContents: function() {
+                 return {
+                     getId: function() {
+                         return 2;
+                     }
+                 };
+             },
+             isRoot: function() {
+                 return false;
+             },
+             isExpanded: () => false
+         };
+         await tree.TreeControl._private.toggleExpanded(treeControl, dispItem);
          assert.isTrue(isSourceControllerUsed);
-         assert.isTrue(nodeLoadCallbackCalled);
+         assert.isFalse(nodeLoadCallbackCalled);
+         await tree.TreeControl._private.loadMore(treeControl, dispItem);
+          assert.isTrue(nodeLoadCallbackCalled);
       });
       it('expandMarkedItem', function() {
          var
