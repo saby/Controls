@@ -586,6 +586,7 @@ const _private = {
             }
         } else {
             _private.hideIndicator(self);
+            _private.hideSyncIndicator(self);
         }
     },
 
@@ -807,7 +808,7 @@ const _private = {
         if (isPortionedLoad) {
             _private.showIndicator(self, direction);
         } else {
-            _private.showIndicator(self, direction, INDICATOR_TO_DIRECTION_DELAY);
+            _private.showSyncIndicator(self, direction, INDICATOR_TO_DIRECTION_DELAY);
         }
 
         if (self._sourceController) {
@@ -1359,6 +1360,45 @@ const _private = {
         if (self._loadingIndicatorState !== null) {
             self._loadingIndicatorState = self._loadingState;
             self._notify('controlResize');
+        }
+    },
+
+    showSyncIndicator(self: typeof BaseControl, direction: IDirection, delay?: number): void {
+        if (!self._syncLoadingIndicatorState) {
+            self._syncLoadingIndicatorState = direction;
+        }
+        if (self._syncLoadingIndicatorTimeout) {
+            clearTimeout(self._syncLoadingIndicatorTimeout);
+        }
+        self._loadingState = direction;
+        self._syncLoadingIndicatorTimeout = setTimeout(() => {
+            _private.changeSyncIndicatorStateHandler(self, true, direction);
+        }, delay === undefined ? INDICATOR_DELAY : delay);
+    },
+
+    hideSyncIndicator(self: typeof BaseControl): void {
+        if (self._syncLoadingIndicatorTimeout) {
+            clearTimeout(self._syncLoadingIndicatorTimeout);
+        }
+        if (!self._syncLoadingIndicatorState) {
+            return;
+        }
+        self._loadingState = null;
+        self._syncLoadingIndicatorTimeout = null;
+        self._syncLoadingIndicatorState = null;
+
+        _private.changeSyncIndicatorStateHandler(self, false, 'up');
+        _private.changeSyncIndicatorStateHandler(self, false, 'down');
+    },
+
+    changeSyncIndicatorStateHandler(self: typeof BaseControl, state: boolean, indicatorName: IDirection): void {
+        // Устанавливаем напрямую в style, чтобы не ждать и не вызывать лишний цикл синхронизации
+        if (indicatorName) {
+            if (state) {
+                self._children[`${indicatorName}LoadingIndicator`].style.display = '';
+            } else {
+                self._children[`${indicatorName}LoadingIndicator`].style.display = 'none';
+            }
         }
     },
 
@@ -4058,10 +4098,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // Синхронный индикатор загрузки для реестров, в которых записи - тяжелые контролы.
         // Их отрисовка может занять много времени, поэтому следует показать индикатор, не дожидаясь ее окончания.
         if (this._syncLoadingIndicatorState) {
-            clearTimeout(this._syncLoadingIndicatorTimeout);
-            this._syncLoadingIndicatorTimeout = setTimeout(() => {
-                this.changeIndicatorStateHandler(true, this._syncLoadingIndicatorState);
-            }, INDICATOR_DELAY);
+            _private.showSyncIndicator(this, this._syncLoadingIndicatorState);
         }
 
         if (newOptions.searchValue || this._loadedBySourceController) {
@@ -4386,11 +4423,12 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         // До отрисовки элементов мы не можем понять потребуется ли еще загрузка (зависит от видимости тригеров).
         // Чтобы индикатор загрузки не мигал, показываем индикатор при загрузки, а скрываем после отрисовки.
-        const hasTrigger = this._loadTriggerVisibility.hasOwnProperty(this._loadingIndicatorState);
-        const isTriggerVisible = !this._loadTriggerVisibility[this._loadingIndicatorState];
+        const loadingIndicatorState = this._loadingIndicatorState || this._syncLoadingIndicatorState;
+        const hasTrigger = this._loadTriggerVisibility.hasOwnProperty(loadingIndicatorState);
+        const isTriggerVisible = this._loadTriggerVisibility[loadingIndicatorState];
         const isLoading = !!this._sourceController && this._sourceController.isLoading();
 
-        if (this._loadingIndicatorState && !isLoading && hasTrigger && isTriggerVisible) {
+        if (loadingIndicatorState && !isLoading && hasTrigger && !isTriggerVisible) {
             _private.hideIndicator(this);
         }
 
@@ -4405,11 +4443,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 // её по ошибке: https://online.sbis.ru/opendoc.html?guid=cd0ba66a-115c-44d1-9384-0c81675d5b08
                 correctingHeight = 33;
             }
-            if (this._syncLoadingIndicatorTimeout) {
-                clearTimeout(this._syncLoadingIndicatorTimeout);
-                this.changeIndicatorStateHandler(false, 'up');
-                this.changeIndicatorStateHandler(false, 'down');
-                this._syncLoadingIndicatorState = null;
+            if (loadingIndicatorState && !isLoading) {
+                _private.hideSyncIndicator(this);
             }
             let itemsUpdated = false;
             if (this._listViewModel && !this._modelRecreated && this._viewReady) {
@@ -4511,12 +4546,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
     _getViewStyles(): string {
-        // this._attachLoadTopTriggerToNull &&
-        if (!this._hideTopTrigger &&
-            this._shouldShowLoadingIndicator('beforeEmptyTemplate')) {
-            return 'padding-top: 56px';
-        }
-        return this._attachLoadTopTriggerToNull ? 'padding-top: 1px' : '';
+        return this._attachLoadTopTriggerToNull ? 'padding-top: 56px' : '';
     },
     handleTriggerVisible(direction: IDirection): void {
         // Вызываем сдвиг диапазона в направлении видимого триггера
@@ -5990,20 +6020,23 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // FIXME: https://online.sbis.ru/opendoc.html?guid=886c7f51-d327-4efa-b998-7cf94f5467cb
         // Также, не должно быть завязки на горизонтальный скролл.
         // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
-        if (position === 'beforeEmptyTemplate') {
-            return this._loadingIndicatorState === 'up' || (
-                this._loadingIndicatorState === 'all' && (
-                    this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel) ||
-                    !!this._children.listView && !!this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible()
-                )
-            );
-        } else if (position === 'afterList') {
-            return this._loadingIndicatorState === 'down';
+        const isColumnScrollVisible = !!this._children.listView &&
+            !!this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible();
+        const isPortionedLoad = _private.isPortionedLoad(this);
+        const needShowEmptyTemplate = this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel);
+
+        if (position === 'afterList') {
+            return isPortionedLoad && this._loadingIndicatorState === 'down';
+
+        } else if (position === 'beforeEmptyTemplate') {
+            return (isPortionedLoad && this._loadingIndicatorState === 'up') ||
+                   (this._loadingIndicatorState === 'all' && (needShowEmptyTemplate || isColumnScrollVisible));
+
         } else if (position === 'inFooter') {
-            return this._loadingIndicatorState === 'all' &&
-                !this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel) &&
-                !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible());
+            return this._loadingIndicatorState === 'all' && !needShowEmptyTemplate && !isColumnScrollVisible;
+
         }
+
         return false;
     },
 
