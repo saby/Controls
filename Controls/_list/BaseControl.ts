@@ -806,7 +806,7 @@ const _private = {
         if (isPortionedLoad) {
             _private.showIndicator(self, direction);
         } else {
-            _private.showIndicator(self, direction, 100);
+            _private.showIndicator(self, direction, 0);
         }
 
         if (self._sourceController) {
@@ -3154,8 +3154,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _loadingState: null,
     _loadingIndicatorState: null,
     _loadingIndicatorTimer: null,
-    _showLoadingIndicatorImage: null,
-    _isUpLoadingIndicatorPlaceholderAllowed: null,
 
     _pagingCfg: null,
     _pagingVisible: false,
@@ -4511,9 +4509,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this.handleTriggerVisible('up');
         }
     },
-    // padding-top нужен только когда сверху есть данные и скролл проинициализирован
     _getViewStyles(): string {
-        if (this._isUpLoadingIndicatorPlaceholderAllowed && this._shouldShowLoadingIndicator('beforeEmptyTemplate')) {
+        // this._attachLoadTopTriggerToNull &&
+        if (!this._hideTopTrigger &&
+            this._shouldShowLoadingIndicator('beforeEmptyTemplate')) {
             return 'padding-top: 56px';
         }
         return this._attachLoadTopTriggerToNull ? 'padding-top: 1px' : '';
@@ -5618,7 +5617,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // нельзя делать это в процессе обновления или загрузки
         if (!this._loadingState && !this._updateInProgress && !this._scrollController?.getScrollTop()) {
             _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
-            this._isUpLoadingIndicatorPlaceholderAllowed = true;
         }
         if (this._hideTopTrigger && !this._needScrollToFirstItem) {
             this._hideTopTrigger = false;
