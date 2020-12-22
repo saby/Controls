@@ -60,5 +60,5 @@
     "Controls/controls-container-async.package.js",
     "Controls/controls-utils.package.js"
   ],
-  "extendsTo": "controls-superbundle.package.js"
+  "output": "controls-superbundle.package.js"
 }]
