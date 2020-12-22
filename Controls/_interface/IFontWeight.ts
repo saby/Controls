@@ -1,3 +1,8 @@
+/**
+ * @typedef {String} TFontWeight
+ * @variant default
+ * @variant bold
+ */
 export type TFontWeight = 'default' | 'bold';
 
 export interface IFontWeightOptions {
@@ -6,8 +11,6 @@ export interface IFontWeightOptions {
 
 /**
  * Интерфейс для контролов, которые поддерживают разные начертания шрифта.
- *
- * @interface Controls/_interface/IFontWeight
  * @public
  * @author Красильников А.С.
  */
@@ -17,9 +20,7 @@ export default interface IFontWeight {
 
 /**
  * @name Controls/_interface/IFontWeight#fontWeight
- * @cfg {String} Начертание шрифта
- * @variant default
- * @variant bold
+ * @cfg {TFontWeight} Начертание шрифта
  * @default default
  * @demo Controls-demo/Decorator/Money/FontWeight/Index
  */

@@ -1,0 +1,25 @@
+<div class="controlsDemo__wrapper">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}">
+    </Controls.gridNew:View>
+</div>
+
+<!--
+<div class="controlsDemo__wrapper">
+    <Controls.gridNew:View
+            keyProperty="id"
+            editingConfig="{{_editingConfig}}"
+            source="{{_viewSource}}"
+            columns="{{_columns}}">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/gridNew:RowEditor">
+                <div>
+                    Шаблон редактирования строки
+                </div>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.gridNew:View>
+</div>
+-->

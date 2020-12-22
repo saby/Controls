@@ -8,7 +8,7 @@ import * as template from 'wml!Controls/_spoiler/Cut/Cut';
 
 /**
  * Интерфейс для опций контрола, ограничивающего контент заданным числом строк.
- * @interface Controls/_spoiler/Cut/ICutOptions
+ * @interface Controls/_spoiler/ICut
  * @mixes Control/interface:IBackgroundStyle
  * @mixes Control/interface:IExpandable
  * @public
@@ -54,7 +54,7 @@ export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, I
  *
  * @class Controls/_spoiler/Cut
  * @extends UI/Base:Control
- * @mixes Controls/_spoiler/Cut/ICutOptions
+ * @implements Controls/_spoiler/ICut
  * @public
  * @demo Controls-demo/Spoiler/Cut/Index
  *

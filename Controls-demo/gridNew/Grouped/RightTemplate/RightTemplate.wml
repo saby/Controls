@@ -1,0 +1,28 @@
+<div class="controlsDemo__wrapper controlDemo__grid-header-sticky">
+    <div class="controlsDemo__cell">
+        <Controls.buttons:Button caption="Переключить separatorVisibility" on:click="_onToggleSeparatorVisibility()"/>
+    </div>
+    <Controls.scroll:Container attr:style="height: 250px; width: 530px;">
+        <Controls.list:Container>
+            <Controls.gridNew:View
+                    attr:class=""
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    rowSeparatorSize="s"
+                    columns="{{_columns}}"
+                    groupProperty="fullName">
+                <ws:groupTemplate>
+                    <ws:partial template="Controls/gridNew:GroupTemplate"
+                                itemData="{{itemData}}"
+                                separatorVisibility="{{_separatorVisibility}}"
+                                expanderVisible="{{true}}"
+                                columnAlignGroup="{{2}}">
+                        <ws:rightTemplate>
+                            <Controls.decorator:Money value="{{itemData.metaData.groupResults[itemData.item]}}" fontColorStyle="group" useGrouping="{{false}}"/>
+                        </ws:rightTemplate>
+                    </ws:partial>
+                </ws:groupTemplate>
+            </Controls.gridNew:View>
+        </Controls.list:Container>
+    </Controls.scroll:Container>
+</div>

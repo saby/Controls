@@ -7,6 +7,21 @@
    margin-right: @master_separator_thickness_list;
 }
 
-.controls-Explorer__HeadingPath-masterClassic_theme-@{themeName} {
-   margin-right: @masterClassic_separator_thickness_list;
+.controls-Explorer__PathWrapper {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+
+}
+.controls-Explorer__afterBreadCrumbsTemplate {
+   min-height: @breadcrumbs_min-height_explorer;
+   max-width: @after-bread-crumbs-template_max-width_explorer;
+   flex-shrink: 0;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   .baseline-fix();
+   &:before {
+     font-size: @line-height_breadcrumbsView;
+   }
 }

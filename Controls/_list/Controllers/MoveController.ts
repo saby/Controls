@@ -19,24 +19,24 @@ type TValidationResult = {
 };
 
 /**
- * Интерфейс опций контроллера
- * @interface Controls/_list/Controllers/MoveController/IMoveControllerOptions
+ * Интерфейс опций контроллера.
+ * @interface Controls/_list/Controllers/IMoveController
  * @public
  * @author Аверкиев П.А.
  */
 export interface IMoveControllerOptions {
     /**
-     * @name Controls/_list/interface/IMoveControllerOptions#source
+     * @name Controls/_list/Controllers/IMoveController#source
      * @cfg {TSource} Ресурс, в котором производится перемещение
      */
     source: TSource;
     /**
-     * @name Controls/_list/interface/IMoveControllerOptions#parentProperty
+     * @name Controls/_list/Controllers/IMoveController#parentProperty
      * @cfg {String} Имя поля, содержащего идентификатор родительского элемента.
      */
     parentProperty: string;
     /**
-     * @name Controls/_list/interface/IMoveControllerOptions#popupOptions
+     * @name Controls/_list/Controllers/IMoveController#popupOptions
      * @cfg {Controls/popup:IBasePopupOptions} опции диалога перемещения
      */
     popupOptions?: IBasePopupOptions

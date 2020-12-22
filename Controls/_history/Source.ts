@@ -582,17 +582,16 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
 
         // For Selector/Suggest load data from history, if there is a historyKeys
         if (where && (where.$_history === true || where.historyKeys)) {
-            //@ts-ignore
-            delete query._where.$_history;
+            where = object.clone(where);
+            delete where.$_history;
 
             historySourceQuery = this._$historySource.query();
             pd.push(historySourceQuery);
 
             if (where.historyKeys) {
-                where = object.clone(where);
                 delete where.historyKeys;
-                query.where(where);
             }
+            query.where(where);
 
             originSourceQuery = this._$originSource.query(query);
             pd.push(originSourceQuery);

@@ -1,7 +1,5 @@
 /**
  * Интерфейс для контролов, которые реагируют на события формы редактирования записи.
- *
- * @interface Controls/_interface/IFormOperation
  * @public
  * @author Красильников А.С.
  */

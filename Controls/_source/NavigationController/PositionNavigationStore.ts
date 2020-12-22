@@ -1,5 +1,4 @@
-import {CursorDirection} from 'Controls/Constants';
-import {TNavigationDirection} from 'Controls/_interface/INavigation';
+import {CursorDirection} from 'Controls/interface';
 import INavigationStore from './interface/INavigationStore';
 
 interface IPositionHasMore {

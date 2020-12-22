@@ -2,7 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {IBreadCrumbsOptions} from './interface/IBreadCrumbs';
 import PrepareDataUtil from './PrepareDataUtil';
 import {ItemsUtil} from 'Controls/list';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {applyHighlighter} from 'Controls/_breadcrumbs/resources/applyHighlighter';
 import template = require('wml!Controls/_breadcrumbs/HeadingPath/HeadingPath');
 import Common from './HeadingPath/Common';
@@ -26,8 +26,8 @@ const SIZES = {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/content-managment/bread-crumbs/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_breadcrumbs.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/bread-crumbs/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_breadcrumbs.less переменные тем оформления}
  *
  * @class Controls/_breadcrumbs/HeadingPath
  * @extends Core/Control
@@ -62,7 +62,7 @@ class BreadCrumbsPath extends Control<IBreadCrumbsOptions> {
     protected _breadCrumbsItems: Record[] = null;
     protected _backButtonClass: string = '';
     protected _breadCrumbsClass: string = '';
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _applyHighlighter: Function = applyHighlighter;
     protected _getRootModel: Function = Common.getRootModel;
     protected _dotsWidth: number = 0;

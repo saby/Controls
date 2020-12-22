@@ -61,4 +61,13 @@
         </Router.router:Reference>
         <Controls-demo.grid.EditInPlace.Toolbar.Index/>
     </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/EditInPlace/Size/Index' }}">
+            <a href="{{content.href}}">Размер шрифта для текста</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.EditInPlace.Size.Index/>
+    </div>
 </div>

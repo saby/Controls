@@ -1,0 +1,47 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__inline-block" style="max-width: 370px; margin-right: 20px;">
+    <div style="margin-bottom: 20px;">
+        <Controls.toggle:Checkbox bind:value="_rowSeparator1" caption="Show row separator"/>
+        <Controls.toggle:Checkbox bind:value="_columnSeparator1" caption="Show column separator"/>
+    </div>
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            header="{{_header}}"
+            columns="{{_columns}}"
+            multiSelectVisibility="visible"
+            rowSeparatorSize="{{ _rowSeparator1 ? 's' }}"
+            columnSeparatorSize="{{ _columnSeparator1 ? 's' }}"
+    />
+</div>
+    <div class="controlsDemo__inline-block" style="max-width: 370px; margin-right: 20px;">
+        <div style="margin-bottom: 20px;">
+            <Controls.toggle:Checkbox bind:value="_rowSeparator2" caption="Show row separator"/>
+            <Controls.toggle:Checkbox bind:value="_columnSeparator2" caption="Show column separator"/>
+        </div>
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns}}"
+                multiSelectVisibility="visible"
+                rowSeparatorSize="{{ _rowSeparator2 ? 's' }}"
+                columnSeparatorSize="{{ _columnSeparator2 ? 's' }}"
+        />
+    </div>
+    <div class="controlsDemo__inline-block" style="max-width: 370px; margin-right: 20px;">
+        <div style="margin-bottom: 20px;">
+            <Controls.toggle:Checkbox bind:value="_rowSeparator3" caption="Show row separator"/>
+            <Controls.toggle:Checkbox bind:value="_columnSeparator3" caption="Show column separator"/>
+        </div>
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns}}"
+                multiSelectVisibility="visible"
+                rowSeparatorSize="{{ _rowSeparator3 ? 'l' }}"
+                columnSeparatorSize="{{ _columnSeparator3 ? 's' }}"
+        />
+    </div>
+</div>

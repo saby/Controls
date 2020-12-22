@@ -1,7 +1,7 @@
 <div on:keydown="_keyDownHandler()"
      on:keypress="_keyPressHandler()"
      on:keyup="_keyUpHandler()">
-   <Controls.input:Area bind:value="_value" class="controlsDemo_fixedWidth300"/>
+   <Controls.input:Area bind:value="_value" class="controlsDemo_fixedWidth300" trim="{{false}}"/>
    <div on:click="clear()" class="controlsDemo__inline-block controlsDemo__button">Очистить</div>
    <div class="controlsDemo__results-events">keyPress:  {{_keyPress}} keyDown:  {{_keyDown}} keyUp:  {{_keyUp}}</div>
 </div>

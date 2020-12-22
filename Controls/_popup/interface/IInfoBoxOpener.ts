@@ -89,7 +89,7 @@ export interface IInfoBoxOpener {
 
 /**
  * Open InfoBox popup.
- * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ See more}.
+ * {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ See more}.
  * @function Controls/_popup/interface/IInfoBoxOpener#openPopup
  * @param {Object} config InfoBox options. See {@link Controls/_popup/InfoBox description}.
  * @static
@@ -98,7 +98,7 @@ export interface IInfoBoxOpener {
 
 /**
  * Close InfoBox popup.
- * {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ See more}.
+ * {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ See more}.
  * @function Controls/_popup/interface/IInfoBoxOpener#closeInfoBox
  * @see openPopup
  * @static

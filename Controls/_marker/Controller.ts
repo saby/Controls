@@ -63,7 +63,8 @@ export class Controller {
    calculateMarkedKeyForVisible(): CrudEntityKey {
       // TODO удалить этот метод, когда избавимся от onactivated
       let newMarkedKey = this._markedKey;
-      if (this._markerVisibility === Visibility.Visible && this._model.getCount() && !this._model.getItemBySourceKey(this._markedKey)) {
+      if (this._markerVisibility === Visibility.Visible && this._model.getCount()
+            && !this._model.getItemBySourceKey(this._markedKey)) {
          newMarkedKey = this._getFirstItemKey();
       }
 
@@ -104,13 +105,13 @@ export class Controller {
     * Если текущий элемент подходит, для установки маркера то возвращает его ключ.
     * @remark
     * Метод необходим для случаев, когда мы пытаемся установить маркер на новый элемент,
-    * но мы не знаем, является ли этот элемент MarkableItem
+    * но мы не знаем, является ли этот элемент Markable
     * @param item
     * @return {CrudEntityKey} Ключ следующего подходящего для установки маркера элемента
     */
    getSuitableMarkedKey(item: CollectionItem<Model>) {
       const contents = item.getContents();
-      if (item.MarkableItem) {
+      if (item.Markable) {
          return contents.getKey();
       }
       const index = this._model.getIndex(item);
@@ -137,11 +138,11 @@ export class Controller {
       // Если свернули узел внутри которого есть маркер, то маркер нужно поставить на узел
       // TODO нужно только для дерева, можно подумать над наследованием
       if (removedItems[0] instanceof TreeItem && this._markedKey !== undefined && this._markedKey !== null) {
-         const removeMarkedItem = !!removedItems.find((it) => it.getContents().getKey() === this._markedKey);
+         const removeMarkedItem = !!removedItems.find((it) => it.Markable && it.getContents().getKey() === this._markedKey);
          if (removeMarkedItem) {
             const parent = removedItems[0].getParent();
             // На корневой узел ставить маркер нет смысла, т.к. в этом случае должно отработать именно удаление элементов, а не скрытие
-            if (parent && parent !== this._model.getRoot() && parent.MarkableItem) {
+            if (parent && parent !== this._model.getRoot() && parent.Markable) {
                const parentItem = parent.getContents();
                if (parentItem ) {
                   markedKeyAfterRemove = parentItem.getKey();
@@ -218,11 +219,12 @@ export class Controller {
    private _getKey(item: CollectionItem<Model>): CrudEntityKey {
       let contents = item.getContents();
       if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+         // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
       }
 
       // Для GroupItem нет ключа, в contents хранится не Model
-      if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/SearchSeparator]']) {
+      if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/SearchSeparator]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
          return null;
       }
 
@@ -257,10 +259,11 @@ export class Controller {
       let item;
 
       const indexInBounds = (i) => next ? i < count : i >= 0;
-      while (indexInBounds(index)) {
-         item = this._model.at(index);
-         if (item && item.MarkableItem) { break; }
-         index += next ? 1 : -1;
+      let resIndex = index;
+      while (indexInBounds(resIndex)) {
+         item = this._model.at(resIndex);
+         if (item && item.Markable) { break; }
+         resIndex += next ? 1 : -1;
       }
 
       return item ? this._getKey(item) : null;

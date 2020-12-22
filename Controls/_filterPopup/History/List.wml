@@ -1,17 +1,17 @@
 <ws:template name="pinned">
-   <span title="{{item.get('pinned') ? rk('Открепить') : rk('Закрепить')}}" class="{{item.get('pinned') ? 'icon-Pin controls-HistoryList__iconPin-active_theme-' + _options.theme : 'icon-PinNull controls-HistoryList__iconPin-default_theme-' + _options.theme}} controls-HistoryList__iconPin_theme-{{_options.theme}}"
+   <span title="{{item.get('pinned') ? rk('Открепить') : rk('Закрепить')}}" class="{{item.get('pinned') ? 'icon-Pin controls-HistoryList__iconPin-active controls-HistoryList__iconPin-active_theme-' + _options.theme : 'icon-PinNull controls-HistoryList__iconPin-default_theme-' + _options.theme}} controls-HistoryList__iconPin controls-HistoryList__iconPin_theme-{{_options.theme}}"
          on:click="_onPinClick(item)"></span>
 </ws:template>
 
 <ws:template name="favorite">
-   <span class="{{item.get('pinned') || item.get('client') ? 'icon-Favorite controls-HistoryList__iconPin-active controls-HistoryList__iconPin-active_theme-' + _options.theme : 'icon-Unfavorite controls-HistoryList__iconPin-default_theme-' + _options.theme}} controls-HistoryList__iconPin_theme-{{_options.theme}}"
+   <span class="{{item.get('pinned') || item.get('client') ? 'icon-Favorite controls-HistoryList__iconPin-active controls-HistoryList__iconPin-active_theme-' + _options.theme : 'icon-Unfavorite controls-HistoryList__iconPin-default_theme-' + _options.theme}} controls-HistoryList__iconPin controls-HistoryList__iconPin_theme-{{_options.theme}}"
          on:click="_onFavoriteClick(item, text)"></span>
 </ws:template>
 
 <ws:template name="itemContent">
    <div on:swipe="_itemSwipe(item)"
       class="controls-HistoryList__itemWrapper controls-HistoryList__itemWrapper_theme-{{_options.theme}} controls-HistoryList_{{_options.orientation}}__itemWrapper_theme-{{_options.theme}}">
-      <div class="controls-HistoryList__item_theme-{{_options.theme}} controls-HistoryList_{{_options.orientation}}__item_theme-{{_options.theme}} {{item.get('pinned') || item.get('client') ? 'controls-HistoryList__item_pinned'}}"
+      <div class="controls-HistoryList__item controls-HistoryList__item_theme-{{_options.theme}} controls-HistoryList_{{_options.orientation}}__item_theme-{{_options.theme}} {{item.get('pinned') || item.get('client') ? 'controls-HistoryList__item_pinned'}}"
            on:click="_clickHandler(item)" title="{{text}}">{{text}}</div>
       <ws:partial
          attr:class="{{item === _swipeItem ? 'controls-HistoryList__iconSwipe'}}"

@@ -3,7 +3,7 @@
         <ws:partial template="Controls/buttons:ButtonTemplate"
                     attr:class="controls-ButtonGroup__button"
                     _buttonStyle="{{buttonStyle}}"
-                    _viewMode="button"
+                    _viewMode="buttonGroup"
                     _fontSize="m"
                     _height="m"
                     _fontColorStyle="{{fontColorStyle}}"

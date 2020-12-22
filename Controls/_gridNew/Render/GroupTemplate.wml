@@ -1,27 +1,10 @@
-<ws:template name="groupContent">
-    <div class="controls-ListView__groupSeparator-left_theme-{{theme}}"
-         attr:key="{{ gridColumn.getInstanceId(true) }}_leftSeparator">&nbsp;</div>
-    <div class="{{ gridColumn.getCaptionClasses(expanderAlign, expanderVisible, theme) }}"
-         attr:key="{{ gridColumn.getInstanceId(true) }}_content">
+<div class="{{ gridColumn.getGroupWrapperClasses() }}" style="{{ gridColumn.getGroupWrapperStyles() }}">
+    <div class="controls-ListView__groupSeparator-left_theme-{{theme}}">&nbsp;</div>
+    <div class="{{ gridColumn.getCaptionClasses(expanderAlign, expanderVisible, theme) }}">
         <ws:if data="{{contentTemplate}}">
             <ws:partial template="{{contentTemplate}}" itemData="{{ item || itemData }}"/>
         </ws:if>
         <ws:else>{{gridColumn.getCaption()}}</ws:else>
     </div>
-    <div class="controls-ListView__groupSeparator-right_theme-{{theme}}"
-         attr:key="{{ gridColumn.getInstanceId(true) }}_rightSeparator">&nbsp;</div>
-</ws:template>
-
-<ws:if data="{{(item || itemData).isSticked()}}">
-    <Controls.scroll:StickyHeader
-            backgroundStyle="{{backgroundStyle}}" fixedZIndex="{{4}}"
-            attr:style="{{ gridColumn.getGroupWrapperStyles() }}"
-            attr:class="{{ gridColumn.getGroupWrapperClasses(expanderVisible, theme) }}">
-        <ws:partial template="groupContent"/>
-    </Controls.scroll:StickyHeader>
-</ws:if>
-<ws:else>
-    <ws:partial template="groupContent"
-                attr:style="{{ gridColumn.getGroupWrapperStyles() }}"
-                attr:class="{{ gridColumn.getGroupWrapperClasses(expanderVisible, theme) }}"/>
-</ws:else>
+    <div class="controls-ListView__groupSeparator-right_theme-{{theme}}">&nbsp;</div>
+</div>

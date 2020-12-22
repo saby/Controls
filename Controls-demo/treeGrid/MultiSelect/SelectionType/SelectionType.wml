@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper">
+    <Controls.buttons:Button caption="Toggle selectionType={{_selectionType}}" on:click="_onToggle()"/>
+
+    <div class="demo-Grid__container">
+        <Controls.treeGrid:View
+                attr:class="controlsDemo__inline-flex"
+                keyProperty="id"
+                source="{{ _viewSource }}"
+                columns="{{ _columns }}"
+                parentProperty="parent"
+                nodeProperty="type"
+                multiSelectVisibility="visible"
+                selectionType="{{_selectionType}}"
+                multiSelectAccessibilityProperty="checkboxState"
+                bind:selectedKeys="_selectedKeys"
+                bind:excludedKeys="_excludedKeys"
+                bind:expandedItems="_expandedItems"
+        />
+    </div>
+</div>

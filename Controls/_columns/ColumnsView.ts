@@ -3,8 +3,8 @@
  *
  * @remark
  * Переменные тем оформления:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_columns.less">набор переменных columns</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">набор переменных list</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_columns.less набор переменных columns}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less набор переменных list}
  *
  * @class Controls/columns:View
  * @extends Core/Control
@@ -27,7 +27,7 @@
  * @mixes Controls/_list/interface/IMovableList
  * @mixes Controls/_list/interface/IRemovableList
  * @mixes Controls/_list/interface/IVirtualScrollConfig
- * @mixes Controls/_marker/interface/IMarkerListOptions
+ * @mixes Controls/_marker/interface/IMarkerList
  * @author Авраменко А.С.
  * @public
  * @example

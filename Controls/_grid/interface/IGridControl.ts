@@ -1,3 +1,5 @@
+import { TColumns } from './IColumn';
+import { IList } from 'Controls/list';
 /**
  * Интерфейс для контрола {@link Controls/grid:View Таблица}.
  *
@@ -5,6 +7,10 @@
  * @public
  * @author Авраменко А.С.
  */
+
+export interface IGridControl extends IList {
+    columns: TColumns;
+}
 
 /*
  * Interface for Grid (table view).
@@ -458,9 +464,9 @@
  * @remark
  * Позволяет установить пользовательский шаблон отображения строки итогов (именно шаблон, а не контрол!). При установке шаблона **ОБЯЗАТЕЛЕН** вызов базового шаблона Controls/grid:ResultsTemplate.
  *
- * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию resultsTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultTemplate.
+ * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию resultsTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultTemplate.
  *
- * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/row/ руководстве разработчика}.
+ * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/row/ руководстве разработчика}.
  *
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
  * @example
@@ -551,11 +557,24 @@
  */
 
 /**
+ * @name Controls/_grid/interface/IGridControl#colspanCallback
+ * @cfg {TColspanCallback} Функция обратного вызова для расчёта объединения колонок строки (колспана).
+ * @remark
+ * Параметры функции:
+ * * {Types/entity:Model} item Элемент, для которого рассчитывается объединение
+ * * {Controls/grid:IColumn} column Колонка грида
+ * * {Number} columnIndex Индекс колонки грида
+ * * {Boolean} isEditing Актуальное состояние редактирования элемента
+ * Функция возвращает {number} - количество объединяемых колонок, учитывая текущую.
+ * @markdown
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#showEditArrow
  * @cfg {Boolean} Позволяет отображать по ховеру кнопку в первой колонке и в меню по свайпу.
  * @remark
  * Чтобы стрелка-шеврон отобразилась в прикладном шаблоне ячейки, необходимо в опции {@link Controls/grid:ColumnTemplate#contentTemplate} явно указать позицию стрелки-шеврона. Для этого используется переменная editArrowTemplate из области видимости самого шаблона. Пример использования посмотрите {@link Controls/grid:ColumnTemplate#contentTemplate тут}.
- * 
+ *
  * **Обратите внимание!** Для отображения стрелки-шеврона по свайпу необходимо всегда указывать опцию showEditArrow=true, вне зависимости от того,
  * используется прикладной шаблон или нет.
  * @demo Controls-demo/grid/ShowEditArrow/Index
@@ -596,7 +615,7 @@
  * @event Происходит при клике на тег внутри ячейки таблицы.
  * @name Controls/_grid/interface/IGridControl#tagClick
  * @param {Object} event Нативное событие. Может быть использовано для получения тега как DOM-элемента для отображения инфобокса.
- * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/grid:ITagColumn#tagStyleProperty tagStyleProperty} у колонки.
+ * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/grid:IColumn#tagStyleProperty tagStyleProperty} у колонки.
  * @see tagStyle
  */
 
@@ -604,6 +623,6 @@
  * @event Происходит при наведении курсора мыши на тег внутри ячейки таблицы.
  * @name Controls/_grid/interface/IGridControl#tagHover
  * @param {Object} event Нативное событие. Может быть использовано для получения тега как DOM-элемента для отображения инфобокса.
- * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/grid:ITagColumn#tagStyleProperty tagStyleProperty} у колонки.
+ * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/grid:IColumn#tagStyleProperty tagStyleProperty} у колонки.
  * @see tagClick
  */

@@ -24,7 +24,6 @@ interface ICollectionEditorOptions {
 /**
  * Контроллер редактирования коллекции.
  *
- * @mixes Types/_entity/DestroyableMixin
  * @private
  * @class Controls/_editInPlace/CollectionEditor
  * @author Родионов Е.А.

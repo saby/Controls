@@ -11,13 +11,13 @@ type TFilterObject = IHashMap<any>;
 
 /**
  * Интерфейс опций контроллера
- * @interface Controls/_list/Controllers/RemoveController/IRemoveControllerOptions
+ * @interface Controls/_list/interface/IRemoveController
  * @public
  * @author Аверкиев П.А.
  */
 export interface IRemoveControllerOptions {
     /**
-     * @name Controls/_list/interface/IRemoveControllerOptions#source
+     * @name Controls/_list/interface/IRemoveController#source
      * @cfg {TSource} Источник данных, в котором производится удаление
      */
     source: ICrud;
@@ -26,7 +26,6 @@ export interface IRemoveControllerOptions {
 /**
  * Контроллер для удаления элементов списка в dataSource.
  *
- * @class Controls/_list/Controllers/RemoveController
  * @public
  * @author Аверкиев П.А.
  */

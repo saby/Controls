@@ -10,8 +10,8 @@ define([
          var pg = new pagingLib.Paging();
 
          pg._initArrowDefaultStates({});
-         assert.equal('disabled', pg._stateBackward, 'Wrong default state');
-         assert.equal('disabled', pg._stateForward, 'Wrong default state');
+         assert.equal('normal', pg._stateBackward, 'Wrong default state');
+         assert.equal('normal', pg._stateForward, 'Wrong default state');
 
 
           pg._initArrowDefaultStates({
@@ -104,14 +104,14 @@ define([
          pg = new pagingLib.Paging(cfg1);
          pg.saveOptions(cfg1);
          pg._beforeMount(cfg2);
-         assert.equal('disabled', pg._stateBackward, 'Wrong default state');
-         assert.equal('disabled', pg._stateForward, 'Wrong default state');
+         assert.equal('normal', pg._stateBackward, 'Wrong default state');
+         assert.equal('normal', pg._stateForward, 'Wrong default state');
 
          pg = new pagingLib.Paging(cfg1);
          pg.saveOptions(cfg1);
          pg._beforeUpdate(cfg2);
-         assert.equal('disabled', pg._stateBackward, 'Wrong default state');
-         assert.equal('disabled', pg._stateForward, 'Wrong default state');
+         assert.equal('normal', pg._stateBackward, 'Wrong default state');
+         assert.equal('normal', pg._stateForward, 'Wrong default state');
       });
 
       it('click', function() {

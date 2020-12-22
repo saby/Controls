@@ -7,12 +7,12 @@ export interface ILegendOptions extends IControlOptions {
    data?: IIndicatorCategory[];
 }
 /**
- * Контрол используют для создания легенды к диаграмме состояния процесса (см. {@link https://wi.sbis.ru/docs/js/Controls/progress/StateIndicator/?v=20.2000 Controls/progress:StateIndicator}).
+ * Контрол используют для создания легенды к диаграмме состояния процесса (см. {@link /docs/js/Controls/progress/StateIndicator/?v=20.2000 Controls/progress:StateIndicator}).
  * Отображение легенды можно настроить во всплывающем окне при наведении курсора мыши на диаграмму состояния процесса.
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_progress.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_progress.less переменные тем оформления}
  * 
  * @class Controls/_progress/Legend
  * @author Колесов В.А.

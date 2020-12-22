@@ -1,6 +1,4 @@
-import {constants} from 'Env/Env';
-
-const baseURL = constants.resourceRoot + 'Controls-demo/Tile/ImageFit/resources/images/';
+import Images from 'Controls-demo/Tile/DataHelpers/Images';
 export const items = [
     {
         id: 1,
@@ -22,7 +20,8 @@ export const items = [
         parent: null,
         type: null,
         title: 'Речка',
-        image: `${baseURL}river.jpg`,
+        image: Images.RIVER,
+        imageFit: Images.RIVER_FIT,
         imageWidth: 1920,
         imageHeight: 1200,
         width: 200,
@@ -36,7 +35,8 @@ export const items = [
         type: null,
         width: 200,
         title: 'Сравнение систем по учету рабочего времени.xlsx',
-        image: `${baseURL}vodka.png`,
+        image: Images.BOTTLE,
+        imageFit: Images.BOTTLE_FIT,
         isDocument: true,
         hiddenGroup: true,
         imageWidth: 1600,
@@ -47,7 +47,8 @@ export const items = [
         parent: null,
         type: null,
         title: 'Конфеты копия',
-        image: `${baseURL}mountains.jpg`,
+        image: Images.MOUNTANTS,
+        imageFit: Images.MOUNTANTS_FIT,
         imageWidth: 2508,
         imageHeight: 542,
         isDocument: true,
@@ -58,7 +59,8 @@ export const items = [
         parent: null,
         type: null,
         title: 'Квадрат',
-        image: `${baseURL}square.png`,
+        image: Images.SQUARE,
+        imageFit: Images.SQUARE_FIT,
         imageWidth: 150,
         imageHeight: 150,
         isDocument: true,

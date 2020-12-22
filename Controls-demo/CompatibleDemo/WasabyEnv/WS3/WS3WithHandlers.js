@@ -41,7 +41,7 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3WithHandlers',
 
          // изменение текста в WS3-контроле, который находится в CompoundContainer
          _setTextFromWs3Control: function(e, value) {
-            this.getTopParent()._logicParent._proxySetTextFromWs3Control(e, value);
+            this.getParent()._logicParent._proxySetTextFromWs3Control(e, value);
          },
       });
       WS3WithHandlers._styles = ['Controls-demo/CompatibleDemo/CompatibleDemo'];

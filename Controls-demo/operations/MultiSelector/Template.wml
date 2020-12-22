@@ -3,7 +3,7 @@
             bind:selectedKeys="_selectedKeys"
             bind:excludedKeys="_excludedKeys">
         <div>
-            <Controls.operations:SimpleMultiSelector/>
+            <Controls.operations:MultiSelector/>
             <Controls.list:Container>
                 <Controls.treeGrid:View
                         keyProperty="id"

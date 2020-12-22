@@ -1,6 +1,6 @@
 <ws:template name="localItemTemplate">
    <ws:partial
-           template="{{ item.getItemTemplate(collection.getItemTemplateProperty(), itemTemplate, groupTemplate) }}"
+           template="{{ item.getTemplate(collection.getItemTemplateProperty(), itemTemplate, groupTemplate) }}"
            item="{{ item }}"
            itemData="{{ item }}"
            isAdd="{{ isAdd }}"
@@ -13,6 +13,8 @@
            style="{{ _options.style }}"
            theme="{{ _options.theme }}"
            multiSelectTpl="{{ multiSelectTpl }}"
+           tagTemplate="{{ tagTemplate }}"
+           editArrowTemplate="{{ editArrowTemplate }}"
 
            attr:key="{{ keyPrefix }}-{{ item.key }}"
            attr:class="{{ collection.getViewIterator().isItemAtIndexHidden(index) ? 'controls-ListView__hiddenContainer' }}"
@@ -31,7 +33,7 @@
          <!-- Передача highlightOnHover это костыль, т.к. иначе он не виден внутри шаблона, вставляемого через ws:partial
               fixed by https://online.sbis.ru/opendoc.html?guid=da762b41-e62f-407f-8b86-1428423c8405 -->
          <ws:partial
-                 template="{{ itemActionsTemplate.itemActionsTemplate || 'Controls/list:ItemActionsTemplate' }}"
+                 template="{{ itemActionsTemplate.itemActionsTemplate || 'Controls/itemActions:ItemActionsTemplate' }}"
                  highlightOnHover="{{ itemActionsTemplate.highlightOnHover }}"
                  scope="{{ collection.getActionsTemplateConfig() }}"
                  itemActionsClass="{{ itemActionsTemplate.itemActionsClass || collection.getActionsTemplateConfig().itemActionsClass }}"
@@ -40,7 +42,7 @@
       </ws:itemActionsTemplate>
       <ws:swipeTemplate>
          <ws:partial
-                 template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/list:SwipeTemplate' }}"
+                 template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/itemActions:SwipeActionsTemplate' }}"
                  scope="{{ collection.getActionsTemplateConfig() }}"
                  swipeConfig="{{ collection.getSwipeConfig() }}"
                  itemData="{{ item }}" />
@@ -51,7 +53,7 @@
 <ws:for data="index, item in collection.getViewIterator()">
    <ws:if data="{{ item.isEditing() }}">
       <!-- Во время редактирования строки View не должна слушать событие click и mouseDown -->
-      <Controls._list.EditInPlace.EditingRow isScrollToElement="{{isScrollToElement}}" name="editingRow" on:deactivated="_onRowDeactivated()">
+      <Controls._list.EditInPlace.EditingRow name="editingRow" on:deactivated="_onRowDeactivated()">
               <ws:partial template="localItemTemplate" />
       </Controls._list.EditInPlace.EditingRow>
    </ws:if>

@@ -1,5 +1,6 @@
 import { isFullGridSupport } from 'Controls/display';
 import { default as View } from 'Controls/_gridNew/Grid';
+import GridView from 'Controls/_gridNew/GridView';
 
 import * as GridItemTemplate from 'wml!Controls/_gridNew/Render/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_gridNew/Render/table/Item';
@@ -17,7 +18,7 @@ const ItemTemplate = function() {
 ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
-import * as ColumnTemplate from 'wml!Controls/_gridNew/Render/grid/Column';
+import * as ColumnTemplate from 'wml!Controls/_gridNew/Render/CellContent';
 import * as StickyLadderColumnTemplate from 'wml!Controls/_gridNew/Render/grid/StickyLadderColumn';
 import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupTemplate';
 import * as HeaderContent from 'wml!Controls/_gridNew/Render/HeaderCellContent';
@@ -25,10 +26,12 @@ import * as ResultColumnTemplate from 'wml!Controls/_gridNew/Render/ResultsCellC
 import * as ResultsTemplate from 'wml!Controls/_gridNew/Render/ResultsCellContent';
 import * as FooterContent from 'wml!Controls/_gridNew/Render/FooterCellContent';
 import * as EmptyTemplate from 'wml!Controls/_gridNew/Render/EmptyTemplate';
+import * as ItemActionsCellContent from 'wml!Controls/_gridNew/Render/ItemActionsCellContent';
 
 
 export {
     View,
+    GridView,
     ItemTemplate,
     ResultsTemplate,
     ResultColumnTemplate,
@@ -37,5 +40,6 @@ export {
     GroupTemplate,
     HeaderContent,
     FooterContent,
+    ItemActionsCellContent,
     EmptyTemplate
 };

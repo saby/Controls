@@ -1,8 +1,8 @@
-import {detection} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 
 let IntersectionObserver;
 
-if (window) {
+if (constants.isBrowserPlatform) {
     /**
      * Copyright 2016 Google Inc. All Rights Reserved.
      *

@@ -1,0 +1,22 @@
+<div class="controls-FilterEditors__list controls-FilterEditors__list_theme-{{_options.theme}}">
+   <Controls.grid:View source="{{_options.source}}"
+                       columns="{{_columns}}"
+                       keyProperty="{{_options.keyProperty}}"
+                       markedKey="{{_options.propertyValue}}"
+                       scope="{{_options}}"
+                       navigation="{{_options.navigation}}"
+                       backgroundStyle="transparent"
+                       hoverBackgroundStyle="listEditor"
+                       itemsReadyCallback="{{_itemsReadyCallback}}"
+                       on:markedKeyChanged="_handleMarkedKeyChanged()">
+      <ws:itemPadding left="xxl" right="m"/>
+      <ws:footerTemplate>
+         <ws:if data="{{_options.selectorTemplate}}">
+            <Controls.buttons:Button viewMode="linkButton"
+                                     caption="{{_options.showSelectorCaption}}"
+                                     fontColorStyle="label"
+                                     on:click="_handleFooterClick()"/>
+         </ws:if>
+      </ws:footerTemplate>
+   </Controls.grid:View>
+</div>

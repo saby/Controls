@@ -1,0 +1,33 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-tagStyle controlsDemo__maxWidth800">
+    <div class="controlsDemo-toolbar-panel">
+        &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' +
+        _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
+    </div>
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            multiSelectVisibility="hidden"
+            on:tagClick="_onTagClickCustomHandler()"
+            on:tagHover="_onTagHoverCustomHandler()"
+    >
+        <ws:columns>
+            <ws:Array>
+                <ws:Object displayProperty="number" width="40px">
+                    <ws:template>
+                        <ws:partial template="Controls/gridNew:ColumnTemplate" clickable="{{false}}"/>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object displayProperty="country" width="300px"/>
+                <ws:Object displayProperty="capital"/>
+                <ws:Object displayProperty="population" width="max-content" compatibleWidth="98px" align="right">
+                    <ws:template>
+                        <ws:partial template="Controls/gridNew:ColumnTemplate" clickable="{{false}}"
+                                    tagStyle="{{template.itemData.item.get('tagStyle')}}"/>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object displayProperty="square"/>
+                <ws:Object displayProperty="populationDensity"/>
+            </ws:Array>
+        </ws:columns>
+    </Controls.gridNew:View>
+</div>

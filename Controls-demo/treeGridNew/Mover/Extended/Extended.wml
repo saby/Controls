@@ -1,0 +1,35 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
+        <div>
+            <Controls.buttons:Button icon="icon-Move" caption="Переместить" on:click="_moveButtonClick()"
+                                     viewMode="linkButton"/>
+            <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
+                <div>
+                    <Controls.list:Mover
+                            name="listMover"
+                            parentProperty="parent"
+                            on:afterItemsMove="_afterItemsMove()"
+                            on:beforeItemsMove="_beforeItemsMove()">
+                        <ws:moveDialogTemplate templateName="Controls-demo/treeGridNew/Mover/Extended/ExtendedMoverDialog">
+                            <ws:templateOptions
+                                    name="extendedMover"
+                                    source="{{_viewSource}}"
+                                    columns="{{_columns}}"/>
+                        </ws:moveDialogTemplate>
+                    </Controls.list:Mover>
+                    <Controls.list:Container>
+                        <Controls.treeGridNew:View
+                                name="treeGrid"
+                                multiSelectVisibility="visible"
+                                parentProperty="parent"
+                                nodeProperty="type"
+                                columns="{{_columns}}"/>
+                    </Controls.list:Container>
+                </div>
+            </Controls.operations:Controller>
+        </div>
+    </Controls.list:DataContainer>
+    <ws:if data="{{_beforeItemsMoveText}}">
+        <div class="controlsDemo__cell">{{_beforeItemsMoveText}}</div>
+    </ws:if>
+</div>

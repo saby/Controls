@@ -1,0 +1,5 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{gridColumn}}">
+    <ws:contentTemplate>
+        <span style="color: #f60">№ {{itemData.item['number']}}</span>
+    </ws:contentTemplate>
+</ws:partial>

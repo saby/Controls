@@ -1,0 +1,73 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/Base/Index' }}">
+            <a href="{{content.href}}">Базовая настройка редактирования по месту</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.EditInPlace.Base.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/EditingOnMounting/Index' }}">
+            <a href="{{content.href}}">Таблица с запущеным добавлением при построении</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.EditInPlace.EditingOnMounting.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/EditingRow/Index' }}">
+            <a href="{{content.href}}">Шаблон редактирования строки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.EditInPlace.EditingRow.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/EditingCell/Index' }}">
+            <a href="{{content.href}}">Шаблон редактирования ячейки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.EditInPlace.EditingCell.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/EmptyActions/Index' }}">
+            <a href="{{content.href}}">Без операций над записью</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.EditInPlace.EmptyActions.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/Decorators/Index' }}">
+            <a href="{{content.href}}">Декораторы в шаблонах редактирования ячейки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.EditInPlace.Decorators.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/Toolbar/Index' }}">
+            <a href="{{content.href}}">С тулбаром и операциями над записью</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.EditInPlace.Toolbar.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/EditInPlace/Size/Index' }}">
+            <a href="{{content.href}}">Размер шрифта для текста</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.EditInPlace.Size.Index/>
+    </div>
+</div>

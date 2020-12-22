@@ -1,4 +1,5 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper demo-FilterHistoryID__manyItems">
+   <div class="controlsDemo__mb2 controls-text-label controls-text-label_theme-{{_options.theme}}">Панель c большим количеством айтемов в "Ранее отбирались"</div>
    <Controls.filter:View
       source="{{_source}}"
       detailPanelTemplateName="Controls-demo/Filter_new/resources/Panel">

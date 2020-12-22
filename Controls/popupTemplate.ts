@@ -1,16 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют содержимое всплывающих окон.
  * @library Controls/popupTemplate
- * @includes CloseButton Controls/_popupTemplate/CloseButton
- * @includes Stack Controls/_popupTemplate/Stack
- * @includes Dialog Controls/_popupTemplate/Dialog
- * @includes InfoBox Controls/_popupTemplate/InfoBox
- * @includes Notification Controls/_popupTemplate/Notification/Base
- * @includes NotificationSimple Controls/_popupTemplate/Notification/Simple
- * @includes INotification Controls/_popupTemplate/Notification/interface/INotification
- * @includes IPopupTemplate Controls/_popupTemplate/interface/IPopupTemplate
- * @includes IPopupTemplateBaseOptions Controls/_popupTemplate/interface/IPopupTemplateBase
- * @includes Sticky Controls/_popupTemplate/Sticky
  * @public
  * @author Крайнов Д.О.
  */

@@ -1,0 +1,12 @@
+<div class="controlsDemo__cell">
+    <Controls.gridNew:View
+            name="list"
+            keyProperty="id"
+            attr:class="controlsDemo__inline-flex"
+            source="{{_viewSource}}"
+            columns="{{_columns}}">
+        <ws:editingConfig>
+            <ws:Object editOnClick="{{true}}" toolbarVisibility="{{true}}"/>
+        </ws:editingConfig>
+    </Controls.gridNew:View>
+</div>

@@ -1,17 +1,17 @@
 define([
    'Controls/dragnDrop',
    'ControlsUnit/resources/ProxyCall'
-], function(dragnDrop, ProxyCall) {
+], function(dragnDrop) {
    'use strict';
 
-   describe('Controls.dragnDrop.ResizingLine', function() {
+   describe('Controls.dragnDrop.ResizingLine', () => {
       [{
          orientation: 'vertical',
          positions: ['top', 'bottom']
       }, {
          orientation: 'horizontal',
          positions: ['left', 'right']
-      }].forEach(function(test) {
+      }].forEach((test) => {
          it(`_offset orientation: ${test.orientation}`, function() {
             let rlInstance = new dragnDrop.ResizingLine({});
 
@@ -58,13 +58,35 @@ define([
          });
       });
 
-      it('isResizing', function() {
+      it('isResizing', () => {
          var ctrl = new dragnDrop.ResizingLine({});
 
          assert.isFalse(ctrl._isResizing(0, 0));
          assert.isTrue(ctrl._isResizing(100, 0));
          assert.isTrue(ctrl._isResizing(0, 100));
          assert.isTrue(ctrl._isResizing(100, 100));
+      });
+
+      it('endDrag', () => {
+         const Line = new dragnDrop.ResizingLine({});
+         const notifySpy = sinon.spy(Line, '_notify');
+         const dragObject = {
+            entity: {
+               offset: {
+                  value: 10
+               }
+            }
+         };
+         Line._onEndDragHandler(null, dragObject);
+         let a = notifySpy.withArgs('offset', [10]).called;
+         assert.isFalse(a);
+
+         Line._dragging = true;
+         Line._onEndDragHandler(null, dragObject);
+         a = notifySpy.withArgs('offset', [10]).called;
+         assert.isTrue(a);
+
+         Line.destroy();
       });
    });
 });

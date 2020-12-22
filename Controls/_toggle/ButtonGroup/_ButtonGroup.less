@@ -1,16 +1,19 @@
 .controls-text-buttonGroupSelected_theme-@{themeName} {
   color: @contrast_text-color;
 }
-.controls-Button_button_style-buttonGroupSelected_theme-@{themeName} {
+
+.controls-Button_buttonGroup_style-buttonGroupSelected_theme-@{themeName} {
   background-color: @secondary_background-color_button_functionalButton;
   border-color: @secondary_background-color_button_functionalButton;
 }
-.controls-Button_button_style-buttonGroupUnselected_theme-@{themeName} {
+
+.controls-Button_buttonGroup_style-buttonGroupUnselected_theme-@{themeName} {
   background-color: @background-color;
   border-color: transparent;
   box-shadow: @box-shadow_ToolbarBox;
 }
-.controls-Button_button_style-buttonGroupUnselected_theme-@{themeName}:hover {
+
+.controls-Button_buttonGroup_style-buttonGroupUnselected_theme-@{themeName}:hover {
   background-color: @hover_background-color;
 }
 .controls-ButtonGroup__button_withMargin_theme-@{themeName} {
@@ -19,4 +22,24 @@
 .controls-ButtonGroup__wrapper {
   display: inline-flex;
   flex-direction: row;
+}
+
+.controls-Button_buttonGroup_m_theme-@{themeName} {
+  border-radius: 12px;
+}
+
+.controls-Button_buttonGroup {
+  border-style: solid;
+}
+
+.controls-Button_button_m_theme-@{themeName} {
+  min-width: 48px;
+}
+
+.controls-Button_buttonGroup_theme-@{themeName} {
+  border-width: 1px;
+}
+
+.controls-Button__wrapper_buttonGroup_m_theme-@{themeName} {
+  padding: 0 11px;
 }

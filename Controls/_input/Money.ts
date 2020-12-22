@@ -1,4 +1,4 @@
-import Base = require('Controls/_input/Base');
+import Base from 'Controls/_input/Base';
 import readOnlyFieldTemplate = require('wml!Controls/_input/Money/ReadOnly');
 
 import {descriptor} from 'Types/entity';
@@ -14,9 +14,9 @@ interface IMoneyOptions extends INumberLengthOptions {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/input/money/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FExample%2FInput демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input/money/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Money
  * @extends Controls/input:Base
@@ -33,6 +33,7 @@ interface IMoneyOptions extends INumberLengthOptions {
 class Money extends Base implements INumberLength {
     _options: IMoneyOptions;
     protected _inputMode = 'decimal';
+    protected _controlName: string = 'Money';
 
     readonly '[Controls/_input/interface/INumberLength]' = true;
 
@@ -115,7 +116,7 @@ class Money extends Base implements INumberLength {
  *         }
  *     }
  * </pre>
- * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
+ * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link /doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
  * <pre>
  *     <Controls.input:Money bind:value="_value"/>
  * </pre>

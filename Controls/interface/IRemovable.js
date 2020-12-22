@@ -54,22 +54,20 @@ define('Controls/interface/IRemovable', [], function() {
     * @returns {Core/Deferred} Если deferred был выполнен с false, то логика по умолчанию не будет выполнена.
     * @example
     * В следующем примере показано, как отобразить диалоговое окно с вопросом перед удалением элементов.
-    * <pre>
-    *    <Controls.list:Remover name="listRemover" on:beforeItemsRemove="_beforeItemsRemove()"/>
-    *    <Controls.popup:Confirmation name="popupOpener"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:Remover name="listRemover" on:beforeItemsRemove="_beforeItemsRemove()"/>
+    * <Controls.popup:Confirmation name="popupOpener"/>
     * </pre>
-    *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _beforeItemsRemove: function(eventObject, idArray) {
-    *          return this._children.popupOpener.open({
-    *             message: 'Are you sure you want to delete the items?',
-    *             type: 'yesno'
-    *          });
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * Control.extend({
+    *    _beforeItemsRemove: function(eventObject, idArray) {
+    *       return this._children.popupOpener.open({
+    *          message: 'Are you sure you want to delete the items?',
+    *          type: 'yesno'
+    *       });
+    *    }
+    * });
     * </pre>
     * @see afterItemsRemove
     * @see removeItems
@@ -83,22 +81,20 @@ define('Controls/interface/IRemovable', [], function() {
     * @returns {Core/Deferred} If deferred was fullfilled with false then default logic will not be executed.
     * @example
     * The following example shows how to display a dialog with a question before deleting items.
-    * <pre>
-    *    <Controls.list:Remover name="listRemover" on:beforeItemsRemove="_beforeItemsRemove()"/>
-    *    <Controls.popup:Confirmation name="popupOpener"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:Remover name="listRemover" on:beforeItemsRemove="_beforeItemsRemove()"/>
+    * <Controls.popup:Confirmation name="popupOpener"/>
     * </pre>
-    *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _beforeItemsRemove: function(eventObject, idArray) {
-    *          return this._children.popupOpener.open({
-    *             message: 'Are you sure you want to delete the items?',
-    *             type: 'yesno'
-    *          });
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * Control.extend({
+    *    _beforeItemsRemove: function(eventObject, idArray) {
+    *       return this._children.popupOpener.open({
+    *          message: 'Are you sure you want to delete the items?',
+    *          type: 'yesno'
+    *       });
+    *    }
+    * });
     * </pre>
     * @see afterItemsRemove
     * @see removeItems
@@ -115,24 +111,24 @@ define('Controls/interface/IRemovable', [], function() {
     * По отображению дружелюбных ошибок при удалении записей подробнее читайте <a href="/doc/platform/developmentapl/interface-development/pattern-and-practice/handling-errors/handling-errors-base/#list-features">здесь</a>.
     * @example
     * В следующем примере показано, как удалить элементы из списка после клика по кнопке.
-    * <pre>
-    *    <Controls.list:Remover name="listRemover" on:afterItemsRemove="_afterItemsRemove()"/>
-    *    <Controls.popup:Confirmation name="popupOpener"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:Remover name="listRemover" on:afterItemsRemove="_afterItemsRemove()"/>
+    * <Controls.popup:Confirmation name="popupOpener"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _afterItemsRemove: function(eventObject, idArray, result) {
-    *          if (result instanceof Error) {
-    *             return this._children.popupOpener.open({
-    *                message: 'Removing records failed.',
-    *                style: 'error'
-    *             });
-    *          }
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _afterItemsRemove: function(eventObject, idArray, result) {
+    *       if (result instanceof Error) {
+    *          return this._children.popupOpener.open({
+    *             message: 'Removing records failed.',
+    *             style: 'error'
+    *          });
     *       }
-    *       ...
-    *    });
+    *    }
+    * });
     * </pre>
     * @see removeItems
     * @see beforeItemsRemove
@@ -146,24 +142,24 @@ define('Controls/interface/IRemovable', [], function() {
     * @param {*} result The result of item removal from the data source.
     * @example
     * The following example shows how to remove items from list after click on the button.
-    * <pre>
-    *    <Controls.list:Remover name="listRemover" on:afterItemsRemove="_afterItemsRemove()"/>
-    *    <Controls.popup:Confirmation name="popupOpener"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:Remover name="listRemover" on:afterItemsRemove="_afterItemsRemove()"/>
+    * <Controls.popup:Confirmation name="popupOpener"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _afterItemsRemove: function(eventObject, idArray, result) {
-    *          if (result instanceof Error) {
-    *             return this._children.popupOpener.open({
-    *                message: 'Removing records failed.',
-    *                style: 'error'
-    *             });
-    *          }
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _afterItemsRemove: function(eventObject, idArray, result) {
+    *       if (result instanceof Error) {
+    *          return this._children.popupOpener.open({
+    *             message: 'Removing records failed.',
+    *             style: 'error'
+    *          });
     *       }
-    *       ...
-    *    });
+    *    }
+    * });
     * </pre>
     * @see removeItems
     * @see beforeItemsRemove
@@ -175,21 +171,20 @@ define('Controls/interface/IRemovable', [], function() {
     * @param {Array.<String>|Array.<Number>|Selection} items Массив элементов для удаления.
     * @example
     * В следующем примере показано, как удалить элементы из списка после клика по кнопке.
-    * <pre>
-    *    <Controls.breadcrumbs:Path caption="RemoveItem" on:click="_onRemoveButtonClick()"/>
-    *    <Controls.list:Remover name="listRemover"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.breadcrumbs:Path caption="RemoveItem" on:click="_onRemoveButtonClick()"/>
+    * <Controls.list:Remover name="listRemover"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _keysForRemove: [...],
-    *
-    *       _onRemoveButtonClick: function() {
-    *          this._children.listRemover.removeItems(this._keysForRemove);
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _keysForRemove: [...],
+    *    _onRemoveButtonClick: function() {
+    *       this._children.listRemover.removeItems(this._keysForRemove);
+    *    }
+    * });
     * </pre>
     * @see afterItemsRemove
     * @see beforeItemsRemove
@@ -201,21 +196,20 @@ define('Controls/interface/IRemovable', [], function() {
     * @param {Array.<String>|Array.<Number>|Selection} items Array of items to be removed.
     * @example
     * The following example shows how to remove items from list after click on the button.
-    * <pre>
-    *    <Controls.breadcrumbs:Path caption="RemoveItem" on:click="_onRemoveButtonClick()"/>
-    *    <Controls.list:Remover name="listRemover"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.breadcrumbs:Path caption="RemoveItem" on:click="_onRemoveButtonClick()"/>
+    * <Controls.list:Remover name="listRemover"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _keysForRemove: [...],
-    *
-    *       _onRemoveButtonClick: function() {
-    *          this._children.listRemover.removeItems(this._keysForRemove);
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _keysForRemove: [...],
+    *    _onRemoveButtonClick: function() {
+    *       this._children.listRemover.removeItems(this._keysForRemove);
+    *    }
+    * });
     * </pre>
     * @see afterItemsRemove
     * @see beforeItemsRemove

@@ -1,0 +1,98 @@
+<div class="controlsDemo__wrapper__padding-left">
+    <div class="controlsDemo__cell demo-ItemPaddingAll__horizontal controlsDemo__inline-block">
+        <div if="{{_showTitle}}" class="controls-text-label_theme-{{_options.theme}}">Горизонтальные отступы</div>
+        <div class="ws-flexbox ws-flex-wrap">
+
+            <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы размер null</div>
+                <Controls.treeGridNew:View
+                        keyProperty="id"
+                        source="{{_viewSource}}"
+                        columns="{{_columns}}"
+                        parentProperty="parent"
+                        nodeProperty="type">
+                    <ws:itemPadding left="null" right="null"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
+                </Controls.treeGridNew:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-s">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы размер S</div>
+                <Controls.treeGridNew:View
+                        keyProperty="id"
+                        source="{{_viewSource}}"
+                        columns="{{_columns}}"
+                        parentProperty="parent"
+                        nodeProperty="type">
+                    <ws:itemPadding left="s" right="s"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
+                </Controls.treeGridNew:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-m">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы размер M</div>
+                <Controls.treeGridNew:View
+                        keyProperty="id"
+                        source="{{_viewSource}}"
+                        columns="{{_columns}}"
+                        parentProperty="parent"
+                        nodeProperty="type">
+                    <ws:itemPadding left="m" right="m"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
+                </Controls.treeGridNew:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-l">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы размер L</div>
+                <Controls.treeGridNew:View
+                        keyProperty="id"
+                        source="{{_viewSource}}"
+                        columns="{{_columns}}"
+                        parentProperty="parent"
+                        nodeProperty="type">
+                    <ws:itemPadding left="L" right="L"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
+                </Controls.treeGridNew:View>
+            </div>
+
+            <div class="controlsDemo__cell  controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-xl">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы размер XL</div>
+                <Controls.treeGridNew:View
+                        keyProperty="id"
+                        source="{{_viewSource}}"
+                        columns="{{_columns}}"
+                        parentProperty="parent"
+                        nodeProperty="type">
+                    <ws:itemPadding left="XL" right="XL"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
+                </Controls.treeGridNew:View>
+            </div>
+
+            <div class="controlsDemo__cell  controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-xxl">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы размер XXL</div>
+                <Controls.treeGridNew:View
+                        keyProperty="id"
+                        source="{{_viewSource}}"
+                        columns="{{_columns}}"
+                        parentProperty="parent"
+                        nodeProperty="type">
+                    <ws:itemPadding left="XXL" right="XXL"/>
+                    <ws:footerTemplate>
+                        <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+                    </ws:footerTemplate>
+                </Controls.treeGridNew:View>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,40 @@
+<Controls.moverDialog:BaseTemplate>
+    <ws:bodyContentTemplate>
+        <Controls.list:DataContainer source="{{_options.source}}"
+                                     filter="{{_filter}}"
+                                     keyProperty="id">
+            <Controls.search:Controller searchParam="title">
+                <div class="ControlsDemo-ExtendedMoveDialog__content">
+                    <Controls.search:InputContainer attr:class="ControlsDemo-ExtendedMoveDialog__search">
+                        <Controls.search:Input/>
+                    </Controls.search:InputContainer>
+                    <Controls.buttons:Button attr:class="ControlsDemo-ExtendedMoveDialog__root"
+                                             viewMode="linkButton"
+                                             fontColorStyle="link"
+                                             caption="{[В корень]}"
+                                             on:click="moveToRoot()"
+                                             icon="icon-Undo2"
+                                             iconSize="s" iconStyle="secondary"/>
+                    <Controls.scroll:Container attr:class="ControlsDemo-ExtendedMoveDialog__scroll">
+                        <Controls.list:Container>
+                            <Controls.explorer:View
+                                    dataLoadCallback="{{_dataLoadCallback}}"
+                                    name="moverExplorer"
+                                    on:itemClick="_onItemClick()"
+                                    parentProperty="parent"
+                                    nodeProperty="type"
+                                    expanderDisplayMode="adaptive"
+                                    columns="{{_options.columns}}"/>
+                        </Controls.list:Container>
+                    </Controls.scroll:Container>
+                </div>
+            </Controls.search:Controller>
+        </Controls.list:DataContainer>
+    </ws:bodyContentTemplate>
+    <ws:headerContentTemplate>
+        <div class="ControlsDemo-ExtendedMoveDialog__createFolder">
+            <Controls.buttons:Button icon="icon-CreateFolder" on:click="_createFolderButtonClick()" viewMode="linkButton"/>
+            <Controls.popup:Dialog name="dialogOpener" modal="{{true}}" template="Controls-demo/treeGridNew/Mover/Extended/CreateDialog"/>
+        </div>
+    </ws:headerContentTemplate>
+</Controls.moverDialog:BaseTemplate>

@@ -1,11 +1,3 @@
-/**
- * Интерфейс для опций футера диалога подтверждения.
- *
- * @interface Controls/_popup/interface/IConfirmationFooter
- * @public
- * @author Красильников А.С.
- */
-
 export interface IConfirmationFooterOptions {
     type?: string;
     yesCaption?: string;
@@ -15,6 +7,13 @@ export interface IConfirmationFooterOptions {
     okCaption?: string;
 }
 
+/**
+ * Интерфейс для опций футера диалога подтверждения.
+ *
+ * @interface Controls/_popup/interface/IConfirmationFooter
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IConfirmationFooter {
     readonly '[Controls/_popup/interface/IConfirmationFooter]': boolean;
 }
@@ -26,15 +25,6 @@ export interface IConfirmationFooter {
  * @variant yesno (Результат: true/false)
  * @variant yesnocancel (Результат: true/false/undefined)
  * @default yesno
- */
-
-/**
- * @name Controls/_popup/interface/IConfirmationFooter#style
- * @cfg {String} Внешний вид диалога подтверждения.
- * @variant default
- * @variant success
- * @variant danger
- * @default default
  */
 
 /**

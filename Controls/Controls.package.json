@@ -21,8 +21,23 @@
     "Controls/Utils/*"
   ],
   "exclude": [
+    "Controls/Utils/FontWidthConstants/*",
+    "Controls/Utils/Date",
+    "Controls/Utils/DateRangeUtil",
+    "Controls/Utils/DOMUtil",
+    "Controls/Utils/getDimensions",
+    "Controls/Utils/getScrollbarWidth",
+    "Controls/Utils/getTextWidth",
+    "Controls/Utils/getWidth",
+    "Controls/Utils/hasHorizontalScroll",
+    "Controls/Utils/IntersectionObserver",
     "Controls/Utils/isVDOMTemplate",
-    "Controls/Utils/FontWidthConstants/*"
+    "Controls/Utils/keysHandler",
+    "Controls/Utils/proxyModelEvents",
+    "Controls/Utils/ResizeObserverUtil",
+    "Controls/Utils/scrollToElement",
+    "Controls/Utils/splitIntoTriads",
+    "Controls/Utils/tmplNotify"
   ],
   "output": "controls-utils.package.js"
 }, {
@@ -36,7 +51,6 @@
     "Controls/LoadingIndicator",
     "Controls/scroll",
     "Controls/buttons",
-    "Controls/eventUtils",
     "Controls/sizeUtils",
     "Controls/Store",
     "Controls/dataSource"

@@ -6,7 +6,7 @@ import template = require('wml!Controls/_validate/DateRange');
  * Контрол, регулирующий валидацию своего контента. Используется с контролами, поддерживающими интерфейс {@link Controls/_dateRamge/IDateRange IDateRange}.
  * Валидация запускается автоматически как при потере фокуса, так и при изменении значения.
  * @remark
- * Подробнее о работе с валидацией читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/validation/ здесь}.
+ * Подробнее о работе с валидацией читайте {@link /doc/platform/developmentapl/interface-development/forms-and-validation/validation/ здесь}.
  * @class Controls/_validate/DateRange
  * @extends Controls/_validate/Container
  * 

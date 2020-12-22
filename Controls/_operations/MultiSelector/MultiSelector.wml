@@ -9,6 +9,7 @@
                                           selectedKeysCount="{{ _options.selectedKeysCount }}"
                                           selectedCountConfig="{{ _options.selectedCountConfig }}"
                                           size="{{_options.size}}"
+                                          fontColorStyle="{{_options.fontColorStyle}}"
                                           fontSize="{{_options.fontSize}}"
                                           selectionViewMode="{{_options.selectionViewMode}}"
                                           isAllSelected="{{_options.isAllSelected}}"/>

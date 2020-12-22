@@ -1,51 +1,11 @@
 /**
  * Библиотека, содержащая интерфейсы, которые используются в нескольких библиотеках.
  * @library Controls/interface
- * @includes ITooltip Controls/_interface/ITooltip
- * @includes IIconStyle Controls/_interface/IIconStyle
- * @includes ICaption Controls/_interface/ICaption
- * @includes IIcon Controls/_interface/IIcon
- * @includes IIconSize Controls/_interface/IIconSize
- * @includes IFontColorStyle Controls/_interface/IFontColorStyle
- * @includes IFontSize Controls/_interface/IFontSize
- * @includes IFontWeight Controls/_interface/IFontWeight
- * @includes IFontWeightOptions Controls/_interface/IFontWeightOptions
- * @includes IHeight Controls/_interface/IHeight
- * @includes ISource Controls/_interface/ISource
- * @includes IErrorController Controls/_interface/IErrorController
- * @includes ISingleSelectable Controls/_interface/ISingleSelectable
- * @includes IMultiSelectable Controls/_interface/IMultiSelectable
- * @includes IHierarchy Controls/_interface/IHierarchy
- * @includes INumberFormat Controls/_interface/INumberFormat
- * @includes IExpandable Controls/_interface/IExpandable
- * @includes ISorting Controls/_interface/ISorting
- * @includes ILookup Controls/_interface/ILookup
- * @includes IDateMask Controls/_interface/IDateMask
  * @includes ITextValue Controls/_interface/ITextValue
- * @includes IPropStorage Controls/_interface/IPropStorage
- * @includes IBorderStyle Controls/interface/IBorderStyle
- * @includes IValidationStatus Controls/_interface/IValidationStatus
- * @includes ISelectionType Controls/_interface/ISelectionType
- * @includes IDateConstructor Controls/_interface/IDateConstructor
- * @includes IApplication Controls/_interface/IApplication
- * @includes IFilter Controls/_interface/IFilter
- * @includes INavigation Controls/_interface/INavigation
- * @includes IDisplayedRanges Controls/_interface/IDisplayedRanges
- * @includes IOpenPopup Controls/_interface/IOpenPopup
- * @includes ISearch Controls/_interface/ISearch
- * @includes ISelectorDialog Controls/_interface/ISelectorDialog
- * @includes ISelectionObject Controls/_interface/ISelectionObject
- * @includes IItems Controls/_interface/IItems
- * @includes IHref Controls/_interface/IHref
- * @includes IBackgroundStyle Controls/_interface/IBackgroundStyle
- * @includes IDraggable Controls/_interface/IDraggable
  * @includes ICanBeDefaultOpener Controls/_interface/ICanBeDefaultOpener
+ * @includes IContrastBackground Controls/_interface/IContrastBackground
  * @public
  * @author Крайнов Д.О.
- */
-
-/*
- * library with common interfaces
  */
 
 import {INavigationSourceConfig} from './_interface/INavigation';
@@ -75,13 +35,35 @@ export {default as IPropStorage, IPropStorageOptions} from './_interface/IPropSt
 export {default as IBorderStyle, IBorderStyleOptions} from './_interface/IBorderStyle';
 export {default as IValidationStatus, IValidationStatusOptions, ValidationStatus} from './_interface/IValidationStatus';
 export {default as IDateConstructor, IDateConstructorOptions} from './_interface/IDateConstructor';
-export {default as ISelectionType, ISelectionTypeOptions, TSelectionType, TSelectionRecord, ISelectionObject, TKeySelection, TKeysSelection} from './_interface/ISelectionType';
+export {
+    default as ISelectionType,
+    ISelectionTypeOptions,
+    TSelectionType,
+    TSelectionRecord,
+    ISelectionObject,
+    TKeySelection,
+    TKeysSelection
+} from './_interface/ISelectionType';
 export {default as IApplication, IApplicationOptions, IAttributes, HeadJson} from './_interface/IApplication';
 export {default as IRUM, IRUMOptions} from './_interface/IRUM';
 export {default as IFilter, IFilterOptions} from './_interface/IFilter';
 export {default as IFilterChanged} from './_interface/IFilterChanged';
-export {default as INavigation, INavigationOptions, INavigationOptionValue, INavigationPositionSourceConfig, INavigationPageSourceConfig, INavigationSourceConfig, IBaseSourceConfig, IBasePositionSourceConfig, IBasePageSourceConfig} from './_interface/INavigation';
-export {ISortingSelectorOptions} from './_interface/ISortingSelector';
+export {default as IContrastBackground, IContrastBackgroundOptions} from './_interface/IContrastBackground';
+export {
+    default as INavigation,
+    INavigationOptions,
+    INavigationOptionValue,
+    INavigationPositionSourceConfig,
+    INavigationPageSourceConfig,
+    INavigationSourceConfig,
+    IBaseSourceConfig,
+    IBasePositionSourceConfig,
+    IBasePageSourceConfig,
+    TNavigationPagingMode,
+    TNavigationSource,
+    TNavigationDirection,
+    CursorDirection
+} from './_interface/INavigation';
 export {default as IDisplayedRanges, IDisplayedRangesOptions, TDisplayedRangesItem} from './_interface/IDisplayedRanges';
 export {default as IOpenPopup} from './_interface/IOpenPopup';
 export {default as ISearch, ISearchOptions} from './_interface/ISearch';

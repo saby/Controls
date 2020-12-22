@@ -2,9 +2,11 @@
     <div class="controlsDemo__cell">
         <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
         <Controls.buttons:Button caption="{{'Установить startingWith в '+ _startingWithBtnCaption}}"
-                                 on:click="_updateStartingWith()" attr:style="padding: 0 5px"/>
+                                 on:click="_updateStartingWith()" attr:style="padding-left: 5px"/>
+        <Controls.buttons:Button caption="{{ !!_dedicatedItemProperty ? 'Выключить' : 'Включить' }} dedicatedItemProperty"
+                                 on:click="_onToggleDedicatedItemProperty()" attr:style="padding-left: 5px"/>
     </div>
-    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter" parentProperty="parent" bind:root="_root">
         <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" searchStartingWith="{{_startingWith}}">
             <div class="ws-fragment">
                 <Controls.search:InputContainer>
@@ -22,6 +24,7 @@
                             parentProperty="parent"
                             nodeProperty="parent@"
                             multiSelectVisibility="{{_multiselect}}"
+                            dedicatedItemProperty="{{_dedicatedItemProperty}}"
                             columns="{{_columns}}">
                     </Controls.explorer:View>
                 </Controls.list:Container>

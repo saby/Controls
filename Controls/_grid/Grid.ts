@@ -7,9 +7,9 @@ import viewName = require('Controls/_grid/GridView');
     *
     * @remark
     * Полезные ссылки:
-    * * <a href="/doc/platform/developmentapl/interface-development/controls/list/">руководство разработчика</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_grid.less">переменные тем оформления grid</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления list</a>
+    * * {@link /doc/platform/developmentapl/interface-development/controls/list/ руководство разработчика}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_grid.less переменные тем оформления grid}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления list}
     *
     * @class Controls/_grid/Grid
     * @extends Controls/list:View
@@ -26,7 +26,7 @@ import viewName = require('Controls/_grid/GridView');
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/interface/IGridItemTemplate
     * @mixes Controls/_grid/interface/IPropStorage
-    * @mixes Controls/_marker/interface/IMarkerListOptions
+    * @mixes Controls/_marker/interface/IMarkerList
     *
     * @public
     * @author Авраменко А.С.
@@ -56,7 +56,7 @@ import viewName = require('Controls/_grid/GridView');
     * @mixes Controls/interface/IGridItemTemplate
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_grid/interface/IPropStorage
-    * @mixes Controls/_marker/interface/IMarkerListOptions
+    * @mixes Controls/_marker/interface/IMarkerList
     *
     *
     * @public

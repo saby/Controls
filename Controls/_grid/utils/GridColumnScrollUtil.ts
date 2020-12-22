@@ -1,5 +1,5 @@
 import {isFullGridSupport} from './GridLayoutUtil';
-import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS} from './../resources/ColumnScroll';
+import {COLUMN_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 
 // Процент скроллируемой области справа, свайп по которой способен привезти к открытию операций над записью.
 // Значение в соответствии со стандартом

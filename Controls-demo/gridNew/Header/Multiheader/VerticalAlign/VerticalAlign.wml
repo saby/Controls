@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper controlsDemo__flex">
+    <Controls.scroll:Container>
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                rowSeparatorSize="s"
+                columnSeparatorSize="s"
+                columns="{{_columns}}"/>
+    </Controls.scroll:Container>
+</div>

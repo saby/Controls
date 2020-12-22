@@ -1,10 +1,23 @@
-<ws:for data="index, item in itemsViewModel.getViewIterator()">
+<ws:for data="index, item in listModel.getViewIterator()">
     <ws:partial
-            template="{{item.getItemTemplate(itemTemplateProperty, itemTemplate, groupTemplate)}}"
+            template="{{item.getTemplate(itemTemplateProperty, itemTemplate, groupTemplate, toggleEditorsTemplate)}}"
+            isGridLayout="{{isGridLayout}}"
             theme="{{theme}}"
+            getItemStyles="{{getItemStyles}}"
             collectionItem="{{item}}"
             item="{{item.getContents()}}"
+            toggledEditors="{{listModel.getToggledEditors()}}"
             collapsedGroups="{{collapsedGroups}}"
-            on:propertyValueChanged="_propertyValueChanged(item.getContents())"
-            on:click="_itemClick(item)"/>
+            on:mouseenter="_mouseEnterHandler(item)"
+            on:mouseleave="_mouseLeaveHandler()"
+            on:click="_itemClick(item)"
+            on:propertyValueChanged="_propertyValueChanged(item.getContents())">
+        <ws:itemActionsTemplate>
+            <Controls.Container.Async templateName="Controls/itemActions:ItemActionsTemplate">
+                <ws:partial template="{{content.resolvedTemplate}}"
+                            itemData="{{item}}"
+                            scope="{{listModel.getActionsTemplateConfig()}}" />
+            </Controls.Container.Async>
+        </ws:itemActionsTemplate>
+    </ws:partial>
 </ws:for>

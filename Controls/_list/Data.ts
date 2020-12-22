@@ -44,9 +44,9 @@ export interface IDataContextOptions extends ISourceOptions,
  * Поле контекста "dataOptions" ожидает Controls/list:Container, который лежит внутри.
  * 
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
- * * <a href="/docs/js/Controls/list/Container/">Controls/list:Container</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
+ * * {@link Controls/list:Container}
  *
  * @class Controls/_list/Data
  * @mixes Controls/_interface/IFilterChanged
@@ -128,7 +128,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
             controllerState = this._sourceController.getState();
             this._updateContext(controllerState);
             return items;
-         });
+         }, (error) => error);
       } else {
          this._updateContext(controllerState);
       }
@@ -162,27 +162,27 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
                 if (!newOptions.hasOwnProperty('root')) {
                    this._sourceController.setRoot(currentRoot);
                 }
-                if (reloadResult instanceof RecordSet) {
-                   if (newOptions.dataLoadCallback instanceof Function) {
-                      newOptions.dataLoadCallback(reloadResult);
-                   }
-                   this._items = this._sourceController.setItems(reloadResult);
-                } else {
-                   this._onDataError(
-                       null,
-                       {
-                          error: reloadResult,
-                          mode: dataSourceError.Mode.include
-                       }
-                   )
+
+                if (newOptions.dataLoadCallback instanceof Function) {
+                   newOptions.dataLoadCallback(reloadResult);
                 }
+                this._items = this._sourceController.getItems();
 
                 const controllerState = this._sourceController.getState();
                 this._updateContext(controllerState);
                 this._loading = false;
                 return reloadResult;
              })
-             .catch((error) => error);
+             .catch((error) => {
+                this._onDataError(
+                    null,
+                    {
+                       error,
+                       mode: dataSourceError.Mode.include
+                    }
+                );
+                return error;
+             });
       } else if (isChanged) {
          const controllerState = this._sourceController.getState();
 

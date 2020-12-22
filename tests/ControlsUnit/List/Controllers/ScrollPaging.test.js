@@ -19,7 +19,7 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 chai.assert.deepEqual({
                     arrowState: {
                         begin: "readonly",
-                        end: "visible",
+                        end: "hidden",
                         next: "visible",
                         prev: "readonly"
                     }
@@ -41,7 +41,7 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 chai.assert.deepEqual({
                     arrowState: {
                         begin: "visible",
-                        end: "visible",
+                        end: "hidden",
                         next: "visible",
                         prev: "visible"
                     }
@@ -63,7 +63,7 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 chai.assert.deepEqual({
                     arrowState: {
                         begin: "visible",
-                        end: "readonly",
+                        end: "hidden",
                         next: "readonly",
                         prev: "visible"
                     }
@@ -92,7 +92,7 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 chai.assert.deepEqual({
                     arrowState: {
                         begin: "visible",
-                        end: "readonly",
+                        end: "hidden",
                         next: "readonly",
                         prev: "visible"
                     }

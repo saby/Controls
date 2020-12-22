@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-m">
+        <Controls.tile:View
+                tileMode="dynamic"
+                displayProperty="title"
+                imageProperty="image"
+                keyProperty="id"
+                source="{{_viewSource}}">
+            <ws:roundBorder tl="m" tr="m" bl="m" br="m"/>
+        </Controls.tile:View>
+    </div>
+</div>

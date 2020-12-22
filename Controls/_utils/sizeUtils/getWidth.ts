@@ -1,3 +1,5 @@
+import {constants} from 'Env/Env';
+
 const position: string = `display: inline;
    top: 0;
    left: -9999px;
@@ -45,7 +47,7 @@ export function getWidth(element: HTMLElement | string): number {
 
     //Откладываем удаление элемента, чтобы не пересчитвывать лишний раз DOM и быстрее отобразить страницу
     setTimeout(() => {
-        document && document.body.removeChild(measurer);
+        constants.isBrowserPlatform && document.body.removeChild(measurer);
     });
     return width;
 }

@@ -62,7 +62,50 @@ function getFewCategories(): Array<{
         }
     ];
 }
-
+function getDataForComplexScroll(): Array<{id: number, title: string, withList: boolean}> {
+    return [
+        {
+            id: 1,
+            title: 'Простой элемент 1',
+            withList: false
+        },
+        {
+            id: 2,
+            title: 'Простой элемент 2',
+            withList: false
+        },
+        {
+            id: 3,
+            title: 'Сложный элемент 3',
+            withList: true
+        },
+        {
+            id: 4,
+            title: 'Простой элемент 4',
+            withList: false
+        },
+        {
+            id: 5,
+            title: 'Простой элемент 5',
+            withList: false
+        },
+        {
+            id: 6,
+            title: 'Сложный элемент 6',
+            withList: true
+        },
+        {
+            id: 7,
+            title: 'Сложный элемент 7',
+            withList: true
+        },
+        {
+            id: 8,
+            title: 'Сложный элемент 8',
+            withList: true
+        }
+    ]
+}
 function getCursorData(): Array<{id: number, value: string, cursor?: 'default' | 'pointer', hovered: boolean}> {
     return [
         {
@@ -154,6 +197,51 @@ function getGroupedCatalog(): Array<{
             brand: 'acer',
             longBrandName: 'acer'
         }
+    ];
+}
+
+
+function getGroupedCatalogForSwitchingGroup(): Array<{
+    id: number
+    title: string
+    group?: string
+}> {
+    return [
+        {
+            id: 1,
+            title: '1 Первая запись в рекордсете',
+            group: 'CONTROLS_HIDDEN_GROUP'
+        },
+        {
+            id: 2,
+            title: '2 Вторая запись в рекордсете',
+            group: 'CONTROLS_HIDDEN_GROUP'
+        },
+        {
+            id: 3,
+            title: '3 Третья запись в рекордсете',
+            group: 'Архив'
+        },
+        {
+            id: 4,
+            title: '4 Четвертая запись в рекордсете',
+            group: 'Архив'
+        },
+        {
+            id: 5,
+            title: '5 Пятая запись в рекордсете',
+            group: 'CONTROLS_HIDDEN_GROUP'
+        },
+        {
+            id: 6,
+            title: '6 Шестая запись в рекордсете',
+            group: 'Архив'
+        },
+        {
+            id: 7,
+            title: '7 Седьмая запись в рекордсете',
+            group: 'Архив'
+        },
     ];
 }
 
@@ -375,6 +463,7 @@ function generateData<
             } else {
                 item[key] = entityTemplate[key];
             }
+            item[key] = `${items.length + 1}) ${item[key]}`;
         });
 
         return item as TEntityData;
@@ -424,30 +513,37 @@ const changeSourceData = (): IChangeSource => ({
     data2: [
         {
             id: 1,
+            load: 1,
             title: 1
         }, {
             id: 2,
+            load: 2,
             title: 2
 
         }, {
             id: 3,
-            title: 2
+            load: 2,
+            title: 3
 
         }, {
             id: 4,
-            title: 2
+            load: 2,
+            title: 4
 
         }, {
             id: 5,
-            title: 2
+            load: 2,
+            title: 5
 
         }, {
             id: 6,
-            title: 2
+            load: 2,
+            title: 6
 
         }, {
             id: 7,
-            title: 2
+            load: 2,
+            title: 7
 
         }]
 });
@@ -458,8 +554,10 @@ export {
     getFewCategories,
     getCursorData,
     getGroupedCatalog,
+    getGroupedCatalogForSwitchingGroup,
     getGroupedCatalogWithHiddenGroup,
     getEditableCatalog,
     generateData,
+    getDataForComplexScroll,
     changeSourceData
 };

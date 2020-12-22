@@ -9,6 +9,7 @@ define([
    'Types/collection',
    'Types/source',
    'Controls/Application/SettingsController',
+   'Controls/listDragNDrop',
    'Controls/source',
    'Controls/dataSource'
 ], function(
@@ -22,8 +23,9 @@ define([
    collection,
    sourceLib,
    SettingsController,
+   listDragNDrop,
    cSource,
-   dataSourceLib
+   dataSource
 ) {
    function correctCreateTreeControl(cfg, returnCreatePromise) {
       var
@@ -140,7 +142,7 @@ define([
          const treeInst = new tree.TreeControl({viewModelConstructor: treeGrid.ViewModel});
          tree.TreeControl._private.afterReloadCallback(treeInst);
       });
-      it('TreeControl._private.toggleExpanded', function() {
+      it('TreeControl._private.toggleExpanded', async function() {
          var
             nodeLoadCallbackCalled = false,
             treeControl = correctCreateTreeControl({
@@ -151,22 +153,17 @@ define([
                }),
                nodeLoadCallback: function() {
                   nodeLoadCallbackCalled = true;
+               },
+               navigation: {
+                  source: 'page',
+                  sourceConfig: {
+                     pageSize: 10,
+                     page: 0,
+                     hasMore: true
+                  }
                }
             });
          var isSourceControllerUsed = false;
-         var originalCreateSourceController = tree.TreeControl._private.createSourceController;
-         tree.TreeControl._private.createSourceController = function() {
-            return {
-               load: function(filter, sorting, direction) {
-                  isSourceControllerUsed = true;
-                  loadDirection = direction;
-                  return Deferred.success([]);
-               },
-               hasMoreData: function () {
-                  return false;
-               }
-            };
-         };
 
          //viewmodel moch
          treeControl._children.baseControl.getViewModel = function() {
@@ -191,6 +188,9 @@ define([
                   return 2;
                },
                setHasMoreStorage: function() {},
+               getHasMoreStorage: function() {return {
+                  '1': false
+               }},
                appendItems: function() {},
                mergeItems: function() {},
                getItemBySourceKey: () => undefined
@@ -204,47 +204,51 @@ define([
                }
             };
          };
+         const originLoad = treeControl._children.baseControl.getSourceController().load;
+         treeControl._children.baseControl.getSourceController().load = function() {
+            isSourceControllerUsed = true;
+            return originLoad.apply(this, arguments);
+         };
 
-         treeControl._nodesSourceControllers = new Map([
-            [
-               1,
-               tree.TreeControl._private.createSourceController()
-            ]
-         ]);
+         treeControl._children.baseControl.getSourceController().hasMoreData = function() {
+            return false;
+         };
 
+         treeControl._children.baseControl.getSourceController().hasLoaded = function(key) {
+            return key === 1;
+         };
          // Test
-         return new Promise(function(resolve) {
-            tree.TreeControl._private.toggleExpanded(treeControl, {
-               getContents: function() {
-                  return {
-                     getId: function() {
-                        return 1;
-                     }
-                  };
-               },
-               isRoot: function() {
-                  return false;
-               }
-            });
-            assert.isFalse(isSourceControllerUsed);
-            assert.isFalse(nodeLoadCallbackCalled);
-            tree.TreeControl._private.toggleExpanded(treeControl, {
-               getContents: function() {
-                  return {
-                     getId: function() {
-                        return 2;
-                     }
-                  };
-               },
-               isRoot: function() {
-                  return false;
-               }
-            });
-            assert.isTrue(isSourceControllerUsed);
-            assert.isTrue(nodeLoadCallbackCalled);
-            tree.TreeControl._private.createSourceController = originalCreateSourceController;
-            resolve();
+         await tree.TreeControl._private.toggleExpanded(treeControl, {
+            getContents: function() {
+               return {
+                  getId: function() {
+                     return 1;
+                  }
+               };
+            },
+            isRoot: function() {
+               return false;
+            },
+            isExpanded: () => false
          });
+         assert.isFalse(isSourceControllerUsed);
+         assert.isFalse(nodeLoadCallbackCalled);
+
+         await tree.TreeControl._private.toggleExpanded(treeControl, {
+            getContents: function() {
+               return {
+                  getId: function() {
+                     return 2;
+                  }
+               };
+            },
+            isRoot: function() {
+               return false;
+            },
+            isExpanded: () => false
+         });
+         assert.isTrue(isSourceControllerUsed);
+         assert.isTrue(nodeLoadCallbackCalled);
       });
       it('expandMarkedItem', function() {
          var
@@ -290,74 +294,6 @@ define([
          tree.TreeControl._private.expandMarkedItem(treeControl);
          assert.deepEqual(toggleExpandedStack, [1, 2]);
       });
-      describe('itemMouseMove calls nodeMouseMove when dragging', function() {
-         let tree = correctCreateTreeControl({
-            columns: [],
-            source: new sourceLib.Memory({
-               data: [],
-               keyProperty: 'id'
-            })
-         });
-         let nodeMouseMoveCalled;
-         let dragEntity;
-         let dragItemData;
-         let nodeItem = {
-            dispItem: {
-               isNode: function () {
-                  return true;
-               }
-            }
-         };
-         let leafItem = {
-            dispItem: {
-               isNode: function () {
-                  return false;
-               }
-            }
-         };
-         const event = {
-            stopped: false,
-            stopPropagation(){
-               this.stopped = true;
-            }
-         };
-         let model = tree._children.baseControl.getViewModel();
-         model.getDragEntity = function () {
-            return dragEntity;
-         };
-         model.getDragItemData = function () {
-            return dragItemData;
-         };
-         tree._nodeMouseMove = function() {
-            nodeMouseMoveCalled = true;
-         };
-         beforeEach(function() {
-            nodeMouseMoveCalled = false;
-            dragItemData = null;
-            dragEntity = null;
-            event.stopped = false;
-         });
-         it('dragEntity', function() {
-            dragEntity = {};
-            tree._draggingItemMouseMove(event, leafItem, {});
-            assert.isFalse(nodeMouseMoveCalled);
-            assert.isTrue(event.stopped);
-            event.stopped = false;
-            tree._draggingItemMouseMove(event, nodeItem, {});
-            assert.isTrue(nodeMouseMoveCalled);
-            assert.isTrue(event.stopped);
-         });
-         it('dragItemData', function() {
-            dragItemData = {};
-            tree._draggingItemMouseMove(event, leafItem, {});
-            assert.isFalse(nodeMouseMoveCalled);
-            assert.isTrue(event.stopped);
-            event.stopped = false;
-            tree._draggingItemMouseMove(event, nodeItem, {});
-            assert.isTrue(nodeMouseMoveCalled);
-            assert.isTrue(event.stopped);
-         });
-      });
 
       it('_private.getTargetRow', () => {
          const event = {
@@ -395,60 +331,7 @@ define([
          assert.equal(event.target, target);
       });
 
-      it('TreeControl.toggleExpanded with sorting', function() {
-         let treeControl = correctCreateTreeControl({
-            columns: [],
-            root: null,
-            sorting: [{sortField: 'DESC'}],
-            source: new sourceLib.Memory({
-               data: [],
-               keyProperty: 'id'
-            })
-         });
-         let expandSorting;
-         let originalCreateSourceController = tree.TreeControl._private.createSourceController;
-         const items = new collection.RecordSet({
-            rawData: [],
-            keyProperty: 'id'
-         });
-         const model = treeControl._children.baseControl.getViewModel();
-         model.setItems(items, treeControl._children.baseControl._options);
-         tree.TreeControl._private.createSourceController = function() {
-            return {
-               load: function(filter, sorting) {
-                  var result = Deferred.success(new collection.RecordSet({
-                     rawData: getHierarchyData(),
-                     keyProperty: 'id'
-                  }));
-                  expandSorting = sorting;
-                  return result
-               },
-               hasMoreData: function () {
-                  return false;
-               }
-            }
-         };
-
-         tree.TreeControl._private.toggleExpanded(treeControl, {
-            getContents: function() {
-               return {
-                  get: () => null,
-                  getId: function() {
-                     return 1;
-                  }
-               };
-            },
-            isRoot: function() {
-               return false;
-            },
-            setExpanded: () => undefined
-         });
-         tree.TreeControl._private.createSourceController = originalCreateSourceController;
-
-         assert.deepEqual([{sortField: 'DESC'}], expandSorting);
-      });
-
-      it('_private.shouldLoadChildren', function() {
+      it('_private.shouldLoadChildren', async function() {
          const
             source = new sourceLib.Memory({
                keyProperty: 'id',
@@ -528,32 +411,38 @@ define([
             });
          };
          const
-            treeControl = correctCreateTreeControl({
+            createResult = correctCreateTreeControl({
                columns: [],
                parentProperty: 'parent',
                nodeProperty: 'nodeType',
                hasChildrenProperty: 'hasChildren',
-               source: source
-            }),
+               source: source,
+               navigation: {
+                  source: 'page',
+                  sourceConfig: {
+                     pageSize: 10,
+                     page: 0,
+                     hasMore: true
+                  }
+               }
+            }, true),
             shouldLoadChildrenResult = {
                'node_has_loaded_children': false,
                'node_has_unloaded_children': true,
                'node_has_no_children': false
             };
-         return new Promise(function(resolve) {
-            setTimeout(function() {
-               for (const nodeKey in shouldLoadChildrenResult) {
-                  const
-                     expectedResult = shouldLoadChildrenResult[nodeKey];
-                  assert.strictEqual(
-                     tree.TreeControl._private.shouldLoadChildren(treeControl, nodeKey),
-                     expectedResult,
-                     '_private.shouldLoadChildren returns unexpected result for ' + nodeKey
-                  );
-               }
-               resolve();
-            }, 10);
-         });
+
+         await createResult.createPromise;
+
+         for (const nodeKey in shouldLoadChildrenResult) {
+            const
+                expectedResult = shouldLoadChildrenResult[nodeKey];
+            assert.strictEqual(
+                tree.TreeControl._private.shouldLoadChildren(createResult.treeControl, nodeKey),
+                expectedResult,
+                '_private.shouldLoadChildren returns unexpected result for ' + nodeKey
+            );
+         }
       });
 
       it('toggleExpanded does not load if shouldLoadChildren===false', function() {
@@ -580,7 +469,8 @@ define([
                },
                isRoot: function() {
                   return false;
-               }
+               },
+               isExpanded: () => false
             };
 
          let
@@ -627,23 +517,24 @@ define([
          assert.isFalse(!!tree.TreeControl._private.isDeepReload({ deepReload: false}, false));
       });
 
-      it('TreeControl.reload', function(done) {
-         var treeControl = correctCreateTreeControl({
+      it('TreeControl.reload', async function() {
+         var createControlResult = correctCreateTreeControl({
                columns: [],
                source: new sourceLib.Memory({
                   data: [],
                   keyProperty: 'id'
                })
-            });
-         var isSourceControllerNode1Destroyed = false;
-         var isSourceControllerNode2Destroyed = false;
+            }, true);
          var vmHasMoreStorage = null;
 
          //viewmodel moch
-         treeControl._children.baseControl.getViewModel = function() {
+         createControlResult.treeControl._children.baseControl.getViewModel = function() {
             return {
                setHasMoreStorage: function (hms) {
                   vmHasMoreStorage = hms;
+               },
+               getHasMoreStorage: () => {
+                  return {};
                },
                getExpandedItems: function() {
                   return [1];
@@ -664,42 +555,9 @@ define([
             };
          };
 
-         treeControl._nodesSourceControllers = new Map([
-            [
-               1,
-               {
-                  destroy: function() {
-                     isSourceControllerNode1Destroyed = true;
-                  },
-                  hasMoreData: function() {
-                     return false;
-                  }
-               }
-            ],
-            [
-               2,
-               {
-                  destroy: function() {
-                     isSourceControllerNode2Destroyed = true;
-                  },
-                  hasMoreData: function() {
-                     return true;
-                  }
-               }
-            ]
-         ]);
-
-         setTimeout(function() {
-            assert.isTrue(treeControl._nodesSourceControllers.get(2).hasMoreData());
-            treeControl.reload();
-            setTimeout(function() {
-               assert.equal(treeControl._nodesSourceControllers.size, 1, 'Invalid value "_nodesSourceControllers" after call "treeControl.reload()".');
-               assert.isFalse(isSourceControllerNode1Destroyed, 'Invalid value "isSourceControllerNode1Destroyed" after call "treeControl.reload()".');
-               assert.isTrue(isSourceControllerNode2Destroyed, 'Invalid value "isSourceControllerNode2Destroyed" after call "treeControl.reload()".');
-               assert.deepEqual({1: false}, vmHasMoreStorage);
-               done();
-            }, 10);
-         }, 10);
+         await createControlResult.createPromise;
+         await createControlResult.treeControl.reload();
+         assert.deepEqual({1: false}, vmHasMoreStorage);
       });
 
 
@@ -716,8 +574,6 @@ define([
          });
          var treeViewModel = treeControl._children.baseControl.getViewModel();
          var isNeedForceUpdate = false;
-         var sourceControllersCleared = false;
-         var clearNodesSourceControllersOriginal = tree.TreeControl._private.clearNodesSourceControllers;
          var beforeReloadCallbackOriginal = tree.TreeControl._private.beforeReloadCallback;
          var reloadFilter;
          var beforeReloadCallback = function() {
@@ -729,9 +585,7 @@ define([
          // Mock TreeViewModel and TreeControl
          treeControl._updatedRoot = true;
          treeControl._children.baseControl._options.beforeReloadCallback = beforeReloadCallback;
-         tree.TreeControl._private.clearNodesSourceControllers = () => {
-            sourceControllersCleared = true;
-         };
+
          treeViewModel._model._display = {
             setFilter: () => {},
             destroy: () => {},
@@ -775,17 +629,14 @@ define([
             setTimeout(function() {
                treeControl._options.root = undefined;
                treeControl._root = 12;
-               let sourceController = treeControl._children.baseControl._sourceController;
                treeControl._afterUpdate({filter: {}, source: source});
                assert.isTrue(treeControl._needResetExpandedItems);
                setTimeout(function() {
                   assert.deepEqual([], treeViewModel.getExpandedItems());
                   assert.equal(12, treeControl._root);
                   assert.isTrue(isNeedForceUpdate);
-                  assert.isTrue(sourceControllersCleared);
-                  treeControl._beforeUpdate({root: treeControl._root});
+                  treeControl._beforeUpdate({root: treeControl._root, source: source});
                   assert.isTrue(resetExpandedItemsCalled);
-                  tree.TreeControl._private.clearNodesSourceControllers = clearNodesSourceControllersOriginal;
                   resolve();
                }, 20);
             }, 10);
@@ -797,7 +648,7 @@ define([
             data: [],
             keyProperty: 'id'
          });
-         const sourceController = new dataSourceLib.NewSourceController({
+         const sourceController = new dataSource.NewSourceController({
             source
          });
          const treeControlConfig = {
@@ -818,27 +669,6 @@ define([
 
       });
 
-      it('clearSourceControllersForNotExpandedNodes', function() {
-         const getSourceController = () => {
-            return {
-               destroy: () => {}
-            };
-         };
-         const oldExpandedItems = [1, 2, 3];
-         const newExpandedItems = [3, 4, 5];
-         const self = {};
-         self._nodesSourceControllers = new Map();
-
-         oldExpandedItems.forEach((key) => {
-            self._nodesSourceControllers.set(key, getSourceController());
-         });
-         newExpandedItems.forEach((key) => {
-            self._nodesSourceControllers.set(key, getSourceController());
-         });
-
-         tree.TreeControl._private.clearSourceControllersForNotExpandedNodes(self, oldExpandedItems, newExpandedItems);
-         assert.equal(self._nodesSourceControllers.size, 3);
-      });
 
       it('TreeControl.afterReloadCallback resets expanded items and hasMoreStorage on set root', function () {
          const source = new sourceLib.Memory({
@@ -939,7 +769,7 @@ define([
             ]
          });
          items.setMetaData({ more: moreDataRs });
-         treeControl._children.baseControl.getSourceController().calculateState(items);
+         treeControl._children.baseControl.getSourceController()._updateQueryPropertiesByItems(items);
 
          // Mock TreeViewModel and TreeControl
 
@@ -962,29 +792,35 @@ define([
 
          tree.TreeControl._private.afterReloadCallback(treeControl, treeControl._options, items);
 
-         assert.equal(treeControl._nodesSourceControllers.size, 2);
-         assert.isTrue(treeControl._nodesSourceControllers.get(1).hasMoreData('down', 1));
-         assert.isFalse(treeControl._nodesSourceControllers.get(2).hasMoreData('down', 2));
+         assert.deepEqual(treeViewModel.getHasMoreStorage(), {
+            '1': true,
+            '2': false
+         });
 
          treeControl._deepReload = false;
          treeControl._options.deepReload = true;
 
          tree.TreeControl._private.afterReloadCallback(treeControl, treeControl._options, items);
 
-         assert.equal(treeControl._nodesSourceControllers.size, 2);
-         assert.isTrue(treeControl._nodesSourceControllers.get(1).hasMoreData('down', 1));
-         assert.isFalse(treeControl._nodesSourceControllers.get(2).hasMoreData('down', 2));
+         assert.deepEqual(treeViewModel.getHasMoreStorage(), {
+            '1': true,
+            '2': false
+         });
 
          tree.TreeControl._private.afterReloadCallback(treeControl, treeControl._options);
 
-         assert.equal(treeControl._nodesSourceControllers.size, 2);
-         assert.isTrue(treeControl._nodesSourceControllers.get(1).hasMoreData('down', 1));
-         assert.isFalse(treeControl._nodesSourceControllers.get(2).hasMoreData('down', 2));
-         treeControl._nodesSourceControllers.clear();
-         items.setMetaData({more: 106});
+         assert.deepEqual(treeViewModel.getHasMoreStorage(), {
+            '1': true,
+            '2': false
+         });
+         items.setMetaData({more: true});
+         treeControl._children.baseControl.getSourceController()._navigationController = null;
+         treeControl._children.baseControl.getSourceController()._updateQueryPropertiesByItems(items);
          tree.TreeControl._private.afterReloadCallback(treeControl, treeControl._options, items);
-         assert.isFalse(treeControl._nodesSourceControllers.get(1).hasMoreData('down', 1));
-         assert.isFalse(treeControl._nodesSourceControllers.get(2).hasMoreData('down', 2));
+         assert.deepEqual(treeViewModel.getHasMoreStorage(), {
+            '1': false,
+            '2': false
+         });
       });
 
       describe('List navigation', function() {
@@ -1020,7 +856,15 @@ define([
                   parentProperty: 'parent',
                   nodeProperty: 'type',
                   columns: [],
-                  viewModelConstructor: treeGrid.ViewModel
+                  viewModelConstructor: treeGrid.ViewModel,
+                  navigation: {
+                     source: 'page',
+                     sourceConfig: {
+                        pageSize: 2,
+                        page: 0,
+                        hasMore: false
+                     }
+                  }
                },
                lnTreeControl = correctCreateTreeControl(lnCfg),
                treeGridViewModel = lnTreeControl._children.baseControl.getViewModel();
@@ -1087,7 +931,8 @@ define([
                   root: 'testRoot',
                   parentProperty: 'parentKey',
                   nodeProperty: 'itemType',
-                  hasChildrenProperty: 'hasChildren'
+                  hasChildrenProperty: 'hasChildren',
+                  source: source
                });
                try {
                   assert.equal(treeGridViewModel._options.parentProperty, 'parentKey');
@@ -1167,16 +1012,6 @@ define([
             treeGridViewModel = treeControl._children.baseControl.getViewModel(),
             reloadOriginal = treeControl._children.baseControl.reload;
 
-         treeControl._nodesSourceControllers = new Map([
-            [
-               1,
-               {
-                  destroy: function() {
-                     isSourceControllerDestroyed = true;
-                  }
-               }
-            ]
-         ]);
 
          treeGridViewModel.setRoot = function() {
             setRootCalled = true;
@@ -1236,19 +1071,17 @@ define([
                   treeControl._options.root = 'testRoot';
                   try {
                      assert.deepEqual(treeGridViewModel.getExpandedItems(), []);
-                     assert.isTrue(isSourceControllerDestroyed);
                   } catch (e) {
                      reject(e);
                   }
 
                   let afterUpdatePromise = treeControl._afterUpdate({root: null, filter: {}, source: source});
                   treeControl._children.baseControl._afterUpdate({});
-                  treeControl._children.baseControl._beforePaint();
+                  treeControl._children.baseControl._componentDidUpdate();
                   afterUpdatePromise.then(function() {
                      try {
                         assert.isTrue(reloadCalled, 'Invalid call "reload" after call "_beforeUpdate" and apply new "root".');
                         assert.isTrue(setRootCalled, 'Invalid call "setRoot" after call "_beforeUpdate" and apply new "root".');
-                        assert.isTrue(isSourceControllerDestroyed);
                         resolve();
                      } catch (e) {
                         reject(e);
@@ -1269,7 +1102,7 @@ define([
                rawData: [],
                idProperty: 'id'
             });
-            const sourceController = new dataSourceLib.NewSourceController({
+            const sourceController = new dataSource.NewSourceController({
                source: 'id'
             });
             sourceController.setItems(items);
@@ -1277,7 +1110,9 @@ define([
                columns: [],
                source,
                sourceController,
-               root: 'test'
+               root: 'test',
+                keyProperty: 'id',
+               selectionType: 'all'
             };
             let afterReloadCallbackCalled = false;
             const treeCreateObject = correctCreateTreeControl(cfg, true);
@@ -1297,41 +1132,48 @@ define([
       });
 
       it('TreeControl._private.prepareHasMoreStorage', function() {
-         var
-            sourceControllers = new Map([
-               [
-                  1,
-                  {
-                     hasMoreData: function() {
-                        return true;
-                     }
-                  }
-               ],
-               [
-                  2,
-                  {
-                     hasMoreData: function() {
-                        return false;
-                     }
-                  }
-               ]
-            ]),
-            hasMoreResult = {
-               1: true,
-               2: false
-            };
-         assert.deepEqual(hasMoreResult, tree.TreeControl._private.prepareHasMoreStorage(sourceControllers),
+         const sourceController = new dataSource.NewSourceController({
+            source: new sourceLib.Memory(),
+            navigation: {
+               source: 'page',
+               sourceConfig: {
+                  pageSize: 2,
+                  page: 0,
+                  hasMore: true
+               }
+            }
+         });
+         const recordSet = new collection.RecordSet({});
+         const moreDataRecordSet = new collection.RecordSet({
+            keyProperty: 'id',
+            rawData: [
+               {
+                  id: 1,
+                  nav_result: true
+               },
+               {
+                  id: 2,
+                  nav_result: false
+               }
+            ]
+         });
+         recordSet.setMetaData({ more: moreDataRecordSet });
+         sourceController._updateQueryPropertiesByItems(recordSet);
+         const hasMoreResult = {
+            1: true,
+            2: false
+         };
+         assert.deepEqual(hasMoreResult, tree.TreeControl._private.prepareHasMoreStorage(sourceController, [1, 2]),
             'Invalid value returned from "prepareHasMoreStorage(sourceControllers)".');
       });
 
-      it('TreeControl._private.loadMore', function () {
+      it('TreeControl._private.loadMore', async function () {
          var
              setHasMoreCalled = false,
              mergeItemsCalled = false,
              isIndicatorHasBeenShown = false,
              isIndicatorHasBeenHidden = false,
              dataLoadCallbackCalled = false,
-             loadMoreSorting,
              loadNodeId,
              loadMoreDirection,
              mockedTreeControlInstance = {
@@ -1346,24 +1188,6 @@ define([
                    parentProperty: 'parent',
                    uniqueKeys: true
                 },
-                _nodesSourceControllers: new Map([
-                   [
-                      1,
-                      {
-                         load: (filter, sorting, direction, config, node) => {
-                            let result = new Deferred();
-                            loadMoreSorting = sorting;
-                            result.callback();
-                            loadNodeId = node;
-                            loadMoreDirection = direction;
-                            return result;
-                         },
-                         hasMoreData: function () {
-                            return true;
-                         }
-                      }
-                   ]
-                ]),
                 _children: {
                    baseControl: {
                       getViewModel: function () {
@@ -1371,9 +1195,7 @@ define([
                             setHasMoreStorage: function () {
                                setHasMoreCalled = true;
                             },
-                            mergeItems: function () {
-                               mergeItemsCalled = true;
-                            }
+                            getExpandedItems: () => []
                          };
                       },
                       showIndicator() {
@@ -1382,10 +1204,15 @@ define([
                       hideIndicator() {
                          isIndicatorHasBeenHidden = true;
                       },
+                      stopBatchAdding() {},
                       getSourceController() {
-                         return new cSource.Controller({
-                            source: new sourceLib.Memory()
-                         });
+                         return {
+                            load: (direction, key) => {
+                               loadNodeId = key;
+                               loadMoreDirection = direction;
+                               return Promise.resolve(new collection.RecordSet());
+                            }
+                         };
                       }
                    }
                 }
@@ -1400,17 +1227,15 @@ define([
                 }
              };
          dataLoadCallbackCalled = false;
-         tree.TreeControl._private.loadMore(mockedTreeControlInstance, dispItem);
+         await tree.TreeControl._private.loadMore(mockedTreeControlInstance, dispItem);
          assert.deepEqual({
                 testParam: 11101989
              }, mockedTreeControlInstance._options.filter,
              'Invalid value "filter" after call "TreeControl._private.loadMore(...)".');
          assert.isTrue(setHasMoreCalled, 'Invalid call "setHasMore" by "TreeControl._private.loadMore(...)".');
-         assert.isTrue(mergeItemsCalled, 'Invalid call "mergeItemsCalled" by "TreeControl._private.loadMore(...)".');
          assert.isTrue(dataLoadCallbackCalled, 'Invalid call "dataLoadCallbackCalled" by "TreeControl._private.loadMore(...)".');
          assert.isTrue(isIndicatorHasBeenShown);
          assert.isTrue(isIndicatorHasBeenHidden);
-         assert.deepEqual(loadMoreSorting, [{'test': 'ASC'}]);
          assert.equal(loadNodeId, 1);
          assert.equal(loadMoreDirection, 'down');
       });
@@ -1424,7 +1249,8 @@ define([
                       rawData: [],
                       idProperty: 'id'
                    }),
-                   root: 'test'
+                   root: 'test',
+                    keyProperty: 'id'
                 },
                treeControl = correctCreateTreeControl(cfg),
                cancelEditCalled = false;
@@ -1456,7 +1282,8 @@ define([
                items: new collection.RecordSet({
                   rawData: [],
                   keyProperty: 'id'
-               })
+               }),
+                keyProperty: 'id'
             });
          treeControl.reload();
          assert.deepEqual([2246, 452815, 457244, 471641], treeControl._children.baseControl.getViewModel().getExpandedItems());
@@ -1722,7 +1549,7 @@ define([
          tree.TreeControl._private.toggleExpanded = savedMethod;
       });
 
-      it('reloadItem', function(done) {
+      it('reloadItem', async function() {
          var source = new sourceLib.Memory({
             data: [{id: 0, 'Раздел@': false, "Раздел": null}],
             rawData: [{id: 0, 'Раздел@': false, "Раздел": null}],
@@ -1751,50 +1578,58 @@ define([
             }
          };
 
-         var treeGridViewModel = new treeGrid.ViewModel(cfg);
-         treeGridViewModel.setItems(new collection.RecordSet({
+         const createResult = correctCreateTreeControl(cfg, true);
+         await createResult.createPromise;
+         const treeControl = createResult.treeControl;
+         const viewModel = treeControl._children.baseControl.getViewModel();
+
+
+         viewModel.setItems(new collection.RecordSet({
             rawData: getHierarchyData(),
             keyProperty: 'id'
          }), cfg);
-         var treeControl = new tree.TreeControl(cfg);
-         treeControl.saveOptions(cfg);
-         treeControl._children = {
-            baseControl: {
-               getViewModel: function() {
-                  return treeGridViewModel;
-               }
-            }
-         };
 
-         var oldItems = treeControl._children.baseControl.getViewModel().getItems();
+         var oldItems = viewModel.getItems();
          assert.deepEqual(oldItems.getRawData(), getHierarchyData());
 
-         treeControl.reloadItem(0, {}, 'depth').addCallback(function() {
-            const viewModel = treeControl._children.baseControl.getViewModel();
-            const newItems = viewModel.getItems()
-            assert.deepEqual(
-               newItems.getRawData(),
-               [
-                  {id: 0, 'Раздел@': false, "Раздел": null},
-                  {id: 3, 'Раздел@': null, "Раздел": 1},
-                  {id: 4, 'Раздел@': null, "Раздел": null}
-               ]
-            );
-            assert.deepEqual(
-               viewModel._model.getHasMoreStorage(),
-               {
-                  0: false
-               }
-            )
-            done();
-         });
+         await treeControl.reloadItem(0, {}, 'depth');
+
+         const newItems = viewModel.getItems();
+         assert.deepEqual(
+             newItems.getRawData(),
+             [
+                {id: 0, 'Раздел@': false, "Раздел": null},
+                {id: 3, 'Раздел@': null, "Раздел": 1},
+                {id: 4, 'Раздел@': null, "Раздел": null}
+             ]
+         );
+         assert.deepEqual(
+             viewModel._model.getHasMoreStorage(),
+             {}
+         );
+
+         viewModel.setExpandedItems([0]);
+         await treeControl.reloadItem(0, {}, 'depth');
+         assert.deepEqual(
+             newItems.getRawData(),
+             [
+                {id: 0, 'Раздел@': false, "Раздел": null},
+                {id: 3, 'Раздел@': null, "Раздел": 1},
+                {id: 4, 'Раздел@': null, "Раздел": null}
+             ]
+         );
+         assert.deepEqual(
+             viewModel._model.getHasMoreStorage(),
+             {
+                0: false
+             }
+         );
       });
 
       it('toggle node by click', async function() {
          let
              isIndicatorHasBeenShown = false,
              isIndicatorHasBeenHidden = false,
-             savedMethod = tree.TreeControl._private.createSourceController,
              data = [
                 {id: 0, 'Раздел@': true, "Раздел": null},
                 {id: 1, 'Раздел@': false, "Раздел": null},
@@ -1811,10 +1646,19 @@ define([
                 parentProperty: 'Раздел',
                 nodeProperty: 'Раздел@',
                 filter: {},
-                expandByItemClick: true
+                expandByItemClick: true,
+                navigation: {
+                   source: 'page',
+                   sourceConfig: {
+                      pageSize: 10,
+                      page: 0,
+                      hasMore: true
+                   }
+                }
              },
              treeGridViewModel = new treeGrid.ViewModel(cfg),
-             treeControl;
+             treeControl,
+             sourceController = new dataSource.NewSourceController(cfg);
 
          treeGridViewModel.setItems(new collection.RecordSet({
             rawData: data,
@@ -1835,25 +1679,8 @@ define([
                hideIndicator() {
                   isIndicatorHasBeenHidden = true;
                },
-               getSourceController() {
-                  return new cSource.Controller({
-                     source: new sourceLib.Memory()
-                  });
-               }
+               getSourceController: () => sourceController
             }
-         };
-
-         // Mock source controller four synchronous unit.
-         tree.TreeControl._private.createSourceController = function () {
-            return {
-               hasMoreData: () => false,
-               load: function() {
-                  return Deferred.success(new collection.RecordSet({
-                     rawData: [],
-                     keyProperty: 'id'
-                  }));
-               }
-            };
          };
 
          // Initial
@@ -1878,37 +1705,35 @@ define([
          };
 
          // Expanding. Child items has not loaded
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(0).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(0).getContents(), {}, undefined, true);
          assertTestCaseResult([0]);
 
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(1).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(1).getContents(), {}, undefined, true);
          assertTestCaseResult([0, 1]);
 
          // Leaf
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(2).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(2).getContents(), {}, undefined, true);
          assertTestCaseResult([0, 1], false);
 
          // Closing. Child items loaded
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(0).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(0).getContents(), {}, undefined, true);
          assertTestCaseResult([1], false);
 
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(1).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(1).getContents(), {}, undefined, true);
          assertTestCaseResult([], false);
 
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(2).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(2).getContents(), {}, undefined, true);
          assertTestCaseResult([], false);
 
          // Expanding. Child items loaded
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(0).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(0).getContents(), {}, undefined, true);
          assertTestCaseResult([0], false);
 
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(1).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(1).getContents(), {}, undefined, true);
          assertTestCaseResult([0, 1], false);
 
-         treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(2).getContents(), {});
+         await treeControl._onItemClick(fakeEvent, treeGridViewModel.getDisplay().at(2).getContents(), {}, undefined, true);
          assertTestCaseResult([0, 1], false);
-
-         tree.TreeControl._private.createSourceController = savedMethod;
       });
 
 
@@ -1953,7 +1778,7 @@ define([
                   hideIndicator() {
                   },
                   getSourceController() {
-                     return new cSource.Controller({
+                     return new dataSource.NewSourceController({
                         source: new sourceLib.Memory()
                      });
                   }
@@ -2045,7 +1870,7 @@ define([
          let isEventRaised = false;
          let isParentEventStopped = false;
 
-         const treeControl = correctCreateTreeControl({ readOnly: true });
+         const treeControl = correctCreateTreeControl({ readOnly: true, keyProperty: 'id' });
          const item = {};
          const nativeEvent = {};
          const event = {
@@ -2205,7 +2030,7 @@ define([
          }), cfg);
 
          tree.TreeControl._private.applyReloadedNodes(treeGridViewModel, 0, 'id', 'Раздел@', newItems);
-
+         treeGridViewModel.getItems().merge(newItems, {remove: false, inject: true}); // эмуляция работы sourceController'a
          assert.equal(treeGridViewModel.getItems().getCount(), 3);
          assert.deepEqual(treeGridViewModel.getItems().at(0).getRawData(), {id: 0, 'Раздел@': false, "Раздел": null});
       });

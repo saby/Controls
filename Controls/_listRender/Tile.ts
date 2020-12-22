@@ -9,6 +9,7 @@ import { TileCollection, TileCollectionItem } from 'Controls/display';
 import { debounce } from 'Types/function';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { TouchContextField } from 'Controls/context';
+import {constants} from 'Env/Env';
 
 const HOVERED_ITEM_CHANGE_DELAY = 150;
 
@@ -127,7 +128,7 @@ export default class TileRender extends BaseRender {
 
         const viewContainer = tileScalingMode === 'inside'
             ? this.getItemsContainer()
-            : document && document.documentElement;
+            : constants.isBrowserPlatform && document.documentElement;
         const viewContainerRect = viewContainer.getBoundingClientRect();
 
         const targetItemSize = this._options.listModel.getItemContainerSize(itemContainer);
@@ -137,7 +138,7 @@ export default class TileRender extends BaseRender {
             viewContainerRect
         );
 
-        const documentRect = document && document.documentElement.getBoundingClientRect();
+        const documentRect = constants.isBrowserPlatform && document.documentElement.getBoundingClientRect();
         const targetItemPositionInDocument = this._options.listModel.getItemContainerPositionInDocument(
             targetItemPosition,
             viewContainerRect,

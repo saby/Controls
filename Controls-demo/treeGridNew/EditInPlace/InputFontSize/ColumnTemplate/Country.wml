@@ -1,0 +1,14 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <ws:if data="{{itemData.item['parent'] === null}}">
+            <ws:partial template="Controls/list:EditingTemplate"
+                        value="{{ itemData.item['country'] }}"
+                        itemData="{{itemData}}"
+                        enabled="{{ true }}">
+                <ws:editorTemplate>
+                    <Controls.input:Text fontSize="inherit" bind:value="itemData.item['country']" selectOnClick="{{ false }}" />
+                </ws:editorTemplate>
+            </ws:partial>
+        </ws:if>
+    </ws:contentTemplate>
+</ws:partial>

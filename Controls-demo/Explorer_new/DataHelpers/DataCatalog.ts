@@ -2,6 +2,7 @@ import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 import * as editingColumnTemplate from 'wml!Controls-demo/Explorer/Editing/editingCellTemplate';
 import * as notEditableTemplate from 'wml!Controls-demo/Explorer/Editing/notEditableCell';
 import * as CntTpl from 'wml!Controls-demo/Explorer_new/SearchWithPhoto/content';
+import * as CntTplLadder from 'wml!Controls-demo/Explorer_new/SearchWithLadderPhoto/content';
 import { IHeader } from 'Controls-demo/types';
 import { IColumn } from 'Controls/grid';
 
@@ -15,6 +16,8 @@ export interface IData {
    isDocument?: Boolean;
    code?: string;
    image?: string;
+   // Специальное свойство для того, чтобы вывести в поиске хлебные крошки в несколько строк
+   SearchResult?: boolean;
 }
 
 export const DataWithLongFolderName = {
@@ -418,10 +421,10 @@ export const Gadgets = {
             id: 3111, parent: 311, 'parent@': true, code: null, price: null, title: 'Жесткие диски SATA'
          },
          {
-            id: 4, parent: null, 'parent@': true, code: null, price: null, title: 'Цифровое фото и видео'
+            id: 4, parent: null, 'parent@': true, code: null, price: null, title: 'Цифровое фото и видео', SearchResult: true
          },
          {
-            id: 41, parent: 4, 'parent@': true, code: null, price: null, title: 'Фотоаппараты'
+            id: 41, parent: 4, 'parent@': true, code: null, price: null, title: 'Фотоаппараты', SearchResult: true
          },
          {
             id: 411, parent: 41, 'parent@': true, code: null, price: null, title: 'Canon'
@@ -562,6 +565,23 @@ export const Gadgets = {
          {
             displayProperty: 'title',
             template: CntTpl,
+            width: ''
+         },
+         {
+            displayProperty: 'code',
+            width: ''
+         },
+         {
+            displayProperty: 'price',
+            width: ''
+         }
+      ];
+   },
+   getSearchColumnsWithLadderPhoto(): IColumn[] {
+      return [
+         {
+            displayProperty: 'title',
+            template: CntTplLadder,
             width: ''
          },
          {

@@ -5,6 +5,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import { Controller, MaskResolver  } from 'Router/router';
 
 import * as template from 'wml!Controls-demo/IndexOld';
+import 'css!Controls-demo/IndexOld';
 
 export default class ModuleClass extends Control<IControlOptions> {
    protected _urlToGo: string;

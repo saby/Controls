@@ -1,18 +1,12 @@
 /**
  * Библиотека контролов, которые служат для поддержки навигации, позволяющей  пользователю перейти c текущей страницы/документа на любой уровень вложенности.
  * @library Controls/breadcrumbs
- * @includes Path Controls/_breadcrumbs/Path
- * @includes HeadingPath Controls/_breadcrumbs/HeadingPath
- * @includes MultilinePath Controls/_breadcrumbs/MultilinePath
  * @author Авраменко А. С.
  */
 
 /*
  * Breadcrumbs library
  * @library Controls/breadcrumbs
- * @includes Path Controls/_breadcrumbs/Path
- * @includes HeadingPath Controls/_breadcrumbs/HeadingPath
- * @includes MultilinePath Controls/_breadcrumbs/MultilinePath
  * @author Авраменко А. С.
  */
 import ItemTemplate = require('wml!Controls/_breadcrumbs/View/resources/itemTemplate');

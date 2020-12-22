@@ -1,4 +1,4 @@
-import {detection} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 
       var _private = {
 
@@ -10,7 +10,7 @@ import {detection} from 'Env/Env';
          calcHeightFixFn: function(container) {
 
             if (detection.firefox) {
-               if (window && container) {
+               if (constants.isBrowserPlatform && container) {
                   /**
                    * В firefox при высоте дочерних элементав < высоты скролла(34px) и резиновой высоте контейнера
                    * через max-height, нативный скролл не пропадает.

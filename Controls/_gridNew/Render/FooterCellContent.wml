@@ -1,3 +1,6 @@
-<ws:if data="{{ !!contentTemplate }}">
-    <ws:partial template="{{ contentTemplate }}" />
-</ws:if>
+<div class="{{ gridColumn.getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+     style="{{ gridColumn.getContentStyles() }}">
+    <ws:if data="{{ !!contentTemplate }}">
+        <ws:partial template="{{ contentTemplate }}"/>
+    </ws:if>
+</div>

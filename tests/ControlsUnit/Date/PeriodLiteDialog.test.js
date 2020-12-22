@@ -2,7 +2,7 @@
 define([
    'Core/core-merge',
    'Controls/shortDatePicker',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils',
    'Types/entity',
    'Types/formatter',
@@ -137,7 +137,7 @@ define([
                for (let [quarterIndex, quarter] of halfyear.quarters.entries()) {
                   for (let [monthIndex, month] of quarter.months.entries()) {
                      assert(
-                        DateUtils.isDatesEqual(
+                        DateUtils.Base.isDatesEqual(
                             component._getYearModel(year, entity.Date)[halfyearIndex].quarters[quarterIndex].months[monthIndex].name, month.name
                         )
                      );
@@ -261,7 +261,7 @@ define([
          it('should not set year to _yearHovered', function() {
             const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {chooseYears: false});
             component._onYearMouseEnter();
-            assert.deepEqual(component._yearHovered, null);
+            assert.isUndefined(component._yearHovered);
          });
       });
 
@@ -449,6 +449,48 @@ define([
                   component._getYearItemCssClasses(test.year),
                   test.css
                );
+            });
+         });
+      });
+
+      describe('_updateArrowButtonsState', () => {
+         [{
+            name: 'should set next arrow to readonly',
+            displayedRanges: [[new Date(2019, 0), new Date(2021, 0)]],
+            startValue: new Date(2019, 0),
+            endValue: new Date(2019, 11, 31),
+            nextArrowResult: true,
+            prevArrowResult: false
+         }, {
+            name: 'should set prev arrow to readonly',
+            displayedRanges: [[new Date(2019, 0), new Date(2021, 0)]],
+            startValue: new Date(2021, 0),
+            endValue: new Date(2021, 11, 31),
+            nextArrowResult: false,
+            prevArrowResult: true
+         }, {
+            name: 'should set prev and next arrows to readonly',
+            displayedRanges: [[new Date(2019, 0), new Date(2019, 0)]],
+            startValue: new Date(2019, 0),
+            endValue: new Date(2019, 11, 31),
+            nextArrowResult: true,
+            prevArrowResult: true
+         }, {
+            name: 'should set prev and next arrows to enable',
+            startValue: new Date(2020, 0),
+            endValue: new Date(2020, 11, 31),
+            nextArrowResult: false,
+            prevArrowResult: false
+         }].forEach((test) => {
+            it(test.name, () => {
+               const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {
+                  displayedRanges: test.displayedRanges,
+                  startValue: test.startValue,
+                  endValue: test.endValue
+               });
+               component._updateArrowButtonsState();
+               assert.equal(test.nextArrowResult, component._nextArrowButtonReadOnly);
+               assert.equal(test.prevArrowResult, component._prevArrowButtonReadOnly);
             });
          });
       });

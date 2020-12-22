@@ -9,9 +9,8 @@ import {CrudWrapper} from 'Controls/dataSource';
 import {ICrud} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {TGroupId, IGroupingModel} from 'Controls/_list/Controllers/Grouping';
-import {Control} from 'UI/Base';
 
-export default class GroupingLoader extends Control {
+export default class GroupingLoader {
     protected _loadedGroups: {} = {};
 
     loadGroup(collection: IGroupingModel,
@@ -41,5 +40,9 @@ export default class GroupingLoader extends Control {
 
     resetLoadedGroups(): void {
         this._loadedGroups = {};
+    }
+
+    destroy(): void {
+        this.resetLoadedGroups();
     }
 }

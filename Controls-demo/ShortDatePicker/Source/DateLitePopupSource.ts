@@ -1,7 +1,7 @@
 import {Memory} from 'Types/source';
 import Deferred = require('Core/Deferred');
 import formatter = require('Types/formatter');
-import dateUtils = require('Controls/Utils/Date');
+import {Base as dateUtils} from 'Controls/dateUtils';
 
 class DateLitePopupSource extends Memory {
     private _$keyProperty: string = 'id';

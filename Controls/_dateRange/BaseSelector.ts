@@ -1,6 +1,6 @@
 import {Control, IControlOptions} from 'UI/Base';
 import DateRangeModel from './DateRangeModel';
-import {proxyModelEvents} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {DependencyTimer} from 'Controls/popup';
 import {Logger} from 'UI/Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -26,7 +26,7 @@ export default class BaseSelector<T> extends Control<T> {
 
     protected _beforeMount(options: IBaseSelectorOptions): void {
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
-        proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
+        EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
         this._updateRangeModel(options);
 
         // при добавлении управляющих стрелок устанавливаем минимальную ширину блока,

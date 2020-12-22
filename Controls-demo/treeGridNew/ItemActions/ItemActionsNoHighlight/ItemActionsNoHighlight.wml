@@ -1,0 +1,32 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controlsDemo__wrapper controlsDemo_wrapper-treeGrid-itemActions-noHighlight-inside demo-treeGridItemActions__inside">
+        <h3>Inside</h3>
+        <Controls.treeGridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                parentProperty="parent"
+                nodeProperty="type"
+                itemActions="{{_itemActions}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/treeGridNew:ItemTemplate" highlightOnHover="{{false}}"/>
+            </ws:itemTemplate>
+        </Controls.treeGridNew:View>
+    </div>
+    <div class="controlsDemo__wrappercontrolsDemo_wrapper-treeGrid-itemActions-noHighlight-inside demo-treeGridItemActions__outside">
+        <h3>Outside</h3>
+        <Controls.treeGridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                parentProperty="parent"
+                nodeProperty="type"
+                itemActions="{{_itemActions}}"
+                itemActionsPosition="outside">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/treeGridNew:ItemTemplate" highlightOnHover="{{false}}"/>
+            </ws:itemTemplate>
+        </Controls.treeGridNew:View>
+    </div>
+</div>
+

@@ -1,15 +1,18 @@
 /**
  * Библиотека, которая предоставляет функционал для работы драг'н'дроп в списках
  * @library Controls/listDragNDrop
- * @includes FlatController Controls/_listDragNDrop/FlatController
- * @includes TreeController Controls/_listDragNDrop/TreeController
+ * @includes Controller Controls/_listDragNDrop/Controller
  * @public
  * @author Панихин К.А.
  */
-import FlatController from 'Controls/_listDragNDrop/FlatController';
-import TreeController from 'Controls/_listDragNDrop/TreeController';
+import Controller from 'Controls/_listDragNDrop/Controller';
+import Flat from 'Controls/_listDragNDrop/strategies/Flat';
+import Tree from 'Controls/_listDragNDrop/strategies/Tree';
+
+export * from 'Controls/_listDragNDrop/interface';
 
 export {
-   FlatController as DndFlatController,
-   TreeController as DndTreeController
+   Controller as DndController,
+   Flat as FlatStrategy,
+   Tree as TreeStrategy
 };

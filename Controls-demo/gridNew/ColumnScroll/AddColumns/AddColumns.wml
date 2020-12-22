@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlDemo__input-row">
+        Add column
+        <Controls.input:Text bind:value="_newColumnWidth" placeholder="new column width"/>
+        <Controls.buttons:Button class="ControlsDemo-AddColumns__add-column" caption="Add column" on:click="addColumn()"/>
+    </div>
+    <div class="controlDemo__input-row">
+        Change table container width
+        <Controls.input:Text bind:value="_tableWidthTemp" placeholder="width" attr:class="ControlsDemo-AddColumns__width"/>
+        <Controls.buttons:Button caption="Change Width" on:click="changeWidth()" attr:class="ControlsDemo-AddColumns__changeWidth"/>
+    </div>
+    <Controls.scroll:Container attr:style="width: {{ _tableWidth }}; height: 400px" shadowMode="js">
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                columnScroll="{{true}}"
+                header="{{_header}}"
+                stickyColumnsCount="{{2}}"/>
+    </Controls.scroll:Container>
+</div>

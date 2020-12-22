@@ -1,6 +1,6 @@
 define('Controls-demo/Date/PeriodLiteDialog', [
    'Core/Control',
-   'wml!Controls-demo/Date/PeriodLiteDialog'
+   'wml!Controls-demo/Date/PeriodLiteDialog',
 ], function(
    BaseControl,
    template
@@ -41,5 +41,6 @@ define('Controls-demo/Date/PeriodLiteDialog', [
          }
       }
    });
+   ModuleClass._styles = ['Controls-demo/Date/PeriodLiteDialog'];
    return ModuleClass;
 });

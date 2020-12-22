@@ -4,6 +4,8 @@ class InertialScrolling {
     protected _isScrolling: boolean = false;
     protected _scrollingTimer: number = null;
     protected _scrollStopWaitingCallbacks: Function[] = null;
+    protected _scrollStopPromise: Promise<void>;
+    protected _scrollStopPromiseCallback: Function;
 
     constructor() {
         this._scrollStopWaitingCallbacks = [];
@@ -11,6 +13,12 @@ class InertialScrolling {
 
     scrollStarted(): void {
         this._isScrolling = true;
+
+        if (!this._scrollStopPromise) {
+            this._scrollStopPromise = new Promise((resolve) => {
+                this._scrollStopPromiseCallback = resolve;
+            });
+        }
 
         if (this._scrollingTimer) {
             clearTimeout(this._scrollingTimer);
@@ -31,15 +39,21 @@ class InertialScrolling {
                 });
                 this._scrollStopWaitingCallbacks = [];
             }
+            this._scrollStopPromise = null;
+            this._scrollStopPromiseCallback();
         }, INERTIA_SCROLLING_DURATION);
     }
 
-    callAfterScrollStopped(callback: Function): void {
+    callAfterScrollStopped(callback: Function): void|Promise<void> {
         if (this._isScrolling) {
             this._scrollStopWaitingCallbacks.push(callback);
         } else {
             callback();
         }
+    }
+
+    getScrollStopPromise(): void|Promise<void> {
+        return this._scrollStopPromise;
     }
 }
 

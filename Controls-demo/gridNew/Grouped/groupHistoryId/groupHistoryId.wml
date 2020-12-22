@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper controlDemo__grid-header-sticky">
+    <div class="controlsDemo__cell">
+        <div class='controlsDemo_fixedWidth500 controlsDemo__flex'>
+            <div class="controlsDemo__button ControlsDemo-SwitchableArea__button_0" on:click="clickHandler('0')">groupHistoryId=''</div>
+            <div class="controlsDemo__button ControlsDemo-SwitchableArea__button_1" on:click="clickHandler('1')">Изменить groupHistoryId</div>
+        </div>
+    </div>
+
+    <Controls.scroll:Container attr:style="height: 250px; width: 330px;">
+        <Controls.list:Container>
+            <Controls.gridNew:View
+                    attr:class=""
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    rowSeparatorSize="s"
+                    columns="{{_columns}}"
+                    groupHistoryId="{{_groupHistoryId}}"
+                    groupProperty="fullName">
+                <ws:groupTemplate>
+                    <ws:partial template="Controls/gridNew:GroupTemplate" itemData="{{itemData}}" expanderAlign="right">
+                    </ws:partial>
+                </ws:groupTemplate>
+            </Controls.gridNew:View>
+        </Controls.list:Container>
+    </Controls.scroll:Container>
+</div>

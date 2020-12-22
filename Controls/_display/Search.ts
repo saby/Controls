@@ -38,5 +38,6 @@ export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends Tree
 
 Object.assign(Search.prototype, {
     _moduleName: 'Controls/display:Search',
-    '[Controls/_display/Search]': true
+    '[Controls/_display/Search]': true,
+    _$dedicatedItemProperty: undefined
 });

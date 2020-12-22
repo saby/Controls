@@ -1,0 +1,39 @@
+<div class="controlsDemo__wrapper">
+
+    <div class="controlsDemo__cell demo-ItemPadding__custom">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ItemPadding/Custom/Index' }}">
+            <a href="{{content.href}}">Настраиваемые отступы</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ItemPadding.Custom.Index showTitle="{{false}}"/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ItemPadding/Standard/Index' }}">
+            <a href="{{content.href}}">Стандартные отступы</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ItemPadding.Standard.Index showTitle="{{false}}"/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ItemPadding/Horizontal/Index' }}">
+            <a href="{{content.href}}">Горизонтальные отступы</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ItemPadding.Horizontal.Index showTitle="{{false}}"/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ItemPadding/Vertical/Index' }}">
+            <a href="{{content.href}}">Вертикальные отступы</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ItemPadding.Vertical.Index showTitle="{{false}}"/>
+    </div>
+
+</div>

@@ -725,6 +725,30 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
 
             // <--
             describe('left swipe', () => {
+               let isNode;
+               before(() => {
+                  isNode = typeof document === 'undefined';
+                  if (isNode) {
+                     global.document = {
+                        body: {
+                           appendChild: () => {},
+                           removeChild: () => {}
+                        },
+                        createElement: () => {}
+                     };
+                     global.window = {
+                        getComputedStyle: () => {}
+                     };
+                  }
+               });
+
+               after(() => {
+                  if (isNode) {
+                     global.document = undefined;
+                     global.window = undefined;
+                  }
+               });
+
                it('on fixed area', () => {
                   gridView._startDragScrolling(createTouchStartEvent([30]), 'touch');
                   gridView._onItemSwipe(createSwipeEvent('left', true));
@@ -925,7 +949,8 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                      contentSizeForScrollBar: 100,
                      scrollWidth: 80
                   });
-               }
+               },
+               setScrollableColumnsSizes(sizes) {}
             };
             gridView._updateColumnScrollData = () => {
                updateShadowStyleCalled = true;

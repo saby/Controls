@@ -221,6 +221,9 @@ var ListView = BaseControl.extend(
         },
 
         _onItemSwipe: function(event, itemData) {
+            if (event.nativeEvent.direction === 'left') {
+                this.activate();
+            }
             this._notify('itemSwipe', [itemData, event]);
             event.stopPropagation();
         },
@@ -298,9 +301,9 @@ var ListView = BaseControl.extend(
             return `controls-ListView__footer__paddingLeft_${leftPadding}_theme-${this._options.theme}`;
         },
 
-        activateEditingRow(): boolean {
+        activateEditingRow(enableScrollToElement?: boolean): boolean {
             if (this._children.editingRow) {
-                this._children.editingRow.activate();
+                this._children.editingRow.activate({ enableScrollToElement });
                 return true;
             }
             return false;

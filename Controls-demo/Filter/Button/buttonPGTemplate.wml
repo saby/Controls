@@ -1,6 +1,0 @@
-<Controls.filterPopup:Panel
-        items="{{items}}"
-        attr:class="controls-FilterPanel__width-m"
-        itemTemplateProperty="myTemplate">
-   <ws:itemTemplate templateName="wml!Controls-demo/Filter/Button/mainBlockPG"/>
-</Controls.filterPopup:Panel>

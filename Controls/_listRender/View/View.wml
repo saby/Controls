@@ -11,7 +11,7 @@
       on:itemClick="_onItemClick()"
       on:itemSwipe="_onItemSwipe()"
       on:closeSwipe="_onCloseSwipe()"
-      on:itemActionClick="_onItemActionClick()"
+      on:itemActionMouseDown="_onItemActionMouseDown()"
       on:itemContextMenu="_onItemContextMenu()"
       on:itemKeyDown="_onItemKeyDown()"/>
 </div>

@@ -80,6 +80,25 @@
 
 .controls-PeriodDialog__stateButton_theme-@{themeName} {
    padding-right: @switcher_offset_datePicker;
+   width: @switcher_size_datePicker;
+   height: @switcher_size_datePicker;
+   cursor: pointer;
+}
+
+.controls-PeriodDialog__stateButton_size_theme-@{themeName} {
+   width: @switcher_size_datePicker;
+   height: @switcher_size_datePicker;
+}
+
+.controls-PeriodDialog__stateButton_color_theme-@{themeName} {
+   fill: @switcher_icon-color_datePicker;
+}
+
+.ws-is-hover {
+   .controls-PeriodDialog__stateButton_theme-@{themeName}:hover
+   .controls-PeriodDialog__stateButton_color_theme-@{themeName} {
+      fill: @switcher_hover_icon-color_datePicker;
+   }
 }
 
 .controls-PeriodDialog__header-period {

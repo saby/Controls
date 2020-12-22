@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-frozenTree">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            expandedItems="{{ [1, 2] }}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type"/>
+</div>

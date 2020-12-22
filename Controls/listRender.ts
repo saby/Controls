@@ -14,11 +14,6 @@ export { default as Grid } from 'Controls/_listRender/Grid';
 export { TileItemTemplateWrapper };
 export { ColumnsItemTemplateWrapper as ColumnsItemTemplate};
 
-export {
-    ItemActionsTemplate as itemActionsTemplate,
-    SwipeActionsTemplate as swipeTemplate
-} from 'Controls/itemActions';
-
 export { default as View } from 'Controls/_listRender/View';
 export {
     editingTemplate,

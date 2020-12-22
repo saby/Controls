@@ -5,7 +5,6 @@ export interface IBackgroundStyleOptions {
 /**
  * Интерфейс для контролов, которые поддерживают настройку фона внутренних элементов.
  *
- * @interface Controls/_interface/IBackgroundStyle
  * @public
  * @author Красильников А.С.
  */

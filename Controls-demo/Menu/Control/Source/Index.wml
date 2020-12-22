@@ -16,7 +16,7 @@
          <ws:navigation view="page" source="page">
             <ws:sourceConfig pageSize="{{4}}" page="{{0}}" hasMore="{{false}}"/>
          </ws:navigation>
-         <ws:selectorTemplate templateName="Controls-demo/Dropdown/StackTemplate">
+         <ws:selectorTemplate templateName="Controls-demo/Menu/Control/Source/resources/StackTemplate">
             <ws:templateOptions items="{{_itemsMore}}"/>
          </ws:selectorTemplate>
       </Controls.menu:Control>

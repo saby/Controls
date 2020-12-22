@@ -5,7 +5,6 @@ import { ITreeControlOptions } from 'Controls/_tree/interface/ITreeControlOption
 /**
  * Библиотека контролов, позволяющая работать с иерархией.
  * @library Controls/tree
- * @includes ITreeControlOptions Controls/_tree/interface/ITreeControlOptions
  * @public
  * @author Аверкиев П.А.
  */

@@ -1,0 +1,9 @@
+<svg attr:xmlns="http://www.w3.org/2000/svg" attr:id="Слой_1" attr:data-name="Слой 1" attr:class="controls-EnumList_Editor__svg controls-EnumList_Editor__svg_theme-{{_options.theme}}" attr:viewBox="0 0 12 12">
+    <circle attr:xmlns="http://www.w3.org/2000/svg"
+            attr:class="controls-EnumList_Editor__borderCircle controls-EnumList_Editor__borderCircle_theme-{{_options.theme}}"
+            attr:cx="6" attr:cy="6" attr:r="5"/>
+    <rect attr:xmlns="http://www.w3.org/2000/svg"
+          attr:class="controls-EnumList_Editor__innerCircle
+                  controls-EnumList_Editor__innerCircle_{{_options.selected ? 'selected' : 'unselected'}}_theme-{{_options.theme}}"
+          attr:x="2" attr:y="2" attr:width="8" attr:height="8" attr:rx="4" attr:ry="4"/>
+</svg>

@@ -30,6 +30,7 @@ https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
 
         on:itemMouseDown="_tmplNotify('itemMouseDown')"
         on:rootChanged="_tmplNotify('rootChanged')"
+        on:sortingChanged="_tmplNotify('sortingChanged')"
         on:expandedItemsChanged="_tmplNotify('expandedItemsChanged')"
         on:collapsedItemsChanged="_tmplNotify('collapsedItemsChanged')"
         on:checkboxClick="_tmplNotify('checkboxClick')"

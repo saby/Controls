@@ -12,6 +12,7 @@
     <module id="ea29a33a-6636-4a1f-a655-1dec6974e04e" name="SbisEnvUI-default-theme"/>
     <module id="636177e5-4d75-44fa-9173-977dc90ff191" name="File"/>
     <module id="db97ce92-b7ce-4ff3-9649-dc43fd3c36bf" name="HotReload"/>
+    <module id="37e402f1-2fb0-4b73-81c5-113cf94dbf1c" name="WasabyLoader"/>
   </depends>
 
   <load_after/>

@@ -1,8 +1,10 @@
+import IEditingTemplateOptions from './EditingTemplate';
+
 /**
- * Шаблон для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}, дающий возможность выводить пользовательский контент как в режиме редактирования, так и в режиме просмотра.
+ * Шаблон для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} в {@link Controls/list:View плоских списках}, дающий возможность выводить пользовательский контент как в режиме редактирования, так и в режиме просмотра.
  * 
- * @class Controls/list:BaseEditingTemplate
- * @mixes Controls/list:EditingTemplate
+ * @class Controls/_list/interface/BaseEditingTemplate
+ * @mixes Controls/_list/interface/EditingTemplate
  * @author Авраменко А.С.
  * @see Controls/list:View
  * @example
@@ -27,9 +29,6 @@
  * </pre>
  * @public
  */
-
-import IEditingTemplateOptions from './EditingTemplate';
-
 export default interface IBaseEditingTemplateOptions extends IEditingTemplateOptions {
     readonly '[Controls/_list/interface/IBaseEditingTemplateOptions]': boolean;
 }

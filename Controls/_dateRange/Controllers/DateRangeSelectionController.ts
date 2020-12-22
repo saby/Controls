@@ -21,7 +21,7 @@ import {Base as DateUtil} from 'Controls/dateUtils';
  */
 var Component = RangeSelectionController.extend({
    _beforeMount: function(options) {
-      const quantum = options.quantum || [];
+      const quantum = options.quantum || {};
       this._quantum = quantum;
 
       const isSingleQuant = () => {

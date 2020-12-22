@@ -16,7 +16,7 @@ type IInputBase =
     & IInputStyle
     & {
     readonly _options: {
-        textAlign: 'left' | 'right';
+        textAlign: 'left' | 'right' | 'center';
         autoComplete: 'on' | 'off' | 'username' | 'current-password';
     }
 };

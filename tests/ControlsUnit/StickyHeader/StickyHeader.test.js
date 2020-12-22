@@ -101,7 +101,6 @@ define([
             component._observer = {
                disconnect: sinon.fake()
             };
-            sinon.stub(component, '_resetTopBottomStyles');
 
             component._beforeUnmount();
             assert.isUndefined(component._observeHandler);
@@ -142,7 +141,9 @@ define([
          });
 
          it('should set correct z-index', function() {
-            const component = createComponent(StickyHeader, {fixedZIndex: 2});
+            const fixedZIndex = 2;
+            const position = 'top';
+            const component = createComponent(StickyHeader, { fixedZIndex });
             component._context = {
                stickyHeader: { top: 0, bottom: 0 }
             };
@@ -150,29 +151,33 @@ define([
             component._container = {};
 
             component._model = { fixedPosition: 'top' };
-            assert.include(component._getStyle(), 'z-index: 2;');
+            assert.include(component._getStyle(position, fixedZIndex), 'z-index: 2;');
 
             component._model = { fixedPosition: 'bottom' };
-            assert.include(component._getStyle(), 'z-index: 2;');
+            assert.include(component._getStyle(position, fixedZIndex), 'z-index: 2;');
          });
 
          it('should return correct top.', function() {
-            const component = createComponent(StickyHeader, {fixedZIndex: 2, position: 'topbottom'});
+            const fixedZIndex = 2;
+            const position = 'topbottom';
+            const component = createComponent(StickyHeader, {fixedZIndex, position });
             component._stickyHeadersHeight = {
                top: 10,
                bottom: 20
             };
 
             component._model = { fixedPosition: 'top' };
-            assert.include(component._getStyle(), 'top: 10px;');
+            assert.include(component._getStyle(position, fixedZIndex), 'top: 10px;');
 
             component._model = { fixedPosition: 'bottom' };
-            assert.include(component._getStyle(), 'bottom: 20px;');
+            assert.include(component._getStyle(position, fixedZIndex), 'bottom: 20px;');
          });
 
          it('should return correct min-height.', function() {
+            const fixedZIndex = 2;
+            const position = 'topbottom';
             const
-               component = createComponent(StickyHeader, { fixedZIndex: 2, position: 'topbottom' });
+               component = createComponent(StickyHeader, { fixedZIndex, position });
             sandbox.replace(component, '_getComputedStyle', function() {
                return { boxSizing: 'border-box', minHeight: '30px' };
             });
@@ -187,15 +192,17 @@ define([
             component._model = { fixedPosition: 'top' };
             component._container = { style: { paddingTop: '' } };
 
-            assert.include(component._getStyle(), 'min-height:31px;');
+            assert.include(component._getStyle(position, fixedZIndex), 'min-height:31px;');
             component._minHeight = 40;
             component._container.style.minHeight = 40;
-            assert.include(component._getStyle(), 'min-height:40px;');
+            assert.include(component._getStyle(position, fixedZIndex), 'min-height:40px;');
          });
 
          it('should return correct styles for Android.', function() {
+            const fixedZIndex = 2;
+            const position = 'top';
             const
-               component = createComponent(StickyHeader, { fixedZIndex: 2, position: 'top' });
+               component = createComponent(StickyHeader, { fixedZIndex, position });
             let style;
             sandbox.replace(component, '_getComputedStyle', function() {
                return { boxSizing: 'border-box', minHeight: '30px', 'padding-top': '1px' };
@@ -207,7 +214,7 @@ define([
 
             component._model = { fixedPosition: 'top' };
             component._container = { style: { paddingTop: '' } };
-            style = component._getStyle();
+            style = component._getStyle(position, fixedZIndex);
             assert.include(style, 'min-height:33px;');
             assert.include(style, 'top: 7px;');
             assert.include(style, 'margin-top: -3px;');
@@ -215,8 +222,10 @@ define([
          });
 
          it('should return correct styles for container with border on mobile platforms.', function() {
+            const fixedZIndex = 2;
+            const position = 'top';
             const
-               component = createComponent(StickyHeader, { fixedZIndex: 2, position: 'top' });
+               component = createComponent(StickyHeader, { fixedZIndex, position });
             let style;
             sandbox.replace(component, '_getComputedStyle', function() {
                return { boxSizing: 'border-box', minHeight: '30px', paddingTop: '1px', 'border-top-width': '1px' };
@@ -229,7 +238,7 @@ define([
             component._model = { fixedPosition: 'top' };
             component._container = { style: { paddingTop: '' } };
 
-            style = component._getStyle();
+            style = component._getStyle(position, fixedZIndex);
             assert.include(style, 'min-height:31px;');
             assert.include(style, 'top: 9px;');
             assert.include(style, 'margin-top: -1px;');
@@ -380,7 +389,6 @@ define([
                   fixedPosition: '',
                   id: component._index,
                   mode: "replaceable",
-                  offsetHeight: 10,
                   prevPosition: "top",
                   shadowVisible: true,
                   isFakeFixed: false
@@ -388,39 +396,14 @@ define([
                   bubbling: true
                }
             );
-            sinon.restore();
-         });
-         it('should use previous offsetHeight if container is hidden', function() {
-            const component = createComponent(StickyHeader, {});
-            component._height = 10;
-            component._container = {
-               closest: () => true,
-               offsetHeight: 0
-            }
-            sinon.stub(component, '_notify');
-            component._fixationStateChangeHandler('', 'top');
-            sinon.assert.calledWith(
-               component._notify,
-               'fixed',
-               [{
-                  fixedPosition: '',
-                  id: component._index,
-                  mode: "replaceable",
-                  offsetHeight: 10,
-                  prevPosition: "top",
-                  shadowVisible: true,
-                  isFakeFixed: false
-               }], {
-                  bubbling: true
-               }
-            );
-
             sinon.restore();
          });
       });
 
       describe('_isShadowVisible', function() {
          it('should show shadow', function() {
+            const mode = 'replaceable';
+            const shadowVisibility = 'visible';
             const component = createComponent(StickyHeader, {});
             component._context = {};
             component._model = { fixedPosition: 'top' };
@@ -432,7 +415,7 @@ define([
                   bottom: false
               }
             };
-            assert.isTrue(component._isShadowVisible('bottom'));
+            assert.isTrue(component._isShadowVisible('bottom', mode, shadowVisibility));
          });
 
          it('should not show shadow if it disabled by controller', function() {

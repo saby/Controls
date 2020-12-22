@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper" style="background-color: black;">
+<div class="controlsDemo__wrapper controlsDemo__background">
     <div class="controlsDemo__cell">
         <div class="demo-contrastBackground__labelTrue controlsDemo_fixedWidth350 controls-text-label_theme-{{_options.theme}}">contrastBackground=true</div>
         <Controls.input:Text attr:class="demo-contrastBackground__inputTrue" contrastBackground="{{true}}"/>

@@ -1,9 +1,35 @@
-<div class="controls-PropertyGrid__editor_theme-{{theme}}">
+<ws:template name="itemTemplate">
     <ws:if data="{{item.captionTemplate}}">
         <ws:partial template="{{item.captionTemplate}}" item="{{item}}"/>
     </ws:if>
     <ws:else data="{{item.caption !== ''}}">
         <span class="controls-PropertyGrid__editor-caption_theme-{{theme}}">{{item.caption || item.name}}</span>
     </ws:else>
-    <Controls.Container.Async templateName="{{item.editorTemplateName}}" templateOptions="{{item.editorOptions}}" class="{{item.editorClass}}"/>
-</div>
+    <ws:partial template="wml!Controls/_propertyGrid/Render/resources/editorTemplate"
+                scope="{{_options}}"/>
+</ws:template>
+
+
+<ws:if data="{{isGridLayout}}">
+    <ws:if data="{{captionPosition === 'top'}}">
+        <div class="controls-PropertyGrid__flex-editor_theme-{{theme}}" style="{{getItemStyles(collectionItem, 1, true)}}">
+            <ws:partial scope="{{_options}}" template="wml!Controls/_propertyGrid/GridRender/resources/itemTemplate"/>
+        </div>
+    </ws:if>
+    <ws:else>
+        <ws:partial scope="{{_options}}" template="wml!Controls/_propertyGrid/GridRender/resources/itemTemplate"/>
+    </ws:else>
+</ws:if>
+<ws:else>
+    <div class="controls-PropertyGrid__editor_theme-{{theme}}
+                {{captionPosition === 'top' ? 'controls-PropertyGrid__flex-editor_theme-' + theme}}
+                {{collectionItem.getItemPaddingClasses(theme)}}">
+        <ws:partial template="itemTemplate"
+                    attr:class="{{highlightOnHover ? 'controls-PropertyGrid__row_highlightOnHover_theme-' + theme}}"/>
+        <ws:if data="{{ collectionItem.shouldDisplayActions() }}">
+            <ws:if data="{{ !collectionItem.isSwiped() }}">
+                <ws:partial template="{{ itemActionsTemplate }}" />
+            </ws:if>
+        </ws:if>
+    </div>
+</ws:else>

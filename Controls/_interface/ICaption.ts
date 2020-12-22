@@ -5,8 +5,6 @@ export interface ICaptionOptions {
 
 /**
  * Текст заголовка.
- *
- * @interface Controls/_interface/ICaption
  * @public
  * @author Красильников А.С.
  */
@@ -14,7 +12,6 @@ export interface ICaptionOptions {
 /*
  * Caption text.
  *
- * @interface Controls/_interface/ICaption
  * @public
  * @author Красильников А.С.
  */
@@ -25,8 +22,7 @@ export default interface ICaption {
  * @name Controls/_interface/ICaption#caption
  * @cfg {String} Определяет текст заголовка контрола.
  * @example
- * **Пример 1.** Кнопка с заголовком.
- * <pre>
+ * <pre class="brush: html">
  *    <Controls.buttons:Button caption="Hello Wasaby"/>
  * </pre>
  */

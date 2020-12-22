@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <Controls.treeGridNew:View
+            keyProperty="key"
+            parentProperty="parent"
+            nodeProperty="type"
+            colspanCallback="{{ _colspanCallback }}"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"/>
+</div>

@@ -1,0 +1,27 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            itemActions="{{_itemActions}}"
+            itemActionsPosition="custom"
+            name="gridView">
+        <ws:columns>
+            <ws:Array>
+                <ws:Object displayProperty="number" width="30px"/>
+                <ws:Object displayProperty="country" width="200px">
+                    <ws:template>
+                        <ws:partial template="Controls/gridNew:ColumnTemplate">
+                            <ws:contentTemplate>
+                                <ws:partial template="{{contentTemplate.itemActionsTemplate}}" />
+                            </ws:contentTemplate>
+                        </ws:partial>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object displayProperty="capital" width="100px"/>
+                <ws:Object displayProperty="population" width="150px"/>
+                <ws:Object displayProperty="square" width="100px"/>
+                <ws:Object displayProperty="populationDensity" width="120px"/>
+            </ws:Array>
+        </ws:columns>
+    </Controls.gridNew:View>
+</div>

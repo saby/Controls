@@ -1,0 +1,10 @@
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}" attr:class="controls-EnumList__columns">
+    <ws:contentTemplate>
+        <ws:partial template="wml!Controls/_filterPanel/Editors/resources/CircleTemplate"
+                    selected="{{itemData.item[itemData.column.displayProperty] === itemData.column.selected}}"/>
+        <div class="{{itemData.column.selected && itemData.item[itemData.column.displayProperty] !== itemData.column.selected ?
+                    'controls-EnumList__column_unselected-title_theme-' + theme}}">
+            {{itemData.item[itemData.column.displayProperty]}}
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

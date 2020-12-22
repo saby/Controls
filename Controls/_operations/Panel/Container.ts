@@ -14,8 +14,8 @@ export interface IOperationsPanelContainerOptions extends IControlOptions {
  * Он обеспечивает передачу выделения (опции selectedKeys, excludedKeys, markedKey) между {@link Controls/operations:Controller} и {@link Controls/operations:Panel}.
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/operations/basic-configuration/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/basic-configuration/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less переменные тем оформления}
  *
  *
  * @class Controls/_operations/Panel/Container

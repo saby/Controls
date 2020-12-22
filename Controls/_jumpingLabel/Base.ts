@@ -32,7 +32,7 @@ export interface IBaseOptions extends IControlOptions, IValidationStatusOptions,
  * @extends UI/Base:Control
  *
  * @mixes Controls/_jumpingLabel/IBaseOptions
- * @mixes Controls/interface:IValidationStatusOptions
+ * @mixes Controls/interface:IValidationStatus
  *
  * @public
  * @demo Controls-demo/JumpingLabel/Index

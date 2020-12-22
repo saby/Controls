@@ -2,7 +2,6 @@ import rk = require('i18n!Controls');
 import {Control, TemplateFunction} from 'UI/Base';
 import {TSelectedKeys, IOptions} from 'Controls/interface';
 import {default as IMenuControl, IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
-import {Controller as SourceController} from 'Controls/source';
 import {RecordSet, List} from 'Types/collection';
 import {ICrudPlus, PrefetchProxy, QueryWhere} from 'Types/source';
 import * as Clone from 'Core/core-clone';
@@ -15,11 +14,11 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import {view as constView} from 'Controls/Constants';
+import {groupConstants as constView} from 'Controls/list';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {TouchContextField} from 'Controls/context';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
-import {error as dataSourceError} from 'Controls/dataSource';
+import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {ISelectorTemplate} from 'Controls/_interface/ISelectorDialog';
 import {StickyOpener, StackOpener} from 'Controls/popup';
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
@@ -45,6 +44,7 @@ const MAX_HISTORY_VISIBLE_ITEMS_COUNT = 10;
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_menu/interface/IMenuControl
  * @mixes Controls/_menu/interface/IMenuBase
+ * @mixes Controls/_dropdown/interface/IGrouped
  * @demo Controls-demo/Menu/Control/Source/Index
  *
  * @author Герасимов А.М.
@@ -61,7 +61,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     protected _moreButtonVisible: boolean = false;
     protected _expandButtonVisible: boolean = false;
     protected _expander: boolean;
-    private _sourceController: typeof SourceController = null;
+    private _sourceController: SourceController = null;
     private _subDropdownItem: CollectionItem<Model>|null;
     private _selectionChanged: boolean = false;
     private _expandedItems: RecordSet;
@@ -235,7 +235,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
      * @param clickEvent
      * @private
      */
-    protected _itemActionClick(event: SyntheticEvent<MouseEvent>,
+    protected _itemActionMouseDown(event: SyntheticEvent<MouseEvent>,
                                item: CollectionItem<Model>,
                                action: IItemAction,
                                clickEvent: SyntheticEvent<MouseEvent>): void {
@@ -721,7 +721,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getSourceController(
-        {source, navigation, keyProperty}: IMenuControlOptions): typeof SourceController {
+        {source, navigation, keyProperty}: IMenuControlOptions): SourceController {
         if (!this._sourceController) {
             this._sourceController = new SourceController({
                 source,
@@ -747,8 +747,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     private _loadItems(options: IMenuControlOptions): Deferred<RecordSet> {
         const filter: QueryWhere = Clone(options.filter) || {};
         filter[options.parentProperty] = options.root;
+        const sourceController = this._getSourceController(options);
+        sourceController.setFilter(filter);
 
-        return this._getSourceController(options).load(filter).then(
+        return sourceController.load().then(
             (items: RecordSet): RecordSet => {
                 if (options.dataLoadCallback) {
                     options.dataLoadCallback(items);

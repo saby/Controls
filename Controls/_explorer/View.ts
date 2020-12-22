@@ -1,7 +1,7 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_explorer/View/View');
 import cInstance = require('Core/core-instance');
-import {tmplNotify, keysHandler} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import randomId = require('Core/helpers/Number/randomId');
 import {SearchGridViewModel, SearchView, TreeGridView, ViewModel as TreeGridViewModel} from 'Controls/treeGrid';
 import {factory} from 'Types/chain';
@@ -14,11 +14,12 @@ import {
    INavigationSourceConfig,
    INavigationPositionSourceConfig as IPositionSourceConfig,
    INavigationOptionValue as INavigation
-}  from '../_interface/INavigation';
+} from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {ISelectionObject} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import { RecordSet } from 'Types/collection';
+import {calculatePath} from 'Controls/dataSource';
 
 var
       HOT_KEYS = {
@@ -108,17 +109,6 @@ var
          getRoot: function(self, newRoot) {
             return typeof newRoot !== 'undefined' ? newRoot : self._root;
          },
-         getPath(data) {
-             const path = data && data.getMetaData().path;
-             let breadCrumbs;
-
-             if (path && path.getCount() > 0) {
-                 breadCrumbs = factory(path).toArray();
-             } else {
-                 breadCrumbs = null;
-             }
-             return breadCrumbs;
-         },
          resolveItemsOnFirstLoad(self, resolver, result) {
             if (self._firstLoad) {
                resolver(result);
@@ -139,7 +129,7 @@ var
             }
          },
          serviceDataLoadCallback: function(self, oldData, newData) {
-            self._breadCrumbsItems = _private.getPath(newData);
+            self._breadCrumbsItems = calculatePath(newData).path;
             _private.resolveItemsOnFirstLoad(self, self._itemsResolver, self._breadCrumbsItems);
             _private.updateSubscriptionOnBreadcrumbs(oldData, newData, self._updateHeadingPath);
          },
@@ -379,9 +369,9 @@ var
     * Сортировка применяется к запросу к источнику данных. Полученные от источника записи дополнительно не сортируются.
     *
     * Полезные ссылки:
-    * * <a href="/doc/platform/developmentapl/interface-development/controls/list/explorer/">руководство разработчика</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_explorer.less">переменные тем оформления explorer</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления list</a>
+    * * {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/ руководство разработчика}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_explorer.less переменные тем оформления explorer}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления list}
     *
     * @demo Controls-demo/Explorer/Explorer
     * @demo Controls-demo/Explorer/Search
@@ -400,7 +390,7 @@ var
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/IHierarchy
-    * @mixes Controls/_tree/interface/ITreeControlOptions
+    * @implements Controls/_tree/interface/ITreeControl
     * @mixes Controls/_explorer/interface/IExplorer
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_tile/interface/ITile
@@ -410,7 +400,7 @@ var
     * @mixes Controls/_list/interface/IClickableView
     * @mixes Controls/_list/interface/IMovableList
     * @mixes Controls/_list/interface/IRemovableList
-    * @mixes Controls/_marker/interface/IMarkerListOptions
+    * @mixes Controls/_marker/interface/IMarkerList
     *
     * @public
     * @author Авраменко А.С.
@@ -438,7 +428,7 @@ var
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/ISorting
     * @mixes Controls/_interface/IHierarchy
-    * @mixes Controls/_tree/interface/ITreeControlOptions
+    * @implements Controls/_tree/interface/ITreeControl
     * @mixes Controls/_explorer/interface/IExplorer
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_tile/interface/ITile
@@ -447,7 +437,7 @@ var
     * @mixes Controls/_grid/interface/IGridControl
     * @mixes Controls/_list/interface/IMovableList
     * @mixes Controls/_list/interface/IRemovableList
-    * @mixes Controls/_marker/interface/IMarkerListOptions
+    * @mixes Controls/_marker/interface/IMarkerList
     *
     * @public
     * @author Авраменко А.С.
@@ -530,7 +520,7 @@ var
          const loadedBySourceController =
              cfg.sourceController &&
              ((isSearchViewMode && cfg.searchValue && cfg.searchValue !== this._options.searchValue) ||
-              (cfg.source !== this._options.source && cfg.task1180503140));
+              (cfg.source !== this._options.source));
          const isSourceControllerLoading = cfg.sourceController && cfg.sourceController.isLoading();
          this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
          this._headerVisibility = cfg.root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
@@ -579,7 +569,7 @@ var
             // или "tile" будет перезагрузка. Этот код нужен до тех пор, пока не будут спускаться данные сверху-вниз.
             // https://online.sbis.ru/opendoc.html?guid=f90c96e6-032c-404c-94df-cc1b515133d6
             const filterChanged = !isEqual(cfg.filter, this._options.filter);
-            const recreateSource = cfg.source !== this._options.source || (isSourceControllerLoading && cfg.task1180503140);
+            const recreateSource = cfg.source !== this._options.source || (isSourceControllerLoading);
             const sortingChanged = !isEqual(cfg.sorting, this._options.sorting);
             if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !loadedBySourceController) {
                _private.setPendingViewMode(this, cfg.viewMode, cfg);
@@ -589,8 +579,7 @@ var
          } else if (!isViewModeChanged &&
              this._pendingViewMode &&
              cfg.viewMode === this._pendingViewMode &&
-             loadedBySourceController &&
-             cfg.task1180503140) {
+             loadedBySourceController) {
             _private.setViewModeSync(this, this._pendingViewMode, cfg);
          } else {
             _private.applyNewVisualOptions(this);
@@ -605,7 +594,7 @@ var
          }
 
       },
-      _beforePaint: function() {
+       _componentDidUpdate: function() {
          if (this._markerForRestoredScroll !== null) {
             this.scrollToItem(this._markerForRestoredScroll);
             this._markerForRestoredScroll = null;
@@ -716,10 +705,10 @@ var
          }
       },
       _onExplorerKeyDown: function(event) {
-         keysHandler(event, HOT_KEYS, _private, this);
+         EventUtils.keysHandler(event, HOT_KEYS, _private, this);
       },
       _updateHeadingPath() {
-          this._breadCrumbsItems = _private.getPath(this._items);
+          this._breadCrumbsItems = calculatePath(this._items).path;
       },
       scrollToItem(key: string|number, toBottom: boolean): void {
          this._children.treeControl.scrollToItem(key, toBottom);
@@ -789,7 +778,7 @@ var
          let item = this._children.treeControl._children.baseControl.getViewModel().getMarkedItem().getContents();
          this._notifyHandler(e, 'arrowClick', item);
       },
-      _notifyHandler: tmplNotify
+      _notifyHandler: EventUtils.tmplNotify
    });
 
    Explorer._private = _private;
@@ -852,9 +841,9 @@ var
     *
     * Также шаблон Controls/tile:ItemTemplate поддерживает {@link Controls/tile:ItemTemplate параметры}, с помощью которых можно изменить отображение элемента.
     *
-    * В разделе "Примеры" показано как с помощью директивы {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
+    * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию tileItemTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/tile:ItemTemplate.
     *
-    * Дополнительно о работе с шаблоном вы можете прочитать в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/explorer/templates/ руководстве разработчика}.
+    * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/explorer/templates/ руководстве разработчика}.
     * @example
     * <pre class="brush: html;">
     * <Controls.explorer:View>

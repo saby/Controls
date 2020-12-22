@@ -2,8 +2,8 @@
 define('Controls/interface/IOpenerOwner', [], function() {
 
    /**
-    * Интерфейс для контролов, имеющих <a href='/doc/platform/developmentapl/interface-development/ui-library/focus/#control-opener'>опенер</a>.
-    * Более подробно информация изложена в документе <a href='/doc/platform/developmentapl/interface-development/ui-library/focus/'>Работа с фокусами</a>.
+    * Интерфейс для контролов, имеющих {@link /doc/platform/developmentapl/interface-development/ui-library/focus/#control-opener опенер}.
+    * Более подробно информация изложена в документе {@link /doc/platform/developmentapl/interface-development/ui-library/focus/ Работа с фокусами}.
     *
     * @interface Controls/interface/IOpenerOwner
     * @public
@@ -11,7 +11,7 @@ define('Controls/interface/IOpenerOwner', [], function() {
     */
    /*
     * Interface for controls that has opener. Opener means control that initiates opening of current control. It needs for mechanism of focuses.
-    * For detailed information, refer <a href='/doc/platform/developmentapl/interface-development/ui-library/focus/'>Mechanism of focuses</a>.
+    * For detailed information, refer {@link /doc/platform/developmentapl/interface-development/ui-library/focus/ Mechanism of focuses}.
     *
     * @interface Controls/interface/IOpenerOwner
     * @public

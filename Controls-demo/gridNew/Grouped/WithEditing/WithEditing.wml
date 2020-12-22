@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper controlDemo__grid-header-sticky">
+    <Controls.scroll:Container attr:style="height: 250px; width: 330px;">
+        <Controls.list:Container>
+            <Controls.gridNew:View
+                    attr:class=""
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    rowSeparatorSize="s"
+                    columns="{{_columns}}"
+                    groupProperty="fullName">
+                <ws:groupTemplate>
+                    <ws:partial template="Controls/gridNew:GroupTemplate" itemData="{{itemData}}" expanderAlign="right">
+                    </ws:partial>
+                </ws:groupTemplate>
+                <ws:editingConfig>
+                    <ws:Object editOnClick="{{true}}" autoAdd="{{true}}"/>
+                </ws:editingConfig>
+            </Controls.gridNew:View>
+        </Controls.list:Container>
+    </Controls.scroll:Container>
+</div>

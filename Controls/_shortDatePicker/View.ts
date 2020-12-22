@@ -17,19 +17,17 @@ const enum POSITION {
     LEFT = 'left'
 }
 
-// В режиме 'Только года' одновременно отобржается 15 элементов.
-// Таким образом последний отображаемый элемент имеет индекс 14.
-const ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX = 14;
-
 // Минимальный отступ справа до края экрана. Если попап ближе чем это значение, то крестик нужно показать слева
 // Когда в контролах будут доступны переменные темы, значение должно браться с алиаса ширины крестика
 const MIN_RIGHT_OFFSET = 30;
+const MAX_VISIBLE_YEARS = 14;
+
 /**
  * Контрол выбора даты или периода.
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_shortDatePicker.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_shortDatePicker.less переменные тем оформления}
  *
  * @class Controls/shortDatePicker
  * @extends Core/Control
@@ -45,21 +43,23 @@ const MIN_RIGHT_OFFSET = 30;
  * @demo Controls-demo/ShortDatePicker/MonthTemplate/ContentTemplate/Index
  * @demo Controls-demo/ShortDatePicker/MonthTemplate/IconTemplate/Index
  */
+
 class View extends Control<IDateLitePopupOptions> {
     protected _template: TemplateFunction = componentTmpl;
     protected _defaultListTemplate: TemplateFunction = listTmpl;
-    protected monthTemplate: TemplateFunction = null;
-    protected _position: Date = null;
-    protected _yearHovered: Date = null;
-    protected _range: Date[] = null;
-    protected _isFullPicker: boolean = null;
+    protected _position: Date;
+    protected _yearHovered: Date;
+    protected _range: Date[];
+    protected _isFullPicker: boolean = false;
     protected _limit: number = 15;
     protected _isExpandedPopup: boolean = false;
     protected _isExpandButtonVisible: boolean = true;
     protected _closeBtnPosition: POSITION = POSITION.RIGHT;
     protected _emptyCaption: string = '';
     protected _caption: string = '';
-    protected _displayedRanges: Date[] = null;
+    protected _displayedRanges: Date[];
+    protected _prevArrowButtonReadOnly: boolean = false;
+    protected _nextArrowButtonReadOnly: boolean = false;
 
     protected _beforeMount(options: IDateLitePopupOptions): void {
         this._isFullPicker = options.chooseMonths && options.chooseQuarters && options.chooseHalfyears;
@@ -74,7 +74,9 @@ class View extends Control<IDateLitePopupOptions> {
 
         if (!(options.chooseQuarters && options.chooseMonths) && options.chooseHalfyears) {
             Logger.error(
-                'shortDatePicker: Unsupported combination of chooseQuarters, chooseMonths and chooseHalfyears options',
+                'shortDatePicker: Для корректного отображения контрола, при включенной опции отображения полугодий' +
+                '(chooseHalfyears) необходимо также включить опции для отображения кварталов (chooseQuarters) ' +
+                'и месяцев (chooseMonths)',
                 this);
         }
 
@@ -84,26 +86,32 @@ class View extends Control<IDateLitePopupOptions> {
             this._position = this._getYearListPosition(options, options.dateConstructor);
         }
         if (options.range) {
-            Logger.error('shortDatePicker: ' + rk('You should use displayedRanges option instead of range option.'), this);
+            Logger.error('shortDatePicker: ' +
+                rk('You should use displayedRanges option instead of range option.'), this);
         }
         this._displayedRanges = options.displayedRanges || options.range;
 
         this._position = this._getFirstPositionInMonthList(this._position, options.dateConstructor);
-
-        this.monthTemplate = options.monthTemplate || monthTmpl;
         this._isExpandButtonVisible = this._getExpandButtonVisibility(options);
+
+        if (options.displayedRanges) {
+            this._updateArrowButtonsState();
+        }
     }
 
     protected _beforeUpdate(options: IDateLitePopupOptions): void {
         this._isExpandButtonVisible = this._getExpandButtonVisibility(options);
         this._updateCloseBtnPosition(options);
+        if (options.displayedRanges) {
+            this._updateArrowButtonsState();
+        }
     }
 
     /**
      * Sets the current year
      * @param year
      */
-    setYear(year: Date): void {
+    setYear(year: number): void {
         this._position = new this._options.dateConstructor(year, 0, 1);
         this._notify('yearChanged', [year]);
     }
@@ -153,7 +161,8 @@ class View extends Control<IDateLitePopupOptions> {
         for (let i = 0; i < this._displayedRanges.length; i++) {
             range = this._displayedRanges[i];
             if (date < range[0]) {
-                const startHiddenPeriod = i === 0 ? null : this._shiftRange(this._displayedRanges[i - 1][1], 1, dateConstructor);
+                const startHiddenPeriod = i === 0 ? null :
+                    this._shiftRange(this._displayedRanges[i - 1][1], 1, dateConstructor);
                 const endHiddenPeriod = this._shiftRange(range[0], -1, dateConstructor);
                 return [startHiddenPeriod, endHiddenPeriod];
             }
@@ -197,9 +206,11 @@ class View extends Control<IDateLitePopupOptions> {
                 const openerLeft = options.stickyPosition.targetPosition.left;
                 const popupLeft = options.stickyPosition.position.left;
                 // Вычисляем смещения попапа влево, т.к окно выравнивается по центру открывающего элемента
-                const popupOffset = (options.stickyPosition.sizes.width - options.stickyPosition.targetPosition.width) / 2;
+                const popupOffset = (options.stickyPosition.sizes.width -
+                    options.stickyPosition.targetPosition.width) / 2;
                 const isReverted = (popupLeft + popupOffset) !== openerLeft;
-                const isOutside = popupLeft + options.stickyPosition.sizes.width > window?.innerWidth - MIN_RIGHT_OFFSET;
+                const isOutside = popupLeft + options.stickyPosition.sizes.width >
+                    window?.innerWidth - MIN_RIGHT_OFFSET;
                 this._closeBtnPosition = isReverted || isOutside ? POSITION.LEFT : POSITION.RIGHT;
             }
         }
@@ -235,8 +246,7 @@ class View extends Control<IDateLitePopupOptions> {
                 break;
             }
         }
-        // При нажатии кнопки 'Вниз' у типа 'Только года', мы отнимаем ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX,
-        // если мы попали за границы displayedRanges, берем за основу вычислений ближайший элемент снизу.
+        // Если мы попали за границы displayedRanges, берем за основу вычислений ближайший элемент снизу.
         if (index === undefined) {
             for (let i = this._displayedRanges.length - 1; i >= 0; i--) {
                 if (this._displayedRanges[i][1] < new Date(year, 0) && this._displayedRanges[i][1] !== null) {
@@ -266,48 +276,79 @@ class View extends Control<IDateLitePopupOptions> {
 
     protected _changeYear(event: Event, delta: number): void {
         const year = this._position.getFullYear();
-        let yearToSet;
-        let nextElementsAmount;
+        let newYear;
+        if (this._options.displayedRanges) {
+            const amountOfFollowingItems = this._getAmountOfFollowingItems(delta);
+            // Ищем последний видимый элемент
+            // В случае, если мы лисаем 'Вверх', мы просто устаналиваем ближайший доступный год
+            if (this._canChangeYear(year, delta, amountOfFollowingItems) || !amountOfFollowingItems) {
+                newYear = this._getNextDisplayedYear(year, delta);
+            }
+        } else {
+            newYear = year + delta;
+        }
+        if (newYear && newYear !== year) {
+            this.setYear(newYear);
+        }
+    }
 
-        // Проверяем случаи, когда мы листаем 'Вниз'.
+    private _canChangeYear(year: number, delta: number, amountOfFollowingItems: number): boolean {
+        let changedYear = year;
+        const yearsNotEqual = () => {
+            return changedYear !== this._getNextDisplayedYear(changedYear, delta);
+        };
+
+        let index = 0;
+        while (yearsNotEqual() && index < amountOfFollowingItems) {
+            changedYear = this._getNextDisplayedYear(changedYear, delta);
+            index++;
+        }
+        return yearsNotEqual();
+    }
+
+    // Количество элементов, которые нахоятся ниже текущего года, но так же видны
+    private _getAmountOfFollowingItems(delta: number): number {
+        let amountOfFollowingItems = 0;
         // В режиме 'Только года' элементы строются снизу вверх по возрастанию, а во всех остальных типах - сверху вниз,
         // отсюда и разница в дельтах
         if (delta === 1) {
             if (!this._options.chooseHalfyears && this._options.chooseQuarters) {
                 // Помимо текущего года, в режиме 'Только кварталы' отображаются еще 2 года снизу.
-                nextElementsAmount = 2;
+                amountOfFollowingItems = 2;
             } else if (this._options.chooseMonths) {
                 // Помимо текущего года, в режиме 'Только месяцы' и 'Месяцы, кварталы и полугодия'
                 // отображается еще 1 год снизу.
-                nextElementsAmount = 1;
+                amountOfFollowingItems = 1;
             }
         } else {
             if (!this._options.chooseMonths && !this._options.chooseHalfyears && !this._options.chooseQuarters) {
-                // Помимо текущего года, в режиме'Только года' отображаются еще 14 лет снизу.
-                nextElementsAmount = ONLY_YEARS_LAST_ELEMENT_VISIBLE_INDEX;
+                // Помимо текущего года, в режиме 'Только года' отображаются еще 14 лет снизу.
+                amountOfFollowingItems = MAX_VISIBLE_YEARS;
             }
         }
-        if (nextElementsAmount) {
-            // Ищем последний видимый элемент
-            let yearToCheck = year;
-            for (let i = 0; i < nextElementsAmount; i++) {
-                if (yearToCheck !== this._getNextDisplayedYear(yearToCheck, delta)) {
-                    yearToCheck = this._getNextDisplayedYear(yearToCheck, delta);
-                } else {
-                    break;
-                }
-            }
-            // Если после всех видимых элементов есть еще элемент - переключаемся.
-            if (this._getNextDisplayedYear(yearToCheck, delta) !== yearToCheck) {
-                yearToSet = this._getNextDisplayedYear(year, delta);
-            }
-        } else {
-            // В случае, если мы лисаем 'Вверх', мы просто устаналиваем ближайший доступный год
-            yearToSet = this._getNextDisplayedYear(year, delta);
-        }
+        return amountOfFollowingItems;
+    }
 
-        if (yearToSet && yearToSet !== year) {
-            this.setYear(yearToSet);
+    _updateArrowButtonsState(): void {
+        const buttons = {
+            arrowDown: {
+                delta: 1,
+                name: '_nextArrowButtonReadOnly'
+            },
+            arrowUp: {
+                delta: -1,
+                name: '_prevArrowButtonReadOnly'
+            }
+        };
+        for (const i in buttons) {
+            if (buttons.hasOwnProperty(i)) {
+                const amountOfFollowingItems = this._getAmountOfFollowingItems(buttons[i].delta);
+                this[buttons[i].name] = !this._canChangeYear(
+                    this._position.getFullYear(),
+                    buttons[i].delta,
+                    amountOfFollowingItems
+                );
+            }
         }
     }
 
@@ -337,11 +378,12 @@ class View extends Control<IDateLitePopupOptions> {
     }
 
     protected _onYearClick(event: Event, year: Date): void {
+        const lastMonth: number = 11;
+        const lastDay: number = 31;
         if (this._options.chooseYears) {
-            this._notify(
-                'sendResult',
-                [new this._options.dateConstructor(year, 0, 1), new this._options.dateConstructor(year, 11, 31)],
-                {bubbling: true});
+            this._notify('sendResult',
+                [new this._options.dateConstructor(year, 0, 1),
+                    new this._options.dateConstructor(year, lastMonth, lastDay)], {bubbling: true});
         }
     }
 
@@ -357,7 +399,8 @@ class View extends Control<IDateLitePopupOptions> {
 
     protected _getListCssClasses(): string {
         if (this._options.chooseHalfyears) {
-            return 'controls-PeriodLiteDialog-item controls-PeriodLiteDialog__fullYear-list_theme-' + this._options.theme;
+            return 'controls-PeriodLiteDialog-item controls-PeriodLiteDialog__fullYear-list_theme-' +
+                this._options.theme;
         }
         if (this._options.chooseMonths) {
             return 'controls-PeriodLiteDialog__vLayout_theme-' + this._options.theme +
@@ -411,6 +454,8 @@ class View extends Control<IDateLitePopupOptions> {
         const start = options.startValue;
         const currentDate = new dateConstructor();
         const startValueYear = start ? start.getFullYear() : null;
+        // максимально допустимая разница между текущим и отображаемым годом
+        const maxYearsOffset = 5;
 
         if (!startValueYear) {
             return currentDate;
@@ -418,8 +463,8 @@ class View extends Control<IDateLitePopupOptions> {
 
         if (startValueYear >= currentDate.getFullYear()) {
             return start;
-        } else if (currentDate.getFullYear() - startValueYear >= 5) {
-            return new dateConstructor(startValueYear + 4, 0);
+        } else if (currentDate.getFullYear() - startValueYear >= maxYearsOffset) {
+            return new dateConstructor(startValueYear + maxYearsOffset - 1, 0);
         } else {
             return currentDate;
         }
@@ -431,20 +476,19 @@ class View extends Control<IDateLitePopupOptions> {
 
     static _theme: string[] = ['Controls/shortDatePicker'];
 
-    static getDefaultOptions(): object {
-        return {
-            ...IPeriodSimpleDialog.getDefaultOptions(),
-            captionFormatter: dateControlsUtils.formatDateRangeCaption,
-            itemTemplate: ItemWrapper,
-            dateConstructor: WSDate
-        };
+    static getDefaultOptions(): IDateLitePopupOptions {
+        const PeriodDialogOptions: IDateLitePopupOptions = IPeriodSimpleDialog.getDefaultOptions();
+        PeriodDialogOptions.captionFormatter = dateControlsUtils.formatDateRangeCaption;
+        PeriodDialogOptions.itemTemplate = ItemWrapper;
+        PeriodDialogOptions.monthTemplate = monthTmpl;
+        PeriodDialogOptions.dateConstructor = WSDate;
+        return PeriodDialogOptions;
     }
 
-    static getOptionTypes(): object {
-        return {
-            ...IPeriodSimpleDialog.getOptionTypes(),
-            captionFormatter: descriptor(Function)
-        };
+    static getOptionTypes(): IDateLitePopupOptions {
+        const PeriodDialogTypes: IDateLitePopupOptions = IPeriodSimpleDialog.getOptionTypes();
+        PeriodDialogTypes.captionFormatter = descriptor(Function);
+        return PeriodDialogTypes;
     }
 }
 

@@ -13,7 +13,7 @@ export default class SearchSeparator<T> extends CollectionItem<T>  {
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
     readonly '[Controls/_itemActions/interface/IItemActionsItem]': boolean = false;
 
-    readonly MarkableItem: boolean = false;
+    readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
 
     protected _instancePrefix: 'search-separator-item-';

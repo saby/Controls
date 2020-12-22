@@ -16,6 +16,8 @@ export {parking, error, requestDataUtil, ISourceConfig, IRequestDataResult, grou
 export { CrudWrapper } from 'Controls/_dataSource/CrudWrapper';
 export {
     default as NewSourceController,
-    IControlerState as ISourceControllerState,
+    IControllerState as ISourceControllerState,
     IControllerOptions as ISourceControllerOptions
 } from './_dataSource/Controller';
+export {default as calculatePath} from 'Controls/_dataSource/calculatePath';
+export {isEqualItems} from './_dataSource/Controller';

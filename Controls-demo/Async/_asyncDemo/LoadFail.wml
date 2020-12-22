@@ -1,6 +1,0 @@
-<Controls.Container.Async templateName="NotExistModule" attr:class="ControlsDemo-AsyncDemo__container demo-AsyncDemo__loadFailContainer">
-    <ws:templateOptions>
-    </ws:templateOptions>
-    <ws:content>
-    </ws:content>
-</Controls.Container.Async>

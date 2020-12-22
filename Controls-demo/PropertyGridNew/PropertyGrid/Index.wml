@@ -1,0 +1,25 @@
+<div class="controls-Demo__wide-propertyGrid">
+    <Controls.propertyGrid:PropertyGrid
+            bind:editingObject="_editingObject"
+            itemActions="{{_itemActions}}"
+            source="{{_source}}"
+            on:itemClick="_handleItemClick()">
+        <ws:captionColumnOptions
+            width="50%"/>
+        <ws:groupTemplate>
+            <ws:partial template="Controls/propertyGrid:GroupTemplate"
+                        scope="{{groupTemplate}}">
+                <ws:contentTemplate>
+                    <div class="controls-demo-group-title">Заголовок группы</div>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:groupTemplate>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/propertyGrid:ItemTemplate"
+                        class="controls-demo-pg-highlightOnHover-editor-padding"
+                        scope="{{itemTemplate}}"
+                        highlightOnHover="{{true}}"
+            />
+        </ws:itemTemplate>
+    </Controls.propertyGrid:PropertyGrid>
+</div>

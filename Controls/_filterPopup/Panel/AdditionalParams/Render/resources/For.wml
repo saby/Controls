@@ -1,7 +1,7 @@
 <ws:for data="index, item in _options.collection.getViewIterator()">
    <ws:if data="{{_options.isCurrentColumn(item, _options.collection, _options.columnProperty, _options.column)}}">
       <ws:if data="{{_options.isGroup(item)}}">
-         <ws:partial template="{{_options.item.getItemTemplate(_options.itemTemplateProperty, _options.itemTemplate, _options.groupTemplate)}}"
+         <ws:partial template="{{_options.item.getTemplate(_options.itemTemplateProperty, _options.itemTemplate, _options.groupTemplate)}}"
                      itemTemplateProperty="{{_options.itemTemplateProperty}}"
                      itemTemplate="{{_options.additionalTemplate}}"
                      item="{{_options.item.getContents()}}"
@@ -15,7 +15,7 @@
       <ws:else>
          <div class="controls-AdditionalParamsRender__item controls-AdditionalParamsRender__item_theme-{{_options.theme}}
                   controls-AdditionalParamsRender__item_{{_options.column}} controls-AdditionalParamsRender__item_{{_options.column}}_theme-{{_options.theme}}">
-            <ws:partial template="{{_options.item.getItemTemplate(_options.itemTemplateProperty, _options.itemTemplate, _options.groupTemplate)}}"
+            <ws:partial template="{{_options.item.getTemplate(_options.itemTemplateProperty, _options.itemTemplate, _options.groupTemplate)}}"
                         itemTemplateProperty="{{_options.itemTemplateProperty}}"
                         itemTemplate="{{_options.additionalTemplate}}"
                         item="{{_options.item.getContents().getRawData()}}"

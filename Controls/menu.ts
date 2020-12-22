@@ -4,7 +4,6 @@
  * @library Controls/menu
  * @includes Control Controls/menu:Control
  * @includes Popup Controls/menu:Popup
- * @includes IMenuBaseOptions Controls/_menu/interface/IMenuBase
  * @includes IMenuControlOptions Controls/_menu/interface/IMenuControl
  * @includes IMenuPopupOptions Controls/_menu/interface/IMenuPopup
  * @includes ItemTemplate Controls/menu:ItemTemplate
@@ -21,6 +20,7 @@ export {default as Render} from 'Controls/_menu/Render';
 export {default as Popup} from 'Controls/_menu/Popup';
 export {default as HeaderTemplate} from 'Controls/_menu/Popup/headerTemplate';
 
+export {IMenuBaseOptions, IMenuBase} from 'Controls/_menu/interface/IMenuBase';
 export {default as IMenuControl, IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 export {default as IMenuPopup, IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup';
 

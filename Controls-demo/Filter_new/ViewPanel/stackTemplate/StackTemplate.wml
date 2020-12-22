@@ -1,0 +1,20 @@
+<Controls.lookupPopup:Controller scope="{{_options}}">
+    <Controls.popupTemplate:Stack headingCaption="Выберите отдел">
+        <ws:headerContentTemplate> <div></div> </ws:headerContentTemplate>
+        <ws:bodyContentTemplate>
+            <Controls.list:DataContainer source="{{_source}}" keyProperty="id" filter="{{_filter}}">
+                <Controls.lookupPopup:Container>
+                    <Controls.operations:Controller>
+                        <Controls.list:Container>
+                            <Controls.lookupPopup:ListContainer>
+                                <Controls.scroll:Container>
+                                    <Controls.list:View/>
+                                </Controls.scroll:Container>
+                            </Controls.lookupPopup:ListContainer>
+                        </Controls.list:Container>
+                    </Controls.operations:Controller>
+                </Controls.lookupPopup:Container>
+            </Controls.list:DataContainer>
+        </ws:bodyContentTemplate>
+    </Controls.popupTemplate:Stack>
+</Controls.lookupPopup:Controller>

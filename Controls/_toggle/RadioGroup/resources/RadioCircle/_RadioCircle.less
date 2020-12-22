@@ -1,0 +1,57 @@
+.controls-RadioCircle__innerCircle_selected_enabled_theme-@{themeName} {
+   fill: @marker_color_switcher;
+}
+
+.controls-RadioCircle__innerCircle_selected_disabled_theme-@{themeName} {
+   fill: @readonly_marker_color_switcher;
+}
+
+.controls-RadioCircle__innerCircle_unselected_theme-@{themeName} {
+   fill: none;
+}
+
+.controls-RadioCircle__borderCircle_theme-@{themeName} {
+   stroke-width: @marker-box_border-thickness_switcher;
+}
+
+.controls-RadioCircle__borderCircle_selected_theme-@{themeName} {
+   stroke: @marker-box_border-color_switcher;
+   fill: @marker-box_background-color_switcher;
+}
+
+.controls-RadioCircle__borderCircle_unselected_theme-@{themeName} {
+   stroke: @unselected_marker-box_border-color_switcher;
+   fill: @unselected_marker-box_background-color_switcher;
+}
+
+.controls-RadioCircle__borderCircle_selected_disabled_theme-@{themeName} {
+   stroke: @readonly_marker-box_border-color_switcher;
+   fill: @readonly_marker-box_background-color_switcher;
+}
+
+.controls-RadioCircle__borderCircle_unselected_disabled_theme-@{themeName} {
+   stroke: @readonly_unselected_marker-box_border-color_switcher;
+   fill: @readonly_unselected_marker-box_background-color_switcher;
+}
+
+.ws-is-hover {
+   .controls-RadioCircle__svg:hover {
+      .controls-RadioCircle__borderCircle_enabled_theme-@{themeName} {
+         stroke: @marker-box_hover_border-color_switcher;
+      }
+   }
+}
+
+.controls-RadioCircle__svg_theme-@{themeName} {
+   width: @marker-box_size_switcher;
+   height: @marker-box_size_switcher;
+}
+
+.controls-RadioCircle__svg {
+   z-index: 2;
+   display: inline-block;
+   flex-shrink: 0;
+   //в ie особая обработка кликов по svg: чтобы клик отработал, нужно соблюсти много условий
+   // подробнее тут: https://stackoverflow.com/questions/40984532/svg-clic.. или тут https://www.w3.org/TR/SVG/interact.html#PointerEvents..
+   pointer-events: none;
+}

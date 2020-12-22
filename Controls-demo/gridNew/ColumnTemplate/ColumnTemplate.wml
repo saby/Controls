@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper">
+<Controls.scroll:Container attr:style="max-width: 1182px">
+    <div class="controlsDemo__inline-flex">
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}">
+        </Controls.gridNew:View>
+    </div>
+</Controls.scroll:Container>
+</div>

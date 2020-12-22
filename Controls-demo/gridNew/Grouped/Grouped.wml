@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper {{_options.theme.indexOf('large')<0 ? 'controlsDemo_fixedWidth500' : 'controlsDemo_fixedWidth800'}}">
+    <div class="controlsDemo__cell ControlsDemo-grouped__custom">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Grouped/Custom/Index' }}">
+            <a href="{{content.href}}">С разделителями и экспанером с правой стороны</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Grouped.Custom.Index/>
+    </div>
+
+    <div class="controlsDemo__cell ControlsDemo-grouped__withEditing">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Grouped/WithEditing/Index' }}">
+            <a href="{{content.href}}">С редактированием по месту</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Grouped.WithEditing.Index/>
+    </div>
+
+</div>

@@ -1,23 +1,16 @@
 /**
  * Интерфейс для выделения введенных в поля ввода значений.
- *
- * @interface Controls/interface/ISelectableInput
- *
  * @public
  * @author Красильников А.С.
  */
 /*
  * Interface for input selection
- *
- * @interface Controls/interface/ISelectableInput
- *
  * @public
  * @author Красильников А.С.
  */
 interface ISelectableInput {
     readonly _options: {
         /**
-         * @name Controls/interface/ISelectableInput#selectOnClick
          * @cfg {Boolean} Определяет, будет ли выделен текст при клике по полю ввода.
          * @default false
          * @remark
@@ -25,12 +18,12 @@ interface ISelectableInput {
          * В этом случае они нажмут на поле, текст будет выбран, и они смогут начать вводить новое значение немедленно.
          * @example
          * В этом примере при клике по полю будет выделен весь текст.
-         * <pre>
-         *    <Controls.input:Text selectOnClick="{{true}}"/>
+         * <pre class="brush: html">
+         * <!-- WML -->
+         * <Controls.input:Text selectOnClick="{{true}}"/>
          * </pre>
          */
         /*
-         * @name Controls/interface/ISelectableInput#selectOnClick
          * @cfg {Boolean} Determines whether text is selected when input is clicked.
          * @default false
          * @remark
@@ -39,8 +32,9 @@ interface ISelectableInput {
          * nd they will be able to start entering new value immediately.
          * @example
          * In this example, when the field is clicked, all text in it will be selected.
-         * <pre>
-         *    <Controls.input:Text selectOnClick="{{true}}"/>
+         * <pre class="brush: html">
+         * <!-- WML -->
+         * <Controls.input:Text selectOnClick="{{true}}"/>
          * </pre>
          */
         selectOnClick: boolean;
