@@ -46,6 +46,7 @@
  *       ...
  *    });
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Tag/Index
  * @see endTagStyle
  * @see startTagHover
  * @see endTagHover
@@ -82,6 +83,7 @@
  *       ...
  *    });
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Tag/Index
  * @see endTagStyle
  * @see startTagHover
  * @see endTagHover
@@ -247,6 +249,7 @@
  *       ...
  *    });
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Tag/Index
  * @see startTagStyle
  * @see startTagHover
  * @see endTagHover
@@ -283,6 +286,7 @@
  *       ...
  *    });
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Tag/Index
  * @see startTagStyle
  * @see startTagHover
  * @see endTagHover

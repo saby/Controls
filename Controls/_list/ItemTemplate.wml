@@ -1,11 +1,11 @@
 <ws:template name="localItemTemplateContent">
     <ws:if data="{{ multiSelectVisibility && multiSelectVisibility !== 'hidden' && multiSelectPosition !== 'custom' }}">
         <ws:partial template="{{ multiSelectTpl }}" attr:class="{{ (item || itemData).getMultiSelectClasses(theme) }}">
-            <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}" key="{{ (item || itemData).getContents().getKey() }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
         </ws:partial>
     </ws:if>
     <ws:if data="{{ (item || itemData).shouldDisplayMarker(marker) }}">
-        <div class="{{(item || itemData).getMarkerClasses(theme, style, markerPosition)}}"></div>
+        <div class="{{(item || itemData).getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition)}}"></div>
     </ws:if>
     <ws:if data="{{ contentTemplate }}">
         <div attr:class="{{ (item || itemData).getContentClasses(theme, style) }}">
@@ -23,9 +23,7 @@
                     <ws:partial template="{{ multiSelectTpl }}"
                                 if="{{ multiSelectVisibility && multiSelectVisibility !== 'hidden' && multiSelectPosition === 'custom' }}"
                                 attr:class="{{ (item || itemData).getMultiSelectClasses(theme) }}">
-                        <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
-                                            key="{{ (item || itemData).getContents().getKey() }}"
-                                            checkboxReadOnly="{{checkboxReadOnly}}"/>
+                        <ws:templateOptions item="{{item}}" checkboxReadOnly="{{checkboxReadOnly}}"/>
                     </ws:partial>
                 </ws:multiSelectTemplate>
             </ws:partial>

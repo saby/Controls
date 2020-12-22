@@ -1,7 +1,7 @@
 define([
    'Core/core-merge',
    'Controls/_datePopup/MonthsRangeItem',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils'
 ], function(
    coreMerge,
@@ -216,7 +216,7 @@ define([
                selectionProcessing: false,
                hoveredSelectionValue: start,
                hoveredStartValue: start,
-               selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.months
+               selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.months
             },
             cssClass: 'controls-RangeSelection__start-end-hovered'
          }].forEach(function(test) {

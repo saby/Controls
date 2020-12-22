@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper controlsDemo__flexColumn">
+    <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
+        <div class="controls-text-label_theme-{{_options.theme}}">showSelector</div>
+        <Controls.lookup:Input
+                bind:value="_value"
+                bind:selectedKeys="_selectedKeys"
+                source="{{_source}}"
+                searchParam="title"
+                navigation="{{_navigation}}"
+                on:showSelector="_handleShowSelector()"
+                selectorTemplate="{{_selectorTemplate}}">
+        </Controls.lookup:Input>
+    </div>
+    <div on:click="_handleToggleButtonClick()">При клике отобразится <span class="controlsDemo__button">{{_lookupMode}}</span></div>
+</div>
+

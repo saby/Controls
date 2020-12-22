@@ -44,4 +44,5 @@ export interface IText {
  * * false - Пробельные символы сохраняются.
  * * true - Пробельные символы удаляются.
  * @demo Controls-demo/Input/Trim/Index
+ * @default true
  */

@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type"
+            hoverBackgroundStyle="primary">
+    </Controls.treeGridNew:View>
+</div>

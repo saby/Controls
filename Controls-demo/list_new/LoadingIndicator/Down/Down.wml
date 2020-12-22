@@ -3,7 +3,7 @@
         <Controls.list:View keyProperty="id" source="{{_viewSource}}">
             <ws:navigation source="page" view="infinity">
                 <ws:sourceConfig direction="forward" pageSize="{{20}}" page="{{0}}" hasMore="{{false}}"/>
-                <ws:viewConfig pagingMode="direct"/>
+                <ws:viewConfig pagingMode="basic"/>
             </ws:navigation>
         </Controls.list:View>
     </Controls.scroll:Container>

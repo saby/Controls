@@ -7,12 +7,12 @@
 
 <ws:template name="multiSelectTemplate">
    <ws:partial template="{{multiSelectTpl}}" checkboxReadOnly="{{checkboxReadOnly}}" attr:class="{{itemData.multiSelectClassList}}">
-      <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" />
+      <ws:templateOptions item="{{ itemData.dispItem }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
    </ws:partial>
 </ws:template>
 
 <ws:template name="defaultContentTpl">
-   <div attr:class="controls-TileView__itemContent controls-TileView__itemContent_theme-{{theme}} {{titleStyle === 'accent' ? 'controls-TileView__itemContent_accent'}}
+   <div attr:class="controls-TileView__itemContent {{itemData.itemContentClasses}} controls-TileView__itemContent_theme-{{theme}} {{titleStyle === 'accent' ? 'controls-TileView__itemContent_accent'}}
                {{height === 'auto' ? 'controls-TileView__item_autoHeight'}}
                {{highlightOnHover === true ? ' controls-TileView__itemContent_highlightOnHover_theme-' + theme}}
                {{backgroundColorStyle ? ' controls-TileView__itemContent_background_' + backgroundColorStyle +'_theme-' + theme}}

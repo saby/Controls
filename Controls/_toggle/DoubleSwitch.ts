@@ -18,7 +18,8 @@ const CAPTIONS_LENGTH = 2;
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FDoubleSwitch%2FIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  * @class Controls/_toggle/DoubleSwitch
  * @extends Core/Control
@@ -124,6 +125,7 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
 /**
  * @name Controls/_toggle/DoubleSwitch#orientation
  * @cfg {String} Ориентация двойного переключателя в пространстве.
+ * @demo Controls-demo/toggle/DoubleSwitch/Orientation/Index
  * @variant horizontal Горизонтальная ориентация. Значение по умолчанию.
  * @variant vertical Вертикальная ориентация.
  */

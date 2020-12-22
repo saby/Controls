@@ -4,7 +4,7 @@ import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
 
 import {getCountriesStats, IData} from '../../DemoHelpers/DataCatalog';
-import {IColumn, ITagColumn} from 'Controls/grid';
+import {IColumn} from 'Controls/grid';
 
 import * as template from 'wml!Controls-demo/grid/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
 
@@ -77,7 +77,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * Получаем список колонок с необходимыми настройками
      * @private
      */
-    private _getModifiedColumns(): ITagColumn[] {
+    private _getModifiedColumns(): IColumn[] {
         const result = getCountriesStats().getColumnsWithFixedWidths().map((cur, i) => {
         // tslint:disable-next-line
             if (i === 3) {
@@ -85,7 +85,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
                     ...cur,
                     align: 'right',
                     tagStyleProperty: this._tagStyleProperty
-                } as ITagColumn;
+                } as IColumn;
             }
             return cur;
         });

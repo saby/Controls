@@ -1,1 +1,0 @@
-<ws:partial template="Controls/dropdown:ItemTemplate" itemData="{{itemData}}" displayProperty="text" attr:style="font-weight: bold;"/>

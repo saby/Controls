@@ -1,0 +1,11 @@
+<Controls.popupTemplate:Dialog headingCaption="Заголовок">
+    <ws:bodyContentTemplate>
+        <div>
+            <div class="controlsDemo__wrapper"> Элемент списка </div>
+            <div class="controlsDemo__wrapper"> Элемент списка </div>
+            <div class="controlsDemo__wrapper"> Элемент списка </div>
+        </div>
+    </ws:bodyContentTemplate>
+</Controls.popupTemplate:Dialog>
+
+

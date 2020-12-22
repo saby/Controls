@@ -26,7 +26,8 @@
 }
 
 // Первая граница списка, самая верхняя
-.controls-Grid__row:first-child {
+.controls-Grid__row:first-child,
+:not(.controls-Grid__row) + .controls-Grid__row {
    .controls-Grid__rowSeparator_size-s_theme-@{themeName} {
       border-top-color: @item_edge_separator_s_color_list;
    }

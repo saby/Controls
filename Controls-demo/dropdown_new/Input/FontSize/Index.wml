@@ -1,0 +1,99 @@
+<div class="controlsDemo__wrapper controlsDemo__flexColumn">
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="xs"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="s"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="m"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=l</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="l"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xl</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="xl"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=2xl</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="2xl"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=3xl</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="3xl"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=4xl</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="4xl"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=5xl</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="5xl"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=6xl</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="6xl"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=7xl</div>
+        <Controls.dropdown:Input source="{{_source}}"
+                                 displayProperty="title"
+                                 keyProperty="key"
+                                 fontSize="7xl"
+                                 bind:selectedKeys="_selectedKeys"/>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

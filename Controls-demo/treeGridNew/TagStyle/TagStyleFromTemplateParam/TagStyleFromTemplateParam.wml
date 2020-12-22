@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
+    <div class="controlsDemo-toolbar-panel">
+        &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' +
+        _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
+    </div>
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            multiSelectVisibility="hidden"
+            parentProperty="parent"
+            nodeProperty="type"
+            bind:expandedItems="_expandedItems"
+            on:tagClick="_onTagClickCustomHandler()"
+            on:tagHover="_onTagHoverCustomHandler()"
+    >
+        <ws:columns>
+            <ws:Array>
+                <ws:Object displayProperty="title" width="200px"/>
+                <ws:Object displayProperty="rating" width="150px"/>
+                <ws:Object displayProperty="country" width="150px" align="right">
+                    <ws:template>
+                        <ws:partial template="Controls/gridNew:ColumnTemplate" clickable="{{false}}"
+                                    tagStyle="{{template.itemData.item.get('tagStyle')}}"/>
+                    </ws:template>
+                </ws:Object>
+            </ws:Array>
+        </ws:columns>
+    </Controls.treeGridNew:View>
+</div>

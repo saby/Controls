@@ -57,26 +57,16 @@ define([
             }),
             testBreadCrumbs2 = new collection.RecordSet({
                rawData: []
-            }),
-            testData1 = {
-               getMetaData: function() {
-                  return {};
-               }
-            },
-            testData2 = {
-               getMetaData: function() {
-                  return {
-                     path: testBreadCrumbs
-                  };
-               }
-            },
-            testData3 = {
-               getMetaData: function() {
-                  return {
-                     path: testBreadCrumbs2
-                  };
-               }
-            };
+            });
+         const testData1 = new collection.RecordSet({});
+         const testData2 = new collection.RecordSet({});
+         testData2.setMetaData({
+            path: testBreadCrumbs
+         });
+         const testData3 = new collection.RecordSet({});
+         testData3.setMetaData({
+            path: testBreadCrumbs2
+         });
          explorerMod.View._private.setRoot(self, testRoot);
          assert.deepEqual({
             _root: 'testRoot',

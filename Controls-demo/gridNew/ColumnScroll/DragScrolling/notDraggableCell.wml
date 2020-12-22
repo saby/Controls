@@ -1,0 +1,8 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}" attr:class="controls-List_DragNDrop__notDraggable">
+    <ws:contentTemplate>
+        <div style="display: flex; flex-direction: column;">
+            <div style="color: #0c0c0c; width: 100%">{{ itemData.item.get('country') }}</div>
+            <div style="color: #ccc; width: 100%">Эта колонка не поддерживает Drag'n'drop</div>
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

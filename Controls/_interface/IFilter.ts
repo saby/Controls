@@ -6,8 +6,6 @@ export interface IFilterOptions {
 
 /**
  * Интерфейс для контролов, которые поддерживают фильтрацию данных.
- *
- * @interface Controls/_interface/IFilter
  * @public
  * @author Авраменко А.С.
  */
@@ -22,31 +20,33 @@ export default interface IFilter {
  * При изменении фильтра важно передавать новый объект фильтра, изменение объекта по ссылке не приведет к желаемому результату.
  * @example
  * В данном примере в списке будет отображаться 2 элемента.
- * <pre>
- *    <Controls.list:View
- *       keyProperty="id"
- *       filter="{{_filter}}"
- *       source="{{_source}}" />
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.list:View
+ *     keyProperty="id"
+ *     filter="{{_filter}}"
+ *     source="{{_source}}" />
  * </pre>
- * <pre>
- *    this._filter = {id: ['1', '2']};
- *    this._source = new Memory({
- *      keyProperty: 'id',
- *      data: [
- *         {
- *            id: '1',
- *            title: 'Yaroslavl'
- *         },
- *         {
- *            id: '2',
- *            title: 'Moscow'
- *         },
- *         {
- *            id: '3',
- *            title: 'St-Petersburg'
- *         }
- *      ]
- *    });
+ * <pre class="brush: js">
+ * // JavaScript
+ * this._filter = {id: ['1', '2']};
+ * this._source = new Memory({
+ *    keyProperty: 'id',
+ *    data: [
+ *       {
+ *          id: '1',
+ *          title: 'Yaroslavl'
+ *       },
+ *       {
+ *          id: '2',
+ *          title: 'Moscow'
+ *       },
+ *       {
+ *          id: '3',
+ *          title: 'St-Petersburg'
+ *       }
+ *    ]
+ * });
  * </pre>
  * @see filterChanged
  */

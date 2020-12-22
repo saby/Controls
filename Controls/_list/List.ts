@@ -7,7 +7,7 @@ import ListViewModel = require('Controls/_list/ListViewModel');
 import { Collection } from 'Controls/display';
 
 import Deferred = require('Core/Deferred');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
 import {default as ListControl} from 'Controls/_list/ListControl';
 import {ISelectionObject} from 'Controls/interface';
@@ -21,8 +21,8 @@ import { RecordSet } from 'Types/collection';
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
  *
  * @class Controls/_list/List
  * @extends Core/Control
@@ -43,13 +43,13 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/_list/interface/IReloadableList
  * @mixes Controls/_list/interface/IMovableList
  * @mixes Controls/_list/interface/IRemovableList
- * @mixes Controls/_marker/interface/IMarkerListOptions
+ * @mixes Controls/_marker/interface/IMarkerList
  *
  * @mixes Controls/_list/interface/IVirtualScrollConfig
  *
  * @implements Controls/_list/interface/IListNavigation
  *
- * 
+ *
  * @author Авраменко А.С.
  * @public
  * @demo Controls-demo/list_new/Base/Index
@@ -79,11 +79,11 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/_list/interface/IReloadableList
  * @mixes Controls/_list/interface/IMovableList
  * @mixes Controls/_list/interface/IRemovableList
- * @mixes Controls/_marker/interface/IMarkerListOptions
+ * @mixes Controls/_marker/interface/IMarkerList
  *
  * @mixes Controls/_list/interface/IVirtualScrollConfig
  *
- * 
+ *
  * @author Авраменко А.С.
  * @public
  * @demo Controls-demo/list_new/Base/Index
@@ -181,7 +181,7 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
 
     // endregion remover
 
-    _notifyHandler = tmplNotify;
+    _notifyHandler = EventUtils.tmplNotify;
 
     static getDefaultOptions() {
         return {

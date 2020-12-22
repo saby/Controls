@@ -11,14 +11,6 @@ import GroupItem from 'Controls/_display/GroupItem';
 import { SearchGridViewModel } from 'Controls/treeGrid';
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
-   const nodesSourceControllers = {
-      get(): object {
-         return {
-            hasMoreData(): boolean { return false; }
-         };
-      }
-   };
-
    const model = new Tree({
       collection: new RecordSet({
          keyProperty: ListData.KEY_PROPERTY,
@@ -32,19 +24,19 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    });
 
    const strategy = new TreeSelectionStrategy({
-      nodesSourceControllers,
       selectDescendants: false,
       selectAncestors: false,
       rootId: null,
-      model: model
+      model: model,
+      selectionType: 'all'
    });
 
    const strategyWithDescendantsAndAncestors = new TreeSelectionStrategy({
-      nodesSourceControllers,
       selectDescendants: true,
       selectAncestors: true,
       rootId: null,
-      model: model
+      model: model,
+      selectionType: 'all'
    });
 
    function toArray(array: TreeItem<Model>[]): object[] {
@@ -334,11 +326,11 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('selected unloaded item', () => {
           const treeStrategyWithRootItems = new TreeSelectionStrategy({
-              nodesSourceControllers,
               selectDescendants: true,
               selectAncestors: true,
               rootId: null,
-              model: model
+              model: model,
+             selectionType: 'all'
           });
           const entryPath = [
               {parent: 6, id: 10},
@@ -430,11 +422,11 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          });
 
          const strategy = new TreeSelectionStrategy({
-            nodesSourceControllers,
             selectDescendants: true,
             selectAncestors: true,
             rootId: null,
-            model: searchModel
+            model: searchModel,
+            selectionType: 'all'
          });
 
          let res = strategy.getSelectionForModel({selected: [null], excluded: [null]}, undefined, undefined, 'sad');
@@ -499,18 +491,15 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('selected node with more data', () => {
          const selection = {selected: [6], excluded: []};
+         model.setHasMoreStorage({
+            6: true
+         });
          const treeStrategyWithNodesMoreData = new TreeSelectionStrategy({
              selectAncestors: true,
              selectDescendants: true,
-             nodesSourceControllers: {
-                 get(): object {
-                     return {
-                         hasMoreData(): boolean { return true; }
-                     };
-                 }
-             },
              rootId: null,
-             model: model
+             model: model,
+             selectionType: 'all'
          });
          assert.isNull(treeStrategyWithNodesMoreData.getCount(selection, false));
       });
@@ -572,7 +561,6 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
       it ('selected current root', () => {
          const selection = { selected: [5], excluded: [5] };
          strategy.update({
-            nodesSourceControllers,
             selectDescendants: false,
             selectAncestors: false,
             rootId: 5,
@@ -596,14 +584,148 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('empty model', () => {
          const strategy = new TreeSelectionStrategy({
-            nodesSourceControllers,
             selectDescendants: false,
             selectAncestors: false,
             rootId: null,
-            model: model
+            model: model,
+            selectionType: 'all'
          });
          const selection = { selected: [], excluded: [] };
          assert.isFalse(strategy.isAllSelected(selection, false, 0, true));
+      });
+   });
+
+   describe('selectionType', () => {
+      describe('leaf', () => {
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model: model,
+            selectionType: 'leaf'
+         });
+
+         it('select', () => {
+            let result = strategy.select({ selected: [], excluded: [] }, 1);
+            assert.deepEqual(result, { selected: [], excluded: [] });
+
+            result = strategy.select({ selected: [], excluded: [] }, 7);
+            assert.deepEqual(result, { selected: [7], excluded: [] });
+         });
+
+         it('unselect', () => {
+            let result = strategy.unselect({ selected: [1], excluded: [] }, 1);
+            assert.deepEqual(result, { selected: [1], excluded: [] });
+
+            result = strategy.unselect({ selected: [7], excluded: [] }, 7);
+            assert.deepEqual(result, { selected: [], excluded: [] });
+         });
+
+         it('getSelectionForModel', () => {
+            const selection = { selected: [null], excluded: [null] };
+            const res = strategy.getSelectionForModel(selection);
+            assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [4, 5, 7].includes(it.id)) );
+            assert.deepEqual(toArray(res.get(null)), []);
+            assert.deepEqual(toArray(res.get(false)), ListData.getItems().filter((it) => ![4, 5, 7].includes(it.id)));
+         });
+
+         it('with readonly items', () => {
+            const data = ListData.getItems();
+            data[3].checkboxState = false;
+
+            const model = new Tree({
+               collection: new RecordSet({
+                  keyProperty: ListData.KEY_PROPERTY,
+                  rawData: data
+               }),
+               root: new Model({ rawData: { id: null }, keyProperty: ListData.KEY_PROPERTY }),
+               keyProperty: ListData.KEY_PROPERTY,
+               parentProperty: ListData.PARENT_PROPERTY,
+               nodeProperty: ListData.NODE_PROPERTY,
+               hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY,
+               multiSelectAccessibilityProperty: 'checkboxState'
+            });
+
+            const strategy = new TreeSelectionStrategy({
+               selectDescendants: true,
+               selectAncestors: true,
+               rootId: null,
+               model: model,
+               selectionType: 'leaf'
+            });
+
+            const selection = { selected: [null], excluded: [null] };
+            const res = strategy.getSelectionForModel(selection);
+            assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [4, 5, 7].includes(it.id)) );
+            assert.deepEqual(toArray(res.get(null)), []);
+            assert.deepEqual(toArray(res.get(false)), ListData.getItems().filter((it) => ![4, 5, 7].includes(it.id)));
+         });
+      });
+
+      describe('node', () => {
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model: model,
+            selectionType: 'node'
+         });
+
+         it('select', () => {
+            let result = strategy.select({ selected: [], excluded: [] }, 1);
+            assert.deepEqual(result, { selected: [1], excluded: [] });
+
+            result = strategy.select({ selected: [], excluded: [] }, 7);
+            assert.deepEqual(result, { selected: [], excluded: [] });
+         });
+
+         it('unselect', () => {
+            let result = strategy.unselect({ selected: [1], excluded: [] }, 1);
+            assert.deepEqual(result, { selected: [], excluded: [] });
+
+            result = strategy.unselect({ selected: [7], excluded: [] }, 7);
+            assert.deepEqual(result, { selected: [7], excluded: [] });
+         });
+
+         it('getSelectionForModel', () => {
+            const selection = { selected: [null], excluded: [null] };
+            const res = strategy.getSelectionForModel(selection);
+            assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [1, 2, 3, 6].includes(it.id)) );
+            assert.deepEqual(toArray(res.get(null)), []);
+            assert.deepEqual(toArray(res.get(false)), ListData.getItems().filter((it) => [4, 5, 7].includes(it.id)));
+         });
+
+         it('with readonly items', () => {
+            const data = ListData.getItems();
+            data[0].checkboxState = false;
+
+            const model = new Tree({
+               collection: new RecordSet({
+                  keyProperty: ListData.KEY_PROPERTY,
+                  rawData: data
+               }),
+               root: new Model({ rawData: { id: null }, keyProperty: ListData.KEY_PROPERTY }),
+               keyProperty: ListData.KEY_PROPERTY,
+               parentProperty: ListData.PARENT_PROPERTY,
+               nodeProperty: ListData.NODE_PROPERTY,
+               hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY,
+               multiSelectAccessibilityProperty: 'checkboxState'
+            });
+
+            const strategy = new TreeSelectionStrategy({
+               selectDescendants: true,
+               selectAncestors: true,
+               rootId: null,
+               model: model,
+               selectionType: 'node'
+            });
+
+            const selection = { selected: [null], excluded: [null] };
+            const res = strategy.getSelectionForModel(selection);
+            assert.deepEqual(toArray(res.get(true)), ListData.getItems().filter((it) => [1, 2, 3, 6].includes(it.id)) );
+            assert.deepEqual(toArray(res.get(null)), []);
+            assert.deepEqual(toArray(res.get(false)), ListData.getItems().filter((it) => ![1, 2, 3, 6].includes(it.id)));
+         });
       });
    });
 });

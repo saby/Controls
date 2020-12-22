@@ -1,5 +1,0 @@
-<ws:partial template="Controls/itemActions:ItemActionsForTemplate"
-            itemData="{{itemData}}"
-            size="{{size}}"
-            showedActions="{{showedActions}}"
-/>

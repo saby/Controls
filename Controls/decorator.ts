@@ -1,25 +1,6 @@
 /**
  * Библиотека контролов, которые предназначены для преобразования данных к какому-либо внешнему виду.
  * @library Controls/decorator
- * @includes Highlight Controls/_decorator/Highlight
- * @includes IHighlightOptions Controls/_decorator/Highlight/IHighlightOptions
- * @includes Markup Controls/_decorator/Markup
- * @includes Money Controls/_decorator/Money
- * @includes IMoneyOptions Controls/_decorator/Money/IMoneyOptions
- * @includes Number Controls/_decorator/Number
- * @includes INumberOptions Controls/_decorator/Number/INumberOptions
- * @includes Phone Controls/_decorator/Phone
- * @includes IPhoneOptions Controls/_decorator/Phone/IPhoneOptions
- * @includes WrapURLs Controls/_decorator/WrapURLs
- * @includes IWrapURLsOptions Controls/_decorator/WrapURLs/IWrapURLsOptions
- * @includes Converter Controls/_decorator/Markup/Converter
- * @includes InnerText Controls/_decorator/Markup/resolvers/innerText
- * @includes linkDecorate Controls/_decorator/Markup/resolvers/linkDecorate
- * @includes linkWrapResolver Controls/_decorator/Markup/resolvers/linkWrap
- * @includes noOuterTag Controls/_decorator/Markup/resolvers/noOuterTag
- * @includes splitIntoTriads Controls/_decorator/inputUtils/splitIntoTriads
- * @includes toString Controls/_decorator/inputUtils/toString
- * @includes numberToString Controls/_decorator/inputUtils/numberToString
  * @includes RegExp Controls/_decorator/inputUtils/RegExp
  * @public
  * @author Крайнов Д.О.
@@ -28,22 +9,6 @@
 /*
  * Decoratror library
  * @library Controls/decorator
- * @includes Highlight Controls/_decorator/Highlight
- * @includes Markup Controls/_decorator/Markup
- * @includes Money Controls/_decorator/Money
- * @includes Number Controls/_decorator/Number
- * @includes Phone Controls/_decorator/Phone
- * @includes IPhoneOptions Controls/_decorator/Phone
- * @includes WrapURLs Controls/_decorator/WrapURLs
- * @includes IWrapURLsOptions Controls/_decorator/WrapURLs
- * @includes Converter Controls/_decorator/Markup/Converter
- * @includes InnerText Controls/_decorator/Markup/resolvers/innerText
- * @includes linkDecorate Controls/_decorator/Markup/resolvers/linkDecorate
- * @includes linkWrapResolver Controls/_decorator/Markup/resolvers/linkWrap
- * @includes noOuterTag Controls/_decorator/Markup/resolvers/noOuterTag
- * @includes splitIntoTriads Controls/_decorator/inputUtils/splitIntoTriads
- * @includes toString Controls/_decorator/inputUtils/toString
- * @includes numberToString Controls/_decorator/inputUtils/numberToString
  * @includes RegExp Controls/_decorator/inputUtils/RegExp
  * @public
  * @author Крайнов Д.О.
@@ -58,6 +23,8 @@ export {default as Phone, IPhoneOptions} from 'Controls/_decorator/Phone';
 export {default as Money, IMoneyOptions} from 'Controls/_decorator/Money';
 export {default as WrapURLs, IWrapURLsOptions} from 'Controls/_decorator/WrapURLs';
 export {default as Highlight, SearchMode, IHighlightOptions} from 'Controls/_decorator/Highlight';
+export {default as IMask} from 'Controls/_decorator/resources/IMask';
+
 export * from './_decorator/resources/IMask';
 export * from './_decorator/resources/Util';
 export * from './_decorator/Phone/phoneMask';

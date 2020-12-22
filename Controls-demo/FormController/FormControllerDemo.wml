@@ -1,25 +1,22 @@
-<div
-        attr:class="form"
-
-        on:createSuccessed="_createSuccessedHandler()"
-        on:readSuccessed="_readSuccessedHandler()"
-        on:readFailed="_readFailedHandler()"
-        on:updateSuccessed="_updateSuccessedHandler()"
-        on:updateFailed="_updateFailedHandler()"
-        on:deleteSuccessed="_deleteSuccessedHandler()"
-        on:deleteFailed="_deleteFailedHandler()"
-        on:validationFailed="_validationFailedHandler()"
-        on:update="_updateHandler()"
-        on:requestCustomUpdate="_requestCustomUpdate()"
->
-
+<div attr:class="form">
     <div class="controlsDemo__wrapper">
         <div class="controlsDemo__cell controlsDemo__mb2 controls-fontsize-4xl_theme-{{_options.theme}}"
              style="font-weight: bold">Form Controller | Notes
         </div>
         <Controls.Pending name="registrator">
-            <Controls.form:Controller name="formControllerInst" source="{{ _options.dataSource || _dataSource }}"
-                                      record="{{ _record }}" key="{{ !_record ? _key : undefined }}">
+            <Controls.form:Controller
+               name="formControllerInst" source="{{ _options.dataSource || _dataSource }}"
+               on:createSuccessed="_createSuccessedHandler()"
+               on:readSuccessed="_readSuccessedHandler()"
+               on:readFailed="_readFailedHandler()"
+               on:updateSuccessed="_updateSuccessedHandler()"
+               on:updateFailed="_updateFailedHandler()"
+               on:deleteSuccessed="_deleteSuccessedHandler()"
+               on:deleteFailed="_deleteFailedHandler()"
+               on:validationFailed="_validationFailedHandler()"
+               on:update="_updateHandler()"
+               on:requestCustomUpdate="_requestCustomUpdate()"
+               record="{{ _record }}" key="{{ !_record ? _key : undefined }}">
                 <Controls-demo.FormController.Container name="Container">
                     <div attr:class="form-content" style="width: 600px">
                         <div class="controlsDemo__cell controlsDemo__mb1">

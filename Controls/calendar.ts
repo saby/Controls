@@ -52,9 +52,9 @@ export {default as MonthViewModel} from './_calendar/MonthView/MonthViewModel';
 export {default as MonthView} from './_calendar/MonthView';
 
 export {default as IMonth} from './_calendar/interfaces/IMonth';
-export {default as IMonthList} from './_calendar/interfaces/IMonthList';
-export {default as IMonthListSource} from './_calendar/interfaces/IMonthListSource';
-export {default as IMonthListVirtualPageSize} from './_calendar/interfaces/IMonthListVirtualPageSize';
+export {IMonthList} from './_calendar/interfaces/IMonthList';
+export {IMonthListSource} from './_calendar/interfaces/IMonthListSource';
+export {IMonthListVirtualPageSize} from './_calendar/interfaces/IMonthListVirtualPageSize';
 
 export {
    MonthViewDayTemplate,

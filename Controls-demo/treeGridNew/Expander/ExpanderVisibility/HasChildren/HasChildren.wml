@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-reverseType-byItemClick">
+    <Controls.treeGridNew:View
+            source="{{_viewSource}}"
+            keyProperty="id"
+            columns="{{_columns}}"
+            parentProperty="Раздел"
+            nodeProperty="Раздел@"
+            hasChildrenProperty="hasChild"
+            bind:expandedItems="_expandedItems"
+            expanderVisibility="hasChildren">
+    </Controls.treeGridNew:View>
+</div>

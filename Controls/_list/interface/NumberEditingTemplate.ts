@@ -1,9 +1,12 @@
+import {INumberOptions} from 'Controls/decorator';
+import IEditingTemplateOptions from './EditingTemplate'
+
 /**
- * Шаблон для {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} числовых полей в {@link Controls/list:View плоских списках}.
+ * Шаблон для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту} числовых полей в {@link Controls/list:View плоских списках}.
  * В режиме чтения выводит значение с помощью {@link Controls/decorator:Number}.
  * 
- * @class Controls/list:NumberEditingTemplate
- * @mixes Controls/list:EditingTemplate
+ * @class Controls/_list/interface/NumberEditingTemplate
+ * @mixes Controls/_list/interface/EditingTemplate
  * @author Авраменко А.С.
  * @see Controls/list:View
  * @example
@@ -25,10 +28,6 @@
  * </pre>
  * @public
  */
-
-import {INumberOptions} from 'Controls/decorator';
-import IEditingTemplateOptions from './EditingTemplate'
-
 export default interface INumberEditingTemplateOptions extends INumberOptions, IEditingTemplateOptions {
     readonly '[Controls/_list/interface/INumberEditingTemplateOptions]': boolean;
 };

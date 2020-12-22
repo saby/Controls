@@ -4,7 +4,7 @@
 import template = require('Controls/_decorator/Markup/resources/template');
 import linkDecorateUtils = require('Controls/_decorator/Markup/resources/linkDecorateUtils');
 import objectMerge = require('Core/core-merge');
-import { IoC } from 'Env/Env';
+import {constants, IoC} from 'Env/Env';
 import { getGeneratorConfig } from 'UI/Base';
 
 const hasAnyTagRegExp: RegExp = /<[a-zA-Z]+.*?>/;
@@ -84,7 +84,7 @@ const hasAnyTagRegExp: RegExp = /<[a-zA-Z]+.*?>/;
     * @returns {Array}
     */
    var htmlToJson = function(html) {
-      if (typeof document === 'undefined') {
+      if (!constants.isBrowserPlatform) {
          IoC.resolve('ILogger')
             .error('Controls/_decorator/Markup/Converter' ,'htmlToJson method doesn\'t work on server-side');
          return [];

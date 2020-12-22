@@ -1,5 +1,5 @@
 import datePopupUtils from 'Controls/_datePopup/Utils';
-import dateUtils = require('Controls/Utils/Date');
+import dateUtils = require('Controls/dateUtils');
 import {IDateRangeSelectable} from 'Controls/dateRange';
 
 describe('Controls/_datePopup/Utils', function() {
@@ -12,7 +12,7 @@ describe('Controls/_datePopup/Utils', function() {
             date: new Date(2019, 11, 1)
         }].forEach(function(test) {
             it('should create the correct models when empty range passed.', function() {
-                assert(dateUtils.isDatesEqual(datePopupUtils.dataStringToDate(test.str), test.date));
+                assert(dateUtils.Base.isDatesEqual(datePopupUtils.dataStringToDate(test.str), test.date));
             });
         });
     });

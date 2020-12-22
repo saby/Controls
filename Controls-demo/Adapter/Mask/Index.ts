@@ -3,10 +3,10 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Adapter/Mask/Mask');
 
 class Mask extends Control<IControlOptions> {
-    protected _valueAdapterMask = '874-998-877546';
-    protected _inputCompletedHandler(event: SyntheticEvent<Event>, value) {
-        this._valueAdapterMask = value;
-    }
+    protected _valueAdapterMask: string = '874998';
+    protected _formatMaskChars: object = {
+        d: '[0-9]'
+    };
 
     protected _template: TemplateFunction = controlTemplate;
 

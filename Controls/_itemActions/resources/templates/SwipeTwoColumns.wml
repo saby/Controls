@@ -11,7 +11,8 @@
                     paddingSize="{{ swipeConfig.paddingSize }}"
                     actionCaptionPosition="{{ actionCaptionPosition }}"
                     hasActionWithIcon="{{ itemData.hasActionWithIcon() }}"
-                    on:click="_onItemActionsClick(action, itemData)"/>
+                    on:mousedown="_onItemActionMouseDown(action, itemData)"
+                    on:click="_onItemActionClick()"/>
             <div if="{{actionIndex === 0}}" class="controls-Swipe__separator_theme-{{ theme }}
                 controls-Swipe__separator_columns_{{columnIndex === 0 ? 'first' : 'second'}}_theme-{{ theme }}"></div>
         </ws:for>

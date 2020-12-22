@@ -1,3 +1,5 @@
 <div class="controls-demo_LiteSelector-block">
-    <Controls.dateRange:RangeShortSelector/>
+    <Controls.dateRange:RangeShortSelector
+            bind:startValue="_startValue"
+            bind:endValue="_endValue"/>
 </div>

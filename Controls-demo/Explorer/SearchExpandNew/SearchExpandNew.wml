@@ -1,0 +1,36 @@
+<div>
+    <div>Demo Controls/Explorer</div>
+    <Controls.browser:Browser source="{{_viewSource}}" keyProperty="id" bind:filter="_filter"
+                              searchNavigationMode="expand"
+                              root="{{null}}"
+                              searchParam="title"
+                              minSearchLength="{{3}}"
+                              searchStartingWith="{{_searchStartingWith}}"
+                              parentProperty="parent"
+                              bind:expandedItems="_expandedItems"
+                              bind:markedKey="_markedKey"
+                              on:markedKeyChanged="_markedKeyChangedHandler()">
+        <div>
+            <Controls.search:InputContainer>
+                <Controls.search:Input
+                    attr:class="demo-Search__searchinput"/>
+            </Controls.search:InputContainer>
+            <Controls.list:Container>
+                <Controls.explorer:View
+                        attr:class="demo-Explorer ControlsDemo-Explorer"
+                        multiSelectVisibility="{{_multiselectVisibility}}"
+                        displayProperty="title"
+                        nodeProperty="parent@"
+                        columns="{{_viewColumns}}"
+                        bind:selectedKeys="_selectedKeys"
+                        bind:excludedKeys="_excludedKeys">
+                    <ws:emptyTemplate>
+                        <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
+                            <ws:contentTemplate>Не найдено</ws:contentTemplate>
+                        </ws:partial>
+                    </ws:emptyTemplate>
+                </Controls.explorer:View>
+            </Controls.list:Container>
+        </div>
+    </Controls.browser:Browser>
+</div>

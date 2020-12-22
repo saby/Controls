@@ -29,8 +29,8 @@ export interface ILookupOptions extends ILookupInputOptions {
  * Поддерживает автовысоту в зависимости от выбранных значений {@link multiLine}, а также одиночный и множественный выбор (см. {@link multiSelect}).
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/directory/lookup/">руководство разработчика</a>
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FLookup%2FIndexпеременные тем оформления}
  *
  *
  * @class Controls/_lookup/Lookup
@@ -52,7 +52,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  * @mixes Controls/_interface/IValidationStatus
  * @mixes Controls/input:IBorderVisibility
  * @mixes Controls/input:IPadding
@@ -89,7 +89,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  * 
  * @public
  * @author Герасимов А.М.
@@ -564,4 +564,10 @@ export default class Lookup extends BaseLookupInput {
  *       multiSelect="{{true}}">
  *    </Controls.lookup:Input>
  * </pre>
+ */
+
+ /**
+ * @name Controls/_lookup/Lookup#fontSize
+ * @cfg
+ * @demo Controls-demo/LookupNew/Input/FontSize/Index
  */

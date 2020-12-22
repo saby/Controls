@@ -1,10 +1,26 @@
 .controls-ProgressBar_style_theme-@{themeName} {
    background-color: @unselected_scale_color_progressBar;
+   height: @scale_thickness_progressBar;
 }
 
-.controls-ProgressBar_style__filled_theme-@{themeName} {
-   height: @scale_thickness_progressBar;
-   background-color: @primary_scale_color_progressBar;
+.controls-ProgressBar_style__filled {
    max-width: 100%;
    transition: width 0.2s;
+   height: 100%;
+}
+
+.controls-ProgressBar_style-primary__filled_theme-@{themeName} {
+   background-color: @primary_scale_color_progressBar;
+}
+
+.controls-ProgressBar_style-success__filled_theme-@{themeName} {
+   background-color: @success_scale_color_progressBar;
+}
+
+.controls-ProgressBar_style-warning__filled_theme-@{themeName} {
+   background-color: @warning_scale_color_progressBar;
+}
+
+.controls-ProgressBar_style-danger__filled_theme-@{themeName} {
+   background-color: @danger_scale_color_progressBar;
 }

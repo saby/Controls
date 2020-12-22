@@ -6,7 +6,8 @@ import * as ActualAPI from 'Controls/_input/ActualAPI';
 import {
     IHeight, IHeightOptions, IFontColorStyle,
     IFontColorStyleOptions, IFontSize, IFontSizeOptions,
-    IBorderStyle, IBorderStyleOptions, IValidationStatus, IValidationStatusOptions
+    IBorderStyle, IBorderStyleOptions, IValidationStatus,
+    IValidationStatusOptions, IContrastBackground
 } from 'Controls/interface';
 import IBorderVisibility, {
     TBorderVisibility, IBorderVisibilityOptions,
@@ -98,12 +99,15 @@ export interface IRenderOptions extends IControlOptions, IHeightOptions, IBorder
  * @mixes Controls/interface:IValidationStatus
  * @mixes Controls/input:ITag
  * @mixes Controls/input:IBorderVisibility
+ * @implements Controls/interface:IContrastBackground
  *
  * @author Красильников А.С.
  * @private
  */
 
-class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle, IFontSize, IValidationStatus, IBorderStyle, IBorderVisibility {
+class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle, IFontSize,
+                                                        IValidationStatus, IBorderStyle,
+                                                        IBorderVisibility, IContrastBackground {
     protected _tag: SVGElement | null = null;
     private _border: IBorder = null;
     private _contentActive: boolean = false;
@@ -121,6 +125,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
     readonly '[Controls/_interface/IValidationStatus]': boolean = true;
     readonly '[Controls/interface/IBorderStyle]': boolean = true;
     readonly '[Controls/interface/IBorderVisibility]': boolean = true;
+    readonly '[Controls/_interface/IContrastBackground]': boolean = true;
 
     private _setState(options: IRenderOptions): void {
         if (options.state === '') {

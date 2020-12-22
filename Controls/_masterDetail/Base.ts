@@ -2,10 +2,12 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_masterDetail/Base/Base';
 import {debounce} from 'Types/function';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {goUpByControlTree} from 'UI/Focus';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {IPropStorageOptions} from 'Controls/interface';
 
 const RESIZE_DELAY = 50;
+const TOUCH_RESIZE_MASTER_OFFSET = 100;
 
 interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     master: TemplateFunction;
@@ -126,6 +128,7 @@ class Base extends Control<IMasterDetail> {
     protected _currentMinWidth: string;
     protected _containerWidth: number;
     protected _updateOffsetDebounced: Function;
+    private _touchstartPosition: number;
 
     protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<number> | void {
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
@@ -156,6 +159,10 @@ class Base extends Control<IMasterDetail> {
         return getSettings([options.propStorageId]);
     }
     private _dragStartHandler(): void {
+        this._beginResize();
+    }
+
+    private _beginResize(): void {
         if (!this._minOffset && !this._maxOffset && this._canResizing) {
             this._updateOffset(this._options);
         }
@@ -223,6 +230,54 @@ class Base extends Control<IMasterDetail> {
         }
     }
 
+    protected _touchstartHandler(e: SyntheticEvent<TouchEvent>): void {
+        const needHandleTouch: boolean = this._needHandleTouch(e.target as HTMLElement);
+        if (needHandleTouch) {
+            this._touchstartPosition = this._getTouchPageXCoord(e);
+            this._beginResize();
+            this._children.resizingLine.startDrag();
+        }
+    }
+
+    protected _touchMoveHandler(e: SyntheticEvent<TouchEvent>): void {
+        if (this._touchstartPosition) {
+            const touchendPosition: number = this._getTouchPageXCoord(e);
+            const touchOffset: number = touchendPosition - this._touchstartPosition;
+            if (touchOffset !== 0) {
+                this._children.resizingLine.drag(touchOffset);
+            }
+        }
+    }
+
+    private _needHandleTouch(target: HTMLElement): boolean {
+        const controlTree = goUpByControlTree(target);
+        const masterListModuleName: string = 'Controls/masterDetail:List';
+        for (let i = 0; i < controlTree.length; i++) {
+            // Если не встретили список и добрались до контрола, значит можем обрабатывать клик
+            if (controlTree[i]._moduleName === this._moduleName) {
+                return true;
+            }
+            // Если тач пришелся в список, то список обработает тач и ресайзиться не нужно
+            if (controlTree[i]._moduleName === masterListModuleName)  {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected _touchendHandler(e: SyntheticEvent<TouchEvent>): void {
+        if (this._touchstartPosition) {
+            const touchendPosition: number = this._getTouchPageXCoord(e);
+            const touchOffset: number = touchendPosition - this._touchstartPosition;
+            this._touchstartPosition = null;
+            this._children.resizingLine.endDrag(touchOffset);
+        }
+    }
+
+    private _getTouchPageXCoord(e: SyntheticEvent<TouchEvent>): number {
+        return e.nativeEvent.changedTouches[0].pageX;
+    }
+
     private _startResizeRegister(): void {
         const eventCfg = {
             type: 'controlResize',
@@ -285,11 +340,15 @@ class Base extends Control<IMasterDetail> {
 
     protected _offsetHandler(event: Event, offset: number): void {
         if (offset !== 0) {
-            const width = parseInt(this._currentWidth, 10) + offset;
-            this._currentWidth = width + 'px';
-            this._updateOffset(this._options);
-            this._notify('masterWidthChanged', [this._currentWidth]);
+            this._changeOffset(offset);
         }
+    }
+
+    private _changeOffset(offset: number): void {
+        const width = parseInt(this._currentWidth, 10) + offset;
+        this._currentWidth = width + 'px';
+        this._updateOffset(this._options);
+        this._notify('masterWidthChanged', [this._currentWidth]);
     }
 
     private _isPercentValue(value: string | number): boolean {

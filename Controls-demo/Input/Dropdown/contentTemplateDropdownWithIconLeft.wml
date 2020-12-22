@@ -1,8 +1,0 @@
-<ws:partial template="Controls/dropdown:inputDefaultContentTemplate">
-   <ws:contentTemplate>
-      <div class="ControlsDemo-InputDropdown-contentTemplate">
-         <div class="controls-Dropdown__icon ControlsDemo-DropdownPG-contentTemplate_icon"><div class="{{icon}}"></div></div>
-         <div class="controls-Dropdown__text">{{text}}</div>
-      </div>
-   </ws:contentTemplate>
-</ws:partial>

@@ -1,6 +1,7 @@
 import { TClosure as thelpers } from 'UI/Executor';
 import validHtml = require('Core/validHtml');
 import {Logger} from 'UI/Utils';
+import {constants} from 'Env/Env';
 import { _FocusAttrs } from 'UI/Focus';
 
    var markupGenerator,
@@ -43,7 +44,6 @@ import { _FocusAttrs } from 'UI/Focus';
       goodLinkAttributeRegExp = new RegExp(`^(${startOfGoodLinks.join('|')})`
          .replace(/[a-z]/g, (m) => `[${m + m.toUpperCase()}]`)),
       dataAttributeRegExp = /^data-(?!component$|bind$)([\w-]*[\w])+$/,
-      escapeVdomRegExp = /&([a-zA-Z0-9#]+)/g,
       additionalNotVdomEscapeRegExp = /(\u00a0)|(&#)/g;
 
    const attributesWhiteListForEscaping = ['style'];
@@ -191,7 +191,7 @@ import { _FocusAttrs } from 'UI/Focus';
       currentValidHtml = control._options.validHtml || validHtml;
 
       const events = attr.events || {};
-      if (typeof window !== 'undefined') {
+      if (constants.isBrowserPlatform) {
          addEventListener(events, 'on:contextmenu', '_contextMenuHandler');
          addEventListener(events, 'on:copy', '_copyHandler');
       }
@@ -218,15 +218,7 @@ import { _FocusAttrs } from 'UI/Focus';
             value = ['div', value];
          }
       }
-      if (isVdom) {
-         // Protect view of text from needless unescape in inferno.
-         oldEscape = markupGenerator.escape;
-         markupGenerator.escape = function(str) {
-            return str.replace(escapeVdomRegExp, function(match, entity) {
-               return '&amp;' + entity;
-            });
-         };
-      } else {
+      if (!isVdom) {
          // Markup Converter should escape long space characters too.
          oldEscape = markupGenerator.escape;
          markupGenerator.escape = function(str) {
@@ -239,7 +231,9 @@ import { _FocusAttrs } from 'UI/Focus';
       } catch (e) {
           Logger.error('UI/Executor:TClosure: ' + e.message, undefined, e);
       } finally {
-         markupGenerator.escape = oldEscape;
+         if (!isVdom) {
+            markupGenerator.escape = oldEscape;
+         }
       }
 
       if (!elements.length) {

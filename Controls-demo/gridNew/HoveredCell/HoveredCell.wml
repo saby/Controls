@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper">
+    <div name="hoveredCell" style="border: 1px solid red; width: 256px;">Hovered cell ⇒ {{_hoveredCell}}</div>
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            on:hoveredCellChanged="_hoveredCellChanged()"
+            columns="{{_columns}}"/>
+</div>

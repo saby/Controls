@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-header-multiHeader-base controlsDemo__height400 controlsDemo_widthFit">
+    <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__inline-flex">
+        <Controls.gridNew:View
+                backgroundStyle="default"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns}}"/>
+    </Controls.scroll:Container>
+</div>

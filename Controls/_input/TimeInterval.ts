@@ -1,4 +1,4 @@
-import Base = require('Controls/_input/Base');
+import Base from 'Controls/_input/Base';
 
 import {descriptor, TimeInterval} from 'Types/entity';
 import {IOptions as IModelOptions, ViewModel} from 'Controls/_input/TimeInterval/ViewModel';
@@ -11,9 +11,9 @@ type IOptions = IModelOptions;
  * Позволяет вводить время с точностью от суток до секунд.
  *
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/input/date/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FExample%2FInput демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input/date/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/TimeInterval
  * @extends Controls/_input/Base
@@ -49,6 +49,7 @@ type IOptions = IModelOptions;
 
 class TimeInterval extends Base {
     protected _autoWidth: boolean = true;
+    protected _controlName: string = 'TimeInterval';
 
     protected _defaultValue: TimeInterval | null = null;
 

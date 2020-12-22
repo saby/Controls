@@ -2,6 +2,7 @@ import { assert } from 'chai';
 
 import Group from 'Controls/_display/itemsStrategy/Group';
 import IItemsStrategy from 'Controls/_display/IItemsStrategy';
+import { groupConstants } from 'Controls/list';
 
 import {
     GroupItem,
@@ -457,64 +458,6 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             assert.equal(groups[0].getContents(), 'foo');
         });
 
-        it('items without group in start', () => {
-            const items = [
-                new CollectionItem({ contents: {key: 'one', group: '1'} }),
-                new CollectionItem({ contents: {key: 'two', group: '1'} }),
-                new CollectionItem({ contents: {key: 'three', group: 'CONTROLS_HIDDEN_GROUP'} })
-            ];
-            const groups = [];
-            const options: any = {
-                display: {
-                    getMultiSelectVisibility() {
-                        return 'hidden';
-                    }
-                },
-                groups,
-                groupConstructor: GroupItem,
-                handler: (it) => it.group
-            };
-            const expected = [1, 4, 0, 2, 3];
-            const given = Group.sortItems(items, options);
-
-            assert.deepEqual(given, expected);
-
-            assert.equal(groups.length, 2);
-            assert.equal(groups[0].getContents(), '1');
-            assert.equal(groups[1].getContents(), 'CONTROLS_HIDDEN_GROUP');
-        });
-
-        it('items without group in start', () => {
-            const items = [
-                new CollectionItem({ contents: {key: 'one', group: 'CONTROLS_HIDDEN_GROUP'} }),
-                new CollectionItem({ contents: {key: 'two', group: 'CONTROLS_HIDDEN_GROUP'} }),
-                new CollectionItem({ contents: {key: 'three', group: 'CONTROLS_HIDDEN_GROUP'} })
-            ];
-            const groups = [
-                new GroupItem({
-                    contents: '123'
-                })
-            ];
-            const options: any = {
-                display: {
-                    getMultiSelectVisibility() {
-                        return 'hidden';
-                    }
-                },
-                groups,
-                groupConstructor: GroupItem,
-                handler: (it) => it.group
-            };
-            const expected = [1, 2, 3, 4];
-            const given = Group.sortItems(items, options);
-
-            assert.deepEqual(given, expected);
-
-            assert.equal(groups.length, 2);
-            assert.equal(groups[0].getContents(), '123');
-            assert.equal(groups[1].getContents(), 'CONTROLS_HIDDEN_GROUP');
-        });
-
         it('should create several groups', () => {
             const items = [
                 new CollectionItem({contents: 'one'}),
@@ -541,6 +484,86 @@ describe('Controls/_display/itemsStrategy/Group', () => {
             assert.equal(groups.length, 3);
             groups.forEach((group, index) => {
                 assert.equal(group.getContents(), expectedGroups[index]);
+            });
+        });
+
+        describe('hidden group is always number one', () => {
+
+            it('hidden group is first in items', () => {
+                const createItem = (id: number, group?: string) => {
+                    return {
+                        contents: {
+                            group: group || groupConstants.hiddenGroup,
+                            id
+                        },
+                        multiSelectVisibility: 'hidden'
+                     }
+                }
+                const items = [
+                    new CollectionItem(createItem(1)),
+                    new CollectionItem(createItem(2)),
+                    new CollectionItem(createItem(3, 'one')),
+                    new CollectionItem(createItem(4, 'one'))
+                ];
+                const groups = [];
+                const options: any = {
+                    display: {
+                        getMultiSelectVisibility() {
+                            return 'hidden';
+                        }
+                    },
+                    groups,
+                    groupConstructor: GroupItem,
+                    handler: (item) => item.group
+                };
+                const expected = [0, 2, 3, 1, 4, 5];
+                const expectedGroups = [groupConstants.hiddenGroup, 'one'];
+                const given = Group.sortItems(items, options);
+
+                assert.deepEqual(given, expected);
+
+                assert.equal(groups.length, 2);
+                groups.forEach((group, index) => {
+                    assert.equal(group.getContents(), expectedGroups[index]);
+                });
+            });
+            it('hidden group is not first in items', () => {
+                const createItem = (id: number, group?: string) => {
+                    return {
+                        contents: {
+                            group: group || groupConstants.hiddenGroup,
+                            id
+                        },
+                        multiSelectVisibility: 'hidden'
+                     }
+                }
+                const items = [
+                    new CollectionItem(createItem(1, 'one')),
+                    new CollectionItem(createItem(2)),
+                    new CollectionItem(createItem(3)),
+                    new CollectionItem(createItem(4, 'one'))
+                ];
+                const groups = [];
+                const options: any = {
+                    display: {
+                        getMultiSelectVisibility() {
+                            return 'hidden';
+                        }
+                    },
+                    groups,
+                    groupConstructor: GroupItem,
+                    handler: (item) => item.group
+                };
+                const expected = [1, 3, 4, 0, 2, 5];
+                const expectedGroups = ['one', groupConstants.hiddenGroup];
+                const given = Group.sortItems(items, options);
+
+                assert.deepEqual(given, expected);
+
+                assert.equal(groups.length, 2);
+                groups.forEach((group, index) => {
+                    assert.equal(group.getContents(), expectedGroups[index]);
+                });
             });
         });
 

@@ -1686,6 +1686,22 @@ describe('Controls/_itemActions/Controller', () => {
             // @ts-ignore
             assert.notExists(config.nativeEvent);
         });
+
+        // T3.18 нужно пробрасывать footerItemData в конфиг шаблона
+        it('should set config.footerItemData', () => {
+            const item3 = collection.getItemBySourceKey(3);
+            const config = itemActionsController.prepareActionsMenuConfig(
+                item3,
+                clickEvent,
+                itemActions[3],
+                null,
+                false
+            );
+            assert.exists(config.templateOptions, 'Template options were not set');
+            assert.exists(config.templateOptions.footerItemData);
+            assert.equal(config.templateOptions.footerItemData.item, item3);
+        });
+
     });
 
     // см. этот же тест в Collection.test.ts

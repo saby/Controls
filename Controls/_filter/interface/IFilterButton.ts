@@ -155,7 +155,7 @@
  * @cfg {String} Шаблон всплывающей панели, которая открывается после клика по кнопке.
  * @remark
  * В качестве шаблона рекомендуется использовать {@link Controls/filter:Selector}.
- * Подробнее о настройке панели фильтров читайте <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/'>здесь</a>.
+ * Подробнее о настройке панели фильтров читайте <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/'>здесь</a>.
  * Важно: для ленивой загрузки шаблона в значение опции необходимо передать путь до контрола.
  * @example
  * Пример настройки параметров для двух фильтров.

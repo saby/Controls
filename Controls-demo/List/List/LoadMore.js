@@ -21,7 +21,7 @@ define('Controls-demo/List/List/LoadMore', [
                hasMore: false
             },
             viewConfig: {
-               pagingMode: 'direct'
+               pagingMode: 'basic'
             }
          },
 

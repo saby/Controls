@@ -1,12 +1,6 @@
 /**
  * Библиотека, которая предоставляет операции с записью коллекции.
  * @library Controls/itemActions
- * @includes IItemAction Controls/_itemActions/interface/IItemAction
- * @includes IContextMenuConfig Controls/_itemActions/interface/IContextMenuConfig
- * @includes IItemActionsItem Controls/_itemActions/interface/IItemActionsItem
- * @includes IItemActionsCollection Controls/_itemActions/interface/IItemActionsCollection
- * @includes IItemActionsTemplateConfig Controls/_itemActions/interface/IItemActionsTemplateConfig
- * @includes Controller Controls/_itemActions/Controller
  * @public
  * @author Аверкиев П.А.
  */
@@ -14,12 +8,6 @@
 /*
  * Library that provides collection item actions
  * @library Controls/itemActions
- * @includes IItemAction Controls/_itemActions/interface/IItemAction
- * @includes IContextMenuConfig Controls/_itemActions/interface/IContextMenuConfig
- * @includes IItemActionsItem Controls/_itemActions/interface/IItemActionsItem
- * @includes IItemActionsCollection Controls/_itemActions/interface/IItemActionsCollection
- * @includes IItemActionsTemplateConfig Controls/_itemActions/interface/IItemActionsTemplateConfig
- * @includes Controller Controls/_itemActions/Controller
  * @public
  * @author Аверкиев П.А.
  */

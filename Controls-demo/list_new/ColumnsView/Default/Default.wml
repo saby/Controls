@@ -11,7 +11,7 @@
          on:dragStart="_dragStart()">
          <ws:navigation source="page" view="infinity">
             <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>
-            <ws:viewConfig pagingMode="direct"/>
+            <ws:viewConfig pagingMode="basic"/>
          </ws:navigation>
          <ws:itemTemplate>
             <ws:partial template="Controls/listRender:ColumnsItemTemplate" attr:class="controlsDemo__height18_item"></ws:partial>

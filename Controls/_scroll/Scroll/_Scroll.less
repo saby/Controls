@@ -143,7 +143,13 @@
    position: absolute;
    z-index: @z-index_Scroll-contentEnvironment;
    bottom: @scrollpaging_offset-vertical_list;
-   right: @scrollpaging_offset-horizontal_list;
+
+   &_position-right {
+      right: @scrollpaging_offset-horizontal_list;
+   }
+   &_position-left {
+      left: @scrollpaging_offset-horizontal_list;
+   }
 }
 
 .controls-Scroll__content_paging::after {

@@ -1,4 +1,4 @@
-import { view } from 'Controls/Constants';
+import { groupConstants } from 'Controls/list';
 
 export interface ITestDataItem {
     key: number;
@@ -30,7 +30,7 @@ export function generateFlatData(count: number, splitIntoGroups: boolean): ITest
         const item: ITestDataItem = { key: idx, caption: 'item_' + idx };
         if (splitIntoGroups) {
             const groupIdx = idx % TEST_GROUP_SIZE;
-            item.group = groupIdx ? 'group_' + groupIdx : view.hiddenGroup;
+            item.group = groupIdx ? 'group_' + groupIdx : groupConstants.hiddenGroup;
         }
         result.push(item);
     }

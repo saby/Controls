@@ -28,7 +28,7 @@ export default class extends Control {
                 direction: 'forward'
             },
             viewConfig: {
-                pagingMode: 'direct'
+                pagingMode: 'basic'
             }
         };
         this._viewSource = createGroupingSource({

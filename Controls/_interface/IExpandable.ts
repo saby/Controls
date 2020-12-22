@@ -4,14 +4,12 @@ export interface IExpandableOptions {
 
 /**
  * Интерфейс для контролов с возможностью переключения состояния развернутости.
- * @interface Controls/_interface/IExpandable
  * @public
  * @author Сухоручкин А.С.
  */
 
 /*
  * Interface for components with switchable state of extensibility.
- * @interface Controls/_interface/IExpandable
  * @public
  * @author Сухоручкин А.С.
  */ 
@@ -35,22 +33,21 @@ export default interface IExpandable {
  * @param {Boolean} expandedState Текущее состояние развёрнутости.
  * @example
  * В следующем примере создается Controls.operations:Button и демонстрируется сценарий использования.
- * WML:
- * <pre>
- *    <Controls.operations:Button
- *       expanded="{{_options.expanded}}"
- *       on:expandedChanged="_onExpandedChanged()">
- *    </Controls.operations:Button>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.operations:Button
+ *     expanded="{{_options.expanded}}"
+ *     on:expandedChanged="_onExpandedChanged()">
+ * </Controls.operations:Button>
  * </pre>
- * JS:
- * <pre>
- *    _beforeMount: function() {
- *       this._onExpandedChanged = this._onExpandedChanged.bind(this);
- *    },
- *
- *    _onExpandedChanged: function(e, expandedState) {
- *       this._expandedState = expandedState;
- *    }
+ * <pre class="brush: js">
+ * // JavaScript
+ * _beforeMount: function() {
+ *     this._onExpandedChanged = this._onExpandedChanged.bind(this);
+ * },
+ * _onExpandedChanged: function(e, expandedState) {
+ *     this._expandedState = expandedState;
+ * }
  * </pre>
  */
 /*

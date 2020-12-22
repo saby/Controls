@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            attr:style="max-width: 700px">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/gridNew:ItemTemplate"
+                        itemData="{{itemData}}"
+                        backgroundColorStyle="{{itemTemplate.itemData.item.get('population') > 1000000000 ? 'danger'}}"/>
+        </ws:itemTemplate>
+    </Controls.gridNew:View>
+</div>

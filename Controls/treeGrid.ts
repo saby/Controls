@@ -1,9 +1,8 @@
 /**
  * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде дерева.
  * @library Controls/treeGrid
- * @includes View Controls/_treeGrid/View
- * @includes ItemTemplate Controls/treeGrid:ItemTemplate
- * @includes RowEditor Controls/treeGrid:RowEditor
+ * @includes ItemTemplate Controls/_treeGrid/interface/ItemTemplate
+ * @includes RowEditor Controls/_treeGrid/interface/RowEditor
  * @public
  * @author Крайнов Д.О.
  */
@@ -48,3 +47,4 @@ export {
     TreeGridView,
     RowEditor
 };
+export {IReloadableTreeGrid} from 'Controls/_treeGrid/interface/IReloadableTreeGrid';

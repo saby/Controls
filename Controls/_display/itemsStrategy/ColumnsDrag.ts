@@ -1,7 +1,5 @@
 import {Model} from 'Types/entity';
-import CollectionItem from '../CollectionItem';
 import ColumnsCollectionItem from '../ColumnsCollectionItem';
-import GroupItem from '../GroupItem';
 import Drag from './Drag';
 
 /**

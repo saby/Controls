@@ -3,11 +3,19 @@ import {ListView, CssClassList} from 'Controls/list';
 import * as GridLayoutUtil from 'Controls/_grid/utils/GridLayoutUtil';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 import {TouchContextField as isTouch} from 'Controls/context';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {prepareEmptyEditingColumns} from 'Controls/Utils/GridEmptyTemplateUtil';
-import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS, ColumnScroll} from './resources/ColumnScroll';
-import {JS_SELECTORS as DRAG_SCROLL_JS_SELECTORS, DragScroll} from './resources/DragScroll';
-import {shouldAddActionsCell, shouldDrawColumnScroll, isInLeftSwipeRange} from 'Controls/_grid/utils/GridColumnScrollUtil';
+import {
+    COLUMN_SCROLL_JS_SELECTORS,
+    DRAG_SCROLL_JS_SELECTORS,
+    ColumnScrollController as ColumnScroll,
+    DragScrollController as DragScroll,
+    isInLeftSwipeRange
+} from 'Controls/columnScroll';
+import {
+    shouldAddActionsCell,
+    shouldDrawColumnScroll,
+} from 'Controls/_grid/utils/GridColumnScrollUtil';
 
 import {getDimensions} from 'Controls/sizeUtils';
 
@@ -174,6 +182,7 @@ var
         },
         createColumnScroll(self, options): void {
             self._columnScrollController = new ColumnScroll({
+                isFullGridSupport: GridLayoutUtil.isFullGridSupport(),
                 needBottomPadding: options._needBottomPadding,
                 stickyColumnsCount: options.stickyColumnsCount,
                 hasMultiSelect: options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition === 'default',
@@ -279,6 +288,15 @@ var
                 self._viewGrabbingClasses = isGrabbing ? DRAG_SCROLL_JS_SELECTORS.CONTENT_GRABBING : '';
             }
         },
+        /**
+         * Скроллит к ближайшему краю колонки
+         * @param self
+         */
+        scrollToColumn(self): void {
+            self._columnScrollController.scrollToColumnWithinContainer(self._children.header || self._children.results);
+            self._setHorizontalScrollPosition(self._columnScrollController.getScrollPosition());
+            self._updateColumnScrollData();
+        },
         applyNewOptionsAfterReload(self, oldOptions, newOptions): void {
             // todo remove isEqualWithSkip by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
             self._columnsHaveBeenChanged = !GridIsEqualUtil.isEqualWithSkip(oldOptions.columns, newOptions.columns,
@@ -336,7 +354,7 @@ var
         _defaultItemTemplate: GridItemTemplate,
         _headerContentTemplate: HeaderContentTpl,
 
-        _notifyHandler: tmplNotify,
+        _notifyHandler: EventUtils.tmplNotify,
         _columnScrollContainerClasses: '',
         _dragScrollOverlayClasses: '',
         _horizontalScrollPosition: 0,
@@ -377,6 +395,21 @@ var
             // При прокидывании функции через шаблон и последующем вызове, она вызывается с областью видимости шаблона, а не контрола.
             // https://online.sbis.ru/opendoc.html?guid=756c49a6-13da-4e54-9333-fdd7a7fb6461
             this._prepareColumnsForEmptyEditingTemplate = this._prepareColumnsForEmptyEditingTemplate.bind(this);
+
+            if (cfg.columnScroll && cfg.columnScrollStartPosition === 'end' && GridLayoutUtil.isFullGridSupport()) {
+                // В таблице с горизонтальным скроллом изначально прокрученным в конец используется фейковая таблица.
+                // Т.к. для отрисовки горизонтального скролла требуется знать размеры таблицы, инициализация горизонтального скролла
+                // происходит на afterMount, который не вызывается на сервере. Чтобы измежать скачка, при оживлении таблицы с
+                // прокрученными в конец колонками, на сервере строится фейковая таблица, состаящая из двух гридов.
+                // Первый - фиксированные колонки, абсолютный блок, прижат к левому краю релативной обертки.
+                // Второй - все остальные колонки, абсолютный блок, прижат к правому краю релативной обертки.
+                // При построении настоящая таблица скрывается с помощью visibility и строится в обыччном порядке.
+                // Затем проскроливается вконец и только после этого заменяет фейковую.
+                // preventServerSideColumnScroll - запрещает построение с помощью данного механизма. Нужно например при поиске, когда
+                // таблица перемонтируется. Простая проверка на window нам не подходит, т.к. нас интересует только первая отрисовка view
+                // списочного контрола.
+                this._showFakeGridWithColumnScroll = !cfg.preventServerSideColumnScroll;
+            }
 
             return resultSuper;
         },
@@ -598,6 +631,17 @@ var
             _private.setHoveredCell(this, itemData.item, event.nativeEvent);
         },
 
+        _onViewMouseEnter: function() {
+            // При загрузке таблицы с проскроленным в конец горизонтальным скролом следует оживить таблицу при
+            // вводе в нее указателя мыши, но после отрисовки thumb'а (скрыт через visibility) во избежание скачков
+            if (this._showFakeGridWithColumnScroll) {
+                if (this._canShowRealGridWithColumnScroll) {
+                    this._showFakeGridWithColumnScroll = false;
+                }
+                this._canShowRealGridWithColumnScroll = true;
+            }
+        },
+
         _onItemMouseLeave: function() {
             GridView.superclass._onItemMouseLeave.apply(this, arguments);
             _private.setHoveredCell(this, null, null);
@@ -635,10 +679,14 @@ var
             this._children.horizontalScrollWrapper?.setPosition(value);
         },
 
-        _updateColumnScrollShadowClasses(): void {
-            const newStart = this._columnScrollController.getShadowClasses('start');
-            const newEnd = this._columnScrollController.getShadowClasses('end');
+        // Не вызывает реактивную перерисовку, т.к. данные пишутся в поля объекта. Перерисовка инициируется обновлением позиции скрола.
+        _updateColumnScrollShadowClasses(options = this._options): void {
+            const newStart = this._getColumnScrollShadowClasses(options, 'start');
+            const newEnd = this._getColumnScrollShadowClasses(options, 'end');
 
+            if (!this._columnScrollShadowClasses) {
+                this._columnScrollShadowClasses = {};
+            }
             if (
                 this._columnScrollShadowClasses.start !== newStart ||
                 this._columnScrollShadowClasses.end !== newEnd
@@ -650,6 +698,44 @@ var
             }
         },
 
+        _getColumnScrollShadowClasses(options, position: 'start' | 'end'): string {
+            if (this._showFakeGridWithColumnScroll && options.columnScrollStartPosition === 'end') {
+                let classes = '';
+                if (options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom') {
+                    classes += `controls-Grid__ColumnScroll__shadow_withMultiselect_theme-${options.theme} `;
+                }
+                return classes + ColumnScroll.getShadowClasses(position, {
+                    isVisible: position === 'start',
+                    theme: options.theme,
+                    backgroundStyle: options.backgroundStyle,
+                });
+            }
+            return this._columnScrollController.getShadowClasses(position, {
+                needBottomPadding: options.needBottomPadding
+            });
+        },
+
+        _getColumnScrollFakeShadowStyles(options, position: 'start' | 'end'): string {
+            if (this._showFakeGridWithColumnScroll && options.columnScrollStartPosition === 'end') {
+                if (position === 'end') {
+                    return '';
+                }
+
+                let offsetLeft = 0;
+
+                for (let i = 0; i < options.columns.length && i < options.stickyColumnsCount; i++) {
+                    if (!(options.columns[i].width && options.columns[i].width.indexOf('px') !== -1)) {
+
+                    } else {
+                        offsetLeft += Number.parseInt(options.columns[i].width);
+                    }
+                }
+
+                return `left: ${offsetLeft}px; z-index: 5;`
+            }
+            return '';
+        },
+
         _horizontalPositionChangedHandler(e, newScrollPosition: number): void {
             this._columnScrollController.setScrollPosition(newScrollPosition);
             this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
@@ -658,8 +744,7 @@ var
         _columnScrollWheelHandler(e): void {
             if (this._isColumnScrollVisible()) {
                 this._columnScrollController.scrollByWheel(e);
-                this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
-                this._updateColumnScrollData();
+                _private.scrollToColumn(this);
             }
         },
         _updateColumnScrollData(): void {
@@ -730,6 +815,18 @@ var
             this._columnScrollController.scrollToElementIfHidden(target);
             this._updateColumnScrollData();
         },
+        _onNewHorizontalPositionRendered(e, newPosition) {
+            e.stopPropagation();
+
+            // При загрузке таблицы с проскроленным в конец горизонтальным скролом следует оживить таблицу при
+            // вводе в нее указателя мыши, но после отрисовки thumb'а (скрыт через visibility) во избежание скачков
+            if (this._showFakeGridWithColumnScroll && newPosition !== 0) {
+                if (this._context?.isTouch?.isTouch || this._canShowRealGridWithColumnScroll) {
+                    this._showFakeGridWithColumnScroll = false;
+                }
+                this._canShowRealGridWithColumnScroll = true;
+            }
+        },
         _startDragScrolling(e, startBy: 'mouse' | 'touch'): void {
             if (this._isColumnScrollVisible() && this._dragScrollController) {
                 let isGrabbing: boolean;
@@ -769,6 +866,7 @@ var
         },
         _stopDragScrolling(e, startBy: 'mouse' | 'touch') {
             if (this._isColumnScrollVisible() && this._dragScrollController) {
+                _private.scrollToColumn(this);
                 if (startBy === 'mouse') {
                     this._dragScrollController.onViewMouseUp(e);
                 } else {
@@ -797,19 +895,29 @@ var
             }
         },
         _onDragScrollOverlayMouseUp(e) {
+            _private.scrollToColumn(this);
             this._dragScrollController?.onOverlayMouseUp(e);
         },
         _onDragScrollOverlayTouchEnd(e) {
+            _private.scrollToColumn(this);
             this._dragScrollController?.onOverlayTouchEnd(e);
             this._leftSwipeCanBeStarted = false;
         },
         _onDragScrollOverlayMouseLeave(e) {
             this._dragScrollController?.onOverlayMouseLeave(e);
         },
+        _onScrollWrapperMouseUp(e) {
+            e.stopPropagation();
+            _private.scrollToColumn(this);
+        },
         _onItemSwipe(event, itemData) {
             const direction = event.nativeEvent.direction;
             if (direction === 'top' || direction === 'bottom') {
                 return;
+            }
+
+            if (direction === 'left') {
+                this.activate();
             }
 
             event.stopPropagation();
@@ -846,7 +954,8 @@ var
                 hasMultiSelect: this._options.multiSelectVisibility !== 'hidden' && this._options.multiSelectPosition === 'default',
                 colspanColumns: columns.map((c) => ({...c, startColumn: c.startIndex, endColumn: c.endIndex})),
                 itemPadding: this._options.itemPadding || {},
-                theme: this._options.theme
+                theme: this._options.theme,
+                editingBackgroundStyle: (this._options.editingConfig ? this._options.editingConfig.backgroundStyle : 'default')
             });
         }
     });

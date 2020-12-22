@@ -1,0 +1,31 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
+        <div class="controls-text-label_theme-{{_options.theme}}">captionPosition = left</div>
+        <Controls.propertyGrid:PropertyGrid
+                bind:editingObject="_editingObject"
+                source="{{_source}}"
+                on:itemClick="_handleItemClick()">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/propertyGrid:ItemTemplate"
+                            class="controls-demo-pg-highlightOnHover-editor-padding"
+                            captionPosition="left"
+                            scope="{{itemTemplate}}"/>
+            </ws:itemTemplate>
+        </Controls.propertyGrid:PropertyGrid>
+    </div>
+
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell controls-Demo__wide-propertyGrid">
+        <div class="controls-text-label_theme-{{_options.theme}}">captionPosition = top</div>
+        <Controls.propertyGrid:PropertyGrid
+                bind:editingObject="_editingObject"
+                source="{{_source}}"
+                on:itemClick="_handleItemClick()">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/propertyGrid:ItemTemplate"
+                            class="controls-demo-pg-highlightOnHover-editor-padding"
+                            captionPosition="top"
+                            scope="{{itemTemplate}}"/>
+            </ws:itemTemplate>
+        </Controls.propertyGrid:PropertyGrid>
+    </div>
+</div>

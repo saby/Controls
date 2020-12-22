@@ -56,7 +56,7 @@ const hierarchyFilters: Array<Record<string, any>> = [{
         }),
         filter: {$_history: true},
         selectorTemplate: {
-            templateName: 'Controls-demo/Dropdown/TreeStackTemplate',
+            templateName: 'Controls-demo/Filter_new/resources/TreeStack/TreeStackTemplate',
             templateOptions: {
                 headingCaption: 'Выберите операцию',
                 items: hierarchyOperationData,
@@ -67,7 +67,7 @@ const hierarchyFilters: Array<Record<string, any>> = [{
             }
         },
         navigation: {source: 'page', view: 'page', sourceConfig: {pageSize: 8, page: 0}},
-        selectorTemplateName: 'Controls-demo/Dropdown/TreeStackTemplate',
+        selectorTemplateName: 'Controls-demo/Filter_new/resources/TreeStack/TreeStackTemplate',
         suggestTemplateName: 'Controls-demo/Input/Lookup/Suggest/SuggestTemplate',
         className: 'controls-demo-FilterView__lookupTemplate',
         caption: 'Операции',
@@ -278,7 +278,7 @@ const defaultItems = [{
                 filter: memorySourceFilter()
             }),
             selectorTemplate: {
-                templateName: 'Controls-demo/Dropdown/TreeStackTemplate',
+                templateName: 'Controls-demo/Filter_new/resources/TreeStack/TreeStackTemplate',
                 templateOptions: {
                     headingCaption: 'Выберите склад',
                     items: warehouseData,
@@ -289,7 +289,7 @@ const defaultItems = [{
                 }
             },
             navigation: {source: 'page', view: 'page', sourceConfig: {pageSize: 8, page: 0}},
-            selectorTemplateName: 'Controls-demo/Dropdown/TreeStackTemplate',
+            selectorTemplateName: 'Controls-demo/Filter_new/resources/TreeStack/TreeStackTemplate',
             suggestTemplateName: 'Controls-demo/Input/Lookup/Suggest/SuggestTemplate',
             className: 'controls-demo-FilterView__lookupTemplate',
             placeholder: 'Введите название склада',
@@ -318,7 +318,7 @@ const defaultItems = [{
                 filter: memorySourceFilter()
             }),
             selectorTemplate: {
-                templateName: 'Controls-demo/Dropdown/TreeStackTemplate',
+                templateName: 'Controls-demo/Filter_new/resources/TreeStack/TreeStackTemplate',
                 templateOptions: {
                     headingCaption: 'Выберите ответственного',
                     items: responsibleData,
@@ -329,7 +329,7 @@ const defaultItems = [{
                 }
             },
             navigation: {source: 'page', view: 'page', sourceConfig: {pageSize: 8, page: 0}},
-            selectorTemplateName: 'Controls-demo/Dropdown/TreeStackTemplate',
+            selectorTemplateName: 'Controls-demo/Filter_new/resources/TreeStack/TreeStackTemplate',
             suggestTemplateName: 'Controls-demo/Input/Lookup/Suggest/SuggestTemplate',
             className: 'controls-demo-FilterView__lookupTemplate',
             placeholder: 'Введите ФИО',

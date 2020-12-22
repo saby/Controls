@@ -592,6 +592,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                style: 'default'
             };
             const nativeIsFullGridSupport = GridLayoutUtil.isFullGridSupport;
+            delete GridLayoutUtil.isFullGridSupport;
             GridLayoutUtil.isFullGridSupport = () => false;
             assert.equal(
                 ' controls-Grid__cell_spacingRight_theme-default controls-Grid__cell_spacingFirstCol_null_theme-default controls-Grid__cell_default controls-Grid__row-cell_rowSpacingTop_l_theme-default controls-Grid__row-cell_rowSpacingBottom_l_theme-default',
@@ -2065,6 +2066,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
           it('_prepareColgroupColumns', function() {
             const originIFGS = gridViewModel.isFullGridSupport;
+            delete gridViewModel.isFullGridSupport;
             gridViewModel.isFullGridSupport = () => false;
             assert.deepEqual(gridViewModel._colgroupColumns, undefined, 'Incorrect value "_colgroupColumns" before "_prepareColgroupColumns([])" without multiselect.');
 
@@ -2335,7 +2337,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
          });
 
          it('getColumnScrollCalculationCellClasses', function() {
-            const fixedCell = ` controls-Grid_columnScroll__fixed`;
+            const fixedCell = ` controls-Grid_columnScroll__fixed js-controls-ColumnScroll__notDraggable`;
             const transformCell = ' controls-Grid_columnScroll__scrollable';
             const params = {
                hasMultiSelectColumn: false,
@@ -2560,6 +2562,49 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
          });
       });
 
+      describe('getitemDataByItem should resolve showEditArrow', () => {
+         let gridViewModel;
+         let contentsKey;
+
+         beforeEach(() => {
+            contentsKey = null;
+            gridViewModel = new gridMod.GridViewModel({
+               ...cfg,
+               showEditArrow: true,
+               editArrowVisibilityCallback: function(contents) {
+                  contentsKey = contents.getKey();
+                  return false;
+               }
+            });
+         });
+
+         it('should resolve showEditArrow', () => {
+            gridViewModel = new gridMod.GridViewModel({
+               ...cfg,
+               showEditArrow: true
+            });
+            const data = gridViewModel.getItemDataByItem(gridViewModel._model._display.at(0));
+            assert.equal(contentsKey, null);
+            assert.isTrue(data.showEditArrow);
+         });
+
+         it('should resolve showEditArrow using editArrowVisibilityCallback', () => {
+            const data = gridViewModel.getItemDataByItem(gridViewModel._model._display.at(0));
+            assert.equal(contentsKey, '123');
+            assert.isFalse(data.showEditArrow);
+         });
+
+         it('should resolve showEditArrow using editArrowVisibilityCallback when item is breadcrumb', () => {
+            const dispItem = gridViewModel._model._display.at(0);
+            const contents = dispItem.getContents();
+            dispItem.getContents = () => ['fake', 'fake', contents];
+            dispItem['[Controls/_display/BreadcrumbsItem]'] = true;
+            const data = gridViewModel.getItemDataByItem(dispItem);
+            assert.equal(contentsKey, '123');
+            assert.isFalse(data.showEditArrow);
+         });
+      });
+
       describe('no grid support', () => {
          let
              nativeIsFullGridSupport = GridLayoutUtil.isFullGridSupport,
@@ -2569,6 +2614,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
          beforeEach(() => {
             model = new gridMod.GridViewModel(cfg);
+            delete GridLayoutUtil.isFullGridSupport;
             GridLayoutUtil.isFullGridSupport = () => false;
             GridLayoutUtil.getDefaultColumnWidth = () => 'auto';
          });

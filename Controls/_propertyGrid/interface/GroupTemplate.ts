@@ -78,4 +78,3 @@ export default interface IGroupTemplateOptions {
      */
     expanderVisible?: boolean;
 }
-

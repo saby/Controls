@@ -21,9 +21,9 @@
 														   attr:class="controlsDemo-Notification__success">
                 </Controls.popupTemplate:NotificationSimple>
 
-                <Controls.popupTemplate:NotificationSimple name="myOpenerPrimary"
-                                                           text="Primary"
-                                                           style="primary"
+                <Controls.popupTemplate:NotificationSimple name="myOpenerSecondary"
+                                                           text="Secondary"
+                                                           style="secondary"
                                                            icon="icon-small icon-AdminInfo"
 														   attr:class="controlsDemo-Notification__primary">
                 </Controls.popupTemplate:NotificationSimple>

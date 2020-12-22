@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlsDemo__background">
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls__block_theme-{{_options.theme}}" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}}</div>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls__block_theme-{{_options.theme}} tl" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tl</div>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls__block_theme-{{_options.theme}} tr" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tr</div>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls__block_theme-{{_options.theme}} tlr" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tlr</div>
+    </div>
+</div>

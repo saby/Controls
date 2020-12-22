@@ -40,8 +40,8 @@ export {default as IBind} from './_display/IBind';
 import {default as TreeChildren} from './_display/TreeChildren';
 export {TreeChildren};
 export {default as Abstract} from './_display/Abstract';
-import {default as Collection, IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig} from './_display/Collection';
-export {Collection, IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig};
+import {default as Collection, IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig, ItemsFactory} from './_display/Collection';
+export {Collection, IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig, ItemsFactory};
 import {default as CollectionItem} from './_display/CollectionItem';
 export {CollectionItem};
 import BreadcrumbsItem from './_display/BreadcrumbsItem';
@@ -63,6 +63,8 @@ import {default as Tree} from './_display/Tree';
 export {Tree};
 import {default as TreeItem} from './_display/TreeItem';
 export {TreeItem};
+import {IOptions as ITreeItemOptions} from './_display/TreeItem';
+export {ITreeItemOptions};
 
 export {ANIMATION_STATE} from './_display/interface/ICollection';
 export {IEditableCollection} from './_display/interface/IEditableCollection';
@@ -86,24 +88,54 @@ import isFullGridSupport from './_display/utils/GridSupportUtil';
 export {isFullGridSupport};
 import GridLayoutUtil from './_display/utils/GridLayoutUtil';
 export {GridLayoutUtil};
-import {default as GridCollection} from './_display/GridCollection';
+import {default as GridMixin} from './_display/grid/mixins/Grid';
+export {GridMixin};
+import {default as GridCollection} from './_display/grid/Collection';
 export {GridCollection};
-import {default as GridCollectionItem} from './_display/GridCollectionItem';
-export {GridCollectionItem};
-import {default as GridColumn} from './_display/GridColumn';
-export {GridColumn};
+import {default as GridRowMixin} from './_display/grid/mixins/Row';
+export {GridRowMixin};
+
+import GridRow, {IOptions as IGridRowOptions} from './_display/grid/Row';
+export {GridRow, IGridRowOptions};
+import GridCell, {IOptions as IGridCellOptions} from './_display/grid/Cell';
+export {GridCell, IGridCellOptions};
+
+import GridHeader, {IOptions as IGridHeaderOptions} from './_display/grid/Header';
+export {GridHeader, IGridHeaderOptions};
+import GridHeaderRow, {IOptions as IGridHeaderRowOptions} from './_display/grid/HeaderRow';
+export {GridHeaderRow, IGridHeaderRowOptions};
+import GridHeaderCell, {IOptions as IGridHeaderCellOptions} from './_display/grid/HeaderCell';
+export {GridHeaderCell, IGridHeaderCellOptions};
+import GridTableHeader from './_display/grid/TableHeader';
+export {GridTableHeader};
+import GridTableHeaderRow from './_display/grid/TableHeaderRow';
+export {GridTableHeaderRow};
+
+import GridDataRow, {IOptions as IGridDataRowOptions} from './_display/grid/DataRow';
+export {GridDataRow, IGridDataRowOptions};
+import GridDataCell, {IOptions as IGridDataCellOptions} from './_display/grid/DataCell';
+export {GridDataCell, IGridDataCellOptions};
+
+import GridResultsCell, {IOptions as IGridResultsCellOptions} from './_display/grid/ResultsCell';
+export {GridResultsCell, IGridResultsCellOptions};
+import GridFooterCell, {IOptions as IGridFooterCellOptions} from './_display/grid/FooterCell';
+export {GridFooterCell, IGridFooterCellOptions};
+import GridGroupItem from './_display/grid/GroupItem';
+export {GridGroupItem};
 
 import * as EditInPlaceController from './_display/controllers/EditInPlace';
+
 export { EditInPlaceController };
-
 import * as VirtualScrollController from './_display/controllers/VirtualScroll';
+
 export { VirtualScrollController };
-
 import * as VirtualScrollHideController from './_display/controllers/VirtualScrollHide';
-export { VirtualScrollHideController };
 
+export { VirtualScrollHideController };
 import {IDragPosition} from './_display/interface/IDragPosition';
 export {IDragPosition};
+export {groupConstants} from './_display/itemsStrategy/Group';
+export {MultiSelectAccessibility} from './_display/Collection';
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});
@@ -112,9 +144,23 @@ register('Controls/display:ColumnsCollectionItem', ColumnsCollectionItem, {insta
 register('Controls/display:Enum', Enum, {instantiate: false});
 register('Controls/display:Flags', Flags, {instantiate: false});
 register('Controls/display:FlagsItem', FlagsItem, {instantiate: false});
+
 register('Controls/display:GridCollection', GridCollection, {instantiate: false});
-register('Controls/display:GridCollectionItem', GridCollectionItem, {instantiate: false});
-register('Controls/display:GridColumn', GridColumn, {instantiate: false});
+register('Controls/display:GridRow', GridRow, {instantiate: false});
+register('Controls/display:GridCell', GridCell, {instantiate: false});
+
+register('Controls/display:GridHeader', GridHeader, {instantiate: false});
+register('Controls/display:GridTableHeader', GridTableHeader, {instantiate: false});
+register('Controls/display:GridHeaderRow', GridHeaderRow, {instantiate: false});
+register('Controls/display:GridTableHeaderRow', GridTableHeaderRow, {instantiate: false});
+register('Controls/display:GridHeaderCell', GridHeaderCell, {instantiate: false});
+
+register('Controls/display:GridDataRow', GridDataRow, {instantiate: false});
+register('Controls/display:GridDataCell', GridDataCell, {instantiate: false});
+
+register('Controls/display:GridFooterCell', GridFooterCell, {instantiate: false});
+register('Controls/display:GridResultsCell', GridResultsCell, {instantiate: false});
+
 register('Controls/display:GroupItem', GroupItem, {instantiate: false});
 register('Controls/display:Search', Search, {instantiate: false});
 register('Controls/display:TileCollection', TileCollection, {instantiate: false});

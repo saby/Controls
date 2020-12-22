@@ -4,8 +4,6 @@ export interface ISortingOptions {
 
 /**
  * Интерфейс для контролов, реализующих сортировку.
- *
- * @interface Controls/_interface/ISorting
  * @public
  * @author Авраменко А.С.
  */
@@ -27,7 +25,8 @@ export default interface ISorting {
  * @example
  * В шапке столбца необходимо задать свойство sortingProperty:
  * 
- * <pre class="brush: js; highlight: [14, 18]">
+ * <pre class="brush: js; highlight: [15, 19]">
+ * // JavaScript
  * _sorting: null
  * _header: null,
  * _columns: null,
@@ -64,22 +63,24 @@ export default interface ISorting {
  * 
  * И связать опцию sorting со свойством контрола.
  * 
- * <pre class="brush: html; highlight: [5]">
- *  <Controls.grid:View
- *      displayProperty="title"
- *      header="{{_header}}"
- *      columns="{{_columns}}"
- *      bind:sorting="_sorting" />
+ * <pre class="brush: html; highlight: [6]">
+ * <!-- WML -->
+ * <Controls.grid:View
+ *    displayProperty="title"
+ *    header="{{_header}}"
+ *    columns="{{_columns}}"
+ *    bind:sorting="_sorting" />
  * </pre>
  *
  * Настройка сортировки массива:
  * 
  * <pre class="brush: js">
+ * // JavaScript
  * [
  *    { price: 'DESC' }
  * ]
  * </pre>
  * 
- * Дополнительную информацию смотрите в разделе <a href="/doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/declr/#javascript">декларативный списочный метод</a>.
+ * Дополнительную информацию смотрите в разделе {@link /doc/platform/developmentapl/service-development/service-contract/objects/blmethods/bllist/declr/#javascript декларативный списочный метод}.
  * @see Controls/grid:SortingSelector
  */

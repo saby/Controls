@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
+    <Controls.list:View
+            name="list"
+            keyProperty="id"
+            source="{{_viewSource}}">
+        <ws:footerTemplate>
+            <Controls.list:AddButton caption="Add record" on:click="_beginAdd()"/>
+        </ws:footerTemplate>
+        <ws:editingConfig editOnClick="{{true}}" backgroundStyle="primary"/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.title }}">
+                        <ws:editorTemplate>
+                            <Controls.input:Text bind:value="itemTemplate.itemData.item.title"/>
+                        </ws:editorTemplate>
+                    </ws:partial>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.list:View>
+</div>

@@ -48,6 +48,7 @@ define('Controls/interface/IPrinter', [], function() {
     * @example
     * В следующем примере показано, как произвести печать.
     * <pre class="brush: js">
+    * // JavaScript
     * params: null,
     * _beforeMount: function() {
     *    this.params = {
@@ -71,14 +72,18 @@ define('Controls/interface/IPrinter', [], function() {
     * @param {String} params.parentProperty Name of the field that contains item's parent identifier.
     * @example
     * The following example shows how to print something.
-    * <pre>
-    *    var params = {
+    * <pre class="brush: js">
+    * // JavaScript
+    * params: null,
+    * _beforeMount: function() {
+    *    this.params = {
     *       name: 'myFile',
     *       pageOrientation: true,
-    *       columns: [{ field: 'Name', name: 'Name' }, { field: 'Date', name: 'Date' }],
+    *       columns: [{ field: 'Name', title: 'Name' }, { field: 'Date', title: 'Date' }],
     *       parentProperty: 'parent'
     *    };
     *    this._children.printer.execute(params);
+    * }
     * </pre>
     */
 
@@ -86,17 +91,17 @@ define('Controls/interface/IPrinter', [], function() {
     * @name Controls/interface/IPrinter#sorting
     * @cfg {Object.<string, 'ASC' | 'DESC'>} Конфигурация сортировки (ключи объектов-имена полей; значения - тип сортировки).
     * @example
-    * JS:
-    * <pre>
-    *    _beforeMount: function() {
-    *       this._sorting = {
-    *          Name: 'DESC'
-    *       }
+    * <pre class="brush: js">
+    * // JavaScript
+    * _beforeMount: function() {
+    *    this._sorting = {
+    *       Name: 'DESC'
     *    }
+    * }
     * </pre>
-    * WML:
-    * <pre>
-    *    <Unload.Action.PDF sorting="{{ _sorting }}" />
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Unload.Action.PDF sorting="{{ _sorting }}" />
     * </pre>
     */
 
@@ -104,17 +109,17 @@ define('Controls/interface/IPrinter', [], function() {
     * @name Controls/interface/IPrinter#sorting
     * @cfg {Object.<string, 'ASC' | 'DESC'>} Sorting config (object keys - field names; values - sorting type).
     * @example
-    * JS:
-    * <pre>
-    *    _beforeMount: function() {
-    *       this._sorting = {
-    *          Name: 'DESC'
-    *       }
+    * <pre class="brush: js">
+    * // JavaScript
+    * _beforeMount: function() {
+    *    this._sorting = {
+    *       Name: 'DESC'
     *    }
+    * }
     * </pre>
-    * WML:
-    * <pre>
-    *    <Unload.Action.PDF sorting="{{ _sorting }}" />
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Unload.Action.PDF sorting="{{ _sorting }}" />
     * </pre>
     */
 });

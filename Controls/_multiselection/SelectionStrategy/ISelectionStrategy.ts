@@ -71,7 +71,10 @@ export default interface ISelectionStrategy {
     * @param {string} searchValue Значение поиска
     * @return {Map<boolean|null, Array<CollectionItem<Model>>>} мапа, в которой для каждого состояния хранится соответствующий список элементов
     */
-   getSelectionForModel(selection: ISelection, limit?: number, items?: Array<CollectionItem<Model>>, searchValue?: string): Map<boolean|null, Array<CollectionItem<Model>>>;
+   getSelectionForModel(selection: ISelection,
+                        limit?: number,
+                        items?: Array<CollectionItem<Model>>,
+                        searchValue?: string): Map<boolean|null, Array<CollectionItem<Model>>>;
 
    /**
     * Возвращает количество выбранных элементов
@@ -102,7 +105,7 @@ export default interface ISelectionStrategy {
    isAllSelected(selection: ISelection, hasMoreData: boolean, itemsCount: number, byEveryItem?: boolean): boolean;
 
    /**
-    * Задает {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/logic/list/hierarch/calc-entry-path/ ENTRY_PATH} для стратегии.
+    * Задает {@link /doc/platform/developmentapl/service-development/service-contract/logic/list/hierarch/calc-entry-path/ ENTRY_PATH} для стратегии.
     * @param {IEntryPathItem[]} entryPath Массив объектов, которые содержат идентификаторы отмеченного "ребенка" и его "родителя"
     */
    setEntryPath(entryPath: IEntryPathItem[]): void;

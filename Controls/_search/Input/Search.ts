@@ -4,22 +4,21 @@ import {generateStates, Base, TextViewModel as ViewModel} from 'Controls/input';
 import {throttle} from 'Types/function';
 import {descriptor} from 'Types/entity';
 import {constants} from 'Env/Env';
-import {SyntheticEvent} from "Vdom/Vdom";
+import {SyntheticEvent} from 'Vdom/Vdom';
 import {default as Store} from 'Controls/Store';
 
 // timer for search, when user click on search button or pressed enter.
 // protect against clickjacking (https://en.wikipedia.org/wiki/Clickjacking)
 const SEARCH_BY_CLICK_THROTTLE = 300;
 
+let _private = {
+    isVisibleResetButton() {
+        return !!this._viewModel.displayValue && !this._options.readOnly;
+    },
 
-var _private = {
-   isVisibleResetButton: function() {
-      return !!this._viewModel.displayValue && !this._options.readOnly;
-   },
-
-   calculateStateButton: function() {
-      return this._options.readOnly ? '_readOnly' : '';
-   }
+    calculateStateButton() {
+        return this._options.readOnly ? '_readOnly' : '';
+    }
 };
 
 /**
@@ -28,14 +27,15 @@ var _private = {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_search.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ руководство разработчика по организации поиска и фильтрации в реестре}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_search.less переменные тем оформления}
  *
  * @class Controls/_search/Input/Search
  * @extends Controls/_input/Base
  *
  * @mixes Controls/_input/interface/IText
+ * @implements Controls/interface:IContrastBackground
  *
  * @ignoreOptions style
  *
@@ -59,6 +59,7 @@ var _private = {
  * @extends Controls/_input/Base
  *
  * @mixes Controls/_input/interface/IText
+ * @implements Controls/interface:IContrastBackground
  *
  * @ignoreOptions style
  *
@@ -68,75 +69,75 @@ var _private = {
  *
  * @author Золотова Э.Е.
  */
-var Search = Base.extend({
-   _wasActionUser: false,
-   _resetCommandCallbackId: '',
+class Search extends Base {
+    protected _wasActionUser: boolean = false;
+    protected _resetCommandCallbackId: string = '';
 
-   _beforeMount(options): void {
-      this._notifySearchClick = throttle(this._notifySearchClick, SEARCH_BY_CLICK_THROTTLE, false);
-      generateStates(this, options);
-      return Search.superclass._beforeMount.apply(this, arguments);
-   },
+    protected _beforeMount(options): void {
+        this._notifySearchClick = throttle(this._notifySearchClick, SEARCH_BY_CLICK_THROTTLE, false);
+        generateStates(this, options);
+        return super._beforeMount.apply(this, arguments);
+    }
 
-   _afterMount: function () {
-      if (this._options.useStore) {
-         this._resetCommandCallbackId = Store.declareCommand('resetSearch', this._resetSearch.bind(this));
-      }
-   },
+    protected _afterMount(): void {
+        if (this._options.useStore) {
+            this._resetCommandCallbackId = Store.declareCommand('resetSearch', this._resetSearch.bind(this));
+        }
+    }
 
-   _beforeUnmount: function () {
-      if (this._resetCommandCallbackId) {
-         Store.unsubscribe(this._resetCommandCallbackId);
-      }
-   },
+    protected _beforeUnmount(): void {
+        if (this._resetCommandCallbackId) {
+            Store.unsubscribe(this._resetCommandCallbackId);
+        }
+    }
 
-   _renderStyle() {
-      let style: string;
-      if (this._options.contrastBackground) {
-         style = 'searchContrast';
-      } else {
-         style = 'search';
-      }
-      return style;
-   },
+    protected _renderStyle(): string {
+        let style: string;
+        if (this._options.contrastBackground) {
+            style = 'searchContrast';
+        } else {
+            style = 'search';
+        }
+        return style;
+    }
 
-   _getViewModelOptions: function(options) {
-      return {
-         maxLength: options.maxLength,
-         constraint: options.constraint
-      };
-   },
+    protected _getViewModelOptions(options) {
+        return {
+            maxLength: options.maxLength,
+            constraint: options.constraint
+        };
+    }
 
-   _getViewModelConstructor: function() {
-      return ViewModel;
-   },
+    protected _getViewModelConstructor() {
+        return ViewModel;
+    }
 
-   _initProperties: function() {
-      Search.superclass._initProperties.apply(this, arguments);
+    protected _initProperties(): void {
+        super._initProperties.apply(this, arguments);
 
-      var CONTROL_NAME = 'Search';
-      this._field.scope.controlName = CONTROL_NAME;
-      this._readOnlyField.scope.controlName = CONTROL_NAME;
+        let CONTROL_NAME = 'Search';
+        this._field.scope.controlName = CONTROL_NAME;
+        this._readOnlyField.scope.controlName = CONTROL_NAME;
 
-      this._rightFieldWrapper.template = buttonsTemplate;
-      this._rightFieldWrapper.scope.isVisibleReset = _private.isVisibleResetButton.bind(this);
-      this._rightFieldWrapper.scope.calculateState = _private.calculateStateButton.bind(this);
-   },
+        this._rightFieldWrapper.template = buttonsTemplate;
+        this._rightFieldWrapper.scope.isVisibleReset = _private.isVisibleResetButton.bind(this);
+        this._rightFieldWrapper.scope.calculateState = _private.calculateStateButton.bind(this);
+    }
 
-   _notifyInputCompleted: function() {
-      if (this._options.trim) {
-         var trimmedValue = this._viewModel.displayValue.trim();
+    protected _notifyInputCompleted(): void {
+        if (this._options.trim) {
+            let trimmedValue = this._viewModel.displayValue.trim();
 
-         if (trimmedValue !== this._viewModel.displayValue) {
-            this._viewModel.displayValue = trimmedValue;
-            this._notifyValueChanged();
-         }
-      }
+            if (trimmedValue !== this._viewModel.displayValue) {
+                this._viewModel.displayValue = trimmedValue;
+                this._notifyValueChanged();
+            }
+        }
 
-      Search.superclass._notifyInputCompleted.apply(this, arguments);
-   },
+        super._notifyInputCompleted.apply(this, arguments);
+    }
 
-   _resetSearch: function () {
+   protected _resetSearch(): void {
       this._notify('resetClick');
 
       this._viewModel.displayValue = '';
@@ -144,81 +145,82 @@ var Search = Base.extend({
 
       // move focus from clear button to input
       this.activate();
-   },
-
-   _resetClick: function() {
-      if (this._options.readOnly) {
-         return;
-      }
-      this._resetSearch();
-   },
-
-   _resetMousedown(event): void {
-      event.stopPropagation();
-      event.preventDefault();
-   },
-
-   _searchClick(event: SyntheticEvent): void {
-      if (this._options.readOnly) {
-         return;
-      }
-
-      this._notifySearchClick(event);
-
-      // move focus from search button to input
-      this.activate();
-   },
-
-   _notifySearchClick(event): void {
-      this._notify('searchClick', [event.nativeEvent]);
-   },
-
-   _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
-      if (event.nativeEvent.which === constants.key.enter) {
-         this._searchClick(event);
-      }
-
-      Search.superclass._keyUpHandler.apply(this, arguments);
-   },
-
-   _inputHandler: function() {
-      Search.superclass._inputHandler.apply(this, arguments);
-
-      this._wasActionUser = true;
-   },
-
-   _clickHandler: function() {
-      Search.superclass._clickHandler.apply(this, arguments);
-
-      this._wasActionUser = true;
    }
-});
 
-Search._theme = Base._theme.concat(['Controls/search']);
+   protected _resetClick(): void {
+      if (this._options.readOnly) {
+         return;
+      }
 
-Search.getOptionTypes = function getOptionsTypes() {
-   var optionTypes = Base.getOptionTypes();
+      this._resetSearch();
+   }
 
-   optionTypes.maxLength = descriptor(Number, null);
-   optionTypes.trim = descriptor(Boolean);
-   optionTypes.constraint = descriptor(String);
+    protected _resetMousedown(event): void {
+        event.stopPropagation();
+        event.preventDefault();
+    }
 
-   return optionTypes;
-};
+    protected _searchClick(event: SyntheticEvent): void {
+        if (this._options.readOnly) {
+            return;
+        }
 
-Search.getDefaultOptions = function getDefaultOptions() {
-   var defaultOptions = Base.getDefaultOptions();
-   defaultOptions.contrastBackground = false;
-   defaultOptions.trim = false;
-   defaultOptions.placeholder = rk('Найти') + '...';
-   defaultOptions.searchButtonVisible = true;
-   defaultOptions.validationStatus = 'valid';
-   defaultOptions.spellcheck = false;
+        this._notifySearchClick(event);
 
-   return defaultOptions;
-};
+        // move focus from search button to input
+        this.activate();
+    }
 
-Search._private = _private;
+    protected _notifySearchClick(event): void {
+        this._notify('searchClick', [event.nativeEvent]);
+    }
+
+    protected _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        if (event.nativeEvent.which === constants.key.enter) {
+            this._searchClick(event);
+        }
+
+        super._keyUpHandler.apply(this, arguments);
+    }
+
+    protected _inputHandler(): void {
+        super._inputHandler.apply(this, arguments);
+
+        this._wasActionUser = true;
+    }
+
+    protected _clickHandler(): void {
+        super._clickHandler.apply(this, arguments);
+
+        this._wasActionUser = true;
+    }
+
+    static _theme: string[] = Base._theme.concat(['Controls/search']);
+
+    static _private = _private;
+
+    static getDefaultOptions(): object {
+       let defaultOptions = Base.getDefaultOptions();
+       defaultOptions.contrastBackground = false;
+       defaultOptions.trim = false;
+       defaultOptions.placeholder = rk('Найти') + '...';
+       defaultOptions.searchButtonVisible = true;
+       defaultOptions.validationStatus = 'valid';
+       defaultOptions.spellcheck = false;
+
+       return defaultOptions;
+    }
+
+    static getOptionTypes(): object {
+       let optionTypes = Base.getOptionTypes();
+
+       optionTypes.maxLength = descriptor(Number, null);
+       optionTypes.trim = descriptor(Boolean);
+       optionTypes.constraint = descriptor(String);
+
+       return optionTypes;
+    }
+}
 
 /**
  * @event Происходит при нажатии на иконку поиска (лупы).
@@ -287,7 +289,7 @@ Search._private = _private;
  * @name Controls/_search/Input/Search#resetClick
  */
 
- /**
+/**
  * @name Controls/_search/Input/Search#searchButtonVisible
  * @cfg {Boolean} Определяет отображение иконки лупы внутри поля поиска, клик по которой запускает поиск.
  * @default true
@@ -298,11 +300,9 @@ Search._private = _private;
 
 /**
  * @name Controls/_search/Input/Search#contrastBackground
- * @cfg {Boolean} Определяет контрастность фона контрола по отношению к ее окружению.
+ * @cfg
  * @default false
  * @remark
- * * true - контрастный фон.
- * * false - фон, гармонично сочетающийся с окружением.
  * Опция используется для визуального выделения контрола, относительно окружения.
  * Например в ситуации когда цвет окружения, близкий к цвету самого контрола.
  * @demo Controls-demo/Search/Input/Base/Index
@@ -314,5 +314,4 @@ Search._private = _private;
  * @see style
  */
 
-export = Search;
-
+export default Search;

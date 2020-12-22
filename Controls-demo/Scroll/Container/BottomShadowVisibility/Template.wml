@@ -1,47 +1,57 @@
 <div class="ControlsDemo-Wrap">
-    <div class="controlsDemo__wrapper">
-        <div class="options-value">bottomShadowVisibility = auto</div>
-        <Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
-                                   bottomShadowVisibility="auto">
-            <div class="controlsDemo__wrapper">
-                <ws:for data="i in 3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </ws:for>
-            </div>
-        </Controls.scroll:Container>
-    </div>
-    <div class="controlsDemo__wrapper">
-        <div class="options-value">bottomShadowVisibility = visible</div>
-        <Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
-                                   bottomShadowVisibility="visible">
-            <div class="controlsDemo__wrapper">
-                <ws:for data="i in 3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </ws:for>
-            </div>
-        </Controls.scroll:Container>
-    </div>
-    <div class="controlsDemo__wrapper">
-        <div class="options-value">bottomShadowVisibility = hidden</div>
-        <Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
-                                   bottomShadowVisibility="hidden">
-            <div class="controlsDemo__wrapper">
-                <ws:for data="i in 3">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </ws:for>
-            </div>
-        </Controls.scroll:Container>
-    </div>
+    <div class="controlsDemo__flexRow">
+		<div class="controlsDemo__cell controlsDemo__mr4">
+			<div class="controlsDemo__wrapper demo-ShadowVisibility__auto">
+				<div class="options-value">bottomShadowVisibility = auto</div>
+				<Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
+										   bottomShadowVisibility="auto">
+					<div class="controlsDemo__wrapper">
+						<ws:for data="i in 3">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+						ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+						laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+						voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</ws:for>
+					</div>
+				</Controls.scroll:Container>
+			</div>
+		</div>
+	
+		<div class="controlsDemo__cell controlsDemo__mr4">
+			<div class="controlsDemo__wrapper demo-ShadowVisibility__visible">
+				<div class="options-value">bottomShadowVisibility = visible</div>
+				<Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
+										   bottomShadowVisibility="visible">
+					<div class="controlsDemo__wrapper">
+						<ws:for data="i in 3">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+						ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+						laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+						voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</ws:for>
+					</div>
+				</Controls.scroll:Container>
+			</div>
+		</div>
+		    
+		<div class="controlsDemo__cell controlsDemo__mr4">
+			<div class="controlsDemo__wrapper demo-ShadowVisibility__hidden">
+				<div class="options-value">bottomShadowVisibility = hidden</div>
+				<Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height300"
+										   bottomShadowVisibility="hidden">
+					<div class="controlsDemo__wrapper">
+						<ws:for data="i in 3">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+						ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+						laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+						voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</ws:for>
+					</div>
+				</Controls.scroll:Container>
+			</div>
+		</div>
+	</div>			
 </div>

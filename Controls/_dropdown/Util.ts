@@ -30,3 +30,17 @@ export function loadItems(
       });
    }
 }
+
+export function loadSelectedItems(
+    controller: Controller,
+    receivedState: DropdownReceivedState,
+    source: ICrudPlus
+): Promise<void | DropdownReceivedState>|void {
+   if (receivedState) {
+      controller.updateSelectedItems(receivedState.items);
+   } else if (source) {
+      return controller.loadSelectedItems().catch((error) => {
+         dataSourceError.process({error});
+      });
+   }
+}

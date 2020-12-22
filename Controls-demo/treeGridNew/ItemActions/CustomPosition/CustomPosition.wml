@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth550">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            parentProperty="parent"
+            nodeProperty="type"
+            itemActions="{{_itemActions}}"
+            itemActionsPosition="custom"
+            name="gridView">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/treeGridNew:ItemTemplate"
+                        itemActionsClass="my-super-class"/>
+        </ws:itemTemplate>
+        <ws:columns>
+            <ws:Array>
+                <ws:Object displayProperty="title" width="200px"/>
+                <ws:Object displayProperty="country" width="150px">
+                    <ws:template>
+                        <ws:partial template="Controls/gridNew:ColumnTemplate">
+                            <ws:contentTemplate>
+                                <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="{{contentTemplate.itemActionsClass}}"/>
+                            </ws:contentTemplate>
+                        </ws:partial>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object displayProperty="rating" width="150px"/>
+            </ws:Array>
+        </ws:columns>
+    </Controls.treeGridNew:View>
+</div>

@@ -10,7 +10,7 @@ interface IOpenerStaticMethods {
     closePopup: (popupId: string) => void;
 }
 /**
- * Базовый хелпер для открытия всплывающих окон
+ * Базовый хелпер для открытия всплывающих окон.
  * @class Controls/_popup/PopupHelper/Base
  *
  * @author Красильников А.С.

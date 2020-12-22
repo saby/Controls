@@ -354,8 +354,11 @@ export function getDecoratedLink(jsonNode): any[]|string {
    newLinkAttributes.class = ((newLinkAttributes.class ? newLinkAttributes.class.replace('asLink', '') + ' ' : '') +
       decoratedLinkClasses.link).trim();
    newLinkAttributes.target = '_blank';
+   if (!newLinkAttributes.rel || newLinkAttributes.rel.indexOf('noopener') === -1) {
+      newLinkAttributes.rel = 'noopener';
+   }
 
-   const image = (typeof location === 'object' ? location.protocol + '//' + location.host : '') +
+   const image = constants.decoratedLinkHost +
       getService() + '?method=LinkDecorator.DecorateAsSvg&params=' + encodeURIComponent(
          base64.encode('{"SourceLink":"' + newLinkAttributes.href.replace(charsToScreenRegExp, '\\$1') + '"}')
       ) + '&id=0&srv=1';

@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlDemo__grid-header-sticky controlsDemo__childWidth400">
+    <Controls.scroll:Container attr:class="controlsDemo__height400">
+        <Controls.list:HotKeysContainer>
+            <Controls.grid:View
+                backgroundStyle="default"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns}}">
+                <ws:navigation view="infinity" source="page">
+                    <ws:sourceConfig pageSize="{{100}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.grid:View>
+        </Controls.list:HotKeysContainer>
+    </Controls.scroll:Container>
+</div>

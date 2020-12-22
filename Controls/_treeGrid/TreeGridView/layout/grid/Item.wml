@@ -22,9 +22,8 @@
 <ws:template name="multiSelectTemplate">
    <ws:partial template="{{multiSelectTpl}}" attr:class="{{ itemData.multiSelectClassList }}">
       <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
-                          checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
-                          multiSelectStatus="{{itemData.isSelected()}}"
-                          key="{{itemData.key}}" />
+                          readOnly="{{itemData.isAdd || checkboxReadOnly}}"
+                          item="{{ itemData.dispItem }}" />
    </ws:partial>
 </ws:template>
 
@@ -78,7 +77,7 @@
    <!-- Маркер, не смотрим на него, если выводим фейковую стики ячейку для лесенки -->
    <ws:if data="{{ !isLadderHeader }}">
       <div if="{{marker !== false && itemData.shouldDisplayMarker(currentColumn.columnIndex)}}"
-           class="{{itemData.getMarkerClasses()}}"></div>
+           class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
 
       <div if="{{!!itemData.dragTargetNode}}"
            class="controls-TreeGridView__dragTargetNode_theme-{{itemData.theme}}

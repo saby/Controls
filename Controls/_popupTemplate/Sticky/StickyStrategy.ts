@@ -2,7 +2,7 @@
  * Created by as.krasilnikov on 21.03.2018.
  */
 import * as cMerge from 'Core/core-merge';
-import {detection} from 'Env/Env';
+import {detection, constants} from 'Env/Env';
 let TouchKeyboardHelper = {};
 
 if (detection.isMobileIOS && detection.IOSVersion === 12) {
@@ -340,7 +340,9 @@ interface IPosition {
       },
 
       considerTopScroll() {
-         return window && (window.screen.availHeight / window.innerHeight < 2) && (window.screen.availHeight > window.innerHeight);
+         return constants.isBrowserPlatform &&
+             (window.screen.availHeight / window.innerHeight < 2) &&
+             (window.screen.availHeight > window.innerHeight);
       },
 
       setMaxSizes: function(popupCfg, position) {
@@ -416,10 +418,10 @@ interface IPosition {
          return {
             offsetLeft: 0,
             offsetTop: 0,
-            pageLeft: window && window.pageXOffset,
-            pageTop: window && window.pageYOffset,
-            width: document && document.body.clientWidth,
-            height: document && document.body.clientHeight
+            pageLeft: constants.isBrowserPlatform && window.pageXOffset,
+            pageTop: constants.isBrowserPlatform && window.pageYOffset,
+            width: constants.isBrowserPlatform && document.body.clientWidth,
+            height: constants.isBrowserPlatform && document.body.clientHeight
          };
       },
       prepareRestrictiveCoords(popupCfg, targetCoords): void {

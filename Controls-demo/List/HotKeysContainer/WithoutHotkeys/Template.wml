@@ -1,30 +1,23 @@
-<Controls.Application>
-    <ws:head>
-        <link data-vdomignore="true" rel="shortcut icon" href="/Controls-demo/wasaby.ico?v=1" type="image/x-icon"/>
-    </ws:head>
-    <ws:content>
-        <div class="demoWrapper">
-            <Controls.heading:Title caption="Простой список" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
-            <div>
-                1) Выбрать "элемент 0"
-            </div>
-            <div>
-                2) нажать кнопку вниз
-            </div>
-            <div>
-                3) нажать кнопку вверх
-            </div>
-            <div>
-                4) перевести фокус в поле ввода
-            </div>
-            <div>
-                5) нажать кнопку вниз
-            </div>
-            <div>
-                ОР: маркер на "элемент 0"
-            </div>
-            <Controls.input:Text />
-            <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>
-        </div>
-    </ws:content>
-</Controls.Application>
+<div class="demoWrapper">
+    <Controls.heading:Title caption="Простой список" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
+    <div>
+        1) Выбрать "элемент 0"
+    </div>
+    <div>
+        2) нажать кнопку вниз
+    </div>
+    <div>
+        3) нажать кнопку вверх
+    </div>
+    <div>
+        4) перевести фокус в поле ввода
+    </div>
+    <div>
+        5) нажать кнопку вниз
+    </div>
+    <div>
+        ОР: маркер на "элемент 0"
+    </div>
+    <Controls.input:Text />
+    <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>
+</div>

@@ -187,12 +187,12 @@ describe('Controls/_lookup/BaseLookupView', function() {
       ok(!lookup._determineAutoDropDown());
    });
 
-   it('_onClickShowSelector', function() {
+   it('_onMouseDownShowSelector', function() {
       var lookup = new Lookup();
 
       lookup._getFieldWrapperWidth = () => {};
       lookup._suggestState = true;
-      lookup._onClickShowSelector();
+      lookup._onMouseDownShowSelector();
 
       ok(!lookup._suggestState);
    });

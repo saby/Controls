@@ -2,7 +2,8 @@
     <Controls.list:View keyProperty="id"
                         source="{{_viewSource}}">
         <ws:itemTemplate>
-            <ws:partial template="Controls/list:ItemTemplate" marker="{{false}}"/>
+            <ws:partial template="Controls/list:ItemTemplate"
+                        marker="{{itemTemplate.itemData.item.id !== 1}}"/>
         </ws:itemTemplate>
     </Controls.list:View>
 </div>

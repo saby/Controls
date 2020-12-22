@@ -1,39 +1,38 @@
 <div class="controls-Tabs controls-Tabs_theme_{{_options.theme}}
             controls-Tabs_inlineHeight-{{_options.inlineHeight}}_theme-{{_options.theme}}
-            controls-Tabs_borderThickness-{{_options.borderThickness}}_theme-{{_options.theme}}
-            {{_options.tempFix_1180388539 ? 'tempFix_1180388539' }}">
+            {{_options.borderVisible ? 'controls-Tabs_border-' + _markerThickness + '_theme-' + _options.theme}}">
     <div class="controls-Tabs-wrapper">
-        <ws:for data="index, item in _items">
+        <ws:for data="index, item in _itemsArray">
             <div attr:class="{{_prepareItemClass(item, index)}}"
                  attr:style="{{_prepareItemOrder(index)}}"
                  attr:title="{{ item[_options.displayProperty] }}"
-                 on:mousedown="_onItemClick(item.get(_options.keyProperty))">
+                 on:mousedown="_onItemClick(item[_options.keyProperty])">
                 <ws:if data="{{ _getTemplate(_options.itemLeftTemplate, item, _options.leftTemplateProperty) }}">
                     <ws:partial template="{{ _getTemplate(_options.itemLeftTemplate, item, _options.leftTemplateProperty) }}"
                                 selected="{{item[_options.keyProperty] === _options.selectedKey}}"
                                 index="{{index}}"
-                                item="{{item}}" />
+                                item="{{_items.at(index)}}" />
                 </ws:if>
                 <ws:partial
                         attr:class="controls-Tabs__itemClickableArea controls-Tabs__itemClickableArea_theme_{{_options.theme}}
                         controls-Tabs__itemClickableArea_inlineHeight-{{_options.inlineHeight}}_theme-{{_options.theme}}
-                        controls-Tabs__itemClickableArea_borderThickness-{{_options.borderThickness}}_theme-{{_options.theme}}
+                        controls-Tabs__itemClickableArea_markerThickness-{{_markerThickness}}_theme-{{_options.theme}}
                         {{_prepareItemSelectedClass(item)}}"
                         template="{{ _getTemplate(_options.itemTemplate, item, _options.itemTemplateProperty) || _defaultItemTemplate}}"
                         selected="{{item[_options.keyProperty] === _options.selectedKey}}"
                         displayProperty="{{_options.displayProperty}}"
                         inlineHeight="{{_options.inlineHeight}}"
-                        borderThickness="{{_options.borderThickness}}"
+                        markerThickness="{{_markerThickness}}"
                         keyProperty="{{_options.keyProperty}}"
                         index="{{index}}"
-                        item="{{item}}"/>
+                        item="{{_items.at(index)}}"/>
                 <ws:if data="{{ _getTemplate(_options.itemRightTemplate, item, _options.rightTemplateProperty) }}">
                     <ws:partial template="{{ _getTemplate(_options.itemRightTemplate, item, _options.rightTemplateProperty) }}"
                                 selected="{{item[_options.keyProperty] === _options.selectedKey}}"
                                 index="{{index}}"
-                                item="{{item}}" />
+                                item="{{_items.at(index)}}" />
                 </ws:if>
-                <ws:if data="{{item.get('contentTab') && _options.separatorVisible}}">
+                <ws:if data="{{item['contentTab'] && _options.separatorVisible}}">
                     <div class="controls-Tabs__itemSeparator
                                 controls-Tabs__itemSeparator_theme_{{_options.theme}}
                                 controls-Tabs__itemSeparator_align_left"></div>
@@ -41,13 +40,13 @@
                 <ws:if data="{{_options.separatorVisible}}">
                     <div class="controls-Tabs__itemSeparator
                                 controls-Tabs__itemSeparator_theme_{{_options.theme}}
-                                controls-Tabs__itemSeparator_align_{{item.get('contentTab') ? 'right' : item.get('align') || 'right'}}">
+                                controls-Tabs__itemSeparator_align_{{item['contentTab'] ? 'right' : item['align'] || 'right'}}">
                     </div>
                 </ws:if>
 
     <!--            todo: https://online.sbis.ru/opendoc.html?guid=be4df8fc-5c9f-4cb0-b4aa-933bc3a326df-->
     <!--            <ws:if data="{{item[_options.keyProperty] !== _options.selectedKey}}">-->
-    <!--                <div class="controls-Tabs__overlay" on:click="_onItemClick(item.get(_options.keyProperty))"></div>-->
+    <!--                <div class="controls-Tabs__overlay" on:click="_onItemClick(item[_options.keyProperty])"></div>-->
     <!--            </ws:if>-->
             </div>
         </ws:for>

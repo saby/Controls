@@ -7,14 +7,14 @@
 
 /**
  * @typedef {Object} SourceConfig
- * @description Конфигурация навигации ({@link Controls/_interface/INavigation/INavigationPositionSourceConfig.typedef по курсору} или {@link Controls/_interface/INavigation/INavigationPageSourceConfig.typedef постраничная}),
- * так же в конфигурации можно передать опцию multiNavigation, если метод БЛ поддержимает работу с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/tree/navigation/multi-navigation/ множественной навигацией}.
+ * @description Конфигурация навигации ({@link Controls/interface:INavigation.INavigationPositionSourceConfig по курсору} или {@link Controls/interface:INavigation.INavigationPageSourceConfig постраничная}).,
+ * так же в конфигурации можно передать опцию multiNavigation, если метод БЛ поддержимает работу с {@link /doc/platform/developmentapl/interface-development/controls/list/tree/navigation/multi-navigation/ множественной навигацией}.
  */
 
 /**
  * Перезагружает данные из источника данных.
  * При перезагрузке в фильтр уходит список развернутых узлов (с целью восстановить пользователю структуру, которая была до перезагрузки).
- * Принимает опционально конфигурацию источника данных для: {@link Controls/_interface/INavigation/IBasePositionSourceConfig.typedef навигации по курсору }, {@link Controls/_interface/INavigation/IBasePageSourceConfig.typedef постраничной навигации }, если нужно перезагрузить список с навигацией, отличной от указанной в опциях контрола.
+ * Принимает опционально конфигурацию источника данных для: {@link Controls/_interface/INavigation/IBasePositionSourceConfig.typedef навигации по курсору }, {@link Controls/_interface/INavigation/IBasePageSourceConfig.typedef постраничной навигации}, если нужно перезагрузить список с навигацией, отличной от указанной в опциях контрола.
  * @function
  * @name Controls/_list/interface/IReloadableList#reload
  * @param {Boolean} [keepScroll=false] Сохранить ли позицию скролла после перезагрузки.

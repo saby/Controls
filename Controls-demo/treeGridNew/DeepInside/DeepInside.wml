@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800 controlsDemo_treeGrid-deepInside">
+    <Controls.treeGridNew:View
+            useTableInOldBrowsers="{{true}}"
+            source="{{_viewSource}}"
+            keyProperty="id"
+            columns="{{_columns}}"
+            bind:expandedItems="_expandedItems"
+            bind:collapsedItems="_collapsedItems"
+            parentProperty="parent"
+            nodeProperty="type">
+        <ws:navigation source="page" view="demand">
+            <ws:sourceConfig pageSize="{{21}}" page="{{0}}" hasMore="{{false}}"/>
+        </ws:navigation>
+        <ws:nodeFooterTemplate>
+            <Controls.list:AddButton caption="Добавить товар"/>
+        </ws:nodeFooterTemplate>
+    </Controls.treeGridNew:View>
+</div>

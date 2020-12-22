@@ -1,0 +1,5 @@
+<ws:partial template="Controls/gridNew:HeaderContent" colData="{{gridColumn}}">
+    <ws:contentTemplate>
+        <span class="controlsDemo__Grid_header-with-add-button__gridTitle">{{gridColumn.column.title}}</span>
+    </ws:contentTemplate>
+</ws:partial>

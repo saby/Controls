@@ -1,0 +1,35 @@
+<div class="controlsDemo__cell">
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
+        <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+            <div>
+                <Controls.list:Mover name="listMover"/>
+                <Controls.list:Container>
+                    <Controls.gridNew:View
+                            keyProperty="id"
+                            on:dragStart="_dragStart()"
+                            on:dragEnd="_dragEnd()"
+                            itemsReadyCallback="{{_itemsReadyCallback}}"
+                            itemsDragNDrop="{{true}}"
+                            columns="{{_columns}}">
+                        <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}"
+                                          toolbarVisibility="{{true}}"/>
+                        <ws:draggingTemplate>
+                            <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                                        mainText="{{draggingTemplate.entity._options.title}}">
+                            </ws:partial>
+                        </ws:draggingTemplate>
+                    </Controls.gridNew:View>
+                </Controls.list:Container>
+            </div>
+        </Controls.operations:Controller>
+    </Controls.list:DataContainer>
+</div>
+
+<!--
+<ws:itemTemplate>
+    <ws:partial template="wml!Controls-demo/gridNew/EditInPlace/DragNDrop/_rowEditor"
+                documentSignMemory="{{_documentSignMemory}}"
+                onChange="{{onChange}}"
+                selectedKey="{{selectedKey}}"/>
+</ws:itemTemplate>
+-->

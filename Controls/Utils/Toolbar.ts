@@ -28,7 +28,7 @@
  * @class Controls/Utils/Toolbar
  * @public
  */
-/**
+/*
  * Utils for toolbar
  *  - contains constants showType
  *  - filter for menu items

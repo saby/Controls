@@ -5,15 +5,14 @@
                {{_options.readOnly ? 'controls-Switch_disabled controls-Switch_disabled_theme-' + _options.theme : 'controls-Switch_enabled controls-Switch_enabled_theme-' + _options.theme}}
                {{_options.value ? ' controls-Switch_checked'}}"
          title="{{tooltip}}">
-      <ws:partial template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle" readOnly="{{_options.readOnly}}"
-                  selected="{{_options.value ? true : false}}"/>
-      <span class="controls-Switch__line controls-Switch__line_theme-{{_options.theme}}
-                  {{_options.readOnly ? 'controls-Switch__line_disabled_theme-' + (_options.theme) : 'controls-Switch__line_enabled_theme-' + (_options.theme)}}"></span>
+      <ws:partial template="wml!Controls/_toggle/resources/SwitchCircle/SwitchCircle" readOnly="{{ _options.readOnly }}" attr:class="controls_Switch_SwitchCircle_theme-{{ _options.theme }}"
+                  selected="{{ _options.value }}"/>
    </span>
 </ws:template>
 <ws:template name="caption">
    <ws:if data="{{_options.caption}}">
       <span class="controls-Switch__text_{{_options.captionPosition}}Caption controls-Switch__text_{{_options.captionPosition}}Caption_theme-{{_options.theme}}
+                  controls-Switch__text_{{_options.readOnly ? 'disabled' : 'enabled'}}_{{_options.value ? 'selected' : 'unselected'}}
                   controls-Switch__text_{{_options.readOnly ? 'disabled' : 'enabled'}}_{{_options.value ? 'selected' : 'unselected'}}_theme-{{_options.theme}}">
          <ws:partial template="{{_options.caption}}"/>
       </span>
@@ -23,7 +22,7 @@
 <span class="controls-Switch controls-Switch_theme-{{_options.theme}}"
             on:click="_clickHandler()"
       title="{{_options.tooltip}}">
-   <div class="controls-invalid-container">
+   <div class="controls-invalid-container controls-Switch__wrapper controls-Switch__wrapper_theme-{{_options.theme}}">
       <ws:if data="{{_options.captionPosition === 'left'}}">
          <ws:partial template="caption"/>
          <ws:partial template="toggle"/>

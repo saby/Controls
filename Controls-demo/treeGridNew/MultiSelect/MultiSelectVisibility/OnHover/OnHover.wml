@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo_treeGrid-multiSelect-onHover">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type"
+            multiSelectVisibility="onhover"
+            bind:selectedKeys="_selectedKeys"/>
+</div>

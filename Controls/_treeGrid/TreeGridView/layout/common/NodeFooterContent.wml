@@ -17,7 +17,7 @@
             <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore"
                                      fontSize="xs"
                                      viewMode="link"
-                                     fontColorStyle="listMore"
+                                     fontColorStyle="{{moreFontColorStyle}}"
                                      caption="{{rk('Еще') + '...'}}"
                                      on:click="_onLoadMoreClick(footer.dispItem)"
                                      readOnly="{{false}}"/>

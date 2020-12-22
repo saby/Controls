@@ -41,11 +41,19 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    pointer-events: none;
    position: absolute;
    bottom: @scrollpaging_offset-vertical_list;
-   right: @scrollpaging_offset-horizontal_list;
    // Должен отображаться выше элементов скрол контейнера
    z-index: @z-index_Scroll-contentEnvironment + 1;
    display: flex;
-   justify-content: flex-end;
+
+   &_position-right {
+      right: @scrollpaging_offset-horizontal_list;
+      justify-content: flex-end;
+   }
+
+   &_position-left {
+      left: @scrollpaging_offset-horizontal_list;
+      justify-content: flex-start;
+   }
 }
 
 /* paging with position: absolute work bad on Ipad/IPhone,
@@ -54,9 +62,16 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    .controls-BaseControl__pagingContainer {
       position: sticky;
       top: auto;
-      margin-right: @scrollpaging_offset-horizontal_list;
       padding: @scrollpaging_offset-vertical_list 0;
       bottom: 0;
+
+      &_position-right {
+         margin-right: @scrollpaging_offset-horizontal_list;
+      }
+
+      &_position-left {
+         margin-left: @scrollpaging_offset-horizontal_list;
+      }
    }
 
    .controls-BaseControl-hide-paging {
@@ -243,7 +258,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 .controls-BaseControl__continueSearch_theme-@{themeName} {
-   padding-top: @continueSearch_padding-top_list;
+   padding-top: @continueSearch_padding-top_list + @content_l_border_radius_loadingIndicator;
 }
 
 .controls-BaseControl__continueSearch_wrapper_theme-@{themeName} {

@@ -83,7 +83,7 @@ define(
          it('validateReplacer', function() {
             var message = '';
             var error = UIUtils.Logger.error;
-            var validateReplacer = input.Mask._private.validateReplacer;
+            var validateReplacer = input.Mask._validateReplacer;
 
             UIUtils.Logger.error = function(arg1, arg2) {
                message = arg1 + ': ' + arg2;
@@ -102,7 +102,7 @@ define(
          });
 
          it('calcReplacer', function() {
-            var calcReplacer = input.Mask._private.calcReplacer;
+            var calcReplacer = input.Mask._calcReplacer;
 
             assert.equal(calcReplacer(' ', 'dd.dd'), ' ');
             assert.equal(calcReplacer(' ', 'd\\*'), '');
@@ -183,8 +183,6 @@ define(
                      }
                   };
                });
-               sandbox.replace(input.Mask.superclass, '_clickHandler', function() {
-               });
                component._mouseDownHandler();
                component._focusInHandler({
                   target: {}
@@ -209,8 +207,6 @@ define(
                };
                sandbox.replace(component, '_getField', function() {
                   return { selectionStart: 0 };
-               });
-               sandbox.replace(input.Mask.superclass, '_clickHandler', function() {
                });
                component._mouseDownHandler();
                component._clickHandler();

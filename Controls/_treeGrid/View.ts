@@ -10,12 +10,12 @@ import { Model } from 'Types/entity';
     * Контрол "Дерево".
     * @remark
     * Дополнительно о контроле:
-    * * <a href="/doc/platform/developmentapl/interface-development/controls/list/tree/">Руководство разработчика</a>
-    * * <a href="http://axure.tensor.ru/standarts/v7/%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_1_.html">Спецификация Axure</a>
-    * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand">Демо-пример</a> с множественным выбором элементов и с единичным раскрытием содержимого папок
-    * * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FTreeWithPhoto">Демо-пример</a> с пользовательским шаблоном элемента списка с фото
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_treeGrid.less">переменные тем оформления treeGred</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления list</a>
+    * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/ руководство разработчика}
+    * * {@link http://axure.tensor.ru/standarts/v7/%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE__%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F_1_.html Спецификация Axure}
+    * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand демо-пример с множественным выбором элементов и с единичным раскрытием содержимого папок}
+    * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FTreeWithPhoto демо-пример с пользовательским шаблоном элемента списка с фото}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_treeGrid.less переменные тем оформления treeGred}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления list}
     *
     * @class Controls/_treeGrid/View
     * @extends Controls/_grid/Grid
@@ -28,7 +28,7 @@ import { Model } from 'Types/entity';
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/IHierarchy
-    * @mixes Controls/_tree/interface/ITreeControlOptions
+    * @implements Controls/_tree/interface/ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_grid/interface/IGridControl
@@ -65,7 +65,7 @@ import { Model } from 'Types/entity';
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/ISorting
     * @mixes Controls/_interface/IHierarchy
-    * @mixes Controls/_tree/interface/ITreeControlOptions
+    * @implements Controls/_tree/interface/ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_grid/interface/IGridControl
@@ -130,7 +130,19 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
 /**
  * @name Controls/_treeGrid/View#expanderPosition
  * @cfg {Position} Расположение иконки для узла и скрытого узла.
+ * @remark
+ * Чтобы отобразить иконку узла в произвольном месте пользовательского шаблона, сделайте следующее:
+ * 
+ * 1. Опцию **expanderPosition** установите в значение "custom".
+ * 2. В пользовательском шаблоне отображения элемента в опции contentTemplate укажите позицию для отображения иконки узла. Для этого поместите директиву {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} и в качестве встраиваемого шаблона укажите **expanderTemplate**.
+ * 
+ * Пример этого функционала показан в первом демо-примере.
  * @default default
  * @demo Controls-demo/treeGrid/Expander/ExpanderPosition/Custom/Index В следующем примере для контрола опция expanderPosition установлена в значение custom.
  * @demo Controls-demo/treeGrid/Expander/ExpanderPosition/Right/Index В следующем примере для контрола опция expanderPosition установлена в значение right.
+ * @demo Controls-demo/treeGrid/Expander/ExpanderPosition/RightWithColumnTemplate/Index В следующем примере для контрола опция expanderPosition установлена в значение right, а также задан шаблон отображения колонки.
+ */
+/**
+ * @name Controls/_treeGrid/View#root
+ * @cfg {Number|String} Идентификатор корневого узла.
  */

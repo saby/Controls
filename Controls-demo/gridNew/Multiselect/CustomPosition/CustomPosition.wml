@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper">
+    <Controls.gridNew:View
+            attr:class="controlsDemo__inline-flex"
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            bind:selectedKeys="_selectedKeys"
+            multiSelectVisibility="onhover"
+            multiSelectPosition="custom"/>
+    <div style="padding-top: 10px;">Selected keys [{{ _selectedKeys.join(', ') }}]</div>
+</div>

@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import PrepareDataUtil from './PrepareDataUtil';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import template = require('wml!Controls/_breadcrumbs/Path/Path');
 import {IBreadCrumbsOptions} from './interface/IBreadCrumbs';
 import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
@@ -13,8 +13,8 @@ interface IReceivedState {
  * Контрол "Хлебные крошки".
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/content-managment/bread-crumbs/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_breadcrumbs.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/bread-crumbs/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_breadcrumbs.less переменные тем оформления}
  * @class Controls/_breadcrumbs/Path
  * @extends Core/Control
  * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
@@ -42,23 +42,28 @@ interface IReceivedState {
 
 class BreadCrumbs extends Control<IBreadCrumbsOptions> {
     protected _template: TemplateFunction = template;
-    protected _visibleItems =  [];
-    protected _viewUpdated: boolean = false;
-    protected _notifyHandler = tmplNotify;
+    protected _visibleItems: any[] =  [];
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _width: number = 0;
     protected _dotsWidth: number = 0;
-    protected _indexEdge: number = 0;
     protected _items: Record[] = [];
     protected calculateBreadcrumbsUtil: object;
     protected _arrowWidth: number;
     protected _paddingRight: number;
 
-    protected _beforeMount(options?: IBreadCrumbsOptions, contexts?: object, receivedState?: IReceivedState): Promise<IReceivedState> | void {
+    protected _beforeMount(
+        options?: IBreadCrumbsOptions,
+        contexts?: object,
+        receivedState?: IReceivedState
+    ): Promise<IReceivedState> | void {
         if (options.items && options.items.length > 0) {
             if (!options.containerWidth) {
                 this._visibleItems = PrepareDataUtil.drawBreadCrumbsItems(options.items);
             } else {
-                //утилиту PrepareDataUtil для основных преобразований крошек грузим всегда. Утилиту для расчета ширины только тогда, когда нам передают containerWidth
+                /*
+                 * Утилиту PrepareDataUtil для основных преобразований крошек грузим всегда.
+                 * Утилиту для расчета ширины только тогда, когда нам передают containerWidth
+                 */
                 const arrPromise = [import('Controls/_breadcrumbs/Utils')];
                 if (!receivedState) {
                     arrPromise.push(loadFontWidthConstants());
@@ -147,5 +152,9 @@ class BreadCrumbs extends Control<IBreadCrumbsOptions> {
         };
     }
 }
-
+/**
+ * @name Controls/_breadcrumbs/Path#fontSize
+ * @cfg
+ * @demo Controls-demo/breadCrumbs_new/FontSize/Index
+ */
 export default BreadCrumbs;

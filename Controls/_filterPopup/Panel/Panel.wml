@@ -44,7 +44,7 @@
                                                     headingFontColorStyle="{{_options.headingStyle}}"
                                                     attr:class="controls-PanelFilter
                                                     controls-FilterPanel__{{_options.orientation}}_theme-{{_options.theme}}
-                                                    {{_hasHistory ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
+                                                    {{_hasHistory || _options.emptyHistoryTemplate ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
        <ws:headerContentTemplate>
           <ws:if data="{{_options.topTemplate}}">
              <div class="controls-FilterPanel__header-topTemplate">
@@ -65,12 +65,13 @@
                 </div>
              </ws:if>
              <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{{_options.applyButtonCaption}}" on:click="_applyFilter()"
-                              attr:tabindex="-1"
+                              attr:tabindex="1"
+                              attr:ws-autofocus="true"
                               attr:class="controls-FilterPanel__filterButton"/>
           </div>
        </ws:headerContentTemplate>
        <ws:bodyContentTemplate>
-          <Controls.scroll:Container attr:class="controls-ScrollContainer__flex" attr:ws-autofocus="true">
+          <Controls.scroll:Container attr:class="controls-ScrollContainer__flex">
              <ws:if data="{{_options.orientation === 'horizontal'}}">
                 <div class="controls-FilterPanel__content-horizontal_theme-{{_options.theme}}">
                    <div class="controls-FilterPanel__filtersWrapper

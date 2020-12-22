@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth550' : 'controlsDemo_fixedWidth350'}}">
+
+    <div class="controlsDemo__cell controlsDemo__ladder_bind demo_LadderStickyMultiline__twoRowsSticky">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LadderStickyMultiline/StickyMultiline/Index' }}">
+            <a href="{{content.href}}">С прилипанием двух строк</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LadderStickyMultiline.StickyMultiline.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__ladder_bind demo_LadderStickyMultiline__HeaderAndTwoRowsSticky">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/LadderStickyMultiline/StickyMultilineWithHeader/Index' }}">
+            <a href="{{content.href}}">С прилипанием двух строк и заголовком</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.LadderStickyMultiline.StickyMultilineWithHeader.Index/>
+    </div>
+
+</div>
+

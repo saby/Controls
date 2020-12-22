@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:style="width: 600px; height: 400px">
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                columns="{{_columns}}"
+                columnScroll="{{true}}"
+                backgroundStyle="default"
+                multiSelectVisibility="visible"
+                bind:selectedKeys="_selectedKeys"
+                stickyColumnsCount="{{2}}">
+        </Controls.gridNew:View>
+    </Controls.scroll:Container>
+</div>

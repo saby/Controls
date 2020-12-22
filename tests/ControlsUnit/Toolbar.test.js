@@ -138,7 +138,6 @@ define(
          describe('publicMethod', function() {
             it('check received state', () => {
                toolbar._beforeMount(config, null, records);
-               assert.isFalse(toolbar._items.isEqual(records));
                assert.equal(!!toolbar._needShowMenu, true);
             });
             it('need show menu', function() {

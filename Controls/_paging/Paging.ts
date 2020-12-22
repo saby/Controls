@@ -1,12 +1,12 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import pagingTemplate = require('wml!Controls/_paging/Paging/Paging');
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {TNavigationPagingMode} from '../_interface/INavigation';
+import {TNavigationPagingMode} from 'Controls/interface';
 
 type TButtonState = 'normal' | 'disabled';
 type TArrowStateVisibility = 'visible' | 'hidden' | 'readonly';
 
-interface IArrowState {
+export interface IArrowState {
     begin: TArrowStateVisibility;
     prev: TArrowStateVisibility;
     next: TArrowStateVisibility;
@@ -17,8 +17,6 @@ export interface IPagingOptions extends IControlOptions {
     showDigits: boolean;
     pagesCount: number;
     selectedPage?: number;
-    backwardEnabled: boolean;
-    forwardEnabled: boolean;
     contrastBackground: boolean;
     contentTemplate?: TemplateFunction;
     elementsCount?: number;
@@ -31,7 +29,7 @@ export interface IPagingOptions extends IControlOptions {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_paging.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_paging.less переменные тем оформления}
  *
  * @class Controls/_paging/Paging
  * @extends UI/Base:Control
@@ -70,9 +68,6 @@ class Paging extends Control<IPagingOptions> {
                 this._stateForward = this._getState(config.arrowState.next || 'readonly');
                 this._stateBottom = this._getState(config.arrowState.end || 'readonly');
             }
-        } else {
-            this._stateTop = this._stateBackward = config.backwardEnabled ? 'normal' : 'disabled';
-            this._stateForward = this._stateBottom = config.forwardEnabled ? 'normal' : 'disabled';
         }
     }
 
@@ -213,4 +208,24 @@ export default Paging;
 /**
  * @name Controls/_paging/Paging#arrowsState
  * @cfg {IArrowState} Опция управляет возможностью показа/скрытия кнопок в пэйджинге.
+ */
+
+/**
+ * @name Controls/_paging/Paging#pagingMode
+ * @cfg {TNavigationPagingMode} Внешний вид пэйджинга. Позволяет для каждого конкретного реестра задать внешний вид в зависимости от требований к интерфейсу.
+ */
+
+/**
+ * @name Controls/_paging/Paging#contrastBackground
+ * @cfg {Boolean} Определяет контрастность фона кнопки по отношению к ее окружению.
+ */
+
+/**
+ * @name Controls/_paging/Paging#contentTemplate
+ * @cfg {Function} Опция управляет отображением произвольного шаблона внутри пэйджинга.
+ */
+
+/**
+ * @name Controls/_paging/Paging#elementsCount
+ * @cfg {Number} Опция управляет возможностью показа количества элементов, если их количество больше 0.
  */

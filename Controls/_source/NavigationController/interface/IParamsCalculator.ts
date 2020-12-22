@@ -1,4 +1,4 @@
-import {IBaseSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/_interface/INavigation';
+import {IBaseSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/interface';
 import INavigationStore from './INavigationStore';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 import {RecordSet} from 'Types/collection';

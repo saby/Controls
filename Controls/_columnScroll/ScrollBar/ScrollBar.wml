@@ -1,0 +1,32 @@
+<ws:if data="{{_options.stickyHeader}}">
+    <!-- backgroundStyle transparent служит временным решением ошибки. https://online.sbis.ru/opendoc.html?guid=6f6af645-3f36-4081-810c-652fa25eebd5 -->
+    <!-- Если прикладной разработчик не конфигурировал backgroundStyle, он должен быть прозрачным, иначе будет белая подложка у стики шапки. -->
+    <Controls.scroll:StickyHeader
+            attr:class="controls-Grid_columnScroll_wrapper js-controls-Grid_columnScroll_thumb-wrapper"
+            backgroundStyle="{{ (_options.backgroundStyle || _options.style) === 'default' ? 'transparent' : (_options.backgroundStyle || _options.style) }}"
+            mode="stackable"
+            ntype="scroll"
+            fixedZIndex="{{5}}"
+            shadowVisibility="hidden">
+        <Controls._scroll.Scroll.Scrollbar
+                name="scrollbar"
+                position="{{_position}}"
+                direction="horizontal"
+                contentSize="{{_options.contentSize}}"
+                shouldSetMarginTop="{{ true }}"
+                trackVisible="{{_options.trackVisible}}"
+                attr:class="controls-ColumnScroll_theme-{{_options.theme}}"
+                on:positionChanged="_onPositionChanged()"/>
+    </Controls.scroll:StickyHeader>
+</ws:if>
+<ws:else>
+    <Controls._scroll.Scroll.Scrollbar
+            name="scrollbar"
+            position="{{_position}}"
+            direction="horizontal"
+            contentSize="{{_options.contentSize}}"
+            shouldSetMarginTop="{{ false }}"
+            trackVisible="{{_options.trackVisible}}"
+            attr:class="js-controls-Grid_columnScroll_thumb-wrapper controls-ColumnScroll_theme-{{_options.theme}}"
+            on:positionChanged="_onPositionChanged()"/>
+</ws:else>

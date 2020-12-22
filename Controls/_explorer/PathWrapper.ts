@@ -1,5 +1,5 @@
 import Control = require('Core/Control');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import template = require('wml!Controls/_explorer/PathController/PathWrapper');
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 
@@ -40,7 +40,7 @@ var PathWrapper = Control.extend({
       }
    },
 
-   _notifyHandler: tmplNotify
+   _notifyHandler: EventUtils.tmplNotify
 
 });
 PathWrapper._private = _private;

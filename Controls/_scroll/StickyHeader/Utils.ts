@@ -47,8 +47,6 @@ export type IFixedEventData = {
    fixedPosition: POSITION;
    // Предыдущая позиция фиксации: сверху или снизу
    prevPosition: POSITION;
-   // Высота заголовка
-   offsetHeight: number;
    // Режим прилипания заголовка
    mode: MODE;
    // Отображение тени у заголовка

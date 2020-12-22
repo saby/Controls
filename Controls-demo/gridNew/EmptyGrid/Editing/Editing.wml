@@ -1,0 +1,44 @@
+<div class="controlsDemo__wrapper" xmlns:ws="http://www.w3.org/1999/html">
+    <!-- Необязательно оборачивать список в скролл контейнер. -->
+    <!-- Здесь это сделано для месного решения этих ошибок со stickyHeader. -->
+    <!-- https://online.sbis.ru/opendoc.html?guid=64a425b7-4a53-4bb1-932e-2899ffe5fd98 -->
+    <!-- https://online.sbis.ru/opendoc.html?guid=138c14b7-d571-4e61-8177-cb0322763bff -->
+    <Controls.scroll:Container>
+        <Controls.gridNew:View
+                name="grid"
+                keyProperty="id"
+                source="{{_viewSource}}"
+                useNewEmptyTemplate="{{ true }}"
+                multiSelectVisibility="visible"
+                on:afterBeginEdit="_onAfterBeginEnd()"
+                on:beforeEndEdit="_onBeforeEndEdit()"
+                columns="{{_columns}}">
+            <ws:editingConfig editOnClick="{{true}}" toolbarVisibility="{{true}}"/>
+            <ws:emptyTemplate>
+                <ws:partial template="Controls/gridNew:EditingEmptyTemplate">
+                    <ws:columns>
+                        <ws:Array>
+                            <ws:Object>
+                                <ws:template>
+                                    <ws:partial template="Controls/list:BaseEditingTemplate" enabled="{{ true }}">
+                                        <ws:viewTemplate>
+                                            <div on:click="_beginAdd()">Введите наименование, штрих-код или артикул</div>
+                                        </ws:viewTemplate>
+                                    </ws:partial>
+                                </ws:template>
+                            </ws:Object>
+                            <ws:Object>
+                                <ws:template>
+                                    <div>или выберите из <a href="#" class="controls-text-link_theme-default">каталога</a></div>
+                                </ws:template>
+                            </ws:Object>
+                        </ws:Array>
+                    </ws:columns>
+                </ws:partial>
+            </ws:emptyTemplate>
+            <ws:footerTemplate>
+                <Controls.list:AddButton if="{{ _hasItems && !_isEditing }}" caption="Запись" on:click="_beginAdd()" class="test_add_record_1"/>
+            </ws:footerTemplate>
+        </Controls.gridNew:View>
+    </Controls.scroll:Container>
+</div>

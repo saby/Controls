@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__button_wrapper">
+        <Controls.buttons:Button caption="Request" on:click="_onChangeSource()"/>
+        <Controls.buttons:Button caption="Pending" on:click="_onPen()"/>
+    </div>
+
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+
+            navigation="{{_navigation}}"
+            columns="{{_columns}}">
+
+        <ws:emptyTemplate>
+            <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">
+                <ws:contentTemplate>No data available!</ws:contentTemplate>
+            </ws:partial>
+        </ws:emptyTemplate>
+    </Controls.gridNew:View>
+</div>

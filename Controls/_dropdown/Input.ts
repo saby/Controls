@@ -6,7 +6,7 @@ import * as Utils from 'Types/util';
 import {factory} from 'Types/chain';
 import {Model} from 'Types/entity';
 import {RecordSet, List} from 'Types/collection';
-import {prepareEmpty, loadItems, isEmptyItem} from 'Controls/_dropdown/Util';
+import {prepareEmpty, loadItems, loadSelectedItems, isEmptyItem} from 'Controls/_dropdown/Util';
 import {isEqual} from 'Types/object';
 import Controller from 'Controls/_dropdown/_Controller';
 import {TKey} from './interface/IDropdownController';
@@ -39,9 +39,9 @@ interface IDropdownInputChildren {
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less">переменные тем оформления dropdown</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less">переменные тем оформления dropdownPopup</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less переменные тем оформления dropdown}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less переменные тем оформления dropdownPopup}
  *
  * @class Controls/_dropdown/Input
  * @extends Core/Control
@@ -50,7 +50,7 @@ interface IDropdownInputChildren {
  * @mixes Controls/_menu/interface/IMenuBase
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_dropdown/interface/IDropdownSource
- * @mixes Controls/interface/IDropdown
+ * @mixes Controls/_dropdown/interface/IBaseDropdown
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/Input/interface/IValidation
  * @mixes Controls/interface/ISelectorDialog
@@ -81,8 +81,6 @@ interface IDropdownInputChildren {
  * @mixes Controls/_dropdown/interface/IFooterTemplate
  * @mixes Controls/_dropdown/interface/IHeaderTemplate
  * @mixes Controls/interface/ISelectorDialog
- * @mixes Controls/interface/IDropdownEmptyText
- * @mixes Controls/interface/IDropdown
  * @mixes Controls/_dropdown/interface/IGrouped
  * @mixes Controls/_interface/ITextValue
  * 
@@ -103,16 +101,19 @@ export default class Input extends BaseDropdown {
    protected _icon: string;
    protected _tooltip: string;
    protected _selectedItems: Model[];
+   protected _controller: Controller;
    protected _children: IDropdownInputChildren;
 
    _beforeMount(options: IInputOptions,
                 context: object,
-                receivedState: DropdownReceivedState): void | Promise<DropdownReceivedState> {
-      this._prepareDisplayState = this._prepareDisplayState.bind(this);
-      this._dataLoadCallback = this._dataLoadCallback.bind(this);
+                receivedState: DropdownReceivedState): void | Promise<void|DropdownReceivedState> {
       this._controller = new Controller(this._getControllerOptions(options));
 
-      return loadItems(this._controller, receivedState, options.source);
+      if (options.navigation) {
+         return loadSelectedItems(this._controller, receivedState, options.source);
+      } else {
+         return loadItems(this._controller, receivedState, options.source);
+      }
    }
 
    _beforeUpdate(options: IInputOptions): void {
@@ -122,7 +123,7 @@ export default class Input extends BaseDropdown {
    _getControllerOptions(options: IInputOptions): object {
       const controllerOptions = getDropdownControllerOptions(options);
       return { ...controllerOptions, ...{
-            dataLoadCallback: this._dataLoadCallback,
+            dataLoadCallback: this._dataLoadCallback.bind(this),
             selectorOpener: this,
             selectedKeys: options.selectedKeys || [],
             popupClassName: options.popupClassName || ((options.showHeader ||
@@ -131,9 +132,8 @@ export default class Input extends BaseDropdown {
                     'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
                 ' theme_' + options.theme,
             allowPin: false,
-            selectedItemsChangedCallback: this._prepareDisplayState.bind(this),
-            openerControl: this,
-            needLoadSelectedItems: options.needLoadSelectedItems
+            selectedItemsChangedCallback: this._prepareDisplayState.bind(this, options),
+            openerControl: this
          }
       };
    }
@@ -153,7 +153,8 @@ export default class Input extends BaseDropdown {
    }
 
    _selectedItemsChangedHandler(items: Model[]): void|unknown {
-      this._notify('textValueChanged', [this._getText(items) + this._getMoreText(items)]);
+      const text = this._getText(items[0], this._options) + this._getMoreText(items);
+      this._notify('textValueChanged', [text]);
       const newSelectedKeys = this._getSelectedKeys(items, this._options.keyProperty);
       if (!isEqual(this._options.selectedKeys, newSelectedKeys) || this._options.task1178744737) {
          return this._notify('selectedKeysChanged', [newSelectedKeys]);
@@ -171,16 +172,16 @@ export default class Input extends BaseDropdown {
       }
    }
 
-   _prepareDisplayState(items: Model[]): void {
+   _prepareDisplayState(options: IInputOptions, items: Model[]): void {
       if (items.length) {
          this._selectedItems = items;
-         this._needInfobox = this._options.readOnly && this._selectedItems.length > 1;
+         this._needInfobox = options.readOnly && this._selectedItems.length > 1;
          this._item = items[0];
-         this._isEmptyItem = isEmptyItem(this._item, this._options.emptyText, this._options.keyProperty);
+         this._isEmptyItem = isEmptyItem(this._item, options.emptyText, options.keyProperty);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
-         this._text = this._getText(items);
+         this._text = this._getText(items[0], options);
          this._hasMoreText = this._getMoreText(items);
-         this._tooltip = this._getTooltip(items, this._options.displayProperty);
+         this._tooltip = this._getTooltip(items, options.displayProperty);
       }
    }
 
@@ -262,12 +263,13 @@ export default class Input extends BaseDropdown {
       return tooltips.join(', ');
    }
 
-   private _getText(items: Model[]): string {
+   private _getText(item: Model,
+                    {emptyText, keyProperty, displayProperty}: Partial<IInputOptions>): string {
       let text = '';
-      if (isEmptyItem(items[0], this._options.emptyText, this._options.keyProperty)) {
-         text = prepareEmpty(this._options.emptyText);
+      if (isEmptyItem(item, emptyText, keyProperty)) {
+         text = prepareEmpty(emptyText);
       } else {
-         text = getPropValue(items[0], this._options.displayProperty);
+         text = getPropValue(item, displayProperty);
       }
       return text;
    }
@@ -453,4 +455,10 @@ export default class Input extends BaseDropdown {
  *    }
  * }
  * </pre>
+ */
+
+ /**
+ * @name Controls/_dropdown/Input#fontSize
+ * @cfg
+ * @demo Controls-demo/dropdown_new/Input/FontSize/Index
  */

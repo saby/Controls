@@ -4,8 +4,6 @@ export interface IPropStorageOptions {
 
 /**
  * Интерфейс для контролов, сохраняющих пользовательскую конфигурацию.
- *
- * @interface Controls/_interface/IPropStorage
  * @public
  * @author Красильников А.С.
  */

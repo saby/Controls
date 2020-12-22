@@ -1,0 +1,4 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate"
+            itemData="{{itemData}}"
+            backgroundColorStyle="{{itemData.column.getColor(itemData.item.get('populationDensity'))}}">
+</ws:partial>

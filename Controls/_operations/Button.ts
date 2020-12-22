@@ -14,8 +14,8 @@ export interface IOperationsButtonOptions extends IControlOptions, IExpandableOp
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/operations/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less переменные тем оформления}
  *
  * @class Controls/_operations/Button
  * @extends Core/Control
@@ -28,7 +28,7 @@ export interface IOperationsButtonOptions extends IControlOptions, IExpandableOp
 
 /*
  * Control for changing the extensibility of the "Controls/_operations/Panel".
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>here</a>.
  *
  * @class Controls/_operations/Button
  * @extends Core/Control

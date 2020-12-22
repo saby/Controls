@@ -1,10 +1,16 @@
 <ws:partial
-    template="{{_options.render}}"
+    template="{{_options.render || _render}}"
     groupTemplate="{{_options.groupTemplate}}"
+    captionColumnOptions="{{_options.captionColumnOptions}}"
+    editorColumnOptions="{{_options.editorColumnOptions}}"
     itemTemplate="{{_options.itemTemplate}}"
     listModel="{{_listModel}}"
     collapsedGroups="{{_collapsedGroups}}"
     editingObject="{{_options.editingObject}}"
-    on:itemClick="_itemClick()"
+    on:groupClick="_groupClick()"
     on:propertyValueChanged="_propertyValueChanged()"
+    on:toggleEditor="_toggleEditor()"
+    on:hoveredItemChanged="_hoveredItemChanged()"
+    on:mouseenter="_mouseEnterHandler()"
+    on:itemActionMouseDown="_itemActionMouseDown()"
 />

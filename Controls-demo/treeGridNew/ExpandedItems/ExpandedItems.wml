@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-expandedItems">
+    <Controls.treeGridNew:View
+            source="{{_viewSource}}"
+            keyProperty="id"
+            columns="{{_columns}}"
+            parentProperty="Раздел"
+            nodeProperty="Раздел@"
+            bind:expandedItems="_expandedItems"/>
+</div>
+

@@ -80,6 +80,7 @@ define([
          'www.ya.ru'
       ],
       decoratedLinkService,
+      decoratedLinkHost,
       currentVersion = '2',
       nbsp = String.fromCharCode(160),
       openTagRegExp = /(<[^/][^ >]* )([^>]*")(( \/)?>)/g,
@@ -113,6 +114,7 @@ define([
 
          before(function() {
             if (isNode) {
+               Env.constants.isBrowserPlatform = true;
                var browser = new jsdom.JSDOM('', { pretendToBeVisual: false });
                global.window = browser.window;
                global.document = window.document;
@@ -122,6 +124,7 @@ define([
 
          after(function() {
             if (isNode) {
+               Env.constants.isBrowserPlatform = false;
                global.window = undefined;
                global.document = undefined;
                global.Node = undefined;
@@ -197,10 +200,13 @@ define([
          });
          beforeEach(function() {
             decoratedLinkService = Env.constants.decoratedLinkService;
+            decoratedLinkHost = Env.constants.decoratedLinkHost;
             Env.constants.decoratedLinkService = '/test/';
+            Env.constants.decoratedLinkHost = '';
          });
          afterEach(function() {
             Env.constants.decoratedLinkService = decoratedLinkService;
+            Env.constants.decoratedLinkHost = decoratedLinkHost;
             while (errorArray.length) {
                errorFunction.apply(ILogger, errorArray.shift());
             }
@@ -221,8 +227,8 @@ define([
             var json = ['p', { title: '"&lt;<>' }, '&gt;&lt;><&#39;&#'];
             var vdomTemplate = template({ _options: { 'value': json } }, {}, undefined, true);
             equalsHtml(decorator.Converter.jsonToHtml(json), '<div><p title="&quot;&amp;lt;&lt;&gt;">&amp;gt;&amp;lt;&gt;&lt;&amp;#39;&amp;#</p></div>');
-            assert.equal(vdomTemplate[0].children[0].children[0].children, '&amp;gt;&amp;lt;><&amp;#39;&amp;#');
-            assert.equal(vdomTemplate[0].children[0].hprops.attributes.title, '"&amp;lt;<>');
+            assert.equal(vdomTemplate[0].children[0].children[0].children, '&gt;&lt;><&#39;&#');
+            assert.equal(vdomTemplate[0].children[0].hprops.attributes.title, '"&lt;<>');
          });
          it('without escape', () => {
             const json = ['p', {style: 'background: url("source.com/param1=1&param2=2");'}];
@@ -367,7 +373,24 @@ define([
                            ['thead', ['tr', ['th', 'Test'], ['th', 'head']]],
                            ['tbody', ['tr', ['td', 'Test'], ['td', 'body']]],
                            ['tfoot', ['tr', ['td', 'Test'], ['td', 'foot']]]
-                        ]
+                        ],
+                        ['bdi', 'Test bdi'],
+                        ['dialog', 'Test dialog'],
+                        ['mark', 'Test mark'],
+                        ['meter', 'Test meter'],
+                        ['progress', 'Test progress'],
+                        ['ruby',
+                           ['rp', 'Test rp'],
+                           ['rt', 'Test rt']
+                        ],
+                        ['details', ['summary', 'Test summary']],
+                        ['wbr'],
+                        ['datalist', ['option', 'Test option']],
+                        ['select', ['option', 'Test option']],
+                        ['keygen'],
+                        ['output', 'Test output'],
+                        ['audio', ['track', {src: '/testAudio.mp3'} ]],
+                        ['video', ['track', {src: '/testVideo.mp4'} ]]
                      ]
                   ]
                ],
@@ -400,7 +423,7 @@ define([
             var html = '<div>' +
                '<p>' +
                '<html>' +
-               '<head></head>' +
+               '<head><title>Test title</title><link href="/resources/WS.Core/css/core-min.css" rel="stylesheet" /></head>' +
                '<body>' +
                '<div>Test division</div>' +
                '<code>Test code</code>' +
@@ -427,6 +450,20 @@ define([
                '<tbody><tr><td>Test</td><td>body</td></tr></tbody>' +
                '<tfoot><tr><td>Test</td><td>foot</td></tr></tfoot>' +
                '</table>' +
+               '<bdi>Test bdi</bdi>' +
+               '<dialog>Test dialog</dialog>' +
+               '<mark>Test mark</mark>' +
+               '<meter>Test meter</meter>' +
+               '<progress>Test progress</progress>' +
+               '<ruby><rp>Test rp</rp><rt>Test rt</rt></ruby>' +
+               '<details><summary>Test summary</summary></details>' +
+               '<wbr />' +
+               '<datalist><option>Test option</option></datalist>' +
+               '<select><option>Test option</option></select>' +
+               '<keygen />' +
+               '<output>Test output</output>' +
+               '<audio><track src="/testAudio.mp3" /></audio>' +
+               '<video><track src="/testVideo.mp4" /></video>' +
                '</body>' +
                '</html>' +
                '</p>' +
@@ -1110,11 +1147,14 @@ define([
       describe('needDecorate', function() {
          beforeEach(function() {
             decoratedLinkService = Env.constants.decoratedLinkService;
+            decoratedLinkHost = Env.constants.decoratedLinkHost;
             Env.constants.decoratedLinkService = '/test/';
+            Env.constants.decoratedLinkHost = '';
             linkDecorateUtils.clearNeedDecorateGlobals();
          });
          afterEach(function() {
             Env.constants.decoratedLinkService = decoratedLinkService;
+            Env.constants.decoratedLinkHost = decoratedLinkHost;
          });
          it('not a link', function() {
             var parentNode = ['p', ['b',
@@ -1655,11 +1695,14 @@ define([
       describe('decorateLink', function() {
          beforeEach(function() {
             decoratedLinkService = Env.constants.decoratedLinkService;
+            decoratedLinkHost = Env.constants.decoratedLinkHost;
             Env.constants.decoratedLinkService = '/test/';
+            Env.constants.decoratedLinkHost = '';
             linkDecorateUtils.clearNeedDecorateGlobals();
          });
          afterEach(function() {
             Env.constants.decoratedLinkService = decoratedLinkService;
+            Env.constants.decoratedLinkHost = decoratedLinkHost;
          });
          it('decorate a good link', function() {
             assert.deepEqual(linkDecorateUtils.getDecoratedLink(linkNode), ['span',

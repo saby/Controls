@@ -41,13 +41,15 @@ var
                  nodeProperty: cfg.nodeProperty,
                  collapsedGroups: cfg.collapsedGroups,
                  groupProperty: cfg.groupProperty,
+                 dedicatedItemProperty: cfg.dedicatedItemProperty,
                  theme: cfg.theme,
                  loadedProperty: '!' + cfg.parentProperty + '$',
                  // todo to support merge strategy replace this code on "unique: cfg.loadItemsStrategy === 'merge'".
                  // https://online.sbis.ru/opendoc.html?guid=e070a968-f6dd-486b-bd44-4da47198529e
                  unique: true,
                  filter: filter,
-                 sort: cfg.itemsSortMethod
+                 sort: cfg.itemsSortMethod,
+                 multiSelectAccessibilityProperty: cfg.multiSelectAccessibilityProperty
               },
               root, rootAsNode;
 

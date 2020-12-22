@@ -1,0 +1,32 @@
+<ws:if data="{{collectionItem.getValidateTemplateName()}}">
+   <Controls.Container.Async
+      templateName="{{collectionItem.getValidateTemplateName()}}">
+      <ws:content>
+         <ws:partial
+            template="{{content.resolvedTemplate}}">
+            <ws:validators>
+               <ws:Function
+                  item="{{collectionItem}}">
+                  Controls/propertyGrid:PropertyGrid.prototype.validate
+               </ws:Function>
+            </ws:validators>
+            <ws:content>
+               <Controls.Container.Async
+                  templateName="{{collectionItem.getEditorTemplateName()}}"
+                  class="{{item.editorClass}}">
+                  <ws:templateOptions
+                     validationStatus="{{content.validationStatus}}"/>
+                  <ws:content>
+                     <ws:partial template="{{content.resolvedTemplate}}"
+                                 validationStatus="{{content.validationStatus}}"
+                                 scope="{{collectionItem.getEditorOptions()}}"/>
+                  </ws:content>
+               </Controls.Container.Async>
+            </ws:content>
+         </ws:partial>
+      </ws:content>
+   </Controls.Container.Async>
+</ws:if>
+<ws:else>
+   <Controls.Container.Async templateName="{{collectionItem.getEditorTemplateName()}}" templateOptions="{{collectionItem.getEditorOptions()}}" class="{{item.editorClass}}"/>
+</ws:else>

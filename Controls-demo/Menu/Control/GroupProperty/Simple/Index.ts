@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/GroupProperty/Simple/Index');
 import {Memory} from 'Types/source';
-import {view as constView} from 'Controls/Constants';
+import {groupConstants as constView} from 'Controls/list';
 
 class GroupProperty extends Control {
     protected _template: TemplateFunction = controlTemplate;

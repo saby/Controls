@@ -44,9 +44,9 @@
     <Controls.paging:Paging
         attr:class="controls-BaseControl__footerPaging_theme-{{_options.theme}}"
         showDigits = "{{!_options.navigation.sourceConfig.hasMore}}"
-        showEndButton="{{_options.navigation.viewConfig.showEndButton}}"
         pagesCount = "{{_knownPagesCount}}"
         selectedPage = "{{_currentPage}}"
+        arrowState="{{_pagingCfg.arrowState}}"
         on:selectedPageChanged="__pagingChangePage()" />
 </ws:template>
 
@@ -70,12 +70,12 @@
         </div>
     </ws:if>
     <ws:if data="{{_shouldDrawFooter}}">
-        <ws:partial template="wml!Controls/_list/BaseControl/Footer" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
+        <ws:partial template="wml!Controls/_list/BaseControl/Footer" moreFontColorStyle="{{_options.moreFontColorStyle}}" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
     </ws:if>
 </ws:template>
 <ws:template name="multiSelectTplIf">
     <ws:if data="{{_options.multiSelectVisibility}}">
-        <ws:partial template="wml!Controls/_list/BaseControl/multiSelect" scope="{{multiSelectTpl.templateOptions}}" />
+        <ws:partial template="wml!Controls/_list/BaseControl/multiSelect" scope="{{multiSelectTpl.templateOptions}}" triState="{{true}}"/>
     </ws:if>
 </ws:template>
 <ws:template name="emptyTemplateIf">
@@ -100,8 +100,8 @@
                 _needBottomPadding="{{_needBottomPadding}}"
                 needShowEmptyTemplate="{{ __needShowEmptyTemplate(_options.emptyTemplate, _listViewModel) }}"
                 listModel="{{_listViewModel}}"
-                isEditingRowScrollToElement="{{ _isEditingRowScrollToElement }}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
+                preventServerSideColumnScroll="{{ !_useServerSideColumnScroll }}"
                 on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
                 on:validateDestroyed="_onValidateDestroyed()"
@@ -129,7 +129,6 @@
                 on:itemsContainerReady="_itemsContainerReadyHandler()"
                 on:controlResize="_viewResize()"
                 on:doScroll="_stopBubblingEvent()"
-                on:scrollToElement="_stopBubblingEvent()"
                 on:updateShadowMode="_stopBubblingEvent()"
                 on:updatePlaceholdersSize="_stopBubblingEvent()"
                 on:saveScrollPosition="_stopBubblingEvent()"
@@ -216,7 +215,9 @@
             <div if="{{ _isPagingPadding() }}" name="pagingPaddingContainer"
                  class="controls-BaseControl_paging-Padding_theme-{{_options.theme}}">
             </div>
-            <div class="controls-BaseControl__pagingContainer{{!_isPagingPaddingFromOptions() ? ' controls-BaseControl-hide-paging-padding': ''}}">
+            <div class="controls-BaseControl__pagingContainer
+    controls-BaseControl__pagingContainer_position-{{_options.navigation.viewConfig.pagingPosition === 'left' ? 'left' : 'right'}}
+    {{!_isPagingPaddingFromOptions() ? ' controls-BaseControl-hide-paging-padding': ''}}">
                 <ws:if data="{{_options.pagingLeftTemplate}}">
                     <ws:partial template="{{_options.pagingLeftTemplate}}"/>
                 </ws:if>
@@ -224,11 +225,13 @@
                         attr:class="controls-BaseControl__scrollPaging_theme-{{_options.theme}}"
                         contrastBackground="{{true}}"
                         pagingMode="{{_options.navigation.viewConfig.pagingMode}}"
-                        showEndButton="{{_options.navigation.viewConfig.showEndButton || _pagingCfg.showEndButton}}"
                         scope="{{_pagingCfg}}"
                         contentTemplate="{{_options.pagingContentTemplate}}"
                         on:onArrowClick="__onPagingArrowClick()"
                         on:selectedPageChanged="__selectedPageChanged()"/>
+                <ws:if data="{{_options.pagingRightTemplate}}">
+                    <ws:partial template="{{_options.pagingRightTemplate}}"/>
+                </ws:if>
             </div>
         </ws:if>
         <Controls.event:Listener

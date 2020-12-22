@@ -20,15 +20,9 @@ interface IStickyOpenerOptions extends IStickyPopupOptions, IBaseOpenerOptions {
  * Контрол, открывающий всплывающее окно, которое позиционируется относительно вызывающего элемента.
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/sticky/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/openers/sticky/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  * Для открытия прилипающих окон из кода используйте {@link Controls/popup:StickyOpener}.
- *
- * @class Controls/_popup/Opener/Sticky
- * @extends Controls/_popup/Opener/BaseOpener
- * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/ISticky
- *
  * @author Красильников А.С.
  * @demo Controls-demo/Popup/Opener/StickyPG
  * @public

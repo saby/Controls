@@ -2,12 +2,18 @@ import { Collection, CollectionItem } from 'Controls/display';
 import { Model } from 'Types/entity';
 import { CrudEntityKey } from 'Types/source';
 
+/**
+ * @typedef {String} TVisibility
+ * @variant visible Маркер отображается всегда, даже если не задан идентификатор элемента в опции {@link markedKey}.
+ * @variant hidden Маркер всегда скрыт.
+ * @variant onactivated Макер отображается при активации списка, например при клике по элементу.
+ */
 export type TVisibility = 'visible' | 'hidden' | 'onactivated';
 export enum Visibility { Visible = 'visible', Hidden = 'hidden', OnActivated = 'onactivated'}
 
 /**
  * Опции контроллера
- * @interface Controls/_marker/IOptions
+ * @interface Controls/_marker/interface/IOptions
  * @public
  * @author Панихин К.А.
  */
@@ -17,20 +23,14 @@ export interface IOptions extends IMarkerListOptions {
 
 /**
  * Опции для маркера списка
- * @interface Controls/_marker/interface/IMarkerListOptions
+ * @interface Controls/_marker/interface/IMarkerList
  * @public
  * @author Панихин К.А.
  */
 export interface IMarkerListOptions {
-   /**
-    * @typedef {String} TVisibility
-    * @variant visible Маркер отображается всегда, даже если не задан идентификатор элемента в опции {@link markedKey}.
-    * @variant hidden Маркер всегда скрыт.
-    * @variant onactivated Макер отображается при активации списка, например при клике по элементу.
-    */
+
 
    /**
-    * @name Controls/_marker/interface/IMarkerListOptions#markerVisibility
     * @cfg {TVisibility} Режим отображения маркера активного элемента.
     * @remark
     * В следующем примере маркер появляется только при активации списка.
@@ -40,7 +40,6 @@ export interface IMarkerListOptions {
     */
 
    /*ENG
-    * @name Controls/_marker/interface/IMarkerListOptions#markerVisibility
     * @cfg {String} Determines when marker is visible.
     * @variant visible The marker is always displayed, even if the marked key entry is not specified.
     * @variant hidden The marker is always hidden.
@@ -51,8 +50,7 @@ export interface IMarkerListOptions {
    markerVisibility?: TVisibility;
 
    /**
-    * @name Controls/_marker/interface/IMarkerListOptions#markedKey
-    * @cfg {CrudEntityKey} Идентификатор элемента, который выделен маркером.
+    * @cfg {Types/source:CrudEntityKey} Идентификатор элемента, который выделен маркером.
     * @remark
     * Если сделан bind на эту опцию, но она передана изначально в значении undefined,
     * то установка маркера работает аналогично тому, как если бы bind не был задан (по внутреннему состоянию контрола).
@@ -61,7 +59,6 @@ export interface IMarkerListOptions {
     */
 
    /*ENG
-    * @name Controls/_marker/interface/IMarkerListOptions#markedKey
     * @cfg {Number} Identifier of the marked collection item.
     * @demo Controls-demo/List/List/BasePG
     */
@@ -76,7 +73,6 @@ export interface IMarkerListOptions {
     * Опция сделана для master. Опция непубличная, т.к. в стандарт её вносить пока не будут
     * https://online.sbis.ru/opendoc.html?guid=b0bc13cd-986e-44fc-ab6a-93bcd0465ba1
     *
-    * @name Controls/_marker/interface/IMarkerListOptions#markerPosition
     * @cfg {MarkerPosition} Расположение маркера.
     * @default left
     * @private

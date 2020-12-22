@@ -190,7 +190,7 @@
     vertical-align: bottom;
   }
 
-  .controls-Grid__cell_fixed {
+  .controls-Grid__cell_fixed, .controls-GridNew__cell_fixed {
     position: relative;
   }
 
@@ -257,7 +257,7 @@
     min-height: @cell_min-height_grid;
   }
 
-  .controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV,
+  .controls-Grid__row-cell-editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV,
   .controls-ListView__item_editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV {
       visibility: visible;
       opacity: 1;
@@ -362,12 +362,5 @@
     padding-right: 0;
     margin-right: @offset-right_itemActions;
     height: @height_itemActions;
-  }
-
-  .controls-itemActionsV_style_masterClassic_theme-@{themeName} {
-    bottom: @masterClassic_item_selected_border-thickness_list;
-    padding-right: 0;
-    margin-right: @offset-right_itemActions;
-    height: @height_itemActions - @masterClassic_item_selected_border-thickness_list;
   }
 }

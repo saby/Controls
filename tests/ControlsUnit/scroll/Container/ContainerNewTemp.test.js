@@ -16,7 +16,14 @@ define(
          describe('_shadowVisible', function() {
             let sandbox = sinon.createSandbox();
             beforeEach(function() {
-               sandbox.stub(scroll.__proto__, '_updateCalculatedState');
+               scroll._scrollModel = {
+                  clone: () => {
+                     return 0;
+                  },
+                  updateState: () => {
+                     return true;
+                  }
+               };
                scroll._scrollbars = {
                   updateScrollState: sinon.stub().returns(true)
                };

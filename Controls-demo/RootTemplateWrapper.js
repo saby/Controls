@@ -1,16 +1,15 @@
 define('Controls-demo/RootTemplateWrapper', [
    'Core/Control',
-   'Controls/Container/Async/ModuleLoader',
+   'WasabyLoader/ModulesLoader',
    'Core/PromiseLib/PromiseLib',
    'wml!Controls-demo/RootTemplateWrapper'
 ], function(BaseControl,
-            ModuleLoader,
+            ModulesLoader,
             PromiseLib,
             template
 ) {
    'use strict';
 
-   var moduleLoader = new ModuleLoader();
    /**
     * This control if the templated passed to props actually exists
     */
@@ -21,10 +20,10 @@ define('Controls-demo/RootTemplateWrapper', [
             if (receivedState !== undefined) {
                this.templateLoaded = receivedState;
             } else {
-               if(moduleLoader.isLoaded(opts.app)) {
+               if(ModulesLoader.isLoaded(opts.app)) {
                   this.templateLoaded = true;
                } else {
-                  return PromiseLib.reflect(moduleLoader.loadAsync(opts.app)).then(function(res) {
+                  return PromiseLib.reflect(ModulesLoader.loadAsync(opts.app)).then(function(res) {
                      if (res.result) {
                         this.templateLoaded = true;
                         return true;

@@ -5,7 +5,7 @@ define(
     function (scroll) {
         'use strict';
         let hasScrollbar = scroll.hasScrollbar;
-        describe('Controls/Utils/HasScrollbar', function () {
+        describe('Controls/scroll:hasScrollbar', function () {
             describe('hasScrollbar', function () {
                 it('hasScrollbar width', function () {
                     let element = {

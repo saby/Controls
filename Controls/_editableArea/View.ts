@@ -1,6 +1,6 @@
 import Control = require('Core/Control');
 import Deferred = require('Core/Deferred');
-import {editing as constEditing} from 'Controls/Constants';
+import {editing as constEditing} from 'Controls/list';
 import template = require('wml!Controls/_editableArea/View');
 import buttonsTemplate = require('Controls/_editableArea/Templates/Buttons');
 import {autoEdit, toolbarVisible, backgroundStyleClass} from './ActualAPI';
@@ -84,7 +84,7 @@ var
  * Для того, чтобы избежать этого, рекомендуется навесить CSS-класс **controls-Input_negativeOffset_theme_{{_options.theme}}** на редактируемую область.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less переменные тем оформления}
  *
  * @demo Controls-demo/EditableArea/View/Index
  */

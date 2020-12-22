@@ -6,7 +6,7 @@
                         item="{{item}}"
                         itemsSpacing="{{_options.itemsSpacing}}"
                         buttonTemplate="{{_buttonTemplate}}"
-                        buttonTemplateOptions="{{_options.isNewOptions ? _getSimpleButtonTemplateOptionsByItem(item) : _getButtonTemplateOptionsByItem(item)}}"
+                        buttonTemplateOptions="{{ _getSimpleButtonTemplateOptionsByItem(item) }}"
                         theme="{{_options.theme}}"
                         isFirstItem="{{_firstItem === item}}"
                         on:click="_itemClickHandler(item)"/>

@@ -42,7 +42,7 @@ export default interface IDropdownSource {
  * @cfg {SourceCfg} Объект, который реализует интерфейс {@link Types/source:ICrud ICrud}, необходимый для работы с источником данных.
  * @default undefined
  * @remark
- * Запись может иметь следующие {@link Item свойства}.
+ * Запись может иметь следующие {@link Controls/_dropdown/interface/IDropdownSource#Item свойства}.
  * @demo Controls-demo/dropdown_new/Button/Source/Index
  * @example
  * Записи будут отображены из источника _source.

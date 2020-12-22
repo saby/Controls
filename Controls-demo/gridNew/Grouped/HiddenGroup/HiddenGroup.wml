@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container>
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                rowSeparatorSize="s"
+                columns="{{_columns}}"
+                groupProperty="group"/>
+    </Controls.scroll:Container>
+</div>

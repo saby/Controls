@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper  controlsDemo__flexRow">
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500 moreFontColorStyle">
+        <div class='controlsDemo__button_wrapper'>
+            <span class='controlsDemo__button' on:click="_switchNavigation()">Сменить навигацию</span>
+        </div>
+        <Controls.scroll:Container class="controlsDemo__cell controlsDemo__height400">
+            <Controls.list:View
+                    keyProperty="id"
+                    source="{{_viewSource}}">
+                <ws:navigation source="page" view="{{_view}}">
+                    <ws:sourceConfig pageSize="{{3}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="basic"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.scroll:Container>
+    </div>
+</div>

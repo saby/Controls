@@ -1,13 +1,10 @@
 import {IControlOptions} from 'UI/Base';
 
 /**
- * Интерфейс для опций окна предпросмотра.
- *
- * @interface Controls/_popup/interface/IPreviewer
+ * Опции интерфейса описаны {@link Controls/_popup/interface/IPreviewer здесь}.
  * @public
  * @author Красильников А.С.
  */
-
 export interface IPreviewerOptions extends IControlOptions {
     content?: Function;
     trigger: string;
@@ -18,6 +15,12 @@ export interface IPreviewerOptions extends IControlOptions {
     direction?: any; // why?
     offset?: any; // why?
 }
+
+/**
+ * Интерфейс для опций окна предпросмотра.
+ * @public
+ * @author Красильников А.С.
+ */
 
 export interface IPreviewer {
     readonly '[Controls/_popup/interface/IPreviewer]': boolean;

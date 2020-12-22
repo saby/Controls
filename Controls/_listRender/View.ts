@@ -19,7 +19,7 @@ import {
     IShownItemAction,
     IItemActionsOptions
 } from 'Controls/itemActions';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 
 import { load as libraryLoad } from 'Core/library';
 import { SyntheticEvent } from 'Vdom/Vdom';
@@ -46,7 +46,7 @@ export interface IViewOptions extends IItemActionsOptions, IControlOptions {
 
 export default class View extends Control<IViewOptions> {
     protected _template: TemplateFunction = template;
-    protected _tmplNotify: Function = tmplNotify;
+    protected _tmplNotify: Function = EventUtils.tmplNotify;
 
     protected _collection: Collection<Model>;
 
@@ -209,7 +209,7 @@ export default class View extends Control<IViewOptions> {
      * @param clickEvent
      * @private
      */
-    protected _onItemActionClick(
+    protected _onItemActionMouseDown(
         e: SyntheticEvent<MouseEvent>,
         item: CollectionItem<Model>,
         action: IShownItemAction,
@@ -337,7 +337,7 @@ export default class View extends Control<IViewOptions> {
         clickEvent: SyntheticEvent<MouseEvent>): void {
         if (eventName === 'itemClick') {
             const action = actionModel && actionModel.getRawData();
-            if (action && !action['parent@']) {
+            if (action) {
                 const item = this._itemActionsController.getActiveItem();
                 this._handleItemActionClick(action, clickEvent, item, true);
             }
