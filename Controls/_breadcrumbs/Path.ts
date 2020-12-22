@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import PrepareDataUtil from './PrepareDataUtil';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import template = require('wml!Controls/_breadcrumbs/Path/Path');
 import {IBreadCrumbsOptions} from './interface/IBreadCrumbs';
 import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
@@ -43,7 +43,7 @@ interface IReceivedState {
 class BreadCrumbs extends Control<IBreadCrumbsOptions> {
     protected _template: TemplateFunction = template;
     protected _visibleItems: any[] =  [];
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _width: number = 0;
     protected _dotsWidth: number = 0;
     protected _items: Record[] = [];

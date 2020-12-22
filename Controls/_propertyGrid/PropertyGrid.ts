@@ -55,6 +55,9 @@ type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem
  * @author Герасимов А.М.
  */
 
+interface IPropertyGridValidatorArguments {
+    item: PropertyGridCollectionItem<Model>;
+}
 export default class PropertyGridView extends Control<IPropertyGridOptions> {
     protected _template: TemplateFunction = template;
     protected _listModel: TPropertyGridCollection;
@@ -283,6 +286,22 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             style: 'default',
             theme: options.theme
         });
+    }
+
+    validate({item}: IPropertyGridValidatorArguments): Array<string | boolean> | boolean {
+        const validators = item.getValidators();
+        let validatorResult: boolean | string = true;
+        if (validators.length) {
+            validators.some((validator) => {
+                if (typeof validator === 'function') {
+                    validatorResult = validator(item.getPropertyValue());
+                    if (typeof validatorResult === 'string') {
+                        return true;
+                    }
+                }
+            });
+        }
+        return validatorResult;
     }
 
     static _theme: string[] = ['Controls/propertyGrid', 'Controls/itemActions'];

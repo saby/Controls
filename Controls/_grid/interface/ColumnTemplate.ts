@@ -231,11 +231,6 @@ export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | '
     tagStyle?: 'info' | 'danger' | 'primary' | 'success' | 'secondary';
 
     /**
-     * @cfg {Function} Шаблон позволяет отобразить иконку для узла. Такой шаблон достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}.
-     */
-    expanderTemplate?: Function;
-
-    /**
      * @cfg {TMarkerClassName} Размер маркера.
      * @default default
      */

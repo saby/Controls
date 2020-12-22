@@ -1,7 +1,7 @@
 import Cell from './Cell';
 import {OptionsToPropertyMixin} from 'Types/entity';
 import GroupItem from './GroupItem';
-import {IColumn} from 'Controls/_grid/interface/IColumn';
+import {IColspanParams, IColumn} from 'Controls/_grid/interface/IColumn';
 import isFullGridSupport from '../utils/GridSupportUtil';
 
 export interface IOptions<T> {
@@ -34,13 +34,22 @@ export default class GroupCell<T> extends Cell<T, GroupItem<T>> {
         return 'display: contents;';
     }
 
-    getGroupWrapperStyles() {
-        const hasMultiselect = this._$owner.needMultiSelectColumn();
+    // region Аспект "Объединение колонок"
+    _getColspanParams(): IColspanParams {
+        const hasMultiSelect = this._$owner.needMultiSelectColumn();
         const ladderStickyColumn = this._$owner.getStickyColumn();
         const ladderColumnLength = ladderStickyColumn ? ladderStickyColumn.property.length : 0;
-        const columnStart = hasMultiselect ? 1 : 0;
-        const columnEnd = columnStart + this._$columns.length + ladderColumnLength;
-        return `grid-column: ${columnStart + 1} / ${columnEnd + 1};`;
+        const startColumn = hasMultiSelect ? 2 : 1;
+        const endColumn = startColumn + this._$columns.length + ladderColumnLength;
+        return {
+            startColumn,
+            endColumn
+        };
+    };
+    // endregion
+
+    getGroupWrapperStyles() {
+        return this.getColspan();
     }
 
     getGroupWrapperClasses(expanderVisible?: boolean, theme): string {
@@ -80,12 +89,6 @@ export default class GroupCell<T> extends Cell<T, GroupItem<T>> {
 
     isExpanded(): boolean {
         return this._$owner.isExpanded();
-    }
-
-    getColspan(): number {
-        const columnsCount = this._$columns.length;
-        const hasMultiselect = this._$owner.needMultiSelectColumn();
-        return +hasMultiselect + columnsCount;
     }
 }
 

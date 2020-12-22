@@ -19,6 +19,7 @@ export type TPosition = 'after'|'before'|'on';
  * @author Панихин К.А.
  */
 export interface IDraggableItem<S extends Model = Model> {
+   isExpanded(): boolean;
    getContents(): S;
    setDragged(state: boolean): void;
 }

@@ -86,6 +86,7 @@ export default class TreeGridCollection<
         const superFactory = super._getItemsFactory();
         return function CollectionItemsFactory(options?: ITreeGridRowOptions<T>): T {
             options.columns = this._$columns;
+            options.colspanCallback = this._$colspanCallback;
             return superFactory.call(this, options);
         };
     }

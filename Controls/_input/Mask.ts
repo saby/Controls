@@ -1,4 +1,4 @@
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {default as Base, IBaseInputOptions} from 'Controls/_input/Base';
 import * as ViewModel from 'Controls/_input/Mask/ViewModel';
 import {descriptor} from 'Types/entity';
@@ -53,7 +53,7 @@ const regExpQuantifiers: RegExp = /\\({.*?}|.)/;
 class Mask extends Base {
     protected _viewModel: ViewModel;
     protected _defaultValue: string = '';
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _controlName: string = 'Mask';
 
     protected _beforeUpdate(newOptions): void {

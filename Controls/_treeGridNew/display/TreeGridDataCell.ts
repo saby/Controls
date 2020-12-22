@@ -6,11 +6,23 @@ export default class TreeGridDataCell<T> extends GridDataCell<T, TreeGridDataRow
 
     protected _$owner: TreeGridDataRow<T>;
 
-    protected getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
         let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
 
         if (!this._$owner.needMultiSelectColumn() && this.isFirstColumn()) {
             classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}_theme-${theme}`;
+        }
+
+        if (this._$owner.isDragTargetNode()) {
+            classes += ` controls-TreeGridView__dragTargetNode_theme-${theme}`;
+            if (this.isFirstColumn()) {
+                classes += ` controls-TreeGridView__dragTargetNode_first_theme-${theme}`;
+            } else if (this.isLastColumn()) {
+                classes += ` controls-TreeGridView__dragTargetNode_last_theme-${theme}`;
+            }
+
+            // controls-Grid__no-rowSeparator перебивает стили dragTargetNode
+            classes = classes.replace('controls-Grid__no-rowSeparator', '');
         }
 
         return classes;

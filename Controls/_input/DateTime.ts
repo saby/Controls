@@ -10,7 +10,7 @@ import {
     getDefaultOptions as getValueValidatorsDefaultOptions,
     getOptionTypes as getValueValidatorsOptionTypes
 } from 'Controls/_input/interface/IValueValidators';
-import {proxyModelEvents, tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {isValidDate, Container, InputContainer} from 'Controls/validate';
 import template = require('wml!Controls/_input/DateTime/DateTime');
 
@@ -49,7 +49,7 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
 class DateTime extends Control {
     protected _template: TemplateFunction = template;
     protected _validationContainer: InputContainer | Container;
-    protected _proxyEvent: Function = tmplNotify;
+    protected _proxyEvent: Function = EventUtils.tmplNotify;
     protected _dateConstructor: Date | WSDate;
     protected _controlName: string = 'DateBase';
 
@@ -74,7 +74,7 @@ class DateTime extends Control {
             ...options,
             dateConstructor: this._dateConstructor
         });
-        proxyModelEvents(this, this._model, ['valueChanged']);
+        EventUtils.proxyModelEvents(this, this._model, ['valueChanged']);
         this._model.subscribe('valueChanged', () => {
             this._updateValidators();
         });

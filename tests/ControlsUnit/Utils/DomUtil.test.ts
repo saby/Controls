@@ -7,7 +7,7 @@ ClassList.prototype = [];
 // @ts-ignore
 ClassList.prototype.add = ClassList.prototype.push;
 
-describe('Controls/Utils/DOMUtil', () => {
+describe('Controls/sizeUtils:DOMUtil', () => {
     describe('Calculating sizes of DOM elements', () => {
         let isNode;
         let createElementStub;

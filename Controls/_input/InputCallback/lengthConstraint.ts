@@ -1,4 +1,4 @@
-import splitIntoTriads, {NUMBER_DIGITS_TRIAD} from 'Controls/Utils/splitIntoTriads';
+import {splitIntoTriads, NUMBER_DIGITS_TRIAD} from 'Controls/decorator';
 
 import ICallback from 'Controls/interface/ICallback';
 

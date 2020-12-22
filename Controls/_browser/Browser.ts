@@ -9,7 +9,7 @@ import {
 } from 'Controls/search';
 import {ControllerClass as FilterController, IFilterItem} from 'Controls/filter';
 import { IFilterControllerOptions } from 'Controls/_filter/ControllerClass';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
 import {ContextOptions} from 'Controls/context';
 
@@ -82,7 +82,7 @@ type IFilterControllerOptions = Pick<IBrowserOptions,
  */
 export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     protected _template: TemplateFunction = template;
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
 
     private _isMounted: boolean;
     private _selectedKeysCount: number | null;
@@ -259,9 +259,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                    return error;
                })
                .then((result) => {
-                   this._updateSearchController(newOptions);
-
-                   return result;
+                   return this._updateSearchController(newOptions).then(() => result);
                });
         } else if (isChanged) {
             this._afterSourceLoad(sourceController, newOptions);
@@ -271,7 +269,9 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             if (this._options.searchValue !== newOptions.searchValue) {
                 this._inputSearchValue = newOptions.searchValue;
             }
-            methodResult = this._updateSearchController(newOptions);
+            if (!methodResult) {
+                methodResult = this._updateSearchController(newOptions);
+            }
         }
 
         return methodResult;
@@ -374,10 +374,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     private _getSearchController(options?: IBrowserOptions): Promise<SearchController> {
         if (!this._searchController) {
             return import('Controls/search').then((result) => {
-                this._searchController = new result.ControllerClass({
-                    ...(options ?? this._options),
-                    sourceController: this._getSourceController(options ?? this._options)
-                });
+                this._searchController = new result.ControllerClass(
+                   this._getSearchControllerOptions(options ?? this._options));
 
                 return this._searchController;
             });

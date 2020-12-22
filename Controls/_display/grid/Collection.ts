@@ -55,6 +55,7 @@ export default class Collection<
         const superFactory = super._getItemsFactory();
         return function CollectionItemsFactory(options?: IRowOptions<S>): T {
             options.columns = this._$columns;
+            options.colspanCallback = this._$colspanCallback;
             return superFactory.call(this, options);
         };
     }

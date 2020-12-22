@@ -1,4 +1,4 @@
-import splitIntoTriads from 'Controls/Utils/splitIntoTriads';
+import {splitIntoTriads} from 'Controls/decorator';
 import {IParsedNumber} from 'Controls/_input/Number/parse';
 import {decimalSplitter} from 'Controls/_input/Number/constant';
 import {IText, paste, pasteWithRepositioning, remove, removeWithRepositioning} from 'Controls/decorator';

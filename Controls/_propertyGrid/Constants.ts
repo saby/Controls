@@ -10,3 +10,11 @@ export const DEFAULT_EDITORS = {
     text: 'Controls/_propertyGrid/defaultEditors/Text',
     enum: 'Controls/_propertyGrid/defaultEditors/Enum'
 };
+export const DEFAULT_VALIDATORS = {
+    string: 'Controls/validate:Container',
+    boolean: 'Controls/validate:Container',
+    date: 'Controls/validate:Container',
+    number: 'Controls/validate:Container',
+    text: 'Controls/validate:Container',
+    enum: 'Controls/validate:SelectionContainer'
+};

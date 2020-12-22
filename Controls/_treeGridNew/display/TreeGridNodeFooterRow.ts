@@ -5,6 +5,8 @@ import TreeGridNodeFooterCell from 'Controls/_treeGridNew/display/TreeGridNodeFo
 
 export default class TreeGridNodeFooterRow<S> extends TreeGridDataRow<S> {
     readonly Markable: boolean = false;
+    readonly DraggableItem: boolean = false;
+    readonly SelectableItem: boolean = false;
 
     readonly '[Controls/treeGrid:TreeGridNodeFooterRow]': boolean;
 

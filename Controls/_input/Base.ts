@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {detection, constants} from 'Env/Env';
 import {descriptor} from 'Types/entity';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {isEqual} from 'Types/object';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as ViewModel from 'Controls/_input/Base/ViewModel';
@@ -105,7 +105,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
      * @type {Controls/Utils/tmplNotify}
      * @protected
      */
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
 
     /**
      * @type {String} Text of the tooltip shown when the control is hovered over.

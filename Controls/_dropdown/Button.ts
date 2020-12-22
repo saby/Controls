@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/Button/Button');
 import {cssStyleGeneration} from 'Controls/_dropdown/Button/MenuUtils';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import Controller from 'Controls/_dropdown/_Controller';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {loadItems} from 'Controls/_dropdown/Util';
@@ -56,7 +56,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
  * @mixes Controls/_interface/IIcon
  * @mixes Controls/_interface/ISearch
  * @mixes Controls/_buttons/interface/IButton
- *  
+ *
  *
  * @public
  * @author Герасимов А.М.
@@ -83,7 +83,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
  * @mixes Controls/_dropdown/interface/IIconSize
  * @mixes Controls/_interface/IIconStyle
  * @mixes Controls/_dropdown/interface/IGrouped
- * 
+ *
  * @public
  * @author Герасимов А.М.
  * @demo Controls-demo/dropdown_new/Button/Source/Index
@@ -91,7 +91,7 @@ interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOpti
 
 export default class Button extends BaseDropdown {
    protected _template: TemplateFunction = template;
-   protected _tmplNotify: Function = tmplNotify;
+   protected _tmplNotify: Function = EventUtils.tmplNotify;
    protected _hasItems: boolean = true;
 
    _beforeMount(options: IButtonOptions,

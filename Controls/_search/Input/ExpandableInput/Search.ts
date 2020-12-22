@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_search/Input/ExpandableInput/Search');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {ITextOptions, IBaseOptions} from 'Controls/input';
 import {IRenderOptions, IPaddingOptions, ITagOptions} from 'Controls/interface';
 
@@ -23,7 +23,7 @@ interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
 export default class ExpandableInput extends Control<IControlOptions> {
    protected _expanded: boolean = false;
    protected _template: TemplateFunction = template;
-   protected _tmplNotify: Function = tmplNotify;
+   protected _tmplNotify: Function = EventUtils.tmplNotify;
    protected _needShowButtonAnimation: boolean = false;
 
    protected _beforeMount(options: IExpandableInputOptions): void {

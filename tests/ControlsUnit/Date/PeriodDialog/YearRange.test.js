@@ -1,7 +1,7 @@
 define([
    'Core/core-merge',
    'Controls/_datePopup/YearsRange',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils'
 ], function(
    coreMerge,
@@ -29,8 +29,8 @@ define([
                YearsRange,
                { year: year, startValue: start, endValue: end }
             );
-            assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, end));
          });
 
          [{

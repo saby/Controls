@@ -1,6 +1,6 @@
 import Control = require('Core/Control');
 import template = require('wml!Controls/_filterPopup/Panel/Lookup/Lookup');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {Logger} from 'UI/Utils';
 
 var _private = {
@@ -54,7 +54,7 @@ var _private = {
  * @mixes Controls/_interface/ISelectorDialog
  * @public
  * @author Герасимов А.М.
- * 
+ *
  * @demo Controls-demo/Lookup/Index
  */
 /*
@@ -88,7 +88,7 @@ var _private = {
  */
 var Lookup = Control.extend({
    _template: template,
-   _notifyHandler: tmplNotify,
+   _notifyHandler: EventUtils.tmplNotify,
    _passed: false,
    _caption: '',
 

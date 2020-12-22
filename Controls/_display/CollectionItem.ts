@@ -32,11 +32,11 @@ export interface IOptions<T extends Model = Model> {
     owner?: ICollection<T, CollectionItem<T>>;
     isAdd?: boolean;
     addPosition?: 'top' | 'bottom';
-    multiSelectVisibility: string;
-    checkboxState: boolean|null;
+    multiSelectVisibility?: string;
+    checkboxState?: boolean|null;
 }
 
-export interface ISerializableState<T> extends IDefaultSerializableState {
+export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
     $options: IOptions<T>;
     ci: number;
     iid: string;
@@ -80,6 +80,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     readonly '[Types/_entity/IInstantiable]': boolean;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
+    readonly DraggableItem: boolean = true;
 
     getInstanceId: () => string;
 

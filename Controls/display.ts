@@ -110,6 +110,8 @@ import GridTableHeader from './_display/grid/TableHeader';
 export {GridTableHeader};
 import GridTableHeaderRow from './_display/grid/TableHeaderRow';
 export {GridTableHeaderRow};
+import {TColspanCallbackResult, TColspanCallback} from './_display/grid/mixins/Grid';
+export {TColspanCallbackResult, TColspanCallback};
 
 import GridDataRow, {IOptions as IGridDataRowOptions} from './_display/grid/DataRow';
 export {GridDataRow, IGridDataRowOptions};

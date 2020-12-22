@@ -557,6 +557,19 @@ export interface IGridControl extends IList {
  */
 
 /**
+ * @name Controls/_grid/interface/IGridControl#colspanCallback
+ * @cfg {TColspanCallback} Функция обратного вызова для расчёта объединения колонок строки (колспана).
+ * @remark
+ * Параметры функции:
+ * * {Types/entity:Model} item Элемент, для которого рассчитывается объединение
+ * * {Controls/grid:IColumn} column Колонка грида
+ * * {Number} columnIndex Индекс колонки грида
+ * * {Boolean} isEditing Актуальное состояние редактирования элемента
+ * Функция возвращает {Controls/display:TColspanCallbackResult} - количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ * @markdown
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#showEditArrow
  * @cfg {Boolean} Позволяет отображать по ховеру кнопку в первой колонке и в меню по свайпу.
  * @remark

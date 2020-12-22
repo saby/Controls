@@ -3,7 +3,7 @@ import * as coreMerge from 'Core/core-merge';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import * as StringValueConverter from 'Controls/_input/DateTime/StringValueConverter';
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {Popup as PopupUtil} from 'Controls/dateUtils';
 
 import template = require('wml!Controls/_input/Date/Picker/Picker');
@@ -33,7 +33,7 @@ import template = require('wml!Controls/_input/Date/Picker/Picker');
 
 class Picker extends Control<IControlOptions> {
     _template: TemplateFunction = template;
-    _proxyEvent: Function = tmplNotify;
+    _proxyEvent: Function = EventUtils.tmplNotify;
     _shouldValidate: boolean = false;
 
     openPopup(event: SyntheticEvent<MouseEvent>): void {

@@ -1,13 +1,10 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 
 /**
- * Интерфейс для опций стековых окон.
- *
- * @interface Controls/_popup/interface/IStack
+ * Опции интерфейса описаны {@link Controls/_popup/interface/IStackOpener здесь}.
  * @public
  * @author Красильников А.С.
  */
-
 export interface IStackPopupOptions extends IBasePopupOptions {
     /**
      * @cfg {Number} Минимально допустимая ширина стековой панели.
@@ -86,8 +83,7 @@ export interface IStackPopupOptions extends IBasePopupOptions {
 }
 
 /**
- * Интерфейс для методов стковых окон.
- * @interface Controls/_popup/interface/IStackOpener
+ * Интерфейс для опций стековых окон.
  * @public
  * @author Красильников А.С.
  */

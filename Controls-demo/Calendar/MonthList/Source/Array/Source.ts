@@ -1,7 +1,7 @@
 import Deferred = require('Core/Deferred');
 import {dateFromSql, dateToSql, TO_SQL_MODE} from 'Types/formatter';
 import {Memory, Query} from 'Types/source';
-import dateUtils = require('Controls/Utils/Date');
+import {Base as dateUtils} from 'Controls/dateUtils';
 
 class Source extends Memory {
     protected _moduleName: string = 'ControlsDemo.Calendar.MonthList.SourceArray';

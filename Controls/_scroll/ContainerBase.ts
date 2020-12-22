@@ -13,7 +13,7 @@ import ScrollModel from './Utils/ScrollModel';
 import {IScrollState} from './Utils/ScrollState';
 import {SCROLL_MODE} from './Container/Type';
 import template = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {isHidden} from './StickyHeader/Utils';
 import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
 
@@ -41,7 +41,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     private _oldScrollState: ScrollState;
     protected _scrollModel: ScrollModel;
 
-    protected _tmplNotify: Function = tmplNotify;
+    protected _tmplNotify: Function = EventUtils.tmplNotify;
 
     // Виртуальный скролл
     private _topPlaceholderSize: number = 0;

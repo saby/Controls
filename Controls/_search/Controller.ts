@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_search/Controller';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {ContextOptions as DataOptions} from 'Controls/context';
 import {RecordSet} from 'Types/collection';
 import {default as SearchController} from 'Controls/_search/ControllerClass';
@@ -79,7 +79,7 @@ type Key = string | number | null;
 export default class Container extends Control<IContainerOptions> {
    protected _template: TemplateFunction = template;
 
-   private _tmplNotify: Function = tmplNotify;
+   private _tmplNotify: Function = EventUtils.tmplNotify;
    private _dataOptions: typeof DataOptions = null;
    private _previousViewMode: string = null;
    private _viewMode: string = null;

@@ -73,6 +73,36 @@ enum NAVIGATION_DIRECTION_COMPATIBILITY {
     down = 'forward'
 }
 
+export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
+    const getProtoOf = Object.getPrototypeOf.bind(Object);
+    const items1Model = oldList.getModel();
+    const items2Model = newList.getModel();
+    let isModelEqual = items1Model === items2Model;
+
+    function getModelModuleName(model: string|Function): string {
+        let name;
+
+        if (typeof model === 'function') {
+            name = model.prototype._moduleName;
+        } else {
+            name = model;
+        }
+
+        return name;
+    }
+
+    if (!isModelEqual && (getModelModuleName(items1Model) === getModelModuleName(items2Model))) {
+        isModelEqual = true;
+    }
+    return oldList && cInstance.instanceOfModule(oldList, 'Types/collection:RecordSet') &&
+        isModelEqual &&
+        (newList.getKeyProperty() === oldList.getKeyProperty()) &&
+        // tslint:disable-next-line:triple-equals
+        (getProtoOf(newList).constructor == getProtoOf(newList).constructor) &&
+        // tslint:disable-next-line:triple-equals
+        (getProtoOf(newList.getAdapter()).constructor == getProtoOf(oldList.getAdapter()).constructor);
+}
+
 export default class Controller {
     private _options: IControllerOptions;
     private _filter: QueryWhereExpression<unknown>;
@@ -393,7 +423,7 @@ export default class Controller {
     }
 
     private _setItems(items: RecordSet): void {
-        if (this._items && Controller._isEqualItems(this._items, items)) {
+        if (this._items && isEqualItems(this._items, items)) {
             this._items.assign(items);
         } else {
             this._subscribeItemsCollectionChangeEvent(items);
@@ -632,17 +662,6 @@ export default class Controller {
     private _hasNavigationBySource(navigation?: INavigationOptionValue<unknown>): boolean {
         const navigationOption = navigation || this._options.navigation;
         return Boolean(navigationOption && navigationOption.source);
-    }
-
-    private static _isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
-        const getProtoOf = Object.getPrototypeOf.bind(Object);
-        return oldList && cInstance.instanceOfModule(oldList, 'Types/collection:RecordSet') &&
-               (newList.getModel() === oldList.getModel()) &&
-               (newList.getKeyProperty() === oldList.getKeyProperty()) &&
-                // tslint:disable-next-line:triple-equals
-               (getProtoOf(newList).constructor == getProtoOf(newList).constructor) &&
-                // tslint:disable-next-line:triple-equals
-               (getProtoOf(newList.getAdapter()).constructor == getProtoOf(oldList.getAdapter()).constructor);
     }
 
     private static _getFilterForCollapsedGroups(

@@ -1,4 +1,4 @@
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 
 import {Control, TemplateFunction} from 'UI/Base';
 import {IHeading, IHeadingOptions, default as Heading} from 'Controls/_spoiler/Heading';
@@ -54,7 +54,7 @@ export interface IView extends IHeading {
  * @demo Controls-demo/Spoiler/View/Index
  */
 class View extends Control<IViewOptions> implements IView {
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
 
     protected _template: TemplateFunction = template;
     protected _expanded: boolean = false;

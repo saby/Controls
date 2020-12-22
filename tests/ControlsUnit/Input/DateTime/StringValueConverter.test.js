@@ -5,7 +5,7 @@ define([
    'Types/formatter',
    'Controls/dateUtils',
    'Controls/input',
-   'Controls/Utils/Date'
+   'Controls/dateUtils'
 ], function(
    cMerge,
    env,
@@ -165,7 +165,7 @@ define([
                   rDate;
                converter.update(cMerge({ mask: test.mask, dateConstructor: Date, yearSeparatesCenturies: test.yearSeparatesCenturies }, options, { preferSource: true }));
                rDate = converter.getValueByString(test.stringValue, test.baseDate, test.autocomplete || true);
-               assert(dateUtils.isDatesEqual(rDate, test.value), `${rDate} is not equal ${test.value}`);
+               assert(dateUtils.Base.isDatesEqual(rDate, test.value), `${rDate} is not equal ${test.value}`);
             });
          });
 
@@ -262,7 +262,7 @@ define([
                clock = sinon.useFakeTimers(test.currentDate.getTime(), 'Date');
                let converter = new input.StringValueConverter();
                let tested = converter.getCurrentDate(test.baseDate || baseDate, test.mask);
-               assert(dateUtils.isDatesEqual(tested, test.value),`"${tested}" "${test.value}"`);
+               assert(dateUtils.Base.isDatesEqual(tested, test.value),`"${tested}" "${test.value}"`);
             });
          });
 

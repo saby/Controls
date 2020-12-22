@@ -34,7 +34,9 @@ const getSourceController = (options: Partial<IControllerOptions>) => {
       parentProperty: null,
       root: null,
       sorting: [],
-      filter: {},
+      filter: {
+         payload: 'something'
+      },
       keyProperty: 'id',
       source: getMemorySource(),
       navigation: {
@@ -88,7 +90,8 @@ describe('Controls/search:ControllerClass', () => {
 
    it('search method', () => {
       const filter: QueryWhereExpression<unknown> = {
-         testParam: 'testValue'
+         testParam: 'testValue',
+         payload: 'something'
       };
       controllerClass.search('testValue');
 
@@ -100,6 +103,7 @@ describe('Controls/search:ControllerClass', () => {
          const filter: QueryWhereExpression<unknown> = {
             testParam: 'testValue',
             testParent: 'testRoot',
+            payload: 'something',
             'Разворот': 'С разворотом',
             'usePages': 'full'
          };
@@ -114,13 +118,14 @@ describe('Controls/search:ControllerClass', () => {
 
          controllerClass.reset();
          assert.isTrue(getFilterSpy.withArgs({
-            testParam: ''
+            payload: 'something'
          }).called);
       });
 
       it('without parent property', () => {
          const filter: QueryWhereExpression<unknown> = {
-            testParam: 'testValue'
+            testParam: 'testValue',
+            payload: 'something'
          };
          controllerClass._root = 'testRoot';
          controllerClass._options.startingWith = 'current';
@@ -132,14 +137,15 @@ describe('Controls/search:ControllerClass', () => {
 
          controllerClass.reset();
          assert.isTrue(getFilterSpy.withArgs({
-            testParam: ''
+            payload: 'something'
          }).called);
       });
    });
 
    it('search and reset', () => {
       const filter: QueryWhereExpression<unknown> = {
-         testParam: 'testValue'
+         testParam: 'testValue',
+         payload: 'something'
       };
       controllerClass.search('testValue');
 
@@ -148,16 +154,18 @@ describe('Controls/search:ControllerClass', () => {
       controllerClass.reset();
 
       assert.isTrue(getFilterSpy.withArgs({
-         testParam: ''
+         payload: 'something'
       }).called);
    });
 
    it('search and update', () => {
       const filter: QueryWhereExpression<unknown> = {
-         testParam: 'testValue'
+         testParam: 'testValue',
+         payload: 'something'
       };
       const updatedFilter: QueryWhereExpression<unknown> = {
-         testParam: 'updatedValue'
+         testParam: 'updatedValue',
+         payload: 'something'
       };
       controllerClass.search('testValue');
 

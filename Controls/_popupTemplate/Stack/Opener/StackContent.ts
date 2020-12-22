@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import Template = require('wml!Controls/_popupTemplate/Stack/Opener/StackContent');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 
 interface IStackContentOptions extends IControlOptions {
     stackMaxWidth?: number;
@@ -11,7 +11,7 @@ interface IStackContentOptions extends IControlOptions {
 class StackContent extends Control<IStackContentOptions> {
     // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
     protected _template: TemplateFunction = Template;
-    protected _tmplNotify: Function = tmplNotify;
+    protected _tmplNotify: Function = EventUtils.tmplNotify;
     protected _minOffset: number;
     protected _maxOffset: number;
     protected _beforeMount(options: IStackContentOptions): void {

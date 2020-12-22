@@ -5,7 +5,8 @@
     <ws:else data="{{item.caption !== ''}}">
         <span class="controls-PropertyGrid__editor-caption_theme-{{theme}}">{{item.caption || item.name}}</span>
     </ws:else>
-    <Controls.Container.Async templateName="{{collectionItem.getEditorTemplateName()}}" templateOptions="{{collectionItem.getEditorOptions()}}" class="{{item.editorClass}}"/>
+    <ws:partial template="wml!Controls/_propertyGrid/Render/resources/editorTemplate"
+                scope="{{_options}}"/>
 </ws:template>
 
 

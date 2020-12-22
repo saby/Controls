@@ -44,7 +44,7 @@ export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeF
         return classes;
     }
 
-    getColspanStyles(colspan?: boolean): string {
+    getColspan(colspan?: boolean): string {
         return colspan !== false ? 'grid-column: 1 / ' + (this._$owner.getColumnsConfig().length + 1) : '';
     }
 }

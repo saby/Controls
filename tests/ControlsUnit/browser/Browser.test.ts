@@ -3,6 +3,7 @@ import {Memory} from 'Types/source';
 import { RecordSet } from 'Types/collection';
 import { detection } from 'Env/Env';
 import {assert} from 'chai';
+import * as sinon from 'sinon';
 
 const browserData = [
     {
@@ -331,13 +332,41 @@ describe('Controls/browser:Browser', () => {
             assert.ok(browser._errorRegister);
         });
 
+        it('if searchValue is empty, then the same field i filter must be reset', async () => {
+            const sandbox = sinon.createSandbox();
+            const options = getBrowserOptions();
+            const browser = getBrowser();
+            browser.saveOptions({...options, searchValue: '123'});
+
+            await browser._beforeMount(options);
+
+            const sourceController = browser._getSourceController(options);
+            sourceController.setFilter({
+                name: 'test123',
+                payload: 'something'
+            });
+            const filterChangedStub = sandbox.stub(browser, '_filterChanged');
+
+            options.searchValue = '';
+
+            await browser._beforeUpdate(options);
+            assert.isTrue(filterChangedStub.withArgs( null, {payload: 'something'}).calledOnce);
+            sandbox.restore();
+        });
+
     });
 
     describe('_updateSearchController', () => {
        it('filter changed if search was reset', async () => {
            const options = getBrowserOptions();
            const browser = getBrowser();
-           browser.saveOptions({...options, ...{searchParam: 'param'}});
+           browser.saveOptions({
+               ...options,
+               searchParam: 'param',
+               filter: {
+                   payload: 'something'
+               }
+           });
 
            let buf;
            browser._filterController = {
@@ -355,7 +384,7 @@ describe('Controls/browser:Browser', () => {
                searchParam: 'param'
            });
 
-           assert.isTrue(notifyStub.withArgs('filterChanged', [{param: ''}]).called);
+           assert.isTrue(notifyStub.withArgs('filterChanged', [{payload: 'something'}]).called);
 
            notifyStub.restore();
        });

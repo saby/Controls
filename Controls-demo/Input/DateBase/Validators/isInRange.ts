@@ -1,6 +1,6 @@
 import rk = require('i18n!Controls');
 import {date as formatDate} from 'Types/formatter';
-import dateUtils = require('Controls/Utils/Date');
+import {Base as dateUtils} from 'Controls/dateUtils';
 
 export default function isInRange(args): boolean {
     let result: boolean = true;

@@ -210,7 +210,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
             const newPosition = strategy.calculatePosition({targetItem: targetNode, mouseOffsetInTargetItem });
             equalPosition(newPosition, {
-               index: 0,
+               index: 1,
                position: 'before',
                dispItem: model.getItemBySourceKey(2)
             });

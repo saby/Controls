@@ -23,7 +23,7 @@ import Context = require('Controls/_scroll/StickyHeader/Context');
 import {IntersectionObserver} from 'Controls/sizeUtils';
 import Model = require('Controls/_scroll/StickyHeader/Model');
 import template = require('wml!Controls/_scroll/StickyHeader/StickyHeader');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 
 export enum BACKGROUND_STYLE {
     TRANSPARENT = 'transparent',
@@ -124,7 +124,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     };
     private _negativeScrollTop: boolean = false;
 
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
 
     protected _moduleName: string = 'Controls/_scroll/StickyHeader/_StickyHeader';
 

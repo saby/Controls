@@ -25,6 +25,7 @@ export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
     readonly ItemActionsCell = true;
     readonly LadderContentCell = true;
 
+    // region Аспект "Рендер"
     getDefaultDisplayValue(): T {
         const itemModel = this._$owner.getContents();
         if (itemModel instanceof Record) {
@@ -33,6 +34,7 @@ export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
             return itemModel[this.getDisplayProperty()];
         }
     }
+    // endregion
 
     // region Аспект "Маркер"
     shouldDisplayMarker(marker: boolean, markerPosition: 'left' | 'right' = 'left'): boolean {
@@ -43,27 +45,6 @@ export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
                 this._$owner.getMultiSelectVisibility() === 'hidden' && this.isFirstColumn();
         }
     }
-    // region
-
-    // region Аспект "Объединение ячеек"
-
-    // Объединение ячеек данных должно быть здесь.
-    getColspan() {
-        // Пока объединение ячеек данных не реализовано, не выводим в html лишние свойства
-        return undefined;
-    };
-    getRowspan() {
-        // Пока объединение ячеек данных не реализовано, не выводим в html лишние свойства
-        return undefined;
-    };
-    getColspanStyles() {
-        // Пока объединение ячеек данных не реализовано, не выводим в html лишние свойства
-        return '';
-    };
-    getRowspanStyles() {
-        // Пока объединение ячеек данных не реализовано, не выводим в html лишние свойства
-        return '';
-    };
     // endregion
 
     // region Аспект "Тег"

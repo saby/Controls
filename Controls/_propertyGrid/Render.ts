@@ -4,7 +4,7 @@ import * as itemTemplate from 'wml!Controls/_propertyGrid/Render/resources/itemT
 import * as groupTemplate from 'wml!Controls/_propertyGrid/Render/resources/groupTemplate';
 import * as toggleEditorsTemplate from 'wml!Controls/_propertyGrid/Render/resources/toggleEditorsGroupTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {CollectionItem} from 'Controls/display';
 import 'wml!Controls/_propertyGrid/Render/resources/for';
 import PropertyGridCollection from 'Controls/_propertyGrid/PropertyGridCollection';
@@ -18,7 +18,7 @@ interface IPropertyGridRenderOptions extends IControlOptions {
 }
 
 export default class PropertyGridRender extends Control<IPropertyGridRenderOptions> {
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _template: TemplateFunction = template;
     protected _groupTemplate: TemplateFunction = groupTemplate;
     protected _toggleEditorsTemplate: TemplateFunction = toggleEditorsTemplate;

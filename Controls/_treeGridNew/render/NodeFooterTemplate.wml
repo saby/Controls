@@ -9,7 +9,7 @@
         'clickable': clickable
     })}}" attr:key="{{item.key}}">
         <ws:for data="index,column in item.getColumns(colspan)">
-            <div class="{{ column.getContentClasses(theme, cursor, highlightOnHover) }} {{ cellClassName || '' }}" attr:key="{{item.key}}_column_{{index}}" style="{{ column.getColspanStyles(colspan)  }}">
+            <div class="{{ column.getContentClasses(theme, cursor, highlightOnHover) }} {{ cellClassName || '' }}" attr:key="{{item.key}}_column_{{index}}" style="{{ column.getColspan(colspan)  }}">
                 <ws:if data="{{ index === 0 }}">
 <!--                Отступы для выравнивания с экспандером-->
                     <ws:if data="{{item.shouldDisplayExpanderBlock(column)}}">
