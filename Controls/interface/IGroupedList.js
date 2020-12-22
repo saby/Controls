@@ -14,7 +14,7 @@ define('Controls/interface/IGroupedList', [
     * @name Controls/interface/IGroupedList#groupProperty
     * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
     * @remark
-    * Элементы списка могут отображаться в группе без заголовка. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/hidden/ здесь}.
+    * Элементы списка могут отображаться в группе без заголовка. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/#_5 здесь}.
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
