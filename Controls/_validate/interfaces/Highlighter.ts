@@ -19,6 +19,6 @@
  * </Controls.validate:Container>
  * </pre>
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/validation/client-validate/#custom-validation-usage-scenarios здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/forms-and-validation/validation/client-validate/#custom-validation-usage-scenarios здесь}.
  * @public
  */

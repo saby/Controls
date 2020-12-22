@@ -68,7 +68,7 @@ export interface IItemActionsTemplateConfig {
 
     /**
      * @name Controls/_itemActions/itemActions/interface/IItemActionsTemplateConfig#actionAlignment
-     * @cfg {Controls/itemActions:TActionAlignment} Варианты расположения опций внутри панели {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}
+     * @cfg {Controls/itemActions:TActionAlignment} Варианты расположения опций внутри панели {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}
      */
     /*
      * @name Controls/_itemActions/itemActions/interface/IItemActionsTemplateConfig#actionAlignment
@@ -88,7 +88,7 @@ export interface IItemActionsTemplateConfig {
 
     /**
      * @name Controls/_itemActions/itemActions/interface/IItemActionsTemplateConfig#itemActionsClass
-     * @cfg {String} CSS класс, позволяющий задать отступы и позицию панели с {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/handler/ опциями записи} внутри элемента.
+     * @cfg {String} CSS класс, позволяющий задать отступы и позицию панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/handler/ опциями записи} внутри элемента.
      * @default controls-itemActionsV_position_bottomRight
      */
     /*

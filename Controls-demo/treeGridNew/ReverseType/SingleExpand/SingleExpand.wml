@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-reverseType-singleExpand">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            singleExpand="{{true}}"
+            nodeProperty="type"/>
+</div>

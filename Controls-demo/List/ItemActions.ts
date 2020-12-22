@@ -60,7 +60,7 @@ const itemActions: IItemAction[] = [
       parent: null,
       'parent@': true,
       handler(model: Model): void {
-         alert('Message Click');
+         IoC.resolve('ILogger').info('action message Click ', model);
       }
    },
    {

@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/treeGridNew/TagStyle/TagStyleFromCellData/Index' }}">
+         <a href="{{content.href}}">Из данных в ячейке (tagStyleProperty)</a>
+      </Router.router:Reference>
+      <Controls-demo.treeGridNew.TagStyle.TagStyleFromCellData.Index/>
+   </div>
+
+   <div class="controlsDemo__cell">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/treeGridNew/TagStyle/TagStyleFromTemplateParam/Index' }}">
+         <a href="{{content.href}}">Из параметра шаблона для колонки (tagStyle)</a>
+      </Router.router:Reference>
+      <Controls-demo.treeGridNew.TagStyle.TagStyleFromTemplateParam.Index/>
+   </div>
+
+</div>

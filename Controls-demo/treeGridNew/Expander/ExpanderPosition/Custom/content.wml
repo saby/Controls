@@ -1,0 +1,9 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL"
+            scope="{{_options}}">
+    <ws:contentTemplate>
+        <span>{{itemData.item['title']}}</span>
+        <ws:if data="{{itemData.columnIndex === 0}}">
+            <ws:partial template="{{ expanderTemplate }}"/>
+        </ws:if>
+    </ws:contentTemplate>
+</ws:partial>

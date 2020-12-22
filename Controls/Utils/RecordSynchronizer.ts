@@ -130,7 +130,7 @@ const _private = {
 const RecordSynchronizer = {
 
     /**
-     * Добавляет запись в рекордсет. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step6 Подробнее}
+     * Добавляет запись в рекордсет. {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step6 Подробнее}
      * @function Controls/Utils/RecordSynchronizer#addRecord
      * @param {Model|Array} editRecord Запись, которую нужно добавить в рекордсет. Можно передать так же массив записей.
      * @param {additionalData} additionalData Дополнительные данные, которые могут потребоваться для добавления.
@@ -166,7 +166,7 @@ const RecordSynchronizer = {
     },
 
     /**
-     * Обновляет запись в рекордсете. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step6 Подробнее}
+     * Обновляет запись в рекордсете. {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step6 Подробнее}
      * @function Controls/Utils/RecordSynchronizer#mergeRecord
      * @param {Model|Array} editRecord Запись, из которой берутся данные для обновления записи в рекордсете
      * Можно передать так же массив записей.
@@ -198,7 +198,7 @@ const RecordSynchronizer = {
     },
 
     /**
-     * Удаляет запись из рекордсета. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step6 Подробнее}
+     * Удаляет запись из рекордсета. {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step6 Подробнее}
      * @function Controls/Utils/RecordSynchronizer#deleteRecord
      * @param {RecordSet} items Рекордсет, в котором удаляется запись
      * @param {String|Array} editKey Ключ удаляемой записи в рекордсете. Можно передать так же массив ключей.

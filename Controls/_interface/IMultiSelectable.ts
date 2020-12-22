@@ -8,7 +8,6 @@ export interface IMultiSelectableOptions {
 
 /**
  * Интерфейс для поддержки выбора элементов в списках, где одновременно можно выбрать несколько элементов и известно количество выбранных элементов. Этот интерфейс подходит для небольших списков, где все элементы будут всегда загружены.
- * @interface Controls/_interface/IMultiSelectable
  * @public
  * @author Герасимов А.М.
  * @see Controls/_interface/ISingleSelectable
@@ -17,7 +16,6 @@ export interface IMultiSelectableOptions {
 
 /*
  * Interface for item selection in lists where multiple items can be selected at a time and the number of selected items is known. This interface is suitable for small lists where all items are always loaded.
- * @interface Controls/_interface/IMultiSelectable
  * @public
  * @author Герасимов А.М.
  * @see Controls/_interface/ISingleSelectable
@@ -33,15 +31,15 @@ export default interface IMultiSelectable {
  * @default []
  * @example
  * В следующем примере создается список и устанавливается опция selectedKeys со значением [1, 2, 3]. Последующие изменения, внесенные в selectedKeys, будут синхронизированы посредством биндинга.
- * TMPL:
- * <pre>
- *    <Controls.list:View bind:selectedKeys="_selectedKeys" />
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.list:View bind:selectedKeys="_selectedKeys" />
  * </pre>
- * JS:
- * <pre>
- *    _beforeMount: function() {
- *       this._selectedKeys = [1, 2, 3];
- *    }
+ * <pre class="brush: js">
+ * // JavaScript
+ * _beforeMount: function() {
+ *    this._selectedKeys = [1, 2, 3];
+ * }
  * </pre>
  * @see Controls/_interface/ISource#keyProperty
  * @see selectedKeysChanged

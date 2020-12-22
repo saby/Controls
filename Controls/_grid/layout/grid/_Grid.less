@@ -34,14 +34,13 @@
    }
 }
 
-.controls-GridView__itemV_marker-masterClassic_theme-@{themeName},
 .controls-GridView__itemV_marker-default_theme-@{themeName} {
    position: absolute;
    width: @marker_thickness_list;
    background-color: @marker_color_list;
    top: 0;
    z-index: 2;
-   height: 100%;
+   max-height: 100%;
 }
 
 .controls-Grid__header_theme-@{themeName} {
@@ -62,6 +61,16 @@
    z-index: 1;
    display: inline-flex;
    flex-direction: column;
+}
+
+.controls-Grid__header-cell__content_valign-top {
+   justify-content: flex-start;
+}
+.controls-Grid__header-cell__content_valign-center {
+   justify-content: center;
+}
+.controls-Grid__header-cell__content_valign-bottom {
+   justify-content: flex-end;
 }
 
 .controls-Grid__multi-header-cell_min-height_theme-@{themeName} {
@@ -262,6 +271,7 @@
    font-size: @master_item_font-size_list;
 }
 
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed_theme-@{themeName},
 .controls-Grid__cell_fixed_theme-@{themeName} {
    z-index: 3;
    // stickyHeader считает что колонка не зафиксированна если повесить overflow-y: hidden;, а без overflow-x: hidden оявляется горизонтальный скролл
@@ -272,6 +282,7 @@
 
 // Строка редактирования имеет свой z-index, который вешается на все ячейки.
 // У фиксированных необходимо увеличить для перекрывания скроллируемых.
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName},
 .controls-Grid__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName} {
    z-index: 3;
 }
@@ -340,6 +351,10 @@
       background-color: @item_hover_background-color_list;
    }
 
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-listEditor_theme-@{themeName} {
+      background-color: @list-editor_color-hover_filterViewPanel;
+   }
+
    .controls-BaseControl_showActions_delayed .controls-Grid__row:hover {
       > .controls-itemActionsV__container,
       > .controls-Grid__row-cell,
@@ -388,15 +403,17 @@
 
 }
 
-.controls-Grid__row-cell-background-editing_theme-@{themeName} {
-   background-color: @item_editing_background-color_list;
+.controls-Grid__row-cell-editing_theme-@{themeName} {
    > .controls-itemActionsV,
    +.controls-itemActionsV__container > .controls-itemActionsV
    {
       visibility: visible;
       opacity: 1;
    }
+}
 
+.controls-Grid__row-cell-background-editing_default_theme-@{themeName} {
+   background-color: @item_editing_background-color_list;
    /** При редактировании по месту, переопределяем фон содержимого ячейки */
    .controls-Grid__row-cell__content_colspaned,
    .controls-Grid__row-cell__content {
@@ -404,6 +421,7 @@
       z-index: 1;
    }
 }
+
 .controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
    right: @cell_padding-right_default_grid;
 }
@@ -755,11 +773,8 @@
 }
 
 .ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-master_theme-@{themeName},
-.ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-masterClassic_theme-@{themeName},
 .ws-is-desktop-safari .controls-Grid__row-cell_selected-master_theme-@{themeName},
-.ws-is-desktop-safari .controls-Grid__row-cell_selected-masterClassic_theme-@{themeName},
-.ws-is-mobile-safari .controls-Grid__row-cell_selected-master_theme-@{themeName},
-.ws-is-mobile-safari .controls-Grid__row-cell_selected-masterClassic_theme-@{themeName} {
+.ws-is-mobile-safari .controls-Grid__row-cell_selected-master_theme-@{themeName} {
    // ave safari 13
    // https://online.sbis.ru/opendoc.html?guid=6d560d7a-c140-4d06-a1b6-53b326efe950
    // иначе все position: absolute элементы внутри position: sticky
@@ -767,47 +782,6 @@
    // translateZ лечит высоту, но ломает ширину внутри sticky контейнер
    // translateY правит обе проблемы, с ним нормализуетя и высота и ширина, поэтому используем его
    transform: translateY(0);
-}
-
-.controls-Grid__row-cell_selected-masterClassic_theme-@{themeName} {
-   background-color: @masterClassic_item_selected_background-color_list;
-}
-.controls-Grid__row-cell_selected-masterClassic_theme-@{themeName} {
-   z-index: 1;
-
-   &:before {
-      content: '';
-      z-index: 2;
-      box-sizing: border-box;
-      border-width: @masterClassic_item_selected_border-thickness_list 0 @masterClassic_item_selected_border-thickness_list 0;
-      border-style: solid;
-      border-color: @masterClassic_item_selected_border-top-color_list transparent @masterClassic_item_selected_border-bottom-color_list transparent;
-      box-shadow: @masterClassic_item_selected_box-shadow_list;
-      width: ~'calc(100% + @{master_separator_thickness_list})';
-      position: absolute;
-      left: 0;
-      pointer-events: none;
-      top: 0;
-      bottom: 0;
-   }
-}
-
-.controls-GridView__itemV_marker-masterClassic_theme-@{themeName} {
-   top: @masterClassic_item_selected_border-thickness_list;
-   height: calc(100% ~'-' 2 * @masterClassic_item_selected_border-thickness_list);
-}
-
-.controls-Grid__row-cell_selected__last-masterClassic_theme-@{themeName} {
-   &:after {
-      content: '';
-      z-index: 1;
-      height: 100%;
-      top: 0;
-      width: @master_separator_thickness_list;
-      position: absolute;
-      right: -@master_separator_thickness_list;
-      background-color: @masterClassic_item_selected_background-color_list;
-   }
 }
 
 .controls-Grid__row-cell_selected-master_theme-@{themeName} {
@@ -828,12 +802,10 @@
 
 .ws-is-hover {
 
-   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-master_theme-@{themeName},
-   .controls-Grid__row_highlightOnHover_masterClassic_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-masterClassic_theme-@{themeName} {
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;
    }
-   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master_theme-@{themeName},
-   .controls-Grid__row_highlightOnHover_masterClassic_theme-@{themeName}:hover .controls-background-masterClassic_theme-@{themeName} {
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;
    }
 }
@@ -923,7 +895,6 @@
    background: linear-gradient(90deg, rgba(240,245,251,0), @item_hover_background-color_list);
 }
 
-.controls-Grid__editArrow-blur_style-masterClassic_background_theme-@{themeName},
 .controls-Grid__editArrow-blur_style-master_background_theme-@{themeName} {
    background: linear-gradient(90deg, rgba(240,245,251,0), @master_item_hover_background-color_list);
 }
@@ -955,10 +926,6 @@
 }
 
 .controls-Grid__editArrow_style-master_background_theme-@{themeName} {
-   background-color: @master_item_hover_background-color_list;
-}
-
-.controls-Grid__editArrow_style-masterClassic_background_theme-@{themeName} {
    background-color: @master_item_hover_background-color_list;
 }
 

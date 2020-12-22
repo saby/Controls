@@ -1,0 +1,25 @@
+<div class="controls-FilterViewPanel controls-FilterViewPanel_theme-{{_options.theme}}">
+   <Controls.scroll:Container>
+      <Controls.scroll:StickyHeader backgroundStyle="transparent">
+         <div class="controls-FilterViewPanel__header controls-FilterViewPanel__header_theme-{{_options.theme}}">
+            <div class="controls-FilterViewPanel__resetButton controls-FilterViewPanel__resetButton_theme-{{_options.theme}}"
+                 on:click="_resetFilter()"> {{rk('Сбросить')}}
+            </div>
+            <div class="controls-FilterViewPanel__applyButton controls-FilterViewPanel__applyButton_theme-{{_options.theme}}"
+                 on:click="_applyFilter()"> {{rk('Отобрать')}}
+            </div>
+         </div>
+      </Controls.scroll:StickyHeader>
+      <Controls.propertyGrid:PropertyGrid
+              editingObject="{{_editingObject}}"
+              source="{{_options.source}}"
+              collapsedGroups="{{_collapsedGroups}}"
+              on:editingObjectChanged="_editingObjectChanged()"
+              on:itemClick="_itemClick()"
+              attr:class="controls-FilterViewPanel__propertyGrid">
+         <ws:groupTemplate>
+            <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate" groupItems="{{_groupItems}}"/>
+         </ws:groupTemplate>
+      </Controls.propertyGrid:PropertyGrid>
+   </Controls.scroll:Container>
+</div>

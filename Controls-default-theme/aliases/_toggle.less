@@ -40,14 +40,15 @@
 // Переменные для переключателей
 //
 // Размеры
-
-@width_switcher:                                                            46px;
-@height_switcher:                                                           @inline_height_m;
+@caption_height_switcher:                                                   @inline_height_m;
+@width_switcher:                                                            32px;
+@height_horizontal_switcher:                                                @inline_height_xs;
+@height_vertical_switcher:                                                  40px;
 
 // Обводка
 
 @border-thickness_switcher:                                                 @border-thickness;
-@border-radius_switcher:                                                    @height_switcher/2;
+@border-radius_switcher:                                                    @height_horizontal_switcher/2;
 @border-color_switcher:                                                     #E4E4E4;
 
 // Текст
@@ -59,41 +60,79 @@
 @readonly_text-color_switcher:                                              @text-color;
 @readonly_unselected_text-color_switcher:                                   @readonly_color;
 
-// Полоска
-
-@track_thickness_switcher:                                                  2px;
-@track_length_switcher:                                                     34px;
-@track_color_switcher:                                                      #CCC;
-@readonly_track_color_switcher:                                             #E4E4E4;
-
-
 //Маркер
 
 @marker-box_border-thickness_switcher:                                      2px;
 @marker-box_size_switcher:                                                  12px;
 @marker-box_border-color_switcher:                                          @border-color;
+@marker-box_background-color_switcher:                                      transparent;
+@readonly_marker-box_background-color_switcher:                             transparent;
+@unselected_marker-box_border-color_switcher:                               @border-color;
+@unselected_marker-box_background-color_switcher:                           @marker-box_background-color_switcher;
 
 @marker-size_switcher:                                                      @offset_xs;
 @marker_color_switcher:                                                     @marker_color;
 @readonly_marker_color_switcher:                                            @readonly_marker-color;
 @readonly_marker-box_border-color_switcher:                                 #E4E4E4;
 @marker-box_hover_border-color_switcher:                                    @marker_color_switcher;
+@readonly_unselected_marker-box_border-color_switcher:                      @readonly_marker-box_border-color_switcher;
+@readonly_unselected_marker-box_background-color_switcher:                  @readonly_marker-box_background-color_switcher;
 
-
+@marker_width_switcher:                                                     12px;
+@marker_height_switcher:                                                    @marker_width_switcher;
+@selected_marker_color_switcher:                                            @marker_color;
+@unselected_marker_color_switcher:                                          #CCC;
+@readonly_marker_color_switcher:                                            @readonly_marker-color;
+@readonly_unselected_marker_color_switcher:                                 #CCC;
+@marker_border-offset_switcher:                                             3px;
 
 // Переменные для большого разделителя
 //
 // Размеры
+@icon_expanded_height_s_BigSeparator:                                       2px;
+@icon_expanded_height_m_BigSeparator:                                       4px;
+@icon_expanded_height_l_BigSeparator:                                       4px;
+@icon_expanded_width_s_BigSeparator:                                        14px;
+@icon_expanded_width_m_BigSeparator:                                        18px;
+@icon_expanded_width_l_BigSeparator:                                        22px;
+@icon_collapsed_height_s_BigSeparator:                                      4px;
+@icon_collapsed_height_m_BigSeparator:                                      5px;
+@icon_collapsed_height_l_BigSeparator:                                      6px;
+@icon_collapsed_width_s_BigSeparator:                                       12px;
+@icon_collapsed_width_m_BigSeparator:                                       16px;
+@icon_collapsed_width_l_BigSeparator:                                       18px;
+@height_s_BigSeparator:                                                     8px;
+@height_m_BigSeparator:                                                     10px;
+@height_l_BigSeparator:                                                     @icon-size_2xs;
+@width_s_BigSeparator:                                                      28px;
+@width_m_BigSeparator:                                                      32px;
+@width_l_BigSeparator:                                                      38px;
+@border-radius_s_BigSeparator:                                              4px;
+@border-radius_m_BigSeparator:                                              6px;
+@border-radius_l_BigSeparator:                                              8px;
 
-@width_toggleBigSeparator:                                                  26px;
-@height_toggleBigSeparator:                                                 @width_toggleBigSeparator;
+// Отступы
+
+@padding-top_expanded_s_BigSeparator:                                       3px;
+@padding-horizontal_expanded_s_BigSeparator:                                7px;
+@padding-top_expanded_m_BigSeparator:                                       3px;
+@padding-horizontal_expanded_m_BigSeparator:                                7px;
+@padding-top_expanded_l_BigSeparator:                                       @offset_2xs;
+@padding-horizontal_expanded_l_BigSeparator:                                @offset_s;
+@padding-top_collapsed_s_BigSeparator:                                      @offset_3xs ;
+@padding-horizontal_collapsed_s_BigSeparator:                               @offset_s;
+@padding-top_collapsed_m_BigSeparator:                                      @offset_3xs;
+@padding-horizontal_collapsed_m_BigSeparator:                               @offset_s;
+@padding-top_collapsed_l_BigSeparator:                                      @offset_3xs;
+@padding-horizontal_collapsed_l_BigSeparator:                               10px;
 
 // Иконка
 
-@icon-color_toggleBigSeparator:                                             @unaccented_icon-color;
-@icon-color_hover_toggleBigSeparator:                                       @secondary_hover_icon-color;
-@icon-color_active_toggleBigSeparator:                                      @icon-color_hover_toggleBigSeparator;
-@icon-size_toggleBigSeparator:                                              @width_toggleBigSeparator;
+@icon-color_BigSeparator:                                                   #AAB0C1;
+@hover_icon-color_BigSeparator:                                             @secondary_hover_icon-color;
+@readonly_icon-color_BigSeparator:                                          #666666;
+
+@icon_container_background_color_BigSeparator:                              #F1F2F5;
 
 
 
@@ -187,4 +226,3 @@
 @readonly_marker-box_border-color_radioGroup:                               @readonly_marker-box_border-color_switcher;
 @marker-box_hover_border-color_radioGroup:                                  @marker-box_hover_border-color_switcher;
 @marker-box_size_radioGroup:                                                @marker-box_size_switcher;
-

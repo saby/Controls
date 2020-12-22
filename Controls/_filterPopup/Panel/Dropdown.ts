@@ -12,7 +12,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
     * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
     *
     * Полезные ссылки:
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
     * 
     * @class Controls/_filterPopup/Panel/Dropdown
     * @extends Controls/_dropdown/Input

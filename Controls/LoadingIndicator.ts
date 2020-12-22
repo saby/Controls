@@ -7,6 +7,7 @@ import LoadingIndicatorOpener from 'Controls/_LoadingIndicator/LoadingIndicatorO
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
+import {constants} from 'Env/Env';
 
 let ManagerController;
 /**
@@ -25,7 +26,7 @@ let ManagerController;
  * Параметры события hideIndicator идентичны аргументам метода {@link hide}.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_loadingIndicator.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_loadingIndicator.less переменные тем оформления}
  *
  * @class Controls/LoadingIndicator
  * @extends Core/Control
@@ -395,7 +396,7 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
         this._blockedEvents = [];
         // TODO https://online.sbis.ru/opendoc.html?guid=157084a2-d702-40b9-b54e-1a42853c301e
         for (const event of events) {
-            if (window) {
+            if (constants.isBrowserPlatform) {
                 window[action](event, this._eventsHandler, true);
                 /**
                  * В оффлайне стрельнул баг: если отписываться с флагом true(несмотря на такую же подписку)

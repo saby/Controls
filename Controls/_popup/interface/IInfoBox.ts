@@ -1,9 +1,7 @@
 import {IControlOptions} from 'UI/Base';
 
 /**
- * Интерфейс для опций всплывающих подсказок.
- *
- * @interface Controls/_popup/interface/IInfoBox
+ * Опции интерфейса описаны {@link Controls/_popup/interface/IInfoBox здесь}.
  * @public
  * @author Красильников А.С.
  */
@@ -21,6 +19,11 @@ export interface IInfoBoxOptions extends IControlOptions {
     templateOptions?: any;
 }
 
+/**
+ * Интерфейс для опций всплывающих подсказок.
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IInfoBox {
     readonly '[Controls/_popup/interface/IInfoBox]': boolean;
 }

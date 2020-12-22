@@ -1,7 +1,7 @@
 define([
    'Core/core-merge',
    'Controls/_calendar/Month/Model',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils'
 ], function(
    coreMerge,
@@ -38,7 +38,7 @@ define([
                   assert.isFalse(day.selected);
                }
             });
-            assert.isTrue(DateUtil.isDatesEqual(weeks[0][0].date, new Date(2016, 11, 26)));
+            assert.isTrue(DateUtil.Base.isDatesEqual(weeks[0][0].date, new Date(2016, 11, 26)));
          });
       });
 

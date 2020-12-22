@@ -24,7 +24,7 @@ export default class extends Control {
             hasMore: false
         },
         viewConfig: {
-            pagingMode: 'direct'
+            pagingMode: 'basic'
         }
     };
 

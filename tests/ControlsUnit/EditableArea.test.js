@@ -2,7 +2,7 @@ define([
    'Controls/editableArea',
    'Types/entity',
    'Core/Deferred',
-   'Controls/Constants'
+   'Controls/list'
 ], function(
    editableArea,
    entity,

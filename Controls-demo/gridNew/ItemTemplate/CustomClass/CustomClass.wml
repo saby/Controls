@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/gridNew:ItemTemplate" attr:class="controlsDemo__Grid_itemTemplate_customClass__nth-highlight"/>
+        </ws:itemTemplate>
+    </Controls.gridNew:View>
+</div>

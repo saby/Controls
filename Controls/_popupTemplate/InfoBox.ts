@@ -15,12 +15,12 @@ export interface IInfoboxTemplateOptions extends IControlOptions, IValidationSta
     closeButtonVisibility: boolean;
 }
 /**
- * Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ всплывающей подсказки}.
+ * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ всплывающей подсказки}.
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/infobox/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  *
  * @class Controls/_popupTemplate/InfoBox
  * @extends Core/Control

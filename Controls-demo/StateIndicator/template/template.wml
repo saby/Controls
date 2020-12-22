@@ -1,3 +1,0 @@
-<div>
-   <Controls.progress:Legend data="{{data}}"/>
-</div>

@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/VirtualScroll/Default/Index' }}">
+            <a href="{{content.href}}">Default</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.VirtualScroll.Default.Index/>
+    </div>
+</div>

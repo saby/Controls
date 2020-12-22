@@ -37,6 +37,7 @@ export default abstract class ExpandableMixin {
             return;
         }
         this._$expanded = expanded;
+        this._nextVersion();
         if (!silent && this._notifyItemChangeToOwner) {
             this._notifyItemChangeToOwner('expanded');
         }
@@ -52,6 +53,8 @@ export default abstract class ExpandableMixin {
     // region Controls/_display/CollectionItem
 
     protected abstract _notifyItemChangeToOwner(property: string): void;
+
+    protected abstract _nextVersion(): void;
 
     // endregion
 }

@@ -3,7 +3,7 @@ import {Record, Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import * as cInstance from 'Core/core-instance';
 
-import {Controller as ErrorController, Mode as ErrorMode, ViewConfig as ErrorViewConfig} from 'Controls/_dataSource/error';
+import {Controller as ErrorController, Mode as ErrorMode, ViewConfig as ErrorViewConfig} from 'Controls/error';
 import {Logger} from 'UI/Utils';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 
@@ -176,7 +176,9 @@ export class CrudWrapper {
     }
 
     updateOptions(newOptions: ICrudWrapperOptions): void {
-        this._source = newOptions.source;
+        if (CrudWrapper._isValidCrudSource(newOptions.source)) {
+            this._source = newOptions.source;
+        }
     }
 
     /**
@@ -185,9 +187,9 @@ export class CrudWrapper {
      * @param error
      * @private
      */
-    private _promiseCatchCallback(error: Error): Promise<error> {
+    private _promiseCatchCallback(error: Error): Promise<Error> {
         // TODO добавить обработку ошибок
-        return Promise.resolve(error);
+        return Promise.reject(error);
     }
 
     /**

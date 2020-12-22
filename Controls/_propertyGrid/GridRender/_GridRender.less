@@ -1,0 +1,43 @@
+.controls-PropertyGrid__gridLayout_editor-caption {
+   width: 100%;
+   display: flex;
+}
+
+.controls-PropertyGrid__gridLayout_editor-caption_theme-@{themeName} {
+   font-size: @font-size_m;
+   padding-right: @offset_m;
+   color: @label_text-color;
+}
+
+.controls-PropertyGrid__gridLayout__itemsContainer {
+   display: grid;
+}
+
+.controls-PropertyGrid__gridLayout_group {
+   display: flex;
+   align-items: baseline;
+}
+
+.controls-PropertyGrid__gridLayout_editor {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+}
+
+.controls-PropertyGrid__gridLayout_editor-caption-baseline {
+   align-items: center;
+   display: flex;
+   height: @inline_height_m;
+   line-height: @inline_height_m;
+}
+
+.controls-PropertyGrid__cell_highlightOnHover_theme-@{themeName} {
+   background-color: @hover_background-color;
+}
+
+.ws-is-hover {
+   .controls-PropertyGrid__gridLayout_showActions.controls-itemActionsV {
+      visibility: visible;
+      opacity: 1;
+   }
+}

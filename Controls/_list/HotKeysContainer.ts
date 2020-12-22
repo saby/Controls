@@ -8,7 +8,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
  * 
  * @class Controls/_list/HotKeysContainer
  * @extends Core/Control

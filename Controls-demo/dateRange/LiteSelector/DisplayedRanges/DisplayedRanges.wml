@@ -3,13 +3,25 @@
             displayedRanges="{{_displayedRanges}}"
             prevArrowVisibility="{{true}}"
             nextArrowVisibility="{{true}}"
-            bind:startValue="_startValue"
-            bind:endValue="_endValue"/>
+            bind:startValue="_startValue1"
+            bind:endValue="_endValue1"/>
     <div>
         <Controls.dateRange:RangeShortSelector
+                bind:startValue="_startValue2"
+                bind:endValue="_endValue2"
                 chooseHalfyears="{{false}}"
                 chooseMonths="{{false}}"
                 displayedRanges="{{_displayedRanges1}}"
+        />
+    </div>
+    <div>
+        <Controls.dateRange:RangeShortSelector
+                displayedRanges="{{_displayedRanges3}}"
+                chooseHalfyears="{{false}}"
+                chooseMonths="{{false}}"
+                chooseQuarters="{{false}}"
+                bind:startValue="_startValue3"
+                bind:endValue="_endValue3"
         />
     </div>
 </div>

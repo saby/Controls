@@ -2,7 +2,7 @@ define('Controls-demo/Example/Input',
    [
       'Env/Env',
       'Core/Control',
-      'Controls/Utils/scrollToElement',
+      'Controls/scroll',
       'wml!Controls-demo/Example/Input',
 
       'Controls/Application',
@@ -21,7 +21,7 @@ define('Controls-demo/Example/Input',
       'Controls-demo/Example/Input/Text',
       'Controls-demo/Example/Input/TimeInterval',
    ],
-   function(Env, Control, scrollToElement, template) {
+   function(Env, Control, scroll, template) {
       'use strict';
 
       var ModuleClass = Control.extend({
@@ -32,7 +32,7 @@ define('Controls-demo/Example/Input',
                var activeElement = window.location.hash.replace(/.*#/, '');
 
                if (this._children[activeElement]) {
-                  scrollToElement(this._children[activeElement]._container);
+                   scroll.scrollToElement(this._children[activeElement]._container);
                }
             }
          },
@@ -61,7 +61,7 @@ define('Controls-demo/Example/Input',
             this._children[demo].setValue(field, value);
          }
       });
-   
+
       ModuleClass._styles = ['Controls-demo/Example/resource/Base'];
 
       return ModuleClass;

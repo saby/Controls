@@ -44,7 +44,6 @@
    font-size: @empty-item_font-size_filterSimplePanel;
    font-weight: bold;
    text-transform: uppercase;
-   line-height: @item_height_menu;
 }
 
 .controls-DropdownList__item-rightPadding_multiSelect {
@@ -64,13 +63,16 @@
 }
 
 @shift-top_default-SimplePanel-popup: -((@item_height_menu - @inline_height_default_link_button) / 2 + @border-thickness_sticky + @content_padding-top_sticky);
+@shift-left_default-SimplePanel-popup: -(@border-thickness_sticky + @item_padding-horizontal_l_menu);
 
 .controls-FilterView-SimplePanel-popup {
    margin-top: @shift-top_default-SimplePanel-popup;
-   margin-left: -(@border-thickness_sticky + @item_padding-horizontal_l_menu);
+   margin-left: @shift-left_default-SimplePanel-popup;
 }
 
 .controls-FilterView-SimplePanel__buttonTarget-popup {
-   margin-top: @shift-top_default-SimplePanel-popup;
-   margin-left: -@popup_offset-horizontal_filterPanel;
+   margin-top: -((@item_height_menu - @icon-size_filterButton_filterView) / 2 + @border-thickness_sticky + @content_padding-top_sticky);
+
+   // Чтобы при позиционировании над кнопкой, панель открывалась в том же месте, нужно сдвинуть ее на ширину иконки треугольника
+   margin-left: @shift-left_default-SimplePanel-popup + @item_icon-size_filterView;
 }

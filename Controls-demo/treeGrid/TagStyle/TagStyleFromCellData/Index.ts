@@ -2,10 +2,9 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
 import {CollectionItem} from 'Controls/display';
 import {Record} from 'Types/entity';
+import {IColumn, TCellAlign} from 'Controls/grid';
 
 import {Gadgets, IData} from '../../DemoHelpers/DataCatalog';
-import {TCellAlign} from 'Controls/_grid/interface/IColumn';
-import {ITagColumn} from 'Controls/_grid/interface/ITagColumn';
 
 import * as template from 'wml!Controls-demo/treeGrid/TagStyle/TagStyleFromCellData/TagStyleFromCellData';
 
@@ -14,7 +13,7 @@ const MAXITEM = 7;
 export default class TagStyleGridDemo extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _viewSource: Memory;
-    protected _columns: ITagColumn[];
+    protected _columns: IColumn[];
 
     // Название свойства, из которого следует брать стильдля тега
     protected _tagStyleProperty: string;
@@ -81,7 +80,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
      * Получаем список колонок с необходимыми настройками
      * @private
      */
-    private _getModifiedColumns(): ITagColumn[] {
+    private _getModifiedColumns(): IColumn[] {
         return Gadgets.getColumnsForFlat().map((col) => {
             col.width = '200px';
             return col;
@@ -96,7 +95,7 @@ export default class TagStyleGridDemo extends Control<IControlOptions> {
                 align: 'right' as TCellAlign,
                 tagStyleProperty: this._tagStyleProperty
             }
-        ] as ITagColumn[]);
+        ] as IColumn[]);
     }
 
     private _getModifiedData(): IData[] {

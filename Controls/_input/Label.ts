@@ -13,7 +13,7 @@ export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSi
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Label
  * @extends Core/Control

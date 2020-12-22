@@ -1,0 +1,40 @@
+<div class="controlsDemo__wrapper">
+   <Controls.tile:View
+      displayProperty="title"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      multiSelectVisibility="visible"
+      bind:selectedKeys="_selectedKeys"
+      tileMode="static"
+      itemActions="{{_itemActions}}"
+      tileWidth="410"
+      imageProperty="image"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:RichTemplate"
+            gradientColor="{{itemTemplate.itemData.item.gradientColor}}"
+            titleLines="{{itemTemplate.itemData.item.titleLines}}"
+            descriptionLines="{{itemTemplate.itemData.item.titleLines}}"
+            imageSize="{{itemTemplate.itemData.item.imageSize}}"
+            imageViewMode="{{itemTemplate.itemData.item.imageViewMode}}"
+            imagePosition="{{itemTemplate.itemData.item.imagePosition}}"
+            description="{{itemTemplate.itemData.item.description}}"
+            imageCompressionCoefficient="{{itemTemplate.itemData.item.imageCompressionCoefficient}}"
+            imageEffect="gradient"
+            scope="{{itemTemplate}}">
+         </ws:partial>
+      </ws:itemTemplate>
+   </Controls.tile:View>
+   <svg class="clip-svg" width="0" height="0">
+      <defs>
+         <clipPath id="NavigationPanels-Accordion__image_ellipse" clipPathUnits="objectBoundingBox">
+            <path d="M0.5, 0 C 0.625,0 0.7891304347826086, 0.0391304347826087 0.875, 0.125 S 1, 0.375 1,
+                        0.5 S 0.9608695652173914, 0.7891304347826086 0.875,0.875 S 0.625, 1 0.5,
+                        1 S 0.21086956521739128, 0.9608695652173914 0.125, 0.875 S 0, 0.625 0, 0.5 S 0.0391304347826087,
+                        0.21086956521739128 0.125, 0.125 S 0.375,0 0.5,0 "/>
+         </clipPath>
+      </defs>
+   </svg>
+</div>

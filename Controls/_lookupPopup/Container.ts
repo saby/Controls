@@ -8,7 +8,7 @@ import {ContextOptions} from 'Controls/context';
 import {CrudWrapper} from 'Controls/dataSource';
 import {selectionToRecord} from 'Controls/operations';
 import {adapter as adapterLib} from 'Types/entity';
-import {IData, IDecorator} from 'Types/source';
+import {IData, IDecorator, QueryWhereExpression} from 'Types/source';
 import {List, RecordSet} from 'Types/collection';
 import {
     ISelectionObject,
@@ -270,7 +270,7 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
             return result;
          },
 
-         loadSelectedItems(self: object, filter: object): Promise<RecordSet> {
+         loadSelectedItems(self: object, filter: QueryWhereExpression<unknown>): Promise<RecordSet> {
             const dataOptions = self.context.get('dataOptions');
             const items = dataOptions.items;
             let loadItemsPromise;
@@ -283,18 +283,16 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
                   loadItemsPromise = Promise.resolve(selectedItems);
                } else {
                   const crudWrapper = _private.getCrudWrapper(dataOptions.source);
-                  const loadItemsCallback = (result) => {
-                     _private.hideIndicator(self);
-
-                     if (result instanceof Error) {
-                         dataSourceError.process({error: result});
-                     }
-
-                     return result;
-                  };
-
                   _private.showIndicator(self);
-                  loadItemsPromise = crudWrapper.query({filter}).then(loadItemsCallback, loadItemsCallback);
+                  loadItemsPromise = crudWrapper
+                      .query({filter})
+                      .catch((error) => {
+                          dataSourceError.process({error});
+                          return Promise.reject(error);
+                      })
+                      .finally(() => {
+                          _private.hideIndicator(self);
+                      });
                }
             } else {
                loadItemsPromise = Promise.resolve(_private.getEmptyItems(items));
@@ -424,18 +422,15 @@ interface IFilterConfig extends IFilterOptions, IHierarchyOptions {
             // выбранный записей в отдельный слой.
             // здесь будет только формирование фильтра
             if (this._options.selectionLoadMode) {
-               loadPromise = new Promise((resolve) => {
-                   _private.loadSelectedItems(this, filter)
-                       .then((loadedItems) => {
-                           resolve(_private.prepareResult(
-                               loadedItems,
-                               this._initialSelection,
-                               keyProperty,
-                               this._selectCompleteInitiator
-                               )
-                           );
-                       });
-               });
+                loadPromise = _private.loadSelectedItems(this, filter)
+                    .then((loadedItems) => {
+                        return _private.prepareResult(
+                            loadedItems,
+                            this._initialSelection,
+                            keyProperty,
+                            this._selectCompleteInitiator
+                        );
+                    });
             } else {
                loadPromise = Promise.resolve(filter);
             }

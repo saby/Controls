@@ -38,7 +38,7 @@ export function getDefaultOptions(): IShadowsOptions {
 /**
  * Интерфейс для контролов со скролбарами.
  *
- * @interface Controls/_scroll/Interface/IShadows
+ * @interface Controls/_scroll/Container/Interface/IShadows
  * @public
  * @author Миронов А.Ю.
  */
@@ -57,20 +57,20 @@ export interface IShadows {
  */
 
 /**
- * @name Controls/_scroll/Interface/IShadows#topShadowVisibility
+ * @name Controls/_scroll/Container/Interface/IShadows#topShadowVisibility
  * @cfg {shadowVisibility} Устанавливает режим отображения тени сверху.
  * @default auto
  * @demo Controls-demo/Scroll/Container/TopShadowVisibility/Index
  */
 
 /**
- * @name Controls/_scroll/Interface/IShadows#bottomShadowVisibility
+ * @name Controls/_scroll/Container/Interface/IShadows#bottomShadowVisibility
  * @cfg {shadowVisibility} Устанавливает режим отображения тени снизу.
  * @demo Controls-demo/Scroll/Container/BottomShadowVisibility/Index
  */
 
 /**
- * @name Controls/_scroll/Interface/IShadows#shadowMode
+ * @name Controls/_scroll/Container/Interface/IShadows#shadowMode
  * @cfg {String} Устанавливает режим отображения тени снизу.
  * @variant mixed При построении контрола тени работают полностью через стили как в режиме css.
  * Это позволяет избавиться от лишнего цикла синхронизации при построение скролируемой области.

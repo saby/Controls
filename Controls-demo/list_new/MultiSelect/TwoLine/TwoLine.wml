@@ -1,0 +1,34 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            multiSelectVisibility="onhover"
+            multiSelectPosition="custom"
+            attr:style="display: inline-flex;"
+            bind:selectedKeys="_selectedKeys">
+        <ws:itemPadding/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate">
+                <ws:contentTemplate>
+                    <div>
+                        <div class="controlsDemo__flex">
+                            <div>17.05.18</div>
+                            <div class="controlsDemo__ml1">Запрос котировок</div>
+                        </div>
+                        <div class="controlsDemo__flex controlsDemo__flex_ai-baseline">
+                            <ws:partial template="{{ contentTemplate.multiSelectTemplate }}"/>
+                            <div>
+                                <div class="controlsDemo__List__CustomMultiSelectPosition__title">
+                                    {{ contentTemplate.item.contents.get('title') }}
+                                </div>
+                                <div>
+                                    {{ contentTemplate.item.contents.get('description') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.list:View>
+</div>

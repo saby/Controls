@@ -3,9 +3,9 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/DemoControls/Sbis3ContainWasaby',
    'wml!Controls-demo/CompatibleDemo/WasabyEnv/DemoControls/Sbis3ContainWasaby',
    'UI/Base',
    'Vdom/Vdom',
-   'Controls/_input/Text',
+   'Controls/input',
    'Core/helpers/Hcontrol/makeInstanceCompatible'
-], function(CompoundControl, template, Base, Vdom, Text, makeInstanceCompatible) {
+], function(CompoundControl, template, Base, Vdom, input, makeInstanceCompatible) {
 
    var CompatibleDemoNext = CompoundControl.extend({
       _dotTplFn: template,
@@ -16,7 +16,7 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/DemoControls/Sbis3ContainWasaby',
          this.getChildControlByName('initStatus').setCaption('init');
          this.myTextBoxElement = this._container.find('.for__ws4');
          this.myTextBox = Base.Control.createControl(
-            Text,
+             input.Text,
             {
                name: 'myTextBoxWasaby',
             },

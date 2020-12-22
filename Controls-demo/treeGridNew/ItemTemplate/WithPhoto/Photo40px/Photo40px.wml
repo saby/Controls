@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth1700">
+    <Controls.treeGridNew:View
+        attr:class="demoTreeWithProto__treeGrid40"
+        keyProperty="id"
+        source="{{_viewSource}}"
+        columns="{{_columns}}"
+        parentProperty="parent"
+        nodeProperty="type"
+        expanderSize="xl"
+        bind:expandedItems="_expandedItems">
+        <ws:footerTemplate>
+            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+        </ws:footerTemplate>
+    </Controls.treeGridNew:View>
+</div>

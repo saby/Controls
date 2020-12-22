@@ -182,50 +182,6 @@ describe('Controls/list_clean/ListViewModel', () => {
             ]);
         });
 
-        it('Without virtual scroll. With support stickyHeader and style="masterClassic".', () => {
-            const listViewModel = new ListViewModel({
-                items,
-                keyProperty: 'key',
-                markedKey: null,
-                stickyHeader: true,
-                style: 'masterClassic'
-            });
-            checkCase(listViewModel, [
-                { start: 0, current: 0 },
-                { start: 0, current: 0 },
-                { start: 0, current: 0 }
-            ]);
-            listViewModel.setMarkedKey(2, true);
-            checkCase(listViewModel, [
-                { start: 0, current: 0 },
-                { start: 0, current: 0 },
-                { start: 0, current: 0 }
-            ]);
-        });
-
-        it('With virtual scroll. With support stickyHeader and style="masterClassic".', () => {
-            const listViewModel = new ListViewModel({
-                items,
-                keyProperty: 'key',
-                markedKey: null,
-                stickyHeader: true,
-                style: 'masterClassic',
-                virtualScrollConfig: {},
-                supportVirtualScroll: true
-            });
-            checkCase(listViewModel, [
-                { start: 0, current: 0 },
-                { start: 2, current: 2 },
-                { start: 4, current: 4 }
-            ]);
-            listViewModel.setMarkedKey(2, true);
-            checkCase(listViewModel, [
-                { start: 0, current: 0 },
-                { start: 2, current: 1 },
-                { start: 4, current: 1 }
-            ]);
-        });
-
         it('With virtual scroll. With support stickyHeader and style="master" and stickyMarkedItem=false.', () => {
             const listViewModel = new ListViewModel({
                 items,
@@ -234,30 +190,6 @@ describe('Controls/list_clean/ListViewModel', () => {
                 stickyHeader: true,
                 stickyMarkedItem: false,
                 style: 'master',
-                virtualScrollConfig: {},
-                supportVirtualScroll: true
-            });
-            checkCase(listViewModel, [
-                { start: 0, current: 0 },
-                { start: 2, current: 2 },
-                { start: 4, current: 4 }
-            ]);
-            listViewModel.setMarkedKey(2, true);
-            checkCase(listViewModel, [
-                { start: 0, current: 0 },
-                { start: 2, current: 2 },
-                { start: 4, current: 4 }
-            ]);
-        });
-
-        it('With virtual scroll. With support stickyHeader and style="masterClassic" and stickyMarkedItem=false.', () => {
-            const listViewModel = new ListViewModel({
-                items,
-                keyProperty: 'key',
-                markedKey: null,
-                stickyHeader: true,
-                stickyMarkedItem: false,
-                style: 'masterClassic',
                 virtualScrollConfig: {},
                 supportVirtualScroll: true
             });

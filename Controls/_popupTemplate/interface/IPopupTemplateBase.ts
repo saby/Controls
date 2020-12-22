@@ -1,3 +1,4 @@
+import {TemplateFunction} from 'UI/Base';
 /**
  * Базовый интерфейс для стандартных шаблонов окон.
  *
@@ -5,7 +6,19 @@
  * @public
  * @author Красильников А.С.
  */
+export interface IPopupTemplateBaseOptions {
+    headerContentTemplate?: TemplateFunction;
+    bodyContentTemplate?: TemplateFunction;
+    footerContentTemplate?: TemplateFunction;
+    headingCaption?: string;
+    headingFontSize?: string;
+    headingFontColorStyle?: string;
+    closeButtonVisibility?: boolean;
+}
 
+export default interface IPopupTemplateBase {
+    readonly '[Controls/_popupTemplate/interface/IPopupTemplateBase]': boolean;
+}
 /**
  * @name Controls/_popupTemplate/interface/IPopupTemplateBase#headerContentTemplate
  * @cfg {function|String} Контент, располагающийся между заголовком и крестиком закрытия.
@@ -45,18 +58,3 @@
  * @cfg {Boolean} Определяет, будет ли отображаться кнопка закрытия
  * @default true
  */
-
-import {TemplateFunction} from 'UI/Base';
-export interface IPopupTemplateBaseOptions {
-    headerContentTemplate?: TemplateFunction;
-    bodyContentTemplate?: TemplateFunction;
-    footerContentTemplate?: TemplateFunction;
-    headingCaption?: string;
-    headingFontSize?: string;
-    headingFontColorStyle?: string;
-    closeButtonVisibility?: boolean;
-}
-
-export default interface IPopupTemplateBase {
-    readonly '[Controls/_popupTemplate/interface/IPopupTemplateBase]': boolean;
-}

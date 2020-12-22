@@ -1,0 +1,24 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__wrapper controlsDemo__grid-itemActions-noHighlight-inside">
+        <h3>Inside</h3>
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                itemActions="{{_itemActions}}"
+                attr:style="max-width: 930px">
+
+        </Controls.gridNew:View>
+    </div>
+    <div class="controlsDemo__wrapper controlsDemo__grid-itemActions-noHighlight-outside">
+        <h3>Outside</h3>
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                itemActions="{{_itemActions}}"
+                itemActionsPosition="outside"
+                attr:style="max-width: 930px">
+        </Controls.gridNew:View>
+    </div>
+</div>

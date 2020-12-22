@@ -113,8 +113,11 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._beforePaint();
-            baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
+            baseControl._componentDidUpdate();
+            baseControl._container = {
+                getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}]),
+                clientHeight: 800
+            };
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 200;
             baseControl._viewSize = 800;
@@ -130,7 +133,7 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._beforePaint();
+            baseControl._componentDidUpdate();
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 0;
@@ -144,7 +147,7 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._beforePaint();
+            baseControl._componentDidUpdate();
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 200;
@@ -166,7 +169,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._afterMount();
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._beforePaint();
+            baseControl._componentDidUpdate();
             baseControl._container = {
                 clientHeight: 1000,
                 getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}]),
@@ -250,16 +253,15 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.deepEqual(
                 {
                     begin: 'visible',
-                    end: 'visible',
+                    end: 'hidden',
                     next: 'visible',
                     prev: 'visible'
                 }, baseControl._pagingCfg.arrowState);
-            assert.isFalse(baseControl._pagingCfg.showEndButton);
 
             baseControl.scrollMoveSyncHandler({scrollTop: 600});
             assert.deepEqual({
                 begin: 'visible',
-                end: 'readonly',
+                end: 'hidden',
                 next: 'readonly',
                 prev: 'visible'
             }, baseControl._pagingCfg.arrowState);
@@ -296,7 +298,6 @@ describe('Controls/list_clean/BaseControl', () => {
                     next: 'visible',
                     prev: 'visible'
                 }, baseControl._pagingCfg.arrowState);
-            assert.isTrue(baseControl._pagingCfg.showEndButton);
         });
 
         it('paging mode is edge', async () => {
@@ -329,7 +330,6 @@ describe('Controls/list_clean/BaseControl', () => {
                 next: 'hidden',
                 prev: 'hidden'
             }, baseControl._pagingCfg.arrowState);
-            assert.isTrue(baseControl._pagingCfg.showEndButton);
 
             baseControl.scrollMoveSyncHandler({scrollTop: 800});
             assert.deepEqual({
@@ -370,7 +370,6 @@ describe('Controls/list_clean/BaseControl', () => {
                 next: 'hidden',
                 prev: 'hidden'
             }, baseControl._pagingCfg.arrowState);
-            assert.isTrue(baseControl._pagingCfg.showEndButton);
 
             baseControl.scrollMoveSyncHandler({scrollTop: 800});
             assert.deepEqual({
@@ -501,7 +500,6 @@ describe('Controls/list_clean/BaseControl', () => {
                 next: 'hidden',
                 prev: 'hidden'
             }, baseControl._pagingCfg.arrowState);
-            assert.isTrue(baseControl._pagingCfg.showEndButton);
 
             assert.equal(baseControl._currentPage, 1);
             expectedScrollTop = 400;
@@ -835,7 +833,27 @@ describe('Controls/list_clean/BaseControl', () => {
             const baseControl = new BaseControl(baseControlOptions);
             const mountResult = await baseControl._beforeMount(baseControlOptions);
             assert.isTrue(!mountResult);
-        })
+        });
+        it('_beforeMount keyProperty', async () => {
+            const baseControlOptions = {
+                source: new Memory({
+                    keyProperty: 'keyProperty',
+                    data: []
+                })
+            };
+            const baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
+            assert.equal(baseControl._keyProperty, 'keyProperty');
+            baseControlOptions.keyProperty = 'keyPropertyOptions';
+            baseControl._initKeyProperty(baseControlOptions);
+            assert.equal(baseControl._keyProperty, 'keyPropertyOptions');
+            baseControlOptions.source = null;
+            baseControl._initKeyProperty(baseControlOptions);
+            assert.equal(baseControl._keyProperty, 'keyPropertyOptions');
+            baseControlOptions.keyProperty = undefined;
+            baseControl._initKeyProperty(baseControlOptions);
+            assert.isFalse(!!baseControl._keyProperty);
+        });
     });
 
     describe('Edit in place', () => {
@@ -872,10 +890,15 @@ describe('Controls/list_clean/BaseControl', () => {
                 isEditing() {
                     return true;
                 },
-                updateOptions() {}
+                updateOptions() {
+                }
             };
 
-            return baseControl._beforeUpdate({...baseControlCfg, filter: {field: 'ASC'}, useNewModel: true}).then(() => {
+            return baseControl._beforeUpdate({
+                ...baseControlCfg,
+                filter: {field: 'ASC'},
+                useNewModel: true
+            }).then(() => {
                 assert.isTrue(isEditingCancelled);
             });
         });

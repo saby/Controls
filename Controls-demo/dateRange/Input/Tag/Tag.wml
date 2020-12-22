@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.dateRange:Input
+                startTagStyle="{{'danger'}}"
+                endTagStyle="{{'success'}}"
+                on:startTagClick="_tagClickHandler('startValue')"
+                on:endTagClick="_tagClickHandler('endValue')"
+        />
+        <Controls.popup:Infobox name="infoBox"></Controls.popup:Infobox>
+    </div>
+</div>

@@ -1,11 +1,11 @@
-<div>
+<div attr:style="{{ _viewMode === 'table' ? 'width: 800px'}}">
    <span>Demo Controls/Explorer</span>
    <Controls.buttons:Button attr:class="demo-Explorer__viewButton" on:click="_changeViewMode()" fontColorStyle="link" viewMode="linkButton" iconSize="m" iconStyle="secondary" icon="{{_changeViewIcon}}"/>
    <Controls.scroll:Container attr:class="demo-Explorer__scrollContainer">
       <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
          <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
                                            bind:excludedKeys="_excludedKeys">
-            <Controls.list:Container>
+            <Controls.list:Container stickyHeader="{{ false }}">
                <Controls.explorer:View
                   bind:root="_root"
                   attr:class="demo-Explorer ControlsDemo-Explorer"

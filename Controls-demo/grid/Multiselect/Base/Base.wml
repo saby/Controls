@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper demo_GridMultiselect__base">
+    <Controls.buttons:Button attr:class="demo_GridMultiselect__button" caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
+    <p class="demo_GridMultiselect__status">Текущий статус множественного выбора: {{_multiselect}}</p>
+    <div class="controlsDemo__wrapper">
+        <Controls.grid:View
+                keyProperty="id"
+                multiSelectVisibility="{{_multiselect}}"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"/>
+    </div>
+</div>

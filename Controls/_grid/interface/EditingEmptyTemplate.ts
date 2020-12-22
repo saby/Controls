@@ -16,7 +16,7 @@ interface IEmptyColumnColumns {
 /**
  * Шаблон, который используется для отображения {@link Controls/grid:View таблицы} без элементов с возможностью добавления.
  *
- * @class Controls/grid:EditingEmptyTemplate
+ * @class Controls/_grid/interface/EditingEmptyTemplate
  * @author Авраменко А.С.
  * @public
  *
@@ -80,26 +80,23 @@ export default interface IEditingEmptyTemplateOptions {
      */
 
     /**
-     * @name Controls/list:EmptyTemplate#topSpacing
      * @cfg {Spacing|null} Отступ между верхней границей  и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      * @default l
      */
     topSpacing?: string;
     /**
-     * @name Controls/list:EmptyTemplate#bottomSpacing
      * @cfg {Spacing|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      * @default l
      */
     bottomSpacing?: string;
     /**
-     * @name Controls/list:EmptyTemplate#columns
-     * @cfg {Array.<IEmptyColumnColumns>} Набор конфигураций колонок пустого списка.
+     * @cfg {Array.<Controls/_grid/interface/EditingEmptyTemplate/IEmptyColumnColumns.typedef>} Набор конфигураций колонок пустого списка.
      */
     columns?: IEmptyColumnColumns[];
 }

@@ -23,7 +23,7 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
 
     private _gridStyle: string = null;
     protected _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
-    private _needNotifyResize: boolean = false;
+    private _needNotifyResize: boolean = true;
     private _shouldSetMarginTop: boolean = false;
     private _position: number = 0;
 
@@ -66,6 +66,7 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
     protected _afterRender(): void {
         if (this._needNotifyResize) {
             (this._children.columnScrollbar as Scrollbar).recalcSizes();
+            this._notify('newPositionRendered', [this._position], {bubbling: true});
             this._needNotifyResize = false;
         }
     }

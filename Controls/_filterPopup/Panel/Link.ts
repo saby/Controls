@@ -6,7 +6,7 @@ import template = require('wml!Controls/_filterPopup/Panel/Link/Link');
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
  * 
  * @class Controls/_filterPopup/Panel/Link
  * @extends Core/Control

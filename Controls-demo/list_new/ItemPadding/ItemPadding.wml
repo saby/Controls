@@ -94,36 +94,14 @@
         </div>
     </div>
 
+
     <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Вертикальные отступы</div>
-        <div class="controlsDemo__wrapper controlsDemo__flexRow">
-
-
-            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-ver-padding-null">
-                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру null</div>
-                <Controls.list:View keyProperty="id" source="{{_viewSource}}">
-                    <ws:itemPadding top="null" bottom="null"/>
-                </Controls.list:View>
-            </div>
-
-
-            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-ver-padding-m">
-                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>
-                <Controls.list:View keyProperty="id" source="{{_viewSource}}">
-                    <ws:itemPadding top="S" bottom="S"/>
-                </Controls.list:View>
-            </div>
-
-
-            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-ver-padding-l">
-                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру L</div>
-                <Controls.list:View keyProperty="id" source="{{_viewSource}}">
-
-                </Controls.list:View>
-            </div>
-
-
-        </div>
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/list_new/ItemPadding/VerticalPadding/Index' }}">
+            <a href="{{content.href}}">Вертикальные отступы</a>
+        </Router.router:Reference>
+        <Controls-demo.list_new.ItemPadding.VerticalPadding.Index/>
     </div>
 
 </div>

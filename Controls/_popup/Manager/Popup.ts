@@ -20,7 +20,7 @@ interface IPopupControlOptions extends IPopupOptions, IControlOptions {}
  * @mixes Controls/interface/IOpenerOwner
  * @mixes Controls/_interface/ICanBeDefaultOpener
  * @extends Core/Control
- * 
+ *
  * @private
  * @author Красильников А.С.
  */
@@ -45,7 +45,7 @@ class Popup extends Control<IPopupControlOptions> {
         }
     }
 
-    protected _beforePaintOnMount(): void {
+    protected _componentDidMount(): void {
         ManagerController.notifyToManager('popupBeforePaintOnMount', [this._options.id]);
     }
 

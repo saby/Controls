@@ -1,5 +1,6 @@
 import TileView = require('Controls/_tile/TileView/TileView');
 import Env = require('Env/Env');
+import {isEqual} from 'Types/object';
 import defaultItemTpl = require('wml!Controls/_tile/TreeTileView/DefaultItemTpl');
 
 var TreeTileView = TileView.extend({
@@ -11,6 +12,11 @@ var TreeTileView = TileView.extend({
         if (this._options.tileSize !== newOptions.tileSize) {
             this._listModel.setTileSize(newOptions.tileSize);
         }
+
+        if (!isEqual(this._options.roundBorder, newOptions.roundBorder)) {
+            this._listModel.setRoundBorder(newOptions.roundBorder);
+        }
+
         TreeTileView.superclass._beforeUpdate.apply(this, arguments);
     },
     _onTileViewKeyDown: function (event) {

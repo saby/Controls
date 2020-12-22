@@ -1,20 +1,18 @@
 import {TemplateFunction} from 'UI/Base';
 import {ITextOptions} from 'Controls/_input/interface/IText';
 
+/**
+ * Интерфейс многострочного поля ввода.
+ * @interface Controls/_input/interface/IArea
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IAreaOptions extends ITextOptions {
     maxLines?: number;
     minLines?: number;
     optimizeShadow?: boolean;
     footerTemplate?: string | TemplateFunction;
 }
-
-/**
- * Интерфейс многострочного поля ввода.
- *
- * @interface Controls/_input/interface/IArea
- * @public
- * @author Красильников А.С.
- */
 
 /**
  * @name Controls/_input/interface/IArea#minLines
@@ -46,12 +44,12 @@ export interface IAreaOptions extends ITextOptions {
  * @name Controls/_input/interface/IArea#optimizeShadow
  * @cfg {Boolean} Включает режим быстрой отрисовки тени.
  * @default true
- * @variant true Оптимизированные тени.
- * @variant false Не оптимизированные тени.
  * @remark
+ * true - Оптимизированные тени.
+ * false - Не оптимизированные тени.
+ * 
  * Отключите оптимизированные тени, если:
- * <ul>
- *      <li> У input:Area непрозрачный фон </li>
- *      <li> input:Area находится в элементе с непрозрачным фоном </li>
- * </ul>
+ * 
+ * * У {@link Controls/input:Area} непрозрачный фон.
+ * * Controls/input:Area находится в элементе с непрозрачным фоном.
  */

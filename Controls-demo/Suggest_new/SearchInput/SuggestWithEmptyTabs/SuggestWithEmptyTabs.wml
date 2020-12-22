@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow demo-SearchSuggest__container controlsDemo__mb3">
+<div class="controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo_fixedWidth350">
+  <div class="controls-text-label_theme-{{_options.theme}}">Автодополнение с пустыми вкладками</div>
+  <Controls.suggest:SearchInput
+      attr:class="controlsDemo__input"
+      bind:value="_suggestCustomValue"
+      displayProperty="title"
+      searchParam="title"
+      navigation="{{_navigation}}"
+      source="{{_source}}">
+    <ws:suggestTemplate templateName="Controls-demo/Suggest_new/SearchInput/SuggestTemplateWithTabs/resources/SuggestTabTemplate"/>
+  </Controls.suggest:SearchInput>
+</div>
+</div>

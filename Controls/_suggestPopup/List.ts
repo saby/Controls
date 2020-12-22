@@ -5,7 +5,7 @@ import Control = require('Core/Control');
 import template = require('wml!Controls/_suggestPopup/List/List');
 import clone = require('Core/core-clone');
 import _SuggestOptionsField = require('Controls/_suggestPopup/_OptionsField');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import { constants } from 'Env/Env';
 import {RecordSet} from 'Types/collection';
 
@@ -80,10 +80,10 @@ const _private = {
  * @remark
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/suggest/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggestPopup.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/suggest/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggestPopup.less переменные тем оформления}
  * @example
- * 
+ *
  * <pre class="brush: js">
  * // JavaScript
  * define('myControl/SuggestList',
@@ -92,14 +92,14 @@ const _private = {
  *       'wml!myControl/SuggestList'
  *    ], function(Base, template) {
  *       'use strict';
- *         
+ *
  *       return Base.Control.extend({
  *          _template: template
  *       });
  *    }
  * );
  * </pre>
- * 
+ *
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.suggestPopup:ListContainer>
@@ -114,7 +114,7 @@ const _private = {
  * @class Controls/_suggestPopup/List
  * @extends Core/Control
  * @author Герасимов А.М.
- * 
+ *
  * @public
  */
 
@@ -125,13 +125,13 @@ const _private = {
  * @class Controls/_suggestPopup/List
  * @extends Core/Control
  * @author Герасимов Александр
- * 
+ *
  * @public
  */
 const List = Control.extend({
 
    _template: template,
-   _notifyHandler: tmplNotify,
+   _notifyHandler: EventUtils.tmplNotify,
    _markedKey: null,
    _items: null,
    _layerName: null,

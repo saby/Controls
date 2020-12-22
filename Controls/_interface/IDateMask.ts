@@ -6,8 +6,6 @@ export interface IDateMaskOptions {
 
 /**
  * Интерфейс масок полей ввода позволяющих вводить даты.
- *
- * @interface Controls/_interface/IDateMask
  * @public
  * @author Красильников А.С.
  */
@@ -19,7 +17,6 @@ export default interface IDateMask {
 /**
  * @name Controls/_interface/IDateMask#mask
  * @cfg {String} Маска.
- *
  * @variant 'DD.MM.YYYY'
  * @variant 'DD.MM.YY'
  * @variant 'MM.YYYY'
@@ -31,28 +28,36 @@ export default interface IDateMask {
  *    <li>Y - год.</li>
  *    <li>"." - разделитель.</li>
  * </ol>
- * Если дата была установлена с помощю опции value, то при вводе будут сохранятсья те части даты,
- * которые отсутсвуют в маске. Иначе в качестве базовой будет использоться дата 01.01.1900 00: 00.000.
+ * Если дата была установлена с помощью опции value, то при вводе будут сохраняться те части даты,
+ * которые отсутствуют в маске. Иначе в качестве базовой будет использоваться дата 01.01.1900 00: 00.000.
  * @example
  * В этом примере маска позволяет вводить только дату. После того как пользователь ввел “01:01:2018”,
  * в атребуте _inputValue будет значение равное 01.01:2018 00:00.000
- * <pre>
- *    <Controls.input.Date bind:value="_inputValue" mask=”DD.MM.YYYY”/>
+ * 
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.input.Date bind:value="_inputValue" mask="DD.MM.YYYY"/>
  * </pre>
- * <pre>
- *    Control.extend({
- *       _inputValue: null
- *    });
+ * 
+ * <pre class="brush: js">
+ * Control.extend({
+ *    _inputValue: null
+ * });
  * </pre>
+ * 
  * В следующем примере значение в поле ввода инициализировано датой со временем. После того как пользователь ввел
- * “01:01:2018”, в атребуте _inputValue будет значение равное “01.01.2018 14:15.000.
- * <pre>
- *    <Controls.input.Date bind:value="_inputValue" mask=”DD.MM.YYYY”/>
+ * "01:01:2018", в атребуте _inputValue будет значение равное "01.01.2018 14:15.000".
+ * 
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.input.Date bind:value="_inputValue" mask=”DD.MM.YYYY”/>
  * </pre>
- * <pre>
- *    Control.extend({
- *       _inputValue: new Date(2001, 2, 10, 14, 15 )
- *    });
+ * 
+ * <pre class="brush: js">
+ * // JavaScript
+ * Control.extend({
+ *    _inputValue: new Date(2001, 2, 10, 14, 15 )
+ * });
  * </pre>
  */
 

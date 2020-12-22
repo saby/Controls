@@ -2,7 +2,7 @@ define([
    'Core/core-merge',
    'Types/collection',
    'Controls/calendar',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils'
 ], function(
    coreMerge,
@@ -28,7 +28,7 @@ define([
 
             assert.equal(weeks.length, 6);
             calendarTestUtils.assertMonthView(weeks);
-            assert.isTrue(DateUtil.isDatesEqual(weeks[0][0].date, new Date(2016, 11, 26)));
+            assert.isTrue(DateUtil.Base.isDatesEqual(weeks[0][0].date, new Date(2016, 11, 26)));
          });
 
       });

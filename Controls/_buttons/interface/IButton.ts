@@ -1,3 +1,5 @@
+import {IContrastBackground} from 'Controls/interface';
+
 export interface IButtonOptions {
     contrastBackground?: boolean;
     buttonStyle?: string;
@@ -6,6 +8,7 @@ export interface IButtonOptions {
  * Интерфейс для стилевого оформления кнопки.
  *
  * @interface Controls/_buttons/interface/IButton
+ * @implements Controls/interface:IContrastBackground
  * @public
  * @author Красильников А.С.
  */
@@ -17,17 +20,15 @@ export interface IButtonOptions {
  * @public
  * @author Красильников А.С.
  */
-export interface IButton {
+export interface IButton extends IContrastBackground {
     readonly '[Controls/_buttons/interface/IButton]': boolean;
 }
 
 /**
  * @name Controls/_buttons/interface/IButton#contrastBackground
- * @cfg {Boolean} Определяет контрастность фона кнопки по отношению к ее окружению.
+ * @cfg
  * @default false
  * @remark
- * * true - контрастный фон.
- * * false - фон, гармонично сочетающийся с окружением.
  * Опция используется для акцентирования внимания на кнопке, и ее визуального выделения относительно окружения.
  * @demo Controls-demo/Buttons/ContrastBackground/Index
  * @example
@@ -40,11 +41,8 @@ export interface IButton {
 
 /*
  * @name Controls/_buttons/interface/IButton#contrastBackground
- * @cfg {Boolean} Determines if button has contrast background.
+ * @cfg
  * @default true
- * @remark
- * true - Button has contrast background
- * false - Button has the harmony background.
  * @example
  * Button has transparent background.
  * <pre>

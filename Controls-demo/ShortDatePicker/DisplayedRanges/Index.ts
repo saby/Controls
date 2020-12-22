@@ -4,8 +4,10 @@ import template = require("wml!Controls-demo/ShortDatePicker/DisplayedRanges/Dis
 class DemoControl extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
-    private _startValue: Date = new Date(2020, 1);
-    private _displayedRanges: Date[][] = [
+    protected _startValue: Date = new Date(2020, 0);
+    protected _endValue: Date = new Date(2020, 11, 31);
+
+    protected _displayedRanges: Date[][] = [
         [new Date(2018, 1), new Date(2020, 1)],
         [new Date(2022, 0), null]
     ];

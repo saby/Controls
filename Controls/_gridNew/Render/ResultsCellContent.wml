@@ -1,21 +1,27 @@
-<ws:if data="{{ !!content || !!contentTemplate }}">
-    <ws:partial template="{{ content || contentTemplate }}"
-                colData="{{ colData }}"
-                results="{{ colData.getResults() }}"/>
-</ws:if>
-<ws:else data="{{ colData.data !== undefined }}">
-    <ws:if data="{{ colData.format === 'money' }}">
-        <Controls.decorator:Money value="{{ colData.data }}" useGrouping="{{ true }}"
-                                  fontWeight="{{fontWeight || 'bold'}}"
-                                  fontColorStyle="{{ fontColorStyle || 'secondary'}}"/>
+<div class="{{ (gridColumn || colData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+     style="{{ (gridColumn || colData).getContentStyles() }}">
+
+    <ws:if data="{{ !!content || !!contentTemplate }}">
+        <ws:partial template="{{ content || contentTemplate }}"
+                    colData="{{ (gridColumn || colData) }}"
+                    results="{{ (gridColumn || colData).getResults() }}"/>
     </ws:if>
-    <ws:else data="{{ colData.format === 'integer' || colData.format === 'real' }}">
-        <Controls.decorator:Number value="{{ colData.data }}" useGrouping="{{ true }}"
-                                   attr:class="controls-Grid__row-result-cell__content-font-weight_{{ fontWeight || 'bold' }}_theme-{{theme}}
-                                               controls-Grid__row-result-cell__content-font-color-style_{{ fontColorStyle || 'secondary' }}_theme-{{theme}}"
-                                   fractionSize="{{ 2 }}"/>
+    <ws:else data="{{ (gridColumn || colData).data !== undefined && (gridColumn || colData).data !== null }}">
+        <ws:if data="{{ (gridColumn || colData).format === 'money' }}">
+            <Controls.decorator:Money value="{{ (gridColumn || colData).data }}" useGrouping="{{ true }}"
+                                      fontWeight="{{fontWeight || 'bold'}}"
+                                      fontColorStyle="{{ fontColorStyle || 'secondary'}}"/>
+        </ws:if>
+        <ws:else data="{{ (gridColumn || colData).format === 'integer' || (gridColumn || colData).format === 'real' }}">
+            <Controls.decorator:Number value="{{ (gridColumn || colData).data }}"
+                                       useGrouping="{{ true }}"
+                                       fractionSize="{{ 2 }}"
+                                       attr:class="controls-Grid__row-result-cell__content-font-weight_{{ fontWeight || 'bold' }}_theme-{{theme}}
+                                                   controls-Grid__row-result-cell__content-font-color-style_{{ fontColorStyle || 'secondary' }}_theme-{{theme}}"
+            />
+        </ws:else>
+        <ws:else>
+            {{ (gridColumn || colData).data }}
+        </ws:else>
     </ws:else>
-    <ws:else>
-        {{ colData.data }}
-    </ws:else>
-</ws:else>
+</div>

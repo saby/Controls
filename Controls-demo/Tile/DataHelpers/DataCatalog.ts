@@ -1,10 +1,7 @@
 import * as explorerImages from 'Controls-demo/Explorer/ExplorerImagesLayout';
 import { IItemAction } from 'Controls/itemActions';
 import {yellow} from 'color-name';
-
-import {constants} from 'Env/Env';
-
-const baseURL = constants.resourceRoot + 'Controls-demo/Tile/DataHelpers/images/';
+import Images from 'Controls-demo/Tile/DataHelpers/Images';
 
 interface IData {
    id: number;
@@ -144,7 +141,7 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Гепард',
-        image: `${baseURL}Cheetah.jpg`,
+        image: Images.CHEETAH,
         imageWidth: 198,
         imageHeight: 200,
         titleStyle: 'light',
@@ -158,7 +155,7 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Мост',
-        image: `${baseURL}bridge.jpg`,
+        image: Images.BRIDGE,
         imageWidth: 1200,
         imageHeight: 900,
         titleStyle: 'light',
@@ -173,7 +170,7 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Машина',
-        image: `${baseURL}car.jpg`,
+        image: Images.CAR,
         imageWidth: 640,
         imageHeight: 480,
         titleStyle: 'light',
@@ -188,7 +185,7 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Лев с короной',
-        image: `${baseURL}lion.jpg`,
+        image: Images.LION,
         imageWidth: 201,
         imageHeight: 251,
         titleStyle: 'light',
@@ -203,7 +200,7 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Лев стоит',
-        image: `${baseURL}lion2.png`,
+        image: Images.LION_2,
         imageWidth: 184,
         imageHeight: 183,
         titleStyle: 'light',
@@ -218,7 +215,7 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Просто лев',
-        image: `${baseURL}lion3.jpg`,
+        image: Images.LION_3,
         imageWidth: 300,
         imageHeight: 168,
         titleStyle: 'light',
@@ -233,7 +230,7 @@ export const Gadgets = {
         parent: null,
         type: null,
         title: 'Медведь',
-        image: `${baseURL}medved.jpg`,
+        image: Images.MEDVED,
         imageWidth: 300,
         imageHeight: 168,
         titleStyle: 'light',
@@ -254,6 +251,7 @@ export const Gadgets = {
             image: explorerImages[8],
             'parent@': true,
             additionalText: 'папка с песцом',
+            imageProportion: '1:1',
             imageViewMode: 'circle',
             imagePosition: 'top',
             gradientType: 'dark',
@@ -267,6 +265,7 @@ export const Gadgets = {
             type: null,
             title: 'Сравнение условий конкурентов по ЭДО.xlsx',
             description: 'Элемент с описанием',
+            imageProportion: '16:9',
             titleLines: 1,
             imagePosition: 'top',
             imageViewMode: 'rectangle',
@@ -278,6 +277,7 @@ export const Gadgets = {
             id: 2,
             parent: null,
             type: null,
+            imageProportion: '4:3',
             title: 'Сравнение условий конкурентов по ЭДО.xlsx',
             description: 'Несмотря на то, что мониторы больших диагоналей становятся всё доступнее, а их разрешение постоянно растёт, иногда возникает задача в ограниченном пространстве уместить много текста. Например, это может понадобиться для мобильной версии сайта или для интерфейса, в котором важно число строк. В подобных случаях имеет смысл обрезать длинные строки текста, оставив только начало предложения. Так мы приведём интерфейс к компактному виду и сократим объём выводимой информации. Само обрезание строк можно делать на стороне сервера с помощью того же PHP, но через CSS это проще, к тому же всегда можно показать текст целиком, например, при наведении на него курсора мыши',
             titleLines: 5,
@@ -292,6 +292,7 @@ export const Gadgets = {
             parent: null,
             type: null,
             title: 'Сравнение условий конкурентов по ЭДО.xlsx',
+            imageProportion: '3:4',
             description: 'Несмотря на то, что мониторы больших диагоналей становятся всё доступнее, а их разрешение постоянно растёт, иногда возникает задача в ограниченном пространстве уместить много текста. Например, это может понадобиться для мобильной версии сайта или для интерфейса, в котором важно число строк. В подобных случаях имеет смысл обрезать длинные строки текста, оставив только начало предложения. Так мы приведём интерфейс к компактному виду и сократим объём выводимой информации. Само обрезание строк можно делать на стороне сервера с помощью того же PHP, но через CSS это проще, к тому же всегда можно показать текст целиком, например, при наведении на него курсора мыши',
             titleLines: 5,
             imageViewMode: 'ellipse',
@@ -306,6 +307,7 @@ export const Gadgets = {
             parent: null,
             type: null,
             title: 'Сравнение условий конкурентов по ЭДО.xlsx',
+            imageProportion: '1:1',
             description: 'Несмотря на то, что мониторы больших диагоналей становятся всё доступнее, а их разрешение постоянно растёт, иногда возникает задача в ограниченном пространстве уместить много текста. Например, это может понадобиться для мобильной версии сайта или для интерфейса, в котором важно число строк. В подобных случаях имеет смысл обрезать длинные строки текста, оставив только начало предложения. Так мы приведём интерфейс к компактному виду и сократим объём выводимой информации. Само обрезание строк можно делать на стороне сервера с помощью того же PHP, но через CSS это проще, к тому же всегда можно показать текст целиком, например, при наведении на него курсора мыши',
             titleLines: 3,
             'parent@': false,

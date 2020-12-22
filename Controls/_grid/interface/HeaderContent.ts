@@ -1,12 +1,12 @@
 /**
- * Шаблон, который по умолчанию используется для отображения {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/header/ ячейки шапки} в контроле {@link Controls/grid:View Таблица}.
+ * Шаблон, который по умолчанию используется для отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ ячейки шапки} в контроле {@link Controls/grid:View Таблица}.
  *  
- * @class Controls/grid:HeaderContent
+ * @class Controls/_grid/interface/HeaderContent
  * @author Авраменко А.С.
- * @see Controls/_grid/interface/IGridControl/HeaderCell.typedef
+ * @see Controls/grid:IGridControl/HeaderCell.typedef
  * @see Controls/grid:IGridControl#header
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/header/ здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ здесь}.
  * @example
  * <pre class="brush: html">
  * <Controls.grid:View>
@@ -29,10 +29,9 @@
  */
 export default interface IHeaderContentOptions {
    /**
-    * @name Controls/grid:HeaderContent#contentTemplate
     * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки шапки.
     * @remark
-    * В области видимости шаблона доступен объект **colData**. Через него можно получить доступ к свойству **column**, которое содержит конфигурацию {@link https://wi.sbis.ru/docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.
+    * В области видимости шаблона доступен объект **colData**. Через него можно получить доступ к свойству **column**, которое содержит конфигурацию {@link /docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.
     * @example
     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
     * <pre class="brush: html">

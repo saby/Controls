@@ -1,5 +1,5 @@
 import rk = require('i18n!Controls');
-import {proxyModelEvents} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import DateRangeModel from './DateRangeModel';
 import IDateLinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/LinkView/LinkView');
@@ -24,7 +24,7 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
- * 
+ *
  * @private
  * @author Красильников А.С.
  * @demo Controls-demo/Input/Date/LinkView
@@ -51,7 +51,7 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       this._rangeModel = new DateRangeModel({
          dateConstructor: options.dateConstructor
       });
-      proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
+      EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
    }
 
    _beforeMount(options: ILinkViewControlOptions): void {
@@ -151,6 +151,7 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
             this._styleClass = '';
             if (newOption.readOnly && !(newOption.fontColorStyle || newOption.fontSize)) {
                this._styleClass = `controls-DateLinkView__style-readOnly_theme-${newOption.theme}`;
+               this._fontColorStyle = 'default';
             }
             if (newOption.clickable && !newOption.readOnly) {
                this._styleClass +=  ` controls-DateLinkView__style-clickable_theme-${newOption.theme}`;
@@ -184,5 +185,11 @@ LinkView.getOptionTypes = () => {
       captionFormatter: descriptor(Function)
    }
 }
+
+/**
+ * @name Controls/_dateRange/LinkView#fontSize
+ * @cfg
+ * @demo Controls-demo/dateRange/LinkView/FontSize/Index
+ */
 
 export default LinkView;

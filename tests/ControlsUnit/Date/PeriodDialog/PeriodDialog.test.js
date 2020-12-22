@@ -5,7 +5,7 @@ define([
    'Types/formatter',
    'Controls/datePopup',
    'Controls/scroll',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils'
 ], function(
    coreMerge,
@@ -40,7 +40,7 @@ define([
             assert.strictEqual(component._state, component._STATES.year);
             assert.strictEqual(component._yearRangeSelectionType, 'range');
             assert.strictEqual(component._headerType, 'link');
-            assert(dateUtils.isDatesEqual(component._displayedDate, dateUtils.getStartOfYear(now)));
+            assert(dateUtils.Base.isDatesEqual(component._displayedDate, dateUtils.Base.getStartOfYear(now)));
 
             clock.restore();
          });
@@ -51,7 +51,7 @@ define([
                clock = sinon.useFakeTimers(now.getTime(), 'Date'),
                component = calendarTestUtils.createComponent(PeriodDialog.default, {});
 
-            assert(dateUtils.isDatesEqual(component._displayedDate, dateUtils.getStartOfYear(now)));
+            assert(dateUtils.Base.isDatesEqual(component._displayedDate, dateUtils.Base.getStartOfYear(now)));
 
             clock.restore();
          });
@@ -62,7 +62,7 @@ define([
                end = new Date(2018, 4, 0),
                component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: start, endValue: end });
 
-            assert(dateUtils.isDatesEqual(component._displayedDate, dateUtils.getStartOfYear(start)));
+            assert(dateUtils.Base.isDatesEqual(component._displayedDate, dateUtils.Base.getStartOfYear(start)));
 
          });
 
@@ -78,10 +78,10 @@ define([
 
          it('should create the correct range models when range passed.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: start, endValue: end });
-            assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, end));
             assert.isNull(component._yearRangeModel.startValue);
             assert.isNull(component._yearRangeModel.endValue);
          });
@@ -122,8 +122,8 @@ define([
          }].forEach(function(test) {
             it(`should update _yearsModel if options are equals ${JSON.stringify(test.options)}.`, function () {
                const component = calendarTestUtils.createComponent(PeriodDialog.default, test.options);
-               assert(dateUtils.isDatesEqual(component._yearRangeModel.startValue, test.yearModel.startValue));
-               assert(dateUtils.isDatesEqual(component._yearRangeModel.endValue, test.yearModel.endValue));
+               assert(dateUtils.Base.isDatesEqual(component._yearRangeModel.startValue, test.yearModel.startValue));
+               assert(dateUtils.Base.isDatesEqual(component._yearRangeModel.endValue, test.yearModel.endValue));
             });
          });
 
@@ -204,8 +204,8 @@ define([
          }, {
             homeButtonVisiable: false,
             options: {
-               startValue: dateUtils.getStartOfYear(new Date()),
-               endValue: dateUtils.getEndOfQuarter(new Date())
+               startValue: dateUtils.Base.getStartOfYear(new Date()),
+               endValue: dateUtils.Base.getEndOfQuarter(new Date())
             },
          }, {
             homeButtonVisiable: true,
@@ -311,9 +311,9 @@ define([
             const
                oldDate = new Date(2017, 0, 1),
                component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: oldDate, endValue: oldDate });
-            assert(dateUtils.isDatesEqual(component._displayedDate, oldDate));
+            assert(dateUtils.Base.isDatesEqual(component._displayedDate, oldDate));
             component._homeButtonClick();
-            assert(dateUtils.isMonthsEqual(component._displayedDate, new Date()));
+            assert(dateUtils.Base.isMonthsEqual(component._displayedDate, new Date()));
          });
       });
 
@@ -368,8 +368,8 @@ define([
             it(`should update end value to ${formatDate(test.endValue)} if ${formatDate(test.date)} is passed and options is equal ${JSON.stringify(test.options)}.`, function() {
                const component = calendarTestUtils.createComponent(PeriodDialog.default, test.options);
                component._endValuePickerChanged(null, test.date);
-               assert(dateUtils.isDatesEqual(component._rangeModel.endValue, test.endValue));
-               assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, test.endValue));
+               assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, test.endValue));
+               assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, test.endValue));
             });
          });
       });
@@ -390,7 +390,7 @@ define([
                component._toggleStateClick();
                assert.strictEqual(component._state,
                   test.state === component._STATES.year ? component._STATES.month : component._STATES.year);
-               assert(dateUtils.isDatesEqual(component._displayedDate, test.displayedDate));
+               assert(dateUtils.Base.isDatesEqual(component._displayedDate, test.displayedDate));
             });
          });
       });
@@ -399,10 +399,10 @@ define([
          it('should update range models.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._yearsRangeChanged(null, start, end);
-            assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._rangeModel.endValue, dateUtils.getEndOfYear(end)));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, dateUtils.getEndOfYear(end)));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, dateUtils.Base.getEndOfYear(end)));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, dateUtils.Base.getEndOfYear(end)));
          });
       });
 
@@ -410,10 +410,10 @@ define([
          it('should update range models and displayed day.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._yearsSelectionChanged(null, start, end);
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, dateUtils.getEndOfYear(end)));
-            assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._rangeModel.endValue, dateUtils.getEndOfYear(end)));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, dateUtils.Base.getEndOfYear(end)));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, dateUtils.Base.getEndOfYear(end)));
          });
       });
 
@@ -423,14 +423,14 @@ define([
                date = new Date(2018, 0, 1),
                component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._onYearsSelectionHoveredValueChanged(null, date);
-            assert(dateUtils.isDatesEqual(component._displayedDate, date));
+            assert(dateUtils.Base.isDatesEqual(component._displayedDate, date));
          });
          it('should\'t update displayed day.', function() {
             const
                date = new Date(2018, 0, 1),
                component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: date, endValue: date });
             component._onYearsSelectionHoveredValueChanged(null, null);
-            assert(dateUtils.isDatesEqual(component._displayedDate, date));
+            assert(dateUtils.Base.isDatesEqual(component._displayedDate, date));
          });
       });
 
@@ -438,10 +438,10 @@ define([
          it('should update range models.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._monthsRangeChanged(null, start, end);
-            assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._rangeModel.endValue, dateUtils.getEndOfMonth(end)));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, dateUtils.getEndOfMonth(end)));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, dateUtils.Base.getEndOfMonth(end)));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, dateUtils.Base.getEndOfMonth(end)));
          });
       });
 
@@ -449,8 +449,8 @@ define([
          it('should update range models.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._monthsSelectionChanged(null, start, end);
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, dateUtils.getEndOfMonth(end)));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, dateUtils.Base.getEndOfMonth(end)));
          });
       });
 
@@ -458,11 +458,11 @@ define([
          it('should toggle state and update _displayedDate.', function() {
             const
                component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
-               newDate = dateUtils.getStartOfMonth(new Date());
+               newDate = dateUtils.Base.getStartOfMonth(new Date());
             assert.strictEqual(component._state, component._STATES.year);
             component._monthRangeMonthClick(null, newDate);
             assert.strictEqual(component._state, component._STATES.month);
-            assert(dateUtils.isDatesEqual(component._displayedDate, newDate));
+            assert(dateUtils.Base.isDatesEqual(component._displayedDate, newDate));
          });
       });
 
@@ -470,10 +470,10 @@ define([
          it('should update range models.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._monthRangeFixedPeriodClick(null, start, end);
-            assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, end));
             assert.isFalse(component._monthRangeSelectionProcessing);
          });
       });
@@ -482,10 +482,10 @@ define([
          it('should update range models.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._dateRangeChanged(null, start, end);
-            assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, end));
          });
       });
 
@@ -493,8 +493,8 @@ define([
          it('should update range models.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._dateRangeSelectionChanged(null, start, end);
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, end));
          });
       });
 
@@ -502,10 +502,10 @@ define([
          it('should update range models.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
             component._dateRangeFixedPeriodClick(null, start, end);
-            assert(dateUtils.isDatesEqual(component._rangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._rangeModel.endValue, end));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.startValue, start));
-            assert(dateUtils.isDatesEqual(component._headerRangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, end));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
+            assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, end));
             assert.isFalse(component._monthRangeSelectionProcessing);
          });
       });

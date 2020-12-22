@@ -3,9 +3,8 @@
  */
 define([
    'Controls/list',
-   'Types/collection',
-   'Controls/Constants'
-], function(list, collection, ControlsConstants){
+   'Types/collection'
+], function(list, collection){
    describe('Controls.List.ListControl.ItemsViewModel', function () {
       var data, data2, data3, display;
       beforeEach(function() {
@@ -440,7 +439,7 @@ define([
                keyProperty: 'id',
                groupingKeyCallback: function(item) {
                   if (item.get('group') === 'hidden') {
-                     return ControlsConstants.view.hiddenGroup;
+                     return list.groupConstants.hiddenGroup;
                   }
                   return item.get('group');
                },

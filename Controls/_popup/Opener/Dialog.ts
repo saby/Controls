@@ -21,15 +21,11 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FOpener%2FStackDemo">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/dialog/#open-popup">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FPopup%2FOpener%2FStackDemo демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/openers/dialog/#open-popup руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  * Для открытия диалоговых окон из кода используйте {@link Controls/popup:DialogOpener}.
- *
- * @class Controls/_popup/Opener/Dialog
- * @extends Controls/_popup/Opener/BaseOpener
  * @mixes Controls/_popup/interface/IBaseOpener
- * @mixes Controls/_popup/interface/IDialog
  * 
  * @author Красильников А.С.
  * @demo Controls-demo/Popup/Opener/StackDemo

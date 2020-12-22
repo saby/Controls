@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo__grid-header-multiHeader-base controlsDemo__height400 controlsDemo_widthFit">
+   <Controls.scroll:Container attr:class="controlsDemo__height400 controlsDemo__inline-flex" scn="1" attr:style="width:90%">
+   <Controls.gridNew:View
+           keyProperty="id"
+           source="{{_viewSource}}"
+           stickyHeader="{{true}}"
+           rowSeparatorVisibility="{{true}}"
+           columns="{{_columns}}"
+           header="{{_header}}"
+           columnScroll="{{true}}"
+           columnScrollStartPosition="end"
+           stickyColumnsCount="{{_stickyColumnsCount}}"/>
+   </Controls.scroll:Container>
+</div>

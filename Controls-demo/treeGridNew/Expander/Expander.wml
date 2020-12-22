@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper">
+
+    <div class="controlsDemo__cell">
+       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                state="/Controls-demo/app/:app"
+                                app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderVisibility/Index' }}">
+          <a href="{{content.href}}">Видимость экспандера</a>
+       </Router.router:Reference>
+       <Controls-demo.treeGridNew.Expander.ExpanderVisibility.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderSize/Index' }}">
+            <a href="{{content.href}}">Размеры отступа экспандера</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Expander.ExpanderSize.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderIcon/Index' }}">
+            <a href="{{content.href}}">Тип иконки экспандера</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Expander.ExpanderIcon.Index/>
+    </div>
+
+</div>

@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type">
+        <ws:itemTemplate>
+            <ws:partial template="{{_itemTemplate}}"/>
+        </ws:itemTemplate>
+        <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}" equentialEditing="{{true}}"
+                          toolbarVisibility="{{true}}"/>
+    </Controls.treeGridNew:View>
+</div>

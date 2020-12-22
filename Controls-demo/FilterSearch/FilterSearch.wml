@@ -122,12 +122,12 @@
                                 <Controls.tabs:Buttons
                                         bind:selectedKey='_tabSelectedKey'
                                         keyProperty="id"
-                                        source="{{_tabSource}}"
+                                        items="{{_tabItems}}"
                                         attr:class="demo__filterSearch-tabs">
                                     <ws:tabSpaceTemplate>
                                         <div class="controls-demo__filterSearch-filters">
                                             <Controls.filter:ButtonContainer>
-                                                <Controls.filter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/FilterSearch/Panel" alignment="left"/>
+                                                <Controls.filter:Selector attr:class="controls-demo__filterButton" items="{{_options.items}}" templateName="Controls-demo/FilterSearch/Panel" alignment="left"/>
                                             </Controls.filter:ButtonContainer>
 
                                             <Controls.filter:FastContainer>

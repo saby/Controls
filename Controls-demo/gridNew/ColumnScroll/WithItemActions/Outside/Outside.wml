@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:style="width: 600px; height: 400px">
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                columnScroll="{{true}}"
+                header="{{_header}}"
+                itemActions="{{ _itemActions }}"
+                itemActionsPosition="outside"
+                stickyColumnsCount="{{2}}"/>
+    </Controls.scroll:Container>
+</div>

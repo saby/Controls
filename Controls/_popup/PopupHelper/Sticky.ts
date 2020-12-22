@@ -14,14 +14,15 @@ export default class Sticky extends Base {
     _opener = StickyOpener;
 
     /**
-     * Метод для открытия прилипающих окон
+     * Метод для открытия прилипающих окон.
      * @function Controls/_popup/PopupHelper/Sticky#open
-     * @param {PopupOptions} config Конфигурация прилипающего окна
+     * @param {PopupOptions} config Конфигурация прилипающего окна.
      * @example
      * <pre class="brush: js">
      * import {StickyOpener} from 'Controls/popup';
-     * ...
+     * 
      * this._sticky = new StickyOpener();
+     * 
      * openSticky() {
      *     this._sticky.open({
      *         template: 'Example/MyStickyTemplate',
@@ -31,6 +32,7 @@ export default class Sticky extends Base {
      * </pre>
      * @see close
      * @see destroy
+     * @see isOpened
      */
     open(popupOptions: IStickyPopupOptions, popupController?: string): void {
         //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=50d7c8f9-7f88-401c-a511-79f774c43c4a
@@ -38,38 +40,49 @@ export default class Sticky extends Base {
     }
 }
 /**
- * Метод для закрытия прилипающего окна
+ * Метод для закрытия прилипающего окна.
  * @name Controls/_popup/PopupHelper/Sticky#close
  * @function
  * @example
  * <pre class="brush: js">
  * import {StickyOpener} from 'Controls/popup';
- * ...
+ * 
  * this._sticky = new StickyOpener();
- *
+ * 
  * closeSticky() {
- *    this._sticky.close();
+ *     this._sticky.close();
  * }
  * </pre>
  * @see open
  * @see destroy
+ * @see isOpened
  */
 
 /**
- * Разрушает экземпляр класса
+ * Разрушает экземпляр класса.
  * @name Controls/_popup/PopupHelper/Sticky#destroy
  * @function
  * @example
  * <pre class="brush: js">
- *    import {StickyOpener} from 'Controls/popup';
- *    ...
- *    this._sticky = new StickyOpener();
+ * import {StickyOpener} from 'Controls/popup';
+ * 
+ * this._sticky = new StickyOpener();
  *
- *    _beforeUnmount() {
- *        this._sticky.destroy();
- *        this._sticky = null;
- *    }
+ * _beforeUnmount() {
+ *     this._sticky.destroy();
+ *     this._sticky = null;
+ * }
  * </pre>
  * @see open
  * @see close
+ * @see isOpened
+ */
+
+/**
+ * @name Controls/_popup/PopupHelper/Sticky#isOpened
+ * @description Возвращает информацию о том, открыто ли прилипающее окно.
+ * @function
+ * @see open
+ * @see close
+ * @see destroy
  */

@@ -14,6 +14,7 @@
       <module id="0f5d26db-dd61-4957-9375-8861ad66f219" name="Vdom"/>
       <module id="f27abe12-19df-4c9f-b886-634bd20a0011" name="UI"/>
       <module id="832cda0a-e19c-4ffc-a1d1-47edbb6b7501" name="I18n"/>
+      <module id="37e402f1-2fb0-4b73-81c5-113cf94dbf1c" name="WasabyLoader"/>
     </depends>
 
   <load_after/>

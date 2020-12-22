@@ -1,0 +1,20 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{gridColumn}}">
+<ws:contentTemplate>
+    <ws:partial template="Controls/list:EditingTemplate"
+                value="{{ itemData.item[column.displayProperty || 'title'] }}"
+                itemData="{{itemData}}"
+                enabled="{{true}}">
+        <ws:editorTemplate>
+            <Controls.validate:InputContainer name="InputValidate">
+                <ws:validators>
+                    <ws:Function value="{{itemData.item[column.displayProperty || 'title']}}">Controls/validate:isEmail</ws:Function>
+                </ws:validators>
+                <ws:content>
+                    <Controls.input:Text bind:value="itemData.item[column.displayProperty || 'title']"
+                                         selectOnClick="{{ false }}" />
+                </ws:content>
+            </Controls.validate:InputContainer>
+        </ws:editorTemplate>
+    </ws:partial>
+</ws:contentTemplate>
+</ws:partial>

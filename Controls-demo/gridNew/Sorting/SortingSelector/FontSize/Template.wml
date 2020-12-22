@@ -1,0 +1,66 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xs</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontSize="xs">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=s</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontSize="s">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=m</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontSize="m">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=l</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontSize="l">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=xl</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontSize="xl">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=2xl</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontSize="2xl">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=3xl</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontSize="3xl">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontSize=4xl</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontSize="4xl">
+        </Controls.grid:SortingSelector>
+    </div>
+</div>

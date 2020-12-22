@@ -7,7 +7,7 @@ import { TreeControl } from 'Controls/tree';
 
 /**
     * Иерархический список с пользовательским шаблоном элемента. Может загружать данные из источника данных.
-    * <a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FEditableGrid">Демо-пример</a>.
+    * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FEditableGrid демо-пример}.
     *
     * @class Controls/TreeGrid
     * @extends Controls/Grid
@@ -20,10 +20,10 @@ import { TreeControl } from 'Controls/tree';
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/IHierarchy
-    * @mixes Controls/_tree/interface/ITreeControlOptions
+    * @implements Controls/_tree/interface/ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/_interface/IDraggable
-    * @mixes Controls/_marker/interface/IMarkerListOptions
+    * @mixes Controls/_marker/interface/IMarkerList
     *
     * 
     * @private
@@ -49,10 +49,10 @@ import { TreeControl } from 'Controls/tree';
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/ISorting
     * @mixes Controls/_interface/IHierarchy
-    * @mixes Controls/_tree/interface/ITreeControlOptions
+    * @implements Controls/_tree/interface/ITreeControl
     * @mixes Controls/interface/ITreeGridItemTemplate
     * @mixes Controls/_interface/IDraggable
-    * @mixes Controls/_marker/interface/IMarkerListOptions
+    * @mixes Controls/_marker/interface/IMarkerList
     *
     * 
     * @private

@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/list_new/EditInPlace/Grouped/Groupe
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getGroupedCatalog as getData} from '../../DemoHelpers/DataCatalog';
-import {view as constView} from 'Controls/Constants';
+import {groupConstants as constView} from 'Controls/list';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
 export default class extends Control {

@@ -24,7 +24,10 @@
         </Controls.dropdown:Input>
         <ws:if data="{{_currentParamName}}">
             <ws:partial on:click="_switchValue()"
-                        attr:class="controls-SortingSelector_arrow-outside_theme-{{_options.theme}} controls-SortingSelector_arrow{{_nocaption ? '_nocaption' : '_caption'}}_theme-{{_options.theme}}"
+                        attr:class="controls-SortingSelector_arrow-outside_theme-{{_options.theme}}
+                        controls-icon_style-{{_arrowIconStyle}}_theme-{{_options.theme}}
+                        {{_arrowIconHover ? 'controls-icon_highlightOnHover_theme-' + _options.theme : ''}}
+                        controls-SortingSelector_arrow{{_nocaption ? '_nocaption' : '_caption'}}_theme-{{_options.theme}}"
                         value="{{_orders[_currentParamName]}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
         </ws:if>
     </div>

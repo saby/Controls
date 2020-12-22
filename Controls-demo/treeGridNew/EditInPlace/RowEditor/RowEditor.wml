@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type">
+        <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}"/>
+        <ws:itemTemplate>
+            <ws:partial template="Controls/grid:RowEditor">
+                <div style="padding-bottom: 30px">
+                    Расширенный шаблон редактирования
+                </div>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.treeGridNew:View>
+</div>

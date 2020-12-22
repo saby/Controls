@@ -1,6 +1,9 @@
 <div class="controls-MasterDetail">
    <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
-      <div class="controls-MasterDetail_master controls-MasterDetail_master_theme-{{_options.theme}}" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}">
+      <div class="controls-MasterDetail_master controls-MasterDetail_master_theme-{{_options.theme}}" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
+           on:touchstart="_touchstartHandler()"
+           on:touchmove="_touchMoveHandler()"
+           on:touchend="_touchendHandler()">
          <Controls.event:Register name="resizeDetectMaster" register="controlResize" attr:fixCompatible="1">
             <ws:partial
                template="{{_options.master}}"
@@ -10,7 +13,8 @@
                on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
          </Controls.event:Register>
          <ws:if data="{{_canResizing}}">
-            <Controls.dragnDrop:ResizingLine attr:class="controls-MasterDetail_resizing-line"
+            <Controls.dragnDrop:ResizingLine name="resizingLine"
+                                             attr:class="controls-MasterDetail_resizing-line"
                                              minOffset="{{_minOffset}}"
                                              maxOffset="{{_maxOffset}}"
                                              on:dragStart="_dragStartHandler()"

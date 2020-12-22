@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <span class="controls-text-label_theme-default controlsDemo__mb1">pageSize 9, остальные опции не заданы, показ с первой страницы</span>
+    <Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index totalCount="{{30}}" pageSize="{{9}}">
+        <ws:content>
+            <Controls.scroll:Container attr:style="height: 250px">
+                <Controls.treeGridNew:View
+                        keyProperty="id"
+                        source="{{_viewSource}}"
+                        columns="{{_columns}}"
+                        parentProperty="parent"
+                        nodeProperty="type"
+                        navigation="{{_options.navigation}}">
+                    <ws:virtualScrollConfig pageSize="{{40}}"/>
+                </Controls.treeGridNew:View>
+            </Controls.scroll:Container>
+        </ws:content>
+    </Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index>
+</div>

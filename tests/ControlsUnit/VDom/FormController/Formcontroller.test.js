@@ -585,7 +585,7 @@ define([
          sandbox.stub(FC, '_notify').returns(true);
          FC.update().then(() => {
             assert.equal(FC._isNewRecord, false);
-            assert.deepEqual(FC._notify.args[0], ['requestCustomUpdate', [FC._record], {bubbling: true}]);
+            assert.deepEqual(FC._notify.args[0], ['requestCustomUpdate', [FC._record]]);
             done();
             FC.destroy();
             sandbox.restore();

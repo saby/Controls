@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            showEditArrow="{{ true }}"
+            editArrowVisibilityCallback="{{ _editArrowVisibilityCallback }}"
+            displayProperty="title"
+            columns="{{ _columns }}"
+            on:editArrowClick="_editArrowClick()"
+            header="{{ _header }}"
+            source="{{ _source }}">
+    </Controls.treeGridNew:View>
+</div>

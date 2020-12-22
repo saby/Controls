@@ -40,7 +40,7 @@ import {TemplateFunction} from 'UI/Base';
  *    ]
  * }
  * </pre>
- * 
+ *
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.propertyGrid:PropertyGrid
@@ -75,7 +75,7 @@ import {TemplateFunction} from 'UI/Base';
  *    ]
  * }
  * </pre>
- * 
+ *
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.propertyGrid:PropertyGrid
@@ -200,4 +200,5 @@ export default interface IProperty {
     type?: TProperty;
     group?: string;
     propertyValue?: unknown;
+    toggleEditorButtonIcon?: string;
 }

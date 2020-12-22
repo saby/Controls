@@ -1,4 +1,5 @@
 <div class="controlsDemo__wrapper">
+   <div class="controlsDemo__mb2 controls-text-label controls-text-label_theme-{{_options.theme}}">AdditionalTemplateProperty</div>
    <Controls.filter:View
       attr:class="controls-demo-FilterView__itemsEllipsis"
       on:itemsChanged="_itemsChangedHandler()"

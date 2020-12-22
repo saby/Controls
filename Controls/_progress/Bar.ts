@@ -5,6 +5,7 @@ import barTemplate = require('wml!Controls/_progress/Bar/Bar');
 
 export interface IBarOptions extends IControlOptions {
    value?: number;
+   barStyle: 'primary' | 'success' | 'danger' | 'warning';
 }
 /**
  * Базовый индикатор выполнения процесса.
@@ -12,7 +13,8 @@ export interface IBarOptions extends IControlOptions {
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_progress.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2fprogress%2fBar%2fIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_progress.less переменные тем оформления}
  * 
  * @class Controls/_progress/Bar
  * @extends Core/Control
@@ -20,7 +22,7 @@ export interface IBarOptions extends IControlOptions {
  *
  * @public
  *
- * @demo Controls-demo/progress/Bar/Index
+ * @demo Controls-demo/progress/Bar/Base/Index
  *
  */
 
@@ -37,7 +39,6 @@ export interface IBarOptions extends IControlOptions {
  */
 
 class Bar extends Control<IBarOptions> {
-   // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = barTemplate;
    protected _width: string = '0px';
 
@@ -62,13 +63,15 @@ class Bar extends Control<IBarOptions> {
    static getDefaultOptions(): object {
       return {
          theme: 'default',
-         value: 0
+         value: 0,
+         barStyle: 'primary'
       };
    }
 
    static getOptionTypes(): object {
       return {
-         value: EntityDescriptor(Number).required()
+         value: EntityDescriptor(Number).required(),
+         barStyle: EntityDescriptor(String)
       };
    }
 }
@@ -85,6 +88,17 @@ class Bar extends Control<IBarOptions> {
  * @cfg {Number} Progress in percents (ratio of the filled part)
  * @remark
  * An integer from 1 to 100.
+ */
+
+/**
+ * @name Controls/_progress/Bar#barStyle
+ * @cfg {Enum} Стиль шкалы прогресс бара.
+ * @variant primary
+ * @variant success
+ * @variant warning
+ * @variant danger
+ * @default primary
+ * @demo Controls-demo/progress/Bar/BarStyle/Index
  */
 
 export default Bar;

@@ -28,8 +28,13 @@ export default {
 
             /**
              * @name Controls/_calendar/interfaces/IMonth#showCaption
-             * @cfg {String} Признак отображения заголовка.
+             * @cfg {Boolean} Видимость заголовка.
+             * @remark
+             * Если опция установлена в значение true, то заголовок отображается.
+             * Формат данных, отображаемых в заголовке, задается в опции {@link captionFormat}.
              * @default false
+             * @see captionFormat
+             * @see captionTemplate
              */
             showCaption: false,
 
@@ -39,12 +44,16 @@ export default {
              * @remark
              * Строка должна быть в формате поддерживаемым {@link Types/formatter:date}.
              * @default DD.MM.YY
+             * @see showCaption
+             * @see captionTemplate
              */
             captionFormat: dateFormat.FULL_MONTH,
 
             /**
              * @name Controls/_calendar/interfaces/IMonth#showWeekdays
-             * @cfg {Boolean} Если true, то дни недели отображаются.
+             * @cfg {Boolean} Видимость подписей дней недели.
+             * @remark
+             * Если опция установлена в значение true, то дни недели отображаются.
              * @default true
              */
             showWeekdays: true,
@@ -55,14 +64,13 @@ export default {
              * @remark
              * Метод получает в аргумент объект даты.
              * Метод должен возвращать конфигурацию для отображения дня в виде объекта.
-             * Возможные поля для конфигурации
-             * <ul>
-             *     <li>today - назначить число сегодняшней датой</li>
-             *     <li>readOnly - установить число в режим только для чтения</li>
-             *     <li>date - изменить дату</li>
-             *     <li>selectionEnabled - включить курсор при наведении на ячейку </li>
-             *     <li>weekend - назначить число выходным</li>
-             * </ul>
+             * Возможные поля для конфигурации:
+             *
+             * * today - назначить число сегодняшней датой.
+             * * readOnly - установить число в режим только для чтения.
+             * * date - изменить дату.
+             * * selectionEnabled - включить курсор при наведении на ячейку.
+             * * weekend - назначить число выходным.
              * @default undefined
              * @demo Controls-demo/Calendar/MonthView/dayFormatter/Index
              */
@@ -128,6 +136,8 @@ export default {
              *       </ws:captionTemplate>
              *  </Controls.calendar:MonthView>
              *  </pre>
+             * @see showCaption
+             * @see captionFormat
              */
         };
     },

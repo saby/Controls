@@ -39,12 +39,12 @@ export = {
        * }
        * </pre>
        */
-      options.ranges = [];
+      options.ranges = {};
       /**
        * @typedef {String} SelectionType
        * @variant range Выделение произвольного диапазона.
        * @variant single Выделение одного элемента.
-       * @variant quantum Выделение квантами. Кванты задаются через опцию {@link https://wi.sbis.ru/docs/js/Controls/dateRange/IDateRangeSelectable/options/ranges/ range}
+       * @variant quantum Выделение квантами. Кванты задаются через опцию {@link /docs/js/Controls/dateRange/IDateRangeSelectable/options/ranges/ range}
        * @variant disable Выбор отключен.
        */
 

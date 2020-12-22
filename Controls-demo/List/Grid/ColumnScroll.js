@@ -18,7 +18,7 @@ define('Controls-demo/List/Grid/ColumnScroll', [
       columns = [
          {
             displayProperty: 'name',
-            width: 'minmax(600px, 1fr)',
+            width: '600px',
             compatibleWidth: '600px',
             template: 'wml!Controls-demo/List/Grid/DemoName'
          },

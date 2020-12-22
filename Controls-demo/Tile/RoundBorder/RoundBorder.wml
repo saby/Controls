@@ -1,0 +1,57 @@
+<div class="controlsDemo__wrapper">
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Tile/RoundBorder/Default/Index' }}">
+            <a href="{{content.href}}">Стандартные отступы</a>
+        </Router.router:Reference>
+        <Controls-demo.Tile.RoundBorder.Default.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Tile/RoundBorder/3XS/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру 3XS</a>
+        </Router.router:Reference>
+        <Controls-demo.Tile.RoundBorder.3XS.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Tile/RoundBorder/2XS/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру 2XS</a>
+        </Router.router:Reference>
+        <Controls-demo.Tile.RoundBorder.2XS.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Tile/RoundBorder/XS/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру XS</a>
+        </Router.router:Reference>
+        <Controls-demo.Tile.RoundBorder.XS.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Tile/RoundBorder/S/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру S</a>
+        </Router.router:Reference>
+        <Controls-demo.Tile.RoundBorder.S.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Tile/RoundBorder/M/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру M</a>
+        </Router.router:Reference>
+        <Controls-demo.Tile.RoundBorder.M.Index />
+    </div>
+
+</div>

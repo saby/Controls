@@ -1,7 +1,9 @@
 <div>
-    <div class="controls-PeriodLiteDialog__item-background-hovered
-                controls-PeriodLiteDialog__item-background-hovered_theme-{{_options.theme}}
-                border-top-hidden{{ !(_options._yearHovered === _options.currentYear) ? ' ws-hidden'}}"></div>
+    <ws:if data="{{_options._yearHovered === _options.currentYear}}">
+        <div class="controls-PeriodLiteDialog__item-background-hovered
+               controls-PeriodLiteDialog__item-background-hovered_theme-{{_options.theme}}
+               border-top-hidden"></div>
+    </ws:if>
     <ws:for data="halfYearIndex as halfYear in _yearModel">
         <ws:for data="quarterIndex as quarter in halfYear.quarters">
             <div class="controls-PeriodLiteDialog__vLayoutItem controls-PeriodLiteDialog__vLayoutItem-clickable

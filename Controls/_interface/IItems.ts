@@ -9,7 +9,6 @@ export type TKey = string|number|null;
 /**
  * Набор записей.
  *
- * @interface Controls/_interface/IItems
  * @public
  * @author Красильников А.С.
  */

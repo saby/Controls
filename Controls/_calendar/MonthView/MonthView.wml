@@ -1,8 +1,8 @@
 <div attr:class="controls-MonthViewVDOM controls-MonthViewVDOM_theme-{{_options.theme}}
                   {{_options.newMode !== true? 'controls-MonthViewVDOM-old controls-MonthViewVDOM-old_theme-' + _options.theme}}
-         {{rangeselect ? ' controls-RangeSelectable__rangeselect'}} {{_themeCssClass}}" data-date="{{_dateToDataString(_month)}}">
+         {{rangeselect ? ' controls-RangeSelectable__rangeselect'}}" data-date="{{_dateToDataString(_month)}}">
    <ws:if data="{{_options.showCaption}}">
-      <div attr:class="controls-MonthViewVDOM__caption {{_themeCssClass}}">
+      <div attr:class="controls-MonthViewVDOM__caption">
          <ws:partial
                  template="{{_options.captionTemplate}}"
                  caption="{{_caption}}"
@@ -14,13 +14,12 @@
       <ws:if data="{{_options.showWeekdays}}">
          <div class="controls-MonthViewVDOM__tableRow controls-MonthViewVDOM__tableRow_theme-{{_options.theme}}
                {{ _options.newMode !== true? 'controls-MonthViewVDOM__tableRow-old_theme-' + _options.theme }}
-               controls-MonthViewVDOM_tableHead {{_themeCssClass}}">
+               controls-MonthViewVDOM_tableHead">
             <ws:for data="value in _days">
                <ws:partial
                        newMode="{{_options.newMode}}"
                        template="{{_options.dayHeaderTemplate}}"
                        value="{{value}}"
-                       _themeCssClass="{{_themeCssClass}}"
                />
             </ws:for>
          </div>
@@ -32,7 +31,6 @@
          theme="{{_options.theme}}"
          newMode="{{_options.newMode}}"
          _prepareClass="{{_prepareClass}}"
-         _themeCssClass="{{_themeCssClass}}"
           mode="{{_options.mode}}"
       />
    </div>

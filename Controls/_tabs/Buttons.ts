@@ -1,33 +1,38 @@
 /**
  * Created by kraynovdo on 25.01.2018.
  */
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {Control, TemplateFunction} from 'UI/Base';
 import {CrudWrapper} from 'Controls/dataSource';
-import * as cInstance from 'Core/core-instance';
 import {RecordSet} from 'Types/collection';
-import {Model} from 'Types/entity';
 import {SbisService} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {isLeftMouseButton} from 'Controls/popup';
 import {IItems, IHeight} from 'Controls/interface';
 import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
-import { constants } from 'Env/Env';
+import {constants} from 'Env/Env';
+import {adapter} from 'Types/entity';
+import {factory} from 'Types/chain';
 
 import TabButtonsTpl = require('wml!Controls/_tabs/Buttons/Buttons');
 import ItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
 
 import {IItemTemplateOptions, IHeightOptions} from 'Controls/interface';
 
-/**
- * Интерфейс для шаблонных опций контрола вкладок.
- * @interface Controls/_tabs/ITabsTemplateOptions
- * @public
- */
+interface ITabButtonItem {
+    isMainTab?: boolean;
+    align?: 'left' | 'right';
+    [key: string]: any;
+}
 
 export interface ITabsTemplate {
     readonly '[Controls/_tabs/ITabsTemplate]': boolean;
 }
 
+/**
+ * Интерфейс для шаблонных опций контрола вкладок.
+ * @interface Controls/_tabs/ITabsTemplate
+ * @public
+ */
 export interface ITabsTemplateOptions extends IItemTemplateOptions, IHeightOptions {
     leftTemplateProperty?: string;
     rightTemplateProperty?: string;
@@ -43,6 +48,7 @@ interface IReceivedState {
     items: RecordSet;
     itemsOrder: number[];
     lastRightOrder: number;
+    itemsArray: ITabButtonItem[];
 }
 
 const isTemplate = (tmpl: any): boolean => {
@@ -62,7 +68,7 @@ const isTemplateObject = (tmpl: any): boolean => {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_tabs.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_tabs.less переменные тем оформления}
  *
  * @class Controls/_tabs/Buttons
  * @extends Core/Control
@@ -87,14 +93,17 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     protected _template: TemplateFunction = TabButtonsTpl;
     protected _defaultItemTemplate: TemplateFunction = ItemTemplate;
+    protected _itemsArray: ITabButtonItem[];
     private _itemsOrder: number[];
     private _lastRightOrder: number;
+    private _markerThickness: string;
     private _items: RecordSet;
     private _crudWrapper: CrudWrapper;
 
     protected _beforeMount(options: ITabsOptions,
                            context: object,
                            receivedState: IReceivedState): void | Promise<IReceivedState> {
+        this._markerThickness = TabsButtons._getMarkerThickness(options);
         if (receivedState) {
             this._prepareState(receivedState);
         } else if (options.items) {
@@ -121,6 +130,10 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
             const itemsData = this._prepareItems(newOptions.items);
             this._prepareState(itemsData);
         }
+        if (newOptions.markerThickness !== this._options.markerThickness
+            || newOptions.borderThickness !== this._options.borderThickness) {
+            this._markerThickness = TabsButtons._getMarkerThickness(newOptions);
+        }
     }
 
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
@@ -129,40 +142,41 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
-    protected _prepareItemClass(item: Model, index: number): string {
+    protected _prepareItemClass(item: ITabButtonItem, index: number): string {
         const order: number = this._itemsOrder[index];
         const options: ITabsButtonsOptions = this._options;
-        const classes: string[] = ['controls-Tabs__item controls-Tabs__item_theme_' + options.theme +
-        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight + '_theme-' + options.theme];
+        const theme = options.theme;
+        const classes: string[] = ['controls-Tabs__item controls-Tabs__item_theme_' + theme +
+        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight + '_theme-' + theme];
 
-        const itemAlign: string = item.get('align');
+        const itemAlign: string = item.align;
         const align: string = itemAlign ? itemAlign : 'right';
 
         const isLastItem: boolean = order === this._lastRightOrder;
 
         classes.push(`controls-Tabs__item_align_${align} ` +
-            `controls-Tabs__item_align_${align}_theme_${options.theme}`);
+            `controls-Tabs__item_align_${align}_theme_${theme}`);
         if (order === 1 || isLastItem) {
-            classes.push('controls-Tabs__item_extreme controls-Tabs__item_extreme_theme_' + options.theme);
+            classes.push('controls-Tabs__item_extreme controls-Tabs__item_extreme_theme_' + theme);
         }
         if (order === 1) {
-            classes.push('controls-Tabs__item_extreme_first controls-Tabs__item_extreme_first_theme_' + options.theme);
+            classes.push('controls-Tabs__item_extreme_first controls-Tabs__item_extreme_first_theme_' + theme);
         } else if (isLastItem) {
-            classes.push('controls-Tabs__item_extreme_last controls-Tabs__item_extreme_last_theme_' + options.theme);
+            classes.push('controls-Tabs__item_extreme_last controls-Tabs__item_extreme_last_theme_' + theme);
         } else {
-            classes.push('controls-Tabs__item_default controls-Tabs__item_default_theme_' + options.theme);
+            classes.push('controls-Tabs__item_default controls-Tabs__item_default_theme_' + theme);
         }
 
-        const itemType: string = item.get('type');
+        const itemType: string = item.type;
         if (itemType) {
             classes.push('controls-Tabs__item_type_' + itemType +
-                ' controls-Tabs__item_type_' + itemType + '_theme_' + options.theme);
+                ' controls-Tabs__item_type_' + itemType + '_theme_' + theme);
         }
 
         // TODO: по поручению опишут как и что должно сжиматься.
         // Пока сжимаем только те вкладки, которые прикладники явно пометили
         // https://online.sbis.ru/opendoc.html?guid=cf3f0514-ac78-46cd-9d6a-beb17de3aed8
-        if (item.get('isMainTab')) {
+        if (item.isMainTab) {
             classes.push('controls-Tabs__item_canShrink');
         } else {
             classes.push('controls-Tabs__item_notShrink');
@@ -170,11 +184,11 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return classes.join(' ');
     }
 
-    protected _prepareItemSelectedClass(item: Model): string {
+    protected _prepareItemSelectedClass(item: ITabButtonItem): string {
         const classes = [];
         const options = this._options;
         const style = TabsButtons._prepareStyle(options.style);
-        if (item.get(options.keyProperty) === options.selectedKey) {
+        if (item[options.keyProperty] === options.selectedKey) {
             classes.push(`controls-Tabs_style_${style}__item_state_selected ` +
                 `controls-Tabs_style_${style}__item_state_selected_theme_${options.theme}`);
             classes.push('controls-Tabs__item_state_selected ' +
@@ -190,9 +204,13 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return '-ms-flex-order:' + order + '; order:' + order;
     }
 
-    protected _getTemplate(template: TemplateFunction, item: Model, itemTemplateProperty: string): TemplateFunction {
+    protected _getTemplate(
+        template: TemplateFunction,
+        item: ITabButtonItem,
+        itemTemplateProperty: string
+    ): TemplateFunction {
         if (itemTemplateProperty) {
-            const templatePropertyByItem = item.get(itemTemplateProperty);
+            const templatePropertyByItem = item[itemTemplateProperty];
             if (templatePropertyByItem) {
                 return templatePropertyByItem;
             }
@@ -200,13 +218,30 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return template;
     }
 
+    /**
+     * Получаем массив из RecordSet, т.к. работа с массивом значительно ускоряет обработку.
+     * @param {RecordSet} items
+     * @return {ITabButtonItem[]}
+     * @private
+     */
+    private _getItemsArray(items: RecordSet): ITabButtonItem[] {
+        if (items.getAdapter() instanceof adapter.Json) {
+            return items.getRawData();
+        } else {
+            return factory(items).map((item) => {
+                return factory(item).toObject();
+            }).value();
+        }
+    }
+
     private _prepareItems(items: RecordSet): IReceivedState {
         let leftOrder: number = 1;
         let rightOrder: number = 30;
+        const itemsArray = this._getItemsArray(items);
         const itemsOrder: number[] = [];
 
-        items.each((item: Model) => {
-            if (item.get('align') === 'left') {
+        itemsArray.forEach((item) => {
+            if (item.align === 'left') {
                 itemsOrder.push(leftOrder++);
             } else {
                 itemsOrder.push(rightOrder++);
@@ -220,7 +255,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return {
             items,
             itemsOrder,
-            lastRightOrder: rightOrder
+            lastRightOrder: rightOrder,
+            itemsArray
         };
     }
 
@@ -235,6 +271,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 
     private _prepareState(data: IReceivedState): void {
         this._items = data.items;
+        this._itemsArray = data.itemsArray;
         this._itemsOrder = data.itemsOrder;
         this._lastRightOrder = data.lastRightOrder;
     }
@@ -253,18 +290,31 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         }
     }
 
+    static _getMarkerThickness(options: ITabsOptions): string {
+        //  TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=21dfec57-300d-42b7-aa76-4d13bea8d53f
+        return options.borderThickness ? options.borderThickness : options.markerThickness;
+    }
+
     static _checkHasFunction(receivedState: IReceivedState): boolean {
         // Функции, передаваемые с сервера на клиент в receivedState, не могут корректно десериализоваться.
         // Поэтому, если есть функции в receivedState, заново делаем запрос за данными.
         // Если в записи есть функции, то итемы в receivedState не передаем, на клиенте перезапрашивает данные
         if (constants.isServerSide && receivedState?.items?.getCount) {
-            const count = receivedState.items.getCount();
-            for (let i = 0; i < count; i++) {
-                const item = receivedState.items.at(i);
-                const value = cInstance.instanceOfModule(item, 'Types/entity:Record') ? item.getRawData(true) : item;
-                for (const key in value) {
-                    //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=225bec8b-71f5-462d-b566-0ebda961bd95
-                    if (isTemplate(value[key]) || isTemplateArray(value[key]) || isTemplateObject(value[key])) {
+            const items = receivedState.itemsArray;
+            const length = items.length;
+            for (let i = 0; i < length; i++) {
+                const item = items[i];
+                for (const key in item) {
+                    /* TODO: will be fixed by
+                     * https://online.sbis.ru/opendoc.html?guid=225bec8b-71f5-462d-b566-0ebda961bd95
+                     */
+                    if (
+                        item.hasOwnProperty(key) && (
+                            isTemplate(item[key]) ||
+                            isTemplateArray(item[key]) ||
+                            isTemplateObject(item[key])
+                        )
+                    ) {
                         return true;
                     }
                 }
@@ -278,7 +328,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return {
             style: 'primary',
             inlineHeight: 's',
-            borderThickness: 's',
+            markerThickness: 's',
+            borderVisible: true,
             separatorVisible: true,
             displayProperty: 'title'
         };
@@ -286,7 +337,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
 }
 
 /**
- * @name Controls/_tabs/ITabsTemplateOptions#tabSpaceTemplate
+ * @name Controls/_tabs/ITabsTemplate#tabSpaceTemplate
  * @cfg {Content} Шаблон, отображаемый между вкладками.
  * @default undefined
  * @remark
@@ -309,34 +360,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  * </pre>
  */
 
-/*
- * @name Controls/_tabs/ITabsTemplateOptions#tabSpaceTemplate
- * @cfg {Content} Contents of the area near the tabs.
- * @default undefined
- * @remark
- * Tab can be left and right aligned, this is determined by the item property 'align'.
- * If control has left and right tabs then  TabSpaceTemplate will be between them.
- * @example
- * Tabs buttons with space template.
- * <pre>
- *    <Controls.tabs:Buttons
- *       .....
- *       tabSpaceTemplate=".../spaceTemplate'"
- *       .....
- *    />
- * </pre>
- * spaceTemplate:
- * <pre>
- *    <div class="additionalContent">
- *       <Controls.buttons:Button .../>
- *       <Controls.buttons:Button .../>
- *       <Controls.buttons:Button .../>
- *    </div>
- * </pre>
- */
-
 /**
- * @name Controls/_tabs/ITabsTemplateOptions#itemTemplate
+ * @name Controls/_tabs/ITabsTemplate#itemTemplate
  * @cfg {Function} Шаблон для рендеринга.
  * @default Base template 'Controls/tabs:buttonsItemTemplate'
  * @remark
@@ -365,36 +390,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  * @see itemTemplateProperty
  */
 
-/*
- * @name Controls/_tabs/ITabsTemplateOptions#itemTemplate
- * @cfg {Function} Template for item render.
- * @default Base template 'Controls/tabs:buttonsItemTemplate'
- * @remark
- * To determine the template, you should call the base template 'Controls/tabs:buttonsItemTemplate'.
- * The template is placed in the component using the ws:partial tag with the template attribute.
- * By default, the base template 'Controls/tabs:buttonsItemTemplate' will display only the 'title' field. You can change the display of records by setting their values for the following options:
- * <ul>
- *    <li>displayProperty - defines the display field of the record.</li>
- * <ul>
- * @example
- * Tabs buttons with item template.
- * <pre>
- *    <Controls.tabs:Buttons
- *                   bind:selectedKey='SelectedKey3'
- *                   keyProperty="id"
- *                   style="additional"
- *                   source="{{_source3}}">
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/tabs:buttonsItemTemplate"
- *                      item="{{itemTemplate.item}}"
- *                      displayProperty="caption"/>
- *       </ws:itemTemplate>
- *    </Controls.tabs:Buttons>
- * </pre>
- */
-
 /**
- * @name Controls/_tabs/ITabsTemplateOptions#itemTemplateProperty
+ * @name Controls/_tabs/ITabsTemplate#itemTemplateProperty
  * @cfg {String} Имя поля, которое содержит шаблон отображения элемента.
  * @default Если параметр не задан, вместо него используется itemTemplate.
  * @remark
@@ -433,43 +430,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  * @see itemTemplate
  */
 
-/*
- * @name Controls/_tabs/ITabsTemplateOptions#itemTemplateProperty
- * @cfg {String} Name of the item property that contains template for item render.
- * @default If not set, itemTemplate is used instead.
- * @remark
- * To determine the template, you should call the base template 'Controls/tabs:buttonsItemTemplate'.
- * The template is placed in the component using the ws:partial tag with the template attribute.
- * By default, the base template 'Controls/tabs:buttonsItemTemplate' will display only the 'title' field. You can change the display of records by setting their values for the following options:
- * <ul>
- *    <li>displayProperty - defines the display field of the record.</li>
- * <ul>
- * @example
- * Tabs buttons with item template.
- * <pre>
- *    <Controls.tabs:Buttons itemTemplateProperty="myTemplate"
- *                           source="{{_source}}
- *                           ...>
- *    </Controls.tabs:Buttons>
- * </pre>
- * myTemplate
- * <pre>
- *    <div class="controls-Tabs__item_custom">{{item.get(displayProperty || 'title')}}</div>
- * </pre>
- * <pre>
- *    _source: new Memory({
- *              keyProperty: 'id',
- *              data: [
- *                     {id: 1, title: 'I agree'},
- *                     {id: 2, title: 'I not decide'},
- *                     {id: 4, title: 'Will not seem', caption: 'I not agree',  myTemplate: 'wml!.../myTemplate'}
- *              ]
- *    })
- * </pre>
- */
-
 /**
- * @name Controls/_tabs/ITabsTemplateOptions#rightTemplateProperty
+ * @name Controls/_tabs/ITabsTemplate#rightTemplateProperty
  * @cfg {String} Имя поля, которое содержит шаблон отображения элемента, находящегося справа от основного содержимого.
  * @example
  * <pre class="brush: html; highlight: [2]">
@@ -500,7 +462,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  */
 
 /**
- * @name Controls/_tabs/ITabsTemplateOptions#leftTemplateProperty
+ * @name Controls/_tabs/ITabsTemplate#leftTemplateProperty
  * @cfg {String} Имя поля, которое содержит шаблон отображения элемента, находящегося слева от основного содержимого.
  * @example
  * <pre class="brush: html; highlight: [2]">
@@ -531,7 +493,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  */
 
 /**
- * @name Controls/_tabs/ITabsTemplateOptions#itemRightTemplate
+ * @name Controls/_tabs/ITabsTemplate#itemRightTemplate
  * @cfg {String} Шаблон элемента, находящегося справа от основного содержимого.
  * @remark
  * Базовый шаблон itemRightTemplate поддерживает следующие параметры:
@@ -552,7 +514,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
  */
 
 /**
- * @name Controls/_tabs/ITabsTemplateOptions#itemLeftTemplate
+ * @name Controls/_tabs/ITabsTemplate#itemLeftTemplate
  * @cfg {String} Шаблон элемента, находящегося слева от основного содержимого.
  * @remark
  * Базовый шаблон itemLeftTemplate поддерживает следующие параметры:

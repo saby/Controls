@@ -1,21 +1,17 @@
 import {ICrud, ICrudPlus, IData} from 'Types/source';
 export interface ISourceOptions {
    source?: ICrudPlus | ICrud & ICrudPlus & IData;
-   keyProperty: string;
+   keyProperty?: string;
 }
 
 /**
  * Интерфейс для доступа к источнику данных.
- *
- * @interface Controls/_interface/ISource
  * @public
  * @author Крайнов Д.О.
  */
 
 /*
  * Interface for components that use data source.
- *
- * @interface Controls/_interface/ISource
  * @public
  * @author Крайнов Д.О.
  */
@@ -26,57 +22,57 @@ export default interface ISource {
  * @name Controls/_interface/ISource#source
  * @cfg {Types/source:ICrud} Объект реализующий интерфейс {@link Types/source:ICrud}, необходимый для работы с источником данных.
  * @remark
- * Более подробно об источниках данных вы можете почитать <a href='/doc/platform/developmentapl/interface-development/data-sources/'>здесь</a>.
+ * Более подробно об источниках данных вы можете почитать {@link /doc/platform/developmentapl/interface-development/data-sources/ здесь}.
  * @example
- * В приведённом примере для контрола {@link Controls/list:View} в опцию source передаётся {@link Types/source:Memory} источник.
+ * В приведённом примере для контрола {@link Controls/list:View} в опцию source передаётся {@link Types/source:HierarchicalMemory} источник.
  * Контрол получит данные из источника и выведет их.
  *
- * WML:
- * <pre>
- *    <Controls.list:View source="{{_source}}" keyProperty="key">
- *        <ws:itemTemplate>
- *            <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
- *                <ws:contentTemplate>
- *                    <span>{{contentTemplate.itemData.item.title}}</span>
- *                </ws:contentTemplate>
- *            </ws:partial>
- *        </ws:itemTemplate>
- *    </Controls.list:View>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.list:View source="{{_source}}" keyProperty="key">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
+ *          <ws:contentTemplate>
+ *             <span>{{contentTemplate.itemData.item.title}}</span>
+ *          </ws:contentTemplate>
+ *       </ws:partial>
+ *    </ws:itemTemplate>
+ * </Controls.list:View>
  * </pre>
  *
- * JS:
- * <pre>
- *     import {Memory} from "Types/source";
+ * <pre class="brush: js">
+ * import {HierarchicalMemory} from "Types/source";
  *
- *     _source: null,
- *     _beforeMount: function() {
- *         this._source = new source.Memory({
- *             keyProperty: 'key',
- *             data: [
- *                {
- *                   key: '1',
- *                   title: 'Ярославль',
- *                   icon: 'icon-small icon-Yar icon-done',
- *                   parent: null,
- *                   '@parent': true
- *                },
- *                {
- *                   key: '2',
- *                   title: 'Рыбинск',
- *                   icon: 'icon-small icon-Ryb icon-done',
- *                   parent: 1,
- *                   '@parent': false
- *                },
- *                {
- *                   key: '3',
- *                   title: 'St-Petersburg',
- *                   icon: 'icon-small icon-SPB icon-done',
- *                   parent: null,
- *                   '@parent': true
- *                }
- *             ]
- *          })
- *     }
+ * _source: null,
+ * _beforeMount: function() {
+ *     this._source = new HierarchicalMemory({
+ *         keyProperty: 'key',
+ *         parentProperty: 'parent',
+ *         data: [
+ *             {
+ *                 key: '1',
+ *                 title: 'Ярославль',
+ *                 icon: 'icon-small icon-Yar icon-done',
+ *                 parent: null,
+ *                 '@parent': true
+ *             },
+ *             {
+ *                 key: '2',
+ *                 title: 'Рыбинск',
+ *                 icon: 'icon-small icon-Ryb icon-done',
+ *                 parent: 1,
+ *                 '@parent': false
+ *             },
+ *             {
+ *                 key: '3',
+ *                 title: 'St-Petersburg',
+ *                 icon: 'icon-small icon-SPB icon-done',
+ *                 parent: null,
+ *                 '@parent': true
+ *             }
+ *         ]
+ *     })
+ * }
  * </pre>
  * @see Types/source:ICrudPlus
  * @see Types/source:ICrud
@@ -104,11 +100,11 @@ export default interface ISource {
  *
  * JS:
  * <pre>
- *     import {Memory} from "Types/source";
+ *     import {HierarchicalMemory} from "Types/source";
  *
  *     _source: null,
  *     _beforeMount: function() {
- *         this._source = new source.Memory({
+ *         this._source = new source.HierarchicalMemory({
  *             keyProperty: 'key',
  *             data: [
  *                {
@@ -136,33 +132,36 @@ export default interface ISource {
  * @name Controls/_interface/ISource#keyProperty
  * @cfg {String} Имя свойства, содержащего информацию об идентификаторе текущей строки.
  * @remark Например, идентификатор может быть первичным ключом записи в базе данных.
+ * Если keyProperty не задан, то значение будет взято из source.
+ * @demo Controls-demo/list_new/KeyProperty/Source/Index
  * @example
  * <pre class="brush: html">
- *     <Controls.list:View
- *       source="{{_source}}"
- *       keyProperty="key">
- *    </Controls.list:View>
+ * <!-- WML -->
+ * <Controls.list:View
+ *    source="{{_source}}"
+ *    keyProperty="key" />
  * </pre>
  * <pre class="brush: js">
+ * // JavaScript
  * _source: null,
  * _beforeMount: function(){
  *    this._source = new source.Memory({
  *       keyProperty: 'key',
  *       data: [
- *            {
- *               key: '1',
- *                title: 'Yaroslavl'
- *            },
- *            {
- *               key: '2',
- *                title: 'Moscow'
- *            },
- *            {
- *                key: '3',
- *                title: 'St-Petersburg'
- *            }
- *            ]
- *        })
+ *          {
+ *             key: '1',
+ *             title: 'Yaroslavl'
+ *          },
+ *          {
+ *             key: '2',
+ *             title: 'Moscow'
+ *          },
+ *          {
+ *             key: '3',
+ *             title: 'St-Petersburg'
+ *          }
+ *       ]
+ *    })
  * }
  * </pre>
  */

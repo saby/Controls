@@ -1,5 +1,5 @@
 <ws:partial template="{{_options.content}}"
             value="{{_value}}"
+            on:keyDown="_keyDown()"
             on:valueChanged="_valueChanged()"
-            on:searchClick="_searchClick()"
-            on:keyDown="_keyDown()"/>
+            on:searchClick="_searchClick()"/>

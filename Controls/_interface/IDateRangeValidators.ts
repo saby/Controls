@@ -15,9 +15,8 @@ export interface IDateRangeValidatorsOptions {
 
 /**
  * Интерфейс для полей ввода с внутренней валидацией. Позволяет заать валидаторы для возвращаемого значения.
- *
- * @interface Controls/_interface/IDateRangeValidators
  * @public
+ * @author Красильников А.С.
  */
 
 export default interface IDateRangeValidators {
@@ -26,7 +25,7 @@ export default interface IDateRangeValidators {
 
 /**
  * @name Controls/_interface/IDateRangeValidators#startValueValidators
- * @cfg {Array} Массив вылидаторов или объектов содержащих валидаторы и их аргументы.
+ * @cfg {Array} Массив вылидаторов или объектов, содержащих валидаторы и их аргументы.
  *
  * @remark
  * При вызове валидатора в качестве аргументов он получает введнное в поле значение и заданные из прикладного кода
@@ -38,6 +37,7 @@ export default interface IDateRangeValidators {
  * по клику на кнопку рядом с полями ввода.
  *
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.dateRange:Input>
  *    <ws:startValueValidators>
  *       <ws:Array>
@@ -51,6 +51,7 @@ export default interface IDateRangeValidators {
  * и _endValue.
  *
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.dateRange:Input>
  *    <ws:startValueValidators>
  *       <ws:Array>
@@ -64,6 +65,7 @@ export default interface IDateRangeValidators {
  *    </ws:startValueValidators>
  * </Controls.dateRange:Input>
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Validators/Index
  *
  * @see Controls/_interface/IDateRangeValidators#endValueValidators
  * @see Controls/_interface/IDateRangeValidators#validateByFocusOut
@@ -71,18 +73,19 @@ export default interface IDateRangeValidators {
 
 /**
  * @name Controls/_interface/IDateRangeValidators#endValueValidators
- * @cfg {Array} Массив вылидаторов или объектов содержащих валидаторы и их аргументы.
+ * @cfg {Array} Массив вылидаторов или объектов, содержащих валидаторы и их аргументы.
  *
  * @remark
- * При вызове валидатора в качестве аргументов он получает введнное в поле значение и заданные из прикладного кода
+ * При вызове валидатора в качестве аргументов он получает введенное в поле значение и заданные из прикладного кода
  * аргументы.
  *
  * @example
- * Поле ввода периода с валидатором, который проверяет, что в поле ввода коца периода введено значение.
+ * Поле ввода периода с валидатором, который проверяет, что в поле ввода конца периода введено значение.
  * Так же этот валидатор устанавливается в поле ввода в диалоге выбора периода, который открывается
  * по клику на кнопку рядом с полями ввода.
  *
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.dateRange:Input>
  *     <ws:endValueValidators>
  *         <ws:Array>
@@ -96,6 +99,7 @@ export default interface IDateRangeValidators {
  * и _endValue.
  *
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.dateRange:Input>
  *     <ws:endValueValidators>
  *         <ws:Array>
@@ -109,6 +113,7 @@ export default interface IDateRangeValidators {
  *     </ws:endValueValidators>
  * </Controls.dateRange:Input>
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Validators/Index
  *
  * @see Controls/_interface/IDateRangeValidators#startValueValidators
  * @see Controls/_interface/IDateRangeValidators#validateByFocusOut
@@ -121,11 +126,13 @@ export default interface IDateRangeValidators {
  * @default true
  *
  * @example
- * Включаем срабатывание валидации только по внешнему тригеру. Например при валидации формы.
+ * Включаем срабатывание валидации только по внешнему триггеру. Например при валидации формы.
  *
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.input:Date validateByFocusOut="{{false}}"/>
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Validators/Index
  *
  * @see Controls/_interface/IDateRangeValidators#startValueValidators
  * @see Controls/_interface/IDateRangeValidators#endValueValidators

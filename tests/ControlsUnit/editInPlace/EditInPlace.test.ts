@@ -74,7 +74,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.edit(collection.at(0).contents).then((res) => {
+            return editInPlace.edit({item: collection.at(0).contents}).then((res) => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
@@ -90,7 +90,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.edit(collection.at(0).contents).then((res) => {
+            return editInPlace.edit({item: collection.at(0).contents}).then((res) => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
@@ -99,7 +99,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         });
 
         it('commit if current adding item has changes', () => {
-            return editInPlace.add(newItem).then(() => {
+            return editInPlace.add({item: newItem}).then(() => {
                 collection.find((i) => i.isEditing()).contents.set('title', 'Changed');
 
                 // Первый запуск пропускаем, он нам не интересен
@@ -124,7 +124,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.edit(items.at(1)).then((result) => {
+                return editInPlace.edit({item: items.at(1)}).then((result) => {
                     assert.isTrue(wasSaved);
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
@@ -136,7 +136,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
         it('commit if current editing item has changes', () => {
 
-            return editInPlace.edit(items.at(0)).then((res) => {
+            return editInPlace.edit({item: items.at(0)}).then((res) => {
                 collection.find((i) => i.isEditing()).contents.set('title', 'Changed');
 
                 // Первый запуск пропускаем, он нам не интересен
@@ -161,7 +161,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.edit(collection.at(1).contents).then((result) => {
+                return editInPlace.edit({item: collection.at(1).contents}).then((result) => {
                     assert.isTrue(wasSaved);
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
@@ -172,7 +172,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         });
 
         it('cancel if current adding item has no changes', () => {
-            return editInPlace.edit(items.at(0)).then((res) => {
+            return editInPlace.edit({item: items.at(0)}).then((res) => {
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
                 onAfterBeginEditCalled = false;
@@ -187,7 +187,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.edit(items.at(1)).then((result) => {
+                return editInPlace.edit({item: items.at(1)}).then((result) => {
                     assert.isFalse(wasSaved);
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
@@ -200,7 +200,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         it('cancel if current editing item has no changes', () => {
             const editingItem = collection.at(0).contents;
 
-            return editInPlace.edit(editingItem).then((res) => {
+            return editInPlace.edit({item: editingItem}).then((res) => {
 
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
@@ -224,7 +224,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.edit(collection.at(1).contents).then((result) => {
+                return editInPlace.edit({item: collection.at(1).contents}).then((result) => {
                     assert.isTrue(wasCanceled);
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
@@ -237,7 +237,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         it('cancel operation if saving previous led to error', () => {
             const editingItem = collection.at(0).contents;
 
-            return editInPlace.edit(editingItem).then((res) => {
+            return editInPlace.edit({item: editingItem}).then((res) => {
 
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
@@ -253,7 +253,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.edit(collection.at(1).contents).then((result) => {
+                return editInPlace.edit({item: collection.at(1).contents}).then((result) => {
                     assert.isTrue(result && result.canceled);
                     assert.isFalse(onBeforeBeginEditCalled);
                     assert.isFalse(onAfterBeginEditCalled);
@@ -272,7 +272,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.edit(collection.at(0).contents).then((result) => {
+            return editInPlace.edit({item: collection.at(0).contents}).then((result) => {
                 assert.isUndefined(result);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -317,7 +317,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.edit(collection.at(0).contents).catch((result) => {
+            return editInPlace.edit({item: collection.at(0).contents}).catch((result) => {
                 isPromiseRejected = true;
                 return result;
             }).then((res) => {
@@ -338,7 +338,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.edit(collection.at(0).contents).catch((result) => {
+            return editInPlace.edit({item: collection.at(0).contents}).catch((result) => {
                 isPromiseRejected = true;
                 return result;
             }).then((res) => {
@@ -351,7 +351,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         });
 
         it('correct [sync callback]', () => {
-            return editInPlace.edit(collection.at(0).contents).then((res) => {
+            return editInPlace.edit({item: collection.at(0).contents}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -366,7 +366,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     return Promise.resolve();
                 }
             });
-            return editInPlace.edit(collection.at(0).contents).then((res) => {
+            return editInPlace.edit({item: collection.at(0).contents}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -387,7 +387,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isFalse(isAdd);
                 }
             });
-            return editInPlace.edit(items.at(0)).then((res) => {
+            return editInPlace.edit({item: items.at(0)}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -408,7 +408,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isTrue(item.contents.get('modified'));
                 }
             });
-            return editInPlace.edit(collection.at(0).contents).then((res) => {
+            return editInPlace.edit({item: collection.at(0).contents}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -420,12 +420,30 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             const item = collection.at(0).contents;
             item.set('title', 'changedTitle');
 
-            return editInPlace.edit(item).then((res) => {
+            return editInPlace.edit({item}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
                 assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
                 assert.isFalse(collection.find((i) => i.isEditing()).contents.isChanged());
+            });
+        });
+
+        it('should be exist a possibility to pass args from edit to before callback', () => {
+            const options = {
+                myOptions: true,
+                item: collection.at(0).contents
+            };
+
+            editInPlace.updateOptions({
+                onBeforeBeginEdit: (callbackOptions, isAdd) => {
+                    onBeforeBeginEditCalled = true;
+                    assert.equal(callbackOptions, options);
+                }
+            });
+
+            return editInPlace.edit(options).then(() => {
+                assert.isTrue(onBeforeBeginEditCalled);
             });
         });
     });
@@ -440,7 +458,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.add(newItem, 'bottom').then((res) => {
+            return editInPlace.add({item: newItem}, 'bottom').then((res) => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
@@ -456,7 +474,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.add(newItem, 'bottom').then((res) => {
+            return editInPlace.add({item: newItem}, 'bottom').then((res) => {
                 assert.isTrue(res && res.canceled);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isFalse(onAfterBeginEditCalled);
@@ -465,7 +483,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         });
 
         it('commit if current adding item has changes', () => {
-            return editInPlace.add(newItem).then(() => {
+            return editInPlace.add({item: newItem}).then(() => {
                 collection.find((i) => i.isEditing()).contents.set('title', 'Changed');
 
                 // Первый запуск пропускаем, он нам не интересен
@@ -497,7 +515,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         title: 'Fives'
                     }
                 });
-                return editInPlace.add(secondNewItem).then((result) => {
+                return editInPlace.add({item: secondNewItem}).then((result) => {
                     assert.isTrue(wasSaved);
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
@@ -509,7 +527,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
         it('commit if current editing item has changes', () => {
 
-            return editInPlace.edit(items.at(0)).then((res) => {
+            return editInPlace.edit({item: items.at(0)}).then((res) => {
                 collection.find((i) => i.isEditing()).contents.set('title', 'Changed');
 
                 // Первый запуск пропускаем, он нам не интересен
@@ -534,7 +552,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.add(newItem).then((result) => {
+                return editInPlace.add({item: newItem}).then((result) => {
                     assert.equal(items.at(0).get('title'), 'Changed');
                     assert.isTrue(wasSaved);
                     assert.isUndefined(result);
@@ -546,7 +564,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         });
 
         it('cancel if current adding item has no changes', () => {
-            return editInPlace.edit(items.at(0)).then((res) => {
+            return editInPlace.edit({item: items.at(0)}).then((res) => {
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
                 onAfterBeginEditCalled = false;
@@ -561,7 +579,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.add(newItem).then((result) => {
+                return editInPlace.add({item: newItem}).then((result) => {
                     assert.isFalse(wasSaved);
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
@@ -574,7 +592,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         it('cancel if current editing item has no changes', () => {
             const editingItem = collection.at(0).contents;
 
-            return editInPlace.edit(editingItem).then((res) => {
+            return editInPlace.edit({item: editingItem}).then((res) => {
 
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
@@ -598,7 +616,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.add(newItem).then((result) => {
+                return editInPlace.add({item: newItem}).then((result) => {
                     assert.isTrue(wasCanceled);
                     assert.isUndefined(result);
                     assert.isTrue(onBeforeBeginEditCalled);
@@ -611,7 +629,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         it('cancel operation if saving previous led to error', () => {
             const editingItem = collection.at(0).contents;
 
-            return editInPlace.edit(editingItem).then((res) => {
+            return editInPlace.edit({item: editingItem}).then((res) => {
 
                 // Первый запуск пропускаем, он нам не интересен
                 onBeforeBeginEditCalled = false;
@@ -627,7 +645,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                         onBeforeBeginEditCalled = true;
                     }
                 });
-                return editInPlace.add(newItem).then((result) => {
+                return editInPlace.add({item: newItem}).then((result) => {
                     assert.isTrue(result && result.canceled);
                     assert.isFalse(onBeforeBeginEditCalled);
                     assert.isFalse(onAfterBeginEditCalled);
@@ -646,7 +664,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.add(newItem).then((result) => {
+            return editInPlace.add({item: newItem}).then((result) => {
                 assert.isUndefined(result);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -691,7 +709,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.add(newItem).catch((result) => {
+            return editInPlace.add({item: newItem}).catch((result) => {
                 isPromiseRejected = true;
                 return result;
             }).then((res) => {
@@ -712,7 +730,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.add(newItem).catch((result) => {
+            return editInPlace.add({item: newItem}).catch((result) => {
                 isPromiseRejected = true;
                 return result;
             }).then((res) => {
@@ -725,7 +743,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
         });
 
         it('correct [sync callback]', () => {
-            return editInPlace.add(newItem).then((res) => {
+            return editInPlace.add({item: newItem}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -740,7 +758,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     return Promise.resolve();
                 }
             });
-            return editInPlace.add(newItem).then((res) => {
+            return editInPlace.add({item: newItem}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -761,7 +779,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isTrue(isAdd);
                 }
             });
-            return editInPlace.add(newItem).then((res) => {
+            return editInPlace.add({item: newItem}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -781,7 +799,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     assert.isFalse(item.contents.isChanged());
                 }
             });
-            return editInPlace.add(newItem).then((res) => {
+            return editInPlace.add({item: newItem}).then((res) => {
                 assert.isUndefined(res);
                 assert.isTrue(onBeforeBeginEditCalled);
                 assert.isTrue(onAfterBeginEditCalled);
@@ -811,7 +829,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                 }
             });
 
-            return editInPlace.add(newItem).then(() => {
+            return editInPlace.add({item: newItem}).then(() => {
                 return editInPlace.cancel().then(() => {
                     assert.isTrue(onBeforeBeginEditCalled && onAfterBeginEditCalled && onBeforeEndEditCalled && onAfterEndEditCalled);
                 });
@@ -871,7 +889,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             consoleErrorThrown = true;
         };
 
-        return editInPlace.add(newItem).then((result) => {
+        return editInPlace.add({item: newItem}).then((result) => {
             assert.isTrue(result && result.canceled);
             assert.isFalse(consoleErrorThrown);
             Logger.error = () => ({});
@@ -889,7 +907,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
                     return Promise.reject('Method shouldn\nt be called');
                 };
             }
-            await editInPlace.edit(collection.at(0).contents);
+            await editInPlace.edit({item: collection.at(0).contents});
         });
 
         it(`skip ${operation} if has no editing`, () => {

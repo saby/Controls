@@ -111,8 +111,7 @@ define(
 
             //Тестируем: передаем не контрол и не domNode
             cfg.popupOptions.target = null;
-            assert.equal(document && document.body,
-               StickyController.constructor._getTargetNode(cfg));
+            assert.isFalse(StickyController.constructor._getTargetNode(cfg));
          });
 
          it('Sticky updated classes', () => {

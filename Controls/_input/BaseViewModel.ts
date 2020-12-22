@@ -1,6 +1,6 @@
 import {IText} from 'Controls/decorator';
 import {VersionableMixin} from 'Types/entity';
-import {hasSelectionChanged} from './resources/Util';
+import {hasSelectionChanged, prepareEmptyValue} from './resources/Util';
 import {InputType, ISelection, ISplitValue} from './resources/Types';
 
 abstract class BaseViewModel<TValue, TOptions extends {} = {}> extends VersionableMixin {
@@ -8,6 +8,7 @@ abstract class BaseViewModel<TValue, TOptions extends {} = {}> extends Versionab
     protected _displayValue: string;
     protected _selection: ISelection;
     protected _options: TOptions;
+    protected _emptyValue: TValue;
     /**
      * Набор имен опций, которые могут повлиять на отображаемое значение.
      * Если хотя бы одна из этих опций изменится, то будет вызван пересчёт отображаемого значения.
@@ -27,6 +28,9 @@ abstract class BaseViewModel<TValue, TOptions extends {} = {}> extends Versionab
             start: startingPosition,
             end: startingPosition
         };
+        if (this._isEmptyValue(value)) {
+            this._emptyValue = value;
+        }
     }
 
     get options(): TOptions {
@@ -87,7 +91,7 @@ abstract class BaseViewModel<TValue, TOptions extends {} = {}> extends Versionab
     }
 
     protected _setDisplayValue(displayValue: string): void {
-        this._value = this._convertToValue(displayValue);
+        this._value = this._handleConvertedValue(displayValue);
         this._displayValue = displayValue;
     }
 
@@ -99,6 +103,18 @@ abstract class BaseViewModel<TValue, TOptions extends {} = {}> extends Versionab
             this._selection.start = selection.start;
             this._selection.end = selection.end;
         }
+    }
+
+    protected _handleConvertedValue(displayValue: string): TValue {
+        const value: TValue = this._convertToValue(displayValue);
+        if (this._isEmptyValue(value)) {
+            return prepareEmptyValue(value, this._emptyValue);
+        }
+        return value;
+    }
+
+    private _isEmptyValue(value: TValue): boolean {
+        return value === null || value === '';
     }
 
     protected _getStartingPosition(): number {

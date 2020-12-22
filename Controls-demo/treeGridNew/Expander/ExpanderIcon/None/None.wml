@@ -1,0 +1,13 @@
+<div class="controlsDemo__wrapper">
+    <Controls.treeGridNew:View
+            source="{{_viewSource}}"
+            keyProperty="id"
+            columns="{{_columns}}"
+            parentProperty="Раздел"
+            bind:expandedItems="_expandedItems"
+            nodeProperty="Раздел@">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/treeGridNew:ItemTemplate" expanderIcon="none"/>
+        </ws:itemTemplate>
+    </Controls.treeGridNew:View>
+</div>

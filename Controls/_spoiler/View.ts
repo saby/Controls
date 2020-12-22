@@ -1,4 +1,4 @@
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 
 import {Control, TemplateFunction} from 'UI/Base';
 import {IHeading, IHeadingOptions, default as Heading} from 'Controls/_spoiler/Heading';
@@ -12,25 +12,22 @@ import Util from './Util';
 /**
  * Интерфейс опций контрола {@link Controls/spoiler:View}.
  *
- * @interface Controls/_spoiler/IViewOptions
+ * @interface Controls/_spoiler/IView
  * @public
  * @author Красильников А.С.
  */
-/**
- * @name Controls/_spoiler/IViewOptions#headerContentTemplate
- * @cfg {function|String} Контент, занимающий свободное пространство справа от заголовка. Если заголовка нет, то контент занимает все пространство шапки, в этом случае заголовок можно добавить вручную в любом месте.
- * @demo Controls-demo/Spoiler/Header/Index
- * @demo Controls-demo/Spoiler/HeaderRight/Index
- * @demo Controls-demo/Spoiler/HeadingLeft/Index
- */
-/**
- * @name Controls/_spoiler/IViewOptions#content
- * @cfg {TemplateFunction} Шаблон скрываемой области.
- * @demo Controls-demo/Spoiler/View/Content/Index
- */
-
 export interface IViewOptions extends IHeadingOptions {
+    /**
+     * Шаблон скрываемой области.
+     * @demo Controls-demo/Spoiler/View/Content/Index
+     */
     content: TemplateFunction;
+    /**
+     * Контент, занимающий свободное пространство справа от заголовка. Если заголовка нет, то контент занимает все пространство шапки, в этом случае заголовок можно добавить вручную в любом месте.
+     * @demo Controls-demo/Spoiler/Header/Index
+     * @demo Controls-demo/Spoiler/HeaderRight/Index
+     * @demo Controls-demo/Spoiler/HeadingLeft/Index
+     */
     headerContentTemplate?: TemplateFunction;
 }
 
@@ -39,25 +36,25 @@ export interface IView extends IHeading {
 }
 
 /**
- * Графический контрол, отображаемый в виде загловка с контентной областью.
+ * Графический контрол, отображаемый в виде заголовка с контентной областью.
  * Предоставляет пользователю возможность управления видимостью области при нажатии на заголовок.
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_spoiler.less">переменные тем оформления</a>
- * * <a href="http://axure.tensor.ru/StandardsV8/%D1%81%D0%BF%D0%BE%D0%B9%D0%BB%D0%B5%D1%80%D1%8B_%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B0_%D1%81%D0%BF%D0%BE%D0%B9%D0%BB%D0%B5%D1%80%D0%BE%D0%B2.html">стандарт</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_spoiler.less переменные тем оформления}
+ * * {@link http://axure.tensor.ru/StandardsV8/%D1%81%D0%BF%D0%BE%D0%B9%D0%BB%D0%B5%D1%80%D1%8B_%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%B0_%D1%81%D0%BF%D0%BE%D0%B9%D0%BB%D0%B5%D1%80%D0%BE%D0%B2.html стандарт}
  *
  * @class Controls/_spoiler/View
  * @extends UI/Base:Control
- * @mixes Controls/interface:IExpandable
- * @mixes Controls/spoiler:IHeadingOptions
- * @mixes Controls/spoiler:IViewOptions
+ * @implements Controls/interface:IExpandable
+ * @implements Controls/spoiler:IHeading
+ * @implements Controls/spoiler:IView
  *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Spoiler/View/Index
  */
 class View extends Control<IViewOptions> implements IView {
-    protected _notifyHandler: Function = tmplNotify;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
 
     protected _template: TemplateFunction = template;
     protected _expanded: boolean = false;

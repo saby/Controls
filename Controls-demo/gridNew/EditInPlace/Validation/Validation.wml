@@ -1,0 +1,24 @@
+<div class="controlsDemo__cell">
+    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id"
+                                 attr:class="controlsDemo__inline-flex"
+                                 attr:style="max-width: 356px">
+        <ws:content>
+            <div>
+                <Controls.list:Container>
+                    <Controls.gridNew:View
+                            name="list"
+                            bind:markedKey="_markedKey"
+                            dataLoadCallback="{{_dataLoadCallback}}"
+                            itemActionsPosition="outside"
+                            header="{{_header}}"
+                            itemActions="{{_itemActions}}"
+                            columns="{{_columns}}">
+                        <ws:editingConfig>
+                            <ws:Object editOnClick="{{true}}" autoAdd="{{true}}" toolbarVisibility="{{true}}"/>
+                        </ws:editingConfig>
+                    </Controls.gridNew:View>
+                </Controls.list:Container>
+            </div>
+        </ws:content>
+    </Controls.list:DataContainer>
+</div>

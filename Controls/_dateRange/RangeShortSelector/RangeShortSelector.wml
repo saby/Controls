@@ -13,8 +13,6 @@
    />
 
    <Controls.popup:Sticky name="opener"
-                          template="Controls/shortDatePicker:View"
-                          closeOnOutsideClick="{{true}}"
                           on:result="_sendResultHandler()"
                           actionOnScroll="close">
       <ws:direction vertical="bottom" horizontal="center"/>

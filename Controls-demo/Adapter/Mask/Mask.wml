@@ -1,13 +1,9 @@
 <div class="controlsDemo__wrapper">
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Поле изменения значения valueAdapterMask</div>
-      <Controls.input:Text maxLength="{{14}}" on:inputCompleted="_inputCompletedHandler()"/>
-   </div>
-   <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">Контрол маски с адаптером значения</div>
-      <Controls.input:AdapterMask bind:value="_valueAdapterMask" mask="ddd-ddd-dddddd">
+      <div class="controls-text-label_theme-{{_options.theme}}">Контрол маски с адаптером значения. Маска ddd-dd-d</div>
+      <Controls.input:AdapterMask bind:value="_valueAdapterMask" mask="ddd-dd-d" formatMaskChars="{{_formatMaskChars}}" replacer="-">
          <Controls.input:Mask/>
       </Controls.input:AdapterMask>
-      <div class="controls-text-label_theme-{{_options.theme}}">valueAdapterMask={{_valueAdapterMask}}</div>
+      <div class="controls-text-label_theme-{{_options.theme}}">Текущее значение{{_valueAdapterMask}}</div>
    </div>
 </div>

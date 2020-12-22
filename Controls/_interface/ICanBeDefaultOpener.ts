@@ -1,7 +1,7 @@
 /**
  * Интерфейс для контролов, которые инициируют открытие других контролов.
  * Необходим для работы с фокусами.
- * Подробнее читайте в статье <a href='/doc/platform/developmentapl/interface-development/ui-library/focus/'>"Работа с фокусами"</a>.
+ * Подробнее читайте в статье {@link /doc/platform/developmentapl/interface-development/ui-library/focus/ Работа с фокусами}.
  *
  * @interface Controls/_interface/ICanBeDefaultOpener
  * @public
@@ -11,7 +11,7 @@
 /*
  * Interface for controls that can be default opener.
  * Opener means control that initiates opening of current control. It needs for mechanism of focuses.
- * For detailed information, refer <a href='/doc/platform/developmentapl/interface-development/ui-library/focus/'>Mechanism of focuses</a>.
+ * For detailed information, refer {@link /doc/platform/developmentapl/interface-development/ui-library/focus/ Mechanism of focuses}.
  *
  * @interface Controls/interface/ICanBeDefaultOpener
  * @public

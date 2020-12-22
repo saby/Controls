@@ -65,18 +65,20 @@ export interface IDateTimeMask {
  *    <Controls.input:DateBase bind:value="_inputValue" mask=”HH:mm”/>
  * </pre>
  * <pre>
- *    Control.extend({
- *       _inputValue: null,
- *    });
+ *    class DateControl extends Control<IControlOptions> {
+ *      _inputValue: Date = null;
+ *      ...
+ *    }
  * </pre>
  * В следующем примере после ввода пользователем “09:30”, значение _inputValue будет равно 10.03.2018 09:30.000
  * <pre>
  *    <Controls.input:DateBase bind:value="_inputValue" mask=”HH:mm”/>
  * </pre>
  * <pre>
- *    Control.extend({
- *       _inputValue: new Date(2018, 2, 10),
- *    });
+ *    class DateControl extends Control<IControlOptions> {
+ *      _inputValue: Date = new Date(2018, 2, 10);
+ *      ...
+ *    }
  * </pre>
  */
 

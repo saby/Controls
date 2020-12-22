@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsCells/Index' }}">
+            <a href="{{content.href}}">Результаты из метаданных в ячейках</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ResultsFromMeta.CustomResultsCells.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ResultsFromMeta/CustomResultsRow/Index' }}">
+            <a href="{{content.href}}">Результаты из метаданных в переопределенной строке итогов</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ResultsFromMeta.CustomResultsRow.Index/>
+    </div>
+
+</div>

@@ -16,18 +16,20 @@ export type RoundMode = 'round' | 'trunc';
 
 /**
  * Интерфейс для опций контрола {@link Controls/decorator:Number}.
- * @interface Controls/_decorator/Number/INumberOptions
+ * @interface Controls/_decorator/INumber
  * @public
  * @author Красильников А.С.
  */
 export interface INumberOptions extends IControlOptions {
     /**
-     * Декорируемое число.
+     * @name Controls/_decorator/INumber#value
+     * @cfg {String|Number|null} Декорируемое число.
      * @demo Controls-demo/Decorator/Number/Value/Index
      */
     value: string | number | null;
     /**
-     * Определяет, следует ли использовать разделители группы.
+     * @name Controls/_decorator/INumber#useGrouping
+     * @cfg {Boolean} Определяет, следует ли использовать разделители группы.
      * @remark
      * true - число разделено на группы.
      * false - разделения не происходит.
@@ -36,13 +38,14 @@ export interface INumberOptions extends IControlOptions {
      */
     useGrouping: boolean;
     /**
-     * Количество знаков после запятой. Диапазон от 0 до 20.
+     * @name Controls/_decorator/INumber#fractionSize
+     * @cfg {Number} Количество знаков после запятой. Диапазон от 0 до 20.
      * @demo Controls-demo/Decorator/Number/FractionSize/Index
      */
     fractionSize?: number;
     /**
-     * Режим форматирования дробной части числа.
-     * @type RoundMode
+     * @name Controls/_decorator/INumber#roundMode
+     * @cfg {RoundMode} Режим форматирования дробной части числа.
      * @default trunc
      * @demo Controls-demo/Decorator/Number/RoundMode/Index
      */
@@ -55,13 +58,11 @@ export interface INumberOptions extends IControlOptions {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
- *
- * @mixes Controls/_decorator/Number/INumberOptions
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less переменные тем оформления}
  *
  * @class Controls/_decorator/Number
  * @extends UI/Base:Control
- *
+ * @mixes Controls/_decorator/INumber
  * @public
  * @demo Controls-demo/Decorator/Number/Index
  *

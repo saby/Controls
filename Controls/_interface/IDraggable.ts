@@ -1,17 +1,15 @@
 /**
  * Интерфейс для перемещения элементов списка с помощью drag'n'drop.
- * Больше информации можно прочитать <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">здесь</a>.
+ * Больше информации можно прочитать {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ здесь}.
  *
- * @interface Controls/_interface/IDraggable
  * @public
  * @author Авраменко А.С.
  */
 
 /*
  * Interface to move elements of the list by using drag'n'drop.
- * More information you can read <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">here</a>.
+ * More information you can read {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ here}.
  *
- * @interface Controls/_interface/IDraggable
  * @public
  * @author Авраменко А.С.
  */
@@ -24,11 +22,12 @@ export default interface IDraggable {
  * @cfg {Boolean} Определяет, может ли пользователь перемещать элементы в списке с помощью drag'n'drop. Когда опция установлена в значение true, перемещение разрешено.
  * @default false
  * @example
- * <pre class="brush: html; highlight: [4]">
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
  * <Controls.list:View
- *     source="{{_viewSource}}"
- *     keyProperty="id"
- *     itemsDragNDrop="{{true}}" />
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    itemsDragNDrop="{{true}}" />
  * </pre>
  */
 
@@ -38,11 +37,12 @@ export default interface IDraggable {
  * @default false
  * @example
  * The following example shows how to enable the ability to move items using drag'n'drop.
- * <pre class="brush: html; highlight: [4]">
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
  * <Controls.list:View
- *     source="{{_viewSource}}"
- *     keyProperty="id"
- *     itemsDragNDrop="{{true}}" />
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    itemsDragNDrop="{{true}}" />
  * </pre>
  */
 
@@ -140,7 +140,8 @@ export default interface IDraggable {
  * Отличается от события {@link /docs/js/Controls/tile/IDraggable/events/dragEnter/ dragEnter}, которое срабатывает у контейнера, в который была перемещена запись.
  * @example
  * В следующем примере показано, как начать перемещение элементов с помощью drag'n'drop, если все элементы имеют одинаковый тип.
- * <pre class="brush: html; highlight: [4]">
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
  * <Controls.list:View
  *     source="{{_viewSource}}"
  *     keyProperty="id"
@@ -149,6 +150,7 @@ export default interface IDraggable {
  * </pre>
  *
  * <pre class="brush: js;">
+ * // JavaScript
  * _viewSource: null,
  * _dragStart: function(event, items) {
  *    var eventResult;
@@ -229,7 +231,8 @@ export default interface IDraggable {
  * @param {MovePosition} position Положение перемещения.
  * @example
  * В следующем примере показано, как перемещать элементы с помощью {@link Controls/list:Mover}.
- * <pre class="brush: html; highlight: [3]">
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
  * <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
  *    <Controls.list:View on:dragEnd="_dragEnd()" itemsDragNDrop="{{true}}" />
  *    <Controls.list:Mover name="listMover" />
@@ -237,6 +240,7 @@ export default interface IDraggable {
  * </pre>
  *
  * <pre class="brush: js;">
+ * // JavaScript
  * _dragEnd: function(event, entity, target, position) {
  *    this._children.listMover.moveItems(entity.getItems(), target, position);
  * },
@@ -256,26 +260,22 @@ export default interface IDraggable {
  * @param {MovePosition} position Position to move.
  * @example
  * The following example shows how to move items using Controls/_list/Mover after the drag is complete.
- * <pre>
- *     <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
- *        <Controls.list:View on:dragEnd="_dragEnd()"
- *                       itemsDragNDrop="{{true}}">
- *        </Controls.list:View>
- *        <Controls.list:Mover name="listMover" />
- *     </Controls.list:DataContainer>
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
+ * <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
+ *    <Controls.list:View on:dragEnd="_dragEnd()" itemsDragNDrop="{{true}}" />
+ *    <Controls.list:Mover name="listMover" />
+ * </Controls.list:DataContainer>
  * </pre>
  *
- * <pre>
- *    Control.extend({
- *       ...
- *       _dragEnd: function(event, entity, target, position) {
- *          this._children.listMover.moveItems(entity.getItems(), target, position);
- *       },
- *       _beforeMount: function() {
- *          this._viewSource = new Source({...});
- *       }
- *       ...
- *    });
+ * <pre class="brush: js;">
+ * // JavaScript
+ * _dragEnd: function(event, entity, target, position) {
+ *    this._children.listMover.moveItems(entity.getItems(), target, position);
+ * },
+ * _beforeMount: function() {
+ *    this._viewSource = new Source({...});
+ * }
  * </pre>
  * @see dragStart
  */
@@ -299,10 +299,11 @@ export default interface IDraggable {
  * @param {Controls/_dragnDrop/Entity/Items} entity Объект перемещения.
  * @returns {DragEnterResult}
  * @remark Событие позволяет перемещать элементы в текущий список из другого списка. Событие срабатывает у контейнера, в который была перемещена запись.
- * Отличается от события {@link https://wi.sbis.ru/docs/js/Controls/tile/IDraggable/events/dragStart/?v=19.500 dragStart}, которое срабатывает у контейнера, из которого началось перемещение записи.
+ * Отличается от события {@link /docs/js/Controls/tile/IDraggable/events/dragStart/?v=19.500 dragStart}, которое срабатывает у контейнера, из которого началось перемещение записи.
  * @example
  * В следующем примере показано, как перемещать в список объекты определенного типа.
- * <pre class="brush: html; highlight: [3]">
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
  * <Controls.list:DataContainer source="{{_firstSource}}" keyProperty="id">
  *    <Controls.list:View
  *       on:dragStart="_dragStart()"
@@ -316,6 +317,7 @@ export default interface IDraggable {
  * </pre>
  *
  * <pre class="brush: js;">
+ * // JavaScript
  * _dragStart: function(event, items) {
  *    return new TasksItemsEntity({
  *       items: items
@@ -344,40 +346,38 @@ export default interface IDraggable {
  * @remark You can use the event to allow dragging items to the current list from another list.
  * @example
  * The following example shows how to allow dragging to a list of entities of a particular type.
- * <pre>
- *     <Controls.list:DataContainer source="{{_firstSource}}" keyProperty="id">
- *        <Controls.list:View on:dragStart="_dragStart()"
- *                       itemsDragNDrop="{{true}}">
- *        </Controls.list:View>
- *     </Controls.list:DataContainer>
- *     <Controls.list:DataContainer source="{{_secondSource}}" keyProperty="id">
- *        <Controls.list:View on:dragEnter="_dragEnter()"
- *                       itemsDragNDrop="{{true}}">
- *        </Controls.list:View>
- *     </Controls.list:DataContainer>
+ * <pre class="brush: html; highlight: [4]">
+ * <!-- WML -->
+ * <Controls.list:DataContainer source="{{_firstSource}}" keyProperty="id">
+ *    <Controls.list:View
+ *       on:dragStart="_dragStart()"
+ *       itemsDragNDrop="{{true}}" />
+ * </Controls.list:DataContainer>
+ * <Controls.list:DataContainer source="{{_secondSource}}" keyProperty="id">
+ *    <Controls.list:View
+ *       on:dragEnter="_dragEnter()"
+ *       itemsDragNDrop="{{true}}" />
+ * </Controls.list:DataContainer>
  * </pre>
  *
- * <pre>
- *    Control.extend({
- *       ...
- *       _dragStart: function(event, items) {
- *          return new TasksItemsEntity({
- *             items: items
- *          });
- *       },
- *       _dragEnter: function(event, entity) {
- *          var result = false;
- *          if (entity instanceof TasksItemsEntity) {
- *             result = new Record({...});
- *          }
- *          return result;
- *       },
- *       _beforeMount: function() {
- *          this._firstSource = new Source({...});
- *          this._secondSource = new Source({...});
- *       }
- *       ...
+ * <pre class="brush: js;">
+ * // JavaScript
+ * _dragStart: function(event, items) {
+ *    return new TasksItemsEntity({
+ *       items: items
  *    });
+ * },
+ * _dragEnter: function(event, entity) {
+ *    var result = false;
+ *    if (entity instanceof TasksItemsEntity) {
+ *       result = new Record({...});
+ *    }
+ *    return result;
+ * },
+ * _beforeMount: function() {
+ *    this._firstSource = new Source({...});
+ *    this._secondSource = new Source({...});
+ * }
  * </pre>
  */
 
@@ -393,6 +393,7 @@ export default interface IDraggable {
  * @example
  * В следующем примере показано, как предотвратить изменение порядка закрепленных элементов.
  * <pre class="brush: html;">
+ * <!-- WML -->
  * <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
  *    <Controls.list:View
  *       on:changeDragTarget="_changeDragTarget()"
@@ -401,6 +402,7 @@ export default interface IDraggable {
  * </pre>
  *
  * <pre class="brush: js;">
+ * // JavaScript
  * _pinnedProperty: 'pinned',
  * _changeDragTarget: function(event, entity, target, position) {
  *    return target.get(this._pinnedProperty) !== true;
@@ -422,25 +424,23 @@ export default interface IDraggable {
  * @remark You can use an event to prevent dragging to a specific position.
  * @example
  * The following example shows how to prevent the change of the order of a pinned item.
- * <pre>
- *    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
- *       <Controls.list:View on:changeDragTarget="_changeDragTarget()"
- *                      itemsDragNDrop="{{true}}">
- *       </Controls.list:View>
- *    </Controls.list:DataContainer>
+ * <pre class="brush: html;">
+ * <!-- WML -->
+ * <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
+ *    <Controls.list:View
+ *       on:changeDragTarget="_changeDragTarget()"
+ *       itemsDragNDrop="{{true}}" />
+ * </Controls.list:DataContainer>
  * </pre>
  *
- * <pre>
- *    Control.extend({
- *       ...
- *       _pinnedProperty: 'pinned',
- *       _changeDragTarget: function(event, entity, target, position) {
- *          return target.get(this._pinnedProperty) !== true;
- *       },
- *       _beforeMount: function() {
- *          this._viewSource = new Source({...});
- *       }
- *       ...
- *    });
+ * <pre class="brush: js;">
+ * // JavaScript
+ * _pinnedProperty: 'pinned',
+ * _changeDragTarget: function(event, entity, target, position) {
+ *    return target.get(this._pinnedProperty) !== true;
+ * },
+ * _beforeMount: function() {
+ *    this._viewSource = new Source({...});
+ * }
  * </pre>
  */

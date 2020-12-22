@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.dateRange:Input
+                bind:startValue="_startDate"
+                bind:endValue="_endDate"
+        >
+            <ws:dayTemplate>
+                <ws:partial template="Controls/calendar:MonthViewDayTemplate">
+                    <ws:contentTemplate>
+                        {{contentTemplate.value.day}}
+                    </ws:contentTemplate>
+                </ws:partial>
+            </ws:dayTemplate>
+        </Controls.dateRange:Input>
+
+    </div>
+</div>

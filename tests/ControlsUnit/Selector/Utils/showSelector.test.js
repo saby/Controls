@@ -19,7 +19,7 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
             }
          };
 
-         baseController._stack = {
+         baseController._opener = {
             open: (popupOptions) => {
                isShowSelector = true;
                lastPopupOptions = popupOptions;
@@ -173,6 +173,34 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
          });
          assert.equal(lastPopupOptions.template, 'selectorTemplate');
          assert.equal(lastPopupOptions.templateOptions.searchValue, '');
+      });
+
+      it('showSelector with dialog mode in selectorTemplate', function() {
+         const baseController = getBaseController();
+         baseController._opener = null;
+         baseController._options.selectorTemplate = {
+            mode: 'dialog'
+         };
+         const sandbox = sinon.createSandbox();
+         sandbox.replace(popup.Dialog, 'openPopup', () => {});
+
+         showSelector.default(baseController, {});
+         assert.isTrue(baseController._opener instanceof popup.DialogOpener);
+         sandbox.restore();
+      });
+
+      it('showSelector with stack mode in selectorTemplate', function() {
+         const baseController = getBaseController();
+         baseController._opener = null;
+         baseController._options.selectorTemplate = {
+            mode: 'stack'
+         };
+         const sandbox = sinon.createSandbox();
+         sandbox.replace(popup.Stack, 'openPopup', () => {});
+
+         showSelector.default(baseController, {});
+         assert.isTrue(baseController._opener instanceof popup.StackOpener);
+         sandbox.restore();
       });
    });
 });

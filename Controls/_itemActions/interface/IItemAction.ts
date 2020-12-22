@@ -70,7 +70,7 @@ export type TItemActionsPosition = 'inside' | 'outside' | 'custom';
 export type TItemActionsSize = 'm' | 'l';
 
 /**
- * @typedef {String} TItemActionsSize
+ * @typedef {String} TMenuButtonVisibility
  * Видимость кнопки "Ещё" в свайпе
  * @variant visible - кнопка видима в любом случае
  * @variant adaptive - Расчёт происходит от количесива элементов в свайпе
@@ -80,13 +80,13 @@ export type TMenuButtonVisibility = 'visible' | 'adaptive';
 /**
  * @typedef {Function} TItemActionHandler
  * @description
- * Обработчик опции записи. См. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/handler/ пример обработчика}.
+ * Обработчик опции записи. См. {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/handler/ пример обработчика}.
  * @param item Corresponding list item.
  */
 export type TItemActionHandler = (item: Model) => void;
 
 /**
- * Интерфейс {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}.
+ * Интерфейс {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}.
  * @interface Controls/_itemActions/interface/IItemAction
  * @remark
  * Опции записи могут быть использованы в следующих вариантах:
@@ -166,7 +166,7 @@ export interface IItemAction {
      * @name Controls/_itemActions/interface/IItemAction#iconStyle
      * @cfg {TIconStyle} Стиль иконки.
      * @remark
-     * Каждому значению свойства соответствует стиль, который определяется {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темой оформления} приложения.
+     * Каждому значению свойства соответствует стиль, который определяется {@link /doc/platform/developmentapl/interface-development/themes/ темой оформления} приложения.
      * @default secondary
      */
     /*
@@ -180,7 +180,7 @@ export interface IItemAction {
      * @name Controls/_itemActions/interface/IItemAction#handler
      * @cfg {TItemActionHandler} Обработчик опции записи.
      * @remark
-     * См. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/handler/ пример обработчика}.
+     * См. {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/handler/ пример обработчика}.
      */
     /*
      * @name Controls/_itemActions/interface/IItemAction#handler
@@ -192,7 +192,7 @@ export interface IItemAction {
      * @name Controls/_itemActions/interface/IItemAction#parent@
      * @cfg {Boolean} Поле, описывающее тип узла (список, узел, скрытый узел).
      * @remark
-     * Подробнее о различиях между типами узлов можно прочитать {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy здесь}.
+     * Подробнее о различиях между типами узлов можно прочитать {@link /doc/platform/developmentapl/service-development/bd-development/vocabl/tabl/relations/#hierarchy здесь}.
      */
     /*
      * @name Controls/_itemActions/interface/IItemAction#parent@
@@ -224,7 +224,7 @@ export interface IItemAction {
      * @name Controls/_itemActions/interface/IItemAction#parent
      * @cfg {String|Number} Идентификатор родительской опции записи.
      * @remark
-     * Используется для создания {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/hierarchy/ многоуровневого контекстного меню}.
+     * Используется для создания {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/hierarchy/ многоуровневого контекстного меню}.
      */
     /*
      * @name Controls/_itemActions/interface/IItemAction#parent

@@ -28,8 +28,7 @@ import {
 import {Logger} from 'UI/Utils';
 import {IItemActionsTemplateConfig} from 'Controls/itemActions';
 import * as Grouping from 'Controls/_list/Controllers/Grouping';
-import {JS_SELECTORS as COLUMN_SCROLL_JS_SELECTORS} from './resources/ColumnScroll';
-import {JS_SELECTORS as DRAG_SCROLL_JS_SELECTORS} from './resources/DragScroll';
+import {COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
 import { shouldAddActionsCell } from 'Controls/_grid/utils/GridColumnScrollUtil';
 import {IHeaderCell} from './interface/IHeaderCell';
 import { IDragPosition, GridLadderUtil } from 'Controls/display';
@@ -310,7 +309,7 @@ var
          * @param theme
          */
         getColumnScrollCalculationCellClasses(params, theme): string {
-            return _private.isFixedCell(params) ? ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT}` : ` ${COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT}`;
+            return _private.isFixedCell(params) ? ` ${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable` : ` ${COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT}`;
         },
 
         getClassesLadderHeading(itemData, theme): String {
@@ -324,7 +323,7 @@ var
             const isRootItemsSeparator = current.dispItem && current.dispItem['[Controls/_display/SearchSeparator]'];
             const checkBoxCell = current.hasMultiSelectColumn && current.columnIndex === 0;
             const classLists = createClassListCollection('base', 'padding', 'columnScroll', 'columnContent');
-            let style = current.style === 'masterClassic' || !current.style ? 'default' : current.style;
+            let style = !current.style ? 'default' : current.style;
             const backgroundStyle = current.backgroundStyle || current.style || 'default';
             const isFullGridSupport = GridLayoutUtil.isFullGridSupport();
 
@@ -353,7 +352,9 @@ var
             }
 
             if (current.isEditing()) {
-                classLists.base += ` controls-Grid__row-cell-background-editing_theme-${theme}`;
+                const editingBackgroundStyle = current.editingBackgroundStyle || 'default';
+                classLists.base += ` controls-Grid__row-cell-editing_theme-${theme}`;
+                classLists.base += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
             } else {
                 let backgroundHoverStyle = current.hoverBackgroundStyle || 'default';
                 classLists.base += ` controls-Grid__row-cell-background-hover-${backgroundHoverStyle}_theme-${theme}`;
@@ -684,6 +685,16 @@ var
 
                 return `${itemData._staticRowClassses} ${classes.trim()}`;
             };
+        },
+        resolveEditArrowVisibility(item, options) {
+            let contents = item.getContents();
+            if (!options.editArrowVisibilityCallback) {
+                return options.showEditArrow;
+            }
+            if (item['[Controls/_display/BreadcrumbsItem]']) {
+                contents = contents[(contents as any).length - 1];
+            }
+            return options.showEditArrow && options.editArrowVisibilityCallback(contents);
         }
     },
 
@@ -1619,7 +1630,7 @@ var
                 columns: this._columns
             });
 
-            current.showEditArrow = this._options.showEditArrow;
+            current.showEditArrow = _private.resolveEditArrowVisibility(dispItem, this._options);
             current.isFullGridSupport = this.isFullGridSupport.bind(this);
             current.resolvers = this._resolvers;
             current.columnScroll = this._options.columnScroll;
@@ -1659,10 +1670,11 @@ var
                 }
             };
 
-            current.getMarkerClasses = () => `controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-${current.theme}
+            current.getMarkerClasses = (markerClassName = 'default') => `controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-${current.theme}
             controls-GridView__itemV_marker-${style}_theme-${current.theme}
             controls-GridView__itemV_marker-${style}_rowSpacingBottom-${current.itemPadding.bottom}_theme-${current.theme}
             controls-GridView__itemV_marker-${style}_rowSpacingTop-${current.itemPadding.top}_theme-${current.theme}
+            controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (current.itemPadding.top || 'l') + '_' + markerClassName)}
             controls-ListView__itemV_marker-${current.markerPosition}`;
 
             if (current.hasMultiSelectColumn) {
@@ -1787,6 +1799,12 @@ var
             };
 
             _private.setRowClassesGettersOnItemData(this, current);
+
+            if (self._options.editingConfig) {
+                current.editingBackgroundStyle = self._options.editingConfig.backgroundStyle || 'default';
+            } else {
+                current.editingBackgroundStyle = 'default';
+            }
 
             current.getCurrentColumn = function(backgroundColorStyle) {
                 const currentColumn: any = {

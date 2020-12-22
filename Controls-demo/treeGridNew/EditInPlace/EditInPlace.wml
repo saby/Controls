@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/EditInPlace/InputFontSize/Index' }}">
+            <a href="{{content.href}}">Размер шрифта при редактировании по месту </a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.EditInPlace.InputFontSize.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/EditInPlace/RowEditor/Index' }}">
+            <a href="{{content.href}}">Шаблон расширенного редактирования</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.EditInPlace.RowEditor.Index/>
+    </div>
+
+</div>

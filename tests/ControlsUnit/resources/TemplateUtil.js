@@ -1,10 +1,10 @@
 define('ControlsUnit/resources/TemplateUtil',
    [
       'Core/helpers/String/unEscapeASCII',
-
-      'wml!ControlsUnit/resources/SimpleContent'
+      'wml!ControlsUnit/resources/SimpleContent',
+      'UI/Base'
    ],
-   function(unEscapeASCII, SimpleContent) {
+   function(unEscapeASCII, SimpleContent, UIBase) {
       'use strict';
 
       var _private = {
@@ -23,7 +23,12 @@ define('ControlsUnit/resources/TemplateUtil',
          clearTemplate: function(template) {
             const self = this;
             return function(inst, callback) {
-               const result = template(inst);
+               let result;
+               if (inst instanceof UIBase.Control) {
+                  result = template.apply(inst, [inst]);
+               } else {
+                  result = template(inst);
+               }
                if (!callback) {
                   return self.clearMarkup(result);
                }

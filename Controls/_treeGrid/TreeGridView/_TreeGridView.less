@@ -32,32 +32,27 @@
    padding-right: @expander_default_padding-right_treeGrid;
 }
 
-.controls-TreeGrid__row_master-expander_size_default_theme-@{themeName},
-.controls-TreeGrid__row_masterClassic-expander_size_default_theme-@{themeName} {
+.controls-TreeGrid__row_master-expander_size_default_theme-@{themeName} {
    padding-left: @expander_default_padding-left_treeGrid;
    padding-right: @expander_default_padding-right_treeGrid;
 }
 
-.controls-TreeGrid__row_master-expander_size_s_theme-@{themeName},
-.controls-TreeGrid__row_masterClassic-expander_size_s_theme-@{themeName} {
+.controls-TreeGrid__row_master-expander_size_s_theme-@{themeName} {
    padding-left: @expander_s_padding-left_treeGrid;
    padding-right: @expander_s_padding-right_treeGrid;
 }
 
-.controls-TreeGrid__row_master-expander_size_m_theme-@{themeName},
-.controls-TreeGrid__row_masterClassic-expander_size_m_theme-@{themeName} {
+.controls-TreeGrid__row_master-expander_size_m_theme-@{themeName} {
    padding-left: @expander_m_padding-left_treeGrid;
    padding-right: @expander_m_padding-right_treeGrid;
 }
 
-.controls-TreeGrid__row_master-expander_size_l_theme-@{themeName},
-.controls-TreeGrid__row_masterClassic-expander_size_l_theme-@{themeName} {
+.controls-TreeGrid__row_master-expander_size_l_theme-@{themeName} {
    padding-left: @expander_l_padding-left_treeGrid;
    padding-right: @expander_l_padding-right_treeGrid;
 }
 
-.controls-TreeGrid__row_master-expander_size_xl_theme-@{themeName},
-.controls-TreeGrid__row_masterClassic-expander_size_xl_theme-@{themeName} {
+.controls-TreeGrid__row_master-expander_size_xl_theme-@{themeName} {
    padding-left: @expander_xl_padding-left_treeGrid;
    padding-right: @expander_xl_padding-right_treeGrid;
 }
@@ -151,29 +146,29 @@
 }
 .controls-TreeGrid__row-expander_node_default_collapsed_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_node_master_collapsed_theme-@{themeName}:before {
-   content: '\e96e';
+   content: @node_expander_collapsed_icon-content_treeGrid;
 }
 .controls-TreeGrid__row-expander_node_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_node_master_expanded_theme-@{themeName}:before {
-   content: '\e96d';
+   content: @node_expander_icon-content_treeGrid;
 }
 
 .controls-TreeGrid__row-expander_emptyNode_default_collapsed_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_emptyNode_master_collapsed_theme-@{themeName}:before {
-   content: '\e96c';
+   content: @empty-node_expander_collapsed_icon-content_treeGrid;
 }
 
 .controls-TreeGrid__row-expander_emptyNode_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_emptyNode_master_expanded_theme-@{themeName}:before {
-   content: '\e96b';
+   content: @empty-node_expander_icon-content_treeGrid;
 }
 .controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_hiddenNode_master_collapsed_theme-@{themeName}:before {
-   content: '\e9c2';
+   content: @hidden-node_expander_collapsed_icon-content_treeGrid;
 }
 .controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-@{themeName}:before,
 .controls-TreeGrid__row-expander_hiddenNode_master_expanded_theme-@{themeName}:before {
-   content: '\e9c1';
+   content: @hidden-node_expander_icon-content_treeGrid;
 }
 
 .controls-TreeGrid__row {
@@ -258,18 +253,15 @@
 }
 
 .controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
-.controls-TreeGrid__row-cell_masterClassic_theme-@{themeName}.controls-TreeGrid__row-cell__node_theme-@{themeName},
 .controls-TreeGrid__row-cell__node_theme-@{themeName} .controls-EditingTemplateText_size_default_theme-@{themeName} {
   font-size: @node_font-size_treeGrid;
 }
 
-.controls-TreeGrid__row-cell_masterClassic_theme-@{themeName}.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName},
 .controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName},
 .controls-TreeGrid__row-cell__hiddenNode_theme-@{themeName} .controls-EditingTemplateText_size_default_theme-@{themeName} {
   font-size: @hidden-node_font-size_treeGrid;
 }
 
-.controls-TreeGrid__row-cell_masterClassic_theme-@{themeName}.controls-TreeGrid__row-cell__item_theme-@{themeName},
 .controls-TreeGrid__row-cell_default_theme-@{themeName}.controls-TreeGrid__row-cell__item_theme-@{themeName},
 .controls-TreeGrid__row-cell__item_theme-@{themeName} .controls-EditingTemplateText_size_default_theme-@{themeName} {
   font-size: @item_font-size_m_grid;
@@ -356,7 +348,7 @@
    z-index: 2;
 }
 
-.controls-Grid__row-cell-background-editing_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
+.controls-Grid__row-cell-editing_theme-@{themeName} > .controls-TreeGridView__row-cell_innerWrapper > .controls-itemActionsV {
    visibility: visible;
    opacity: 1;
 }
@@ -401,6 +393,14 @@
    }
    .controls-TreeGrid__row-expander_hiddenNode_master_theme-@{themeName}:hover:before {
       color: @master_hidden-node_expander_hover_icon-color_treeGrid;
+   }
+
+   .controls-TreeGrid__row-expander_visibility_hover {
+      visibility: hidden;
+   }
+
+   .controls-Grid__row:hover .controls-TreeGrid__row-expander_visibility_hover {
+      visibility: visible;
    }
 
    .controls-BaseControl_showActions_visible .controls-Grid__row,

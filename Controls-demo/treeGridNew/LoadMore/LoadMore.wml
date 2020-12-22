@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            allowEmptySelection="{{false}}"
+            navigation="{{_navigation}}"
+            nodeProperty="type"/>
+</div>

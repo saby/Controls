@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_operations/Controller/Controller');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { TKeySelection as TKey } from 'Controls/interface';
 import {default as OperationsController} from 'Controls/_operations/ControllerClass';
@@ -12,13 +12,13 @@ import { TSelectionType } from 'Controls/interface';
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/operations/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less переменные тем оформления}
  *
  * @class Controls/_operations/Controller
  * @extends Core/Control
  * @mixes Controls/interface/IPromisedSelectable
- * 
+ *
  * @author Авраменко А.С.
  * @public
  */
@@ -26,12 +26,12 @@ import { TSelectionType } from 'Controls/interface';
 /*
  * Container for content that can work with multiselection.
  * Puts selection in child context.
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>here</a>.
  *
  * @class Controls/_operations/Controller
  * @extends Core/Control
  * @mixes Controls/interface/IPromisedSelectable
- * 
+ *
  * @author Авраменко А.С.
  * @public
  */
@@ -42,7 +42,7 @@ export default class MultiSelector extends Control {
    protected _selectionType: TSelectionType = 'all';
    protected _isAllSelected: boolean = false;
    protected _listMarkedKey: TKey = null;
-   protected _notifyHandler: Function = tmplNotify;
+   protected _notifyHandler: Function = EventUtils.tmplNotify;
    private _operationsController: OperationsController = null;
 
    protected _beforeMount(options): void {

@@ -1,11 +1,13 @@
-<Controls.Container.Async templateName="Controls/toggle:CheckboxMarker">
-    <ws:partial template="{{content.resolvedTemplate}}"
-                attr:class="js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable
-                           js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable
-                           controls-Checkbox__iconWrapper_inList_theme-{{_options.theme}}"
-                triState="{{triState}}"
-                readOnly="{{checkboxReadOnly || false}}"
-                value="{{multiSelectStatus}}"
-                on:click="_onCheckBoxClick(key, multiSelectStatus, checkboxReadOnly)"
-    />
-</Controls.Container.Async>
+<ws:if data="{{item.isVisibleCheckbox()}}">
+    <Controls.Container.Async templateName="Controls/toggle:CheckboxMarker">
+        <ws:partial template="{{content.resolvedTemplate}}"
+                    attr:class="js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable
+                            js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable
+                            controls-Checkbox__iconWrapper_inList_theme-{{_options.theme}}"
+                    triState="{{ triState }}"
+                    readOnly="{{ item.isReadonlyCheckbox() || checkboxReadOnly || readOnly }}"
+                    value="{{ item.isSelected() }}"
+                    on:click="_onCheckBoxClick(item, item.isReadonlyCheckbox() || checkboxReadOnly || readOnly)"
+        />
+    </Controls.Container.Async>
+</ws:if>

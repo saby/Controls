@@ -130,7 +130,7 @@ export interface IDialogOpener extends IOpener {
  * @property {Number} minWidth Минимально допустимая ширина диалогового окна.
  * @property {Number} top Расстояние от диалогового окна до верхнего края экрана.
  * @property {Number} left Расстояние от диалогового окна до левого края экрана.
- * @property {Node} opener Логический инициатор открытия диалогового окна. Читайте подробнее {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
+ * @property {Node} opener Логический инициатор открытия диалогового окна. Читайте подробнее {@link /doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
  * @property {Controls/_popup/interface/IBaseOpener.typedef} eventHandlers Функции обратного вызова на события всплывающего окна.
  */
 

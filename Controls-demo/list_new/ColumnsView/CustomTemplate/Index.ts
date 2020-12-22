@@ -74,7 +74,7 @@ export default class RenderDemo extends Control {
                 hasMore: false
             },
             viewConfig: {
-                pagingMode: 'direct'
+                pagingMode: 'basic'
             }
         };
     }
