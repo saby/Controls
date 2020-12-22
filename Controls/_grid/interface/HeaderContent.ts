@@ -3,7 +3,7 @@
  *  
  * @class Controls/_grid/interface/HeaderContent
  * @author Авраменко А.С.
- * @see Controls/_grid/interface/IGridControl/HeaderCell.typedef
+ * @see Controls/grid:IGridControl/HeaderCell.typedef
  * @see Controls/grid:IGridControl#header
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ здесь}.
@@ -29,7 +29,6 @@
  */
 export default interface IHeaderContentOptions {
    /**
-    * @name Controls/_grid/interface/HeaderContent#contentTemplate
     * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки шапки.
     * @remark
     * В области видимости шаблона доступен объект **colData**. Через него можно получить доступ к свойству **column**, которое содержит конфигурацию {@link /docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.

@@ -1,12 +1,13 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/tile:View плитке}.
  * @class Controls/_tile/interface/ItemTemplate
- * @mixes Controls/_list/interface/IBaseItemTemplate
- * @mixes Controls/_list/interface/IContentTemplateOptions
+ * @mixes Controls/list:IBaseItemTemplate
+ * @mixes Controls/list:IContentTemplate
  * @author Авраменко А.С.
  * @see Controls/tile:View
  * @example
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.tile:View>
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:ItemTemplate">
@@ -28,13 +29,11 @@
 
 export default interface IItemTemplateOptions {
    /**
-    * @name Controls/_tile/interface/ItemTemplate#hasTitle
     * @cfg {Boolean} Подпись к плитке.
     * @see titleStyle
     */
    hasTitle?: string;
    /**
-    * @name Controls/_tile/interface/ItemTemplate#itemWidth
     * @cfg {Number} Ширина плитки. Значение задаётся в px.
     * @remark Ширина папки настраивается в опции {@link folderWidth}.
     * @see staticHeight
@@ -42,12 +41,10 @@ export default interface IItemTemplateOptions {
     */
    itemWidth?: number;
    /**
-    * @name Controls/_tile/interface/ItemTemplate#staticHeight
     * @cfg {Number} Будет ли автоматически изменяться высота плитки, когда плитка отображается со статической шириной, т.е. опция {@link tileMode} установлена в значение static.
     */
    staticHeight?: boolean;
    /**
-    * @name Controls/_tile/interface/ItemTemplate#folderWidth
     * @cfg {Number} Ширина папки. Значение задаётся в px.
     * @see itemWidth
     * @see staticHeight
@@ -60,7 +57,6 @@ export default interface IItemTemplateOptions {
     * @variant onhover Отображается только при наведении на плитку.
     */
    /**
-    * @name Controls/_tile/interface/ItemTemplate#shadowVisibility
     * @cfg {ShadowVisibility} Нужно ли отображать тень для плитки.
     * @default visible
     */

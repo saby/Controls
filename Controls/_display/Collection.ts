@@ -44,12 +44,26 @@ const LOGGER = GLOBAL.console;
 const MESSAGE_READ_ONLY = 'The Display is read only. You should modify the source collection instead.';
 const VERSION_UPDATE_ITEM_PROPERTIES = ['editing', 'editingContents', 'animated', 'canShowActions', 'expanded', 'marked', 'selected'];
 
-const checkboxStateConstants = {
+/**
+ * Возможные значения доступности чекбокса
+ * @class
+ * @public
+ */
+const MultiSelectAccessibility = {
+    /**
+     * Чекбокс виден и с ним можно взаимодействовать
+     */
     enabled: true,
+    /**
+     * Чекбокс виден, но с ним нельзя взаимодействовать
+     */
     disabled: false,
+    /**
+     * Чекбокс скрыт
+     */
     hidden: null
 };
-export {checkboxStateConstants};
+export {MultiSelectAccessibility};
 
 export interface ISplicedArray<T> extends Array<T> {
     start?: number;

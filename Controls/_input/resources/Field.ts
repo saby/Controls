@@ -51,13 +51,14 @@ export interface IField {
 }
 
 /**
- * Контрол-обертка над нативными полями ввода.
+ * Контрол-обертка над нативными полями ввода. Используется для реализации контролов с вводом данных.
+ * Если требуется готовый контрол с вводом текста используйте {@link Controls/_input/Text Controls.input:Text}
+ *
  *
  * @class Controls/_input/resources/Field
  * @extends UI/Base:Control
  *
  * @public
- * @demo Controls-demo/Input/Field/Index
  *
  * @author Красильников А.С.
  */

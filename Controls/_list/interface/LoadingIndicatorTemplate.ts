@@ -26,7 +26,6 @@ import {TemplateFunction} from 'UI/Base';
 
 export default interface ILoadingIndicatorTemplateOptions {
     /**
-     * @name Controls/_list/interface/LoadingIndicatorTemplate#contentTemplate
      * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий контент индикатора
      * @example
      * WML:
@@ -45,7 +44,6 @@ export default interface ILoadingIndicatorTemplateOptions {
      */
     contentTemplate: TemplateFunction | string;
     /**
-     * @name Controls/_list/interface/LoadingIndicatorTemplate#footerTemplate
      * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий подвал индикатора.
      * @example
      * WML:

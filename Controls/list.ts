@@ -1,14 +1,12 @@
 /**
  * Библиотека контролов, которые реализуют плоский список. Список может строиться по данным, полученным из источника. Также можно организовать удаление и перемещение данных.
  * @library Controls/list
- * @includes BaseItemTemplate Controls/_list/interface/BaseItemTemplate
- * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
+ * @includes IBaseItemTemplate Controls/_list/interface/IBaseItemTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
- * @includes BaseGroupTemplate Controls/_list/interface/BaseGroupTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
+ * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
- * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
@@ -19,14 +17,12 @@
 /*
  * List library
  * @library Controls/list
- * @includes BaseItemTemplate Controls/_list/interface/BaseItemTemplate
- * @includes IContentTemplate Controls/_list/interface/IContentTemplate
  * @includes ItemTemplate Controls/_list/interface/ItemTemplate
+ * @includes IBaseItemTemplate Controls/_list/interface/IBaseItemTemplate
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
- * @includes BaseGroupTemplate Controls/_list/interface/BaseGroupTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
+ * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
- * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
  * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
@@ -151,7 +147,7 @@ const editing = {
 };
 
 import {groupConstants} from './display';
-import {checkboxStateConstants} from './display';
+import {MultiSelectAccessibility} from './display';
 import {CursorDirection} from './interface';
 
-export {CursorDirection, groupConstants, editing, checkboxStateConstants};
+export {CursorDirection, groupConstants, editing, MultiSelectAccessibility};

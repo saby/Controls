@@ -23,11 +23,13 @@
  * @example
  * В следующем примере показано, как установить высоту элементов - 200 пикселей.
  * <pre class="brush: html">
- *    <Controls.tile:View tileHeight="{{200}}"
- *                   source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@"/>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    tileHeight="{{200}}"
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@"/>
  * </pre>
  */
 
@@ -46,12 +48,13 @@
  * @example
  * В следующем примере показано, как установить минимальную ширину элементов - 300 пикселей.
  * <pre class="brush: html">
- *    <Controls.tile:View
- *                   tileWidth="{{300}}"
- *                   source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@"/>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    tileWidth="{{300}}"
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@"/>
  * </pre>
  */
 
@@ -63,12 +66,13 @@
  * Если установить высоту с помощью css, компонент не будет отображен корректно.
  * @example
  * <pre class="brush: html">
- *    <Controls.tile:View
- *                   tileWidthProperty="itemWidth"
- *                   source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@"/>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    tileWidthProperty="itemWidth"
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@"/>
  * </pre>
  */
 /*
@@ -79,12 +83,14 @@
  * If you set the height using css, the component cannot be displayed immediately in the correct state.
  * @example
  * The following example shows how to set the height of items to 200 pixels.
- * <pre>
- *    <Controls.tile:View tileHeight="{{200}}"
- *                   source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    tileWidthProperty="itemWidth"
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@"/>
  * </pre>
  */
 
@@ -97,11 +103,13 @@
  * @example
  * В следующем примере показано, как установить высоту элементов - 200 пикселей.
  * <pre class="brush: html">
- *    <Controls.tile:View nodesHeight="{{200}}"
- *                   source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@"/>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    nodesHeight="{{200}}"
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@"/>
  * </pre>
  */
 
@@ -113,12 +121,14 @@
  * If you set the height using css, the component cannot be displayed immediately in the correct state.
  * @example
  * The following example shows how to set the height of nodes to 200 pixels.
- * <pre>
- *    <Controls.tile:View nodesHeight="{{200}}"
- *                   source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    nodesHeight="{{200}}"
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@"/>
  * </pre>
  */
 
@@ -138,12 +148,14 @@
  * @example
  * В следующем примере показано, как установить режим наведения 'outside'.
  * <pre class="brush: html">
- *    <Controls.tile:View itemsHeight="{{200}}"
- *                   tileScalingMode="outside"
- *                   source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@"/>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    itemsHeight="{{200}}"
+ *    tileScalingMode="outside"
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@"/>
  * </pre>
  * @demo Controls-demo/Tile/TileMode/Index
  */
@@ -159,13 +171,15 @@
  * If the increased item does not fit in the specified container, the increase does not occur.
  * @example
  * The following example shows how to set the hover mode to 'outside'.
- * <pre>
- *    <Controls.tile:View itemsHeight="{{200}}"
- *                   scaleTileMode="outside"
- *                   source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    itemsHeight="{{200}}"
+ *    tileScalingMode="outside"
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@"/>
  * </pre>
  */
 
@@ -176,14 +190,15 @@
  * @example
  * В следующем примере показано, как задать поле с изображением 'img'.
  * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@">
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/tile:ItemTemplate"
- *                      imageProperty="img" >
- *       </ws:itemTemplate>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    nodeProperty="Раздел@">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/tile:ItemTemplate" imageProperty="img" >
+ *    </ws:itemTemplate>
  *    </Controls.tile:View>
  * </pre>
  */
@@ -196,15 +211,17 @@
  * @example
  * В следующем примере показано, как задать поле с высотой'.
  * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   imageHeightProperty='imageHeight'
- *                   nodeProperty="Раздел@">
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/tile:ItemTemplate">
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    imageHeightProperty='imageHeight'
+ *    nodeProperty="Раздел@">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/tile:ItemTemplate">
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
  * </pre>
  */
 
@@ -216,15 +233,17 @@
  * @example
  * В следующем примере показано, как задать поле с шириной'.
  * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   imageWidthProperty='imageWidth'
- *                   nodeProperty="Раздел@">
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/tile:ItemTemplate">
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    imageWidthProperty='imageWidth'
+ *    nodeProperty="Раздел@">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/tile:ItemTemplate">
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
  * </pre>
  */
 
@@ -234,16 +253,18 @@
  * @default image
  * @example
  * The following example shows how to set the field with the image 'img'.
- * <pre>
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   nodeProperty="Раздел@">
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/tile:ItemTemplate"
- *                      imageProperty="img" >
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    imageWidthProperty='imageWidth'
+ *    nodeProperty="Раздел@">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/tile:ItemTemplate">
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
  * </pre>
  */
 
@@ -258,17 +279,19 @@
  * @example
  * В следующем примере показано, как отобразить плитку с динамической шириной.
  * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   imageWidthProperty="imageWidth"
- *                   imageHeightProperty="imageHeight"
- *                   nodeProperty="Раздел@"
- *                   tileMode="dynamic">
- *       <ws:itemTemplate>
- *          ...
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    imageWidthProperty="imageWidth"
+ *    imageHeightProperty="imageHeight"
+ *    nodeProperty="Раздел@"
+ *    tileMode="dynamic">
+ *    <ws:itemTemplate>
+ *       ...
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
  * </pre>
   * @demo Controls-demo/Tile/TileMode/Index
   * @remark
@@ -283,16 +306,18 @@
  * @variant l
  * @example
  * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   parentProperty="Раздел"
- *                   tileSize="s"
- *                   nodeProperty="Раздел@"
- *                   tileMode="static">
- *       <ws:itemTemplate>
- *          ...
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    parentProperty="Раздел"
+ *    tileSize="s"
+ *    nodeProperty="Раздел@"
+ *    tileMode="static">
+ *    <ws:itemTemplate>
+ *       ...
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
  * </pre>
  */
 
@@ -308,17 +333,17 @@
  * @remark Динамический расчет применяется только к плиткам.
  * @example
  * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   actionMode="adaptive"
- *                   nodeProperty="Раздел@"
- *                   tileMode="static">
- *       <ws:itemTemplate>
- *          <ws:partial
- *             template='Controls/tile:PreviewTemplate'
- *             scope={{itemTemplate}}/>
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    actionMode="adaptive"
+ *    nodeProperty="Раздел@"
+ *    tileMode="static">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/tile:PreviewTemplate" scope="{{itemTemplate}}"/>
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
  * </pre>
  * @demo Controls-demo/Tile/DifferentItemTemplates/PreviewTemplate/Index
  */
@@ -348,18 +373,18 @@
  * @param {Types/entity:Model} - элемент списка, для которого нужно изображение.
  * @example
  * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   imageFit="cover"
- *                   imageUrlResolver="{{_imageUrlResolver}}"
- *                   nodeProperty="Раздел@"
- *                   tileMode="static">
- *       <ws:itemTemplate>
- *          <ws:partial
- *             template="Controls/tile:PreviewTemplate"
- *             scope={{itemTemplate}}/>
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    imageFit="cover"
+ *    imageUrlResolver="{{_imageUrlResolver}}"
+ *    nodeProperty="Раздел@"
+ *    tileMode="static">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/tile:PreviewTemplate" scope={{itemTemplate}}/>
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
  * </pre>
  * @demo Controls-demo/Tile/ImageFit/Cover/Index
  */
@@ -380,18 +405,18 @@
  * @see imageWidthProperty
  * @example
  * <pre class="brush: html">
- *    <Controls.tile:View source="{{_viewSource}}"
- *                   keyProperty="id"
- *                   imageFit='cover'
- *                   imageUrlResolver={{_imageUrlResolver}}
- *                   nodeProperty="Раздел@"
- *                   tileMode="static">
- *       <ws:itemTemplate>
- *          <ws:partial
- *             template='Controls/tile:PreviewTemplate'
- *             scope={{itemTemplate}}/>
- *       </ws:itemTemplate>
- *    </Controls.tile:View>
+ * <!-- WML -->
+ * <Controls.tile:View
+ *    source="{{_viewSource}}"
+ *    keyProperty="id"
+ *    imageFit="cover"
+ *    imageUrlResolver={{_imageUrlResolver}}
+ *    nodeProperty="Раздел@"
+ *    tileMode="static">
+ *    <ws:itemTemplate>
+ *       <ws:partial template="Controls/tile:PreviewTemplate" scope="{{itemTemplate}}" />
+ *    </ws:itemTemplate>
+ * </Controls.tile:View>
  * </pre>
  * @demo Controls-demo/Tile/ImageFit/Index
  */

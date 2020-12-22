@@ -73,7 +73,8 @@ define('Controls/interface/IMovable', [
     * @cfg {IMoveDialogTemplateProp|null} Шаблон диалогового окна выбора целевой записи для перемещения.
     * Рекомендуется использовать стандартный шаблон {@link Controls/moverDialog:Template}.
     * @example
-    * <pre class="brush: html; highlight: [2,3,4,5,6,7,8,9,10]">
+    * <pre class="brush: html; highlight: [3,4,5,6,7,8,9,10,11]">
+    * <!-- WML -->
     * <Controls.list:Mover>
     *    <ws:moveDialogTemplate templateName="Controls/moverDialog:Template">
     *       <ws:templateOptions
@@ -96,18 +97,19 @@ define('Controls/interface/IMovable', [
     * @cfg {IMoveDialogTemplateProp|null} The template of the dialog for selecting the target record to move.
     * @example
     * The following example shows how to using default template {@link Controls/MoveDialog}.
-    * <pre>
-    *    <Controls.list:Mover>
-    *       <ws:moveDialogTemplate templateName="Controls/MoveDialog">
-    *          <ws:templateOptions
-    *             root="rootId"
-    *             searchParam="folderTitle"
-    *             parentProperty="parent"
-    *             nodeProperty="parent@">
+    * <pre class="brush: html; highlight: [3,4,5,6,7,8,9,10,11]">
+    * <!-- WML -->
+    * <Controls.list:Mover>
+    *    <ws:moveDialogTemplate templateName="Controls/moverDialog:Template">
+    *       <ws:templateOptions
+    *          root="rootId"
+    *          searchParam="folderTitle"
+    *          parentProperty="parent"
+    *          nodeProperty="parent@">
     *             <ws:filter moveDialog="{{true}}"/>
-    *          </ws:templateOptions>
-    *       </ws:moveDialogTemplate>
-    *    </Controls.list:Mover>
+    *       </ws:templateOptions>
+    *    </ws:moveDialogTemplate>
+    * </Controls.list:Mover>
     * </pre>
     * @see moveItemsWithDialog
     * @see Controls.list:View/Mover/MoveDialog
@@ -122,18 +124,19 @@ define('Controls/interface/IMovable', [
     * @remark Эта опция необходима для указания порядка расположения данных в источнике, чтобы при изменении порядковых номеров элементы перемещались в правильное положение.
     * @example
     * В следующем примере показано, как задать сортировку по убыванию.
-    * <pre>
-    *    <Controls.list:Mover sortingOrder="desc">
-    *       <ws:moveDialogTemplate templateName="Controls/MoveDialog">
-    *          <ws:templateOptions
-    *             root="rootId"
-    *             searchParam="folderTitle"
-    *             parentProperty="parent"
-    *             nodeProperty="parent@">
-    *             <ws:filter moveDialog="{{true}}"/>
-    *          </ws:templateOptions>
-    *       </ws:moveDialogTemplate>
-    *    </Controls.list:Mover>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:Mover sortingOrder="desc">
+    *    <ws:moveDialogTemplate templateName="Controls/MoveDialog">
+    *       <ws:templateOptions
+    *          root="rootId"
+    *          searchParam="folderTitle"
+    *          parentProperty="parent"
+    *          nodeProperty="parent@">
+    *          <ws:filter moveDialog="{{true}}"/>
+    *       </ws:templateOptions>
+    *    </ws:moveDialogTemplate>
+    * </Controls.list:Mover>
     * </pre>
     */
 
@@ -147,18 +150,19 @@ define('Controls/interface/IMovable', [
     * so that when changing the sequence numbers, the items are moved to the correct position.
     * @example
     * The following example shows how to set a descending sort.
-    * <pre>
-    *    <Controls.list:Mover sortingOrder="desc">
-    *       <ws:moveDialogTemplate templateName="Controls/MoveDialog">
-    *          <ws:templateOptions
-    *             root="rootId"
-    *             searchParam="folderTitle"
-    *             parentProperty="parent"
-    *             nodeProperty="parent@">
-    *             <ws:filter moveDialog="{{true}}"/>
-    *          </ws:templateOptions>
-    *       </ws:moveDialogTemplate>
-    *    </Controls.list:Mover>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:Mover sortingOrder="desc">
+    *    <ws:moveDialogTemplate templateName="Controls/MoveDialog">
+    *       <ws:templateOptions
+    *          root="rootId"
+    *          searchParam="folderTitle"
+    *          parentProperty="parent"
+    *          nodeProperty="parent@">
+    *          <ws:filter moveDialog="{{true}}"/>
+    *       </ws:templateOptions>
+    *    </ws:moveDialogTemplate>
+    * </Controls.list:Mover>
     * </pre>
     */
 
@@ -172,19 +176,18 @@ define('Controls/interface/IMovable', [
     * @returns {BeforeItemsMoveResult}
     * @example
     * В следующем примере показано, как переопределить логику перемещения элементов по умолчанию.
-    * <pre>
-    *    <Controls.list:Mover name="listMover" on:beforeItemsMove="_beforeItemsMove()"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:Mover name="listMover" on:beforeItemsMove="_beforeItemsMove()"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _beforeItemsMove: function(eventObject, movedItems, target, position) {
-    *          ...
-    *          return 'Custom';
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _beforeItemsMove: function(eventObject, movedItems, target, position) {
+    *       return 'Custom';
+    *    }
+    * });
     * </pre>
     * @see afterItemsMove
     */
@@ -199,19 +202,18 @@ define('Controls/interface/IMovable', [
     * @returns {BeforeItemsMoveResult}
     * @example
     * The following example shows how to override the default items move logic.
-    * <pre>
-    *    <Controls.list:Mover name="listMover" on:beforeItemsMove="_beforeItemsMove()"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:Mover name="listMover" on:beforeItemsMove="_beforeItemsMove()"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _beforeItemsMove: function(eventObject, movedItems, target, position) {
-    *          ...
-    *          return 'Custom';
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _beforeItemsMove: function(eventObject, movedItems, target, position) {
+    *       return 'Custom';
+    *    }
+    * });
     * </pre>
     * @see afterItemsMove
     */
@@ -226,24 +228,24 @@ define('Controls/interface/IMovable', [
     * @param {*} result Результат перемещения элементов.
     * @example
     * В следующем примере показано, как отобразить диалоговое окно ошибки после неудачного перемещения товаров.
-    * <pre>
+    * <pre class="brush: html">
+    * <!-- WML -->
     *    <Controls.list:Mover name="listMover" on:afterItemsMove="_afterItemsMove()"/>
     *    <Controls.popup:Confirmation name="popupOpener"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _afterItemsMove: function(eventObject, movedItems, target, position, result) {
-    *          if (result instanceof Error) {
-    *             return this._children.popupOpener.open({
-    *                message: 'Removing records failed.',
-    *                style: 'error'
-    *             });
-    *          }
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _afterItemsMove: function(eventObject, movedItems, target, position, result) {
+    *       if (result instanceof Error) {
+    *          return this._children.popupOpener.open({
+    *             message: 'Removing records failed.',
+    *             style: 'error'
+    *          });
     *       }
-    *       ...
-    *    });
+    *    }
+    * });
     * </pre>
     * @see beforeItemsMove
     */
@@ -258,25 +260,24 @@ define('Controls/interface/IMovable', [
     * @param {*} result Result of moving items.
     * @example
     * The following example shows how to display the error dialog after a failed move of items.
-    * <pre>
+    * <pre class="brush: html">
+    * <!-- WML -->
     *    <Controls.list:Mover name="listMover" on:afterItemsMove="_afterItemsMove()"/>
     *    <Controls.popup:Confirmation name="popupOpener"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _afterItemsMove: function(eventObject, movedItems, target, position, result) {
-    *          if (result instanceof Error) {
-    *             return this._children.popupOpener.open({
-    *                message: 'Removing records failed.',
-    *                style: 'error'
-    *             });
-    *          }
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _afterItemsMove: function(eventObject, movedItems, target, position, result) {
+    *       if (result instanceof Error) {
+    *          return this._children.popupOpener.open({
+    *             message: 'Removing records failed.',
+    *             style: 'error'
+    *          });
     *       }
-    *       ...
-    *    });
-    * </pre>
+    *    }
+    * });
     * @see beforeItemsMove
     */
 
@@ -287,25 +288,24 @@ define('Controls/interface/IMovable', [
     * @returns {Core/Deferred} Отложенный результат перемещения.
     * @example
     * В следующем примере показано, как переместить элемент вверх с помощью панели операций над записью.
-    * <pre>
-    *    <Controls.list:View itemActions="{{_itemActions}}"/>
-    *    <Controls.list:Mover name="listMover"/>
+    * <pre class="brush: html">
+    * <Controls.list:View itemActions="{{_itemActions}}"/>
+    * <Controls.list:Mover name="listMover"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _beforeMount: function() {
-    *          var self = this;
-    *          this._itemActions = [{
-    *             icon: 'icon-ArrowUp',
-    *             handler: function(item) {
-    *                self._children.listMover.moveItemUp(item.getId());
-    *             }
-    *          }]
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _beforeMount: function() {
+    *       var self = this;
+    *       this._itemActions = [{
+    *          icon: 'icon-ArrowUp',
+    *          handler: function(item) {
+    *             self._children.listMover.moveItemUp(item.getId());
+    *          }
+    *       }]
+    *    }
+    * });
     * </pre>
     * @see moveItemDown
     * @see moveItems
@@ -318,25 +318,24 @@ define('Controls/interface/IMovable', [
     * @returns {Core/Deferred} Deferred with the result of the move.
     * @example
     * The following example shows how to move item up using the item actions.
-    * <pre>
-    *    <Controls.list:View itemActions="{{_itemActions}}"/>
-    *    <Controls.list:Mover name="listMover"/>
+    * <pre class="brush: html">
+    * <Controls.list:View itemActions="{{_itemActions}}"/>
+    * <Controls.list:Mover name="listMover"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _beforeMount: function() {
-    *          var self = this;
-    *          this._itemActions = [{
-    *             icon: 'icon-ArrowUp',
-    *             handler: function(item) {
-    *                self._children.listMover.moveItemUp(item.getId());
-    *             }
-    *          }]
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // JavaScript
+    * Control.extend({
+    *    _beforeMount: function() {
+    *       var self = this;
+    *       this._itemActions = [{
+    *          icon: 'icon-ArrowUp',
+    *          handler: function(item) {
+    *             self._children.listMover.moveItemUp(item.getId());
+    *          }
+    *       }]
+    *    }
+    * });
     * </pre>
     * @see moveItemDown
     * @see moveItems
@@ -349,12 +348,14 @@ define('Controls/interface/IMovable', [
     * @returns {Core/Deferred} Отложенный результат перемещения.
     * @example
     * В следующем примере показано, как переместить элемент вниз с помощью панели операций над записью.
-    * <pre>
-    *    <Controls.list:View itemActions="{{_itemActions}}"/>
-    *    <Controls.list:Mover name="listMover"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View itemActions="{{_itemActions}}"/>
+    * <Controls.list:Mover name="listMover"/>
     * </pre>
     *
-    * <pre>
+    * <pre class="brush: js">
+    * // JavaScript
     * Base.Control.extend({
     *    _itemActions: null,
     *    _beforeMount: function() {
@@ -380,25 +381,27 @@ define('Controls/interface/IMovable', [
     * @returns {Core/Deferred} Deferred with the result of the move.
     * @example
     * The following example shows how to move item down using the item actions.
-    * <pre>
-    *    <Controls.list:View itemActions="{{_itemActions}}"/>
-    *    <Controls.list:Mover name="listMover"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.list:View itemActions="{{_itemActions}}"/>
+    * <Controls.list:Mover name="listMover"/>
     * </pre>
     *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _beforeMount: function() {
-    *          var self = this;
-    *          this._itemActions = [{
-    *             icon: 'icon-ArrowDown',
-    *             handler: function(item) {
-    *                self._children.listMover.moveItemDown(item.getId());
-    *             }
-    *          }]
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // JavaScript
+    * Base.Control.extend({
+    *    _itemActions: null,
+    *    _beforeMount: function() {
+    *       var self = this;
+    *       this._itemActions = [{
+    *          icon: 'icon-ArrowDown',
+    *          handler: function(item) {
+    *             self._children.listMover.moveItemDown(item.getId());
+    *          }
+    *       }]
+    *    }
+    *    ...
+    * });
     * </pre>
     * @see moveItemUp
     * @see moveItems
@@ -416,10 +419,12 @@ define('Controls/interface/IMovable', [
     * @example
     * В следующем примере показано, как переместить элемент вниз с помощью панели операций над записью.
     * <pre class="brush: html">
-    *    <Controls.breadcrumbs:Path caption="Move items in root" on:click="_moveItems()"/>
-    *    <Controls.list:Mover name="listMover"/>
+    * <!-- WML -->
+    * <Controls.breadcrumbs:Path caption="Move items in root" on:click="_moveItems()"/>
+    * <Controls.list:Mover name="listMover"/>
     * </pre>
     * <pre class="brush: js">
+    * // javaScript
     * Base.Control.extend({
     *    _selectedKeys: null,
     *    _beforeMount: function() {
@@ -445,20 +450,22 @@ define('Controls/interface/IMovable', [
     * Depending on the 'position' argument, elements can be moved before, after or on the specified target item.
     * @example
     * The following example shows how to move item down using the item actions.
-    * <pre>
-    *    <Controls.breadcrumbs:Path caption="Move items in root" on:click="_moveItems()"/>
-    *    <Controls.list:Mover name="listMover"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.breadcrumbs:Path caption="Move items in root" on:click="_moveItems()"/>
+    * <Controls.list:Mover name="listMover"/>
     * </pre>
-    *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _selectedKeys: [],
-    *       _moveItems: function() {
-    *          this._children.listMover.moveItems(this._selectedKeys, 'rootId', 'on');
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // javaScript
+    * Base.Control.extend({
+    *    _selectedKeys: null,
+    *    _beforeMount: function() {
+    *       this._selectedKeys = [];
+    *    },
+    *    _moveItems: function() {
+    *       this._children.listMover.moveItems(this._selectedKeys, 'rootId', 'on');
+    *    }
+    * });
     * </pre>
     * @see moveItemUp
     * @see moveItemDown
@@ -472,11 +479,13 @@ define('Controls/interface/IMovable', [
     * Компонент, указанный в опции {@link moveDialogTemplate moveDialogTemplate}, будет использоваться в качестве шаблона для диалога перемещения.
     * @example
     * В следующем примере показано, как переместить выбранные элементы кликом по кнопке.
-    * <pre>
-    *    <Controls.breadcrumbs:Path caption="Move items in root" on:click="_moveItems()"/>
-    *    <Controls.list:Mover name="listMover"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.breadcrumbs:Path caption="Move items in root" on:click="_moveItems()"/>
+    * <Controls.list:Mover name="listMover"/>
     * </pre>
-    * <pre>
+    * <pre class="brush: js">
+    * // JavaScript
     * Base.Control.extend({
     *    _selectedKeys: null,
     *    _beforeMount: function(){
@@ -500,20 +509,22 @@ define('Controls/interface/IMovable', [
     * The component specified in the {@link moveDialogTemplate moveDialogTemplate} option will be used as a template for the move dialog.
     * @example
     * The following example shows how to move the selected items to the root by clicking the button.
-    * <pre>
-    *    <Controls.breadcrumbs:Path caption="Move items in root" on:click="_moveItems()"/>
-    *    <Controls.list:Mover name="listMover"/>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.breadcrumbs:Path caption="Move items in root" on:click="_moveItems()"/>
+    * <Controls.list:Mover name="listMover"/>
     * </pre>
-    *
-    * <pre>
-    *    Control.extend({
-    *       ...
-    *       _selectedKeys: [...],
-    *       _moveItems: function() {
-    *          this._children.listMover.moveItemsWithDialog(this._selectedKeys);
-    *       }
-    *       ...
-    *    });
+    * <pre class="brush: js">
+    * // JavaScript
+    * Base.Control.extend({
+    *    _selectedKeys: null,
+    *    _beforeMount: function(){
+    *       this._selectedKeys = [...];
+    *    },
+    *    _moveItems: function() {
+    *       this._children.listMover.moveItemsWithDialog(this._selectedKeys);
+    *    }
+    * });
     * </pre>
     * @see moveItemUp
     * @see moveItemDown

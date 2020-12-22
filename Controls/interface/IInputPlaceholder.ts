@@ -1,7 +1,6 @@
 /**
  * Интерфейс для текста подсказки в поле ввода.
  *
- * @interface Controls/interface/IInputPlaceholder
  * @public
  * @author Красильников А.С.
  */
@@ -9,36 +8,36 @@
 /*
  * Interface for input placeholder.
  *
- * @interface Controls/interface/IInputPlaceholder
  * @public
  * @author Красильников А.С.
  */
 interface IInputPlaceholder {
     readonly _options: {
         /**
-         * @name Controls/interface/IInputPlaceholder#placeholder
          * @cfg {String|Function} Текст, который отображается в пустом поле ввода.
          * @remark
          * Отображает текст в пустом поле ввода. Мы не используем собственные HTML-подсказки и не отображаем подсказки как div, наложенный поверх поля, чтобы разрешить использование пользовательских шаблонов.
          * Элементам, по которым можно произвести клик, в пользовательских шаблонах необходимо задать CSS-свойство pointer-events: auto.
          * @example
          * В этом примере создается текстовое поле с простой подсказкой.
-         * <pre>
-         *    <Controls.input:Text placeholder="Enter your name" />
+         * <pre class="brush: html">
+         * <!-- WML -->
+         * <Controls.input:Text placeholder="Enter your name" />
          * </pre>
          * В этом примере мы визуализируем пользовательский шаблон в текстовой подсказке поля. Мы помещаем в текстовое поле кнопку, по который пользователь может произвести клик, чтобы открыть список для выбора.
-         * <pre>
-         *    <Controls.input:Text>
-         *        <ws:placeholder>
-         *           <span>Enter your name or <Controls.buttons:Button class="example__button" caption="choose from the list" on:click="openListHandler()"/></span>
-         *        </ws:placeholder>
-         *    </Controls.input:Text>
+         * <pre class="brush: html">
+         * <!-- WML -->
+         * <Controls.input:Text>
+         *    <ws:placeholder>
+         *       <span>Enter your name or <Controls.buttons:Button class="example__button" caption="choose from the list" on:click="openListHandler()"/></span>
+         *    </ws:placeholder>
+         * </Controls.input:Text>
          * </pre>
          *
-         * <pre>
-         *    .example__button {
-         *      pointer-events: auto;
-         *    }
+         * <pre class="brush: css">
+         * .example__button {
+         *    pointer-events: auto;
+         * }
          * </pre>
          */
 
@@ -50,22 +49,24 @@ interface IInputPlaceholder {
          * Clickable elements in custom templates need to set the css property pointer-events: auto.
          * @example
          * In this example, we create a text field with simple text placeholder.
-         * <pre>
-         *    <Controls.input:Text placeholder="Enter your name" />
+         * <pre class="brush: html">
+         * <!-- WML -->
+         * <Controls.input:Text placeholder="Enter your name" />
          * </pre>
          * In this example, we render a custom template in field's placeholder. We put a Button in the placeholder that user can click on to open the list to pick from.
-         * <pre>
-         *    <Controls.input:Text>
-         *        <ws:placeholder>
-         *           <span>Enter your name or <Controls.buttons:Button class="example__button" caption="choose from the list" on:click="openListHandler()"/></span>
-         *        </ws:placeholder>
-         *    </Controls.input:Text>
+         * <pre class="brush: html">
+         * <!-- WML -->
+         * <Controls.input:Text>
+         *    <ws:placeholder>
+         *       <span>Enter your name or <Controls.buttons:Button class="example__button" caption="choose from the list" on:click="openListHandler()"/></span>
+         *    </ws:placeholder>
+         * </Controls.input:Text>
          * </pre>
          *
-         * <pre>
-         *    .example__button {
-         *      pointer-events: auto;
-         *    }
+         * <pre class="brush: css">
+         * .example__button {
+         *    pointer-events: auto;
+         * }
          * </pre>
          */
         placeholder?: string | Function;

@@ -107,7 +107,7 @@ var ListView = BaseControl.extend(
             }
         },
 
-       _beforeMount: function(newOptions) {
+        _beforeMount: function(newOptions) {
             _private.checkDeprecated(newOptions, this);
             if (newOptions.groupTemplate) {
                 this._groupTemplate = newOptions.groupTemplate;

@@ -384,7 +384,6 @@ export default class ScrollController {
             this.savePlaceholders(rangeShiftResult.placeholders);
             return {
                     placeholders: rangeShiftResult.placeholders,
-                    activeElement: options.activeElement,
                     scrollToActiveElement: options.activeElement !== undefined,
                     shadowVisibility: this._calcShadowVisibility(options.collection, rangeShiftResult.range)
                 };

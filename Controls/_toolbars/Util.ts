@@ -29,7 +29,8 @@ export function getButtonTemplateOptionsByItem(item: TItem, toolbarOptions: ICon
     const viewMode = item.get('viewMode');
 
     // todo: https://online.sbis.ru/opendoc.html?guid=244a5058-47c1-4896-a494-318ba2422497
-    const inlineHeight = viewMode === 'functionalButton' ? 'default' : ActualApi.actualHeight('m', undefined, viewMode, false);
+    const inlineHeight = viewMode === 'functionalButton' ? 'default' :
+        ActualApi.actualHeight('m', undefined, viewMode, false);
     const iconSize = viewMode === 'functionalButton' ? 's' : item.get('iconSize') || toolbarOptions.iconSize;
 
     const iconStyle = item.get('iconStyle') || toolbarOptions.iconStyle;
@@ -63,17 +64,29 @@ export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions
     const cfg: IButtonOptions = {};
     const defaultOptions = getDefaultOptions();
     const icon = item.get('icon');
-    const caption = item.get('caption');
-    const viewMode = item.get('viewMode') || 'link';
     const readOnly = item.get('readOnly') || toolbarOptions.readOnly;
     const buttonStyle = item.get('buttonStyle') || defaultOptions.buttonStyle;
     const iconStyle = item.get('iconStyle') || toolbarOptions.iconStyle || defaultOptions.iconStyle;
+
+    let viewMode = item.get('viewMode');
+    let caption = '';
+    if (viewMode && viewMode !== 'toolButton') {
+        caption = item.get('caption');
+    } else if (item.get('title') && !viewMode) {
+        viewMode = 'link';
+        caption = item.get('title');
+    }
+
+    // todo: https://online.sbis.ru/opendoc.html?guid=244a5058-47c1-4896-a494-318ba2422497
+    const inlineHeight = viewMode === 'functionalButton' ? 'default' :
+        item.get('inlineHeight') || defaultHeight(viewMode);
+    const iconSize = viewMode === 'functionalButton' ? 's' : item.get('iconSize') || toolbarOptions.iconSize || 'm';
 
     cfg._hoverIcon = true;
     cfg._buttonStyle = readOnly ? 'readonly' : buttonStyle;
     cfg._contrastBackground = item.get('contrastBackground');
     cfg._viewMode = viewMode;
-    cfg._height = item.get('inlineHeight') || defaultHeight(viewMode);
+    cfg._height = inlineHeight;
     cfg._fontColorStyle = item.get('fontColorStyle') || toolbarOptions.fontColorStyle || defaultFontColorStyle(viewMode);
     cfg._fontSize = item.get('fontSize') || defaultOptions.fontSize;
     cfg._hasIcon = !!icon;
@@ -81,7 +94,7 @@ export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions
     cfg._stringCaption = typeof caption === 'string';
     cfg._captionPosition = item.get('captionPosition') || defaultOptions.captionPosition;
     cfg._icon = icon;
-    cfg._iconSize = item.get('iconSize') || 'm';
+    cfg._iconSize = iconSize;
     cfg._iconStyle = readOnly ? 'readonly' : iconStyle;
     cfg.readOnly = readOnly;
 

@@ -29,7 +29,6 @@ import {TFontWeight} from 'Controls/_interface/IFontWeight';
 export default interface IResultColumnTemplateOptions {
 
     /**
-     * @name Controls/_grid/interface/IResultColumnTemplate#contentTemplate
      * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки итогов.
      * @remark
      * В области видимости шаблона доступен объект **results** - итогов, которые были переданы в метаданных RecordSet.
@@ -119,7 +118,6 @@ export default interface IResultColumnTemplateOptions {
      */
 
     /**
-     * @name Controls/_grid/interface/IResultColumnTemplate#fontWeight
      * @cfg {TFontWeight} Начертание шрифта.
      * @default bold
      */
@@ -136,7 +134,6 @@ export default interface IResultColumnTemplateOptions {
      */
 
     /**
-     * @name Controls/_grid/interface/IResultColumnTemplate#fontColorStyle
      * @cfg {FontColorStyle} Стиль цвета текста результатов.
      * @default secondary
      * @remark

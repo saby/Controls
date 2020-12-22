@@ -22,7 +22,6 @@
 
 export default interface IRowEditorOptions {
     /**
-     * @name Controls/_treeGrid/interface/RowEditor#content
      * @cfg {String|Function} Пользовательский шаблон, описывающий содержимое элемента в {@link /doc/platform/developmentapl/interface-development/controls/list/tree/edit/ режиме редактирования}.
      * @default undefined
      */

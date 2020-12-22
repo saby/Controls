@@ -297,7 +297,7 @@ const ActualApi = {
       if (resViewMode === 'transparentQuickButton' || resViewMode === 'quickButton') {
          resContrast = resViewMode !== 'transparentQuickButton';
          resViewMode = 'toolButton';
-         Logger.warn('Button: В кнопке используется viewMode = quickButton, transparentQuickButton используйте значение опции viewMode toolButton и опцию transparent');
+         Logger.warn('Button: В кнопке используется viewMode = quickButton, transparentQuickButton используйте значение опции viewMode toolButton и опцию contrastBackground');
       }
 
       return {

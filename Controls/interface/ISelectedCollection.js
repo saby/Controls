@@ -18,24 +18,22 @@ define('Controls/interface/ISelectedCollection', [
     * @name Controls/interface/ISelectedCollection#displayProperty
     * @cfg {String} Имя поля элемента, значение которого будет отображаться.
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *          source="{{_source}}"
-    *          displayProperty="title">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    displayProperty="title" />
     * </pre>
     */
    /*
     * @name Controls/interface/ISelectedCollection#displayProperty
     * @cfg {String} Name of the item property which content will be displayed.
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *          source="{{_source}}"
-    *          displayProperty="title">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    displayProperty="title" />
     * </pre>
     */
    
@@ -47,12 +45,11 @@ define('Controls/interface/ISelectedCollection', [
     * @variant false Можно выбрать только одно занчение. При выборе нового значения из справочника, оно перетирает старое.
     *
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *          source="{{_source}}"
-    *          multiSelect="{{true}}">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    multiSelect="{{true}}" />
     * </pre>
     */
    /*
@@ -63,12 +60,11 @@ define('Controls/interface/ISelectedCollection', [
     * @variant false After selecting the first value, the input field disappears. When you select a new value from the directory, it grinds the old.
     *
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *          source="{{_source}}"
-    *          multiSelect="{{true}}">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    multiSelect="{{true}}" />
     * </pre>
     */
 
@@ -82,13 +78,12 @@ define('Controls/interface/ISelectedCollection', [
     * Актуально только в многострочном режиме.
     * @see Controls/interface/ISelectedCollection#multiSelect
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *          source="{{_source}}"
-    *          multiSelect="{{true}}"
-    *          maxVisibleItems="{{3}}">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    multiSelect="{{true}}"
+    *    maxVisibleItems="{{3}}" />
     * </pre>
     */
    /*
@@ -100,65 +95,58 @@ define('Controls/interface/ISelectedCollection', [
     * @see Controls/interface/ISelectedCollection#multiSelect
     *
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *          source="{{_source}}"
-    *          multiSelect="{{true}}"
-    *          maxVisibleItems="{{3}}">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    multiSelect="{{true}}"
+    *    maxVisibleItems="{{3}}" />
     * </pre>
     */
 
    /**
     * @name Controls/interface/ISelectedCollection#itemTemplate
     * @cfg {Function|String} Шаблон выбранного элемента.
+    * @markdown
     * @remark
     * Базовый шаблон для Controls/lookup:Input и Controls.lookup:Selector: "Controls.lookup:ItemTemplate".
     * Базовый шаблон поддерживают такие параметры как:
-    * <ul>
-    *    <li>contentTemplate {Function|String} - Шаблон содержимого элемента.</li>
-    *    <li>crossTemplate {Function|String} - Шаблон крестика удаления элемента.</li>
-    *    <li>displayProperty {String} - Имя поля, значение которого будет отображаться.</li>
-    *    <li>clickable {Boolean} - Определяет, показывать ли подчеркивание при наведении, допустим только в случае использования contentTemplate по умолчанию.</li>
-    *    <li>size {Enum} - Размер текста для содержимого элемента, допустим только в случае использования contentTemplate по умолчанию.</li>
-    *    <ul>
-    *       <li>m</li>
-    *       <li>l</li>
-    *       <li>xl</li>
-    *       <li>2xl</li>
-    *       <li>3xl</li>
-    *    </ul>
-    *    <li>style {Enum} - Стиль текста для содержимого элемента, допустим только в случае использования contentTemplate по умолчанию.</li>
-    *    <ul>
-    *       <li>default</li>
-    *       <li>bold</li>
-    *       <li>accent</li>
-    *       <li>primary</li>
-    *    </ul>
-    * </ul>
+    *     * contentTemplate {Function|String} - Шаблон содержимого элемента.
+    *     * crossTemplate {Function|String} - Шаблон крестика удаления элемента.
+    *     * displayProperty {String} - Имя поля, значение которого будет отображаться.
+    *     * clickable {Boolean} - Определяет, показывать ли подчеркивание при наведении, допустим только в случае использования contentTemplate по умолчанию.
+    *     * size {Enum} - Размер текста для содержимого элемента, допустим только в случае использования contentTemplate по умолчанию.
+    *         * m
+    *         * l
+    *         * xl
+    *         * 2xl
+    *         * 3xl
+    *     * style {Enum} - Стиль текста для содержимого элемента, допустим только в случае использования contentTemplate по умолчанию.
+    *         * default
+    *         * bold
+    *         * accent
+    *         * primary
     *
     * Если вы переопределите contentTemplate/crossTemplate, вы не будете уведомлены о событиях itemClick/crossClick.
     * Для правильной работы необходимо пометить свой контент классами:
-    * <ul>
-    *    <li>js-controls-SelectedCollection__item__caption</li>
-    *    <li>js-controls-SelectedCollection__item__cross</li>
-    * </ul>
+    * 
+    * * js-controls-SelectedCollection__item__caption
+    * * js-controls-SelectedCollection__item__cross
     *
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *          source="{{_source}}"
-    *          keyProperty="id">
-    *       <ws:itemTemplate>
-    *          <ws:partial template="Controls.lookup:ItemTemplate"
-    *                      style="primary"
-    *                      size="xl"
-    *                      displayProperty="title"
-    *                      clickable="{{true}}"/>
-    *       </ws:itemTemplate>
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    keyProperty="id">
+    *    <ws:itemTemplate>
+    *       <ws:partial template="Controls.lookup:ItemTemplate"
+    *          style="primary"
+    *          size="xl"
+    *          displayProperty="title"
+    *          clickable="{{true}}"/>
+    *    </ws:itemTemplate>
+    * </Controls.lookup:Selector>
     * </pre>
     */
    /*
@@ -167,49 +155,42 @@ define('Controls/interface/ISelectedCollection', [
     * @remark
     * Base itemTemplate for Controls/lookup:Input и Controls.lookup:Selector: "Controls.lookup:ItemTemplate".
     * Base itemTemplate supports these parameters:
-    * <ul>
-    *    <li>contentTemplate {Function|String} - Template for render item content.</li>
-    *    <li>crossTemplate {Function|String} - Template for render cross.</li>
-    *    <li>displayProperty {String} - Name of the item property which content will be displayed.</li>
-    *    <li>clickable {Boolean} - Specifies whether elements are clickable, adds an underscore when the element is hover, is only valid if the default value is used for the contentTemplate.</li>
-    *    <li>size {Enum} - The text size for the item content, is only valid if the default value is used for the contentTemplate.</li>
-    *    <ul>
-    *       <li>m</li>
-    *       <li>l</li>
-    *       <li>xl</li>
-    *       <li>2xl</li>
-    *       <li>3xl</li>
-    *    </ul>
-    *    <li>style {Enum} - The text style for the item content, is only valid if the default value is used for the contentTemplate.</li>
-    *    <ul>
-    *       <li>default</li>
-    *       <li>bold</li>
-    *       <li>accent</li>
-    *       <li>primary</li>
-    *    </ul>
-    * </ul>
+    *     * contentTemplate {Function|String} - Template for render item content.
+    *     * crossTemplate {Function|String} - Template for render cross.
+    *     * displayProperty {String} - Name of the item property which content will be displayed.
+    *     * clickable {Boolean} - Specifies whether elements are clickable, adds an underscore when the element is hover, is only valid if the default value is used for the contentTemplate.
+    *     * size {Enum} - The text size for the item content, is only valid if the default value is used for the contentTemplate.
+    *         * m
+    *         * l
+    *         * xl
+    *         * 2xl
+    *         * 3xl
+    *     * style {Enum} - The text style for the item content, is only valid if the default value is used for the contentTemplate.
+    *         * default
+    *         * bold
+    *         * accent
+    *         * primary
     *
     * If you reimplement contentTemplate/crossTemplate, you will not be notified of itemClick/crossClick events.
     * To work properly, you need to mark your content with classes:
-    * <ul>
-    *    <li>js-controls-SelectedCollection__item__caption</li>
-    *    <li>js-controls-SelectedCollection__item__cross</li>
-    * </ul>
+    * 
+    * * js-controls-SelectedCollection__item__caption
+    * * js-controls-SelectedCollection__item__cross
     *
     * @example
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *          source="{{_source}}"
-    *          keyProperty="id">
-    *       <ws:itemTemplate>
-    *          <ws:partial template="Controls.lookup:ItemTemplate"
-    *                      style="primary"
-    *                      size="xl"
-    *                      displayProperty="title"
-    *                      clickable="{{true}}"/>
-    *       </ws:itemTemplate>
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    keyProperty="id">
+    *    <ws:itemTemplate>
+    *       <ws:partial template="Controls.lookup:ItemTemplate"
+    *          style="primary"
+    *          size="xl"
+    *          displayProperty="title"
+    *          clickable="{{true}}"/>
+    *    </ws:itemTemplate>
+    * </Controls.lookup:Selector>
     * </pre>
     */
 
@@ -221,19 +202,18 @@ define('Controls/interface/ISelectedCollection', [
     *
     * @example
     * В следующем примере создается Controls/lookup:Selector и демонстрируется сценарий использования.
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *       source="{{_source}}"
-    *       keyProperty="id"
-    *       on:itemsChanged="onItemsChanged()">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    keyProperty="id"
+    *    on:itemsChanged="onItemsChanged()" />
     * </pre>
-    * JS:
     * <pre>
-    *    onItemsChanged: function(e, items) {
-    *       this.prepareItems(items);
-    *    }
+    * // JavaScript
+    * onItemsChanged: function(e, items) {
+    *    this.prepareItems(items);
+    * }
     * </pre>
     */
    /*
@@ -244,19 +224,18 @@ define('Controls/interface/ISelectedCollection', [
     *
     * @example
     * The following example creates Controls/lookup:Selector and shows how to handle the event.
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *       source="{{_source}}"
-    *       keyProperty="id"
-    *       on:itemsChanged="onItemsChanged()">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    keyProperty="id"
+    *    on:itemsChanged="onItemsChanged()" />
     * </pre>
-    * JS:
     * <pre>
-    *    onItemsChanged: function(e, items) {
-    *       this.prepareItems(items);
-    *    }
+    * // JavaScript
+    * onItemsChanged: function(e, items) {
+    *    this.prepareItems(items);
+    * }
     * </pre>
     */
 
@@ -269,23 +248,22 @@ define('Controls/interface/ISelectedCollection', [
     *
     * @example
     * В следующем примере создается Controls/lookup:Selector и демонстрируется сценарий использования.
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *       source="{{_source}}"
-    *       keyProperty="id"
-    *       on:itemClick="onItemClick()">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    keyProperty="id"
+    *    on:itemClick="onItemClick()" />
     * </pre>
-    * JS:
-    * <pre>
-    *    openCard: function() {
-    *       ...
-    *    },
+    * <pre class="brush: js">
+    * // JavaScript
+    * openCard: function() {
+    *    ...
+    * },
     *
-    *    onItemClick: function(e, item) {
-    *       this.openCard(item);
-    *    }
+    * onItemClick: function(e, item) {
+    *    this.openCard(item);
+    * }
     * </pre>
     */
    /*
@@ -297,23 +275,22 @@ define('Controls/interface/ISelectedCollection', [
     *
     * @example
     * The following example creates Controls/lookup:Selector and shows how to handle the event.
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Selector
-    *       source="{{_source}}"
-    *       keyProperty="id"
-    *       on:itemClick="onItemClick()">
-    *    </Controls.lookup:Selector>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Selector
+    *    source="{{_source}}"
+    *    keyProperty="id"
+    *    on:itemClick="onItemClick()" />
     * </pre>
-    * JS:
-    * <pre>
-    *    openCard: function() {
-    *       ...
-    *    },
+    * <pre class="brush: js">
+    * // JavaScript
+    * openCard: function() {
+    *    ...
+    * },
     *
-    *    onItemClick: function(e, item) {
-    *       this.openCard(item);
-    *    }
+    * onItemClick: function(e, item) {
+    *    this.openCard(item);
+    * }
     * </pre>
     */
 
@@ -325,25 +302,23 @@ define('Controls/interface/ISelectedCollection', [
     *
     * @example
     * В следующем примере создается Controls/lookup:Input и демонстрируется сценарий использования.
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Input
-    *       source="{{_source}}"
-    *       keyProperty="id"
-    *       searchParam="title"
-    *       on:openInfoBox="_openInfoBox()">
-    *    </Controls.lookup:Input>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Input
+    *    source="{{_source}}"
+    *    keyProperty="id"
+    *    searchParam="title"
+    *    on:openInfoBox="_openInfoBox()" />
     * </pre>
-    * JS:
     * <pre>
-    *    _openInfoBox: function(e, config) {
-    *       config.maxWidth = 500;
-    *       config.templateOptions.items = new collection.List({
-    *          items: Chain(config.templateOptions.items).sort(function() {
-    *             ...
-    *          }).value()
-    *       })
-    *    }
+    * // JavaScript
+    * _openInfoBox: function(e, config) {
+    *    config.maxWidth = 500;
+    *    config.templateOptions.items = new collection.List({
+    *    items: Chain(config.templateOptions.items).sort(function() {
+    *       }).value()
+    *    })
+    * }
     * </pre>
     *
     * @see Controls/interface/ISelectedCollection#closeInfoBox
@@ -356,25 +331,23 @@ define('Controls/interface/ISelectedCollection', [
     *
     * @example
     * The following example creates Controls/lookup:Input and shows how to handle the event.
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Input
-    *       source="{{_source}}"
-    *       keyProperty="id"
-    *       searchParam="title"
-    *       on:openInfoBox="_openInfoBox()">
-    *    </Controls.lookup:Input>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Input
+    *    source="{{_source}}"
+    *    keyProperty="id"
+    *    searchParam="title"
+    *    on:openInfoBox="_openInfoBox()" />
     * </pre>
-    * JS:
     * <pre>
-    *    _openInfoBox: function(e, config) {
-    *       config.maxWidth = 500;
-    *       config.templateOptions.items = new collection.List({
-    *          items: Chain(config.templateOptions.items).sort(function() {
-    *             ...
-    *          }).value()
-    *       })
-    *    }
+    * // JavaScript
+    * _openInfoBox: function(e, config) {
+    *    config.maxWidth = 500;
+    *    config.templateOptions.items = new collection.List({
+    *    items: Chain(config.templateOptions.items).sort(function() {
+    *       }).value()
+    *    })
+    * }
     * </pre>
     *
     * @see Controls/interface/ISelectedCollection#closeInfoBox
@@ -387,20 +360,19 @@ define('Controls/interface/ISelectedCollection', [
     *
     * @example
     * В следующем примере создается Controls/lookup:Input и демонстрируется сценарий использования.
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Input
-    *       source="{{_source}}"
-    *       keyProperty="id"
-    *       searchParam="title"
-    *       on:closeInfoBox="_closeInfoBox()">
-    *    </Controls.lookup:Input>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Input
+    *    source="{{_source}}"
+    *    keyProperty="id"
+    *    searchParam="title"
+    *    on:closeInfoBox="_closeInfoBox()" />
     * </pre>
-    * JS:
-    * <pre>
-    *    _closeInfoBox: function() {
-    *       this._isOpenInfoBox = false;
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * _closeInfoBox: function() {
+    *    this._isOpenInfoBox = false;
+    * }
     * </pre>
     *
     * @see Controls/interface/ISelectedCollection#openInfoBox
@@ -412,20 +384,19 @@ define('Controls/interface/ISelectedCollection', [
     *
     * @example
     * The following example creates Controls/lookup:Input and shows how to handle the event.
-    * WML:
-    * <pre>
-    *    <Controls.lookup:Input
-    *       source="{{_source}}"
-    *       keyProperty="id"
-    *       searchParam="title"
-    *       on:closeInfoBox="_closeInfoBox()">
-    *    </Controls.lookup:Input>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.lookup:Input
+    *    source="{{_source}}"
+    *    keyProperty="id"
+    *    searchParam="title"
+    *    on:closeInfoBox="_closeInfoBox()" />
     * </pre>
-    * JS:
-    * <pre>
-    *    _closeInfoBox: function() {
-    *       this._isOpenInfoBox = false;
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * _closeInfoBox: function() {
+    *    this._isOpenInfoBox = false;
+    * }
     * </pre>
     *
     * @see Controls/interface/ISelectedCollection#openInfoBox

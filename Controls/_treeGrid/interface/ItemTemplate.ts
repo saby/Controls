@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/treeGrid:View дереве}.
  * @class Controls/_treeGrid/interface/ItemTemplate
- * @mixes Controls/_list/interface/IBaseItemTemplate
+ * @mixes Controls/list:IBaseItemTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/ITreeGridItemTemplate#itemTemplate
  * @see Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
@@ -31,7 +31,6 @@ export default interface IItemTemplateOptions {
      */
 
     /**
-     * @name Controls/_treeGrid/interface/ItemTemplate#withoutLevelPadding
      * @cfg {Boolean} Когда опция установлена в значение true, в дереве отсутствуют структурные отступы для элементов иерархии.
      * @default false
      * @see levelIndentSize
@@ -45,7 +44,6 @@ export default interface IItemTemplateOptions {
      * @variant hiddenNode Иконки всех узлов отображаются как иконки скрытых узлов."
      */
     /**
-     * @name Controls/_treeGrid/interface/ItemTemplate#expanderIcon
      * @cfg {ExpanderIcon|undefined} Стиль отображения иконки для узла и скрытого узла.
      * @default undefined
      * @remark
@@ -54,7 +52,6 @@ export default interface IItemTemplateOptions {
      */
     expanderIcon?: string;
     /**
-     * @name Controls/_treeGrid/interface/ItemTemplate#expanderSize
      * @cfg {Size} Размер области, который отведён под иконку узла или скрытого узла.
      * @default s
      * @see expanderIcon
@@ -63,7 +60,6 @@ export default interface IItemTemplateOptions {
      */
     expanderSize?: string;
     /**
-     * @name Controls/_treeGrid/interface/ItemTemplate#levelIndentSize
      * @cfg {Size} Размер структурного отступа для элементов иерархии.
      * @default s
      * @see withoutLevelPadding

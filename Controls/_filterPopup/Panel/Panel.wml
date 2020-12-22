@@ -44,7 +44,7 @@
                                                     headingFontColorStyle="{{_options.headingStyle}}"
                                                     attr:class="controls-PanelFilter
                                                     controls-FilterPanel__{{_options.orientation}}_theme-{{_options.theme}}
-                                                    {{_hasHistory ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
+                                                    {{_hasHistory || _options.emptyHistoryTemplate ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
        <ws:headerContentTemplate>
           <ws:if data="{{_options.topTemplate}}">
              <div class="controls-FilterPanel__header-topTemplate">

@@ -27,12 +27,12 @@ interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
 class Edit extends Control<IEditOpenerOptions> implements IEditOpener {
     readonly '[Controls/_popup/interface/IEditOpener]': boolean;
     protected _template: TemplateFunction = template;
-    private _resultHandler: Function;
     protected _openerTemplate: Control;
-    private _linkedKey: string = null; // key to obtain a synchronized record
-    private _children: {
+    protected _children: {
         Opener: BaseOpener
     };
+    private _resultHandler: Function;
+    private _linkedKey: string = null; // key to obtain a synchronized record
 
     protected _beforeMount(options: IEditOpenerOptions): void {
         this._onResult = this._onResult.bind(this);

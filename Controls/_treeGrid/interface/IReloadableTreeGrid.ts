@@ -2,7 +2,6 @@ import {IBaseSourceConfig} from 'Controls/interface';
 
 /**
  * Интерфейс для перезагрузки данных c сохранением раскрытых узлов.
- * @interface Controls/_treeGrid/interface/IReloadableTreeGrid
  * @public
  * @author Авраменко А.С.
  */

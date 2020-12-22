@@ -26,7 +26,6 @@ export interface ISortingSelectorOptions extends IControlOptions, IFontColorStyl
 /**
  * Контрол в виде кнопки с выпадающим меню, используемый для изменения сортировки. Рекомендуется, если в реестре нет заголовков.
  *
- * @class Controls/grid:SortingSelector
  * @extends Core/Control
  * @public
  * @implements Controls/_interface/IFontColorStyle

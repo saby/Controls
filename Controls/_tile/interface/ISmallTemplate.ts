@@ -1,7 +1,7 @@
 /**
  * Упрощенный шаблон отображения элементов в  {@link Controls/tile:View плитке}.
  * @class Controls/_tile/interface/ISmallTemplate
- * @mixes Controls/_tile/interface/ItemTemplate
+ * @mixes Controls/tile:ItemTemplate
  * @author Михайлов С.Е
  * @see Controls/tile:View
  * @example
@@ -27,7 +27,6 @@ export default interface ISmallTemplateOptions {
      * @variant m Размер, соответствующий размеру m.
      */
     /**
-     * @name Controls/_tile/interface/ISmallTemplate#imageSize
      * @cfg {ImageSize} Размер изображения.
      */
     imageSize?: 's' | 'm';

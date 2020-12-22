@@ -361,6 +361,7 @@ var
         _contentSizeForHScroll: 0,
         _horizontalScrollWidth: 0,
         _containerSize: 0,
+        _itemClickTarget: null,
 
         _beforeMount(cfg) {
             _private.checkDeprecated(cfg, this);
@@ -407,7 +408,7 @@ var
                 // preventServerSideColumnScroll - запрещает построение с помощью данного механизма. Нужно например при поиске, когда
                 // таблица перемонтируется. Простая проверка на window нам не подходит, т.к. нас интересует только первая отрисовка view
                 // списочного контрола.
-                this._showFakeGridWithColumnScroll = !cfg.preventServerSideColumnScrollOld;
+                this._showFakeGridWithColumnScroll = !cfg.preventServerSideColumnScroll;
             }
 
             return resultSuper;
@@ -609,6 +610,7 @@ var
             // https://online.sbis.ru/doc/cefa8cd9-6a81-47cf-b642-068f9b3898b7
             if (!e.preventItemEvent) {
                 const item = dispItem.getContents();
+                this._itemClickTarget = e.target;
                 this._notify('itemClick', [item, e, this._getCellIndexByEventTarget(e)]);
             }
         },
@@ -796,11 +798,21 @@ var
                 }
             }
         },
+
+        beforeActivateRow(): void {
+            if (this._itemClickTarget) {
+                this._scrollToCellIfNeed(this._itemClickTarget as HTMLElement);
+                this._itemClickTarget = null;
+            }
+        },
         _onFocusInEditingCell(e: SyntheticEvent<FocusEvent>): void {
-            if (!this._isColumnScrollVisible() || e.target.tagName !== 'INPUT' || !this._options.listModel.isEditing()) {
+            this._scrollToCellIfNeed(e.target as HTMLElement);
+        },
+        _scrollToCellIfNeed(target: HTMLElement): void {
+            if (!this._isColumnScrollVisible() || target.tagName !== 'INPUT' || !this._options.listModel.isEditing()) {
                 return;
             }
-            this._columnScrollController.scrollToElementIfHidden(e.target as HTMLElement);
+            this._columnScrollController.scrollToElementIfHidden(target);
             this._updateColumnScrollData();
         },
         _onNewHorizontalPositionRendered(e, newPosition) {

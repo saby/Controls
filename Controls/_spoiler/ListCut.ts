@@ -7,7 +7,7 @@ import * as template from 'wml!Controls/_spoiler/ListCut/ListCut';
 /**
  * Интерфейс для опций контрола, который позволяет сворачивать/разворачивать список с помощью параметров навигации.
  * @interface Controls/_spoiler/IListCut
- * @public
+ * @private
  * @author Красильников А.С.
  */
 
@@ -35,7 +35,7 @@ export interface IListCutOptions extends IControlOptions, IExpandableOptions, II
  * @implements Controls/interface:IExpandable
  * @implements Controls/interface:IIconSize
  * @implements Controls/spoiler:IListCutOptions
- * @public
+ * @private
  * @demo Controls-demo/Spoiler/ListCut/Index
  *
  * @author Красильников А.С.

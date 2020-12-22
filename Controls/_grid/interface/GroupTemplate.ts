@@ -2,7 +2,7 @@
  * Шаблон, который по умолчанию используется для отображения горизонтальной линии-разделителя {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы} в контроле {@link Controls/grid:View Таблица}.
  * 
  * @class Controls/_grid/interface/GroupTemplate
- * @mixes Controls/_grid/interface/BaseGroupTemplate
+ * @mixes Controls/list:IBaseGroupTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/IGroupedGrid#groupTemplate
  * @example
@@ -25,7 +25,6 @@
  */
 export default interface IGroupTemplateOptions {
    /**
-    * @name Controls/_grid/interface/GroupTemplate#columnAlignGroup
     * @cfg {Number|undefined} Номер колонки, относительно которой происходит горизонтальное выравнивание заголовка группы.
     * @default undefined
     * @remark

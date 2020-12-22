@@ -239,6 +239,7 @@ define('Controls/interface/IEditableList', [
     * @see beforeEndEdit
     * @see afterEndEdit
     * @see editingConfig
+    * @markdown
     */
 
    /*
@@ -340,6 +341,7 @@ define('Controls/interface/IEditableList', [
     * @see beforeBeginEdit
     * @see beforeEndEdit
     * @see afterEndEdit
+    * @markdown
     */
 
    /*
@@ -413,6 +415,7 @@ define('Controls/interface/IEditableList', [
     * @see beforeBeginEdit
     * @see afterBeginEdit
     * @see afterEndEdit
+    * @markdown
     */
 
    /*
@@ -481,6 +484,7 @@ define('Controls/interface/IEditableList', [
     * @see beforeBeginEdit
     * @see afterBeginEdit
     * @see beforeEndEdit
+    * @markdown
     */
 
    /*

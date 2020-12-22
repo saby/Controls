@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">Default</div>
+        <Controls-demo.dateRange.Input.Default.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">TagStyle and TagClick</div>
+        <Controls-demo.dateRange.Input.Tag.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">DayTemplate</div>
+        <Controls-demo.dateRange.Input.DayTemplate.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}} controlsDemo__maxWidth200">Validators</div>
+        <Controls-demo.dateRange.Input.Validators.Index/>
+    </div>
+</div>

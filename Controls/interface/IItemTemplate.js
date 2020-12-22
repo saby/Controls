@@ -33,6 +33,7 @@ define('Controls/interface/IItemTemplate', [
     * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/list/item-template/ руководстве разработчика}.
     * @example
     * <pre class="brush: html">
+    * <!-- WML -->
     * <Controls.list:View>
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/list:ItemTemplate" marker="{{false}}" scope="{{itemTemplate}}">

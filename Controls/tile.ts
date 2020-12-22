@@ -1,7 +1,6 @@
 /**
  * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде плитки.
  * @library Controls/tile
- * @includes View Controls/_tile/View
  * @includes ItemTemplate Controls/_tile/interface/ItemTemplate
  * @includes ITile Controls/_tile/interface/ITile
  * @includes SmallItemTemplate Controls/_tile/interface/ISmallTemplate
@@ -14,7 +13,6 @@
 /*
  * tile library
  * @library Controls/tile
- * @includes View Controls/_tile/View
  * @includes ItemTemplate Controls/_tile/interface/ItemTemplate
  * @includes ITile Controls/_tile/interface/ITile
  * @includes IDraggable Controls/_interface/IDraggable

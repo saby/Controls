@@ -80,7 +80,6 @@ export default interface IEditingEmptyTemplateOptions {
      */
 
     /**
-     * @name Controls/_grid/interface/EditingEmptyTemplate#topSpacing
      * @cfg {Spacing|null} Отступ между верхней границей  и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
@@ -89,7 +88,6 @@ export default interface IEditingEmptyTemplateOptions {
      */
     topSpacing?: string;
     /**
-     * @name Controls/_grid/interface/EditingEmptyTemplate#bottomSpacing
      * @cfg {Spacing|null} Отступ между нижней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
@@ -98,7 +96,6 @@ export default interface IEditingEmptyTemplateOptions {
      */
     bottomSpacing?: string;
     /**
-     * @name Controls/_grid/interface/EditingEmptyTemplate#columns
      * @cfg {Array.<Controls/_grid/interface/EditingEmptyTemplate/IEmptyColumnColumns.typedef>} Набор конфигураций колонок пустого списка.
      */
     columns?: IEmptyColumnColumns[];

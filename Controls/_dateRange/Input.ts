@@ -18,7 +18,7 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
  *
  * @remark
  * Полезные ссылки:
- * * {@link /materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FRange демо-пример}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FdateRange%2FInput%2FIndex демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/date-time/date/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less переменные тем оформления}
  * @class Controls/_dateRange/Input
