@@ -232,7 +232,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (!this._isStickySupport) {
             return;
         }
-        UnregisterUtil(this, 'listScroll');
         UnregisterUtil(this, 'controlResize');
         UnregisterUtil(this, 'scrollStateChanged');
         if (this._model) {
@@ -249,7 +248,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
 
         this._observeHandler = undefined;
         this._observer = undefined;
-        this._resetTopBottomStyles();
         this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
     }
 
@@ -455,11 +453,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
      * @private
      */
     protected _fixationStateChangeHandler(newPosition: POSITION, prevPosition: POSITION): void {
-        // If the header is hidden we cannot calculate its current height.
-        // Use the height that it had before it was hidden.
-        if (!isHidden(this._container)) {
-            this._height = this._container.offsetHeight;
-        }
         this._isFixed = !!newPosition;
         this._fixedNotifier(newPosition, prevPosition);
     }
@@ -468,7 +461,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         const information: IFixedEventData = {
             id: this._index,
             fixedPosition: newPosition,
-            offsetHeight: this._height,
             prevPosition,
             mode: this._options.mode,
             shadowVisible: this._options.shadowVisibility === 'visible',
@@ -604,12 +596,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         }
 
         return position + ': -' + coord + 'px;';
-    }
-
-    protected _resetTopBottomStyles(): void {
-        // Чистим top и bottom, т.к устанавливали их до этого напрямую, чтобы не было скачков в интерфейсе
-        this._children.content.style.top = '';
-        this._children.content.style.bottom = '';
     }
 
     protected updateFixed(ids: number[]): void {

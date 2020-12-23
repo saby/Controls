@@ -101,7 +101,6 @@ define([
             component._observer = {
                disconnect: sinon.fake()
             };
-            sinon.stub(component, '_resetTopBottomStyles');
 
             component._beforeUnmount();
             assert.isUndefined(component._observeHandler);
@@ -380,7 +379,6 @@ define([
                   fixedPosition: '',
                   id: component._index,
                   mode: "replaceable",
-                  offsetHeight: 10,
                   prevPosition: "top",
                   shadowVisible: true,
                   isFakeFixed: false
@@ -388,33 +386,6 @@ define([
                   bubbling: true
                }
             );
-            sinon.restore();
-         });
-         it('should use previous offsetHeight if container is hidden', function() {
-            const component = createComponent(StickyHeader, {});
-            component._height = 10;
-            component._container = {
-               closest: () => true,
-               offsetHeight: 0
-            }
-            sinon.stub(component, '_notify');
-            component._fixationStateChangeHandler('', 'top');
-            sinon.assert.calledWith(
-               component._notify,
-               'fixed',
-               [{
-                  fixedPosition: '',
-                  id: component._index,
-                  mode: "replaceable",
-                  offsetHeight: 10,
-                  prevPosition: "top",
-                  shadowVisible: true,
-                  isFakeFixed: false
-               }], {
-                  bubbling: true
-               }
-            );
-
             sinon.restore();
          });
       });
