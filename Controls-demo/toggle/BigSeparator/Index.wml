@@ -1,11 +1,22 @@
-<div class="controlsDemo__wrapper controlsDemo_fixedWidth300">
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">Click to expand content</div>
-        <Controls.toggle:BigSeparator caption="Button" bind:value="_expanded"></Controls.toggle:BigSeparator>
-    </div>
-    <ws:if data="{{_expanded}}">
-        <div class="controlsDemo__cell">
-            <div class="controls-text-secondary_theme-{{_options.theme}}">Hello!</div>
-        </div>
-    </ws:if>
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800 ws-flexbox">   
+   <div class="controlsDemo_fixedWidth300">
+      <div class="controlsDemo__cell">
+         <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">Click to expand content</div>
+         <Controls.toggle:BigSeparator caption="Button" bind:value="_expanded"></Controls.toggle:BigSeparator>
+      </div>
+      <ws:if data="{{_expanded}}">
+         <div class="controlsDemo__cell">
+               <div class="controls-text-secondary_theme-{{_options.theme}}">Hello!</div>
+         </div>
+      </ws:if>
+   </div>
+   <div class="controlsDemo_fixedWidth300">
+      <div class="controls-text-label controls-text-label_theme-{{_options.theme}}">BigSeparator size</div>
+      <div class="controls-text-secondary_theme-{{_options.theme}}">s</div>
+      <Controls.toggle:BigSeparator iconSize="s" bind:value="_expanded2"/>
+      <div class="controls-text-secondary_theme-{{_options.theme}}">m</div>
+      <Controls.toggle:BigSeparator iconSize="m" bind:value="_expanded3"/>
+      <div class="controls-text-secondary_theme-{{_options.theme}}">l</div>
+      <Controls.toggle:BigSeparator iconSize="l" bind:value="_expanded4"/>
+   </div>
 </div>

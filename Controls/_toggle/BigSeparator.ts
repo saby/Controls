@@ -1,9 +1,10 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {ICheckable, ICheckableOptions} from './interface/ICheckable';
+import {IIconSize, IIconSizeOptions} from 'Controls/interface';
 import BigSeparatorTemplate = require('wml!Controls/_toggle/BigSeparator/BigSeparator');
 import {descriptor as EntityDescriptor} from 'Types/entity';
 
-export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions {
+export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions, IIconSizeOptions  {
 
 }
 
@@ -21,6 +22,7 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
  * @public
  * @author Красильников А.С.
  * @implements Controls/_toggle/interface/ICheckable
+ * @implements Controls/interface:IIconSize
  *
  * @demo Controls-demo/toggle/BigSeparator/Index
  */
@@ -40,8 +42,9 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
  * @demo Controls-demo/toggle/BigSeparator/Index
  *
  */
-class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable {
+class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable, IIconSize {
    '[Controls/_toggle/interface/ICheckable]': true;
+   readonly '[Controls/_interface/IIconSize]': boolean;
 
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = BigSeparatorTemplate;
