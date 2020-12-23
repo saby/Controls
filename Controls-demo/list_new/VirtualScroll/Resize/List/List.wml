@@ -8,7 +8,9 @@
                 source="{{_source}}"
                 keyProperty="id"
                 virtualScrollConfig="{{_virtualScrollConfig}}">
-            <ws:navigation view="infinity"/>
+            <ws:navigation source="page" view="infinity">
+                <ws:sourceConfig pageSize="{{_virtualScrollConfig.pageSize}}" page="{{0}}" hasMore="{{false}}"/>
+            </ws:navigation>
         </Controls.list:View>
     </Controls.scroll:Container>
     <div class="ws-link controlsDemo__mb1" on:click="_changeOptions()">
