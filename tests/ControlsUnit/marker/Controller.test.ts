@@ -43,6 +43,7 @@ describe('Controls/marker/Controller', () => {
          const newModel = new ListViewModel({
             items
          });
+         controller.setMarkedKey(1);
          controller.updateOptions({
             model: newModel, markerVisibility: 'onactivated'
          });

@@ -26,17 +26,11 @@ export class Controller {
     * @void
     */
    updateOptions(options: IOptions): void {
-      const modelChanged = this._model !== options.model;
-
-      if (modelChanged) {
+      if (this._model !== options.model) {
          this._model = options.model;
 
-         // Когда модель пересоздается, то возможен такой вариант:
-         // Маркер указывает на папку, TreeModel -> SearchViewModel, после пересоздания markedKey
-         // будет указывать на хлебную крошку, но маркер не должен ставиться на нее,
-         // поэтому нужно пересчитать markedKey
-         const markedKey = this.calculateMarkedKeyForVisible();
-         this.setMarkedKey(markedKey);
+         // Мы должны восстановить маркер в новой модели
+         this.setMarkedKey(this.getMarkedKey());
       }
 
       this._markerVisibility = options.markerVisibility;

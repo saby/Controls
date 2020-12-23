@@ -2705,9 +2705,9 @@ const _private = {
         _private.setMarkerAfterScrolling(self, self._scrollParams ? self._scrollParams.scrollTop : scrollTop);
     }, SET_MARKER_AFTER_SCROLL_DELAY),
 
-    changeMarkedKey(self: typeof BaseControl, newMarkedKey: CrudEntityKey, afterMount: boolean = false): Promise<CrudEntityKey>|CrudEntityKey {
+    changeMarkedKey(self: typeof BaseControl, newMarkedKey: CrudEntityKey, shouldFireEvent: boolean = false): Promise<CrudEntityKey>|CrudEntityKey {
         const markerController = _private.getMarkerController(self);
-        if ((newMarkedKey === undefined || newMarkedKey === markerController.getMarkedKey()) && !afterMount) {
+        if ((newMarkedKey === undefined || newMarkedKey === markerController.getMarkedKey()) && !shouldFireEvent) {
             return newMarkedKey;
         }
 
@@ -3968,7 +3968,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
 
         const shouldProcessMarker = newOptions.markerVisibility === 'visible'
-            || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined;
+            || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined || this._modelRecreated;
 
         // Если будет выполнена перезагрузка, то мы на событие reset применим новый ключ
         if (shouldProcessMarker && !needReload) {
@@ -3976,7 +3976,12 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             // могут скрыть маркер и занового показать, тогда markedKey из опций нужно проставить даже если он не изменился
             if (this._options.markedKey !== newOptions.markedKey || this._options.markerVisibility === 'hidden' && newOptions.markerVisibility === 'visible' && newOptions.markedKey !== undefined) {
                 markerController.setMarkedKey(newOptions.markedKey);
-            } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible') {
+            } else if (this._options.markerVisibility !== newOptions.markerVisibility && newOptions.markerVisibility === 'visible' || this._modelRecreated) {
+                // Когда модель пересоздается, то возможен такой вариант:
+                // Маркер указывает на папку, TreeModel -> SearchViewModel, после пересоздания markedKey
+                // будет указывать на хлебную крошку, но маркер не должен ставиться на нее,
+                // поэтому нужно пересчитать markedKey
+
                 const newMarkedKey = markerController.calculateMarkedKeyForVisible();
                 _private.changeMarkedKey(self, newMarkedKey);
             }
