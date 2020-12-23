@@ -3,6 +3,8 @@
              controls-Checkbox__icon-border-color__{{_options.readOnly ? 'disabled': 'enabled'}}_theme-{{_options.theme}}
              controls-Checkbox__iconWrapper
              {{_options.value ? ' controls-Checkbox__iconWrapper__checked'}}
+             controls-Checkbox__marker
+             controls-Checkbox__marker-state-{{_options.value === null ? 'null' : _options.value}}
              controls-Checkbox__iconWrapper_theme-{{_options.theme}}">
     <svg xmlns="http://www.w3.org/2000/svg"
          viewBox="0 0 18 18"
