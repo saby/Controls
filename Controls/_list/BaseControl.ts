@@ -448,7 +448,8 @@ const _private = {
 
                     _private.resetScrollAfterLoad(self);
 
-                    // If received list is empty, make another request. If it’s not empty, the following page will be requested in resize event handler after current items are rendered on the page.
+                    // If received list is empty, make another request. If it’s not empty, the following page will be
+                    // requested in resize event handler after current items are rendered on the page.
                     if (_private.needLoadNextPageAfterLoad(list, self._listViewModel, navigation)) {
                         if (self._isMounted) {
                             _private.checkLoadToDirectionCapability(self, filter, navigation);
@@ -615,7 +616,13 @@ const _private = {
         return itemsContainer.children[startChildrenIndex + index] as HTMLElement;
     },
 
-    scrollToItem(self, key: TItemKey, toBottom?: boolean, force?: boolean, skippedItemsCount: number) {
+    scrollToItem(
+        self: typeof BaseControl,
+        key: TItemKey,
+        toBottom?: boolean,
+        force?: boolean,
+        skippedItemsCount?: number
+    ): Promise<void> {
         const scrollCallback = (index) => {
             // Первым элементом может оказаться группа, к ней подскрол сейчас невозможен, поэтому отыскиваем первую
             // реальную запись и скролим именно к ней.
@@ -625,12 +632,17 @@ const _private = {
             if (skippedItemsCount) {
                 index -= skippedItemsCount;
             }
-            // TODO: Сейчас есть проблема: ключи остутствуют на всех элементах, появившихся на странице ПОСЛЕ первого построения.
+
+            // TODO: Сейчас есть проблема: ключи остутствуют на всех элементах, появившихся на странице ПОСЛЕ
+            //  первого построения.
             // TODO Убрать работу с DOM, сделать через получение контейнера по его id из _children
             // логического родителя, который отрисовывает все элементы
             // https://online.sbis.ru/opendoc.html?guid=942e1a1d-15ee-492e-b763-0a52d091a05e
             const itemsContainer = self._getItemsContainer();
-            const itemContainer = _private.getItemContainerByIndex(index - self._listViewModel.getStartIndex(), itemsContainer);
+            const itemContainer = _private.getItemContainerByIndex(
+                index - self._listViewModel.getStartIndex(),
+                itemsContainer
+            );
 
             if (itemContainer) {
                 self._notify('scrollToElement', [{
@@ -638,14 +650,18 @@ const _private = {
                 }], {bubbling: true});
             }
         };
+
         return new Promise((resolve) => {
-            self._scrollController ?
-                self._scrollController.scrollToItem(key, toBottom, force, scrollCallback).then((result) => {
-                    if (result) {
-                        _private.handleScrollControllerResult(self, result);
-                    }
-                    resolve();
-                }) : resolve();
+            self._scrollController
+                ? self._scrollController
+                    .scrollToItem(key, toBottom, force, scrollCallback)
+                    .then((result) => {
+                        if (result) {
+                            _private.handleScrollControllerResult(self, result);
+                        }
+                        resolve();
+                    })
+                : resolve();
         });
     },
 
@@ -1382,22 +1398,53 @@ const _private = {
         return offsetTop;
     },
 
+    //region virtual scroll
     // throttle нужен, чтобы при потоке одинаковых событий не пересчитывать состояние на каждое из них
-    throttledVirtualScrollPositionChanged: throttle((self, params) => {
-        const result = self._scrollController.scrollPositionChange(params, true);
+    throttledVirtualScrollPositionChanged: throttle((self: typeof BaseControl, params: IScrollParams) => {
+        const scrollController = self._scrollController as ScrollController;
+        const result = scrollController.scrollPositionChange(params, true);
+
+        // Пересчитаем размер скрала т.к. мог измениться размер topPlaceholder
+        self._updatedVirtualScrollPosition = params.scrollTop - result.placeholders.top;
+        if (!scrollController.getRendering() && !result.virtualRangeChanged) {
+            _private.updateVirtualScrollPosition(self);
+        }
+
         _private.handleScrollControllerResult(self, result);
     }, SCROLLMOVE_DELAY, true),
+
+    /**
+     * Выполняет доскрол списка после того как отрабатает основная
+     * логика виртуального скрола.
+     *
+     * @see _updatedVirtualScrollPosition
+     */
+    updateVirtualScrollPosition(self: typeof BaseControl): boolean {
+        if (!self._updatedVirtualScrollPosition) {
+            return false;
+        }
+
+        // Доскрол виртуального скрола после изменнеия величины topPlaceholder
+        self._notify('doScroll', [self._updatedVirtualScrollPosition], { bubbling: true });
+        self._updatedVirtualScrollPosition = 0;
+        return true;
+    },
+    //endregion
 
     /**
      * Инициализируем paging если он не создан
      * @private
      */
-    initPaging(self) {
+    initPaging(self: typeof BaseControl): void {
         if (!(self._editInPlaceController && self._editInPlaceController.isEditing())
             && _private.needScrollPaging(self._options.navigation)) {
             if (self._viewportSize) {
                 self._recalcPagingVisible = false;
-                self._pagingVisible = _private.needShowPagingByScrollSize(self, _private.getViewSize(self), self._viewportSize);
+                self._pagingVisible = _private.needShowPagingByScrollSize(
+                    self,
+                    _private.getViewSize(self),
+                    self._viewportSize
+                );
                 self._pagingVisibilityChanged = self._pagingVisible;
                 if (detection.isMobilePlatform) {
                     self._recalcPagingVisible = !self._pagingVisible;
@@ -1410,7 +1457,7 @@ const _private = {
         }
     },
 
-    handleListScrollSync(self, scrollTop) {
+    handleListScrollSync(self: typeof BaseControl, scrollTop: number): void {
         if (!self._pagingVisible) {
             _private.initPaging(self);
         }
@@ -2527,26 +2574,34 @@ const _private = {
 
     // endregion
 
-    handleScrollControllerResult(self, result: IScrollControllerResult) {
+    handleScrollControllerResult(self: typeof BaseControl, result: IScrollControllerResult): void {
         if (!result) {
             return;
         }
+
         if (self._isMounted) {
             _private.doAfterUpdate(self, () => {
                 if (self._applySelectedPage) {
                     self._applySelectedPage();
                 }
             });
+
             if (result.placeholders) {
                 self._notifyPlaceholdersChanged = () => {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
-                }
-                if (result.shadowVisibility?.up || result.placeholders.top > 0 || _private.hasMoreData(self, self._sourceController, 'up')) {
+                };
+
+                if (
+                    result.shadowVisibility?.up ||
+                    result.placeholders.top > 0 ||
+                    _private.hasMoreData(self, self._sourceController, 'up')
+                ) {
                     self._notify('enableVirtualNavigation', [], { bubbling: true });
                 } else {
                     self._notify('disableVirtualNavigation', [], { bubbling: true });
                 }
             }
+
             if (self._items && typeof self._items.getRecordById(result.activeElement || self._options.activeElement) !== 'undefined') {
                 // activeElement запишется в result только, когда он изменится
                 if (result.activeElement) {
@@ -2555,15 +2610,20 @@ const _private = {
 
                 // Скроллить к активному элементу нужно только, когда в опции передали activeElement
                 if (result.scrollToActiveElement) {
-                    // Если после перезагрузки списка нам нужно скроллить к записи, то нам не нужно сбрасывать скролл к нулю.
+                    // Если после перезагрузки списка нам нужно скроллить к записи,
+                    // то нам не нужно сбрасывать скролл к нулю.
                     self._keepScrollAfterReload = true;
-                    _private.doAfterUpdate(self, () => { _private.scrollToItem(self, self._options.activeElement, false, true); });
+                    _private.doAfterUpdate(self, () => {
+                        _private.scrollToItem(self, self._options.activeElement, false, true);
+                    });
                 }
             }
         }
+
         if (result.triggerOffset) {
             self.applyTriggerOffset(result.triggerOffset);
         }
+
         if (result.shadowVisibility) {
             self._updateShadowModeHandler(result.shadowVisibility);
         }
@@ -3144,6 +3204,12 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _viewportSize: null,
     _scrollTop: 0,
     _popupOptions: null,
+    /**
+     * Обновленная позиция виртуального скролла - величина на которую нужно сделать
+     * доскрол виртуального скрола после того как отработала основная логика виртуального
+     * срокала и возможно поменялся размер topPlaceholder
+     */
+    _updatedVirtualScrollPosition: null,
 
     // target элемента, на котором было вызвано контекстное меню
     _targetItem: null,
@@ -3740,7 +3806,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
 
-    _updateScrollController(newOptions) {
+    _updateScrollController(newOptions): void {
         if (this._scrollController) {
             this._scrollController.setRendering(true);
             const result = this._scrollController.update({
@@ -4367,7 +4433,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
             // correctingHeight предназначен для предотвращения проблемы с восстановлением позиции скролл в случае,
             // когда новые индексы виртуального скролла применяются одновременно с показом Paging.
-            // todo выпилить task1179588447 по ошибке: https://online.sbis.ru/opendoc.html?guid=cd0ba66a-115c-44d1-9384-0c81675d5b08
+            // todo выпилить task1179588447 по ошибке:
+            //  https://online.sbis.ru/opendoc.html?guid=cd0ba66a-115c-44d1-9384-0c81675d5b08
             if (this._options.task1179588447 && !this._actualPagingVisible && this._pagingVisible) {
                 // Можно юзать константу PAGING_HEIGHT, но она старая, 32px. Править константу в 4100 страшно, поправим
                 // её по ошибке: https://online.sbis.ru/opendoc.html?guid=cd0ba66a-115c-44d1-9384-0c81675d5b08
@@ -4381,20 +4448,29 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             }
             let itemsUpdated = false;
             if (this._listViewModel && !this._modelRecreated && this._viewReady) {
-                itemsUpdated = this._scrollController.updateItemsHeights(getItemsHeightsData(this._getItemsContainer()));
+                itemsUpdated = this._scrollController.updateItemsHeights(
+                    getItemsHeightsData(this._getItemsContainer())
+                );
             }
-            this._scrollController.update({ params: { scrollHeight: this._viewSize, clientHeight: this._viewportSize } })
+            this._scrollController.update({
+                params: {
+                    scrollHeight: this._viewSize,
+                    clientHeight: this._viewportSize
+                }
+            });
             this._scrollController.setRendering(false);
 
             let needCheckTriggers = this._scrollController.continueScrollToItemIfNeed() ||
-                                    this._scrollController.completeVirtualScrollIfNeed();
+                                    _private.updateVirtualScrollPosition(this);
 
             const paramsToRestoreScroll = this._scrollController.getParamsToRestoreScrollPosition();
             if (paramsToRestoreScroll) {
                 this._scrollController.beforeRestoreScrollPosition();
-                this._notify('restoreScrollPosition',
-                             [paramsToRestoreScroll.heightDifference, paramsToRestoreScroll.direction, correctingHeight],
-                             {bubbling: true});
+                this._notify(
+                    'restoreScrollPosition',
+                    [paramsToRestoreScroll.heightDifference, paramsToRestoreScroll.direction, correctingHeight],
+                    {bubbling: true}
+                );
                 needCheckTriggers = true;
             }
 

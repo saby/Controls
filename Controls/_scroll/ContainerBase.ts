@@ -692,36 +692,34 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _setScrollTop(scrollTop: number, withoutPlaceholder?: boolean): void {
-        const scrollContainer: HTMLElement = this._children.content;
+        const scrollContainer = this._children.content as HTMLElement;
+
         if (this._isVirtualPlaceholderMode() && !withoutPlaceholder) {
-            const scrollState: IScrollState = this._scrollModel;
-            const cachedScrollTop = scrollTop;
+            const scrollState = this._scrollModel;
             const realScrollTop = scrollTop - this._topPlaceholderSize;
             const scrollTopOverflow = scrollState.scrollHeight - realScrollTop - scrollState.clientHeight < 0;
-            const applyScrollTop = () => {
 
-                // нужный scrollTop будет отличным от realScrollTop, если изменился _topPlaceholderSize. Вычисляем его по месту
-                scrollContainer.scrollTop = cachedScrollTop - this._topPlaceholderSize;
-            };
-            if (realScrollTop >= 0 && !scrollTopOverflow) {
+            if (
+                // Нужно проскролить в рамках от [нижней границы topPlaceholder, до конца scrollContainer]
+                realScrollTop >= 0 && !scrollTopOverflow ||
+                // или вверх при отсутствующем topPlaceholder
+                this._topPlaceholderSize === 0 && realScrollTop < 0 ||
+                // или вниз за гранцы scrollContainer при отсутствии bottomPlaceholder
+                scrollTopOverflow && this._bottomPlaceholderSize === 0
+            ) {
                 scrollContainer.scrollTop = realScrollTop;
-            } else if (this._topPlaceholderSize === 0 && realScrollTop < 0 || scrollTopOverflow && this._bottomPlaceholderSize === 0) {
-                applyScrollTop();
             } else {
                 this._sendByListScrollRegistrar(
                     'virtualScrollMove',
                     {
                         scrollTop,
                         scrollHeight: scrollState.scrollHeight,
-                        clientHeight: scrollState.clientHeight,
-                        applyScrollTopCallback: applyScrollTop
+                        clientHeight: scrollState.clientHeight
                     });
             }
         } else {
             scrollContainer.scrollTop = scrollTop;
-            this._updateStateAndGenerateEvents({
-                scrollTop: scrollTop
-            });
+            this._updateStateAndGenerateEvents({scrollTop});
         }
     }
 

@@ -2,7 +2,6 @@ import {IControlOptions} from 'UI/Base';
 import {Collection} from 'Controls/display';
 import VirtualScroll from './ScrollContainer/VirtualScroll';
 import {Record, Model} from 'Types/entity';
-import {IObservable} from 'Types/collection';
 import {
     IItemsHeights,
     IPlaceholders,
@@ -67,7 +66,6 @@ export default class ScrollController {
 
     private _continueScrollToItem: Function;
     private _completeScrollToItem: Function;
-    private _applyScrollTopCallback: Function;
 
     private _isRendering: boolean = false;
 
@@ -180,6 +178,10 @@ export default class ScrollController {
         this._isRendering = state;
     }
 
+    getRendering(): boolean {
+        return this._isRendering;
+    }
+
     getScrollTop(): number {
         return this._lastScrollTop;
     }
@@ -196,15 +198,6 @@ export default class ScrollController {
             this._completeScrollToItem();
             this._completeScrollToItem = null;
             result = true;
-        }
-        return result;
-    }
-    completeVirtualScrollIfNeed(): boolean {
-        let result = false;
-        if (this._applyScrollTopCallback) {
-                this._applyScrollTopCallback();
-                this._applyScrollTopCallback = null;
-                result = true;
         }
         return result;
     }
@@ -445,7 +438,7 @@ export default class ScrollController {
     /**
      * Обработчик на событие скролла
      */
-    scrollPositionChange(params: IScrollParams, virtual: boolean): IScrollControllerResult {
+    scrollPositionChange(params: IScrollParams, virtual: boolean = false): IScrollControllerResult {
         if (virtual) {
             return this.virtualScrollPositionChanged(params);
         } else {
@@ -482,20 +475,24 @@ export default class ScrollController {
      * @private
      */
     private virtualScrollPositionChanged(params: IScrollParams): IScrollControllerResult  {
-        if (this._virtualScroll) {
-            const rangeShiftResult = this._virtualScroll.shiftRangeToScrollPosition(params.scrollTop);
-            this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
-                this._options.needScrollCalculation);
-            this._applyScrollTopCallback = params.applyScrollTopCallback;
-            if (!this._isRendering && !this._virtualScroll.rangeChanged) {
-                this.completeVirtualScrollIfNeed();
-            }
-            this.savePlaceholders(rangeShiftResult.placeholders);
-            return {
-                placeholders: rangeShiftResult.placeholders,
-                shadowVisibility: this._calcShadowVisibility(this._options.collection, rangeShiftResult.range)
-            };
+        if (!this._virtualScroll) {
+            return;
         }
+
+        const rangeShiftResult = this._virtualScroll.shiftRangeToScrollPosition(params.scrollTop);
+        this._setCollectionIndices(
+            this._options.collection,
+            rangeShiftResult.range,
+            false,
+            this._options.needScrollCalculation
+        );
+
+        this.savePlaceholders(rangeShiftResult.placeholders);
+        return {
+            placeholders: rangeShiftResult.placeholders,
+            virtualRangeChanged: this._virtualScroll.rangeChanged,
+            shadowVisibility: this._calcShadowVisibility(this._options.collection, rangeShiftResult.range)
+        };
     }
 
     /**
@@ -587,9 +584,14 @@ export default class ScrollController {
         return !!this._virtualScroll;
     }
 
-    
-    handleMoveItems(addIndex: number, addedItems: object[], removeIndex: number, removedIitems: object[],  direction?: IDirection): IScrollControllerResult {
-        let result = {}
+    handleMoveItems(
+        addIndex: number,
+        addedItems: object[],
+        removeIndex: number,
+        removedItems: object[],
+        direction?: IDirection
+    ): IScrollControllerResult {
+        let result = {};
         if (!this._virtualScroll) {
             result = this._initVirtualScroll(
                 {...this._options, forceInitVirtualScroll: true},
@@ -603,7 +605,7 @@ export default class ScrollController {
             this._triggerVisibility,
             direction
         );
-        const removeItemsResult = this._virtualScroll.removeItems(removeIndex, removedIitems.length);
+        const removeItemsResult = this._virtualScroll.removeItems(removeIndex, removedItems.length);
         this._setCollectionIndices(this._options.collection, removeItemsResult.range, false,
             this._options.needScrollCalculation);
         this.savePlaceholders(removeItemsResult.placeholders);
@@ -656,8 +658,8 @@ export default class ScrollController {
         if (this._virtualScroll) {
             const rangeShiftResult = this._virtualScroll.removeItems(removeIndex, items.length);
 
-            // todo временный фикс, убрать по 
-            // https://online.sbis.ru/opendoc.html?guid=5c0a021b-38a6-4d28-8c5c-cf9d9f27e651
+            // todo временный фикс, убрать по
+            //  https://online.sbis.ru/opendoc.html?guid=5c0a021b-38a6-4d28-8c5c-cf9d9f27e651
             this._setCollectionIndices(this._options.collection, rangeShiftResult.range, true,
                 this._options.needScrollCalculation);
             this.savePlaceholders(rangeShiftResult.placeholders);
@@ -675,7 +677,7 @@ export default class ScrollController {
     calculateVirtualScrollHeight(): number {
         return this._virtualScroll.calculateVirtualScrollHeight();
     }
-    setResetInEnd(resetInEnd: boolean) {
+    setResetInEnd(resetInEnd: boolean): void {
         this._resetInEnd = resetInEnd;
     }
 

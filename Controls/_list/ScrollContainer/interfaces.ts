@@ -23,6 +23,12 @@ export interface IScrollControllerResult {
     activeElement?: TItemKey;
     scrollToActiveElement?: boolean;
     shadowVisibility?: IShadowVisibility;
+
+    /**
+     * true если при изменении позиции виртуального скрола был
+     * изменен диапазон отображаемых записей
+     */
+    virtualRangeChanged?: boolean;
 }
 
 /**

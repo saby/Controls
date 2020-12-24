@@ -47,7 +47,3 @@
 
         npm test
 
-1. Для запуска сервера с юнит-тестами по адресу [localhost:1025](http://localhost:1025/) выполните:
-
-        npm run start:units 
-
