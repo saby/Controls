@@ -151,13 +151,13 @@ const _private = {
                 return baseSourceController
                     .load(undefined, nodeKey)
                     .addCallbacks((list) => {
+                        if (options.nodeLoadCallback) {
+                            options.nodeLoadCallback(list, nodeKey);
+                        }
                         _private.toggleExpandedOnModel(self, listViewModel, dispItem, expanded);
                         listViewModel.setHasMoreStorage(
                             _private.prepareHasMoreStorage(baseSourceController, listViewModel.getExpandedItems())
                         );
-                        if (options.nodeLoadCallback) {
-                            options.nodeLoadCallback(list, nodeKey);
-                        }
                     }, (error) => {
                         _private.processError(self, error);
                         // Вернуть элемент модели в предыдущее состояние, т.к. раскрытие не состоялось.
