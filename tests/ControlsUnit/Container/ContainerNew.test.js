@@ -24,7 +24,7 @@ define(
 
             scroll._template = function(inst) {
                inst._options = {
-                  content: Content,
+                  userContent: Content,
                   theme: 'default'
                };
                var markup = templateFn.call(this, inst);

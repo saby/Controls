@@ -23,6 +23,12 @@ export interface IContainerBaseOptions extends IControlOptions {
 
 const KEYBOARD_SHOWING_DURATION: number = 500;
 
+const enum CONTENT_TYPE {
+    regular = 'regular',
+    notScrollable = 'notScrollable',
+    height100percentAndCanScroll = 'height100percentAndCanScroll'
+}
+
 export default class ContainerBase<T extends IContainerBaseOptions> extends Control<IContainerBaseOptions> {
     protected _template: TemplateFunction = template;
     protected _container: HTMLElement = null;
@@ -51,6 +57,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     private _savedScrollPosition: number = 0;
 
     private _virtualNavigationRegistrar: RegisterClass;
+
+    private _contentType: CONTENT_TYPE = CONTENT_TYPE.regular;
 
     _beforeMount(options: IContainerBaseOptions, context?, receivedState?) {
         this._virtualNavigationRegistrar = new RegisterClass({register: 'virtualNavigation'});
@@ -85,7 +93,12 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         }
         this._resizeObserver.observe(this._children.content);
 
-        this._observeContentSize();
+        this._updateContentType();
+        if (this._contentType === CONTENT_TYPE.regular) {
+            this._resizeObserver.observe(this._children.userContent);
+        } else {
+            this._observeContentSize();
+        }
 
         // this._createEdgeIntersectionObserver();
 
@@ -102,8 +115,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     protected _afterUpdate(oldOptions?: IContainerBaseOptions): void {
-        this._observeContentSize();
-        this._unobserveDeleted();
+        this._updateContentType();
+        if (this._contentType !== CONTENT_TYPE.regular) {
+            this._observeContentSize();
+            this._unobserveDeleted();
+        }
         if (!this._resizeObserverSupported) {
             this._updateStateAndGenerateEvents(this._getFullStateFromDOM());
         }
@@ -430,9 +446,54 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             if (entry.target === this._children.content) {
                 newState.clientHeight = entry.contentRect.height;
                 newState.clientWidth = entry.contentRect.width;
+            } else if (entry.target === this._children.userContent) {
+                this._updateContentType();
+                newState.scrollWidth = entry.contentRect.width;
+
+                if (this._contentType === CONTENT_TYPE.height100percentAndCanScroll) {
+                    newState.scrollHeight = this._getContentHeightByChildren();
+                } else {
+                    newState.scrollHeight = entry.contentRect.height;
+                }
             }
         }
 
+        if (newState.scrollHeight < newState.clientHeight) {
+            newState.scrollHeight = newState.clientHeight;
+        }
+        if (newState.scrollWidth < newState.clientWidth) {
+            newState.scrollWidth = newState.clientWidth;
+        }
+
+        this._updateStateAndGenerateEvents(newState);
+    }
+
+    _updateContentType(): void {
+        const contentType: CONTENT_TYPE = this._getContentType();
+        if (this._contentType !== contentType) {
+            this._contentType = contentType;
+        }
+    }
+
+    _getContentType(): CONTENT_TYPE {
+        let contentType: CONTENT_TYPE = CONTENT_TYPE.regular;
+        const firstContentChild: HTMLElement = this._children.userContent.children[0];
+        if (firstContentChild) {
+            const classList = firstContentChild.classList;
+            const classNames: string[] = [
+                'Hint-ListWrapper',
+                'Wizard-Vertical-Container__content'
+            ]
+            if (classList.contains('controls-Scroll-Container__notScrollable')) {
+                contentType = CONTENT_TYPE.notScrollable;
+            } else if (classNames.some(className => classList.contains(className))) {
+                contentType = CONTENT_TYPE.height100percentAndCanScroll;
+            }
+        }
+        return contentType;
+    }
+
+    _getContentHeightByChildren(): number {
         // Если контент был меньше скролируемой области, то его размер может не поменяться, когда меняется размер
         // скролл контейнера.
         // Плюс мы не можем брать размеры из события, т.к. на размеры скроллируемого контента могут влиять
@@ -440,27 +501,12 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // Раньше scrollHeight считался следующим образом.
         // newState.scrollHeight = entry.contentRect.height;
         // newState.scrollWidth = entry.contentRect.width;
-        let children = this._children.content.children;
-        let heigthValue = 0;
-        let widthValue = 0;
+        let heigth = 0;
 
         for (const child of this._getElementsForHeightCalculation()) {
-            heigthValue += this._calculateScrollHeight(child);
+            heigth += this._calculateScrollHeight(child);
         }
-
-        newState.scrollHeight = heigthValue;
-
-        if (newState.scrollHeight < newState.clientHeight) {
-            newState.scrollHeight = newState.clientHeight;
-        }
-        for (let child of children) {
-            widthValue += child.offsetWidth;
-        }
-        newState.scrollWidth = widthValue;
-        if (newState.scrollWidth <  newState.clientWidth) {
-            newState.scrollWidth = newState.clientWidth;
-        }
-        this._updateStateAndGenerateEvents(newState);
+        return heigth;
     }
 
     _getElementsForHeightCalculation(container?: HTMLElement): HTMLElement[] {

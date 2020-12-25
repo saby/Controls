@@ -5,6 +5,7 @@
                     topShadowVisibility="{{undefined}}"
                     bottomShadowVisibility="{{undefined}}"
                     _scrollCssClass="{{_scrollCssClass}}"
+                    _contentType="{{_contentType}}"
                     attr:style="{{_scrollbars.scrollContainerStyles}}"
                     attr:class="controls-Scroll-Container__base controls-BlockLayout__blockGroup_theme-{{_options.theme}} controls-BlockLayout__blockGroup_theme-{{_options.theme}}
                     {{ _optimizeShadowClass }}{{ _scrollbars.scrollContainerStyles === undefined ? ' controls-Scroll-Container__content_hidden' }}"
