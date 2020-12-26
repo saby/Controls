@@ -14,7 +14,7 @@ import {isEqual} from 'Types/object';
 import {ICrud, Memory, CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {debounce, throttle} from 'Types/function';
 import {create as diCreate} from 'Types/di';
-import {Model, relation} from 'Types/entity';
+import {Guid, Model, relation} from 'Types/entity';
 import {IHashMap} from 'Types/declarations';
 
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -3061,6 +3061,10 @@ const _private = {
         if (!detection.isMobilePlatform) {
             self._showActions = false;
         }
+    },
+
+    getViewUniqueClass(self): string {
+        return `controls-BaseControl__View_${self._uniqueId}`;
     }
 };
 
@@ -3226,6 +3230,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _useServerSideColumnScroll: false,
 
+    _uniqueId: null,
+
     constructor(options) {
         BaseControl.superclass.constructor.apply(this, arguments);
         options = options || {};
@@ -3245,6 +3251,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _beforeMount(newOptions, context, receivedState: IReceivedState = {}) {
         this._notifyNavigationParamsChanged = _private.notifyNavigationParamsChanged.bind(this);
         this._dataLoadCallback = _private.dataLoadCallback.bind(this);
+        this._uniqueId = Guid.create();
 
         _private.checkDeprecated(newOptions);
         this._initKeyProperty(newOptions);
@@ -5521,10 +5528,111 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
 
+    _setDisplayItemActionsOutsideStyles(itemData: CollectionItem<Model>): void {
+        const stylesContainer = this._children.itemActionsOutsideStyle as HTMLDivElement;
+        const uniqueClass = _private.getViewUniqueClass(this);
+        const index = (itemData.index !== undefined ? itemData.index : this._listViewModel.getIndex(itemData)) + 1;
+        stylesContainer.innerHTML = this._listViewModel.getDisplayItemActionsOutsideStyles(uniqueClass, index);
+    },
+
+    _setFreezeHoverStyles(itemData: CollectionItem<Model>): void {
+        const stylesContainer = this._children.itemActionsOutsideStyle as HTMLDivElement;
+        const uniqueClass = _private.getViewUniqueClass(this);
+        const index = (itemData.index !== undefined ? itemData.index : this._listViewModel.getIndex(itemData)) + 1;
+        const hoveredContainer = this._listViewModel.getItemHoveredContainerSelector(uniqueClass, index);
+        const itemContainer = (this._container as HTMLDivElement).querySelector(hoveredContainer) as HTMLDivElement;
+        const backgroundColor = getComputedStyle(itemContainer).backgroundColor;
+        stylesContainer.innerHTML += this._listViewModel.getItemFreezeHoverStyles(uniqueClass, index, backgroundColor);
+    },
+
+    _hideItemActionsOutside(): void {
+        const stylesContainer = this._children.itemActionsOutsideStyle as HTMLDivElement;
+        stylesContainer.innerHTML = '';
+    },
+
+    _freezeHover(): void {
+        this._showActions = false;
+        this._isItemHoverFrozen = true;
+    },
+
+    _unfreezeHover(): void {
+        this._showActions = true;
+        this._isItemHoverFrozen = false;
+    },
+
+    _clearFreezeHoverTimeout(): void {
+        if (this._itemFreezeHoverTimeout) {
+            clearTimeout(this._itemFreezeHoverTimeout);
+        }
+    },
+
+    _clearUnfreezeHoverTimeout(): void {
+        if (this._itemUnfreezeTimeout) {
+            clearTimeout(this._itemUnfreezeTimeout);
+        }
+    },
+
+    _startUnfreezeHoverTimeout(): void {
+        this._itemUnfreezeTimeout = setTimeout(() => {
+            // Сбрасываем текущий ховер
+            this._hoveredItemKey = null;
+            // Размораживаем текущую запись, т.к. нам она более не должна являться замороженной
+            this._unfreezeHover();
+            // Сбрасываем стили показа ItemActions, т.к. нам пора уже сделать новые.
+            this._hideItemActionsOutside();
+        }, 400);
+    },
+
+    _startFreezeHoverTimeout(itemData: CollectionItem<Model>): void {
+        // если уже был таймер залипания, то глушим его
+        this._clearFreezeHoverTimeout();
+
+        // Стартуем новый таймер залипания.
+        this._itemFreezeHoverTimeout = setTimeout(() => {
+            // Если есть залипшая запись, то надо понять это та же запись, по которой мы сейчас сделали ховер
+            // или нет. Если нет, то всё надо сбросить.
+            if (this._isItemHoverFrozen && this._hoveredItemKey !== itemData.getContents().getKey()) {
+                // Сбрасываем текущий ховер
+                this._hoveredItemKey = null;
+                // Размораживаем текущую запись, т.к. нам она более не должна являться замороженной
+                this._unfreezeHover();
+                // Сбрасываем стили показа ItemActions, т.к. нам пора уже сделать новые.
+                this._hideItemActionsOutside();
+            }
+
+            // Генерим новые стили показа itemActions
+            this._setDisplayItemActionsOutsideStyles(itemData);
+            // Далее, выставляем новую запись как залипшую:
+            this._freezeHover();
+            this._setFreezeHoverStyles(itemData);
+            // сохранили текущее наведённое значение
+            this._hoveredItemKey = itemData.getContents().getKey();
+        }, 400);
+    },
+
+    _onItemActionsMouseEnter(event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>): void {
+        if (this._options.itemActionsPosition === 'outside') {
+            this._startFreezeHoverTimeout(itemData);
+        }
+    },
+
     _itemMouseEnter(event: SyntheticEvent<MouseEvent>, itemData: CollectionItem<Model>, nativeEvent: Event): void {
         if (this._dndListController) {
             this._unprocessedDragEnteredItem = itemData;
             this._processItemMouseEnterWithDragNDrop(itemData);
+        }
+        if (this._options.itemActionsPosition === 'outside') {
+            // Очищаем таймаут разморозки, чтобы не было асинхронных нежданчиков
+            this._clearUnfreezeHoverTimeout();
+
+            // Нельзя показывать синхронно, если мы залипли, т.к. это перепишет
+            // стиль и отобразится безусловно следующее ухо, вместо текущего.
+            // Полагаем, что если мы не залипли, то именно это поведение нам и нужно.
+            if (!this._isItemHoverFrozen) {
+                this._setDisplayItemActionsOutsideStyles(itemData);
+            }
+
+            this._startFreezeHoverTimeout(itemData);
         }
         this._notify('itemMouseEnter', [itemData.item, nativeEvent]);
     },
@@ -5549,6 +5657,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             if (this._dndListController && this._dndListController.isDragging()) {
                 this._notify('draggingItemMouseLeave', [itemData, nativeEvent]);
             }
+        }
+        if (this._options.itemActionsPosition === 'outside') {
+            this._clearFreezeHoverTimeout();
+            this._startUnfreezeHoverTimeout();
         }
     },
     _sortingChanged(event, propName) {
@@ -5667,11 +5779,22 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         this._sourceController?.updateOptions(options);
     },
 
+    _getViewClasses(showActions: boolean, itemActionsMenuId: string): string  {
+        const classes: string[] = [];
+        if (this._isVisibleItemActions(showActions, itemActionsMenuId)) {
+            classes.push(`controls-BaseControl_showActions controls-BaseControl_showActions_${this._options.itemActionsVisibility}`);
+        }
+        if (this._uniqueId) {
+            classes.push(_private.getViewUniqueClass(this));
+        }
+        return classes.join(' ');
+    },
+
     /**
      * Возвращает видимость опций записи.
      * @private
      */
-    _isVisibleItemActions(showActions: boolean, itemActionsMenuId: number): boolean {
+    _isVisibleItemActions(showActions: boolean, itemActionsMenuId: string): boolean {
         return (showActions || this._options.useNewModel) &&
             (!itemActionsMenuId || this._options.itemActionsVisibility === 'visible');
     },

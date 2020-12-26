@@ -999,6 +999,31 @@ var
             return this._maxEndColumn;
         },
 
+        getItemHoveredContainerSelector(uniqueClass: string, index: number): string {
+            return `.${uniqueClass} .controls-Grid__row:nth-child(${index}) .controls-Grid__row_highlightOnHover_default_theme-default:hover .controls-Grid__row-cell-background-hover-default_theme-default:not(.controls-Grid__row-ladder-cell)`;
+        },
+
+        getItemFreezeHoverStyles(uniqueClass: string, index: number, backgroundColor: string): string {
+            return `
+              .${uniqueClass} .controls-Grid__row:not(:nth-child(${index})).controls-Grid__row_highlightOnHover_default_theme-${this._$theme}:hover {
+                background-color: transparent;
+              }
+              .${uniqueClass} .controls-Grid__row:nth-child(${index}).controls-Grid__row_highlightOnHover_default_theme-${this._$theme} {
+                background-color: ${backgroundColor};
+              }`;
+        },
+
+        getDisplayItemActionsOutsideStyles(uniqueClass: string, index: number): string {
+            return `
+              .${uniqueClass} .controls-Grid__row:nth-child(${index}) > .controls-Grid__row-cell  > .controls-itemActionsV_outside_theme-default,
+              .${uniqueClass} .controls-Grid__row:nth-child(${index}) > .controls-Grid__row-cell > .controls-Grid__table__relative-cell-wrapper  > .controls-itemActionsV_outside_theme-default,
+              .${uniqueClass} .controls-Grid__row:nth-child(${index}) > .controls-Grid__row-cell .controls-Grid__row-cell__content  > .controls-itemActionsV_outside_theme-default,
+              .${uniqueClass} .controls-Grid__row:nth-child(${index}) > .controls-itemActionsV__container > .controls-itemActionsV_outside_theme-default {
+                 opacity: 1;
+                 visibility: visible;
+              }`;
+        },
+
         /**
          * Метод проверяет, рисовать ли header при отсутствии записей.
          */

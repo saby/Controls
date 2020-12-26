@@ -8,7 +8,9 @@
         {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
         {{itemData.isSwiped() ? 'controls-itemActionsV_swiped'}}
         {{actionMode === 'adaptive' ? 'controls-itemActionsV_adaptive'}}
-        {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}">
+        {{itemData.itemActionsColumnScrollDraw ? 'controls-itemActionsV_columnScrollDraw'}}"
+         on:mouseenter="_onItemActionsMouseEnter(itemData)"
+    >
         <div attr:class="controls-itemActionsV__wrapper
                         {{actionMode === 'adaptive' ? 'controls-itemActionsV__wrapper_adaptive'}}">
             <ws:partial
