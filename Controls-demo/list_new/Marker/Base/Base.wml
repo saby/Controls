@@ -1,6 +1,5 @@
 <div class="controlsDemo__wrapper">
     <Controls.list:View
             keyProperty="id"
-            source="{{_viewSource}}"
-            markerVisibility="onactivated"/>
+            source="{{_viewSource}}"/>
 </div>
