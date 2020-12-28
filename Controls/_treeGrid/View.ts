@@ -41,7 +41,7 @@ import { Model } from 'Types/entity';
     * 
     * @public
     * @author Авраменко А.С.
-    * @demo Controls-demo/treeGrid/Base/TreeGridView/Index
+    * @demo Controls-demo/treeGrid/Base/TreeView/Index
     */
 
    /*
