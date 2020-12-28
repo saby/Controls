@@ -19,37 +19,36 @@
          <ws:if data="{{marker !== false && (treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected())
                && (!itemData.multiSelect || itemData.isEmptyItem || itemData.isFixedItem)}}">
             <div class="controls-Menu__row_selected controls-Menu__row_selected_theme-{{_options.theme}}
-                        {{_options.multiLine ? 'controls-Menu__row_selected-multiLine_theme-' + _options.theme}}
-                        controls-Menu__content_{{additionalTextTemplate ? 'padding'}}_theme-{{_options.theme}}"></div>
+                        {{_options.multiLine ? 'controls-Menu__row_selected-multiLine_theme-' + _options.theme}}"></div>
          </ws:if>
          <ws:if data="{{(multiSelectTpl || itemData.multiSelectTpl) && (itemData.multiSelect || multiSelect) && !itemData.isFixedItem}}">
             <ws:partial template="{{multiSelectTpl || itemData.multiSelectTpl}}" scope="{{_options}}" class="{{itemData.isEmptyItem ? 'controls-Menu__row-checkbox_invisible'}}"/>
          </ws:if>
-
-         <ws:if data="{{contentTemplate}}">
-            <!--If contentTemplate is a string, then use Async to load required module-->
-            <ws:if data="{{(contentTemplate.charAt)}}">
-               <Controls.Container.Async templateName="{{contentTemplate}}">
+         <div class="controls-Menu__content_wrapper_theme-{{_options.theme}} {{!_options.multiLine ? 'controls-Menu__content-singleLine_wrapper_theme-' + _options.theme}}">
+            <ws:if data="{{contentTemplate}}">
+               <!--If contentTemplate is a string, then use Async to load required module-->
+               <ws:if data="{{(contentTemplate.charAt)}}">
+                  <Controls.Container.Async templateName="{{contentTemplate}}">
+                     <ws:partial
+                             template="{{content.resolvedTemplate}}"
+                             itemData="{{itemData}}"
+                     />
+                  </Controls.Container.Async>
+               </ws:if>
+               <ws:else>
                   <ws:partial
-                          template="{{content.resolvedTemplate}}"
+                          template="{{contentTemplate}}"
                           itemData="{{itemData}}"
                   />
-               </Controls.Container.Async>
+               </ws:else>
             </ws:if>
+
             <ws:else>
-               <ws:partial
-                       template="{{contentTemplate}}"
-                       itemData="{{itemData}}"
-               />
+               <ws:partial template="wml!Controls/_menu/Render/contentTemplate"
+                           scope="{{_options}}"
+                           item="{{treeItem.getContents()}}"/>
             </ws:else>
-         </ws:if>
-
-         <ws:else>
-            <ws:partial template="wml!Controls/_menu/Render/contentTemplate"
-                        scope="{{_options}}"
-                        item="{{treeItem.getContents()}}"/>
-         </ws:else>
-
+         </div>
       </div>
 
       <ws:if data="{{_options.allowPin &&
