@@ -371,12 +371,12 @@ var TileViewModel = ListViewModel.extend({
             /* TODO Вынести этот код из модели в контрол плитки
                https://online.sbis.ru/opendoc.html?guid=7f6ac2cf-15e6-4b75-afc6-928a86ade83e */
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
-            const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
-            if (!imageWrapper) {
+            const itemContentContainer = itemContainer.querySelector('.controls-TileView__itemContent');
+            if (!itemContentContainer) {
                 return null;
             }
-            let previewWidth = imageWrapper.clientWidth;
-            let previewHeight = imageWrapper.clientHeight;
+            let previewWidth = itemContentContainer.clientWidth;
+            let previewHeight = itemContentContainer.clientHeight;
             menuOptions.image = itemData.imageData.url;
             menuOptions.title = itemData.item.get(itemData.displayProperty);
             menuOptions.additionalText = itemData.item.get(templateOptions.headerAdditionalTextProperty);
@@ -392,7 +392,7 @@ var TileViewModel = ListViewModel.extend({
                 templateOptions,
                 closeOnOutsideClick: true,
                 maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
-                target: imageWrapper,
+                target: itemContentContainer,
                 className: 'controls-TileView__itemActions_menu_popup',
                 targetPoint: {
                     vertical: 'top',
