@@ -5,7 +5,7 @@ define('Controls-demo/DragNDrop/List', [
    'Controls-demo/DragNDrop/ListEntity',
    'Controls-demo/DragNDrop/DemoData',
    'wml!Controls-demo/DragNDrop/List/List',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls/dragnDrop',
 ], function(Base, cClone, source, ListEntity, DemoData, template, Toolbar) {
    'use strict';

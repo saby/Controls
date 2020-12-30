@@ -2,7 +2,7 @@ define('Controls-demo/Explorer/Demo', [
    'UI/Base',
    'wml!Controls-demo/Explorer/Demo/Demo',
    'Types/source',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls/list',
    'Controls-demo/Explorer/ExplorerImages',
    'Controls/explorer'

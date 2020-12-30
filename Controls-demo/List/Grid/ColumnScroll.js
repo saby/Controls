@@ -3,7 +3,7 @@ define('Controls-demo/List/Grid/ColumnScroll', [
    'Controls-demo/List/Grid/GridData',
    'wml!Controls-demo/List/Grid/ColumnScroll',
    'Types/source',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'wml!Controls-demo/List/Grid/DemoItem',
    'wml!Controls-demo/List/Grid/DemoBalancePrice',
    'wml!Controls-demo/List/Grid/DemoCostPrice',

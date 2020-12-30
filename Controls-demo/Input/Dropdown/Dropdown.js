@@ -2,7 +2,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
    'UI/Base',
    'wml!Controls-demo/Input/Dropdown/Dropdown',
    'Types/source',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls-demo/Input/Dropdown/historySourceDropdown',
    'Controls/list',
    'Controls-demo/Search/SearchMemory',

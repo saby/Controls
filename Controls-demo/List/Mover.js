@@ -2,7 +2,7 @@ define('Controls-demo/List/Mover', [
    'UI/Base',
    'Core/core-clone',
    'Types/source',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/List/Tree/GridData',
    'wml!Controls-demo/List/Mover/Mover',

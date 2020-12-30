@@ -9,7 +9,7 @@ import {Model, Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {TItemsReadyCallback} from 'Controls-demo/types';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 
 interface INoStickyLadderColumn {
     template: string;

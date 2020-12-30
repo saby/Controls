@@ -6,7 +6,7 @@ define('Controls-demo/DragNDrop/Demo', [
    'Controls-demo/DragNDrop/Demo/Data',
    'Controls/dragnDrop',
    'Core/core-instance',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'wml!Controls-demo/DragNDrop/Demo/columnTemplate',
    'wml!Controls-demo/DragNDrop/Demo/timeColumnTemplate',
    'wml!Controls-demo/DragNDrop/Demo/receivedColumnTemplate'

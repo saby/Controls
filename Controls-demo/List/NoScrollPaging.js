@@ -4,7 +4,7 @@ define('Controls-demo/List/NoScrollPaging', [
    'Controls-demo/List/Grid/GridData',
    'wml!Controls-demo/List/NoScrollPaging/NoScrollPaging',
    'Types/source',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'wml!Controls-demo/List/Grid/DemoItem',
    'wml!Controls-demo/List/Grid/DemoCostPrice',
    'wml!Controls-demo/List/Grid/DemoName'

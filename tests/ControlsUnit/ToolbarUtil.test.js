@@ -1,10 +1,11 @@
 define(
    [
+      'Controls/_toolbars/Util',
       'Controls/toolbars',
       'Types/collection',
       'Types/entity'
    ],
-   (ToolbarUtil, collection, entity) => {
+   (ToolbarUtil, toolbars, collection, entity) => {
       describe('ToolbarUtil', () => {
          let defaultItems = [
             {
@@ -37,9 +38,9 @@ define(
             });
             let hasOnlyToolbarItem = false;
             assert.equal(filtetedItems.getCount(), 3);
-            assert.equal(filtetedItems.at(2).get('showType'), ToolbarUtil.showType.MENU);
+            assert.equal(filtetedItems.at(2).get('showType'), toolbars.showType.MENU);
             filtetedItems.forEach(function(item) {
-               if (item.get('showType') ===  ToolbarUtil.showType.TOOLBAR) {
+               if (item.get('showType') ===  toolbars.showType.TOOLBAR) {
                   hasOnlyToolbarItem = true;
                }
             });

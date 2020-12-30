@@ -1,4 +1,4 @@
-import {showType} from '../../../Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 
 const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere nulla ex, consectetur lacinia odio blandit sit amet.';
 

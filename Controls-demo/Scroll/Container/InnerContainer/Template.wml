@@ -2,21 +2,12 @@
     <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">Controls.scroll:ContainerBase</div>
     <Controls.scroll:Container
             scrollMode="verticalHorizontal"
-            attr:class="controlsDemo__height500 controlsDemo_fixedWidth300">
-        <div >
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                anim id est laborum.
-            </p>
-            <Controls.scroll:Container
-                    attr:class="controlsDemo__height300">
+            attr:class="controlsDemo__height500 controlsDemo_fixedWidth300"
+            attr:style="border: #d04d4d 1px solid;">
+        <div class="MyScrollContainerContent controls-Scroll-Container__notScrollable" style="height: 100%; display: flex; flex-direction: column;">
+            <Controls.scroll:Container attr:style="height: 100%; flex-srink: 1;">
                 <div >
-                    <ws:for data="key in 4">
+                    <ws:for data="key in 8">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -29,15 +20,7 @@
                     </ws:for>
                 </div>
             </Controls.scroll:Container>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                anim id est laborum.
-            </p>
+
         </div>
     </Controls.scroll:Container>
 </div>

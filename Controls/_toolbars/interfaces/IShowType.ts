@@ -1,28 +1,6 @@
 
-export interface IShowType {
-   /**
-    * Show only in Menu.
-    */
-   MENU: showType;
-   /**
-    * Show in Menu and Toolbar.
-    */
-   MENU_TOOLBAR: showType;
-   /**
-    * Show only in Toolbar
-    */
-   TOOLBAR: showType;
-}
-
 /**
- * @typedef {String} showType
- * @description
- * Позволяет настроить, какие опции записи будут показаны по ховеру, а какие - в доп.меню.
- * Влияет на порядок отображения опций записи по свайпу.
- * Экспортируемый enum: Controls/itemActions:TItemActionShowType
- * @variant MENU показывать опцию только в дополнительном меню
- * @variant MENU_TOOLBAR показывать опцию в дополнительном меню и тулбаре
- * @variant TOOLBAR показывать опцию только в тулбаре
+ * Позволяет настроить, какие опции записи будут показаны по ховеру, а какие - в доп.меню. Влияет на порядок отображения опций записи по свайпу.
  * <pre>
  * import {showType} from 'Controls/toolbars';
  *  .....
@@ -43,9 +21,19 @@ export interface IShowType {
  *      }
  *  ];
  * </pre>
+ * @public
  */
 export enum showType {
+   /**
+    * Элемент отображается только в меню.
+    */
    MENU,
+   /**
+    * Элемент отображается в меню и в тулбаре.
+    */
    MENU_TOOLBAR,
+   /**
+    * Элемент отображается только в тулбаре.
+    */
    TOOLBAR
 }

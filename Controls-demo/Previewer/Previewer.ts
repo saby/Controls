@@ -1,7 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Previewer/Previewer');
 import {Memory} from 'Types/source';
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 import {constants} from 'Env/Env';
 
 class Previewer extends Control<IControlOptions> {

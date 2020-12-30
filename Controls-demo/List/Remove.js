@@ -1,7 +1,7 @@
 define('Controls-demo/List/Remove', [
    'UI/Base',
    'Core/core-clone',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls-demo/List/Remove/RemoveDemoSource',
    'wml!Controls-demo/List/Remove/Remove',
 ], function(Base, cClone, Toolbar, DemoSource, template) {
