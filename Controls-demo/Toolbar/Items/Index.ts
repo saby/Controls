@@ -1,6 +1,6 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import {RecordSet} from 'Types/collection';
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 import * as Template from 'wml!Controls-demo/Toolbar/Items/Items';
 import {Memory} from 'Types/source';
 

@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls-demo/PropertyGridNew/ItemActions/Index';
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 import {IItemAction} from 'Controls/itemActions';
 import 'wml!Controls-demo/PropertyGridNew/ItemActions/ItemTemplate';
 
