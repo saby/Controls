@@ -58,6 +58,7 @@ export default class ColumnScroll {
         columnScroll: { content: '', wrapper: '', shadow: { start: '', end: '' } },
         dragScroll: { overlay: '', content: '', grabbing: '' }
     };
+    private _containerSize: number = 0;
 
     constructor(options: IColumnScrollOptions) {
         this._options = this._updateOptions(options);
@@ -131,6 +132,10 @@ export default class ColumnScroll {
         return '';
     }
 
+    getContainerSize(): number {
+        return this._containerSize;
+    }
+
     private _updateOptions(newOptions: IColumnScrollOptions): IColumnScrollOptions {
         const getValue = (name, type, defaultValue) => typeof newOptions[name] === type ? newOptions[name] : (this._options && this._options[name] || defaultValue);
 
@@ -169,6 +174,7 @@ export default class ColumnScroll {
                     this._options = this._updateOptions(options);
                     this._createColumnScroll(options);
                     this._columnScroll.updateSizes((newSizes) => {
+                        this._containerSize = newSizes.containerSize;
                         if (options.isOnMount && this._options.columnScrollStartPosition === 'end') {
                             this._columnScroll.setScrollPosition(newSizes.contentSize - newSizes.containerSize);
                         }

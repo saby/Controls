@@ -294,7 +294,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
         if (!isMultiSelectColumn) {
             if (!isFirstColumn) {
-                if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
+                if (!this._$owner.hasMultiSelectColumn() || this.getColumnIndex() > 1) {
                     paddingClasses += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}_theme-${theme}`;
                 }
             } else {

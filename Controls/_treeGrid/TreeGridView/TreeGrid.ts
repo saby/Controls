@@ -25,7 +25,7 @@ import { TreeControl } from 'Controls/tree';
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_marker/interface/IMarkerList
     *
-    * 
+    *
     * @private
     * @author Авраменко А.С.
     */
@@ -54,7 +54,7 @@ import { TreeControl } from 'Controls/tree';
     * @mixes Controls/_interface/IDraggable
     * @mixes Controls/_marker/interface/IMarkerList
     *
-    * 
+    *
     * @private
     * @author Авраменко А.С.
     */
@@ -74,7 +74,7 @@ import { TreeControl } from 'Controls/tree';
          };
       },
       toggleExpanded: function(id) {
-         this._children.listControl.toggleExpanded(id);
+         return this._children.listControl.toggleExpanded(id);
       }
    });
    export = Tree;

@@ -7,7 +7,7 @@
     }) }}">
     <ws:for data="gridColumn in item.getColumns()">
         <td attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-            attr:style="{{ gridColumn.getWrapperStyles() }}"
+            attr:style="{{ gridColumn.getWrapperStyles(containerSize) }}"
             attr:colspan="{{ gridColumn.getColspan() }}"
             attr:rowspan="{{ gridColumn.getRowspan() }}">
             <div class="{{ gridColumn.getRelativeCellWrapperClasses(theme) }}">

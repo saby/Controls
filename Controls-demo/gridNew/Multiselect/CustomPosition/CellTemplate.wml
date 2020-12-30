@@ -1,10 +1,5 @@
-<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{gridColumn}}"/>
-
-<!--
 <ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <ws:partial template="{{ multiSelectTemplate }}"/>
     </ws:contentTemplate>
 </ws:partial>
-
--->

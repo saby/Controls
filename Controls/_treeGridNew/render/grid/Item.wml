@@ -83,7 +83,7 @@
                                           mode="stackable"
                                           shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                           attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-                                          attr:style="{{ column.getWrapperStyles() }}">
+                                          attr:style="{{ column.getWrapperStyles(containerSize) }}">
                <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
             </Controls.scroll:StickyHeader>
          </ws:for>
@@ -100,7 +100,7 @@
        }) }}">
       <ws:for data="column in item.getColumns()">
          <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-              style="{{ column.getWrapperStyles() }}">
+              style="{{ column.getWrapperStyles(containerSize) }}">
             <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
          </div>
       </ws:for>

@@ -46,7 +46,7 @@ export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
             return this._$owner.shouldDisplayMarker(marker) && this.isLastColumn();
         } else {
             return this._$owner.shouldDisplayMarker(marker) &&
-                this._$owner.getMultiSelectVisibility() === 'hidden' && this.isFirstColumn();
+                !this._$owner.hasMultiSelectColumn() && this.isFirstColumn();
         }
     }
     // endregion

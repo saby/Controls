@@ -15,19 +15,22 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
         super(options);
     }
 
+    isLastColumn(): boolean {
+        // В футере не создаются столбцы для ItemActions
+        return this.getColumnIndex() === this._$owner.getColumnsCount() - 1;
+    }
+
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
-        let wrapperClasses = `controls-Grid__footer-cell`
-                          + ` controls-BaseControl__footer-content_theme-${theme}`
+        let wrapperClasses = 'controls-GridView__footer-cell'
+                          + ` controls-GridView__footer__cell_theme-${theme}`
                           + ` controls-background-${backgroundColorStyle}_theme-${theme}`;
 
-        if (this.isMultiSelectColumn()) {
-            wrapperClasses += ` controls-ListView__footer__paddingLeft_withCheckboxes_theme-${theme}`;
-        } else if (this.isFirstColumn()) {
-            wrapperClasses += ` controls-ListView__footer__paddingLeft_${this._$owner.getLeftPadding()}_theme-${theme}`;
+        if (!this.getOwner().hasMultiSelectColumn() && this.isFirstColumn()) {
+            wrapperClasses += ` controls-GridView__footer__cell__paddingLeft_${this._$owner.getLeftPadding()}_theme-${theme}`;
         }
 
         if (this.isLastColumn()) {
-            wrapperClasses += ` controls-GridView__footer__cell__paddingRight_${this._$owner.getRightPadding()}_theme-${theme}`
+            wrapperClasses += ` controls-GridView__footer__cell__paddingRight_${this._$owner.getRightPadding()}_theme-${theme}`;
         }
 
         if (this._$owner.hasColumnScroll()) {
@@ -37,8 +40,14 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
         return wrapperClasses;
     }
 
-    getWrapperStyles(): string {
-        return `${this.getColspan()}`;
+    getWrapperStyles(containerSize?: number): string {
+        let styles = `${this.getColspan()} `;
+
+        if (containerSize) {
+            styles += `width: ${containerSize}px`;
+        }
+
+        return styles;
     }
 
     getContentClasses(theme: string): string {

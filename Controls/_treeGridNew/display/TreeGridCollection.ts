@@ -61,6 +61,11 @@ export default class TreeGridCollection<
 
     setMultiSelectVisibility(visibility: string): void {
         super.setMultiSelectVisibility(visibility);
+
+        if (this.getFooter()) {
+            this.getFooter().setMultiSelectVisibility(visibility);
+        }
+
         this._$colgroup?.reBuild();
     }
 

@@ -22,9 +22,9 @@ export default class TreeGrid extends Grid {
         return 'Controls/treeGrid:TreeGridCollection';
     }
 
-    toggleExpanded(key: CrudEntityKey): void {
+    toggleExpanded(key: CrudEntityKey): Promise<void> {
         // @ts-ignore
-        this._children.listControl.toggleExpanded(key);
+        return this._children.listControl.toggleExpanded(key);
     }
 
     getNextItem(key: CrudEntityKey): Model {

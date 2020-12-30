@@ -2,11 +2,11 @@ import { TemplateFunction } from 'UI/Base';
 import Row, {IOptions as IRowOptions} from './Row';
 import Collection from './Collection';
 import { IColspanParams } from '../../_grid/interface/IColumn';
+import { IItemTemplateParams } from './mixins/Row';
 
 export type TFooter = IFooter[];
 
-interface IFooter extends IColspanParams {
-}
+interface IFooter extends IColspanParams {}
 
 export interface IOptions<T> extends IRowOptions<T> {
     owner: Collection<T>;
@@ -23,25 +23,17 @@ export default class FooterRow<T> extends Row<T> {
     }
 
     getContents(): T {
-        return 'footer' as unknown as T
+        return 'footer' as unknown as T;
     }
 
-    // TODO: Переделать параметры на объект
-    getWrapperClasses(templateHighlightOnHover: boolean = true,
-                      theme?: string,
-                      cursor: string = 'pointer',
-                      backgroundColorStyle?: string,
-                      style: string = 'default'): string {
-        /* todo
-        // Для предотвращения скролла одной записи в таблице с экшнами.
-        // _options._needBottomPadding почему-то иногда не работает.
-        if ((this._listModel.getCount() || this._listModel.isEditing()) &&
-            this._options.itemActionsPosition === 'outside' &&
-            !this._options._needBottomPadding &&
-            this._options.resultsPosition !== 'bottom') {
-            classList = classList.add(`controls-GridView__footer__itemActionsV_outside_theme-${this._options.theme}`);
-        }*/
-        return `controls-GridView__footer`;
+    setFooter(footerTemplate: TemplateFunction, footer: TFooter): void {
+        this._$footerTemplate = footerTemplate;
+        this._$footer = footer;
+        this._reinitializeColumns();
+    }
+
+    getItemClasses(params: IItemTemplateParams = { theme: 'default' }): string {
+        return 'controls-GridView__footer';
     }
 
     protected _getColspan(column: IFooter, columnIndex: number): number {
@@ -72,7 +64,7 @@ export default class FooterRow<T> extends Row<T> {
         return colspan;
     }
 
-    _initializeColumns(): void {
+    protected _initializeColumns(): void {
         if (this._$columns) {
             const factory = this._getColumnsFactory();
 
@@ -81,7 +73,8 @@ export default class FooterRow<T> extends Row<T> {
                     column: {
                         template: this._$footerTemplate
                     },
-                    colspan: this._$owner.getColumnsConfig().length
+                    colspan: this._$owner.getColumnsConfig().length,
+                    isFixed: true
                 })];
             } else {
                 this._$columnItems = this._prepareColumnItems(this._$footer, factory);

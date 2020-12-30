@@ -51,7 +51,7 @@ export default class ColgroupCell<T> extends mixin<OptionsToPropertyMixin>(Optio
     }
 
     getKey(): string {
-        if (this._$owner.getMultiSelectVisibility() !== 'hidden') {
+        if (this._$owner.hasMultiSelectColumn()) {
             if (this.isMultiSelectColumn()) {
                 return '-1';
             } else {

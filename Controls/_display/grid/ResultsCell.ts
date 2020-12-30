@@ -68,7 +68,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         }
 
             if (!this.isFirstColumn()) {
-                if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
+                if (!this._$owner.hasMultiSelectColumn() || this.getColumnIndex() > 1) {
                     wrapperClasses += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}_theme-${theme}`;
                 }
             } else {

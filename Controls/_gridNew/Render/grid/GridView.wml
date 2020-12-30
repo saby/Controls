@@ -73,6 +73,7 @@
             <ws:partial template="{{ _listModel.getFooter().getTemplate() }}"
                         attr:name="footer"
                         item="{{ _listModel.getFooter() }}"
+                        containerSize="{{ _columnScrollViewController ? _columnScrollViewController.getContainerSize() : 0 }}"
                         backgroundStyle="{{ _options.backgroundStyle || _options.style }}"/>
         </ws:if>
     </div>

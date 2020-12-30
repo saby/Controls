@@ -12,11 +12,6 @@ export default class extends Control {
     protected _columns: IColumn[] = Gadgets.getGridColumnsForFlat();
     protected _hoveredCellIndex: number = -1;
 
-    private _expandedItems1 = [];
-    private _expandedItems2 = [];
-    private _expandedItems3 = [];
-    private _expandedItems4 = [];
-
     protected _navigation: INavigation = {
         source: 'page',
         view: 'demand',
@@ -117,12 +112,9 @@ export default class extends Control {
         this._toggleNodes(this._children.tree4);
     }
 
-    private _toggleNodes(tree) {
-        tree.toggleExpanded(1);
-        setTimeout(() => {
-            tree.toggleExpanded(11);
-        }, 50);
-    };
+    private _toggleNodes(tree): void {
+        tree.toggleExpanded(1).then(() => tree.toggleExpanded(11));
+    }
 
     // tslint:disable-next-line
     protected _hoveredCellChanged(_: SyntheticEvent, item: any, itemContainer: any, cell: any): void {

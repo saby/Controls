@@ -769,7 +769,7 @@ const _private = {
                 // TODO: должно быть убрано после того, как TreeControl будет наследоваться от BaseControl
                 const display = options.useNewModel ? self._listViewModel : self._listViewModel.getDisplay();
                 loadedDataCount = display && display['[Controls/_display/Tree]'] ?
-                    self._listViewModel.getChildren(options.useNewModel ? display.getRoot() : options.root).length :
+                    display.getChildren(display.getRoot()).getCount() :
                     self._listViewModel.getCount();
             } else {
                 loadedDataCount = 0;
@@ -5921,9 +5921,14 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         } else if (position === 'afterList') {
             return this._loadingIndicatorState === 'down';
         } else if (position === 'inFooter') {
-            return this._loadingIndicatorState === 'all' &&
+            const shouldShowIndicator = this._loadingIndicatorState === 'all' &&
                 !this.__needShowEmptyTemplate(this._options.emptyTemplate, this._listViewModel) &&
                 !(this._children.listView && this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible());
+            // TODO зарефакторить по задаче https://online.sbis.ru/doc/83a835c0-e24b-4b5a-9b2a-307f8258e1f8
+            if (shouldShowIndicator && this._listViewModel && this._listViewModel.showLoadingIndicator) {
+                this._listViewModel.showLoadingIndicator();
+            }
+            return shouldShowIndicator;
         }
         return false;
     },
