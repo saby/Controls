@@ -1,6 +1,6 @@
 define(
    [
-      'Controls/toolbars',
+      'Controls/_toolbars/Utils',
       'Types/collection',
       'Types/entity'
    ],

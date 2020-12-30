@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/EditingCell';
 import {Memory} from 'Types/source';
 import {getEditing, IColumnRes} from '../../DemoHelpers/DataCatalog';
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 import 'wml!Controls-demo/gridNew/EditInPlace/EditingCell/_cellEditor';
 import {Model, Record} from 'Types/entity';
 import { TItemsReadyCallback } from 'Controls-demo/types';

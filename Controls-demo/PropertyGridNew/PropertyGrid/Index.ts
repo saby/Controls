@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls-demo/PropertyGridNew/PropertyGrid/Index';
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 import {IItemAction} from 'Controls/itemActions';
 import {Enum, RecordSet} from 'Types/collection';
 import { Model } from 'Types/entity';

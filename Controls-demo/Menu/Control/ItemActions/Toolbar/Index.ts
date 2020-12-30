@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Memory} from 'Types/source';
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 import controlTemplate = require('wml!Controls-demo/Menu/Control/ItemActions/Toolbar/Index');
 
 export default class extends Control<IControlOptions> {
