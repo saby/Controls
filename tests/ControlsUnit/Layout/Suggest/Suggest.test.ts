@@ -1162,13 +1162,24 @@ describe('Controls/suggest', () => {
          });
          assert.isTrue(suggestOpened);
 
+         suggestOpened = false;
+         inputContainer._options.autoDropDown = false;
+         inputContainer._options.suggestState = true;
+         inputContainer._historyKeys = null;
+         inputContainer._options.suggestTemplate = 'template';
+         inputContainer._updateSuggestState();
+         assert.deepEqual(inputContainer._filter, {
+            testSearchParam: 'test'
+         });
+         assert.isTrue(suggestOpened);
+
          inputContainer._getRecentKeys = () => {
             return Promise.resolve(null);
          };
 
          suggestOpened = false;
          inputContainer._options.autoDropDown = false;
-         inputContainer._historyKeys = null;
+         inputContainer._options.suggestState = false;
          inputContainer._filter = {};
 
          await inputContainer._updateSuggestState();

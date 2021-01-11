@@ -438,8 +438,9 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       if (this._options.historyId && !shouldSearch && !this._options.suggestState) {
          this._openWithHistory();
          state = true;
-      } else if ((shouldSearch || this._options.autoDropDown && !this._options.suggestState)
-         && shouldShowSuggest) {
+      } else if ((shouldSearch ||
+          this._options.autoDropDown && !this._options.suggestState ||
+          !this._options.autoDropDown && this._options.suggestState) && shouldShowSuggest) {
          this._setFilter(this._options.filter, this._options);
          this._open();
          state = true;
