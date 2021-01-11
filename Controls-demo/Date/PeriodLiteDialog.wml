@@ -2,13 +2,16 @@
    <div class="PageBlock">
       <div class="PageBlock__title">Controls.shortDatePicker:View</div>
       <div class="PageBlock__componentWrap ws-flexbox" style="justify-content: space-around; flex-wrap: wrap; align-items: flex-start;">
-         <Controls.shortDatePicker:View
-               startValue="{{_startValue}}"
-               endValue="{{_endValue}}"
-               year="{{_year}}"
-               stickyPosition="{{_stickyPosition}}"
-			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__full"
-         />
+         <div class="ControlsDemo_expend-area">
+             <Controls.shortDatePicker:View
+                     startValue="{{_startValue}}"
+                     endValue="{{_endValue}}"
+                     year="{{_year}}"
+                     stickyPosition="{{_stickyPosition}}"
+                     attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__full"
+             />
+         </div>
+          <div class="ControlsDemo_expend-area">
          <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
@@ -22,6 +25,8 @@
                  <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
              </ws:monthTemplate>
          </Controls.shortDatePicker:View>
+          </div>
+          <div class="ControlsDemo_expend-area">
          <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
@@ -31,6 +36,8 @@
                stickyPosition="{{_stickyPosition}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__months"
          />
+          </div>
+          <div class="ControlsDemo_expend-area">
          <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
@@ -46,6 +53,8 @@
                  <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
              </ws:monthTemplate>
          </Controls.shortDatePicker:View>
+          </div>
+          <div class="ControlsDemo_expend-area">
          <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue2}}"
@@ -58,6 +67,8 @@
                stickyPosition="{{_stickyPosition}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__quarters"
          />
+          </div>
+          <div class="ControlsDemo_expend-area">
          <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
                endValue="{{_endValue2}}"
@@ -67,6 +78,8 @@
                stickyPosition="{{_stickyPosition}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__quartersYes"
          />
+          </div>
+          <div class="ControlsDemo_expend-area">
          <Controls.shortDatePicker:View
                startValue="{{_startValueOnlyYears}}"
                endValue="{{_endValueOnlyYears}}"
@@ -77,6 +90,7 @@
                stickyPosition="{{_stickyPosition}}"
 			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__years"
          />
+          </div>
       </div>
    </div>
 </div>
