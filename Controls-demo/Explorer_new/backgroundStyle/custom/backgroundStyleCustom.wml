@@ -1,7 +1,8 @@
 <div class="controlsDemo__wrapper__padding-left controls-background-custom_theme-default">
     <div class="controlsDemo__cell controlsDemo__inline-block demo-ItemPaddingAll__vertical">
         <div class="ws-flexbox ws-flex-wrap">
-            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-first" style="width: 485px">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-first"
+                 style="width: 485px">
                 <Controls.explorer:View
                         source="{{_headerSource}}"
                         bind:root="_headerRoot"
@@ -18,7 +19,8 @@
                         columns="{{_columns}}">
                 </Controls.explorer:View>
             </div>
-            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-second" style="width: 475px">
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-second"
+                 style="width: 475px">
                 <Controls.explorer:View
                         source="{{_viewSource}}"
                         bind:root="_root"
