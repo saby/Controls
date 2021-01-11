@@ -2844,11 +2844,28 @@ const _private = {
 
     // region Drag-N-Drop
 
-    startDragNDrop(self, domEvent, item): void {
-        if (
-            !self._options.readOnly && self._options.itemsDragNDrop
-            && DndController.canStartDragNDrop(self._options.canStartDragNDrop, domEvent, !!self._context?.isTouch?.isTouch)
-        ) {
+    startDragNDrop(self, domEvent, item, event): boolean {
+        let hasDragScrolling = false;
+        if (self._options.columnScroll) {
+            // Не должно быть завязки на горизонтальный скролл.
+            // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
+            hasDragScrolling = self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible() && (
+               typeof self._options.dragScrolling === 'boolean' ? self._options.dragScrolling : !self._options.itemsDragNDrop
+            );
+        }
+
+        if (hasDragScrolling)  {
+            self._savedItemMouseDownEventArgs = {event, item, domEvent};
+        }
+
+        if (self._unprocessedDragEnteredItem) {
+            self._unprocessedDragEnteredItem = null;
+        }
+
+        const canStartDnd = !self._options.readOnly && self._options.itemsDragNDrop && !hasDragScrolling
+           && DndController.canStartDragNDrop(self._options.canStartDragNDrop, domEvent, !!self._context?.isTouch?.isTouch);
+
+        if (canStartDnd) {
             const key = item.getContents().getKey();
 
             // Перемещать с помощью массового выбора
@@ -2891,6 +2908,8 @@ const _private = {
                     }
                 });
         }
+
+        return canStartDnd;
     },
 
     // TODO dnd когда будет наследование TreeControl <- BaseControl, правильно указать тип параметров
@@ -5330,41 +5349,18 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             event.stopPropagation();
             return;
         }
-        let hasDragScrolling = false;
-        this._mouseDownItemKey = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
-        if (this._options.columnScroll) {
-            // Не должно быть завязки на горизонтальный скролл.
-            // https://online.sbis.ru/opendoc.html?guid=347fe9ca-69af-4fd6-8470-e5a58cda4d95
-            hasDragScrolling = this._children.listView.isColumnScrollVisible && this._children.listView.isColumnScrollVisible() && (
-                typeof this._options.dragScrolling === 'boolean' ? this._options.dragScrolling : !this._options.itemsDragNDrop
-            );
-        }
-        if (this._unprocessedDragEnteredItem) {
-            this._unprocessedDragEnteredItem = null;
-        }
-        if (!hasDragScrolling) {
-            _private.startDragNDrop(this, domEvent, itemData);
-        } else {
-            this._savedItemMouseDownEventArgs = {event, itemData, domEvent};
-        }
-        this._notify('itemMouseDown', [itemData.item, domEvent.nativeEvent]);
-    },
 
-    _itemMouseUp(e, itemData, domEvent): void {
+        _private.startDragNDrop(this, domEvent, itemData, event);
+
+        this._notify('itemMouseDown', [itemData.item, domEvent.nativeEvent]);
+
         const key = this._options.useNewModel ? itemData.getContents().getKey() : itemData.key;
-        // Маркер должен ставиться именно по событию mouseUp, т.к. есть сценарии при которых блок над которым произошло
-        // событие mouseDown и блок над которым произошло событие mouseUp - это разные блоки.
-        // Например, записи в мастере или запись в списке с dragScrolling'ом.
-        // При таких сценариях нельзя устанавливать маркер по событию itemClick,
-        // т.к. оно не произойдет (itemClick = mouseDown + mouseUp на одном блоке).
-        // Также, нельзя устанавливать маркер по mouseDown, блок сменится раньше и клик по записи не выстрелет.
 
         // При редактировании по месту маркер появляется только если в списке больше одной записи.
         // https://online.sbis.ru/opendoc.html?guid=e3ccd952-cbb1-4587-89b8-a8d78500ba90
         // Если нажали по чекбоксу, то маркер проставим по клику на чекбокс
-        let canBeMarked = this._mouseDownItemKey === key
-            && (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1))
-            && !domEvent.target.closest('.js-controls-ListView__checkbox');
+        let canBeMarked = (!this._options.editingConfig || (this._options.editingConfig && this._items.getCount() > 1))
+           && !domEvent.target.closest('.js-controls-ListView__checkbox');
 
         // TODO изабвиться по задаче https://online.sbis.ru/opendoc.html?guid=f7029014-33b3-4cd6-aefb-8572e42123a2
         // Колбэк передается из explorer.View, чтобы не проставлять маркер перед проваливанием в узел
@@ -5372,11 +5368,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             canBeMarked = canBeMarked && this._options._needSetMarkerCallback(itemData.item, domEvent);
         }
 
-        this._mouseDownItemKey = undefined;
-        this._onLastMouseUpWasDrag = this._dndListController && this._dndListController.isDragging();
-        this._notify('itemMouseUp', [itemData.item, domEvent.nativeEvent]);
-
-        if (canBeMarked && !this._onLastMouseUpWasDrag) {
+        if (canBeMarked) {
             // маркер устанавливается после завершения редактирования
             if (this._editInPlaceController?.isEditing()) {
                 // TODO нужно перенести установку маркера на клик, т.к. там выполняется проверка для редактирования
@@ -5385,6 +5377,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 this.setMarkedKey(key);
             }
         }
+    },
+
+    _itemMouseUp(e, itemData, domEvent): void {
+        this._onLastMouseUpWasDrag = this._dndListController && this._dndListController.isDragging();
+        this._notify('itemMouseUp', [itemData.item, domEvent.nativeEvent]);
     },
 
     _startDragNDropCallback(): void {

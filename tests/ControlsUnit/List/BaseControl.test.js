@@ -3833,6 +3833,7 @@ define([
                    }
                 },
                 readOnly: true,
+                markerVisibility: 'hidden'
              },
              ctrl = new lists.BaseControl();
          ctrl.saveOptions(cfg);
@@ -3869,7 +3870,8 @@ define([
                },
                canStartDragNDrop: function() {
                   return false;
-               }
+               },
+               markerVisibility: 'hidden'
             },
             ctrl = new lists.BaseControl();
          ctrl.saveOptions(cfg);
@@ -7055,7 +7057,7 @@ define([
             });
          });
 
-         describe('_onItemMouseUp', () => {
+         describe('_onItemMouseDown', () => {
 
             it('notify parent', () => {
                const originalEvent = {
@@ -7101,7 +7103,7 @@ define([
                baseControl._mouseDownItemKey = 1;
 
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               await baseControl._itemMouseUp(event, { key: 1 }, originalEvent);
+               await baseControl._itemMouseDown(event, { key: 1 }, originalEvent);
 
                assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).called);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
@@ -7120,7 +7122,7 @@ define([
                baseControl._mouseDownItemKey = 1;
 
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               baseControl._itemMouseUp(event, { key: 1 }, originalEvent);
+               baseControl._itemMouseDown(event, { key: 1 }, originalEvent);
 
                assert.isFalse(notifySpy.withArgs('markedKeyChanged', [1]).called);
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
@@ -7131,14 +7133,14 @@ define([
                baseControlOptions.editingConfig = {};
                await mountBaseControl(baseControl, baseControlOptions);
 
-               const originalEvent = { target: {} };
+               const originalEvent = { target: {closest: () => false} };
                const event = {};
 
                baseControl._items.getCount = () => 1;
                baseControl._mouseDownItemKey = 1;
 
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               baseControl._itemMouseUp(event, { key: 1 }, originalEvent);
+               baseControl._itemMouseDown(event, { key: 1 }, originalEvent);
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
             });
 
@@ -7170,7 +7172,7 @@ define([
 
                // No editing
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               await baseControl._itemMouseUp(event, {key: 1}, originalEvent);
+               await baseControl._itemMouseDown(event, {key: 1}, originalEvent);
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
                assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).calledOnce);
 
@@ -7181,7 +7183,7 @@ define([
                baseControl._mouseDownItemKey = 1;
 
                assert.isUndefined(baseControl._listViewModel.getMarkedItem());
-               await baseControl._itemMouseUp(event, {key: 1}, originalEvent);
+               await baseControl._itemMouseDown(event, {key: 1}, originalEvent);
 
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
                assert.isTrue(notifySpy.withArgs('markedKeyChanged', [1]).calledTwice);
