@@ -1,10 +1,10 @@
 define('Controls-demo/Input/Validate/Text', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Validate/Text',
    'Controls/validate'
-], function(Control, template) {
+], function(Base, template) {
    'use strict';
-   var VdomDemoText = Control.extend({
+   var VdomDemoText = Base.Control.extend({
       _template: template,
       _value4: '',
       _placeholder: 'Input text',

@@ -1,14 +1,14 @@
 define('Controls-demo/Popup/InfoboxTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/InfoboxTemplate',
       'Types/source',
       'Controls-demo/Popup/TestDialog',
    ],
-   function(Control, template, source) {
+   function(Base, template, source) {
       'use strict';
 
-      var InfoboxTemplate = Control.extend({
+      var InfoboxTemplate = Base.Control.extend({
          _template: template,
          _beforeMount: function() {
             this._verticalDirection = true;

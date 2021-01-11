@@ -1,6 +1,6 @@
-<div class="controlsDemo__wrapper controlsDemo__Explorer_new-multiselect">
-        <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
-        <p>Текущий статус множественного выбора: {{_multiselect}}</p>
+<div class="controlsDemo__wrapper demo_GridMultiselect__base {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth800' : 'controlsDemo_fixedWidth550'}}">
+        <Controls.buttons:Button attr:class="demo_GridMultiselect__button" caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
+        <p class="demo_GridMultiselect__status">Текущий статус множественного выбора: {{_multiselect}}</p>
         <div class="controlsDemo__wrapper">
                 <Controls.explorer:View
                     source="{{_viewSource}}"

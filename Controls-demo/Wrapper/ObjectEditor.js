@@ -1,13 +1,13 @@
 define('Controls-demo/Wrapper/ObjectEditor',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Wrapper/ObjectEditor'
 
    ],
-   function(Control, template) {
+   function(Base, template) {
 
 
-      var ObjectEditor = Control.extend({
+      var ObjectEditor = Base.Control.extend({
 
          _template: template,
          _objectValueChanged: function(ev, name, value) {

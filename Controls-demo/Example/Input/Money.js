@@ -1,16 +1,16 @@
 define('Controls-demo/Example/Input/Money',
    [
-      'Core/Control',
+      'UI/Base',
       'Controls-demo/Example/Input/SetValueMixin',
       'wml!Controls-demo/Example/Input/Money/Money',
 
       'Controls/input',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
-   function(Control, SetValueMixin, template) {
+   function(BaseMod, SetValueMixin, template) {
       'use strict';
 
-      var ModuleClass = Control.extend([SetValueMixin], {
+      var ModuleClass = BaseMod.Control.extend([SetValueMixin], {
          _template: template,
 
          _rightValue: '0.00',

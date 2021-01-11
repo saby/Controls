@@ -40,12 +40,12 @@ export interface IToggleButtonOptions extends
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  *
  * @class Controls/_toggle/Button
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_buttons/interface/IButton
  * @implements Controls/_toggle/interface/ICheckable
  * @implements Controls/_interface/IFontColorStyle
@@ -68,7 +68,7 @@ export interface IToggleButtonOptions extends
  * <a href="/materials/Controls-demo/app/Controls-demo%2FButtons%2FStandart%2FIndex">Demo-example</a>.
  *
  * @class Controls/_toggle/Button
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_buttons/interface/IButton
  * @implements Controls/_toggle/interface/ICheckable
  * @implements Controls/_interface/IFontColorStyle

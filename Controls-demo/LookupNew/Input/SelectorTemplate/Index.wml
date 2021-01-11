@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__flexColumn">
+    <div class="controlsDemo__mb1 controlsDemo__wrapper__horizontal controlsDemo__cell controlsDemo__childWidth400">
+        <div class="controls-text-label_theme-{{_options.theme}}">selectorTemplate mode</div>
+        <Controls.lookup:Input
+                searchParam="title"
+                selectorTemplate="{{_selectorTemplate}}"
+                attr:class="controlsDemo__input"/>
+    </div>
+</div>
+

@@ -1,0 +1,4 @@
+<ws:partial
+   template="Controls/tile:RichTemplate"
+   scope="{{_options}}"
+/>

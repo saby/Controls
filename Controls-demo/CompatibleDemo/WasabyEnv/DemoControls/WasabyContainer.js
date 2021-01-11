@@ -1,13 +1,13 @@
 define('Controls-demo/CompatibleDemo/WasabyEnv/DemoControls/WasabyContainer',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/DemoControls/WasabyContainer',
       'Lib/Control/LayerCompatible/LayerCompatible',
    ],
-   function(Control, template, CompatibleLayer) {
+   function(Base, template, CompatibleLayer) {
       'use strict';
 
-      var WasabyContainer = Control.extend({
+      var WasabyContainer = Base.Control.extend({
          _template: template,
          _compatibleReady: false,
          _text: null,

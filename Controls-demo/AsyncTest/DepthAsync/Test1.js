@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/DepthAsync/Test1',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/DepthAsync/Test1',
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var testDepthModule = Control.extend({
+      var testDepthModule = Base.Control.extend({
          _template: template,
          _isGrid: true,
          _readOnly: false,

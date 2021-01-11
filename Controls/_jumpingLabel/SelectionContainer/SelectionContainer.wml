@@ -1,17 +1,31 @@
 <div class="controls-JumpingLabel controls-JumpingLabel_padding-{{_containerHorizontalPadding}}_theme-{{_options.theme}}">
-   <div class="controls-JumpingLabel__value
+   <div class="controls-JumpingLabel__wrapper">
+      <div class="controls-JumpingLabel__value
                controls-JumpingLabel__value_theme-{{_options.theme}}
                controls-JumpingLabel__value_{{_fontColorStyle}}_theme-{{_options.theme}}
                controls-JumpingLabel_padding-{{_padding}}_theme-{{_options.theme}}
-               {{_showFromAbove ? '' : 'ws-invisible'}}"
-   >{{_options.caption}}</div>
+               {{_showFromAbove ? '' : 'ws-invisible'}}">{{_options.caption}}</div>
+      <ws:if data="{{_options.required}}">
+         <div class="controls-JumpingLabel__asterisk controls-JumpingLabel__asterisk_theme-{{_options.theme}}
+                     {{_showFromAbove ? '' : 'ws-invisible'}}">&nbsp;*</div>
+      </ws:if>
+   </div>
    <ws:partial template="{{_options.content}}"
                attr:class="controls-JumpingLabel__content"
-               placeholder="{{_options.caption}}"
                borderVisibility="{{_borderVisibility}}"
                horizontalPadding="{{_horizontalPadding}}"
                validationStatus="{{_validationStatus}}"
                on:valueChanged="_valueChangedHandler()"
                on:selectedKeyChanged="_selectedChangedHandler()"
-               on:selectedKeysChanged="_selectedChangedHandler()"/>
+               on:selectedKeysChanged="_selectedChangedHandler()">
+      <ws:placeholder>
+         <div class="controls-JumpingLabel__placeholder-wrapper">
+            <div class="controls-JumpingLabel__placeholder">{{_options.caption}}</div>
+            <ws:if data="{{_options.required}}">
+               <div class="controls-JumpingLabel__asterisk
+                           controls-JumpingLabel__asterisk_theme-{{_options.theme}}">&nbsp;*</div>
+            </ws:if>
+         </div>
+      </ws:placeholder>
+   </ws:partial>
 </div>

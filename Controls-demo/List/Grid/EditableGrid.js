@@ -1,11 +1,11 @@
 define('Controls-demo/List/Grid/EditableGrid', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Grid/resources/EditableGrid/EditableGrid',
    'Types/source',
-], function(BaseControl, template, source, ItemTemplate) {
+], function(Base, template, source, ItemTemplate) {
    'use strict';
    var
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _itemTemplate: ItemTemplate,
          _source: null,

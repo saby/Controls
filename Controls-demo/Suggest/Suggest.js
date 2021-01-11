@@ -5,13 +5,13 @@
  * Created by am.gerasimov on 13.12.2017.
  */
 define('Controls-demo/Suggest/Suggest', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Suggest/Suggest',
    'Types/source',
    'Controls-demo/Search/SearchMemory',
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls-demo/Utils/MemorySourceData',
-], function(Control, template, source, SearchMemory, memorySourceFilter, MemorySourceData) {
+], function(Base, template, source, SearchMemory, memorySourceFilter, MemorySourceData) {
    'use strict';
 
    function getLongData() {
@@ -24,7 +24,7 @@ define('Controls-demo/Suggest/Suggest', [
       return data;
    }
 
-   var VDomSuggest = Control.extend({
+   var VDomSuggest = Base.Control.extend({
       _template: template,
       _suggestDownValue: '',
       _suggestNoFooterValue: '',

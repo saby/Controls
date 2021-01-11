@@ -1,12 +1,12 @@
 define('Controls-demo/Input/Suggest/resources/SuggestTemplatePG2', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Suggest/resources/SuggestTemplatePG2',
    'Controls/list',
    'wml!Controls-demo/Input/Suggest/resources/CustomTemplatePG2'
-], function(Control, template) {
+], function(Base, template) {
    'use strict';
    
-   return Control.extend({
+   return Base.Control.extend({
       _template: template
    });
 });

@@ -1,6 +1,6 @@
 define('Controls-demo/FilterView/FilterView',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/FilterView/FilterView',
       'Controls-demo/FilterView/resources/hierarchyHistoryMemory',
       'Controls-demo/FilterView/resources/hierarchyMemory',
@@ -15,7 +15,7 @@ define('Controls-demo/FilterView/FilterView',
 
    ],
    function (
-      Control,
+      Base,
       template,
       hierarchyHistoryMemory,
       hierarchyMemory,
@@ -58,7 +58,7 @@ define('Controls-demo/FilterView/FilterView',
        * @public
        */
 
-      var FilterView = Control.extend({
+      var FilterView = Base.Control.extend({
          _template: template,
          _defaultSource: null,
          _hierarchyItems: null,
@@ -137,10 +137,11 @@ define('Controls-demo/FilterView/FilterView',
                      })
                   }),
                   filter: {$_history: true},
-                  selectorTemplate: { templateName: 'Controls-demo/Dropdown/TreeStackTemplate', templateOptions: {items: this._hierarchyDataSource,
+                  selectorTemplate: { templateName: 'Controls-demo/FilterView/stackTemplate/TreeStackTemplate',
+                     templateOptions: {items: this._hierarchyDataSource,
                         nodeProperty: '@parent', parentProperty: 'parent', multiSelect: true} },
                   navigation: {source: 'page', view: 'page', sourceConfig: {pageSize: 8, page: 0}},
-                  selectorTemplateName: 'Controls-demo/Dropdown/TreeStackTemplate',
+                  selectorTemplateName: 'Controls-demo/FilterView/stackTemplate/TreeStackTemplate',
                   suggestTemplateName: 'Controls-demo/Input/Lookup/Suggest/SuggestTemplate',
                   className: 'controls-demo-FilterView__lookupTemplate',
                   caption: 'Our company',
@@ -169,10 +170,11 @@ define('Controls-demo/FilterView/FilterView',
                      })
                   }),
                   filter: {$_history: true},
-                  selectorTemplate: { templateName: 'Controls-demo/Dropdown/TreeStackTemplate', templateOptions: {items: this._hierarchyDataSource2,
+                  selectorTemplate: { templateName: 'Controls-demo/FilterView/stackTemplate/TreeStackTemplate',
+                     templateOptions: {items: this._hierarchyDataSource2,
                         nodeProperty: '@parent', parentProperty: 'parent', multiSelect: true} },
                   navigation: {source: 'page', view: 'page', sourceConfig: {pageSize: 8, page: 0}},
-                  selectorTemplateName: 'Controls-demo/Dropdown/TreeStackTemplate',
+                  selectorTemplateName: 'Controls-demo/FilterView/stackTemplate/TreeStackTemplate',
                   suggestTemplateName: 'Controls-demo/Input/Lookup/Suggest/SuggestTemplate',
                   className: 'controls-demo-FilterView__lookupTemplate',
                   caption: 'Lists',
@@ -197,7 +199,8 @@ define('Controls-demo/FilterView/FilterView',
                      idProperty: 'id',
                      data: this._hierarchyDataSource
                   }),
-                  selectorTemplate: { templateName: 'Controls-demo/Dropdown/TreeStackTemplate', templateOptions: {items: this._hierarchyDataSource,
+                  selectorTemplate: { templateName: 'Controls-demo/FilterView/stackTemplate/TreeStackTemplate',
+                     templateOptions: {items: this._hierarchyDataSource,
                         nodeProperty: '@parent', parentProperty: 'parent', multiSelect: true}, popupOptions: {width: 300} },
                   navigation: {source: 'page', view: 'page', sourceConfig: {pageSize: 8, page: 0}},
                   multiSelect: true
@@ -318,7 +321,9 @@ define('Controls-demo/FilterView/FilterView',
                      displayProperty: 'title',
                      keyProperty: 'id',
                      navigation: this._navigation,
-                     selectorTemplate: { templateName: 'Controls-demo/Dropdown/StackTemplate', templateOptions: {items: this._itemsMultiSelect, multiSelect: true}, popupOptions: {width: 300} },
+                     selectorTemplate: { templateName: 'Controls-demo/FilterView/stackTemplate/StackTemplate',
+                        templateOptions: {items: this._itemsMultiSelect, multiSelect: true},
+                        popupOptions: {width: 300} },
                      multiSelect: true
                   },
                   viewMode: 'frequent'
@@ -335,7 +340,8 @@ define('Controls-demo/FilterView/FilterView',
                      displayProperty: 'title',
                      keyProperty: 'id',
                      navigation: this._navigation,
-                     selectorTemplate: { templateName: 'Controls-demo/Dropdown/StackTemplate', templateOptions: {items: this._itemsCategory}, popupOptions: {width: 500} }
+                     selectorTemplate: { templateName: 'Controls-demo/FilterView/stackTemplate/StackTemplate',
+                        templateOptions: {items: this._itemsCategory}, popupOptions: {width: 500} }
                   },
                   viewMode: 'frequent'
                }, {
@@ -380,7 +386,7 @@ define('Controls-demo/FilterView/FilterView',
                { name: 'sender', value: null, resetValue: '', viewMode: 'extended', visibility: false, source: this._defaultSource },
                { name: 'operation', value: [], resetValue: [], textValue: '', source: this._defaultSource,
                   editorOptions: {
-                     selectorTemplate:{templateName:'Controls-demo/Dropdown/TreeStackTemplate', templateOptions: {items: operationData,
+                     selectorTemplate:{templateName:'Controls-demo/FilterView/stackTemplate/TreeStackTemplate', templateOptions: {items: operationData,
                            nodeProperty: '@parent', parentProperty: 'parent', multiSelect: true}},
                      suggestTemplateName: 'Controls-demo/Input/Lookup/Suggest/SuggestTemplate',
                      className: 'controls-demo-FilterView__lookupTemplate',

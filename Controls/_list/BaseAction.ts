@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import rk = require('i18n!Controls');
 import {Confirmation} from 'Controls/popup';
 import {ISelectionObject} from 'Controls/interface';
@@ -7,7 +7,7 @@ import {ISelectionObject} from 'Controls/interface';
  * Базовый класс action'a, на основе которого создаются другие action'ы. Не подходит для самостоятельного использования.
  *
  * @class Controls/_list/BaseAction
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Герасимов А.М.

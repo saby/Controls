@@ -1,13 +1,13 @@
 define('Controls-demo/Compound/CompoundDemo', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Compound/CompoundDemo',
    'Types/source',
    'Lib/Control/LayerCompatible/LayerCompatible',
    'Env/Env',
-], function(Control, template, source, LayerCompatible, Env) {
+], function(Base, template, source, LayerCompatible, Env) {
    'use strict';
 
-   var CompoundDemo = Control.extend({
+   var CompoundDemo = Base.Control.extend({
       _template: template,
       _compatibleReady: false,
       _rebuildTypeItems: null,

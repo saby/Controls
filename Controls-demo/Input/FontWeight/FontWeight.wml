@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontWeight=default</div>
+        <Controls.input:Text attr:class="controlsDemo__input" bind:value="_defaultValue"
+                             placeholder="{{_placeholder}}"/>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontWeight=bold</div>
+        <Controls.input:Text attr:class="controlsDemo__input" bind:value="_boldValue" fontWeight="bold"
+                             placeholder="{{_placeholder}}" />
+    </div>
+</div>

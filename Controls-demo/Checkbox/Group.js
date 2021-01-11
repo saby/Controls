@@ -1,11 +1,11 @@
 define('Controls-demo/Checkbox/Group', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Checkbox/Group/Group',
    'Types/source',
-], function(Control, template, source) {
+], function(Base, template, source) {
    'use strict';
 
-   var CheckboxGroup = Control.extend(
+   var CheckboxGroup = Base.Control.extend(
       {
          _template: template,
          _keyProperty: 'key',

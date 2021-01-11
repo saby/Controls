@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__flexRow_noWrap controlsDemo__flex-jc-sb">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Results/ResultsPosition/Top/Index' }}">
+            <a href="{{content.href}}">Сверху</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Results.ResultsPosition.Top.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Results/ResultsPosition/Bottom/Index' }}">
+            <a href="{{content.href}}">Снизу</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Results.ResultsPosition.Bottom.Index/>
+    </div>
+</div>

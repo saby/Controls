@@ -1,13 +1,13 @@
 define('Controls-demo/dateRange/RelationController', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/dateRange/RelationController',
 ], function(
-   BaseControl,
+   Base,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
 
       _startValue0: new Date(2017, 0, 1),

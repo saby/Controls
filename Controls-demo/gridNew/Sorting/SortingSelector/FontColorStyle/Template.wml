@@ -1,0 +1,50 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=link</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontColorStyle="link">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=success</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontColorStyle="success">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=warning</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontColorStyle="warning">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=danger</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontColorStyle="danger">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontColorStyle="unaccented">
+        </Controls.grid:SortingSelector>
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
+        <Controls.grid:SortingSelector
+                sortingParams="{{_sortingParams}}"
+                bind:value="_sorting"
+                fontColorStyle="label">
+        </Controls.grid:SortingSelector>
+    </div>
+</div>

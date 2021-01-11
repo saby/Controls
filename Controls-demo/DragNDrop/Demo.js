@@ -1,19 +1,19 @@
 define('Controls-demo/DragNDrop/Demo', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/DragNDrop/Demo/Demo',
    'Types/source',
    'Core/core-clone',
    'Controls-demo/DragNDrop/Demo/Data',
    'Controls/dragnDrop',
    'Core/core-instance',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'wml!Controls-demo/DragNDrop/Demo/columnTemplate',
    'wml!Controls-demo/DragNDrop/Demo/timeColumnTemplate',
    'wml!Controls-demo/DragNDrop/Demo/receivedColumnTemplate'
-], function(BaseControl, template, source, cClone, DemoData, dragnDrop, cInstance, Toolbar) {
+], function(Base, template, source, cClone, DemoData, dragnDrop, cInstance, Toolbar) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _root: null,
 

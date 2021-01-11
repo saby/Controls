@@ -1,0 +1,5 @@
+<div class="controls-PropertyGrid__editor_checkbox_control ws-flexbox">
+   <Controls.toggle:CheckboxGroup scope="{{_options}}"
+                                  bind:selectedKeys="_selectedKeys"
+                                  on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
+</div>

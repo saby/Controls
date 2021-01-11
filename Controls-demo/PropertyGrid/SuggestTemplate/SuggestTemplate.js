@@ -1,15 +1,15 @@
 define('Controls-demo/PropertyGrid/SuggestTemplate/SuggestTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/PropertyGrid/SuggestTemplate/SuggestTemplate',
       'Types/source',
       'Types/collection',
       'wml!Controls-demo/Input/Suggest/resources/SuggestTemplate',
    ],
-   function(Control, template, source, collection) {
+   function(Base, template, source, collection) {
       'use strict';
 
-      var sugTmpl = Control.extend({
+      var sugTmpl = Base.Control.extend({
          _template: template,
          _viewValue: '',
          _source: null,

@@ -1,6 +1,6 @@
 define('Controls-demo/List/TreeGrid/resources/BasePG/PGWrapper',
    [
-      'Core/Control',
+      'UI/Base',
       'Core/Deferred',
       'Core/core-merge',
 
@@ -22,11 +22,11 @@ define('Controls-demo/List/TreeGrid/resources/BasePG/PGWrapper',
       'json!Controls-demo/PropertyGrid/pgtext',
    ],
 
-   function(Control, Deferred, cMerge, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
+   function(Base, Deferred, cMerge, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
             datetimeTmpl, booleanTmpl, functOrString, functionTmpl, enumTmpl, objTmpl) {
       'use strict';
 
-      var PGWrapper = Control.extend({
+      var PGWrapper = Base.Control.extend({
          _template: template,
          _metaData: null,
          _description: null,

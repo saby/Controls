@@ -2,14 +2,14 @@
  * Created by dv.zuev on 02.02.2018.
  */
 define('Controls/Application/Compatible', [
-   'Core/Control',
+   'UI/Base',
    'Env/Event',
    'Core/Deferred',
    'Env/Env',
    'Lib/Control/LayerCompatible/LayerCompatible',
    'wml!Controls/Application/Compatible',
    'wml!Controls/Application/CompatibleScripts'
-], function(Base,
+], function(BaseMod,
    EnvEvent,
    Deferred,
    Env,
@@ -17,7 +17,7 @@ define('Controls/Application/Compatible', [
    template) {
    'use strict';
 
-   var ViewTemplate = Base.extend({
+   var ViewTemplate = BaseMod.Control.extend({
       /* eslint-disable */
       _template: template,
       _wasPatched: false,
@@ -31,7 +31,7 @@ define('Controls/Application/Compatible', [
          this._forceUpdate = function() {
 
          };
-         if (typeof window !== 'undefined') {
+         if (Env.constants.isBrowserPlatform) {
             Env.constants.rights = true;
             Layer.load(undefined, true).addCallback(function() {
                rightsInitialized.callback();

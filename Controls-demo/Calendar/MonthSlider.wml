@@ -23,7 +23,7 @@
             bind:startValue="_startValue2"
             bind:endValue="_endValue2"
             selectionType="quantum"
-            quantum="{{ {'days': [5]} }}"
+            ranges="{{ {'days': [5]} }}"
          />
       </div>
 
@@ -36,7 +36,7 @@
             bind:startValue="_startValue3"
             bind:endValue="_endValue3"
             selectionType="quantum"
-            quantum="{{ {'weeks': [1]} }}"
+            ranges="{{ {'weeks': [1]} }}"
          />
       </div>
 

@@ -1,0 +1,39 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo__inline-block">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ItemTemplate/NoClickable/Index' }}">
+            <a href="{{content.href}}">Курсор не меняется на pointer при наведении</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ItemTemplate.NoClickable.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__inline-block">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ItemTemplate/NoHighlightOnHover/Index' }}">
+            <a href="{{content.href}}">Без подсветки при наведении</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ItemTemplate.NoHighlightOnHover.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ItemTemplate/ColspanNodes/Index' }}">
+            <a href="{{content.href}}">Объединение столбцов в узлах</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ItemTemplate.ColspanNodes.Index/>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/ItemTemplate/WithPhoto/Index' }}">
+            <a href="{{content.href}}">Шаблон с фото</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.ItemTemplate.WithPhoto.Index/>
+    </div>
+
+</div>

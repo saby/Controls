@@ -1,12 +1,12 @@
 define('Controls-demo/Input/Suggest/resources/SuggestTemplate', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Suggest/resources/SuggestTemplate',
    'wml!Controls-demo/Input/Suggest/resources/CustomTemplate',
    'Controls/list'
-], function(Control, template, custom, lists) {
+], function(Base, template, custom, lists) {
    'use strict';
 
-   return Control.extend({
+   return Base.Control.extend({
       _template: template,
       _custom: custom,
       _def: lists.ItemTemplate,

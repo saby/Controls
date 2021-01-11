@@ -1,9 +1,9 @@
 define('Controls-demo/TestXslt/TestXslt', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/TestXslt/TestXslt',
    'Core/xslt-async',
    'is!browser?jquery',
-], function(Control, template, Xslt) {
+], function(Base, template, Xslt) {
    'use strict';
 
    function unescape(s) {
@@ -24,7 +24,7 @@ define('Controls-demo/TestXslt/TestXslt', [
       });
    }
 
-   var ModuleClass = Control.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _xml: '',
       _xsl: '',

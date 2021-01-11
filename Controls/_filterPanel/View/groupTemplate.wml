@@ -1,0 +1,39 @@
+<div class="controls-FilterViewPanel__group-wrapper controls-FilterViewPanel__group-wrapper_theme-{{_options.theme}}">
+   <div class="controls-FilterViewPanel__group
+              controls-FilterViewPanel__group_theme-{{theme}}" attr:key="group-{{item}}">
+      <div class="controls-FilterViewPanel__group-content_theme-{{theme}}">
+         {{item}}
+      </div>
+      <div title="{{!collapsedGroups[item] ? 'Свернуть' : 'Развернуть'}}"
+           class="controls-FilterViewPanel__groupExpander
+              controls-icon
+              controls-icon_size-s_theme-{{_options.theme}}
+              controls-PropertyGrid__groupExpander
+              {{!collapsedGroups[item] ? 'icon-CollapseLight' : 'icon-ExpandLight'}}
+              controls-FilterViewPanel__groupExpander_theme-{{theme}}"></div>
+   </div>
+   <ws:if data="{{!collapsedGroups[item]}}">
+      <div class="controls-FilterViewPanel__groupReset
+                  controls-FilterViewPanel__groupReset-title_theme-{{_options.theme}}">
+         {{_options.resetCaption}}
+      </div>
+   </ws:if>
+   <ws:if data="{{collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
+      <span class="controls-FilterViewPanel__groupReset
+                  controls-PropertyGrid__groupExpander
+                  controls-FilterViewPanel__groupReset_theme-{{_options.theme}} icon-CloseNew"
+            ws-no-focus="{{true}}"
+            title="{[Сбросить фильтр]}"></span>
+      <div class="controls-FilterViewPanel__group-marker_theme-{{_options.theme}}"></div>
+      <div class="controls-FilterViewPanel__group-result_wrapper">
+         <div class="controls-FilterViewPanel__group-result_theme-{{_options.theme}}">
+            {{_options.groupItems[item].textValue}}
+         </div>
+         <ws:if data="{{_options.groupItems[item].afterEditorTemplate}}">
+            <Controls.Container.Async templateName="{{_options.groupItems[item].afterEditorTemplate}}">
+               <ws:partial template="{{ content.resolvedTemplate }}"/>
+            </Controls.Container.Async>
+         </ws:if>
+      </div>
+   </ws:if>
+</div>

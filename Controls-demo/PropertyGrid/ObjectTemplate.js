@@ -1,13 +1,13 @@
 define('Controls-demo/PropertyGrid/ObjectTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'Core/core-clone',
       'wml!Controls-demo/PropertyGrid/ObjectTemplate',
    ],
-   function(Control, cClone, template) {
+   function(Base, cClone, template) {
       'use strict';
 
-      var arrayTmpl = Control.extend({
+      var arrayTmpl = Base.Control.extend({
          _template: template,
          _param: null,
          _config: {},

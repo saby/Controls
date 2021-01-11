@@ -1,11 +1,11 @@
 define('Controls-demo/Input/Suggest/resources/SuggestFooterTemplatePG', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Suggest/resources/SuggestFooterTemplatePG',
    'Controls/buttons',
-], function(Control, template) {
+], function(Base, template) {
    'use strict';
    
-   var ModuleClass = Control.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _caption: 'custom footer button',
       _click: function() {

@@ -1,8 +1,10 @@
-<ws:partial
-    name="listControl"
-    template="{{_viewTemplate}}"
-    scope="{{_options}}"
-    viewName="{{_viewName}}"
-    useNewModel="{{_supportNewModel || _options.useNewModel}}"
-    viewModelConstructor="{{_viewModelConstructor}}">
-</ws:partial>
+<Controls._list.Data scope="{{_options}}">
+    <ws:partial
+        name="listControl"
+        template="{{_viewTemplate}}"
+        viewName="{{_viewName}}"
+        useNewModel="{{_supportNewModel || _options.useNewModel}}"
+		on:getActionsMenuConfig="_getActionsMenuConfig()"
+        viewModelConstructor="{{_viewModelConstructor}}">
+    </ws:partial>
+</Controls._list.Data>

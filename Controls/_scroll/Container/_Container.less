@@ -79,8 +79,8 @@
 // Избавиться от каскада https://online.sbis.ru/opendoc.html?guid=758cfffc-cfde-4a52-8df0-94984c72dc4e
 .controls-StackTemplate_theme_@{themeName} {
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
-      background-image: linear-gradient(@background-color_stack 10%, rgba(@background-color_stack, 0)),
-                        linear-gradient(rgba(@background-color_stack, 0), @background-color_stack 90%),
+      background-image: linear-gradient(@background-color_stack 25%, rgba(@background-color_stack, 0)),
+                        linear-gradient(rgba(@background-color_stack, 0), @background-color_stack 75%),
                         linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
                         linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    }
@@ -88,8 +88,8 @@
 
 .controls-DialogTemplate_backgroundStyle-default_theme_@{themeName} {
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
-      background-image: linear-gradient(@background-color_dialog 10%, rgba(@background-color_dialog, 0)),
-                        linear-gradient(rgba(@background-color_dialog, 0), @background-color_dialog 90%),
+      background-image: linear-gradient(@background-color_dialog 25%, rgba(@background-color_dialog, 0)),
+                        linear-gradient(rgba(@background-color_dialog, 0), @background-color_dialog 75%),
                         linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
                         linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    }
@@ -97,8 +97,8 @@
 
 .controls-StickyTemplate_theme_@{themeName} {
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
-      background-image: linear-gradient(@background-color_sticky 10%, rgba(@background-color_sticky, 0)),
-                        linear-gradient(rgba(@background-color_sticky, 0), @background-color_sticky 90%),
+      background-image: linear-gradient(@background-color_sticky 25%, rgba(@background-color_sticky, 0)),
+                        linear-gradient(rgba(@background-color_sticky, 0), @background-color_sticky 75%),
                         linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
                         linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    }
@@ -108,8 +108,8 @@
 // Помимо этого мы получаем прозрачные закрыватели теней, которые не закрывают тени.
 .controls-MasterDetail_details_bg-contrast_theme-@{themeName} when not (alpha(@detail_contrast_background-color_masterDetail) = 0) {
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
-      background-image: linear-gradient(@detail_contrast_background-color_masterDetail 10%, rgba(@detail_contrast_background-color_masterDetail, 0)),
-                        linear-gradient(rgba(@detail_contrast_background-color_masterDetail, 0), @detail_contrast_background-color_masterDetail 90%),
+      background-image: linear-gradient(@detail_contrast_background-color_masterDetail 25%, rgba(@detail_contrast_background-color_masterDetail, 0)),
+                        linear-gradient(rgba(@detail_contrast_background-color_masterDetail, 0), @detail_contrast_background-color_masterDetail 75%),
                         linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
                         linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    }
@@ -117,8 +117,8 @@
 
 .controls-MasterDetail_details_bg-same_theme-@{themeName} {
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
-      background-image: linear-gradient(@detail_background-color_masterDetail 10%, rgba(@detail_background-color_masterDetail, 0)),
-                        linear-gradient(rgba(@detail_background-color_masterDetail, 0), @detail_background-color_masterDetail 90%),
+      background-image: linear-gradient(@detail_background-color_masterDetail 25%, rgba(@detail_background-color_masterDetail, 0)),
+                        linear-gradient(rgba(@detail_background-color_masterDetail, 0), @detail_background-color_masterDetail 75%),
                         linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
                         linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    }

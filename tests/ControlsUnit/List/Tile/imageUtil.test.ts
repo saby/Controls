@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {getImageClasses, getImageUrl, getImageSize, IMAGE_FIT} from 'Controls/_tile/TileView/resources/imageUtil';
+import {getImageClasses, getImageUrl, getImageSize, IMAGE_FIT, getImageRestrictions} from 'Controls/_tile/TileView/resources/imageUtil';
 
 describe('tileImageUtil', () => {
     describe('getImageClasses', () => {
@@ -58,6 +58,13 @@ describe('tileImageUtil', () => {
                 assert.isTrue(imageSizes.width === 200);
                 assert.isTrue(imageSizes.height === 300);
             });
-        })
+        });
+
+        describe('getImageRestrictions', () => {
+            it('image without sizes', () => {
+                const restrictions = getImageRestrictions(0, null, 200, 300);
+                assert.isTrue(restrictions.width && restrictions.height);
+            });
+        });
     });
 });

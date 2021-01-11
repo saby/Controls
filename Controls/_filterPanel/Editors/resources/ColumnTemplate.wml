@@ -1,0 +1,9 @@
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}" attr:class="controls-ListEditor__columns">
+    <ws:contentTemplate>
+        <div class="{{itemData.column.selected && itemData.column.selected.length && !itemData.column.selected.includes(itemData.item[itemData.column.displayProperty]) ?
+                    'controls-ListEditor__column_unselected-title_theme-' + theme}}
+                    controls-ListEditor__column_theme-{{theme}}">
+            {{itemData.item[itemData.column.displayProperty]}}
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

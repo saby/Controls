@@ -48,8 +48,6 @@ export interface ISuggestFooterTemplate {
 
 /**
  * Интерфейс для автодополнения.
- *
- * @interface Controls/interface/ISuggest
  * @public
  * @author Герасимов А.М.
  */
@@ -57,98 +55,90 @@ export interface ISuggestFooterTemplate {
 /*
  * Interface for auto-completion.
  *
- * @interface Controls/interface/ISuggest
  * @public
  * @author Gerasimov A.M.
  */
 interface ISuggest {
    readonly _options: {
       /**
-       * @name Controls/interface/ISuggest#suggestTemplate
        * @cfg {ISuggestTemplateProp|null} Шаблон автодополнения, который отображает результаты поиска.
        * @remark Корневым контролом автодополнения должен быть Controls/Container/Suggest/List, этому контролу можно передать в контентной опции контрол ({@link Controls/list:View} или {@link Controls/grid:View}), который отобразит список.
        * @remark Вы можете установить ширину окна с автодополнением, добавив собственный класс в suggestTemplate и установив минимальную ширину. По умолчанию ширина автодополнения равна ширине поля ввода.
        * @demo Controls-demo/Suggest_new/SearchInput/SuggestTemplate/SuggestTemplate
        * @editor function
        * @example
-       * suggestTemplate.wml
-       * <pre>
-       *    <Controls.suggestPopup:ListContainer attr:class="myClass">
-       *       <Controls.list:View keyProperty="id">
-       *          <ws:itemTemplate>
-       *             <ws:partial template="Controls/list:ItemTemplate" displayProperty="city"/>
-       *          </ws:itemTemplate>
-       *       </Controls.list:View>
-       *    </Controls.suggestPopup:ListContainer>
+       * <pre class="bruhs: html">
+       * <!-- suggestTemplate.wml -->
+       * <Controls.suggestPopup:ListContainer attr:class="myClass">
+       *    <Controls.list:View keyProperty="id">
+       *       <ws:itemTemplate>
+       *          <ws:partial template="Controls/list:ItemTemplate" displayProperty="city"/>
+       *       </ws:itemTemplate>
+       *    </Controls.list:View>
+       * </Controls.suggestPopup:ListContainer>
        * </pre>
-       *
-       * suggestTemplate.css
-       * <pre>
-       *    .myClass {
-       *       min-width: 300px;
-       *    }
+       * 
+       * <pre class="bruhs: css">
+       * .myClass {
+       *    min-width: 300px;
+       * }
        * </pre>
-       *
-       * контрол с Input/Suggest:
-       * <pre>
-       *    <Controls.suggest:Input>
-       *       <ws:suggestTemplate templateName="wml!SuggestTemplate">
-       *          <ws:templateOptions />
-       *       </ws:suggestTemplate>
-       *    </Controls.suggest:Input>
+       * <pre class="bruhs: css">
+       * <!-- WML -->
+       * <Controls.suggest:Input>
+       *    <ws:suggestTemplate templateName="wml!SuggestTemplate">
+       *       <ws:templateOptions />
+       *    </ws:suggestTemplate>
+       * </Controls.suggest:Input>
        * </pre>
        */
 
       /*
-       * @name Controls/interface/ISuggest#suggestTemplate
        * @cfg {ISuggestTemplateProp|null} Template for suggest, that showing search results.
        * @remark Root control of suggest must be {@link Controls/suggestPopup:ListContainer}, for this control you can pass in content option a control (such {@link Controls/list:View} or {@link Controls/grid:View}), that will displaying a list.
        * @remark You can set width of suggestions popup by adding own class on suggestTemplate and set min-width by this class. By default width of the suggest is equal input field width.
        * @demo Controls-demo/Suggest_new/SearchInput/SuggestTemplate/SuggestTemplate
        * @editor function
        * @example
-       * suggestTemplate.wml
-       * <pre>
-       *    <Controls.Container.Suggest.List attr:class="myClass">
-       *       <Controls.list:View keyProperty="id">
-       *          <ws:itemTemplate>
-       *             <ws:partial template="Controls/list:ItemTemplate" displayProperty="city"/>
-       *          </ws:itemTemplate>
-       *       </Controls.list:View>
-       *    </Controls.Container.Suggest.List>
+       * <pre class="bruhs: html">
+       * <!-- suggestTemplate.wml -->
+       * <Controls.suggestPopup:ListContainer attr:class="myClass">
+       *    <Controls.list:View keyProperty="id">
+       *       <ws:itemTemplate>
+       *          <ws:partial template="Controls/list:ItemTemplate" displayProperty="city"/>
+       *       </ws:itemTemplate>
+       *    </Controls.list:View>
+       * </Controls.suggestPopup:ListContainer>
        * </pre>
-       *
-       * suggestTemplate.css
-       * <pre>
-       *    .myClass {
-       *       min-width: 300px;
-       *    }
+       * 
+       * <pre class="bruhs: css">
+       * .myClass {
+       *    min-width: 300px;
+       * }
        * </pre>
-       *
-       * component with Input/Suggest:
-       * <pre>
-       *    <Controls.suggest:Input>
-       *       <ws:suggestTemplate templateName="wml!SuggestTemplate">
-       *          <ws:templateOptions />
-       *       </ws:suggestTemplate>
-       *    </Controls.suggest:Input>
+       * <pre class="bruhs: css">
+       * <!-- WML -->
+       * <Controls.suggest:Input>
+       *    <ws:suggestTemplate templateName="wml!SuggestTemplate">
+       *       <ws:templateOptions />
+       *    </ws:suggestTemplate>
+       * </Controls.suggest:Input>
        * </pre>
        */
       suggestTemplate: ISuggestTemplateProp | null;
 
       /**
-       * @name Controls/interface/ISuggest#emptyTemplate
        * @cfg {IEmptyTemplateProp|null} Шаблон, который будет отображаться в автодополнении, если поисковой запрос не вернул результатов.
        * @remark Если опция имеет значение null, то автодополнение не отобразится, если поисковой запрос не вернул результатов.
        * @demo Controls-demo/Suggest_new/SearchInput/EmptyTemplate/EmptyTemplate
        * @example
-       * emptyTemplate.wml:
-       * <pre>
+       * <pre class="brush: html">
+       * <!-- emptyTemplate.wml -->
        *    <div class="emptyTemplate-class">Sorry, no data today</div>
        * </pre>
        *
-       * MySuggest.wml:
-       * <pre>
+       * <pre class="brush: html">
+       * <!-- MySuggest.wml -->
        * <Controls.suggest:Input>
        *    <ws:emptyTemplate templateName="wml!emptyTemplate">
        *       <ws:templateOptions showImage={{_showImage}}/>
@@ -158,18 +148,17 @@ interface ISuggest {
        */
 
       /*
-       * @name Controls/interface/ISuggest#emptyTemplate
        * @cfg {IEmptyTemplateProp|null} Template for suggest when no results were found.
        * @remark If option set to null, empty suggest won't appear.
        * @demo Controls-demo/Suggest_new/SearchInput/EmptyTemplate/EmptyTemplate
        * @example
-       * emptyTemplate.wml:
-       * <pre>
+       * <pre class="brush: html">
+       * <!-- emptyTemplate.wml -->
        *    <div class="emptyTemplate-class">Sorry, no data today</div>
        * </pre>
        *
-       * MySuggest.wml:
-       * <pre>
+       * <pre class="brush: html">
+       * <!-- MySuggest.wml -->
        * <Controls.suggest:Input>
        *    <ws:emptyTemplate templateName="wml!emptyTemplate">
        *       <ws:templateOptions showImage={{_showImage}}/>
@@ -180,179 +169,177 @@ interface ISuggest {
       emptyTemplate: IEmptyTemplateProp | null;
 
       /**
-       * @name Controls/interface/ISuggest#footerTemplate
        * @cfg {ISuggestFooterTemplate} Шаблон подвала автодополнения.
        * @demo Controls-demo/Suggest_new/SearchInput/FooterTemplate/FooterTemplate
        * @example
-       * myFooter.wml
-       * <pre>
-       *    <span on:click="_showTasksClick()">show tasks</span>
+       * <pre class="brush: html">
+       * <!-- myFooter.wml -->
+       * <span on:click="_showTasksClick()">show tasks</span>
        * </pre>
        *
-       * myFooter.js
-       * <pre>
-       *    define('myFooter', ['Core/Control'], function(Control) {
-       *       return Control.extend({
-       *          _showTasksClick: function() {
-       *             stackOpener.open();
-       *          }
-       *       });
+       * <pre class="brush: js">
+       * // myFooter.js
+       * define('myFooter', ['UI/Base:Control'], function(Control) {
+       *    return Control.extend({
+       *       _showTasksClick: function() {
+       *          stackOpener.open();
+       *       }
        *    });
+       * });
        * </pre>
        *
-       * mySuggest.wml
-       * <pre>
-       *    <Controls.suggest:Input>
-       *       <ws:footerTemplate templateName="myFooter">
-       *    </Controls.suggest:Input>
+       * <pre class="brush: html">
+       * <!-- mySuggest.wml -->
+       * <Controls.suggest:Input>
+       *    <ws:footerTemplate templateName="myFooter">
+       * </Controls.suggest:Input>
        * </pre>
+       * @remark
+       * Если вам требуется просто поменять текст для кнопки "Показать всё", которая отображается в подвале автодополнения,
+       * необходимо использова стандартный шаблон подвала {@link Controls/suggestPopup:FooterTemplate}
        */
 
       /*
-       * @name Controls/interface/ISuggest#footerTemplate
        * @cfg {ISuggestFooterTemplate} Footer template of suggest.
        * @demo Controls-demo/Suggest_new/SearchInput/FooterTemplate/FooterTemplate
        * @example
-       * myFooter.wml
-       * <pre>
-       *    <span on:click="_showTasksClick()">show tasks</span>
+       * <pre class="brush: html">
+       * <!-- myFooter.wml -->
+       * <span on:click="_showTasksClick()">show tasks</span>
        * </pre>
        *
-       * myFooter.js
-       * <pre>
-       *    define('myFooter', ['Core/Control'], function(Control) {
-       *       return Control.extend({
-       *          _showTasksClick: function() {
-       *             stackOpener.open();
-       *          }
-       *       });
+       * <pre class="brush: js">
+       * // myFooter.js
+       * define('myFooter', ['UI/Base:Control'], function(Control) {
+       *    return Control.extend({
+       *       _showTasksClick: function() {
+       *          stackOpener.open();
+       *       }
        *    });
+       * });
        * </pre>
        *
-       * mySuggest.wml
-       * <pre>
-       *    <Controls.suggest:Input>
-       *       <ws:footerTemplate templateName="myFooter">
-       *    </Controls.suggest:Input>
+       * <pre class="brush: html">
+       * <!-- mySuggest.wml -->
+       * <Controls.suggest:Input>
+       *    <ws:footerTemplate templateName="myFooter">
+       * </Controls.suggest:Input>
        * </pre>
        */
       footerTemplate: ISuggestFooterTemplate;
 
       /**
-       * @name Controls/interface/ISuggest#historyId
        * @cfg {String} Уникальный идентификатор для сохранения истории выбора записей из автодополнения.
        * @remark Если элементы были ранее выбраны, автодополнение с этими элементами будет отображаться после того, как на поле ввода перейдет фокус.
        * @example
-       * <pre>
-       *    <Controls.suggest:Input historyId="myHistoryId"/>
+       * <pre class="brush: html">
+       * <!-- WML -->
+       * <Controls.suggest:Input historyId="myHistoryId"/>
        * </pre>
        */
 
       /*
-       * @name Controls/interface/ISuggest#historyId
        * @cfg {String} Unique id to save input history.
        * @remark If items were previously selected, suggest with this items will be displayed after input get focused.
        * @example
-       * <pre>
-       *    <Controls.suggest:Input historyId="myHistoryId"/>
+       * <pre class="brush: html">
+       * <!-- WML -->
+       * <Controls.suggest:Input historyId="myHistoryId"/>
        * </pre>
        */
       historyId: string;
 
       /**
-       * @name Controls/interface/ISuggest#autoDropDown
        * @cfg {Boolean} Отобразить автодополнение, когда на поле ввода перейдет фокус.
        * @example
        * В этом примере автодополнение будет показано после фокусировки на поле ввода.
-       * <pre>
-       *    <Controls.suggest:Input autoDropDown="{{true}}" />
+       * <pre class="brush: html">
+       * <!-- WML -->
+       * <Controls.suggest:Input autoDropDown="{{true}}" />
        * </pre>
        */
 
       /*
-       * @name Controls/interface/ISuggest#autoDropDown
        * @cfg {Boolean} Show suggest when the input get focused.
        * @example
        * In this example suggest will shown after input get focused.
-       * <pre>
-       *    <Controls.suggest:Input autoSuggest={{true}}/>
+       * <pre class="brush: html">
+       * <!-- WML -->
+       * <Controls.suggest:Input autoDropDown="{{true}}" />
        * </pre>
        */
       autoDropDown: boolean;
 
       /**
-       * @name Controls/interface/ISuggest#suggestPopupOptions
        * @cfg {Controls/popup:IStickyPopupOptions} Конфигурация всплывающего блока автодополнения.
        * @example
        * В этом примере автодополнение будет открыто вверх.
-       * myModule.js
-       * <pre>
-       *    define('myModule', ['Core/Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
-       *       return Control.extend({
-       *          _template: template,
-       *          _suggestPopupOptions: null,
-       *
-       *          _beforeMount: function() {
-       *             this._suggestPopupOptions = {
-       *                 direction : {
-       *                   vertical: 'bottom',
-       *                   horizontal: 'right'
-       *                 },
-       *                 targetPoint: {
-       *                    vertical: 'top',
-       *                    horizontal: 'left'
-       *                }
+       * <pre class="brush: js">
+       * // myModule.js
+       * define('myModule', ['UI/Base:Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
+       *    return Control.extend({
+       *       _template: template,
+       *       _suggestPopupOptions: null,
+       *       _beforeMount: function() {
+       *          this._suggestPopupOptions = {
+       *             direction : {
+       *                vertical: 'bottom',
+       *                horizontal: 'right'
+       *             },
+       *             targetPoint: {
+       *                vertical: 'top',
+       *                horizontal: 'left'
        *             }
-       *          });
+       *          }
        *       });
-       *    }
+       *    });
+       * }
        * </pre>
-       * myModule.wml
-       * <pre>
-       *    <div>
-       *       <Controls.suggest:Input suggestPopupOptions="{{_suggestPopupOptions}}"/>
-       *    </div>
+       * 
+       * <pre class="brush: html">
+       * <!-- myModule.wml -->
+       * <div>
+       *    <Controls.suggest:Input suggestPopupOptions="{{_suggestPopupOptions}}"/>
+       * </div>
        * </pre>
        */
 
       /*
-       * @name Controls/interface/ISuggest#suggestPopupOptions
        * @cfg {Controls/popup:IStickyPopupOptions} Suggest popup configuration.
        * @example
        * In this example, suggest will open up.
-       * myModule.js
-       * <pre>
-       *    define('myModule', ['Core/Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
-       *       return Control.extend({
-       *          _template: template,
-       *          _suggestPopupOptions: null,
-       *
-       *          _beforeMount: function() {
-       *             this._suggestPopupOptions = {
-       *                 direction : {
-       *                   vertical: 'bottom',
-       *                   horizontal: 'right'
-       *                 },
-       *                 targetPoint: {
-       *                    vertical: 'top',
-       *                    horizontal: 'left'
-       *                }
+       * <pre class="brush: js">
+       * // myModule.js
+       * define('myModule', ['UI/Base:Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
+       *    return Control.extend({
+       *       _template: template,
+       *       _suggestPopupOptions: null,
+       *       _beforeMount: function() {
+       *          this._suggestPopupOptions = {
+       *             direction : {
+       *                vertical: 'bottom',
+       *                horizontal: 'right'
+       *             },
+       *             targetPoint: {
+       *                vertical: 'top',
+       *                horizontal: 'left'
        *             }
-       *          });
+       *          }
        *       });
-       *    }
+       *    });
+       * }
        * </pre>
-       * myModule.wml
-       * <pre>
-       *    <div>
-       *       <Controls.suggest:Input suggestPopupOptions="{{_suggestPopupOptions}}"/>
-       *    </div>
+       * 
+       * <pre class="brush: html">
+       * <!-- myModule.wml -->
+       * <div>
+       *    <Controls.suggest:Input suggestPopupOptions="{{_suggestPopupOptions}}"/>
+       * </div>
        * </pre>
        */
       suggestPopupOptions: object;
 
       /**
-       * @name Controls/_suggest/_InputController#dataLoadCallback
        * @cfg {Function} Callback вызывающийся после того, как загружены данные.
        * @param {RecordSet} Загруженные данные.
        */

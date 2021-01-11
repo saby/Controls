@@ -10,7 +10,7 @@ export default {
      * @returns {Boolean}
      */
     isYearStateEnabled: function (options) {
-        var quantum = options.quantum;
+        var quantum = options.ranges;
         return (options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single && options.minRange === IDateRangeSelectable.minRange.month) ||
             (options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single && (!quantum ||
                 (isEmpty(quantum) || 'months' in quantum || 'quarters' in quantum ||
@@ -22,7 +22,7 @@ export default {
      * @returns {Boolean}
      */
     isMonthStateEnabled: function (options) {
-        var quantum = options.quantum;
+        var quantum = options.ranges;
         return (quantum && ('days' in quantum || 'weeks' in quantum)) ||
             ((!quantum || isEmpty(quantum)) && options.minRange === 'day');
     },

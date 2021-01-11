@@ -1023,7 +1023,7 @@
 }
 
 .controls-TileView__checkbox {
-   &.controls-Checkbox__iconWrapper {
+   &.controls-CheckboxMarker {
       position: absolute;
       z-index: 1;
 
@@ -1052,8 +1052,8 @@
 }
 
 .controls-TileView__item_withoutBorder_theme-@{themeName} {
-   border: none;
-   margin: @item_border-thickness_tile;
+   border: @item_border-thickness_tile solid transparent;
+   background-clip: padding-box;
 }
 
 .controls-TileView__item_withMarker_theme-@{themeName} {
@@ -1229,4 +1229,85 @@
 .controls-TileView__item_footer {
    position: absolute;
    bottom: 0;
+}
+
+.controls-TileView__item_roundBorder_bottomLeft_3xs_theme-@{themeName} {
+   border-bottom-left-radius: @border_radius_3xs_tile;
+}
+
+.controls-TileView__item_roundBorder_bottomLeft_2xs_theme-@{themeName} {
+   border-bottom-left-radius: @border_radius_2xs_tile;
+}
+
+.controls-TileView__item_roundBorder_bottomLeft_xs_theme-@{themeName} {
+   border-bottom-left-radius: @border_radius_xs_tile;
+}
+
+.controls-TileView__item_roundBorder_bottomLeft_s_theme-@{themeName} {
+   border-bottom-left-radius: @border_radius_s_tile;
+}
+
+.controls-TileView__item_roundBorder_bottomLeft_m_theme-@{themeName} {
+   border-bottom-left-radius: @border_radius_m_tile;
+}
+
+
+.controls-TileView__item_roundBorder_bottomRight_3xs_theme-@{themeName} {
+   border-bottom-right-radius: @border_radius_3xs_tile;
+}
+
+.controls-TileView__item_roundBorder_bottomRight_2xs_theme-@{themeName} {
+   border-bottom-right-radius: @border_radius_2xs_tile;
+}
+
+.controls-TileView__item_roundBorder_bottomRight_xs_theme-@{themeName} {
+   border-bottom-right-radius: @border_radius_xs_tile;
+}
+
+.controls-TileView__item_roundBorder_bottomRight_s_theme-@{themeName} {
+   border-bottom-right-radius: @border_radius_s_tile;
+}
+
+.controls-TileView__item_roundBorder_bottomRight_m_theme-@{themeName} {
+   border-bottom-right-radius: @border_radius_m_tile;
+}
+
+.controls-TileView__item_roundBorder_topLeft_3xs_theme-@{themeName} {
+   border-top-left-radius: @border_radius_3xs_tile;
+}
+
+.controls-TileView__item_roundBorder_topLeft_2xs_theme-@{themeName} {
+   border-top-left-radius: @border_radius_2xs_tile;
+}
+
+.controls-TileView__item_roundBorder_topLeft_xs_theme-@{themeName} {
+   border-top-left-radius: @border_radius_xs_tile;
+}
+
+.controls-TileView__item_roundBorder_topLeft_s_theme-@{themeName} {
+   border-top-left-radius: @border_radius_s_tile;
+}
+
+.controls-TileView__item_roundBorder_topLeft_m_theme-@{themeName} {
+   border-top-left-radius: @border_radius_m_tile;
+}
+
+.controls-TileView__item_roundBorder_topRight_3xs_theme-@{themeName} {
+   border-top-right-radius: @border_radius_3xs_tile;
+}
+
+.controls-TileView__item_roundBorder_topRight_2xs_theme-@{themeName} {
+   border-top-right-radius: @border_radius_2xs_tile;
+}
+
+.controls-TileView__item_roundBorder_topRight_xs_theme-@{themeName} {
+   border-top-right-radius: @border_radius_xs_tile;
+}
+
+.controls-TileView__item_roundBorder_topRight_s_theme-@{themeName} {
+   border-top-right-radius: @border_radius_s_tile;
+}
+
+.controls-TileView__item_roundBorder_topRight_m_theme-@{themeName} {
+   border-top-right-radius: @border_radius_m_tile;
 }

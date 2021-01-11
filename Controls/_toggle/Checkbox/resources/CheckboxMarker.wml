@@ -1,14 +1,15 @@
-<div class="{{_options.value === null && _options.triState ? 'controls-Checkbox__icon-tristate controls-Checkbox__icon-tristate_theme-' + (_options.theme)+
-             ' controls-Checkbox__icon-tristate-color__' + (_options.readOnly ? 'disabled':'enabled')+ '_theme-'+(_options.theme)}}
-             controls-Checkbox__icon-border-color__{{_options.readOnly ? 'disabled': 'enabled'}}_theme-{{_options.theme}}
-             controls-Checkbox__iconWrapper
-             {{_options.value ? ' controls-Checkbox__iconWrapper__checked'}}
-             controls-Checkbox__iconWrapper_theme-{{_options.theme}}">
+<div class="controls-CheckboxMarker controls-CheckboxMarker_theme-{{_options.theme}}
+            controls-CheckboxMarker__state-{{_options.value === null ? 'null' : _options.value}}
+            controls-CheckboxMarker__state-{{_options.value === null ? 'null' : _options.value}}_theme-{{_options.theme}}
+            controls-CheckboxMarker__icon-border-color__{{_options.readOnly ? 'disabled': 'enabled'}}_theme-{{_options.theme}}
+            {{_options.value === null && _options.triState ?
+            'controls-CheckboxMarker__state-null__icon-color__' + (_options.readOnly ? 'disabled':'enabled')+ '_theme-'+(_options.theme)}}">
     <svg xmlns="http://www.w3.org/2000/svg"
          viewBox="0 0 18 18"
-         attr:class="controls-Checkbox__icon-checked_theme-{{_options.theme}}
-                    {{_options.value ? ' controls-Checkbox__icon-checked-color_'+(_options.readOnly ? 'disabled':'enabled')+ '_theme-' + (_options.theme) :
-                     ' controls-Checkbox__icon-checked-color_transparent'}}">
+         attr:class="controls-CheckboxMarker__icon-checked_theme-{{_options.theme}}
+                    {{_options.value ?
+                    'controls-CheckboxMarker__icon-checked-color_'+(_options.readOnly ? 'disabled':'enabled')+ '_theme-' + (_options.theme) :
+                    'controls-CheckboxMarker__icon-checked-color_transparent'}}">
         <path d="M1.85,8.65l4,3.4,10.3-9.1-9.8,13.1Z"/>
     </svg>
 </div>

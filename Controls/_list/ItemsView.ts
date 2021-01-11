@@ -1,7 +1,7 @@
 /**
  * Created by kraynovdo on 22.09.2017.
  */
-import BaseControl = require('Core/Control');
+import {Control as BaseControl} from 'UI/Base';
 import ItemsRenderTpl = require('wml!Controls/_list/ItemsView');
 import ItemsViewModel = require('Controls/_list/ItemsViewModel');
 

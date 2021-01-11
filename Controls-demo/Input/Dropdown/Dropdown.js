@@ -1,10 +1,10 @@
 define('Controls-demo/Input/Dropdown/Dropdown', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Dropdown/Dropdown',
    'Types/source',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls-demo/Input/Dropdown/historySourceDropdown',
-   'Controls/Constants',
+   'Controls/list',
    'Controls-demo/Search/SearchMemory',
    'Controls-demo/Explorer/ExplorerMemory',
    'Controls-demo/Utils/MemorySourceFilter',
@@ -15,11 +15,11 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
    'wml!Controls-demo/Input/Dropdown/footerTemplateDropdown',
    'wml!Controls-demo/Input/Dropdown/footerHierarchyItem',
    'wml!Controls-demo/Input/Dropdown/StackTemplateDdl'
-], function(Control, template, source, Toolbar, historySource, ControlsConstants, SearchMemory, ExplorerMemory, MemorySourceFilter) {
+], function(Base, template, source, Toolbar, historySource, ControlsConstants, SearchMemory, ExplorerMemory, MemorySourceFilter) {
 
    'use strict';
 
-   var DropdownDemo = Control.extend({
+   var DropdownDemo = Base.Control.extend({
       _template: template,
       _simpleItems: null,
       _subItems: null,
@@ -472,7 +472,7 @@ define('Controls-demo/Input/Dropdown/Dropdown', [
 
       _groupingKeyCallback: function(item) {
          if (item.get('group') === 'hidden' || !item.get('group')) {
-            return ControlsConstants.view.hiddenGroup;
+            return ControlsConstants.groupConstants.hiddenGroup;
          }
          return item.get('group');
       },

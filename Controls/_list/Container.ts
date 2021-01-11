@@ -17,12 +17,12 @@ interface IDataContext {
  * Из поля контекста "dataOptions" контейнер передает в список следующие опции: <a href="/docs/js/Controls/list/View/options/filter/">filter</a>, <a href="/docs/js/Controls/list/View/options/navigation/">navigation</a>, <a href="/docs/js/Controls/list/View/options/sorting/">sorting</a>, <a href="/docs/js/Controls/list/View/options/keyProperty/">keyProperty</a>, <a href="/docs/js/Controls/list/View/options/source/">source</a>, sourceController.
  * 
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
- * * <a href="/docs/js/Controls/list/DataContainer/">Controls/list:DataContainer</a> 
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
+ * * {@link Controls/list:DataContainer}
  *
  * @class Controls/_list/Container
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @author Герасимов А.М.
  * @public
  */
@@ -33,7 +33,7 @@ interface IDataContext {
  * More information you can read <a href='/doc/platform/developmentapl/interface-development/controls/component-kinds/'>here</a>.
  *
  * @class Controls/_list/Container
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @author Герасимов А.М.
  * @public
  */

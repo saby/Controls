@@ -1,14 +1,14 @@
 define('Controls-demo/PendingRegistrator/Content2', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/PendingRegistrator/Content2',
    'Env/Env',
    'Core/Deferred',
-], function(Control, tmpl, Env, Deferred) {
+], function(Base, tmpl, Env, Deferred) {
    'use strict';
 
    var timeout = 3000;
 
-   var module = Control.extend({
+   var module = Base.Control.extend({
       _template: tmpl,
       _register: function() {
          if (!this._def) {

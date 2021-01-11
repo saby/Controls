@@ -1,15 +1,15 @@
 define('Controls-demo/StickyHeader/StickyHeaderDisplaced',
    [
-      'Core/Control',
+      'UI/Base',
       'Controls/scroll',
       'wml!Controls-demo/StickyHeader/StickyHeaderDisplaced',
 
    ],
-   function(Control, scrollLib, template) {
+   function(Base, scrollLib, template) {
 
       'use strict';
 
-      var StickyHeader = Control.extend({
+      var StickyHeader = Base.Control.extend({
          _template: template,
          _headerVisible: false,
          _headersHeight: 0,

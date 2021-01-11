@@ -18,12 +18,12 @@ let OUTER_INDENT_INPUT = 0;
  * Ширина выбранных занчений будет пропорционально распределена по ширине контрола, чтобы все значения поместились.
  *
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/directory/lookup/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FLookup%2FIndex демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less переменные тем оформления}
  *
  * @class Controls/_lookup/MultipleInput
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ILookup
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
@@ -41,7 +41,7 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  * 
  * @public
  * @author Герасимов А.М.
@@ -53,7 +53,7 @@ let OUTER_INDENT_INPUT = 0;
  * If you want to make a dynamic placeholder of the input field, which will vary depending on the selected collection, use {@link Controls/lookup:PlaceholderChooser}.
  *
  * @class Controls/_lookup/MultipleInput
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ILookup
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
@@ -71,7 +71,7 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  * 
  * @public
  * @author Герасимов А.М.

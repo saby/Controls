@@ -1,15 +1,15 @@
 define('Controls-demo/Popup/PopupWithPending',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/PopupWithPending',
       'Types/entity',
       'Core/Deferred',
       'i18n!Controls-demo'
    ],
-   function (Control, template, entity, Deferred, rk) {
+   function (Base, template, entity, Deferred, rk) {
       'use strict';
 
-      var TestDialog = Control.extend({
+      var TestDialog = Base.Control.extend({
          _template: template,
 
          _close: function(){

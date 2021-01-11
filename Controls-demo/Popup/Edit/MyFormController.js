@@ -3,16 +3,16 @@
  */
 define('Controls-demo/Popup/Edit/MyFormController',
    [
-      'Core/Control',
+      'UI/Base',
       'Controls-demo/List/Grid/GridData',
       'wml!Controls-demo/Popup/Edit/MyFormController',
       'Types/source',
       'Core/Deferred',
    ],
-   function (Control, GridData, template, source, Deferred) {
+   function (Base, GridData, template, source, Deferred) {
       'use strict';
 
-      var MyFormController = Control.extend({
+      var MyFormController = Base.Control.extend({
          _template: template,
          _record: null,
          _key: null,

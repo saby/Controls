@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            editingConfig="{{_editingConfig}}"
+            colspanCallback="{{_colspanCallback}}"
+            columns="{{_columns}}">
+    </Controls.gridNew:View>
+</div>

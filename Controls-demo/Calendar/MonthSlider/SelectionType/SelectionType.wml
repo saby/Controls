@@ -26,7 +26,7 @@
             bind:startValue="_startValue2"
             bind:endValue="_endValue2"
             selectionType="quantum"
-            quantum="{{ {'days': [5]} }}"
+            ranges="{{ {'days': [5]} }}"
         />
     </div>
     <div class="controlsDemo__cell demo-MonthSlider__selectionTypeDisable">

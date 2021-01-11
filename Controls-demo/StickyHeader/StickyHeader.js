@@ -1,15 +1,15 @@
 define('Controls-demo/StickyHeader/StickyHeader',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/StickyHeader/StickyHeader',
 
       'Controls/scroll'
    ],
-   function(Control, template) {
+   function(Base, template) {
 
       'use strict';
 
-      var StickyHeader = Control.extend({
+      var StickyHeader = Base.Control.extend({
          _template: template
       });
 

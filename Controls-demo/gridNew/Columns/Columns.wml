@@ -1,0 +1,57 @@
+<div class="controlsDemo__wrapper">
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Columns/TextOverflow/Index' }}">
+            <a href="{{content.href}}">Обрезка содержимого колонки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Columns.TextOverflow.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Columns/Width/Index' }}">
+            <a href="{{content.href}}">Настройка ширин колонок</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Columns.Width.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Columns/Align/Index' }}">
+            <a href="{{content.href}}">Выравнивание текста по горизонтали</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Columns.Align.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Columns/Valign/Index' }}">
+            <a href="{{content.href}}">Выравнивание текста по вертикали</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Columns.Valign.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Columns/Template/Index' }}">
+            <a href="{{content.href}}">Переопределение контента ячейки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Columns.Template.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Columns/CellNoClickable/Index' }}">
+            <a href="{{content.href}}">Некликабельные ячейки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Columns.CellNoClickable.Index/>
+    </div>
+
+</div>

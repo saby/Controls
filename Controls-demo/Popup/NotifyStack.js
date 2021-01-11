@@ -1,12 +1,12 @@
 define('Controls-demo/Popup/NotifyStack',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/NotifyStack',
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var NotifyStack = Control.extend({
+      var NotifyStack = Base.Control.extend({
          _template: template,
          _textValue1: '',
          _textValue2: '',

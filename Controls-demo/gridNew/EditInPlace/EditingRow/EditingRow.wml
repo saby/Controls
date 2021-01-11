@@ -1,0 +1,27 @@
+<div class="controlsDemo__cell">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            colspanCallback="{{ _colspanCallback }}"
+            on:beforeBeginEdit="_onBeforeBeginEdit()">
+        <ws:editingConfig editOnClick="{{true}}" sequentialEditing="{{true}}" autoAdd="{{true}}" toolbarVisibility="{{true}}"/>
+        <ws:columns>
+            <ws:Array>
+                <ws:Object width="100px" displayProperty="invoice">
+                    <ws:template>
+                        <ws:partial template="wml!Controls-demo/gridNew/EditInPlace/EditingRow/cellTemplate"
+                                    itemData="{{template.gridColumn}}"
+                                    documentSignMemory="{{_documentSignMemory}}"
+                                    onChange1="{{onChange1}}"
+                                    onChange2="{{onChange2}}"
+                                    selectedKey="{{selectedKey}}"/>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object width="200px" displayProperty="documentSign"/>
+                <ws:Object width="200px" displayProperty="document"/>
+                <ws:Object width="1fr" displayProperty="description"/>
+                <ws:Object width="200px" displayProperty="taxBase"/>
+            </ws:Array>
+        </ws:columns>
+    </Controls.gridNew:View>
+</div>

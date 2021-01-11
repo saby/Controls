@@ -3,7 +3,7 @@
  */
 define('Controls/Application',
    [
-      'Core/Control',
+      
       'wml!Controls/Application/Page',
       'Core/BodyClasses',
       'Env/Env',
@@ -12,7 +12,6 @@ define('Controls/Application',
       'Controls/scroll',
       'Core/helpers/getResourceUrl',
       'Controls/Application/SettingsController',
-      'Controls/sizeUtils',
       'Controls/event',
       'Controls/popup',
       'UI/HotKeys',
@@ -27,7 +26,7 @@ define('Controls/Application',
     * Подробнее читайте <a href='/doc/platform/developmentapl/interface-development/controls/controls-application/'>здесь</a>.
     *
     * @class Controls/Application
-    * @extends Core/Control
+    * @extends UI/Base:Control
     *
     * @mixes Controls/_interface/IApplication
     * @mixes UI/_base/interface/IHTML
@@ -42,7 +41,7 @@ define('Controls/Application',
     * Root component for WS applications. Creates basic html page.
     *
     * @class Controls/Application
-    * @extends Core/Control
+    * @extends UI/Base:Control
     *
     * @mixes Controls-demo/BlockLayouts/Index
     * @mixes Controls/_interface/IRUM
@@ -55,7 +54,7 @@ define('Controls/Application',
     * @author Санников К.А.
     */
 
-   function(Base,
+   function(
       template,
       cBodyClasses,
       Env,
@@ -64,7 +63,6 @@ define('Controls/Application',
       scroll,
       getResourceUrl,
       SettingsController,
-      sizeUtils,
       ControlsEvent,
       popup,
       HotKeys,
@@ -101,7 +99,7 @@ define('Controls/Application',
          }
       };
 
-      var Page = Base.extend({
+      var Page = UIBase.Control.extend({
          _template: template,
          /* eslint-disable */
          /**
@@ -268,7 +266,7 @@ define('Controls/Application',
             // https://online.sbis.ru/opendoc.html?guid=3ed5ebc1-0b55-41d5-a8fa-921ad24aeec3
             Env.constants.loadDataProviders = cfg.loadDataProviders;
 
-            if (typeof window !== 'undefined') {
+            if (Env.constants.isBrowserPlatform) {
                /* eslint-disable */
                if (document.getElementsByClassName('head-custom-block').length > 0) {
                   this.head = undefined;

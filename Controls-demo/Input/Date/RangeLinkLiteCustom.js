@@ -1,16 +1,16 @@
 define('Controls-demo/Input/Date/RangeLinkLiteCustom', [
-   'Core/Control',
+   'UI/Base',
    'Controls/dateRange',
    'wml!Controls-demo/Input/Date/RangeLinkLiteCustom',
    'wml!Controls-demo/Input/Date/RangeLinkLiteCustomMonth'
 ], function(
-   BaseControl,
+   Base,
    dateRange,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _year: new Date(2017, 0, 1),
       _startValue: new Date(2017, 0, 1),

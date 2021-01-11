@@ -1,5 +1,11 @@
 import {IControlOptions, TemplateFunction} from 'UI/base';
-import {TCellAlign, TCellVerticalAlign} from 'Controls/grid';
+import {IColspanParams, TCellAlign, TCellVerticalAlign} from 'Controls/grid';
+
+export interface IRowspanParams {
+    startRow?: number;
+    endRow?: number;
+    rowspan?: number;
+}
 
 /**
  * @typedef {String} THeader
@@ -16,7 +22,7 @@ export type THeader = IHeaderCell[];
  * @public
  * @author Авраменко А.С.
  */
-export interface IHeaderCell extends IControlOptions {
+export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanParams {
     /**
      * @description Текст заголовка ячейки.
      */
@@ -62,7 +68,7 @@ export interface IHeaderCell extends IControlOptions {
      * @default Controls/grid:HeaderContent
      * @remark
      * Параметры шаблона Controls/grid:HeaderContent доступны {@link Controls/grid:HeaderContent здесь}.
-     * Подробнее о работе с шаблоном читайте в {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/header/ документации}.
+     * Подробнее о работе с шаблоном читайте в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ документации}.
      * @example
      * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
      * <pre class="brush: html">

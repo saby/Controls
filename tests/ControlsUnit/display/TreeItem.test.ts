@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 
 import { TreeItem } from 'Controls/display';
+import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/_display/TreeItem', () => {
     const Owner = function(): void {
@@ -166,6 +167,147 @@ describe('Controls/_display/TreeItem', () => {
 
             item.toggleExpanded();
             assert.isFalse(item.isExpanded());
+        });
+    });
+
+    describe('expander', () => {
+        it('.shouldDisplayExpander()', () => {
+            const owner = {
+                getExpanderVisibility: () => 'visible',
+                getExpanderIcon: () => undefined
+            };
+            const item = new TreeItem({ owner });
+
+            assert.isTrue(item.shouldDisplayExpander());
+            assert.isFalse(item.shouldDisplayExpander('none'));
+
+            item.setNode(null);
+            assert.isFalse(item.shouldDisplayExpander());
+
+            item.setNode(true);
+            item.setHasChildren(true);
+            assert.isTrue(item.shouldDisplayExpander());
+
+            owner.getExpanderVisibility = () => 'hasChildren';
+            assert.isTrue(item.shouldDisplayExpander());
+
+            item.setHasChildren(false);
+            assert.isFalse(item.shouldDisplayExpander());
+        });
+
+        it('.shouldDisplayExpanderPadding()', () => {
+            const owner = {
+                getExpanderVisibility: () => 'visible',
+                getExpanderIcon: () => undefined,
+                getExpanderPosition: () => 'default',
+                getExpanderSize: () => undefined
+            };
+            const item = new TreeItem({ owner });
+
+            assert.isTrue(item.shouldDisplayExpanderPadding());
+            assert.isFalse(item.shouldDisplayExpanderPadding('none'));
+            assert.isFalse(item.shouldDisplayExpanderPadding(undefined, 'xl'));
+            owner.getExpanderPosition = () => 'custom';
+            assert.isFalse(item.shouldDisplayExpanderPadding());
+
+            item.setHasChildren(false);
+            owner.getExpanderVisibility = () => 'hasChildren';
+            owner.getExpanderPosition = () => 'default';
+            assert.isTrue(item.shouldDisplayExpanderPadding());
+            assert.isFalse(item.shouldDisplayExpanderPadding('none'));
+            assert.isTrue(item.shouldDisplayExpanderPadding(undefined, 'xl'));
+            owner.getExpanderPosition = () => 'custom';
+            assert.isFalse(item.shouldDisplayExpanderPadding());
+
+            item.setHasChildren(true);
+            owner.getExpanderPosition = () => 'default';
+            assert.isFalse(item.shouldDisplayExpanderPadding());
+        });
+
+        it('.getExpanderPaddingClasses()', () => {
+            const owner = {
+                getExpanderSize: () => undefined
+            };
+            const item = new TreeItem({ owner });
+
+            CssClassesAssert.isSame(item.getExpanderPaddingClasses(), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_default_theme-default js-controls-ListView__notEditable');
+
+            owner.getExpanderSize = () => 's';
+            CssClassesAssert.isSame(item.getExpanderPaddingClasses(), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_s_theme-default js-controls-ListView__notEditable');
+
+            CssClassesAssert.isSame(item.getExpanderPaddingClasses('xl'), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_xl_theme-default js-controls-ListView__notEditable');
+
+            CssClassesAssert.isSame(item.getExpanderPaddingClasses('xl', 'custom'), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-custom controls-TreeGrid__row-expanderPadding_size_xl_theme-custom js-controls-ListView__notEditable');
+        });
+
+        it('.getLevelIndentClasses()', () => {
+            const owner = {
+                getExpanderSize: () => undefined
+            };
+            const item = new TreeItem({ owner });
+
+            CssClassesAssert.isSame(item.getLevelIndentClasses(), 'controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_default_theme-default');
+
+            owner.getExpanderSize = () => 's';
+            CssClassesAssert.isSame(item.getLevelIndentClasses(), 'controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_s_theme-default');
+
+            CssClassesAssert.isSame(item.getLevelIndentClasses('xl'), 'controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_xl_theme-default');
+
+            CssClassesAssert.isSame(item.getLevelIndentClasses(undefined, 'm'), 'controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_m_theme-default');
+
+            CssClassesAssert.isSame(item.getLevelIndentClasses('xl', 'm'), 'controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_xl_theme-default');
+
+            CssClassesAssert.isSame(item.getLevelIndentClasses('s', 'm'), 'controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_m_theme-default');
+
+            CssClassesAssert.isSame(item.getLevelIndentClasses('xl', 'm', 'custom'), 'controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_xl_theme-custom');
+        });
+
+        it('.getExpanderClasses()', () => {
+            const owner = {
+                getExpanderIcon: () => undefined,
+                getExpanderPosition: () => 'default',
+                getExpanderSize: () => undefined,
+                getTopPadding: () => 'default',
+                getBottomPadding: () => 'default'
+            };
+            const item = new TreeItem({ owner });
+
+            CssClassesAssert.isSame(item.getExpanderClasses(), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('none'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_none_collapsed_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('node'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_node_default_collapsed_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('none', 's'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_s_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_none_collapsed_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('node', 'm'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_m_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_node_default_collapsed_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode', 'xl'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_xl_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses(undefined, undefined, 'custom', 'custom'), 'controls-TreeGrid__row-expander_theme-custom controls-TreeGrid__row_custom-expander_size_default_theme-custom js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-custom controls-TreeGrid__row-expander__spacingBottom_default_theme-custom controls-TreeGrid__row-expander_hiddenNode_default_theme-custom controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-custom');
+            item.setExpanded(false, true);
+            CssClassesAssert.isSame(item.getExpanderClasses(), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-default');
+
+            item.setExpanded(true, true);
+            owner.getExpanderPosition = () => 'custom';
+            CssClassesAssert.isSame(item.getExpanderClasses(), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('none'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_none_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('node'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_node_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('none', 's'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_s_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_none_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('node', 'm'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_m_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_node_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode', 'xl'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_xl_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses(undefined, undefined, 'custom', 'custom'), 'controls-TreeGrid__row-expander_theme-custom controls-TreeGrid__row_custom-expander_size_default_theme-custom js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-custom controls-TreeGrid__row-expander__spacingBottom_default_theme-custom controls-TreeGrid__row-expander_hiddenNode_default_theme-custom controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-custom');
+            item.setExpanded(false, true);
+            CssClassesAssert.isSame(item.getExpanderClasses(), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_default-expander_size_default_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-default');
+
+            item.setExpanded(true, true);
+            owner.getExpanderPosition = () => 'right';
+            CssClassesAssert.isSame(item.getExpanderClasses(), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_expander_position_right_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('none'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_expander_position_right_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_none_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('node'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_expander_position_right_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_node_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_expander_position_right_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('none', 's'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_expander_position_right_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_none controls-TreeGrid__row-expander_none_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_none_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('node', 'm'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_expander_position_right_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_node controls-TreeGrid__row-expander_node_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_node_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses('hiddenNode', 'xl'), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_expander_position_right_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-default');
+            CssClassesAssert.isSame(item.getExpanderClasses(undefined, undefined, 'custom', 'custom'), 'controls-TreeGrid__row-expander_theme-custom controls-TreeGrid__row_expander_position_right_theme-custom js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-custom controls-TreeGrid__row-expander__spacingBottom_default_theme-custom controls-TreeGrid__row-expander_hiddenNode_default_theme-custom controls-TreeGrid__row-expander_expanded controls-TreeGrid__row-expander_hiddenNode_default_expanded_theme-custom');
+            item.setExpanded(false, true);
+            CssClassesAssert.isSame(item.getExpanderClasses(), 'controls-TreeGrid__row-expander_theme-default controls-TreeGrid__row_expander_position_right_theme-default js-controls-ListView__notEditable controls-TreeGrid__row-expander__spacingTop_default_theme-default controls-TreeGrid__row-expander__spacingBottom_default_theme-default controls-TreeGrid__row-expander_hiddenNode_default_theme-default controls-TreeGrid__row-expander_collapsed controls-TreeGrid__row-expander_hiddenNode_default_collapsed_theme-default');
         });
     });
 

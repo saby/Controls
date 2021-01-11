@@ -1,5 +1,5 @@
 define('Controls-demo/DragNDrop/MasterDetail', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/DragNDrop/MasterDetail/MasterDetail',
    'Controls-demo/DragNDrop/MasterDetail/Data',
    'Types/source',
@@ -7,8 +7,8 @@ define('Controls-demo/DragNDrop/MasterDetail', [
    'Controls/dragnDrop',
    'Controls-demo/DragNDrop/MasterDetail/TasksEntity',
    'wml!Controls-demo/DragNDrop/MasterDetail/itemTemplates/masterItemTemplate',
-], function(Control, template, data, source, cInstance, dragnDrop, TasksEntity, itemTemplate) {
-   var ModuleClass = Control.extend({
+], function(Base, template, data, source, cInstance, dragnDrop, TasksEntity, itemTemplate) {
+   var ModuleClass = Base.Control.extend({
       _template: template,
       gridColumns: [{
          displayProperty: 'name',

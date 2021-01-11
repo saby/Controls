@@ -1,14 +1,14 @@
 define('Controls-demo/LoadingIndicator/LoadingIndicatorPG',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/LoadingIndicator/LoadingIndicatorPG',
       'json!Controls-demo/PropertyGrid/pgtext'
    ],
 
-   function(Control, template, config) {
+   function(Base, template, config) {
       'use strict';
 
-      var result = Control.extend({
+      var result = Base.Control.extend({
          _template: template,
          _content: 'Controls-demo/LoadingIndicator/IndicatorContainer',
          _metaData: null,

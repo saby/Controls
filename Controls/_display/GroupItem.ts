@@ -14,16 +14,19 @@ interface IOptions<T> extends ICollectionItemOptions<T>, IExpandableMixinOptions
  * @public
  * @author Мальцев А.А.
  */
-export default class GroupItem<T> extends mixin<CollectionItem<any>,
-    ExpandableMixin>(
+export default class GroupItem<T> extends mixin<
+    CollectionItem<any>,
+    ExpandableMixin
+>(
     CollectionItem,
     ExpandableMixin
 ) {
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
     readonly '[Controls/_display/GroupItem]': true;
 
-    readonly MarkableItem: boolean = false;
+    readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly DraggableItem: boolean = false;
 
     protected _$multiSelectVisibility: string;
 
@@ -61,7 +64,7 @@ export default class GroupItem<T> extends mixin<CollectionItem<any>,
         }
     }
 
-    getItemTemplate(itemTemplateProperty: string,
+    getTemplate(itemTemplateProperty: string,
                     userItemTemplate: TemplateFunction | string,
                     userGroupTemplate?: TemplateFunction | string): TemplateFunction | string {
         return userGroupTemplate || 'Controls/listRender:groupTemplate';

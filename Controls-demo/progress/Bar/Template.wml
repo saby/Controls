@@ -1,23 +1,21 @@
-<div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Example 0</div>
-        <Controls.progress:Bar value="{{0}}"/>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Example 100%</div>
-        <Controls.progress:Bar value="{{100}}"/>
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo_fixedWidth350">
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/progress/Bar/Base/Index' }}">
+                <a href="{{content.href}}">Значение в процентах</a>
+            </Router.router:Reference>
+            <Controls-demo.progress.Bar.Base.Index/>
+        </div>
 
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Example 1%</div>
-        <Controls.progress:Bar value="{{1}}"/>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Example 99%</div>
-        <Controls.progress:Bar value="{{99}}"/>
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">Example 50%</div>
-        <Controls.progress:Bar value="{{50}}"/>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/progress/Bar/BarStyle/Index' }}">
+                <a href="{{content.href}}">Настройка стиля отображения</a>
+            </Router.router:Reference>
+            <Controls-demo.progress.Bar.BarStyle.Index/>
+        </div>
     </div>
 </div>

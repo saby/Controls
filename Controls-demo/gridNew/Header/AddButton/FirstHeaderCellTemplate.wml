@@ -1,0 +1,8 @@
+<ws:partial template="Controls/gridNew:HeaderContent" gridColumn="{{gridColumn}}">
+    <ws:contentTemplate>
+        <div class="controlsDemo__Grid_header-gridTitle-spacing">
+            <Controls.heading:Title caption="{{gridColumn.column.captionForGrid}}" fontColorStyle="primary" fontSize="l" readOnly="{{true}}"/>
+            <Controls.buttons:Button viewMode="toolButton" icon="icon-Add" iconStyle="secondary" fontSize="m" inlineHeight="default" iconSize="s"/>
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

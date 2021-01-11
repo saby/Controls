@@ -1,0 +1,32 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container>
+        <div class="controlsDemo__flexRow controlsDemo__childMinWidth400">
+            <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__base">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/list_new/KeyProperty/Base/Index' }}">
+                    <a href="{{content.href}}">KeyProperty берется из опции</a>
+                </Router.router:Reference>
+                <Controls-demo.list_new.KeyProperty.Base.Index/>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__hiddenGroup">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/list_new/KeyProperty/Source/Index' }}">
+                    <a href="{{content.href}}">KeyProperty берется из source</a>
+                </Router.router:Reference>
+                <Controls-demo.list_new.KeyProperty.Source.Index/>
+            </div>
+
+            <div class="controlsDemo__cell demo-ListGrouped__alignTitleGroup">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/list_new/KeyProperty/Error/Index' }}">
+                    <a href="{{content.href}}">KeyProperty не установлен. В консоли ошибка</a>
+                </Router.router:Reference>
+                <Controls-demo.list_new.KeyProperty.Error.Index/>
+            </div>
+        </div>
+    </Controls.scroll:Container>
+</div>

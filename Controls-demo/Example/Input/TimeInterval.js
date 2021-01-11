@@ -1,6 +1,6 @@
 define('Controls-demo/Example/Input/TimeInterval',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/entity',
       'Controls-demo/Example/Input/SetValueMixin',
       'wml!Controls-demo/Example/Input/TimeInterval/TimeInterval',
@@ -8,10 +8,10 @@ define('Controls-demo/Example/Input/TimeInterval',
       'Controls/input',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
-   function(Control, entity, SetValueMixin, template) {
+   function(Base, entity, SetValueMixin, template) {
       'use strict';
 
-      var TimeInterval = Control.extend([SetValueMixin], {
+      var TimeInterval = Base.Control.extend([SetValueMixin], {
          _template: template,
 
          constructor: function() {

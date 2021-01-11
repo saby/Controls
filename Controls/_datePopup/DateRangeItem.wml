@@ -39,7 +39,7 @@
                   monthViewModel="{{_monthViewModel}}"
                   showCaption="{{true}}"
                   selectionType="{{_options.selectionType}}"
-                  quantum="{{_options.quantum}}"
+                  ranges="{{_options.ranges}}"
                   showWeekdays="{{false}}"
                   month="{{_getMonth(date.getFullYear(), month)}}"
                   daysData="{{extData[month]}}"

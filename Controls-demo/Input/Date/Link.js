@@ -1,13 +1,13 @@
 define('Controls-demo/Input/Date/Link', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Date/Link',
 ], function(
-   BaseControl,
+   Base,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _value: new Date(2018, 0, 1)
    });

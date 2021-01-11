@@ -1,0 +1,69 @@
+<div style="display: flex; flex-flow: column nowrap; flex: 1 1 100%;">
+   <div class="controlDemo__input-row">
+      <Controls.toggle:DoubleSwitch
+         attr:class="controlsDemo_m"
+         bind:value="_isMasterVisible"
+         captions="{{['master on', 'master off']}}"
+      />
+
+      <Controls.dropdown:Input
+         keyProperty="key"
+         displayProperty="title"
+         attr:class="controlsDemo_m"
+         source="{{_viewModeSource}}"
+         bind:selectedKeys="_viewMode"
+         contentTemplate="Controls/dropdown:defaultContentTemplateWithIcon"
+      />
+   </div>
+
+   <Controls.newBrowser:Browser
+      source="{{_baseSource}}"
+      keyProperty="id"
+      nodeProperty="type"
+      parentProperty="parent"
+      hasChildrenProperty="hasChild"
+      propStorageId="catalogDemoBase"
+      bind:viewMode="_vm"
+      attr:style="flex: 1 1 100%;"
+   >
+      <!-- Задаем общую настройку master-колонки -->
+      <ws:master
+         width="{{300}}"
+         minWidth="{{200}}"
+         maxWidth="{{500}}"
+         filter="{{_masterFilter}}"
+         columns="{{_masterTableColumns}}"
+         visibility="{{_isMasterVisible ? 'visible' : 'hidden'}}"
+      >
+         <!-- Настраиваем отображение списка -->
+         <ws:treeGridView
+            expanderVisibility="hasChildren"
+         />
+      </ws:master>
+      <!-- Задаем общую настройку detail-колонки -->
+      <ws:detail
+         imageProperty="photo"
+         columns="{{_detailTableColumns}}"
+      >
+         <ws:itemContent>
+            {{itemContent.itemData.item.description}}
+         </ws:itemContent>
+         <ws:itemFooter>
+            <span style="color: grey">
+               {{ itemContent.itemData.item.rating || itemContent.itemData.item.year }}
+            </span>
+         </ws:itemFooter>
+      </ws:detail>
+   </Controls.newBrowser:Browser>
+
+   <svg class="clip-svg" width="0" height="0">
+      <defs>
+         <clipPath id="NavigationPanels-Accordion__image_ellipse" clipPathUnits="objectBoundingBox">
+            <path d="M0.5, 0 C 0.625,0 0.7891304347826086, 0.0391304347826087 0.875, 0.125 S 1, 0.375 1,
+                        0.5 S 0.9608695652173914, 0.7891304347826086 0.875,0.875 S 0.625, 1 0.5,
+                        1 S 0.21086956521739128, 0.9608695652173914 0.125, 0.875 S 0, 0.625 0, 0.5 S 0.0391304347826087,
+                        0.21086956521739128 0.125, 0.125 S 0.375,0 0.5,0 "/>
+         </clipPath>
+      </defs>
+   </svg>
+</div>

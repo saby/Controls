@@ -1,5 +1,5 @@
 define('Controls-demo/List/Tree/TreeWithPhoto', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Tree/TreeWithPhoto',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/resources/Images',
@@ -11,10 +11,10 @@ define('Controls-demo/List/Tree/TreeWithPhoto', [
    'wml!Controls-demo/List/Tree/TreeWithPhoto-itemTwoLevels',
    'wml!Controls-demo/List/Tree/TreeWithPhoto-contentTwoLevels',
    'Controls/treeGrid'
-], function(BaseControl, template, MemorySource, resImages) {
+], function(Base, template, MemorySource, resImages) {
    'use strict';
    var
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _viewSource: null,
          _viewSourceTwoLevels: null,

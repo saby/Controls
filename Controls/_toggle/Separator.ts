@@ -13,12 +13,12 @@ export interface ISeparatorOptions extends IControlOptions, ICheckableOptions {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  * 
  *
  * @class Controls/_toggle/Separator
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.
@@ -35,7 +35,7 @@ export interface ISeparatorOptions extends IControlOptions, ICheckableOptions {
  * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Demo-example</a>.
  *
  * @class Controls/_toggle/Separator
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.

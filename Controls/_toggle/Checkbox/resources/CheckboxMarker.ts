@@ -10,7 +10,7 @@ export interface ICheckboxMarkerOptions extends IControlOptions {
  * @remark
  * Контрол служит только для отображения галочки, он не реагирует на какие-либо события и сам не стреляет событиями
  * @class Controls/_toggle/CheckboxMarker
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.

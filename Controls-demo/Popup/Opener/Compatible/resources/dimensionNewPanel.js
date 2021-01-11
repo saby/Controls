@@ -1,12 +1,12 @@
 define('Controls-demo/Popup/Opener/Compatible/resources/dimensionNewPanel',
    [
-      'Core/Control',
+      'UI/Base',
       'tmpl!Controls-demo/Popup/Opener/Compatible/resources/dimensionNewPanel',
    ], function(
-      CoreControl,
+      Base,
       template
    ) {
-      var moduleClass = CoreControl.extend({
+      var moduleClass = Base.Control.extend({
          _template: template,
 
          constructor: function (cfg) {

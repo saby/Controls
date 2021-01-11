@@ -2,12 +2,12 @@ define([
    'Controls/_breadcrumbs/Utils',
    'Controls/_breadcrumbs/resources/FontLoadUtil',
    'Core/Deferred',
-   'Controls/Utils/getWidth'
+   'Controls/sizeUtils'
 ], function(
    BreadCrumbsUtil,
    FontLoadUtil,
    Deferred,
-   getWidthUtil
+   sizeUtil
 ) {
    describe('Controls.BreadCrumbs.Utils', function() {
       var data, sandbox;
@@ -18,7 +18,7 @@ define([
       const DOTS_WIDTH = 24;
 
       function stubWidthUtil() {
-         const stub = sandbox.stub(getWidthUtil, 'getWidth');
+         const stub = sandbox.stub(sizeUtil.getWidth, 'getWidth');
          stub.withArgs('<span class="controls-BreadCrumbsView__arrow icon-size icon-DayForwardBsLine"></span>').returns(ARROW_WIDTH);
          stub.withArgs('<div class="controls-BreadCrumbsView__title_min"></div>').returns(BREAD_CRUMB_MIN_WIDTH);
          stub.withArgs('<div class="controls-BreadCrumbsView__crumb"><span class="controls-BreadCrumbsView__arrow icon-size icon-DayForwardBsLine controls-BreadCrumbsView__arrow_enabled"></span><div class="controls-BreadCrumbsView__titleWrapper"><div class="controls-BreadCrumbsView__title controls-BreadCrumbsView__title_enabled">...</div></div></div>').returns(DOTS_WIDTH);

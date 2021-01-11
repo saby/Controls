@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import {SearchContextField, FilterContextField} from 'Controls/context';
 
 var __LayerBase = Control.extend({

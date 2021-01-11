@@ -1,12 +1,12 @@
 /**
  * Шаблон, который по умолчанию используется для отображения строки итогов в контроле {@link Controls/grid:View Таблица}.
  *  
- * @class Controls/grid:ResultsTemplate
+ * @class Controls/_grid/interface/ResultsTemplate
  * @author Авраменко А.С.
  * @see Controls/grid:View#resultsTemplate
  * @see Controls/grid:View#resultsPosition
  * @remark
- * Дополнительно о работе с шаблоном читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/grid/results/ здесь}.
+ * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ здесь}.
  * @example
  * <pre class="brush: html; highlight: [3,4,5,6,7,8,9]">
  * <Controls.grid:View>
@@ -26,7 +26,7 @@
 
 export default interface IResultsTemplateOptions {
    /**
-    * @name Controls/grid:ResultsTemplate#contentTemplate
+    * @name Controls/_grid/interface/ResultsTemplate#contentTemplate
     * @cfg {String|Function} Пользовательский шаблон, описывающий содержимое строки итогов. 
     * @default undefined
     */

@@ -1,0 +1,3 @@
+<Controls.suggestPopup:ListContainer tabsOptions="{{_tabsOptions}}" attr:class="controlsDemo_fixedWidth350">
+    <Controls.list:View displayProperty="title" keyProperty="id"/>
+</Controls.suggestPopup:ListContainer>

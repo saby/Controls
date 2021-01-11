@@ -1,4 +1,4 @@
-import { TItemKey } from "Controls/_display/interface";
+import { TItemKey } from 'Controls/_display/interface';
 
 export interface IRange {
     // стартовый индекс отображения

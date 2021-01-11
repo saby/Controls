@@ -1,13 +1,13 @@
 define('Controls-demo/Popup/PopupPage',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/PopupPage',
       'Controls/popup',
    ],
-   function (Control, template, popupLib) {
+   function (Base, template, popupLib) {
       'use strict';
 
-      var PopupPage = Control.extend({
+      var PopupPage = Base.Control.extend({
          _template: template,
 
          openDialog: function () {

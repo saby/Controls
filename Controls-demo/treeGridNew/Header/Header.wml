@@ -1,0 +1,28 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell demo-treeGrid__oneRowHeader">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Header/Default/Index' }}">
+            <a href="{{content.href}}">Однострочные тестовые заголовки</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Header.Default.Index/>
+    </div>
+
+    <div class="controlsDemo__cell demo-treeGrid__longHeader">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Header/LongHeader/Index' }}">
+            <a href="{{content.href}}">Длинные заголовки</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Header.LongHeader.Index/>
+    </div>
+
+    <div class="controlsDemo__cell demo-treeGrid__multiLevelHeader">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Header/MultiHeader/Index' }}">
+            <a href="{{content.href}}">Многоуровневый заголовок</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Header.MultiHeader.Index/>
+    </div>
+</div>

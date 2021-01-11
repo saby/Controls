@@ -14,10 +14,10 @@ interface IConfirmationTemplate extends IControlOptions {
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  * 
  * @class Controls/_popupConfirmation/Template
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.

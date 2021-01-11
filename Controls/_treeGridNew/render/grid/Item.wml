@@ -1,0 +1,108 @@
+<ws:template name="COLUMN">
+   <div if="{{ gridColumn.shouldDisplayMarker(marker) }}"
+        class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
+
+   <ws:if data="{{item.shouldDisplayExpanderBlock(gridColumn)}}">
+      <ws:if data="{{!withoutLevelPadding && item.getLevel() > 1}}">
+         <ws:for data="i in item.getLevel() - 1">
+            <div class="{{item.getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+         </ws:for>
+      </ws:if>
+      <ws:if data="{{!isSearchSeparator && item.shouldDisplayExpander(expanderIcon)}}">
+         <ws:partial template="{{item.getExpanderTemplate(expanderTemplate)}}"
+                     itemData="{{item}}"
+                     item="{{item}}"
+                     expanderIcon="{{item.getExpanderIcon(expanderIcon)}}"
+                     expanderSize="{{item.getExpanderSize(expanderSize)}}"/>
+      </ws:if>
+      <ws:else data="{{item.shouldDisplayExpanderPadding(expanderIcon, expanderSize)}}">
+         <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
+      </ws:else>
+   </ws:if>
+
+   <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
+               attr:key="{{ gridColumn.getInstanceId() }}"
+               gridColumn="{{ gridColumn }}"
+               column="{{ gridColumn.getColumnConfig() }}"
+               item="{{ (item || itemData) }}"
+               itemData="{{ gridColumn }}"
+               colData="{{ gridColumn }}"
+               theme="{{ theme }}"
+               style="{{ style }}"
+               cursor="{{ cursor }}"
+               itemActionsTemplate="{{ itemActionsTemplate }}"
+               itemActionsClass="{{ itemActionsClass }}"
+               templateHighlightOnHover="{{ templateHighlightOnHover }}"
+               tagTemplate="{{ gridColumn.TagCell ? tagTemplate }}"
+               tagStyle="{{ gridColumn.TagCell ? tagStyle }}">
+      <ws:ladderWrapper>
+         <ws:partial template="{{ladderWrapper.content}}"
+                     if="{{ (item || itemData).shouldDrawLadderContent(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"
+                     attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
+      </ws:ladderWrapper>
+      <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
+                          key="{{ (item || itemData).key }}"
+                          checkboxReadOnly="{{ checkboxReadOnly }}"/>
+      <ws:multiSelectTemplate>
+         <ws:partial template="{{multiSelectTpl}}">
+            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+         </ws:partial>
+      </ws:multiSelectTemplate>
+   </ws:partial>
+
+   <ws:if data="{{ gridColumn.shouldDisplayEditArrow() }}">
+      <ws:partial template="{{ editArrowTemplate }}" item="{{ item || itemData }}"/>
+   </ws:if>
+
+   <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
+      <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
+         <ws:partial template="{{ swipeTemplate }}"
+                     highlightOnHover="{{ highlightOnHover }}" />
+      </ws:if>
+      <ws:else data="{{ itemActionsPosition !== 'custom' }}">
+         <ws:partial template="{{ itemActionsTemplate }}"
+                     itemData="{{ item || itemData }}"
+                     itemActionsClass="{{ itemActionsClass }}"
+                     highlightOnHover="{{ highlightOnHover }}"/>
+      </ws:else>
+   </ws:if>
+</ws:template>
+
+
+<ws:if data="{{ item.isSticked() }}">
+   <Controls.scroll:Group>
+      <div class="{{ item.getItemClasses({
+           'highlightOnHover': highlightOnHover,
+           'theme': theme,
+           'style': style,
+           'cursor': cursor,
+           'clickable': clickable
+       }) }}">
+         <ws:for data="column in item.getColumns()">
+            <Controls.scroll:StickyHeader position="topbottom"
+                                          mode="stackable"
+                                          shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
+                                          attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+                                          attr:style="{{ column.getWrapperStyles(containerSize) }}">
+               <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
+            </Controls.scroll:StickyHeader>
+         </ws:for>
+      </div>
+   </Controls.scroll:Group>
+</ws:if>
+<ws:else>
+   <div class="{{ item.getItemClasses({
+           'highlightOnHover': highlightOnHover,
+           'theme': theme,
+           'style': style,
+           'cursor': cursor,
+           'clickable': clickable
+       }) }}">
+      <ws:for data="column in item.getColumns()">
+         <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+              style="{{ column.getWrapperStyles() }}">
+            <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
+         </div>
+      </ws:for>
+   </div>
+</ws:else>

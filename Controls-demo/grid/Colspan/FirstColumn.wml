@@ -1,0 +1,16 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate" scope="{{_options}}">
+    <ws:contentTemplate>
+        <ws:if data="{{ item.item.type === true }}">
+            <div>{{ item.item.name }}</div>
+        </ws:if>
+        <ws:else>
+            <div>
+                <div>
+                    <span>{{ item.item.name }}</span>
+                    <span>{{ item.item.city }}</span>
+                </div>
+                <div>{{ item.item.data.message }}</div>
+            </div>
+        </ws:else>
+    </ws:contentTemplate>
+</ws:partial>

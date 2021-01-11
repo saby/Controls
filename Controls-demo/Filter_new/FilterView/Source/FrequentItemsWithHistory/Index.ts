@@ -11,10 +11,10 @@ export default class extends Control {
     protected _beforeMount(): void {
         this._source = [{
             name: 'department1',
-            value: ['1'],
+            value: ['3'],
             resetValue: [],
             viewMode: 'frequent',
-            textValue: 'Платформа',
+            textValue: '',
             editorOptions: {
                 keyProperty: 'id',
                 emptyText: 'Все подразделения',
@@ -28,6 +28,10 @@ export default class extends Control {
                     {
                         id: '2',
                         title: 'ЭДО'
+                    },
+                    {
+                        id: '3',
+                        title: 'Филиал "Григоровский" дочернего предприятия "Агрофирма Шахтер" общества с ограниченной ответственностью "Шахта им. Засядько"'
                     }]
                 })
             }

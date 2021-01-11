@@ -27,7 +27,7 @@ type ISuggest = ISuggest & {
        * @example
        * myModule.js
        * <pre>
-       *    define('myModule', ['Core/Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
+       *    define('myModule', ['UI/Base:Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
        *       return Control.extend({
        *          _template: template,
        *          _suggestValue: null,
@@ -66,7 +66,7 @@ type ISuggest = ISuggest & {
        * @example
        * myModule.js
        * <pre>
-       *    define('myModule', ['Core/Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
+       *    define('myModule', ['UI/Base:Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
        *       return Control.extend({
        *          _template: template,
        *          _suggestValue: null,

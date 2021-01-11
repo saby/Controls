@@ -1,8 +1,8 @@
 define('Controls-demo/List/DocWI/BaseTreeGrid', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/DocWI/resources/BaseTreeGrid',
    'Types/source'
-], function (Control, template, sourceLib) {
+], function (Base, template, sourceLib) {
    'use strict';
 
    var srcData = [
@@ -74,7 +74,7 @@ define('Controls-demo/List/DocWI/BaseTreeGrid', [
       }
    ];
 
-   var Module = Control.extend(
+   var Module = Base.Control.extend(
       {
          _template: template,
          _viewSource: null,

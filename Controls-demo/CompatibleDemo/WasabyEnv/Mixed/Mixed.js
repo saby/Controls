@@ -1,13 +1,13 @@
 define('Controls-demo/CompatibleDemo/WasabyEnv/Mixed/Mixed',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/Mixed/Mixed',
       'Lib/Control/LayerCompatible/LayerCompatible',
    ],
-   function(Control, template, CompatibleLayer) {
+   function(Base, template, CompatibleLayer) {
       'use strict';
 
-      var Mixed = Control.extend({
+      var Mixed = Base.Control.extend({
          _template: template,
          _compatibleReady: false,
          _text: null,

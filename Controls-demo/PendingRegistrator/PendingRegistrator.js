@@ -1,10 +1,10 @@
 define('Controls-demo/PendingRegistrator/PendingRegistrator', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/PendingRegistrator/PendingRegistrator',
-], function(Control, tmpl) {
+], function(Base, tmpl) {
    'use strict';
 
-   var module = Control.extend({
+   var module = Base.Control.extend({
       _template: tmpl
    });
 

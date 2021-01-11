@@ -1,4 +1,4 @@
-import * as InputRender from 'Controls/_lookup/BaseLookupView/InputRender';
+import InputRender from 'Controls/_lookup/BaseLookupView/InputRender';
 import {assert} from 'chai';
 
 function getInputRender(cfg: object = {}) {

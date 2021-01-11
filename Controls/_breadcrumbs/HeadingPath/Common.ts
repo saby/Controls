@@ -1,5 +1,5 @@
 import {Model} from 'Types/entity';
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 
 function getRootModel(root, keyProperty) {
    let rawData = {};

@@ -1,16 +1,16 @@
 define('Controls-demo/Input/Lookup/Collection',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Input/Lookup/Collection',
       'Types/collection',
       'Types/source',
       'Types/entity',
 
    ],
-   function(Control, template, collection) {
+   function(Base, template, collection) {
 
       'use strict';
-      var Collection = Control.extend({
+      var Collection = Base.Control.extend({
          _template: template,
          _sourceMulti: null,
          _sourceSingle: null,

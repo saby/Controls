@@ -23,7 +23,7 @@ type TItems = RecordSet<TItem>;
 
 /**
  * Интерфейс опций контрола {@link Controls/toolbars:BoxView}.
- * @interface Controls/_toolbars/IToolbarBoxOptions
+ * @interface Controls/_toolbars/IToolbarBox
  * @author Красильников А.С.
  * @public
  */
@@ -36,8 +36,7 @@ export interface IToolbarBoxOptions extends IControlOptions, IHierarchyOptions, 
  *
  * @class Controls/_toolbars/BoxView
  * @extends UI/Base:Control
- * @mixes Controls/interface/IItemTemplate
- * @mixes Controls/_toolbars/IToolbarSource
+ * @implements Controls/interface/IItemTemplate
  * @demo Controls-demo/Toolbar/BoxView/Index
  *
  * @author Красильников А.С.

@@ -2,9 +2,10 @@ import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
 
 import { Model } from 'Types/entity';
 import { ISelectionObject as ISelection } from 'Controls/interface';
-import { Controller as SourceController } from 'Controls/source';
 import ISelectionStrategy from './ISelectionStrategy';
 import { IEntryPathItem, ITreeSelectionStrategyOptions, TKeys } from '../interface';
+// нет замены
+// tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
@@ -14,7 +15,7 @@ const LEAF = null;
 
 /**
  * Стратегия выбора для иерархического списка.
- * @class Controls/_multiselection/SelectionStrategy/Tree
+ * @class Controls/_multiselection/SelectionStrategy/TreeSelectionStrategy
  *
  * @public
  * @author Панихин К.А.
@@ -22,11 +23,13 @@ const LEAF = null;
 export class TreeSelectionStrategy implements ISelectionStrategy {
    private _selectAncestors: boolean;
    private _selectDescendants: boolean;
+   // удаляем по задаче https://online.sbis.ru/opendoc.html?guid=51cfa21a-f2ca-436d-b600-da3b22ccb7f2
+   // tslint:disable-next-line:ban-ts-ignore
    // @ts-ignore
-   private _nodesSourceControllers: Map<string, SourceController>;
    private _rootId: CrudEntityKey;
    private _model: Tree<Model, TreeItem<Model>>;
    private _entryPath: IEntryPathItem[];
+   private _selectionType: 'node'|'leaf'|'all' = 'all';
 
    constructor(options: ITreeSelectionStrategyOptions) {
       this.update(options);
@@ -35,10 +38,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
    update(options: ITreeSelectionStrategyOptions): void {
       this._selectAncestors = options.selectAncestors;
       this._selectDescendants = options.selectDescendants;
-      this._nodesSourceControllers = options.nodesSourceControllers;
       this._rootId = options.rootId;
       this._model = options.model;
       this._entryPath = options.entryPath;
+      this._selectionType = options.selectionType;
    }
 
    setEntryPath(entryPath: IEntryPathItem[]): void {
@@ -47,8 +50,12 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
    select(selection: ISelection, key: CrudEntityKey): ISelection {
       const item = this._getItem(key);
-
       const cloneSelection = clone(selection);
+
+      if (!this._canBeSelected(item)) {
+         return cloneSelection;
+      }
+
       if (!item || this._isNode(item)) {
          this._selectNode(cloneSelection, item);
       } else {
@@ -60,8 +67,13 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
    unselect(selection: ISelection, key: CrudEntityKey, searchValue?: string): ISelection {
       const item = this._getItem(key);
-
       const cloneSelection = clone(selection);
+
+      // Если не найден item, то считаем что он не загружен и будет работать соответствующая логика
+      if (item && !this._canBeSelected(item)) {
+         return cloneSelection;
+      }
+
       if (!item) {
          ArraySimpleValuesUtil.removeSubArray(cloneSelection.selected, [key]);
          if (this._isAllSelectedInRoot(selection)) {
@@ -191,8 +203,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          const key = this._getKey(item);
          const parentId = this._getKey(item.getParent());
          const isNode = this._isNode(item);
-         let isSelected = !selection.excluded.includes(key) && (selection.selected.includes(key) ||
-             this._isAllSelected(selection, parentId)) || isNode && this._isAllSelected(selection, key);
+
+         let isSelected = this._canBeSelected(item)
+            ? !selection.excluded.includes(key) && (selection.selected.includes(key) || this._isAllSelected(selection, parentId)) || isNode && this._isAllSelected(selection, key)
+            : selection.selected.includes(key) || this._isAllSelected(selection, parentId) && !selection.excluded.includes(key) && this._canBeSelectedBySelectionType(item);
 
          if ((this._selectAncestors || searchValue) && isNode) {
             isSelected = this._getStateNode(item, isSelected, {
@@ -242,9 +256,8 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
          for (let index = 0; index < selectedNodes.length; index++) {
             const nodeKey = selectedNodes[index];
-            const nodeSourceController = this._nodesSourceControllers?.get(nodeKey as string);
             let countItemsSelectedInNode;
-            if (nodeSourceController?.hasMoreData('down')) {
+            if (this._model.getHasMoreStorage()[nodeKey]) {
                 countItemsSelectedInNode = null;
             } else {
                const countChildes = this._selectDescendants || this._isAllSelectedInRoot(selection);
@@ -266,7 +279,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return countItemsSelected;
    }
 
-   isAllSelected(selection: ISelection, hasMoreData: boolean, itemsCount: number, byEveryItem: boolean = true): boolean {
+   isAllSelected(selection: ISelection,
+                 hasMoreData: boolean,
+                 itemsCount: number,
+                 byEveryItem: boolean = true): boolean {
       let isAllSelected;
 
       if (byEveryItem) {
@@ -296,14 +312,15 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
    private _unselectAllInRoot(selection: ISelection): ISelection {
       const rootInExcluded = selection.excluded.includes(this._rootId);
 
-      selection = this.unselect(selection, this._rootId);
-      this._removeChildes(selection, this._getRoot());
+      let resSelection = selection;
+      resSelection = this.unselect(resSelection, this._rootId);
+      this._removeChildes(resSelection, this._getRoot());
 
       if (rootInExcluded) {
-         selection.excluded = ArraySimpleValuesUtil.removeSubArray(selection.excluded, [this._rootId]);
+         resSelection.excluded = ArraySimpleValuesUtil.removeSubArray(resSelection.excluded, [this._rootId]);
       }
 
-      return selection;
+      return resSelection;
    }
 
    private _isAllSelected(selection: ISelection, nodeId: CrudEntityKey): boolean {
@@ -616,8 +633,10 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       }
 
       let contents = item.getContents();
+      // tslint:disable-next-line:ban-ts-ignore
       // @ts-ignore
       if (item instanceof BreadcrumbsItem || item.breadCrumbs) {
+         // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
       }
 
@@ -651,5 +670,15 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
       const parent = item.getParent();
       return this._getKey(parent);
+   }
+
+   private _canBeSelected(item: TreeItem<Model>): boolean {
+      const canBeSelectedBySelectionType = this._canBeSelectedBySelectionType(item);
+      return canBeSelectedBySelectionType && !item.isReadonlyCheckbox();
+   }
+
+   private _canBeSelectedBySelectionType(item: TreeItem<Model>): boolean {
+      const isNode = this._isNode(item);
+      return item.isReadonlyCheckbox() || this._selectionType === 'all' || this._selectionType === 'node' && isNode || this._selectionType === 'leaf' && !isNode;
    }
 }

@@ -1,10 +1,10 @@
 define('Controls-demo/operations/ListWithOperationsPanel', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/operations/ListWithOperationsPanel'
-], function(Control, template) {
+], function(Base, template) {
    'use strict';
 
-   return Control.extend({
+   return Base.Control.extend({
       _template: template,
       _expanded: false,
       _operationsPanelVisible: false,

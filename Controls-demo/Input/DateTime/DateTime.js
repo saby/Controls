@@ -1,13 +1,13 @@
 define('Controls-demo/Input/DateTime/DateTime', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/DateTime/DateTime',
 ], function(
-   BaseControl,
+   Base,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _date: new Date(2017, 0, 1, 12, 15, 30, 123),
       _startTime: new Date(0, 0, 0, 10, 15, 0, 0),

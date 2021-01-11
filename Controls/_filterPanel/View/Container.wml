@@ -1,0 +1,3 @@
+<ws:partial template="{{_options.content}}"
+            source="{{_options.filterButtonItems}}"
+            on:sourceChanged="_sourceChanged()"/>

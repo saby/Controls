@@ -9,5 +9,6 @@ export interface IEditableListOption {
         autoAdd?: boolean;
         autoAddByApplyButton?: boolean;
         toolbarVisibility?: boolean;
-    }
+        backgroundStyle?: string;
+    };
 }

@@ -1,11 +1,11 @@
 define('Controls-demo/Search/SearchVDom', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Search/SearchVDom',
    'Controls/search'
-], function (Control, template) {
+], function (Base, template) {
    'use strict';
 
-   var ModuleClass = Control.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _value: '',

@@ -11,10 +11,10 @@
     <div class="controlsDemo__cell controlsDemo__mr4">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/list_new/Marker/OnActivated/Index' }}">
+                                 app="{{ 'Controls-demo/list_new/Marker/Base/Index' }}">
             <a href="{{content.href}}">Маркер появляется при активации спискса</a>
         </Router.router:Reference>
-        <Controls-demo.list_new.Marker.OnActivated.Index/>
+        <Controls-demo.list_new.Marker.Base.Index/>
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">

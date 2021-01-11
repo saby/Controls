@@ -1,14 +1,20 @@
 import {TemplateFunction} from 'UI/Base';
 import {IMenuBaseOptions} from './IMenuBase';
-import {ISourceOptions, INavigationOptions, IFilterOptions, ISelectorDialogOptions} from 'Controls/interface';
+import {
+    ISourceOptions,
+    INavigationOptions,
+    IFilterOptions,
+    ISelectorDialogOptions,
+    INavigationSourceConfig
+} from 'Controls/interface';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
 import {Stack} from 'Controls/popup';
 import {NewSourceController} from 'Controls/dataSource';
 
 export type TKey = string|number|null;
 
-export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, INavigationOptions<unknown>,
-        IFilterOptions, ISelectorDialogOptions {
+export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions,
+    INavigationOptions<INavigationSourceConfig>, IFilterOptions, ISelectorDialogOptions {
     nodeFooterTemplate?: TemplateFunction;
     root?: TKey;
     selectorOpener?: Stack;
@@ -69,20 +75,6 @@ export default interface IMenuControl {
  */
 
 /**
- * @name Controls/_menu/interface/IMenuControl#groupProperty
- * @cfg {String} Имя свойства, содержащего идентификатор группы элемента списка.
- * @demo Controls-demo/Menu/Control/GroupProperty/Index
- * @see groupTemplate
- */
-
-/**
- * @name Controls/_menu/interface/IMenuControl#groupTemplate
- * @cfg {String|Function} Устанавливает шаблон отображения заголовка группы.
- * @demo Controls-demo/Menu/Control/GroupProperty/GroupTemplate/Index
- * @see groupProperty
- */
-
-/**
  * @typedef {Object} ItemAction
  * @property {String} id Идентификатор опции записи.
  * @property {String} title Название опции записи.
@@ -94,9 +86,9 @@ export default interface IMenuControl {
  * @property {String} style Значение свойства преобразуется в CSS-класс вида "controls-itemActionsV__action_style_<значение_свойства>".
  * Он будет установлен для html-контейнера самой опции записи, и свойства класса будут применены как к тексту (см. title), так и к иконке (см. icon).
  * @property {String} iconStyle Стиль иконки {@link Controls/_interface/IIconStyle}.
- * Каждому значению свойства соответствует стиль, который определяется {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темой оформления} приложения.
+ * Каждому значению свойства соответствует стиль, который определяется {@link /doc/platform/developmentapl/interface-development/themes/ темой оформления} приложения.
  * @property {Function} handler Обработчик опции записи.
- * См. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/handler/ пример обработчика}.
+ * См. {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/handler/ пример обработчика}.
  */
 
 /**
@@ -115,4 +107,11 @@ export default interface IMenuControl {
  * @name Controls/_menu/interface/IMenuControl#nodeProperty
  * @cfg {String} Имя свойства, содержащего информацию о типе элемента (лист, узел).
  * @demo Controls-demo/Menu/Control/ParentProperty/Index
+ */
+
+/**
+ * @name Controls/_menu/interface/IMenuControl#additionalProperty
+ * @cfg {String} Имя свойства, содержащего информацию о дополнительном пункте выпадающего меню.
+ * Подробное описание <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/item-config/#additional">здесь</a>.
+ * @demo Controls-demo/dropdown_new/Button/AdditionalProperty/Index
  */

@@ -1,31 +1,6 @@
 /**
  * Библиотека контролов, открывающих всплывающие окна. Существуют окна нескольких видов, которые различаются внешним видом и алгоритмом позиционирования.
  * @library Controls/popup
- * @includes Confirmation Controls/_popup/Opener/Confirmation
- * @includes Dialog Controls/_popup/Opener/Dialog
- * @includes Stack Controls/popup:Stack
- * @includes Edit Controls/_popup/Opener/Edit
- * @includes Notification Controls/_popup/Opener/Notification
- * @includes Sticky Controls/_popup/Opener/Sticky
- * @includes InfoboxTarget Controls/_popup/InfoBox
- * @includes PreviewerTarget Controls/_popup/Previewer
- * @includes InfoboxButton Controls/_popup/InfoBox/InfoboxButton
- * @includes EditContainer Controls/_popup/Opener/Edit/Container
- * @includes IStackPopupOptions Controls/_popup/interface/IStack
- * @includes IStickyPopupOptions Controls/_popup/interface/ISticky
- * @includes IDialogPopupOptions Controls/_popup/interface/IDialog
- * @includes IConfirmationOptions Controls/_popup/interface/IConfirmation
- * @includes INotificationPopupOptions Controls/_popup/interface/INotification
- * @includes IEditOpener Controls/_popup/interface/IEdit
- * @includes IBaseOpener Controls/_popup/interface/IBaseOpener
- * @includes IPreviewerOptions Controls/_popup/interface/IPreviewer
- * @includes IInfoBoxOptions Controls/_popup/interface/IInfoBox
- * @includes StickyOpener Controls/_popup/PopupHelper/Sticky
- * @includes StackOpener Controls/_popup/PopupHelper/Stack
- * @includes DialogOpener Controls/_popup/PopupHelper/Dialog
- * @includes NotificationOpener Controls/_popup/PopupHelper/Notification
- * @includes MouseEventHelper Controls/_popup/fastOpenUtils/MouseEventHelper
- * @includes FastOpen Controls/_popup/fastOpenUtils/FastOpen
  * @public
  * @author Крайнов Д.О.
  */
@@ -33,36 +8,8 @@
 /*
  * popup library
  * @library Controls/popup
- * @includes Confirmation Controls/_popup/Opener/Confirmation
- * @includes Dialog Controls/_popup/Opener/Dialog
- * @includes Stack Controls/_popup/Opener/Stack
- * @includes Edit Controls/_popup/Opener/Edit
- * @includes Notification Controls/_popup/Opener/Notification
- * @includes Sticky Controls/_popup/Opener/Sticky
- * @includes InfoboxTarget Controls/_popup/InfoBox
- * @includes PreviewerTarget Controls/_popup/Previewer
- * @includes InfoboxButton Controls/_popup/InfoBox/InfoboxButton
- * @includes EditContainer Controls/_popup/Opener/Edit/Container
- * @includes IStackPopupOptions Controls/_popup/interface/IStack
- * @includes IStickyPopupOptions Controls/_popup/interface/ISticky
- * @includes IStickyPopupOptions Controls/_popup/interface/IDialog
- * @includes IConfirmationOptions Controls/_popup/interface/IConfirmation
- * @includes INotificationPopupOptions Controls/_popup/interface/INotification
- * @includes IEditOpener Controls/_popup/interface/IEdit
- * @includes IBaseOpener Controls/_popup/interface/IBaseOpener
- * @includes IPreviewerOptions Controls/_popup/interface/IPreviewer
- * @includes IInfoBoxOptions Controls/_popup/interface/IInfoBox
- * @includes IInfoBoxPopupOptions Controls/_popup/interface/IInfoBoxOpener
- * @includes MouseEventHelper Controls/_popup/fastOpenUtils/MouseEventHelper
- * @includes FastOpen Controls/_popup/fastOpenUtils/FastOpen
  * @public
  * @author Крайнов Д.О.
- */
-
-/*
- * @includes Global Controls/_popup/Global
- * @includes GlobalTemplate wml!Controls/_popup/Global/Global
- * @includes PreviewerTemplate wml!Controls/_popup/Global/Global
  */
 
 export {default as ManagerClass} from './_popup/Manager';
@@ -94,19 +41,21 @@ export {default as NotificationOpener} from './_popup/PopupHelper/Notification';
 
 export {default as IPopup, IPopupOptions, IPopupItem, IPopupSizes, IPopupPosition, IEventHandlers, IPopupItemInfo} from './_popup/interface/IPopup';
 export {IBasePopupOptions} from './_popup/interface/IBaseOpener';
-export {IStackPopupOptions} from './_popup/interface/IStack';
-export {IStickyPopupOptions, IStickyPosition, IStickyPositionOffset} from './_popup/interface/ISticky';
-export {IDialogPopupOptions} from './_popup/interface/IDialog';
-export {IConfirmationOptions} from './_popup/interface/IConfirmation';
-export {INotificationPopupOptions} from './_popup/interface/INotification';
-export {IPreviewerOptions} from './_popup/interface/IPreviewer';
-export {IInfoBoxOptions} from './_popup/interface/IInfoBox';
-export {IInfoBoxPopupOptions} from './_popup/interface/IInfoBoxOpener';
+export {IStackPopupOptions, IStackOpener} from './_popup/interface/IStack';
+export {IStickyPopupOptions, IStickyPosition, IStickyPositionOffset, IStickyOpener} from './_popup/interface/ISticky';
+export {IDialogPopupOptions, IDialogOpener} from './_popup/interface/IDialog';
+export {IConfirmationOptions, IConfirmationOpener} from './_popup/interface/IConfirmation';
+export {INotificationPopupOptions, INotificationOpener} from './_popup/interface/INotification';
+export {IPreviewerOptions, IPreviewer} from './_popup/interface/IPreviewer';
+export {IInfoBoxOptions, IInfoBox} from './_popup/interface/IInfoBox';
+export {IInfoBoxPopupOptions, IInfoBoxOpener} from './_popup/interface/IInfoBoxOpener';
 
 export {isVDOMTemplate} from './_popup/utils/isVdomTemplate';
 
 export {isMouseEvent, MouseUp, MouseButtons} from './_popup/fastOpenUtils/MouseEventHelper';
 export {isLeftMouseButton, DependencyTimer} from './_popup/fastOpenUtils/FastOpen';
+
+export {IEditOptions} from './_popup/interface/IEdit';
 
 // TODO Compatible
 import GlobalTemplate = require('wml!Controls/_popup/Global/Global');

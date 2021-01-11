@@ -1,14 +1,14 @@
 define('Controls-demo/Date/MonthRelatedSelection', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Date/MonthRelatedSelection',
    'Controls/calendar'
 ], function(
-   BaseControl,
+   Base,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _month1: new Date(2017, 0, 1),

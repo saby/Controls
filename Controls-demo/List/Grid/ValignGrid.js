@@ -1,5 +1,5 @@
 define('Controls-demo/List/Grid/ValignGrid', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Grid/ValignGrid',
    'Types/source',
    'wml!Controls-demo/List/Grid/DemoItem',
@@ -7,7 +7,7 @@ define('Controls-demo/List/Grid/ValignGrid', [
    'wml!Controls-demo/List/Grid/DemoName',
    'Controls/scroll',
    'Controls/grid',
-], function(BaseControl, template, source) {
+], function(Base, template, source) {
    'use strict';
    var
       fullColumns = [
@@ -48,7 +48,7 @@ define('Controls-demo/List/Grid/ValignGrid', [
          },
       ]
    },
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _viewSource: null,
          _columnSource: null,

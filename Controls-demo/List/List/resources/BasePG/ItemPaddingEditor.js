@@ -1,16 +1,16 @@
 define('Controls-demo/List/List/resources/BasePG/ItemPaddingEditor', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/List/resources/BasePG/ItemPaddingEditor',
    'Types/source'
 ], function(
-   Control,
+   Base,
    template,
    TSource
 ) {
    'use strict';
 
    var
-      EditableConfigEditor = Control.extend({
+      EditableConfigEditor = Base.Control.extend({
          _template: template,
          _source: null,
          _left: null,

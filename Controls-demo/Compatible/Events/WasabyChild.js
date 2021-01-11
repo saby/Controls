@@ -1,10 +1,10 @@
 define('Controls-demo/Compatible/Events/WasabyChild', [
-    'Core/Control',
+    'UI/Base',
     'wml!Controls-demo/Compatible/Events/WasabyChild'
- ], function(Control, template) {
+ ], function(Base, template) {
     'use strict';
  
-    var ModuleClass = Control.extend(
+    var ModuleClass = Base.Control.extend(
        {
           _template: template,
           handler: function(e, key) {

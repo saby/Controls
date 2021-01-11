@@ -11,8 +11,9 @@ export interface IDigitButtonsOptions extends IControlOptions {
 }
 
 const SUR_STANDARD_ELEMENTS_STEP = 3;
+const MAX_NEIGHBORS_COUNT = 3;
 const SUR_NUMBERS_ELEMENTS_STEP = 1;
-const DOTS = '. . .'
+const DOTS = '. . .';
 
 type DigitElem = number | '. . .';
 
@@ -26,12 +27,14 @@ class DigitButtons extends Control<IDigitButtonsOptions> {
     _digits: DigitElem[] | null = null;
 
     protected _beforeMount(newOptions: IDigitButtonsOptions): void {
-        this._digits = DigitButtons._getDrawnDigits(newOptions.count, newOptions.selectedKey, (newOptions.mode === 'numbers' ? 'numbers' : 'standard'));
+        this._digits = DigitButtons._getDrawnDigits(newOptions.count, newOptions.selectedKey,
+            (newOptions.mode === 'numbers' ? 'numbers' : 'standard'));
     }
 
     protected _beforeUpdate(newOptions: IDigitButtonsOptions): void {
         if (newOptions.count !== this._options.count || newOptions.selectedKey !== this._options.selectedKey) {
-            this._digits = DigitButtons._getDrawnDigits(newOptions.count, newOptions.selectedKey, (newOptions.mode === 'numbers' ? 'numbers' : 'standard'));
+            this._digits = DigitButtons._getDrawnDigits(newOptions.count, newOptions.selectedKey,
+                (newOptions.mode === 'numbers' ? 'numbers' : 'standard'));
         }
     }
 
@@ -42,7 +45,8 @@ class DigitButtons extends Control<IDigitButtonsOptions> {
     static _theme: string[] = ['Controls/paging'];
 
     // получаем граничные цифры, окружающие выбранный элемент, по условия +-3 в обе стороны (4 5 6 [7] 8 9 10)
-    private static _getSurroundElemens(digitsCount: number, currentDigit: number, mode: string = 'standard'): ISurroundElements {
+    private static _getSurroundElemens(digitsCount: number, currentDigit: number,
+                                       mode: string = 'standard'): ISurroundElements {
         let firstElem: number;
         let lastElem: number;
         if (mode === 'standard') {
@@ -86,11 +90,11 @@ class DigitButtons extends Control<IDigitButtonsOptions> {
                     drawnDigits.push(1);
 
                     // если левая граничная цифра больше 3, надо рисовать многоточие (1 ... 4 5 6 [7])
-                    if (surElements.first > 3) {
+                    if (surElements.first > MAX_NEIGHBORS_COUNT) {
                         drawnDigits.push(DOTS);
                         // а если равно шагу, то надо рисовать предыдущий по правилу исключения,
                         // что многоточием не может заменяться одна цифра
-                    } else if (surElements.first === 3) {
+                    } else if (surElements.first === MAX_NEIGHBORS_COUNT) {
                         drawnDigits.push(2);
                     }
                 } else {

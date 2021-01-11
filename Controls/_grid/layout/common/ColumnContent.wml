@@ -1,20 +1,45 @@
 <ws:template name="DEFAULT_CONTENT">
-    <ws:if data="{{itemData.needSearchHighlight}}">
+    <ws:if data="{{itemData.needSearchHighlight && !itemData.hasCellContentRender(itemData.column)}}">
         <Controls.decorator:Highlight highlightedValue="{{itemData.searchValue}}">
             <ws:value>
                 <ws:String>{{itemData.item[itemData.column.displayProperty]}}</ws:String>
             </ws:value>
         </Controls.decorator:Highlight>
     </ws:if>
+    <ws:else data="{{itemData.hasCellContentRender(itemData.column)}}">
+        <Controls.Container.Async templateName="{{itemData.getCellContentRender(itemData.column)}}">
+            <ws:partial template="{{content.resolvedTemplate}}"
+                        scope="{{itemData.column}}"
+                        value="{{itemData.item[itemData.column.displayProperty]}}"/>
+        </Controls.Container.Async>
+    </ws:else>
     <ws:else>
         {{itemData.item[itemData.column.displayProperty]}}
     </ws:else>
 </ws:template>
 
+<ws:template name="DEFAULT_CONTENT_WRAPPER">
+    <ws:if data="{{itemData.column.tooltip}}">
+        <Controls.Container.Async templateName="Controls/popup:InfoboxTarget">
+            <ws:partial template="{{content.resolvedTemplate}}">
+                <ws:content>
+                    <ws:partial template="DEFAULT_CONTENT"/>
+                </ws:content>
+                <ws:template>
+                    <div>{{itemData.column.tooltip}}</div>
+                </ws:template>
+            </ws:partial>
+        </Controls.Container.Async>
+    </ws:if>
+    <ws:else>
+        <ws:partial template="DEFAULT_CONTENT"/>
+    </ws:else>
+</ws:template>
+
 <div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_default_theme-{{_options.theme}}
             {{itemData.classList.padding.getAll()}} {{ itemData.classList.columnContent }} controls-Grid__row-cell_cursor-{{cursor || 'pointer'}}
-            {{backgroundColorStyle ? 'controls-Grid__row-cell__content_background_' + backgroundColorStyle + '_theme-' + _options.theme}}
-            {{itemData.hoverBackgroundStyle ? 'controls-Grid__item_background-hover_' + itemData.hoverBackgroundStyle  + '_theme-' + _options.theme}}">
+            {{(itemData.column.backgroundColorStyle || backgroundColorStyle) ? 'controls-Grid__row-cell__content_background_' + (itemData.column.backgroundColorStyle || backgroundColorStyle) + '_theme-' + _options.theme}}
+            {{(itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)  ? 'controls-Grid__item_background-hover_' + (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)  + '_theme-' + _options.theme}}">
     <ws:if data="{{contentTemplate}}">
         <ws:partial
                 template="{{contentTemplate}}"
@@ -26,12 +51,12 @@
     </ws:if>
     <ws:else>
         <ws:if data="{{itemData.column.textOverflow}}">
-            <div class="controls-Grid__cell_{{itemData.column.textOverflow}} {{itemData.showEditArrow ? ('controls-Grid__editArrow-cellContent_theme-' + _options.theme + ' controls-Grid__editArrow-overflow-' + (itemData.column.textOverflow ? itemData.column.textOverflow + '_theme-' +_options.theme))}}" title="{{itemData.column.template ? '' : itemData.item[itemData.column.displayProperty] }}">
-                <ws:partial template="DEFAULT_CONTENT"/>
+            <div class="controls-Grid__cell_{{itemData.column.textOverflow}} {{itemData.showEditArrow ? ('controls-Grid__editArrow-cellContent_theme-' + _options.theme + ' controls-Grid__editArrow-overflow-' + (itemData.column.textOverflow ? itemData.column.textOverflow + '_theme-' +_options.theme))}}" title="{{itemData.column.template || itemData.column.tooltip ? '' : itemData.item[itemData.column.displayProperty] }}">
+                <ws:partial template="DEFAULT_CONTENT_WRAPPER"/>
             </div>
         </ws:if>
         <ws:else>
-            <ws:partial template="DEFAULT_CONTENT" attr:class="{{itemData.showEditArrow ? 'controls-Grid__editArrow-cellContent_theme-' + _options.theme}}"></ws:partial>
+            <ws:partial template="DEFAULT_CONTENT_WRAPPER" attr:class="{{itemData.showEditArrow ? 'controls-Grid__editArrow-cellContent_theme-' + _options.theme}}"></ws:partial>
         </ws:else>
         <ws:if data="{{itemData.showEditArrow && itemData.columnIndex === 0}}">
             <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>

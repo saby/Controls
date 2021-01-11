@@ -1,9 +1,9 @@
 define('Controls-demo/progress/Barfortest', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/progress/Barfortest',
-], function(Control, template) {
+], function(Base, template) {
 
-   var Index = Control.extend(
+   var Index = Base.Control.extend(
       {
          _template: template
 

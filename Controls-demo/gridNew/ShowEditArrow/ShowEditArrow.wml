@@ -1,0 +1,7 @@
+<div class="controlsDemo__wrapper">
+    <Controls.gridNew:View
+            keyProperty="id"
+            showEditArrow="{{true}}"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"/>
+</div>

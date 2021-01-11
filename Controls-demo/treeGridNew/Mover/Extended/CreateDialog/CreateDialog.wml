@@ -1,0 +1,9 @@
+<Controls.popupTemplate:Dialog headingCaption="Создание раздела:">
+    <ws:bodyContentTemplate>
+        <div style="padding: 12px">
+            <div>Укажите название раздела:</div>
+            <Controls.input:Text bind:value="_folderName"/>
+            <Controls.buttons:Button caption="Создать" icon="icon-Add" on:click="_createButtonClick()" viewMode="linkButton"/>
+        </div>
+    </ws:bodyContentTemplate>
+</Controls.popupTemplate:Dialog>

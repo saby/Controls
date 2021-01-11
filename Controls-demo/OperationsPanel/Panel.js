@@ -1,9 +1,9 @@
 define('Controls-demo/OperationsPanel/Panel', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/OperationsPanel/Panel/Panel',
    'wml!Controls-demo/OperationsPanel/Panel/RightTemplate',
    'Types/source',
-], function(Control, template, RightTemplate, source) {
+], function(Base, template, RightTemplate, source) {
    'use strict';
    var PANEL_ITEMS_FIRST = [{
       id: 'remove',
@@ -78,7 +78,7 @@ define('Controls-demo/OperationsPanel/Panel', [
       id: 2,
       title: '6 items'
    }];
-   var ModuleClass = Control.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _expanded: false,
       _eventName: '',

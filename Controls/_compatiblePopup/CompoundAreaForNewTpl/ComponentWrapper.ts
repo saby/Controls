@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_compatiblePopup/CompoundAreaForNewTpl/ComponentWrapper/ComponentWrapper');
 
 interface ITemplateOptions {

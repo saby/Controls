@@ -1,13 +1,13 @@
 define('Controls-demo/Themes/Test',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Themes/Test'
    ],
-   function(Control, template) {
+   function(Base, template) {
 
       'use strict';
 
-      var Label = Control.extend({
+      var Label = Base.Control.extend({
          _template: template,
          _doBut: false,
          theme1: '',

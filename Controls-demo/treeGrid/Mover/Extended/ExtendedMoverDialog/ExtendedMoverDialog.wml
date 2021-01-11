@@ -2,7 +2,8 @@
     <ws:bodyContentTemplate>
         <Controls.list:DataContainer source="{{_options.source}}"
                                      filter="{{_filter}}"
-                                     keyProperty="id">
+                                     keyProperty="id"
+                                     dataLoadCallback="{{_dataLoadCallback}}">
             <Controls.search:Controller searchParam="title">
                 <div class="ControlsDemo-ExtendedMoveDialog__content">
                     <Controls.search:InputContainer attr:class="ControlsDemo-ExtendedMoveDialog__search">
@@ -18,7 +19,6 @@
                     <Controls.scroll:Container attr:class="ControlsDemo-ExtendedMoveDialog__scroll">
                         <Controls.list:Container>
                             <Controls.explorer:View
-                                    dataLoadCallback="{{_dataLoadCallback}}"
                                     name="moverExplorer"
                                     on:itemClick="_onItemClick()"
                                     parentProperty="parent"

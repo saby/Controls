@@ -1,27 +1,24 @@
 import {Logger} from 'UI/Utils';
-import Base = require('Controls/_input/Base');
-import entity = require('Types/entity');
+import {default as Base, IBaseInputOptions} from 'Controls/_input/Base';
+import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
+import {INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
 
-var _private = {
-    validateOptions: function (options) {
-        if (options.integersLength <= 0) {
-            Logger.error('Number: Incorrect integers length: ' + options.integersLength + '. Integers length must be greater than 0.');
-        }
-    },
-    convertToNumber: function (value) {
-        return value === null ? void 0 : value;
-    }
-};
+interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions {
+    value?: number | string | null;
+    useGrouping?: boolean;
+    onlyPositive?: boolean;
+    showEmptyDecimals?: boolean;
+}
 
 /**
  * Поле ввода числовых значений.
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/input/number/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FExample%2FInput демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input/number/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Number
  * @extends Controls/_input/Base
@@ -36,67 +33,77 @@ var _private = {
  * @author Красильников А.С.
  */
 // TODO: https://online.sbis.ru/doc/f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
-var NumberInput = Base.extend({
-    _defaultValue: 0,
-    _inputMode: 'decimal',
+class NumberInput extends Base<INumberInputOptions> {
+    _defaultValue: number = 0;
+    _inputMode: string = 'decimal';
+    _controlName: string = 'Number';
 
-    _getViewModelOptions: function (options) {
-        _private.validateOptions(options);
+    protected _getViewModelOptions(options: INumberInputOptions): object {
+        NumberInput._validateOptions(options);
 
         return {
-            precision: _private.convertToNumber(options.precision),
+            precision: NumberInput._convertToNumber(options.precision),
             useGrouping: options.useGrouping,
             onlyPositive: options.onlyPositive,
-            integersLength: _private.convertToNumber(options.integersLength),
+            integersLength: NumberInput._convertToNumber(options.integersLength),
             showEmptyDecimals: options.showEmptyDecimals,
             useAdditionToMaxPrecision: options.showEmptyDecimals
         };
-    },
+    }
 
-    _getViewModelConstructor: function () {
+    protected _getViewModelConstructor(): ViewModel {
         return ViewModel;
-    },
+    }
 
-    _notifyInputCompleted: function () {
+    protected _notifyInputCompleted(): void {
         if (this._viewModel.trimTrailingZeros(true)) {
             this._notifyValueChanged();
         }
 
-        NumberInput.superclass._notifyInputCompleted.apply(this, arguments);
-    },
+        super._notifyInputCompleted();
+    }
 
-    _focusOutHandler: function () {
+    protected _focusOutHandler(): void {
         if (this._viewModel.trimTrailingZeros(false)) {
             this._notifyValueChanged();
         }
 
-        NumberInput.superclass._focusOutHandler.apply(this, arguments);
+        super._focusOutHandler();
     }
-});
 
-NumberInput.getDefaultOptions = function () {
-    var defaultOptions = Base.getDefaultOptions();
+    private static _validateOptions(options: INumberInputOptions): void {
+        if (options.integersLength <= 0) {
+            Logger.error('Number: Incorrect integers length: ' + options.integersLength + '. Integers length must be greater than 0.');
+        }
+    }
 
-    defaultOptions.useGrouping = true;
-    defaultOptions.onlyPositive = false;
-    defaultOptions.showEmptyDecimals = false;
+    private static _convertToNumber(value: number): void | number {
+        return value === null ? void 0 : value;
+    }
 
-    return defaultOptions;
-};
+    static getDefaultOptions(): INumberInputOptions {
+        const defaultOptions: INumberInputOptions = Base.getDefaultOptions();
 
-NumberInput.getOptionTypes = function () {
-    const optionTypes = Base.getOptionTypes();
+        defaultOptions.useGrouping = true;
+        defaultOptions.onlyPositive = false;
+        defaultOptions.showEmptyDecimals = false;
 
-    optionTypes.value = entity.descriptor(Number, String, null);
-    optionTypes.precision = entity.descriptor(Number, null);
-    optionTypes.integersLength = entity.descriptor(Number, null);
-    optionTypes.useGrouping = entity.descriptor(Boolean);
-    optionTypes.onlyPositive = entity.descriptor(Boolean);
-    optionTypes.showEmptyDecimals = entity.descriptor(Boolean);
+        return defaultOptions;
+    }
 
-    return optionTypes;
-};
+    static getOptionTypes(): object {
+        const optionTypes = Base.getOptionTypes();
 
+        optionTypes.value = descriptor(Number, String, null);
+        optionTypes.precision = descriptor(Number, null);
+        optionTypes.integersLength = descriptor(Number, null);
+        optionTypes.useGrouping = descriptor(Boolean);
+        optionTypes.onlyPositive = descriptor(Boolean);
+        optionTypes.showEmptyDecimals = descriptor(Boolean);
+
+        return optionTypes;
+    }
+}
 
 // TODO: generics https://online.sbis.ru/opendoc.html?guid=ef345c4d-0aee-4ba6-b380-a8ca7e3a557f
 /**
@@ -104,7 +111,7 @@ NumberInput.getOptionTypes = function () {
  * @cfg {String|Number|null}
  * @remark
  * При установке опции value в контроле ввода, отображаемое значение всегда будет соответствовать её значению. В этом случае родительский контрол управляет отображаемым значением. Например, вы можете менять значение по событию {@link valueChanged}:
- * 
+ *
  * <pre class="brush: html">
  * <Controls.input:Number value="{{_value}}" on:valueChanged="_handleValueChange()"/>
  * </pre>
@@ -117,22 +124,22 @@ NumberInput.getOptionTypes = function () {
  *     }
  * }
  * </pre>
- * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
- * 
+ * Пример можно упростить, воспользовавшись синтаксисом шаблонизатора {@link /doc/platform/developmentapl/interface-development/ui-library/options/#two-way-binding bind}:
+ *
  * <pre class="brush: html">
  * <Controls.input:Number bind:value="_value"/>
  * </pre>
- * 
+ *
  * Альтернатива - не задавать опцию value. Значение контрола будет кешироваться в контроле ввода:
- * 
+ *
  * <pre class="brush: html">
  * <Controls.input:Number/>
  * </pre>
- * 
+ *
  * Не рекомендуем использовать опцию для изменения поведения обработки ввода. Такой подход увеличит время перерисовки.
- * 
+ *
  * Плохо:
- * 
+ *
  * <pre class="brush: html">
  * <Controls.input:Number value="{{_value}}" on:valueChanged="_handleValueChange()"/>
  * </pre>
@@ -145,9 +152,9 @@ NumberInput.getOptionTypes = function () {
  *     }
  * }
  * </pre>
- * 
+ *
  * Лучшим подходом будет воспользоваться опцией {@link inputCallback}.
- * 
+ *
  * Хорошо:
  * <pre class="brush: html">
  * <Controls.input:Number bind:value="{{_value}}" inputCallback="{{_toUpperCase}}"/>
@@ -249,5 +256,4 @@ NumberInput.getOptionTypes = function () {
  * </pre>
  * @see value
  */
-export = NumberInput;
-
+export default NumberInput;

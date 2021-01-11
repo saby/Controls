@@ -1,11 +1,11 @@
 <ws:template name="localItemTemplateContent">
     <ws:if data="{{ multiSelectVisibility && multiSelectVisibility !== 'hidden' && multiSelectPosition !== 'custom' }}">
         <ws:partial template="{{ multiSelectTpl }}" attr:class="{{ (item || itemData).getMultiSelectClasses(theme) }}">
-            <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}" key="{{ (item || itemData).getContents().getKey() }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
         </ws:partial>
     </ws:if>
     <ws:if data="{{ (item || itemData).shouldDisplayMarker(marker) }}">
-        <div class="{{(item || itemData).getMarkerClasses(theme, style, markerPosition)}}"></div>
+        <div class="{{(item || itemData).getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition)}}"></div>
     </ws:if>
     <ws:if data="{{ contentTemplate }}">
         <div attr:class="{{ (item || itemData).getContentClasses(theme, style) }}">
@@ -23,9 +23,7 @@
                     <ws:partial template="{{ multiSelectTpl }}"
                                 if="{{ multiSelectVisibility && multiSelectVisibility !== 'hidden' && multiSelectPosition === 'custom' }}"
                                 attr:class="{{ (item || itemData).getMultiSelectClasses(theme) }}">
-                        <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
-                                            key="{{ (item || itemData).getContents().getKey() }}"
-                                            checkboxReadOnly="{{checkboxReadOnly}}"/>
+                        <ws:templateOptions item="{{item}}" checkboxReadOnly="{{checkboxReadOnly}}"/>
                     </ws:partial>
                 </ws:multiSelectTemplate>
             </ws:partial>
@@ -51,23 +49,16 @@
     </ws:if>
 </ws:template>
 
-<!-- Проверка для опредения новой модели. В explorer строится список со старой моделью. Удалить после https://online.sbis.ru/opendoc.html?guid=9bd4578d-fd62-465d-b883-68eceda196eb -->
-<ws:if data="{{(item || itemData).isSticked}}">
-    <ws:if data="{{(item || itemData).isSticked(style)}}">
-        <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
-        <Controls.scroll:StickyHeader
-           attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style) }}"
-           position="topbottom" backgroundStyle="{{style + '_sticked'}}" mode="stackable">
-            <ws:partial template="localItemTemplateContent"/>
-        </Controls.scroll:StickyHeader>
-    </ws:if>
-    <ws:else>
-        <div attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style) }}">
-            <ws:partial template="localItemTemplateContent"/>
-        </div>
-    </ws:else>
+<ws:if data="{{(item || itemData).isSticked(style)}}">
+    <!-- сюда попадаем только в случае застиканной записи в мастер или мастер классик, константа стиля находится в itemData.style -->
+    <Controls.scroll:StickyHeader
+       attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style) }}"
+       position="topbottom" backgroundStyle="{{style + '_sticked'}}" mode="stackable">
+        <ws:partial template="localItemTemplateContent"/>
+    </Controls.scroll:StickyHeader>
 </ws:if>
 <ws:else>
-    <ws:partial template="wml!Controls/_list/CompatibleItem"
-                scope="{{_options}}"/>
+    <div attr:class="{{ (item || itemData).getWrapperClasses(highlightOnHover, theme, cursor, backgroundColorStyle, style) }}">
+        <ws:partial template="localItemTemplateContent"/>
+    </div>
 </ws:else>

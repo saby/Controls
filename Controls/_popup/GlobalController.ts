@@ -108,7 +108,7 @@ class GlobalController {
      * @param event
      * @param {String | Function} template
      * @param {Object} templateOptions
-     * @param {Core/Control} [opener=null]
+     * @param {UI/Base:Control} [opener=null]
      * @return {Promise.<{popupId: String, closeDialogPromise: Promise<void>}>} result promise
      * @private
      */

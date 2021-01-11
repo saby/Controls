@@ -10,7 +10,7 @@ import {TemplateFunction} from 'UI/Base';
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/buttons-switches/toolbar/#template-standart">руководство разработчика</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/buttons-switches/toolbar/#template-standart руководство разработчика}
  */
 
 export default interface IItemTemplateOptions {
@@ -66,22 +66,22 @@ export default interface IItemTemplateOptions {
     itemSpacing?: string;
     /**
      * @name Controls/toolbars:ItemTemplate#theme
-     * @cfg {String} theme Название темы оформления. В зависимости от темы загружаются различные таблицы стилей и применяются различные стили к контролу.
+     * @cfg {String} Название темы оформления. В зависимости от темы загружаются различные таблицы стилей и применяются различные стили к контролу.
      */
     theme?: string;
     /**
      * @name Controls/toolbars:ItemTemplate#item
-     * @cfg {Object} item Элемент тулбара.
+     * @cfg {Object} Элемент тулбара.
      */
     item?: object;
     /**
      * @name Controls/toolbars:ItemTemplate#buttonTemplate
-     * @cfg {String|Function} buttonTemplate Шаблон кнопки тулбара.
+     * @cfg {String|Function} Шаблон кнопки тулбара.
      */
     buttonTemplate?: string | TemplateFunction;
     /**
      * @name Controls/toolbars:ItemTemplate#buttonTemplateOptions
-     * @cfg {Object} buttonTemplateOptions Опции шаблона кнопки.
+     * @cfg {Object} Опции шаблона кнопки.
      */
     buttonTemplateOptions?: object;
  }

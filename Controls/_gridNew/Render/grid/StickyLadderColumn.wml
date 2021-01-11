@@ -1,12 +1,15 @@
-<Controls.scroll:StickyHeader position="topbottom"
-                              backgroundStyle="{{'transparent'}}"
-                              shadowVisibility="hidden"
-                              mode="replaceable"
-                              attr:class="{{ gridColumn.getStickyHeaderClasses() }}"
-                              attr:style="{{ gridColumn.getStickyHeaderStyles() }}">
-   <div attr:class="{{ gridColumn.getOriginalContentClasses(theme, cursor, templateHighlightOnHover) }}">
-      <ws:partial template="{{ gridColumn.getOriginalTemplate() }}"
-                  scope="{{ _options }}"
-                  stickyProperty="{{ gridColumn.getStickyProperty() }}"/>
-   </div>
-</Controls.scroll:StickyHeader>
+<div class="{{ (gridColumn || itemData).getStickyContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+     style="{{ (gridColumn || itemData).getStickyContentStyles() }}">
+   <Controls.scroll:StickyHeader position="topbottom"
+                                 backgroundStyle="{{'transparent'}}"
+                                 shadowVisibility="hidden"
+                                 mode="replaceable"
+                                 attr:class="{{ gridColumn.getStickyHeaderClasses() }}"
+                                 attr:style="{{ gridColumn.getStickyHeaderStyles() }}">
+      <div attr:class="{{ gridColumn.getOriginalContentClasses(theme, cursor, templateHighlightOnHover) }}">
+         <ws:partial template="{{ gridColumn.getOriginalTemplate() }}"
+                     scope="{{ _options }}"
+                     stickyProperty="{{ gridColumn.getStickyProperty() }}"/>
+      </div>
+   </Controls.scroll:StickyHeader>
+</div>

@@ -1,15 +1,15 @@
 define('Controls-demo/Explorer/Explorer', [
    'Env/Env',
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Explorer/Explorer',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls-demo/Explorer/ExplorerMemory',
    'Controls-demo/Explorer/ExplorerImages',
    'Controls/explorer'
-], function(Env, BaseControl, template, Toolbar, MemorySource, explorerImages) {
+], function(Env, Base, template, Toolbar, MemorySource, explorerImages) {
    'use strict';
    var
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _viewSource: null,
          _viewColumns: null,
@@ -210,6 +210,101 @@ define('Controls-demo/Explorer/Explorer', [
                   'parent': 11,
                   'parent@': true,
                   title: 'Задачи'
+               }, {
+                  id: 91,
+                  'parent': 111,
+                  'parent@': true,
+                  title: 'Очень длинный текст внтури папки "Задачи"'
+               }, {
+                  id: 92,
+                  'parent': 91,
+                  'parent@': true,
+                  title: 'Очень длинный текст внтури папки "Очень длинный текст внтури папки Задачи"'
+               }, {
+                  id: 94,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 95,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 96,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 97,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 98,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 99,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 911,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 912,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 913,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 914,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 915,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 916,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 917,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 918,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 919,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 920,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
+               }, {
+                  id: 921,
+                  'parent': 92,
+                  'parent@': null,
+                  title: 'Задача'
                }, {
                   id: 112,
                   'parent': 11,

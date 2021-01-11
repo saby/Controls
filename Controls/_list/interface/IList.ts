@@ -1,17 +1,64 @@
 import { TemplateFunction } from 'UI/Base';
 import { IItemActionsOptions } from 'Controls/itemActions';
 import { IMarkerListOptions } from 'Controls/marker';
+import {IFontColorStyle} from 'Controls/interface';
+import {IMovableOptions} from './IMovableList';
 
 type TMultiSelectVisibility = 'visible'|'onhover'|'hidden';
 
 type TListStyle = 'master'|'default';
-type TVerticalItemPadding = 'S'|'null';
-type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'null';
 
+/**
+ * @typedef {String} TVerticalItemPadding
+ * @variant S
+ * @variant nyll
+ */
+export type TVerticalItemPadding = 'S'|'null';
+
+/**
+ * @typedef {String} THorizontalItemPadding
+ * @variant XS
+ * @variant S
+ * @variant M
+ * @variant L
+ * @variant XL
+ * @variant XXL
+ * @variant null
+ */
+export type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'null';
+
+/**
+ * Интерфейс настройки отступов записи
+ * @Interface Controls/_list/interface/IList/IItemPadding
+ * @public
+ * @author Авраменко А.С.
+ */
+/*ENG
+ * Item padding settings interface
+ * @interface Controls/_list/interface/IList/IItemPadding
+ * @public
+ * @author Авраменко А.С.
+ */
 export interface IItemPadding {
+    /**
+     * @name Controls/_list/interface/IList/IItemPadding#top
+     * @cfg {TVerticalItemPadding} Отступ записи сверху
+     */
     top?: TVerticalItemPadding;
+    /**
+     * @name Controls/_list/interface/IList/IItemPadding#bottom
+     * @cfg {TVerticalItemPadding} Отступ записи снизу
+     */
     bottom?: TVerticalItemPadding;
+    /**
+     * @name Controls/_list/interface/IList/IItemPadding#left
+     * @cfg {THorizontalItemPadding} Отступ записи слева
+     */
     left?: THorizontalItemPadding;
+    /**
+     * @name Controls/_list/interface/IList/IItemPadding#right
+     * @cfg {THorizontalItemPadding} Отступ записи справа
+     */
     right?: THorizontalItemPadding;
 }
 
@@ -31,11 +78,12 @@ export interface IItemPadding {
  * @author Авраменко А.С.
  */
 
-export interface IList extends IItemActionsOptions, IMarkerListOptions {
+export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovableOptions {
     attachLoadTopTriggerToNull?: boolean;
-    emptyTemplate?: TemplateFunction|string;
-    footerTemplate?: TemplateFunction|string;
+    emptyTemplate?: TemplateFunction | string;
+    footerTemplate?: TemplateFunction | string;
     pagingLeftTemplate?: TemplateFunction|string;
+    pagingRightTemplate?: TemplateFunction|string;
     multiSelectVisibility?: TMultiSelectVisibility;
     stickyMarkedItem?: boolean;
     uniqueKeys?: boolean;
@@ -49,11 +97,29 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
     nodeConfig?: INodeConfig;
 
     pagingContentTemplate?: TemplateFunction | string;
+    moreFontColorStyle?: IFontColorStyle;
+    stickyHeader?: boolean;
 }
 
 /**
+ * @name Controls/_list/interface/IList#stickyHeader
+ * @cfg {Boolean} Закрепляет заголовок списка.
+ * @demo Controls-demo/list_new/Grouped/NoSticky/Index В демо-примере опция stickyHeader установлена в значение false.
+ * @demo Controls-demo/list_new/Grouped/Sticky/Index В демо-примере опция stickyHeader установлена в значение true.
+ * @default true
+ */
+
+/**
+ * @name Controls/_list/interface/IList#moreFontColorStyle
+ * @cfg {IFontColorStyle} Опция управляет стилем цвета текста для кнопки ещё.
+ * @default listMore
+ * @see IFontColorStyle
+ */
+
+/**
  * @name Controls/_list/interface/IList#pagingContentTemplate
- * @cfg {Function} Опция управляет отображением счетчика непрочитанных сообщений
+ * @cfg {Function} Опция управляет отображением {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/infinite-scrolling/#button-number счетчика непрочитанных сообщений}
+ * @demo Controls-demo/list_new/Navigation/Paging/End/ContentTemplate/Index
  * @see pagingMode
  */
 
@@ -93,9 +159,9 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
 
 /**
  * @name Controls/_list/interface/IList#emptyTemplate
- * @cfg {Function} Шаблон отображения контрола без элементов.
+ * @cfg {Function} Пользовательский шаблон отображения пустого списка.
  * @demo Controls-demo/list_new/EmptyList/Default/Index
- * @default Controls/list:EmptyTemplate
+ * @default undefined
  * @example
  * <pre class="brush: html">
  * <Controls.list:View>
@@ -106,6 +172,9 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  *     </ws:emptyTemplate>
  * </Controls.list:View>
  * </pre>
+ * @remark
+ * Пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/list:EmptyTemplate}.
+ * См. {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty-list/ руководство разработчика}.
  */
 
 /*ENG
@@ -134,7 +203,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * @name Controls/_list/interface/IList#footerTemplate
  * @cfg {Function} Шаблон отображения подвала списка.
  * @remark
- * См. <a href="/doc/platform/developmentapl/interface-development/controls/list/list/footer/">руководство разработчика</a>.
+ * См. {@link /doc/platform/developmentapl/interface-development/controls/list/list/footer/ руководство разработчика}.
  * @demo Controls-demo/list_new/FooterTemplate/Index
  */
 
@@ -157,6 +226,18 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  */
 
 /**
+ * @name Controls/_list/interface/IList#pagingRightTemplate
+ * @cfg {Function} Шаблон для отображения справа от постраничной навигации.
+ * @demo Controls-demo/list_new/Navigation/Paging/Position/RightTemplate/Index
+ */
+
+/*ENG
+ * @name Controls/_list/interface/IList#pagingRightTemplate
+ * @cfg {Function} Template to display to the right of page navigation.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2Flist_new%2FNavigation%2FPaging%2FPosition%2FRightTemplate%2FIndex">Example</a>.
+ */
+
+/**
  * @typedef {String} MultiSelectVisibility
  * @variant visible Показать.
  * @variant hidden Скрыть.
@@ -169,7 +250,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * @demo Controls-demo/list_new/MultiSelect/MultiSelectVisibility/OnHover/Index
  * @default hidden
  * @remark
- * Чтобы включить в списочном контроле режим "Множественный выбор элементов", обратитесь к <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/select/#multiple-choice">руководству разработчика</a>.
+ * Чтобы включить в списочном контроле режим "Множественный выбор элементов", обратитесь к <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/">руководству разработчика</a>.
  */
 
 /*ENG
@@ -210,6 +291,18 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * @cfg {MultiSelectPosition} Position of multiple selection checkboxes
  * @demo Controls-demo/list_new/MultiSelect/CustomPosition/Index
  * @default default
+ */
+
+/**
+ * @name Controls/_list/interface/IList#multiSelectAccessibilityProperty
+ * @cfg {String} Имя свойства, содержащего информацию о доступности чекбокса элемента.
+ * @remark Определяет возможность изменения состояния чекбокса и его видимость.
+ * Для указания значения в {@link Types/entity:Record рекорде} рекомендуется использовать константу {@link Controls/list:MultiSelectAccessibility MultiSelectAccessibility}.
+ * Возможные значения свойства {@link Types/entity:Record рекорда}:
+ * * {@link Controls/list:MultiSelectAccessibility#enabled enabled} Чекбокс виден и с ним можно взаимодействовать
+ * * {@link Controls/list:MultiSelectAccessibility#disabled disabled} Чекбокс виден, но с ним нельзя взаимодействовать
+ * * {@link Controls/list:MultiSelectAccessibility#hidden hidden} Чекбокс скрыт
+ * @demo Controls-demo/list_new/ItemTemplate/MultiSelectAccessibilityProperty/Index
  */
 
 /**
@@ -272,7 +365,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
 /**
  * @name Controls/_list/interface/IList#itemsReadyCallback
  * @cfg {Function} Функция, которая вызывается, когда экземпляр данных получен из источника и подготовлен к дальнейшей обработке контролом.
- * Функция вызывается единожды в рамках {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/control/#life-cycle-phases жизненного цикла} на этапе mount.
+ * Функция вызывается единожды в рамках {@link /doc/platform/developmentapl/interface-development/ui-library/control/#life-cycle-phases жизненного цикла} на этапе mount.
  * @remark
  * Единственный аргумент функции — **items** с типом данных {@link Types/collection:RecordSet}, где содержатся загруженные данные.
  * @example
@@ -326,7 +419,6 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
 /**
  * @typedef {String} Style
  * @variant master Двухколоночный реестр.
- * @variant masterClassic Режим отображения мастера, в котором отмеченная маркером строка имеет контрастный фон.
  * @variant default Плоский список.
  */
 
@@ -339,7 +431,6 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
 /*ENG
  * @typedef {String} Style
  * @variant master Stylizes control as MasterDetail
- * @variant masterClassic Stylizes control as MasterDetail in which the line marked with a marker has a contrasting background
  * @variant default Simple list
  */
 
@@ -381,7 +472,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  */
 
 /**
- * Возвращает рекордсет, на основании которого в данный момент строится списочный контрол.
+ * Возвращает рекордсет, на основании которого в данный момент строится список.
  * @function Controls/_list/interface/IList#getItems
  * @return {RecordSet} Список элементов.
  * @example
@@ -540,7 +631,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
 
 /**
  * @typedef {String} VerticalItemPaddingEnum
- * @variant null Нулевой отступ. 
+ * @variant null Нулевой отступ.
  * @variant s Маленький отступ.
  * @variant l Большой отступ.
  */
@@ -593,6 +684,10 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
 /**
  * @cfg {ItemPadding} Конфигурация отступов внутри элементов списка.
  * @name Controls/_list/interface/IList#itemPadding
+ * @demo Controls-demo/list_new/ItemPadding/DifferentPadding/Index В примере заданы горизонтальные отступы.
+ * @demo Controls-demo/list_new/ItemPadding/NoPadding/Index В примере отступы отсутствуют.
+ * @remark
+ * См. {@link /doc/platform/developmentapl/interface-development/controls/list/list/paddings/ руководство разработчика}.
  */
 
 /*ENG
@@ -606,7 +701,6 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * @variant master Предназначен для настройки фона masterDetail (Берётся из свойства style)
  * @variant infoBox Предназначен для настройки фона infoBox.
  * @variant stack Предназначен для настройки фона стековой панели.
- * @variant masterClassic
  * @variant detailContrast
  * @variant listItem
  * @variant stackHeader
@@ -657,12 +751,13 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions {
  * По умолчанию подсветка соответствует @background-color. Поддерживаются любые произвольные значения опции.
  * Подробнее в <a href="/doc/platform/developmentapl/interface-development/controls/list/list/background/#hover">статье</a>.
  * @example
- * <pre>
+ * <pre class="brush: html; highlight: [5]">
+ * <!-- WML -->
  * <Controls.list:View
  *    keyProperty="id"
  *    source="{{_viewSource}}"
  *    hoverBackgroundStyle="primary" />
- * </pre
+ * </pre>
  */
 
 /**

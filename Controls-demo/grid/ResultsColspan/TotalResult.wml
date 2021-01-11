@@ -1,0 +1,3 @@
+<ws:partial template="Controls/gridNew:ResultColumnTemplate" scope="{{_options}}">
+    <b>Общая сумма:</b> {{ content.results.get('total') }}
+</ws:partial>

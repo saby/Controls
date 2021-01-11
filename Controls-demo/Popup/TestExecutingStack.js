@@ -1,13 +1,13 @@
 define('Controls-demo/Popup/TestExecutingStack',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/TestExecutingStack',
       'Core/Deferred'
    ],
-   function (Control, template, Deferred) {
+   function (Base, template, Deferred) {
       'use strict';
 
-      var TestDialog = Control.extend({
+      var TestDialog = Base.Control.extend({
          _template: template,
          _text: 'not updated',
 

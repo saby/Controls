@@ -1,6 +1,6 @@
 define('Controls-demo/Example/StickyHeader/NotificationCenter',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'tmpl!Controls-demo/Example/StickyHeader/NotificationCenter/NotificationCenter',
 
@@ -9,7 +9,7 @@ define('Controls-demo/Example/StickyHeader/NotificationCenter',
       'tmpl!Controls-demo/Example/StickyHeader/NotificationCenter/Employees',
       'tmpl!Controls-demo/Example/StickyHeader/NotificationCenter/Violations',
    ],
-   function(Control, source, template) {
+   function(Base, source, template) {
 
       'use strict';
 
@@ -153,7 +153,7 @@ define('Controls-demo/Example/StickyHeader/NotificationCenter',
          }
       ];
 
-      var ModuleClass = Control.extend({
+      var ModuleClass = Base.Control.extend({
          _template: template,
 
          _titleVisible: true,

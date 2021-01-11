@@ -6,7 +6,7 @@ define(
       'Controls/display',
       'Types/collection',
       'Types/entity',
-      'Controls/Constants',
+      'Controls/list',
       'Controls/popup'
    ],
    function(menu, source, Clone, display, collection, entity, ControlsConstants, popup) {
@@ -119,12 +119,18 @@ define(
             it('searchValue is changed', async() => {
                let isClosed = false;
                let isViewModelCreated = false;
+               let isSelectionControllerUpdated = false;
                const menuControl = getMenu();
                const newMenuOptions = { ...defaultOptions, searchParam: 'title' };
 
                menuControl._closeSubMenu = () => { isClosed = true; };
                menuControl._createViewModel = () => {
                   isViewModelCreated = true;
+               };
+               menuControl._selectionController = {
+                  updateOptions: () => {
+                     isSelectionControllerUpdated = true;
+                  }
                };
                newMenuOptions.sourceController = {
                   getItems: () => 'test'
@@ -134,6 +140,7 @@ define(
                assert.isTrue(menuControl._notifyResizeAfterRender);
                assert.isTrue(isClosed);
                assert.isTrue(isViewModelCreated);
+               assert.isTrue(isSelectionControllerUpdated);
             });
          });
 
@@ -762,7 +769,7 @@ define(
 
             it('item hasn`t group', function() {
                groupId = menuControl._groupMethod(menuOptions, item);
-               assert.equal(groupId, ControlsConstants.view.hiddenGroup);
+               assert.equal(groupId, ControlsConstants.groupConstants.hiddenGroup);
             });
 
             it('group = 0', function() {
@@ -774,13 +781,13 @@ define(
             it('item is history', function() {
                item.set('pinned', true);
                groupId = menuControl._groupMethod(menuOptions, item);
-               assert.equal(groupId, ControlsConstants.view.hiddenGroup);
+               assert.equal(groupId, ControlsConstants.groupConstants.hiddenGroup);
             });
 
             it('item is history, root = 2', function() {
                menuOptions.root = 2;
                groupId = menuControl._groupMethod(menuOptions, item);
-               assert.equal(groupId, ControlsConstants.view.hiddenGroup);
+               assert.equal(groupId, ControlsConstants.groupConstants.hiddenGroup);
             });
          });
 

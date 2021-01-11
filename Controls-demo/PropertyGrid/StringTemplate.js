@@ -1,10 +1,10 @@
 define('Controls-demo/PropertyGrid/StringTemplate',
    [
       'Types/entity',
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/PropertyGrid/StringTemplate',
    ],
-   function(entity, Control, template) {
+   function(entity, Base, template) {
       'use strict';
 
       var _private = {
@@ -48,7 +48,7 @@ define('Controls-demo/PropertyGrid/StringTemplate',
        * @default valueChanged
        */
 
-      var stringTmpl = Control.extend({
+      var stringTmpl = Base.Control.extend({
          _template: template,
 
          _valueChangedHandler: function(event, control, value) {

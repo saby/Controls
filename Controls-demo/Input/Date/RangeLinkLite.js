@@ -1,17 +1,17 @@
 define('Controls-demo/Input/Date/RangeLinkLite', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Date/RangeLinkLite',
    'wml!Controls/_shortDatePicker/monthTemplate',
    'Controls-demo/Date/MonthListSource',
 ], function(
-   BaseControl,
+   Base,
    template,
    tmpl,
    MonthListSource
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _tmpl: tmpl,
       _periods: [[new Date(2017, 1), new Date(2020, 5)]],

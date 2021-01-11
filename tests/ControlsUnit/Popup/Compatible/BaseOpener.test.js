@@ -152,7 +152,7 @@ define(
 
             config.template = 'Examples/DropdownList/MyDropdownList/MyDropdownList';
             assert.equal(config.isCompoundTemplate, true);
-            config.template = 'Core/Control';
+            config.template = 'UI/Base:Control';
             compatiblePopup.BaseOpener._preparePopupCfgFromOldToNew(config);
             assert.equal(config.isCompoundTemplate, false);
          });

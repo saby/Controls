@@ -17,12 +17,11 @@
          {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme' + theme}}"
         attr:style="{{'-ms-flex-preferred-size: ' + (width || (itemData.dispItem.isNode() ? itemData.defaultFolderWidth : itemData.defaultItemWidth)) + 'px; flex-basis: ' + (width || (itemData.dispItem.isNode() ? itemData.defaultFolderWidth : itemData.defaultItemWidth)) + 'px;'}}">
       <ws:partial if="{{itemData.hasMultiSelect}}"
-                  template="{{multiSelectTpl}}"
-                  attr:class="{{itemData.multiSelectClassList}}">
+                  template="{{multiSelectTpl}}">
          <ws:templateOptions triState="{{true}}"
                              checkboxReadOnly="{{checkboxReadOnly}}"
-                             multiSelectStatus="{{itemData.isSelected()}}"
-                             key="{{itemData.key}}"/>
+                             item="{{ itemData.dispItem }}"
+                             itemData="{{itemData}}"/>
       </ws:partial>
          <ws:if data="{{itemData.dispItem.isNode()}}">
             <span attr:class="controls-TileView__smallTemplate_nodeIcon_theme-{{theme}} icon-large icon-Folder icon-disabled"></span>

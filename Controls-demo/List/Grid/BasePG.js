@@ -1,5 +1,5 @@
 define('Controls-demo/List/Grid/BasePG', [
-   'Core/Control',
+   'UI/Base',
    'Types/object',
    'Types/source',
    'Controls-demo/List/Grid/resources/DataDemoPG',
@@ -13,9 +13,9 @@ define('Controls-demo/List/Grid/BasePG', [
    'wml!Controls-demo/List/Grid/resources/DemoItem',
    'wml!Controls-demo/List/Grid/resources/DemoResultAvgRating',
    'wml!Controls-demo/List/Grid/resources/BasePG/HeaderMoneyTemplate'
-   ], function(Control, Obj, source, data, template, config, emptyTpl) {
+   ], function(Base, Obj, source, data, template, config, emptyTpl) {
    'use strict';
-   var Component = Control.extend({
+   var Component = Base.Control.extend({
       _template: template,
       _metaData: null,
       _content: 'Controls/grid:View',

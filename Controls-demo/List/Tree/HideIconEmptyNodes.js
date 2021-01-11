@@ -1,13 +1,13 @@
 define('Controls-demo/List/Tree/HideIconEmptyNodes', [
-   'Core/Control',
+   'UI/Base',
    'Controls-demo/List/Tree/TreeData',
    'wml!Controls-demo/List/Tree/resources/HideIconEmptyNodes/HideIconEmptyNodes',
    'Controls/scroll',
    'Controls/treeGrid'
-], function(Control, TreeData, template) {
+], function(Base, TreeData, template) {
    'use strict';
    var
-      HideIconEmptyNodes = Control.extend({
+      HideIconEmptyNodes = Base.Control.extend({
          _template: template,
          _treeSource: null,
          _beforeMount: function() {

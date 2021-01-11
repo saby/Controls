@@ -1,6 +1,6 @@
 define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/di',
       'Controls/history',
       'Core/Deferred',
@@ -10,7 +10,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
       'UI/State'
    ],
 
-   function(Control, Di, history, Deferred, sourceLib, collection, entity, uiState) {
+   function(Base, Di, history, Deferred, sourceLib, collection, entity, uiState) {
       'use strict';
 
       var items = [
@@ -432,7 +432,7 @@ define('Controls-demo/Filter/Button/panelOptions/HistorySourceDemo',
 
       config.historySource.saveHistory = function() {};
 
-      var histSource = Control.extend({
+      var histSource = Base.Control.extend({
          constructor: function(cfg) {
             this._recent = cfg.recent;
          },

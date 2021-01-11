@@ -3,7 +3,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/ComboBox/ComboBox');
 import * as Utils from 'Types/util';
 import {prepareEmpty, loadItems} from 'Controls/_dropdown/Util';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -30,13 +30,14 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/dropdown-menu/combobox/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less">переменные тем оформления dropdown</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less">переменные тем оформления dropdownPopup</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/combobox/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less переменные тем оформления dropdown}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less переменные тем оформления dropdownPopup}
  *
  * @class Controls/_dropdown/ComboBox
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/ISource
+ * @implements Controls/_dropdown/interface/IBaseDropdown
  * @implements Controls/_menu/interface/IMenuBase
  * @implements Controls/_interface/IFilterChanged
  * @implements Controls/_interface/ISingleSelectable
@@ -47,8 +48,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @implements Controls/_interface/IFontColorStyle
  * @implements Controls/_interface/ITooltip
  * @implements Controls/_interface/IHeight
- * @implements Controls/interface/IDropdown
- * 
+ *
  * @public
  * @author Золотова Э.Е.
  * @demo Controls-demo/dropdown_new/Combobox/Source/Index
@@ -59,15 +59,13 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * The full list of options is displayed when you click on the control.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FCombobox%2FComboboxVDom">Demo-example</a>.
  * @class Controls/_dropdown/ComboBox
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/ISource
  * @implements Controls/interface/IItemTemplate
  * @implements Controls/_interface/IFilterChanged
  * @implements Controls/_interface/ISingleSelectable
- * @implements Controls/interface/IDropdownEmptyText
  * @implements Controls/_input/interface/IBase
- * @implements Controls/interface/IDropdown
- * 
+ *
  * @public
  * @author Золотова Э.Е.
  * @demo Controls-demo/dropdown_new/Combobox/Source/Index
@@ -75,7 +73,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
 
 class ComboBox extends BaseDropdown {
    protected _template: TemplateFunction = template;
-   protected _notifyHandler: Function = tmplNotify;
+   protected _notifyHandler: Function = EventUtils.tmplNotify;
    protected _borderStyle: string = '';
    protected _countItems: number;
    protected _readOnly: boolean;

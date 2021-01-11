@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper controlsDemo__grid-tagStyle">
+<div class="controlsDemo__wrapper controlsDemo__grid-tagStyle controlsDemo__maxWidth600">
     <div class="controlsDemo-toolbar-panel">
         &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' +
         _currentColumnIndex + ' со значением ' + _currentValue) : ''}}

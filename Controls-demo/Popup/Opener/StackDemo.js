@@ -1,15 +1,15 @@
 define('Controls-demo/Popup/Opener/StackDemo',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/Opener/StackDemo',
       'wml!Controls-demo/Popup/Opener/resources/footer',
       'wml!Controls-demo/Popup/Opener/DialogTpl',
       'wml!Controls-demo/Popup/Opener/resources/StackTemplateWithoutHead',
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var PopupPage = Control.extend({
+      var PopupPage = Base.Control.extend({
          _template: template,
          openStack: function() {
             this._children.stack.open({

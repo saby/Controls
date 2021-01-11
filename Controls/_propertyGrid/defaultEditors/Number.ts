@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_propertyGrid/defaultEditors/Number');
 
 import IEditorOptions from 'Controls/_propertyGrid/IEditorOptions';
@@ -27,7 +27,7 @@ export interface INumberEditorOptions extends IEditorOptions {
  * Редактор численного типа данных.
  *
  * @class Controls/_propertyGrid/defaultEditors/Number
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * @demo Controls-demo/PropertyGridNew/Editors/Number/Demo
  * 
@@ -38,7 +38,7 @@ export interface INumberEditorOptions extends IEditorOptions {
 /*
  * Editor for the number type.
  * @class Controls/_propertyGrid/defaultEditors/Number
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * 
  * @public

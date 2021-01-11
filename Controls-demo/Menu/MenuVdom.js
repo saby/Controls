@@ -1,17 +1,17 @@
 define('Controls-demo/Menu/MenuVdom', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Menu/MenuVdom',
    'Core/core-clone',
    'Types/collection',
    'Controls/history',
-   'Controls/Constants',
+   'Controls/list',
    'Types/source',
    'Core/Deferred',
    'Types/entity',
    'wml!Controls-demo/Menu/DemoGroupTemplate',
-], function(Control, template, cClone, collection, history, ControlsConstants, source, Deferred, entity) {
+], function(Base, template, cClone, collection, history, ControlsConstants, source, Deferred, entity) {
    'use strict';
-   var ModuleClass = Control.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _itemsGroup: null,
@@ -134,7 +134,7 @@ define('Controls-demo/Menu/MenuVdom', [
             this._itemsGroup = {
                method: function(item) {
                   if (item.get('group') === 'hidden' || !item.get('group')) {
-                     return ControlsConstants.view.hiddenGroup;
+                     return ControlsConstants.groupConstants.hiddenGroup;
                   }
                   return item.get('group');
                },
@@ -212,7 +212,7 @@ define('Controls-demo/Menu/MenuVdom', [
                items[i].parent = hierConfig[i].parent;
                items[i]['@parent'] = hierConfig[i]['@parent'];
                items[i].icon = hierConfig[i].icon;
-               items[i].group = hierConfig[i].group || ControlsConstants.view.hiddenGroup;
+               items[i].group = hierConfig[i].group || ControlsConstants.groupConstants.hiddenGroup;
             }
             return this._createMemory(items);
          },
@@ -226,7 +226,7 @@ define('Controls-demo/Menu/MenuVdom', [
          },
       }
    );
-   ModuleClass._styles = ['Controls-demo/Dropdown/MenuVdom', 'Controls-demo/Menu/MenuVdom'];
+   ModuleClass._styles = ['Controls-demo/Menu/MenuVdom'];
 
    return ModuleClass;
 });

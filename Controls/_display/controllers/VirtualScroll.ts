@@ -115,9 +115,5 @@ export function getStartIndex(collection: IVirtualScrollCollection): number {
 }
 
 export function getStopIndex(collection: IVirtualScrollCollection): number {
-    // todo временный фикс, убрать по 
-    // https://online.sbis.ru/opendoc.html?guid=5c0a021b-38a6-4d28-8c5c-cf9d9f27e651
-    const collectionCount = collection.getCount();
-    const iteratorCount = collection.getViewIterator()?.data?.stopIndex;
-    return typeof iteratorCount === 'number' && iteratorCount <= collectionCount ? iteratorCount : collectionCount;
+    return collection.getViewIterator()?.data?.stopIndex ?? collection.getCount();
 }

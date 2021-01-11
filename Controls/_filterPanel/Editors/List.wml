@@ -1,0 +1,50 @@
+<ws:template name="listBase">
+   <Controls.grid:View source="{{_options.source}}"
+                       columns="{{_columns}}"
+                       keyProperty="{{_options.keyProperty}}"
+                       selectedKeys="{{_selectedKeys}}"
+                       scope="{{_options}}"
+                       markerVisibility="hidden"
+                       navigation="{{_options.navigation}}"
+                       backgroundStyle="transparent"
+                       hoverBackgroundStyle="listEditor"
+                       footerTemplate="{{footerTemplate}}"
+                       multiSelectVisibility="onhover"
+                       itemsReadyCallback="{{_itemsReadyCallback}}"
+                       on:itemClick="_handleItemClick()">
+      <ws:multiSelectTemplate>
+         <ws:partial template="{{_circleTemplate}}" style="{{_options.style}}"/>
+      </ws:multiSelectTemplate>
+   </Controls.grid:View>
+</ws:template>
+
+<ws:template name="listEditor">
+   <ws:if data="{{_options.selectorTemplate}}">
+      <ws:partial template="listBase">
+         <ws:footerTemplate>
+            <Controls.buttons:Button viewMode="linkButton"
+                                     caption="{{_options.showSelectorCaption}}"
+                                     fontColorStyle="label"
+                                     on:click="_handleFooterClick()"
+                                     attr:class="controls-EditorList__footer_theme-{{_options.theme}}"/>
+         </ws:footerTemplate>
+      </ws:partial>
+   </ws:if>
+   <ws:else>
+      <ws:partial template="listBase"/>
+   </ws:else>
+</ws:template>
+
+<div class="controls-FilterEditors__list controls-FilterEditors__list_theme-{{_options.theme}}">
+   <ws:if data="{{_options.multiSelect}}">
+      <ws:partial template="listEditor" on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
+   </ws:if>
+   <ws:else>
+      <Controls.Container.Async templateName="Controls/multiselection:SingleSelection">
+         <ws:partial template="{{content.resolvedTemplate}}"
+                     on:selectedKeyChanged="_handleSelectedKeyChanged()">
+            <ws:partial template="listEditor"/>
+         </ws:partial>
+      </Controls.Container.Async>
+   </ws:else>
+</div>

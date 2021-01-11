@@ -1,39 +1,17 @@
 /**
  * Библиотека контролов, которые реализуют плоский список. Список может строиться по данным, полученным из источника. Также можно организовать удаление и перемещение данных.
  * @library Controls/list
- * @includes AddButton Controls/_list/AddButton
- * @includes Container Controls/_list/Container
- * @includes BaseItemTemplate Controls/list:BaseItemTemplate
- * @includes IContentTemplate Controls/list:IContentTemplate
- * @includes ItemTemplate Controls/list:ItemTemplate
- * @includes EmptyTemplate Controls/list:EmptyTemplate
- * @includes BaseGroupTemplate Controls/list:BaseGroupTemplate
- * @includes GroupTemplate Controls/list:GroupTemplate
- * @includes EditingTemplate Controls/list:EditingTemplate
- * @includes View Controls/_list/List
- * @includes BaseAction Controls/_list/BaseAction
- * @includes Mover Controls/_list/Mover
- * @includes Remover Controls/_list/Remover
- * @includes IRemovableList Controls/_list/interface/IRemovableList
- * @includes DataContainer Controls/_list/Data
- * @includes IHierarchy Controls/_interface/IHierarchy
- * @includes IList Controls/_list/interface/IList
- * @includes ISorting Controls/_interface/ISorting
- * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
- * @includes HotKeysContainer Controls/_list/HotKeysContainer
- * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
- * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
- * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
- * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
- * @includes MoveController Controls/_list/Controllers/MoveController
- * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
- * @includes IRemoveControllerOptions Controls/_list/Controllers/RemoveController/IRemoveControllerOptions
- * @includes RemoveController Controls/_list/Controllers/RemoveController
+ * @includes ItemTemplate Controls/_list/interface/ItemTemplate
  * @includes IClickableView Controls/_list/interface/IClickableView
- * @includes IListNavigation Controls/_list/interface/IListNavigation
- * @includes IReloadableList Controls/_list/interface/IReloadableList
- * @includes IMovableList Controls/_list/interface/IMovableList
- * @includes IMarkerListOptions Controls/_marker/interface/IMarkerListOptions
+ * @includes IBaseItemTemplate Controls/_list/interface/IBaseItemTemplate
+ * @includes IContentTemplate Controls/_list/interface/IContentTemplate
+ * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
+ * @includes GroupTemplate Controls/_list/interface/GroupTemplate
+ * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
+ * @includes EditingTemplate Controls/_list/interface/EditingTemplate
+ * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
+ * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
+ * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -41,35 +19,17 @@
 /*
  * List library
  * @library Controls/list
- * @includes AddButton Controls/_list/AddButton
- * @includes Container Controls/_list/Container
- * @includes BaseItemTemplate Controls/list:BaseItemTemplate
- * @includes IContentTemplate Controls/list:IContentTemplate
- * @includes ItemTemplate Controls/list:ItemTemplate
- * @includes EmptyTemplate Controls/list:EmptyTemplate
- * @includes BaseGroupTemplate Controls/list:BaseGroupTemplate
- * @includes GroupTemplate Controls/list:GroupTemplate
- * @includes EditingTemplate Controls/list:EditingTemplate
- * @includes View Controls/_list/List
- * @includes BaseAction Controls/_list/BaseAction
- * @includes Mover Controls/_list/Mover
- * @includes Remover Controls/_list/Remover
- * @includes IRemovableList Controls/_list/interface/IRemovableList
- * @includes DataContainer Controls/_list/Data
- * @includes IHierarchy Controls/_interface/IHierarchy
- * @includes IList Controls/_list/interface/IList
- * @includes ItemActionsHelper Controls/_list/ItemActions/Helpers
- * @includes HotKeysContainer Controls/_list/HotKeysContainer
- * @includes IVirtualScrollConfig Controls/_list/interface/IVirtualScrollConfig
- * @includes BaseEditingTemplate Controls/list:BaseEditingTemplate
- * @includes NumberEditingTemplate Controls/list:NumberEditingTemplate
- * @includes MoneyEditingTemplate Controls/list:MoneyEditingTemplate
- * @includes MoveController Controls/_list/Controllers/MoveController
- * @includes IMoveControllerOptions Controls/_list/Controllers/MoveController/IMoveControllerOptions
- * @includes RemoveController Controls/_list/Controllers/RemoveController
+ * @includes ItemTemplate Controls/_list/interface/ItemTemplate
  * @includes IClickableView Controls/_list/interface/IClickableView
- * @includes IListNavigation Controls/_list/interface/IListNavigation
- * @includes IMovableList Controls/_list/interface/IMovableList
+ * @includes IBaseItemTemplate Controls/_list/interface/IBaseItemTemplate
+ * @includes IContentTemplate Controls/_list/interface/IContentTemplate
+ * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
+ * @includes GroupTemplate Controls/_list/interface/GroupTemplate
+ * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
+ * @includes EditingTemplate Controls/_list/interface/EditingTemplate
+ * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
+ * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
+ * @includes LoadingIndicatorTemplate Controls/_list/interface/LoadingIndicatorTemplate
  * @public
  * @author Крайнов Д.О.
  */
@@ -106,7 +66,7 @@ import InertialScrolling from 'Controls/_list/resources/utils/InertialScrolling'
 import {IVirtualScrollConfig} from './_list/interface/IVirtualScroll';
 import {VirtualScroll} from './_list/ScrollContainer/VirtualScroll';
 import {default as ScrollController} from './_list/ScrollController';
-import {IList} from './_list/interface/IList';
+import {IList, IItemPadding} from './_list/interface/IList';
 import IListNavigation from './_list/interface/IListNavigation';
 import { CssClassList, createClassListCollection} from 'Controls/_list/resources/utils/CssClassList';
 import {getItemsBySelection} from 'Controls/_list/resources/utils/getItemsBySelection';
@@ -115,24 +75,14 @@ import ItemActionsHelpers = require('Controls/_list/ItemActions/Helpers');
 
 // region @deprecated
 
-import _itemActionsForTemplate = require('wml!Controls/_list/ItemActions/resources/ItemActionsFor');
-import ItemActionsTemplate = require('wml!Controls/_list/ItemActions/resources/ItemActionsTemplate');
-import _swipeActionTemplate = require('wml!Controls/_list/ItemActions/resources/SwipeAction');
-import SwipeTemplate = require('wml!Controls/_list/ItemActions/resources/SwipeTemplate');
 import Remover = require('Controls/_list/Remover');
 import * as Mover from 'Controls/_list/Mover';
 export {IMoveItemsParams, IMover, IRemover, BEFORE_ITEMS_MOVE_RESULT} from 'Controls/_list/interface/IMoverAndRemover';
-export {
-    _itemActionsForTemplate,
-    ItemActionsTemplate,
-    _swipeActionTemplate,
-    SwipeTemplate
-}
 
 // endregion @deprecated
 
 export {MoveController, IMoveControllerOptions}  from 'Controls/_list/Controllers/MoveController';
-export {IMovableList} from 'Controls/_list/interface/IMovableList';
+export {IMovableList, IMoveDialogTemplate, IMovableOptions} from 'Controls/_list/interface/IMovableList';
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
@@ -175,8 +125,30 @@ export {
     HotKeysContainer,
     InertialScrolling,
     IVirtualScrollConfig,
+    IItemPadding,
     IList,
     VirtualScroll,
     ScrollController,
     IListNavigation
 };
+
+/**
+ * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактированием по месту}.
+ * @public
+ */
+const editing = {
+    /**
+     * С помощью этой константы можно отменить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
+     * Для этого константу следует вернуть из обработчика события {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}.
+     */
+    /*
+     * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
+     */
+    CANCEL: 'Cancel'
+};
+
+import {groupConstants} from './display';
+import {MultiSelectAccessibility} from './display';
+import {CursorDirection} from './interface';
+
+export {CursorDirection, groupConstants, editing, MultiSelectAccessibility};

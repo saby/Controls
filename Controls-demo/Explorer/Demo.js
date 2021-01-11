@@ -1,15 +1,15 @@
 define('Controls-demo/Explorer/Demo', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Explorer/Demo/Demo',
    'Types/source',
-   'Controls/Utils/Toolbar',
-   'Controls/Constants',
+   'Controls/toolbars',
+   'Controls/list',
    'Controls-demo/Explorer/ExplorerImages',
    'Controls/explorer'
-], function(BaseControl, template, source, Toolbar, constants, explorerImages) {
+], function(Base, template, source, Toolbar, constants, explorerImages) {
    'use strict';
    var
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _viewSource: null,
          _selectedKeys: [],
@@ -201,7 +201,7 @@ define('Controls-demo/Explorer/Demo', [
          _groupingKeyCallback: function(item) {
             var group;
             if (item.get('hiddenGroup')) {
-               group = constants.view.hiddenGroup;
+               group = constants.groupConstants.hiddenGroup;
             } else {
                group = item.get('isDocument') ? 'document' : 'image';
             }

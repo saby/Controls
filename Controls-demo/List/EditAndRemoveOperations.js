@@ -1,11 +1,11 @@
 define('Controls-demo/List/EditAndRemoveOperations', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/EditAndRemoveOperations/EditAndRemoveOperations',
    'Types/source',
    'Types/entity',
-   'Controls/Constants',
+   'Controls/list',
    'Controls/validate'
-], function(Control,
+], function(Base,
             template,
             source,
             entity,
@@ -13,7 +13,7 @@ define('Controls-demo/List/EditAndRemoveOperations', [
 ) {
    'use strict';
    var counter = 10;
-   var EditInPlace = Control.extend({
+   var EditInPlace = Base.Control.extend({
       _template: template,
       _itemActions: null,
 

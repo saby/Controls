@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/Panel/PropertyGrid/PropertyGrid');
 import Utils = require('Types/util');
 import Clone = require('Core/core-clone');
@@ -85,7 +85,7 @@ import {isEqual} from 'Types/object';
  * Provides a user interface for browsing and editing the properties of an object.
  *
  * @class Controls/_filterPopup/Panel/PropertyGrid
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/interface/IPropertyGrid
  * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IItemTemplate

@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/Notification/Opener/NotificationContent');
 
       var NotificationContent = Control.extend({

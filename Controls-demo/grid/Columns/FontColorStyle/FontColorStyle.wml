@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__cell">
+        <Controls.grid:View
+                attr:class="controlsDemo__inline-flex"
+                keyProperty="id"
+                source="{{_viewSource}}">
+            <ws:columns>
+                <ws:Array>
+                    <ws:Object displayProperty="country"
+                               fontColorStyle="primary"/>
+                    <ws:Object displayProperty="population"
+                               displayType="number"
+                               fontColorStyle="secondary"
+                    />
+                    <ws:Object displayProperty="populationDensity"
+                               displayType="money"
+                               fontColorStyle="warning"/>
+                </ws:Array>
+            </ws:columns>
+        </Controls.grid:View>
+    </div>
+</div>

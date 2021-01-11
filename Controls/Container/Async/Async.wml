@@ -1,6 +1,0 @@
-<ws:if data="{{ error }}">
-   <div>{{ userErrorMessage }}</div>
-</ws:if>
-<ws:else>
-   <ws:partial template="{{ _options.content || optionsForComponent.resolvedTemplate }}" scope="{{ optionsForComponent }}"/>
-</ws:else>

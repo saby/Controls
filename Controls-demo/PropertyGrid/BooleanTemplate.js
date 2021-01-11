@@ -1,12 +1,12 @@
 define('Controls-demo/PropertyGrid/BooleanTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/PropertyGrid/BooleanTemplate',
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var boolTmpl = Control.extend({
+      var boolTmpl = Base.Control.extend({
          _template: template,
          _valueChangedHandler: function(event, tmp) {
             this._notify('valueChanged', [tmp]);

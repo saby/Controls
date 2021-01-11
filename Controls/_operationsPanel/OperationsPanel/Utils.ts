@@ -1,15 +1,21 @@
-import toolbars = require('Controls/toolbars');
-import {showType} from 'Controls/Utils/Toolbar';
-import { Logger } from 'UI/Utils';
+import {
+   actualItems,
+   getButtonTemplate,
+   getButtonTemplateOptionsByItem,
+   ItemTemplate,
+   showType
+} from 'Controls/toolbars';
+import {Logger} from 'UI/Utils';
 import {Record} from 'Types/entity';
 import {DOMUtil, getWidth} from 'Controls/sizeUtils';
+import {constants} from 'Env/Env';
 
    var MENU_WIDTH = 0;
 
    var _private = {
       initializeConstants: function() {
          if (!MENU_WIDTH) {
-            MENU_WIDTH = window && getWidth('<span class="controls-Toolbar__menuOpen"><i class="icon-medium icon-ExpandDown"/></span>');
+            MENU_WIDTH = constants.isBrowserPlatform && getWidth('<span class="controls-Toolbar__menuOpen"><i class="icon-medium icon-ExpandDown"/></span>');
          }
       },
 
@@ -18,7 +24,7 @@ import {DOMUtil, getWidth} from 'Controls/sizeUtils';
          if (itemTemplateProperty && item) {
             contentTemplate = item.get(itemTemplateProperty);
          }
-         if (!contentTemplate && itemTemplate !== toolbars.ItemTemplate) {
+         if (!contentTemplate && itemTemplate !== ItemTemplate) {
             contentTemplate = itemTemplate;
          }
          return contentTemplate;
@@ -33,12 +39,12 @@ import {DOMUtil, getWidth} from 'Controls/sizeUtils';
             item = items.getRecordById(key);
             buttonTemplateOptions = _private.getButtonTemplateOptionsForItem(item, itemTemplateProperty);
 
-            itemsMark.push(toolbars.ItemTemplate({
+            itemsMark.push(ItemTemplate({
                item,
                size: 'm',
                itemsSpacing: 'medium',
                theme,
-               buttonTemplate: toolbars.getButtonTemplate(),
+               buttonTemplate: getButtonTemplate(),
                buttonTemplateOptions,
                contentTemplate: _private.getContentTemplate(item, itemTemplate, itemTemplateProperty)
             }));
@@ -48,7 +54,7 @@ import {DOMUtil, getWidth} from 'Controls/sizeUtils';
       },
 
       getButtonTemplateOptionsForItem(item: Record, itemTemplateProperty?: string): object {
-         const buttonOptions = toolbars.getButtonTemplateOptionsByItem(item);
+         const buttonOptions = getButtonTemplateOptionsByItem(item);
 
          if (itemTemplateProperty &&
              item.get(itemTemplateProperty) &&
@@ -76,7 +82,7 @@ import {DOMUtil, getWidth} from 'Controls/sizeUtils';
             currentWidth,
             visibleItemsKeys = [];
 
-         toolbars.actualItems(items);
+         actualItems(items);
 
          items.each(function(item) {
             if (!item.get(parentProperty)) {

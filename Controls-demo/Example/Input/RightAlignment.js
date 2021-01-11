@@ -1,20 +1,20 @@
 define('Controls-demo/Example/Input/RightAlignment',
    [
-      'Core/Control',
+      'UI/Base',
       'Controls-demo/Example/Input/SetValueMixin',
       'wml!Controls-demo/Example/Input/RightAlignment/RightAlignment',
 
       'Controls/input',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
-   function(Control, SetValueMixin, template) {
+   function(Base, SetValueMixin, template) {
       'use strict';
 
       var FILLED_VALUE = 'Text in the input field';
       var FILLED_MONEY_VALUE = '852.45';
       var FILLED_NUMBER_VALUE = 123.456;
 
-      return Control.extend([SetValueMixin], {
+      return Base.Control.extend([SetValueMixin], {
          _template: template,
 
          _filledValue: FILLED_VALUE,

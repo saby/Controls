@@ -4,7 +4,7 @@ import BaseControl = require('Controls/_list/BaseControl');
 import {saveConfig} from 'Controls/Application/SettingsController';
 import Deferred = require('Core/Deferred');
 import {isEqual} from 'Types/object';
-import {ISelectionObject} from 'Controls/interface';
+import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
 import { RecordSet } from 'Types/collection';
@@ -26,7 +26,7 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/interface/IMovableList
- * @mixes Controls/_marker/interface/IMarkerListOptions
+ * @mixes Controls/_marker/interface/IMarkerList
  * 
  * @private
  * @author Авраменко А.С.
@@ -40,7 +40,7 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
             saveConfig(cfg.propStorageId, ['sorting'], cfg);
         }
     }
-    reload(keepScroll, sourceConfig) {
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig) {
         return this._children.baseControl.reload(keepScroll, sourceConfig);
     }
     beginEdit(options) {
@@ -58,8 +58,8 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
         return this._options.readOnly ? Deferred.fail() : this._children.baseControl.commitEdit();
     }
 
-    reloadItem():Deferred {
-        let baseControl = this._children.baseControl;
+    reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'):Deferred {
+        const baseControl = this._children.baseControl;
         return baseControl.reloadItem.apply(baseControl, arguments);
     }
 

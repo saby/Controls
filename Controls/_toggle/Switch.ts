@@ -13,11 +13,11 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2ftoggle%2fSwitch%2fIndex">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2ftoggle%2fSwitch%2fIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  * @class Controls/_toggle/Switch
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_toggle/interface/ICheckable
  * @implements Controls/_interface/ITooltip
  * 
@@ -32,7 +32,7 @@ export interface ISwitchOptions extends IControlOptions, ICheckableOptions, IToo
  * <a href="/materials/Controls-demo/app/Controls-demo%2ftoggle%2fSwitch%2fIndex">Demo-example</a>.
  *
  * @class Controls/_toggle/Switch
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_toggle/interface/ICheckable
  * @implements Controls/_interface/ITooltip
  * 

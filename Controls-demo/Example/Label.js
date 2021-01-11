@@ -1,14 +1,14 @@
 define('Controls-demo/Example/Label',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Example/Label/Label',
 
       'Controls/input',
    ],
-   function(Control, template) {
+   function(BaseMod, template) {
       'use strict';
 
-      var ModuleClass = Control.extend({
+      var ModuleClass = BaseMod.Control.extend({
          _template: template,
 
          _value: 'text',

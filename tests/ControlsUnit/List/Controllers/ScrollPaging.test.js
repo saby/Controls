@@ -19,7 +19,7 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 chai.assert.deepEqual({
                     arrowState: {
                         begin: "readonly",
-                        end: "visible",
+                        end: "hidden",
                         next: "visible",
                         prev: "readonly"
                     }
@@ -41,7 +41,7 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 chai.assert.deepEqual({
                     arrowState: {
                         begin: "visible",
-                        end: "visible",
+                        end: "hidden",
                         next: "visible",
                         prev: "visible"
                     }
@@ -63,7 +63,7 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 chai.assert.deepEqual({
                     arrowState: {
                         begin: "visible",
-                        end: "readonly",
+                        end: "hidden",
                         next: "readonly",
                         prev: "visible"
                     }
@@ -92,7 +92,7 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 chai.assert.deepEqual({
                     arrowState: {
                         begin: "visible",
-                        end: "readonly",
+                        end: "hidden",
                         next: "readonly",
                         prev: "visible"
                     }
@@ -115,7 +115,8 @@ define("ControlsUnit/List/Controllers/ScrollPaging.test", ["require", "exports",
                 }
             });
             it('initPagingData', () => {
-                chai.assert.deepEqual(spInstance._pagingData, {totalHeight: 2500, pagesCount: 50, averageElementHeight: 25});
+                chai.assert.deepEqual(spInstance._pagingData,
+                    {totalHeight: 2500, pagesCount: 50, averageElementHeight: 25});
             });
             it('getItemsCountOnPage', () => {
                 chai.assert.deepEqual(spInstance.getItemsCountOnPage(), 2);

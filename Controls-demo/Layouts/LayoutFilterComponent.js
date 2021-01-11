@@ -1,13 +1,13 @@
 define('Controls-demo/Layouts/LayoutFilterComponent', [
    'Env/Env',
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Layouts/LayoutFilterComponent/LayoutFilterComponent',
    'Controls/toggle'
 
-], function (Env, BaseControl, template) {
+], function (Env, Base, template) {
    'use strict';
    
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _switchValue: false,

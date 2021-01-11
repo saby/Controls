@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 
 /**
  * Executes callback immediately after the next update.

@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper demo-EmptyText__withDetailPanel">
    <Controls.filter:View
       attr:class="controls-demo-FilterView__itemsEllipsis"
       on:itemsChanged="_itemsChangedHandler()"

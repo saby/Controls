@@ -1,16 +1,16 @@
 define('Controls-demo/Confirmation/Confirmation',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Confirmation/Confirmation',
       'Controls-demo/Confirmation/resources/detailsComponent'
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
       var MESSAGE = 'Message';
       var DETAILS = 'Details';
       var BG = '#409eff';
-      var InfoBox = Control.extend({
+      var InfoBox = Base.Control.extend({
          _template: template,
          _blocks: null,
          _result: '',

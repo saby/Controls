@@ -20,11 +20,11 @@
 </ws:template>
 
 <ws:template name="multiSelectTemplate">
-   <ws:partial template="{{multiSelectTpl}}" attr:class="{{ itemData.multiSelectClassList }}">
+   <ws:partial template="{{multiSelectTpl}}">
       <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
-                          checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
-                          multiSelectStatus="{{itemData.isSelected()}}"
-                          key="{{itemData.key}}" />
+                          readOnly="{{itemData.isAdd || checkboxReadOnly}}"
+                          item="{{ itemData.dispItem }}"
+                          itemData="{{itemData}}"/>
    </ws:partial>
 </ws:template>
 
@@ -48,6 +48,7 @@
     <!-- Этот механизм вызывает шаблон колонок, как при обычном рендере. -->
     <!-- Не нужно рендерить контент ячейки, если это не ячейка с colspanTemplate-->
    <ws:partial template="{{ renderSeparatedColumnContent !== false ? currentColumn.template : 'Controls/grid:ColumnTemplate' }}"
+                scope="{{currentColumn.column.templateOptions}}"
                 editArrowTemplate="{{editArrowTemplate}}"
                 itemActionsClass="{{itemActionsClass}}"
                 itemActionsTemplate="{{itemActionsTemplate}}"
@@ -78,7 +79,7 @@
    <!-- Маркер, не смотрим на него, если выводим фейковую стики ячейку для лесенки -->
    <ws:if data="{{ !isLadderHeader }}">
       <div if="{{marker !== false && itemData.shouldDisplayMarker(currentColumn.columnIndex)}}"
-           class="{{itemData.getMarkerClasses()}}"></div>
+           class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
 
       <div if="{{!!itemData.dragTargetNode}}"
            class="controls-TreeGridView__dragTargetNode_theme-{{itemData.theme}}

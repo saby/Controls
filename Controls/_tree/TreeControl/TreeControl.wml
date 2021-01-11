@@ -19,16 +19,27 @@
                            on:navigationParamsChanged="_notifyHandler('navigationParamsChanged')"
                            _needSetMarkerCallback="{{_options._needSetMarkerCallback}}">
     <ws:expanderTemplate>
-        <div on:mousedown="_onExpanderMouseDown(expanderTemplate.itemData.key, expanderTemplate.itemData.dispItem)"
-             on:mouseup="_onExpanderMouseUp(expanderTemplate.itemData.key, expanderTemplate.itemData.dispItem)"
+        <div on:mousedown="_onExpanderMouseDown(expanderTemplate.itemData.key, expanderTemplate.itemData)"
+             on:mouseup="_onExpanderMouseUp(expanderTemplate.itemData.key, expanderTemplate.itemData)"
              on:click="_onExpanderClick()"
-             class="{{expanderTemplate.itemData.getExpanderClasses(expanderTemplate.itemData, expanderTemplate.expanderIcon, expanderTemplate.expanderSize)}}"></div>
+             class="{{expanderTemplate.itemData.getExpanderClasses(expanderTemplate.expanderIcon, expanderTemplate.expanderSize, expanderTemplate.theme)}}"></div>
     </ws:expanderTemplate>
    <ws:footerContentTemplate>
       <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser"
                   useNewNodeFooters="{{ footerContentTemplate.useNewNodeFooters }}"
-                  nodeFooters="{{ footerContentTemplate.nodeFooters }}"/>
+                  nodeFooters="{{ footerContentTemplate.nodeFooters }}"
+                  moreFontColorStyle="{{_options.moreFontColorStyle}}"/>
    </ws:footerContentTemplate>
+   <ws:nodeFooterTemplateMoreButton>
+      <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore js-controls-TreeGrid__nodeFooter__LoadMoreButton"
+                               fontSize="xs"
+                               viewMode="link"
+                               fontColorStyle="{{moreFontColorStyle}}"
+                               caption="{{rk('Еще') + '...'}}"
+                               readOnly="{{false}}"
+                               on:click="_onLoadMoreClick(nodeFooterTemplateMoreButton.item)"
+      />
+   </ws:nodeFooterTemplateMoreButton>
    <ws:content>
       <ws:partial template="{{content.viewTemplate}}" on:expanderClick="_onExpanderClick()" on:loadMoreClick="_onLoadMoreClick()"
                   on:arrowClick="_notifyHandler('arrowClick')"/>

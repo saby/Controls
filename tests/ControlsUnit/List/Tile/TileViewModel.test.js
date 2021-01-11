@@ -78,10 +78,12 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
             defaultItemWidth: 250,
             defaultShadowVisibility: 'visible',
             itemClasses: 'controls-TileView__item_spacingLeft_default_theme-default controls-TileView__item_spacingRight_default_theme-default controls-TileView__item_spacingTop_default_theme-default controls-TileView__item_spacingBottom_default_theme-default',
+            itemContentClasses: 'controls-TileView__item_roundBorder_topLeft_default_theme-default controls-TileView__item_roundBorder_topRight_default_theme-default controls-TileView__item_roundBorder_bottomLeft_default_theme-default controls-TileView__item_roundBorder_bottomRight_default_theme-default',
             itemCompressionCoefficient: 0.7,
             displayProperty: 'title',
             imageWidthProperty: 'imageWidth',
             imageHeightProperty: 'imageHeight',
+            getImageProportion: tileViewModel.getImageProportion,
             itemWidth: 150,
             imageFit: 'cover',
             imageUrlResolver: urlResolver,
@@ -98,21 +100,21 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
       it('getMultiSelectClassList visible', function() {
          tileViewModel.setMultiSelectVisibility('visible');
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
-         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
+         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });
 
 
       it('getMultiSelectClassList onhover unselected', function() {
          tileViewModel.setMultiSelectVisibility('onhover');
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
-         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-ListView__checkbox-onhover controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
+         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox-onhover controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });
 
       it('getMultiSelectClassList onhover selected', function() {
          tileViewModel.setMultiSelectVisibility('onhover');
          tileViewModel.setSelectedItems([tileViewModel.getItemBySourceKey(2)], true);
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
-         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
+         assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });
 
       it('getItemsPaddingContainerClasses', () => {
@@ -185,45 +187,6 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
             });
             let width = tileViewModel.getTileWidth(tileItem, 'imageHeight', 'imageWidth', 'dynamic', 200, 400);
             assert.strictEqual(width, 150);
-         });
-
-         it('shouldOpenExtendedMenu', () => {
-            const tileViewModel2 = new TileViewModel({
-               tileMode: 'static',
-               itemsHeight: 300,
-               tileWidth: 150,
-               imageProperty: 'image',
-               keyProperty: 'id',
-               imageWidthProperty: 'imageWidth',
-               imageHeightProperty: 'imageHeight',
-               tileScalingMode: 'none',
-               multiSelectPosition: 'default',
-               actionMenuViewMode: 'preview',
-               imageFit: 'cover',
-               imageUrlResolver: urlResolver,
-               items: new collection.RecordSet({
-                  rawData: [{
-                     'id': 1
-                  }, {
-                     'id': 2
-                  }],
-                  keyProperty: 'id'
-               }),
-               theme: 'default',
-               displayProperty: 'title'
-            });
-            const itemData = {
-               dispItem: {
-                  isNode: () => false
-               }
-            };
-
-            assert.isTrue(tileViewModel2.shouldOpenExtendedMenu(false, true, itemData));
-            assert.isFalse(tileViewModel2.shouldOpenExtendedMenu(true, false, itemData));
-            tileViewModel2._options.tileScalingMode = 'overlap';
-            assert.isTrue(tileViewModel2.shouldOpenExtendedMenu(false, true, itemData));
-            tileViewModel2._options.tileScalingMode = 'inside';
-            assert.isFalse(tileViewModel2.shouldOpenExtendedMenu(false, true, itemData));
          });
       });
    });

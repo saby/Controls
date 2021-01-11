@@ -25,6 +25,23 @@ interface IData {
 
 describe('Controls/_display/Tree', () => {
     function getData(): IData[] {
+        /*
+            0 - root
+                1
+                    10
+                    11
+                    12
+                        121
+                        122
+                        123
+                2
+                    20
+                        200
+                            2000
+                3
+                4
+        */
+
          return [{
              id: 10,
              pid: 1,
@@ -1838,6 +1855,21 @@ describe('Controls/_display/Tree', () => {
                 assert.notEqual(clone.getCollection().getIndex(item.getContents()), -1);
             });
 
+        });
+    });
+
+    describe('expandable/collapsed', () => {
+        const rsTree = getRecordSetTree();
+        it('setExpandedItems', () => {
+            assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
+            rsTree.setExpandedItems([1]);
+            assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+        });
+
+        it('setCollapsedItems', () => {
+            assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+            rsTree.setCollapsedItems([1]);
+            assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
         });
     });
 });

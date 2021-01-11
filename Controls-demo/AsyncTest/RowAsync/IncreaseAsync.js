@@ -1,12 +1,12 @@
 define('Controls-demo/AsyncTest/RowAsync/IncreaseAsync',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/RowAsync/IncreaseAsync',
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var rowAsyncModule = Control.extend({
+      var rowAsyncModule = Base.Control.extend({
          _template: template,
          _isOpen: false,
 

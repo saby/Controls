@@ -1,18 +1,17 @@
+export type TFontSize = 'inherit' | 'xs' | 's' | 'm' | 'l' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl';
+
 export interface IFontSizeOptions {
-   fontSize?: string;
+   fontSize?: TFontSize;
 }
 
 /**
  * Интерфейс для контролов, которые поддерживают разные размеры шрифта.
- *
- * @interface Controls/_interface/IFontSize
  * @public
+ * @author Красильников А.С.
  */
 
 /*
  * Interface for control, which has different font sizes
- *
- * @interface Controls/_interface/IFontSize
  * @public
  */
 export default interface IFontSize {
@@ -20,7 +19,9 @@ export default interface IFontSize {
 }
 /**
  * @name Controls/_interface/IFontSize#fontSize
- * @cfg {Enum} Размер шрифта.
+ * @cfg {String} Размер шрифта.
+ * @remark
+ * Размер шрифта задается константой из стандартного набора размеров шрифта, который определен для текущей темы оформления.
  * @variant inherit
  * @variant xs
  * @variant s
@@ -33,17 +34,7 @@ export default interface IFontSize {
  * @variant 5xl
  * @variant 6xl
  * @variant 7xl
- * @demo Controls-demo/Buttons/SizesAndHeights/Index
- * @demo Controls-demo/Input/SizesAndHeights/Index
- * @demo Controls-demo/Decorator/Money/FontSize/Index
- * @demo Controls-demo/breadCrumbs_new/FontSize/Index
- * @remark
- * Размер шрифта задается константой из стандартного набора размеров шрифта, который определен для текущей темы оформления.
- * @example
- * Кнопка с размером шрифта xl.
- * <pre>
- *    <Controls.buttons:Button icon="icon-Add" fontSize="xl" viewMode="button"/>
- * </pre>
+ * @default l
  * @see Icon
  */
 

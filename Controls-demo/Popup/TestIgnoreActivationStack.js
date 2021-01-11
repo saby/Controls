@@ -3,13 +3,13 @@
  */
 define('Controls-demo/Popup/TestIgnoreActivationStack',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/TestIgnoreActivationStack'
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var TestIgnoreActivationStack = Control.extend({
+      var TestIgnoreActivationStack = Base.Control.extend({
          _template: template,
          _openConfirmation: function(e) {
             this._children.confirmDialog.open({

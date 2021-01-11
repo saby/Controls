@@ -1,13 +1,18 @@
 import rk = require('i18n!Controls');
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_lookupPopup/List/Container');
-import {showType} from 'Controls/Utils/Toolbar';
 import {Record} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import { IItemAction } from 'Controls/itemActions';
 
 type Key = string|number;
 type SelectionChangedEventResult = [Key[], Key[], Key[]];
+
+export enum showType {
+   MENU,
+   MENU_TOOLBAR,
+   TOOLBAR
+}
 
 let SELECT_ACTION_ID = 'selector.action';
 let ACTION_TITLE = rk('Выбрать');
@@ -140,7 +145,7 @@ let _private = {
  * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Пример</a> использования контрола.
  *
  * @class Controls/_lookupPopup/List/Container
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/IMultiSelectable
  * 
  * @public
@@ -158,7 +163,7 @@ let _private = {
  * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Here</a> you can see a demo.
  *
  * @class Controls/_lookupPopup/List/Container
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/IMultiSelectable
  * 
  * @public

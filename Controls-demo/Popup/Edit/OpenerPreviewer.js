@@ -1,12 +1,12 @@
 define('Controls-demo/Popup/Edit/OpenerPreviewer',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/Edit/OpenerPreviewer'
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var OpenerPreviewer = Control.extend({
+      var OpenerPreviewer = Base.Control.extend({
          _template: template
       });
 

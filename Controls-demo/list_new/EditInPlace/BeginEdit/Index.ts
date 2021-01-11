@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getEditableCatalog as getData} from '../../DemoHelpers/DataCatalog';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {editing as constEditing} from 'Controls/Constants';
+import {editing as constEditing} from 'Controls/list';
 
 const TIMEOUT1000 = 1000;
 const TIMEOUT3000 = 3000;

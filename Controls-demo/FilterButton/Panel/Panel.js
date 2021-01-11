@@ -1,6 +1,6 @@
 define('Controls-demo/FilterButton/Panel/Panel',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'wml!Controls-demo/FilterButton/Panel/Panel',
       'Controls/filterPopup',
@@ -13,7 +13,7 @@ define('Controls-demo/FilterButton/Panel/Panel',
       'wml!Controls-demo/FilterButton/Panel/resources/vdomFilterTemplate'
    ],
 
-   function(Control, source, template) {
+   function(Base, source, template) {
 
       /**
        * @class Controls/deprecatedSearch:Container
@@ -23,7 +23,7 @@ define('Controls-demo/FilterButton/Panel/Panel',
        */
 
       'use strict';
-      var Panel = Control.extend({
+      var Panel = Base.Control.extend({
 
          _template: template,
          sourceDropdown: null,

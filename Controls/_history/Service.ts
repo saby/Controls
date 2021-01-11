@@ -3,7 +3,7 @@ import {RecordSet} from 'Types/collection';
 import {OptionsToPropertyMixin, SerializableMixin, Model} from 'Types/entity';
 import * as Constants from './Constants';
 import Deferred = require('Core/Deferred');
-import {object, mixin} from 'Types/util';
+import {mixin} from 'Types/util';
 import DataStorage from './DataStorage';
 import LoadPromisesStorage from './LoadPromisesStorage';
 import {Logger} from 'UI/Utils';
@@ -150,26 +150,28 @@ export default class HistoryService extends mixin<SerializableMixin, OptionsToPr
     }
 
     private _updateHistory(data: any, meta: any): any {
+        let resultPromise;
         if (meta.parentKey) {
-            this._callQuery('AddHierarchyList', {
+            resultPromise = this._callQuery('AddHierarchyList', {
                 history_id: this._$historyId,
                 parent1: meta.parentKey,
                 ids: data.ids
             });
         } else if (data.ids) {
-            this._callQuery(this._getMethodNameByIdType('AddList', 'AddIntList', data.ids[0]), {
+            resultPromise = this._callQuery(this._getMethodNameByIdType('AddList', 'AddIntList', data.ids[0]), {
                 history_id: this._$historyId,
                 ids: data.ids,
                 history_context: null
             });
         } else {
             const id = data.getKey();
-            this._callQuery(this._getMethodNameByIdType('Add', 'AddInt', id), {
+            resultPromise = this._callQuery(this._getMethodNameByIdType('Add', 'AddInt', id), {
                 history_id: data.get('HistoryId') || this._$historyId,
                 id,
                 history_context: null
             });
         }
+        return resultPromise;
     }
 
     private _addFromData(data: any): any {
@@ -182,20 +184,22 @@ export default class HistoryService extends mixin<SerializableMixin, OptionsToPr
     private _updatePinned(data: any, meta: any): any {
         const id = data.getKey();
         const historyId = data.get('HistoryId') || this._$historyId;
+        let resultPromise;
         if (meta.isClient) {
-            this._callQuery( 'PinForClient', {
+            resultPromise = this._callQuery( 'PinForClient', {
                 history_id: historyId,
                 object_id: id,
                 data: data.get('ObjectData')
             });
         } else {
-            this._callQuery(this._getMethodNameByIdType('SetPin', 'SetIntPin', id), {
+            resultPromise = this._callQuery(this._getMethodNameByIdType('SetPin', 'SetIntPin', id), {
                 history_id: historyId,
                 id,
                 history_context: null,
                 pin: !!meta.$_pinned
             });
         }
+        return resultPromise;
     }
 
     private _incrementUsage(): void {
@@ -221,29 +225,30 @@ export default class HistoryService extends mixin<SerializableMixin, OptionsToPr
     }
 // endregion
 
-    update(data: any, meta: any): Promise<any> | object {
+    update(data: any, meta: any): Promise<any> {
+        let result: Promise<any> = Promise.resolve({});
         /**
          * В isDesktop нет сервиса истории и его там нельзя вызывать, в таком случае работаем без истории вообще.
          * FIXME: https://online.sbis.ru/opendoc.html?guid=f0e4521b-873a-4b1a-97fe-2ecbb12409d1
          */
         if (detection.isDesktop) {
-            return Promise.resolve();
+            result = Promise.resolve();
         } else {
             if (meta.hasOwnProperty('$_addFromData')) {
-                return this._addFromData(data);
+                result = this._addFromData(data);
             }
             if (meta.hasOwnProperty('$_pinned')) {
-                this._updatePinned(data, meta);
+                result = this._updatePinned(data, meta);
             }
             if (meta.hasOwnProperty('$_history')) {
-                this._updateHistory(data, meta);
+                result = this._updateHistory(data, meta);
             }
             if (meta.hasOwnProperty('$_favorite')) {
                 this._updateFavoriteData(data, meta);
             }
         }
 
-        return {};
+        return result;
     }
 
     deleteItem(data: any, meta: any): any {

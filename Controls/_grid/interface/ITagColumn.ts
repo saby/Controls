@@ -24,7 +24,7 @@ export type TTagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | 
 /**
  * Интерфейс для конфигурации колонки c тегом в контролах {@link Controls/grid:View Таблица} и {@link Controls/treeGrid:View Дерево}.
  *
- * @interface Controls/grid:ITagColumn
+ * @interface Controls/_grid/interface/ITagColumn
  * @mixes Controls/_grid/interface/IColumn
  * @public
  * @author Аверкиев П.А.
@@ -32,18 +32,18 @@ export type TTagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | 
 /*
  * Interface for column with enabled tagTemplate in controls {@link Controls/grid:View Таблица} & {@link Controls/treeGrid:View Дерево}.
  *
- * @interface Controls/grid:ITagColumn
+ * @interface Controls/_grid/interface/ITagColumn
  * @mixes Controls/_grid/interface/IColumn
  * @public
  * @author Аверкиев П.А.
  */
 export interface ITagColumn extends IColumn {
     /**
-     * @name Controls/grid:ITagColumn#tagStyleProperty
+     * @name Controls/_grid/interface/ITagColumn#tagStyleProperty
      * @cfg {String} Имя свойства, содержащего стиль тега.
      */
     /*
-     * @name Controls/grid:ITagColumn#tagStyleProperty
+     * @name Controls/_grid/interface/ITagColumn#tagStyleProperty
      * @cfg {String} Name of the property that contains tag style
      */
     tagStyleProperty?: string;

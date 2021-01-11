@@ -12,7 +12,7 @@ export interface IButtonGroupOptions extends ISingleSelectableOptions, IControlO
 /**
  * Контрол представляет собой набор из нескольких взаимосвязанных между собой кнопок. Используется, когда необходимо выбрать один из нескольких параметров.
  * @class Controls/_toggle/ButtonGroup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ISingleSelectable
  * @mixes Controls/_interface/IItems
  * 

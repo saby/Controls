@@ -1,6 +1,6 @@
 define([
    'Controls/_calendar/MonthSlider/Slider',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils'
 ], function(
    Slider,

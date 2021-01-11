@@ -1,18 +1,18 @@
 define('Controls-demo/List/Grid/DocsBase', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Grid/resources/DocsBase/DocsBase',
    'Types/source',
-   'Controls/Constants',
+   'Controls/list',
    'Controls-demo/List/Grid/resources/DataDemoPG',
 
    'wml!Controls-demo/List/Grid/resources/BasePG/resultsTemplate',
    'wml!Controls-demo/List/Grid/resources/BasePG/HeaderMoneyTemplate',
    'wml!Controls-demo/List/Grid/resources/DemoMoney',
    'wml!Controls-demo/List/Grid/resources/DemoRating'
-], function(BaseControl, template, source, ControlsConstants, ItemTemplate, data) {
+], function(Base, template, source, ControlsConstants, ItemTemplate, data) {
    'use strict';
    var
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _itemTemplate: ItemTemplate,
          _source: null,
@@ -100,7 +100,7 @@ define('Controls-demo/List/Grid/DocsBase', [
 
          _groupingKeyCallback: function(item) {
             if (item.get('description') === 'морской/речной') {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('description');
          },

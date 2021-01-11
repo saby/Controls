@@ -9,15 +9,15 @@ export interface INotificationBaseOptions extends IControlOptions, INotification
 }
 
 /**
-* Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/notification/#template окна уведомления}.
+* Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#template окна уведомления}.
 * 
 * @remark
 * Полезные ссылки:
-* * <a href="/doc/platform/developmentapl/interface-development/controls/openers/notification/#template">руководство разработчика</a>
-* * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+* * {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#template руководство разработчика}
+* * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
 *
 * @class Controls/_popupTemplate/Notification/Base
-* @extends Core/Control
+* @extends UI/Base:Control
 * @mixes Controls/_popupTemplate/Notification/interface/INotification
 * 
 * @public

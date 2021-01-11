@@ -350,11 +350,15 @@ define(
                assert.equal(historyItems.at(1).get('title'), 'Запись 4');
                assert.equal(historyItems.at(2).get('title'), 'Запись 6');
             });
-            it('updatePinned', function() {
+            it('updatePinned', async function() {
+               let sandbox = sinon.createSandbox();
+               sandbox.stub(hSource, '_getSourceByMeta').returns({
+                  update: () => Promise.resolve()
+               });
                let meta = {
                   $_pinned: true
                };
-               hSource.update(myItem, meta);
+               await hSource.update(myItem, meta);
                historyItems = hSource.getItems();
                pinItem = historyItems.at(1);
                assert.equal(pinItem.get('pinned'), true);
@@ -363,11 +367,10 @@ define(
                meta = {
                   $_pinned: false
                };
-               hSource.update(myItem, meta);
+               await hSource.update(myItem, meta);
                historyItems = hSource.getItems();
                assert.equal(historyItems.at('1').get('pinned'), false);
 
-               let sandbox = sinon.createSandbox();
 
                sandbox.stub(hSource, '_checkPinnedAmount').returns(false);
                let stub = sandbox.stub(hSource, '_showNotification');

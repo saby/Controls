@@ -1,14 +1,14 @@
 define('Controls-demo/NotificationDemo/NotificationTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/NotificationDemo/NotificationTemplate',
       'wml!Controls-demo/Popup/Opener/resources/CustomNotification',
    ],
-   function(Control, template) {
+   function(Base, template) {
 
       'use strict';
 
-      var ModuleClass = Control.extend({
+      var ModuleClass = Base.Control.extend({
          _template: template,
 
          _openNotification: function(e, index) {

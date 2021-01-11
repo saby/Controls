@@ -1,13 +1,9 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_explorer/PathController/HeadingPathBack');
-import {ItemsUtil} from "../list";
+import {calculatePath} from 'Controls/dataSource';
 
 var HeadingPathBack = Control.extend({
    _template: template,
-
-   _getBackButtonCaption(items, displayProperty): string|null {
-      return items && items.length ? ItemsUtil.getPropertyValue(items[items.length - 1], displayProperty) : null;
-   },
 
    _beforeMount: function(options) {
       return options.itemsAndHeaderPromise.then(({ items }) => {
@@ -17,7 +13,7 @@ var HeadingPathBack = Control.extend({
                ...options,
                counterCaption: items[items.length - 1].get('counterCaption'),
                backButtonClass: 'controls-BreadCrumbsPath__backButton__wrapper_inHeader',
-               backButtonCaption: this._getBackButtonCaption(items, options.displayProperty)
+               backButtonCaption: calculatePath(items, options.displayProperty).backButtonCaption
             };
          }
       });
@@ -31,7 +27,7 @@ var HeadingPathBack = Control.extend({
                ...newOptions,
                counterCaption: newOptions.items[newOptions.items.length - 1].get('counterCaption'),
                backButtonClass: 'controls-BreadCrumbsPath__backButton__wrapper_inHeader',
-               backButtonCaption: this._getBackButtonCaption(newOptions.items, newOptions.displayProperty)
+               backButtonCaption: calculatePath(newOptions.items, newOptions.displayProperty).backButtonCaption
             };
          }
       }

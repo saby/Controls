@@ -1,7 +1,7 @@
 /**
  * Created by am.gerasimov on 22.03.2018.
  */
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_filter/Fast/Container');
 
 /**
@@ -9,11 +9,11 @@ import template = require('wml!Controls/_filter/Fast/Container');
  * @remark
  * Получает результат дочернего события "filterChanged" и уведомляет о всплывающем событии "filterChanged".
  *
- * Подробнее об организации поиска и фильтрации в реестре читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
- * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/ здесь}.
+ * Подробнее об организации поиска и фильтрации в реестре читайте {@link /doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/ здесь}.
+ * Подробнее о классификации контролов Wasaby и схеме их взаимодействия читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ здесь}.
  *
  * @class Controls/_filter/Fast/Container
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @public
  * @author Герасимов А.М.
  * 
@@ -29,7 +29,7 @@ import template = require('wml!Controls/_filter/Fast/Container');
  * More information you can read <a href='/doc/platform/developmentapl/interface-development/controls/filter-search/'>here</a>.
  *
  * @class Controls/_filter/Fast/Container
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @author Герасимов А.М.
  * 
  * @public

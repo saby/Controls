@@ -10,7 +10,7 @@ export interface IArrowButtonOptions extends IControlOptions {
 /**
  * Графический контрол в виде стрелки, который предоставляет пользователю возможность простого запуска события при нажатии на него.
  * @class Controls/_buttons/ArrowButton
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Buttons/ArrowButton/Index

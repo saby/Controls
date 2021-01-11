@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell demo-SuggestTemplate__listView">
       <div class="controls-text-label_theme-{{_options.theme}}">list:View в шаблоне автодополнения</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__listViewPopup"
@@ -13,7 +13,7 @@
           </ws:suggestTemplate>
       </Controls.suggest:Input>
   </div>
-   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+   <div class="controlsDemo__wrapper__horizontal controlsDemo__cell demo-SuggestTemplate__gridView">
       <div class="controls-text-label_theme-{{_options.theme}}">grid:View в шаблоне автодополнения</div>
       <Controls.suggest:Input
               attr:class="controlsDemo__input demo-SuggestNew__gridViewPopup"
@@ -28,7 +28,7 @@
       </Controls.suggest:Input>
    </div>
 
-    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell">
+    <div class="controlsDemo__wrapper__horizontal controlsDemo__cell demo-SuggestTemplate__treeGridView">
         <div class="controls-text-label_theme-{{_options.theme}}">treeGrid:View в шаблоне автодополнения</div>
         <Controls.suggest:Input
                 attr:class="controlsDemo__input demo-SuggestNew__gridViewPopup"

@@ -26,11 +26,11 @@ export interface IHeadingOptions
  * Кликабельность заголовка зависит от {@link readOnly режима отображения}.
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/content-managment/heading/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_heading.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/heading/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_heading.less переменные тем оформления}
  *
  * @class Controls/_heading/Heading
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/ITooltip
  * @implements Controls/_interface/ICaption
  * @implements Controls/_interface/IFontColorStyle

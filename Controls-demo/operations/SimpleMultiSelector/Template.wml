@@ -1,0 +1,17 @@
+<Controls.list:DataContainer source="{{_viewSource}}" filter="{{_filter}}">
+    <Controls.operations:Controller
+            bind:selectedKeys="_selectedKeys"
+            bind:excludedKeys="_excludedKeys">
+        <div>
+            <Controls.operations:SimpleMultiSelector attr:class="controlsDemo__inline-block"/>
+            <Controls.list:Container>
+                <Controls.treeGrid:View
+                        keyProperty="id"
+                        columns="{{_gridColumns}}"
+                        parentProperty="parent"
+                        nodeProperty="type"
+                        multiSelectVisibility="visible"/>
+            </Controls.list:Container>
+        </div>
+    </Controls.operations:Controller>
+</Controls.list:DataContainer>

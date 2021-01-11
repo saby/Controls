@@ -1,9 +1,0 @@
-<Controls-demo.PropertyGrid.PropertyGridWrapper
-        description="{{_metaData}}"
-        dataObject="{{_dataObject}}"
-        componentOpt="{{_componentOptions}}"
-        content="{{_content}}"
-        eventType="{{_eventType}}"
-        componentClass="controls-FilterButton__width"
-        nameOption="{{_nameOption}}">
-</Controls-demo.PropertyGrid.PropertyGridWrapper>

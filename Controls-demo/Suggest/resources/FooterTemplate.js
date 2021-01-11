@@ -1,8 +1,8 @@
 define('Controls-demo/Suggest/resources/FooterTemplate', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Suggest/resources/FooterTemplate'
-], function(Control, template) {
-   return Control.extend({
+], function(Base, template) {
+   return Base.Control.extend({
       _template: template
    });
 });

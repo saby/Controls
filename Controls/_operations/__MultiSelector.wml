@@ -3,7 +3,7 @@
                               keyProperty="id"
                               viewMode="link"
                               buttonStyle="secondary"
-                              fontColorStyle="link"
+                              fontColorStyle="{{_options.fontColorStyle}}"
                               caption="{{_menuCaption}}"
                               fontSize="{{_options.fontSize}}"
                               on:onMenuItemActivate="_onMenuItemActivate()"
@@ -13,7 +13,7 @@
             isGlobal="{{false}}"
             small="{{true}}"
             overlay="none"
-            attr:class="{{'controls-operationsPanelV__loadingIndicatorImg-wrapper'}}">
+            attr:class="controls-operationsPanelV__loadingIndicatorImg-wrapper">
         <div></div>
     </Controls.LoadingIndicator>
 </div>

@@ -1,9 +1,9 @@
 define('Controls-demo/Input/Suggest/SuggestPG', [
-   'Core/Control',
+   'UI/Base',
    'tmpl!Controls-demo/PropertyGrid/DemoPG',
    'json!Controls-demo/PropertyGrid/pgtext',
    'Types/source',
-], function(Control, template, propertyGridConfig, sourceLib) {
+], function(Base, template, propertyGridConfig, sourceLib) {
 
    'use strict';
 
@@ -23,7 +23,7 @@ define('Controls-demo/Input/Suggest/SuggestPG', [
       {id: 5, name: 'Dmitry'}
    ];
 
-   var ModuleClass = Control.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _content: 'Controls/suggest:Input',
       _dataObject: null,

@@ -90,6 +90,23 @@
                 </Router.router:Reference>
                 <Controls-demo.list_new.Grouped.groupHistoryId.Index />
             </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/list_new/Grouped/Sticky/Index' }}">
+                    <a href="{{content.href}}">stickyHeader = true</a>
+                </Router.router:Reference>
+                <Controls-demo.list_new.Grouped.Sticky.Index />
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__templateGroupResult">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/list_new/Grouped/NoSticky/Index' }}">
+                    <a href="{{content.href}}">stickyHeader = false</a>
+                </Router.router:Reference>
+                <Controls-demo.list_new.Grouped.NoSticky.Index />
+            </div>
         </div>
     </Controls.scroll:Container>
 </div>

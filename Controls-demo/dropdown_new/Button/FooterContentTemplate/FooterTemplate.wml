@@ -4,6 +4,6 @@
             source="{{_menuSource}}"
             keyProperty="id"
             displayProperty="title"
-            footerTemplate="wml!Controls-demo/dropdown_new/Button/FooterTemplate/footer">
+            footerTemplate="wml!Controls-demo/dropdown_new/Button/FooterContentTemplate/footer">
     </Controls.dropdown:Button>
 </div>

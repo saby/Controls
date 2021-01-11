@@ -1,13 +1,13 @@
 define('Controls-demo/Calendar/MonthSlider', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Calendar/MonthSlider'
 ], function(
-   BaseControl,
+   Base,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _month: null,

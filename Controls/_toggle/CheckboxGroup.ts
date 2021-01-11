@@ -24,10 +24,10 @@ export interface ICheckboxGroupOptions extends IControlOptions,
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  * @class Controls/_toggle/CheckboxGroup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/ISource
  * @implements Controls/_interface/IMultiSelectable
  * @implements Controls/_interface/IHierarchy
@@ -42,7 +42,7 @@ export interface ICheckboxGroupOptions extends IControlOptions,
  * Controls are designed to give users a multichoice among two or more settings.
  *
  * @class Controls/_toggle/CheckboxGroup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/IHierarchy

@@ -86,6 +86,11 @@
             </Router.router:Reference>
          </div>
          <div>
+            <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/treeGridNew/Index' }}">
+               <a href="{{content.href}}">treeGrid_new on new model</a>
+            </Router.router:Reference>
+         </div>
+         <div>
             <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Tile/Index' }}">
                <a href="{{content.href}}">tile_new</a>
             </Router.router:Reference>
@@ -299,11 +304,6 @@
             <a href="Controls-demo%252FButtons%252FstandartDemoButton">Buttons: styles demo</a>
          </div>
 
-         <h1>Dropdown</h1>
-         <a href="Controls-demo%252FDropdown%252FMenuVdom?withoutLayout=true">
-            Dropdown
-         </a>
-
          <h1>Search</h1>
          <a href="Controls-demo%252FSearch%252FSearchVDom">
             Search
@@ -461,28 +461,79 @@
          </a>
 
          <h1>Spoiler</h1>
-         <h2>
-            <a href="Controls-demo%252FSpoiler%252FHeading%252FIndex">Heading</a>
-         </h2>
-         <ul>
-            <li>
+         <Controls.spoiler:View captions="Heading">
+          <ul class="spoilerList" >
+             <li>
+               <a href="Controls-demo%252FSpoiler%252FHeading%252FBaseline%252FIndex">Baseline</a>
+             </li>
+             <li>
                <a href="Controls-demo%252FSpoiler%252FHeading%252FCaptions%252FIndex">Captions</a>
-            </li>
-            <li>
+             </li>
+             <li>
                <a href="Controls-demo%252FSpoiler%252FHeading%252FCaptionPosition%252FIndex">CaptionPosition</a>
-            </li>
-            <li>
+             </li>
+             <li>
                <a href="Controls-demo%252FSpoiler%252FHeading%252FFontSize%252FIndex">FontSize</a>
-            </li>
-         </ul>
-         <h2>
-            <a href="Controls-demo%252FSpoiler%252FView%252FIndex">View</a>
-         </h2>
-         <ul>
+             </li>
+             <li>
+               <a href="Controls-demo%252FSpoiler%252FHeading%252FFontColorStyle%252FIndex">FontColorStyle</a>
+             </li>
+             <li>
+               <a href="Controls-demo%252FSpoiler%252FHeading%252FFontWeight%252FIndex">FontWeight</a>
+             </li>
+           </ul>
+         </Controls.spoiler:View>
+         <Controls.spoiler:View captions="Header">
+           <ul class="spoilerList" >
             <li>
-               <a href="Controls-demo%252FSpoiler%252FView%252FContent%252FIndex">Content</a>
+              <a href="Controls-demo%252FSpoiler%252FHeaderTemplate%252FIndex">HeaderTemplate</a>
             </li>
-         </ul>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FHeaderRight%252FIndex">HeaderRight</a>
+            </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FHeaderRightTemplate%252FIndex">HeaderRightTemplate</a>
+            </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FHeadingLeft%252FIndex">HeadingLeft</a>
+            </li>
+          </ul>
+         </Controls.spoiler:View>
+         <Controls.spoiler:View captions="View">
+           <ul class="spoilerList" >
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FView%252FContent%252FIndex">Content</a>
+            </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FView%252FHeaderContentTemplate%252FIndex">HeaderContentTemplate</a>
+            </li>
+          </ul>
+         </Controls.spoiler:View>
+         <Controls.spoiler:View captions="Cut">
+           <ul class="spoilerList" >
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FCut%252FLines%252FIndex">Lines</a>
+            </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FCut%252FContent%252FIndex">Content</a>
+            </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FCut%252FLineHeight%252FIndex">LineHeight</a>
+            </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FCut%252FExpanded%252FIndex">Expanded</a>
+            </li>
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FCut%252FBackgroundStyle%252FIndex">BackgroundStyle</a>
+            </li>
+          </ul>
+         </Controls.spoiler:View>
+
+         <Controls.spoiler:ListCut captions="ListCut">
+            <li>
+              <a href="Controls-demo%252FSpoiler%252FListCut%252FIndex">ListCut</a>
+            </li>
+         </Controls.spoiler:ListCut>
 
          <h1>Decorator</h1>
          <h2>

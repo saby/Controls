@@ -3,11 +3,11 @@
  */
 define('Controls-demo/Popup/PopupAnimation/PopupAnimation_stack',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/PopupAnimation/PopupAnimation_stack'
    ],
-   function(Control, template) {
-      return Control.extend({
+   function(Base, template) {
+      return Base.Control.extend({
          _template: template,
          _showTaskImg: false,
          _beforeMount: function(opt) {

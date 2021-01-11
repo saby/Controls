@@ -1,12 +1,12 @@
 define('Controls-demo/AsyncTest/Childs/SecondChild',
    [
-      'Core/Control',
+      'UI/Base',
       'Env/Env',
       'wml!Controls-demo/AsyncTest/Childs/SecondChild'
-   ], function (Control, Env, template) {
+   ], function (Base, Env, template) {
       'use strict';
 
-      var secondChildModule = Control.extend({
+      var secondChildModule = Base.Control.extend({
          _template: template,
          _multipleControls: 5,
          _multipleChildControls: 2,

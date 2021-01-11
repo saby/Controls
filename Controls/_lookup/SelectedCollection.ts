@@ -2,7 +2,7 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_lookup/SelectedCollection/SelectedCollection');
 import ItemTemplate = require('wml!Controls/_lookup/SelectedCollection/ItemTemplate');
 import chain = require('Types/chain');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import selectedCollectionUtils = require('Controls/_lookup/SelectedCollection/Utils');
 import ContentTemplate = require('wml!Controls/_lookup/SelectedCollection/_ContentTemplate');
 import CrossTemplate = require('wml!Controls/_lookup/SelectedCollection/_CrossTemplate');
@@ -30,11 +30,11 @@ interface ISelectedCollectionChildren {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less переменные тем оформления}
  *
  * @class Controls/_lookup/SelectedCollection
- * @extends Core/Control
- * 
+ * @extends UI/Base:Control
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -42,14 +42,14 @@ interface ISelectedCollectionChildren {
  * Control, that display collection of items.
  *
  * @class Controls/_lookup/SelectedCollection
- * @extends Core/Control
- * 
+ * @extends UI/Base:Control
+ *
  * @author Герасимов А.М.
  */
 class SelectedCollection extends Control<ISelectedCollectionOptions, number> {
    protected _template: TemplateFunction = template;
    protected _visibleItems: Model[] = null;
-   protected _notifyHandler: (event: SyntheticEvent, eventName: string) => void = tmplNotify;
+   protected _notifyHandler: (event: SyntheticEvent, eventName: string) => void = EventUtils.tmplNotify;
    protected _getItemMaxWidth: Function = selectedCollectionUtils.getItemMaxWidth;
    protected _getItemOrder: Function = selectedCollectionUtils.getItemOrder;
    protected _counterWidth: number = 0;

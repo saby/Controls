@@ -1,13 +1,13 @@
 define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3Wrapper',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3Wrapper',
       'Lib/Control/LayerCompatible/LayerCompatible',
    ],
-   function(Control, template, CompatibleLayer) {
+   function(Base, template, CompatibleLayer) {
       'use strict';
 
-      var WS3Wrapper = Control.extend({
+      var WS3Wrapper = Base.Control.extend({
          _template: template,
          _compatibleReady: false,
          _text: null,

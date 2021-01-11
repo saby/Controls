@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper">
+    <Controls.treeGridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            parentProperty="parent"
+            nodeProperty="type">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/treeGridNew:ItemTemplate" clickable="{{false}}"/>
+        </ws:itemTemplate>
+    </Controls.treeGridNew:View>
+</div>

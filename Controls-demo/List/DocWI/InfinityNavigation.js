@@ -1,8 +1,8 @@
 define('Controls-demo/List/DocWI/InfinityNavigation', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/DocWI/resources/InfinityNavigation',
    'Types/source'
-], function (Control, template, sourceLib) {
+], function (Base, template, sourceLib) {
    'use strict';
 
    var srcData = [
@@ -152,7 +152,7 @@ define('Controls-demo/List/DocWI/InfinityNavigation', [
       }
    ];
 
-   var Module = Control.extend(
+   var Module = Base.Control.extend(
       {
          _template: template,
          _viewSource: null,

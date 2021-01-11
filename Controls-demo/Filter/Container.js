@@ -2,15 +2,15 @@
  * Created by am.gerasimov on 17.07.2018.
  */
 define('Controls-demo/Filter/Container', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Filter/Container',
    'Types/source',
    'Controls-demo/Utils/MemorySourceData',
    'Controls/search',
    'Controls/filter'
-], function(Control, template, sourceLib, memorySourceData) {
+], function(Base, template, sourceLib, memorySourceData) {
    'use strict';
-   var SearchContainer = Control.extend({
+   var SearchContainer = Base.Control.extend({
       _template: template,
       _navigation: null,
       _filter: null,

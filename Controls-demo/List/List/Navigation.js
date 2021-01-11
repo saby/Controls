@@ -2,18 +2,18 @@
  * Created by Rodionov E.A. on 09.01.2019.
  */
 define('Controls-demo/List/List/Navigation', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/List/resources/Navigation/Navigation',
    'Types/source',
    'Controls-demo/List/List/resources/Navigation/Data',
-], function (BaseControl,
+], function (Base,
              template,
              source,
              data
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _eventsList: '',

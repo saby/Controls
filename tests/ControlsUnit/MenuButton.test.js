@@ -294,7 +294,7 @@ define(
                historyId: 'TEST_HISTORY_ID_DDL_CONTROLLER'
             });
             menu._controller._source = historySource;
-            menu._controller._source.update = () => {};
+            menu._controller._source.update = () => Promise.resolve();
             menu._onResult('pinClick', item);
             assert.isFalse(closed);
          });

@@ -2,23 +2,25 @@
  * Created by kraynovdo on 25.01.2018.
  */
 define('Controls-demo/Index', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Index',
    'Application/Initializer',
    'Application/Env',
-   'Core/Deferred'
-], function (BaseControl,
+   'Core/Deferred',
+   'Env/Env'
+], function (Base,
              template,
              AppInit,
              AppEnv,
-             Deferred
+             Deferred,
+             Env
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
-        _beforeMount: function() {
+         _beforeMount: function() {
             this._title = this._getTitle();
             this._settigsController = {
                getSettings: function(ids) {
@@ -38,6 +40,19 @@ define('Controls-demo/Index', [
                   //'Сохранили masterDetail с шириной ' + settings['master111']
                }
             };
+
+            if (Env.cookie.get('compatibleMode')) {
+               return new Promise(function(resolve, reject) {
+                  require([
+                     'Core/helpers/Hcontrol/makeInstanceCompatible',
+                     'Lib/Control/LayerCompatible/LayerCompatible'
+                  ], function(makeInstanceCompatible, LayerCompatible) {
+                     makeInstanceCompatible(this);
+                     LayerCompatible.load([], true, false);
+                     resolve();
+                  }.bind(this), reject);
+               }.bind(this));
+            }
          },
          _afterMount: function() {
             window.localStorage.setItem('controlSettingsStorage', JSON.stringify({}));

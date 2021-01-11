@@ -33,6 +33,7 @@ describe('Controls/_multiselection/Controller', () => {
       controller = new SelectionController({
          model: model.getDisplay(),
          strategy,
+         filter: {},
          selectedKeys: [],
          excludedKeys: []
       });
@@ -112,12 +113,38 @@ describe('Controls/_multiselection/Controller', () => {
    });
 
    it('selectAll', () => {
-      const result = controller.selectAll();
+      let result = controller.selectAll();
+      assert.deepEqual(result, { selected: [null], excluded: [] });
+
+      controller.setSelection({ selected: [null], excluded: [3] });
+      controller.updateOptions({
+         model: model.getDisplay(),
+         strategy,
+         filter: {searchValue: 'a'},
+         strategyOptions: {
+            model: model.getDisplay()
+         }
+      });
+
+      result = controller.selectAll();
       assert.deepEqual(result, { selected: [null], excluded: [] });
    });
 
    it('toggleAll', () => {
-      const result = controller.toggleAll();
+      let result = controller.toggleAll();
+      assert.deepEqual(result, { selected: [null], excluded: [] });
+
+      controller.setSelection({ selected: [3], excluded: [] });
+      controller.updateOptions({
+         model: model.getDisplay(),
+         strategy,
+         filter: {searchValue: 'a'},
+         strategyOptions: {
+            model: model.getDisplay()
+         }
+      });
+
+      result = controller.selectAll();
       assert.deepEqual(result, { selected: [null], excluded: [] });
    });
 
@@ -209,21 +236,13 @@ describe('Controls/_multiselection/Controller', () => {
          hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY
       });
 
-      const nodesSourceControllers = {
-         get(): object {
-            return {
-               hasMoreData(): boolean { return false; }
-            };
-         }
-      };
-
       strategy = new TreeSelectionStrategy({
          model,
          selectDescendants: true,
          selectAncestors: true,
          rootId: null,
-         nodesSourceControllers,
-         entryPath: []
+         entryPath: [],
+         selectionType: 'all'
       });
 
       controller = new SelectionController({
@@ -244,6 +263,62 @@ describe('Controls/_multiselection/Controller', () => {
       assert.equal(controller.getCountOfSelected(result), 1);
       controller.setSelection(result);
       assert.equal(controller.getCountOfSelected(), 1);
+   });
+
+   describe('readonly checkboxes', () => {
+      const readonlyItems = new RecordSet({
+         rawData: [
+            { id: 1, checkboxState: true },
+            { id: 2, checkboxState: false },
+            { id: 3, checkboxState: null }
+         ],
+         keyProperty: 'id'
+      });
+      let readonlyModel, controllerWithReadonly;
+
+      beforeEach(() => {
+         readonlyModel = new Collection({
+            keyProperty: 'id',
+            collection: readonlyItems,
+            multiSelectAccessibilityProperty: 'checkboxState'
+         });
+
+         controllerWithReadonly = new SelectionController({
+            model: readonlyModel,
+            strategy: new FlatSelectionStrategy({
+               model: readonlyModel
+            }),
+            selectedKeys: [],
+            excludedKeys: []
+         });
+      });
+
+      it('toggleItem', () => {
+         let result = controllerWithReadonly.toggleItem(1);
+         assert.deepEqual(result, { selected: [1], excluded: [] });
+
+         result = controllerWithReadonly.toggleItem(2);
+         assert.deepEqual(result, { selected: [], excluded: [] });
+
+         result = controllerWithReadonly.toggleItem(3);
+         assert.deepEqual(result, { selected: [], excluded: [] });
+      });
+
+      describe('setSelection', () => {
+         it('all are selected', () => {
+            controllerWithReadonly.setSelection({selected: [null], excluded: []});
+            assert.isTrue(readonlyModel.getItemBySourceKey(1).isSelected());
+            assert.isFalse(readonlyModel.getItemBySourceKey(2).isSelected());
+            assert.isFalse(readonlyModel.getItemBySourceKey(3).isSelected());
+         });
+
+         it('readonly selected', () => {
+            controllerWithReadonly.setSelection({selected: [2], excluded: []});
+            assert.isFalse(readonlyModel.getItemBySourceKey(1).isSelected());
+            assert.isTrue(readonlyModel.getItemBySourceKey(2).isSelected());
+            assert.isFalse(readonlyModel.getItemBySourceKey(3).isSelected());
+         });
+      });
    });
 
    it('with limit', () => {
@@ -352,14 +427,6 @@ describe('Controls/_multiselection/Controller', () => {
          keyProperty: 'id'
       });
 
-      const nodesSourceControllers = {
-         get(): object {
-            return {
-               hasMoreData(): boolean { return false; }
-            };
-         }
-      };
-
       let model, controller, strategy;
 
       beforeEach(() => {
@@ -376,7 +443,7 @@ describe('Controls/_multiselection/Controller', () => {
              selectDescendants: false,
              selectAncestors: false,
              rootId: null,
-             nodesSourceControllers
+             selectionType: 'all'
          });
 
          controller = new SelectionController({

@@ -1,8 +1,8 @@
 define('Controls-demo/List/EditInPlace/Hover', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/EditInPlace/Hover',
    'Types/source',
-], function(Control,
+], function(Base,
    template,
    source
 ) {
@@ -19,7 +19,7 @@ define('Controls-demo/List/EditInPlace/Hover', [
       }
    ];
 
-   var Hover = Control.extend({
+   var Hover = Base.Control.extend({
       _template: template,
       editingConfig: null,
       _enabled: true,

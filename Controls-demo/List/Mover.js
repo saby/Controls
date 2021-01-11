@@ -1,14 +1,14 @@
 define('Controls-demo/List/Mover', [
-   'Core/Control',
+   'UI/Base',
    'Core/core-clone',
    'Types/source',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/List/Tree/GridData',
    'wml!Controls-demo/List/Mover/Mover',
-], function(BaseControl, cClone, source, Toolbar, TreeMemory, GridData, template) {
+], function(Base, cClone, source, Toolbar, TreeMemory, GridData, template) {
    'use strict';
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _countClicked: 0,
       _reloadCaption: 'Reload',

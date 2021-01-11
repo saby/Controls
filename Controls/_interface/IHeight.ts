@@ -4,15 +4,12 @@ export interface IHeightOptions {
 
 /**
  * Интерфейс для контролов, которые поддерживают разные значения высоты.
- *
- * @interface Controls/_interface/IHeight
  * @public
+ * @author Авраменко А.С.
  */
-
 /*
  * Interface for control, which has different height values
  *
- * @interface Controls/_interface/IHeight
  * @public
  */
 export default interface IHeight {
@@ -34,8 +31,9 @@ export default interface IHeight {
  * Высота задается константой из стандартного набора размеров, который определен для текущей темы оформления.
  * @example
  * Кнопка большого размера (l).
- * <pre>
- *    <Controls.buttons:Button icon="icon-Add" inlineHeight="l" viewMode="button"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.buttons:Button icon="icon-Add" inlineHeight="l" viewMode="button"/>
  * </pre>
  * @remark
  * Строковым значениям опции inlineHeight соответствуют числовые (px), которые различны для каждой темы оформления.

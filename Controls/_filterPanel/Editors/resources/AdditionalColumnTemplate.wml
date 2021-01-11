@@ -1,0 +1,7 @@
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}" attr:class="controls-ListEditor__columns">
+    <ws:contentTemplate>
+        <div class="controls-EditorList__additional-column_theme-{{theme}}">
+            {{itemData.item[itemData.column.displayProperty]}}
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

@@ -33,5 +33,13 @@
          </Router.router:Reference>
          <Controls-demo.OperationsPanelNew.PanelWithList.Marker.hidden.Index/>
       </div>
+      <div class="controlsDemo__cell controlsDemo__mr4">
+         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                  state="/Controls-demo/app/:app"
+                                  app="{{ 'Controls-demo/OperationsPanelNew/PanelWithList/ExplorerView/Index' }}">
+            <a href="{{content.href}}">Панель со explorer:View</a>
+         </Router.router:Reference>
+         <Controls-demo.OperationsPanelNew.PanelWithList.ExplorerView.Index/>
+      </div>
    </div>
 </div>

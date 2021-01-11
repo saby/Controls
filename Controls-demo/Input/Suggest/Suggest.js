@@ -1,9 +1,9 @@
 define('Controls-demo/Input/Suggest/Suggest', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Suggest/Suggest',
    'Types/source',
    'wml!Controls-demo/Input/Suggest/resources/SuggestTemplate',
-], function(Control, template, sourceLib, myTmpl) {
+], function(Base, template, sourceLib, myTmpl) {
 
    'use strict';
    var _private = {
@@ -25,7 +25,7 @@ define('Controls-demo/Input/Suggest/Suggest', [
          self._source = new sourceLib.Memory(cfg);
       }
    };
-   var VDomSuggest = Control.extend({
+   var VDomSuggest = Base.Control.extend({
       _template: template,
       _source: null,
       _suggestValue: '',

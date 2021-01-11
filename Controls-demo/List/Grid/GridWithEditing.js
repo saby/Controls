@@ -1,6 +1,6 @@
 define('Controls-demo/List/Grid/GridWithEditing', [
    'Env/Env',
-   'Core/Control',
+   'UI/Base',
    'Controls-demo/List/Grid/GridWithEditingData',
    'wml!Controls-demo/List/Grid/GridWithEditing',
    'Types/source',
@@ -13,9 +13,9 @@ define('Controls-demo/List/Grid/GridWithEditing', [
    'wml!Controls-demo/List/Grid/DemoHeaderCostPrice',
    'Controls/scroll',
    'Controls/grid',
-], function(Env, BaseControl, GridData, template, source, cClone, entity) {
+], function(Env, Base, GridData, template, source, cClone, entity) {
    'use strict';
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _itemActions: null,
       _viewSource: null,

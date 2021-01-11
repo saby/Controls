@@ -1,0 +1,32 @@
+<ws:if data="{{_options.colspan || _options.colspanTemplate}}">
+   <ws:partial template="{{_options.colspanTemplate}}"
+               attr:class="{{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}"
+               attr:style="{{getItemStyles(collectionItem, 2, true)}}"
+               item="{{_options.item}}"
+               collectionItem="{{_options.collectionItem}}"/>
+</ws:if>
+<ws:else>
+   <span class="controls-PropertyGrid__gridLayout_editor-caption
+               controls-PropertyGrid__gridLayout_editor-caption_theme-{{theme}}
+               {{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}
+               {{collectionItem.getItemPaddingClasses(theme, 1)}}"
+         style="{{getItemStyles(collectionItem, 1)}}">
+      <div class="controls-PropertyGrid__gridLayout_editor-caption-baseline">{{item.caption}}</div>
+   </span>
+   <div class="controls-PropertyGrid__gridLayout_editor
+               controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
+               controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
+               {{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}
+               {{collectionItem.getItemPaddingClasses(theme, 2)}}"
+         style="{{getItemStyles(collectionItem, 2, !item.caption)}}">
+      <ws:partial template="wml!Controls/_propertyGrid/Render/resources/editorTemplate"
+                  scope="{{_options}}"/>
+        <ws:if data="{{ collectionItem.shouldDisplayActions() }}">
+            <ws:if data="{{ !collectionItem.isSwiped() }}">
+                <ws:partial
+                        attr:class="{{collectionItem.isHovered() ? 'controls-PropertyGrid__gridLayout_showActions'}}"
+                        template="{{ itemActionsTemplate }}" />
+            </ws:if>
+        </ws:if>
+    </div>
+</ws:else>

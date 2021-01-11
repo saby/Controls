@@ -4,17 +4,25 @@
         <Controls.toggle:RadioGroup
                 bind:selectedKey="_selectedKey"
                 keyProperty="id"
-                source="{{_source}}"
+                source="{{_source2}}"
                 itemTemplateProperty="customTemplate">
             <ws:itemTemplate>
                 <ws:partial template='Controls/toggle:ItemTemplate'
                             item="{{item}}"
                             readOnly="{{readOnly}}"
                             selected="{{selected}}"
-                            displayProperty="caption"
-                />
+                            displayProperty="caption">
+                    <ws:contentTemplate>
+                        <div>
+                            <div class="controls-fontsize-l_theme-{{_options.theme}}
+                            {{contentTemplate.selected ? 'controls-text-secondary_theme-' + _options.theme}}">{{contentTemplate.item.title}}</div>
+                            <p class="contract-radio__type__text">{{contentTemplate.item.text}}</p>
+                        </div>
+                    </ws:contentTemplate>
+                </ws:partial>
             </ws:itemTemplate>
         </Controls.toggle:RadioGroup>
+
     </div>
 
     <div class="controlsDemo__cell demo-RadioGroup__group2">

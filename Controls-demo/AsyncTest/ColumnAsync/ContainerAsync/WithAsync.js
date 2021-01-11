@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/ColumnAsync/ContainerAsync/WithAsync',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/ColumnAsync/ContainerAsync/WithAsync',
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var withAsyncModule = Control.extend({
+      var withAsyncModule = Base.Control.extend({
          _template: template,
          _isOpen: false,
 

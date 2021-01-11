@@ -7,8 +7,10 @@ import BreadcrumbsItem from './BreadcrumbsItem';
 import Tree from './Tree';
 import {mixin} from 'Types/util';
 import TreeChildren from './TreeChildren';
+import { TemplateFunction } from 'UI/Base';
+import { Model } from 'Types/entity';
 
-export interface IOptions<T> extends ICollectionItemOptions<T>, IExpandableMixinOptions {
+export interface IOptions<T extends Model> extends ICollectionItemOptions<T>, IExpandableMixinOptions {
     owner?: Tree<T>;
     node?: boolean;
     childrenProperty?: string;
@@ -29,7 +31,7 @@ interface ISerializableState<T> extends ICollectionItemSerializableState<T> {
  * @public
  * @author Мальцев А.А.
  */
-export default class TreeItem<T> extends mixin<
+export default class TreeItem<T extends Model = Model> extends mixin<
     CollectionItem<any>,
     ExpandableMixin
     >(
@@ -45,8 +47,9 @@ export default class TreeItem<T> extends mixin<
 
     /**
      * Является узлом
+     * @remark true - узел, false - 'скрытый' узел, null - лист
      */
-    protected _$node: boolean;
+    protected _$node: boolean|null;
 
     /**
      * Есть ли дети у узла.
@@ -58,7 +61,13 @@ export default class TreeItem<T> extends mixin<
      */
     protected _$childrenProperty: string;
 
-    constructor(options?: IOptions<T>) {
+    /**
+     * Признак, что узел является целью при перетаскивании
+     * @private
+     */
+    private _isDragTargetNode: boolean = false;
+
+    constructor(options: IOptions<T>) {
         super(options);
         ExpandableMixin.call(this);
 
@@ -67,13 +76,11 @@ export default class TreeItem<T> extends mixin<
             this._$node = false;
         }
 
-        if (options) {
-            // Если hasChildren не задали, то для узла по дефолту есть дети
-            if (options.hasChildren === undefined) {
-                this._$hasChildren = this._$node || this._$node === false;
-            } else {
-                this._$hasChildren = !!options.hasChildren;
-            }
+        // Если hasChildren не задали, то для узла по дефолту есть дети
+        if (options && options.hasChildren === undefined) {
+            this._$hasChildren = this._$node || this._$node === false;
+        } else if (options) {
+            this._$hasChildren = !!options.hasChildren;
         }
     }
 
@@ -99,7 +106,10 @@ export default class TreeItem<T> extends mixin<
      * @param parent Новый родительский узел
      */
     setParent(parent: TreeItem<T>): void {
-        this._$parent = parent;
+        if (this._$parent !== parent) {
+            this._$parent = parent;
+            this._nextVersion();
+        }
     }
 
     /**
@@ -143,8 +153,9 @@ export default class TreeItem<T> extends mixin<
 
     /**
      * Возвращает признак, является ли элемент узлом
+     * TODO нужен параметр или метод, который будет возвращать для узлов и скрытых узлов true, а для листьев false. Сейчас листья это null
      */
-    isNode(): boolean {
+    isNode(): boolean|null {
         return this._$node;
     }
 
@@ -152,8 +163,26 @@ export default class TreeItem<T> extends mixin<
      * Устанавливает признак, является ли элемент узлом
      * @param node Является ли элемент узлом
      */
-    setNode(node: boolean): void {
+    setNode(node: boolean|null): void {
         this._$node = node;
+    }
+
+    /**
+     * Устанавливаем признак, что узел является целью при перетаскивании
+     * @param isTarget Является ли узел целью при перетаскивании
+     */
+    setDragTargetNode(isTarget: boolean): void {
+        if (this._isDragTargetNode !== isTarget) {
+            this._isDragTargetNode = isTarget;
+            this._nextVersion();
+        }
+    }
+
+    /**
+     * Возвращает признак, что узел является целью при перетаскивании
+     */
+    isDragTargetNode(): boolean {
+        return this._isDragTargetNode;
     }
 
     /**
@@ -184,6 +213,120 @@ export default class TreeItem<T> extends mixin<
     getChildren(withFilter: boolean = true): TreeChildren<T> {
         return this.getOwner().getChildren(this, withFilter);
     }
+
+    hasMoreStorage(): boolean {
+        const hasMoreStorage = this._$owner.getHasMoreStorage();
+        return !!(hasMoreStorage && hasMoreStorage[this.getContents().getKey()]);
+    }
+
+    // TODO есть ExpandableMixin, иконку тоже наверное нужно туда перенести
+    //  он используется для группы, но можно от него унаследоваться и расширить вот этим кодом
+    // region Expandable
+
+    getExpanderTemplate(expanderTemplate?: TemplateFunction): TemplateFunction {
+        return this._$owner.getExpanderTemplate(expanderTemplate);
+    }
+
+    getExpanderIcon(expanderIcon?: string): string {
+        return expanderIcon || this._$owner.getExpanderIcon();
+    }
+
+    getExpanderSize(expanderSize?: string): string {
+        return expanderSize || this._$owner.getExpanderSize();
+    }
+
+    shouldDisplayExpander(expanderIcon?: string): boolean {
+        if (this.getExpanderIcon(expanderIcon) === 'none' || this.isNode() === null) {
+            return false;
+        }
+
+        return (this._$owner.getExpanderVisibility() === 'visible' || this.isHasChildren());
+    }
+
+    shouldDisplayExpanderPadding(tmplExpanderIcon?: string, tmplExpanderSize?: string): boolean {
+        const expanderIcon = this.getExpanderIcon(tmplExpanderIcon);
+        const expanderPosition = this._$owner.getExpanderPosition();
+        const expanderSize = this.getExpanderSize(tmplExpanderSize);
+
+        if (this._$owner.getExpanderVisibility() === 'hasChildren') {
+            return !this.isHasChildren() && expanderIcon !== 'none' && expanderPosition === 'default';
+        } else {
+            return !expanderSize && expanderIcon !== 'none' && expanderPosition === 'default';
+        }
+    }
+
+    getExpanderPaddingClasses(tmplExpanderSize?: string, theme: string = 'default'): string {
+        // expanderSize по дефолту undefined, т.к. есть логика, при которой если он задан,
+        // то скрытый экспандер для отступа не рисуем, но по факту дефолтное значение 'default'
+        const expanderSize = this.getExpanderSize(tmplExpanderSize) || 'default';
+        let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-${theme}`;
+        expanderPaddingClasses += ` controls-TreeGrid__row-expanderPadding_size_${expanderSize}_theme-${theme}`;
+        expanderPaddingClasses += ' js-controls-ListView__notEditable';
+        return expanderPaddingClasses;
+    }
+
+    getLevelIndentClasses(expanderSizeTmpl?: string, levelIndentSize?: string, theme: string = 'default'): string {
+        const sizes = ['null', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl'];
+        let resultLevelIndentSize;
+        const expanderSize = this.getExpanderSize(expanderSizeTmpl);
+
+        if (expanderSize && levelIndentSize) {
+            if (sizes.indexOf(expanderSize) >= sizes.indexOf(levelIndentSize)) {
+                resultLevelIndentSize = expanderSize;
+            } else {
+                resultLevelIndentSize = levelIndentSize;
+            }
+        } else if (!expanderSize && !levelIndentSize) {
+            resultLevelIndentSize = 'default';
+        } else {
+            resultLevelIndentSize = expanderSize || levelIndentSize;
+        }
+
+        return `controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_${resultLevelIndentSize}_theme-${theme}`;
+    }
+
+    getExpanderClasses(tmplExpanderIcon?: string, tmplExpanderSize?: string, theme: string = 'default', style: string = 'default'): string {
+        const expanderIcon = this.getExpanderIcon(tmplExpanderIcon);
+        const expanderSize = this.getExpanderSize(tmplExpanderSize);
+        const expanderPosition = this._$owner.getExpanderPosition();
+
+        let expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`;
+        let expanderIconClass = '';
+
+        if (expanderPosition !== 'right') {
+            expanderClasses += ` controls-TreeGrid__row_${style}-expander_size_${(expanderSize || 'default')}_theme-${theme} `;
+        } else {
+            expanderClasses += ` controls-TreeGrid__row_expander_position_right_theme-${theme} `;
+        }
+        expanderClasses += 'js-controls-ListView__notEditable';
+
+        expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${this.getOwner().getTopPadding()}_theme-${theme}`;
+        expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${this.getOwner().getBottomPadding()}_theme-${theme}`;
+
+        if (expanderIcon) {
+            expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;
+            expanderClasses += expanderIconClass;
+
+            // могут передать node или hiddenNode в этом случае добавляем наши классы для master/default
+            if ((expanderIcon === 'node') || (expanderIcon === 'hiddenNode') || (expanderIcon === 'emptyNode')) {
+                expanderIconClass += '_' + (style === 'master' || style === 'masterClassic' ? 'master' : 'default');
+            }
+        } else {
+            expanderIconClass = ' controls-TreeGrid__row-expander_' + (this.isNode() ? 'node_' : 'hiddenNode_')
+                + (style === 'master' || style === 'masterClassic' ? 'master' : 'default');
+        }
+
+        expanderClasses += expanderIconClass + `_theme-${theme}`;
+
+        // добавляем класс свертнутости развернутости для тестов
+        expanderClasses += ' controls-TreeGrid__row-expander' + (this.isExpanded() ? '_expanded' : '_collapsed');
+        // добавляем класс свертнутости развернутости стилевой
+        expanderClasses += expanderIconClass + (this.isExpanded() ? '_expanded' : '_collapsed') + `_theme-${theme}`;
+
+        return expanderClasses;
+    }
+
+    // endregion Expandable
 
     // region SerializableMixin
 

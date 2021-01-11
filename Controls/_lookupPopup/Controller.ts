@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_lookupPopup/Controller');
 import Utils = require('Types/util');
 import SelectorContext = require('Controls/_lookupPopup/__ControllerContext');
@@ -70,7 +70,7 @@ var _private = {
  * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Пример</a> использования контрола.
  *
  * @class Controls/_lookupPopup/Controller
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Герасимов А.М.
@@ -78,7 +78,7 @@ var _private = {
 
 /*
  *
- * Controller, which allows you to select data from several or one list (like {@link https://wi.sbis.ru/docs/js/Controls/grid/View/ Controls/list:View} or {@link https://wi.sbis.ru/docs/js/Controls/grid/View/ Controls/grid:View}).
+ * Controller, which allows you to select data from several or one list (like {@link /docs/js/Controls/grid/View/ Controls/list:View} or {@link /docs/js/Controls/grid/View/ Controls/grid:View}).
  * Used with containers:
  * You can use flat and hierarchical list.
  *
@@ -87,7 +87,7 @@ var _private = {
  * <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">Here</a> you can see a demo.
  *
  * @class Controls/_lookupPopup/Controller
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Герасимов Александр Максимович
@@ -155,6 +155,8 @@ var Controller = Control.extend({
                }
                this._selectionLoadDef = null;
                return result;
+            }).addErrback(() => {
+               this._selectionLoadDef = null;
             });
          } else {
             selectCallback(this._selectedItems);

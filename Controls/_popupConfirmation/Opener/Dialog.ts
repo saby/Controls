@@ -3,7 +3,7 @@ import rk = require('i18n!Controls');
 // @ts-ignore
 import { Converter as MarkupConverter } from 'Controls/decorator';
 // @ts-ignore
-import * as Control from 'Core/Control';
+import {Control} from 'UI/Base';
 // @ts-ignore
 import { constants } from 'Env/Env';
 // @ts-ignore

@@ -1,7 +1,6 @@
-import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil')
-import { relation } from 'Types/entity'
-import { Collection, CollectionItem } from 'Controls/display'
-
+import {ItemsUtil} from 'Controls/list';
+import { relation } from 'Types/entity';
+import { Collection, CollectionItem } from 'Controls/display';
 
 /**
  * @author Родионов Е.А.

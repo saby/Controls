@@ -1,5 +1,5 @@
 <div class="controls-Tabs__item_overflow
             controls-Tabs__itemClickableArea controls-Tabs__itemClickableArea_theme_{{_options.theme}}
             controls-Tabs__itemClickableArea_inlineHeight-{{_options.inlineHeight}}_theme-{{_options.theme}}
-            controls-Tabs__itemClickableArea_borderThickness-{{_options.borderThickness}}_theme-{{_options.theme}}">
+            controls-Tabs__itemClickableArea_markerThickness-{{_options.markerThickness}}_theme-{{_options.theme}}">
     {{item.get(displayProperty || 'title')}}</div>

@@ -4,8 +4,9 @@
               source="{{_source}}"
               keyProperty="key"
               displayProperty="title"
+              multiLine="{{true}}"
               iconSize="s"
-              attr:class="ControlsDemo-menuControl_minWidth">
+              attr:class="ControlsDemo-menuControl_minWidth ControlsDemo-menuControl_height">
          <ws:itemTemplate>
             <ws:partial template="Controls/menu:ItemTemplate">
                <ws:additionalTextTemplate>

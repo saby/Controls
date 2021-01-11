@@ -29,6 +29,7 @@
                _formatMonth="{{_formatMonth}}"
                _options="{{_options}}"
                dayTemplate="{{dayTemplate}}"
+               dayHeaderTemplate="{{ dayHeaderTemplate }}"
             />
          </ws:for>
       </ws:else>

@@ -1,13 +1,13 @@
 define('Controls-demo/Menu/Control/SelectorTemplate/StackTemplate', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Menu/Control/SelectorTemplate/StackTemplate',
    'Types/source',
 
-], function(Control, template, source) {
+], function(Base, template, source) {
 
    'use strict';
 
-   var DropdownDemo = Control.extend({
+   var DropdownDemo = Base.Control.extend({
       _template: template,
       _selectionChanged: false,
 

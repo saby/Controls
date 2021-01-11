@@ -7,6 +7,7 @@
  * @includes IntersectionObserverController Controls/_scroll/IntersectionObserver/Controller
  * @includes IntersectionObserverContainer Controls/_scroll/IntersectionObserver/Container
  * @includes Group Controls/_scroll/StickyHeader/Group
+ * @includes IScrollbars Controls/_scroll/Container/Interface/IScrollbars
  * @public
  * @author Крайнов Д.О.
  */
@@ -20,6 +21,7 @@
  * @includes IntersectionObserverController Controls/_scroll/IntersectionObserver/Controller
  * @includes IntersectionObserverContainer Controls/_scroll/IntersectionObserver/Container
  * @includes Group Controls/_scroll/StickyHeader/Group
+ * @includes IScrollbars Controls/_scroll/Container/Interface/IScrollbars
  * @public
  * @author Крайнов Д.О.
  */
@@ -29,6 +31,8 @@ export {default as StickyHeader} from 'Controls/_scroll/StickyHeader';
 export {scrollToElement} from 'Controls/_scroll/Utils/scrollToElement';
 export {hasScrollbar} from './_scroll/Utils/HasScrollbar';
 export {hasHorizontalScroll} from './_scroll/Utils/hasHorizontalScroll';
+export {IScrollbars} from './_scroll/Container/Interface/IScrollbars';
+export {IShadows} from './_scroll/Container/Interface/IShadows';
 export {getScrollbarWidth, getScrollbarWidthByMeasuredBlock} from './_scroll/Utils/getScrollbarWidth';
 import _Scrollbar = require('Controls/_scroll/Scroll/Scrollbar');
 import _scrollContext = require('Controls/_scroll/Scroll/Context');

@@ -2,7 +2,7 @@
  * Created by am.gerasimov on 18.04.2018.
  */
 
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_suggestPopup/Layer/__PopupLayer');
 import getZIndex = require('Controls/Utils/getZIndex');
 import {detection} from 'Env/Env';

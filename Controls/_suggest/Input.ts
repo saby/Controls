@@ -1,6 +1,6 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_suggest/Input/Input');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
 import {generateStates} from 'Controls/input';
 
@@ -8,11 +8,11 @@ import {generateStates} from 'Controls/input';
  * Поле ввода с автодополнением это одострочное поле ввода, которое помогает пользователю ввести текст, предлагая подходящие варианты по первым набранным символам.
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FSuggest%2FSuggest">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggest.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FSuggest%2FSuggest демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggest.less переменные тем оформления}
  *
  * @class Controls/_suggest/Input
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/_interface/ISearch
  * @mixes Controls/interface/IBorderStyle
@@ -27,9 +27,9 @@ import {generateStates} from 'Controls/input';
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/_input/interface/IValue
- * 
+ *
  * @public
- * @demo Controls-demo/Input/Suggest/SuggestPG
+ * @demo Controls-demo/Suggest_new/Input/DisplayProperty/DisplayProperty
  * @author Герасимов А.М.
  */
 
@@ -39,7 +39,7 @@ import {generateStates} from 'Controls/input';
  * Here you can see the <a href="/materials/Controls-demo/app/Controls-demo%2FSuggest%2FSuggest">demo examples</a>.
  *
  * @class Controls/_suggest/Input
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/_interface/ISearch
  * @mixes Controls/_interface/ISource
@@ -47,15 +47,15 @@ import {generateStates} from 'Controls/input';
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IText
- * 
+ *
  * @public
- * @demo Controls-demo/Input/Suggest/SuggestPG
+ * @demo Controls-demo/Suggest_new/Input/DisplayProperty/DisplayProperty
  * @author Gerasimov A.M.
  */
 var Suggest = Control.extend({
 
    _template: template,
-   _notifyHandler: tmplNotify,
+   _notifyHandler: EventUtils.tmplNotify,
    _suggestState: false,
    _searchState: false,
 

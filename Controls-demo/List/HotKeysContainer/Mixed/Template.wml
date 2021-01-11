@@ -1,43 +1,36 @@
-<Controls.Application>
-    <ws:head>
-        <link data-vdomignore="true" rel="shortcut icon" href="/Controls-demo/wasaby.ico?v=1" type="image/x-icon"/>
-    </ws:head>
-    <ws:content>
+<div>
+    <div class="demoWrapper">
         <div>
-            <div class="demoWrapper">
-                <div>
-                    1) Выбрать "элемент 0" в списке "Простой список"
-                </div>
-                <div>
-                    2) нажать кнопку вниз
-                </div>
-                <div>
-                    3) нажать кнопку вверх
-                </div>
-                <div>
-                    4) перевести фокус в поле ввода
-                </div>
-                <div>
-                    5) нажать кнопку вниз
-                </div>
-                <div>
-                    ОР: маркер в списке "Простой список" на "элемент 0"
-                    маркер в списке "Cписок с хоком HotKeysContaine" на "элемент 0"
-                </div>
-            </div>
-            <div class="demoWrapper">
-                <Controls.heading:Title caption="Простой список" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
-                <div>
-                    <Controls.input:Text />
-                </div>
-                <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>
-            </div>
-            <div class="demoWrapper">
-                <Controls.heading:Title caption="Cписок с хоком HotKeysContainer" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
-                <Controls.list:HotKeysContainer>
-                    <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>
-                </Controls.list:HotKeysContainer>
-            </div>
+            1) Выбрать "элемент 0" в списке "Простой список"
         </div>
-    </ws:content>
-</Controls.Application>
+        <div>
+            2) нажать кнопку вниз
+        </div>
+        <div>
+            3) нажать кнопку вверх
+        </div>
+        <div>
+            4) перевести фокус в поле ввода
+        </div>
+        <div>
+            5) нажать кнопку вниз
+        </div>
+        <div>
+            ОР: маркер в списке "Простой список" на "элемент 0"
+            маркер в списке "Cписок с хоком HotKeysContaine" на "элемент 0"
+        </div>
+    </div>
+    <div class="demoWrapper demo-HotKeysContainer__list1">
+        <Controls.heading:Title caption="Простой список" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
+        <div>
+            <Controls.input:Text />
+        </div>
+        <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>
+    </div>
+    <div class="demoWrapper demo-HotKeysContainer__list2">
+        <Controls.heading:Title caption="Cписок с хоком HotKeysContainer" readOnly="{{true}}" fontColorStyle="primary" fontSize="l" />
+        <Controls.list:HotKeysContainer>
+            <Controls.list:View keyProperty="id" source="{{_viewSource}}"/>
+        </Controls.list:HotKeysContainer>
+    </div>
+</div>

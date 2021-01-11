@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/Childs/CaseSecond/Async/Background',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/Childs/CaseSecond/Async/Background',
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var backgroundModule = Control.extend({
+      var backgroundModule = Base.Control.extend({
          _template: template,
 
          _beforeMount: function (options) {

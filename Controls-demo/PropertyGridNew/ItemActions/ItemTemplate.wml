@@ -1,0 +1,5 @@
+<ws:partial template="Controls/propertyGrid:ItemTemplate"
+            class="controls-demo-pg-highlightOnHover-editor-padding"
+            highlightOnHover="{{true}}"
+            scope="{{_options}}"
+/>

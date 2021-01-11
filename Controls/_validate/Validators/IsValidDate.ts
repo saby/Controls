@@ -6,7 +6,7 @@ import cInstance = require('Core/core-instance');
  * @public
  * @author Красильников А.С.
  * @remark
- * Подробнее о работе с валидацией читайте {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/forms-and-validation/validation/ здесь}.
+ * Подробнее о работе с валидацией читайте {@link /doc/platform/developmentapl/interface-development/forms-and-validation/validation/ здесь}.
  *
  * Аргументы функции:
  *

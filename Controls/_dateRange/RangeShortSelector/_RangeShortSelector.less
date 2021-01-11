@@ -32,12 +32,3 @@
 .controls-DateRangeSelectorLite__picker-years_fontSize-l_theme-@{themeName} {
    margin-top: @shift-top_fontSize-l_PeriodDialog-selector;
 }
-
-// Механизмы рендеринга webkit и FF по-разному реализуют высоту строки.
-// Чтобы не было прыжков между вызывающим элементом и заголовком (который выровнен по базовой линии)
-// добавляем к смещению popup'a 1px (чтобы в FF было так же, как chrome).
-.ws-is-firefox {
-   .controls-DateRangeSelectorLite__picker-normal {
-      margin-top: ceil((@height_rangeShortSelectorLink - @item_height_shortDatePicker)/2) - @border-thickness_shortDatePicker + 1;
-   }
-}

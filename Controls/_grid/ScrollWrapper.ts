@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_grid/ScrollWrapperTemplate';
-import Scrollbar from 'Controls/_scroll/Scroll/Scrollbar';
+import {_Scrollbar} from 'Controls/scroll';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {isFullGridSupport} from './utils/GridLayoutUtil';
 import {Logger} from 'UI/Utils';
@@ -23,7 +23,7 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
 
     private _gridStyle: string = null;
     protected _localPositionHandler: IHorizontalScrollWrapperOptions['positionChangeHandler'];
-    private _needNotifyResize: boolean = false;
+    private _needNotifyResize: boolean = true;
     private _shouldSetMarginTop: boolean = false;
     private _position: number = 0;
 
@@ -65,7 +65,8 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
 
     protected _afterRender(): void {
         if (this._needNotifyResize) {
-            (this._children.columnScrollbar as Scrollbar).recalcSizes();
+            (this._children.columnScrollbar as _Scrollbar).recalcSizes();
+            this._notify('newPositionRendered', [this._position], {bubbling: true});
             this._needNotifyResize = false;
         }
     }

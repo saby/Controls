@@ -1,0 +1,112 @@
+.controls-FilterViewPanel_theme-@{themeName} {
+   width: @width_filterViewPanel;
+   height: 100%;
+   background-color: @background-color_filterViewPanel;
+}
+
+.controls-FilterViewPanel__header_theme-@{themeName} {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   padding: @heading_vertical-offset_filterViewPanel @heading_horizontal-offset_filterViewPanel;
+   height: @heading_height_filterViewPanel;
+   border-bottom: @heading_border_width_filterViewPanel solid @heading_border_color_filterViewPanel;
+}
+
+.controls-FilterViewPanel__applyButton_theme-@{themeName},
+.controls-FilterViewPanel__resetButton_theme-@{themeName} {
+   font-size: @button_font-size_filterViewPanel;
+   color: @button_color_filterViewPanel;
+   cursor: pointer;
+}
+
+.controls-FilterViewPanel__applyButton_theme-@{themeName}:hover,
+.controls-FilterEditors__list_button-more_theme-@{themeName},
+.controls-FilterViewPanel__resetButton_theme-@{themeName}:hover {
+   text-decoration: underline;
+   color: @button_color-hover_filterViewPanel;
+}
+
+.controls-FilterViewPanel__group-marker_theme-@{themeName} {
+   position: absolute;
+   width: @group-marker_size_filterViewPanel;
+   height: @group-marker_size_filterViewPanel;
+   background-color: @group-marker_color_filterViewPanel;
+   border-radius: 50%;
+   top: (@group_height_filterViewPanel - @group-marker_size_filterViewPanel) / 2;
+   left: (@padding-left_filterViewPanel - @group-marker_size_filterViewPanel) / 2;
+}
+
+.controls-FilterViewPanel__group-content_theme-@{themeName} {
+   cursor: pointer;
+   color: @group_color_filterViewPanel;
+   font-size: @group_font-size_filterViewPanel;
+}
+
+.controls-FilterViewPanel__groupExpander_theme-@{themeName}:hover,
+.controls-FilterViewPanel__groupReset_theme-@{themeName}:hover,
+.controls-FilterViewPanel__group-content_theme-@{themeName}:hover,
+.controls-FilterViewPanel__groupReset-title_theme-@{themeName}:hover {
+   color: @button_color-hover_filterViewPanel;
+}
+
+.controls-PropertyGrid__groupExpander.controls-FilterViewPanel__groupExpander_theme-@{themeName} {
+   color: @unaccented_icon-color;
+   margin-left: @group-expander_padding-left_filterViewPanel;
+   cursor: pointer;
+   align-self: center;
+   &:hover {
+      color: @button_color-hover_filterViewPanel;
+   }
+}
+
+.controls-FilterViewPanel__group_theme-@{themeName} {
+   display: flex;
+   flex-direction: row;
+   height: @group_height_filterViewPanel;
+}
+
+.controls-FilterViewPanel__groupReset-title_theme-@{themeName} {
+   display: flex;
+   color: @group_color_filterViewPanel;
+   cursor: pointer;
+   flex-shrink: 0;
+   position: absolute;
+   top: @group-close-button_padding-top_filterViewPanel;
+   right: @padding-right_filterViewPanel;
+}
+
+.controls-FilterViewPanel__groupReset_theme-@{themeName} {
+   .icon-size(@reset-button_icon-size_filterView);
+   display: flex;
+   color: @reset-button_icon-color_filterView;
+   cursor: pointer;
+   flex-shrink: 0;
+   position: absolute;
+   top: @group-close-button_padding-top_filterViewPanel;
+   right: @padding-right_filterViewPanel;
+}
+
+.controls-FilterViewPanel__group-wrapper_theme-@{themeName} {
+   position: relative;
+   padding-left: @padding-left_filterViewPanel;
+}
+
+.controls-FilterViewPanel__group-result_wrapper {
+   display: flex;
+   flex-direction: row;
+}
+
+.controls-FilterViewPanel__group-result_theme-@{themeName} {
+   font-size: @group_font-size_filterViewPanel;
+}
+
+.controls-FilterViewPanel__propertyGrid.controls-PropertyGrid_theme-@{themeName} {
+   padding: @content_padding_propertyGrid 0;
+}
+
+.controls-FilterEditors__list-item_theme-@{themeName} {
+   padding-left: @padding-left_filterViewPanel;
+   padding-right: @padding-right_filterViewPanel;
+}

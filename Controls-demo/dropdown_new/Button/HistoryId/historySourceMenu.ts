@@ -127,7 +127,7 @@ class HistorySourceMenu extends Source {
             recent.prepend([historyItem]);
         }
         this._srcData = this._createDataSet(frequentData, pinned.getRawData(), recentData);
-        return {};
+        return Promise.resolve();
     }
 
     private _serviceQuery(): Promise<DataSet> {

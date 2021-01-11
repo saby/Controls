@@ -1,15 +1,15 @@
 define('Controls-demo/InfoBox/InfoBox',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/InfoBox/InfoBox',
 
       'Controls/popup'
    ],
-   function(Control, template) {
+   function(Base, template) {
 
       'use strict';
 
-      var ModuleClass = Control.extend({
+      var ModuleClass = Base.Control.extend({
          _template: template,
          _dblClickHandler: function() {
             var child = this._children.demandInfobox;

@@ -1,5 +1,5 @@
 import rk = require('i18n!Controls');
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_filter/Fast/Fast');
 import chain = require('Types/chain');
 import collection = require('Types/collection');
@@ -10,7 +10,7 @@ import Deferred = require('Core/Deferred');
 import Utils = require('Types/util');
 import Merge = require('Core/core-merge');
 import {PrefetchProxy} from 'Types/source';
-import {Controller as SourceController} from 'Controls/source';
+import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {isEqual} from 'Types/object';
 import {dropdownHistoryUtils as historyUtils} from 'Controls/dropdown';
 import {getItemsWithHistory, getUniqItems, deleteHistorySourceFromConfig} from 'Controls/_filter/HistoryUtils';
@@ -76,6 +76,7 @@ import {Model} from 'Types/entity';
             itemConfig.multiSelect = properties.multiSelect;
             itemConfig.emptyText = properties.emptyText;
             itemConfig.selectorTemplate = properties.selectorTemplate;
+            itemConfig.navigation = properties.navigation;
             return itemConfig;
          },
 
@@ -83,13 +84,14 @@ import {Model} from 'Types/entity';
             // As the data source can be history source, then you need to merge the filter
             return _private.getSourceController(instance, {source, navigation, keyProperty, historyId}).addCallback((sourceController) => {
                let queryFilter = withHistory ? historyUtils.getSourceFilter(filter, instance._source) : filter;
-                return sourceController.load(queryFilter).addCallback((items) => {
-                    instance._items = items;
-                    if (dataLoadCallback) {
-                        dataLoadCallback(items);
-                    }
-                    return items;
-                });
+               sourceController.setFilter(queryFilter);
+               return sourceController.load().addCallback((items) => {
+                   instance._items = items;
+                   if (dataLoadCallback) {
+                       dataLoadCallback(items);
+                   }
+                   return items;
+               });
             });
          },
 
@@ -354,16 +356,15 @@ import {Model} from 'Types/entity';
        *
        * @remark
        * Полезные ссылки:
-       * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/">руководство разработчика по организации поиска и фильтрации в реестре</a>
-       * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/component-kinds/">руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия</a>
-       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
-       * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
+       * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ руководство разработчика по организации поиска и фильтрации в реестре}
+       * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия}
+       * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less переменные тем оформления filter}
+       * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления filterPopup}
        *
        * @class Controls/_filter/Fast
-       * @extends Core/Control
+       * @extends UI/Base:Control
        * @mixes Controls/_filter/interface/IFastFilter
-       * @demo Controls-demo/FastFilter/fastPG
-       * 
+       *
        * @public
        * @deprecated Данный контрол устарел и будет удалён. Вместо него используйте {@link Controls/filter:View}.
        * @author Герасимов А.М.
@@ -375,11 +376,10 @@ import {Model} from 'Types/entity';
        *
        *
        * @class Controls/_filter/Fast
-       * @extends Core/Control
+       * @extends UI/Base:Control
        * @mixes Controls/_filter/interface/IFastFilter
        * @mixes Controls/_filter/Fast/FastStyles
-       * @demo Controls-demo/FastFilter/fastPG
-       * 
+       *
        * @public
        * @author Герасимов А.М.
        */
@@ -387,6 +387,14 @@ import {Model} from 'Types/entity';
          _template: template,
          _configs: null,
          _items: null,
+
+         _deleteSourceControllersFromConfigs(configs): void {
+            chain.factory(configs).each((config) => {
+               if (config._sourceController) {
+                  config._sourceController = null;
+               }
+            });
+         },
 
          _beforeMount: function(options, context, receivedState) {
             this._configs = [];
@@ -396,6 +404,7 @@ import {Model} from 'Types/entity';
             var resultDef;
 
             if (receivedState) {
+               this._deleteSourceControllersFromConfigs(receivedState.configs);
                this._configs = receivedState.configs;
                this._items = receivedState.items;
                if (options.items) {
@@ -467,7 +476,7 @@ import {Model} from 'Types/entity';
                selectedKeys: selectedKeys instanceof Array ? selectedKeys : [selectedKeys],
                isCompoundTemplate: getPropValue(this._items.at(index), 'properties').isCompoundTemplate,
                hasMoreButton: this._configs[index]._sourceController.hasMoreData('down'),
-               navigation: this._configs[index]._sourceController.getNavigation(),
+               navigation: this._configs[index].navigation,
                selectorDialogResult: this._onSelectorTemplateResult.bind(this),
                afterSelectorOpenCallback: this._afterSelectorOpenCallback.bind(this),
                dropdownClassName: `controls-FastFilter_width-popup_theme-${this._options.theme}`

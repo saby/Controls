@@ -9,6 +9,7 @@
                         textAlign="{{_options.textAlign}}"
                         placeholder="{{_options.placeholder}}"
                         fontSize="{{_options.fontSize}}"
+                        fontWeight="{{_options.fontWeight}}"
                         fontColorStyle="{{_options.fontColorStyle}}"
                         borderStyle="{{_options.borderStyle}}"
                         on:mouseenter="_mouseEnterHandler()"

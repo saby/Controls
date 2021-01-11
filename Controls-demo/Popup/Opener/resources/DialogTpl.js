@@ -1,13 +1,13 @@
 define('Controls-demo/Popup/Opener/resources/DialogTpl',
    [
       'Env/Env',
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/Opener/resources/DialogTpl',
    ],
-   function(Env, Control, template) {
+   function(Env, Base, template) {
       'use strict';
 
-      var PopupPage = Control.extend({
+      var PopupPage = Base.Control.extend({
          _template: template,
          _close: function() {
             this._notify('close', [], { bubbling: true });

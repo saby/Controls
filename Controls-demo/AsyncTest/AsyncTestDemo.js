@@ -1,12 +1,12 @@
 define('Controls-demo/AsyncTest/AsyncTestDemo',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/AsyncTestDemo',
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var AsyncTestDemo = Control.extend({
+      var AsyncTestDemo = Base.Control.extend({
          _template: template,
       });
       AsyncTestDemo._styles = ['Controls-demo/AsyncTest/AsyncTestDemo'];

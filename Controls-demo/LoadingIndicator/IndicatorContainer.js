@@ -1,10 +1,10 @@
 define('Controls-demo/LoadingIndicator/IndicatorContainer', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/LoadingIndicator/IndicatorContainer',
-], function(Control, tmpl) {
+], function(Base, tmpl) {
    'use strict';
 
-   var module = Control.extend({
+   var module = Base.Control.extend({
       _template: tmpl,
       _open: function(e, time) {
          this._children.loadingIndicator.show({});

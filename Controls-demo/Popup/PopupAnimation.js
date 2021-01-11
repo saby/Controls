@@ -3,11 +3,11 @@
  */
 define('Controls-demo/Popup/PopupAnimation',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/PopupAnimation/PopupAnimation',
    ],
-   function(Control, template) {
-      var ModuleClass = Control.extend({
+   function(Base, template) {
+      var ModuleClass = Base.Control.extend({
          _animationDelay: 200,
          _fullCreateDelay: 1000,
          _template: template,

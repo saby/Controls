@@ -1,15 +1,15 @@
 define('Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Lookup/FlatListSelector/FlatListSelector',
    'Controls-demo/Input/Lookup/LookupData',
    'Types/source',
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls/list'
-], function(Control, template, lookupData, source, MemorySourceFilter) {
+], function(Base, template, lookupData, source, MemorySourceFilter) {
 
    'use strict';
 
-   var FlatListSelector = Control.extend({
+   var FlatListSelector = Base.Control.extend({
       _template: template,
       _keyProperty: 'id',
       _selectionChanged: false,

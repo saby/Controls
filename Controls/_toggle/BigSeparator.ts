@@ -12,11 +12,11 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  * @class Controls/_toggle/BigSeparator
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.
@@ -31,7 +31,7 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
  * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Demo-example</a>.
  *
  * @class Controls/_toggle/BigSeparator
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.
@@ -46,32 +46,15 @@ class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable {
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = BigSeparatorTemplate;
 
-   protected _icon: string;
-
-   private _iconChangedValue(value: boolean): void {
-      if (value) {
-         this._icon = 'icon-AccordionArrowUp ';
-      } else {
-         this._icon = 'icon-AccordionArrowDown ';
-      }
-   }
-
    protected _clickHandler(): void {
       this._notify('valueChanged', [!this._options.value]);
-   }
-
-   protected _beforeMount(newOptions: IBigSeparatorOptions): void {
-      this._iconChangedValue(newOptions.value);
-   }
-
-   protected _beforeUpdate(newOptions: IBigSeparatorOptions): void {
-      this._iconChangedValue(newOptions.value);
    }
 
    static _theme: string[] = ['Controls/toggle', 'Controls/Classes'];
    static getDefaultOptions(): object {
       return {
-         value: false
+         value: false,
+         iconSize: 'm'
       };
    }
 

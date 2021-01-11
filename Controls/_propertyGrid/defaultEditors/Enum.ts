@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_propertyGrid/defaultEditors/Enum');
 
 import IEditorOptions from 'Controls/_propertyGrid/IEditorOptions';
@@ -9,10 +9,10 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
  *
  * @remark
  * Полезные ссылки:
- * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less переменные тем оформления}
  *
  * @class Controls/_propertyGrid/defaultEditors/Enum
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * 
  * @public
@@ -22,7 +22,7 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
 /*
  * Editor for enum type.
  * @class Controls/_propertyGrid/defaultEditors/Enum
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * 
  * @public

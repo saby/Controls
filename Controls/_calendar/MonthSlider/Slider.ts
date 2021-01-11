@@ -1,4 +1,4 @@
-import BaseControl = require('Core/Control');
+import {Control as BaseControl} from 'UI/Base';
 import coreMerge = require('Core/core-merge');
 import {descriptor} from 'Types/entity';
 import tmpl = require('wml!Controls/_calendar/MonthSlider/Slider/Slider');
@@ -70,7 +70,7 @@ var _private = {
  * For example, the previous element leaves to the left, and the next one floats to the right.
  *
  * @class Controls/_calendar/MonthSlider:Base
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @private
  * @author Красильников А.С.

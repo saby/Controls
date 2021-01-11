@@ -1,14 +1,14 @@
 define('Controls-demo/SerializerDepsStorage/SerializerDepsStorage', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/SerializerDepsStorage/SerializerDepsStorage'
 ], function(
-   Control,
+   Base,
    template
 ) {
    'use strict';
 
    // Данная демка служит для проверки сериализации функции на сервере.
-   var DemoControl = Control.extend({
+   var DemoControl = Base.Control.extend({
       _template: template,
       result: 'не проверено',
       _beforeMount: function(opt, ctx, rs) {

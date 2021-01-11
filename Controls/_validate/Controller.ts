@@ -8,7 +8,7 @@ import IValidateResult from 'Controls/_validate/interfaces/IValidateResult';
  * Контрол, регулирующий валидацию формы.
  * Валидация запускается при вызове метода {@link Controls/_validate/Controller#submit submit}.
  * @class Controls/_validate/Controller
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @demo Controls-demo/Input/Validate/FormController
@@ -68,10 +68,10 @@ export default Form;
  * Запускает валидацию.
  * @name Controls/_validate/Controller#submit
  * @function
- * @returns {Deferred}
+ * @return {Deferred<Controls/_validate/interfaces/IValidateResult>}
  * @example
- * WML
  * <pre>
+ * <!-- WML -->
  * <Controls.validate:Controller name="formController">
  *    <ws:content>
  *       <Controls.validate:Container>
@@ -86,16 +86,18 @@ export default Form;
  * </Controls.validate:Controller>
  * <Controls.buttons:Button caption="Submit" on:click="_clickHandler()"
  * </pre>
- * JavaScript
  * <pre>
- *     Control.extend({
- *        ...
- *
- *        _clickHandler: function() {
- *           this._children.formController.submit();
- *        }
- *        ...
- *    });
+ * // TypeScript
+ * _clickHandler(): void {
+ *     this._children.formController.submit().then((result) => {
+ *         if (!result.hasErrors) {
+ *             self._children.Confirmation.open({
+ *                 message: 'Валидация прошла успешно',
+ *                 type: 'ok'
+ *             });
+ *         }
+ *     });
+ * };
  * </pre>
  */
 

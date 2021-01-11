@@ -4,16 +4,12 @@ export interface ITooltipOptions {
 
 /**
  * Интерфейс всплывающей подсказки.
- *
- * @interface Controls/_interface/ITooltip
  * @public
  * @author Красильников А.С.
  */
 
 /*
  * Interface for the tooltip.
- *
- * @interface Controls/_interface/ITooltip
  * @public
  * @author Красильников А.С.
  */
@@ -23,12 +19,13 @@ export default interface ITooltip {
 /**
  * @name Controls/_interface/ITooltip#tooltip
  * @cfg {String} Текст всплывающей подсказки, отображаемой при наведении курсора мыши.
- * @default Undefined
+ * @default undefined
  * @remark Атрибут "Title" добавляется в корневой узел контрола и всплывающая подсказка браузера по умолчанию отображается при наведении курсора мыши.
  * @example
  * Подсказка "Add".
- * <pre>
- *    <ControlsDirectory.Control tooltip="Add"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <ControlsDirectory.Control tooltip="Add"/>
  * </pre>
  */
 

@@ -1,14 +1,14 @@
 define('Controls-demo/Indicator/ProgressBar/ProgressBar',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Indicator/ProgressBar/ProgressBar',
       'json!Controls-demo/PropertyGrid/pgtext',
 
    ],
 
-   function(Control, template, config) {
+   function(Base, template, config) {
       'use strict';
-      var ModuleClass = Control.extend({
+      var ModuleClass = Base.Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/progress:Bar',

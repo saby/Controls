@@ -9,10 +9,11 @@ import {
    ISourceControllerOptions,
    NewSourceController as SourceController
 } from 'Controls/dataSource';
-import {IControllerState} from 'Controls/_dataSource/Controller';
+import {ISourceControllerState} from 'Controls/dataSource';
 import {ContextOptions} from 'Controls/context';
 import {ISourceOptions, IHierarchyOptions, IFilterOptions, INavigationOptions, ISortingOptions} from 'Controls/interface';
 import {SyntheticEvent} from 'UI/Vdom';
+import {isEqual} from 'Types/object';
 
 export interface IDataOptions extends IControlOptions,
     ISourceOptions,
@@ -44,16 +45,16 @@ export interface IDataContextOptions extends ISourceOptions,
  * Поле контекста "dataOptions" ожидает Controls/list:Container, который лежит внутри.
  * 
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
- * * <a href="/docs/js/Controls/list/Container/">Controls/list:Container</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FFilterSearch%2FFilterSearch демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
+ * * {@link Controls/list:Container}
  *
  * @class Controls/_list/Data
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IHierarchy
  * @mixes Controls/_interface/ISource
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Герасимов А.М.
@@ -69,7 +70,7 @@ export interface IDataContextOptions extends ISourceOptions,
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IHierarchy
  * @mixes Controls/_interface/ISource
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Герасимов А.М.
@@ -84,6 +85,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    private _sourceController: SourceController = null;
    private _source: ICrudPlus | ICrud & ICrudPlus & IData;
    private _dataOptionsContext: typeof ContextOptions;
+   private _sourceControllerState: ISourceControllerState;
 
    private _items: RecordSet;
    private _filter: QueryWhereExpression<unknown>;
@@ -96,7 +98,6 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       // TODO придумать как отказаться от этого свойства
       this._itemsReadyCallback = this._itemsReadyCallbackHandler.bind(this);
       this._notifyNavigationParamsChanged = this._notifyNavigationParamsChanged.bind(this);
-
       this._errorRegister = new RegisterClass({register: 'dataError'});
 
       if (receivedState && options.source instanceof PrefetchProxy) {
@@ -116,11 +117,14 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
 
       if (options.sourceController) {
          this._setItemsAndUpdateContext();
-      } else if (receivedState && isNewEnvironment()) {
+      } else if (receivedState instanceof RecordSet && isNewEnvironment()) {
+         if (options.source && options.dataLoadCallback) {
+            options.dataLoadCallback(receivedState);
+         }
          this._sourceController.setItems(receivedState);
          this._setItemsAndUpdateContext();
       } else if (options.source) {
-         return this._sourceController.load().then((items) => {
+         return this._sourceController.reload().then((items) => {
             if (items instanceof RecordSet) {
                // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
                this._items = this._sourceController.setItems(items);
@@ -128,7 +132,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
             controllerState = this._sourceController.getState();
             this._updateContext(controllerState);
             return items;
-         });
+         }, (error) => error);
       } else {
          this._updateContext(controllerState);
       }
@@ -138,7 +142,23 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       this._isMounted = true;
    }
 
-   _beforeUpdate(newOptions: IDataOptions): void|Promise<RecordSet|Error> {
+   protected _beforeUpdate(newOptions: IDataOptions): void|Promise<RecordSet|Error> {
+      let updateResult;
+
+      if (this._options.sourceController !== newOptions.sourceController) {
+         this._sourceController = newOptions.sourceController;
+      }
+
+      if (newOptions.sourceController) {
+         updateResult = this._updateWithSourceControllerInOptions(newOptions);
+      } else {
+         updateResult = this._updateWithoutSourceControllerInOptions(newOptions);
+      }
+
+      return updateResult;
+   }
+
+   _updateWithoutSourceControllerInOptions(newOptions: IDataOptions): void|Promise<RecordSet|Error> {
       const sourceChanged = this._options.source !== newOptions.source;
 
       if (sourceChanged) {
@@ -152,7 +172,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          this._filter = newOptions.filter;
       }
 
-      if (sourceChanged) {
+      if (sourceChanged && !newOptions.sourceController) {
          const currentRoot = this._sourceController.getRoot();
          this._fixRootForMemorySource(newOptions);
 
@@ -162,33 +182,38 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
                 if (!newOptions.hasOwnProperty('root')) {
                    this._sourceController.setRoot(currentRoot);
                 }
-                if (reloadResult instanceof RecordSet) {
-                   if (newOptions.dataLoadCallback instanceof Function) {
-                      newOptions.dataLoadCallback(reloadResult);
-                   }
-                   this._items = this._sourceController.setItems(reloadResult);
-                } else {
-                   this._onDataError(
-                       null,
-                       {
-                          error: reloadResult,
-                          mode: dataSourceError.Mode.include
-                       }
-                   )
-                }
+                this._items = this._sourceController.getItems();
 
                 const controllerState = this._sourceController.getState();
                 this._updateContext(controllerState);
                 this._loading = false;
                 return reloadResult;
              })
-             .catch((error) => error);
+             .catch((error) => {
+                this._onDataError(
+                    null,
+                    {
+                       error,
+                       mode: dataSourceError.Mode.include
+                    }
+                );
+                return error;
+             });
       } else if (isChanged) {
          const controllerState = this._sourceController.getState();
 
          // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
          this._filter = controllerState.filter;
          this._updateContext(controllerState);
+      }
+   }
+
+   _updateWithSourceControllerInOptions(newOptions: IDataOptions): void {
+      const sourceControllerState = this._sourceController.getState();
+
+      if (!isEqual(sourceControllerState, this._sourceControllerState)) {
+         this._filter = sourceControllerState.filter;
+         this._updateContext(sourceControllerState);
       }
    }
 
@@ -260,11 +285,11 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       event.stopPropagation();
    }
 
-   private _createContext(options?: IControllerState): typeof ContextOptions {
+   private _createContext(options?: ISourceControllerState): typeof ContextOptions {
       return new ContextOptions(options);
    }
 
-   private _updateContext(sourceControllerState: IControllerState): void {
+   private _updateContext(sourceControllerState: ISourceControllerState): void {
       const curContext = this._dataOptionsContext;
 
       for (const i in sourceControllerState) {
@@ -273,6 +298,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          }
       }
       curContext.updateConsumers();
+      this._sourceControllerState = sourceControllerState;
    }
 
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9

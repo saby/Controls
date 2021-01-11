@@ -1,10 +1,10 @@
 define('Controls-demo/LoadingIndicator/LoadingIndicator', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/LoadingIndicator/LoadingIndicator'
-], function(Control, tmpl) {
+], function(Base, tmpl) {
    'use strict';
 
-   var module = Control.extend({
+   var module = Base.Control.extend({
       _template: tmpl,
       _firstId: null,
       _secondId: null,

@@ -1,9 +1,9 @@
 define('Controls-demo/AsyncError/AsyncDemo', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/AsyncError/AsyncDemo'
-], function(Control, template) {
+], function(Base, template) {
 
-   var AsyncDemo = Control.extend({
+   var AsyncDemo = Base.Control.extend({
       _template: template
    });
 

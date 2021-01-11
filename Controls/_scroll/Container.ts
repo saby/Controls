@@ -8,7 +8,7 @@ import template = require('wml!Controls/_scroll/Container/Container');
 import baseTemplate = require('wml!Controls/_scroll/ContainerBase/ContainerBase');
 import ShadowsModel from './Container/ShadowsModel';
 import ScrollbarsModel from './Container/ScrollbarsModel';
-import PagingModel from './Container/PagingModel';
+import PagingModel, {TPagingModeScroll} from './Container/PagingModel';
 import {
     IScrollbars,
     IScrollbarsOptions,
@@ -29,8 +29,18 @@ import {POSITION} from './Container/Type';
 import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {IScrollState} from './Utils/ScrollState';
 
+/**
+ * @typeof {String} TPagingPosition
+ * @variant left Отображения пэйджинга слева.
+ * @variant right Отображения пэйджинга справа.
+ */
+type TPagingPosition= 'left' | 'right';
+
 interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, IShadowsOptions {
     backgroundStyle: string;
+    pagingMode?: TPagingModeScroll;
+    pagingContentTemplate?: Function | string;
+    pagingPosition?: TPagingPosition;
 }
 
 const SCROLL_BY_ARROWS = 40;
@@ -43,12 +53,12 @@ const DEFAULT_BACKGROUND_STYLE = 'default';
  * Для корректной работы внутри WS3 необходимо поместить контрол в контроллер Controls/dragnDrop:Compound, который обеспечит работу функционала Drag-n-Drop.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
  * @class Controls/_scroll/Container
  * @extends Controls/_scroll/ContainerBase
- * @mixes Controls/_scroll/Interface/IScrollbars
- * @mixes Controls/_scroll/Interface/IShadows
+ * @mixes Controls/_scroll/Container/Interface/IScrollbars
+ * @mixes Controls/_scroll/Container/Interface/IShadows
  *
  * @public
  * @author Миронов А.Ю.
@@ -73,6 +83,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _template: TemplateFunction = template;
     protected _baseTemplate: TemplateFunction = baseTemplate;
+    protected _options: IContainerOptions;
 
     protected _shadows: ShadowsModel;
     protected _scrollbars: ScrollbarsModel;
@@ -112,9 +123,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     _afterMount(options: IContainerOptions, context) {
 
-        if (context.ScrollData?.pagingVisible) {
+        if (this._isPagingVisible(this._options, context)) {
             this._paging = new PagingModel();
             this._scrollCssClass = this._getScrollContainerCssClass(options);
+            this._paging.pagingMode = this._options.pagingMode;
         }
 
         super._afterMount();
@@ -137,18 +149,28 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         }
     }
 
+    protected _isPagingVisible(options: IContainerOptions, context): boolean {
+        if (typeof options.pagingMode !== 'undefined') {
+            return options.pagingMode !== 'hidden';
+        }
+        return context.ScrollData?.pagingVisible;
+    }
+
     protected _beforeUpdate(options: IContainerOptions, context) {
         super._beforeUpdate(...arguments);
-        if (context.ScrollData?.pagingVisible) {
+        if (this._isPagingVisible(options, context)) {
             if (!this._paging) {
                 this._paging = new PagingModel();
             }
-            this._paging.isVisible = this._state.canVerticalScroll;
+            this._paging.isVisible = this._scrollModel.canVerticalScroll;
+            if (this._options.pagingMode !== options.pagingMode) {
+                this._paging.pagingMode = options.pagingMode;
+            }
         } else if (this._paging) {
             this._paging = null;
         }
 
-        this._updateShadows(this._state, options);
+        this._updateShadows(this._scrollModel, options);
         this._isOptimizeShadowEnabled = this._getIsOptimizeShadowEnabled(options);
         this._optimizeShadowClass = this._getOptimizeShadowClass();
         // TODO: Логика инициализации для поддержки разных браузеров была скопирована почти полностью
@@ -199,7 +221,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     _updateShadows(sate?: IScrollState, options?: IContainerOptions): void {
         const changed: boolean = this._updateShadowMode(options);
         if (changed) {
-            this._shadows.updateScrollState(sate || this._state);
+            this._shadows.updateScrollState(sate || this._scrollModel);
         }
     }
 
@@ -228,7 +250,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     _updateState(...args) {
         const isUpdated: boolean = super._updateState(...args);
         if (isUpdated) {
-            if (this._wasMouseEnter && this._state.canVerticalScroll && !this._oldState.canVerticalScroll) {
+            if (this._wasMouseEnter && this._scrollModel?.canVerticalScroll && !this._oldScrollState.canVerticalScroll) {
                 this._updateShadowMode();
             }
 
@@ -237,7 +259,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (!this._isOptimizeShadowEnabled ||
                     this._stickyHeaderController.hasFixed(POSITION.TOP) ||
                     this._stickyHeaderController.hasFixed(POSITION.BOTTOM)) {
-                this._shadows.updateScrollState(this._state);
+                this._shadows.updateScrollState(this._scrollModel);
             }
 
             // При инициализации не обновляем скрол бары. Инициализируем их по наведению мышкой.
@@ -247,13 +269,13 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             // Если покрасить подложку по которой движется скролл красным, то после ховера видно, как она перерисовыатся
             // только в местах где по ней проехал скролбар.
             // После отключения оптимизации проблема почему то уходит.
-            if (this._isStateInitialized && (this._wasMouseEnter || detection.isIE)) {
-                this._scrollbars.updateScrollState(this._state, this._container);
+            if (this._scrollModel && (this._wasMouseEnter || detection.isIE)) {
+                this._scrollbars.updateScrollState(this._scrollModel, this._container);
             }
 
-            this._paging?.update(this._state);
+            this._paging?.update(this._scrollModel);
 
-            this._stickyHeaderController.setCanScroll(this._state.canVerticalScroll);
+            this._stickyHeaderController.setCanScroll(this._scrollModel.canVerticalScroll);
             this._stickyHeaderController.setShadowVisibility(
                 this._shadows.top.isStickyHeadersShadowsEnabled(),
                 this._shadows.bottom.isStickyHeadersShadowsEnabled());
@@ -319,7 +341,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
                 this._shadows.top.isStickyHeadersShadowsEnabled(),
                 this._shadows.bottom.isStickyHeadersShadowsEnabled());
 
-        this._updateStateAndGenerateEvents(this._state);
+        this._updateStateAndGenerateEvents(this._scrollModel);
     }
 
     protected _updateStateAndGenerateEvents(newState: IScrollState): void {
@@ -345,17 +367,23 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // если сами вызвали событие keydown (горячие клавиши), нативно не прокрутится, прокрутим сами
         if (!event.nativeEvent.isTrusted) {
             let offset: number;
-            const scrollTop: number = this._state.scrollTop;
-            const scrollContainerHeight: number = this._state.scrollHeight - this._state.clientHeight;
+            let headersHeight = 0;
+            if (detection.isBrowserEnv) {
+                headersHeight = this._stickyHeaderController.getHeadersHeight('top', 'allFixed');
+            }
+            const
+                clientHeight = this._scrollModel.clientHeight - headersHeight,
+                scrollTop: number = this._scrollModel.scrollTop;
+            const scrollContainerHeight: number = this._scrollModel.scrollHeight - this._scrollModel.clientHeight;
 
             if (event.nativeEvent.which === constants.key.pageDown) {
-                offset = scrollTop + this._state.clientHeight;
+                offset = scrollTop + clientHeight;
             }
             if (event.nativeEvent.which === constants.key.down) {
                 offset = scrollTop + SCROLL_BY_ARROWS;
             }
             if (event.nativeEvent.which === constants.key.pageUp) {
-                offset = scrollTop - this._state.clientHeight;
+                offset = scrollTop - clientHeight;
             }
             if (event.nativeEvent.which === constants.key.up) {
                 offset = scrollTop - SCROLL_BY_ARROWS;
@@ -404,7 +432,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     }
 
     protected _mouseenterHandler(event) {
-        if (this._gridAutoShadows && this._state.canVerticalScroll) {
+        if (this._gridAutoShadows && this._scrollModel?.canVerticalScroll) {
             this._gridAutoShadows = false;
             this._shadows.updateOptions(this._getShadowsModelOptions(this._options));
             this._updateShadows();
@@ -417,10 +445,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             // иногда события по которым инициализируется состояние скролл контейнера стреляют после mouseenter.
             // В этом случае не обновляем скролбары, а просто делаем _wasMouseEnter = true выше.
             // Скроллбары рассчитаются после инициализации состояния скролл контейнера.
-            if (this._isStateInitialized) {
-                this._scrollbars.updateScrollState(this._state, this._container);
+            if (this._scrollModel) {
+                this._scrollbars.updateScrollState(this._scrollModel, this._container);
             }
-
             if (!compatibility.touch) {
                 this._initHeaderController();
             }
@@ -505,7 +532,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         // если нет зафиксированных заголовков. Что бы тени на заголовках отображались правильно, рассчитаем состояние
         // теней в скролл контейнере.
         if (this._isOptimizeShadowEnabled) {
-            this._shadows.updateScrollState(this._state, false);
+            this._shadows.updateScrollState(this._scrollModel, false);
         }
         this._stickyHeaderController.setShadowVisibility(
             this._shadows.top.isStickyHeadersShadowsEnabled(),
@@ -515,7 +542,7 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const stickyHeaderOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.fixed);
         this._notify('fixed', [stickyHeaderOffsetTop, stickyHeaderOffsetBottom]);
 
-        if (this._options.task1180722812 && !stickyHeaderOffsetTop && this._shadows.top?.getVisibilityByInnerComponents() === SHADOW_VISIBILITY.VISIBLE) {
+        if (!stickyHeaderOffsetTop && this._shadows.top?.getVisibilityByInnerComponents() === SHADOW_VISIBILITY.VISIBLE) {
             // Если отклеился последний заголовок, и списками установлено, что сверху еще есть данные, то единственный
             // на данный момент известный сценарий, который может привести к этому, это полная перерисовка списка.
             // В этом случае мигает тень над заголовками из-за того, что после отклеивания старых заголовков,
@@ -598,12 +625,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  * @cfg {Content} Container contents.
  */
 
-
 /**
  * @name Controls/_scroll/Container#style
  * @cfg {String} Цветовая схема (цвета тени и скролла).
  * @variant normal Тема по умолчанию (для ярких фонов).
  * @variant inverted Преобразованная тема (для темных фонов).
+ * @see backgroundStyle
  */
 
 /*
@@ -614,23 +641,39 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  */
 
 /**
- * @name Controls/_scroll/Container#optimizeShadow
- * @cfg {Boolean} Включает режим быстрой отрисовки тени.
- * @default true
- * @variant true Оптимизированные тени.
- * @variant false Не оптимизированные тени.
- * @remark
- * Отключите оптимизированные тени, если:
- * <ul>
- *     <li> У скролл контейнера непрозрачный фон </li>
- *     <li> Скролл контейнер находится в элементе с непрозрачным фоном </li>
- *     <li> В скролл конейтенере присутствуют изображения. </li>
- * </ul>
+ * @name Controls/_scroll/Container#backgroundStyle
+ * @cfg {String} Определяет префикс стиля для настройки элементов, которые зависят от цвета фона.
+ * @default default
+ * @demo Controls-demo/Scroll/Container/BackgroundStyle/Index
+ * @see style
  */
 
 /**
- * @name Controls/_scroll/Container#backgroundStyle
- * @cfg {String} Определяет префикс стиля для настройки элементов которые зависят от цвета фона.
- * @default default
- * @demo Controls-demo/Scroll/Container/BackgroundStyle/Index
+ * @typedef {String} TPagingModeScroll
+ * @variant hidden Предназначен для отключения отображения пейджинга в реестре.
+ * @variant basic Предназначен для пейджинга в реестре с подгрузкой по скроллу.
+ * @variant edge Предназначен для пейджинга с отображением одной команды прокрутки. Отображается кнопка в конец, либо в начало, в зависимости от положения.
+ * @variant end Предназначен для пейджинга с отображением одной команды прокрутки. Отображается только кнопка в конец.
+ */
+
+/**
+ * @name Controls/_scroll/Container#pagingMode
+ * @cfg {TPagingModeScroll} Определяет стиль отображения пэйджинга.
+ * @default hidden
+ * @demo Controls-demo/Scroll/Paging/Basic/Index
+ * @demo Controls-demo/Scroll/Paging/Edge/Index
+ * @demo Controls-demo/Scroll/Paging/End/Index
+ */
+
+/**
+ * @name Controls/_scroll/Container#pagingContentTemplate
+ * @cfg {Function} Опция управляет отображением произвольного шаблона внутри пэйджинга.
+ * @demo Controls-demo/Scroll/Paging/ContentTemplate/Index
+ */
+
+/**
+ * @name Controls/_scroll/Container#pagingPosition
+ * @property {TPagingPosition} pagingPosition Опция управляет позицией пэйджинга.
+ * @default right
+ * @demo Controls-demo/Scroll/Paging/PositionLeft/Index
  */

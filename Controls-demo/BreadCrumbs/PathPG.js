@@ -1,15 +1,15 @@
 define('Controls-demo/BreadCrumbs/PathPG', [
-   'Core/Control',
+   'UI/Base',
    'tmpl!Controls-demo/PropertyGrid/DemoPG',
    'json!Controls-demo/PropertyGrid/pgtext',
    'Types/entity',
 ], function(
-   Control,
+   Base,
    template,
    config,
    entity
 ) {
-   var ModuleClass = Control.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _dataObject: null,
       _componentOptions: null,

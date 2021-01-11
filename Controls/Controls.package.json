@@ -21,7 +21,6 @@
     "Controls/Utils/*"
   ],
   "exclude": [
-    "Controls/Utils/isVDOMTemplate",
     "Controls/Utils/FontWidthConstants/*"
   ],
   "output": "controls-utils.package.js"
@@ -36,7 +35,6 @@
     "Controls/LoadingIndicator",
     "Controls/scroll",
     "Controls/buttons",
-    "Controls/eventUtils",
     "Controls/sizeUtils",
     "Controls/Store",
     "Controls/dataSource"
@@ -46,5 +44,5 @@
     "Controls/controls-container-async.package.js",
     "Controls/controls-utils.package.js"
   ],
-  "extendsTo": "controls-superbundle.package.js"
+  "output": "controls-superbundle.package.js"
 }]

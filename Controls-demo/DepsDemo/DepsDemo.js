@@ -1,9 +1,9 @@
 define('Controls-demo/DepsDemo/DepsDemo', [
-   'Core/Control',
+   'UI/Base',
    'tmpl!Controls-demo/DepsDemo/DepsDemo'
-], function(Control, template) {
+], function(Base, template) {
 
-   var DepsDemo = Control.extend({
+   var DepsDemo = Base.Control.extend({
       _template: template,
       _beforeMount: function() {
          if(typeof window !== 'undefined') {

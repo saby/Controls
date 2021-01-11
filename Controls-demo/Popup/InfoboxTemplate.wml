@@ -1,7 +1,7 @@
 <div class="ControlsDemo-InfoboxTemplate" attr:style="display:flex;width: 100%; height: 600px; align-items: center;justify-content: center;">
    <Controls.popup:Sticky name="sticky"
                                  onResult="{{_onResult}}"
-                                 template="Controls-demo/Popup/TestInfoBox"
+                                 template="Controls-demo/PopupTemplate/Infobox/Index"
                                  autoHide="{{true}}"
    >
       <ws:templateOptions closeButtonVisibility="{{false}}"/>

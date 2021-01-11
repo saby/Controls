@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/ColumnAsync/Delay/Promise/Random',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/ColumnAsync/Delay/Promise/Random',
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var delayRandomModule = Control.extend({
+      var delayRandomModule = Base.Control.extend({
          _template: template,
          _isOpen: false,
 

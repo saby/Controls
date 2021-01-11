@@ -1,0 +1,4 @@
+<span class="{{fontColorStyle ? 'controls-text-' + fontColorStyle + '_theme-' + _options.theme}}
+             {{fontSize ? 'controls-fontsize-' + fontSize + '_theme-' + _options.theme}}">
+    {{value}}
+</span>

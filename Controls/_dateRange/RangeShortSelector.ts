@@ -1,12 +1,13 @@
 import BaseSelector from './BaseSelector';
 import {Date as WSDate, descriptor} from 'Types/entity';
 import ILinkView from './interfaces/ILinkView';
+import {ICrud} from 'Types/source';
 import IPeriodLiteDialog from './interfaces/IPeriodLiteDialog';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dateRange/RangeShortSelector/RangeShortSelector');
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import dateControlsUtils from "./Utils";
+import dateControlsUtils from './Utils';
 
 interface IRangeShortSelectorOptions extends IControlOptions {
     chooseMonths: boolean;
@@ -17,7 +18,7 @@ interface IRangeShortSelectorOptions extends IControlOptions {
     checkedStart: Date;
     checkedEnd: Date;
     emptyCaption: string;
-    source: any;
+    source: ICrud;
     monthTemplate: HTMLElement;
     itemTemplate: HTMLElement;
     displayedRanges: Date[];
@@ -30,11 +31,11 @@ interface IRangeShortSelectorOptions extends IControlOptions {
  *
  * @remark
  * Переменные тем оформления:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less">набор переменных dateRange</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_shortDatePicker.less">набор переменных shortDatePicker</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less набор переменных dateRange}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_shortDatePicker.less набор переменных shortDatePicker}
  *
  * @class Controls/_dateRange/RangeShortSelector
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
  * @mixes Controls/_dateRange/interfaces/IDateRange
@@ -43,29 +44,18 @@ interface IRangeShortSelectorOptions extends IControlOptions {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/dateRange/LiteSelector/Index
  *
  */
 
-/*
- * A link button that displays the period. Supports the change of periods to adjacent.
- *
- * @class Controls/_dateRange/RangeShortSelector
- * @extends Core/Control
- * @mixes Controls/_dateRange/interfaces/ILinkView
- * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
- * 
- * @public
- * @author Красильников А.С.
- * @demo Controls-demo/Input/Date/RangeLinkLite
- *
- */
 export default class RangeShortSelector extends BaseSelector<IRangeShortSelectorOptions> {
     protected _template: TemplateFunction = template;
     protected _fittingMode: string = 'overflow';
+
+    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 
     protected _getPopupOptions(): IStickyPopupOptions {
         let className;
@@ -78,6 +68,8 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
 
         return {
             opener: this,
+            template: 'Controls/shortDatePicker:View',
+            closeOnOutsideClick: true,
             target: container,
             className,
             fittingMode: {
@@ -112,14 +104,16 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
                 displayedRanges: this._options.displayedRanges,
                 stubTemplate: this._options.stubTemplate,
                 captionFormatter: this._options.captionFormatter,
-                dateConstructor: this._options.dateConstructor,
+                dateConstructor: this._options.dateConstructor
             }
         };
     }
 
     _mouseEnterHandler(): void {
-        const loadCss = ({View}) => View.loadCSS();
-        this._startDependenciesTimer('Controls/shortDatePicker', loadCss);
+        if (!this._loadCalendarPopupPromise) {
+            const loadCss = ({View}) => View.loadCSS();
+            this._startDependenciesTimer('Controls/shortDatePicker', loadCss);
+        }
     }
 
     _sendResultHandler(event: SyntheticEvent, fittingMode: string): void {
@@ -137,6 +131,8 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
         this._children.linkView.shiftForward();
     }
 
+    static _theme: string[] = ['Controls/dateRange'];
+
     static getDefaultOptions(): object {
         return {
             ...IPeriodLiteDialog.getDefaultOptions(),
@@ -153,8 +149,4 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
             captionFormatter: descriptor(Function)
         };
     }
-
-    EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
-
-    static _theme: string[] = ['Controls/dateRange'];
 }

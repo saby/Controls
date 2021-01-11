@@ -1,14 +1,14 @@
 define('Controls-demo/List/Tree/SingleExpand', [
-   'Core/Control',
+   'UI/Base',
    'Controls-demo/List/Tree/GridData',
    'wml!Controls-demo/List/Tree/SingleExpand',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls/scroll',
    'Controls/treeGrid',
    'wml!Controls-demo/List/Tree/DemoContentTemplate'
-], function(BaseControl, GridData, template, MemorySource) {
+], function(Base, GridData, template, MemorySource) {
    'use strict';
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _groupingKeyCallback: null,
       _viewSource: null,

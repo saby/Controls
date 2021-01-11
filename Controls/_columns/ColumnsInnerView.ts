@@ -136,6 +136,11 @@ export default class ColumnsInnerView extends Control {
     }
     private processRemovingItem(item: any): boolean {
         let done = true;
+
+        if (!this._model.find((it) => it.getColumn() === item.column) && this._addingColumnsCounter > 0) {
+            this._addingColumnsCounter--;
+        }
+
         if (item.columnIndex >= this._columnsIndexes[item.column].length) {
             done = false;
             while (!done && (item.column + 1) < this._columnsCount) {
@@ -179,7 +184,7 @@ export default class ColumnsInnerView extends Control {
                                   removedItems: [CollectionItem<Model>],
                                   removedItemsIndex: number): void {
         if (action === 'a') {
-            newItems.forEach(this.setColumnOnItem.bind(this));  
+            newItems.forEach(this.setColumnOnItem.bind(this));
             if (this._options.columnsMode === 'auto' && newItems.length === 1) {
                 this._addingColumnsCounter++;
             } else {

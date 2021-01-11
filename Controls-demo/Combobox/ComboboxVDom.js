@@ -1,6 +1,6 @@
 define('Controls-demo/Combobox/ComboboxVDom',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Combobox/ComboboxVDom',
       'Types/source',
       'Controls-demo/Combobox/historySourceCombobox',
@@ -8,12 +8,12 @@ define('Controls-demo/Combobox/ComboboxVDom',
       'wml!Controls-demo/Combobox/itemTemplateCombobox',
       'wml!Controls-demo/Combobox/itemTemplateMultiline',
    ],
-   function(Control, template, source, historySourceCombobox) {
+   function(Base, template, source, historySourceCombobox) {
 
       'use strict';
 
 
-      var ComboBox = Control.extend({
+      var ComboBox = Base.Control.extend({
          _template: template,
          _itemsRegions: null,
          _itemsCode: null,

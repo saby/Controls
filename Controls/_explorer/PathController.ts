@@ -1,5 +1,5 @@
-import Control = require('Core/Control');
-import {tmplNotify} from 'Controls/eventUtils';
+import {Control} from 'UI/Base';
+import {EventUtils} from 'UI/Events';
 import template = require('wml!Controls/_explorer/PathController/PathController');
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 import HeadingPathBack = require('Controls/_explorer/HeadingPathBack');
@@ -75,7 +75,7 @@ import HeadingPathBack = require('Controls/_explorer/HeadingPathBack');
          }
       },
 
-      _notifyHandler: tmplNotify,
+      _notifyHandler: EventUtils.tmplNotify,
 
       _onBackButtonClick: function(e) {
          const self = this;

@@ -22,13 +22,13 @@ const MODERN_IE_VERSION = 11;
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/content-managment/heading/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_heading.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/heading/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_heading.less переменные тем оформления}
  *
  *
  * @class Controls/_heading/Back
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/ICaption
  * @implements Controls/_buttons/interface/IClick
  * @implements Controls/_interface/ITooltip
@@ -48,7 +48,7 @@ const MODERN_IE_VERSION = 11;
  * <a href="/materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader">Demo-example</a>.
  *
  * @class Controls/_heading/Back
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_buttons/interface/IClick
  * @mixes Controls/_interface/ITooltip

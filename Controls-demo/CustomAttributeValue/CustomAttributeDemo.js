@@ -1,12 +1,12 @@
 define('Controls-demo/CustomAttributeValue/CustomAttributeDemo',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/CustomAttributeValue/CustomAttributeDemo',
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var customAttributeDemo = Control.extend({
+      var customAttributeDemo = Base.Control.extend({
          _template: template,
          _standardCount: 0,
          _customCount: 0,

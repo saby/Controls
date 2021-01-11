@@ -1,12 +1,12 @@
 define('Controls-demo/Container/Scroll',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'Controls/scroll',
       'wml!Controls-demo/Container/Scroll',
    ],
-   function(Control, source, scroll, template) {
-      var ModuleClass = Control.extend({
+   function(Base, source, scroll, template) {
+      var ModuleClass = Base.Control.extend({
          _template: template,
          _pagingVisible: true,
          _scrollbarVisible: true,

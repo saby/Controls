@@ -1,11 +1,11 @@
 define('Controls-demo/Switch/standartDemoSwitch', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Switch/standartDemoSwitch',
    'Types/source',
    'tmpl!Controls-demo/Switch/resources/customCaptionTemplate',
-], function(Control, template, source, customCaptionTemplate) {
+], function(Base, template, source, customCaptionTemplate) {
    'use strict';
-   var ModuleClass = Control.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _source: null,
       _selectKey: '1',

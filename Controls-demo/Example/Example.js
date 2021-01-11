@@ -1,9 +1,9 @@
 define('Controls-demo/Example/Example',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Example/Example'
    ],
-   function(Control, template) {
+   function(Base, template) {
 
       'use strict';
 
@@ -20,7 +20,7 @@ define('Controls-demo/Example/Example',
          {name: 'Input/Text', title: 'Text'}
       ];
 
-      var Example = Control.extend({
+      var Example = Base.Control.extend({
          _template: template,
 
          _href: null,

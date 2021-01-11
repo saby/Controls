@@ -1,7 +1,7 @@
 /**
  * Created by kraynovdo on 15.02.2018.
  */
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_list/BaseControl/Scroll/Emitter/Emitter');
 
 var ScrollEmitter = Control.extend({

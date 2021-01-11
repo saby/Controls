@@ -1,16 +1,16 @@
 define('Controls-demo/DragNDrop/List', [
-   'Core/Control',
+   'UI/Base',
    'Core/core-clone',
    'Types/source',
    'Controls-demo/DragNDrop/ListEntity',
    'Controls-demo/DragNDrop/DemoData',
    'wml!Controls-demo/DragNDrop/List/List',
-   'Controls/Utils/Toolbar',
+   'Controls/toolbars',
    'Controls/dragnDrop',
-], function(BaseControl, cClone, source, ListEntity, DemoData, template, Toolbar) {
+], function(Base, cClone, source, ListEntity, DemoData, template, Toolbar) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _itemActions: null,
       _viewSource: null,

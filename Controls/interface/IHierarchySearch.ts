@@ -4,10 +4,8 @@ export interface IHierarchySearchOptions {
 }
 /**
  * Интерфейс для контролов, реализующих поиск в иерархических списках.
- *
- * @interface Controls/interface/IHierarchySearch
  * @public
- * @author Герасимов Александр Максимович
+ * @author Герасимов А.М.
  */
 interface IHierarchySearch {
     readonly _options: {
@@ -17,7 +15,6 @@ interface IHierarchySearch {
          * @variant current Поиск происходит в текущем резделе.
          */
         /**
-         * @name Controls/interface/IHierarchySearch#startingWith
          * @cfg {StartingWith} Режим поиска в иерархическом списке.
          * @default root
          * @example
@@ -35,6 +32,7 @@ interface IHierarchySearch {
          * }
          * </pre>
          * <pre class="brush: html">
+         * <!-- WML -->
          * <Layout.browsers:Browser parentProperty="Раздел" startingWith="root" searchParam="city" source="_source">
          *     <ws:search>
          *         <Controls.search:Input/>
@@ -54,7 +52,6 @@ interface IHierarchySearch {
          * @variant expand В режиме поиска при клике на хлебную крошку данные отображаются от корня, путь до узла разворачивается.
          */
         /**
-         * @name Controls/interface/IHierarchySearch#searchNavigationMode
          * @cfg {SearchNavigationMode} Режим навигации при поиске в иерархическом списке.
          * @default open
          */

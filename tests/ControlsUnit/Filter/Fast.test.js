@@ -643,12 +643,17 @@ define(
                DropdownOpener: { open: (openerConfig) => {expectedConfig = openerConfig; isOpened = true;} }
             };
             fastFilter._container = {children: []};
-            fastFilter._configs = [{_items: new collection.RecordSet({
+            fastFilter._configs = [{
+               _items: new collection.RecordSet({
                   keyProperty: 'key',
                   rawData: items[0]
                }),
                _source: 'targetSource',
-               _sourceController: { hasMoreData: () => {}, isLoading: () => {return isLoading}, getNavigation: () => {} }}];
+               _sourceController: {
+                  hasMoreData: () => {},
+                  isLoading: () => {return isLoading},
+                  getNavigation: () => {},
+                  setFilter: () => {}}}];
             fastFilter._items = new collection.RecordSet({
                rawData: configItems.items,
                keyProperty: 'title'
@@ -671,27 +676,33 @@ define(
             assert.isFalse(isOpened);
          });
 
-         it('open dropdown _needQuery', function() {
+         it('open dropdown _needQuery', async function() {
             let fastFilter = new filterMod.Fast(config);
+            let fastItems = new collection.RecordSet({
+               keyProperty: 'key',
+               rawData: items[0]
+            });
             let opened = false;
             fastFilter._children = {
                DropdownOpener: { open: () => {opened = true;} }
             };
             fastFilter._container = {children: []};
-            fastFilter._configs = [{_items: new collection.RecordSet({
-                  keyProperty: 'key',
-                  rawData: items[0]
-               }),
+            fastFilter._configs = [{_items: fastItems,
                _source: 'targetSource',
-               _sourceController: { hasMoreData: () => {}, isLoading: () => {}, getNavigation: () => {} },
+               _sourceController: {
+                  hasMoreData: () => {},
+                  isLoading: () => {},
+                  getNavigation: () => {},
+                  setFilter: () => {},
+                  load: () => Deferred.success(fastItems)},
                _needQuery: true
             }];
             fastFilter._items = new collection.RecordSet({
                rawData: configItems.items,
                keyProperty: 'title'
             });
-            fastFilter._open('itemClick', fastFilter._configs[0]._items, 0);
-            assert.isFalse(opened);
+            await fastFilter._open('itemClick', fastFilter._configs[0]._items, 0);
+            assert.isTrue(opened);
 
          });
 
@@ -724,7 +735,8 @@ define(
                footerTemplate: 'footerTemplateText',
                emptyText: 'empty text',
                multiSelect: false,
-               selectorTemplate: 'selectorTemplate'
+               selectorTemplate: 'selectorTemplate',
+               navigation: 'navigation'
             };
             var result = filterMod.Fast._private.getItemPopupConfig(properties);
             const resultProps = {...properties};
@@ -895,10 +907,10 @@ define(
 
             it('_private::loadItemsFromSource withHistory', function(done) {
                let actualFilter;
-               fastFilter._sourceController = { load: function(filter) {
-                  actualFilter = filter;
+               fastFilter._sourceController = { load: function() {
                   return Deferred.success();
-               } };
+               },
+               setFilter: (filter) => { actualFilter = filter }};
                filterMod.Fast._private.loadItemsFromSource(fastFilter, {filter: {}, source: historySource}).addCallback(function() {
                   assert.deepEqual(actualFilter, {$_history: true});
 

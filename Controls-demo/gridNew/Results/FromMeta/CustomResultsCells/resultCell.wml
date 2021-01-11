@@ -1,0 +1,5 @@
+<ws:partial template="Controls/gridNew:ResultColumnTemplate" scope="{{_options}}">
+    <span>
+        Среднее: <Controls.decorator:Money value="{{ content.results.get('square') }}" useGrouping="{{ true }}" fontWeight="bold" fontColorStyle="primary"/>
+    </span>
+</ws:partial>

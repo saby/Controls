@@ -26,6 +26,7 @@
             month="{{date}}"
             daysData="{{extData}}"
             dayTemplate="{{dayTemplate}}"
+            dayHeaderTemplate="{{ dayHeaderTemplate }}"
          />
       </ws:else>
    </div>

@@ -1,12 +1,12 @@
 define('Controls-demo/PropertyGrid/ArrayTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/PropertyGrid/ArrayTemplate',
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var arrayTmpl = Control.extend({
+      var arrayTmpl = Base.Control.extend({
          _template: template,
          _param: null,
 

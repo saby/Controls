@@ -11,8 +11,8 @@
 }
 
 .controls-RadioItem__wrapper {
-   .inline-flexbox();
-   .align-items(baseline);
+   display: inline-flex;
+   align-items: baseline;
 }
 
 .controls-RadioItem__wrapper_theme-@{themeName} {
@@ -23,7 +23,7 @@
    content: '\200b';
 }
 
-.controls-RadioItem__SwitchCircle_theme-@{themeName} {
+.controls-RadioItem__RadioCircle_theme-@{themeName} {
     padding-right: @text_offset_radioGroup;
  }
 
@@ -61,7 +61,7 @@
 
 .ws-is-hover {
    .controls-RadioItem__wrapper:hover {
-      .controls-SwitchCircle__borderCircle_enabled_theme-@{themeName} {
+      .controls-RadioCircle__borderCircle_enabled_theme-@{themeName} {
          stroke: @marker-box_hover_border-color_switcher;
       }
 
@@ -73,7 +73,7 @@
 
 //touch on radio
 .controls-RadioItem__wrapper:active {
-   .controls-SwitchCircle__borderCircle_enabled_theme-@{themeName} {
+   .controls-RadioCircle__borderCircle_enabled_theme-@{themeName} {
       stroke: @marker-box_hover_border-color_switcher;
    }
 

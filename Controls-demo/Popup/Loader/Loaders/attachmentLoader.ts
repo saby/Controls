@@ -1,6 +1,5 @@
 import {Memory, ICrudPlus} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {getStore} from 'Application/Env';
 
 interface ILoaderParams {
     source: ICrudPlus;
@@ -10,20 +9,11 @@ interface ILoaderParams {
 }
 
 class Loader {
-    private __uid: string = 'AttachmentLoader';
 
     init(): void { /**/
     }
 
-    // getState(): Record<string, any> {
-    //     return getStore().get(this.__uid);
-    // }
-    //
-    // setState(data: Record<string, any>): void {
-    //     getStore().set(this.__uid, data);
-    // }
-
-    loadData(config): Promise<RecordSet> {
+    loadData(config: ILoaderParams): Promise<RecordSet> {
         const memory = new Memory({
             keyProperty: 'id',
             data: [
@@ -43,10 +33,6 @@ class Loader {
             }, 2000);
         });
     }
-
-    // static get(): any {
-    //     return getStore().get(this.__uid);
-    // }
 }
 
 export default new Loader();

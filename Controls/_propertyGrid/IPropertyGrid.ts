@@ -1,14 +1,27 @@
 import IPropertyGridProperty from './IProperty';
 import {IControlOptions, Control} from 'UI/Base';
+import { RecordSet } from 'Types/collection';
+import { Model } from 'Types/entity';
+import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
+import { IItemPadding } from 'Controls/list';
 
+export interface IPropertyGridColumnOptions {
+    width: string;
+    compatibleWidth: string;
+}
 export interface IPropertyGridOptions extends IControlOptions {
-    editingObject: Object;
-    source: IPropertyGridProperty[];
+    editingObject: Object | Model | Record<string, unknown>;
+    source: IPropertyGridProperty[] | RecordSet<IPropertyGridProperty>;
     groupTemplate?: Function;
     collapsedGroups?: Array<string|number>;
     nodeProperty?: string;
     parentProperty?: string;
     render?: Control<IPropertyGridOptions>;
+    itemActions: IItemAction[];
+    itemActionVisibilityCallback?: TItemActionVisibilityCallback;
+    editorColumnOptions?: IPropertyGridColumnOptions;
+    captionColumnOptions?: IPropertyGridColumnOptions;
+    itemPadding: IItemPadding;
 }
 
 /**
@@ -25,7 +38,7 @@ export interface IPropertyGridOptions extends IControlOptions {
  * @interface Controls/_propertyGrid/IPropertyGrid
  * @public
  * @author Герасимов А.М.
- */ 
+ */
 export interface IPropertyGrid {
     readonly '[Controls/_propertyGrid/IPropertyGrid]': boolean;
 }
@@ -55,7 +68,7 @@ export interface IPropertyGrid {
  *    ]
  * }
  * </pre>
- * 
+ *
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.propertyGrid:PropertyGrid
@@ -97,7 +110,7 @@ export interface IPropertyGrid {
  *    ]
  * }
  * </pre>
- * 
+ *
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.propertyGrid:PropertyGrid
@@ -152,4 +165,3 @@ export interface IPropertyGrid {
  * @cfg {Array.<String>} Список идентификаторов свернутых групп.
  * @see groupTemplate
  */
-

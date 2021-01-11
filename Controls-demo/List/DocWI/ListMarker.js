@@ -1,8 +1,8 @@
 define('Controls-demo/List/DocWI/ListMarker', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/DocWI/resources/ListMarker',
    'Types/source'
-], function (Control, template, sourceLib) {
+], function (Base, template, sourceLib) {
    'use strict';
 
    var srcData = [
@@ -24,7 +24,7 @@ define('Controls-demo/List/DocWI/ListMarker', [
       }
    ];
 
-   var Module = Control.extend(
+   var Module = Base.Control.extend(
       {
          _template: template,
          _viewSource: null,

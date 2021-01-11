@@ -1,0 +1,35 @@
+<div class="ControlsDemo-Page ws-flexbox ws-flex-column">
+   <div class="ws-flexbox ws-flex-row" id="Header" if="{{_isMenuButtonVisible()}}">
+         <a attr:class="ws-link"
+                        attr:id="Back"
+                        attr:style="width: 100px"
+                           on:click="goHomeHandler()">&lt;&nbsp;Меню</a>
+         <ws:if data="{{sourceUrl}}">
+            <div class="ws-flex-grow-1 ws-flexbox ws-flex-column">
+               <a attr:class="ws-link ws-align-self-end"
+                  attr:id="Source"
+                  attr:style="width: 100px"
+                  attr:target="_blank"
+                  attr:href="{{sourceUrl}}"
+                  >Source</a>
+            </div>
+         </ws:if>
+   </div>
+   <Router.router:Route mask="app/:app">
+      <DemoStand.TemplateWrapper>
+         <ws:if data="{{content.app && content.templateLoaded}}">
+            <ws:if data="{{ isReloading }}">
+               <invisible-node/>
+            </ws:if>
+            <ws:else>
+               <Controls.Container.Async templateName="{{content.app}}"
+                                         attr:id="newListView" attr:class="ControlsDemo-Page_content"/>
+            </ws:else>
+         </ws:if>
+         <ws:else>
+            <div>{{_options.correctTemplate ? 'Не указан шаблон.' : 'Шаблон не найден.'}} Может быть перейти на&nbsp;<a href='#' on:click="goHomeHandler()">разводящую</a></div>
+         </ws:else>
+      </DemoStand.TemplateWrapper>
+   </Router.router:Route>
+</div>
+

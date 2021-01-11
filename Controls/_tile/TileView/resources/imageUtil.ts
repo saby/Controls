@@ -86,25 +86,32 @@ export function getImageRestrictions(
     tileHeight: number,
     tileWidth: number
 ): IImageRestrictions {
-    const tileDeltaW = Number((tileWidth / tileHeight).toFixed(2));
-    const imageDeltaW = Number((imageWidth / imageHeight).toFixed(2));
-    const imageDeltaH = Number((imageHeight / imageWidth).toFixed(2));
-    const tileDeltaH = Number((tileHeight / tileWidth).toFixed(2));
-    const restrictions = {
-        width: false,
-        height: false
-    };
-    if (tileDeltaW === imageDeltaW && tileDeltaH === imageDeltaH) {
-        restrictions.width = true;
-    } else if (imageDeltaW > tileDeltaW) {
-        restrictions.width = true;
-        if (imageDeltaH >= tileDeltaH) {
+    if (imageHeight && imageWidth) {
+        const tileDeltaW = Number((tileWidth / tileHeight).toFixed(2));
+        const imageDeltaW = Number((imageWidth / imageHeight).toFixed(2));
+        const imageDeltaH = Number((imageHeight / imageWidth).toFixed(2));
+        const tileDeltaH = Number((tileHeight / tileWidth).toFixed(2));
+        const restrictions = {
+            width: false,
+            height: false
+        };
+        if (tileDeltaW === imageDeltaW && tileDeltaH === imageDeltaH) {
+            restrictions.width = true;
+        } else if (imageDeltaW > tileDeltaW) {
+            restrictions.width = true;
+            if (imageDeltaH >= tileDeltaH) {
+                restrictions.height = true;
+            }
+        } else if (tileDeltaH <= imageDeltaH) {
+            restrictions.width = true;
+        } else {
             restrictions.height = true;
         }
-    } else if (tileDeltaH <= imageDeltaH) {
-        restrictions.width = true;
+        return restrictions;
     } else {
-        restrictions.height = true;
+        return {
+            width: true,
+            height: true
+        };
     }
-    return restrictions;
 }

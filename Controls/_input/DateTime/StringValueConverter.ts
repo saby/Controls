@@ -350,7 +350,7 @@ var ModuleClass = cExtend.extend({
     * @param value
     * @returns {*}
     */
-   getStringByValue(value: Date, mask: string): string {
+   getStringByValue(value: Date, mask?: string): string {
       let dateString: string = '';
       if (dateUtils.isValidDate(value)) {
          const actualMask: string = this._mask || mask;

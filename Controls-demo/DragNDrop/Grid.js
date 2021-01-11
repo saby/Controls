@@ -1,14 +1,14 @@
 define('Controls-demo/DragNDrop/Grid', [
-   'Core/Control',
+   'UI/Base',
    'Core/core-clone',
    'Controls-demo/DragNDrop/DemoData',
    'Controls-demo/DragNDrop/ListEntity',
    'wml!Controls-demo/DragNDrop/Grid/Grid',
    'Types/source'
-], function(BaseControl, cClone, DemoData, ListEntity, template, source) {
+], function(Base, cClone, DemoData, ListEntity, template, source) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _viewSource: null,
       _gridColumns: null,

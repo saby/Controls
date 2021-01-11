@@ -1,0 +1,22 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate" scope="{{_options}}">
+    <ws:contentTemplate>
+        <ws:if data="{{item.isEditing()}}">
+            <div class="controlDemo__input-row">
+                <div class="controlsDemo__ml1">
+                    <span class="controlsDemo__wrapper__horizontal">Наименование</span>
+                    <Controls.input:Text fontSize="inherit" bind:value="itemData.item['title']" selectOnClick="{{ false }}"/>
+                </div>
+                <ws:if data="{{itemData.item['parent'] === null}}">
+                    <div class="controlsDemo__ml1">
+                        <span class="controlsDemo__wrapper__horizontal">Страна</span>
+                        <Controls.input:Text fontSize="inherit" bind:value="itemData.item['country']"
+                                             selectOnClick="{{ false }}"/>
+                    </div>
+                </ws:if>
+            </div>
+        </ws:if>
+        <ws:else>
+            <div>{{item.getContents().get('title')}}</div>
+        </ws:else>
+    </ws:contentTemplate>
+</ws:partial>

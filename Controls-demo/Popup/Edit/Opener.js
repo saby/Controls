@@ -1,6 +1,6 @@
 define('Controls-demo/Popup/Edit/Opener',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/Edit/Opener',
       'Types/source',
       'Controls-demo/List/Grid/GridData',
@@ -11,10 +11,10 @@ define('Controls-demo/Popup/Edit/Opener',
       'wml!Controls-demo/List/Grid/DemoHeaderCostPrice',
       'wml!Controls-demo/List/Grid/DemoName'
    ],
-   function(Control, template, source, GridData, RecordSynchronizer) {
+   function(Base, template, source, GridData, RecordSynchronizer) {
       'use strict';
 
-      var EditOpener = Control.extend({
+      var EditOpener = Base.Control.extend({
          _template: template,
          _addPosition: 0,
          _addRecordCount: 1,

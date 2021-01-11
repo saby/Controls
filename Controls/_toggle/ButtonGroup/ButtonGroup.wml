@@ -13,6 +13,7 @@
     <div class="controls-ButtonGroup__wrapper">
         <ws:for data="index, itemData in _options.items">
             <div class="controls-ButtonGroup__button
+            controls-ButtonGroup__button-{{itemData[_options.keyProperty] === _options.selectedKey ? 'selected' : 'unselected'}}
             {{index !== _items.length - 1 ? 'controls-ButtonGroup__button_withMargin_theme-' + _options.theme}}">
                 <ws:partial template="button"
                             itemData="{{itemData}}"

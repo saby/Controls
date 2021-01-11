@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Sorting/SortingButton/Index' }}">
+            <a href="{{content.href}}">Сортировка в заголовках таблицы</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Sorting.SortingButton.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Sorting/SortingButtonTextOverflow/Index' }}">
+            <a href="{{content.href}}">Сортировка в заголовках таблицы с троеточием</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Sorting.SortingButton.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Sorting/SortingSelector/Index' }}">
+            <a href="{{content.href}}">Сортировка по кнопке</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Sorting.SortingSelector.Index/>
+    </div>
+
+</div>

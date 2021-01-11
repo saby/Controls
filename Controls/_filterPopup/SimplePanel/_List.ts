@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/SimplePanel/_List/List');
 import {ItemTemplate as defaultItemTemplate} from 'Controls/dropdown';
 import emptyItemTemplate = require('wml!Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate');

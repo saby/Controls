@@ -1,6 +1,6 @@
 define('Controls-demo/Popup/Opener/ConfirmationPG',
    [
-      'Core/Control',
+      'UI/Base',
       'tmpl!Controls-demo/Popup/Opener/OpenerDemoPG',
       'json!Controls-demo/PropertyGrid/pgtext',
       'wml!Controls-demo/Popup/Opener/DialogTpl',
@@ -8,9 +8,9 @@ define('Controls-demo/Popup/Opener/ConfirmationPG',
 
    ],
 
-   function(Control, template, config) {
+   function(Base, template, config) {
       'use strict';
-      var DialogPG = Control.extend({
+      var DialogPG = Base.Control.extend({
          _template: template,
          _metaData: null,
          _dataOptions: null,

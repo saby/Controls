@@ -43,9 +43,9 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_scroll.less переменные тем оформления}
  *
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @class Controls/_scroll/StickyHeader/Group
  * @author Красильников А.С.
  * @public

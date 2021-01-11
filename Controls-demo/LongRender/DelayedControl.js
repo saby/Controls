@@ -1,13 +1,13 @@
 define('Controls-demo/LongRender/DelayedControl',
    [
-      'Core/Control',
+      'UI/Base',
       'Env/Env',
       'wml!Controls-demo/LongRender/DelayedControl',
    ],
-   function(Control, Env, template) {
+   function(Base, Env, template) {
       'use strict';
 
-      var DelayedControlModule = Control.extend({
+      var DelayedControlModule = Base.Control.extend({
          _template: template,
          _delay: 0,
 

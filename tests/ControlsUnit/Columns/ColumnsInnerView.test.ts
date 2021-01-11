@@ -2,6 +2,7 @@ import ColumnsInnerView from 'Controls/_columns/ColumnsInnerView';
 import { ColumnsCollection } from 'Controls/display';
 import { RecordSet } from 'Types/collection';
 import { assert } from 'chai';
+import { Model } from 'Types/entity';
 
 describe('ColumnsInnerView', () => {
     let rs, model, cfg, columnsView;
@@ -65,24 +66,44 @@ describe('ColumnsInnerView', () => {
         assert.isFalse(columnsView._model.getItemBySourceKey(2).isMarked());
         assert.isFalse(columnsView._model.getItemBySourceKey(3).isMarked());
     });
-    
+
     it('add items, _addingColumnsCounter', () => {
+        rs = new RecordSet({
+            keyProperty: 'id',
+            rawData: []
+        });
+        model = new ColumnsCollection({collection: rs});
+        cfg = {
+            columnMinWidth: 270,
+            columnMaxWidth: 400,
+            listModel: model,
+            columnsMode: 'auto',
+            initialWidth: 900
+        };
+        columnsView = new ColumnsInnerView(cfg);
+        columnsView.saveOptions(cfg);
+        columnsView.saveItemsContainer({}, itemsContainerGetter);
+        columnsView._beforeMount(cfg);
+        columnsView._afterMount(cfg);
+
         assert.deepEqual(columnsView._addingColumnsCounter, 0, 'wrong _addingColumnsCounter');
-        let newItem = rs.at(0).clone();
-        newItem.set('id', 12);
+        let newItem = new Model({keyProperty: 'id', rawData: {id: 0}});
+        newItem.set('id', 1);
+        rs.add(newItem, 0);
+        assert.deepEqual(columnsView._addingColumnsCounter, 1, 'wrong _addingColumnsCounter');
+        rs.removeAt(0);
+        assert.deepEqual(columnsView._addingColumnsCounter, 0, 'wrong _addingColumnsCounter');
+        newItem = new Model({keyProperty: 'id', rawData: {id: 0}});
+        newItem.set('id', 1);
         rs.add(newItem, 0);
         assert.deepEqual(columnsView._addingColumnsCounter, 1, 'wrong _addingColumnsCounter');
         newItem = rs.at(0).clone();
-        newItem.set('id', 13);
+        newItem.set('id', 2);
         rs.add(newItem, 0);
         assert.deepEqual(columnsView._addingColumnsCounter, 2, 'wrong _addingColumnsCounter');
-        newItem = rs.at(0).clone();
-        newItem.set('id', 14);
-        rs.add(newItem, 0);
-        assert.deepEqual(columnsView._addingColumnsCounter, 3, 'wrong _addingColumnsCounter');
         const rsForPrepend = new RecordSet({
             keyProperty: 'id',
-            rawData: [15, 16, 17].map((id)=>{
+            rawData: [1, 2].map((id)=>{
                 return {
                     id
                 };

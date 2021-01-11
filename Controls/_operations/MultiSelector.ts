@@ -7,16 +7,15 @@ export interface IMultiSelectorOptions extends IMultiSelectableOptions, IControl
     selectedKeysCount: number | null;
 }
 /**
- * Контрол, который отображает выпадающий список,
- * позволяющий производить массовую отметку записей в списке: отмечать все записи, инвертировать, снимать отметку.
+ * Контрол, отображающий чекбокс для массовой отметки записей и выпадающий список, позволяющий отмечать все записи, инвертировать, снимать с них отметку.
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/operations/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less переменные тем оформления}
  *
  * @class Controls/_operations/MultiSelector
- * @extends Core/Control
- * 
+ * @extends UI/Base:Control
+ *
  * @public
  * @author Герасимов А.М.
  * @demo Controls-demo/operations/MultiSelector/Index

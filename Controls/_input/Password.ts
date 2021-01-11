@@ -1,29 +1,8 @@
-import Base = require('Controls/_input/Base');
-import entity = require('Types/entity');
-import ViewModel = require('Controls/_input/Password/ViewModel');
+import {default as Base, IBaseInputOptions} from 'Controls/_input/Base';
+import {descriptor} from 'Types/entity';
+import * as ViewModel from 'Controls/_input/Password/ViewModel';
 import passwordVisibilityButtonTemplate = require('wml!Controls/_input/Password/PasswordVisibilityButton');
-
-
-
-var _private = {
-    calculateType: function (passwordVisible, autoComplete) {
-        return passwordVisible || !autoComplete ? 'text' : 'password';
-    },
-
-    isVisibleButton: function () {
-        return !this._options.readOnly && this._viewModel.displayValue && this._options.revealable;
-    },
-
-    isVisiblePassword: function () {
-        return this._passwordVisible;
-    },
-    getTheme: function () {
-        return this._options.theme;
-    },
-    isAutoComplete: function (autoComplete) {
-        return autoComplete !== 'off';
-    }
-};
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 /**
  * Поле ввода пароля.
@@ -33,9 +12,9 @@ var _private = {
  * Видимость введенного текста можно переключить, нажав на иконку 'eye'.
  *
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/input/password/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FExample%2FInput демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input/password/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Password
  * @extends Controls/_input/Base
@@ -59,24 +38,25 @@ var _private = {
  *
  * @author Красильников А.С.
  */
-var Password = Base.extend({
-    _passwordVisible: false,
-    _defaultValue: '',
+class Password extends Base {
+    protected _defaultValue: string = '';
+    private _passwordVisible: boolean = false;
+    protected _controlName: string = 'Password';
 
-    _getViewModelOptions: function (options) {
+    protected _getViewModelOptions(options): object {
         return {
             readOnly: options.readOnly,
-            autoComplete: _private.isAutoComplete(this._autoComplete),
+            autoComplete: Password._isAutoComplete(this._autoComplete),
             passwordVisible: this._passwordVisible
         };
-    },
+    }
 
-    _getViewModelConstructor: function () {
+    protected _getViewModelConstructor(): ViewModel {
         return ViewModel;
-    },
+    }
 
-    _cutHandler: function(event) {
-        Password.superclass._cutHandler.apply(this, arguments);
+    protected _cutHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        super._cutHandler.apply(this, arguments);
 
         /**
          * Запрещаем вырезать текст, если пароль скрыт.
@@ -84,10 +64,10 @@ var Password = Base.extend({
         if (!this._passwordVisible) {
             event.preventDefault();
         }
-    },
+    }
 
-    _copyHandler: function(event) {
-        Password.superclass._copyHandler.apply(this, arguments);
+    protected _copyHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        super._copyHandler.apply(this, arguments);
 
         /**
          * Запрещаем копировать текст, если пароль скрыт.
@@ -95,64 +75,84 @@ var Password = Base.extend({
         if (!this._passwordVisible) {
             event.preventDefault();
         }
-    },
+    }
 
-    _initProperties: function (options) {
-        Password.superclass._initProperties.apply(this, arguments);
+    protected _initProperties(options): void {
+        super._initProperties.apply(this, arguments);
         const CONTROL_NAME: string = 'Password';
 
         this._field.scope.controlName = CONTROL_NAME;
         this._readOnlyField.scope.controlName = CONTROL_NAME;
 
-        this._type = _private.calculateType(this._passwordVisible, _private.isAutoComplete(this._autoComplete));
+        this._type = Password._calculateType(this._passwordVisible, Password._isAutoComplete(this._autoComplete));
 
-        this._type = _private.calculateType(this._passwordVisible, _private.isAutoComplete(this._autoComplete));
+        this._type = Password._calculateType(this._passwordVisible, Password._isAutoComplete(this._autoComplete));
 
         this._rightFieldWrapper.template = passwordVisibilityButtonTemplate;
-        this._rightFieldWrapper.scope.getTheme = _private.getTheme.bind(this);
+        this._rightFieldWrapper.scope.getTheme = this._getTheme.bind(this);
         this._rightFieldWrapper.scope.horizontalPadding = options.horizontalPadding;
-        this._rightFieldWrapper.scope.isVisibleButton = _private.isVisibleButton.bind(this);
-        this._rightFieldWrapper.scope.isVisiblePassword = _private.isVisiblePassword.bind(this);
-    },
+        this._rightFieldWrapper.scope.isVisibleButton = this._isVisibleButton.bind(this);
+        this._rightFieldWrapper.scope.isVisiblePassword = this._isVisiblePassword.bind(this);
+    }
 
-    _getTooltip: function () {
+    protected _getTooltip(): string {
         /**
          * If the password is hidden, there should be no tooltip. Otherwise, the tooltip is defined as usual.
          */
         if (this._passwordVisible) {
-            return Password.superclass._getTooltip.apply(this, arguments);
+            return super._getTooltip.apply(this, arguments);
         }
 
         return '';
-    },
+    }
 
-    _toggleVisibilityHandler: function () {
-        var passwordVisible = !this._passwordVisible;
+    protected _toggleVisibilityHandler(): void {
+        let passwordVisible = !this._passwordVisible;
 
         this._passwordVisible = passwordVisible;
         this._forceUpdate();
-        this._type = _private.calculateType(passwordVisible, _private.isAutoComplete(this._autoComplete));
+        this._type = Password._calculateType(passwordVisible, Password._isAutoComplete(this._autoComplete));
     }
-});
 
-Password._theme = Base._theme.concat(['Controls/input']);
+    private _isVisibleButton(): boolean {
+        return !this._options.readOnly && this._viewModel.displayValue && this._options.revealable;
+    }
 
-Password.getDefaultOptions = function () {
-    var defaultOptions = Base.getDefaultOptions();
+    private _isVisiblePassword(): boolean {
+        return this._passwordVisible;
+    }
 
-    defaultOptions.revealable = true;
-    defaultOptions.autoComplete = 'on';
+    private _getTheme(): string {
+        return this._options.theme;
+    }
 
-    return defaultOptions;
-};
+    private static _calculateType(passwordVisible: boolean, autoComplete: boolean): string {
+        return passwordVisible || !autoComplete ? 'text' : 'password';
+    }
 
-Password.getOptionTypes = function getOptionsTypes() {
-    var optionTypes = Base.getOptionTypes();
+    private static _isAutoComplete(autoComplete: string): boolean {
+        return autoComplete !== 'off';
+    }
 
-    optionTypes.revealable = entity.descriptor(Boolean);
+    static _theme: string[] = Base._theme.concat(['Controls/input']);
 
-    return optionTypes;
-};
+    static getDefaultOptions() {
+        const defaultOptions = Base.getDefaultOptions();
+
+        defaultOptions.revealable = true;
+        defaultOptions.autoComplete = 'on';
+
+        return defaultOptions;
+    }
+
+    static getOptionTypes(): object {
+        const optionTypes = Base.getOptionTypes();
+
+        optionTypes.revealable = descriptor(Boolean);
+
+        return optionTypes;
+    }
+}
 
 /**
  * @name Controls/_input/Password#revealable
@@ -171,4 +171,4 @@ Password.getOptionTypes = function getOptionsTypes() {
  *
  * The button does not appear in {@link readOnly read mode} or in an empty field.
  */
-export = Password;
+export default Password;

@@ -79,16 +79,20 @@ define('Controls/interface/IPromisedSelectable', [
     * You can pass node's {@link Controls/_interface/ISource#keyProperty key property} to select every item inside that node. To select every item in the list you should pass [null].
     * @example
     * The following example creates List and selects everything except two items. Subsequent changes made to selectedKeys and excludedKeys will be synchronized through binding mechanism.
-    * TMPL:
-    * <pre>
-    *    <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys" />
+    * <pre class="brush: html; highlight: [3,4]">
+    * <!-- WML -->
+    * <Controls.operations:Controller
+    *     bind:selectedKeys="_selectedKeys"
+    *     bind:excludedKeys="_excludedKeys" />
     * </pre>
-    * JS:
-    * <pre>
-    *    _beforeMount: function() {
-    *       this._selectedKeys = [null];
-    *       this._excludedKeys = [1, 2];
-    *    }
+    * <pre class="brush: js; highlight: [5,6]">
+    * // JavaScript
+    * _selectedKeys: null,
+    * _excludedKeys: null,
+    * _beforeMount: function() {
+    *    this._selectedKeys = [null];
+    *    this._excludedKeys = [1, 2];
+    * }
     * </pre>
     * @see Controls/_interface/ISource#keyProperty
     * @see excludedKeys
@@ -136,16 +140,20 @@ define('Controls/interface/IPromisedSelectable', [
     * A node will be marked as partially selected if key of any of its children is in excludedKeys. Partially selected nodes are usually rendered with checkbox in indeterminate state near them.
     * @example
     * The following example creates List and selects everything except two items. Subsequent changes made to selectedKeys and excludedKeys will be synchronized through binding mechanism.
-    * TMPL:
-    * <pre>
-    *    <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys" />
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.operations:Controller
+    *     bind:selectedKeys="_selectedKeys"
+    *     bind:excludedKeys="_excludedKeys" />
     * </pre>
-    * JS:
-    * <pre>
-    *    _beforeMount: function() {
-    *       this._selectedKeys = [null];
-    *       this._excludedKeys = [1, 2];
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * _selectedKeys: null,
+    * _excludedKeys: null,
+    * _beforeMount: function() {
+    *    this._selectedKeys = [null];
+    *    this._excludedKeys = [1, 2];
+    * }
     * </pre>
     * @see Controls/_interface/ISource#keyProperty
     * @see selectedKeys
@@ -193,21 +201,20 @@ define('Controls/interface/IPromisedSelectable', [
     * It's important to remember that we don't mutate selectedKeys array from options (or any other option). So keys in the event arguments and selectedKeys in the component's options are not the same array.
     * @example
     * The following example creates List with empty selection. Subsequent changes made to selectedKeys and excludedKeys will be synchronized through binding mechanism. Source of the operations panel will be updated every time selectedKeys change.
-    * TMPL:
-    * <pre>
-    *    <Controls.operations:Controller on:selectedKeysChanged="onSelectedKeysChanged()" bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
-    *       <Controls.operations:Panel source="{{ _panelSource }} />
-    *    </Controls.operations:Controller>
+    * <pre class="brush: html">
+    * <Controls.operations:Controller on:selectedKeysChanged="onSelectedKeysChanged()" bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
+    *     <Controls.operations:Panel source="{{ _panelSource }} />
+    * </Controls.operations:Controller>
     * </pre>
-    * JS:
-    * <pre>
-    *    _beforeMount: function() {
-    *       this._selectedKeys = [];
-    *       this._excludedKeys = [];
-    *    },
-    *    onSelectedKeysChanged: function(e, selectedKeys, added, deleted) {
-    *       this._panelSource = this._getPanelSource(selectedKeys); //Note that we simultaneously have event handler and bind for the same option, so we don't have to update state manually.
-    *    }
+    * <pre class="brush: js">
+    * // JavaScript
+    * _beforeMount: function() {
+    *    this._selectedKeys = [];
+    *    this._excludedKeys = [];
+    * },
+    * onSelectedKeysChanged: function(e, selectedKeys, added, deleted) {
+    *    this._panelSource = this._getPanelSource(selectedKeys); //Note that we simultaneously have event handler and bind for the same option, so we don't have to update state manually.
+    * }
     * </pre>
     * @see selectedKeys
     */
@@ -254,21 +261,21 @@ define('Controls/interface/IPromisedSelectable', [
     * It's important to remember that we don't mutate excludedKeys array from options (or any other option). So keys in the event arguments and excludedKeys in the component's options are not the same array.
     * @example
     * The following example creates List with empty selection. Subsequent changes made to selectedKeys and excludedKeys will be synchronized through binding mechanism. Source of the operations panel will be updated every time excludedKeys change.
-    * TMPL:
-    * <pre>
-    *    <Controls.operations:Controller on:excludedKeysChanged="onExcludedKeysChanged()" bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
-    *       <Controls.operations:Panel source="{{ _panelSource }} />
-    *    </Controls.operations:Controller>
+    * <pre class="brush: html">
+    * <!-- WML -->
+    * <Controls.operations:Controller on:excludedKeysChanged="onExcludedKeysChanged()" bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
+    *     <Controls.operations:Panel source="{{ _panelSource }} />
+    * </Controls.operations:Controller>
     * </pre>
-    * JS:
-    * <pre>
-    *    _beforeMount: function() {
-    *       this._selectedKeys = [];
-    *       this._excludedKeys = [];
-    *    },
-    *    onExcludedKeysChanged: function(e, excludedKeys, added, deleted) {
-    *       this._panelSource = this._getPanelSource(excludedKeys); //Note that we simultaneously have event handler and bind for the same option, so we don't have to update state manually.
-    *    }
+    * <pre class="brush: js">
+    * // JavsScript
+    * _beforeMount: function() {
+    *    this._selectedKeys = [];
+    *    this._excludedKeys = [];
+    * },
+    * onExcludedKeysChanged: function(e, excludedKeys, added, deleted) {
+    *    this._panelSource = this._getPanelSource(excludedKeys); //Note that we simultaneously have event handler and bind for the same option, so we don't have to update state manually.
+    * }
     * </pre>
     * @see excludedKeys
     */
@@ -281,8 +288,7 @@ define('Controls/interface/IPromisedSelectable', [
     * @param {Controls/_multiselection/interface#ISelectionDifference} selectionDiff Изменение в списке выбранных элементов по сравнению с текущим выбором.
     * @return {Controls/_interface/ISelectionObject} Список выбранных элементов
     * @remark
-    * Из обработчика события можно вернуть новый список выбранных элементов.
-    * Либо можно вернуть промис с новым списком выбранных элементов.
-    * В этом месте можно повлият на список выбранных элементов, но аналогичный нужно положить в опции
+    * Из обработчика события можно вернуть новый список выбранных элементов или промис с ними.
+    * Если вы передаете selectedKeys в опции, то в опции вы должны положить те же ключи, что и вернули из обработчика события.
     */
 });

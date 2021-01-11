@@ -1,4 +1,4 @@
-import {IControlOptions, TemplateFunction} from 'UI/Base';
+import {IControlOptions} from 'UI/Base';
 import {SbisService} from 'Types/source';
 import {ISingleSelectableOptions, IItemsOptions} from 'Controls/interface';
 export interface ITabsButtons {
@@ -16,14 +16,25 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
     source?: SbisService;
     style?: string;
     separatorVisible?: boolean;
-    borderThickness?: string;
+    borderVisible?: boolean;
+    markerThickness?: string;
     displayProperty?: string;
+
+    //TODO: delete
+    borderThickness?: string;
 }
+
 /**
- * @name Controls/_tabs/interface/ITabsButtons#borderThickness
- * @cfg {String} Определяет толщину подчеркивания вкладок
+ * @typedef {String} MarkerThickness
+ * @variant s
+ * @variant l
+ */
+
+/**
+ * @name Controls/_tabs/interface/ITabsButtons#markerThickness
+ * @cfg {MarkerThickness} Определяет толщину подчеркивания вкладок
  * @default s
- * @demo Controls-demo/Tabs/Buttons/BorderThickness/Index
+ * @demo Controls-demo/Tabs/Buttons/MarkerThickness/Index
  */
 
 /**
@@ -31,6 +42,13 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  * @cfg {Boolean} Определяет наличие разделителя между вкладками
  * @default true
  * @demo Controls-demo/Tabs/Buttons/SeparatorVisible/Index
+ */
+
+/**
+ * @name Controls/_tabs/interface/ITabsButtons#borderVisible
+ * @cfg {Boolean} Определяет наличие подчеркивания вкладок
+ * @default true
+ * @demo Controls-demo/Tabs/Buttons/BorderVisible/Index
  */
 
 /**
@@ -54,32 +72,6 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  *     <Controls.buttons:Button .../>
  *     <Controls.buttons:Button .../>
  * </div>
- * </pre>
- */
-
-/*
- * @name Controls/_tabs/interface/ITabsButtons#tabSpaceTemplate
- * @cfg {Content} Contents of the area near the tabs.
- * @default undefined
- * @remark
- * Tab can be left and right aligned, this is determined by the item property 'align'.
- * If control has left and right tabs then  TabSpaceTemplate will be between them.
- * @example
- * Tabs buttons with space template.
- * <pre>
- *    <Controls.tabs:Buttons
- *       .....
- *       tabSpaceTemplate=".../spaceTemplate'"
- *       .....
- *    />
- * </pre>
- * spaceTemplate:
- * <pre>
- *    <div class="additionalContent">
- *       <Controls.buttons:Button .../>
- *       <Controls.buttons:Button .../>
- *       <Controls.buttons:Button .../>
- *    </div>
  * </pre>
  */
 
@@ -117,41 +109,6 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  *     bind:selectedKey="_selectedKey"
  *     keyProperty="id"
  *     source="{{_source}}"/>
- * </pre>
- */
-
-/*
- * @name Controls/_tabs/interface/ITabsButtons#style
- * @cfg {Enum} Tabs buttons display style.
- * @variant primary
- * @variant secondary
- * @default primary
- * @remark
- * If the standard theme does not suit you, you can override the variables:
- * <ul>
- *     <li>@border-color_Tabs-item_selected_primary,</li>
- *     <li>@text-color_Tabs-item_selected_primary,</li>
- *     <li>@border-color_Tabs-item_selected_secondary,</li>
- *     <li>@text-color_Tabs-item_selected_secondary</li>
- * </ul>
- * @example
- * Tabs Buttons has style 'secondary'.
- * <pre>
- *    <Controls.tabs:Buttons
- *       bind:selectedKey='_selectedKey'
- *       keyProperty="id"
- *       source="{{_source}}
- *       style="secondary"
- *       .....
- *    />
- * </pre>
- * Tabs Buttons has default style.
- * <pre>
- *    <Controls.tabs:Buttons
- *       bind:selectedKey='_selectedKey'
- *       keyProperty="id"
- *       source="{{_source}}
- *    />
  * </pre>
  */
 
@@ -196,280 +153,4 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
  * }
  * </pre>
  * @see items
- */
-
-/*
- * @name Controls/_tabs/interface/ITabsButtons#source
- * @cfg {Types/source:Base} Object that implements ISource interface for data access.
- * @default undefined
- * @remark
- * The item can have an property 'align'. It's determine align of item tab.
- * If item may having both separator, you may using opion contentTab with value true.
- * @example
- * Tabs buttons will be rendered data from _source. First item render with left align, other items render with defult, right align.
- * <pre>
- *    <Controls.tabs:Buttons
- *              bind:selectedKey='_selectedKey'
- *              keyProperty="key"
- *              source="{{_source}}"
- *    />
- * </pre>
- * <pre>
- *    _selectedKey: '1',
- *    _source: new Memory({
- *        keyProperty: 'key',
- *        data: [
- *        {
- *           key: '1',
- *           title: 'Yaroslavl',
- *           align: 'left'
- *        },
- *        {
- *           key: '2',
- *           title: 'Moscow'
- *        },
- *        {
- *           key: '3',
- *           title: 'St-Petersburg'
- *        }
- *        ]
- *    })
- * </pre>
- */
-
-/**
- * @name Controls/_tabs/interface/ITabsButtons#itemTemplate
- * @cfg {Function} Шаблон для рендеринга.
- * @default Base template 'Controls/tabs:buttonsItemTemplate'
- * @remark
- * Чтобы определить шаблон, следует вызвать базовый шаблон 'Controls/tabs:buttonsItemTemplate'.
- * Шаблон помещается в компонент с помощью тега ws:partial с атрибутом template.
- * По умолчанию в шаблоне 'Controls/tabs:buttonsItemTemplate' будет отображаться только поле 'title'. Можно изменить формат отображения записей, задав следующие параметры:
- * <ul>
- *    <li>displayProperty - определяет поле отображения записи.</li>
- * <ul>
- * @example
- * Вкладки со стандартным шаблоном элемента (шаблоном по умолчанию).
- *
- * <pre class="brush: html; highlight: [6,7,8,9,10]">
- * <Controls.tabs:Buttons
- *     bind:selectedKey="SelectedKey3"
- *     keyProperty="id"
- *     style="additional"
- *     source="{{_source3}}">
- *     <ws:itemTemplate>
- *         <ws:partial template="Controls/tabs:buttonsItemTemplate"
- *                     item="{{itemTemplate.item}}"
- *                     displayProperty="caption" />
- *     </ws:itemTemplate>
- * </Controls.tabs:Buttons>
- * </pre>
- * @see itemTemplateProperty
- */
-
-/*
- * @name Controls/_tabs/interface/ITabsButtons#itemTemplate
- * @cfg {Function} Template for item render.
- * @default Base template 'Controls/tabs:buttonsItemTemplate'
- * @remark
- * To determine the template, you should call the base template 'Controls/tabs:buttonsItemTemplate'.
- * The template is placed in the component using the ws:partial tag with the template attribute.
- * By default, the base template 'Controls/tabs:buttonsItemTemplate' will display only the 'title' field. You can change the display of records by setting their values for the following options:
- * <ul>
- *    <li>displayProperty - defines the display field of the record.</li>
- * <ul>
- * @example
- * Tabs buttons with item template.
- * <pre>
- *    <Controls.tabs:Buttons
- *                   bind:selectedKey='SelectedKey3'
- *                   keyProperty="id"
- *                   style="additional"
- *                   source="{{_source3}}">
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/tabs:buttonsItemTemplate"
- *                      item="{{itemTemplate.item}}"
- *                      displayProperty="caption"/>
- *       </ws:itemTemplate>
- *    </Controls.tabs:Buttons>
- * </pre>
- */
-
-/**
- * @name Controls/_tabs/interface/ITabsButtons#itemTemplateProperty
- * @cfg {String} Имя поля, которое содержит шаблон отображения элемента.
- * @default Если параметр не задан, вместо него используется itemTemplate.
- * @remark
- * Чтобы определить шаблон, вы должны вызвать базовый шаблон 'Controls/tabs:buttonsItemTemplate'.
- * Шаблон помещается в компонент с помощью тега ws:partial с атрибутом template.
- * По умолчанию в шаблоне 'Controls/tabs:buttonsItemTemplate' будет отображаться только поле 'title'. Можно изменить формат отображения записей, задав следующие параметры:
- * <ul>
- *    <li>displayProperty - определяет поле отображения записи.</li>
- * <ul>
- * @example
- * Вкладки с шаблоном элемента.
- * <pre class="brush: html; highlight: [2]">
- * <Controls.tabs:Buttons
- *     itemTemplateProperty="myTemplate"
- *     source="{{_source}}" />
- * </pre>
- *
- * <pre class="brush: html">
- * <!-- myTemplate.wml -->
- * <div class="controls-Tabs__item_custom">{{item.get(displayProperty || 'title')}}</div>
- * </pre>
- *
- * <pre class="brush: js">
- * _source: null,
- * beforeMount: function() {
- *    this._source: new Memory({
- *       keyProperty: 'id',
- *       data: [
- *          {id: 1, title: 'I agree'},
- *          {id: 2, title: 'I not decide'},
- *          {id: 4, title: 'Will not seem', caption: 'I not agree',  myTemplate: 'wml!.../myTemplate'}
- *       ]
- *    });
- * }
- * </pre>
- * @see itemTemplate
- */
-
-/*
- * @name Controls/_tabs/interface/ITabsButtons#itemTemplateProperty
- * @cfg {String} Name of the item property that contains template for item render.
- * @default If not set, itemTemplate is used instead.
- * @remark
- * To determine the template, you should call the base template 'Controls/tabs:buttonsItemTemplate'.
- * The template is placed in the component using the ws:partial tag with the template attribute.
- * By default, the base template 'Controls/tabs:buttonsItemTemplate' will display only the 'title' field. You can change the display of records by setting their values for the following options:
- * <ul>
- *    <li>displayProperty - defines the display field of the record.</li>
- * <ul>
- * @example
- * Tabs buttons with item template.
- * <pre>
- *    <Controls.tabs:Buttons itemTemplateProperty="myTemplate"
- *                           source="{{_source}}
- *                           ...>
- *    </Controls.tabs:Buttons>
- * </pre>
- * myTemplate
- * <pre>
- *    <div class="controls-Tabs__item_custom">{{item.get(displayProperty || 'title')}}</div>
- * </pre>
- * <pre>
- *    _source: new Memory({
- *              keyProperty: 'id',
- *              data: [
- *                     {id: 1, title: 'I agree'},
- *                     {id: 2, title: 'I not decide'},
- *                     {id: 4, title: 'Will not seem', caption: 'I not agree',  myTemplate: 'wml!.../myTemplate'}
- *              ]
- *    })
- * </pre>
- */
-
-/**
- * @name Controls/_tabs/interface/ITabsButtons#rightTemplateProperty
- * @cfg {String} Имя поля, которое содержит шаблон отображения элемента, находящегося справа от основного содержимого.
- * @example
- * <pre class="brush: html; highlight: [2]">
- * <Controls.tabs:Buttons
- *     rightTemplateProperty="myTemplate"
- *     source="{{_source}}" />
- * </pre>
- *
- * <pre class="brush: html">
- * <!-- myTemplate.wml -->
- * <div class="{{item.get('icon')}} icon-small controls-icon_style-{{item.get('iconStyle')}}_theme-{{_options.theme}}"></div>
- * </pre>
- *
- * <pre class="brush: js">
- * _source: null,
- * beforeMount: function() {
- *    this._source: new Memory({
- *       keyProperty: 'id',
- *       data: [
- *          {id: 1, title: 'I agree'},
- *          {id: 2, title: 'I not decide'},
- *          {id: 4, title: 'Will not seem', caption: 'I not agree',  myTemplate: 'wml!.../myTemplate'}
- *       ]
- *    });
- * }
- * </pre>
- * @see leftTemplateProperty
- */
-
-/**
- * @name Controls/_tabs/interface/ITabsButtons#leftTemplateProperty
- * @cfg {String} Имя поля, которое содержит шаблон отображения элемента, находящегося слева от основного содержимого.
- * @example
- * <pre class="brush: html; highlight: [2]">
- * <Controls.tabs:Buttons
- *     leftTemplateProperty="myTemplate"
- *     source="{{_source}}" />
- * </pre>
- *
- * <pre class="brush: html">
- * <!-- myTemplate.wml -->
- * <div class="{{item.get('icon')}} icon-small controls-icon_style-{{item.get('iconStyle')}}_theme-{{_options.theme}}"></div>
- * </pre>
- *
- * <pre class="brush: js">
- * _source: null,
- * beforeMount: function() {
- *    this._source: new Memory({
- *       keyProperty: 'id',
- *       data: [
- *          {id: 1, title: 'I agree'},
- *          {id: 2, title: 'I not decide'},
- *          {id: 4, title: 'Will not seem', caption: 'I not agree',  myTemplate: 'wml!.../myTemplate'}
- *       ]
- *    });
- * }
- * </pre>
- * @see rightTemplateProperty
- */
-
-/**
- * @name Controls/_tabs/interface/ITabsButtons#itemRightTemplate
- * @cfg {String} Шаблон элемента, находящегося справа от основного содержимого.
- * @remark
- * Базовый шаблон itemRightTemplate поддерживает следующие параметры:
- *
- * - item {Model} — запись текущей вкладки;
- * - selected {Boolean} — выбрана ли вкладка, на которой располагается шаблон;
- * @example
- * <pre class="brush: html; highlight: [2,3,4,5,6]">
- * <Controls.tabs:Buttons bind:selectedKey="_mySelectedKey" keyProperty="id" source="{{_mySource}}">
- *     <ws:itemRightTemplate>
- *         <ws:if data="{{_counter}}">
- *             <ws:partial template="{{ _myRightTpl }}" item="{{itemRightTemplate.item}}" counter="{{_counter}}" />
- *         </ws:if>
- *     </ws:itemRightTemplate>
- * </Controls.tabs:Buttons>
- * </pre>
- * @see itemLeftTemplate
- */
-
-/**
- * @name Controls/_tabs/interface/ITabsButtons#itemLeftTemplate
- * @cfg {String} Шаблон элемента, находящегося слева от основного содержимого.
- * @remark
- * Базовый шаблон itemLeftTemplate поддерживает следующие параметры:
- *
- * - item {Model} — запись текущей вкладки.
- * - selected {Boolean} — выбрана ли вкладка, на которой располагается шаблон.
- * @example
- * <pre class="brush: html;highlight: [2,3,4,5,6]">
- * <Controls.tabs:Buttons bind:selectedKey="_mySelectedKey" keyProperty="id" source="{{_mySource}}">
- *     <ws:itemLeftTemplate>
- *         <ws:if data="{{_counter}}">
- *             <ws:partial template="{{ _myRightTpl }}" item="{{itemLeftTemplate.item}}" counter="{{_counter}}" />
- *         </ws:if>
- *     </ws:itemRightTemplate>
- * </Controls.tabs:Buttons>
- * </pre>
- * @see itemRightTemplate
  */

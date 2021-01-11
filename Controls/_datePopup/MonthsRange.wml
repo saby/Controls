@@ -21,7 +21,7 @@
             <Controls._datePopup.MonthsRangeItem
                rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
                monthClickable="{{_options.monthClickable}}"
-               quantum="{{_options.quantum}}"
+               ranges="{{_options.ranges}}"
                selectionType="{{_options.selectionType}}"
                bind:startValue="_rangeModel.startValue"
                bind:endValue="_rangeModel.endValue"

@@ -1,13 +1,13 @@
 define('Controls-demo/PropertyGridForDemo/PropertyGrid', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/PropertyGridForDemo/PropertyGrid'
-], function(Control, template) {
+], function(Base, template) {
    /**
     * Control PropertyGrid
     * Provides a user interface for browsing and editing the properties of an object.
     *
     * @class Controls-demo/PropertyGridForDemo/PropertyGrid
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * @mixes Controls/interface/IPropertyGrid
     * @mixes Controls/interface/ISource
     * @mixes Controls/interface/IItemTemplate
@@ -21,7 +21,7 @@ define('Controls-demo/PropertyGridForDemo/PropertyGrid', [
 
    'use strict';
 
-   var PropertyGrid = Control.extend({
+   var PropertyGrid = Base.Control.extend({
       _template: template,
       _index: '',
       _valueChangedHandler: function(event, index, value) {

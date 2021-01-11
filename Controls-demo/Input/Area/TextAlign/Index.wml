@@ -1,0 +1,26 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">textAlign=left</div>
+      <Controls.input:Area
+          attr:class="controlsDemo__input-area-alignLeft controlsDemo_fixedWidth300"
+          bind:value="_leftValue"
+          minLines="{{2}}"
+          textAlign="left"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">textAlign=center</div>
+      <Controls.input:Area
+          attr:class="controlsDemo__input-area-alignCenter controlsDemo_fixedWidth300"
+          bind:value="_centerValue"
+          minLines="{{2}}"
+          textAlign="center"/>
+   </div>
+   <div class="controlsDemo__cell">
+      <div class="controls-text-label_theme-{{_options.theme}}">textAlign=right</div>
+      <Controls.input:Area
+          attr:class="controlsDemo__input-area-alignRight controlsDemo_fixedWidth300"
+          bind:value="_rightValue"
+          minLines="{{2}}"
+          textAlign="right"/>
+   </div>
+</div>

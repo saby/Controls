@@ -1,12 +1,12 @@
 define('Controls-demo/Popup/TestDialog',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/TestDialog'
    ],
-   function (Control, template) {
+   function (Base, template) {
       'use strict';
 
-      var TestDialog = Control.extend({
+      var TestDialog = Base.Control.extend({
          _template: template,
          _draggable: false,
          _headText: '',

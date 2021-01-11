@@ -3,7 +3,7 @@ define('Controls-demo/Date/MonthListSource', [
    'Types/collection',
    'Types/source',
    'Types/formatter',
-   'Controls/Utils/Date'
+   'Controls/dateUtils'
 ], function(Deferred, collection, source, formatter, dateUtils) {
    'use strict';
 
@@ -43,7 +43,7 @@ define('Controls-demo/Date/MonthListSource', [
             if (month) {
                month = formatter.dateFromSql(month);
             } else {
-               month = dateUtils.getStartOfMonth(new Date());
+               month = dateUtils.Base.getStartOfMonth(new Date());
             }
 
             month.setMonth(month.getMonth() + offset);
@@ -56,7 +56,7 @@ define('Controls-demo/Date/MonthListSource', [
 
             for (var i = 0; i < limit; i++) {
                extData = [];
-               daysInMonth = dateUtils.getDaysInMonth(month);
+               daysInMonth = dateUtils.Base.getDaysInMonth(month);
                for (var d = 0; d < daysInMonth; d++) {
                   extData.push({
                      isMarked: d % 2,

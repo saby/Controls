@@ -20,12 +20,6 @@
    //Не можем сделать на флексах из-за стандарта
    line-height: @height_checkbox;
 }
-.controls-Checkbox__icon-border-color__enabled_theme-@{themeName} {
-   color: @marker-box_border-color_checkbox;
-}
-.controls-Checkbox__icon-border-color__disabled_theme-@{themeName} {
-   color: @readonly_marker-box_border-color_checkbox;
-}
 .controls-Checkbox__caption-color__enabled_theme-@{themeName}{
    color: @text-color_checkbox;
 }
@@ -45,46 +39,53 @@
    display: flex;
    align-items: center;
 }
-.controls-Checkbox__iconWrapper {
+.controls-CheckboxMarker_inCheckbox_theme-@{themeName} {
+   height: @height_checkbox;
+}
+.controls-CheckboxMarker {
    position: relative;
    user-select: none;
    flex-shrink: 0;
 }
-.controls-Checkbox__iconWrapper_theme-@{themeName} {
+.controls-CheckboxMarker_theme-@{themeName} {
    width: @click-area_width_checkbox;
+   &:before {
+      left: 0;
+      top: 0;
+      box-sizing: border-box;
+      content: '';
+      position: absolute;
+      border-width: @marker-box_border-thickness_checkbox;
+      border-style: solid;
+      width: @marker-box_size_checkbox;
+      height: @marker-box_size_checkbox;
+      margin: (@height_checkbox - @marker-box_size_checkbox) / 2 (@click-area_width_checkbox - @marker-box_size_checkbox) / 2;
+   }
 }
-.controls-Checkbox__iconWrapper_inCheckbox_theme-@{themeName} {
-   height: @height_checkbox;
+.controls-CheckboxMarker__icon-border-color__enabled_theme-@{themeName} {
+   color: @marker-box_border-color_checkbox;
 }
-.controls-Checkbox__iconWrapper_theme-@{themeName}:before {
-   left: 0;
-   top: 0;
-   box-sizing: border-box;
-   content: '';
-   position: absolute;
-   border-width: @marker-box_border-thickness_checkbox;
-   border-style: solid;
-   width: @marker-box_size_checkbox;
-   height: @marker-box_size_checkbox;
-   margin: (@height_checkbox - @marker-box_size_checkbox) / 2 (@click-area_width_checkbox - @marker-box_size_checkbox) / 2;
+.controls-CheckboxMarker__icon-border-color__disabled_theme-@{themeName} {
+   color: @readonly_marker-box_border-color_checkbox;
 }
-.controls-Checkbox__icon-checked_theme-@{themeName} {
+
+.controls-CheckboxMarker__icon-checked_theme-@{themeName} {
    width: @true_marker_size_checkbox;
    height: @true_marker_size_checkbox;
    position: relative;
    left: @true_marker_padding-left_checkbox;
    top: @true_marker_padding-top_checkbox;
 }
-.controls-Checkbox__icon-checked-color_enabled_theme-@{themeName} {
+.controls-CheckboxMarker__icon-checked-color_enabled_theme-@{themeName} {
    fill: @marker_color_checkbox;
 }
-.controls-Checkbox__icon-checked-color_disabled_theme-@{themeName} {
+.controls-CheckboxMarker__icon-checked-color_disabled_theme-@{themeName} {
    fill: @readonly_marker_color_checkbox;
 }
-.controls-Checkbox__icon-checked-color_transparent {
+.controls-CheckboxMarker__icon-checked-color_transparent {
    fill: transparent;
 }
-.controls-Checkbox__icon-tristate_theme-@{themeName}:after {
+.controls-CheckboxMarker__state-null_theme-@{themeName}:after {
    left: 0;
    top: 0;
    content: '';
@@ -94,13 +95,14 @@
    line-height: @tristate_marker_size_checkbox;
    margin: (@height_checkbox - @tristate_marker_size_checkbox) / 2 (@click-area_width_checkbox - @tristate_marker_size_checkbox) / 2;
 }
-.controls-Checkbox__icon-tristate-color__disabled_theme-@{themeName}:after{
+.controls-CheckboxMarker__state-null__icon-color__disabled_theme-@{themeName}:after{
    background-color: @readonly_marker_color_checkbox;
 }
-.controls-Checkbox__icon-tristate-color__enabled_theme-@{themeName}:after{
+.controls-CheckboxMarker__state-null__icon-color__enabled_theme-@{themeName}:after{
    background-color: @marker_color_checkbox;
 }
 //растягиваем ширину, чтоб корректно переносился заголовок
 .controls-Checkbox__caption {
    width: 100%;
 }
+

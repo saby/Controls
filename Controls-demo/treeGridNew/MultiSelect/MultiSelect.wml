@@ -1,0 +1,39 @@
+<div class="controlsDemo__wrapper">
+
+    <div class="controlsDemo__cell demo-treeGridMultiSelect__checkboxes">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/MultiSelect/MultiSelectVisibility/Index' }}">
+            <a href="{{content.href}}">Режим отображения чекбоксов</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.MultiSelect.MultiSelectVisibility.Index/>
+    </div>
+
+    <div class="controlsDemo__cell demo-treeGridMultiSelect__selectParent">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/MultiSelect/SelectAncestors/Index' }}">
+            <a href="{{content.href}}">Отметка родительских записей при отметке детей</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.MultiSelect.SelectAncestors.Index/>
+    </div>
+
+    <div class="controlsDemo__cell demo-treeGridMultiSelect__selectChild">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/MultiSelect/SelectDescendants/Index' }}">
+            <a href="{{content.href}}">Отметка детей при отметке папки</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.MultiSelect.SelectDescendants.Index/>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/MultiSelect/CustomPosition/Index' }}">
+            <a href="{{content.href}}">Чекбоксы в произвольном месте</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.MultiSelect.CustomPosition.Index/>
+    </div>
+
+</div>

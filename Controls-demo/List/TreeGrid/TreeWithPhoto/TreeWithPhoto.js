@@ -1,15 +1,15 @@
 define('Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto',
    'Types/source',
    'Controls-demo/resources/Images',
    'wml!Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto-content',
    'wml!Controls-demo/List/TreeGrid/TreeWithPhoto/TreeWithPhoto-item32',
    'Controls/treeGrid'
-], function(BaseControl, template, source, resImages) {
+], function(Base, template, source, resImages) {
    'use strict';
    var
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _viewSource: null,
          _viewColumns: null,

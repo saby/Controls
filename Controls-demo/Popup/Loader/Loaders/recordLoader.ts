@@ -16,14 +16,6 @@ class Loader {
 
     }
 
-    getState(): Record<string, any> {
-        return getStore().get(this.__uid);
-    }
-
-    setState(data: Record<string, any>): void {
-        getStore().set(this.__uid, data);
-    }
-
     loadData(config): Promise<Model> {
         const memory = new Memory({
             keyProperty: 'id',

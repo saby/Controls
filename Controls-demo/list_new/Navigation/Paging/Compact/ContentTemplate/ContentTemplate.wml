@@ -1,3 +1,0 @@
-<ws:if data="{{_count}}">
-    <p>{{_count}}</p>
-</ws:if>

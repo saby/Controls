@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_list/AddButton/AddButton');
 import entity = require('Types/entity');
 
@@ -7,11 +7,11 @@ import entity = require('Types/entity');
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
  *
  * @class Controls/_list/AddButton
  * @mixes Controls/_buttons/interface/IClick
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.
@@ -48,7 +48,7 @@ AddButton._theme = ['Controls/list'];
  * Specialized type of button.
  *
  * @class Controls/_list/AddButton
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.

@@ -1,0 +1,46 @@
+<ws:template name="titleCellTmpl">
+   <div>
+      <div>{{ itemData.item.title }}</div>
+
+      <!--
+         Для пустых узлов выводим дополнительный контент, который будет отображаться при их раскрытии
+      -->
+      <div
+         if="{{itemData.item.get('Раздел@') && !itemData.item.hasChild && itemData.isExpanded}}"
+         style="font-size: 12px; color: gray;"
+      >
+         <ws:if data="{{ itemData.item.id === 11 }}">
+            Тут один контент
+         </ws:if>
+         <ws:else data="{{ itemData.item.id === 3 }}">
+            А тут другой контент
+         </ws:else>
+      </div>
+   </div>
+</ws:template>
+
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-reverseType-byItemClick">
+   <Controls.treeGridNew:View
+      keyProperty="id"
+      nodeProperty="Раздел@"
+      parentProperty="Раздел"
+      source="{{_viewSource}}"
+      hasChildrenProperty="hasChild"
+      bind:expandedItems="_expandedItems"
+      expanderVisibility="hasChildrenOrHover"
+   >
+      <ws:columns>
+         <ws:Array>
+            <ws:Object displayProperty="title">
+               <ws:template>
+                  <ws:partial template="Controls/gridNew:ColumnTemplate">
+                     <ws:contentTemplate>
+                        <ws:partial template="titleCellTmpl" itemData="{{contentTemplate.itemData}}"/>
+                     </ws:contentTemplate>
+                  </ws:partial>
+               </ws:template>
+            </ws:Object>
+         </ws:Array>
+      </ws:columns>
+   </Controls.treeGridNew:View>
+</div>

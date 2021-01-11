@@ -1,12 +1,12 @@
 define('Controls-demo/ReceivedStatesDemo/Wrapper',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/ReceivedStatesDemo/Wrapper'
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      return Control.extend({
+      return Base.Control.extend({
          _template: template,
          _beforeMount: function(cfg, _, receivedState) {
             var res = '123';

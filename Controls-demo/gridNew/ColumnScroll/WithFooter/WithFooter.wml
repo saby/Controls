@@ -1,0 +1,55 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Controls.scroll:Container attr:style="width: 600px">
+            <Controls.gridNew:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    columnScroll="{{true}}"
+                    backgroundStyle="default"
+                    header="{{_header}}"
+                    stickyColumnsCount="{{2}}">
+                <ws:footerTemplate>
+                    <div class="controlsDemo__hor-scroll__grid__footerContent">Подвал таблицы</div>
+                </ws:footerTemplate>
+            </Controls.gridNew:View>
+        </Controls.scroll:Container>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <Controls.scroll:Container attr:style="width: 600px">
+            <Controls.gridNew:View
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    columns="{{_columns2}}"
+                    columnScroll="{{true}}"
+                    backgroundStyle="default"
+                    header="{{_header}}"
+                    stickyColumnsCount="{{2}}">
+                <ws:footerTemplate>
+                    <ws:partial template="Controls/gridNew:FooterTemplate">
+                        <ws:columns>
+                            <ws:Array>
+                                <ws:Object startColumn="{{ 2 }}">
+                                    <ws:template>
+                                        <span style="color: darkgrey">Подвал под названием</span>
+                                    </ws:template>
+                                </ws:Object>
+                                <ws:Object>
+                                    <ws:template>
+                                        <span style="color: darkgrey">Подвал для столицы</span>
+                                    </ws:template>
+                                </ws:Object>
+                                <ws:Object>
+                                    <ws:template>
+                                        <span style="color: darkgrey">Весь остальной подвал под характеристиками</span>
+                                    </ws:template>
+                                </ws:Object>
+                            </ws:Array>
+                        </ws:columns>
+                    </ws:partial>
+                </ws:footerTemplate>
+            </Controls.gridNew:View>
+        </Controls.scroll:Container>
+    </div>
+</div>

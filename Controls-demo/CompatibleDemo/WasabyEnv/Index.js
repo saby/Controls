@@ -1,13 +1,13 @@
 define('Controls-demo/CompatibleDemo/WasabyEnv/Index', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/CompatibleDemo/WasabyEnv/Index',
    'Application/Initializer',
    'Application/Env',
    'Core/Deferred'
-], function(BaseControl, template, AppInit, AppEnv, Deferred) {
+], function(Base, template, AppInit, AppEnv, Deferred) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _beforeMount: function() {

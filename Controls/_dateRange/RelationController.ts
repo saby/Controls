@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import Model from './RelationController/Model';
 import template = require('wml!Controls/_dateRange/RelationController/RelationController');
 import {Date as WSDate} from 'Types/entity';
@@ -26,10 +26,10 @@ var _private = {
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less">переменные тем оформления</a> 
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less переменные тем оформления} 
  *
  * @class Controls/_dateRange/RelationController
- * @extends Core/Control
+ * @extends UI/Base:Control
  *
  * 
  * @public
@@ -41,7 +41,7 @@ var _private = {
  * Controller allows you to link several controls for entering periods.
  *
  * @class Controls/_dateRange/RelationController
- * @extends Core/Control
+ * @extends UI/Base:Control
  *
  * 
  * @public

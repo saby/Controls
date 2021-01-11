@@ -16,7 +16,7 @@ export default class extends Control {
 
     private dataArray: IItem[] = generateData({
         keyProperty: 'id',
-        count: 1000,
+        count: 300,
         beforeCreateItemCallback: (item: IItem) => {
             item.title = `Запись с ключом ${item.id}.`;
         }

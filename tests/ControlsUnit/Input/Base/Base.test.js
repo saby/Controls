@@ -58,6 +58,40 @@ define(
                instance.instanceOfModule(ctrl._viewModel, 'Controls/_input/Base/ViewModel')
             );
          });
+         it('ViewModel _isEmptyValue', function() {
+            const isEmptyValue = inputMod.NewBaseViewModel.prototype._isEmptyValue;
+
+            let isEmpty = isEmptyValue('');
+            assert.equal(isEmpty, true);
+
+            isEmpty = isEmptyValue(null);
+            assert.equal(isEmpty, true);
+
+            isEmpty = isEmptyValue('123');
+            assert.equal(isEmpty, false);
+
+            isEmpty = isEmptyValue(123);
+            assert.equal(isEmpty, false);
+         });
+
+         it('ViewModel setDisplayValue', function() {
+            let value = '';
+            inputMod.NewBaseViewModel.prototype._convertToDisplayValue = () => '123';
+            inputMod.NewBaseViewModel.prototype._convertToValue = () => value;
+            const model = new inputMod.NewBaseViewModel({}, '');
+            model._emptyValue = null;
+            model._setDisplayValue(value);
+            assert.equal(model._value, null);
+
+            value = '123';
+            model._setDisplayValue(value);
+            assert.equal(model._value, '123');
+
+            model._emptyValue = '';
+            value = null;
+            model._setDisplayValue(value);
+            assert.equal(model._value, '');
+         });
          it('Pass null as the value option.', function() {
             ctrl._getActiveElement = function() {
                return ctrl._getField();

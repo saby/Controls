@@ -1,19 +1,19 @@
 define('Controls-demo/Decorators/Markup/Markup', [
 
-   'Core/Control',
+   'UI/Base',
    'Controls/decorator',
    'Types/source',
    'wml!Controls-demo/Decorators/Markup/Markup',
 
    'Controls/decorator'
 
-], function(Control,
+], function(Base,
    decorator,
    source,
    template) {
    'use strict';
 
-   var ModuleClass = Control.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _resolversMemorySource: null,
       _newParamKey: '',

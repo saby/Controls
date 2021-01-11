@@ -1,4 +1,5 @@
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import {constants} from 'Env/Env';
 
 export default class ResizeObserverUtil {
     private readonly _control: any;
@@ -10,7 +11,7 @@ export default class ResizeObserverUtil {
     constructor(control: any, resizeObserverCallback: (entries: any) => void,
                 controlResizeCallback?: (...args: any) => void) {
         this._control = control;
-        this._resizeObserverSupported = typeof window !== 'undefined' && window.ResizeObserver;
+        this._resizeObserverSupported = constants.isBrowserPlatform && window.ResizeObserver;
         this._resizeObserverCallback = resizeObserverCallback.bind(this._control);
         // TODO должен быть 1 обработчик ресайза. controlResizeCallback нужно удалить.
         // + контекст на функцию должен биндиться не здесь.

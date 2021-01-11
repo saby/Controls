@@ -8,7 +8,7 @@
                     {{_options.value === null && _options.triState ? ' controls-ToggleButton__null'}}"
              title="{{_options.tooltip}}">
             <Controls._toggle.Checkbox.resources.CheckboxMarker
-                        attr:class="controls-Checkbox__iconWrapper_inCheckbox_theme-{{_options.theme}}"
+                        attr:class="controls-CheckboxMarker_inCheckbox_theme-{{_options.theme}}"
                         value="{{_options.value}}"
                         triState="{{_options.triState}}"/>
             <ws:partial template="wml!Controls/_toggle/Checkbox/resources/CheckboxCaption"

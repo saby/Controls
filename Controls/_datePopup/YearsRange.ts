@@ -1,4 +1,4 @@
-import BaseControl = require('Core/Control');
+import {Control as BaseControl} from 'UI/Base';
 import {Date as WSDate} from 'Types/entity';
 import {DateRangeModel, rangeSelection as rangeSelectionUtils} from 'Controls/dateRange';
 import {Base as dateUtils} from 'Controls/dateUtils';
@@ -9,7 +9,7 @@ const BUTTONS_COUNT = 6;
  * Component that allows you to select periods that are multiples of years.
  *
  * @class Controls/_datePopup/YearsRange
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @author Красильников А.С.
  * @private

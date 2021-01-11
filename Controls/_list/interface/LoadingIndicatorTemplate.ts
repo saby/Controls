@@ -3,31 +3,29 @@ import {TemplateFunction} from 'UI/Base';
 /**
  * Шаблон, который по умолчанию используется для отображения индикатора загрузки в списочных контролах.
  *
- * @class Controls/list:LoadingIndicatorTemplate
+ * @class Controls/_list/interface/LoadingIndicatorTemplate
  * @author Михайлов С.Е.
  * @public
  * @see Controls/list
  *
  *
  * @example
- * WML:
  * <pre class="brush: html">
- *   <Controls.list:View
- *      <ws:loadingIndicatorTemplate>
- *           <ws:partial template="Controls/list:LoadingIndicatorTemplate"
+ * <Controls.list:View>
+ *     <ws:loadingIndicatorTemplate>
+ *         <ws:partial template="Controls/list:LoadingIndicatorTemplate"
  *                      scope="{{loadingIndicatorTemplate}}">
- *               <ws:footerTemplate>
- *                  <div>Дополнительная информация</div>
- *               </ws:footerTemplate>
- *          </ws:partial>
- *      </ws:loadingIndicatorTemplate>
- *  </Controls.list:View>
+ *             <ws:footerTemplate>
+ *                 <div>Дополнительная информация</div>
+ *             </ws:footerTemplate>
+ *         </ws:partial>
+ *     </ws:loadingIndicatorTemplate>
+ * </Controls.list:View>
  * </pre>
  */
 
 export default interface ILoadingIndicatorTemplateOptions {
     /**
-     * @name Controls/list:LoadingIndicatorTemplate#contentTemplate
      * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий контент индикатора
      * @example
      * WML:
@@ -46,7 +44,6 @@ export default interface ILoadingIndicatorTemplateOptions {
      */
     contentTemplate: TemplateFunction | string;
     /**
-     * @name Controls/list:LoadingIndicatorTemplate#footerTemplate
      * @cfg {String|Function|undefined} Пользовательский шаблон, описывающий подвал индикатора.
      * @example
      * WML:

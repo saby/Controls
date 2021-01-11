@@ -11,10 +11,10 @@ import {delay} from 'Types/function';
     * <a href="/doc/platform/developmentapl/service-development/service-contract/logic/json-markup-language/markup/">Руководство разработчика.</a>
     * @remark
     * Полезные ссылки:
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less">переменные тем оформления</a>
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_decorator.less переменные тем оформления}
     *
     * @class Controls/_decorator/Markup
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * @author Угриновский Н.В.
     * @demo Controls-demo/Decorators/Markup/Markup
     * @public
@@ -24,7 +24,7 @@ import {delay} from 'Types/function';
     * Builds a control by data in Json array.
     *
     * @class Controls/_decorator/Markup
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * @author Угриновский Н.В.
     * @public
     */

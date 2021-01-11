@@ -1,0 +1,92 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo__flex controlsDemo__childMinWidth400">
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label_theme-{{_options.theme}}">Все элементы дерева - узлы, иконка разворота скрыта. <br/>Конфигурация на контроле.</div>
+
+            <Controls.treeGridNew:View
+                    keyProperty="id"
+                    name="tree1"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    expanderIcon="none"
+                    useNewNodeFooters="{{ true }}"
+                    navigation="{{_navigation}}">
+            </Controls.treeGridNew:View>
+        </div>
+
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label_theme-{{_options.theme}}">Все элементы дерева - узлы, иконка разворота скрыта. <br/>Конфигурация на шаблоне.</div>
+
+            <Controls.treeGridNew:View
+                    keyProperty="id"
+                    name="tree2"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    useNewNodeFooters="{{ true }}"
+                    navigation="{{_navigation}}">
+                <ws:itemTemplate>
+                    <ws:partial template="Controls/treeGridNew:ItemTemplate" expanderIcon="none"/>
+                </ws:itemTemplate>
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGridNew:NodeFooterTemplate" expanderIcon="none"
+                                attr:title="Подвал для '{{ nodeFooterTemplate.footer.item.get('title') }}'"/>
+                </ws:nodeFooterTemplate>
+            </Controls.treeGridNew:View>
+        </div>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Без иерархического оступа</div>
+
+        <Controls.treeGridNew:View
+                keyProperty="id"
+                name="tree3"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                parentProperty="parent"
+                nodeProperty="type"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/treeGridNew:ItemTemplate" withoutLevelPadding="{{ true }}"/>
+            </ws:itemTemplate>
+            <ws:nodeFooterTemplate>
+                <ws:partial template="Controls/treeGridNew:NodeFooterTemplate" withoutLevelPadding="{{ true }}"
+                            attr:title="Подвал для '{{ nodeFooterTemplate.footer.item.get('title') }}'"/>
+            </ws:nodeFooterTemplate>
+        </Controls.treeGridNew:View>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Нестандартный размер отступов от экспандера</div>
+        <Controls.treeGridNew:View
+                keyProperty="id"
+                name="tree4"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                parentProperty="parent"
+                nodeProperty="type"
+                expanderSize="m"
+                useNewNodeFooters="{{ true }}"
+                navigation="{{_navigation}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/treeGridNew:ItemTemplate"
+                            levelIndentSize="xl"
+                            expanderSize="{{itemTemplate.itemData.item.get('parent') === 1 ? 'xl'}}"/>
+            </ws:itemTemplate>
+            <ws:nodeFooterTemplate>
+                <ws:partial template="Controls/treeGridNew:NodeFooterTemplate"
+                            levelIndentSize="xl"
+                            expanderSize="{{nodeFooterTemplate.footer.key === 1 ? 'xl'}}"
+                            attr:title="Подвал для '{{ nodeFooterTemplate.footer.item.get('title') }}'"/>
+            </ws:nodeFooterTemplate>
+        </Controls.treeGridNew:View>
+    </div>
+
+</div>

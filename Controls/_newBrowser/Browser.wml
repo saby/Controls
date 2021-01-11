@@ -1,0 +1,81 @@
+<Controls.masterDetail:Base
+   propStorageId="{{_basePropStorageId + 'masterWidth'}}"
+   masterWidth="{{_options.master ? _options.master.width}}"
+   masterMinWidth="{{_options.master ? _options.master.minWidth}}"
+   masterMaxWidth="{{_options.master ? _options.master.maxWidth}}"
+   masterVisibility="{{!_options.master ? 'hidden' : _options.master.visibility}}"
+>
+
+   <ws:master>
+      <Controls.scroll:Container>
+         <Controls.explorer:View
+            bind:root="masterRoot"
+            bind:markedKey="detailRoot"
+            scope="{{_masterExplorerOptions}}"
+         />
+      </Controls.scroll:Container>
+   </ws:master>
+
+   <ws:detail>
+      <div class="controls-Catalog__detail">
+
+         <div class="controls-Catalog__toolbar">
+            <Controls.search:InputContainer
+               searchDelay="{{300}}"
+               minSearchLength="{{3}}"
+               on:search="onSearch()"
+               on:searchReset="onSearchReset()"
+            >
+               <Controls.search:Input/>
+            </Controls.search:InputContainer>
+         </div>
+
+         <Controls.list:Container>
+            <Controls.explorer:View
+               bind:root="detailRoot"
+               viewMode="{{currentViewMode}}"
+               scope="{{_detailExplorerOptions}}"
+               sourceController="{{_detailSourceController}}"
+               on:itemClick="onDetailItemClick()"
+               backgroundStyle="gray"
+            >
+               <ws:itemTemplate>
+                  <ws:if data="{{currentViewMode === _viewModeEnum.table || currentViewMode === 'search'}}">
+                     <Controls.grid:ItemTemplate
+                        scope="{{itemTemplate}}"
+                     />
+                  </ws:if>
+                  <ws:else>
+                     <ws:partial
+                        scope="{{itemTemplate}}"
+                        template="{{_listItemTemplate}}"
+                        imageCfg="{{_imageItemTemplateCfg}}"
+                        itemContent="{{_options.detail.itemContent}}"
+                        itemFooter="{{_options.detail.itemFooter}}"
+                     />
+                  </ws:else>
+               </ws:itemTemplate>
+               <ws:tileItemTemplate>
+                  <ws:if data="{{tileItemTemplate.itemData.dispItem}}">
+                     <ws:partial
+                        template="{{_tileItemTemplate}}"
+                        scope="{{tileItemTemplate}}"
+                        imageSize="{{_tileCfg.imageSize}}"
+                        imagePosition="{{_tileCfg.imagePosition}}"
+                        imageEffect="{{_tileCfg.getImageEffect(tileItemTemplate.itemData)}}"
+                        imageViewMode="{{_tileCfg.getImageViewMode(tileItemTemplate.itemData)}}"
+                        gradientColor="{{_tileCfg.getGradientColor(tileItemTemplate.itemData)}}"
+                        description="{{_tileCfg.getDescription(tileItemTemplate.itemData)}}"
+                        descriptionLines="{{_tileCfg.getDescriptionLines(tileItemTemplate.itemData)}}"
+                     />
+                  </ws:if>
+                  <ws:else>
+                     <invisible-node/>
+                  </ws:else>
+               </ws:tileItemTemplate>
+            </Controls.explorer:View>
+         </Controls.list:Container>
+      </div>
+   </ws:detail>
+
+</Controls.masterDetail:Base>

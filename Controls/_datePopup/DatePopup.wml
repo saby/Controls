@@ -59,7 +59,7 @@
                rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
                bind:position="_displayedDate"
                dateConstructor="{{_options.dateConstructor}}"
-               quantum="{{_options.quantum}}"
+               ranges="{{_options.ranges}}"
                on:monthClick="_monthRangeMonthClick()"
                on:fixedPeriodClick="_monthRangeFixedPeriodClick()">
                   <ws:dayTemplate>
@@ -76,7 +76,7 @@
             startValue="{{_rangeModel.startValue}}"
             endValue="{{_rangeModel.endValue}}"
             selectionType="{{_options.selectionType}}"
-            quantum="{{_options.quantum}}"
+            quantum="{{_options.ranges}}"
             rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
             bind:selectionProcessing="_dateRangeSelectionProcessing"
             on:rangeChanged="_dateRangeChanged()"
@@ -90,7 +90,7 @@
                bind:position="_displayedDate"
                rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
                selectionType="{{_options.selectionType}}"
-               quantum="{{_options.quantum}}"
+               ranges="{{_options.ranges}}"
                calendarSource="{{_options.calendarSource}}"
                dateConstructor="{{_options.dateConstructor}}"
             >

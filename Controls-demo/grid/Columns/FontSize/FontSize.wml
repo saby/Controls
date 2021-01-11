@@ -1,0 +1,23 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__cell">
+        <Controls.grid:View
+                attr:class="controlsDemo__inline-flex"
+                keyProperty="id"
+                source="{{_viewSource}}">
+            <ws:columns>
+                <ws:Array>
+                    <ws:Object displayProperty="country"
+                               tooltip="Государство"
+                               fontSize="xs"/>
+                    <ws:Object displayProperty="population"
+                               displayType="number"
+                               fontSize="s"
+                    />
+                    <ws:Object displayProperty="populationDensity"
+                               displayType="money"
+                               fontSize="2xl"/>
+                </ws:Array>
+            </ws:columns>
+        </Controls.grid:View>
+    </div>
+</div>

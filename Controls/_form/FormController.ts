@@ -89,13 +89,13 @@ export const enum INITIALIZING_WAY {
  * В случае, если он будет разрушен - операция автоматически удалится из списка зарегистрированных
  *
  * @class Controls/_form/FormController
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_form/interface/IFormController
  * @implements Controls/_interface/IErrorController
  * @public
  * @author Красильников А.С.
- * 
+ *
  * @demo Controls-demo/Popup/Edit/Opener
  */
 
@@ -103,7 +103,7 @@ export const enum INITIALIZING_WAY {
  * Record editing controller. The control stores data about the record and can execute queries CRUD methods on the BL.
  * <a href="/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/">More information and details.</a>.
  * @class Controls/_form/FormController
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_form/interface/IFormController
  * @implements Controls/_interface/IErrorController
@@ -614,7 +614,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         }
 
         // maybe anybody want to do custom update. check it.
-        const result = this._notify('requestCustomUpdate', [this._record], {bubbling: true});
+        const result = this._notify('requestCustomUpdate', [this._record]);
 
          // pending waiting while update process finished
          this._updatePromise = new Deferred();
@@ -644,7 +644,7 @@ class FormController extends Control<IFormController, IReceivedState> {
         validationDef.then((results) => {
             if (!results.hasErrors) {
                 // при успешной валидации пытаемся сохранить рекорд
-                this._notify('validationSuccessed', [], {bubbling: true});
+                this._notify('validationSuccessed', []);
                 let res = this._crudController.update(record, this._isNewRecord, config);
                 // fake deferred used for code refactoring
                 if (!(res && res.then)) {
@@ -663,7 +663,7 @@ class FormController extends Control<IFormController, IReceivedState> {
             } else {
                 // если были ошибки валидации, уведомим о них
                 const validationErrors = this._validateController.getValidationResult();
-                this._notify('validationFailed', [validationErrors], {bubbling: true});
+                this._notify('validationFailed', [validationErrors]);
                 updateDef.callback({
                     data: {
                         validationErrors
@@ -776,7 +776,7 @@ class FormController extends Control<IFormController, IReceivedState> {
 
     private _notifyHandler(eventName: string, args): void {
         this._notifyToOpener(eventName, args);
-        this._notify(eventName, args, {bubbling: true});
+        this._notify(eventName, args);
     }
 
     private _notifyToOpener(eventName: string, args: [Model, string | number, object?]): void {

@@ -1,0 +1,37 @@
+<div class="controlsDemo__wrapper controlsDemo__minWidth600 controlsDemo__maxWidth800">
+   <Controls.list:DataContainer source="{{_viewSource}}"
+                                nodeProperty="{{_nodeProperty}}"
+                                parentProperty="{{_parentProperty}}"
+                                keyProperty="{{_keyProperty}}"
+                                bind:selectionViewMode="_selectionViewMode"
+                                selectedKeys="{{_selectedKeys}}"
+                                excludedKeys="{{_excludedKeys}}">
+      <Controls.operations:Controller
+              bind:selectedKeys="_selectedKeys"
+              bind:excludedKeys="_excludedKeys"
+              on:selectedKeysCountChanged="_notifyHandler('selectedKeysCountChanged')">
+         <div>
+            <Controls.operations:Button on:expandedChanged="_expandedChangedHandler()"
+                                        expanded="{{ _expandedOperationsPanel }}"/>
+            <ws:if data="{{_expandedOperationsPanel}}">
+               <Controls.operations:PanelContainer
+                       selectedKeys="{{ _options.selectedKeys }}"
+                       listMarkedKey="{{ content._options.listMarkedKey }}">
+                  <Controls.operations:Panel
+                          excludedKeys="{{ _options.excludedKeys }}"
+                          selectedKeysCount="{{content._options.selectedKeysCount}}"
+                          parentProperty="parent"
+                          nodeProperty="@parent"
+                          keyProperty="id"
+                          source="{{null}}">
+                  </Controls.operations:Panel>
+               </Controls.operations:PanelContainer>
+            </ws:if>
+
+            <Controls.list:Container>
+               <Controls.explorer:View displayProperty="department" columns="{{_gridColumns}}" multiSelectVisibility="visible"/>
+            </Controls.list:Container>
+         </div>
+      </Controls.operations:Controller>
+   </Controls.list:DataContainer>
+</div>

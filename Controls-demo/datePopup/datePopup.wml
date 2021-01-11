@@ -29,7 +29,7 @@
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
                selectionType="quantum"
-               quantum="{{ {'days': [1], 'months': [1], 'years': [1]} }}"
+               ranges="{{ {'days': [1], 'months': [1], 'years': [1]} }}"
             />
          </div>
 
@@ -40,7 +40,7 @@
                startValue="{{_startValue}}"
                endValue="{{_endValue}}"
                selectionType="quantum"
-               quantum="{{ {'days': [1, 3], 'weeks': [1], 'month': [1]} }}"
+               ranges="{{ {'days': [1, 3], 'weeks': [1], 'month': [1]} }}"
             />
          </div>
 

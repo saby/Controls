@@ -7,7 +7,7 @@ import template = require('wml!Controls/_compatiblePopup/CompoundAreaForNewTpl/C
 import ManagerWrapperController from 'Controls/Popup/Compatible/ManagerWrapper/Controller';
 import WindowManager = require('Core/WindowManager');
 import ComponentWrapper from './ComponentWrapper';
-import control = require('Core/Control');
+import {Control as control} from 'UI/Base';
 import clone = require('Core/core-clone');
 import makeInstanceCompatible = require('Core/helpers/Hcontrol/makeInstanceCompatible');
 import Vdom = require('Vdom/Vdom');

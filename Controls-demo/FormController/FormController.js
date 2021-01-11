@@ -1,15 +1,15 @@
 define('Controls-demo/FormController/FormController', [
    'Env/Env',
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/FormController/FormController',
    'Types/source',
    'Core/Deferred',
    'Types/entity',
    'Controls/validate'
-], function(Env, Control, tmpl, source, Deferred, entity) {
+], function(Env, Base, tmpl, source, Deferred, entity) {
    'use strict';
 
-   var module = Control.extend({
+   var module = Base.Control.extend({
       _template: tmpl,
       _dataSource: null,
       idCount: 1,

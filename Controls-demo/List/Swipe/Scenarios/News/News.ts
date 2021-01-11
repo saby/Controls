@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import cConstants = require('Core/constants');
 import * as template from 'wml!Controls-demo/List/Swipe/Scenarios/News/News';
 import { Memory } from 'Types/source';

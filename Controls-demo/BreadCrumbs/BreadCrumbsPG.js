@@ -1,15 +1,15 @@
 define('Controls-demo/BreadCrumbs/BreadCrumbsPG', [
-   'Core/Control',
+   'UI/Base',
    'tmpl!Controls-demo/PropertyGrid/DemoPG',
    'json!Controls-demo/PropertyGrid/pgtext',
    'Types/entity'
 ], function(
-   Control,
+   Base,
    template,
    config,
    entity
 ) {
-   return Control.extend({
+   return Base.Control.extend({
       _template: template,
       _dataObject: null,
       _componentOptions: null,

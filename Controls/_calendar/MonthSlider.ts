@@ -1,4 +1,4 @@
-import BaseControl = require('Core/Control');
+import {Control as BaseControl} from 'UI/Base';
 import coreMerge = require('Core/core-merge');
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
@@ -28,10 +28,10 @@ var _private = {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less переменные тем оформления}
  *
  * @class Controls/_calendar/MonthSlider
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_calendar/interfaces/IMonth
  * @mixes Controls/_dateRange/interfaces/IRangeSelectable
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
@@ -49,7 +49,7 @@ var _private = {
  * Designed to select a date or period within a few months or years.
  *
  * @class Controls/_calendar/MonthSlider
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_calendar/interface/IMonth
  * @mixes Controls/_dateRange/interfaces/IRangeSelectable
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable

@@ -1,0 +1,61 @@
+.controls-ListEditor__svg {
+   z-index: 2;
+   display: inline-block;
+   flex-shrink: 0;
+   pointer-events: none;
+}
+
+.controls-ListEditor__svg_theme-@{themeName} {
+   width: @circle_size_filterViewPanel;
+   height: @circle_size_filterViewPanel;
+   position: absolute;
+   left: (@padding-left_filterViewPanel - @circle_size_filterViewPanel) / 2;
+   top: 0;
+}
+
+.controls-ListEditor__borderCircle {
+   fill: transparent;
+}
+
+.controls-ListEditor__columns {
+   position: relative;
+}
+
+.controls-EditorList__footer_theme-@{themeName} {
+   padding-left: @item_padding-left_filterViewPanel;
+}
+
+.controls-ListEditor__column_theme-@{themeName} {
+   padding-left: @item_padding-left_filterViewPanel;
+}
+
+.controls-EditorList__additional-column_theme-@{themeName} {
+   color: @item-additional-column_color_filterViewPanel;
+}
+
+.controls-Grid__row:hover {
+   .controls-ListEditor__borderCircle_theme-@{themeName} {
+      stroke: @border-circle_color_filterViewPanel;
+   }
+}
+
+.controls-ListEditor__innerCircle_selected-master_theme-@{themeName} {
+   fill: @inner-circle_color-master_filterViewPanel;
+}
+
+.controls-ListEditor__innerCircle_selected-default_theme-@{themeName} {
+   fill: @inner-circle_color-default_filterViewPanel;
+}
+
+.controls-ListEditor__innerCircle_unselected_theme-@{themeName} {
+   fill: none;
+}
+
+.controls-ListEditor__column_unselected-title_theme-@{themeName} {
+   color: @item_color_filterViewPanel;
+}
+
+.controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-listEditor_theme-@{themeName},
+.controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-listEditor_theme-@{themeName} {
+   background-color: @list-editor_color-hover_filterViewPanel;
+}

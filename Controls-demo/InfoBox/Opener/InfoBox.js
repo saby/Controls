@@ -1,15 +1,15 @@
 define('Controls-demo/InfoBox/Opener/InfoBox',
    [
-      'Core/Control',
+      'UI/Base',
       'Controls/context',
       'wml!Controls-demo/InfoBox/resources/content',
       'wml!Controls-demo/InfoBox/Opener/InfoBox',
    ],
-   function(Control, context, contentTpl, template) {
+   function(Base, context, contentTpl, template) {
       'use strict';
 
       var message = 'MESSAGE';
-      var InfoBox = Control.extend({
+      var InfoBox = Base.Control.extend({
          _template: template,
          _theme: ['Controls/Classes'],
          _blocks: null,

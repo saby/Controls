@@ -1,4 +1,4 @@
-import {showType} from '../../../Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 
 const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere nulla ex, consectetur lacinia odio blandit sit amet.';
 
@@ -62,7 +62,50 @@ function getFewCategories(): Array<{
         }
     ];
 }
-
+function getDataForComplexScroll(): Array<{id: number, title: string, withList: boolean}> {
+    return [
+        {
+            id: 1,
+            title: 'Простой элемент 1',
+            withList: false
+        },
+        {
+            id: 2,
+            title: 'Простой элемент 2',
+            withList: false
+        },
+        {
+            id: 3,
+            title: 'Сложный элемент 3',
+            withList: true
+        },
+        {
+            id: 4,
+            title: 'Простой элемент 4',
+            withList: false
+        },
+        {
+            id: 5,
+            title: 'Простой элемент 5',
+            withList: false
+        },
+        {
+            id: 6,
+            title: 'Сложный элемент 6',
+            withList: true
+        },
+        {
+            id: 7,
+            title: 'Сложный элемент 7',
+            withList: true
+        },
+        {
+            id: 8,
+            title: 'Сложный элемент 8',
+            withList: true
+        }
+    ]
+}
 function getCursorData(): Array<{id: number, value: string, cursor?: 'default' | 'pointer', hovered: boolean}> {
     return [
         {
@@ -153,60 +196,6 @@ function getGroupedCatalog(): Array<{
             title: 'ACER Aspire F 15 F5-573G-51Q7',
             brand: 'acer',
             longBrandName: 'acer'
-        }
-    ];
-}
-
-function getGroupedCatalogWithHiddenGroup(): Array<{
-    id: number
-    title: string
-    brand?: string
-}> {
-    return [
-        {
-            id: 1,
-            title: 'WebCam X541SA-XO056D',
-            brand: 'CONTROLS_HIDDEN_GROUP'
-        },
-        {
-            id: 2,
-            title: 'MacBook Pro',
-            brand: 'apple'
-        },
-        {
-            id: 3,
-            title: 'ASUS X751SA-TY124D',
-            brand: 'asus'
-        },
-        {
-            id: 4,
-            title: 'HP 250 G5 (W4N28EA)',
-            brand: 'hp'
-        },
-        {
-            id: 5,
-            title: 'Apple iPad Pro 2016',
-            brand: 'apple'
-        },
-        {
-            id: 6,
-            title: 'KeyBoard 5RTX-zxs',
-            brand: 'unknown'
-        },
-        {
-            id: 7,
-            title: 'MagicMouse 2',
-            brand: 'CONTROLS_HIDDEN_GROUP'
-        },
-        {
-            id: 8,
-            title: 'iPhone X Max',
-            brand: 'apple'
-        },
-        {
-            id: 9,
-            title: 'ASUS Zenbook F-234',
-            brand: 'asus'
         }
     ];
 }
@@ -375,6 +364,7 @@ function generateData<
             } else {
                 item[key] = entityTemplate[key];
             }
+            item[key] = `${items.length + 1}) ${item[key]}`;
         });
 
         return item as TEntityData;
@@ -424,30 +414,37 @@ const changeSourceData = (): IChangeSource => ({
     data2: [
         {
             id: 1,
+            load: 1,
             title: 1
         }, {
             id: 2,
+            load: 2,
             title: 2
 
         }, {
             id: 3,
-            title: 2
+            load: 2,
+            title: 3
 
         }, {
             id: 4,
-            title: 2
+            load: 2,
+            title: 4
 
         }, {
             id: 5,
-            title: 2
+            load: 2,
+            title: 5
 
         }, {
             id: 6,
-            title: 2
+            load: 2,
+            title: 6
 
         }, {
             id: 7,
-            title: 2
+            load: 2,
+            title: 7
 
         }]
 });
@@ -458,8 +455,10 @@ export {
     getFewCategories,
     getCursorData,
     getGroupedCatalog,
+    getGroupedCatalogForSwitchingGroup,
     getGroupedCatalogWithHiddenGroup,
     getEditableCatalog,
     generateData,
+    getDataForComplexScroll,
     changeSourceData
 };

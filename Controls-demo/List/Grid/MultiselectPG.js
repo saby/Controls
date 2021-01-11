@@ -1,6 +1,6 @@
 define('Controls-demo/List/Grid/MultiselectPG',
     [
-        'Core/Control',
+        'UI/Base',
         'Types/source',
         'Controls-demo/List/Grid/resources/DataDemoPG',
         'tmpl!Controls-demo/PropertyGrid/DemoPG',
@@ -9,9 +9,9 @@ define('Controls-demo/List/Grid/MultiselectPG',
         'wml!Controls-demo/List/Grid/resources/DemoRating',
     ],
 
-    function(Control, source, data, template, config) {
+    function(Base, source, data, template, config) {
         'use strict';
-        var Component = Control.extend({
+        var Component = Base.Control.extend({
             _template: template,
             _metaData: null,
             _content: 'Controls/grid:View',

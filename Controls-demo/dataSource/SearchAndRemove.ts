@@ -6,7 +6,7 @@ import * as template from 'wml!Controls-demo/dataSource/SearchAndRemove';
 import { Remover } from 'Controls/list';
 import { IItemAction } from 'Controls/itemActions';
 import { Confirmation } from 'Controls/popup';
-import {INavigationOptionValue, INavigationPageSourceConfig} from 'Controls/_interface/INavigation';
+import {INavigationOptionValue, INavigationPageSourceConfig} from 'Controls/interface';
 
 interface IFilter {
     title?: string;
@@ -87,7 +87,7 @@ export default class extends Control {
         sourceConfig: { hasMore: false, page: 5, pageSize: 10 },
         view: 'infinity', // infinity, pages, demand
         viewConfig: {
-            pagingMode: 'direct',
+            pagingMode: 'basic',
             showEndButton: true
         }
     };

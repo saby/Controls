@@ -1,19 +1,19 @@
 define('Controls-demo/Input/Base/Base',
    [
-      'Core/Control',
+      'UI/Base',
       'json!Controls-demo/Input/Base/Base',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
 
    ],
 
-   function(Control, config, template) {
+   function(BaseMod, config, template) {
       'use strict';
 
       var _private = {
          CONTENT: 'Controls/input:Base'
       };
 
-      var Base = Control.extend({
+      var Base = BaseMod.Control.extend({
          _template: template,
 
          _metaData: null,

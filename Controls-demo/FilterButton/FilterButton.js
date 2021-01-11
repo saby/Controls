@@ -1,15 +1,15 @@
 define('Controls-demo/FilterButton/FilterButton',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/FilterButton/FilterButton',
       'Controls/filter',
       'Controls/buttons',
       'Types/source'
    ],
 
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
-      var FilterButton = Control.extend({
+      var FilterButton = Base.Control.extend({
 
          _template: template,
          sourceDropdown: null,

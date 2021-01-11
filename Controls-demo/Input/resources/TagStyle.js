@@ -1,13 +1,13 @@
 define('Controls-demo/Input/resources/TagStyle', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/resources/TagStyle',
    'Types/source'
 ],
 function(
-   Base, template, source
+   BaseMod, template, source
 ) {
    'use strict';
-   var TagStyle = Base.extend({
+   var TagStyle = BaseMod.Control.extend({
       _template: template,
       _empty: 'none',
       _placeholder: 'select',

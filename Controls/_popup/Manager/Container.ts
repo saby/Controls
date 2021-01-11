@@ -3,7 +3,7 @@ import {List} from 'Types/collection';
 import {IPopupItem} from 'Controls/_popup/interface/IPopup';
 import {dispatcherHandler} from 'UI/HotKeys';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
-import PendingClass, {IPendingConfig} from './PendingClass';
+import {PendingClass, IPendingConfig} from 'Controls/Pending';
 import template = require('wml!Controls/_popup/Manager/Container');
 
 // step zindex between popups.
@@ -20,7 +20,7 @@ class Container extends Control<IControlOptions> {
     /**
      * Container for displaying popups
      * @class Controls/_popup/Manager/Container
-     * @extends Core/Control
+     * @extends UI/Base:Control
      * 
      * @private
      * @author Красильников А.С.

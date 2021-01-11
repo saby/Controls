@@ -2,41 +2,37 @@
     <div class="controlsDemo__cell controlsDemo__inline-block demo-ItemPaddingAll__vertical">
         <div class="ws-flexbox ws-flex-wrap">
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-first" style="width: 485px">
-                <Controls.list:DataContainer source="{{_headerSource}}" keyProperty="id">
-                        <Controls.explorer:View
-                                source="{{_headerSource}}"
-                                bind:root="_headerRoot"
-                                attr:class="demo-Explorer ControlsDemo-Explorer"
-                                keyProperty="id"
-                                displayProperty="title"
-                                parentProperty="parent"
-                                nodeProperty="parent@"
-                                backgroundStyle="custom"
-                                markedKey="1"
-                                header="{{_header}}"
-                                showEditArrow="{{true}}"
-                                showActionButton="{{true}}"
-                                columns="{{_columns}}">
-                        </Controls.explorer:View>
-                </Controls.list:DataContainer>
+                <Controls.explorer:View
+                        source="{{_headerSource}}"
+                        bind:root="_headerRoot"
+                        attr:class="demo-Explorer ControlsDemo-Explorer"
+                        keyProperty="id"
+                        displayProperty="title"
+                        parentProperty="parent"
+                        nodeProperty="parent@"
+                        backgroundStyle="custom"
+                        markedKey="1"
+                        header="{{_header}}"
+                        showEditArrow="{{true}}"
+                        showActionButton="{{true}}"
+                        columns="{{_columns}}">
+                </Controls.explorer:View>
             </div>
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-second" style="width: 475px">
-                <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
-                        <Controls.explorer:View
-                                source="{{_viewSource}}"
-                                bind:root="_root"
-                                attr:class="demo-Explorer ControlsDemo-Explorer"
-                                keyProperty="id"
-                                displayProperty="title"
-                                parentProperty="parent"
-                                nodeProperty="parent@"
-                                backgroundStyle="custom"
-                                markerVisibility="hidden"
-                                showEditArrow="{{true}}"
-                                showActionButton="{{true}}"
-                                columns="{{_columns}}">
-                        </Controls.explorer:View>
-                </Controls.list:DataContainer>
+                <Controls.explorer:View
+                        source="{{_viewSource}}"
+                        bind:root="_root"
+                        attr:class="demo-Explorer ControlsDemo-Explorer"
+                        keyProperty="id"
+                        displayProperty="title"
+                        parentProperty="parent"
+                        nodeProperty="parent@"
+                        backgroundStyle="custom"
+                        markerVisibility="hidden"
+                        showEditArrow="{{true}}"
+                        showActionButton="{{true}}"
+                        columns="{{_columns}}">
+                </Controls.explorer:View>
             </div>
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_fixedWidth800">
                 <Controls.list:DataContainer source="{{_viewSearchSource}}" keyProperty="id" bind:filter="_filter">

@@ -7,13 +7,11 @@ export interface IPromiseSelectableOptions {
 
 /**
  * Интерфейс для контролов, где одновременно можно выбрать несколько элементов и количество выбранных элементов неизвестно.
- * @interface Controls/_interface/IPromisedSelectable
  * @public
  * @author Авраменко А.С.
  * @see Controls/_interface/ISingleSelectable
  * @see Controls/interface/IMultiSelectable
  */
-
 export default interface IPromiseSelectable {
     readonly '[Controls/_interface/IPromiseSelectable]': boolean;
 }

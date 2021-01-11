@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:class="controlsDemo__height400" shadowMode="js">
+        <Controls.list:Mover name="listMover"/>
+        <Controls.gridNew:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                columns="{{_columns}}"
+                itemsDragNDrop="{{true}}"
+                on:dragStart="_dragStart()"
+                on:dragEnd="_dragEnd()"
+                multiSelectVisibility="visible"
+                bind:selectedKeys="_selectedKeys"
+                header="{{_header}}"
+                resultsPosition="top"
+                ladderProperties="{{_ladderProperties}}"/>
+    </Controls.scroll:Container>
+</div>

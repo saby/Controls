@@ -47,6 +47,7 @@
                               _extDataVersion="{{_extData._version}}"
                               monthTemplate="{{_options.monthTemplate}}"
                               dayTemplate="{{_options.dayTemplate}}"
+                              dayHeaderTemplate="{{ _options.dayHeaderTemplate }}"
                               _formatMonth="{{_formatMonth}}"
                               _options="{{_options}}"
                               _getMonth="{{_getMonth}}"

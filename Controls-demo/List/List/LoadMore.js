@@ -1,14 +1,14 @@
 define('Controls-demo/List/List/LoadMore', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/List/resources/LoadMore/LoadMore',
    'Types/source',
    'Controls-demo/List/List/resources/Data',
    'Controls/list',
-], function (Control, template, sourceLib, ListData) {
+], function (Base, template, sourceLib, ListData) {
    'use strict';
 
    var
-      ModuleClass = Control.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _viewSource: null,
          _gridViewSource: null,
@@ -21,7 +21,7 @@ define('Controls-demo/List/List/LoadMore', [
                hasMore: false
             },
             viewConfig: {
-               pagingMode: 'direct'
+               pagingMode: 'basic'
             }
          },
 

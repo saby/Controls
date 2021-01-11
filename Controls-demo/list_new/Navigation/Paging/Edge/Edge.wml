@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <Controls.scroll:Container attr:class="controlsDemo__height400">
+        <Controls.list:HotKeysContainer>
+            <Controls.list:View
+                    keyProperty="id"
+                    name="list"
+                    attr:class="controlsDemo_line-height18"
+                    moveMarkerOnScrollPaging="{{true}}"
+                    source="{{_viewSource}}">
+                <ws:navigation source="page" view="infinity">
+                    <ws:sourceConfig pageSize="{{60}}" page="{{0}}" hasMore="{{false}}"/>
+                    <ws:viewConfig pagingMode="edge"/>
+                </ws:navigation>
+            </Controls.list:View>
+        </Controls.list:HotKeysContainer>
+    </Controls.scroll:Container>
+</div>

@@ -1,13 +1,13 @@
 define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3',
       'Lib/Control/LayerCompatible/LayerCompatible',
    ],
-   function(Control, template, CompatibleLayer) {
+   function(Base, template, CompatibleLayer) {
       'use strict';
 
-      var WS3Compatible = Control.extend({
+      var WS3Compatible = Base.Control.extend({
          _template: template,
          _compatibleReady: false,
          _text: null,

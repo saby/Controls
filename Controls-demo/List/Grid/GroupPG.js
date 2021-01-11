@@ -1,6 +1,6 @@
 define('Controls-demo/List/Grid/GroupPG',
     [
-        'Core/Control',
+        'UI/Base',
         'Types/source',
         'Controls-demo/List/Grid/resources/DataDemoPG',
         'tmpl!Controls-demo/PropertyGrid/DemoPG',
@@ -13,9 +13,9 @@ define('Controls-demo/List/Grid/GroupPG',
         'wml!Controls-demo/List/Grid/resources/DemoItem'
     ],
 
-    function(Control, source, data, template, config) {
+    function(Base, source, data, template, config) {
         'use strict';
-        var Component = Control.extend({
+        var Component = Base.Control.extend({
             _template: template,
             _content: 'Controls/grid:View',
 

@@ -20,14 +20,14 @@
 </ws:template>
 
 <ws:template name="multiSelectTemplate">
-    <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
-        <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"/>
+    <ws:partial template="{{multiSelectTpl}}">
+        <ws:templateOptions item="{{ itemData.dispItem }}" checkboxReadOnly="{{checkboxReadOnly}}" itemData="{{itemData}}"/>
     </ws:partial>
 </ws:template>
 
 <ws:template name="COLUMN_CONTENT">
     <ws:if data="{{marker !== false && itemData.shouldDisplayMarker(currentColumn.columnIndex)}}">
-        <div class="{{itemData.getMarkerClasses()}}"></div>
+        <div class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
     </ws:if>
 
     <ws:if data="{{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0}}">
@@ -52,6 +52,7 @@
         </ws:if>
         <ws:else>
             <ws:partial template="{{currentColumn.template}}"
+                        scope="{{currentColumn.column.templateOptions}}"
                         editArrowTemplate="{{editArrowTemplate}}"
                         itemActionsTemplate="{{itemActionsTemplate}}"
                         ladderWrapper="{{currentColumn.ladderWrapper}}"

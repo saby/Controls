@@ -1,7 +1,6 @@
 /**
  * Интерфейс для ввода даты/времени.
  *
- * @interface Controls/interface/IInputDateTime
  * @public
  * @author Красильников А.С.
  */
@@ -9,14 +8,12 @@
 /*
  * Interface for date/time inputs.
  *
- * @interface Controls/interface/IInputDateTime
  * @public
  * @author Красильников А.С.
  */ 
 interface IInputDateTime {
     readonly _options: {
         /**
-         * @name Controls/interface/IInputDateTime#value
          * @cfg {Date} Дата, которую пользователь ввел в поле ввода.
          * @default null
          * @remark Если вы не обновите параметр "value", то не сможете ничего ввести в поле.
@@ -43,7 +40,6 @@ interface IInputDateTime {
          */
 
         /*
-         * @name Controls/interface/IInputDateTime#value
          * @cfg {Date} The date that the user entered in the input field.
          * @default null
          * @remark If you don`t update value option, will not be able to enter anything in the field.
@@ -86,21 +82,20 @@ interface IInputDateTime {
  * В этом примере покажем, как 'привязать' значение контрола к полю.
  * В первом поле мы делаем это вручную, используя событие valueChanged. Во втором поле мы используем синтаксис биндинга.
  * Оба поля в этом примере будут иметь одинаковое поведение.
- * <pre>
- *    <Controls._input.DateTime value="_fieldValue" on:valueChanged="_valueChangedHandler()"/>
- *    <Controls._input.DateTime bind:value="_anotherFieldValue"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.input:DateTime value="_fieldValue" on:valueChanged="_valueChangedHandler()"/>
+ * <Controls.input:DateTime bind:value="_anotherFieldValue"/>
  * </pre>
- * <pre>
+ * <pre class="brush: js">
+ * // JavaScript
  * Control.extend({
- *    ....
  *    _fieldValue: null,
  *    _valueChangedHandler(value, displayValue) {
  *       this._fieldValue = value;
  *       this._saveToDatabase(displayValue);
  *    },
- *
  *    _anotherFieldValue: null
- *    ...
  * });
  * </pre>
  */
@@ -146,18 +141,18 @@ interface IInputDateTime {
  * Это событие можно использовать в качестве триггера для проверки поля или отправки введенных данных в другой контрол.
  * @example
  * В этом примере мы подписываемся на событие inputCompleted и сохраняем значение поля в первой базе данных, а отображаемое значение поля во второй базе данных.
- * <pre>
- *    <Controls._input.Text on:inputCompleted="_inputCompletedHandler()" />
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls._input.Text on:inputCompleted="_inputCompletedHandler()" />
  * </pre>
- * <pre>
- *    Control.extend({
- *       ....
- *       _inputCompletedHandler(value, displayValue) {
- *          this._saveEnteredValueToDabase1(value);
- *          this._saveEnteredValueToDabase2(displayValue);
- *       }
- *       ...
- *    })
+ * <pre class="brush: js">
+ * // JavaScript
+ * Control.extend({
+ *    _inputCompletedHandler(value, displayValue) {
+ *       this._saveEnteredValueToDabase1(value);
+ *       this._saveEnteredValueToDabase2(displayValue);
+ *    }
+ * })
  * </pre>
  */
 

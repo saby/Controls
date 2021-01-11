@@ -11,8 +11,12 @@
                   on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
                   on:arrowActivated="_notifyHandler('arrowActivated')"
                   on:itemClick="_notifyHandler('itemClick')"
-                  on:itemMouseDown="_notifyHandler('itemMouseDown')"/>
+                  on:itemMouseDown="_notifyHandler('itemMouseDown')"
+                  on:arrowClick="_notifyHandler('arrowClick')"/>
    </Controls.Container.Async>
+   <ws:if data="{{_options.afterBreadCrumbsTemplate}}">
+      <ws:partial attr:class="controls-Explorer__afterBreadCrumbsTemplate"  template="{{_options.afterBreadCrumbsTemplate}}"></ws:partial>
+   </ws:if>
 </ws:template>
 
 <ws:if data="{{_needCrumbs}}">
@@ -23,16 +27,25 @@
               fixedZIndex="{{5}}"
               backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
               attr:class="controls-Explorer__HeadingPath-{{_options.style}}_theme-{{_options.theme}}">
-         <ws:partial template="headingPath" />
+         <div class="controls-Explorer__PathWrapper">
+            <ws:partial template="headingPath" />
+         </div>
       </Controls.scroll:StickyHeader>
    </ws:if>
    <ws:else>
-      <ws:partial template="headingPath"
-                  on:arrowClick="_notifyHandler('arrowClick')"/>
+      <div class="controls-Explorer__PathWrapper">
+         <ws:partial template="headingPath"/>
+      </div>
    </ws:else>
 </ws:if>
 <ws:else>
-
- <!-- нельзя использовать invisible-node. он ломает всплытие событий/-->
-   <div style="display: none"></div>
+   <ws:if data="{{_options.afterBreadCrumbsTemplate}}">
+      <div class="controls-Explorer__PathWrapper">
+         <ws:partial attr:class="controls-Explorer__afterBreadCrumbsTemplate" template="{{_options.afterBreadCrumbsTemplate}}"></ws:partial>
+      </div>
+   </ws:if>
+   <ws:else>
+   <!-- нельзя использовать invisible-node. он ломает всплытие событий/-->
+      <div style="display: none"></div>
+   </ws:else>
 </ws:else>

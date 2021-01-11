@@ -1,9 +1,8 @@
 /**
  * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде дерева.
  * @library Controls/treeGrid
- * @includes View Controls/_treeGrid/View
- * @includes ItemTemplate Controls/treeGrid:ItemTemplate
- * @includes RowEditor Controls/treeGrid:RowEditor
+ * @includes ItemTemplate Controls/_treeGrid/interface/ItemTemplate
+ * @includes RowEditor Controls/_treeGrid/interface/RowEditor
  * @public
  * @author Крайнов Д.О.
  */
@@ -17,7 +16,7 @@ import NodeFooterTemplate = require('wml!Controls/_treeGrid/TreeGridView/NodeFoo
 import ViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');
 
 import SearchGridViewModel = require('Controls/_treeGrid/SearchView/SearchGridViewModel');
-import SearchView = require('Controls/_treeGrid/SearchView');
+import {SearchView, SearchItemTpl} from 'Controls/_treeGrid/SearchView';
 import * as SearchBreadCrumbsItemTemplate from 'wml!Controls/_treeGrid/SearchView/SearchBreadCrumbsItemTemplate';
 import TreeGridView = require('Controls/_treeGrid/TreeGridView/TreeGridView');
 import RowEditor = require('wml!Controls/_treeGrid/TreeGrid/RowEditor');
@@ -44,7 +43,9 @@ export {
     ViewModel,
     SearchGridViewModel,
     SearchView,
+    SearchItemTpl,
     SearchBreadCrumbsItemTemplate,
     TreeGridView,
     RowEditor
 };
+export {IReloadableTreeGrid} from 'Controls/_treeGrid/interface/IReloadableTreeGrid';

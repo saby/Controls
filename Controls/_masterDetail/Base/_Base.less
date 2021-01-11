@@ -32,26 +32,13 @@
    }
 }
 
-.controls-MasterDetail_masterClassic-template_theme-@{themeName} {
-   &:before {
-      width: @masterClassic_separator_thickness_list;
-   }
-}
-
 .controls-MasterDetail_master-template-contrast_theme-@{themeName} {
    &:before {
       background-color: @master_separator_contrast-color_list;
    }
 }
 
-.controls-MasterDetail_masterClassic-template-contrast_theme-@{themeName} {
-   &:before {
-      background-color: @masterClassic_separator_color_list;
-   }
-}
-
-.controls-MasterDetail_master-template-same_theme-@{themeName},
-.controls-MasterDetail_masterClassic-template-same_theme-@{themeName} {
+.controls-MasterDetail_master-template-same_theme-@{themeName} {
    &:before {
       background-color: @master_separator_color_list;
    }
@@ -82,13 +69,9 @@
    z-index: 9999;
 }
 
-// Класс для установки фона контрола через backgroundStyle (master/masterClassic)
+// Класс для установки фона контрола через backgroundStyle
 // применяется к хлебным крошкам, группам. Для выбранной застиканной строки стили ниже
 .controls-background-master_theme-@{themeName} {
-   background-color: @master_item_background-color_list;
-}
-
-.controls-background-masterClassic_theme-@{themeName} {
    background-color: @master_item_background-color_list;
 }
 
@@ -126,13 +109,23 @@
    border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
 }
 
+// todo https://online.sbis.ru/opendoc.html?guid=4427d008-ac6e-4ce3-bf04-1e1b65bd6f79
+.ws-is-mobile-platform .controls-MasterDetail_resizing-line {
+   right: -@resizingLine_mobile_offset-left_stack;
+   width: @resizingLine_mobile_thickness_stack;
+   .controls-ResizingLine__areaWrapper_horizontal_theme-@{themeName} {
+      width: @resizingLine_mobile_thickness_stack - @resizingLine_mobile_offset-left_stack;
+   }
+}
+
 // Класс для css теней скролл контейнера
 .controls-Scroll__background-Shadow_style-master_theme-@{themeName} {
-   background-image: linear-gradient(@master_item_background-color_list 20%, rgba(@master_item_background-color_list, 0)),
-              linear-gradient(rgba(@master_item_background-color_list, 0), @master_item_background-color_list 80%),
+   background-image: linear-gradient(@master_item_background-color_list 25%, rgba(@master_item_background-color_list, 0)),
+              linear-gradient(rgba(@master_item_background-color_list, 0), @master_item_background-color_list 75%),
               linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
               linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
    background-position: top, bottom, top, bottom;
    background-repeat: no-repeat;
    background-attachment: local, local, scroll, scroll;
 }
+

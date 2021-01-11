@@ -1,7 +1,7 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/treeGrid:View дереве}.
- * @class Controls/treeGrid:ItemTemplate
- * @mixes Controls/list:BaseItemTemplate
+ * @class Controls/_treeGrid/interface/ItemTemplate
+ * @mixes Controls/list:IBaseItemTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/ITreeGridItemTemplate#itemTemplate
  * @see Controls/interface/ITreeGridItemTemplate#itemTemplateProperty
@@ -16,7 +16,7 @@
  * </pre>
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/">руководство разработчика</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/templates/item/ руководство разработчика}
  *
  * @public
  */
@@ -31,7 +31,6 @@ export default interface IItemTemplateOptions {
      */
 
     /**
-     * @name Controls/treeGrid:ItemTemplate#withoutLevelPadding
      * @cfg {Boolean} Когда опция установлена в значение true, в дереве отсутствуют структурные отступы для элементов иерархии.
      * @default false
      * @see levelIndentSize
@@ -45,7 +44,6 @@ export default interface IItemTemplateOptions {
      * @variant hiddenNode Иконки всех узлов отображаются как иконки скрытых узлов."
      */
     /**
-     * @name Controls/treeGrid:ItemTemplate#expanderIcon
      * @cfg {ExpanderIcon|undefined} Стиль отображения иконки для узла и скрытого узла.
      * @default undefined
      * @remark
@@ -54,21 +52,19 @@ export default interface IItemTemplateOptions {
      */
     expanderIcon?: string;
     /**
-     * @name Controls/treeGrid:ItemTemplate#expanderSize
      * @cfg {Size} Размер области, который отведён под иконку узла или скрытого узла.
      * @default s
      * @see expanderIcon
      * @remark
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      */
     expanderSize?: string;
     /**
-     * @name Controls/treeGrid:ItemTemplate#levelIndentSize
      * @cfg {Size} Размер структурного отступа для элементов иерархии.
      * @default s
      * @see withoutLevelPadding
      * @remark
-     * Каждому значению опции соответствует размер в px. Он зависит от {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
+     * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
      */
     levelIndentSize?: string;
 }

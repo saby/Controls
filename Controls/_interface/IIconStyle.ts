@@ -4,8 +4,6 @@ export interface IIconStyleOptions {
 
 /**
  * Интерфейс для контролов, которые поддерживают разные цвета иконок
- *
- * @interface Controls/_interface/IIconStyle
  * @public
  * @author Красильников А.С.
  */
@@ -13,7 +11,6 @@ export interface IIconStyleOptions {
 /*
  * Interface for button icon.
  *
- * @interface Controls/_interface/IIconStyle
  * @public
  */
 export default interface IIconStyle {
@@ -37,12 +34,14 @@ export default interface IIconStyle {
  * @demo Controls-demo/Buttons/IconStyles/Index
  * @example
  * Кнопка с иконкой по умолчанию.
- * <pre>
- *    <Controls.buttons:Button icon="icon-Add" viewMode="button"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.buttons:Button icon="icon-Add" viewMode="button"/>
  * </pre>
  * Кнопка с иконкой в стиле "success".
- * <pre>
- *    <Controls.buttons:Button icon="icon-Add" iconStyle="success" viewMode="button"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.buttons:Button icon="icon-Add" iconStyle="success" viewMode="button"/>
  * </pre>
  * @see Icon
  */

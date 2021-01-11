@@ -2,7 +2,7 @@
  * Created by as.krasilnikov on 21.03.2018.
  */
 import * as cMerge from 'Core/core-merge';
-import {detection} from 'Env/Env';
+import {detection, constants} from 'Env/Env';
 let TouchKeyboardHelper = {};
 
 if (detection.isMobileIOS && detection.IOSVersion === 12) {
@@ -99,16 +99,14 @@ interface IPosition {
       },
 
       checkOverflow: function(popupCfg, targetCoords, position, direction) {
-         var isHorizontal = direction === 'horizontal';
+         const isHorizontal = direction === 'horizontal';
          if (position.hasOwnProperty(isHorizontal ? 'right' : 'bottom')) {
-            //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=41b3a01c-72e1-418b-937f-ca795dacf508
-            if (_private._isMobileDevices() && position[isHorizontal ? 'right' : 'bottom'] < 0) {
+            if (position[isHorizontal ? 'right' : 'bottom'] < 0) {
                return -(position[isHorizontal ? 'right' : 'bottom']);
             }
             return popupCfg.sizes[isHorizontal ? 'width' : 'height'] - (_private.getTargetCoords(popupCfg, targetCoords, isHorizontal ? 'right' : 'bottom', direction) - targetCoords[isHorizontal ? 'leftScroll' : 'topScroll']);
          }
-         //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=41b3a01c-72e1-418b-937f-ca795dacf508
-         if (_private._isMobileDevices() && position[isHorizontal ? 'left' : 'top'] < 0) {
+         if (position[isHorizontal ? 'left' : 'top'] < 0) {
             return -(position[isHorizontal ? 'left' : 'top']);
          }
          let taskBarKeyboardIosHeight = 0;
@@ -340,7 +338,9 @@ interface IPosition {
       },
 
       considerTopScroll() {
-         return window && (window.screen.availHeight / window.innerHeight < 2) && (window.screen.availHeight > window.innerHeight);
+         return constants.isBrowserPlatform &&
+             (window.screen.availHeight / window.innerHeight < 2) &&
+             (window.screen.availHeight > window.innerHeight);
       },
 
       setMaxSizes: function(popupCfg, position) {
@@ -416,10 +416,10 @@ interface IPosition {
          return {
             offsetLeft: 0,
             offsetTop: 0,
-            pageLeft: window && window.pageXOffset,
-            pageTop: window && window.pageYOffset,
-            width: document && document.body.clientWidth,
-            height: document && document.body.clientHeight
+            pageLeft: constants.isBrowserPlatform && window.pageXOffset,
+            pageTop: constants.isBrowserPlatform && window.pageYOffset,
+            width: constants.isBrowserPlatform && document.body.clientWidth,
+            height: constants.isBrowserPlatform && document.body.clientHeight
          };
       },
       prepareRestrictiveCoords(popupCfg, targetCoords): void {

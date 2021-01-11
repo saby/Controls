@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/Childs/CaseSecond/Async/Grid',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/Childs/CaseSecond/Async/Grid',
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var gridModule = Control.extend({
+      var gridModule = Base.Control.extend({
          _template: template,
 
          _beforeMount: function (options) {

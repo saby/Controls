@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/ColumnAsync/Template/WsPartial',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/ColumnAsync/Template/WsPartial',
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var wsPartialModule = Control.extend({
+      var wsPartialModule = Base.Control.extend({
          _template: template,
          _isOpen: false,
 

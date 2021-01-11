@@ -1,0 +1,11 @@
+<Controls.propertyGrid:PropertyGrid
+        bind:editingObject="_editingObject"
+        source="{{_source}}">
+    <ws:itemTemplate>
+        <ws:partial template="Controls/propertyGrid:ItemTemplate"
+                    class="controls-demo-pg-highlightOnHover-editor-padding"
+                    highlightOnHover="{{true}}"
+                    item="{{itemTemplate.item}}"
+        />
+    </ws:itemTemplate>
+</Controls.propertyGrid:PropertyGrid>

@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_lookupPopup/SelectedCollection/Popup');
 
 /**
@@ -7,7 +7,7 @@ import template = require('wml!Controls/_lookupPopup/SelectedCollection/Popup');
  * Используется в Controls/lookup:Input, Controls/lookup:Button
  *
  * @class Controls/_lookupPopup/SelectedCollection/Popup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_lookup/SelectedCollection/SelectedCollectionStyles
  * 
  * @public
@@ -20,7 +20,7 @@ import template = require('wml!Controls/_lookupPopup/SelectedCollection/Popup');
  * Used in Controls/lookup:Input, Controls/lookup:Button
  *
  * @class Controls/_lookupPopup/SelectedCollection/Popup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_lookup/SelectedCollection/SelectedCollectionStyles
  * 
  * @public

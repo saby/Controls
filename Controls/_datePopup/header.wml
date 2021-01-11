@@ -1,20 +1,23 @@
 <div class="controls-PeriodDialog__header controls-PeriodDialog__header_theme-{{theme}}">
    <!--<div class="controls-PeriodDialog__stateButton-wrapper">-->
       <Controls._datePopup.fakeThemeLoader theme="{{theme}}"/>
-      <Controls.toggle:Button
-         if="{{_monthStateEnabled}}"
-         attr:class="controls-PeriodDialog__stateButton controls-PeriodDialog__stateButton_theme-{{theme}}"
-         value="{{_state === 'year'}}"
-         fontColorStyle="link"
-         viewMode="link"
-         tooltip="{{_state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}"
-         icons="{{['icon-ArrangeList', 'icon-ArrangeSmallIconsPreview']}}"
-         icon="icon-ArrangeList"
-         iconStyle="secondary"
-         iconSize="datePopupStateButton"
-         readOnly="{{false}}"
-         on:valueChanged="_toggleStateClick()"
-      />
+    <div if="{{_monthStateEnabled}}"
+         on:click="_toggleStateClick()"
+         class="controls-PeriodDialog__stateButton controls-PeriodDialog__stateButton_theme-{{theme}}"
+         title="{{_state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}">
+        <ws:if data="{{_state === 'year'}}">
+            <svg class="controls-PeriodDialog__stateButton_size_theme-{{theme}}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 3H14V5H2V3ZM2 7H14V9H2V7ZM2 11H14V13H2V11Z"
+                      class="controls-PeriodDialog__stateButton_color_theme-{{theme}}"/>
+            </svg>
+        </ws:if>
+        <ws:else>
+            <svg class="controls-PeriodDialog__stateButton_size_theme-{{theme}}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.5 1H9.5V4H6.5V1ZM2 5.5H5V8.5H2V5.5ZM6.5 5.5H9.5V8.5H6.5V5.5ZM11 5.5H14V8.5H11V5.5ZM11 1H14V4H11V1ZM2 1H5V4H2V1ZM2 10H5V13H2V10ZM6.5 10H9.5V13H6.5V10ZM11 10H14V13H11V10Z"
+                      class="controls-PeriodDialog__stateButton_color_theme-{{theme}}"/>
+            </svg>
+        </ws:else>
+    </div>
    <!--</div>-->
    <div if="{{ _headerType === _HEADER_TYPES.link }}" class="controls-PeriodDialog__header-period">
       <Controls.dateRange:LinkView

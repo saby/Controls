@@ -47,18 +47,19 @@ const _private = {
         styleProperty: string,
         theme: string,
         multiSelectVisibility: string,
-        rowSeparatorSize: string
+        rowSeparatorSize: string,
+        multiSelectPosition: string
     ): string {
         let classList = '';
         const itemPadding = _private.getItemPadding(itemPaddingProperty);
-        const style = styleProperty === 'masterClassic' || !styleProperty ? 'default' : styleProperty;
+        const style = !styleProperty ? 'default' : styleProperty;
 
         classList += ` controls-ListView__itemContent controls-ListView__itemContent_${style}_theme-${theme}`;
         classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${theme}`;
         classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${theme}`;
         classList += ` controls-ListView__item-rightPadding_${itemPadding.right}_theme-${theme}`;
 
-        if (multiSelectVisibility !== 'hidden') {
+        if (multiSelectVisibility !== 'hidden' && multiSelectPosition !== 'custom') {
             classList += ' controls-ListView__itemContent_withCheckboxes' + `_theme-${theme}`;
         } else {
             classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase() + `_theme-${theme}`;
@@ -77,12 +78,15 @@ const _private = {
         return self.isEditing() ? undefined : self.getItemById(markedKey, self.getKeyProperty());
     },
 
-    getMultiSelectClassList(current, checkboxOnHover: boolean): string {
+    getMultiSelectClassList(current, checkboxOnHover: boolean, theme: string): string {
         const isSelected = current.isSelected();
         const checkboxVisible = isSelected !== false && isSelected !== undefined; // так как null - это тоже выбрано
 
         return CssClassList.add('js-controls-ListView__checkbox')
                            .add(EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE)
+                           .add('controls-List_DragNDrop__notDraggable')
+                           .add('js-controls-ColumnScroll__notDraggable')
+                           .add(`controls-CheckboxMarker_inList_theme-${theme}`)
                            .add('controls-ListView__checkbox-onhover', checkboxOnHover && !checkboxVisible)
                            .compile();
     },
@@ -157,9 +161,47 @@ const _private = {
         itemsModelCurrent.getSwipeAnimation = (): string => itemsModelCurrent.dispItem.getSwipeAnimation();
         itemsModelCurrent.isAdd = itemsModelCurrent.dispItem.isAdd;
         itemsModelCurrent.addPosition = itemsModelCurrent.dispItem.addPosition;
+
+        itemsModelCurrent.isSticked = () => itemsModelCurrent.isStickedMasterItem || itemsModelCurrent.isGroup;
+        itemsModelCurrent.isDragged = () => itemsModelCurrent.isDragging;
+        itemsModelCurrent.getWrapperClasses = this.getWrapperClasses.bind(itemsModelCurrent);
+        itemsModelCurrent.getContentClasses = () => {
+            return `${itemsModelCurrent.spacingClassList} ${itemsModelCurrent.isRightSwiped?.() ? 'controls-ListView__item_rightSwipeAnimation' : ''}`;
+        };
     },
     getSeparatorSizes(options: IListSeparatorOptions): IListSeparatorOptions['rowSeparatorSize'] {
         return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;
+    },
+
+    getWrapperClasses(templateHighlightOnHover: boolean = true,
+                      theme?: string,
+                      cursor: string = 'pointer',
+                      backgroundColorStyle?: string,
+                      style: string = 'default'): string {
+        const hoverBackgroundStyle = this.hoverBackgroundStyle || style;
+        const editingBackgroundStyle = this.getEditingBackgroundStyle();
+        let wrapperClasses = `controls-ListView__itemV ${this.calcCursorClasses(cursor)}`;
+        wrapperClasses += ` controls-ListView__item_${style}`;
+        wrapperClasses += ` controls-ListView__item_${style}_theme-${theme}`;
+        wrapperClasses += ' controls-ListView__item_showActions';
+        wrapperClasses += ' js-controls-ItemActions__swipeMeasurementContainer';
+        wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}`;
+        if (templateHighlightOnHover && !this.isEditing()) {
+            wrapperClasses += ` controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}_theme_${theme}`;
+        }
+        if (this.isEditing()) {
+            wrapperClasses += ` controls-ListView__item_editing_theme-${theme} controls-ListView__item_background-editing_${editingBackgroundStyle}_theme-${theme}`;
+        }
+        if (this.isDragged()) {
+            wrapperClasses += ` controls-ListView__item_dragging_theme-${theme}`;
+        }
+        if (backgroundColorStyle) {
+            wrapperClasses += ` controls-ListView__item_background_${backgroundColorStyle}_theme-${theme}`;
+        }
+        if (templateHighlightOnHover && this.isActive()) {
+            wrapperClasses += ` controls-ListView__item_active_theme-${theme}`;
+        }
+        return wrapperClasses;
     }
 };
 
@@ -207,18 +249,17 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         const theme = this.getDisplay() ? this.getDisplay().getTheme() : self._options.theme;
         // New Model compatibility
         _private.addNewModelCompatibilityForItem(itemsModelCurrent);
-
         itemsModelCurrent.itemActionsPosition = this._options.itemActionsPosition;
         itemsModelCurrent._isSelected = itemsModelCurrent.dispItem.isMarked();
         itemsModelCurrent.searchValue = this._options.searchValue;
         itemsModelCurrent.markerVisibility = this._options.markerVisibility;
         itemsModelCurrent.itemTemplateProperty = this._options.itemTemplateProperty;
         itemsModelCurrent.isStickedMasterItem = itemsModelCurrent._isSelected && this._isSupportStickyMarkedItem();
-        itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options.itemPadding, this._options.style, theme, this._options.multiSelectVisibility, this._options.rowSeparatorSize);
+        itemsModelCurrent.spacingClassList = _private.getSpacingClassList(this._options.itemPadding, this._options.style, theme, this._options.multiSelectVisibility, this._options.rowSeparatorSize, this._options.multiSelectPosition);
         itemsModelCurrent.itemPadding = _private.getItemPadding(this._options.itemPadding);
         itemsModelCurrent.hasMultiSelect = !!this._options.multiSelectVisibility && this._options.multiSelectVisibility !== 'hidden';
         itemsModelCurrent.multiSelectClassList = itemsModelCurrent.hasMultiSelect ?
-            _private.getMultiSelectClassList(itemsModelCurrent, this._options.multiSelectVisibility === 'onhover') : '';
+            _private.getMultiSelectClassList(itemsModelCurrent, this._options.multiSelectVisibility === 'onhover', theme) : '';
         itemsModelCurrent.calcCursorClasses = this._calcCursorClasses;
         // Из Controls/scroll:Container прилетает backgroundStyle='default', нужно применять его только если style тоже default
         itemsModelCurrent.backgroundStyle = this._options.style === 'default' && this._options.backgroundStyle ? this._options.backgroundStyle : this._options.style;
@@ -228,13 +269,21 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             itemsModelCurrent.isStickyHeader = this._options.stickyHeader;
             itemsModelCurrent.virtualScrollConfig = this._isSupportVirtualScroll();
         }
+        itemsModelCurrent.getEditingBackgroundStyle = () => {
+            const editingConfig = this.getEditingConfig();
+            if (editingConfig) {
+                return editingConfig.backgroundStyle || 'default';
+            }
+            return 'default';
+        };
 
-        itemsModelCurrent.getMarkerClasses = (): string => {
+        itemsModelCurrent.getMarkerClasses = (markerClassName = 'default'): string => {
             const style = this._options.style || 'default';
             return `controls-ListView__itemV_marker
                     controls-ListView__itemV_marker_${style}_theme-${theme}
                     controls-ListView__itemV_marker_${style}_topPadding-${itemsModelCurrent.itemPadding.top}_theme-${theme}
-                    controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}_theme-${theme}`;
+                    controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}_theme-${theme}x
+                    controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (itemsModelCurrent.itemPadding.top || 'l') + '_' + markerClassName)}`;
         };
 
         if (itemsModelCurrent.isGroup) {
@@ -259,7 +308,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
     _isSupportStickyMarkedItem(): boolean {
         return this._options.stickyMarkedItem !== false &&
-            (this._options.style === 'master' || this._options.style === 'masterClassic');
+            (this._options.style === 'master');
     },
 
     _isSupportStickyItem(): boolean {

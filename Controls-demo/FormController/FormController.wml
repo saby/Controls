@@ -1,6 +1,10 @@
-<div
-         attr:class="form"
-
+<div attr:class="form">
+   <Controls.Pending name="registrator">
+      <Controls.form:Controller
+         name="formControllerInst"
+         source="{{ _options.dataSource || _dataSource }}"
+         record="{{ _record }}"
+         key="{{ !_record ? _key : undefined }}"
          on:createSuccessed="_createSuccessedHandler()"
          on:createFailed="_alertHandler('FormController demo: create failded')"
          on:readSuccessed="_readSuccessedHandler()"
@@ -9,18 +13,12 @@
          on:updateFailed="_updateFailedHandler()"
          on:deleteSuccessed="_deleteSuccessedHandler()"
          on:deleteFailed="_deleteFailedHandler()"
-
          on:validationSuccessed="_alertHandler('FormController demo: validation successed')"
          on:validationFailed="_validationFailedHandler()"
-
          on:showIndicator="_alertHandler('FormController demo: showIndicator event. If you\'re seeing this message, some error is occured!')"
          on:pendingsFinished="_alertHandler('FormController demo: pendings finished')"
          on:update="_updateHandler()"
-
-         on:requestCustomUpdate="_requestCustomUpdate()"
->
-   <Controls.Pending name="registrator">
-      <Controls.form:Controller name="formControllerInst" source="{{ _options.dataSource || _dataSource }}" record="{{ _record }}" key="{{ !_record ? _key : undefined }}">
+         on:requestCustomUpdate="_requestCustomUpdate()">
          <Controls-demo.FormController.Container name="Container">
          <div attr:class="form-content">
             <div>

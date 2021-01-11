@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import * as template from 'wml!Controls-demo/List/Swipe/Scenarios/SmallRow/SmallRow';
 // @ts-ignore
 import { HierarchicalMemory } from 'Types/source';

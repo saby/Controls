@@ -4573,6 +4573,7 @@ describe('Controls/_display/Collection', () => {
     describe('drag', () => {
         let display: CollectionDisplay<unknown>;
         let notifyLaterSpy;
+        let notifyCollectionChangeSpy;
         let rs;
         beforeEach(() => {
             const items = [
@@ -4589,6 +4590,27 @@ describe('Controls/_display/Collection', () => {
             });
 
             notifyLaterSpy = spy(display, '_notifyLater');
+            notifyCollectionChangeSpy = spy(display, '_notifyCollectionChange');
+        });
+
+        it('setDraggedItems', () => {
+            const draggedItem = display.getItemBySourceKey(1);
+            display.setDraggedItems(draggedItem, [1]);
+
+            assert.isTrue(notifyCollectionChangeSpy.calledTwice);
+            const firstCallArgs = notifyCollectionChangeSpy.firstCall.args;
+            assert.equal(firstCallArgs[0], 'rm');
+            assert.deepEqual(firstCallArgs[1], []);
+            assert.equal(firstCallArgs[2], 0);
+            assert.deepEqual(firstCallArgs[3], [draggedItem]);
+            assert.equal(firstCallArgs[4], 0);
+
+            const secondCallArgs = notifyCollectionChangeSpy.secondCall.args;
+            assert.equal(secondCallArgs[0], 'a');
+            assert.deepEqual(secondCallArgs[1], [display.getItems()[0]]);
+            assert.equal(secondCallArgs[2], 0);
+            assert.deepEqual(secondCallArgs[3], []);
+            assert.equal(secondCallArgs[4], 0);
         });
 
         it('setDraggedItems and was add item', () => {
@@ -4598,42 +4620,56 @@ describe('Controls/_display/Collection', () => {
             assert.isTrue(notifyLaterSpy.called);
         });
 
+        it('setDraggedItems to empty model', () => {
+            const emptyDisplay = new CollectionDisplay({
+                collection: new RecordSet({
+                    rawData: [],
+                    keyProperty: 'id'
+                })
+            });
+
+            const draggedItem = emptyDisplay.createItem({contents: {getKey: () => '123'}});
+            emptyDisplay.setDraggedItems(draggedItem, ['123']);
+            assert.equal(emptyDisplay.getItems()[0].getContents().getKey(), '123');
+        });
+
         it('setDraggedItems and was not add item', () => {
             const draggedItem = display.getItemBySourceKey(1);
             display.setDraggedItems(draggedItem, [1]);
             assert.equal(display.getItems()[0].getContents().getKey(), 1);
-            assert.isFalse(notifyLaterSpy.called);
+            assert.isTrue(notifyLaterSpy.called);
         });
 
         it('resetDraggedItems and was not add item', () => {
             const draggedItem = display.getItemBySourceKey(1);
             display.setDraggedItems(draggedItem, [1]);
             assert.equal(display.getItems()[0].getContents().getKey(), 1);
-            assert.isFalse(notifyLaterSpy.called);
+            assert.isTrue(notifyLaterSpy.called);
 
             display.resetDraggedItems();
-            assert.isFalse(notifyLaterSpy.called);
+            assert.isTrue(notifyLaterSpy.called);
         });
 
         it('resetDraggedItems and was add item', () => {
             const draggedItem = display.createItem({contents: {getKey: () => '123'}});
             display.setDraggedItems(draggedItem, ['123']);
             assert.equal(display.getItems()[2].getContents().getKey(), '123');
-            assert.isTrue(notifyLaterSpy.calledOnce);
+            assert.isTrue(notifyLaterSpy.called);
 
+            notifyLaterSpy.resetHistory();
             display.resetDraggedItems();
-            assert.isTrue(notifyLaterSpy.calledTwice);
+            assert.isTrue(notifyLaterSpy.called);
         });
 
         it('resetDraggedItems and was not added item on dragStart', () => {
             const draggedItem = display.getItemBySourceKey(1);
             display.setDraggedItems(draggedItem, [1]);
             assert.equal(display.getItems()[0].getContents().getKey(), 1);
-            assert.isFalse(notifyLaterSpy.called);
+            assert.isTrue(notifyLaterSpy.called);
 
             notifyLaterSpy.resetHistory();
             display.resetDraggedItems();
-            assert.isFalse(notifyLaterSpy.called);
+            assert.isTrue(notifyLaterSpy.called);
         });
     });
 });

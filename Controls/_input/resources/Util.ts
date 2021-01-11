@@ -90,3 +90,10 @@ export function processKeydownEvent(event: SyntheticEvent<KeyboardEvent>, additi
         event.stopPropagation();
     }
 }
+
+export function prepareEmptyValue(value, emptyValue) {
+    if ((value === null || value === '') && emptyValue !== undefined) {
+        value = emptyValue;
+    }
+    return value;
+}

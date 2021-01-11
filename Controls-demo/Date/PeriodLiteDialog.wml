@@ -7,7 +7,7 @@
                endValue="{{_endValue}}"
                year="{{_year}}"
                stickyPosition="{{_stickyPosition}}"
-			   attr:class="ControlsDemo-PeriodLiteDialog__full"
+			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__full"
          />
          <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
@@ -16,7 +16,7 @@
                checkedStart="{{_checkedStart}}"
                year="{{_year}}"
                stickyPosition="{{_stickyPosition}}"
-			   attr:class="ControlsDemo-PeriodLiteDialog__fullYes"
+			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__fullYes"
          >
              <ws:monthTemplate>
                  <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
@@ -29,7 +29,7 @@
                chooseHalfyears="{{false}}"
                chooseQuarters="{{false}}"
                stickyPosition="{{_stickyPosition}}"
-			   attr:class="ControlsDemo-PeriodLiteDialog__months"
+			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__months"
          />
          <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
@@ -40,7 +40,7 @@
                periods="{{_periods}}"
                checkedStart="{{_checkedStart}}"
                stickyPosition="{{_stickyPosition}}"
-			   attr:class="ControlsDemo-PeriodLiteDialog__monthsYes"
+			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__monthsYes"
          >
              <ws:monthTemplate>
                  <ws:partial periods="{{_periods}}" template="Controls/shortDatePicker:MonthTemplate"/>
@@ -56,7 +56,7 @@
                checkedStart="2015-02-31"
                checkedEnd="2015-08-31"
                stickyPosition="{{_stickyPosition}}"
-			   attr:class="ControlsDemo-PeriodLiteDialog__quarters"
+			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__quarters"
          />
          <Controls.shortDatePicker:View
                startValue="{{_startValue}}"
@@ -65,7 +65,7 @@
                chooseHalfyears="{{false}}"
                chooseMonths="{{false}}"
                stickyPosition="{{_stickyPosition}}"
-			   attr:class="ControlsDemo-PeriodLiteDialog__quartersYes"
+			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__quartersYes"
          />
          <Controls.shortDatePicker:View
                startValue="{{_startValueOnlyYears}}"
@@ -75,7 +75,7 @@
                chooseMonths="{{false}}"
                chooseQuarters="{{false}}"
                stickyPosition="{{_stickyPosition}}"
-			   attr:class="ControlsDemo-PeriodLiteDialog__years"
+			   attr:class="ControlsDemo-PeriodLiteDialog ControlsDemo-PeriodLiteDialog__years"
          />
       </div>
    </div>

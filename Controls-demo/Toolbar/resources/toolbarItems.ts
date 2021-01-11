@@ -1,4 +1,4 @@
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 
 export const data = {
     getDefaultItems: () => ([

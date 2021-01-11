@@ -1,16 +1,16 @@
 define('Controls-demo/Buttons/Menu/Menu', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Buttons/Menu/Menu',
    'Types/source',
-   'Controls/Constants',
+   'Controls/list',
    'Controls-demo/dropdown_new/Button/HistoryId/historySourceMenu',
 
    'wml!Controls-demo/Buttons/Menu/itemTemplateSub',
    'wml!Controls-demo/Buttons/Menu/itemTemplateComment'
-], function(Control, template, source, ControlsConstants, HistorySourceMenu) {
+], function(Base, template, source, ControlsConstants, HistorySourceMenu) {
    'use strict';
 
-   var ModuleClass = Control.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _oneItem: null,
@@ -303,7 +303,7 @@ define('Controls-demo/Buttons/Menu/Menu', [
 
          _groupingKeyCallback: function(item) {
             if (item.get('group') === 'hidden' || !item.get('group')) {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('group');
          }

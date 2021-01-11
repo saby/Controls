@@ -3,15 +3,15 @@
  */
 define('Controls-demo/List/Swipe', [
    'Env/Env',
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Swipe/Swipe',
    'Types/source',
 ], function(Env,
-   BaseControl,
+   Base,
    template,
    source) {
    'use strict';
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _actions: null,
          _heightS: null,

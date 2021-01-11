@@ -1,13 +1,13 @@
 define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3WithHandlers',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3WithHandlers',
       'Lib/Control/LayerCompatible/LayerCompatible',
    ],
-   function(Control, template, CompatibleLayer) {
+   function(Base, template, CompatibleLayer) {
       'use strict';
 
-      var WS3WithHandlers = Control.extend({
+      var WS3WithHandlers = Base.Control.extend({
          _template: template,
          _compatibleReady: false,
          _textForWs3Control: null,
@@ -41,7 +41,7 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/WS3/WS3WithHandlers',
 
          // изменение текста в WS3-контроле, который находится в CompoundContainer
          _setTextFromWs3Control: function(e, value) {
-            this.getTopParent()._logicParent._proxySetTextFromWs3Control(e, value);
+            this.getParent()._logicParent._proxySetTextFromWs3Control(e, value);
          },
       });
       WS3WithHandlers._styles = ['Controls-demo/CompatibleDemo/CompatibleDemo'];

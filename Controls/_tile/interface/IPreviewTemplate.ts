@@ -1,12 +1,13 @@
 import {TemplateFunction} from 'UI/Base';
 /**
  * Шаблон для отображения элементов в режиме превью в {@link Controls/tile:View плитке}.
- * @class Controls/tile:PreviewTemplate
+ * @class Controls/_tile/interface/IPreviewTemplate
  * @mixes Controls/tile:ItemTemplate
  * @author Михайлов С.Е
  * @see Controls/tile:View
  * @example
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.tile:View>
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:PreviewTemplate"
@@ -23,7 +24,6 @@ import {TemplateFunction} from 'UI/Base';
 
 export default interface IPreviewTemplateOptions {
     /**
-     * @name Controls/tile:PreviewTemplate#titleLines
      * @cfg {Number} Количество строк в заголовке.
      */
     titleLines?: number;
@@ -34,7 +34,6 @@ export default interface IPreviewTemplateOptions {
      */
 
     /**
-     * @name Controls/tile:PreviewTemplate#titleStyle
      * @cfg {TitleStyle} Стиль отображения заголовка плитки.
      * @default light
      * @see gradientType
@@ -48,38 +47,33 @@ export default interface IPreviewTemplateOptions {
      */
 
     /**
-     * @name Controls/tile:PreviewTemplate#gradientType
      * @cfg {GradientType} Тип отображения градиента.
      * @see gradientColor
      */
     gradientType?: 'light' | 'dark' | 'custom';
 
     /**
-     * @name Controls/tile:PreviewTemplate#gradientColor
      * @cfg {String} Цвет градиента. Можно указывать в любом формате, который поддерживается в CSS.
      * @default #FFF
      * @see gradientType
      */
     gradientColor?: string;
     /**
-     * @name Controls/tile:PreviewTemplate#bottomRightTemplate
      * @cfg {TemplateFunction} Шаблон справа от заголовка плитки.
-     * @default #FFF
+     * @default undefined
      * @see gradientType
      */
     bottomRightTemplate: TemplateFunction;
     /**
-     * @name Controls/tile:PreviewTemplate#footerTemplate
      * @cfg {TemplateFunction} Шаблон подвала элемента.
-     * @default #FFF
+     * @default undefined
      * @see gradientType
      */
     footerTemplate: TemplateFunction;
 
     /**
-     * @name Controls/tile:PreviewTemplate#topTemplate
      * @cfg {TemplateFunction} Шаблон шапки элемента.
-     * @default #FFF
+     * @default undefined
      * @see gradientType
      */
     topTemplate: TemplateFunction;

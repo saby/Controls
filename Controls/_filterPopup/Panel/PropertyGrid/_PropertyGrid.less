@@ -1,21 +1,27 @@
-.controls-PropertyGrid__item {
+.controls-FilterPanel__PropertyGrid__item {
    display: flex;
    align-items: center;
 }
 
-.controls-PropertyGrid__item_theme-@{themeName} {
+.controls-FilterPanel__PropertyGrid__item_theme-@{themeName} {
    min-height: @basic_item_height_filterPanel;
 }
 
-.controls-PropertyGrid__item_theme-@{themeName}:empty {
+.controls-FilterPanel__PropertyGrid__item_theme-@{themeName}::before {
+   content: "\200b";
+   height: @basic_item_height_filterPanel;
+}
+
+.controls-FilterPanel__PropertyGrid__item_theme-@{themeName}:empty {
    min-height: 0;
+   max-height: 0;
    margin-bottom: 0;
 }
 
-.controls-PropertyGrid__notLastItem {
+.controls-FilterPanel__PropertyGrid__notLastItem {
    margin-bottom: @basic_item_padding-bottom_filterPanel;
 }
 
-.controls-PropertyGrid__lastItem {
+.controls-FilterPanel__PropertyGrid__lastItem {
    margin-bottom: 0;
 }

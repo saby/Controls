@@ -1,52 +1,91 @@
-import cExtend = require('Core/core-simpleExtend');
-import Registrar = require('Controls/_event/Registrar');
-import {IRegistrarConfig} from "./Registrar";
+import {Control} from 'UI/Base';
 
 export interface IRegisterClassConfig {
     listenAll?: boolean;
 }
 
-export interface RegisterClassOptions {
-   register?: unknown;
+export interface IRegisterClassOptions {
+   register?: string;
 }
 
 class RegisterClass {
-    private _register: unknown;
-    private _registrar: unknown;
+    private _register: string;
+    private _registry: {
+        [key: number]: {
+            callback: Function;
+            component: Control
+        }
+    } = {};
 
-    constructor(options: RegisterClassOptions) {
+    constructor(options: IRegisterClassOptions) {
        this._register = options.register;
-       this._registrar = new Registrar({register: this._register});
     }
 
-    register(event: Event, registerType: string, component, callback, config: IRegistrarConfig = {}): void {
+    register(event: Event, registerType: string, component: Control, callback: Function, config: IRegisterClassConfig = {}): void {
        if (registerType === this._register) {
-          this._registrar.register(event, component, callback, config);
+           const componentId = component.getInstanceId();
+           this._registry[componentId] = {
+               component,
+               callback
+           };
+           const previousUnmountCallback = component.unmountCallback;
+           component.unmountCallback = () => {
+               if (typeof previousUnmountCallback === 'function') {
+                   previousUnmountCallback();
+               }
+               this.unregister(event, component);
+           };
+           if (!config.listenAll) {
+               event.stopPropagation();
+           }
        }
     }
 
-    unregister(event: Event, registerType: string, component, config: IRegistrarConfig = {}): void {
-       if (registerType === this._register) {
-          this._registrar.unregister(event, component, config);
-       }
+    unregister(event: Event, registerType: string, component: Control, config: IRegisterClassConfig = {}): void {
+        if (registerType === this._register) {
+            delete this._registry[component.getInstanceId()];
+            if (!config.listenAll) {
+                event.stopPropagation();
+            }
+        }
     }
 
    start(event): void {
-      this._registrar.start.apply(this._registrar, arguments);
+      if (!this._registry) {
+          return;
+      }
+      for (const i in this._registry) {
+          if (this._registry.hasOwnProperty(i)) {
+              const obj = this._registry[i];
+              if (obj) {
+                  obj.callback.apply(obj.component, arguments);
+              }
+          }
+      }
    }
 
-   startOnceTarget(target): void {
-       const argsClone = Array.prototype.slice.call(arguments);
-       argsClone.splice(0, 1);
-       this._registrar.startOnceTarget(target, ...argsClone);
+   startOnceTarget(target: Control): void {
+       let argsClone;
+       if (!this._registry) {
+           return;
+       }
+       for (const i in this._registry) {
+           if (this._registry.hasOwnProperty(i)) {
+               const obj = this._registry[i];
+               if (obj.component === target) {
+                   argsClone = Array.prototype.slice.call(arguments);
+                   argsClone.splice(0, 1);
+                   if (obj) {
+                       obj.callback.apply(obj.component, argsClone);
+                   }
+               }
+           }
+       }
    }
 
    destroy(): void {
-      if (this._registrar) {
-         this._registrar.destroy();
-         this._registrar = null;
-         this._register = null;
-      }
+       this._registry = null;
+       this._register = null;
    }
 }
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui_module id="0641abed-e0fb-4f42-990c-4c24bdbd7555" name="DemoStand" package="Платформа" responsible="Кудрявцев И.С." version="1.00">
+
+  <description/>
+
+  <depends>
+    <module id="f6fdf353-3ab3-4dbb-8671-01c2b418bf0a" name="Controls"/>
+    <module id="7e8aabad-d60f-4c48-aa74-f29d78fd8be2" name="RequireJsLoader"/>
+    <module id="af50caf5-f84b-4b81-a19c-6f6618372dbd" name="Controls-default-theme"/>
+    <module id="a857d050-c754-4d39-90ec-fca5e2ddf022" name="Router"/>
+    <module id="ea29a33a-6636-4a1f-a655-1dec6974e04e" name="SbisEnvUI-default-theme"/>
+    <module id="636177e5-4d75-44fa-9173-977dc90ff191" name="File"/>
+    <module id="db97ce92-b7ce-4ff3-9649-dc43fd3c36bf" name="HotReload"/>
+    <module id="37e402f1-2fb0-4b73-81c5-113cf94dbf1c" name="WasabyLoader"/>
+  </depends>
+
+  <load_after/>
+
+  <parameters/>
+
+  <resources/>
+
+  <preload/>
+
+</ui_module>

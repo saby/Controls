@@ -1,18 +1,23 @@
-<ws:if data="{{ !!contentTemplate }}">
-    <ws:partial template="{{ contentTemplate }}" colData="{{ colData }}"/>
-</ws:if>
-<ws:else>
-    <ws:if data="{{ colData.getSortingProperty() }}">
-        <Controls._grid.SortingButton
-                align="{{ colData.getAlign() }}"
-                textOverflow="{{ colData.getTextOverflow() }}"
-                caption="{{ colData.getCaption() }}"
-                attr:class="controls-Grid__sorting-button"
-                property="{{ colData.getSortingProperty() }}"/>
+<div class="{{ (gridColumn || colData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+     style="{{ (gridColumn || colData).getContentStyles() }}">
+    <ws:if data="{{ !!contentTemplate }}">
+        <ws:partial template="{{ contentTemplate }}" colData="{{ gridColumn || colData }}"/>
     </ws:if>
     <ws:else>
-        <div title="{{ colData.getCaption() }}" class="controls-Grid__header-cell__content__innerWrapper controls-Grid__header-cell__content-{{ colData.getTextOverflow() }}">
-            {{ colData.getCaption() }}
-        </div>
+        <ws:if data="{{ (gridColumn || colData).getSortingProperty() }}">
+            <Controls._grid.SortingButton
+                    align="{{ (gridColumn || colData).getAlign() }}"
+                    textOverflow="{{ (gridColumn || colData).getTextOverflow() }}"
+                    caption="{{ (gridColumn || colData).getCaption() }}"
+                    attr:class="controls-Grid__sorting-button"
+                    property="{{ (gridColumn || colData).getSortingProperty() }}"
+                    value="{{ (gridColumn || colData).getSorting() }}"/>
+        </ws:if>
+        <ws:else>
+            <div title="{{ (gridColumn || colData).getCaption() }}"
+                 class="controls-Grid__header-cell__content__innerWrapper controls-Grid__header-cell__content-{{ (gridColumn || colData).getTextOverflow() }}">
+                {{ (gridColumn || colData).getCaption() }}
+            </div>
+        </ws:else>
     </ws:else>
-</ws:else>
+</div>

@@ -1,20 +1,20 @@
 define('Controls-demo/Example/Input/Font',
    [
-      'Core/Control',
+      'UI/Base',
       'Controls-demo/Example/Input/SetValueMixin',
       'wml!Controls-demo/Example/Input/Font/Font',
 
       'Controls/input',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
-   function(Control, SetValueMixin, template) {
+   function(BaseMod, SetValueMixin, template) {
       'use strict';
 
       var FILLED_VALUE = 'Text in the input field';
       var FILLED_MONEY_VALUE = '852.45';
       var FILLED_NUMBER_VALUE = 123.456;
 
-      var ModuleClass = Control.extend([SetValueMixin], {
+      var ModuleClass = BaseMod.Control.extend([SetValueMixin], {
          _template: template,
 
          _filled1Value: FILLED_VALUE,

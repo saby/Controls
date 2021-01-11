@@ -1,12 +1,12 @@
 define('Controls-demo/Popup/Opener/ConfirmationTpl',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/Opener/ConfirmationTpl'
    ],
 
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
-      var DialogPG = Control.extend({
+      var DialogPG = Base.Control.extend({
          _template: template,
          _closeHandler: function() {
             this._notify('close', [], {bubbling: true});

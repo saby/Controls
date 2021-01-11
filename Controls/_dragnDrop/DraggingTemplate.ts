@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_dragnDrop/DraggingTemplate/DraggingTemplate');
 
    var MAX_ITEMS_COUNT = 999;
@@ -20,11 +20,11 @@ import template = require('wml!Controls/_dragnDrop/DraggingTemplate/DraggingTemp
     *
     * @remark
     * Полезные ссылки:
-    * * <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">руководство разработчика</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
+    * * {@link /doc/platform/developmentapl/interface-development/controls/drag-n-drop/ руководство разработчика}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less переменные тем оформления}
     *
     * @class Controls/_dragnDrop/DraggingTemplate
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * 
     * @public
     * @author Авраменко А.С.
@@ -34,7 +34,7 @@ import template = require('wml!Controls/_dragnDrop/DraggingTemplate/DraggingTemp
     * Standard dragging template for the list.
     * More information you can read <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">here</a>.
     * @class Controls/_dragnDrop/DraggingTemplate
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * 
     * @private
     * @author Авраменко А.С.

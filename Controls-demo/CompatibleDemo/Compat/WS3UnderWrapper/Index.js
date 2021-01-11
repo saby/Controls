@@ -1,10 +1,10 @@
 define('Controls-demo/CompatibleDemo/Compat/WS3UnderWrapper/Index', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/CompatibleDemo/Compat/WS3UnderWrapper/Index'
-], function(BaseControl, template) {
+], function(Base, template) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _beforeMount: function() {

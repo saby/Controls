@@ -1,6 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/Toolbar/ItemActions/ItemActions');
-import {showType} from 'Controls/Utils/Toolbar';
+import {showType} from 'Controls/toolbars';
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 

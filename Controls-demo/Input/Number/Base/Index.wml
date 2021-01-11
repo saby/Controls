@@ -1,13 +1,13 @@
 <div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-NumberBase__default">
         <div class="controls-text-label_theme-{{_options.theme}}">default options</div>
         <Controls.input:Number bind:value="_value1" attr:style="width:200px"></Controls.input:Number>
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-NumberBase__length4Precision1">
         <div class="controls-text-label_theme-{{_options.theme}}">integersLength=4, precision=1</div>
         <Controls.input:Number integersLength="{{4}}" precision="{{1}}" bind:value="_value2" attr:style="width:200px"></Controls.input:Number>
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-NumberBase__onlyPositive">
         <div class="controls-text-label_theme-{{_options.theme}}">onlyPositive=true</div>
         <Controls.input:Number onlyPositive="{{true}}" bind:value="_value3" attr:style="width:200px"></Controls.input:Number>
     </div>

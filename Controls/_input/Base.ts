@@ -1,15 +1,19 @@
-import Control = require('Core/Control');
-import Env = require('Env/Env');
-import entity = require('Types/entity');
-import {tmplNotify} from 'Controls/eventUtils';
-import ViewModel = require('Controls/_input/Base/ViewModel');
-import unEscapeASCII = require('Core/helpers/String/unEscapeASCII');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {detection, constants} from 'Env/Env';
+import {descriptor} from 'Types/entity';
+import {EventUtils} from 'UI/Events';
+import {isEqual} from 'Types/object';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import * as ViewModel from 'Controls/_input/Base/ViewModel';
+import * as unEscapeASCII from 'Core/helpers/String/unEscapeASCII';
 import {hasHorizontalScroll} from 'Controls/scroll';
+import {processKeydownEvent} from 'Controls/_input/resources/Util';
+import {IBaseOptions} from 'Controls/_input/interface/IBase';
 import template = require('wml!Controls/_input/Base/Base');
 import fieldTemplate = require('wml!Controls/_input/Base/Field');
-import {processKeydownEvent} from 'Controls/_input/resources/Util';
 import readOnlyFieldTemplate = require('wml!Controls/_input/Base/ReadOnly');
-import {isEqual} from 'Types/object';
+import Field from 'Controls/_input/resources/Field';
+import {IViewModelOptions} from 'Controls/_input/Text/ViewModel';
 
 import {getOptionPaddingTypes, getDefaultPaddingOptions} from './interface/IPadding';
 
@@ -17,211 +21,44 @@ import 'wml!Controls/_input/Base/Stretcher';
 import 'wml!Controls/_input/Base/FixValueAttr';
 
 interface IFieldTemplate {
-    template: 'wml!Controls/_input/Base/Field';
+    template: string|TemplateFunction;
     scope: {
-        emptySymbol: string;
-        controlName: string;
-        autoComplete: boolean;
-        ieVersion: number | null;
-        isFieldFocused: () => boolean;
+        emptySymbol?: string;
+        controlName?: string;
+        autoComplete?: boolean|string;
+        ieVersion?: number | null;
+        isFieldFocused?: () => boolean;
 
         value?: string;
         options?: any;
         autoWidth?: boolean;
     };
 }
-
-var _private = {
-
-    /**
-     * @type {Number} The width of the cursor in the field measured in pixels.
-     * @private
-     */
-    WIDTH_CURSOR: 1,
-
-
-
-    /**
-     * Determines whether the value of the selection in the field with the checked value is equal.
-     * @param {Node} field Field to check.
-     * @param {Controls/_input/Base/Types/Selection.typedef} selection The checked value.
-     * @return {boolean}
-     */
-    hasSelectionChanged: function (field, selection) {
-        return field.selectionStart !== selection.start || field.selectionEnd !== selection.end;
-    },
-
-    isFieldFocused: function (self) {
-        /**
-         * A field in focus when it is the active element on the page.
-         * The active element is only on the client. The field cannot be focused on the server.
-         */
-        if (self._isBrowserPlatform) {
-            return self._getActiveElement() === self._getField();
-        }
-
-        return false;
-    },
-
-    isReAutoCompleteInEdge: function (isEdge, model, valueField) {
-        /**
-         * If you re-auto-complete, the value in the field and in the model will be the same.
-         * But this is not enough, because it will be the case if you select the entire field and
-         * paste the value from the buffer equal to the current value of the field.
-         * Check that there was no selection.
-         */
-        return isEdge && model.displayValue === valueField && model.selection.start === model.selection.end;
-    },
-
-    /**
-     * @param {Controls/_input/Base} self Control instance.
-     */
-    notifyValueChanged: function (self) {
-        self._notify('valueChanged', [self._viewModel.value, self._viewModel.displayValue]);
-    },
-
-    notifyInputControl: function (self) {
-        self._notify('inputControl', [self._viewModel.value, self._viewModel.displayValue, self._viewModel.selection]);
-    },
-
-    /**
-     * @param {Controls/_input/Base} self Control instance.
-     */
-    notifyInputCompleted: function (self) {
-        self._notify('inputCompleted', [self._viewModel.value, self._viewModel.displayValue]);
-    },
-
-    recalculateLocationVisibleArea: function (self, field, value, selection) {
-        var textWidthBeforeCursor = self._getTextWidth(value.substring(0, selection.end));
-
-        var positionCursor = textWidthBeforeCursor + _private.WIDTH_CURSOR;
-        var sizeVisibleArea = field.clientWidth;
-        var beginningVisibleArea = field.scrollLeft;
-        var endingVisibleArea = field.scrollLeft + sizeVisibleArea;
-
-        /**
-         * The cursor is visible if its position is between the beginning and the end of the visible area.
-         */
-        var hasVisibilityCursor = beginningVisibleArea < positionCursor && positionCursor < endingVisibleArea;
-
-        if (!hasVisibilityCursor) {
-            field.scrollLeft = positionCursor - sizeVisibleArea / 2;
-        }
-    },
-
-    /**
-     * Get the beginning and end of the selected portion of the field's text.
-     * @param {Controls/_input/Base} self Control instance.
-     * @return {Controls/_input/Base/Types/Selection.typedef}
-     * @private
-     */
-    getFieldSelection: function (self) {
-        var field = self._getField();
-
-        return {
-            start: field.selectionStart,
-            end: field.selectionEnd
-        };
-    },
-
-    /**
-     * The method executes a provided function once for field.
-     * @param {Controls/_input/Base} self Control instance.
-     * @param {Controls/_input/Base/Types/CallbackForField.typedef} callback Function to execute for field.
-     * @private
-     */
-    forField: function (self, callback) {
-        /**
-         * In read mode, the field does not exist.
-         */
-        if (!self._options.readOnly) {
-            callback(self._getField());
-        }
-    },
-
-    getTextWidth: function (element, value) {
-        element.innerHTML = value;
-        var width = element.scrollWidth;
-        element.innerHTML = '';
-
-        return width;
-    },
-
-    getTextWidthThroughCreationElement: function (value) {
-        var element = document.createElement('div');
-        element.classList.add('controls-InputBase__forCalc');
-        element.innerHTML = value;
-
-        document.body.appendChild(element);
-        var width = element.scrollWidth;
-        document.body.removeChild(element);
-
-        return width;
-    },
-
-    compatAutoComplete: function (autoComplete) {
-        if (typeof autoComplete === 'boolean') {
-            return autoComplete ? 'on' : 'off';
-        }
-
-        return autoComplete;
-    },
-
-    updateViewModel: function (self, newOptions, newValue) {
-        if (!isEqual(self._viewModel.options, newOptions)) {
-            self._viewModel.options = newOptions;
-        }
-
-        if (self._viewModel.value !== newValue) {
-            self._viewModel.value = newValue;
-        }
-
-        _private.updateSelectionByOptions(self, newOptions);
-    },
-
-    getValue: function (self, options) {
-        if (options.hasOwnProperty('value')) {
-            return options.value === undefined ? self._defaultValue : options.value;
-        }
-
-        if (self._viewModel) {
-            return self._viewModel.value;
-        }
-
-        return self._defaultValue;
-    },
-
-    updateSelectionByOptions: function(self, options) {
-        if (
-            options.hasOwnProperty('selectionStart') &&
-            options.hasOwnProperty('selectionEnd') &&
-            (self._options.selectionStart !== options.selectionStart || self._options.selectionEnd !== options.selectionEnd)
-        ) {
-            self._viewModel.selection = {
-                start: options.selectionStart,
-                end: options.selectionEnd
-            };
-        }
-    }
-};
+export interface IBaseInputOptions extends IBaseOptions, IControlOptions {}
+/**
+ * @type {Number} The width of the cursor in the field measured in pixels.
+ * @private
+ */
+const WIDTH_CURSOR: number = 1;
 
 /**
  * Базовый класс для текстовых полей ввода.
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Base
  * @extends UI/Base:Control
  * @implements Controls/interface:IHeight
  * @implements Controls/interface:IFontSize
+ * @implements Controls/interface:IFontWeight
  * @implements Controls/interface:IBorderStyle
  * @implements Controls/interface:IFontColorStyle
  * @implements Controls/interface:IValidationStatus
  * @implements Controls/input:IBase
  * @implements Controls/input:ITag
- * @implements Controls/input:IValue
+ * @implements Controls/_input/interface/IValueOptions
  * @implements Controls/input:IBorderVisibility
  * @implements Controls/input:IPadding
  * @implements Controls/input:ISelection
@@ -229,53 +66,53 @@ var _private = {
  * @author Красильников А.С.
  */
 
-var Base = Control.extend({
+class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBaseInputOptions> {
 
     /**
      * @type {Function} Control display template.
      * @protected
      */
-    _template: template,
+    protected _template: TemplateFunction = template;
 
     /**
      * @type {Controls/_input/Base/Types/DisplayingControl.typedef} Input field in edit mode.
      * @protected
      */
-    _field: null,
+    protected _field: IFieldTemplate = null;
 
-    _defaultValue: null,
+    protected _defaultValue: string|number = null;
 
     /**
      * @type {Boolean} Determines whether the control stretch over the content.
      * @protected
      */
-    _autoWidth: false,
+    protected _autoWidth: boolean = false;
 
     /**
      * @type {Controls/_input/Base/Types/DisplayingControl.typedef} Input field in read mode.
      * @protected
      */
-    _readOnlyField: null,
+    protected _readOnlyField: IFieldTemplate = null;
 
     /**
      * @type {Controls/_input/Base/ViewModel} The display model of the input field.
      * @protected
      */
-    _viewModel: null,
+    protected _viewModel;
 
-    _wasActionUser: true,
+    protected _wasActionUser: boolean = true;
 
     /**
      * @type {Controls/Utils/tmplNotify}
      * @protected
      */
-    _notifyHandler: tmplNotify,
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
 
     /**
      * @type {String} Text of the tooltip shown when the control is hovered over.
      * @protected
      */
-    _tooltip: '',
+    protected _tooltip: string = '';
 
     /**
      * @type {String} Value of the type attribute in the native field.
@@ -283,121 +120,92 @@ var Base = Control.extend({
      * How an native field works varies considerably depending on the value of its {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types type attribute}.
      * @protected
      */
-    _type: 'text',
+    protected _type: string = 'text';
 
     /**
      * Значение атрибута inputmode в нативном поле ввода.
      */
-    _inputMode: 'text',
+    protected _inputMode: string = 'text';
 
     /**
      * @type {String} Value of the name attribute in the native field.
      * @protected
      */
-    _fieldName: 'input',
+    protected _fieldName: string = 'input';
 
     /**
      * @type {Boolean} Determines whether the control is multiline.
      * @protected
      */
-    _multiline: false,
+    protected _multiline: boolean = false;
 
     /**
      * @type {Boolean} Determines whether the control has a rounded border.
      * @protected
      */
-    _roundBorder: false,
-
-    _updateSelection: function (selection) {
-        return this._getField().setSelectionRange(selection.start, selection.end);
-    },
-
-    /**
-     * @type {Controls/Utils/getTextWidth}
-     * @private
-     */
-    _getTextWidth: function (value) {
-        var element = this._children.forCalc;
-
-        /**
-         * The element for calculations is available only at the moment of field focusing.
-         * The reason is that the main call occurs during input when the field is in focus.
-         * At other times, the element will be used very rarely. So for the rare cases
-         * it is better to create it yourself.
-         */
-        return element ? _private.getTextWidth(element, value) : _private.getTextWidthThroughCreationElement(value);
-    },
+    protected _roundBorder: boolean = false;
 
     /**
      * @type {Controls/_utils/sizeUtils/hasHorizontalScroll}
      * @private
      */
-    _hasHorizontalScroll: hasHorizontalScroll,
+    protected _hasHorizontalScroll: Function = hasHorizontalScroll;
 
     /**
      * @type {Number|null} The version of IE browser in which the control is build.
      * @private
      */
-    _ieVersion: null,
+    protected  _ieVersion: number =  null;
 
     /**
      * @type {Boolean|null} Determines whether the control is building in the mobile Android environment.
      * @private
      */
-    _isMobileAndroid: null,
+    protected  _isMobileAndroid: boolean = null;
+
+    protected  _isIE: boolean = null;
 
     /**
      * @type {Boolean|null} Determines whether the control is building in the mobile IOS environment.
      * @private
      */
-    _isMobileIOS: null,
+    protected _isMobileIOS: boolean = null;
 
-    _hidePlaceholder: null,
+    protected _hidePlaceholder: boolean = null;
     /**
      * @type {Boolean|null} Determined whether to hide the placeholder using css.
      * @private
      */
-    _hidePlaceholderUsingCSS: null,
+    protected _hidePlaceholderUsingCSS: boolean = null;
 
     /**
      * @type {Boolean|null} Determines whether the control is building in the Edge.
      * @private
      */
-    _isEdge: null,
+    protected _isEdge: boolean = null;
 
     /**
      * Содержит методы для исправления багов полей ввода связанных с нативным поведением в браузерах.
      */
-    _fixBugs: null,
+    protected _fixBugs: string = null;
 
-    _currentVersionModel: null,
+    protected  _currentVersionModel: number;
+    protected _autoComplete: string;
+    protected _firstClick: boolean;
+    protected _focusByMouseDown: boolean;
+    protected _leftFieldWrapper: IFieldTemplate;
+    protected _rightFieldWrapper: IFieldTemplate;
+    private _isBrowserPlatform: boolean;
 
-    /**
-     * @type {Controls/_input/Render#style}
-     * @protected
-     */
-    _renderStyle() {
-        return '';
-    },
+    constructor(cfg: IBaseInputOptions) {
+        super(cfg);
 
-    /**
-     *
-     * @return {HTMLElement}
-     * @private
-     */
-    _getActiveElement: function () {
-        return document.activeElement;
-    },
-
-    constructor: function (cfg) {
-        Base.superclass.constructor.call(this, cfg);
-
-        this._isIE = Env.detection.isIE;
-        this._ieVersion = Env.detection.IEVersion;
-        this._isMobileAndroid = Env.detection.isMobileAndroid;
-        this._isMobileIOS = Env.detection.isMobileIOS;
-        this._isEdge = Env.detection.isIE12;
-        this._isBrowserPlatform = Env.constants.isBrowserPlatform;
+        this._isIE = detection.isIE;
+        this._ieVersion = detection.IEVersion;
+        this._isMobileAndroid = detection.isMobileAndroid;
+        this._isMobileIOS = detection.isMobileIOS;
+        this._isEdge = detection.isIE12;
+        this._isBrowserPlatform = constants.isBrowserPlatform;
 
         /**
          * Hide in chrome because it supports auto-completion of the field when hovering over an item
@@ -412,17 +220,17 @@ var Base = Control.extend({
          * from the value in the model. And when you change the selection, the field starts to focus.
          * There is a situation that you can not withdraw focus from the field.
          */
-        this._hidePlaceholderUsingCSS = Env.detection.chrome;
-    },
+        this._hidePlaceholderUsingCSS = detection.chrome;
+    }
 
-    _beforeMount: function (options) {
-        this._autoComplete = _private.compatAutoComplete(options.autoComplete);
+    protected _beforeMount(options: IBaseInputOptions): void {
+        this._autoComplete = this._compatAutoComplete(options.autoComplete);
         const ctr = this._getViewModelConstructor();
         this._viewModel = new ctr(
             this._getViewModelOptions(options),
-            _private.getValue(this, options)
+            this._getValue(options)
         );
-        _private.updateSelectionByOptions(this, options);
+        this._updateSelectionByOptions(options);
         this._initProperties(options);
 
         if (this._autoComplete !== 'off') {
@@ -448,24 +256,164 @@ var Base = Control.extend({
          * The state is not available until the control is mount to DOM. So hide the placeholder until then.
          */
         this._hidePlaceholder = this._autoComplete !== 'off' && !this._hidePlaceholderUsingCSS;
-    },
+    }
 
-    _afterMount: function () {
+    protected _afterMount(): void {
         this._hidePlaceholder = false;
-    },
+    }
 
-    _beforeUpdate: function (newOptions) {
+    protected _beforeUpdate(newOptions: IBaseInputOptions): void {
         const newViewModelOptions = this._getViewModelOptions(newOptions);
         this._viewModel.displayValueBeforeUpdate = this._viewModel.displayValue;
-        _private.updateViewModel(this, newViewModelOptions, _private.getValue(this, newOptions));
-        _private.updateSelectionByOptions(this, newOptions);
-    },
+        this._updateViewModel(newViewModelOptions, this._getValue(newOptions));
+        this._updateSelectionByOptions(newOptions);
+    }
+
+    /**
+     * @type {Controls/_input/Render#style}
+     * @protected
+     */
+    protected _renderStyle(): string {
+        return '';
+    }
+
+    /**
+     * Event handler mouse enter.
+     * @private
+     */
+    protected _mouseEnterHandler(event: SyntheticEvent<MouseEvent>): void {
+        this._tooltip = this._getTooltip();
+
+        /**
+         * TODO: https://online.sbis.ru/open_dialog.html?guid=011f1615-81e1-e01b-11cb-881d311ae617&message=010c1611-8160-e015-213d-5a11b13ef818
+         * Remove after execution https://online.sbis.ru/opendoc.html?guid=809254e8-e179-443b-b8b7-f4a37e05f7d8
+         */
+        this._notify('mouseenter', [event]);
+    }
+
+    protected _cutHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        // redefinition
+    }
+
+    protected _copyHandler(event: SyntheticEvent<ClipboardEvent>): void {
+        // redefinition
+    }
+
+    protected _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        // redefinition
+    }
+
+    protected _keyDownHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        processKeydownEvent(event);
+    }
+
+    protected _selectHandler(): void {
+        // redefinition
+    }
+
+    protected _focusOutHandler(): void {
+        // redefinition
+    }
+
+    protected _touchStartHandler(): void {
+        // redefinition
+    }
+
+    /**
+     * Event handler click in native field.
+     * @private
+     */
+    protected _clickHandler(event: SyntheticEvent<MouseEvent>): void {
+        this._firstClick = false;
+    }
+
+    protected _inputHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        // redefinition
+    }
+
+    protected _placeholderClickHandler(): void {
+        /**
+         * Placeholder is positioned above the input field.
+         * When clicking, the cursor should stand in the input field.
+         * To do this, we ignore placeholder using the pointer-events property with none value.
+         * The property is not supported in ie lower version 11.
+         * In ie 11, you sometimes need to switch versions in emulation to work.
+         * Therefore, we ourselves will activate the field on click.
+         * https://caniuse.com/#search=pointer-events
+         */
+        if (this._ieVersion && this._ieVersion < 12) {
+            this._getField().focus();
+        }
+    }
+
+    protected _focusInHandler(event: SyntheticEvent<FocusEvent>): void {
+        if (this._options.selectOnClick) {
+            this._viewModel.select();
+        }
+
+        if (this._focusByMouseDown) {
+            this._firstClick = true;
+            this._focusByMouseDown = false;
+        }
+    }
+
+    protected _mouseDownHandler(): void {
+        if (!this._isFieldFocused()) {
+            this._focusByMouseDown = true;
+        }
+    }
+
+    protected _domAutoCompleteHandler(): void {
+        /**
+         * When the user selects a value from the auto-complete, the other fields associated with it are
+         * automatically filled in. The logic of the control operation is based on displaying the value
+         * according to its options. Therefore, the field value is updated during the synchronization cycle.
+         *
+         * In firefox, after the field is automatically filled in, you should immediately set the value
+         * in the field without waiting for a synchronization cycle. Otherwise, the values will not be substituted
+         * into other fields.
+         *
+         * About what happened auto-complete learn through the event DOMAutoComplete,
+         * which is supported only in firefox. https://developer.mozilla.org/en-US/docs/Web/Events/DOMAutoComplete
+         */
+
+        this._calculateValueForTemplate();
+    }
+
+    /**
+     *
+     * @return {HTMLElement}
+     * @private
+     */
+    private _getActiveElement(): Element {
+        return document.activeElement;
+    }
+
+    private _updateSelection(selection): void {
+        this._getField().setSelectionRange(selection.start, selection.end);
+    }
+
+    /**
+     * @type {Controls/Utils/getTextWidth}
+     * @private
+     */
+    private _getTextWidth(value: string): number {
+        const element: HTMLElement = this._children.forCalc;
+
+        /**
+         * The element for calculations is available only at the moment of field focusing.
+         * The reason is that the main call occurs during input when the field is in focus.
+         * At other times, the element will be used very rarely. So for the rare cases
+         * it is better to create it yourself.
+         */
+        return element ? this._getTextWidthByDOM(element, value) : this._getTextWidthThroughCreationElement(value);
+    }
 
     /**
      * @param {Object} options Control options.
      * @protected
      */
-    _initProperties: function (options) {
+    protected _initProperties(options: IBaseInputOptions): void {
         /**
          * Init the name of the control and to pass it to the templates.
          * Depending on it, classes will be generated. An example of class is controls-{{controlsName}}...
@@ -484,7 +432,7 @@ var Base = Control.extend({
                 inputCallback: options.inputCallback,
                 calculateValueForTemplate: this._calculateValueForTemplate.bind(this),
                 recalculateLocationVisibleArea: this._recalculateLocationVisibleArea.bind(this),
-                isFieldFocused: _private.isFieldFocused.bind(_private, this)
+                isFieldFocused: this._isFieldFocused.bind(this)
             }
         };
         this._readOnlyField = {
@@ -506,145 +454,49 @@ var Base = Control.extend({
          * TODO: Remove after execution:
          * https://online.sbis.ru/opendoc.html?guid=6c755b9b-bbb8-4a7d-9b50-406ef7f087c3
          */
-        var emptySymbol = unEscapeASCII('&#65279;');
+        let emptySymbol = unEscapeASCII('&#65279;');
         this._field.scope.emptySymbol = emptySymbol;
         this._readOnlyField.scope.emptySymbol = emptySymbol;
-    },
+    }
 
-    /**
-     * Event handler mouse enter.
-     * @private
-     */
-    _mouseEnterHandler: function (event) {
-        this._tooltip = this._getTooltip();
+    protected _notifyValueChanged(): void {
+        this._notify('valueChanged', [this._viewModel.value, this._viewModel.displayValue]);
+    }
 
-        /**
-         * TODO: https://online.sbis.ru/open_dialog.html?guid=011f1615-81e1-e01b-11cb-881d311ae617&message=010c1611-8160-e015-213d-5a11b13ef818
-         * Remove after execution https://online.sbis.ru/opendoc.html?guid=809254e8-e179-443b-b8b7-f4a37e05f7d8
-         */
-        this._notify('mouseenter', [event]);
-    },
-
-    _cutHandler: function () {
-        // redefinition
-    },
-    _copyHandler: function () {
-        // redefinition
-    },
-    _keyUpHandler: function () {
-        // redefinition
-    },
-    _keyDownHandler: function (event) {
-        processKeydownEvent(event);
-    },
-    _selectHandler: function () {
-        // redefinition
-    },
-    _focusOutHandler: function () {
-        // redefinition
-    },
-    _touchStartHandler: function () {
-        // redefinition
-    },
-    /**
-     * Event handler click in native field.
-     * @private
-     */
-    _clickHandler: function () {
-        this._firstClick = false;
-    },
-
-    _inputHandler: function (event) {
-        // redefinition
-    },
-
-    _placeholderClickHandler: function () {
-        /**
-         * Placeholder is positioned above the input field.
-         * When clicking, the cursor should stand in the input field.
-         * To do this, we ignore placeholder using the pointer-events property with none value.
-         * The property is not supported in ie lower version 11.
-         * In ie 11, you sometimes need to switch versions in emulation to work.
-         * Therefore, we ourselves will activate the field on click.
-         * https://caniuse.com/#search=pointer-events
-         */
-        if (this._ieVersion && this._ieVersion < 12) {
-            this._getField().focus();
-        }
-    },
-
-    _focusInHandler: function (event) {
-        if (this._options.selectOnClick) {
-            this._viewModel.select();
-        }
-
-        if (this._focusByMouseDown) {
-            this._firstClick = true;
-            this._focusByMouseDown = false;
-        }
-    },
-
-    _mouseDownHandler: function () {
-        if (!_private.isFieldFocused(this)) {
-            this._focusByMouseDown = true;
-        }
-    },
-
-    _domAutoCompleteHandler: function () {
-        /**
-         * When the user selects a value from the auto-complete, the other fields associated with it are
-         * automatically filled in. The logic of the control operation is based on displaying the value
-         * according to its options. Therefore, the field value is updated during the synchronization cycle.
-         *
-         * In firefox, after the field is automatically filled in, you should immediately set the value
-         * in the field without waiting for a synchronization cycle. Otherwise, the values will not be substituted
-         * into other fields.
-         *
-         * About what happened auto-complete learn through the event DOMAutoComplete,
-         * which is supported only in firefox. https://developer.mozilla.org/en-US/docs/Web/Events/DOMAutoComplete
-         */
-
-        this._calculateValueForTemplate();
-    },
-
-    _notifyValueChanged: function () {
-        _private.notifyValueChanged(this);
-    },
-
-    _notifyInputCompleted: function () {
-        _private.notifyInputCompleted(this);
-    },
+    protected _notifyInputCompleted(): void {
+        this._notify('inputCompleted', [this._viewModel.value, this._viewModel.displayValue]);
+    }
 
     /**
      * Get the native field.
      * @return {Node}
      * @private
      */
-    _getField: function () {
-        return this._children[this._fieldName];
-    },
+    protected _getField(): Field<String, IViewModelOptions> {
+        return this._children[this._fieldName] as Field<String, IViewModelOptions>;
+    }
 
-    _getReadOnlyField: function () {
+    protected _getReadOnlyField(): HTMLElement {
         return this._children.readOnlyField;
-    },
+    }
 
     /**
      * Get the options for the view model.
      * @return {Object} View model options.
      * @private
      */
-    _getViewModelOptions: function () {
+    protected _getViewModelOptions(options: IBaseInputOptions): unknown {
         return {};
-    },
+    }
 
     /**
      * Get the constructor for the view model.
      * @return {Controls/_input/Base/ViewModel} View model constructor.
      * @private
      */
-    _getViewModelConstructor: function () {
+    protected _getViewModelConstructor(): ViewModel {
         return ViewModel;
-    },
+    }
 
     /**
      * Get the tooltip for field.
@@ -656,7 +508,7 @@ var Base = Control.extend({
     _getTooltip(): string {
         let hasFieldHorizontalScroll: boolean = false;
         const field = this._getField();
-        const readOnlyField: HTMLInputElement = this._getReadOnlyField();
+        const readOnlyField: HTMLElement = this._getReadOnlyField();
 
         if (field) {
             hasFieldHorizontalScroll = field.hasHorizontalScroll();
@@ -665,17 +517,17 @@ var Base = Control.extend({
         }
 
         return hasFieldHorizontalScroll ? this._viewModel.displayValue : this._options.tooltip;
-    },
+    }
 
-    _calculateValueForTemplate: function () {
+    private _calculateValueForTemplate(): string {
         return this._viewModel.displayValue;
-    },
+    }
 
     /**
      * Изменение расположения видимой области поля так, чтобы отобразился курсор.
      * Если курсор виден, расположение не изменяется. В противном случае новое местоположение будет таким, что курсор отобразится в середине области.
      */
-    _recalculateLocationVisibleArea: function (field, displayValue, selection) {
+    private _recalculateLocationVisibleArea(field: HTMLInputElement, displayValue: string, selection): void {
         if (displayValue.length === selection.end) {
             /**
              * When the carriage is at the end, you need to set the maximum possible value of scrollLeft.
@@ -692,70 +544,161 @@ var Base = Control.extend({
             return;
         }
 
-        _private.recalculateLocationVisibleArea(this, field, displayValue, selection);
-    },
+        const textWidthBeforeCursor = this._getTextWidth(displayValue.substring(0, selection.end));
+
+        const positionCursor = textWidthBeforeCursor + WIDTH_CURSOR;
+        const sizeVisibleArea = field.clientWidth;
+        const beginningVisibleArea = field.scrollLeft;
+        const endingVisibleArea = field.scrollLeft + sizeVisibleArea;
+
+        /**
+         * The cursor is visible if its position is between the beginning and the end of the visible area.
+         */
+        const hasVisibilityCursor = beginningVisibleArea < positionCursor && positionCursor < endingVisibleArea;
+
+        if (!hasVisibilityCursor) {
+            field.scrollLeft = positionCursor - sizeVisibleArea / 2;
+        }
+    }
+
+    _isFieldFocused(): boolean {
+        /**
+         * A field in focus when it is the active element on the page.
+         * The active element is only on the client. The field cannot be focused on the server.
+         */
+        if (this._isBrowserPlatform) {
+            return this._getActiveElement() === this._getField();
+        }
+
+        return false;
+    }
+
+    private _getTextWidthByDOM(element: HTMLElement, value: string): number {
+        element.innerHTML = value;
+        const width = element.scrollWidth;
+        element.innerHTML = '';
+
+        return width;
+    }
+
+    private _getTextWidthThroughCreationElement(value: string): number {
+        const element = document.createElement('div');
+        element.classList.add('controls-InputBase__forCalc');
+        element.innerHTML = value;
+
+        document.body.appendChild(element);
+        const width = element.scrollWidth;
+        document.body.removeChild(element);
+
+        return width;
+    }
+
+    private _compatAutoComplete(autoComplete: boolean|string): string {
+        if (typeof autoComplete === 'boolean') {
+            return autoComplete ? 'on' : 'off';
+        }
+
+        return autoComplete;
+    }
+
+    private _updateViewModel(newOptions: IBaseInputOptions, newValue: string): void {
+        if (!isEqual(this._viewModel.options, newOptions)) {
+            this._viewModel.options = newOptions;
+        }
+
+        if (this._viewModel.value !== newValue) {
+            this._viewModel.value = newValue;
+        }
+
+        this._updateSelectionByOptions(newOptions);
+    }
+
+    private _getValue(options: IBaseInputOptions): string {
+        if (options.hasOwnProperty('value')) {
+            return options.value === undefined ? this._defaultValue : options.value;
+        }
+
+        if (this._viewModel) {
+            return this._viewModel.value;
+        }
+
+        return this._defaultValue as string;
+    }
+
+    private _updateSelectionByOptions(options: IBaseInputOptions): void {
+        if (
+            options.hasOwnProperty('selectionStart') &&
+            options.hasOwnProperty('selectionEnd') &&
+            (this._options.selectionStart !== options.selectionStart ||
+                this._options.selectionEnd !== options.selectionEnd)
+        ) {
+            this._viewModel.selection = {
+                start: options.selectionStart,
+                end: options.selectionEnd
+            };
+        }
+    }
 
     paste(text: string): void {
         this._getField().paste(text);
     }
-});
 
-Base._theme = ['Controls/input'];
+    static _theme: string[] = ['Controls/input'];
 
-Base._private = _private;
+    static getDefaultOptions(): object {
+        return {
+            ...getDefaultPaddingOptions(),
+            tooltip: '',
+            inlineHeight: 'default',
+            placeholder: '',
+            textAlign: 'left',
+            autoComplete: 'off',
+            fontSize: 'm',
+            fontColorStyle: 'default',
+            spellCheck: true,
+            selectOnClick: false
+        };
+    }
 
-Base.getDefaultOptions = function () {
-    return {
-        ...getDefaultPaddingOptions(),
-        tooltip: '',
-        inlineHeight: 'default',
-        placeholder: '',
-        textAlign: 'left',
-        autoComplete: 'off',
-        fontSize: 'm',
-        fontColorStyle: 'default',
-        spellCheck: true,
-        selectOnClick: false
-    };
-};
+    static getOptionTypes(): object {
+        return {
+            ...getOptionPaddingTypes(),
+            value: descriptor(String, null),
+            selectionStart: descriptor(Number),
+            selectionEnd: descriptor(Number),
+            tooltip: descriptor(String),
+            /*autoComplete: descriptor(String).oneOf([
+             'on',
+             'off',
+             'username',
+             'current-password'
+             ]),*/
+            spellCheck: descriptor(Boolean),
+            selectOnClick: descriptor(Boolean),
+            inputCallback: descriptor(Function),
 
-Base.getOptionTypes = function () {
-    return {
-        ...getOptionPaddingTypes(),
-        value: entity.descriptor(String, null),
-        selectionStart: entity.descriptor(Number),
-        selectionEnd: entity.descriptor(Number),
-        tooltip: entity.descriptor(String),
-        /*autoComplete: entity.descriptor(String).oneOf([
-         'on',
-         'off',
-         'username',
-         'current-password'
-         ]),*/
-        spellCheck: entity.descriptor(Boolean),
-        selectOnClick: entity.descriptor(Boolean),
-        inputCallback: entity.descriptor(Function),
+            /**
+             * Setting placeholder as HTML in wml, template engine converts it to an array.
+             */
+            /**
+             * https://online.sbis.ru/opendoc.html?guid=af7e16d7-139f-4414-b7af-9e3a1a0dae05
+             * placeholder: descriptor(String, Function, Array),
+             */
+            textAlign: descriptor(String).oneOf([
+                'left',
+                'right',
+                'center'
+            ]),
+            tagStyle: descriptor(String).oneOf([
+                'info',
+                'danger',
+                'primary',
+                'success',
+                'warning',
+                'secondary'
+            ])
+        };
+    }
+}
 
-        /**
-         * Setting placeholder as HTML in wml, template engine converts it to an array.
-         */
-        /**
-         * https://online.sbis.ru/opendoc.html?guid=af7e16d7-139f-4414-b7af-9e3a1a0dae05
-         * placeholder: entity.descriptor(String, Function, Array),
-         */
-        textAlign: entity.descriptor(String).oneOf([
-            'left',
-            'right'
-        ]),
-        tagStyle: entity.descriptor(String).oneOf([
-            'info',
-            'danger',
-            'primary',
-            'success',
-            'warning',
-            'secondary'
-        ])
-    };
-};
-
-export = Base;
+export default Base;

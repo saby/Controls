@@ -1,6 +1,6 @@
 <div class="controls-ProgressBar controls-ProgressBar_style_theme-{{_options.theme}}">
    <div
-      class="controls-ProgressBar_style__filled_theme-{{_options.theme}}"
+      class="controls-ProgressBar_style__filled controls-ProgressBar_style-{{_options.barStyle}}__filled_theme-{{_options.theme}}"
       style="width: {{ _width }};"
    ></div>
 </div>

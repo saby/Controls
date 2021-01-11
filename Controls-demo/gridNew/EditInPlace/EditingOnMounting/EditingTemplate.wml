@@ -1,0 +1,7 @@
+<ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <div>
+            Шаблон редактирования строки
+        </div>
+    </ws:contentTemplate>
+</ws:partial>

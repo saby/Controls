@@ -3,7 +3,7 @@ define([
    'Types/entity',
    'Types/collection',
    'Controls/calendar',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils',
    'Controls/_calendar/MonthList/ItemTypes',
    'wml!Controls/_calendar/MonthList/MonthTemplate',
@@ -169,7 +169,7 @@ define([
             ml._displayedDates = [1, 2];
 
             ml._beforeUpdate(calendarTestUtils.prepareOptions(calendar.MonthList, { position: position }));
-            assert.isTrue(DateUtil.isDatesEqual(ml._positionToScroll, position));
+            assert.isTrue(DateUtil.Base.isDatesEqual(ml._positionToScroll, position));
             assert.strictEqual(ml._displayedPosition, position);
             assert.equal(ml._startPositionId, '2018-01-01');
             assert.isEmpty(ml._displayedDates);
@@ -405,7 +405,7 @@ define([
       describe('_getMonth', function() {
          it('should return correct month', function() {
             let mv = calendarTestUtils.createComponent(calendar.MonthList, config);
-            assert.isTrue(DateUtil.isDatesEqual(mv._getMonth(2018, 1), new Date(2018, 1, 1)));
+            assert.isTrue(DateUtil.Base.isDatesEqual(mv._getMonth(2018, 1), new Date(2018, 1, 1)));
          });
       });
 

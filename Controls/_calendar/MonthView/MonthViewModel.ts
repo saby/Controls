@@ -22,9 +22,9 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
 
       // Нет необходимости каждый раз обовлять стили месяца при наведении,
       // если хавер работает только по одной ячейке дня, а не по нескольким.
-      const isQuantumSelection = cfg.selectionType === 'quantum' && cfg.quantum;
+      const isQuantumSelection = cfg.selectionType === 'quantum' && cfg.ranges;
       if (isQuantumSelection) {
-         const isSingleDayQuantum = 'days' in cfg.quantum && cfg.quantum.days.indexOf(1) !== -1;
+         const isSingleDayQuantum = 'days' in cfg.ranges && cfg.ranges.days.indexOf(1) !== -1;
          this._singleDayHover = isSingleDayQuantum;
       }
 
@@ -122,7 +122,7 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
       }, this);
    },
 
-   _prepareClass: function(scope, theme, fontColorStyle, backgroundStyle) {
+   _prepareClass: function(scope, theme, fontColorStyle, backgroundStyle, borderStyle, fontWeight) {
 
       let textColorClass = 'controls-MonthView__textColor',
          backgroundColorClass = 'controls-MonthView__backgroundColor',
@@ -149,7 +149,27 @@ var ModuleClass = cExtend.extend([VersionableMixin], {
             if (scope.selectionProcessing) {
                backgroundColorClass += '-startend-unfinished';
             }
+            if (fontWeight !== 'normal') {
+               css.push('controls-MonthView__fontWeight_theme-' + theme);
+            }
          }
+
+         let borderColorClass = 'controls-MonthViewVDOM__item-border';
+
+         const borderStylePostfix = borderStyle ? '_style-' + borderStyle : '';
+         css.push(`${borderColorClass}${borderStylePostfix}_theme-${theme}`);
+
+         borderColorClass = 'controls-MonthView__item-border';
+         if (scope.selectedStart && scope.selectedEnd && !scope.selectionProcessing) {
+            borderColorClass += '-start-end';
+         } else if (scope.selectedStart && !scope.selectedUnfinishedStart) {
+            borderColorClass += '-start';
+         } else if (scope.selectedEnd && (!scope.selectionProcessing ||
+             (scope.selectedEnd !== scope.selectedStart && !scope.selectedUnfinishedEnd))) {
+            borderColorClass += '-end';
+         }
+         css.push(`${borderColorClass}${borderStylePostfix}`);
+         css.push(`${borderColorClass}${borderStylePostfix}_theme-${theme}`);
       } else {
          backgroundColorClass += '-unselected';
       }

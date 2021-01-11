@@ -1,0 +1,24 @@
+<div class="root controlsDemo_fixedWidth500 {{_options.theme !== 'default' ? ' root__dark_background'}}">
+    <div class="separator">default itemTemplate</div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__rightAlign">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey1'
+                keyProperty="id"
+                items="{{_items1}}"
+        />
+    </div>
+    <div class="separator">custom itemTemplate</div>
+    <div class="demo-TabButtons ControlsDemo-Tabs__mainSeparate">
+        <Controls.tabs:Buttons
+                bind:selectedKey='SelectedKey2'
+                keyProperty="id"
+                items="{{_items2}}"
+        >
+            <ws:itemTemplate>
+                <ws:partial template="Controls/tabs:buttonsItemTemplate"
+                            item="{{itemTemplate.item}}"
+                            displayProperty="caption" />
+            </ws:itemTemplate>
+        </Controls.tabs:Buttons>
+    </div>
+</div>

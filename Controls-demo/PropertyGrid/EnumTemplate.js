@@ -1,13 +1,13 @@
 define('Controls-demo/PropertyGrid/EnumTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/PropertyGrid/EnumTemplate',
       'Types/source',
       'Core/core-merge',
    ],
-   function(Control, template, sourceLib, cMerge) {
+   function(Base, template, sourceLib, cMerge) {
       'use strict';
-      var stringTmpl = Control.extend({
+      var stringTmpl = Base.Control.extend({
          _template: template,
          _source: null,
          _beforeMount: function(opt) {

@@ -1,16 +1,16 @@
 define('Controls-demo/FilterView/resources/Panel',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/FilterView/resources/Panel',
 
       'wml!Controls-demo/FilterView/resources/itemTemplateMainBlock',
       'wml!Controls-demo/FilterView/resources/additionalTemplateItems'
    ],
 
-   function(Control, template) {
+   function(Base, template) {
 
       'use strict';
-      var FilterViewPanel = Control.extend({
+      var FilterViewPanel = Base.Control.extend({
 
          _template: template,
          _limitWidth: true

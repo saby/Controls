@@ -7,7 +7,7 @@ import {delay as runDelayed} from 'Types/function';
 /**
  * Класс, регулирующий валидацию формы.
  * @class Controls/_validate/ControllerClass
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @public
  * @author Красильников А.С.
  */

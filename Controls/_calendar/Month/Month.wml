@@ -2,7 +2,7 @@
    name="selectionController"
 
    selectionType="{{_options.selectionType}}"
-   quantum="{{_options.quantum}}"
+   quantum="{{_options.ranges}}"
 
    startValue="{{_options.startValue}}"
    endValue="{{_options.endValue}}"
@@ -15,8 +15,9 @@
       month="{{_options.month}}"
       showCaption="{{_options.showCaption}}"
       showWeekdays="{{_options.showWeekdays}}"
-      dayFormatter="{{_dayFormatter}}"
+      dayFormatter="{{ _options.dayFormatter }}"
       dayTemplate="{{_options.dayTemplate}}"
+      dayHeaderTemplate="{{ _options.dayHeaderTemplate }}"
       daysData="{{_options.daysData}}"
       monthViewModel="{{_monthViewModel}}"
       mode="{{_options.mode}}"

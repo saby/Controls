@@ -10,10 +10,10 @@ export interface IInfoboxButton extends IControlOptions, IIconSizeOptions {
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  *
  * @class Controls/_popup/InfoBox/InfoboxButton
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/IIconSize
  * 
  * @public

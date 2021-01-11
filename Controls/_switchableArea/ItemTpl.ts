@@ -7,7 +7,7 @@ import {UnregisterUtil, RegisterUtil} from 'Controls/event';
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/switchableArea:View}.
  *
  * @class Controls/switchableArea:itemTemplate
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @author Красильников А.С.
  * @public
  */

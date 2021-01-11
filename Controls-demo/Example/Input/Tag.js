@@ -1,16 +1,16 @@
 define('Controls-demo/Example/Input/Tag',
    [
-      'Core/Control',
+      'UI/Base',
       'Controls-demo/Example/Input/SetValueMixin',
       'wml!Controls-demo/Example/Input/Tag/Tag',
 
       'Controls/input',
       'Controls-demo/Example/resource/BaseDemoInput'
    ],
-   function(Control, SetValueMixin, template) {
+   function(Base, SetValueMixin, template) {
       'use strict';
 
-      return Control.extend([SetValueMixin], {
+      return Base.Control.extend([SetValueMixin], {
          _template: template,
 
          _currentActiveTag: null,

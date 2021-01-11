@@ -17,27 +17,32 @@ https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
     on:enableVirtualNavigation="_enableVirtualNavigationHandler()"
     on:disableVirtualNavigation="_disableVirtualNavigationHandler()"
     >
-    <ws:partial
-        attr:class="controls-Scroll-containerBase_userContent"
-        template="{{_options.content}}"
-        scope="{{_options}}"
-        _scrollCssClass="{{undefined}}"
+    <div name="userContent"
+         class="controls-Scroll-ContainerBase__content {{_contentType !== 'regular' ? 'controls-Scroll-ContainerBase__contentNotScrollable'}}">
+        <ws:partial
+            attr:class="controls-Scroll-containerBase_userContent"
+            template="{{_options.content}}"
+            scope="{{_options}}"
+            _scrollCssClass="{{undefined}}"
 
-        on:selectedKeysChanged="_selectedKeysChanged()"
-        on:excludedKeysChanged="_excludedKeysChanged()"
-        on:beforeSelectionChanged="_tmplNotify('beforeSelectionChanged')"
-        on:itemClick="_itemClick()"
+            on:selectedKeysChanged="_selectedKeysChanged()"
+            on:excludedKeysChanged="_excludedKeysChanged()"
+            on:beforeSelectionChanged="_tmplNotify('beforeSelectionChanged')"
+            on:itemClick="_itemClick()"
 
-        on:itemMouseDown="_tmplNotify('itemMouseDown')"
-        on:rootChanged="_tmplNotify('rootChanged')"
-        on:expandedItemsChanged="_tmplNotify('expandedItemsChanged')"
-        on:collapsedItemsChanged="_tmplNotify('collapsedItemsChanged')"
-        on:checkboxClick="_tmplNotify('checkboxClick')"
-        on:markedKeyChanged="_tmplNotify('markedKeyChanged')"
-        on:beforeMarkedKeyChanged="_tmplNotify('beforeMarkedKeyChanged')"
-        on:actionClick="_tmplNotify('actionClick')"
-        on:editArrowClick="_tmplNotify('editArrowClick')"
-        on:navigationParamsChanged="_tmplNotify('navigationParamsChanged')"
+            on:itemMouseDown="_tmplNotify('itemMouseDown')"
+            on:rootChanged="_tmplNotify('rootChanged')"
+            on:sortingChanged="_tmplNotify('sortingChanged')"
+            on:expandedItemsChanged="_tmplNotify('expandedItemsChanged')"
+            on:collapsedItemsChanged="_tmplNotify('collapsedItemsChanged')"
+            on:checkboxClick="_tmplNotify('checkboxClick')"
+            on:markedKeyChanged="_tmplNotify('markedKeyChanged')"
+            on:beforeMarkedKeyChanged="_tmplNotify('beforeMarkedKeyChanged')"
+            on:actionClick="_tmplNotify('actionClick')"
+            on:editArrowClick="_tmplNotify('editArrowClick')"
+            on:navigationParamsChanged="_tmplNotify('navigationParamsChanged')"
 
-    />
+        />
+    </div>
+
 </div>

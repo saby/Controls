@@ -1,9 +1,9 @@
 define('Controls-demo/Suggest/resources/SuggestTabTemplate', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Suggest/resources/SuggestTabTemplate',
    'Types/source',
    'Controls/list'
-], function(Control, template, sourceLib) {
+], function(Base, template, sourceLib) {
 
    'use strict';
 
@@ -12,7 +12,7 @@ define('Controls-demo/Suggest/resources/SuggestTabTemplate', [
       {id: 2, title: 'Компании', text: 'test', align: 'left'}
    ];
 
-   return Control.extend({
+   return Base.Control.extend({
       _template: template,
       _tabsSelectedKey: null,
 

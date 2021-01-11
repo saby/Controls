@@ -1,11 +1,11 @@
 define('Controls-demo/List/DocWI/EmptyList', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/DocWI/resources/EmptyList',
    'Types/source'
-], function (Control, template, sourceLib) {
+], function (Base, template, sourceLib) {
    'use strict';
 
-   var Module = Control.extend(
+   var Module = Base.Control.extend(
       {
          _template: template,
          _viewSource: null,

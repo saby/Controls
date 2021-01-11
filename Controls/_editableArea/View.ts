@@ -1,6 +1,6 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import Deferred = require('Core/Deferred');
-import {editing as constEditing} from 'Controls/Constants';
+import {editing as constEditing} from 'Controls/list';
 import template = require('wml!Controls/_editableArea/View');
 import buttonsTemplate = require('Controls/_editableArea/Templates/Buttons');
 import {autoEdit, toolbarVisible, backgroundStyleClass} from './ActualAPI';
@@ -74,7 +74,7 @@ var
  * Контроллер для <a href="/doc/platform/developmentapl/interface-development/controls/input/edit/">редактирования по месту в полях ввода</a>.
  *
  * @class Controls/_editableArea/View
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/editableArea:IView
  * @author Красильников А.С
  * @public
@@ -84,7 +84,7 @@ var
  * Для того, чтобы избежать этого, рекомендуется навесить CSS-класс **controls-Input_negativeOffset_theme_{{_options.theme}}** на редактируемую область.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less переменные тем оформления}
  *
  * @demo Controls-demo/EditableArea/View/Index
  */

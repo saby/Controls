@@ -136,7 +136,7 @@ define(
                assert.deepStrictEqual(view._displayText, expectedDisplayText);
                assert.strictEqual(view._filterText, 'Author: Ivanov K.K.');
                assert.isUndefined(view._configs.document);
-               assert.isOk(view._configs.state.sourceController);
+               assert.isOk(!view._configs.state.sourceController);
                done();
             });
          });
@@ -845,7 +845,9 @@ define(
                      load: () => {
                         isLoading = true; return Deferred.success();
                      },
-                     hasMoreData: () => {return true;}},
+                     hasMoreData: () => {return true;},
+                     setFilter: () => {}
+                  },
                   displayProperty: 'title',
                   keyProperty: 'id',
                   multiSelect: true}
@@ -1255,6 +1257,19 @@ define(
                filter.View._private.setItems(view._configs.document, view._source[0], chain.factory(newItems).toArray());
                assert.deepEqual(historyItems.getRawData(), expectedResult);
             });
+
+            it('loadItemsFromSource', () => {
+               let actualFilter;
+               view._configs.document.sourceController = {
+                  setFilter: (queryFilter) => {
+                     actualFilter = queryFilter;
+                  },
+                  load: () => Promise.reject()
+               };
+               view._configs.document.historyId = 'testId';
+               filter.View._private.loadItemsFromSource(view._configs.document, view._source);
+               assert.deepStrictEqual(actualFilter, {historyId: 'testId'});
+            });
          });
 
          describe('View history', function() {
@@ -1309,7 +1324,7 @@ define(
 
             it('_private:reload', function(done) {
                view._source[0].editorOptions.source = hSource;
-               filter.View._private.reload(view).addCallback((receivedState) => {
+               filter.View._private.reload(view, false, true, true).addCallback((receivedState) => {
                   assert.isUndefined(receivedState.configs.document.source);
                   assert.isOk(receivedState.configs.state.source);
 
@@ -1344,6 +1359,7 @@ define(
                });
                view._source[0].editorOptions.source = hSource;
                view._configs.document.sourceController = {
+                  setFilter: () => {},
                   load: () => {return Deferred.success();},
                   hasMoreData: () => {return true;}
                };

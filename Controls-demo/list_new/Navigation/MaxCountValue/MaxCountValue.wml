@@ -1,14 +1,13 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__button_wrapper">
         <Controls.buttons:Button caption="Request" on:click="_onChangeSource()"/>
-        <Controls.buttons:Button caption="Pending" on:click="_onPen()"/>
     </div>
 
     <Controls.list:View
             keyProperty="id"
             source="{{_viewSource}}"
-            navigation="{{_navigation}}">
-
+            navigation="{{_navigation}}"
+            attr:style="position: relative;">
         <ws:emptyTemplate>
             <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">
                 <ws:contentTemplate>No data available!</ws:contentTemplate>

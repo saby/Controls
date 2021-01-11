@@ -18,10 +18,11 @@ export interface IRadioGroupOptions extends IControlOptions,
     * 
     * @remark
     * Полезные ссылки:
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less">переменные тем оформления</a>
+    * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckboxGroup%2FIndex демо-пример}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
     *
     * @class Controls/_toggle/RadioGroup
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * @mixes Controls/_interface/ISource
     * @mixes Controls/_interface/ISingleSelectable
     * @mixes Controls/_interface/IValidationStatus
@@ -38,7 +39,7 @@ export interface IRadioGroupOptions extends IControlOptions,
     * <a href="/materials/Controls-demo/app/Controls-demo%2Ftoggle%2fRadioGroup%2fIndex">Demo-example</a>.
     *
     * @class Controls/_toggle/RadioGroup
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * @mixes Controls/_interface/ISource
     * @mixes Controls/_interface/ISingleSelectable
     * @implements Controls/_toggle/interface/IToggleGroup

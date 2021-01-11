@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {DragScroll} from 'Controls/_grid/resources/DragScroll';
+import {DragScrollController as DragScroll} from 'Controls/columnScroll';
 
 describe('Controls/grid_clean/Controllers/DragScroll', () => {
     it('should not prevent default on touch start', () => {

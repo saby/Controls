@@ -1,6 +1,6 @@
 {
    "name": "wasaby-controls",
-   "version": "20.7200.0",
+   "version": "21.1000.0",
    "repository": {
       "type": "git",
       "url": "git@git.sbis.ru:root/sbis3-controls"
@@ -21,7 +21,6 @@
       "compile": "saby-typescript --compiler",
       "start": "wasaby-cli --tasks=app",
       "start:hot": "concurrently \"npm:builder:watch\" \"npm:start\"",
-      "start:units": "wasaby-cli --tasks=startTest --server",
       "test": "wasaby-cli --tasks=startTest --node --report=console",
       "test:coverage": "wasaby-cli --tasks=startTest --node --coverage",
       "lint": "node ./node_modules/eslint/bin/eslint --color --no-eslintrc -c=.eslintrc -f=stylish .",
@@ -40,6 +39,6 @@
       "stylelint": "^9.7.1",
       "stylelint-config-standard": "^18.2.0",
       "tslint": "^5.18.0",
-      "wasaby-cli": "git+https://platform-git.sbis.ru/saby/wasaby-cli.git#rc-20.7200"
+      "wasaby-cli": "git+https://platform-git.sbis.ru/saby/wasaby-cli.git#rc-21.1000"
    }
 }

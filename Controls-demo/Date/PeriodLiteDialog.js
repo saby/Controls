@@ -1,13 +1,13 @@
 define('Controls-demo/Date/PeriodLiteDialog', [
-   'Core/Control',
-   'wml!Controls-demo/Date/PeriodLiteDialog'
+   'UI/Base',
+   'wml!Controls-demo/Date/PeriodLiteDialog',
 ], function(
-   BaseControl,
+   Base,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _periods: [[new Date(2017, 3), new Date(2020, 5)]],
       _year: new Date(2017, 0, 1),
@@ -41,5 +41,6 @@ define('Controls-demo/Date/PeriodLiteDialog', [
          }
       }
    });
+   ModuleClass._styles = ['Controls-demo/Date/PeriodLiteDialog'];
    return ModuleClass;
 });

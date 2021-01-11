@@ -13,7 +13,7 @@ interface IOptions extends IEditorOptions {
  * Редактор для перечисляемого типа данных в виде списка push-кнопок.
  *
  * @class Controls/_propertyGrid/extendedEditors/FlatEnum
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * @demo Controls-demo/PropertyGridNew/Editors/FlatEnum/Demo
  * 
@@ -24,7 +24,7 @@ interface IOptions extends IEditorOptions {
 /*
  * Editor for the enum type as a list of push buttons.
  * @class Controls/_propertyGrid/extendedEditors/FlatEnum
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * 
  * @public

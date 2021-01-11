@@ -1,7 +1,7 @@
 define('Controls-demo/Popup/Compatible/TestCompoundAreaForOldTpl', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Popup/Compatible/TestCompoundAreaForOldTpl'
-], function(Control, template) {
+], function(Base, template) {
    var _private = {
       getExistingDialog: function() {
          var element = document.querySelector('.controls-CompoundArea.controls-Popup__template');
@@ -12,7 +12,7 @@ define('Controls-demo/Popup/Compatible/TestCompoundAreaForOldTpl', [
       }
    };
 
-   return Control.extend({
+   return Base.Control.extend({
       _template: template,
 
       openTestStack: function() {

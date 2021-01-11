@@ -3,11 +3,11 @@ import Collection, {
     IOptions as ICollectionOptions,
     ISessionItemState,
     ISerializableState as IDefaultSerializableState,
-    ISplicedArray
+    ISplicedArray,
+    StrategyConstructor
 } from './Collection';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem from './CollectionItem';
-import GroupItem from './GroupItem';
 import TreeItem from './TreeItem';
 import TreeChildren from './TreeChildren';
 import ItemsStrategyComposer from './itemsStrategy/Composer';
@@ -18,7 +18,15 @@ import IItemsStrategy from './IItemsStrategy';
 import RootStrategy from './itemsStrategy/Root';
 import {object} from 'Types/util';
 import {Object as EventObject} from 'Env/Event';
+import { TemplateFunction } from 'UI/Base';
+import { CrudEntityKey } from 'Types/source';
+import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
 import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
+import { Model } from 'Types/entity';
+import { IDragPosition } from './interface/IDragPosition';
+import TreeDrag from './itemsStrategy/TreeDrag';
+import ArraySimpleValuesUtil = require('Controls/Utils/ArraySimpleValuesUtil');
+import { isEqual } from 'Types/object';
 
 export interface ISerializableState<S, T> extends IDefaultSerializableState<S, T> {
     _root: T;
@@ -36,6 +44,7 @@ interface IItemsFactoryOptions<S> {
     contents?: S;
     hasChildren?: boolean;
     node?: boolean;
+    expanderTemplate?: TemplateFunction;
 }
 
 export interface IOptions<S, T> extends ICollectionOptions<S, T> {
@@ -47,6 +56,9 @@ export interface IOptions<S, T> extends ICollectionOptions<S, T> {
     loadedProperty?: string;
     root?: T | any;
     rootEnumerable?: boolean;
+    hasMoreStorage?: Record<string, boolean>;
+    expandedItems?: CrudEntityKey[];
+    collapsedItems?: CrudEntityKey[];
 }
 
 /**
@@ -57,6 +69,7 @@ export interface IOptions<S, T> extends ICollectionOptions<S, T> {
  * @param newItemsIndex Индекс, в котором появились новые элементы.
  * @param oldItems Удаленные элементы коллекции.
  * @param oldItemsIndex Индекс, в котором удалены элементы.
+ * @param reason
  */
 function onCollectionChange<T>(
     event: EventObject,
@@ -64,7 +77,8 @@ function onCollectionChange<T>(
     newItems: T[],
     newItemsIndex: number,
     oldItems: T[],
-    oldItemsIndex: number
+    oldItemsIndex: number,
+    reason: string
 ): void {
     // Fix state of all nodes
     const nodes = this.instance._getItems().filter((item) => item.isNode && item.isNode());
@@ -72,7 +86,7 @@ function onCollectionChange<T>(
     const session = this.instance._startUpdateSession();
 
     this.instance._reIndex();
-    this.prev(event, action, newItems, newItemsIndex, oldItems, oldItemsIndex);
+    this.prev(event, action, newItems, newItemsIndex, oldItems, oldItemsIndex, reason);
 
     // Check state of all nodes. They can change children count (include hidden by filter).
     this.instance._finishUpdateSession(session, false);
@@ -115,7 +129,7 @@ function validateOptions<S, T>(options: IOptions<S, T>): IOptions<S, T> {
  * @public
  * @author Мальцев А.А.
  */
-export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collection<S, T> {
+export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeItem<S>> extends Collection<S, T> {
     /**
      * @cfg {String} Название свойства, содержащего идентификатор родительского узла. Дерево в этом случае строится
      * по алгоритму Adjacency List (список смежных вершин). Также требуется задать {@link keyProperty}
@@ -159,6 +173,33 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
     protected _$root: T | S;
 
     /**
+     * Шаблон экспандера
+     */
+    protected _$expanderTemplate: TemplateFunction;
+
+    /**
+     * Позиция экспандера
+     */
+    protected _$expanderPosition: string;
+
+    /**
+     * Видимость экспандера
+     */
+    protected _$expanderVisibility: string;
+
+    /**
+     * Иконка экспандера
+     */
+    protected _$expanderIcon: string;
+
+    /**
+     * Размер экспандера
+     */
+    protected _$expanderSize: string;
+
+    protected _$nodeFooterTemplateMoreButton: TemplateFunction;
+
+    /**
      * @cfg {Boolean} Включать корневой узел в список элементов
      * @name Controls/_display/Tree#rootEnumerable
      * @example
@@ -183,6 +224,31 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
      * Соответствие узлов и их потомков
      */
     protected _childrenMap: object = {};
+    /**
+     * Объект, в котором хранится навигация для узлов
+     * @protected
+     */
+    protected _$hasMoreStorage: Record<string, boolean>;
+
+    /**
+     * Темплейт подвала узла
+     * @protected
+     */
+    protected _$nodeFooterTemplate: TemplateFunction;
+
+    /**
+     * Колбэк, определяющий для каких узлов нужен подвал
+     * @protected
+     */
+    protected _$footerVisibilityCallback: (nodeContents: S) => boolean;
+
+    /**
+     * Стратегия перетаскивания записей
+     * @protected
+     */
+    protected _dragStrategy: StrategyConstructor<TreeDrag> = TreeDrag;
+    private _expandedItems: CrudEntityKey[] = [];
+    private _collapsedItems: CrudEntityKey[] = [];
 
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));
@@ -192,6 +258,15 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
         }
         if (this._$childrenProperty) {
             this._setImportantProperty(this._$childrenProperty);
+        }
+        this._$hasMoreStorage = options.hasMoreStorage || {};
+
+        if (options.expandedItems instanceof Array) {
+            this.setExpandedItems(options.expandedItems);
+        }
+
+        if (options.collapsedItems instanceof Array) {
+            this.setCollapsedItems(options.collapsedItems);
         }
     }
 
@@ -222,6 +297,92 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
     }
 
     // region Collection
+
+    getNodeFooterTemplateMoreButton(): TemplateFunction {
+        return this._$nodeFooterTemplateMoreButton;
+    }
+
+    // region Expander
+
+    getExpanderTemplate(expanderTemplate?: TemplateFunction): TemplateFunction {
+        return expanderTemplate || this._$expanderTemplate;
+    }
+
+    getExpanderPosition(): string {
+        return this._$expanderPosition;
+    }
+
+    getExpanderVisibility(): string {
+        return this._$expanderVisibility;
+    }
+
+    getExpanderIcon(): string {
+        return this._$expanderIcon;
+    }
+
+    getExpanderSize(): string {
+        return this._$expanderSize;
+    }
+
+    // endregion Expander
+
+    // region Drag-n-drop
+
+    setDraggedItems(draggableItem: T, draggedItemsKeys: Array<number | string>): void {
+        if (draggableItem.isExpanded()) {
+            this.toggleExpanded(draggableItem);
+        }
+        super.setDraggedItems(draggableItem, draggedItemsKeys);
+    }
+
+    setDragPosition(position: IDragPosition<T>): void {
+        const dragStrategy = this.getStrategyInstance(this._dragStrategy) as TreeDrag;
+
+        if (dragStrategy) {
+            // Выполняем поиск, т.к. позиция может смениться сразу на несколько элементов
+            // и не факт, что в предыдущей позиции был targetNode
+            const targetNode = this.find((item) => item.isDragTargetNode());
+            if (targetNode) {
+                targetNode.setDragTargetNode(false);
+                this._nextVersion();
+            }
+
+            if (position.position === 'on') {
+                if (dragStrategy.avatarItem !== position.dispItem && !position.dispItem.isDragTargetNode()) {
+                    position.dispItem.setDragTargetNode(true);
+                    this._nextVersion();
+                }
+                return;
+            }
+
+            super.setDragPosition(position);
+        }
+    }
+
+    resetDraggedItems(): void {
+        const dragStrategy = this.getStrategyInstance(this._dragStrategy) as TreeDrag;
+
+        if (dragStrategy) {
+            const targetNode = this.find((item) => item.isDragTargetNode());
+            if (targetNode) {
+                targetNode.setDragTargetNode(false);
+            }
+            super.resetDraggedItems();
+        }
+    }
+
+    // endregion Drag-n-drop
+
+    getNodeFooterTemplate(): TemplateFunction {
+        return this._$nodeFooterTemplate;
+    }
+
+    setNodeFooterTemplate(nodeFooterTemplate: TemplateFunction): void {
+        if (this._$nodeFooterTemplate !== nodeFooterTemplate) {
+            this._$nodeFooterTemplate = nodeFooterTemplate;
+            this._nextVersion();
+        }
+    }
 
     getIndexBySourceItem(item: any): number {
         if (this._$rootEnumerable && this.getRoot().getContents() === item) {
@@ -442,6 +603,118 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
         return true;
     }
 
+    // region Expanded/Collapsed
+
+    isExpandAll(): boolean {
+        return this._expandedItems[0] === null;
+    }
+
+    getExpandedItems(): CrudEntityKey[] {
+        return this._expandedItems;
+    }
+
+    getCollapsedItems(): CrudEntityKey[] {
+        return this._collapsedItems;
+    }
+
+    setExpandedItems(expandedKeys: CrudEntityKey[]): void {
+        // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
+
+        const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
+        diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(false));
+
+        this._expandedItems = expandedKeys;
+        if (expandedKeys[0] === null) {
+            const expandAllChildesNodes = (parent) => {
+                if (!parent['[Controls/_display/TreeItem]']) {
+                    return;
+                }
+
+                // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                parent.setExpanded(true);
+                if (parent.isNode()) {
+                    const childes = this.getChildren(parent);
+                    childes.forEach((it) => expandAllChildesNodes(it));
+                }
+            };
+
+            this.each((it) => expandAllChildesNodes(it));
+        } else {
+            expandedKeys.forEach((key) => {
+                const item = this.getItemBySourceKey(key);
+                if (item) {
+                    // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                    item.setExpanded(true);
+                }
+            });
+        }
+
+        this._reBuildNodeFooters();
+    }
+
+    setCollapsedItems(collapsedKeys: CrudEntityKey[]): void {
+        // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
+        const diff = ArraySimpleValuesUtil.getArrayDifference(this._collapsedItems, collapsedKeys);
+        diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(true));
+
+        this._collapsedItems = collapsedKeys;
+
+        collapsedKeys.forEach((key) => {
+            const item = this.getItemBySourceKey(key);
+            if (item) {
+                // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
+                item.setExpanded(false);
+            }
+        });
+
+        this._reBuildNodeFooters();
+    }
+
+    resetExpandedItems(): void {
+        this.getItems().filter((it) => it.isExpanded()).forEach((it) => it.setExpanded(false));
+        this._reBuildNodeFooters();
+    }
+
+    toggleExpanded(item: T): void {
+        // TODO зарефакторить по задаче https://online.sbis.ru/opendoc.html?guid=5d8d38d0-3ade-4393-bced-5d7fbd1ca40b
+        const newExpandedState = !item.isExpanded();
+        const itemKey = item.getContents().getKey();
+        item.setExpanded(newExpandedState);
+
+        if (newExpandedState) {
+            if (!this._expandedItems.includes(itemKey)) {
+                this._expandedItems.push(itemKey);
+            }
+            if (this._collapsedItems.includes(itemKey)) {
+                this._collapsedItems.splice(this._collapsedItems.indexOf(itemKey), 1);
+            }
+        } else {
+            if (this._expandedItems.includes(itemKey)) {
+                this._expandedItems.splice(this._expandedItems.indexOf(itemKey), 1);
+            }
+
+            if (!this._collapsedItems.includes(itemKey)) {
+                this._collapsedItems.push(itemKey);
+            }
+        }
+
+        this._reBuildNodeFooters();
+    }
+
+    // endregion Expanded/Collapsed
+
+    setHasMoreStorage(storage: Record<string, boolean>): void {
+        if (!isEqual(this._$hasMoreStorage, storage)) {
+            this._$hasMoreStorage = storage;
+            this._nextVersion();
+            this._reBuildNodeFooters();
+        }
+    }
+
+    getHasMoreStorage(): Record<string, boolean> {
+        return this._$hasMoreStorage;
+    }
+
     // endregion
 
     // region Protected methods
@@ -453,6 +726,7 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
 
         return function TreeItemsFactory(options: IItemsFactoryOptions<S>): T {
             options.hasChildren = object.getPropertyValue<boolean>(options.contents, this._$hasChildrenProperty);
+            options.expanderTemplate = this._$expanderTemplate;
             if (!('node' in options)) {
                 options.node = object.getPropertyValue<boolean>(options.contents, this._$nodeProperty);
             }
@@ -503,6 +777,14 @@ export default class Tree<S, T extends TreeItem<S> = TreeItem<S>> extends Collec
     protected _reIndex(): void {
         super._reIndex();
         this._childrenMap = {};
+    }
+
+    protected _reBuildNodeFooters(): void {
+        const session = this._startUpdateSession();
+        this.getStrategyInstance(NodeFooter)?.invalidate();
+        this._reSort();
+        this._reFilter();
+        this._finishUpdateSession(session, true);
     }
 
     protected _bindHandlers(): void {
@@ -685,7 +967,15 @@ Object.assign(Tree.prototype, {
     _$nodeProperty: '',
     _$childrenProperty: '',
     _$hasChildrenProperty: '',
+    _$expanderTemplate: null,
+    _$expanderPosition: 'default',
+    _$expanderVisibility: 'visible',
+    _$expanderSize: undefined,
+    _$expanderIcon: undefined,
     _$root: undefined,
     _$rootEnumerable: false,
+    _$nodeFooterTemplate: null,
+    _$footerVisibilityCallback: null,
+    _$nodeFooterTemplateMoreButton: null,
     _root: null
 });

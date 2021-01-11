@@ -2,10 +2,10 @@
  * Created by kraynovdo on 31.01.2018.
  */
 define('Controls-demo/List/Base', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Base/Base',
    'Types/source',
-], function (BaseControl,
+], function (Base,
              template,
              source
 ) {
@@ -30,7 +30,7 @@ define('Controls-demo/List/Base', [
       }
    ];
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
 

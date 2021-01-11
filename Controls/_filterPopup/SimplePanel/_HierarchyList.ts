@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/SimplePanel/_HierarchyList/HierarchyList');
 import {factory} from 'Types/chain';
 import {RecordSet} from 'Types/collection';

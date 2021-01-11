@@ -1,12 +1,12 @@
 define('Controls-demo/PropertyGrid/TimeIntervalTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/PropertyGrid/TimeIntervalTemplate',
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var timeIntervalTmpl = Control.extend({
+      var timeIntervalTmpl = Base.Control.extend({
          _template: template,
          _valueChangedHandler: function(event, tmp) {
             this._notify('valueChanged', [tmp]);

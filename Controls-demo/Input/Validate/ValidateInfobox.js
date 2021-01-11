@@ -1,11 +1,11 @@
 define('Controls-demo/Input/Validate/ValidateInfobox', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Validate/ValidateInfobox',
    'Controls/validate',
    'Controls-demo/Input/Validate/Validator'
-], function(Control, template) {
+], function(Base, template) {
    'use strict';
-   var VdomDemoText = Control.extend({
+   var VdomDemoText = Base.Control.extend({
       _template: template,
       _valueEmail: '',
       _value: '',

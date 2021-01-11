@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper">
+    <Controls.gridNew:View
+            useTableInOldBrowsers="{{true}}"
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/gridNew:ItemTemplate" cursor="default"/>
+        </ws:itemTemplate>
+    </Controls.gridNew:View>
+</div>

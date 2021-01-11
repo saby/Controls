@@ -1,7 +1,7 @@
 define('Controls-demo/ContainerTheme', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/ContainerTheme'
-], function(BaseControl,
+], function(Base,
             template
 ) {
    'use strict';
@@ -9,7 +9,7 @@ define('Controls-demo/ContainerTheme', [
    /**
     * This control trying to get theme option from url and pass it to demo
     */
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template
       });

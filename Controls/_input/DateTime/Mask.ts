@@ -1,5 +1,5 @@
 import MaskViewModel from 'Controls/_input/DateTime/MaskViewModel';
-import Mask = require('Controls/_input/Mask');
+import Mask from 'Controls/_input/Mask';
 
 class Component extends Mask {
     protected _getViewModelConstructor() {

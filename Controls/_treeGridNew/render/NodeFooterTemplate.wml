@@ -1,0 +1,32 @@
+<ws:if data="{{ item.shouldDisplayVisibleFooter(content) }}">
+    <div class="{{item.getItemClasses({
+        'highlightOnHover': highlightOnHover,
+        'theme': theme,
+        'style': style,
+        'cursor': cursor,
+        'clickable': clickable
+    })}}" attr:key="{{item.key}}">
+        <ws:for data="index,column in item.getColumns(colspan)">
+            <div class="{{ column.getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover, colspan) }} {{ cellClassName || '' }}" attr:key="{{item.key}}_column_{{index}}" style="{{ column.getColspan(colspan)  }}">
+                <ws:if data="{{ index === 0 }}">
+<!--                Отступы для выравнивания с экспандером-->
+                    <ws:if data="{{item.shouldDisplayExpanderBlock(column)}}">
+                        <ws:if data="{{!withoutLevelPadding && item.getLevel() > 1}}">
+                            <ws:for data="i in item.getLevel() - 1">
+                                <div class="{{item.getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+                            </ws:for>
+                        </ws:if>
+                        <ws:if data="{{item.shouldDisplayExpanderPadding(expanderIcon)}}">
+                            <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
+                        </ws:if>
+                    </ws:if>
+
+                    <ws:partial template="{{column.getTemplate(content)}}" item="{{item.getNode()}}" itemData="{{item.getNode()}}"/>
+                </ws:if>
+            </div>
+        </ws:for>
+    </div>
+</ws:if>
+<ws:else>
+   <div style="display: none"></div>
+</ws:else>

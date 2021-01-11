@@ -1,14 +1,14 @@
 define('Controls-demo/Popup/Opener/resources/StackTemplateHeader',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/Opener/resources/StackTemplateHeader',
       'Types/source',
       'wml!Controls-demo/List/Tree/DemoContentTemplate'
    ],
-   function(Control, template, Source) {
+   function(Base, template, Source) {
       'use strict';
 
-      var PopupPage = Control.extend({
+      var PopupPage = Base.Control.extend({
          _template: template,
          SelectedKey1: '1',
          _source1: null,

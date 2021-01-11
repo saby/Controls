@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/Childs/Simple/First',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/Childs/Simple/First'
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var simpleFirstChildModule = Control.extend({
+      var simpleFirstChildModule = Base.Control.extend({
          _template: template,
 
          _beforeMount: function (options) {

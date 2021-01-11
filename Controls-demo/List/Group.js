@@ -2,12 +2,12 @@
  * Created by kraynovdo on 31.01.2018.
  */
 define('Controls-demo/List/Group', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Group',
-   'Controls/Constants',
+   'Controls/list',
    'Types/source',
    'wml!Controls-demo/List/DemoGroupTemplate'
-], function (BaseControl,
+], function (Base,
              template,
              ControlsConstants,
              source) {
@@ -50,7 +50,7 @@ define('Controls-demo/List/Group', [
       }
    ];
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _dataLoadCallback: function(items) {
@@ -64,7 +64,7 @@ define('Controls-demo/List/Group', [
          },
          _groupingKeyCallback: function(item) {
             if (item.get('brand') === 'apple') {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('brand');
          },

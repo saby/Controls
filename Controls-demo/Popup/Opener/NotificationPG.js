@@ -1,6 +1,6 @@
 define('Controls-demo/Popup/Opener/NotificationPG',
    [
-      'Core/Control',
+      'UI/Base',
       'tmpl!Controls-demo/Popup/Opener/OpenerDemoPG',
       'json!Controls-demo/PropertyGrid/pgtext',
       'wml!Controls-demo/Popup/Opener/resources/BaseNotification',
@@ -9,9 +9,9 @@ define('Controls-demo/Popup/Opener/NotificationPG',
 
    ],
 
-   function(Control, template, config) {
+   function(BaseMod, template, config) {
       'use strict';
-      var DialogPG = Control.extend({
+      var DialogPG = BaseMod.Control.extend({
          _template: template,
          _metaData: null,
          _dataOptions: null,

@@ -8,6 +8,21 @@ import {
     ISerializableState as IDefaultSerializableState
 } from 'Types/entity';
 import {mixin} from 'Types/util';
+/**
+ * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группировкой элементов}.
+ * @public
+ */
+const groupConstants = {
+    /**
+     * С помощью этой константы можно настроить группу элементов, которая отображается без заголовка в начале списка.
+     * Пример использования можно найти {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/hidden/ здесь}.
+     */
+    /*
+    * Constant for determining item in the hiddenGroup in the {@link Controls/interface/IGroupedList#groupProperty groupProperty}
+    */
+    hiddenGroup: 'CONTROLS_HIDDEN_GROUP'
+};
+export {groupConstants};
 
 type IGroup = string | number;
 type IGroups = IGroup[];
@@ -298,7 +313,11 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
 
             // Remember group order
             if (groupsOrder.indexOf(groupIndex) === -1) {
-                groupsOrder.push(groupIndex);
+                if (groupId === groupConstants.hiddenGroup) {
+                    groupsOrder.unshift(groupIndex);
+                } else {
+                    groupsOrder.push(groupIndex);
+                }
             }
 
             // Items of each group
@@ -306,16 +325,6 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
                 groupsItems[groupIndex] = [];
             }
             groupsItems[groupIndex].push(position);
-        }
-
-        const arrayMove = (arr, from, to) => {
-            arr.splice(to, 0, arr.splice(from, 1)[0]);
-        };
-
-        // Перемещаем элементы без группы в начало
-        const hiddenGroupIndex = groupsId.indexOf('CONTROLS_HIDDEN_GROUP');
-        if (hiddenGroupIndex !== -1 && hiddenGroupIndex < groupsOrder.length) {
-            arrayMove(groupsOrder, hiddenGroupIndex, 0);
         }
 
         // Fill result by groups

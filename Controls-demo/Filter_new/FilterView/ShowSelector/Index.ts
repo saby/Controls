@@ -37,13 +37,14 @@ export default class extends Control {
             emptyText: 'all records',
             editorOptions: {
                 source: new Memory({
-                    idProperty: 'id',
+                    keyProperty: 'id',
                     data: this._itemsMultiSelect
                 }),
                 displayProperty: 'title',
                 keyProperty: 'id',
                 navigation: this._navigation,
-                selectorTemplate: { templateName: 'Controls-demo/Dropdown/StackTemplate', templateOptions: {items: this._itemsMultiSelect, multiSelect: true}, popupOptions: {width: 300} },
+                selectorTemplate: { templateName: 'Controls-demo/Input/Dropdown/stackTemplate/StackTemplate',
+                    templateOptions: {items: this._itemsMultiSelect, multiSelect: true}, popupOptions: {width: 300} },
                 multiSelect: true
             },
             viewMode: 'frequent'

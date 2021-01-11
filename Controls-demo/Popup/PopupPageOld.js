@@ -1,14 +1,14 @@
 define('Controls-demo/Popup/PopupPageOld',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/PopupPageOld',
       'SBIS3.CONTROLS/Action/List/OpenEditDialog',
       'Controls-demo/Popup/TestDialog',
    ],
-   function (Control, template, OpenEditDialog) {
+   function (Base, template, OpenEditDialog) {
       'use strict';
 
-      var PopupPage = Control.extend({
+      var PopupPage = Base.Control.extend({
          _template: template,
 
          constructor: function (cfg) {

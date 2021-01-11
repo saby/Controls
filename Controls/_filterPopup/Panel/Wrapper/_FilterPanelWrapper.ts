@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/Panel/Wrapper/_FilterPanelWrapper');
 import _FilterPanelWrapper = require('Controls/_filterPopup/Panel/Wrapper/_FilterPanelOptions');
 
@@ -8,7 +8,7 @@ import _FilterPanelWrapper = require('Controls/_filterPopup/Panel/Wrapper/_Filte
        * Proxy container for filter panel options.
        *
        * @class Controls/_filterPopup/Panel/Wrapper/_FilterPanelWrapper
-       * @extends Core/Control
+       * @extends UI/Base:Control
        * 
        * @private
        */

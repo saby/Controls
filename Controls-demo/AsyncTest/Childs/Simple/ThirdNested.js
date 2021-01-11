@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/Childs/Simple/ThirdNested',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/Childs/Simple/ThirdNested'
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var simpleThirdNestedChildModule = Control.extend({
+      var simpleThirdNestedChildModule = Base.Control.extend({
          _template: template,
 
          _beforeMount: function (options) {

@@ -2,7 +2,7 @@ import { Control, TemplateFunction, IControlOptions } from 'UI/Base';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import * as template from 'wml!Controls-demo/List/Display/DisplayList/DisplayList';
 
-import { Controller as SourceController } from 'Controls/source';
+import { NewSourceController as SourceController } from 'Controls/dataSource';
 import { CollectionItem, Collection, Abstract } from 'Controls/display';
 
 import { ICrud } from 'Types/source';

@@ -1,6 +1,6 @@
 import {TemplateFunction, Control, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls-demo/OperationsPanelNew/PanelWithList/Marker/hidden/hidden';
-import notifyHandler = require('Controls/Utils/tmplNotify');
+import {EventUtils} from 'UI/Events';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {getPanelData, getListData} from 'Controls-demo/OperationsPanelNew/DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/OperationsPanelNew/Templates/PersonInfo';
@@ -15,7 +15,7 @@ export default class ListWithoutMarker extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
     protected _selectedKeys: string[] = [];
     protected _excludedKeys: string[] = [];
-    protected _notifyHandler: Function = notifyHandler;
+    protected _notifyHandler: Function = EventUtils.tmplNotify;
     protected _expandedOperationsPanel: boolean = false;
     protected _panelSource: Memory = new Memory({
         keyProperty: 'id',

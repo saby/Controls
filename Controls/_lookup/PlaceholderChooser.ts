@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_lookup/PlaceholderChooser/PlaceholderChooser');
 import collection = require('Types/collection');
 
@@ -13,11 +13,11 @@ var _private = {
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less переменные тем оформления}
  * 
  * @class Controls/_lookup/PlaceholderChooser
  * 
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @public
  * @author Герасимов А.М.
  */
@@ -140,7 +140,7 @@ PlaceholderChooser._private = _private;
  * A wrapper over the "Lookup" that monitors changes to the selected entries, and on the basis of them gives one of the possible pre-formed "placeholders".
  * @class Controls/_lookup/PlaceholderChooser
  * 
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @public
  * @author Kapustin I.A.
  */

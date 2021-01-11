@@ -1,6 +1,6 @@
 import rk = require('i18n!Controls');
 import {SyntheticEvent} from 'Vdom/Vdom';
-import BaseControl = require('Core/Control');
+import {Control as BaseControl} from 'UI/Base';
 import coreMerge = require('Core/core-merge');
 import {descriptor, Date as WSDate} from 'Types/entity';
 import {IRangeSelectable} from 'Controls/dateRange';
@@ -32,14 +32,41 @@ const MONTH_STATE_SELECTION_DAYS = 30;
 const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
 
 /**
+ * @event Происходит при завершении ввода (поле ввода периода потеряло фокус или пользователь нажал клавишу "Enter").
+ * @name Controls/datePopup#inputCompleted
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Date} startValue Начальное значение периода.
+ * @param {Date} endValue Конечное значение периода.
+ * @param {String} displayedStartValue Текстовое значение начала периода.
+ * @param {String} displayedEndValue Текстовое значение конца периода.
+ * @remark
+ * Это событие можно использовать в качестве триггера для проверки периода или отправки введенных данных в какой-либо другой контрол.
+ * @example
+ * В этом примере мы подписываемся на событие inputCompleted и сохраняем значение периода в первой базе данных и отображаемое значение периода во второй базе данных.
+ * <pre>
+ *    <Controls.datePopup on:inputCompleted="_inputCompletedHandler()" />
+ * </pre>
+ * <pre>
+ *    Base.Control.extend({
+ *       ....
+ *       _inputCompletedHandler(event, startValue, endValue, displaydStartValue, displaydEndValue) {
+ *          this._saveEnteredValueToDabase1(startValue, endValue);
+ *          this._saveEnteredValueToDabase2(displaydStartValue, displaydEndValue);
+ *       },
+ *       ...
+ *    })
+ * </pre>
+ */
+
+/**
  * Диалоговое окно, которое позволяет выбрать даты и периоды произвольной длительности.
  *
  * @class Controls/datePopup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
  * @mixes Controls/_interface/IDayTemplate
  * @mixes Controls/_interface/IDateMask
- * @mixes Controls/_datePopup/interfaces/IDatePopup
+ * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_interface/IDateRangeValidators
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
  *
@@ -53,11 +80,11 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
  * A dialog that allows you to choose dates and periods of arbitrary duration.
  *
  * @class Controls/datePopup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
  * @mixes Controls/_interface/IDayTemplate
  * @mixes Controls/_interface/IDateMask
- * @mixes Controls/datePopup/interfaces/IDatePopup
+ * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_interface/IDateRangeValidators
  *
  * @public
@@ -146,15 +173,15 @@ export default class DatePopup extends Control implements EventProxyMixin {
         }
 
         if (options.selectionType === 'quantum') {
-            if ('years' in options.quantum) {
+            if ('years' in options.ranges) {
                 this._yearRangeSelectionType = options.selectionType;
-                this._yearRangeQuantum = {'years': options.quantum.years};
+                this._yearRangeQuantum = {'years': options.ranges.years};
             } else {
                 this._yearRangeSelectionType = IDateRangeSelectable.SELECTION_TYPES.disable;
             }
-            if ('months' in options.quantum) {
+            if ('months' in options.ranges) {
                 this._monthRangeSelectionType = options.selectionType;
-                this._monthRangeQuantum = {'months': options.quantum.months};
+                this._monthRangeQuantum = {'months': options.ranges.months};
             } else {
                 this._monthRangeSelectionType = IDateRangeSelectable.SELECTION_TYPES.disable;
             }

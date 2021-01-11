@@ -15,6 +15,8 @@ function createComponent(Component, cfg) {
     return cmp;
 }
 
+const classList = { contains: () => false };
+
 describe('Controls/scroll:Container', () => {
     describe('constructor', () => {
         it('should initialize by default', () => {
@@ -53,11 +55,13 @@ describe('Controls/scroll:Container', () => {
     describe('_beforeUnmount', () => {
         it('should call beforeUnmount in ContainerBase', () => {
             const component = createComponent(Container);
-            const state = component._state;
+            const state = component._scrollModel = {
+                scrollTop: 200
+            };
             component._beforeUnmount();
 
-            assert.notEqual(state, component._state);
-            assert.isNull(component._state);
+            assert.notEqual(state, component._scrollModel);
+            assert.isNull(component._scrollModel);
         });
     });
 
@@ -70,7 +74,14 @@ describe('Controls/scroll:Container', () => {
                 content: {
                     getBoundingClientRect: () => undefined,
                     children: []
-                }
+                },
+                userContent: {
+                    children: [{
+                        classList: {
+                            contains: () => true
+                        }
+                    }]
+               }
             };
         });
         afterEach(() => {
@@ -95,7 +106,14 @@ describe('Controls/scroll:Container', () => {
                 content: {
                     getBoundingClientRect: () => undefined,
                     children: []
-                }
+                },
+                userContent: {
+                    children: [{
+                        classList: {
+                            contains: () => true
+                        }
+                    }]
+               }
             };
             component._afterMount({ topShadowVisibility: SHADOW_VISIBILITY.VISIBLE }, {});
             sinon.assert.called(component._stickyHeaderController.init);
@@ -109,7 +127,14 @@ describe('Controls/scroll:Container', () => {
                 content: {
                     getBoundingClientRect: () => undefined,
                     children: []
-                }
+                },
+                userContent: {
+                    children: [{
+                        classList: {
+                            contains: () => true
+                        }
+                    }]
+               }
             };
             component._afterUpdate({}, {});
             assert.strictEqual(component._stickyHeaderController._container, component._children.content);
@@ -149,13 +174,15 @@ describe('Controls/scroll:Container', () => {
         }].forEach((test) => {
             it(`${test.shadowMode}, canScroll ${test.canScroll}`, () => {
                 const component = createComponent(Container, {shadowMode: test.shadowMode});
+                component._isStateInitialized = true;
+                component._scrollModel = {};
 
                 assert.strictEqual(component._isOptimizeShadowEnabled, test.isOptimizeShadowEnabled,
                     '_isOptimizeShadowEnabled before _mouseenterHandler');
                 assert.strictEqual(component._optimizeShadowClass, test.optimizeShadowClass,
                     '_optimizeShadowClass before _mouseenterHandler');
 
-                component._state.canVerticalScroll = test.canScroll;
+                component._scrollModel.canVerticalScroll = test.canScroll;
                 component._mouseenterHandler();
 
                 assert.strictEqual(component._isOptimizeShadowEnabled, test.isOptimizeShadowEnabledAfterMouseEnter,
@@ -191,6 +218,14 @@ describe('Controls/scroll:Container', () => {
                 offsetHeight: 100
             };
             component._scrollbars._scrollContainerStyles = '';
+            component._scrollModel = {
+                clone: () => {
+                    return 0;
+                },
+                updateState: () => {
+                    return true;
+                }
+            };
             component._updateState(state);
             assert.strictEqual(component._scrollCssClass, ' controls-Scroll__content_hideNativeScrollbar controls-Scroll-ContainerBase__scroll_vertical');
         });
@@ -204,7 +239,15 @@ describe('Controls/scroll:Container', () => {
             component._container = {
                 offsetHeight: 100
             };
-            component._scrollbars._scrollContainerStyles = '';
+            component._scrollbars._scrollContainerStyles = ''
+            component._scrollModel = {
+                clone: () => {
+                    return 0;
+                },
+                updateState: () => {
+                    return true;
+                }
+            };
             component._updateState(state);
             assert.strictEqual(component._scrollCssClass, ' controls-Scroll__content_hideNativeScrollbar controls-Scroll-ContainerBase__scroll_verticalHorizontal');
         });
@@ -217,6 +260,15 @@ describe('Controls/scroll:Container', () => {
                     content: {
                         getBoundingClientRect: () => undefined
                     }
+                };
+                component._scrollModel = {
+                    clone: () => {
+                        return 0;
+                    },
+                    updateState: () => {
+                        return true;
+                    },
+                    canVerticalScroll: true
                 };
                 sinon.stub(component._stickyHeaderController, 'hasFixed').returns(true);
 
@@ -242,6 +294,17 @@ describe('Controls/scroll:Container', () => {
                 component._container = {
                     offsetHeight: 100
                 };
+                component._scrollModel = {
+                    clone: () => {
+                        return 0;
+                    },
+                    updateState: () => {
+                        return true;
+                    },
+                    canVerticalScroll: true,
+                    clientHeight: 1000,
+                    scrollHeight: 2000
+                };
                 // В реальнности метод задебоунсен, в тестах выключаем дебоунс.
                 component._scrollbars._updateContainerSizes = ScrollbarsModel.prototype._updateContainerSizes;
                 component._updateState(state);
@@ -266,6 +329,20 @@ describe('Controls/scroll:Container', () => {
 
                 component._mouseenterHandler();
                 assert.isFalse(component._scrollbars.vertical.isVisible);
+
+                component._scrollModel = {
+                    clone: () => {
+                        return 0;
+                    },
+                    updateState: () => {
+                        return true;
+                    },
+                    canVerticalScroll: true,
+                    clientHeight: 1000,
+                    scrollHeight: 2000
+                };
+                component._scrollModel.canVerticalScroll = true;
+
                 component._updateState(state);
                 assert.isTrue(component._scrollbars.vertical.isVisible);
             });
@@ -277,12 +354,13 @@ describe('Controls/scroll:Container', () => {
             const component = createComponent(Container, {});
             const result = 960;
             component._topPlaceholderSize = 0;
-            component._state = {
+            component._scrollModel = {
                 scrollTop: 1000
             };
             component._children = {
                 content: {
-                    scrollTop : 1000
+                    scrollTop : 1000,
+                    children: []
                 }
             };
             const event = {
@@ -301,14 +379,15 @@ describe('Controls/scroll:Container', () => {
             const component = createComponent(Container, {});
             const result = 1040;
             component._topPlaceholderSize = 0;
-            component._state = {
+            component._scrollModel = {
                 scrollTop: 1000,
                 scrollHeight: 2000,
                 clientHeight: 600
             };
             component._children = {
                 content: {
-                    scrollTop: 1000
+                    scrollTop: 1000,
+                    children: []
                 }
             };
             const event = {
@@ -327,14 +406,15 @@ describe('Controls/scroll:Container', () => {
             const component = createComponent(Container, {});
             const result = 1000;
             component._topPlaceholderSize = 0;
-            component._state = {
+            component._scrollModel = {
                 scrollTop: 1000,
                 scrollHeight: 2000,
                 clientHeight: 1000
             };
             component._children = {
                 content: {
-                    scrollTop: 1000
+                    scrollTop: 1000,
+                    children: []
                 }
             };
             const event = {
@@ -353,12 +433,13 @@ describe('Controls/scroll:Container', () => {
             const component = createComponent(Container, {});
             const result = 0;
             component._topPlaceholderSize = 0;
-            component._state = {
+            component._scrollModel = {
                 scrollTop: 0
             };
             component._children = {
                 content: {
-                    scrollTop: 0
+                    scrollTop: 0,
+                    children: []
                 }
             };
             const event = {
@@ -377,12 +458,13 @@ describe('Controls/scroll:Container', () => {
             const component = createComponent(Container, {});
             const result = 0;
             component._topPlaceholderSize = 0;
-            component._state = {
+            component._scrollModel = {
                 scrollTop: 0
             };
             component._children = {
                 content: {
-                    scrollTop: 0
+                    scrollTop: 0,
+                    children: []
                 }
             };
             const event = {
@@ -497,6 +579,7 @@ describe('Controls/scroll:Container', () => {
             component._container = {
                 offsetHeight: 100
             };
+            sinon.stub(component, '_updateStateAndGenerateEvents');
             component._positionChangedHandler({}, SCROLL_DIRECTION.VERTICAL, 10);
             assert.strictEqual(component._children.content.scrollTop, 10);
         });

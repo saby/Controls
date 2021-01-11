@@ -1,9 +1,9 @@
 define(
    [
-      'Core/Control',
+      'UI/Base',
       'Controls/_input/Number/ViewModel'
    ],
-   function(Control, NumberViewModel) {
+   function(Base, NumberViewModel) {
 
       'use strict';
 

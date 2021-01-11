@@ -1,9 +1,9 @@
 define(
    [
-      'Core/Control',
+      'UI/Base',
       'Controls/search'
    ],
-   function(Control, searchMod) {
+   function(Base, searchMod) {
       'use strict';
 
       describe('Controls/_search/Input/Search', function() {

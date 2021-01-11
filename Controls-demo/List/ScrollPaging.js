@@ -1,8 +1,8 @@
 define('Controls-demo/List/ScrollPaging', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/ScrollPaging/ScrollPaging',
    'Types/source',
-], function (BaseControl,
+], function (Base,
              template,
              source
 ) {
@@ -119,7 +119,7 @@ define('Controls-demo/List/ScrollPaging', [
       }
    ];
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
 

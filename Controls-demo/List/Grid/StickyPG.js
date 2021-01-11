@@ -1,6 +1,6 @@
 define('Controls-demo/List/Grid/StickyPG',
    [
-      'Core/Control',
+      'UI/Base',
       'tmpl!Controls-demo/List/Grid/resources/StickyPG/DemoPG',
       'json!Controls-demo/List/Grid/resources/StickyPG/cfg',
       'Types/source',
@@ -12,9 +12,9 @@ define('Controls-demo/List/Grid/StickyPG',
       'wml!Controls-demo/List/Grid/resources/StickyPG/TasksReceived',
    ],
 
-   function(Control, template, config, source, data) {
+   function(Base, template, config, source, data) {
       'use strict';
-      var DialogPG = Control.extend({
+      var DialogPG = Base.Control.extend({
          _template: template,
          _metaData: null,
          _dataOptions: null,

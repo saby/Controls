@@ -1,4 +1,4 @@
-import BaseControl = require('Core/Control');
+import {Control as BaseControl} from 'UI/Base';
 import coreMerge = require('Core/core-merge');
 import coreClone = require('Core/core-clone');
 import RangeSelectrionControllerTmpl = require('wml!Controls/_dateRange/Controllers/RangeSelectionController');
@@ -107,7 +107,7 @@ var _private = {
  * Эти события должны передавать в качестве параметра значения элементов, с которыми в данный момент происходит взаимодействие.
  *
  * @class Controls/_dateRange/Controllers/RangeSelectionController
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_dateRange/interfaces/IRangeSelectable
  * @author Красильников А.С.
  * @public

@@ -1,12 +1,12 @@
 define('Controls-demo/PropertyGrid/StringOrFunctionTemplate',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/PropertyGrid/StringOrFunctionTemplate'
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var stringTmpl = Control.extend({
+      var stringTmpl = Base.Control.extend({
          _template: template,
          _value: '',
          checkBoxFlag: undefined,

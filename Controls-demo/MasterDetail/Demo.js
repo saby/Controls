@@ -1,5 +1,5 @@
 define('Controls-demo/MasterDetail/Demo', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/MasterDetail/Demo',
    'Controls-demo/MasterDetail/Data',
    'Core/core-clone',
@@ -7,8 +7,8 @@ define('Controls-demo/MasterDetail/Demo', [
    'wml!Controls-demo/MasterDetail/itemTemplates/masterItemTemplate',
    'Controls-demo/MasterDetail/DemoSource',
    'Env/Env',
-], function(Control, template, data, cClone, source, itemTemplate, DemoSource, Env) {
-   var ModuleClass = Control.extend({
+], function(Base, template, data, cClone, source, itemTemplate, DemoSource, Env) {
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _markedKey: 0,
       _markedKey2: 0,

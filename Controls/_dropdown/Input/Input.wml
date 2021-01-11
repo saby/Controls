@@ -7,8 +7,8 @@
                               on:mouseleave="_handleMouseLeave()"
                               on:keydown="_handleKeyDown()"
                               on:deactivated="_deactivated()"
-                              attr:class="controls-Dropdown_theme_{{_options.theme}}
-                                         {{(_options.validationStatus === 'invalid' || _options.validationStatus === 'invalidAccent') ? 'controls-Dropdown-validationStatus_invalid_theme_' + _options.theme}}">
+                              attr:class="controls-Dropdown controls-Dropdown_theme_{{_options.theme}}
+                                         {{(_options.validationStatus === 'invalid' || _options.validationStatus === 'invalidAccent') ? 'controls-Dropdown-validationStatus_invalid controls-Dropdown-validationStatus_invalid_theme_' + _options.theme}}">
     <ws:content>
         <ws:partial template="{{_options.contentTemplate || _defaultContentTemplate}}"
                     item="{{_item}}"

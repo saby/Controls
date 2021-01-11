@@ -14,7 +14,7 @@
                      item="{{item}}"/>
       </ws:if>
       <ws:else>
-         <div if="{{icon}}" class="controls-Dropdown__icon_theme_{{_options.theme}} controls-icon_style-{{item.get('iconStyle') || 'secondary'}}_theme-{{_options.theme}}"
+         <div if="{{icon}}" class="controls-Dropdown__icon controls-Dropdown__icon_theme_{{_options.theme}} controls-icon_style-{{item.get('iconStyle') || 'secondary'}}_theme-{{_options.theme}}"
               title="{{tooltip}}">
             <div class="{{iconSize ? 'controls-icon_size-' + iconSize + '_theme-' + _options.theme}} {{icon}}"></div>
          </div>

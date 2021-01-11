@@ -8,10 +8,10 @@ import {factory} from 'Types/chain';
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
  *
  * @class Controls/_filterPopup/Panel/HierarchyLookup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/IMultiSelectable
  * @public
  * @author Золотова Э.Е.

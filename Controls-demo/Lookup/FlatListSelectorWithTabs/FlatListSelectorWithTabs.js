@@ -1,13 +1,13 @@
 define('Controls-demo/Lookup/FlatListSelectorWithTabs/FlatListSelectorWithTabs', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Lookup/FlatListSelectorWithTabs/FlatListSelectorWithTabs',
    'Controls-demo/Lookup/DemoHelpers/DataCatalog',
    'Types/source',
-], function(Control, template, lookupData, source) {
+], function(Base, template, lookupData, source) {
 
    'use strict';
 
-   var FlatListSelector = Control.extend({
+   var FlatListSelector = Base.Control.extend({
       _template: template,
       _keyProperty: 'id',
       _selectionChanged: false,

@@ -1,14 +1,14 @@
 define('Controls-demo/DragNDrop/Notes', [
-   'Core/Control',
+   'UI/Base',
    'Core/core-instance',
    'Types/source',
    'wml!Controls-demo/DragNDrop/Notes/Notes',
    'Controls-demo/DragNDrop/Notes/EntityTriangle',
    'Controls-demo/DragNDrop/Notes/EntityNote',
-], function(BaseControl, cInstance, source, template, EntityTriangle, EntityNote) {
+], function(Base, cInstance, source, template, EntityTriangle, EntityNote) {
    'use strict';
 
-   var Notes = BaseControl.extend({
+   var Notes = Base.Control.extend({
       _template: template,
       _itemActions: undefined,
       _items: null,

@@ -3,15 +3,15 @@
  */
 define('Controls-demo/Container/Enum',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Container/Enum',
       'Types/collection'
    ],
 
-   function(Control, template, collection) {
+   function(Base, template, collection) {
 
 
-      var EnumCont = Control.extend({
+      var EnumCont = Base.Control.extend({
 
          _template: template,
          _enumInst: null,

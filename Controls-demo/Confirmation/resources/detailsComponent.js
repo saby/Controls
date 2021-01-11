@@ -3,13 +3,13 @@
  */
 define('Controls-demo/Confirmation/resources/detailsComponent',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Confirmation/resources/detailsComponent'
    ],
-   function(Control, template) {
+   function(Base, template) {
       'use strict';
 
-      var TestDialog = Control.extend({
+      var TestDialog = Base.Control.extend({
          _template: template,
          _value: 'Text',
          _clickHandler: function() {

@@ -1,8 +1,8 @@
 define('Controls-demo/List/NavigationSwitching', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/NavigationSwitching/NavigationSwitching',
    'Types/source',
-], function (BaseControl,
+], function (Base,
              template,
              source
 ) {
@@ -119,7 +119,7 @@ define('Controls-demo/List/NavigationSwitching', [
       }
    ];
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _navigationMode: '',

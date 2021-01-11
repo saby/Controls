@@ -2,15 +2,15 @@
  * Created by am.gerasimov on 17.07.2018.
  */
 define('Controls-demo/FilterSearch/Panel', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/FilterSearch/Panel',
    'Controls/dropdown',
    'wml!Controls-demo/FilterSearch/itemTemplate'
-], function(Control, tempalte) {
+], function(Base, tempalte) {
    
    'use strict';
    
-   return Control.extend({
+   return Base.Control.extend({
       _template: tempalte
    });
 });

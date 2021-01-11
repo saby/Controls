@@ -14,7 +14,7 @@
                   keyProperty="id">
                <ws:navigation source="page" view="pages">
                   <ws:sourceConfig pageSize="{{9}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>
-                  <ws:viewConfig pagingMode="direct" totalInfo="extended"></ws:viewConfig>
+                  <ws:viewConfig pagingMode="basic" totalInfo="extended"></ws:viewConfig>
                </ws:navigation>
             </Controls.list:View>
          </ws:content>
@@ -40,7 +40,7 @@
                        bind:sorting="_sorting">
                   <ws:navigation source="page" view="pages">
                      <ws:sourceConfig pageSize="{{4}}" page="{{0}}" hasMore="{{false}}"></ws:sourceConfig>
-                     <ws:viewConfig pagingMode="direct" totalInfo="basic"></ws:viewConfig>
+                     <ws:viewConfig pagingMode="basic" totalInfo="basic"></ws:viewConfig>
                   </ws:navigation>
                   <ws:header>
                      <ws:Array>

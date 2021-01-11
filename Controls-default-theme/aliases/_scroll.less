@@ -44,8 +44,8 @@
 // В Safari на MacOS неправльно работает transparent в linear-gradient.
 // Сделаем так, чтобы градинет переходил  из цвета бэкграунда в прозрачный цвет бэкграунда.
 // Таким образом мы получим планый переход при появлении тени
-@shadow_thickness_background_scroll:                 linear-gradient(@background-color 10%, rgba(@background-color, 0)),
-                                                     linear-gradient(rgba(@background-color, 0), @background-color 90%) 0 100%,
+@shadow_thickness_background_scroll:                 linear-gradient(@background-color 25%, rgba(@background-color, 0)),
+                                                     linear-gradient(rgba(@background-color, 0), @background-color 75%) 0 100%,
                                                      linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
                                                      linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll) 0 100%;
 

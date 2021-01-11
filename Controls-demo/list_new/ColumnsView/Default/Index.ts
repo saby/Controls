@@ -22,7 +22,7 @@ export default class RenderDemo extends Control {
             count: NUMBER_OF_ITEMS,
             entityTemplate: {title: 'string'},
             beforeCreateItemCallback: (item) => {
-                item.title = `Запись с id="${item.id}". ${item.title}`;
+                item.title = `Запись с id="${item.id}". `;
             }
         });
         this._viewSource = new MemorySource({

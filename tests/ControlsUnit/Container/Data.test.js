@@ -7,7 +7,7 @@ define(
       'Types/collection',
       'Application/Initializer',
       'Application/Env',
-      'Env/Config',
+      'EnvConfig/Config',
       'Controls/dataSource'
    ],
    function(lists, sourceLib, contexts, Deferred, collection, AppInit, AppEnv, Config, dataSourceLib) {
@@ -168,6 +168,28 @@ define(
                      reject(error);
                   });
             });
+         });
+
+         it('_beforeUpdate filter changed, sourceController in options', async() => {
+            let filter = {};
+            let options = {
+               source,
+               keyProperty: 'id',
+               filter
+            };
+            const sourceController = new dataSourceLib.NewSourceController(options);
+            options = {...options, sourceController};
+            const data = getDataWithConfig(options);
+            await sourceController.reload();
+            await data._beforeMount(options);
+            data.saveOptions(options);
+
+            options = {...options};
+            filter = {...filter};
+            filter.test = '123';
+
+            data._beforeUpdate(options);
+            assert.deepEqual(options.filter, data._filter);
          });
 
          it('_beforeMount with receivedState', function() {

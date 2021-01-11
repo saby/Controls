@@ -2,6 +2,7 @@ import { assert } from 'chai';
 import {RecordSet} from 'Types/collection';
 import {Collection, CollectionItem} from 'Controls/display';
 import {ICollection} from "../../../Controls/_display/interface/ICollection";
+import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
 
 interface IChangedData<T> {
     item?: CollectionItem<T>;
@@ -463,7 +464,8 @@ describe('Controls/_display/CollectionItem', () => {
     it('.getWrapperClasses()', () => {
         const owner = {
             notifyItemChange(): void {},
-            getHoverBackgroundStyle: function() {}
+            getHoverBackgroundStyle: function() {},
+            getEditingBackgroundStyle: () => 'default'
         };
 
         const defaultClasses = [
@@ -473,7 +475,7 @@ describe('Controls/_display/CollectionItem', () => {
             'js-controls-ItemActions__swipeMeasurementContainer'
         ];
         const editingClasses = [
-            'controls-ListView__item_editing'
+            'controls-ListView__item_background-editing'
         ];
 
         const item = new CollectionItem({ owner });
@@ -496,6 +498,7 @@ describe('Controls/_display/CollectionItem', () => {
             getLeftPadding(): string { return '#leftSpacing#'; },
             getRightPadding(): string { return '#rightSpacing#'; },
             getMultiSelectVisibility(): string { return multiSelectVisibility; },
+            getMultiSelectPosition(): string { return 'default'; },
             getRowSeparatorSize: function () { return ''; }
         };
         const defaultClasses = [
@@ -522,33 +525,26 @@ describe('Controls/_display/CollectionItem', () => {
     });
 
     it('.getMultiSelectClasses()', () => {
-        let multiSelectVisibility;
         const owner = {
-            getMultiSelectVisibility(): string { return multiSelectVisibility; },
-            getMultiSelectPosition(): string { return 'default';}
+            getMultiSelectPosition(): string { return 'default'; }
         };
-        const defaultClasses = [
-            'controls-ListView__checkbox',
-            'controls-ListView__notEditable'
-        ];
 
-        const item = new CollectionItem({ owner, multiSelectVisibility: 'hidden' });
-
-        // multiselect hidden
-        const hiddenMultiSelectClasses = item.getMultiSelectClasses();
-        defaultClasses.forEach((className) => assert.include(hiddenMultiSelectClasses, className));
+        const item = new CollectionItem({ owner, multiSelectVisibility: 'onhover' });
 
         // multiselect onhover + not selected
         item.setMultiSelectVisibility('onhover');
-        const onhoverMultiSelectClasses = item.getMultiSelectClasses();
-        defaultClasses.concat([
-            'controls-ListView__checkbox-onhover'
-        ]).forEach((className) => assert.include(onhoverMultiSelectClasses, className));
+        const onhoverMultiSelectClasses = item.getMultiSelectClasses('default');
+        CssClassesAssert.isSame(onhoverMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox_theme-default controls-ListView__checkbox_position-default_theme-default controls-ListView__checkbox-onhover');
 
         // multiselect onhover + selected
         item.setSelected(true, true);
-        const selectedMultiSelectClasses = item.getMultiSelectClasses();
-        assert.notInclude(selectedMultiSelectClasses, 'controls-ListView__checkbox-onhover');
+        const selectedMultiSelectClasses = item.getMultiSelectClasses('default');
+        CssClassesAssert.isSame(selectedMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox_theme-default controls-ListView__checkbox_position-default_theme-default');
+
+        // custom position
+        owner.getMultiSelectPosition = () => 'custom';
+        const customMultiSelectClasses = item.getMultiSelectClasses('default');
+        CssClassesAssert.isSame(customMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox_theme-default controls-ListView__checkbox_position-custom_theme-default ');
     });
 
     describe('.setEditing()', () => {
@@ -667,6 +663,18 @@ describe('Controls/_display/CollectionItem', () => {
             editingContents._version++;
 
             assert.isAbove(item.getVersion(), prevVersion);
+        });
+
+        it('show checkbox for editing item', () => {
+            const editingItem = new CollectionItem({
+                editing: true
+            });
+            assert.isTrue(editingItem.isVisibleCheckbox());
+        });
+
+        it('hide checkbox for adding item', () => {
+            const addingItem = new CollectionItem({isAdd: true});
+            assert.isFalse(addingItem.isVisibleCheckbox());
         });
     });
 

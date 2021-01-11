@@ -1,8 +1,8 @@
 define('Controls/Application/ApplicationWrapper', [
-   'Core/Control',
+   'UI/Base',
    'Env/Env',
    'wml!Controls/Application/ApplicationWrapper'
-], function(Control, Env, template) {
+], function(Base, Env, template) {
    'use strict';
 
    var _private = {
@@ -18,7 +18,7 @@ define('Controls/Application/ApplicationWrapper', [
       }
    };
 
-   var ModuleClass = Control.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
 
       _version: null,

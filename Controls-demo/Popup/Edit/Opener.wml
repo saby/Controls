@@ -1,4 +1,4 @@
-<Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
+<Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" dataLoadCallback="{{_dataLoadCallback}}">
    <div>
       <div class="demo-Grid__container" on:itemClick="_itemClick()" attr:style="margin-top: 20px;">
 
@@ -17,7 +17,6 @@
                   itemPadding="{{ _itemPadding }}"
                   name="grid"
                   displayProperty="title"
-                  dataLoadCallback="{{_dataLoadCallback}}"
                   rowSeparatorVisibility="{{true}}"
                   header="{{gridHeader}}"
                   itemTemplate="wml!Controls-demo/List/Grid/DemoItem"

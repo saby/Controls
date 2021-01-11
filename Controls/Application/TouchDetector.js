@@ -1,13 +1,13 @@
 define('Controls/Application/TouchDetector', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls/Application/TouchDetector/TouchDetector',
    'Controls/Application/TouchDetectorController'
 ], function(
-   Control,
+   Base,
    template,
    Controller
 ) {
-   return Control.extend({
+   return Base.Control.extend({
       _template: template,
 
       _beforeMount: function() {

@@ -1,11 +1,10 @@
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {IDateRangeValidators, IDateRangeValidatorsOptions} from 'Controls/interface';
-import {proxyModelEvents} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import DateRangeModel from './DateRangeModel';
 import {Range, Popup as PopupUtil} from 'Controls/dateUtils';
 import {StringValueConverter, IDateTimeMask, ISelection} from 'Controls/input';
-import {tmplNotify} from 'Controls/eventUtils';
 import template = require('wml!Controls/_dateRange/Input/Input');
 import {DependencyTimer} from 'Controls/popup';
 import {Logger} from 'UI/Utils';
@@ -18,11 +17,11 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/date-time/date/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less">переменные тем оформления</a>
- *
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FdateRange%2FInput%2FIndex демо-пример}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/date-time/date/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less переменные тем оформления}
  * @class Controls/_dateRange/Input
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_dateRange/interfaces/IDateRange
@@ -32,25 +31,27 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
  * @mixes Controls/_interface/IDateMask
  * @mixes Controls/_interface/IOpenPopup
  * @mixes Controls/_interface/IDateRangeValidators
- * 
+ * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
+ *
  * @public
- * @demo Controls-demo/Input/Date/Range
+ * @demo Controls-demo/dateRange/Input/Default/Index
  * @author Красильников А.С.
  */
 
 /*
  * Control for entering date range.
  * @class Controls/_dateRange/Input
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_dateRange/interfaces/IRangeInputTag
  * @mixes Controls/_interface/IDateMask
+ * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
  *
- * 
+ *
  * @public
- * @demo Controls-demo/Input/Date/Range
+ * @demo Controls-demo/dateRange/Input/Default/Index
  * @author Красильников А.С.
  */
 export default class DateRangeInput extends Control<IDateRangeInputOptions> implements
@@ -58,7 +59,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     readonly '[Controls/_interface/IDateRangeValidators]': boolean = true;
 
     protected _template: TemplateFunction = template;
-    protected _proxyEvent: Function = tmplNotify;
+    protected _proxyEvent: Function = EventUtils.tmplNotify;
 
     private _dependenciesTimer: DependencyTimer = null;
     private _loadCalendarPopupPromise: Promise<unknown> = null;
@@ -72,7 +73,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     protected _beforeMount(options: IDateRangeInputOptions) {
         this._rangeModel = new DateRangeModel({dateConstructor: this._options.dateConstructor});
         this._rangeModel.update(options);
-        proxyModelEvents(
+        EventUtils.proxyModelEvents(
             this, this._rangeModel,
             ['startValueChanged', 'endValueChanged', 'rangeChanged']
         );
@@ -107,7 +108,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
                 selectionType: this._options.selectionType,
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
-                quantum: this._options.quantum,
+                ranges: this._options.ranges,
                 headerType: 'input',
                 closeButtonEnabled: true,
                 rangeselect: true,

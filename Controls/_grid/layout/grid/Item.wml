@@ -22,15 +22,15 @@
 </ws:template>
 
 <ws:template name="multiSelectTemplate">
-   <ws:partial template="{{multiSelectTpl}}" attr:class="{{itemData.multiSelectClassList}}">
-      <ws:templateOptions multiSelectStatus="{{itemData.isSelected()}}" key="{{itemData.key}}" checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"/>
+   <ws:partial template="{{multiSelectTpl}}">
+      <ws:templateOptions item="{{ itemData.dispItem }}" checkboxReadOnly="{{checkboxReadOnly}}" itemData="{{itemData}}"/>
    </ws:partial>
 </ws:template>
 
 <ws:template name="COLUMN_CONTENT">
    <!-- Маркер активной записи. Не должен быть выведен в фейковой ячейке лесенки -->
    <ws:if data="{{ !isLadderHeader && (marker !== false && itemData.shouldDisplayMarker(currentColumn.columnIndex)) }}">
-      <div class="{{itemData.getMarkerClasses()}}"></div>
+      <div class="{{itemData.getMarkerClasses(markerClassName)}}"></div>
    </ws:if>
 
    <!-- Ячейка с чекбоксом -->
@@ -58,6 +58,7 @@
       </ws:if>
       <ws:else>
          <ws:partial template="{{currentColumn.template}}"
+                     scope="{{currentColumn.column.templateOptions}}"
                      editArrowTemplate="{{editArrowTemplate}}"
                      itemActionsTemplate="{{itemActionsTemplate}}"
                      ladderWrapper="{{currentColumn.ladderWrapper}}"

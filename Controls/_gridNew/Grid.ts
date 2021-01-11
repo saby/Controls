@@ -1,11 +1,12 @@
 import { ListControl as viewTemplate, View as List } from 'Controls/list';
 import * as GridView from 'Controls/_gridNew/GridView';
-import * as GridViewTable from 'Controls/_gridNew/GridViewTable';
+import GridViewTable from 'Controls/_gridNew/GridViewTable';
 import { isFullGridSupport } from 'Controls/display';
+import { TemplateFunction } from 'UI/Base';
 
 export default class Grid extends List {
-    _viewName = null;
-    _viewTemplate = viewTemplate;
+    protected _viewName: TemplateFunction = null;
+    protected _viewTemplate: TemplateFunction = viewTemplate;
     protected _supportNewModel: boolean = true;
 
     _beforeMount(options): Promise<void> {

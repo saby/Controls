@@ -1,15 +1,15 @@
 define('Controls-demo/Input/Auth',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Input/Auth/Auth',
       'i18n!Controls-demo',
 
       'Controls/input',
    ],
-   function(Control, template, rk) {
+   function(Base, template, rk) {
       'use strict';
 
-      var ModuleClass = Control.extend({
+      var ModuleClass = Base.Control.extend({
          _template: template,
 
          _login: '',

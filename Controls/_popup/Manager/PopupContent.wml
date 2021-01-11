@@ -1,1 +1,1 @@
-<ws:partial template="{{template}}" scope="{{templateOptions}}" />
+<ws:partial template="{{template}}" prefetchPromise="{{_options._prefetchPromise}}" scope="{{templateOptions}}" />

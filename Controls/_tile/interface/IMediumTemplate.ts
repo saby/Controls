@@ -1,6 +1,6 @@
 /**
  * Упрощенный шаблон отображения элементов в  {@link Controls/tile:View плитке}.
- * @class Controls/tile:MediumTemplate
+ * @class Controls/_tile/interface/MediumTemplate
  * @mixes Controls/tile:ItemTemplate
  * @author Михайлов С.Е
  * @see Controls/tile:View
@@ -22,7 +22,6 @@
 
 export default interface IMediumTemplate {
     /**
-     * @name Controls/tile:MediumTemplate#imageSize
      * @cfg {Number} Количество строк в описании.
      * @default 1
      */

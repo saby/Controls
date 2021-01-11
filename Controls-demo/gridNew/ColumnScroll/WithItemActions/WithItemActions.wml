@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/ColumnScroll/WithItemActions/Inside/Index' }}">
+            <a href="{{content.href}}">Операции над записью внутри строки</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.ColumnScroll.WithItemActions.Inside.Index/>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/ColumnScroll/WithItemActions/Outside/Index' }}">
+            <a href="{{content.href}}">Операции над записью под строкой</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.ColumnScroll.WithItemActions.Outside.Index/>
+    </div>
+</div>

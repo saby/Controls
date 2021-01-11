@@ -20,15 +20,15 @@ export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOp
 const MINIMIZED_STEP_FOR_MAXIMIZED_BUTTON = 100;
 
 /**
- * Базовый шаблон {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/stack/ стекового окна}.
+ * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/stack/ стекового окна}.
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/openers/stack/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/openers/stack/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  *
  * @class Controls/_popupTemplate/Stack
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.
@@ -118,8 +118,8 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
  * @cfg {Boolean} Определяет, будет ли отображаться граница шапки панели.
  * @default true
  * @remark
- * Позволяет скрыть отображение нижней границы {@link Controls/popupTemplate:IPopupTemplateBaseOptions#headerContentTemplate headerContentTemplate}. Используется для построения двухуровневых шапок.
- * Необходимо поместить свой контейнер с шапкой в {@link Controls/popupTemplate:IPopupTemplateBaseOptions#bodyContentTemplate bodyContentTemplate} и навесить:
+ * Позволяет скрыть отображение нижней границы {@link Controls/popupTemplate:IPopupTemplateBase#headerContentTemplate headerContentTemplate}. Используется для построения двухуровневых шапок.
+ * Необходимо поместить свой контейнер с шапкой в {@link Controls/popupTemplate:IPopupTemplateBase#bodyContentTemplate bodyContentTemplate} и навесить:
  * 
  * 1. класс, добавляющий фон для шапки:
  * <pre class="brush: css">

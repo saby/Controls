@@ -1,7 +1,7 @@
 define('Controls-demo/PendingRegistrator/RegistratorExample', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/PendingRegistrator/RegistratorExample',
-], function(Control, tmpl) {
+], function(Base, tmpl) {
    'use strict';
 
    var noPendings = 'no registered pendings';
@@ -13,7 +13,7 @@ define('Controls-demo/PendingRegistrator/RegistratorExample', [
    var waitingPendings = 'waiting finish of pendings...';
    var cancelledPendings = 'finish pendings waiter cancelled';
 
-   var module = Control.extend({
+   var module = Base.Control.extend({
       _template: tmpl,
       _message: noPendings,
       _pendingMessage: '',

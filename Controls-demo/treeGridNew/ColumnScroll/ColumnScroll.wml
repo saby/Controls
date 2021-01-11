@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:style="width: 600px; height: 400px">
+        <Controls.treeGridNew:View
+                keyProperty="id"
+                parentProperty="parent"
+                nodeProperty="type"
+                source="{{_viewSource}}"
+                header="{{_header}}"
+                bind:expandedItems="_expandedItems"
+                columns="{{_columns}}"
+                columnScroll="{{true}}"
+                itemActions="{{ _itemActions }}"
+                stickyColumnsCount="{{2}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/treeGridNew:ItemTemplate" colspanNodes="{{true}}"/>
+            </ws:itemTemplate>
+        </Controls.treeGridNew:View>
+    </Controls.scroll:Container>
+</div>

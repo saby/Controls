@@ -1,5 +1,5 @@
 define('Controls-demo/List/EditInPlace/Scenarios', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/EditInPlace/Scenarios',
    'Types/source',
    'Types/entity',
@@ -16,7 +16,7 @@ define('Controls-demo/List/EditInPlace/Scenarios', [
    'wml!Controls-demo/List/EditInPlace/FifthScenario/SecondColumn',
    'wml!Controls-demo/List/EditInPlace/FifthScenario/Results',
 ], function(
-   Control,
+   Base,
    template,
    sourceLib,
    entity
@@ -218,7 +218,7 @@ define('Controls-demo/List/EditInPlace/Scenarios', [
       }
    ];
 
-   var EIPScenarios = Control.extend({
+   var EIPScenarios = Base.Control.extend({
       _template: template,
       editingConfig: null,
       _enabled: true,

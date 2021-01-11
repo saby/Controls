@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_popup/Global/Global');
 import GlobalController from './GlobalController';
 import {Bus as EventBus} from 'Env/Event';

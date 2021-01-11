@@ -1,10 +1,10 @@
 define('Controls-demo/RootCoreControl/RootCoreControl', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/RootCoreControl/RootCoreControl'
-], function(Control, template) {
+], function(Base, template) {
    'use strict';
 
-   var module = Control.extend({
+   var module = Base.Control.extend({
       _template: template
    });
 

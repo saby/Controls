@@ -7,6 +7,7 @@ export interface IDateRangeOptions {
  * Интерфейс для поддержки ввода диапазона дат.
  * @interface Controls/_dateRange/interfaces/IDateRange
  * @public
+ * @author Красильников А.С.
  */
 
 /**
@@ -27,6 +28,7 @@ export interface IDateRangeOptions {
  *       ...
  *   });
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Default/Index
  */
 
 /*
@@ -49,6 +51,7 @@ export interface IDateRangeOptions {
  *       ...
  *   });
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Default/Index
  */
 
 /**
@@ -69,6 +72,7 @@ export interface IDateRangeOptions {
  *       ...
  *   });
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Default/Index
  */
 
 /*
@@ -91,6 +95,7 @@ export interface IDateRangeOptions {
  *       ...
  *   });
  * </pre>
+ * @demo Controls-demo/dateRange/Input/Default/Index
  */
 
 /**

@@ -201,7 +201,7 @@ var
                 currentColumn.classList.base += ` controls-TreeGrid__row-cell_theme-${theme} controls-TreeGrid__row-cell_${currentColumn.style || 'default'}_theme-${theme}`;
 
                 // Экспандер выводится пользователем в произвольном месте в шаблоне колонки, где недоступна itemData строки
-                currentColumn.getExpanderClasses = (_, expanderIcon, expanderSize) => current.getExpanderClasses(current, expanderIcon, expanderSize);
+                currentColumn.getExpanderClasses = (_, expanderIcon, expanderSize) => current.getExpanderClasses(expanderIcon, expanderSize);
 
                 if (currentColumn.nodeType) {
                     currentColumn.classList.base += ` controls-TreeGrid__row-cell__node_theme-${theme}`;

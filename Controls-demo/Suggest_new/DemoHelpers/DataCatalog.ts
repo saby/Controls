@@ -39,6 +39,11 @@ const _treeData =  [
     }
 ];
 
+const _translitDepartments = [
+    {id: 0, department: 'Hfphf,jnrf', owner: 'Новиков Д.В.', title: 'Hfphf,jnrf'},
+    {id: 1, department: 'Разработка Hfphf,jnrf', owner: 'Новиков Д.В.', title: 'Разработка Hfphf,jnrf'},
+];
+
 _departmentsWithImges.forEach((department) => {
    department.photo = resourceRoot + 'Controls-demo/Suggest_new/resources/images/Novikov.png';
 });
@@ -77,5 +82,6 @@ export {
    _departmentsDataLong,
    _departmentsWithImges,
    _departmentsDev,
-    _treeData
+    _treeData,
+    _translitDepartments
 };

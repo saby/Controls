@@ -1,4 +1,3 @@
-import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil')
 import {Collection, CollectionItem} from 'Controls/display'
 import {IHeaderCell} from '../interface/IHeaderCell';
 

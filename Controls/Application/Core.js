@@ -3,14 +3,14 @@
  */
 define('Controls/Application/Core',
    [
-      'Core/Control',
+      
       'wml!Controls/Application/Core',
       'Application/Env',
       'UI/theme/controller',
       'UI/Base',
       'Controls/Application/HeadData'
    ],
-   function(Control,
+   function(
       template,
       AppEnv,
       controller,
@@ -18,7 +18,7 @@ define('Controls/Application/Core',
       HeadData) {
       'use strict';
       /* eslint-disable */
-      var AppCore = Control.extend({
+      var AppCore = UIBase.Control.extend({
          _template: template,
          ctxData: null,
          _beforeMount: function(cfg) {

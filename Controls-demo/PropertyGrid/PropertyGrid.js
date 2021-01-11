@@ -1,13 +1,13 @@
 define('Controls-demo/PropertyGrid/PropertyGrid',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/PropertyGrid/PropertyGrid'
    ],
    function (
-      Base, template
+      BaseMod, template
    ) {
       'use strict';
-      var PropertyGrid = Base.extend({
+      var PropertyGrid = BaseMod.Control.extend({
          _template: template,
          _validationErrorsHandler: function (event, tmp) {
             this._notify('validationErrorsValueChanged', [tmp]);

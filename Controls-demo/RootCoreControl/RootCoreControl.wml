@@ -1,3 +1,3 @@
 <div>
-	<Core.Control attr:class="ControlsDemo-RootCoreControl" />
+	<UI.Base:Control attr:class="ControlsDemo-RootCoreControl" />
 </div>

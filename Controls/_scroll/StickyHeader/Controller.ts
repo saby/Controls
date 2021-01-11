@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import {debounce} from 'Types/function';
 import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
 import StickyHeader from 'Controls/_scroll/StickyHeader';

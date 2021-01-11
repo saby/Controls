@@ -1,16 +1,16 @@
 define('Controls-demo/Popup/TestStack',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/TestStack',
       'Types/entity',
       'require',
       'Controls/popup',
       'wml!Controls-demo/Popup/resources/InfoboxTemplate'
    ],
-   function(Control, template, entity, require, popupLib) {
+   function(Base, template, entity, require, popupLib) {
       'use strict';
 
-      var TestDialog = Control.extend({
+      var TestDialog = Base.Control.extend({
          _template: template,
          _stack: null,
          _stack2: null,

@@ -62,4 +62,7 @@ var
         }
     });
 
-export = SearchView;
+export {
+    SearchView,
+    SearchItemTpl
+};

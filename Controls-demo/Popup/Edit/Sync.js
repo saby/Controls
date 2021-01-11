@@ -1,6 +1,6 @@
 define('Controls-demo/Popup/Edit/Sync',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/Edit/Sync',
       'Types/source',
       'Controls-demo/List/Grid/GridData',
@@ -11,10 +11,10 @@ define('Controls-demo/Popup/Edit/Sync',
       'wml!Controls-demo/List/Grid/DemoHeaderCostPrice',
       'wml!Controls-demo/List/Grid/DemoName'
    ],
-   function(Control, template, source, GridData, RecordSynchronizer) {
+   function(Base, template, source, GridData, RecordSynchronizer) {
       'use strict';
 
-      var Sync = Control.extend({
+      var Sync = Base.Control.extend({
          _template: template,
 
          _beforeMount: function(opt, context) {

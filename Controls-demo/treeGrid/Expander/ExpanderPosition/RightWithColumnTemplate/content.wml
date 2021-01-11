@@ -1,0 +1,6 @@
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL"
+            scope="{{_options}}">
+    <ws:contentTemplate>
+        <span>{{itemData.item['title']}}</span>
+    </ws:contentTemplate>
+</ws:partial>

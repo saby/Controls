@@ -4,11 +4,11 @@
             {{_border.bottom ? 'controls-Render_border-bottom_theme-' + _options.theme : 'controls-Render_border-bottom-empty'}}
             {{_border.left ? 'controls-Render_border-left_theme-' + _options.theme : 'controls-Render_border-left-empty'}}
             controls-Render_background-{{ _options.contrastBackground ? 'contrast' : 'same' }}_theme-{{ _options.theme }}
-            controls-Render-fontsize-{{_options.fontSize}}
             controls-Render_textAlign-{{_options.textAlign}}
             controls-Render{{_statePrefix}}_borderRadius-{{_options.inlineHeight}}_theme-{{_options.theme}}
             controls-Render_state-{{_state}} controls-Render_state-{{_state}}_theme-{{_options.theme}}
             controls-fontsize-{{_options.fontSize}}{{_options.fontSize !== 'inherit' ? '_theme-' + _options.theme}}
+            controls-fontweight-{{_fontWeight}}{{_fontWeight !== 'bold' ? '_theme-' + _options.theme}}
             {{_options.fontSize !== 'inherit' ? 'controls-Render-fontsize-' + _options.fontSize + '_theme-' + _options.theme}}
             controls-text-{{_options.fontColorStyle}}_theme-{{_options.theme}}
             controls-Render_state-{{_state}}_{{_options.wasActionByUser ? 'caretFilled' : 'caretEmpty'}}_theme-{{_options.theme}}

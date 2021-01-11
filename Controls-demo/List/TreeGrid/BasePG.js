@@ -1,6 +1,6 @@
 define('Controls-demo/List/TreeGrid/BasePG',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'Controls-demo/List/TreeGrid/resources/DataDemoPG',
 
@@ -8,9 +8,9 @@ define('Controls-demo/List/TreeGrid/BasePG',
       'json!Controls-demo/List/TreeGrid/resources/BasePG/cfg'
 
    ],
-   function(Control, TSource, data, template, config) {
+   function(Base, TSource, data, template, config) {
       'use strict';
-      var Component = Control.extend({
+      var Component = Base.Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/_treeGrid/View',

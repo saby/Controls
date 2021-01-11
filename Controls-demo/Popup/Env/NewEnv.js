@@ -1,16 +1,16 @@
 define('Controls-demo/Popup/Env/NewEnv',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/Env/NewEnv',
       'SBIS3.CONTROLS/Action/OpenDialog',
       'Controls-demo/Popup/Env/template/oldTemplate',
       'Controls-demo/Popup/TestStack',
       'Controls/compatiblePopup'
    ],
-   function(Control, template, OpenDialog) {
+   function(Base, template, OpenDialog) {
       'use strict';
 
-      return Control.extend({
+      return Base.Control.extend({
          _template: template,
 
          openDialog: function() {

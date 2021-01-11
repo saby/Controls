@@ -1,11 +1,11 @@
 define('Controls-demo/Input/Validate/FormController', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Validate/FormController',
    'Types/source',
    'Controls/validate',
    'Controls-demo/Input/Validate/Validator',
    'Controls-demo/Input/Validate/EqualEmailValidator'
-], function(Control, template, source) {
+], function(Base, template, source) {
    'use strict';
    var DEMO_ITEMS = [{
       id: 1,
@@ -14,7 +14,7 @@ define('Controls-demo/Input/Validate/FormController', [
       id: 2,
       title: 'Женский'
    }];
-   var VdomDemoText = Control.extend({
+   var VdomDemoText = Base.Control.extend({
       _template: template,
       _value1: '',
       _switchState: false,

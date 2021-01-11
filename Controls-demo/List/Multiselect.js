@@ -2,10 +2,10 @@
  * Created by kraynovdo on 31.01.2018.
  */
 define('Controls-demo/List/Multiselect', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Multiselect/Multiselect',
    'Types/source'
-], function(BaseControl, template, source) {
+], function(Base, template, source) {
    'use strict';
 
    var srcData = [
@@ -27,7 +27,7 @@ define('Controls-demo/List/Multiselect', [
       }
    ];
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       constructor: function() {
          ModuleClass.superclass.constructor.apply(this, arguments);

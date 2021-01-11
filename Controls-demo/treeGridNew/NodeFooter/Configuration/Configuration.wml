@@ -1,0 +1,85 @@
+<div class="controlsDemo__wrapper controlsDemo__treeGrid__configuration">
+
+    <div class="controlsDemo__cell controlsDemo__flexRow controlsDemo__mb2">
+
+        <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controls-text-label_theme-{{_options.theme}}">Подвал не определен</div>
+
+            <Controls.treeGridNew:View
+                    name="tree1"
+                    keyProperty="id"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    navigation="{{_navigation}}" />
+        </div>
+
+
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label_theme-{{_options.theme}}">Кастомный подвал не определен, colspan false</div>
+
+            <Controls.treeGridNew:View
+                    keyProperty="id"
+                    name="tree2"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    useNewNodeFooters="{{ true }}"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGridNew:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />
+                </ws:nodeFooterTemplate>
+            </Controls.treeGridNew:View>
+        </div>
+
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__flexRow controlsDemo__mb2">
+
+        <div class="controlsDemo__cell controlsDemo__mr2">
+            <div class="controls-text-label_theme-{{_options.theme}}">Задан прикладной шаблон подвала узла, с colspan</div>
+
+            <Controls.treeGridNew:View
+                    keyProperty="id"
+                    name="tree3"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    useNewNodeFooters="{{ true }}"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGridNew:NodeFooterTemplate" cellClassName="customClass">
+                        <Controls.list:AddButton caption="Добавить товар" />
+                    </ws:partial>
+                </ws:nodeFooterTemplate>
+            </Controls.treeGridNew:View>
+        </div>
+
+
+
+        <div class="controlsDemo__cell">
+            <div class="controls-text-label_theme-{{_options.theme}}">Задан прикладной шаблон подвала узла, без colspan</div>
+
+            <Controls.treeGridNew:View
+                    keyProperty="id"
+                    name="tree4"
+                    source="{{_viewSource}}"
+                    columns="{{_columns}}"
+                    parentProperty="parent"
+                    nodeProperty="type"
+                    useNewNodeFooters="{{ true }}"
+                    navigation="{{_navigation}}">
+                <ws:nodeFooterTemplate>
+                    <ws:partial template="Controls/treeGridNew:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass">
+                        <Controls.list:AddButton caption="Добавить товар" />
+                    </ws:partial>
+                </ws:nodeFooterTemplate>
+            </Controls.treeGridNew:View>
+        </div>
+    </div>
+
+
+</div>

@@ -1,11 +1,11 @@
 define('Controls-demo/AsyncTest/Childs/CaseThird/Third',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/AsyncTest/Childs/CaseThird/Third'
-   ], function (Control, template) {
+   ], function (Base, template) {
       'use strict';
 
-      var caseThirdThirdModule = Control.extend({
+      var caseThirdThirdModule = Base.Control.extend({
          _template: template,
 
          _beforeMount: function (options) {

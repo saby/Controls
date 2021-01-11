@@ -1,0 +1,5 @@
+<div class="controls-PropertyGrid__editor_time-interval_control ws-flexbox">
+   <Controls.input:TimeInterval scope="{{_options}}"
+                                bind:value="_value"
+                                on:inputCompleted="_handleInputCompleted()"/>
+</div>

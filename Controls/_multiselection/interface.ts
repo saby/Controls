@@ -2,7 +2,7 @@ import { Collection, CollectionItem, IBaseCollection, ICollectionItem, TreeItem 
 import { Model, relation } from 'Types/entity';
 import { default as ISelectionStrategy } from './SelectionStrategy/ISelectionStrategy';
 import { RecordSet } from 'Types/collection';
-import { Controller as SourceController } from 'Controls/source';
+import { NewSourceController as SourceController } from 'Controls/dataSource';
 import { CrudEntityKey } from 'Types/source';
 
 export type TKeys = CrudEntityKey[];
@@ -10,7 +10,7 @@ export type TKeys = CrudEntityKey[];
 /**
  * Интерфейс описывающий элемент модели, используемой в контроллере множественного выбора
  *
- * @interface Controls/multiselection/ISelectionItem
+ * @interface Controls/_multiselection/ISelectionItem
  * @public
  * @author Аверкиев П.А.
  */
@@ -19,6 +19,12 @@ export interface ISelectionItem extends ICollectionItem {
     * Определяет, можно ли выбрать данный элемент
     */
    SelectableItem: boolean;
+
+   /**
+    * Определяет, запрещено ли изменение состояния чекбокса
+    * @return {Boolean}
+    */
+   isReadonlyCheckbox(): boolean;
 
    /**
     * Флаг, определяющий состояние правого свайпа по записи.
@@ -46,7 +52,7 @@ export interface ISelectionItem extends ICollectionItem {
 /**
  * Интерфейс модели, используемой в контроллере множественного выбора
  *
- * @interface Controls/multiselection/ISelectionModel
+ * @interface Controls/_multiselection/ISelectionModel
  * @public
  * @author Панихин К.А.
  */
@@ -95,11 +101,12 @@ export interface ISelectionModel extends IBaseCollection<Model, ISelectionItem> 
 /**
  * Интерфейс описывающий опции для контроллера множественного выбора
  *
- * @interface Controls/multiselection/ISelectionControllerOptions
+ * @interface Controls/_multiselection/ISelectionController
  * @public
  * @author Панихин К.А.
  */
 export interface ISelectionControllerOptions {
+   filter: any;
    model: ISelectionModel;
    selectedKeys: TKeys;
    excludedKeys: TKeys;
@@ -111,23 +118,23 @@ export interface ISelectionControllerOptions {
 /**
  * Интерфейс описывающий опции для деревянной стратегии множественного выбора
  *
- * @interface Controls/multiselection/ITreeSelectionStrategyOptions
+ * @interface Controls/_multiselection/ITreeSelectionStrategy
  * @public
  * @author Панихин К.А.
  */
-export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOptions{
+export interface ITreeSelectionStrategyOptions extends IFlatSelectionStrategyOptions {
    selectAncestors: boolean;
    selectDescendants: boolean;
-   nodesSourceControllers?: Map<string, SourceController>;
    hierarchyRelation: relation.Hierarchy;
    rootId: CrudEntityKey;
    entryPath: IEntryPathItem[];
+   selectionType: 'node'|'leaf'|'all';
 }
 
 /**
  * Интерфейс описывающий опции для плоской стратегии множественного выбора
  *
- * @interface Controls/multiselection/IFlatSelectionStrategyOptions
+ * @interface Controls/_multiselection/IFlatSelectionStrategy
  * @public
  * @author Панихин К.А.
  */
@@ -137,7 +144,7 @@ export interface IFlatSelectionStrategyOptions {
 
 /**
  * Изменения в списке ключей
- * @interface Controls/multiselection/IKeysDifference
+ * @interface Controls/_multiselection/IKeysDifference
  * @public
  * @author Панихин К.А.
  */
@@ -163,7 +170,7 @@ export interface IKeysDifference {
 
 /**
  * Изменения в выбранных элементах
- * @interface Controls/multiselection/ISelectionDifference
+ * @interface Controls/_multiselection/ISelectionDifference
  * @public
  * @author Панихин К.А.
  */

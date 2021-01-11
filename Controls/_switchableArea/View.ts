@@ -20,7 +20,7 @@ interface ISwitchableAreaItem {
 /**
  * Контрол для переключения контентных областей.
  * @class Controls/_switchableArea/View
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.

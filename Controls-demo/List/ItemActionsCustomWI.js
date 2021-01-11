@@ -1,10 +1,10 @@
 define('Controls-demo/List/ItemActionsCustomWI', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/ItemActions/ItemActionsCustomWI'
-], function(Control, template) {
+], function(Base, template) {
    'use strict';
 
-   var ModuleClass = Control.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template
       });

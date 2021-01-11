@@ -54,6 +54,21 @@ export interface IMultiSelectorOptions extends IControlOptions {
    selectedCountConfig?: IGetCountCallParams;
 }
 
+/**
+ * Контрол отображающий выпадающий список, который позволяет отмечать все записи, инвертировать, снимать с них отметку.
+ * @remark
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less переменные тем оформления}
+ *
+ * @class Controls/_operations/SimpleMultiSelector
+ * @extends Core/Control
+ *
+ * @public
+ * @author Герасимов А.М.
+ * @demo Controls-demo/operations/SimpleMultiSelector/Index
+ */
+
 export default class MultiSelector extends Control<IMultiSelectorOptions> {
    protected _template: TemplateFunction = template;
    protected _menuSource: Memory = null;
@@ -226,7 +241,8 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
    static getDefaultOptions(): object {
       return {
          selectedKeys: [],
-         excludedKeys: []
+         excludedKeys: [],
+         fontColorStyle: 'link'
       };
    }
 }

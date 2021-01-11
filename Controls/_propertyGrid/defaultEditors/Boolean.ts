@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_propertyGrid/defaultEditors/Boolean');
 
 import IEditorOptions from 'Controls/_propertyGrid/IEditorOptions';
@@ -10,10 +10,10 @@ import 'Controls/toggle';
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_propertyGrid.less переменные тем оформления}
  * 
  * @class Controls/_propertyGrid/defaultEditors/Boolean
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * 
  * @public
@@ -23,7 +23,7 @@ import 'Controls/toggle';
 /*
  * Editor for boolean type.
  * @class Controls/_propertyGrid/defaultEditors/Boolean
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * 
  * @public

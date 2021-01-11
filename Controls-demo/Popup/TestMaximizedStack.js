@@ -1,12 +1,12 @@
 define('Controls-demo/Popup/TestMaximizedStack',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Popup/TestMaximizedStack'
    ],
-   function (Control, template) {
+   function (Base, template) {
       'use strict';
 
-      var TestMaximizedStack = Control.extend({
+      var TestMaximizedStack = Base.Control.extend({
          _template: template,
          _showMaximizedButton: false,
          _beforeMount: function(options) {

@@ -7,10 +7,10 @@ import ListViewModel = require('Controls/_list/ListViewModel');
 import { Collection } from 'Controls/display';
 
 import Deferred = require('Core/Deferred');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
 import {default as ListControl} from 'Controls/_list/ListControl';
-import {ISelectionObject} from 'Controls/interface';
+import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
 import { CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
 import {IRemovableList} from './interface/IRemovableList';
@@ -21,11 +21,11 @@ import { RecordSet } from 'Types/collection';
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/list/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
  *
  * @class Controls/_list/List
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/IErrorController
  * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IItemTemplate
@@ -43,13 +43,13 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/_list/interface/IReloadableList
  * @mixes Controls/_list/interface/IMovableList
  * @mixes Controls/_list/interface/IRemovableList
- * @mixes Controls/_marker/interface/IMarkerListOptions
+ * @mixes Controls/_marker/interface/IMarkerList
  *
  * @mixes Controls/_list/interface/IVirtualScrollConfig
  *
  * @implements Controls/_list/interface/IListNavigation
  *
- * 
+ *
  * @author Авраменко А.С.
  * @public
  * @demo Controls-demo/list_new/Base/Index
@@ -60,7 +60,7 @@ import { RecordSet } from 'Types/collection';
  * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/'>here</a>.
  *
  * @class Controls/_list/List
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/IErrorController
  * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IItemTemplate
@@ -79,11 +79,11 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/_list/interface/IReloadableList
  * @mixes Controls/_list/interface/IMovableList
  * @mixes Controls/_list/interface/IRemovableList
- * @mixes Controls/_marker/interface/IMarkerListOptions
+ * @mixes Controls/_marker/interface/IMarkerList
  *
  * @mixes Controls/_list/interface/IVirtualScrollConfig
  *
- * 
+ *
  * @author Авраменко А.С.
  * @public
  * @demo Controls-demo/list_new/Base/Index
@@ -112,16 +112,20 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
         }
     }
 
+    protected _getActionsMenuConfig(e, item, clickEvent, action, isContextMenu) {
+        // for override
+    }
+
     protected _getModelConstructor(): string|Function {
         return 'Controls/display:Collection';
     }
 
-    reload(keepScroll, sourceConfig) {
+    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig) {
         return this._children.listControl.reload(keepScroll, sourceConfig);
     }
 
-    reloadItem():Deferred {
-        var listControl = this._children.listControl;
+    reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'): Deferred {
+        const listControl = this._children.listControl;
         return listControl.reloadItem.apply(listControl, arguments);
     }
 
@@ -181,7 +185,7 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
 
     // endregion remover
 
-    _notifyHandler = tmplNotify;
+    _notifyHandler = EventUtils.tmplNotify;
 
     static getDefaultOptions() {
         return {

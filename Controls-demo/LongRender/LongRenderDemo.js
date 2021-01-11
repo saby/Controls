@@ -1,13 +1,13 @@
 define('Controls-demo/LongRender/LongRenderDemo',
    [
-      'Core/Control',
+      'UI/Base',
       'Env/Env',
       'wml!Controls-demo/LongRender/LongRenderDemo'
    ],
-   function(Control, Env, template) {
+   function(Base, Env, template) {
       'use strict';
 
-      var LongRenderDemoModule = Control.extend({
+      var LongRenderDemoModule = Base.Control.extend({
          _template: template,
 
       });

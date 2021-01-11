@@ -1,4 +1,4 @@
-import * as Control from 'Core/Control';
+import {Control} from 'UI/Base';
 import * as template from 'wml!Controls/_suggest/Input/Search/Suggest';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
 import {constants} from 'Env/Env';
@@ -13,8 +13,8 @@ import 'Controls/search';
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/directory/lookup/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggest.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_suggest.less переменные тем оформления}
  *
  * @class Controls/_suggest/Input/Search/Suggest
  * @extends Controls/_input/Text

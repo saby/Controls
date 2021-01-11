@@ -8,7 +8,7 @@ import {SyntheticEvent} from 'UI/Vdom';
  * Proxy container for suggest options.
  *
  * @class Controls/_suggestPopup/_ListWrapper
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @private
  */

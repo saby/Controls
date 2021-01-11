@@ -1,0 +1,62 @@
+<ws:template name="content">
+    <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
+        <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
+        <div class="controls-Grid__cell_{{(gridColumn || itemData).getColumnConfig().textOverflow}}">
+            <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
+                        value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
+                        scope="{{(gridColumn || itemData).getColumnConfig()}}"/>
+        </div>
+    </ws:if>
+    <ws:else>
+        <!-- Контент по умолчанию -->
+        {{ (gridColumn || itemData).getDefaultDisplayValue() }}
+    </ws:else>
+</ws:template>
+
+<div class="{{ (gridColumn || itemData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+     style="{{ (gridColumn || itemData).getContentStyles() }}">
+
+    <ws:if data="{{ !!contentTemplate }}">
+        <!-- Прикладной контент -->
+        <ws:partial
+                template="{{ contentTemplate }}"
+                column="{{ (gridColumn || itemData).getColumnConfig() }}"
+                itemData="{{ (gridColumn || itemData) }}"
+                item="{{ (gridColumn || itemData).getOwner() }}"
+                itemActionsTemplate="{{ itemActionsTemplate }}"
+                itemActionsClass="{{ itemActionsClass }}"
+                editArrowTemplate="{{ editArrowTemplate }}"/>
+
+    </ws:if>
+    <ws:else>
+        <ws:if data="{{ (gridColumn || itemData).getColumnConfig().tooltip }}">
+            <Controls.Container.Async templateName="Controls/popup:InfoboxTarget">
+                <ws:partial template="{{content.resolvedTemplate}}">
+                    <ws:content>
+                        <ws:partial template="content"/>
+                    </ws:content>
+                    <ws:template>
+                        <div>{{ (gridColumn || itemData).getColumnConfig().tooltip }}</div>
+                    </ws:template>
+                </ws:partial>
+            </Controls.Container.Async>
+        </ws:if>
+        <ws:else>
+            <ws:partial template="content"/>
+        </ws:else>
+    </ws:else>
+
+    <!-- Стрелка редактирования. Если шаблон прикладной, то не показываем -->
+    <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() }}">
+        <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}"/>
+    </ws:if>
+
+    <!-- Тэг -->
+    <div if="{{ (gridColumn || itemData).TagCell && (gridColumn || itemData).shouldDisplayTag(tagStyle) }}"
+         class="{{ (gridColumn || itemData).getTagClasses(theme) }}">
+        <ws:partial template="{{ tagTemplate }}"
+                    tagStyle="{{ (gridColumn || itemData).getTagStyle(tagStyle) }}"
+                    dispItem="{{ (gridColumn || itemData).getOwner() }}"
+                    columnIndex="{{ (gridColumn || itemData).getColumnIndex() }}"/>
+    </div>
+</div>

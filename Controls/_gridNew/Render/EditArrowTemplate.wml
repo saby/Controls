@@ -1,0 +1,7 @@
+<div class="controls-Grid__editArrow-wrapper_theme-{{_options.theme}}">
+      <div class="controls-Grid__editArrow-blur_theme-{{_options.theme}}"></div>
+      <div on:click="_onEditArrowClick(item)"
+           class="controls-Grid__editArrow_theme-{{_options.theme}}">
+           <svg class="controls-Grid__editArrow-icon_theme-{{_options.theme}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M9,9.94l-6,6v-2l4-4-4-4v-2Zm5,0-6,6v-2l4-4-4-4v-2Z"/></svg>
+      </div>
+</div>

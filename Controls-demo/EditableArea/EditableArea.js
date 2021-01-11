@@ -1,12 +1,12 @@
 define('Controls-demo/EditableArea/EditableArea', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/EditableArea/EditableArea',
    'Types/entity',
    'Types/source',
    'wml!Controls-demo/EditableArea/resources/exampleTabTemplate',
    'wml!Controls-demo/EditableArea/resources/exampleTabTemplate2'
 ], function(
-   Control,
+   Base,
    template,
    entity,
    source
@@ -35,7 +35,7 @@ define('Controls-demo/EditableArea/EditableArea', [
             itemTemplate: 'wml!Controls-demo/EditableArea/resources/exampleTabTemplate2'
          }];
 
-   var EditableArea = Control.extend({
+   var EditableArea = Base.Control.extend({
       _template: template,
       _record: null,
       _record1: null,

@@ -1,13 +1,13 @@
 define('Controls-demo/Wrapper/SuperObjectEditor',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Wrapper/SuperObjectEditor'
 
    ],
-   function(Control, template) {
+   function(Base, template) {
 
 
-      var SuperObjectEditor = Control.extend({
+      var SuperObjectEditor = Base.Control.extend({
 
          _template: template,
          _myFun: function(opt) {

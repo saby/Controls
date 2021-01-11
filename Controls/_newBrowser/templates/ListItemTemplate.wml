@@ -1,0 +1,32 @@
+<ws:partial
+   template="Controls/listTemplates:ListItemTemplate"
+   scope="{{_options}}"
+   imagePosition="{{imageCfg.position}}"
+   imageViewMode="{{imageCfg.viewMode}}"
+   imageProperty="{{imageCfg.imageProperty}}"
+>
+   <ws:captionTemplate>
+      <Controls.heading:Title
+         fontSize="4xl"
+         fontColorStyle="default"
+         caption="{{captionTemplate.itemData.item.get(captionTemplate.itemData.displayProperty)}}"
+         tooltip="{{captionTemplate.itemData.item.get(captionTemplate.itemData.displayProperty)}}"
+      />
+   </ws:captionTemplate>
+   <ws:contentTemplate>
+      <ws:if data="{{itemContent}}">
+         <ws:partial template="{{itemContent}}" scope="{{contentTemplate}}"/>
+      </ws:if>
+      <ws:else>
+         <invisible-node/>
+      </ws:else>
+   </ws:contentTemplate>
+   <ws:footerTemplate>
+      <ws:if data="{{itemFooter}}">
+         <ws:partial template="{{itemFooter}}" scope="{{footerTemplate}}"/>
+      </ws:if>
+      <ws:else>
+         <invisible-node/>
+      </ws:else>
+   </ws:footerTemplate>
+</ws:partial>

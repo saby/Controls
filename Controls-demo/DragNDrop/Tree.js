@@ -1,13 +1,13 @@
 define('Controls-demo/DragNDrop/Tree', [
-   'Core/Control',
+   'UI/Base',
    'Controls-demo/DragNDrop/DemoData',
    'Controls-demo/DragNDrop/ListEntity',
    'wml!Controls-demo/DragNDrop/Tree/Tree',
    'Types/source'
-], function(BaseControl, DemoData, ListEntity, template, source) {
+], function(Base, DemoData, ListEntity, template, source) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _viewSource: null,
       _gridColumns: null,

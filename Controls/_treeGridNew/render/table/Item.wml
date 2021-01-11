@@ -1,0 +1,80 @@
+<tr attr:class="{{ item.getItemClasses({
+        'highlightOnHover': highlightOnHover,
+        'theme': theme,
+        'style': style,
+        'cursor': cursor,
+        'clickable': clickable
+    }) }}">
+    <ws:for data="gridColumn in item.getColumns()">
+        <td attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+            attr:style="{{ gridColumn.getWrapperStyles(containerSize) }}"
+            attr:colspan="{{ gridColumn.getColspan() }}"
+            attr:rowspan="{{ gridColumn.getRowspan() }}">
+            <div class="{{ gridColumn.getRelativeCellWrapperClasses(theme) }}">
+                <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker, markerPosition) }}"
+                     attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
+
+                <ws:if data="{{item.shouldDisplayExpanderBlock(gridColumn)}}">
+                    <ws:if data="{{!withoutLevelPadding && item.getLevel() > 1}}">
+                        <ws:for data="i in item.getLevel() - 1">
+                            <div class="{{item.getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+                        </ws:for>
+                    </ws:if>
+                    <ws:if data="{{!isSearchSeparator && item.shouldDisplayExpander(expanderIcon)}}">
+                        <ws:partial template="{{item.getExpanderTemplate(expanderTemplate)}}"
+                                    itemData="{{item}}"
+                                    item="{{item}}"
+                                    expanderIcon="{{item.getExpanderIcon(expanderIcon)}}"
+                                    expanderSize="{{item.getExpanderSize(expanderSize)}}"/>
+                    </ws:if>
+                    <ws:else data="{{item.shouldDisplayExpanderPadding(expanderIcon, expanderSize)}}">
+                        <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
+                    </ws:else>
+                </ws:if>
+
+                <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
+                            attr:key="{{ gridColumn.getInstanceId() }}"
+                            gridColumn="{{ gridColumn }}"
+                            column="{{ gridColumn.getColumnConfig() }}"
+                            item="{{ (item || itemData) }}"
+                            itemData="{{ gridColumn }}"
+                            colData="{{ gridColumn }}"
+                            theme="{{ theme }}"
+                            cursor="{{ cursor }}"
+                            backgroundColorStyle="{{ backgroundColorStyle }}"
+                            highlightOnHover="{{ highlightOnHover }}"
+                            itemActionsTemplate="{{ itemActionsTemplate }}"
+                            itemActionsClass="{{ itemActionsClass }}"
+                            templateHighlightOnHover="{{ templateHighlightOnHover }}"
+                            tagTemplate="{{ gridColumn.TagCell ? tagTemplate }}"
+                            tagStyle="{{ gridColumn.TagCell ? tagStyle }}"
+                            editArrowTemplate="{{ editArrowTemplate }}">
+                    <ws:ladderWrapper>
+                        <ws:partial template="{{ladderWrapper.content}}"
+                                    attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
+                    </ws:ladderWrapper>
+                    <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
+                                        key="{{ (item || itemData).key }}"
+                                        checkboxReadOnly="{{ checkboxReadOnly }}"/>
+                    <ws:multiSelectTemplate>
+                        <ws:partial template="{{multiSelectTpl}}" attr:class="{{(item || itemData).getMultiSelectClasses(theme)}}">
+                            <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+                        </ws:partial>
+                    </ws:multiSelectTemplate>
+                </ws:partial>
+                <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
+                    <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
+                        <ws:partial template="{{ swipeTemplate }}"
+                                    highlightOnHover="{{ highlightOnHover }}"/>
+                    </ws:if>
+                    <ws:else data="{{ itemActionsPosition !== 'custom' }}">
+                        <ws:partial template="{{ itemActionsTemplate }}"
+                                    itemData="{{ item || itemData }}"
+                                    itemActionsClass="{{ itemActionsClass }}"
+                                    highlightOnHover="{{ highlightOnHover }}"/>
+                    </ws:else>
+                </ws:if>
+            </div>
+        </td>
+    </ws:for>
+</tr>

@@ -2,13 +2,14 @@
  * Created by as.krasilnikov on 29.10.2018.
  */
 
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import Controller from 'Controls/Popup/Compatible/ManagerWrapper/Controller';
 import template = require('wml!Controls/_compatiblePopup/ManagerWrapper/ManagerWrapper');
 import {Controller as ControllerPopup, ManagerClass} from 'Controls/popup';
 import {setController, IPopupSettingsController} from 'Controls/Application/SettingsController';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import {Bus} from 'Env/Event';
+import {constants} from 'Env/Env';
 
 var ManagerWrapper = Control.extend({
    _template: template,
@@ -46,7 +47,7 @@ var ManagerWrapper = Control.extend({
          // todo: https://online.sbis.ru/opendoc.html?guid=3f08c72a-8ee2-4068-9f9e-74b34331e595
          const localController: IPopupSettingsController = {
             getSettings(ids) {
-               const storage = window && JSON.parse(window.localStorage.getItem('controlSettingsStorage')) || {};
+               const storage = constants.isBrowserPlatform && JSON.parse(window.localStorage.getItem('controlSettingsStorage')) || {};
                const data = {};
 
                if (ids instanceof Array) {
@@ -59,7 +60,7 @@ var ManagerWrapper = Control.extend({
                return Promise.resolve(data);
             },
             setSettings(settings) {
-               const storage = window && JSON.parse(window.localStorage.getItem('controlSettingsStorage')) || {};
+               const storage = constants.isBrowserPlatform && JSON.parse(window.localStorage.getItem('controlSettingsStorage')) || {};
                if (typeof settings === 'object') {
                   const savedData = {...storage, ...settings};
                   window.localStorage.setItem('controlSettingsStorage', JSON.stringify(savedData));
@@ -216,7 +217,7 @@ var ManagerWrapper = Control.extend({
    },
 
    _beforeUnmount: function() {
-      if (window) {
+      if (constants.isBrowserPlatform) {
          this._toggleWindowHandlers(false);
       }
       this._popupManager.destroy();

@@ -1,4 +1,4 @@
-import Config = require('Env/Config');
+import { UserConfig } from 'EnvConfig/Config';
 import cDeferred = require('Core/Deferred');
 import {Logger} from 'UI/Utils';
 
@@ -15,7 +15,7 @@ var
         storeCollapsedGroups: function (groups, storeKey) {
             var
                 preparedGroups = JSON.stringify(groups);
-            return Config.UserConfig.setParam(PREFIX_STORE_KEY_COLLAPSED_GROUP + storeKey, preparedGroups);
+            return UserConfig.setParam(PREFIX_STORE_KEY_COLLAPSED_GROUP + storeKey, preparedGroups);
         },
 
         /**
@@ -26,7 +26,7 @@ var
         restoreCollapsedGroups: function(storeKey) {
             const result = new cDeferred();
             const preparedStoreKey = PREFIX_STORE_KEY_COLLAPSED_GROUP + storeKey;
-            Config.UserConfig.getParam(preparedStoreKey).addCallback((storedGroups) => {
+            UserConfig.getParam(preparedStoreKey).addCallback((storedGroups) => {
                 try {
                     if (storedGroups !== undefined) {
                         result.callback(JSON.parse(storedGroups));

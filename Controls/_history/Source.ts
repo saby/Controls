@@ -7,6 +7,7 @@ import {factory} from 'Types/chain';
 import cInstance = require('Core/core-instance');
 import ParallelDeferred = require('Core/ParallelDeferred');
 import rk = require('i18n!Controls');
+import {error as dataSourceError} from 'Controls/dataSource';
 import * as Constants from './Constants';
 import {default as Service} from './Service';
 
@@ -386,24 +387,27 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
 
     private _updatePinned(item: Model, meta: Record<string, any>): any {
         const pinned = this._$history.pinned;
-        let id;
-        if (item.get('pinned')) {
-            item.set('pinned', false);
-            pinned.remove(pinned.getRecordById(item.getKey()));
-            this._$historyItems = null;
-        } else {
-            if (this._checkPinnedAmount(pinned)) {
+        if (!item.get('pinned') && !this._checkPinnedAmount(pinned)) {
+            this._showNotification();
+            return false;
+        }
+
+        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(item, meta).then(() => {
+            let id;
+            if (item.get('pinned')) {
+                item.set('pinned', false);
+                pinned.remove(pinned.getRecordById(item.getKey()));
+                this._$historyItems = null;
+            } else {
                 id = item.getKey();
                 item.set('pinned', true);
                 pinned.add(this._getRawHistoryItem(id, item.get('HistoryId') || id));
                 this._$historyItems = null;
-            } else {
-                this._showNotification();
-                return false;
             }
-        }
-        this._$historySource.saveHistory(this._$historySource.getHistoryIdForStorage(), this._$history);
-        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(item, meta);
+            this._$historySource.saveHistory(this._$historySource.getHistoryIdForStorage(), this._$history);
+        }, (error) => {
+            dataSourceError.process({error});
+        });
     }
 
     private _showNotification(): void {
@@ -582,17 +586,16 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
 
         // For Selector/Suggest load data from history, if there is a historyKeys
         if (where && (where.$_history === true || where.historyKeys)) {
-            //@ts-ignore
-            delete query._where.$_history;
+            where = object.clone(where);
+            delete where.$_history;
 
             historySourceQuery = this._$historySource.query();
             pd.push(historySourceQuery);
 
             if (where.historyKeys) {
-                where = object.clone(where);
                 delete where.historyKeys;
-                query.where(where);
             }
+            query.where(where);
 
             originSourceQuery = this._$originSource.query(query);
             pd.push(originSourceQuery);

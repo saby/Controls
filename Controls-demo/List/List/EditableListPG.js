@@ -1,6 +1,6 @@
 define('Controls-demo/List/List/EditableListPG',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'Controls-demo/List/List/resources/DataDemoPG',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
@@ -8,9 +8,9 @@ define('Controls-demo/List/List/EditableListPG',
       'wml!Controls-demo/List/List/resources/EditableListPG/itemTemplate'
    ],
 
-   function(Control, sourceLib, data, template, config, ItemTemplate) {
+   function(Base, sourceLib, data, template, config, ItemTemplate) {
       'use strict';
-      var Component = Control.extend({
+      var Component = Base.Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/list:View',

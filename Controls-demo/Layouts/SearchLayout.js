@@ -5,7 +5,7 @@
  * Created by kraynovdo on 01.11.2017.
  */
 define('Controls-demo/Layouts/SearchLayout', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Layouts/SearchLayout/SearchLayout',
    'Types/source',
    'Controls-demo/Utils/MemorySourceFilter',
@@ -19,12 +19,12 @@ define('Controls-demo/Layouts/SearchLayout', [
    'wml!Controls-demo/Layouts/SearchLayout/FilterButtonTemplate/additionalItemsTemplate',
    'wml!Controls-demo/Layouts/SearchLayout/FilterButtonTemplate/vdomFilterButtonTemplate'
 
-], function (BaseControl,
+], function (Base,
              template,
              sourceLib,
              MemorySourceFilter) {
    'use strict';
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _dataSource: null,

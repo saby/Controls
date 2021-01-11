@@ -1,0 +1,42 @@
+<div class="controlsDemo__wrapper">
+    <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_itemsDragNDrop" caption="Drag'N'Drop"/>
+    <Controls.toggle:Checkbox readOnly="{{false}}" bind:value="_dragScrolling" caption="Перемещение мышкой"/>
+
+    <div class="controlDemo__input-row">
+        Drag'N'Drop delay in ms
+        <Controls.input:Number attr:style="margin-left: 10px" bind:value="_dndDelay" placeholder="Drag'N'Drop delay in ms"/>
+    </div>
+
+    <Controls.list:DataContainer name="dataContainer" source="{{_viewSource}}" keyProperty="id">
+        <div>
+            <Controls.list:Mover name="listMover"/>
+            <Controls.operations:Controller bind:selectedKeys="_selectedKeys">
+                <Controls.list:Container>
+                    <Controls.scroll:Container attr:class="controlsDemo__inline-flex"
+                                               attr:style="width: 700px; height: 500px;">
+                        <Controls.gridNew:View
+                                header="{{_header}}"
+                                columns="{{_columns}}"
+                                multiSelectVisibility="onhover"
+                                rowSeparatorSize="s"
+                                itemsReadyCallback="{{_itemsReadyCallback}}"
+                                itemsDragNDrop="{{ _itemsDragNDrop }}"
+                                on:dragStart="_dragStart()"
+                                on:dragEnd="_dragEnd()"
+                                columnScroll="{{true}}"
+                                columnScrollStartPosition="end"
+                                dragScrolling="{{ _dragScrolling }}"
+                                dragNDropDelay="{{ _dndDelay }}"
+                        >
+                            <ws:draggingTemplate>
+                                <ws:partial template="Controls/dragnDrop:DraggingTemplate"
+                                            mainText="{{draggingTemplate.entity._options.title}}">
+                                </ws:partial>
+                            </ws:draggingTemplate>
+                        </Controls.gridNew:View>
+                    </Controls.scroll:Container>
+                </Controls.list:Container>
+            </Controls.operations:Controller>
+        </div>
+    </Controls.list:DataContainer>
+</div>

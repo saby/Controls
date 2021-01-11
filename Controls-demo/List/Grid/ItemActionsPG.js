@@ -1,14 +1,14 @@
 define('Controls-demo/List/Grid/ItemActionsPG', [
-   'Core/Control',
+   'UI/Base',
    'Types/source',
    'Controls-demo/List/Grid/resources/DataDemoPG',
    'tmpl!Controls-demo/PropertyGrid/DemoPG',
    'json!Controls-demo/List/Grid/resources/ItemActionsPG/cfg',
    'wml!Controls-demo/List/Grid/resources/DemoMoney',
    'wml!Controls-demo/List/Grid/resources/DemoRating',
-   'wml!Controls-demo/List/Grid/resources/DemoItem',], function(Control, source, data, template, config) {
+   'wml!Controls-demo/List/Grid/resources/DemoItem',], function(Base, source, data, template, config) {
    'use strict';
-   var Component = Control.extend({
+   var Component = Base.Control.extend({
       _template: template,
       _metaData: null,
       _content: 'Controls/grid:View',

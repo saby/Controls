@@ -8,8 +8,8 @@ export interface IGroupingOptions {
 /**
  * Интерфейс для контролов, которые поддерживают группировку записей.
  *
- * @interface Controls/_interface/IGrouping
  * @public
+ * @author Авраменко А.С.
  */
 export default interface IGrouping {
     readonly '[Controls/_interface/IHeight]': boolean;

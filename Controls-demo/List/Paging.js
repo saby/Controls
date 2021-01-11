@@ -2,16 +2,16 @@
  * Created by kraynovdo on 01.11.2017.
  */
 define('Controls-demo/List/Paging', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Paging/Paging'
-], function (BaseControl,
+], function (Base,
              template
    ) {
    'use strict';
 
 
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          _selectedKey: 1

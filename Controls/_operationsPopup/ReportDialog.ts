@@ -1,5 +1,5 @@
 import rk = require('i18n!Controls');
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 // @ts-ignore
 import format = require('Core/helpers/String/format');
 import template = require('wml!Controls/_operationsPopup/ReportDialog/ReportDialog');
@@ -9,7 +9,7 @@ import template = require('wml!Controls/_operationsPopup/ReportDialog/ReportDial
     * Шаблон диалога с результатами массовых операций.
     *
     * @class Controls/_operationsPopup/ReportDialog
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * 
     * @author Сухоручкин А.С.
     * @public
@@ -19,7 +19,7 @@ import template = require('wml!Controls/_operationsPopup/ReportDialog/ReportDial
     * The template of the dialog with the results of mass operations.
     *
     * @class Controls/_operationsPopup/ReportDialog
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * 
     * @author Сухоручкин А.С.
     * @public

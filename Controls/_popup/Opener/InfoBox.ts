@@ -6,12 +6,12 @@ import {DefaultOpenerFinder} from 'UI/Focus';
 import {IInfoBoxPopupOptions, IInfoBoxOpener} from 'Controls/_popup/interface/IInfoBoxOpener';
 
 /**
- * Component that opens a popup that is positioned relative to a specified element. {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/infobox/ see more}.
+ * Component that opens a popup that is positioned relative to a specified element. {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ see more}.
  * @remark
  * Private control. This control uses Popup/Infobox and Application to open popup on openInfobox events
  * @class Controls/_popup/Opener/InfoBox
  * @mixes Controls/_popup/interface/IInfoBoxOpener
- * @extends Core/Control
+ * @extends UI/Base:Control
  *
  * @private
  * 

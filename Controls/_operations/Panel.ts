@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_operations/Panel/Panel');
 import {error as loadDataError} from 'Controls/dataSource';
 
@@ -7,12 +7,11 @@ import {error as loadDataError} from 'Controls/dataSource';
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">демо-пример</a>
- * * <a href="/doc/platform/developmentapl/interface-development/controls/operations/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_operations.less переменные тем оформления}
  *
  * @class Controls/_operations/Panel
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_toolbars/IToolbarSource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
@@ -20,16 +19,16 @@ import {error as loadDataError} from 'Controls/dataSource';
  * @public
  * @author Герасимов А.М.
  * @demo Controls-demo/OperationsPanelNew/Base/Index
- * @demo Controls-demo/OperationsPanelNew/ReadOnly/Index
+ * @demo Controls-demo/OperationsPanelNew/PanelWithList/Default/Index
  */
 
 /*
  * Control for grouping operations.
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>here</a>.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Demo</a>.
  *
  * @class Controls/_operations/Panel
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
  * 
@@ -161,7 +160,7 @@ var Panel = Control.extend({
  * @cfg {SelectionViewMode} Задает отображение кнопки "Показать отмеченные" в меню мультивыбора.
  * @demo Controls-demo/OperationsPanelNew/SelectionViewMode/Index
  * @default null
- * @remark Вызываемый списочный метод нужно перевести на использование функции ShowMarked, о которой подробнее можно прочитать {@link https://wi.sbis.ru/doc/platform/developmentapl/service-development/service-contract/logic/list/list-iterator/show-marked/ здесь}.
+ * @remark Вызываемый списочный метод нужно перевести на использование функции ShowMarked, о которой подробнее можно прочитать {@link /doc/platform/developmentapl/service-development/service-contract/logic/list/list-iterator/show-marked/ здесь}.
  * @example
  * <pre class="brush: js">
  * // JavaScript

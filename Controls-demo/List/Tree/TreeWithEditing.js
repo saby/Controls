@@ -1,12 +1,12 @@
 define('Controls-demo/List/Tree/TreeWithEditing', [
-   'Core/Control',
+   'UI/Base',
    'Controls-demo/List/Tree/TreeWithEditingData',
    'wml!Controls-demo/List/Tree/TreeWithEditing',
    'Controls-demo/List/Tree/TreeMemory',
    'wml!Controls-demo/List/Tree/treeEditingTemplate',
    'Core/core-clone',
 ], function(
-   BaseControl,
+   Base,
    TreeWithEditingData,
    template,
    MemorySource,
@@ -17,7 +17,7 @@ define('Controls-demo/List/Tree/TreeWithEditing', [
    'use strict';
 
    var
-      TreeWithEditing = BaseControl.extend({
+      TreeWithEditing = Base.Control.extend({
          _template: template,
          _viewSource: null,
          gridColumns: null,

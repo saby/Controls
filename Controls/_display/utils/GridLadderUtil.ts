@@ -7,6 +7,21 @@ export interface IStickyColumn {
     property: string;
 }
 
+export interface ILadderObject {
+    ladder: Array<TLadderElement<ILadderConfig>>;
+    stickyLadder: Array<TLadderElement<IStickyLadderConfig>>;
+}
+
+export type TLadderElement<T extends ILadderConfig> = Record<string, T>;
+
+export interface ILadderConfig {
+    ladderLength: number;
+}
+
+export interface IStickyLadderConfig extends ILadderConfig {
+    headingStyle: string;
+}
+
 interface IStickyColumnsParams {
     columns: TColumns;
     stickyColumn ?: object;
@@ -29,7 +44,7 @@ export function shouldAddStickyLadderCell(columns, stickyColumn, draggingData): 
 export function stickyLadderCellsCount(columns, stickyColumn, draggingData): number {
     return !isFullGridSupport() || draggingData ? 0 : ( getStickyColumn({ stickyColumn, columns })?.property.length || 0 );
 }
-export function prepareLadder(params: IPrepareLadderParams): {} {
+export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
     var
         fIdx, idx, item, prevItem,
         ladderProperties = params.ladderProperties,

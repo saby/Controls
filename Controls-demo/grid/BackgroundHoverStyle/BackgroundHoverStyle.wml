@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo__maxWidth800">
     <Controls.grid:View
             useTableInOldBrowsers="{{true}}"
             keyProperty="id"

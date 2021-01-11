@@ -1,0 +1,22 @@
+<div class="controlsDemo__wrapper {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth1700' : 'controlsDemo_fixedWidth800'}}">
+
+    <div class="controlsDemo__cell controlsDemo__ladder_bind demo_Multiselect__base">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Multiselect/Base/Index' }}">
+            <a href="{{content.href}}">Варианты отображения чекбоксов</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Multiselect.Base.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__ladder_bind demo_Multiselect__customPosition">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/gridNew/Multiselect/CustomPosition/Index' }}">
+            <a href="{{content.href}}">Нестандартное положение чекбоксов</a>
+        </Router.router:Reference>
+        <Controls-demo.gridNew.Multiselect.CustomPosition.Index/>
+    </div>
+
+</div>
+

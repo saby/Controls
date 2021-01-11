@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/list_new/EditInPlace/SlowAdding/Slo
 import {Memory} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
-import {editing} from 'Controls/Constants';
+import {editing} from 'Controls/list';
 
 const TIMEOUT3500 = 3500;
 

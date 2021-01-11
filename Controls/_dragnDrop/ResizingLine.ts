@@ -26,11 +26,11 @@ const enum ORIENTATION {
  * Родительские DOM элементы не должны иметь overflow: hidden. В противном случае корректная работа не гарантируется.
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less переменные тем оформления}
  *
  * @class Controls/_dragnDrop/ResizingLine
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Красильников А.С.
@@ -65,26 +65,35 @@ class ResizingLine extends Control<IControlOptions, IResizingLine> {
     }
 
     protected _onStartDragHandler(): void {
+        this.startDrag();
+    }
+
+    protected _onDragHandler(event: SyntheticEvent<MouseEvent>, dragObject): void {
+        const offset = this._options.orientation === ORIENTATION.HORIZONTAL ? dragObject.offset.x : dragObject.offset.y;
+        this.drag(offset);
+        dragObject.entity.offset = this._offset(offset);
+    }
+
+    startDrag(): void {
         this._dragging = true;
         this._notify('dragStart');
     }
 
-    protected _onDragHandler(event: SyntheticEvent<MouseEvent>, dragObject): void {
-        let dragObjectOffset;
-        let styleSizeName;
-        if (this._options.orientation === ORIENTATION.HORIZONTAL) {
-            dragObjectOffset = dragObject.offset.x;
-            styleSizeName = 'width';
-        } else {
-            dragObjectOffset = dragObject.offset.y;
-            styleSizeName = 'height';
-        }
+    drag(dragObjectOffset: number): void {
+        const styleSizeName = this._options.orientation === ORIENTATION.HORIZONTAL ? 'width' : 'height';
 
         const offset = this._offset(dragObjectOffset);
         const sizeValue = `${Math.abs(offset.value)}px`;
 
-        dragObject.entity.offset = offset.value;
         this._styleArea = `${styleSizeName}:${sizeValue};${offset.style};`;
+    }
+
+    endDrag(offset: number): void {
+        if (this._dragging) {
+            this._styleArea = '';
+            this._dragging = false;
+            this._notify('offset', [offset]);
+        }
     }
 
     private _offset(x: number): IOffset {
@@ -129,9 +138,7 @@ class ResizingLine extends Control<IControlOptions, IResizingLine> {
 
     protected _onEndDragHandler(event: SyntheticEvent<MouseEvent>, dragObject): void {
         if (this._dragging) {
-            this._styleArea = '';
-            this._dragging = false;
-            this._notify('offset', [dragObject.entity.offset]);
+            this.endDrag(dragObject.entity.offset.value);
         }
     }
 

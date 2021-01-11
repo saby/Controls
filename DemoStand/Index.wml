@@ -1,0 +1,19 @@
+<DemoStand.ContainerTheme>
+<Controls.Application scope="{{_options}}"
+                      theme="{{content.theme}}"
+                      popupHeaderTheme="{{_getPopupHeaderTheme(content.theme)}}"
+                      bodyClass="controls-default-bg"
+                      title="{{_title}}"
+                      dataLoaderModule="DemoStand/DataLoader"
+                      loadDataProviders="{{false}}"
+                      settingsController="{{_settigsController}}">
+      <ws:content>
+            <DemoStand.Router
+               theme="{{ theme }}"
+               correctTemplate="{{_correctTemplate}}"
+               appRoot="{{_options.appRoot}}"
+               sourceUrl="{{_options.sourceUrl}}"
+            />
+      </ws:content>
+</Controls.Application>
+</DemoStand.ContainerTheme>

@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo__itemActions_list_delayed">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            itemActions="{{_itemActions}}"
+            itemActionsVisibility="{{_itemActionsVisibility}}">
+    </Controls.gridNew:View>
+</div>

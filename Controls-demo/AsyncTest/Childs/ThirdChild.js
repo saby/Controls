@@ -1,12 +1,12 @@
 define('Controls-demo/AsyncTest/Childs/ThirdChild',
    [
-      'Core/Control',
+      'UI/Base',
       'Env/Env',
       'wml!Controls-demo/AsyncTest/Childs/ThirdChild'
-   ], function (Control, Env, template) {
+   ], function (Base, Env, template) {
       'use strict';
 
-      var thirdChildModule = Control.extend({
+      var thirdChildModule = Base.Control.extend({
          _template: template,
          _multipleControls: 2,
 

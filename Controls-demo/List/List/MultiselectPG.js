@@ -1,14 +1,14 @@
 define('Controls-demo/List/List/MultiselectPG',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'Controls-demo/List/List/resources/DataDemoPG',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'json!Controls-demo/List/List/resources/MultiselectPG/cfg'
    ],
-   function(Control, sourceLib, data, template, config) {
+   function(Base, sourceLib, data, template, config) {
       'use strict';
-      var Component = Control.extend({
+      var Component = Base.Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/list:View',

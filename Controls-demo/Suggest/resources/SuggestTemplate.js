@@ -5,14 +5,14 @@
  * Created by am.gerasimov on 13.12.2017.
  */
 define('Controls-demo/Suggest/resources/SuggestTemplate', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Suggest/resources/SuggestTemplate',
    'Controls/list'
-], function(Control, template) {
+], function(Base, template) {
    
    'use strict';
    
-   return Control.extend({
+   return Base.Control.extend({
       _template: template
    });
    

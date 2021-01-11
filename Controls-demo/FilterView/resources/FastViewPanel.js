@@ -1,14 +1,14 @@
 define('Controls-demo/FilterView/resources/FastViewPanel',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/FilterView/resources/FastViewPanel',
       'Types/util'
    ],
 
-   function(Control, template, Utils) {
+   function(Base, template, Utils) {
 
       'use strict';
-      var FilterViewPanel = Control.extend({
+      var FilterViewPanel = Base.Control.extend({
 
          _template: template,
 

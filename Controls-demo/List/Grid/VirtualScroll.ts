@@ -1,4 +1,4 @@
-import Control = require('Core/Control')
+import {Control} from 'UI/Base';
 import template = require('wml!Controls-demo/List/Grid/resources/VirtualScroll/VirtualScroll')
 import {getGridData} from "./../Utils/listDataGenerator"
 import {Memory} from 'Types/source'

@@ -1,5 +1,5 @@
 define('Controls-demo/List/Grid/Group', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Grid/Group',
    'Types/source',
    'wml!Controls-demo/List/Grid/DemoGroupTemplate',
@@ -7,10 +7,10 @@ define('Controls-demo/List/Grid/Group', [
    'Controls/decorator',
    'Controls/list',
    'wml!Controls-demo/List/Grid/DemoGroupHeaderTemplate'
-], function (BaseControl, template, source) {
+], function (Base, template, source) {
    'use strict';
    var
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
 
          _template: template,
 

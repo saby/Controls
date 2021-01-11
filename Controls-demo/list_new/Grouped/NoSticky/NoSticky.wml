@@ -1,0 +1,9 @@
+<div class="controlsDemo__wrapper">
+    <Controls.scroll:Container attr:style="max-height: 200px">
+        <Controls.list:View
+                keyProperty="id"
+                source="{{_viewSource}}"
+                stickyHeader="{{false}}"
+                groupProperty="brand"/>
+    </Controls.scroll:Container>
+</div>

@@ -12,7 +12,7 @@ define('Controls-demo/CompatibleDemo/WasabyEnv/DemoControls/Sbis3TextBoxWrapper'
          var myTextBox = this.getChildControlByName('TextBoxWrapper');
 
          myTextBox.subscribe('onTextChange', function(e, text) {
-            this.getTopParent()._logicParent._setText(e, text);
+            this.getParent().getParent()._logicParent._setText(e, text);
          });
       },
       destroy: function() {

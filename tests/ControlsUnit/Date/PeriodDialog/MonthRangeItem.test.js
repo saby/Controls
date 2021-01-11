@@ -1,7 +1,7 @@
 define([
    'Core/core-merge',
    'Controls/_datePopup/MonthsRangeItem',
-   'Controls/Utils/Date',
+   'Controls/dateUtils',
    'ControlsUnit/Calendar/Utils'
 ], function(
    coreMerge,
@@ -55,12 +55,12 @@ define([
             options: { selectionType: 'range', date: start},
             eq: { months: true, quarters: true, halfYears: true, years: true }
          }, {
-            options: { selectionType: 'quantum', quantum: { days: [3] }, date: start },
+            options: { selectionType: 'quantum', ranges: { days: [3] }, date: start },
             eq: { months: false, quarters: false, halfYears: false, years: false }
          }, {
             options: {
                selectionType: 'quantum',
-               quantum: { months: [1], quarters: [1], halfyears: [1], years: [1] },
+               ranges: { months: [1], quarters: [1], halfyears: [1], years: [1] },
                date: start
             },
             eq: { months: true, quarters: true, halfYears: true, years: true }
@@ -150,7 +150,7 @@ define([
             options: { selectionProcessing: true, monthClickable: true },
             event: null
          }, {
-            options: { selectionProcessing: false, monthClickable: true, quantum: { days: [1] } },
+            options: { selectionProcessing: false, monthClickable: true, ranges: { days: [1] } },
             event: null
          }]
       }, {
@@ -216,7 +216,7 @@ define([
                selectionProcessing: false,
                hoveredSelectionValue: start,
                hoveredStartValue: start,
-               selectionViewType: MonthsRangeItem.SELECTION_VEIW_TYPES.months
+               selectionViewType: MonthsRangeItem.SELECTION_VIEW_TYPES.months
             },
             cssClass: 'controls-RangeSelection__start-end-hovered'
          }].forEach(function(test) {

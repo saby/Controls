@@ -1,1 +1,1 @@
-<ws:partial template="{{template}}" scope="{{templateOptions}}" stickyPosition="{{stickyPosition}}" />
+<ws:partial template="{{template}}" scope="{{templateOptions}}" prefetchPromise="{{ _options._prefetchPromise }}" stickyPosition="{{stickyPosition}}" />

@@ -1,4 +1,4 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/SimplePanel/SimplePanel');
 import CoreClone = require('Core/core-clone');
 import ParallelDeferred = require('Core/ParallelDeferred');
@@ -6,7 +6,7 @@ import * as defaultItemTemplate from 'wml!Controls/_filterPopup/SimplePanel/item
 
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import {isHistorySource} from 'Controls/_filter/HistoryUtils';
+import {HistoryUtils} from 'Controls/filter';
 
 const DEFAULT_MIN_VISIBLE_ITEMS = 2;
 var _private = {
@@ -19,7 +19,7 @@ var _private = {
             curItem.initSelectedKeys = self._items ? self._items[index].initSelectedKeys : CoreClone(item.get('selectedKeys'));
             if (curItem.loadDeferred) {
                 pDef.push(curItem.loadDeferred.addCallback(() => {
-                    if (isHistorySource(curItem.source)) {
+                    if (HistoryUtils.isHistorySource(curItem.source)) {
                         curItem.items = curItem.source.prepareItems(curItem.items);
                         curItem.hasMoreButton = curItem.sourceController.hasMoreData('down');
                     }
@@ -85,10 +85,10 @@ var _private = {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
  *
  * @class Controls/_filterPopup/SimplePanel
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @public
  * @author Золотова Э.Е.
  * 
@@ -106,7 +106,7 @@ var _private = {
  * Control dropdown list for {@link Controls/filter:View}.
  *
  * @class Controls/_filterPopup/SimplePanel
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_filterPopup/SimplePanel/SimplePanelStyles
  * 
  * @public

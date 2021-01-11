@@ -1,13 +1,13 @@
 define('Controls-demo/Input/resources/SuggestTwoLines',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Input/resources/SuggestTwoLines',
       'Types/source',
    ],
-   function(Base, template, source) {
+   function(BaseMod, template, source) {
       'use strict';
 
-      var SuggestTwoLines = Base.extend({
+      var SuggestTwoLines = BaseMod.Control.extend({
          _template: template,
          _changeValueHandler: function(event, tmp) {
             if (tmp == null) {

@@ -1,5 +1,5 @@
 define('Controls-demo/List/Grid/Ladder', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Grid/resources/Ladder/Ladder',
    'Controls-demo/List/Grid/GridData',
    'Types/source',
@@ -14,11 +14,11 @@ define('Controls-demo/List/Grid/Ladder', [
    'wml!Controls-demo/List/Grid/resources/Ladder/TasksPhoto',
    'wml!Controls-demo/List/Grid/resources/Ladder/TasksDescr',
    'wml!Controls-demo/List/Grid/resources/Ladder/TasksReceived'
-], function(BaseControl, template, GridData, source) {
+], function(Base, template, GridData, source) {
    'use strict';
    var
 
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _viewSource: null,
          _viewColumns: null,

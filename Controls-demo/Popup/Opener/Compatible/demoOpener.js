@@ -1,14 +1,14 @@
 define('Controls-demo/Popup/Opener/Compatible/demoOpener',
    [
-      'Core/Control',
+      'UI/Base',
       'tmpl!Controls-demo/Popup/Opener/Compatible/demoOpener',
       'require',
       'Types/source',
    ],
-   function (Control, template, require, source) {
+   function (Base, template, require, source) {
       'use strict';
 
-      var TestOpener = Control.extend({
+      var TestOpener = Base.Control.extend({
          _template: template,
          _border: true,
          _maximize: false,

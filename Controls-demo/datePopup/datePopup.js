@@ -1,13 +1,13 @@
 define('Controls-demo/datePopup/datePopup', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/datePopup/datePopup'
 ], function(
-   BaseControl,
+   Base,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _startValue: new Date(2019, 4, 3),
       _endValue: new Date(2019, 5, 0)

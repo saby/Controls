@@ -1,13 +1,13 @@
 define('Controls-demo/List/ItemActionsCustom', [
    'Env/Env',
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/ItemActions/ItemActionsCustom',
    'wml!Controls-demo/List/ItemActions/newsTmpl',
    'Types/source',
    'Core/constants',
 ], function(
    Env,
-   BaseControl,
+   Base,
    template,
    newsTmpl,
    source,
@@ -123,7 +123,7 @@ define('Controls-demo/List/ItemActionsCustom', [
          }
       ];
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          __lastClicked: false,
          _showAction: function(action, item) {

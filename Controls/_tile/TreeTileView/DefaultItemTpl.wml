@@ -57,10 +57,10 @@
 <ws:else>
    <ws:if data="{{itemData.dispItem.isNode()}}">
       <ws:if data="{{nodeContentTemplate}}">
-         <ws:partial template="leafTemplate" contentTpl="{{nodeContentTemplate}}" width="{{folderWidth}}"/>
+         <ws:partial template="leafTemplate" contentTpl="{{nodeContentTemplate}}" width="{{folderWidth}}" attr:class="controls-TreeTileView__node"/>
       </ws:if>
       <ws:else>
-         <ws:partial template="folderTemplate" width="{{folderWidth}}"/>
+         <ws:partial template="folderTemplate" width="{{folderWidth}}" attr:class="controls-TreeTileView__node"/>
       </ws:else>
    </ws:if>
    <ws:else>

@@ -6,15 +6,12 @@ export interface ISearchOptions {
 }
 /**
  * Интерфейс для ввода запроса в поле поиска.
- *
- * @interface Controls/_interface/ISearch
  * @public
  * @author Золотова Э.Е.
  */
 
 /*
  * Interface for Search inputs.
- *
  * @interface Controls/_interface/ISearch
  * @public
  * @author Золотова Э.Е.
@@ -32,8 +29,9 @@ export default interface ISearch {
  * @default false
  * @example
  * В этом примере в поисковой запрос будет отправлен текст "Ярославль".
- * <pre>
- *    <Controls.suggest:Input searchDelay="{{1000}}" searchParam="city" value="  Ярославль   "/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.suggest:Input searchDelay="{{1000}}" searchParam="city" value="  Ярославль   "/>
  * </pre>
  */
 /**
@@ -41,8 +39,9 @@ export default interface ISearch {
  * @cfg {Boolean} Determines whether search value is trimmed.
  * @default false
  * @example
- * <pre>
- *    <Controls.suggest:Input searchDelay="{{1000}}" searchParam="city" value="  Yaroslavl   "/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.suggest:Input searchDelay="{{1000}}" searchParam="city" value="  Yaroslavl   "/>
  * </pre>
  */
 
@@ -57,8 +56,9 @@ export default interface ISearch {
  * @demo Controls-demo/dropdown_new/Search/SearchDelay/Index
  * @example
  * В этом примере поиск начнется после 1 сек задержки.
- * <pre>
- *    <Controls.suggest:Input searchDelay="{{1000}}" searchParam="city"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.suggest:Input searchDelay="{{1000}}" searchParam="city"/>
  * </pre>
  */
 
@@ -71,8 +71,9 @@ export default interface ISearch {
  * @demo Controls-demo/dropdown_new/Search/SearchDelay/Index
  * @example
  * In this example search will start after 1s delay.
- * <pre>
- *    <Controls.suggest:Input searchDelay="{{1000}}" searchParam="city"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.suggest:Input searchDelay="{{1000}}" searchParam="city"/>
  * </pre>
  */
 
@@ -85,8 +86,9 @@ export default interface ISearch {
  * Ноль подойдет для локальных данных с несколькими элементами, но более высокое значение следует использовать, когда поиск одного символа может соответствовать нескольким тысячам элементов.
  * @example
  * В этом примере поиск начинается после ввода 2 символа.
- * <pre>
- *    <Controls.suggest:Input minSearchLength="{{2}}" searchParam="city"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.suggest:Input minSearchLength="{{2}}" searchParam="city"/>
  * </pre>
  */
 
@@ -98,8 +100,9 @@ export default interface ISearch {
  * @demo Controls-demo/dropdown_new/Search/MinSearchLength/Index
  * @example
  * In this example search starts after typing 2 characters.
- * <pre>
- *    <Controls.suggest:Input minSearchLength="{{2}}" searchParam="city"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.suggest:Input minSearchLength="{{2}}" searchParam="city"/>
  * </pre>
  */
 
@@ -110,8 +113,9 @@ export default interface ISearch {
  * @demo Controls-demo/dropdown_new/Search/SearchParam/Index
  * @example
  * В этом примере вы можете найти город, введя название города.
- * <pre>
- *    <Controls.suggest:Input minSearchLength="{{2}}" searchParam="city"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.suggest:Input minSearchLength="{{2}}" searchParam="city"/>
  * </pre>
  */
 
@@ -121,7 +125,8 @@ export default interface ISearch {
  * @demo Controls-demo/dropdown_new/Search/SearchParam/Index
  * @example
  * In this example you can search city by typing city name.
- * <pre>
- *    <Controls.suggest:Input minSearchLength="{{2}}" searchParam="city"/>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.suggest:Input minSearchLength="{{2}}" searchParam="city"/>
  * </pre>
  */

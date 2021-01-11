@@ -1,6 +1,6 @@
 define('Controls-demo/PropertyGrid/PropertyGridWrapper',
    [
-      'Core/Control',
+      'UI/Base',
       'Core/Deferred',
       'Core/core-merge',
       'Core/library',
@@ -23,11 +23,11 @@ define('Controls-demo/PropertyGrid/PropertyGridWrapper',
       'json!Controls-demo/PropertyGrid/pgtext',
    ],
 
-   function(Control, Deferred, cMerge, libHelper, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
+   function(Base, Deferred, cMerge, libHelper, propertyGridUtil, template, myTmpl, booleanOrNull, stringTmpl, arrayTmpl, numberTmpl,
       datetimeTmpl, booleanTmpl, functOrString, functionTmpl, enumTmpl, objTmpl, timeIntervalTmpl) {
       'use strict';
 
-      var PGWrapper = Control.extend({
+      var PGWrapper = Base.Control.extend({
          _template: template,
          _metaData: null,
          dataTemplates: null,

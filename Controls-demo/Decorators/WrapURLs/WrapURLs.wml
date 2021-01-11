@@ -1,8 +1,0 @@
-<div>
-   <h1>WrapURLs</h1>
-   <Controls.input:Area class="controlsDemo-WrapURLs__value" minLines="{{5}}" bind:value="_value" on:inputCompleted="_inputCompletedHandler()"/>
-
-   <ws:if data="{{_wrapText}}">
-      <Controls.decorator:WrapURLs value="{{_wrapText}}"/>
-   </ws:if>
-</div>

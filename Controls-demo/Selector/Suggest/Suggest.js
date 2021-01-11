@@ -1,16 +1,16 @@
 define('Controls-demo/Selector/Suggest/Suggest',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Selector/Suggest/Suggest',
       'Types/source',
       'Controls-demo/Utils/MemorySourceFilter',
    ],
-   function(Control, template, source, memorySourceFilter) {
+   function(Base, template, source, memorySourceFilter) {
 
       'use strict';
 
 
-      var ComboBox = Control.extend({
+      var ComboBox = Base.Control.extend({
          _template: template,
          _source: null,
          _value: '',

@@ -26,55 +26,55 @@ export interface IDialogOpener extends IOpener {
 }
 
 /**
- * @name Controls/_popup/interface/IDialog#height
+ * @name Controls/_popup/interface/IDialogOpener#height
  * @cfg {Number} Текущая высота диалогового окна.
  */
 
 /**
- * @name Controls/_popup/interface/IDialog#width
+ * @name Controls/_popup/interface/IDialogOpener#width
  * @cfg {Number} Текущая ширина диалогового окна.
  */
 
 /**
- * @name Controls/_popup/interface/IDialog#maxHeight
+ * @name Controls/_popup/interface/IDialogOpener#maxHeight
  * @cfg {Number} Максимально допустимая высота диалогового окна.
  */
 /**
- * @name Controls/_popup/interface/IDialog#minHeight
+ * @name Controls/_popup/interface/IDialogOpener#minHeight
  * @cfg {Number} Минимально допустимая высота диалогового окна.
  */
 /**
- * @name Controls/_popup/interface/IDialog#maxWidth
+ * @name Controls/_popup/interface/IDialogOpener#maxWidth
  * @cfg {Number} Максимально допустимая ширина диалогового окна.
  */
 /**
- * @name Controls/_popup/interface/IDialog#minWidth
+ * @name Controls/_popup/interface/IDialogOpener#minWidth
  * @cfg {Number} Минимально допустимая ширина диалогового окна.
  */
 /*
- * @name Controls/_popup/interface/IDialog#top
+ * @name Controls/_popup/interface/IDialogOpener#top
  * @cfg {Number} Distance from the window to the top of the screen.
  */
 /**
- * @name Controls/_popup/interface/IDialog#top
+ * @name Controls/_popup/interface/IDialogOpener#top
  * @cfg {Number} Расстояние от диалогового окна до верхнего края экрана.
  */
 /*
- * @name Controls/_popup/interface/IDialog#left
+ * @name Controls/_popup/interface/IDialogOpener#left
  * @cfg {Number} Distance from the window to the left border of the screen.
  */
 /**
- * @name Controls/_popup/interface/IDialog#left
+ * @name Controls/_popup/interface/IDialogOpener#left
  * @cfg {Number} Расстояние от диалогового окна до левого края экрана.
  */
 
 /**
- * @name Controls/_popup/interface/IDialog#maximize
+ * @name Controls/_popup/interface/IDialogOpener#maximize
  * @cfg {Boolean} Определяет, должно ли всплывающее окно открываться на весь экран.
  */
 
 /**
- * @name Controls/_popup/interface/IDialog#restrictiveContainer
+ * @name Controls/_popup/interface/IDialogOpener#restrictiveContainer
  * @cfg {String} Опция задает контейнер (через <b>селектор</b>), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
  * @remark
  * Алгоритм поиска контейнера, внутри которого будут строиться окна:
@@ -130,12 +130,12 @@ export interface IDialogOpener extends IOpener {
  * @property {Number} minWidth Минимально допустимая ширина диалогового окна.
  * @property {Number} top Расстояние от диалогового окна до верхнего края экрана.
  * @property {Number} left Расстояние от диалогового окна до левого края экрана.
- * @property {Node} opener Логический инициатор открытия диалогового окна. Читайте подробнее {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
+ * @property {Node} opener Логический инициатор открытия диалогового окна. Читайте подробнее {@link /doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
  * @property {Controls/_popup/interface/IBaseOpener.typedef} eventHandlers Функции обратного вызова на события всплывающего окна.
  */
 
 /**
- * @name Controls/_popup/interface/IDialog#close
+ * @name Controls/_popup/interface/IDialogOpener#close
  * @function
  * @description Метод закрытия диалогового окна.
  * @returns {Undefined}
@@ -173,7 +173,7 @@ export interface IDialogOpener extends IOpener {
 /**
  * Метод открытия диалогового окна.
  * Повторный вызов этого метода инициирует перерисовку окна с новыми опциями.
- * @function Controls/_popup/interface/IDialog#open
+ * @function Controls/_popup/interface/IDialogOpener#open
  * @param {PopupOptions} popupOptions Конфигурация диалогового окна.
  * @remark
  * Если требуется открыть окно, без создания popup:Dialog в верстке, следует использовать статический метод {@link openPopup}.

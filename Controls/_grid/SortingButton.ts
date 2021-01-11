@@ -8,7 +8,7 @@ export interface ISortingButtonOptions extends IControlOptions {
  * Контрол, используемый для изменения сортировки внутри таблиц
  *
  * @class Controls/_grid/SortingButton
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_grid/SortingButton/Styles
  * 
  * @private

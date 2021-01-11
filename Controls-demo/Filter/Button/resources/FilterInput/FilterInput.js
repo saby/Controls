@@ -1,11 +1,11 @@
 define('Controls-demo/Filter/Button/resources/FilterInput/FilterInput', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Filter/Button/resources/FilterInput/FilterInput',
-], function(Control, template) {
+], function(Base, template) {
 
    'use strict';
 
-   var FilterInputVDom = Control.extend({
+   var FilterInputVDom = Base.Control.extend({
       _template: template,
 
       _valueChanged: function(event, value) {

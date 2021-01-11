@@ -1,12 +1,12 @@
 define('Controls-demo/TestAppForStatic/Index', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/TestAppForStatic/Index'
-], function (BaseControl,
+], function (Base,
              template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template
       });

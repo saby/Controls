@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+   <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/TileScalingMode/Inside/Index' }}">
+         <a href="{{content.href}}">Увеличение внутри контейнера плитки</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.TileScalingMode.Inside.Index />
+   </div>
+
+   <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+      <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                               state="/Controls-demo/app/:app"
+                               app="{{ 'Controls-demo/Tile/TileScalingMode/Outside/Index' }}">
+         <a href="{{content.href}}">Увеличение относительно окна браузера</a>
+      </Router.router:Reference>
+      <Controls-demo.Tile.TileScalingMode.Outside.Index />
+   </div>
+</div>

@@ -1,12 +1,21 @@
-import splitIntoTriads, {NUMBER_DIGITS_TRIAD} from 'Controls/Utils/splitIntoTriads';
-
-import ICallback from 'Controls/interface/ICallback';
+import {splitIntoTriads, NUMBER_DIGITS_TRIAD} from 'Controls/decorator';
 
 const charOfIntegerPart: RegExp = /[-0-9]/;
 
 function getCountTriads(valueLength: number): number {
     return Math.max(0, Math.floor((valueLength - 1) / NUMBER_DIGITS_TRIAD));
 }
+
+interface IValue<T> {
+    value: T;
+}
+
+interface IFieldData {
+    position: number;
+    displayValue: string;
+}
+
+export type ICallback<T> = (data: IValue<T> & IFieldData) => IFieldData;
 
 /**
  * Get the function constraint the length of the number.

@@ -14,7 +14,7 @@
                keyProperty="id">
             <ws:navigation source="page" view="{{_navigationMode}}">
                <ws:sourceConfig pageSize="{{_pageSize}}" page="{{0}}"></ws:sourceConfig>
-               <ws:viewConfig pagingMode="direct"></ws:viewConfig>
+               <ws:viewConfig pagingMode="basic"></ws:viewConfig>
             </ws:navigation>
          </Controls.list:View>
       </ws:content>

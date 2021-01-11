@@ -1,10 +1,10 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_operationsPanel/OperationsPanel/OperationsPanel');
 import toolbars = require('Controls/toolbars');
 import sourceLib = require('Types/source');
 import WidthUtils = require('Controls/_operationsPanel/OperationsPanel/Utils');
 import buttons = require('Controls/buttons');
-import {tmplNotify as notifyHandler} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Record} from 'Types/entity';
@@ -72,15 +72,15 @@ var _private = {
 
 /*
  * Контрол, предназначенный для операций над множеством записей списка.
- * Подробное описание и инструкцию по настройке читайте <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>здесь</a>.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Демо-пример</a>.
+ * Подробное описание и инструкцию по настройке читайте <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>здесь</a>.
+ * {@link /materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo демо-пример}.
  *
  * @class Controls/_operationsPanel/OperationsPanel
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
- * 
+ *
  * @private
  * @author Авраменко А.С.
  * @demo Controls-demo/OperationsPanel/Panel
@@ -89,15 +89,15 @@ var _private = {
 
 /*
  * Control for grouping operations.
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/operations/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>here</a>.
  * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Demo</a>.
  *
  * @class Controls/_operations/OperationsPanel
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/_interface/IHierarchy
- * 
+ *
  * @private
  * @author Авраменко А.С.
  * @demo Controls-demo/OperationsPanel/Panel
@@ -108,7 +108,7 @@ var OperationsPanel = Control.extend({
    _template: template,
    _oldToolbarWidth: 0,
    _initialized: false,
-   _notifyHandler: notifyHandler,
+   _notifyHandler: EventUtils.tmplNotify,
 
    _beforeMount(options: object): Promise<RecordSet>|void {
       const loadDataCallback = (data?: RecordSet): RecordSet|void => {

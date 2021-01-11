@@ -28,11 +28,11 @@ export interface IStateIndicatorOptions extends IControlOptions {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2fprogress%2fStateIndicator%2fIndex">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_progress.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2fprogress%2fStateIndicator%2fIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_progress.less переменные тем оформления}
  *
  * @class Controls/_progress/StateIndicator
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @author Колесов В.А.
  *
  * @public
@@ -41,9 +41,9 @@ export interface IStateIndicatorOptions extends IControlOptions {
 
 /*
  * Progress state indicator
- * <a href="/materials/Controls-demo/app/Controls-demo%2fprogress%2fStateIndicator%2fIndex">Демо-пример</a>.
+ * {@link /materials/Controls-demo/app/Controls-demo%2fprogress%2fStateIndicator%2fIndex демо-пример}.
  * @class Controls/_progress/StateIndicator
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @author Колесов В.А.
  *
  * @public

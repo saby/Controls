@@ -1,14 +1,14 @@
 define('Controls-demo/Input/Lookup/LookupPropertyGrid', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Lookup/LookupPropertyGrid',
    'Types/source',
    'Controls-demo/Utils/MemorySourceFilter',
    'Controls-demo/Input/Lookup/LookupData',
    'json!Controls-demo/PropertyGrid/pgtext',
-], function (Control, template, sourceLib, memorySourceFilter, sourceData, config) {
+], function (Base, template, sourceLib, memorySourceFilter, sourceData, config) {
    'use strict';
 
-   var Lookup = Control.extend({
+   var Lookup = Base.Control.extend({
       _selectedKeys: [],
       _template: template,
       _content: 'Controls/lookup:Input',

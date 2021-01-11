@@ -1,15 +1,15 @@
 define('Controls-demo/Input/Lookup/Lookup',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Input/Lookup/Lookup',
       'Types/source',
       'Controls-demo/Utils/MemorySourceFilter',
       'Controls-demo/Input/Lookup/LookupData',
       'Controls/lookup',
    ],
-   function(Control, template, source, memorySourceFilter, lookupData) {
+   function(Base, template, source, memorySourceFilter, lookupData) {
       'use strict';
-      var Lookup = Control.extend({
+      var Lookup = Base.Control.extend({
          _template: template,
          _value: '',
          _value1: 'readOnlyValue',

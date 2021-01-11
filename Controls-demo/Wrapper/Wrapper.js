@@ -1,13 +1,13 @@
 define('Controls-demo/Wrapper/Wrapper',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Wrapper/Wrapper'
 
    ],
-   function(Control, template) {
+   function(Base, template) {
 
 
-      var Wrapper = Control.extend({
+      var Wrapper = Base.Control.extend({
 
          _template: template
 

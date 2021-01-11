@@ -1,6 +1,6 @@
 define('Controls-demo/List/List/BasePG',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'Controls-demo/Utils/MemorySourceFilter',
       'Controls-demo/List/List/resources/DataDemoPG',
@@ -10,9 +10,9 @@ define('Controls-demo/List/List/BasePG',
       'wml!Controls-demo/List/List/resources/BasePG/footerTemplate'
    ],
 
-   function(Control, sourceLib, memorySourceFilter, data, template, config, emptyTpl) {
+   function(Base, sourceLib, memorySourceFilter, data, template, config, emptyTpl) {
       'use strict';
-      var Component = Control.extend({
+      var Component = Base.Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/list:View',

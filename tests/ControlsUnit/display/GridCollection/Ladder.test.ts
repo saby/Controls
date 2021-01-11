@@ -214,197 +214,197 @@ function checkCollectionItems(collection: GridCollection<any>, resultItems: any[
 
 const result_items10_columns2_withoutMultiSelect = [{
     columns: [
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 5' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 5' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 5' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 5' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }];
 
 const result_items5_columns2_withoutMultiSelect = [{
     columns: [
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 5' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 5' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 1' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
+        { constructorName: 'DataCell' }]
 }];
 
 const result_items5_columns2_withMultiSelect = [{
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 5' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 5' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 1' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
+        { constructorName: 'DataCell' }]
 }];
 
 const result_items5_columns2_withMultiSelect_afterRemoveItem = [{
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 4' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 4' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 1' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' }]
 },  {
     columns: [
-        { constructorName: 'GridCheckboxColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 1' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'CheckboxCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }];
 
 const result_items10_columns3_withoutMultiSelect = [{
     columns: [
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 5' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 5' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 5' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 5' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridStickyLadderColumn', wrapperStyles: 'grid-row: span 2' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }, {
     columns: [
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' },
-        { constructorName: 'GridColumn' }]
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' },
+        { constructorName: 'DataCell' }]
 }];

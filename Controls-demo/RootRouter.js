@@ -2,19 +2,19 @@
  * Created by kraynovdo on 25.01.2018.
  */
 define('Controls-demo/RootRouter', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/RootRouter',
    'Application/Initializer',
    'Application/Env',
    'Core/Deferred'
-], function(BaseControl,
+], function(Base,
    template,
    AppInit,
    AppEnv,
    Deferred) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          _template: template,
          isReloading: false,

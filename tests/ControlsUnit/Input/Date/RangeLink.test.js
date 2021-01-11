@@ -100,7 +100,7 @@ define([
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
                className: 'controls-DatePopup__selector-marginTop_fontSize-m_theme-default controls-DatePopup__selector-marginLeft_theme-default',
                templateOptions: {
-                  quantum: extOptions.ranges,
+                  ranges: extOptions.ranges,
                   minRange: extOptions.minRange,
                   captionFormatter: extOptions.captionFormatter,
                   emptyCaption: extOptions.emptyCaption,

@@ -1,0 +1,393 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Image</div>
+        <div class="controlsDemo__wrapper controlsDemo__flexRow">
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">markerClassName соответствует значению
+                    default
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="s"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="default"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению image-l
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="s"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="image-l"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению image-l
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="l"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="image-l"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению image-m
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="s"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="image-m"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению image-m
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="l"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="image-m"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению image-s
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="s"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="image-s"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению image-s
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="l"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="image-s"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению image-xs
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="s"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="image-xs"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению image-xs
+                </div>
+                <Controls.scroll:Container attr:class="controlsDemo__height100 controlsDemo__maxWidth500">
+                    <Controls.grid:View
+                            keyProperty="id"
+                            source="{{_viewSourceImage}}"
+                            columns="{{_columnsImage}}"
+                            markerVisibility="visible"
+                            ladderProperties="{{_ladderProperties}}">
+                        <ws:itemPadding top="l"/>
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/grid:ItemTemplate"
+                                        itemData="{{itemData}}"
+                                        markerClassName="image-xs"/>
+                        </ws:itemTemplate>
+                    </Controls.grid:View>
+                </Controls.scroll:Container>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">Text</div>
+        <div class="controlsDemo__wrapper controlsDemo__flexRow">
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">markerClassName соответствует значению
+                    default
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="s"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="default"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению text-2xl
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="s"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-2xl"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению text-2xl
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="l"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-2xl"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению text-xl
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="s"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-xl"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению text-xl
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="l"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-xl"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению text-l
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="s"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-l"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению text-l
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="l"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-l"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению text-m
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="s"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-m"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению text-m
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="l"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-m"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру s.
+                    markerClassName соответствует значению text-xs
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="s"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-xs"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+            <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null controlsDemo__maxWidth500">
+                <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру l.
+                    markerClassName соответствует значению text-xs
+                </div>
+                <Controls.grid:View
+                        keyProperty="id"
+                        source="{{_viewSourceText}}"
+                        markerVisibility="visible"
+                        columns="{{_columnsText}}">
+                    <ws:itemPadding top="l"/>
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/grid:ItemTemplate"
+                                    itemData="{{itemData}}"
+                                    markerClassName="text-xs"/>
+                    </ws:itemTemplate>
+                </Controls.grid:View>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -9,9 +9,9 @@ export interface ISliderBaseOptions extends IControlOptions, ISliderOptions {
 }
 
 const MOBILE_TOOLTIP_HIDE_DELAY: number = 3000;
-const maxPercentValue = 100;
+const maxRatioValue = 1;
 
-class SliderBase extends Control<ISliderBaseOptions> {
+class SliderBase<TSliderBaseOptions extends ISliderBaseOptions> extends Control<TSliderBaseOptions> {
     private _tooltipPosition: number | null = null;
     private _hideTooltipTimerId: number;
     protected _tooltipValue: string | null = null;
@@ -31,10 +31,14 @@ class SliderBase extends Control<ISliderBaseOptions> {
         const target = this._options.direction === 'vertical' ? Utils.getNativeEventPageY(event) :
             Utils.getNativeEventPageX(event);
         const box = this._children.area.getBoundingClientRect();
-        const ratio = this._options.direction === 'vertical' ?
-            Utils.getRatio(target, box.top + window.pageYOffset, box.height) :
-            Utils.getRatio(target, box.left + window.pageXOffset, box.width);
+        const ratio = this._getRatio(this._options.direction, target, box, window.pageXOffset, window.pageYOffset);
         return Utils.calcValue(this._options.minValue, this._options.maxValue, ratio, this._options.precision);
+    }
+
+    _getRatio(direction: string, target: number, box: ClientRect, xOffset: number, yOffset: number): number {
+        return  direction === 'vertical' ?
+            maxRatioValue - Utils.getRatio(target, box.top + yOffset, box.height) :
+            Utils.getRatio(target, box.left + xOffset, box.width);
     }
 
     _getViewMode(viewMode: string): string {
@@ -45,9 +49,6 @@ class SliderBase extends Control<ISliderBaseOptions> {
         if (!this._options.readOnly) {
             //На мобильных устройствах положение подсказки и ползунка всегда совпадает
             this._tooltipPosition = constants.browser.isMobilePlatform ? this._value : this._getValue(event);
-            if ( this._options.direction === 'vertical') {
-                this._tooltipPosition = maxPercentValue - this._tooltipPosition;
-            }
             this._tooltipValue = this._options.tooltipFormatter ? this._options.tooltipFormatter(this._tooltipPosition)
                 : this._tooltipPosition;
 

@@ -46,7 +46,7 @@ const getTemplate = (template: string | Control): Promise<Control> => {
  * - вместо своего содержимого;
  * - в заглушке, которая растягивается во всю страницу поверх всего остального.
  * @class Controls/_dataSource/_error/Container
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @public
  * @author Северьянов А.А.
  *

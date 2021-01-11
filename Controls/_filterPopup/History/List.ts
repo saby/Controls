@@ -1,7 +1,7 @@
 /**
  * Created by kraynovdo on 31.01.2018.
  */
-import BaseControl = require('Core/Control');
+import {Control as BaseControl} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/History/List');
 import Utils = require('Types/util');
 import {Serializer} from 'UI/State';

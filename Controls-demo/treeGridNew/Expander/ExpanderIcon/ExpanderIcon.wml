@@ -1,0 +1,29 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderIcon/None/Index' }}">
+            <a href="{{content.href}}">Экспандер не показывается</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Expander.ExpanderIcon.None.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderIcon/Node/Index' }}">
+            <a href="{{content.href}}">Все экспандеры в стиле "Узел"</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Expander.ExpanderIcon.Node.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/Expander/ExpanderIcon/HiddenNode/Index' }}">
+            <a href="{{content.href}}">Все экспандеры в стиле "Скрытый узел"</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.Expander.ExpanderIcon.HiddenNode.Index/>
+    </div>
+</div>

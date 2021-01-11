@@ -5,13 +5,9 @@ import {IControlOptions} from 'UI/Base';
 import {ILoadingIndicatorOptions} from 'Controls/LoadingIndicator';
 
 /**
- * Интерфейс базовых опций опенеров.
- *
- * @interface Controls/_popup/interface/IBaseOpener
+ * Опции интерфейса подробно описаны {@link Controls/_popup/interface/IBaseOpener здесь}.
  * @public
- * @author Красильников А.С.
  */
-
 export interface IBasePopupOptions {
     id?: string;
     className?: string;
@@ -26,6 +22,7 @@ export interface IBasePopupOptions {
     isDefaultOpener?: boolean;
     showIndicator?: boolean;
     indicatorConfig?: ILoadingIndicatorOptions;
+    dataLoaders?: IDataLoader[][];
     zIndexCallback?(item: IPopupItemInfo, popupList: List<IPopupItemInfo>): number;
     actionOnScroll?: string; // TODO Перенести на sticky, Удалить из baseOpener
     zIndex?: number; // TODO Compatible
@@ -40,6 +37,11 @@ export interface IOpener {
     isOpened(): boolean;
 }
 
+/**
+ * Интерфейс базовых опций опенеров.
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IBaseOpener {
     readonly '[Controls/_popup/interface/IBaseOpener]': boolean;
 }
@@ -232,7 +234,7 @@ export interface IBaseOpener {
 
 /**
  * @name Controls/_popup/interface/IBaseOpener#opener
- * @cfg {Node} Логический инициатор открытия всплывающего окна. Читайте подробнее {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
+ * @cfg {Node} Логический инициатор открытия всплывающего окна. Читайте подробнее {@link /doc/platform/developmentapl/interface-development/ui-library/focus/index/#control-opener здесь}.
  */
 
 /**
@@ -539,13 +541,137 @@ export interface IBaseOpener {
  */
 
 /**
- * @typedef {Object} EventHandlers
+ * @typedef {Object} Controls/_popup/interface/IBaseOpener/EventHandlers
  * @description Функции обратного вызова позволяют подписаться на события всплывающего окна, открытого через статические методы.
- * Когда {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/ открывающий контрол} добавлен в шаблон, можно задать декларативную подписку на события.
+ * Когда {@link /doc/platform/developmentapl/interface-development/controls/openers/ открывающий контрол} добавлен в шаблон, можно задать декларативную подписку на события.
  * @property {Function} onOpen Функция обратного вызова, которая вызывается при открытии всплывающего окна.
- * Пример декларативной подписки на событие доступен {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/#event-open-window здесь}.
+ * Пример декларативной подписки на событие доступен {@link /doc/platform/developmentapl/interface-development/controls/openers/#event-open-window здесь}.
  * @property {Function} onClose Функция обратного вызова, которая вызывается при закрытии всплывающего окна.
- * Пример декларативной подписки на событие доступен {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/#event-close-window здесь}.
+ * Пример декларативной подписки на событие доступен {@link /doc/platform/developmentapl/interface-development/controls/openers/#event-close-window здесь}.
  * @property {Function} onResult Функция обратного вызова, которая вызывается в событии sendResult в шаблоне всплывающего окна.
- * Пример декларативной подписки на событие доступен {@link https://wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/openers/#event-result здесь}.
+ * Пример декларативной подписки на событие доступен {@link /doc/platform/developmentapl/interface-development/controls/openers/#event-result здесь}.
  */
+
+/**
+ * @name Controls/_popup/interface/IBaseOpener#dataLoaders
+ * @demo Controls-demo/Popup/Loader/Index
+ * @cfg {DataLoader[]} Задает массив предзагрузчиков данных, необходимых для построения {@link template шаблона}.
+ * Опция используется для ускорения открытия окна, за счет распараллеливания получения данных и построения верстки.
+ * Полученные данные будут переданы в опцию prefetchPromise.
+ * @remark
+ * **Обратите внимение: модуль загрузчика данных - синглтон.**
+ * **Внимание. Функционал является экспериментальным и не должен использоваться повсеместно.**
+ * **Перед использованием проконсультируйтесь с ответственным за функционал.**
+ * @example
+ *
+ * Описание модуля предзагрузки
+ * <pre>
+ *   import {getStore} from 'Application/Env';
+ *   import {SbisService} from 'Types/source';
+ *
+ *   const STORE_KEY = 'MyStoreKey';
+ *
+ *   class MyLoader {
+ *       init(): void {
+ *           // Инициализация, если необходимо, вызывается перед вызовом loadData
+ *       }
+ *       getState(key) {
+ *           return getStore(STORE_KEY).get(key);
+ *       }
+ *       setState(key, data) {
+ *           getStore(STORE_KEY).set(key, data);
+ *       }
+ *
+ *       // Возвращаем закэшированные данные, чтобы не запрашивать еще раз при построении на сервере.
+ *       getReceivedData(params) {
+ *           return this.getState(this._getKeyByParams(params));
+ *       }
+ *       _getKeyByParams(params) {
+ *           // Нужно получить из параметров уникальное значение для данного набора параметров, чтобы закэшировать ответ.
+ *       }
+ *       loadData(params, depsData) {
+ *           const paramFromDependency = depsData[0].getRow();
+ *           return new SbisService({
+ *               endpoint: myEndpoint
+ *           }).call('myMethod', {
+ *               key: params.param1,
+ *               rec: paramFromDependency
+ *           }).then((result) => {
+ *               // Кэшируем результат
+ *               this.setState(this._getKeyByParams(params), result);
+ *           });
+ *       }
+ *   }
+ *   // Загрузчик является синглтоном
+ *   export default new MyLoader();
+ * </pre>
+ *
+ * Описание предзагрузчика при открытии окна
+ * <pre>
+ *   class UserControl extends Control {
+ *      ...
+ *      protected _stack: StackOpener = new StackOpener();
+ *      _openStack() {
+ *         const popupOptions = {
+ *             template: 'MyPopupTemplate',
+ *             dataLoaders: [
+ *                 [{
+ *                      key: 'loaderForDependencies',
+ *                      module: 'MyLoaderForDeps'
+ *                 }],
+ *                 [{
+ *                     key: 'myLoaderKey',
+ *                     module: 'MyLoader',
+ *                     dependencies: ['loaderForDependencies'],
+ *                     params: {
+ *                         param1: 'data1'
+ *                     }
+ *                 }]
+ *             ],
+ *             templateOptions: {
+ *                 record: null
+ *             }
+ *         }
+ *         this._stack.open(popupOptions)
+ *      }
+ *      ...
+ *  }
+ * </pre>
+ *
+ * </pre>
+ *
+ * Описание шаблона окна
+ *
+ * <pre>
+ *   class MyPopupTemplate extends Control {
+ *      ...
+ *
+ *      _beforeMount(options) {
+ *          options.prefetchPromise.then((resultObject) => {
+ *              this._preloadData = resultObject;
+ *          });
+ *      }
+ *      ...
+ *   }
+ * </pre>
+ *
+ */
+
+/**
+ * @typedef {Object} DataLoader
+ * @description Описание загрузчика данных
+ * @property {String} module Имя модуля загрузчика, который реализует метод loadData.
+ * @property {String} key Имя загрузчика. По умолчанию имя загрузчика берется из поля module.
+ * @property {String[]} dependencies массив ключей загрузчиков от которых зависит данный.
+ * Он будет вызван только после того, как отработают загрузичики из данного списка.
+ * Их результаты придут в функцию загрузчика вторым аргументом.
+ * Загрузчики из данного списка должны идти по порядку раньше текущего.
+ * @property {Object} params Параметры, передающиеся в метод loadData.
+ */
+export interface IDataLoader {
+    key?: string;
+    module: string;
+    params?: Record<string, unknown>;
+    dependencies?: string[];
+    await?: boolean;
+}

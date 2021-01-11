@@ -1,21 +1,20 @@
-import {detection} from 'Env/Env';
+import {constants, detection} from 'Env/Env';
 import { headDataStore } from 'UI/Base';
 import {Logger} from 'UI/Utils';
-import ModuleLoader = require('Controls/Container/Async/ModuleLoader');
+import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 
-const moduleLoader = new ModuleLoader();
-const constants = 'Controls/Utils/FontWidthConstants/';
+const fontConstants = 'Controls/Utils/FontWidthConstants/';
 
 let fonts;
 
 export const getFontWidth = (text, size) => {
     // Инициализируем константы с размерами на клиенте
-    if (isClient()) {
+    if (constants.isBrowserPlatform) {
         if (!fonts) {
             const browser = getBrowser();
-            const module = constants + browser;
-            if (moduleLoader.isLoaded(module)) {
-                fonts = moduleLoader.loadSync(module)[browser];
+            const module = fontConstants + browser;
+            if (ModulesLoader.isLoaded(module)) {
+                fonts = ModulesLoader.loadSync(module)[browser];
             } else {
                 generateErrorMessage();
             }
@@ -53,13 +52,9 @@ const getBrowser = () => {
     return 'Chrome';
 };
 
-const isClient = () => {
-    return typeof window !== 'undefined';
-};
-
 const getModuleName = () => {
     const browser = getBrowser();
-    return constants + browser;
+    return fontConstants + browser;
 };
 
 export const loadFontWidthConstants = () => {
@@ -68,7 +63,7 @@ export const loadFontWidthConstants = () => {
         return getFontWidthWithFonts.bind(null, font);
     };
     return new Promise((resolve) => {
-        if (!isClient()) {
+        if (!constants.isBrowserPlatform) {
             // положим файл с константами в head, чтобы на клиенте запросить синхронно
             headDataStore.read('pushDepComponent')(module, true);
         } else if (fonts) {

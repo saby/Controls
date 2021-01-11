@@ -15,7 +15,6 @@ const DEFAULT_WIDTH_PROPORTION = 1;
 const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
 const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
 const AVAILABLE_ITEM_PADDINGS = ['null', 'default', '3xs', '2xs', 'xs', 's', 'm'];
-
 interface IItemPadding {
     left: string;
     right: string;
@@ -113,6 +112,14 @@ var TileViewModel = ListViewModel.extend({
         return tileSizes;
     },
 
+    getImageProportion(proportion: string = '1:1'): number {
+        const [width, height]: string[] = proportion.split(':');
+        if (width && height) {
+            return +(Number(width) / Number(height)).toFixed(2);
+        }
+        return 1;
+    },
+
     getImageData(itemWidth: number,
                  itemData: Record<string, any>,
                  item: Model): {url: string, class: string} {
@@ -137,9 +144,7 @@ var TileViewModel = ListViewModel.extend({
                 imageWidth,
                 imageFit);
             baseUrl = getImageUrl(sizes.width, sizes.height, baseUrl, item, imageUrlResolver);
-            if (imageHeight && imageWidth) {
-                restrictions = getImageRestrictions(imageHeight, imageWidth, Number(itemsHeight), Number(itemWidth));
-            }
+            restrictions = getImageRestrictions(imageHeight, imageWidth, Number(itemsHeight), Number(itemWidth));
         }
         return {
             url: baseUrl,
@@ -160,11 +165,13 @@ var TileViewModel = ListViewModel.extend({
             imageWidthProperty: this._options.imageWidthProperty,
             imageFit: this._options.imageFit,
             imageUrlResolver: this._options.imageUrlResolver,
-            itemClasses: this.getItemPaddingClasses()
+            itemClasses: this.getItemPaddingClasses(),
+            itemContentClasses: this.getRoundBorderClasses()
         };
         if (this._options.tileSize) {
             resultData.getTileSizes = this.getTileSizes;
         }
+        resultData.getImageProportion = this.getImageProportion;
         const itemContents = dispItem?.getContents();
         if (itemContents instanceof Model) {
             resultData.itemWidth = this.getTileWidth(
@@ -177,6 +184,11 @@ var TileViewModel = ListViewModel.extend({
 
     setTileMode: function (tileMode) {
         this._tileMode = tileMode;
+        this._nextModelVersion();
+    },
+
+    setRoundBorder(value): void {
+        this._options.roundBorder = value;
         this._nextModelVersion();
     },
 
@@ -336,61 +348,18 @@ var TileViewModel = ListViewModel.extend({
         return itemWidth ? Math.max(resultWidth, itemWidth) : resultWidth;
     },
 
-    shouldOpenExtendedMenu(isActionMenu: boolean, isContextMenu: boolean, itemData: Record<string, any>): boolean {
-        const isScalingTile = this._options.tileScalingMode !== 'none' &&
-                              this._options.tileScalingMode !== 'overlap' &&
-                              !itemData.dispItem.isNode();
-        return this._options.actionMenuViewMode === 'preview' && !isActionMenu && !(isScalingTile && isContextMenu);
-    },
+    getRoundBorderClasses(): string {
+        const theme = `_theme-${this._options.theme}`;
+        const topLeftBorder = this._options.roundBorder?.tl || 'default';
+        const topRightBorder = this._options.roundBorder?.tr || 'default';
+        const bottomLeftBorder = this._options.roundBorder?.bl || 'default';
+        const bottomRightBorder = this._options.roundBorder?.br || 'default';
+        const topLeftClass = `controls-TileView__item_roundBorder_topLeft_${topLeftBorder}${theme}`;
+        const topRightClass = `controls-TileView__item_roundBorder_topRight_${topRightBorder}${theme}`;
+        const bottomLeftClass = `controls-TileView__item_roundBorder_bottomLeft_${bottomLeftBorder}${theme}`;
+        const bottomRightClass = `controls-TileView__item_roundBorder_bottomRight_${bottomRightBorder}${theme}`;
 
-    getActionsMenuConfig(
-        itemData,
-        clickEvent: SyntheticEvent,
-        opener,
-        templateOptions,
-        isActionMenu,
-        isContextMenu
-    ): Record<string, any> {
-        if (this.shouldOpenExtendedMenu(isActionMenu, isContextMenu, itemData)) {
-            const MENU_MAX_WIDTH = 200;
-            const menuOptions = templateOptions;
-            /* TODO Вынести этот код из модели в контрол плитки
-               https://online.sbis.ru/opendoc.html?guid=7f6ac2cf-15e6-4b75-afc6-928a86ade83e */
-            const itemContainer = clickEvent.target.closest('.controls-TileView__item');
-            const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
-            if (!imageWrapper) {
-                return null;
-            }
-            let previewWidth = imageWrapper.clientWidth;
-            let previewHeight = imageWrapper.clientHeight;
-            menuOptions.image = itemData.imageData.url;
-            menuOptions.title = itemData.item.get(itemData.displayProperty);
-            menuOptions.additionalText = itemData.item.get(templateOptions.headerAdditionalTextProperty);
-            menuOptions.imageClasses = itemData.imageData?.class;
-            if (this._options.tileScalingMode === TILE_SCALING_MODE.NONE) {
-                previewHeight = previewHeight * ZOOM_COEFFICIENT;
-                previewWidth = previewWidth * ZOOM_COEFFICIENT;
-            }
-            menuOptions.previewHeight = previewHeight;
-            menuOptions.previewWidth = previewWidth;
-
-            return {
-                templateOptions,
-                closeOnOutsideClick: true,
-                maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
-                target: imageWrapper,
-                className: 'controls-TileView__itemActions_menu_popup',
-                targetPoint: {
-                    vertical: 'top',
-                    horizontal: 'left'
-                },
-                opener,
-                template: 'Controls/tile:ActionsMenu',
-                actionOnScroll: 'close'
-            };
-        } else {
-            return null;
-        }
+        return `${topLeftClass} ${topRightClass} ${bottomLeftClass} ${bottomRightClass}`;
     }
 });
 

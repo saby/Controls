@@ -1,5 +1,5 @@
 define('Controls-demo/List/Tree/EditArrow', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/Tree/EditArrow/EditArrow',
    'Controls-demo/List/Tree/TreeMemory',
    'Controls-demo/Utils/MemorySourceFilter',
@@ -7,10 +7,10 @@ define('Controls-demo/List/Tree/EditArrow', [
    'Controls/scroll',
    'Controls/treeGrid',
    'wml!Controls-demo/List/Tree/DemoContentTemplate'
-], function(BaseControl, template, MemorySource, memorySourceFilter, columnTemplate) {
+], function(Base, template, MemorySource, memorySourceFilter, columnTemplate) {
    'use strict';
    var
-      ModuleClass = BaseControl.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
          _source: null,
          _columns: null,

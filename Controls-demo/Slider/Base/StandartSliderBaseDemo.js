@@ -1,12 +1,12 @@
 define('Controls-demo/Slider/Base/StandartSliderBaseDemo',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Slider/Base/StandartSliderBaseDemo',
       'Controls/slider'
    ],
-   function(Control, template) {
+   function(BaseMod, template) {
       'use strict';
-      var StandartSliderBaseDemo = Control.extend({
+      var StandartSliderBaseDemo = BaseMod.Control.extend({
          _template: template,
          _inputValue: null,
          _minValueI: undefined,

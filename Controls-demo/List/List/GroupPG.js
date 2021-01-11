@@ -1,8 +1,8 @@
 define('Controls-demo/List/List/GroupPG',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
-      'Controls/Constants',
+      'Controls/list',
       'Controls-demo/List/List/resources/DataDemoPG',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'json!Controls-demo/List/List/resources/GroupPG/cfg',
@@ -12,9 +12,9 @@ define('Controls-demo/List/List/GroupPG',
       'wml!Controls-demo/List/List/resources/GroupPG/rightTextAlign'
    ],
 
-   function(Control, sourceLib, ControlsConstants, data, template, config) {
+   function(Base, sourceLib, ControlsConstants, data, template, config) {
       'use strict';
-      var Component = Control.extend({
+      var Component = Base.Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/list:View',
@@ -60,7 +60,7 @@ define('Controls-demo/List/List/GroupPG',
          },
          _groupByBrand: function(item) {
             if (item.get('brand') === 'apple') {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('brand');
          },

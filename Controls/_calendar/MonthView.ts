@@ -1,4 +1,4 @@
-import BaseControl = require('Core/Control');
+import {Control as BaseControl} from 'UI/Base';
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import {Base as DateUtil} from 'Controls/dateUtils';
@@ -44,10 +44,10 @@ var _private = {
  *
  * @remark
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_calendar.less переменные тем оформления}
  *
  * @class Controls/_calendar/MonthView
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_calendar/interfaces/IMonth
  * @mixes Controls/_interface/IDayTemplate
  * 
@@ -64,8 +64,6 @@ var MonthView = BaseControl.extend({
    _showWeekdays: null,
    _monthViewModel: null,
    _caption: null,
-
-   _themeCssClass: '',
 
    _beforeMount: function(options) {
       _private._updateView(this, options);

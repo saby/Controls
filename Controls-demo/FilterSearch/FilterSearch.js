@@ -2,16 +2,17 @@
  * Created by am.gerasimov on 17.07.2018.
  */
 define('Controls-demo/FilterSearch/FilterSearch', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/FilterSearch/FilterSearch',
    'Types/source',
    'Controls-demo/Utils/MemorySourceData',
    'Controls-demo/Utils/MemorySourceFilter',
+   'Types/collection',
    'Controls/search',
    'Controls/filter'
-], function(Control, template, sourceLib, memorySourceData, memorySourceFilter) {
+], function(Base, template, sourceLib, memorySourceData, memorySourceFilter, collection) {
    'use strict';
-   var SearchContainer = Control.extend({
+   var SearchContainer = Base.Control.extend({
       _template: template,
       _navigation: null,
       _searchValue: '',
@@ -135,8 +136,8 @@ define('Controls-demo/FilterSearch/FilterSearch', [
             keyProperty: 'id'
          });
 
-         this._tabSource = new sourceLib.Memory({
-            data: [
+         this._tabItems = new collection.RecordSet({
+            rawData: [
                {
                   id: 'employees',
                   title: 'Сотрудники',

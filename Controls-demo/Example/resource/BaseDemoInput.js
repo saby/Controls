@@ -1,11 +1,11 @@
 define('Controls-demo/Example/resource/BaseDemoInput',
    [
-      'Core/Control',
+      'UI/Base',
       'wml!Controls-demo/Example/resource/BaseDemoInput/BaseDemoInput',
 
       'Controls/input',
    ],
-   function(Control, template) {
+   function(BaseMod, template) {
 
       'use strict';
 
@@ -33,7 +33,7 @@ define('Controls-demo/Example/resource/BaseDemoInput',
        * @param {String} contents[].label.required
        */
 
-      var ModuleClass = Control.extend({
+      var ModuleClass = BaseMod.Control.extend({
          _template: template,
 
          _switchBlocker: function() {

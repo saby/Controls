@@ -1,5 +1,5 @@
 import {Bus} from 'Env/Event';
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_dragnDrop/Controller/Compound/Compound');
 import draggingTemplateWrapper = require('wml!Controls/_dragnDrop/DraggingTemplateWrapper');
 import { SyntheticEvent } from 'Vdom/Vdom';

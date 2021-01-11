@@ -1,13 +1,13 @@
 define('Controls-demo/List/Tree/MultiSelection/MultiSelection', [
-   'Core/Control',
+   'UI/Base',
    'Controls-demo/List/Tree/MultiSelection/MultiSelectionData',
    'wml!Controls-demo/List/Tree/MultiSelection/MultiSelection',
    'Types/source',
-], function(Control, Data, template, source) {
+], function(Base, Data, template, source) {
    'use strict';
 
    var
-      ModuleClass = Control.extend({
+      ModuleClass = Base.Control.extend({
          _template: template,
 
          _viewSource: null,

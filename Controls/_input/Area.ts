@@ -6,7 +6,7 @@ import {descriptor} from 'Types/entity';
 import {delay as runDelayed} from 'Types/function';
 
 import {IAreaOptions} from 'Controls/_input/interface/IArea';
-import * as Text from 'Controls/_input/Text';
+import Text from 'Controls/_input/Text';
 import {processKeydownEvent} from 'Controls/_input/resources/Util';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
 import template = require('wml!Controls/_input/Area/Area');
@@ -22,17 +22,23 @@ import 'Controls/decorator';
  * Вы можете переместить текст в следующую строку с помощью {@link newLineKey горячих клавиш}.
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/input/text/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/input/text/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Area
  * @extends Controls/input:Text
  * @mixes Controls/input:INewLineKey
+ * @mixes Controls/_input/interface/IArea
  * @public
  *
  * @demo Controls-demo/Input/Area/MinMaxLines/Index
  *
  * @author Красильников А.С.
+ */
+
+/**
+ * @name Controls/_input/Area#textAlign
+ * @demo Controls-demo/Input/Area/TextAlign/Index
  */
 
 export default class Area extends Text<IAreaOptions> {
@@ -42,6 +48,7 @@ export default class Area extends Text<IAreaOptions> {
     protected _resizeObserver: ResizeObserverUtil;
     protected _minLines: number;
     protected _maxLines: number;
+    protected _controlName: string = 'Area';
 
     protected _syncBeforeMount(options: IAreaOptions): void {
         super._syncBeforeMount(options);

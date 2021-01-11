@@ -1,12 +1,19 @@
 <ws:template name="imageTemplate">
-   <div class="controls-TileView__richTemplate_image
-               controls-TileView__richTemplate_image_size_{{imageSize || 's'}}_position_{{imagePosition || 'top'}}_viewMode_{{imageViewMode || 'rectangle'}}_theme-{{theme}}
-               controls-TileView__richTemplate_image_size_{{imageSize || 's'}}_position_{{imagePosition !== 'top' && imagePosition !== undefined ? 'vertical' : 'top'}}_theme-{{theme}}
-               {{nodesScaleSize && itemData.dispItem.isNode() ?
-               ('controls-TileView__richTemplate_image_size_' + (imageSize || 's') + '_scale_' + nodesScaleSize + '_theme-' + theme) : ''}}
-               controls-TileView__richTemplate_image_viewMode_{{imageViewMode || 'rectangle'}}"
-        style="{{'background-image: url(' + itemData.item[itemData.imageProperty] + ')'}}"></div>
-   <ws:if data="{{imageEffect === 'gradient' && (!imageViewMode || imageViewMode !== 'circle' && imageViewMode !== 'ellipse')}}">
+   <ws:if data="{{imagePosition === 'top' && imageViewMode === 'rectangle' && imageProportion}}">
+      <div class="controls-TileView__image_resizer" style="padding-top: {{100 * imageProportion}}%"></div>
+   </ws:if>
+   <svg role="image"
+        xmlns="http://www.w3.org/2000/svg"
+        height="100%"
+        width="100%"
+        class="controls-TileView__richTemplate_image
+               controls-TileView__richTemplate_image_viewMode_{{imageViewMode}}
+               {{!imageProportion || imageViewMode !== 'rectangle' || imagePosition !== 'top' ? 'controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + imagePosition + '_viewMode_' + imageViewMode + '_theme-' + theme +
+               ' controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + (imagePosition !== 'top' ? 'vertical' : 'top') + '_theme-' + theme : ''}}"
+        preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}">
+      <image preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}" height="100%" width="100%" xlink:href="{{itemData.imageData.url}}"></image>
+   </svg>
+   <ws:if data="{{imageEffect === 'gradient' && imageViewMode === 'rectangle'}}">
       <div class="controls-TileView__richTemplate_image_effect_gradient"
            style="{{'background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%,' + (gradientColor || '#ffffff') + ' 100%);'}}"></div>
    </ws:if>
@@ -40,7 +47,12 @@
    <div class="controls-TileView__richTemplate controls-TileView__richTemplate_imagePosition_{{imagePosition || 'top'}}">
       <ws:if data="{{imageViewMode !== 'none'}}">
          <div class="controls-TileView__richTemplate_imageWrapper controls-TileView_richTemplate_image_spacing_viewMode_{{imageViewMode || 'rectangle'}}_theme-{{theme}}">
-            <ws:partial template="imageTemplate"/>
+            <ws:partial template="imageTemplate"
+                        imagePosition="{{imagePosition || 'top'}}"
+                        imageViewMode="{{imageViewMode || 'rectangle'}}"
+                        imageSize="{{imageSize || 's'}}"
+                        imageFit="{{imageFit || 'cover'}}"
+                        imageProportion="{{imageProportion ? itemData.getImageProportion(imageProportion) : null}}"/>
          </div>
       </ws:if>
       <ws:partial template="itemContentTemplate"/>

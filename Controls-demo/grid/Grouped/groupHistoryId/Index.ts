@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/grid/Grouped/groupHistoryId/groupHi
 import {Memory} from 'Types/source';
 import {getTasks} from '../../DemoHelpers/DataCatalog';
 import {IColumn} from 'Controls/grid';
-import * as Config from 'Env/Config';
+import { UserConfig } from 'EnvConfig/Config';
 
 interface IItem {
     get: (item: string) => string;
@@ -30,7 +30,7 @@ export default class extends Control {
     protected readonly GROUP_HISTORY_ID_NAME: string = 'MY_NEWS';
 
     protected _beforeMount(): void {
-        Config.UserConfig.setParam('LIST_COLLAPSED_GROUP_' + this.GROUP_HISTORY_ID_NAME, JSON.stringify(['Крайнов Дмитрий']));
+        UserConfig.setParam('LIST_COLLAPSED_GROUP_' + this.GROUP_HISTORY_ID_NAME, JSON.stringify(['Крайнов Дмитрий']));
         this._viewSource = new Memory({
             keyProperty: 'id',
             data: getTasks().getData()

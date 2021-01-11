@@ -20,7 +20,7 @@ interface IOptions extends IEditorOptions, IControlOptions {
  * Редактор для набора логических значений.
  *
  * @class Controls/_propertyGrid/extendedEditors/BooleanGroup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * @demo Controls-demo/PropertyGridNew/Editors/BooleanGroup/Demo
  * 
@@ -31,7 +31,7 @@ interface IOptions extends IEditorOptions, IControlOptions {
 /*
  * Editor for a set of Boolean values.
  * @class Controls/_propertyGrid/extendedEditors/BooleanGroup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * 
  * @public

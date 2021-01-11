@@ -4,7 +4,7 @@ import * as template from 'wml!Controls/_lookup/Button/SelectorButton';
 import {default as BaseLookup, ILookupOptions} from 'Controls/_lookup/BaseLookup';
 import showSelector from 'Controls/_lookup/showSelector';
 import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {List} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
@@ -23,12 +23,12 @@ import {IHashMap} from 'Types/declarations';
  * Поддерживает одиночный и множественный выбор.
  *
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/directory/lookup/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less переменные тем оформления}
  *
  *
  * @class Controls/_lookup/Button
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ILookup
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/interface/ISelectedCollection
@@ -36,10 +36,10 @@ import {IHashMap} from 'Types/declarations';
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ISource
- * @mixes Controls/interface/IFontColorStyle
- * @mixes Controls/interface/IFontSize
+ * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/ITextValue
- * 
+ *
  * @public
  * @author Герасимов А.М.
  * @demo Controls-demo/Lookup/Selector/Index
@@ -48,7 +48,7 @@ import {IHashMap} from 'Types/declarations';
  * Button link with the specified text, on clicking on which a selection window opens.
  *
  * @class Controls/_lookup/Button
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/_interface/ITextValue
@@ -56,10 +56,10 @@ import {IHashMap} from 'Types/declarations';
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ISource
- * 
+ *
  * @public
  * @author Герасимов А.М.
- * @demo Controls-demo/Buttons/SelectorButtonPG
+ * @demo Controls-demo/Lookup/Selector/Index
  */
 /*
  * @name Controls/_lookup/Button#showSelectorCaption
@@ -87,7 +87,7 @@ export interface ISelectorButtonOptions extends IControlOptions, IValidationStat
 
 export default class Button extends BaseLookup<ISelectorButtonOptions> {
    protected _template: TemplateFunction = template;
-   protected _notifyHandler: Function = tmplNotify;
+   protected _notifyHandler: Function = EventUtils.tmplNotify;
 
    showSelector(popupOptions?: IStackPopupOptions): void {
       return showSelector(this, popupOptions, this._options.multiSelect);

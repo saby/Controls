@@ -1,13 +1,13 @@
 define('Controls-demo/Slider/Range/StandartSliderRangeDemo',
    [
-      'Core/Control',
+      'UI/Base',
       'Env/Env',
       'wml!Controls-demo/Slider/Range/StandartSliderRangeDemo',
       'Controls/slider'
    ],
-   function(Control, Env, template) {
+   function(Base, Env, template) {
       'use strict';
-      var StandartSliderRangeDemo = Control.extend({
+      var StandartSliderRangeDemo = Base.Control.extend({
          _template: template,
 
 

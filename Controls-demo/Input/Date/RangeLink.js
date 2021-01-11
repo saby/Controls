@@ -1,13 +1,13 @@
 define('Controls-demo/Input/Date/RangeLink', [
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/Input/Date/RangeLink',
 ], function(
-   BaseControl,
+   Base,
    template
 ) {
    'use strict';
 
-   var ModuleClass = BaseControl.extend({
+   var ModuleClass = Base.Control.extend({
       _template: template,
       _startValueBind: new Date(2018, 0, 1),
       _endValueBind: new Date(2018, 0, 31),

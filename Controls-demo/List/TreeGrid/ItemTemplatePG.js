@@ -1,6 +1,6 @@
 define('Controls-demo/List/TreeGrid/ItemTemplatePG',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'Controls-demo/List/TreeGrid/resources/DataDemoPG',
 
@@ -14,9 +14,9 @@ define('Controls-demo/List/TreeGrid/ItemTemplatePG',
       'wml!Controls-demo/List/TreeGrid/resources/ItemTemplatePG/expanderIconHiddenNode'
 
    ],
-   function(Control, TSource, data, template, config) {
+   function(Base, TSource, data, template, config) {
       'use strict';
-      var Component = Control.extend({
+      var Component = Base.Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/_treeGrid/View',

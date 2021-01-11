@@ -1,6 +1,6 @@
 define('ControlsUnit/Filter/Button/History/testHistorySource',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/di',
       'Controls/history',
       'Core/Deferred',
@@ -10,7 +10,7 @@ define('ControlsUnit/Filter/Button/History/testHistorySource',
       'UI/State'
    ],
 
-   function(Control, Di, history, Deferred, source, collection, entity, uiState) {
+   function(Base, Di, history, Deferred, source, collection, entity, uiState) {
 
       'use strict';
 
@@ -146,7 +146,7 @@ define('ControlsUnit/Filter/Button/History/testHistorySource',
 
       config.historySource.saveHistory = function() {};
 
-      var histSource = Control.extend({
+      var histSource = Base.Control.extend({
          constructor: function(cfg) {
             this._$recent = cfg.recent;
             this._$favorite = cfg.favorite;

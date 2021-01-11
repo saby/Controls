@@ -1,14 +1,14 @@
 define('Controls-demo/Input/Date/PickerPG',
    [
-      'Core/Control',
+      'UI/Base',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'json!Controls-demo/PropertyGrid/pgtext',
 
    ],
 
-   function(Control, template, config) {
+   function(Base, template, config) {
       'use strict';
-      var Component = Control.extend({
+      var Component = Base.Control.extend({
          _template: template,
          _metaData: null,
          _content: 'Controls/input:Date',

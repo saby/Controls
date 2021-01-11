@@ -19,12 +19,12 @@ const mapBoolState = {true: false, false: true, null: true};
  * 
  * @remark
  * Полезные ссылки:
- * * <a href="/materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckbox%2FIndex">демо-пример</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less">переменные тем оформления</a>
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckbox%2FIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  *
  * @class Controls/_toggle/Checkbox
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/ICaption
  * @implements Controls/_interface/IIcon
  * @implements Controls/_interface/ITooltip
@@ -41,7 +41,7 @@ const mapBoolState = {true: false, false: true, null: true};
  * <a href="/materials/Controls-demo/app/Controls-demo%2FCheckbox%2FstandartDemoCheckbox">Demo-example</a>.
  *
  * @class Controls/_toggle/Checkbox
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @implements Controls/_interface/ICaption
  * @implements Controls/_interface/IIcon
  * @implements Controls/_interface/ITooltip

@@ -1,6 +1,6 @@
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/Panel/Lookup/Lookup');
-import {tmplNotify} from 'Controls/eventUtils';
+import {EventUtils} from 'UI/Events';
 import {Logger} from 'UI/Utils';
 
 var _private = {
@@ -31,10 +31,10 @@ var _private = {
  * Если хотите расположить поле связи с кнопкой-ссылкой в одну строку, необходимо на корневой элемет навесить класс 'ws-flexbox'.
  *
  * Полезные ссылки:
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления</a>
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
  *
  * @class Controls/_filterPopup/Panel/Lookup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ILookup
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISuggest
@@ -50,11 +50,11 @@ var _private = {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  * @mixes Controls/_interface/ISelectorDialog
  * @public
  * @author Герасимов А.М.
- * 
+ *
  * @demo Controls-demo/Lookup/Index
  */
 /*
@@ -64,7 +64,7 @@ var _private = {
  * If you want to make a dynamic placeholder of the input field, which will vary depending on the selected collection, use {@link Controls/lookup:PlaceholderChooser}.
  *
  * @class Controls/_filterPopup/Panel/Lookup
- * @extends Core/Control
+ * @extends UI/Base:Control
  * @mixes Controls/_interface/ILookup
  * @mixes Controls/interface/ISelectedCollection
  * @mixes Controls/interface/ISelectorDialog
@@ -81,14 +81,14 @@ var _private = {
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/interface/IInputTag
- * @mixes Controls/input:IValue
+ * @mixes Controls/_input/interface/IValueOptions
  *
  * @public
  * @author Kapustin I.A.
  */
 var Lookup = Control.extend({
    _template: template,
-   _notifyHandler: tmplNotify,
+   _notifyHandler: EventUtils.tmplNotify,
    _passed: false,
    _caption: '',
 

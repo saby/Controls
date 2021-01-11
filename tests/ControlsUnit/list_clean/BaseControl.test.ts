@@ -28,12 +28,55 @@ function getBaseControlOptionsWithEmptyItems(): object {
     };
 }
 
+function getCorrectBaseControlConfig(cfg): object {
+    let sourceController;
+
+    if (cfg.source) {
+        sourceController = new NewSourceController({
+            source: cfg.source,
+            keyProperty: cfg.keyProperty || cfg.source.getKeyProperty(),
+            navigation: cfg.navigation,
+            sorting: cfg.sorting
+        });
+
+        if (cfg.source._$data) {
+            sourceController.setItems(new RecordSet({
+                rawData: cfg.source._$data,
+                keyProperty: cfg.keyProperty || cfg.source.getKeyProperty()
+            }));
+        }
+
+        cfg.sourceController = sourceController;
+    }
+
+    return cfg;
+}
+
+async function getCorrectBaseControlConfigAsync(cfg): Promise<object> {
+    // Эмулируем, что в baseControl передан sourceController
+    let sourceController;
+    if (cfg.source) {
+        sourceController = new NewSourceController({
+            source: cfg.source,
+            keyProperty: cfg.keyProperty || cfg.source.getKeyProperty(),
+            navigation: cfg.navigation,
+            sorting: cfg.sorting,
+            root: cfg.root !== undefined ? cfg.root : null
+        });
+
+        await sourceController.load();
+        cfg.sourceController = sourceController;
+    }
+
+    return cfg;
+}
+
 describe('Controls/list_clean/BaseControl', () => {
     describe('BaseControl watcher groupHistoryId', () => {
 
         const GROUP_HISTORY_ID_NAME: string = 'MY_NEWS';
 
-        const baseControlCfg = {
+        const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
@@ -41,7 +84,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 keyProperty: 'id',
                 rawData: []
             })
-        };
+        });
         let baseControl;
 
         beforeEach(() => {
@@ -82,7 +125,7 @@ describe('Controls/list_clean/BaseControl', () => {
         });
     });
     describe('BaseControl watcher paging', () => {
-        const baseControlCfg = {
+        const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
@@ -96,7 +139,7 @@ describe('Controls/list_clean/BaseControl', () => {
                     pagingMode: 'page'
                 }
             }
-        };
+        });
         let baseControl;
 
         beforeEach(() => {
@@ -113,8 +156,11 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._beforePaint();
-            baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
+            baseControl._componentDidUpdate();
+            baseControl._container = {
+                getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}]),
+                clientHeight: 800
+            };
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 200;
             baseControl._viewSize = 800;
@@ -130,7 +176,7 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._beforePaint();
+            baseControl._componentDidUpdate();
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 0;
@@ -144,7 +190,7 @@ describe('Controls/list_clean/BaseControl', () => {
             await baseControl._beforeMount(baseControlCfg);
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._beforePaint();
+            baseControl._componentDidUpdate();
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             assert.isFalse(baseControl._pagingVisible);
             baseControl._viewportSize = 200;
@@ -166,7 +212,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._afterMount();
             baseControl._beforeUpdate(baseControlCfg);
             baseControl._afterUpdate(baseControlCfg);
-            baseControl._beforePaint();
+            baseControl._componentDidUpdate();
             baseControl._container = {
                 clientHeight: 1000,
                 getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}]),
@@ -193,7 +239,7 @@ describe('Controls/list_clean/BaseControl', () => {
         });
     });
     describe('BaseControl paging', () => {
-        const baseControlCfg = {
+        const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
@@ -208,7 +254,7 @@ describe('Controls/list_clean/BaseControl', () => {
                     showEndButton: false
                 }
             }
-        };
+        });
         let baseControl;
         const heightParams = {
             scrollHeight: 1000,
@@ -250,16 +296,15 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.deepEqual(
                 {
                     begin: 'visible',
-                    end: 'visible',
+                    end: 'hidden',
                     next: 'visible',
                     prev: 'visible'
                 }, baseControl._pagingCfg.arrowState);
-            assert.isFalse(baseControl._pagingCfg.showEndButton);
 
             baseControl.scrollMoveSyncHandler({scrollTop: 600});
             assert.deepEqual({
                 begin: 'visible',
-                end: 'readonly',
+                end: 'hidden',
                 next: 'readonly',
                 prev: 'visible'
             }, baseControl._pagingCfg.arrowState);
@@ -296,7 +341,6 @@ describe('Controls/list_clean/BaseControl', () => {
                     next: 'visible',
                     prev: 'visible'
                 }, baseControl._pagingCfg.arrowState);
-            assert.isTrue(baseControl._pagingCfg.showEndButton);
         });
 
         it('paging mode is edge', async () => {
@@ -329,7 +373,6 @@ describe('Controls/list_clean/BaseControl', () => {
                 next: 'hidden',
                 prev: 'hidden'
             }, baseControl._pagingCfg.arrowState);
-            assert.isTrue(baseControl._pagingCfg.showEndButton);
 
             baseControl.scrollMoveSyncHandler({scrollTop: 800});
             assert.deepEqual({
@@ -370,7 +413,6 @@ describe('Controls/list_clean/BaseControl', () => {
                 next: 'hidden',
                 prev: 'hidden'
             }, baseControl._pagingCfg.arrowState);
-            assert.isTrue(baseControl._pagingCfg.showEndButton);
 
             baseControl.scrollMoveSyncHandler({scrollTop: 800});
             assert.deepEqual({
@@ -448,7 +490,7 @@ describe('Controls/list_clean/BaseControl', () => {
         });
 
         it('paging mode is numbers', async () => {
-            const cfgClone = {...baseControlCfg};
+            let cfgClone = {...baseControlCfg};
             cfgClone.navigation.viewConfig.pagingMode = 'numbers';
             cfgClone.navigation.sourceConfig = {
                 pageSize: 100,
@@ -459,6 +501,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 keyProperty: 'id',
                 data: getData(1000)
             });
+            cfgClone = await getCorrectBaseControlConfigAsync(cfgClone);
             let expectedScrollTop = 400;
             await baseControl._beforeMount(cfgClone);
             baseControl.saveOptions(cfgClone);
@@ -501,7 +544,6 @@ describe('Controls/list_clean/BaseControl', () => {
                 next: 'hidden',
                 prev: 'hidden'
             }, baseControl._pagingCfg.arrowState);
-            assert.isTrue(baseControl._pagingCfg.showEndButton);
 
             assert.equal(baseControl._currentPage, 1);
             expectedScrollTop = 400;
@@ -627,7 +669,7 @@ describe('Controls/list_clean/BaseControl', () => {
     });
     describe('beforeUnmount', () => {
         let baseControl;
-        const baseControlCfg = {
+        const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
@@ -635,7 +677,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 keyProperty: 'id',
                 rawData: []
             })
-        };
+        });
         beforeEach(() => {
             baseControl = new BaseControl(baseControlCfg);
         });
@@ -687,6 +729,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 keyProperty: 'key'
             });
             baseControlOptions.sourceController.hasMoreData = () => true;
+            await baseControlOptions.sourceController.load();
             baseControlOptions.sourceController.load = () => {
                 loadStarted = true;
                 return Promise.reject();
@@ -825,23 +868,45 @@ describe('Controls/list_clean/BaseControl', () => {
 
     describe('_beforeMount', () => {
         it('_beforeMount with prefetchProxy', async () => {
-            const baseControlOptions = getBaseControlOptionsWithEmptyItems();
+            let baseControlOptions = getBaseControlOptionsWithEmptyItems();
             baseControlOptions.source = new PrefetchProxy({
                 target: new Memory(),
                 data: {
                     query: new DataSet()
                 }
             });
+            baseControlOptions = await getCorrectBaseControlConfigAsync(baseControlOptions);
             const baseControl = new BaseControl(baseControlOptions);
             const mountResult = await baseControl._beforeMount(baseControlOptions);
             assert.isTrue(!mountResult);
-        })
+        });
+        it('_beforeMount keyProperty', async () => {
+            const baseControlOptions = await getCorrectBaseControlConfigAsync({
+                source: new Memory({
+                    keyProperty: 'keyProperty',
+                    data: []
+                }),
+                viewModelConstructor: ListViewModel
+            });
+            const baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
+            assert.equal(baseControl._keyProperty, 'keyProperty');
+            baseControlOptions.keyProperty = 'keyPropertyOptions';
+            baseControl._initKeyProperty(baseControlOptions);
+            assert.equal(baseControl._keyProperty, 'keyPropertyOptions');
+            baseControlOptions.source = null;
+            baseControl._initKeyProperty(baseControlOptions);
+            assert.equal(baseControl._keyProperty, 'keyPropertyOptions');
+            baseControlOptions.keyProperty = undefined;
+            baseControl._initKeyProperty(baseControlOptions);
+            assert.isFalse(!!baseControl._keyProperty);
+        });
     });
 
     describe('Edit in place', () => {
         type TEditingConfig = IEditableListOption['editingConfig'];
 
-        const baseControlCfg = {
+        const baseControlCfg = getCorrectBaseControlConfig({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
@@ -849,7 +914,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 keyProperty: 'id',
                 rawData: []
             })
-        };
+        });
         let baseControl;
 
         beforeEach(() => {
@@ -872,10 +937,15 @@ describe('Controls/list_clean/BaseControl', () => {
                 isEditing() {
                     return true;
                 },
-                updateOptions() {}
+                updateOptions() {
+                }
             };
 
-            return baseControl._beforeUpdate({...baseControlCfg, filter: {field: 'ASC'}, useNewModel: true}).then(() => {
+            return baseControl._beforeUpdate({
+                ...baseControlCfg,
+                filter: {field: 'ASC'},
+                useNewModel: true
+            }).then(() => {
                 assert.isTrue(isEditingCancelled);
             });
         });

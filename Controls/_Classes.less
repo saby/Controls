@@ -280,3 +280,21 @@
 .controls__tag_style-info_theme-@{themeName} {
   fill: @unaccented_color;
 }
+
+
+//Набор классв для верстки нового дизайна
+
+.controls__block_theme-@{themeName} {
+  background-color: @background-color;
+  border-radius: @border-radius_default_block;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+  &.tl {
+    border-radius: @border-radius_default_block 0 0 0;
+  }
+  &.tr {
+    border-radius: 0 @border-radius_default_block 0 0;
+  }
+  &.tlr {
+    border-radius: @border-radius_default_block @border-radius_default_block 0 0;
+  }
+}

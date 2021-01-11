@@ -1,6 +1,6 @@
 define('Controls-demo/Popup/Templates/StackTemplatePG',
    [
-      'Core/Control',
+      'UI/Base',
       'tmpl!Controls-demo/PropertyGrid/DemoPG',
       'json!Controls-demo/PropertyGrid/pgtext',
       'wml!Controls-demo/Popup/Templates/resources/defaultBodyContent',
@@ -12,9 +12,9 @@ define('Controls-demo/Popup/Templates/StackTemplatePG',
 
    ],
 
-   function(Control, template, config) {
+   function(Base, template, config) {
       'use strict';
-      var DialogPG = Control.extend({
+      var DialogPG = Base.Control.extend({
          _template: template,
          _metaData: null,
          _dataOptions: null,

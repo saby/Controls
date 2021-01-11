@@ -1,5 +1,5 @@
 import rk = require('i18n!Controls');
-import Control = require('Core/Control');
+import {Control} from 'UI/Base';
 import chain = require('Types/chain');
 import Utils = require('Types/util');
 import Clone = require('Core/core-clone');
@@ -212,12 +212,12 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     *
     * @remark
     * Полезные ссылки:
-    * * <a href="/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/filter-view/base-settings/#step-3">руководство разработчика</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less">переменные тем оформления filter</a>
-    * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less">переменные тем оформления filterPopup</a>
+    * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/#step-3 руководство разработчика}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less переменные тем оформления filter}
+    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления filterPopup}
     *
     * @class Controls/_filterPopup/DetailPanel
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * @mixes Controls/_filterPopup/interface/IFilterPanel
     * @public
     * @author Золотова Э.Е.
@@ -239,7 +239,7 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
     *
     *
     * @class Controls/_filterPopup/DetailPanel
-    * @extends Core/Control
+    * @extends UI/Base:Control
     * @mixes Controls/_filterPopup/interface/IFilterPanel
     * @demo Controls-demo/Filter_new/DetailPanel/ApplyButtonCaption/Index
     * @public
@@ -395,5 +395,5 @@ import {_scrollContext as ScrollData} from 'Controls/scroll';
  * @event Происходит при применении фильтра из истории фильтров.
  * @name Controls/_filterPopup/DetailPanel#historyApply
  * @param {Vdom/Vdom:SyntheticEvent} event Объект события.
- * @param {Controls/_filter/View/interface/IFilterView#source} source Конфигурация фильтра.
+ * @param {Controls/_filter/View/interface/IFilterItem#source} source Конфигурация фильтра.
  */

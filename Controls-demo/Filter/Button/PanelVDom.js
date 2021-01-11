@@ -1,6 +1,6 @@
 define('Controls-demo/Filter/Button/PanelVDom',
    [
-      'Core/Control',
+      'UI/Base',
       'Types/source',
       'Types/chain',
       'wml!Controls-demo/Filter/Button/PanelVDom',
@@ -19,7 +19,7 @@ define('Controls-demo/Filter/Button/PanelVDom',
 
    ],
 
-   function(Control, sourceLib, chain, template) {
+   function(Base, sourceLib, chain, template) {
 
       /**
        * @class Controls/deprecatedSearch:Container
@@ -29,7 +29,7 @@ define('Controls-demo/Filter/Button/PanelVDom',
        */
 
       'use strict';
-      var PanelVDom = Control.extend({
+      var PanelVDom = Base.Control.extend({
          _template: template,
          _itemsSimple: null,
          _itemsTemplate: null,

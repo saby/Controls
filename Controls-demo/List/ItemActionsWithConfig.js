@@ -3,13 +3,13 @@
  */
 define('Controls-demo/List/ItemActionsWithConfig', [
    'Env/Env',
-   'Core/Control',
+   'UI/Base',
    'wml!Controls-demo/List/ItemActions/ItemActionsWithConfig',
    'Types/source',
-   'Controls/Constants',
+   'Controls/list',
 ], function(
    Env,
-   BaseControl,
+   Base,
    template,
    source,
    ControlsConstants
@@ -53,7 +53,7 @@ define('Controls-demo/List/ItemActionsWithConfig', [
             handler: function(item) {
                Env.IoC.resolve('ILogger').info('action phone Click ', item);
             },
-            group: ControlsConstants.view.hiddenGroup
+            group: ControlsConstants.groupConstants.hiddenGroup
          },
          {
             id: 2,
@@ -90,7 +90,7 @@ define('Controls-demo/List/ItemActionsWithConfig', [
          }
       ];
 
-   var ModuleClass = BaseControl.extend(
+   var ModuleClass = Base.Control.extend(
       {
          __lastClicked: false,
          _showAction: function(action, item) {
@@ -158,7 +158,7 @@ define('Controls-demo/List/ItemActionsWithConfig', [
          },
          _groupingKeyCallback: function(item) {
             if (item.get('group') === 'hidden' || !item.get('group')) {
-               return ControlsConstants.view.hiddenGroup;
+               return ControlsConstants.groupConstants.hiddenGroup;
             }
             return item.get('group');
          }

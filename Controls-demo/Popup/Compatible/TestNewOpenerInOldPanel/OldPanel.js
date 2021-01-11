@@ -2,10 +2,10 @@ define('Controls-demo/Popup/Compatible/TestNewOpenerInOldPanel/OldPanel', [
    'Lib/Control/CompoundControl/CompoundControl',
    'wml!Controls-demo/Popup/Compatible/TestNewOpenerInOldPanel/OldPanel',
    'Controls/popup',
-   'Core/Control',
+   'UI/Base',
    'Vdom/Vdom',
    'wml!Controls-demo/Popup/Compatible/TestNewOpenerInOldPanel/NewTemplate'
-], function(CompoundControl, dotTplFn, popup, CoreControl, Vdom, newTemplateFn) {
+], function(CompoundControl, dotTplFn, popup, Base, Vdom, newTemplateFn) {
 
    var OldPanel = CompoundControl.extend({
       _dotTplFn: dotTplFn,
@@ -19,7 +19,7 @@ define('Controls-demo/Popup/Compatible/TestNewOpenerInOldPanel/OldPanel', [
          OldPanel.superclass.init.apply(this, arguments);
 
          this._vdomOpenerContainer = this._container.find('.containerForVdomOpener')[0];
-         this._vdomOpener = CoreControl.createControl(
+         this._vdomOpener = Base.Control.createControl(
             popup.Stack,
             { element: this._vdomOpenerContainer },
             this._vdomOpenerContainer

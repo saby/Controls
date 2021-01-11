@@ -1,6 +1,6 @@
 define('Controls-demo/List/Grid/Base', [
    'Env/Env',
-   'Core/Control',
+   'UI/Base',
    'Controls-demo/List/Grid/GridData',
    'wml!Controls-demo/List/Grid/resources/Base/Base',
    'Types/source',
@@ -11,7 +11,7 @@ define('Controls-demo/List/Grid/Base', [
    'wml!Controls-demo/List/Grid/DemoName',
    'Controls/scroll',
    'Controls/grid',
-], function(Env, BaseControl, GridData, template, source) {
+], function(Env, BaseMod, GridData, template, source) {
    'use strict';
    var
       partialColumns = [
@@ -99,7 +99,7 @@ define('Controls-demo/List/Grid/Base', [
             align: 'right'
          }
       ],
-      ModuleClass = BaseControl.extend({
+      ModuleClass = BaseMod.Control.extend({
          _template: template,
          _actionClicked: '',
          _fullSet: true,

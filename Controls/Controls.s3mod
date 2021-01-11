@@ -9,11 +9,13 @@
       <module id="63e1a7e5-4d75-42fa-91a3-977dc90ff1e1" name="SbisEnv"/>
       <module id="0df0fce3-53ba-47f8-987d-edf1fd078295" name="WS.Core"/>
       <module id="636177e5-4d75-44fa-9173-977dc90ff111" name="Env"/>
+      <module id="4220f331-8217-437b-810c-8c4479323a27" name="EnvConfig"/>
       <module id="656177e2-4d75-42fa-9173-977dc90ff121" name="Browser"/>
       <module id="10efeac7-0f02-4c73-9474-0d1d0db077b6" name="View"/>
       <module id="0f5d26db-dd61-4957-9375-8861ad66f219" name="Vdom"/>
       <module id="f27abe12-19df-4c9f-b886-634bd20a0011" name="UI"/>
       <module id="832cda0a-e19c-4ffc-a1d1-47edbb6b7501" name="I18n"/>
+      <module id="37e402f1-2fb0-4b73-81c5-113cf94dbf1c" name="WasabyLoader"/>
     </depends>
 
   <load_after/>

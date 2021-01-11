@@ -12,11 +12,11 @@ import {IDragObject} from './Container';
  * @remark
  * @remark
  * Полезные ссылки:
- * * <a href="/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/">руководство разработчика</a>
- * * <a href="https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less">переменные тем оформления</a>
+ * * {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ руководство разработчика}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dragnDrop.less переменные тем оформления}
  *
  * @class Controls/_dragnDrop/Controller
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Авраменко А.С.
@@ -29,7 +29,7 @@ import {IDragObject} from './Container';
  * Drag and drop the entity only works inside Controls/dragnDrop:Container.
  * More information you can read <a href="/doc/platform/developmentapl/interface-development/controls/drag-n-drop/">here</a>.
  * @class Controls/_dragnDrop/Controller
- * @extends Core/Control
+ * @extends UI/Base:Control
  * 
  * @public
  * @author Авраменко А.С.

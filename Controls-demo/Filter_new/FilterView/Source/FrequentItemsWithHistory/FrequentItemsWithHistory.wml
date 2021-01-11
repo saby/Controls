@@ -1,2 +1,3 @@
 <Controls.filter:View
+   attr:class="controls-demo-FilterView__itemsEllipsis"
    source="{{_source}}"/>
