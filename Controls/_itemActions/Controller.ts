@@ -459,15 +459,15 @@ export class Controller {
                 }
             }
         };
-        if (this._collection.isEventRaising()) {
-            this._collection.setEventRaising(false, true);
+        if (this._isEventRaising()) {
+            this._setEventRaising(false, true);
         }
         this._collection.each(assignActionsOnItem);
         if (editingItem) {
             assignActionsOnItem(editingItem);
         }
-        if (!this._collection.isEventRaising()) {
-            this._collection.setEventRaising(true, true);
+        if (!this._isEventRaising()) {
+            this._setEventRaising(true, true);
         }
         this._collection.setActionsAssigned(true);
 
@@ -517,6 +517,16 @@ export class Controller {
 
     private _hasActionInArray(action: IItemAction, actions: IItemAction[]): boolean {
         return actions.some((item) => item.id === action.id);
+    }
+
+    private _isEventRaising() {
+        return this._collection.isEventRaising ? this._collection.isEventRaising() : false
+    }
+
+    private _setEventRaising(enabled: boolean, analyze: boolean): void {
+        if(this._collection.setEventRaising) {
+            this._collection.setEventRaising(enabled, analyze);
+        }
     }
 
     /**

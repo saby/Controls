@@ -1,7 +1,8 @@
-import {IBaseCollection, ISwipeConfig, ANIMATION_STATE} from 'Controls/display';
+import {Model} from 'Types/entity';
+
+import {IBaseCollection, ISwipeConfig} from 'Controls/display';
 import {IItemActionsItem} from './IItemActionsItem';
 import {IItemActionsTemplateConfig} from './IItemActionsTemplateConfig';
-import {Model} from 'Types/entity';
 
 /**
  * Интерфейс коллекции, элементы которой обладают опциями записи
