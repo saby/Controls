@@ -450,7 +450,7 @@ describe('Controls/marker/Controller', () => {
          columns: [{}]
       });
 
-      const controller = new MarkerController({model, markerVisibility: 'visible', markedKey: 2});
+      const controller = new MarkerController({model, markerVisibility: 'visible', markedKey: 1});
       let result = controller.calculateMarkedKeyForVisible();
       controller.setMarkedKey(result);
       assert.equal(controller.getMarkedKey(), 2);
