@@ -40,7 +40,7 @@ export default class extends Control {
                 },
                 {
                     id: '4',
-                    caption: 'Название 4'
+                    caption: '4'
                 },
                 {
                     id: '5',
