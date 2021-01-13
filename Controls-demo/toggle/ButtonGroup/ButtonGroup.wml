@@ -5,6 +5,6 @@
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">Несколько кнопок</div>
-        <Controls.toggle:ButtonGroup items="{{_items2}}" bind:selectedKey="_selectedKey2"/>
+        <Controls.toggle:ButtonGroup bind:selectedKey="_selectedKey2" items="{{_items2}}"/>
     </div>
 </div>
