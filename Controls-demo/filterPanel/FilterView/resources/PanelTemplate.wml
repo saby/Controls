@@ -1,0 +1,7 @@
+<Controls.filterPanel:PopupTemplate closeButtonViewMode="link">
+    <ws:template>
+        <Controls.filterPanel:Container>
+            <Controls.filterPanel:View attr:class="controls-demo__filterButton" source="{{_options.items}}"/>
+        </Controls.filterPanel:Container>
+    </ws:template>
+</Controls.filterPanel:PopupTemplate>

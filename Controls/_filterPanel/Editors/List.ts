@@ -105,10 +105,12 @@ class ListEditor extends Control<IListEditorOptions> {
 
     protected _handleSelectorResult(result: Model[]): void {
         const selectedKeys = [];
+        const textArray = [];
         result.forEach((item) => {
             selectedKeys.push(item.get(this._options.keyProperty));
+            textArray.push(item.get(this._options.displayProperty));
         });
-        this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect);
+        this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, textArray.join(', '));
     }
 
     protected _handleFooterClick(event: SyntheticEvent): void {
@@ -133,10 +135,10 @@ class ListEditor extends Control<IListEditorOptions> {
         });
     }
 
-    protected _notifyPropertyValueChanged(value: string[]|number[], needColapse?: boolean): void {
+    protected _notifyPropertyValueChanged(value: string[]|number[], needColapse?: boolean, textValue?: string): void {
         const extendedValue = {
             value,
-            textValue: this._getTextValue(value),
+            textValue: textValue || this._getTextValue(value),
             needColapse
         };
         this._selectedKeys = value;

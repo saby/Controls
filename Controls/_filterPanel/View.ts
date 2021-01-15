@@ -9,19 +9,32 @@ import rk = require('i18n!Controls');
 
 /**
  * Контрол "Панель фильтра с набираемыми параметрами".
- *
  * @class Controls/_filterPanel/View
  * @extends UI/Base:Control
- * @demo Controls-demo/filterPanel/View/Index
- * @public
  * @author Мельникова Е.А.
+ * @demo Controls-demo/filterPanel/View/Index
  *
+ * @public
+ */
+
+/**
+ * @typedef {Object} FilterPanelSource
+ * @property {String} name Имя фильтра.
+ * @property {String} group Имя Группг.
+ * @property {*} value Текущее значение фильтра.
+ * @property {*} resetValue Значение фильтра по умолчанию.
+ * @property {String} textValue Текстовое значение фильтра. Используется для отображения текста при закрытии группы.
+ * @property {Controls/_filter/View/interface/IFilterItem/EditorOptions.typedef} editorOptions Опции для редактора.
+ * @property {String} editorTemplateName Имя редактора.
+ * В настоящей версии фреймворка поддерживается только 2 значения для editorTemplateName — NumberRangeEditor и ListEditor.
+ * При использовании NumberRangeEditor будет построен контрол {@link Controls/input:Number}.
+ * При использовании ListEditor будет построен контрол {@link Controls/grid:View}.
  */
 
 /**
  * @name Controls/_filterPanel/View#source
- * @cfg {Array.<Controls/_filter/View/interface/IFilterItem/FilterItem.typedef>} Устанавливает список полей фильтра и их конфигурацию.
- * В числе прочего, по конфигурации определяется визуальное представление поля фильтра в составе контрола.
+ * @cfg {FilterPanelSource} Устанавливает список полей фильтра и их конфигурацию.
+ * В числе прочего, по конфигурации определяется визуальное представление поля фильтра в составе контрола. Обязательно должно быть указано поле editorTemplateName.
  * @demo Controls-demo/filterPanel/View/Index
  */
 
@@ -133,6 +146,7 @@ export default class View extends Control<IControlOptions> {
     }
 
     private _notifyChanges(): void {
+        this._notify('sendResult', [{items: this._source, filter: this._editingObject}], {bubbling: true});
         this._notify('filterChanged', [this._editingObject]);
         this._notify('sourceChanged', [this._source]);
     }

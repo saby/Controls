@@ -1,0 +1,10 @@
+<Controls.popupTemplate:Stack closeButtonVisibility="{{false}}"
+                              attr:class="controls-FilterViewPanel__popup-template_theme-{{_options.theme}}">
+    <ws:bodyContentTemplate>
+        <Controls.popupTemplate:CloseButton
+                attr:class="controls-FilterViewPanel__popup-close_btn_theme-{{_options.theme}}"
+                viewMode="linkButton"
+                on:click="_handleCloseButtonClick()"/>
+        <ws:partial template="{{_options.template}}" scope="{{_options}}"/>
+    </ws:bodyContentTemplate>
+</Controls.popupTemplate:Stack>

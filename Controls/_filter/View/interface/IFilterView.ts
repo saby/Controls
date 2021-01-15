@@ -240,7 +240,6 @@ export interface IFilterItem {
  * </pre>
  */
 
-
 /**
  * @name Controls/_filter/View/interface/IFilterItem#detailPanelTemplateName
  * @cfg {String} Шаблон всплывающей панели, которая открывается после клика по кнопке.
@@ -315,6 +314,18 @@ export interface IFilterItem {
  * </pre>
  * @see <a href='/doc/platform/developmentapl/interface-development/controls/filterbutton-and-fastfilters/'>Guide for setup Filter Button and Fast Filter</a>
  * @see Controls.filterPopup:DetailPanel
+ */
+
+/**
+ * @typedef {String} DetailPanelMode
+ * @variant stack Шаблон всплывающей панели откроется в стековой панели.
+ * @variant sticky Шаблон всплывающей панели откроется в sticky панели.
+ */
+
+/**
+ * @name Controls/_filter/View/interface/IFilterItem#detailPanelMode
+ * @cfg {DetailPanelMode} Режим открытия шаблона всплывающей панели, которая открывается после клика по кнопке.
+ * @default sticky
  */
 
 /**
