@@ -276,7 +276,7 @@ var
 
                 const colspanCfg = {
                     columnStart: self._hasMultiSelectColumn() ? 1 : 0,
-                    columnSpan: self._options.columnScroll ? self._columns.length + 1 : self._columns.length,
+                    columnSpan: (self._options.columnScroll ? self._columns.length + 1 : self._columns.length) + this.stickyLadderCellsCount(),
                 };
                 if (current.columnScroll) {
                     footer.rowIndex = current.rowIndex + index + 1;
@@ -292,6 +292,36 @@ var
                 }
             };
             if (current.nodeFooters) {
+
+                // nodeFooter разбивает лесенку на две части.
+                // В старом гриде на этапе вычисления лесенки нет информации о футерах,
+                // разбиваем лесенку тут, когда информация о футерах уже есть.
+                // В новом гриде проблема не актуальна, так как, футеры будут в display и будут учтены на этапе вычисления лесенки.
+                if (current.nodeFooters.length && current.stickyLadder) {
+                    current.stickyProperties.forEach((property) => {
+                        let lastLadderIndex = current.index;
+                        // находим ближайшую сверху строку с нескрытой лесенкой.
+                        while (lastLadderIndex > 0 && !self._ladder.stickyLadder[lastLadderIndex][property].ladderLength) {
+                            lastLadderIndex--;
+                        }
+                        if (self._ladder.stickyLadder[lastLadderIndex][property].ladderLength) {
+                            // разделяем лесенку на до и после футера.
+                            const ladderLength = self._ladder.stickyLadder[lastLadderIndex][property].ladderLength;
+                            const firstPart = current.index - lastLadderIndex + 1;
+                            const secondPart = ladderLength - firstPart;
+                            const next = current.index + 1;
+                            self._ladder.stickyLadder[lastLadderIndex][property].ladderLength = firstPart;
+                            self._ladder.ladder[lastLadderIndex][property].ladderLength = firstPart;
+                            self._ladder.stickyLadder[lastLadderIndex][property].headingStyle = 'grid-row: span ' + firstPart;
+
+                            if (self._ladder.stickyLadder[next] && !self._ladder.stickyLadder[next][property].ladderLength) {
+                                self._ladder.stickyLadder[next][property].ladderLength = secondPart;
+                                self._ladder.ladder[next][property].ladderLength = secondPart;
+                                self._ladder.stickyLadder[next][property].headingStyle = 'grid-row: span ' + secondPart;
+                            }
+                        }
+                    });
+                }
                 current.nodeFooters.forEach(setNodeFooterRowStyles);
             }
             return current;
@@ -315,7 +345,7 @@ var
 
         getColspanFor(gridElementName: TreeGridColspanableElements): number {
             if (gridElementName === 'node' || gridElementName === 'nodeFooter') {
-                return this._columns.length;
+                return this._columns.length + this.stickyLadderCellsCount();
             } else {
                 return TreeGridViewModel.superclass.getColspanFor.apply(this, arguments);
             }
