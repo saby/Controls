@@ -1789,7 +1789,15 @@ define([
                   },
                   getSourceController() {
                      return new dataSource.NewSourceController({
-                        source: new sourceLib.Memory()
+                        source: new sourceLib.Memory(),
+                        navigation: {
+                           source: 'page',
+                           sourceConfig: {
+                              pageSize: 10,
+                              page: 0,
+                              hasMore: true
+                           }
+                        }
                      });
                   }
                }

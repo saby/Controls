@@ -405,4 +405,23 @@ describe('Controls/dataSource:SourceController', () => {
         });
 
     });
+
+    describe('hasLoaded', () => {
+
+        it('without navigation', () => {
+            const controller = getController();
+            ok(controller.hasLoaded('testRoot'));
+        });
+
+        it('with navigation', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(true)
+            });
+            await controller.reload();
+            await controller.load(null, 'test');
+            ok(controller.hasLoaded('test'));
+            ok(!controller.hasLoaded('test2'));
+        });
+
+    });
 });

@@ -313,7 +313,7 @@ export default class Controller {
     }
 
     hasLoaded(key: TKey): boolean {
-        let loadedResult = false;
+        let loadedResult = true;
 
         if (this._hasNavigationBySource()) {
             loadedResult = this._getNavigationController(this._options).hasLoaded(key);
