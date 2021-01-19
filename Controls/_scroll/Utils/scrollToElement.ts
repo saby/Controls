@@ -89,6 +89,20 @@ export function scrollToElement(element: HTMLElement, toBottom?: Boolean, force?
          parentOffset = getOffset(parent),
          elemOffset = getOffset(element), //Offset of the element changes after each scroll, so we can't just cache it
          stickyHeaderHeight = getStickyHeaderHeight(parent);
+      // Если внутри элемента, к которому хотят подскроллиться, лежит StickyHeader или элемент является StickyHeader'ом,
+      // то мы не должны учитывать высоту предыдущего заголовка, т.к. заголовок встанет вместо него
+      let innerStickyHeaderHeight;
+      const stickyHeaderClass = 'controls-StickyHeader';
+      const innerStickyHeader = element.querySelector(`.${stickyHeaderClass}`);
+      if (innerStickyHeader) {
+         innerStickyHeaderHeight = innerStickyHeader.clientHeight;
+      } else if (element.classList.contains(stickyHeaderClass)) {
+         innerStickyHeaderHeight = element.clientHeight;
+      }
+      if (innerStickyHeaderHeight) {
+         stickyHeaderHeight.top -= innerStickyHeaderHeight;
+         stickyHeaderHeight.bottom -= innerStickyHeaderHeight;
+      }
 
       if (force || parentOffset.bottom < elemOffset.bottom) {
          if (toBottom) {
