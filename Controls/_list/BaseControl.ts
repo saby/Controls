@@ -4411,10 +4411,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 this._notifyPlaceholdersChanged();
                 this._notifyPlaceholdersChanged = null;
             }
-            if (this._loadedBySourceController || needCheckTriggers || itemsUpdated || positionRestored) {
-                this.checkTriggerVisibilityAfterRedraw();
-            }
-
+            this._needCheckTriggers = this._loadedBySourceController || needCheckTriggers || itemsUpdated || positionRestored;
         }
         this._actualPagingVisible = this._pagingVisible;
 
@@ -4570,6 +4567,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         if (this._itemReloaded) {
             this._listViewModel.clearReloadedMarks();
             this._itemReloaded = false;
+        }
+        if (this._needCheckTriggers) {
+            this.checkTriggerVisibilityAfterRedraw();
         }
         this._wasScrollToEnd = false;
         this._scrollPageLocked = false;
