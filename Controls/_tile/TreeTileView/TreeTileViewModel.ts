@@ -32,6 +32,7 @@ var TreeTileViewModel = TreeViewModel.extend({
             current = TreeTileViewModel.superclass.getItemDataByItem.apply(this, arguments);
 
         current.scalingMode = this._options.tileScalingMode;
+        current.hasActiveItem = !!this.getActiveItem();
         if (current._treeTileViewModelCached) {
             return current;
         } else {
