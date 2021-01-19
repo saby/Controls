@@ -4,9 +4,27 @@
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/Multiselect/Base/Index' }}">
-            <a href="{{content.href}}">Варианты отображения чекбоксов</a>
+            <a href="{{content.href}}">multiSelectVisibility=hidden</a>
         </Router.router:Reference>
         <Controls-demo.grid.Multiselect.Base.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__ladder_bind demo_Multiselect__visible">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/Multiselect/Visible/Index' }}">
+            <a href="{{content.href}}">multiSelectVisibility=visible</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.Multiselect.Visible.Index/>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__ladder_bind demo_Multiselect__onHover">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/grid/Multiselect/OnHover/Index' }}">
+            <a href="{{content.href}}">multiSelectVisibility=onHover</a>
+        </Router.router:Reference>
+        <Controls-demo.grid.Multiselect.OnHover.Index/>
     </div>
 
     <div class="controlsDemo__cell controlsDemo__ladder_bind demo_Multiselect__customPosition">

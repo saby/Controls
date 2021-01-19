@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper demo_GridMultiselect__base {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth800' : 'controlsDemo_fixedWidth550'}}">
+    <div class="controlsDemo__wrapper">
+        <Controls.explorer:View
+                source="{{_viewSource}}"
+                bind:root="_root"
+                attr:class="demo-Explorer"
+                keyProperty="id"
+                displayProperty="title"
+                parentProperty="parent"
+                multiSelectVisibility="onhover"
+                header="{{_header}}"
+                nodeProperty="parent@"
+                viewMode="{{_viewMode}}"
+                columns="{{_columns}}">
+        </Controls.explorer:View>
+    </div>
+</div>

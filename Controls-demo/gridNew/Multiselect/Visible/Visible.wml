@@ -1,7 +1,8 @@
 <div class="controlsDemo__wrapper demo_GridMultiselect__base">
     <div class="controlsDemo__wrapper">
-        <Controls.grid:View
+        <Controls.gridNew:View
                 keyProperty="id"
+                multiSelectVisibility="visible"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"/>
     </div>
