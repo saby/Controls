@@ -135,6 +135,70 @@ function getCursorData(): Array<{id: number, value: string, cursor?: 'default' |
     ];
 }
 
+function getGroupedCollapsedCatalog(): Array<{
+    id: number
+    title: string
+    brand: string
+    longBrandName: string
+}> {
+    return [
+        {
+            id: 1,
+            title: 'MacBook Pro',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 2,
+            title: 'MacBook Pro 2012',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 3,
+            title: 'MacBook air 2020',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 4,
+            title: 'Apple iPad Pro',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 5,
+            title: 'Apple iPad Pro 2016',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 6,
+            title: 'iPhone 12 Pro Max',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 7,
+            title: 'iPhone 12 Max',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 8,
+            title: 'iPhone X Max',
+            brand: 'apple',
+            longBrandName: 'apple'
+        },
+        {
+            id: 9,
+            title: 'Apple AirPods pro',
+            brand: 'apple',
+            longBrandName: 'apple'
+        }
+    ];
+}
+
 function getGroupedCatalog(): Array<{
     id: number
     title: string
@@ -454,6 +518,7 @@ export {
     getContactsCatalogWithActions,
     getFewCategories,
     getCursorData,
+    getGroupedCollapsedCatalog,
     getGroupedCatalog,
     getGroupedCatalogForSwitchingGroup,
     getGroupedCatalogWithHiddenGroup,

@@ -5,7 +5,13 @@
                 source="{{_viewSource}}"
                 on:groupCollapsed="_onGroupCollapsed()"
                 on:groupExpanded="_onGroupExpanded()"
-                groupProperty="brand"/>
+                groupProperty="brand">
+            <ws:footerTemplate>
+                <ws:if data="{{_isShowFooterBtn}}">
+                    <Controls.list:AddButton caption="All lists" on:click="_onBtnClick()"/>
+                </ws:if>
+            </ws:footerTemplate>
+        </Controls.list:View>
     </Controls.scroll:Container>
     <ws:if data="{{_groupClickMessage}}">
         <div class="controlsDemo__wrapper">{{_groupClickMessage || ''}}</div>
