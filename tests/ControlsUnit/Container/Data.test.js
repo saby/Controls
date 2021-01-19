@@ -120,7 +120,7 @@ define(
             const newSorting = [{ amount: 'ASC' }];
             await data._beforeMount(dataOptions);
             data.saveOptions(dataOptions);
-            data._beforeUpdate({
+            await data._beforeUpdate({
                source: source,
                idProperty: 'id',
                filter: newFilter,

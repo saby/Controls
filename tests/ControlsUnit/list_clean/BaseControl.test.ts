@@ -776,11 +776,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControlOptions.filter = 'testFilter';
             baseControl._beforeUpdate(baseControlOptions);
             assert.isFalse(loadStarted);
-
-            baseControlOptions.searchValue = undefined;
-            baseControlOptions.filter = 'testFilter';
-            baseControl._beforeUpdate(baseControlOptions);
-            assert.isTrue(loadStarted, 'searchValue is not changed');
         });
 
         it('portioned search is started after sourceController load without searchValue', async () => {
@@ -941,13 +936,12 @@ describe('Controls/list_clean/BaseControl', () => {
                 }
             };
 
-            return baseControl._beforeUpdate({
+            baseControl._beforeUpdate({
                 ...baseControlCfg,
                 filter: {field: 'ASC'},
                 useNewModel: true
-            }).then(() => {
-                assert.isTrue(isEditingCancelled);
             });
+            assert.isTrue(isEditingCancelled);
         });
 
         it('should immediately resolve promise if cancel edit called without eipController', () => {

@@ -175,7 +175,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          this._filter = newOptions.filter;
       }
 
-      if (sourceChanged && !newOptions.sourceController) {
+      if (isChanged && !newOptions.sourceController) {
          const currentRoot = this._sourceController.getRoot();
          this._fixRootForMemorySource(newOptions);
 

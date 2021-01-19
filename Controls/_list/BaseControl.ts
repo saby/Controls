@@ -4026,42 +4026,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             }
         }
 
-        if (needReload) {
-            if (_private.supportAttachLoadTopTriggerToNull(newOptions) &&
-                _private.needAttachLoadTopTriggerToNull(this)) {
-                    this._hideTopTrigger = true;
-            }
-            this._scrollPagingCtr = null;
-            _private.resetPagingNavigation(this, newOptions.navigation);
-            _private.closeActionsMenu(this);
-            if (!isEqual(newOptions.groupHistoryId, this._options.groupHistoryId)) {
-                return this._prepareGroups(newOptions, (collapsedGroups) => {
-                    return _private.reload(self, newOptions).addCallback(() => {
-                        if (!this._destroyed) {
-                            this._listViewModel.setCollapsedGroups(collapsedGroups ? collapsedGroups : []);
-                            this._needBottomPadding = _private.needBottomPadding(newOptions, this._listViewModel);
-                            _private.updateInitializedItemActions(this, newOptions);
-                            this._listViewModel.setSearchValue(newOptions.searchValue);
-                            if (!this._scrollController) {
-                                _private.createScrollController(this, newOptions);
-                            }
-                        }
-                    });
-                });
-            } else {
-                // return result here is for unit tests
-                return _private.reload(self, newOptions).addCallback(() => {
-                    if (!this._destroyed) {
-                        this._needBottomPadding = _private.needBottomPadding(newOptions, this._listViewModel);
-                        _private.updateInitializedItemActions(this, newOptions);
-                        this._listViewModel.setSearchValue(newOptions.searchValue);
-                        if (!this._scrollController) {
-                            _private.createScrollController(this, newOptions);
-                        }
-                    }
-                });
-            }
-        } else {
+        if (!needReload) {
             _private.doAfterUpdate(self, () => {
                 if (this._listViewModel) {
                     this._listViewModel.setSearchValue(newOptions.searchValue);
