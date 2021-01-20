@@ -40,6 +40,8 @@ import GroupTemplate = require('wml!Controls/_dropdown/GroupTemplate');
 import HeaderTemplate = require('wml!Controls/_dropdown/HeaderTemplate');
 
 import MenuUtils = require('Controls/_dropdown/Button/MenuUtils');
+import SubMenuUtils = require('Controls/_dropdown/SubMenuUtils');
+// import * as SubMenuUtils from 'Controls/_dropdown/SubMenuUtils';
 import dropdownHistoryUtils = require('Controls/_dropdown/dropdownHistoryUtils');
 import inputDefaultContentTemplate = require('wml!Controls/_dropdown/Input/resources/defaultContentTemplate');
 import defaultContentTemplateWithIcon = require('wml!Controls/_dropdown/Input/resources/defaultContentTemplateWithIcon');
@@ -61,5 +63,6 @@ export {
     MenuUtils,
     dropdownHistoryUtils,
     inputDefaultContentTemplate,
-    defaultContentTemplateWithIcon
+    defaultContentTemplateWithIcon,
+    SubMenuUtils
 };
