@@ -4,6 +4,7 @@ import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventDa
 import StickyHeader from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
+import {getGapFixSize} from 'Controls/_scroll/StickyHeader/Utils';
 
 // @ts-ignore
 
@@ -488,7 +489,14 @@ class StickyHeaderController {
 
         for (let headerId: number of headersStack) {
             headerInst = this._headers[headerId].inst;
-            if (headersHeight === this._getHeaderOffsetByContainer(contentContainer, headerId, position)) {
+            // Не будем учитывать 'костыльные' отступы
+            let headerOffset = this._getHeaderOffsetByContainer(contentContainer, headerId, position) - getGapFixSize();
+            if (headerOffset) {
+                // При расчете высоты заголовка, мы учитываем devicePixelRatio. Нужно его учитывать и здесь, иначе
+                // расчеты не сойдутся.
+                headerOffset -= Math.abs(1 - StickyHeader.getDevicePixelRatio());
+            }
+            if (headersHeight === headerOffset) {
                 this._headers[headerId].fixedInitially = true;
             }
             headersHeight += headerInst.height;
