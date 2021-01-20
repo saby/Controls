@@ -1,0 +1,23 @@
+<div class="ControlsDemo-Popup-DialogDirection">
+   <Controls.popupTemplate:Dialog
+      attr:style="height: {{_height || 0}}px; width: {{_width || 0}}px;"
+      headingCaption="PopupManager"
+      draggable="{{ true }}">
+      <ws:bodyContentTemplate>
+         <div class="ControlsDemo-Popup-DialogDirection__content">
+            <div class="ControlsDemo-Popup-DialogDirection__inputWrapper">
+               <Controls.input:Label caption="Height"/>
+               <Controls.input:Text attr:class="controlsDemo__input" bind:value="_height"
+                                    on:valueChanged="_sizeChangedHandler()"
+                                    placeholder="Введите высоту"/>
+            </div>
+            <div class="ControlsDemo-Popup-DialogDirection__inputWrapper">
+               <Controls.input:Label caption="Width"/>
+               <Controls.input:Text attr:class="controlsDemo__input" bind:value="_width"
+                                    on:valueChanged="_sizeChangedHandler()"
+                                    placeholder="Введите ширину"/>
+            </div>
+         </div>
+      </ws:bodyContentTemplate>
+   </Controls.popupTemplate:Dialog>
+</div>
