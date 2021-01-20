@@ -236,6 +236,15 @@ define([
 
             sandbox.restore();
          });
+
+         it('should set z-index if header creates with shadowVisibility option is set to "initial".', function() {
+            const position = 'top';
+            const component = createComponent(StickyHeader, { shadowVisibility: 'initial', position });
+            let style;
+
+            style = component._getStyle(position, 3);
+            assert.include(style, 'z-index: 3;');
+         });
       });
 
       describe('set top', function() {

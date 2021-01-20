@@ -575,6 +575,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             style += 'z-index: ' + opts.fixedZIndex + ';';
         } else if (opts.zIndex) {
             style += 'z-index: ' + opts.zIndex + ';';
+        } else if (this._initialShowShadow) {
+            style += `z-index: ${opts.fixedZIndex};`;
         }
 
         //убрать по https://online.sbis.ru/opendoc.html?guid=ede86ae9-556d-4bbe-8564-a511879c3274
