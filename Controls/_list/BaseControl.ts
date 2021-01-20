@@ -6243,13 +6243,16 @@ BaseControl.getDefaultOptions = function() {
         excludedKeys: defaultExcludedKeys,
         loadingIndicatorTemplate: 'Controls/list:LoadingIndicatorTemplate',
         continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
-        stickyHeader: true,
         virtualScrollConfig: {},
         plainItemsContainer: true,
         filter: {},
         itemActionsVisibility: 'onhover',
         searchValue: '',
-        moreFontColorStyle: 'listMore'
+        moreFontColorStyle: 'listMore',
+
+        // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
+        stickyHeader: true,
+        stickyColumnsCount: 1,
     };
 };
 export = BaseControl;

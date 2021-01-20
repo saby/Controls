@@ -877,7 +877,9 @@ var
         },
         _stopDragScrolling(e, startBy: 'mouse' | 'touch') {
             if (this._isColumnScrollVisible() && this._dragScrollController) {
-                _private.scrollToColumn(this);
+                if (this._dragScrollController.isScrolled()) {
+                    _private.scrollToColumn(this);
+                }
                 if (startBy === 'mouse') {
                     this._dragScrollController.onViewMouseUp(e);
                 } else {
