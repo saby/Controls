@@ -1,1 +1,13 @@
-<Controls.input:Area attr:class="controls-PropertyGrid__editor_text_control" scope="{{_options}}" bind:value="value" on:inputCompleted="_inputCompleted()"/>
+<ws:template name="editor">
+    <Controls.input:Area attr:class="controls-PropertyGrid__editor_text_control" scope="{{_options}}" bind:value="value" on:inputCompleted="_inputCompleted()"/>
+</ws:template>
+
+<ws:if data="{{_options.jumpingLabel}}">
+    <Controls.jumpingLabel:InputContainer caption="{{_options.caption}}"
+                                          value="{{value}}">
+        <ws:partial template="editor" />
+    </Controls.jumpingLabel:InputContainer>
+</ws:if>
+<ws:else>
+    <ws:partial template="editor" />
+</ws:else>

@@ -20,6 +20,7 @@
                   <ws:content>
                      <ws:partial template="{{content.resolvedTemplate}}"
                                  validationStatus="{{content.validationStatus}}"
+                                 caption="{{caption}}"
                                  scope="{{collectionItem.getEditorOptions()}}"/>
                   </ws:content>
                </Controls.Container.Async>
@@ -29,5 +30,10 @@
    </Controls.Container.Async>
 </ws:if>
 <ws:else>
-   <Controls.Container.Async templateName="{{collectionItem.getEditorTemplateName()}}" templateOptions="{{collectionItem.getEditorOptions()}}" class="{{item.editorClass}}"/>
+   <Controls.Container.Async templateName="{{collectionItem.getEditorTemplateName()}}"
+                             class="{{item.editorClass}}">
+      <ws:partial template="{{content.resolvedTemplate}}"
+                  caption="{{caption}}"
+                  scope="{{collectionItem.getEditorOptions()}}"/>
+   </Controls.Container.Async>
 </ws:else>
