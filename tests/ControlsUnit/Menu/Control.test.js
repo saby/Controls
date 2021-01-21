@@ -7,9 +7,10 @@ define(
       'Types/collection',
       'Types/entity',
       'Controls/list',
-      'Controls/popup'
+      'Controls/popup',
+      'Controls/Utils/SubMenuUtils'
    ],
-   function(menu, source, Clone, display, collection, entity, ControlsConstants, popup) {
+   function(menu, source, Clone, display, collection, entity, ControlsConstants, popup, subMenuUtils) {
       describe('Menu:Control', function() {
          function getDefaultItems() {
             return [
@@ -533,31 +534,6 @@ define(
             assert.isFalse(result);
          });
 
-         it('setSubMenuPosition', function() {
-            let menuControl = getMenu();
-            menuControl._openSubMenuEvent = {
-               clientX: 25
-            };
-
-            menuControl._subMenu = {
-               getBoundingClientRect: () => ({
-                  left: 10,
-                  top: 10,
-                  height: 200,
-                  width: 100
-               })
-            };
-
-            menuControl._setSubMenuPosition();
-            assert.deepEqual(menuControl._subMenuPosition, {
-
-               // т.к. left < clientX, прибавляем ширину к left
-               left: 110,
-               top: 10,
-               height: 200
-            });
-         });
-
          describe('_updateSwipeItem', function() {
             let menuControl = getMenu();
             menuControl._listModel = getListModel();
@@ -584,6 +560,7 @@ define(
 
          describe('_separatorMouseEnter', function() {
             let isClosed, isMouseInArea = true, menuControl = getMenu();
+            let sandbox = sinon.createSandbox();
             beforeEach(() => {
                isClosed = false;
                menuControl._children = {
@@ -591,10 +568,11 @@ define(
                };
 
                menuControl._subMenu = true;
-               menuControl._setSubMenuPosition = function() {};
-               menuControl._isMouseInOpenedItemAreaCheck = function() {
-                  return isMouseInArea;
-               };
+               sandbox.replace(subMenuUtils, 'isMouseInOpenedItemAreaCheck', () => isMouseInArea);
+            });
+
+            afterEach(function () {
+               sandbox.restore();
             });
 
             it('isMouseInOpenedItemArea = true', function() {
@@ -628,21 +606,19 @@ define(
             menuControl._children = {
                Sticky: { close: () => { isClosed = true; } }
             };
-            menuControl._isMouseInOpenedItemAreaCheck = function() {
-               return false;
-            };
-            menuControl._setSubMenuPosition = function() {};
+            let sandbox = sinon.createSandbox();
+            sandbox.replace(subMenuUtils, 'isMouseInOpenedItemAreaCheck', () => false);
             menuControl._subDropdownItem = true;
             menuControl._footerMouseEnter(event);
             assert.isTrue(isClosed);
+            sandbox.restore();
 
-            menuControl._isMouseInOpenedItemAreaCheck = function() {
-               return true;
-            };
-            menuControl._subDropdownItem = true;
+            sandbox = sinon.createSandbox();
+            sandbox.replace(subMenuUtils, 'isMouseInOpenedItemAreaCheck', () => true);
             isClosed = false;
             menuControl._footerMouseEnter(event);
             assert.isFalse(isClosed);
+            sandbox.restore();
          });
 
          it('_openSelectorDialog', function() {
