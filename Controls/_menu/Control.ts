@@ -24,6 +24,7 @@ import {StickyOpener, StackOpener} from 'Controls/popup';
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import { MarkerController, Visibility as MarkerVisibility } from 'Controls/marker';
 import {FlatSelectionStrategy, SelectionController, IFlatSelectionStrategyOptions} from 'Controls/multiselection';
+import {SubMenuUtils} from 'Controls/dropdown';
 
 interface IMenuPosition {
     left: number;
@@ -180,13 +181,13 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     protected _mouseLeaveHandler(event: SyntheticEvent<MouseEvent>): void {
-        this._clearOpeningTimout();
-        this._startClosingTimout();
+        SubMenuUtils.clearOpeningTimeout();
+        SubMenuUtils.startClosingTimout(this._closeSubMenu.bind(this));
     }
 
     protected _mouseMove(event: SyntheticEvent<MouseEvent>): void {
         if (this._isMouseInOpenedItemArea && this._subDropdownItem) {
-            this._startOpeningTimeout();
+            SubMenuUtils.startOpeningTimeout(this._handleItemTimeoutCallback.bind(this));
         }
     }
 
@@ -194,11 +195,11 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                               item: CollectionItem<Model>,
                               sourceEvent: SyntheticEvent<MouseEvent>): void {
         if (item.getContents() instanceof Model && !this._isTouch()) {
-            this._clearClosingTimout();
+            SubMenuUtils.clearClosingTimout();
             this._setItemParamsOnHandle(item, sourceEvent.target, sourceEvent.nativeEvent);
 
             this._checkOpenedMenu(sourceEvent.nativeEvent, item);
-            this._startOpeningTimeout();
+            SubMenuUtils.startOpeningTimeout(this._handleItemTimeoutCallback.bind(this));
         }
     }
 
@@ -407,7 +408,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         if (eventName === 'menuOpened') {
             this._subMenu = eventResult as HTMLElement;
         } else if (eventName === 'subMenuMouseenter') {
-            this._clearClosingTimout();
+            SubMenuUtils.clearClosingTimout();
         } else {
             const notifyResult = this._notify(eventName, [eventResult, nativeEvent]);
             if (eventName === 'pinClick' || eventName === 'itemClick' && notifyResult !== false) {
@@ -436,8 +437,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         needCloseDropDown: boolean,
         nativeEvent: MouseEvent): boolean {
         if (needCloseDropDown) {
-            this._setSubMenuPosition();
-            this._isMouseInOpenedItemArea = this._isMouseInOpenedItemAreaCheck(nativeEvent);
+            this._isMouseInOpenedItemArea = SubMenuUtils.isMouseInOpenedItemAreaCheck(nativeEvent, this._openSubMenuEvent, this._subMenu);
         } else {
             this._isMouseInOpenedItemArea = false;
         }
@@ -462,19 +462,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._enterEvent = nativeEvent;
     }
 
-    private _setSubMenuPosition(): void {
-        const clientRect: DOMRect = this._subMenu.getBoundingClientRect();
-        this._subMenuPosition = {
-            left: clientRect.left,
-            top: clientRect.top,
-            height: clientRect.height
-        };
-
-        if (this._subMenuPosition.left < this._openSubMenuEvent.clientX) {
-            this._subMenuPosition.left += clientRect.width;
-        }
-    }
-
     private _handleCurrentItem(
         item: CollectionItem<Model>,
         target: EventTarget,
@@ -496,49 +483,12 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
     }
 
-    private _clearClosingTimout(): void {
-        clearTimeout(this._closingTimer);
-    }
-
-    private _startClosingTimout(): void {
-        // window для соотвествия типов
-        this._closingTimer = window.setTimeout(this._closeSubMenu.bind(this), SUB_DROPDOWN_DELAY);
-    }
-
-    private _clearOpeningTimout(): void {
-        clearTimeout(this._openingTimer);
-    }
-
     private _handleItemTimeoutCallback(): void {
         this._isMouseInOpenedItemArea = false;
         if (this._hoveredItem !== this._subDropdownItem) {
             this._closeSubMenu();
         }
         this._handleCurrentItem(this._hoveredItem, this._hoveredTarget, this._enterEvent);
-    }
-
-    private _startOpeningTimeout(): void {
-        this._clearOpeningTimout();
-        this._openingTimer = window.setTimeout((): void => {
-            this._handleItemTimeoutCallback();
-        }, SUB_DROPDOWN_DELAY);
-    }
-
-    private _isMouseInOpenedItemAreaCheck(curMouseEvent: MouseEvent): boolean {
-        const firstSegment: number = MenuControl._calculatePointRelativePosition(this._openSubMenuEvent.clientX,
-            this._subMenuPosition.left, this._openSubMenuEvent.clientY,
-            this._subMenuPosition.top, curMouseEvent.clientX, curMouseEvent.clientY);
-
-        const secondSegment: number = MenuControl._calculatePointRelativePosition(this._subMenuPosition.left,
-            this._subMenuPosition.left, this._subMenuPosition.top, this._subMenuPosition.top +
-            this._subMenuPosition.height, curMouseEvent.clientX, curMouseEvent.clientY);
-
-        const thirdSegment: number = MenuControl._calculatePointRelativePosition(this._subMenuPosition.left,
-            this._openSubMenuEvent.clientX, this._subMenuPosition.top +
-            this._subMenuPosition.height, this._openSubMenuEvent.clientY, curMouseEvent.clientX, curMouseEvent.clientY);
-
-        return Math.sign(firstSegment) === Math.sign(secondSegment) &&
-            Math.sign(firstSegment) === Math.sign(thirdSegment);
     }
 
     private _getSelectorDialogOptions(opener: StackOpener,
