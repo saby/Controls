@@ -13,35 +13,19 @@
 }
 
 .controls-MasterDetail_master-template {
-   // https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
-   // :before is necessary for correct work of z-index stack, :after makes below all elements without z-index in the stack
-   // and children of these elements can not overlap this pseudo element.
-   &:before {
-      content: '';
-      z-index: 1; // Чтобы перекрывать оптимизированную тень от scrollContainer'a, она сделана через background
-      height: 100%;
-      position: absolute;
-      right: 0;
-      top: 0;
-   }
+   border-right-style: solid;
 }
 
 .controls-MasterDetail_master-template_theme-@{themeName} {
-   &:before {
-      width: @master_separator_thickness_list;
-   }
+   border-right-width: @master_separator_thickness_list;
 }
 
 .controls-MasterDetail_master-template-contrast_theme-@{themeName} {
-   &:before {
-      background-color: @master_separator_contrast-color_list;
-   }
+   border-color: @master_separator_contrast-color_list;
 }
 
 .controls-MasterDetail_master-template-same_theme-@{themeName} {
-   &:before {
-      background-color: @master_separator_color_list;
-   }
+   border-color: @master_separator_color_list;
 }
 
 .controls-MasterDetail_details {
