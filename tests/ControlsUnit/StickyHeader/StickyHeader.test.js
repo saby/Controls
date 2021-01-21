@@ -216,7 +216,7 @@ define([
             component._container = { style: { paddingTop: '' } };
             style = component._getStyle(position, fixedZIndex);
             assert.include(style, 'min-height:33px;');
-            assert.include(style, 'top: 7px;');
+            assert.include(style, 'top: 10px;');
             assert.include(style, 'margin-top: -3px;');
             assert.include(style, 'padding-top:4px;');
          });
@@ -240,7 +240,7 @@ define([
 
             style = component._getStyle(position, fixedZIndex);
             assert.include(style, 'min-height:31px;');
-            assert.include(style, 'top: 9px;');
+            assert.include(style, 'top: 10px;');
             assert.include(style, 'margin-top: -1px;');
             assert.include(style, 'border-top-width:2px;');
 

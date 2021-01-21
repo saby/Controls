@@ -516,11 +516,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         fixedPosition = this._model ? this._model.fixedPosition : undefined;
         // Включаю оптимизацию для всех заголовков на ios, в 5100 проблем выявлено не было
         const isIosOptimizedMode = this._isMobileIOS;
+        let isTop = false;
 
         if (positionFromOptions.indexOf(POSITION.top) !== -1 && this._stickyHeadersHeight.top !== null) {
             top = this._stickyHeadersHeight.top;
             const checkOffset = fixedPosition || isIosOptimizedMode;
             style += 'top: ' + (top - (checkOffset ? offset : 0)) + 'px;';
+            isTop = true;
         }
 
         if (positionFromOptions.indexOf(POSITION.bottom) !== -1 && this._stickyHeadersHeight.bottom !== null) {
@@ -551,6 +553,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                     this._minHeight = minHeight + offset;
                 }
                 if (this._minHeight) {
+                    if (isTop && this._stickyHeadersHeight.top) {
+                        style = `top: ${this._stickyHeadersHeight.top}px;`;
+                    }
                     style += 'min-height:' + this._minHeight + 'px;';
                 }
                 // Increase border or padding by offset.
