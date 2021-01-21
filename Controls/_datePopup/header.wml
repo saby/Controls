@@ -18,64 +18,95 @@
             </svg>
         </ws:else>
     </div>
-   <!--</div>-->
-   <div if="{{ _headerType === _HEADER_TYPES.link }}" class="controls-PeriodDialog__header-period">
-      <Controls.dateRange:LinkView
-         startValue="{{_headerRangeModel.startValue}}"
-         endValue="{{_headerRangeModel.endValue}}"
-         emptyCaption="{{_options.emptyCaption}}"
-         captionFormatter="{{_options.captionFormatter}}"
-         showNextArrow="{{false}}"
-         showPrevArrow="{{false}}"
-         showUndefined="{{true}}"
-         clearButtonVisible="{{_options.clearButtonVisible}}"
-         clickable="{{_options.selectionType !== 'quantum'}}"
-         tooltip="{[Показать поля ввода]}"
-         on:linkClick="_headerLinkClick()"
-         on:rangeChanged="_onHeaderLinkRangeChanged()"
-      />
-   </div>
-   <div if="{{ _headerType === _HEADER_TYPES.input }}"
-        name="inputs"
-        class="controls-PeriodDialog__header-period"
-        on:focusout="_inputFocusOutHandler()">
-       <Controls.input:DateBase
-          name="startValueField"
-          mask="{{_mask}}"
-          autocompleteMode="start"
-          value="{{_rangeModel.startValue}}"
-          dateConstructor="{{_options.dateConstructor}}"
-          valueValidators="{{_startValueValidators}}"
-          validateByFocusOut="{{false}}"
-          attr:ws-autofocus="true"
-          attr:class="controls-PeriodDialog__header-datePickerStart"
-          on:valueChanged="_startValuePickerChanged()"
-          on:inputControl="_inputControlHandler()"
-       />
-
-      <ws:if data="{{_options.selectionType !== 'single'}}">
-         <div class="controls-PeriodDialog__header-rangeDash controls-PeriodDialog__header-rangeDash_theme-{{theme}}"></div>
-            <Controls.input:DateBase
-               name="endValueField"
-               mask="{{_mask}}"
-               autocompleteMode="start"
-               value="{{_rangeModel.endValue}}"
-               _yearSeparatesCenturies="{{_rangeModel.startValue}}"
-               dateConstructor="{{_options.dateConstructor}}"
-               valueValidators="{{_endValueValidators}}"
-               validateByFocusOut="{{false}}"
-               attr:class="controls-PeriodDialog__header-datePickerEnd"
-               on:valueChanged="_endValuePickerChanged()"
+    <ws:if data="{{ selectionType === 'quantum' }}">
+        <div class="controls-PeriodDialog__header-period">
+            <Controls.dateRange:LinkView
+                    startValue="{{_headerRangeModel.startValue}}"
+                    endValue="{{_headerRangeModel.endValue}}"
+                    emptyCaption="{{_options.emptyCaption}}"
+                    captionFormatter="{{_options.captionFormatter}}"
+                    showNextArrow="{{false}}"
+                    showPrevArrow="{{false}}"
+                    showUndefined="{{true}}"
+                    clearButtonVisible="{{_options.clearButtonVisible}}"
+                    clickable="{{_options.selectionType !== 'quantum'}}"
+                    tooltip="{[Показать поля ввода]}"
+                    on:linkClick="_headerLinkClick()"
+                    on:rangeChanged="_onHeaderLinkRangeChanged()"
             />
-      </ws:if>
-   </div>
-
-   <div if="{{_homeButtonVisible}}" title="{[Текущий период]}"
-        attr:class="controls-PeriodDialog__homeButton controls-PeriodDialog__cursor-pointer"
-        on:click="_homeButtonClick()">
-      <i attr:class="icon-Home3 controls-icon controls-icon_style-secondary_theme-{{theme}}
-                     controls-PeriodDialog__homeButton-icon_theme-{{theme}} "/>
-   </div>
+        </div>
+    </ws:if>
+    <ws:else>
+        <div name="inputs"
+             class="controls-PeriodDialog__header-period"
+             on:focusout="_inputFocusOutHandler()">
+            <div class="controls-PeriodDialog__header_inputs">
+                <Controls.input:DateBase
+                        contrastBackground="{{ false }}"
+                        borderVisibility="partial"
+                        name="startValueField"
+                        mask="{{_mask}}"
+                        autocompleteMode="start"
+                        value="{{_rangeModel.startValue}}"
+                        dateConstructor="{{_options.dateConstructor}}"
+                        valueValidators="{{_startValueValidators}}"
+                        validateByFocusOut="{{false}}"
+                        attr:ws-autofocus="true"
+                        attr:class="controls-PeriodDialog__header-datePickerStart"
+                        on:valueChanged="_startValuePickerChanged()"
+                        on:inputControl="_inputControlHandler()"
+                />
+                <ws:if data="{{ inputRightFieldTemplate }}">
+                    <ws:partial
+                            template="{{ inputRightFieldTemplate }}"
+                            value="{{ _rangeModel.startValue }}"
+                            inputPosition="left"
+                    />
+                </ws:if>
+            </div>
+            <ws:if data="{{_options.selectionType !== 'single'}}">
+                <div class="controls-PeriodDialog__header-rangeDash controls-PeriodDialog__header-rangeDash_theme-{{theme}}"></div>
+                <div class="controls-PeriodDialog__header_inputs">
+                    <Controls.input:DateBase
+                            contrastBackground="{{ false }}"
+                            borderVisibility="partial"
+                            name="endValueField"
+                            mask="{{_mask}}"
+                            autocompleteMode="start"
+                            value="{{_rangeModel.endValue}}"
+                            _yearSeparatesCenturies="{{_rangeModel.startValue}}"
+                            dateConstructor="{{_options.dateConstructor}}"
+                            valueValidators="{{_endValueValidators}}"
+                            validateByFocusOut="{{false}}"
+                            attr:class="controls-PeriodDialog__header-datePickerEnd"
+                            on:valueChanged="_endValuePickerChanged()"
+                    />
+                    <ws:if data="{{ inputRightFieldTemplate }}">
+                        <ws:partial
+                                template="{{ inputRightFieldTemplate }}"
+                                value="{{ _rangeModel.endValue }}"
+                                inputPosition="right"
+                        />
+                    </ws:if>
+                </div>
+            </ws:if>
+        </div>
+    </ws:else>
+    <div attr:date="{{ _today }}"
+         on:click="_todayCalendarClick()"
+         title="{[Текущий период]}"
+         class="controls-PeriodDialog__header_calendar
+                controls-PeriodDialog__header_calendar_{{ _todayCalendarEnabled ? 'active' : 'readOnly' }}_theme-{{ _options.theme }}
+                    {{ _todayCalendarEnabled ? 'controls-PeriodDialog__cursor-pointer' }}"
+    >
+        <svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg"
+             class="controls-PeriodDialog__header_calendar_svg controls-PeriodDialog__header_calendar_svg_theme-{{ _options.theme }}"
+             viewBox="0 0 28 28">
+            <path class="controls-PeriodDialog__header_calendar_svg-content
+             controls-PeriodDialog__header_calendar_svg-content_{{ _todayCalendarEnabled ? 'active' : 'readOnly' }}_theme-{{ _options.theme }}"
+                  d="M23,2V.5a.5.5,0,0,0-1,0V2H21V.5a.5.5,0,0,0-1,0V2H8V.5a.5.5,0,0,0-1,0V2H6V.5a.5.5,0,0,0-1,0V2A3,3,0,0,0,2,5V24a3,3,0,0,0,3,3H23a3,3,0,0,0,3-3V5A3,3,0,0,0,23,2Zm2,22a2,2,0,0,1-2,2H5a2,2,0,0,1-2-2V5A2,2,0,0,1,5,3V4.5a.5.5,0,0,0,1,0V3H7V4.5a.5.5,0,0,0,1,0V3H20V4.5a.5.5,0,0,0,1,0V3h1V4.5a.5.5,0,0,0,1,0V3a2,2,0,0,1,2,2Z"/>
+        </svg>
+    </div>
 
    <!--<div class="controls-DateRangeBigChoose__header-date-pickers">-->
    <Controls.buttons:Button

@@ -51,7 +51,14 @@ import {descriptor} from "Types/entity";
  *
  */
 export default class RangeSelector extends BaseSelector<IControlOptions> {
-    _template: TemplateFunction = componentTmpl;
+    protected _template: TemplateFunction = componentTmpl;
+    protected _emptyCaption: string;
+
+    protected _beforeMount(options): void {
+        super._beforeMount(options);
+        this._emptyCaption = this._options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single ?
+            this.EMPTY_CAPTIONS.ALL_TIME : this.EMPTY_CAPTIONS.NOT_SPECIFIED;
+    }
 
     _updateRangeModel(options: IDateRangeOptions): void {
         const opts: IDateRangeOptions = {};
@@ -95,7 +102,7 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
                 captionFormatter: this._options.captionFormatter,
-                emptyCaption: this._options.emptyCaption,
+                emptyCaption: this._emptyCaption,
                 closeButtonEnabled: true,
                 selectionType: this._options.selectionType,
                 ranges: this._options.ranges,
@@ -123,6 +130,8 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
     static getDefaultOptions(): object {
         return {
             minRange: 'day',
+            startValue: null,
+            endValue: null,
             ...ILinkView.getDefaultOptions(),
             ...IDateRangeSelectable.getDefaultOptions(),
             captionFormatter: dateControlsUtils.formatDateRangeCaption

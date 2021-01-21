@@ -4,6 +4,7 @@
          scope="{{_options}}"
          startValue="{{ _rangeModel.startValue }}"
          endValue="{{ _rangeModel.endValue }}"
+         emptyCaption="{{ _emptyCaption }}"
          fontColorStyle="{{_options.fontColorStyle}}"
          on:rangeChanged="_rangeChangedHandler()"
          on:linkClick="openPopup()"

@@ -12,37 +12,28 @@ import componentTmpl = require('wml!Controls/_datePopup/DateRange');
 import 'wml!Controls/_datePopup/DateRangeItem';
 
 const _private = {
-    updateView: function (self, options, dontUpdateScroll) {
+    updateView: function (self, options) {
         self._rangeModel.update(options);
         self._monthSelectionEnabled = !options.readOnly && (options.selectionType === 'range' ||
             (options.selectionType === 'quantum' && quantumUtils.monthSelectionEnabled(options.ranges) &&
                 options.ranges.months[0] === 1));
-        self._position = options.position;
+        if (self._position !== options.position) {
+            self._position = options.position;
+            self._monthsPosition = new Date(self._position.getFullYear(), 0);
+            this._markedKey = _private.dateToId(self._position);
+        }
+        if (self._position.getFullYear() !== self._monthsPosition.getFullYear()) {
+            const newPosition = new Date(self._monthsPosition.getFullYear(), 0);
+            _private.notifyPositionChanged(self, newPosition);
+        }
     },
 
-    notifyPositionChanged: function(self, date) {
-        self._notify('positionChanged', [date]);
+    notifyPositionChanged: function(self, position) {
+        self._notify('positionChanged', [position]);
     },
 
-    changeYear: function(self, position, direction) {
-        let year: number = null;
-
-        switch (direction) {
-            case 'top':
-                year = position.getFullYear() + 1;
-                break;
-            case 'bottom':
-                year = position.getFullYear() - 1;
-                break;
-            default:
-                break;
-        }
-
-        if (year !== null) {
-            const yearDate = new Date(year, 0, 1);
-            _private.notifyPositionChanged(self, yearDate);
-            self._position = yearDate;
-        }
+    dateToId: function(date: Date): string {
+        return formatDate(date, 'YYYY-MM-DD');
     }
 };
 /**
@@ -69,7 +60,6 @@ var Component = BaseControl.extend([EventProxy], {
 
     // We store the position locally in the component, and don't use the value from options
     // to be able to quickly switch it on the mouse wheel.
-    _position: Date,
 
     constructor: function (options) {
         Component.superclass.constructor.apply(this, arguments);
@@ -79,6 +69,10 @@ var Component = BaseControl.extend([EventProxy], {
 
     _beforeMount: function (options) {
         _private.updateView(this, options);
+    },
+
+    _afterMount: function(options) {
+        this._markedKey = _private.dateToId(this._position);
     },
 
     _beforeUpdate: function (options) {
@@ -129,23 +123,13 @@ var Component = BaseControl.extend([EventProxy], {
         e.stopPropagation();
     },
 
-    _wheelHandler: function(event) {
-        const direction = event.nativeEvent.deltaY > 0 ? 'top' : 'bottom';
-        _private.changeYear(this, this._position, direction);
-        event.preventDefault();
-    },
-
-    _swipeHandler: function(event) {
-        _private.changeYear(this, this._position, event.nativeEvent.direction);
-        event.preventDefault();
-    },
-
     _dateToString: function(date) {
         return datePopupUtils.dateToDataString(date);
     },
 
     _scrollToMonth: function(e, year, month) {
         _private.notifyPositionChanged(this, new this._options.dateConstructor(year, month));
+        e.stopPropagation();
     },
 
     _formatMonth: function(month) {
@@ -157,7 +141,16 @@ var Component = BaseControl.extend([EventProxy], {
     },
 
     _onPositionChanged: function(e: Event, position: Date) {
-        if (position.getFullYear() !== this._position.getFullYear()) {
+        this._position = position;
+        _private.notifyPositionChanged(this, position);
+        this._markedKey = _private.dateToId(position);
+        if (position.getFullYear() !== this._monthsPosition.getFullYear()) {
+            this._monthsPosition = new Date(position.getFullYear(), 0);
+        }
+    },
+
+    _onMonthsPositionChanged: function(e: Event, position: Date) {
+        if (position.getFullYear() !== this._monthsPosition.getFullYear()) {
             _private.notifyPositionChanged(this, position);
         }
     },
