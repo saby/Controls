@@ -109,14 +109,17 @@ var Utils = {
          hoveredSelectionValue),
          start = range[0],
          end = range[1];
-      return start && end && itemValue >= start && itemValue <= end;
+      return (start && end && itemValue >= start && itemValue <= end) ||
+          (start === null && end === null) ||
+          (start === null && itemValue <= end) ||
+          (itemValue >= start && end === null);
    },
 
    getRange: function(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue) {
       var range, start, end;
 
       if (selectionProcessing) {
-         range = (baseSelectionValue > hoveredSelectionValue)
+         range = (baseSelectionValue > hoveredSelectionValue && hoveredSelectionValue !== null)
             ? [hoveredSelectionValue, baseSelectionValue] : [baseSelectionValue, hoveredSelectionValue];
          start = range[0];
          end = range[1];

@@ -1,52 +1,74 @@
 <div attr:class="controls-Input-DateRange">
-   <Controls.input:DateBase
-      name="startValueField"
-      class="controls-Input-DateRange_startValue"
-      bind:value="_rangeModel.startValue"
-      mask="{{_options.mask}}"
-      size="{{ _options.size }}"
-      fontStyle="{{_options.fontStyle}}"
-      fontSize="{{_options.fontSize}}"
-      fontColorStyle="{{_options.fontColorStyle}}"
-      inlineHeight="{{_options.inlineHeight}}"
-      tagStyle="{{ _options.startTagStyle }}"
-      selectOnClick="{{_options.selectOnClick}}"
-      autoComplete="{{_options.autoComplete}}"
-      style="{{_options.style}}"
-      validationStatus="{{_options.validationStatus}}"
-      autocompleteType="start"
-      valueValidators="{{_startValueValidators}}"
-      validateByFocusOut="{{_options.validateByFocusOut}}"
-      on:inputControl="_inputControlHandler()"
-      on:inputCompleted="_notifyInputCompleted()"
-      on:tagClick="_proxyEvent('startTagClick')"
-      on:tagHover="_proxyEvent('startTagHover')">
-   </Controls.input:DateBase>
+   <div class="controls-Input-DateRange__inputs">
+      <Controls.input:DateBase
+              name="startValueField"
+              class="controls-Input-DateRange_startValue"
+              bind:value="_rangeModel.startValue"
+              mask="{{_options.mask}}"
+              size="{{ _options.size }}"
+              fontStyle="{{_options.fontStyle}}"
+              fontSize="{{_options.fontSize}}"
+              fontColorStyle="{{_options.fontColorStyle}}"
+              inlineHeight="{{_options.inlineHeight}}"
+              contrastBackground="{{ false }}"
+              borderVisibility="partial"
+              tagStyle="{{ _options.startTagStyle }}"
+              selectOnClick="{{_options.selectOnClick}}"
+              autoComplete="{{_options.autoComplete}}"
+              style="{{_options.style}}"
+              validationStatus="{{_options.validationStatus}}"
+              autocompleteType="start"
+              valueValidators="{{_startValueValidators}}"
+              validateByFocusOut="{{_options.validateByFocusOut}}"
+              on:inputControl="_inputControlHandler()"
+              on:inputCompleted="_notifyInputCompleted()"
+              on:tagClick="_proxyEvent('startTagClick')"
+              on:tagHover="_proxyEvent('startTagHover')">
+      </Controls.input:DateBase>
+      <ws:if data="{{ _options.rightFieldTemplate }}">
+         <ws:partial
+                 template="{{ _options.rightFieldTemplate }}"
+                 value="{{ _rangeModel.startValue }}"
+                 inputPosition="left"
+         />
+      </ws:if>
+   </div>
    <div class="controls-Input-DateRange__dash controls-Input-DateRange__dash_theme-{{_options.theme}}"></div>
-   <Controls.input:DateBase
-      name="endValueField"
-      class="controls-Input-DateRange_endValue"
-      bind:value="_rangeModel.endValue"
-      mask="{{_options.mask}}"
-      size="{{ _options.size }}"
-      fontStyle="{{_options.fontStyle}}"
-      fontSize="{{_options.fontSize}}"
-      fontColorStyle="{{_options.fontColorStyle}}"
-      borderStyle="{{_options.borderStyle}}"
-      inlineHeight="{{_options.inlineHeight}}"
-      tagStyle="{{ _options.endTagStyle }}"
-      selectOnClick="{{_options.selectOnClick}}"
-      autoComplete="{{_options.autoComplete}}"
-      style="{{_options.style}}"
-      validationStatus="{{_options.validationStatus}}"
-      _yearSeparatesCenturies="{{_rangeModel.startValue}}"
-      autocompleteType="end"
-      valueValidators="{{_endValueValidators}}"
-      validateByFocusOut="{{_options.validateByFocusOut}}"
-      on:inputCompleted="_notifyInputCompleted()"
-      on:tagClick="_proxyEvent('endTagClick')"
-      on:tagHover="_proxyEvent('endTagHover')">
-   </Controls.input:DateBase>
+   <div class="controls-Input-DateRange__inputs">
+      <Controls.input:DateBase
+              name="endValueField"
+              class="controls-Input-DateRange_endValue"
+              bind:value="_rangeModel.endValue"
+              mask="{{_options.mask}}"
+              size="{{ _options.size }}"
+              fontStyle="{{_options.fontStyle}}"
+              fontSize="{{_options.fontSize}}"
+              fontColorStyle="{{_options.fontColorStyle}}"
+              borderStyle="{{_options.borderStyle}}"
+              inlineHeight="{{_options.inlineHeight}}"
+              contrastBackground="{{ false }}"
+              borderVisibility="partial"
+              tagStyle="{{ _options.endTagStyle }}"
+              selectOnClick="{{_options.selectOnClick}}"
+              autoComplete="{{_options.autoComplete}}"
+              style="{{_options.style}}"
+              validationStatus="{{_options.validationStatus}}"
+              _yearSeparatesCenturies="{{_rangeModel.startValue}}"
+              autocompleteType="end"
+              valueValidators="{{_endValueValidators}}"
+              validateByFocusOut="{{_options.validateByFocusOut}}"
+              on:inputCompleted="_notifyInputCompleted()"
+              on:tagClick="_proxyEvent('endTagClick')"
+              on:tagHover="_proxyEvent('endTagHover')">
+      </Controls.input:DateBase>
+      <ws:if data="{{ _options.rightFieldTemplate }}">
+         <ws:partial
+                 template="{{ _options.rightFieldTemplate }}"
+                 value="{{ _rangeModel.endValue }}"
+                 inputPosition="right"
+         />
+      </ws:if>
+   </div>
    <span class="controls-Input-DateRange__buttonWrapper
                 controls-Input-DateRange__buttonWrapper_theme-{{_options.theme}}"
          attr:tabindex="-1">

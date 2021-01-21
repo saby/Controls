@@ -60,9 +60,12 @@ var ModuleClass = MonthViewModel.extend({
 
         obj.selected = (startDate && endDate && date >= startDate && date <= endDate) ||
             (startDate && DateUtil.isDatesEqual(date, startDate) && !endDate) ||
-            (!startDate && endDate && DateUtil.isDatesEqual(date, endDate));
+            (!startDate && endDate && DateUtil.isDatesEqual(date, endDate)) ||
+            (startDate === null && endDate === null) ||
+            (startDate === null && date <= endDate) ||
+            (date >= startDate && endDate === null);
 
-        obj.selectedStart = DateUtil.isDatesEqual(date, startDate || endDate);
+        obj.selectedStart = DateUtil.isDatesEqual(date, startDate);
         obj.selectedEnd = DateUtil.isDatesEqual(date, endDate);
 
         obj.selectedInner = (date && startDate && endDate && date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime());
