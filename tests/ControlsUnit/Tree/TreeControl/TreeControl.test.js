@@ -77,6 +77,12 @@ define([
          baseControl._beforeUpdate(treeControl._options);
       };
 
+      let treeSaveOptions = treeControl.saveOptions;
+      treeControl.saveOptions = function() {
+         treeSaveOptions.apply(treeControl, arguments);
+         baseControl.saveOptions(treeControl._options);
+      };
+
       if (returnCreatePromise) {
          return {
             treeControl,
@@ -1200,6 +1206,7 @@ define([
             };
             treeControl.saveOptions(cfg);
             treeControl._beforeUpdate(cfg);
+            await sourceController.reload();
             assert.isTrue(afterReloadCallbackCalled);
          });
 

@@ -259,6 +259,37 @@ describe('Controls/dataSource:SourceController', () => {
             const loadedItems = await controller.reload();
             ok((loadedItems as RecordSet).getCount() === pageSize);
         });
+
+        it('load with dataLoadCallback in options',  async () => {
+            let dataLoadCallbackCalled = false;
+            const controller = getController({
+                dataLoadCallback: () => {
+                    dataLoadCallbackCalled = true;
+                }
+            });
+            await controller.load();
+            ok(dataLoadCallbackCalled);
+        });
+
+        it('load with dataLoadCallback from setter',  async () => {
+            let dataLoadCallbackCalled = false;
+            const controller = getController();
+            controller.setDataLoadCallback(() => {
+                dataLoadCallbackCalled = true;
+            });
+            await controller.load();
+            ok(dataLoadCallbackCalled);
+        });
+
+        it('load any root with dataLoadCallback from setter',  async () => {
+            let dataLoadCallbackCalled = false;
+            const controller = getController();
+            controller.setDataLoadCallback(() => {
+                dataLoadCallbackCalled = true;
+            });
+            await controller.load(null, 'testRoot');
+            ok(!dataLoadCallbackCalled);
+        });
     });
 
     describe('cancelLoading', () => {

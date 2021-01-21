@@ -573,17 +573,23 @@ export default class Controller {
         key: TKey,
         navigationSourceConfig: INavigationSourceConfig,
         direction: Direction): LoadPromiseResult {
+        // dataLoadCallback не надо вызывать если загружают узел,
+        // определяем это по тому, что переданный ключ в метод load не соответствует текущему корню
+        const needCallDataLoadCallback = key === this._root || direction;
+
         let methodResult;
         let dataLoadCallbackResult;
 
         this._updateQueryPropertiesByItems(result, key, navigationSourceConfig, direction);
 
-        if (this._dataLoadCallbackFromOptions) {
-            this._dataLoadCallbackFromOptions(result, direction);
-        }
+        if (needCallDataLoadCallback) {
+            if (this._dataLoadCallback) {
+                dataLoadCallbackResult = this._dataLoadCallback(result, direction);
+            }
 
-        if (this._dataLoadCallback) {
-            dataLoadCallbackResult = this._dataLoadCallback(result, direction);
+            if (this._dataLoadCallbackFromOptions) {
+                this._dataLoadCallbackFromOptions(result, direction);
+            }
         }
 
         if (dataLoadCallbackResult instanceof Promise) {
