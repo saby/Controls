@@ -103,7 +103,8 @@
 
 .controls-PeriodDialog__header-period {
    flex-grow: 1;
-   align-self: baseline;
+   display: flex;
+   align-items: center;
 }
 
 /*
@@ -121,11 +122,16 @@
       font-size: @header_lineheight_dialog - 1;
    }
 }
-.controls-PeriodDialog__header-period::before {
+.controls-PeriodDialog__header_inputs::before {
    content: '\200b';
    display: inline-block;
    width: 0;
    font-size: @header_lineheight_dialog;
+}
+
+.controls-PeriodDialog__header_inputs {
+   display: flex;
+   align-items: center;
 }
 
 .controls-PeriodDialog__header-rangeDash {
@@ -143,15 +149,37 @@
    margin: 0 @apply-button_offset_datePicker;
 }
 
-.controls-PeriodDialog__homeButton {
-   display: inline-flex;
-   align-items: center;
+.controls-PeriodDialog__header_calendar {
+   position: relative;
+   display: flex;
    justify-content: center;
-   cursor: pointer;
-   box-sizing: border-box;
-   &:before {
-      content: "\200b";
+   align-items: center;
+
+   &::before {
+      content: attr(date);
+      font-family: @font-family;
+      position: absolute;
    }
+}
+
+.controls-PeriodDialog__header_calendar_svg_theme-@{themeName} {
+   height: 28px;
+}
+
+.controls-PeriodDialog__header_calendar_svg-content_active_theme-@{themeName} {
+   fill: @secondary_color;
+}
+
+.controls-PeriodDialog__header_calendar_svg-content_readOnly_theme-@{themeName} {
+   fill: @readonly_color;
+}
+
+.controls-PeriodDialog__header_calendar_active_theme-@{themeName}::before {
+   color: @secondary_color;
+}
+
+.controls-PeriodDialog__header_calendar_readOnly_theme-@{themeName}::before {
+   color: @readonly_color;
 }
 
 .controls-PeriodDialog__homeButton-icon_theme-@{themeName} {
@@ -189,4 +217,12 @@
 .controls-PeriodDialog__picker-withoutModeBtn {
    margin-top: @shift-top_PeriodDialog-picker;
    margin-left: @shift-left_PeriodDialog-picker-withoutModeBtn;
+}
+
+.controls-Scroll__shadow_top_style-datePopup {
+   background: linear-gradient(to bottom, rgba(204, 204, 204, 0.3), rgba(0, 0, 0, 0));
+}
+
+.controls-Scroll__shadow_bottom_style-datePopup {
+   background: linear-gradient(to top, rgba(204, 204, 204, 0.3), rgba(0, 0, 0, 0));
 }

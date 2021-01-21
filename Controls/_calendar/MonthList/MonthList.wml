@@ -10,6 +10,7 @@
          attachLoadTopTriggerToNull="{{_options.attachLoadTopTriggerToNull}}"
          topShadowVisibility="{{ _topShadowVisibility }}"
          bottomShadowVisibility="{{ _bottomShadowVisibility }}"
+         shadowStyle="{{ _options.shadowStyle }}"
          shadowMode="js"
          on:scrollStateChanged="_scrollStateChangedHandler()"
          on:scroll="_scrollHandler()">
@@ -19,8 +20,10 @@
             viewMode="{{_options.viewMode}}"
             name="months"
             keyProperty="id"
-            markerVisibility="hidden"
+            markerVisibility="{{ _options.markerVisibility }}"
             on:drawItems="_drawItemsHandler()"
+            markedKey="{{ _options.markedKey }}"
+            on:markedKeyChanged="_onMarkedKeyChanged()"
             >
             <ws:virtualScrollConfig pageSize="{{_virtualPageSize}}"/>
             <ws:itemPadding left="null" right="null" bottom="null" top="null"/>

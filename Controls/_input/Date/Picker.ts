@@ -88,7 +88,9 @@ class Picker extends Control<IControlOptions> {
     static getDefaultOptions(): object {
         return {
             ...IDateTimeMask.getDefaultOptions(),
-            valueValidators: []
+            valueValidators: [],
+            startValue: null,
+            endValue: null
         };
     }
 

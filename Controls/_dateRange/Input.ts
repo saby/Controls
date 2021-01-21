@@ -206,7 +206,9 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
             ...IDateTimeMask.getDefaultOptions(),
             startValueValidators: [],
             endValueValidators: [],
-            validateByFocusOut: true
+            validateByFocusOut: true,
+            startValue: null,
+            endValue: null
         };
     }
 

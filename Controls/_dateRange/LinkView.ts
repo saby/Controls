@@ -119,14 +119,22 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       }
    }
 
+   _getCaption(options, startValue: Date | null, endValue: Date | null): string {
+      return options.captionFormatter(startValue, endValue, options.emptyCaption);
+   }
+
    _updateCaption(options): void {
       const opt = options || this._options;
-
-      this._caption = opt.captionFormatter(
-          this._rangeModel.startValue,
-          this._rangeModel.endValue,
-          opt.emptyCaption
-      );
+      if (this._rangeModel.startValue === null && this._rangeModel.endValue === null) {
+         this._caption = this._getCaption(opt, null, null);
+      } else if (this._rangeModel.startValue === null) {
+         // TODO: В словаре есть "Period@@по": "to", узнать что это, может подойдет
+         this._caption = 'по ' + this._getCaption(opt, this._rangeModel.endValue, this._rangeModel.endValue);
+      } else if (this._rangeModel.endValue === null) {
+         this._caption = rk('с ') + this._getCaption(opt, this._rangeModel.startValue, this._rangeModel.startValue);
+      } else {
+         this._caption = this._getCaption(opt, this._rangeModel.startValue, this._rangeModel.endValue);
+      }
    }
 
    _updateClearButton(options): void {

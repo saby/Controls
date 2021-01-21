@@ -105,7 +105,9 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
    static getOptionTypes(): object {
       return {
          ...ILinkView.getOptionTypes(),
-         captionFormatter: descriptor(Function)
+         captionFormatter: descriptor(Function),
+         startValue: null,
+         endValue: null
       };
    }
 
