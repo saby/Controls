@@ -398,7 +398,8 @@ const _private = {
                         _private.assignItemsToModel(self, list, cfg);
 
                         if (self._sourceController) {
-                            _private.setHasMoreData(listModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
+                            _private.setHasMoreData(listModel, _private.hasMoreDataInAnyDirection(self, self._sourceController),
+                                _private.hasMoreData(self, self._sourceController, 'up'));
                         }
 
                         if (self._loadedItems) {
@@ -802,7 +803,8 @@ const _private = {
                 self._loadedItems = addedItems;
             }
             _private.setHasMoreData(
-                self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController)
+                self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController),
+                _private.hasMoreData(self, self._sourceController, 'up')
             );
             if (self._options.serviceDataLoadCallback instanceof Function) {
                 self._options.serviceDataLoadCallback(self._items, addedItems);
@@ -1107,7 +1109,8 @@ const _private = {
             _private.getPortionedSearch(self).shouldSearch();
 
         if (allowLoadBySource && allowLoadByLoadedItems && allowLoadBySearch) {
-            _private.setHasMoreData(self._listViewModel, hasMoreData);
+            _private.setHasMoreData(self._listViewModel, hasMoreData,
+                _private.hasMoreData(self, self._sourceController, 'up'));
             _private.loadToDirection(
                 self, direction,
                 self._options.dataLoadCallback,
@@ -2374,9 +2377,12 @@ const _private = {
         }
         return height;
     },
-    setHasMoreData(model, hasMoreData: boolean, silent: boolean = false): boolean {
+    setHasMoreData(model, hasMoreData: boolean, hasMoreUp: boolean, silent: boolean = false): boolean {
         if (model) {
             model.setHasMoreData(hasMoreData, silent);
+            if (model.setHasMoreDataUp) {
+                model.setHasMoreDataUp(hasMoreUp);
+            }
         }
     },
     jumpToEnd(self): void {
@@ -3344,7 +3350,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         );
 
         _private.setHasMoreData(this._listViewModel,
-            _private.hasMoreDataInAnyDirection(this, this._sourceController), true);
+            _private.hasMoreDataInAnyDirection(this, this._sourceController),
+            _private.hasMoreData(this, this._sourceController, 'up'), true);
 
         if (cfg.itemsReadyCallback) {
             cfg.itemsReadyCallback(this._listViewModel.getCollection());
@@ -3408,7 +3415,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
             if (newOptions.source) {
                 if (receivedData) {
-                    _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController), true);
+                    _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController),
+                        _private.hasMoreData(self, self._sourceController, 'up'), true);
 
                 if (newOptions.useNewModel) {
                     self._items = self._listViewModel.getCollection();
@@ -3840,7 +3848,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
             this._modelRecreated = true;
 
-            _private.setHasMoreData(this._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
+            _private.setHasMoreData(this._listViewModel,
+                                    _private.hasMoreDataInAnyDirection(this, this._sourceController),
+                                    _private.hasMoreData(this, this._sourceController, 'up'));
 
             // Важно обновить коллекцию в scrollContainer перед сбросом скролла, т.к. scrollContainer реагирует на
             // scroll и произведет неправильные расчёты, т.к. у него старая collection.
@@ -3924,7 +3934,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
             if (this._loadedBySourceController) {
                 if (this._listViewModel) {
-                    this._listViewModel.setHasMoreData(_private.hasMoreDataInAnyDirection(this, this._sourceController))
+                    _private.setHasMoreData(this._listViewModel,
+                        _private.hasMoreDataInAnyDirection(this, this._sourceController),
+                        _private.hasMoreData(this, this._sourceController, 'up'));
                 }
                 _private.executeAfterReloadCallbacks(self, items, newOptions);
                 _private.resetScrollAfterLoad(self);
@@ -4104,7 +4116,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 if (this._sourceController) {
                     const hasMore = _private.hasMoreDataInAnyDirection(this, this._sourceController);
                     if (this._listViewModel && this._listViewModel.getHasMoreData() !== hasMore) {
-                        _private.setHasMoreData(this._listViewModel, hasMore);
+                        _private.setHasMoreData(this._listViewModel, hasMore,
+                            _private.hasMoreData(this, this._sourceController, 'up'));
                     }
 
                     if (this._pagingNavigation &&
