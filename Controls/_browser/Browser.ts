@@ -298,8 +298,13 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                     .then((result) => {
                         this._searchDataLoad(result, newOptions.searchValue);
                     })
-                    .catch((error) => error);
+                    .catch((error) => {
+                        if (!error.isCancelled) {
+                            return error;
+                        }
+                    });
             } else if (updateResult) {
+                this._searchValue = newOptions.searchValue;
                 this._filterChanged(null, updateResult as QueryWhereExpression<unknown>);
             }
 

@@ -111,7 +111,9 @@ export default class Container extends Control<ISearchInputContainerOptions> {
    }
 
    private _updateSearchData(inputSearchValue: string): void {
-      this._value = inputSearchValue;
+      if (this._value !== inputSearchValue) {
+         this._value = inputSearchValue;
+      }
       this._getSearchResolverController().setSearchStarted(true);
    }
 
