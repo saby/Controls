@@ -780,7 +780,7 @@ var Filter = Control.extend({
             let popupOptions =  {
                 fittingMode: {
                     horizontal: 'overflow',
-                    vertical: 'adaptive'
+                    vertical: 'overflow'
                 }
             };
             if (this._options.alignment === 'right') {
@@ -815,7 +815,7 @@ var Filter = Control.extend({
                     template: this._options.panelTemplateName,
                     fittingMode: {
                         horizontal: 'overflow',
-                        vertical: 'adaptive'
+                        vertical: 'overflow'
                     }
                 };
 

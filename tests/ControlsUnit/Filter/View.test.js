@@ -284,7 +284,7 @@ define(
             assert.strictEqual(popupOptions.templateOptions.items.length, 5);
             assert.deepEqual(popupOptions.fittingMode, {
                horizontal: 'overflow',
-               vertical: 'adaptive'
+               vertical: 'overflow'
             });
 
             view._options.detailPanelTemplateName = null;
