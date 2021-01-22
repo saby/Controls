@@ -2159,9 +2159,9 @@ const _private = {
         }
     },
 
-    dataLoadCallback(items: RecordSet, direction: IDirection): Promise<void>|void {
+    dataLoadCallback(items: RecordSet, direction: IDirection): Promise<void> | void {
         if (!direction) {
-            return;
+            return this.isEditing() ? this._cancelEdit(true) : void 0;
         }
 
         const navigation = this._options.navigation;

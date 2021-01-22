@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import {GridCollection, GridHeaderCell} from 'Controls/display';
+import {GridCollection, GridHeaderCell} from 'Controls/gridNew';
 import {Model} from 'Types/entity';
 
 describe('Controls/_display/GridMixin', () => {

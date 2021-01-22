@@ -1,6 +1,8 @@
 import { mixin } from 'Types/util';
 import { OptionsToPropertyMixin, VersionableMixin } from 'Types/entity';
+
 import { TColumns } from 'Controls/_grid/interface/IColumn';
+
 import Collection from './Collection';
 import ColgroupCell from './ColgroupCell';
 

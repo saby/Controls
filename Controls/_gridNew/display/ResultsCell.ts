@@ -123,7 +123,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
 
 Object.assign(ResultsCell.prototype, {
     '[Controls/_display/grid/ResultsCell]': true,
-    _moduleName: 'Controls/display:GridResultsCell',
+    _moduleName: 'Controls/gridNew:GridResultsCell',
     _instancePrefix: 'grid-results-cell-',
     _$data: null,
     _$format: null

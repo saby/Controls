@@ -1,8 +1,9 @@
 import {TemplateFunction} from 'UI/Base';
+
+import {IMarkable, ISelectableItem} from 'Controls/display';
+
 import Row, {IOptions as IRowOptions} from './Row';
 import DataCell from './DataCell';
-import IMarkable from '../interface/IMarkable';
-import ISelectableItem from '../interface/ISelectableItem';
 import ILadderSupport from './interface/ILadderSupport';
 import ItemActionsCell from './ItemActionsCell';
 
@@ -47,7 +48,7 @@ export default class DataRow<T> extends Row<T> implements IMarkable, ILadderSupp
 
 Object.assign(DataRow.prototype, {
     '[Controls/_display/grid/DataRow]': true,
-    _moduleName: 'Controls/display:GridDataRow',
-    _cellModule: 'Controls/display:GridDataCell',
+    _moduleName: 'Controls/gridNew:GridDataRow',
+    _cellModule: 'Controls/gridNew:GridDataCell',
     _instancePrefix: 'grid-data-row-'
 });

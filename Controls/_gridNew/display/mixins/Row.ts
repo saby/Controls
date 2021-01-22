@@ -1,17 +1,24 @@
 import { TemplateFunction } from 'UI/Base';
 import { create } from 'Types/di';
+import { isEqual } from 'Types/object';
+import {Model as EntityModel} from 'Types/entity';
+
 import { IColumn, TColumns, IColspanParams, TColumnSeparatorSize } from 'Controls/_grid/interface/IColumn';
-import { IOptions as IBaseOptions } from '../../CollectionItem';
-import Collection from '../Collection';
+import {THeader} from '../../../_grid/interface/IHeaderCell';
+
+import {
+    Collection,
+    ICollectionItemOptions as IBaseOptions,
+    ILadderConfig,
+    IStickyLadderConfig,
+    TLadderElement
+} from 'Controls/display';
+
 import Cell, { IOptions as ICellOptions } from '../Cell';
 import { TResultsPosition } from '../ResultsRow';
 import StickyLadderCell from '../StickyLadderCell';
 import CheckboxCell from '../CheckboxCell';
-import {Model as EntityModel} from 'Types/entity';
-import {THeader} from '../../../_grid/interface/IHeaderCell';
 import {TColspanCallback, TColspanCallbackResult} from './Grid';
-import { ILadderConfig, IStickyLadderConfig, TLadderElement } from 'Controls/_display/utils/GridLadderUtil';
-import { isEqual } from 'Types/object';
 
 const DEFAULT_GRID_ROW_TEMPLATE = 'Controls/gridNew:ItemTemplate';
 

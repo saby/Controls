@@ -2,8 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import { Model } from 'Types/entity';
 import TreeGridDataRow from './TreeGridDataRow';
-import Row from 'Controls/_display/grid/Row';
-import Cell from 'Controls/_display/grid/Cell';
+import {GridRow as Row, GridCell as Cell} from 'Controls/gridNew';
 
 export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterRow]': boolean;

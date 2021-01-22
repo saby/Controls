@@ -1,14 +1,14 @@
 import {mixin} from 'Types/util';
-import {Record} from 'Types/entity';
-import { Model } from 'Types/entity';
+import {Record, Model} from 'Types/entity';
+
+import {IMarkable, ILadderConfig, TLadderElement} from 'Controls/display';
+
+import ITagCell from './interface/ITagCell';
+import ILadderContentCell from './interface/ILadderContentCell';
+import IItemActionsCell from './interface/IItemActionsCell';
 import Cell, {IOptions as ICellOptions} from './Cell';
 import DataRow from './DataRow';
-import IMarkable from '../interface/IMarkable';
-import ITagCell from './interface/ITagCell';
-import IItemActionsCell from './interface/IItemActionsCell';
-import ILadderContentCell from './interface/ILadderContentCell';
 import DataCellCompatibility from './compatibility/DataCell';
-import {ILadderConfig, TLadderElement} from 'Controls/_display/utils/GridLadderUtil';
 
 export interface IOptions<T> extends ICellOptions<T> {
 }
@@ -98,6 +98,6 @@ export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
 
 Object.assign(DataCell.prototype, {
     '[Controls/_display/grid/DataCell]': true,
-    _moduleName: 'Controls/display:GridDataCell',
+    _moduleName: 'Controls/gridNew:GridDataCell',
     _instancePrefix: 'grid-data-cell-'
 });

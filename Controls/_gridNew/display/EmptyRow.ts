@@ -1,9 +1,10 @@
 import {TemplateFunction} from 'UI/Base';
+import {IColspanParams, IColumn} from 'Controls/grid';
+
 import Row, {IOptions as IRowOptions} from './Row';
 import EmptyCell from './EmptyCell';
 import {IItemTemplateParams} from './mixins/Row';
-import {IColspanParams, IColumn} from 'Controls/grid';
-import {TColspanCallbackResult} from "Controls/_display/grid/mixins/Grid";
+import {TColspanCallbackResult} from './mixins/Grid';
 
 
 export interface IOptions<T> extends IRowOptions<T> {
@@ -63,8 +64,8 @@ export default class EmptyRow<T> extends Row<T> {
 
 Object.assign(EmptyRow.prototype, {
     '[Controls/_display/grid/EmptyRow]': true,
-    _moduleName: 'Controls/display:GridEmptyRow',
-    _cellModule: 'Controls/display:GridEmptyCell',
+    _moduleName: 'Controls/gridNew:GridEmptyRow',
+    _cellModule: 'Controls/gridNew:GridEmptyCell',
     _instancePrefix: 'grid-empty-row-',
     _$emptyTemplate: null,
     _$emptyTemplateColumns: null

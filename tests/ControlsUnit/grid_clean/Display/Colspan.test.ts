@@ -1,7 +1,6 @@
 import { assert } from 'chai';
-import { GridCollection } from 'Controls/display';
 import { RecordSet } from 'Types/collection';
-import { TColspanCallbackResult } from 'Controls/display';
+import { GridCollection, TColspanCallbackResult } from 'Controls/gridNew';
 
 const rawData = [
     {

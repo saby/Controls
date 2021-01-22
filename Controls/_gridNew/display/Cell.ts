@@ -8,11 +8,14 @@ import {
     IVersionable
 } from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
+
 import { IColumn, IColspanParams, IRowspanParams, TColumnSeparatorSize } from 'Controls/grid';
+
 import {TMarkerClassName} from 'Controls/_grid/interface/ColumnTemplate';
 import {IItemPadding} from 'Controls/_list/interface/IList';
-import Row from './Row';
 import {COLUMN_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
+
+import Row from './Row';
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:ColumnTemplate';
 const MONEY_RENDER = 'Controls/gridNew:MoneyTypeRender';
@@ -472,7 +475,7 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
 
 Object.assign(Cell.prototype, {
     '[Controls/_display/grid/Cell]': true,
-    _moduleName: 'Controls/display:GridCell',
+    _moduleName: 'Controls/gridNew:GridCell',
     _instancePrefix: 'grid-cell-',
     _$owner: null,
     _$column: null,

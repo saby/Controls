@@ -1,11 +1,15 @@
 import { TemplateFunction } from 'UI/Base';
 import { Model as EntityModel } from 'Types/entity';
 
-import { IColumn, TColumns, TColumnSeparatorSize } from 'Controls/_grid/interface/IColumn';
 import { THeader } from 'Controls/_grid/interface/IHeaderCell';
+import {
+    IColumn,
+    TColumns,
+    TColumnSeparatorSize
+} from 'Controls/_grid/interface/IColumn';
 
-import { IViewIterator } from '../../Collection';
-import * as GridLadderUtil from '../../utils/GridLadderUtil';
+import { IViewIterator, GridLadderUtil, ILadderObject} from 'Controls/display';
+
 import Header from '../Header';
 import TableHeader from '../TableHeader';
 import TableHeaderRow from '../TableHeaderRow';
@@ -17,7 +21,6 @@ import FooterRow, { TFooter } from '../FooterRow';
 import ResultsRow, { TResultsPosition } from '../ResultsRow';
 import GridRowMixin from './Row';
 import EmptyRow from '../EmptyRow';
-import {ILadderObject} from '../../utils/GridLadderUtil';
 
 
 type THeaderVisibility = 'visible' | 'hasdata';
@@ -45,7 +48,7 @@ export type TColspanCallbackResult = number | 'end';
  * @param {Controls/grid:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
  * @param {Boolean} isEditing Актуальное состояние редактирования элемента
- * @returns {Controls/display:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ * @returns {Controls/gridNew:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  */
 export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex: number, isEditing: boolean) => TColspanCallbackResult;
 
@@ -55,7 +58,7 @@ export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex:
  * Функция обратного вызова для расчёта объединения колонок строки (колспана).
  * @param {Controls/grid:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
- * @returns {Controls/display:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ * @returns {Controls/gridNew:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  */
 export type TResultsColspanCallback = (column: IColumn, columnIndex: number) => TColspanCallbackResult;
 

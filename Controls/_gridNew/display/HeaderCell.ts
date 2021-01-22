@@ -16,9 +16,9 @@
     templateOptions Опции, передаваемые в шаблон ячейки заголовка.
 */
 import { TemplateFunction } from 'UI/Base';
-import {IColspanParams, IColumn, IColumnSeparatorSizeConfig, IHeaderCell, TColumnSeparatorSize, IRowspanParams} from 'Controls/grid';
+import {IColspanParams, IHeaderCell, IRowspanParams} from 'Controls/grid';
+import { IItemPadding } from 'Controls/display';
 import HeaderRow from './HeaderRow';
-import { IItemPadding } from '../Collection';
 import Cell, {IOptions as ICellOptions} from './Cell';
 
 export interface IOptions<T> extends ICellOptions<T> {
@@ -315,7 +315,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
 Object.assign(HeaderCell.prototype, {
     '[Controls/_display/grid/HeaderCell]': true,
-    _moduleName: 'Controls/display:GridHeaderCell',
+    _moduleName: 'Controls/gridNew:GridHeaderCell',
     _instancePrefix: 'grid-header-cell-',
     _$cellPadding: null,
     _$shadowVisibility: null,

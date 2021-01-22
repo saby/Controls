@@ -1,8 +1,10 @@
-import CollectionItem from '../CollectionItem';
-import Collection from './Collection';
-import { mixin } from 'Types/util';
-import GridRowMixin, { IOptions as IGridRowMixinOptions } from './mixins/Row';
 import { TemplateFunction } from 'UI/Base';
+import { mixin } from 'Types/util';
+
+import {CollectionItem} from 'Controls/display';
+
+import Collection from './Collection';
+import GridRowMixin, { IOptions as IGridRowMixinOptions } from './mixins/Row';
 import { TMarkerClassName } from 'Controls/_grid/interface/ColumnTemplate';
 import { IItemPadding } from 'Controls/list';
 
@@ -106,6 +108,6 @@ export default class Row<T>
 Object.assign(Row.prototype, {
     '[Controls/_display/IEditableCollectionItem]': false,
     '[Controls/_display/grid/Row]': true,
-    _moduleName: 'Controls/display:GridRow',
+    _moduleName: 'Controls/gridNew:GridRow',
     _instancePrefix: 'grid-row-'
 });

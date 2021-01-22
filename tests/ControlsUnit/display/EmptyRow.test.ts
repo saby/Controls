@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 
-import { GridCell, GridCollection, GridRow } from 'Controls/display';
+import { GridCell, GridCollection, GridRow } from 'Controls/gridNew';
 import { Model } from 'Types/entity';
 import { RecordSet } from 'Types/collection';
 

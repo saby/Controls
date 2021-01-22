@@ -1,5 +1,6 @@
 import { mixin } from 'Types/util';
-import { IGridRowOptions, GridCell, GridRowMixin, ITreeItemOptions, TreeItem, IItemPadding } from 'Controls/display';
+import { ITreeItemOptions, TreeItem, IItemPadding } from 'Controls/display';
+import { IGridRowOptions, GridCell, GridRowMixin } from 'Controls/gridNew';
 import TreeGridCollection from './TreeGridCollection';
 import { TMarkerClassName } from 'Controls/grid';
 import { Model } from 'Types/entity';

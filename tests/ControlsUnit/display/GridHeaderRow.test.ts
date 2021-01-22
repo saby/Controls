@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridHeaderRow } from 'Controls/display';
+import { GridHeaderRow } from 'Controls/gridNew';
 
 describe('Controls/_display:GridHeaderRow', () => {
 
