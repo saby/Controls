@@ -4,9 +4,9 @@ import Collection from './Collection';
 import Row from './Row';
 import { IColumn } from 'Controls/grid';
 import { TColspanCallbackResult, TResultsColspanCallback } from './mixins/Grid';
-import ResultsCell from 'Controls/_display/grid/ResultsCell';
-import Cell from 'Controls/_display/grid/Cell';
-import ItemActionsCell from 'Controls/_display/grid/ItemActionsCell';
+import ResultsCell from './ResultsCell';
+import Cell from './Cell';
+import ItemActionsCell from './ItemActionsCell';
 
 export type TResultsPosition = 'top' | 'bottom';
 
@@ -111,8 +111,8 @@ export default class ResultsRow<T> extends Row<T> {
 
 Object.assign(ResultsRow.prototype, {
     '[Controls/_display/grid/ResultsRow]': true,
-    _moduleName: 'Controls/display:GridResults',
-    _cellModule: 'Controls/display:GridResultsCell',
+    _moduleName: 'Controls/gridNew:GridResults',
+    _cellModule: 'Controls/gridNew:GridResultsCell',
     _$results: null,
     _$resultsTemplate: null,
     _$resultsColspanCallback: null

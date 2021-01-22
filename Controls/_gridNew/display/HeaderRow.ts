@@ -1,3 +1,5 @@
+import { Model } from 'Types/entity';
+
 import {
     ICellPadding,
     IColumn,
@@ -6,12 +8,12 @@ import {
     TColumnSeparatorSize,
     THeader
 } from 'Controls/grid';
+
 import Row, {IOptions as IRowOptions} from './Row';
 import Header, {IHeaderBounds} from './Header';
 import ItemActionsCell from './ItemActionsCell';
-import Cell from 'Controls/_display/grid/Cell';
-import HeaderCell from 'Controls/_display/grid/HeaderCell';
-import { Model } from 'Types/entity';
+import Cell from './Cell';
+import HeaderCell from './HeaderCell';
 
 export interface IOptions<T> extends IRowOptions<T> {
     header: THeader;
@@ -197,9 +199,9 @@ export default class HeaderRow<T> extends Row<T> {
 
 Object.assign(HeaderRow.prototype, {
     '[Controls/_display/grid/HeaderRow]': true,
-    _moduleName: 'Controls/display:GridHeaderRow',
+    _moduleName: 'Controls/gridNew:GridHeaderRow',
     _instancePrefix: 'grid-header-row-',
-    _cellModule: 'Controls/display:GridHeaderCell',
+    _cellModule: 'Controls/gridNew:GridHeaderCell',
     _$header: null,
     _$headerModel: null
 });

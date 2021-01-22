@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridDataRow, GridCollection } from 'Controls/display';
+import { GridDataRow, GridCollection } from 'Controls/gridNew';
 import { Model } from 'Types/entity';
 
 const rawData = { key: 1, firstStickyProperty: 'first', secondStickyProperty: 'second', caption: 'item_1' };

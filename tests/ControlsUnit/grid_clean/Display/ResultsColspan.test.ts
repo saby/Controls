@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridCollection } from 'Controls/display';
+import { GridCollection } from 'Controls/gridNew';
 import { RecordSet } from 'Types/collection';
 
 const rawData = [

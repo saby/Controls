@@ -59,7 +59,7 @@ export default class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompat
 
 Object.assign(EmptyCell.prototype, {
     '[Controls/_display/grid/EmptyCell]': true,
-    _moduleName: 'Controls/display:GridEmptyCell',
+    _moduleName: 'Controls/gridNew:GridEmptyCell',
     _instancePrefix: 'grid-empty-cell-',
     _$isFullColspan: false
 });

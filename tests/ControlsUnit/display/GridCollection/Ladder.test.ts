@@ -1,5 +1,6 @@
 import { assert } from 'chai';
-import { GridCollection, VirtualScrollController } from 'Controls/display';
+import { GridCollection } from 'Controls/gridNew';
+import { VirtualScrollController } from 'Controls/display';
 import { RecordSet } from 'Types/collection';
 
 const keyProperty = 'key';

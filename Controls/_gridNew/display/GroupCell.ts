@@ -1,8 +1,9 @@
-import Cell from './Cell';
 import {OptionsToPropertyMixin} from 'Types/entity';
-import GroupItem from './GroupItem';
+
 import {IColspanParams, IColumn} from 'Controls/_grid/interface/IColumn';
-import isFullGridSupport from '../utils/GridSupportUtil';
+
+import Cell from './Cell';
+import GroupItem from './GroupItem';
 
 export interface IOptions<T> {
     owner: GroupItem<T>;

@@ -1,4 +1,4 @@
-import { GridDataCell } from 'Controls/display';
+import { GridDataCell } from 'Controls/gridNew';
 import { GridLayoutUtil } from 'Controls/grid';
 import TreeGridDataRow from './TreeGridDataRow';
 import { Model } from 'Types/entity';

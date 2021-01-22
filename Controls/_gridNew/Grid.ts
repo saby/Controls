@@ -16,7 +16,7 @@ export default class Grid extends List {
     }
 
     _getModelConstructor() {
-        return 'Controls/display:GridCollection';
+        return 'Controls/gridNew:GridCollection';
     }
 }
 

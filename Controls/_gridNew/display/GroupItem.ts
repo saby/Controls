@@ -1,16 +1,21 @@
 import { TemplateFunction } from 'UI/Base';
 import {mixin} from 'Types/util';
+
+import {
+    ExpandableMixin,
+    IExpandableMixinOptions,
+    ICollectionItemOptions as IBaseCollectionItemOptions,
+    GridLadderUtil
+} from 'Controls/display';
+
 import Row from './Row';
-import ExpandableMixin, {IOptions as IExpandableMixinOptions} from '../ExpandableMixin';
-import {IOptions as IBaseCollectionItemOptions} from '../CollectionItem';
 import Cell from './Cell';
 import Collection from './Collection';
 import GroupCell from './GroupCell';
-import * as GridLadderUtil from '../utils/GridLadderUtil';
 
 const DEFAULT_GROUP_CONTENT_TEMPLATE = 'Controls/gridNew:GroupContent';
 
-interface IOptions<T> extends IBaseCollectionItemOptions<T>, IExpandableMixinOptions {
+export interface IOptions<T> extends IBaseCollectionItemOptions<T>, IExpandableMixinOptions {
     owner: Collection<T>;
 }
 
