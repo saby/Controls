@@ -4,6 +4,7 @@ import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventDa
 import StickyHeader from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
+import {getGapFixSize} from 'Controls/_scroll/StickyHeader/Utils';
 
 // @ts-ignore
 
