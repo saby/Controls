@@ -273,7 +273,7 @@ define(
          it('openDetailPanel', function() {
             let view = getView(defaultConfig),
                popupOptions;
-            view._stickyOpener = { open: (options) => {popupOptions = options;}, isOpened: () => {return false;} };
+            view._filterPopupOpener = { open: (options) => {popupOptions = options;}, isOpened: () => {return false;} };
             view._container = {};
             view._options.detailPanelTemplateName = 'detailPanelTemplateName.wml';
             view._source = defaultConfig.source;
@@ -300,7 +300,7 @@ define(
                   getElementsByClassName: () => [filterClassName]
                }
             };
-            view._stickyOpener = { open: (options) => {popupOptions = options;}, isOpened: () => {return false;} };
+            view._filterPopupOpener = { open: (options) => {popupOptions = options;}, isOpened: () => {return false;} };
             view._children = {
                state: 'div_state_filter'
             };
@@ -388,7 +388,7 @@ define(
             let view = getView(defaultConfig),
                popupOptions,
                isOpened = true;
-            view._stickyOpener = { open: (options) => {popupOptions = options;}, isOpened: () => {return isOpened;} };
+            view._filterPopupOpener = { open: (options) => {popupOptions = options;}, isOpened: () => {return isOpened;} };
             view._container = {};
 
             view._open();
@@ -452,7 +452,7 @@ define(
             let view = getView(defaultConfig),
                isOpened = true, closed,
                filterChanged, itemsChanged;
-            view._stickyOpener = { isOpened: () => {return isOpened;}, close: () => {closed = true;} };
+            view._filterPopupOpener = { isOpened: () => {return isOpened;}, close: () => {closed = true;} };
             view._notify = (event, data) => {
               if (event === 'filterChanged') {
                  filterChanged = data[0];
@@ -496,7 +496,7 @@ define(
             let view = getView(defaultConfig),
                isOpened = true, closed,
                filterChanged, itemsChanged;
-            view._stickyOpener = { isOpened: () => {return isOpened;}, close: () => {closed = true;} };
+            view._filterPopupOpener = { isOpened: () => {return isOpened;}, close: () => {closed = true;} };
             view._notify = (event, data) => {
                if (event === 'filterChanged') {
                   filterChanged = data[0];
@@ -935,7 +935,7 @@ define(
                      sourceController: {hasMoreData: () => {return true;}}
                   }
                };
-               view._stickyOpener = { close: () => {} };
+               view._filterPopupOpener = { close: () => {} };
             });
 
             it('_resultHandler itemClick', function() {
@@ -1212,7 +1212,7 @@ define(
                   action: 'moreButtonClick',
                   id: 'document'
                };
-               view._stickyOpener = { close: () => {isClosed = true;} };
+               view._filterPopupOpener = { close: () => {isClosed = true;} };
                view._resultHandler(eventResult);
                assert.strictEqual(view._idOpenSelector, 'document');
                assert.isTrue(isClosed);
@@ -1296,7 +1296,7 @@ define(
                   },
                   state: {}
                };
-               view._stickyOpener = { close: () => {} };
+               view._filterPopupOpener = { close: () => {} };
                hSource = new history.Source({
                   originSource: new sourceLib.Memory({
                      keyProperty: 'key',

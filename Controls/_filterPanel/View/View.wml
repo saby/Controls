@@ -18,7 +18,7 @@
               collapsedGroups="{{_collapsedGroups}}"
               on:editingObjectChanged="_editingObjectChanged()"
               on:groupClick="_groupClick()"
-              attr:class="controls-FilterViewPanel__propertyGrid">
+              attr:class="controls-FilterViewPanel__propertyGrid controls-FilterViewPanel__propertyGrid_theme-{{_options.theme}}">
          <ws:groupTemplate>
             <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate" resetCaption="{{_resetCaption}}" groupItems="{{_groupItems}}"/>
          </ws:groupTemplate>
