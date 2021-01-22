@@ -159,14 +159,14 @@ define(
                assert.equal(renderOptions.listModel.getCollection().at(0).get('node'), false);
             });
 
-            it('check selected empty item', function() {
+            it('check marked empty item', function() {
                renderOptions.selectedKeys = [];
                menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
-               assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isSelected());
+               assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isMarked());
 
                renderOptions.selectedKeys = [null];
                menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
-               assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isSelected());
+               assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isMarked());
             });
 
             it('check model', function() {

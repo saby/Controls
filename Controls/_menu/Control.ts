@@ -132,15 +132,19 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             });
         }
 
-        if (this._isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
+        const selectedKeysChanged = this._isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys);
+        if (selectedKeysChanged) {
             this._updateSelectionController(newOptions);
             this._notify('selectedItemsChanged', [this._getSelectedItems()]);
         }
 
         if (this._markerController) {
             this._markerController.updateOptions(this._getMarkerControllerConfig(newOptions));
-            const markedKey = this._getMarkedKey(this._getSelectedKeys(), newOptions.emptyKey, newOptions.multiSelect);
-            this._markerController.setMarkedKey(markedKey);
+            if (selectedKeysChanged) {
+                const markedKey = this._getMarkedKey(this._getSelectedKeys(), newOptions.emptyKey,
+                    newOptions.multiSelect);
+                this._markerController.setMarkedKey(markedKey);
+            }
         }
 
         return result;
@@ -303,12 +307,14 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getKeysForSelectionController(options: IMenuControlOptions): TSelectedKeys {
-        return options.selectedKeys.map((key) => {
+        const selectedKys = [];
+        options.selectedKeys.forEach((key) => {
             const item = this._listModel.getItemBySourceKey(key)?.getContents();
-            if (item) {
-                return MenuControl._isHistoryItem(item) ? String(key) : key;
+            if (item && !MenuControl._isFixedItem(item)) {
+                selectedKys.push(MenuControl._isHistoryItem(item) ? String(key) : key);
             }
         });
+        return selectedKys;
     }
 
     private _openItemActionMenu(item: CollectionItem<Model>,
@@ -577,9 +583,12 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _changeSelection(key: string|number|null): void {
         const selectionController = this._getSelectionController();
-        const selectedItems = this._listModel.getSelectedItems();
-        if (selectedItems.length === 1 && MenuControl._isFixedItem(selectedItems[0].getContents())) {
-            selectionController.setSelection(selectionController.toggleItem(selectedItems[0].getContents().getKey()));
+        const markerController = this._getMarkerController(this._options);
+        const markedKey = markerController.getMarkedKey();
+        const selectedItem = this._listModel.getItemBySourceKey(markedKey);
+        if (selectedItem &&
+            (MenuControl._isFixedItem(selectedItem.getContents()) || this._isEmptyItem(selectedItem.getContents()))) {
+            markerController.setMarkedKey(undefined);
         }
         const selection = selectionController.toggleItem(key);
         selectionController.setSelection(selection);
@@ -642,14 +651,24 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return this._markerController;
     }
 
-    private _getMarkedKey(selectedKeys: TSelectedKeys, emptyKey?: string|number, multiSelect?: boolean): string|number|undefined {
-        if (multiSelect && (!selectedKeys.length || selectedKeys.includes(emptyKey))) {
-            return emptyKey;
-        }
-        if (!multiSelect) {
+    private _getMarkedKey(selectedKeys: TSelectedKeys,
+                          emptyKey?: string|number,
+                          multiSelect?: boolean): string|number|undefined {
+        let markedKey;
+        if (multiSelect) {
+            if (!selectedKeys.length || selectedKeys.includes(emptyKey)) {
+                markedKey = emptyKey;
+            } else {
+                const item = this._listModel.getItemBySourceKey(selectedKeys[0]);
+                if (MenuControl._isFixedItem(item.getContents())) {
+                    markedKey = selectedKeys[0];
+                }
+            }
+        } else {
             const selectedKey = selectedKeys[0];
-            return selectedKey === undefined && emptyKey !== undefined ? emptyKey : selectedKey;
+            markedKey = selectedKey === undefined && emptyKey !== undefined ? emptyKey : selectedKey;
         }
+        return markedKey;
     }
 
     private _getSelectedKeys(): TSelectedKeys {

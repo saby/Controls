@@ -533,6 +533,29 @@ define(
             assert.isFalse(result);
          });
 
+         it('_getMarkedKey', function() {
+            let menuControl = getMenu();
+            menuControl._listModel = getListModel(
+               [{ key: 1, title: 'Россия' },
+                  { key: 2, title: 'США', pinned: true }]
+            );
+
+            // empty item
+            let result = menuControl._getMarkedKey([], 'emptyKey', true);
+            assert.equal(result, 'emptyKey');
+
+            // fixed item
+            result = menuControl._getMarkedKey([2], 'emptyKey', true);
+            assert.equal(result, 2);
+
+            // single selection
+            result = menuControl._getMarkedKey([1, 2], 'emptyKey');
+            assert.equal(result, 1);
+
+            result = menuControl._getMarkedKey([], 'emptyKey');
+            assert.equal(result, 'emptyKey');
+         });
+
          it('setSubMenuPosition', function() {
             let menuControl = getMenu();
             menuControl._openSubMenuEvent = {
