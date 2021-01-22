@@ -16,6 +16,7 @@ export interface IShadowsOptions {
     leftShadowVisibility: SHADOW_VISIBILITY;
     rightShadowVisibility: SHADOW_VISIBILITY;
     shadowMode: SHADOW_MODE;
+    shadowStyle: string;
 }
 
 export interface IShadowsVisibilityByInnerComponents {
@@ -31,7 +32,8 @@ export function getDefaultOptions(): IShadowsOptions {
         bottomShadowVisibility: SHADOW_VISIBILITY.AUTO,
         leftShadowVisibility: SHADOW_VISIBILITY.AUTO,
         rightShadowVisibility: SHADOW_VISIBILITY.AUTO,
-        shadowMode: SHADOW_MODE.MIXED
+        shadowMode: SHADOW_MODE.MIXED,
+        shadowStyle: 'default'
     };
 }
 

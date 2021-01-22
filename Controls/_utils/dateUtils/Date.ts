@@ -268,10 +268,12 @@ export function normalizeMonth(month: Date): Date {
  * @returns {Date} Date with zeroed time
  */
 export function normalizeDate(date: Date): Date {
-    if (!(date instanceof Date)) {
+    if (date === null) {
         return null;
     }
-    return new date.constructor(date.getFullYear(), date.getMonth(), date.getDate());
+    if (date) {
+        return new date.constructor(date.getFullYear(), date.getMonth(), date.getDate());
+    }
 }
 
 export function getDaysByRange(date1: Date, date2: Date): number {
@@ -281,6 +283,11 @@ export function getDaysByRange(date1: Date, date2: Date): number {
 
 export function isRangesOverlaps(startDate1: Date|number, endDate1: Date|number,
                                  startDate2: Date|number, endDate2: Date|number): boolean {
+    // Если значение null, то будем присваивать максимальную или минимальную дату.
+    startDate1 = startDate1 !== null ? startDate1 : new Date(9999, 0);
+    endDate1 = startDate1 !== null ? startDate1 : new Date(9999, 0);
+    startDate2 = startDate1 !== null ? startDate1 : new Date(1400, 0);
+    endDate2 = startDate1 !== null ? startDate1 : new Date(1400, 0);
     if (!startDate1 || !endDate1 || !startDate2 || !endDate2) {
         return false;
     }

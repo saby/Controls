@@ -96,6 +96,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _headerTmpl: TemplateFunction = headerTmpl;
     _dayTmpl: TemplateFunction = dayTmpl;
     _defaultDayTemplate: TemplateFunction = MonthViewDayTemplate;
+    protected _today: number = new Date().getDate();
 
     _rangeModel: object = null;
     _headerRangeModel: object = null;
@@ -107,7 +108,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _headerType: string = HEADER_TYPES.link;
     _activateInputField: boolean = false;
 
-    _homeButtonVisible: boolean = true;
+    _todayCalendarEnabled: boolean = true;
 
     _STATES: object = STATES;
     _state: string = STATES.year;
@@ -196,7 +197,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
             this._yearRangeSelectionType = IDateRangeSelectable.SELECTION_TYPES.disable;
         }
 
-        this._updateHomeButtonVisible();
+        this._updateTodayCalendarState();
 
         this._headerType = options.headerType;
     }
@@ -220,31 +221,33 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     _toggleStateClick(): void {
         this.toggleState();
-        this._updateHomeButtonVisible();
+        this._updateTodayCalendarState();
     }
 
-    _homeButtonClick(): void {
-        this._displayedDate = dateUtils.getStartOfMonth(new Date());
+    _todayCalendarClick(): void {
+        if (this._todayCalendarEnabled) {
+            this._displayedDate = dateUtils.getStartOfMonth(new Date());
+        }
     }
 
-    _updateHomeButtonVisible(): void {
+    _updateTodayCalendarState(): void {
         if ((this._state === STATES.year && this._displayedDate.getFullYear() === new Date().getFullYear()) ||
             (this._state === STATES.month && this._displayedDate.getMonth() === new Date().getMonth() &&
                 this._displayedDate.getFullYear() === new Date().getFullYear())) {
-            this._homeButtonVisible = false;
+            this._todayCalendarEnabled = false;
         } else {
-            this._homeButtonVisible = true;
+            this._todayCalendarEnabled = true;
         }
     }
 
     _currentDayIntersectHandler(event: SyntheticEvent, entry: IntersectionObserverSyntheticEntry): void {
-        this._homeButtonVisible = !entry.nativeEntry.isIntersecting;
+        this._todayCalendarEnabled = !entry.nativeEntry.isIntersecting;
     }
 
     _unregisterCurrentDayIntersectHandler(): void {
         // Если в IntersectionObserverContainer, который сделит за сегодняшним днём, происходит событие unregister -
         // значит текущий день точно не отображается. Обновляем состояние домика.
-        this._updateHomeButtonVisible();
+        this._updateTodayCalendarState();
     }
 
     _yearsRangeChanged(e: SyntheticEvent, start: Date, end: Date): void {

@@ -222,6 +222,10 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
         }
     }
 
+    protected _onMarkedKeyChanged(event: Event, markedKey: string): void {
+        this._notify('markedKeyChanged', [markedKey]);
+    }
+
     private  _getDisplayedRanges(position: Date, virtualPageSize: number, viewMode): number[] {
         const displayedRanges = [];
         if ( viewMode === 'year') {
@@ -597,7 +601,8 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             displayedRanges: null,
             itemDataLoadRatio: 0.1,
             // Опция при значении false позволяет загружать элементы списка 'вверх'
-            attachLoadTopTriggerToNull: true
+            attachLoadTopTriggerToNull: true,
+            markerVisibility: 'hidden'
         };
     }
 }
