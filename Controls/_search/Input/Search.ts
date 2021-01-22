@@ -85,7 +85,14 @@ class Search extends Base {
         }
     }
 
-    protected _beforeUnmount(): void {
+    protected _beforeUpdate(newOptions): void {
+       super._beforeUpdate(newOptions);
+       if (this._options.value !== newOptions.value) {
+          this._notifyValueChanged();
+       }
+    }
+
+   protected _beforeUnmount(): void {
         if (this._resetCommandCallbackId) {
             Store.unsubscribe(this._resetCommandCallbackId);
         }
