@@ -87,22 +87,6 @@ export default class Container extends Control<IFilterContainerOptions, IFilterH
       this._notify('filterChanged', [this._filter]);
    }
 
-   private _dataLoadCallback(items: RecordSet): void {
-      this._filterController.handleDataLoad(items);
-
-      if (this._options.dataLoadCallback) {
-         this._options.dataLoadCallback(items);
-      }
-   }
-
-   private _dataLoadErrback(error: Error): void {
-      this._filterController.handleDataError();
-
-      if (this._options.dataLoadErrback) {
-         this._options.dataLoadErrback(error);
-      }
-   }
-
    private _updateFilterAndFilterItems(): void {
       this._filter = this._filterController.getFilter();
       this._filterButtonItems = this._filterController.getFilterButtonItems();
