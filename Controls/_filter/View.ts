@@ -827,7 +827,7 @@ var Filter = Control.extend({
                     template: this._options.panelTemplateName,
                     fittingMode: {
                         horizontal: 'overflow',
-                        vertical: 'adaptive'
+                        vertical: 'overflow'
                     }
                 };
 
