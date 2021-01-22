@@ -422,6 +422,7 @@ describe('Controls/browser:Browser', () => {
            });
 
            assert.isTrue(notifyStub.withArgs('filterChanged', [{payload: 'something'}]).called);
+           assert.equal(browser._searchValue, '');
 
            notifyStub.restore();
        });
