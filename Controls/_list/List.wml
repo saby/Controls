@@ -4,7 +4,6 @@
         template="{{_viewTemplate}}"
         viewName="{{_viewName}}"
         useNewModel="{{_supportNewModel || _options.useNewModel}}"
-		on:getActionsMenuConfig="_getActionsMenuConfig()"
         viewModelConstructor="{{_viewModelConstructor}}">
     </ws:partial>
 </Controls._list.Data>

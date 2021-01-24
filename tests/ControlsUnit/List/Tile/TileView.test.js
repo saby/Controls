@@ -219,6 +219,25 @@ define(['Controls/_tile/TileView/TileView',
          });
       });
 
+      describe('shouldOpenExtendedMenu', () => {
+         it('with different tileScalingMode', () => {
+            tileView._options = {
+               tileScalingMode: 'none',
+               actionMenuViewMode: 'preview'
+            };
+            const itemData = {
+               isNode: () => false
+            };
+
+            assert.isTrue(tileView._shouldOpenExtendedMenu(false, true, itemData));
+            assert.isFalse(tileView._shouldOpenExtendedMenu(true, false, itemData));
+            tileView._options.tileScalingMode = 'overlap';
+            assert.isTrue(tileView._shouldOpenExtendedMenu(false, true, itemData));
+            tileView._options.tileScalingMode = 'inside';
+            assert.isFalse(tileView._shouldOpenExtendedMenu(false, true, itemData));
+         });
+      });
+
       describe('getCorrectPosition', function() {
          it('all fit', function() {
             assert.deepEqual(TileView._private.getCorrectPosition(10, 10, 10, 10), {

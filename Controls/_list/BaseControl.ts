@@ -234,14 +234,13 @@ const _private = {
     getItemActionsMenuConfig(self, item, event, action, isContextMenu): Record<string, any> {
         const itemActionsController = _private.getItemActionsController(self, self._options);
         const defaultMenuConfig = itemActionsController.prepareActionsMenuConfig(item, event, action, self, isContextMenu);
-        const menuConfig = self._notify('getActionsMenuConfig', [
+        const menuConfig = self._children?.listView?.getActionsMenuConfig(
             item,
             event,
             action,
             isContextMenu,
             defaultMenuConfig,
-            self._listViewModel?.getItemDataByItem?.(item)
-        ]);
+            self._listViewModel?.getItemDataByItem?.(item));
         return menuConfig || defaultMenuConfig;
     },
     getItemActionsController(self, options: IList): ItemActionsController {
