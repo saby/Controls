@@ -78,7 +78,7 @@ export const enum INITIALIZING_WAY {
 
 /**
  * Контроллер, в котором определена логика CRUD-методов, выполняемых над редактируемой записью.
- * В частном случае контрол применяется для создания <a href="/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/">диалогов редактирования записи</a>. Может выполнять запросы CRUD-методов на БЛ.
+ * В частном случае контрол применяется для создания <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/">диалогов редактирования записи</a>. Может выполнять запросы CRUD-методов на БЛ.
  * @remark
  * Для того, чтобы дочерние контролы могли отреагировать на начало сохранения, либо уничтожения контрола, им необходимо зарегистрировать соответствующие обработчики.
  * Обработчики регистрируются через событие registerFormOperation, в аргументах которого ожидается объект с полями
@@ -101,7 +101,7 @@ export const enum INITIALIZING_WAY {
 
 /*
  * Record editing controller. The control stores data about the record and can execute queries CRUD methods on the BL.
- * <a href="/doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/">More information and details.</a>.
+ * <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/">More information and details.</a>.
  * @class Controls/_form/FormController
  * @extends UI/Base:Control
  * @mixes Controls/_interface/ISource
