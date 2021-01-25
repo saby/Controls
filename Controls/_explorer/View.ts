@@ -51,7 +51,7 @@ var
             } else {
                self._potentialMarkedKey = root;
             }
-            self._notify('rootChanged', [root]);
+            self._notify('rootChanged', [root], {bubbling: !!self._options.sourceController});
             if (typeof self._options.itemOpenHandler === 'function') {
                self._options.itemOpenHandler(root, self._items, dataRoot);
             }
@@ -519,7 +519,6 @@ var
       },
       _beforeUpdate: function(cfg) {
          const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
-         const isSearchViewMode = cfg.viewMode === 'search';
          const isRootChanged = cfg.root !== this._options.root;
 
          // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
@@ -529,10 +528,6 @@ var
          }
          this._potentialMarkedKey = undefined;
 
-         const loadedBySourceController =
-             cfg.sourceController &&
-             ((isSearchViewMode && cfg.searchValue && cfg.searchValue !== this._options.searchValue) ||
-              (cfg.source !== this._options.source));
          const isSourceControllerLoading = cfg.sourceController && cfg.sourceController.isLoading();
          this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
          this._headerVisibility = cfg.root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
@@ -569,7 +564,7 @@ var
             this._navigation = cfg.navigation;
          }
 
-         if ((isViewModeChanged && isRootChanged && !loadedBySourceController) || this._pendingViewMode && cfg.viewMode !== this._pendingViewMode) {
+         if ((isViewModeChanged && isRootChanged && !cfg.sourceController) || this._pendingViewMode && cfg.viewMode !== this._pendingViewMode) {
             // Если меняется и root и viewMode, не меняем режим отображения сразу,
             // потому что тогда мы перерисуем explorer в новом режиме отображения
             // со старыми записями, а после загрузки новых получим еще одну перерисовку.
@@ -583,7 +578,7 @@ var
             const filterChanged = !isEqual(cfg.filter, this._options.filter);
             const recreateSource = cfg.source !== this._options.source || (isSourceControllerLoading);
             const sortingChanged = !isEqual(cfg.sorting, this._options.sorting);
-            if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !loadedBySourceController) {
+            if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !cfg.sourceController) {
                _private.setPendingViewMode(this, cfg.viewMode, cfg);
             } else {
                _private.checkedChangeViewMode(this, cfg.viewMode, cfg);
@@ -591,7 +586,7 @@ var
          } else if (!isViewModeChanged &&
              this._pendingViewMode &&
              cfg.viewMode === this._pendingViewMode &&
-             loadedBySourceController) {
+             cfg.sourceController) {
             _private.setViewModeSync(this, this._pendingViewMode, cfg);
          } else {
             _private.applyNewVisualOptions(this);

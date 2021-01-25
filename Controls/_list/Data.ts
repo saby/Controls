@@ -181,32 +181,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       }
 
       if (isChanged && !newOptions.sourceController) {
-         const currentRoot = this._sourceController.getRoot();
-         this._fixRootForMemorySource(newOptions);
-
-         this._loading = true;
-         return this._sourceController.reload()
-             .then((reloadResult) => {
-                if (!newOptions.hasOwnProperty('root')) {
-                   this._sourceController.setRoot(currentRoot);
-                }
-                this._items = this._sourceController.getItems();
-
-                const controllerState = this._sourceController.getState();
-                this._updateContext(controllerState);
-                this._loading = false;
-                return reloadResult;
-             })
-             .catch((error) => {
-                this._onDataError(
-                    null,
-                    {
-                       error,
-                       mode: dataSourceError.Mode.include
-                    }
-                );
-                return error;
-             });
+         return this._reload(this._options);
       } else if (isChanged) {
          const controllerState = this._sourceController.getState();
 
@@ -287,6 +262,10 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    }
 
    _rootChanged(event, root): void {
+      if (this._options.root === undefined) {
+         this._sourceController.setRoot(root);
+         this._reload(this._options);
+      }
       this._notify('rootChanged', [root]);
    }
 
@@ -317,9 +296,40 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9
    // https://online.sbis.ru/opendoc.html?guid=c1dc4b23-57cb-42c8-934f-634262ec3957
    private _fixRootForMemorySource(options: IDataOptions): void {
-      if (!options.hasOwnProperty('root') && options.source instanceof Memory) {
+      if (!options.hasOwnProperty('root') &&
+          options.source instanceof Memory &&
+          this._sourceController.getRoot() === null) {
          this._sourceController.setRoot(undefined);
       }
+   }
+
+   private _reload(options: IDataOptions): Promise<RecordSet|Error> {
+      const currentRoot = this._sourceController.getRoot();
+      this._fixRootForMemorySource(options);
+
+      this._loading = true;
+      return this._sourceController.reload()
+          .then((reloadResult) => {
+             if (!options.hasOwnProperty('root')) {
+                this._sourceController.setRoot(currentRoot);
+             }
+             this._items = this._sourceController.getItems();
+
+             const controllerState = this._sourceController.getState();
+             this._updateContext(controllerState);
+             this._loading = false;
+             return reloadResult;
+          })
+          .catch((error) => {
+             this._onDataError(
+                 null,
+                 {
+                    error,
+                    mode: dataSourceError.Mode.include
+                 }
+             );
+             return error;
+          });
    }
 
    _getChildContext(): object {
