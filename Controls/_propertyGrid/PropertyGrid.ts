@@ -4,6 +4,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {GroupItem, CollectionItem} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
+import {factory} from 'Types/chain';
 import {object} from 'Types/util';
 import {default as renderTemplate} from 'Controls/_propertyGrid/Render';
 import {default as gridRenderTemplate} from 'Controls/_propertyGrid/GridRender';
@@ -181,11 +182,29 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         });
     }
 
+    protected _updatePropertyValue(
+        editingObject: Record<string, any> | Model,
+        name: string, value: any
+    ): Record<string, any> | Model {
+        const editingObjectClone = object.clone(editingObject);
+        if (editingObjectClone instanceof Model) {
+            if (!editingObjectClone.has(name)) {
+                const newEditingObject = factory(editingObject).toObject();
+                newEditingObject[name] = value;
+                return Model.fromObject(newEditingObject, editingObjectClone.getAdapter());
+            } else {
+                editingObjectClone.set(name, value);
+            }
+        } else {
+            editingObjectClone[name] = value;
+        }
+        return editingObjectClone;
+    }
+
     protected _propertyValueChanged(event: SyntheticEvent<Event>, item: Model, value: any): void {
         const name = item.get(PROPERTY_NAME_FIELD);
-        const editingObjectClone = object.clone(this._options.editingObject);
-        object.setPropertyValue(editingObjectClone, name, value);
-        this._notify('editingObjectChanged', [editingObjectClone]);
+        const propertyValue = this._updatePropertyValue(this._options.editingObject, name, value);
+        this._notify('editingObjectChanged', [propertyValue]);
     }
 
     protected _groupClick(

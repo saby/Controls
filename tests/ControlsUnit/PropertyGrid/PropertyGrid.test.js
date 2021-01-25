@@ -44,6 +44,25 @@ define([
             assert.deepEqual(collapsedGroups, result);
         });
 
+        describe('_updatePropertyValue', () => {
+            it('with different propertyValue type', () => {
+                let propertyValue = new entity.Model({
+                    rawData: []
+                });
+                let resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
+                assert.equal(resultPropertyValue.get('test'), 2);
+                propertyValue = {};
+                resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
+                assert.equal(resultPropertyValue.test, 2);
+                propertyValue = new entity.Model({
+                    rawData: {},
+                    adapter: 'adapter.sbis'
+                });
+                resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
+                assert.equal(resultPropertyValue.get('test'), 2);
+            });
+        });
+
         describe('displayFilter', () => {
             it('not filtered item from collapsed group', () => {
                 const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
