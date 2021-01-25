@@ -3313,14 +3313,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             return this._prepareItemsOnMount(this, newOptions, receivedState, collapsedGroups);
         })).then((res) => {
             const editingConfig = this._getEditingConfig(newOptions);
-            if (editingConfig.item) {
-                if (newOptions.task1180668135) {
-                    this._createEditInPlaceController(newOptions);
-                }
-                return this._startInitialEditing(editingConfig);
-            } else {
-                return res;
-            }
+            return editingConfig.item ? this._startInitialEditing(editingConfig) : res;
         }).then((res) => {
             const needInitModelState =
                 this._listViewModel &&
@@ -4854,8 +4847,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
 
         return new EditInPlaceController({
-            task1180668135: options.task1180668135,
-
             collection: this._options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay(),
             onBeforeBeginEdit: this._beforeBeginEditCallback.bind(this),
             onAfterBeginEdit: this._afterBeginEditCallback.bind(this),
@@ -4945,7 +4936,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _beforeEndEditCallback(item: Model, willSave: boolean, isAdd: boolean, force: boolean = false) {
-        if (this._options.task1180668135 && force) {
+        if (force) {
             this._notify('beforeEndEdit', [item, willSave, isAdd]);
             return;
         }
