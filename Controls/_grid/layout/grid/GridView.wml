@@ -21,6 +21,7 @@
                 trackVisible="{{ _trackVisible }}"
                 on:newPositionRendered="_onNewHorizontalPositionRendered()"
                 positionChangeHandler="{{ _horizontalPositionChangedHandler }}"
+                on:mouseup="_onScrollWrapperMouseUp()"
                 backgroundStyle="{{_options.backgroundStyle || _options.style}}">
         </Controls._grid.ScrollWrapper>
     </ws:if>
