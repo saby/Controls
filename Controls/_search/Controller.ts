@@ -215,31 +215,29 @@ export default class Container extends Control<IContainerOptions> {
    }
 
    private _itemOpenHandler(root: Key, items: RecordSet, dataRoot: Key = null): void {
-      this._getSearchController().then((searchController) => {
-         if (this._isSearchViewMode() && this._options.searchNavigationMode === 'expand') {
-            this._notifiedMarkedKey = root;
+      if (this._isSearchViewMode() && this._options.searchNavigationMode === 'expand') {
+         this._notifiedMarkedKey = root;
 
-            const expandedItems = Container._prepareExpandedItems(
-               searchController.getRoot(),
-               root,
-               items,
-               this._options.parentProperty);
+         const expandedItems = Container._prepareExpandedItems(
+             this._searchController.getRoot(),
+             root,
+             items,
+             this._options.parentProperty);
 
-            this._notify('expandedItemsChanged', [expandedItems]);
+         this._notify('expandedItemsChanged', [expandedItems]);
 
-            if (!this._deepReload) {
-               this._deepReload = true;
-            }
-         } else {
-            searchController.setRoot(root);
-            this._root = root;
+         if (!this._deepReload) {
+            this._deepReload = true;
          }
-         if (root !== dataRoot) {
-            this._updateFilter(searchController);
-            this._inputSearchValue = '';
-         }
-         this._rootBeforeSearch = null;
-      });
+      } else if (!this._options.hasOwnProperty('root')) {
+         this._searchController?.setRoot(root);
+         this._root = root;
+      }
+      if (root !== dataRoot && this._searchController) {
+         this._updateFilter(this._searchController);
+         this._inputSearchValue = '';
+      }
+      this._rootBeforeSearch = null;
    }
 
    private _searchReset(event: SyntheticEvent): void {

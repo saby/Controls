@@ -7,6 +7,4 @@
         filterButtonItems="{{_filterButtonItems}}"
         fastFilterItems="{{_fastFilterItems}}"
         historyId="{{_options.historyId}}"
-        dataLoadCallback="{{_dataLoadCallback}}"
-        dataLoadErrback="{{_dataLoadErrback}}"
         scope="{{_options}}"/>
