@@ -546,31 +546,6 @@ define(
             assert.isNull(result[0].getKey());
          });
 
-         it('setSubMenuPosition', function() {
-            let menuControl = getMenu();
-            menuControl._openSubMenuEvent = {
-               clientX: 25
-            };
-
-            menuControl._subMenu = {
-               getBoundingClientRect: () => ({
-                  left: 10,
-                  top: 10,
-                  height: 200,
-                  width: 100
-               })
-            };
-
-            menuControl._setSubMenuPosition();
-            assert.deepEqual(menuControl._subMenuPosition, {
-
-               // т.к. left < clientX, прибавляем ширину к left
-               left: 110,
-               top: 10,
-               height: 200
-            });
-         });
-
          describe('_updateSwipeItem', function() {
             let menuControl = getMenu();
             menuControl._listModel = getListModel();
@@ -605,8 +580,10 @@ define(
 
                menuControl._subMenu = true;
                menuControl._setSubMenuPosition = function() {};
-               menuControl._isMouseInOpenedItemAreaCheck = function() {
-                  return isMouseInArea;
+               menuControl._getMenuController = () => {
+                  return {
+                     isMouseInOpenedItemAreaCheck: () => isMouseInArea
+                  };
                };
             });
 
@@ -641,16 +618,20 @@ define(
             menuControl._children = {
                Sticky: { close: () => { isClosed = true; } }
             };
-            menuControl._isMouseInOpenedItemAreaCheck = function() {
-               return false;
+            menuControl._getMenuController = () => {
+               return {
+                  isMouseInOpenedItemAreaCheck: () => false
+               };
             };
             menuControl._setSubMenuPosition = function() {};
             menuControl._subDropdownItem = true;
             menuControl._footerMouseEnter(event);
             assert.isTrue(isClosed);
 
-            menuControl._isMouseInOpenedItemAreaCheck = function() {
-               return true;
+            menuControl._getMenuController = () => {
+               return {
+                  isMouseInOpenedItemAreaCheck: () => true
+               };
             };
             menuControl._subDropdownItem = true;
             isClosed = false;

@@ -24,12 +24,7 @@ import {StickyOpener, StackOpener} from 'Controls/popup';
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import { MarkerController, Visibility as MarkerVisibility } from 'Controls/marker';
 import {FlatSelectionStrategy, SelectionController, IFlatSelectionStrategyOptions} from 'Controls/multiselection';
-
-interface IMenuPosition {
-    left: number;
-    top: number;
-    height: number;
-}
+import MenuController from 'Controls/Controllers/MenuController';
 
 const SUB_DROPDOWN_DELAY = 400;
 
@@ -68,7 +63,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     private _itemsCount: number;
     private _visibleIds: TKey[] = [];
     private _openingTimer: number = null;
-    private _closingTimer: number = null;
     private _isMouseInOpenedItemArea: boolean = false;
     private _expandedItemsFilter: Function;
     private _additionalFilter: Function;
@@ -80,13 +74,13 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     private _hoveredItem: CollectionItem<Model>;
     private _hoveredTarget: EventTarget;
     private _enterEvent: MouseEvent;
-    private _subMenuPosition: IMenuPosition;
     private _openSubMenuEvent: MouseEvent;
     private _errorController: dataSourceError.Controller;
     private _errorConfig: dataSourceError.ViewConfig|void;
     private _stack: StackOpener;
     private _markerController: MarkerController;
     private _selectionController: SelectionController = null;
+    private _menuController: MenuController = null;
 
     protected _beforeMount(options: IMenuControlOptions,
                            context?: object,
@@ -166,6 +160,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             this._errorController.destroy();
             this._errorController = null;
         }
+
+        if (this._menuController) {
+            this._menuController.destroy();
+        }
     }
 
     protected _mouseEnterHandler(): void {
@@ -181,7 +179,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     protected _mouseLeaveHandler(event: SyntheticEvent<MouseEvent>): void {
         this._clearOpeningTimout();
-        this._startClosingTimout();
+        this._getMenuController().startClosingTimeout(this._closeSubMenu.bind(this));
     }
 
     protected _mouseMove(event: SyntheticEvent<MouseEvent>): void {
@@ -194,7 +192,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                               item: CollectionItem<Model>,
                               sourceEvent: SyntheticEvent<MouseEvent>): void {
         if (item.getContents() instanceof Model && !this._isTouch()) {
-            this._clearClosingTimout();
+            this._getMenuController().clearClosingTimeout();
             this._setItemParamsOnHandle(item, sourceEvent.target, sourceEvent.nativeEvent);
 
             this._checkOpenedMenu(sourceEvent.nativeEvent, item);
@@ -267,6 +265,13 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 }
             }
         }
+    }
+
+    private _getMenuController(): MenuController {
+        if (!this._menuController) {
+            this._menuController = new MenuController();
+        }
+        return this._menuController;
     }
 
     private _getSelectionController(): SelectionController {
@@ -407,7 +412,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         if (eventName === 'menuOpened') {
             this._subMenu = eventResult as HTMLElement;
         } else if (eventName === 'subMenuMouseenter') {
-            this._clearClosingTimout();
+            this._getMenuController().clearClosingTimeout();
         } else {
             const notifyResult = this._notify(eventName, [eventResult, nativeEvent]);
             if (eventName === 'pinClick' || eventName === 'itemClick' && notifyResult !== false) {
@@ -436,8 +441,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         needCloseDropDown: boolean,
         nativeEvent: MouseEvent): boolean {
         if (needCloseDropDown) {
-            this._setSubMenuPosition();
-            this._isMouseInOpenedItemArea = this._isMouseInOpenedItemAreaCheck(nativeEvent);
+            this._isMouseInOpenedItemArea = this._getMenuController().isMouseInOpenedItemAreaCheck(nativeEvent,
+                this._openSubMenuEvent, this._subMenu);
         } else {
             this._isMouseInOpenedItemArea = false;
         }
@@ -462,19 +467,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._enterEvent = nativeEvent;
     }
 
-    private _setSubMenuPosition(): void {
-        const clientRect: DOMRect = this._subMenu.getBoundingClientRect();
-        this._subMenuPosition = {
-            left: clientRect.left,
-            top: clientRect.top,
-            height: clientRect.height
-        };
-
-        if (this._subMenuPosition.left < this._openSubMenuEvent.clientX) {
-            this._subMenuPosition.left += clientRect.width;
-        }
-    }
-
     private _handleCurrentItem(
         item: CollectionItem<Model>,
         target: EventTarget,
@@ -496,15 +488,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
     }
 
-    private _clearClosingTimout(): void {
-        clearTimeout(this._closingTimer);
-    }
-
-    private _startClosingTimout(): void {
-        // window для соотвествия типов
-        this._closingTimer = window.setTimeout(this._closeSubMenu.bind(this), SUB_DROPDOWN_DELAY);
-    }
-
     private _clearOpeningTimout(): void {
         clearTimeout(this._openingTimer);
     }
@@ -522,23 +505,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         this._openingTimer = window.setTimeout((): void => {
             this._handleItemTimeoutCallback();
         }, SUB_DROPDOWN_DELAY);
-    }
-
-    private _isMouseInOpenedItemAreaCheck(curMouseEvent: MouseEvent): boolean {
-        const firstSegment: number = MenuControl._calculatePointRelativePosition(this._openSubMenuEvent.clientX,
-            this._subMenuPosition.left, this._openSubMenuEvent.clientY,
-            this._subMenuPosition.top, curMouseEvent.clientX, curMouseEvent.clientY);
-
-        const secondSegment: number = MenuControl._calculatePointRelativePosition(this._subMenuPosition.left,
-            this._subMenuPosition.left, this._subMenuPosition.top, this._subMenuPosition.top +
-            this._subMenuPosition.height, curMouseEvent.clientX, curMouseEvent.clientY);
-
-        const thirdSegment: number = MenuControl._calculatePointRelativePosition(this._subMenuPosition.left,
-            this._openSubMenuEvent.clientX, this._subMenuPosition.top +
-            this._subMenuPosition.height, this._openSubMenuEvent.clientY, curMouseEvent.clientX, curMouseEvent.clientY);
-
-        return Math.sign(firstSegment) === Math.sign(secondSegment) &&
-            Math.sign(firstSegment) === Math.sign(thirdSegment);
     }
 
     private _getSelectorDialogOptions(opener: StackOpener,
