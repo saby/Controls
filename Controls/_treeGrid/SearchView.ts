@@ -27,7 +27,10 @@ var
             if (!this._itemClickNotifiedByPathClick) {
                 const lastBreadCrumb = item.getContents()[item.getContents().length - 1];
                 if (lastBreadCrumb) {
-                    this._notify('itemClick', [lastBreadCrumb, e, this._getCellIndexByEventTarget(e)], {bubbling: true});
+
+                    // Тут нельзя делать bubbling, т.к. это приводит к отправке в TreeGrid двух событий itemClick
+                    // Одно - из SearchView, второе - из BaseControl
+                    this._notify('itemClick', [lastBreadCrumb, e, this._getCellIndexByEventTarget(e)]);
                 }
             }
             this._itemClickNotifiedByPathClick = false;
