@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import GroupItem from 'Controls/_display/grid/GroupItem';
+import {GridGroupItem as GroupItem} from 'Controls/gridNew';
 
 describe('Controls/_display/grid/GroupItem', () => {
    describe('isSticked', () => {

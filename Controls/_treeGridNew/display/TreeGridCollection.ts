@@ -2,15 +2,17 @@ import { mixin } from 'Types/util';
 import TreeGridDataRow, {IOptions as ITreeGridRowOptions} from './TreeGridDataRow';
 import {
     TreeItem,
-    GridGroupItem,
-    GridMixin,
     Tree,
     GridLadderUtil,
     ItemsFactory,
     itemsStrategy,
-    IGridCollectionOptions,
     ITreeCollectionOptions, IItemActionsTemplateConfig
 } from 'Controls/display';
+import {
+    GridGroupItem,
+    GridMixin,
+    IGridCollectionOptions
+} from 'Controls/gridNew';
 import TreeGridFooterRow from './TreeGridFooterRow';
 import { Model } from 'Types/entity';
 import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';

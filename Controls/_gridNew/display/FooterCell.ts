@@ -58,6 +58,6 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
 
 Object.assign(FooterCell.prototype, {
     '[Controls/_display/grid/FooterCell]': true,
-    _moduleName: 'Controls/display:GridFooterCell',
+    _moduleName: 'Controls/gridNew:GridFooterCell',
     _instancePrefix: 'grid-footer-cell-'
 });

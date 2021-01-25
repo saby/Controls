@@ -1,7 +1,9 @@
+import { create } from 'Types/di';
+
+import {TColumns, TColumnSeparatorSize} from 'Controls/_grid/interface/IColumn';
+
 import Collection from './Collection';
 import HeaderRow, {IOptions as IHeaderRowOptions} from './HeaderRow';
-import { create } from 'Types/di';
-import {TColumns, TColumnSeparatorSize} from 'Controls/_grid/interface/IColumn';
 
 export interface IOptions<T> extends IHeaderRowOptions<T> {}
 
@@ -112,8 +114,8 @@ export default class Header<T> {
 
 Object.assign(Header.prototype, {
     '[Controls/_display/grid/Header]': true,
-    _moduleName: 'Controls/display:GridHeader',
+    _moduleName: 'Controls/gridNew:GridHeader',
     _instancePrefix: 'grid-header-',
-    _rowModule: 'Controls/display:GridHeaderRow',
-    _cellModule: 'Controls/display:GridHeaderCell'
+    _rowModule: 'Controls/gridNew:GridHeaderRow',
+    _cellModule: 'Controls/gridNew:GridHeaderCell'
 });

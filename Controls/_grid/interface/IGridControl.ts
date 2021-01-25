@@ -566,7 +566,7 @@ export interface IGridControl extends IList {
  * * {Controls/grid:IColumn} column Колонка грида
  * * {Number} columnIndex Индекс колонки грида
  * * {Boolean} isEditing Актуальное состояние редактирования элемента
- * Функция возвращает {Controls/display:TColspanCallbackResult} - количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ * Функция возвращает {Controls/gridNew:TColspanCallbackResult} - количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  * @markdown
  */
 
@@ -577,7 +577,7 @@ export interface IGridControl extends IList {
  * Параметры функции:
  * * {Controls/grid:IColumn} column Колонка грида
  * * {Number} columnIndex Индекс колонки грида
- * Функция возвращает {Controls/display:TColspanCallbackResult} - количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ * Функция возвращает {Controls/gridNew:TColspanCallbackResult} - количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  * @markdown
  */
 

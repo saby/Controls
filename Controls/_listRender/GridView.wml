@@ -1,4 +1,4 @@
 <Controls._listRender.View
-   collection="Controls/display:GridCollection"
+   collection="Controls/gridNew:GridCollection"
    render="Controls/listRender:Grid"
    scope="{{ _options }}" />

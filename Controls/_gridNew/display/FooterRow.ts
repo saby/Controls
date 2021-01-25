@@ -1,11 +1,14 @@
 import { TemplateFunction } from 'UI/Base';
+import { isEqual } from 'Types/object';
+
+import { IColspanParams } from 'Controls/_grid/interface/IColumn';
+
+import { IItemActionsTemplateConfig } from 'Controls/display';
+
 import Row, {IOptions as IRowOptions} from './Row';
 import Collection from './Collection';
-import { IColspanParams } from '../../_grid/interface/IColumn';
 import { IItemTemplateParams } from './mixins/Row';
-import { IItemActionsTemplateConfig } from 'Controls/_display/Collection';
-import ItemActionsCell from 'Controls/_display/grid/ItemActionsCell';
-import { isEqual } from 'Types/object';
+import ItemActionsCell from './ItemActionsCell';
 
 export type TFooter = IFooter[];
 
@@ -129,7 +132,7 @@ Object.assign(FooterRow.prototype, {
     '[Controls/_display/grid/FooterRow]': true,
     _moduleName: 'Controls/display:GridFooterRow',
     _instancePrefix: 'grid-footer-row-',
-    _cellModule: 'Controls/display:GridFooterCell',
+    _cellModule: 'Controls/gridNew:GridFooterCell',
     _$footerTemplate: null,
     _$footer: null
 });

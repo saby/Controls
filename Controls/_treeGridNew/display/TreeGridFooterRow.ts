@@ -1,4 +1,4 @@
-import { GridFooterRow } from 'Controls/display';
+import { GridFooterRow } from 'Controls/gridNew';
 
 export default class TreeGridFooterRow<S> extends GridFooterRow<S> {
    getExpanderSize(): string {

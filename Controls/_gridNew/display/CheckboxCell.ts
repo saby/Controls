@@ -1,5 +1,5 @@
 import { TemplateFunction } from 'UI/Base';
-import IMarkable from '../interface/IMarkable';
+import { IMarkable } from 'Controls/display';
 import Cell from './Cell';
 import DataRow from './DataRow';
 

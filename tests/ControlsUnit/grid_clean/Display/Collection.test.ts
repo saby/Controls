@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridCollection } from 'Controls/display';
+import { GridCollection } from 'Controls/gridNew';
 
 describe('Controls/grid_clean/Display/Collection', () => {
     describe('Update options', () => {

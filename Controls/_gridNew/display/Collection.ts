@@ -1,9 +1,16 @@
-import BaseCollection, { ItemsFactory, IOptions as IBaseOptions, IItemActionsTemplateConfig } from '../Collection';
-import GroupItem from './GroupItem';
-import * as GridLadderUtil from '../utils/GridLadderUtil';
 import { mixin } from 'Types/util';
-import GridMixin, { IOptions as IGridMixinOptions } from 'Controls/_display/grid/mixins/Grid';
-import Row, {IOptions as IRowOptions} from 'Controls/_display/grid/Row';
+
+import {
+    Collection as BaseCollection,
+    ICollectionOptions as IBaseOptions,
+    ItemsFactory,
+    IItemActionsTemplateConfig,
+    GridLadderUtil
+} from 'Controls/display';
+
+import GroupItem from './GroupItem';
+import GridMixin, { IOptions as IGridMixinOptions } from './mixins/Grid';
+import Row, {IOptions as IRowOptions} from './Row';
 
 export interface IOptions<
     S,
@@ -97,6 +104,6 @@ export default class Collection<
 
 Object.assign(Collection.prototype, {
     '[Controls/_display/grid/Collection]': true,
-    _moduleName: 'Controls/display:GridCollection',
-    _itemModule: 'Controls/display:GridDataRow'
+    _moduleName: 'Controls/gridNew:GridCollection',
+    _itemModule: 'Controls/gridNew:GridDataRow'
 });
