@@ -21,7 +21,7 @@ interface IMoneyOptions extends INumberLengthOptions {
  * @class Controls/_input/Money
  * @extends Controls/input:Base
  *
- * @mixes Controls/interface:IOnlyPositive
+ * @mixes Controls/input:IOnlyPositive
  * @mixes Controls/input:INumberLength
  *
  * @public

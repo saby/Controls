@@ -23,7 +23,7 @@ interface INumberInputOptions extends IBaseInputOptions, INumberLengthOptions {
  * @class Controls/_input/Number
  * @extends Controls/_input/Base
  *
- * @mixes Controls/interface/IOnlyPositive
+ * @mixes Controls/_input/interface/IOnlyPositive
  * @mixes Controls/_interface/INumberFormat
  * @mixes Controls/_input/interface/INumberLength
  *

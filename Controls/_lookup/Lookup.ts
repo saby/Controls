@@ -51,12 +51,12 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
  * @mixes Controls/_interface/IValidationStatus
  * @mixes Controls/input:IBorderVisibility
  * @mixes Controls/input:IPadding
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -87,9 +87,9 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
- * 
+ *
  * @public
  * @author Герасимов А.М.
  * @demo Controls-demo/Input/Lookup/LookupPropertyGrid

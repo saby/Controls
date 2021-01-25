@@ -40,9 +40,9 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -70,9 +70,9 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */

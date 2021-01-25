@@ -39,6 +39,7 @@ export {INewLineKey, INewLineKeyOptions} from 'Controls/_input/interface/INewLin
 export {IBase, IBaseOptions, TextAlign, AutoComplete} from 'Controls/_input/interface/IBase';
 export {ITag, ITagOptions, TagStyle} from 'Controls/_input/interface/ITag';
 export {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
+export {default as IOnlyPositive} from 'Controls/_input/interface/IOnlyPositive';
 export {IValue, IValueOptions, ICallback, ICallbackData, IFieldData} from 'Controls/_input/interface/IValue';
 export {IBorderVisibility, IBorderVisibilityOptions, TBorderVisibility,
     getDefaultBorderVisibilityOptions, getOptionBorderVisibilityTypes} from './_input/interface/IBorderVisibility';
@@ -49,6 +50,7 @@ import * as __Util from 'Controls/_input/resources/Util';
 import * as MaskFormatterValue from 'Controls/_input/Mask/FormatterValue';
 import hoursFormat from 'Controls/_input/InputCallback/hoursFormat';
 import lengthConstraint from 'Controls/_input/InputCallback/lengthConstraint';
+import IOnlyPositive from "./_input/interface/IOnlyPositive";
 export {default as MobileFocusController} from 'Controls/_input/resources/MobileFocusController';
 export {default as NewBaseViewModel} from './_input/BaseViewModel';
 export {default as AdapterMask} from 'Controls/_input/Adapter/Mask';
