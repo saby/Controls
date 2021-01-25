@@ -1,4 +1,3 @@
 <ws:partial
         template="{{_options.content}}"
-        on:mousemove="moveHandler()"
-        on:touchstart="touchHandler()"/>
+       />

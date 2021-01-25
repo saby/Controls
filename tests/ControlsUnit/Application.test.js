@@ -30,12 +30,12 @@ define([
 
          beforeEach(function() {
             application = new Application();
-            application._touchDetector = {};
+            application._touchController = {};
          });
 
          it('ws-is-no-touch ws-is-no-drag ws-is-hover', function() {
             application._dragClass = 'ws-is-no-drag';
-            application._touchDetector.getClass = getFalseTouch;
+            application._touchController.getClass = getFalseTouch;
 
             application._updateClasses();
 
@@ -45,7 +45,7 @@ define([
          });
          it('ws-is-touch ws-is-no-drag ws-is-no-hover', function() {
             application._dragClass = 'ws-is-no-drag';
-            application._touchDetector.getClass = getTrueTouch;
+            application._touchController.getClass = getTrueTouch;
 
             application._updateClasses();
 
@@ -55,7 +55,7 @@ define([
          });
          it('ws-is-no-touch ws-is-drag ws-is-no-hover', function() {
             application._dragClass = 'ws-is-drag';
-            application._touchDetector.getClass = getFalseTouch;
+            application._touchController.getClass = getFalseTouch;
 
             application._updateClasses();
 
@@ -65,7 +65,7 @@ define([
          });
          it('ws-is-touch ws-is-drag ws-is-no-hover', function() {
             application._dragClass = 'ws-is-drag';
-            application._touchDetector.getClass = getTrueTouch;
+            application._touchController.getClass = getTrueTouch;
 
             application._updateClasses();
 
