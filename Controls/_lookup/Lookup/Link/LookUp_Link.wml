@@ -2,7 +2,8 @@
                controls-Lookup__link_theme-{{_options.theme}}
                controls-Lookup__link-inlineheight-{{_options.inlineHeight ? _options.inlineHeight : 'default'}}_theme-{{_options.theme}}
                controls-Lookup__link-{{_options.readOnly ? 'readOnly' : 'default'}}
-               controls-Lookup__link-{{_options.readOnly ? 'readOnly' : 'default'}}_theme-{{_options.theme}}"
+               controls-Lookup__link-{{_options.readOnly ? 'readOnly' : 'default'}}_theme-{{_options.theme}}
+               controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}"
    attr:ws-no-focus="true"
    on:click="_clickHandler()"
    on:keypress="_keyUpHandler()">
