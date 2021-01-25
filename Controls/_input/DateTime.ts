@@ -1,4 +1,4 @@
-﻿import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Date as WSDate, DateTime, Time} from 'Types/entity';
