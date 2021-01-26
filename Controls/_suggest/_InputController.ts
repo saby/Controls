@@ -431,7 +431,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       return this._inputActive && this._isValueLengthLongerThenMinSearchLength(value, this._options);
    }
 
-   private _updateSuggestState(): boolean {
+   private _updateSuggestState(isSuggestStateChanged: boolean = false): boolean {
       const shouldSearch = this._shouldSearch(this._searchValue);
       const shouldShowSuggest = this._shouldShowSuggest(this._getSourceController().getItems());
       let state = false;
@@ -439,8 +439,9 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       if (this._options.historyId && !shouldSearch && !this._options.suggestState) {
          this._openWithHistory();
          state = true;
-      } else if ((shouldSearch || this._options.autoDropDown && !this._options.suggestState)
-         && shouldShowSuggest) {
+      } else if ((shouldSearch ||
+          this._options.autoDropDown && !this._options.suggestState ||
+          !this._options.autoDropDown && this._options.suggestState && isSuggestStateChanged) && shouldShowSuggest) {
          this._setFilter(this._options.filter, this._options);
          this._open();
          state = true;
@@ -631,12 +632,13 @@ export default class InputContainer extends Control<IInputControllerOptions> {
          this._sourceController.updateOptions(this._getSourceControllerOptions(newOptions));
       }
 
-      if (newOptions.suggestState !== this._options.suggestState) {
+      const isSuggestStateChanged = newOptions.suggestState !== this._options.suggestState;
+      if (isSuggestStateChanged) {
          if (newOptions.suggestState) {
             if (!this._searchResult && !this._errorConfig && !this._pendingErrorConfig) {
                this._searchResolverController && this._searchResolverController.clearTimer();
                this._loadDependencies(newOptions).addCallback(() => {
-                  this._resolveLoad(this._searchValue, newOptions).then(() => {
+                  this._resolveLoad(this._searchValue, newOptions, isSuggestStateChanged).then(() => {
                      // Проверка нужна из-за асинхронщины, которая возникает при моментальном расфокусе поля ввода, что
                      // вызывает setCloseState, но загрузка все равно выполняется и появляется невидимый попап.
                      if (this._inputActive) {
@@ -775,7 +777,9 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       return this._resolveLoad();
    }
 
-   private async _resolveLoad(value?: string, options?: IInputControllerOptions): Promise<RecordSet | void> {
+   private async _resolveLoad(value?: string,
+                              options?: IInputControllerOptions,
+                              isSuggestStateChanged: boolean): Promise<RecordSet | void> {
       this._loadStart();
       if (value) {
          this._searchValue = value;
@@ -803,11 +807,12 @@ export default class InputContainer extends Control<IInputControllerOptions> {
              })
              .catch((error) => this._searchErrback(error));
       } else {
-         return this._performLoad(options);
+         return this._performLoad(options, isSuggestStateChanged);
       }
    }
 
-   private _performLoad(options?: IInputControllerOptions): Promise<RecordSet | void> {
+   private _performLoad(options?: IInputControllerOptions,
+                        isSuggestStateChanged: boolean): Promise<RecordSet | void> {
       const scopeOptions = options ?? this._options;
 
       return this._getSourceController(scopeOptions).load().then((recordSet) => {
@@ -821,7 +826,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
             }
             this._loadEnd(recordSet);
 
-            this._updateSuggestState();
+            this._updateSuggestState(isSuggestStateChanged);
 
             return recordSet as RecordSet;
          }
