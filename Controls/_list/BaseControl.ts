@@ -2196,6 +2196,10 @@ const _private = {
             this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController)
         );
 
+        if (this._options.serviceDataLoadCallback instanceof Function) {
+            this._options.serviceDataLoadCallback(this._items, items);
+        }
+
         if (
             this._loadingState === 'all' ||
             !_private.needScrollCalculation(navigation) ||
