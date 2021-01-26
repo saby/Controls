@@ -511,6 +511,10 @@ const _private = {
         if (options.afterReloadCallback) {
             options.afterReloadCallback(options, loadedList);
         }
+
+        if (options.serviceDataLoadCallback instanceof Function) {
+            options.serviceDataLoadCallback(this._items, loadedList);
+        }
     },
 
     initializeModel(self, options, list): void {

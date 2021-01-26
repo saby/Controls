@@ -637,6 +637,7 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             const sourceControllerRoot = sourceController.getState().root;
 
             this._root = newOptions.root;
+            viewModel.setRoot(this._root);
 
             // При смене корне, не надо запрашивать все открытые папки,
             // т.к. их может не быть и мы загрузим много лишних данных.

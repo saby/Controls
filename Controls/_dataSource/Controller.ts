@@ -585,11 +585,11 @@ export default class Controller {
 
         if (needCallDataLoadCallback) {
             if (this._dataLoadCallback) {
-                dataLoadCallbackResult = this._dataLoadCallback(result, direction);
+                dataLoadCallbackResult = this._dataLoadCallback(result, direction, key);
             }
 
             if (this._dataLoadCallbackFromOptions) {
-                this._dataLoadCallbackFromOptions(result, direction);
+                this._dataLoadCallbackFromOptions(result, direction, key);
             }
         }
 
