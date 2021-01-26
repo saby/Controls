@@ -153,6 +153,10 @@ export default class Container extends Control<IContainerOptions> {
             });
          }
       }
+      this._sourceController.updateOptions({
+         ...options,
+         dataLoadCallback: this._dataLoadCallback
+      });
    }
 
    private _setSearchValue(value: string): void {

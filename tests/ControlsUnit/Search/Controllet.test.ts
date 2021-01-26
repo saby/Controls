@@ -34,6 +34,18 @@ describe('Controls/search:Controller', () => {
             ok(searchController._root === 'testRoot2');
         });
 
+        it('_dataLoadCallback called', async () => {
+            let callbackCalled = false;
+            const searchController = new Controller(options);
+            searchController._options = options;
+            searchController._dataLoadCallback = () => {
+                callbackCalled = true;
+            };
+            searchController._beforeUpdate(options, {dataOptions: {}});
+            await searchController._sourceController.load();
+            assert.isTrue(callbackCalled);
+        });
+
         it('searchValue wasn\'t changed', () => {
             const source = new Memory();
             const options = {
