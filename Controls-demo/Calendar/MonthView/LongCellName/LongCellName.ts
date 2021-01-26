@@ -8,7 +8,8 @@ class LongCellName extends Control<IControlOptions> {
 
     static _theme: string[] = ['Controls/Classes'];
 
-    static _styles: string[] = ['Controls-demo/Controls-demo'];
+    static _styles: string[] = ['Controls-demo/Controls-demo',
+        'Controls-demo/Calendar/MonthView/LongCellName/LongCellName'];
 }
 
 export default LongCellName;

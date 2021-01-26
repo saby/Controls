@@ -5,6 +5,7 @@
          <div>_startValue: {{_startValue}}</div>
          <div>_endValue: {{_endValue}}</div>
          <Controls.calendar:Month
+                           newMode="{{ true }}"
                            month="{{_month1}}"
                            bind:startValue="_startValue"
                            bind:endValue="_endValue"
@@ -22,6 +23,7 @@
                            bind:selectionHoveredValue="_selectionHoveredValue"
                            selectionType="range"
                            captionType="text"
+                           newMode="{{ true }}"
          />
          <div>
             <span>startValue: </span>

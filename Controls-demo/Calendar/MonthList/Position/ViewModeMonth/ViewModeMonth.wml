@@ -4,6 +4,7 @@
     <div class="controlsDemo__flex controlsDemo__flexColumn">
         <Controls.calendar:MonthList
             name="monthList"
+            newMode="{{ true }}"
             bind:position="_position"
             viewMode="month">
             <ws:monthHeaderTemplate>

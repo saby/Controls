@@ -1,6 +1,7 @@
 <div class="controlsDemo-MonthView__wrapper controlsDemo__ml1">
     <div class="controlsDemo__cell">
         <Controls.calendar:MonthView
+            newMode="{{ true }}"
             month="{{_month}}"
             dayFormatter="{{_dayFormatter}}"
         />

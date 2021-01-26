@@ -1,6 +1,6 @@
 <div class="controlsDemo-MonthView__wrapper controlsDemo__ml1">
     <div class="controlsDemo__cell">
-        <Controls.calendar:MonthView>
+        <Controls.calendar:MonthView newMode="{{ true }}">
             <ws:dayHeaderTemplate>
                 <ws:if data="{{!dayHeaderTemplate.value.weekend}}">
                     <div class="controls-demo_DayHeader">{{dayHeaderTemplate.value.caption}}</div>
