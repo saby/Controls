@@ -105,6 +105,7 @@ export default class Container extends Control<IContainerOptions> {
       this._updateViewMode(options.viewMode);
 
       this._sourceController = context.dataOptions.sourceController;
+      this._sourceController.setDataLoadCallback(this._dataLoadCallback.bind(this));
 
       this._getSearchController({...options, ...context.dataOptions}).then((searchController) => {
          this._searchValue = searchController.getSearchValue();
@@ -138,6 +139,7 @@ export default class Container extends Control<IContainerOptions> {
          if (this._sourceController !== options.sourceController) {
             this._sourceController = options.sourceController;
          }
+         this._sourceController.setDataLoadCallback(this._dataLoadCallback.bind(this));
          const updateResult = this._searchController.update(options);
 
          if (updateResult && !(updateResult instanceof Promise)) {
