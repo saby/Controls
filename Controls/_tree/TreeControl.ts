@@ -639,6 +639,10 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             this._root = newOptions.root;
             viewModel.setRoot(this._root);
 
+            if (this._options.itemsSetCallback) {
+                this._options.itemsSetCallback(sourceController.getItems());
+            }
+
             // При смене корне, не надо запрашивать все открытые папки,
             // т.к. их может не быть и мы загрузим много лишних данных.
             // Так же учитываем, что вместе со сменой root могут поменять и expandedItems - тогда не надо их сбрасывать.
