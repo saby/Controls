@@ -35,7 +35,6 @@ import {Object as EventObject} from 'Env/Event';
 import * as VirtualScrollController from './controllers/VirtualScroll';
 import {ICollection, ISourceCollection} from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
-import SearchSeparator from "./SearchSeparator";
 import {INavigationOptionValue} from 'Controls/interface';
 
 // tslint:disable-next-line:ban-comma-operator
@@ -3463,7 +3462,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 prevGroupIndex = index;
                 prevGroupPosition = position;
                 prevGroupHasMembers = false;
-            } else if (!(item instanceof SearchSeparator)) {
+            } else if (!(item['[Controls/_searchBreadcrumbsGrid/SearchSeparator]'])) {
                 // Check item match
                 match = isMatch(item, index, position);
                 changed = applyMatch(match, index) || changed;

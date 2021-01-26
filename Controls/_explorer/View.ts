@@ -19,6 +19,7 @@ import {ISelectionObject} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import { RecordSet } from 'Types/collection';
 import {calculatePath} from 'Controls/dataSource';
+import { SearchView as SearchViewNew } from 'Controls/searchBreadcrumbsGrid';
 
 var
       HOT_KEYS = {
@@ -33,16 +34,22 @@ var
       },
       DEFAULT_VIEW_MODE = 'table',
       VIEW_NAMES = {
-         search: SearchView,
+         search: SearchViewNew,
          tile: null,
          table: TreeGridView,
          list: ListView
       },
       VIEW_MODEL_CONSTRUCTORS = {
-         search: SearchGridViewModel,
+         search: 'Controls/searchBreadcrumbsGrid:SearchGridCollection',
          tile: null,
          table: TreeGridViewModel,
          list: TreeGridViewModel
+      },
+      NEW_MODEL_VALUES = {
+         search: true,
+         tile: false,
+         table: false,
+         list: false
       },
       _private = {
          setRoot: function(self, root, dataRoot = null) {
@@ -190,6 +197,7 @@ var
 
          setViewConfig: function (self, viewMode) {
             self._viewName = VIEW_NAMES[viewMode];
+            self._useNewModel = NEW_MODEL_VALUES[viewMode];
             self._viewModelConstructor = VIEW_MODEL_CONSTRUCTORS[viewMode];
          },
          setViewModeSync: function(self, viewMode, cfg): void {

@@ -488,6 +488,10 @@ const _private = {
                     self._options.itemsReadyCallback(listModel.getCollection());
                 }
             }
+            // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
+            if (self._options.itemsSetCallback) {
+                self._options.itemsSetCallback(items);
+            }
         } else {
             const wasItemsReplaced = listModel.getCollection() && !isEqualItems(listModel.getCollection(), items);
             listModel.setItems(items, newOptions);
@@ -1992,7 +1996,7 @@ const _private = {
      */
     getPlainItemContents(item: CollectionItem<Model>) {
         let contents = item.getContents();
-        if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
+        if (item['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]'] || item.breadCrumbs) {
             contents = contents[(contents as any).length - 1];
         }
         return contents;
@@ -2529,7 +2533,7 @@ const _private = {
             let onlyCrumbsInItems = true;
             self._listViewModel.each((item) => {
                 if (onlyCrumbsInItems) {
-                    onlyCrumbsInItems = item['[Controls/_display/BreadcrumbsItem]'];
+                    onlyCrumbsInItems = item['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]'];
                 }
             });
 
@@ -3802,7 +3806,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._moveController.updateOptions(_private.prepareMoverControllerOptions(this, newOptions));
         }
 
-        const oldViewModelConstructorChanged = !newOptions.useNewModel && newOptions.viewModelConstructor !== this._viewModelConstructor;
+        const oldViewModelConstructorChanged = newOptions.viewModelConstructor !== this._viewModelConstructor;
 
         if (this.isEditing() && (oldViewModelConstructorChanged || needReload)) {
             // При перезагрузке или при смене модели(например, при поиске), редактирование должно завершаться
@@ -3814,11 +3818,21 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             self._viewModelConstructor = newOptions.viewModelConstructor;
             const items = this._loadedBySourceController ? newOptions.sourceController.getItems() : this._listViewModel.getItems();
             this._listViewModel.destroy();
-            this._listViewModel = new newOptions.viewModelConstructor(cMerge({...newOptions}, {
-                items,
-                supportVirtualScroll: !!this._needScrollCalculation,
-                keyProperty: this._keyProperty
-            }));
+
+            if (newOptions.useNewModel) {
+                self._listViewModel = self._createNewModel(
+                   items,
+                   {...newOptions, keyProperty: self._keyProperty},
+                   newOptions.viewModelConstructor
+                );
+            } else {
+                this._listViewModel = new newOptions.viewModelConstructor(cMerge({...newOptions}, {
+                    items,
+                    supportVirtualScroll: !!this._needScrollCalculation,
+                    keyProperty: this._keyProperty
+                }));
+            }
+
             _private.initListViewModelHandler(this, this._listViewModel, newOptions.useNewModel);
             this._modelRecreated = true;
 

@@ -1,6 +1,7 @@
 import {SearchItemsUtil} from 'Controls/list';
 import {TreeViewModel} from 'Controls/tree';
 import {Record} from 'Types/entity';
+import 'Controls/searchBreadcrumbsGrid';
 
 function isBreadCrumbsItem(item: Record|Record[]): item is Record[] {
     return !!item.forEach;
@@ -71,7 +72,7 @@ var
              return isColumnScrollVisible && tmplColspan !== false;
          };
          data.resolveItemTemplate = function(itemData) {
-            if (!itemData.breadCrumbs && !itemData.dispItem['[Controls/_display/SearchSeparator]'] && self._options.itemTemplate) {
+            if (!itemData.breadCrumbs && !itemData.dispItem['[Controls/_searchBreadcrumbsGrid/SearchSeparator]'] && self._options.itemTemplate) {
                return self._options.itemTemplate;
             }
             return data.resolvers.baseItemTemplate();

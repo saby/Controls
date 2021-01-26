@@ -319,6 +319,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this.getOwner().getDisplayProperty();
     }
 
+    getKeyProperty(): string {
+        return this.getOwner().getKeyProperty();
+    }
+
     isMarked(): boolean {
         return this._$marked;
     }

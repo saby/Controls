@@ -35,7 +35,7 @@ import * as NumberTypeRender from 'wml!Controls/_gridNew/Render/types/number';
 import * as StringTypeRender from 'wml!Controls/_gridNew/Render/types/string';
 
 import SortingButton from 'Controls/_gridNew/SortingButton';
-import {register} from "Types/di";
+import {register} from 'Types/di';
 
 export {
     View,
@@ -64,6 +64,7 @@ import {
 } from 'Controls/_gridNew/display/Collection';
 export { default as GridMixin, TColspanCallbackResult, TColspanCallback, TResultsColspanCallback, IEmptyTemplateColumn } from 'Controls/_gridNew/display/mixins/Grid';
 export { default as GridRowMixin } from 'Controls/_gridNew/display/mixins/Row';
+export { IItemTemplateParams } from 'Controls/_gridNew/display/mixins/Row';
 
 import GridRow, {IOptions as IGridRowOptions} from 'Controls/_gridNew/display/Row';
 import GridCell, {IOptions as IGridCellOptions} from 'Controls/_gridNew/display/Cell';

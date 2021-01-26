@@ -476,6 +476,6 @@ describe('Controls/marker/Controller', () => {
 
       controller.setMarkedKey(2);
       result = controller.onCollectionRemove(2, [model.getItemBySourceKey(2)]);
-      assert.equal(result, 2);
+      assert.equal(result, 1);
    });
 });

@@ -139,7 +139,7 @@ var
             const { columns, columnIndex } = params;
             const { cellPadding } = columns[columnIndex];
             const classLists = createClassListCollection('top', 'bottom', 'left', 'right');
-            const isRootItemsSeparator = params.dispItem && params.dispItem['[Controls/_display/SearchSeparator]'];
+            const isRootItemsSeparator = params.dispItem && params.dispItem['[Controls/_searchBreadcrumbsGrid/SearchSeparator]'];
 
             if (columns[columnIndex].isActionCell) {
                 return classLists;
@@ -324,7 +324,7 @@ var
         },
 
         getItemColumnCellClasses(self, current, theme, backgroundColorStyle) {
-            const isRootItemsSeparator = current.dispItem && current.dispItem['[Controls/_display/SearchSeparator]'];
+            const isRootItemsSeparator = current.dispItem && current.dispItem['[Controls/_searchBreadcrumbsGrid/SearchSeparator]'];
             const checkBoxCell = current.hasMultiSelectColumn && current.columnIndex === 0;
             const classLists = createClassListCollection('base', 'padding', 'columnScroll', 'columnContent');
             let style = !current.style ? 'default' : current.style;
@@ -692,13 +692,13 @@ var
         },
         resolveEditArrowVisibility(item, options) {
             let contents = item.getContents();
-            if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/SearchSeparator]']) {
+            if (item['[Controls/_display/GroupItem]'] || item['[Controls/_searchBreadcrumbsGrid/SearchSeparator]']) {
                 return;
             }
             if (!options.editArrowVisibilityCallback) {
                 return options.showEditArrow;
             }
-            if (item['[Controls/_display/BreadcrumbsItem]']) {
+            if (item['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]']) {
                 contents = contents[(contents as any).length - 1];
             }
             return options.showEditArrow && options.editArrowVisibilityCallback(contents);

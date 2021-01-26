@@ -4443,7 +4443,7 @@ define([
                swipeEvent = initSwipeEvent('left');
                const itemAt0 = instance._listViewModel.at(0);
                const breadcrumbItem = {
-                  '[Controls/_display/BreadcrumbsItem]': true,
+                  '[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]': true,
                   _$active: false,
                   isSelected: () => true,
                   getContents: () => ['fake', 'fake', 'fake', itemAt0.getContents() ],
@@ -4734,7 +4734,7 @@ define([
             const fakeEvent = initFakeEvent();
             const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
-               '[Controls/_display/BreadcrumbsItem]': true,
+               '[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]': true,
                _$active: false,
                getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
                setActive: function() {
@@ -5005,7 +5005,7 @@ define([
             instance._itemActionsMenuId = 'popup-id-0';
             const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
-               '[Controls/_display/BreadcrumbsItem]': true,
+               '[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]': true,
                _$active: false,
                getContents: () => ['fake', 'fake', 'fake', itemAt1.getContents() ],
                setActive: function() {

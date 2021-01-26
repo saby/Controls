@@ -1,0 +1,10 @@
+<Controls.searchBreadcrumbsGrid:View
+        source="{{_viewSource}}"
+        keyProperty="id"
+        parentProperty="parent"
+        displayProperty="title"
+        nodeProperty="parent@"
+        columns="{{ _columns }}"
+        header="{{ _header }}"
+        dedicatedItemProperty="{{_dedicatedItemProperty}}"
+/>

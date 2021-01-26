@@ -1,23 +1,24 @@
-import TreeItem from './TreeItem';
 import BreadcrumbsItem from './BreadcrumbsItem';
-import Tree from './Tree';
+import SearchGridDataRow from './SearchGridDataRow';
+import SearchGridCollection from './SearchGridCollection';
 import {register} from 'Types/di';
+import { Model } from 'Types/entity';
 
-export interface IOptions<T> {
-    source: TreeItem<T>;
-    parent?: TreeItem<T> | BreadcrumbsItem<T>;
+export interface IOptions<T extends Model> {
+    source: SearchGridDataRow<T>;
+    parent?: SearchGridDataRow<T> | BreadcrumbsItem<T>;
     multiSelectVisibility: string;
 }
 
 /**
  * Tree item which is just a decorator for another one
  * @class Controls/_display/TreeItemDecorator
- * @extends Controls/_display/TreeItem
+ * @extends Controls/_display/SearchGridDataRow
  * @author Мальцев А.А.
  * @private
  */
-export default class TreeItemDecorator<T> extends TreeItem<T> {
-    protected _$source: TreeItem<T>;
+export default class TreeItemDecorator<T extends Model> extends SearchGridDataRow<T> {
+    protected _$source: SearchGridDataRow<T>;
 
     constructor(options?: IOptions<T>) {
         super({
@@ -26,19 +27,25 @@ export default class TreeItemDecorator<T> extends TreeItem<T> {
         });
         this._$source = options?.source;
         this._$parent = options?.parent;
+
+        for(let property in this._$source) {
+            if(typeof this._$source[property] == "function") {
+                this[property] = this._$source[property].bind(this._$source)
+            }
+        }
     }
 
-    getSource(): TreeItem<T> {
+    getSource(): SearchGridDataRow<T> {
         return this._$source;
     }
 
     // region CollectionItem
 
-    getOwner(): Tree<T> {
+    getOwner(): SearchGridCollection<T> {
         return this._$source && this._$source.getOwner();
     }
 
-    setOwner(owner: Tree<T>): void {
+    setOwner(owner: SearchGridCollection<T>): void {
         return this._$source && this._$source.setOwner(owner);
     }
 
@@ -78,7 +85,7 @@ export default class TreeItemDecorator<T> extends TreeItem<T> {
 
     // region TreeItem
 
-    getRoot(): TreeItem<T> {
+    getRoot(): SearchGridDataRow<T> {
         return this._$source && this._$source.getRoot();
     }
 

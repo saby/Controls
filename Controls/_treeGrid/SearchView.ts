@@ -42,7 +42,7 @@ var
         },
         _onItemMouseUp(e, itemData) {
             const dispItem = itemData.dispItem ? itemData.dispItem : itemData;
-            if (dispItem['[Controls/_display/SearchSeparator]']) {
+            if (dispItem['[Controls/_searchBreadcrumbsGrid/SearchSeparator]']) {
                 e.stopPropagation();
                 return;
             }
@@ -50,7 +50,7 @@ var
         },
         _onItemClick: function(e, itemData) {
             const dispItem = itemData.dispItem ? itemData.dispItem : itemData;
-            if (dispItem['[Controls/_display/SearchSeparator]']) {
+            if (dispItem['[Controls/_searchBreadcrumbsGrid/SearchSeparator]']) {
                 e.stopPropagation();
                 return;
             }

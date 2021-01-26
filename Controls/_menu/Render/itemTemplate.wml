@@ -83,7 +83,7 @@
 </ws:template>
 
 
-<ws:if data="{{treeItem['[Controls/_display/SearchSeparator]']}}">
+<ws:if data="{{treeItem['[Controls/_searchBreadcrumbsGrid/SearchSeparator]']}}">
    <div attr:class="controls-Menu__row
                  controls-DropdownList__row
                  controls-ListView__itemV

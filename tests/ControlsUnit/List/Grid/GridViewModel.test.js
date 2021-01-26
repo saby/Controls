@@ -2602,7 +2602,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             const dispItem = gridViewModel._model._display.at(0);
             const contents = dispItem.getContents();
             dispItem.getContents = () => ['fake', 'fake', contents];
-            dispItem['[Controls/_display/BreadcrumbsItem]'] = true;
+            dispItem['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]'] = true;
             const data = gridViewModel.getItemDataByItem(dispItem);
             assert.equal(contentsKey, '123');
             assert.isFalse(data.showEditArrow);
@@ -2621,7 +2621,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
 
          it('should not call visibilityCallback for SearchSeparator', () => {
             const item = {
-               '[Controls/_display/SearchSeparator]': true,
+               '[Controls/_searchBreadcrumbsGrid/SearchSeparator]': true,
                getContents: () => null
             };
             const spyEditArrowVisibilityCallback = sinon.spy(editArrowCfg, 'editArrowVisibilityCallback');

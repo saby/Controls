@@ -25,13 +25,13 @@ export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
  * @param {TreeItem<T>} item
  */
 function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
-    if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/BreadcrumbsItem]']) {
+    if (item['[Controls/_display/GroupItem]'] || item['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]']) {
         return true;
     }
 
     const parent = item.getParent();
     // корневой узел не может быть свернут
-    if (!parent || parent['[Controls/_display/BreadcrumbsItem]'] || parent.isRoot()) {
+    if (!parent || parent['[Controls/_searchBreadcrumbsGrid/BreadcrumbsItem]'] || parent.isRoot()) {
         return true;
     } else if (!parent.isExpanded()) {
         return false;

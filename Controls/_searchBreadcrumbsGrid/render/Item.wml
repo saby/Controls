@@ -1,0 +1,29 @@
+<div class="{{item.getItemClasses({
+                'highlightOnHover': highlightOnHover,
+                'theme': theme,
+                'style': style,
+                'cursor': cursor,
+                'clickable': clickable
+            })}}">
+    <div class="{{item.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover)}}" style="{{item.getItemStyles()}}">
+        <div class="{{item.getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover)}}">
+            <Controls.Container.Async templateName="Controls/breadcrumbs:Path">
+                <ws:partial template="{{ content.resolvedTemplate }}"
+                            items="{{item.getContents()}}"
+                            backgroundStyle="{{_options.backgroundStyle}}"
+                            breadCrumbsItemClickCallback="{{ _onBreadcrumbItemClick }}"
+                            keyProperty="{{item.getKeyProperty()}}"
+                            displayProperty="{{item.getDisplayProperty()}}"
+                            on:click="_onBreadcrumbClick(item)">
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/breadcrumbs:ItemTemplate">
+                            <ws:contentTemplate>
+                                <Controls.decorator:Highlight highlightedValue="{{item.getSearchValue()}}" value="{{contentTemplate.itemData.item.get(item.getDisplayProperty())}}"/>
+                            </ws:contentTemplate>
+                        </ws:partial>
+                    </ws:itemTemplate>
+                </ws:partial>
+            </Controls.Container.Async>
+        </div>
+    </div>
+</div>
