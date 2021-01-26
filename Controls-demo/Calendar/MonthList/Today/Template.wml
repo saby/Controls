@@ -3,6 +3,7 @@
     <div class="controlsDemo__flex controlsDemo__flexColumn">
         <Controls.calendar:MonthList
                 name="monthList"
+                newMode="{{ true }}"
                 bind:position="_position">
             <ws:yearHeaderTemplate>
                 <div>{{yearHeaderTemplate.date.getFullYear()}}</div>
@@ -14,6 +15,7 @@
                     </ws:headerTemplate>
                     <ws:bodyTemplate>
                         <Controls.calendar:MonthView
+                                newMode="{{ true }}"
                                 attr:class="controls-MonthList__month-body"
                                 attr:data-date="{{dateId}}"
                                 showWeekdays="{{false}}"

@@ -5,6 +5,7 @@
                 bind:month="_month"
                 bind:startValue="_startValue"
                 bind:endValue="_endValue"
+                newMode="{{ true }}"
         />
     </div>
     <div class="controlsDemo__cell">

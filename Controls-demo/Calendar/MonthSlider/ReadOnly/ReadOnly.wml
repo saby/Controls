@@ -4,5 +4,6 @@
             bind:startValue="_startValue"
             bind:endValue="_endValue"
             readOnly="{{true}}"
+            newMode="{{ true }}"
     />
 </div>

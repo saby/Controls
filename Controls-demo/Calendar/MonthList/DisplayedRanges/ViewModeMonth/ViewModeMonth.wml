@@ -1,6 +1,6 @@
 <ws:partial template="wml!Controls-demo/Calendar/MonthList/resources/DemoTemplate"
             title="Ограничение на скролл">
-    <Controls.calendar:MonthList displayedRanges="{{_displayedRanges}}" bind:position="_position" viewMode="month">
+    <Controls.calendar:MonthList newMode="{{ true }}" displayedRanges="{{_displayedRanges}}" bind:position="_position" viewMode="month">
         <ws:stubTemplate>
             <div>
                 ----//----

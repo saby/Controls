@@ -1,4 +1,4 @@
 <ws:partial template="wml!Controls-demo/Calendar/MonthList/resources/DemoTemplate"
     title="Настройки по умолчанию">
-    <Controls.calendar:MonthList bind:position="_position"/>
+    <Controls.calendar:MonthList newMode="{{ true }}" bind:position="_position"/>
 </ws:partial>

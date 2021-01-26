@@ -4,7 +4,7 @@
       <div class="demo-MonthList__content-row">
          <div class="demo-MonthList__content-block">
             <div class="demo-MonthList__content-block-header">Base, viewMode: year</div>
-            <Controls.calendar:MonthList>
+            <Controls.calendar:MonthList newMode="{{ true }}">
                <ws:yearHeaderTemplate>
                   <div>
                      {{yearHeaderTemplate.date.getFullYear()}}
@@ -21,7 +21,7 @@
          </div>
          <div class="demo-MonthList__content-block">
             <div class="demo-MonthList__content-block-header">Base, viewMode: month</div>
-            <Controls.calendar:MonthList viewMode="month">
+            <Controls.calendar:MonthList viewMode="month" newMode="{{ true }}">
                <ws:monthTemplate>
                   <ws:partial template="Controls/calendar:MonthListMonthTemplate">
                      <ws:headerTemplate>
@@ -41,6 +41,7 @@
                name="yearsMonthList"
                bind:position="_year"
                source="{{_source}}"
+               newMode="{{ true }}"
                on:positionChanged="_yearPositionChangedHandler()">
                <ws:stubTemplate>
                   <div>
@@ -77,6 +78,7 @@
                source="{{_source}}"
                viewMode="month"
                displayedRanges="{{_displayedRanges}}"
+               newMode="{{ true }}"
                on:positionChanged="_monthPositionChangedHandler()">
                <ws:stubTemplate>
                   <div>

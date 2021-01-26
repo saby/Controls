@@ -10,6 +10,7 @@
             bind:startValue="_startValue1"
             bind:endValue="_endValue1"
             selectionType="single"
+            newMode="{{ true }}"
 			attr:class="controlsDemo-MonthSlider__default"
          />
       </div>
@@ -23,6 +24,7 @@
             bind:startValue="_startValue2"
             bind:endValue="_endValue2"
             selectionType="quantum"
+            newMode="{{ true }}"
             ranges="{{ {'days': [5]} }}"
          />
       </div>
@@ -36,6 +38,7 @@
             bind:startValue="_startValue3"
             bind:endValue="_endValue3"
             selectionType="quantum"
+            newMode="{{ true }}"
             ranges="{{ {'weeks': [1]} }}"
          />
       </div>
@@ -49,12 +52,14 @@
             bind:startValue="_startValue"
             bind:endValue="_endValue"
 			attr:class="controlsDemo-MonthSlider__selected"
+            newMode="{{ true }}"
          />
 
          <Controls.calendar:MonthSlider
             bind:month="_month"
             bind:startValue="_startValue"
             bind:endValue="_endValue"
+            newMode="{{ true }}"
          />
 
          <div>

@@ -6,6 +6,7 @@
             name="monthList"
             bind:position="_position"
             viewMode="month"
+            newMode="{{ true }}"
             source="{{_source}}"
             dayTemplate="{{_dayTemplate}}"/>
         <div class="controlsDemo__wrapper">

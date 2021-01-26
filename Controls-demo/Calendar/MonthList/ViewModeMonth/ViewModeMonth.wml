@@ -1,5 +1,5 @@
 <ws:partial template="wml!Controls-demo/Calendar/MonthList/resources/DemoTemplate"
     title="Опция viewMode=month"
     monthListTitle="{{_getHeader(_position)}}">
-    <Controls.calendar:MonthList bind:position="_position" viewMode="month"/>
+    <Controls.calendar:MonthList newMode="{{ true }}" bind:position="_position" viewMode="month"/>
 </ws:partial>
