@@ -8,7 +8,9 @@ const getDefatultSearchControllerOptions = (): object => {
     const source = new Memory();
     return {
         source,
-        keyProperty: 'id'
+        keyProperty: 'id',
+        searchValue: 'testValue',
+        sourceController: new NewSourceController({source})
     };
 };
 
@@ -19,11 +21,13 @@ const getController = (options): Controller => {
 describe('Controls/search:Controller', () => {
 
     describe('_beforeUpdate', () => {
-
+        const options = {...getDefatultSearchControllerOptions(), root: 'testRoot'};
+        const dataOptions = {
+            sourceController: options.sourceController
+        };
         it('root is changed', () => {
-            let options = {...getDefatultSearchControllerOptions(), root: 'testRoot'};
             const searchController = getController(options);
-            searchController._beforeMount(options, {dataOptions: {}});
+            searchController._beforeMount(options, {dataOptions});
             searchController.saveOptions(options);
 
             ok(searchController._root === 'testRoot');
@@ -34,15 +38,28 @@ describe('Controls/search:Controller', () => {
             ok(searchController._root === 'testRoot2');
         });
 
-        it('searchValue wasn\'t changed', () => {
-            const source = new Memory();
-            const options = {
-                source,
-                keyProperty: 'id',
-                root: 'testRoot',
-                searchValue: 'testValue',
-                sourceController: 'sourceController'
+        it('_dataLoadCallback called', async () => {
+            let callbackCalled = false;
+            let searchControllerUpdated = false;
+            const searchController = new Controller(options);
+
+            searchController._options = options;
+            searchController._dataLoadCallback = () => {
+                callbackCalled = true;
             };
+            searchController._searchValue = 'oldValue';
+            searchController._searchController = {
+                update: () => {
+                    searchControllerUpdated = true;
+                }
+            };
+            searchController._beforeUpdate(options, {dataOptions: {}});
+            await searchController._sourceController.load();
+            assert.isTrue(callbackCalled);
+            assert.isTrue(searchControllerUpdated);
+        });
+
+        it('searchValue wasn\'t changed', () => {
             let searchControllerUpdated = false;
             const searchController = new Controller(options);
 
@@ -58,18 +75,9 @@ describe('Controls/search:Controller', () => {
         });
 
         it('searchValue was changed', () => {
-            const source = new Memory();
-            const options = {
-                source,
-                keyProperty: 'id',
-                root: 'testRoot',
-                searchValue: 'testValue',
-                sourceController: 'sourceController'
-            };
             let searchControllerUpdated = false;
-
             const searchController = new Controller(options);
-            searchController._beforeMount(options, {dataOptions: {}});
+            searchController._beforeMount(options, {dataOptions});
 
             searchController._searchController = {
                 update: () => {
@@ -77,23 +85,14 @@ describe('Controls/search:Controller', () => {
                 }
             };
             options.searchValue = 'newValue';
-
             searchController._beforeUpdate(options, {dataOptions: {}});
             assert.isTrue(searchControllerUpdated);
         });
 
         it('newOptions.searchValue is undefined', () => {
-            const source = new Memory();
-            const options = {
-                source,
-                keyProperty: 'id',
-                root: 'testRoot',
-                sourceController: 'sourceController'
-            };
             let searchControllerUpdated = false;
-
             const searchController = new Controller(options);
-            searchController._beforeMount(options, {dataOptions: {}});
+            searchController._beforeMount(options, {dataOptions});
 
             searchController._searchController = {
                 update: () => {
@@ -101,24 +100,16 @@ describe('Controls/search:Controller', () => {
                 }
             };
             searchController._searchValue = 'newValue';
-
+            options.searchValue = undefined;
             searchController._beforeUpdate(options, {dataOptions: {}});
             assert.isFalse(searchControllerUpdated);
         });
 
         it('_searchValue not equal newOptions.searchValue', () => {
-            const source = new Memory();
-            const options = {
-                source,
-                keyProperty: 'id',
-                root: 'testRoot',
-                searchValue: 'testValue',
-                sourceController: 'sourceController'
-            };
+            options.searchValue = 'testValue';
             let searchControllerUpdated = false;
-
             const searchController = new Controller(options);
-            searchController._beforeMount(options, {dataOptions: {}});
+            searchController._beforeMount(options, {dataOptions});
 
             searchController._searchController = {
                 update: () => {
@@ -126,7 +117,6 @@ describe('Controls/search:Controller', () => {
                 }
             };
             searchController._searchValue = 'newValue';
-
             searchController._beforeUpdate(options, {dataOptions: {}});
             assert.isTrue(searchControllerUpdated);
         });
@@ -141,7 +131,7 @@ describe('Controls/search:Controller', () => {
             });
             options.searchValue = 'testSearchValue';
             const searchController = getController(options);
-            await searchController._beforeMount(options, {dataOptions: {}});
+            await searchController._beforeMount(options, {dataOptions: {sourceController: options.sourceController}});
             searchController.saveOptions(options);
 
             await searchController._getSearchController();
