@@ -4,7 +4,7 @@ import {IDateRangeOptions} from "./interfaces/IDateRange";
 import ILinkView from './interfaces/ILinkView';
 import IDateRangeSelectable = require('./interfaces/IDateRangeSelectable');
 import componentTmpl = require('wml!Controls/_dateRange/RangeSelector/RangeSelector');
-import {Popup as PopupUtil} from 'Controls/dateUtils';
+import {Popup as PopupUtil, Base as dateUtils} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 import dateControlsUtils from "./Utils";
@@ -51,18 +51,58 @@ import {descriptor} from "Types/entity";
  *
  */
 export default class RangeSelector extends BaseSelector<IControlOptions> {
-    _template: TemplateFunction = componentTmpl;
+    protected _template: TemplateFunction = componentTmpl;
+    protected _emptyCaption: string;
+
+    protected _beforeMount(options): void {
+        this._updateValues(options);
+        super._beforeMount(options);
+        if (options.emptyCaption) {
+            this._emptyCaption = options.emptyCaption;
+        } else {
+            this._emptyCaption = options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single ?
+                this.EMPTY_CAPTIONS.ALL_TIME : this.EMPTY_CAPTIONS.NOT_SPECIFIED;
+        }
+        this._updateResetButtonVisible(options);
+    }
+
+    protected _beforeUpdate(options): void {
+        this._updateValues(options);
+        this._updateResetButtonVisible(options);
+        super._beforeUpdate(options);
+    }
+
+    _updateResetButtonVisible(options): void {
+        this._resetButtonVisible = options.resetButtonVisible &&
+            (!dateUtils.isDatesEqual(this._startValue, options.resetValue[0]) ||
+                !dateUtils.isDatesEqual(this._endValue, options.resetValue[1]));
+    }
+
+    _updateValues(options): void {
+        if (options.startValue || options.startValue === null) {
+            this._startValue = options.startValue;
+        } else {
+            this._startValue = this._rangeModel?.startValue;
+        }
+        if (options.endValue || options.endValue === null) {
+            this._endValue = options.endValue;
+        } else {
+            this._endValue = this._rangeModel?.endValue;
+        }
+        if (options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single) {
+            this._startValue = this._startValue || null;
+            this._endValue = this._endValue || null;
+        }
+    }
 
     _updateRangeModel(options: IDateRangeOptions): void {
         const opts: IDateRangeOptions = {};
-
-        if (options.hasOwnProperty('endValue')) {
-            opts.endValue = options.endValue;
-        }
-        if (options.hasOwnProperty('startValue')) {
-            opts.startValue = options.startValue;
+        if (!(options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single &&
+            this._startValue === null && this._endValue === null)) {
+            opts.endValue = this._endValue;
+            opts.startValue = this._startValue;
             if (options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single) {
-                opts.endValue = options.startValue;
+                opts.endValue = this._startValue;
             }
         }
         opts.rangeSelectedCallback = options.rangeSelectedCallback;
@@ -92,10 +132,13 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
             templateOptions: {
                 ...PopupUtil.getDateRangeTemplateOptions(this),
                 headerType: 'link',
+                resetButtonVisible: this._options.resetButtonVisible,
+                resetValue: this._options.resetValue,
+                rightFieldTemplate: this._options.rightFieldTemplate,
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
                 captionFormatter: this._options.captionFormatter,
-                emptyCaption: this._options.emptyCaption,
+                emptyCaption: this._emptyCaption,
                 closeButtonEnabled: true,
                 selectionType: this._options.selectionType,
                 ranges: this._options.ranges,
@@ -105,6 +148,10 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
                 rangeSelectedCallback: this._options.rangeSelectedCallback
             }
         };
+    }
+
+    _resetButtonClickHandler(): void {
+        this._rangeModel.setRange(this._options.resetValue[0], this._options.resetValue[1]);
     }
 
     _mouseEnterHandler(): void {
@@ -123,6 +170,7 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
     static getDefaultOptions(): object {
         return {
             minRange: 'day',
+            resetValue: [null, null],
             ...ILinkView.getDefaultOptions(),
             ...IDateRangeSelectable.getDefaultOptions(),
             captionFormatter: dateControlsUtils.formatDateRangeCaption

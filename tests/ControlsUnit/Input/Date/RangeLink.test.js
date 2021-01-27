@@ -77,6 +77,7 @@ define([
                   minRange: 'day'
                }
             }));
+            'controls-DatePopup__selector-marginTop_fontSize-m_theme-default controls-DatePopup__selector-marginLeft_theme-default, templateOptions: [object Object])'
          });
          it('should open dialog with passed dialog options', function() {
             const

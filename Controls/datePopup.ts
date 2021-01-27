@@ -96,6 +96,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _headerTmpl: TemplateFunction = headerTmpl;
     _dayTmpl: TemplateFunction = dayTmpl;
     _defaultDayTemplate: TemplateFunction = MonthViewDayTemplate;
+    protected _today: number = new Date().getDate();
 
     _rangeModel: object = null;
     _headerRangeModel: object = null;
@@ -107,7 +108,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _headerType: string = HEADER_TYPES.link;
     _activateInputField: boolean = false;
 
-    _homeButtonVisible: boolean = true;
+    _todayCalendarEnabled: boolean = true;
 
     _STATES: object = STATES;
     _state: string = STATES.year;
@@ -196,7 +197,9 @@ export default class DatePopup extends Control implements EventProxyMixin {
             this._yearRangeSelectionType = IDateRangeSelectable.SELECTION_TYPES.disable;
         }
 
-        this._updateHomeButtonVisible();
+        this._updateTodayCalendarState();
+
+        this._updateResetButtonVisible(options);
 
         this._headerType = options.headerType;
     }
@@ -220,31 +223,33 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     _toggleStateClick(): void {
         this.toggleState();
-        this._updateHomeButtonVisible();
+        this._updateTodayCalendarState();
     }
 
-    _homeButtonClick(): void {
-        this._displayedDate = dateUtils.getStartOfMonth(new Date());
+    _todayCalendarClick(): void {
+        if (this._todayCalendarEnabled) {
+            this._displayedDate = dateUtils.getStartOfMonth(new Date());
+        }
     }
 
-    _updateHomeButtonVisible(): void {
+    _updateTodayCalendarState(): void {
         if ((this._state === STATES.year && this._displayedDate.getFullYear() === new Date().getFullYear()) ||
             (this._state === STATES.month && this._displayedDate.getMonth() === new Date().getMonth() &&
                 this._displayedDate.getFullYear() === new Date().getFullYear())) {
-            this._homeButtonVisible = false;
+            this._todayCalendarEnabled = false;
         } else {
-            this._homeButtonVisible = true;
+            this._todayCalendarEnabled = true;
         }
     }
 
     _currentDayIntersectHandler(event: SyntheticEvent, entry: IntersectionObserverSyntheticEntry): void {
-        this._homeButtonVisible = !entry.nativeEntry.isIntersecting;
+        this._todayCalendarEnabled = !entry.nativeEntry.isIntersecting;
     }
 
     _unregisterCurrentDayIntersectHandler(): void {
         // Если в IntersectionObserverContainer, который сделит за сегодняшним днём, происходит событие unregister -
         // значит текущий день точно не отображается. Обновляем состояние домика.
-        this._updateHomeButtonVisible();
+        this._updateTodayCalendarState();
     }
 
     _yearsRangeChanged(e: SyntheticEvent, start: Date, end: Date): void {
@@ -409,6 +414,17 @@ export default class DatePopup extends Control implements EventProxyMixin {
         });
     }
 
+    _resetButtonClickHandler(): void {
+        this.rangeChanged(this._options.resetValue[0], this._options.resetValue[1]);
+        this._resetButtonVisible = false;
+    }
+
+    _updateResetButtonVisible(options): void {
+        this._resetButtonVisible = options.resetButtonVisible &&
+            (!dateUtils.isDatesEqual(this._rangeModel.startValue, options.resetValue[0]) ||
+            !dateUtils.isDatesEqual(this._rangeModel.endValue, options.resetValue[1]));
+    }
+
     fixedPeriodClick(start: Date, end: Date): void {
         this.rangeChanged(start, end);
         this._monthRangeSelectionProcessing = false;
@@ -426,15 +442,16 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._headerRangeModel.startValue = start;
         this._headerRangeModel.endValue = end;
         this.updateYearsRangeModel(start, end);
+        this._updateResetButtonVisible(this._options);
     }
 
     updateYearsRangeModel(start: Date, end: Date): void {
-        if (dateUtils.isStartOfYear(start) && dateUtils.isEndOfYear(end)) {
+        if ((dateUtils.isStartOfYear(start) || start === null) && (dateUtils.isEndOfYear(end) || end === null)) {
             this._yearRangeModel.startValue = start;
             this._yearRangeModel.endValue = end;
         } else {
-            this._yearRangeModel.startValue = null;
-            this._yearRangeModel.endValue = null;
+            this._yearRangeModel.startValue = undefined;
+            this._yearRangeModel.endValue = undefined;
         }
     }
 
@@ -532,7 +549,8 @@ export default class DatePopup extends Control implements EventProxyMixin {
             dayTemplate: MonthViewDayTemplate,
 
             startValueValidators: [],
-            endValueValidators: []
+            endValueValidators: [],
+            resetValue: [null, null]
         }, IRangeSelectable.getDefaultOptions());
     }
 

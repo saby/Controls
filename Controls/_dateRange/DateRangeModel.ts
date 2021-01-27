@@ -44,8 +44,6 @@ var _private = {
 };
 
 var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], {
-   _startValue: null,
-   _endValue: null,
    _options: null,
    _dateConstructor: DateTime,
 

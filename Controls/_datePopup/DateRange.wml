@@ -11,60 +11,109 @@
       </div>
    </div>
    <div class="controls-PeriodDialog-DateRange__body">
-      <ws:if data="{{!_isStickySupport}}">
-         <div class="controls-PeriodDialog-DateRangeItem__months controls-PeriodDialog-DateRangeItem__months_theme-{{_options.theme}}"
-               on:wheel="_wheelHandler()"
-               on:swipe="_swipeHandler()">
-            <ws:for data="month in 12">
-               <div class="controls-PeriodDialog-DateRangeItem__months-btn controls-PeriodDialog-DateRangeItem__months-btn_theme-{{_options.theme}}"
-                    on:click="_scrollToMonth(_options.position.getFullYear(), month)"
-                    >
-                  {{ _formatMonth(month) }}
-               </div>
-            </ws:for>
-            <div class="controls-PeriodDialog-DateRangeItem__months-nextyearBtn
-                        controls-PeriodDialog-DateRangeItem__months-nextyearBtn_theme-{{_options.theme}}"
-                 on:click="_scrollToMonth(_options.position.getFullYear() + 1, 0)"
-                  >
-               {{ _options.position.getFullYear() + 1 }}
-            </div>
-         </div>
+      <ws:if data="{{_isStickySupport}}">
+         <Controls.calendar:MonthList shadowStyle="datePopup"
+                                      attachLoadTopTriggerToNull="{{ false }}"
+                                      bind:markedKey="_markedKey"
+                                      markerVisibility="visible"
+                                      bind:position="_monthsPosition"
+                                      _limit="{{ 36 }}"
+                                      virtualPageSize="{{36}}"
+                                      viewMode="month"
+                                      attr:class="controls-PeriodDialog-DateRangeItem__months"
+                                      on:positionChanged="_onMonthsPositionChanged()">
+            <ws:monthHeaderTemplate>
+               <ws:if data="{{ monthHeaderTemplate.date.getMonth() === 0 }}">
+                  <div class="controls-PeriodDialog-DateRangeItem__months-nextyearBtn
+                           controls-PeriodDialog-DateRangeItem__months-nextyearBtn_theme-{{_options.theme}}"
+                       on:click="_scrollToMonth(monthHeaderTemplate.date.getFullYear(), 0)">
+                     {{monthHeaderTemplate.date.getFullYear()}}
+                  </div>
+               </ws:if>
+               <ws:else>
+                     <invisible-node/>
+               </ws:else>
+            </ws:monthHeaderTemplate>
+            <ws:monthTemplate>
+               <ws:partial template="Controls/calendar:MonthListMonthTemplate">
+                  <ws:bodyTemplate>
+                        <div class="controls-PeriodDialog-DateRangeItem__months-btn controls-PeriodDialog-DateRangeItem__months-btn_theme-{{_options.theme}}"
+                             on:click="_scrollToMonth(monthTemplate.date.getFullYear(), monthTemplate.date.getMonth())" data-date="{{ _dateToId(monthTemplate.date) }}">
+                           {{ _formatMonth(monthTemplate.date.getMonth()) }}
+                        </div>
+                  </ws:bodyTemplate>
+               </ws:partial>
+            </ws:monthTemplate>
+         </Controls.calendar:MonthList>
       </ws:if>
       <!-- virtualPageSize="{{4}}" - with a value of 4, scrolling the mouse wheel over the years panel works faster. -->
-      <Controls.calendar:MonthList
-         attachLoadTopTriggerToNull="{{ false }}"
-         name="monthList"
-         virtualPageSize="{{4}}"
-         _limit="{{1}}"
-         position="{{_position}}"
-         attr:class="controls-PeriodDialog-DateRange-dates-wrapper"
-         source="{{_options.calendarSource}}"
-         dayTemplate="{{_options.dayTemplate}}"
-         on:itemClick="_onItemClick()"
-         on:positionChanged="_onPositionChanged()"
-      >
-         <ws:yearHeaderTemplate>
-            <div class="controls-PeriodDialog-DateRangeItem__separator {{_getSeparatorCssClass()}}_theme-{{_options.theme}}
-                        controls-PeriodDialog-DateRangeItem__separator_theme-{{_options.theme}}"></div>
-         </ws:yearHeaderTemplate>
-         <ws:yearTemplate>
-            <ws:partial template="Controls/calendar:MonthListYearTemplate">
-               <ws:bodyTemplate>
-                  <ws:partial
-                     template="wml!Controls/_datePopup/DateRangeItem"
-                     _options="{{_options}}"
-                     rangeSelectedCallback="{{rangeSelectedCallback}}"
-                     _isStickySupport="{{_isStickySupport}}"
-                     _formatDate="{{_formatDate}}"
-                     _formatMonth="{{_formatMonth}}"
-                     _getMonth="{{_getMonth}}"
-                     _monthSelectionEnabled="{{_monthSelectionEnabled}}"
-                     _monthViewModel="{{_monthViewModel}}"
-                     extData="{{extData}}"
-                  />
-               </ws:bodyTemplate>
-            </ws:partial>
-         </ws:yearTemplate>
-      </Controls.calendar:MonthList>
-   </div>
+         <Controls.calendar:MonthList
+                 attachLoadTopTriggerToNull="{{ false }}"
+                 name="monthList"
+                 shadowStyle="datePopup"
+                 virtualPageSize="{{4}}"
+                 position="{{_position}}"
+                 displayedRanges="{{ displayedRanges }}"
+                 viewMode="month"
+                 attr:class="controls-PeriodDialog-DateRange-dates-wrapper controls-PeriodDialog-DateRangeItem__monthList controls-PeriodDialog-DateRangeItem__monthList_theme-{{_options.theme}}"
+                 source="{{_options.calendarSource}}"
+                 dayTemplate="{{_options.dayTemplate}}"
+                 on:itemClick="_onItemClick()"
+                 on:positionChanged="_onPositionChanged()"
+         >
+            <ws:monthTemplate>
+               <ws:partial template="Controls/calendar:MonthListMonthTemplate">
+                  <ws:bodyTemplate>
+                     <Controls.calendar:MonthView
+                             attr:class="controls-DateRangeBigChoose-DateRangePicker__item_theme-{{_options.theme}}"
+                             monthViewModel="{{_monthViewModel}}"
+                             showCaption="{{true}}"
+                             selectionType="{{_options.selectionType}}"
+                             ranges="{{_options.ranges}}"
+                             showWeekdays="{{false}}"
+                             month="{{ monthTemplate.date }}"
+                             daysData="{{extData[monthTemplate.date.getMonth()]}}"
+                             dateConstructor="{{_options.dateConstructor}}"
+
+                             startValue="{{_options.startValue}}"
+                             endValue="{{_options.endValue}}"
+
+                             newMode="{{true}}"
+
+                             selectionProcessing="{{_options.selectionProcessing}}"
+                             on:selectionProcessingChanged="_proxyEvent()"
+                             selectionBaseValue="{{_options.selectionBaseValue}}"
+                             selectionHoveredValue="{{_options.selectionHoveredValue}}"
+
+                             hoveredStartValue="{{_options.hoveredStartValue}}"
+                             hoveredEndValue="{{_options.hoveredEndValue}}"
+
+                             on:monthClick="_proxyEvent()"
+                             on:fixedPeriodClick="_proxyEvent()"
+                             on:itemClick="_proxyEvent()"
+                             on:itemMouseEnter="_proxyEvent()"
+                             on:itemMouseLeave="_proxyEvent()"
+                     >
+                        <ws:captionTemplate>
+                           <div class="controls-PeriodDialog-DateRangeItem__monthList_title
+                     controls-PeriodDialog-DateRangeItem__monthList_title_theme-{{_options.theme}}
+                     {{_monthSelectionEnabled ? ' controls-PeriodDialog-DateRangeItem__monthList_title_selectable
+                     controls-PeriodDialog-DateRangeItem__monthList_title_selectable_theme-' + _options.theme}}"
+                                on:click="_monthCaptionClick(monthTemplate.date, monthTemplate.date.getMonth())">
+                              {{ _formatMonth(monthTemplate.date.getMonth()) }}
+                           </div>
+                        </ws:captionTemplate>
+                        <ws:dayTemplate>
+                           <ws:partial template="{{_options.dayTemplate}}"
+                                       sizeStyle="DateRangeItem"
+                                       fontColorStyle="DateRangeItem"
+                                       backgroundStyle="DateRangeItem">
+                           </ws:partial>
+                        </ws:dayTemplate>
+                     </Controls.calendar:MonthView>
+                  </ws:bodyTemplate>
+               </ws:partial>
+            </ws:monthTemplate>
+         </Controls.calendar:MonthList>
+      </div>
 </div>

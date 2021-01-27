@@ -33,9 +33,6 @@ var _private = {
     */
    stopRangeSelection: function(self, item) {
       var range = self._getDisplayedRangeEdges(item);
-      if (self._startValue === range[0] && self._endValue === range[1]) {
-         return;
-      }
       self._notify('beforeSelectionEnded', [range[0], range[1]]);
       self._selectionProcessing = false;
       self._selectionBaseValue = null;
@@ -241,6 +238,9 @@ var Component = BaseControl.extend({
          if (_private.updateDisplayedRange(this, item)) {
             this._notify('selectionHoveredValueChanged', [this._selectionHoveredValue]);
             this._notify('selectionChanged', [this._displayedStartValue, this._displayedEndValue]);
+            this._startValue = this._displayedStartValue;
+            this._endValue = this._displayedEndValue;
+            this._notify('rangeChanged', [this._startValue, this._endValue]);
          }
       } else {
          range = this._getDisplayedRangeEdges(item);
@@ -263,8 +263,15 @@ var Component = BaseControl.extend({
       if (this._selectionProcessing) {
          this._selectionHoveredValue = _private.clone(this._selectionBaseValue);
          if (_private.updateDisplayedRange(this)) {
+            if (this._selectionType === 'range') {
+                // Если во время выбора периода мышку увели за пределы контрола, будем строить период до бесконечности.
+                this._endValue = null;
+                this._displayedEndValue = null;
+                this._selectionHoveredValue = null;
+            }
             this._notify('selectionHoveredValueChanged', [this._selectionHoveredValue]);
             this._notify('selectionChanged', [this._displayedStartValue, this._displayedEndValue]);
+            this._notify('rangeChanged', [this._startValue, this._endValue]);
          }
       }
    },

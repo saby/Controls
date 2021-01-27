@@ -37,8 +37,8 @@ define([
 
          it('should create the correct models when empty range passed.', function() {
             const component = calendarTestUtils.createComponent(DateRange, { year: year });
-            assert.isNull(component._rangeModel.startValue);
-            assert.isNull(component._rangeModel.endValue);
+            assert.isUndefined(component._rangeModel.startValue);
+            assert.isUndefined(component._rangeModel.endValue);
          });
 
          it('should create the correct range model when range passed.', function() {
@@ -79,41 +79,6 @@ define([
             sandbox.stub(component, '_notify');
             component._monthCaptionClick(null, new Date(2019, 0), 3);
             sinon.assert.notCalled(component._notify);
-         });
-      });
-
-      describe('_wheelHandler', function() {
-         it('should should increase the year.', function() {
-            const
-               component = calendarTestUtils.createComponent(DateRange, { position: year }),
-               position = new Date(year.getFullYear() + 1, 0, 1);
-            sandbox.stub(component, '_notify');
-            component._wheelHandler({ preventDefault: function(){}, nativeEvent: { deltaY: 1 } });
-            sinon.assert.calledWith(component._notify, 'positionChanged', [position]);
-            assert.strictEqual(+component._position, +position);
-         });
-         it('should should decrease the year.', function() {
-            const
-               component = calendarTestUtils.createComponent(DateRange, { position: year }),
-               position = new Date(year.getFullYear() - 1, 0, 1);
-            sandbox.stub(component, '_notify');
-            component._wheelHandler({ preventDefault: function(){}, nativeEvent: { deltaY: -1 } });
-            sinon.assert.calledWith(component._notify, 'positionChanged', [position]);
-            assert.strictEqual(+component._position, +position);
-         });
-      });
-      describe('_swipeHandler', function() {
-         it('should should increase the year.', function() {
-            const component = calendarTestUtils.createComponent(DateRange, { position: year });
-            sandbox.stub(component, '_notify');
-            component._swipeHandler({ preventDefault: function(){}, nativeEvent: { direction: 'top' } });
-            sinon.assert.calledWith(component._notify, 'positionChanged', [new Date(year.getFullYear() + 1, 0, 1)]);
-         });
-         it('should should decrease the year.', function() {
-            const component = calendarTestUtils.createComponent(DateRange, { position: year });
-            sandbox.stub(component, '_notify');
-            component._swipeHandler({ preventDefault: function(){}, nativeEvent: { direction: 'bottom' } });
-            sinon.assert.calledWith(component._notify, 'positionChanged', [new Date(year.getFullYear() - 1, 0, 1)]);
          });
       });
 

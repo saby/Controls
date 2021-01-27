@@ -294,21 +294,6 @@ define([
             });
          });
       });
-      describe('_clearDate', function() {
-         it('should clear startValue and endValue', function() {
-            const sandbox = sinon.sandbox.create(),
-               component = calendarTestUtils.createComponent(dateRange.LinkView, config);
-
-            sandbox.stub(component, '_notify');
-            component._clearDate();
-
-            assert.strictEqual(component._rangeModel.startValue, null);
-            assert.strictEqual(component._rangeModel.endValue, null);
-            assert.equal(component._caption, 'Не указан');
-            sinon.assert.callCount(component._notify, 3);
-            sandbox.restore();
-         });
-      });
       describe('_beforeUpdate', function() {
          it('should update caption', function() {
             const component = calendarTestUtils.createComponent(dateRange.LinkView, config),

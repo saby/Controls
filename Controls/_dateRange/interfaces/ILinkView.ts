@@ -100,7 +100,6 @@ export default {
              * @name Controls/_dateRange/interfaces/ILinkView#emptyCaption
              * @cfg {String} Text that is used if the period is not selected.
              */
-            emptyCaption: EMPTY_CAPTIONS.NOT_SPECIFIED
         };
     },
 

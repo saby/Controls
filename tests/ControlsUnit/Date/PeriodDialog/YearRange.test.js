@@ -20,8 +20,8 @@ define([
 
          it('should create the correct models when empty range passed.', function() {
             const component = calendarTestUtils.createComponent(YearsRange, { year: year });
-            assert.isNull(component._rangeModel.startValue);
-            assert.isNull(component._rangeModel.endValue);
+            assert.isUndefined(component._rangeModel.startValue);
+            assert.isUndefined(component._rangeModel.endValue);
          });
 
          it('should create the correct range model when range passed.', function() {
