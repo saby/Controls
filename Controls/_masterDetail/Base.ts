@@ -250,8 +250,14 @@ class Base extends Control<IMasterDetail> {
     }
 
     private _needHandleTouch(target: HTMLElement): boolean {
+        /*
+           Ищем базовый контрол списка, т.к. он есть во всех видах списков
+           (Controls/masterDetail:List не все используют),
+           найдя его мы точно знаем, что таргет внутри списка
+        */
+        const masterListModuleName: string = 'Controls/list:BaseControl';
         const controlTree = goUpByControlTree(target);
-        const masterListModuleName: string = 'Controls/masterDetail:List';
+
         for (let i = 0; i < controlTree.length; i++) {
             // Если не встретили список и добрались до контрола, значит можем обрабатывать клик
             if (controlTree[i]._moduleName === this._moduleName) {
