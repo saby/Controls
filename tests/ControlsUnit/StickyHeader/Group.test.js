@@ -408,19 +408,6 @@ define([
             sinon.assert.notCalled(component._notify);
             sinon.restore();
          });
-
-         it('should notify stickyFixed if group already fixed', function() {
-            const component = createComponent(scroll.Group, options);
-            component._updateFixedRegister = {
-               start: sinon.fake()
-            };
-            component._stickyHeadersIds = {
-               top: [10]
-            };
-            component._isFixed = true;
-            component._stickyRegisterHandler(event, data, true);
-            sinon.assert.calledWith(component._updateFixedRegister.start, event, [2, 10]);
-         });
       });
    });
 

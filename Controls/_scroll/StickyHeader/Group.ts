@@ -52,9 +52,6 @@ interface IStickyHeaderGroupOptions extends IControlOptions {
  */
 export default class Group extends Control<IStickyHeaderGroupOptions> {
     private _index: number = null;
-    // Похоже что не используется, переделали на другой механизм.
-    // https://online.sbis.ru/opendoc.html?guid=08a36766-8ac6-4884-bd3b-c28514c9574c
-    private _updateFixedRegister: RegisterClass = new RegisterClass({register: 'updateFixed'});
     protected _template: TemplateFunction = template;
     protected _isStickySupport: boolean = false;
 
@@ -84,18 +81,6 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     protected _beforeMount(options: IControlOptions, context): void {
         this._isStickySupport = isStickySupport();
         this._index = getNextId();
-    }
-
-    protected _beforeUnmount(): void {
-        this._updateFixedRegister.destroy();
-    }
-
-    protected _registerHandler(event, registerType, component, callback, config): void {
-        this._updateFixedRegister.register(event, registerType, component, callback, config);
-    }
-
-    protected _unregisterHandler(event, registerType, component, config): void {
-        this._updateFixedRegister.unregister(event, component, config);
     }
 
     getOffset(parentElement: HTMLElement, position: POSITION): number {
@@ -246,10 +231,6 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
             } else {
                 data.inst[POSITION.top] = this._offset[POSITION.top];
                 data.inst[POSITION.bottom] = this._offset[POSITION.bottom];
-            }
-
-            if (this._isFixed) {
-                this._updateFixedRegister.start(event, [data.id].concat(this._stickyHeadersIds[data.position]));
             }
 
             // Register group after first header is registered
