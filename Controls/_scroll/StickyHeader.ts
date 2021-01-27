@@ -18,7 +18,7 @@ import {
 import fastUpdate from './StickyHeader/FastUpdate';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {IScrollState} from '../Utils/ScrollState';
-import {getScrollPositionTypeByState, SCROLL_DIRECTION, SCROLL_POSITION} from './Utils/Scroll';
+import {SCROLL_POSITION} from './Utils/Scroll';
 import Context = require('Controls/_scroll/StickyHeader/Context');
 import {IntersectionObserver} from 'Controls/sizeUtils';
 import Model = require('Controls/_scroll/StickyHeader/Model');
@@ -105,7 +105,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         bottom: null
     };
 
-    private _index: number = null;
+    private _index: number = getNextId();
 
     private _height: number = 0;
 
@@ -159,24 +159,67 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     // До этого не синхронизируем дом дерево при изменении состояния.
     private _initialized: boolean = false;
 
+    constructor(cfg: IStickyHeaderOptions) {
+        super(cfg);
+        this._observeHandler = this._observeHandler.bind(this);
+    }
+
     protected _beforeMount(options: IStickyHeaderOptions, context): void {
-        if (!this._isStickySupport) {
+        if (!this._isStickyEnabled(options)) {
             return;
         }
-
-        this._observeHandler = this._observeHandler.bind(this);
-        this._index = getNextId();
-        this._scrollShadowPosition = context?.stickyHeader?.shadowPosition;
         if (options.shadowVisibility === SHADOW_VISIBILITY.initial) {
             this._initialShowShadow = true;
         }
         this._updateStyles(options);
     }
 
-    protected _componentDidMount(): void {
-        if (!this._isStickySupport) {
+    protected _componentDidMount(options: IStickyHeaderOptions): void {
+        if (!this._isStickyEnabled(options)) {
             return;
         }
+        this._register();
+    }
+
+    protected _afterMount(options: IStickyHeaderOptions): void {
+        if (!this._isStickyEnabled(options)) {
+            return;
+        }
+        this._init();
+    }
+
+    getHeaderContainer(): HTMLElement {
+        return this._container;
+    }
+
+    protected _beforeUpdate(options: IStickyHeaderOptions, context): void {
+        if (!this._isStickyEnabled(options)) {
+            return;
+        }
+        if (options.mode !== this._options.mode && options.mode === MODE.notsticky) {
+            this._release();
+        }
+        if (options.fixedZIndex !== this._options.fixedZIndex) {
+            this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.task1177692247);
+        }
+    }
+
+    protected _afterUpdate(oldOptions: IStickyHeaderOptions): void {
+        if (oldOptions.mode === MODE.notsticky && this._options.mode !== MODE.notsticky) {
+            this._register();
+            this._init();
+        }
+        this._updateComputedStyle();
+    }
+
+    protected _beforeUnmount(): void {
+        if (!this._isStickySupport || this._options.mode === MODE.notsticky) {
+            return;
+        }
+        this._release();
+    }
+
+    _register(): void {
         this._notify('stickyRegister', [{
             id: this._index,
             inst: this,
@@ -186,33 +229,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         }, true], {bubbling: true});
     }
 
-    getHeaderContainer(): HTMLElement {
-        return this._container;
-    }
-
-    protected _beforeUpdate(options: IStickyHeaderOptions, context): void {
-        if (!this._isStickySupport) {
-            return;
-        }
-        if (options.fixedZIndex !== this._options.fixedZIndex) {
-            this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.task1177692247);
-        }
-        if (context?.stickyHeader?.shadowPosition !== this._scrollShadowPosition) {
-            this._scrollShadowPosition = context?.stickyHeader?.shadowPosition;
-            this._updateShadowStyles(options.mode, options.shadowVisibility);
-        }
-    }
-
-    protected _afterUpdate(options: IStickyHeaderOptions): void {
-        this._updateComputedStyle();
-    }
-
-    protected _afterMount(): void {
-        if (!this._isStickySupport) {
-            return;
-        }
-        const children = this._children;
-
+    _init(): void {
         this._updateComputedStyle();
 
         // После реализации https://online.sbis.ru/opendoc.html?guid=36457ffe-1468-42bf-acc9-851b5aa24033
@@ -223,6 +240,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             return;
         }
 
+        const children = this._children;
         this._model = new Model({
             topTarget: children.observationTargetTop,
             bottomTarget: children.observationTargetBottom,
@@ -230,16 +248,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         });
 
         RegisterUtil(this, 'scrollStateChanged', this._onScrollStateChanged);
-
         RegisterUtil(this, 'controlResize', this._resizeHandler);
 
         this._initObserver();
     }
 
-    protected _beforeUnmount(): void {
-        if (!this._isStickySupport) {
-            return;
-        }
+    _release(): void {
         UnregisterUtil(this, 'controlResize');
         UnregisterUtil(this, 'scrollStateChanged');
         if (this._model) {
@@ -722,6 +736,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         }
     }
 
+    private _isStickyEnabled(options: IStickyHeaderOptions): boolean {
+        return this._isStickySupport && options.mode !== MODE.notsticky;
+    }
+
     static _theme: string[] = ['Controls/scroll', 'Controls/Classes'];
 
     static _isIOSChrome(): boolean {
@@ -738,6 +756,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return {
             //TODO: https://online.sbis.ru/opendoc.html?guid=a5acb7b5-dce5-44e6-aa7a-246a48612516
             fixedZIndex: 2,
+            zIndex: undefined,
             shadowVisibility: SHADOW_VISIBILITY.visible,
             backgroundStyle: BACKGROUND_STYLE.DEFAULT,
             mode: MODE.replaceable,
