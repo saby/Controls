@@ -214,10 +214,13 @@ export default class Controller {
     }
 
     updateOptions(newOptions: IControllerOptions): boolean {
-        const isFilterChanged = !isEqual(newOptions.filter, this._options.filter);
+        const isFilterChanged =
+            !isEqual(newOptions.filter, this._options.filter) &&
+            !isEqual(this._filter, newOptions.filter);
         const isSourceChanged = newOptions.source !== this._options.source;
         const isNavigationChanged = !isEqual(newOptions.navigation, this._options.navigation);
         const rootChanged = newOptions.root !== undefined && newOptions.root !== this._options.root;
+        const isExpadedItemsChanged = !isEqual(this._options.expandedItems, newOptions.expandedItems);
         const dataLoadCallbackChanged =
             newOptions.dataLoadCallback !== undefined &&
             newOptions.dataLoadCallback !== this._options.dataLoadCallback;
@@ -233,13 +236,17 @@ export default class Controller {
 
         if (rootChanged) {
             this.setRoot(newOptions.root);
+
+            if (!isExpadedItemsChanged) {
+                this.setExpandedItems([]);
+            }
         }
 
         if (dataLoadCallbackChanged) {
             this._setDataLoadCallbackFromOptions(newOptions.dataLoadCallback);
         }
 
-        if (newOptions.expandedItems !== undefined && newOptions.expandedItems !== this._options.expandedItems) {
+        if (newOptions.expandedItems !== undefined && isExpadedItemsChanged) {
             this.setExpandedItems(newOptions.expandedItems);
         }
 
@@ -591,11 +598,11 @@ export default class Controller {
 
         if (needCallDataLoadCallback) {
             if (this._dataLoadCallback) {
-                dataLoadCallbackResult = this._dataLoadCallback(result, direction);
+                dataLoadCallbackResult = this._dataLoadCallback(result, direction, key);
             }
 
             if (this._dataLoadCallbackFromOptions) {
-                this._dataLoadCallbackFromOptions(result, direction);
+                this._dataLoadCallbackFromOptions(result, direction, key);
             }
         }
 

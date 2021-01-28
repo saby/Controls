@@ -636,116 +636,6 @@ define([
          assert.deepEqual({1: false}, vmHasMoreStorage);
       });
 
-
-      it('TreeControl._afterUpdate', function() {
-         var source = new sourceLib.Memory({
-            data: [],
-            keyProperty: 'id'
-         });
-         var treeControl = correctCreateTreeControl({
-            columns: [],
-            root: 1,
-            parentProperty: 'testParentProperty',
-            source: source
-         });
-         var treeViewModel = treeControl._children.baseControl.getViewModel();
-         var isNeedForceUpdate = false;
-         var beforeReloadCallbackOriginal = tree.TreeControl._private.beforeReloadCallback;
-         var reloadFilter;
-         var beforeReloadCallback = function() {
-            var filter = arguments[0];
-            beforeReloadCallbackOriginal(treeControl, filter, null, null, treeControl._options);
-            reloadFilter = filter;
-         };
-
-         // Mock TreeViewModel and TreeControl
-         treeControl._updatedRoot = true;
-         treeControl._children.baseControl._options.beforeReloadCallback = beforeReloadCallback;
-
-         treeViewModel._model._display = {
-            setFilter: () => {},
-            destroy: () => {},
-            getCollapsedGroups: () => undefined,
-            getKeyProperty: () => 'id',
-            setRoot: (root) => {
-               treeViewModel._model._root = root;
-            },
-            getRoot: () => {
-               return {
-                  getContents: () => {
-                     return treeViewModel._model._root;
-                  }
-               };
-            },
-            subscribe: () => {},
-            unsubscribe: () => {},
-            getCount: () => 2,
-            getItemBySourceKey: () => undefined
-         };
-
-         // Need to know that list notifies when he has been changed after setting new root by treeControl._afterUpdate
-         treeViewModel._model._notify = (e) => {
-            if (e === 'onListChange') {
-               isNeedForceUpdate = true;
-            }
-         };
-
-         // Chack that values before test are right
-         treeViewModel.setExpandedItems([1, 3]);
-         assert.deepEqual([1, 3], treeViewModel.getExpandedItems());
-         assert.equal(1, treeControl._options.root);
-
-         var resetExpandedItemsCalled = false;
-         treeViewModel.resetExpandedItems = function() {
-            resetExpandedItemsCalled = true;
-         };
-
-         // Test
-         return new Promise(function(resolve) {
-            setTimeout(function() {
-               treeControl._options.root = undefined;
-               treeControl._root = 12;
-               treeControl._afterUpdate({filter: {}, source: source});
-               assert.isTrue(treeControl._needResetExpandedItems);
-               setTimeout(function() {
-                  assert.deepEqual([], treeViewModel.getExpandedItems());
-                  assert.equal(12, treeControl._root);
-                  assert.isTrue(isNeedForceUpdate);
-                  treeControl._beforeUpdate({root: treeControl._root, source: source});
-                  assert.isTrue(resetExpandedItemsCalled);
-                  resolve();
-               }, 20);
-            }, 10);
-         });
-      });
-
-      it('TreeControl._afterUpdate', function() {
-         const source = new sourceLib.Memory({
-            data: [],
-            keyProperty: 'id'
-         });
-         const sourceController = new dataSource.NewSourceController({
-            source
-         });
-         const treeControlConfig = {
-            columns: [],
-            root: 1,
-            parentProperty: 'testParentProperty',
-            source: source,
-            sourceController
-         };
-         const treeControl = correctCreateTreeControl(treeControlConfig);
-         const stub = sinon.stub(treeControl._children.baseControl, 'reload');
-
-         treeControl._updateRoot = true;
-         sourceController.isLoading = () => true;
-         treeControl._afterUpdate(treeControlConfig);
-         assert.isTrue(stub.notCalled);
-         stub.restore();
-
-      });
-
-
       it('TreeControl.afterReloadCallback resets expanded items and hasMoreStorage on set root', function () {
          const source = new sourceLib.Memory({
             data: [],
@@ -1157,18 +1047,8 @@ define([
                   reject(e);
                }
 
-               let afterUpdatePromise = treeControl._afterUpdate({root: null, filter: {}, source: source});
-               treeControl._children.baseControl._afterUpdate({});
-               treeControl._children.baseControl._componentDidUpdate();
-               afterUpdatePromise.then(function() {
-                  try {
-                     assert.isTrue(reloadCalled, 'Invalid call "reload" after call "_beforeUpdate" and apply new "root".');
-                     assert.isTrue(setRootCalled, 'Invalid call "setRoot" after call "_beforeUpdate" and apply new "root".');
-                     resolve();
-                  } catch (e) {
-                     reject(e);
-                  }
-               });
+               assert.isTrue(treeControl._needResetExpandedItems);
+               resolve();
                return res;
             });
          });
@@ -1325,7 +1205,7 @@ define([
          assert.equal(loadMoreDirection, 'down');
       });
       describe('EditInPlace', function() {
-         it('cancelEdit on change root', function() {
+         it('cancelEdit on change root', async function() {
             var
                 cfg = {
                    columns: [],
@@ -1339,6 +1219,7 @@ define([
                 },
                treeControl = correctCreateTreeControl(cfg),
                cancelEditCalled = false;
+            treeControl = await correctCreateTreeControlAsync({...cfg, editingConfig: undefined});
             treeControl._children.baseControl.cancelEdit = function() {
                cancelEditCalled = true;
             };
@@ -1348,10 +1229,10 @@ define([
             treeControl.isEditing = () => true;
             treeControl._beforeUpdate(cfgClone);
             assert.isTrue(cancelEditCalled);
-
-            treeControl = correctCreateTreeControl({...cfg, editingConfig: undefined});
             cancelEditCalled = false;
+            treeControl.saveOptions(cfgClone);
 
+            treeControl.isEditing = () => false;
             cfgClone = {...cfg, editingConfig: undefined};
             cfgClone.root = 'test3';
             treeControl._beforeUpdate(cfgClone);
