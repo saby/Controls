@@ -132,6 +132,24 @@ define(
                assert.isTrue(isClosed);
             });
 
+            it('source is changed, update markerController', async() => {
+               let isClosed = false;
+               let isMarkerControllerUpdated = false;
+               const menuControl = getMenu();
+               menuControl._markerController = 'markerController';
+               menuControl._updateMakerController = () => {
+                  isMarkerControllerUpdated = true;
+               };
+               const newMenuOptions = { ...defaultOptions };
+
+               menuControl._closeSubMenu = () => { isClosed = true; };
+               newMenuOptions.source = new source.Memory();
+               await menuControl._beforeUpdate(newMenuOptions);
+               assert.isTrue(menuControl._notifyResizeAfterRender);
+               assert.isTrue(isClosed);
+               assert.isTrue(isMarkerControllerUpdated);
+            });
+
             it('searchValue is changed', async() => {
                let isClosed = false;
                let isViewModelCreated = false;

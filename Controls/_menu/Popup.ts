@@ -211,6 +211,12 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     }
 
     static _theme: string[] = ['Controls/menu'];
+
+    static getDefaultOptions(): object {
+        return {
+            selectedKeys: []
+        };
+    }
 }
 
 /**
