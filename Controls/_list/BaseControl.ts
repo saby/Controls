@@ -1410,13 +1410,6 @@ const _private = {
         });
     },
 
-    /**
-     * Обработать прокрутку списка виртуальным скроллом
-     */
-    handleListScroll(self, params) {
-
-    },
-
     getTopOffsetForItemsContainer(self, itemsContainer) {
         let offsetTop = uDimension(itemsContainer.children[0], true).top;
         const container = self._container[0] || self._container;
@@ -3564,10 +3557,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         const result = this._scrollController?.scrollPositionChange(params);
         _private.handleScrollControllerResult(this, result);
-    },
-
-    scrollMoveHandler(params: unknown): void {
-        _private.handleListScroll(this, params);
     },
 
     canScrollHandler(params: unknown): void {
@@ -6003,8 +5992,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _registerObserver(): void {
         if (!this._observerRegistered && this._children.scrollObserver) {
-            // @ts-ignore
-            this._children.scrollObserver.startRegister([this._children.scrollObserver]);
+            this._children.scrollObserver.startRegister();
             this._observerRegistered = true;
         }
     },
@@ -6034,26 +6022,28 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
 
-    _observeScrollHandler(_: SyntheticEvent<Event>, eventName: string, params: IScrollParams): void {
-        switch (eventName) {
-            case 'scrollMoveSync':
-                this.scrollMoveSyncHandler(params);
-                break;
-            case 'viewportResize':
-                this.viewportResizeHandler(params.clientHeight, params.rect, params.scrollTop);
-                break;
-            case 'virtualScrollMove':
-                _private.throttledVirtualScrollPositionChanged(this, params);
-                break;
-            case 'canScroll':
-                this.canScrollHandler(params);
-                break;
-            case 'scrollMove':
-                this.scrollMoveHandler(params);
-                break;
-            case 'cantScroll':
-                this.cantScrollHandler(params);
-                break;
+    _scrollStateChangedHandler(_: SyntheticEvent, scrollState: IScrollParams, oldScrollState: IScrollParams): void {
+
+        if (scrollState.clientHeight !== oldScrollState.clientHeight) {
+            this.viewportResizeHandler(scrollState.clientHeight, scrollState.viewPortRect, scrollState.scrollTop);
+        }
+        if ((typeof oldScrollState.scrollTop === 'number') && scrollState.scrollTop !== oldScrollState.scrollTop) {
+            this.scrollMoveSyncHandler(scrollState);
+        }
+        // todo: https://online.sbis.ru/opendoc.html?guid=b8f92a78-c262-4a64-b24d-93cadad45337
+        // _private.throttledVirtualScrollPositionChanged(this, params);
+        this._resolveCanScroll(scrollState);
+
+    },
+    _resolveCanScroll(scrollState: IScrollParams) {
+        if (this._isScrollShown) {
+            if (scrollState.clientHeight >= scrollState.scrollHeight) {
+                this.cantScrollHandler(scrollState);
+            }
+        } else {
+            if (scrollState.clientHeight < scrollState.scrollHeight) {
+                this.canScrollHandler(scrollState);
+            }
         }
     },
 

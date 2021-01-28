@@ -280,7 +280,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._itemsContainerReadyHandler(null, () => {
                 return {children: []};
             });
-            baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
+            baseControl.viewportResizeHandler(400, {}, 0);
             baseControl._getItemsContainer = () => {
                 return {children: []};
             };
@@ -321,7 +321,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._itemsContainerReadyHandler(null, () => {
                 return {children: []};
             });
-            baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
+            baseControl.viewportResizeHandler(400, {}, 0);
             baseControl._getItemsContainer = () => {
                 return {children: []};
             };
@@ -354,7 +354,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._itemsContainerReadyHandler(null, () => {
                 return {children: []};
             });
-            baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
+            baseControl.viewportResizeHandler(400, {}, 0);
             baseControl._getItemsContainer = () => {
                 return {children: []};
             };
@@ -394,7 +394,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._itemsContainerReadyHandler(null, () => {
                 return {children: []};
             });
-            baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
+            baseControl.viewportResizeHandler(400, {}, 0);;
             baseControl._getItemsContainer = () => {
                 return {children: []};
             };
@@ -434,7 +434,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._itemsContainerReadyHandler(null, () => {
                 return {children: []};
             });
-            baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
+            baseControl.viewportResizeHandler(400, {}, 0);
             baseControl._getItemsContainer = () => {
                 return {children: []};
             };
@@ -634,7 +634,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._itemsContainerReadyHandler(null, () => {
                 return {children: []};
             });
-            baseControl._observeScrollHandler(null, 'viewportResize', {clientHeight: 400});
+            baseControl.viewportResizeHandler(400, {}, 0);
             baseControl._mouseEnter(null);
             await baseControl.canScrollHandler(heightParams);
             assert.isTrue(baseControl._pagingVisible);

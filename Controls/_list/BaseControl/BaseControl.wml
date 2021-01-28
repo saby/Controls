@@ -175,7 +175,7 @@
         </ws:partial>
         <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
         <ws:if data="{{_needScrollCalculation}}">
-            <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>
+            <Controls._list.BaseControl.Scroll.Emitter on:emitScrollStateChanged="_scrollStateChangedHandler()" name="scrollObserver"/>
         </ws:if>
     </div>
 </ws:template>

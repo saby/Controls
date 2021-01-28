@@ -4,23 +4,19 @@
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_list/BaseControl/Scroll/Emitter/Emitter');
 
-var ScrollEmitter = Control.extend({
-    _template: template,
+export default class ScrollEmitter extends Control {
+    _template: template;
 
-    startRegister: function (triggers) {
-        this._notify('register', ['listScroll', this, this.handleScroll, triggers], {bubbling: true});
-    },
-
-    _beforeUnmount: function () {
-        this._notify('unregister', ['listScroll', this], {bubbling: true});
-    },
-    handleScroll: function () {
-        this._notify('emitListScroll', Array.prototype.slice.call(arguments));
+    startRegister(): void {
+        this._notify('register', ['scrollStateChanged', this, this.handleScroll], {bubbling: true});
     }
-});
-
-ScrollEmitter.getOptionTypes = function () {
-    return {};
-};
-
-export = ScrollEmitter;
+    _beforeUnmount(): void  {
+        this._notify('unregister', ['scrollStateChanged', this], {bubbling: true});
+    }
+    handleScroll(): void  {
+        this._notify('emitScrollStateChanged', Array.prototype.slice.call(arguments));
+    }
+    static getOptionTypes(): {}  {
+        return {};
+    }
+}
