@@ -578,7 +578,7 @@ define(
                   option1: '1',
                   option2: '2'
                },
-               isCompoundTemplate: false
+               isCompoundTemplate: true
             };
             let menuControl = getMenu(menuOptions);
             menuControl._listModel = getListModel();
@@ -599,7 +599,8 @@ define(
             menuControl._openSelectorDialog(menuOptions);
 
             assert.strictEqual(actualOptions.template, menuOptions.selectorTemplate.templateName);
-            assert.strictEqual(actualOptions.isCompoundTemplate, menuOptions.isCompoundTemplate);
+            assert.strictEqual(actualOptions.isCompoundTemplate, menuOptions.selectorTemplate.isCompoundTemplate);
+            assert.isTrue(actualOptions.isCompoundTemplate);
             assert.deepStrictEqual(actualOptions.templateOptions.selectedItems.getCount(), 0);
             assert.strictEqual(actualOptions.templateOptions.option1, '1');
             assert.strictEqual(actualOptions.templateOptions.option2, '2');
