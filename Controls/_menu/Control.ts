@@ -528,7 +528,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             closeOnOutsideClick: true,
             templateOptions: templateConfig,
             template: selectorTemplate.templateName,
-            isCompoundTemplate: options.isCompoundTemplate,
+            isCompoundTemplate: selectorTemplate.isCompoundTemplate,
             eventHandlers: {
                 onResult: (result, event) => {
                     selectorDialogResult(event, result);
