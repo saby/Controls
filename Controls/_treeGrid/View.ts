@@ -102,6 +102,14 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
       return this._children.listControl.toggleExpanded(id);
    }
 
+   goToPrev(): Model {
+      return this._children.listControl.goToPrev();
+   }
+
+   goToNext(): Model {
+      return this._children.listControl.goToNext();
+   }
+
    /**
     * Возвращает следующую запись в проекции дерева.
     * @function Controls/_treeGrid/View#getNextItem

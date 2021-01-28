@@ -5511,7 +5511,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _onViewKeyDown(event) {
         // Если фокус выше ColumnsView, то событие не долетит до нужного обработчика, и будет сразу обработано BaseControl'ом
         // передаю keyDownHandler, чтобы обработать событие независимо от положения фокуса.
-        if (!_private.isBlockedForLoading(this._loadingIndicatorState) && (!this._options._keyDownHandler || !this._options._keyDownHandler(event))) {
+        const handlerResult = this._options._keyDownHandler && this._options._keyDownHandler(event);
+        if (!_private.isBlockedForLoading(this._loadingIndicatorState) && (handlerResult !== false)) {
             const key = event.nativeEvent.keyCode;
             const dontStop = key === 17 // Ctrl
                 || key === 33 // PageUp

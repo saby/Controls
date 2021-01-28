@@ -18,6 +18,7 @@ import TreeControlTpl = require('wml!Controls/_tree/TreeControl/TreeControl');
 import {ISelectionObject, TKey} from 'Controls/interface';
 import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import { SyntheticEvent } from 'UI/Vdom';
+import {constants} from 'Env/Env';
 
 const HOT_KEYS = {
     expandMarkedItem: Env.constants.key.right,
@@ -585,6 +586,9 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     _errorController: null,
     _errorViewConfig: null,
     _editingItem: null,
+    _currentItem: null,
+    _tempItem: null,
+    _leafPosition: '',
 
     _itemOnWhichStartCountDown: null,
     _timeoutForExpandOnDrag: null,
@@ -599,6 +603,7 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             this._deepReload = true;
         }
         this._beforeReloadCallback = _private.beforeReloadCallback.bind(null, this);
+        this._keyDownHandler = this._keyDownHandler.bind(this);
         this._afterReloadCallback = _private.afterReloadCallback.bind(null, this);
         this._getHasMoreData = _private.getHasMoreData.bind(null, this);
         this._errorController = cfg.errorController || new dataSourceError.Controller({});
@@ -620,7 +625,32 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     },
 
     _afterMount: function() {
-        _private.initListViewModelHandler(this, this._children.baseControl.getViewModel());
+        const viewModel = this._children.baseControl.getViewModel();
+        _private.initListViewModelHandler(this, viewModel);
+        if (this._options.keyDownMode === 'leavesOnly') {
+            const items = viewModel.getItems();
+            const current = items.getRecordById(this._options.markedKey) || items.at(0);
+            if (current) {
+                if (current.get(this._options.nodeProperty) !== null) {
+                    this._tempItem = current.getKey();
+                    this._currentItem = this._tempItem;
+                    this._doAfterItemExpanded = () => {
+                        this._doAfterItemExpanded = null;
+                        this.goToNext();
+                    };
+                    const expandResult = this.toggleExpanded(this._tempItem);
+                    if (expandResult instanceof Promise) {
+                        expandResult.then(() => {
+                            this._expandToFirstLeaf(this._tempItem, viewModel.getItems());
+                        });
+                    } else {
+                        this._expandToFirstLeaf(this._tempItem, viewModel.getItems());
+                    }
+                } else {
+                    this._applyLeafPosition(current.getKey());
+                }
+            }
+        }
     },
     _beforeUpdate: function(newOptions) {
         const baseControl = this._children.baseControl;
@@ -668,7 +698,11 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         if (newOptions.collapsedItems && !isEqual(newOptions.collapsedItems, viewModel.getCollapsedItems())) {
             viewModel.setCollapsedItems(newOptions.collapsedItems);
         }
-
+        if (this._options.markedKey !== newOptions.markedKey) {
+            if (newOptions.keyDownMode === 'leavesOnly') {
+                this._applyLeafPosition(newOptions.markedKey);
+            }
+        }
         if (newOptions.propStorageId && !isEqual(newOptions.sorting, this._options.sorting)) {
             saveConfig(newOptions.propStorageId, ['sorting'], newOptions);
         }
@@ -998,6 +1032,123 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         }
 
         return result;
+    },
+
+    // раскрытие узлов будет отрефакторено по задаче https://online.sbis.ru/opendoc.html?guid=2a2d9bc6-86e0-43fa-9bea-b636c45c0767
+    _keyDownHandler(event): boolean {
+        if (this._options.keyDownMode === 'leavesOnly') {
+            switch (event.nativeEvent.keyCode) {
+                case constants.key.up:
+                    this.goToPrev();
+                    return false;
+                case constants.key.down:
+                    this.goToNext();
+                    return false;
+            }
+        }
+    },
+    _expandToFirstLeaf(key, items): void {
+        if (items.getCount()) {
+            const model = this._children.baseControl.getViewModel();
+            let curItem = model.getChildren(key, items)[0];
+            while (curItem && curItem.get(this._options.nodeProperty) !== null) {
+                this.toggleExpanded(curItem.get(this._options.keyProperty))
+                curItem = model.getChildren(curItem, items)[0];
+            }
+            if (curItem && this._doAfterItemExpanded) {
+                this._doAfterItemExpanded(curItem.get(this._options.keyProperty));
+            }
+        }
+    },
+    _getLeafPosition(key: CrudEntityKey): 'first' | 'last' | 'middle' {
+        const model = this._children.baseControl.getViewModel();
+        const index = model.getIndexByKey(key);
+        if (index === model.getCount() - 1) {
+            return 'last';
+        }
+        let hasPrevLeaf = false;
+        for (let i = index - 1; i >= 0; i--) {
+            if (!model.at(i).isNode() || !model.at(i).isExpanded()) {
+                hasPrevLeaf = true;
+                break;
+            }
+        }
+        return hasPrevLeaf ? 'middle' : 'first';
+    },
+    goToNext(): void {
+        const item = this.getNextItem(this._tempItem || this._currentItem);
+        const model = this._children.baseControl.getViewModel();
+        if (item) {
+            this._tempItem = item.getKey();
+            const dispItem = model.getItemBySourceKey(this._tempItem);
+            if (item.get(this._options.nodeProperty) !== null) {
+                this._doAfterItemExpanded = () => {
+                    this._doAfterItemExpanded = null;
+                    this.goToNext();
+                };
+                if (dispItem.isExpanded()) {
+                    this._doAfterItemExpanded();
+                } else {
+                    const expandResult = this.toggleExpanded(this._tempItem);
+                    if (expandResult instanceof Promise) {
+                        expandResult.then(() => {
+                            this._expandToFirstLeaf(this._tempItem, model.getItems());
+                        });
+                    } else {
+                        this._expandToFirstLeaf(this._tempItem, model.getItems());
+                    }
+                }
+            } else {
+                this._applyLeafPosition(this._tempItem);
+            }
+        } else {
+            this._tempItem = null;
+        }
+    },
+    goToPrev(): void {
+        const item = this.getPrevItem(this._tempItem || this._currentItem);
+        const model = this._children.baseControl.getViewModel();
+        if (item) {
+            const itemKey = item.getKey();
+            const dispItem = this._children.baseControl.getViewModel().getItemBySourceKey(item.getKey());
+            if (item.get(this._options.nodeProperty) !== null) {
+                this._doAfterItemExpanded = () => {
+                    this._doAfterItemExpanded = null;
+                    this.goToPrev();
+                };
+                if (dispItem.isExpanded()) {
+                    this._tempItem = itemKey;
+                    this._doAfterItemExpanded();
+                } else {
+                    const expandResult = this.toggleExpanded(itemKey);
+                    if (expandResult instanceof Promise) {
+                        expandResult.then(() => {
+                            this._expandToFirstLeaf(itemKey, model.getItems());
+                        });
+                    } else {
+                        this._expandToFirstLeaf(itemKey, model.getItems());
+                    }
+                }
+            } else {
+                this._tempItem = itemKey;
+                this._applyLeafPosition(this._tempItem);
+            }
+        } else {
+            this._tempItem = null;
+        }
+    },
+    _applyLeafPosition(key: CrudEntityKey): void {
+        this._currentItem = key;
+        const newLeafPosition = this._getLeafPosition(this._currentItem);
+        if (this._leafPosition !== newLeafPosition) {
+            if (this._options.leafPositionCallback) {
+                this._options.leafPositionCallback(newLeafPosition);
+            }
+            this._leafPosition = newLeafPosition;
+        }
+        this.setMarkedKey(this._currentItem);
+        this._tempItem = null;
+
     },
     getNextItem(key: CrudEntityKey): Model {
         const listModel = this._children.baseControl.getViewModel();

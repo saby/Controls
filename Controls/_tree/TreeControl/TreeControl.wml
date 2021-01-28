@@ -4,6 +4,7 @@
                            on:dragEnd="_dragEnd()"
                            scope="{{_options}}"
                            name="baseControl"
+                           _keyDownHandler="{{_keyDownHandler}}"
                            on:keyDown="_onTreeViewKeyDown()"
                            on:itemClick="_onItemClick()"
                            on:afterBeginEdit="_onAfterBeginEdit()"

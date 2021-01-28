@@ -27,6 +27,14 @@ export default class TreeGrid extends Grid {
         return this._children.listControl.toggleExpanded(key);
     }
 
+    goToPrev(): Model {
+        return this._children.listControl.goToPrev();
+    }
+
+    goToNext(): Model {
+        return this._children.listControl.goToNext();
+    }
+
     getNextItem(key: CrudEntityKey): Model {
         return this._children.listControl.getNextItem(key);
     }

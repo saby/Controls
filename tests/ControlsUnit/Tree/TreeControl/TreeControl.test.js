@@ -2111,5 +2111,62 @@ define([
          assert.deepEqual(nodes, [1]);
          assert.deepEqual(lists, [2]);
       });
+
+      it('goToNext, goToPrev', function() {
+         const rs = new collection.RecordSet({
+            rawData: getHierarchyData(),
+            keyProperty: 'id'
+         });
+         const source = new sourceLib.Memory({
+            rawData: getHierarchyData(),
+            keyProperty: 'id',
+            filter: () => true
+         });
+
+         // 0
+         // |-1
+         // | |-3
+         // |-2
+         // 4
+         const cfg = {
+            source: source,
+            columns: [],
+            keyProperty: 'id',
+            parentProperty: 'Раздел',
+            nodeProperty: 'Раздел@',
+            keyDownMode: 'leavesOnly',
+            expandedItems: [],
+            markedKey: 4
+         };
+         const treeControl = correctCreateTreeControl(cfg);
+         let newCfg = {...cfg};
+         treeControl._notify = (event, args) => {
+            if (event === 'expandedItemsChanged') {
+               newCfg.expandedItems = args[0];
+            }
+            if (event === 'markedKeyChanged') {
+               newCfg.markedKey = args[0];
+            }
+         };
+         treeControl._children.baseControl.getViewModel().setItems(rs, cfg);
+         treeControl._afterMount();
+         assert.equal(treeControl._leafPosition, 'last');
+         treeControl.goToPrev();
+         treeControl._beforeUpdate(newCfg);
+         treeControl.saveOptions(newCfg);
+         assert.equal(treeControl._leafPosition, 'middle');
+         treeControl.goToPrev();
+         treeControl._beforeUpdate(newCfg);
+         treeControl.saveOptions(newCfg);
+         assert.equal(treeControl._leafPosition, 'first');
+         treeControl.goToNext();
+         treeControl._beforeUpdate(newCfg);
+         treeControl.saveOptions(newCfg);
+         assert.equal(treeControl._leafPosition, 'middle');
+         treeControl.goToNext();
+         treeControl._beforeUpdate(newCfg);
+         treeControl.saveOptions(newCfg);
+         assert.equal(treeControl._leafPosition, 'last');
+      });
    });
 });
