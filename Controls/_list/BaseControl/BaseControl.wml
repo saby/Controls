@@ -79,6 +79,9 @@
     <ws:if data="{{_shouldDrawFooter}}">
         <ws:partial template="wml!Controls/_list/BaseControl/Footer" moreFontColorStyle="{{_options.moreFontColorStyle}}" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
     </ws:if>
+    <ws:if data="{{_shouldDrawCut}}">
+        <ws:partial template="wml!Controls/_list/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
+    </ws:if>
 </ws:template>
 <ws:template name="multiSelectTplIf">
     <ws:if data="{{_options.multiSelectVisibility}}">
