@@ -28,6 +28,10 @@ export type TNavigationSource = 'position' | 'page';
  * Можно настроить отображение числа оставшихся записей.
  * @variant maxCount {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/portion-loading/#max-count Загрузка до достижения заданного числа записей}.
  * Позволяет прекратить загрузку при достижении заданного количества записей.
+ * @variant cut.
+ * Список отображает настроенное количество записей.
+ * Загрузка оставшихся записей происходит по кнопке сворачивания/разворачивания.
+ * При развернутом списке отображаются все записи, при свернутом количество записей настраивается в параметре pageSize.
  */
 
 /*
@@ -37,7 +41,7 @@ export type TNavigationSource = 'position' | 'page';
  * @variant demand Load next when requested (for example, hasMore button clicked).
  * @variant maxCount Load data until threshold value set in {@link Controls/_interface/INavigation/INavigationViewConfig.typedef maxCountValue}.
  */
-export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount';
+export type TNavigationView = 'infinity' | 'pages' | 'demand' | 'maxCount' | 'cut';
 
 /**
  * @typedef {String} TNavigationDirection

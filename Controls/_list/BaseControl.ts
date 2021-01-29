@@ -772,6 +772,8 @@ const _private = {
 
         if (_private.isDemandNavigation(options.navigation) && _private.hasMoreData(self, sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
+        } else if (_private.isCutNavigation(options.navigation)) {
+            self._shouldDrawCut = true;
         } else {
             self._shouldDrawFooter = false;
         }
@@ -1014,6 +1016,10 @@ const _private = {
 
     isInfinityNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
         return navigation && navigation.view === 'infinity';
+    },
+
+    isCutNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>): boolean {
+        return navigation && navigation.view === 'cut';
     },
 
     needShowShadowByNavigation(navigation: INavigationOptionValue<INavigationSourceConfig>, itemsCount: number): boolean {
@@ -3216,6 +3222,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _loadMoreCaption: null,
     _shouldDrawFooter: false,
+    _shouldDrawCut: false,
+
+    _expanded: false,
+    _isCollapsed: false,
+    _cutSize: 'm',
 
     _loader: null,
     _loadingState: null,
@@ -3834,6 +3845,17 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 self._hideTopTrigger = true;
             }
         }
+
+        if (newOptions.navigation?.view === 'cut' && this._expanded && !this._isCollapsed) {
+            this._isCollapsed = true;
+            this._sourceController.updateOptions({...newOptions, navigation: undefined});
+            _private.reload(this, newOptions);
+        } else if (newOptions.navigation?.view === 'cut' && !this._expanded && this._isCollapsed) {
+            this._isCollapsed = false;
+            this._sourceController.updateOptions(newOptions);
+            _private.reload(this, newOptions);
+        }
+
 
         this._loadedBySourceController = newOptions.sourceController &&
             // Если изменился поиск, то данные меняет контроллер поиска через sourceController
@@ -5510,6 +5532,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _onLoadMoreClick() {
         _private.loadToDirectionIfNeed(this, 'down');
+    },
+
+    _onCutClick() {
+        this._expanded = !this._expanded;
     },
 
     _continueSearch(): void {
