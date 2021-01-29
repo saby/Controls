@@ -678,6 +678,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  * @demo Controls-demo/Scroll/Paging/PositionLeft/Index
  */
 
+/**
+ * @name Controls/_scroll/Container#shadowStyle
+ * @cfg {String} Постфикс у класса тени
+ * @default default
+ */
+
 Object.defineProperty(Container, 'defaultProps', {
    enumerable: true,
    configurable: true,

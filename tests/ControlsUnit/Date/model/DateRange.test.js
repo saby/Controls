@@ -379,7 +379,7 @@ define([
                };
             const sandbox = sinon.sandbox.create();
             sandbox.stub(model, '_notify');
-            model.setRange();
+            model.setRange(options.startValue, options.endValue);
             setTimeout(function() {
                sinon.assert.calledWith(model._notify, 'rangeChanged');
                sandbox.restore();

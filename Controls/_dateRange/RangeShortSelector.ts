@@ -137,6 +137,7 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
         return {
             ...IPeriodLiteDialog.getDefaultOptions(),
             ...ILinkView.getDefaultOptions(),
+            emptyCaption: ILinkView.EMPTY_CAPTIONS.NOT_SPECIFIED,
             dateConstructor: WSDate,
             captionFormatter: dateControlsUtils.formatDateRangeCaption
         };

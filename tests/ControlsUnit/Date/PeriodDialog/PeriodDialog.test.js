@@ -68,12 +68,12 @@ define([
 
          it('should create the correct range models when empty range passed.', function() {
             const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
-            assert.isNull(component._rangeModel.startValue);
-            assert.isNull(component._rangeModel.endValue);
-            assert.isNull(component._headerRangeModel.startValue);
-            assert.isNull(component._headerRangeModel.endValue);
-            assert.isNull(component._yearRangeModel.startValue);
-            assert.isNull(component._yearRangeModel.endValue);
+            assert.isUndefined(component._rangeModel.startValue);
+            assert.isUndefined(component._rangeModel.endValue);
+            assert.isUndefined(component._headerRangeModel.startValue);
+            assert.isUndefined(component._headerRangeModel.endValue);
+            assert.isUndefined(component._yearRangeModel.startValue);
+            assert.isUndefined(component._yearRangeModel.endValue);
          });
 
          it('should create the correct range models when range passed.', function() {
@@ -82,15 +82,15 @@ define([
             assert(dateUtils.Base.isDatesEqual(component._rangeModel.endValue, end));
             assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.startValue, start));
             assert(dateUtils.Base.isDatesEqual(component._headerRangeModel.endValue, end));
-            assert.isNull(component._yearRangeModel.startValue);
-            assert.isNull(component._yearRangeModel.endValue);
+            assert.isUndefined(component._yearRangeModel.startValue);
+            assert.isUndefined(component._yearRangeModel.endValue);
          });
 
          [{
             options: {},
             yearModel: {
-               startValue: null,
-               endValue: null
+               startValue: undefined,
+               endValue: undefined
             }
          }, {
             options: {
@@ -98,8 +98,8 @@ define([
                endValue: new Date(2020, 0, 0)
             },
             yearModel: {
-               startValue: null,
-               endValue: null
+               startValue: undefined,
+               endValue: undefined
             }
          }, {
             options: {
@@ -107,8 +107,8 @@ define([
                endValue: new Date(2019, 1, 10)
             },
             yearModel: {
-               startValue: null,
-               endValue: null
+               startValue: undefined,
+               endValue: undefined
             }
          }, {
             options: {
@@ -196,33 +196,33 @@ define([
          });
 
          [{
-            homeButtonVisiable: false,
+            todayCalendarEnabled: false,
             options: {
                startValue: new Date(),
                endValue: new Date()
             },
          }, {
-            homeButtonVisiable: false,
+            todayCalendarEnabled: false,
             options: {
                startValue: dateUtils.Base.getStartOfYear(new Date()),
                endValue: dateUtils.Base.getEndOfQuarter(new Date())
             },
          }, {
-            homeButtonVisiable: true,
+            todayCalendarEnabled: true,
             options: {
                startValue: new Date(2019, 0, 3),
                endValue: new Date(2019, 0, 4)
             },
          }, {
-            homeButtonVisiable: true,
+            todayCalendarEnabled: true,
             options: {
                startValue: new Date(2019, 0, 3),
                endValue: new Date(2019, 2, 3)
             },
          }].forEach(function(test) {
-            it(`should set homeButtonVisiable to ${test.homeButtonVisiable} if options are ${JSON.stringify(test.options)}`, function() {
+            it(`should set todayCalendarEnabled to ${test.todayCalendarEnabled} if options are ${JSON.stringify(test.options)}`, function() {
                const component = calendarTestUtils.createComponent(PeriodDialog.default, test.options);
-               assert.strictEqual(component._homeButtonVisible, test.homeButtonVisiable);
+               assert.strictEqual(component._todayCalendarEnabled, test.todayCalendarEnabled);
             });
          });
 
@@ -306,13 +306,13 @@ define([
          });
       });
 
-      describe('_homeButtonClick', function() {
+      describe('_todayCalendarClick', function() {
          it('should update _displayedDate.', function() {
             const
                oldDate = new Date(2017, 0, 1),
                component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: oldDate, endValue: oldDate });
             assert(dateUtils.Base.isDatesEqual(component._displayedDate, oldDate));
-            component._homeButtonClick();
+            component._todayCalendarClick();
             assert(dateUtils.Base.isMonthsEqual(component._displayedDate, new Date()));
          });
       });
@@ -569,21 +569,21 @@ define([
       describe('_currentDayIntersectHandler', function() {
          [{
             isIntersecting: false,
-            homeButtonVisible: true
+            todayCalendar: true
          }, {
             isIntersecting: true,
-            homeButtonVisible: false
+            todayCalendar: false
          }].forEach(function(test) {
-            it(`should set homeButtonVisible to ${test.homeButtonVisible} if isIntersecting is ${test.isIntersecting}.`, function() {
+            it(`should set homeButtonVisible to ${test.todayCalendar} if isIntersecting is ${test.isIntersecting}.`, function() {
                const
                   component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                   entry = new scroll.IntersectionObserverSyntheticEntry({ isIntersecting: test.isIntersecting }, {})
                component._currentDayIntersectHandler(null, entry);
 
-               if (test.homeButtonVisible) {
-                  assert.isTrue(component._homeButtonVisible);
+               if (test.todayCalendar) {
+                  assert.isTrue(component._todayCalendarEnabled);
                } else {
-                  assert.isFalse(component._homeButtonVisible);
+                  assert.isFalse(component._todayCalendarEnabled);
                }
             });
          });

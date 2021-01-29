@@ -10,7 +10,8 @@ define('Controls-demo/datePopup/datePopup', [
    var ModuleClass = Base.Control.extend({
       _template: template,
       _startValue: new Date(2019, 4, 3),
-      _endValue: new Date(2019, 5, 0)
+      _endValue: new Date(2019, 5, 0),
+      _date: new Date(2021, 0, 27)
    });
    return ModuleClass;
 });

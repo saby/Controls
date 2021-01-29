@@ -44,6 +44,8 @@
                      attr:class="controls-PeriodDialog-MonthsRange__month"
                      monthViewModel="{{_monthViewModel}}"
 
+                     _date="{{ _options._date }}"
+
                      startValue="{{ _selectionViewType === _SELECTION_VIEW_TYPES.days ? _options.startValue }}"
                      endValue="{{ _selectionViewType === _SELECTION_VIEW_TYPES.days ? _options.endValue }}"
 

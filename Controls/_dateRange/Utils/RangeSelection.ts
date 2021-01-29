@@ -39,7 +39,7 @@ var Utils = {
          isEnd,
          range;
 
-      if (!(startValue || endValue) && !selectionProcessing && !(hoveredStartValue || hoveredEndValue)) {
+      if (!(startValue || startValue === null || endValue || endValue === null) && !selectionProcessing && !(hoveredStartValue || hoveredEndValue)) {
          return '';
       }
 
@@ -109,20 +109,23 @@ var Utils = {
          hoveredSelectionValue),
          start = range[0],
          end = range[1];
-      return start && end && itemValue >= start && itemValue <= end;
+      return (start && end && itemValue >= start && itemValue <= end) ||
+          (start === null && end === null) ||
+          (start === null && itemValue <= end) ||
+          (itemValue >= start && end === null);
    },
 
    getRange: function(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue) {
       var range, start, end;
 
       if (selectionProcessing) {
-         range = (baseSelectionValue > hoveredSelectionValue)
+         range = (baseSelectionValue > hoveredSelectionValue && hoveredSelectionValue !== null)
             ? [hoveredSelectionValue, baseSelectionValue] : [baseSelectionValue, hoveredSelectionValue];
          start = range[0];
          end = range[1];
       } else {
          start = startValue;
-         end = endValue || start;
+         end = endValue;
       }
       return [start, end];
    }

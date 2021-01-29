@@ -1,7 +1,7 @@
 import BaseSelector from 'Controls/_dateRange/BaseSelector';
 import ILinkView from './interfaces/ILinkView';
 import componentTmpl = require('wml!Controls/_dateRange/DateSelector/DateSelector');
-import {Popup as PopupUtil} from 'Controls/dateUtils';
+import {Base as dateUtils, Popup as PopupUtil} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
@@ -50,6 +50,21 @@ import {descriptor} from "Types/entity";
 export default class DateSelector extends BaseSelector<IControlOptions> {
    _template: TemplateFunction = componentTmpl;
 
+   _beforeMount(options?: IControlOptions): Promise<void> | void {
+      this._updateValues(options);
+      super._beforeMount(options);
+   }
+
+   protected _beforeUpdate(options): void {
+      this._updateValues(options);
+      super._beforeUpdate(options);
+   }
+
+   _updateValues(options): void {
+      this._startValue = options.value || this._rangeModel?.startValue;
+      this._endValue = options.value || this._rangeModel?.endValue;
+   }
+
    protected _getPopupOptions(): IStickyPopupOptions {
       const container = this._children.linkView.getPopupTarget();
       return {
@@ -60,6 +75,7 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
          templateOptions: {
             ...PopupUtil.getTemplateOptions(this),
             headerType: 'link',
+            rightFieldTemplate: this._options.rightFieldTemplate,
             calendarSource: this._options.calendarSource,
             dayTemplate: this._options.dayTemplate,
             closeButtonEnabled: true,
@@ -77,8 +93,9 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
 
    protected _onResult(value: Date): void {
       this._notify('valueChanged', [value]);
-      this._children.opener.close();
-      this._forceUpdate();
+      this._startValue = value;
+      this._endValue = value;
+      super._onResult(value, value);
    }
 
    protected _rangeChangedHandler(event: SyntheticEvent, value: Date): void {
@@ -98,6 +115,7 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
    static getDefaultOptions(): object {
       return {
          ...ILinkView.getDefaultOptions(),
+         emptyCaption: ILinkView.EMPTY_CAPTIONS.NOT_SPECIFIED,
          captionFormatter: dateControlsUtils.formatDateRangeCaption
       };
    }

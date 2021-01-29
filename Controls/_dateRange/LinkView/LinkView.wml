@@ -40,15 +40,18 @@
                     on:mousedown="_onClick()"/>
            </ws:else>
         </span>
-        <ws:if data="{{ _clearButtonVisible }}">
-              <span class="controls-DateLinkView__clear controls-DateLinkView__clear_theme-{{_options.theme}}" on:click="_clearDate()"></span>
-        </ws:if>
         <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
            <span
               class="controls-DateLinkView__next controls-DateLinkView__next_theme-{{_options.theme}}
               {{_fontColorStyle? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }} {{ _styleClass }}"
               on:click="shiftForward()">
            </span>
+        </ws:if>
+        <ws:if data="{{ _options.resetButtonVisible }}">
+            <span class="controls-DateLinkView__resetButton controls-DateLinkView__resetButton_theme-{{_options.theme}}
+                        controls-icon controls-icon_style-unaccented_theme-{{ _options.theme }}
+                        controls-icon_size-s_theme-{{ _options.theme }} icon-Close"
+                  on:click="_resetButtonClickHandler()"></span>
         </ws:if>
     </div>
 </div>

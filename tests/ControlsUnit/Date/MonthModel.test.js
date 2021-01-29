@@ -78,8 +78,8 @@ define([
 
       describe('._isStateChanged', function() {
          let tests = [
-            {start: new Date(2016, 0, 1), end: new Date(2016, 1, 0), newStart: new Date(2016, 1, 1), newEnd: new Date(2016, 2, 1), resp: false},
-            {start: new Date(2016, 0, 1), end: new Date(2016, 1, 0), newStart: new Date(2018, 1, 1), newEnd: new Date(2018, 2, 1), resp: false},
+            {start: new Date(2016, 0, 1), end: new Date(2016, 1, 0), newStart: new Date(2016, 1, 1), newEnd: new Date(2016, 2, 1), resp: true},
+            {start: new Date(2016, 0, 1), end: new Date(2016, 1, 0), newStart: new Date(2018, 1, 1), newEnd: new Date(2018, 2, 1), resp: true},
             {start: new Date(2016, 0, 1), end: new Date(2017, 0, 15), newStart: new Date(2018, 1, 1), newEnd: new Date(2018, 2, 1), resp: true},
             {start: new Date(2017, 0, 10), end: new Date(2017, 0, 15), newStart: new Date(2018, 1, 1), newEnd: new Date(2018, 2, 1), resp: true},
             {start: new Date(2017, 0, 10), end: new Date(2017, 0, 15), newStart: new Date(2017, 0, 15), newEnd: new Date(2017, 0, 20), resp: true},
@@ -87,7 +87,7 @@ define([
             { hoveredStartValue: new Date (2017, 0, 4), hoveredEndValue: new Date(2017, 0, 7), singleDayHover: false, resp: true },
             { hoveredStartValue: new Date (2016, 11, 7), hoveredEndValue: new Date(2017, 0, 12), singleDayHover: false, resp: true },
             { hoveredStartValue: new Date(2018, 0, 1), hoveredEndValue: new Date(2018, 1, 1), singleDayHover: false, lastHoveredStartValue: new Date(2017, 0, 4), lastHoveredEndValue: new Date(2017, 0, 10), resp: true },
-            { hoveredStartValue: new Date(2017, 1, 1), hoveredEndValue: new Date(2017, 1, 10), singleDayHover: false, resp: false }
+            { hoveredStartValue: new Date(2017, 1, 1), hoveredEndValue: new Date(2017, 1, 10), singleDayHover: false, resp: true }
          ];
          tests.forEach(function(test, index) {
             it(`should return ${test.resp}`, function() {

@@ -1,0 +1,3 @@
+<div class="controls-PeriodDialog_weekday controls-PeriodDialog_weekday_theme-{{ _options.theme }}">
+    {{ _weekday }}
+</div>
