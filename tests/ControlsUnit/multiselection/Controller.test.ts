@@ -149,7 +149,21 @@ describe('Controls/_multiselection/Controller', () => {
          }
       });
 
-      result = controller.selectAll();
+      result = controller.toggleAll();
+      assert.deepEqual(result, { selected: [null], excluded: [3] });
+
+      controller.setSelection({ selected: [], excluded: [] });
+      controller.setSelection({ selected: [2222], excluded: [] });
+      controller.updateOptions({
+         model: model.getDisplay(),
+         strategy,
+         filter: {searchValue: 'aф'},
+         strategyOptions: {
+            model: model.getDisplay()
+         }
+      });
+
+      result = controller.toggleAll();
       assert.deepEqual(result, { selected: [null], excluded: [] });
    });
 
