@@ -97,7 +97,7 @@ import {constants} from 'Env/Env';
             currentWidth = itemsSizes.reduce(function (acc, width) {
                return acc + width;
             }, 0);
-
+            currentWidth += DOMUtil.getWidthForCssClass(`controls-icon_size-m_theme-${theme}`);
             if (currentWidth > availableWidth) {
                _private.initializeConstants();
                _private.setShowType(items, showType.MENU);
