@@ -775,7 +775,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       return this._resolveLoad();
    }
 
-   private async _resolveLoad(value?: string, options?: IInputControllerOptions): Promise<RecordSet | void> {
+   private async _resolveLoad(value?: string, options?: IInputControllerOptions, sourceController?: SourceController): Promise<RecordSet | void> {
       this._loadStart();
       if (value) {
          this._searchValue = value;
@@ -803,14 +803,14 @@ export default class InputContainer extends Control<IInputControllerOptions> {
              })
              .catch((error) => this._searchErrback(error));
       } else {
-         return this._performLoad(options);
+         return this._performLoad(options, sourceController);
       }
    }
 
-   private _performLoad(options?: IInputControllerOptions): Promise<RecordSet | void> {
+   private _performLoad(options?: IInputControllerOptions, sourceController?: SourceController): Promise<RecordSet | void> {
       const scopeOptions = options ?? this._options;
 
-      return this._getSourceController(scopeOptions).load().then((recordSet) => {
+      return (sourceController ?? this._getSourceController(scopeOptions)).load().then((recordSet) => {
          if (recordSet instanceof RecordSet &&
             this._shouldShowSuggest(recordSet) &&
             (this._inputActive || this._tabsSelectedKey !== null)) {
@@ -948,7 +948,19 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       // change only filter for query, tabSelectedKey will be changed after processing query result,
       // otherwise interface will blink
       if (this._tabsSelectedKey !== tabId) {
-         await this._setFilterAndLoad(this._options.filter, this._options, tabId);
+         // await this._setFilterAndLoad(this._options.filter, this._options, tabId);
+
+         // TODO: Костыль для корректной работы влкадок в 21.1100. Происходит загрузка в BaseControl т.к фильтр меняется
+         //  В 21.2000 должно пофикситься - вернуть старый метод выше
+         this._filter = this._prepareFilter(this._options.filter,
+            this._options.searchParam,
+            this._searchValue,
+            this._options.minSearchLength,
+            tabId ?? this._tabsSelectedKey,
+            this._historyKeys
+         );
+         const sourceController = new SourceController(this._getSourceControllerOptions(this._options));
+         this._resolveLoad(undefined, undefined, sourceController);
       }
 
       // move focus from tabs to input, after change tab
