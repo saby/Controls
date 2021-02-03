@@ -1,10 +1,10 @@
 import Deferred = require('Core/Deferred');
 import StickyController = require('Controls/_popupTemplate/Sticky/StickyController');
 import {IPopupItem} from 'Controls/popup';
+import 'css!Controls/popupTemplate';
 
 class PreviewerController extends StickyController.constructor {
     _openedPopupIds: string[] = [];
-    static _theme: string[] = ['Controls/popupTemplate'];
     _destroyDeferred: object = {};
     TYPE: string = 'Previewer';
 

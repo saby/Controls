@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/Sticky/resources/Header');
+import 'css!Controls/popupTemplate';
 
 class Header extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
@@ -10,6 +11,5 @@ class Header extends Control<IControlOptions> {
     close():void {
         this._notify('close', [], {bubbling: true});
     }
-    static _theme: string[] = ['Controls/popupTemplate'];
 }
 export default Header;

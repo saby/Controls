@@ -9,11 +9,6 @@
    background-color: var(--background-color_stack);
 }
 
-// Класс для установки фона контрола через backgroundStyle (stack)
-.controls-background-stack_theme-@{themeName} {
-   background-color: var(--background-color_stack);
-}
-
 .controls-StackTemplate-shadow {
    position: absolute;
    height: 100%;
@@ -32,20 +27,7 @@
    background: var(--header_background-color_stack);
 }
 
-.controls-StackTemplate__top-area-background_theme_@{themeName} {
-   background: var(--header_background-color_stack);
-}
-
-// Класс для установки фона шапки контрола через backgroundStyle (stackHeader)
-.controls-background-stackHeader_theme-@{themeName} {
-   background-color: var(--header_background-color_stack);
-}
-
 .controls-StackTemplate__top-area-border {
-   border-bottom: var(--header_bottom-border-thickness_stack) solid var(--header_bottom-border-color_stack);
-}
-
-.controls-StackTemplate__top-area-border_theme_@{themeName} {
    border-bottom: var(--header_bottom-border-thickness_stack) solid var(--header_bottom-border-color_stack);
 }
 
@@ -61,7 +43,6 @@
    flex-grow: 1;
    flex-shrink: 1;
    min-height: 0;
-   background: var(--background-color_stack);
 }
 
 .controls-StackTemplate__top-area-content {
@@ -141,7 +122,7 @@
    }
 }
 
-.controls-StackTemplate__bottomArea_theme_@{themeName} {
+.controls-StackTemplate__bottomArea {
    background: var(--footer_background-color_stack);
    border-top: var(--footer_top-border-thickness_stack) solid var(--footer_top-border-color_stack);
 }

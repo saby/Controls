@@ -13,8 +13,7 @@
          </ws:partial>
       </ws:if>
       <ws:else>
-         <div class="controls-InfoBox__message controls-InfoBox__message
-                     {{!_options.floatCloseButton ? 'controls-InfoBox__message_margin'}}">
+         <div class="controls-InfoBox__message {{!_options.floatCloseButton ? 'controls-InfoBox__message_margin'}}">
                {{_options.message}}
          </div>
       </ws:else>

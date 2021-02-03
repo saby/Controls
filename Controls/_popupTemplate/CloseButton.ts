@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/CloseButton/CloseButton');
+import 'css!Controls/popupTemplate';
    /**
     * Кнопка для закрытия всплывающих окон и диалогов.
     *
@@ -20,8 +21,6 @@ import template = require('wml!Controls/_popupTemplate/CloseButton/CloseButton')
 
 class CloseButton extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;
-
-   static _theme: string[] = ['Controls/popupTemplate'];
 
    static getDefaultOptions(): object {
       return {

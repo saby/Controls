@@ -334,3 +334,31 @@
     border-radius: @border-radius_default_block @border-radius_default_block 0 0;
   }
 }
+
+// набор классов для корректного отображения окон
+// Класс для установки фона шапки контрола через backgroundStyle (stackHeader)
+.controls-background-stackHeader_theme-@{themeName} {
+  background-color: var(--header_background-color_stack);
+}
+
+.controls-StackTemplate__top-area-border_theme_@{themeName} {
+  border-bottom: var(--header_bottom-border-thickness_stack) solid var(--header_bottom-border-color_stack);
+}
+
+.controls-StackTemplate__top-area-background_theme_@{themeName} {
+  background: var(--header_background-color_stack);
+}
+
+// Класс для установки фона контрола через backgroundStyle (stack)
+.controls-background-stack_theme-@{themeName} {
+  background-color: var(--background-color_stack);
+}
+
+.controls-InfoBox__message_theme-@{themeName} {
+  font-size: var(--font-size_infobox);
+}
+
+// Класс для установки фона контрола через backgroundStyle (infoBox)
+.controls-background-infoBox_theme-@{themeName} {
+  background-color: var(--background-color_infobox);
+}

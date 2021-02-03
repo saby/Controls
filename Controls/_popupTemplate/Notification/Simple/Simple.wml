@@ -6,8 +6,7 @@
         <div class="controls-Notification__simpleTemplate">
             <ws:if data="{{_options.icon}}">
                 <div class="controls-Notification__simpleTemplate-icon
-                            controls-icon_size-m_theme-{{_options.theme}}
-                            controls-icon_style-{{_iconStyle}}_theme-{{_options.theme}}
+                            controls-icon_size-m controls-icon_style-{{_iconStyle}}
                             icon-{{_options.icon}}">
                 </div>
             </ws:if>

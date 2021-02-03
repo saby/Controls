@@ -22,11 +22,6 @@
    z-index: 1;
 }
 
-// Класс для установки фона контрола через backgroundStyle (infoBox)
-.controls-background-infoBox_theme-@{themeName} {
-   background-color: var(--background-color_infobox);
-}
-
 .controls-InfoBoxTemplate__arrow-side-position-left {
    flex-direction: row-reverse;
 }
@@ -213,9 +208,9 @@
  * Presumably the problem is in the font. Error written https://online.sbis.ru/opendoc.html?guid=1e389bc5-8be7-4394-abdd-231e3ec040a8
  */
 .ws-is-firefox, .ws-is-mobile-safari {
-  .controls-InfoBoxTemplate__closeButton {
-    top: calc(var(--close-button_offset-top_infobox) + 1);
-  }
+   .controls-InfoBoxTemplate__closeButton {
+      top: calc(var(--close-button_offset-top_infobox) + 1);
+   }
 }
 
 .controls-InfoBoxTemplate__arrow-wrapper {

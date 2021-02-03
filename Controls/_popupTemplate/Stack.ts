@@ -3,6 +3,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/Stack/Stack');
 import {Controller as ManagerController} from 'Controls/popup';
 import {default as IPopupTemplate, IPopupTemplateOptions} from "./interface/IPopupTemplate";
+import 'css!Controls/popupTemplate';
 
 export interface IStackTemplateOptions extends IControlOptions, IPopupTemplateOptions{
     maximizeButtonVisibility?: boolean;
@@ -29,7 +30,7 @@ const MINIMIZED_STEP_FOR_MAXIMIZED_BUTTON = 100;
  *
  * @class Controls/_popupTemplate/Stack
  * @extends UI/Base:Control
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @implements Controls/_popupTemplate/interface/IPopupTemplate
@@ -94,8 +95,6 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
         this._headerTheme = ManagerController.getPopupHeaderTheme();
     }
 
-    static _theme: string[] = ['Controls/popupTemplate'];
-
     static getDefaultOptions(): IStackTemplateOptions {
         return {
             headingFontSize: '3xl',
@@ -120,7 +119,7 @@ class StackTemplate extends Control<IStackTemplateOptions> implements IPopupTemp
  * @remark
  * Позволяет скрыть отображение нижней границы {@link Controls/popupTemplate:IPopupTemplateBase#headerContentTemplate headerContentTemplate}. Используется для построения двухуровневых шапок.
  * Необходимо поместить свой контейнер с шапкой в {@link Controls/popupTemplate:IPopupTemplateBase#bodyContentTemplate bodyContentTemplate} и навесить:
- * 
+ *
  * 1. класс, добавляющий фон для шапки:
  * <pre class="brush: css">
  * controls-StackTemplate__top-area-background_theme_{{_options.theme}}
