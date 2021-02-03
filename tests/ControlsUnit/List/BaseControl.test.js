@@ -2789,6 +2789,14 @@ define([
             assert.notExists(lists.BaseControl._private.getItemActionsController(instance, instance._options));
          });
 
+         it('should init when showEditArrow is true',  async () => {
+            cfg.showEditArrow = true;
+            const instance = correctCreateBaseControl(cfg);
+            instance.saveOptions(cfg);
+            await instance._beforeMount(cfg);
+            assert.exists(lists.BaseControl._private.getItemActionsController(instance, instance._options));
+         });
+
          it('should return existing controller instance despite errors', async () => {
             const instance = correctCreateBaseControl(cfg);
             instance.saveOptions(cfg);

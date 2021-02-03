@@ -576,9 +576,12 @@ export class Controller {
         }
         const contents = Controller._getItemContents(item);
         const menuButtonVisibility = this._getSwipeMenuButtonVisibility(this._contextMenuConfig);
+        let actions: IItemAction[] = [];
         this._actionsWidth = actionsContainerWidth;
         this._actionsHeight = actionsContainerHeight;
-        const actions = this._filterVisibleActions(item.getActions().all, contents);
+        if (item.getActions()) {
+            actions = this._filterVisibleActions(item.getActions().all, contents);
+        }
         const actionsTemplateConfig = this._collection.getActionsTemplateConfig();
         actionsTemplateConfig.actionAlignment = this._actionsAlignment;
 

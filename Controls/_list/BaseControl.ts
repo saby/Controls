@@ -267,11 +267,14 @@ const _private = {
             return;
         }
         const editingConfig = self._listViewModel.getEditingConfig();
-        // Если нет опций записи, проперти, и тулбар для редактируемой записи выставлен в false, то не надо
+        // Если нет опций записи, проперти,
+        // и тулбар для редактируемой записи выставлен в false, то не надо
+        // и не надо показать срелку редактирования
         // инициализировать контроллер
         if (
             (options && !options.itemActions && !options.itemActionsProperty) &&
-            !editingConfig?.toolbarVisibility
+            !editingConfig?.toolbarVisibility &&
+            !options.showEditArrow
         ) {
             return;
         }
