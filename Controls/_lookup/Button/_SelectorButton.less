@@ -1,33 +1,33 @@
 .controls-Selectorbutton {
    max-width: 100%;
-   min-height: @min-height_lookupSelector;
+   min-height: var(--min-height_lookupSelector);
    display: inline-block;
    align-items: center;
 }
 
 .controls-Selectorbutton_empty {
    display: inline-flex;
-   height: @min-height_lookupSelector;
+   height: var(--min-height_lookupSelector);
 }
 
 .controls-Selectorbutton__button-reset {
-   font-size: @reset-button_font-size_lookupSelector;
-   color: @reset-button_text-color_lookupSelector;
+   font-size: var(--reset-button_font-size_lookupSelector);
+   color: var(--reset-button_text-color_lookupSelector);
    cursor: pointer;
 }
 
 .controls-Selectorbutton_button-more {
-   font-size: @more-button_font-size_lookupSelector;
-   color: @more-button_text-color_lookupSelector;
-   margin-right: @more-button_offset_lookupSelector;
+   font-size: var(--more-button_font-size_lookupSelector);
+   color: var(--more-button_text-color_lookupSelector);
+   margin-right: var(--more-button_offset_lookupSelector);
    cursor: pointer;
 }
 
 .controls-Selectorbutton_button-more:after,
 .controls-Selectorbutton__button-reset:after {
    content: "\200b";
-   font-size: @font-size_default_label;
-   line-height: @inline_height_default_label;
+   font-size: var(--font-size_default_label);
+   line-height: var(--inline_height_default_label);
 }
 
 .ws-is-hover {
@@ -43,17 +43,17 @@
 }
 
 .ws-is-hover {
-   .controls-Selectorbutton_selectedItem_single:hover.controls-text-link_theme-@{themeName} {
-      color: @text-color_hover_lookupSelector;
+   .controls-Selectorbutton_selectedItem_single:hover {
+      color: var(--text-color_hover_lookupSelector) !important;
    }
 }
 
 .controls-Selectorbutton_button-select_readOnly {
-   color: @readonly_text-color_lookupSelector;
+   color: var(--readonly_text-color_lookupSelector);
 }
 
 .controls-Selectorbutton_selectedCollection_multiSelect {
-   padding-right: @item_offset_lookupSelectedCollection;
+   padding-right: var(--item_offset_lookupSelectedCollection);
 }
 
 .controls-Selectorbutton_link {

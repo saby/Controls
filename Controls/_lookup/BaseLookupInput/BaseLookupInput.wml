@@ -58,8 +58,8 @@
                 on:tagClick="_notifyHandler('tagClick')"
                 on:tagHover="_notifyHandler('tagHover')"
                 on:keyDownInput="_keyDown()"
-                attr:class="controls-Lookup__inputRender controls-Lookup__inputRender_theme-{{_options.theme}}
-                     controls-Lookup__inputRender_horizontalPadding-{{_options.horizontalPadding}}_theme-{{_options.theme}}
+                attr:class="controls-Lookup__inputRender
+                     controls-Lookup__inputRender_horizontalPadding-{{_options.horizontalPadding}}
                      controls-Lookup__inputRender_{{_multiLineState ? 'multiLine' : 'singleLine'}}">
 
             <ws:leftFieldWrapper>
@@ -93,14 +93,12 @@
                         <ws:if data="{{_options.showClearButton !== false && !_options.readOnly && _items.getCount() > 1}}">
                             <ws:partial template="{{_clearRecordsTemplate}}"
                                         name="clearRecords"
-                                        theme="{{_options.theme}}"
                                         on:click="_onClickClearRecords()"
                                         attr:class="controls-Lookup__clearRecords_{{_multiLineState ? 'multiLine' : 'singleLine'}}"/>
                         </ws:if>
                         <ws:partial template="{{_showSelectorTemplate}}"
                                     name="showSelector"
                                     horizontalPadding="{{_options.horizontalPadding}}"
-                                    theme="{{_options.theme}}"
                                     on:mousedown="_onMouseDownShowSelector()"
                                     on:mouseleave="_linkMouseLeaveHandler()"
                                     on:mouseenter="_linkMouseEnterHandler()"/>

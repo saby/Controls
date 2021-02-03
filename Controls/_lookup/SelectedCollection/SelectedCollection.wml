@@ -1,14 +1,13 @@
 <div class="controls-SelectedCollection__collection
             controls-SelectedCollection__collection_{{_options.itemsLayout !== 'oneRow' ? 'multiLine' : 'singleLine'}}
-            controls-SelectedCollection__collection_{{_options.itemsLayout !== 'oneRow' ? 'multiLine' : 'singleLine'}}_fontSize-{{_options.fontSize || 'm'}}_theme-{{_options.theme}}
+            controls-SelectedCollection__collection_{{_options.itemsLayout !== 'oneRow' ? 'multiLine' : 'singleLine'}}_fontSize-{{_options.fontSize || 'm'}}
             controls-SelectedCollection__collection-{{_options.itemsLayout}}"
      style="min-width: {{_options.collectionWidth}}px; max-width: {{_options.collectionWidth}}px;">
    <ws:if data="{{_options.items.getCount() > _options.maxVisibleItems}}">
       <span name="infoBoxLink"
             style="order: {{_getItemOrder(index, _visibleItems.length, _options.itemsLayout, !(_options.readOnly && !_options.maxVisibleItems))}}"
             class="controls-SelectedCollection__InfoBox
-                   controls-SelectedCollection__InfoBox_theme-{{_options.theme}}
-                   {{_options.itemsLayout === 'oneRow' && _options.readOnly && !_options.maxVisibleItems ? ' controls-SelectedCollection__InfoBox_fixed_theme-' + _options.theme}}
+                   {{_options.itemsLayout === 'oneRow' && _options.readOnly && !_options.maxVisibleItems ? ' controls-SelectedCollection__InfoBox_fixed}}
                    {{_options.counterClassName}}"
             on:click="_openInfoBox()">
          <ws:partial template="{{_counterTemplate}}"
@@ -21,7 +20,7 @@
          <ws:partial
                  attr:style="order: {{_getItemOrder(index, _visibleItems.length, _options.itemsLayout)}};
                              max-width: {{_getItemMaxWidth(index, _options.items.getCount(), _options.maxVisibleItems, _options.itemsLayout, _counterWidth)}}"
-                 attr:class="js-controls-SelectedCollection__item controls-SelectedCollection__item controls-SelectedCollection__collectionItem_layout_{{_options.itemsLayout}}_theme-{{_options.theme}}"
+                 attr:class="js-controls-SelectedCollection__item controls-SelectedCollection__item controls-SelectedCollection__collectionItem_layout_{{_options.itemsLayout}}"
                  template="{{_options.itemTemplate}}"
                  item="{{item}}"
                  displayProperty="{{_options.displayProperty}}"

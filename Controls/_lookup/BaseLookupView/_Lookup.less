@@ -7,12 +7,12 @@
   width: 100%;
 }
 
-.controls-Lookup__inputRender_horizontalPadding-xs_theme-@{themeName} {
-  padding-left: @padding-horizontal_inputText;
+.controls-Lookup__inputRender_horizontalPadding-xs {
+  padding-left: var(--padding-horizontal_inputText);
   padding-right: 0;
 }
 
-.controls-Lookup__inputRender_horizontalPadding-null_theme-@{themeName} {
+.controls-Lookup__inputRender_horizontalPadding-null {
   padding-left: 0;
   padding-right: 0;
 }
@@ -23,12 +23,12 @@
 }
 
 .controls-Lookup__inputRender_multiLine {
-  min-height: @min-height_multiline_lookupInput;
+  min-height: var(--min-height_multiline_lookupInput);
 }
 
 .controls-Lookup__inputRender_multiLine .controls-Render__wrapper {
   display: block;
-  width: ~"calc(100% - @{trigger_width_lookupInput})";
+  width: ~"calc(100% - var(--{trigger_width_lookupInput})");
 }
 
 /*
@@ -39,7 +39,7 @@
 .controls-Lookup__fieldWrapper.controls-InputBase__field {
   margin: 0;
   box-sizing: border-box;
-  border-right: @trigger_offset_lookupInput solid transparent;
+  border-right: var(--trigger_offset_lookupInput solid transparent);
 }
 
 // У всех ссылок внутри placeholder'a поля связи не должно быть line-height,
@@ -50,39 +50,39 @@
   line-height: normal;
 }
 
-.controls-Lookup__fieldWrapper-size-default_theme-@{themeName} {
-   height: @inline_height_default_input;
-   line-height: @inline_height_default_input;
+.controls-Lookup__fieldWrapper-size-default {
+   height: var(--inline_height_default_input);
+   line-height: var(--inline_height_default_input);
 }
 
-.controls-Lookup__fieldWrapper-size-m_theme-@{themeName} {
-   height: @inline_height_m_input;
-   line-height: @inline_height_m_input;
+.controls-Lookup__fieldWrapper-size-m {
+   height: var(--inline_height_m_input);
+   line-height: var(--inline_height_m_input);
 }
 
-.controls-Lookup__fieldWrapper-size-xs_theme-@{themeName} {
-  height: @inline_height_xs_input;
-  line-height: @inline_height_xs_input;
+.controls-Lookup__fieldWrapper-size-xs {
+  height: var(--inline_height_xs_input);
+  line-height: var(--inline_height_xs_input);
 }
 
-.controls-Lookup__fieldWrapper-size-s_theme-@{themeName} {
-  height: @inline_height_s_input;
-  line-height: @inline_height_s_input;
+.controls-Lookup__fieldWrapper-size-s {
+  height: var(--inline_height_s_input);
+  line-height: var(--inline_height_s_input);
 }
 
-.controls-Lookup__fieldWrapper-size-l_theme-@{themeName} {
-   height: @inline_height_l_input;
-   line-height: @inline_height_l_input;
+.controls-Lookup__fieldWrapper-size-l {
+   height: var(--inline_height_l_input);
+   line-height: var(--inline_height_l_input);
 }
 
-.controls-Lookup__fieldWrapper-size-xl_theme-@{themeName} {
-   height: @inline_height_xl_input;
-   line-height: @inline_height_xl_input;
+.controls-Lookup__fieldWrapper-size-xl {
+   height: var(--inline_height_xl_input);
+   line-height: var(--inline_height_xl_input);
 }
 
-.controls-Lookup__fieldWrapper-size-2xl_theme-@{themeName} {
-   height: @inline_height_2xl_input;
-   line-height: @inline_height_2xl_input;
+.controls-Lookup__fieldWrapper-size-2xl {
+   height: var(--inline_height_2xl_input);
+   line-height: var(--inline_height_2xl_input);
 }
 
 .controls-Lookup__fieldWrapper_content_width_custom {
@@ -104,10 +104,11 @@
 }
 
 .controls-Lookup__fieldWrapper_for_comment {
-  color: @comment_text-color_lookupInput;
+  color: var(--comment_text-color_lookupInput);
 
-  .controls-InputBase__nativeField_theme_@{themeName} {
-    caret-color: @comment_text-color_lookupInput;
+  //TODO danger перевести инпуты
+  .controls-InputBase__nativeField_theme_default {
+    caret-color: var(--comment_text-color_lookupInput);
   }
 }
 
@@ -130,7 +131,7 @@
 .controls-Lookup__rightFieldWrapper_multiLine {
   position: absolute;
   top: 0;
-  right: -@trigger_width_lookupInput;
+  right: -var(--trigger_width_lookupInput);
   justify-content: space-between;
   flex-flow: column;
 }
@@ -141,47 +142,47 @@
   align-items: center;
 }
 
-.controls-Lookup__showSelector_theme_@{themeName} {
-  .icon(@trigger_icon-size_lookupInput);
-  color: @trigger_icon-color_lookupInput;
+.controls-Lookup__showSelector {
+  .icon(var(--trigger_icon-size_lookupInput));
+  color: var(--trigger_icon-color_lookupInput);
 }
 
-.controls-Lookup__showSelector_horizontalPadding-xs_theme_@{themeName} {
-  padding: @trigger_padding_lookupInput;
+.controls-Lookup__showSelector_horizontalPadding-xs {
+  padding: var(--trigger_padding_lookupInput);
 }
 
-.controls-Lookup__showSelector_horizontalPadding-null_theme_@{themeName} {
-  padding: @trigger_padding_lookupInput 0 @trigger_padding_lookupInput @trigger_padding_lookupInput;
+.controls-Lookup__showSelector_horizontalPadding-null {
+  padding: var(--trigger_padding_lookupInput) 0 var(--trigger_padding_lookupInput @trigger_padding_lookupInput);
 }
 
 .ws-is-hover {
-  .controls-Lookup__showSelector_theme_@{themeName}:hover {
-    color: @trigger_hover_icon-color_lookupInput;
+  .controls-Lookup__showSelector:hover {
+    color: var(--trigger_hover_icon-color_lookupInput);
   }
 }
 
-.controls-Lookup__showSelector_theme_@{themeName}:active {
-  color: @trigger_active_icon-color_lookupInput;
+.controls-Lookup__showSelector:active {
+  color: var(--trigger_active_icon-color_lookupInput);
 }
 
 
-.controls-Lookup__clearRecords_theme_@{themeName} {
-  .icon-size-without-important(@reset-button_icon-size_lookupInput);
-  padding: @reset-button_offset_lookupSelector;
-  color: @reset-button_icon-color_lookupInput;
-  height: @reset-button_size_lookupInput;
-  width: @reset-button_size_lookupInput;
+.controls-Lookup__clearRecords {
+  .icon-size-without-important(var(--reset-button_icon-size_lookupInput));
+  padding: var(--reset-button_offset_lookupSelector);
+  color: var(--reset-button_icon-color_lookupInput);
+  height: var(--reset-button_size_lookupInput);
+  width: var(--reset-button_size_lookupInput);
   box-sizing: border-box;
 }
 
 .ws-is-hover {
-  .controls-Lookup__clearRecords_theme_@{themeName}:hover {
-    color: @reset-button_hover_icon-color_lookupInput;
+  .controls-Lookup__clearRecords:hover {
+    color: var(--reset-button_hover_icon-color_lookupInput);
   }
 }
 
-.controls-Lookup__clearRecords_theme_@{themeName}:active {
-  color: @reset-button_active_icon-color_lookupInput;
+.controls-Lookup__clearRecords:active {
+  color: var(--reset-button_active_icon-color_lookupInput);
 }
 
 .controls-Lookup__clearRecords_multiLine {

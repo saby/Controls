@@ -1,0 +1,84 @@
+.controls_theme-@{themeName} {
+   // Переменные для полей выбора из справочника
+   //
+   // Минимальная высота
+
+   --min-height_multiline_lookupInput: var(--inline_height_default);
+
+   // Текстовые элементы
+   --comment_text-color_lookupInput: var(--unaccented_text-color);
+   --label_font-size_lookupInput: var(--font-size_m);
+
+   // Иконка вызова окна выбора
+
+   --trigger_width_lookupInput: 24px;
+   --trigger_offset_lookupInput: var(--offset_2xs);
+   --trigger_padding_lookupInput: var(--offset_2xs);
+   --trigger_icon-size_lookupInput: var(--icon-size_s);
+   --trigger_icon-color_lookupInput: var(--label_text-color);
+   --trigger_hover_icon-color_lookupInput: var(--secondary_hover_icon-color);
+   --trigger_active_icon-color_lookupInput: var(--secondary_hover_icon-color);
+
+   // Кнопка сброса всех выбранных значений
+
+   --reset-button_icon-size_lookupInput: var(--icon-size_s);
+   --reset-button_offset_lookupSelector: var(--offset_2xs);
+   --reset-button_icon-color_lookupInput: var(--label_text-color);
+   --reset-button_hover_icon-color_lookupInput: var(--reset-button_icon-color_lookupInput);
+   --reset-button_active_icon-color_lookupInput: var(--reset-button_icon-color_lookupInput);
+   --reset-button_size_lookupInput: 24px;
+
+
+
+   // Переменные для кнопки выбора из справочника
+   //
+   // Минимальная высота
+
+   --min-height_lookupSelector: var(--inline_height_default);
+
+   // Кнопка сброса всех выбранных значений
+
+   --reset-button_font-size_lookupSelector: var(--font-size_xs);
+   --reset-button_text-color_lookupSelector: var(--label_text-color);
+
+   // Кнопка "еще"
+   --more-button_font-size_lookupSelector: var(--font-size_xs);
+   --more-button_text-color_lookupSelector: var(--label_text-color);
+   --more-button_offset_lookupSelector: var(--offset_s);
+
+   // Текстовые элементы
+   --text-color_lookupSelector: var(--link_text-color);
+   --text-color_hover_lookupSelector: var(--link_hover_text-color);
+   --text-color_active_lookupSelector: var(--text-color_hover_lookupSelector);
+   --readonly_text-color_lookupSelector: var(--text-color);
+
+
+
+   // Переменные для отображения выбранных значений
+   //
+   // Цвета
+
+   --item_text-color_lookupSelectedCollection: var(--text-color);
+
+   // Размеры и отступы
+
+   --item_offset_lookupSelectedCollection: var(--offset_2xs);
+   --item_height_lookupSelectedCollection: var(--inline_height_default);
+
+   // Кнопка сброса одного значения
+
+   --item_reset-button_icon-size_lookupCollection: var(--icon-size_s);
+   --item_reset-button_icon-color_lookupCollection: var(--unaccented_icon-color);
+   --item_reset-button_hover_icon-color_lookupCollection: var(--item_reset-button_icon-color_lookupCollection);
+   --item_reset-button_active_icon-color_lookupCollection: var(--item_reset-button_icon-color_lookupCollection);
+
+   // Счетчик выбранных записей
+   --counter_height_lookupSelectedCollection: calc(var(--inline_height_default) - 2 * var(--border-thickness_inputText));
+   --counter_background-color_lookupSelectedCollection: var(--background-color);
+   --counter_shadow-blur_lookupSelectedCollection: 20px;
+   --counter_font-size_lookupSelectedCollection: var(--font-size_m);
+   --counter_text-color_lookupSelectedCollection: var(--label_text-color);
+   --counter_offset_lookupSelectedCollection: var(--offset_2xs);
+   --counter_hover_text-color_lookupSelectedCollection: var(--link_hover_text-color);
+   --counter_active_text-color_lookupSelectedCollection: var(--counter_hover_text-color_lookupSelectedCollection);
+}

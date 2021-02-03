@@ -17,7 +17,7 @@
             <ws:itemTemplate>
                 <ws:partial template="{{_options.itemTemplate}}" clickable="{{!_options.multiSelect && !_options.readOnly}}"
                             attr:class="{{!_options.readOnly && !_options.multiSelect ? 'controls-Selectorbutton_selectedItem_single
-                            controls-text-' + _options.fontColorStyle + '_theme-' + _options.theme}}"/>
+                            controls-text-' + _options.fontColorStyle}}"/>
             </ws:itemTemplate>
         </Controls._lookup.SelectedCollection>
         <ws:if data="{{_options.multiSelect && !_options.readOnly}}">
@@ -30,7 +30,7 @@
     <ws:else>
         <ws:if data="{{_options.readOnly}}">
             <span class="controls-Selectorbutton_button-select_readOnly
-                         controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}">{{_options.caption}}</span>
+                         controls-fontsize-{{_options.fontSize}}">{{_options.caption}}</span>
         </ws:if>
         <ws:else>
             <Controls.buttons:Button name="link"
@@ -45,6 +45,6 @@
         </ws:else>
     </ws:else>
     <ws:if data="{{_options.validationStatus!== 'valid'}}">
-        <div class="{{'controls-invalid-border controls-' + _options.validationStatus + '-border_theme-' + _options.theme}}"></div>
+        <div class="{{'controls-invalid-border controls-' + _options.validationStatus + '-border'}}"></div>
     </ws:if>
 </div>
