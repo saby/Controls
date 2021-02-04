@@ -1,6 +1,7 @@
 <div class="controls-DialogTemplate__top-area controls-DialogTemplate__top-area_{{_options.headerBackgroundStyle}}
             controls-DialogTemplate__top-area_{{_options.headerBackgroundStyle}}_theme_{{_options.theme}}
-            {{_options.draggable ? 'controls-DialogTemplate__top-area-draggable'}} controls_theme-{{_options.theme}}">
+            {{_options.draggable ? 'controls-DialogTemplate__top-area-draggable'}} controls_theme-{{_options.theme}}
+            {{_options.headerBorderVisible ? 'controls-StackTemplate__top-area-border'}}">
    <div class="controls-DialogTemplate__top-area-content">
       <ws:if data="{{_options.headingCaption}}">
          <div class="controls-DialogTemplate__caption">

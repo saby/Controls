@@ -7,6 +7,7 @@ import 'css!Controls/popupTemplate';
 
 export interface IDialogTemplateOptions extends IControlOptions, IPopupTemplateOptions {
    draggable?: boolean;
+   headerBorderVisible?: boolean;
    headerBackgroundStyle?: string;
    backgroundStyle?: string;
 }
@@ -79,6 +80,7 @@ class DialogTemplate extends Control<IDialogTemplateOptions> implements IPopupTe
         return {
             headingFontColorStyle: 'secondary',
             headerBackgroundStyle: 'default',
+            headerBorderVisible: false,
             backgroundStyle: 'default',
             headingFontSize: '3xl',
             closeButtonVisibility: true,
@@ -101,6 +103,13 @@ Object.defineProperty(DialogTemplate, 'defaultProps', {
  * @name Controls/_popupTemplate/Dialog#draggable
  * @cfg {Boolean} Определяет, может ли окно перемещаться с помощью <a href='/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/'>d'n'd</a>.
  * @default false
+ */
+
+/**
+ * @name Controls/_popupTemplate/Dialog#headerBorderVisible
+ * @cfg {Boolean} Определяет, будет ли отображаться граница шапки панели.
+ * @default false
+ * @demo Controls-demo/PopupTemplate/Dialog/headerBorderVisible/Index
  */
 
 /**
