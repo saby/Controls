@@ -112,19 +112,6 @@
 
 .ws-is-mobile-safari,
 .ws-is-firefox {
-   .controls-PeriodDialog__header-period::before {
-      font-size: @header_lineheight_dialog - 1;
-   }
-}
-.controls-PeriodDialog__header_inputs::before {
-   content: '\200b';
-   display: inline-block;
-   width: 0;
-   font-size: @header_lineheight_dialog;
-}
-
-.ws-is-mobile-safari,
-.ws-is-firefox {
    .controls-PeriodDialog__header-period_link::before {
       font-size: @header_lineheight_dialog - 1;
    }
@@ -138,7 +125,7 @@
 
 .controls-PeriodDialog__header_inputs {
    display: flex;
-   align-items: center;
+   align-items: baseline;
 }
 
 .controls-PeriodDialog__header-rangeDash {

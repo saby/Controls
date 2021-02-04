@@ -1,19 +1,19 @@
 <div class="controls-PeriodDialog__header controls-PeriodDialog__header_theme-{{theme}}">
    <!--<div class="controls-PeriodDialog__stateButton-wrapper">-->
       <Controls._datePopup.fakeThemeLoader theme="{{theme}}"/>
-    <div if="{{_monthStateEnabled}}"
+    <div if="{{monthStateEnabled}}"
          on:click="_toggleStateClick()"
          class="controls-PeriodDialog__stateButton controls-PeriodDialog__stateButton_theme-{{theme}}"
-         title="{{_state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}">
-            <span class="{{ _state === 'year' ? 'icon-ArrangeList' : 'icon-ArrangePreview' }} controls-icon controls-icon_size-s_theme-{{ _options.theme }}
+         title="{{state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}">
+            <span class="{{ state === 'year' ? 'icon-ArrangeList' : 'icon-ArrangePreview' }} controls-icon controls-icon_size-s_theme-{{ _options.theme }}
                 controls-icon_style-secondary_theme-{{ _options.theme }}">
             </span>
     </div>
     <ws:if data="{{ selectionType === 'quantum' }}">
         <div class="controls-PeriodDialog__header-period_link">
             <Controls.dateRange:LinkView
-                    startValue="{{_headerRangeModel.startValue}}"
-                    endValue="{{_headerRangeModel.endValue}}"
+                    startValue="{{headerRangeModel.startValue}}"
+                    endValue="{{headerRangeModel.endValue}}"
                     emptyCaption="{{_options.emptyCaption}}"
                     captionFormatter="{{_options.captionFormatter}}"
                     showNextArrow="{{false}}"
@@ -33,14 +33,15 @@
              on:focusout="_inputFocusOutHandler()">
             <div class="controls-PeriodDialog__header_inputs">
                 <Controls.input:DateBase
+                        horizontalPadding="null"
                         contrastBackground="{{ false }}"
                         borderVisibility="partial"
                         name="startValueField"
-                        mask="{{_mask}}"
+                        mask="{{mask}}"
                         autocompleteMode="start"
-                        value="{{_rangeModel.startValue}}"
+                        value="{{rangeModel.startValue}}"
                         dateConstructor="{{_options.dateConstructor}}"
-                        valueValidators="{{_startValueValidators}}"
+                        valueValidators="{{startValueValidators}}"
                         validateByFocusOut="{{false}}"
                         attr:ws-autofocus="true"
                         attr:class="controls-PeriodDialog__header-datePickerStart"
@@ -50,7 +51,7 @@
                 <ws:if data="{{ rightFieldTemplate }}">
                     <ws:partial
                             template="{{ rightFieldTemplate }}"
-                            value="{{ _rangeModel.startValue }}"
+                            value="{{ rangeModel.startValue }}"
                             inputPosition="left"
                     />
                 </ws:if>
@@ -59,15 +60,16 @@
                 <div class="controls-PeriodDialog__header-rangeDash controls-PeriodDialog__header-rangeDash_theme-{{theme}}"></div>
                 <div class="controls-PeriodDialog__header_inputs">
                     <Controls.input:DateBase
+                            horizontalPadding="null"
                             contrastBackground="{{ false }}"
                             borderVisibility="partial"
                             name="endValueField"
-                            mask="{{_mask}}"
+                            mask="{{mask}}"
                             autocompleteMode="start"
-                            value="{{_rangeModel.endValue}}"
-                            _yearSeparatesCenturies="{{_rangeModel.startValue}}"
+                            value="{{rangeModel.endValue}}"
+                            _yearSeparatesCenturies="{{rangeModel.startValue}}"
                             dateConstructor="{{_options.dateConstructor}}"
-                            valueValidators="{{_endValueValidators}}"
+                            valueValidators="{{endValueValidators}}"
                             validateByFocusOut="{{false}}"
                             attr:class="controls-PeriodDialog__header-datePickerEnd"
                             on:valueChanged="_endValuePickerChanged()"
@@ -75,32 +77,32 @@
                     <ws:if data="{{ rightFieldTemplate }}">
                         <ws:partial
                                 template="{{ rightFieldTemplate }}"
-                                value="{{ _rangeModel.endValue }}"
+                                value="{{ rangeModel.endValue }}"
                                 inputPosition="right"
                         />
                     </ws:if>
                 </div>
             </ws:if>
-            <ws:if data="{{ _resetButtonVisible }}">
+            <ws:if data="{{ resetButtonVisible }}">
                 <span class="controls-DateLinkView__resetButton controls-DateLinkView__resetButton_theme-{{_options.theme}}
                         controls-icon controls-icon_style-unaccented_theme-{{ _options.theme }}
                         controls-icon_size-s_theme-{{ _options.theme }} icon-Close"
-                      on:click="_resetButtonClickHandler()"></span>
+                      on:click="resetButtonClickHandler()"></span>
             </ws:if>
         </div>
     </ws:else>
-    <div attr:date="{{ _today }}"
+    <div attr:date="{{ today }}"
          on:click="_todayCalendarClick()"
          title="{[Текущий период]}"
          class="controls-PeriodDialog__header_calendar controls-PeriodDialog__header_calendar_theme-{{ _options.theme }}
-                controls-PeriodDialog__header_calendar_{{ _todayCalendarEnabled ? 'active' : 'readOnly' }}_theme-{{ _options.theme }}
-                    {{ _todayCalendarEnabled ? 'controls-PeriodDialog__cursor-pointer' }}"
+                controls-PeriodDialog__header_calendar_{{ todayCalendarEnabled ? 'active' : 'readOnly' }}_theme-{{ _options.theme }}
+                    {{ todayCalendarEnabled ? 'controls-PeriodDialog__cursor-pointer' }}"
     >
         <svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg"
              class="controls-PeriodDialog__header_calendar_svg controls-PeriodDialog__header_calendar_svg_theme-{{ _options.theme }}"
              viewBox="0 0 28 28">
             <path class="controls-PeriodDialog__header_calendar_svg-content
-             controls-PeriodDialog__header_calendar_svg-content_{{ _todayCalendarEnabled ? 'active' : 'readOnly' }}_theme-{{ _options.theme }}"
+             controls-PeriodDialog__header_calendar_svg-content_{{ todayCalendarEnabled ? 'active' : 'readOnly' }}_theme-{{ _options.theme }}"
                   d="M23,2V.5a.5.5,0,0,0-1,0V2H21V.5a.5.5,0,0,0-1,0V2H8V.5a.5.5,0,0,0-1,0V2H6V.5a.5.5,0,0,0-1,0V2A3,3,0,0,0,2,5V24a3,3,0,0,0,3,3H23a3,3,0,0,0,3-3V5A3,3,0,0,0,23,2Zm2,22a2,2,0,0,1-2,2H5a2,2,0,0,1-2-2V5A2,2,0,0,1,5,3V4.5a.5.5,0,0,0,1,0V3H7V4.5a.5.5,0,0,0,1,0V3H20V4.5a.5.5,0,0,0,1,0V3h1V4.5a.5.5,0,0,0,1,0V3a2,2,0,0,1,2,2Z"/>
         </svg>
     </div>

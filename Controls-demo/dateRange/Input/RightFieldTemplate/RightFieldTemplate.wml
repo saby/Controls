@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlsDemo__ml3">
+    <div class="controlsDemo__cell">
+        <Controls.dateRange:Input
+                bind:startValue="_startDate"
+                bind:endValue="_endDate">
+            <ws:rightFieldTemplate>
+                <Controls.dateRange:WeekdayFormatter value="{{ rightFieldTemplate.value }}"/>
+                <ws:if data="{{ rightFieldTemplate.inputPosition === 'left'}}">
+                     l
+                </ws:if>
+                <ws:else>
+                     r
+                </ws:else>
+            </ws:rightFieldTemplate>
+        </Controls.dateRange:Input>
+    </div>
+</div>
