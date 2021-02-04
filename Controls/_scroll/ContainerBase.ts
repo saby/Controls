@@ -3,7 +3,7 @@ import {Bus} from 'Env/Event';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {RegisterClass, RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {ResizeObserverUtil} from 'Controls/sizeUtils';
+import {ResizeObserverUtil, RESIZE_OBSERVER_BOX} from 'Controls/sizeUtils';
 import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {scrollToElement} from './Utils/scrollToElement';
 import {scrollTo} from './Utils/Scroll';
@@ -45,6 +45,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     private _scrollLockedPosition: number = null;
     protected _scrollCssClass: string;
+    protected _contentWrapperCssClass: string;
     private _oldScrollState: ScrollState;
     protected _scrollModel: ScrollModel;
 
@@ -71,6 +72,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         this._registrars.scrollResize = new RegisterClass({register: 'scrollResize'});
         this._registrars.scrollMove = new RegisterClass({register: 'scrollMove'});
         this._scrollCssClass = this._getScrollContainerCssClass(options);
+        this._updateContentWrapperCssClass();
         this._registrars.listScroll = new RegisterClass({register: 'listScroll'});
         // Регистрар не из watcher а лежал на уровне самомго скролл контейнера. Дублирует подобное событие для списков.
         // Используется как минимум в попапах.
@@ -92,11 +94,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             // Вызваем метод при инициализации сами если браузер не поддерживает ResizeObserver
             this._controlResizeHandler();
         }
-        this._resizeObserver.observe(this._children.content);
+        this._observeElementSize(this._children.content);
 
         this._updateContentType();
         if (this._contentType === CONTENT_TYPE.regular) {
-            this._resizeObserver.observe(this._children.userContent);
+            this._observeElementSize(this._children.userContent);
         } else {
             this._observeContentSize();
         }
@@ -147,7 +149,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     _observeContentSize(): void {
         for (const element of this._getElementsForHeightCalculation()) {
             if (!this._observedElements.includes(element)) {
-                this._resizeObserver.observe(element);
+                this._observeElementSize(element);
                 this._observedElements.push(element);
             }
         }
@@ -161,6 +163,10 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             }
             return true;
         });
+    }
+
+    _observeElementSize(element: HTMLElement): void {
+        this._resizeObserver.observe(element, { box: RESIZE_OBSERVER_BOX.borderBox });
     }
 
     _isObserved(element: HTMLElement): boolean {
@@ -451,12 +457,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
                 newState.clientWidth = entry.contentRect.width;
             } else {
                 this._updateContentType();
-                newState.scrollWidth = entry.contentRect.width;
+                newState.scrollWidth = entry.borderBoxSize.inlineSize === undefined ?
+                    entry.borderBoxSize[0].inlineSize : entry.borderBoxSize.inlineSize;
 
                 if (this._contentType === CONTENT_TYPE.restricted) {
                     newState.scrollHeight = this._getContentHeightByChildren();
                 } else {
-                    newState.scrollHeight = entry.contentRect.height;
+                    newState.scrollHeight = entry.borderBoxSize.blockSize === undefined ?
+                        entry.borderBoxSize[0].blockSize : entry.borderBoxSize.blockSize;
                 }
             }
         }
@@ -475,6 +483,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         const contentType: CONTENT_TYPE = this._getContentType();
         if (this._contentType !== contentType) {
             this._contentType = contentType;
+            this._updateContentWrapperCssClass()
         }
     }
 
@@ -609,6 +618,17 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         return options.scrollMode === SCROLL_MODE.VERTICAL ?
                    'controls-Scroll-ContainerBase__scroll_vertical' :
                    'controls-Scroll-ContainerBase__scroll_verticalHorizontal';
+    }
+
+    protected _updateContentWrapperCssClass(): void {
+        const cssClass: string = this._getContentWrapperCssClass()
+        if (cssClass !== this._contentWrapperCssClass) {
+            this._contentWrapperCssClass = this._getContentWrapperCssClass();
+        }
+    }
+
+    protected _getContentWrapperCssClass(): string {
+        return this._contentType !== CONTENT_TYPE.regular ? 'controls-Scroll-ContainerBase__contentNotScrollable' : '';
     }
 
     // Слой совместимости с таблицами

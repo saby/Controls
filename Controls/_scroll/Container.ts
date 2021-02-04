@@ -95,7 +95,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _isOptimizeShadowEnabled: boolean;
     protected _optimizeShadowClass: string;
-    protected _needUpdateContentSize: boolean = false;
     private _isControllerInitialized: boolean;
     private _wasMouseEnter: boolean = false;
     private _gridAutoShadows: boolean = true;
@@ -165,8 +164,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (this._options.pagingMode !== options.pagingMode) {
                 this._paging.pagingMode = options.pagingMode;
             }
+            this._updateContentWrapperCssClass();
         } else if (this._paging) {
             this._paging = null;
+            this._updateContentWrapperCssClass();
         }
 
         this._updateShadows(this._scrollModel, options);
@@ -182,10 +183,6 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _afterUpdate() {
         super._afterUpdate(...arguments);
         this._stickyHeaderController.updateContainer(this._children.content);
-        if (this._needUpdateContentSize) {
-            this._needUpdateContentSize = false;
-            this._updateStateAndGenerateEvents({ scrollHeight: this._children.content.scrollHeight });
-        }
     }
 
     protected _beforeUnmount(): void {
@@ -287,14 +284,19 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const scrollCssClass = this._getScrollContainerCssClass(this._options);
         if (this._scrollCssClass !== scrollCssClass) {
             this._scrollCssClass = scrollCssClass;
-            this._needUpdateContentSize = true;
+            this._updateContentWrapperCssClass(options);
         }
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
         let cssClass: string = this._scrollbars.getScrollContainerClasses();
+        return cssClass;
+    }
+
+    protected _getContentWrapperCssClass(): string {
+        let cssClass = super._getContentWrapperCssClass();
         if (this._paging?.isVisible) {
-            cssClass += ' controls-Scroll__content_paging';
+            cssClass += ' controls-Scroll__content_paging'
         }
         return cssClass;
     }

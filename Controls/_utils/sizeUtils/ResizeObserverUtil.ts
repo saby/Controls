@@ -1,6 +1,13 @@
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {constants} from 'Env/Env';
 
+
+export enum RESIZE_OBSERVER_BOX {
+    contentBox = 'content-box',
+    borderBox = 'border-box',
+    devicePixelContentBox = 'device-pixel-content-box'
+}
+
 export default class ResizeObserverUtil {
     private readonly _control: any;
     private readonly _resizeObserverSupported: boolean = false;
@@ -56,10 +63,10 @@ export default class ResizeObserverUtil {
         }
     }
 
-    observe(container: HTMLElement): void {
+    observe(container: HTMLElement, options?: { box: RESIZE_OBSERVER_BOX }): void {
         if (this._resizeObserverSupported) {
             this._initResizeObserver();
-            this._resizeObserver.observe(container);
+            this._resizeObserver.observe(container, options);
         }
     }
 
