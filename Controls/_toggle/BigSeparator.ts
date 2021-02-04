@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {ICheckable, ICheckableOptions} from './interface/ICheckable';
+import {IIconSize, IIconSizeOptions} from 'Controls/interface';
 import BigSeparatorTemplate = require('wml!Controls/_toggle/BigSeparator/BigSeparator');
 import {descriptor as EntityDescriptor} from 'Types/entity';
 
@@ -10,7 +11,7 @@ import {descriptor as EntityDescriptor} from 'Types/entity';
  */
 type TViewMode = 'ellipsis' | 'arrow';
 
-export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions {
+export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions, IIconSizeOptions {
     /**
      * Режим отображения иконки открытия.
      * @default ellipsis
@@ -23,6 +24,12 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
      * @demo Controls-demo/toggle/BigSeparator/ContrastBackground/Index
      */
     contrastBackground?: boolean;
+    /**
+     * Размер кнопки.
+     * @default 'm'
+     * @demo Controls-demo/toggle/BigSeparator/SeparatorSize/Index
+     */
+    iconSize?: string;
 }
 
 /**
@@ -30,7 +37,7 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
  * 
  * @remark
  * Полезные ссылки:
- * * {@link /materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader демо-пример}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FBigSeparator%2FIndex демо-пример}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  * @class Controls/_toggle/BigSeparator
@@ -39,8 +46,9 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
  * @public
  * @author Красильников А.С.
  * @implements Controls/_toggle/interface/ICheckable
+ * @implements Controls/interface:IIconSize
  *
- * @demo Controls-demo/toggle/BigSeparator/Index
+ * @demo Controls-demo/toggle/BigSeparator/Base/Index
  */
 
 /*
@@ -58,8 +66,9 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
  * @demo Controls-demo/toggle/BigSeparator/Index
  *
  */
-class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable {
+class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable, IIconSize {
    '[Controls/_toggle/interface/ICheckable]': true;
+   readonly '[Controls/_interface/IIconSize]': boolean;
 
    // TODO https://online.sbis.ru/opendoc.html?guid=0e449eff-bd1e-4b59-8a48-5038e45cab22
    protected _template: TemplateFunction = BigSeparatorTemplate;
