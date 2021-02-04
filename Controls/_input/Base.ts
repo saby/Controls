@@ -701,4 +701,13 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     }
 }
 
+Object.defineProperty(Base, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Base.getDefaultOptions();
+   }
+});
+
 export default Base;

@@ -31,6 +31,7 @@
         </ws:if>
         <!-- Items -->
         <div name="itemsContainer" class="controls-GridViewV__itemsContainer">
+            <!-- TODO избавиться от прокидывания _onBreadcrumbClick https://online.sbis.ru/doc/0649e69a-d507-4024-9f99-c70205f535ef-->
             <ws:partial
                     template="Controls/list:ForTemplate"
                     itemTemplate="{{ _itemTemplate }}"
@@ -47,7 +48,10 @@
                     swipeTemplate="{{ _options.swipeTemplate }}"
                     multiSelectTpl="{{ _options.multiSelectTpl }}"
                     backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
-                    tagTemplate="{{ _options.tagTemplate }}">
+                    tagTemplate="{{ _options.tagTemplate }}"
+
+                    _onBreadcrumbClick="{{_onBreadcrumbClick}}"
+                    _onBreadcrumbItemClick="{{_onBreadcrumbItemClick}}">
                 <ws:editArrowTemplate>
                     <ws:partial template="wml!Controls/_gridNew/Render/EditArrowTemplate"/>
                 </ws:editArrowTemplate>

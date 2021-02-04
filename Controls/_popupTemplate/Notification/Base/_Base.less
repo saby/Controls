@@ -1,69 +1,56 @@
 .controls-Notification {
-  border-top-style: solid;
-  position: relative;
-}
-.controls-Notification_theme-@{themeName} {
-  border-top-width: @marker_thickness_notification;
-  box-shadow: @box-shadow_notification;
-  min-height: @min-height_notification;
-  min-width: @min-width_notification;
-  margin: 0 @offset-horizontal_notification @offset-vertical_notification 0;
-  background-color: @background-color_notification;
+   border-top-style: solid;
+   position: relative;
+   border-top-width: var(--marker_thickness_notification);
+   box-shadow: var(--box-shadow_notification);
+   min-height: var(--min-height_notification);
+   min-width: var(--min-width_notification);
+   margin: 0 var(--offset-horizontal_notification) var(--offset-vertical_notification) 0;
+   background-color: var(--background-color_notification);
 }
 
-.controls-Notification__danger_theme-@{themeName} {
-  border-color: @danger_color;
+.controls-Notification__danger {
+   border-color: var(--danger_color);
 }
 
-.controls-Notification__secondary_theme-@{themeName} {
-  border-color: @secondary_marker_color_notification;
+.controls-Notification__secondary {
+   border-color: var(--secondary_marker_color_notification);
 }
 
-.controls-Notification__success_theme-@{themeName} {
-  border-color: @success_color;
+.controls-Notification__success {
+   border-color: var(--success_color);
 }
 
-.controls-Notification__warning_theme-@{themeName} {
-  border-color: @warning_color;
+.controls-Notification__warning {
+   border-color: var(--warning_color);
 }
 
-.controls-Notification__content_theme-@{themeName} {
-  padding: @content_padding_notification;
-  font-size: @font-size_notification;
-}
-
-.controls-Notification__closeButton_theme-@{themeName} {
-  width: @width_closeButton_link + @close-button_offset-right_notification;
-  height: @height_closeButton_link + @close-button_offset-top_notification;
+.controls-Notification__content {
+   padding: var(--content_padding_notification);
+   font-size: var(--font-size_notification);
 }
 
 .controls-Notification__closeButton {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  display: flex;
-  align-items: flex-end;
+   position: absolute;
+   top: 0;
+   right: 0;
+   z-index: 1;
+   display: flex;
+   align-items: flex-end;
+   width: calc(var(--width_closeButton_link) + var(--close-button_offset-right_notification));
+   height: calc(var(--height_closeButton_link) + var(--close-button_offset-top_notification));
 }
 
 .controls-Notification__simpleTemplate {
-  display: flex;
-  align-items: center;
+   display: flex;
+   align-items: center;
+   min-height: var(--icon-size_notification);
 }
 
-.controls-Notification__simpleTemplate-icon_theme-@{themeName} {
-  margin-right: @icon_offset_notification;
+.controls-Notification__simpleTemplate-icon {
+   margin-right: var(--icon_offset_notification);
 }
 
-//height of notification message mustn't be less then height of icon
-.controls-Notification__simpleTemplate_theme-@{themeName} {
-  min-height: @icon-size_notification;
-}
-
-.controls-Notification__content-spacing_theme-@{themeName} {
-   margin-right: @width_closeButton_link;
-}
-
-.controls-Notification__simpleTemplate-icon-size_theme-@{themeName} {
-  .icon-size(@icon-size_notification, @icon_font-family_m);
+.controls-Notification__content-spacing {
+   margin-right: var(--width_closeButton_link);
 }

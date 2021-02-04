@@ -18,13 +18,17 @@ export default class TreeGrid extends Grid {
         return superResult;
     }
 
-    _getModelConstructor(): string {
-        return 'Controls/treeGrid:TreeGridCollection';
-    }
-
     toggleExpanded(key: CrudEntityKey): Promise<void> {
         // @ts-ignore
         return this._children.listControl.toggleExpanded(key);
+    }
+
+    goToPrev(): Model {
+        return this._children.listControl.goToPrev();
+    }
+
+    goToNext(): Model {
+        return this._children.listControl.goToNext();
     }
 
     getNextItem(key: CrudEntityKey): Model {
@@ -33,6 +37,10 @@ export default class TreeGrid extends Grid {
 
     getPrevItem(key: CrudEntityKey): Model {
         return this._children.listControl.getPrevItem(key);
+    }
+
+    protected _getModelConstructor(): string {
+        return 'Controls/treeGrid:TreeGridCollection';
     }
 
     static _theme: string[] = ['Controls/treeGrid', 'Controls/grid'];

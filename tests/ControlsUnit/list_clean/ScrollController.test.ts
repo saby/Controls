@@ -300,6 +300,28 @@ describe('Controls/list_clean/ScrollController', () => {
             });
 
         });
+        
+        it('needScrollCalculation = false', (done) => {
+            const collection = new Collection({
+                collection: new RecordSet({
+                    rawData: [ { key: '1'}, { key: '2'} ],
+                    keyProperty: 'key'
+                })
+            });
+            const options = {
+                collection,
+                needScrollCalculation: false
+            };
+            let scrollCallbackCalled = false;
+            const scrollCallback = () => {
+                scrollCallbackCalled = true;
+            };
+            const controller = new ScrollController(options);
+            controller.scrollToItem('1', false, false, scrollCallback).then(() => {
+                assert.isTrue(scrollCallbackCalled, 'should scroll after updateItemHeights');
+                done();
+            });
+        });
     });
 
     describe('updateItemsHeights', () => {

@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_popupTemplate/Sticky/Sticky';
 import {Controller as ManagerController} from 'Controls/popup';
 import {default as IPopupTemplateBase, IPopupTemplateBaseOptions} from './interface/IPopupTemplateBase';
+import 'css!Controls/popupTemplate';
 
 interface IStickyTemplateOptions extends IControlOptions, IPopupTemplateBaseOptions {
     shadowVisible?: boolean;
@@ -18,7 +19,7 @@ interface IStickyTemplateOptions extends IControlOptions, IPopupTemplateBaseOpti
  *
  * @class Controls/_popupTemplate/Sticky
  * @extends UI/Base:Control
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @implements Controls/_popupTemplate/interface/IPopupTemplateBase
@@ -52,8 +53,6 @@ class StickyTemplate extends Control<IStickyTemplateOptions> implements IPopupTe
         return ManagerController.getPopupHeaderTheme();
     }
 
-    static _theme: string[] = ['Controls/popupTemplate'];
-
     static getDefaultOptions(): IStickyTemplateOptions {
         return {
             headingFontSize: 'l',
@@ -63,6 +62,16 @@ class StickyTemplate extends Control<IStickyTemplateOptions> implements IPopupTe
         };
     }
 }
+
+Object.defineProperty(StickyTemplate, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return StickyTemplate.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_popupTemplate/Sticky#shadowVisible
  * @cfg {Boolean} Определяет, будет ли отображаться тень у прилипающего блока

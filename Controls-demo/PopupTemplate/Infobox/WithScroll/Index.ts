@@ -10,6 +10,7 @@ export default class extends Control<IControlOptions> {
     _openSticky() {
         this._sticky.open({
             template,
+            opener: this._children.dialogButton,
             target: this._children.dialogButton,
             direction: {
                 vertical: 'top',

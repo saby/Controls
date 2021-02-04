@@ -355,13 +355,15 @@ var
                 classLists.base += ' controls-Grid__cell_fit';
             }
 
-            if (current.isEditing()) {
-                const editingBackgroundStyle = current.editingBackgroundStyle || 'default';
-                classLists.base += ` controls-Grid__row-cell-editing_theme-${theme}`;
-                classLists.base += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
-            } else {
-                let backgroundHoverStyle = current.hoverBackgroundStyle || 'default';
-                classLists.base += ` controls-Grid__row-cell-background-hover-${backgroundHoverStyle}_theme-${theme}`;
+            if (self.getEditingConfig()?.mode !== 'cell') {
+                if (current.isEditing()) {
+                    const editingBackgroundStyle = current.editingBackgroundStyle || 'default';
+                    classLists.base += ` controls-Grid__row-cell-editing_theme-${theme}`;
+                    classLists.base += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
+                } else {
+                    let backgroundHoverStyle = current.hoverBackgroundStyle || 'default';
+                    classLists.base += ` controls-Grid__row-cell-background-hover-${backgroundHoverStyle}_theme-${theme}`;
+                }
             }
 
             if (current.columnScroll && !current.isEditing()) {
@@ -436,11 +438,12 @@ var
             var itemValue = item.get(dispProp);
             return itemValue && searchValue;
         },
-        getItemsLadderVersion(ladder) {
+        getItemsLadderVersion(ladder, simple: boolean = false) {
             let ladderVersion = '';
 
             Object.keys(ladder).forEach((ladderProperty) => {
-                ladderVersion += (ladder[ladderProperty].ladderLength || 0) + '_';
+                const length = ladder[ladderProperty].ladderLength || 0;
+                ladderVersion += (simple && length ? 1 : length) + '_';
             });
 
             return ladderVersion;
@@ -452,7 +455,7 @@ var
                 stickyLadder = ladder.stickyLadder && ladder.stickyLadder[index];
 
             if (simpleLadder) {
-                version += 'LP_';
+                version += 'LP_' + _private.getItemsLadderVersion(simpleLadder, true);
             }
             if (stickyLadder) {
                 version += 'SP_' + _private.getItemsLadderVersion(stickyLadder);
@@ -465,10 +468,12 @@ var
          * Производит пересчёт групп объединяемых колонок для заголовков (разделителей) записей
          * @param itemData информация о записи
          * @param leftSideItemsCount число колонок в группе (или номер последней колонки)
+         * @param textVisible Видимость текста. Если текст скрыт, то игнорируется leftSideItemsCount
          * @param isActionsCellExists выводится ли в строке дополнительная ячейка под операции над записью
+         * @param stickyLadderCellsCount Число колонок для стики-лесенки
          * @private
          */
-        getColumnAlignGroupStyles(itemData: IGridItemData, leftSideItemsCount: number = 0, isActionsCellExists: boolean, stickyLadderCellsCount: number = 0): {
+        getColumnAlignGroupStyles(itemData: IGridItemData, leftSideItemsCount: number = 0, textVisible: boolean, isActionsCellExists: boolean, stickyLadderCellsCount: number = 0): {
             left: string
             right: string
         } {
@@ -477,7 +482,7 @@ var
             const start = 1;
             const end = itemData.columns.length + 1 + (isActionsCellExists ? 1 : 0) + stickyLadderCellsCount;
 
-            if (leftSideItemsCount > 0) {
+            if (textVisible !== false && leftSideItemsCount > 0) {
                 const center = leftSideItemsCount + additionalTerm + 1;
                 result.left = `grid-column: ${start} / ${center - end - 1}; -ms-grid-column: ${start}; -ms-grid-column-span: ${(center - 1)};`;
                 // Расчёт был изменён из-за того, что в случае установки колонки MultiSelect необходимо делать перерасчёт размеров,
@@ -1637,6 +1642,10 @@ var
                 columns: this._columns
             });
 
+            current.shouldDisplayDraggingCounter = () => current.isDragged() && current.getLastColumnIndex() === current.columnIndex
+               && current.getDraggedItemsCount() > 1 && !this._dragOutsideList;
+
+            // конец
             current.showEditArrow = _private.resolveEditArrowVisibility(dispItem, this._options);
             current.isFullGridSupport = this.isFullGridSupport.bind(this);
             current.resolvers = this._resolvers;
@@ -1659,22 +1668,30 @@ var
             current.isLastRow = (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData()) &&
                                  (this.getCount() - 1 === current.index);
 
-            current.getColumnAlignGroupStyles = (columnAlignGroup: number) => (
-                _private.getColumnAlignGroupStyles(current, columnAlignGroup, self._shouldAddActionsCell(), self.stickyLadderCellsCount())
+            current.getColumnAlignGroupStyles = (columnAlignGroup: number, textVisible: boolean) => (
+                _private.getColumnAlignGroupStyles(current, columnAlignGroup, textVisible, self._shouldAddActionsCell(), self.stickyLadderCellsCount())
             );
 
             const style = !current.style ? 'default' : current.style;
 
             current.markerPosition = this._options.markerPosition || 'left';
             current.shouldDisplayMarker = (columnIndex): boolean => {
-                const isShouldDisplayMarker = (current.markerVisibility !== 'hidden' &&
-                    !current.isEditing() &&
-                    current.isMarked());
-                if (current.markerPosition === 'right') {
-                    return isShouldDisplayMarker && columnIndex === current.columns.length - 1;
-                } else {
-                    return isShouldDisplayMarker && columnIndex === 0;
+                const isShouldDisplayMarker = (current.markerVisibility !== 'hidden' && current.isMarked());
+                if (isShouldDisplayMarker) {
+                    if (current.isEditing() && (
+                        self.getEditingConfig()?.mode !== 'cell' || (
+                            self.getDisplay().find((cItem) => cItem.isEditing()).getEditingColumnIndex() === 0
+                        ))
+                    ) {
+                        return false;
+                    }
+                    if (current.markerPosition === 'right') {
+                        return isShouldDisplayMarker && columnIndex === current.columns.length - 1;
+                    } else {
+                        return isShouldDisplayMarker && columnIndex === 0;
+                    }
                 }
+                return false;
             };
 
             current.getMarkerClasses = (markerClassName = 'default') => `controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-${current.theme}
@@ -1682,7 +1699,8 @@ var
             controls-GridView__itemV_marker-${style}_rowSpacingBottom-${current.itemPadding.bottom}_theme-${current.theme}
             controls-GridView__itemV_marker-${style}_rowSpacingTop-${current.itemPadding.top}_theme-${current.theme}
             controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (current.itemPadding.top || 'l') + '_' + markerClassName)}
-            controls-ListView__itemV_marker-${current.markerPosition}`;
+            controls-ListView__itemV_marker-${current.markerPosition}
+            ${!!current.isDragging ? ' controls-ListView__itemContent_dragging_theme-' + current.theme : ''}`;
 
             if (current.hasMultiSelectColumn) {
                 current.columns = [{}].concat(this._columns);
@@ -1735,8 +1753,10 @@ var
             if (current.isGroup) {
                 current.task1181007458 = self._options.task1181007458;
                 current.groupPaddingClasses = _private.getGroupPaddingClasses(current, current.theme);
-                current.shouldFixGroupOnColumn = (columnAlignGroup?: number) => {
-                    return columnAlignGroup !== undefined && columnAlignGroup < current.columns.length - (current.hasMultiSelectColumn ? 1 : 0);
+                current.shouldFixGroupOnColumn = (columnAlignGroup: number, textVisible: boolean) => {
+                    return textVisible !== false &&
+                        columnAlignGroup !== undefined &&
+                        columnAlignGroup < current.columns.length - (current.hasMultiSelectColumn ? 1 : 0);
                 };
                 return current;
             }
@@ -1846,7 +1866,6 @@ var
                         columnIndex: current.columnIndex,
                         key: current.key,
                         getPropValue: current.getPropValue,
-                        isEditing: current.isEditing,
                         isActive: current.isActive,
                         showEditArrow: current.showEditArrow,
                         itemPadding: current.itemPadding,
@@ -1870,6 +1889,39 @@ var
                 };
                 currentColumn.classList = _private.getItemColumnCellClasses(self, current, current.theme, backgroundColorStyle);
 
+                currentColumn.isSingleCellEditingMode = self.getEditingConfig()?.mode === 'cell';
+
+                currentColumn.isEditing = () => {
+                    if (currentColumn.isSingleCellEditingMode) {
+                        if (!current.isEditing()) {
+                            return false
+                        }
+                        if (!current.dispItem.isAdd) {
+                            return current.dispItem.getEditingColumnIndex() === (currentColumn.columnIndex - +self._hasMultiSelectColumn())
+                        }
+                        const firstEditableColumn = self._options.columns.find((c) => c.editable !== false);
+                        return currentColumn.columnIndex === self._options.columns.indexOf(firstEditableColumn);
+                    } else {
+                        return current.isEditing();
+                    }
+                };
+
+                currentColumn.getEditingClassList = (tmplIsEditable) => {
+                  let classList = '';
+                  if (self.getEditingConfig()?.mode === 'cell') {
+                      classList += `controls-Grid__row-cell_editing-mode-single-cell_theme-${current.theme}`;
+                      if (currentColumn.isEditing()) {
+                          classList += ` controls-Grid__row-cell_single-cell_editing_theme-${current.theme}`;
+                      } else {
+                          if (currentColumn.column.editable !== false && tmplIsEditable !== false) {
+                              classList += ` controls-Grid__row-cell_single-cell_editable_theme-${current.theme}`;
+                          } else {
+                              classList += ` js-controls-ListView__notEditable controls-Grid__row-cell_single-cell_not-editable_theme-${current.theme}`;
+                          }
+                      }
+                  }
+                  return classList;
+                };
 
                 currentColumn.getColspanedPaddingClassList = (columnData, isColspaned) => {
                     /**
@@ -2172,6 +2224,13 @@ var
                 }
             }
 
+            if (this.isEditing() && this.getEditingConfig()?.mode === 'cell') {
+                const collectionItem = this.getDisplay().getItemBySourceKey(key);
+                if (collectionItem.isEditing()) {
+                    version = `EDITING-COLUMN_${collectionItem.getEditingColumnIndex()}_${version}`;
+                }
+            }
+
             version += _private.calcLadderVersion(this._ladder, index);
 
             return version;
@@ -2329,10 +2388,6 @@ var
             this._nextModelVersion();
         },
 
-        setSelectedItems(items: Model[], selected: boolean|null): void {
-            this._model.setSelectedItems(items, selected);
-        },
-
         setDraggedItems(draggableItem: CollectionItem<Model>, draggedItemsKeys: Array<number|string>): void {
             this._model.setDraggedItems(draggableItem, draggedItemsKeys);
             // Если есть прилипающая колонка, то нужно пересчитать футер,
@@ -2343,6 +2398,13 @@ var
         },
         setDragPosition(position: IDragPosition<CollectionItem<Model>>): void {
             this._model.setDragPosition(position);
+        },
+        setDragOutsideList(outside: boolean): void {
+            this._model.setDragOutsideList(outside);
+            if (this._dragOutsideList !== outside) {
+                this._dragOutsideList = outside;
+                this._nextModelVersion();
+            }
         },
         resetDraggedItems(): void {
             this._model.resetDraggedItems();

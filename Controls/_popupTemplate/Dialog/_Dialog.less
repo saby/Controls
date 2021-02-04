@@ -7,36 +7,30 @@
    height: 100%;
    position: relative;
    overflow: hidden;
+   box-shadow: var(--box-shadow_dialog);
+   border: var(--border-thickness_dialog) solid var(--border-color_dialog);
 }
 
-.controls-DialogTemplate_theme_@{themeName} {
-   box-shadow: @box-shadow_dialog;
-   border: @border-thickness_dialog solid @border-color_dialog;
+.controls-DialogTemplate_backgroundStyle-default {
+   background-color: var(--background-color_dialog);
 }
 
-.controls-DialogTemplate_backgroundStyle-default_theme_@{themeName} {
-   background-color: @background-color_dialog;
-}
-
-.controls-DialogTemplate_backgroundStyle-unaccented_theme_@{themeName} {
-   background-color: @unaccented_background-color_dialog;
+.controls-DialogTemplate_backgroundStyle-unaccented {
+   background-color: var(--unaccented_background-color_dialog);
 }
 
 .controls-DialogTemplate__top-area {
    display: flex;
    flex-shrink: 0;
+   min-height: var(--header-min-height_dialog);
 }
 
-.controls-DialogTemplate__top-area_theme_@{themeName} {
-   min-height: @header-min-height_dialog;
+.controls-DialogTemplate__top-area_default {
+   background-color: var(--header_background-color_dialog);
 }
 
-.controls-DialogTemplate__top-area_default_theme_@{themeName} {
-   background-color: @header_background-color_dialog;
-}
-
-.controls-DialogTemplate__top-area_unaccented_theme_@{themeName} {
-   background-color: @unaccented_header_background-color_dialog;
+.controls-DialogTemplate__top-area_unaccented {
+   background-color: var(--unaccented_header_background-color_dialog);
 }
 
 .controls-DialogTemplate__content-area {
@@ -60,10 +54,7 @@
    height: 100%;
    align-self: center;
    align-items: center;
-}
-
-.controls-DialogTemplate__headerContentTemplate_theme_@{themeName} {
-   margin-right: @header-content_padding-right_dialog;
+   margin-right: var(--header-content_padding-right_dialog);
 }
 
 .controls-DialogTemplate__top-area-content {
@@ -74,14 +65,13 @@
    overflow: hidden;
    justify-content: space-between;
 }
+
 .controls-DialogTemplate__close_button {
    position: relative;
    z-index: 2; // The close button is above the content
    align-self: flex-start;
    flex-shrink: 0;
-}
-.controls-DialogTemplate__close_button_theme_@{themeName} {
-   margin-top: @close-button_offset-top_dialog;
+   margin-top: var(--close-button_offset-top_dialog);
 }
 
 .controls-DialogTemplate__close-button_without_head {
@@ -90,22 +80,19 @@
    top: 0;
    display: flex;
 }
+
 .controls-DialogTemplate__caption {
    align-items: baseline;
    flex-shrink: 100;
    display: flex;
    overflow: hidden;
    cursor: default;
+   min-width: var(--header_min-width_dialog);
+   height: var(--header-min-height_dialog);
+   margin-left: var(--header_padding-left_dialog);
+   margin-right: var(--header_caption_offset-right_dialog);
+   line-height: var(--line-height_dialogTemplate_caption); // the baseline is not centered
 }
-
-.controls-DialogTemplate__caption_theme_@{themeName} {
-   min-width: @header_min-width_dialog;
-   height: @header-min-height_dialog;
-   margin-left: @header_padding-left_dialog;
-   margin-right: @header_caption_offset-right_dialog;
-   line-height: @line-height_dialogTemplate_caption; // the baseline is not centered
-}
-
 
 .controls-DialogTemplate__caption_text {
    text-overflow: ellipsis;
@@ -117,9 +104,9 @@
    cursor: move;
 }
 
-.controls-DialogTemplate__footer_theme_@{themeName} {
-   background: @footer_background-color_dialog;
-   height: @footer_min-height_dialog;
+.controls-DialogTemplate__footer {
+   background: var(--footer_background-color_dialog);
+   height: var(--footer_min-height_dialog);
    flex-shrink: 0;
-   border-top: @footer_top-border-thickness_dialog solid @footer_top-border-color_dialog;
+   border-top: var(--footer_top-border-thickness_dialog) solid var(--footer_top-border-color_dialog);
 }

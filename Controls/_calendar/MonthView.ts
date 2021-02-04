@@ -50,10 +50,10 @@ var _private = {
  * @extends UI/Base:Control
  * @mixes Controls/_calendar/interfaces/IMonth
  * @mixes Controls/_interface/IDayTemplate
- * 
+ *
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/Calendar/MonthView/LongCellName/LongCellName
+ * @demo Controls-demo/Date/MonthView
  * @demo Controls-demo/Calendar/MonthView/NewMode/Index
  *
  */
@@ -123,12 +123,22 @@ var defaultOptions = {
    dayTemplate: dayTemplate,
    dayHeaderTemplate: dayHeaderTemplate,
    captionTemplate: captionTemplate,
-   dateConstructor: WSDate
+   dateConstructor: WSDate,
+   newMode: true
 };
 
 MonthView.getDefaultOptions = function() {
    return defaultOptions;
 };
+
+Object.defineProperty(MonthView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MonthView.getDefaultOptions();
+   }
+});
 
 MonthView.getOptionTypes = function() {
    return IMonth.getOptionTypes();

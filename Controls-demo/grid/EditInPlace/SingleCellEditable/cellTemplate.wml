@@ -1,0 +1,15 @@
+<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+    <ws:contentTemplate>
+        <ws:partial template="Controls/list:EditingTemplate"
+                    value="{{ itemData.item[itemData.column.displayProperty || 'title'] }}"
+                    itemData="{{itemData}}">
+            <ws:editorTemplate>
+                <Controls.input:Text
+                        attr:class="js-controls-Grid__editInPlace__input-1"
+                        bind:value="itemData.item[itemData.column.displayProperty || 'title']"
+                        contrastBackground="{{ false }}"
+                        borderVisibility="{{ false }}"/>
+            </ws:editorTemplate>
+        </ws:partial>
+    </ws:contentTemplate>
+</ws:partial>

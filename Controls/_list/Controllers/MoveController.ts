@@ -1,5 +1,5 @@
 import {Model, Record} from 'Types/entity';
-import {SbisService, ICrudPlus} from 'Types/source';
+import {DataSet, SbisService, ICrudPlus} from 'Types/source';
 import {Logger} from 'UI/Utils';
 import {ISelectionObject} from 'Controls/interface';
 import {Confirmation, Dialog, IBasePopupOptions} from 'Controls/popup';
@@ -13,10 +13,10 @@ import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 type TSource = SbisService|ICrudPlus;
 type TFilterObject = IHashMap<any>;
 
-type TValidationResult = {
+interface IValidationResult {
     message: string;
     isError: boolean;
-};
+}
 
 /**
  * Интерфейс опций контроллера.
@@ -39,14 +39,14 @@ export interface IMoveControllerOptions {
      * @name Controls/_list/Controllers/IMoveController#popupOptions
      * @cfg {Controls/popup:IBasePopupOptions} опции диалога перемещения
      */
-    popupOptions?: IBasePopupOptions
+    popupOptions?: IBasePopupOptions;
 }
 
 /**
  * Контроллер для перемещения элементов списка.
  *
  * @class Controls/_list/Controllers/MoveController
- * 
+ *
  * @public
  * @author Аверкиев П.А
  */
@@ -90,7 +90,10 @@ export class MoveController {
      * @see moveUp
      * @see moveDown
      */
-    move(selection: ISelectionObject, filter: TFilterObject = {}, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+    move(selection: ISelectionObject,
+         filter: TFilterObject = {},
+         targetKey: CrudEntityKey,
+         position: LOCAL_MOVE_POSITION): Promise<DataSet | void> {
         return this._moveInSource(selection, filter, targetKey, position);
     }
 
@@ -103,7 +106,7 @@ export class MoveController {
      * @see moveDown
      * @see move
      */
-    moveWithDialog(selection: ISelectionObject, filter: TFilterObject = {}): Promise<void> {
+    moveWithDialog(selection: ISelectionObject, filter: TFilterObject = {}): Promise<DataSet> {
         const validationResult = MoveController._validateBeforeOpenDialog(selection, this._popupOptions);
         if (validationResult.message === undefined) {
             return this._openMoveDialog(selection, filter);
@@ -124,7 +127,7 @@ export class MoveController {
      * @param {TFilterObject} filter дополнительный фильтр для перемещения в SbisService.
      * @private
      */
-    private _openMoveDialog(selection: ISelectionObject, filter?: TFilterObject): Promise<void> {
+    private _openMoveDialog(selection: ISelectionObject, filter?: TFilterObject): Promise<DataSet> {
         const templateOptions: IMoverDialogTemplateOptions = {
             movedItems: selection.selected,
             source: this._source,
@@ -141,7 +144,9 @@ export class MoveController {
                     onResult: (target: Model) => {
                         // null при перемещении записей в корень
                         const targetKey = target === null ? target : target.getKey();
-                        resolve(this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On))
+                        resolve(
+                            this._moveInSource(selection, filter, targetKey, LOCAL_MOVE_POSITION.On) as Promise<DataSet>
+                        );
                     }
                 }
             });
@@ -156,8 +161,12 @@ export class MoveController {
      * @param position
      * @private
      */
-    private _moveInSource(selection: ISelectionObject, filter: TFilterObject = {}, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void>  {
-        const validationResult: TValidationResult = MoveController._validateBeforeMove(this._source, selection, filter, targetKey, position);
+    private _moveInSource(selection: ISelectionObject,
+                          filter: TFilterObject = {},
+                          targetKey: CrudEntityKey,
+                          position: LOCAL_MOVE_POSITION): Promise<DataSet | void>  {
+        const validationResult: IValidationResult = MoveController
+            ._validateBeforeMove(this._source, selection, filter, targetKey, position);
         if (validationResult.message !== undefined) {
             if (validationResult.isError) {
                 Logger.error(validationResult.message);
@@ -183,11 +192,11 @@ export class MoveController {
                         method: source.getBinding().list,
                         filter: Record.fromObject(callFilter, sourceAdapter),
                         folder_id: targetKey
-                    }).then(() => {
-                        resolve();
+                    }).then((result: DataSet) => {
+                        resolve(result);
                     });
                 });
-            })
+            });
         }
         return this._source.move(selection.selected, targetKey, {
             position,
@@ -209,18 +218,18 @@ export class MoveController {
         selection: ISelectionObject,
         filter: TFilterObject,
         targetKey: CrudEntityKey,
-        position: LOCAL_MOVE_POSITION): TValidationResult {
-        let result: TValidationResult = {
+        position: LOCAL_MOVE_POSITION): IValidationResult {
+        const result: IValidationResult = {
             message: undefined,
             isError: true
-        }
+        };
         if (!source) {
             result.message = 'MoveController: Source is not set';
         }
         if (!selection || (!selection.selected && !selection.excluded)) {
             result.message = 'MoveController: Selection type must be Controls/interface:ISelectionObject';
         }
-        if (typeof filter !== "object") {
+        if (typeof filter !== 'object') {
             result.message = 'MoveController: Filter must be plain object';
         }
         if (targetKey === undefined) {
@@ -243,11 +252,12 @@ export class MoveController {
      * @name Controls/_list/Controllers/MoveController#_validateBeforeOpenDialog
      * @private
      */
-    private static _validateBeforeOpenDialog(selection: ISelectionObject, popupOptions: IBasePopupOptions): TValidationResult {
-        let result: TValidationResult = {
+    private static _validateBeforeOpenDialog(selection: ISelectionObject,
+                                             popupOptions: IBasePopupOptions): IValidationResult {
+        const result: IValidationResult = {
             message: undefined,
             isError: false
-        }
+        };
         if (!popupOptions.template) {
             result.message = 'MoveController: MoveDialogTemplate option is undefined';
             result.isError = true;

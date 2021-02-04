@@ -19,7 +19,7 @@ export function compileSourceOptions(options: IOptions, forDetail: boolean): ISo
     const specific = forDetail ? options.detail : options.master;
 
     return {
-        root: specific.root || options.root,
+        root: specific.root || (!forDetail ? options.masterRoot : null) || options.root,
         filter: specific.filter || options.filter,
         source: specific.source || options.source,
         columns: specific.columns || options.columns,

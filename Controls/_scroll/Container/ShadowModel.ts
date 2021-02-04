@@ -176,10 +176,12 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
         if (this._options[`${this._position}ShadowVisibility`] !== SHADOW_VISIBILITY.AUTO) {
             return this._isShadowEnable();
         }
-        if (this._visibilityByInnerComponents !== SHADOW_VISIBILITY.AUTO) {
+        const canScrollByScrollState = this._canScrollByScrollState();
+        // Если тени принудительно включены изнутри, то показываем их только в случае если можно скролить.
+        if (this._visibilityByInnerComponents !== SHADOW_VISIBILITY.AUTO && canScrollByScrollState) {
             return SHADOW_ENABLE_MAP[this._visibilityByInnerComponents];
         }
-        return this._canScrollByScrollState();
+        return canScrollByScrollState;
     }
 
     /**

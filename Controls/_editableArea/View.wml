@@ -11,7 +11,7 @@
 >
    <div
       class="controls-EditableArea
-      {{_isEditing ? _backgroundStyleClass}}
+      {{ _isEditing && _options.backgroundStyle ? 'controls-background-' + _options.backgroundStyle + '_theme-' + _options.theme }}
       controls-EditableArea_{{_options.readOnly ? 'readonly' : 'clickable'}}"
    >
       <div class="controls-EditableArea__wrapper">
@@ -26,7 +26,7 @@
                <ws:partial template="buttonsTemplateBase"/>
             </ws:buttonsTemplate>
          </ws:partial>
-         <ws:if data="{{_toolbarVisible && _isEditing}}">
+         <ws:if data="{{_options.toolbarVisible && _isEditing}}">
             <ws:partial template="buttonsTemplateBase"/>
          </ws:if>
       </div>

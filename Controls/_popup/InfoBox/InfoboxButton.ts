@@ -34,4 +34,13 @@ class InfoboxButton extends Control<IInfoboxButton> implements IIconSize {
 
 }
 
+Object.defineProperty(InfoboxButton, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return InfoboxButton.getDefaultOptions();
+   }
+});
+
 export default InfoboxButton;

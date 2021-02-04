@@ -1,11 +1,11 @@
-<div class="controls-Notification controls-Notification_theme-{{_options.theme}} controls-Notification__{{_borderStyle}}_theme-{{_options.theme}} controls-Popup__isolatedFocusingContext">
-   <div class="controls-Notification__content controls-Notification__content_theme-{{_options.theme}} {{_options.closeButtonVisibility ? 'controls-Notification__content-spacing_theme-' + _options.theme}}">
+<div class="controls-Notification controls_theme-{{_options.theme}} controls-Notification__{{_borderStyle}} controls-Popup__isolatedFocusingContext">
+   <div class="controls-Notification__content {{_options.closeButtonVisibility ? 'controls-Notification__content-spacing'}}">
       <ws:if data="{{_options.bodyContentTemplate}}">
          <ws:partial template="{{_options.bodyContentTemplate}}"></ws:partial>
       </ws:if>
    </div>
    <ws:if data="{{_options.closeButtonVisibility}}">
-      <div class="controls-Notification__closeButton controls-Notification__closeButton_theme-{{_options.theme}} " on:click="_closeClick()">
+      <div class="controls-Notification__closeButton" on:click="_closeClick()">
          <Controls._popupTemplate.CloseButton viewMode="link" />
       </div>
    </ws:if>

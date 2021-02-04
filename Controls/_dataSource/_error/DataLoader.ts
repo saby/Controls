@@ -169,3 +169,12 @@ export default class DataLoader extends Control<IErrorContainerOptions, IErrorCo
  * ответа прекратится.
  * @default 5000
  */
+
+Object.defineProperty(DataLoader, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DataLoader.getDefaultOptions();
+   }
+});

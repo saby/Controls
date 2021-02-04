@@ -96,6 +96,15 @@ class Separator extends Control<ISeparatorOptions> implements ICheckable {
     }
 }
 
+Object.defineProperty(Separator, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Separator.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/Separator#style
  * @cfg {String} Стиль отображения разделителя.

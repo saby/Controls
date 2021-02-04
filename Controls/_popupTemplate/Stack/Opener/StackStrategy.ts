@@ -112,9 +112,16 @@ export = {
         const position: IPosition = {
             width,
             right: isAboveMaximizePopup ? 0 : tCoords.right,
-            top: tCoords.top,
-            height: tCoords.height
+            top: tCoords.top
         };
+
+        // Увеличиваю отзывчивость интерфейса за счет уменьшения кол-во перерисовок при ресайзе.
+        // Если restrictiveContainer нет, то окно растягивается на всю высоту окна => не нужно менять height.
+        if (item.calculatedRestrictiveContainer) {
+            position.height = tCoords.height;
+        } else {
+            position.bottom = 0;
+        }
 
         // on mobile device fixed container proxying scroll on bottom container
         if (!detection.isMobilePlatform) {

@@ -9,11 +9,11 @@ import Deferred = require('Core/Deferred');
 
 interface IEditOpenerOptions extends IEditOptions, IControlOptions {}
 /**
- * Контрол, который открывает всплывающее окно с {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ диалогом редактирования записи}.
+ * Контрол, который открывает всплывающее окно с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/ диалогом редактирования записи}.
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FPopup%2FEdit%2FOpener демо-пример}
- * * {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step4 руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/#step4 руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  * @extends Controls/_popup/Opener
  * @implements Controls/popup:IBaseOpener
@@ -172,4 +172,14 @@ class Edit extends Control<IEditOpenerOptions> implements IEditOpener {
         };
     }
 }
+
+Object.defineProperty(Edit, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Edit.getDefaultOptions();
+   }
+});
+
 export default Edit;

@@ -292,7 +292,7 @@ export default class FilterControllerClass {
         prefetchParams: IPrefetchHistoryParams
     ): Promise<THistoryData> {
         if (historyItems && prefetchParams && historyItems?.length) {
-            return this._loadHistoryItems(historyId).then((result) => {
+            return this._loadHistoryItems(historyId, prefetchParams).then((result) => {
                 return historyItems ? historyItems : result;
             });
         } else {
@@ -300,13 +300,13 @@ export default class FilterControllerClass {
         }
     }
 
-    private _loadHistoryItems(historyId: string): Promise<THistoryData> {
+    private _loadHistoryItems(historyId: string, prefetchParams?: IPrefetchHistoryParams): Promise<THistoryData> {
         let result;
 
         if (!historyId) {
             result = Promise.resolve([]);
         } else {
-            const source = getHistorySource({historyId});
+            const source = getHistorySource({historyId, favorite: !!prefetchParams});
 
             if (!this._crudWrapper) {
                 this._crudWrapper = new CrudWrapper({

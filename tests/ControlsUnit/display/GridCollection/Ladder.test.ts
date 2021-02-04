@@ -1,5 +1,6 @@
 import { assert } from 'chai';
-import { GridCollection, VirtualScrollController } from 'Controls/display';
+import { GridCollection } from 'Controls/gridNew';
+import { VirtualScrollController } from 'Controls/display';
 import { RecordSet } from 'Types/collection';
 
 const keyProperty = 'key';
@@ -52,7 +53,7 @@ describe('Controls/display/GridCollection/StickyLadder', () => {
         beforeEach(() => {
             rs = new RecordSet({
                 rawData: generateStickyLadderData(itemsCount),
-                keyProperty: 'key'
+                keyProperty
             });
         });
 
@@ -173,6 +174,26 @@ describe('Controls/display/GridCollection/StickyLadder', () => {
             } catch (error) {
                 throw error;
             }
+        });
+
+        it('Check emptyTemplate with multi-ladder', () => {
+            // initialize collection
+            const collection = new GridCollection({
+                collection: new RecordSet({
+                    rawData: [],
+                    keyProperty
+                }),
+                keyProperty,
+                columns: columns_count2,
+                ladderProperties,
+                emptyTemplate: () => '<div>EMPTY ROW</div>'
+            });
+
+            const emptyGridRow = collection.getEmptyGridRow();
+            assert.exists(emptyGridRow, 'Empty grid row not created.');
+            const emptyRowColumns = emptyGridRow.getColumns();
+            assert.strictEqual(emptyRowColumns.length, 1, 'Empty grid row columns is not valid.');
+            assert.strictEqual(collection.getEmptyGridRow().getColumns()[0].getWrapperStyles(), 'grid-column: 1 / 5;')
         });
     });
 });

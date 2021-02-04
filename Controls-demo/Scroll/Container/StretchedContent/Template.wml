@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height200">
+    <Controls.scroll:Container attr:class="controlsDemo_fixedWidth300 controlsDemo__height200 controls-Scroll-ContainerBase__ieStretchedСontent">
         <div class="controls-ControlsDemo__content">
 
         </div>

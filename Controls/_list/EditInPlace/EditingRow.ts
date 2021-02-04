@@ -23,7 +23,7 @@ export default class EditingRow extends Control {
         }
     }
 
-    protected _stopMouseEvent(e): void {
+    protected _stopMouseEvent(e, eventName): void {
         /*
          Останавливаем всплытие любых кликов, если строка редактируется. Если клики будут всплывать, то их будет ловить список
          и генерировать событие itemClick, которое не должно стрелять на редактируемой строке.
@@ -41,5 +41,6 @@ export default class EditingRow extends Control {
           https://online.sbis.ru/doc/cefa8cd9-6a81-47cf-b642-068f9b3898b7
         */
         e.stopped = true;
+        this._notify(`editingItem${eventName}`, [e, ...Array.prototype.slice.call(arguments, 2)]);
     }
 }

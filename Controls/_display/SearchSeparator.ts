@@ -1,8 +1,7 @@
-import {Model} from 'Types/entity';
 import TreeItem from './TreeItem';
 import Tree from './Tree';
 import CollectionItem, {IOptions as ICollectionItemOptions} from './CollectionItem';
-import {register} from "Types/di";
+import {register} from 'Types/di';
 
 export interface IOptions<T> extends ICollectionItemOptions<T> {
     source: TreeItem<T>;

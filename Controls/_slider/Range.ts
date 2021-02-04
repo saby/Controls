@@ -187,6 +187,15 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
    }
 }
 
+Object.defineProperty(Range, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Range.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_slider/Range#startValue
  * @cfg {Number} Устанавливает текущее начальное значение слайдера.

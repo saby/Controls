@@ -1,6 +1,6 @@
 <div class="controls-DragNDrop__draggingTemplate">
    <ws:if data="{{_options.imageTemplate}}">
-      <ws:partial template="{{_options.imageTemplate}}" scope="{{_options}}"/>
+      <ws:partial attr:class="controls-DragNDrop__draggingTemplate-image" template="{{_options.imageTemplate}}" scope="{{_options}}"/>
    </ws:if>
    <ws:else data="{{_options.image}}">
       <img class="controls-DragNDrop__draggingTemplate-icon" src="{{_options.image}}" />
@@ -14,7 +14,7 @@
       <div class="controls-DragNDrop__draggingTemplate-mainText">{{_options.mainText || rk('Запись реестра')}}</div>
       <div class="controls-DragNDrop__draggingTemplate-additionalText">{{_options.additionalText}}</div>
    </div>
-   <ws:if data="{{_itemsCount}}">
+   <ws:if data="{{_itemsCount > 1}}">
       <span class="controls-DragNDrop__draggingTemplate-counter">{{_itemsCount}}</span>
    </ws:if>
 </div>

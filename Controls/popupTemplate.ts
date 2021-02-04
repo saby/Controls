@@ -19,7 +19,7 @@ export {default as INotification, INotificationOptions} from 'Controls/_popupTem
 export {default as CloseButton} from 'Controls/_popupTemplate/CloseButton';
 export {default as IPopupTemplateBaseOptions} from 'Controls/_popupTemplate/interface/IPopupTemplateBase';
 export {default as templateInfoBox} from 'Controls/_popupTemplate/InfoBox/Opener/resources/template';
-export {default as BaseController} from 'Controls/_popupTemplate/BaseController';
+export {default as BaseController, IDragOffset} from 'Controls/_popupTemplate/BaseController';
 
 import DialogController = require('Controls/_popupTemplate/Dialog/Opener/DialogController');
 import StickyController = require('Controls/_popupTemplate/Sticky/StickyController');

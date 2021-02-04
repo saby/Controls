@@ -164,7 +164,7 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         this._calculateState(newOptions);
     }
 
-    static _theme: string[] = ['Controls/buttons', 'Controls/toggle', 'Controls/Classes', 'Controls/theme'];
+    static _theme: string[] = ['Controls/buttons', 'Controls/toggle', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {
@@ -176,6 +176,16 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         };
     }
 }
+
+Object.defineProperty(ToggleButton, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ToggleButton.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/Button#icons
  * @cfg {Array} Пара иконок.

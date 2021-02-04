@@ -18,7 +18,7 @@ https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
     on:disableVirtualNavigation="_disableVirtualNavigationHandler()"
     >
     <div name="userContent"
-         class="controls-Scroll-ContainerBase__content {{_contentType !== 'regular' ? 'controls-Scroll-ContainerBase__contentNotScrollable'}}">
+         class="controls-Scroll-ContainerBase__content {{_contentWrapperCssClass}}">
         <ws:partial
             attr:class="controls-Scroll-containerBase_userContent"
             template="{{_options.content}}"

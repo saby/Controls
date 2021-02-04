@@ -21,8 +21,10 @@ import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 import {TMarkerClassName} from '../_grid/interface/ColumnTemplate';
 import {IItemPadding} from '../_list/interface/IList';
 import Collection from 'Controls/_display/Collection';
+import {TItemKey} from 'Controls/_display/interface';
 
 export interface IOptions<T extends Model = Model> {
+    itemModule: string;
     contents?: T;
     selected?: boolean;
     marked?: boolean;
@@ -83,6 +85,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
     readonly DraggableItem: boolean = true;
+    private _$editingColumnIndex: number;
 
     getInstanceId: () => string;
 
@@ -129,6 +132,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     protected _$rowSeparatorSize: string;
 
     protected _$dragged: boolean;
+
+    protected _dragOutsideList: boolean;
 
     protected _$multiSelectAccessibilityProperty: string;
 
@@ -287,6 +292,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
     }
 
+    getSearchValue(): string {
+        return this.getOwner().getSearchValue();
+    }
+
     // endregion
 
     // region MultiSelectAccessibility
@@ -315,6 +324,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     getDisplayProperty(): string {
         return this.getOwner().getDisplayProperty();
+    }
+
+    getKeyProperty(): string {
+        return this.getOwner().getKeyProperty();
     }
 
     isMarked(): boolean {
@@ -376,6 +389,11 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if (this.getMultiSelectVisibility() === 'onhover' && !this.isSelected()) {
             classes += 'controls-ListView__checkbox-onhover';
         }
+
+        if (this.isDragged()) {
+            classes += ` controls-ListView__itemContent_dragging_theme-${theme}`;
+        }
+
         return classes;
     }
 
@@ -383,16 +401,30 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this._$editing;
     }
 
-    setEditing(editing: boolean, editingContents?: T, silent?: boolean): void {
+    // TODO: Убрать columnIndex.
+    //  Расположение индекса редактируемой колонки на элементе плоского списка - временное решение, до отказа от
+    //  старых списков. Контроллер редактирования работает только с новой коллекцией и новыми item'ами, а
+    //  функционал редактирования отдельных ячеек требуется поддержать в том числе и в старых таблицах.
+    //  Такое решение оптимальнее, чем давать контроллеру редактирования старую модель, т.к. при переходе
+    //  достаточно будет почистить пару мест в CollectionItem, а не вычищать целый контроллер.
+    //  https://online.sbis.ru/opendoc.html?guid=b13d5312-a8f5-4cea-b88f-8c4c043e4a77
+    setEditing(editing: boolean, editingContents?: T, silent?: boolean, columnIndex?: number): void {
         if (this._$editing === editing && this._$editingContents === editingContents) {
             return;
         }
         this._$editing = editing;
+        if (typeof columnIndex === 'number' && this._$editingColumnIndex !== columnIndex) {
+            this._$editingColumnIndex = columnIndex;
+        }
         this._setEditingContents(editingContents);
         this._nextVersion();
         if (!silent) {
             this._notifyItemChangeToOwner('editing');
         }
+    }
+
+    getEditingColumnIndex(): number {
+        return this._$editingColumnIndex;
     }
 
     acceptChanges(): void {
@@ -535,18 +567,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._$rendered = state;
     }
 
-    isDragged(): boolean {
-        return this._$dragged;
-    }
-
-    isSticked(): boolean {
-        return this.isMarked() && this._isSupportSticky(this.getOwner().getStyle());
-    }
-
-    protected _isSupportSticky(style: string = 'default'): boolean {
-        return this.getOwner().isStickyMarkedItem() !== false &&
-            (style === 'master');
-    }
+    // region Drag-n-drop
 
     setDragged(dragged: boolean, silent?: boolean): void {
         if (this._$dragged === dragged) {
@@ -557,6 +578,40 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         if (!silent) {
             this._notifyItemChangeToOwner('dragged');
         }
+    }
+
+    isDragged(): boolean {
+        return this._$dragged;
+    }
+
+    setDragOutsideList(outside: boolean): void {
+        if (this._dragOutsideList !== outside) {
+            this._dragOutsideList = outside;
+            this._nextVersion();
+        }
+    }
+
+    isDragOutsideList(): boolean {
+        return this._dragOutsideList;
+    }
+
+    shouldDisplayDraggingCounter(): boolean {
+        return this.isDragged() && !this.isDragOutsideList() && this.getDraggedItemsCount() > 1;
+    }
+
+    getDraggedItemsCount(): number {
+        return this.getOwner().getDraggedItemsCount();
+    }
+
+    // endregion Drag-n-drop
+
+    isSticked(): boolean {
+        return this.isMarked() && this._isSupportSticky(this.getOwner().getStyle());
+    }
+
+    protected _isSupportSticky(style: string = 'default'): boolean {
+        return this.getOwner().isStickyMarkedItem() !== false &&
+            (style === 'master');
     }
 
     /**
@@ -580,7 +635,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         wrapperClasses += ` controls-ListView__item_${style}`;
         wrapperClasses += ` controls-ListView__item_${style}_theme-${theme}`;
         wrapperClasses += ' controls-ListView__item_showActions';
-        wrapperClasses += ' js-controls-ItemActions__swipeMeasurementContainer';
+        wrapperClasses += ' js-controls-ListView__measurableContainer';
         wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}`;
         if (templateHighlightOnHover && !this.isEditing()) {
             wrapperClasses += ` controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}_theme_${theme}`;
@@ -640,6 +695,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
         if (isAnimatedForSelection) {
             contentClasses += ' controls-ListView__item_rightSwipeAnimation';
+        }
+        if (this.isDragged()) {
+            contentClasses += ` controls-ListView__itemContent_dragging_theme-${theme}`;
         }
         return contentClasses;
     }
@@ -850,5 +908,6 @@ Object.assign(CollectionItem.prototype, {
     _$rowSeparatorSize: null,
     _contentsIndex: undefined,
     _version: 0,
-    _counters: null
+    _counters: null,
+    _$editingColumnIndex: null
 });

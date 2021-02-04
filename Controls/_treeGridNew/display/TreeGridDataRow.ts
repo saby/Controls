@@ -1,5 +1,6 @@
 import { mixin } from 'Types/util';
-import { IGridRowOptions, GridCell, GridRowMixin, ITreeItemOptions, TreeItem, IItemPadding } from 'Controls/display';
+import { ITreeItemOptions, TreeItem, IItemPadding } from 'Controls/display';
+import { IGridRowOptions, GridCell, GridRowMixin } from 'Controls/gridNew';
 import TreeGridCollection from './TreeGridCollection';
 import { TMarkerClassName } from 'Controls/grid';
 import { Model } from 'Types/entity';
@@ -108,6 +109,7 @@ export default class TreeGridDataRow<T extends Model>
 Object.assign(TreeGridDataRow.prototype, {
     '[Controls/treeGrid:TreeGridDataRow]': true,
     '[Controls/_display/grid/Row]': true,
+    '[Controls/_display/TreeItem]': true,
     _cellModule: 'Controls/treeGrid:TreeGridDataCell',
     _moduleName: 'Controls/treeGrid:TreeGridDataRow',
     _instancePrefix: 'tree-grid-row-'

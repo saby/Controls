@@ -1,38 +1,35 @@
-.controls-Header__caption_theme_@{themeName} {
-   font-weight: @font-weight_heading;
+.controls-Header__caption {
+   font-weight: var(--font-weight_heading);
+   display: inline-block;
 }
 
 //font-sizes
 .controls-fontsize-xs_theme-@{themeName}.controls-Header-fontsize-xs_theme-@{themeName} when not (@font-size_xs_heading = @font-size_xs) {
-   font-size: @font-size_xs_heading;
+   font-size: var(--font-size_xs_heading);
 }
 .controls-fontsize-s_theme-@{themeName}.controls-Header-fontsize-s_theme-@{themeName} when not (@font-size_s_heading = @font-size_s) {
-   font-size: @font-size_s_heading;
+   font-size: var(--font-size_s_heading);
 }
 .controls-fontsize-m_theme-@{themeName}.controls-Header-fontsize-m_theme-@{themeName} when not (@font-size_m_heading = @font-size_m) {
-   font-size: @font-size_m_heading;
+   font-size: var(--font-size_m_heading);
 }
 .controls-fontsize-l_theme-@{themeName}.controls-Header-fontsize-l_theme-@{themeName} when not (@font-size_l_heading = @font-size_l) {
-   font-size: @font-size_l_heading;
+   font-size: var(--font-size_l_heading);
 }
 .controls-fontsize-xl_theme-@{themeName}.controls-Header-fontsize-xl_theme-@{themeName} when not (@font-size_xl_heading = @font-size_xl) {
-   font-size: @font-size_xl_heading;
+   font-size: var(--font-size_xl_heading);
 }
 .controls-fontsize-2xl_theme-@{themeName}.controls-Header-fontsize-2xl_theme-@{themeName} when not (@font-size_2xl_heading = @font-size_2xl) {
-   font-size: @font-size_2xl_heading;
+   font-size: var(--font-size_2xl_heading);
 }
 .controls-fontsize-3xl_theme-@{themeName}.controls-Header-fontsize-3xl_theme-@{themeName} when not (@font-size_3xl_heading = @font-size_3xl) {
-   font-size: @font-size_3xl_heading;
+   font-size: var(--font-size_3xl_heading);
 }
 .controls-fontsize-4xl_theme-@{themeName}.controls-Header-fontsize-4xl_theme-@{themeName} when not (@font-size_4xl_heading = @font-size_4xl) {
-   font-size: @font-size_4xl_heading;
+   font-size: var(--font-size_4xl_heading);
 }
 .controls-fontsize-5xl_theme-@{themeName}.controls-Header-fontsize-xs_theme-@{themeName} when not (@font-size_5xl_heading = @font-size_5xl) {
-   font-size: @font-size_5xl_heading;
-}
-
-.controls-Header__caption {
-   display: inline-block;
+   font-size: var(--font-size_5xl_heading);
 }
 
 //readOnly/clickable
@@ -45,64 +42,64 @@
 }
 
 .controls-Header__caption_style-secondary_theme_@{themeName}, .controls-Header__caption_style-secondary_hovered_theme_@{themeName} {
-   color: @secondary_text-color_heading;
+   color: var(--secondary_text-color_heading);
 }
 
 .controls-Header__caption_style-primary_theme_@{themeName}, .controls-Header__caption_style-primary_hovered_theme_@{themeName} {
-   color: @primary_text-color_heading;
+   color: var(--primary_text-color_heading);
 }
 
 .controls-Header__caption_style-label_theme_@{themeName}, .controls-Header__caption_style-label_hovered_theme_@{themeName} {
-   color: @label_text-color;
+   color: var(--label_text-color);
 }
 
 .controls-Header__caption_style-danger_theme_@{themeName}, .controls-Header__caption_style-danger_hovered_theme_@{themeName} {
-   color: @danger_color;
+   color: var(--danger_color);
 }
 
 .controls-Header__caption_style-success_theme_@{themeName}, .controls-Header__caption_style-success_hovered_theme_@{themeName} {
-   color: @success_color;
+   color: var(--success_color);
 }
 
 .controls-Header__caption_style-default_theme_@{themeName}, .controls-Header__caption_style-default_hovered_theme_@{themeName} {
-   color: @text-color;
+   color: var(--text-color);
 }
 
 .controls-Header__caption_style-warning_theme_@{themeName}, .controls-Header__caption_style-warning_hovered_theme_@{themeName} {
-   color: @warning_color;
+   color: var(--warning_color);
 }
 
 .controls-Header__caption_style-unaccented_theme_@{themeName}, .controls-Header__caption_style-unaccented_hovered_theme_@{themeName} {
-   color: @unaccented_text-color;
+   color: var(--unaccented_text-color);
 }
 
 .controls-Header__caption_style-link_theme_@{themeName}, .controls-Header__caption_style-link_hovered_theme_@{themeName} {
-   color: @link_text-color;
+   color: var(--link_text-color);
 }
 
 .controls-Header__caption_style-primary_hovered_theme_@{themeName}:active {
-   color: @primary_hover_text-color_heading;
+   color: var(--primary_hover_text-color_heading);
 }
 
 .controls-Header__caption_style-secondary_hovered_theme_@{themeName}:active {
-   color: @secondary_hover_text-color_heading;
+   color: var(--secondary_hover_text-color_heading);
 }
 
 .controls-Header__caption_style-label_hovered_theme_@{themeName}:active {
-   color: @link_hover_text-color;
+   color: var(--link_hover_text-color);
 }
 
 .ws-is-hover {
    .controls-Header__caption_style-primary_hovered_theme_@{themeName}:hover {
-      color: @primary_hover_text-color_heading;
+      color: var(--primary_hover_text-color_heading);
    }
 
    .controls-Header__caption_style-secondary_hovered_theme_@{themeName}:hover {
-      color: @secondary_hover_text-color_heading;
+      color: var(--secondary_hover_text-color_heading);
    }
 
    .controls-Header__caption_style-label_hovered_theme_@{themeName}:hover {
-      color: @link_hover_text-color;
+      color: var(--link_hover_text-color);
    }
 }
 
@@ -112,173 +109,173 @@
 
 .controls-Header_Counter__clickable:active {
    .controls-Header__caption_style-primary_hovered_theme_@{themeName} {
-      color: @primary_hover_text-color_heading;
+      color: var(--primary_hover_text-color_heading);
    }
 
    .controls-Header__caption_style-secondary_hovered_theme_@{themeName} {
-      color: @secondary_hover_text-color_heading;
+      color: var(--secondary_hover_text-color_heading);
    }
 
    .controls-Header__caption_style-label_hovered_theme_@{themeName} {
-      color: @link_hover_text-color;
+      color: var(--link_hover_text-color);
    }
 
    .controls-HeaderCounter_style-primary_hovered_theme-@{themeName} {
-      color: @primary_active_text-color_headingCounter;
+      color: var(--primary_active_text-color_headingCounter);
    }
 
    .controls-HeaderCounter_style-secondary_hovered_theme-@{themeName} {
-      color: @secondary_active_text-color_headingCounter;
+      color: var(--secondary_active_text-color_headingCounter);
    }
 }
 
 .controls-Header_all__clickable:active {
    .controls-Header__caption_style-primary_hovered_theme_@{themeName} {
-      color: @primary_hover_text-color_heading;
+      color: var(--primary_hover_text-color_heading);
    }
 
    .controls-Header__caption_style-secondary_hovered_theme_@{themeName} {
-      color: @secondary_hover_text-color_heading;
+      color: var(--secondary_hover_text-color_heading);
    }
 
    .controls-Header__caption_style-label_hovered_theme_@{themeName} {
-      color: @link_hover_text-color;
+      color: var(--link_hover_text-color);
    }
 
    .controls-HeaderCounter_style-primary_hovered_theme-@{themeName} {
-      color: @primary_active_text-color_headingCounter;
+      color: var(--primary_active_text-color_headingCounter);
    }
 
    .controls-HeaderCounter_style-secondary_hovered_theme-@{themeName} {
-      color: @secondary_active_text-color_headingCounter;
+      color: var(--secondary_active_text-color_headingCounter);
    }
 
    .controls-HeaderSeparator__arrow_style-primary_theme-@{themeName} {
-      fill: @primary_active_icon-color_headingSeparator;
+      fill: var(--primary_active_icon-color_headingSeparator);
    }
 
    .controls-HeaderSeparator__arrow_style-secondary_theme-@{themeName} {
-      fill: @secondary_active_icon-color_headingSeparator;
+      fill: var(--secondary_active_icon-color_headingSeparator);
    }
 
    .controls-Separator__icon_style-secondary_theme-@{themeName} {
-      color: @link_hover_text-color;
+      color: var(--link_hover_text-color);
    }
 
    .controls-Separator__icon_style-primary_theme-@{themeName} {
-      color: @primary_hover_text-color;
+      color: var(--primary_hover_text-color);
    }
 
    .controls-Separator__icon_style-unaccented_theme-@{themeName} {
-      color: @link_hover_text-color;
+      color: var(--link_hover_text-color);
    }
 }
 
 .controls-Header_Separator__clickable:active {
    .controls-Header__caption_style-primary_hovered_theme_@{themeName} {
-      color: @primary_hover_text-color_heading;
+      color: var(--primary_hover_text-color_heading);
    }
 
    .controls-Header__caption_style-secondary_hovered_theme_@{themeName} {
-      color: @secondary_hover_text-color_heading;
+      color: var(--secondary_hover_text-color_heading);
    }
 
    .controls-Header__caption_style-label_hovered_theme_@{themeName} {
-      color: @link_hover_text-color;
+      color: var(--link_hover_text-color);
    }
 
    .controls-HeaderSeparator__arrow_style-primary_theme-@{themeName} {
-      fill: @primary_active_icon-color_headingSeparator;
+      fill: var(--primary_active_icon-color_headingSeparator);
    }
 
    .controls-HeaderSeparator__arrow_style-secondary_theme-@{themeName} {
-      fill: @secondary_active_icon-color_headingSeparator;
+      fill: var(--secondary_active_icon-color_headingSeparator);
    }
 }
 
 .ws-is-hover {
    .controls-Header_Counter__clickable:hover {
       .controls-Header__caption_style-primary_hovered_theme_@{themeName} {
-         color: @primary_hover_text-color_heading;
+         color: var(--primary_hover_text-color_heading);
       }
 
       .controls-Header__caption_style-secondary_hovered_theme_@{themeName} {
-         color: @secondary_hover_text-color_heading;
+         color: var(--secondary_hover_text-color_heading);
       }
 
       .controls-Header__caption_style-label_hovered_theme_@{themeName} {
-         color: @link_hover_text-color;
+         color: var(--link_hover_text-color);
       }
 
       .controls-HeaderCounter_style-primary_hovered_theme-@{themeName} {
-         color: @primary_hover_text-color_headingCounter;
+         color: var(--primary_hover_text-color_headingCounter);
       }
 
       .controls-HeaderCounter_style-secondary_hovered_theme-@{themeName} {
-         color: @secondary_hover_text-color_headingCounter;
+         color: var(--secondary_hover_text-color_headingCounter);
       }
    }
 
    .controls-Header_all__clickable:hover {
       .controls-Header__caption_style-primary_hovered_theme_@{themeName} {
-         color: @primary_hover_text-color_heading;
+         color: var(--primary_hover_text-color_heading);
       }
 
       .controls-Header__caption_style-secondary_hovered_theme_@{themeName} {
-         color: @secondary_hover_text-color_heading;
+         color: var(--secondary_hover_text-color_heading);
       }
 
       .controls-Header__caption_style-label_hovered_theme_@{themeName} {
-         color: @link_hover_text-color;
+         color: var(--link_hover_text-color);
       }
 
       .controls-HeaderCounter_style-primary_hovered_theme-@{themeName} {
-         color: @primary_hover_text-color_headingCounter;
+         color: var(--primary_hover_text-color_headingCounter);
       }
 
       .controls-HeaderCounter_style-secondary_hovered_theme-@{themeName} {
-         color: @secondary_hover_text-color_headingCounter;
+         color: var(--secondary_hover_text-color_headingCounter);
       }
 
       .controls-HeaderSeparator__arrow_style-primary_theme-@{themeName} {
-         fill: @primary_hover_icon-color_headingSeparator;
+         fill: var(--primary_hover_icon-color_headingSeparator);
       }
 
       .controls-HeaderSeparator__arrow_style-secondary_theme-@{themeName} {
-         fill: @secondary_hover_icon-color_headingSeparator;
+         fill: var(--secondary_hover_icon-color_headingSeparator);
       }
 
       .controls-Separator__icon_style-secondary_theme-@{themeName} {
-         color: @link_hover_text-color;
+         color: var(--link_hover_text-color);
       }
 
       .controls-Separator__icon_style-primary_theme-@{themeName} {
-         color: @primary_hover_text-color;
+         color: var(--primary_hover_text-color);
       }
 
       .controls-Separator__icon_style-unaccented_theme-@{themeName} {
-         color: @link_hover_text-color;
+         color: var(--link_hover_text-color);
       }
    }
    .controls-Header_Separator__clickable:hover {
       .controls-Header__caption_style-primary_hovered_theme_@{themeName} {
-         color: @primary_hover_text-color_heading;
+         color: var(--primary_hover_text-color_heading);
       }
 
       .controls-Header__caption_style-secondary_hovered_theme_@{themeName} {
-         color: @secondary_hover_text-color_heading;
+         color: var(--secondary_hover_text-color_heading);
       }
 
       .controls-Header__caption_style-label_hovered_theme_@{themeName} {
-         color: @link_hover_text-color;
+         color: var(--link_hover_text-color);
       }
 
       .controls-HeaderSeparator__arrow_style-primary_theme-@{themeName} {
-         fill: @primary_hover_icon-color_headingSeparator;
+         fill: var(--primary_hover_icon-color_headingSeparator);
       }
 
       .controls-HeaderSeparator__arrow_style-secondary_theme-@{themeName} {
-         fill: @secondary_hover_icon-color_headingSeparator;
+         fill: var(--secondary_hover_icon-color_headingSeparator);
       }
    }
 }
@@ -288,29 +285,29 @@
 }
 
 .controls-Header__uppercase.controls-Header-fontsize-xs_theme-@{themeName} {
-   letter-spacing: @uppercase_letter-spacing_xs_heading;
+   letter-spacing: var(--uppercase_letter-spacing_xs_heading);
 }
 
 .controls-Header__uppercase.controls-Header-fontsize-s_theme-@{themeName} {
-   letter-spacing: @uppercase_letter-spacing_s_heading;
+   letter-spacing: var(--uppercase_letter-spacing_s_heading);
 }
 
 .controls-Header__uppercase.controls-Header-fontsize-m_theme-@{themeName} {
-   letter-spacing: @uppercase_letter-spacing_m_heading;
+   letter-spacing: var(--uppercase_letter-spacing_m_heading);
 }
 
 .controls-Header__uppercase.controls-Header-fontsize-l_theme-@{themeName} {
-   letter-spacing: @uppercase_letter-spacing_l_heading;
+   letter-spacing: var(--uppercase_letter-spacing_l_heading);
 }
 
 .controls-Header__uppercase.controls-Header-fontsize-xl_theme-@{themeName} {
-   letter-spacing: @uppercase_letter-spacing_xl_heading;
+   letter-spacing: var(--uppercase_letter-spacing_xl_heading);
 }
 
 .controls-Header__uppercase.controls-Header-fontsize-2xl_theme-@{themeName} {
-   letter-spacing: @uppercase_letter-spacing_2xl_heading;
+   letter-spacing: var(--uppercase_letter-spacing_2xl_heading);
 }
 
 .controls-Header__uppercase.controls-Header-fontsize-3xl_theme-@{themeName} {
-   letter-spacing: @uppercase_letter-spacing_3xl_heading;
+   letter-spacing: var(--uppercase_letter-spacing_3xl_heading);
 }

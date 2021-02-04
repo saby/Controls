@@ -53,9 +53,9 @@
                     listModel="{{ _listModel }}"
                     trackVisible="{{ _trackVisible }}"
                     on:newPositionRendered="_onNewHorizontalPositionRendered()"
+                    on:dragEnd="_onEndScrollingByHScrollBar()"
                     positionChangeHandler="{{ _horizontalPositionChangedHandler }}"
-                    backgroundStyle="{{ _options.backgroundStyle || _options.style }}"
-                    on:mouseup="_onScrollWrapperMouseUp()">
+                    backgroundStyle="{{ _options.backgroundStyle || _options.style }}">
             </Controls._grid.ScrollWrapper>
         </ws:if>
 

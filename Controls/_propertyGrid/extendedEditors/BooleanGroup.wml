@@ -1,7 +1,7 @@
 <div class="controls-PropertyGrid__editor_booleanGroup_control ws-flexbox">
     <ws:for data="index, button in _buttons">
         <Controls.toggle:Button
-                bind:value="button.active"
+                bind:value="_stateOfButtons[index]"
                 attr:class="controls-PropertyGrid__editor_booleanGroup_item{{index === _buttons.length - 1 ? '-last' : ''}}"
                 fontSize="m"
                 inlineHeight="default"

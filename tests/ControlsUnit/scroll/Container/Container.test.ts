@@ -347,6 +347,25 @@ describe('Controls/scroll:Container', () => {
                 assert.isTrue(component._scrollbars.vertical.isVisible);
             });
         });
+
+        describe('paging', () => {
+            it('should update _contentWrapperCssClass if paging appears', () => {
+                const component = createComponent(Container, {scrollMode: 'vertical'});
+                component._children = {
+                    content: {
+                        getBoundingClientRect: () => undefined
+                    }
+                };
+
+                component._updateState({
+                    ...state
+                });
+                component._beforeUpdate({ scrollMode: 'vertical' }, { ScrollData: { pagingVisible: true } });
+                assert.include(component._contentWrapperCssClass, 'controls-Scroll__content_paging');
+
+                sinon.restore();
+            });
+        });
     });
 
     describe('_keydownHandler', () => {

@@ -39,7 +39,7 @@
             </ws:template>
         </Controls.popup:PreviewerTarget>
     </div>
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell controlsDemo_MultilinePath__clicked">
         <div class="controls-text-label_theme-{{_options.theme}}">Нажали на элемент с id: {{_info}}</div>
     </div>
 </div>

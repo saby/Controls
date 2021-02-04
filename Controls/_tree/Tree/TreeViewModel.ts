@@ -192,7 +192,7 @@ var
             let expanderIconClass = '';
 
             let expanderIconStyle = itemData.style;
-            if (expanderPosition !== 'right') {
+            if (expanderPosition === 'default') {
                 expanderClasses += ` controls-TreeGrid__row_${style}-expander_size_${(expanderSize || 'default')}_theme-${theme} `;
             } else {
                 expanderClasses += ` controls-TreeGrid__row_expander_position_right_theme-${theme} `;
@@ -202,6 +202,10 @@ var
 
             expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${itemData.itemPadding.top}_theme-${theme}`;
             expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${itemData.itemPadding.bottom}_theme-${theme}`;
+
+            if (itemData.isDragging) {
+                expanderClasses += ` controls-ListView__itemContent_dragging_theme-${theme}`;
+            }
 
             if (expanderIcon) {
                 expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;

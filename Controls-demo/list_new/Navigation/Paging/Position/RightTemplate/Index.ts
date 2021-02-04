@@ -1,8 +1,12 @@
+/* eslint-disable */
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/Navigation/Paging/Position/RightTemplate/RightTemplate';
 import {Memory} from 'Types/source';
 import {generateData} from '../../../../DemoHelpers/DataCatalog';
 
+/**
+ * Справа от пейджинга задан шаблон.
+ */
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;

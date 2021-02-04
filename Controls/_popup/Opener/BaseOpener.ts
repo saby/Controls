@@ -424,5 +424,14 @@ class BaseOpener<TBaseOpenerOptions extends IBaseOpenerOptions = {}>
     }
 }
 
+Object.defineProperty(BaseOpener, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BaseOpener.getDefaultOptions();
+   }
+});
+
 BaseOpener.util = BaseOpenerUtil; // for tests
 export default BaseOpener;

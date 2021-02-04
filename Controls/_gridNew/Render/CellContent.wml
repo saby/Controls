@@ -4,6 +4,7 @@
         <div class="controls-Grid__cell_{{(gridColumn || itemData).getColumnConfig().textOverflow}}">
             <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
                         value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
+                        searchValue="{{(gridColumn || itemData).getSearchValue()}}"
                         scope="{{(gridColumn || itemData).getColumnConfig()}}"/>
         </div>
     </ws:if>
@@ -47,7 +48,7 @@
     </ws:else>
 
     <!-- Стрелка редактирования. Если шаблон прикладной, то не показываем -->
-    <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() }}">
+    <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() && editArrowTemplate }}">
         <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}"/>
     </ws:if>
 

@@ -41,7 +41,13 @@
 <ws:else>
    <ws:if data="{{_options.afterBreadCrumbsTemplate}}">
       <div class="controls-Explorer__PathWrapper">
-         <ws:partial attr:class="controls-Explorer__afterBreadCrumbsTemplate" template="{{_options.afterBreadCrumbsTemplate}}"></ws:partial>
+         <ws:partial
+            attr:class="
+               controls-Explorer__afterBreadCrumbsTemplate
+               controls-Explorer__afterBreadCrumbsTemplate_width_full
+            "
+            template="{{_options.afterBreadCrumbsTemplate}}"
+         />
       </div>
    </ws:if>
    <ws:else>

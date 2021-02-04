@@ -30,6 +30,7 @@
       fontSize="{{_fontSize}}"
       inlineHeight="{{_inlineHeight}}"
       fontColorStyle="{{_fontColorStyle}}"
+      borderVisibility="{{_options.borderVisibility}}"
       on:tagClick="_notifyHandler('tagClick')"
       on:tagHover="_notifyHandler('tagHover')"
       on:valueChanged="_changeValueHandler()"

@@ -99,7 +99,7 @@ export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
  * @variant expand В режиме поиска при клике на хлебную крошку данные отображаются от корня, путь до узла разворачивается.
  */
 /**
- * @name @name Controls/_explorer/interface/IExplorer#searchStartingWith
+ * @name Controls/_explorer/interface/IExplorer#searchStartingWith
  * @cfg {SearchStartingWith} Режим навигации при поиске в иерархическом списке.
  * @default open
  */

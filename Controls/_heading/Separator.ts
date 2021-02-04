@@ -62,6 +62,16 @@ class Separator extends Control<ISeparatorOptions> {
         };
     }
 }
+
+Object.defineProperty(Separator, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Separator.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_heading/Separator#style
  * @cfg {String} Стиль отображения иконки. В теме онлайна есть только один стиль отображения.

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridHeaderRow } from 'Controls/display';
+import { GridHeaderRow } from 'Controls/gridNew';
 
 const THEME = 'UnitTests';
 
@@ -18,12 +18,14 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
-                isMultiline: () => false
-            }
+                isMultiline: () => false,
+                isSticked: () => false
+            };
 
             const headerRow = new GridHeaderRow({
                 header,
@@ -78,11 +80,13 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
-                isMultiline: () => false
+                isMultiline: () => false,
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -122,11 +126,13 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 'default',
                 getRightPadding: () => 'default',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
-                isMultiline: () => false
+                isMultiline: () => false,
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -177,7 +183,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
@@ -193,7 +200,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                             end: 3
                         }
                     }
-                }
+                },
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -233,7 +241,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
@@ -249,7 +258,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                             end: 3
                         }
                     }
-                }
+                },
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -290,7 +300,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
@@ -306,7 +317,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                             end: 3
                         }
                     }
-                }
+                },
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({

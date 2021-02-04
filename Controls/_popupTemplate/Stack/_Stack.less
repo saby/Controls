@@ -6,44 +6,29 @@
    height: 100%;
    width: 100%;
    position: relative;
-}
-
-.controls-StackTemplate_theme_@{themeName} {
-   background-color: @background-color_stack;
-}
-
-// Класс для установки фона контрола через backgroundStyle (stack)
-.controls-background-stack_theme-@{themeName} {
-   background-color: @background-color_stack;
+   background-color: var(--background-color_stack);
 }
 
 .controls-StackTemplate-shadow {
    position: absolute;
    height: 100%;
    overflow: hidden;
+   width: var(--shadow-blur_stack);
+   left: calc((var(--shadow-blur_stack) + var(--border-thickness_stack))/(-1));
+   background: linear-gradient(to right, transparent, var(--shadow-color_stack));
+   border-right: var(--border-thickness_stack) solid var(--border-color_stack);
 }
 
-.controls-StackTemplate-shadow_theme_@{themeName} {
-   width: @shadow-blur_stack;
-   left: -(@shadow-blur_stack + @border-thickness_stack);
-   background: linear-gradient(to right, transparent, @shadow-color_stack);
-   border-right: @border-thickness_stack solid @border-color_stack;
+.controls-StackTemplate__top-area {
+   min-height: var(--header_min-height_stack);
 }
 
-.controls-StackTemplate__top-area_theme_@{themeName} {
-   min-height: @header_min-height_stack;
+.controls-StackTemplate__top-area-background {
+   background: var(--header_background-color_stack);
 }
 
-.controls-StackTemplate__top-area-background_theme_@{themeName} {
-   background: @header_background-color_stack;
-}
-// Класс для установки фона шапки контрола через backgroundStyle (stackHeader)
-.controls-background-stackHeader_theme-@{themeName} {
-   background-color: @header_background-color_stack;
-}
-
-.controls-StackTemplate__top-area-border_theme_@{themeName} {
-   border-bottom: @header_bottom-border-thickness_stack solid @header_bottom-border-color_stack;
+.controls-StackTemplate__top-area-border {
+   border-bottom: var(--header_bottom-border-thickness_stack) solid var(--header_bottom-border-color_stack);
 }
 
 .controls-StackTemplate__top-area {
@@ -60,10 +45,6 @@
    min-height: 0;
 }
 
-.controls-StackTemplate__content-area_theme_@{themeName} {
-   background: @background-color_stack;
-}
-
 .controls-StackTemplate__top-area-content {
    width: 100%;
    flex-shrink: 1;
@@ -75,10 +56,7 @@
 .controls-StackTemplate__close_button {
    position: relative;
    z-index: 3;
-}
-
-.controls-StackTemplate__close_button_theme_@{themeName} {
-   margin-top: @close-button_offset-top_stack;
+   margin-top: var(--close-button_offset-top_stack);
 }
 
 .controls-StackTemplate__headerContentTemplate {
@@ -90,17 +68,10 @@
    min-width: 0;
    height: 100%;
    align-items: center;
-}
-
-.controls-StackTemplate__headerContentTemplate_theme_@{themeName} {
-   padding-right: @header-content_padding-right_stack;
+   padding-right: var(--header-content_padding-right_stack);
    &:empty {
       padding-right: 0;
    }
-}
-
-.controls-StackTemplate__command_buttons_theme_@{themeName} {
-   height: @header_min-height_stack;
 }
 
 .controls-StackTemplate__command_buttons {
@@ -108,6 +79,7 @@
    display: flex;
    align-self: flex-start;
    flex-shrink: 0;
+   height: var(--header_min-height_stack);
 }
 
 .controls-StackTemplate__command_buttons_without_head {
@@ -124,11 +96,8 @@
    height: 24px;
    z-index: 3;
    cursor: pointer;
-}
-
-.controls-StackTemplate__maximized_button_theme_@{themeName} {
-   margin-top: @maximized-button_offset-top_stack;
-   margin-right: @maximized-button_offset-right_stack;
+   margin-top: var(--maximized-button_offset-top_stack);
+   margin-right: var(--maximized-button_offset-right_stack);
 }
 
 .controls-StackTemplate__caption {
@@ -136,13 +105,10 @@
    display: flex;
    flex-shrink: 100;
    overflow: hidden;
-}
-
-.controls-StackTemplate__caption_theme_@{themeName} {
-   height: @header_min-height_stack;
-   min-width: @header_min-width_stack;
-   margin-left: @header_padding-left_stack;
-   padding-right: @header_caption_offset-right_stack;
+   height: var(--header_min-height_stack);
+   min-width: var(--header_min-width_stack);
+   margin-left: var(--header_padding-left_stack);
+   padding-right: var(--header_caption_offset-right_stack);
 }
 
 .controls-StackTemplate__caption_text {
@@ -150,16 +116,13 @@
    overflow: hidden;
    white-space: nowrap;
    flex-shrink: 1;
-}
-
-.controls-StackTemplate__caption_text_theme_@{themeName} {
    &:before {
       content: '\200b';
-      font-size: @header_lineheight_stack;
+      font-size: var(--header_lineheight_stack);
    }
 }
 
-.controls-StackTemplate__bottomArea_theme_@{themeName} {
-   background: @footer_background-color_stack;
-   border-top: @footer_top-border-thickness_stack solid @footer_top-border-color_stack;
+.controls-StackTemplate__bottomArea {
+   background: var(--footer_background-color_stack);
+   border-top: var(--footer_top-border-thickness_stack) solid var(--footer_top-border-color_stack);
 }

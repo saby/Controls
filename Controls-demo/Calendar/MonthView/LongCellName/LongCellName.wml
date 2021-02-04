@@ -1,7 +1,7 @@
 <div class="controlsDemo-MonthView__wrapper controlsDemo_fixedWidth350">
     <Controls.calendar:MonthView attr:class="controlsDemo_m3" bind:month="_month">
         <ws:dayTemplate>
-            <ws:partial template="Controls/calendar:MonthViewDayTemplate" value="{{value}}">
+            <ws:partial template="Controls/calendar:MonthViewDayTemplate" sizeStyle="longCellName" value="{{value}}">
                 <ws:contentTemplate>
                     <ws:if data="{{contentTemplate.value.day !== 10 && contentTemplate.value.day !== 21 &&
                                contentTemplate.value.day !== 1 && contentTemplate.value.day !== 4 && contentTemplate.value.day !== 26}}">

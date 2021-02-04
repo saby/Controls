@@ -1,9 +1,0 @@
-<Controls-demo.PropertyGrid.PropertyGridWrapper
-      content="{{_content}}"
-      description="{{_metaData}}"
-      dataObject="{{_dataObject}}"
-      componentOpt="{{_componentOptions}}"
-      eventType="{{_eventType}}"
-      nameOption="{{_nameOption}}"
->
-</Controls-demo.PropertyGrid.PropertyGridWrapper>

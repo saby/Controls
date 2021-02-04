@@ -5,12 +5,15 @@
             on:dataError="_onDataError()"
             on:register="_registerHandler()"
             on:unregister="_unregisterHandler()"
+            on:listRootChanged="_rootChanged()"
             loading="{{_loading || _options.loading}}"
             scope="{{_options}}"
             items="{{_items}}"
             itemsReadyCallback="{{_itemsReadyCallback}}"
+            dataLoadCallback="{{_dataLoadCallback}}"
             sourceController="{{_sourceController}}"
             filter="{{_sourceControllerState.filter}}"
             navigation="{{_sourceControllerState.navigation}}"
             sorting="{{_sourceControllerState.sorting}}"
-            source="{{_sourceControllerState.source}}"/>
+            source="{{_sourceControllerState.source}}"
+            root="{{_sourceControllerState.root}}"/>

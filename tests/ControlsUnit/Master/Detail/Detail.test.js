@@ -198,6 +198,25 @@ define(['Controls/masterDetail'], function (masterDetail) {
          Control.destroy();
       });
 
+      it('_startResizeRegister without resizeDetectMaster', () => {
+         const Control = new masterDetail.Base();
+         Control._options = {
+            masterVisibility: 'hidden'
+         };
+         let errorRaised = false;
+         Control._children = {
+            resizeDetectDetail: {
+               start: () => {}
+            }
+         };
+         try {
+            Control._startResizeRegister();
+         } catch (e) {
+            errorRaised = true;
+         }
+         assert.isFalse(errorRaised);
+      });
+
       it('masterWidthChanged', () => {
          const control = new masterDetail.Base();
          const sandbox = sinon.createSandbox();

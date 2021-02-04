@@ -192,6 +192,34 @@ const GridView = ListView.extend({
         return this._options.needShowEmptyTemplate;
     },
 
+    _onItemClick(e, dispItem): boolean {
+        // Флаг preventItemEvent выставлен, если нужно предотвратить возникновение
+        // событий itemClick, itemMouseDown по нативному клику, но по какой-то причине
+        // невозможно остановить всплытие события через stopPropagation
+        // TODO: Убрать, preventItemEvent когда это больше не понадобится
+        // https://online.sbis.ru/doc/cefa8cd9-6a81-47cf-b642-068f9b3898b7
+        if (!e.preventItemEvent) {
+            const contents = dispItem.getContents();
+            if (this._options.useNewModel) {
+                if (dispItem['[Controls/_display/GroupItem]']) {
+                    this._notify('groupClick', [contents, e, dispItem], {bubbling: true});
+                    return;
+                }
+            }
+            this._notify('itemClick', [contents, e, this._getCellIndexByEventTarget(e)]);
+        }
+    },
+
+    _onEditingItemClick(e, dispItem, nativeEvent): void {
+        e.stopImmediatePropagation();
+        if (this._listModel.getEditingConfig()?.mode === 'cell') {
+            const columnIndex = this._getCellIndexByEventTarget(nativeEvent);
+            if (dispItem.getEditingColumnIndex() !== columnIndex) {
+                this._notify('itemClick', [dispItem.getContents(), nativeEvent, columnIndex]);
+            }
+        }
+    },
+
     _onItemMouseMove(event, collectionItem) {
         GridView.superclass._onItemMouseMove.apply(this, arguments);
         this._setHoveredCell(collectionItem.item, event.nativeEvent);

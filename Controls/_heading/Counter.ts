@@ -67,4 +67,13 @@ class Counter extends Control<ICounterOptions> implements IFontColorStyle, IFont
     }
 }
 
+Object.defineProperty(Counter, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Counter.getDefaultOptions();
+   }
+});
+
 export default Counter;

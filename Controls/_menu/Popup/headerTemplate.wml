@@ -1,13 +1,10 @@
-<div class="controls-DropdownList-header
-            controls-Menu__popup-header-{{_options.multiSelect ? 'multiSelect_theme-' + _options.theme}}
-            controls-Menu__popup-header">
-   <ws:if data="{{_options.icon}}">
-      <div class="controls-icon {{_options.icon}}
-      controls-Menu__popup_headerIcon_theme-{{_options.theme}}
-      {{_options.iconSize ? 'controls-icon_size-' + _options.iconSize + '_theme-' + _options.theme}}
-          {{_options.caption ? ' controls-Menu__popup_headerIcon_padding_theme-' + _options.theme}}"></div>
-   </ws:if>
-   <div class="controls-StickyTemplate__caption_text
-               controls-StickyTemplate__caption_theme-{{_options.theme}}"
-        title="{{_options.caption}}">{{_options.caption}}</div>
-</div>
+<ws:if data="{{_options.caption}}">
+   <ws:partial template="wml!Controls/_menu/Popup/headerWrapperTemplate" scope="{{_options}}">
+      <div class="controls-StickyTemplate__caption_text
+                  controls-StickyTemplate__caption_theme-{{_options.theme}}"
+           title="{{_options.caption}}">{{_options.caption}}</div>
+   </ws:partial>
+</ws:if>
+<ws:else>
+   <ws:partial template="wml!Controls/_menu/Popup/headerWrapperTemplate" scope="{{_options}}" />
+</ws:else>

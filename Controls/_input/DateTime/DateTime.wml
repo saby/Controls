@@ -1,6 +1,8 @@
 <ws:partial template="{{_validationContainer}}" on:valueChanged="_valueChangedHandler()" validators="{{_validators}}" name="validator">
     <ws:content>
         <Controls._input.DateTime.Mask
+                contrastBackground="{{ _options.contrastBackground }}"
+                rightFieldTemplate="{{ _options.rightFieldTemplate }}"
                 attr:class="controls-{{ _controlName }}"
                 value="{{_model.clearTextValue}}"
                 replacer="{{_model._replacer}}"
@@ -11,6 +13,7 @@
                 fontWeight="{{_options.fontWeight}}"
                 fontColorStyle="{{_options.fontColorStyle}}"
                 borderStyle="{{_options.borderStyle}}"
+                borderVisibility="{{_options.borderVisibility}}"
                 inlineHeight="{{_options.inlineHeight}}"
                 selectOnClick="{{_options.selectOnClick}}"
                 placeholder="{{_options.placeholder}}"

@@ -291,4 +291,13 @@ class Highlight extends Control<IHighlightOptions> {
     }
 }
 
+Object.defineProperty(Highlight, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Highlight.getDefaultOptions();
+   }
+});
+
 export default Highlight;

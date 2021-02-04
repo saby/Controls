@@ -6,9 +6,7 @@ define('Controls-demo/Lookup/FlatListSelector/FlatListSelector', [
    'Types/entity',
    'Controls-demo/Utils/MemorySourceFilter',
 ], function(Base, template, lookupData, source, entity, MemorySourceFilter) {
-
    'use strict';
-
    var FlatListSelector = Base.Control.extend({
       _template: template,
       _keyProperty: 'id',
@@ -83,6 +81,15 @@ define('Controls-demo/Lookup/FlatListSelector/FlatListSelector', [
          multiSelect: false
       };
    };
+
+   Object.defineProperty(FlatListSelector, 'defaultProps', {
+      enumerable: true,
+      configurable: true,
+
+      get: function() {
+         return FlatListSelector.getDefaultOptions();
+      }
+   });
 
    FlatListSelector._styles = ['Controls-demo/Controls-demo'];
 

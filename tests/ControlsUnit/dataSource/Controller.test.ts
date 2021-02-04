@@ -117,6 +117,9 @@ function getPagingNavigation(hasMore: boolean = false, pageSize: number = 1): IN
     };
 }
 
+const sourceWithError = new Memory();
+sourceWithError.query = () => Promise.reject(new Error());
+
 function getControllerWithHierarchy(additionalOptions: object = {}): NewSourceController {
     return new NewSourceController({...getControllerWithHierarchyOptions(), ...additionalOptions});
 }
@@ -281,6 +284,66 @@ describe('Controls/dataSource:SourceController', () => {
             const controller = getController({...getControllerOptions(), navigation});
             const loadedItems = await controller.reload();
             ok((loadedItems as RecordSet).getCount() === pageSize);
+        });
+
+        it('load with dataLoadCallback in options',  async () => {
+            let dataLoadCallbackCalled = false;
+            const controller = getController({
+                dataLoadCallback: () => {
+                    dataLoadCallbackCalled = true;
+                }
+            });
+            await controller.load();
+            ok(dataLoadCallbackCalled);
+        });
+
+        it('load with dataLoadCallback from setter',  async () => {
+            let dataLoadCallbackCalled = false;
+            const controller = getController();
+            controller.setDataLoadCallback(() => {
+                dataLoadCallbackCalled = true;
+            });
+            await controller.load();
+            ok(dataLoadCallbackCalled);
+        });
+
+        it('load any root with dataLoadCallback from setter',  async () => {
+            let dataLoadCallbackCalled = false;
+            const controller = getController();
+            controller.setDataLoadCallback(() => {
+                dataLoadCallbackCalled = true;
+            });
+            await controller.load(null, 'testRoot');
+            ok(!dataLoadCallbackCalled);
+
+            await controller.load('down', 'testRoot');
+            ok(!dataLoadCallbackCalled);
+        });
+
+        it('load with direction returns error',  () => {
+            const navigation = getPagingNavigation();
+            let options = {...getControllerOptions(), navigation};
+            const controller = getController(options);
+            return controller.reload().then(() => {
+                ok(controller.getItems().getCount() === 1);
+                //mock error
+                const originSource = controller._options.source;
+                options = {...options};
+                options.source = sourceWithError;
+                controller.updateOptions(options);
+
+                return controller.load('down').catch(() => {
+                    ok(controller.getItems().getCount() === 1);
+
+                    //return originSource
+                    options = {...options};
+                    options.source = originSource;
+                    controller.updateOptions(options);
+                    return controller.load('down').then(() => {
+                        ok(controller.getItems().getCount() === 2);
+                    });
+                });
+            });
         });
     });
 

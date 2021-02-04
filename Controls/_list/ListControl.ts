@@ -5,7 +5,7 @@ import {saveConfig} from 'Controls/Application/SettingsController';
 import Deferred = require('Core/Deferred');
 import {isEqual} from 'Types/object';
 import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
-import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
+import {DataSet, CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
 import { RecordSet } from 'Types/collection';
 
@@ -27,7 +27,7 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/interface/IMovableList
  * @mixes Controls/_marker/interface/IMarkerList
- * 
+ *
  * @private
  * @author Авраменко А.С.
  */
@@ -73,7 +73,7 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
 
     // region mover
 
-    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet> {
         return this._children.baseControl.moveItems(selection, targetKey, position);
     }
 
@@ -85,7 +85,7 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
         return this._children.baseControl.moveItemDown(selectedKey);
     }
 
-    moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+    moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
         return this._children.baseControl.moveItemsWithDialog(selection);
     }
 
@@ -109,3 +109,12 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
         };
     };
 }
+
+Object.defineProperty(ListControl, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ListControl.getDefaultOptions();
+   }
+});

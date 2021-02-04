@@ -1,23 +1,13 @@
-import IPaste from "./IPaste";
-import IInputTag from "./IInputTag";
-import IInputPlaceholder from "./IInputPlaceholder";
-import ISelectableInput from "./ISelectableInput";
-import IInputTooltip from "./IInputTooltip";
-import IInputStyle from "./IInputStyle";
-import IInputField from "./IInputField";
-
+import {IInputPlaceholder, IInputTag} from 'Controls/interface';
+// TODO: https://online.sbis.ru/opendoc.html?guid=8bd3ee01-5821-4782-8a62-847980a4eacd
 type IInputBase =
-    IPaste
-    & IInputTag
-    & IInputField
-    & IInputPlaceholder
-    & ISelectableInput
-    & IInputTooltip
-    & IInputStyle
-    & {
+    IInputTag & IInputPlaceholder & {
     readonly _options: {
         textAlign: 'left' | 'right' | 'center';
+        style: 'info' | 'invalid' | 'danger' | 'success' | 'warning' | 'primary';
+        // TODO: https://online.sbis.ru/opendoc.html?guid=1183a619-2f46-4c78-a2bc-09d41095e744
         autoComplete: 'on' | 'off' | 'username' | 'current-password';
+        value: string | null;
     }
 };
 

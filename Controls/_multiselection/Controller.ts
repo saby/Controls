@@ -95,6 +95,21 @@ export class Controller {
    }
 
    /**
+    * Возвращает массив выбранных элементов (без учета сортировки, фильтрации и группировки).
+    * @return {Array.<Controls/_display/CollectionItem>}
+    */
+   getSelectedItems(): Array<CollectionItem<Model>> {
+      const items = this._model.getItems();
+      const result = [];
+      for (let i = items.length - 1; i >= 0; i--) {
+         if (items[i].isSelected()) {
+            result.push(items[i]);
+         }
+      }
+      return result;
+   }
+
+   /**
     * Установливает ограничение на количество единоразово выбранных записей
     * @param {number} limit Ограничение
     * @void
@@ -204,7 +219,7 @@ export class Controller {
     * @return {ISelection}
     */
    toggleAll(): ISelection {
-      const initSelection = this._filterChanged ? {selected: [], excluded: []} : this._selection;
+      const initSelection = this._filterChanged ? this._removeFilteredItemKeys(this._selection) : this._selection;
       return this._strategy.toggleAll(initSelection, this._model.getHasMoreData());
    }
 
@@ -333,6 +348,13 @@ export class Controller {
 
    // endregion
 
+   private _removeFilteredItemKeys(selection: ISelection): ISelection {
+      return {
+         selected: selection.selected.filter((key) => !!this._model.getItemBySourceKey(key)),
+         excluded: selection.excluded.filter((key) => !!this._model.getItemBySourceKey(key))
+      };
+   }
+
    private _getItemsKeys(items: Array<CollectionItem<Model>>): TKeys {
       return items
           .filter((it) => it.SelectableItem)
@@ -383,10 +405,15 @@ export class Controller {
       }
 
       const selectionForModel = this._strategy.getSelectionForModel(selection, limit, items, this._searchValue);
+
       // TODO думаю лучше будет занотифаить об изменении один раз после всех вызовов (сейчас нотифай в каждом)
-      this._model.setSelectedItems(selectionForModel.get(true), true, silent);
-      this._model.setSelectedItems(selectionForModel.get(false), false, silent);
-      this._model.setSelectedItems(selectionForModel.get(null), null, silent);
+      selectionForModel.forEach((selectedItems, selected) => {
+         for (let i = selectedItems.length - 1; i >= 0; i--) {
+            if (selectedItems[i].isSelected() !== selected) {
+               selectedItems[i].setSelected(selected, silent);
+            }
+         }
+      });
    }
 
    /**

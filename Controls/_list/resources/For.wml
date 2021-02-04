@@ -29,6 +29,8 @@
                         tagTemplate="{{ tagTemplate }}"
                         markerPosition="{{_options.markerPosition}}"
 
+                        on:editingItemClick="_onEditingItemClick(itemData.dispItem)"
+
                         on:contextmenu="_onItemContextMenu(itemData)"
                         on:swipe="_onItemSwipe(itemData)"
                         on:longtap="_onItemLongTap(itemData)"

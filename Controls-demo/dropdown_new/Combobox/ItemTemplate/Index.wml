@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo_m">
+        <Controls.dropdown:Combobox bind:selectedKey="_selectedKey"
+                                    keyProperty="key"
+                                    displayProperty="title"
+                                    source="{{_source}}"
+                                    attr:class="ControlsDemo-DropdownCombobox__width">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/dropdown:ItemTemplate"
+                            itemData="{{itemTemplate.itemData}}"
+                            multiLine="{{true}}">
+                    <ws:additionalTextTemplate>
+                        <div>{{itemTemplate.itemData.item.get('comment')}}</div>
+                    </ws:additionalTextTemplate>
+                </ws:partial>
+            </ws:itemTemplate>
+        </Controls.dropdown:Combobox>
+    </div>
+</div>

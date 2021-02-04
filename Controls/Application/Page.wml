@@ -1,8 +1,6 @@
 <UI.Base:HTML scope="{{_options}}">
    <ws:bodyTemplate>
       <ws:partial template="{{bodyTemplate.content}}"
-                  class="{{BodyClasses()}} {{_scrollingClass}} {{_options.bodyClass}}
-                        {{_touchClass}} {{_dragClass}} {{_hoverClass}} zIndex-context {{_themeClass}}"
                   id="body"
                   key="1_2_"
                   on:scroll="_scrollPage()"
@@ -35,6 +33,7 @@
                   on:pageScrolled="_popupEventHandler('pageScrolled')"
 
                   on:_updateDraggingTemplate="_updateDraggingTemplate()"
+                  on:_removeDraggingTemplate="_removeDraggingTemplate()"
                   on:_documentDragStart="_documentDragStart()"
                   on:_documentDragEnd="_documentDragEnd()">
          <ws:bodyContent>

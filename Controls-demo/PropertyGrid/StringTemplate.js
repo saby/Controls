@@ -6,7 +6,6 @@ define('Controls-demo/PropertyGrid/StringTemplate',
    ],
    function(entity, Base, template) {
       'use strict';
-
       var _private = {
          notifyValueChanged: function(self, value) {
             self._notify('valueChanged', [value]);
@@ -73,6 +72,15 @@ define('Controls-demo/PropertyGrid/StringTemplate',
             updateInitiator: 'valueChanged'
          };
       };
+
+      Object.defineProperty(stringTmpl, 'defaultProps', {
+         enumerable: true,
+         configurable: true,
+
+         get: function() {
+            return stringTmpl.getDefaultOptions();
+         }
+      });
 
       stringTmpl.getOptionTypes = function() {
          return {

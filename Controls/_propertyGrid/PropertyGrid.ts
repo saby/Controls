@@ -4,6 +4,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {GroupItem, CollectionItem} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
+import {factory} from 'Types/chain';
 import {object} from 'Types/util';
 import {default as renderTemplate} from 'Controls/_propertyGrid/Render';
 import {default as gridRenderTemplate} from 'Controls/_propertyGrid/GridRender';
@@ -19,7 +20,6 @@ import PropertyGridCollection from './PropertyGridCollection';
 import PropertyGridCollectionItem from './PropertyGridCollectionItem';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {StickyOpener} from 'Controls/popup';
-import { IItemPadding } from 'Controls/list';
 
 export type TToggledEditors = Record<string, boolean>;
 type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem<Model>>;
@@ -67,23 +67,11 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
     private _itemActionsController: ItemActionsController;
     private _itemActionSticky: StickyOpener;
 
-    protected _beforeMount(
-        {
-            nodeProperty,
-            parentProperty,
-            editingObject,
-            source,
-            collapsedGroups,
-            itemActions,
-            editorColumnOptions,
-            captionColumnOptions,
-            itemPadding
-        }: IPropertyGridOptions
-    ): void {
-        this._collapsedGroups = this._getCollapsedGroups(collapsedGroups);
-        this._toggledEditors = this._getToggledEditors(source);
-        this._listModel = this._getCollection(nodeProperty, parentProperty, editingObject, source, itemPadding);
-        if (captionColumnOptions || editorColumnOptions) {
+    protected _beforeMount(options: IPropertyGridOptions): void {
+        this._collapsedGroups = this._getCollapsedGroups(options.collapsedGroups);
+        this._listModel = this._getCollection(options);
+        this._toggledEditors = this._getToggledEditors(options.source, this._listModel.getKeyProperty());
+        if (options.captionColumnOptions || options.editorColumnOptions) {
             this._render = gridRenderTemplate;
         }
     }
@@ -93,14 +81,8 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             this._listModel.setEditingObject(newOptions.editingObject);
         }
         if (newOptions.source !== this._options.source) {
-            this._toggledEditors = this._getToggledEditors(newOptions.source);
-            this._listModel = this._getCollection(
-                newOptions.nodeProperty,
-                newOptions.parentProperty,
-                newOptions.editingObject,
-                newOptions.source,
-                newOptions.itemPadding
-            );
+            this._listModel = this._getCollection(newOptions);
+            this._toggledEditors = this._getToggledEditors(newOptions.source, this._listModel.getKeyProperty());
         } else if (newOptions.itemPadding !== this._options.itemPadding) {
             this._listModel.setItemPadding(newOptions.itemPadding);
         }
@@ -110,34 +92,31 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         }
     }
 
-    private _getCollection(
-        nodeProperty: string,
-        parentProperty: string,
-        editingObject: Record<string, any>|Model,
-        source: IPropertyGridItem[] | RecordSet<IPropertyGridItem>,
-        itemPadding: IItemPadding
-    ): TPropertyGridCollection {
-        const propertyGridItems = this._getPropertyGridItems(source, editingObject);
+    private _getCollection(options: IPropertyGridOptions): TPropertyGridCollection {
+        const propertyGridItems = this._getPropertyGridItems(options.source, options.keyProperty);
         return new PropertyGridCollection({
             collection: propertyGridItems,
-            editingObject: editingObject,
-            parentProperty,
-            nodeProperty,
-            keyProperty: PROPERTY_NAME_FIELD,
+            editingObject: options.editingObject,
+            parentProperty: options.parentProperty,
+            nodeProperty: options.nodeProperty,
+            keyProperty: propertyGridItems.getKeyProperty(),
             root: null,
             group: this._groupCallback,
             filter: this._displayFilter.bind(this),
             toggledEditors: this._toggledEditors,
-            itemPadding
+            itemPadding: options.itemPadding
         });
     }
 
-    private _getToggledEditors(source: IPropertyGridItem[] | RecordSet<IPropertyGridItem>): TToggledEditors {
+    private _getToggledEditors(
+        source: IPropertyGridItem[] | RecordSet<IPropertyGridItem>,
+        keyProperty: string
+    ): TToggledEditors {
         const toggledEditors = {};
 
         source.forEach((item) => {
             if (object.getPropertyValue(item, PROPERTY_TOGGLE_BUTTON_ICON_FIELD)) {
-                toggledEditors[object.getPropertyValue<string>(item, PROPERTY_NAME_FIELD)] = false;
+                toggledEditors[object.getPropertyValue<string>(item, keyProperty)] = false;
             }
         });
         return toggledEditors;
@@ -150,11 +129,11 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
     }
 
     private _displayFilter(
-        itemContents: Model | string
+        itemContents: Model | string,
     ): boolean {
         if (itemContents instanceof Model) {
             const group = itemContents.get(PROPERTY_GROUP_FIELD);
-            const name = itemContents.get(PROPERTY_NAME_FIELD);
+            const name = itemContents.get(itemContents.getKeyProperty());
 
             return !this._collapsedGroups[group] && this._toggledEditors[name] !== false;
         }
@@ -170,22 +149,40 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
 
     private _getPropertyGridItems(
         items: IPropertyGridItem[] | RecordSet<IPropertyGridItem>,
-        editingObject: Record<string, any> | Model
-    ): RecordSet {
+        keyProperty: string
+    ): RecordSet<IPropertyGridItem> {
         if (items instanceof RecordSet) {
             return items;
         }
         return new RecordSet({
             rawData: items,
-            keyProperty: PROPERTY_NAME_FIELD
+            keyProperty
         });
     }
 
+    protected _updatePropertyValue(
+        editingObject: Record<string, any> | Model,
+        name: string, value: any
+    ): Record<string, any> | Model {
+        const editingObjectClone = object.clone(editingObject);
+        if (editingObjectClone instanceof Model) {
+            if (!editingObjectClone.has(name)) {
+                const newEditingObject = factory(editingObject).toObject();
+                newEditingObject[name] = value;
+                return Model.fromObject(newEditingObject, editingObjectClone.getAdapter());
+            } else {
+                editingObjectClone.set(name, value);
+            }
+        } else {
+            editingObjectClone[name] = value;
+        }
+        return editingObjectClone;
+    }
+
     protected _propertyValueChanged(event: SyntheticEvent<Event>, item: Model, value: any): void {
-        const name = item.get(PROPERTY_NAME_FIELD);
-        const editingObjectClone = object.clone(this._options.editingObject);
-        object.setPropertyValue(editingObjectClone, name, value);
-        this._notify('editingObjectChanged', [editingObjectClone]);
+        const name = item.get(this._listModel.getKeyProperty());
+        const propertyValue = this._updatePropertyValue(this._options.editingObject, name, value);
+        this._notify('editingObjectChanged', [propertyValue]);
     }
 
     protected _groupClick(
@@ -200,6 +197,7 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
             displayItem.toggleExpanded();
             this._collapsedGroups[groupName] = !collapsed;
             this._listModel.setFilter(this._displayFilter.bind(this));
+            this._notify('controlResize', [], {bubbling: true});
         }
     }
 
@@ -232,7 +230,7 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
 
     protected _toggleEditor(event: SyntheticEvent, item: Model, value: boolean): void {
         this._toggledEditors = {...this._toggledEditors};
-        this._toggledEditors[item.get(PROPERTY_NAME_FIELD)] = value;
+        this._toggledEditors[item.get(this._listModel.getKeyProperty())] = value;
         this._listModel.setToggledEditors(this._toggledEditors);
         this._listModel.setFilter(this._displayFilter.bind(this));
     }
@@ -321,6 +319,18 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         };
     }
 
-    static getDefaultOptions(): object {
+    static getDefaultOptions(): Partial<IPropertyGridOptions> {
+        return {
+            keyProperty: 'name'
+        };
     }
 }
+
+Object.defineProperty(PropertyGridView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return PropertyGridView.getDefaultOptions();
+   }
+});

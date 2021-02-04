@@ -69,6 +69,10 @@ export default class DragScroll {
         this._scrollPosition = params.scrollPosition;
     }
 
+    isScrolled(): boolean {
+        return this._isMouseDown && this._maxMouseMoveDistance.x > 0
+    }
+
     /**
      * Начинает скроллирование с помощью Drag'N'Drop.
      * Возвращает флаг типа boolean, указывающий возможен ли старт прокрутки с помощью Drag'N'Drop.

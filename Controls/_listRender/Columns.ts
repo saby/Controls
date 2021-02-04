@@ -51,3 +51,12 @@ export default class Columns extends BaseRender {
         };
     }
 }
+
+Object.defineProperty(Columns, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Columns.getDefaultOptions();
+   }
+});

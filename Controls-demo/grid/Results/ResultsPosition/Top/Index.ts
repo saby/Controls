@@ -16,6 +16,7 @@ export default class extends Control {
             keyProperty: 'id',
             data: getCountriesStats().getData()
         });
+        this._columns[1].width = '224px';
     }
 
     static _styles: string[] = ['Controls-demo/Controls-demo'];

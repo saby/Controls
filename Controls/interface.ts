@@ -61,7 +61,8 @@ export {
     IBasePageSourceConfig,
     TNavigationPagingMode,
     TNavigationSource,
-    TNavigationDirection
+    TNavigationDirection,
+    INavigationViewConfig
 } from './_interface/INavigation';
 export {default as IDisplayedRanges, IDisplayedRangesOptions, TDisplayedRangesItem} from './_interface/IDisplayedRanges';
 export {default as IOpenPopup} from './_interface/IOpenPopup';
@@ -75,3 +76,5 @@ export {Direction, IQueryParamsMeta, IQueryParams} from './_interface/IQueryPara
 export {default as IGrouping, IGroupingOptions} from './_interface/IGrouping';
 export {default as IPromiseSelectable, IPromiseSelectableOptions} from './_interface/IPromiseSelectable';
 export {default as IDraggable} from './_interface/IDraggable';
+export {IInputPlaceholder, IInputPlaceholderOptions} from './_interface/IInputPlaceholder';
+export {IInputTag, IInputTagOptions} from './_interface/IInputTag';

@@ -122,4 +122,13 @@ class SliderBase<TSliderBaseOptions extends ISliderBaseOptions> extends Control<
     }
 }
 
+Object.defineProperty(SliderBase, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return SliderBase.getDefaultOptions();
+   }
+});
+
 export default SliderBase;

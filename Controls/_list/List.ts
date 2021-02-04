@@ -11,7 +11,7 @@ import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
 import {default as ListControl} from 'Controls/_list/ListControl';
 import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
-import { CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
+import { DataSet, CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
 import {IRemovableList} from './interface/IRemovableList';
 import { RecordSet } from 'Types/collection';
@@ -151,7 +151,7 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
 
     // region mover
 
-    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void> {
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet> {
         return this._children.listControl.moveItems(selection, targetKey, position);
     }
 
@@ -163,7 +163,7 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
         return this._children.listControl.moveItemDown(selectedKey);
     }
 
-    moveItemsWithDialog(selection: ISelectionObject): Promise<void> {
+    moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
         return this._children.listControl.moveItemsWithDialog(selection);
     }
 
@@ -191,4 +191,13 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
             style: 'default'
         };
     }
-};
+}
+
+Object.defineProperty(List, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return List.getDefaultOptions();
+   }
+});

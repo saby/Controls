@@ -454,40 +454,49 @@ export default class Selector extends BaseDropdown {
  * </pre>
  */
 
- /**
- * @name Controls/_dropdown/Selector#fontSize
- * @cfg
- * @demo Controls-demo/dropdown_new/Input/FontSize/Index
- */
+/**
+* @name Controls/_dropdown/Selector#fontSize
+* @cfg
+* @demo Controls-demo/dropdown_new/Input/FontSize/Index
+*/
 
- /**
- * @name Controls/_dropdown/Selector#source
- * @cfg {Controls/_dropdown/interface/IBaseDropdown/SourceCfg.typedef}
- * @default undefined
- * @remark
- * Запись может иметь следующие {@link Controls/_dropdown/interface/IBaseDropdown/Item.typedef свойства}.
- * @demo Controls-demo/dropdown_new/Input/Source/Simple/Index
- * @example
- * Записи будут отображены из источника _source.
- * <pre class="brush: html">
- * <!-- WML -->
- * <Controls.dropdown:Selector
- *    keyProperty="key"
- *    source="{{_source}}"
- *    caption="Create"
- *    viewMode="link"
- *    iconSize="m" />
- * </pre>
- * <pre class="brush: js">
- * // JavaScript
- * _source: new source.Memory({
- *    keyProperty: 'key',
- *    data: [
- *       {key: '1', icon: 'icon-EmptyMessage', iconStyle: 'info', title: 'Message'},
- *       {key: '2', icon: 'icon-TFTask', title: 'Task'},
- *       {key: '3', title: 'Report'},
- *       {key: '4', title: 'News', readOnly: true}
- *    ]
- * })
- * </pre>
- */
+/**
+* @name Controls/_dropdown/Selector#source
+* @cfg {Controls/_dropdown/interface/IBaseDropdown/SourceCfg.typedef}
+* @default undefined
+* @remark
+* Запись может иметь следующие {@link Controls/_dropdown/interface/IBaseDropdown/Item.typedef свойства}.
+* @demo Controls-demo/dropdown_new/Input/Source/Simple/Index
+* @example
+* Записи будут отображены из источника _source.
+* <pre class="brush: html">
+* <!-- WML -->
+* <Controls.dropdown:Selector
+*    keyProperty="key"
+*    source="{{_source}}"
+*    caption="Create"
+*    viewMode="link"
+*    iconSize="m" />
+* </pre>
+* <pre class="brush: js">
+* // JavaScript
+* _source: new source.Memory({
+*    keyProperty: 'key',
+*    data: [
+*       {key: '1', icon: 'icon-EmptyMessage', iconStyle: 'info', title: 'Message'},
+*       {key: '2', icon: 'icon-TFTask', title: 'Task'},
+*       {key: '3', title: 'Report'},
+*       {key: '4', title: 'News', readOnly: true}
+*    ]
+* })
+* </pre>
+*/
+
+Object.defineProperty(Selector, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Selector.getDefaultOptions();
+   }
+});

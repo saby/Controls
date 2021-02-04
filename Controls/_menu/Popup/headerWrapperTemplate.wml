@@ -1,0 +1,13 @@
+<div class="controls-DropdownList-header
+            controls-Menu__popup-header-{{_options.multiSelect ? 'multiSelect_theme-' + _options.theme}}
+            controls-Menu__popup-header">
+    <ws:if data="{{_options.icon}}">
+        <div class="controls-icon {{_options.icon}}
+                    controls-Menu__popup_headerIcon_theme-{{_options.theme}}
+                    {{_options.iconSize ? 'controls-icon_size-' + _options.iconSize + '_theme-' + _options.theme}}
+                    {{_options.content ? 'controls-Menu__popup_headerIcon_padding_theme-' + _options.theme}}"></div>
+    </ws:if>
+    <ws:if data="{{_options.content}}">
+        <ws:partial template="{{_options.content}}" />
+    </ws:if>
+</div>

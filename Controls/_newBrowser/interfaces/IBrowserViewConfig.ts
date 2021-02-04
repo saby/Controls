@@ -111,6 +111,10 @@ export interface IListConfig {
  * @author Уфимцев Д.Ю.
  */
 export interface IBrowserViewConfig {
+    /**
+     * @deprecated
+     */
+    nodesPosition?: NodesPosition;
     list: IListConfig;
     tile: ITileConfig;
     table: ITableConfig;

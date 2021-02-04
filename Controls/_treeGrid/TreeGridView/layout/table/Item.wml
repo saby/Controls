@@ -51,7 +51,8 @@
                 itemActionsTemplate="{{itemActionsTemplate}}"
                 attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
                             {{currentColumn.column.valign ?' controls-Grid__cell_valign_' + currentColumn.column.valign + ' controls-Grid__cell-content_full-height' : ''}}
-                            {{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}} {{ cellClassName || '' }}"
+                            {{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}} {{ cellClassName || '' }}
+                            {{!!itemData.isDragging ? ' controls-ListView__itemContent_dragging_theme-' + itemData.theme}}"
                 ladderWrapper="{{currentColumn.ladderWrapper}}"
                 expanderTemplate="{{itemData.expanderTemplate}}"
                 itemData="{{currentColumn}}"
@@ -80,7 +81,7 @@
               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
               {{ marker !== false ? currentColumn.classList.marked }}
-              controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
+              controls-TreeGrid__row"
             style="{{ currentColumn.tableCellStyles }}"
             colspan="{{(colspan === false && !!colspanLength) ? (currentColumn.columnIndex === (itemData.hasMultiSelectColumn ? 1 : 0) ? colspanLength : 1) : itemData.getColspanFor((itemData.hasMultiSelectColumn && currentColumn.columnIndex == 0) ? 'multiSelectColumn' : (colspan || colspanCurrentNode ? 'node'))}}">
             <div class="{{ itemData.getRelativeCellWrapperClasses(colspan, true) }}
@@ -151,6 +152,10 @@
                     <ws:if data="{{!itemData.columnScroll && itemData.isDrawActions(itemData, currentColumn, colspan || colspanCurrentNode)}}">
                         <ws:partial template="itemActionsTemplateChooser"/>
                     </ws:if>
+
+                    <ws:if data="{{ itemData.shouldDisplayDraggingCounter() }}">
+                        <span class="controls-ListView__item-dragging-counter">{{(item || itemData).getDraggedItemsCount()}}</span>
+                    </ws:if>
                 </ws:else>
 
             </div>
@@ -166,7 +171,7 @@
               {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}
               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
-              controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
+              controls-TreeGrid__row"
             colspan="1"
             style="width: 0; min-width: 0; max-width: 0; padding: 0px; overflow: visible; z-index: 3;">
             <div class="{{ itemData.getRelativeCellWrapperClasses(colspan, false) }}">

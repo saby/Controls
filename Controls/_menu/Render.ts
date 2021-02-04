@@ -10,6 +10,7 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {factory} from 'Types/chain';
 import {ItemsUtil} from 'Controls/list';
+import {Visibility as MarkerVisibility} from 'Controls/marker';
 import {create as DiCreate} from 'Types/di';
 
 interface IMenuRenderOptions extends IMenuBaseOptions, IRenderOptions {
@@ -202,7 +203,8 @@ class MenuRender extends Control<IMenuRenderOptions> {
         emptyItem.set(data);
         collection.prepend([emptyItem]);
 
-        if (!options.selectedKeys.length || options.selectedKeys.includes(options.emptyKey)) {
+        if (options.markerVisibility !== MarkerVisibility.Hidden &&
+            (!options.selectedKeys.length || options.selectedKeys.includes(options.emptyKey))) {
             this._selectItem(listModel, options.emptyKey, true);
         }
     }
@@ -283,7 +285,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
     private _selectItem(collection: Collection<unknown>, key: number|string, state: boolean): void {
         const item = collection.getItemBySourceKey(key);
         if (item) {
-            item.setSelected(state, true);
+            item.setMarked(state, true);
             collection.nextVersion();
         }
     }
@@ -296,5 +298,14 @@ class MenuRender extends Control<IMenuRenderOptions> {
         };
     }
 }
+
+Object.defineProperty(MenuRender, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MenuRender.getDefaultOptions();
+   }
+});
 
 export default MenuRender;

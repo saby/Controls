@@ -11,7 +11,7 @@ import {
 } from 'Controls/dataSource';
 import {ISourceControllerState} from 'Controls/dataSource';
 import {ContextOptions} from 'Controls/context';
-import {ISourceOptions, IHierarchyOptions, IFilterOptions, INavigationOptions, ISortingOptions} from 'Controls/interface';
+import {ISourceOptions, IHierarchyOptions, IFilterOptions, INavigationOptions, ISortingOptions, TKey} from 'Controls/interface';
 import {SyntheticEvent} from 'UI/Vdom';
 import {isEqual} from 'Types/object';
 
@@ -23,7 +23,7 @@ export interface IDataOptions extends IControlOptions,
     ISortingOptions {
    dataLoadErrback?: Function;
    dataLoadCallback?: Function;
-   root?: string|number|null;
+   root?: TKey;
    groupProperty?: string;
    groupingKeyCallback?: Function;
    groupHistoryId?: string;
@@ -86,6 +86,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    private _source: ICrudPlus | ICrud & ICrudPlus & IData;
    private _dataOptionsContext: typeof ContextOptions;
    private _sourceControllerState: ISourceControllerState;
+   private _root: TKey = null;
 
    private _items: RecordSet;
    private _filter: QueryWhereExpression<unknown>;
@@ -98,6 +99,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       // TODO придумать как отказаться от этого свойства
       this._itemsReadyCallback = this._itemsReadyCallbackHandler.bind(this);
       this._notifyNavigationParamsChanged = this._notifyNavigationParamsChanged.bind(this);
+      this._dataLoadCallback = this._dataLoadCallback.bind(this);
 
       if (!options.hasOwnProperty('sourceController')) {
          this._errorRegister = new RegisterClass({register: 'dataError'});
@@ -107,6 +109,9 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          this._source = options.source.getOriginal();
       } else {
          this._source = options.source;
+      }
+      if (options.root !== undefined) {
+         this._root = options.root;
       }
       this._sourceController =
           options.sourceController ||
@@ -130,15 +135,16 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          this._sourceController.setItems(receivedState);
          this._setItemsAndUpdateContext();
       } else if (options.source) {
-         return this._sourceController.reload().then((items) => {
-            if (items instanceof RecordSet) {
-               // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
-               this._items = this._sourceController.setItems(items);
-            }
-            controllerState = this._sourceController.getState();
-            this._updateContext(controllerState);
-            return items;
-         }, (error) => error);
+         return this._sourceController
+             .reload()
+             .then((items) => {
+                this._items = this._sourceController.setItems(items as RecordSet);
+                return items;
+             })
+             .catch((error) => error)
+             .finally(() => {
+                this._updateContext(this._sourceController.getState());
+             });
       } else {
          this._updateContext(controllerState);
       }
@@ -155,73 +161,49 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          this._sourceController = newOptions.sourceController;
       }
 
-      if (newOptions.hasOwnProperty('sourceController')) {
-         updateResult = this._updateWithSourceControllerInOptions(newOptions);
-      } else {
-         updateResult = this._updateWithoutSourceControllerInOptions(newOptions);
+      if (this._sourceController) {
+         if (newOptions.sourceController) {
+            updateResult = this._updateWithSourceControllerInOptions(newOptions);
+         } else {
+            updateResult = this._updateWithoutSourceControllerInOptions(newOptions);
+         }
       }
 
       return updateResult;
    }
 
    _updateWithoutSourceControllerInOptions(newOptions: IDataOptions): void|Promise<RecordSet|Error> {
-      const sourceChanged = this._options.source !== newOptions.source;
+      let filterChanged;
 
-      if (sourceChanged) {
+      if (this._options.source !== newOptions.source) {
          this._source = newOptions.source;
+      }
+
+      if (this._options.root !== newOptions.root) {
+         this._root = newOptions.root;
+      }
+
+      if (!isEqual(this._options.filter, newOptions.filter)) {
+         this._filter = newOptions.filter;
+         filterChanged = true;
       }
 
       const isChanged = this._sourceController.updateOptions(this._getSourceControllerOptions(newOptions));
 
-      // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       if (isChanged) {
-         this._filter = newOptions.filter;
-      }
-
-      if (sourceChanged && !newOptions.sourceController) {
-         const currentRoot = this._sourceController.getRoot();
-         this._fixRootForMemorySource(newOptions);
-
-         this._loading = true;
-         return this._sourceController.reload()
-             .then((reloadResult) => {
-                if (!newOptions.hasOwnProperty('root')) {
-                   this._sourceController.setRoot(currentRoot);
-                }
-                this._items = this._sourceController.getItems();
-
-                const controllerState = this._sourceController.getState();
-                this._updateContext(controllerState);
-                this._loading = false;
-                return reloadResult;
-             })
-             .catch((error) => {
-                this._onDataError(
-                    null,
-                    {
-                       error,
-                       mode: dataSourceError.Mode.include
-                    }
-                );
-                return error;
-             });
-      } else if (isChanged) {
-         const controllerState = this._sourceController.getState();
-
-         // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
-         this._filter = controllerState.filter;
-         this._updateContext(controllerState);
+         return this._reload(this._options);
+      } else if (filterChanged) {
+         this._filter = this._sourceController.getFilter();
+         this._updateContext(this._sourceController.getState());
       }
    }
 
    _updateWithSourceControllerInOptions(newOptions: IDataOptions): void {
-      if (this._sourceController) {
-         const sourceControllerState = this._sourceController.getState();
+      const sourceControllerState = this._sourceController.getState();
 
-         if (!isEqual(sourceControllerState, this._sourceControllerState)) {
-            this._filter = sourceControllerState.filter;
-            this._updateContext(sourceControllerState);
-         }
+      if (!isEqual(sourceControllerState, this._sourceControllerState) && !this._sourceController.isLoading()) {
+         this._filter = sourceControllerState.filter;
+         this._updateContext(sourceControllerState);
       }
    }
 
@@ -236,7 +218,10 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       return {
          ...options,
          source: this._source,
-         navigationParamsChangedCallback: this._notifyNavigationParamsChanged
+         navigationParamsChangedCallback: this._notifyNavigationParamsChanged,
+         filter: this._filter || options.filter,
+         root: this._root,
+         dataLoadCallback: this._dataLoadCallback
       } as ISourceControllerOptions;
    }
 
@@ -252,7 +237,10 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          this._errorRegister = null;
       }
       if (this._sourceController) {
-         this._sourceController.destroy();
+         if (!this._options.sourceController) {
+            this._sourceController.destroy();
+         }
+         this._sourceController = null;
      }
    }
 
@@ -281,12 +269,15 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    }
 
    _filterChanged(event, filter): void {
-      // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
-      this._filter = this._sourceController.setFilter(filter);
-      this._updateContext(this._sourceController.getState());
+      this._filter = filter;
    }
 
    _rootChanged(event, root): void {
+      if (this._options.root === undefined) {
+         this._root = root;
+         // root - не реактивное состояние, надо позвать forceUpdate
+         this._forceUpdate();
+      }
       this._notify('rootChanged', [root]);
    }
 
@@ -317,8 +308,57 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    // https://online.sbis.ru/opendoc.html?guid=e5351550-2075-4550-b3e7-be0b83b59cb9
    // https://online.sbis.ru/opendoc.html?guid=c1dc4b23-57cb-42c8-934f-634262ec3957
    private _fixRootForMemorySource(options: IDataOptions): void {
-      if (!options.hasOwnProperty('root') && options.source instanceof Memory) {
+      if (!options.hasOwnProperty('root') &&
+          options.source &&
+          Object.getPrototypeOf(options.source).constructor === Memory &&
+          this._sourceController.getRoot() === null) {
          this._sourceController.setRoot(undefined);
+      }
+   }
+
+   private _reload(options: IDataOptions): Promise<RecordSet|Error> {
+      const currentRoot = this._sourceController.getRoot();
+      this._fixRootForMemorySource(options);
+
+      this._loading = true;
+      return this._sourceController.reload()
+          .then((reloadResult) => {
+             if (!options.hasOwnProperty('root')) {
+                this._sourceController.setRoot(currentRoot);
+             }
+             this._items = this._sourceController.getItems();
+             this._loading = false;
+             return reloadResult;
+          })
+          .catch((error) => {
+             this._onDataError(
+                 null,
+                 {
+                    error,
+                    mode: dataSourceError.Mode.include
+                 }
+             );
+             return error;
+          });
+   }
+
+   private _dataLoadCallback(items: RecordSet, direction): void {
+      const rootChanged =
+          this._sourceController.getRoot() !== undefined &&
+          this._root !== this._sourceController.getRoot();
+      const needUpdateStateAfterLoad = rootChanged || this._loading;
+
+      if (rootChanged) {
+         this._sourceController.setRoot(this._root);
+      }
+
+      if (needUpdateStateAfterLoad) {
+         const controllerState = this._sourceController.getState();
+         this._updateContext(controllerState);
+      }
+
+      if (this._options.dataLoadCallback) {
+         this._options.dataLoadCallback(items, direction);
       }
    }
 
@@ -340,6 +380,16 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       };
    }
 }
+
+
+Object.defineProperty(Data, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Data.getDefaultOptions();
+   }
+});
 
 
 /**

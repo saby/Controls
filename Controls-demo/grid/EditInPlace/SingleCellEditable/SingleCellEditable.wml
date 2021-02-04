@@ -1,0 +1,16 @@
+<div class="controlsDemo__cell">
+    <Controls.grid:View
+            name="grid"
+            keyProperty="id"
+            source="{{_viewSource}}"
+            attr:class="controlsDemo__inline-flex controlsDemo__maxWidth800"
+            columns="{{_columns}}"
+            rowSeparatorSize="s"
+            columnSeparatorSize="s"
+            itemActions="{{_itemActions}}"
+            itemActionsPosition="custom">
+        <ws:editingConfig>
+            <ws:Object mode="cell" toolbar="{{true}}" editOnClick="{{true}}" autoAdd="{{true}}"/>
+        </ws:editingConfig>
+    </Controls.grid:View>
+</div>

@@ -149,7 +149,21 @@ describe('Controls/_multiselection/Controller', () => {
          }
       });
 
-      result = controller.selectAll();
+      result = controller.toggleAll();
+      assert.deepEqual(result, { selected: [null], excluded: [3] });
+
+      controller.setSelection({ selected: [], excluded: [] });
+      controller.setSelection({ selected: [2222], excluded: [] });
+      controller.updateOptions({
+         model: model.getDisplay(),
+         strategy,
+         filter: {searchValue: 'aф'},
+         strategyOptions: {
+            model: model.getDisplay()
+         }
+      });
+
+      result = controller.toggleAll();
       assert.deepEqual(result, { selected: [null], excluded: [] });
    });
 
@@ -268,6 +282,37 @@ describe('Controls/_multiselection/Controller', () => {
       assert.equal(controller.getCountOfSelected(result), 1);
       controller.setSelection(result);
       assert.equal(controller.getCountOfSelected(), 1);
+   });
+
+   describe('getSelectedItems', () => {
+      beforeEach(() => {
+         model.setItems(new RecordSet({
+            rawData: [
+               { id: 1 },
+               { id: 2 },
+               { id: 3 },
+               { id: 4 }
+            ],
+            keyProperty: 'id'
+         }), {});
+      });
+
+      it('should return one selected item', () => {
+         model.at(0).setSelected(true);
+         const items = controller.getSelectedItems();
+         assert.strictEqual(items[0], model.at(0));
+         assert.strictEqual(items.length, 1);
+      });
+
+      it('should return two selected items', () => {
+         model.at(0).setSelected(true);
+         model.at(1).setSelected(true);
+         const items = controller.getSelectedItems();
+         for (let i = 0; i < items.length; i++) {
+            assert.notEqual(model.getIndex(items[i]), -1);
+         }
+         assert.strictEqual(items.length, 2);
+      });
    });
 
    describe('readonly checkboxes', () => {

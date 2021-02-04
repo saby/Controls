@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/InfoBox/InfoBox');
 import {IStickyPopupPosition, TVertical, THorizontal} from './Sticky/StickyController';
 import {ValidationStatus, IValidationStatus, IValidationStatusOptions} from 'Controls/interface';
+import 'css!Controls/popupTemplate';
 
 type TArrowPosition = 'start' | 'end' | 'center';
 type TStyle = 'danger' | 'secondary' | 'warning' | 'success' | 'info' | 'primary' | 'unaccented' | ValidationStatus;
@@ -89,8 +90,6 @@ export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
             style: 'secondary'
         };
     }
-
-    static _theme: string[] = ['Controls/popupTemplate'];
 }
 
 /**
@@ -149,3 +148,12 @@ export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
  * @name Controls/_popupTemplate/InfoBox#content
  * @cfg {function|String} Шаблон, который будет отображать всплывающая подсказка.
  */
+
+Object.defineProperty(InfoboxTemplate, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return InfoboxTemplate.getDefaultOptions();
+   }
+});

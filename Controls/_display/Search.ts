@@ -1,9 +1,10 @@
-import Tree, {IOptions as ITreeOptions} from './Tree';
-import TreeItem from './TreeItem';
 import SearchStrategy from './itemsStrategy/Search';
-import ItemsStrategyComposer from './itemsStrategy/Composer';
+import { Model } from 'Types/entity';
+import TreeItem from './TreeItem';
+import Tree from './Tree';
+import { Composer } from 'Controls/_display/itemsStrategy';
 
-export interface IOptions<S, T> extends ITreeOptions<S, T> {
+export interface IOptions<S, T> {
     dedicatedItemProperty?: string;
 }
 
@@ -14,7 +15,7 @@ export interface IOptions<S, T> extends ITreeOptions<S, T> {
  * @public
  * @author Мальцев А.А.
  */
-export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends Tree<S, T> {
+export default class Search<S extends Model, T extends TreeItem<S> = TreeItem<S>> extends Tree<S, T> {
     /**
      * @cfg Имя свойства элемента хлебных крошек, хранящее признак того, что этот элемент и путь до него должны быть
      * выделены в обособленную цепочку
@@ -22,14 +23,13 @@ export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends Tree
      */
     protected _$dedicatedItemProperty: string;
 
-    constructor(options?: IOptions<S, T>) {
-        super(options);
-    }
-
-    protected _createComposer(): ItemsStrategyComposer<S, T> {
+    protected _createComposer(): Composer<S, T> {
         const composer = super._createComposer();
         composer.append(SearchStrategy, {
-            dedicatedItemProperty: this._$dedicatedItemProperty
+            dedicatedItemProperty: this._$dedicatedItemProperty,
+            searchSeparatorModule: 'Controls/display:SearchSeparator',
+            breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+            treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
         });
 
         return composer;
@@ -37,7 +37,7 @@ export default class Search<S, T extends TreeItem<S> = TreeItem<S>> extends Tree
 }
 
 Object.assign(Search.prototype, {
-    _moduleName: 'Controls/display:Search',
     '[Controls/_display/Search]': true,
+    _moduleName: 'Controls/display:Search',
     _$dedicatedItemProperty: undefined
 });

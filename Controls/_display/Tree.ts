@@ -21,7 +21,6 @@ import {Object as EventObject} from 'Env/Event';
 import { TemplateFunction } from 'UI/Base';
 import { CrudEntityKey } from 'Types/source';
 import NodeFooter from 'Controls/_display/itemsStrategy/NodeFooter';
-import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
 import { Model } from 'Types/entity';
 import { IDragPosition } from './interface/IDragPosition';
 import TreeDrag from './itemsStrategy/TreeDrag';
@@ -391,28 +390,12 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return super.getIndexBySourceItem(item);
     }
 
-    /**
-     * Устанавливает текущим следующий элемент родительского узла.
-     * @return Есть ли следующий элемент в родительском узле
-     */
-    moveToNext(): boolean {
-        return this._moveTo(true);
-    }
-
     setKeyProperty(keyProperty: string): void {
         super.setKeyProperty(keyProperty);
         const adjacencyList = this._composer.getInstance<AdjacencyListStrategy<S,T>>(AdjacencyListStrategy);
         if (adjacencyList) {
             adjacencyList.keyProperty = keyProperty;
         }
-    }
-
-    /**
-     * Устанавливает текущим предыдущий элемент родительского узла
-     * @return Есть ли предыдущий элемент в родительском узле
-     */
-    moveToPrevious(): boolean {
-        return this._moveTo(false);
     }
 
     protected _extractItemId(item: T): string {
@@ -565,44 +548,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         });
     }
 
-    /**
-     * Устанавливает текущим родителя текущего элемента
-     * @return Есть ли родитель
-     */
-    moveToAbove(): boolean {
-        const current = this.getCurrent();
-        if (!current) {
-            return false;
-        }
-
-        const parent = current.getParent() as T;
-        if (!parent || parent.isRoot()) {
-            return false;
-        }
-
-        this.setCurrent(parent);
-        return true;
-    }
-
-    /**
-     * Устанавливает текущим первого непосредственного потомка текущего элемента
-     * @return Есть ли первый потомок
-     */
-    moveToBelow(): boolean {
-        const current = this.getCurrent();
-        if (!current || !current.isNode()) {
-            return false;
-        }
-
-        const children = this._getChildrenArray(current);
-        if (children.length === 0) {
-            return false;
-        }
-
-        this.setCurrent(children[0]);
-        return true;
-    }
-
     // region Expanded/Collapsed
 
     isExpandAll(): boolean {
@@ -642,7 +587,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         } else {
             expandedKeys.forEach((key) => {
                 const item = this.getItemBySourceKey(key);
-                if (item) {
+                if (item && item.Expandable) {
                     // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                     item.setExpanded(true);
                 }
@@ -661,7 +606,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
         collapsedKeys.forEach((key) => {
             const item = this.getItemBySourceKey(key);
-            if (item) {
+            if (item && item.Expandable) {
                 // TODO нужно передать silent=true и занотифицировать все измененные элементы разом
                 item.setExpanded(false);
             }
@@ -671,7 +616,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
     }
 
     resetExpandedItems(): void {
-        this.getItems().filter((it) => it.isExpanded()).forEach((it) => it.setExpanded(false));
+        this.getItems().filter((it) => it.Expandable && it.isExpanded()).forEach((it) => it.setExpanded(false));
         this._reBuildNodeFooters();
     }
 
@@ -874,7 +819,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 let item;
                 while (enumerator.moveNext()) {
                     item = enumerator.getCurrent();
-                    if (!(item instanceof TreeItem) && !(item instanceof BreadcrumbsItem)) {
+                    if (!(item instanceof TreeItem) && !(item['[Controls/_display/BreadcrumbsItem]'])) {
                         continue;
                     }
                     if (item.getParent() === parent) {
@@ -925,35 +870,6 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         enumerator.setCurrent(initial);
 
         return current;
-    }
-
-    protected _moveTo(isNext: boolean): boolean {
-        const enumerator = this._getCursorEnumerator();
-        const initial = this.getCurrent();
-        const item = this._getNearbyItem(enumerator, initial, isNext, true);
-        const hasMove = !!item;
-
-        if (hasMove) {
-            this.setCurrent(item);
-        } else {
-            enumerator.setCurrent(initial);
-        }
-
-        return hasMove;
-    }
-
-    protected _notifyItemsParent(treeItem: T, oldParent: T, properties: object): void {
-        if (properties.hasOwnProperty(this.getParentProperty())) {
-            this._notifyItemsParentByItem(treeItem.getParent() as T);
-            this._notifyItemsParentByItem(oldParent);
-        }
-    }
-
-    protected _notifyItemsParentByItem(treeItem: T): void {
-        while (treeItem !== this.getRoot()) {
-            this.notifyItemChange(treeItem, {children: []});
-            treeItem = treeItem.getParent() as T;
-        }
     }
 
     // endregion

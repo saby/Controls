@@ -1,7 +1,7 @@
-<div class="controlsDemo__wrapper">
-        <Controls.gridNew:View
-                keyProperty="id"
-                source="{{_viewSource}}"
-                columns="{{_columns}}"
-                resultsPosition="bottom"/>
+<div class="controlsDemo__wrapper controlsDemo__maxWidth600">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            columns="{{_columns}}"
+            resultsPosition="bottom"/>
 </div>

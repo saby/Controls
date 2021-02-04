@@ -1,4 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
+import {ILabelOptions} from 'Controls/input';
 /**
  * Интерфейс свойств PropertyGrid.
  * @interface Controls/_propertyGrid/IProperty
@@ -125,6 +126,27 @@ import {TemplateFunction} from 'UI/Base';
  *    ]
  * }
  * </pre>
+ * @example
+ * Включение jumpingLabel для редактора
+ * <pre class="brush: js">
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com',
+ *    };
+ *
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          type: 'text',
+ *          editorOptions: {
+ *             jumpingLabel: true
+ *          }
+ *       }
+ *    ]
+ * }
+ * </pre>
  */
 
 /**
@@ -188,12 +210,43 @@ import {TemplateFunction} from 'UI/Base';
  * </pre>
  */
 
+/**
+ * @name Controls/_propertyGrid/IProperty#captionOptions
+ * @cfg {Controls/input:Label} Опция для метки, отображающейся рядом с редактором
+ * @example
+ * <pre class="brush: js">
+ * // JavaScript
+ * _beforeMount() {
+ *    this._editingObject = {
+ *       description: 'This is http://mysite.com',
+ *       showBackgroundImage: true
+ *    };
+ *
+ *    this._source = [
+ *       {
+ *          name: 'description',
+ *          caption: 'Описание',
+ *          captionOptions: {
+ *              required: true,
+ *              fontSize: 'l'
+ *          }
+ *          type: 'text'
+ *       }, {
+ *          name: 'showBackgroundImage',
+ *          caption: 'Показывать изображение'
+ *       }
+ *    ]
+ * }
+ * </pre>
+ */
+
 type TProperty = String | Boolean | Number | Date | number[] | string[];
 
 export default interface IProperty {
     name: string;
     caption?: string;
     captionTemplate?: TemplateFunction;
+    captionOptions?: ILabelOptions;
     editorTemplateName?: string;
     editorOptions?: object;
     editorClass?: string;

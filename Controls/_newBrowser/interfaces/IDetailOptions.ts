@@ -1,6 +1,16 @@
 import {ICrudPlus} from 'Types/source';
 import {TemplateFunction} from 'UI/Base';
-import {ISourceOptions} from 'Controls/_newBrowser/interfaces/ISourceOptions';
+import {IColumn, IHeaderCell} from 'Controls/grid';
+import {
+    IFilterOptions,
+    IGroupingOptions,
+    IHierarchyOptions,
+    INavigationOptions,
+    INavigationSourceConfig,
+    IPromiseSelectableOptions,
+    ISortingOptions,
+    ISourceOptions
+} from 'Controls/interface';
 
 /**
  * Enum со списком доступных вариантов отображения контента в detail-колонке
@@ -22,7 +32,17 @@ export enum DetailViewMode {
  * @public
  * @author Уфимцев Д.Ю.
  */
-export interface IDetailOptions extends ISourceOptions {
+export
+    interface IDetailOptions
+    extends
+        IFilterOptions,
+        ISortingOptions,
+        IHierarchyOptions,
+        IGroupingOptions,
+        ISourceOptions,
+        IPromiseSelectableOptions,
+        INavigationOptions<INavigationSourceConfig> {
+
     //region source options
     /**
      * Источник данных, который будет использован списочным представлением внутри detail-колонки.
@@ -48,26 +68,6 @@ export interface IDetailOptions extends ISourceOptions {
      * шаблон итема плоского списка.
      */
     customItemTemplate?: TemplateFunction | string;
-
-    /**
-     * Содержимое дефолтного шаблона итема плоского списка.
-     *
-     * Не применяется если задан {@link customItemTemplate|кастомный шаблон}.
-     */
-    defaultItemTemplate: {
-        /**
-         * Шаблон заголовка итема плоского списка.
-         */
-        captionTemplate: TemplateFunction | string;
-        /**
-         * Шаблон содержимого итема плоского списка.
-         */
-        contentTemplate: TemplateFunction | string;
-        /**
-         * Шаблон подвала итема плоского списка.
-         */
-        footerTemplate: TemplateFunction | string;
-    };
 
     /**
      * Кастомный шаблон отображения итема плитки
@@ -103,10 +103,20 @@ export interface IDetailOptions extends ISourceOptions {
      */
     gradientColorProperty?: string;
 
-    columns?: unknown;
+    /**
+     * Конфигурация колонок таблицы.
+     */
+    columns?: IColumn[];
+
+    /**
+     * Конфигурация заголовка таблицы.
+     */
+    header?: IHeaderCell;
 
     /**
      * Цвет фона detail-колонки
      */
     backgroundColor?: string;
+
+    searchStartingWith?: string;
 }

@@ -53,6 +53,21 @@ const Link = Control.extend({
    }
 });
 
+Link.getDefaultOptions = () => {
+   return {
+      fontSize: 'm'
+   };
+};
+
 Link._theme = ['Controls/lookup'];
+
+Object.defineProperty(Link, 'defaultProps', {
+   configurable: true,
+   enumerable: true,
+
+   get(): object {
+      return Link.getDefaultOptions();
+   }
+});
 
 export = Link;

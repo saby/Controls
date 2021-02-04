@@ -23,6 +23,7 @@
       <ws:if data="{{_leftFieldWrapper.template}}">
          <ws:partial options="{{_options}}"
                      scope="{{_leftFieldWrapper.scope}}"
+                     value="{{_viewModel.value}}"
                      template="{{_leftFieldWrapper.template}}"/>
       </ws:if>
    </ws:leftFieldWrapper>
@@ -55,6 +56,7 @@
       <ws:if data="{{_rightFieldWrapper.template}}">
          <ws:partial options="{{_options}}"
                      scope="{{_rightFieldWrapper.scope}}"
+                     value="{{_viewModel.value}}"
                      passwordVisible="{{_passwordVisible}}"
                      template="{{_rightFieldWrapper.template}}"/>
       </ws:if>

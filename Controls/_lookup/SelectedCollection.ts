@@ -187,4 +187,13 @@ class SelectedCollection extends Control<ISelectedCollectionOptions, number> {
     }
 }
 
+Object.defineProperty(SelectedCollection, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return SelectedCollection.getDefaultOptions();
+   }
+});
+
 export default SelectedCollection;

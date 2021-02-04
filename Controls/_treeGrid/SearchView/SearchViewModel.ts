@@ -1,6 +1,7 @@
 import {SearchItemsUtil} from 'Controls/list';
 import {TreeViewModel} from 'Controls/tree';
 import {Record} from 'Types/entity';
+import 'Controls/searchBreadcrumbsGrid';
 
 function isBreadCrumbsItem(item: Record|Record[]): item is Record[] {
     return !!item.forEach;

@@ -67,7 +67,6 @@ define(
             assert.isTrue(position.maxWidth === item.popupOptions.maxWidth);
             assert.isTrue(position.top === 0);
             assert.isTrue(position.right === 0);
-            assert.isTrue(position.height === 20);
             assert.isTrue(position.position === 'fixed');
          });
 
@@ -505,7 +504,8 @@ define(
             assert.equal(position.maxWidth, item.popupOptions.maxWidth);
             assert.isTrue(position.top === 100);
             assert.isTrue(position.right === 100);
-            assert.isTrue(position.height === 20);
+            assert.isTrue(position.bottom === 0);
+            assert.isTrue(position.height === undefined);
          });
          it('stack without config sizes', () => {
             StackStrategy.getMaxPanelWidth = () => 1000;
@@ -521,7 +521,8 @@ define(
             assert.equal(position.width, undefined);
             assert.isTrue(position.top === 0);
             assert.isTrue(position.right === 0);
-            assert.isTrue(position.height === 20);
+            assert.isTrue(position.bottom === 0);
+            assert.isTrue(position.height === undefined);
 
             item.containerWidth = 1200;
             position = StackStrategy.getPosition({

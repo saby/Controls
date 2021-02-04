@@ -1,9 +1,8 @@
-import {TKey} from 'Controls/_interface/IItems';
-import {NewSourceController as SourceController} from 'Controls/dataSource';
-import {ISourceOptions} from 'Controls/_newBrowser/interfaces/ISourceOptions';
-import {RecordSet} from 'Types/collection';
-import {ControllerClass as SearchController} from 'Controls/search';
 import {Logger} from 'UI/Utils';
+import {RecordSet} from 'Types/collection';
+import {TKey} from 'Controls/_interface/IItems';
+import {ControllerClass as SearchController} from 'Controls/search';
+import {ISourceControllerOptions, NewSourceController as SourceController} from 'Controls/dataSource';
 
 export class DataSource {
 
@@ -15,7 +14,9 @@ export class DataSource {
         return this.sourceController.getRoot();
     }
 
-    constructor(private sourceOptions: ISourceOptions) {
+    searchValue: string;
+
+    constructor(private sourceOptions: ISourceControllerOptions) {
         this.sourceController = new SourceController(this.sourceOptions);
     }
 
@@ -23,14 +24,8 @@ export class DataSource {
         this.sourceController.destroy();
     }
 
-    setRoot(root: TKey, noLoad: boolean = false): Promise<RecordSet> {
+    setRoot(root: TKey): void {
         this.sourceController.setRoot(root);
-
-        if (noLoad) {
-            return Promise.resolve(undefined);
-        }
-
-        return this.loadData();
     }
 
     setItems(items: RecordSet): RecordSet {
@@ -39,7 +34,10 @@ export class DataSource {
 
     setSearchString(searchString: string): Promise<RecordSet> {
         return this.getSearchController()
-            .then((sc) => sc.search(searchString))
+            .then((sc) => {
+                this.searchValue = searchString;
+                return sc.search(searchString);
+            })
             .then((result) => {
                 if (!(result instanceof RecordSet)) {
                     return;
@@ -50,7 +48,7 @@ export class DataSource {
             });
     }
 
-    private loadData(): Promise<RecordSet> {
+    loadData(): Promise<RecordSet> {
         return (this.sourceController.load() as Promise<RecordSet>)
             .catch((error) => {
                 Logger.error('Возникла ошибка при загрузке данных', this, error);
@@ -70,7 +68,7 @@ export class DataSource {
                     minSearchLength: 3,
                     startingWith: 'root',
                     searchValueTrim: true,
-                    searchParam: 'SearchString',
+                    searchParam: (this.sourceOptions as any).searchParam,
                     searchNavigationMode: 'open'
                 });
             });

@@ -213,12 +213,21 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
         }
     }
 
-    static _theme: string[] = ['Controls/buttons', 'Controls/Classes', 'Controls/theme'];
+    static _theme: string[] = ['Controls/buttons', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return getDefaultOptions();
     }
 }
+
+Object.defineProperty(Button, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Button.getDefaultOptions();
+   }
+});
 
 /**
  * @name Controls/_buttons/Button#viewMode

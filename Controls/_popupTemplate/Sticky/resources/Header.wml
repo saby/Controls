@@ -1,12 +1,10 @@
-<div class="controls-StickyTemplate__top-area
-            controls-StickyTemplate__top-area_theme_{{_options.theme}}
-            controls-StickyTemplate__top-area-{{_options.closeButtonVisibility ? 'withClose' : 'withoutClose'}}_theme_{{_options.theme}}
+<div class="controls-StickyTemplate__top-area controls_theme-{{_options.theme}}
+            controls-StickyTemplate__top-area-{{_options.closeButtonVisibility ? 'withClose' : 'withoutClose'}}
             controls-DropdownList-header">
-   <div class="controls-StickyTemplate__top-area-content controls-StickyTemplate__top-area-content_theme_{{_options.theme}} controls-DropdownList__head">
+   <div class="controls-StickyTemplate__top-area-content controls-DropdownList__head">
       <ws:if data="{{_options.headingCaption && !_options.headerContentTemplate}}">
          <div class="controls-StickyTemplate__caption">
-            <div class="controls-StickyTemplate__caption_text
-                        controls-StickyTemplate__caption_theme-{{_options.theme}}"
+            <div class="controls-StickyTemplate__caption_text"
                  title="{{_options.headingCaption}}">{{_options.headingCaption}}</div>
           </div>
       </ws:if>
@@ -15,8 +13,7 @@
       </ws:if>
       <ws:if data="{{_options.closeButtonVisibility}}">
          <Controls._popupTemplate.CloseButton attr:class="controls-StickyTemplate__close_button
-                                                          controls-StickyTemplate__close_button_theme_{{_options.theme}}
-                                                          controls-StickyTemplate__close_button-with-header_theme-{{_options.theme}}"
+                                                          controls-StickyTemplate__close_button-with-header"
                                               viewMode="link"
                                               on:click="close()"/>
       </ws:if>

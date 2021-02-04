@@ -214,6 +214,16 @@ class BreadCrumbsPath extends Control<IBreadCrumbsOptions> {
         };
     }
 }
+
+Object.defineProperty(BreadCrumbsPath, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BreadCrumbsPath.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_breadcrumbs/HeadingPath#backButtonIconStyle
  * @cfg {String} Стиль отображения иконки кнопки "Назад".

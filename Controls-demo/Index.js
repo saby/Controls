@@ -21,6 +21,7 @@ define('Controls-demo/Index', [
       {
          _template: template,
          _beforeMount: function() {
+            this._links = this._prepareLinks();
             this._title = this._getTitle();
             this._settigsController = {
                getSettings: function(ids) {
@@ -57,6 +58,24 @@ define('Controls-demo/Index', [
          _afterMount: function() {
             window.localStorage.setItem('controlSettingsStorage', JSON.stringify({}));
          },
+
+         _prepareLinks: function() {
+            var fontsArray = [
+               Env.constants.tensorFont,
+               Env.constants.tensorFontBold,
+               Env.constants.cbucIcons,
+               Env.constants.cbucIcons24
+            ];
+            var links = [];
+            for (var i = 0; i < fontsArray.length; i++) {
+               links.push({
+                  rel: 'preload', as: 'font', href: fontsArray[i],
+                  type: 'font/woff2', crossorigin: 'anonymous'
+               });
+            }
+            return links;
+         },
+
          _getPopupHeaderTheme: function(theme) {
             var retailHead = 'retail__';
 

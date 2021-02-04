@@ -1,0 +1,41 @@
+// Если в будующем потребуется обводка для ячеек с толстыми разделителями, то стили должны добавиться сюда.
+.controls-Grid__row-cell_editing-mode-single-cell_theme-@{themeName} {
+   &::after {
+      position: absolute;
+      top: -@item-separator_s_thickness_list;
+      left: 0;
+      right: -@column_separator_s_thickness_grid;
+      bottom: -@item-separator_s_thickness_list;
+      z-index: 1;
+      box-sizing: border-box;
+      border: 0 solid transparent;
+      pointer-events: none;
+   }
+}
+
+// Операции над записью показываются при ховере по ячейке, в случае, если она сейчас не редактируется.
+// В BaseControl для этого отведен специальный режим показа операций onhovercell.
+.ws-is-hover .controls-BaseControl_showActions_onhovercell .controls-Grid__row > .controls-Grid__row-cell:hover .controls-Grid__row-cell__content > .controls-itemActionsV {
+   visibility: visible;
+   opacity: 1;
+}
+
+.controls-Grid__row-cell_single-cell_editable_theme-@{themeName}:hover {
+   background-color: @single-editable-cell_hover_background-color_grid;
+
+   &::after {
+      content: '\200b';
+      border-color: @single-editable-cell_hover_border-color_grid;
+      border-width: @single-editable-cell_hover_border-width_grid;
+   }
+}
+
+.controls-Grid__row-cell_single-cell_editing_theme-@{themeName}::after {
+   content: '\200b';
+   border-color: @single-editable-cell_editing_border-color_grid;
+   border-width: @single-editable-cell_editing_border-width_grid;
+}
+
+.controls-Grid__row-cell_single-cell_not-editable_theme-@{themeName}:hover {
+   background-color: @single-not-editable-cell_hover_background-color_grid;
+}

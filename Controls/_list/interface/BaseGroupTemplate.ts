@@ -7,6 +7,7 @@ export default interface IBaseGroupTemplateOptions {
    contentTemplate?: string;
    fontSize?: string;
    iconSize?: string;
+   textVisible?: boolean;
 }
 
 /**
@@ -64,6 +65,18 @@ export default interface IBaseGroupTemplateOptions {
  * @see contentTemplate
  * @see fontSize
  */
+
+/**
+ * @name Controls/_list/interface/IBaseGroupTemplate#textVisible
+ * @cfg {Boolean} Видимость {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/text/ текста заголовка группы}.
+ * @default center
+ * @demo Controls-demo/list_new/Grouped/TextVisible/Index В следующем примере текст заголовка группы скрыт.
+ * @remark
+ * Позволяет вывести разделитель группы без текста и экспандера. При использовании игнорируются {@link textAlign} и {@link expanderVisible}
+ * @see textAlign
+ * @see expanderVisible
+ */
+
 /**
  * @name Controls/_list/interface/IBaseGroupTemplate#rightTemplate
  * @cfg {String|Function|undefined} Пользовательский шаблон, отображаемый в правой части заголовка группы.

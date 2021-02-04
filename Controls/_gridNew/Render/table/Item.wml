@@ -13,6 +13,7 @@
             <div class="{{ gridColumn.getRelativeCellWrapperClasses(theme) }}">
                 <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker, markerPosition) }}"
                      attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
+                <!-- TODO избавиться от прокидывания _onBreadcrumbClick https://online.sbis.ru/doc/0649e69a-d507-4024-9f99-c70205f535ef-->
                 <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
                             scope="{{ gridColumn.getColumnConfig().templateOptions }}"
                             attr:key="{{ gridColumn.getInstanceId() }}"
@@ -30,7 +31,10 @@
                             templateHighlightOnHover="{{ templateHighlightOnHover }}"
                             tagTemplate="{{ gridColumn.TagCell ? tagTemplate }}"
                             tagStyle="{{ gridColumn.TagCell ? tagStyle }}"
-                            editArrowTemplate="{{ editArrowTemplate }}">
+                            editArrowTemplate="{{ editArrowTemplate }}"
+
+                            _onBreadcrumbClick="{{_onBreadcrumbClick}}"
+                            _onBreadcrumbItemClick="{{_onBreadcrumbItemClick}}">
                     <ws:ladderWrapper>
                         <ws:partial template="{{ladderWrapper.content}}"
                                     attr:class="{{ (item || itemData).getLadderWrapperClasses(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"/>
@@ -55,6 +59,10 @@
                                     itemActionsClass="{{ itemActionsClass }}"
                                     highlightOnHover="{{ highlightOnHover }}"/>
                     </ws:else>
+                </ws:if>
+
+                <ws:if data="{{ (item || itemData).Draggable && (item || itemData).shouldDisplayDraggingCounter() }}">
+                    <span class="controls-ListView__item-dragging-counter">{{(item || itemData).getDraggedItemsCount()}}</span>
                 </ws:if>
             </div>
         </td>

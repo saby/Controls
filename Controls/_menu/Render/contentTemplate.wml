@@ -1,5 +1,5 @@
 <ws:template name="iconTemplate">
-   <ws:if data="{{item.get('icon') || (iconPadding !== undefined ? iconPadding : itemData.iconPadding) }}">
+   <ws:if data="{{!itemData.isEmptyItem && (item.get('icon') || (iconPadding !== undefined ? iconPadding : itemData.iconPadding)) }}">
       <ws:partial template="wml!Controls/_menu/Render/iconTemplate" scope="{{_options}}" iconPadding="{{itemData.iconPadding}}"/>
    </ws:if>
 </ws:template>

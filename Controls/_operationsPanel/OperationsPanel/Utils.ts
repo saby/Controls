@@ -13,9 +13,10 @@ import {constants} from 'Env/Env';
    var MENU_WIDTH = 0;
 
    var _private = {
-      initializeConstants: function() {
+      initializeConstants: function(theme: string) {
          if (!MENU_WIDTH) {
-            MENU_WIDTH = constants.isBrowserPlatform && getWidth('<span class="controls-Toolbar__menuOpen"><i class="icon-medium icon-ExpandDown"/></span>');
+            const iconClass = `icon-medium icon-SettingsNew controls-Toolbar__menu_spacing-small_theme-${theme}`;
+            MENU_WIDTH = constants.isBrowserPlatform && getWidth(`<i class="${iconClass}"/></span>`);
          }
       },
 
@@ -99,7 +100,7 @@ import {constants} from 'Env/Env';
             }, 0);
 
             if (currentWidth > availableWidth) {
-               _private.initializeConstants();
+               _private.initializeConstants(theme);
                _private.setShowType(items, showType.MENU);
                currentWidth += MENU_WIDTH;
 

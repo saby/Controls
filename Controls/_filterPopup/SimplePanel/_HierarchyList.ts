@@ -148,6 +148,15 @@ HierarchyList.getDefaultOptions = (): object => {
     };
 };
 
+Object.defineProperty(HierarchyList, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return HierarchyList.getDefaultOptions();
+   }
+});
+
 HierarchyList._theme = ['Controls/filterPopup'];
 
 HierarchyList._private = _private;

@@ -12,7 +12,6 @@ import {ISelectionObject} from 'Controls/interface';
 import {Confirmation, Dialog, IBasePopupOptions} from 'Controls/popup';
 import {Model, adapter, Record} from 'Types/entity';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
-import {EntityKey} from "Types/_source/ICrud";
 
 const data = [
     {
@@ -65,34 +64,35 @@ const sbisServiceSource: Partial<SbisService> = {
     }
 }
 
-function createFakeModel(rawData: {id: number, folder: number, 'folder@': boolean}) {
+function createFakeModel(rawData: {id: number, folder: number, 'folder@': boolean}): Model {
     return new Model({
         rawData,
         keyProperty: 'id'
     });
 }
 
-function resolveMoveWithDialog(controller: MoveController, selectionObject: ISelectionObject, filter: IHashMap<any>) {
+function resolveMoveWithDialog(controller: MoveController,
+                               selectionObject: ISelectionObject,
+                               filter: IHashMap<any>): Promise<boolean | DataSet> {
     return new Promise((resolve) => {
         controller
             .moveWithDialog(selectionObject, filter)
-            .then(() => resolve(true))
+            .then((result) => resolve(result))
             .catch(() => resolve(false));
-    })
+    });
 }
 
-function resolveMove(
-    controller: MoveController,
-    selectionObject: ISelectionObject,
-    filter: IHashMap<any>,
-    target: CrudEntityKey,
-    position: LOCAL_MOVE_POSITION) {
+function resolveMove(controller: MoveController,
+                     selectionObject: ISelectionObject,
+                     filter: IHashMap<any>,
+                     target: CrudEntityKey,
+                     position: LOCAL_MOVE_POSITION): Promise<boolean | DataSet | void> {
     return new Promise((resolve) => {
         controller
             .move(selectionObject, filter, target, position)
-            .then(() => resolve(true))
+            .then((result) => resolve(result))
             .catch(() => resolve(false));
-    })
+    });
 }
 
 describe('Controls/list_clean/MoveController', () => {
@@ -202,14 +202,14 @@ describe('Controls/list_clean/MoveController', () => {
             cfg.popupOptions.templateOptions = {
                 ...cfg.popupOptions.templateOptions as object,
                 source: source2
-            }
+            };
             controller = new MoveController(cfg);
             return resolveMoveWithDialog(controller, selectionObject, {myProp: 'test'})
                 .then((result: boolean) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubDialog.restore();
                 });
         });
@@ -257,7 +257,7 @@ describe('Controls/list_clean/MoveController', () => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubDialog.restore();
                 });
         });
@@ -290,7 +290,7 @@ describe('Controls/list_clean/MoveController', () => {
                 .then((result: boolean) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                 });
         });
 
@@ -306,7 +306,7 @@ describe('Controls/list_clean/MoveController', () => {
                 .then((result: boolean) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubDialog.restore();
                 });
         });
@@ -323,7 +323,7 @@ describe('Controls/list_clean/MoveController', () => {
                 .then((result: boolean) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubDialog.restore();
                 });
         });
@@ -354,7 +354,7 @@ describe('Controls/list_clean/MoveController', () => {
                 .then((result: boolean) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubDialog.restore();
                 });
         });
@@ -372,14 +372,25 @@ describe('Controls/list_clean/MoveController', () => {
                 .then((result: boolean) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubDialog.restore();
                 });
         });
     });
 
     describe('SbisService', () => {
+        let dataSet: DataSet;
+
         beforeEach(() => {
+            dataSet = new DataSet({
+                rawData: [
+                    {
+                        '@DocRoutingRule': 1327,
+                        id: 1351
+                    }
+                ],
+                keyProperty: 'id'
+            });
             controller = new MoveController({...cfg, source: (sbisServiceSource as SbisService)});
         });
 
@@ -411,13 +422,13 @@ describe('Controls/list_clean/MoveController', () => {
             const emptySelectionObject: ISelectionObject = {
                 selected: [],
                 excluded: []
-            }
+            };
             return resolveMove(controller, emptySelectionObject, {myProp: 'test'}, 4, LOCAL_MOVE_POSITION.After)
                 .then((result: boolean) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                 });
         });
 
@@ -431,17 +442,19 @@ describe('Controls/list_clean/MoveController', () => {
             const stubCall = stub(sbisServiceSource, 'call')
                 .callsFake((command: string, data?: { method: string, filter: Record, folder_id: number }) => {
                     assert.exists(data.filter, 'filter should exist');
-                    assert.deepEqual(data.filter.get('selection').get('marked'), correctSelection.selected.map((key) => `${key}`));
-                    assert.deepEqual(data.filter.get('selection').get('excluded'), correctSelection.excluded.map((key) => `${key}`));
-                    return Promise.resolve({} as DataSet);
+                    assert.deepEqual(data.filter.get('selection').get('marked'),
+                        correctSelection.selected.map((key) => `${key}`));
+                    assert.deepEqual(data.filter.get('selection').get('excluded'),
+                        correctSelection.excluded.map((key) => `${key}`));
+                    return Promise.resolve(dataSet);
                 });
             return resolveMove(controller, correctSelection, {myProp: 'test'}, 4, LOCAL_MOVE_POSITION.On)
-                .then((result: boolean) => {
+                .then((result: DataSet) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubCall);
-                    assert.isTrue(result);
+                    assert.equal(result, dataSet);
                     stubCall.restore();
                 });
         });
@@ -455,18 +468,20 @@ describe('Controls/list_clean/MoveController', () => {
             const stubCall = stub(sbisServiceSource, 'call')
                 .callsFake((command: string, data?: { method: string, filter: Record, folder_id: number }) => {
                     assert.exists(data.filter, 'filter should exist');
-                    assert.deepEqual(data.filter.get('selection').get('marked'), correctSelection.selected.map((key) => `${key}`));
-                    assert.deepEqual(data.filter.get('selection').get('excluded'), correctSelection.excluded.map((key) => `${key}`));
-                    return Promise.resolve({} as DataSet);
+                    assert.deepEqual(data.filter.get('selection').get('marked'),
+                        correctSelection.selected.map((key) => `${key}`));
+                    assert.deepEqual(data.filter.get('selection').get('excluded'),
+                        correctSelection.excluded.map((key) => `${key}`));
+                    return Promise.resolve(dataSet);
                 });
 
             return resolveMove(controller, correctSelection, {myProp: 'test'}, 4, LOCAL_MOVE_POSITION.On)
-                .then((result: boolean) => {
+                .then((result: DataSet) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubCall);
-                    assert.isTrue(result);
+                    assert.equal(result, dataSet);
                     stubCall.restore();
                 });
         });
@@ -480,9 +495,11 @@ describe('Controls/list_clean/MoveController', () => {
             const stubCall = stub(sbisServiceSource, 'call')
                 .callsFake((command: string, data?: { method: string, filter: Record, folder_id: number }) => {
                     assert.exists(data.filter, 'filter should exist');
-                    assert.deepEqual(data.filter.get('selection').get('marked'), correctSelection.selected.map((key) => `${key}`));
-                    assert.deepEqual(data.filter.get('selection').get('excluded'), correctSelection.excluded.map((key) => `${key}`));
-                    return Promise.resolve({} as DataSet);
+                    assert.deepEqual(data.filter.get('selection').get('marked'),
+                        correctSelection.selected.map((key) => `${key}`));
+                    assert.deepEqual(data.filter.get('selection').get('excluded'),
+                        correctSelection.excluded.map((key) => `${key}`));
+                    return Promise.resolve(dataSet);
                 });
             return resolveMove(controller, correctSelection, {myProp: 'test'}, 4, LOCAL_MOVE_POSITION.On)
                 .then((result: boolean) => {
@@ -490,7 +507,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubCall);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubCall.restore();
                 });
         });
@@ -543,15 +560,15 @@ describe('Controls/list_clean/MoveController', () => {
             const stubCall = stub(sbisServiceSource, 'call')
                 .callsFake((command: string, data?: { method: string, filter: Record, folder_id: number }) => {
                     assert.exists(data.filter, 'filter should exist anyway');
-                    return Promise.resolve({} as DataSet);
+                    return Promise.resolve(dataSet);
                 });
             return resolveMove(controller, selectionObject, undefined, 4, LOCAL_MOVE_POSITION.On)
-                .then((result: boolean) => {
+                .then((result: DataSet) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubCall);
-                    assert.isTrue(result);
+                    assert.equal(result, dataSet);
                     stubCall.restore();
                 });
         });
@@ -565,7 +582,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение провалится из-за ошибки, брошенной в контроллере
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyCall);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyCall.restore();
                 });
         });
@@ -609,7 +626,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyCall);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyCall.restore();
                 });
         });
@@ -623,7 +640,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                 });
         });
@@ -637,7 +654,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                 });
         });
@@ -663,7 +680,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubMove.restore();
                 });
         });
@@ -714,10 +731,11 @@ describe('Controls/list_clean/MoveController', () => {
             const spyDialog = spy(Dialog, 'openPopup');
             const stubConfirmation = stub(Confirmation, 'openPopup').callsFake((args) => Promise.resolve(true));
             // @ts-ignore
-            return resolveMoveWithDialog(controller,correctSelection, {myProp: 'test'})
+            return resolveMoveWithDialog(controller, correctSelection, {myProp: 'test'})
                 .then((result: boolean) => {
 
-                    // Ожидаю. что перемещение провалится из-за Confirmation, открытого в контроллере на этапе открытия диалога
+                    // Ожидаю. что перемещение провалится из-за Confirmation,
+                    // открытого в контроллере на этапе открытия диалога
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubConfirmation);
                     sinonAssert.notCalled(spyDialog);
@@ -728,7 +746,7 @@ describe('Controls/list_clean/MoveController', () => {
         });
 
         // Попытка вызвать moveWithDialog() с заполненными selected[] и excluded[]
-        it ('should try to with dialog and correct selection', () => {
+        it ('should try to move with dialog and correct selection', () => {
             const correctSelection: ISelectionObject = {
                 selected: [1, 3, 5, 7],
                 excluded: [3]
@@ -740,18 +758,20 @@ describe('Controls/list_clean/MoveController', () => {
             const stubCall = stub(sbisServiceSource, 'call')
                 .callsFake((command: string, data?: { method: string, filter: Record, folder_id: number }) => {
                     assert.exists(data.filter, 'filter should exist');
-                    assert.deepEqual(data.filter.get('selection').get('marked'), correctSelection.selected.map((key) => `${key}`));
-                    assert.deepEqual(data.filter.get('selection').get('excluded'), correctSelection.excluded.map((key) => `${key}`));
-                    return Promise.resolve({} as DataSet);
+                    assert.deepEqual(data.filter.get('selection').get('marked'),
+                        correctSelection.selected.map((key) => `${key}`));
+                    assert.deepEqual(data.filter.get('selection').get('excluded'),
+                        correctSelection.excluded.map((key) => `${key}`));
+                    return Promise.resolve(dataSet);
                 });
             return resolveMoveWithDialog(controller, correctSelection, {myProp: 'test'})
-                .then((result: boolean) => {
+                .then((result: DataSet) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubDialog);
                     sinonAssert.called(stubCall);
-                    assert.isTrue(result);
+                    assert.equal(result, dataSet);
                     stubCall.restore();
                     stubDialog.restore();
                 });
@@ -770,18 +790,20 @@ describe('Controls/list_clean/MoveController', () => {
             const stubCall = stub(sbisServiceSource, 'call')
                 .callsFake((command: string, data?: { method: string, filter: Record, folder_id: number }) => {
                     assert.exists(data.filter, 'filter should exist');
-                    assert.deepEqual(data.filter.get('selection').get('marked'), correctSelection.selected.map((key) => `${key}`));
-                    assert.deepEqual(data.filter.get('selection').get('excluded'), correctSelection.excluded.map((key) => `${key}`));
-                    return Promise.resolve({} as DataSet);
+                    assert.deepEqual(data.filter.get('selection').get('marked'),
+                        correctSelection.selected.map((key) => `${key}`));
+                    assert.deepEqual(data.filter.get('selection').get('excluded'),
+                        correctSelection.excluded.map((key) => `${key}`));
+                    return Promise.resolve(dataSet);
                 });
             return resolveMoveWithDialog(controller, correctSelection, {myProp: 'test'})
-                .then((result: boolean) => {
+                .then((result: DataSet) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubDialog);
                     sinonAssert.called(stubCall);
-                    assert.isTrue(result);
+                    assert.equal(result, dataSet);
                     stubCall.restore();
                     stubDialog.restore();
                 });
@@ -812,20 +834,20 @@ describe('Controls/list_clean/MoveController', () => {
             const stubCall = stub(sbisServiceSource, 'call')
                 .callsFake((command: string, data?: { method: string, filter: Record, folder_id: number }) => {
                     assert.exists(data.filter, 'filter should exist anyway');
-                    return Promise.resolve({} as DataSet);
+                    return Promise.resolve(dataSet);
                 });
             // to prevent popup open
             const stubDialog = stub(Dialog, 'openPopup').callsFake((args) => (
                 Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])))
             ));
             return resolveMoveWithDialog(controller, selectionObject, undefined)
-                .then((result: boolean) => {
+                .then((result: DataSet) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubDialog);
                     sinonAssert.called(stubCall);
-                    assert.isTrue(result);
+                    assert.equal(result, dataSet);
                     stubCall.restore();
                     stubDialog.restore();
                 });
@@ -837,20 +859,20 @@ describe('Controls/list_clean/MoveController', () => {
                 .callsFake((command: string, data?: { method: string, filter: Record, folder_id: number }) => {
                     assert.exists(data.filter, 'filter should exist anyway');
                     assert.equal(data.filter.get('mother'), 'anarchy');
-                    return Promise.resolve({} as DataSet);
+                    return Promise.resolve(dataSet);
                 });
             // to prevent popup open
             const stubDialog = stub(Dialog, 'openPopup').callsFake((args) => (
                 Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])))
             ));
             return resolveMoveWithDialog(controller, selectionObject, {mother: 'anarchy'})
-                .then((result: boolean) => {
+                .then((result: DataSet) => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubDialog);
                     sinonAssert.called(stubCall);
-                    assert.isTrue(result);
+                    assert.equal(result, dataSet);
                     stubCall.restore();
                     stubDialog.restore();
                 });
@@ -860,12 +882,12 @@ describe('Controls/list_clean/MoveController', () => {
     describe('ICrudPlus', () => {
         beforeEach(() => {
             controller = new MoveController(cfg);
-        })
+        });
 
         // Попытка вызвать move() с невалидным selection
         it ('should not move "after" with invalid selection', () => {
             // @ts-ignore
-            return resolveMove(controller,['1', '2', '2'], {myProp: 'test'}, 4, LOCAL_MOVE_POSITION.After)
+            return resolveMove(controller, ['1', '2', '2'], {myProp: 'test'}, 4, LOCAL_MOVE_POSITION.After)
                 .then((result: boolean) => {
 
                     // Ожидаю. что перемещение провалится из-за ошибки, брошенной в контроллере
@@ -896,7 +918,7 @@ describe('Controls/list_clean/MoveController', () => {
 
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                 });
         });
 
@@ -908,7 +930,7 @@ describe('Controls/list_clean/MoveController', () => {
             };
 
             const stubMove = stub(source, 'move')
-                .callsFake((items: EntityKey | EntityKey[], target: EntityKey, meta?: IHashMap<any>) => {
+                .callsFake((items: CrudEntityKey | CrudEntityKey[], target: CrudEntityKey, meta?: IHashMap<any>) => {
                     assert.equal(items, correctSelection.selected, 'items are not equal');
                     assert.equal(target, 4, 'targets are not equal');
                     assert.equal(meta.position, LOCAL_MOVE_POSITION.On, 'positions are not equal');
@@ -921,7 +943,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubMove.restore();
                 });
         });
@@ -933,7 +955,7 @@ describe('Controls/list_clean/MoveController', () => {
                 excluded: [3]
             };
             const stubMove = stub(source, 'move')
-                .callsFake((items: EntityKey | EntityKey[], target: EntityKey, meta?: IHashMap<any>) => {
+                .callsFake((items: CrudEntityKey | CrudEntityKey[], target: CrudEntityKey, meta?: IHashMap<any>) => {
                     assert.equal(items, correctSelection.selected, 'items are not equal');
                     assert.equal(target, 4, 'targets are not equal');
                     assert.equal(meta.position, LOCAL_MOVE_POSITION.On, 'positions are not equal');
@@ -947,7 +969,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubMove.restore();
                 });
         });
@@ -959,7 +981,7 @@ describe('Controls/list_clean/MoveController', () => {
                 excluded: []
             };
             const stubMove = stub(source, 'move')
-                .callsFake((items: EntityKey | EntityKey[], target: EntityKey, meta?: IHashMap<any>) => {
+                .callsFake((items: CrudEntityKey | CrudEntityKey[], target: CrudEntityKey, meta?: IHashMap<any>) => {
                     assert.equal(items, correctSelection.selected, 'items are not equal');
                     assert.equal(target, 4, 'targets are not equal');
                     assert.equal(meta.position, LOCAL_MOVE_POSITION.On, 'positions are not equal');
@@ -972,7 +994,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubMove.restore();
                 });
         });
@@ -1029,7 +1051,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                 });
         });
@@ -1043,7 +1065,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                 });
         });
@@ -1087,7 +1109,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                 });
         });
@@ -1101,7 +1123,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                 });
         });
@@ -1115,7 +1137,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                 });
         });
@@ -1132,7 +1154,7 @@ describe('Controls/list_clean/MoveController', () => {
                     // Ожидаю. что перемещение произойдёт успешно, т.к. все условия соблюдены
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                 });
         });
@@ -1197,7 +1219,7 @@ describe('Controls/list_clean/MoveController', () => {
         });
 
         // Попытка вызвать moveWithDialog() с заполненными selected[] и excluded[]
-        it ('should try to with dialog and correct selection', () => {
+        it ('should try to move with dialog and correct selection', () => {
             const correctSelection: ISelectionObject = {
                 selected: [1, 3, 5, 7],
                 excluded: [3]
@@ -1207,7 +1229,7 @@ describe('Controls/list_clean/MoveController', () => {
                 Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])))
             ));
             const stubMove = stub(source, 'move')
-                .callsFake((items: EntityKey | EntityKey[], target: EntityKey, meta?: IHashMap<any>) => {
+                .callsFake((items: CrudEntityKey | CrudEntityKey[], target: CrudEntityKey, meta?: IHashMap<any>) => {
                     assert.equal(items, correctSelection.selected, 'items are not equal');
                     assert.equal(target, 4, 'targets are not equal');
                     assert.equal(meta.position, LOCAL_MOVE_POSITION.On, 'positions are not equal');
@@ -1221,7 +1243,7 @@ describe('Controls/list_clean/MoveController', () => {
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubDialog);
                     sinonAssert.called(stubMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubMove.restore();
                     stubDialog.restore();
                 });
@@ -1238,7 +1260,7 @@ describe('Controls/list_clean/MoveController', () => {
                 Promise.resolve(args.eventHandlers.onResult(createFakeModel(data[3])))
             ));
             const stubMove = stub(source, 'move')
-                .callsFake((items: EntityKey | EntityKey[], target: EntityKey, meta?: IHashMap<any>) => {
+                .callsFake((items: CrudEntityKey | CrudEntityKey[], target: CrudEntityKey, meta?: IHashMap<any>) => {
                     assert.equal(items, correctSelection.selected, 'items are not equal');
                     assert.equal(target, 4, 'targets are not equal');
                     assert.equal(meta.position, LOCAL_MOVE_POSITION.On, 'positions are not equal');
@@ -1252,7 +1274,7 @@ describe('Controls/list_clean/MoveController', () => {
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubDialog);
                     sinonAssert.called(stubMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     stubMove.restore();
                     stubDialog.restore();
                 });
@@ -1292,7 +1314,7 @@ describe('Controls/list_clean/MoveController', () => {
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubDialog);
                     sinonAssert.called(spyMove);
-                    assert.isTrue(result);
+                    assert.isNotFalse(result);
                     spyMove.restore();
                     stubDialog.restore();
                 });

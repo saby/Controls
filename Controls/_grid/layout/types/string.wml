@@ -1,4 +1,9 @@
 <span class="{{fontColorStyle ? 'controls-text-' + fontColorStyle + '_theme-' + _options.theme}}
              {{fontSize ? 'controls-fontsize-' + fontSize + '_theme-' + _options.theme}}">
-    {{value}}
+    <ws:if data="{{searchValue}}">
+        <Controls.decorator:Highlight highlightedValue="{{searchValue}}" value="{{value}}"/>
+    </ws:if>
+    <ws:else>
+        {{value}}
+    </ws:else>
 </span>

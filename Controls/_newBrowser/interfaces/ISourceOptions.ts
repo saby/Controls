@@ -1,5 +1,6 @@
 import {ICrudPlus} from 'Types/source';
 import {RecordSet} from 'Types/collection';
+import {TKey} from 'Controls/_interface/IItems';
 
 /**
  * Интерфейс описывает структуру данных, которая представляет из себя настройки
@@ -42,7 +43,7 @@ export interface ISourceOptions {
     /**
      * Иденитфикатор корневого узла
      */
-    root?: string;
+    root?: TKey;
 
     /**
      * Данные фильтра, который будет применен при запросе данных

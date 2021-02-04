@@ -135,4 +135,13 @@ class MultilinePath extends Control<IMultilinePathOptions, IReceivedState> imple
     static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
 
+Object.defineProperty(MultilinePath, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MultilinePath.getDefaultOptions();
+   }
+});
+
 export default MultilinePath;

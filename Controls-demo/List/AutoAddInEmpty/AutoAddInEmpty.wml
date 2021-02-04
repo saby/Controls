@@ -1,3 +1,0 @@
-<Controls.list:DataContainer source="{{_source}}" keyProperty="id">
-        <Controls-demo.List.AutoAddInEmpty.CustomList/>
-</Controls.list:DataContainer>

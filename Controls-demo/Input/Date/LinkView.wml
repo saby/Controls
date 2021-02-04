@@ -24,7 +24,6 @@
                bind:startValue="_startValue"
                bind:endValue="_endValue"
                viewMode="link" fontColorStyle="link"
-               clearButtonVisibility="{{true}}"
          />
          <Controls.dateRange:LinkView
                startValue="{{_startValue}}"
@@ -57,7 +56,6 @@
                bind:endValue="_endValue"
                viewMode="link"
                fontColorStyle="link"
-               clearButtonVisibility="{{true}}"
          />
          <Controls.dateRange:LinkView
                attr:class="controlsDemo-LinkView__component"
@@ -93,7 +91,6 @@
                bind:endValue="_endValue"
                viewMode="link"
                fontColorStyle="link"
-               clearButtonVisibility="{{true}}"
          />
          <Controls.dateRange:LinkView
                attr:class="controlsDemo-LinkView__component"

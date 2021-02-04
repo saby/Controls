@@ -66,6 +66,15 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
     }
 }
 
+Object.defineProperty(Header, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Header.getDefaultOptions();
+   }
+});
+
 /**
  * @typedef {String} TTextTransform
  * @variant none Без изменения регистра символов.

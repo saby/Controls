@@ -5,11 +5,11 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 
 /**
  * Контрол добавляет обработку клавиш KeyUp и KeyDown в контрол {@link Controls/list:Container}.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
- * 
+ *
  * @class Controls/_list/HotKeysContainer
  * @extends UI/Base:Control
  * @author Шипин А.А.
@@ -33,7 +33,8 @@ class HotKeysContainer extends Control<IControlOptions> {
                                  {keyCode: constants.key.pageDown},
                                  {keyCode: constants.key.home},
                                  {keyCode: constants.key.end},
-                                 {keyCode: constants.key.space}
+                                 {keyCode: constants.key.space},
+                                 {keyCode: constants.key.del}
                                 ];
     // Этого кода не будет, когда добавится еще один хук жизненного цикла - "заморозка".
     // https://online.sbis.ru/opendoc.html?guid=ba32a992-5f5b-4f00-9b6a-73f62871a193

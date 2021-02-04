@@ -13,8 +13,12 @@ import {TSelectedKeys} from 'Controls/interface';
 import {CollectionItem} from 'Controls/display';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 
-const SEARCH_DEPS = ['Controls/list:DataContainer', 'Controls/search:Controller', 'Controls/list:Container',
-    'Controls/search:Input', 'Controls/search:InputContainer'];
+const SEARCH_DEPS = [
+    'Controls/browser:Browser',
+    'Controls/list:Container',
+    'Controls/search:Input',
+    'Controls/search:InputContainer'
+];
 
 /**
  * Базовый шаблон для {@link Controls/menu:Control}, отображаемого в прилипающем блоке.
@@ -26,6 +30,7 @@ const SEARCH_DEPS = ['Controls/list:DataContainer', 'Controls/search:Controller'
  * @mixes Controls/_interface/IIconStyle
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface:ISource
  *
  * @public
  * @author Герасимов А.М.
@@ -103,6 +108,12 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         this._notify('sendResult', ['footerClick', sourceEvent], {bubbling: true});
     }
 
+    protected _mouseEnterHandler(): void {
+        if (this._container.closest('.controls-Menu__subMenu')) {
+            this._notify('sendResult', ['subMenuMouseenter'], {bubbling: true});
+        }
+    }
+
     protected _dataLoadCallback(options: IMenuPopupOptions, items: RecordSet): void {
         if (this._headingIcon) {
             const root = options.root !== undefined ? options.root : null;
@@ -164,10 +175,11 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     }
 
     private _prepareHeaderConfig(options: IMenuPopupOptions): void {
-        if (options.searchParam) {
-            this._headerTemplate = searchHeaderTemplate;
-        } else if (options.headerContentTemplate) {
+        if (options.headerContentTemplate) {
             this._headerTemplate = options.headerContentTemplate;
+        } else if (options.searchParam) {
+            this._headerTemplate = searchHeaderTemplate;
+            this._headingIcon = options.headingIcon;
         } else if (options.showHeader && options.headerTemplate !== null || options.headerTemplate) {
             if (options.headConfig) {
                 this._headingCaption = options.headConfig.caption;
@@ -205,7 +217,13 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         return ManagerController.getPopupHeaderTheme();
     }
 
-    static _theme: string[] = ['Controls/menu'];
+    static _theme: string[] = ['Controls/menu', 'Controls/Classes'];
+
+    static getDefaultOptions(): object {
+        return {
+            selectedKeys: []
+        };
+    }
 }
 
 /**

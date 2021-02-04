@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo_m">
+        <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
+                                    keyProperty="key"
+                                    displayProperty="title"
+                                    parentProperty="parent"
+                                    nodeProperty="@parent"
+                                    source="{{_source}}">
+        </Controls.dropdown:Selector>
+    </div>
+</div>

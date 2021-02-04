@@ -21,7 +21,10 @@
     </div>
 </ws:template>
 
-<div class="controls-BaseControl__continueSearch controls-BaseControl__continueSearch_theme-{{_options.theme}} ws-flexbox ws-justify-content-center">
+<div class="controls-BaseControl__continueSearch
+            controls-BaseControl__continueSearch_theme-{{_options.theme}}
+            {{ _options.pagingVisible ? ('controls-BaseControl_withPaging__continueSearch_theme-' + _options.theme) }}
+            ws-flexbox ws-justify-content-center">
     <ws:if data="{{_options.footerTemplate}}">
         <ws:partial template="searchWithFooter"/>
     </ws:if>

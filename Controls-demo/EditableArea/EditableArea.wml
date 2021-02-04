@@ -6,8 +6,8 @@
            <Controls.editableArea:View
                    name="edit"
                    editObject="{{_record}}"
-                   style="withBackground"
-                   toolbarVisibility="{{true}}">
+                   backgroundStyle="editableArea"
+                   toolbarVisible="{{true}}">
                <Controls.editableArea:Base
                        bind:value="content.editObject.text1"
                        attr:class="ControlsDemo-EditableArea__firstExample__editor_wrapper"
@@ -27,9 +27,9 @@
             <Controls.editableArea:View
                     name="edit"
                     editObject="{{_record1}}"
-                    style="withBackground"
+                    backgroundStyle="editableArea"
                     attr:class="ws-flexbox ws-flex-grow-1"
-                    toolbarVisibility="{{true}}">
+                    toolbarVisibible="{{true}}">
                 <div class="ControlsDemo-EditableArea__longExample__editor_wrapper">
                     <Controls.editableArea:Base
                             bind:value="content.editObject.text1"

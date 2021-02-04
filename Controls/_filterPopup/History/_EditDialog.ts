@@ -137,4 +137,13 @@ class EditDialog extends Control<IEditDialog> {
     static _theme: string[] = ['Controls/filterPopup', 'Controls/Classes'];
 }
 
+Object.defineProperty(EditDialog, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return EditDialog.getDefaultOptions();
+   }
+});
+
 export default EditDialog;

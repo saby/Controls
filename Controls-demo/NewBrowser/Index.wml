@@ -61,24 +61,45 @@
                />
             </Controls.search:InputContainer>
          </ws:afterBreadCrumbsTemplate>
-         <ws:defaultItemTemplate>
-            <ws:captionTemplate>
-               <Controls.heading:Title
-                  fontSize="4xl"
-                  fontColorStyle="default"
-                  caption="{{captionTemplate.itemData.item.title}}"
-                  tooltip="{{captionTemplate.itemData.item.title}}"
-               />
-            </ws:captionTemplate>
-            <ws:contentTemplate>
-               {{contentTemplate.itemData.item.description}}
-            </ws:contentTemplate>
-            <ws:footerTemplate>
+         <ws:itemTemplate>
+            <ws:partial
+               template="Controls/listTemplates:ListItemTemplate"
+               scope="{{itemTemplate}}"
+               imagePosition="{{itemTemplate.listCfg.imagePosition}}"
+               imageViewMode="{{itemTemplate.listCfg.imageViewMode}}"
+               imageProperty="{{itemTemplate.listCfg.imageProperty}}"
+            >
+               <ws:captionTemplate>
+                  <Controls.heading:Title
+                     fontSize="4xl"
+                     fontColorStyle="default"
+                     caption="{{captionTemplate.itemData.item.title}}"
+                     tooltip="{{captionTemplate.itemData.item.title}}"
+                  />
+               </ws:captionTemplate>
+               <ws:contentTemplate>
+                  {{contentTemplate.itemData.item.description}}
+               </ws:contentTemplate>
+               <ws:footerTemplate>
                <span style="color: grey">
                   {{ footerTemplate.itemData.item.rating || footerTemplate.itemData.item.year }}
                </span>
-            </ws:footerTemplate>
-         </ws:defaultItemTemplate>
+               </ws:footerTemplate>
+            </ws:partial>
+         </ws:itemTemplate>
+         <ws:tileItemTemplate>
+            <ws:partial
+               template="Controls/tile:RichTemplate"
+               scope="{{tileItemTemplate}}"
+               imageSize="{{tileItemTemplate.tileCfg.imageSize}}"
+               imagePosition="{{tileItemTemplate.tileCfg.imagePosition}}"
+               imageEffect="{{tileItemTemplate.tileCfg.getImageEffect(tileItemTemplate.itemData)}}"
+               imageViewMode="{{tileItemTemplate.tileCfg.getImageViewMode(tileItemTemplate.itemData)}}"
+               gradientColor="{{tileItemTemplate.tileCfg.getGradientColor(tileItemTemplate.itemData)}}"
+               description="{{tileItemTemplate.tileCfg.getDescription(tileItemTemplate.itemData)}}"
+               descriptionLines="{{tileItemTemplate.tileCfg.getDescriptionLines(tileItemTemplate.itemData)}}"
+            />
+         </ws:tileItemTemplate>
       </ws:detail>
    </Controls.newBrowser:Browser>
 

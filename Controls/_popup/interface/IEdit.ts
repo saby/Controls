@@ -31,7 +31,7 @@ export interface IEditOpener {
  *  <li>If option 'mode' is set to 'dialog' use  {@link Controls/popup:Dialog Dialog options}</li>
  *  <li>If option 'mode' is set to 'sticky' use  {@link Controls/popup:Sticky Sticky options}</li>
  * <a href="/materials/Controls-demo/app/Controls-demo%2FPopup%2FEdit%2FOpener">Demo-example</a>
- * {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/ Подробнее}
+ * {@link /doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/ Подробнее}
  * @class Controls/_popup/interface/IEditOpener
  * 
  * @public
@@ -42,7 +42,7 @@ export interface IEditOpener {
 /**
  * Открывает всплывающее окно диалога редактирования.
  * @function Controls/_popup/interface/IEditOpener#open
- * @param {Object} meta Данные, по которым определяется, откуда диалог получит редактируемую запись. В объект можно передать свойства key и record. Политика обработки свойств подробно описана {@link /doc/platform/developmentapl/interface-development/forms-and-validation/editing-dialog/#step4 здесь}.
+ * @param {Object} meta Данные, по которым определяется, откуда диалог получит редактируемую запись. В объект можно передать свойства key и record. Политика обработки свойств подробно описана {@link /doc/platform/developmentapl/interface-development/controls/list/actions/editing-dialog/#step4 здесь}.
  * @param {Object} popupOptions Опции всплывающего окна диалога редактирования.
  * В зависимости от значения опции {@link Controls/_popup/interface/IEditOpener#mode mode}:
  * * "stack" — смотреть {@link Controls/_popup/interface/IStack/PopupOptions.typedef popupOptions стекового окна}

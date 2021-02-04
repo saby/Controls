@@ -47,7 +47,7 @@ export default class OperationsController {
     }
 
     unregisterHandler(event, registerType, component, config): void {
-        this._getRegister().unregister(event, component, config);
+        this._getRegister().unregister(event, registerType, component, config);
     }
 
     selectionTypeChanged(type: string, limit: number): void {

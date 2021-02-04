@@ -320,7 +320,28 @@
 }
 
 .controls-ListView__item_dragging_theme-@{themeName} {
+   box-shadow: @item_dragging_box-shadow_list;
+   // Чтобы тень отображалась у лесенки
+   z-index: 2;
+}
+
+.controls-ListView__itemContent_dragging_theme-@{themeName} {
    opacity: @item_dragging_opacity_list;
+}
+
+.controls-ListView__item-dragging-counter {
+   position: absolute;
+   display: flex;
+   align-items: center;
+   right: @item_dragging_counter_right_list;
+   top: @item_dragging_counter_top_list;
+   height: @item_dragging_counter_height_list;
+   font-size: @item_dragging_counter_font-size_list;
+   color: @item_dragging_counter_color_list;
+   background-color: @item_dragging_counter_background-color_list;
+   border-radius: @item_dragging_counter_border-radius_list;
+   padding: @item_dragging_counter_padding_list;
+   z-index: 1;
 }
 
 .controls-BaseControl_showActions_visible {
@@ -363,7 +384,7 @@
    //overflow: hidden;
 }
 
-.controls-ListView__groupSeparator-left_theme-@{themeName}, .controls-ListView__groupSeparator-right_theme-@{themeName} {
+.controls-ListView__groupSeparator_theme-@{themeName} {
    height: @grouping_height_list / 2 - @grouping_separator_thickness_list;
    margin-bottom: @grouping_height_list / 2;
    border-bottom: @grouping_separator_thickness_list solid @grouping_separator_color_list;
@@ -624,7 +645,7 @@
    justify-content: center;
 }
 
-.ws-is-hover {
+.ws-is-hover .controls-BaseControl_hover_enabled {
    .controls-ListView__item_highlightOnHover_default_theme_@{themeName} {
       &:hover {
          background-color: @item_hover_background-color_list;

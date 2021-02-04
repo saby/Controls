@@ -48,6 +48,8 @@ const enum VIEW_MODE {
 }
 
 const SCALE_ROUNDING_ERROR_FIX = 1.5;
+
+const ENRICH_ITEMS_DELAY = 200;
 /**
  * Прокручивающийся список с месяцами. Позволяет выбирать период.
  *
@@ -115,7 +117,7 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
 
         const normalizedPosition = this._normalizeDate(position, options.viewMode);
 
-        this._enrichItemsDebounced = debounce(this._enrichItems, 150);
+        this._enrichItemsDebounced = debounce(this._enrichItems, ENRICH_ITEMS_DELAY);
 
         this._updateItemTemplate(options);
         this._updateSource(options);
@@ -220,6 +222,10 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             this._displayedPosition = this._lastPositionFromOptions;
             this._scrollToPosition(this._displayedPosition);
         }
+    }
+
+    protected _onMarkedKeyChanged(event: Event, markedKey: string): void {
+        this._notify('markedKeyChanged', [markedKey]);
     }
 
     private  _getDisplayedRanges(position: Date, virtualPageSize: number, viewMode): number[] {
@@ -597,10 +603,20 @@ class  ModuleComponent extends Control<IModuleComponentOptions> implements
             displayedRanges: null,
             itemDataLoadRatio: 0.1,
             // Опция при значении false позволяет загружать элементы списка 'вверх'
-            attachLoadTopTriggerToNull: true
+            attachLoadTopTriggerToNull: true,
+            markerVisibility: 'hidden'
         };
     }
 }
+
+Object.defineProperty(ModuleComponent, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ModuleComponent.getDefaultOptions();
+   }
+});
 
 export default ModuleComponent;
 

@@ -72,6 +72,16 @@ class DateRangeEditor extends Control<IControlOptions> {
         };
     }
 }
+
+Object.defineProperty(DateRangeEditor, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DateRangeEditor.getDefaultOptions();
+   }
+});
+
 /**
  * @event Происходит при изменении выбранного значения.
  * @name Controls/_filter/Editors/DateRange#textValueChanged

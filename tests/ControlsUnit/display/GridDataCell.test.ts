@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Model as EntityModel, Model } from 'Types/entity';
 
-import { GridCollection, GridDataCell, GridDataRow, TColspanCallback } from 'Controls/display';
+import { GridCollection, GridDataCell, GridDataRow, TColspanCallback } from 'Controls/gridNew';
 import { IColumn } from 'Controls/grid';
 
 describe('Controls/display/GridDataCell', () => {
@@ -79,7 +79,8 @@ describe('Controls/display/GridDataCell', () => {
                 isDragging: () => false,
                 getEditingBackgroundStyle: () => 'default',
                 isActive: () => false,
-                getRowSeparatorSize: () => 's'
+                getRowSeparatorSize: () => 's',
+                getEditingConfig: () => ({})
             } as undefined as GridCollection<Model>;
             return new GridDataRow({
                 columns,

@@ -19,26 +19,9 @@ type IOptions = IModelOptions;
  * @extends Controls/_input/Base
  * @ignoreOptions Controls/_input/Base#value
  *
- * @mixes Controls/interface/ITimeInterval
+ * @mixes Controls/_input/interface/ITimeInterval
  *
  * @ignoreOptions Controls/_input/Base#placeholder
- *
- * @public
- * @demo Controls-demo/Input/TimeInterval/Base/Index
- *
- * @author Красильников А.С.
- */
-
-/*
- * Controls that allows user to enter some amount of time with the accuracy from day to seconds.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput">Demo examples.</a>.
- * @remark
- * If container with width: auto, then the width is determined based on the content.
- *
- * @class Controls/_input/TimeInterval
- * @extends Controls/_input/Base
- *
- * @mixes Controls/interface/ITimeInterval
  *
  * @public
  * @demo Controls-demo/Input/TimeInterval/Base/Index
@@ -115,5 +98,14 @@ class TimeInterval extends Base {
         return optionTypes;
     }
 }
+
+Object.defineProperty(TimeInterval, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return TimeInterval.getDefaultOptions();
+   }
+});
 
 export default TimeInterval;

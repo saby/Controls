@@ -11,6 +11,7 @@ export default class Index extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
 
     protected _title: string;
+    protected _links: object[];
 
     protected _settigsController: object;
 
@@ -21,6 +22,7 @@ export default class Index extends Control<IControlOptions> {
     }
 
     protected _beforeMount(): void {
+        this._links = this._prepareLinks();
         this._title = this._getTitle();
         this._settigsController = {
             getSettings(ids: string[]): Promise<object> {
@@ -78,6 +80,23 @@ export default class Index extends Control<IControlOptions> {
 
     protected _afterMount(): void {
         window.localStorage.setItem('controlSettingsStorage', JSON.stringify({}));
+    }
+
+    _prepareLinks(): object[] {
+        const fontsArray = [
+            constants.tensorFont,
+            constants.tensorFontBold,
+            constants.cbucIcons,
+            constants.cbucIcons24
+        ];
+        const links = [];
+        for (let i = 0; i < fontsArray.length; i++) {
+            links.push({
+                rel: 'preload', as: 'font', href: fontsArray[i],
+                type: 'font/woff2', crossorigin: 'anonymous'
+            });
+        }
+        return links;
     }
 
     protected _getPopupHeaderTheme(theme: string): string {

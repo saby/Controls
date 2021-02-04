@@ -18,6 +18,8 @@
  * @includes IMasterOptions Controls/_newBrowser/interfaces/IMasterOptions
  * @includes IDetailOptions Controls/_newBrowser/interfaces/IDetailOptions
  * @includes DetailViewMode Controls/_newBrowser/interfaces/IDetailOptions
+ * @includes IRootsData Controls/_newBrowser/interfaces/IRootsData
+ * @includes BeforeChangeRootResult Controls/_newBrowser/interfaces/IRootsData
  * @author Уфимцев Д.Ю.
  */
 // tslint:disable-next-line:ban-ts-ignore
@@ -36,6 +38,7 @@ export {default as Browser} from 'Controls/_newBrowser/Browser';
 export {IOptions} from './_newBrowser/interfaces/IOptions';
 export {IMasterOptions} from './_newBrowser/interfaces/IMasterOptions';
 export {IDetailOptions, DetailViewMode} from './_newBrowser/interfaces/IDetailOptions';
+export {IRootsData, BeforeChangeRootResult} from './_newBrowser/interfaces/IRootsData';
 export {
     TileSize,
     ITileConfig,

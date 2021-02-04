@@ -1,0 +1,6 @@
+<ws:partial
+   template="{{template}}"
+   scope="{{templateOptions}}"
+   isPrefetchDataMode="{{ _options._isPrefetchDataMode }}"
+   prefetchData="{{ _options._prefetchData }}"
+   slidingPanelPosition="{{slidingPanelPosition}}"/>

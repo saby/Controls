@@ -82,6 +82,14 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
         }
     }
 
+    onDraggingChanged(e, isDragging) {
+        if (isDragging) {
+            this._notify('dragStart');
+        } else {
+            this._notify('dragEnd');
+        }
+    }
+
     private _getGridStyles(options: IHorizontalScrollWrapperOptions): string {
         if (!isFullGridSupport()) {
             return '';

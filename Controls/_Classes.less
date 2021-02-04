@@ -9,7 +9,9 @@
   line-height: 1;
   display: inline-block;
 }
+
 //icon-sizes
+
 .controls-icon_size-default_theme-@{themeName} {
   font-size: @icon-size_m;
   line-height: @icon-size_m;
@@ -17,6 +19,7 @@
   height: @icon-size_m;
   font-family: @icon_font-family_m;
 }
+
 .controls-icon_size-2xs_theme-@{themeName} {
   font-size: @icon-size_2xs;
   line-height: @icon-size_2xs;
@@ -24,6 +27,7 @@
   height: @icon-size_2xs;
   font-family: @icon_font-family_2xs;
 }
+
 .controls-icon_size-xs_theme-@{themeName} {
   font-size: @icon-size_xs;
   line-height: @icon-size_xs;
@@ -31,6 +35,7 @@
   height: @icon-size_xs;
   font-family: @icon_font-family_xs;
 }
+
 .controls-icon_size-s_theme-@{themeName} {
   font-size: @icon-size_s;
   line-height: @icon-size_s;
@@ -38,6 +43,7 @@
   height: @icon-size_s;
   font-family: @icon_font-family_s;
 }
+
 .controls-icon_size-m_theme-@{themeName} {
   font-size: @icon-size_m;
   line-height: @icon-size_m;
@@ -45,6 +51,7 @@
   height: @icon-size_m;
   font-family: @icon_font-family_m;
 }
+
 
 
 //todo change font icons to svg https://online.sbis.ru/opendoc.html?guid=90761cbd-04f8-4fad-be7d-8c1707bdd30e
@@ -60,7 +67,10 @@
 {
   transform: rotate(360deg);
 }
+
+
 //end todo
+
 
 .controls-icon_size-l_theme-@{themeName} {
   font-size: @icon-size_l;
@@ -69,7 +79,12 @@
   height: @icon-size_l;
   font-family: @icon_font-family_l;
 }
+
+
+
+
 //icon colors
+
 .controls-icon_style-info_theme-@{themeName} {
   fill: @info_icon-color;
   color: @info_icon-color;
@@ -120,7 +135,10 @@
   fill: @secondary_hover_icon-color;
   color: @secondary_hover_icon-color;
 }
+
+
 //text colors
+
 .controls-text-default_theme-@{themeName}{
   color: @text-color;
 }
@@ -157,7 +175,11 @@
 .controls-text-results_theme-@{themeName}{
   color: @results-text-color_decoratorMoney;
 }
+
+
+
 //font-sizes
+
 .controls-fontsize-inherit {
   font-size: inherit;
 }
@@ -194,7 +216,12 @@
 .controls-fontsize-7xl_theme-@{themeName} {
   font-size: @font-size_7xl;
 }
+
+
+
 //heights
+
+
 .controls-inlineheight-xs_theme-@{themeName} {
   height: @inline_height_xs;
 }
@@ -216,13 +243,20 @@
 .controls-inlineheight-default_theme-@{themeName} {
   height: @inline_height_default;
 }
+
+
+
 //font-weights
-.controls-fontweight-default_theme-@{themeName} {
-  font-weight: @font-weight;
-}
 .controls-fontweight-bold {
   font-weight: bold;
 }
+
+.controls-fontweight-default_theme-@{themeName} {
+  font-weight: @font-weight;
+}
+
+
+
 
 //validate
 .controls-invalid-border{
@@ -299,4 +333,32 @@
   &.tlr {
     border-radius: @border-radius_default_block @border-radius_default_block 0 0;
   }
+}
+
+// набор классов для корректного отображения окон
+// Класс для установки фона шапки контрола через backgroundStyle (stackHeader)
+.controls-background-stackHeader_theme-@{themeName} {
+  background-color: var(--header_background-color_stack);
+}
+
+.controls-StackTemplate__top-area-border_theme_@{themeName} {
+  border-bottom: var(--header_bottom-border-thickness_stack) solid var(--header_bottom-border-color_stack);
+}
+
+.controls-StackTemplate__top-area-background_theme_@{themeName} {
+  background: var(--header_background-color_stack);
+}
+
+// Класс для установки фона контрола через backgroundStyle (stack)
+.controls-background-stack_theme-@{themeName} {
+  background-color: var(--background-color_stack);
+}
+
+.controls-InfoBox__message_theme-@{themeName} {
+  font-size: var(--font-size_infobox);
+}
+
+// Класс для установки фона контрола через backgroundStyle (infoBox)
+.controls-background-infoBox_theme-@{themeName} {
+  background-color: var(--background-color_infobox);
 }

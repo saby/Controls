@@ -74,6 +74,10 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
         return this._avatarItem;
     }
 
+    getDraggedItemsCount(): number {
+        return this._options.draggedItemsKeys.length;
+    }
+
     setPosition(newPosition: IDragPosition<T>): void {
         let newIndex: number;
 

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridCollection } from 'Controls/display';
+import { GridCollection } from 'Controls/gridNew';
 
 describe('Controls/grid_clean/Display/Collection', () => {
     describe('Update options', () => {
@@ -18,11 +18,13 @@ describe('Controls/grid_clean/Display/Collection', () => {
                     header: [{
                         template: () => 'header'
                     }],
-                    resultsPosition: 'top'
+                    resultsPosition: 'top',
+                    rowSeparatorSize: 's'
                 });
 
                 let columnItems = gridCollection.at(0).getColumns();
                 assert.strictEqual(columnItems.length, 1);
+                assert.strictEqual(columnItems[0].getRowSeparatorSize(), 's');
 
                 let headerItems = gridCollection.getHeader().getRow().getColumns();
                 assert.strictEqual(headerItems.length, 1);
@@ -38,6 +40,8 @@ describe('Controls/grid_clean/Display/Collection', () => {
 
                 columnItems = gridCollection.at(0).getColumns();
                 assert.strictEqual(columnItems.length, 2);
+                assert.strictEqual(columnItems[0].getRowSeparatorSize(), 's');
+                assert.strictEqual(columnItems[1].getRowSeparatorSize(), 's');
 
                 headerItems = gridCollection.getHeader().getRow().getColumns();
                 assert.strictEqual(headerItems.length, 2);
@@ -64,11 +68,14 @@ describe('Controls/grid_clean/Display/Collection', () => {
                         template: () => 'header'
                     }],
                     resultsPosition: 'top',
-                    multiSelectVisibility: 'visible'
+                    multiSelectVisibility: 'visible',
+                    rowSeparatorSize: 's'
                 });
 
                 let columnItems = gridCollection.at(0).getColumns();
                 assert.strictEqual(columnItems.length, 2);
+                assert.strictEqual(columnItems[0].getRowSeparatorSize(), 's');
+                assert.strictEqual(columnItems[1].getRowSeparatorSize(), 's');
 
                 let headerItems = gridCollection.getHeader().getRow().getColumns();
                 assert.strictEqual(headerItems.length, 2);
@@ -84,6 +91,7 @@ describe('Controls/grid_clean/Display/Collection', () => {
 
                 columnItems = gridCollection.at(0).getColumns();
                 assert.strictEqual(columnItems.length, 1);
+                assert.strictEqual(columnItems[0].getRowSeparatorSize(), 's');
 
                 headerItems = gridCollection.getHeader().getRow().getColumns();
                 assert.strictEqual(headerItems.length, 1);

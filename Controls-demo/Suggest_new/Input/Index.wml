@@ -135,4 +135,12 @@
         </Router.router:Reference>
         <Controls-demo.Suggest_new.Input.ExplorerBreadCrumbs.ExplorerBreadCrumbs/>
     </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Suggest_new/Input/BorderVisibility/Index' }}">
+            <a href="{{content.href}}">Автодополнение с BorderVisibility.</a>
+        </Router.router:Reference>
+        <Controls-demo.Suggest_new.Input.BorderVisibility.Index/>
+    </div>
 </div>

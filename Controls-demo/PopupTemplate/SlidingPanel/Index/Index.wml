@@ -1,0 +1,38 @@
+<div class="ControlDemo__SlidingPanelTemplate">
+   <div class="ControlDemo__SlidingPanelTemplate-example">
+      <div class="ControlDemo__SlidingPanelTemplate-example-caption">Контроллер виден</div>
+      <div class="ControlDemo__SlidingPanelTemplate-example-control">
+         <Controls.popupSliding:Template
+            controlButtonVisibility="{{ true }}">
+            <ws:bodyContentTemplate>
+               <ws:partial template="Controls-demo/Popup/BaseTemplate"></ws:partial>
+            </ws:bodyContentTemplate>
+         </Controls.popupSliding:Template>
+      </div>
+   </div>
+   <div class="ControlDemo__SlidingPanelTemplate-example">
+      <div class="ControlDemo__SlidingPanelTemplate-example-caption">Контроллер спрятан</div>
+      <div class="ControlDemo__SlidingPanelTemplate-example-control">
+         <Controls.popupSliding:Template
+            controlButtonVisibility="{{ false }}">
+            <ws:bodyContentTemplate>
+               <ws:partial template="Controls-demo/Popup/BaseTemplate"></ws:partial>
+            </ws:bodyContentTemplate>
+         </Controls.popupSliding:Template>
+      </div>
+   </div>
+   <div class="ControlDemo__SlidingPanelTemplate-example">
+      <div class="ControlDemo__SlidingPanelTemplate-example-caption">Контроллер виден, кастомный фон</div>
+      <div class="ControlDemo__SlidingPanelTemplate-example-control">
+         <Controls.popupSliding:Template
+            controlButtonVisibility="{{ false }}">
+            <ws:bodyContentTemplate>
+               <div class="ControlDemo__SlidingPanelTemplate-example-customContentColor">
+                  <ws:partial template="{{ bodyContentTemplate.controllerButtonTemplate }}"/>
+                  <ws:partial template="Controls-demo/Popup/BaseTemplate"></ws:partial>
+               </div>
+            </ws:bodyContentTemplate>
+         </Controls.popupSliding:Template>
+      </div>
+   </div>
+</div>

@@ -9,10 +9,10 @@
    </ws:if>
    <ws:else>
       <div class="controls-EditableArea__Text
-                  controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
-                  controls-fontweight-{{_fontWeight}}{{_fontWeight === 'default' ? '_theme-' + _options.theme}}
-                  controls-inlineheight-{{_inlineHeight}}_theme-{{_options.theme}}
-                  controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}">
+                  controls-text-{{_options.fontColorStyle}}_theme-{{_options.theme}}
+                  controls-fontweight-{{_options.fontWeight}}{{_options.fontWeight === 'default' ? '_theme-' + _options.theme}}
+                  controls-inlineheight-{{_options.inlineHeight}}_theme-{{_options.theme}}
+                  controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}">
          <div class="controls-EditableArea__Text__wrapper">
             <span class="controls-EditableArea__Text__baseline">&#65279;</span>
             <div class="controls-EditingTemplateText__inner">{{_prepareValueForEditor(_options.value)}}</div>

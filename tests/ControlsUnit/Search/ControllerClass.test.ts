@@ -98,6 +98,15 @@ describe('Controls/search:ControllerClass', () => {
       assert.isTrue(loadSpy.withArgs(undefined, undefined, filter).called);
    });
 
+   it('getFilter', () => {
+      const resultFilter = {
+         testParam: 'testSearchValue',
+         payload: 'something'
+      };
+      controllerClass._searchValue = 'testSearchValue';
+      assert.deepEqual(controllerClass.getFilter(), resultFilter);
+   });
+
    describe('with hierarchy', () => {
       it('default search case and reset', () => {
          const filter: QueryWhereExpression<unknown> = {
@@ -140,6 +149,20 @@ describe('Controls/search:ControllerClass', () => {
             payload: 'something'
          }).called);
       });
+
+      it('getFilter', () => {
+         const resultFilter = {
+            testParam: 'testSearchValue',
+            Разворот: 'С разворотом',
+            usePages: 'full',
+            payload: 'something',
+            testParentProeprty: 'testRoot'
+         };
+         controllerClass._root = 'testRoot';
+         controllerClass._searchValue = 'testSearchValue';
+         controllerClass._options.parentProperty = 'testParentProeprty';
+         assert.deepEqual(controllerClass.getFilter(), resultFilter);
+      });
    });
 
    it('search and reset', () => {
@@ -178,6 +201,11 @@ describe('Controls/search:ControllerClass', () => {
 
       assert.isTrue(loadSpy.withArgs(undefined, undefined, updatedFilter).called);
       assert.equal(controllerClass._root, 'newRoot');
+   });
+
+   it('double search call', () => {
+      const searchPromise = controllerClass.search('testValue');
+      assert.ok(searchPromise === controllerClass.search('testValue'));
    });
 
    describe('update', () => {

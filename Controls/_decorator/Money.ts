@@ -218,6 +218,15 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     }
 }
 
+Object.defineProperty(Money, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Money.getDefaultOptions();
+   }
+});
+
 export default Money;
 /**
  * @name Controls/_decorator/Money#useGrouping
@@ -229,12 +238,12 @@ export default Money;
  * @cfg
  * @default default
  * @demo Controls-demo/Decorator/Money/FontColorStyle/Index
- */ 
+ */
 /**
  * @name Controls/_decorator/Money#showEmptyDecimals
  * @cfg
  * @default true
- */ 
+ */
 /**
  * @name Controls/_decorator/Money#fontSize
  * @cfg

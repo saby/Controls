@@ -88,6 +88,7 @@ const _private = {
                            .add('js-controls-ColumnScroll__notDraggable')
                            .add(`controls-CheckboxMarker_inList_theme-${theme}`)
                            .add('controls-ListView__checkbox-onhover', checkboxOnHover && !checkboxVisible)
+                           .add(`controls-ListView__itemContent_dragging_theme-${theme}`, !!current.isDragging)
                            .compile();
     },
 
@@ -184,7 +185,7 @@ const _private = {
         wrapperClasses += ` controls-ListView__item_${style}`;
         wrapperClasses += ` controls-ListView__item_${style}_theme-${theme}`;
         wrapperClasses += ' controls-ListView__item_showActions';
-        wrapperClasses += ' js-controls-ItemActions__swipeMeasurementContainer';
+        wrapperClasses += ' js-controls-ListView__measurableContainer';
         wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}`;
         if (templateHighlightOnHover && !this.isEditing()) {
             wrapperClasses += ` controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}_theme_${theme}`;
@@ -277,13 +278,16 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             return 'default';
         };
 
+        itemsModelCurrent.getDraggedItemsCount = () => this._dragEntity?.getItems()?.length || 0;
+
         itemsModelCurrent.getMarkerClasses = (markerClassName = 'default'): string => {
             const style = this._options.style || 'default';
             return `controls-ListView__itemV_marker
                     controls-ListView__itemV_marker_${style}_theme-${theme}
                     controls-ListView__itemV_marker_${style}_topPadding-${itemsModelCurrent.itemPadding.top}_theme-${theme}
                     controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}_theme-${theme}x
-                    controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (itemsModelCurrent.itemPadding.top || 'l') + '_' + markerClassName)}`;
+                    controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (itemsModelCurrent.itemPadding.top || 'l') + '_' + markerClassName)}
+                    ${!!itemsModelCurrent.isDragging ? ' controls-ListView__itemContent_dragging_theme-' + itemsModelCurrent.theme : ''}`;
         };
 
         if (itemsModelCurrent.isGroup) {
@@ -541,6 +545,12 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._nextModelVersion(true);
     },
 
+    setDragOutsideList(outside: boolean): void {
+        if (this.getDisplay()) {
+            this.getDisplay().setDragOutsideList(outside);
+        }
+    },
+
     setDragEntity(entity: ItemsEntity): void {
         if (this._dragEntity !== entity) {
             this._dragEntity = entity;
@@ -771,10 +781,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         if (this._display) {
             this._display.setEditing(editing);
         }
-    },
-
-    setSelectedItems(items: Model[], selected: boolean|null): void {
-        this._display.setSelectedItems(items, selected);
     },
 
     // New Model compatibility

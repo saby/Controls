@@ -1,0 +1,27 @@
+<div class="ControlDemo__SlidingPanel">
+   <div class="ControlDemo__SlidingPanel-setting">
+      <Controls.input:Label caption="minHeight"/>
+      <Controls.input:Number bind:value="_minHeight"/>
+   </div>
+   <div class="ControlDemo__SlidingPanel-setting">
+      <Controls.input:Label caption="maxHeight"/>
+      <Controls.input:Number bind:value="_maxHeight"/>
+   </div>
+   <div class="ControlDemo__SlidingPanel-setting">
+      <Controls.input:Label caption="modal"/>
+      <Controls.toggle:Switch bind:value="_modal"/>
+   </div>
+   <div class="ControlDemo__SlidingPanel-setting">
+      <Controls.input:Label caption="position"/>
+      <Controls.dropdown:Selector
+         keyProperty="id"
+         displayProperty="id"
+         source="{{_positionSource}}"
+         bind:selectedKeys="_position"/>
+   </div>
+   <div class="ControlDemo__SlidingPanel-setting">
+      <Controls.input:Label caption="desktop popup width"/>
+      <Controls.input:Number bind:value="_desktopWidth"/>
+   </div>
+   <Controls.buttons:Button caption="Открыть шторку" on:click="_openSlidingPanelHandler()"/>
+</div>

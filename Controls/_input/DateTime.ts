@@ -1,7 +1,7 @@
 ﻿import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {Date as WSDate, DateTime, Time} from 'Types/entity';
+import {Date as WSDate, DateTime as WSDateTime, Time as WSTime} from 'Types/entity';
 import * as Model from 'Controls/_input/DateTime/Model';
 import {DATE_MASK_TYPE, DATE_TIME_MASK_TYPE, getMaskType, TIME_MASK_TYPE} from './DateTime/Utils';
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
@@ -31,11 +31,12 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  *
  * @class Controls/_input/DateTime
  * @extends UI/Base:Control
- * @mixes Controls/interface/IInputDateTime
+ * @mixes Controls/_input/interface/IInputDateTime
  * @mixes Controls/_input/interface/IDateTimeMask
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/_input/interface/IBase
- * @mixes Controls/interface/IInputPlaceholder
+ * @mixes Controls/_input/interface/IBorderVisibility
+ * @mixes Controls/_interface/IInputPlaceholder
  * @mixes Controls/_input/interface/IValueValidators
  *
  * @ignoreOptions Controls/_input/interface/IBase#placeholder
@@ -147,8 +148,8 @@ class DateTime extends Control {
     private _getDateConstructor(mask: string): Function {
         const dateConstructorMap = {
             [DATE_MASK_TYPE]: WSDate,
-            [DATE_TIME_MASK_TYPE]: DateTime,
-            [TIME_MASK_TYPE]: Time
+            [DATE_TIME_MASK_TYPE]: WSDateTime,
+            [TIME_MASK_TYPE]: WSTime
         };
         return dateConstructorMap[getMaskType(mask)];
     }
@@ -195,5 +196,14 @@ class DateTime extends Control {
         };
     }
 }
+
+Object.defineProperty(DateTime, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DateTime.getDefaultOptions();
+   }
+});
 
 export default DateTime;

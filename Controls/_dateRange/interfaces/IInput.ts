@@ -64,3 +64,14 @@
  *    })
  * </pre>
  */
+
+/*
+ * @name Controls/_dateRange/interfaces/IInput#rightFieldTemplate
+ * @cfg {TemplateFunction} Шаблон, содержащие прикладной контент, который будет отображаться справа от полей ввода.
+ * @remark
+ * В шаблон будет переданы опции
+ * <ul>
+ *   <li>value - дата, которая установлена в поле ввода</li>
+ *   <li>inputPosition - указывает с какой стороны находится поле ввода. 'right' или 'left'</li>
+ * </ul>
+*/

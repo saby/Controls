@@ -12,6 +12,7 @@
         <Controls.scroll:_Scrollbar
                 name="columnScrollbar"
                 position="{{_position}}"
+                on:draggingChanged="onDraggingChanged()"
                 direction="horizontal"
                 contentSize="{{_options.contentSize}}"
                 shouldSetMarginTop="{{_shouldSetMarginTop}}"
@@ -26,6 +27,7 @@
                 name="columnScrollbar"
                 position="{{_position}}"
                 direction="horizontal"
+                on:draggingChanged="onDraggingChanged()"
                 contentSize="{{_options.contentSize}}"
                 shouldSetMarginTop="{{_shouldSetMarginTop}}"
                 gridSupport="{{_options.gridSupport}}"

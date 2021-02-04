@@ -5,6 +5,9 @@ import {generateData} from '../../../../DemoHelpers/DataCatalog';
 
 const MAX_ELEMENTS_COUNT: number = 60;
 
+/**
+ * Отображение пейджинга с одной командой прокрутки. Отображается только кнопка в конец.
+ */
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;

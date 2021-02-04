@@ -5,7 +5,6 @@ define('Controls-demo/Popup/TestMaximizedStack',
    ],
    function (Base, template) {
       'use strict';
-
       var TestMaximizedStack = Base.Control.extend({
          _template: template,
          _showMaximizedButton: false,
@@ -30,6 +29,15 @@ define('Controls-demo/Popup/TestMaximizedStack',
             maxWidth: 1200
          }
       };
+
+      Object.defineProperty(TestMaximizedStack, 'defaultProps', {
+         enumerable: true,
+         configurable: true,
+
+         get: function() {
+            return TestMaximizedStack.getDefaultOptions();
+         }
+      });
 
       return TestMaximizedStack;
    }

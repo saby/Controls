@@ -165,4 +165,13 @@ class NumberDecorator extends Control<INumberOptions> {
     }
 }
 
+Object.defineProperty(NumberDecorator, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return NumberDecorator.getDefaultOptions();
+   }
+});
+
 export default NumberDecorator;

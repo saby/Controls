@@ -359,7 +359,7 @@ export default class ColumnsInnerView extends Control {
             this.moveMarker(direction);
             e.stopPropagation();
             e.preventDefault();
-            return true;
+            return false;
         }
     }
 
@@ -372,3 +372,12 @@ export default class ColumnsInnerView extends Control {
         };
     }
 }
+
+Object.defineProperty(ColumnsInnerView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ColumnsInnerView.getDefaultOptions();
+   }
+});

@@ -4,10 +4,11 @@
                        controls-ListView__groupContent_align-{{textAlign || 'left'}}
                        {{(item || itemData).getGroupPaddingClasses(theme, 'left')}}
                        {{ !rightTemplate ? (item || itemData).getGroupPaddingClasses(theme, 'right') }}">
-         <ws:if data="{{ separator !== false && separatorVisibility !== false && textAlign !== 'left' }}">
-            <div attr:class="controls-ListView__groupSeparator-left_theme-{{theme}}">&nbsp;</div>
+         <ws:if data="{{ separator !== false && textVisible !== false && separatorVisibility !== false && textAlign !== 'left' }}">
+            <div attr:class="controls-ListView__groupSeparator_theme-{{theme}} controls-ListView__groupSeparator-left_theme-{{theme}}">&nbsp;</div>
          </ws:if>
-         <div attr:class="controls-ListView__groupContent-text
+         <ws:if data="{{ textVisible !== false }}">
+            <div attr:class="controls-ListView__groupContent-text
                           controls-ListView__groupContent-text_theme-{{theme}}
                           {{fontSize ? ' controls-fontsize-' + fontSize + '_theme-' + theme : ' controls-ListView__groupContent-text_default_theme-' + theme}}
                           {{ expanderVisible !== false ? ' controls-ListView__groupExpander controls-ListView__groupExpander_theme-' + theme +
@@ -16,15 +17,16 @@
                           (!(item || itemData).isExpanded() ?
                           ' controls-ListView__groupExpander_collapsed' + (expanderAlign === 'right' ?
                           ' controls-ListView__groupExpander_collapsed_right' : ' controls-ListView__groupExpander_collapsed_left') :'') }}">
-            <ws:if data="{{ !!contentTemplate }}">
-               <ws:partial template="{{ contentTemplate }}" item="{{ item }}" itemData="{{ itemData }}" />
-            </ws:if>
-            <ws:else>
-               {{ (item || itemData).getContents() }}
-            </ws:else>
-         </div>
-         <ws:if data="{{ separator !== false && separatorVisibility !== false && textAlign !== 'right' }}">
-            <div attr:class="controls-ListView__groupSeparator-right_theme-{{theme}}">&nbsp;</div>
+               <ws:if data="{{ !!contentTemplate }}">
+                  <ws:partial template="{{ contentTemplate }}" item="{{ item }}" itemData="{{ itemData }}" />
+               </ws:if>
+               <ws:else>
+                  {{ (item || itemData).getContents() }}
+               </ws:else>
+            </div>
+         </ws:if>
+         <ws:if data="{{ separator !== false && separatorVisibility !== false && (textAlign !== 'right' || textVisible === false) }}">
+            <div attr:class="controls-ListView__groupSeparator_theme-{{theme}} {{textVisible !== false ? 'controls-ListView__groupSeparator-right_theme-' + theme}}">&nbsp;</div>
          </ws:if>
          <ws:if data="{{ !!rightTemplate }}">
             <div class="controls-ListView__groupContent-rightTemplate_theme-{{theme}} {{ (item || itemData).getGroupPaddingClasses(theme, 'right') }}">

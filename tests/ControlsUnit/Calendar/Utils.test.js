@@ -95,46 +95,51 @@ define([
             baseDate: new Date(2018, 0, 15),
             date: new Date(2018, 0, 16),
             ranges: {},
-            ret: [new Date(2018, 0, 15), new Date(2018, 0, 16)]
+            result: [new Date(2018, 0, 15), new Date(2018, 0, 16)]
          }, {
             baseDate: new Date(2018, 0, 16),
             date: new Date(2018, 0, 15),
             ranges: {},
-            ret: [new Date(2018, 0, 15), new Date(2018, 0, 16)]
+            result: [new Date(2018, 0, 15), new Date(2018, 0, 16)]
          }, {
             baseDate: new Date(2018, 0, 15),
             date: new Date(2018, 0, 16),
             ranges: { days: [1] },
-            ret: [new Date(2018, 0, 15), new Date(2018, 0, 15)]
+            result: [new Date(2018, 0, 15), new Date(2018, 0, 15)]
          }, {
             baseDate: new Date(2018, 0, 16),
             date: new Date(2018, 0, 15),
             ranges: { days: [1] },
-            ret: [new Date(2018, 0, 16), new Date(2018, 0, 16)]
+            result: [new Date(2018, 0, 16), new Date(2018, 0, 16)]
          }, {
             baseDate: new Date(2018, 0, 16),
             date: new Date(2018, 0, 17),
             ranges: { weeks: [1] },
-            ret: [new Date(2018, 0, 15), new Date(2018, 0, 21)]
+            result: [new Date(2018, 0, 15), new Date(2018, 0, 21)]
          }, {
             baseDate: new Date(2018, 0, 17),
             date: new Date(2018, 0, 16),
             ranges: { weeks: [1] },
-            ret: [new Date(2018, 0, 15), new Date(2018, 0, 21)]
+            result: [new Date(2018, 0, 15), new Date(2018, 0, 21)]
          }, {
             baseDate: new Date(2018, 0, 16),
             date: new Date(2018, 0, 17),
             ranges: { months: [1] },
-            ret: [new Date(2018, 0, 1), new Date(2018, 0, 31)]
+            result: [new Date(2018, 0, 1), new Date(2018, 0, 31)]
          }, {
             baseDate: new Date(2018, 0, 17),
             date: new Date(2018, 0, 16),
             ranges: { months: [1] },
-            ret: [new Date(2018, 0, 1), new Date(2018, 0, 31)]
+            result: [new Date(2018, 0, 1), new Date(2018, 0, 31)]
+         }, {
+            baseDate: new Date(2018, 7, 1),
+            date: new Date(2018, 8, 1),
+            ranges: { months: [1, 2, 3] },
+            result: [new Date(2018, 7, 1), new Date(2018, 8, 30)]
          }];
          tests.forEach(function(test) {
             it(`updateRangeByQuantum(${test.baseDate}, ${test.date}, ${test.ranges})`, function() {
-               assert.deepEqual(dateRange.Utils.updateRangeByQuantum(test.baseDate, test.date, test.ranges), test.ret);
+               assert.deepEqual(dateRange.Utils.updateRangeByQuantum(test.baseDate, test.date, test.ranges), test.result);
             });
          });
       });

@@ -347,9 +347,14 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('selected all, but one', () => {
          const selection = { selected: [null], excluded: [null, 2] };
-         const res = strategy.getSelectionForModel(selection);
-         assert.deepEqual(toArrayKeys(res.get(true)), [1, 5, 6, 7] );
+         let res = strategy.getSelectionForModel(selection);
+         assert.deepEqual(toArrayKeys(res.get(true)), [1, 3, 4, 5, 6, 7] );
          assert.deepEqual(toArrayKeys(res.get(null)), []);
+         assert.deepEqual(toArrayKeys(res.get(false)), [2]);
+
+         res = strategyWithDescendantsAndAncestors.getSelectionForModel(selection);
+         assert.deepEqual(toArrayKeys(res.get(true)), [5, 6, 7] );
+         assert.deepEqual(toArrayKeys(res.get(null)), [1]);
          assert.deepEqual(toArrayKeys(res.get(false)), [2, 3, 4]);
       });
 
@@ -382,10 +387,15 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
 
       it('selected node use selectAll and go to parent node', () => {
          const selection = {selected: [1], excluded: [1]};
-         const res = strategy.getSelectionForModel(selection);
-         assert.deepEqual(toArrayKeys(res.get(true)), [1, 2, 5] );
+         let res = strategyWithDescendantsAndAncestors.getSelectionForModel(selection);
+         assert.deepEqual(toArrayKeys(res.get(true)), [1, 2, 3, 4, 5] );
          assert.deepEqual(toArrayKeys(res.get(null)), []);
-         assert.deepEqual(toArrayKeys(res.get(false)), [3, 4, 6, 7] );
+         assert.deepEqual(toArrayKeys(res.get(false)), [6, 7] );
+
+         res = strategy.getSelectionForModel(selection);
+         assert.deepEqual(toArrayKeys(res.get(true)), [] );
+         assert.deepEqual(toArrayKeys(res.get(null)), []);
+         assert.deepEqual(toArrayKeys(res.get(false)), [1, 2, 3, 4, 5, 6, 7] );
       });
 
       it('with group and search value', () => {
@@ -546,6 +556,37 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
          const countWithDescAndAnc = strategyWithDescendantsAndAncestors.getCount(selection, false);
          assert.equal(count, 7);
          assert.equal(countWithDescAndAnc, 7);
+      });
+
+      it('with readonly items', () => {
+         const data = ListData.getItems();
+         data[3].checkboxState = false;
+
+         const model = new Tree({
+            collection: new RecordSet({
+               keyProperty: ListData.KEY_PROPERTY,
+               rawData: data
+            }),
+            root: new Model({ rawData: { id: null }, keyProperty: ListData.KEY_PROPERTY }),
+            keyProperty: ListData.KEY_PROPERTY,
+            parentProperty: ListData.PARENT_PROPERTY,
+            nodeProperty: ListData.NODE_PROPERTY,
+            hasChildrenProperty: ListData.HAS_CHILDREN_PROPERTY,
+            multiSelectAccessibilityProperty: 'checkboxState'
+         });
+
+         const strategy = new TreeSelectionStrategy({
+            selectDescendants: true,
+            selectAncestors: true,
+            rootId: null,
+            model: model,
+            selectionType: 'leaf',
+            recursiveSelection: true
+         });
+
+         const selection = { selected: [null], excluded: [null] };
+         const res = strategy.getCount(selection, false);
+         assert.equal(res, 6);
       });
    });
 

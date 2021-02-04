@@ -8,11 +8,18 @@
    }
 }
 
+.controls-Scroll-ContainerBase {
+   display: flex;
+   flex-direction: column;
+}
+
 .controls-Scroll-ContainerBase__content {
    display: flex;
    flex-direction: column;
-   flex-shrink: 1;
+   flex-shrink: 0;
+   flex-grow: 1;
    min-height: 100%;
+   box-sizing: border-box;
 }
 
 .controls-Scroll-ContainerBase__contentNotScrollable {
@@ -40,5 +47,15 @@
    .controls-Scroll-ContainerBase__scroll_vertical,
    .controls-Scroll-ContainerBase__scroll_verticalHorizontal {
       overflow-anchor: none;
+   }
+}
+
+.ws-is-ie11 {
+   // Класс для использования только в платформе. Решает проблему невозможности устновки min-height: 100% на контент.
+   // Если установлен, то под ie контент не будет растягивать скролл контейнер если у него не установлена высота.
+   .controls-Scroll-ContainerBase__ieStretchedСontent {
+      .controls-Scroll-ContainerBase__content {
+         height: 100%;
+      }
    }
 }

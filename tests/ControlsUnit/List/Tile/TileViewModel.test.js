@@ -112,7 +112,7 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
 
       it('getMultiSelectClassList onhover selected', function() {
          tileViewModel.setMultiSelectVisibility('onhover');
-         tileViewModel.setSelectedItems([tileViewModel.getItemBySourceKey(2)], true);
+         tileViewModel.getItemBySourceKey(2).setSelected(true);
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));
          assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-TileView__checkbox_position-default_theme-default controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom');
       });

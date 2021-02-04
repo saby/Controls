@@ -11,8 +11,7 @@ export const enum POSITION {
 export const enum SHADOW_VISIBILITY {
     visible = 'visible',
     hidden = 'hidden',
-    lastVisible = 'lastVisible',
-    initial = 'initial'
+    lastVisible = 'lastVisible'
 }
 
 /**
@@ -29,7 +28,8 @@ export const enum TYPE_FIXED_HEADERS {
 
 export const enum MODE {
     stackable = 'stackable',
-    replaceable = 'replaceable'
+    replaceable = 'replaceable',
+    notsticky = 'notsticky'
 }
 
 export type TRegisterEventData = {

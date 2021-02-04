@@ -1,5 +1,5 @@
-import { GridDataCell } from 'Controls/display';
-import { GridLayoutUtil } from 'Controls/grid';
+import { GridDataCell } from 'Controls/gridNew';
+import { isFullGridSupport } from 'Controls/display';
 import TreeGridDataRow from './TreeGridDataRow';
 import { Model } from 'Types/entity';
 
@@ -33,7 +33,7 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
     getRelativeCellWrapperClasses(theme: string): string {
         let classes = super.getRelativeCellWrapperClasses(theme);
 
-        if (!GridLayoutUtil.isFullGridSupport()) {
+        if (!isFullGridSupport()) {
             classes = 'controls-TreeGridView__row-cell_innerWrapper ' + classes;
         }
 

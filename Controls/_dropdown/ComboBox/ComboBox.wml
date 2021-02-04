@@ -4,7 +4,8 @@
             controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
             controls-inlineheight-{{_inlineHeight}}_theme-{{_options.theme}}
             controls-Combobox-fontsize-{{_fontSize}}_theme-{{_options.theme}}
-            controls-ComboBox_textAlign-{{_options.textAlign}}"
+            controls-ComboBox_textAlign-{{_options.textAlign}}
+            controls-ComboBox_border-{{_options.borderVisibility}}_theme-{{_options.theme}}"
      title="{{_options.tooltip || _value}}"
      on:keydown="_handleKeyDown()"
      on:click="_handleClick()"

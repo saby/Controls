@@ -21,6 +21,7 @@
                      <ws:partial template="{{content.resolvedTemplate}}"
                                  validationStatus="{{content.validationStatus}}"
                                  propertyValue="{{collectionItem.getPropertyValue()}}"
+                                 caption="{{caption}}"
                                  scope="{{collectionItem.getEditorOptions()}}"/>
                   </ws:content>
                </Controls.Container.Async>
@@ -31,10 +32,12 @@
 </ws:if>
 <ws:else>
    <ws:if data="{{collectionItem.getEditorTemplateName()}}">
-      <Controls.Container.Async templateName="{{collectionItem.getEditorTemplateName()}}" class="{{item.editorClass}}">
+      <Controls.Container.Async templateName="{{collectionItem.getEditorTemplateName()}}"
+                                class="{{item.editorClass}}">
          <ws:partial
             propertyValue="{{collectionItem.getPropertyValue()}}"
             template="{{content.resolvedTemplate}}"
+            caption="{{caption}}"
             scope="{{collectionItem.getEditorOptions()}}"/>
       </Controls.Container.Async>
    </ws:if>

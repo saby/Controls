@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
+import {DataSet, CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {ISelectionObject} from 'Controls/interface';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 
@@ -50,7 +50,7 @@ export interface IMovableList {
      * @param targetKey
      * @param position
      */
-    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<void>;
+    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet>;
 
     /**
      * Перемещаетодин элемент вверх и возвращает результат перемещения
@@ -74,5 +74,5 @@ export interface IMovableList {
      * @public
      * @param selection
      */
-    moveItemsWithDialog(selection: ISelectionObject): Promise<void>;
+    moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet>;
 }

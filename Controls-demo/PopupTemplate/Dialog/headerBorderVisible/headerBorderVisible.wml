@@ -1,0 +1,39 @@
+<div>
+  <div class="controlsDemo__flexColumn controlsDemo__ml2">
+    Диалог с headerBorderVisible = false
+    <div class="controlsDemo__cell controlsDemo__mb2 controlsDemo__maxWidth500">
+      <Controls.popupTemplate:Dialog headingCaption="Задача в разработку" headerBorderVisible="{{false}}">
+        <ws:bodyContentTemplate>
+          <div  style="text-align: center; margin: 12px; min-height: 100px;">
+            Chicago, the state of Illinois, is known as The Second City, which refers to its rebuilding after the fire.
+            The current city is literally the second Chicago, after the one that disappeared in 1871. </div>
+        </ws:bodyContentTemplate>
+        <ws:footerContentTemplate>
+          <div attr:style="display: flex;align-items: center; justify-content: flex-end; height: 50px">
+            <Controls.buttons:Button caption="Принять" buttonStyle="primary" attr:style="margin-right: 18px"/>
+            <Controls.buttons:Button caption="Отклонить" attr:style="margin-right: 18px"/>
+          </div>
+        </ws:footerContentTemplate>
+      </Controls.popupTemplate:Dialog>
+    </div>
+</div>
+
+  <div class="controlsDemo__flexColumn controlsDemo__ml2">
+    Диалог с headerBorderVisible = true
+    <div class="controlsDemo__cell controlsDemo__mb2 controlsDemo__maxWidth500">
+      <Controls.popupTemplate:Dialog headingCaption="Задача в разработку" headerBorderVisible="{{true}}">
+        <ws:bodyContentTemplate>
+          <div  style="text-align: center; margin: 12px; min-height: 100px;">
+            Chicago, the state of Illinois, is known as The Second City, which refers to its rebuilding after the fire.
+            The current city is literally the second Chicago, after the one that disappeared in 1871. </div>
+        </ws:bodyContentTemplate>
+        <ws:footerContentTemplate>
+          <div attr:style="display: flex;align-items: center; justify-content: flex-end; height: 50px">
+            <Controls.buttons:Button caption="Принять" buttonStyle="primary" attr:style="margin-right: 18px"/>
+            <Controls.buttons:Button caption="Отклонить" attr:style="margin-right: 18px"/>
+          </div>
+        </ws:footerContentTemplate>
+      </Controls.popupTemplate:Dialog>
+    </div>
+  </div>
+</div>

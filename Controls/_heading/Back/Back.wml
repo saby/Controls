@@ -1,13 +1,14 @@
 <ws:template name="caption">
-   <span attr:class="controls-Back__caption controls-Back__caption_theme-{{_options.theme}} controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}} controls-Back__caption_style-{{_options.fontColorStyle}}_theme-{{_options.theme}}">{{_options.caption}}</span>
+   <span attr:class="controls-Back__caption controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}} controls-Back__caption_style-{{_options.fontColorStyle}}">{{_options.caption}}</span>
 </ws:template>
-<span attr:title="{{_options.tooltip}}" class="controls-Back">
-   <span class="controls-Back__wrapper controls-Back__wrapper_theme-{{_options.theme}} controls-Back__wrapper_{{_options.fontSize}}_theme-{{_options.theme}}">
-      <div class="controls-Back_arrow controls-Back_style-{{_options.iconStyle}}_theme-{{_options.theme}} controls-Back_style-{{_options.iconStyle}}_size-{{_options.iconSize}}_theme-{{_options.theme}} controls-Back_size-{{_options.iconSize}}_theme-{{_options.theme}}"></div>
+<span attr:title="{{_options.tooltip}}" class="controls-Back controls_theme-{{_options.theme}}">
+   <span class="controls-Back__wrapper controls-Back__wrapper_{{_options.fontSize}}">
+      <div class="controls-Back_arrow controls-Back_style-{{_options.iconStyle}} controls-Back_style-{{_options.iconStyle}}_size-{{_options.iconSize}}
+                  controls-Back_size-{{_options.iconSize}}"></div>
 
 
       <ws:if data="{{_isOldIe}}">
-         <div class="controls-Back__caption__wrapper controls-Back__caption_style-{{_options.fontColorStyle}}_theme-{{_options.theme}}">
+         <div class="controls-Back__caption__wrapper controls-Back__caption_style-{{_options.fontColorStyle}}">
             <ws:partial template="caption"/>
          </div>
       </ws:if>

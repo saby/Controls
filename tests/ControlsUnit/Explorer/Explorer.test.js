@@ -5,7 +5,8 @@ define([
    'Types/chain',
    'Controls/dragnDrop',
    'Types/entity',
-   'Types/source'
+   'Types/source',
+   'Controls/dataSource'
 ], function(
    explorerMod,
    Deferred,
@@ -13,7 +14,8 @@ define([
    chain,
    dragnDrop,
    entityLib,
-   sourceLib
+   sourceLib,
+   dataSource
 ) {
    function dragEntity(items, dragControlId) {
       var entity = new dragnDrop.ItemsEntity({
@@ -446,6 +448,24 @@ define([
          };
          instance._dataLoadErrback({});
          assert.isTrue(itemsPromiseResolved);
+      });
+      it('sourceController with error', async () => {
+         const explorer = new explorerMod.View();
+         const sourceWithQueryError = new sourceLib.Memory();
+         sourceWithQueryError.query = () => Promise.reject(new Error());
+         const sourceController = new dataSource.NewSourceController({
+            source: sourceWithQueryError
+         });
+         await sourceController.reload().catch(() => {});
+
+         const explorerOptions = {
+            source: sourceWithQueryError,
+            sourceController: sourceController,
+            root: 1
+         };
+
+         explorer._beforeMount(explorerOptions);
+         await explorer._itemsPromise;
       });
       describe('_beforeUpdate', function() {
          it('collapses and expands items as needed', () => {

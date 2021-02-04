@@ -74,7 +74,9 @@ define(
             data._beforeMount(dataOptions).then(() => {
                data._dataOptionsContext = new contexts.ContextOptions();
                const newFilter = {test: 'testFilter'};
-               var loadDef = data._beforeUpdate({source: newSource, idProperty: 'id', filter: newFilter, dataLoadCallback: dataLoadCallbackFunction});
+               const newOptions = {source: newSource, idProperty: 'id', filter: newFilter, dataLoadCallback: dataLoadCallbackFunction};
+               var loadDef = data._beforeUpdate(newOptions);
+               data.saveOptions(newOptions);
                assert.isTrue(data._loading);
                loadDef.addCallback(function() {
                   try {
@@ -120,7 +122,7 @@ define(
             const newSorting = [{ amount: 'ASC' }];
             await data._beforeMount(dataOptions);
             data.saveOptions(dataOptions);
-            data._beforeUpdate({
+            await data._beforeUpdate({
                source: source,
                idProperty: 'id',
                filter: newFilter,
@@ -411,6 +413,18 @@ define(
             config = { ...config, sourceController: null };
             data._beforeUpdate(config);
             assert.isTrue(data._sourceController === null);
+         });
+
+         it('sourceController is null on _beforeMount and _beforeUpdate', async function() {
+            let config = {source: source, keyProperty: 'id', sourceController: null};
+            const data = getDataWithConfig(config);
+
+            await data._beforeMount(config);
+            assert.ok(data._sourceController);
+
+            config = { ...config, sourceController: null };
+            await data._beforeUpdate(config);
+            assert.ok(data._sourceController);
 
          });
 
@@ -470,10 +484,7 @@ define(
                data._beforeMount(config).addCallback(function() {
                   data._filterChanged(null, {test1: 'test1'});
                   assert.isTrue(config.source === data._dataOptionsContext.source);
-
-                  // TODO тест для совместимости, чтоб ничего не разломать
-                  const filter = data._sourceController.getState().filter;
-                  assert.deepEqual(filter, {test1: 'test1'});
+                  assert.deepEqual(data._filter, {test1: 'test1'});
                   resolve();
                });
             });
@@ -514,6 +525,7 @@ define(
                const soruceControllerState = data._sourceController.getState();
                assert.ok(soruceControllerState.source);
                assert.equal(soruceControllerState.source, source);
+               assert.equal(data._dataOptionsContext.source, source);
                assert.isTrue(dataLoadErrbackCalled);
                done();
             });
@@ -592,6 +604,20 @@ define(
                Config.UserConfig.getParam = originConfigGetParam;
                done(error);
             });
+         });
+
+         it('_beforeUnmount with sourceController in options', async() => {
+            const sourceController = new dataSourceLib.NewSourceController({ source: source, keyProperty: 'id' });
+            const dataOptions = { source, sourceController, keyProperty: 'id' };
+            let isSourceControllerDestroyed = false;
+            sourceController.destroy = () => {
+               isSourceControllerDestroyed = true;
+            };
+            await sourceController.reload();
+            const data = getDataWithConfig(dataOptions);
+            await data._beforeMount(dataOptions);
+            data._beforeUnmount();
+            assert.isFalse(isSourceControllerDestroyed);
          });
       });
    });

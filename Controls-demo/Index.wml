@@ -4,6 +4,7 @@
                          popupHeaderTheme="{{_getPopupHeaderTheme(content.theme)}}"
                          bodyClass="controls-default-bg"
                          title="{{_title}}"
+                         links="{{ _links }}"
                          dataLoaderModule="Controls-demo/DataLoader"
                          loadDataProviders="{{false}}"
                          settingsController="{{_settigsController}}">

@@ -9,7 +9,7 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Record} from 'Types/entity';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
-
+import 'css!Controls/toolbars';
 
 var _private = {
    recalculateToolbarItems: function(self, items, toolbarWidth) {
@@ -171,7 +171,17 @@ OperationsPanel.getDefaultOptions = function() {
       itemTemplate: toolbars.ItemTemplate
    };
 };
-OperationsPanel._theme = ['Controls/operationsPanel', 'Controls/toolbars'];
+
+Object.defineProperty(OperationsPanel, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return OperationsPanel.getDefaultOptions();
+   }
+});
+
+OperationsPanel._theme = ['Controls/operationsPanel'];
 /**
  * @name Controls/_operationsPanel/OperationsPanel#rightTemplate
  * @cfg {Function} Шаблон, отображаемый в правой части панели массового выбора.

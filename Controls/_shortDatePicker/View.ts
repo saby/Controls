@@ -491,6 +491,15 @@ class View extends Control<IDateLitePopupOptions> {
     }
 }
 
+Object.defineProperty(View, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return View.getDefaultOptions();
+   }
+});
+
 View.EMPTY_CAPTIONS = IPeriodSimpleDialog.EMPTY_CAPTIONS;
 
 export default View;

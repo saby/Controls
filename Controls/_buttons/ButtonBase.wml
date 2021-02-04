@@ -1,6 +1,5 @@
 <ws:template name="buttonTemplate">
     <span attr:class="controls-BaseButton__wrapper
-                                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}_theme-{{_options.theme}}
                                 controls-Button__wrapper_viewMode-{{_viewMode}}
                                 {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}" tabindex="0">
         <ws:if data="{{!!_icon}}">
@@ -46,6 +45,8 @@
                 {{_height ? ' controls-inlineheight-' + _height + '_theme-' + _options.theme}}
                 {{_height ? ' controls-Button-inlineheight-' + _height + '_theme-' + _options.theme}}
                 {{_height ? ' controls-Button_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}
-                controls-fontsize-{{_fontSize}}_theme-{{_options.theme}} controls_theme-{{_options.theme}}"
+                controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}
+                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}_theme-{{_options.theme}}
+                controls_theme-{{_options.theme}}"
             attr:title="{{_options.tooltip}}"
 />

@@ -11,7 +11,7 @@
                     stickyColumnsCount="{{1}}"
                     nodeProperty="parent@"
                     viewMode="{{_viewMode}}"
-                    rowSeparatorVisibility="{{true}}"
+                    rowSeparatorSize="s"
                     header="{{_header}}"
                     columns="{{_columns}}">
                 </Controls.explorer:View>

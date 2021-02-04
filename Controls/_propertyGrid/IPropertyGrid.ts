@@ -10,12 +10,13 @@ export interface IPropertyGridColumnOptions {
     compatibleWidth: string;
 }
 export interface IPropertyGridOptions extends IControlOptions {
-    editingObject: Object | Model | Record<string, unknown>;
+    editingObject: Model | Record<string, any>;
     source: IPropertyGridProperty[] | RecordSet<IPropertyGridProperty>;
     groupTemplate?: Function;
     collapsedGroups?: Array<string|number>;
     nodeProperty?: string;
     parentProperty?: string;
+    keyProperty?: string;
     render?: Control<IPropertyGridOptions>;
     itemActions: IItemAction[];
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
@@ -42,17 +43,32 @@ export interface IPropertyGridOptions extends IControlOptions {
 export interface IPropertyGrid {
     readonly '[Controls/_propertyGrid/IPropertyGrid]': boolean;
 }
+
+/**
+ * @name Controls/_propertyGrid/IPropertyGrid#keyProperty
+ * @cfg {String} Имя свойства, содержащего информацию об идентификаторе текущей строки.
+ */
+
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#editingObject
- * @cfg {Object} Данные, которые будут отображаться в виде редакторов со значениями в PropertyGrid.
+ * @cfg {Object | Types/entity:Model} Объект, свойства которого являются значениями для редакторов.
  * @example
  * <pre class="brush: js">
  * // JavaScript
  * _beforeMount() {
+ *    // Пример со значением в виде объекта
  *    this._editingObject = {
  *       description: 'This is http://mysite.com',
  *       showBackgroundImage: true,
  *    };
+ *
+ *    // Пример со значением в виде модели.
+ *    this._editingObject = new Model({
+ *        rawData: {
+ *           description: 'This is http://mysite.com',
+ *           showBackgroundImage: true,
+ *       }
+ *    })
  *
  *    this._source = [
  *       {

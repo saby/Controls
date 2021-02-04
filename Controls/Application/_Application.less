@@ -57,6 +57,15 @@ img {
    border: none;
 }
 
+.ws-is-phone.ws-is-adaptive {
+   &.ws-is-mobile-safari, &.ws-is-mobile-chrome-ios {
+      font-family: 'San Francisco';
+   }
+   &.ws-is-mobile-android {
+      font-family: 'Roboto';
+   }
+}
+
 // На iPad, в сафари и хроме, в пустой textarea, курсор встает на 3px правее, чем нужно,
 // и при наличии в поле плейсхолдера (кастомного или нативного) он оказывается по центру его первого символа
 // Поэтому для пустого поля добавляем text-indent: -3px

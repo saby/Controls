@@ -30,48 +30,48 @@ define([
 
          beforeEach(function() {
             application = new Application();
-            application._touchDetector = {};
+            application._touchController = {};
          });
 
          it('ws-is-no-touch ws-is-no-drag ws-is-hover', function() {
-            application._dragClass = 'ws-is-no-drag';
-            application._touchDetector.getClass = getFalseTouch;
+            application._bodyClasses.dragClass = 'ws-is-no-drag';
+            application._touchController.getClass = getFalseTouch;
 
-            application._updateClasses();
+            application._updateTouchClass();
 
-            assert.equal(application._touchClass, 'ws-is-no-touch');
-            assert.equal(application._dragClass, 'ws-is-no-drag');
-            assert.equal(application._hoverClass, 'ws-is-hover');
+            assert.equal(application._bodyClasses.touchClass, 'ws-is-no-touch');
+            assert.equal(application._bodyClasses.dragClass, 'ws-is-no-drag');
+            assert.equal(application._bodyClasses.hoverClass, 'ws-is-hover');
          });
          it('ws-is-touch ws-is-no-drag ws-is-no-hover', function() {
-            application._dragClass = 'ws-is-no-drag';
-            application._touchDetector.getClass = getTrueTouch;
+            application._bodyClasses.dragClass = 'ws-is-no-drag';
+            application._touchController.getClass = getTrueTouch;
 
-            application._updateClasses();
+            application._updateTouchClass();
 
-            assert.equal(application._touchClass, 'ws-is-touch');
-            assert.equal(application._dragClass, 'ws-is-no-drag');
-            assert.equal(application._hoverClass, 'ws-is-no-hover');
+            assert.equal(application._bodyClasses.touchClass, 'ws-is-touch');
+            assert.equal(application._bodyClasses.dragClass, 'ws-is-no-drag');
+            assert.equal(application._bodyClasses.hoverClass, 'ws-is-no-hover');
          });
          it('ws-is-no-touch ws-is-drag ws-is-no-hover', function() {
-            application._dragClass = 'ws-is-drag';
-            application._touchDetector.getClass = getFalseTouch;
+            application._bodyClasses.dragClass = 'ws-is-drag';
+            application._touchController.getClass = getFalseTouch;
 
-            application._updateClasses();
+            application._updateTouchClass();
 
-            assert.equal(application._touchClass, 'ws-is-no-touch');
-            assert.equal(application._dragClass, 'ws-is-drag');
-            assert.equal(application._hoverClass, 'ws-is-no-hover');
+            assert.equal(application._bodyClasses.touchClass, 'ws-is-no-touch');
+            assert.equal(application._bodyClasses.dragClass, 'ws-is-drag');
+            assert.equal(application._bodyClasses.hoverClass, 'ws-is-no-hover');
          });
          it('ws-is-touch ws-is-drag ws-is-no-hover', function() {
-            application._dragClass = 'ws-is-drag';
-            application._touchDetector.getClass = getTrueTouch;
+            application._bodyClasses.dragClass = 'ws-is-drag';
+            application._touchController.getClass = getTrueTouch;
 
-            application._updateClasses();
+            application._updateTouchClass();
 
-            assert.equal(application._touchClass, 'ws-is-touch');
-            assert.equal(application._dragClass, 'ws-is-drag');
-            assert.equal(application._hoverClass, 'ws-is-no-hover');
+            assert.equal(application._bodyClasses.touchClass, 'ws-is-touch');
+            assert.equal(application._bodyClasses.dragClass, 'ws-is-drag');
+            assert.equal(application._bodyClasses.hoverClass, 'ws-is-no-hover');
          });
       });
    });

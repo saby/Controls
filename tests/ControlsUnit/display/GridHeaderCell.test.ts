@@ -5,7 +5,7 @@ import {
     GridHeader,
     GridHeaderCell,
     TColspanCallback
-} from 'Controls/display';
+} from 'Controls/gridNew';
 import { IColumn } from 'Controls/_grid/interface/IColumn';
 import { THeader } from 'Controls/_grid/interface/IHeaderCell';
 

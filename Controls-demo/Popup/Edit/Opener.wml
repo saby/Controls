@@ -32,6 +32,8 @@
       <Controls.toggle:Checkbox bind:value="_openRecordByNewKey" caption="Открыть запись на редактирование с другим ключом" class="demo-PopupEditOpener__openRecordByNewKey"/>
       <br />
       <Controls.toggle:Checkbox bind:value="_initializingDelayedCreate" caption="Создать с рекордом, параллельно запустив вычитку" class="demo-PopupEditOpener__openInitializingDelayedCreate"/>
+      <br />
+      <Controls.toggle:Checkbox bind:value="_addedOnCreateInList" caption="Добавить запись при создании в список" class="demo-PopupEditOpener__openAddedOnCreateInList"/>
 
       <Controls.popup:EditContainer on:beforeItemEndEdit="_beforeSyncRecord()">
          <Controls.popup:Edit name="EditOpener" on:close="_closeHandler()" on:open="_openHandler()" on:result="_resultHandler()" template="Controls-demo/Popup/Edit/MyFormController">

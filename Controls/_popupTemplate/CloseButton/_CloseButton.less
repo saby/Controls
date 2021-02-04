@@ -12,63 +12,63 @@
    }
 }
 
-.controls-Button__close__icon_toolButton-theme_@{themeName},
-.controls-Button__close__icon_functionalButton-theme_@{themeName} {
-   background-image: @icon_background-image_closeButton_toolButton;
-   height: @icon-size_closeButton_toolButton;
-   width: @icon-size_closeButton_toolButton;
+.controls-Button__close__icon_toolButton,
+.controls-Button__close__icon_functionalButton {
+   background-image: var(--icon_background-image_closeButton_toolButton);
+   height: var(--icon-size_closeButton_toolButton);
+   width: var(--icon-size_closeButton_toolButton);
    display: inline-block;
    &:active {
-      background-image: @icon_hovered_background-image_closeButton_toolButton;
+      background-image: var(--icon_hovered_background-image_closeButton_toolButton);
    }
 }
 
-.controls-Button__close__icon_link-theme_@{themeName},
-.controls-Button__close__icon_linkButton-theme_@{themeName} {
-   background-image: @icon_background-image_closeButton_link;
-   height: @icon-size_closeButton_link;
-   width: @icon-size_closeButton_link;
+.controls-Button__close__icon_link,
+.controls-Button__close__icon_linkButton {
+   background-image: var(--icon_background-image_closeButton_link);
+   height: var(--icon-size_closeButton_link);
+   width: var(--icon-size_closeButton_link);
    &:active {
-      background-image: @icon_hovered_background-image_closeButton_link;
+      background-image: var(--icon_hovered_background-image_closeButton_link);
    }
 }
 
-.controls-Button__close_toolButton_transparent-theme_@{themeName} {
-   background-color: @background-color_closeButton_toolButton;
+.controls-Button__close_toolButton_transparent {
+   background-color: var(--background-color_closeButton_toolButton);
    &:active {
-      background-color: @background-color_active_closeButton_toolButton;
+      background-color: var(--background-color_active_closeButton_toolButton);
    }
 }
 
-.controls-Button__close_toolButton_untransparent-theme_@{themeName} {
-   background-color: @contrast_background-color_closeButton_toolButton;
+.controls-Button__close_toolButton_untransparent {
+   background-color: var(--contrast_background-color_closeButton_toolButton);
    &:active {
-      background-color: @contrast_active_background-color_closeButton_toolButton;
+      background-color: var(--contrast_active_background-color_closeButton_toolButton);
    }
 }
 
-.controls-Button__close_toolButton-theme_@{themeName} {
-   width: @width_closeButton_toolButton;
-   height: @height_closeButton_toolButton;
-   border-color: @border-color_closeButton_toolButton;
-   border-width: @border-thickness_closeButton_toolButton;
-   border-radius: @border-radius_closeButton_toolButton;
-   box-shadow: @box-shadow_closeButton_toolButton;
+.controls-Button__close_toolButton {
+   width: var(--width_closeButton_toolButton);
+   height: var(--height_closeButton_toolButton);
+   border-color: var(--border-color_closeButton_toolButton);
+   border-width: var(--border-thickness_closeButton_toolButton);
+   border-radius: var(--border-radius_closeButton_toolButton);
+   box-shadow: var(--box-shadow_closeButton_toolButton);
    &:active {
-      border-color: @border-color_active_closeButton_toolButton;
-      box-shadow: @box-shadow_closeButton_toolButton; //none
+      border-color: var(--border-color_active_closeButton_toolButton);
+      box-shadow: var(--box-shadow_closeButton_toolButton); //none
    }
 }
 
-.controls-Button__close_functionalButton-theme_@{themeName} {
-   width: @width_closeButton_functionalButton;
-   height: @height_closeButton_functionalButton;
-   border-width: @border-thickness_closeButton_functionalButton;
-   border-radius: @border-radius_closeButton_functionalButton;
-   box-shadow: @box-shadow_closeButton_toolButton;
-   background-color: @background-color_closeButton_functionalButton;
+.controls-Button__close_functionalButton {
+   width: var(--width_closeButton_functionalButton);
+   height: var(--height_closeButton_functionalButton);
+   border-width: var(--border-thickness_closeButton_functionalButton);
+   border-radius: var(--border-radius_closeButton_functionalButton);
+   box-shadow: var(--box-shadow_closeButton_toolButton);
+   background-color: var(--background-color_closeButton_functionalButton);
    &:active {
-      box-shadow: @box-shadow_closeButton_toolButton; //none
+      box-shadow: var(--box-shadow_closeButton_toolButton); //none
    }
 }
 
@@ -78,34 +78,34 @@
    box-sizing: border-box;
 }
 
-.controls-Button__close_link-theme_@{themeName},
-.controls-Button__close_linkButton-theme_@{themeName} {
-   font-family: @icon_font-family_m;
-   width: @width_closeButton_link;
-   height: @height_closeButton_link;
+.controls-Button__close_link,
+.controls-Button__close_linkButton {
+   font-family: var(--icon_font-family_m);
+   width: var(--width_closeButton_link);
+   height: var(--height_closeButton_link);
 }
 
 .ws-is-hover {
-   .controls-Button__close__icon_link-theme_@{themeName}:hover,
-   .controls-Button__close__icon_linkButton-theme_@{themeName}:hover {
-      background-image: @icon_hovered_background-image_closeButton_link;
+   .controls-Button__close__icon_link:hover,
+   .controls-Button__close__icon_linkButton:hover {
+      background-image: var(--icon_hovered_background-image_closeButton_link);
    }
 
    //button and icon must be hovered at the same time
-   .controls-Button__close_toolButton-theme_@{themeName}:hover,
-   .controls-Button__close_functionalButton-theme_@{themeName}:hover {
-      border-color: @border-color_hover_closeButton_toolButton;
-      .controls-Button__close__icon_toolButton-theme_@{themeName},
-      .controls-Button__close__icon_functionalButton-theme_@{themeName} {
-         background-image: @icon_hovered_background-image_closeButton_toolButton;
+   .controls-Button__close_toolButton:hover,
+   .controls-Button__close_functionalButton:hover {
+      border-color: var(--border-color_hover_closeButton_toolButton);
+      .controls-Button__close__icon_toolButton,
+      .controls-Button__close__icon_functionalButton {
+         background-image: var(--icon_hovered_background-image_closeButton_toolButton);
       }
    }
 
-   .controls-Button__close_toolButton_untransparent-theme_@{themeName}:hover {
-      background-color: @contrast_hover_background-color_closeButton_toolButton;
+   .controls-Button__close_toolButton_untransparent:hover {
+      background-color: var(--contrast_hover_background-color_closeButton_toolButton);
    }
 
-   .controls-Button__close_toolButton_transparent-theme_@{themeName}:hover {
-      background-color: @background-color_hover_closeButton_toolButton;
+   .controls-Button__close_toolButton_transparent:hover {
+      background-color: var(--background-color_hover_closeButton_toolButton);
    }
 }

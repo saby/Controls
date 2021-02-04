@@ -66,6 +66,10 @@
                      highlightOnHover="{{ highlightOnHover }}"/>
       </ws:else>
    </ws:if>
+
+   <ws:if data="{{ (item || itemData).Draggable && (item || itemData).shouldDisplayDraggingCounter() }}">
+      <span class="controls-ListView__item-dragging-counter">{{(item || itemData).getDraggedItemsCount()}}</span>
+   </ws:if>
 </ws:template>
 
 

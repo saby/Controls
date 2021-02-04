@@ -174,4 +174,13 @@ class BreadCrumbsView extends Control<IControlOptions> {
     static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
 
+Object.defineProperty(BreadCrumbsView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BreadCrumbsView.getDefaultOptions();
+   }
+});
+
 export default BreadCrumbsView;

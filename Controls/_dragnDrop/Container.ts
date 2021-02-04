@@ -440,6 +440,15 @@ class Container extends Control<IContainerOptions> {
     }
 }
 
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});
+
 /**
  * @event Происходит при начале перемещения объекта на странице.
  * @name Controls/_dragnDrop/Container#documentDragStart

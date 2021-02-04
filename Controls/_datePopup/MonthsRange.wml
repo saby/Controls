@@ -4,6 +4,7 @@
    attr:class="controls-PeriodDialog-MonthsRange"
    virtualPageSize="{{3}}"
    position="{{_options.position}}"
+   shadowStyle="datePopup"
    _limit="{{1}}"
    on:itemClick="_onItemClick()"
 >
@@ -19,6 +20,7 @@
          </ws:headerTemplate>
          <ws:bodyTemplate>
             <Controls._datePopup.MonthsRangeItem
+               _date="{{ _options._date }}"
                rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
                monthClickable="{{_options.monthClickable}}"
                ranges="{{_options.ranges}}"
@@ -26,6 +28,7 @@
                bind:startValue="_rangeModel.startValue"
                bind:endValue="_rangeModel.endValue"
                dayTemplate="{{_options.dayTemplate}}"
+               _date="{{_options._date}}"
 
                selectionProcessing="{{_options.selectionProcessing}}"
                on:selectionProcessingChanged="_proxyEvent('selectionProcessingChanged')"

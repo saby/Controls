@@ -46,12 +46,20 @@ function getBrowserOptions(): object {
             data: browserData
         }),
         searchParam: 'name',
-        filter: {}
+        filter: {},
+        keyProperty: 'id'
     };
 }
 
 function getBrowser(options: object = {}): Browser {
     return new Browser(options);
+}
+
+async function getBrowserWithMountCall(options: object = {}): Promise<Browser> {
+    const brow = getBrowser(options);
+    await brow._beforeMount(options);
+    brow.saveOptions(options);
+    return brow;
 }
 
 describe('Controls/browser:Browser', () => {
@@ -99,6 +107,14 @@ describe('Controls/browser:Browser', () => {
                 await browser._beforeMount(options);
                 assert.ok(browser._searchValue === 'test');
                 assert.ok(browser._inputSearchValue === 'test');
+            });
+
+            it('source returns error', async () => {
+                let options = getBrowserOptions();
+                options.source.query = () => Promise.reject(new Error('source error'));
+                const browser = getBrowser(options);
+                await browser._beforeMount(options);
+                assert.ok(browser._dataOptionsContext.source === options.source);
             });
         });
 
@@ -172,6 +188,30 @@ describe('Controls/browser:Browser', () => {
                     await browser._search({}, 'test');
                     assert.isTrue(dataErrorProcessed);
                 });
+
+                it('double search call will create searchController once', async () => {
+                    const browserOptions = getBrowserOptions();
+                    const browser = getBrowser(browserOptions);
+                    await browser._beforeMount(browserOptions);
+                    browser.saveOptions(browserOptions);
+
+                    const searchControllerCreatedPromise1 = browser._getSearchController(browserOptions);
+                    const searchControllerCreatedPromise2 = browser._getSearchController(browserOptions);
+
+                    const searchController1 = await searchControllerCreatedPromise1;
+                    const searchController2 = await searchControllerCreatedPromise2;
+                    assert.isTrue(searchController1 === searchController2);
+                });
+                it('loading state on search', async () => {
+                    const browserOptions = getBrowserOptions();
+                    const browser = getBrowser(browserOptions);
+                    await browser._beforeMount(browserOptions);
+                    browser.saveOptions(browserOptions);
+                    const searchPromise = browser._search({}, 'test');
+                    assert.ok(browser._loading);
+                    await searchPromise;
+                    assert.ok(!browser._loading);
+                });
             });
         });
 
@@ -236,14 +276,26 @@ describe('Controls/browser:Browser', () => {
     });
 
     describe('_beforeUnmount', () => {
+        const options = getBrowserOptions();
         it('_beforeUnmount while sourceController is loading', async () => {
-            const options = getBrowserOptions();
             const browser = getBrowser(options);
 
             await browser._beforeMount(options);
 
             browser._beforeUnmount();
             assert.ok(!browser._sourceController);
+        });
+
+        it('_beforeUnmount with undefined viewMode', () => {
+            let searchControllerReseted = false;
+            const browser = getBrowser(options);
+            browser._searchController = {
+                reset: () => {
+                    searchControllerReseted = true;
+                }
+            };
+            browser._beforeUnmount();
+            assert.isFalse(searchControllerReseted);
         });
     });
 
@@ -320,7 +372,7 @@ describe('Controls/browser:Browser', () => {
             const browserItems = browser._items;
 
             await browser._beforeUpdate(options);
-            assert.ok(browser._items !== browserItems);
+            assert.ok(browser._items.at(0).get('title') === 'Интерфейсный фреймворк');
         });
 
         it('source returns error, then _beforeUpdate', async () => {
@@ -475,7 +527,9 @@ describe('Controls/browser:Browser', () => {
                 handleDataLoad: () => {}
             };
             browser._searchController = {
-                handleDataLoad: () => {}
+                handleDataLoad: () => {},
+                isSearchInProcess: () => true,
+                getSearchValue: () => 'searchValue'
             };
 
             browser._dataLoadCallback(null, 'down');
@@ -483,18 +537,33 @@ describe('Controls/browser:Browser', () => {
         });
 
         it('search view mode changed on dataLoadCallback', async () => {
-            let options = getBrowserOptions();
+            const options = getBrowserOptions();
             options.searchValue = 'Sash';
-            const browser = getBrowser(options);
-
-            await browser._beforeMount(options);
-            browser.saveOptions(options);
+            const browser = await getBrowserWithMountCall(options);
 
             browser._viewMode = 'search';
             browser._searchValue = '';
 
             browser._dataLoadCallback(new RecordSet());
             assert.isUndefined(browser._viewMode);
+            assert.isNull(browser._rootBeforeSearch);
+            assert.isEmpty(browser._misspellValue);
+        });
+
+        it('path is updated in searchController after load', async () => {
+            const options = getBrowserOptions();
+            const browser = await getBrowserWithMountCall(options);
+            await browser._getSearchController();
+            const recordset = new RecordSet();
+            const path = new RecordSet({
+                rawData: [
+                    {id: 1, title: 'folder'}
+                ]
+            });
+            recordset.setMetaData({path});
+            browser._dataLoadCallback(recordset);
+            assert.ok(browser._searchController._path === path);
+            assert.ok(browser._path === path);
         });
     });
 
@@ -509,7 +578,6 @@ describe('Controls/browser:Browser', () => {
 
            assert.equal(browser._root, 'test123');
            assert.equal(browser._searchController._root, 'test123');
-           assert.isNull(browser._rootBeforeSearch);
        });
 
         it ('root is changed, shearchController is not created', async () => {
@@ -538,18 +606,21 @@ describe('Controls/browser:Browser', () => {
             const filter = {
                 title: 'test'
             };
-            const options = getBrowserOptions();
+            const resultFilter = {
+                title: 'test',
+                testSearchParam: 'testSearchValue'
+            };
+            const options = {...getBrowserOptions(), searchParam: 'testSearchParam', searchValue: 'testSearchValue', filter};
             const browser = getBrowser(options);
             const sandbox = sinon.createSandbox();
             const notifyStub = sandbox.stub(browser, '_notify');
             await browser._beforeMount(options);
+            browser.saveOptions(options);
+            await browser._getSearchController();
 
-            browser._sourceController.getState = () => { return {filter}; };
-            browser._itemsChanged = () => {};
-
-            browser._afterSearch(null, 'test');
-            assert.deepEqual(browser._filter, filter);
-            assert.isTrue(notifyStub.calledWith('filterChanged', [filter]));
+            browser._afterSearch(new RecordSet(), 'test');
+            assert.deepEqual(browser._filter, resultFilter);
+            assert.isTrue(notifyStub.calledWith('filterChanged', [resultFilter]));
         });
     });
 

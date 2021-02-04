@@ -137,16 +137,24 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
         return {
             ...IPeriodLiteDialog.getDefaultOptions(),
             ...ILinkView.getDefaultOptions(),
-            dateConstructor: WSDate,
-            captionFormatter: dateControlsUtils.formatDateRangeCaption
+            emptyCaption: ILinkView.EMPTY_CAPTIONS.NOT_SPECIFIED,
+            dateConstructor: WSDate
         };
     }
 
     static getOptionTypes(): object {
         return {
             ...IPeriodLiteDialog.getOptionTypes(),
-            ...ILinkView.getOptionTypes(),
-            captionFormatter: descriptor(Function)
+            ...ILinkView.getOptionTypes()
         };
     }
 }
+
+Object.defineProperty(RangeShortSelector, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return RangeShortSelector.getDefaultOptions();
+   }
+});

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridDataRow, GridCollection } from 'Controls/display';
+import { GridDataRow, GridCollection } from 'Controls/gridNew';
 import { Model } from 'Types/entity';
 
 const rawData = { key: 1, firstStickyProperty: 'first', secondStickyProperty: 'second', caption: 'item_1' };
@@ -146,4 +146,25 @@ describe('Controls/grid_clean/Display/DataRow', () => {
         assert.strictEqual(gridRow.getVersion(), 1, 'The row version after setLadder(newLadder) must be equals "1". No other variants!');
     });
 
+    it('Set editing of separated column', () => {
+        const gridRow = new GridDataRow({
+            owner: {
+                ...mockedCollection,
+                getEditingConfig: () => ({
+                    mode: 'cell'
+                })
+            },
+            columns: [{
+                displayProperty: 'key'
+            }, {
+                displayProperty: 'caption'
+            }],
+            contents: record
+        });
+
+        gridRow.setEditing(true, gridRow.contents, false, 1);
+        const columns = gridRow.getColumns();
+        assert.isFalse(columns[0].isEditing());
+        assert.isTrue(columns[1].isEditing());
+    });
 });

@@ -56,7 +56,8 @@
                             {{currentColumn.column.valign ?' controls-Grid__cell_valign_' + currentColumn.column.valign + ' controls-Grid__cell-content_full-height' : ''}}
                             {{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}
                             {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
-                            {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}"
+                            {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}
+                            {{!!itemData.isDragging ? ' controls-ListView__itemContent_dragging_theme-' + itemData.theme}}"
                 ladderWrapper="{{currentColumn.ladderWrapper}}"
                 expanderTemplate="{{itemData.expanderTemplate}}"
                 itemData="{{currentColumn}}"
@@ -139,6 +140,10 @@
          <ws:partial template="itemActionsTemplateChooser"/>
       </ws:if>
 
+      <ws:if data="{{ itemData.shouldDisplayDraggingCounter() }}">
+         <span class="controls-ListView__item-dragging-counter">{{(item || itemData).getDraggedItemsCount()}}</span>
+      </ws:if>
+
    </ws:else>
 </ws:template>
 
@@ -201,7 +206,7 @@
                        {{ marker !== false ? currentColumn.classList.marked }}
                        {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
                        {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
-                       controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
+                       controls-TreeGrid__row"
            style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan || colspanCurrentNode) }}
                   {{ (colspan === false && !!colspanLength) && (currentColumn.columnIndex === (itemData.hasMultiSelectColumn ? 1 : 0)) ? itemData.getPartialColspanStyles(itemData.hasMultiSelectColumn ? 1 : 0, colspanLength) }}">
       <ws:partial template="COLUMN_CONTENT_WRAPPER"/>
@@ -242,7 +247,7 @@
                                    {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
                                    {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
                                    {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
-                                   controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
+                                   controls-TreeGrid__row"
                                  attr:style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan || colspanCurrentNode)}}">
       <ws:partial template="COLUMN_CONTENT_WRAPPER"/>
    </Controls.scroll:StickyHeader>

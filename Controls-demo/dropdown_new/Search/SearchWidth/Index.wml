@@ -1,0 +1,21 @@
+<div class="controlsDemo__flexRow">
+   <div class="controlsDemo__ml3">
+      <div class="controls-text-label_theme-{{_options.theme}}">Меню с большим поиском и иконкой в шапке</div>
+      <Controls.dropdown:Button
+              source="{{_source}}"
+              keyProperty="key"
+              searchParam="title"
+              caption="Add"
+              icon="icon-AddButtonNew"
+              iconSize="m">
+         <ws:headerContentTemplate>
+            <Controls.Container.Async templateName="Controls/menu:SearchHeaderTemplate">
+               <ws:partial template="{{content.resolvedTemplate}}"
+                           scope="{{headerContentTemplate}}"
+                           searchWidth="l"
+                           icon="icon-AddButtonNew" />
+            </Controls.Container.Async>
+         </ws:headerContentTemplate>
+      </Controls.dropdown:Button>
+   </div>
+</div>

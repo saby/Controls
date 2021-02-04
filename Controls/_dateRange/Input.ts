@@ -82,7 +82,10 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     }
 
     protected _beforeUpdate(options: IDateRangeInputOptions) {
-        this._rangeModel.update(options);
+        if (this._options.startValue !== options.startValue ||
+            this._options.endValue !== options.endValue) {
+            this._rangeModel.update(options);
+        }
         if (this._options.startValueValidators !== options.startValueValidators ||
                 this._options.startValue !== options.startValue) {
             this._updateStartValueValidators(options.startValueValidators);
@@ -105,8 +108,10 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
             className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
             templateOptions: {
                 ...PopupUtil.getDateRangeTemplateOptions(this),
+                _date: this._options._date,
                 selectionType: this._options.selectionType,
                 calendarSource: this._options.calendarSource,
+                rightFieldTemplate: this._options.rightFieldTemplate,
                 dayTemplate: this._options.dayTemplate,
                 ranges: this._options.ranges,
                 headerType: 'input',
@@ -206,7 +211,9 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
             ...IDateTimeMask.getDefaultOptions(),
             startValueValidators: [],
             endValueValidators: [],
-            validateByFocusOut: true
+            validateByFocusOut: true,
+            startValue: null,
+            endValue: null
         };
     }
 
@@ -216,3 +223,12 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         };
     }
 }
+
+Object.defineProperty(DateRangeInput, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DateRangeInput.getDefaultOptions();
+   }
+});

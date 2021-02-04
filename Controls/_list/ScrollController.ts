@@ -259,18 +259,18 @@ export default class ScrollController {
     scrollToItem(key: string | number,
                  toBottom: boolean = true,
                  force: boolean = false,
-                 scrollCallback: Function): Promise<IScrollControllerResult> {
+                 scrollCallback: Function): Promise<IScrollControllerResult | void> {
         const index = this._options.collection.getIndexByKey(key);
 
         if (index !== -1) {
             return new Promise((resolve) => {
-                if (!this._virtualScroll
+                if (!this._virtualScroll || !this._options.needScrollCalculation
                             || this._virtualScroll.canScrollToItem(index, toBottom, force)
                             && !this._virtualScroll.rangeChanged) {
                     this._fakeScroll = true;
                     scrollCallback(index);
-                    resolve(null);
-                } else if (force || this._virtualScroll.rangeChanged) {
+                    resolve();
+                } else {
                     this._inertialScrolling.callAfterScrollStopped(() => {
                         if (this._virtualScroll && this._virtualScroll.rangeChanged) {
                             // Нельзя менять диапазон отображемых элементов во время перерисовки
@@ -278,8 +278,8 @@ export default class ScrollController {
                             // Для этого используем _scrollToItemAfterRender.
                             // https://online.sbis.ru/opendoc.html?guid=2a97761f-e25a-4a10-9735-ded67e36e527
                             this._continueScrollToItem = () => {
-                                this.scrollToItem(key, toBottom, force, scrollCallback).then((result) => {
-                                    resolve(result);
+                                this.scrollToItem(key, toBottom, force, scrollCallback).then(() => {
+                                    resolve();
                                 });
                             };
                         } else {
@@ -300,14 +300,14 @@ export default class ScrollController {
                                     // _completeScrollToItem
                                     this._completeScrollToItem = () => {
                                         this._fakeScroll = true;
-                                        scrollCallback(index);
-                                        this.savePlaceholders(rangeShiftResult.placeholders);
-                                        resolve({
+                                        scrollCallback(index, {
                                             placeholders: rangeShiftResult.placeholders,
-                                            shadowVisibility: this._calcShadowVisibility(
+                                                shadowVisibility: this._calcShadowVisibility(
                                                 this._options.collection,
                                                 rangeShiftResult.range)
                                         });
+                                        this.savePlaceholders(rangeShiftResult.placeholders);
+                                        resolve();
                                     };
                                 }
                             };
@@ -316,12 +316,10 @@ export default class ScrollController {
                             this.continueScrollToItemIfNeed();
                         }
                     });
-                } else {
-                    resolve(null);
                 }
             });
         } else {
-            return Promise.resolve(null);
+            return Promise.resolve();
         }
     }
 
@@ -613,9 +611,10 @@ export default class ScrollController {
      * @param addIndex
      * @param items
      * @param direction направление добавления
+     * @param shift автоматически сдвинуть диапазон в направлении direction
      * @private
      */
-    handleAddItems(addIndex: number, items: object[], direction?: IDirection): IScrollControllerResult {
+    handleAddItems(addIndex: number, items: object[], direction?: IDirection, shift: boolean = false): IScrollControllerResult {
         let result = {};
         if (!this._virtualScroll) {
             result = this._initVirtualScroll(
@@ -624,13 +623,15 @@ export default class ScrollController {
             );
         }
 
-        const rangeShiftResult = this._virtualScroll.addItems(
+        let rangeShiftResult = this._virtualScroll.addItems(
             addIndex,
             items.length,
             this._triggerVisibility,
             direction
         );
-
+        if (shift && this._options.collection.getCount() - items.length > this._options.virtualScrollConfig.pageSize) {
+            rangeShiftResult = this._virtualScroll.shiftRange(direction);
+        }
         this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
             this._options.needScrollCalculation);
         this.savePlaceholders(rangeShiftResult.placeholders);

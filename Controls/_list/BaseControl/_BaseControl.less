@@ -131,7 +131,8 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 // Поднимаем индикатор на высоту контейнера с пэйджингом
-.controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName} {
+.controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName},
+.controls-BaseControl_withPaging__continueSearch_theme-@{themeName} {
    margin-bottom: -(@item_height_paging + @scrollpaging_offset-vertical_list);
 }
 
@@ -263,6 +264,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 
 .controls-BaseControl__continueSearch_theme-@{themeName} {
    padding-top: @continueSearch_padding-top_list + @content_l_border_radius_loadingIndicator;
+   padding-bottom: @content_l_padding_loadingIndicator;
 }
 
 .controls-BaseControl__continueSearch_wrapper_theme-@{themeName} {
@@ -302,4 +304,16 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 
 .controls-BaseControl__continueSearch_footerTemplate_theme-@{themeName} {
    font-size: @font-size_xs;
+}
+
+.controls-BaseControl__cut-container_s_theme-@{themeName} {
+   padding: @cut_padding-top_s_list 0 @cut_padding-bottom_s_list;
+}
+
+.controls-BaseControl__cut-container_m_theme-@{themeName} {
+   padding: @cut_padding-top_m_list 0 @cut_padding-bottom_m_list;
+}
+
+.controls-BaseControl__cut-container_l_theme-@{themeName} {
+   padding: @cut_padding-top_l_list 0 @cut_padding-bottom_l_list;
 }

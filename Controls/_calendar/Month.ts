@@ -44,6 +44,15 @@ Component.getDefaultOptions = function () {
     return coreMerge({}, IMonth.getDefaultOptions());
 };
 
+Object.defineProperty(Component, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Component.getDefaultOptions();
+   }
+});
+
 Component.getOptionTypes = function () {
     return coreMerge({}, IMonth.getOptionTypes());
 };

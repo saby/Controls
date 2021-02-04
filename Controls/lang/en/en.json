@@ -25,6 +25,7 @@
   "Дата заполнена некорректно": "Invalid date",
   "Дата или время заполнены некорректно": "Date or time is incorrect",
   "Дата конца периода должна быть больше даты начала": "The end of the period must be greater than the start date",
+  "Максимальное число должно быть больше минимального": "The maximum number must be greater than the minimum number",
   "Для графика-области надо определить 3 поля данных (ws-series.sourceField)": "For graphics-area need to define 3 data fields (ws-series.sourceField)",
   "Для меня": "For me",
   "Для всех": "For all",

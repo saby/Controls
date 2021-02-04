@@ -1,5 +1,0 @@
-<ws:partial template="Controls/grid:ResultsTemplate" scope="{{_options}}">
-   <ws:contentTemplate>
-      <div><b>All items count:</b> 6</div>
-   </ws:contentTemplate>
-</ws:partial>

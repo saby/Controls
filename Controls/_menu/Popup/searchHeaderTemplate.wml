@@ -1,9 +1,12 @@
-<ws:partial template="{{'Controls/search:InputContainer'}}"
-            attr:class="controls-Menu__popup_headerSearch_theme-{{_options.theme}} {{_options.multiSelect ? 'controls-Menu__popup_headerSearch-multiSelect-' + _options.theme}}">
-   <ws:partial template="{{'Controls/search:Input'}}"
-               placeholder="{{searchPlaceholder}}"
-               scope="{{_options}}"
-               contrastBackground="{{true}}"
-               theme="{{_options.searchHeaderTheme}}"
-               name="menuSearch" />
+<ws:partial template="wml!Controls/_menu/Popup/headerWrapperTemplate" scope="{{_options}}">
+   <ws:partial template="{{'Controls/search:InputContainer'}}"
+               attr:class="controls-Menu__popup_header_search_theme-{{_options.theme}}
+                           controls-Menu__popup_header_search_width_{{_options.searchWidth || 's'}}_theme-{{_options.theme}}
+                           {{_options.multiSelect ? 'controls-Menu__popup_headerSearch-multiSelect-' + _options.theme}}">
+      <ws:partial template="{{'Controls/search:Input'}}"
+                  placeholder="{{searchPlaceholder}}"
+                  contrastBackground="{{true}}"
+                  theme="{{_options.searchHeaderTheme}}"
+                  name="menuSearch" />
+   </ws:partial>
 </ws:partial>

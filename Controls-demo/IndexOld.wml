@@ -164,6 +164,9 @@
       <div>
          <a href="Controls-demo%252FList%252FTree%252FMultiSelection%252FMultiSelection">Tree/MultiSelection</a>
       </div>
+      <div>
+         <a href="Controls-demo%252Flist_new%252FNavigation%252FCut%252FIndex">list_cut_navigation</a>
+      </div>
       <h1>Explorer</h1>
       <div>
          <Router.router:Reference state="Controls-demo/app/:app" app="{{ 'Controls-demo/Explorer/Explorer' }}">
@@ -525,11 +528,9 @@
           </ul>
          </Controls.spoiler:View>
 
-         <Controls.spoiler:ListCut captions="ListCut">
-            <li>
-              <a href="Controls-demo%252FSpoiler%252FListCut%252FIndex">ListCut</a>
-            </li>
-         </Controls.spoiler:ListCut>
+         <li>
+            <a href="Controls-demo%252FSpoiler%252FListCut%252FIndex">ListCut</a>
+         </li>
 
          <h1>Decorator</h1>
          <h2>

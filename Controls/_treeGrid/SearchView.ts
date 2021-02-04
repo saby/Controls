@@ -27,14 +27,18 @@ var
             if (!this._itemClickNotifiedByPathClick) {
                 const lastBreadCrumb = item.getContents()[item.getContents().length - 1];
                 if (lastBreadCrumb) {
-                    this._notify('itemClick', [lastBreadCrumb, e, this._getCellIndexByEventTarget(e)], {bubbling: true});
+
+                    // bubbling != true, т.к. BaseControl также посылает itemClick
+                    this._notify('itemClick', [lastBreadCrumb, e, this._getCellIndexByEventTarget(e)]);
                 }
             }
             this._itemClickNotifiedByPathClick = false;
             e.stopPropagation();
         },
         _onSearchPathClick(e, item): void {
-           this._notify('itemClick', [item, e], {bubbling: true});
+
+            // bubbling != true, т.к. BaseControl также посылает itemClick
+           this._notify('itemClick', [item, e]);
            this._itemClickNotifiedByPathClick = true;
         },
         _onItemMouseUp(e, itemData) {

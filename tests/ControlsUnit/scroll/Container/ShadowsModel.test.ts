@@ -4,6 +4,7 @@ import {
     SHADOW_VISIBILITY
 } from 'Controls/_scroll/Container/Interface/IShadows';
 import {SCROLL_MODE} from 'Controls/_scroll/Container/Type';
+import {SCROLL_POSITION} from "Controls/_scroll/Utils/Scroll";
 
 describe('Controls/scroll:Container ShadowsModel', () => {
     const positions = ['top', 'bottom'];
@@ -166,18 +167,41 @@ describe('Controls/scroll:Container ShadowsModel', () => {
     });
 
     describe('updateVisibilityByInnerComponents', () => {
-        it('should change version if shadow visibility is changed.', () => {
+        it('should`t update shadow visibility if it can scroll..', () => {
             const shadows = new ShadowsModel({
                 ...getShadowsDefaultOptions(),
                 scrollMode: SCROLL_MODE.VERTICAL
+            });
+            shadows.updateScrollState({
+                canVerticalScroll: true,
+                verticalPosition: SCROLL_POSITION.START
             });
             const version = shadows.getVersion();
             shadows.updateVisibilityByInnerComponents({
                 top: SHADOW_VISIBILITY.VISIBLE,
                 bottom: SHADOW_VISIBILITY.VISIBLE
             });
+            assert.isTrue(shadows.top.isEnabled);
+            assert.isTrue(shadows.bottom.isEnabled);
             assert.notStrictEqual(shadows.getVersion(), version);
         });
+        it('should`t update shadow visibility if it doesn\'t scroll.', () => {
+            const shadows = new ShadowsModel({
+                ...getShadowsDefaultOptions(),
+                scrollMode: SCROLL_MODE.VERTICAL
+            });
+            shadows.updateScrollState({
+                canVerticalScroll: false,
+                verticalPosition: SCROLL_POSITION.START
+            });
+            shadows.updateVisibilityByInnerComponents({
+                top: SHADOW_VISIBILITY.VISIBLE,
+                bottom: SHADOW_VISIBILITY.VISIBLE
+            });
+            assert.isFalse(shadows.top.isEnabled);
+            assert.isFalse(shadows.bottom.isEnabled);
+        });
+
         it('should\' change "isEnabled" if there are fixed headers.', () => {
             const shadows = new ShadowsModel({
                 ...getShadowsDefaultOptions(),

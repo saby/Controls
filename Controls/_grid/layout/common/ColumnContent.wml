@@ -10,6 +10,7 @@
         <Controls.Container.Async templateName="{{itemData.getCellContentRender(itemData.column)}}">
             <ws:partial template="{{content.resolvedTemplate}}"
                         scope="{{itemData.column}}"
+                        searchValue="{{itemData.needSearchHighlight ? itemData.searchValue}}"
                         value="{{itemData.item[itemData.column.displayProperty]}}"/>
         </Controls.Container.Async>
     </ws:else>
@@ -37,9 +38,11 @@
 </ws:template>
 
 <div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_default_theme-{{_options.theme}}
+            {{ itemData.getEditingClassList(editable) }}
             {{itemData.classList.padding.getAll()}} {{ itemData.classList.columnContent }} controls-Grid__row-cell_cursor-{{cursor || 'pointer'}}
             {{(itemData.column.backgroundColorStyle || backgroundColorStyle) ? 'controls-Grid__row-cell__content_background_' + (itemData.column.backgroundColorStyle || backgroundColorStyle) + '_theme-' + _options.theme}}
-            {{(itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)  ? 'controls-Grid__item_background-hover_' + (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)  + '_theme-' + _options.theme}}">
+            {{( !itemData.isSingleCellEditingMode && (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle))  ? 'controls-Grid__item_background-hover_' + (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)  + '_theme-' + _options.theme}}
+            js-controls-ListView__measurableContainer">
     <ws:if data="{{contentTemplate}}">
         <ws:partial
                 template="{{contentTemplate}}"

@@ -97,4 +97,13 @@ class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, 
     }
 }
 
+Object.defineProperty(Back, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Back.getDefaultOptions();
+   }
+});
+
 export default Back;

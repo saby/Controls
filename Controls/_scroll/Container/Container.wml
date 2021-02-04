@@ -5,6 +5,7 @@
                     topShadowVisibility="{{undefined}}"
                     bottomShadowVisibility="{{undefined}}"
                     _scrollCssClass="{{_scrollCssClass}}"
+                    _contentWrapperCssClass="{{_contentWrapperCssClass}}"
                     _contentType="{{_contentType}}"
                     attr:style="{{_scrollbars.scrollContainerStyles}}"
                     attr:class="controls-Scroll-Container__base controls-BlockLayout__blockGroup_theme-{{_options.theme}} controls-BlockLayout__blockGroup_theme-{{_options.theme}}
@@ -16,10 +17,10 @@
                     on:keydown="_keydownHandler()"
                     on:updateShadowMode="_updateShadowVisibility()"/>
         <ws:if data="{{_shadows.top.isEnabled && !_isOptimizeShadowEnabled }}">
-            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_top {{!_shadows.top.isVisible ? ' ws-invisible'}}"></div>
+            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_top controls-Scroll__shadow_top_style-{{ _options.shadowStyle }} {{!_shadows.top.isVisible ? ' ws-invisible'}}"></div>
         </ws:if>
         <ws:if data="{{_shadows.bottom.isEnabled && !_isOptimizeShadowEnabled }}">
-            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_bottom {{!_shadows.bottom.isVisible ? ' ws-invisible'}}"></div>
+            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_bottom controls-Scroll__shadow_bottom_style-{{ _options.shadowStyle }} {{!_shadows.bottom.isVisible ? ' ws-invisible'}}"></div>
         </ws:if>
         <ws:if data="{{_shadows.left.isEnabled}}">
             <div class="controls-Scroll__shadow controls-Scroll__shadow_vertical controls-Scroll__shadow_left {{!_shadows.left.isVisible ? ' ws-invisible'}}"></div>

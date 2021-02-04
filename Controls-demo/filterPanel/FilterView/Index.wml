@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper">
+    <Controls.filter:Controller filterButtonSource="{{_filterButtonData}}">
+        <Controls.list:DataContainer source="{{_source}}" keyProperty="id">
+            <div>
+                <Controls.filter:ViewContainer>
+                    <Controls.filter:View source="{{_filterSource}}"
+                                          alignment="left"
+                                          detailPanelOpenMode="stack" />
+                </Controls.filter:ViewContainer>
+                <Controls.list:Container>
+                    <Controls.list:View />
+                </Controls.list:Container>
+            </div>
+        </Controls.list:DataContainer>
+    </Controls.filter:Controller>
+</div>

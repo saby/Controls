@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/Notification/Base/Base');
 import {default as INotification, INotificationOptions} from './interface/INotification';
 import {INotificationSimpleOptions} from "./Simple";
+import 'css!Controls/popupTemplate';
 
 export interface INotificationBaseOptions extends IControlOptions, INotificationOptions{
     bodyContentTemplate?: String | Function;
@@ -10,7 +11,7 @@ export interface INotificationBaseOptions extends IControlOptions, INotification
 
 /**
 * Базовый шаблон {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#template окна уведомления}.
-* 
+*
 * @remark
 * Полезные ссылки:
 * * {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/#template руководство разработчика}
@@ -19,7 +20,7 @@ export interface INotificationBaseOptions extends IControlOptions, INotification
 * @class Controls/_popupTemplate/Notification/Base
 * @extends UI/Base:Control
 * @mixes Controls/_popupTemplate/Notification/interface/INotification
-* 
+*
 * @public
 * @author Красильников А.С.
 * @demo Controls-demo/NotificationDemo/NotificationTemplate
@@ -62,8 +63,17 @@ class Notification extends Control<INotificationBaseOptions> implements INotific
             closeButtonVisibility: true
         };
     }
-    static _theme: string[] = ['Controls/popupTemplate'];
 }
+
+Object.defineProperty(Notification, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Notification.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_popupTemplate/Notification/Base#bodyContentTemplate
  * @cfg {Function|String} Определяет основной контент окна уведомления.

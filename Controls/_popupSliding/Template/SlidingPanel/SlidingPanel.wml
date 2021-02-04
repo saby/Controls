@@ -1,0 +1,47 @@
+<ws:template name="controller">
+   <Controls.dragnDrop:Container
+      name="dragNDrop"
+      on:dragmove="_dragMoveHandler()"
+      on:documentdragend="_dragEndHandler()">
+      <div
+         on:mousedown="_startDragNDrop()"
+         on:touchstart="_startDragNDrop()"
+         class="controls-SlidingPanel__controller-container">
+         <div class="controls-SlidingPanel__controller controls-SlidingPanel__controller-theme_{{ _options.theme }}"></div>
+      </div>
+   </Controls.dragnDrop:Container>
+</ws:template>
+<div class="controls-SlidingPanel">
+   <div class="controls-SlidingPanel__content controls-SlidingPanel__content-theme_{{_options.theme}}
+            controls-SlidingPanel__box-shadow-theme_{{_options.theme}}
+            controls-SlidingPanel__position-{{_position}}-theme_{{_options.theme}}">
+      <ws:if data="{{ _options.controlButtonVisibility && _position === 'bottom' }}">
+         <ws:partial
+            template="controller"/>
+      </ws:if>
+      <div
+         name="customContentWrapper"
+         class="controls-SlidingPanel__customContent-wrapper">
+         <div
+            name="customContent"
+            attr:class="controls-SlidingPanel__customContent
+                  controls-SlidingPanel__customContent-scroll-{{ _scrollAvailable ? 'available' : 'disabled' }}"
+            on:touchstart="_touchStartHandler()"
+            on:touchmove="_touchMoveHandler()"
+            on:touchend="_touchEndHandler()">
+            <ws:partial
+               on:scrollStateChanged="_scrollStateChanged()"
+               template="{{ _options.bodyContentTemplate }}">
+               <ws:controllerButtonTemplate>
+                  <ws:partial
+                     template="controller"/>
+               </ws:controllerButtonTemplate>
+            </ws:partial>
+         </div>
+      </div>
+      <ws:if data="{{ _options.controlButtonVisibility && _position === 'top' }}">
+         <ws:partial
+            template="controller"/>
+      </ws:if>
+   </div>
+</div>

@@ -106,4 +106,13 @@ class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {
     }
 }
 
+Object.defineProperty(Sticky, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Sticky.getDefaultOptions();
+   }
+});
+
 export default Sticky;

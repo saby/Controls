@@ -154,6 +154,15 @@ class Password extends Base {
     }
 }
 
+Object.defineProperty(Password, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Password.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_input/Password#revealable
  * @cfg {Boolean} В значении true в поле ввода присутствует кнопка-переключатель видимости введённых символов.

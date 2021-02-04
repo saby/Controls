@@ -34,9 +34,6 @@ export default class Container extends Control<IFilterContainerOptions, IFilterH
 
    protected _beforeMount(options: IFilterContainerOptions, context: object,
                           receivedState?: IFilterHistoryData | IFilterItem[]): Promise<void | IFilterHistoryData> {
-      this._dataLoadCallback = this._dataLoadCallback.bind(this);
-      this._dataLoadErrback = this._dataLoadErrback.bind(this);
-
       this._filterController = new FilterController({
          ...options,
          historySaveCallback: this._historySaveCallback.bind(this)
@@ -85,22 +82,6 @@ export default class Container extends Control<IFilterContainerOptions, IFilterH
       this._filterController.setFilter(filter);
       this._filter = this._filterController.getFilter();
       this._notify('filterChanged', [this._filter]);
-   }
-
-   private _dataLoadCallback(items: RecordSet): void {
-      this._filterController.handleDataLoad(items);
-
-      if (this._options.dataLoadCallback) {
-         this._options.dataLoadCallback(items);
-      }
-   }
-
-   private _dataLoadErrback(error: Error): void {
-      this._filterController.handleDataError();
-
-      if (this._options.dataLoadErrback) {
-         this._options.dataLoadErrback(error);
-      }
    }
 
    private _updateFilterAndFilterItems(): void {
@@ -348,3 +329,12 @@ export default class Container extends Control<IFilterContainerOptions, IFilterH
  * @param {Env/Event.Object} event Дескриптор события.
  * @param {Array|Function|Types/collection:IList} historyItems Список полей фильтра и их конфигурация, которая будет сохранена в историю.
  */
+
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});

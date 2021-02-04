@@ -1,0 +1,231 @@
+//icon-sizes
+
+.controls-icon_size-default {
+   font-size: var(--icon-size_m);
+   line-height: var(--icon-size_m);
+   width: var(--icon-size_m);
+   height: var(--icon-size_m);
+   font-family: var(--icon_font-family_m);
+}
+
+.controls-icon_size-2xs {
+   font-size: var(--icon-size_2xs);
+   line-height: var(--icon-size_2xs);
+   width: var(--icon-size_2xs);
+   height: var(--icon-size_2xs);
+   font-family: var(--icon_font-family_2xs);
+}
+
+.controls-icon_size-xs {
+   font-size: var(--icon-size_xs);
+   line-height: var(--icon-size_xs);
+   width: var(--icon-size_xs);
+   height: var(--icon-size_xs);
+   font-family: var(--icon_font-family_xs);
+}
+
+.controls-icon_size-s {
+   font-size: var(--icon-size_s);
+   line-height: var(--icon-size_s);
+   width: var(--icon-size_s);
+   height: var(--icon-size_s);
+   font-family: var(--icon_font-family_s);
+}
+
+.controls-icon_size-m {
+   font-size: var(--icon-size_m);
+   line-height: var(--icon-size_m);
+   width: var(--icon-size_m);
+   height: var(--icon-size_m);
+   font-family: var(--icon_font-family_m);
+}
+
+
+
+//todo change font icons to svg https://online.sbis.ru/opendoc.html?guid=90761cbd-04f8-4fad-be7d-8c1707bdd30e
+//icon-24 font has a problem with baseline in FF IE
+//important is for cases when non-theme css loads after theme css
+.controls-theme-default {
+   .controls-icon_size-m {
+      line-height: calc(var(--icon-size_m) - 1) !important;
+   }
+}
+
+.icon-RoundPlus.controls-icon_size-s,
+.icon-RoundPlus.controls-icon_size-m {
+   transform: rotate(360deg);
+}
+
+//end todo
+
+
+
+//icon colors
+
+.controls-icon_size-l {
+   font-size: var(--icon-size_l);
+   line-height: var(--icon-size_l);
+   width: var(--icon-size_l);
+   height: var(--icon-size_l);
+   font-family: var(--icon_font-family_l);
+}
+
+.controls-icon_style-info {
+   fill: var(--info_icon-color);
+   color: var(--info_icon-color);
+}
+
+.controls-icon_style-unaccented {
+   fill: var(--unaccented_icon-color);
+   color: var(--unaccented_icon-color);
+}
+
+.controls-icon_style-label {
+   fill: var(--label_text-color);
+   color: var(--label_text-color);
+}
+
+.controls-icon_style-success {
+   fill: var(--success_color);
+   color: var(--success_color);
+}
+
+.controls-icon_style-danger {
+   fill: var(--danger_color);
+   color: var(--danger_color);
+}
+
+.controls-icon_style-warning {
+   fill: var(--warning_color);
+   color: var(--warning_color);
+}
+
+.controls-icon_style-secondary {
+   fill: var(--secondary_color);
+   color: var(--secondary_color);
+}
+
+.controls-icon_style-primary {
+   fill: var(--primary_color);
+   color: var(--primary_color);
+}
+
+.controls-icon_style-default {
+   fill: var(--icon-color);
+   color: var(--icon-color);
+}
+
+.controls-icon_style-contrast {
+   fill: var(--contrast_icon-color);
+   color: var(--contrast_icon-color);
+}
+
+.controls-icon_style-readonly {
+   fill: var(--readonly_color);
+   color: var(--readonly_color);
+}
+
+.ws-is-hover .controls-icon_highlightOnHover:hover {
+   fill: var(--secondary_hover_icon-color);
+   color: var(--secondary_hover_icon-color);
+}
+
+
+
+//text colors
+.controls-text-default {
+   color: var(--text-color);
+}
+
+.controls-text-primary {
+   color: var(--primary_text-color);
+}
+
+.controls-text-secondary {
+   color: var(--secondary_text-color);
+}
+
+.controls-text-link {
+   color: var(--link_text-color);
+}
+
+.controls-text-label {
+   color: var(--label_text-color);
+}
+
+.controls-text-danger {
+   color: var(--danger_color);
+}
+
+.controls-text-success {
+   color: var(--success_color);
+}
+
+.controls-text-warning {
+   color: var(--warning_color);
+}
+
+.controls-text-unaccented {
+   color: var(--unaccented_color);
+}
+
+.controls-text-info {
+   color: var(--info_text-color);
+}
+
+.controls-text-readonly {
+   color: var(--readonly_color);
+}
+
+.controls-text-results {
+   color: var(--results-text-color_decoratorMoney);
+}
+
+
+
+//heights
+
+.controls-inlineheight-xs {
+   height: var(--inline_height_xs);
+}
+
+.controls-inlineheight-s {
+   height: var(--inline_height_s);
+}
+
+.controls-inlineheight-m {
+   height: var(--inline_height_m);
+}
+
+.controls-inlineheight-l {
+   height: var(--inline_height_l);
+}
+
+.controls-inlineheight-xl {
+   height: var(--inline_height_xl);
+}
+
+.controls-inlineheight-2xl {
+   height: var(--inline_height_2xl);
+}
+
+.controls-inlineheight-default {
+   height: var(--inline_height_default);
+}
+
+
+
+//font-weights
+
+.controls-fontweight-default {
+   font-weight: var(--font-weight);
+}
+
+// Набор классов для установки фона контрола через backgroundStyle (default, transparent)
+.controls-background-default {
+   background-color: var(--background-color);
+}
+
+.controls-background-transparent {
+   background-color: transparent;
+}

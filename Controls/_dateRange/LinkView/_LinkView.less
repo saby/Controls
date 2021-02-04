@@ -12,7 +12,7 @@
 .controls-DateLinkView-wrapper {
    width: 100%;
    display: inline-flex;
-   align-items: baseline;
+   align-items: center;
    justify-content: center;
 }
 
@@ -78,14 +78,12 @@
    font-weight: @font-weight_dateRangeSelector;
 }
 
-.controls-DateLinkView__clear_theme-@{themeName} {
+.controls-DateLinkView__resetButton_theme-@{themeName} {
    color: @reset-button_icon-color_dateRangeSelector;
    font-family: @icon_font-family_s;
+   margin-left: @reset-button_margin-left_dateRangeSelector;
 }
 
-.controls-DateLinkView__clear {
+.controls-DateLinkView__resetButton {
    cursor: pointer;
-   &:before {
-      content: "\ea27";
-   }
 }

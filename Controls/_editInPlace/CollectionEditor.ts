@@ -1,5 +1,5 @@
 import {DestroyableMixin, Model} from 'Types/entity';
-import {TKey, TAddPosition} from './Types';
+import {TAddPosition} from './Types';
 import {mixin} from 'Types/util';
 import {IEditableCollection, IEditableCollectionItem, TreeItem} from 'Controls/display';
 
@@ -90,11 +90,12 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
     /**
      * Запустить редактирование переданного элемента.
      * @method
-     * @param {Types/entity:Model} item Элемент для редактирования
+     * @param {Types/entity:Model} item Элемент для редактирования.
+     * @param {Number} columnIndex Индекс колонки в которой будет запущено редактирование.
      * @void
      * @public
      */
-    edit(item: Model): void {
+    edit(item: Model, columnIndex?: number): void {
         if (this._editingItem) {
             throw Error(ERROR_MSG.EDITING_IS_ALREADY_RUNNING);
         }
@@ -104,19 +105,20 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
             this._throwEditingItemMissingError(item);
         }
 
-        this._editingItem.setEditing(true, item);
+        this._editingItem.setEditing(true, item, false, columnIndex);
         this._options.collection.setEditing(true);
     }
 
     /**
      * Начать добавление переданного элемента.
      * @method
-     * @param {Types/entity:Model} item Элемент для добавления
-     * @param {TAddPosition} addPosition позиция добавляемого элемента
+     * @param {Types/entity:Model} item Элемент для добавления.
+     * @param {TAddPosition} addPosition позиция добавляемого элемента.
+     * @param {Number} columnIndex Индекс колонки в которой будет запущено редактирование.
      * @void
      * @public
      */
-    add(item: Model, addPosition?: TAddPosition): void {
+    add(item: Model, addPosition?: TAddPosition, columnIndex?: number): void {
         if (this._editingItem) {
             throw Error(ERROR_MSG.EDITING_IS_ALREADY_RUNNING);
         }
@@ -153,7 +155,7 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
             }
         }
 
-        this._editingItem.setEditing(true, item);
+        this._editingItem.setEditing(true, item, false, columnIndex);
         this._options.collection.setAddingItem(this._editingItem);
         this._options.collection.setEditing(true);
     }

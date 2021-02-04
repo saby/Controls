@@ -72,6 +72,15 @@ class IntersectionObserverController extends Control<IIntersectionObserverContro
     }
 }
 
+Object.defineProperty(IntersectionObserverController, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return IntersectionObserverController.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_scroll/IntersectionObserver/Controller#observerName
  * @cfg {String} Контроллер следит только за элементами с таким же именем.

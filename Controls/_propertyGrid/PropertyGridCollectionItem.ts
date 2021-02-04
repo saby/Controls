@@ -9,11 +9,12 @@ import {IOptions} from 'Controls/_display/grid/Collection';
 
 export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
     protected _$owner: PropertyGridCollection<T>;
-    protected _$keyProperty: string = 'name';
     protected _$propertyValue: unknown;
+    protected _$keyProperty: string;
 
     constructor(options?: IOptions<T>) {
         super(options);
+        this._$keyProperty = options.keyProperty;
         this.setPropertyValue(options.editingObject);
     }
 

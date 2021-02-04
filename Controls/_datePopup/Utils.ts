@@ -41,9 +41,5 @@ export default {
     dataStringToDate: function (str) {
         var d = str.split('.');
         return new WSDate(d[0], parseInt(d[1], 10) - 1);
-    },
-
-    isStickySupport: function() {
-        return !((detection.isIE && detection.IEVersion < 16) || (detection.isWinXP && detection.chrome));
     }
 };

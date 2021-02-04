@@ -11,10 +11,12 @@ define('Controls-demo/Popup/Opener/StackDemo',
 
       var PopupPage = Base.Control.extend({
          _template: template,
+         _restrictiveContainer: '.popup-page-target-container',
          openStack: function() {
             this._children.stack.open({
                opener: this._children.button1,
                closeOnOutsideClick: true,
+               restrictiveContainer: this._restrictiveContainer,
                template: 'Controls-demo/Popup/Opener/resources/StackTemplate',
                width: 600
             });
@@ -22,6 +24,7 @@ define('Controls-demo/Popup/Opener/StackDemo',
          openModalStack: function() {
             this._children.stack.open({
                opener: this._children.button4,
+               restrictiveContainer: this._restrictiveContainer,
                modal: true,
                template: 'Controls-demo/Popup/Opener/resources/StackTemplate',
                width: 600
@@ -71,6 +74,7 @@ define('Controls-demo/Popup/Opener/StackDemo',
          openMaximizedStack: function() {
             this._children.stack.open({
                opener: this._children.button2,
+               restrictiveContainer: this._restrictiveContainer,
                minimizedWidth: 600,
                minWidth: 600,
                width: 600,
@@ -86,6 +90,7 @@ define('Controls-demo/Popup/Opener/StackDemo',
             this._children.stack.open({
                opener: this._children.button6,
                closeOnOutsideClick: true,
+               restrictiveContainer: this._restrictiveContainer,
                template: 'Controls-demo/Popup/Opener/resources/StackTemplateHeader',
             });
          },
@@ -93,6 +98,7 @@ define('Controls-demo/Popup/Opener/StackDemo',
             this._children.stack.open({
                opener: this._children.button7,
                width: 800,
+               restrictiveContainer: this._restrictiveContainer,
                template: 'wml!Controls-demo/Popup/Opener/resources/StackTemplateWithoutHead',
             });
          }

@@ -241,6 +241,7 @@ abstract class BaseController {
             }
         };
         const itemRestrictiveContainer = getRestrictiveContainer(item);
+        item.calculatedRestrictiveContainer = itemRestrictiveContainer;
         const bodySelector = 'body';
 
         const restrictiveContainers = [itemRestrictiveContainer, baseRootSelector, bodySelector];

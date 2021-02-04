@@ -776,11 +776,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControlOptions.filter = 'testFilter';
             baseControl._beforeUpdate(baseControlOptions);
             assert.isFalse(loadStarted);
-
-            baseControlOptions.searchValue = undefined;
-            baseControlOptions.filter = 'testFilter';
-            baseControl._beforeUpdate(baseControlOptions);
-            assert.isTrue(loadStarted, 'searchValue is not changed');
         });
 
         it('portioned search is started after sourceController load without searchValue', async () => {
@@ -901,6 +896,22 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._initKeyProperty(baseControlOptions);
             assert.isFalse(!!baseControl._keyProperty);
         });
+
+        it('_beforeMount returns errorConfig', async () => {
+            const baseControlOptions = {...getBaseControlOptionsWithEmptyItems(),
+                sourceController: new NewSourceController({
+                    source: new Memory({
+                        keyProperty: 'keyProperty',
+                        data: []
+                    }),
+                    keyProperty: 'id'
+                })
+            };
+            const baseControl = new BaseControl(baseControlOptions);
+            baseControlOptions.sourceController._loadError = new Error('test error');
+            const receivedState = await baseControl._beforeMount(baseControlOptions);
+            assert.ok(receivedState.hasOwnProperty('errorConfig'));
+        });
     });
 
     describe('Edit in place', () => {
@@ -941,13 +952,12 @@ describe('Controls/list_clean/BaseControl', () => {
                 }
             };
 
-            return baseControl._beforeUpdate({
+            baseControl._beforeUpdate({
                 ...baseControlCfg,
                 filter: {field: 'ASC'},
                 useNewModel: true
-            }).then(() => {
-                assert.isTrue(isEditingCancelled);
             });
+            assert.isTrue(isEditingCancelled);
         });
 
         it('should immediately resolve promise if cancel edit called without eipController', () => {
@@ -1029,6 +1039,26 @@ describe('Controls/list_clean/BaseControl', () => {
 
         describe('_beforeUpdate sourceController', () => {
 
+            it('sourceController load error', async () => {
+                let sourceControllerOptions = getBaseControlOptionsWithEmptyItems();
+                const sourceController = new NewSourceController(sourceControllerOptions);
+                let baseControlOptions = {...sourceControllerOptions, sourceController};
+                const baseControl = new BaseControl(baseControlOptions);
+                await sourceController.reload();
+                await baseControl._beforeMount(baseControlOptions);
+                baseControl.saveOptions(baseControlOptions);
+
+                sourceControllerOptions = {...sourceControllerOptions};
+                sourceControllerOptions.source = new Memory();
+                sourceControllerOptions.source.query = () => Promise.reject(new Error());
+                sourceController.updateOptions(sourceControllerOptions);
+                await sourceController.reload().catch(() => {});
+                baseControlOptions.source = new Memory();
+                assert.doesNotThrow(() => {
+                    baseControl._beforeUpdate(baseControlOptions);
+                });
+            });
+
             it('_beforeUpdate while source controller is loading', async () => {
                 let baseControlOptions = getBaseControlOptionsWithEmptyItems();
                 let loadStarted = false;
@@ -1069,6 +1099,32 @@ describe('Controls/list_clean/BaseControl', () => {
 
                 baseControl._beforeUpdate(newSourceControllerOptions);
                 assert.isFalse(baseControl._resetScrollAfterReload);
+            });
+
+            it('_beforeMount without source and sourceController, then _beforeUpdate with sourceController', async () => {
+                let baseControlOptions = getBaseControlOptionsWithEmptyItems();
+                let afterReloadCallbackCalled = false;
+                baseControlOptions.afterReloadCallback = () => {
+                    afterReloadCallbackCalled = true;
+                };
+                baseControlOptions.source = null;
+                baseControlOptions.sourceController = null;
+
+                const baseControl = new BaseControl(baseControlOptions);
+                await baseControl._beforeMount(baseControlOptions);
+                baseControl.saveOptions(baseControlOptions);
+
+                assert.isFalse(afterReloadCallbackCalled);
+
+                baseControlOptions = {...baseControlOptions};
+                baseControlOptions.source = new Memory();
+                baseControlOptions.sourceController = new NewSourceController(baseControlOptions);
+
+                await baseControl._beforeUpdate(baseControlOptions);
+                baseControl._updateInProgress = false;
+                baseControl.saveOptions(baseControlOptions);
+                await baseControl.reload();
+                assert.isTrue(afterReloadCallbackCalled);
             });
 
         });

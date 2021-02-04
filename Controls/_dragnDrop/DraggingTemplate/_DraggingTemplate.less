@@ -3,6 +3,7 @@
    width: @width_draggingTemplate;
    background: @background-color_draggingTemplate;
    border: @border-thickness_draggingTemplate solid @border-color_draggingTemplate;
+   border-radius: @border-radius_draggingTemplate;
    box-shadow: @box-shadow_draggingTemplate;
    pointer-events: none;
    position: relative; // Для позиционирования draggingTemplate-text::after
@@ -14,6 +15,7 @@
    height: @image_height_draggingTemplate;
    border-radius: @image_border-radius_draggingTemplate;
    margin: @image_padding_draggingTemplate;
+   opacity: @opacity_draggingTemplate;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -24,10 +26,15 @@
    .icon-size(@image_placeholder_icon-size_draggingTemplate);
 }
 
+.controls-DragNDrop__draggingTemplate-image {
+   opacity: @opacity_draggingTemplate;
+}
+
 .controls-DragNDrop__draggingTemplate-text {
    flex-shrink: 1;
    width: 100%;
    margin: @content_padding_draggingTemplate;
+   opacity: @opacity_draggingTemplate;
    overflow: hidden;
 }
 
@@ -39,6 +46,7 @@
    position: absolute;
    right: 0;
    top: 0;
+   border-radius: 0 @border-radius_draggingTemplate @border-radius_draggingTemplate 0;
    .horizontal-gradient(fade(@background-color_draggingTemplate, 0%), @background-color_draggingTemplate, left);
 }
 

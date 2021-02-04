@@ -210,4 +210,14 @@ class ListEditor extends Control<IListEditorOptions> {
         };
     }
 }
+
+Object.defineProperty(ListEditor, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ListEditor.getDefaultOptions();
+   }
+});
+
 export default ListEditor;

@@ -6,13 +6,18 @@
                collectionItem="{{_options.collectionItem}}"/>
 </ws:if>
 <ws:else>
-   <span class="controls-PropertyGrid__gridLayout_editor-caption
-               controls-PropertyGrid__gridLayout_editor-caption_theme-{{theme}}
-               {{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}
-               {{collectionItem.getItemPaddingClasses(theme, 1)}}"
-         style="{{getItemStyles(collectionItem, 1)}}">
-      <div class="controls-PropertyGrid__gridLayout_editor-caption-baseline">{{item.caption}}</div>
-   </span>
+    <ws:if data="{{!item.editorOptions.jumpingLabel && item.caption}}">
+        <div class="controls-PropertyGrid__gridLayout_editor-caption
+                       controls-PropertyGrid__gridLayout_editor-caption_theme-{{theme}}
+                       {{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}
+                       {{collectionItem.getItemPaddingClasses(theme, 1)}}"
+                 style="{{getItemStyles(collectionItem, 1)}}">
+
+               <Controls.input:Label caption="{{item.caption}}"
+                                     scope="{{item.captionOptions}}"
+                                     class="controls-PropertyGrid__gridLayout_editor-caption-baseline" />
+        </div>
+    </ws:if>
    <div class="controls-PropertyGrid__gridLayout_editor
                controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
                controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
@@ -20,6 +25,7 @@
                {{collectionItem.getItemPaddingClasses(theme, 2)}}"
          style="{{getItemStyles(collectionItem, 2, !item.caption)}}">
       <ws:partial template="wml!Controls/_propertyGrid/Render/resources/editorTemplate"
+                  caption="{{item.caption}}"
                   scope="{{_options}}"/>
         <ws:if data="{{ collectionItem.shouldDisplayActions() }}">
             <ws:if data="{{ !collectionItem.isSwiped() }}">

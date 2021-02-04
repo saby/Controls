@@ -2,6 +2,7 @@ import {ICrudPlus} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
+import 'css!Controls/toolbars';
 
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {
@@ -96,7 +97,7 @@ class ToolbarBox extends Control<IToolbarBoxOptions, TItems> implements IItemTem
         return getTemplateByItem(item, this._options);
     }
 
-    static _theme: string[] = ['Controls/buttons', 'Controls/Classes', 'Controls/toolbars', 'Controls/theme'];
+    static _theme: string[] = ['Controls/buttons', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {
@@ -106,5 +107,14 @@ class ToolbarBox extends Control<IToolbarBoxOptions, TItems> implements IItemTem
     }
 
 }
+
+Object.defineProperty(ToolbarBox, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ToolbarBox.getDefaultOptions();
+   }
+});
 
 export default ToolbarBox;

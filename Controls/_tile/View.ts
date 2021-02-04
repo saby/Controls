@@ -89,56 +89,6 @@ export default class View extends List {
         return this._options.actionMenuViewMode === 'preview' && !isActionMenu && !(isScalingTile && isContextMenu);
     }
 
-    protected _getActionsMenuConfig(
-        e,
-        item,
-        clickEvent,
-        action,
-        isContextMenu,
-        menuConfig,
-        itemData
-    ): Record<string, any> {
-        const isActionMenu = !!action && !action.isMenu;
-        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, item)) {
-            const MENU_MAX_WIDTH = 200;
-            const menuOptions = menuConfig.templateOptions;
-            const itemContainer = clickEvent.target.closest('.controls-TileView__item');
-            const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
-            if (!imageWrapper) {
-                return null;
-            }
-            let previewWidth = imageWrapper.clientWidth;
-            let previewHeight = imageWrapper.clientHeight;
-            menuOptions.image = itemData.imageData.url;
-            menuOptions.title = itemData.item.get(itemData.displayProperty);
-            menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
-            menuOptions.imageClasses = itemData.imageData?.class;
-            if (this._options.tileScalingMode === TILE_SCALING_MODE.NONE) {
-                previewHeight = previewHeight * ZOOM_COEFFICIENT;
-                previewWidth = previewWidth * ZOOM_COEFFICIENT;
-            }
-            menuOptions.previewHeight = previewHeight;
-            menuOptions.previewWidth = previewWidth;
-
-            return {
-                templateOptions: menuOptions,
-                closeOnOutsideClick: true,
-                maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
-                target: imageWrapper,
-                className: 'controls-TileView__itemActions_menu_popup',
-                targetPoint: {
-                    vertical: 'top',
-                    horizontal: 'left'
-                },
-                opener,
-                template: 'Controls/tile:ActionsMenu',
-                actionOnScroll: 'close'
-            };
-        } else {
-            return null;
-        }
-    }
-
     protected _getModelConstructor() {
         return TreeTileViewModel;
     }
@@ -150,3 +100,12 @@ export default class View extends List {
         };
     }
 }
+
+Object.defineProperty(View, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return View.getDefaultOptions();
+   }
+});

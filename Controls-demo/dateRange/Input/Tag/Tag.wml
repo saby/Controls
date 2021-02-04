@@ -1,6 +1,7 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
         <Controls.dateRange:Input
+                _date="{{ _options.date }}"
                 startTagStyle="{{'danger'}}"
                 endTagStyle="{{'success'}}"
                 on:startTagClick="_tagClickHandler('startValue')"

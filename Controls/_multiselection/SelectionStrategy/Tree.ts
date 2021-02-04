@@ -9,7 +9,7 @@ import { IEntryPathItem, ITreeSelectionStrategyOptions, TKeys } from '../interfa
 // @ts-ignore
 import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
-import { BreadcrumbsItem, Tree, TreeItem } from 'Controls/display';
+import { Tree, TreeItem } from 'Controls/display';
 
 const LEAF = null;
 
@@ -217,14 +217,23 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          const key = this._getKey(item);
          const parentId = this._getKey(item.getParent());
          const isNode = this._isNode(item);
+         const inSelected = selection.selected.includes(key);
+         const inExcluded = selection.excluded.includes(key);
 
-         let isSelected = this._canBeSelected(item) && (!selection.excluded.includes(key) && (selection.selected.includes(key) || this._isAllSelected(selection, parentId)) || isNode && this._isAllSelected(selection, key));
+         let isSelected;
+         if (!this._selectAncestors && !this._selectDescendants) {
+            // В этом случае мы вообще не смотри на узлы, т.к. выбранность элемента не зависит от выбора родительского узла
+            // или выбранность узла не зависит от его детей
+            isSelected = this._canBeSelected(item) && !inExcluded && (inSelected || this._isAllSelectedInRoot(selection));
+         } else {
+            isSelected = this._canBeSelected(item) && (!inExcluded && (inSelected || this._isAllSelected(selection, parentId)) || isNode && this._isAllSelected(selection, key));
 
-         if ((this._selectAncestors || searchValue) && isNode) {
-            isSelected = this._getStateNode(item, isSelected, {
-               selected: selectedKeysWithEntryPath,
-               excluded: selection.excluded
-            });
+            if ((this._selectAncestors || searchValue) && isNode) {
+               isSelected = this._getStateNode(item, isSelected, {
+                  selected: selectedKeysWithEntryPath,
+                  excluded: selection.excluded
+               });
+            }
          }
 
          if (isSelected && isNode && doNotSelectNodes) {
@@ -475,7 +484,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          }
       }
 
-      if (countChildrenInList && countChildrenInList === children.getCount() && node instanceof BreadcrumbsItem) {
+      if (countChildrenInList && countChildrenInList === children.getCount() && node && node['[Controls/_display/BreadcrumbsItem]']) {
          stateNode = !initialState;
       } else if (countChildrenInList > 0) {
          stateNode = null;
@@ -601,11 +610,11 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          let childNodeSelectedCount;
 
          children.each((childItem) => {
-            if (childItem instanceof BreadcrumbsItem && this._isAllSelectedInRoot(selection)) {
+            if (childItem && childItem['[Controls/_display/BreadcrumbsItem]'] && this._isAllSelectedInRoot(selection)) {
                selectedChildrenCount = null;
             }
 
-            if (selectedChildrenCount !== null) {
+            if (selectedChildrenCount !== null && this._canBeSelected(childItem)) {
                childId = this._getKey(childItem);
 
                if (!selection.excluded.includes(childId)) {
@@ -646,7 +655,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
    private _isNode(item: TreeItem<Model>): boolean {
       if (item instanceof TreeItem) {
          return item.isNode() !== LEAF;
-      } else if (item instanceof BreadcrumbsItem) {
+      } else if (item && item['[Controls/_display/BreadcrumbsItem]']) {
          return true;
       }
       return false;
@@ -665,7 +674,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       let contents = item.getContents();
       // tslint:disable-next-line:ban-ts-ignore
       // @ts-ignore
-      if (item instanceof BreadcrumbsItem || item.breadCrumbs) {
+      if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
          // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
       }

@@ -6,7 +6,7 @@ import {descriptor} from 'Types/entity';
 import {delay as runDelayed} from 'Types/function';
 
 import {IAreaOptions} from 'Controls/_input/interface/IArea';
-import Text from 'Controls/_input/Text';
+import {BaseText} from 'Controls/_input/BaseText';
 import {processKeydownEvent} from 'Controls/_input/resources/Util';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
 import template = require('wml!Controls/_input/Area/Area');
@@ -26,7 +26,7 @@ import 'Controls/decorator';
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Area
- * @extends Controls/input:Text
+ * @extends Controls/input:BaseText
  * @mixes Controls/input:INewLineKey
  * @mixes Controls/_input/interface/IArea
  * @public
@@ -41,7 +41,7 @@ import 'Controls/decorator';
  * @demo Controls-demo/Input/Area/TextAlign/Index
  */
 
-export default class Area extends Text<IAreaOptions> {
+export default class Area extends BaseText<IAreaOptions> {
     protected _template: TemplateFunction = template;
 
     protected _multiline: boolean = true;
@@ -295,10 +295,10 @@ export default class Area extends Text<IAreaOptions> {
         }
     }
 
-    static _theme: string[] = Text._theme.concat(['Controls/input']);
+    static _theme: string[] = BaseText._theme.concat(['Controls/input']);
 
     static getDefaultOptions(): object {
-        const defaultOptions = Text.getDefaultOptions();
+        const defaultOptions = BaseText.getDefaultOptions();
 
         defaultOptions.minLines = 1;
         defaultOptions.newLineKey = 'enter';
@@ -309,7 +309,7 @@ export default class Area extends Text<IAreaOptions> {
     }
 
     static getOptionTypes(): object {
-        const optionTypes = Text.getOptionTypes();
+        const optionTypes = BaseText.getOptionTypes();
 
         optionTypes.minLines = descriptor(Number, null);
         optionTypes.maxLines = descriptor(Number, null);
@@ -321,3 +321,12 @@ export default class Area extends Text<IAreaOptions> {
         return optionTypes;
     }
 }
+
+Object.defineProperty(Area, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Area.getDefaultOptions();
+   }
+});

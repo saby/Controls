@@ -10,8 +10,11 @@
    <ws:master>
       <Controls.scroll:Container>
          <Controls.explorer:View
-            bind:root="root"
             scope="{{_masterExplorerOptions}}"
+
+            root="{{masterRoot}}"
+            on:rootChanged="_onMasterRootChanged()"
+            bind:markedKey="masterMarkedKey"
          />
       </Controls.scroll:Container>
    </ws:master>
@@ -19,80 +22,62 @@
    <ws:detail>
       <div
          class="controls-newBrowser__detail"
-         style="background-color: {{_options.detail.backgroundColor ? _options.detail.backgroundColor : '#ffffff'}};"
+         style="background-color: {{_detailBgColor}};"
       >
-         <Controls.scroll:Container>
-            <Controls.explorer:View
-               root="{{root}}"
-               on:rootChanged="_onDetailRootChanged()"
+         <Controls.explorer:View
+            root="{{root}}"
+            on:rootChanged="_onDetailRootChanged()"
 
-               tileMode="static"
-               tileSize="{{_tileCfg.imageSize}}"
+            tileSize="{{_tileCfg.imageSize}}"
 
-               viewMode="{{viewMode}}"
-               scope="{{_detailExplorerOptions}}"
-               backgroundStyle="transparent"
-               breadcrumbsVisibility="{{_masterVisibility === _masterVisibilityEnum.hidden ? 'visible' : 'hidden'}}"
-            >
-               <ws:afterBreadCrumbsTemplate>
-                  <ws:if data="{{_options.detail.afterBreadCrumbsTemplate}}">
-                     <div on:search="_onSearch()" on:searchReset="_onSearchReset()">
-                        <ws:partial template="{{_options.detail.afterBreadCrumbsTemplate}}"/>
-                     </div>
-                  </ws:if>
-                  <ws:else>
-                     <invisible-node/>
-                  </ws:else>
-               </ws:afterBreadCrumbsTemplate>
-               <ws:itemTemplate>
-                  <!-- В режиме "таблица" или "поиск" нужно использовать шаблон строки таблицы -->
-                  <ws:if data="{{viewMode === _viewModeEnum.table || viewMode === 'search'}}">
-                     <Controls.grid:ItemTemplate
-                        scope="{{itemTemplate}}"
-                        listConfiguration="{{_listConfiguration}}"
-                     />
-                  </ws:if>
-                  <!-- Если передан кастомный шаблон отображения итема списка, то используем его -->
-                  <ws:else data="{{_options.detail.customItemTemplate}}">
-                     <ws:partial
-                        scope="{{itemTemplate}}"
-                        template="{{_options.detail.customItemTemplate}}"
-                        listConfiguration="{{_listConfiguration}}"
-                     />
-                  </ws:else>
-                  <!-- Если кастомный шаблон отображения итема списка не передан, то используем дефолтный -->
-                  <ws:else>
-                     <ws:partial
-                        listCfg="{{_listCfg}}"
-                        scope="{{itemTemplate}}"
-                        template="wml!Controls/_newBrowser/templates/ListItemTemplate"
-                        captionTemplate="{{_options.detail.defaultItemTemplate.captionTemplate}}"
-                        contentTemplate="{{_options.detail.defaultItemTemplate.contentTemplate}}"
-                        footerTemplate="{{_options.detail.defaultItemTemplate.footerTemplate}}"
-                     />
-                  </ws:else>
-               </ws:itemTemplate>
-               <ws:tileItemTemplate>
-                  <ws:if data="{{tileItemTemplate.itemData.dispItem}}">
-                     <ws:partial
-                        template="{{_tileItemTemplate}}"
-                        scope="{{tileItemTemplate}}"
-                        imageSize="{{_tileCfg.imageSize}}"
-                        imagePosition="{{_tileCfg.imagePosition}}"
-                        imageEffect="{{_tileCfg.getImageEffect(tileItemTemplate.itemData)}}"
-                        imageViewMode="{{_tileCfg.getImageViewMode(tileItemTemplate.itemData)}}"
-                        gradientColor="{{_tileCfg.getGradientColor(tileItemTemplate.itemData)}}"
-                        description="{{_tileCfg.getDescription(tileItemTemplate.itemData)}}"
-                        descriptionLines="{{_tileCfg.getDescriptionLines(tileItemTemplate.itemData)}}"
-                     />
-                  </ws:if>
-                  <ws:else>
-                     <invisible-node/>
-                  </ws:else>
-               </ws:tileItemTemplate>
-            </Controls.explorer:View>
-         </Controls.scroll:Container>
+            viewMode="{{viewMode}}"
+            scope="{{_detailExplorerOptions}}"
+            breadcrumbsVisibility="{{_masterVisibility === _masterVisibilityEnum.hidden ? 'visible' : 'hidden'}}"
 
+            on:arrowClick="_onDetailArrowClick()"
+            on:itemClick="_onDetailItemClick()"
+         >
+            <ws:afterBreadCrumbsTemplate>
+               <ws:if data="{{_options.detail.afterBreadCrumbsTemplate}}">
+                  <div on:search="_onSearch()" on:searchReset="_onSearchReset()">
+                     <ws:partial template="{{_options.detail.afterBreadCrumbsTemplate}}"/>
+                  </div>
+               </ws:if>
+               <ws:else>
+                  <invisible-node/>
+               </ws:else>
+            </ws:afterBreadCrumbsTemplate>
+
+            <ws:itemTemplate>
+               <!-- В режиме "таблица" или "поиск" нужно использовать шаблон строки таблицы -->
+               <ws:if data="{{viewMode === _viewModeEnum.table || viewMode === 'search'}}">
+                  <Controls.treeGrid:ItemTemplate
+                     scope="{{itemTemplate}}"
+                     listConfiguration="{{_listConfiguration}}"
+                  />
+               </ws:if>
+               <ws:else>
+                  <ws:partial
+                     scope="{{itemTemplate}}"
+                     template="{{_detailExplorerOptions.itemTemplate}}"
+                     listConfiguration="{{_listConfiguration}}"
+                     listCfg="{{_listCfg}}"
+                  />
+               </ws:else>
+            </ws:itemTemplate>
+
+            <ws:tileItemTemplate>
+               <ws:partial
+                  scope="{{tileItemTemplate}}"
+                  template="{{_detailExplorerOptions.tileItemTemplate}}"
+                  listConfiguration="{{_listConfiguration}}"
+                  tileCfg="{{_tileCfg}}"
+               />
+            </ws:tileItemTemplate>
+         </Controls.explorer:View>
+         <ws:if data="{{_options.detailFooterTemplate}}">
+            <ws:partial template="{{_options.detailFooterTemplate}}"/>
+         </ws:if>
       </div>
    </ws:detail>
 

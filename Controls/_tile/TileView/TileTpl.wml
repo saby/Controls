@@ -16,7 +16,7 @@
                {{height === 'auto' ? 'controls-TileView__item_autoHeight'}}
                {{highlightOnHover === true ? ' controls-TileView__itemContent_highlightOnHover_theme-' + theme}}
                {{backgroundColorStyle ? ' controls-TileView__itemContent_background_' + backgroundColorStyle +'_theme-' + theme}}
-               js-controls-ItemActions__swipeMeasurementContainer
+               js-controls-ListView__measurableContainer
                {{!!itemData.isActive() ? ' controls-TileView__item_active_theme-' + theme}}
                {{!!itemData.isSwiped() ? ' controls-TileView__item_swiped_theme-' + theme}}
                {{itemData.isHovered ? ' controls-TileView__item_hovered'}}
@@ -25,7 +25,7 @@
                {{itemData.isScaled ? ' controls-TileView__item_scaled' }}
                {{itemData.isFixed ? ' controls-TileView__item_fixed controls-TileView__item_fixed_theme-' + theme}}
                {{itemData.isAnimated ? ' controls-TileView__item_animated'}}
-               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + theme}}
+               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + theme + ' controls-ListView__itemContent_dragging_theme-' + theme}}
                {{titleStyle === 'none' ? 'controls-TileView__item_withoutTitle'}}
                {{' controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
                {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?

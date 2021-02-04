@@ -95,11 +95,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
     protected _isOptimizeShadowEnabled: boolean;
     protected _optimizeShadowClass: string;
-    protected _needUpdateContentSize: boolean = false;
     private _isControllerInitialized: boolean;
     private _wasMouseEnter: boolean = false;
     private _gridAutoShadows: boolean = true;
-    private _updateShadowsTimeout: number;
 
     _beforeMount(options: IContainerOptions, context, receivedState) {
         this._shadows = new ShadowsModel(this._getShadowsModelOptions(options));
@@ -166,8 +164,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             if (this._options.pagingMode !== options.pagingMode) {
                 this._paging.pagingMode = options.pagingMode;
             }
+            this._updateContentWrapperCssClass();
         } else if (this._paging) {
             this._paging = null;
+            this._updateContentWrapperCssClass();
         }
 
         this._updateShadows(this._scrollModel, options);
@@ -183,14 +183,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
     protected _afterUpdate() {
         super._afterUpdate(...arguments);
         this._stickyHeaderController.updateContainer(this._children.content);
-        if (this._needUpdateContentSize) {
-            this._needUpdateContentSize = false;
-            this._updateStateAndGenerateEvents({ scrollHeight: this._children.content.scrollHeight });
-        }
     }
 
     protected _beforeUnmount(): void {
-        clearTimeout(this._updateShadowsTimeout);
 
         if (this._intersectionObserverController) {
             this._intersectionObserverController.destroy();
@@ -289,14 +284,19 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const scrollCssClass = this._getScrollContainerCssClass(this._options);
         if (this._scrollCssClass !== scrollCssClass) {
             this._scrollCssClass = scrollCssClass;
-            this._needUpdateContentSize = true;
+            this._updateContentWrapperCssClass(options);
         }
     }
 
     protected _getScrollContainerCssClass(options: IContainerBaseOptions): string {
         let cssClass: string = this._scrollbars.getScrollContainerClasses();
+        return cssClass;
+    }
+
+    protected _getContentWrapperCssClass(): string {
+        let cssClass = super._getContentWrapperCssClass();
         if (this._paging?.isVisible) {
-            cssClass += ' controls-Scroll__content_paging';
+            cssClass += ' controls-Scroll__content_paging'
         }
         return cssClass;
     }
@@ -537,34 +537,15 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         this._stickyHeaderController.setShadowVisibility(
             this._shadows.top.isStickyHeadersShadowsEnabled(),
             this._shadows.bottom.isStickyHeadersShadowsEnabled());
-
-        const stickyHeaderOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.fixed);
-        const stickyHeaderOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.fixed);
-        this._notify('fixed', [stickyHeaderOffsetTop, stickyHeaderOffsetBottom]);
-
-        if (!stickyHeaderOffsetTop && this._shadows.top?.getVisibilityByInnerComponents() === SHADOW_VISIBILITY.VISIBLE) {
-            // Если отклеился последний заголовок, и списками установлено, что сверху еще есть данные, то единственный
-            // на данный момент известный сценарий, который может привести к этому, это полная перерисовка списка.
-            // В этом случае мигает тень над заголовками из-за того, что после отклеивания старых заголовков,
-            // скролл контейнер думает что заголовков нет и рисует тень. Затем инициализируются новые заголовки и
-            // скролл контейнер удаляет свою тень. В описанном выше сценарии можно вообще не обновлять тень, т.к.
-            // через мгновение инициализируются заголовки. Других сценриев вроде нет.
-            // Но для подстраховки обновим тень через 3 секунды. Списки могут обновляться достаточно долго.
-            // TODO https://online.sbis.ru/opendoc.html?guid=1529db8e-7105-45cc-97bf-430b9cd44ef9
-            this._updateShadowsTimeout = setTimeout(() => {
-                this._updateShadowsByStickyHeaderController();
-            }, 3000);
-        } else {
-            this._updateShadowsByStickyHeaderController();
-        }
-    }
-
-    _updateShadowsByStickyHeaderController(): void {
         const needUpdate = this._wasMouseEnter || this._options.shadowMode === SHADOW_MODE.JS;
         this._shadows.setStickyFixed(
             this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
             this._stickyHeaderController.hasFixed(POSITION.BOTTOM) && this._stickyHeaderController.hasShadowVisible(POSITION.BOTTOM),
             needUpdate);
+
+        const stickyHeaderOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.fixed);
+        const stickyHeaderOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.fixed);
+        this._notify('fixed', [stickyHeaderOffsetTop, stickyHeaderOffsetBottom]);
     }
 
     _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {
@@ -677,3 +658,18 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  * @default right
  * @demo Controls-demo/Scroll/Paging/PositionLeft/Index
  */
+
+/**
+ * @name Controls/_scroll/Container#shadowStyle
+ * @cfg {String} Постфикс у класса тени
+ * @default default
+ */
+
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});

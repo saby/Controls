@@ -1,9 +1,10 @@
-<div class="controls-DialogTemplate__top-area controls-DialogTemplate__top-area_theme_{{_options.theme}}
+<div class="controls-DialogTemplate__top-area controls-DialogTemplate__top-area_{{_options.headerBackgroundStyle}}
             controls-DialogTemplate__top-area_{{_options.headerBackgroundStyle}}_theme_{{_options.theme}}
-            {{_options.draggable ? 'controls-DialogTemplate__top-area-draggable'}}">
+            {{_options.draggable ? 'controls-DialogTemplate__top-area-draggable'}} controls_theme-{{_options.theme}}
+            {{_options.headerBorderVisible ? 'controls-StackTemplate__top-area-border'}}">
    <div class="controls-DialogTemplate__top-area-content">
       <ws:if data="{{_options.headingCaption}}">
-         <div class="controls-DialogTemplate__caption controls-DialogTemplate__caption_theme_{{_options.theme}}">
+         <div class="controls-DialogTemplate__caption">
             <Controls.heading:Title attr:class="controls-DialogTemplate__caption_text"
                                     caption="{{_options.headingCaption}}"
                                     fontColorStyle="{{_options.headingFontColorStyle}}"
@@ -13,7 +14,7 @@
          </div>
       </ws:if>
       <ws:if data="{{_options.headerContentTemplate}}" >
-         <div class="controls-DialogTemplate__headerContentTemplate controls-DialogTemplate__headerContentTemplate_theme_{{_options.theme}}">
+         <div class="controls-DialogTemplate__headerContentTemplate">
             <ws:partial template="{{_options.headerContentTemplate}}"
                         bodyContentTemplate="{{null}}"
                         headerContentTemplate="{{null}}"
@@ -24,8 +25,9 @@
       </ws:if>
       <ws:if data="{{_options.closeButtonVisibility}}">
          <Controls._popupTemplate.CloseButton name="closeButton"
-                                              attr:class="controls-DialogTemplate__close_button controls-DialogTemplate__close_button_theme_{{_options.theme}}"
-                                              on:click="close()" transparent="{{_options.closeButtonTransparent}}" viewMode="{{_options.closeButtonViewMode}}" />
+                                              attr:class="controls-DialogTemplate__close_button"
+                                              on:click="close()" transparent="{{_options.closeButtonTransparent}}"
+                                              viewMode="{{_options.closeButtonViewMode}}" />
       </ws:if>
    </div>
 </div>

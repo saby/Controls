@@ -1,4 +1,4 @@
-<span attr:class="controls-Header__caption controls-Header__caption_theme_{{_options.theme}}
+<span attr:class="controls-Header__caption controls_theme-{{_options.theme}}
                   {{_options.textTransform !== 'none' ? ' controls-Header__' + _options.textTransform}}
                   controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}
                   controls-Header-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}

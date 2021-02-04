@@ -1,11 +1,11 @@
 import { assert } from 'chai';
 
-import Search from 'Controls/_display/itemsStrategy/Search';
 import IItemsStrategy from 'Controls/_display/IItemsStrategy';
-import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
 import { TreeItem } from 'Controls/display';
 import Tree from 'Controls/_display/Tree';
 import { RecordSet } from 'Types/collection';
+import { Search } from 'Controls/_display/itemsStrategy';
+import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
 import SearchSeparator from 'Controls/_display/SearchSeparator';
 
 describe('Controls/_display/itemsStrategy/Search', () => {
@@ -55,8 +55,6 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         let result: string;
         if (contents instanceof Array) {
             result = `#${contents.join(',')}`;
-        } else if(contents === undefined) {
-            result = '{}';
         } else {
             result = contents;
         }
@@ -127,7 +125,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
         source = getSource(items);
         strategy = new Search({
-            source
+            source,
+            searchSeparatorModule: 'Controls/display:SearchSeparator',
+            breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+            treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
         });
     });
 
@@ -146,7 +147,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
     describe('.items', () => {
         it('should group breadcrumbs nodes', () => {
             const strategy = new Search<string | string[]>({
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const expected = [
@@ -159,7 +163,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 '#A,AA,AAD',
                 '#B',
                 '#C',
-                '{}',
+                undefined,
                 'd',
                 'e'
             ];
@@ -189,7 +193,12 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             });
 
             const source = getSource(items);
-            const strategy = new Search({source});
+            const strategy = new Search({
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
+            });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents()));
 
@@ -219,7 +228,12 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             });
 
             const source = getSource(items);
-            const strategy = new Search({source});
+            const strategy = new Search({
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
+            });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents()));
 
@@ -249,7 +263,12 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             });
 
             const source = getSource(items);
-            const strategy = new Search({source});
+            const strategy = new Search({
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
+            });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents()));
 
@@ -279,12 +298,15 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
             const source = getSource(items);
             const strategy = new Search({
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
 
-            assert.deepEqual(result, ['#A,AA:0', 'AAa:1', '{}:0', 'b:0']);
+            assert.deepEqual(result, ['#A,AA:0', 'AAa:1', 'undefined:0', 'b:0']);
         });
 
         it('return breadcrumbs as 1st level parent for leaves', () => {
@@ -367,7 +389,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
             source = getSource(items);
             strategy = new Search({
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
@@ -392,7 +417,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
             source = getSource(items);
             strategy = new Search({
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
@@ -430,7 +458,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
             source = getSource(items);
             strategy = new Search({
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
@@ -458,7 +489,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             const source = getSource(items);
             const strategy = new Search({
                 dedicatedItemProperty: 'break',
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => {
@@ -489,7 +523,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             const source = getSource(items);
             const strategy = new Search({
                 dedicatedItemProperty: 'break',
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => {
@@ -520,7 +557,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
             const source = getSource(items);
             const strategy = new Search({
                 dedicatedItemProperty: 'break',
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const result = strategy.items.map((item) => {
@@ -572,7 +612,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
         it('should add items', () => {
             const source = getSource(items);
             const strategy = new Search<string | string[]>({
-                source: source as any
+                source: source as any,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             const newItems = [new TreeItem({
@@ -591,7 +634,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 '#A,AA,AAD',
                 '#B',
                 '#C',
-                '{}',
+                undefined,
                 'd',
                 'e'
             ];
@@ -611,7 +654,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
         it('should remove items', () => {
             const strategy = new Search<string | string[]>({
-                source
+                source,
+                searchSeparatorModule: 'Controls/display:SearchSeparator',
+                breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+                treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
             });
 
             // AA
@@ -631,7 +677,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 '#A,AA,AAD',
                 '#B',
                 '#C',
-                '{}',
+                undefined,
                 'd',
                 'e'
             ];
@@ -692,7 +738,10 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
         source = getSource(tree.getItems(), {display: tree});
         strategy = new Search({
-            source
+            source,
+            searchSeparatorModule: 'Controls/display:SearchSeparator',
+            breadcrumbsItemModule: 'Controls/display:BreadcrumbsItem',
+            treeItemDecoratorModule: 'Controls/display:TreeItemDecorator'
         });
 
         const items = strategy.items;

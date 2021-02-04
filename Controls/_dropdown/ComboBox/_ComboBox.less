@@ -17,11 +17,19 @@
 }
 
 .controls-ComboBox_theme-@{themeName} {
-   border-width: @border-thickness_inputText;
+   border-width: 0;
    background-color: @background-color_inputText;
    border-style: @border-style_inputText;
    box-sizing: border-box;
    cursor: pointer;
+}
+
+.controls-ComboBox_border-visible_theme-@{themeName} {
+   border-width: @border-thickness_inputText;
+}
+
+.controls-ComboBox_border-partial_theme-@{themeName} {
+   border-bottom-width: @border-thickness_inputText;
 }
 
 .controls-ComboBox_textAlign-left {

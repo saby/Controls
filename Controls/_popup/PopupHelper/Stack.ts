@@ -5,7 +5,7 @@ import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 /**
  * Хелпер для открытия стековых окон.
  * @class Controls/_popup/PopupHelper/Stack
- * 
+ *
  * @author Красильников А.С.
  * @public
  */
@@ -20,9 +20,9 @@ export default class Stack extends Base {
      * @example
      * <pre class="brush: js">
      * import {StackOpener} from 'Controls/popup';
-     * 
+     *
      * this._stack = new StackOpener();
-     * 
+     *
      * openStack() {
      *     this._stack.open({
      *         template: 'Example/MyStackTemplate',
@@ -46,7 +46,7 @@ export default class Stack extends Base {
  * @example
  * <pre class="brush: js">
  * import {StackOpener} from 'Controls/popup';
- * 
+ *
  * this._stack = new StackOpener();
  *
  * closeStack() {
@@ -65,7 +65,7 @@ export default class Stack extends Base {
  * @example
  * <pre class="brush: js">
  * import {StackOpener} from 'Controls/popup';
- * 
+ *
  * this._stack = new StackOpener();
  *
  * _beforeUnmount() {

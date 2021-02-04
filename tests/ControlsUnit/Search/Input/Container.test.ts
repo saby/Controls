@@ -1,12 +1,13 @@
 import {assert} from 'chai';
 import {InputContainer} from 'Controls/search';
+import {SyntheticEvent} from 'UI/Vdom';
 import * as sinon from 'sinon';
 import Store from 'Controls/Store';
 
 describe('Controls/_search/Input/Container', () => {
 
-   const sandbox = sinon.createSandbox();
-
+   let sandbox;
+   beforeEach(() => sandbox = sinon.createSandbox());
    afterEach(() => sandbox.restore());
 
    it('_beforeMount', () => {
@@ -28,48 +29,24 @@ describe('Controls/_search/Input/Container', () => {
    });
 
    describe('_resolve', () => {
-      it('search: useStore = false', () => {
+      it('search', () => {
          const cont = new InputContainer({});
          const stub = sandbox.stub(cont, '_notify');
          const dispatchStub = sandbox.stub(Store, 'dispatch');
-         cont._options.useStore = false;
 
          cont._notifySearch('test');
          assert.isTrue(stub.withArgs('search', ['test']).calledOnce);
          assert.isFalse(dispatchStub.called);
       });
 
-      it('search: useStore = true', () => {
+      it('searchReset', () => {
          const cont = new InputContainer({});
          const stub = sandbox.stub(cont, '_notify');
          const dispatchStub = sandbox.stub(Store, 'dispatch');
-         cont._options.useStore = true;
-
-         cont._notifySearch('test');
-         assert.isFalse(stub.called);
-         assert.isTrue(dispatchStub.withArgs('searchValue', 'test').calledOnce);
-      });
-
-      it('searchReset: useStore = false', () => {
-         const cont = new InputContainer({});
-         const stub = sandbox.stub(cont, '_notify');
-         const dispatchStub = sandbox.stub(Store, 'dispatch');
-         cont._options.useStore = false;
 
          cont._notifySearchReset();
          assert.isTrue(stub.withArgs('searchReset', ['']).calledOnce);
          assert.isFalse(dispatchStub.called);
-      });
-
-      it('searchReset: useStore = true', () => {
-         const cont = new InputContainer({});
-         const stub = sandbox.stub(cont, '_notify');
-         const dispatchStub = sandbox.stub(Store, 'dispatch');
-         cont._options.useStore = true;
-
-         cont._notifySearchReset();
-         assert.isFalse(stub.called);
-         assert.isTrue(dispatchStub.withArgs('searchValue', '').calledOnce);
       });
    });
 
@@ -123,6 +100,24 @@ describe('Controls/_search/Input/Container', () => {
          cont._valueChanged(null, 'newValue');
 
          assert.isFalse(called);
+      });
+
+      it('_beforeMount with inputSearchValue, then valueChanged', () => {
+         const fakeTimer = sandbox.useFakeTimers();
+         const inputContainerOptions = InputContainer.getDefaultOptions();
+         inputContainerOptions.inputSearchValue = 'testValue';
+
+         const inputContainer = new InputContainer(inputContainerOptions);
+         const stubNotify = sandbox.stub(inputContainer, '_notify');
+         inputContainer._beforeMount(inputContainerOptions);
+         inputContainer.saveOptions(inputContainerOptions);
+
+         inputContainer._valueChanged({} as SyntheticEvent, 'testValue2');
+         assert.ok(stubNotify.notCalled);
+
+         fakeTimer.tick(inputContainerOptions.searchDelay);
+         assert.ok(stubNotify.calledWith('search', ['testValue2']));
+         stubNotify.restore();
       });
    });
 

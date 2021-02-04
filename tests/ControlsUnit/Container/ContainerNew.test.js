@@ -117,8 +117,7 @@ define(
                         result = res;
                      },
                      top: {
-                        isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined }),
-                        getVisibilityByInnerComponents: () => false
+                        isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })
                      },
                      bottom: {
                         isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })

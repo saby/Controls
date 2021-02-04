@@ -71,6 +71,10 @@ class ControllerClass {
         });
     }
 
+    removeDraggingTemplate(): void {
+        this._dialogOpener.close();
+    }
+
 }
 
 export default ControllerClass;

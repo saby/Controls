@@ -106,6 +106,62 @@ var TileView = ListView.extend({
        this._listModel.setHoveredItem(null);
     },
 
+    getActionsMenuConfig(
+        item,
+        clickEvent,
+        action,
+        isContextMenu,
+        menuConfig,
+        itemData
+    ): Record<string, any> {
+        const isActionMenu = !!action && !action.isMenu;
+        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, item)) {
+            const MENU_MAX_WIDTH = 200;
+            const menuOptions = menuConfig.templateOptions;
+            const itemContainer = clickEvent.target.closest('.controls-TileView__item');
+            const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
+            if (!imageWrapper) {
+                return null;
+            }
+            let previewWidth = imageWrapper.clientWidth;
+            let previewHeight = imageWrapper.clientHeight;
+            menuOptions.image = itemData.imageData.url;
+            menuOptions.title = itemData.item.get(itemData.displayProperty);
+            menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
+            menuOptions.imageClasses = itemData.imageData?.class;
+            if (this._options.tileScalingMode === TILE_SCALING_MODE.NONE) {
+                previewHeight = previewHeight * ZOOM_COEFFICIENT;
+                previewWidth = previewWidth * ZOOM_COEFFICIENT;
+            }
+            menuOptions.previewHeight = previewHeight;
+            menuOptions.previewWidth = previewWidth;
+
+            return {
+                templateOptions: menuOptions,
+                closeOnOutsideClick: true,
+                maxWidth: menuOptions.previewWidth + MENU_MAX_WIDTH,
+                target: imageWrapper,
+                className: 'controls-TileView__itemActions_menu_popup',
+                targetPoint: {
+                    vertical: 'top',
+                    horizontal: 'left'
+                },
+                opener: menuConfig.opener,
+                template: 'Controls/tile:ActionsMenu',
+                actionOnScroll: 'close'
+            };
+        } else {
+            return null;
+        }
+    },
+
+    _shouldOpenExtendedMenu(isActionMenu, isContextMenu, item): boolean {
+        const isScalingTile = this._options.tileScalingMode !== 'none' &&
+            this._options.tileScalingMode !== 'overlap' &&
+            !item.isNode();
+        return this._options.actionMenuViewMode === 'preview' && !isActionMenu && !(isScalingTile && isContextMenu);
+    },
+
     _beforeUpdate: function (newOptions) {
         if (this._options.tileMode !== newOptions.tileMode) {
             this._listModel.setTileMode(newOptions.tileMode);
@@ -290,6 +346,15 @@ TileView.getDefaultOptions = function () {
         tileScalingMode: TILE_SCALING_MODE.NONE
     };
 };
+
+Object.defineProperty(TileView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return TileView.getDefaultOptions();
+   }
+});
 
 TileView.contextTypes = function contextTypes() {
     return {
