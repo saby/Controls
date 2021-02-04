@@ -1,0 +1,11 @@
+<div class="controlsDemo__flexColumn controlsDemo__ml2">
+    <div class="controlsDemo__flex">
+        <span>Change day</span>
+        <span>Current date: {{ _value}}</span>
+    </div>
+    <div class="controlsDemo__flex">
+        <Controls.buttons:Button caption="-1" on:click="_changeDate(-1)"/>
+        <Controls.dateRange:WeekdayFormatter value="{{ _value }}" attr:class="controlsDemo__ml1 controlsDemo__mr1"/>
+        <Controls.buttons:Button caption="+1" on:click="_changeDate(1)"/>
+    </div>
+</div>

@@ -62,54 +62,59 @@
             <ws:monthTemplate>
                <ws:partial template="Controls/calendar:MonthListMonthTemplate">
                   <ws:bodyTemplate>
-                     <Controls.calendar:MonthView
-                             attr:class="controls-DateRangeBigChoose-DateRangePicker__item_theme-{{_options.theme}}"
-                             monthViewModel="{{_monthViewModel}}"
-                             showCaption="{{true}}"
-                             selectionType="{{_options.selectionType}}"
-                             ranges="{{_options.ranges}}"
-                             showWeekdays="{{false}}"
-                             month="{{ monthTemplate.date }}"
-                             daysData="{{extData[monthTemplate.date.getMonth()]}}"
-                             dateConstructor="{{_options.dateConstructor}}"
-                             _date="{{ _options._date }}"
+                     <Controls.scroll:IntersectionObserverContainer
+                             data="{{ monthTemplate.date }}"
+                             on:intersect="_monthObserverHandler()"
+                             threshold="{{[1]}}">
+                        <Controls.calendar:MonthView
+                                attr:class="controls-DateRangeBigChoose-DateRangePicker__item_theme-{{_options.theme}}"
+                                monthViewModel="{{_monthViewModel}}"
+                                showCaption="{{true}}"
+                                selectionType="{{_options.selectionType}}"
+                                ranges="{{_options.ranges}}"
+                                showWeekdays="{{false}}"
+                                month="{{ monthTemplate.date }}"
+                                daysData="{{extData[monthTemplate.date.getMonth()]}}"
+                                dateConstructor="{{_options.dateConstructor}}"
+                                _date="{{ _options._date }}"
 
-                             startValue="{{_options.startValue}}"
-                             endValue="{{_options.endValue}}"
+                                startValue="{{_options.startValue}}"
+                                endValue="{{_options.endValue}}"
 
-                             newMode="{{true}}"
+                                newMode="{{true}}"
 
-                             selectionProcessing="{{_options.selectionProcessing}}"
-                             on:selectionProcessingChanged="_proxyEvent()"
-                             selectionBaseValue="{{_options.selectionBaseValue}}"
-                             selectionHoveredValue="{{_options.selectionHoveredValue}}"
+                                selectionProcessing="{{_options.selectionProcessing}}"
+                                on:selectionProcessingChanged="_proxyEvent()"
+                                selectionBaseValue="{{_options.selectionBaseValue}}"
+                                selectionHoveredValue="{{_options.selectionHoveredValue}}"
 
-                             hoveredStartValue="{{_options.hoveredStartValue}}"
-                             hoveredEndValue="{{_options.hoveredEndValue}}"
+                                hoveredStartValue="{{_options.hoveredStartValue}}"
+                                hoveredEndValue="{{_options.hoveredEndValue}}"
 
-                             on:monthClick="_proxyEvent()"
-                             on:fixedPeriodClick="_proxyEvent()"
-                             on:itemClick="_proxyEvent()"
-                             on:itemMouseEnter="_proxyEvent()"
-                             on:itemMouseLeave="_proxyEvent()"
-                     >
-                        <ws:captionTemplate>
-                           <div class="controls-PeriodDialog-DateRangeItem__monthList_title
+                                on:monthClick="_proxyEvent()"
+                                on:fixedPeriodClick="_proxyEvent()"
+                                on:itemClick="_proxyEvent()"
+                                on:itemMouseEnter="_proxyEvent()"
+                                on:itemMouseLeave="_proxyEvent()"
+                        >
+                           <ws:captionTemplate>
+                              <div class="controls-PeriodDialog-DateRangeItem__monthList_title
                      controls-PeriodDialog-DateRangeItem__monthList_title_theme-{{_options.theme}}
                      {{_monthSelectionEnabled ? ' controls-PeriodDialog-DateRangeItem__monthList_title_selectable
                      controls-PeriodDialog-DateRangeItem__monthList_title_selectable_theme-' + _options.theme}}"
-                                on:click="_monthCaptionClick(monthTemplate.date, monthTemplate.date.getMonth())">
-                              {{ _formatMonth(monthTemplate.date.getMonth()) }}
-                           </div>
-                        </ws:captionTemplate>
-                        <ws:dayTemplate>
-                           <ws:partial template="{{_options.dayTemplate}}"
-                                       sizeStyle="DateRangeItem"
-                                       fontColorStyle="DateRangeItem"
-                                       backgroundStyle="DateRangeItem">
-                           </ws:partial>
-                        </ws:dayTemplate>
-                     </Controls.calendar:MonthView>
+                                   on:click="_monthCaptionClick(monthTemplate.date, monthTemplate.date.getMonth())">
+                                 {{ _formatMonth(monthTemplate.date.getMonth()) }}
+                              </div>
+                           </ws:captionTemplate>
+                           <ws:dayTemplate>
+                              <ws:partial template="{{_options.dayTemplate}}"
+                                          sizeStyle="DateRangeItem"
+                                          fontColorStyle="DateRangeItem"
+                                          backgroundStyle="DateRangeItem">
+                              </ws:partial>
+                           </ws:dayTemplate>
+                        </Controls.calendar:MonthView>
+                     </Controls.scroll:IntersectionObserverContainer>
                   </ws:bodyTemplate>
                </ws:partial>
             </ws:monthTemplate>

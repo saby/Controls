@@ -18,7 +18,9 @@ const _private = {
                 options.ranges.months[0] === 1));
         if (self._position !== options.position) {
             self._position = options.position;
-            self._monthsPosition = new Date(self._position.getFullYear(), 0);
+            if (!self._monthsPosition || self._position.getFullYear() !== self._monthsPosition.getFullYear()) {
+                self._monthsPosition = new Date(self._position.getFullYear(), 0);
+            }
             this._markedKey = self._dateToId(self._position);
         }
         if (self._position?.getFullYear() !== self._monthsPosition?.getFullYear()) {
@@ -74,6 +76,13 @@ var Component = BaseControl.extend([EventProxy], {
 
     _beforeUnmount: function () {
         this._rangeModel.destroy();
+    },
+
+    _monthObserverHandler: function(event, entries) {
+        // Меняем маркер выбранного месяца если месяц стал полностью видимым.
+        if (entries.nativeEntry.intersectionRatio === 1) {
+            this._markedKey = this._dateToId(entries.data);
+        }
     },
 
     _monthCaptionClick: function(e: SyntheticEvent, yearDate: Date, month: number): void {
@@ -140,7 +149,6 @@ var Component = BaseControl.extend([EventProxy], {
     _onPositionChanged: function(e: Event, position: Date) {
         this._position = position;
         _private.notifyPositionChanged(this, position);
-        this._markedKey = this._dateToId(position);
         if (position.getFullYear() !== this._monthsPosition.getFullYear()) {
             this._monthsPosition = new Date(position.getFullYear(), 0);
         }

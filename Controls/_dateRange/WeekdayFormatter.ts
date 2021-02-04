@@ -32,7 +32,7 @@ export default class WeekdayFormatter extends Control {
 
     private _setWeekday(value: Date): string {
         if (value instanceof Date && !isNaN(value.getTime())) {
-            this._weekday = formatDate(value, 'dd');
+            this._weekday = formatDate(value, 'ddl');
         } else {
             this._weekday = '';
         }
