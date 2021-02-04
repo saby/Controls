@@ -8,31 +8,38 @@
 }
 
 .controls-FilterLink__text {
-   cursor: pointer;
    white-space: nowrap;
    overflow: hidden;
    text-overflow: ellipsis;
 }
 
-.controls-FilterLink__text_theme-@{themeName} {
+.controls-FilterLink__text_readOnly_theme-@{themeName} {
+   cursor: default;
+}
+
+.controls-FilterLink__text_default_theme-@{themeName} {
+   cursor: pointer;
    color: @item_text-color_filterPanel;
+}
+
+.controls-FilterLink__text_theme-@{themeName} {
    font-size: @item_font-size_filterPanel;
 }
 
 .ws-is-hover {
-   .controls-FilterLink__text:hover {
+   .controls-FilterLink__text_default_theme-@{themeName}:hover {
       text-decoration: underline;
    }
 
-   .controls-FilterLink__text_theme-@{themeName}:hover {
+   .controls-FilterLink__text_default_theme-@{themeName}:hover {
       color: @item_hover_text-color_filterPanel;
    }
 }
 
-.controls-FilterLink__text:active {
+.controls-FilterLink__text_default_theme-:active {
    text-decoration: underline;
 }
 
-.controls-FilterLink__text_theme-@{themeName}:active {
+.controls-FilterLink__text_default_theme-@{themeName}:active {
    color: @item_active_text-color_filterPanel;
 }

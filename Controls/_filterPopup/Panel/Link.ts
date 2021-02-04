@@ -28,7 +28,9 @@ import template = require('wml!Controls/_filterPopup/Panel/Link/Link');
 class FilterLink extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;
    protected  _clickHandler(): void {
-      this._notify('visibilityChanged', [true]);
+      if (!this._options.readOnly) {
+         this._notify('visibilityChanged', [true]);
+      }
    }
 
    static _theme: string[] = ['Controls/filterPopup'];
