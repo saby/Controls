@@ -24,6 +24,12 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
      * @demo Controls-demo/toggle/BigSeparator/ContrastBackground/Index
      */
     contrastBackground?: boolean;
+    /**
+     * Размер кнопки.
+     * @default 'm'
+     * @demo Controls-demo/toggle/BigSeparator/SeparatorSize/Index
+     */
+    iconSize?: string;
 }
 
 /**
@@ -31,11 +37,22 @@ export interface IBigSeparatorOptions extends IControlOptions, ICheckableOptions
  *
  * @remark
  * Полезные ссылки:
- * * {@link /materials/Controls-demo/app/Controls-demo%2FHeaders%2FstandartDemoHeader демо-пример}
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-21.2000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FBigSeparator%2FIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  * @class Controls/_toggle/BigSeparator
  * @extends UI/Base:Control
+ * 
+ * @public
+ * @author Красильников А.С.
+ * @implements Controls/_toggle/interface/ICheckable
+ * @implements Controls/interface:IIconSize
+ *
+ * @demo Controls-demo/toggle/BigSeparator/Base/Index
+ */
+
+/*
+ * Limit separator, limit the number of entries to display. By clicking on it, you should show other entries.
  *
  * @public
  * @author Красильников А.С.
