@@ -152,6 +152,16 @@ class BreadCrumbs extends Control<IBreadCrumbsOptions> {
         };
     }
 }
+
+Object.defineProperty(BreadCrumbs, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BreadCrumbs.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_breadcrumbs/Path#fontSize
  * @cfg

@@ -125,7 +125,7 @@ export class Controller {
       // Когда элементы скрываются, например при сворачивании группы, у них сохраняется свое состояние.
       // После скрытия элементов маркер переставляется или сбрасывается,
       // поэтому на скрытых элементах нужно сбросить состояние marked
-      removedItems.forEach((item) => item.setMarked(false, true));
+      removedItems.forEach((item) => item.Markable && item.setMarked(false, true));
 
       let markedKeyAfterRemove = this._getMarkedKeyAfterRemove(removedItemsIndex);
 
@@ -199,30 +199,14 @@ export class Controller {
     * @void
     */
    destroy(): void {
-      this._model.each((it) => it.setMarked(false, true));
+      this._model.each((it) => it.Markable && it.setMarked(false, true));
       this._markedKey = null;
       this._markerVisibility = null;
       this._model = null;
    }
 
-   /**
-    * @private
-    * TODO нужно выпилить этот метод при переписывании моделей. item.getContents() должен возвращать Record
-    *  https://online.sbis.ru/opendoc.html?guid=acd18e5d-3250-4e5d-87ba-96b937d8df13
-    */
    private _getKey(item: CollectionItem<Model>): CrudEntityKey {
-      let contents = item.getContents();
-      if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
-         // tslint:disable-next-line
-         contents = contents[(contents as any).length - 1];
-      }
-
-      // Для GroupItem нет ключа, в contents хранится не Model
-      if (item['[Controls/_display/GroupItem]'] || item['[Controls/_display/SearchSeparator]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
-         return null;
-      }
-
-      return contents.getKey();
+      return item.Markable ? item.getContents().getKey() : null;
    }
 
    /**
@@ -272,12 +256,7 @@ export class Controller {
          return null;
       }
 
-      const firstItem = this._model.getFirstItem();
-      if (!firstItem) {
-         return null;
-      }
-
-      return firstItem.getKey();
+      return this._calculateNearbyByDirectionItemKey(0, true);
    }
 
    private _getMarkedKeyAfterRemove(removedIndex: number): CrudEntityKey {

@@ -1,5 +1,4 @@
-<div class="controls-Notification controls-Notification_theme-{{_options.theme}}
-            controls-Notification__{{_options.style}}_theme-{{_options.theme}}"
+<div class="controls-Notification controls-Notification__{{_options.style}}"
      attr:ws-no-focus="true">
    <div class="">
       <ws:if data="{{_options.contentTemplate || _options.bodyContentTemplate}}">
@@ -8,7 +7,7 @@
       </ws:if>
    </div>
    <ws:if data="{{_options.iconClose || _options.closeButtonVisibility}}">
-      <div class="controls-Notification__closeButton controls-Notification__closeButton_theme-{{_options.theme}}" on:click="_closeClick()">
+      <div class="controls-Notification__closeButton" on:click="_closeClick()">
          <Controls.popupTemplate:CloseButton viewMode="link"/>
       </div>
    </ws:if>

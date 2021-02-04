@@ -135,6 +135,15 @@ Suggest.getDefaultOptions = function() {
    };
 };
 
+Object.defineProperty(Suggest, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Suggest.getDefaultOptions();
+   }
+});
+
 // </editor-fold>
 /**
  * @event Происходит перед открытием окна выбора, которое открывается при клике на "Показать всё".

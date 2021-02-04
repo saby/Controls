@@ -226,6 +226,15 @@ FilterButton.getDefaultOptions = function() {
    };
 };
 
+Object.defineProperty(FilterButton, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return FilterButton.getDefaultOptions();
+   }
+});
+
 FilterButton._theme = ['Controls/deprecatedFilter'];
 FilterButton._private = _private;
 export = FilterButton;

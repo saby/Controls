@@ -325,3 +325,12 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         };
     }
 }
+
+Object.defineProperty(PropertyGridView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return PropertyGridView.getDefaultOptions();
+   }
+});

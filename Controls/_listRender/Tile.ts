@@ -219,3 +219,12 @@ export default class TileRender extends BaseRender {
         };
     }
 }
+
+Object.defineProperty(TileRender, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return TileRender.getDefaultOptions();
+   }
+});

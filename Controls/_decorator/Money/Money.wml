@@ -1,12 +1,12 @@
-<span class="controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} controls-DecoratorMoney_theme-{{_options.theme}}"
+<span class="controls-DecoratorMoney controls_theme-{{_options.theme}} controls-DecoratorMoney_style-{{_options.style}} controls-DecoratorMoney_theme-{{_options.theme}}"
       title="{{_tooltip}}">
     <span class="controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}
                  controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
-                 controls-DecoratorMoney__integer_fontWeight_{{_fontWeight}}_theme-{{_options.theme}}">
+                 controls-DecoratorMoney__integer_fontWeight_{{_fontWeight}}">
         {{_parsedNumber.integer}}
     </span>
     <ws:if data="{{_isDisplayFractionPath(_parsedNumber.fraction, _options.showEmptyDecimals)}}">
-        <span class= "controls-DecoratorMoney__fraction_theme-{{_options.theme}}
+        <span class= "controls-DecoratorMoney__fraction
                       controls-fontsize-xs_theme-{{_options.theme}}">
             {{_parsedNumber.fraction}}</span>
     </ws:if>

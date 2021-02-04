@@ -6,7 +6,7 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrudPlus, PrefetchProxy, QueryWhere} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
-import {Collection, Search, CollectionItem} from 'Controls/display';
+import {Collection, CollectionItem, Search} from 'Controls/display';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
 import * as groupTemplate from 'wml!Controls/_menu/Render/groupTemplate';
@@ -690,7 +690,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _getSelectedItems(): object[] {
-        const selectedItems = this._listModel.getSelectedItems().map((item) => {
+        const selectedItems = this._getSelectionController().getSelectedItems().map((item) => {
             return item.getContents();
         }).reverse();
         if (!selectedItems.length && this._options.emptyText) {
@@ -1125,3 +1125,12 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
  *    }
  * </pre>
  */
+
+Object.defineProperty(MenuControl, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MenuControl.getDefaultOptions();
+   }
+});

@@ -74,6 +74,16 @@ class Switch extends Control<ISwitchOptions> implements ITooltip, ICheckable, IV
       };
    }
 }
+
+Object.defineProperty(Switch, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Switch.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/Switch#caption
  * @cfg {String} Текст заголовка кнопки.

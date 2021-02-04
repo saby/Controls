@@ -98,6 +98,16 @@ Component.getDefaultOptions = function () {
         dateConstructor: WSDate
     };
 };
+
+Object.defineProperty(Component, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Component.getDefaultOptions();
+   }
+});
+
 //
 // Component.getOptionTypes = function() {
 //    return coreMerge({});

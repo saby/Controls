@@ -97,6 +97,12 @@
                                         on:click="_onClickClearRecords()"
                                         attr:class="controls-Lookup__clearRecords_{{_multiLineState ? 'multiLine' : 'singleLine'}}"/>
                         </ws:if>
+                        <ws:if data="{{_options.toolbarItems}}">
+                            <Controls.toolbars:View items="{{_options.toolbarItems}}"
+                                                    iconSize="s"
+                                                    on:itemClick="_toolbarItemClickHandler()"
+                                                    attr:class="controls-Lookup__toolbar_theme-{{_options.theme}}"/>
+                        </ws:if>
                         <ws:partial template="{{_showSelectorTemplate}}"
                                     name="showSelector"
                                     horizontalPadding="{{_options.horizontalPadding}}"

@@ -13,6 +13,7 @@
  * @includes TimeIntervalEditor Controls/_propertyGrid/extendedEditors/TimeInterval
  * @includes CheckboxGroupEditor Controls/_propertyGrid/extendedEditors/CheckboxGroup
  * @includes DropdownEditor Controls/_propertyGrid/extendedEditors/Dropdown
+ * @includes LogicEditor Controls/_propertyGrid/extendedEditors/Logic
  * @includes IPropertyGrid Controls/propertyGrid:GroupTemplate
  * @includes IEditor Controls/_propertyGrid/IEditor
  * @includes IProperty Controls/_propertyGrid/IProperty
@@ -53,6 +54,7 @@ import FlatEnumEditor = require("Controls/_propertyGrid/extendedEditors/FlatEnum
 import {default as DropdownEditor} from 'Controls/_propertyGrid/extendedEditors/Dropdown';
 import {default as CheckboxGroupEditor} from 'Controls/_propertyGrid/extendedEditors/CheckboxGroup';
 import {default as TimeIntervalEditor} from 'Controls/_propertyGrid/extendedEditors/TimeInterval';
+import {default as LogicEditor} from 'Controls/_propertyGrid/extendedEditors/Logic';
 
 import IPropertyGrid = require("Controls/_propertyGrid/IPropertyGrid");
 import IEditor = require("Controls/_propertyGrid/IEditor");
@@ -73,6 +75,7 @@ export {
     TimeIntervalEditor,
     CheckboxGroupEditor,
     DropdownEditor,
+    LogicEditor,
     IPropertyGrid,
     IEditor,
     IProperty,

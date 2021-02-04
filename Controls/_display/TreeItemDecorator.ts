@@ -126,5 +126,3 @@ Object.assign(TreeItemDecorator.prototype, {
     _moduleName: 'Controls/display:TreeItemDecorator',
     _$source: undefined
 });
-
-register('Controls/display:TreeItemDecorator', TreeItemDecorator, {instantiate: false});

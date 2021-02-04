@@ -21,6 +21,9 @@ interface IItem {
 
 const MAX_ELEMENTS_COUNT: number = 50;
 
+/**
+ * Подключение пэйджинга к произвольному шаблону
+ */
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
@@ -45,12 +48,24 @@ export default class extends Control {
         };
     }
 
+    /**
+     * Контролируем состояние кнопок в начало/конец.
+     * @param {SyntheticEvent} event
+     * @param {EntityKey} key
+     * @private
+     */
     _updatePagingArrow(event: SyntheticEvent, key: CrudEntityKey): void {
+        /**
+         * Если виден 1 элемент, то переводим кнопку в начало в состояние "readonly"
+         */
         if (key > 0) {
             this._arrowState.begin = 'visible';
         } else {
             this._arrowState.begin = 'readonly';
         }
+        /**
+         * Если виден последний элемент, то переводим кнопку в конец в состояние "readonly"
+         */
         if (key === '49') {
             this._arrowState.end = 'readonly';
         } else {
@@ -59,6 +74,13 @@ export default class extends Control {
         this._arrowState = {...this._arrowState};
     }
 
+    /**
+     * Обрабатываем нажатие на кнопки
+     * @param {SyntheticEvent} event
+     * @param {string} arrow
+     * @return {boolean}
+     * @private
+     */
     protected _onPagingArrowClick(event: SyntheticEvent, arrow: string): boolean {
         switch (arrow) {
             case 'Begin':

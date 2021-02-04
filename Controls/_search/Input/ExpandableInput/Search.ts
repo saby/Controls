@@ -74,3 +74,12 @@ export default class ExpandableInput extends Control<IControlOptions> {
  * @variant l Строка поиска большой ширины.
  * @default m
  */
+
+Object.defineProperty(ExpandableInput, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ExpandableInput.getDefaultOptions();
+   }
+});

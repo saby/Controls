@@ -109,6 +109,7 @@ export default class TreeGridDataRow<T extends Model>
 Object.assign(TreeGridDataRow.prototype, {
     '[Controls/treeGrid:TreeGridDataRow]': true,
     '[Controls/_display/grid/Row]': true,
+    '[Controls/_display/TreeItem]': true,
     _cellModule: 'Controls/treeGrid:TreeGridDataCell',
     _moduleName: 'Controls/treeGrid:TreeGridDataRow',
     _instancePrefix: 'tree-grid-row-'

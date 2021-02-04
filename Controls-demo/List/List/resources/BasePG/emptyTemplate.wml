@@ -1,3 +1,0 @@
-<ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="xxl">
-    <ws:contentTemplate>No data available</ws:contentTemplate>
-</ws:partial>

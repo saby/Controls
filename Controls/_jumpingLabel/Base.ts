@@ -133,4 +133,13 @@ abstract class Base<T extends IBaseOptions = IBaseOptions>
     }
 }
 
+Object.defineProperty(Base, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Base.getDefaultOptions();
+   }
+});
+
 export default Base;

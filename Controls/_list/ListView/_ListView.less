@@ -384,7 +384,7 @@
    //overflow: hidden;
 }
 
-.controls-ListView__groupSeparator-left_theme-@{themeName}, .controls-ListView__groupSeparator-right_theme-@{themeName} {
+.controls-ListView__groupSeparator_theme-@{themeName} {
    height: @grouping_height_list / 2 - @grouping_separator_thickness_list;
    margin-bottom: @grouping_height_list / 2;
    border-bottom: @grouping_separator_thickness_list solid @grouping_separator_color_list;
@@ -645,7 +645,7 @@
    justify-content: center;
 }
 
-.ws-is-hover {
+.ws-is-hover .controls-BaseControl_hover_enabled {
    .controls-ListView__item_highlightOnHover_default_theme_@{themeName} {
       &:hover {
          background-color: @item_hover_background-color_list;

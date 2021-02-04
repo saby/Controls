@@ -1,0 +1,7 @@
+<Controls._dropdown.Selector source="{{_source}}"
+                             keyProperty="key"
+                             displayProperty="title"
+                             emptyText="{[Не выбрано]}"
+                             iconSize="m"
+                             contentTemplate="wml!Controls/_dropdown/Input/resources/defaultContentTemplateWithIcon"
+                             bind:selectedKeys="_selectedKeys" />

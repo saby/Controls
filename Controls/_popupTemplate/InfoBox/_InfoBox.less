@@ -1,31 +1,25 @@
-@spacing_Infobox-between-border-arrow: (@arrow_base_length_infobox - @arrow_side_length_infobox)/2;
 .controls-InfoBoxTemplate {
    display: flex;
    height: 100%;
 }
 
+.controls-InfoBoxTemplate__content {
+   position: relative;
+   box-sizing: border-box;
+   flex-shrink: 1;
+   height: 100%;
+   width: 100%;
+   overflow: hidden;
+   max-width: var(--max-width_infobox);
+   background: var(--background-color_infobox);
+   border-radius: var(--border-radius_infobox);
+   box-shadow: var(--box-shadow-color_infobox) var(--box-shadow-offset_infobox);
+   border: var(--border-thickness_infobox) solid var(--border-color_infobox);
+}
+
 .controls-InfoBoxTemplate__content-area {
    position: relative;
    z-index: 1;
-}
-
-.controls-InfoBoxTemplate__content_theme-@{themeName} {
-   max-width: @max-width_infobox;
-   background: @background-color_infobox;
-   border-radius: @border-radius_infobox;
-   box-shadow: @box-shadow-color_infobox @box-shadow-offset_infobox;
-   border: @border-thickness_infobox solid @border-color_infobox;
-}
-
-// Класс для установки фона контрола через backgroundStyle (infoBox)
-.controls-background-infoBox_theme-@{themeName} {
-  background-color: @background-color_infobox;
-}
-
-// Набор классов для установки градиента горизонтального скролла через backgroundStyle (infoBox)
-.controls-horizontal-infoBox-detail_theme-@{themeName} {
-  background: linear-gradient(to right, @columnscroll_shadow-start-color_grid, @columnscroll_shadow-end-color_grid);
-  border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
 }
 
 .controls-InfoBoxTemplate__arrow-side-position-left {
@@ -40,187 +34,172 @@
    flex-direction: column;
 }
 
-.controls-InfoBoxTemplate__arrow_theme-@{themeName} {
-   width: @arrow_side_length_infobox;
-   height: @arrow_side_length_infobox;
-   border-width: @marker-thickness_infobox;
-   background: @background-color_infobox;
-   border-right-color: @border-color_infobox;
-   border-bottom-color: @border-color_infobox;
-}
-
-.controls-InfoBoxTemplate__arrow{
+.controls-InfoBoxTemplate__arrow {
    content: '';
    box-sizing: border-box;
    position: relative;
    border-style: solid;
    border-top: none;
    border-left: none;
+   width: var(--arrow_side_length_infobox);
+   height: var(--arrow_side_length_infobox);
+   border-width: var(--marker-thickness_infobox);
+   background: var(--background-color_infobox);
+   border-right-color: var(--border-color_infobox);
+   border-bottom-color: var(--border-color_infobox);
 }
 
 //обводка стрелки
 .controls-InfoBoxTemplate__arrow {
-  &-danger_theme-@{themeName}{
-    border-right-color: @danger_color;
-    border-bottom-color: @danger_color;
+  &-danger {
+    border-right-color: var(--danger_color);
+    border-bottom-color: var(--danger_color);
   }
-  &-warning_theme-@{themeName}{
-    border-right-color: @warning_color;
-    border-bottom-color: @warning_color;
+  &-warning {
+    border-right-color: var(--warning_color);
+    border-bottom-color: var(--warning_color);
   }
-  &-success_theme-@{themeName}{
-    border-right-color: @success_color;
-    border-bottom-color: @success_color;
+  &-success {
+    border-right-color: var(--success_color);
+    border-bottom-color: var(--success_color);
   }
-  &-primary_theme-@{themeName}{
-    border-right-color: @primary_color;
-    border-bottom-color: @primary_color;
+  &-primary {
+    border-right-color: var(--primary_color);
+    border-bottom-color: var(--primary_color);
   }
-  &-unaccented_theme-@{themeName}{
-    border-right-color: @unaccented_color;
-    border-bottom-color: @unaccented_color;
+  &-unaccented {
+    border-right-color: var(--unaccented_color);
+    border-bottom-color: var(--unaccented_color);
   }
-  &-secondary_theme-@{themeName}{
-    border-right-color: @secondary_border-color_infobox;
-    border-bottom-color: @secondary_border-color_infobox;
+  &-secondary {
+    border-right-color: var(--secondary_border-color_infobox);
+    border-bottom-color: var(--secondary_border-color_infobox);
   }
-  &-info_theme-@{themeName}{
-    background-color: @info_background-color_infobox;
-    border-right-color: @info_border-color_infobox;
-    border-bottom-color: @info_border-color_infobox;
+  &-info {
+    background-color: var(--info_background-color_infobox);
+    border-right-color: var(--info_border-color_infobox);
+    border-bottom-color: var(--info_border-color_infobox);
   }
-  &-invalid_theme-@{themeName},
-  &-invalidAccent_theme-@{themeName}{
-    border-width: @border-thickness_infobox;
-    border-right-color: @danger_color;
-    border-bottom-color: @danger_color;
+  &-invalid,
+  &-invalidAccent {
+    border-width: var(--border-thickness_infobox);
+    border-right-color: var(--danger_color);
+    border-bottom-color: var(--danger_color);
   }
 }
 
-.controls-InfoBoxTemplate_style_invalid_theme-@{themeName},
-.controls-InfoBoxTemplate_style_invalidAccent_theme-@{themeName} {
-  box-shadow: @invalid_box-shadow-color_infobox @box-shadow-offset_infobox;
-  border: @border-thickness_infobox solid @danger_color;
+.controls-InfoBoxTemplate_style_invalid,
+.controls-InfoBoxTemplate_style_invalidAccent {
+  box-shadow: var(--invalid_box-shadow-color_infobox) var(--box-shadow-offset_infobox);
+  border: var(--border-thickness_infobox) solid var(--danger_color);
 }
 
 .controls-InfoBoxTemplate_style-top_ {
-   &danger_theme-@{themeName}{
-     border-top: @marker-thickness_infobox solid @danger_color;
+   &danger {
+     border-top: var(--marker-thickness_infobox) solid var(--danger_color);
    }
-   &warning_theme-@{themeName}{
-     border-top: @marker-thickness_infobox solid @warning_color;
+   &warning {
+     border-top: var(--marker-thickness_infobox) solid var(--warning_color);
    }
-   &success_theme-@{themeName}{
-     border-top: @marker-thickness_infobox solid @success_color;
+   &success {
+     border-top: var(--marker-thickness_infobox) solid var(--success_color);
    }
-   &primary_theme-@{themeName}{
-     border-top: @marker-thickness_infobox solid @primary_color;
+   &primary {
+     border-top: var(--marker-thickness_infobox) solid var(--primary_color);
    }
-   &unaccented_theme-@{themeName}{
-     border-top: @marker-thickness_infobox solid @unaccented_color;
+   &unaccented {
+     border-top: var(--marker-thickness_infobox) solid var(--unaccented_color);
    }
-   &secondary_theme-@{themeName}{
-     border-top: @marker-thickness_infobox solid @secondary_border-color_infobox;
+   &secondary {
+     border-top: var(--marker-thickness_infobox) solid var(--secondary_border-color_infobox);
    }
-   &info_theme-@{themeName}{
-     border-top: @marker-thickness_infobox solid @info_border-color_infobox;
-     background-color: @info_background-color_infobox;
+   &info {
+     border-top: var(--marker-thickness_infobox) solid var(--info_border-color_infobox);
+     background-color: var(--info_background-color_infobox);
    }
  }
 
 .controls-InfoBoxTemplate_style-bottom_ {
-  &danger_theme-@{themeName}{
-    border-bottom: @marker-thickness_infobox solid @danger_color;
+  &danger {
+    border-bottom: var(--marker-thickness_infobox) solid var(--danger_color);
   }
-  &warning_theme-@{themeName}{
-    border-bottom: @marker-thickness_infobox solid @warning_color;
+  &warning {
+    border-bottom: var(--marker-thickness_infobox) solid var(--warning_color);
   }
-  &success_theme-@{themeName}{
-    border-bottom: @marker-thickness_infobox solid @success_color;
+  &success {
+    border-bottom: var(--marker-thickness_infobox) solid var(--success_color);
   }
-  &primary_theme-@{themeName}{
-    border-bottom: @marker-thickness_infobox solid @primary_color;
+  &primary {
+    border-bottom: var(--marker-thickness_infobox) solid var(--primary_color);
   }
-  &unaccented_theme-@{themeName}{
-    border-bottom: @marker-thickness_infobox solid @unaccented_color;
+  &unaccented {
+    border-bottom: var(--marker-thickness_infobox) solid var(--unaccented_color);
   }
-  &secondary_theme-@{themeName}{
-    border-bottom: @marker-thickness_infobox solid @secondary_border-color_infobox;
+  &secondary {
+    border-bottom: var(--marker-thickness_infobox) solid var(--secondary_border-color_infobox);
   }
-  &info_theme-@{themeName}{
-    border-bottom: @marker-thickness_infobox solid @info_border-color_infobox;
-    background-color: @info_background-color_infobox;
+  &info {
+    border-bottom: var(--marker-thickness_infobox) solid var(--info_border-color_infobox);
+    background-color: var(--info_background-color_infobox);
   }
 }
 
 .controls-InfoBoxTemplate_style-left_ {
-  &danger_theme-@{themeName}{
-    border-left: @marker-thickness_infobox solid @danger_color;
+  &danger {
+    border-left: var(--marker-thickness_infobox) solid var(--danger_color);
   }
-  &warning_theme-@{themeName}{
-    border-left: @marker-thickness_infobox solid @warning_color;
+  &warning {
+    border-left: var(--marker-thickness_infobox) solid var(--warning_color);
   }
-  &success_theme-@{themeName}{
-    border-left: @marker-thickness_infobox solid @success_color;
+  &success {
+    border-left: var(--marker-thickness_infobox) solid var(--success_color);
   }
-  &primary_theme-@{themeName}{
-    border-left: @marker-thickness_infobox solid @primary_color;
+  &primary {
+    border-left: var(--marker-thickness_infobox) solid var(--primary_color);
   }
-  &unaccented_theme-@{themeName}{
-    border-left: @marker-thickness_infobox solid @unaccented_color;
+  &unaccented {
+    border-left: var(--marker-thickness_infobox) solid var(--unaccented_color);
   }
-  &secondary_theme-@{themeName}{
-    border-left: @marker-thickness_infobox solid @secondary_border-color_infobox;
+  &secondary {
+    border-left: var(--marker-thickness_infobox) solid var(--secondary_border-color_infobox);
   }
-  &info_theme-@{themeName}{
-    border-left: @marker-thickness_infobox solid @info_border-color_infobox;
-    background-color: @info_background-color_infobox;
+  &info {
+    border-left: var(--marker-thickness_infobox) solid var(--info_border-color_infobox);
+    background-color: var(--info_background-color_infobox);
   }
 }
 
 .controls-InfoBoxTemplate_style-right_ {
-  &danger_theme-@{themeName}{
-    border-right: @marker-thickness_infobox solid @danger_color;
+  &danger {
+    border-right: var(--marker-thickness_infobox) solid var(--danger_color);
   }
-  &warning_theme-@{themeName}{
-    border-right: @marker-thickness_infobox solid @warning_color;
+  &warning {
+    border-right: var(--marker-thickness_infobox) solid var(--warning_color);
   }
-  &success_theme-@{themeName}{
-    border-right: @marker-thickness_infobox solid @success_color;
+  &success {
+    border-right: var(--marker-thickness_infobox) solid var(--success_color);
   }
-  &primary_theme-@{themeName}{
-    border-right: @marker-thickness_infobox solid @primary_color;
+  &primary {
+    border-right: var(--marker-thickness_infobox) solid var(--primary_color);
   }
-  &unaccented_theme-@{themeName}{
-    border-right: @marker-thickness_infobox solid @unaccented_color;
+  &unaccented {
+    border-right: var(--marker-thickness_infobox) solid var(--unaccented_color);
   }
-  &secondary_theme-@{themeName}{
-    border-right: @marker-thickness_infobox solid @secondary_border-color_infobox;
+  &secondary {
+    border-right: var(--marker-thickness_infobox) solid var(--secondary_border-color_infobox);
   }
-  &info_theme-@{themeName}{
-    border-right: @marker-thickness_infobox solid @info_border-color_infobox;
-    background-color: @info_background-color_infobox;
+  &info {
+    border-right: var(--marker-thickness_infobox) solid var(--info_border-color_infobox);
+    background-color: var(--info_background-color_infobox);
   }
-}
-
-.controls-InfoBoxTemplate__content {
-   position: relative;
-   box-sizing: border-box;
-   flex-shrink: 1;
-   height: 100%;
-   width: 100%;
-   overflow: hidden;
 }
 
 .controls-InfoBoxTemplate__closeButton {
    position: absolute;
    cursor: pointer;
    z-index: 2;
-}
-
-.controls-InfoBoxTemplate__closeButton_theme-@{themeName} {
-   top: @close-button_offset-top_infobox;
-   right: @close-button_offset-right_infobox;
+   top: var(--close-button_offset-top_infobox);
+   right: var(--close-button_offset-right_infobox);
 }
 
 /**
@@ -229,61 +208,62 @@
  * Presumably the problem is in the font. Error written https://online.sbis.ru/opendoc.html?guid=1e389bc5-8be7-4394-abdd-231e3ec040a8
  */
 .ws-is-firefox, .ws-is-mobile-safari {
-  .controls-InfoBoxTemplate__closeButton_theme-@{themeName} {
-    top: @close-button_offset-top_infobox + 1;
-  }
+   .controls-InfoBoxTemplate__closeButton {
+      top: calc(var(--close-button_offset-top_infobox) + 1);
+   }
 }
 
 .controls-InfoBoxTemplate__arrow-wrapper {
    flex-shrink: 0;
 }
 
-.controls-InfoBoxTemplate__arrow-wrapper-top_theme-@{themeName}, .controls-InfoBoxTemplate__arrow-wrapper-bottom_theme-@{themeName} {
-   width: @target_offset_infobox + 1;
-   height: @target_offset_infobox;
+.controls-InfoBoxTemplate__arrow-wrapper-top, .controls-InfoBoxTemplate__arrow-wrapper-bottom {
+   width: calc(var(--target_offset_infobox) + 1);
+   height: var(--target_offset_infobox);
 
 }
-.controls-InfoBoxTemplate__arrow-wrapper-left_theme-@{themeName}, .controls-InfoBoxTemplate__arrow-wrapper-right_theme-@{themeName} {
-   width: @target_offset_infobox;
-   height: @target_offset_infobox + 1;
+
+.controls-InfoBoxTemplate__arrow-wrapper-left, .controls-InfoBoxTemplate__arrow-wrapper-right {
+   width: var(--target_offset_infobox);
+   height: calc(var(--target_offset_infobox) + 1);
 }
 
-.controls-InfoBoxTemplate__arrow-top_theme-@{themeName} {
+.controls-InfoBoxTemplate__arrow-top {
    transform: rotate(-135deg);
-   top: @arrow_side_length_infobox/2 - @border-thickness_infobox;
+   top: calc(var(--arrow_side_length_infobox)/2 - var(--border-thickness_infobox));
 }
 
-.controls-InfoBoxTemplate__arrow-bottom_theme-@{themeName} {
+.controls-InfoBoxTemplate__arrow-bottom {
    transform: rotate(45deg);
-   bottom: @arrow_side_length_infobox/2;
+   bottom: calc(var(--arrow_side_length_infobox)/2);
 }
 
-.controls-InfoBoxTemplate__arrow-top_theme-@{themeName}, .controls-InfoBoxTemplate__arrow-bottom_theme-@{themeName} {
-   &.controls-InfoBoxTemplate__arrow-position-start_theme-@{themeName} {
-      left: @arrow_offset_infobox + @spacing_Infobox-between-border-arrow  + @border-thickness_infobox;
+.controls-InfoBoxTemplate__arrow-top, .controls-InfoBoxTemplate__arrow-bottom {
+   &.controls-InfoBoxTemplate__arrow-position-start {
+      left: calc(var(--arrow_offset_infobox) + var(--spacing_Infobox-between-border-arrow) + var(--border-thickness_infobox));
    }
 
-   &.controls-InfoBoxTemplate__arrow-position-end_theme-@{themeName} {
-      right: @arrow_offset_infobox + @spacing_Infobox-between-border-arrow + @border-thickness_infobox;
+   &.controls-InfoBoxTemplate__arrow-position-end {
+      right: calc(var(--arrow_offset_infobox) + var(--spacing_Infobox-between-border-arrow) + var(--border-thickness_infobox));
    }
 }
 
-.controls-InfoBoxTemplate__arrow-left_theme-@{themeName} {
+.controls-InfoBoxTemplate__arrow-left {
    transform: rotate(135deg);
-   left: @arrow_side_length_infobox/2 - @border-thickness_infobox;
+   left: calc(var(--arrow_side_length_infobox)/2 - var(--border-thickness_infobox));
 }
 
-.controls-InfoBoxTemplate__arrow-right_theme-@{themeName} {
+.controls-InfoBoxTemplate__arrow-right {
    transform: rotate(-45deg);
-   right: @arrow_side_length_infobox/2;
+   right: calc(var(--arrow_side_length_infobox)/2);
 }
 
-.controls-InfoBoxTemplate__arrow-left_theme-@{themeName}, .controls-InfoBoxTemplate__arrow-right_theme-@{themeName} {
-   &.controls-InfoBoxTemplate__arrow-position-start_theme-@{themeName} {
-      top: @arrow_offset_infobox + @spacing_Infobox-between-border-arrow + @border-thickness_infobox;
+.controls-InfoBoxTemplate__arrow-left, .controls-InfoBoxTemplate__arrow-right {
+   &.controls-InfoBoxTemplate__arrow-position-start {
+      top: calc(var(--arrow_offset_infobox) + var(--spacing_Infobox-between-border-arrow) + var(--border-thickness_infobox));
    }
-   &.controls-InfoBoxTemplate__arrow-position-end_theme-@{themeName} {
-      bottom: @arrow_offset_infobox + @spacing_Infobox-between-border-arrow + @border-thickness_infobox;
+   &.controls-InfoBoxTemplate__arrow-position-end {
+      bottom: calc(var(--arrow_offset_infobox) + var(--spacing_Infobox-between-border-arrow) + var(--border-thickness_infobox));
    }
 }
 

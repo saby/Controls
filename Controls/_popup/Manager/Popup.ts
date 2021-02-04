@@ -367,6 +367,15 @@ class Popup extends Control<IPopupControlOptions> {
     }
 }
 
+Object.defineProperty(Popup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Popup.getDefaultOptions();
+   }
+});
+
 // _moduleName is assign in the callback of require.
 // Private modules are not visible for this mechanism,
 // _moduleName must be specified manually for them.

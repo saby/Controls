@@ -127,6 +127,15 @@ Submit.getDefaultOptions = function () {
    };
 };
 
+Object.defineProperty(Submit, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Submit.getDefaultOptions();
+   }
+});
+
 Submit.getOptionTypes = function () {
    return {
       type: entity.descriptor(String).oneOf([

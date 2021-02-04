@@ -172,6 +172,15 @@ Panel.getDefaultOptions = (): object => {
     };
 };
 
+Object.defineProperty(Panel, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Panel.getDefaultOptions();
+   }
+});
+
 Panel._theme = ['Controls/filterPopup', 'Controls/dropdownPopup', 'Controls/menu'];
 
 Panel._private = _private;

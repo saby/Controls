@@ -110,6 +110,16 @@ Suggest.getDefaultOptions = function() {
       suggestState: false
    };
 };
+
+Object.defineProperty(Suggest, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Suggest.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_suggest/Input/Search/Suggest#searchButtonVisible
  * @cfg {Boolean} Определяет, показывать ли иконку поиска.

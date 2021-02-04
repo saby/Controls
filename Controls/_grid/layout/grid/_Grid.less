@@ -335,7 +335,7 @@
    display: -ms-grid;
 }
 .ws-is-hover {
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
+   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
       background-color: @item_hover_background-color_list;
    }
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default_theme-@{themeName} {
@@ -347,7 +347,7 @@
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell__content_hiddenForLadder {
       background-color: @item_hover_background-color_list;
    }
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__item_background-hover_default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell__content) {
+   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__item_background-hover_default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell__content) {
       background-color: @item_hover_background-color_list;
    }
 
@@ -799,7 +799,7 @@
    left: 0;
 }
 
-.ws-is-hover {
+.ws-is-hover .controls-BaseControl_hover_enabled {
 
    .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;

@@ -664,3 +664,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  * @cfg {String} Постфикс у класса тени
  * @default default
  */
+
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});

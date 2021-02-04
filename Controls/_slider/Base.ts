@@ -180,6 +180,15 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
    }
 }
 
+Object.defineProperty(Base, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Base.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_slider/Base#value
  * @cfg {Number} Устанавливает текущее значение слайдера.

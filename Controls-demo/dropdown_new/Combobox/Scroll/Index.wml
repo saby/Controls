@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo_m">
+        <Controls.dropdown:Combobox source="{{_source}}"
+                                    keyProperty="key"
+                                    displayProperty="title"
+                                    bind:selectedKey="_selectedKey"
+                                    dropdownClassName="ControlsDemo-DropdownCombobox__scroll"
+                                    attr:class="ControlsDemo-ComboboxVDOM__withScroll"/>
+    </div>
+</div>

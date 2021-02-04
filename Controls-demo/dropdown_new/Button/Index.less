@@ -1,8 +1,27 @@
 .controlsDemo-Dropdown_absolute {
-  position: absolute;
-  bottom: 0;
+   position: absolute;
+   bottom: 0;
 }
 
 .controlsDemo__dropdown-button__footerContentTemplate {
-  margin-left: 12px;
+   margin-left: 12px;
+}
+
+.ControlsDemo-ButtonsMenu-right {
+   &_top,
+   &_bottom {
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+      position: absolute;
+      right: 45px;
+   }
+
+   &_top {
+      top: 45px;
+   }
+
+   &_bottom {
+      bottom: 15px;
+   }
 }

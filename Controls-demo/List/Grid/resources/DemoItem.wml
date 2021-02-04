@@ -1,2 +1,0 @@
-<ws:partial template="Controls/grid:ItemTemplate" itemData="{{itemData}}" itemActionsTemplate="{{itemActionsTemplate}}" swipeTemplate="{{swipeTemplate}}" multiSelectTpl="{{multiSelectTpl}}" actionsType="{{actionsType}}" groupTemplate="{{groupTemplate}}">
-</ws:partial>

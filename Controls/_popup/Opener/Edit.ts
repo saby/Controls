@@ -172,4 +172,14 @@ class Edit extends Control<IEditOpenerOptions> implements IEditOpener {
         };
     }
 }
+
+Object.defineProperty(Edit, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Edit.getDefaultOptions();
+   }
+});
+
 export default Edit;

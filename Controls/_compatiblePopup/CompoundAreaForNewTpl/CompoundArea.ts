@@ -16,6 +16,8 @@ import {constants} from 'Env/Env';
 import {StackStrategy} from 'Controls/popupTemplate';
 import {load} from 'Core/library';
 import {Logger} from 'UI/Utils';
+import 'css!Controls/compatiblePopup';
+
 /**
  * Слой совместимости для открытия новых шаблонов в старых попапах
  * */
@@ -603,7 +605,6 @@ const moduleClass = CompoundControl.extend({
       }
    }
 });
-moduleClass._theme = ['Controls/compatiblePopup'];
 
 moduleClass.dimensions = {
    resizable: false

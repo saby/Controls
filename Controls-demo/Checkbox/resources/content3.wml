@@ -1,4 +1,0 @@
-<div>
-    <div>Normal text style</div>
-    <div style="color: grey; font-size: 10px">Custom text style</div>
-</div>

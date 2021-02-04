@@ -71,19 +71,6 @@ describe('Controls/_display/Enum', () => {
 
             assert.isUndefined(display);
         });
-
-        it('should take current from the Enum', () => {
-            assert.strictEqual(display.getCurrent(), undefined);
-            assert.strictEqual(display.getCurrentPosition(), -1);
-
-            collection.set(1);
-            const displayToo = new EnumDisplay({
-                collection
-            });
-
-            assert.strictEqual(displayToo.getCurrent().getContents(), collection.getAsValue());
-            assert.strictEqual(displayToo.getCurrentPosition(), collection.get());
-        });
     });
 
     describe('.each()', () => {
@@ -112,65 +99,6 @@ describe('Controls/_display/Enum', () => {
             display.each((item, index) => {
                 assert.strictEqual(item.getContents(), localeDict[index]);
             });
-        });
-    });
-
-    describe('.setCurrent()', () => {
-        it('should change current of the Enum', () => {
-            for (let index = 0; index < dict.length; index++) {
-                const item = display.at(index);
-                display.setCurrent(item);
-                assert.strictEqual(collection.get(), index);
-                assert.strictEqual(collection.getAsValue(), item.getContents());
-            }
-        });
-    });
-
-    describe('.setCurrentPosition()', () => {
-        it('should change current of the Enum', () => {
-            for (let index = 0; index < dict.length; index++) {
-                display.setCurrentPosition(index);
-                const item = display.getCurrent();
-                assert.strictEqual(collection.get(), index);
-                assert.strictEqual(collection.getAsValue(), item.getContents());
-            }
-        });
-
-        it('should reset the Enum', () => {
-            const collection = new EnumType({
-                dictionary: dict,
-                index: 0
-            });
-            const display = new EnumDisplay({
-                collection
-            });
-
-            assert.strictEqual(collection.get(), 0);
-            display.setCurrentPosition(-1);
-            assert.isNull(collection.get());
-        });
-    });
-
-    describe('.moveToNext()', () => {
-        it('should change current of the Enum', () => {
-            while (display.moveToNext()) {
-                const index = display.getCurrentPosition();
-                const item = display.getCurrent();
-                assert.strictEqual(collection.get(), index);
-                assert.strictEqual(collection.getAsValue(), item.getContents());
-            }
-        });
-    });
-
-    describe('.moveToPrevious()', () => {
-        it('should change current of the Enum', () => {
-            display.moveToLast();
-            while (display.moveToPrevious()) {
-                const index = display.getCurrentPosition();
-                const item = display.getCurrent();
-                assert.strictEqual(collection.get(), index);
-                assert.strictEqual(collection.getAsValue(), item.getContents());
-            }
         });
     });
 
@@ -219,27 +147,6 @@ describe('Controls/_display/Enum', () => {
     describe('.getIndexBySourceIndex()', () => {
         it('should return right source index if enum have holes', () => {
             assert.equal(holeyDisplay.getIndexBySourceIndex(4), 1);
-        });
-    });
-
-    describe('.subscribe()', () => {
-        it('should trigger "onCurrentChange" if current of the Enum changed', () => {
-            const given: any = {};
-            const handler = (event, newCurrent, oldCurrent, newPosition, oldPosition) => {
-                given.newCurrent = newCurrent;
-                given.oldCurrent = oldCurrent;
-                given.newPosition = newPosition;
-                given.oldPosition = oldPosition;
-            };
-
-            display.subscribe('onCurrentChange', handler);
-            collection.set(0);
-            display.unsubscribe('onCurrentChange', handler);
-
-            assert.strictEqual(given.newCurrent.getContents(), collection.getAsValue());
-            assert.strictEqual(given.oldCurrent, undefined);
-            assert.strictEqual(given.newPosition, collection.get());
-            assert.strictEqual(given.oldPosition, -1);
         });
     });
 });

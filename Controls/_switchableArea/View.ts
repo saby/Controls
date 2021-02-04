@@ -84,6 +84,16 @@ class View extends Control<ISwitchableOptions> {
         };
     }
 }
+
+Object.defineProperty(View, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return View.getDefaultOptions();
+   }
+});
+
 /**
  * @typedef {Object} SwitchableAreaItem
  * @property {String|Number} key Ключ элемента.

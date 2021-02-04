@@ -7,6 +7,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {CollectionItem, Collection, EditInPlaceController, GroupItem} from 'Controls/display';
 import {constants} from 'Env/Env';
 import {Opener as DropdownOpener} from 'Controls/dropdown';
+import {Model} from "Types/entity";
 
 export interface IRenderOptions extends IControlOptions {
     listModel: Collection<unknown>;
@@ -116,9 +117,9 @@ export default class Render extends Control<IRenderOptions> {
                 .closest('.controls-ListView__itemV');
 
         const swipeContainer =
-            itemContainer.classList.contains('js-controls-ItemActions__swipeMeasurementContainer')
+            itemContainer.classList.contains('js-controls-ListView__measurableContainer')
                 ? itemContainer
-                : itemContainer.querySelector('.js-controls-ItemActions__swipeMeasurementContainer');
+                : itemContainer.querySelector('.js-controls-ListView__measurableContainer');
 
         this._notify('itemSwipe', [item, e, swipeContainer?.clientWidth, swipeContainer?.clientHeight]);
     }
@@ -133,6 +134,10 @@ export default class Render extends Control<IRenderOptions> {
     protected _onItemActionMouseDown(e: SyntheticEvent<MouseEvent>, action: unknown, item: CollectionItem<unknown>): void {
         e.stopPropagation();
         this._notify('itemActionMouseDown', [item, action, e]);
+    }
+
+    protected _onItemActionsMouseEnter(e: SyntheticEvent<MouseEvent>, item: CollectionItem<Model>): void {
+        e.stopPropagation();
     }
 
     protected _onItemActionClick(e: SyntheticEvent<MouseEvent>): void {
@@ -227,3 +232,12 @@ export default class Render extends Control<IRenderOptions> {
         };
     }
 }
+
+Object.defineProperty(Render, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Render.getDefaultOptions();
+   }
+});

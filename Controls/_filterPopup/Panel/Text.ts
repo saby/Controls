@@ -34,6 +34,16 @@ class Text extends Control<IControlOptions> {
          };
       }
    }
+
+Object.defineProperty(Text, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Text.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_filterPopup/Panel/Text#caption
  * @cfg {String} Текст, который будет отображаться рядом с кнопкой сброса.

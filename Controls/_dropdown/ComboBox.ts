@@ -7,7 +7,8 @@ import {EventUtils} from 'UI/Events';
 import Controller from 'Controls/_dropdown/_Controller';
 import {BaseDropdown, DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {ISingleSelectableOptions, IBorderStyleOptions, IValidationStatusOptions} from 'Controls/interface';
+import {ISingleSelectableOptions, IBorderStyleOptions, IValidationStatusOptions, IInputPlaceholder,
+   IInputPlaceholderOptions} from 'Controls/interface';
 import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import {IStickyPopupOptions} from 'Controls/popup';
@@ -18,8 +19,7 @@ import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions, IBorderStyleOptions,
-    IValidationStatusOptions {
-   placeholder?: string;
+    IValidationStatusOptions, IInputPlaceholderOptions {
    value?: string;
 }
 
@@ -41,7 +41,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @implements Controls/_menu/interface/IMenuBase
  * @implements Controls/_interface/IFilterChanged
  * @implements Controls/_interface/ISingleSelectable
- * @implements Controls/interface/IInputPlaceholder
+ * @implements Controls/_interface/IInputPlaceholder
  * @implements Controls/_input/interface/ITag
  * @implements Controls/_interface/IValidationStatus
  * @implements Controls/_interface/IFontSize
@@ -72,7 +72,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @demo Controls-demo/dropdown_new/Combobox/Source/Index
  */
 
-class ComboBox extends BaseDropdown {
+class ComboBox extends BaseDropdown implements IInputPlaceholder {
    protected _template: TemplateFunction = template;
    protected _notifyHandler: Function = EventUtils.tmplNotify;
    protected _controller: Controller;
@@ -82,7 +82,7 @@ class ComboBox extends BaseDropdown {
    protected _selectedItem: Model;
    protected _isEmptyItem: boolean;
    protected _value: string;
-   protected _placeholder: string;
+   protected _placeholder: string | Function;
 
    _beforeMount(options: IComboboxOptions,
                 context: object,
@@ -262,6 +262,15 @@ class ComboBox extends BaseDropdown {
       };
    }
 }
+
+Object.defineProperty(ComboBox, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ComboBox.getDefaultOptions();
+   }
+});
 
 export = ComboBox;
 /**

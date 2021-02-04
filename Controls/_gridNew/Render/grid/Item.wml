@@ -1,6 +1,7 @@
 <ws:template name="COLUMN">
     <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker) }}"
          class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
+    <!-- TODO избавиться от прокидывания _onBreadcrumbClick https://online.sbis.ru/doc/0649e69a-d507-4024-9f99-c70205f535ef-->
     <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
                 scope="{{ gridColumn.getColumnConfig().templateOptions }}"
                 attr:key="{{ gridColumn.getInstanceId() }}"
@@ -19,7 +20,10 @@
                 templateHighlightOnHover="{{ templateHighlightOnHover }}"
                 tagTemplate="{{ gridColumn.TagCell ? tagTemplate }}"
                 tagStyle="{{ gridColumn.TagCell ? tagStyle }}"
-                editArrowTemplate="{{ editArrowTemplate }}">
+                editArrowTemplate="{{ editArrowTemplate }}"
+
+                _onBreadcrumbClick="{{_onBreadcrumbClick}}"
+                _onBreadcrumbItemClick="{{_onBreadcrumbItemClick}}">
         <ws:ladderWrapper>
             <ws:partial template="{{ladderWrapper.content}}"
                         if="{{ gridColumn.LadderContentCell && (item || itemData).shouldDrawLadderContent(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"
@@ -60,6 +64,9 @@
             <ws:for data="column in (item || itemData).getColumns()">
                 <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
                                               mode="{{ (item || itemData).getStickyHeaderMode() }}"
+                                              backgroundStyle="{{backgroundStyle}}"
+                                              style="{{style}}"
+                                              theme="{{theme}}"
                                               shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                               attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
                                               attr:style="{{ column.getWrapperStyles() }}">

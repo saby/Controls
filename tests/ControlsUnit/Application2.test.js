@@ -13,19 +13,19 @@ define([
                ctrl = new Application({});
 
             ctrl._popupCreatedHandler();
-            assert.equal(ctrl._scrollingClass, '');
+            assert.equal(ctrl._bodyClasses.scrollingClass, '');
 
             ctrl._popupDestroyedHandler(null, null, {
                getCount: () => {
                   return 0;
                }
             });
-            assert.equal(ctrl._scrollingClass, '');
+            assert.equal(ctrl._bodyClasses.scrollingClass, '');
 
             ctrl._suggestStateChangedHandler(null, true);
-            assert.equal(ctrl._scrollingClass, '');
+            assert.equal(ctrl._bodyClasses.scrollingClass, '');
             ctrl._suggestStateChangedHandler(null, false);
-            assert.equal(ctrl._scrollingClass, '');
+            assert.equal(ctrl._bodyClasses.scrollingClass, '');
          });
 
          it('ios', function () {
@@ -34,19 +34,19 @@ define([
 
             Env.detection.isMobileIOS = true;
             ctrl._popupCreatedHandler();
-            assert.equal(ctrl._scrollingClass, 'controls-Scroll_webkitOverflowScrollingAuto');
+            assert.equal(ctrl._bodyClasses.scrollingClass, 'controls-Scroll_webkitOverflowScrollingAuto');
 
             ctrl._popupDestroyedHandler(null, null, {
                getCount: () => {
                   return 0;
                }
             });
-            assert.equal(ctrl._scrollingClass, 'controls-Scroll_webkitOverflowScrollingTouch');
+            assert.equal(ctrl._bodyClasses.scrollingClass, 'controls-Scroll_webkitOverflowScrollingTouch');
 
             ctrl._suggestStateChangedHandler(null, true);
-            assert.equal(ctrl._scrollingClass, 'controls-Scroll_webkitOverflowScrollingAuto');
+            assert.equal(ctrl._bodyClasses.scrollingClass, 'controls-Scroll_webkitOverflowScrollingAuto');
             ctrl._suggestStateChangedHandler(null, false);
-            assert.equal(ctrl._scrollingClass, 'controls-Scroll_webkitOverflowScrollingTouch');
+            assert.equal(ctrl._bodyClasses.scrollingClass, 'controls-Scroll_webkitOverflowScrollingTouch');
 
 
             if (typeof window === 'undefined') {

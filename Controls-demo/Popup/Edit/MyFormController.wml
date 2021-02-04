@@ -47,6 +47,20 @@
                         <Controls.input:Number bind:value="content.record.costPrice" class="demo-MyFormController__costPrice"/>
                     </div>
                 </div>
+
+                <div if="{{content.record.balanceCostSumm}}" class="controls-MyFormController__block">
+                    <div class="controls-MyFormController__row controls-MyFormController__title">Сумма остатка:</div>
+                    <div class="controls-MyFormController__row">
+                        <Controls.editableArea:View
+                                editObject="{{content.record}}">
+                            <Controls.editableArea:Base bind:value="content.editObject.balanceCostSumm">
+                                <ws:editorTemplate>
+                                    <Controls.input:Number attr:class="controls-Input_negativeOffset_theme_{{_options.theme}}"/>
+                                </ws:editorTemplate>
+                            </Controls.editableArea:Base>
+                        </Controls.editableArea:View>
+                    </div>
+                </div>
             </div>
          </Controls.form:Controller>
 

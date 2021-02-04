@@ -53,7 +53,7 @@ var _private = {
  *
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/Calendar/MonthView/LongCellName/LongCellName
+ * @demo Controls-demo/Date/MonthView
  * @demo Controls-demo/Calendar/MonthView/NewMode/Index
  *
  */
@@ -130,6 +130,15 @@ var defaultOptions = {
 MonthView.getDefaultOptions = function() {
    return defaultOptions;
 };
+
+Object.defineProperty(MonthView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MonthView.getDefaultOptions();
+   }
+});
 
 MonthView.getOptionTypes = function() {
    return IMonth.getOptionTypes();

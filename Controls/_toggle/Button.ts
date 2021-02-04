@@ -176,6 +176,16 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         };
     }
 }
+
+Object.defineProperty(ToggleButton, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ToggleButton.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/Button#icons
  * @cfg {Array} Пара иконок.

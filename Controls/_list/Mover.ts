@@ -185,13 +185,13 @@ var _private = {
     },
 
     updateDataOptions: function (self, newOptions, contextDataOptions) {
-		self._items = newOptions.items || contextDataOptions?.items;
+        self._items = newOptions.items || contextDataOptions?.items;
 
         let controllerOptions: Partial<IMoveControllerOptions> = {
             parentProperty: newOptions.parentProperty
         };
         if (contextDataOptions) {
-			controllerOptions.source = newOptions.source || contextDataOptions.source;
+            controllerOptions.source = newOptions.source || contextDataOptions.source;
             self._source = controllerOptions.source;
             self._keyProperty = newOptions.keyProperty || contextDataOptions.keyProperty;
             self._filter = contextDataOptions.filter;
@@ -468,6 +468,15 @@ Mover.getDefaultOptions = function () {
         sortingOrder: DEFAULT_SORTING_ORDER
     };
 };
+
+Object.defineProperty(Mover, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Mover.getDefaultOptions();
+   }
+});
 
 Mover.contextTypes = function () {
     return {

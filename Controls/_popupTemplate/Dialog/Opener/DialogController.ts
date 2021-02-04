@@ -5,6 +5,8 @@ import {List} from 'Types/collection';
 import * as Deferred from 'Core/Deferred';
 import DialogStrategy = require('Controls/_popupTemplate/Dialog/Opener/DialogStrategy');
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
+import {IResizeDirection} from 'Controls/_popup/interface/IDialog';
+import {getPositionProperties, HORIZONTAL_DIRECTION, VERTICAL_DIRECTION} from './DirectionUtil';
 
 interface IDialogItem extends IPopupItem {
     popupOptions: IDialogOptions;
@@ -14,8 +16,11 @@ interface IDialogItem extends IPopupItem {
 
 interface IDialogOptions extends IPopupOptions {
     maximize: boolean;
-    top: number;
-    left: number;
+    top?: number;
+    left?: number;
+    right?: number;
+    bottom?: number;
+    resizeDirection?: IResizeDirection;
     propStorageId: string;
 }
 
@@ -31,7 +36,7 @@ const IPAD_MIN_WIDTH = 1024;
 /**
  * Dialog Popup Controller
  * @class Controls/_popupTemplate/Dialog/Opener/DialogController
- * 
+ *
  * @private
  * @extends Controls/_popupTemplate/BaseController
  */
@@ -98,25 +103,35 @@ class DialogController extends BaseController {
     }
 
     getDefaultConfig(item: IDialogItem): void|Promise<void> {
+        const {
+            horizontal: horisontalProperty,
+            vertical: verticalProperty
+        } = getPositionProperties(item.popupOptions.resizeDirection);
         if (item.popupOptions.propStorageId) {
-            return this._getPopupCoords(item).then(() => {
-                this._getDefaultConfig(item);
+            return this._getPopupCoords(item, horisontalProperty, verticalProperty).then(() => {
+                this._getDefaultConfig(item, horisontalProperty, verticalProperty);
             });
         } else {
-            this._getDefaultConfig(item);
+            this._getDefaultConfig(item, horisontalProperty, verticalProperty);
         }
     }
 
     popupDragStart(item: IDialogItem, container: HTMLDivElement, offset: IDragOffset): void {
+        const {
+            horizontal: horizontalProperty,
+            vertical: verticalProperty
+        } = getPositionProperties(item.popupOptions.resizeDirection);
+        const horizontalOffset = horizontalProperty === HORIZONTAL_DIRECTION.LEFT ? offset.x : -offset.x;
+        const verticalOffset = verticalProperty === VERTICAL_DIRECTION.TOP ? offset.y : -offset.y;
         if (!item.startPosition) {
             item.startPosition = {
-                left: item.position.left,
-                top: item.position.top
+                [horizontalProperty]: item.position[horizontalProperty],
+                [verticalProperty]: item.position[verticalProperty]
             };
         }
         item.dragged = true;
-        item.position.left = item.startPosition.left + offset.x;
-        item.position.top = item.startPosition.top + offset.y;
+        item.position[horizontalProperty] = item.startPosition[horizontalProperty] + horizontalOffset;
+        item.position[verticalProperty] = item.startPosition[verticalProperty] + verticalOffset;
 
         // Take the size from cache, because they don't change when you move
         this._prepareConfig(item, item.sizes);
@@ -139,6 +154,15 @@ class DialogController extends BaseController {
             return this._elementUpdated(item, container);
         }
         return false;
+    }
+
+    resizeInner(item: IDialogItem, container: HTMLDivElement): boolean {
+        /* Если задан resizeDirection не перепозиционируем,
+           т.к. это опция отвечает как раз за ресайз без изменения позиции */
+        if (item.popupOptions?.resizeDirection) {
+            return false;
+        }
+        return super.resizeInner(item, container);
     }
 
     pageScrolled(): boolean {
@@ -187,14 +211,20 @@ class DialogController extends BaseController {
         }
     }
 
-    private _getPopupCoords(item: IDialogItem): Promise<undefined> {
+    private _getPopupCoords(
+        item: IDialogItem,
+        horizontalPositionProperty: string,
+        verticalPositionProperty: string
+    ): Promise<undefined> {
         return new Promise((resolve) => {
             const propStorageId = item.popupOptions.propStorageId;
             if (propStorageId) {
                 getSettings([propStorageId]).then((storage) => {
                     if (storage && storage[propStorageId]) {
-                        item.popupOptions.top = storage[propStorageId].top;
-                        item.popupOptions.left = storage[propStorageId].left;
+                        item.popupOptions[verticalPositionProperty] =
+                            storage[propStorageId][verticalPositionProperty];
+                        item.popupOptions[horizontalPositionProperty] =
+                            storage[propStorageId][horizontalPositionProperty];
                     }
                     resolve();
                 });
@@ -206,15 +236,23 @@ class DialogController extends BaseController {
 
     private _savePopupCoords(item: IDialogItem): void {
         const propStorageId = item.popupOptions.propStorageId;
-        if (propStorageId && item.position.top >= 0 && item.position.left >= 0) {
+        const {
+            vertical: verticalProperty,
+            horizontal: horizontalProperty
+        } = getPositionProperties(item.popupOptions.resizeDirection);
+        if (propStorageId && item.position[verticalProperty] >= 0 && item.position[horizontalProperty] >= 0) {
             setSettings({[propStorageId]: {
-                    top: item.position.top,
-                    left: item.position.left
-                }});
+                [verticalProperty]: item.position[verticalProperty],
+                [horizontalProperty]: item.position[horizontalProperty]
+            }});
         }
     }
 
-    private _getDefaultConfig(item: IDialogItem): void {
+    private _getDefaultConfig(
+        item: IDialogItem,
+        horizontalPositionProperty: string,
+        verticalPositionProperty: string
+    ): void {
         // set sizes before positioning. Need for templates who calculate sizes relatively popup sizes
         const sizes: IPopupSizes = {
             width: 0,
@@ -229,9 +267,6 @@ class DialogController extends BaseController {
             defaultCoordinate = 0;
             item.position.invisible = true;
         }
-        // Get top and left coordinate from propStorageId
-        item.position.top = item.popupOptions.top || defaultCoordinate;
-        item.position.left = item.popupOptions.left || defaultCoordinate;
     }
 
     _hasMaximizePopup(): boolean {

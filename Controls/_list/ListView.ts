@@ -317,6 +317,16 @@ ListView.getDefaultOptions = function() {
         markerVisibility: 'onactivated'
     };
 };
+
+Object.defineProperty(ListView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ListView.getDefaultOptions();
+   }
+});
+
 ListView._theme = ['Controls/list'];
 
 export = ListView;

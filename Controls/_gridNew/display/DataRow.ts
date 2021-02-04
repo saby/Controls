@@ -7,11 +7,12 @@ import DataCell from './DataCell';
 import ILadderSupport from './interface/ILadderSupport';
 import { IDisplaySearchValueItem, IDisplaySearchValueItemOptions } from './interface/IDisplaySearchValueItem';
 import ItemActionsCell from './ItemActionsCell';
+import { Model } from 'Types/entity';
 
 export interface IOptions<T> extends IRowOptions<T>, IDisplaySearchValueItemOptions {
 }
 
-export default class DataRow<T> extends Row<T> implements
+export default class DataRow<T extends Model> extends Row<T> implements
     IMarkable,
     ILadderSupport,
     ISelectableItem,

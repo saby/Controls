@@ -299,4 +299,13 @@ class MenuRender extends Control<IMenuRenderOptions> {
     }
 }
 
+Object.defineProperty(MenuRender, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MenuRender.getDefaultOptions();
+   }
+});
+
 export default MenuRender;

@@ -39,6 +39,12 @@ export {INewLineKey, INewLineKeyOptions} from 'Controls/_input/interface/INewLin
 export {IBase, IBaseOptions, TextAlign, AutoComplete} from 'Controls/_input/interface/IBase';
 export {ITag, ITagOptions, TagStyle} from 'Controls/_input/interface/ITag';
 export {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
+export {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
+export {ITimeMask, ITimeMaskOptions} from 'Controls/_input/interface/ITimeMask';
+export {ITimeInterval, ITimeIntervalOptions} from 'Controls/_input/interface/ITimeInterval';
+export {IInputMaskValue, IInputMaskValueOptions} from 'Controls/_input/interface/IInputMaskValue';
+export {IInputDateTime, IInputDateTimeOptions} from 'Controls/_input/interface/IInputDateTime';
+export {default as IValueValidators, IValueValidatorsOptions} from 'Controls/_input/interface/IValueValidators';
 export {IValue, IValueOptions, ICallback, ICallbackData, IFieldData} from 'Controls/_input/interface/IValue';
 export {IBorderVisibility, IBorderVisibilityOptions, TBorderVisibility,
     getDefaultBorderVisibilityOptions, getOptionBorderVisibilityTypes} from './_input/interface/IBorderVisibility';

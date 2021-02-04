@@ -246,3 +246,12 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       };
    }
 }
+
+Object.defineProperty(MultiSelector, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MultiSelector.getDefaultOptions();
+   }
+});

@@ -73,3 +73,12 @@ export default class ListCut extends Control<IListCutOptions> implements IExpand
       };
    }
 }
+
+Object.defineProperty(ListCut, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ListCut.getDefaultOptions();
+   }
+});

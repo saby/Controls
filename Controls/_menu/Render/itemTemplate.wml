@@ -1,7 +1,7 @@
 <ws:template name="menuRowTemplate">
 <div attr:class="controls-Menu__row
                  controls-DropdownList__row
-                 controls-ListView__itemV js-controls-ItemActions__swipeMeasurementContainer
+                 controls-ListView__itemV js-controls-ListView__measurableContainer
                  {{itemData.itemClassList}} theme_{{_options.theme}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}">
    <ws:if data="{{!!treeItem.getContents().forEach}}">

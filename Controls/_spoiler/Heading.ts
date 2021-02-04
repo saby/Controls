@@ -211,6 +211,15 @@ class Heading extends Control<IHeadingOptions> implements IHeading {
     }
 }
 
+Object.defineProperty(Heading, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Heading.getDefaultOptions();
+   }
+});
+
 export default Heading;
 
 /**

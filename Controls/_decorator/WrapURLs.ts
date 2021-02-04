@@ -205,4 +205,13 @@ class WrapURLs extends Control<IWrapURLsOptions, void> {
     }
 }
 
+Object.defineProperty(WrapURLs, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return WrapURLs.getDefaultOptions();
+   }
+});
+
 export default WrapURLs;

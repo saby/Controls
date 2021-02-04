@@ -4,6 +4,7 @@ import {load} from 'Core/library';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IInfoboxTemplateOptions} from 'Controls/_popupTemplate/InfoBox';
 import {constants} from 'Env/Env';
+import 'css!Controls/popupTemplate';
 
 export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
    protected _template: TemplateFunction = template;
@@ -26,6 +27,4 @@ export default class InfoboxTemplate extends Control<IInfoboxTemplateOptions> {
    protected _sendResult(event: SyntheticEvent<MouseEvent>): void {
       this._notify('sendResult', [event], { bubbling: true });
    }
-
-   static _theme: string[] = ['Controls/popupTemplate'];
 }

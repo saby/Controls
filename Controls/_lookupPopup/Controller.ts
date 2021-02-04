@@ -292,3 +292,12 @@ export default class Controller extends Control<ILookupPopupControllerOptions> {
  *    </Controls.lookupPopup:Controller>
  * </pre>
  */
+
+Object.defineProperty(Controller, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Controller.getDefaultOptions();
+   }
+});

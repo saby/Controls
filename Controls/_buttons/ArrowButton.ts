@@ -34,6 +34,15 @@ class ArrowButton extends Control<IArrowButtonOptions>  {
     static _theme: string[] = ['Controls/buttons', 'Controls/Classes'];
 }
 
+Object.defineProperty(ArrowButton, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ArrowButton.getDefaultOptions();
+   }
+});
+
 /**
  * @typedef {String} TArrowButtonDirection
  * @variant left Влево.

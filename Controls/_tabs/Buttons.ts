@@ -321,6 +321,15 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     }
 }
 
+Object.defineProperty(TabsButtons, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return TabsButtons.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_tabs/ITabsTemplate#tabSpaceTemplate
  * @cfg {Content} Шаблон, отображаемый между вкладками.

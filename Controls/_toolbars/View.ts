@@ -8,6 +8,7 @@ import {StickyOpener} from 'Controls/popup';
 import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {getMenuItems, needShowMenu} from './Util';
 import {showType} from './interfaces/IShowType';
+import 'css!Controls/toolbars';
 
 import {
     getButtonTemplate, hasSourceChanged,
@@ -253,7 +254,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `${options.popupClassName} controls-Toolbar__popup__list_theme-${options.theme}`,
+            className: `${options.popupClassName} controls-Toolbar__popup__list`,
             templateOptions: {
                 source: this._menuSource,
                 ...this._getMenuTemplateOptions(),
@@ -287,7 +288,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `controls-Toolbar__popup__${Toolbar._typeItem(item)}_theme-${options.theme} ${Toolbar._menuItemClassName(item)}`,
+            className: `controls-Toolbar__popup__${Toolbar._typeItem(item)} ${Toolbar._menuItemClassName(item)}`,
             targetPoint: {
                 vertical: 'top',
                 horizontal: 'left'
@@ -588,7 +589,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return void 0;
     }
 
-    static _theme: string[] = ['Controls/buttons', 'Controls/Classes', 'Controls/toolbars'];
+    static _theme: string[] = ['Controls/buttons', 'Controls/Classes'];
 
     private static _typeItem(item: TItem): TypeItem {
         if (item.get('icon')) {
@@ -640,6 +641,15 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         };
     }
 }
+
+Object.defineProperty(Toolbar, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Toolbar.getDefaultOptions();
+   }
+});
 
 /**
  * @event Происходит при клике по элементу.

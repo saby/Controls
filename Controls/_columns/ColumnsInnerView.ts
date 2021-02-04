@@ -372,3 +372,12 @@ export default class ColumnsInnerView extends Control {
         };
     }
 }
+
+Object.defineProperty(ColumnsInnerView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ColumnsInnerView.getDefaultOptions();
+   }
+});

@@ -57,6 +57,15 @@ class Label extends Control<ILabelOptions> implements ICaption, IFontSize, IHref
     }
 }
 
+Object.defineProperty(Label, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Label.getDefaultOptions();
+   }
+});
+
 export default Label;
 
 /**

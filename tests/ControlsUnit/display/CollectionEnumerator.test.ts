@@ -109,24 +109,6 @@ describe('Controls/_display/CollectionEnumerator', () => {
         });
     });
 
-    describe('.setCurrent()', () => {
-        it('should set the current item', () => {
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                enumerator.setCurrent(item);
-                assert.strictEqual(item, enumerator.getCurrent());
-            }
-        });
-
-        it('should change the current position', () => {
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                enumerator.setCurrent(item);
-                assert.strictEqual(i, enumerator.getPosition());
-            }
-        });
-    });
-
     describe('.moveNext()', () => {
         it('should return undefined for empty list', () => {
             const enumerator = new DisplayEnumerator();

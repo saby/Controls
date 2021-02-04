@@ -7,6 +7,7 @@ import {UnregisterUtil, RegisterUtil} from 'Controls/event';
 import errorMessage = require('wml!Controls/_validate/ErrorMessage');
 import {ValidationStatus} from "Controls/interface";
 import {Logger} from 'UI/Utils';
+import 'css!Controls/validate';
 
 export interface IValidateConfig {
     hideInfoBox?: boolean;
@@ -378,14 +379,21 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
         return this._validationResult && !(this._validationResult instanceof Promise);
     }
 
-    static _theme: [string] = ['Controls/validate'];
-
     static getDefaultOptions(): IValidateContainerOptions {
         return {
             errorTemplate: errorMessage
         };
     }
 }
+
+Object.defineProperty(ValidateContainer, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ValidateContainer.getDefaultOptions();
+   }
+});
 
 export default ValidateContainer;
 

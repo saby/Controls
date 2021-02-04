@@ -21,13 +21,13 @@ define([
          eventQueue = [];
          instance = new editableArea.View();
          cfg = {
-            editWhenFirstRendered: true,
+            autoEdit: true,
             editObject: entity.Model.fromObject({
                text: 'qwerty'
             })
          };
          cfg2 = {
-            editWhenFirstRendered: false,
+            autoEdit: false,
             editObject: entity.Model.fromObject({
                text: 'test'
             })

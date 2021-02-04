@@ -61,6 +61,7 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {Object} Controls/interface/IEditableList/EditingConfig
+    * @property {Boolean} [autoAddOnInit=false] Если передано значение "true", при построении списка автомати начнется рдобавление по месту, при условии, что список пустой.
     * @property {Boolean} [editOnClick=false] Если передано значение "true", клик по элементу списка начинает редактирование по месту.
     * @property {Boolean} [autoAdd=false] Если передано значение "true", после окончания редактирования последнего (уже существующего) элемента списка автоматически добавляется новый элемент и начинается его редактирование.
     * @property {Boolean} [autoAddByApplyButton=true] Если передано значение "true", после окончания редактирования только что добавленного элемента списка автоматически добавляется новый элемент и начинается его редактирование.
@@ -145,6 +146,7 @@ define('Controls/interface/IEditableList', [
 
    /*
     * @typedef {Object} Controls/interface/IEditableList/EditingConfig
+    * @property {Boolean} [autoAddOnInit=false] If true, auto adding will start on initializing if list is empty.
     * @property {Boolean} [editOnClick=false] If true, click on list item starts editing in place.
     * @property {Boolean} [autoAdd=false] If true, after the end of editing of the last list item, new item adds automatically and its editing begins.
     * @property {Boolean} [sequentialEditing=true] If true, after the end of editing of any list item other than the last, editing of the next list item starts automatically.

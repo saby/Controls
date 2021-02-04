@@ -1,0 +1,10 @@
+<div class="controlsDemo__flexColumn">
+   <div class="controlsDemo__wrapper">
+      <Controls.dropdown:Button
+              keyProperty="key"
+              caption="Create"
+              viewMode="button"
+              source="{{_source}}"
+              groupProperty="group" />
+   </div>
+</div>

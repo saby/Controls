@@ -276,7 +276,7 @@ define(
                   },
                   expectedConfig = {
                      opener: testSelf,
-                     className: 'controls-Toolbar__popup__icon_theme-default popupClassName',
+                     className: 'controls-Toolbar__popup__icon popupClassName',
                      targetPoint: {
                         vertical: 'top',
                         horizontal: 'left'

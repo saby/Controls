@@ -201,6 +201,16 @@ class StateIndicator extends Control<IStateIndicatorOptions>{
       };
    }
 }
+
+Object.defineProperty(StateIndicator, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return StateIndicator.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_progress/StateIndicator#scale
  * @cfg {Number} Определяет размер (процентное значение) одного сектора диаграммы.

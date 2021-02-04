@@ -1,13 +1,13 @@
-import Base from 'Controls/_input/Base';
+import {default as Base, IBaseInputOptions} from 'Controls/_input/Base';
 import readOnlyFieldTemplate = require('wml!Controls/_input/Money/ReadOnly');
 
 import {descriptor} from 'Types/entity';
 import ViewModel from './Number/ViewModel';
-import {default as INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
+import {INumberLength, INumberLengthOptions} from 'Controls/_input/interface/INumberLength';
+import {IOnlyPositive, IOnlyPositiveOptions} from 'Controls/_input/interface/IOnlyPositive';
+import {IBaseFieldTemplate} from 'Controls/_input/interface/IBase';
 
-interface IMoneyOptions extends INumberLengthOptions {
-    onlyPositive: boolean;
-}
+interface IMoneyOptions extends IBaseInputOptions, INumberLengthOptions, IOnlyPositiveOptions, IBaseFieldTemplate {}
 
 /**
  * Поле ввода числовых значений. Отличается от {@link Controls/input:Number} отображением введенного значения, согласно стандарту денежных полей ввода.
@@ -21,7 +21,7 @@ interface IMoneyOptions extends INumberLengthOptions {
  * @class Controls/_input/Money
  * @extends Controls/input:Base
  *
- * @mixes Controls/interface:IOnlyPositive
+ * @mixes Controls/input:IOnlyPositive
  * @mixes Controls/input:INumberLength
  *
  * @public
@@ -30,12 +30,12 @@ interface IMoneyOptions extends INumberLengthOptions {
  * @author Красильников А.С.
  */
 
-class Money extends Base implements INumberLength {
-    _options: IMoneyOptions;
-    protected _inputMode = 'decimal';
+class Money extends Base<IMoneyOptions> implements INumberLength, IOnlyPositive {
+    protected _inputMode: string = 'decimal';
     protected _controlName: string = 'Money';
 
-    readonly '[Controls/_input/interface/INumberLength]' = true;
+    readonly '[Controls/_input/interface/INumberLength]': boolean = true;
+    readonly '[Controls/_input/interface/IOnlyPositive]': boolean = true;
 
     protected _initProperties(options: IMoneyOptions): void {
         super._initProperties(options);
@@ -45,7 +45,7 @@ class Money extends Base implements INumberLength {
         this._readOnlyField.scope.fractionPart = Money.fractionPart;
     }
 
-    protected _getViewModelOptions(options: IMoneyOptions) {
+    protected _getViewModelOptions(options: IMoneyOptions): object {
         return {
             useGrouping: true,
             showEmptyDecimals: true,
@@ -98,6 +98,15 @@ class Money extends Base implements INumberLength {
         return optionTypes;
     }
 }
+
+Object.defineProperty(Money, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Money.getDefaultOptions();
+   }
+});
 
 // TODO: generics https://online.sbis.ru/opendoc.html?guid=ef345c4d-0aee-4ba6-b380-a8ca7e3a557f
 /**

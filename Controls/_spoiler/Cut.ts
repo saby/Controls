@@ -114,4 +114,13 @@ class Cut extends Control<ICutOptions> implements IBackgroundStyle, IExpandable 
     }
 }
 
+Object.defineProperty(Cut, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Cut.getDefaultOptions();
+   }
+});
+
 export default Cut;

@@ -23,4 +23,13 @@ class Infobox extends Control<IControlOptions> {
     }
 }
 
+Object.defineProperty(Infobox, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Infobox.getDefaultOptions();
+   }
+});
+
 export default Infobox;

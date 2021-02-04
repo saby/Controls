@@ -81,7 +81,7 @@
               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
               {{ marker !== false ? currentColumn.classList.marked }}
-              controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
+              controls-TreeGrid__row"
             style="{{ currentColumn.tableCellStyles }}"
             colspan="{{(colspan === false && !!colspanLength) ? (currentColumn.columnIndex === (itemData.hasMultiSelectColumn ? 1 : 0) ? colspanLength : 1) : itemData.getColspanFor((itemData.hasMultiSelectColumn && currentColumn.columnIndex == 0) ? 'multiSelectColumn' : (colspan || colspanCurrentNode ? 'node'))}}">
             <div class="{{ itemData.getRelativeCellWrapperClasses(colspan, true) }}
@@ -171,7 +171,7 @@
               {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}
               {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
               {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
-              controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
+              controls-TreeGrid__row"
             colspan="1"
             style="width: 0; min-width: 0; max-width: 0; padding: 0px; overflow: visible; z-index: 3;">
             <div class="{{ itemData.getRelativeCellWrapperClasses(colspan, false) }}">

@@ -220,6 +220,15 @@ class Button extends Control<IButtonControlOptions> implements IHref, ICaption, 
     }
 }
 
+Object.defineProperty(Button, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Button.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_buttons/Button#viewMode
  * @cfg {Enum} Режим отображения кнопки.

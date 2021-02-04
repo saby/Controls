@@ -256,4 +256,13 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
     }
 }
 
+Object.defineProperty(Render, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Render.getDefaultOptions();
+   }
+});
+
 export default Render;

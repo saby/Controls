@@ -17,4 +17,13 @@ class ButtonGroup extends ButtonGroupBase {
     protected _buttonTemplate: TemplateFunction = ButtonTemplate;
 }
 
+Object.defineProperty(ButtonGroup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ButtonGroup.getDefaultOptions();
+   }
+});
+
 export default ButtonGroup;

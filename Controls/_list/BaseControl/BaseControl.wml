@@ -79,6 +79,9 @@
     <ws:if data="{{_shouldDrawFooter}}">
         <ws:partial template="wml!Controls/_list/BaseControl/Footer" moreFontColorStyle="{{_options.moreFontColorStyle}}" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
     </ws:if>
+    <ws:if data="{{_shouldDrawCut}}">
+        <ws:partial template="wml!Controls/_list/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
+    </ws:if>
 </ws:template>
 <ws:template name="multiSelectTplIf">
     <ws:if data="{{_options.multiSelectVisibility}}">
@@ -191,8 +194,11 @@
     <div class="controls-BaseControl"
          on:sortingChanged="_sortingChanged()"
          on:mouseenter="_mouseEnter()"
-         on:mouseleave="_mouseLeave()">
+         on:mouseleave="_mouseLeave()"
+         on:mouseMove="_onListMouseMove()">
         <div name="fakeFocusElem" tabindex="0" class="controls-BaseControl__fakeFocusElem"></div>
+
+        <style name="itemActionsOutsideStyle" data-vdom-ignore="true"></style>
 
         <ws:if data="{{_showContinueSearchButtonDirection === 'up'}}">
             <ws:partial template="continueSearch"/>
@@ -201,7 +207,7 @@
         <ws:if data="{{_listViewModel}}">
             <ws:partial template="loadingIndicator" loadingIndicatorState="up"/>
 
-            <ws:partial template="fullView" name="listView" attr:class="{{ _addShowActionsClass ? _getItemActionVisibilityClasses() }}"/>
+            <ws:partial template="fullView" name="listView" attr:class="{{ _getViewClasses(_addShowActionsClass, _addHoverEnabledClass, _uniqueId) }}"/>
 
             <ws:partial template="loadingIndicator" loadingIndicatorState="down"/>
         </ws:if>

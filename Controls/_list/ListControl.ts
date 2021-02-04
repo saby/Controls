@@ -109,3 +109,12 @@ export default class ListControl extends Control/** @lends Controls/_list/ListCo
         };
     };
 }
+
+Object.defineProperty(ListControl, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ListControl.getDefaultOptions();
+   }
+});

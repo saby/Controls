@@ -112,6 +112,16 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
       };
    }
 }
+
+Object.defineProperty(DoubleSwitch, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DoubleSwitch.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/DoubleSwitch#captions
  * @cfg {Array.<String>} Массив из двух подписей. Если количество подписей не равно двум, то возникает ошибка.

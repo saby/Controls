@@ -1,4 +1,4 @@
-<div class="controls-TileView__imageWrapper js-controls-ItemActions__swipeMeasurementContainer">
+<div class="controls-TileView__imageWrapper js-controls-ListView__measurableContainer">
    <div class="{{hasTitle ? 'controls-TileView__resizer_theme-' + itemData.theme}}" style="{{'padding-top: ' + (itemData.itemsHeight / width) * 100 + '%;'}}"></div>
    <img class="controls-TileView__image controls-TileView__image_align_center" src="{{itemData.item[itemData.imageProperty]}}"/>
    <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"

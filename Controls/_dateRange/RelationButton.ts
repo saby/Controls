@@ -58,5 +58,15 @@ Component.getDefaultOptions = function () {
         value: 'normal'
     };
 };
+
+Object.defineProperty(Component, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Component.getDefaultOptions();
+   }
+});
+
 Component._theme = ['Controls/dateRange'];
 export default Component;

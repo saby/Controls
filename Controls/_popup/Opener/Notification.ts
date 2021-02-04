@@ -177,6 +177,15 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
     }
 }
 
+Object.defineProperty(Notification, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Notification.getDefaultOptions();
+   }
+});
+
 const BASE_OPTIONS = {
     autofocus: false,
     autoClose: true

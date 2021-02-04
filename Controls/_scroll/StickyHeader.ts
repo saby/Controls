@@ -853,3 +853,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
  * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
+
+Object.defineProperty(StickyHeader, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return StickyHeader.getDefaultOptions();
+   }
+});

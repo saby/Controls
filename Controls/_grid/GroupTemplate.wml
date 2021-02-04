@@ -1,36 +1,40 @@
 <ws:template name="groupContentTemplate">
-      <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'left')}}">
-         <div class="controls-ListView__groupSeparator-left_theme-{{itemData.theme}}">&nbsp;</div>
+      <ws:if data="{{separatorVisibility !== false && textVisible !== false && (columnAlignGroup !== undefined || textAlign !== 'left')}}">
+         <div class="controls-ListView__groupSeparator_theme-{{itemData.theme}} controls-ListView__groupSeparator-left_theme-{{itemData.theme}}">&nbsp;</div>
       </ws:if>
-      <div class="controls-ListView__groupContent-text controls-ListView__groupContent-text_theme-{{itemData.theme}}
-         {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator'}}
-         {{fontSize ? ' controls-fontsize-' + fontSize + '_theme-' + itemData.theme : ' controls-ListView__groupContent-text_default_theme-' + itemData.theme}}
-         {{expanderVisible !== false ? (' controls-ListView__groupExpander controls-ListView__groupExpander_theme-' + itemData.theme) +
-         (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right_theme-' + itemData.theme : ' controls-ListView__groupExpander_left_theme-' + itemData.theme) +
-         ' controls-ListView__groupExpander-iconSize_' + (iconSize || 'default') + '_theme-' + itemData.theme +
-         (!itemData.isGroupExpanded ?
-         ' controls-ListView__groupExpander_collapsed' + (expanderAlign === 'right' ?
-            ' controls-ListView__groupExpander_collapsed_right' : ' controls-ListView__groupExpander_collapsed_left') :'')}}">
-         <ws:if data="{{contentTemplate}}">
-            <ws:partial template="{{contentTemplate}}" itemData="{{itemData}}"/>
-         </ws:if>
-         <ws:else>{{itemData.item}}</ws:else>
-      </div>
-      <ws:if data="{{columnAlignGroup === undefined}}">
-         <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'right')}}">
-            <div class="controls-ListView__groupSeparator-right_theme-{{itemData.theme}}">&nbsp;</div>
+      <ws:if data="{{ textVisible !== false }}">
+         <div class="controls-ListView__groupContent-text controls-ListView__groupContent-text_theme-{{itemData.theme}}
+            {{separatorVisibility === false && (columnAlignGroup !== undefined || textAlign !== 'left') ? 'controls-ListView__groupContent-withoutGroupSeparator'}}
+            {{fontSize ? ' controls-fontsize-' + fontSize + '_theme-' + itemData.theme : ' controls-ListView__groupContent-text_default_theme-' + itemData.theme}}
+            {{expanderVisible !== false ? (' controls-ListView__groupExpander controls-ListView__groupExpander_theme-' + itemData.theme) +
+            (expanderAlign === 'right' ? ' controls-ListView__groupExpander_right_theme-' + itemData.theme : ' controls-ListView__groupExpander_left_theme-' + itemData.theme) +
+            ' controls-ListView__groupExpander-iconSize_' + (iconSize || 'default') + '_theme-' + itemData.theme +
+            (!itemData.isGroupExpanded ?
+            ' controls-ListView__groupExpander_collapsed' + (expanderAlign === 'right' ?
+               ' controls-ListView__groupExpander_collapsed_right' : ' controls-ListView__groupExpander_collapsed_left') :'')}}">
+            <ws:if data="{{contentTemplate}}">
+               <ws:partial template="{{contentTemplate}}" itemData="{{itemData}}"/>
+            </ws:if>
+            <ws:else>{{itemData.item}}</ws:else>
+         </div>
+      </ws:if>
+      <ws:if data="{{columnAlignGroup === undefined || textVisible === false}}">
+         <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'right' || textVisible === false)}}">
+            <div class="controls-ListView__groupSeparator_theme-{{itemData.theme}} {{textVisible !== false ? 'controls-ListView__groupSeparator-right_theme-' + itemData.theme}}">&nbsp;</div>
          </ws:if>
          <ws:if data="{{!!rightTemplate}}">
             <ws:partial template="{{rightTemplate}}" itemData="{{itemData}}"
                         attr:class="controls-ListView__groupContent-rightTemplate_theme-{{itemData.theme}}
-                       {{ !itemData.shouldFixGroupOnColumn(columnAlignGroup) ? itemData.groupPaddingClasses.right }}" />
+                       {{ !itemData.shouldFixGroupOnColumn(columnAlignGroup, textVisible) ? itemData.groupPaddingClasses.right }}
+                       {{ separatorVisibility === false && (textVisible === false || (columnAlignGroup === undefined && textAlign !== 'right')) ? 'controls-ListView__groupContent-withoutGroupSeparator' }}
+         " />
          </ws:if>
       </ws:if>
 </ws:template>
 <ws:template name="groupRightTemplate">
    <div class="controls-ListView__groupContent">
       <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'right')}}">
-         <div class="controls-ListView__groupSeparator-right_theme-{{itemData.theme}}">&nbsp;</div>
+         <div class="controls-ListView__groupSeparator_theme-{{itemData.theme}} controls-ListView__groupSeparator-right_theme-{{itemData.theme}}">&nbsp;</div>
       </ws:if>
       <ws:if data="{{!!rightTemplate}}">
          <ws:partial template="{{rightTemplate}}"
@@ -47,7 +51,7 @@
         attr:class="controls-ListView__stickyGroup_{{itemData.style}} controls-ListView__groupContent"
         fixedZIndex="{{4}}">
          <ws:if data="{{separatorVisibility !== false && (columnAlignGroup !== undefined || textAlign !== 'right')}}">
-            <div class="controls-ListView__groupSeparator-right_theme-{{itemData.theme}}">&nbsp;</div>
+            <div class="controls-ListView__groupSeparator_theme-{{itemData.theme}} controls-ListView__groupSeparator-right_theme-{{itemData.theme}}">&nbsp;</div>
          </ws:if>
          <ws:if data="{{!!rightTemplate}}">
             <ws:partial template="{{rightTemplate}}"
@@ -80,12 +84,12 @@
    <div style="display: contents;">
       <ws:partial template="groupContentStickyWrapper"
                   attr:class="{{ itemData.groupPaddingClasses.left }}
-                             {{ !rightTemplate && !itemData.shouldFixGroupOnColumn(columnAlignGroup) ? itemData.groupPaddingClasses.right }}"
-                  attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"/>
-      <ws:if data="{{itemData.shouldFixGroupOnColumn(columnAlignGroup)}}">
+                             {{ !rightTemplate && !itemData.shouldFixGroupOnColumn(columnAlignGroup, textVisible) ? itemData.groupPaddingClasses.right }}"
+                  attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup, textVisible).left}}"/>
+      <ws:if data="{{itemData.shouldFixGroupOnColumn(columnAlignGroup, textVisible)}}">
          <ws:partial template="groupRightStickyTemplate"
                      attr:class="{{ itemData.groupPaddingClasses.right }}"
-                     attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).right}}"/>
+                     attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup, textVisible).right}}"/>
       </ws:if>
    </div>
 </ws:template>
@@ -94,7 +98,7 @@
    <div class="controls-ListView__itemV {{itemData.isHiddenGroup ? 'controls-ListView__groupHidden' : 'controls-Grid__row controls-ListView__group'}}"
         key="group-{{itemData.item}}">
       <ws:if data="{{itemData.isStickyHeader && !itemData.isHiddenGroup}}">
-         <ws:if data="{{itemData.shouldFixGroupOnColumn(columnAlignGroup)}}">
+         <ws:if data="{{itemData.shouldFixGroupOnColumn(columnAlignGroup, textVisible)}}">
             <Controls.scroll:Group>
                <ws:partial template="stickyGroupContent"/>
             </Controls.scroll:Group>
@@ -104,11 +108,11 @@
          </ws:else>
       </ws:if>
       <ws:else>
-         <ws:partial template="groupContentWrapper" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).left}}"
+         <ws:partial template="groupContentWrapper" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup, textVisible).left}}"
                      attr:class="{{ itemData.groupPaddingClasses.left }}
-                                 {{ !rightTemplate && !itemData.shouldFixGroupOnColumn(columnAlignGroup) ? itemData.groupPaddingClasses.right }}"/>
-         <ws:if data="{{itemData.shouldFixGroupOnColumn(columnAlignGroup)}}">
-            <ws:partial template="groupRightTemplate" attr:class="{{ itemData.groupPaddingClasses.right }}" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup).right}}"/>
+                                 {{ !rightTemplate && !itemData.shouldFixGroupOnColumn(columnAlignGroup, textVisible) ? itemData.groupPaddingClasses.right }}"/>
+         <ws:if data="{{itemData.shouldFixGroupOnColumn(columnAlignGroup, textVisible)}}">
+            <ws:partial template="groupRightTemplate" attr:class="{{ itemData.groupPaddingClasses.right }}" attr:style="{{itemData.getColumnAlignGroupStyles(columnAlignGroup, textVisible).right}}"/>
          </ws:if>
       </ws:else>
    </div>

@@ -332,3 +332,12 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
  * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
+
+Object.defineProperty(Group, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Group.getDefaultOptions();
+   }
+});

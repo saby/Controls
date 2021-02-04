@@ -207,4 +207,13 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
     }
 }
 
+Object.defineProperty(InfoBox, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return InfoBox.getDefaultOptions();
+   }
+});
+
 export default InfoBox;

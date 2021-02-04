@@ -38,7 +38,7 @@ const mapBoolState = {true: false, false: true, null: true};
 /*
  * Represents a control that a user can select and clear.
  *
- * <a href="/materials/Controls-demo/app/Controls-demo%2FCheckbox%2FstandartDemoCheckbox">Demo-example</a>.
+ * <a href="/materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckbox%2FIndex">Demo-example</a>.
  *
  * @class Controls/_toggle/Checkbox
  * @extends UI/Base:Control
@@ -94,6 +94,16 @@ class Checkbox extends Control<ICheckboxOptions> implements ICaption,
       };
    }
 }
+
+Object.defineProperty(Checkbox, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Checkbox.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/Checkbox#triState
  * @cfg {Boolean} Определяет, разрешено ли устанавливать чекбоксу третье состояние — "не определен" (null).

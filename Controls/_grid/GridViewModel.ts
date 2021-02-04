@@ -468,10 +468,12 @@ var
          * Производит пересчёт групп объединяемых колонок для заголовков (разделителей) записей
          * @param itemData информация о записи
          * @param leftSideItemsCount число колонок в группе (или номер последней колонки)
+         * @param textVisible Видимость текста. Если текст скрыт, то игнорируется leftSideItemsCount
          * @param isActionsCellExists выводится ли в строке дополнительная ячейка под операции над записью
+         * @param stickyLadderCellsCount Число колонок для стики-лесенки
          * @private
          */
-        getColumnAlignGroupStyles(itemData: IGridItemData, leftSideItemsCount: number = 0, isActionsCellExists: boolean, stickyLadderCellsCount: number = 0): {
+        getColumnAlignGroupStyles(itemData: IGridItemData, leftSideItemsCount: number = 0, textVisible: boolean, isActionsCellExists: boolean, stickyLadderCellsCount: number = 0): {
             left: string
             right: string
         } {
@@ -480,7 +482,7 @@ var
             const start = 1;
             const end = itemData.columns.length + 1 + (isActionsCellExists ? 1 : 0) + stickyLadderCellsCount;
 
-            if (leftSideItemsCount > 0) {
+            if (textVisible !== false && leftSideItemsCount > 0) {
                 const center = leftSideItemsCount + additionalTerm + 1;
                 result.left = `grid-column: ${start} / ${center - end - 1}; -ms-grid-column: ${start}; -ms-grid-column-span: ${(center - 1)};`;
                 // Расчёт был изменён из-за того, что в случае установки колонки MultiSelect необходимо делать перерасчёт размеров,
@@ -1666,8 +1668,8 @@ var
             current.isLastRow = (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData()) &&
                                  (this.getCount() - 1 === current.index);
 
-            current.getColumnAlignGroupStyles = (columnAlignGroup: number) => (
-                _private.getColumnAlignGroupStyles(current, columnAlignGroup, self._shouldAddActionsCell(), self.stickyLadderCellsCount())
+            current.getColumnAlignGroupStyles = (columnAlignGroup: number, textVisible: boolean) => (
+                _private.getColumnAlignGroupStyles(current, columnAlignGroup, textVisible, self._shouldAddActionsCell(), self.stickyLadderCellsCount())
             );
 
             const style = !current.style ? 'default' : current.style;
@@ -1751,8 +1753,10 @@ var
             if (current.isGroup) {
                 current.task1181007458 = self._options.task1181007458;
                 current.groupPaddingClasses = _private.getGroupPaddingClasses(current, current.theme);
-                current.shouldFixGroupOnColumn = (columnAlignGroup?: number) => {
-                    return columnAlignGroup !== undefined && columnAlignGroup < current.columns.length - (current.hasMultiSelectColumn ? 1 : 0);
+                current.shouldFixGroupOnColumn = (columnAlignGroup: number, textVisible: boolean) => {
+                    return textVisible !== false &&
+                        columnAlignGroup !== undefined &&
+                        columnAlignGroup < current.columns.length - (current.hasMultiSelectColumn ? 1 : 0);
                 };
                 return current;
             }
@@ -2382,10 +2386,6 @@ var
         setStickyColumnsCount: function(stickyColumnsCount) {
             this._options.stickyColumnsCount = stickyColumnsCount;
             this._nextModelVersion();
-        },
-
-        setSelectedItems(items: Model[], selected: boolean|null): void {
-            this._model.setSelectedItems(items, selected);
         },
 
         setDraggedItems(draggableItem: CollectionItem<Model>, draggedItemsKeys: Array<number|string>): void {

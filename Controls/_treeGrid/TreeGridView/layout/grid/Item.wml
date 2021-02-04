@@ -206,7 +206,7 @@
                        {{ marker !== false ? currentColumn.classList.marked }}
                        {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
                        {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
-                       controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
+                       controls-TreeGrid__row"
            style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan || colspanCurrentNode) }}
                   {{ (colspan === false && !!colspanLength) && (currentColumn.columnIndex === (itemData.hasMultiSelectColumn ? 1 : 0)) ? itemData.getPartialColspanStyles(itemData.hasMultiSelectColumn ? 1 : 0, colspanLength) }}">
       <ws:partial template="COLUMN_CONTENT_WRAPPER"/>
@@ -247,7 +247,7 @@
                                    {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
                                    {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
                                    {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}
-                                   controls-TreeGrid__row js-controls-ItemActions__swipeMeasurementContainer"
+                                   controls-TreeGrid__row"
                                  attr:style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan || colspanCurrentNode)}}">
       <ws:partial template="COLUMN_CONTENT_WRAPPER"/>
    </Controls.scroll:StickyHeader>

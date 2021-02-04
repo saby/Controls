@@ -656,3 +656,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
  * @name Controls/newBrowser:Browser#detailRootChanged
  * @param {string} root Текущая корневая папка
  */
+
+Object.defineProperty(Browser, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Browser.getDefaultOptions();
+   }
+});

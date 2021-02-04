@@ -92,6 +92,15 @@ class View extends Control<IViewOptions> implements IView {
     }
 }
 
+Object.defineProperty(View, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return View.getDefaultOptions();
+   }
+});
+
 export default View;
 
 /**

@@ -159,7 +159,8 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         let wrapperClasses = `controls-Grid__header-cell controls-Grid__cell_${style}`
                           + ` controls-Grid__header-cell_theme-${theme}`
                           + ` ${this._getWrapperPaddingClasses(theme)}`
-                          + ` ${this._getColumnSeparatorClasses(theme)}`;
+                          + ` ${this._getColumnSeparatorClasses(theme)}`
+                          + ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
 
         const isMultilineHeader = this._$owner.isMultiline();
         const isStickySupport = this._$owner.isStickyHeader();
@@ -183,7 +184,6 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
-            wrapperClasses += ` ${this._getBackgroundColorColumnScrollClasses(backgroundColorStyle, theme)}`;
         }
 
         // _private.getBackgroundStyle(this._options, true);
@@ -203,7 +203,6 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         if (this._$align) {
             contentClasses += ` controls-Grid__header-cell_justify_content_${this._$align}`;
         }
-
         return contentClasses;
     }
 
@@ -307,6 +306,16 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             paddingClasses += ` controls-Grid__cell_spacingLastCol_${rightPadding}_theme-${theme}`;
         } else {
             paddingClasses += ` controls-Grid__cell_spacingRight${compatibleRightPadding}_theme-${theme}`;
+        }
+
+        // Для хлебной крошки в первой ячейке хедера не нужен отступ слева.
+        // Никак больше нельзя определить, что в ячейку передали хлебную крошку,
+        // поэтому мы в header[0] проставляем isBreadCrumbs
+        // TODO нужно сделать так, чтобы отступы задавались в header.
+        //  И здесь бы уже звали толкьо this._$column.getLeftPadding()
+        //  https://online.sbis.ru/opendoc.html?guid=686fb34b-fb74-4a11-8306-67b71e3ded0c
+        if (this._$column.isBreadCrumbs) {
+            paddingClasses += ` controls-Grid__cell_spacingFirstCol_null_theme-${theme}`;
         }
 
         return paddingClasses;

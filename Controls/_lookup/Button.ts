@@ -143,3 +143,12 @@ export default class Button extends BaseLookup<ISelectorButtonOptions> {
       return {...buttonOptions, ...baseOptions} as ISelectorButtonOptions;
    }
 }
+
+Object.defineProperty(Button, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Button.getDefaultOptions();
+   }
+});

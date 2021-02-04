@@ -6,79 +6,79 @@ import { TreeControl } from 'Controls/tree';
 import {CrudEntityKey} from 'Types/source';
 import { Model } from 'Types/entity';
 
-   /**
-    * Контрол "Дерево".
-    * @remark
-    * Дополнительно о контроле:
-    * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/ руководство разработчика}
-    * * {@link http://axure.tensor.ru/StandardsV8/%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE.html Спецификация Axure}
-    * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand демо-пример с множественным выбором элементов и с единичным раскрытием содержимого папок}
-    * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FTreeWithPhoto демо-пример с пользовательским шаблоном элемента списка с фото}
-    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_treeGrid.less переменные тем оформления treeGrid}
-    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления list}
-    *
-    * @class Controls/_treeGrid/View
-    * @extends Controls/_grid/Grid
-    * @mixes Controls/_interface/ISource
-    * @mixes Controls/_list/interface/IClickableView
-    * @mixes Controls/interface/IPromisedSelectable
-    * @mixes Controls/interface/IGroupedGrid
-    * @mixes Controls/_interface/INavigation
-    * @mixes Controls/_interface/IFilterChanged
-    * @mixes Controls/interface/IHighlighter
-    * @mixes Controls/_list/interface/IList
-    * @mixes Controls/_itemActions/interface/IItemActionsOptions
-    * @mixes Controls/_interface/IHierarchy
-    * @implements Controls/_tree/interface/ITreeControl
-    * @mixes Controls/interface/ITreeGridItemTemplate
-    * @mixes Controls/_interface/IDraggable
-    * @mixes Controls/_grid/interface/IGridControl
-    * @mixes Controls/_grid/interface/IPropStorage
-    * @mixes Controls/_treeGrid/interface/IReloadableTreeGrid
-    *
-    * @mixes Controls/_list/interface/IVirtualScrollConfig
-    *
-    *
-    * @public
-    * @author Авраменко А.С.
-    * @demo Controls-demo/treeGrid/Base/TreeGridView/Index
-    */
+/**
+ * Контрол "Дерево".
+ * @remark
+ * Дополнительно о контроле:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/tree/ руководство разработчика}
+ * * {@link http://axure.tensor.ru/StandardsV8/%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE.html Спецификация Axure}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand демо-пример с множественным выбором элементов и с единичным раскрытием содержимого папок}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FTreeWithPhoto демо-пример с пользовательским шаблоном элемента списка с фото}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_treeGrid.less переменные тем оформления treeGrid}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления list}
+ *
+ * @class Controls/_treeGrid/View
+ * @extends Controls/_grid/Grid
+ * @mixes Controls/_interface/ISource
+ * @mixes Controls/_list/interface/IClickableView
+ * @mixes Controls/interface/IPromisedSelectable
+ * @mixes Controls/interface/IGroupedGrid
+ * @mixes Controls/_interface/INavigation
+ * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface/IHighlighter
+ * @mixes Controls/_list/interface/IList
+ * @mixes Controls/_itemActions/interface/IItemActionsOptions
+ * @mixes Controls/_interface/IHierarchy
+ * @implements Controls/_tree/interface/ITreeControl
+ * @mixes Controls/interface/ITreeGridItemTemplate
+ * @mixes Controls/_interface/IDraggable
+ * @mixes Controls/_grid/interface/IGridControl
+ * @mixes Controls/_grid/interface/IPropStorage
+ * @mixes Controls/_treeGrid/interface/IReloadableTreeGrid
+ *
+ * @mixes Controls/_list/interface/IVirtualScrollConfig
+ *
+ *
+ * @public
+ * @author Авраменко А.С.
+ * @demo Controls-demo/treeGrid/Base/TreeGridView/Index
+ */
 
-   /*
-    * Hierarchical list with custom item template. Can load data from data source.
-    * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/'>here</a>.
-    * The detailed description and instructions on how to configure editing you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/edit-at-list/'>here</a>.
-    * List of examples:
-    * <ul>
-    *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FEditableGrid">How to configure editing in your list</a>.</li>
-    *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand">Tree with singleExpand option</a>.</li>
-    * </ul>
-    *
-    * @class Controls/_treeGrid/View
-    * @extends Controls/_grid/Grid
-    * @mixes Controls/_interface/ISource
-    * @mixes Controls/interface/IPromisedSelectable
-    * @mixes Controls/interface/IGroupedGrid
-    * @mixes Controls/_interface/INavigation
-    * @mixes Controls/_interface/IFilterChanged
-    * @mixes Controls/interface/IHighlighter
-    * @mixes Controls/_list/interface/IList
-    * @mixes Controls/_itemActions/interface/IItemActionsOptions
-    * @mixes Controls/_interface/ISorting
-    * @mixes Controls/_interface/IHierarchy
-    * @implements Controls/_tree/interface/ITreeControl
-    * @mixes Controls/interface/ITreeGridItemTemplate
-    * @mixes Controls/_interface/IDraggable
-    * @mixes Controls/_grid/interface/IGridControl
-    * @mixes Controls/_grid/interface/IPropStorage
-    * @mixes Controls/_list/interface/IVirtualScrollConfig
-    * @mixes Controls/_treeGrid/interface/IReloadableTreeGrid
-    *
-    *
-    * @public
-    * @author Авраменко А.С.
-    * @demo Controls-demo/treeGrid/Base/TreeGridView/Index
-    */
+/*
+ * Hierarchical list with custom item template. Can load data from data source.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/'>here</a>.
+ * The detailed description and instructions on how to configure editing you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/edit-at-list/'>here</a>.
+ * List of examples:
+ * <ul>
+ *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FList%2FGrid%2FEditableGrid">How to configure editing in your list</a>.</li>
+ *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand">Tree with singleExpand option</a>.</li>
+ * </ul>
+ *
+ * @class Controls/_treeGrid/View
+ * @extends Controls/_grid/Grid
+ * @mixes Controls/_interface/ISource
+ * @mixes Controls/interface/IPromisedSelectable
+ * @mixes Controls/interface/IGroupedGrid
+ * @mixes Controls/_interface/INavigation
+ * @mixes Controls/_interface/IFilterChanged
+ * @mixes Controls/interface/IHighlighter
+ * @mixes Controls/_list/interface/IList
+ * @mixes Controls/_itemActions/interface/IItemActionsOptions
+ * @mixes Controls/_interface/ISorting
+ * @mixes Controls/_interface/IHierarchy
+ * @implements Controls/_tree/interface/ITreeControl
+ * @mixes Controls/interface/ITreeGridItemTemplate
+ * @mixes Controls/_interface/IDraggable
+ * @mixes Controls/_grid/interface/IGridControl
+ * @mixes Controls/_grid/interface/IPropStorage
+ * @mixes Controls/_list/interface/IVirtualScrollConfig
+ * @mixes Controls/_treeGrid/interface/IReloadableTreeGrid
+ *
+ *
+ * @public
+ * @author Авраменко А.С.
+ * @demo Controls-demo/treeGrid/Base/TreeGridView/Index
+ */
 
 export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
    _viewName = TreeGridView;
@@ -168,3 +168,12 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
  * @variant all - маркер движется по всем записям.
  * @variant leaves - маркер движется по листьям. Узлы раскрываются до ближайшего листа.
  */
+
+Object.defineProperty(Tree, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Tree.getDefaultOptions();
+   }
+});

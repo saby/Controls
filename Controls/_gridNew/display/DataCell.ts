@@ -13,7 +13,7 @@ import DataCellCompatibility from './compatibility/DataCell';
 export interface IOptions<T> extends ICellOptions<T> {
 }
 
-export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
+export default class DataCell<T extends Model, TOwner extends DataRow<T>> extends mixin<
     Cell<T, TOwner>,
     DataCellCompatibility<T>
 >(

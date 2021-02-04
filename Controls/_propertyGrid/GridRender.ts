@@ -72,12 +72,9 @@ export default class IPropertyGridRender extends Control<IPropertyGridGridRender
         this._notify('toggleEditor', [item, value]);
     }
 
-    protected _handleMenuActionMouseEnter(): void {
-        //
-    }
-    protected _handleMenuActionMouseLeave(): void {
-        //
-    }
+    protected _handleMenuActionMouseEnter(): void {/**/}
+    protected _handleMenuActionMouseLeave(): void {/**/}
+    protected _onItemActionsMouseEnter(): void {/**/}
 
     protected _onItemActionMouseDown(e: SyntheticEvent<MouseEvent>,
                                      action: unknown,

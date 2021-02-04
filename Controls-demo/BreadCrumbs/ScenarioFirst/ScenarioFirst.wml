@@ -28,7 +28,7 @@
                 columns="{{_columns1}}"
                 showActionButton="{{true}}"
                 header="{{_header1}}"
-                rowSeparatorVisibility="{{true}}"
+                rowSeparatorSize="s"
                 source="{{_viewSource1}}">
         </Controls.explorer:View>
     </div>
@@ -43,7 +43,7 @@
                 nodeProperty="parent@"
                 displayProperty="department"
                 showActionButton="{{true}}"
-                rowSeparatorVisibility="{{true}}"
+                rowSeparatorSize="s"
                 columns="{{_columns2}}"
                 header="{{_header2}}"
                 source="{{_viewSource2}}">

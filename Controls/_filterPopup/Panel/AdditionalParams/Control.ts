@@ -53,3 +53,12 @@ export default class AdditionalParamsControl extends Control<IAdditionalRenderOp
         };
     }
 }
+
+Object.defineProperty(AdditionalParamsControl, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return AdditionalParamsControl.getDefaultOptions();
+   }
+});

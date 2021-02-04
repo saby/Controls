@@ -298,4 +298,13 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
     }
 }
 
+Object.defineProperty(AdaptiveButtons, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return AdaptiveButtons.getDefaultOptions();
+   }
+});
+
 export default AdaptiveButtons;

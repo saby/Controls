@@ -246,4 +246,13 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
     }
 }
 
+Object.defineProperty(PreviewerTarget, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return PreviewerTarget.getDefaultOptions();
+   }
+});
+
 export default PreviewerTarget;

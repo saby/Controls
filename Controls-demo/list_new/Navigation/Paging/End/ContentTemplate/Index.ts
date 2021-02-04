@@ -15,6 +15,10 @@ interface IItem {
 const MAX_ELEMENTS_COUNT: number = 100;
 const SCROLL_TO_ITEM: number = 95;
 
+/**
+ * Отображение пейджинга с одной командой прокрутки.
+ * Отображается только кнопка в конец, а также произвольный шаблон.
+ */
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;
@@ -34,10 +38,23 @@ export default class extends Control {
         });
     }
 
+    /**
+     * Обновляем количество непрочитанных записей
+     * @param {SyntheticEvent} e
+     * @param {EntityKey} key
+     * @private
+     */
     protected _updateCount(e: SyntheticEvent, key: CrudEntityKey): void {
         this._count = MAX_ELEMENTS_COUNT - 1 - Number(key);
     }
 
+    /**
+     * Обрабатываем нажатие на кнопку пэйджинга, и всегда скролим к определенному элементу списка
+     * @param {SyntheticEvent} event
+     * @param {string} arrow
+     * @return {boolean}
+     * @private
+     */
     protected _onPagingArrowClick(event: SyntheticEvent, arrow: string): boolean {
         switch (arrow) {
             case 'End':

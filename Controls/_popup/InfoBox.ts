@@ -238,4 +238,13 @@ class InfoboxTarget extends Control<IInfoBoxOptions> implements IInfoBox {
     }
 }
 
+Object.defineProperty(InfoboxTarget, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return InfoboxTarget.getDefaultOptions();
+   }
+});
+
 export default InfoboxTarget;

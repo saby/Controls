@@ -10,8 +10,6 @@ export interface IBaseOptions extends IContrastBackground {
     selectOnClick?: boolean;
     spellCheck?: boolean;
     placeholder?: string | TemplateFunction;
-    leftFieldTemplate?: TemplateFunction;
-    rightFieldTemplate?: TemplateFunction;
     tooltip?: string;
     name?: string;
     inlineHeight?: string;
@@ -19,6 +17,11 @@ export interface IBaseOptions extends IContrastBackground {
     fontWeight?: string;
     fontColorStyle?: string;
     paste?: (value: string) => void;
+}
+
+export interface IBaseFieldTemplate {
+    leftFieldTemplate?: TemplateFunction;
+    rightFieldTemplate?: TemplateFunction;
 }
 
 /**
@@ -88,12 +91,12 @@ export interface IBase {
  * @demo Controls-demo/Input/Placeholders/Index
  */
 /**
- * @name Controls/_input/interface/IBase#leftFieldTemplate
+ * @name Controls/_input/interface/IBaseFieldTemplate#leftFieldTemplate
  * @cfg {String|TemplateFunction} Строка или шаблон, содержащие прикладной контент, который будет отображаться слева от текста в поле ввода.
  * @demo Controls-demo/Input/FieldTemplate/Index
  */
 /**
- * @name Controls/_input/interface/IBase#rightFieldTemplate
+ * @name Controls/_input/interface/IBaseFieldTemplate#rightFieldTemplate
  * @cfg {String|TemplateFunction} Строка или шаблон, содержащие прикладной контент, который будет отображаться справа от текста в поле ввода.
  * @demo Controls-demo/Input/FieldTemplate/Index
  */

@@ -15,6 +15,7 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
 import {Bus as EventBus} from 'Env/Event';
 import {constants, detection, coreDebug} from 'Env/Env';
+import 'css!Controls/compatiblePopup';
 
 function removeOperation(operation, array) {
    var idx = arrayFindIndex(array, function(op) {
@@ -1552,5 +1553,4 @@ var CompoundArea = CompoundContainer.extend([
       return res;
    }
 });
-CompoundArea._theme = ['Controls/compatiblePopup'];
 export default CompoundArea;

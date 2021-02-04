@@ -1,8 +1,0 @@
-<Controls.operations:Controller bind:selectedKeys="_selectedKeys">
-    <Controls.list:Container>
-        <Controls.list:View
-                source="{{_viewSource}}"
-                keyProperty="id"
-                multiSelectVisibility="visible" />
-    </Controls.list:Container>
-</Controls.operations:Controller>

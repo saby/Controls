@@ -159,3 +159,12 @@ export default abstract class
         };
     }
 }
+
+Object.defineProperty(BaseLookup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BaseLookup.getDefaultOptions();
+   }
+});

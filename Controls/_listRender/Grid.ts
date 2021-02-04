@@ -84,3 +84,12 @@ export default class GridRender extends BaseRender {
         return {};
     }
 }
+
+Object.defineProperty(GridRender, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return GridRender.getDefaultOptions();
+   }
+});

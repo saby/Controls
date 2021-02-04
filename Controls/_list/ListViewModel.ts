@@ -185,7 +185,7 @@ const _private = {
         wrapperClasses += ` controls-ListView__item_${style}`;
         wrapperClasses += ` controls-ListView__item_${style}_theme-${theme}`;
         wrapperClasses += ' controls-ListView__item_showActions';
-        wrapperClasses += ' js-controls-ItemActions__swipeMeasurementContainer';
+        wrapperClasses += ' js-controls-ListView__measurableContainer';
         wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}`;
         if (templateHighlightOnHover && !this.isEditing()) {
             wrapperClasses += ` controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}_theme_${theme}`;
@@ -781,10 +781,6 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         if (this._display) {
             this._display.setEditing(editing);
         }
-    },
-
-    setSelectedItems(items: Model[], selected: boolean|null): void {
-        this._display.setSelectedItems(items, selected);
     },
 
     // New Model compatibility

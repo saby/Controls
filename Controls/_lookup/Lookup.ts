@@ -51,12 +51,12 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
  * @mixes Controls/_interface/IValidationStatus
  * @mixes Controls/input:IBorderVisibility
  * @mixes Controls/input:IPadding
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -87,12 +87,11 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
- * 
+ *
  * @public
  * @author Герасимов А.М.
- * @demo Controls-demo/Input/Lookup/LookupPropertyGrid
  */
 export default class Lookup extends BaseLookupInput {
    protected _listOfDependentOptions: string[] = ['multiSelect', 'multiLine', 'displayProperty', 'maxVisibleItems', 'readOnly', 'comment'];
@@ -565,8 +564,31 @@ export default class Lookup extends BaseLookupInput {
  * </pre>
  */
 
- /**
- * @name Controls/_lookup/Lookup#fontSize
- * @cfg
- * @demo Controls-demo/LookupNew/Input/FontSize/Index
+/**
+* @name Controls/_lookup/Lookup#fontSize
+* @cfg
+* @demo Controls-demo/LookupNew/Input/FontSize/Index
+*/
+
+/**
+ * @name Controls/_lookup/Lookup#toolbarItems
+ * @cfg {Controls/interface:IItems.typedef} Набор записей для дополнительных команд в правой части поля ввода.
+ * @demo Controls-demo/LookupNew/Input/ToolbarItems/Index
  */
+
+/**
+ * @event Происходит при клике по дополнительной команде в правой части поля ввода.
+ * @name Controls/_lookup/Lookup#toolbarItemClick
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Types/entity:Record} item Элемент, по которому производим клик.
+ * @param {Object} nativeEvent Объект нативного события браузера.
+ */
+
+Object.defineProperty(Lookup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Lookup.getDefaultOptions();
+   }
+});

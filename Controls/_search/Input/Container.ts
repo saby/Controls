@@ -171,3 +171,12 @@ export default class Container extends Control<ISearchInputContainerOptions> {
  * @name Controls/_search/Input/Container#searchReset
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  */
+
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});

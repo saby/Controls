@@ -329,3 +329,12 @@ export default class Container extends Control<IFilterContainerOptions, IFilterH
  * @param {Env/Event.Object} event Дескриптор события.
  * @param {Array|Function|Types/collection:IList} historyItems Список полей фильтра и их конфигурация, которая будет сохранена в историю.
  */
+
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});

@@ -50,6 +50,17 @@ export default class GroupItem<T> extends mixin<
         return this._$contents === 'CONTROLS_HIDDEN_GROUP';
     }
 
+    getGroupPaddingClasses(theme: string, side: 'left' | 'right'): string {
+        if (side === 'left') {
+            const spacing = this.getOwner().getLeftPadding().toLowerCase();
+            const hasMultiSelect = this.hasMultiSelectColumn();
+            return `controls-ListView__groupContent__leftPadding_${hasMultiSelect ? 'withCheckboxes' : spacing}_theme-${theme}`;
+        } else {
+            const spacing = this.getOwner().getRightPadding().toLowerCase();
+            return `controls-ListView__groupContent__rightPadding_${spacing}_theme-${theme}`;
+        }
+    }
+
     getTemplate(
         itemTemplateProperty: string,
         userItemTemplate: TemplateFunction|string,

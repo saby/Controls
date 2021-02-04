@@ -273,4 +273,13 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements
     }
 }
 
+Object.defineProperty(CheckboxGroup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return CheckboxGroup.getDefaultOptions();
+   }
+});
+
 export default CheckboxGroup;

@@ -226,7 +226,7 @@ const _private = {
         // 2. у него вообще есть дочерние элементы (по значению поля hasChildrenProperty)
         const baseControl = self._children.baseControl;
         const viewModel = baseControl.getViewModel();
-        const items = viewModel.getItems();
+        const items = self._options.useNewModel ? viewModel.getCollection() : viewModel.getItems();
         const dispItem = viewModel.getItemBySourceKey(nodeKey);
         const loadedChildren = dispItem && (self._options.useNewModel ?
             viewModel.getChildren(dispItem, items).getCount() :
@@ -444,7 +444,7 @@ const _private = {
             nodes.concat(_private.getReloadableNodes(viewModel, key, self._keyProperty, nodeProperty));
 
         return baseSourceController.load(undefined, key, filter).addCallback((result) => {
-            _private.applyReloadedNodes(viewModel, key, self._keyProperty, nodeProperty, result);
+            _private.applyReloadedNodes(self, viewModel, key, self._keyProperty, nodeProperty, result);
             viewModel.setHasMoreStorage(
                 _private.prepareHasMoreStorage(baseSourceController, viewModel.getExpandedItems())
             );
@@ -460,9 +460,9 @@ const _private = {
         return nodes;
     },
 
-    applyReloadedNodes: function(viewModel, nodeKey, keyProp, nodeProp, newItems) {
+    applyReloadedNodes: function(self, viewModel, nodeKey, keyProp, nodeProp, newItems) {
         var itemsToRemove = [];
-        var items = viewModel.getItems();
+        var items = self._options.useNewModel ? viewModel.getCollection() : viewModel.getItems();
         var checkItemForRemove = function(item) {
             if (newItems.getIndexByValue(keyProp, item.get(keyProp)) === -1) {
                 itemsToRemove.push(item);
@@ -680,27 +680,26 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             const sourceControllerRoot = sourceController.getState().root;
 
             this._root = newOptions.root;
-            this._updatedRoot = true;
+            viewModel.setRoot(this._root);
+
+            if (this._options.itemsSetCallback) {
+                this._options.itemsSetCallback(sourceController.getItems(), newOptions);
+            }
+
+            // При смене корне, не надо запрашивать все открытые папки,
+            // т.к. их может не быть и мы загрузим много лишних данных.
+            // Так же учитываем, что вместе со сменой root могут поменять и expandedItems - тогда не надо их сбрасывать.
+            if (isEqual(newOptions.expandedItems, this._options.expandedItems)) {
+                this._needResetExpandedItems = true;
+            }
 
             if (sourceControllerRoot === undefined || sourceControllerRoot !== newOptions.root) {
                 updateSourceController = true;
             }
 
-            // Костыль, до 21.2000
-            // Проблема возникает из-за того, что корень в модели меняется на callback загрузки данных
-            // А при поиске запрос идёт за пределами списка
-            if (searchValueChanged && newOptions.sourceController &&
-                newOptions.viewModelConstructor === this._options.viewModelConstructor) {
-                viewModel.setRoot(newOptions.root);
-            }
-
             if (this.isEditing()) {
                 baseControl.cancelEdit();
             }
-        }
-
-        if (this._options.deepReload !== newOptions.deepReload) {
-            updateSourceController = true;
         }
 
         if (searchValueChanged && newOptions.searchValue && !_private.isDeepReload(this, newOptions)) {
@@ -714,7 +713,9 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
             } else {
                 this._updateExpandedItemsAfterReload = true;
             }
-            updateSourceController = true;
+            if (sourceController) {
+                sourceController.setExpandedItems(newOptions.expandedItems);
+            }
         }
         if (newOptions.collapsedItems && !isEqual(newOptions.collapsedItems, viewModel.getCollapsedItems())) {
             viewModel.setCollapsedItems(newOptions.collapsedItems);
@@ -753,30 +754,9 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         }
     },
     _afterUpdate: function(oldOptions) {
-        let afterUpdateResult;
-
-        if (this._updatedRoot) {
-            const sourceController = this._options.sourceController;
-            const isSourceControllerLoadingNewData = sourceController && sourceController.isLoading();
-            this._updatedRoot = false;
-            // При смене корне, не надо запрашивать все открытые папки,
-            // т.к. их может не быть и мы загрузим много лишних данных.
-            // Так же учитываем, что вместе со сменой root могут поменять и expandedItems - тогда не надо их сбрасывать.
-            if (isEqual(oldOptions.expandedItems, this._options.expandedItems)) {
-                this._needResetExpandedItems = true;
-            }
-            // If filter or source was changed, do not need to reload again, baseControl reload list in beforeUpdate
-            if (isEqual(this._options.filter, oldOptions.filter) &&
-                this._options.source === oldOptions.source &&
-                !isSourceControllerLoadingNewData) {
-                afterUpdateResult = this._children.baseControl.reload();
-            }
-        }
         if (oldOptions.viewModelConstructor !== this._options.viewModelConstructor) {
             _private.initListViewModelHandler(this, this._children.baseControl.getViewModel());
         }
-
-        return afterUpdateResult;
     },
     _beforeUnmount(): void {
         this._clearTimeoutForExpandOnDrag();
@@ -1219,6 +1199,15 @@ TreeControl.getDefaultOptions = () => {
         markerMoveMode: 'all'
     };
 };
+
+Object.defineProperty(TreeControl, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return TreeControl.getDefaultOptions();
+   }
+});
 
 TreeControl._private = _private;
 

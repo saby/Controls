@@ -1,4 +1,5 @@
 <ws:template name="localItemTemplate">
+<!-- TODO избавиться от прокидывания _onBreadcrumbClick https://online.sbis.ru/doc/0649e69a-d507-4024-9f99-c70205f535ef-->
    <ws:partial
            template="{{ item.getTemplate(collection.getItemTemplateProperty(), itemTemplate, groupTemplate) }}"
            item="{{ item }}"
@@ -18,6 +19,9 @@
 
            attr:key="{{ keyPrefix }}-{{ item.key }}"
            attr:class="{{ collection.getViewIterator().isItemAtIndexHidden(index) ? 'controls-ListView__hiddenContainer' }}"
+
+           _onBreadcrumbClick="{{_onBreadcrumbClick}}"
+           _onBreadcrumbItemClick="{{_onBreadcrumbItemClick}}"
 
            on:contextmenu="_onItemContextMenu(item)"
            on:swipe="_onItemSwipe(item)"

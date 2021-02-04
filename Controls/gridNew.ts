@@ -33,9 +33,10 @@ import * as ItemActionsCellContent from 'wml!Controls/_gridNew/Render/ItemAction
 import * as MoneyTypeRender from 'wml!Controls/_gridNew/Render/types/money';
 import * as NumberTypeRender from 'wml!Controls/_gridNew/Render/types/number';
 import * as StringTypeRender from 'wml!Controls/_gridNew/Render/types/string';
+import * as StringSearchTypeRender from 'wml!Controls/_gridNew/Render/types/StringSearch';
 
 import SortingButton from 'Controls/_gridNew/SortingButton';
-import {register} from "Types/di";
+import {register} from 'Types/di';
 
 export {
     View,
@@ -54,6 +55,7 @@ export {
     MoneyTypeRender,
     NumberTypeRender,
     StringTypeRender,
+    StringSearchTypeRender,
     TableTemplate,
     SortingButton
 };
@@ -64,6 +66,7 @@ import {
 } from 'Controls/_gridNew/display/Collection';
 export { default as GridMixin, TColspanCallbackResult, TColspanCallback, TResultsColspanCallback, IEmptyTemplateColumn } from 'Controls/_gridNew/display/mixins/Grid';
 export { default as GridRowMixin } from 'Controls/_gridNew/display/mixins/Row';
+export { IItemTemplateParams } from 'Controls/_gridNew/display/mixins/Row';
 
 import GridRow, {IOptions as IGridRowOptions} from 'Controls/_gridNew/display/Row';
 import GridCell, {IOptions as IGridCellOptions} from 'Controls/_gridNew/display/Cell';
@@ -86,6 +89,7 @@ import GridResultsCell, {IOptions as IGridResultsCellOptions} from 'Controls/_gr
 import GridFooterRow, {IOptions as IGridFooterRowOptions} from 'Controls/_gridNew/display/FooterRow';
 import GridFooterCell, {IOptions as IGridFooterCellOptions} from 'Controls/_gridNew/display/FooterCell';
 import GridGroupItem, {IOptions as IGridGroupItemOptions} from 'Controls/_gridNew/display/GroupItem';
+import GridGroupCell, {IOptions as IGridGroupCellOptions} from 'Controls/_gridNew/display/GroupCell';
 
 register('Controls/gridNew:GridCollection', GridCollection, {instantiate: false});
 register('Controls/gridNew:GridRow', GridRow, {instantiate: false});
@@ -119,5 +123,6 @@ export {
     GridResultsCell, IGridResultsCellOptions,
     GridFooterRow, IGridFooterRowOptions,
     GridFooterCell, IGridFooterCellOptions,
-    GridGroupItem, IGridGroupItemOptions
+    GridGroupItem, IGridGroupItemOptions,
+    GridGroupCell, IGridGroupCellOptions
 }

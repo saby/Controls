@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 
-import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
 import { TreeItem } from 'Controls/display';
+import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
 
 describe('Controls/_display/BreadcrumbsItem', () => {
     describe('.getContents()', () => {

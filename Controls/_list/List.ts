@@ -191,4 +191,13 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
             style: 'default'
         };
     }
-};
+}
+
+Object.defineProperty(List, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return List.getDefaultOptions();
+   }
+});

@@ -1081,6 +1081,15 @@ Filter.getDefaultOptions = function() {
     };
 };
 
+Object.defineProperty(Filter, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Filter.getDefaultOptions();
+   }
+});
+
 Filter._theme = ['Controls/filter'];
 
 Filter._private = _private;

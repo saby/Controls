@@ -134,17 +134,17 @@
    <!-- Данный выводятся в зафиксированной части. ws:for вызовет рендер только первой колонки для заколспанненой записи. -->
    <ws:if data="{{itemData.columnScroll && colspan}}">
       <!-- Зафиксированная часть. -->
-      <div class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}} js-controls-ItemActions__swipeMeasurementContainer {{ marker !== false ? currentColumn.classList.marked }}"
+      <div class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}} {{ marker !== false ? currentColumn.classList.marked }}"
            style="{{currentColumn.gridCellStyles}} {{itemData.getCellStyle(itemData, currentColumn, false)}} {{itemData.getColspanForColumnScroll().fixedColumns}}">
          <ws:partial template="COLUMN_CONTENT"/>
       </div>
 
       <!-- Скроллируемая часть. -->
-      <div class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}} {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}} js-controls-ItemActions__swipeMeasurementContainer {{ marker !== false ? currentColumn.classList.marked }}"
+      <div class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}} {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}} {{ marker !== false ? currentColumn.classList.marked }}"
            style="{{currentColumn.gridCellStyles}} {{itemData.getCellStyle(itemData, currentColumn, false)}} {{itemData.getColspanForColumnScroll().scrollableColumns}}"></div>
    </ws:if>
    <ws:else>
-      <div class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}} js-controls-ItemActions__swipeMeasurementContainer {{ marker !== false ? currentColumn.classList.marked }}"
+      <div class="{{currentColumn.classList.base}} {{currentColumn.classList.columnScroll}} {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}} {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}} {{ marker !== false ? currentColumn.classList.marked }}"
            style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan)}}">
          <ws:partial template="COLUMN_CONTENT"/>
       </div>
@@ -176,7 +176,7 @@
                                       {{itemData.hasMultiSelectColumn && currentColumn.columnIndex === 0 ? currentColumn.classList.padding.getAll()}}
                                       {{!!itemData.isActive() && highlightOnHover !== false ? ' controls-GridView__item_active_theme-' + itemData.theme}}
                                       {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
-                                      js-controls-ItemActions__swipeMeasurementContainer {{ marker !== false ? currentColumn.classList.marked }}"
+                                      {{ marker !== false ? currentColumn.classList.marked }}"
                           attr:style="{{currentColumn.gridCellStyles + itemData.getCellStyle(itemData, currentColumn, colspan)}}">
       <ws:partial template="COLUMN_CONTENT"/>
    </Controls.scroll:StickyHeader>

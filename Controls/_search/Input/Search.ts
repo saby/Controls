@@ -222,6 +222,15 @@ class Search extends Base {
     }
 }
 
+Object.defineProperty(Search, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Search.getDefaultOptions();
+   }
+});
+
 /**
  * @event Происходит при нажатии на иконку поиска (лупы).
  * @name Controls/_suggest/Input/Search/Suggest#searchClick

@@ -57,7 +57,8 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         let wrapperClasses = 'controls-Grid__results-cell'
                             + ` controls-Grid__cell_${style}`
                             + ` controls-Grid__results-cell_theme-${theme}`
-                            + ` ${this._getColumnSeparatorClasses(theme)}`;
+                            + ` ${this._getColumnSeparatorClasses(theme)}`
+                            + ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
 
         if (this._$column.align) {
             wrapperClasses += ` controls-Grid__row-cell__content_halign_${this._$column.align}`;
@@ -67,14 +68,13 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
             wrapperClasses += ' controls-Grid__header-cell_static';
         }
 
-            if (!this.isFirstColumn()) {
-                if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
-                    wrapperClasses += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}_theme-${theme}`;
-                }
-            } else {
-                wrapperClasses += ` controls-Grid__cell_spacingFirstCol_${leftPadding}_theme-${theme}`;
+        if (!this.isFirstColumn()) {
+            if (this._$owner.getMultiSelectVisibility() === 'hidden' || this.getColumnIndex() > 1) {
+                wrapperClasses += ` controls-Grid__cell_spacingLeft${compatibleLeftPadding}_theme-${theme}`;
             }
-
+        } else {
+            wrapperClasses += ` controls-Grid__cell_spacingFirstCol_${leftPadding}_theme-${theme}`;
+        }
 
         // right padding
         if (this.isLastColumn()) {
@@ -85,9 +85,8 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
 
         // todo add resultsFormat to here
 
-        if (this._$owner.hasColumnScroll()){
+        if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
-            wrapperClasses += ` ${this._getBackgroundColorColumnScrollClasses(backgroundColorStyle, theme)}`;
         }
 
         return wrapperClasses;

@@ -74,7 +74,6 @@ define('Controls/Application',
       cContext,
       aPage) {
       'use strict';
-
       var _private;
 
       _private = {
@@ -89,15 +88,6 @@ define('Controls/Application',
             instance.templateConfig = cfg.templateConfig;
             instance.compat = cfg.compat || false;
          },
-         calculateBodyClasses: function() {
-            // Эти классы вешаются в двух местах. Разница в том, что BodyClasses всегда возвращает один и тот же класс,
-            // а TouchDetector реагирует на изменение состояния.
-            // Поэтому в Application оставим только класс от TouchDetector
-
-            var bodyClasses = cBodyClasses().replace('ws-is-touch', '').replace('ws-is-no-touch', '');
-
-            return bodyClasses;
-         },
          isHover: function(touchClass, dragClass) {
             return touchClass === 'ws-is-no-touch' && dragClass === 'ws-is-no-drag';
          }
@@ -105,15 +95,23 @@ define('Controls/Application',
 
       var Page = UIBase.Control.extend({
          _template: template,
-         /* eslint-disable */
-         /**
-          * @type {String} Property controls whether or not touch devices use momentum-based scrolling for innerscrollable areas.
-          * @private
-          */
-         /* eslint-enable */
-         _scrollingClass: Env.detection.isMobileIOS ? 'controls-Scroll_webkitOverflowScrollingTouch' : '',
+         /** Динамические классы для body */
+         _bodyClasses: {
 
-         _dragClass: 'ws-is-no-drag',
+            /* eslint-disable */
+            /**
+             * @type {String} Property controls whether or not touch devices use momentum-based scrolling for innerscrollable areas.
+             * @private
+             */
+            /* eslint-enable */
+            scrollingClass: Env.detection.isMobileIOS ? 'controls-Scroll_webkitOverflowScrollingTouch' : '',
+            fromOptions: '',
+            touchClass: '',
+            hoverClass: '',
+            dragClass: 'ws-is-no-drag',
+            themeClass: '',
+            isAdaptiveClass: ''
+         },
 
          _registers: {},
 
@@ -149,7 +147,7 @@ define('Controls/Application',
          },
          _mousemovePage: function(ev) {
             this._registers.mousemove.start(ev);
-            this._updateClasses();
+            this._updateTouchClass();
          },
          _mouseupPage: function(ev) {
             this._registers.mouseup.start(ev);
@@ -176,22 +174,117 @@ define('Controls/Application',
          },
 
          _touchStartPage: function() {
-            this._updateClasses();
+            this._updateTouchClass();
          },
-         _updateClasses: function() {
+
+         /** Задаем классы для body, которые не будут меняться */
+         _initBodyClasses: function(cfg) {
+            this._initIsAdaptiveClass(cfg);
+            var BodyAPI = aPage.Body.getInstance();
+            // Эти классы вешаются в двух местах. Разница в том, что BodyClasses всегда возвращает один и тот же класс,
+            // а TouchDetector реагирует на изменение состояния.
+            // Поэтому в Application оставим только класс от TouchDetector
+            var bodyClasses = cBodyClasses()
+               .replace('ws-is-touch', '')
+               .replace('ws-is-no-touch', '')
+               .split(' ')
+               .concat(['zIndex-context'])
+               .filter(isExist);
+            for (var key in this._bodyClasses) {
+               if (this._bodyClasses.hasOwnProperty(key)) {
+                  if (isExist(this._bodyClasses[key])) {
+                     bodyClasses.push(this._bodyClasses[key]);
+                  }
+               }
+            }
+            BodyAPI.addClass.apply(BodyAPI, bodyClasses);
+         },
+
+         _updateBodyClasses: function(updated) {
+            var BodyAPI = aPage.Body.getInstance();
+            var bodyClassesToUpdate = updated || this._bodyClasses;
+            var oldValue;
+            var newValue;
+            var classesToDelete;
+            var classesToAdd;
+
+            for (var key in bodyClassesToUpdate) {
+               if (bodyClassesToUpdate.hasOwnProperty(key)) {
+                  oldValue = this._bodyClasses[key];
+                  newValue = bodyClassesToUpdate[key];
+                  if (oldValue !== newValue) {
+                     classesToAdd = newValue.split(' ').filter(isExist);
+
+                     /** Отфильтруем классы для удаления: может нам и не надо ничего удалять, а только добавить? */
+                     classesToDelete = oldValue.split(' ')
+                        .filter(isExist)
+                        // eslint-disable-next-line no-loop-func
+                        .filter(function(value) {
+                           return !classesToAdd.includes(value);
+                        });
+
+                     if (classesToDelete.length) {
+                        BodyAPI.removeClass.apply(BodyAPI, classesToDelete);
+                     }
+                     BodyAPI.addClass.apply(BodyAPI, classesToAdd);
+
+                     this._bodyClasses[key] = newValue;
+                  }
+               }
+            }
+         },
+
+         _updateFromOptionsClass: function(options) {
+            this._updateBodyClasses({
+               fromOptions: options.bodyClass || ''
+            });
+         },
+
+         _updateScrollingClass: function() {
+            var scrollingClass;
+            if (Env.detection.isMobileIOS) {
+               if (this._isPopupShow || this._isSuggestShow) {
+                  scrollingClass = 'controls-Scroll_webkitOverflowScrollingAuto';
+               } else {
+                  scrollingClass = 'controls-Scroll_webkitOverflowScrollingTouch';
+               }
+            } else {
+               scrollingClass = '';
+            }
+
+            this._updateBodyClasses({
+               scrollingClass: scrollingClass
+            });
+         },
+
+         _updateTouchClass: function(initialUpdated) {
+            var updated = initialUpdated || {};
+            updated.touchClass = '';
+            updated.hoverClass = '';
+
             // Данный метод вызывается до построения вёрстки, и при первой отрисовке еще нет _children (это нормально)
             // поэтому сами детектим touch с помощью compatibility
             if (this._touchController) {
-               this._touchClass = this._touchController.getClass();
+               updated.touchClass = this._touchController.getClass();
             } else {
-               this._touchClass = Env.compatibility.touch ? 'ws-is-touch' : 'ws-is-no-touch';
+               updated.touchClass = Env.compatibility.touch ? 'ws-is-touch' : 'ws-is-no-touch';
             }
-            this._hoverClass = _private.isHover(this._touchClass, this._dragClass) ? 'ws-is-hover' : 'ws-is-no-hover';
+
+            updated.hoverClass = _private
+               .isHover(updated.touchClass, updated.dragClass || this._bodyClasses.dragClass)
+               ? 'ws-is-hover'
+               : 'ws-is-no-hover';
+
+            this._updateBodyClasses(updated);
          },
-         _updateThemeClass: function(cfg) {
-            this._themeClass = 'Application-body_theme-' + cfg.theme;
+
+         _updateThemeClass: function(options) {
+            this._updateBodyClasses({
+               themeClass: 'Application-body_theme-' + options.theme
+            });
          },
-         _initIsAdaptiveClass: function(cfg) {
+
+         _initIsAdaptiveClass: function(cfg) {//TODO: toso
             if (cfg.isAdaptive) {
                var HeadAPI = aPage.Head.getInstance();
                var tagsId = HeadAPI.getTag('meta', { name: 'viewport' });
@@ -208,20 +301,22 @@ define('Controls/Application',
                   name: 'viewport',
                   content: 'width=device-width, initial-scale=1.0'
                });
-               this._isAdaptiveClass = 'ws-is-adaptive';
+               this._bodyClasses.isAdaptiveClass = 'ws-is-adaptive';
             } else {
-               this._isAdaptiveClass = '';
+               this._bodyClasses.isAdaptiveClass = '';
             }
          },
 
          _dragStartHandler: function() {
-            this._dragClass = 'ws-is-drag';
-            this._updateClasses();
+            this._updateTouchClass({
+               dragClass: 'ws-is-drag'
+            });
          },
 
          _dragEndHandler: function() {
-            this._dragClass = 'ws-is-no-drag';
-            this._updateClasses();
+            this._updateTouchClass({
+               dragClass: 'ws-is-no-drag'
+            });
          },
 
          /**
@@ -231,7 +326,7 @@ define('Controls/Application',
          _popupCreatedHandler: function() {
             this._isPopupShow = true;
 
-            this._changeOverflowClass();
+            this._updateScrollingClass();
          },
 
          _popupDestroyedHandler: function(event, element, popupItems) {
@@ -239,28 +334,16 @@ define('Controls/Application',
                this._isPopupShow = false;
             }
 
-            this._changeOverflowClass();
+            this._updateScrollingClass();
          },
 
          _suggestStateChangedHandler: function(event, state) {
             this._isSuggestShow = state;
 
-            this._changeOverflowClass();
+            this._updateScrollingClass();
          },
 
          /** ************************************************** */
-
-         _changeOverflowClass: function() {
-            if (Env.detection.isMobileIOS) {
-               if (this._isPopupShow || this._isSuggestShow) {
-                  this._scrollingClass = 'controls-Scroll_webkitOverflowScrollingAuto';
-               } else {
-                  this._scrollingClass = 'controls-Scroll_webkitOverflowScrollingTouch';
-               }
-            } else {
-               this._scrollingClass = '';
-            }
-         },
 
          _checkDeprecatedOptions: function(opts) {
             /* eslint-disable */
@@ -273,14 +356,12 @@ define('Controls/Application',
 
          _beforeMount: function(cfg) {
             this._checkDeprecatedOptions(cfg);
-            this.BodyClasses = _private.calculateBodyClasses;
             this._scrollData = new scroll._scrollContext({ pagingVisible: cfg.pagingVisible });
 
             var appData = UIBase.AppData.getAppData();
             this.RUMEnabled = cfg.RUMEnabled || appData.RUMEnabled || false;
             this.pageName = cfg.pageName || appData.pageName || '';
             this.resourceRoot = cfg.resourceRoot || Env.constants.resourceRoot;
-
 
             // Чтобы при загрузке слоя совместимости, понять нужно ли грузить провайдеры(extensions, userInfo, rights),
             // положим опцию из Application в constants. Иначе придется использовать глобальную переменную.
@@ -295,9 +376,10 @@ define('Controls/Application',
                }
                /* eslint-enable */
             }
-            this._updateClasses();
+            this._initBodyClasses(cfg);
+            this._updateTouchClass();
             this._updateThemeClass(cfg);
-            this._initIsAdaptiveClass(cfg);
+            this._updateFromOptionsClass(cfg);
 
             SettingsController.setController(cfg.settingsController);
 
@@ -347,8 +429,9 @@ define('Controls/Application',
                this._scrollData.pagingVisible = cfg.pagingVisible;
                this._scrollData.updateConsumers();
             }
-            this._updateClasses();
+            this._updateTouchClass();
             this._updateThemeClass(cfg);
+            this._updateFromOptionsClass(cfg);
          },
 
          _afterUpdate: function(oldOptions) {
@@ -496,6 +579,15 @@ define('Controls/Application',
          };
       };
 
+      Object.defineProperty(Page, 'defaultProps', {
+         enumerable: true,
+         configurable: true,
+
+         get: function() {
+            return Page.getDefaultOptions();
+         }
+      });
+
       Page._theme = ['Controls/application'];
       Page._styles = ['Controls/dragnDrop'];
 
@@ -552,3 +644,7 @@ define('Controls/Application',
 
       return Page;
    });
+
+function isExist(value) {
+   return !!value;
+}

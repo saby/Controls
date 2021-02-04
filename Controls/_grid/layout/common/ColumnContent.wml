@@ -41,7 +41,8 @@
             {{ itemData.getEditingClassList(editable) }}
             {{itemData.classList.padding.getAll()}} {{ itemData.classList.columnContent }} controls-Grid__row-cell_cursor-{{cursor || 'pointer'}}
             {{(itemData.column.backgroundColorStyle || backgroundColorStyle) ? 'controls-Grid__row-cell__content_background_' + (itemData.column.backgroundColorStyle || backgroundColorStyle) + '_theme-' + _options.theme}}
-            {{( !itemData.isSingleCellEditingMode && (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle))  ? 'controls-Grid__item_background-hover_' + (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)  + '_theme-' + _options.theme}}">
+            {{( !itemData.isSingleCellEditingMode && (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle))  ? 'controls-Grid__item_background-hover_' + (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)  + '_theme-' + _options.theme}}
+            js-controls-ListView__measurableContainer">
     <ws:if data="{{contentTemplate}}">
         <ws:partial
                 template="{{contentTemplate}}"

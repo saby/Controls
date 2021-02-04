@@ -195,6 +195,10 @@ export default abstract class Row<T> {
         return contentClasses;
     }
 
+    getSearchValue(): string {
+        return this.getOwner().getSearchValue();
+    }
+
     shouldDrawLadderContent(ladderProperty: string, stickyProperty: string): boolean {
         const stickyLadder = this.getStickyLadder();
         const stickyProperties = this.getStickyLadderProperties(this._$columns[0]);

@@ -1,5 +1,0 @@
-<Controls.list:View
-        source="{{_viewSource}}"
-        keyProperty="id"
-        groupingKeyCallback="{{_groupingCallback}}">
-</Controls.list:View>

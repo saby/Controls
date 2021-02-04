@@ -199,3 +199,12 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
  * @param {Date} startValue верхняя граница диапазона дат
  * @param {Date} endValue нижняя граница диапазона дат
  */
+
+Object.defineProperty(RangeSelector, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return RangeSelector.getDefaultOptions();
+   }
+});

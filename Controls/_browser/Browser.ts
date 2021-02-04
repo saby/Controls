@@ -36,7 +36,6 @@ import {IHierarchySearchOptions} from 'Controls/interface/IHierarchySearch';
 import {IMarkerListOptions} from 'Controls/_marker/interface';
 import {IShadowsOptions} from 'Controls/_scroll/Container/Interface/IShadows';
 import {IControllerState} from 'Controls/_dataSource/Controller';
-import {descriptor} from 'Types/entity';
 
 type Key = string|number|null;
 
@@ -95,7 +94,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     private _isAllSelected: boolean = false;
 
     private _listMarkedKey: Key = null;
-    private _notifiedMarkedKey: Key = null;
+    private _notifiedMarkedKey: Key;
     private _misspellValue: string = null;
     private _root: Key = null;
     private _rootBeforeSearch: Key = null;
@@ -106,8 +105,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     private _viewMode: TViewMode = undefined;
     private _inputSearchValue: string = '';
     private _searchValue: string = '';
-    private _searchInProgress: boolean = false;
     private _dataOptionsContext: typeof ContextOptions;
+    private _sourceControllerState: IControllerState;
 
     private _itemsReadyCallback: Function;
     private _loading: boolean = false;
@@ -135,7 +134,6 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         this._itemOpenHandler = this._itemOpenHandler.bind(this);
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
         this._dataLoadErrback = this._dataLoadErrback.bind(this);
-        this._afterSetItemsOnReloadCallback = this._afterSetItemsOnReloadCallback.bind(this);
         this._notifyNavigationParamsChanged = this._notifyNavigationParamsChanged.bind(this);
 
         this._filterController = new FilterController(this._getFilterControllerOptions(options));
@@ -168,6 +166,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
 
         if (receivedState &&  'filterItems' in receivedState && 'items' in receivedState) {
             this._setFilterItems(receivedState.filterItems as IFilterItem[]);
+            sourceController.setFilter(this._filter);
             this._defineShadowVisibility(receivedState.items);
             if (isNewEnvironment()) {
                 this._setItemsAndUpdateContext(receivedState.items as RecordSet, options);
@@ -176,6 +175,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             return this._filterController.loadFilterItemsFromHistory()
                 .then((filterItems) => {
                     this._setFilterItems(filterItems as IFilterItem[]);
+                    sourceController.setFilter(this._filter);
 
                     return this._loadItems(options, sourceController.getState())
                         .then((items) => {
@@ -225,7 +225,6 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions: IBrowserOptions, context: typeof ContextOptions): void | Promise<RecordSet> {
-        const sourceChanged = this._options.source !== newOptions.source;
         let methodResult;
 
         this._getOperationsController().update(newOptions);
@@ -239,7 +238,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             this._updateFilterAndFilterItems();
         }
 
-        if (sourceChanged) {
+        if (this._options.source !== newOptions.source) {
             this._source = newOptions.source;
         }
 
@@ -263,24 +262,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         const isChanged = sourceController.updateOptions(
            this._getSourceControllerOptions(newOptions as ISourceControllerOptions));
 
-        if (sourceChanged) {
-            this._loading = true;
-            methodResult = sourceController.reload()
-               .then((items) => {
-                   this._items = sourceController.getItems();
-                   this._loading = false;
-                   return items;
-               }, (error) => {
-                   this._processLoadError(error);
-                   return error;
-               })
-               .finally((result) => {
-                   this._afterSourceLoad(sourceController, newOptions);
-                   return result;
-               })
-               .then((result) => {
-                   return this._updateSearchController(newOptions).then(() => result);
-               });
+        if (isChanged) {
+            methodResult = this._reload(newOptions);
         } else if (isChanged) {
             this._afterSourceLoad(sourceController, newOptions);
         }
@@ -455,24 +438,19 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         return this._viewMode === 'search';
     }
 
-    protected _filterChanged(event: SyntheticEvent, filter: object): void {
+    protected _filterChanged(event: SyntheticEvent, filter: QueryWhereExpression<unknown>): void {
         if (event) {
             event.stopPropagation();
         }
         this._filterController.setFilter(filter);
-
-        this._getSourceController().setFilter(this._filterController.getFilter() as QueryWhereExpression<unknown>);
-
-        const controllerState = this._sourceController.getState();
-
-        this._filter = controllerState.filter;
-        this._updateContext(controllerState);
-        this._dataOptionsContext.updateConsumers();
-
+        this._filter = filter;
         this._notify('filterChanged', [this._filter]);
     }
 
     protected _rootChanged(event: SyntheticEvent, root: Key): void {
+        if (this._options.root === undefined) {
+            this._root = root;
+        }
         this._notify('rootChanged', [root]);
     }
 
@@ -516,6 +494,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             }
         }
         curContext.updateConsumers();
+        this._sourceControllerState = sourceControllerState;
     }
 
     protected _filterHistoryApply(event: SyntheticEvent, history: IFilterItem[]): void {
@@ -527,7 +506,6 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         this._filter = this._filterController.getFilter() as QueryWhereExpression<unknown>;
         this._filterButtonItems = this._filterController.getFilterButtonItems();
         this._fastFilterItems = this._filterController.getFastFilterItems();
-        this._sourceController.setFilter(this._filter);
     }
 
     protected _processLoadError(error: Error): void {
@@ -637,7 +615,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             source: this._source,
             navigationParamsChangedCallback: this._notifyNavigationParamsChanged,
             dataLoadErrback: this._dataLoadErrback,
-            dataLoadCallback: this._dataLoadCallback
+            dataLoadCallback: this._dataLoadCallback,
+            root: this._root
         };
     }
 
@@ -703,9 +682,11 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     }
 
     private _afterSearch(recordSet: RecordSet, value: string): void {
+        const filter = this._searchController.getFilter();
         this._updateParams(value);
         this._afterSourceLoad(this._sourceController, this._options);
-        this._filterChanged(null, this._searchController.getFilter());
+        this._filterChanged(null, filter);
+        this._sourceController.setFilter(filter);
 
         const switchedStr = getSwitcherStrFromData(recordSet);
         this._misspellValue = switchedStr;
@@ -734,10 +715,13 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     private _updateRootAfterSearch(): void {
         if (this._options.startingWith === 'root') {
             const newRoot = Browser._getRoot(this._path, this._root, this._options.parentProperty);
-            this._rootBeforeSearch = this._root;
-            this._root = newRoot;
-            this._searchController.setRoot(newRoot);
-            this._notify('rootChanged', [newRoot]);
+
+            if (newRoot !== this._root) {
+                this._rootBeforeSearch = this._root;
+                this._root = newRoot;
+                this._searchController.setRoot(newRoot);
+                this._notify('rootChanged', [newRoot]);
+            }
         }
     }
 
@@ -754,6 +738,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         if (this._searchController && this._searchController.isSearchInProcess()) {
             this._loading = false;
             this._searchDataLoad(data, this._searchController.getSearchValue());
+        } else if (this._loading) {
+            this._afterSourceLoad(this._sourceController, this._options);
         }
 
         this._path = data?.getMetaData().path ?? null;
@@ -790,11 +776,23 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         }
     }
 
-    _afterSetItemsOnReloadCallback(): void {
-        if (this._notifiedMarkedKey !== undefined) {
-            this._notify('markedKeyChanged', [this._notifiedMarkedKey]);
-            this._notifiedMarkedKey = undefined;
-        }
+    private _reload(options: IBrowserOptions): Promise<RecordSet> {
+        const sourceController = this._sourceController;
+
+        this._loading = true;
+        return sourceController.reload()
+            .then((items) => {
+                this._items = sourceController.getItems();
+                this._loading = false;
+                return items;
+            })
+            .catch((error) => {
+                this._processLoadError(error);
+                return error;
+            })
+            .then((result) => {
+                return this._updateSearchController(options).then(() => result);
+            });
     }
 
     _misspellCaptionClick(): void {
@@ -858,3 +856,12 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         };
     }
 }
+
+Object.defineProperty(Browser, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Browser.getDefaultOptions();
+   }
+});

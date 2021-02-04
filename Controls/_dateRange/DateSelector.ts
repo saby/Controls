@@ -128,3 +128,12 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
    static _theme: string[] = ['Controls/dateRange'];
 
 }
+
+Object.defineProperty(DateSelector, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DateSelector.getDefaultOptions();
+   }
+});

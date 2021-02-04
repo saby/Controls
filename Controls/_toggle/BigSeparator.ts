@@ -69,6 +69,16 @@ class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable, 
       };
    }
 }
+
+Object.defineProperty(BigSeparator, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BigSeparator.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/Separator#value
  * @cfg {Boolean} Если значение - "true", то будет отображаться иконка открытия, иначе будет отображаться иконка закрытия.
