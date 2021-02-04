@@ -28,7 +28,6 @@
                bind:startValue="_rangeModel.startValue"
                bind:endValue="_rangeModel.endValue"
                dayTemplate="{{_options.dayTemplate}}"
-               _date="{{_options._date}}"
 
                selectionProcessing="{{_options.selectionProcessing}}"
                on:selectionProcessingChanged="_proxyEvent('selectionProcessingChanged')"

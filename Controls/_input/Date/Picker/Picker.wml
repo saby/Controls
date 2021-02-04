@@ -12,7 +12,6 @@
       borderVisibility="{{_options.borderVisibility}}"
       inlineHeight="{{_options.inlineHeight}}"
       contrastBackground="{{ false }}"
-      borderVisibility="partial"
       rightFieldTemplate="{{ _options.rightFieldTemplate }}"
       style="{{_options.style}}"
       tagStyle="{{ _options.tagStyle }}"

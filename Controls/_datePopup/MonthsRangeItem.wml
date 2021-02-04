@@ -52,7 +52,6 @@
                      showWeekdays="{{false}}"
                      month="{{month}}"
                      captionFormat="%B"
-                     _date="{{_options._date}}"
 
                      newMode="{{true}}"
                   >
