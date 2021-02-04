@@ -4748,8 +4748,14 @@ define([
                   }]
                })
             };
-            await instance._onItemContextMenu(null, breadcrumbItem, fakeEvent);
-            assert.equal(instance._listViewModel.getActiveItem(), itemAt1);
+
+            const stubOpenMenu = sinon.stub(lists.BaseControl._private, 'openItemActionsMenu')
+               .callsFake((self, action, clickEvent, currentItem) => {
+                  assert.equal(currentItem, itemAt1);
+               });
+            lists.BaseControl._private.openContextMenu(instance, fakeEvent, breadcrumbItem);
+            sinon.assert.called(stubOpenMenu);
+            stubOpenMenu.restore();
          });
 
          // Клик по ItemAction в меню отдавать контейнер в событии
@@ -4773,7 +4779,7 @@ define([
             // popup.Sticky.openPopup called in openItemActionsMenu is an async function
             // we cannot determine that it has ended
             instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
-            instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
+            lists.BaseControl._private.onItemActionsMenuResult(instance, 'itemClick', actionModel, fakeEvent2);
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[2], 'Third argument has not been set');
             assert.equal(outgoingEventsMap.actionClick[2].className, 'controls-ListView__itemV');
@@ -4782,15 +4788,16 @@ define([
          // Клик по ItemAction в контекстном меню отдавать контейнер в событии
          it('should send target container in event on click in context menu', async () => {
             const fakeEvent = initFakeEvent();
-            const fakeEvent2 = initFakeEvent();
             const actionModel = {
                getRawData: () => ({
                   id: 2,
                   showType: 0
                })
             };
-            await instance._onItemContextMenu(null, item, fakeEvent);
-            instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
+
+            instance._targetItem = fakeEvent.target.closest('.controls-ListView__itemV');
+            lists.BaseControl._private.onItemActionsMenuOpen(instance, instance._listViewModel.at(1));
+            lists.BaseControl._private.onItemActionsMenuResult(instance, 'itemClick', actionModel, fakeEvent);
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[2], 'Third argument has not been set');
             assert.equal(outgoingEventsMap.actionClick[2].className, 'controls-ListView__itemV');
@@ -4809,7 +4816,7 @@ define([
                })
             };
             instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
-            instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
+            lists.BaseControl._private.onItemActionsMenuResult(instance, 'itemClick', actionModel, fakeEvent2);
             sinon.assert.called(stubHandleItemActionClick);
             stubHandleItemActionClick.restore();
          });
@@ -4832,7 +4839,7 @@ define([
                })
             };
             instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
-            instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
+            lists.BaseControl._private.onItemActionsMenuResult(instance, 'itemClick', actionModel, fakeEvent2);
             sinon.assert.notCalled(spyCloseActionsMenu);
             stubNotify.restore();
             spyCloseActionsMenu.restore();
@@ -4856,7 +4863,7 @@ define([
                })
             };
             instance._listViewModel.setActiveItem(instance._listViewModel.at(0));
-            instance._onItemActionsMenuResult('itemClick', actionModel, fakeEvent2);
+            lists.BaseControl._private.onItemActionsMenuResult(instance, 'itemClick', actionModel, fakeEvent2);
             sinon.assert.called(stubCloseActionsMenu);
             stubNotify.restore();
             stubCloseActionsMenu.restore();
@@ -4866,16 +4873,17 @@ define([
          it('should hide ItemActions on menuOpened event', () => {
             const fakeEvent = initFakeEvent();
             const spyHideActions = sinon.spy(lists.BaseControl._private, 'removeShowActionsClass');
-            instance._onItemActionsMenuResult('menuOpened', null, fakeEvent);
+            lists.BaseControl._private.onItemActionsMenuResult(instance, 'menuOpened', null, fakeEvent);
             sinon.assert.called(spyHideActions);
             spyHideActions.restore();
          });
 
          // после закрытия меню ItemActions должны появиться снова
          it('should show ItemActions on menu close event', () => {
-            instance._itemActionsMenuId = 'popupId_1';
+            instance._isShownItemActionMenu = true;
+            instance._stickyOpener = {close: () => {}, isOpened: () => true};
             const spyShowActions = sinon.spy(lists.BaseControl._private, 'addShowActionsClass');
-            instance._onItemActionsMenuClose({id: 'popupId_1'});
+            lists.BaseControl._private.closeActionsMenu(instance);
             sinon.assert.called(spyShowActions);
             spyShowActions.restore();
          });
@@ -4886,73 +4894,19 @@ define([
             const itemActionsController = lists.BaseControl._private.getItemActionsController(instance, cfg);
             const spyDeactivateSwipe = sinon.spy(itemActionsController, 'deactivateSwipe');
             const spySetActiveItem = sinon.spy(itemActionsController, 'setActiveItem');
-            instance._onItemActionsMenuResult('menuOpened', null, fakeEvent);
+            lists.BaseControl._private.onItemActionsMenuResult(instance, 'menuOpened', null, fakeEvent);
             sinon.assert.called(spyDeactivateSwipe);
             sinon.assert.notCalled(spySetActiveItem);
             spyDeactivateSwipe.restore();
             spySetActiveItem.restore();
          });
 
-         // должен открывать меню, соответствующее новому id Popup
-         it('should open itemActionsMenu according to its id', () => {
-            const fakeEvent = initFakeEvent();
-            const stubGetItemActionsController = sinon.stub(lists.BaseControl._private, 'getItemActionsController');
-            const fake = {
-               _itemActionsController: {
-                  prepareActionsMenuConfig: (item, clickEvent, action, self, isContextMenu) => ({}),
-                  setActiveItem: (_item) => {},
-                  deactivateSwipe: () => {}
-               },
-               _itemActionsMenuId: 'fake',
-               _scrollHandler: () => {},
-               _notify: () => {}
-            };
-            stubGetItemActionsController.callsFake((self) => self._itemActionsController);
-            return lists.BaseControl._private.openItemActionsMenu(fake, null, fakeEvent, item, false)
-               .then(() => {
-                  assert.equal(fake._itemActionsMenuId, 'ekaf');
-               })
-                .finally(() => {
-                   stubGetItemActionsController.restore();
-                });
-         });
-
-         // Нужно устанавливать active item только после того, как пришёл id нового меню
-         it('should set active item only after promise then result', (done) => {
-            const fakeEvent = initFakeEvent();
-            const stubGetItemActionsController = sinon.stub(lists.BaseControl._private, 'getItemActionsController');
-            let activeItem = null;
-            const fake = {
-               _itemActionsController: {
-                  prepareActionsMenuConfig: (item, clickEvent, action, self, isContextMenu) => ({}),
-                  setActiveItem: (_item) => {
-                     activeItem = _item;
-                  }
-               },
-               _itemActionsMenuId: null,
-               _scrollHandler: () => {},
-               _notify: () => {}
-            };
-            stubGetItemActionsController.callsFake((self) => self._itemActionsController);
-            lists.BaseControl._private.openItemActionsMenu(fake, null, fakeEvent, item, false)
-               .then(() => {
-                  assert.equal(activeItem, item);
-                  done();
-               })
-               .catch((error) => {
-                  done();
-               })
-               .finally(() => {
-                  stubGetItemActionsController.restore();
-               });
-            assert.equal(activeItem, null);
-         });
-
          // Необходимо закрывать контекстное меню, если элемент, по которому оно было открыто, удалён из списка
          // См. также https://online.sbis.ru/opendoc.html?guid=b679bbc7-210f-4326-8c08-fcba2e3989aa
          it('should close context menu if its owner was removed', function() {
-            instance._itemActionsMenuId = 'popup-id-0';
+            instance._isShownItemActionMenu = true;
             instance._itemActionsController.setActiveItem(item);
+            instance._stickyOpener = {close: () => {}, isOpened: () => true};
             instance.getViewModel()
                ._notify(
                   'onListChange',
@@ -4970,14 +4924,15 @@ define([
                   }],
                   null);
 
-            assert.isNull(instance._itemActionsMenuId);
+            assert.isFalse(instance._isShownItemActionMenu);
             assert.isNull(instance._itemActionsController.getActiveItem());
          });
 
          // Необходимо закрывать контекстное меню, если элемент, по которому оно было открыто, заменён
-         it('should close context menu if its owner was removed', function() {
-            instance._itemActionsMenuId = 'popup-id-0';
+         it('should close context menu if its owner was replaced', function() {
+            instance._isShownItemActionMenu = true;
             instance._itemActionsController.setActiveItem(item);
+            instance._stickyOpener = {close: () => {}, isOpened: () => true};
             instance.getViewModel()
                ._notify(
                   'onListChange',
@@ -4995,7 +4950,7 @@ define([
                   }],
                   null);
 
-            assert.isNull(instance._itemActionsMenuId);
+            assert.isFalse(instance._isShownItemActionMenu);
             assert.isNull(instance._itemActionsController.getActiveItem());
          });
 
@@ -5003,7 +4958,7 @@ define([
          // Даже если это breadCrumbsItem
          // См. также https://online.sbis.ru/opendoc.html?guid=b679bbc7-210f-4326-8c08-fcba2e3989aa
          it('should close context menu if its owner was removed even if it was breadcrumbsItem', function() {
-            instance._itemActionsMenuId = 'popup-id-0';
+            instance._isShownItemActionMenu = true;
             const itemAt1 = instance._listViewModel.at(1);
             const breadcrumbItem = {
                '[Controls/_display/BreadcrumbsItem]': true,
@@ -5022,6 +4977,7 @@ define([
                setMarked: () => null
             };
             instance._itemActionsController.setActiveItem(breadcrumbItem);
+            instance._stickyOpener = {close: () => {}, isOpened: () => true};
             instance.getViewModel()
                ._notify(
                   'onListChange',
@@ -5032,106 +4988,8 @@ define([
                   [breadcrumbItem],
                   null);
 
-            assert.isNull(instance._itemActionsMenuId);
+            assert.isFalse(instance._isShownItemActionMenu);
             assert.isNull(instance._itemActionsController.getActiveItem());
-         });
-
-         // Должен сбрасывать activeItem Только после того, как мы закрыли последнее меню.
-         describe ('Multiple clicks to open context menu', () => {
-            let fakeEvent;
-            let fakeEvent2;
-            let fakeEvent3;
-            let popupIds;
-            let openPopupStub;
-            let closePopupStub;
-            let _onItemActionsMenuCloseSpy;
-            let localInstance;
-
-            before(async () => {
-               localInstance = instance;
-               fakeEvent = initFakeEvent();
-               fakeEvent2 = initFakeEvent();
-               fakeEvent3 = initFakeEvent();
-               popupIds = [];
-               openPopupStub = sinon.stub(popup.Sticky, 'openPopup');
-               closePopupStub = sinon.stub(popup.Sticky, 'closePopup');
-               _onItemActionsMenuCloseSpy = sinon.spy(localInstance, '_onItemActionsMenuClose');
-
-               openPopupStub.callsFake((config) => {
-                  const popupId = `popup-id-${popupIds.length}`;
-                  popupIds.push(popupId);
-                  return Promise.resolve(popupId);
-               });
-               closePopupStub.callsFake((popupId) => {
-                  const index = popupIds.indexOf(popupId);
-                  if (index !== -1) {
-                     popupIds.splice(index, 1);
-
-                     // В реальности callback вызывается асинхронно,
-                     // Но нам главное, чтобы activeItem обнулялся только после закрытия самого последнего меню,
-                     // поэтому это не играет роли.
-                     localInstance._onItemActionsMenuClose({id: popupId});
-                  }
-               });
-
-               // имитируем клик правой кнопкой мыши несколько раз подряд.
-               await Promise.all([
-                  lists.BaseControl._private.openItemActionsMenu(localInstance, null, fakeEvent, item, false),
-                  lists.BaseControl._private.openItemActionsMenu(localInstance, null, fakeEvent2, item, false),
-                  lists.BaseControl._private.openItemActionsMenu(localInstance, null, fakeEvent3, item, false)
-               ]);
-            });
-
-            after(() => {
-               openPopupStub.restore();
-               closePopupStub.restore();
-            });
-
-            // Ожидаем, что произошла попытка открыть три popup и закрыть 2 из них
-            it('should open 3 popups and close 2', () => {
-               sinon.assert.callCount(openPopupStub, 3);
-               sinon.assert.callCount(_onItemActionsMenuCloseSpy, 2);
-            });
-
-            // Проверяем activeItem, он не должен быть null
-            // проверяем текущий _itemActionsMenuId. Он жолжен быть равен последнему popupId
-            it('active item and _itemActionsMenuId should not be null until last menu is closed', () => {
-               assert.exists(localInstance._itemActionsController.getActiveItem(),
-                  'active item should not be null until last menu will closed');
-               assert.equal(localInstance._itemActionsMenuId, popupIds[popupIds.length - 1],
-                  '_itemActionsMenuId should not be null until last menu will closed');
-            });
-
-            it('active item and _itemActionsMenuId should be null after closing last menu', () => {
-               // Пытаемся закрыть самый последний popup
-               localInstance._onItemActionsMenuClose({id: popupIds[popupIds.length - 1]});
-
-               // Проверяем activeItem, он должен быть null
-               assert.notExists(localInstance._itemActionsController.getActiveItem(),
-                  'active item should be null after closing last menu');
-
-               // проверяем текущий _itemActionsMenuId. Он должен быть null
-               assert.notExists(localInstance._itemActionsMenuId,
-                  '_itemActionsMenuId should be null after closing last menu');
-            });
-         });
-
-         // Необходимо закрывать popup с указанным id
-         it('should close popup with specified id', () => {
-            instance._itemActionsMenuId = 'fake';
-            instance._onItemActionsMenuClose({id: 'ekaf'});
-            assert.equal(instance._itemActionsMenuId, 'fake');
-            instance._onItemActionsMenuClose(null);
-            assert.equal(instance._itemActionsMenuId, null);
-         });
-
-         // Необходимо игнорировать заурытие меню, если инстанс был разрушен
-         it('should not call closeActionsMenu when control is destroyed', () => {
-            const spyCloseActionsMenu = sinon.spy(lists.BaseControl._private, 'closeActionsMenu');
-            instance.destroy();
-            instance._onItemActionsMenuClose({id: 'ekaf'});
-            sinon.assert.notCalled(spyCloseActionsMenu);
-            spyCloseActionsMenu.restore();
          });
 
          // Необходимо показать контекстное меню по longTap, если не был инициализирован itemActionsController
@@ -5177,60 +5035,6 @@ define([
             assert.exists(outgoingEventsMap.actionClick, 'actionClick event has not been fired');
             assert.exists(outgoingEventsMap.actionClick[3], 'Third argument has not been set');
             assert.exists(outgoingEventsMap.actionClick[3].preventDefault, 'Third argument should be nativeEvent');
-         });
-
-         // Необходимо при показе меню ItemActions регистрировать обработчик события скролла
-         it('should register scroll handler on display ItemActions menu', (done) => {
-            const fakeEvent = initFakeEvent();
-            const stubGetItemActionsController = sinon.stub(lists.BaseControl._private, 'getItemActionsController');
-            let isScrollHandlerCalled = false;
-            let lastFiredEvent = null;
-            const fake = {
-               _itemActionsController: {
-                  prepareActionsMenuConfig: (item, clickEvent, action, self, isContextMenu) => ({}),
-                  setActiveItem: (_item) => {}
-               },
-               _itemActionsMenuId: null,
-               _scrollHandler: () => {
-                  isScrollHandlerCalled = true;
-               },
-               _notify: (eventName, args) => {
-                  lastFiredEvent = {eventName, args};
-               }
-            };
-            stubGetItemActionsController.callsFake((self) => self._itemActionsController);
-            lists.BaseControl._private.openItemActionsMenu(fake, null, fakeEvent, item, false)
-               .then(() => {
-                  assert.exists(lastFiredEvent, 'ListenerUtils did not fire any event');
-                  assert.equal(lastFiredEvent.eventName, 'register', 'Last fired event is wrong');
-                  lastFiredEvent.args[2]();
-                  assert.isTrue(isScrollHandlerCalled, '_scrollHandler() should be called');
-                  done();
-               })
-               .catch((error) => {
-                  done();
-               })
-               .finally(() => {
-                  stubGetItemActionsController.restore();
-               });
-         });
-
-         // Необходимо при закрытии меню ItemActions снимать регистрацию обработчика события скролла
-         it('should unregister scroll handler on close ItemActions menu', () => {
-            let lastFiredEvent = null;
-            const self = {
-               _itemActionsMenuId: 'fake',
-               _notify: (eventName, args) => {
-                  lastFiredEvent = {eventName, args};
-               },
-               _itemActionsController: {
-                  setActiveItem: (_item) => { },
-                  deactivateSwipe: () => {}
-               }
-            };
-            lists.BaseControl._private.closePopup(self);
-            assert.exists(lastFiredEvent, 'ListenerUtils did not fire any event');
-            assert.equal(lastFiredEvent.eventName, 'unregister', 'Last fired event is wrong');
          });
       });
 

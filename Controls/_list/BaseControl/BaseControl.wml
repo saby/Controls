@@ -100,7 +100,7 @@
 
         <div name="topVirtualScrollTrigger" style="position: relative; top: 0;{{_hideTopTrigger ? ' display: none;'}}"></div>
         <ws:partial
-                attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
+                attr:class="controls-itemActionsV_menu-{{_isShownItemActionMenu ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: ' + _attachedToNullLoadTopTriggerOffset + 'px;'}}"
                 name="{{name}}"
                 template="{{ _options.content }}"
