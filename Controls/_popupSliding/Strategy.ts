@@ -15,8 +15,8 @@ class Strategy {
     getPosition({position: popupPosition = {}, popupOptions}: ISlidingPanelItem): IPopupPosition {
         const windowHeight = this._getWindowHeight();
         const {
-            position,
             slidingPanelOptions: {
+                position,
                 maxHeight: optionsMaxHeight = windowHeight,
                 minHeight: optionsMinHeight
             } = {}

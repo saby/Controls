@@ -1,9 +1,9 @@
 .controls-SlidingPanel__animation-position-bottom {
-   transition: bottom @animation-duration_slidingPanel;
+   transition: bottom var(--animation-duration_slidingPanel);
 }
 
 .controls-SlidingPanel__animation-position-top {
-   transition: top @animation-duration_slidingPanel;
+   transition: top var(--animation-duration_slidingPanel);
 }
 
 .controls-SlidingPanel {
@@ -19,20 +19,20 @@
    overflow: hidden;
 }
 
-.controls-SlidingPanel__box-shadow-theme_@{themeName} {
-   box-shadow: @box-shadow_slidingPanel;
+.controls-SlidingPanel__box-shadow {
+   box-shadow: var(--box-shadow_slidingPanel);
 }
 
-.controls-SlidingPanel__position-bottom-theme_@{themeName} {
-   border-radius: @border-radius-position-bottom_slidingPanel;
+.controls-SlidingPanel__position-bottom {
+   border-radius: var(--border-radius-position-bottom_slidingPanel);
 }
 
-.controls-SlidingPanel__position-top-theme_@{themeName} {
-   border-radius: @border-radius-position-top_slidingPanel;
+.controls-SlidingPanel__position-top {
+   border-radius: var(--border-radius-position-top_slidingPanel);
 }
 
-.controls-SlidingPanel__content-theme_@{themeName} {
-   background-color: @background-color_slidingPanel;
+.controls-SlidingPanel__content {
+   background-color: var(--background-color_slidingPanel);
 }
 
 .controls-SlidingPanel__controller {
@@ -68,13 +68,13 @@
 .controls-SlidingPanel__controller-container {
    width: 100%;
    flex-shrink: 0;
-   padding: @controlButton-offset-top_slidingPanel 0 @controlButton-offset-bottom_slidingPanel 0;
+   padding: var(--controlButton-offset-top_slidingPanel) 0 var(--controlButton-offset-bottom_slidingPanel) 0;
 }
 
-.controls-SlidingPanel__controller-theme_@{themeName} {
-   width: @controlButton-width_slidingPanel;
-   height: @controlButton-height_slidingPanel;
-   border-radius: @controlButton-border-radius_slidingPanel;
-   background-color: @controlButton-background-color_slidingPanel;
+.controls-SlidingPanel__controller {
+   width: var(--controlButton-width_slidingPanel);
+   height: var(--controlButton-height_slidingPanel);
+   border-radius: var(--controlButton-border-radius_slidingPanel);
+   background-color: var(--controlButton-background-color_slidingPanel);
    margin: 0 auto;
 }

@@ -8,6 +8,7 @@ export interface ISlidingPanelPopupOptions {
     modal?: boolean;
     position?: TSlidingPanelPosition;
     content?: TemplateFunction;
+    desktopMode?: 'dialog' | 'stack';
 }
 
 export interface ISlidingPanelOptions {
@@ -40,6 +41,14 @@ export interface ISlidingPanel {
 }
 
 /**
+ * @name Controls/_popup/interface/ISlidingPanel#desktopMode
+ * @cfg {String} Определяет какого вида окно откроется на настольном копьютере и планшете.
+ * @variant stack (Стековая панель)
+ * @variant dialog (Диалоговое окно)
+ * @default stack
+ */
+
+/**
  * @typedef {Object} Controls/_popup/interface/ISlidingPanel/DialogOptions
  * @description Размеры попапа на настольном копьютере и планшете.
  * Подробнее:
@@ -60,13 +69,13 @@ export interface ISlidingPanel {
  * @property {Number} minHeight Минимально допустимая высота шторки. С такой высотой она открывается.
  * @property {Number} maxHeight Максимально допустимая высота шторки.
  * @property {String} position Определяет с какой стороны отображается попап. (Варианты: 'top', 'bottom')
- * @property {String} desktopMode Определяет какого вида окно откроется на настольном копьютере и планшете. (Варианты: 'stack', 'dialog')
  */
 
 /**
  * @typedef {Object} Controls/_popup/interface/ISlidingPanel/PopupOptions
  * @description Конфигурация шторки.
  * @property {String} className Имена классов, которые будут применены к корневой ноде всплывающего окна.
+ * @property {String} desktopMode Определяет какого вида окно откроется на настольном копьютере и планшете. (Варианты: 'stack', 'dialog')
  * @property {function|String} template Шаблон всплывающего окна.
  * @property {function|String} templateOptions Опции для контрола, переданного в {@link template}.
  * @property {Controls/_popup/interface/ISlidingPanel/SlidingPanelOptions.typedef} slidingPanelOptions Конфигурация шторки на мобильном устройстве
