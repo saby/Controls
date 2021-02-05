@@ -23,7 +23,7 @@ class Controller extends BaseController {
 
         // После создания запускаем анимацию изменив позицию
         const popupOptions = item.popupOptions;
-        item.position[popupOptions.position] = 0;
+        item.position[popupOptions.slidingPanelOptions.position] = 0;
         return true;
     }
 
@@ -34,7 +34,7 @@ class Controller extends BaseController {
 
     elementDestroyed({popupOptions, position, id}: ISlidingPanelItem): Promise<null> {
         // Запускаем анимацию закрытия и откладываем удаление до её окончания
-        position[popupOptions.position] = -position.height;
+        position[popupOptions.slidingPanelOptions.position] = -position.height;
         return new Promise((resolve) => {
             this._destroyPromiseResolvers[id] = resolve;
         });
@@ -51,7 +51,8 @@ class Controller extends BaseController {
 
     getDefaultConfig(item: ISlidingPanelItem): void|Promise<void> {
         const popupOptions = item.popupOptions;
-        const className = `${item.popupOptions.className || ''} controls-SlidingPanel__animation-position-${popupOptions.position}`;
+        const className = `${item.popupOptions.className || ''}
+            controls-SlidingPanel__animation-position-${popupOptions.slidingPanelOptions.position}`;
 
         item.position = SlidingPanelStrategy.getPosition(item);
 
@@ -69,8 +70,7 @@ class Controller extends BaseController {
         }
 
         const {
-            slidingPanelOptions: {minHeight} = {},
-            position: positionOption
+            slidingPanelOptions: {minHeight, position: positionOption} = {}
         } = item.popupOptions;
         const heightOffset = positionOption === 'top' ? offset.y : -offset.y;
         const newHeight = item.dragStartHeight + heightOffset;
@@ -99,8 +99,8 @@ class Controller extends BaseController {
             minHeight: position.minHeight,
             maxHeight: position.maxHeight,
             height: position.height,
-            position: popupOptions.position,
-            desktopMode: popupOptions.slidingPanelOptions.desktopMode
+            position: popupOptions.slidingPanelOptions.position,
+            desktopMode: popupOptions.desktopMode
         };
     }
 }
