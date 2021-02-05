@@ -8,13 +8,6 @@ class Single extends Control<IControlOptions> {
     protected _startValue = new Date(2019, 0, 1);
     protected _endValue = new Date(2019, 0, 16);
 
-    protected _afterMount() {
-        // _displayedDate изменяем напрямую, т.к если startValue endValue не заданы, отображается текущая дата, день выделяется кругляшком,
-        // что будет мешать в регрессионном тестировании.
-        this._children.datePopup1._displayedDate = this._startValue;
-        this._children.datePopup2._displayedDate = this._startValue;
-    }
-
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
 export default Single;

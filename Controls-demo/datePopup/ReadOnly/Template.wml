@@ -1,13 +1,17 @@
 <div class="PageWrap" style="padding-top: 50px;">
     <div class="PageBlock__componentWrap ws-flexbox" style="justify-content: space-evenly; flex-wrap: wrap; align-items: flex-start;">
+        <!-- _displayDate задаем для случаев когда по умолчанию откроется текущий день. -->
+        <!-- Принудительно окрываем на периоде из прошлого, что бы не было проблем с эталонами. -->
         <Controls.datePopup
                 attr:class="controlsDemo_datePopup__readonly-one"
+                _displayDate="{{_startValue}}"
                 selectionType="single"
                 readOnly="{{true}}"
                 name="datePopup1"
         />
         <Controls.datePopup
                 attr:class="controlsDemo_datePopup__readonly-two"
+                _displayDate="{{_startValue}}"
                 selectionType="range"
                 readOnly="{{true}}"
                 name="datePopup2"
