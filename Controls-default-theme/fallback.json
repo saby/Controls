@@ -231,7 +231,7 @@
   "--icon_hovered_background-image_closeButton_link": "url('../img/CloseIconHovered.svg')",
   "--border-color_closeButton_toolButton": "var(--border-color_button_toolButton)",
   "--border-color_hover_closeButton_toolButton": "var(--border-color_hover_button_toolButton)",
-  "--border-color_active_closeButton_toolButton": "#ссс",
+  "--border-color_active_closeButton_toolButton": "#ccc",
   "--border-thickness_closeButton_toolButton": "var(--border-thickness_button) 0 var(--border-thickness_button) var(--border-thickness_button)",
   "--border-thickness_closeButton_functionalButton": "0",
   "--border-radius_closeButton_toolButton": "var(--border-radius_button_toolButton) 0 0 var(--border-radius_button_toolButton)",
@@ -444,5 +444,16 @@
   "--separator_color_ToolbarBox": "#e4e4e4",
   "--separator_offset-horizontal_ToolbarBox": "var(--offset_s)",
   "--item_padding-horizontal_l_menu": "var(--offset_m)",
-  "--item_height_menu": "32px"
+  "--item_height_menu": "32px",
+  "--background-color_slidingPanel": "var(--background-color)",
+  "--box-shadow_slidingPanel": "0 0 5px 0 rgba(0, 0, 0, 0.2)",
+  "--border-radius-position-bottom_slidingPanel": "14px 14px 0 0",
+  "--border-radius-position-top_slidingPanel": "0 0 14px 14px",
+  "--controlButton-height_slidingPanel": "4px",
+  "--controlButton-width_slidingPanel": "30px",
+  "--controlButton-offset-top_slidingPanel": "var(--offset_xs)",
+  "--controlButton-offset-bottom_slidingPanel": "var(--offset_s)",
+  "--controlButton-border-radius_slidingPanel": "2px",
+  "--controlButton-background-color_slidingPanel": "#e9e9e9",
+  "--animation-duration_slidingPanel": "500ms"
 }

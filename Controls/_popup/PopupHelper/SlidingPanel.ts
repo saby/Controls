@@ -97,7 +97,7 @@ export default class SlidingPanel extends Base {
     private _getDesktopMode(
         popupOptions: ISlidingPanelPopupOptions
     ): ISlidingPanelPopupOptions['slidingPanelOptions']['desktopMode'] {
-        return popupOptions?.slidingPanelOptions?.desktopMode || DEFAULT_DESKTOP_MODE;
+        return popupOptions?.desktopMode || DEFAULT_DESKTOP_MODE;
     }
 
     /**
@@ -109,7 +109,7 @@ export default class SlidingPanel extends Base {
      */
     private _getDefaultSlidingPanelData(popupOptions: ISlidingPanelPopupOptions): ISlidingPanelOptions {
         return {
-            desktopMode: popupOptions.slidingPanelOptions?.desktopMode
+            desktopMode: popupOptions.desktopMode
         };
     }
 
@@ -121,10 +121,13 @@ export default class SlidingPanel extends Base {
      */
     private _getPopupOptionsWithSizes(popupOptions: ISlidingPanelPopupOptions): ISlidingPanelPopupOptions {
         const isPhone = detection.isPhone;
-        const options = isPhone ? popupOptions.slidingPanelOptions : popupOptions.dialogOptions;
+        const slidingPanelOptions = {
+            position: 'bottom',
+            ...popupOptions.slidingPanelOptions
+        };
+        const options = isPhone ? slidingPanelOptions : popupOptions.dialogOptions;
         const mergedConfig = BaseOpenerUtil.getConfig(this._options, popupOptions) as ISlidingPanelPopupOptions;
         const resultPopupOptions = {
-            position: 'bottom',
             desktopMode: DEFAULT_DESKTOP_MODE,
             ...mergedConfig,
             ...options
