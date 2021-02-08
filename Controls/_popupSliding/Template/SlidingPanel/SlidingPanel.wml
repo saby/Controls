@@ -7,14 +7,14 @@
          on:mousedown="_startDragNDrop()"
          on:touchstart="_startDragNDrop()"
          class="controls-SlidingPanel__controller-container">
-         <div class="controls-SlidingPanel__controller controls-SlidingPanel__controller-theme_{{ _options.theme }}"></div>
+         <div class="controls-SlidingPanel__controller controls-SlidingPanel__controller"></div>
       </div>
    </Controls.dragnDrop:Container>
 </ws:template>
-<div class="controls-SlidingPanel">
-   <div class="controls-SlidingPanel__content controls-SlidingPanel__content-theme_{{_options.theme}}
-            controls-SlidingPanel__box-shadow-theme_{{_options.theme}}
-            controls-SlidingPanel__position-{{_position}}-theme_{{_options.theme}}">
+<div class="controls-SlidingPanel controls_theme-{{_options.theme}}">
+   <div class="controls-SlidingPanel__content controls-SlidingPanel__content
+            controls-SlidingPanel__box-shadow
+            controls-SlidingPanel__position-{{_position}}">
       <ws:if data="{{ _options.controlButtonVisibility && _position === 'bottom' }}">
          <ws:partial
             template="controller"/>

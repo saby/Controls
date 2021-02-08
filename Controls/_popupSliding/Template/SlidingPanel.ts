@@ -147,7 +147,6 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         return this._scrollState?.scrollTop || 0;
     }
 
-    static _theme: string[] = ['Controls/popupSliding'];
     static getDefaultOptions(): Partial<ISlidingPanelTemplateOptions> {
         return {
             controlButtonVisibility: true,

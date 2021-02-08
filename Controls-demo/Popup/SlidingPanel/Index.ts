@@ -40,11 +40,11 @@ class Index extends Control<IControlOptions> {
             template: 'Controls-demo/Popup/SlidingPanel/PopupTemplate',
             opener: this,
             modal: this._modal,
+            desktopMode: this._desktopMode[0],
             slidingPanelOptions: {
                 minHeight: this._minHeight,
                 maxHeight: this._maxHeight,
-                position: this._position[0],
-                desktopMode: this._desktopMode[0]
+                position: this._position[0]
             },
             dialogOptions: {
                 width: this._desktopWidth
