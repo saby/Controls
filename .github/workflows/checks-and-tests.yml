@@ -1,0 +1,24 @@
+name: Checks & Tests
+
+on:
+  pull_request:
+    branches:
+      - rc-21.2000
+
+jobs:
+  checks:
+    name: Complexity of Code
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: ">=14"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: ESLintCC checks
+        run: npx eslintcc -gt=C -sr --rule complexity .
