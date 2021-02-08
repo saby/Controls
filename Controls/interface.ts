@@ -27,7 +27,7 @@ export {default as IErrorController, IErrorControllerOptions} from './_interface
 export {default as IHierarchy, IHierarchyOptions} from './_interface/IHierarchy';
 export {default as INumberFormat, INumberFormatOptions} from './_interface/INumberFormat';
 export {default as IExpandable, IExpandableOptions} from './_interface/IExpandable';
-export {default as ISorting, ISortingOptions} from './_interface/ISorting';
+export {default as ISorting, ISortingOptions, TSortingOptionValue} from './_interface/ISorting';
 export {default as ILookup, ILookupOptions} from './_interface/ILookup';
 export {default as IDateMask, IDateMaskOptions} from './_interface/IDateMask';
 export {default as IDateRangeValidators, IDateRangeValidatorsOptions, DateRangeValidators} from './_interface/IDateRangeValidators';
@@ -46,7 +46,7 @@ export {
 } from './_interface/ISelectionType';
 export {default as IApplication, IApplicationOptions, IAttributes, HeadJson} from './_interface/IApplication';
 export {default as IRUM, IRUMOptions} from './_interface/IRUM';
-export {default as IFilter, IFilterOptions} from './_interface/IFilter';
+export {default as IFilter, IFilterOptions, TFilter} from './_interface/IFilter';
 export {default as IFilterChanged} from './_interface/IFilterChanged';
 export {default as IContrastBackground, IContrastBackgroundOptions} from './_interface/IContrastBackground';
 export {

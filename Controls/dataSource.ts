@@ -21,3 +21,4 @@ export {
 } from './_dataSource/Controller';
 export {default as calculatePath} from 'Controls/_dataSource/calculatePath';
 export {isEqualItems} from './_dataSource/Controller';
+export {default as DataLoader, ILoadDataConfig, ILoadDataResult} from './_dataSource/DataLoader';
