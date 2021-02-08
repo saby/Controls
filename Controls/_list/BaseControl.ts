@@ -2201,6 +2201,13 @@ const _private = {
 
     dataLoadCallback(items: RecordSet, direction: IDirection): Promise<void> | void {
         if (!direction) {
+            if (this._sourceController && this._options.dataLoadCallback) {
+                const sourceControllerDataLoadCallback = this._sourceController.getState().dataLoadCallback;
+
+                if (sourceControllerDataLoadCallback !== this._options.dataLoadCallback) {
+                    Logger.warning('BaseControl: для корректной работы опцию dataLoadCallback необходимо задавать на Layout/browser:Browser (Controls/list:DataContainer)');
+                }
+            }
             _private.executeAfterReloadCallbacks(this, items, this._options);
             return this.isEditing() ? this._cancelEdit(true) : void 0;
         }
