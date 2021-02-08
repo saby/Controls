@@ -1,11 +1,13 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"/>
+        <Controls.buttons:Button caption="Toggle multiselectVisibility" on:click="_onToggle()"
+                                 attr:class="demo-ExplorerSearch__multiselectVisibility"/>
         <Controls.buttons:Button caption="{{'Установить startingWith в '+ _startingWithBtnCaption}}"
                                  on:click="_updateStartingWith()" attr:style="padding-left: 5px"
-                                 attr:class="controlsDemo_Search__set-startingwith"/>
+                                 attr:class="controlsDemo_Search__set-startingwith demo-ExplorerSearch__startingWith"/>
         <Controls.buttons:Button caption="{{ !!_dedicatedItemProperty ? 'Выключить' : 'Включить' }} dedicatedItemProperty"
-                                 on:click="_onToggleDedicatedItemProperty()" attr:style="padding-left: 5px"/>
+                                 on:click="_onToggleDedicatedItemProperty()" attr:style="padding-left: 5px"
+                                 attr:class="demo-ExplorerSearch__dedicatedItemProperty"/>
     </div>
     <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter" parentProperty="parent" bind:root="_root">
         <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" startingWith="{{_startingWith}}">

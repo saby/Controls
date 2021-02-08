@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper {{_options.theme.indexOf('default')<0 ? 'controlsDemo_fixedWidth800' : 'controlsDemo_fixedWidth350'}}">
         <ws:if data="{{_isBoxOpen}}">
                 <div class="controlsDemo_fade-text">
                         {{_currentText}}
