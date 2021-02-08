@@ -308,7 +308,6 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                        }
                    });
             } else if (updateResult) {
-                this._searchValue = newOptions.searchValue;
                 this._filterChanged(null, updateResult as QueryWhereExpression<unknown>);
                 this._setSearchValue(newOptions.searchValue);
             }
@@ -777,6 +776,12 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     }
 
     private _dataLoadCallback(data: RecordSet, direction?: Direction): void {
+        if (this._searchController) {
+            const newValue = this._searchController.getSearchValue();
+            if (newValue && this._searchValue !== newValue) {
+                this._searchValue = newValue;
+            }
+        }
         this._filterController.handleDataLoad(data);
         this._handleDataLoad(data);
 
