@@ -475,7 +475,6 @@ describe('Controls/browser:Browser', () => {
            });
 
            assert.isTrue(notifyStub.withArgs('filterChanged', [{payload: 'something'}]).called);
-           assert.equal(browser._searchValue, '');
 
            notifyStub.restore();
        });
@@ -565,6 +564,22 @@ describe('Controls/browser:Browser', () => {
             browser._dataLoadCallback(recordset);
             assert.ok(browser._searchController._path === path);
             assert.ok(browser._path === path);
+        });
+
+        it('searchValue changed', async () => {
+            let options = getBrowserOptions();
+            options.searchValue = 'test';
+            const browser = getBrowser(options);
+
+            await browser._beforeMount(options);
+            browser.saveOptions(options);
+
+            browser._searchController = await browser._getSearchController(options);
+            browser._searchController._searchValue = 'newVal';
+            browser._searchValue = 'test';
+
+            browser._dataLoadCallback(new RecordSet());
+            assert.equal(browser._searchValue, 'newVal');
         });
     });
 
