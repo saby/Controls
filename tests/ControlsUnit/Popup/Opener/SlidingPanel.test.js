@@ -14,11 +14,11 @@ define(
          return {
             id: 'randomId',
             popupOptions: {
-               position: 'bottom',
+               desktopMode: 'stack',
                slidingPanelOptions: {
                   minHeight: 400,
-                  maxHeight: 800,
-                  desktopMode: 'stack'
+                  position: 'bottom',
+                  maxHeight: 800
                }
             }
          };
@@ -98,7 +98,7 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   const item = getPopupItem();
                   SlidingPanelStrategy._getWindowHeight = () => 900;
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   const position = SlidingPanelStrategy.getPosition(item);
 
                   assert.equal(position.bottom, -400);
@@ -106,7 +106,7 @@ define(
                it('bottom', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
                   const item = getPopupItem();
-                  item.popupOptions.position = 'top';
+                  item.popupOptions.slidingPanelOptions.position = 'top';
                   SlidingPanelStrategy._getWindowHeight = () => 900;
                   const position = SlidingPanelStrategy.getPosition(item);
 
@@ -119,7 +119,7 @@ define(
                it('position bottom', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
                   const item = getPopupItem();
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   SlidingPanelStrategy._getWindowHeight = () => 900;
                   item.position = SlidingPanelStrategy.getPosition(item);
 
@@ -133,7 +133,7 @@ define(
                it('position top', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
                   const item = getPopupItem();
-                  item.popupOptions.position = 'top';
+                  item.popupOptions.slidingPanelOptions.position = 'top';
                   SlidingPanelStrategy._getWindowHeight = () => 900;
                   item.position = SlidingPanelStrategy.getPosition(item);
 
@@ -191,7 +191,7 @@ define(
                it('postion bottom', () => {
 
                   const item = getPopupItem();
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   Controller.getDefaultConfig(item);
 
                   assert.equal(item.popupOptions.className.includes('controls-SlidingPanel__animation-position-bottom'), true);
@@ -199,7 +199,7 @@ define(
                      minHeight: item.position.minHeight,
                      maxHeight: item.position.maxHeight,
                      height: item.position.height,
-                     position: item.popupOptions.position,
+                     position: item.popupOptions.slidingPanelOptions.position,
                      desktopMode: 'stack'
                   });
                   assert.equal(item.popupOptions.hasOwnProperty('content'), true);
@@ -207,7 +207,7 @@ define(
 
                it('postion top', () => {
                   const item = getPopupItem();
-                  item.popupOptions.position = 'top';
+                  item.popupOptions.slidingPanelOptions.position = 'top';
                   Controller.getDefaultConfig(item);
 
                   assert.equal(
@@ -218,7 +218,7 @@ define(
                      minHeight: item.position.minHeight,
                      maxHeight: item.position.maxHeight,
                      height: item.position.height,
-                     position: item.popupOptions.position,
+                     position: item.popupOptions.slidingPanelOptions.position,
                      desktopMode: 'stack'
                   });
                   assert.equal(item.popupOptions.hasOwnProperty('content'), true);
@@ -237,7 +237,7 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   SlidingPanelStrategy._getWindowHeight = () => 900;
 
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
@@ -263,7 +263,7 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   SlidingPanelStrategy._getWindowHeight = () => 900;
 
-                  item.popupOptions.position = 'top';
+                  item.popupOptions.slidingPanelOptions.position = 'top';
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
@@ -287,7 +287,7 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   SlidingPanelStrategy._getWindowHeight = () => 900;
 
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
