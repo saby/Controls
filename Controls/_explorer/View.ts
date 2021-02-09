@@ -203,23 +203,21 @@ var
             }
          },
          setViewMode: function(self, viewMode, cfg): Promise<void> {
-            var result;
-
             if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
                _private.updateRootOnViewModeChanged(self, viewMode, cfg);
                self._breadCrumbsItems = null;
             }
 
             if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
-               result = _private.loadTileViewMode(self).then(() => {
+               self._setViewModePromise = _private.loadTileViewMode(self).then(() => {
                   _private.setViewModeSync(self, viewMode, cfg);
                });
             } else {
-               result = Promise.resolve();
+               self._setViewModePromise = Promise.resolve();
                _private.setViewModeSync(self, viewMode, cfg);
             }
 
-            return result;
+            return self._setViewModePromise;
          },
          applyNewVisualOptions(self): void {
             if (self._newItemPadding) {
@@ -478,6 +476,7 @@ var
       _itemPadding: {},
       _itemTemplate: undefined,
       _isMounted: false,
+      _setViewModePromise: null,
 
       _resolveItemsPromise() {
          this._itemsResolver();
