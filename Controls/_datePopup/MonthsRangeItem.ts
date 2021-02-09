@@ -8,6 +8,7 @@ import {MonthModel as modelViewModel} from 'Controls/calendar';
 import {IDateRangeSelectable, rangeSelection as rangeSelectionUtils} from 'Controls/dateRange';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import componentTmpl = require('wml!Controls/_datePopup/MonthsRangeItem');
+import {constants} from 'Env/Env';
 
 var _private = {},
     SELECTION_VEIW_TYPES = {
@@ -76,6 +77,9 @@ var Component = BaseControl.extend([EventProxyMixin], {
     _monthClickable: true,
 
     _months: null,
+
+    _hoveredItem: null,
+    _baseHoveredItem: null,
 
     // constructor: function() {
     //    this._dayFormatter = this._dayFormatter.bind(this);
@@ -187,7 +191,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
         }
     },
 
-    _onMonthClick: function (e, date) {
+    _chooseMonth(date: Date): void {
         if (this._options.selectionProcessing || !this._options.monthClickable) {
             this._selectionViewType = SELECTION_VIEW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
@@ -195,16 +199,68 @@ var Component = BaseControl.extend([EventProxyMixin], {
         }
     },
 
+    _onMonthClick: function (e, date) {
+        this._baseHoveredItem = date;
+        this._hoveredItem = this._baseHoveredItem;
+        this._chooseMonth(date);
+    },
+
     _onMonthMouseEnter: function (e, date) {
         if (this._options.selectionProcessing || !this._options.monthClickable) {
+            this._hoveredItem = date;
             this._notify('itemMouseEnter', [date]);
         }
     },
 
     _onMonthMouseLeave: function (e, date) {
         if (this._options.selectionProcessing || !this._options.monthClickable) {
+            this._hoveredItem = this._baseHoveredItem;
             this._notify('itemMouseLeave', [date]);
         }
+    },
+
+    _onMonthKeyDown: function(event: Event, item: Date): void {
+        const hoveredItem = this._hoveredItem || item;
+        if (this._options.selectionProcessing || !this._options.monthClickable) {
+            if (event.nativeEvent.keyCode === constants.key.enter) {
+                this._chooseMonth(hoveredItem);
+            }
+            if (this._hoveredItem && this._options.selectionType !== 'quantum') {
+                let newHoveredItem;
+                const monthsInQuarter = 3;
+                switch (event.nativeEvent.keyCode) {
+                    case constants.key.up:
+                        newHoveredItem = new Date(hoveredItem.getFullYear(),
+                            hoveredItem.getMonth() - monthsInQuarter, 1);
+                        break;
+                    case constants.key.down:
+                        newHoveredItem = new Date(hoveredItem.getFullYear(),
+                            hoveredItem.getMonth() + monthsInQuarter, 1);
+                        break;
+                    case constants.key.left:
+                        newHoveredItem = new Date(hoveredItem.getFullYear(),
+                            hoveredItem.getMonth() - 1, 1);
+                        break;
+                    case constants.key.right:
+                        newHoveredItem = new Date(hoveredItem.getFullYear(),
+                            hoveredItem.getMonth() + 1, 1);
+                        break;
+                }
+                if (newHoveredItem) {
+                    const elementToFocus = document.querySelector(
+                        `.controls-PeriodDialog-MonthsRange__item[data-date="${this._dateToDataString(newHoveredItem)}"]`
+                    );
+                    elementToFocus?.focus();
+                    this._hoveredItem = newHoveredItem;
+                    this._notify('itemMouseEnter', [newHoveredItem]);
+                    event.preventDefault();
+                }
+            }
+        }
+    },
+
+    _dateToDataString: function(date: Date): string {
+        return formatDate(date, 'YYYY-MM-DD');
     },
 
     _prepareItemClass: function (itemValue) {
@@ -218,8 +274,8 @@ var Component = BaseControl.extend([EventProxyMixin], {
             css.push('controls-PeriodDialog-MonthsRange__item-selected');
             css.push('controls-PeriodDialog-MonthsRange__item-selected_theme-' + this._options.theme);
         } else {
-            css.push('controls-PeriodDialog-MonthsRange__item');
-            css.push('controls-PeriodDialog-MonthsRange__item_theme-' + this._options.theme);
+            css.push('controls-PeriodDialog-MonthsRange__item-unselected');
+            css.push('controls-PeriodDialog-MonthsRange__item-unselected_theme-' + this._options.theme);
         }
 
         if (this._selectionViewType === SELECTION_VIEW_TYPES.months) {

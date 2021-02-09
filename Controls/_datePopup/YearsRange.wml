@@ -1,22 +1,19 @@
 <div class="controls-PeriodDialog-Years controls-PeriodDialog-Years_theme-{{_options.theme}}">
-   <div attr:class="controls-PeriodDialog-Years__prevNextBtn controls-PeriodDialog-Years__prevNextBtn_theme-{{_options.theme}}">
-      <Controls.buttons:Button
-         fontColorStyle="link"
-         viewMode="link"
-         icon="icon-MarkLeftBold"
-         iconSize="m"
-         fontSize="l"
-         tooltip="{[Предыдущий год]}"
-         readOnly="{{false}}"
-         on:click="_onPrevClick()"
-      />
+   <div class="controls-PeriodDialog-Years__prevNextBtn controls-PeriodDialog-Years__prevNextBtn_theme-{{_options.theme}}">
+      <span tabindex="0"
+            on:keyDown="_prevNextBtnKeyDownHandler(-1)"
+            on:click="_onPrevNextButtonClick(-1)"
+            title="{[Предыдущий год]}"
+            class="controls-PeriodDialog-Years__prevNextBtn_icon controls-PeriodDialog-Years__prevNextBtn_icon_theme-{{ _options.theme }}
+            icon-MarkLeftBold controls-icon controls-icon_size-m_theme-{{ _options.theme }}">
+      </span>
    </div>
-
    <div class="controls-PeriodDialog-Years__yearsRange">
       <ws:for data="yearIndex, year in _model">
-         <div class="controls-PeriodDialog-Years__rangeBtn controls-PeriodDialog-Years__rangeBtn_theme-{{_options.theme}}
+         <div tabindex="0" class="controls-PeriodDialog-Years__rangeBtn controls-PeriodDialog-Years__rangeBtn_theme-{{_options.theme}}
          {{_prepareItemClass(year.year) }}"
-              attr:title="{[Выбрать год]}"
+            attr:title="{[Выбрать год]}"
+            on:keyDown="_onItemKeyDown(year.date)"
             on:click="_onItemClick(year.date)"
             on:mouseenter="_onItemMouseEnter(year.date)"
             on:mouseleave="_onItemMouseLeave(year.date)">
@@ -24,16 +21,13 @@
          </div>
       </ws:for>
    </div>
-
-   <div attr:class="controls-PeriodDialog-Years__prevNextBtn controls-PeriodDialog-Years__prevNextBtn_theme-{{_options.theme}}">
-      <Controls.buttons:Button
-         fontColorStyle="link"
-         viewMode="link"
-         icon="icon-MarkRightBold"
-         iconSize="m"
-         tooltip="{[Следующий год]}"
-         readOnly="{{false}}"
-         on:click="_onNextClick()"
-      />
-   </div>
+      <div class="controls-PeriodDialog-Years__prevNextBtn controls-PeriodDialog-Years__prevNextBtn_theme-{{_options.theme}}">
+         <span tabindex="0"
+               on:keyDown="_prevNextBtnKeyDownHandler(1)"
+               on:click="_onPrevNextButtonClick(1)"
+               title="{[Следующий год]}"
+               class="controls-PeriodDialog-Years__prevNextBtn_icon controls-PeriodDialog-Years__prevNextBtn_icon_theme-{{ _options.theme }}
+               icon-MarkRightBold controls-icon controls-icon_size-m_theme-{{ _options.theme }}">
+         </span>
+      </div>
 </div>

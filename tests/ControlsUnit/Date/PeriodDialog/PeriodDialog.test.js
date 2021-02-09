@@ -510,6 +510,32 @@ define([
          });
       });
 
+      describe('_keyDownHandler', () => {
+         [{
+            methodName: '_scrollToCurrentMonth',
+            event: {
+               nativeEvent: {
+                  keyCode: 36
+               }
+            }
+         }, {
+            methodName: '_applyResult',
+            event: {
+               nativeEvent: {
+                  keyCode: 27
+               }
+            }
+         }].forEach((test) => {
+            it(`should call ${test.methodName}`, () => {
+               const component = calendarTestUtils.createComponent(PeriodDialog.default, {});
+               sinon.stub(component, test.methodName);
+               component._keyDownHandler(test.event);
+
+               sinon.assert.calledOnce(component[test.methodName]);
+            });
+         });
+      });
+
       describe('_dateRangeSelectionEnded', function() {
          it('should generate "sendResult" event.', function() {
             const sandbox = sinon.sandbox.create(),

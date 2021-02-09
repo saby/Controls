@@ -1,4 +1,4 @@
-<Controls.validate:Controller name="formController">
+<Controls.validate:Controller name="formController" on:keyDown="_keyDownHandler()">
       <div class="controls-PeriodDialog controls-PeriodDialog_theme-{{_options.theme}}">
       <ws:partial
          template="{{_headerTmpl}}"
@@ -6,7 +6,6 @@
          theme="{{_headerTheme}}"
          today="{{ _today }}"
          resetButtonVisible="{{ _resetButtonVisible }}"
-         resetButtonClickHandler="{{ _resetButtonClickHandler }}"
          rightFieldTemplate="{{ _options.rightFieldTemplate }}"
          todayCalendarEnabled="{{_todayCalendarEnabled}}"
          selectionType="{{ _options.selectionType }}"
