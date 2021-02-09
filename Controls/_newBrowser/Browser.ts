@@ -165,6 +165,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     //endregion
 
     //region ⎆ life circle hooks
+
     protected _beforeMount(
         options?: IOptions,
         contexts?: object,
@@ -177,13 +178,17 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         if (receivedState) {
             this._detailDataSource.setItems(receivedState.detailItems);
             this._processItemsMetadata(receivedState.detailItems, options);
+            this._afterViewModeChanged(options);
         } else {
             result = Promise
                 .all([
                     this._detailDataSource.loadData()
                 ])
                 .then(
-                    ([detailItems]) => ({detailItems})
+                    ([detailItems]) => {
+                        this._afterViewModeChanged(options);
+                        return {detailItems};
+                    }
                 );
         }
 
@@ -203,9 +208,14 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
     //endregion
 
+    //region public methods
+    /**
+     * Вызывает перезагрузку данных в detail-колонке
+     */
     reload(): Promise<RecordSet> {
         return this._detailDataSource.loadData();
     }
+    //endregion
 
     /**
      * Меняет корневую директорию относительно которой отображаются данные.
@@ -292,14 +302,18 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         this._viewMode = result;
+    }
 
-        // Обновим видимость мастера, т.к. она зависит от viewMode
+    /**
+     * Постобработчик смены viewMode т.к. explorer может менять его не сразу и нам нужно
+     * дождаться {@link _onDetailExplorerChangedViewMode| подтверждения смены viewMode от него}.
+     * Также используется в {@link _beforeMount} т.к. на сервере событие о смене viewMode не генерится.
+     */
+    private _afterViewModeChanged(options: IOptions = this._options): void {
         this._updateMasterVisibility(options);
-        // Обновим фон detail-колонки, т.к. он зависит от viewMode
         this._updateDetailBgColor(options);
-
         // Уведомляем о том, что изменился режим отображения списка в detail-колонке
-        this._notify('viewModeChanged', [result]);
+        this._notify('viewModeChanged', [this.viewMode]);
     }
 
     private _setSearchString(searchString: string): void {
@@ -331,6 +345,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
                 if (this._waitingSearchResult) {
                     this._setViewMode(DetailViewMode.search);
                     this._waitingSearchResult = false;
+                    this._forceUpdate();
                 }
 
                 return items;
@@ -364,6 +379,15 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     //region ⇑ events handlers
+    /**
+     * Обрабатываем смену viewMode в explorer т.к. она может быть асинхронная если после загрузки
+     * переключаются в плиточный режим представления, т.к. шаблон и модель для плитки подтягиваются
+     * по требованию отдельной функцией
+     */
+    protected _onDetailExplorerChangedViewMode(): void {
+        this._afterViewModeChanged();
+    }
+
     /**
      * Обработчик клика по итему в detail-списке.
      * Если клик идет по папке, то отменяем дефолтную обработку и сами меняем root.
@@ -427,9 +451,6 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         // Присваиваем во внутреннюю переменную, т.к. в данном случае не надо генерить событие
         // об изменении значения, т.к. и так идет синхронизация опций
         this._userViewMode = options.userViewMode;
-        this._updateMasterVisibility(options);
-        this._updateDetailBgColor(options);
-
         this._detailSourceOptions = compileSourceOptions(options, true);
         this._masterSourceOptions = compileSourceOptions(options, false);
 
