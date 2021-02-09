@@ -1691,6 +1691,12 @@ const _private = {
                 }
             }
 
+            if (action === IObservable.ACTION_RESET) {
+                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                    self._hideTopTrigger = true;
+                }
+            }
+
             if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
                 self._itemActionsMenuId) {
                 _private.closeItemActionsMenuForActiveItem(self, removedItems);
