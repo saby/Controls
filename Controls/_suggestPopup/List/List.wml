@@ -18,6 +18,7 @@
                     sourceController="{{_suggestListOptions.sourceController || _options.sourceController}}"
                     navigation="{{_navigation}}"
                     itemsReadyCallback="{{_itemsReadyCallback}}"
+                    backgroundStyle="sticky"
                     on:markedKeyChanged="_markedKeyChanged()">
             <ws:searchBreadCrumbsItemTemplate>
                 <Controls.Container.Async templateName="Controls/treeGrid:SearchBreadCrumbsItemTemplate">
