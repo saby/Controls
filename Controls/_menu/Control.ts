@@ -108,6 +108,11 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
             result = this.loadItems(newOptions).then(() => {
                 this._notifyResizeAfterRender = true;
             });
+        } else if (newOptions.viewMode !== this._options.viewMode) {
+            this.createViewModel(
+                this._listModel.getCollection() as unknown as RecordSet<Model>,
+                newOptions
+            );
         }
         if (this.isSelectedKeysChanged(newOptions.selectedKeys, this._options.selectedKeys)) {
             this.setSelectedItems(this._listModel, newOptions.selectedKeys);
@@ -549,7 +554,7 @@ class MenuControl extends Control<IMenuControlOptions> implements IMenuControl {
             unique: true
         };
         let listModel;
-        if (options.searchParam && options.searchValue) {
+        if (options.searchParam && (options.searchValue || options.viewMode === 'search')) {
             listModel = new Search({...collectionConfig,
                 nodeProperty: options.nodeProperty,
                 parentProperty: options.parentProperty,

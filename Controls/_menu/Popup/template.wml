@@ -63,7 +63,7 @@
                        groupingKeyCallback="{{_options.groupingKeyCallback}}"
                        selectorDialogResult="{{_options.selectorDialogResult}}"
                        itemPadding="{{_itemPadding}}"
-                       dataLoadCallback="{{_dataLoadCallback}}"
+                       dataLoadCallback="{{menuPopup.dataLoadCallback || dataLoadCallback}}"
                        headingIcon="{{_headingIcon}}"
                        headerTemplate="{{_headerTemplate || _options.headerTemplate}}"
                        theme="{{_options.theme}}"
@@ -84,11 +84,12 @@
 <ws:if data="{{_options.searchParam}}">
    <ws:partial template="{{'Controls/list:DataContainer'}}"
                scope="{{_options}}">
-      <ws:partial template="{{'Controls/search:Controller'}}">
+      <ws:partial template="{{'Controls/search:Controller'}}"
+                  dataLoadCallback="{{_dataLoadCallback}}">
          <ws:partial template="menuPopup" />
       </ws:partial>
    </ws:partial>
 </ws:if>
 <ws:else>
-   <ws:partial template="menuPopup" />
+   <ws:partial template="menuPopup" dataLoadCallback="{{_dataLoadCallback}}"/>
 </ws:else>
