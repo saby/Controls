@@ -1,4 +1,4 @@
-<Controls.validate:Controller name="formController">
+<Controls.validate:Controller name="formController" on:keyDown="_keyDownHandler()" on:click="_onClickHandler()">
       <div class="controls-PeriodDialog controls-PeriodDialog_theme-{{_options.theme}}">
       <ws:partial
          template="{{_headerTmpl}}"
@@ -6,7 +6,6 @@
          theme="{{_headerTheme}}"
          today="{{ _today }}"
          resetButtonVisible="{{ _resetButtonVisible }}"
-         resetButtonClickHandler="{{ _resetButtonClickHandler }}"
          rightFieldTemplate="{{ _options.rightFieldTemplate }}"
          todayCalendarEnabled="{{_todayCalendarEnabled}}"
          selectionType="{{ _options.selectionType }}"
@@ -18,6 +17,7 @@
          dateConstructor="{{_options.dateConstructor}}"
          startValueValidators="{{_startValueValidators}}"
          endValueValidators="{{_endValueValidators}}"
+         keyboardActive="{{ _keyboardActive }}"
       />
 
          <div if="{{ _state === _STATES.year }}" class="controls-PeriodDialog__months
@@ -38,6 +38,7 @@
 
             <Controls._datePopup.YearsRange
                year="{{_displayedDate}}"
+               keyboardActive="{{ _keyboardActive }}"
                dateConstructor="{{_options.dateConstructor}}"
                on:itemClick="_onYearsItemClick()"
             />

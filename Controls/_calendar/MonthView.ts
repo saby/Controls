@@ -4,7 +4,7 @@ import {date as formatDate} from 'Types/formatter';
 import {Base as DateUtil} from 'Controls/dateUtils';
 import monthListUtils from './MonthList/Utils';
 
-import {IDateRangeSelectable, Utils as calendarUtils} from 'Controls/dateRange';
+import {IDateRangeSelectable, Utils as calendarUtils, keyboardPeriodController} from 'Controls/dateRange';
 import MonthViewModel from './MonthView/MonthViewModel';
 import dotTplFn = require('wml!Controls/_calendar/MonthView/MonthView');
 import dayTemplate = require('wml!Controls/_calendar/MonthView/dayTemplate');
@@ -14,6 +14,7 @@ import captionTemplate = require("wml!Controls/_calendar/MonthView/captionTempla
 import IMonth from './interfaces/IMonth';
 
 import {Logger} from 'UI/Utils';
+import {constants} from 'Env/Env';
 
 var _private = {
    _updateView: function(self, options) {
@@ -64,6 +65,8 @@ var MonthView = BaseControl.extend({
    _showWeekdays: null,
    _monthViewModel: null,
    _caption: null,
+   _hoveredItem: null,
+   _baseHoveredItem: null,
 
    _beforeMount: function(options) {
       _private._updateView(this, options);
@@ -91,21 +94,45 @@ var MonthView = BaseControl.extend({
    _dayClickHandler: function(event, item, isCurrentMonth) {
       if (this._options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.disable &&
           !this._options.readOnly && (isCurrentMonth || this._options.mode === 'extended')) {
+         this._baseHoveredItem = item;
+         this._hoveredItem = this._baseHoveredItem;
          this._notify('itemClick', [item, event]);
       }
    },
 
    _mouseEnterHandler: function(event, item, isCurrentMonth) {
       if (isCurrentMonth || this._options.mode === 'extended') {
+         this._hoveredItem = item;
          this._notify('itemMouseEnter', [item]);
       }
    },
 
    _mouseLeaveHandler: function(event, item, isCurrentMonth) {
       if (isCurrentMonth || this._options.mode === 'extended') {
+         this._hoveredItem = this._baseHoveredItem;
          this._notify('itemMouseLeave', [item]);
       }
    },
+
+   _keyDownHandler: function(event: Event, item: Date, isCurrentMonth: boolean): void {
+           const hoveredItem = this._hoveredItem || item;
+           const keyCode = event.nativeEvent.keyCode;
+           if (keyCode === constants.key.enter) {
+               this._dayClickHandler(event, this._hoveredItem, isCurrentMonth);
+           }
+           if (hoveredItem && this._options.selectionType !== 'quantum') {
+               const newHoveredItem = keyboardPeriodController(keyCode, hoveredItem, 'days');
+               if (newHoveredItem) {
+                   const elementToFocus = document.querySelector(
+                       `.controls-MonthViewVDOM__item[data-date="${this._dateToDataString(newHoveredItem)}"]`
+                   );
+                   elementToFocus?.focus();
+                   this._hoveredItem = newHoveredItem;
+                   this._notify('itemMouseEnter', [newHoveredItem]);
+                   event.preventDefault();
+               }
+           }
+   }
 
    // cancelSelection: function () {
    //    var canceled = MonthView.superclass.cancelSelection.call(this);
