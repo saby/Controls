@@ -85,9 +85,22 @@
 }
 
 .ws-is-hover {
-   .controls-PeriodDialog__stateButton_theme-@{themeName}:hover {
+   .controls-PeriodDialog_stateButton_icon_theme-@{themeName}:hover {
       fill: @switcher_hover_icon-color_datePicker;
+      color: @switcher_hover_icon-color_datePicker;
    }
+}
+
+.controls-PeriodDialog__stateButton:focus {
+   .controls-PeriodDialog_stateButton_icon_focus_theme-@{themeName} {
+      fill: @switcher_hover_icon-color_datePicker;
+      color: @switcher_hover_icon-color_datePicker;
+   }
+}
+
+.controls-PeriodDialog_stateButton_icon_theme-@{themeName} {
+   fill: @switcher_icon-color_datePicker;
+   color: @switcher_icon-color_datePicker;
 }
 
 .controls-PeriodDialog__header-period_link {
