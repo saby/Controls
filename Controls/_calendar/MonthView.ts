@@ -4,7 +4,7 @@ import {date as formatDate} from 'Types/formatter';
 import {Base as DateUtil} from 'Controls/dateUtils';
 import monthListUtils from './MonthList/Utils';
 
-import {IDateRangeSelectable, Utils as calendarUtils} from 'Controls/dateRange';
+import {IDateRangeSelectable, Utils as calendarUtils, keyboardPeriodController} from 'Controls/dateRange';
 import MonthViewModel from './MonthView/MonthViewModel';
 import dotTplFn = require('wml!Controls/_calendar/MonthView/MonthView');
 import dayTemplate = require('wml!Controls/_calendar/MonthView/dayTemplate');
@@ -14,6 +14,7 @@ import captionTemplate = require("wml!Controls/_calendar/MonthView/captionTempla
 import IMonth from './interfaces/IMonth';
 
 import {Logger} from 'UI/Utils';
+import {constants} from 'Env/Env';
 
 /**
  * Календарь, отображающий 1 месяц.
@@ -52,6 +53,8 @@ export default class MonthView extends Control<IControlOptions> {
    _showWeekdays: boolean;
    _monthViewModel: MonthViewModel;
    _caption: string;
+    _hoveredItem: Date;
+    _baseHoveredItem: Date;
 
    protected _beforeMount(options): void {
       this._updateView(options);
@@ -79,24 +82,48 @@ export default class MonthView extends Control<IControlOptions> {
    protected _dayClickHandler(event, item, isCurrentMonth): void {
       if (this._options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.disable &&
           !this._options.readOnly && (isCurrentMonth || this._options.mode === 'extended')) {
+         this._baseHoveredItem = item;
+         this._hoveredItem = this._baseHoveredItem;
          this._notify('itemClick', [item, event]);
       }
    }
 
    protected _mouseEnterHandler(event, item, isCurrentMonth): void {
       if (isCurrentMonth || this._options.mode === 'extended') {
+         this._hoveredItem = item;
          this._notify('itemMouseEnter', [item]);
       }
    }
 
    protected _mouseLeaveHandler(event, item, isCurrentMonth): void {
       if (isCurrentMonth || this._options.mode === 'extended') {
+         this._hoveredItem = this._baseHoveredItem;
          this._notify('itemMouseLeave', [item]);
       }
    }
 
+    protected _keyDownHandler(event: Event, item: Date, isCurrentMonth: boolean): void {
+        const hoveredItem = this._hoveredItem || item;
+        const keyCode = event.nativeEvent.keyCode;
+        if (keyCode === constants.key.enter) {
+            this._dayClickHandler(event, this._hoveredItem, isCurrentMonth);
+        }
+        if (hoveredItem && this._options.selectionType !== 'quantum') {
+            const newHoveredItem = keyboardPeriodController(keyCode, hoveredItem, 'days');
+            if (newHoveredItem) {
+                const elementToFocus = document.querySelector(
+                    `.controls-MonthViewVDOM__item[data-date="${this._dateToDataString(newHoveredItem)}"]`
+                );
+                elementToFocus?.focus();
+                this._hoveredItem = newHoveredItem;
+                this._notify('itemMouseEnter', [newHoveredItem]);
+                event.preventDefault();
+            }
+        }
+    }
+
    private _updateView(options): void {
-      var newMonth = options.month || new options.dateConstructor();
+      let newMonth = options.month || new options.dateConstructor();
 
       // localization can change in runtime, take the actual translation of the months each time the component
       // is initialized. In the array, the days of the week are in the same order as the return values

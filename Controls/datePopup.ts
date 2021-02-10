@@ -15,8 +15,7 @@ import {MonthViewDayTemplate} from 'Controls/calendar';
 import {Controller as ManagerController} from 'Controls/popup';
 import {_scrollContext as ScrollData, IntersectionObserverSyntheticEntry} from './scroll';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import {IFontColorStyle} from './interface';
-import {ILinkViewControlOptions} from './_dateRange/LinkView';
+import {constants} from 'Env/Env';
 
 const HEADER_TYPES = {
         link: 'link',
@@ -128,6 +127,8 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _startValueValidators = null;
     _endValueValidators = null;
 
+    _keyboardActive: boolean = false;
+
     _beforeMount(options: IControlOptions): void {
         /* Опция _displayDate используется только(!) в тестах, чтобы иметь возможность перемотать
          календарь в нужный период, если startValue endValue не заданы.
@@ -229,7 +230,18 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._updateTodayCalendarState();
     }
 
+    _stateButtonKeyDownHandler(event: SyntheticEvent): void {
+        if (event.nativeEvent.keyCode === constants.key.enter) {
+            this.toggleState();
+            this._updateTodayCalendarState();
+        }
+    }
+
     _todayCalendarClick(): void {
+        this._scrollToCurrentMonth();
+    }
+
+    _scrollToCurrentMonth(): void {
         if (this._todayCalendarEnabled) {
             this._displayedDate = dateUtils.getStartOfMonth(new Date());
         }
@@ -375,7 +387,30 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this.fixedPeriodClick(start, end);
     }
 
+    _keyDownHandler(event: SyntheticEvent): void {
+        // ПОМЕНЯТЬ НА СВИТЧ
+        if (constants.key.home === event.nativeEvent.keyCode) {
+            this._scrollToCurrentMonth();
+        }
+        if (constants.key.esc === event.nativeEvent.keyCode) {
+            this._applyResult();
+        }
+        // Если управление происходит через клавиатуру, то мы включаем режим, при котором фокус на элементах будет
+        // выделять их.
+        if (constants.key.tab === event.nativeEvent.keyCode) {
+            this._keyboardActive = true;
+        }
+    }
+
+    _onClickHandler(): void {
+        this._keyboardActive = false;
+    }
+
     _applyClick(e: SyntheticEvent): Promise<void> {
+        return this._applyResult();
+    }
+
+    _applyResult(): Promise<void> {
         return this.isInputsValid().then((valid: boolean) => {
             if (valid) {
                 this.sendResult();
@@ -418,6 +453,16 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     _resetButtonClickHandler(): void {
+        this._resetValues();
+    }
+
+    _resetButtonKeyDownHandler(event: SyntheticEvent): void {
+        if (constants.key.enter === event.nativeEvent.keyCode) {
+            this._resetValues();
+        }
+    }
+
+    _resetValues(): void {
         this.rangeChanged(this._options.resetStartValue || null, this._options.resetEndValue || null);
         this._resetButtonVisible = false;
     }

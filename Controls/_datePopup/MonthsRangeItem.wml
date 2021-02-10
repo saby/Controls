@@ -22,8 +22,11 @@
             </div>
             <div
                   for="monthIndex as month in _months.slice(quarter.startMonth, quarter.startMonth + 3)"
-                  class="{{_prepareItemClass(month)}}"
+                  class="{{_prepareItemClass(month)}} controls-PeriodDialog-MonthsRange__item"
+                  tabindex="0"
+                  data-date="{{ _dateToDataString(month) }}"
                   on:click="_onMonthClick(month)"
+                  on:keyDown="_onMonthKeyDown(month)"
                   on:mouseenter="_onMonthMouseEnter(month)"
                   on:mouseleave="_onMonthMouseLeave(month)">
 

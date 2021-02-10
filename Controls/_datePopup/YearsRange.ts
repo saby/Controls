@@ -3,6 +3,7 @@ import {Date as WSDate} from 'Types/entity';
 import {DateRangeModel, rangeSelection as rangeSelectionUtils} from 'Controls/dateRange';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import componentTmpl = require('wml!Controls/_datePopup/YearsRange');
+import {constants} from 'Env/Env';
 
 const BUTTONS_COUNT = 6;
 /**
@@ -64,18 +65,29 @@ var Component = BaseControl.extend({
         this._rangeModel.destroy();
     },
 
-    _onPrevClick: function () {
-        this._lastYear--;
+    _changeYear: function(delta: number): void {
+        this._lastYear = this._lastYear + delta;
         this._updateModel();
     },
 
-    _onNextClick: function () {
-        this._lastYear++;
-        this._updateModel();
+    _onPrevNextButtonClick: function(event: Event, delta: number): void {
+        this._changeYear(delta);
     },
 
-    _onItemClick: function (e, date) {
+    _prevNextBtnKeyDownHandler: function(event: Event, delta: number): void {
+        if (event.nativeEvent.keyCode === constants.key.enter) {
+            this._changeYear(delta);
+        }
+    },
+
+    _onItemClick: function(event: Event, date: Date): void {
         this._notify('itemClick', [date]);
+    },
+
+    _onItemKeyDown: function(event: Event, date: Date): void {
+        if (event.nativeEvent.keyCode === constants.key.enter) {
+            this._notify('itemClick', [date]);
+        }
     },
 
     _onItemMouseEnter: function (e, date) {
