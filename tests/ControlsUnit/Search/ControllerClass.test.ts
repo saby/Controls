@@ -45,7 +45,8 @@ function getDefaultOptions() {
                 hasMore: false
             }
         },
-        loadingChangedCallback: () => {}
+        loadingChangedCallback: () => {},
+        filterChangedCallback: () = {}
     };
 }
 
@@ -105,6 +106,34 @@ describe('Controls/search:ControllerClass', () => {
         assert.deepEqual(filter, {testField: 'testValue'});
     });
 
+    describe('search', () => {
+
+        it('search value is changed after data loaded', () => {
+            const options = getDefaultOptions();
+            let searchValue;
+
+            options.searchValueChangedCallback = function(value) {
+                searchValue = value;
+            };
+            const searchController = new ControllerClass(options, {dataOptions: {}});
+            return new Promise((resolve, reject) => {
+                const searchResult = searchController.search('test', true);
+                assert.ok(searchValue !== 'test');
+
+                return searchResult
+                    .then((result) => {
+                        assert.ok(searchValue === 'test');
+                        resolve(result);
+                    })
+                    .catch((error) => {
+                        reject(error);
+                        return error;
+                    });
+            });
+        });
+
+    });
+
     describe('constructor', () => {
 
         it('searchValueChangedCallback is not called on constructor', () => {
@@ -112,7 +141,7 @@ describe('Controls/search:ControllerClass', () => {
             const options = getDefaultOptions();
             options.searchValueChangedCallback = () => {
                 searchValueChangedCallbackCalled = true;
-            }
+            };
             options.searchValue = 'test';
             new ControllerClass(options, {});
             assert.isFalse(searchValueChangedCallbackCalled);

@@ -54,6 +54,7 @@ export default class SearchControllerClass {
     private _storeCallbackId: string = null;
     private _root: Key;
     private _searchValue: string = '';
+    private _pendingSearchValue: string = null;
     private _inputSearchValue: string = '';
     private _dataOptions: ISearchControllerOptions = null;
     private _searchController: unknown = null;
@@ -167,6 +168,11 @@ export default class SearchControllerClass {
             this._setDeepReload(undefined);
         }
 
+        if (this._pendingSearchValue !== null) {
+            this._setSearchValue(this._pendingSearchValue);
+            this._setPendingSearchValue(null);
+        }
+
         this._setPath(data.getMetaData().path);
 
         if (this._isSearchViewMode() && !this._searchValue) {
@@ -218,9 +224,10 @@ export default class SearchControllerClass {
         this._setMisspellValue('');
     }
 
-    search(value: string, force: boolean): void {
-        this._startSearch(value, force);
+    search(value: string, force: boolean): Promise<ISearchCallbackResult>|void  {
+        const searchResult = this._startSearch(value, force);
         this._setInputSearchValue(value);
+        return searchResult;
     }
 
     getSearchValue(): string {
@@ -385,7 +392,7 @@ export default class SearchControllerClass {
     private _abortCallback(filter: object): void {
         this._options.loadingChangedCallback(false);
         if (this._isSearchViewMode() && this._searchValue) {
-            this._setSearchValue('');
+            this._setPendingSearchValue('');
 
             if (this._options.parentProperty) {
                 _deleteServiceFilters(this._options, filter);
@@ -434,7 +441,7 @@ export default class SearchControllerClass {
         }
         this._options.loadingChangedCallback(false);
         this._options.filterChangedCallback(filter);
-        this._setSearchValue(filter[this._options.searchParam] || '');
+        this._setPendingSearchValue(filter[this._options.searchParam] || '');
     }
 
     private _deleteRootFromFilterAfterSearch(filter: object): void {
@@ -449,6 +456,10 @@ export default class SearchControllerClass {
                 SearchControllerClass._getRoot(this._path, this._root, this._options.parentProperty)
             );
         }
+    }
+
+    private _setPendingSearchValue(value: string|null): void {
+        this._pendingSearchValue = value;
     }
 
     private _setRoot(root: Key): void {
