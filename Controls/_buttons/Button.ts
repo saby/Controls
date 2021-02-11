@@ -2,6 +2,8 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ActualApi from './ActualApi';
 import {IButton, IButtonOptions} from './interface/IButton';
 import {IClick} from './interface/IClick';
+import {Logger} from 'UI/Utils';
+import { constants } from 'Env/Env';
 import {
     ICaption,
     ICaptionOptions,
@@ -63,6 +65,10 @@ export function cssStyleGeneration(options: IButtonControlOptions, hasMsg: boole
         const actualState = ActualApi.actualLinkButton(this._viewMode, this._height);
         this._viewMode = actualState.viewMode;
         this._height = actualState.height;
+    }
+    if (!constants.isServerSide) {
+        Logger.error('Controls/buttons:Button: Используются устаревшие опции. ' +
+            'Необходимо перейти на актуальное API и не использовать метод cssStyleGeneration.');
     }
 }
 
