@@ -7,7 +7,7 @@
         <ws:contextMenuConfig>
             <ws:footerTemplate>
                 <div class="ControlsDemo_MenuFooterTemplate-footer">
-                    {{footerTemplate.footerItemData.item.getContents().get('menuFooterText')}}
+                    {{footerTemplate.footerItemData.item.get('menuFooterText')}}
                 </div>
             </ws:footerTemplate>
         </ws:contextMenuConfig>
