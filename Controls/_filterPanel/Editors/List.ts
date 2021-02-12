@@ -6,7 +6,7 @@ import * as ColumnTemplate from 'wml!Controls/_filterPanel/Editors/resources/Col
 import * as AdditionalColumnTemplate from 'wml!Controls/_filterPanel/Editors/resources/AdditionalColumnTemplate';
 import * as CircleTemplate from 'wml!Controls/_filterPanel/Editors/resources/CircleTemplate';
 import {StackOpener} from 'Controls/popup';
-import {Model} from 'Types/entity';
+import {Model, Record} from 'Types/entity';
 import {IFilterOptions, ISourceOptions, INavigationOptions, IItemActionsOptions, ISelectorDialogOptions} from 'Controls/interface';
 import {IList} from 'Controls/list';
 import {IColumn} from 'Controls/grid';
@@ -84,8 +84,24 @@ class ListEditor extends Control<IListEditorOptions> {
         }
     }
 
+    private _moveListItem(selectedKeys: string[]|number[]): void {
+        const selectorItems = this._options.selectorTemplate.templateOptions.items;
+
+        selectedKeys.forEach((itemKey, index) => {
+            const record = this._items.getRecordById(itemKey);
+            if (!record) {
+                const rawData = selectorItems.find((item) => item[this._options.keyProperty] === itemKey);
+                const newRecord = new Record({
+                    rawData
+                });
+                this._items.replace(newRecord, index);
+            }
+        });
+    }
+
     protected _handleItemsReadyCallback(items: RecordSet): void {
         this._items = items;
+        this._moveListItem(this._selectedKeys);
     }
 
     protected _handleItemClick(event: SyntheticEvent, item: Model, nativeEvent: SyntheticEvent): void {
@@ -108,6 +124,7 @@ class ListEditor extends Control<IListEditorOptions> {
         result.forEach((item) => {
             selectedKeys.push(item.get(this._options.keyProperty));
         });
+        this._moveListItem(selectedKeys);
         this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
     }
 
