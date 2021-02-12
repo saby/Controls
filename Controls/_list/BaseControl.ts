@@ -1691,6 +1691,10 @@ const _private = {
                 }
             }
 
+            if (action === IObservable.ACTION_RESET) {
+                _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
+            }
+
             if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
                 self._itemActionsMenuId) {
                 _private.closeItemActionsMenuForActiveItem(self, removedItems);
@@ -3881,13 +3885,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         // todo При отказе от старой - выпилить проверку "useNewModel".
         if (emptyTemplateChanged && newOptions.useNewModel) {
             this._listViewModel.setEmptyTemplate(newOptions.emptyTemplate);
-        }
-
-        // если будут перезагружены данные, то нужно снова добавить отступ сверху, чтобы не было сразу загрузки данных вверх
-        if (needReloadByOptions) {
-            if (_private.attachLoadTopTriggerToNullIfNeed(this, newOptions)) {
-                self._hideTopTrigger = true;
-            }
         }
 
         this._loadedBySourceController = newOptions.sourceController &&
