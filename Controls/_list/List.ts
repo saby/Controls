@@ -155,12 +155,12 @@ export default class List extends Control/** @lends Controls/_list/List.prototyp
         return this._children.listControl.moveItems(selection, targetKey, position);
     }
 
-    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        return this._children.listControl.moveItemUp(selectedKey);
+    moveItemUp(selectedKey: CrudEntityKey, reverse?: boolean): Promise<void> {
+        return this._children.listControl.moveItemUp(selectedKey, reverse);
     }
 
-    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        return this._children.listControl.moveItemDown(selectedKey);
+    moveItemDown(selectedKey: CrudEntityKey, reverse?: boolean): Promise<void> {
+        return this._children.listControl.moveItemDown(selectedKey, reverse);
     }
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {

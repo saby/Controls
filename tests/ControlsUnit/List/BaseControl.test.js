@@ -7806,7 +7806,7 @@ define([
             moveWithDialog: () => Promise.resolve(),
             updateOptions: () => {}
          };
-         let spyMove;
+         let stubMove;
          let spyMoveWithDialog;
          let cfg;
          let baseControl;
@@ -7843,26 +7843,56 @@ define([
                getItemBySourceKey: () => collectionItem,
                isEditing: () => false
             };
-            spyMove = sinon.spy(moveController, 'move');
+            stubMove = sinon.stub(moveController, 'move').callsFake(() => Promise.resolve());
             spyMoveWithDialog = sinon.spy(moveController, 'moveWithDialog');
          });
 
          afterEach(() => {
-            spyMove.restore();
+            stubMove.restore();
             spyMoveWithDialog.restore();
          });
 
-         // moveItemUp вызывает moveController
+         // moveItemUp вызывает moveController; position = up
          it('moveItemUp() should call moveController', () => {
+            stubMove.callsFake((selection, filter, targetKey, position) => {
+               assert.equal(position, 'before');
+               return Promise.resolve();
+            });
             return baseControl.moveItemUp(2).then(() => {
-               sinon.assert.called(spyMove);
+               sinon.assert.called(stubMove);
             });
          });
 
-         // moveItemDown вызывает moveController
+         // moveItemDown вызывает moveController; position = down
          it('moveItemDown() should call moveController', () => {
+            stubMove.callsFake((selection, filter, targetKey, position) => {
+               assert.equal(position, 'after');
+               return Promise.resolve();
+            });
             return baseControl.moveItemDown(2).then(() => {
-               sinon.assert.called(spyMove);
+               sinon.assert.called(stubMove);
+            });
+         });
+
+         // moveItemUp может работать в обратном направлении; position = down
+         it('moveItemUp() should call moveController', () => {
+            stubMove.callsFake((selection, filter, targetKey, position) => {
+               assert.equal(position, 'after');
+               return Promise.resolve();
+            });
+            return baseControl.moveItemUp(2, true).then(() => {
+               sinon.assert.called(stubMove);
+            });
+         });
+
+         // moveItemDown может работать в обратном направлении; position = up
+         it('moveItemDown() should call moveController', () => {
+            stubMove.callsFake((selection, filter, targetKey, position) => {
+               assert.equal(position, 'before');
+               return Promise.resolve();
+            });
+            return baseControl.moveItemDown(2, true).then(() => {
+               sinon.assert.called(stubMove);
             });
          });
 
@@ -7873,7 +7903,7 @@ define([
                excluded: []
             };
             return baseControl.moveItems(selectionObject, 3, 'on').then(() => {
-               sinon.assert.called(spyMove);
+               sinon.assert.called(stubMove);
             });
          });
 

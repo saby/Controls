@@ -901,12 +901,12 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         return this._children.baseControl.moveItems(selection, targetKey, position);
     },
 
-    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        return this._children.baseControl.moveItemUp(selectedKey);
+    moveItemUp(selectedKey: CrudEntityKey, reverse?: boolean): Promise<void> {
+        return this._children.baseControl.moveItemUp(selectedKey, reverse);
     },
 
-    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        return this._children.baseControl.moveItemDown(selectedKey);
+    moveItemDown(selectedKey: CrudEntityKey, reverse?: boolean): Promise<void> {
+        return this._children.baseControl.moveItemDown(selectedKey, reverse);
     },
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {

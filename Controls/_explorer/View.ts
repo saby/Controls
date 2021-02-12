@@ -808,12 +808,12 @@ var
      return this._children.treeControl.moveItems(selection, targetKey, position);
   },
 
-  moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-     return this._children.treeControl.moveItemUp(selectedKey);
+  moveItemUp(selectedKey: CrudEntityKey, reverse?: boolean): Promise<void> {
+     return this._children.treeControl.moveItemUp(selectedKey, reverse);
   },
 
-  moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-     return this._children.treeControl.moveItemDown(selectedKey);
+  moveItemDown(selectedKey: CrudEntityKey, reverse?: boolean): Promise<void> {
+     return this._children.treeControl.moveItemDown(selectedKey, reverse);
   },
 
   moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {

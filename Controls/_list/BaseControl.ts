@@ -3073,7 +3073,8 @@ const _private = {
     prepareMoverControllerOptions(self, options: IList): IMoveControllerOptions {
         const controllerOptions: IMoveControllerOptions = {
             source: options.source,
-            parentProperty: options.parentProperty
+            parentProperty: options.parentProperty,
+            sorting: options.sorting
         };
         if (options.moveDialogTemplate) {
             if (options.moveDialogTemplate.templateName) {
@@ -5630,24 +5631,26 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         return _private.getMoveController(this).move(selection, this._filter, targetKey, position) as Promise<DataSet>;
     },
 
-    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
+    moveItemUp(selectedKey: CrudEntityKey, reverse?: boolean): Promise<void> {
         const sibling = _private.getMoveTargetItem(this, selectedKey, LOCAL_MOVE_POSITION.Before);
         const selection: ISelectionObject = {
             selected: [selectedKey],
             excluded: []
         };
+        const position = reverse ? LOCAL_MOVE_POSITION.After : LOCAL_MOVE_POSITION.Before;
         return _private.getMoveController(this)
-            .move(selection, {}, sibling, LOCAL_MOVE_POSITION.Before) as Promise<void>;
+            .move(selection, {}, sibling, position) as Promise<void>;
     },
 
-    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
+    moveItemDown(selectedKey: CrudEntityKey, reverse?: boolean): Promise<void> {
         const sibling = _private.getMoveTargetItem(this, selectedKey, LOCAL_MOVE_POSITION.After);
         const selection: ISelectionObject = {
             selected: [selectedKey],
             excluded: []
         };
+        const position = reverse ? LOCAL_MOVE_POSITION.Before : LOCAL_MOVE_POSITION.After;
         return _private.getMoveController(this)
-            .move(selection, {}, sibling, LOCAL_MOVE_POSITION.After) as Promise<void>;
+            .move(selection, {}, sibling, position) as Promise<void>;
     },
 
     moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
