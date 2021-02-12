@@ -106,8 +106,9 @@ class ListEditor extends Control<IListEditorOptions> {
 
     protected _handleSelectorResult(result: Model[]): void {
         const selectedKeys = [];
-        result.forEach((item) => {
+        result.forEach((item, index) => {
             selectedKeys.push(item.get(this._options.keyProperty));
+            this._moveSourceItem(item, index);
         });
         this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
     }
@@ -163,6 +164,15 @@ class ListEditor extends Control<IListEditorOptions> {
     protected _beforeUnmount(): void {
         if (this._stackOpener) {
             this._stackOpener.destroy();
+        }
+    }
+
+    private _moveSourceItem(item: Model, index: number): void {
+        const itemKey = item.getKey();
+        const record = this._items.getRecordById(itemKey);
+        if (!record) {
+            const moveToKey = this._items.at(index).getKey();
+            this._options.source.move(item, moveToKey);
         }
     }
 
