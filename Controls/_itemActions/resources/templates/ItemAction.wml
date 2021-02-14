@@ -8,6 +8,7 @@
             {{actionMode === 'adaptive' ? 'controls-itemActionsV_action_adaptive'}}"
           attr:title="{{action.tooltip}}"
           on:mousedown="_onItemActionMouseDown(action, itemData)"
+          on:mouseup="_onItemActionMouseUp(action, itemData)"
           on:click="_onItemActionClick(action, itemData)"
           attr:ws-no-focus="true">
         <ws:if data="{{action.showIcon}}">
