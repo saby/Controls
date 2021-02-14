@@ -5466,6 +5466,15 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     /**
+     * Обработчик mouseUp по операции, необходимый для предотвращения срабатывания mouseUp на записи в списке
+     * @param event
+     * @private
+     */
+    _onItemActionMouseUp(event: SyntheticEvent<MouseEvent>): void {
+        event.stopPropagation();
+    },
+
+    /**
      * Обработчик событий, брошенных через onResult в выпадающем/контекстном меню
      * @param eventName название события, брошенного из Controls/menu:Popup.
      * Варианты значений itemClick, applyClick, selectorDialogOpened, pinClick, menuOpened

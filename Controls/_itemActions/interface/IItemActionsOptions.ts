@@ -322,7 +322,7 @@ export interface IItemActionsOptions {
      * @deprecated Используйте {@link Controls/list:ItemTemplate#itemActionsClass itemActionsClass} как опцию {@link Controls/list:ItemTemplate}.
      */
     /*
-     * @cfg {Controls/itemActions:TActionCaptionPosition} CSS class, allowing to set position and padding for actions panel relative to record
+     * @cfg {String} CSS class, allowing to set position and padding for actions panel relative to record
      */
     /*
      * @TODO Вероятно, будет удалён согласно https://online.sbis.ru/opendoc.html?guid=f874f976-0ccd-4d56-99a6-4b3bd4669591

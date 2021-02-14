@@ -83,6 +83,10 @@ export default class IPropertyGridRender extends Control<IPropertyGridGridRender
         this._notify('itemActionMouseDown', [item, action, e]);
     }
 
+    protected _onItemActionMouseUp(e: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+    }
+
     protected _onItemActionClick(e: SyntheticEvent<MouseEvent>): void {
         e.stopPropagation();
     }

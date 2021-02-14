@@ -140,6 +140,10 @@ export default class Render extends Control<IRenderOptions> {
         e.stopPropagation();
     }
 
+    protected _onItemActionMouseUp(e: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+    }
+
     protected _onItemActionClick(e: SyntheticEvent<MouseEvent>): void {
         e.stopPropagation();
     }
