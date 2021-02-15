@@ -39,6 +39,11 @@ export interface IItemActionsTemplateConfig {
     style?: string;
 
     /**
+     * @cfg {String} Опция, позволяющая настраивать фон панели операций над записью в режиме редактирования.
+     */
+    editingBackgroundStyle?: string;
+
+    /**
      * @cfg {String} Размер иконок опций записи
      * @description Принимает значения 's' или 'm' в соответствии со стандартом
      */
