@@ -17,7 +17,12 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
             getLeftPadding: () => '',
             getRightPadding: () => '',
             hasItemActionsSeparatedCell: () => false,
-            getColumnIndex: () => 0
+            getColumnIndex: () => 0,
+            getOwner: () => {
+                return {
+                    find: () => true
+                };
+            }
         } as any;
 
         const footerCell = new TreeGridFooterCell({
@@ -35,14 +40,19 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
             getColumnsCount: () => 2,
             getStickyColumnsCount: () => 0,
             getExpanderSize: () => '',
-            getActionsTemplateConfig: ()=> {},
+            getActionsTemplateConfig: () => {},
             hasMultiSelectColumn: () => true,
             getMultiSelectVisibility: () => 'visible',
             hasColumnScroll: () => false,
             getLeftPadding: () => '',
             getRightPadding: () => '',
             hasItemActionsSeparatedCell: () => false,
-            getColumnIndex: () => 0
+            getColumnIndex: () => 0,
+            getOwner: () => {
+                return {
+                    find: () => true
+                };
+            }
         } as any;
 
         const footerCell = new TreeGridFooterCell({
@@ -68,7 +78,12 @@ describe('Controls/treeGrid_clean/Display/MultiSelectVisibility/FooterCell/getWr
             getLeftPadding: () => '',
             getRightPadding: () => '',
             hasItemActionsSeparatedCell: () => false,
-            getColumnIndex: () => 1
+            getColumnIndex: () => 1,
+            getOwner: () => {
+                return {
+                    find: () => true
+                };
+            }
         } as any;
 
         const footerCell = new TreeGridFooterCell({
