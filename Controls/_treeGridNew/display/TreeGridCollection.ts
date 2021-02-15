@@ -42,7 +42,7 @@ function itemIsVisible<T extends Model>(item: TreeItem<T>): boolean  {
 }
 
 export default class TreeGridCollection<
-    S extends Model,
+    S extends Model = Model,
     T extends TreeGridDataRow<S> = TreeGridDataRow<S>
 > extends mixin<Tree<any>, GridMixin<any, any>>(Tree, GridMixin) {
     readonly '[Controls/treeGrid:TreeGridCollection]': boolean;
