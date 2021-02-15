@@ -66,8 +66,13 @@
          <ws:partial template="wml!Controls/_menu/Render/expanderTemplate" scope="{{_options}}"/>
       </ws:if>
       <ws:else data="{{rightTemplate}}">
-         <div class="controls-Menu__row__rightTemplate_separator_theme-{{_options.theme}}"></div>
-         <ws:partial template="{{rightTemplate}}" scope="{{_options}}" item="{{treeItem.getContents()}}"/>
+         <div class="controls-Menu__row__rightTemplate-wrapper">
+            <div class="controls-Menu__row__rightTemplate_separator_theme-{{_options.theme}}"></div>
+            <ws:partial template="{{rightTemplate}}"
+                        scope="{{_options}}"
+                        item="{{treeItem.getContents()}}"
+                        class="controls-Menu__row__rightTemplate"/>
+         </div>
       </ws:else>
 
       <ws:if data="{{ treeItem.shouldDisplayActions() && !treeItem.getContents().get(itemData.nodeProperty) }}">
