@@ -108,12 +108,22 @@
    display: block;
 }
 
+.controls-Menu__row__rightTemplate-wrapper {
+   display: flex;
+   height: 100%;
+   align-items: center;
+}
+
 .controls-Menu__row__rightTemplate_separator_theme-@{themeName} {
    width: @rightTemplate_separator_thickness_menu;
    background-color: @rightTemplate_separator_color_menu;
    margin: 0 @rightTemplate_padding-horizontal_menu 0 @rightTemplate_padding-horizontal_menu;
    height: 100%;
    flex-shrink: 0;
+}
+
+.controls-Menu__row__rightTemplate_separator_theme-@{themeName}:only-child {
+   display: none;
 }
 
 .controls-Menu__icon {
