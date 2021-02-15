@@ -45,6 +45,14 @@ import rk = require('i18n!Controls');
  * @demo Controls-demo/filterPanel/View/Index
  */
 
+/**
+ * @name Controls/_filterPanel/View#style
+ * @cfg {String} Стиль отображения маркера группы с выбарнным значением.
+ * @variant default
+ * @variant master
+ * @default default
+ */
+
 interface IViewPanelOptions {
     source: IFilterItem[];
     applyButtonCaption: string;
@@ -159,6 +167,12 @@ export default class View extends Control<IControlOptions> {
         this._notify('sendResult', [{items: this._source, filter: this._editingObject}], {bubbling: true});
         this._notify('filterChanged', [this._editingObject]);
         this._notify('sourceChanged', [this._source]);
+    }
+
+    static getDefaultOptions(): object {
+        return {
+            style: 'default'
+        };
     }
 
     static _theme: string[] = ['Controls/filterPanel', 'Controls/Classes'];
