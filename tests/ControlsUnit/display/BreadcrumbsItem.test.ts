@@ -97,4 +97,11 @@ describe('Controls/_display/BreadcrumbsItem', () => {
             assert.strictEqual(item.getLevel(), 4);
         });
     });
+
+    describe('.isRoot()', () => {
+        it('be default false', () => {
+            const item = new BreadcrumbsItem();
+            assert.isFalse(item.isRoot());
+        });
+    });
 });
