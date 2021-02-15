@@ -24,7 +24,7 @@
             <ws:partial template="Controls/propertyGrid:ItemTemplate" attr:class="controls-FilterViewPanel__propertyGrid_itemTemplate_theme-{{_options.theme}}"/>
          </ws:itemTemplate>
          <ws:groupTemplate>
-            <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate" resetCaption="{{_resetCaption}}" groupItems="{{_groupItems}}"/>
+            <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate" resetCaption="{{_resetCaption}}" groupItems="{{_groupItems}}" style="{{_options.style}}"/>
          </ws:groupTemplate>
       </Controls.propertyGrid:PropertyGrid>
    </Controls.scroll:Container>
