@@ -30,6 +30,7 @@
                         markerPosition="{{_options.markerPosition}}"
 
                         on:editingItemClick="_onEditingItemClick(itemData.dispItem)"
+                        on:editingItemMouseDown="_onEditingItemMouseDown(itemData.dispItem)"
 
                         on:contextmenu="_onItemContextMenu(itemData)"
                         on:swipe="_onItemSwipe(itemData)"
