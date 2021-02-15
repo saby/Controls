@@ -33,10 +33,17 @@
    position: absolute;
    width: @group-marker_size_filterViewPanel;
    height: @group-marker_size_filterViewPanel;
-   background-color: @group-marker_color_filterViewPanel;
    border-radius: 50%;
    top: (@group_height_filterViewPanel - @group-marker_size_filterViewPanel) / 2;
    left: (@padding-left_filterViewPanel - @group-marker_size_filterViewPanel) / 2;
+}
+
+.controls-FilterViewPanel__group-marker-default_theme-@{themeName} {
+   background-color: @group-marker-default_color_filterViewPanel;
+}
+
+.controls-FilterViewPanel__group-marker-master_theme-@{themeName} {
+   background-color: @group-marker-master_color_filterViewPanel;
 }
 
 .controls-FilterViewPanel__group-content_theme-@{themeName} {

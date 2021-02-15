@@ -26,7 +26,8 @@
       </div>
    </div>
    <ws:if data="{{collapsedGroups[item] && _options.groupItems[item].textValue.length}}">
-      <div class="controls-FilterViewPanel__group-marker_theme-{{_options.theme}}"></div>
+      <div class="controls-FilterViewPanel__group-marker_theme-{{_options.theme}}
+                  controls-FilterViewPanel__group-marker-{{style}}_theme-{{_options.theme}}"></div>
       <div class="controls-FilterViewPanel__group-result_wrapper">
          <div class="controls-FilterViewPanel__group-result_theme-{{_options.theme}}">
             {{_options.groupItems[item].textValue}}
