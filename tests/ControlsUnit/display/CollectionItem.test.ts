@@ -730,5 +730,57 @@ describe('Controls/_display/CollectionItem', () => {
             const result = item.getItemActionPositionClasses('inside', null, {top: 's', bottom: 's'}, 'default', true);
             assert.equal(result, ' controls-itemActionsV_position_bottomRight controls-itemActionsV_padding-bottom_default_theme-default ');
         });
-    })
+    });
+
+    describe('getItemActionsStylingClasses', () => {
+        let item: CollectionItem<any>;
+        let collection: Collection;
+
+        beforeEach(() => {
+            collection = {
+                getEditingBackgroundStyle: () => 'default',
+                getItemActionsVisibility: () => 'onhover',
+                getHoverBackgroundStyle: () => undefined,
+                getStyle: () => 'default'
+            } as undefined as Collection;
+            item = new CollectionItem();
+            item.setOwner(collection);
+        });
+
+        // Если запись в режиме редактирования - то по умолчанию editing_default, с учётом editingBackgroundStyle
+        it('should return default editing class', () => {
+            const contents = item.getContents();
+            item.setEditing(true, contents, true);
+            CssClassesAssert.include(item.getItemActionsStylingClasses(null, 'default'), 'controls-itemActionsV_style_editing_default_theme-default');
+        });
+
+        it('should return editing class considering editingBackgroundStyle', () => {
+            collection.getEditingBackgroundStyle = () => 'custom';
+            const contents = item.getContents();
+            item.setEditing(true, contents, true);
+            CssClassesAssert.include(item.getItemActionsStylingClasses(null, 'default'), 'controls-itemActionsV_style_editing_custom_theme-default');
+        });
+
+        // Если запись не подсвечивается, то пустое значение
+        it('should return editing class considering editingBackgroundStyle', () => {
+            assert.equal(item.getItemActionsStylingClasses(false, 'default'), '');
+        });
+
+        // Если itemActions видимы всегда, то transparent
+        it('should return editing class considering editingBackgroundStyle', () => {
+            collection.getItemActionsVisibility = () => 'visible';
+            CssClassesAssert.include(item.getItemActionsStylingClasses(null, 'default'), 'controls-itemActionsV_style_visible_theme-default');
+        });
+
+        // Если есть HoverBackgroundStyle, то getHoverBackgroundStyle
+        it('should return editing class considering editingBackgroundStyle', () => {
+            collection.getHoverBackgroundStyle = () => 'custom';
+            CssClassesAssert.include(item.getItemActionsStylingClasses(null, 'default'), 'controls-itemActionsV_style_custom_theme-default');
+        });
+
+        // Иначе текущий Style
+        it('should return editing class considering editingBackgroundStyle', () => {
+            CssClassesAssert.include(item.getItemActionsStylingClasses(null, 'default'), 'controls-itemActionsV_style_default_theme-default');
+        });
+    });
 });

@@ -662,6 +662,31 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return itemActionClasses;
     }
 
+    /**
+     * Получает стиль фона применяемый к операциям над записью.
+     * Если запись в режиме редактирования - то по умолчанию editing_default, с учётом editingBackgroundStyle
+     * Если запись не подсвечивается, то пустое значение
+     * Если itemActions видимы всегда, то transparent
+     * Если есть HoverBackgroundStyle, то getHoverBackgroundStyle
+     * Иначе текущий Style
+     * @param templateHighlightOnHover
+     * @param theme
+     */
+    getItemActionsStylingClasses(templateHighlightOnHover: boolean = true, theme?: string): string {
+        let backgroundStyle;
+        if (this.isEditing()) {
+            backgroundStyle = `editing_${this.getOwner().getEditingBackgroundStyle()}`;
+        } else if (!templateHighlightOnHover) {
+            return '';
+        }
+        if (this.getOwner().getItemActionsVisibility() === 'visible') {
+            backgroundStyle = 'transparent';
+        } else {
+            backgroundStyle = this.getOwner().getHoverBackgroundStyle() || this.getOwner().getStyle();
+        }
+        return `controls-itemActionsV_style_${backgroundStyle}_theme-${theme}`;
+    }
+
     getRowSeparatorSize(): string {
         return this.getOwner().getRowSeparatorSize();
     }
