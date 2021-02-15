@@ -28,7 +28,7 @@
         <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
                             checkboxReadOnly="{{ checkboxReadOnly }}"/>
         <ws:multiSelectTemplate>
-            <ws:partial template="{{multiSelectTpl}}">
+            <ws:partial template="{{multiSelectTpl}}" multiSelectTemplate="{{ null }}">
                 <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
             </ws:partial>
         </ws:multiSelectTemplate>
