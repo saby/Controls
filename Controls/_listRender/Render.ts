@@ -135,6 +135,10 @@ export default class Render extends Control<IRenderOptions> {
         this._notify('itemActionMouseDown', [item, action, e]);
     }
 
+    protected _onItemActionMouseUp(e: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+    }
+
     protected _onItemActionClick(e: SyntheticEvent<MouseEvent>): void {
         e.stopPropagation();
     }
