@@ -85,7 +85,11 @@ export interface IControllerOptions {
      * Опция, позволяющая настраивать фон панели операций над записью.
      * Предустановленные варианты 'default' | 'transparent'
      */
-    style?: string;
+    backgroundStyle?: string;
+    /**
+     * Опция, позволяющая настраивать фон панели операций над записью в режиме редактирования.
+     */
+    editingBackgroundStyle: string;
     /**
      * Класс для установки контейнеру controls-itemActionsV.
      * По умолчанию 'controls-itemActionsV_position_bottomRight'
@@ -560,7 +564,8 @@ export class Controller {
     private _updateActionsTemplateConfig(options: IControllerOptions): void {
         this._collection.setActionsTemplateConfig({
             toolbarVisibility: options.editingToolbarVisible,
-            style: options.style,
+            style: options.backgroundStyle,
+            editingBackgroundStyle: options.editingBackgroundStyle,
             itemActionsClass: options.itemActionsClass,
             size: this._iconSize,
             itemActionsPosition: this._itemActionsPosition,
