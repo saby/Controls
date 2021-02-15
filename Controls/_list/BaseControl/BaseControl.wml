@@ -139,6 +139,7 @@
                 on:itemSwipe="_onItemSwipe()"
                 on:editingRowKeyDown="_onEditingRowKeyDown()"
                 on:rowDeactivated="_onRowDeactivated()"
+                on:editingItemMouseDown="_onEditingItemMouseDown()"
                 on:itemsContainerReady="_itemsContainerReadyHandler()"
                 on:controlResize="_viewResize()"
                 on:doScroll="_stopBubblingEvent()"

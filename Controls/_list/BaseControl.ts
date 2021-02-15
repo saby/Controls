@@ -5577,6 +5577,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
 
+    _onEditingItemMouseDown(e, item, domEvent) {
+        e.stopPropagation();
+        this._notify('mouseDown', [domEvent], {bubbling: true});
+    },
+
     _startDragNDropCallback(): void {
         _private.startDragNDrop(this, this._savedItemMouseDownEventArgs.domEvent, this._savedItemMouseDownEventArgs.itemData);
     },
