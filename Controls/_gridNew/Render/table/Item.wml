@@ -39,7 +39,7 @@
                                         key="{{ (item || itemData).key }}"
                                         checkboxReadOnly="{{ checkboxReadOnly }}"/>
                     <ws:multiSelectTemplate>
-                        <ws:partial template="{{multiSelectTpl}}">
+                        <ws:partial template="{{multiSelectTpl}}" multiSelectTemplate="{{ null }}">
                             <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
                         </ws:partial>
                     </ws:multiSelectTemplate>
