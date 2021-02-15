@@ -4,8 +4,9 @@ import Tree from './Tree';
 import {register} from 'Types/di';
 import TreeChildren from './TreeChildren';
 import { object } from 'Types/util';
+import {Model} from 'Types/entity';
 
-export interface IOptions<T> extends ICollectionItemOptions<T> {
+export interface IOptions<T extends Model = Model> extends ICollectionItemOptions<T> {
     owner?: Tree<T>;
     last: TreeItem<T>;
 }
@@ -17,7 +18,7 @@ export interface IOptions<T> extends ICollectionItemOptions<T> {
  * @private
  * @author Мальцев А.А.
  */
-export default class BreadcrumbsItem<T> extends CollectionItem<T> {
+export default class BreadcrumbsItem<T extends Model = Model> extends CollectionItem<T> {
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
     readonly Markable: boolean = false;
 
@@ -71,30 +72,35 @@ export default class BreadcrumbsItem<T> extends CollectionItem<T> {
         throw new ReferenceError('BreadcrumbsItem contents is read only.');
     }
 
-     /**
-      * Returns branch level in tree
-      */
-     getLevel(): number {
-         const first = this._first;
-         return first ? first.getLevel() : 0;
-     }
+    /**
+    * Returns branch level in tree
+    */
+    getLevel(): number {
+        const first = this._first;
+        return first ? first.getLevel() : 0;
+    }
 
-     getLast(): TreeItem<T> {
-         return this._$last;
-     }
+    getLast(): TreeItem<T> {
+        return this._$last;
+    }
 
-     getParent(): TreeItem<T> {
-         // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
-         return this._$owner.getRoot();
-     }
+    getParent(): TreeItem<T> {
+        // Родителем хлебной крошки всегда является корневой узел, т.к. хлебная крошка это путь до корневого узла
+        return this._$owner.getRoot();
+    }
 
-     getChildren(withFilter: boolean = true): TreeChildren<T> {
-         return this._$owner.getChildren(this, withFilter);
-     }
+    getChildren(withFilter: boolean = true): TreeChildren<T> {
+        return this._$owner.getChildren(this, withFilter);
+    }
 
-     isHasChildren(): boolean {
-         return this.getLast().isHasChildren();
-     }
+    isHasChildren(): boolean {
+        return this.getLast().isHasChildren();
+    }
+
+    isRoot(): boolean {
+        // Хлебная крошка не может быть корнем
+        return false;
+    }
 
    protected _getMultiSelectAccessibility(): boolean|null {
       const value = object.getPropertyValue<boolean|null>(this.getLast().getContents(), this._$multiSelectAccessibilityProperty);
