@@ -95,6 +95,12 @@ export default class BreadcrumbsItemRow<T extends Model = Model> extends GridDat
       return this.getLast().isHasChildren();
    }
 
+    isRoot(): boolean {
+        // Хлебная крошка не может быть корнем
+        return false;
+    }
+}
+
    getTemplate(): TemplateFunction | string {
       // В старой поисковой модели в menu хлебные крошки отрисовывают с помощью itemTemplate,
       // у себы мы рисуем хлебные крошки с помощью searchBreadCrumbsItemTemplate

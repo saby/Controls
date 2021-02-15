@@ -47,4 +47,11 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow', () => {
          assert.isTrue(item.getParent().isRoot());
       });
    });
+
+   describe('isRoot', () => {
+      it('isRoot', () => {
+         const item = searchGridCollection.at(0);
+         assert.isFalse(item.isRoot());
+      });
+   });
 });
