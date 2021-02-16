@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <Controls.datePopup
+            attr:class="controls-PeriodDialog_4"
+            startValue="{{_startValue}}"
+            endValue="{{_endValue}}"
+            selectionType="quantum"
+            ranges="{{ {'days': [1, 3], 'weeks': [1], 'month': [1]} }}"
+            _date="{{ _date }}"
+    />
+</div>

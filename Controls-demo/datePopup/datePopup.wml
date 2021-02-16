@@ -1,64 +1,40 @@
 <div class="PageWrap" style="padding-top: 50px;">
-   <div class="PageBlock">
-      <div class="PageBlock__title">Controls.Calendar.PeriodDialog</div>
-      <div class="PageBlock__componentWrap ws-flexbox" style="justify-content: space-between; flex-wrap: wrap; align-items: flex-start;">
+    <div class="PageBlock">
+        <div class="PageBlock__title">Controls.Calendar.PeriodDialog</div>
+        <div class="PageBlock__componentWrap controlsDemo__flexRow controlsDemo__flex-jc-sb">
+            <div class="controlsDemo__cell">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/datePopup/Base/Index' }}">
+                    <a href="{{content.href}}">Any period</a>
+                </Router.router:Reference>
+                <Controls-demo.datePopup.Base.Index/>
+            </div>
+            <div class="controlsDemo__cell">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/datePopup/SingleDay/Index' }}">
+                    <a href="{{content.href}}">Single Day</a>
+                </Router.router:Reference>
+                <Controls-demo.datePopup.SingleDay.Index/>
+            </div>
+            <div class="controlsDemo__cell">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/datePopup/Ranges/Index' }}">
+                    <a href="{{content.href}}">Ranges</a>
+                </Router.router:Reference>
+                <Controls-demo.datePopup.Ranges.Index/>
+            </div>
 
-         <div>
-            <h3>Any period</h3>
-            <Controls.datePopup
-               attr:class="controls-PeriodDialog_1"
-               startValue="{{_startValue}}"
-               endValue="{{_endValue}}"
-               _date="{{ _date }}"
-            />
-         </div>
-
-         <div>
-            <h3>Single Day</h3>
-            <Controls.datePopup
-               attr:class="controls-PeriodDialog_2"
-               startValue="{{_startValue}}"
-               endValue="{{_startValue}}"
-               selectionType="single"
-               _date="{{ _date }}"
-            />
-         </div>
-
-         <div>
-            <h3>Day, 1 month, 1 year</h3>
-            <Controls.datePopup
-               attr:class="controls-PeriodDialog_3"
-               startValue="{{_startValue}}"
-               endValue="{{_endValue}}"
-               selectionType="quantum"
-               ranges="{{ {'days': [1], 'months': [1], 'years': [1]} }}"
-               _date="{{ _date }}"
-            />
-         </div>
-
-         <div>
-            <h3>Day, 3 days, week, 1 month</h3>
-            <Controls.datePopup
-               attr:class="controls-PeriodDialog_4"
-               startValue="{{_startValue}}"
-               endValue="{{_endValue}}"
-               selectionType="quantum"
-               ranges="{{ {'days': [1, 3], 'weeks': [1], 'month': [1]} }}"
-               _date="{{ _date }}"
-            />
-         </div>
-
-         <div>
-            <h3>The minimum period is a month</h3>
-            <Controls.datePopup
-               attr:class="controls-PeriodDialog_5"
-               startValue="{{_startValue}}"
-               endValue="{{_endValue}}"
-               minRange="month"
-               _date="{{ _date }}"
-            />
-         </div>
-
-      </div>
-   </div>
+            <div class="controlsDemo__cell">
+                <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                         state="/Controls-demo/app/:app"
+                                         app="{{ 'Controls-demo/datePopup/MinRange/Index' }}">
+                    <a href="{{content.href}}">The minimum period is a month</a>
+                </Router.router:Reference>
+                <Controls-demo.datePopup.MinRange.Index/>
+            </div>
+        </div>
+    </div>
 </div>
