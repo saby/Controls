@@ -6,7 +6,7 @@
         on:itemMouseEnter="_proxyEvent('itemMouseEnter')"
         on:itemSwipe="_proxyEvent('itemSwipe')"
         on:itemActionMouseDown="_proxyEvent('itemActionMouseDown')"
-        on:itemClick="_itemClick()">
+        on:itemMouseDown="_itemMouseDown()">
    <ws:itemTemplate>
       <ws:partial template="{{itemTemplate.item.getContents()[_options.itemTemplateProperty] || _options.itemTemplate}}"
                   itemData="{{_getItemData(itemTemplate.item)}}"

@@ -84,14 +84,21 @@ class MenuRender extends Control<IMenuRenderOptions> {
         this._notify(eventName, args);
     }
 
+    protected _checkBoxClick(): void {
+        this._notify('checkBoxClick');
+    }
+
     protected _separatorMouseEnter(event: SyntheticEvent<MouseEvent>): void {
         this._notify('separatorMouseEnter', [event]);
     }
 
-    protected _itemClick(e: SyntheticEvent<MouseEvent>, item: Model, sourceEvent: SyntheticEvent<MouseEvent>): void {
+    protected _itemMouseDown(e: SyntheticEvent<MouseEvent>,
+                             treeItem: TreeItem<Model>,
+                             sourceEvent: SyntheticEvent<MouseEvent>): void {
         e.stopPropagation();
+        const item = treeItem.getContents();
         if (item instanceof Model) {
-            this._notify('itemClick', [item, sourceEvent]);
+            this._notify('itemMouseDown', [item, sourceEvent]);
         }
     }
 

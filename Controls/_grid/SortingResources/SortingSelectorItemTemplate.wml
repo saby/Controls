@@ -1,9 +1,9 @@
 <ws:partial template="Controls/dropdown:ItemTemplate"
-            itemData="{{itemData}}" on:click="_dropdownItemClick(itemData.item.getKey())">
+            itemData="{{itemData}}" on:mousedown="_dropdownItemClick(itemData.item.getKey())">
     <ws:rightTemplate>
         <div class="controls-SortingSelector_arrowWrapper">
             <ws:if data="{{itemData.item.get('paramName') !== null}}">
-                <div class="controls-SortingSelector_arrowsContainer" on:click="_arrowClick(itemData.item)">
+                <div class="controls-SortingSelector_arrowsContainer" on:mousedown="_arrowClick(itemData.item)">
                     <ws:partial attr:class="controls-SortingSelector_arrow_theme-{{_options.theme}}" value="{{itemData.item.get('value')}}" template="wml!Controls/_grid/SortingResources/SortingArrow"/>
                 </div>
             </ws:if>

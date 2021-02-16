@@ -67,7 +67,10 @@
       </ws:if>
       <ws:else data="{{rightTemplate}}">
          <div class="controls-Menu__row__rightTemplate_separator_theme-{{_options.theme}}"></div>
-         <ws:partial template="{{rightTemplate}}" scope="{{_options}}" item="{{treeItem.getContents()}}"/>
+         <ws:partial template="{{rightTemplate}}"
+                     scope="{{_options}}"
+                     item="{{treeItem.getContents()}}"
+                     class="controls-Menu__rightTemplate"/>
       </ws:else>
 
       <ws:if data="{{ treeItem.shouldDisplayActions() && !treeItem.getContents().get(itemData.nodeProperty) }}">

@@ -1,0 +1,24 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__mr4">
+        <div class="controls-text-label_theme-{{_options.theme}}">Выпадающий список с rightTemplate</div>
+        <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
+                                 keyProperty="key"
+                                 displayProperty="title"
+                                 source="{{_source}}">
+            <ws:itemTemplate>
+                <ws:if data="{{itemTemplate.itemData.item.get('addIcon')}}">
+                    <ws:partial template="Controls/dropdown:ItemTemplate">
+                        <ws:rightTemplate>
+                            <div class="controls-icon_size-default_theme-{{_options.theme}}
+                                        ControlsDemo-Menu-Control__rightTemplate
+                                        {{rightTemplate.item.get('addIcon')}}"></div>
+                        </ws:rightTemplate>
+                    </ws:partial>
+                </ws:if>
+                <ws:else>
+                    <ws:partial template="Controls/dropdown:ItemTemplate" />
+                </ws:else>
+            </ws:itemTemplate>
+        </Controls.dropdown:Selector>
+    </div>
+</div>

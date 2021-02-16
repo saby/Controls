@@ -241,10 +241,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
     }
 
-    protected _itemClick(event: SyntheticEvent<MouseEvent>,
-                         item: Model,
-                         sourceEvent: SyntheticEvent<MouseEvent>): void {
-        if (item.get('readOnly')) {
+    protected _itemMouseDown(event: SyntheticEvent<MouseEvent>,
+                             item: Model,
+                             sourceEvent: SyntheticEvent<MouseEvent>): void {
+        if (item.get('readOnly') || MenuControl._isRightTemplate(sourceEvent.target)) {
             return;
         }
         const key: string | number = item.getKey();
@@ -357,7 +357,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return this._context?.isTouch?.isTouch;
     }
 
-    protected _checkBoxClick(event: SyntheticEvent<MouseEvent>): void {
+    protected _checkBoxClick(): void {
         this._selectionChanged = true;
     }
 
@@ -999,6 +999,10 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private static _isPinIcon(target: EventTarget): boolean {
         return !!((target as HTMLElement)?.closest('.controls-Menu__iconPin'));
+    }
+
+    private static _isRightTemplate(target: EventTarget): boolean {
+        return !!((target as HTMLElement)?.closest('.controls-Menu__rightTemplate'));
     }
 
     private static _calculatePointRelativePosition(firstSegmentPointX: number,

@@ -1,5 +1,5 @@
 <Controls.Container.Async templateName="Controls/toggle:Checkbox"
-                          on:valueChanged="_proxyEvent('checkBoxClick')"
+                          on:mouseDown="_checkBoxClick()"
                           attr:class="controls-Menu__row-checkbox
                                       controls-DropdownList__row-checkbox
                                       controls-Menu__row-checkbox-{{checkBoxAlign === 'left' ? 'left' : 'right'}}_theme-{{_options.theme}}
