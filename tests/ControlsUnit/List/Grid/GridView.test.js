@@ -205,12 +205,18 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
          beforeEach(() => {
             gridView = new gridMod.GridView(cfg);
              gridView._children.header = {};
-             gridView._listModel = {};
+             gridView._listModel = {
+                isDrawHeaderWithEmptyList: () => {
+                   return true;
+                },
+                getHeaderModel: () => ({}),
+                getResultsPosition: () => 'top'
+             };
          });
 
 
          it('no headerContainer', function () {
-             gridView._children.header = null;
+             gridView._listModel.getHeaderModel = () => {};
             assert.equal(0, gridView.getHeaderHeight());
          });
 
@@ -257,24 +263,28 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
              };
          const gridView = new gridMod.GridView(cfg);
          gridView._listModel = {
-            isDrawHeaderWithEmptyList: function() {
-               return true
-            }
+            isDrawHeaderWithEmptyList: () => {
+               return true;
+            },
+            getHeaderModel: () => ({}),
+            getResultsPosition: () => 'top'
          };
          gridView._children.header = {
             getBoundingClientRect: () => ({ height: 40 })
-         }
+         };
          gridView._children.results = {
             getBoundingClientRect: () => ({ height: 20 })
-         }
+         };
          gridView.saveOptions(cfg);
          assert.equal(40, gridView.getHeaderHeight());
          assert.equal(20, gridView.getResultsHeight());
 
          gridView._listModel = {
             isDrawHeaderWithEmptyList: function() {
-               return false
-            }
+               return false;
+            },
+            getHeaderModel: () => ({}),
+            getResultsPosition: () => undefined
          };
          gridView._children.header = undefined;
          gridView._children.results = undefined;
@@ -441,6 +451,9 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                }
             };
             gridView._children.columnScrollStylesContainer = {};
+            gridView._children.horizontalScrollWrapper = {
+               setPosition: () => {}
+            };
          });
 
          describe('init, disable and destroy column scroll', () => {
@@ -532,6 +545,12 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
          });
 
          describe('update sizes', () => {
+            beforeEach(() => {
+               gridView._listModel = {
+                  isDrawHeaderWithEmptyList: () => false,
+                  setColumnScrollVisibility: () => {}
+               };
+            });
             it('on view resize', async () => {
                gridView.saveOptions(cfg);
                gridView._afterMount();
@@ -691,6 +710,10 @@ define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
                gridView._children.columnScrollContainer.getBoundingClientRect = () => ({
                   left: 0
                });
+               gridView._listModel = {
+                  isDrawHeaderWithEmptyList: () => false,
+                  setColumnScrollVisibility: () => {}
+               };
 
 
                gridView.saveOptions(cfg);
