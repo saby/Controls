@@ -1,0 +1,10 @@
+<ws:if data="{{ date.getMonth() === 0 }}">
+    <div class="controls-PeriodDialog-DateRangeItem__months-nextyearBtn
+                           controls-PeriodDialog-DateRangeItem__months-nextyearBtn_theme-{{_options.theme}}"
+         data-date="{{ date.getFullYear() }}">
+        {{date.getFullYear()}}
+    </div>
+</ws:if>
+<ws:else>
+<invisible-node/>
+</ws:else>

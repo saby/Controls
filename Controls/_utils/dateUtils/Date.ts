@@ -285,9 +285,9 @@ export function isRangesOverlaps(startDate1: Date|number, endDate1: Date|number,
                                  startDate2: Date|number, endDate2: Date|number): boolean {
     // Если значение null, то будем присваивать максимальную или минимальную дату.
     startDate1 = startDate1 !== null ? startDate1 : new Date(9999, 0);
-    endDate1 = startDate1 !== null ? startDate1 : new Date(9999, 0);
-    startDate2 = startDate1 !== null ? startDate1 : new Date(1400, 0);
-    endDate2 = startDate1 !== null ? startDate1 : new Date(1400, 0);
+    endDate1 = endDate1 !== null ? endDate1 : new Date(9999, 0);
+    startDate2 = startDate2 !== null ? startDate2 : new Date(1400, 0);
+    endDate2 = endDate2 !== null ? endDate2 : new Date(1400, 0);
     if (!startDate1 || !endDate1 || !startDate2 || !endDate2) {
         return false;
     }
