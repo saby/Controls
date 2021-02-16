@@ -124,6 +124,7 @@ class Base extends Control<IMasterDetail> {
     protected _currentWidth: string;
     protected _currentMaxWidth: string;
     protected _currentMinWidth: string;
+    protected _currentBorderWidth: string;
     protected _containerWidth: number;
     private _touchstartPosition: number;
 
@@ -131,6 +132,7 @@ class Base extends Control<IMasterDetail> {
         this._updateOffsetDebounced = debounce(this._updateOffsetDebounced.bind(this), RESIZE_DELAY);
         this._canResizing = this._isCanResizing(options);
         this._prepareLimitSizes(options);
+        this._initBorderWidth(options.masterWidth);
         if (receivedState) {
             this._currentWidth = receivedState;
         } else if (options.propStorageId) {
@@ -144,6 +146,7 @@ class Base extends Control<IMasterDetail> {
                         this.initCurrentWidth(options.masterWidth);
                     }
                     this._prepareLimitSizes(options);
+                    this._initBorderWidth(options.masterWidth);
                     resolve(this._currentWidth);
                 });
             });
@@ -189,6 +192,16 @@ class Base extends Control<IMasterDetail> {
         }
     }
 
+    private _initBorderWidth(masterWidth: number | string): void {
+        const currentWidth = this._currentWidth || masterWidth;
+        const intValue: number = parseInt(String(currentWidth), 10);
+        if (intValue === 0) {
+            this._currentBorderWidth = `${intValue}px`;
+        } else {
+            this._currentBorderWidth = null;
+        }
+    }
+
     private initCurrentWidth(width: string | number): void {
         if (this._isPercentValue(width)) {
             this._currentWidth = String(width);
@@ -215,6 +228,7 @@ class Base extends Control<IMasterDetail> {
         if (this._isSizeOptionsChanged(options, this._options)) {
             this._canResizing = this._isCanResizing(options);
             this._prepareLimitSizes(options);
+            this._initBorderWidth(options.masterWidth);
             this._updateOffset(options);
         }
     }

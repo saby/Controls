@@ -10,6 +10,7 @@
                backgroundStyle="master"
                attr:class="controls-MasterDetail_master-template controls-MasterDetail_{{_options.style || 'master'}}-template_theme-{{_options.theme}}
                            controls-MasterDetail_{{_options.style || 'master'}}-template-{{_options.contrastBackground ? 'contrast' : 'same'}}_theme-{{_options.theme}}"
+               attr:style="{{_currentBorderWidth ? 'border-right-width: ' + _currentBorderWidth}}"
                on:selectedMasterValueChanged="_selectedMasterValueChangedHandler()"/>
          </Controls.event:Register>
          <ws:if data="{{_canResizing}}">
