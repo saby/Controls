@@ -92,6 +92,7 @@
                        dataLoadCallback="{{_dataLoadCallback}}"
                        headingIcon="{{_headingIcon}}"
                        headerTemplate="{{_headerTemplate || _options.headerTemplate}}"
+                       scrollbarVisible="{{_options.scrollbarVisible}}"
                        theme="{{_options.theme}}"
                        on:itemClick="_sendResult('itemClick')"
                        on:moreButtonClick="_sendResult('selectorDialogOpened')"
