@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_datePopup/DateRange';
+import * as monthHeaderTmpl from 'wml!Controls/_datePopup/DateRangeMonthHeaderTemplate';
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import { SyntheticEvent } from 'Vdom/Vdom';
@@ -20,6 +21,7 @@ import {Base as dateUtils} from 'Controls/dateUtils';
 
 export default class DateRange extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+    protected _monthHeaderTmpl: TemplateFunction = monthHeaderTmpl;
     protected _monthViewModel: MonthModel = MonthModel;
     protected _weekdaysCaptions: string = DateControlsUtils.getWeekdaysCaptions();
     protected _monthSelectionEnabled: boolean = true;
@@ -29,10 +31,19 @@ export default class DateRange extends Control<IControlOptions> {
     private _position: Date;
     private _monthsPosition: any;
 
+    private _singleDayHover: boolean = true;
+
     constructor(options) {
         super(options);
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
+        // Нет необходимости передавать опцию hoveredStartValue и hoveredEndValue, если ховер работает только по одному
+        // итему, а не по нескольким, как в квантах.
+        const isQuantumSelection = options.selectionType === 'quantum' && options.ranges;
+        if (isQuantumSelection) {
+            const isSingleDayQuantum = 'days' in options.ranges && options.ranges.days.indexOf(1) !== -1;
+            this._singleDayHover = isSingleDayQuantum;
+        }
     }
 
     protected _beforeMount(options): void {
@@ -152,6 +163,10 @@ export default class DateRange extends Control<IControlOptions> {
         if (this._position?.getFullYear() !== this._monthsPosition?.getFullYear()) {
             const newPosition = new Date(this._monthsPosition.getFullYear(), 0);
             this._notifyPositionChanged(newPosition);
+        }
+        if (!self._singleDayHover) {
+            this._hoveredStartValue = options.hoveredStartValue;
+            this._hoveredEndValue = options.hoveredEndValue;
         }
     }
 
