@@ -71,25 +71,11 @@ let _private = {
  */
 class Search extends Base {
     protected _wasActionUser: boolean = false;
-    protected _resetCommandCallbackId: string = '';
 
     protected _beforeMount(options): void {
         this._notifySearchClick = throttle(this._notifySearchClick, SEARCH_BY_CLICK_THROTTLE, false);
         generateStates(this, options);
         return super._beforeMount.apply(this, arguments);
-    }
-
-    protected _afterMount(): void {
-        super._afterMount.apply(this, arguments);
-        if (this._options.useStore) {
-            this._resetCommandCallbackId = Store.declareCommand('resetSearch', this._resetSearch.bind(this));
-        }
-    }
-
-    protected _beforeUnmount(): void {
-        if (this._resetCommandCallbackId) {
-            Store.unsubscribe(this._resetCommandCallbackId);
-        }
     }
 
     protected _renderStyle(): string {
