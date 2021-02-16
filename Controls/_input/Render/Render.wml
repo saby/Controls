@@ -5,6 +5,7 @@
             {{_border.left ? 'controls-Render_border-left_theme-' + _options.theme : 'controls-Render_border-left-empty'}}
             controls-Render_background-{{ _options.contrastBackground ? 'contrast' : 'same' }}_theme-{{ _options.theme }}
             controls-Render_textAlign-{{_options.textAlign}}
+            controls-Render{{_statePrefix}}_borderRadius-{{_options.inlineHeight}}
             controls-Render{{_statePrefix}}_borderRadius-{{_options.inlineHeight}}_theme-{{_options.theme}}
             controls-Render_state-{{_state}} controls-Render_state-{{_state}}_theme-{{_options.theme}}
             controls-fontsize-{{_options.fontSize}}{{_options.fontSize !== 'inherit' ? '_theme-' + _options.theme}}

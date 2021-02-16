@@ -1,0 +1,90 @@
+.controls_theme-@{themeName} {
+  // Переменные дял строки поиска
+  //
+  // Обводка
+
+  --border-color_searchInput:                                                  transparent;
+  --border-color_hover_searchInput:                                            #dfdfdf #dfdfdf #dfdfdf #dfdfdf;
+  --border-color_focus_searchInput:                                            #dfdfdf #dfdfdf #dfdfdf #dfdfdf;
+  --readonly_border-color_searchInput:                                         transparent;
+  --border-color_contrast_searchInput:                                         #f0f0f0 #f0f0f0 #f0f0f0 #f0f0f0;
+  --border-color_contrast_hover_searchInput:                                   #dfdfdf #dfdfdf #dfdfdf #dfdfdf;
+  --border-color_contrast_focus_searchInput:                                   #dfdfdf #dfdfdf #dfdfdf #dfdfdf;
+  --border-radius_default_searchInput:                                         calc(var(--inline_height_default) / 2);
+  --border-radius_s_searchInput:                                               calc(var(--inline_height_s) / 2);
+  --border-radius_m_searchInput:                                               calc(var(--inline_height_m) / 2);
+  --border-radius_l_searchInput:                                               calc(var(--inline_height_l) / 2);
+  --border-radius_xl_searchInput:                                              calc(var(--inline_height_xl) / 2);
+  --border-radius_2xl_searchInput:                                             calc(var(--inline_height_2xl) / 2);
+
+
+  // Цвета фона
+
+  --background-color_searchInput:                                              #f2f2f2;
+  --background-color_hover_searchInput:                                        var(--background-color_searchInput);
+  --background-color_focus_searchInput:                                        var(--background-color_searchInput);
+  --readonly_background-color_searchInput:                                     var(--background-color_searchInput);
+  --background-color_contrast_searchInput:                                     #ffffff;
+  --background-color_contrast_hover_searchInput:                               var(--background-color_contrast_searchInput);
+  --background-color_contrast_focus_searchInput:                               var(--background-color_contrast_searchInput);
+  --readonly_contrast_background-color_searchInput:                            var(--background-color_contrast_searchInput);
+
+  // Отступы
+
+  --padding-left_searchInput:                                                  var(--offset_m);
+  --padding-right_searchInput:                                                 var(--offset_s);
+  --trigger_offset_searchInput:                                                var(--offset_2xs);
+
+  // Иконка поиска
+
+  --trigger_xs_icon-size_searchInput:                                          var(--icon-size_s);
+  --trigger_s_icon-size_searchInput:                                           var(--icon-size_s);
+  --trigger_m_icon-size_searchInput:                                           var(--icon-size_s);
+  --trigger_l_icon-size_searchInput:                                           var(--icon-size_l);
+  --trigger_xl_icon-size_searchInput:                                          var(--icon-size_l);
+  --trigger_2xl_icon-size_searchInput:                                         var(--icon-size_l);
+  --trigger_icon-color_searchInput:                                            var(--secondary_icon-color);
+  --trigger_icon-color_hover_searchInput:                                      var(--secondary_hover_icon-color);
+  --trigger_icon-color_active_searchInput:                                     var(--secondary_hover_icon-color);
+  --readonly_trigger_icon-color_searchInput:                                   var(--readonly_color);
+
+  // Иконка сброса
+
+  --reset-button_icon-size_searchInput:                                        var(--icon-size_s);
+  --reset-button_icon-color_searchInput:                                       var(--label_text-color);
+  --reset-button_hover_icon-color_searchInput:                                 var(--reset-button_icon-color_searchInput);
+  --reset-button_active_icon-color_searchInput:                                var(--reset-button_icon-color_searchInput);
+  --reset-button_offset-left_searchInput:                                      var(--offset_2xs);
+
+  // Курсор
+
+  --caret-color_empty_searchInput:                                             var(--placeholder-color_inputText);
+  --caret-color_fill_searchInput:                                              var(--text-color);
+
+
+
+  // Переменные для подсказки при неверной раскладке клавиаутры
+
+  --height_searchMisspell:                                                     var(--inline_height_default);
+  --font-weight_searchMisspell:                                                bold;
+  --text-color_searchMisspell:                                                 var(--link_text-color);
+  --text-color_hover_searchMisspell:                                           var(--link_hover_text-color);
+  --text-color_active_searchMisspell:                                          var(--link_hover_text-color);
+
+
+  // Переменные для разворачиваемого поиска
+
+  --icon-size-expandableSearch:                                                var(--icon-size_m);
+  --input_m-width-expandableSearch:                                            184px;
+  --input_l-width-expandableSearch:                                            300px;
+  --input_container_l-width-expandableSearch:                                  calc(var(--input_l-width-expandableSearch) + var(--icon-size-expandableSearch) + var(--close-button_shadow-width-expandableSearch));
+  --input_container_m-width-expandableSearch:                                  calc(var(--input_m-width-expandableSearch) + var(--icon-size-expandableSearch) + var(--close-button_shadow-width-expandableSearch));
+  --close-button_icon-background-expandableSearch:                             #ffffff;
+  --close-button_shadow-start-color-expandableSearch:                          rgba(255, 255, 255, 1);
+  --close-button_shadow-end-color-expandableSearch:                            rgba(255, 255, 255, 0.6);
+  --close-button_shadow-width-expandableSearch:                                10px;
+  --reset-button_color-expandableSearch:                                       var(--readonly_color);
+  --reset-button_color_hover-expandableSearch:                                 var(--link_hover_text-color);
+  --reset-button_color_active-expandableSearch:                                var(--reset-button_color_hover-expandableSearch);
+
+}

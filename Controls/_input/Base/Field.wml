@@ -1,5 +1,6 @@
 <div class="controls-InputBase__field
             {{autoWidth ? 'controls-InputBase__field_autoWidth'}}
+            controls-{{controlName}}__field_margin-{{options.horizontalPadding}}
             controls-{{controlName}}__field_theme_{{options.theme}}_margin-{{options.horizontalPadding}}
             {{!!ieVersion && autoWidth ? 'controls-InputBase__field_fixStretcherIE'}}
             {{!!ieVersion && value ? 'controls-InputBase__field_ie'}}">

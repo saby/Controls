@@ -3,6 +3,7 @@ import template = require('wml!Controls/_search/Input/ExpandableInput/Search');
 import {EventUtils} from 'UI/Events';
 import {ITextOptions, IBaseOptions} from 'Controls/input';
 import {IRenderOptions, IPaddingOptions, ITagOptions} from 'Controls/interface';
+import 'css!Controls/search';
 
 interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
     IRenderOptions, IPaddingOptions, ITagOptions {
@@ -56,8 +57,6 @@ export default class ExpandableInput extends Control<IControlOptions> {
          expanded: false
       };
    }
-
-   static _theme: string[] = ['Controls/search'];
 }
 /**
  * @name Controls/_search/Input/ExpandableInput/Search#expanded

@@ -1,4 +1,4 @@
-<div>
+<div class="controls_theme-{{_options.theme}}">
     <ws:if data="{{_options.misspellValue}}">
         <Controls.Container.Async templateName="Controls/search:Misspell" attr:class="{{_options.misspellClass}}">
             <ws:templateOptions misspellValue="{{_options.misspellValue}}">

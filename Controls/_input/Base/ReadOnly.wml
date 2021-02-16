@@ -1,1 +1,5 @@
-<div name="readOnlyField" class="controls-InputBase__field_readOnly controls-{{controlName}}__field_theme_{{options.theme}}_margin-{{options.horizontalPadding}}">{{value}}</div>
+<div name="readOnlyField" class="controls-InputBase__field_readOnly
+                                 controls-{{controlName}}__field_theme_{{options.theme}}_margin-{{options.horizontalPadding}}
+                                 controls-{{controlName}}__field_margin-{{options.horizontalPadding}}">
+    {{value}}
+</div>

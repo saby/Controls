@@ -1,9 +1,9 @@
-<div class="controls-Search__expandable-search_theme-{{_options.theme}}">
+<div class="controls_theme-{{_options.theme}} controls-Search__expandable-search">
     <ws:if data="{{_expanded}}">
-        <div class="controls-Search__expandable-container_theme-{{_options.theme}}
-                    controls-Search__expandable-container-inlineWidth-{{_options.inlineWidth}}_theme-{{_options.theme}}">
-            <div class="controls-Search__expandable-input_theme-{{_options.theme}}
-                        controls-Search__expandable-input-inlineWidth-{{_options.inlineWidth}}_theme-{{_options.theme}}">
+        <div class="controls-Search__expandable-container
+                    controls-Search__expandable-container-inlineWidth-{{_options.inlineWidth}}">
+            <div class="controls-Search__expandable-input
+                        controls-Search__expandable-input-inlineWidth-{{_options.inlineWidth}}">
                 <ws:partial template="{{'Controls/search:Input'}}"
                             name="searchInput"
                             searchButtonVisible="{{_options.searchButtonVisible}}"
@@ -27,13 +27,12 @@
                             validationStatus="{{_options.validationStatus}}"
                             inputCallback="{{_options.inputCallback}}"
                             readOnly="{{_options.readOnly}}"
-                            theme="{{_options.theme}}"
                             value="{{_options.value}}"
-                            attr:class="controls-Search__expandable-input controls-Search__input-inlineWidth-{{_options.inlineWidth}}_theme-{{_options.theme}}"
+                            attr:class="controls-Search__expandable-input controls-Search__input-inlineWidth-{{_options.inlineWidth}}"
                             on:searchClick="_tmplNotify('searchClick')"
                             on:resetClick="_tmplNotify('resetClick')"
                             on:valueChanged="_tmplNotify('valueChanged')"/>
-                <div class="controls-Search__expandable-reset-button controls-Search__expandable-reset-button_theme-{{_options.theme}} icon-Close
+                <div class="controls-Search__expandable-reset-button controls-Search__expandable-reset-button icon-Close
                             controls-icon_size-m_theme-{{_options.theme}} "
                      on:click="_handleCloseClick()">
                 </div>
@@ -41,11 +40,11 @@
         </div>
     </ws:if>
     <ws:else>
-        <div class="controls-Search__expandable-button-container_theme-{{_options.theme}}">
+        <div class="controls-Search__expandable-button-container">
             <div class="controls-Search__expandable-button
-                    {{_needShowButtonAnimation ? 'controls-Search__expandable-button-animation_theme-' + _options.theme}}
+                    {{_needShowButtonAnimation ? 'controls-Search__expandable-button-animation'}}
                     controls-Search__button_{{_options.readOnly ? 'readOnly' : 'enabled'}}
-                    controls-Search__searchButton_theme_{{_options.theme}}_color icon-Search2
+                    controls-Search__searchButton_color icon-Search2
                     controls-icon_size-m_theme-{{_options.theme}}"
                  on:click="_handleOpenClick()"></div>
         </div>

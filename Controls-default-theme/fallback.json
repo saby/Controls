@@ -716,5 +716,15 @@
   "--counter_text-color_lookupSelectedCollection": "var(--label_text-color)",
   "--counter_offset_lookupSelectedCollection": "var(--offset_2xs)",
   "--counter_hover_text-color_lookupSelectedCollection": "var(--link_hover_text-color)",
-  "--counter_active_text-color_lookupSelectedCollection": "var(--counter_hover_text-color_lookupSelectedCollection)"
+  "--counter_active_text-color_lookupSelectedCollection": "var(--counter_hover_text-color_lookupSelectedCollection)",
+  "--background-color_searchInput": "#f2f2f2",
+  "--background-color_contrast_searchInput": "#ffffff",
+  "--reset-button_icon-color_searchInput": "var(--label_text-color)",
+  "--reset-button_color_hover-expandableSearch": "var(--link_hover_text-color)",
+  "--input_l-width-expandableSearch": "300px",
+  "--input_m-width-expandableSearch": "184px",
+  "--icon-size-expandableSearch": "var(--icon-size_m)",
+  "--close-button_shadow-width-expandableSearch": "10px",
+  "--caret-color_empty_searchInput": "var(--placeholder-color_inputText)",
+  "--caret-color_fill_searchInput": "var(--text-color)"
 }
