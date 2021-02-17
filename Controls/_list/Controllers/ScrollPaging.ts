@@ -103,19 +103,15 @@ export default class ScrollPagingController {
         }
     }
 
-    protected isHasMoreData(hasMoreData: boolean): boolean {
-        return (!hasMoreData || (this._options.pagingMode !== 'edge' && this._options.pagingMode !== 'end'));
-    }
-
     protected updateStateByScrollParams(scrollParams: IScrollParams, hasMoreData: IHasMoreData): void {
         const canScrollForward = Math.ceil(
             scrollParams.clientHeight + scrollParams.scrollTop) < scrollParams.scrollHeight;
         const canScrollBackward = scrollParams.scrollTop > 0;
         if (canScrollForward && canScrollBackward) {
             this.handleScrollMiddle(hasMoreData);
-        } else if (canScrollForward && !canScrollBackward && this.isHasMoreData(hasMoreData.up)) {
+        } else if (canScrollForward && !canScrollBackward && !hasMoreData.up) {
             this.handleScrollTop(hasMoreData);
-        } else if (!canScrollForward && canScrollBackward && this.isHasMoreData(hasMoreData.down)) {
+        } else if (!canScrollForward && canScrollBackward && !hasMoreData.down) {
             this.handleScrollBottom(hasMoreData);
         }
     }
