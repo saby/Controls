@@ -58,7 +58,7 @@ var _private = {
    },
 
     getSourceController: function(self, options) {
-       return historyUtils.getSource(options.source, options.historyId, {pinned: true}).addCallback((source) => {
+       return historyUtils.getSource(options.source, options).addCallback((source) => {
            self._source = source;
            return _private.createSourceController(self, self._source, options.navigation, options.keyProperty);
        });

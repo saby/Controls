@@ -14,29 +14,32 @@ function isHistorySource(source) {
    return coreInstance.instanceOfModule(source, 'Controls/history:Source');
 }
 
-function createHistorySource(source, historyId) {
+function createHistorySource(source, options) {
    return new HistorySource({
       originSource: source,
       historySource: new HistoryService({
-         historyId: historyId
-      })
+         historyId: options.historyId
+      }),
+      parentProperty: options.parentProperty
    });
 }
 
-function getSource(source, historyId) {
+function getSource(source, options) {
    let historyLoad = new Deferred();
+   const historyId = options.historyId;
 
    if (!historyId || isHistorySource(source)) {
       historyLoad.callback(source);
    } else if (HistorySource && HistoryService) {
       historyLoad.callback(createHistorySource(source, historyId));
    } else {
-      require(['Controls/history'], function(history) {
+      require(['Controls/history'], (history) => {
          HistorySource = history.Source;
          HistoryService = history.Service;
          historyLoad.callback(createHistorySource(source, historyId));
       });
    }
+
    return historyLoad;
 }
 
