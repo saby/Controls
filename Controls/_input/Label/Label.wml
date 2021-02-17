@@ -1,13 +1,24 @@
-<a class="controls-Label controls_theme-{{_options.theme}} controls-Label_underline_{{_options.underline}}" href="{{_options.href}}">
-   <div class="controls-Label__wrapper">
-      <div class="controls-Label__caption controls-fontsize-{{_options.fontSize}} controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}
+<ws:template name="LabelTemplate">
+    <div class="controls-Label__wrapper">
+        <div class="controls-Label__caption controls-fontsize-{{_options.fontSize}} controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}
                {{!_options.fontSize ? 'controls-Label__caption'}}
                controls-Label__caption_underline_{{_options.underline}}
                controls-Label__caption_underline_{{_options.underline}}_{{_options.readOnly ? 'read' : 'edit'}}">
-         <ws:partial template="{{_options.caption}}"/>
-      </div>
-      <ws:if data="{{_options.required}}">
-         <div class="controls-Label__asterisk controls-Label__asterisk">&nbsp;*</div>
-      </ws:if>
-   </div>
-</a>
+            <ws:partial template="{{_options.caption}}"/>
+        </div>
+        <ws:if data="{{_options.required}}">
+            <div class="controls-Label__asterisk controls-Label__asterisk">&nbsp;*</div>
+        </ws:if>
+    </div>
+</ws:template>
+
+<ws:if data="{{_options.href}}">
+    <a class="controls-Label controls_theme-{{_options.theme}} controls-Label_underline_{{_options.underline}}" attr:href="{{_options.href}}">
+        <ws:partial template="LabelTemplate"/>
+    </a>
+</ws:if>
+<ws:else>
+    <span class="controls-Label controls_theme-{{_options.theme}} controls-Label_underline_{{_options.underline}}">
+        <ws:partial template="LabelTemplate"/>
+    </span>
+</ws:else>
