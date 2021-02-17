@@ -308,6 +308,10 @@ var ListView = BaseControl.extend(
 
         _onEditingItemClick(e): void {
             e.stopPropagation();
+        },
+        _onEditingItemMouseDown(e, item, nativeEvent): void {
+            e.stopPropagation();
+            this._notify('editingItemMouseDown', [item, nativeEvent]);
         }
     });
 
