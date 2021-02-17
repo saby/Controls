@@ -160,8 +160,11 @@ export default class Container extends Control<IContainerOptions> {
          }
       }
 
-      if (this._searchController && options.sourceController && searchValueChanged) {
-         this._inputSearchValue = newOptions.searchValue;
+      const searchParamChanged = this._options.searchParam !== newOptions.searchParam;
+      if (this._searchController && options.sourceController && (searchValueChanged || searchParamChanged)) {
+         if (searchValueChanged) {
+            this._inputSearchValue = newOptions.searchValue;
+         }
          if (this._sourceController !== options.sourceController) {
             this._sourceController = options.sourceController;
          }

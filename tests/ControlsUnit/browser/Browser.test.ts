@@ -401,6 +401,19 @@ describe('Controls/browser:Browser', () => {
                 assert.deepStrictEqual(browser._searchController._options.filter, filter);
             });
 
+            it('searchParam is changed', async () => {
+                let options = getBrowserOptions();
+                const browser = getBrowser(options);
+                await browser._beforeMount(options);
+                browser.saveOptions(options);
+                await browser._getSearchController();
+
+                options = {...options};
+                options.searchParam = 'newSearchParam';
+                await browser._beforeUpdate(options);
+                assert.ok(browser._searchController._options.searchParam === 'newSearchParam');
+            });
+
             it('update with searchValue', async () => {
                 let options = getBrowserOptions();
                 const filter = {

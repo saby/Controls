@@ -198,6 +198,7 @@ describe('Controls/search:Controller', () => {
             const searchController = new Controller(options);
             options.searchValue = 'oldValue';
             searchController._beforeMount(options, {dataOptions});
+            searchController.saveOptions(options);
 
             searchController._searchController = {
                 update: () => {
@@ -206,6 +207,7 @@ describe('Controls/search:Controller', () => {
                 setRoot: () => {}
             };
             searchController._searchValue = 'newValue';
+            options = {...options};
             options.searchValue = 'newValue';
             searchController._beforeUpdate(options, {dataOptions: {}});
             assert.isFalse(searchControllerUpdated);
@@ -216,6 +218,7 @@ describe('Controls/search:Controller', () => {
 
             const searchController = new Controller(options);
             searchController._beforeMount(options, {dataOptions});
+            searchController.saveOptions(options);
 
             searchController._searchController = {
                 update: () => {
@@ -224,6 +227,7 @@ describe('Controls/search:Controller', () => {
                 setRoot: () => {}
             };
             searchController._searchValue = 'newValue';
+            options = {...options};
             options.searchValue = undefined;
             searchController._beforeUpdate(options, {dataOptions});
             assert.isFalse(searchControllerUpdated);

@@ -303,7 +303,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             this._inputSearchValue = '';
         }
 
-        if (newOptions.searchValue !== undefined && this._searchValue !== newOptions.searchValue) {
+        const searchParamChanged = this._options.searchParam !== newOptions.searchParam;
+        if ((newOptions.searchValue !== undefined && this._searchValue !== newOptions.searchValue) || searchParamChanged) {
             if (!methodResult) {
                 methodResult = this._updateSearchController(newOptions).catch((error) => {
                     this._processLoadError(error);
