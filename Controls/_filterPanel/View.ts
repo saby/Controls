@@ -68,7 +68,7 @@ export default class View extends Control<IControlOptions> {
 
     protected _beforeUpdate(newOptions: IViewPanelOptions): void {
         if (this._options.source !== newOptions.source) {
-            this._setSource(options.source);
+            this._setSource(newOptions.source);
             this._updateFilterParams();
         }
     }
@@ -130,9 +130,7 @@ export default class View extends Control<IControlOptions> {
         this._source.forEach((item) => {
             const editingItem = editingObject[item.name];
             item.value = editingItem?.value || editingItem;
-            if (editingItem.textValue) {
-                item.textValue = editingItem.textValue;
-            }
+            item.textValue = editingItem?.textValue || editingItem;
             if (editingItem?.needColapse) {
                 this._colapseGroup(item.group);
             }
