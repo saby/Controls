@@ -19,6 +19,7 @@
               <Controls.buttons:Button
                     name="Link" caption="{{ _caption }}"
                     fontColorStyle="{{_fontColorStyle}}"
+                    attr:class="controls-RangeShortSelectorLink__value-viewMode-link"
                     fontSize="{{_fontSize}}"
                     viewMode="link"
                     tootltip="{{_options.tooltip}}"
