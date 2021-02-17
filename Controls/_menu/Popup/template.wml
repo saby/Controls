@@ -98,6 +98,7 @@
                        headerTemplate="{{_headerTemplate || _options.headerTemplate}}"
                        backgroundStyle="{{_options.backgroundStyle}}"
                        trigger="{{_options.trigger}}"
+                       scrollbarVisible="{{_options.scrollbarVisible}}"
                        theme="{{_options.theme}}"
                        on:itemClick="_sendResult('itemClick')"
                        on:moreButtonClick="_sendResult('selectorDialogOpened')"
