@@ -34,7 +34,7 @@
    The standard rollback of the value(ctrl + z) by history is broken. https://jsfiddle.net/ow0zjghn/
    Placeholder must be hide instead of deleting.
    -->
-   <div class="controls-InputBase__placeholder {{hidePlaceholder || value ? 'ws-hidden'}}">
+   <div class="controls-InputBase__placeholder {{hidePlaceholder || value || model._displayValue ? 'ws-hidden'}}">
       <ws:partial template="{{placeholderTemplate}}" on:click="_placeholderClickHandler()"/>
    </div>
    <ws:if data="{{isFieldFocused()}}">
