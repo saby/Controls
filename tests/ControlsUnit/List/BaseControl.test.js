@@ -5464,16 +5464,16 @@ define([
 
       it('close and destroy editInPlace if model changed', async () => {
          const cfg = {
-               viewName: 'Controls/List/ListView',
-               viewModelConfig: {
-                  items: [],
-                  keyProperty: 'id'
-               },
-               viewModelConstructor: lists.ListViewModel,
-               keyProperty: 'id',
-               source: source
-            },
-            instance = correctCreateBaseControl(cfg);
+                viewName: 'Controls/List/ListView',
+                viewModelConfig: {
+                   items: [],
+                   keyProperty: 'id'
+                },
+                viewModelConstructor: lists.ListViewModel,
+                keyProperty: 'id',
+                source: source
+             },
+             instance = correctCreateBaseControl(cfg);
          let isEditingCanceled = false;
          let isEIPDestroyed = false;
          instance.saveOptions(cfg);
@@ -5496,42 +5496,6 @@ define([
             assert.isTrue(isEditingCanceled);
             assert.isTrue(isEIPDestroyed);
             assert.isNull(instance._editInPlaceController);
-         });
-      });
-
-      it('close and but not destroy editInPlace if reloaded', async () => {
-         const cfg = {
-               viewName: 'Controls/List/ListView',
-               viewModelConfig: {
-                  items: [],
-                  keyProperty: 'id'
-               },
-               viewModelConstructor: lists.ListViewModel,
-               keyProperty: 'id',
-               source: source
-            },
-            instance = correctCreateBaseControl(cfg);
-         let isEditingCanceled = false;
-         let isEIPDestroyed = false;
-         instance.saveOptions(cfg);
-         await instance._beforeMount(cfg);
-         const cancelPromise = Promise.resolve();
-         instance._cancelEdit = () => {
-            isEditingCanceled = true;
-            return cancelPromise;
-         };
-         instance._editInPlaceController = {
-            isEditing: () => true,
-            updateOptions: () => {},
-            destroy: () => {
-               isEIPDestroyed = true;
-            }
-         };
-         instance._beforeUpdate({...cfg, filter: {qw: ''}});
-         return cancelPromise.then(() => {
-            assert.isTrue(isEditingCanceled);
-            assert.isFalse(isEIPDestroyed);
-            assert.isNotNull(instance._editInPlaceController);
          });
       });
 
