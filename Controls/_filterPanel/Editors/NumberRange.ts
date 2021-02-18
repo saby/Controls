@@ -85,8 +85,8 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
     }
 
     protected _handleInputCompleted(event: SyntheticEvent, value: number): void {
+        this._notifyExtendedValue([this._minValue, this._maxValue]);
         if (this._minValue !== null && this._maxValue) {
-            this._notifyExtendedValue([this._minValue, this._maxValue]);
             this._children.numberRangeValidate.validate();
         }
     }
@@ -99,7 +99,7 @@ class NumberRangeEditor extends Control<INumberRangeOptions> implements INumberR
     private _notifyExtendedValue(value: number[]): void {
         const extendedValue = {
             value,
-            textValue: !this._isValueEmpty(value) && this._getTextValue(value)
+            textValue: !this._isValueEmpty(value) ? this._getTextValue(value) : ''
         };
         this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
     }

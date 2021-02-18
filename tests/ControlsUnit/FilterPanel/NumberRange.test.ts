@@ -18,13 +18,14 @@ describe('Controls/filterPanel:NumberRangeEditor', () => {
         };
 
         it('minValue is null', () => {
+            numberRangeEditor._maxValue = 5;
             numberRangeEditor._handleInputCompleted(null, 1);
-            assert.isFalse(changesNotified);
+            assert.equal(textValue, '');
+            assert.isTrue(changesNotified);
         });
 
         it('minValue is 0', () => {
             numberRangeEditor._minValue = 0;
-            numberRangeEditor._maxValue = 5;
             numberRangeEditor._handleInputCompleted(null, 0);
             assert.equal(textValue, '0 - 5');
             assert.isTrue(changesNotified);

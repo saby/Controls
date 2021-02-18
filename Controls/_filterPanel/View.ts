@@ -130,7 +130,7 @@ export default class View extends Control<IControlOptions> {
         this._source.forEach((item) => {
             const editingItem = editingObject[item.name];
             item.value = editingItem?.value || editingItem;
-            if (editingItem.textValue) {
+            if (editingItem.textValue !== undefined) {
                 item.textValue = editingItem.textValue;
             }
             if (editingItem?.needColapse) {
