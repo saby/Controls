@@ -3,6 +3,7 @@
         <ws:if data="{{_listModel}}">
             <ws:partial
                     template="Controls/list:_forTemplate"
+                    on:itemsContainerReady="saveItemsContainer()"
                     listModel="{{_listModel}}"
                     itemActionsTemplate="{{_options.itemActionsTemplate}}"
                     itemActionsClass="{{_options.itemActionsClass}}"
@@ -18,8 +19,11 @@
                 </ws:groupTemplate>
             </ws:partial>
             <ws:if data="{{_options.tileMode === 'static' && !!_listModel.getCount()}}">
-                <ws:partial template="wml!Controls/_tile/TileView/resources/InvisibleFor" type="leaf"
-                            itemTemplate="{{_itemTemplate}}" listModel="{{_listModel}}"/>
+                <ws:partial template="wml!Controls/_tile/TileView/resources/InvisibleFor"
+                            type="leaf"
+                            itemWidth="{{_listModel.getLastItemWidth()}}"
+                            itemTemplate="{{_itemTemplate}}"
+                            listModel="{{_listModel}}"/>
             </ws:if>
             <ws:if data="{{_options.emptyTemplate}}">
                 <ws:partial template="{{_options.emptyTemplate}}" attr:class="controls-TileView__flex-grow"/>

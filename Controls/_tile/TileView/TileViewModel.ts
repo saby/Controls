@@ -81,7 +81,7 @@ var TileViewModel = ListViewModel.extend({
         // Совместимость с newModel, https://online.sbis.ru/opendoc.html?guid=0bca7ba3-f49f-46da-986a-a1692deb9c47
         current.isStickyHeader = () => {
             return this._options.stickyHeader;
-        }
+        };
 
         if (current.hasMultiSelect) {
             current.multiSelectClassList += ` controls-TileView__checkbox_position-${current.multiSelectPosition}_theme-${current.theme} ` +
@@ -173,7 +173,7 @@ var TileViewModel = ListViewModel.extend({
         const itemContents = dispItem?.getContents();
         if (itemContents instanceof Model) {
             resultData.itemWidth = this.getTileWidth(
-                itemContents, this._options.imageWidthProperty, this._options.imageHeightProperty);
+            itemContents, this._options.imageWidthProperty, this._options.imageHeightProperty);
         } else {
             resultData.itemWidth = this._options.tileWidth || DEFAULT_ITEM_WIDTH;
         }

@@ -2,10 +2,25 @@ import TileViewModel = require('Controls/_tile/TileView/TileViewModel');
 import {TreeViewModel} from 'Controls/tree';
 import cMerge = require('Core/core-merge');
 import InvisibleFor = require('wml!Controls/_tile/TileView/resources/InvisibleFor');
-import {SyntheticEvent} from 'UI/Vdom';
 import {Model} from 'Types/entity';
 
 var DEFAULT_FOLDER_WIDTH = 250;
+const MIN_TILE_WIDTH = 120;
+
+const TILE_SIZE_ITEMS_MIN_COUNT = {
+    s: 4,
+    m: 3,
+    l: 2
+};
+
+const ITEM_PADDING_SIZES = {
+    null: 0,
+    '3xs': 1,
+    '2xs': 2,
+    s: 4,
+    m: 6,
+    default: 6
+};
 
 var TreeTileViewModel = TreeViewModel.extend({
     '[Controls/_tile/TreeTileViewModel]': true,
@@ -24,6 +39,7 @@ var TreeTileViewModel = TreeViewModel.extend({
             this._notify('onListChange', changesType);
         }.bind(this);
         this._tileModel.subscribe('onListChange', this._onListChangeFn);
+        this._currentWidth = this._options.initialWidth;
     },
 
     getItemDataByItem: function (dispItem) {
@@ -83,6 +99,12 @@ var TreeTileViewModel = TreeViewModel.extend({
         }
 
         current = cMerge(current, this.getTileItemData(dispItem));
+        if (current.afterItemTemplateOptions) {
+            current.afterItemTemplateOptions.itemWidth = current.itemWidth;
+        }
+        if (current.beforeItemTemplateOptions) {
+            current.beforeItemTemplateOptions.itemWidth = current.itemWidth;
+        }
         if (current.dispItem.isNode && current.dispItem.isNode()) {
             current.itemsHeight = this._options.nodesHeight || current.itemsHeight;
         }
@@ -195,6 +217,11 @@ var TreeTileViewModel = TreeViewModel.extend({
         TreeTileViewModel.superclass.setActiveItem.apply(this, arguments);
     },
 
+    getLastItemWidth(): number {
+        const lastItem = this.getLast();
+        return this.getItemDataByItem(lastItem).itemWidth;
+    },
+
     setDragItemData(itemData: any): void {
         // Когда д-н-д начали перетаскивание увеличенной плитки, то все эти свойства сохраняются в draggedItemData.
         // Из-за этого перетаскиваемая плитка остается увеличенной с position=fixed и не меняет позицию
@@ -251,15 +278,38 @@ var TreeTileViewModel = TreeViewModel.extend({
         imageWidthProperty: string,
         imageHeightProperty: string
     ): number {
+        let itemWidth = null;
         if (isFolder) {
-            return this._options.folderWidth || DEFAULT_FOLDER_WIDTH;
+            itemWidth = this._options.folderWidth || DEFAULT_FOLDER_WIDTH;
         } else {
-            return this._tileModel.getTileWidth(item, imageWidthProperty, imageHeightProperty);
+            itemWidth = this._tileModel.getTileWidth(item, imageWidthProperty, imageHeightProperty);
         }
+        if (this._options.initialWidth && this._options.tileSize) {
+            const itemPadding = this.getItemPadding();
+            const marginsSize = ITEM_PADDING_SIZES[itemPadding.left] + ITEM_PADDING_SIZES[itemPadding.right];
+            const currentWidth = this.getCurrentWidth();
+            const countItemsInRow = TILE_SIZE_ITEMS_MIN_COUNT[this._options.tileSize];
+            if ((currentWidth / countItemsInRow) >= itemWidth) {
+                itemWidth = itemWidth - marginsSize;
+            } else {
+                itemWidth = Math.round(currentWidth / countItemsInRow) - marginsSize;
+            }
+            return itemWidth < MIN_TILE_WIDTH ? MIN_TILE_WIDTH : itemWidth;
+        }
+        return itemWidth;
     },
 
     getImageData(itemWidth: number, itemData: Record<string, any>,  item: Model): {url: string, class: string} {
         return this._tileModel.getImageData(itemWidth, itemData, item);
+    },
+
+    getCurrentWidth(): number {
+        return this._currentWidth;
+    },
+
+    setCurrentWidth(width: number): void {
+        this._currentWidth = width;
+        this._nextModelVersion();
     },
 
     getItemsPaddingContainerClasses(): string {

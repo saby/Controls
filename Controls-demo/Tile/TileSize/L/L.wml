@@ -1,0 +1,30 @@
+<div class="controlsDemo__wrapper">
+   <Controls.tile:View
+      displayProperty="title"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      multiSelectVisibility="visible"
+      bind:selectedKeys="_selectedKeys"
+      tileMode="static"
+      folderWidth="{{420}}"
+      itemActions="{{_itemActions}}"
+      tileWidth={{420}}
+      tileSize="l"
+      initialWidth="{{900}}"
+      imageProperty="image"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:roundBorder tl="m" tr="m" bl="m" br="m"/>
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tile:RichTemplate"
+            titleLines="{{3}}"
+            descriptionLines="{{2}}"
+            imageProportion="3:4"
+            imagePosition="top"
+            description="Очень длинное описание для проверки многострочного троеточия Очень длинное название для проверки многострочного троеточия Очень длинное название для проверки многострочного троеточия"
+            scope="{{itemTemplate}}">
+         </ws:partial>
+      </ws:itemTemplate>
+   </Controls.tile:View>
+</div>

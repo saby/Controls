@@ -104,6 +104,12 @@ var TileView = ListView.extend({
 
     _onResize: function () {
        this._listModel.setHoveredItem(null);
+       if (this._options.initialWidth) {
+           const itemsContainerWidth = this.getItemsContainer().getBoundingClientRect().width;
+           if (itemsContainerWidth > 0) {
+               this._listModel.setCurrentWidth(itemsContainerWidth);
+           }
+       }
     },
 
     getActionsMenuConfig(

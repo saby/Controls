@@ -1,4 +1,4 @@
 <ws:for data="i in 10">
-   <ws:partial attr:class="js-controls-List_invisible-for-VirtualScroll " template="{{itemTemplate}}" type="{{type}}" invisible="{{true}}" itemData="{{listModel.getTileItemData()}}"/>
+   <ws:partial attr:class="js-controls-List_invisible-for-VirtualScroll " template="{{itemTemplate}}" width="{{itemWidth}}" itemWidth="{{itemWidth}}" folderWidth="{{itemWidth}}" type="{{type}}" invisible="{{true}}" itemData="{{listModel.getTileItemData()}}"/>
 </ws:for>
 <div class="controls-TreeTileView__separator js-controls-List_invisible-for-VirtualScroll"></div>
