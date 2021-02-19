@@ -2,7 +2,7 @@
 import rk = require('i18n!Controls');
 
 // Core imports
-import {Control} from 'UI/Base';
+import {Control, IControlOptions} from 'UI/Base';
 import cClone = require('Core/core-clone');
 import cMerge = require('Core/core-merge');
 import cInstance = require('Core/core-instance');
@@ -3255,7 +3255,11 @@ const _private = {
  * @author Авраменко А.С.
  */
 
-class BaseControl extends Control {
+export interface IBaseControlOptions extends IControlOptions {
+
+}
+
+export class BaseControl<TOptions extends IBaseControlOptions> extends Control<TOptions> {
     _updateShadowModeBeforePaint = null;
     _updateShadowModeAfterMount = null;
 
@@ -6614,41 +6618,43 @@ class BaseControl extends Control {
         this._notify('unregister', ['touchend', this], {bubbling: true});
     }
     // endregion
+
+    static getDefaultOptions(): Partial<IBaseControlOptions> {
+        return {
+            attachLoadTopTriggerToNull: true,
+            uniqueKeys: true,
+            multiSelectVisibility: 'hidden',
+            multiSelectPosition: 'default',
+            markerVisibility: 'onactivated',
+            style: 'default',
+            selectedKeys: defaultSelectedKeys,
+            excludedKeys: defaultExcludedKeys,
+            loadingIndicatorTemplate: 'Controls/list:LoadingIndicatorTemplate',
+            continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
+            virtualScrollConfig: {},
+            plainItemsContainer: true,
+            filter: {},
+            itemActionsVisibility: 'onhover',
+            searchValue: '',
+            moreFontColorStyle: 'listMore',
+
+            // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
+            stickyHeader: true,
+            stickyColumnsCount: 1,
+        };
+    }
+
+    static contextTypes() {
+        return {
+            isTouch: TouchContextField
+        };
+    }
+
+    static _theme = ['Controls/Classes', 'Controls/list', 'Controls/itemActions']
 }
 
 BaseControl._private = _private;
 
-BaseControl.contextTypes = function contextTypes() {
-    return {
-        isTouch: TouchContextField
-    };
-};
-BaseControl._theme = ['Controls/Classes', 'Controls/list', 'Controls/itemActions'];
-
-BaseControl.getDefaultOptions = function() {
-    return {
-        attachLoadTopTriggerToNull: true,
-        uniqueKeys: true,
-        multiSelectVisibility: 'hidden',
-        multiSelectPosition: 'default',
-        markerVisibility: 'onactivated',
-        style: 'default',
-        selectedKeys: defaultSelectedKeys,
-        excludedKeys: defaultExcludedKeys,
-        loadingIndicatorTemplate: 'Controls/list:LoadingIndicatorTemplate',
-        continueSearchTemplate: 'Controls/list:ContinueSearchTemplate',
-        virtualScrollConfig: {},
-        plainItemsContainer: true,
-        filter: {},
-        itemActionsVisibility: 'onhover',
-        searchValue: '',
-        moreFontColorStyle: 'listMore',
-
-        // FIXME: https://online.sbis.ru/opendoc.html?guid=12b8b9b1-b9d2-4fda-85d6-f871ecc5474c
-        stickyHeader: true,
-        stickyColumnsCount: 1,
-    };
-};
 Object.defineProperty(BaseControl, 'defaultProps', {
     enumerable: true,
     configurable: true,
@@ -6656,4 +6662,3 @@ Object.defineProperty(BaseControl, 'defaultProps', {
         return BaseControl.getDefaultOptions();
     }
 });
-export = BaseControl;

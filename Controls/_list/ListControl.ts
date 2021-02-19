@@ -1,4 +1,4 @@
-import * as BaseControl from 'Controls/_list/BaseControl';
+import {BaseControl, IBaseControlOptions} from 'Controls/_list/BaseControl';
 import {saveConfig} from 'Controls/Application/SettingsController';
 import {isEqual} from 'Types/object';
 import {IMovableList} from './interface/IMovableList';
@@ -26,23 +26,24 @@ import {IMovableList} from './interface/IMovableList';
  * @author Авраменко А.С.
  */
 
-interface IListControlOptions {
+export interface IListControlOptions extends IBaseControlOptions {}
 
-}
-
-export default class ListControl extends BaseControl implements IMovableList {
-    _beforeUpdate(cfg: IListControlOptions) {
-        if (cfg.propStorageId && !isEqual(cfg.sorting, this._options.sorting)) {
-            saveConfig(cfg.propStorageId, ['sorting'], cfg);
+export class ListControl extends BaseControl<IListControlOptions> implements IMovableList {
+    _beforeUpdate(options: IListControlOptions) {
+        if (options.propStorageId && !isEqual(options.sorting, this._options.sorting)) {
+            saveConfig(options.propStorageId, ['sorting'], options);
         }
     }
-    static getDefaultOptions() {
+
+    static getDefaultOptions(): Partial<IListControlOptions> {
         return {
             ...BaseControl.getDefaultOptions(),
             uniqueKeys: true
         };
     }
 }
+
+export default ListControl;
 
 Object.defineProperty(ListControl, 'defaultProps', {
    enumerable: true,

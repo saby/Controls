@@ -2,14 +2,12 @@
  * Created by kraynovdo on 31.01.2018.
  */
 import {Control, TemplateFunction} from 'UI/Base';
-import ListControlTpl = require('wml!Controls/_list/List');
-import ListViewModel = require('Controls/_list/ListViewModel');
-import { Collection } from 'Controls/display';
+import template = require('wml!Controls/_list/List');
 
 import Deferred = require('Core/Deferred');
 import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
-import {default as ListControl} from 'Controls/_list/ListControl';
+import {ListControl} from 'Controls/_list/ListControl';
 import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
 import { DataSet, CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
@@ -85,8 +83,8 @@ import { RecordSet } from 'Types/collection';
  * @demo Controls-demo/list_new/Base/Index
  */
 
-export default class List extends Control/** @lends Controls/_list/List.prototype */ implements IMovableList, IRemovableList {
-    protected _template: TemplateFunction = ListControlTpl;
+export default class List extends Control /** @lends Controls/_list/List.prototype */ implements IMovableList, IRemovableList {
+    protected _template: TemplateFunction = template;
     protected _viewName = viewName;
     protected _viewTemplate: unknown = ListControl;
     protected _viewModelConstructor = null;
