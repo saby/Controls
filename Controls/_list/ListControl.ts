@@ -1,13 +1,7 @@
-import {Control, TemplateFunction} from 'UI/Base';
-import ListControlTpl = require('wml!Controls/_list/ListControl/ListControl');
-import BaseControl = require('Controls/_list/BaseControl');
+import * as BaseControl from 'Controls/_list/BaseControl';
 import {saveConfig} from 'Controls/Application/SettingsController';
-import Deferred = require('Core/Deferred');
 import {isEqual} from 'Types/object';
-import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
-import {DataSet, CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
-import { RecordSet } from 'Types/collection';
 
 /**
  * Plain list control with custom item template. Can load data from data source.
@@ -32,82 +26,22 @@ import { RecordSet } from 'Types/collection';
  * @author Авраменко А.С.
  */
 
-export default class ListControl extends Control/** @lends Controls/_list/ListControl.prototype */ implements IMovableList {
-    protected _template: TemplateFunction = ListControlTpl;
-    protected _children: { baseControl: Control };
-    _beforeUpdate(cfg) {
+interface IListControlOptions {
+
+}
+
+export default class ListControl extends BaseControl implements IMovableList {
+    _beforeUpdate(cfg: IListControlOptions) {
         if (cfg.propStorageId && !isEqual(cfg.sorting, this._options.sorting)) {
             saveConfig(cfg.propStorageId, ['sorting'], cfg);
         }
     }
-    reload(keepScroll: boolean = false, sourceConfig?: IBaseSourceConfig) {
-        return this._children.baseControl.reload(keepScroll, sourceConfig);
-    }
-    beginEdit(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.baseControl.beginEdit(options);
-    }
-    beginAdd(options) {
-        return this._options.readOnly ? Deferred.fail() : this._children.baseControl.beginAdd(options);
-    }
-
-    cancelEdit() {
-        return this._options.readOnly ? Deferred.fail() : this._children.baseControl.cancelEdit();
-    }
-
-    commitEdit() {
-        return this._options.readOnly ? Deferred.fail() : this._children.baseControl.commitEdit();
-    }
-
-    reloadItem(key: string, readMeta: object, replaceItem: boolean, reloadType: string = 'read'):Deferred {
-        const baseControl = this._children.baseControl;
-        return baseControl.reloadItem.apply(baseControl, arguments);
-    }
-
-    scrollToItem(key: string|number, toBottom: boolean, force: boolean): void {
-        return this._children.baseControl.scrollToItem(key, toBottom, force);
-    }
-
-    getItems(): RecordSet {
-        return this._children.baseControl.getItems();
-    }
-
-    // region mover
-
-    moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet> {
-        return this._children.baseControl.moveItems(selection, targetKey, position);
-    }
-
-    moveItemUp(selectedKey: CrudEntityKey): Promise<void> {
-        return this._children.baseControl.moveItemUp(selectedKey);
-    }
-
-    moveItemDown(selectedKey: CrudEntityKey): Promise<void> {
-        return this._children.baseControl.moveItemDown(selectedKey);
-    }
-
-    moveItemsWithDialog(selection: ISelectionObject): Promise<DataSet> {
-        return this._children.baseControl.moveItemsWithDialog(selection);
-    }
-
-    // endregion mover
-
-    // region remover
-
-    removeItems(selection: ISelectionObject): Promise<void> {
-        return this._children.baseControl.removeItems(selection);
-    }
-
-    removeItemsWithConfirmation(selection: ISelectionObject): Promise<void> {
-        return this._children.baseControl.removeItemsWithConfirmation(selection);
-    }
-
-    // endregion remover
-
-    static getDefaultOptions () {
+    static getDefaultOptions() {
         return {
+            ...BaseControl.getDefaultOptions(),
             uniqueKeys: true
         };
-    };
+    }
 }
 
 Object.defineProperty(ListControl, 'defaultProps', {

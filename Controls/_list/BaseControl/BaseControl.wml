@@ -106,7 +106,7 @@
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: ' + _attachedToNullLoadTopTriggerOffset + 'px;'}}"
                 name="{{name}}"
-                template="{{ _options.content }}"
+                template="{{ _options.viewName }}"
                 scope="{{_options}}"
                 loadingState="{{_showLoadingIndicator ? _loadingIndicatorState}}"
                 _needBottomPadding="{{_needBottomPadding}}"
