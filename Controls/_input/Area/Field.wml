@@ -26,7 +26,7 @@
          attr:placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"
          on:keypress="_keyPressHandler()"/>
    </ws:partial>
-   <ws:if data="{{!value}}">
+   <ws:if data="{{!model._displayValue || !value}}">
       <div class="controls-InputBase__placeholder">
          <ws:partial template="{{placeholderTemplate}}" on:click="_placeholderClickHandler()"/>
       </div>
