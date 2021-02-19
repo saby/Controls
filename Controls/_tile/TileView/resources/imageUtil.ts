@@ -97,7 +97,10 @@ export function getImageRestrictions(
             width: false,
             height: false
         };
-        if (imageDeltaW > tileDeltaW) {
+        if (imageDeltaW === tileDeltaW) {
+            restrictions.height = true;
+            restrictions.width = true;
+        } else if (imageDeltaW > tileDeltaW) {
             restrictions.height = true;
         } else if (imageDeltaH <= tileDeltaH) {
             restrictions.width = true;
