@@ -5848,12 +5848,16 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         const itemContainer = (swipeEvent.target as HTMLElement).closest('.controls-ListView__itemV');
         const swipeContainer = _private.getSwipeContainerSize(itemContainer as HTMLElement);
         let itemActionsController: ItemActionsController;
+        let isSwipeEventHandled: boolean = false;
 
         if (swipeEvent.nativeEvent.direction === 'left') {
             this.setMarkedKey(key);
             _private.updateItemActionsOnce(this, this._options);
             itemActionsController = _private.getItemActionsController(this, this._options);
-            itemActionsController?.activateSwipe(key, swipeContainer?.width, swipeContainer?.height);
+            if (itemActionsController) {
+                itemActionsController.activateSwipe(key, swipeContainer?.width, swipeContainer?.height);
+                isSwipeEventHandled = true;
+            }
         }
         if (swipeEvent.nativeEvent.direction === 'right') {
             // Тут не надо инициализировать контроллер, если он не проинициализирован
@@ -5861,6 +5865,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             if (swipedItem) {
                 this._itemActionsController.startSwipeCloseAnimation();
                 this._listViewModel.nextVersion();
+                isSwipeEventHandled = true;
 
                 // Для сценария, когда свайпнули одну запись и потом свайпнули вправо другую запись
                 if (swipedItem !== item) {
@@ -5872,6 +5877,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                     this._notify('checkboxClick', [key, item.isSelected()]);
                     const newSelection = _private.getSelectionController(this).toggleItem(key);
                     _private.changeSelection(this, newSelection);
+                    isSwipeEventHandled = true;
                     // Animation should be played only if checkboxes are visible.
                     if (_private.hasSelectionController(this)) {
                         _private.getSelectionController(this).startItemAnimation(key);
@@ -5880,8 +5886,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 this.setMarkedKey(key);
             }
         }
-        if (!this._options.itemActions && item.isSwiped()) {
-            this._notify('itemSwipe', [item, swipeEvent, swipeContainer?.clientHeight]);
+        if (!isSwipeEventHandled) {
+            this._notify('itemSwipe', [item, swipeEvent, swipeContainer?.height]);
         }
     },
 
