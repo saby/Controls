@@ -19,7 +19,7 @@ const _private = {
                 options.ranges.months[0] === 1));
         if (self._position !== options.position) {
             self._position = options.position;
-            this._markedKey = self._dateToId(self._position);
+            self._markedKey = self._dateToId(self._position);
         }
         if (!self._singleDayHover) {
             self._hoveredStartValue = options.hoveredStartValue;
