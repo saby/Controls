@@ -433,7 +433,10 @@ const _private = {
                             self._groupingLoader.resetLoadedGroups(listModel);
                         }
 
-                        _private.assignItemsToModel(self, list, cfg);
+                        // Нужно передавать именно this._options, т.к. опции с которыми был вызван reload могут устареть
+                        // пока загружаются данные. this._options будут гарантированно актуальными, т.к. этот код
+                        // выполняется в колбеке после обновления (doAfterUpdate).
+                        _private.assignItemsToModel(self, list, this._options);
 
                         if (self._sourceController) {
                             _private.setHasMoreData(listModel, _private.hasMoreDataInAnyDirection(self, self._sourceController));
