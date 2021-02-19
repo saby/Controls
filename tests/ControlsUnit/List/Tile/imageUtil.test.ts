@@ -84,6 +84,7 @@ describe('tileImageUtil', () => {
             });
             it('Картинка полностью пропорциональна плитке', () => {
                 const restrictions = getImageRestrictions(300, 300, 500, 500);
+                assert.isTrue(restrictions.height);
                 assert.isTrue(restrictions.width);
             });
         });
