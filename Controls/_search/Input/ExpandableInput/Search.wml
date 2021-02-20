@@ -1,4 +1,5 @@
-<div class="controls_theme-{{_options.theme}} controls-Search__expandable-search">
+<div class="controls_theme-{{_options.theme}} controls-Search__expandable-search"
+     attr:data-qa="controls-Search__expandableSearch">
     <ws:if data="{{_expanded}}">
         <div class="controls-Search__expandable-container
                     controls-Search__expandable-container-inlineWidth-{{_options.inlineWidth}}">
