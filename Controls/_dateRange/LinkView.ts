@@ -70,14 +70,8 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
              'resetStartValue и resetEndValue');
       }
 
-      if (options.showPrevArrow || options.showNextArrow) {
-         Logger.error('LinkView: ' + rk('You should use prevArrowVisibility and nextArrowVisibility instead of showPrevArrow and showNextArrow'), this);
-      }
-
-      // clearButtonVisibility is option of clearButton visibility state
-
-      if ((options.prevArrowVisibility && options.clearButtonVisibility) || (options.nextArrowVisibility && options.clearButtonVisibility)) {
-         Logger.error('LinkView: ' + rk('The Controls functional is not intended for showClearButton and prevArrowVisibility/nextArrowVisibility options using in one time'), this);
+      if (options.prevArrowVisibility || options.nextArrowVisibility) {
+         Logger.warn('LinkView: Используются устаревшие опции prevArrowVisibility и nextArrowVisibility. Используйте контрол Controls/buttons:ArrowButton');
       }
    }
 
