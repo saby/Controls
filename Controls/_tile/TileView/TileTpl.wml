@@ -50,7 +50,7 @@
       <ws:else>
          <ws:partial template="wml!Controls/_tile/TileView/TileImageTemplate"
                      scope="{{_options}}"/>
-         <ws:if data="{{itemData.item[itemData.displayProperty] || (itemData.hasVisibleActions() || itemData.isEditing())}}">
+         <ws:if data="{{itemData.item[itemData.displayProperty] || itemData.shouldDisplayActions()}}">
             <ws:if data="{{titleStyle === 'accent'}}">
                <div class="controls-TileView__title_accent_theme-{{theme}}"
                     title="{{itemData.item[itemData.displayProperty]}}">
@@ -85,13 +85,13 @@
             </ws:else>
          </ws:if>
       </ws:else>
-      <ws:partial if="{{!itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing()) && itemData.itemActionsPosition !== 'custom' && _options.itemActionsPosition !== 'custom'}}"
+      <ws:partial if="{{!itemData.isSwiped() && itemData.shouldDisplayActions() && itemData.itemActionsPosition !== 'custom' && _options.itemActionsPosition !== 'custom'}}"
                   template="{{itemActionsTemplate}}"
                   highlightOnHover="{{highlightOnHover}}"
                   actionPadding="{{itemActionsPadding}}"
                   itemData="{{itemData}}"
                   itemActionsClass="{{itemActionsClass ? itemActionsClass : 'controls-TileView__itemActions_theme-' + theme + ' controls-TileView__itemActions_bottomRight'}}"/>
-      <ws:partial if="{{itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
+      <ws:partial if="{{itemData.isSwiped() && itemData.shouldDisplayActions()}}"
                   template="{{swipeTemplate}}"
                   itemData="{{itemData}}"
                   itemActionsTemplate="{{itemActionsTemplate}}"/>

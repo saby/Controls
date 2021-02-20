@@ -31,7 +31,7 @@
                      </ws:if>
                   </div>
                </ws:if>
-               <ws:if data="{{!itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}">
+               <ws:if data="{{!itemData.isSwiped() && itemData.shouldDisplayActions()}}">
                   <ws:partial template="Controls/_tile/ItemActions/Control"
                               item="{{itemData.dispItem}}">
                      <ws:partial template="{{itemActionsTemplate}}"
@@ -44,7 +44,7 @@
                                  itemActionsClass="controls-TileView__previewTemplate_itemActions {{itemData.dispItem.isNode() ? 'controls-TileView__previewTemplate_itemActions_node'}}"/>
                   </ws:partial>
                </ws:if>
-               <ws:partial if="{{itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
+               <ws:partial if="{{itemData.isSwiped() && itemData.shouldDisplayActions()}}"
                            template="{{swipeTemplate}}"
                            itemData="{{itemData}}"
                            itemActionsTemplate="{{itemActionsTemplate}}"/>

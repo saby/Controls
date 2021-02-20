@@ -258,6 +258,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   {
                      inputData: {
                         itemData: {
+                           shouldDisplayActions: () => false,
                            hasVisibleActions: () => false,
                            isEditing: () => false,
                            hasMultiSelectColumn: false,
@@ -276,6 +277,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   {
                      inputData: {
                         itemData: {
+                           shouldDisplayActions: () => true,
                            hasVisibleActions: () => true,
                            isEditing: () => true,
                            hasMultiSelectColumn: false,
@@ -294,6 +296,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   {
                      inputData: {
                         itemData: {
+                           shouldDisplayActions: () => true,
                            hasVisibleActions: () => true,
                            isEditing: () => true,
                            hasMultiSelectColumn: false,
@@ -312,6 +315,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   {
                      inputData: {
                         itemData: {
+                           shouldDisplayActions: () => true,
                            hasVisibleActions: () => true,
                            isEditing: () => true,
                            hasMultiSelectColumn: true,
@@ -330,6 +334,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
                   {
                      inputData: {
                         itemData: {
+                           shouldDisplayActions: () => true,
                            hasVisibleActions: () => true,
                            isEditing: () => true,
                            hasMultiSelectColumn: true,

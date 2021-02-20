@@ -87,7 +87,7 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
         if (this._$owner.hasItemActionsSeparatedCell()) {
             return false;
         }
-        return this.isLastColumn() && (this._$owner.hasVisibleActions() || this._$owner.isEditing());
+        return this.isLastColumn() && this._$owner.shouldDisplayActions();
     }
 
     nextVersion(): void {

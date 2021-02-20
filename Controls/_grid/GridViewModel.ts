@@ -119,7 +119,7 @@ var
             );
         },
         isDrawActions: function(itemData, currentColumn, colspan) {
-            return (itemData.hasVisibleActions() || itemData.isEditing()) && _private.isActionsColumn(itemData, currentColumn, colspan);
+            return itemData.shouldDisplayActions() && _private.isActionsColumn(itemData, currentColumn, colspan);
         },
         getCellStyle: function(self, itemData, currentColumn, colspan) {
            var

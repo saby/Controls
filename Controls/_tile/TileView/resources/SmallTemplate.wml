@@ -39,13 +39,13 @@
                        {{itemData.dispItem.isNode() ? 'controls-TileView__smallTemplate_title_node_theme-' + _options.theme}}"
            title="{{itemData.item.title}}">{{itemData.item[itemData.displayProperty]}}
       </div>
-      <ws:partial if="{{itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing())}}"
+      <ws:partial if="{{itemData.isSwiped() && itemData.shouldDisplayActions()}}"
                   highlightOnHover="{{highlightOnHover}}"
                   template="{{swipeTemplate}}"
                   itemData="{{itemData}}"
                   itemActionsTemplate="{{itemActionsTemplate}}"/>
       <ws:partial
-         if="{{!itemData.isSwiped() && (itemData.hasVisibleActions() || itemData.isEditing()) && itemData.itemActionsPosition !== 'custom'}}"
+         if="{{!itemData.isSwiped() && itemData.shouldDisplayActions() && itemData.itemActionsPosition !== 'custom'}}"
          template="{{itemActionsTemplate}}"
          highlightOnHover="{{highlightOnHover}}"
          itemData="{{itemData}}"

@@ -29,7 +29,7 @@
             attr:style="{{ item.getImageWrapperStyle() }}">
             <img attr:class="controls-TileView__image" attr:src="{{ item.getContents()[item.getImageProperty()] }}"/>
          </div>
-         <ws:if data="{{ item.getContents()[item.getDisplayProperty()] || (item.hasVisibleActions() || item.isEditing()) }}">
+         <ws:if data="{{ item.getContents()[item.getDisplayProperty()] || (item.shouldDisplayActions()) }}">
             <div
                attr:class="{{ item.getTitleClasses(hasTitle, theme) }}"
                attr:title="{{ item.getContents()[item.getDisplayProperty()] }}">
@@ -37,7 +37,7 @@
             </div>
          </ws:if>
       </ws:else>
-      <ws:if data="{{ item.hasVisibleActions() || item.isEditing() }}">
+      <ws:if data="{{ item.shouldDisplayActions() }}">
          <ws:if data="{{ item.isSwiped() && itemActionsPosition !== 'custom' && itemActionsPosition !== 'outside' }}">
             <ws:partial template="{{ swipeTemplate }}" />
          </ws:if>
