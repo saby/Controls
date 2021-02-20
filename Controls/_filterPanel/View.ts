@@ -21,9 +21,10 @@ import rk = require('i18n!Controls');
 /**
  * @typedef {Object} FilterPanelSource
  * @property {String} name Имя фильтра.
- * @property {String} group Имя Группг.
+ * @property {String} group Имя группы.
  * @property {*} value Текущее значение фильтра.
  * @property {*} resetValue Значение фильтра по умолчанию.
+ * @property {String} title Подсказка при наведении на группу.
  * @property {String} textValue Текстовое значение фильтра. Используется для отображения текста при закрытии группы.
  * @property {Controls/_filter/View/interface/IFilterItem/EditorOptions.typedef} editorOptions Опции для редактора.
  * @property {String} editorTemplateName Имя редактора.
@@ -146,7 +147,7 @@ export default class View extends Control<IControlOptions> {
     private _updateFilterParams(): void {
         this._source.forEach((item) => {
             this._setEditingParam(item.name, item.value);
-            this._setGroupItem(item.group, item.textValue, item.editorOptions?.afterEditorTemplate);
+            this._setGroupItem(item.group, item.textValue, item.editorOptions?.afterEditorTemplate, item.title);
         });
     }
 
@@ -154,8 +155,8 @@ export default class View extends Control<IControlOptions> {
         this._editingObject[paramName] = value;
     }
 
-    private _setGroupItem(groupName: string, textValue: string, afterEditorTemplate: TemplateFunction): void {
-        this._groupItems[groupName] = {textValue, afterEditorTemplate};
+    private _setGroupItem(groupName: string, textValue: string, afterEditorTemplate: TemplateFunction, title?: string): void {
+        this._groupItems[groupName] = {textValue, afterEditorTemplate, title};
     }
 
     private _notifyChanges(): void {
