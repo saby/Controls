@@ -2,10 +2,29 @@ import {descriptor} from 'Types/entity';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import toString from 'Controls/_decorator/inputUtils/toString';
-// @ts-ignore
 import * as template from 'wml!Controls/_decorator/Number/Number';
+import { abbreviateNumber } from 'Controls/_decorator/resources/Formatter';
+// @ts-ignore
+import {
+    INumberFormatOptions,
+    INumberFormat,
+    IFontColorStyle,
+    IFontColorStyleOptions,
+    IFontSize,
+    IFontSizeOptions,
+    IFontWeight,
+    IFontWeightOptions
+} from 'Controls/interface';
 import 'css!Controls/decorator';
 
+/**
+ * Тип данных для аббревиатуры
+ * @typedef {string} TAbbreviationType
+ * @variant short
+ * @variant long
+ * @variant none
+ */
+type TAbbreviationType = 'none' | 'short' | 'long';
 type RoundingFn = (number: string, fractionSize: number) => string;
 
 /**
@@ -21,23 +40,14 @@ export type RoundMode = 'round' | 'trunc';
  * @public
  * @author Красильников А.С.
  */
-export interface INumberOptions extends IControlOptions {
+export interface INumberOptions extends IControlOptions, INumberFormatOptions, IFontColorStyleOptions,
+    IFontWeightOptions, IFontSizeOptions {
     /**
      * @name Controls/_decorator/INumber#value
      * @cfg {String|Number|null} Декорируемое число.
      * @demo Controls-demo/Decorator/Number/Value/Index
      */
-    value: string | number | null;
-    /**
-     * @name Controls/_decorator/INumber#useGrouping
-     * @cfg {Boolean} Определяет, следует ли использовать разделители группы.
-     * @remark
-     * true - число разделено на группы.
-     * false - разделения не происходит.
-     * @default true
-     * @demo Controls-demo/Decorator/Number/UseGrouping/Index
-     */
-    useGrouping: boolean;
+    value: string;
     /**
      * @name Controls/_decorator/INumber#fractionSize
      * @cfg {Number} Количество знаков после запятой. Диапазон от 0 до 20.
@@ -51,6 +61,13 @@ export interface INumberOptions extends IControlOptions {
      * @demo Controls-demo/Decorator/Number/RoundMode/Index
      */
     roundMode: RoundMode;
+    /**
+     * Тип аббревиатуры.
+     * @type TAbbreviationType
+     * @default 'none'
+     * @demo Controls-demo/Decorator/Number/Abbreviation/Index
+     */
+    abbreviationType?: TAbbreviationType;
 }
 
 /**
@@ -70,6 +87,8 @@ export interface INumberOptions extends IControlOptions {
  * @author Красильников А.С.
  */
 class NumberDecorator extends Control<INumberOptions> {
+    private _fontColorStyle: string;
+
     protected _formattedNumber: string = null;
 
     protected _template: TemplateFunction = template;
@@ -89,15 +108,27 @@ class NumberDecorator extends Control<INumberOptions> {
                 return currentValue !== newValue;
             }
 
-            return currentOptions[optionName] !== newOptions[optionName]
+            return currentOptions[optionName] !== newOptions[optionName];
         });
     }
 
+    private _setFontState(options: INumberOptions): void {
+        if (options.readOnly) {
+            this._fontColorStyle = 'readonly';
+        } else if (options.stroked) {
+            this._fontColorStyle = 'unaccented';
+        } else {
+            this._fontColorStyle = options.fontColorStyle;
+        }
+    }
+
     protected _beforeMount(options: INumberOptions): void {
+        this._setFontState(options);
         this._formattedNumber = NumberDecorator._formatNumber(options.value, options);
     }
 
     protected _beforeUpdate(newOptions: INumberOptions): void {
+        this._setFontState(newOptions);
         if (this._needChangeFormattedNumber(newOptions)) {
             this._formattedNumber = NumberDecorator._formatNumber(newOptions.value, newOptions);
         }
@@ -110,17 +141,21 @@ class NumberDecorator extends Control<INumberOptions> {
             return '';
         }
 
-        const {useGrouping, roundMode, fractionSize} = format;
+        const {useGrouping, roundMode, fractionSize, abbreviationType} = format;
 
         if (typeof fractionSize === 'number') {
             switch (roundMode) {
-                case "round":
+                case 'round':
                     strNumber = NumberDecorator._round(strNumber, fractionSize);
                     break;
-                case "trunc":
+                case 'trunc':
                     strNumber = NumberDecorator._trunc(strNumber, fractionSize);
                     break;
             }
+        }
+
+        if (abbreviationType) {
+            return abbreviateNumber(strNumber, abbreviationType);
         }
 
         if (useGrouping) {
@@ -152,15 +187,25 @@ class NumberDecorator extends Control<INumberOptions> {
             roundMode: descriptor(String).oneOf([
                 'trunc',
                 'round'
-            ])
-        }
+            ]),
+            abbreviationType: descriptor(String).oneOf([
+                'none',
+                'short',
+                'long'
+            ]),
+            stroked: descriptor(Boolean),
+            underline: descriptor(String)
+        };
     }
 
     static getDefaultOptions() {
         return {
             useGrouping: true,
-            roundMode: 'trunc'
-        }
+            roundMode: 'trunc',
+            abbreviationType: 'none',
+            stroked: false,
+            underline: 'none'
+        };
     }
 }
 

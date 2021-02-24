@@ -1,13 +1,32 @@
-<span class="controls-DecoratorMoney controls_theme-{{_options.theme}} controls-DecoratorMoney_style-{{_options.style}}"
+<span class="controls-DecoratorMoney controls_theme-{{_options.theme}} controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
       title="{{_tooltip}}">
-    <span class="controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}
+    <ws:if data="{{_options.currency && _options.currencyPosition === 'left'}}">
+            <div class="controls-icon icon-{{_options.currency}} controls-icon_size-{{_options.currencySize}}_theme-{{_options.theme}} controls-icon_style-{{_options.fontColorStyle}}_theme-{{_options.theme}}"></div>
+    </ws:if>
+    <ws:if data="{{_options.abbreviationType === 'long'}}">
+        <span class="controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}
                  controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
-                 controls-DecoratorMoney__integer_fontWeight_{{_fontWeight}}">
-        {{_parsedNumber.integer}}
-    </span>
-    <ws:if data="{{_isDisplayFractionPath(_parsedNumber.fraction, _options.showEmptyDecimals)}}">
-        <span class= "controls-DecoratorMoney__fraction
-                      controls-fontsize-xs_theme-{{_options.theme}}">
-            {{_parsedNumber.fraction}}</span>
+                 controls-DecoratorMoney__integer_fontWeight_{{_options.fontWeight}}
+                 {{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
+            {{_formattedNumber}}
+        </span>
+    </ws:if>
+    <ws:else>
+        <span class="{{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
+            <span class="controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}
+                    controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
+                    controls-DecoratorMoney__integer_fontWeight_{{_options.fontWeight}}">
+                {{_formattedNumber.integer}}
+            </span>
+            <ws:if data="{{_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals)}}">
+                <span class="controls-DecoratorMoney__fraction__colorStyle-{{ _formattedNumber.fraction === '.00' ? 'unaccented' : _fontColorStyle}}
+                            controls-fontsize-xs_theme-{{_options.theme}}">
+                    {{_formattedNumber.fraction}}
+                </span>
+            </ws:if>
+        </span>
+    </ws:else>
+    <ws:if data="{{_options.currency && _options.currencyPosition === 'right'}}">
+            <div class="controls-icon icon-{{_options.currency}} controls-icon_size-{{_options.currencySize}}_theme-{{_options.theme}} controls-icon_style-{{_options.fontColorStyle}}_theme-{{_options.theme}}"></div>
     </ws:if>
 </span>

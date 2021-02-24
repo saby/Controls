@@ -1,7 +1,11 @@
 export interface INumberFormatOptions {
     useGrouping?: boolean;
     showEmptyDecimals?: boolean;
+    stroked?: boolean;
+    underline?: TUnderline;
 }
+
+type TUnderline = 'hovered' | 'none';
 
 /**
  * Интерфейс для контролов, которые поддерживают настройку числового формата.

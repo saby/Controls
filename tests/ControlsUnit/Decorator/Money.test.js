@@ -18,7 +18,7 @@ define(
                   value: null,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '0.00',
                   integer: '0',
                   fraction: '.00'
@@ -29,7 +29,7 @@ define(
                   value: 0.035,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '0.03',
                   integer: '0',
                   fraction: '.03'
@@ -40,7 +40,7 @@ define(
                   value: 0.075,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '0.07',
                   integer: '0',
                   fraction: '.07'
@@ -51,7 +51,7 @@ define(
                   value: 20,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '20.00',
                   integer: '20',
                   fraction: '.00'
@@ -62,7 +62,7 @@ define(
                   value: 20.1,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '20.10',
                   integer: '20',
                   fraction: '.10'
@@ -73,7 +73,7 @@ define(
                   value: 20.18,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '20.18',
                   integer: '20',
                   fraction: '.18'
@@ -84,7 +84,7 @@ define(
                   value: 20.181,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '20.18',
                   integer: '20',
                   fraction: '.18'
@@ -95,7 +95,7 @@ define(
                   value: Infinity,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '0.00',
                   integer: '0',
                   fraction: '.00'
@@ -106,7 +106,7 @@ define(
                   value: 1000.00,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '1000.00',
                   integer: '1000',
                   fraction: '.00'
@@ -117,7 +117,7 @@ define(
                   value: 1000.00,
                   useGrouping: true
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '1 000.00',
                   integer: '1 000',
                   fraction: '.00'
@@ -128,7 +128,7 @@ define(
                   value: -1000.00,
                   useGrouping: false
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '-1000.00',
                   integer: '-1000',
                   fraction: '.00'
@@ -139,7 +139,7 @@ define(
                   value: -1000.00,
                   useGrouping: true
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '-1 000.00',
                   integer: '-1 000',
                   fraction: '.00'
@@ -150,7 +150,7 @@ define(
                   value: 1234e20,
                   useGrouping: true
                });
-               assert.deepEqual(ctrl._parsedNumber, {
+               assert.deepEqual(ctrl._formattedNumber, {
                   number: '123 400 000 000 000 000 000 000.00',
                   integer: '123 400 000 000 000 000 000 000',
                   fraction: '.00'

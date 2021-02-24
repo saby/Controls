@@ -15,13 +15,44 @@ import {Logger} from 'UI/Utils';
 import {descriptor, DescriptorValidator} from 'Types/entity';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import numberToString from 'Controls/_decorator/inputUtils/toString';
-
+import { abbreviateNumber } from 'Controls/_decorator/resources/Formatter';
 // tslint:disable-next-line:ban-ts-ignore
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Money/Money';
 import 'css!Controls/decorator';
 
-type TValue = string | number | null;
+/**
+ * Тип данных для аббревиатуры
+ * @typedef {string} TAbbreviationType
+ * @variant long
+ * @variant none
+ */
+type TAbbreviationType = 'long' | 'none';
+/**
+ * Тип данных для отображаемой валюты
+ * @typedef {string} TCurrency
+ * @variant Ruble
+ * @variant Euro
+ * @variant Dollar
+ */
+type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
+/**
+ * Тип данных для позиции отображаемой валюты
+ * @typedef {string} TAbbreviationType
+ * @variant right
+ * @variant left
+ */
+type TCurrencyPosition = 'right' | 'left';
+/**
+ * Тип данных для размера отображаемой валюты
+ * @typedef {string} TCurrency
+ * @variant 2xs
+ * @variant xs
+ * @variant s
+ * @variant m
+ * @variant l
+ */
+type TCurrencySize = '2xs' | 'xs' | 's' | 'm' | 'l';
 
 interface IPaths {
     integer: string;
@@ -39,11 +70,36 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
     IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
     /**
      * Декорируемое число.
-     * @type string|number|null
+     * @type string
      * @default null
      * @demo Controls-demo/Decorator/Money/Value/Index
      */
-    value: TValue;
+    value: string;
+    /**
+     * Тип аббревиатуры.
+     * @type TAbbreviationType
+     * @default 'none'
+     * @demo Controls-demo/Decorator/Money/Abbreviation/Index
+     */
+    abbreviationType?: TAbbreviationType;
+    /**
+     * Отображаемая валюта.
+     * @type TCurrency
+     * @demo Controls-demo/Decorator/Money/Currency/Index
+     */
+    currency?: TCurrency;
+    /**
+     * Размер отображаемой валюты.
+     * @type TCurrencySize
+     * @default 's'
+     */
+    currencySize?: TCurrencySize;
+    /**
+     * Позиция отображаемой валюты относительно суммы.
+     * @type TCurrencyPosition
+     * @default 'right'
+     */
+    currencyPosition?: TCurrencyPosition;
 }
 
 /**
@@ -71,14 +127,11 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
  */
 
 class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, IFontColorStyle, IFontSize, IFontWeight {
-    private _value: TValue;
+    private _value: string;
     private _useGrouping: boolean;
     protected _tooltip: string;
-    private _parsedNumber: IPaths;
+    private _formattedNumber: string | IPaths;
     private _fontColorStyle: string;
-    private _fontSize: string;
-    private _readOnly: boolean;
-    private _fontWeight: string;
 
     readonly '[Controls/_interface/ITooltip]': boolean = true;
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
@@ -94,16 +147,15 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         return showEmptyDecimals || value !== '.00';
     }
 
-
     private _getTooltip(options: IMoneyOptions): string {
 
         if (options.hasOwnProperty('tooltip')) {
             return options.tooltip;
         }
 
-        return this._isDisplayFractionPath(this._parsedNumber.fraction, options.showEmptyDecimals)
-            ? this._parsedNumber.number
-            : this._parsedNumber.integer;
+        return this._isDisplayFractionPath(this._formattedNumber.fraction, options.showEmptyDecimals)
+            ? this._formattedNumber.number
+            : this._formattedNumber.integer;
     }
 
     private _changeState(options: IMoneyOptions, useLogging: boolean): boolean {
@@ -133,29 +185,41 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
         const fraction = exec[2];
 
         return {
-            integer: integer,
-            fraction: fraction,
+            integer,
+            fraction,
             number: integer + fraction
         };
     }
 
+    private _formatNumber(options: IMoneyOptions): string | IPaths {
+        if (options.abbreviationType !== 'none') {
+            return abbreviateNumber(options.value, options.abbreviationType);
+        } else {
+            return this._parseNumber();
+        }
+    }
+
     private _setFontState(options: IMoneyOptions): void {
-        this._fontSize = options.fontSize;
-        this._fontWeight = options.fontWeight;
-        this._fontColorStyle = options.readOnly ? 'readonly' : options.fontColorStyle;
+        if (options.readOnly) {
+            this._fontColorStyle = 'readonly';
+        } else if (options.stroked) {
+            this._fontColorStyle = 'unaccented';
+        } else {
+            this._fontColorStyle = options.fontColorStyle;
+        }
     }
 
     protected _beforeMount(options: IMoneyOptions): void {
         this._setFontState(options);
         this._changeState(options, true);
-        this._parsedNumber = this._parseNumber();
+        this._formattedNumber = this._formatNumber(options);
         this._tooltip = this._getTooltip(options);
     }
 
     protected _beforeUpdate(newOptions: IMoneyOptions): void {
         this._setFontState(newOptions);
         if (this._changeState(newOptions, false)) {
-            this._parsedNumber = this._parseNumber();
+            this._formattedNumber = this._formatNumber(newOptions);
         }
         this._tooltip = this._getTooltip(newOptions);
     }
@@ -166,7 +230,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
 
     static _theme: string[] = ['Controls/Classes'];
 
-    private static toString(value: TValue): string {
+    private static toString(value: string): string {
         if (value === null) {
             return '0.' + Money.ZERO_FRACTION_PATH;
         }
@@ -203,7 +267,12 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             fontSize: 'm',
             fontWeight: 'default',
             useGrouping: true,
-            showEmptyDecimals: true
+            showEmptyDecimals: true,
+            currencySize: 's',
+            currencyPosition: 'right',
+            abbreviationType: 'none',
+            stroked: false,
+            underline: 'none'
         };
     }
 
@@ -214,7 +283,15 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             fontSize: descriptor(String),
             useGrouping: descriptor(Boolean),
             showEmptyDecimals: descriptor(Boolean),
-            value: descriptor(String, Number, null)
+            value: descriptor(String, Number, null),
+            currencySize: descriptor(String),
+            currencyPosition: descriptor(String),
+            abbreviationType: descriptor(String).oneOf([
+                'none',
+                'long'
+            ]),
+            stroked: descriptor(Boolean),
+            underline: descriptor(String)
         };
     }
 }
