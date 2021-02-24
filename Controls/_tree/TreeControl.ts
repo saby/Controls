@@ -169,13 +169,13 @@ const _private = {
                         if (options.nodeLoadCallback) {
                             options.nodeLoadCallback(list, nodeKey);
                         }
+                        self._children.baseControl.hideIndicator();
                     }, (error) => {
                         _private.processError(self, error);
                         // Вернуть элемент модели в предыдущее состояние, т.к. раскрытие не состоялось.
                         _private.toggleExpandedOnModel(self, listViewModel, dispItem, !expanded);
-                    })
-                    .addCallback(() => {
                         self._children.baseControl.hideIndicator();
+                        return error;
                     });
             } else {
 
