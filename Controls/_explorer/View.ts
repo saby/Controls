@@ -544,13 +544,19 @@ var
          }
          this._potentialMarkedKey = undefined;
 
-         const loadedBySourceController =
+         let loadedBySourceController =
              cfg.sourceController &&
              ((isSearchViewMode && cfg.searchValue && cfg.searchValue !== this._options.searchValue) ||
               (cfg.source !== this._options.source));
          const isSourceControllerLoading = cfg.sourceController && cfg.sourceController.isLoading();
          this._resetScrollAfterViewModeChange = isViewModeChanged && !isRootChanged;
          this._headerVisibility = cfg.root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+
+         if (cfg.sourceController && this._options.sourceController !== cfg.sourceController) {
+            this._items = cfg.sourceController.getItems();
+            this._updateHeadingPath();
+            loadedBySourceController = true;
+         }
 
          if (!isEqual(cfg.itemPadding, this._options.itemPadding)) {
             this._newItemPadding = cfg.itemPadding;
@@ -728,9 +734,14 @@ var
           return res;
       },
       _onBreadCrumbsClick: function(event, item) {
-          _private.cleanRestoredKeyObject(this, item.getId());
-          _private.setRoot(this, item.getId());
-          this._isGoingBack = true;
+         _private.cleanRestoredKeyObject(this, item.getId());
+
+         const res = this._notify('beforeBreadcrumbsChangeRoot', [item.getId()]);
+         if (res !== false) {
+            _private.setRoot(this, item.getId());
+         }
+
+         this._isGoingBack = true;
       },
       _onExternalKeyDown(event): void {
          this._onExplorerKeyDown(event);

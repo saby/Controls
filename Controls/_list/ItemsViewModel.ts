@@ -551,9 +551,9 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     // todo task1179709412 https://online.sbis.ru/opendoc.html?guid=43f508a9-c08b-4938-b0e8-6cfa6abaff21
-    setItems(items, cfg): void {
+    setItems(items, cfg, recreateModel): void {
         const metaData = items.getMetaData();
-        if (_private.isEqualItems(this._items, items)) {
+        if (_private.isEqualItems(this._items, items) && !recreateModel) {
             this._items.setMetaData(metaData);
             this._items.assign(items);
             this._updateSubscriptionOnMetaChange(this._items, items, true);

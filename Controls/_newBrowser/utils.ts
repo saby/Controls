@@ -1,5 +1,5 @@
 import {RecordSet} from 'Types/collection';
-import {IDetailOptions, IMasterOptions, IOptions} from 'Controls/newBrowser';
+import {IMasterOptions, IOptions} from 'Controls/newBrowser';
 import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions';
 import {IBrowserViewConfig, ImageGradient, ImageViewMode} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
 
@@ -13,7 +13,7 @@ export function getListConfiguration(items: RecordSet): IBrowserViewConfig {
 }
 
 export function buildDetailOptions(options: IOptions): IExplorerOptions {
-    const detail = options.detail as IDetailOptions;
+    const detail = options.detail;
 
     return {
         ...detail,

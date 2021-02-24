@@ -126,4 +126,6 @@ export
     searchStartingWith?: string;
 
     dataLoadCallback?: (items: RecordSet, direction: string) => void;
+
+    itemsReadyCallback?: (items: RecordSet) => void;
 }

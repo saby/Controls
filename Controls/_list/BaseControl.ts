@@ -491,7 +491,7 @@ const _private = {
         return resDeferred;
     },
 
-    assignItemsToModel(self, items: RecordSet, newOptions): void {
+    assignItemsToModel(self, items: RecordSet, newOptions, recreateModel): void {
         const listModel = self._listViewModel;
 
         // todo task1179709412 https://online.sbis.ru/opendoc.html?guid=43f508a9-c08b-4938-b0e8-6cfa6abaff21
@@ -507,7 +507,7 @@ const _private = {
             }
         } else {
             const wasItemsReplaced = listModel.getCollection() && !isEqualItems(listModel.getCollection(), items);
-            listModel.setItems(items, newOptions);
+            listModel.setItems(items, newOptions, recreateModel);
             self._items = listModel.getCollection();
 
             if (wasItemsReplaced && self._options.itemsReadyCallback) {
@@ -3967,8 +3967,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         if (newOptions.sourceController) {
             const items = newOptions.sourceController.getItems();
+            const sourceControllerChanged = this._options.sourceController !== newOptions.sourceController;
 
-            if (this._options.sourceController !== newOptions.sourceController) {
+            if (sourceControllerChanged) {
                 this._sourceController = newOptions.sourceController;
                 this._sourceController.setDataLoadCallback(this._dataLoadCallback);
             }
@@ -3982,7 +3983,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                     _private.initializeModel(this, newOptions, items);
                 }
                 const isActionsAssigned = this._listViewModel.isActionsAssigned();
-                _private.assignItemsToModel(this, items, newOptions);
+                _private.assignItemsToModel(this, items, newOptions, newOptions.task1181161486);
                 if (newOptions.beforeMountCallback && !this._beforeMountCallbackCalled) {
                     this._beforeMountCallbackCalled = true;
                     newOptions.beforeMountCallback({

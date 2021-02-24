@@ -2161,8 +2161,8 @@ var
             this._model.updateIndexes(startIndex, stopIndex);
         },
 
-        setItems(items, cfg): void {
-            this._model.setItems(items, cfg);
+        setItems(items, cfg, recreateModel): void {
+            this._model.setItems(items, cfg, recreateModel);
             this._setHeader(cfg.header);
         },
 

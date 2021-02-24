@@ -50,7 +50,7 @@ export interface IControllerOptions extends
     INavigationOptions<INavigationSourceConfig> {
     dataLoadErrback?: Function;
     dataLoadCallback?: Function;
-    root?: string;
+    root?: TKey;
     expandedItems?: TKey[];
     deepReload?: boolean;
     collapsedGroups?: TArrayGroupId;

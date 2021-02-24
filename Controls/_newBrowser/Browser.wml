@@ -15,11 +15,15 @@
             <ws:partial template="{{_options.masterHeaderTemplate}}"/>
          </ws:if>
          <Controls.explorer:View
+            task1181161486="{{true}}"
             scope="{{_masterExplorerOptions}}"
+            sourceController="{{_masterExplorerOptions.sourceController}}"
 
             root="{{_masterRoot}}"
-            on:rootChanged="_onMasterRootChanged()"
             bind:markedKey="_masterMarkedKey"
+
+            on:itemClick="_onExplorerItemClick(true)"
+            on:beforeBreadcrumbsChangeRoot="_onBeforeBreadcrumbsChangeRoot()"
          />
       </Controls.scroll:Container>
    </ws:master>
@@ -34,30 +38,30 @@
          </ws:if>
 
          <Controls.explorer:View
+            task1181161486="{{true}}"
             attr:class="controls-newBrowser__detail-list"
-            root="{{root}}"
+            root="{{_root}}"
             on:rootChanged="_onDetailRootChanged()"
 
             tileSize="{{_tileCfg.imageSize}}"
 
             viewMode="{{viewMode}}"
             scope="{{_detailExplorerOptions}}"
+            sourceController="{{_detailExplorerOptions.sourceController}}"
             breadcrumbsVisibility="{{
                (_masterVisibility === _masterVisibilityEnum.visible || _appliedViewMode === _viewModeEnum.search)
                   ? 'hidden'
                   : 'visible'
             }}"
-            searchValue="{{_searchValue}}"
 
             on:arrowClick="_onDetailArrowClick()"
-            on:itemClick="_onDetailItemClick()"
+            on:itemClick="_onExplorerItemClick(false)"
             on:viewModeChanged="_onDetailExplorerChangedViewMode()"
+            on:beforeBreadcrumbsChangeRoot="_onBeforeBreadcrumbsChangeRoot()"
          >
             <ws:afterBreadCrumbsTemplate>
                <ws:if data="{{_options.detail.afterBreadCrumbsTemplate}}">
-                  <div on:search="_onSearch()" on:searchReset="_onSearchReset()">
-                     <ws:partial template="{{_options.detail.afterBreadCrumbsTemplate}}"/>
-                  </div>
+                  <ws:partial template="{{_options.detail.afterBreadCrumbsTemplate}}"/>
                </ws:if>
                <ws:else>
                   <invisible-node/>

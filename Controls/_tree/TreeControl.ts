@@ -690,7 +690,7 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
     _beforeUpdate: function(newOptions) {
         const baseControl = this._children.baseControl;
         const viewModel = baseControl.getViewModel();
-        const sourceController = baseControl.getSourceController();
+        let sourceController = baseControl.getSourceController();
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         let updateSourceController = false;
 
@@ -699,11 +699,21 @@ var TreeControl = Control.extend(/** @lends Controls/_tree/TreeControl.prototype
         }
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
+            const isSourceControllerChanged = sourceController !== newOptions.sourceController;
+            if (isSourceControllerChanged) {
+                sourceController = newOptions.sourceController;
+            }
+
             const sourceControllerRoot = sourceController.getState().root;
 
             this._root = newOptions.root;
-
             this._updatedRoot = !(newOptions.task1181246826 && sourceControllerRoot === this._root && sourceController.isLoading());
+
+            // Если sourceController изменился и у него рут такой же как и в новых опциях, то считаем, что
+            // в новом sourceController уже актуальные данные
+            if (isSourceControllerChanged && sourceControllerRoot === newOptions.root) {
+                this._updatedRoot = false;
+            }
 
             if (sourceControllerRoot === undefined || sourceControllerRoot !== newOptions.root) {
                 updateSourceController = true;

@@ -5,7 +5,6 @@ import {IMasterOptions} from 'Controls/_newBrowser/interfaces/IMasterOptions';
 import {ISourceOptions} from 'Controls/_newBrowser/interfaces/ISourceOptions';
 import {DetailViewMode, IDetailOptions} from 'Controls/_newBrowser/interfaces/IDetailOptions';
 import {IBrowserViewConfig} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
-import {RecordSet} from 'Types/collection';
 
 /**
  * Интерфейс описывает структуру настроек компонента {@link Controls/newBrowser:Browser}
@@ -60,11 +59,6 @@ export interface IOptions extends IControlOptions, ISourceOptions {
      * Значение строки поиска для данных в detail-колонке.
      */
     searchValue?: string;
-
-    /**
-     * Ф-ия, которая будет вызвана после получения данных для detail-колонки.
-     */
-    dataLoadCallback?: (items: RecordSet, direction: string) => void;
 
     /**
      * Идентификатор узла, содержимое которой нужно отобразить в master-колонке.

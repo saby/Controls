@@ -1,5 +1,6 @@
 import {ICrudPlus} from 'Types/source';
 import {ISourceOptions} from 'Controls/_newBrowser/interfaces/ISourceOptions';
+import {RecordSet} from 'Types/collection';
 
 export enum MasterVisibilityEnum {
     visible = 'visible',
@@ -49,9 +50,12 @@ export interface IMasterOptions extends ISourceOptions {
     maxWidth?: string | number;
 
     /**
-     * Регулирует видимость master-колонки
+     * Регулирует видимость master-колонки. Данная опция приоритетнее чем видимость мастера,
+     * вычисленная на основании {@link IOptions.listConfiguration|конфигурации}
      * @default 'hidden'
      */
     visibility?: MasterVisibilityEnum;
     //endregion
+
+    itemsReadyCallback?: (items: RecordSet) => void;
 }

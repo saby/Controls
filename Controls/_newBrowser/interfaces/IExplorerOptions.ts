@@ -16,8 +16,14 @@ export interface IExplorerOptions {
     filter?: QueryWhereExpression<unknown>;
     itemTemplate?: TemplateFunction | string;
     tileItemTemplate?: TemplateFunction | string;
+    itemsReadyCallback?: (items: RecordSet) => void;
     dataLoadCallback?: (items: RecordSet, direction: string) => void;
     sourceController?: SourceController;
+
+    searchParam?: string;
+    searchStartingWith?: string;
+    searchNavigationMode?: string;
+    sorting?: object[];
 
     style?: string;
     viewMode?: string;
