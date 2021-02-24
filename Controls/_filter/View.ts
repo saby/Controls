@@ -552,6 +552,10 @@ var _private = {
         this._configs[result.id].initSelectorItems = result.selectedItems;
     },
 
+    collapsedFiltersChanged(result: object): void {
+        this._collapsedFilters = result.collapsedFilters;
+    },
+
     isNeedReload(oldItems, newItems, configs): boolean {
         const optionsToCheck = ['source', 'filter', 'navigation'];
         const getOptionsChecker = (oldItem, newItem) => {
@@ -703,6 +707,7 @@ var Filter = Control.extend({
     _filterPopupOpener: null,
     _stackOpener: null,
     _detailPanelTemplateName: null,
+    _collapsedFilters: null,
 
     _beforeMount: function(options, context, receivedState) {
         this._configs = {};
@@ -875,6 +880,7 @@ var Filter = Control.extend({
             opener: this,
             templateOptions: {
                 items: items,
+                collapsedFilters: this._collapsedFilters,
                 historyId: this._options.historyId
             },
             target: this._container[0] || this._container,
@@ -942,7 +948,7 @@ var Filter = Control.extend({
         } else {
             _private[result.action].call(this, result);
         }
-        if (result.action !== 'moreButtonClick') {
+        if (result.action !== 'moreButtonClick' && result.action !== 'collapsedFiltersChanged') {
             if (result.history) {
                 this._notify('historyApply', [result.history]);
             }
