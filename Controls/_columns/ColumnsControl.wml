@@ -1,13 +1,4 @@
-<Controls.list:BaseControl scope="{{_options}}"
-                           moveMarkerOnScrollPaging="{{false}}"
-                           plainItemsContainer="{{false}}"
-                           _keyDownHandler="{{_keyDownHandler}}"
-                           beforeMountCallback="{{_beforeMountCallback}}"
-                           name="baseControl">
-    <!--прокидываем itemTemplate т.к. иначе мы не понимаем, что нужно перестраивать partial, потому что изменения только в замыкании функции-->
-    <ws:partial template="{{content.viewName}}"
-                itemTemplate="{{_options.itemTemplate}}"
-                columnsCount="{{_columnsCount}}"
-                spacing="{{_spacing}}"
-                on:resize="_resizeHandler()"/>
+<Controls.list:BaseControl
+        _keyDownHandler="{{_keyDownHandler}}"
+>
 </Controls.list:BaseControl>

@@ -45,11 +45,6 @@ export default class TreeGridView extends GridView {
         super._onItemMouseDown(e, dispItem);
     }
 
-    private _onExpanderClick(e: SyntheticEvent, item: TreeItem<Model>): void {
-        this._notify('expanderClick', [item], {bubbling: true});
-        e.stopImmediatePropagation();
-    }
-
     private _onLoadMoreClick(e: SyntheticEvent, item: TreeItem<Model>): void {
         this._notify('loadMoreClick', [item]);
     }

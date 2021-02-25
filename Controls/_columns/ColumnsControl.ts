@@ -1,22 +1,21 @@
-import {TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {IList, ListControl} from 'Controls/list';
+import {BaseControl, IBaseControlOptions} from 'Controls/list';
 import Collection from 'Controls/_columns/display/Collection';
-import ListControlTpl = require('wml!Controls/_columns/ColumnsControl');
 import ColumnsController from 'Controls/_columns/controllers/ColumnsController';
-import {MarkerController} from 'Controls/marker';
 import {Model} from 'Types/entity';
 import CollectionItem from 'Controls/_columns/display/CollectionItem';
 import {scrollToElement} from 'Controls/_scroll/Utils/scrollToElement';
 import {CrudEntityKey} from 'Types/source';
 import {constants} from 'Env/Env';
 
+import ListControlTpl = require('wml!Controls/_columns/ColumnsControl');
+
 const SPACING = 12;
 const DEFAULT_MIN_WIDTH = 270;
 const DEFAULT_MAX_WIDTH = 400;
 const DEFAULT_COLUMNS_COUNT = 2;
 
-export interface IColumnsControlOptions extends IList {
+export interface IColumnsControlOptions extends IBaseControlOptions {
     columnMinWidth: number;
     columnMaxWidth: number;
     columnsMode: 'auto' | 'fixed';
@@ -24,22 +23,23 @@ export interface IColumnsControlOptions extends IList {
     initialWidth: number;
 }
 
-export default class ColumnsControl extends ListControl {
-    protected _template: TemplateFunction = ListControlTpl;
+export default class ColumnsControl<TOptions extends IColumnsControlOptions> extends BaseControl<TOptions> {
     private _keyDownHandler: Function;
     private _columnsCount: number;
     private _columnsController: ColumnsController;
-    private _markerController: MarkerController;
     private _columnsIndexes: number[][];
     private _spacing: number = SPACING;
-    protected _options: IColumnsControlOptions;
     protected _model: Collection<Model>;
     protected _addingColumnsCounter: number = 0;
 
-    protected _beforeMount(options: IColumnsControlOptions): void {
-        this._columnsController = new ColumnsController({columnsMode: options.columnsMode});
+    constructor(options: TOptions) {
+        super(options);
         this._onCollectionChange = this._onCollectionChange.bind(this);
         this._keyDownHandler = this._keyDownHandler.bind(this);
+    }
+
+    protected _beforeMount(options: IColumnsControlOptions): void {
+        this._columnsController = new ColumnsController({columnsMode: options.columnsMode});
         this._beforeMountCallback = ({viewModel, markerController}) => {
             this._model = viewModel;
             this._markerController = markerController;
@@ -54,21 +54,33 @@ export default class ColumnsControl extends ListControl {
                 this.updateColumns();
             }
         };
+        return super._beforeMount(...arguments);
     }
 
     protected _afterMount(): void {
+        super._afterMount();
         this._resizeHandler();
         this._subscribeToModelChanges(this._model);
     }
 
     protected _beforeUpdate(options: IColumnsControlOptions): void {
+        super._beforeUpdate(options);
         if (options.columnsMode === 'fixed' && options.columnsCount !== this._options.columnsCount) {
             this._columnsCount = options.columnsCount;
         }
     }
 
     protected _beforeUnmount(): void {
+        super._beforeUnmount();
         this._unsubscribeFromModelChanges(this._model);
+    }
+
+    protected _shouldMoveMarkerOnScrollPaging(): boolean {
+        return false;
+    }
+
+    protected _isPlainItemsContainer(): boolean {
+        return false;
     }
 
     private updateColumnIndexesByModel(): void {
@@ -155,6 +167,12 @@ export default class ColumnsControl extends ListControl {
             this.updateColumns();
         }
     }
+
+    protected _viewResize(): void {
+        super._viewResize();
+        this._resizeHandler();
+    }
+
     protected _resizeHandler(): void {
         const itemsContainer = this._getItemsContainer();
         const currentWidth = itemsContainer.getBoundingClientRect().width;
@@ -171,10 +189,6 @@ export default class ColumnsControl extends ListControl {
             this._columnsCount = newColumnsCount;
             this.updateColumns();
         }
-    }
-
-    protected _getItemsContainer() {
-        return this._children.baseControl.getItemsContainer();
     }
 
     private getItemToLeft(model: Collection<Model>, item: CollectionItem<Model>): CollectionItem<Model> {
@@ -341,8 +355,18 @@ export default class ColumnsControl extends ListControl {
             model.subscribe('onCollectionChange', this._onCollectionChange);
         }
     }
+
+    protected _getColumnsCount(): number {
+        return this._columnsCount;
+    }
+
+    protected _getSpacing(): number {
+        return this._spacing;
+    }
+
     static getDefaultOptions(): Partial<IColumnsControlOptions> {
         return {
+            ...BaseControl.getDefaultOptions(),
             columnMinWidth: DEFAULT_MIN_WIDTH,
             columnMaxWidth: DEFAULT_MAX_WIDTH,
             columnsMode: 'auto',

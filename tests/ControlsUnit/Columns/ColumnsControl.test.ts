@@ -37,12 +37,8 @@ describe('ColumnsControl', () => {
             initialWidth: 900
         };
         columns = new ColumnsControl(cfg);
-        columns._children = {
-            baseControl: {
-                getItemsContainer: itemsContainerGetter
-            }
-        };
         columns.saveOptions(cfg);
+        columns._getItemsContainer = itemsContainerGetter;
         columns._beforeMount(cfg);
         columns._beforeMountCallback({viewModel: model});
         columns._afterMount(cfg);
@@ -81,11 +77,7 @@ describe('ColumnsControl', () => {
             initialWidth: 900
         };
         columns = new ColumnsControl(cfg);
-        columns._children = {
-            baseControl: {
-                getItemsContainer: itemsContainerGetter
-            }
-        };
+        columns._getItemsContainer = itemsContainerGetter;
         columns.saveOptions(cfg);
         columns._beforeMount(cfg);
         columns._beforeMountCallback({viewModel: model});

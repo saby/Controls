@@ -14,6 +14,7 @@ define([
    'Env/Env',
    'Core/core-clone',
    'Types/entity',
+   'Controls/Application/SettingsController',
    'Controls/popup',
    'Controls/listDragNDrop',
    'Controls/dragnDrop',
@@ -21,7 +22,7 @@ define([
    'Controls/itemActions',
    'Controls/dataSource',
    'Core/polyfill/PromiseAPIDeferred'
-], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource) {
+], function(sourceLib, collection, lists, tree, treeGrid, grid, tUtil, cDeferred, cInstance, Env, clone, entity, SettingsController, popup, listDragNDrop, dragNDrop, listRender, itemActions, dataSource) {
    describe('Controls.List.BaseControl', function() {
       var data, result, source, rs, sandbox;
 
@@ -310,8 +311,8 @@ define([
       describe('_private::loadToDirectionIfNeed', () => {
          const getInstanceMock = function() {
             return {
+               _hasMoreData: () => true,
                _sourceController: {
-                  hasMoreData: () => true,
                   isLoading: () => false
                },
                _loadedItems: new collection.RecordSet(),
@@ -516,23 +517,24 @@ define([
       });
 
       it('check dataLoadCallback and afterReloadCallback calling order', async function() {
-         var source = new sourceLib.Memory({});
-         var
-            dataLoadCallbackCalled = false,
-            afterReloadCallbackCalled = false,
-            cfg = {
-               viewName: 'Controls/List/ListView',
-               source: source,
-               viewModelConstructor: lists.ListViewModel,
-                keyProperty: 'id',
-               dataLoadCallback: function() {
-                  dataLoadCallbackCalled = true;
-               },
-               afterReloadCallback: function() {
-                  afterReloadCallbackCalled = true;
-               }
-            },
-            ctrl = await correctCreateBaseControlAsync(cfg);
+         let dataLoadCallbackCalled = false;
+         let afterReloadCallbackCalled = false;
+         const cfg = {
+            viewName: 'Controls/List/ListView',
+            source: new sourceLib.Memory({}),
+            viewModelConstructor: lists.ListViewModel,
+            keyProperty: 'id',
+            dataLoadCallback: function() {
+               dataLoadCallbackCalled = true;
+            }
+         };
+         const ctrl = await correctCreateBaseControlAsync(cfg);
+
+         const localSandbox = sinon.createSandbox();
+
+         localSandbox.replace(ctrl, '_afterReloadCallback', () => {
+            afterReloadCallbackCalled = true;
+         });
 
          ctrl.saveOptions(cfg);
          await ctrl._beforeMount(cfg);
@@ -801,9 +803,6 @@ define([
             dataLoadCallback: function() {
                dataLoadFired = true;
             },
-            beforeLoadToDirectionCallback: function() {
-               beforeLoadToDirectionCalled = true;
-            },
             serviceDataLoadCallback: function(currentItems, loadedItems) {
                setIterativeMetaData(loadedItems);
                setIterativeMetaData(loadedItems);
@@ -870,7 +869,6 @@ define([
          }));
 
          let dataLoadFired = false;
-         let beforeLoadToDirectionCalled = false;
 
          const cfg = {
             viewName: 'Controls/List/ListView',
@@ -972,11 +970,12 @@ define([
                return hasMoreDataResult;
             }
          };
-         assert.isFalse(lists.BaseControl._private.hasMoreData(self, sourceController));
-         assert.isFalse(lists.BaseControl._private.hasMoreData(self));
+         const ctrl = new lists.BaseControl({});
+         assert.isFalse(ctrl._hasMoreData(sourceController));
+         assert.isFalse(ctrl._hasMoreData());
 
          hasMoreDataResult = true;
-         assert.isTrue(lists.BaseControl._private.hasMoreData(self, sourceController));
+         assert.isTrue(ctrl._hasMoreData(sourceController));
       });
 
       it('isPortionedLoad',  () => {
@@ -1014,16 +1013,12 @@ define([
          sandbox.replace(lists.BaseControl._private, 'updateIndicatorContainerHeight', () => {});
 
          var dataLoadFired = false;
-         var beforeLoadToDirectionCalled = false;
          var shadowVisibility = true;
 
          var cfg = {
             viewName: 'Controls/List/ListView',
             dataLoadCallback: function() {
                dataLoadFired = true;
-            },
-            beforeLoadToDirectionCallback: function() {
-               beforeLoadToDirectionCalled = true;
             },
             source: source,
             viewConfig: {
@@ -1110,15 +1105,11 @@ define([
          }));
 
          var dataLoadFired = false;
-         var beforeLoadToDirectionCalled = false;
 
          var cfg = {
             viewName: 'Controls/List/ListView',
             dataLoadCallback: function() {
                dataLoadFired = true;
-            },
-            beforeLoadToDirectionCallback: function() {
-               beforeLoadToDirectionCalled = true;
             },
             source: source,
             sourceController: sourceController,
@@ -1167,9 +1158,11 @@ define([
       });
 
       it('prepareFooter', function() {
+         let bcHasMoreData = false;
          var
             baseControl = {
-               _options: {}
+               _options: {},
+               _hasMoreData: () => bcHasMoreData
             },
             tests = [
                {
@@ -1215,9 +1208,7 @@ define([
                         navigation: { view: 'demand' }
                      },
                      {
-                        hasMoreData: function() {
-                           return false;
-                        }
+
                      }
                   ],
                   result: {
@@ -1294,6 +1285,11 @@ define([
                }
             ];
          tests.forEach(function (test, index) {
+            if (index >= 4) {
+               bcHasMoreData = true;
+            } else {
+               bcHasMoreData = false;
+            }
             baseControl._options.groupingKeyCallback = undefined;
             baseControl._items = {
                getCount: () => test.data[2].getLoadedDataCount()
@@ -3025,7 +3021,7 @@ define([
          lnBaseControl.saveOptions(lnCfg);
          await lnBaseControl._beforeMount(lnCfg);
          it('moveMarkerOnScrollPaging option', function() {
-            let inst = {_options: {}, _setMarkerAfterScroll: false};
+            let inst = {_options: {}, _setMarkerAfterScroll: false, _shouldMoveMarkerOnScrollPaging: () => inst._options.moveMarkerOnScrollPaging };
             lists.BaseControl._private.setMarkerAfterScroll(inst);
             assert.isTrue(inst._setMarkerAfterScroll);
 
@@ -5305,6 +5301,9 @@ define([
          let listViewModelCount = 0;
          var baseControlMock = {
             _needScrollCalculation: true,
+            _hasMoreData: () => {
+               return true;
+            },
             _sourceController: {
                hasMoreData: () => {
                   return true;
@@ -5932,13 +5931,13 @@ define([
             },
             viewModelConstructor: lists.ListViewModel,
             keyProperty: 'id',
-            source: source,
-            getHasMoreData: () => true
+            source: source
          };
          let instance = correctCreateBaseControl(cfg);
 
          instance.saveOptions(cfg);
-         instance._beforeMount(cfg)
+         instance._beforeMount(cfg);
+         instance._hasMoreData = () => true;
          instance._beforeUpdate({ ...cfg, viewModelConstructor: tree.TreeViewModel });
          assert.isTrue(instance._listViewModel.getHasMoreData());
       });
@@ -6553,10 +6552,12 @@ define([
             control.saveOptions({
                navigation: {
                   view: 'infinity'
-               },
-               getHasMoreData: () => true
+               }
             });
-            control._sourceController = {};
+            control._hasMoreData = () => true;
+            control._sourceController = {
+               hasMoreData: () => false
+            };
             control._isMounted = true;
             control._listViewModel = {
                isActionsAssigned: () => false
@@ -7816,6 +7817,7 @@ define([
 
          it('loadToDirection, drag all items', () => {
             const self = {
+               _hasMoreData: () => true,
                _sourceController: {
                   hasMoreData: () => true,
                   isLoading: () => false
@@ -8709,6 +8711,46 @@ define([
          assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
          assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
          assert.isFalse(baseControl.getViewModel().getItemBySourceKey(3).isMarked());
+      });
+
+      describe('propStorageId', function() {
+         let origSaveConfig = SettingsController.saveConfig;
+         afterEach(() => {
+            SettingsController.saveConfig = origSaveConfig;
+         });
+         it('saving sorting', async () => {
+            let saveConfigCalled = false;
+            SettingsController.saveConfig = function() {
+               saveConfigCalled = true;
+            };
+            const cfg = {
+               viewName: 'Controls/List/ListView',
+               viewModelConfig: {
+                  items: [],
+                  keyProperty: 'id'
+               },
+               viewModelConstructor: lists.ListViewModel,
+               keyProperty: 'id',
+               source: source,
+               sorting: [1],
+               sourceController: new dataSource.NewSourceController({
+                  source
+               })
+            };
+
+            const baseControl = correctCreateBaseControl(cfg);
+            baseControl.saveOptions(cfg);
+            await baseControl._beforeMount(cfg);
+
+            baseControl._beforeUpdate(cfg);
+            assert.isFalse(saveConfigCalled);
+            baseControl.saveOptions(cfg);
+            baseControl._beforeUpdate({...cfg, sorting: [3]});
+            assert.isFalse(saveConfigCalled);
+            baseControl.saveOptions({...cfg, sorting: [3]});
+            baseControl._beforeUpdate({...cfg, propStorageId: '1'});
+            assert.isTrue(saveConfigCalled);
+         });
       });
    });
 });

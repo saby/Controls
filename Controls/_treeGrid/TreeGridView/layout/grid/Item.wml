@@ -35,7 +35,10 @@
          {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).right}}
          {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
          {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}">
-        <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}" expanderTemplate="{{itemData.expanderTemplate}}">
+        <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}">
+           <ws:expanderTemplate>
+              <div class="{{expanderTemplate.itemData.getExpanderClasses(expanderTemplate.expanderIcon, expanderTemplate.expanderSize)}}"></div>
+           </ws:expanderTemplate>
            <ws:multiSelectTemplate>
               <ws:partial template="multiSelectTemplate" preventMergeOptions="{{ true }}" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
            </ws:multiSelectTemplate>
@@ -59,15 +62,14 @@
                             {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}
                             {{!!itemData.isDragging ? ' controls-ListView__itemContent_dragging_theme-' + itemData.theme}}"
                 ladderWrapper="{{currentColumn.ladderWrapper}}"
-                expanderTemplate="{{itemData.expanderTemplate}}"
                 itemData="{{currentColumn}}"
                 tagTemplate="{{tagTemplate}}">
+      <ws:expanderTemplate>
+         <div class="{{expanderTemplate.itemData.getExpanderClasses(expanderTemplate.expanderIcon, expanderTemplate.expanderSize)}}"></div>
+      </ws:expanderTemplate>
       <ws:afterItemTemplate>
-         <ws:partial if="{{!isSearchSeparator && itemData.isDrawExpander(currentColumn.columnIndex, expanderIcon, 'right')}}"
-                     template="{{itemData.expanderTemplate}}"
-                     itemData="{{itemData}}"
-                     expanderIcon="{{itemData.getExpanderIcon(expanderIcon)}}"
-                     expanderSize="{{itemData.getExpanderSize(expanderSize)}}"/>
+            <div if="{{!isSearchSeparator && itemData.isDrawExpander(currentColumn.columnIndex, expanderIcon, 'right')}}"
+                 class="{{itemData.getExpanderClasses(itemData.getExpanderIcon(expanderIcon), itemData.getExpanderSize(expanderSize))}}"></div>
       </ws:afterItemTemplate>
        <ws:multiSelectTemplate>
           <ws:partial template="multiSelectTemplate" preventMergeOptions="{{ true }}" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
@@ -107,10 +109,7 @@
             </ws:for>
          </ws:if>
          <ws:if data="{{!isSearchSeparator && itemData.isDrawExpander(currentColumn.columnIndex, expanderIcon, 'default')}}">
-            <ws:partial template="{{itemData.expanderTemplate}}"
-                        itemData="{{itemData}}"
-                        expanderIcon="{{itemData.getExpanderIcon(expanderIcon)}}"
-                        expanderSize="{{itemData.getExpanderSize(expanderSize)}}"/>
+            <div class="{{itemData.getExpanderClasses(itemData.getExpanderIcon(expanderIcon), itemData.getExpanderSize(expanderSize))}}"></div>
          </ws:if>
          <ws:else data="{{itemData.shouldDrawExpanderPadding(itemData, expanderIcon, expanderSize)}}">
             <div class="{{itemData.getExpanderPaddingClasses(itemData, expanderSize)}} js-controls-ListView__notEditable"></div>

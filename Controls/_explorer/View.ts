@@ -384,7 +384,7 @@ export default class Explorer extends Control<IControlOptions> {
     }
 
     protected _onArrowClick(e): void {
-        let item = this._children.treeControl._children.baseControl.getViewModel().getMarkedItem().getContents();
+        let item = this._children.treeControl.getViewModel().getMarkedItem().getContents();
         this._notifyHandler(e, 'arrowClick', item);
     }
 

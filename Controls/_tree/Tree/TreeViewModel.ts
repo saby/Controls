@@ -188,7 +188,7 @@ var
             const style = itemData.style || 'default';
             const itemType = itemData.item.get(itemData.nodeProperty);
 
-            let expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`;
+            let expanderClasses = `js-controls-Tree__row-expander controls-TreeGrid__row-expander_theme-${theme}`;
             let expanderIconClass = '';
 
             let expanderIconStyle = itemData.style;
@@ -677,8 +677,6 @@ var
             current.thereIsChildItem = this._thereIsChildItem;
             current.hasChildItem = !current.isGroup && _private.hasChildItem(this, current.key);
 
-            // todo https://online.sbis.ru/opendoc.html?guid=0649e69a-d507-4024-9f99-c70205f535ef
-            current.expanderTemplate = this._options.expanderTemplate;
             current.footerContentTemplate = this._options.footerContentTemplate;
 
             if (current.item && current.item.get) {

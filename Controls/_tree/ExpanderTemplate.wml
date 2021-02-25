@@ -1,0 +1,1 @@
+<div class="{{itemData.getExpanderClasses(expanderIcon, expanderSize)}}"></div>

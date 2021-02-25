@@ -72,7 +72,10 @@
     <!-- Подвалы узлов для дерева. Живем так до перехода на новую модель или до ws:fragment. -->
     <!-- В записи подвал не вывести, т.к. редатируемая строка оборачивается в контрол. Контрол может принять только один корневой элемент. -->
     <ws:if data="{{ nodeFooters && nodeFooters.length > 0 }}">
-        <ws:partial template="{{ itemData.footerContentTemplate }}" useNewNodeFooters="{{ itemData.useNewNodeFooters }}" nodeFooters="{{nodeFooters}}"/>
+        <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser"
+                    useNewNodeFooters="{{ useNewNodeFooters }}"
+                    nodeFooters="{{ nodeFooters }}"
+                    moreFontColorStyle="{{_options.moreFontColorStyle}}"/>
     </ws:if>
 </ws:template>
 

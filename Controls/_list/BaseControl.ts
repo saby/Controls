@@ -103,10 +103,12 @@ import {IMoveControllerOptions, MoveController} from './Controllers/MoveControll
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 import {RemoveController} from './Controllers/RemoveController';
 import {isLeftMouseButton} from 'Controls/popup';
+import {IMovableList} from "./interface/IMovableList";
+import {saveConfig} from "Controls/Application/SettingsController";
 
 //#endregion
 
-//#region Types
+//#region Const
 
 // TODO: getDefaultOptions зовётся при каждой перерисовке,
 //  соответственно если в опции передаётся не примитив, то они каждый раз новые.
@@ -369,8 +371,7 @@ const _private = {
 
     needAttachLoadTopTriggerToNull(self): boolean {
         const sourceController = self._sourceController;
-        const hasMoreData = _private.hasMoreData(self, sourceController, 'up');
-        return sourceController && hasMoreData;
+        return sourceController && self._hasMoreData(sourceController, 'up');
     },
 
     attachLoadTopTriggerToNullIfNeed(self, options): boolean {
@@ -397,9 +398,9 @@ const _private = {
         const resDeferred = new Deferred();
 
         self._noDataBeforeReload = !_private.hasDataBeforeLoad(self);
-        if (cfg.beforeReloadCallback) {
+        if (self._beforeReloadCallback) {
             // todo parameter cfg removed by task: https://online.sbis.ru/opendoc.html?guid=f5fb685f-30fb-4adc-bbfe-cb78a2e32af2
-            cfg.beforeReloadCallback(filter, sorting, navigation, cfg);
+            self._beforeReloadCallback(filter, sorting, navigation, cfg);
         }
 
         if (self._sourceController) {
@@ -477,9 +478,7 @@ const _private = {
                     error
                 }).then(function(result: ICrudResult) {
                     if (!self._destroyed) {
-                        if (cfg.afterReloadCallback) {
-                            cfg.afterReloadCallback(cfg);
-                        }
+                        self._afterReloadCallback(cfg);
                     }
                     resDeferred.callback({
                         data: null,
@@ -488,9 +487,7 @@ const _private = {
                 }) as Deferred<Error>;
             });
         } else {
-            if (cfg.afterReloadCallback) {
-                cfg.afterReloadCallback(cfg);
-            }
+            self._afterReloadCallback(cfg);
             resDeferred.callback();
             Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
         }
@@ -535,10 +532,7 @@ const _private = {
     },
 
     executeAfterReloadCallbacks(self, loadedList, options): void {
-        if (options.afterReloadCallback) {
-            options.afterReloadCallback(options, loadedList);
-        }
-
+        self._afterReloadCallback(options, loadedList);
         if (options.serviceDataLoadCallback instanceof Function) {
             options.serviceDataLoadCallback(this._items, loadedList);
         }
@@ -611,8 +605,8 @@ const _private = {
             return;
         }
 
-        const hasMoreDataDown = _private.hasMoreData(self, self._sourceController, 'down');
-        const hasMoreDataUp = _private.hasMoreData(self, self._sourceController, 'up');
+        const hasMoreDataDown = self._hasMoreData(self._sourceController, 'down');
+        const hasMoreDataUp = self._hasMoreData(self._sourceController, 'up');
 
         if (!list.getCount()) {
             const needShowIndicatorByNavigation =
@@ -632,20 +626,9 @@ const _private = {
         }
     },
 
-    hasMoreData(self, sourceController: SourceController, direction: Direction): boolean {
-        let moreDataResult = false;
-
-        if (sourceController) {
-            moreDataResult = self._options.getHasMoreData ?
-                self._options.getHasMoreData(sourceController, direction) :
-                sourceController.hasMoreData(direction);
-        }
-        return moreDataResult;
-    },
-
     hasMoreDataInAnyDirection(self, sourceController: SourceController): boolean {
-        return _private.hasMoreData(self, sourceController, 'up') ||
-               _private.hasMoreData(self, sourceController, 'down');
+        return self._hasMoreData(sourceController, 'up') ||
+               self._hasMoreData(sourceController, 'down');
     },
 
     validateSourceControllerOptions(self, options): void {
@@ -741,7 +724,7 @@ const _private = {
             const markedKey = markerController.getMarkedKey();
             if (markedKey !== null) {
                 const markedItem = self.getItems().getRecordById(markedKey);
-                self._notify('itemClick', [markedItem, event], { bubbling: true });
+                self._notifyItemClick([undefined, markedItem, event]);
                 if (event && !event.isStopped()) {
                     self._notify('itemActivate', [markedItem, event], {bubbling: true});
                 }
@@ -815,7 +798,7 @@ const _private = {
         let
             loadedDataCount, allDataCount;
 
-        if (_private.isDemandNavigation(options.navigation) && _private.hasMoreData(self, sourceController, 'down')) {
+        if (_private.isDemandNavigation(options.navigation) && self._hasMoreData(sourceController, 'down')) {
             self._shouldDrawFooter = (options.groupingKeyCallback || options.groupProperty) ? !self._listViewModel.isAllGroupsCollapsed() : true;
         } else if (_private.isCutNavigation(options.navigation)) {
             self._shouldDrawCut = true;
@@ -895,7 +878,7 @@ const _private = {
                     _private.changeMarkedKey(self, newMarkedKey);
                 }
                 self._needScrollToFirstItem = false;
-                if (!_private.hasMoreData(self, self._sourceController, direction)) {
+                if (!self._hasMoreData(self._sourceController, direction)) {
                     self._updateShadowModeHandler(self._shadowVisibility);
                 }
 
@@ -1084,7 +1067,7 @@ const _private = {
 
     loadToDirectionIfNeed(self, direction, filter) {
         const sourceController = self._sourceController;
-        const hasMoreData = _private.hasMoreData(self, sourceController, direction);
+        const hasMoreData = self._hasMoreData(sourceController, direction);
         const allowLoadByLoadedItems = _private.needScrollCalculation(self._options.navigation) ?
             !self._loadedItems || _private.isPortionedLoad(self, self._loadedItems) :
             true;
@@ -1122,10 +1105,10 @@ const _private = {
     scrollToEdge(self, direction) {
         _private.setMarkerAfterScroll(self);
         let hasMoreData = {
-            up: _private.hasMoreData(self, self._sourceController, 'up'),
-            down: _private.hasMoreData(self, self._sourceController, 'down')
+            up: self._hasMoreData(self._sourceController, 'up'),
+            down: self._hasMoreData(self._sourceController, 'down')
         };
-        if (_private.hasMoreData(self, self._sourceController, direction)) {
+        if (self._hasMoreData(self._sourceController, direction)) {
             let pagingMode = '';
             if (self._options.navigation && self._options.navigation.viewConfig) {
                 pagingMode = self._options.navigation.viewConfig.pagingMode;
@@ -1251,8 +1234,8 @@ const _private = {
 
             // если есть Еще данные, мы не знаем сколько их всего, превышают два вьюпорта или нет и покажем пэйдджинг
             const hasMoreData = {
-                up: _private.hasMoreData(self, self._sourceController, 'up'),
-                down: _private.hasMoreData(self, self._sourceController, 'down')
+                up: self._hasMoreData(self._sourceController, 'up'),
+                down: self._hasMoreData(self._sourceController, 'down')
             };
 
             // если естьЕще данные, мы не знаем сколько их всего, превышают два вьюпорта или нет и покажем пэйдджинг
@@ -1320,8 +1303,8 @@ const _private = {
         } else {
             if (self._pagingVisible) {
                 const hasMoreData = {
-                    up: _private.hasMoreData(self, self._sourceController, 'up'),
-                    down: _private.hasMoreData(self, self._sourceController, 'down')
+                    up: self._hasMoreData(self._sourceController, 'up'),
+                    down: self._hasMoreData(self._sourceController, 'down')
                 };
                 _private.createScrollPagingController(self, hasMoreData).then((scrollPaging) => {
                         self._scrollPagingCtr = scrollPaging;
@@ -1448,8 +1431,8 @@ const _private = {
     updateScrollPagingButtons(self, scrollParams) {
         _private.getScrollPagingControllerWithCallback(self, (scrollPaging) => {
             const hasMoreData = {
-                up: _private.hasMoreData(self, self._sourceController, 'up'),
-                down: _private.hasMoreData(self, self._sourceController, 'down')
+                up: self._hasMoreData(self._sourceController, 'up'),
+                down: self._hasMoreData(self._sourceController, 'down')
             };
             scrollPaging.updateScrollParams(scrollParams, hasMoreData);
         });
@@ -1540,7 +1523,7 @@ const _private = {
                 self._showContinueSearchButtonDirection = null;
             },
             searchContinueCallback: () => {
-                const direction = _private.hasMoreData(self, self._sourceController, 'up') ? 'up' : 'down';
+                const direction = self._hasMoreData(self._sourceController, 'up') ? 'up' : 'down';
 
                 self._portionedSearchInProgress = true;
                 self._showContinueSearchButtonDirection = null;
@@ -1617,7 +1600,7 @@ const _private = {
 
     updateShadowMode(self, shadowVisibility: {up: boolean, down: boolean}): void {
         const itemsCount = self._listViewModel && self._listViewModel.getCount();
-        const hasMoreData = (direction) => _private.hasMoreData(self, self._sourceController, direction);
+        const hasMoreData = (direction) => self._hasMoreData(self._sourceController, direction);
         const showShadowByNavigation = _private.needShowShadowByNavigation(self._options.navigation, itemsCount);
         const showShadowUpByPortionedSearch = _private.allowLoadMoreByPortionedSearch(self, 'up');
         const showShadowDownByPortionedSearch = _private.allowLoadMoreByPortionedSearch(self, 'down');
@@ -2265,7 +2248,7 @@ const _private = {
             this._loadingState === 'all' ||
             !_private.needScrollCalculation(navigation) ||
             !this._loadTriggerVisibility[this._loadingState] ||
-            !_private.hasMoreData(this, this._sourceController, this._loadingState)
+            !this._hasMoreData(this._sourceController, this._loadingState)
         ) {
             _private.resolveIndicatorStateAfterReload(this, items, navigation);
         } else {
@@ -2441,8 +2424,8 @@ const _private = {
         self._wasScrollToEnd = true;
 
         const hasMoreData = {
-            up: _private.hasMoreData(self, self._sourceController, 'up'),
-            down: _private.hasMoreData(self, self._sourceController, 'down')
+            up: self._hasMoreData(self._sourceController, 'up'),
+            down: self._hasMoreData(self._sourceController, 'down')
         };
         if (self._scrollPagingCtr) {
             self._currentPage = self._pagingCfg.pagesCount;
@@ -2643,7 +2626,7 @@ const _private = {
                 self._notifyPlaceholdersChanged = () => {
                     self._notify('updatePlaceholdersSize', [result.placeholders], {bubbling: true});
                 }
-                if (result.shadowVisibility?.up || result.placeholders.top > 0 || _private.hasMoreData(self, self._sourceController, 'up')) {
+                if (result.shadowVisibility?.up || result.placeholders.top > 0 || self._hasMoreData(self._sourceController, 'up')) {
                     self._notify('enableVirtualNavigation', [], { bubbling: true });
                 } else {
                     self._notify('disableVirtualNavigation', [], { bubbling: true });
@@ -2746,7 +2729,7 @@ const _private = {
     },
 
     setMarkerAfterScroll(self: typeof BaseControl, event: SyntheticEvent): void {
-        if (self._options.moveMarkerOnScrollPaging !== false) {
+        if (self._shouldMoveMarkerOnScrollPaging() !== false) {
             self._setMarkerAfterScroll = true;
         }
     },
@@ -3239,7 +3222,6 @@ const _private = {
  * @class Controls/_list/BaseControl
  * @extends UI/Base:Control
  * @mixes Controls/_interface/ISource
- * @implements Controls/_interface/IErrorController
  * @mixes Controls/interface/IItemTemplate
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/interface/IGroupedList
@@ -3248,8 +3230,14 @@ const _private = {
  * @mixes Controls/interface/IHighlighter
  * @mixes Controls/interface/IEditableList
  * @mixes Controls/_list/BaseControl/Styles
+ * @mixes Controls/_list/interface/IList
+ * @mixes Controls/_itemActions/interface/IItemActionsOptions
+ * @mixes Controls/_interface/ISorting
+ * @mixes Controls/_list/interface/IMovableList
+ * @mixes Controls/_marker/interface/IMarkerList
  * @mixes Controls/_list/interface/IMovableList
  * @implements Controls/_list/interface/IListNavigation
+ * @implements Controls/_interface/IErrorController
  *
  * @private
  * @author Авраменко А.С.
@@ -3259,7 +3247,10 @@ export interface IBaseControlOptions extends IControlOptions {
 
 }
 
-export class BaseControl<TOptions extends IBaseControlOptions> extends Control<TOptions> {
+export class BaseControl<TOptions extends IBaseControlOptions> extends Control<TOptions>
+    implements IMovableList {
+
+    //#region States
     _updateShadowModeBeforePaint = null;
     _updateShadowModeAfterMount = null;
 
@@ -3411,6 +3402,12 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
     _editInPlaceController = null;
     _editInPlaceInputHelper = null;
 
+    __errorController = null;
+
+    _beforeMountCallback = null;
+
+    //#endregion
+
     constructor(options) {
         super(options || {});
         options = options || {};
@@ -3427,7 +3424,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
      * @return {Promise}
      * @protected
      */
-    _beforeMount(newOptions, context, receivedState: IReceivedState = {}) {
+    protected _beforeMount(newOptions: IBaseControlOptions, context?, receivedState?: IReceivedState = {}): void {
         this._notifyNavigationParamsChanged = _private.notifyNavigationParamsChanged.bind(this);
         this._dataLoadCallback = _private.dataLoadCallback.bind(this);
         this._uniqueId = Guid.create();
@@ -3509,9 +3506,9 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
                     const selection = {selected: newOptions.selectedKeys, excluded: newOptions.excludedKeys};
                     selectionController.setSelection(selection);
                 }
-                if (newOptions.beforeMountCallback) {
+                if (this._beforeMountCallback) {
                     this._beforeMountCallbackCalled = true;
-                    newOptions.beforeMountCallback({
+                    this._beforeMountCallback({
                         viewModel: this._listViewModel,
                         markerController: _private.getMarkerController(this, newOptions)
                     });
@@ -3599,9 +3596,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
                     _private.updatePagingData(self, hasMoreData);
                 }
 
-                if (newOptions.afterReloadCallback) {
-                    newOptions.afterReloadCallback(newOptions, self._items);
-                }
+                self._afterReloadCallback(newOptions, self._items);
 
                 if (newOptions.serviceDataLoadCallback instanceof Function) {
                     newOptions.serviceDataLoadCallback(null, self._items);
@@ -3754,7 +3749,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
         this._children.topVirtualScrollTrigger?.style.top = `${offset.top}px`;
         this._children.bottomVirtualScrollTrigger?.style.bottom = `${offset.bottom}px`;
     }
-    _viewResize(): void {
+    protected _viewResize(): void {
         if (this._isMounted) {
             const container = this._children.viewContainer || this._container[0] || this._container;
             this._viewSize = _private.getViewSize(this, true);
@@ -3829,7 +3824,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
             this._useServerSideColumnScroll = false;
         }
 
-        if (_private.hasMoreData(this, this._sourceController, 'up')) {
+        if (this._hasMoreData(this._sourceController, 'up')) {
             this._notify('enableVirtualNavigation', [], { bubbling: true });
         } else {
             this._notify('disableVirtualNavigation', [], { bubbling: true });
@@ -3918,6 +3913,10 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
     }
 
     _beforeUpdate(newOptions) {
+        if (newOptions.propStorageId && !isEqual(newOptions.sorting, this._options.sorting)) {
+            saveConfig(newOptions.propStorageId, ['sorting'], newOptions);
+        }
+
         this._updateInProgress = true;
         const filterChanged = !isEqual(newOptions.filter, this._options.filter);
         const navigationChanged = !isEqual(newOptions.navigation, this._options.navigation);
@@ -4093,9 +4092,9 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
                 }
                 const isActionsAssigned = this._listViewModel.isActionsAssigned();
                 _private.assignItemsToModel(this, items, newOptions);
-                if (newOptions.beforeMountCallback && !this._beforeMountCallbackCalled) {
+                if (this._beforeMountCallback && !this._beforeMountCallbackCalled) {
                     this._beforeMountCallbackCalled = true;
-                    newOptions.beforeMountCallback({
+                    this._beforeMountCallback({
                         viewModel: this._listViewModel,
                         markerController: _private.getMarkerController(this, newOptions)
                     });
@@ -4234,7 +4233,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
 
         if (newOptions.searchValue || this._loadedBySourceController) {
             const isPortionedLoad = _private.isPortionedLoad(this);
-            const hasMoreData = _private.hasMoreData(this, this._sourceController, 'down');
+            const hasMoreData = this._hasMoreData(this._sourceController, 'down');
             const isSearchReturnsEmptyResult = this._items && !this._items.getCount();
             const needCheckLoadToDirection =
                 hasMoreData &&
@@ -4396,6 +4395,21 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
 
     _onValidateDestroyed(e: Event, control: ValidateContainer): void {
         this._validateController.removeValidator(control);
+    }
+
+    protected _beforeReloadCallback(filter, sorting, navigation, cfg): void {
+    }
+
+    protected _afterReloadCallback(options, loadedList: RecordSet): void {
+    }
+    protected _isPlainItemsContainer(): boolean {
+        return this._options.plainItemsContainer;
+    }
+    protected _getColumnsCount(): number {
+        return 0;
+    }
+    protected _getSpacing(): number {
+        return 0;
     }
 
     _beforeUnmount() {
@@ -4571,7 +4585,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
             }
             let itemsUpdated = false;
             if (this._listViewModel && !this._modelRecreated && this._viewReady) {
-                itemsUpdated = this._scrollController.updateItemsHeights(getItemsHeightsData(this._getItemsContainer(), this._options.plainItemsContainer === false));
+                itemsUpdated = this._scrollController.updateItemsHeights(getItemsHeightsData(this._getItemsContainer(), this._isPlainItemsContainer() === false));
             }
             this._scrollController.update({ params: { scrollHeight: this._viewSize, clientHeight: this._viewportSize } })
             this._scrollController.setRendering(false);
@@ -4911,6 +4925,14 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
         return _private.getMarkerController(this, this._options);
     }
 
+    _shouldMoveMarkerOnScrollPaging(): boolean {
+        return this._options.moveMarkerOnScrollPaging;
+    }
+
+    _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
+        return !!(sourceController?.hasMoreData(direction));
+    }
+
     _onGroupClick(e, groupId, baseEvent, dispItem) {
         const collapseGroupAfterEndEdit = (collection) => {
             const display = this._options.useNewModel ? collection : collection.getDisplay();
@@ -5015,16 +5037,21 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
         // itemActivate происходит в случае активации записи. Если в списке не поддерживается редактирование, то это любой клик.
         // Если поддерживается, то событие не произойдет если успешно запустилось редактирование записи.
         if (e.isStopped()) {
-            this._savedItemClickArgs = [item, originalEvent, columnIndex];
+            this._savedItemClickArgs = [e, item, originalEvent, columnIndex];
         } else {
             if (e.isBubbling()) {
                 e.stopPropagation();
             }
-            const eventResult = this._notify('itemClick', [item, originalEvent, columnIndex], {bubbling: true});
+            const eventResult = this._notifyItemClick([e, item, originalEvent, columnIndex]);
             if (eventResult !== false) {
                 this._notify('itemActivate', [item, originalEvent], {bubbling: true});
             }
         }
+    }
+
+    protected _notifyItemClick(args: [SyntheticEvent?, Model, SyntheticEvent, number?]): boolean {
+        const notifyArgs = args.slice(1);
+        return this._notify('itemClick', notifyArgs, { bubbling: true }) as boolean;
     }
 
     // region EditInPlace
@@ -5063,7 +5090,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
             if (this._savedItemClickArgs && this._isMounted) {
                 // itemClick стреляет, даже если после клика начался старт редактирования, но itemClick
                 // обязательно должен случиться после события beforeBeginEdit.
-                this._notify('itemClick', this._savedItemClickArgs, {bubbling: true});
+                this._notifyItemClick(this._savedItemClickArgs);
             }
 
             resolve(eventResult);
@@ -5111,6 +5138,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
                 resolve();
             }
         }).then(() => {
+            this._editingItem = item;
             // Редактирование может запуститься при построении.
             if (this._isMounted) {
                 this._notify('afterBeginEdit', [item.contents, isAdd]);
@@ -5175,6 +5203,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
 
     _afterEndEditCallback(item: IEditableCollectionItem, isAdd: boolean, willSave: boolean): void {
         this._notify('afterEndEdit', [item.contents, isAdd]);
+        this._editingItem = null;
 
         if (this._listViewModel.getCount() > 1) {
             if (this._markedKeyAfterEditing) {
@@ -5646,9 +5675,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
         _private.startDragNDrop(this, this._savedItemMouseDownEventArgs.domEvent, this._savedItemMouseDownEventArgs.itemData);
     }
 
-    _onLoadMoreClick() {
-        _private.loadToDirectionIfNeed(this, 'down');
-    }
+    _onLoadMoreClick(e, dispItem) {}
 
     _onCutClick() {
         if (!this._expanded) {
@@ -5817,7 +5844,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
 
         // TODO dnd при наследовании TreeControl <- BaseControl не нужно будет событие
         if (this._dndListController && this._dndListController.isDragging()) {
-            this._notify('draggingItemMouseMove', [itemData, nativeEvent]);
+            this._notifyDraggingItemMouseMove(itemData, nativeEvent);
         }
         if (hoverFreezeController) {
             const itemKey = _private.getPlainItemContents(itemData).getKey();
@@ -5825,6 +5852,11 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
             hoverFreezeController.setDelayedHoverItem(itemKey, itemIndex);
         }
     }
+
+    _notifyDraggingItemMouseMove(itemData, nativeEvent): void {
+        this._notify('draggingItemMouseMove', [itemData, nativeEvent]);
+    }
+
     _itemMouseLeave(event, itemData, nativeEvent) {
         this._notify('itemMouseLeave', [itemData.item, nativeEvent]);
         if (this._dndListController) {
@@ -6077,7 +6109,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
 
     _updateHeights(updateItems: boolean = true): void {
         if (this._scrollController) {
-            const itemsHeights = getItemsHeightsData(this._getItemsContainer(), this._options.plainItemsContainer === false);
+            const itemsHeights = getItemsHeightsData(this._getItemsContainer(), this._isPlainItemsContainer() === false);
             if (updateItems) {
                 this._scrollController.updateItemsHeights(itemsHeights);
             }
@@ -6092,6 +6124,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
     }
 
     // Уйдет когда будем наследоваться от baseControl
+    protected _getItemsContainer() {}
     getItemsContainer() {
         return this._getItemsContainer();
     }
@@ -6496,6 +6529,14 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
         }
     }
 
+    _notifyDragEnd(dragObject, targetPosition) {
+        return this._notify('dragEnd', [
+            dragObject.entity,
+            targetPosition.dispItem.getContents(),
+            targetPosition.position
+        ]);
+    }
+
     _documentDragEnd(dragObject): void {
         // Если перетаскиваются элементы списка, то мы всегда задаем entity
         if (!dragObject || !dragObject.entity) {
@@ -6506,7 +6547,7 @@ export class BaseControl<TOptions extends IBaseControlOptions> extends Control<T
         if (this._insideDragging && this._dndListController) {
             const targetPosition = this._dndListController.getDragPosition();
             if (targetPosition && targetPosition.dispItem) {
-                dragEndResult = this._notify('dragEnd', [dragObject.entity, targetPosition.dispItem.getContents(), targetPosition.position]);
+                dragEndResult = this._notifyDragEnd(dragObject, targetPosition);
             }
 
             // После окончания DnD, не нужно показывать операции, до тех пор, пока не пошевелим мышкой.

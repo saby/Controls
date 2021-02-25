@@ -1121,13 +1121,14 @@ describe('Controls/list_clean/BaseControl', () => {
             it('_beforeMount without source and sourceController, then _beforeUpdate with sourceController', async () => {
                 let baseControlOptions = getBaseControlOptionsWithEmptyItems();
                 let afterReloadCallbackCalled = false;
-                baseControlOptions.afterReloadCallback = () => {
-                    afterReloadCallbackCalled = true;
-                };
                 baseControlOptions.source = null;
                 baseControlOptions.sourceController = null;
 
+                const sandbox = sinon.createSandbox();
                 const baseControl = new BaseControl(baseControlOptions);
+                sandbox.stub(baseControl, '_afterReloadCallback').callsFake(() => {
+                    afterReloadCallbackCalled = true;
+                });
                 await baseControl._beforeMount(baseControlOptions);
                 baseControl.saveOptions(baseControlOptions);
 
@@ -1142,6 +1143,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 baseControl.saveOptions(baseControlOptions);
                 await baseControl.reload();
                 assert.isTrue(afterReloadCallbackCalled);
+                sandbox.restore();
             });
 
         });

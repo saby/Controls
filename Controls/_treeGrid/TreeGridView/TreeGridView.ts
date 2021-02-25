@@ -16,10 +16,6 @@ var
         _resolveBaseItemTemplate(): TemplateFunction {
             return GridLayoutUtil.isFullGridSupport() ? GridItemTemplate : TableItemTemplate;
         },
-        _onExpanderClick(e, dispItem): void {
-            this._notify('expanderClick', [dispItem], {bubbling: true});
-            e.stopImmediatePropagation();
-        },
         _onLoadMoreClick(e, dispItem): void {
             this._notify('loadMoreClick', [dispItem]);
         }

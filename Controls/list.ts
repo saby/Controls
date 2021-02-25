@@ -53,7 +53,7 @@ import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated
 
 import BaseViewModel = require('Controls/_list/BaseViewModel');
 import ListViewModel = require('Controls/_list/ListViewModel');
-import {default as ListControl} from 'Controls/_list/ListControl';
+import {BaseControl as ListControl} from 'Controls/_list/BaseControl';
 import ListView = require('Controls/_list/ListView');
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
