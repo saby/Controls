@@ -67,6 +67,7 @@
                     __isColumnScrollVisible="{{ _isColumnScrollVisible() }}"
 
                     attr:class="{{ _viewGrabbingClasses }}"
+                    on:mouseenter="_onViewMouseEnter()"
                     on:mousedown="_startDragScrolling('mouse')"
                     on:touchstart="_startDragScrolling('touch')"
                     on:mousemove="_moveDragScroll('mouse')"
