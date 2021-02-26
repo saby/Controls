@@ -200,7 +200,7 @@ define([
                errors: 'Error'
             },
             eventHandlers: {},
-            closeOnOutsideClick: false,
+            closeOnOutsideClick: true
          };
 
          validCtrl._callInfoBox = (cfg) => {
