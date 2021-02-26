@@ -13,6 +13,7 @@ import {descriptor} from "Types/entity";
  *
  * @class Controls/_dateRange/DateSelector
  * @extends UI/Base:Control
+ * @mixes Controls/_interface/IResetValues
  * @mixes Controls/interface/IDateRange
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_interface/IOpenPopup

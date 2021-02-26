@@ -21,6 +21,7 @@ import {descriptor} from "Types/entity";
  *
  * @class Controls/_dateRange/RangeSelector
  * @extends UI/Base:Control
+ * @mixes Controls/_interface/IResetValues
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors

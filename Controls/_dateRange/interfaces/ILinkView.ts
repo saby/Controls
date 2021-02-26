@@ -86,28 +86,6 @@ export default {
              * @name Controls/_dateRange/interfaces/ILinkView#emptyCaption
              * @cfg {String} Text that is used if the period is not selected.
              */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#resetStartValue
-             * @cfg {Date} Начало периода, которое будет установлено после сброса значения
-             * @remark
-             * При использовании опции, рядом с контролом появится крестик, нажав на который, пользователь перейдет к
-             * периоду, указанному в resetStartValue и resetEndValue. Если задана только resetEndValue - resetStartValue
-             * будет установлен как null.
-             * @demo Controls-demo/dateRange/RangeSelector/ResetValues/Index
-             * @see Controls/_dateRange/interfaces/ILinkView#resetEndValue
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#resetEndValue
-             * @cfg {Date} Конец периода, которое будет установлено после сброса значения
-             * @remark
-             * При использовании опции, рядом с контролом появится крестик, нажав на который, пользователь перейдет к
-             * периоду, указанному в resetStartValue и resetEndValue. Если задана только resetStartValue - resetEndValue
-             * будет установлен как null.
-             * @demo Controls-demo/dateRange/RangeSelector/ResetValues/Index
-             * @see Controls/_dateRange/interfaces/ILinkView#resetStartValue
-             */
         };
     },
 
