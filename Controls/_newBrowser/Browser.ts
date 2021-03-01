@@ -490,8 +490,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             return;
         }
 
+        const listCfg = options.listConfigurationBuilder
+            ? options.listConfigurationBuilder(items)
+            : getListConfiguration(items);
+
         // Применим новую конфигурацию к отображению detail-списка
-        this._applyListConfiguration(getListConfiguration(items), options);
+        this._applyListConfiguration(listCfg, options);
     }
 
     /**

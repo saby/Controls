@@ -67,12 +67,6 @@ export interface IOptions extends IControlOptions, ISourceOptions {
 
     /**
      * @cfg
-     * Ф-ия, которая будет вызвана после получения данных для detail-колонки.
-     */
-    dataLoadCallback?: (items: RecordSet, direction: string) => void;
-
-    /**
-     * @cfg
      * Идентификатор узла, содержимое которой нужно отобразить в master-колонке.
      * Если undefined, то используется значение из опции {@link root}
      */
@@ -106,6 +100,14 @@ export interface IOptions extends IControlOptions, ISourceOptions {
      * Конфигурация списка, которая будет применена по умолчанию.
      */
     listConfiguration?: IBrowserViewConfig;
+
+    /**
+     * @cfg
+     * Ф-ия, которая будет вызвана после получения данных для detail списка.
+     * В качестве параметра попринимает полученный RecordSet.
+     * Если указана, то должна вернуть объект конфигурации внешнего вида списка.
+     */
+    listConfigurationBuilder?: (items: RecordSet) => IBrowserViewConfig;
 
     /**
      * @cfg

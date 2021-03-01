@@ -125,5 +125,9 @@ export
 
     searchStartingWith?: string;
 
+    /**
+     * @cfg
+     * Ф-ия, которая будет вызвана после получения данных для detail-колонки.
+     */
     dataLoadCallback?: (items: RecordSet, direction: string) => void;
 }
