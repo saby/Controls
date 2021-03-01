@@ -35,16 +35,18 @@ define('Controls-demo/Popup/PopupWithPending',
             }
          },
          _showConfirmDialog: function(def) {
+            var self = this;
+
             function updating(answer) {
                if (answer === true) {
                   self._propertyChangeNotified = false;
                   def.callback(true);
                } else if (answer === false) {
                   def.callback(false);
+               } else {
+                  def.cancel();
                }
             }
-
-            var self = this;
 
             return self._children.popupOpener.open({
                message: rk('Сохранить изменения?'),
@@ -53,7 +55,7 @@ define('Controls-demo/Popup/PopupWithPending',
             }).addCallback(function(answer) {
                updating.call(self, answer);
             });
-         },
+         }
       });
 
       return TestDialog;
