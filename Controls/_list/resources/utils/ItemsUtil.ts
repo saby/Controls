@@ -23,6 +23,8 @@ var ItemsUtil = {
         projCfg.collapsedGroups = cfg.collapsedGroups;
         projCfg.groupProperty = cfg.groupProperty;
         projCfg.theme = cfg.theme;
+        projCfg.editingConfig = cfg.editingConfig;
+        projCfg.itemActionsVisibility = cfg.itemActionsVisibility;
         return displayLib.Abstract.getDefaultDisplay(items, projCfg);
     },
 
