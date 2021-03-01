@@ -66,7 +66,7 @@ class NumberEditor extends Control implements IEditor {
     _inputCompleted(event: Event, value: number): void {
         if (this._initialValue !== value) {
             this._initialValue = value;
-            this._notify('propertyValueChanged', [value], {bubbling: true});
+            this._notify('propertyValueChanged', [value === null ? 0 : value], {bubbling: true});
         }
     }
 }
