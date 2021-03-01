@@ -30,15 +30,6 @@ export interface IItemActionsTemplateConfig {
     toolbarVisibility?: boolean;
 
     /**
-     * @cfg {String} Опция, позволяющая настраивать фон панели операций над записью.
-     * @description Предустановленные варианты 'default' | 'transparent'
-     */
-    /*
-     * @cfg {String} Style postfix of actions panel
-     */
-    style?: string;
-
-    /**
      * @cfg {String} Размер иконок опций записи
      * @description Принимает значения 's' или 'm' в соответствии со стандартом
      */

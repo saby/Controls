@@ -169,6 +169,9 @@ const _private = {
         itemsModelCurrent.getContentClasses = () => {
             return `${itemsModelCurrent.spacingClassList} ${itemsModelCurrent.isRightSwiped?.() ? 'controls-ListView__item_rightSwipeAnimation' : ''}`;
         };
+        itemsModelCurrent.getItemActionsStylingClasses = (templateHighLightOnHover: boolean, theme: string) => (
+            itemsModelCurrent.dispItem.getItemActionsStylingClasses(templateHighLightOnHover, theme)
+        );
     },
     getSeparatorSizes(options: IListSeparatorOptions): IListSeparatorOptions['rowSeparatorSize'] {
         return options.rowSeparatorSize ? options.rowSeparatorSize.toLowerCase() : null;

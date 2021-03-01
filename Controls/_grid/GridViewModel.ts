@@ -1888,6 +1888,7 @@ var
                         gridCellStyles: '',
                         tableCellStyles: '',
                         getItemActionPositionClasses: current.getItemActionPositionClasses,
+                        getItemActionsStylingClasses: current.getItemActionsStylingClasses,
                         getItemActionClasses: current.getItemActionClasses,
                         isSwiped: current.isSwiped,
                         getActions: current.getActions,
