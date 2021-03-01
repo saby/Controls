@@ -2724,12 +2724,6 @@ const _private = {
                 }
             };
         }
-        let style;
-        if (options.itemActionsVisibility === 'visible') {
-            style = 'transparent';
-        } else {
-            style = options.hoverBackgroundStyle || options.style
-        }
         const itemActionsChangeResult = itemActionsController.update({
             editingItem: editingCollectionItem as CollectionItem<Model>,
             collection: self._listViewModel,
@@ -2737,7 +2731,6 @@ const _private = {
             itemActionsProperty: options.itemActionsProperty,
             visibilityCallback: options.itemActionVisibilityCallback,
             itemActionsPosition: options.itemActionsPosition,
-            style,
             theme: options.theme,
             actionMode: options.actionMode,
             actionAlignment: options.actionAlignment,
