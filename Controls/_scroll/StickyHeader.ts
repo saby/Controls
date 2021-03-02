@@ -186,12 +186,21 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (!this._isStickyEnabled(options)) {
             return;
         }
-        if (options.mode !== this._options.mode && options.mode === MODE.notsticky) {
-            this._release();
+        if (options.mode !== this._options.mode) {
+            if (options.mode === MODE.notsticky) {
+                this._release();
+            } else {
+                this._stickyModeChanged(options.mode);
+            }
         }
         if (options.fixedZIndex !== this._options.fixedZIndex) {
             this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.task1177692247, options.task1181007458);
         }
+    }
+
+    private _stickyModeChanged(newMode: MODE): void {
+        this._notify('stickyModeChanged', [this._index, newMode], {bubbling: true});
+        this._updateShadowStyles(newMode, this._options.shadowVisibility);
     }
 
     protected _afterUpdate(oldOptions: IStickyHeaderOptions): void {

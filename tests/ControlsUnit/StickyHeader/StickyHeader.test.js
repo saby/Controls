@@ -146,6 +146,16 @@ define([
             assert.isUndefined(component._observer);
             sinon.restore();
          });
+
+         it('should call _stickyModeChanged if mode changed', () => {
+            const component = createComponent(StickyHeader, { mode: 'stackable' });
+            const newMode = 'replaceable';
+            const stubStickyModeChanged = sinon.stub(component, '_stickyModeChanged');
+            component._beforeUpdate({ mode: newMode, ...StickyHeader.getDefaultOptions() });
+
+            sinon.assert.calledWith(stubStickyModeChanged, newMode);
+            sinon.restore();
+         });
       });
 
       describe('_afterUpdate', function() {
