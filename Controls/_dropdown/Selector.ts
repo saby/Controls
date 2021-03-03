@@ -37,6 +37,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
  *
  * Полезные ссылки:
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FInput%2FIndex демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less переменные тем оформления dropdownPopup}
