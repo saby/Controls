@@ -3,8 +3,8 @@
  */
 define([
    'Controls/event'
-], function(events){
-   describe('Controls.Event.Registrar', function () {
+], function(events) {
+   describe('Controls.Event.RegisterClass', function () {
       var evMock, compMock, result = false;
       beforeEach(function() {
          evMock = {
@@ -21,9 +21,10 @@ define([
       });
 
       it('register - unregister', function () {
-         var reg = new events.Registrar();
+         const register = 'test';
+         var reg = new events.RegisterClass({register});
 
-         reg.register(evMock, compMock, function(){
+         reg.register(evMock, register, compMock, function(){
             result = true;
          });
 
@@ -32,17 +33,18 @@ define([
          //проверяем что корректный компонент
          assert.deepEqual(compMock, reg._registry['123abc'].component, 'Wrong component in _registry after register');
 
-         reg.unregister(evMock, compMock);
+         reg.unregister(evMock, register, compMock);
          assert.isTrue(!reg._registry['123abc'], '_registry has records after unregister');
 
          reg.destroy();
       });
 
       it('start', function () {
-         var reg = new events.Registrar();
+         const register = 'test';
+         var reg = new events.RegisterClass({register});
 
 
-         reg.register(evMock, compMock, function(){
+         reg.register(evMock, register, compMock, function(){
             result = true;
          });
 
@@ -50,7 +52,7 @@ define([
          reg.start();
          assert.isTrue(result, 'Callback wasn\' called after start command');
 
-         reg.unregister(evMock, compMock);
+         reg.unregister(evMock, register, compMock);
 
          reg.destroy();
       });
