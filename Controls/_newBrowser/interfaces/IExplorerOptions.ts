@@ -26,4 +26,5 @@ export interface IExplorerOptions {
     markerVisibility?: string;
     expanderVisibility?: string;
     markItemByExpanderClick?: boolean;
+    searchStartingWith?: string;
 }

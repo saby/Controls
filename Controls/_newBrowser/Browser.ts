@@ -546,19 +546,26 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         columnIndex?: number
     ): unknown {
 
-        const explorerOptions = isMaster ? this._masterExplorerOptions : this._detailExplorerOptions;
+        let customResult = true;
+        // Если клик по итему detail-списка, то прокинем событие выше что бы могла отработать кастомная логика
+        if (!isMaster) {
+            customResult = this._notify('itemClick', [item, clickEvent, columnIndex]) as boolean;
+        }
 
+        // Если вернулся не false, значит нужно продолжить нашу обработку клика
+        if (customResult === false) {
+            return customResult;
+        }
+
+        const explorerOptions = isMaster ? this._masterExplorerOptions : this._detailExplorerOptions;
+        // Если не null, значит это либо узел либо скрытый узел
         const isNode = item.get(explorerOptions.nodeProperty) !== null;
+
         if (isNode) {
             this._setRoot(item.get(explorerOptions.keyProperty)).then();
-            return false;
         }
 
-        if (!isMaster) {
-            // Перегенерим событие, т.к. explorer его без bubbling шлет, что бы пользователи
-            // могли открыть карточку при клике по листу дерева
-            return this._notify('itemClick', [item, clickEvent, columnIndex]);
-        }
+        return false;
     }
 
     /**
