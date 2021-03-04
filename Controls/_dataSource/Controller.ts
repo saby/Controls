@@ -231,11 +231,15 @@ export default class Controller extends mixin<
     // FIXME, если root задаётся на списке, а не на data(browser)
     setRoot(key: TKey): void {
         this._setRoot(key);
-        this._notify('rootChanged', key);
+        this._notify('rootChanged', key, this._getRootItem(key));
     }
 
     getRoot(): TKey {
         return this._root;
+    }
+
+    getRootItem(): EntityRecord {
+        return this._getRootItem(this._root);
     }
 
     // FIXME, если parentProperty задаётся на списке, а не на data(browser)
@@ -394,6 +398,20 @@ export default class Controller extends mixin<
 
     private _setRoot(key: TKey): void {
         this._root = key;
+    }
+
+    private _getRootItem(key: TKey): EntityRecord {
+        let rootItem = null;
+        if (this.getItems()) {
+            rootItem = this.getItems().getRecordById(key);
+            if (!rootItem) {
+                const meta = this.getItems().getMetaData();
+                if (meta && meta.path) {
+                    rootItem = meta.path.getRecordById(key);
+                }
+            }
+        }
+        return rootItem;
     }
 
     private _getCrudWrapper(sourceOption: ICrud): CrudWrapper {
