@@ -28,15 +28,17 @@
 
       source="{{_baseSource}}"
       userViewMode="{{_viewMode}}"
+      searchValue="{{_searchValue}}"
       listConfiguration="{{_defaultViewCfg}}"
 
       bind:root="_root"
       bind:masterRoot="_masterRoot"
+      bind:filter="_detailFilter"
 
       on:beforeRootChanged="_onBeforeRootChanged()"
       on:viewModeChanged="_onBrowserViewModeChanged()"
 
-      attr:style="flex: 1 1 100%;"
+      attr:class="demo-browser__browser"
    >
       <!-- Задаем общую настройку master-колонки -->
       <ws:master
@@ -50,20 +52,26 @@
       />
       <!-- Задаем общую настройку detail-колонки -->
       <ws:detail
-         backgroundColor="#f0f0f0"
          imageProperty="photo"
+         searchParam="{{_searchParam}}"
+         backgroundColor="#f0f0f0"
          columns="{{_detailTableColumns}}"
       >
          <ws:afterBreadCrumbsTemplate>
-            <Controls.search:InputContainer
-               searchDelay="{{300}}"
-               minSearchLength="{{3}}"
-            >
-               <Controls.search:Input
-                  placeholder="{[Найти...]}"
-                  contrastBackground="{{ true }}"
-               />
-            </Controls.search:InputContainer>
+            <div>
+               <Controls.search:InputContainer
+                  searchDelay="{{300}}"
+                  minSearchLength="{{3}}"
+                  inputSearchValue="{{_searchValue}}"
+                  on:search="_onSearch()"
+                  on:searchReset="_onSearch()"
+               >
+                  <Controls.search:Input
+                     placeholder="{[Найти...]}"
+                     contrastBackground="{{ true }}"
+                  />
+               </Controls.search:InputContainer>
+            </div>
          </ws:afterBreadCrumbsTemplate>
          <ws:itemTemplate>
             <ws:partial

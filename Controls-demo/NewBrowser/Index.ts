@@ -1,22 +1,53 @@
-import {Memory} from 'Types/source';
+import {Record} from 'Types/entity';
 import {Control, TemplateFunction} from 'UI/Base';
-import {BeforeChangeRootResult, Browser, DetailViewMode, IBrowserViewConfig, IRootsData} from 'Controls/newBrowser';
+import {Memory, QueryWhereExpression} from 'Types/source';
 import {FlatHierarchy} from 'Controls-demo/_DemoData/Data';
 import {DemoSource, getDefaultViewCfg} from 'Controls-demo/NewBrowser/DemoSource';
+import {BeforeChangeRootResult, Browser, DetailViewMode, IBrowserViewConfig, IRootsData} from 'Controls/newBrowser';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as Template from 'wml!Controls-demo/NewBrowser/Index';
 import {SyntheticEvent} from 'UI/Vdom';
 import {TKey} from 'Controls/_interface/IItems';
 
+const searchParam = 'searchStr';
+
+const data = FlatHierarchy.getData();
+
 const baseSource = new DemoSource({
+    data,
     keyProperty: 'id',
     parentProperty: 'parent',
-    data: FlatHierarchy.getData()
+    filter: (item: Record, where: QueryWhereExpression<unknown>) => {
+        const searchStr = ((where[searchParam] || '') as string).toLowerCase();
+
+        if (searchStr) {
+            return hierarchySearch(item, searchStr);
+        }
+
+        return true;
+    }
 });
 
+function hierarchySearch(item: Record, searchStr: string): boolean {
+    const itemTitle = (item.get('title') as string).toLowerCase();
+
+    if (itemTitle.includes(searchStr)) {
+        return true;
+    }
+
+    const children = data.filter((dataItem) => dataItem.parent === item.get('id'));
+    for (let i = 0; i < children.length; i++) {
+        const result = hierarchySearch(new Record({rawData: children[i]}), searchStr);
+        if (result) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function findParentFolderId(itemId: TKey): TKey {
-    const data = FlatHierarchy.getData();
     const item = data.find((dataItem) => dataItem.id === itemId);
 
     if (item.hasSubNodes) {
@@ -89,6 +120,15 @@ export default class extends Control {
     protected _userViewMode: DetailViewMode[] = [DetailViewMode.list];
     protected _defaultViewCfg: IBrowserViewConfig = getDefaultViewCfg();
 
+    protected _detailFilter: object = {};
+
+    protected _searchParam: string = searchParam;
+
+    /**
+     * Значение строки поиска, которое применено к списку
+     */
+    protected _searchValue: string;
+
     /**
      * Набор колонок, отображаемый в master
      */
@@ -110,6 +150,10 @@ export default class extends Control {
     }
     //endregion
 
+    protected _onSearch(event: SyntheticEvent, searchValue: string): void {
+        this._searchValue = searchValue;
+    }
+
     protected _onBeforeRootChanged(event: SyntheticEvent, roots: IRootsData): BeforeChangeRootResult {
         return {
             detailRoot: roots.detailRoot,
@@ -129,5 +173,8 @@ export default class extends Control {
         this._viewMode = viewMode[0];
     }
 
-    static _styles: string[] = ['Controls-demo/Controls-demo'];
+    static _styles: string[] = [
+        'Controls-demo/Controls-demo',
+        'Controls-demo/NewBrowser/Index'
+    ];
 }
