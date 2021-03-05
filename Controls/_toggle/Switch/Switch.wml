@@ -21,7 +21,7 @@
 <span class="controls-Switch controls_theme-{{_options.theme}}"
             on:click="_clickHandler()"
       title="{{_options.tooltip}}">
-   <div class="controls-invalid-container controls-Switch__wrapper controls-Switch__wrapper">
+   <div class="controls-invalid-container controls-Switch__wrapper">
       <ws:if data="{{_options.captionPosition === 'left'}}">
          <ws:partial template="caption"/>
          <ws:partial template="toggle"/>
