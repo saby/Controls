@@ -1,6 +1,7 @@
 <div class="controls-DropdownList-header
-            controls-Menu__popup-header-{{_options.multiSelect ? 'multiSelect_theme-' + _options.theme}}
-            controls-Menu__popup-header">
+            {{_options.multiSelect ? 'controls-Menu__popup-header-multiSelect_theme-' + _options.theme}}
+            controls-Menu__popup-header
+            ws-flexbox ws-align-items-center">
     <ws:if data="{{_options.icon}}">
         <div class="controls-Menu__popup-headerIcon_wrapper
                     {{_options.content ? 'controls-Menu__popup_headerIcon_padding_theme-' + _options.theme}}
