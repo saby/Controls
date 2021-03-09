@@ -3,6 +3,7 @@ import {Model} from 'Types/entity';
 import TreeTileCollectionItem from '../TreeTileCollectionItem';
 import TreeTileCollection from '../TreeTileCollection';
 import InvisibleTreeTileItem from '../InvisibleTreeTileItem';
+import TileCollectionItem from "Controls/_tileNew/display/TileCollectionItem";
 
 
 interface ISortOptions<S extends Model = Model, T extends TreeTileCollectionItem<S>> {
@@ -35,16 +36,17 @@ export default class InvisibleStrategy<
             if (item['[Controls/_display/GroupItem]'] || prevItem && prevItem.isNode && prevItem.isNode() !== null && item.isNode() === null && item.getParent() !== prevItem) {
                 const invisibleIsNode = prevItem && prevItem.isNode();
                 const parent = prevItem && prevItem.getParent();
-                newInvisibleItems.push(super._createInvisibleItems(options.display, {isNodeItems: invisibleIsNode, parent}));
+                newInvisibleItems.push(super._createInvisibleItems(options.display, prevItem,{isNodeItems: invisibleIsNode, parent}));
                 insertIndexForNewInvisibleItems.push(i);
             }
         }
 
         // Вставляем невидимые элементы в конец списка
         if (items.length && options.display.getTileMode() === 'static') {
-            const invisibleIsNode = items[items.length - 1].isNode();
-            const parent = items[items.length - 1].getParent();
-            newInvisibleItems.push(super._createInvisibleItems(options.display, {isNodeItems: invisibleIsNode, parent}));
+            const lastItem = items[items.length - 1];
+            const invisibleIsNode = lastItem.isNode();
+            const parent = lastItem.getParent();
+            newInvisibleItems.push(super._createInvisibleItems(options.display, lastItem, {isNodeItems: invisibleIsNode, parent}));
             insertIndexForNewInvisibleItems.push(items.length);
         }
 
@@ -63,8 +65,8 @@ export default class InvisibleStrategy<
         return itemsOrder;
     }
 
-    protected static _getInvisibleItemParams(display: TreeTileCollection, options: object): object {
-        const params = super._getInvisibleItemParams(display, options);
+    protected static _getInvisibleItemParams(display: TreeTileCollection, prevItem: TileCollectionItem, options: object): object {
+        const params = super._getInvisibleItemParams(display, prevItem options);
         params.itemModule = 'Controls/treeTile:InvisibleTreeTileItem';
         params.node = options.isNodeItems;
         params.parent = options.parent;

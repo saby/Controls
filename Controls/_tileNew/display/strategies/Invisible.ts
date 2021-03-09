@@ -156,7 +156,7 @@ export default class InvisibleStrategy<
         const itemsOrder = items.map((it, index) => index + offset);
 
         if (needAppendInvisibleItems) {
-            options.invisibleItems.push(...InvisibleStrategy._createInvisibleItems(options.display, {}));
+            options.invisibleItems.push(...InvisibleStrategy._createInvisibleItems(options.display, items[items.length - 1], {}));
             for (let i = 0; i < options.invisibleItems.length; i++) {
                 itemsOrder.push(i);
             }
@@ -165,10 +165,10 @@ export default class InvisibleStrategy<
         return itemsOrder;
     }
 
-    protected static _createInvisibleItems(display: TileCollection, options: object): InvisibleTileItem[] {
+    protected static _createInvisibleItems(display: TileCollection, prevItem: TileCollectionItem, options: object): InvisibleTileItem[] {
         const items = [];
 
-        const params = this._getInvisibleItemParams(display, options);
+        const params = this._getInvisibleItemParams(display, prevItem, options);
         for (let i = 0; i < COUNT_INVISIBLE_ITEMS; i++) {
             if (i === COUNT_INVISIBLE_ITEMS - 1) {
                 params.lastInvisibleItem = true;
@@ -179,12 +179,12 @@ export default class InvisibleStrategy<
         return items;
     }
 
-    protected static _getInvisibleItemParams(display: TileCollection, options: object): object {
+    protected static _getInvisibleItemParams(display: TileCollection, prevItem: TileCollectionItem, options: object): object {
         return {
             ...options,
             itemModule: 'Controls/tileNew:InvisibleTileItem',
             theme: display.getTheme(),
-            tileWidth: display.getTileWidth(),
+            tileWidth: prevItem.getTileWidth(),
             leftPadding: display.getLeftPadding(),
             rightPadding: display.getRightPadding(),
             topPadding: display.getTopPadding(),

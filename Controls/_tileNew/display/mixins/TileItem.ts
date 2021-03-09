@@ -16,14 +16,14 @@ import {itemTemplate} from "Controls/switchableArea";
 
 const DEFAULT_WIDTH_PROPORTION = 1;
 
-const TILE_SIZES = {
+export const TILE_SIZES = {
     s: {
         horizontal: {
             width: 210,
             imageHeight: 180
         },
         vertical: {
-            width: 390,
+            width: 164,
             imageWidth: 300
         }
     },
@@ -33,7 +33,7 @@ const TILE_SIZES = {
             imageHeight: 240
         },
         vertical: {
-            width: 390,
+            width: 200,
             imageWidth: 160
         }
     },
@@ -43,7 +43,7 @@ const TILE_SIZES = {
             imageHeight: 320
         },
         vertical: {
-            width: 640,
+            width: 256,
             imageWidth: 300
         }
     }
@@ -204,7 +204,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
 
         const sizeParams = object.clone(TILE_SIZES[this.getTileSize()]);
-        const tileSizes = sizeParams[imagePosition === 'top' ? 'horizontal' : 'vertical'];
+        const tileSizes = sizeParams[imagePosition === 'top' ? 'vertical' : 'horizontal'];
         if (imagePosition === 'top') {
             tileSizes.imageWidth = null;
             if (imageViewMode !== 'rectangle') {
@@ -665,6 +665,7 @@ export default abstract class TileItem<T extends Model = Model> {
         }
 
         classes += ` ${this.getItemPaddingClasses()}`;
+        classes += ` ${this.getRoundBorderClasses()}`;
 
         /* TODO не забыть в Tree добавить {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}`
             <ws:if data="{{!!itemData.dragTargetNode}}">
@@ -742,7 +743,6 @@ export default abstract class TileItem<T extends Model = Model> {
         const theme = `_theme-${this.getTheme()}`;
 
         let classes = `controls-TileView__itemContent controls-TileView__itemContent${theme} js-controls-ListView__measurableContainer`;
-        classes += ` ${this.getRoundBorderClasses()}`;
 
         if (height === 'auto') {
             classes += ' controls-TileView__item_autoHeight';
