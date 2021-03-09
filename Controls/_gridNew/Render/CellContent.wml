@@ -1,12 +1,13 @@
 <div class="{{ (gridColumn || itemData).getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
      style="{{ (gridColumn || itemData).getContentStyles() }}">
 
-    <ws:if data="{{ !!contentTemplate }}">
+    <ws:if data="{{ !!contentTemplate || !!content }}">
         <!-- Прикладной контент -->
         <ws:partial
-                template="{{ contentTemplate }}"
+                template="{{ contentTemplate || !!content }}"
                 column="{{ (gridColumn || itemData).getColumnConfig() }}"
                 itemData="{{ (gridColumn || itemData) }}"
+                gridColumn="{{ (gridColumn || itemData) }}"
                 item="{{ (gridColumn || itemData).getOwner() }}"
                 itemActionsTemplate="{{ itemActionsTemplate }}"
                 itemActionsClass="{{ itemActionsClass }}"
