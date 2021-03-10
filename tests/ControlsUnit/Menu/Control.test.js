@@ -769,7 +769,7 @@ define(
             let selectCompleted = false, closed = false, opened = false, actualOptions;
 
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                opened = true;
                actualOptions = tplOptions;
                return Promise.resolve();
@@ -814,7 +814,7 @@ define(
             };
             items.push(emptyItem);
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                selectorOptions = tplOptions;
                return Promise.resolve();
             });

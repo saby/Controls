@@ -1,8 +1,7 @@
-import { default as BaseOpener, IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
-import ManagerController from 'Controls/_popup/Manager/ManagerController';
-import {Logger} from 'UI/Utils';
-import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
+import { default as BaseOpener, IBaseOpenerOptions} from 'Controls/_popup/Opener/BaseOpener';
 import {IStackOpener, IStackPopupOptions} from 'Controls/_popup/interface/IStack';
+import openPopup from 'Controls/_popup/utils/openPopup';
+import CancelablePromise from 'Controls/_popup/utils/CancelablePromise';
 
 interface IStackOpenerOptions extends IStackPopupOptions, IBaseOpenerOptions {}
 
@@ -59,24 +58,20 @@ class Stack extends BaseOpener<IStackOpenerOptions> implements IStackOpener {
         return baseConfig;
     }
 
+    static _openPopup(config: IStackPopupOptions): CancelablePromise<string> {
+        const newCfg = getStackConfig(config);
+        const moduleName = Stack.prototype._moduleName;
+        return openPopup(newCfg, POPUP_CONTROLLER, moduleName);
+    }
+
     static openPopup(config: IStackPopupOptions): Promise<string> {
+        const cancelablePromise = Stack._openPopup(config);
         return new Promise((resolve, reject) => {
-            const newCfg = getStackConfig(config);
-            if (!newCfg.hasOwnProperty('isHelper')) {
-                Logger.warn('Controls/popup:Stack: Для открытия стековых окон из кода используйте StackOpener');
-            }
-            if (!newCfg.hasOwnProperty('opener')) {
-                Logger.error('Controls/popup:Stack: Для открытия окна через статический метод, обязательно нужно указать опцию opener');
-            }
-            BaseOpener.requireModules(newCfg, POPUP_CONTROLLER).then((result: ILoadDependencies) => {
-                BaseOpener.showDialog(result.template, newCfg, result.controller).then((popupId: string) => {
-                    resolve(popupId);
-                });
-            }).catch((error: RequireError) => {
-                reject(error);
-            });
+            cancelablePromise.then(resolve);
+            cancelablePromise.catch(reject);
         });
     }
+
     static closePopup(popupId: string): void {
         BaseOpener.closeDialog(popupId);
     }
