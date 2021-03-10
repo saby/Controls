@@ -1,7 +1,8 @@
 <ws:partial template="{{_options.content}}"
             on:expandedItemsChanged="_notifyEventWithBubbling('listExpandedItemsChanged')"
-            on:selectedKeysChanged="_notifyEventWithBubbling('listSelectedKeysChanged')"
-            on:excludedKeysChanged="_notifyEventWithBubbling('listExcludedKeysChanged')"
+            on:selectedKeysChanged="_listSelectedKeysChanged()"
+            on:excludedKeysChanged="_listExcludedKeysChanged()"
+            on:listSelectedKeysCountChanged="_listSelectedKeysCountChanged()"
             on:markedKeyChanged="_notifyEventWithBubbling('listMarkedKeyChanged')"
             on:rootChanged="_notifyEventWithBubbling('listRootChanged')"
             on:sortingChanged="_notifyEventWithBubbling('listSortingChanged')"
@@ -11,4 +12,6 @@
             keyProperty="{{_dataOptions.keyProperty}}"
             scope="{{_options}}"
             source="{{_dataOptions.source}}"
+            selectedKeys="{{_listConfiguration.selectedKeys || _options.selectedKeys}}"
+            excludedKeys="{{_listConfiguration.excludedKeys || _options.excludedKeys}}"
             sourceController="{{_dataOptions.sourceController}}"/>
