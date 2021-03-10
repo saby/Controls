@@ -305,12 +305,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                     // offsetHeight округляет к ближайшему числу, из-за этого на масштабе просвечивают полупиксели.
                     // Такое решение подходит тоько для десктопа, т.к. на мобильных устройствах devicePixelRatio всегда
                     // равен 2.75
-                    this._height -= Math.abs(1 - window.devicePixelRatio);
+                    this._height -= Math.abs(1 - StickyHeader.getDevicePixelRatio());
                 }
             }
             if (this._model?.isFixed()) {
                 this._height -= getGapFixSize();
             }
+            this._height += this._options.offsetTop;
         }
         return this._height;
     }
@@ -784,7 +785,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             shadowVisibility: SHADOW_VISIBILITY.visible,
             backgroundStyle: BACKGROUND_STYLE.DEFAULT,
             mode: MODE.replaceable,
-            position: POSITION.top
+            position: POSITION.top,
+            offsetTop: 0
         };
     }
 

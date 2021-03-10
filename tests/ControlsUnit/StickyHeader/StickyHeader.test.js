@@ -381,6 +381,17 @@ define([
          });
       });
 
+      describe('height', function() {
+         it('should should take into account offsetTop option', function() {
+            const component = createComponent(StickyHeader, {offsetTop: 10});
+            component._container = {
+               closest: () => false,
+               offsetHeight: 10
+            };
+            assert.strictEqual(component.height, 20);
+         });
+      });
+
       describe('_getObserverStyle', function() {
          it('should return correct style', function() {
             const component = createComponent(StickyHeader, {});
