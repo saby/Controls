@@ -334,14 +334,17 @@ export default class Application extends Control<IApplication> {
                tagsId.forEach(function(tagId) {
                   HeadAPI.deleteTag(tagId);
                });
+               HeadAPI.createTag('meta', {
+                  name: 'viewport',
+                  content: 'width=device-width, initial-scale=1.0'
+               });
             } else {
-               HeadAPI.deleteTag(tagsId);
+               HeadAPI.changeTag(tagsId, {
+                  name: 'viewport',
+                  content: 'width=device-width, initial-scale=1.0'
+               });
             }
          }
-         HeadAPI.createTag('meta', {
-            name: 'viewport',
-            content: 'width=device-width, initial-scale=1.0'
-         });
          this._bodyClasses.isAdaptiveClass = 'ws-is-adaptive';
       } else {
          this._bodyClasses.isAdaptiveClass = '';
