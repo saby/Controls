@@ -1,5 +1,5 @@
 import {debounce} from 'Types/function';
-import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
+import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventData, TYPE_FIXED_HEADERS, MODE} from './Utils';
 import StickyHeader from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
@@ -572,6 +572,11 @@ class StickyHeaderController {
                 this._delayedHeaders.splice(index, 1);
             }
         });
+    }
+
+    updateStickyMode(stickyId: number, newMode: MODE): void {
+        this._headers[stickyId].mode = newMode;
+        this._updateTopBottom();
     }
 
     private _updateTopBottom() {

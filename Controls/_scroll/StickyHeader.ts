@@ -189,20 +189,30 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return this._container;
     }
 
-    protected _beforeUpdate(options: IStickyHeaderOptions): void {
-        if (!this._isStickyEnabled(options)) {
+    protected _beforeUpdate(options: IStickyHeaderOptions, context): void {
+        if (!this._isStickyEnabled(this._options)) {
             return;
         }
-        if (options.mode !== this._options.mode && options.mode === MODE.notsticky) {
-            this._release();
+        if (options.mode !== this._options.mode) {
+            if (options.mode === MODE.notsticky) {
+                this._release();
+                return;
+            } else {
+                this._stickyModeChanged(options.mode);
+            }
         }
         if (options.fixedZIndex !== this._options.fixedZIndex) {
             this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
         }
     }
 
+    private _stickyModeChanged(newMode: MODE): void {
+        this._notify('stickyModeChanged', [this._index, newMode], {bubbling: true});
+        this._updateShadowStyles(newMode, this._options.shadowVisibility);
+    }
+
     protected _afterUpdate(oldOptions: IStickyHeaderOptions): void {
-        if (oldOptions.mode === MODE.notsticky && this._isStickyEnabled(this._options)) {
+        if (oldOptions.mode === MODE.notsticky && this._options.mode !== MODE.notsticky) {
             this._register();
             this._init();
         }
@@ -230,6 +240,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (this._model) {
             return;
         }
+        this._stickyDestroy = false;
         this._updateComputedStyle();
 
         // После реализации https://online.sbis.ru/opendoc.html?guid=36457ffe-1468-42bf-acc9-851b5aa24033
@@ -260,6 +271,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             //Let the listeners know that the element is no longer fixed before the unmount.
             this._fixationStateChangeHandler('', this._model.fixedPosition);
             this._model.destroy();
+            this._model = null;
         }
         this._stickyDestroy = true;
 
@@ -268,7 +280,6 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             this._observer.disconnect();
         }
 
-        this._observeHandler = undefined;
         this._observer = undefined;
         this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
     }

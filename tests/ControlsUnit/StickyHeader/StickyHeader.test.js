@@ -121,7 +121,6 @@ define([
             };
 
             component._beforeUnmount();
-            assert.isUndefined(component._observeHandler);
             assert.isUndefined(component._observer);
             sandbox.restore();
          });
@@ -144,6 +143,16 @@ define([
             component._options.mode = 'notSticky';
             component._beforeUpdate(coreMerge({ mode: 'notsticky' }, StickyHeader.getDefaultOptions(), { preferSource: true }));
             assert.isUndefined(component._observer);
+            sinon.restore();
+         });
+
+         it('should call _stickyModeChanged if mode changed', () => {
+            const component = createComponent(StickyHeader, { mode: 'stackable' });
+            const newMode = 'replaceable';
+            const stubStickyModeChanged = sinon.stub(component, '_stickyModeChanged');
+            component._beforeUpdate({ mode: newMode, ...StickyHeader.getDefaultOptions() });
+
+            sinon.assert.calledWith(stubStickyModeChanged, newMode);
             sinon.restore();
          });
       });

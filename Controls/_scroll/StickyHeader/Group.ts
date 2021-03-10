@@ -8,7 +8,8 @@ import {
     IOffset,
     IFixedEventData,
     TRegisterEventData,
-    getGapFixSize
+    getGapFixSize,
+    MODE
 } from 'Controls/_scroll/StickyHeader/Utils';
 import template = require('wml!Controls/_scroll/StickyHeader/Group');
 import {SHADOW_VISIBILITY} from './Utils';
@@ -73,6 +74,8 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     protected _isRegistry: boolean = false;
 
     private _delayedHeaders: number[] = [];
+
+    private _stickyMode: MODE;
 
     // Считаем заголовок инициализированным после того как контроллер установил ему top или bottom.
     // До этого не синхронизируем дом дерево при изменении состояния.
@@ -263,6 +266,15 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
                 this._isRegistry = false;
             }
         }
+    }
+
+    protected _stickyModeChanged(event: SyntheticEvent<Event>, stickyId: number, newMode: MODE): void {
+        // Если мы поменяли mode у заголовков внутри группы, метод вызовется несколько раз.
+        if (this._stickyMode !== newMode) {
+            this._stickyMode = newMode;
+            this._notify('stickyModeChanged', [this._index, newMode], {bubbling: true});
+        }
+        event.stopPropagation();
     }
 
     private _updateTopBottom(data: TRegisterEventData): void {
