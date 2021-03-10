@@ -29,4 +29,10 @@
             </ws:partial>
         </ws:itemActionsTpl>
     </ws:partial>
+
+    <ws:partial if="{{footerTemplate}}"
+                template="{{footerTemplate}}"
+                attr:class="controls-TileView__item_footer"
+                itemData="{{(item || itemData)}}"
+                item="{{(item || itemData)}}"/>
 </div>
