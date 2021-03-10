@@ -3,7 +3,7 @@ import {TemplateFunction} from 'UI/Base';
 type TComparator = (field1, field2) => boolean;
 
 // todo: removed by task https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
-function isEqual(obj1, obj2, fieldsOptions: Record<string, TComparator>) {
+function isEqual(obj1: unknown[], obj2: unknown[], fieldsOptions: Record<string, TComparator>) {
    if ((!obj1 && obj2) || (obj1 && !obj2)) {
       return false;
    }
@@ -35,6 +35,40 @@ function isEqual(obj1, obj2, fieldsOptions: Record<string, TComparator>) {
    return true;
 }
 
+// Рекурсивное сравнивание двух объектов.
+// В отличае от функции выше isEqual работает с любым объектом вглубь.
+// TODO: Удалить по задаче https://online.sbis.ru/opendoc.html?guid=728d200e-ff93-4701-832c-93aad5600ced
+// Добавлено по https://online.sbis.ru/opendoc.html?guid=41146435-3ab8-4b73-98da-584808a4d980
+function isEqualObjects(x, y, comparators: Record<string, (x, y) => boolean> = {}) {
+      if ( x === y ) return true;
+
+      if ( ! ( x instanceof Object ) || ! ( y instanceof Object ) ) return false;
+
+      if ( x.constructor !== y.constructor ) return false;
+
+      for ( var p in x ) {
+         if ( ! x.hasOwnProperty( p ) ) continue;
+
+         if ( ! y.hasOwnProperty( p ) ) return false;
+
+         if (p in comparators) {
+            if(comparators[p](x[p], y[p]) === false) {
+               return false;
+            }
+         } else {
+            if ( x[ p ] === y[ p ] ) continue;
+
+            if ( typeof( x[ p ] ) !== "object" ) return false;
+
+            if ( !isEqualObjects( x[ p ],  y[ p ] ) ) return false;
+         }
+      }
+
+      for ( p in y ) {
+         if ( y.hasOwnProperty( p ) && ! x.hasOwnProperty( p ) ) return false;
+      }
+      return true;
+}
 
 /**
  * Сравнивает две шаблонные опции Wasaby шаблона. Проверяет все опции, от которых зависит шаблон, аналогично проверке синхронизатора.
@@ -102,5 +136,6 @@ function isEqualWithSkip(obj1: object, obj2: object, fieldsOptions?: Record<stri
 export {
    isEqual,
    isEqualWithSkip,
-   isEqualTemplates
+   isEqualTemplates,
+   isEqualObjects
 };

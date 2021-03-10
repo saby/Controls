@@ -333,7 +333,18 @@ var
 
             // Вычисления в setHeader зависят от columnScroll.
             const isColumnsScrollChanged = oldOptions.columnScroll !== newOptions.columnScroll;
-            const headerChanged = isColumnsScrollChanged || !GridIsEqualUtil.isEqualWithSkip(oldOptions.header, newOptions.header, { template: true });
+            const headerChanged = isColumnsScrollChanged || !GridIsEqualUtil.isEqual(oldOptions.header, newOptions.header, {
+                template: () => true,
+                templateOptions: (oldOptions, newOptions) => {
+                    return GridIsEqualUtil.isEqualObjects(oldOptions, newOptions, {
+                        itemsAndHeaderPromise: () => true,
+                        items: (oldItems, newItems) => {
+                            return !!oldItems && !!newItems && oldItems.length === newItems.length &&
+                                oldItems.reduce((prev, current, i) => prev && current.isEqual(newItems[i]), true);
+                        }
+                    });
+                }
+            });
             if (headerChanged) {
                 changes.push('header');
             }

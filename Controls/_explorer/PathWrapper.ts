@@ -34,10 +34,21 @@ var PathWrapper = Control.extend({
    },
 
    _beforeUpdate: function(newOptions) {
-      const isEqualsHeader = GridIsEqualUtil.isEqualWithSkip(
+      const isEqualsHeader = GridIsEqualUtil.isEqual(
           this._header,
           newOptions.header,
-          { template: true }
+          {
+              template: () => true,
+              templateOptions: (oldOptions, newOptions) => {
+                  return GridIsEqualUtil.isEqualObjects(oldOptions, newOptions, {
+                      itemsAndHeaderPromise: () => true,
+                      items: (oldItems, newItems) => {
+                          return !!oldItems && !!newItems && oldItems.length === newItems.length &&
+                              oldItems.reduce((prev, current, i) => prev && current.isEqual(newItems[i]), true);
+                      }
+                  });
+              }
+          }
        );
 
       if (this._items !== newOptions.items ||

@@ -887,7 +887,11 @@ var
         },
 
         _setHeader: function(columns) {
-            this._header = columns;
+            if (columns && columns.length) {
+                this._header = [...columns];
+            } else {
+                this._header = columns;
+            }
             if (!this.isDrawHeaderWithEmptyList()) {
                 this._headerModel = null;
                 return;
