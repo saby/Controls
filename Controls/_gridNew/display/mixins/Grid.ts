@@ -62,14 +62,7 @@ export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex:
  */
 export type TResultsColspanCallback = (column: IColumn, columnIndex: number) => TColspanCallbackResult;
 
-/**
- * @typedef {Object} IEmptyTemplateColumn
- * @description
- * Объект конфигурации колонки представления пустой таблицы.
- * @param {TemplateFunction} template Элемент, для которого рассчитывается объединение
- * @param {Number} startColumn Начальный индекс колонки.
- * @param {Number} endColumn Конечный индекс колонки.
- */
+
 export interface IEmptyTemplateColumn {
     template: TemplateFunction;
     startColumn?: number;

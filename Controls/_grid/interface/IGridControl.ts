@@ -604,8 +604,17 @@ export interface IGridControl extends IList {
  */
 
 /**
+ * @typedef {Object} Controls/_grid/interface/IGridControl/IEmptyTemplateColumn
+ * @description
+ * Объект конфигурации колонки представления пустой таблицы.
+ * @param {TemplateFunction} template Элемент, для которого рассчитывается объединение.
+ * @param {Number} startColumn Начальный индекс колонки.
+ * @param {Number} endColumn Конечный индекс колонки.
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#emptyTemplateColumns
- * @cfg {Array.<Controls/_gridNew/display/mixins/Grid/IEmptyTemplateColumn.typedef>} Конфигурация колонок пустой таблицы.
+ * @cfg {Array.<Controls/_grid/interface/IGridControl/IEmptyTemplateColumn.typedef>} Конфигурация колонок пустой таблицы.
  */
 
 /**
