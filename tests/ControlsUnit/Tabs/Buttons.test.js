@@ -141,30 +141,31 @@ define([
                inlineHeight: 's',
                selectedKey: '15',
                keyProperty: 'karambola',
-               theme: 'default'
+               theme: 'default',
+               horizontalPadding: 'm'
             },
             expected = 'controls-Tabs__item ' +
                'controls-Tabs__item_inlineHeight-s ' +
                'controls-Tabs__item_align_left' +
                ' controls-Tabs__item_extreme ' +
-               'controls-Tabs__item_extreme_first ' +
+               'controls-Tabs__item_extreme_first_horizontalPadding-m ' +
                'controls-Tabs__item_notShrink',
             expected2 = 'controls-Tabs__item' +
                ' controls-Tabs__item_inlineHeight-s' +
                ' controls-Tabs__item_align_right' +
-               ' controls-Tabs__item_default' +
+               ' controls-Tabs__item_default_horizontalPadding-m' +
                ' controls-Tabs__item_type_photo ' +
                'controls-Tabs__item_notShrink',
             expected3 = 'controls-Tabs__item ' +
                'controls-Tabs__item_inlineHeight-s ' +
                'controls-Tabs__item_align_right' +
-               ' controls-Tabs__item_default' +
+               ' controls-Tabs__item_default_horizontalPadding-m' +
                ' controls-Tabs__item_canShrink',
             expected4 = 'controls-Tabs__item ' +
                'controls-Tabs__item_inlineHeight-s ' +
                'controls-Tabs__item_align_right' +
                ' controls-Tabs__item_extreme' +
-               ' controls-Tabs__item_extreme_last' +
+               ' controls-Tabs__item_extreme_last_horizontalPadding-m' +
                ' controls-Tabs__item_notShrink';
           const tabInstance = new tabsMod.Buttons();
           tabInstance.saveOptions(options);
