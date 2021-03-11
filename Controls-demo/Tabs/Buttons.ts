@@ -7,6 +7,7 @@ import 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate';
 import 'wml!Controls-demo/Tabs/Buttons/resources/mainTemplate';
 import 'wml!Controls-demo/Tabs/Buttons/resources/photoContent';
 import 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate';
+import 'wml!Controls-demo/Tabs/Buttons/resources/iconLeftTemplate';
 
 export default class TabButtonsDemo extends Control {
     protected _template: TemplateFunction = template;
@@ -187,7 +188,7 @@ export default class TabButtonsDemo extends Control {
                     icon: 'icon-Vacation',
                     iconStyle: 'success',
                     itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate',
-                    leftTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate'
+                    leftTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconLeftTemplate'
                 },
                 {
                     id: '2',
@@ -196,7 +197,7 @@ export default class TabButtonsDemo extends Control {
                     icon: 'icon-SelfVacation',
                     iconStyle: 'warning',
                     itemTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/itemTemplate',
-                    leftTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate',
+                    leftTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconLeftTemplate',
                     rightTemplate: 'wml!Controls-demo/Tabs/Buttons/resources/iconTemplate'
                 },
                 {

@@ -64,7 +64,21 @@ define('Controls-demo/EditableArea/EditableArea', [
             keyProperty: 'id',
             data: tabsData2
          });
+      },
+
+      // Контрлы в Controls.editableArea не кидают событий ресайза при перестроении.
+      // В реальных сценариях такого поведения как в демке нет, по этому делаем в демке костыль.
+      _invalidSize: false,
+      _resize: function () {
+         this._invalidSize = true;
+      },
+      _afterUpdate: function () {
+         if (this._invalidSize) {
+            this._children.tabsButtons2._resizeHandler();
+            this._invalidSize = false;
+         }
       }
+
    });
    EditableArea._styles = ['Controls-demo/EditableArea/EditableArea'];
 
