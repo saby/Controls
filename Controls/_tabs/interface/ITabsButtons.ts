@@ -123,4 +123,15 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      */
     markerThickness?: string;
     displayProperty?: string;
+
+    /**
+     * @typedef {String} THorizontalPadding
+     * @variant m
+     * @variant null
+     */
+    /**
+     * @name Controls/_tabs/interface/ITabsButtons#horizontalPadding
+     * @cfg {THorizontalPadding} Размер отступов между вкладками и разделителем вкладок.
+     */
+    horizontalPadding?: 'm' | 'null';
 }
