@@ -888,10 +888,6 @@ const _private = {
                     self._updateShadowModeHandler(self._shadowVisibility);
                 }
 
-                if (direction === 'up') {
-                    self._attachLoadTopTriggerToNull = false;
-                }
-
                 // Скрываем ошибку после успешной загрузки данных
                 _private.hideError(self);
 
@@ -1691,6 +1687,12 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
+            }
+
+            if (action === IObservable.ACTION_ADD) {
+                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                    self._needScrollToFirstItem = false;
+                }
             }
 
             if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
