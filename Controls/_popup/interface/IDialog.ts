@@ -1,7 +1,7 @@
 import { IOpener, IBasePopupOptions } from 'Controls/_popup/interface/IBaseOpener';
 
 /**
- * 
+ *
  * Опции интерфейса подробно описаны {@link Controls/_popup/interface/IDialogOpener здесь}.
  * @public
  * @author Красильников А.С.
@@ -15,7 +15,10 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
     height?: number;
     maxHeight?: number;
     top?: number;
+    bottom?: number;
     left?: number;
+    right?: number;
+    resizeDirection?: IResizeDirection;
     maximize?: boolean;
     restrictiveContainer?: string;
 }
@@ -27,6 +30,16 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
  */
 export interface IDialogOpener extends IOpener {
     readonly '[Controls/_popup/interface/IDialogOpener]': boolean;
+}
+
+/**
+ * @typedef {Object} IResizeDirection
+ * @property {String} vertical
+ * @property {String} horizontal
+ */
+export interface IResizeDirection {
+    vertical?: 'top' | 'bottom';
+    horizontal?: 'left' | 'right';
 }
 
 /**
@@ -67,6 +80,13 @@ export interface IDialogOpener extends IOpener {
  * @see width
  * @see maxWidth
  */
+/**
+ * @name Controls/_popup/interface/IDialogOpener#resizeDirection
+ * @cfg {IResizeDirection} Направление, в котором попап будет увеличиваться
+ * при динамическом изменении размеров контента.
+ * В этом случае противоположная сторона будет зафиксирована и не изменит свою позицию относительно окна браузера.
+ * @demo Controls-demo/Popup/Dialog/ResizeDirection/Index
+ */
 /*
  * @name Controls/_popup/interface/IDialogOpener#top
  * @cfg {Number} Distance from the window to the top of the screen.
@@ -98,7 +118,7 @@ export interface IDialogOpener extends IOpener {
  * @cfg {String} Опция задает контейнер (через селектор), внутри которого будет позиционироваться окно. Окно не может спозиционироваться за пределами restrictiveContainer.
  * @remark
  * Алгоритм поиска контейнера, внутри которого будут строиться окна:
- * 
+ *
  * * Если задана опция restrictiveContainer, то ищем глобальным поиском класс по селектору, заданному в опции.
  * Если ничего не нашли или опция не задана см. следующий шаг.
  * * Если опция не задана, то ищем глобальным селектором класс "controls-Popup__dialog-target-container".

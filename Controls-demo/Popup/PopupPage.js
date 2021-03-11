@@ -12,7 +12,11 @@ define('Controls-demo/Popup/PopupPage',
 
          openDialog: function () {
             this._children.dialog.open({
-               opener: this._children.dialogButton
+               opener: this._children.dialogButton,
+               resizeDirection: {
+                  vertical: 'top',
+                  horizontal: 'left'
+               }
             });
          },
 
