@@ -1,6 +1,7 @@
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_lookupPopup/SelectedCollection/Popup');
 import 'css!Controls/lookup';
+import 'css!Controls/popup';
 
 /**
  *
