@@ -2071,7 +2071,7 @@ define([
                      showEndButton: true
                   },
                   sourceConfig: {
-                     pageSize: 3,
+                     pageSize: 6,
                      page: 0,
                      hasMore: false
                   }
