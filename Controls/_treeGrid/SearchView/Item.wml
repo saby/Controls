@@ -8,7 +8,6 @@
 </ws:else>
 <ws:else>
    <ws:partial template="{{itemData.resolveItemTemplate(itemData)}}"
-               expanderIcon="none"
                scope="{{_options}}"
                attr:class="{{itemData.level === 1 && !itemData.dispItem.isNode() ? 'controls-TreeGrid__row-rootLeaf' : ''}}"/>
 </ws:else>
