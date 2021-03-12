@@ -182,11 +182,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             wrapperClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
         }
 
-        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle, style)}`;
+        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle)}`;
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
-
         }
 
         return wrapperClasses;
@@ -194,10 +193,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
     protected _getBackgroundColorWrapperClasses(
        theme: string,
+       style: string,
        templateHighlightOnHover?: boolean,
        backgroundColorStyle?: string,
-       hoverBackgroundStyle?: string,
-       style: string = 'default'
+       hoverBackgroundStyle?: string
     ): string {
         let wrapperClasses = '';
         const isSingleCellEditableMode = this._$owner.getEditingConfig()?.mode === 'cell';
@@ -205,14 +204,13 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
             wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme} `;
         } else if (!isSingleCellEditableMode && templateHighlightOnHover !== false) {
-            wrapperClasses += `controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme} `;
+            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme} `;
 
             if (backgroundColorStyle !== 'default') {
-                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}_theme-${theme}`;
+                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}_theme-${theme} `;
             }
-
-            if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
-                wrapperClasses += ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
+            if (backgroundColorStyle !== 'default' || this.getOwner().hasColumnScroll()) {
+                wrapperClasses += `controls-background-${backgroundColorStyle || style}_theme-${theme}`;
             }
         }
         return wrapperClasses;
