@@ -9,7 +9,7 @@
                {{!imageProportion || imageViewMode !== 'rectangle' || imagePosition !== 'top' ? 'controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + imagePosition + '_viewMode_' + imageViewMode + '_theme-' + theme +
                ' controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + (imagePosition !== 'top' ? 'vertical' : 'top') + '_theme-' + theme : ''}}"
         preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}">
-      <image preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}" height="100%" width="100%" xlink:href="{{itemData.imageData.url}}"></image>
+      <image preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}" height="100%" width="100%" transform="translate(0, 0)" xlink:href="{{itemData.imageData.url}}"></image>
    </svg>
    <ws:if data="{{imageEffect === 'gradient' && imageViewMode === 'rectangle' && imagePosition === 'top'}}">
       <div class="controls-TileView__richTemplate_image_effect_gradient"
