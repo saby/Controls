@@ -35,7 +35,8 @@ import * as NumberTypeRender from 'wml!Controls/_gridNew/Render/types/number';
 import * as StringTypeRender from 'wml!Controls/_gridNew/Render/types/string';
 
 import SortingButton from 'Controls/_gridNew/SortingButton';
-import {register} from "Types/di";
+import SortingSelector from 'Controls/_gridNew/SortingSelector';
+import {register} from 'Types/di';
 
 export {
     View,
@@ -55,7 +56,8 @@ export {
     NumberTypeRender,
     StringTypeRender,
     TableTemplate,
-    SortingButton
+    SortingButton,
+    SortingSelector
 };
 
 import {
