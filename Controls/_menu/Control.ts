@@ -671,7 +671,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 markedKey = emptyKey;
             } else {
                 const item = this._listModel.getItemBySourceKey(selectedKeys[0]);
-                if (MenuControl._isFixedItem(item.getContents())) {
+                if (item && MenuControl._isFixedItem(item.getContents())) {
                     markedKey = selectedKeys[0];
                 }
             }

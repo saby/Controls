@@ -620,6 +620,10 @@ define(
             result = menuControl._getMarkedKey([2], 'emptyKey', true);
             assert.equal(result, 2);
 
+            // item out of list
+            result = menuControl._getMarkedKey([123], 'emptyKey', true);
+            assert.isUndefined(result);
+
             // single selection
             result = menuControl._getMarkedKey([1, 2], 'emptyKey');
             assert.equal(result, 1);
