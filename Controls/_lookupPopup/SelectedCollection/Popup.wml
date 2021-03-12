@@ -1,8 +1,8 @@
 <Controls.popupTemplate:InfoBox
         stickyPosition="{{_options.stickyPosition}}"
         attr:class="controls-SelectedCollection__infobox_content">
-   <div class="controls-SelectedCollection__header_wrapper controls-SelectedCollection__header_wrapper_theme-{{_options.theme}}">
-      <span attr:class="controls-SelectedCollection__header_theme-{{_options.theme}}">
+   <div class="controls-SelectedCollection__header_wrapper">
+      <span attr:class="controls-SelectedCollection__header">
          {[Выбрано]}
       </span>
    </div>
@@ -16,7 +16,7 @@
             on:crossClick="_crossClick()"
             on:itemClick="_itemClick()"
             attr:style="width: {{_options.width}}px"
-            attr:class="controls-SelectedCollection__in_popup controls-SelectedCollection__in_popup_theme-{{_options.theme}}">
+            attr:class="controls-SelectedCollection__in_popup controls-SelectedCollection__in_popup">
       </Controls.lookup:Collection>
    </Controls.scroll:Container>
 </Controls.popupTemplate:InfoBox>
