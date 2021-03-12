@@ -25,7 +25,9 @@ var
                 var
                     expanded = false,
                     key;
-                if (contents) {
+                if (contents instanceof Array) {
+                    expanded = true;
+                } else if (contents) {
                     key = contents.get(keyProperty);
                     if (isExpandAll) {
                         expanded = collapsedItems.indexOf(key) === -1 && hasChildItem(key);
