@@ -388,6 +388,14 @@ class StickyController extends BaseController {
         };
     }
 
+    _beforeUpdateOptions(item): void {
+        // sticky must update on elementAfterUpdatePhase
+    }
+
+    _afterUpdateOptions(item): void {
+        // sticky must update on elementAfterUpdatePhase
+    }
+
     private _getRestrictiveContainerCoords(item) {
         if (item.popupOptions.restrictiveContainer) {
             let restrictiveContainer;

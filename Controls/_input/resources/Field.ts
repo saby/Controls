@@ -10,6 +10,7 @@ import {ICallback, IFieldData} from '../interface/IValue';
 import WorkWithSelection from './Field/WorkWithSelection';
 import ChangeEventController, {IConfig as ChangeEventConfig} from './Field/ChangeEventController';
 import MobileFocusController from './MobileFocusController';
+import 'css!Controls/input';
 import {
     split
 } from 'Controls/_input/Base/InputUtil';
@@ -18,7 +19,7 @@ import {FixBugs} from '../FixBugs';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_input/resources/Field/Field';
-import {splitValueForPasting, calculateInputType} from './Util';
+import {splitValueForPasting, calculateInputType, transliterateInput} from './Util';
 import {delay as runDelayed} from 'Types/function';
 import {IText} from 'Controls/decorator';
 
@@ -401,7 +402,21 @@ class Field<Value, ModelOptions>
          * https://online.sbis.ru/opendoc.html?guid=2d76628b-eacc-48ac-837a-99b26009c4e1
          */
         this._selectionFromFieldToModel();
+        const T_KEY_CODE = 84;
+        const PAUSE_KEY_CODE = 19;
+
         this._changeEventController.keyDownHandler(event, this._getConfigForController('changeEventController'));
+
+        if (
+            event.nativeEvent.altKey && event.nativeEvent.keyCode === T_KEY_CODE ||
+            event.nativeEvent.keyCode === PAUSE_KEY_CODE
+        ) {
+            transliterateInput(this._model.value, this._getFieldSelection()).then((value) => {
+                this._updateField(value, this._getFieldSelection());
+                this._updateModel({value});
+                this._notifyEvent('valueChanged');
+            });
+        }
     }
 
     protected _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
@@ -504,8 +519,6 @@ class Field<Value, ModelOptions>
         this._handleInput(splitValue, 'insert');
     }
 
-    static _theme: string[] = ['Controls/input'];
-
     static getOptionTypes(): Partial<Record<keyof IFieldOptions<string, {}>, Function>> {
         return {
             tag: descriptor(String),
@@ -519,5 +532,14 @@ class Field<Value, ModelOptions>
         };
     }
 }
+
+Object.defineProperty(Field, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Field.getDefaultOptions();
+   }
+});
 
 export default Field;

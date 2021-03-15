@@ -1,0 +1,3 @@
+<ws:partial template="wml!Controls/_tileNew/render/items/Default"
+            scope="{{_options}}"
+            itemType="small"/>

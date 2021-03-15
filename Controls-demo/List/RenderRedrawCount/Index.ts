@@ -42,7 +42,7 @@ export default class RenderRedrawDemo extends Control {
     }
 
     protected _afterMount(): void {
-        const baseControl = this._children.listView._children.listControl._children.baseControl;
+        const baseControl = this._children.listView._children.listControl;
         const model = baseControl.getViewModel();
         this._redrawCounters(model);
 

@@ -7,12 +7,13 @@ import DataCell, { IOptions as IGridDataCellOptions } from './DataCell';
 import ILadderSupport from './interface/ILadderSupport';
 import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDisplaySearchValue';
 import ItemActionsCell from './ItemActionsCell';
-import {IColumn} from "../../_grid/interface/IColumn";
+import {IColumn} from 'Controls/interface';
+import { Model } from 'Types/entity';
 
 export interface IOptions<T> extends IRowOptions<T>, IDisplaySearchValueOptions {
 }
 
-export default class DataRow<T> extends Row<T> implements
+export default class DataRow<T extends Model> extends Row<T> implements
     IMarkable,
     ILadderSupport,
     ISelectableItem,
@@ -21,11 +22,13 @@ export default class DataRow<T> extends Row<T> implements
     protected _$searchValue: string;
 
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = true;
+    readonly DisplayItemActions: boolean = true;
     readonly DisplaySearchValue: boolean = true;
     readonly LadderSupport: boolean = true;
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
     readonly DraggableItem: boolean = true;
+    readonly ItemActionsItem: boolean = true;
     private _$editingColumnIndex: number;
     protected _$hasStickyGroup: boolean;
 

@@ -1,0 +1,25 @@
+.controls-TreeTileView__checkbox {
+   left: 0;
+}
+
+.ws-is-ie, .ws-is-chrome-xp {
+   .controls-TileView__smallTemplate_item .controls-TreeTileView__checkbox,
+   .controls-TreeTileView__itemActions_center {
+      //IE and chrome on XP can't correctly align absolutely-positioned flex children: https://codepen.io/anon/pen/MqazJv
+      top: 50%;
+      transform: translateY(-50%);
+   }
+}
+
+//TODO: Можно убрать после решения задачи: https://online.sbis.ru/opendoc.html?guid=38c5aa2c-f30c-42e9-a654-5358bc7691fd
+.controls-itemActionsV.controls-TreeTileView__itemActions_center {
+   bottom: auto;
+   right: 0;
+   overflow: visible;
+   padding-right: @item_padding_itemActions;
+}
+//TODO: end
+
+.controls-TreeTileView__separator {
+   width: 100%;
+}

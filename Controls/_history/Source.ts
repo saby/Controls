@@ -697,6 +697,20 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
  * @default true
  * @cfg {Boolean} Флаг, определяющий будет ли снят пин с записи, которой нет в данных
  */
+
+/**
+ * @name Controls/_history/Source#pinned
+ * @cfg {String[]} Массив ключей элементов, которые по умолчанию должны быть запинены.
+ * @example
+ * <pre class="brush: js">
+ *    this._source = new HistorySource({
+ *       originSource: ...,
+ *       historySource: new HistoryService(),
+ *       pinned: ['1', '2', '3']
+ *    });
+ * </pre>
+ */
+
 /*
  * @name Controls/_history/Source#historySource
  * @cfg {Source} A source which work with history

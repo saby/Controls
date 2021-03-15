@@ -1,13 +1,12 @@
 <ws:if data="{{caption || icon}}">
-    <div class="{{icon ? 'controls-Checkbox_iconInCaption_theme-'+(_options.theme) :
-                 'controls-Checkbox__caption controls-Checkbox__caption_theme-'+(_options.theme)}}
-                  controls-Checkbox__caption-color__{{readOnly ? 'disabled':'enabled'}}_theme-{{_options.theme}}">
+    <div class="{{icon ? 'controls-Checkbox_iconInCaption' :
+                 'controls-Checkbox__caption controls-Checkbox__caption'}}
+                  controls-Checkbox__caption-color__{{readOnly ? 'disabled':'enabled'}}">
         <ws:if data="{{caption}}">
             <ws:partial template="{{caption}}"/>
         </ws:if>
         <ws:else data="{{icon}}">
-            <i class="controls-icon {{icon}} controls-icon_size-{{iconSize}}_theme-{{_options.theme}}
-                          controls-icon_style-{{iconStyle}}_theme-{{_options.theme}}"/>
+            <i class="controls-icon {{icon}} controls-icon_size-{{iconSize}} controls-icon_style-{{iconStyle}}"/>
         </ws:else>
     </div>
 </ws:if>

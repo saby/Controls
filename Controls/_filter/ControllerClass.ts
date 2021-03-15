@@ -43,7 +43,7 @@ export interface IFilterControllerOptions {
     excludedKeys?: TKeysSelection;
     source?: ICrud;
     selectionViewMode?: string;
-    historySaveCallback?: (historyData: Record<string, any>, filterButtonItems: IFilterItem[]) => void;
+    historySaveCallback?: (historyData: Record<string, unknown>, filterButtonItems: IFilterItem[]) => void;
 }
 
 const getPropValue = Utils.object.getPropertyValue.bind(Utils);

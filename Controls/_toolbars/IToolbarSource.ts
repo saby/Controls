@@ -34,7 +34,20 @@ export default interface IToolbarSource {
  * @variant left Текст расположен перед иконкой.
  * @variant right Текст расположен после иконки.
  */
-
+export interface IToolBarItem {
+    readonly?: boolean;
+    caption?: string;
+    contrastBackground?: boolean;
+    iconStyle?: string;
+    icon?: string;
+    title?: string;
+    showHeader?: boolean;
+    tooltip?: string;
+    showType?: 0 | 1 | 2;
+    viewMode?: string;
+    captionPosition?: 'left' | 'right';
+    buttonStyle?: string;
+}
 /**
  * @typedef {Object} Controls/_toolbars/IToolbarSource/Item
  * @property {Boolean} [item.readOnly] Определяет, может ли пользователь изменить значение контрола. См. {@link UI/_base/Control#readOnly подробнее}.

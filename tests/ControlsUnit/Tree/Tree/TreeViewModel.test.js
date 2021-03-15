@@ -199,6 +199,7 @@ define([
                            return null;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => undefined,
                      getExpanderPosition: () => 'default'
                   }
@@ -209,6 +210,7 @@ define([
                            return null;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => 'testIcon',
                      getExpanderPosition: () => 'default'
                   },
@@ -220,6 +222,7 @@ define([
                            return null;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => 'none',
                      getExpanderPosition: () => 'default'
                   },
@@ -231,6 +234,7 @@ define([
                            return false;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => undefined,
                      getExpanderPosition: () => 'default'
                   }
@@ -241,6 +245,7 @@ define([
                            return false;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => 'testIcon',
                      getExpanderPosition: () => 'default'
                   },
@@ -252,6 +257,7 @@ define([
                            return false;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => 'none',
                      getExpanderPosition: () => 'default'
                   },
@@ -263,6 +269,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => undefined,
                      getExpanderPosition: () => 'default'
                   }
@@ -273,6 +280,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => 'testIcon',
                      getExpanderPosition: () => 'default'
                   },
@@ -284,6 +292,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => 'none',
                      getExpanderPosition: () => 'default'
                   },
@@ -295,6 +304,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => 'testIcon',
                      getExpanderPosition: () => 'custom'
                   },
@@ -311,6 +321,7 @@ define([
             var
                shouldDrawExpanderPadding = tree.TreeViewModel._private.shouldDrawExpanderPadding;
             assert.isTrue(shouldDrawExpanderPadding({
+               dispItem: {},
                getExpanderIcon: () => 'node',
                getExpanderPosition: () => 'default',
                getExpanderSize: () => undefined,
@@ -318,6 +329,7 @@ define([
                thereIsChildItem: true
             }, 'node', undefined));
             assert.isTrue(shouldDrawExpanderPadding({
+               dispItem: {},
                getExpanderIcon: () => 'node',
                getExpanderPosition: () => 'default',
                getExpanderSize: () => undefined,
@@ -325,6 +337,7 @@ define([
                thereIsChildItem: false
             }, 'node', undefined));
             assert.isTrue(shouldDrawExpanderPadding({
+               dispItem: {},
                getExpanderIcon: () => 'node',
                getExpanderPosition: () => 'default',
                getExpanderSize: () => undefined,
@@ -332,6 +345,7 @@ define([
                thereIsChildItem: true
             }, 'node', undefined));
             assert.isFalse(shouldDrawExpanderPadding({
+               dispItem: {},
                getExpanderIcon: () => 'none',
                getExpanderPosition: () => 'default',
                getExpanderSize: () => undefined,
@@ -339,6 +353,7 @@ define([
                thereIsChildItem: true
             }, 'none', undefined));
             assert.isFalse(shouldDrawExpanderPadding({
+               dispItem: {},
                getExpanderIcon: () => 'none',
                getExpanderPosition: () => 'default',
                getExpanderSize: () => undefined,
@@ -346,6 +361,7 @@ define([
                thereIsChildItem: true
             }, 'none', undefined));
             assert.isFalse(shouldDrawExpanderPadding({
+               dispItem: {},
                getExpanderIcon: () => 'node',
                getExpanderPosition: () => 'default',
                getExpanderSize: () => undefined,
@@ -421,11 +437,11 @@ define([
                 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_l_theme-default',
                 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_xl_theme-default',
             ];
-            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({theme, getExpanderSize: () => undefined}, undefined), expectation[0]);
-            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({theme, getExpanderSize: () => 's'}, 's'), expectation[1]);
-            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({theme, getExpanderSize: () => 'm'}, 'm'), expectation[2]);
-            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({theme, getExpanderSize: () => 'l'}, 'l'), expectation[3]);
-            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({theme, getExpanderSize: () => 'xl'}, 'xl'), expectation[4]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({dispItem: {}, theme, getExpanderSize: () => undefined}, undefined), expectation[0]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({dispItem: {}, theme, getExpanderSize: () => 's'}, 's'), expectation[1]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({dispItem: {}, theme, getExpanderSize: () => 'm'}, 'm'), expectation[2]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({dispItem: {}, theme, getExpanderSize: () => 'l'}, 'l'), expectation[3]);
+            assert.equal(tree.TreeViewModel._private.getExpanderPaddingClasses({dispItem: {}, theme, getExpanderSize: () => 'xl'}, 'xl'), expectation[4]);
          });
          it('getExpanderClasses', function() {
             var
@@ -441,6 +457,7 @@ define([
                            return false;
                         }
                      },
+                     dispItem: {},
                      getExpanderIcon: () => undefined,
                      getExpanderPosition: () => 'default',
                      getExpanderSize: () => undefined,
@@ -454,6 +471,7 @@ define([
                            return false;
                         }
                      },
+                     dispItem: {},
                      itemPadding,
                      getExpanderIcon: () => 'testIcon',
                      getExpanderPosition: () => 'default',
@@ -468,6 +486,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      itemPadding,
                      getExpanderIcon: () => undefined,
                      getExpanderPosition: () => 'default',
@@ -481,6 +500,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      itemPadding,
                      getExpanderIcon: () => 'testIcon',
                      getExpanderPosition: () => 'default',
@@ -495,6 +515,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      itemPadding,
                      getExpanderIcon: () => 'node',
                      getExpanderPosition: () => 'default',
@@ -509,6 +530,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      itemPadding,
                      getExpanderIcon: () => 'hiddenNode',
                      getExpanderPosition: () => 'default',
@@ -523,6 +545,7 @@ define([
                            return true;
                         }
                      },
+                     dispItem: {},
                      itemPadding,
                      getExpanderIcon: () => 'hiddenNode',
                      getExpanderPosition: () => 'right',
@@ -563,6 +586,7 @@ define([
                                       return true;
                                   }
                               },
+                              dispItem: {},
                               itemPadding,
                               getExpanderIcon: () => 'node',
                               getExpanderPosition: () => 'default',
@@ -579,6 +603,7 @@ define([
                                       return true;
                                   }
                               },
+                              dispItem: {},
                               itemPadding,
                               getExpanderIcon: () => 'node',
                               getExpanderPosition: () => 'right',
@@ -595,6 +620,7 @@ define([
                                       return true;
                                   }
                               },
+                              dispItem: {},
                               itemPadding,
                               getExpanderIcon: () => 'hiddenNode',
                               getExpanderPosition: () => 'default',
@@ -611,6 +637,7 @@ define([
                                       return true;
                                   }
                               },
+                              dispItem: {},
                               itemPadding,
                               getExpanderIcon: () => 'hiddenNode',
                               getExpanderPosition: () => 'right',

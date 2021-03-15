@@ -31,6 +31,7 @@ import {descriptor} from "Types/entity";
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IOpenPopup
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
+ * @mixes Controls/_interface/IDateRangeValidators
  *
  * @public
  * @author Красильников А.С.
@@ -187,3 +188,12 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
  * @param {Date} startValue верхняя граница диапазона дат
  * @param {Date} endValue нижняя граница диапазона дат
  */
+
+Object.defineProperty(RangeSelector, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return RangeSelector.getDefaultOptions();
+   }
+});

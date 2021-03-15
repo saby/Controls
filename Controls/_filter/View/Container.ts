@@ -1,10 +1,9 @@
-import {Control} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_filter/View/Container';
 import {default as Store} from 'Controls/Store';
 import mergeSource from 'Controls/_filter/Utils/mergeSource';
-import clone = require('Core/core-clone');
-import {RecordSet} from "Types/collection";
-import {IFilterItem} from "Controls/_filter/View/interface/IFilterView";
+import {RecordSet} from 'Types/collection';
+import {IFilterItem} from 'Controls/_filter/View/interface/IFilterView';
 /**
  * Контрол используют в качестве контейнера для {@link Controls/filter:View}. Он обеспечивает передачу параметров фильтрации между {@link Controls/filter:Controller} и {@link Controls/filter:View}.
  * @remark
@@ -28,30 +27,63 @@ import {IFilterItem} from "Controls/_filter/View/interface/IFilterView";
  * @class Controls/_filter/View/Container
  * @extends UI/Base:Control
  * @author Герасимов А.М.
- * 
+ *
  * @public
  */
 
-var Container = Control.extend(/** @lends Controls/_filter/View/Container.prototype */{
+class Container extends Control<IControlOptions> {
 
-    _template: template,
+    protected _template: TemplateFunction = template;
+    protected _source: IFilterItem[];
 
-    _beforeMount(options): void {
+    protected _beforeMount(options): void {
         if (options.useStore) {
             this._initState(options.preloadedSources);
         }
-    },
+    }
 
-    _afterMount(options): void {
+    protected _afterMount(options): void {
         if (options.useStore) {
             this._createNewStoreObserver();
             this._storeCtxCallbackId = Store.onPropertyChanged('_contextName', () => {
                 this._createNewStoreObserver();
             }, true);
         }
-    },
+    }
 
-    _createNewStoreObserver(): void {
+    protected _beforeUpdate(options): void {
+        if (options.useStore) {
+            this._initState(options.preloadedSources, this._options.preloadedSources);
+        }
+    }
+
+    protected _beforeUnmount(): void {
+        if (this._sourceChangedCallbackId) {
+            Store.unsubscribe(this._sourceChangedCallbackId);
+        }
+        if (this._storeCtxCallbackId) {
+            Store.unsubscribe(this._storeCtxCallbackId);
+        }
+    }
+
+    protected _itemsChanged(event: Event, items: IFilterItem[]): void {
+        event.stopPropagation();
+        if (this._options.useStore) {
+            Store.dispatch('filterSource', items ? [...items] : []);
+        } else {
+            this._notify('filterItemsChanged', [items], {bubbling: true});
+        }
+    }
+
+    protected _filterChanged(event: Event): void {
+        event.stopPropagation();
+    }
+
+    protected _historyApply(event: Event, history): void {
+        this._notify('filterHistoryApply', [history], {bubbling: true});
+    }
+
+    private _createNewStoreObserver(): void {
         if (this._sourceChangedCallbackId) {
             Store.unsubscribe(this._sourceChangedCallbackId);
         }
@@ -59,24 +91,9 @@ var Container = Control.extend(/** @lends Controls/_filter/View/Container.protot
         this._sourceChangedCallbackId = Store.onPropertyChanged('filterSource', (filterSource) => {
             this._source = filterSource;
         });
-    },
+    }
 
-    _beforeUpdate(options): void {
-        if (options.useStore) {
-            this._initState(options.preloadedSources, this._options.preloadedSources);
-        }
-    },
-
-    _beforeUnmount(): void {
-        if (this._sourceChangedCallbackId) {
-            Store.unsubscribe(this._sourceChangedCallbackId);
-        }
-        if (this._storeCtxCallbackId) {
-            Store.unsubscribe(this._storeCtxCallbackId);
-        }
-    },
-
-    _initState(newPreloadedSources, oldPreloadedSources): void {
+    private _initState(newPreloadedSources, oldPreloadedSources): void {
         if (newPreloadedSources !== oldPreloadedSources) {
             if (newPreloadedSources && newPreloadedSources[0]) {
                 const mainSource = newPreloadedSources[0];
@@ -92,9 +109,9 @@ var Container = Control.extend(/** @lends Controls/_filter/View/Container.protot
                 this._source = null;
             }
         }
-    },
+    }
 
-    _getSourceByHistory(source, historyItems) {
+    private _getSourceByHistory(source, historyItems): IFilterItem[] {
         let result;
         if (source) {
             if (typeof source === 'function') {
@@ -106,9 +123,9 @@ var Container = Control.extend(/** @lends Controls/_filter/View/Container.protot
             }
         }
         return result;
-    },
+    }
 
-    _cloneItems(items: IFilterItem[]|RecordSet<IFilterItem>): IFilterItem[] {
+    private _cloneItems(items: IFilterItem[]|RecordSet<IFilterItem>): IFilterItem[] {
         let resultItems;
 
         if (items['[Types/_entity/CloneableMixin]']) {
@@ -120,25 +137,8 @@ var Container = Control.extend(/** @lends Controls/_filter/View/Container.protot
             });
         }
         return resultItems;
-    },
-
-    _itemsChanged(event: Event, items): void {
-       event.stopPropagation();
-       if (this._options.useStore) {
-           Store.dispatch('filterSource', items ? [...items] : []);
-       } else {
-           this._notify('filterItemsChanged', [items], {bubbling: true});
-       }
-    },
-
-   _filterChanged(event: Event): void {
-      event.stopPropagation();
-   },
-
-    _historyApply(event: Event, history): void {
-        this._notify('filterHistoryApply', [history], {bubbling: true});
     }
-}, {});
+}
 /**
  * @event Происходит при изменении элементов.
  * @name Controls/_filter/View/Container#filterItemsChanged

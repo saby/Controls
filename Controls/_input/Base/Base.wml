@@ -41,6 +41,7 @@
                      scope="{{_field.scope}}"
                      autoWidth="{{_autoWidth}}"
                      fieldName="{{_fieldName}}"
+                     horizontalPadding="{{_horizontalPadding}}"
                      template="{{_field.template}}"
                      wasActionUser="{{_wasActionUser}}"
                      value="{{_viewModel.displayValue}}"

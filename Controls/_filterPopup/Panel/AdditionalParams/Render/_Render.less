@@ -3,16 +3,16 @@
    align-items: baseline;
 }
 
-.controls-AdditionalParamsRender__items_theme-@{themeName} {
-   margin-left: @extended_content_padding-left_filterPanel - @extended_heading_padding-left_filterPanel;
+.controls-AdditionalParamsRender__items {
+   margin-left: calc(var(--extended_content_padding-left_filterPanel) - var(--extended_heading_padding-left_filterPanel));
 }
 
 .controls-AdditionalParamsRender_block-maxHeight {
    overflow: hidden;
 }
 
-.controls-AdditionalParamsRender_block-maxHeight_theme-@{themeName} {
-   max-height: @extended_max-height_filterPanel;
+.controls-AdditionalParamsRender_block-maxHeight {
+   max-height: var(--extended_max-height_filterPanel);
 }
 
 .controls-AdditionalParamsRender__heading {
@@ -20,10 +20,10 @@
    align-items: center;
 }
 
-.controls-AdditionalParamsRender__heading_theme-@{themeName} {
-   font-size: @extended_heading_font-size_filterPanel;
-   color: @extended_heading_text-color_filterPanel;
-   height: @extended_heading_height_filterPanel;
+.controls-AdditionalParamsRender__heading {
+   font-size: var(--extended_heading_font-size_filterPanel);
+   color: var(--extended_heading_text-color_filterPanel);
+   height: var(--extended_heading_height_filterPanel);
 }
 
 .controls-AdditionalParamsRender__item {
@@ -31,14 +31,14 @@
    align-items: center;
 }
 
-.controls-AdditionalParamsRender__item_theme-@{themeName} {
-   color: @extended_item_text-color_filterPanel;
-   font-size: @extended_item_font-size_filterPanel;
-   height: @extended_item_height_filterPanel;
+.controls-AdditionalParamsRender__item {
+   color: var(--extended_item_text-color_filterPanel);
+   font-size: var(--extended_item_font-size_filterPanel);
+   height: var(--extended_item_height_filterPanel);
 }
 
-.controls-AdditionalParamsRender__item_left_theme-@{themeName} {
-   padding-right: @extended_item_padding-right_filterPanel;
+.controls-AdditionalParamsRender__item_left {
+   padding-right: var(--extended_item_padding-right_filterPanel);
 }
 
 .controls-AdditionalParamsRender__items-leftColumn {
@@ -58,10 +58,10 @@
    flex-shrink: 1;
 }
 
-.controls-AdditionalParamsRender__group_theme-@{themeName} {
-   height: @extended_group_height_filterPanel;
+.controls-AdditionalParamsRender__group {
+   height: var(--extended_group_height_filterPanel);
 }
 
 .controls-AdditionalParamsRender-withGroup {
-   margin-top: -@extended_group_height_filterPanel;
+   margin-top: calc(-1 * var(--extended_group_height_filterPanel));
 }

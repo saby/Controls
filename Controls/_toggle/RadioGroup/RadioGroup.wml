@@ -1,17 +1,16 @@
-<div class="controls-GroupRadio{{_options.readOnly ? '_disabled': '_enabled'}}">
+<div class="controls-GroupRadio controls-GroupRadio{{_options.readOnly ? '_disabled': '_enabled'}} controls_theme-{{_options.theme}}">
     <div class="controls-invalid-container">
         <div class="controls-RadioGroup__wrapper_{{_options.direction}}">
             <ws:for data="index, item in _items">
                 <ws:partial template="{{item[_options.itemTemplateProperty] || _options.itemTemplate || _defaultItemTemplate}}"
                             on:click="_selectKeyChanged(item, _options.keyProperty)"
-                            attr:class="controls-RadioGroup_defaultItem_{{_options.direction}}_theme-{{_options.theme}}
-                                        controls-RadioItem__wrapper_theme-{{_options.theme}}
+                            attr:class="controls-RadioGroup_defaultItem_{{_options.direction}}
                                         controls-RadioItem__wrapper"
                             item="{{item}}"
                             readOnly="{{_options.readOnly || item['readOnly']}}"
                             selected="{{item[_options.keyProperty] === _options.selectedKey}}"/>
             </ws:for>
         </div>
-        <div class="{{_options.validationStatus!== 'valid' ? 'controls-invalid-border controls-' + _options.validationStatus + '-border_theme-' + _options.theme}}"></div>
+        <div class="{{_options.validationStatus!== 'valid' ? 'controls-invalid-border controls-' + _options.validationStatus + '-border'}}"></div>
     </div>
 </div>

@@ -540,6 +540,19 @@ define(
             sinon.restore();
          });
 
+         it('_startOpeningTimeout', () => {
+            let isHandledItem = false;
+            const clock = sinon.useFakeTimers();
+            let menuControl = getMenu();
+            menuControl._handleCurrentItem = () => {
+               isHandledItem = true;
+            };
+            menuControl._startOpeningTimeout();
+            clock.tick(400);
+            assert.isTrue(isHandledItem);
+            clock.restore();
+         });
+
          it('getTemplateOptions', function() {
             let menuControl = getMenu();
             menuControl._isLoadedChildItems = () => true;
@@ -760,7 +773,7 @@ define(
             let selectCompleted = false, closed = false, opened = false, actualOptions;
 
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                opened = true;
                actualOptions = tplOptions;
                return Promise.resolve();
@@ -805,7 +818,7 @@ define(
             };
             items.push(emptyItem);
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                selectorOptions = tplOptions;
                return Promise.resolve();
             });

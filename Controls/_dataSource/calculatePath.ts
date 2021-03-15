@@ -2,12 +2,13 @@ import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 
-type Path = null|Model[];
+export type Path = null|Model[];
 
 interface IPathResult {
     path: Path;
     pathWithoutItemForBackButton: Path;
     backButtonCaption: string|null;
+    backButtonItem: Model;
 }
 
 function getPath(data: RecordSet|[]): Path {
@@ -33,6 +34,16 @@ function getBackButtonCaption(path: Path, displayProperty?: string): string {
     return caption;
 }
 
+function getBackButtonItem(path: Path): Model {
+    let item;
+
+    if (path && path.length >= 1) {
+        item = path[path.length - 1];
+    }
+
+    return item;
+}
+
 function getPathWithoutItemForBackButton(breadCrumbs: Path): Path {
     let breadCrumbsWithoutItemForBackButton = null;
 
@@ -49,6 +60,7 @@ export default function calculatePath(data: RecordSet, displayProperty?: string)
     return {
         path,
         pathWithoutItemForBackButton: getPathWithoutItemForBackButton(path),
+        backButtonItem: getBackButtonItem(path),
         backButtonCaption: getBackButtonCaption(path, displayProperty)
     };
 }

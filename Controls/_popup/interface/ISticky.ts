@@ -154,7 +154,7 @@ export interface IStickyOpener extends IOpener {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions>{
  *    _open() {
  *       var popupOptions = {
  *          target: this._children.target,
@@ -164,11 +164,11 @@ export interface IStickyOpener extends IOpener {
  *          }
  *       }
  *       this._children.sticky.open(popupOptions);
- *    },
+ *    }
  *    _close() {
  *       this._children.sticky.close()
  *    }
- * });
+ * }
  * </pre>
  * @return Promise<string|indefined>
  * @see close

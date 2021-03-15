@@ -61,6 +61,7 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {Object} Controls/interface/IEditableList/EditingConfig
+    * @property {Boolean} [autoAddOnInit=false] Если передано значение "true", при построении списка автомати начнется рдобавление по месту, при условии, что список пустой.
     * @property {Boolean} [editOnClick=false] Если передано значение "true", клик по элементу списка начинает редактирование по месту.
     * @property {Boolean} [autoAdd=false] Если передано значение "true", после окончания редактирования последнего (уже существующего) элемента списка автоматически добавляется новый элемент и начинается его редактирование.
     * @property {Boolean} [autoAddByApplyButton=true] Если передано значение "true", после окончания редактирования только что добавленного элемента списка автоматически добавляется новый элемент и начинается его редактирование.
@@ -145,6 +146,7 @@ define('Controls/interface/IEditableList', [
 
    /*
     * @typedef {Object} Controls/interface/IEditableList/EditingConfig
+    * @property {Boolean} [autoAddOnInit=false] If true, auto adding will start on initializing if list is empty.
     * @property {Boolean} [editOnClick=false] If true, click on list item starts editing in place.
     * @property {Boolean} [autoAdd=false] If true, after the end of editing of the last list item, new item adds automatically and its editing begins.
     * @property {Boolean} [sequentialEditing=true] If true, after the end of editing of any list item other than the last, editing of the next list item starts automatically.
@@ -577,7 +579,7 @@ define('Controls/interface/IEditableList', [
     * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * @function Controls/interface/IEditableList#beginEdit
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры редактирования.
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Перед запуском редактирования по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
     *
@@ -607,7 +609,7 @@ define('Controls/interface/IEditableList', [
     * Starts editing.
     * @function Controls/interface/IEditableList#beginEdit
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Options of editing.
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Use this method in situations when you want to start editing from an unusual location, e.g., from item actions.
     * @example
@@ -633,7 +635,7 @@ define('Controls/interface/IEditableList', [
     * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ добавление по месту}.
     * @function Controls/interface/IEditableList#beginAdd
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры добавления.
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Перед запуском добавления по месту происходит событие {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}, а после запуска — {@link Controls/interface/IEditableList#afterBeginEdit afterBeginEdit}.
     *
@@ -668,7 +670,7 @@ define('Controls/interface/IEditableList', [
     * Starts adding.
     * @function Controls/interface/IEditableList#beginAdd
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Options of adding.
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * If you don't pass the options then {@link Types/source:ICrud#create create} method of the list's source will be called and the result will be added to the list.
     * @example
@@ -691,7 +693,7 @@ define('Controls/interface/IEditableList', [
    /**
     * Завершает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} с сохранением введенных данных.
     * @function Controls/interface/IEditableList#commitEdit
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя, например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
     * @example
@@ -714,7 +716,7 @@ define('Controls/interface/IEditableList', [
    /*
     * Ends editing and commits changes.
     * @function Controls/interface/IEditableList#commitEdit
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Use this method when you want to end editing in response to user action, e.g., when a user tries to close a dialog you'd use this method to save changes.
     * @example
@@ -737,7 +739,7 @@ define('Controls/interface/IEditableList', [
    /**
     * Завершает{@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} без сохранения введенных данных.
     * @function Controls/interface/IEditableList#cancelEdit
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Используйте этот метод, когда вы хотите завершить редактирование или добавление в ответ на действия пользователя, например, когда пользователь нажимает на кнопку "Отмена".
     * @example
@@ -760,7 +762,7 @@ define('Controls/interface/IEditableList', [
    /*
     * Ends editing and discards changes.
     * @function Controls/interface/IEditableList#cancelEdit
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Use this method when you want to end editing in response to user action, e.g., when a user clicks on a 'Cancel' button.
     * @example

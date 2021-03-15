@@ -314,13 +314,22 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return {
             style: 'primary',
             inlineHeight: 's',
-            markerThickness: 's',
+            markerThickness: 'l',
             borderVisible: true,
             separatorVisible: true,
             displayProperty: 'title'
         };
     }
 }
+
+Object.defineProperty(TabsButtons, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return TabsButtons.getDefaultOptions();
+   }
+});
 
 /**
  * @name Controls/_tabs/ITabsTemplate#tabSpaceTemplate

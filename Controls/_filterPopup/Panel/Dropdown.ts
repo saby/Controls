@@ -3,22 +3,23 @@ import template = require('wml!Controls/_filterPopup/Panel/Dropdown/Dropdown');
 import {List} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/filterPopup';
 
-   /**
-    * Контрол, позволяющий выбрать значение из списка. Отображается в виде ссылки и используется на панели фильтров.
-    * Текст ссылки отображает выбранные значения. Значения выбирают в выпадающем меню, которое по умолчанию скрыто.
-    * 
-    * @remark
-    * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
-    *
-    * Полезные ссылки:
-    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
-    * 
-    * @class Controls/_filterPopup/Panel/Dropdown
-    * @extends Controls/_dropdown/Input
-    * @public
-    * @author Герасимов А.М.
-    */
+/**
+ * Контрол, позволяющий выбрать значение из списка. Отображается в виде ссылки и используется на панели фильтров.
+ * Текст ссылки отображает выбранные значения. Значения выбирают в выпадающем меню, которое по умолчанию скрыто.
+ *
+ * @remark
+ * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
+ *
+ * Полезные ссылки:
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
+ *
+ * @class Controls/_filterPopup/Panel/Dropdown
+ * @extends Controls/_dropdown/Input
+ * @public
+ * @author Герасимов А.М.
+ */
 
 class FilterDropdown extends Control<IControlOptions> {
       protected _template: TemplateFunction = template;
@@ -49,14 +50,22 @@ class FilterDropdown extends Control<IControlOptions> {
          this._notify('dropDownClose');
       }
 
-      static _theme: string[] = ['Controls/filterPopup'];
-
       static getDefaultOptions(): object {
          return {
             displayProperty: 'title'
          };
       }
    }
+
+Object.defineProperty(FilterDropdown, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return FilterDropdown.getDefaultOptions();
+   }
+});
+
 export default FilterDropdown;
 /**
  * @name Controls/_filterPopup/Panel/Dropdown#showCross

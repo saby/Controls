@@ -1,4 +1,4 @@
-<div class="controls-operationsPanelV__container">
+<div class="controls_theme-{{_options.theme}} controls-operationsPanelV__container">
     <Controls.dropdown:Button name="myMenuButton2"
                               keyProperty="id"
                               viewMode="link"

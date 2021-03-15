@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo_m">
+        <Controls.dropdown:Combobox bind:selectedKey="_selectedKey"
+                                    keyProperty="key"
+                                    displayProperty="title"
+                                    emptyText="Not selected"
+                                    source="{{_source}}">
+        </Controls.dropdown:Combobox>
+    </div>
+</div>

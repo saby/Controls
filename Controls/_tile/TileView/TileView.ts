@@ -3,7 +3,7 @@ import template = require('wml!Controls/_tile/TileView/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/TileView/TileTpl');
 import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
 import {TouchContextField} from 'Controls/context';
-import ItemSizeUtils = require('Controls/_tile/TileView/resources/ItemSizeUtils');
+import { getItemSize } from 'Controls/tileNew';
 
 var _private = {
     getPositionInContainer: function (itemNewSize, itemRect, containerRect, zoomCoefficient, withoutCorrection = false) {
@@ -267,7 +267,7 @@ var TileView = ListView.extend({
                 if (documentForUnits) {
                     itemSize = itemContainerRect;
                 } else {
-                    itemSize = ItemSizeUtils.getItemSize(itemContainer, 1, this._options.tileMode);
+                    itemSize = getItemSize(itemContainer, 1, this._options.tileMode);
                 }
                 let position = _private.getPositionInContainer(itemSize, itemContainerRect, containerRect, 1, true);
                 const documentRect = documentObject.documentElement.getBoundingClientRect();
@@ -277,7 +277,7 @@ var TileView = ListView.extend({
                 this._setHoveredItem(itemData, null, null, null, itemContainerRect.width);
             }
         } else {
-            itemSize = ItemSizeUtils.getItemSize(itemContainer, this._getZoomCoefficient(), this._options.tileMode);
+            itemSize = getItemSize(itemContainer, this._getZoomCoefficient(), this._options.tileMode);
             this._prepareHoveredItem(itemData, itemContainerRect, itemSize, containerRect);
         }
     },
@@ -355,6 +355,15 @@ TileView.getDefaultOptions = function () {
         tileScalingMode: TILE_SCALING_MODE.NONE
     };
 };
+
+Object.defineProperty(TileView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return TileView.getDefaultOptions();
+   }
+});
 
 TileView.contextTypes = function contextTypes() {
     return {

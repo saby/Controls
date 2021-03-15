@@ -1,3 +1,3 @@
-<span attr:class="controls-FilterLink controls-FilterLink_theme-{{_options.theme}}" on:click="_clickHandler()">
-    <span attr:class="controls-FilterLink__text controls-FilterLink__text_theme-{{_options.theme}}">{{_options.caption}}</span>
+<span attr:class="controls_theme-{{_options.theme}} controls-FilterLink" on:click="_clickHandler()">
+    <span attr:class="controls-FilterLink__text">{{_options.caption}}</span>
 </span>

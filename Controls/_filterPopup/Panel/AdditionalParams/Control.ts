@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_filterPopup/Panel/AdditionalParams/Control/Control';
 import {default as ItemsController} from './Controllers/AdditionalItems';
 import {IFilterItem} from 'Controls/filter';
+import 'css!Controls/filterPopup';
 
 interface IAdditionalRenderOptions extends IControlOptions {
     groupProperty: string;
@@ -45,11 +46,18 @@ export default class AdditionalParamsControl extends Control<IAdditionalRenderOp
         const source = this._itemsController.handleUpdateItem(item, property, value);
         this._notify('sourceChanged', [source]);
     }
-
-    static _theme: string[] = ['Controls/filterPopup'];
     static getDefaultOptions(): object {
         return {
             render: 'Controls/filterPopup:AdditionalPanelTemplate'
         };
     }
 }
+
+Object.defineProperty(AdditionalParamsControl, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return AdditionalParamsControl.getDefaultOptions();
+   }
+});

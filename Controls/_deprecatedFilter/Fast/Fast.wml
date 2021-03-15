@@ -1,19 +1,19 @@
-<div class="controls-FastFilter_theme_{{_options.theme}}" name="fastFilter">
+<div class="controls_theme-{{_options.theme}} controls-FastFilter" name="fastFilter">
    <ws:for data="index, item in _items">
       <ws:if data="{{_configs[index]._items && _configs[index]._items.getCount()}}">
-         <div class="controls-FastFilter__wrapper_theme_{{_options.theme}}
-                     controls-FastFilter__wrapper_state{{_options.readOnly ? 'readOnly' : 'enabled'}}_theme_{{_options.theme}}
+         <div class="controls-FastFilter__wrapper
+                     controls-FastFilter__wrapper_state{{_options.readOnly ? 'readOnly' : 'enabled'}}
                      {{ _needShowCross(item) ? 'controls-FastFilter__wrapper-changed'}}">
-            <div class="controls-FastFilter__block_theme_{{_options.theme}}" on:click="_open(item, index)">
-               <div class="controls-FastFilter__iconArrow_theme_{{_options.theme}} icon-DayForward controls-FastFilter__iconArrow_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}_theme_{{_options.theme}}"></div>
-               <div class="controls-FastFilter__text-wrapper_theme_{{_options.theme}} controls-FastFilter__text_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}_theme_{{_options.theme}}"
+            <div class="controls-FastFilter__block" on:click="_open(item, index)">
+               <div class="controls-FastFilter__iconArrow icon-DayForward controls-FastFilter__iconArrow_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}"></div>
+               <div class="controls-FastFilter__text-wrapper controls-FastFilter__text_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}"
                     title="{{_configs[index].title}}">
-                  <div class="controls-FastFilter__text_theme_{{_options.theme}}">{{_configs[index].text}}</div>
-                  <span if="{{_configs[index].hasMoreText}}" class="controls-FastFilter__hasMoreText_theme_{{_options.theme}}">{{_configs[index].hasMoreText}}</span>
+                  <div class="controls-FastFilter__text">{{_configs[index].text}}</div>
+                  <span if="{{_configs[index].hasMoreText}}" class="controls-FastFilter__hasMoreText">{{_configs[index].hasMoreText}}</span>
                </div>
             </div>
                <!-- reset button should not take focus, otherwise IE will notify 'blur' event on control after click, because reset button will hidden, and focus will moved on body -->
-               <span class="controls-FastFilter__iconReset_theme_{{_options.theme}}
+               <span class="controls-FastFilter__iconReset
                             {{!_needShowCross(item) ? 'controls-FastFilter__iconReset_hidden'}}
                             icon-CloseNew" ws-no-focus="{{true}}" on:click="_reset(item, index)"></span>
          </div>

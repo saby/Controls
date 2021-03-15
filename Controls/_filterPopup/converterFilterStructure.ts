@@ -3,7 +3,7 @@ import collection = require('Types/collection');
 import Utils = require('Types/util');
 
 /* мапинг новой структуры в старую*/
-var recordToSructureElemMap = {
+const recordToSructureElemMap = {
     id: 'internalValueField',
     caption: 'internalCaptionField',
     value: 'value',
@@ -13,17 +13,17 @@ var recordToSructureElemMap = {
 };
 
 /* Мапинг старой стрктуры в новую */
-var structureMap = {};
-for (var i in recordToSructureElemMap) {
+const structureMap = {};
+for (const i in recordToSructureElemMap) {
     if (recordToSructureElemMap.hasOwnProperty(i)) {
         structureMap[recordToSructureElemMap[i]] = i;
     }
 }
 
 function convertToFilterStructure(items) {
-    return chain.factory(items).map(function (item) {
-        var itemStructureItem = {};
-        for (var i in structureMap) {
+    return chain.factory(items).map((item) => {
+        const itemStructureItem = {};
+        for (const i in structureMap) {
             if (Utils.object.getPropertyValue(item, structureMap[i]) !== undefined && structureMap.hasOwnProperty(i)) {
                 itemStructureItem[i] = Utils.object.getPropertyValue(item, structureMap[i]);
             }
@@ -33,10 +33,10 @@ function convertToFilterStructure(items) {
 }
 
 function convertToSourceDataArray(filterStructure, visibilitiesObject?) {
-    var dataArray = [];
+    const dataArray = [];
     chain.factory(filterStructure).each(function (item) {
-        var rsItem = {};
-        for (var i in recordToSructureElemMap) {
+        const rsItem = {};
+        for (const i in recordToSructureElemMap) {
             if (Utils.object.getPropertyValue(item, recordToSructureElemMap[i]) !== undefined && recordToSructureElemMap.hasOwnProperty(i)) {
                 if (i === 'visibility' && visibilitiesObject && !visibilitiesObject.hasOwnProperty(item.internalValueField)) {
                     continue;
@@ -50,7 +50,7 @@ function convertToSourceDataArray(filterStructure, visibilitiesObject?) {
 }
 
 function convertToSourceData(filterStructure) {
-    let dataArray = convertToSourceDataArray(filterStructure);
+    const dataArray = convertToSourceDataArray(filterStructure);
 
     return new collection.RecordSet({
         rawData: dataArray
@@ -58,7 +58,7 @@ function convertToSourceData(filterStructure) {
 }
 
 export = {
-    convertToFilterStructure: convertToFilterStructure,
-    convertToSourceData: convertToSourceData,
-    convertToSourceDataArray: convertToSourceDataArray
+    convertToFilterStructure,
+    convertToSourceData,
+    convertToSourceDataArray
 };

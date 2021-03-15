@@ -43,18 +43,18 @@
    width: 100%;
 }
 
-.controls-Button-inlineheight-confirmation_theme-@{themeName} {
-   height: @height_button_confirmation;
-   border-radius: @border-radius_default_button;
+.controls-Button-inlineheight-confirmation {
+   height: var(--height_button_confirmation);
+   border-radius: var(--border-radius_default_button);
 }
 
-.controls-Button__wrapper_button_confirmation_theme-@{themeName} {
-   padding: 0 @padding-horizontal_default_button - @border-thickness_button;
+.controls-Button__wrapper_button_confirmation {
+   padding: 0 calc(var(--padding-horizontal_default_button) - var(--border-thickness_button));
    &:before {
-      line-height: @height_button_confirmation - 2 * @border-thickness_button;
+      line-height: calc(var(--height_button_confirmation) - 2 * var(--border-thickness_button));
    }
 }
 
-.controls-fontsize-confirmation_theme-@{themeName} {
-   font-size: @font-size_button_confirmation;
+.controls-fontsize-confirmation {
+   font-size: var(--font-size_button_confirmation);
 }

@@ -3,8 +3,7 @@ import { create } from 'Types/di';
 import { isEqual } from 'Types/object';
 import { Model as EntityModel } from 'Types/entity';
 
-import { IColumn, TColumns, IColspanParams, TColumnSeparatorSize } from 'Controls/_grid/interface/IColumn';
-import { THeader } from '../../../_grid/interface/IHeaderCell';
+import { THeader, IColumn, TColumns, IColspanParams, TColumnSeparatorSize } from 'Controls/interface';
 
 import {
     Collection,
@@ -113,7 +112,7 @@ export default abstract class Row<T> {
 
     getColumnIndex(column: Cell<T, Row<T>>): number {
         return this.getColumns().findIndex((columnItem) => {
-            return columnItem.getColumnConfig() === column.getColumnConfig();
+            return columnItem.config === column.config;
         });
     }
 
@@ -194,6 +193,10 @@ export default abstract class Row<T> {
         }
 
         return contentClasses;
+    }
+
+    getSearchValue(): string {
+        return this.getOwner().getSearchValue();
     }
 
     shouldDrawLadderContent(ladderProperty: string, stickyProperty: string): boolean {
@@ -461,7 +464,7 @@ export default abstract class Row<T> {
     protected _updateSeparatorSizeInColumns(separatorName: 'Column' | 'Row'): void {
         const multiSelectOffset = this.hasMultiSelectColumn() ? 1 : 0;
         this._$columnItems.forEach((cell, cellIndex) => {
-            const column = cell.getColumnConfig();
+            const column = cell.config;
             const columnIndex = cellIndex - multiSelectOffset;
             cell[`set${separatorName}SeparatorSize`](
                 this[`_get${separatorName}SeparatorSizeForColumn`](column, columnIndex)

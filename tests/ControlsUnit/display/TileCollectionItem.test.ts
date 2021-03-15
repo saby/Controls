@@ -293,7 +293,7 @@ describe('Controls/_display/TileCollectionItem', () => {
             const classes = item.getTileContentClasses();
 
             assert.include(classes, 'controls-TileView__itemContent');
-            assert.include(classes, 'js-controls-ItemActions__swipeMeasurementContainer');
+            assert.include(classes, 'js-controls-ListView__measurableContainer');
             assert.include(classes, 'controls-ListView__item_shadow_#visibility#');
             assert.include(classes, 'controls-TileView__item_withoutMarker');
         });

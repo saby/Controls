@@ -276,7 +276,7 @@ define(
                   },
                   expectedConfig = {
                      opener: testSelf,
-                     className: 'controls-Toolbar__popup__icon_theme-default popupClassName',
+                     className: 'controls-Toolbar__popup__icon popupClassName',
                      targetPoint: {
                         vertical: 'top',
                         horizontal: 'left'
@@ -332,7 +332,7 @@ define(
                );
                let modifyItem = {
                   _buttonStyle: 'readonly',
-                  _caption: undefined,
+                  _caption: '',
                   _captionPosition: 'right',
                   _contrastBackground: true,
                   _fontColorStyle: 'secondary',
@@ -343,11 +343,12 @@ define(
                   _icon: 'icon-Linked',
                   _iconSize: 'm',
                   _iconStyle: 'readonly',
-                  _stringCaption: false,
+                  _isSVGIcon: false,
+                  _stringCaption: true,
                   _viewMode: 'toolButton',
                   readOnly: true
                };
-               assert.deepEqual((new toolbars.View())._getButtonTemplateOptionsByItem(item), modifyItem);
+               assert.deepEqual((new toolbars.View())._getSimpleButtonTemplateOptionsByItem(item), modifyItem);
 
             });
             it('get functionalButton template options by item', function() {
@@ -365,7 +366,7 @@ define(
                      }
                   }
                );
-               let modifyItem = (new toolbars.View())._getButtonTemplateOptionsByItem(item);
+               let modifyItem = (new toolbars.View())._getSimpleButtonTemplateOptionsByItem(item);
                assert.strictEqual(modifyItem._iconSize, 's');
                assert.strictEqual(modifyItem._height, 'default');
                assert.strictEqual(modifyItem._icon, 'icon-RoundPlus');

@@ -2,10 +2,10 @@ import { ListView } from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
 import { TouchContextField as isTouch } from 'Controls/context';
 import { Logger} from 'UI/Utils';
-import { GridCollection, GridRow, GridLadderUtil, GridLayoutUtil } from 'Controls/display';
+import { GridCollection, GridRow, GridLadderUtil, GridLayoutUtil, isFullGridSupport } from 'Controls/display';
 import * as GridTemplate from 'wml!Controls/_gridNew/Render/grid/GridView';
 import * as GridItem from 'wml!Controls/_gridNew/Render/grid/Item';
-import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupTemplate';
+import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupCellContentWithRightTemplate';
 import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
@@ -31,7 +31,7 @@ const GridView = ListView.extend({
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);
 
-        if (options.columnScroll && options.columnScrollStartPosition === 'end' && options.isFullGridSupport) {
+        if (options.columnScroll && options.columnScrollStartPosition === 'end' && isFullGridSupport()) {
             // В таблице с горизонтальным скроллом изначально прокрученным в конец используется фейковая таблица.
             // Т.к. для отрисовки горизонтального скролла требуется знать размеры таблицы, инициализация горизонтального скролла
             // происходит на afterMount, который не вызывается на сервере. Чтобы измежать скачка, при оживлении таблицы с
@@ -194,7 +194,7 @@ const GridView = ListView.extend({
 
         // Дополнительная колонка для отображения застиканных операций над записью при горизонтальном скролле.
         // Если в списке нет данных, дополнительная колонка не нужна, т.к. операций над записью точно нет.
-        if (options.isFullGridSupport && !!options.columnScroll && options.itemActionsPosition !== 'custom' && this._listModel.getCount()) {
+        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom' && this._listModel.getCount()) {
             columnsWidths.push('0px');
         }
 
@@ -238,11 +238,9 @@ const GridView = ListView.extend({
         // https://online.sbis.ru/doc/cefa8cd9-6a81-47cf-b642-068f9b3898b7
         if (!e.preventItemEvent) {
             const contents = dispItem.getContents();
-            if (this._options.useNewModel) {
-                if (dispItem['[Controls/_display/GroupItem]']) {
-                    this._notify('groupClick', [contents, e, dispItem], {bubbling: true});
-                    return;
-                }
+            if (dispItem['[Controls/_display/GroupItem]']) {
+                this._notify('groupClick', [contents, e, dispItem], {bubbling: true});
+                return;
             }
             this._notify('itemClick', [contents, e, this._getCellIndexByEventTarget(e)]);
         }

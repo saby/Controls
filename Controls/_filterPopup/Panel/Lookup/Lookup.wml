@@ -1,7 +1,7 @@
-<div class="controls-FilterPanel__Lookup">
+<div class="controls_theme-{{_options.theme}} controls-FilterPanel__Lookup">
    <ws:if data="{{_caption}}">
       <Controls._filterPopup.Panel.Link
-            attr:class="controls-FilterPanel__Lookup_link controls-FilterPanel__Lookup_link_theme-{{_options.theme}}"
+            attr:class="controls-FilterPanel__Lookup_link"
             caption="{{_caption}}"
             on:click="showSelector()"/>
    </ws:if>

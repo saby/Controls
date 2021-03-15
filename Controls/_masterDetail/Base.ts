@@ -403,4 +403,13 @@ class Base extends Control<IMasterDetail> {
     }
 }
 
+Object.defineProperty(Base, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Base.getDefaultOptions();
+   }
+});
+
 export default Base;

@@ -22,7 +22,7 @@ import {
 } from './Container/Interface/IShadows';
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
 import StickyHeaderController from './StickyHeader/Controller';
-import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS} from './StickyHeader/Utils';
+import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS, MODE} from './StickyHeader/Utils';
 import {POSITION} from './Container/Type';
 import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
@@ -322,6 +322,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         } else {
             this.scrollTo(scrollPosition, direction);
         }
+    }
+
+    protected _stickyModeChanged(event: SyntheticEvent<Event>, stickyId: number, newMode: MODE): void {
+        this._stickyHeaderController.updateStickyMode(stickyId, newMode);
     }
 
     protected _updateShadowVisibility(event: SyntheticEvent, shadowsVisibility: IShadowsVisibilityByInnerComponents): void {
@@ -689,3 +693,12 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
  * @cfg {String} Определяет постфикс у класса тени
  * @default default
  */
+
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});

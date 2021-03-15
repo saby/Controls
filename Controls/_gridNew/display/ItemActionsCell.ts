@@ -15,7 +15,7 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
     }
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
-        if (!(!!this._$owner['[Controls/_display/grid/DataRow]'] || !!this._$owner['[Controls/treeGrid:TreeGridDataRow]'])) {
+        if (!this._$owner.DisplayItemActions) {
             return '';
         }
         if (this._$owner.isFullGridSupport()) {
@@ -31,7 +31,7 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
 
 
     shouldDisplayItemActions(): boolean {
-        return !!this._$owner['[Controls/_display/grid/DataRow]'] || !!this._$owner['[Controls/treeGrid:TreeGridDataRow]'];
+        return !!this._$owner.DisplayItemActions;
     }
 }
 

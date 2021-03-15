@@ -3,4 +3,4 @@
         value="{{_checkboxValue}}"
         triState="{{true}}"
         on:click="_onCheckBoxClick()"
-        attr:class="controls-MultiSelector__checkbox controls-MultiSelector__checkbox_theme-{{_options.theme}}"/>
+        attr:class="controls-MultiSelector__checkbox"/>

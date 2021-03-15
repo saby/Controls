@@ -1,7 +1,7 @@
-<div class="controls-SimplePanel_theme_{{_options.theme}} controls-Popup__isolatedFocusingContext"
+<div class="controls_theme-{{_options.theme}} controls-SimplePanel controls-Popup__isolatedFocusingContext"
      attr:ws-no-focus="true">
    <Controls.scroll:Container
-           attr:class="controls-ScrollContainer__flex controls-SimplePanel__scroll_theme_{{_options.theme}}"
+           attr:class="controls-ScrollContainer__flex controls-SimplePanel__scroll"
            topShadowVisibility="hidden"
            bottomShadowVisibility="hidden"
            scrollbarVisible="{{false}}">
@@ -16,8 +16,8 @@
                         on:moreButtonClick="_moreButtonClick(item)"/>
          </ws:for>
    </Controls.scroll:Container>
-   <ws:if data="{{_needShowApplyButton}}">
-      <div class="controls-SimplePanel__applyButton controls-SimplePanel__applyButton_theme_{{_options.theme}}">
+   <ws:if data="{{_applyButtonVisible}}">
+      <div class="controls-SimplePanel__applyButton">
          <Controls.buttons:Button viewMode="functionalButton"
                                   icon="icon-Yes"
                                   iconSize="m"
@@ -27,6 +27,6 @@
                                   on:click="_applySelection()"/>
       </div>
    </ws:if>
-   <Controls.popupTemplate:CloseButton class="controls-SimplePanel-cross_theme_{{_options.theme}}" viewMode="link"
+   <Controls.popupTemplate:CloseButton class="controls-SimplePanel-cross" viewMode="link"
                           on:click="_closeClick()"/>
 </div>

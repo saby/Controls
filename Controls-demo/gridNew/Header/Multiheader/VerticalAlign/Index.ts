@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/Header/Multiheader/Vertical
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/gridNew/Header/Multiheader/VerticalAlign/VerticalAlignHeaderCell';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {

@@ -33,7 +33,7 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         }
 
         if (backgroundColorStyle) {
-            wrapperClasses += ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
+            wrapperClasses += ` controls-background-${backgroundColorStyle}_theme-${theme}`;
         }
 
         return wrapperClasses;

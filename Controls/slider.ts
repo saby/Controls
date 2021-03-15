@@ -16,8 +16,13 @@
  * @includes Base Controls/_slider/Base
  * @includes Range Controls/_slider/Range
  * @author Колесов В.А.
- */ 
+ */
 
 export {default as Base} from './_slider/Base';
 export {default as Range} from './_slider/Range';
 export {ISlider, ISliderOptions} from './_slider/interface/ISlider';
+import * as IntervalTemplate from 'wml!Controls/_slider/BaseIntervalTemplate';
+
+export {
+    IntervalTemplate
+};

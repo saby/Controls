@@ -15,7 +15,7 @@
             <ws:viewConfig pagingMode="direct"/>
          </ws:navigation>
          <ws:itemTemplate>
-            <ws:partial template="Controls/listRender:ColumnsItemTemplate" attr:class="controlsDemo__height18_item"></ws:partial>
+            <ws:partial template="Controls/columns:ItemTemplate" attr:class="controlsDemo__height18_item"></ws:partial>
          </ws:itemTemplate>
       </Controls.columns:View>
    </Controls.scroll:Container>

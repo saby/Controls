@@ -6,7 +6,7 @@ define([
    describe('Controls.Explorer._PathController', function() {
       describe('_beforeMount', function() {
          it('returns deferred, and sets items from callback', function(done) {
-            let pathWrapper = new PathWrapper();
+            let pathWrapper = new PathWrapper.default();
             let resolver;
             let itemsAndHeaderPromise = new Promise((res) => { resolver = res; });
             let result = pathWrapper._beforeMount({itemsAndHeaderPromise: itemsAndHeaderPromise});
@@ -21,7 +21,8 @@ define([
          });
       });
       describe('needCrumbs', function() {
-         var needCrumbs = PathWrapper._private.needCrumbs;
+         var PathW = new PathWrapper.default();
+         var needCrumbs = PathW._isNeedCrumbs.bind(PathW);
          it('BackButton is in header, items.length === 1', function() {
             assert.isFalse(
                needCrumbs([{ title: 'back', isBreadCrumbs: true }], ['first'], {rootVisible: false})

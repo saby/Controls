@@ -1,8 +1,4 @@
-/**
- * Created by as.krasilnikov on 29.10.2018.
- */
-
-import {Control} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import Controller from 'Controls/Popup/Compatible/ManagerWrapper/Controller';
 import template = require('wml!Controls/_compatiblePopup/ManagerWrapper/ManagerWrapper');
 import {Controller as ControllerPopup, ManagerClass} from 'Controls/popup';
@@ -11,17 +7,23 @@ import { SyntheticEvent } from 'Vdom/Vdom';
 import {Bus} from 'Env/Event';
 import {constants} from 'Env/Env';
 
-var ManagerWrapper = Control.extend({
-   _template: template,
-   _themeName: undefined,
+export default class ManagerWrapper extends Control<IControlOptions> {
+   _template: TemplateFunction = template;
+   _themeName: string;
+   private _popupManager: ManagerClass;
+   private _mouseupPage: () => {};
+   private _mousedownPage: () => {};
+   private _touchendPage: () => {};
+   private _touchmovePage: () => {};
+   private _mousemovePage: () => {};
 
-   _beforeMount: function() {
+   protected _beforeMount(): void {
       this._themeName = Controller.getTheme();
       // TODO: https://online.sbis.ru/opendoc.html?guid=3f08c72a-8ee2-4068-9f9e-74b34331e595
       this._loadViewSettingsController();
-   },
+   }
 
-   _afterMount: function(cfg) {
+   protected _afterMount(cfg): void {
       Controller.registerManager(this);
 
       // Add handlers to events when children are created
@@ -37,9 +39,9 @@ var ManagerWrapper = Control.extend({
 
       this._popupManager = new ManagerClass(cfg);
       this._popupManager.init(cfg);
-   },
+   }
 
-   _loadViewSettingsController: function() {
+   private _loadViewSettingsController(): Promise<unknown> {
       const isBilling = document.body.classList.contains('billing-page');
       // Совместимость есть на онлайне и в биллинге. В биллинге нет ViewSettings и движения границ
       if (!isBilling) {
@@ -70,16 +72,16 @@ var ManagerWrapper = Control.extend({
          setController(localController);
       }
       return Promise.resolve();
-   },
+   }
 
-   _beforePopupDestroyedHandler: function() {
+   private _beforePopupDestroyedHandler(): void {
       // Контрол ловим событие и вызывает обработчик в GlobalPopup.
       // На текущий момент у PopupGlobal нет возможности самому ловить событие.
       var PopupGlobal = this._children.PopupGlobal;
       PopupGlobal._popupBeforeDestroyedHandler.apply(PopupGlobal, arguments);
-   },
+   }
 
-   _toggleWindowHandlers: function(subscribe) {
+   private _toggleWindowHandlers(subscribe: boolean): void {
       var actionName = subscribe ? 'addEventListener' : 'removeEventListener';
       window[actionName]('scroll', this._scrollPage);
       window[actionName]('resize', this._resizePage);
@@ -90,7 +92,7 @@ var ManagerWrapper = Control.extend({
       window[actionName]('mouseup', this._mouseupPage);
       window[actionName]('workspaceResize', this._workspaceResizePage);
       window[actionName]('pageScrolled', this._pageScrolled);
-   },
+   }
 
    startResizeEmitter(event: Event): void {
       // запустим перепозиционирование вдомных окон (инициатор _onResizeHandler в слое совместимости)
@@ -112,48 +114,48 @@ var ManagerWrapper = Control.extend({
             }
          }
       }
-   },
+   }
 
-   _resizePage: function(event) {
+   private _resizePage(event): void {
       this._children.resizeDetect.start(new SyntheticEvent(event));
       this._popupManager.eventHandler('popupResizeOuter', []);
-   },
+   }
 
-   _scrollPage: function(event) {
+   private _scrollPage(event): void {
       this._children.scrollDetect.start(new SyntheticEvent(event));
       this._popupManager.eventHandler('pageScrolled', []);
-   },
+   }
 
-   _eventRegistratorHandler: function(registratorName, event) {
+   private _eventRegistratorHandler(registratorName, event): void {
       // vdom control used synthetic event
       this._children[registratorName].start(new SyntheticEvent(event));
-   },
+   }
 
-   _mouseDownHandler: function(event) {
+   private _mouseDownHandler(event): void {
       this._eventRegistratorHandler('mousedownDetect', event);
       var Manager = ControllerPopup.getManager();
       if (Manager) {
          Manager.mouseDownHandler(event);
       }
-   },
+   }
 
-    _workspaceResizePage: function (event, ...args) {
+   private _workspaceResizePage(event, ...args): void {
         this._popupManager.eventHandler.apply(this._popupManager, ['workspaceResize', args]);
-    },
+    }
 
-    _pageScrolled: function (event, ...args) {
+   private _pageScrolled(event, ...args): void {
         this._popupManager.eventHandler.apply(this._popupManager, ['pageScrolled', args]);
-    },
+    }
 
-   registerListener: function(event, registerType, component, callback) {
+   protected registerListener(event, registerType, component, callback): void {
       this._listenersSubscribe('_registerIt', event, registerType, component, callback);
-   },
+   }
 
-   unregisterListener: function(event, registerType, component, callback) {
+   protected unregisterListener(event, registerType, component, callback): void {
       this._listenersSubscribe('_unRegisterIt', event, registerType, component, callback);
-   },
+   }
 
-   _listenersSubscribe: function(method, event, registerType, component, callback) {
+   private _listenersSubscribe(method, event, registerType, component, callback): void {
       if (!this._destroyed) {
          // Вызываю обработчики всех регистраторов, регистратор сам поймет, нужно ли обрабатывать событие
          var registrators = [
@@ -169,23 +171,23 @@ var ManagerWrapper = Control.extend({
             this._children[registrators[i]][method](event, registerType, component, callback);
          }
       }
-   },
+   }
 
-   _scrollHandler: function(scrollContainer) {
+   protected _scrollHandler(scrollContainer): void {
       if (!this._destroyed) {
          this.closePopups(scrollContainer);
       }
-   },
+   }
 
-   _documentDragStart: function() {
+   private _documentDragStart(): void {
       Bus.globalChannel().notify('_compoundDragStart');
-   },
+   }
 
-   _documentDragEnd: function() {
+   private _documentDragEnd(): void  {
       Bus.globalChannel().notify('_compoundDragEnd');
-   },
+   }
 
-   closePopups: function(scrollContainer) {
+   closePopups(scrollContainer): void {
       const items = this.getItems().clone();
 
       items.forEach((item) => {
@@ -195,7 +197,7 @@ var ManagerWrapper = Control.extend({
             this._popupManager.remove(item.id);
          }
       });
-   },
+   }
 
    getMaxZIndex(): number {
       const items = this.getItems();
@@ -206,23 +208,20 @@ var ManagerWrapper = Control.extend({
          }
       });
       return maxZIndex;
-   },
+   }
 
-   getItems: function() {
+   getItems() {
       return this._children.PopupContainer._popupItems;
-   },
+   }
 
    setTheme(theme: string): void {
       this._themeName = theme;
-   },
+   }
 
-   _beforeUnmount: function() {
+   protected _beforeUnmount(): void {
       if (constants.isBrowserPlatform) {
          this._toggleWindowHandlers(false);
       }
       this._popupManager.destroy();
    }
-
-});
-
-export default ManagerWrapper;
+}

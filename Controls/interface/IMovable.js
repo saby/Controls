@@ -182,11 +182,11 @@ define('Controls/interface/IMovable', [
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _beforeItemsMove: function(eventObject, movedItems, target, position) {
     *       return 'Custom';
     *    }
-    * });
+    * }
     * </pre>
     * @see afterItemsMove
     */
@@ -207,11 +207,11 @@ define('Controls/interface/IMovable', [
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _beforeItemsMove: function(eventObject, movedItems, target, position) {
     *       return 'Custom';
     *    }
-    * });
+    * }
     * </pre>
     * @see afterItemsMove
     */
@@ -233,7 +233,7 @@ define('Controls/interface/IMovable', [
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _afterItemsMove: function(eventObject, movedItems, target, position, result) {
     *       if (result instanceof Error) {
     *          return this._children.popupOpener.open({
@@ -242,7 +242,7 @@ define('Controls/interface/IMovable', [
     *          });
     *       }
     *    }
-    * });
+    * }
     * </pre>
     * @see beforeItemsMove
     */
@@ -264,7 +264,7 @@ define('Controls/interface/IMovable', [
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _afterItemsMove: function(eventObject, movedItems, target, position, result) {
     *       if (result instanceof Error) {
     *          return this._children.popupOpener.open({
@@ -273,7 +273,7 @@ define('Controls/interface/IMovable', [
     *          });
     *       }
     *    }
-    * });
+    * }
     * @see beforeItemsMove
     */
 
@@ -291,7 +291,7 @@ define('Controls/interface/IMovable', [
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _beforeMount: function() {
     *       var self = this;
     *       this._itemActions = [{
@@ -301,7 +301,7 @@ define('Controls/interface/IMovable', [
     *          }
     *       }]
     *    }
-    * });
+    * }
     * </pre>
     * @see moveItemDown
     * @see moveItems
@@ -321,7 +321,7 @@ define('Controls/interface/IMovable', [
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _beforeMount: function() {
     *       var self = this;
     *       this._itemActions = [{
@@ -331,7 +331,7 @@ define('Controls/interface/IMovable', [
     *          }
     *       }]
     *    }
-    * });
+    * }
     * </pre>
     * @see moveItemDown
     * @see moveItems
@@ -352,7 +352,7 @@ define('Controls/interface/IMovable', [
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Base.Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _itemActions: null,
     *    _beforeMount: function() {
     *       var self = this;
@@ -364,7 +364,7 @@ define('Controls/interface/IMovable', [
     *       }]
     *    }
     *    ...
-    * });
+    * }
     * </pre>
     * @see moveItemUp
     * @see moveItems
@@ -385,7 +385,7 @@ define('Controls/interface/IMovable', [
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Base.Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _itemActions: null,
     *    _beforeMount: function() {
     *       var self = this;
@@ -397,7 +397,7 @@ define('Controls/interface/IMovable', [
     *       }]
     *    }
     *    ...
-    * });
+    * }
     * </pre>
     * @see moveItemUp
     * @see moveItems
@@ -421,7 +421,7 @@ define('Controls/interface/IMovable', [
     * </pre>
     * <pre class="brush: js">
     * // javaScript
-    * Base.Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _selectedKeys: null,
     *    _beforeMount: function() {
     *       this._selectedKeys = [];
@@ -429,7 +429,7 @@ define('Controls/interface/IMovable', [
     *    _moveItems: function() {
     *       this._children.listMover.moveItems(this._selectedKeys, 'rootId', 'on');
     *    }
-    * });
+    * }
     * </pre>
     * @see moveItemUp
     * @see moveItemDown
@@ -453,7 +453,7 @@ define('Controls/interface/IMovable', [
     * </pre>
     * <pre class="brush: js">
     * // javaScript
-    * Base.Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _selectedKeys: null,
     *    _beforeMount: function() {
     *       this._selectedKeys = [];
@@ -461,7 +461,7 @@ define('Controls/interface/IMovable', [
     *    _moveItems: function() {
     *       this._children.listMover.moveItems(this._selectedKeys, 'rootId', 'on');
     *    }
-    * });
+    * }
     * </pre>
     * @see moveItemUp
     * @see moveItemDown
@@ -482,15 +482,15 @@ define('Controls/interface/IMovable', [
     * </pre>
     * <pre class="brush: js">
     * // JavaScript
-    * Base.Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _selectedKeys: null,
     *    _beforeMount: function(){
     *       this._selectedKeys = [...];
-    *    },
+    *    }
     *    _moveItems: function() {
     *       this._children.listMover.moveItemsWithDialog(this._selectedKeys);
     *    }
-    * });
+    * }
     * </pre>
     * @see moveItemUp
     * @see moveItemDown
@@ -512,7 +512,7 @@ define('Controls/interface/IMovable', [
     * </pre>
     * <pre class="brush: js">
     * // JavaScript
-    * Base.Control.extend({
+    * class MyControl extends Control<IControlOptions> {
     *    _selectedKeys: null,
     *    _beforeMount: function(){
     *       this._selectedKeys = [...];
@@ -520,7 +520,7 @@ define('Controls/interface/IMovable', [
     *    _moveItems: function() {
     *       this._children.listMover.moveItemsWithDialog(this._selectedKeys);
     *    }
-    * });
+    * }
     * </pre>
     * @see moveItemUp
     * @see moveItemDown

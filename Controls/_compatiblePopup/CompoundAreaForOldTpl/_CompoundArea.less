@@ -33,8 +33,8 @@
       height: 100%;
       box-sizing: border-box;
    }
-   &.controls-CompoundArea-headerPadding .controls-StackTemplate_theme_@{themeName} {
-      padding-top: @header_min-height_stack + @header_bottom-border-thickness_stack;
+   &.controls-CompoundArea-headerPadding .controls-StackTemplate {
+      padding-top: calc(var(--header_min-height_stack) + var(--header_bottom-border-thickness_stack));
    }
 
    &.controls-CompoundArea-headerPadding .controls-DialogTemplate {
@@ -42,8 +42,8 @@
       box-sizing: border-box;
    }
 
-   &.controls-CompoundArea-headerPadding .controls-DialogTemplate_theme_@{themeName} {
-      padding-top: @spacing_DialogTemplate-between-header-border;
+   &.controls-CompoundArea-headerPadding .controls-DialogTemplate {
+      padding-top: var(--spacing_DialogTemplate-between-header-border);
    }
 }
 
@@ -86,7 +86,7 @@ body:not(.rtl-Body) .controls-CompoundArea {
       font-size: 18px !important;
       font-weight: bold !important;
       cursor: default;
-      color: @secondary_text-color_heading;
+      color: var(--secondary_text-color_heading);
       text-overflow: ellipsis;
       display: inline-block;
       overflow: hidden;
@@ -108,7 +108,7 @@ body:not(.rtl-Body) .controls-CompoundArea {
    .ws-caption {
       font: bold 18px 'TensorFont', sans-serif;
       text-decoration: none;
-      color: @secondary_text-color_heading;
+      color: var(--secondary_text-color_heading);
    }
 
    &.ws-window {
@@ -128,7 +128,7 @@ body:not(.rtl-Body) .controls-CompoundArea {
       cursor: move;
    }
 
-   &.ws-float-area-has-maximized-button .controls-StackTemplate__maximized_button{
+   &.ws-float-area-has-maximized-button .controls-StackTemplate__maximized_button {
       display: block;
    }
 
@@ -141,8 +141,8 @@ body:not(.rtl-Body) .controls-CompoundArea {
    height: 100%;
 }
 
-.controls-CompoundArea-close_button .controls-DialogTemplate__close_button_theme_@{themeName} {
-   margin-top: @close-button_offset-top_stack;
+.controls-CompoundArea-close_button .controls-DialogTemplate__close_button {
+   margin-top: var(--close-button_offset-top_stack);
 }
 
 .controls-Stack__waiting, .controls-Stack__open, .controls-Stack__close {
@@ -159,6 +159,6 @@ body:not(.rtl-Body) .controls-CompoundArea {
    height: 40px;
 }
 
-.ws-float-area__block-layout .controls-Stack__content-wrapper_theme-@{themeName} {
-   background-color: @background-color_stack;
+.ws-float-area__block-layout .controls-Stack__content-wrapper {
+   background-color: var(--background-color_stack);
 }

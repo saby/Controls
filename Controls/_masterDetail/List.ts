@@ -1,5 +1,6 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_masterDetail/List/List');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_masterDetail/List/List';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 /**
  * Контрол используют в качестве контейнера для списочного контрола, который добавлен в шаблон {@link Controls/masterDetail:Base#master master}.
@@ -11,12 +12,13 @@ import template = require('wml!Controls/_masterDetail/List/List');
  * @demo Controls-demo/MasterDetail/Demo
  */
 
-   export = Control.extend({
-      _template: template,
-      _markedKeyChangedHandler: function(event, key) {
-         this._notify('selectedMasterValueChanged', [key], {bubbling: true});
-      }
-   });
+export default class List extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
+
+   protected _markedKeyChangedHandler(event: SyntheticEvent<Event>, key: string): void {
+      this._notify('selectedMasterValueChanged', [key], {bubbling: true});
+   }
+}
 
 /**
  * @event Происходит при смене выбранной записи.

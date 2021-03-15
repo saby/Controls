@@ -4,121 +4,121 @@
    //
    // Общие цвета
 
-   --background-color: @background-color;
-   --hover_background-color: @hover_background-color;
-   --danger_color: @danger_color;
-   --success_color: @success_color;
-   --warning_color: @warning_color;
-   --primary_color: @primary_color;
-   --secondary_color: @secondary_color;
-   --unaccented_color: @unaccented_color;
-   --readonly_color: @readonly_color;
+   --background-color: #fff;
+   --hover_background-color: #f0f5fb;
+   --danger_color: #d04d4d;
+   --success_color: #069922;
+   --warning_color: #fec63f;
+   --primary_color: #ff7033;
+   --secondary_color: #587ab0;
+   --unaccented_color: #999;
+   --readonly_color: #ccc;
    --invalid_border-color: var(--danger_color);
-   --invalid_focus_background-color: @invalid_focus_background-color;
-   --marker_color: @marker_color;
-   --border-color: @border-color;
-   --readonly_marker-color: @readonly_marker-color;
+   --invalid_focus_background-color: #fadadd;
+   --marker_color: #ff7033;
+   --border-color: #ccc;
+   --readonly_marker-color: #313e78;
 
    // Цвета текста
 
-   --text-color: @text-color;
-   --primary_text-color: @primary_text-color;
-   --primary_hover_text-color: @primary_hover_text-color;
-   --secondary_text-color: @secondary_text-color;
-   --secondary_hover_text-color: @secondary_hover_text-color;
-   --label_text-color: @label_text-color;
-   --link_text-color: @link_text-color;
-   --link_hover_text-color: @link_hover_text-color;
+   --text-color: #000;
+   --primary_text-color: #d94700;
+   --primary_hover_text-color: #ff7033;
+   --secondary_text-color: #313e78;
+   --secondary_hover_text-color: #05b;
+   --label_text-color: #8991a9;
+   --link_text-color: #05b;
+   --link_hover_text-color: #313e78;
    --unaccented_text-color: var(--unaccented_color);
    --link_text-color_inline: var(--link_hover_text-color);
    --link_hover_text-color_inline: var(--link_text-color);
-   --info_text-color: @info_text-color;
-   --contrast_text-color: @contrast_text-color;
+   --info_text-color: #9122bf;
+   --contrast_text-color: #fff;
 
 
    // Цвета иконок
 
-   --icon-color: @icon-color;
+   --icon-color: #000;
    --secondary_icon-color: var(--secondary_color);
    --secondary_hover_icon-color: var(--link_hover_text-color);
-   --contrast_icon-color: @contrast_icon-color;
-   --unaccented_icon-color: @unaccented_icon-color;
-   --info_icon-color: @info_icon-color;
+   --contrast_icon-color: #fff;
+   --unaccented_icon-color: #ccc;
+   --info_icon-color: #5856d6;
 
 
 
    // Шрифты
    //
    // Общие размеры шрифтов
-   --font-size_xs: @font-size_xs;
-   --font-size_s: @font-size_s;
-   --font-size_m: @font-size_m;
-   --font-size_l: @font-size_l;
-   --font-size_xl: @font-size_xl;
-   --font-size_2xl: @font-size_2xl;
-   --font-size_3xl: @font-size_3xl;
-   --font-size_4xl: @font-size_4xl;
-   --font-size_5xl: @font-size_5xl;
-   --font-size_6xl: @font-size_6xl;
-   --font-size_7xl: @font-size_7xl;
+   --font-size_xs: 12px;
+   --font-size_s: 13px;
+   --font-size_m: 14px;
+   --font-size_l: 15px;
+   --font-size_xl: 16px;
+   --font-size_2xl: 17px;
+   --font-size_3xl: 18px;
+   --font-size_4xl: 20px;
+   --font-size_5xl: 24px;
+   --font-size_6xl: 28px;
+   --font-size_7xl: 32px;
    --font-size_default: var(--font-size_m);
 
    // Жирность шрифта
 
-   --font-weight: @font-weight;
+   --font-weight: normal;
 
    // Начертание шрифта
-   --font-family: @font-family;
+   --font-family: 'TensorFont', sans-serif;
 
 
 
    // Высоты элементов
    //
    // Высоты строчных контролов (кнопок, полей ввода)
-   --inline_height_xs: @inline_height_xs;
-   --inline_height_s: @inline_height_s;
-   --inline_height_m: @inline_height_m;
-   --inline_height_l: @inline_height_l;
-   --inline_height_xl: @inline_height_xl;
-   --inline_height_2xl: @inline_height_2xl;
+   --inline_height_xs: 16px;
+   --inline_height_s: 20px;
+   --inline_height_m: 24px;
+   --inline_height_l: 28px;
+   --inline_height_xl: 32px;
+   --inline_height_2xl: 36px;
    --inline_height_default: var(--inline_height_m);
 
 
    // Иконки
    //
    // Шрифты для иконок
-   --icon_font-family_2xs: @icon_font-family_2xs;
-   --icon_font-family_xs: @icon_font-family_xs;
-   --icon_font-family_s: @icon_font-family_s;
-   --icon_font-family_m: @icon_font-family_m;
-   --icon_font-family_l: @icon_font-family_l;
+   --icon_font-family_2xs: 'cbuc-icons';
+   --icon_font-family_xs: 'cbuc-icons';
+   --icon_font-family_s: 'cbuc-icons';
+   --icon_font-family_m: 'cbuc-icons24';
+   --icon_font-family_l: 'cbuc-icons';
 
    // Размеры иконок
-   --icon-size_2xs: @icon-size_2xs;
-   --icon-size_xs: @icon-size_xs;
-   --icon-size_s: @icon-size_s;
-   --icon-size_m: @icon-size_m;
-   --icon-size_l: @icon-size_l;
+   --icon-size_2xs: 12px;
+   --icon-size_xs: 14px;
+   --icon-size_s: 16px;
+   --icon-size_m: 24px;
+   --icon-size_l: 32px;
 
 
 
    // Линейка стандартных отступов
    // Примечание: на эти переменные лучше делать ссылки из других переменных, а не ссылаться из стилей
 
-   --offset_3xs: @offset_3xs;
-   --offset_2xs: @offset_2xs;
-   --offset_xs: @offset_xs;
-   --offset_s: @offset_s;
-   --offset_m: @offset_m;
-   --offset_l: @offset_l;
-   --offset_2xl: @offset_2xl;
-   --offset_3xl: @offset_3xl;
+   --offset_3xs: 2px;
+   --offset_2xs: 4px;
+   --offset_xs: 6px;
+   --offset_s: 8px;
+   --offset_m: 12px;
+   --offset_l: 16px;
+   --offset_2xl: 20px;
+   --offset_3xl: 24px;
 
 
 
    // Толщина обводки контролов.
 
-   --border-thickness: @border-thickness;
+   --border-thickness: 1px;
 
 
    // Валидация
@@ -132,33 +132,22 @@
    --invalid_padding-horizontal: var(--offset_2xs);
 
 
-
-   // Отображение денежных единиц
-   //
-   // Размер шрифта копеек в отображении денег
-   --fractional_size: var(--font-size_xs);
-
-   // Цвет шрифта копеек в отображении денег
-   --fractional_color: var(--readonly_color);
-
-
-
    //Размер тэга.
    //Примечание: тэг - это цветной индикатор, использующийся для информации о состоянии поля.
-   --tag-size: @tag-size;
+   --tag-size: 8px;
 
 
 
    // Отображение картинок
 
-   --border-radius_s_image: @border-radius_s_image;
-   --border-radius_m_image: @border-radius_m_image;
+   --border-radius_s_image: 4px;
+   --border-radius_m_image: 8px;
 
 
 
    // Блоки для нового дизайна
-   --border-radius_default_block: @border-radius_default_block;
-   --box-shadow_block: @box-shadow_block;
+   --border-radius_default_block: 8px;
+   --box-shadow_block: 0 0 6px rgba(0, 0, 0, 0.15);
 
 }
 

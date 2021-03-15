@@ -26,7 +26,7 @@ define([
       });
       describe('_beforeMount', function() {
          it('without header', function() {
-            var instance = new PathController();
+            var instance = new PathController.default();
             instance._beforeMount({
                itemsPromise: new Promise((res) => {
                   res(null);
@@ -36,7 +36,7 @@ define([
          });
          it('with header, first item has title', function() {
             var
-               instance = new PathController(),
+               instance = new PathController.default(),
                header = [{
                   title: '123'
                }];
@@ -52,7 +52,7 @@ define([
          });
          it('with header, first item has caption', function() {
             var
-               instance = new PathController(),
+               instance = new PathController.default(),
                header = [{
                   caption: '123'
                }];
@@ -68,7 +68,7 @@ define([
          });
          it('with header, first item has template', function() {
             var
-               instance = new PathController(),
+               instance = new PathController.default(),
                header = [{
                   template: function() {
                      return '<div>123</div>';
@@ -84,7 +84,7 @@ define([
          });
          it('with header, first item doesn\'t have neither title nor template', function() {
             var
-               instance = new PathController(),
+               instance = new PathController.default(),
                header = [{
                   align: 'right',
                   width: '100px'
@@ -100,7 +100,7 @@ define([
                displayProperty: 'title'
             });
             assert.deepEqual(instance._header, [{
-               template: HeadingPathBack,
+               template: HeadingPathBack.default,
                templateOptions: {
                   items: items,
                   displayProperty: 'title',
@@ -120,7 +120,7 @@ define([
          });
       });
       describe('needShadow', function() {
-         var needShadow = PathController._private.needShadow;
+         var needShadow = PathController.default.prototype._isNeedShadow;
          it('there is no header, we need shadow', function() {
             assert.isTrue(needShadow(undefined, undefined));
          });
@@ -156,7 +156,7 @@ define([
                      res(items);
                   })
                },
-               instance = new PathController(cfg);
+               instance = new PathController.default(cfg);
             instance.saveOptions(cfg);
             await instance._beforeMount(cfg);
             assert.equal(1, instance._header.length);
@@ -169,7 +169,7 @@ define([
             var
                headerInst,
                cfg,
-               instance = new PathController(),
+               instance = new PathController.default(),
                header = [{
                   align: 'right',
                   width: '100px'
@@ -199,7 +199,7 @@ define([
          it('new different items', function() {
 
             var
-               instance = new PathController(),
+               instance = new PathController.default(),
                header = [{
                   align: 'right',
                   width: '100px'
@@ -216,7 +216,7 @@ define([
                displayProperty: 'title'
             });
             assert.deepEqual(instance._header, [{
-               template: HeadingPathBack,
+               template: HeadingPathBack.default,
                templateOptions: {
                   displayProperty: 'title',
                   items: items.slice(0,1),
@@ -279,7 +279,7 @@ define([
                      res(items);
                   })
                },
-               instance = new PathController();
+               instance = new PathController.default();
             await instance._beforeMount(cfg);
             var headerInst = instance._header;
             instance.saveOptions({
@@ -295,7 +295,7 @@ define([
             });
             assert.notEqual(instance._header, headerInst);
             assert.deepEqual(instance._header, [{
-               template: HeadingPathBack,
+               template: HeadingPathBack.default,
                templateOptions: {
                   backButtonStyle: undefined,
                   backButtonIconStyle: undefined,
@@ -343,7 +343,7 @@ define([
                      res(items);
                   })
                },
-               instance = new PathController();
+               instance = new PathController.default();
             await instance._beforeMount(cfg);
             var headerInst = instance._header;
             instance.saveOptions({
@@ -356,7 +356,7 @@ define([
             });
             assert.notEqual(instance._header, headerInst);
             assert.deepEqual(instance._header, [{
-               template: HeadingPathBack,
+               template: HeadingPathBack.default,
                templateOptions: {
                   backButtonStyle: undefined,
                   backButtonIconStyle: undefined,
@@ -376,7 +376,7 @@ define([
          });
       });
       it('_onBackButtonClick', function() {
-         var instance = new PathController();
+         var instance = new PathController.default();
          instance.saveOptions({
             items: items,
             keyProperty: 'id',
@@ -396,7 +396,7 @@ define([
       });
       it('_onArrowClick', function() {
          var
-            instance = new PathController(),
+            instance = new PathController.default(),
             onarrowActivatedFired = false;
          instance._notifyHandler = function(e) {
             if (e === 'arrowClick') {

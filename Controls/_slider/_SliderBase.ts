@@ -91,6 +91,7 @@ class SliderBase<TSliderBaseOptions extends ISliderBaseOptions> extends Control<
             size: 'm',
             viewMode: 'default',
             direction: 'horizontal',
+            tooltipPosition: 'top',
             borderVisible: false,
             tooltipVisible: true,
             minValue: undefined,
@@ -111,6 +112,11 @@ class SliderBase<TSliderBaseOptions extends ISliderBaseOptions> extends Control<
                 'horizontal',
                 'vertical'
             ]),
+            tooltipPosition: EntityDescriptor(String).oneOf([
+                'top',
+                'bottom',
+                'center'
+            ]),
             borderVisible: EntityDescriptor(Boolean),
             tooltipVisible: EntityDescriptor(Boolean),
             minValue: EntityDescriptor(Number).required,
@@ -121,5 +127,14 @@ class SliderBase<TSliderBaseOptions extends ISliderBaseOptions> extends Control<
         };
     }
 }
+
+Object.defineProperty(SliderBase, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return SliderBase.getDefaultOptions();
+   }
+});
 
 export default SliderBase;

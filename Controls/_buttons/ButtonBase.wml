@@ -1,20 +1,29 @@
 <ws:template name="buttonTemplate">
     <span attr:class="controls-BaseButton__wrapper
                                 controls-Button__wrapper_viewMode-{{_viewMode}}
-                                {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}" tabindex="0">
+                                {{_height ? ' controls-Button__wrapper_' + _viewMode + '_' + _height}}" tabindex="0">
         <ws:if data="{{!!_icon}}">
-            <i attr:class="controls-Button__icon controls-BaseButton__icon controls-icon {{_icon}}
-                                    {{_iconSize ? 'controls-icon_size-' + _iconSize + '_theme-' + _options.theme}}
-                                        {{_iconStyle ? 'controls-icon_style-' + _iconStyle + '_theme-' + _options.theme}}"/>
+            <ws:if data="{{_isSVGIcon}}">
+                <svg attr:class="controls-Button__icon controls-BaseButton__icon
+                        {{_iconSize ? 'controls-icon_size-' + _iconSize : ''}}
+                        {{_iconStyle ? 'controls-icon_style-' + _iconStyle: ''}}">
+                    <use xlink:href="{{_icon}}"/>
+                </svg>
+            </ws:if>
+            <ws:else>
+                <i attr:class="controls-Button__icon controls-BaseButton__icon controls-icon {{_icon}}
+                        {{_iconSize ? 'controls-icon_size-' + _iconSize}}
+                        {{_iconStyle ? 'controls-icon_style-' + _iconStyle}}"/>
+            </ws:else>
         </ws:if>
         <ws:if data="{{!!_caption}}">
             <span attr:class="controls-BaseButton__text
-                    {{_options.readOnly ? ' controls-Button__text_readonly_' + _viewMode + '_theme-' + _options.theme :
-                     (_fontColorStyle ?  ' controls-text-' + _fontColorStyle + '_theme-' + _options.theme +
-                                    ' controls-Button__text-' + _fontColorStyle + '_viewMode-' + _viewMode + '_theme-' + _options.theme :
-                                                                    'controls-Button__text_clickable_theme-' + _options.theme)}}
-                                        {{_hasIcon ? ' controls-Button__text_captionPosition_' + _captionPosition + '_theme-' + _options.theme}}
-                                        controls-Button__text_viewMode-{{_viewMode}}_theme-{{_options.theme}}" tabindex="0">
+                    {{_options.readOnly ? ' controls-Button__text_readonly_' + _viewMode :
+                     (_fontColorStyle ?  ' controls-text-' + _fontColorStyle +
+                                    ' controls-Button__text-' + _fontColorStyle + '_viewMode-' + _viewMode :
+                                                                    'controls-Button__text_clickable')}}
+                                        {{_hasIcon ? ' controls-Button__text_captionPosition_' + _captionPosition}}
+                                        controls-Button__text_viewMode-{{_viewMode}}" tabindex="0">
                 <ws:if data="{{_stringCaption}}">{{_caption}}</ws:if>
                 <ws:else><ws:partial template="{{_caption}}"/></ws:else>
             </span>
@@ -29,7 +38,7 @@
         </a>
     </ws:if>
     <ws:else>
-        <span >
+        <span>
             <ws:partial template="buttonTemplate"/>
         </span>
     </ws:else>
@@ -37,16 +46,16 @@
 
 <ws:partial template="buttonWrapperTemplate"
             attr:class="controls-BaseButton
-                controls-Button_{{_viewMode}} controls-Button_{{_viewMode}}_theme-{{_options.theme}}
+                controls-Button_{{_viewMode}}
                 {{_hoverIcon ? ' controls-Button_hoverIcon'}} controls-Button_{{_options.readOnly ? 'readonly' : 'clickable'}}
                 {{_toggled ? ' controls-Button_toggled' : ''}}
-                controls-Button_{{_viewMode}}_style-{{_buttonStyle}}{{_toggled ? '_toggled' : ''}}_theme-{{_options.theme}}
-                controls-Button_bg{{_contrastBackground ? '-contrast' : '-same'}}_theme-{{_options.theme}}
-                {{_height ? ' controls-inlineheight-' + _height + '_theme-' + _options.theme}}
-                {{_height ? ' controls-Button-inlineheight-' + _height + '_theme-' + _options.theme}}
-                {{_height ? ' controls-Button_' + _viewMode + '_' + _height + '_theme-' + _options.theme}}
-                controls-fontsize-{{_fontSize}}_theme-{{_options.theme}}
-                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}_theme-{{_options.theme}}
+                controls-Button_{{_viewMode}}_style-{{_buttonStyle}}{{_toggled ? '_toggled' : ''}}
+                controls-Button_bg{{_contrastBackground ? '-contrast' : '-same'}}
+                {{_height ? ' controls-inlineheight-' + _height}}
+                {{_height ? ' controls-Button-inlineheight-' + _height}}
+                {{_height ? ' controls-Button_' + _viewMode + '_' + _height}}
+                controls-fontsize-{{_fontSize}}
+                controls-Button_{{_viewMode}}__wrapper-fontsize-{{_fontSize}}
                 controls_theme-{{_options.theme}}"
             attr:title="{{_options.tooltip}}"
 />

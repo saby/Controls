@@ -1,6 +1,6 @@
-<span on:click="_clickHandler()" class="controls-Separator__icon">
-    <span class="controls-Separator__wrapper controls-Separator__wrapper_theme-{{_options.theme}}">
-        <i attr:class="controls-icon controls-Separator__icon_style-{{_options.style}}_theme-{{_options.theme}} {{_icon}} controls-icon controls-Separator__icon_size_theme-{{_options.theme}}"
+<span on:click="_clickHandler()" class="controls-Separator__icon controls_theme-{{_options.theme}}">
+    <span class="controls-Separator__wrapper controls-Separator__wrapper">
+        <i attr:class="controls-icon controls-Separator__icon_style-{{_options.style}} {{_icon}} controls-icon controls-Separator__icon_size"
         ></i>
     </span>
 </span>

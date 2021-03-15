@@ -11,6 +11,7 @@ import {
     ISource, ISourceOptions, IMultiSelectable,
     IMultiSelectableOptions, IHierarchy, IHierarchyOptions
 } from 'Controls/interface';
+import 'css!Controls/toggle';
 
 export interface ICheckboxGroupOptions extends IControlOptions,
             IMultiSelectableOptions,
@@ -255,8 +256,6 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements
         this._notify('selectedKeysChanged', [this._selectedKeys]);
     }
 
-    static _theme: string[] = ['Controls/toggle'];
-
     static getDefaultOptions(): object {
         return {
             direction: 'vertical',
@@ -272,5 +271,14 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements
         };
     }
 }
+
+Object.defineProperty(CheckboxGroup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return CheckboxGroup.getDefaultOptions();
+   }
+});
 
 export default CheckboxGroup;

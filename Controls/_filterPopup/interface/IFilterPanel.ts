@@ -1,3 +1,26 @@
+import {IControlOptions} from 'UI/Base';
+import {IFilterItem} from 'Controls/filter';
+
+export type THistorySaveMode = 'favorite'|'pinned';
+type TOrientation = 'vertical'|'horizontal';
+
+interface IFilterPanelTemplate {
+ templateName: string;
+ templateOptions: unknown;
+}
+
+export interface IFilterDetailPanelOptions extends IControlOptions {
+ items: IFilterItem[];
+ additionalTemplate: IFilterPanelTemplate;
+ additionalTemplateProperty: string;
+ historyId: string;
+ historySaveMode: THistorySaveMode;
+ orientation: TOrientation;
+ headingCaption: string;
+ headingStyle: string;
+ applyButtonCaption: string;
+}
+
 /**
  * Интерфейс панели фильтров.
  *
@@ -210,7 +233,7 @@
  *    }
  * </pre>
  * @see itemTemplateProperty
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
+ * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
  */
 
 /*
@@ -260,7 +283,7 @@
  *    ];
  * </pre>
  * @see itemTemplateProperty
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
+ * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
  */
 
 /**
@@ -328,7 +351,7 @@
  *    ];
  * </pre>
  * @see additionalTemplateProperty
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
+ * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
  */
 
 /*
@@ -396,7 +419,7 @@
  *    ];
  * </pre>
  * @see additionalTemplateProperty
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
+ * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
  */
 
 /**
@@ -513,7 +536,7 @@
  *    ];
  * </pre>
  * @see additionalTemplate
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
+ * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
  */
 
 /*
@@ -585,7 +608,7 @@
  *    ];
  * </pre>
  * @see additionalTemplate
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
+ * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
  */
 
 /**
@@ -645,7 +668,7 @@
  *    ];
  * </pre>
  * @see itemTemplate
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
+ * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
  */
 
 /*
@@ -699,7 +722,7 @@
 /**
  * @name Controls/_filterPopup/interface/IFilterPanel#historyId
  * @cfg {String} Уникальный идентификатор для сохранения истории.
- * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/'>инструкции</a>.
+ * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/'>инструкции</a>.
  * @demo Controls-demo/Filter_new/DetailPanel/HistoryId/Index
  * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/'>инструкции</a>.
  */

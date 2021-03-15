@@ -5,7 +5,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {IControlOptions, TemplateFunction} from 'UI/Base';
 import {IFilterItem} from 'Controls/filter';
 import * as clone from 'Core/core-clone';
-import {IItemPadding} from 'Controls/list';
+import {IItemPadding} from 'Controls/display';
 import rk = require('i18n!Controls');
 import {isEqual} from 'Types/object';
 

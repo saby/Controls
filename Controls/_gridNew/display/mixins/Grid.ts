@@ -1,12 +1,12 @@
 import { TemplateFunction } from 'UI/Base';
 import { Model as EntityModel } from 'Types/entity';
 
-import { THeader } from 'Controls/_grid/interface/IHeaderCell';
 import {
+    THeader,
     IColumn,
     TColumns,
     TColumnSeparatorSize
-} from 'Controls/_grid/interface/IColumn';
+} from 'Controls/interface';
 
 import { IViewIterator, GridLadderUtil, ILadderObject} from 'Controls/display';
 
@@ -45,7 +45,7 @@ export type TColspanCallbackResult = number | 'end';
  * @description
  * Функция обратного вызова для расчёта объединения колонок строки (колспана).
  * @param {Types/entity:Model} item Элемент, для которого рассчитывается объединение
- * @param {Controls/grid:IColumn} column Колонка грида
+ * @param {Controls/interface:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
  * @param {Boolean} isEditing Актуальное состояние редактирования элемента
  * @returns {Controls/gridNew:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
@@ -56,7 +56,7 @@ export type TColspanCallback = (item: EntityModel, column: IColumn, columnIndex:
  * @typedef {Function} TResultsColspanCallback
  * @description
  * Функция обратного вызова для расчёта объединения колонок строки (колспана).
- * @param {Controls/grid:IColumn} column Колонка грида
+ * @param {Controls/interface:IColumn} column Колонка грида
  * @param {Number} columnIndex Индекс колонки грида
  * @returns {Controls/gridNew:TColspanCallbackResult} Количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  */
@@ -65,7 +65,7 @@ export type TResultsColspanCallback = (column: IColumn, columnIndex: number) => 
 /**
  * @typedef {Object} IEmptyTemplateColumn
  * @description
- * Объект конфигурации колонки представления пустой таблицы.
+ * Объект конфигурации колонки представления {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty-grid/ пустой таблицы}.
  * @param {TemplateFunction} template Элемент, для которого рассчитывается объединение
  * @param {Number} startColumn Начальный индекс колонки.
  * @param {Number} endColumn Конечный индекс колонки.

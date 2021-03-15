@@ -1,5 +1,9 @@
 import {IText, pasteWithRepositioning} from './Util';
 import {IFormat, IDelimiterGroups, IPairDelimiterData, ISingleDelimiterData} from './FormatBuilder';
+import rk = require('i18n!Controls');
+
+type TValue = string | number | null;
+type TAbbreviationType = 'none' | 'short' | 'long';
 
 /**
  * Разобрать значение на группы.
@@ -142,4 +146,26 @@ export function formatData(format: IFormat, cleanText: IText): IText {
     });
 
     return text;
+}
+
+export function abbreviateNumber(value: TValue, abbreviationType: TAbbreviationType): string {
+    if (!value) {
+        return '0';
+    }
+    if (value >= 1000000000000 || value <= -1000000000000) {
+        return intlFormat(value / 1000000000000) + `${abbreviationType === 'long' ? rk(' трлн') : 'Т'}`;
+    }
+    if (value >= 1000000000 || value <= -1000000000) {
+        return intlFormat(value / 1000000000) + `${abbreviationType === 'long' ? rk(' млрд') : rk('Г')}`;
+    }
+    if (value >= 1000000 || value <= -1000000) {
+        return intlFormat(value / 1000000) + `${abbreviationType === 'long' ? rk(' млн') : 'М'}`;
+    }
+    if (value >= 1000 || value <= -1000) {
+        return intlFormat(value / 1000) + `${abbreviationType === 'long' ? rk(' тыс.') : 'К'}`;
+    }
+}
+
+function intlFormat(num: number): string {
+    return new Intl.NumberFormat('ru-RU').format(Math.round(num * 10) / 10);
 }

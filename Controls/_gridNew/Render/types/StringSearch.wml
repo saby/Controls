@@ -1,0 +1,5 @@
+<Controls.decorator:Highlight highlightedValue="{{ searchValue }}">
+   <ws:value>
+      <ws:String>{{ value }}</ws:String>
+   </ws:value>
+</Controls.decorator:Highlight>

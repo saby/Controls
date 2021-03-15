@@ -1,19 +1,19 @@
-<div class="controls-Render controls-Render_theme-{{_options.theme}}
-            {{_border.top ? 'controls-Render_border-top_theme-' + _options.theme : 'controls-Render_border-top-empty'}}
-            {{_border.right ? 'controls-Render_border-right_theme-' + _options.theme : 'controls-Render_border-right-empty'}}
-            {{_border.bottom ? 'controls-Render_border-bottom_theme-' + _options.theme : 'controls-Render_border-bottom-empty'}}
-            {{_border.left ? 'controls-Render_border-left_theme-' + _options.theme : 'controls-Render_border-left-empty'}}
-            controls-Render_background-{{ _options.contrastBackground ? 'contrast' : 'same' }}_theme-{{ _options.theme }}
+<div class="controls-Render controls-Render controls_theme-{{_options.theme}}
+            {{_border.top ? 'controls-Render_border-top' : 'controls-Render_border-top-empty'}}
+            {{_border.right ? 'controls-Render_border-right' : 'controls-Render_border-right-empty'}}
+            {{_border.bottom ? 'controls-Render_border-bottom' : 'controls-Render_border-bottom-empty'}}
+            {{_border.left ? 'controls-Render_border-left' : 'controls-Render_border-left-empty'}}
+            controls-Render_background-{{ _options.contrastBackground ? 'contrast' : 'same' }}
             controls-Render_textAlign-{{_options.textAlign}}
-            controls-Render{{_statePrefix}}_borderRadius-{{_options.inlineHeight}}_theme-{{_options.theme}}
-            controls-Render_state-{{_state}} controls-Render_state-{{_state}}_theme-{{_options.theme}}
+            controls-Render{{_statePrefix}}_borderRadius-{{_options.inlineHeight}}
+            controls-Render_state-{{_state}} controls-fontsize-{{_options.fontSize}} controls-fontweight-{{_fontWeight}}
             controls-fontsize-{{_options.fontSize}}{{_options.fontSize !== 'inherit' ? '_theme-' + _options.theme}}
             controls-fontweight-{{_fontWeight}}{{_fontWeight !== 'bold' ? '_theme-' + _options.theme}}
-            {{_options.fontSize !== 'inherit' ? 'controls-Render-fontsize-' + _options.fontSize + '_theme-' + _options.theme}}
-            controls-text-{{_options.fontColorStyle}}_theme-{{_options.theme}}
-            controls-Render_state-{{_state}}_{{_options.wasActionByUser ? 'caretFilled' : 'caretEmpty'}}_theme-{{_options.theme}}
-            {{_options.multiline ? 'controls-Render_multiline' :
-            'controls-inlineheight-' + _options.inlineHeight + '_theme-' + _options.theme + ' controls-Render-inlineheight-' + _options.inlineHeight + '_theme-' + _options.theme}}">
+            {{_options.fontSize !== 'inherit' ? 'controls-Render-fontsize-' + _options.fontSize}}
+            controls-text-{{_options.fontColorStyle}}_theme-{{_options.theme}} controls-text-{{_options.fontColorStyle}}
+            controls-Render_state-{{_state}}_{{_options.wasActionByUser ? 'caretFilled' : 'caretEmpty'}}
+            {{_options.multiline ? 'controls-Render_multiline' : ' controls-inlineheight-' + _options.inlineHeight +
+            ' controls-inlineheight-' + _options.inlineHeight + '_theme-' + _options.theme + ' controls-Render-inlineheight-' + _options.inlineHeight}}">
    <div class="controls-Render__wrapper {{_options.footerTemplate ? 'controls-Render__wrapper_footer'}}">
       <ws:if data="{{!_options.multiline}}">
          <span class="controls-Render__baseline">&#65279;</span>
@@ -27,7 +27,7 @@
                   attr:class="controls-Render__field controls-Render__field_textAlign_{{_options.textAlign}}">
          <ws:placeholderTemplate>
             <ws:if data="{{_options.placeholder}}">
-               <div class="controls-Render__placeholder_theme-{{_options.theme}}
+               <div class="controls-Render__placeholder
                            {{_options.multiline ? '' : 'controls-Render__placeholder_overflow'}}">
                   <ws:partial template="{{_options.placeholder}}"/>
                </div>

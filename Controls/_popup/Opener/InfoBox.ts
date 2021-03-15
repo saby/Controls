@@ -14,7 +14,7 @@ import {IInfoBoxPopupOptions, IInfoBoxOpener} from 'Controls/_popup/interface/II
  * @extends UI/Base:Control
  *
  * @private
- * 
+ *
  * @author Красильников А.С.
  * @private
  */
@@ -124,7 +124,8 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
                 message: newCfg.message,
                 style: newCfg.style || 'secondary',
                 floatCloseButton: newCfg.floatCloseButton,
-                validationStatus: newCfg.validationStatus
+                validationStatus: newCfg.validationStatus,
+                theme: newCfg.theme
             },
             template: 'Controls/popupTemplate:templateInfoBox',
             showDelay: newCfg.showDelay
@@ -206,5 +207,14 @@ class InfoBox extends BaseOpener<IInfoBoxOpenerOptions> implements IInfoBoxOpene
         return options;
     }
 }
+
+Object.defineProperty(InfoBox, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return InfoBox.getDefaultOptions();
+   }
+});
 
 export default InfoBox;

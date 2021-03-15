@@ -1,6 +1,10 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {ActualApi, simpleCssStyleGeneration, IButton, IButtonOptions} from 'Controls/buttons';
 import ToggleButtonTemplate = require('wml!Controls/_toggle/Button/Button');
+import 'css!Controls/buttons';
+import 'css!Controls/toggle';
+import 'css!Controls/CommonClasses';
+
 import {ICheckable, ICheckableOptions} from './interface/ICheckable';
 import {
         IFontColorStyle,
@@ -164,8 +168,6 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         this._calculateState(newOptions);
     }
 
-    static _theme: string[] = ['Controls/buttons', 'Controls/toggle', 'Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
             viewMode: 'button',
@@ -176,6 +178,16 @@ class ToggleButton extends Control<IToggleButtonOptions> implements IButton,
         };
     }
 }
+
+Object.defineProperty(ToggleButton, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ToggleButton.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/Button#icons
  * @cfg {Array} Пара иконок.

@@ -6,6 +6,8 @@ import {Control} from 'UI/Base';
 import template = require('wml!Controls/_suggestPopup/Layer/__PopupLayer');
 import getZIndex = require('Controls/Utils/getZIndex');
 import {detection} from 'Env/Env';
+import 'css!Controls/suggestPopup';
+import 'css!Controls/suggest';
 
 var _private = {
    openPopup(self, opener, options): void {
@@ -88,7 +90,6 @@ var __PopupLayer = Control.extend({
    }
 });
 
-__PopupLayer._theme = ['Controls/suggest', 'Controls/suggestPopup'];
 __PopupLayer._private = _private;
 
 export default __PopupLayer;

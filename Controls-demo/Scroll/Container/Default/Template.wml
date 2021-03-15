@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth800">
+<div class="controlsDemo__wrapper__padding-left controlsDemo_fixedWidth300">
     <div class="controlsDemo_ColumnsView_itemTemplate-title controlsDemo__cell">Controls.scroll:ContainerBase</div>
     <Controls.scroll:Container
             attr:class="controlsDemo__height300 controlsDemo_fixedWidth300">

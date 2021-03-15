@@ -1,62 +1,61 @@
-import {Control} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {descriptor} from 'Types/entity';
-import template = require('wml!Controls/_dateRange/RelationButton/RelationButton');
+import * as template from 'wml!Controls/_dateRange/RelationButton/RelationButton';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
-const valueMap = {
-    normal: 'byCapacity',
-    byCapacity: 'normal'
-};
 /**
  * Кнопка для связывания периодов. Контрол, который может использоваться с {@link Controls/_dateRange/RelationController RelationController}.
  *
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less переменные тем оформления} 
+ * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less переменные тем оформления}
  *
  * @class Controls/_dateRange/RelationButton
  * @extends UI/Base:Control
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/dateRange/RelationController
  *
  */
 
-/*
- * Button for linking periods. The control that can be used with {@link Controls/_dateRange/RelationController RelationController}.
- *
- * @class Controls/_dateRange/RelationButton
- * @extends UI/Base:Control
- *
- * 
- * @public
- * @author Красильников А.С.
- * @demo Controls-demo/dateRange/RelationController
- *
- */
-const Component = Control.extend({
-    _template: template,
+const valueMap = {
+    normal: 'byCapacity',
+    byCapacity: 'normal'
+};
 
-    _valueChanged: function (event) {
+export default class RelationButton extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+
+    protected _valueChanged(event: SyntheticEvent<Event>): void {
         event.stopImmediatePropagation();
         this._notify('valueChanged', [valueMap[this._options.value]]);
         this._notify('relationButtonBindTypeChanged', [valueMap[this._options.value]], { bubbling: true });
     }
+
+    static _theme: string[] = ['Controls/dateRange'];
+
+    static getOptionTypes(): object {
+        return {
+            value: descriptor(String).oneOf([
+                'normal',
+                'byCapacity'
+            ])
+        };
+    }
+
+    static getDefaultOptions(): object {
+        return {
+            value: 'normal'
+        };
+    }
+}
+
+Object.defineProperty(RelationButton, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return RelationButton.getDefaultOptions();
+   }
 });
-
-Component.getOptionTypes = function () {
-    return {
-        value: descriptor(String).oneOf([
-            'normal',
-            'byCapacity'
-        ])
-    };
-};
-
-Component.getDefaultOptions = function () {
-    return {
-        value: 'normal'
-    };
-};
-Component._theme = ['Controls/dateRange'];
-export default Component;

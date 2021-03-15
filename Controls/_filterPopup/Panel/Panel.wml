@@ -5,7 +5,7 @@
                                               itemTemplate="{{_options.itemTemplate}}"
                                               itemTemplateProperty="{{_options.itemTemplateProperty}}"
                                               on:itemsChanged="_itemsChangedHandler()"
-                                              attr:class="controls-FilterPanel__PropertyGrid {{(!_hasAdditionalParams && (!_historyId || !_historyItems.getCount() || _options.orientation === 'horizontal')) ? 'controls-FilterPanel_lastBlock'}}"/>
+                                              attr:class="controls-FilterPanel__PropertyGrid {{(!_hasAdditionalParams && (!_options.historyId || !_historyItems.getCount() || _options.orientation === 'horizontal')) ? 'controls-FilterPanel_lastBlock'}}"/>
    </Controls.validate:Controller>
    <ws:if data="{{_hasAdditionalParams}}">
       <Controls._filterPopup.Panel.AdditionalParams.Control
@@ -17,7 +17,7 @@
               itemTemplate="{{_options.additionalTemplate}}"
               itemTemplateProperty="{{_options.additionalTemplateProperty}}"
               on:sourceChanged="_itemsChangedHandler()"
-              attr:class="controls-FilterPanel__AdditionalParams {{!_historyId || !_historyItems.getCount() || _options.orientation === 'horizontal' ? 'controls-FilterPanel_lastBlock'}}"/>
+              attr:class="controls-FilterPanel__AdditionalParams {{!_options.historyId || !_historyItems.getCount() || _options.orientation === 'horizontal' ? 'controls-FilterPanel_lastBlock'}}"/>
    </ws:if>
    <ws:if data="{{_options.footerTemplate}}">
       <ws:partial template="{{_options.footerTemplate}}"/>
@@ -25,16 +25,16 @@
 </ws:template>
 
 <ws:template name="history">
-   <ws:if data="{{_historyId && (_historyItems.getCount() || _options.emptyHistoryTemplate)}}">
+   <ws:if data="{{_options.historyId && (_historyItems.getCount() || _options.emptyHistoryTemplate)}}">
       <Controls._filterPopup.History.List
               items="{{_historyItems}}"
               filterItems="{{_items}}"
-              historyId="{{_historyId}}"
+              historyId="{{_options.historyId}}"
               saveMode="{{_historySaveMode}}"
               orientation="{{_options.orientation}}"
               emptyTemplate="{{_options.emptyHistoryTemplate}}"
               on:historyChanged="_historyItemsChanged()"
-              attr:class="controls-HistoryList__{{_options.orientation}}_theme-{{_options.theme}}"
+              attr:class="controls-HistoryList__{{_options.orientation}}"
               on:applyHistoryFilter="_applyHistoryFilter()"/>
    </ws:if>
 </ws:template>
@@ -42,8 +42,8 @@
 <Controls.form:PrimaryAction on:triggered="_applyFilter()">
     <Controls.popupTemplate:Dialog headingCaption="{{_options.headingCaption}}"
                                                     headingFontColorStyle="{{_options.headingStyle}}"
-                                                    attr:class="controls-PanelFilter
-                                                    controls-FilterPanel__{{_options.orientation}}_theme-{{_options.theme}}
+                                                    attr:class="controls_theme-{{_options.theme}} controls-PanelFilter
+                                                    controls-FilterPanel__{{_options.orientation}}
                                                     {{_hasHistory || _options.emptyHistoryTemplate ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
        <ws:headerContentTemplate>
           <ws:if data="{{_options.topTemplate}}">
@@ -55,9 +55,8 @@
              <ws:if data="{{_hasResetValue && _isChanged}}">
                 <div
                    class="controls-FilterPanel__resetButton
-                          controls-inlineheight-m_theme-{{_options.theme}}
-                          controls-fontsize-m_theme-{{_options.theme}}
-                          controls-FilterPanel__resetButton_theme-{{_options.theme}}"
+                          controls-inlineheight-m
+                          controls-fontsize-m"
                    on:click="_resetFilter()"
                    name="resetButton"
                    tabindex="-1"
@@ -73,16 +72,16 @@
        <ws:bodyContentTemplate>
           <Controls.scroll:Container attr:class="controls-ScrollContainer__flex">
              <ws:if data="{{_options.orientation === 'horizontal'}}">
-                <div class="controls-FilterPanel__content-horizontal_theme-{{_options.theme}}">
+                <div class="controls-FilterPanel__content-horizontal">
                    <div class="controls-FilterPanel__filtersWrapper
-                    controls-FilterPanel_{{_historyId && _historyItems.getCount() ? 'twoColumn' : 'oneColumn'}}__filtersWrapper">
+                    controls-FilterPanel_{{_options.historyId && _historyItems.getCount() ? 'twoColumn' : 'oneColumn'}}__filtersWrapper">
                       <ws:partial template="filtersContent"/>
                    </div>
                    <ws:partial template="history"/>
                 </div>
              </ws:if>
              <ws:else>
-                <div class="controls-FilterPanel__content-vertical_theme-{{_options.theme}}">
+                <div class="controls-FilterPanel__content-vertical">
                     <ws:partial template="filtersContent"/>
                 </div>
                 <ws:partial template="history"/>

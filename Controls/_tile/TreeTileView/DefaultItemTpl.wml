@@ -1,5 +1,5 @@
 <ws:template name="folderTemplate">
-<ws:partial
+   <ws:partial
       template="wml!Controls/_tile/TileView/resources/SmallTemplate"
       width="{{width}}"
       height="{{height}}"
@@ -23,6 +23,7 @@
       backgroundColorStyle="{{backgroundColorStyle}}"
       multiSelectTpl="{{multiSelectTpl}}"/>
 </ws:template>
+
 <ws:template name="leafTemplate">
    <ws:partial
       template="wml!Controls/_tile/TileView/TileTpl"
@@ -49,6 +50,7 @@
       backgroundColorStyle="{{backgroundColorStyle}}"
       multiSelectTpl="{{multiSelectTpl}}"/>
 </ws:template>
+
 <ws:if data="{{invisible}}">
    <div attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}} {{itemData.itemClasses}} controls-TileView__item_invisible"
         attr:style="{{'-ms-flex-preferred-size: ' + (type === 'leaf' ? (itemWidth || itemData.itemWidth || itemData.defaultItemWidth) : (folderWidth || itemData.itemWidth || itemData.defaultFolderWidth)) + 'px; ' +

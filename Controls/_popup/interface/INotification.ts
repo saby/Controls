@@ -30,7 +30,7 @@ export interface INotificationOpener extends IOpener {
  * @description Sets the popup configuration.
  * @property {Boolean} autofocus Определяет, установится ли фокус на шаблон попапа после его открытия.
  * @property {String} className Имена классов, которые будут применены к корневой ноде всплывающего окна.
- * @property {String|Function} template Шаблон всплывающего окна.
+ * @property {String|TemplateFunction} template Шаблон всплывающего окна.
  * @property {Object} templateOptions Опции для контрола, который добавлен в шаблон {@link template}.
  */
 
@@ -52,7 +52,7 @@ export interface INotificationOpener extends IOpener {
  * </pre>
  * <pre>
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions>{
  *    ...
  *    _open() {
  *       var popupOptions = {
@@ -65,7 +65,7 @@ export interface INotificationOpener extends IOpener {
  *       this._children.notificationOpener.open(popupOptions)
  *    }
  *    ...
- * });
+ * }
  * </pre>
  * @see close
  * @see openPopup

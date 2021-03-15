@@ -280,7 +280,7 @@ class PositionParamsCalculator implements IParamsCalculator {
     ): TNavigationDirection {
         let queryDirection;
 
-        if (navigationQueryConfig.task1181218142 && direction === 'forward' && position[0] === EDGE_FORWARD_POSITION) {
+        if (direction === 'forward' && position[0] === EDGE_FORWARD_POSITION) {
             queryDirection = 'backward';
         } else {
             queryDirection = direction;

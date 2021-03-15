@@ -1,5 +1,5 @@
-<div class="controls-StackTemplate controls-StackTemplate_theme_{{_options.theme}}" ws-tab-cycling="true">
-    <div class="controls-StackTemplate-shadow controls-StackTemplate-shadow_theme_{{_options.theme}}"></div>
+<div class="controls-StackTemplate controls_theme-{{_options.theme}}" ws-tab-cycling="true">
+    <div class="controls-StackTemplate-shadow"></div>
     <ws:if data="{{_options.caption || _options.headingCaption || _options.topArea || _options.headerContentTemplate}}">
         <ws:partial template="Controls/_popupTemplate/Stack/resources/Header" scope="{{_options}}"
                     close="{{close}}"
@@ -10,13 +10,13 @@
                     _maximizeButtonVisibility="{{_maximizeButtonVisibility}}" />
     </ws:if>
     <ws:else>
-        <div class="controls-StackTemplate__command_buttons_without_head controls-StackTemplate__command_buttons_without_head_theme-{{_options.theme}}">
+        <div class="controls-StackTemplate__command_buttons_without_head">
             <ws:if data="{{_options.showMaximizedButton || _maximizeButtonVisibility}}">
-                <div class="controls-StackTemplate__maximized_button controls-StackTemplate__maximized_button_theme_{{_options.theme}}" on:click="changeMaximizedState()" attr:title="{{_maximizeButtonTitle}}"></div>
+                <div class="controls-StackTemplate__maximized_button" on:click="changeMaximizedState()" attr:title="{{_maximizeButtonTitle}}"></div>
             </ws:if>
             <ws:if data="{{_options.closeButtonVisibility}}">
                 <Controls._popupTemplate.CloseButton
-                    attr:class="controls-StackTemplate__close_button controls-StackTemplate__close_button_theme_{{_options.theme}}"
+                    attr:class="controls-StackTemplate__close_button"
                     viewMode="{{_options.closeButtonViewMode}}"
                     transparent="{{_options.closeButtonTransparent}}"
                     on:click="close()"/>
@@ -35,7 +35,7 @@
     </div>
 
     <ws:if data="{{_options.footerContentTemplate }}">
-        <div class="controls-StackTemplate__bottomArea controls-StackTemplate__bottomArea_theme_{{_options.theme}}">
+        <div class="controls-StackTemplate__bottomArea">
             <ws:partial template="{{_options.footerContentTemplate}}"
                         scope="{{_options}}"
                         bodyContentTemplate="{{null}}"

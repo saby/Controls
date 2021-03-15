@@ -10,9 +10,10 @@
             scope="{{_options}}"
             items="{{_items}}"
             itemsReadyCallback="{{_itemsReadyCallback}}"
+            dataLoadCallback="{{_dataLoadCallback}}"
             sourceController="{{_sourceController}}"
             filter="{{_sourceControllerState.filter}}"
             navigation="{{_sourceControllerState.navigation}}"
             sorting="{{_sourceControllerState.sorting}}"
             source="{{_sourceControllerState.source}}"
-            sourceControllerCreated="{{!_options.sourceController}}"/>
+            root="{{_sourceControllerState.root}}"/>

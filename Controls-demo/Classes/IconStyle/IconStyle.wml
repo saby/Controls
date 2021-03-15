@@ -1,49 +1,49 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo_fixedWidth350">
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-info_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-info_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-info</div>
+            <span class="icon-Author controls-icon controls-icon_style-info controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-unaccented_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-unaccented_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-unaccented</div>
+            <span class="icon-Author controls-icon controls-icon_style-unaccented controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-label_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-label_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-label</div>
+            <span class="icon-Author controls-icon controls-icon_style-label controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-success_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-success_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-success</div>
+            <span class="icon-Author controls-icon controls-icon_style-success controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-danger_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-danger_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-danger</div>
+            <span class="icon-Author controls-icon controls-icon_style-danger controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-warning_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-warning_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-warning</div>
+            <span class="icon-Author controls-icon controls-icon_style-warning controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-secondary_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-secondary_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-secondary</div>
+            <span class="icon-Author controls-icon controls-icon_style-secondary controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-primary_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-primary_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-primary</div>
+            <span class="icon-Author controls-icon controls-icon_style-primary controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-default_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-default_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-default</div>
+            <span class="icon-Author controls-icon controls-icon_style-default controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_style-readonly_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-readonly_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_style-readonly</div>
+            <span class="icon-Author controls-icon controls-icon_style-readonly controls-icon_size-s"></span>
         </div>
         <div>
-            <div class="controls-text-label_theme-{{_options.theme}}">controls-icon_highlightOnHover_theme-{{_options.theme}}</div>
-            <span class="icon-Author controls-icon controls-icon_style-secondary_theme-{{_options.theme}}
-                controls-icon_highlightOnHover_theme-{{_options.theme}} controls-icon_size-s_theme-{{_options.theme}}"></span>
+            <div class="controls-text-label">controls-icon_highlightOnHover</div>
+            <span class="icon-Author controls-icon controls-icon_style-secondary
+                controls-icon_highlightOnHover controls-icon_size-s"></span>
         </div>
     </div>
 </div>

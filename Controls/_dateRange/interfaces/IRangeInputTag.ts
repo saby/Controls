@@ -35,7 +35,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagClickHandler(target) {
  *          this._children.infoboxOpener.open({
@@ -44,7 +44,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @demo Controls-demo/dateRange/Input/Tag/Index
  * @see endTagStyle
@@ -72,7 +72,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagClickHandler(target) {
  *          this._children.infoboxOpener.open({
@@ -81,7 +81,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @demo Controls-demo/dateRange/Input/Tag/Index
  * @see endTagStyle
@@ -105,7 +105,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagClickHandler(event) {
  *          this._children.infoboxOpener.open({
@@ -114,7 +114,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see startTagStyle
  * @see endTagStyle
@@ -136,7 +136,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagClickHandler(event) {
  *          this._children.infoboxOpener.open({
@@ -145,7 +145,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see startTagStyle
  * @see endTagStyle
@@ -168,7 +168,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagHoverHandler(event) {
  *          this._children.infoboxOpener.open({
@@ -177,7 +177,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see startTagStyle
  * @see endTagStyle
@@ -199,7 +199,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *   class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagHoverHandler(event) {
  *          this._children.infoboxOpener.open({
@@ -208,7 +208,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see startTagStyle
  * @see endTagStyle
@@ -238,7 +238,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *   class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagClickHandler(target) {
  *          this._children.infoboxOpener.open({
@@ -247,7 +247,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @demo Controls-demo/dateRange/Input/Tag/Index
  * @see startTagStyle
@@ -275,7 +275,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagClickHandler(target) {
  *          this._children.infoboxOpener.open({
@@ -284,7 +284,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @demo Controls-demo/dateRange/Input/Tag/Index
  * @see startTagStyle
@@ -309,7 +309,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagClickHandler(event) {
  *          this._children.infoboxOpener.open({
@@ -318,7 +318,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see startTagStyle
  * @see endTagStyle
@@ -340,7 +340,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagClickHandler(event) {
  *          this._children.infoboxOpener.open({
@@ -349,7 +349,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see startTagStyle
  * @see endTagStyle
@@ -373,7 +373,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagHoverHandler(event) {
  *          this._children.infoboxOpener.open({
@@ -382,7 +382,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see startTagStyle
  * @see endTagStyle
@@ -404,7 +404,7 @@
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _tagHoverHandler(event) {
  *          this._children.infoboxOpener.open({
@@ -413,7 +413,7 @@
  *          });
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see startTagStyle
  * @see endTagStyle

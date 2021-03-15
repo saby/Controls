@@ -111,7 +111,7 @@ export default interface IDraggable {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _onDragStart: function(event, items) {
  *          var mainItem = this._items.getRecordById(items[0]);
@@ -126,7 +126,7 @@ export default interface IDraggable {
  *          this._viewSource= new Source({...});
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -187,7 +187,7 @@ export default interface IDraggable {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _dragStart: function(event, items) {
  *          var eventResult = false;
@@ -203,7 +203,7 @@ export default interface IDraggable {
  *          this._viewSource = new Source({...});
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see dragEnd
  */

@@ -30,7 +30,7 @@ export {default as IExpandable, IExpandableOptions} from './_interface/IExpandab
 export {default as ISorting, ISortingOptions, TSortingOptionValue} from './_interface/ISorting';
 export {default as ILookup, ILookupOptions} from './_interface/ILookup';
 export {default as IDateMask, IDateMaskOptions} from './_interface/IDateMask';
-export {default as IDateRangeValidators, IDateRangeValidatorsOptions, DateRangeValidators} from './_interface/IDateRangeValidators';
+export {default as IDateRangeValidators, IDateRangeValidatorsOptions, TDateRangeValidators} from './_interface/IDateRangeValidators';
 export {default as IPropStorage, IPropStorageOptions} from './_interface/IPropStorage';
 export {default as IBorderStyle, IBorderStyleOptions} from './_interface/IBorderStyle';
 export {default as IValidationStatus, IValidationStatusOptions, ValidationStatus} from './_interface/IValidationStatus';
@@ -77,3 +77,27 @@ export {default as IGrouping, IGroupingOptions} from './_interface/IGrouping';
 export {default as IPromiseSelectable, IPromiseSelectableOptions} from './_interface/IPromiseSelectable';
 export {default as IResetValues} from './_interface/IResetValues';
 export {default as IDraggable} from './_interface/IDraggable';
+export {IInputPlaceholder, IInputPlaceholderOptions} from './_interface/IInputPlaceholder';
+export {IInputTag, IInputTagOptions} from './_interface/IInputTag';
+
+// region grid
+
+export {
+    TColumns,
+    IColumn,
+    IColspanParams,
+    ICellPadding,
+    TCellAlign,
+    TCellPaddingVariant,
+    TCellVerticalAlign,
+    TOverflow,
+    IColumnSeparatorSizeConfig,
+    TColumnSeparatorSize
+} from './_interface/grid/IColumn';
+
+export {
+    THeader,
+    IHeaderCell
+} from './_interface/grid/IHeaderCell';
+
+// endregion grid

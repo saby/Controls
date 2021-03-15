@@ -1,0 +1,14 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_default">
+<Controls.treeTile:View
+        displayProperty="title"
+        tileMode="dynamic"
+        imageProperty="image"
+        keyProperty="id"
+        source="{{_viewSource}}">
+  <ws:itemTemplate>
+    <ws:partial template="Controls/tileNew:ItemTemplate"
+                backgroundColorStyle="success">
+    </ws:partial>
+  </ws:itemTemplate>
+</Controls.treeTile:View>
+</div>

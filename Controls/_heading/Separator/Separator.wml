@@ -1,9 +1,9 @@
-<div class="controls-HeaderSeparator">
+<div class="controls-HeaderSeparator controls_theme-{{_options.theme}}">
    <div class="controls-HeaderSeparator__wrapper">
       <svg viewBox="0 0 6 10"
            xmlns="http://www.w3.org/2000/svg"
-           class="controls-HeaderSeparator__arrow_theme-{{_options.theme}}
-                  controls-HeaderSeparator__arrow_style-{{_options.style}}_theme-{{_options.theme}}">
+           class="controls-HeaderSeparator__arrow
+                  controls-HeaderSeparator__arrow_style-{{_options.style}}">
          <polygon points="0,0 2,0 6,5 2,10 0,10 4,5"/>
       </svg>
    </div>

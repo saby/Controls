@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import counterTemplate = require('wml!Controls/_heading/Counter/Counter');
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {IFontColorStyle, IFontColorStyleOptions, IFontSize, IFontSizeOptions} from 'Controls/interface';
+import 'css!Controls/heading';
 
 export interface ICounterOptions extends IControlOptions, IFontColorStyleOptions, IFontSizeOptions {
 }
@@ -23,7 +24,7 @@ export interface ICounterOptions extends IControlOptions, IFontColorStyleOptions
  * @implements Controls/_interface/ICaption
  * @implements Controls/interface:IFontColorStyle
  * @implements Controls/_interface/IFontSize
- * 
+ *
  * @public
  * @author Красильников А.С.
  *
@@ -51,7 +52,7 @@ class Counter extends Control<ICounterOptions> implements IFontColorStyle, IFont
 
     protected _template: TemplateFunction = counterTemplate;
 
-    static _theme: string[] = ['Controls/heading', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {
@@ -66,5 +67,14 @@ class Counter extends Control<ICounterOptions> implements IFontColorStyle, IFont
         };
     }
 }
+
+Object.defineProperty(Counter, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Counter.getDefaultOptions();
+   }
+});
 
 export default Counter;

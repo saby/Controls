@@ -1,11 +1,13 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_explorer/PathController/HeadingPathBack');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_explorer/PathController/HeadingPathBack';
 import {calculatePath} from 'Controls/dataSource';
 
-var HeadingPathBack = Control.extend({
-   _template: template,
+export default class HeadingPathBack extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
+   protected _headingPathBackOptions: object;
+   protected _needHeadingPathBack: boolean;
 
-   _beforeMount: function(options) {
+   protected _beforeMount(options): Promise<void> {
       return options.itemsAndHeaderPromise.then(({ items }) => {
          this._needHeadingPathBack = !!items;
          if (this._needHeadingPathBack) {
@@ -17,9 +19,9 @@ var HeadingPathBack = Control.extend({
             };
          }
       });
-   },
+   }
 
-   _beforeUpdate: function(newOptions) {
+   protected _beforeUpdate(newOptions): void {
       if (newOptions.items !== this._options.items) {
          this._needHeadingPathBack = !!newOptions.items;
          if (this._needHeadingPathBack) {
@@ -32,5 +34,4 @@ var HeadingPathBack = Control.extend({
          }
       }
    }
-});
-export = HeadingPathBack;
+}

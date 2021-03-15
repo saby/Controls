@@ -16,12 +16,10 @@ var
         _resolveBaseItemTemplate(): TemplateFunction {
             return GridLayoutUtil.isFullGridSupport() ? GridItemTemplate : TableItemTemplate;
         },
-        _onExpanderClick(e, dispItem): void {
-            this._notify('expanderClick', [dispItem], {bubbling: true});
-            e.stopImmediatePropagation();
-        },
-        _onLoadMoreClick(e, dispItem): void {
-            this._notify('loadMoreClick', [dispItem]);
+        _onNodeFooterClick(e, dispItem) {
+            if (e.target.closest('.js-controls-TreeGrid__nodeFooter__LoadMoreButton')) {
+                this._notify('loadMore', [dispItem]);
+            }
         }
     });
 

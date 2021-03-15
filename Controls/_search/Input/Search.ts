@@ -6,6 +6,7 @@ import {descriptor} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {default as Store} from 'Controls/Store';
+import 'css!Controls/search';
 
 // timer for search, when user click on search button or pressed enter.
 // protect against clickjacking (https://en.wikipedia.org/wiki/Clickjacking)
@@ -197,12 +198,15 @@ class Search extends Base {
         this._wasActionUser = true;
     }
 
-    static _theme: string[] = Base._theme.concat(['Controls/search']);
+    reset(): void {
+        this._resetClick();
+    }
 
     static _private = _private;
 
     static getDefaultOptions(): object {
        let defaultOptions = Base.getDefaultOptions();
+       defaultOptions.borderVisibility = 'visible';
        defaultOptions.contrastBackground = false;
        defaultOptions.trim = false;
        defaultOptions.placeholder = rk('Найти') + '...';
@@ -223,6 +227,15 @@ class Search extends Base {
        return optionTypes;
     }
 }
+
+Object.defineProperty(Search, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Search.getDefaultOptions();
+   }
+});
 
 /**
  * @event Происходит при нажатии на иконку поиска (лупы).
@@ -314,6 +327,26 @@ class Search extends Base {
  *    <Controls.search:Input contrastBackground="{{true}}" bind:value="_searchValue"/>
  * </pre>
  * @see style
+ */
+
+ /**
+ * Сбрасывает значение в строке поиска
+ * @name  Controls/_search/Input/Search#reset
+ * @function
+ * @example
+ * <pre class="brush: js">
+ * // TS
+ * private _resetSearchValue():void {
+ *     this._children.search.reset();
+ * }
+ * </pre>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.buttons:Button caption='Reset filter' on:click='_resetFilter()'/>
+ * <Controls.search:Input name='search'>
+ *     ...
+ * </Controls.search:Input>
+ * </pre>
  */
 
 export default Search;

@@ -16,7 +16,7 @@
                {{height === 'auto' ? 'controls-TileView__item_autoHeight'}}
                {{highlightOnHover === true ? ' controls-TileView__itemContent_highlightOnHover_theme-' + theme}}
                {{backgroundColorStyle ? ' controls-TileView__itemContent_background_' + backgroundColorStyle +'_theme-' + theme}}
-               js-controls-ItemActions__swipeMeasurementContainer
+               js-controls-ListView__measurableContainer
                {{!!itemData.isActive() ? ' controls-TileView__item_active_theme-' + theme}}
                {{!!itemData.isSwiped() ? ' controls-TileView__item_swiped_theme-' + theme}}
                {{itemData.isHovered ? ' controls-TileView__item_hovered'}}

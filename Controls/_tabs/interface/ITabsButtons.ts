@@ -8,6 +8,7 @@ export interface ITabsButtons {
 /**
  * Интерфейс для опций контрола вкладок.
  * @interface Controls/_tabs/interface/ITabsButtons
+ * @implements Controls/_interface/ISeparatorVisible
  * @public
  * @author Красильников А.С.
  */
@@ -50,8 +51,6 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
 
 /**
  * @name Controls/_tabs/interface/ITabsButtons#separatorVisible
- * @cfg {Boolean} Определяет наличие разделителя между вкладками
- * @default true
  * @demo Controls-demo/Tabs/Buttons/SeparatorVisible/Index
  */
 

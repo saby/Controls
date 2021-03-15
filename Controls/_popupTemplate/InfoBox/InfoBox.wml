@@ -1,18 +1,19 @@
-<div class="controls-InfoBoxTemplate controls-InfoBoxTemplate_theme-{{_options.theme}} controls-InfoBoxTemplate__arrow-side-position-{{_arrowSide}} controls-InfoBoxTemplate__arrow-side-{{_arrowPosition}}" >
-   <div class="controls-InfoBoxTemplate__content controls-InfoBoxTemplate__content_theme-{{_options.theme}}
-               controls-InfoBoxTemplate_style_{{_borderStyle}}_theme-{{_options.theme}}
-               controls-InfoBoxTemplate_style-{{_arrowSide}}_{{_borderStyle}}_theme-{{_options.theme }}">
+<div class="controls-InfoBoxTemplate controls_theme-{{_options.theme}} controls-InfoBoxTemplate__arrow-side-position-{{_arrowSide}}
+            controls-InfoBoxTemplate__arrow-side-{{_arrowPosition}}" >
+   <div class="controls-InfoBoxTemplate__content
+               controls-InfoBoxTemplate_style_{{_borderStyle}}
+               controls-InfoBoxTemplate_style-{{_arrowSide}}_{{_borderStyle}}">
       <ws:if data="{{_options.content}}">
          <ws:partial template="{{_options.content}}" attr:class="controls-InfoBoxTemplate__content-area"/>
       </ws:if>
       <ws:if data="{{_options.closeButtonVisibility}}">
-         <Controls._popupTemplate.CloseButton attr:class="controls-InfoBoxTemplate__closeButton controls-InfoBoxTemplate__closeButton_theme-{{_options.theme}}" on:click="_close()" viewMode="link" attr:ws-no-focus="true" />
+         <Controls._popupTemplate.CloseButton attr:class="controls-InfoBoxTemplate__closeButton" on:click="_close()" viewMode="link" attr:ws-no-focus="true" />
       </ws:if>
    </div>
-   <div class="controls-InfoBoxTemplate__arrow-wrapper controls-InfoBoxTemplate__arrow-wrapper-{{_arrowSide}}_theme-{{_options.theme}}">
-      <div class="controls-InfoBoxTemplate__arrow controls-InfoBoxTemplate__arrow_theme-{{_options.theme}}
-       controls-InfoBoxTemplate__arrow-{{_borderStyle}}_theme-{{_options.theme}}
-        controls-InfoBoxTemplate__arrow-{{_arrowSide}}_theme-{{_options.theme}}
-         controls-InfoBoxTemplate__arrow-position-{{_arrowPosition}}_theme-{{_options.theme}}"></div>
+   <div class="controls-InfoBoxTemplate__arrow-wrapper controls-InfoBoxTemplate__arrow-wrapper-{{_arrowSide}}">
+      <div class="controls-InfoBoxTemplate__arrow
+       controls-InfoBoxTemplate__arrow-{{_borderStyle}}
+        controls-InfoBoxTemplate__arrow-{{_arrowSide}}
+         controls-InfoBoxTemplate__arrow-position-{{_arrowPosition}}"></div>
    </div>
 </div>

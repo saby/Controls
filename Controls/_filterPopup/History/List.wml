@@ -1,17 +1,17 @@
 <ws:template name="pinned">
-   <span title="{{item.get('pinned') ? rk('Открепить') : rk('Закрепить')}}" class="{{item.get('pinned') ? 'icon-Pin controls-HistoryList__iconPin-active controls-HistoryList__iconPin-active_theme-' + _options.theme : 'icon-PinNull controls-HistoryList__iconPin-default_theme-' + _options.theme}} controls-HistoryList__iconPin controls-HistoryList__iconPin_theme-{{_options.theme}}"
+   <span title="{{item.get('pinned') ? rk('Открепить') : rk('Закрепить')}}" class="{{item.get('pinned') ? 'icon-Pin controls-HistoryList__iconPin-active' : 'icon-PinNull controls-HistoryList__iconPin-default'}} controls-HistoryList__iconPin controls-HistoryList__iconPin"
          on:click="_onPinClick(item)"></span>
 </ws:template>
 
 <ws:template name="favorite">
-   <span class="{{item.get('pinned') || item.get('client') ? 'icon-Favorite controls-HistoryList__iconPin-active controls-HistoryList__iconPin-active_theme-' + _options.theme : 'icon-Unfavorite controls-HistoryList__iconPin-default_theme-' + _options.theme}} controls-HistoryList__iconPin controls-HistoryList__iconPin_theme-{{_options.theme}}"
+   <span class="{{item.get('pinned') || item.get('client') ? 'icon-Favorite controls-HistoryList__iconPin-active controls-HistoryList__iconPin-active' : 'icon-Unfavorite controls-HistoryList__iconPin-default'}} controls-HistoryList__iconPin controls-HistoryList__iconPin}}"
          on:click="_onFavoriteClick(item, text)"></span>
 </ws:template>
 
 <ws:template name="itemContent">
    <div on:swipe="_itemSwipe(item)"
-      class="controls-HistoryList__itemWrapper controls-HistoryList__itemWrapper_theme-{{_options.theme}} controls-HistoryList_{{_options.orientation}}__itemWrapper_theme-{{_options.theme}}">
-      <div class="controls-HistoryList__item controls-HistoryList__item_theme-{{_options.theme}} controls-HistoryList_{{_options.orientation}}__item_theme-{{_options.theme}} {{item.get('pinned') || item.get('client') ? 'controls-HistoryList__item_pinned'}}"
+      class="controls-HistoryList__itemWrapper controls-HistoryList_{{_options.orientation}}__itemWrapper">
+      <div class="controls-HistoryList__item controls-HistoryList_{{_options.orientation}}__item {{item.get('pinned') || item.get('client') ? 'controls-HistoryList__item_pinned'}}"
            on:click="_clickHandler(item)" title="{{text}}">{{text}}</div>
       <ws:partial
          attr:class="{{item === _swipeItem ? 'controls-HistoryList__iconSwipe'}}"
@@ -21,10 +21,10 @@
    </div>
 </ws:template>
 
-<div class="controls-HistoryList">
+<div class="controls_theme-{{_options.theme}} controls-HistoryList">
    <ws:if data="{{_items.getCount()}}">
-      <div class="controls-HistoryList__heading_theme-{{_options.theme}}">{[Ранее отбирались]}</div>
-      <div class="controls-HistoryList__content_theme-{{_options.theme}} {{_isMaxHeight && _options.orientation === 'vertical' ? 'controls-HistoryList_block-maxHeight_theme-' + _options.theme : ''}}">
+      <div class="controls-HistoryList__heading">{[Ранее отбирались]}</div>
+      <div class="controls-HistoryList__content {{_isMaxHeight && _options.orientation === 'vertical' ? 'controls-HistoryList_block-maxHeight' : ''}}">
          <ws:for data="index, item in _items">
             <ws:if data="{{index < _historyCount}}">
                <ws:partial template="itemContent"
@@ -47,12 +47,5 @@
                  contrastBackground="{{false}}"
                  on:click="_clickSeparatorHandler()"/>
       </div>
-   </ws:if>
-
-   <ws:if data="{{ _options.saveMode === 'favorite' }}">
-      <Controls.popup:Sticky name="stickyOpener"
-                             closeOnOutsideClick="{{true}}"
-                             on:result="_editDialogResult()"
-                             template="Controls/_filterPopup/History/_EditDialog"/>
    </ws:if>
 </div>

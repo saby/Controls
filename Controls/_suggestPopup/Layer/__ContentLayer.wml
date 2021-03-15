@@ -1,7 +1,6 @@
-<div class="controls-Suggest__suggestionsContainer
-            controls-Suggest__suggestionsContainer_theme-{{_options.theme}}
+<div class="controls_theme-{{_options.theme}} controls-Suggest__suggestionsContainer
             controls-Suggest__suggestionsContainer-inInput {{!_showContent ? 'ws-invisible'}}
-            controls-Suggest__suggestionsContainer_direction-{{_openDirection}}_theme-{{_options.theme}}"
+            controls-Suggest__suggestionsContainer_direction-{{_openDirection}}"
      style="height:{{_height}}; max-height:{{_maxHeight}};">
     <Controls.popupTemplate:CloseButton attr:class="controls-Suggest__close" on:click="close()"/>
     <Controls.event:Register name="resize" register="controlResize">

@@ -1,4 +1,4 @@
-import {Control as BaseControl} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import {Base as DateUtil} from 'Controls/dateUtils';
@@ -15,27 +15,6 @@ import IMonth from './interfaces/IMonth';
 
 import {Logger} from 'UI/Utils';
 import {constants} from 'Env/Env';
-
-var _private = {
-   _updateView: function(self, options) {
-      var newMonth = options.month || new options.dateConstructor();
-
-      // localization can change in runtime, take the actual translation of the months each time the component
-      // is initialized. In the array, the days of the week are in the same order as the return values
-      // of the Date.prototype.getDay () method.  Moving the resurrection from the beginning of the array to the end.
-      self._days = calendarUtils.getWeekdaysCaptions();
-
-      if (!DateUtil.isDatesEqual(newMonth, self._month)) {
-         self._month = newMonth;
-         if (options.showCaption) {
-            self._caption = formatDate(self._month, options.captionFormat);
-         }
-      }
-      self._month = DateUtil.normalizeMonth(self._month);
-      self._showWeekdays = options.showWeekdays;
-   }
-};
-
 
 /**
  * Календарь, отображающий 1 месяц.
@@ -54,98 +33,12 @@ var _private = {
  *
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/Calendar/MonthView/LongCellName/LongCellName
+ * @demo Controls-demo/Date/MonthView
  * @demo Controls-demo/Calendar/MonthView/NewMode/Index
  *
  */
-var MonthView = BaseControl.extend({
-   _template: dotTplFn,
 
-   _month: null,
-   _showWeekdays: null,
-   _monthViewModel: null,
-   _caption: null,
-   _hoveredItem: null,
-   _baseHoveredItem: null,
-
-   _beforeMount: function(options) {
-      _private._updateView(this, options);
-      this._monthViewModel = options.monthViewModel ? new options.monthViewModel(options) : new MonthViewModel(options);
-
-      if (!options.newMode) {
-         Logger.warn('MonthView: Используется устаревшая верстка, используйте newMode=true для перехода на новую');
-      }
-   },
-
-   _beforeUpdate: function(newOptions) {
-      _private._updateView(this, newOptions);
-
-      this._monthViewModel.updateOptions(newOptions);
-   },
-
-    _dateToDataString: function(date) {
-      return monthListUtils.dateToId(date);
-   },
-
-   _getDayData: function() {
-      return {};
-   },
-
-   _dayClickHandler: function(event, item, isCurrentMonth) {
-      if (this._options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.disable &&
-          !this._options.readOnly && (isCurrentMonth || this._options.mode === 'extended')) {
-         this._baseHoveredItem = item;
-         this._hoveredItem = this._baseHoveredItem;
-         this._notify('itemClick', [item, event]);
-      }
-   },
-
-   _mouseEnterHandler: function(event, item, isCurrentMonth) {
-      if (isCurrentMonth || this._options.mode === 'extended') {
-         this._hoveredItem = item;
-         this._notify('itemMouseEnter', [item]);
-      }
-   },
-
-   _mouseLeaveHandler: function(event, item, isCurrentMonth) {
-      if (isCurrentMonth || this._options.mode === 'extended') {
-         this._hoveredItem = this._baseHoveredItem;
-         this._notify('itemMouseLeave', [item]);
-      }
-   },
-
-   _keyDownHandler: function(event: Event, item: Date, isCurrentMonth: boolean): void {
-           const hoveredItem = this._hoveredItem || item;
-           const keyCode = event.nativeEvent.keyCode;
-           if (keyCode === constants.key.enter) {
-               this._dayClickHandler(event, this._hoveredItem, isCurrentMonth);
-           }
-           if (hoveredItem && this._options.selectionType !== 'quantum') {
-               const newHoveredItem = keyboardPeriodController(keyCode, hoveredItem, 'days');
-               if (newHoveredItem) {
-                   const elementToFocus = document.querySelector(
-                       `.controls-MonthViewVDOM__item[data-date="${this._dateToDataString(newHoveredItem)}"]`
-                   );
-                   elementToFocus?.focus();
-                   this._hoveredItem = newHoveredItem;
-                   this._notify('itemMouseEnter', [newHoveredItem]);
-                   event.preventDefault();
-               }
-           }
-   }
-
-   // cancelSelection: function () {
-   //    var canceled = MonthView.superclass.cancelSelection.call(this);
-   //    // if (canceled) {
-   //    //    this._selectionType = null;
-   //    // }
-   //    return canceled;
-   // }
-});
-
-MonthView._private = _private;
-
-var defaultOptions = {
+const defaultOptions = {
    ...IMonth.getDefaultOptions(),
    dayTemplate: dayTemplate,
    dayHeaderTemplate: dayHeaderTemplate,
@@ -154,15 +47,118 @@ var defaultOptions = {
    newMode: true
 };
 
-MonthView.getDefaultOptions = function() {
-   return defaultOptions;
-};
+export default class MonthView extends Control<IControlOptions> {
+   _template: TemplateFunction = dotTplFn;
+   _month: Date|string;
+   _showWeekdays: boolean;
+   _monthViewModel: MonthViewModel;
+   _caption: string;
+   _hoveredItem: Date;
+   _baseHoveredItem: Date;
 
-MonthView.getOptionTypes = function() {
-   return IMonth.getOptionTypes();
-};
+   protected _beforeMount(options): void {
+      this._updateView(options);
+      this._monthViewModel = options.monthViewModel ? new options.monthViewModel(options) : new MonthViewModel(options);
 
-MonthView._theme = ['Controls/calendar'];
+      if (!options.newMode) {
+         Logger.warn('MonthView: Используется устаревшая верстка, используйте newMode=true для перехода на новую');
+      }
+   }
+
+   protected _beforeUpdate(newOptions): void {
+      this._updateView(newOptions);
+
+      this._monthViewModel.updateOptions(newOptions);
+   }
+
+   protected _dateToDataString(date): string {
+      return monthListUtils.dateToId(date);
+   }
+
+   protected _getDayData(): object {
+      return {};
+   }
+
+   protected _dayClickHandler(event, item, isCurrentMonth): void {
+      if (this._options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.disable &&
+          !this._options.readOnly && (isCurrentMonth || this._options.mode === 'extended')) {
+         this._baseHoveredItem = item;
+         this._hoveredItem = this._baseHoveredItem;
+         this._notify('itemClick', [item, event]);
+      }
+   }
+
+   protected _mouseEnterHandler(event, item, isCurrentMonth): void {
+      if (isCurrentMonth || this._options.mode === 'extended') {
+         this._hoveredItem = item;
+         this._notify('itemMouseEnter', [item]);
+      }
+   }
+
+   protected _mouseLeaveHandler(event, item, isCurrentMonth): void {
+      if (isCurrentMonth || this._options.mode === 'extended') {
+         this._hoveredItem = this._baseHoveredItem;
+         this._notify('itemMouseLeave', [item]);
+      }
+   }
+
+    protected _keyDownHandler(event: Event, item: Date, isCurrentMonth: boolean): void {
+        const hoveredItem = this._hoveredItem || item;
+        const keyCode = event.nativeEvent.keyCode;
+        if (keyCode === constants.key.enter) {
+            this._dayClickHandler(event, this._hoveredItem, isCurrentMonth);
+        }
+        if (hoveredItem && this._options.selectionType !== 'quantum') {
+            const newHoveredItem = keyboardPeriodController(keyCode, hoveredItem, 'days');
+            if (newHoveredItem) {
+                const elementToFocus = document.querySelector(
+                    `.controls-MonthViewVDOM__item[data-date="${this._dateToDataString(newHoveredItem)}"]`
+                );
+                elementToFocus?.focus();
+                this._hoveredItem = newHoveredItem;
+                this._notify('itemMouseEnter', [newHoveredItem]);
+                event.preventDefault();
+            }
+        }
+    }
+
+   private _updateView(options): void {
+      var newMonth = options.month || new options.dateConstructor();
+
+      // localization can change in runtime, take the actual translation of the months each time the component
+      // is initialized. In the array, the days of the week are in the same order as the return values
+      // of the Date.prototype.getDay () method.  Moving the resurrection from the beginning of the array to the end.
+      this._days = calendarUtils.getWeekdaysCaptions();
+
+      if (!DateUtil.isDatesEqual(newMonth, this._month)) {
+         this._month = newMonth;
+         if (options.showCaption) {
+            this._caption = formatDate(this._month, options.captionFormat);
+         }
+      }
+      this._month = DateUtil.normalizeMonth(this._month);
+      this._showWeekdays = options.showWeekdays;
+   }
+
+   static _theme: string[] = ['Controls/calendar'];
+
+   static getOptionTypes(): object {
+      return IMonth.getOptionTypes();
+   }
+
+   static getDefaultOptions(): object {
+      return defaultOptions;
+   }
+}
+
+Object.defineProperty(MonthView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MonthView.getDefaultOptions();
+   }
+});
 
 /**
  * @event Происходит после клика по элементу дня в календаре.
@@ -171,4 +167,3 @@ MonthView._theme = ['Controls/calendar'];
  * @param {Date} item Дата элемента, по которому произвели клик.
  * @param {Vdom/Vdom:SyntheticEvent} event Дескриптор события onclick, при клике по дню месяца.
  */
-export default MonthView;

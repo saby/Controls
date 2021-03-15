@@ -1,14 +1,13 @@
-<div class="controls-Checkbox">
+<div class="controls-Checkbox controls_theme-{{_options.theme}}">
     <div class="controls-invalid-container">
         <div on:click="_clickHandler()"
              class="controls-Checkbox__wrapper
-                    controls-Checkbox__wrapper_theme-{{_options.theme}}
                     {{_options.readOnly ? 'controls-Checkbox__disabled' : 'controls-Checkbox__enabled'}}
                     {{_options.value ? ' controls-Checked__checked'}}
                     {{_options.value === null && _options.triState ? ' controls-ToggleButton__null'}}"
              title="{{_options.tooltip}}">
             <Controls._toggle.Checkbox.resources.CheckboxMarker
-                        attr:class="controls-CheckboxMarker_inCheckbox_theme-{{_options.theme}}"
+                        attr:class="controls-CheckboxMarker_inCheckbox"
                         value="{{_options.value}}"
                         triState="{{_options.triState}}"/>
             <ws:partial template="wml!Controls/_toggle/Checkbox/resources/CheckboxCaption"
@@ -18,6 +17,6 @@
                         iconStyle="{{_options.iconStyle}}"
                         caption="{{_options.caption}}"/>
         </div>
-        <div class="{{_options.validationStatus !== 'valid' ? 'controls-invalid-border controls-' + _options.validationStatus + '-border_theme-' + _options.theme}}"></div>
+        <div class="{{_options.validationStatus !== 'valid' ? 'controls-invalid-border controls-' + _options.validationStatus + '-border'}}"></div>
     </div>
 </div>

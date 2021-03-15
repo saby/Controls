@@ -2,31 +2,31 @@
    justify-content: center;
 }
 //button
-.controls-Button_button_style-secondary_toggled_theme-@{themeName} {
-   border-color: @secondary_toggled_border-color_toggleButton_button;
-   border-width: @secondary_toggled_border-thickness_toggleButton_button;
+.controls-Button_button_style-secondary_toggled {
+   border-color: var(--secondary_toggled_border-color_toggleButton_button);
+   border-width: var(--secondary_toggled_border-thickness_toggleButton_button);
 }
 
-.controls-Button_button_style-primary_toggled_theme-@{themeName} {
-   border-color: @primary_toggled_border-color_toggleButton_button;
-   border-width: @primary_toggled_border-thickness_toggleButton_button;
+.controls-Button_button_style-primary_toggled {
+   border-color: var(--primary_toggled_border-color_toggleButton_button);
+   border-width: var(--primary_toggled_border-thickness_toggleButton_button);
 }
 
 //toolButton
-.controls-Button_toolButton_style-secondary_toggled_theme-@{themeName} {
-   border-color: @secondary_toggled_border-color_toggleButton_toolButton;
+.controls-Button_toolButton_style-secondary_toggled {
+   border-color: var(--secondary_toggled_border-color_toggleButton_toolButton);
 }
 
-.controls-Button_toolButton_style-danger_toggled_theme-@{themeName} {
-   border-color: @success_color;
+.controls-Button_toolButton_style-danger_toggled {
+   border-color: var(--success_color);
 }
 
-.controls-Button_toolButton_style-success_toggled_theme-@{themeName} {
-   border-color: @danger_color;
+.controls-Button_toolButton_style-success_toggled {
+   border-color: var(--danger_color);
 }
 
-.controls-Button_toolButton_style-readonly_toggled_theme-@{themeName} {
-   border-color: @readonly_border-color_button_toolButton;
+.controls-Button_toolButton_style-readonly_toggled {
+   border-color: var(--readonly_border-color_button_toolButton);
 }
 
 //borders
@@ -34,136 +34,127 @@
    border-style: solid;
 }
 
-.controls-Button_pushButton_theme-@{themeName} {
-   border-width: @border-thickness_button;
-   border-radius: @border-radius_toggleButton_pushButton;
-   box-shadow: @box-shadow_toggleButton_pushButton;
+.controls-Button_pushButton {
+   border-width: var(--border-thickness_button);
+   border-radius: var(--border-radius_toggleButton_pushButton);
+   box-shadow: var(--box-shadow_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-secondary_theme-@{themeName} {
-   border-color: @secondary_border-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-secondary {
+   border-color: var(--secondary_border-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-primary_theme-@{themeName} {
+.controls-Button_pushButton_style-primary {
    border-color: transparent;
 }
 
-.controls-Button_pushButton_style-danger_theme-@{themeName} {
+.controls-Button_pushButton_style-danger {
    border-color: transparent;
 }
 
-.controls-Button_pushButton_style-success_theme-@{themeName} {
+.controls-Button_pushButton_style-success {
    border-color: transparent;
 }
 
-.controls-Button_pushButton_style-readonly_theme-@{themeName} {
-   border-color: @readonly_toggled_border-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-readonly {
+   border-color: var(--readonly_border-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-secondary_toggled_theme-@{themeName} {
-   border-color: @secondary_toggled_border-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-secondary_toggled {
+   border-color: var(--secondary_toggled_border-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-primary_toggled_theme-@{themeName} {
-   border-color: @secondary_toggled_border-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-primary_toggled {
+   border-color: var(--secondary_toggled_border-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-danger_toggled_theme-@{themeName} {
-   border-color: @danger_color;
+.controls-Button_pushButton_style-danger_toggled {
+   border-color: var(--danger_color);
 }
 
-.controls-Button_pushButton_style-success_toggled_theme-@{themeName} {
-   border-color: @success_color;
+.controls-Button_pushButton_style-success_toggled {
+   border-color: var(--success_color);
 }
 
-.controls-Button_pushButton_style-readonly_toggled_theme-@{themeName} {
-   border-color: @readonly_toggled_border-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-readonly_toggled {
+   border-color: var(--readonly_toggled_border-color_toggleButton_pushButton);
 }
 
 //background
-.controls-Button_pushButton_style-secondary_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
-   background-color: @secondary_contrast_background-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-secondary.controls-Button_bg-contrast {
+   background-color: var(--secondary_contrast_background-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-secondary_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
-   background-color: @secondary_background-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-secondary.controls-Button_bg-same {
+   background-color: var(--secondary_background-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-secondary_toggled_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
-   background-color: @secondary_contrast_toggled_background-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-secondary_toggled.controls-Button_bg-contrast {
+   background-color: var(--secondary_contrast_toggled_background-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-secondary_toggled_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
-   background-color: @secondary_toggled_background-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-secondary_toggled.controls-Button_bg-same {
+   background-color: var(--secondary_toggled_background-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-readonly_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
-   background-color: @readonly_contrast_toggled_background-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-readonly.controls-Button_bg-contrast {
+   background-color: var(--readonly_contrast_toggled_background-color_toggleButton_pushButton);
 }
 
-.controls-Button_pushButton_style-readonly_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
-   background-color: @readonly_toggled_background-color_toggleButton_pushButton;
+.controls-Button_pushButton_style-readonly.controls-Button_bg-same {
+   background-color: var(--readonly_toggled_background-color_toggleButton_pushButton);
 }
 
 .ws-is-hover {
-   .controls-Button_pushButton_style-secondary_theme-@{themeName}:hover.controls-Button_bg-contrast_theme-@{themeName} {
-      background-color: @secondary_contrast_hover_background-color_toggleButton_pushButton;
+   .controls-Button_pushButton_style-secondary:hover.controls-Button_bg-contrast {
+      background-color: var(--secondary_contrast_hover_background-color_toggleButton_pushButton);
    }
 
-   .controls-Button_pushButton_style-secondary_theme-@{themeName}:hover.controls-Button_bg-same_theme-@{themeName} {
-      background-color: @secondary_hover_background-color_toggleButton_pushButton;
+   .controls-Button_pushButton_style-secondary:hover.controls-Button_bg-same {
+      background-color: var(--secondary_hover_background-color_toggleButton_pushButton);
    }
 }
 
 .ws-is-no-touch,
 .ws-is-touch {
-   .controls-Button_pushButton_style-secondary_theme-@{themeName}:active.controls-Button_bg-contrast_theme-@{themeName} {
-      background-color: @secondary_contrast_hover_background-color_toggleButton_pushButton;
+   .controls-Button_pushButton_style-secondary:active.controls-Button_bg-contrast {
+      background-color: var(--secondary_contrast_hover_background-color_toggleButton_pushButton);
    }
 
-   .controls-Button_pushButton_style-secondary_theme-@{themeName}:active.controls-Button_bg-same_theme-@{themeName} {
-      background-color: @secondary_hover_background-color_toggleButton_pushButton;
+   .controls-Button_pushButton_style-secondary:active.controls-Button_bg-same {
+      background-color: var(--secondary_hover_background-color_toggleButton_pushButton);
    }
 }
 
 //this is square buttons, that's why width is equal to height
-.controls-Button_pushButton_xs_theme-@{themeName} {
-   min-width: @inline_height_xs;
+.controls-Button_pushButton_xs {
+   min-width: var(--inline_height_xs);
 }
 
-.controls-Button_pushButton_s_theme-@{themeName} {
-   min-width: @inline_height_s;
+.controls-Button_pushButton_s {
+   min-width: var(--inline_height_s);
 }
 
-.controls-Button_pushButton_m_theme-@{themeName} {
-   min-width: @inline_height_m;
+.controls-Button_pushButton_m {
+   min-width: var(--inline_height_m);
 }
 
-.controls-Button_pushButton_l_theme-@{themeName} {
-   min-width: @inline_height_l;
+.controls-Button_pushButton_l {
+   min-width: var(--inline_height_l);
 }
 
-.controls-Button_pushButton_xl_theme-@{themeName} {
-   min-width: @inline_height_xl;
+.controls-Button_pushButton_xl {
+   min-width: var(--inline_height_xl);
 }
 
-.controls-Button_pushButton_2xl_theme-@{themeName} {
-   min-width: @inline_height_2xl;
+.controls-Button_pushButton_2xl {
+   min-width: var(--inline_height_2xl);
 }
 
-.controls-Button_pushButton_default_theme-@{themeName} {
-   min-width: @inline_height_default;
+.controls-Button_pushButton_default {
+   min-width: var(--inline_height_default);
 }
 
 .controls-Button_pushButton:active {
    box-shadow: none;
-}
-
-//TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=33010df1-501e-4874-a02c-a5f45394a661
-.controls-icon_size-datePopupStateButton_theme-@{themeName} {
-   font-size: @switcher_icon-size_datePicker;
-   line-height: @switcher_icon-size_datePicker;
-   width: @switcher_icon-size_datePicker;
-   height: @switcher_icon-size_datePicker;
-   font-family: @icon_font-family_s;
 }

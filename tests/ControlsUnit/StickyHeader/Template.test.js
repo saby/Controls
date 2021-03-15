@@ -27,9 +27,6 @@ define(
                top: 0,
                bottom: 0
             };
-            inst._context = {
-               stickyHeader: new scroll._stickyHeaderContext({shadowPosition: ''})
-            };
             inst._options = {
                fixedZIndex: 2,
                position: 'top'

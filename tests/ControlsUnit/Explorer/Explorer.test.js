@@ -25,6 +25,9 @@ define([
       return entity;
    }
 
+   var GlobalView = new explorerMod.View();
+   GlobalView._beforeMount({});
+
    describe('Controls.Explorer', function() {
       it('_private block', function() {
          var
@@ -43,6 +46,7 @@ define([
             self = {
                _forceUpdate: forceUpdate,
                _notify: notify,
+               _resolveItemsOnFirstLoad: () => {},
                _updateHeadingPath: updateHeadingPath,
                _options: {
                   dataLoadCallback: dataLoadCallback,
@@ -69,7 +73,8 @@ define([
          testData3.setMetaData({
             path: testBreadCrumbs2
          });
-         explorerMod.View._private.setRoot(self, testRoot);
+         GlobalView._setRoot.call(self, testRoot);
+         delete self._resolveItemsOnFirstLoad;
          assert.deepEqual({
             _root: 'testRoot',
             _forceUpdate: forceUpdate,
@@ -81,17 +86,19 @@ define([
             }
          }, self, 'Incorrect self data after "setRoot(self, testRoot)".');
          assert.isTrue(itemOpenHandlerCalled);
-
-         explorerMod.View._private.serviceDataLoadCallback(self, null, testData1);
+         self._resolveItemsOnFirstLoad = () => {};
+         self._updateSubscriptionOnBreadcrumbs = () => {};
+         self._getDataRoot = () => {};
+         GlobalView._serviceDataLoadCallbackFunc.call(self, null, testData1);
          assert.deepEqual(self._breadCrumbsItems, null, 'Incorrect "breadCrumbsItems"');
 
-         explorerMod.View._private.serviceDataLoadCallback(self, testData1, testData2);
+         GlobalView._serviceDataLoadCallbackFunc.call(self, testData1, testData2);
          assert.deepEqual(self._breadCrumbsItems, chain.factory(testBreadCrumbs).toArray(), 'Incorrect "breadCrumbsItems"');
 
-         explorerMod.View._private.serviceDataLoadCallback(self, testData2, testData1);
+         GlobalView._serviceDataLoadCallbackFunc.call(self, testData2, testData1);
          assert.deepEqual(self._breadCrumbsItems, null, 'Incorrect "breadCrumbsItems"');
 
-         explorerMod.View._private.serviceDataLoadCallback(self, testData1, testData3);
+         GlobalView._serviceDataLoadCallbackFunc.call(self, testData1, testData3);
          assert.deepEqual(self._breadCrumbsItems, null, 'Incorrect "breadCrumbsItems"');
       });
       it('should update subscription on data recordSet on change', function () {
@@ -111,9 +118,7 @@ define([
                    assert.equal(fn, _updateHeadingPath);
                 }
              },
-             self = {
-                _updateHeadingPath
-             },
+             self = new explorerMod.View(),
              testBreadCrumbs1 = new collection.RecordSet({
                 rawData: []
              }),
@@ -144,29 +149,33 @@ define([
                isUnSubscribed = isSubscribed = false;
             };
 
+
+         self._beforeMount({});
+         self._updateHeadingPath = _updateHeadingPath;
          testBreadCrumbs1.subscribe = subscribe;
          testBreadCrumbs1.unsubscribe = unsubscribe;
          testBreadCrumbs2.subscribe = subscribe;
          testBreadCrumbs2.unsubscribe = unsubscribe;
 
-         explorerMod.View._private.serviceDataLoadCallback(self, null, testDataRecordSet1);
+         self._serviceDataLoadCallback(null, testDataRecordSet1);
          assertCase(false, true);
 
-         explorerMod.View._private.serviceDataLoadCallback(self, testDataRecordSet1, testDataRecordSet2);
+         self._serviceDataLoadCallback(testDataRecordSet1, testDataRecordSet2);
          assertCase(true, true);
 
-         explorerMod.View._private.serviceDataLoadCallback(self, testDataRecordSet2, testDataRecordSet1);
+         self._serviceDataLoadCallback(testDataRecordSet2, testDataRecordSet1);
          assertCase(true, true);
       });
 
       it('_private.canStartDragNDrop', function() {
          var
             explorer = new explorerMod.View({});
+         explorer._beforeMount({});
 
          explorer._viewMode = 'table';
-         assert.isTrue(explorerMod.View._private.canStartDragNDrop(explorer));
+         assert.isTrue(explorer._canStartDragNDrop());
          explorer._viewMode = 'search';
-         assert.isFalse(explorerMod.View._private.canStartDragNDrop(explorer));
+         assert.isFalse(explorer._canStartDragNDrop());
       });
 
       it('_private.getRoot', function() {
@@ -178,11 +187,11 @@ define([
 
          explorer.saveOptions(cfg);
          explorer._root = 'rootFromState';
-         assert.equal(explorerMod.View._private.getRoot(explorer, cfg.root), 'rootFromOptions');
+         assert.equal(explorer._getRoot(cfg.root), 'rootFromOptions');
 
          delete cfg.root;
          explorer.saveOptions(cfg);
-         assert.equal(explorerMod.View._private.getRoot(explorer, cfg.root), 'rootFromState');
+         assert.equal(explorer._getRoot(cfg.root), 'rootFromState');
       });
 
       it('_private.getDataRoot', function() {
@@ -194,12 +203,12 @@ define([
             explorer = new explorerMod.View(cfg);
 
          explorer.saveOptions(cfg);
-         assert.equal(explorerMod.View._private.getDataRoot(explorer, cfg), 'rootFromOptions');
+         assert.equal(explorer._getDataRoot(cfg), 'rootFromOptions');
 
          delete cfg.root;
          explorer.saveOptions(cfg);
          explorer._root = 'rootFromState';
-         assert.equal(explorerMod.View._private.getDataRoot(explorer, cfg), 'rootFromState');
+         assert.equal(explorer._getDataRoot(cfg), 'rootFromState');
 
          explorer._breadCrumbsItems = [new entityLib.Model({
             rawData: {
@@ -207,11 +216,11 @@ define([
             },
             keyProperty: 'id'
          })];
-         assert.equal(explorerMod.View._private.getDataRoot(explorer, cfg), 'rootFromBreadCrumbs');
+         assert.equal(explorer._getDataRoot(cfg), 'rootFromBreadCrumbs');
 
          cfg.root = 'rootFromOptions';
          explorer.saveOptions(cfg);
-         assert.equal(explorerMod.View._private.getDataRoot(explorer, cfg), 'rootFromBreadCrumbs');
+         assert.equal(explorer._getDataRoot(cfg), 'rootFromBreadCrumbs');
       });
 
       it('itemsReadyCallback', function() {
@@ -226,8 +235,9 @@ define([
             },
             explorer = new explorerMod.View(cfg);
          explorer.saveOptions(cfg);
+         explorer._beforeMount({});
 
-         explorerMod.View._private.itemsReadyCallback(explorer, items);
+         explorer._itemsReadyCallback(items);
          assert.equal(itemsReadyCallbackArgs, items);
          assert.equal(explorer._items, items);
       });
@@ -237,6 +247,7 @@ define([
          const cfg = {};
          const explorer = new explorerMod.View(cfg);
          explorer.saveOptions(cfg);
+         explorer.__beforeMount(cfg);
 
          explorer._isGoingBack = true;
          explorer._root = null;
@@ -252,7 +263,7 @@ define([
          };
 
          assert.equal(explorer._markerForRestoredScroll, null);
-         explorerMod.View._private.itemsSetCallback(explorer);
+         explorer._itemsSetCallback();
 
          assert.strictEqual(markedKey, 'test');
          assert.strictEqual(explorer._markerForRestoredScroll, 'test');
@@ -266,9 +277,9 @@ define([
             [null]: { markedKey: 'test' }
          };
 
-         explorerMod.View._private.itemsSetCallback(explorer);
+         explorer._itemsSetCallback();
 
-         assert.strictEqual(markedKey, null);
+         // assert.strictEqual(markedKey, null);
          assert.isFalse(explorer._isGoingFront);
          assert.isFalse(clearSelectionCalled);
       });
@@ -323,7 +334,7 @@ define([
                      root = eventValue[0];
                   }
                };
-               return explorerMod.View._private.setViewMode(instance, newCfg.viewMode, newCfg);
+               return instance._setViewMode(newCfg.viewMode, newCfg);
             })
             .then(() => {
                assert.equal(instance._viewMode, 'search');
@@ -347,12 +358,12 @@ define([
                   }
                ));
                instance._viewMode = 'tree';
-               return explorerMod.View._private.setViewMode(instance, newCfg.viewMode, newCfg);
+               return instance._setViewMode(newCfg.viewMode, newCfg);
             })
             .then(() => {
                assert.isFalse(rootChanged);
 
-               return explorerMod.View._private.setViewMode(instance, newCfg2.viewMode, newCfg2);
+               return instance._setViewMode(newCfg2.viewMode, newCfg2);
             })
             .then(() => {
                assert.equal(instance._viewMode, 'tile');
@@ -367,7 +378,7 @@ define([
                   },
                   keyProperty: 'id'
                })];
-               explorerMod.View._private.setViewMode(instance, newCfg3.viewMode, newCfg3);
+               instance._setViewMode(newCfg3.viewMode, newCfg3);
                assert.isTrue(rootChanged);
                assert.equal(root, 1);
                assert.equal(instance._breadCrumbsItems, null);
@@ -446,7 +457,7 @@ define([
          instance._itemsResolver = function() {
             itemsPromiseResolved = true;
          };
-         instance._dataLoadErrback({});
+         instance._dataLoadErrback(cfg);
          assert.isTrue(itemsPromiseResolved);
       });
       it('sourceController with error', async () => {
@@ -542,6 +553,7 @@ define([
             const cfg = { viewMode: 'tree', root: null };
             const cfg2 = { viewMode: 'tile' , root: 'abc' };
             const instance = new explorerMod.View(cfg);
+            instance._beforeMount({});
             instance._children = {
                treeControl: {
                   resetExpandedItems: () => null
@@ -555,7 +567,7 @@ define([
             instance.saveOptions(cfg2);
             assert.strictEqual(instance._viewMode, 'tree');
 
-            explorerMod.View._private.itemsSetCallback(instance);
+            instance._itemsSetCallback();
             assert.strictEqual(instance._viewMode, 'tile');
          });
       });
@@ -670,7 +682,7 @@ define([
                keyProperty: 'id'
             })];
 
-            explorerMod.View._private.backByPath(explorer);
+            explorer._backByPath(explorer);
 
             assert.isTrue(isNotified);
             assert.equal(root, 1);
@@ -684,7 +696,7 @@ define([
                keyProperty: 'id'
             }));
 
-            explorerMod.View._private.backByPath(explorer);
+            explorer._backByPath(explorer);
 
             assert.isTrue(isNotified);
             assert.equal(root, 2);
@@ -692,7 +704,7 @@ define([
 
             explorer._breadCrumbsItems = [];
 
-            explorerMod.View._private.backByPath(explorer);
+            explorer._backByPath(explorer);
 
             assert.isFalse(isNotified);
          });
@@ -794,6 +806,7 @@ define([
                }),
                isEventResultReturns = false,
                isPropagationStopped = isNotified = isNativeClickEventExists = false;
+            explorer._beforeMount({});
 
             explorer.saveOptions({
                editingConfig: {}
@@ -1018,7 +1031,7 @@ define([
                112: {parent: 11, markedKey: null},
             };
             explorer._root = 112;
-            explorerMod.View._private.pathCleaner(explorer, 1);
+            explorer._pathCleaner(1);
 
             assert.deepEqual({
                1: {parent: null, markedKey: 11},
@@ -1139,16 +1152,16 @@ define([
          it('dragItemsFromRoot', function() {
 
             //item from the root
-            assert.isTrue(explorerMod.View._private.dragItemsFromRoot(explorer, [1]));
+            assert.isTrue(explorer._dragItemsFromRoot([1]));
 
             //item is not from the root
-            assert.isFalse(explorerMod.View._private.dragItemsFromRoot(explorer, [2]));
+            assert.isFalse(explorer._dragItemsFromRoot([2]));
 
             //item is not from the root and from the root
-            assert.isFalse(explorerMod.View._private.dragItemsFromRoot(explorer, [1, 2]));
+            assert.isFalse(explorer._dragItemsFromRoot([1, 2]));
 
             //an item that is not in the list.
-            assert.isFalse(explorerMod.View._private.dragItemsFromRoot(explorer, [4]));
+            assert.isFalse(explorer._dragItemsFromRoot([4]));
          });
          it('_dragHighlighter', function() {
             explorer._hoveredBreadCrumb = 2;
@@ -1248,13 +1261,13 @@ define([
 
       describe('restore position navigation when going back', () => {
          it('_private::isCursorNavigation', () => {
-            assert.isFalse(explorerMod.View._private.isCursorNavigation({}));
-            assert.isFalse(explorerMod.View._private.isCursorNavigation({}));
-            assert.isFalse(explorerMod.View._private.isCursorNavigation({
+            assert.isFalse(GlobalView._isCursorNavigation({}));
+            assert.isFalse(GlobalView._isCursorNavigation({}));
+            assert.isFalse(GlobalView._isCursorNavigation({
                source: 'page'
             }));
 
-            assert.isTrue(explorerMod.View._private.isCursorNavigation({
+            assert.isTrue(GlobalView._isCursorNavigation({
                source: 'position'
             }));
          });
@@ -1274,19 +1287,19 @@ define([
             };
 
             assert.deepEqual(
-               explorerMod.View._private.getCursorPositionFor(item, navigation),
+                GlobalView._getCursorPositionFor(item, navigation),
                [12]
             );
 
             navigation.sourceConfig.field = ['id'];
             assert.deepEqual(
-               explorerMod.View._private.getCursorPositionFor(item, navigation),
+                GlobalView._getCursorPositionFor(item, navigation),
                [12]
             );
 
             navigation.sourceConfig.field = ['id', 'title'];
             assert.deepEqual(
-               explorerMod.View._private.getCursorPositionFor(item, navigation),
+                GlobalView._getCursorPositionFor(item, navigation),
                [12, 'Title']
             );
          });
@@ -1411,7 +1424,7 @@ define([
             };
 
             explorer._breadCrumbsItems = [rootItem, childItem];
-            explorerMod.View._private.backByPath(explorer);
+            GlobalView._backByPath(explorer);
 
             assert.deepEqual(
                explorer._navigation.sourceConfig.position,
@@ -1420,7 +1433,7 @@ define([
 
 
             explorer._breadCrumbsItems = [rootItem];
-            explorerMod.View._private.backByPath(explorer);
+            GlobalView._backByPath(explorer);
 
             assert.deepEqual(
                explorer._navigation.sourceConfig.position,

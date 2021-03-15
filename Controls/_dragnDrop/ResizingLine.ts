@@ -174,4 +174,13 @@ class ResizingLine extends Control<IControlOptions, IResizingLine> {
     }
 }
 
+Object.defineProperty(ResizingLine, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return ResizingLine.getDefaultOptions();
+   }
+});
+
 export default ResizingLine;

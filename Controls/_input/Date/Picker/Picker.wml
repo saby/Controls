@@ -28,11 +28,11 @@
       on:tagClick="_proxyEvent('tagClick')"
       on:tagHover="_proxyEvent('tagHover')">
    </Controls._input.DateTime>
-   <span class="controls-Input-DatePicker__buttonWrapper_theme-{{_options.theme}}" attr:tabindex="-1">
+   <span class="controls-Input-DatePicker__buttonWrapper" attr:tabindex="-1">
       <span class="ws-flexbox ws-align-items-center controls-Input-DatePicker__buttonBaseLine" on:click="openPopup()">
             <svg class="controls-Input-DatePicker__button
-                        controls-Input-DatePicker__button_theme-{{_options.theme}}
-                        controls-icon_style-secondary_theme-{{_options.theme}}"
+                        controls-Input-DatePicker__button
+                        controls-icon_style-secondary controls-icon_style-secondary_theme-{{_options.theme}}"
                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
               viewBox="0 0 21 21" style="enable-background:new 0 0 21 21;" xml:space="preserve">
             <g>

@@ -22,7 +22,7 @@
  * @author Крайнов Д.О.
  */
 
-import Container = require("Controls/_lookupPopup/Container");
+import Container = require('wml!Controls/_lookupPopup/WrappedContainer');
 import ListContainer = require("Controls/_lookupPopup/List/Container");
 import Collection = require("Controls/_lookupPopup/SelectedCollection/Popup");
 import listMemorySourceFilter = require('Controls/_lookupPopup/List/Utils/memorySourceFilter');

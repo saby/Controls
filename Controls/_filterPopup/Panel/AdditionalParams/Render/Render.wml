@@ -10,15 +10,15 @@
                additionalTemplate="{{_options.itemTemplate}}"
                column="{{direction}}"/>
 </ws:template>
-<div class="controls-AdditionalParamsRender">
+<div class="controls_theme-{{_options.theme}} controls-AdditionalParamsRender">
    <ws:if data="{{_options.headingCaption}}">
       <div
-         class="controls-AdditionalParamsRender__heading controls-AdditionalParamsRender__heading_theme-{{_options.theme}}">
+         class="controls-AdditionalParamsRender__heading">
          {{_options.headingCaption}}
       </div>
    </ws:if>
-   <div class="controls-AdditionalParamsRender__items controls-AdditionalParamsRender__items_theme-{{_options.theme}}
-               {{!_options.arrowExpanded && !_options.groupProperty ? 'controls-AdditionalParamsRender_block-maxHeight controls-AdditionalParamsRender_block-maxHeight_theme-' + _options.theme}}
+   <div class="controls-AdditionalParamsRender__items
+               {{!_options.arrowExpanded && !_options.groupProperty ? 'controls-AdditionalParamsRender_block-maxHeight'}}
                {{_options.groupProperty ? 'controls-AdditionalParamsRender-withGroup'}}">
       <div class="controls-AdditionalParamsRender__items-column controls-AdditionalParamsRender__items-leftColumn">
          <ws:partial template="forTemplate" direction="left"/>

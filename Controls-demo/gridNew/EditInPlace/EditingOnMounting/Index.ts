@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/EditingOnMounti
 import * as EditingTemplate from 'wml!Controls-demo/gridNew/EditInPlace/EditingOnMounting/EditingTemplate';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { TColspanCallbackResult } from 'Controls/display';
 
 export default class extends Control {

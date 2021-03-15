@@ -5,14 +5,13 @@ define(
       'Types/source',
       'Types/collection',
       'Controls/history',
-      'Core/Deferred',
       'Types/chain',
       'Controls/_dropdown/dropdownHistoryUtils',
       'Application/Env',
       'Controls/dataSource',
       'Core/nativeExtensions'
    ],
-   function(filter, Clone, sourceLib, collection, history, Deferred, chain, historyUtils, Env, dataSource) {
+   function(filter, Clone, sourceLib, collection, history, chain, historyUtils, Env, dataSource) {
       describe('Filter:View', function() {
 
          let defaultItems = [
@@ -120,11 +119,9 @@ define(
             assert.strictEqual(view._filterText, 'Author: Ivanov K.K.');
             assert.isOk(view._configs.document.sourceController);
             assert.isOk(view._configs.state.sourceController);
-            assert.isFalse(view._hasSelectorTemplate);
 
             defaultConfig.source[0].editorOptions.selectorTemplate = 'New Template';
             view._beforeMount(defaultConfig, {}, receivedState);
-            assert.isTrue(view._hasSelectorTemplate);
          });
 
          it('_beforeMount from options', function(done) {
@@ -147,6 +144,7 @@ define(
                return new collection.RecordSet({ rawData: Clone(defaultItems[1]) });
             };
             config.source[1].editorOptions.source = testHSource;
+            config.panelTemplateName = 'panelName';
             view._beforeMount(config).addCallback(function(state) {
                assert.deepStrictEqual(view._displayText, expectedDisplayText);
                assert.strictEqual(view._filterText, 'Author: Ivanov K.K.');
@@ -157,7 +155,7 @@ define(
             });
          });
 
-         it('_beforeUpdate', function(done) {
+         it('_beforeUpdate', async function() {
             let view = getView(defaultConfig);
             view._beforeUpdate(defaultConfig);
 
@@ -167,6 +165,7 @@ define(
             };
 
             let newConfig = Clone(defaultConfig);
+            newConfig.panelTemplateName = 'panelName';
             newConfig.source[0].value = 1;
             newConfig.source[0].editorOptions.source = new sourceLib.Memory({
                keyProperty: 'id',
@@ -175,36 +174,35 @@ define(
             view._configs = {};
             view._displayText = {};
 
-            //isNeedReload = true
-            view._beforeUpdate(newConfig).addCallback(function() {
-               assert.deepStrictEqual(view._displayText, expectedDisplayText);
+            // isNeedReload = true
+            await view._beforeUpdate(newConfig);
+            assert.deepStrictEqual(view._displayText, expectedDisplayText);
 
-               newConfig = Clone(defaultConfig);
-               newConfig.source[0].value = 2;
-               newConfig.source[1].value = [5];
-               expectedDisplayText = {
-                  document: {text: 'My department', title: 'My department', hasMoreText: ''},
-                  state: {text: 'Completed negative', title: 'Completed negative', hasMoreText: ''}
-               };
+            newConfig = Clone(defaultConfig);
+            newConfig.panelTemplateName = 'panelName';
+            newConfig.source[0].value = 2;
+            newConfig.source[1].value = [5];
+            expectedDisplayText = {
+               document: {text: 'My department', title: 'My department', hasMoreText: ''},
+               state: {text: 'Completed negative', title: 'Completed negative', hasMoreText: ''}
+            };
 
-               //isNeedReload = false
-               view._beforeUpdate(newConfig);
-               assert.deepStrictEqual(view._displayText, expectedDisplayText);
+            // isNeedReload = false
+            await view._beforeUpdate(newConfig);
+            assert.deepStrictEqual(view._displayText, expectedDisplayText);
 
-               newConfig = Clone(defaultConfig);
-               newConfig.source[0].viewMode = 'basic';
-               newConfig.source[2].viewMode = 'frequent';
-               newConfig.source[2].editorOptions.source = new sourceLib.Memory({
-                  keyProperty: 'id',
-                  data: defaultItems[0]
-               });
-
-               //isNeedReload = true
-               view._beforeUpdate(newConfig).addCallback(function() {
-                  assert.equal(Object.keys(view._configs).length, 2);
-                  done();
-               });
+            newConfig = Clone(defaultConfig);
+            newConfig.panelTemplateName = 'panelName';
+            newConfig.source[0].viewMode = 'basic';
+            newConfig.source[2].viewMode = 'frequent';
+            newConfig.source[2].editorOptions.source = new sourceLib.Memory({
+               keyProperty: 'id',
+               data: defaultItems[0]
             });
+
+            // isNeedReload = true
+            await view._beforeUpdate(newConfig);
+            assert.equal(Object.keys(view._configs).length, 2);
          });
 
          it('_beforeUpdate new items length', function() {
@@ -224,12 +222,12 @@ define(
             view._configs = {};
             view._displayText = {};
             newConfig.source.splice(1,1);
-            view._beforeUpdate(newConfig).addCallback(() => {
+            view._beforeUpdate(newConfig).then(() => {
                assert.deepStrictEqual(view._displayText, expectedDisplayText);
             });
          });
 
-         it('_private:reload check configs', function(done) {
+         it('reload check configs', function(done) {
             let view = getView(defaultConfig);
             view._source = defaultConfig.source;
             view._displayText = {};
@@ -241,14 +239,15 @@ define(
                   sourceController: 'old sourceController'},
                state: {}
             };
-            filter.View._private.reload(view).addCallback(() => {
+            view._reload().addCallback(() => {
                assert.equal(view._configs.document.items.getCount(), 2);
                done();
             });
             assert.equal(view._configs.document.items.length, 7);
          });
 
-         it ('_private.clearConfigs', function() {
+         it ('_clearConfigs', function() {
+            let view = getView(defaultConfig);
             let source = Clone(defaultSource);
             source.splice(1, 1); // delete 'state' item
             let configs = {
@@ -261,28 +260,29 @@ define(
                   keyProperty: 'id'
                }
             };
-            filter.View._private.clearConfigs(source, configs);
+            view._clearConfigs(source, configs);
             assert.isOk(configs['document']);
             assert.isNotOk(configs['state']);
          });
 
-         it('_private:isNeedReload', function() {
+         it('_isNeedReload', function() {
+            let view = getView(defaultConfig);
             let oldItems = defaultConfig.source;
             let newItems = Clone(defaultConfig.source);
 
-            let result = filter.View._private.isNeedReload(oldItems, newItems);
+            let result = view._isNeedReload(oldItems, newItems);
             assert.isFalse(result);
 
             newItems[0].viewMode = 'basic';
-            result = filter.View._private.isNeedReload(oldItems, newItems);
+            result = view._isNeedReload(oldItems, newItems);
             assert.isFalse(result);
 
             newItems[2].viewMode = 'frequent';
-            result = filter.View._private.isNeedReload(oldItems, newItems);
+            result = view._isNeedReload(oldItems, newItems);
             assert.isTrue(result);
 
             oldItems = [];
-            result = filter.View._private.isNeedReload(oldItems, newItems);
+            result = view._isNeedReload(oldItems, newItems);
             assert.isTrue(result);
          });
 
@@ -370,23 +370,23 @@ define(
          it('_openPanel with error', (done) => {
             let view = getView(defaultConfig);
             view._beforeMount(defaultConfig).then(() => {
-                let sandBox = sinon.createSandbox();
-                sandBox.stub(filter.View._private, 'loadUnloadedFrequentItems').rejects(42);
-                sandBox.stub(filter.View._private, 'sourcesIsLoaded').returns(true);
-                let stub = sandBox.stub(dataSource.error, 'process');
+               let sandBox = sinon.createSandbox();
+               sandBox.stub(view, '_loadUnloadedFrequentItems').rejects(42);
+               sandBox.stub(view, '_sourcesIsLoaded').returns(true);
+               let stub = sandBox.stub(dataSource.error, 'process');
 
-                view._configs = {};
-                view._options.panelTemplateName = 'panelTemplateName.wml';
+               view._configs = {};
+               view._options.panelTemplateName = 'panelTemplateName.wml';
 
-                view._openPanel().then(() => {
-                    assert.deepEqual(stub.getCall(0).args[0], { error: 42 });
-                    sandBox.restore();
-                    view._open = () => {};
-                    view._openPanel().then(() => {
-                       assert.isTrue(Object.keys(view._configs).length > 0);
-                       done();
-                    });
-                });
+               view._openPanel().then(() => {
+                  assert.deepEqual(stub.getCall(0).args[0], { error: 42 });
+                  sandBox.restore();
+                  view._open = () => {};
+                  view._openPanel().then(() => {
+                     assert.isTrue(Object.keys(view._configs).length > 0);
+                     done();
+                  });
+               });
             });
          });
 
@@ -432,7 +432,7 @@ define(
 
          describe('calculateStateSourceControllers', () => {
             it('not calculate state for unloaded filter', () => {
-               const originalMethod =  filter.View._private.getSourceController;
+               let view = getView(defaultConfig);
                let methodCalled = false;
                const getSourceController = () => {
                   methodCalled = true;
@@ -440,7 +440,7 @@ define(
                      calculateState: () => true
                   };
                };
-               filter.View._private.getSourceController = getSourceController;
+               view._getSourceController = getSourceController;
                const items = [{
                   name: 'document',
                   viewMode: 'frequent',
@@ -458,9 +458,8 @@ define(
                      name: 'document',
                   }
                };
-               filter.View._private.calculateStateSourceControllers(items, configs);
+               view._calculateStateSourceControllers(items, configs);
                assert.isFalse(methodCalled);
-               filter.View._private.getSourceController = originalMethod;
             });
          });
 
@@ -583,7 +582,7 @@ define(
             view._source = source;
             view._dateRangeItem = dateItem;
             view._rangeValueChangedHandler('rangeChanged', new Date(2019, 6, 1), new Date(2019, 6, 31));
-            assert.deepStrictEqual(filter.View._private.getDateRangeItem(view._source).value, [new Date(2019, 6, 1), new Date(2019, 6, 31)]);
+            assert.deepStrictEqual(view._getDateRangeItem(view._source).value, [new Date(2019, 6, 1), new Date(2019, 6, 31)]);
             assert.deepStrictEqual(newFilter, {
                date: [new Date(2019, 6, 1), new Date(2019, 6, 31)],
                author: 'Ivanov K.K.',
@@ -609,10 +608,11 @@ define(
             view._source = source;
             view._dateRangeItem = dateItem;
             view._rangeTextChangedHandler('rangeChanged', 'Date textValue');
-            assert.deepStrictEqual(filter.View._private.getDateRangeItem(view._source).textValue, 'Date textValue');
+            assert.deepStrictEqual(view._getDateRangeItem(view._source).textValue, 'Date textValue');
          });
 
-         it('_private:getDateRangeItem', () => {
+         it('_getDateRangeItem', () => {
+            let view = getView(defaultConfig);
             let source = [...defaultSource];
             let dateItem = {
                name: 'date',
@@ -626,11 +626,11 @@ define(
                viewMode: 'basic'
             };
             source.push(dateItem);
-            let item = filter.View._private.getDateRangeItem(source);
-            assert.deepStrictEqual(item, dateItem)
+            let item = view._getDateRangeItem(source);
+            assert.deepStrictEqual(item, dateItem);
          });
 
-         it('_private:updateText filterText', function() {
+         it('_updateText filterText', function() {
             let source = [
                {name: 'date', type: 'dateRange', value: [new Date(2019, 7, 1), new Date(2019, 7, 31)], textValue: "July'19", resetValue: [new Date(2019, 6, 1), new Date(2019, 6, 31)], viewMode: 'basic'},
                {name: 'author', value: 'Ivanov K.K.', textValue: 'Author: Ivanov K.K.', resetValue: '', viewMode: 'basic'},
@@ -638,14 +638,14 @@ define(
                {name: 'responsible', value: 'test_extended', resetValue: '', textValue: 'test_extended', viewMode: 'extended', visibility: true},
                {name: 'frequent', value: 'test_frequent', textValue: 'test_frequent', resetValue: '', viewMode: 'frequent'}
             ];
-            let self = {
-               _displayText: {}
-            };
-            filter.View._private.updateText(self, source, {});
-            assert.strictEqual(self._filterText, 'Author: Ivanov K.K., test_extended');
+            let view = getView(defaultConfig);
+            view._displayText = {};
+            view._updateText(source, {});
+            assert.strictEqual(view._filterText, 'Author: Ivanov K.K., test_extended');
          });
 
-         it('_private:getFastText', function() {
+         it('_getFastText', function() {
+            let view = getView(defaultConfig);
             let config = {
                displayProperty: 'title',
                keyProperty: 'id',
@@ -660,14 +660,15 @@ define(
                   ]
                })
             };
-            let display = filter.View._private.getFastText(config, [null]);
+            let display = view._getFastText(config, [null]);
             assert.strictEqual(display.text, 'Reset');
 
-            display = filter.View._private.getFastText(config, ['empty']);
+            display = view._getFastText(config, ['empty']);
             assert.strictEqual(display.text, 'empty text');
          });
 
-         it('_private:getKeysUnloadedItems', function() {
+         it('_getKeysUnloadedItems', function() {
+            let view = getView(defaultConfig);
             let config = {
                displayProperty: 'title',
                keyProperty: 'id',
@@ -681,39 +682,41 @@ define(
                   ]
                })
             };
-            let keys = filter.View._private.getKeysUnloadedItems(config, null);
+            let keys = view._getKeysUnloadedItems(config, null);
             assert.strictEqual(keys[0], null);
 
-            keys = filter.View._private.getKeysUnloadedItems(config, 'empty');
+            keys = view._getKeysUnloadedItems(config, 'empty');
             assert.isFalse(!!keys.length);
          });
 
-         it('_private:resolveItems', function() {
+         it('_resolveItems', function() {
+            let view = getView(defaultConfig);
+
             let date = new Date();
             date.setSQLSerializationMode(Date.SQL_SERIALIZE_MODE_TIME);
-            let self = {};
-            filter.View._private.resolveItems(self, [date]);
-            assert.strictEqual(self._source[0].getSQLSerializationMode(), date.getSQLSerializationMode());
+            view._resolveItems([date]);
+            assert.strictEqual(view._source[0].getSQLSerializationMode(), date.getSQLSerializationMode());
          });
 
-         it('_private:resolveItems check _hasResetValues', function() {
-            let self = {};
+         it('_resolveItems check _hasResetValues', function() {
+            let view = getView(defaultConfig);
             let items = [
                {name: '1', value: '', resetValue: null},
                {name: '2', value: '', resetValue: undefined}
             ];
-            filter.View._private.resolveItems(self, items);
-            assert.isTrue(self._hasResetValues);
+            view._resolveItems(items);
+            assert.isTrue(view._hasResetValues);
 
             items = [
                {name: '1', value: ''},
                {name: '2', value: ''}
             ];
-            filter.View._private.resolveItems(self, items);
-            assert.isFalse(self._hasResetValues);
+            view._resolveItems(items);
+            assert.isFalse(view._hasResetValues);
          });
 
-         it('_private:getFolderIds', function() {
+         it('_getFolderIds', function() {
+            let view = getView(defaultConfig);
             const items = new collection.RecordSet({
                rawData: [
                   {key: '1', title: 'In any state', node: true, parent: null},
@@ -724,7 +727,7 @@ define(
                ],
                keyProperty: 'key'
             });
-            const folders = filter.View._private.getFolderIds(items, {
+            const folders = view._getFolderIds(items, {
                nodeProperty: 'node',
                parentProperty: 'parent',
                keyProperty: 'key'
@@ -732,7 +735,8 @@ define(
             assert.deepStrictEqual(folders, ['1', '5']);
          });
 
-         it('_private:loadSelectedItems', function(done) {
+         it('_loadSelectedItems', async function() {
+            let view = getView(defaultConfig);
             let source = [...defaultSource];
             source[1].value = [1];
             source[1].editorOptions.dataLoadCallback = () => {isDataLoad = true};
@@ -766,18 +770,17 @@ define(
             const sandBox = sinon.createSandbox();
             let stub = sandBox.stub(historyUtils, 'getSourceFilter');
 
-            filter.View._private.loadSelectedItems(source, configs).addCallback(() => {
+            await view._loadSelectedItems(source, configs).then(() => {
                assert.strictEqual(configs['state'].popupItems.getCount(), 6);
                assert.strictEqual(configs['state'].items.getCount(), 7);
                assert.deepStrictEqual(configs['state'].items.at(0).getRawData(), {id: 1, title: 'In any state'});
                assert.isTrue(isDataLoad);
                assert.isFalse(stub.called);
                sandBox.restore();
-               done();
             });
          });
 
-         it('_private:setValue', function() {
+         it('_setValue', function() {
             let view = getView(defaultConfig);
             view._source = [
                {
@@ -801,7 +804,7 @@ define(
                   })
                }
             };
-            filter.View._private.setValue(view, [null], 'document');
+            view._setValue([null], 'document');
             assert.strictEqual(view._source[0].value, null);
 
             // emptyKey is not set
@@ -826,15 +829,15 @@ define(
                   })
                }
             };
-            filter.View._private.setValue(view, [null], 'document');
+            view._setValue([null], 'document');
             assert.strictEqual(view._source[0].value, false);
 
             view._source[0].resetValue = [];
-            filter.View._private.setValue(view, [null], 'document');
+            view._setValue([null], 'document');
             assert.deepEqual(view._source[0].value, []);
          });
 
-         it('_private:getPopupConfig', function() {
+         it('_getPopupConfig', function() {
             let isLoading = false;
             let source = Clone(defaultSource);
             source[0].editorOptions.itemTemplate = 'new';
@@ -861,7 +864,7 @@ define(
                   items: Clone(defaultItems[1]),
                   sourceController: {
                      load: () => {
-                        isLoading = true; return Deferred.success();
+                        isLoading = true; return Promise.resolve();
                      },
                      hasMoreData: () => {return true;},
                      setFilter: () => {}
@@ -871,21 +874,20 @@ define(
                   multiSelect: true}
             };
 
-            let self = {
-               _children: {},
-               _onSelectorTemplateResult: () => {},
-               _getStackOpener: () => {},
-               _getDialogOpener: () => {}
-            };
+            let view = getView(defaultConfig);
+            view._children = {};
+            view._onSelectorTemplateResult = () => {};
+            view._getStackOpener = () => {};
+            view._getDialogOpener = () => {};
 
-            let resultItems = filter.View._private.getPopupConfig(self, configs, source);
+            let resultItems = view._getPopupConfig(configs, source);
             assert.isTrue(isLoading);
             assert.isTrue(resultItems[0].hasMoreButton);
             assert.equal(resultItems[0].displayProperty, 'title');
             assert.equal(resultItems[0].itemTemplate, 'new');
          });
 
-         it('_beforeUpdate loadSelectedItems', function(done) {
+         it('_beforeUpdate loadSelectedItems', async function() {
             let filterView = getView(defaultConfig);
             let source = [...defaultSource];
             source[1].value = [1];
@@ -913,12 +915,10 @@ define(
             filterView._displayText = {};
             filterView._beforeMount(defaultConfig);
             filterView._configs = configs;
-            filterView._beforeUpdate({source: source}).addCallback(() => {
-               assert.strictEqual(configs['state'].popupItems.getCount(), 7);
-               assert.strictEqual(configs['state'].items.getCount(), 7);
-               assert.deepStrictEqual(configs['state'].items.at(0).getRawData(), {id: 1, title: 'In any state'});
-               done();
-            });
+            await filterView._beforeUpdate({source: source});
+            assert.strictEqual(configs['state'].popupItems.getCount(), 7);
+            assert.strictEqual(configs['state'].items.getCount(), 7);
+            assert.deepStrictEqual(configs['state'].items.at(0).getRawData(), {id: 1, title: 'In any state'});
          });
 
          it('_beforeUnmount', function() {
@@ -926,11 +926,11 @@ define(
 
             view._beforeMount(defaultConfig);
             assert.isOk(view._configs);
-            assert.isOk(view._loadDeferred);
+            assert.isOk(view._loadPromise);
 
             view._beforeUnmount();
             assert.isNull(view._configs);
-            assert.isNull(view._loadDeferred);
+            assert.isNull(view._loadPromise);
          });
 
          describe('View::resultHandler', function() {
@@ -1187,7 +1187,7 @@ define(
             });
 
             it ('updateText', function () {
-               filter.View._private.updateText(view, view._source, view._configs);
+               view._updateText(view._source, view._configs);
                assert.deepStrictEqual(view._displayText.document, {text: 'Folder 1', title: 'Folder 1', hasMoreText: '' });
             });
 
@@ -1259,7 +1259,7 @@ define(
                assert.isTrue(isClosed);
             });
 
-            it('_private::setItems', function() {
+            it('_setItems', function() {
                let newItems = new collection.RecordSet({
                   rawData: [
                      { id: 6, title: 'item folder 1', parent: -1 },
@@ -1276,7 +1276,7 @@ define(
                   { id: 8, title: 'item folder 2', parent: -2, node: null },
                   { id: 4, title: 'Deleted', parent: -2, node: null }
                ];
-               filter.View._private.setItems(view._configs.document, view._source[0], chain.factory(newItems).toArray());
+               view._setItems(view._configs.document, view._source[0], chain.factory(newItems).toArray());
 
                assert.deepEqual(view._configs.document.popupItems.getRawData(), expectedResult);
                assert.equal(view._configs.document.items.getCount(), 10);
@@ -1295,7 +1295,7 @@ define(
                   historyItems = items;
                   return items;
                };
-               filter.View._private.setItems(view._configs.document, view._source[0], chain.factory(newItems).toArray());
+               view._setItems(view._configs.document, view._source[0], chain.factory(newItems).toArray());
                assert.deepEqual(historyItems.getRawData(), expectedResult);
             });
 
@@ -1308,7 +1308,7 @@ define(
                   load: () => Promise.reject()
                };
                view._configs.document.historyId = 'testId';
-               filter.View._private.loadItemsFromSource(view._configs.document, view._source);
+               view._loadItemsFromSource(view._configs.document, view._source);
                assert.deepStrictEqual(actualFilter, {historyId: 'testId'});
             });
          });
@@ -1350,7 +1350,7 @@ define(
 
             });
 
-            it('_private:updateHistory', function() {
+            it('_updateHistory', function() {
                let resultHistoryItems, resultMeta;
                hSource.update = (historyItems, meta) => {
                   resultHistoryItems = historyItems;
@@ -1358,20 +1358,19 @@ define(
                };
                view._source[0].editorOptions.source = hSource;
                let items = [{key: 1}];
-               filter.View._private.updateHistory(view, 'document', items);
+               view._updateHistory('document', items);
                assert.deepEqual(resultHistoryItems, items);
                assert.deepEqual(resultMeta, {$_history: true});
             });
 
-            it('_private:reload', function(done) {
+            it('_reload', async function() {
                view._source[0].editorOptions.source = hSource;
-               filter.View._private.reload(view, false, true, true).addCallback((receivedState) => {
+               await view._reload(false, true, true).addCallback((receivedState) => {
                   assert.isUndefined(receivedState.configs.document.source);
                   assert.isOk(receivedState.configs.state.source);
 
                   assert.isOk(view._configs.document.source);
                   assert.isOk(view._configs.state.source);
-                  done();
                });
             });
 
@@ -1385,12 +1384,12 @@ define(
                   }
                };
 
-               filter.View._private.loadItems(self, item);
-               assert.isUndefined(self._configs.test.dataLoadCallback);
-               assert.strictEqual(self._configs.test.field, 'test');
+               view._loadItems(item);
+               assert.isUndefined(view._configs.test.dataLoadCallback);
+               assert.strictEqual(view._configs.test.field, 'test');
             });
 
-            it('_private:getPopupConfig historySource', function() {
+            it('_getPopupConfig historySource', function() {
                hSource.prepareItems = () => {
                   return new collection.RecordSet({ rawData: Clone(defaultItems[1]) });
                };
@@ -1399,21 +1398,22 @@ define(
                   data: defaultItems[0]
                });
                view._source[0].editorOptions.source = hSource;
+               view._source[1].editorOptions.source = null;
                view._configs.document.sourceController = {
                   setFilter: () => {},
-                  load: () => {return Deferred.success();},
+                  load: () => {return Promise.resolve();},
                   hasMoreData: () => {return true;}
                };
-               let resultItems = filter.View._private.getPopupConfig(view, view._configs, view._source);
+               let resultItems = view._getPopupConfig(view._configs, view._source);
                assert.isOk(resultItems[0].loadDeferred);
 
                const sandBox = sinon.createSandbox();
-               sandBox.stub(filter.View._private, 'loadItemsFromSource').returns({
+               sandBox.stub(view, '_loadItemsFromSource').returns({
                   isReady: () => {return false;}
                });
 
-               filter.View._private.getPopupConfig(view, view._configs, view._source);
-               sinon.assert.calledOnce(filter.View._private.loadItemsFromSource);
+               view._getPopupConfig(view._configs, view._source);
+               sinon.assert.calledOnce(view._loadItemsFromSource);
                sandBox.restore();
             });
             describe('showSelector', () => {

@@ -74,7 +74,9 @@ define(
             data._beforeMount(dataOptions).then(() => {
                data._dataOptionsContext = new contexts.ContextOptions();
                const newFilter = {test: 'testFilter'};
-               var loadDef = data._beforeUpdate({source: newSource, idProperty: 'id', filter: newFilter, dataLoadCallback: dataLoadCallbackFunction});
+               const newOptions = {source: newSource, idProperty: 'id', filter: newFilter, dataLoadCallback: dataLoadCallbackFunction};
+               var loadDef = data._beforeUpdate(newOptions);
+               data.saveOptions(newOptions);
                assert.isTrue(data._loading);
                loadDef.addCallback(function() {
                   try {
@@ -141,7 +143,7 @@ define(
             const newSorting = [{ amount: 'ASC' }];
             await data._beforeMount(dataOptions);
             data.saveOptions(dataOptions);
-            data._beforeUpdate({
+            await data._beforeUpdate({
                source: source,
                idProperty: 'id',
                filter: newFilter,
@@ -503,10 +505,7 @@ define(
                data._beforeMount(config).addCallback(function() {
                   data._filterChanged(null, {test1: 'test1'});
                   assert.isTrue(config.source === data._dataOptionsContext.source);
-
-                  // TODO тест для совместимости, чтоб ничего не разломать
-                  const filter = data._sourceController.getState().filter;
-                  assert.deepEqual(filter, {test1: 'test1'});
+                  assert.deepEqual(data._filter, {test1: 'test1'});
                   resolve();
                });
             });

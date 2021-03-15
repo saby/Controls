@@ -2,12 +2,12 @@
    cursor: pointer;
 }
 
-.controls-RadioGroup_defaultItem_horizontal_theme-@{themeName} {
-   padding-left: @item_offset-horizontal_radioGroup;
+.controls-RadioGroup_defaultItem_horizontal {
+   padding-left: var(--item_offset-horizontal_radioGroup);
 }
 
-.controls-RadioGroup_defaultItem_vertical_theme-@{themeName} {
-   padding-top: @item_offset-vertical_radioGroup;
+.controls-RadioGroup_defaultItem_vertical {
+   padding-top: var(--item_offset-vertical_radioGroup);
 }
 
 .controls-RadioItem__wrapper {
@@ -15,36 +15,36 @@
    align-items: baseline;
 }
 
-.controls-RadioItem__wrapper_theme-@{themeName} {
-   min-height: @item_height_radioGroup;
+.controls-RadioItem__wrapper {
+   min-height: var(--item_height_radioGroup);
 }
 
 .controls-RadioItem__wrapper:before {
    content: '\200b';
 }
 
-.controls-RadioItem__RadioCircle_theme-@{themeName} {
-    padding-right: @text_offset_radioGroup;
+.controls-RadioItem__RadioCircle {
+    padding-right: var(--text_offset_radioGroup);
  }
 
-.controls-RadioItem__caption_theme-@{themeName} {
-   font-size: @font-size_radioGroup;
+.controls-RadioItem__caption {
+   font-size: var(--font-size_radioGroup);
 }
 
-.controls-RadioItem__caption_selected_disabled_theme-@{themeName} {
-   color: @readonly_text-color_radioGroup;
+.controls-RadioItem__caption_selected_disabled {
+   color: var(--readonly_text-color_radioGroup);
 }
 
-.controls-RadioItem__caption_selected_enabled_theme-@{themeName} {
-   color: @text-color_radioGroup;
+.controls-RadioItem__caption_selected_enabled {
+   color: var(--text-color_radioGroup);
 }
 
-.controls-RadioItem__caption_unselected_disabled_theme-@{themeName} {
-   color: @readonly_unselected_text-color_radioGroup;
+.controls-RadioItem__caption_unselected_disabled {
+   color: var(--readonly_unselected_text-color_radioGroup);
 }
 
-.controls-RadioItem__caption_unselected_enabled_theme-@{themeName} {
-   color: @unselected_text-color_radioGroup;
+.controls-RadioItem__caption_unselected_enabled {
+   color: var(--unselected_text-color_radioGroup);
 }
 
 .controls-RadioGroup__wrapper_horizontal {
@@ -61,8 +61,8 @@
 
 .ws-is-hover {
    .controls-RadioItem__wrapper:hover {
-      .controls-RadioCircle__borderCircle_enabled_theme-@{themeName} {
-         stroke: @marker-box_hover_border-color_switcher;
+      .controls-RadioCircle__borderCircle_enabled {
+         stroke: var(--marker-box_hover_border-color_switcher);
       }
 
       .controls-RadioItem__caption_unselected_enabled {
@@ -73,8 +73,8 @@
 
 //touch on radio
 .controls-RadioItem__wrapper:active {
-   .controls-RadioCircle__borderCircle_enabled_theme-@{themeName} {
-      stroke: @marker-box_hover_border-color_switcher;
+   .controls-RadioCircle__borderCircle_enabled {
+      stroke: var(--marker-box_hover_border-color_switcher);
    }
 
    .controls-RadioItem__caption_unselected_enabled {

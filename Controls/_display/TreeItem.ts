@@ -3,12 +3,12 @@ import CollectionItem, {
     ISerializableState as ICollectionItemSerializableState
 } from './CollectionItem';
 import ExpandableMixin, {IOptions as IExpandableMixinOptions} from './ExpandableMixin';
-import BreadcrumbsItem from './BreadcrumbsItem';
 import Tree from './Tree';
 import {mixin} from 'Types/util';
 import TreeChildren from './TreeChildren';
 import { TemplateFunction } from 'UI/Base';
 import { Model } from 'Types/entity';
+import IGroupNode from './interface/IGroupNode';
 
 export interface IOptions<T extends Model> extends ICollectionItemOptions<T>, IExpandableMixinOptions {
     owner?: Tree<T>;
@@ -16,7 +16,7 @@ export interface IOptions<T extends Model> extends ICollectionItemOptions<T>, IE
     childrenProperty?: string;
     hasChildren?: boolean;
     loaded?: boolean;
-    parent?: TreeItem<T> | BreadcrumbsItem<T>;
+    parent?: TreeItem<T>;
 }
 
 interface ISerializableState<T> extends ICollectionItemSerializableState<T> {
@@ -37,13 +37,13 @@ export default class TreeItem<T extends Model = Model> extends mixin<
     >(
     CollectionItem,
     ExpandableMixin
-) {
+) implements IGroupNode {
     protected _$owner: Tree<T>;
 
     /**
      * Родительский узел
      */
-    protected _$parent: TreeItem<T> | BreadcrumbsItem<T>;
+    protected _$parent: TreeItem<T>;
 
     /**
      * Является узлом
@@ -145,7 +145,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
             let parentLevel = 0;
             if (parent instanceof TreeItem) {
                 parentLevel = parent.getLevel();
-            } else if (parent instanceof BreadcrumbsItem) {
+            } else if (parent['[Controls/_display/BreadcrumbsItem]']) {
                 parentLevel = parent.getLevel();
             }
             return parentLevel + 1;
@@ -170,6 +170,13 @@ export default class TreeItem<T extends Model = Model> extends mixin<
      */
     setNode(node: boolean|null): void {
         this._$node = node;
+    }
+
+    /**
+     * Возвращает признак, является ли элемент узлом-группой
+     */
+    isGroupNode(): boolean {
+        return false;
     }
 
     /**
@@ -307,7 +314,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         const expanderSize = this.getExpanderSize(tmplExpanderSize);
         const expanderPosition = this._$owner.getExpanderPosition();
 
-        let expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`;
+        let expanderClasses = `js-controls-Tree__row-expander controls-TreeGrid__row-expander_theme-${theme}`;
         let expanderIconClass = '';
 
         if (expanderPosition === 'default') {

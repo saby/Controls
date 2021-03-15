@@ -1,13 +1,13 @@
 <div class="controls-DropdownList-header
-            controls-Menu__popup-header-{{_options.multiSelect ? 'multiSelect_theme-' + _options.theme}}
+            controls-Menu__popup-header-{{_options.multiSelect ? 'multiSelect'}}
             controls-Menu__popup-header">
     <ws:if data="{{_options.icon}}">
         <div class="controls-Menu__popup-headerIcon_wrapper
-                    {{_options.content ? 'controls-Menu__popup_headerIcon_padding_theme-' + _options.theme}}
-                    controls-Menu__popup-icon_wrapper_width-{{_options.headingIconSize || _options.iconSize || 'm'}}_theme-{{_options.theme}}">
-            <div class="controls-icon {{_options.icon}}
-                        controls-Menu__popup_headerIcon_theme-{{_options.theme}}
-                        controls-icon_size-{{_options.iconSize || 'm'}}_theme-{{_options.theme}}"></div>
+                    {{_options.content ? 'controls-Menu__popup_headerIcon_padding'}}
+                    controls-Menu__popup-icon_wrapper_width-{{_options.headingIconSize || _options.iconSize || 'm'}}">
+            <Controls.icon:Icon iconSize="{{_options.iconSize || 'm'}}"
+                                icon="{{_options.icon}}"
+                                class="controls-Menu__popup_headerIcon" />
         </div>
     </ws:if>
     <ws:if data="{{_options.content}}">

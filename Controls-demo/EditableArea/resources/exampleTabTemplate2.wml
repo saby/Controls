@@ -1,7 +1,7 @@
 <Controls.editableArea:View
         editObject="{{item}}"
         readOnly="{{!selected}}"
-        style="withoutBorder"
+        backgroundStyle="withoutBorder"
 >
     <div class="ControlsDemo-EditableArea__eapWrapper">
         <Controls.editableArea:Base

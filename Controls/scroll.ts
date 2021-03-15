@@ -36,7 +36,6 @@ export {IShadows} from './_scroll/Container/Interface/IShadows';
 export {getScrollbarWidth, getScrollbarWidthByMeasuredBlock} from './_scroll/Utils/getScrollbarWidth';
 import {default as _Scrollbar} from 'Controls/_scroll/Scroll/Scrollbar';
 import _scrollContext = require('Controls/_scroll/Scroll/Context');
-import _stickyHeaderContext = require('Controls/_scroll/StickyHeader/Context');
 import _stickyHeaderController from 'Controls/_scroll/StickyHeader/Controller';
 import IntersectionObserverController from 'Controls/_scroll/IntersectionObserver/Controller';
 import IntersectionObserverContainer from 'Controls/_scroll/IntersectionObserver/Container';
@@ -56,7 +55,6 @@ export {
    Container,
    _Scrollbar,
    _scrollContext,
-   _stickyHeaderContext,
    _stickyHeaderController,
    isStickySupport,
    getNextStickyId,

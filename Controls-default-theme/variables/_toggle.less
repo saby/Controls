@@ -1,4 +1,240 @@
 .controls_theme-@{themeName} {
+   // Переменные для кнопок с залипанием
+   //
+   // Обводка кнопок
+
+   --secondary_toggled_border-color_toggleButton_button: var(--secondary_color);
+   --primary_toggled_border-color_toggleButton_button: var(--primary_color);
+   --secondary_toggled_border-thickness_toggleButton_button: 2px;
+   --primary_toggled_border-thickness_toggleButton_button: 2px;
+   --secondary_toggled_border-color_toggleButton_toolButton: var(--secondary_color);
+   --secondary_toggled_border-color_toggleButton_pushButton: var(--secondary_color);
+   --secondary_border-color_toggleButton_pushButton: transparent;
+   --readonly_border-color_toggleButton_pushButton: var(--secondary_active_background-color_toggleButton_pushButton);
+   --readonly_toggled_border-color_toggleButton_pushButton: var(--readonly_color);
+
+   // Радиус скругления кнопок
+   --border-radius_toggleButton_pushButton: 2px;
+
+   // цвет фона
+
+   --secondary_background-color_toggleButton_pushButton: transparent;
+   --secondary_hover_background-color_toggleButton_pushButton: transparent;
+   --secondary_active_background-color_toggleButton_pushButton: transparent;
+   --readonly_background-color_toggleButton_pushButton: transparent;
+   --secondary_toggled_background-color_toggleButton_pushButton: #f3f3f3;
+   --readonly_toggled_background-color_toggleButton_pushButton: transparent;
+   --secondary_contrast_background-color_toggleButton_pushButton: transparent;
+   --secondary_contrast_hover_background-color_toggleButton_pushButton: var(--hover_background-color);
+   --secondary_contrast_active_background-color_toggleButton_pushButton: transparent;
+   --readonly_contrast_background-color_toggleButton_pushButton: transparent;
+   --secondary_contrast_toggled_background-color_toggleButton_pushButton: var(--secondary_toggled_background-color_toggleButton_pushButton);
+   --readonly_contrast_toggled_background-color_toggleButton_pushButton: transparent;
+
+   // тень
+
+   --box-shadow_toggleButton_pushButton: none;
+
+
+
+   // Переменные для переключателей
+   //
+   // Размеры
+   --caption_height_switcher: var(--inline_height_m);
+   --width_switcher: 32px;
+   --height_horizontal_switcher: var(--inline_height_xs);
+   --height_vertical_switcher: 40px;
+
+   // Обводка
+
+   --border-thickness_switcher: var(--border-thickness);
+   --border-radius_switcher: calc(var(--height_horizontal_switcher) / 2);
+   --border-color_switcher: #E4E4E4;
+
+   // фон
+   --background-color_switcher: #FFF;
+
+   // Текст
+
+   --font-size_switcher: var(--font-size_m);
+   --text_offset_switcher: var(--offset_xs);
+   --text-color_switcher: var(--text-color);
+   --unselected_text-color_switcher: var(--unaccented_text-color);
+   --readonly_text-color_switcher: var(--text-color);
+   --readonly_unselected_text-color_switcher: var(--readonly_color);
+
+   //Маркер
+
+   --marker-box_border-thickness_switcher: 2px;
+   --marker-box_size_switcher: 12px;
+   --marker-box_border-color_switcher: var(--border-color);
+   --marker-box_background-color_switcher: transparent;
+   --readonly_marker-box_background-color_switcher: transparent;
+   --unselected_marker-box_border-color_switcher: var(--border-color);
+   --unselected_marker-box_background-color_switcher: var(--marker-box_background-color_switcher);
+
+   --marker-size_switcher: var(--offset_xs);
+   --marker_color_switcher: var(--marker_color);
+   --readonly_marker_color_switcher: var(--readonly_marker-color);
+   --readonly_marker-box_border-color_switcher: #E4E4E4;
+   --marker-box_hover_border-color_switcher: var(--marker_color_switcher);
+   --readonly_unselected_marker-box_border-color_switcher: var(--readonly_marker-box_border-color_switcher);
+   --readonly_unselected_marker-box_background-color_switcher: var(--readonly_marker-box_background-color_switcher);
+
+   --marker_width_switcher: 12px;
+   --marker_height_switcher: var(--marker_width_switcher);
+   --selected_marker_color_switcher: var(--marker_color);
+   --unselected_marker_color_switcher: #CCC;
+   --readonly_unselected_marker_color_switcher: #CCC;
+   --marker_border-offset_switcher: 3px;
+
+   // Переменные для большого разделителя
+   //
+   // Размеры
+   --icon_expanded_height_s_BigSeparator: 2px;
+   --icon_expanded_height_m_BigSeparator: 4px;
+   --icon_expanded_height_l_BigSeparator: 4px;
+   --icon_expanded_width_s_BigSeparator: 14px;
+   --icon_expanded_width_m_BigSeparator: 18px;
+   --icon_expanded_width_l_BigSeparator: 22px;
+   --icon_collapsed_height_s_BigSeparator: 4px;
+   --icon_collapsed_height_m_BigSeparator: 4px;
+   --icon_collapsed_height_l_BigSeparator: 6px;
+   --icon_collapsed_width_s_BigSeparator: 12px;
+   --icon_collapsed_width_m_BigSeparator: 16px;
+   --icon_collapsed_width_l_BigSeparator: 18px;
+   --height_s_BigSeparator: 8px;
+   --height_m_BigSeparator: 10px;
+   --height_l_BigSeparator: var(--icon-size_2xs);
+   --width_s_BigSeparator: 28px;
+   --width_m_BigSeparator: 32px;
+   --width_l_BigSeparator: 38px;
+   --border-radius_s_BigSeparator: 4px;
+   --border-radius_m_BigSeparator: 6px;
+   --border-radius_l_BigSeparator: 8px;
+
+   // Отступы
+
+   --padding-top_expanded_s_BigSeparator: 3px;
+   --padding-horizontal_expanded_s_BigSeparator: 7px;
+   --padding-top_expanded_m_BigSeparator: 3px;
+   --padding-horizontal_expanded_m_BigSeparator: 7px;
+   --padding-top_expanded_l_BigSeparator: var(--offset_2xs);
+   --padding-horizontal_expanded_l_BigSeparator: var(--offset_s);
+   --padding-top_collapsed_s_BigSeparator: var(--offset_3xs);
+   --padding-horizontal_collapsed_s_BigSeparator: var(--offset_s);
+   --padding-top_collapsed_m_BigSeparator: 3px;
+   --padding-horizontal_collapsed_m_BigSeparator: var(--offset_s);
+   --padding-top_collapsed_l_BigSeparator: 3px;
+   --padding-horizontal_collapsed_l_BigSeparator: 10px;
+
+   // Иконка
+
+   --icon-color_BigSeparator: #AAB0C1;
+   --hover_icon-color_BigSeparator: var(--secondary_hover_icon-color);
+   --readonly_icon-color_BigSeparator: #666666;
+
+   --icon_container_background_color_BigSeparator: #F1F2F5;
+
+
+
+   // Переменные для малого разделителя
+   //
+   // Размеры
+
+   --height_toggleSeparator: var(--inline_height_default);
+   --width_toggleSeparator: var(--height_toggleSeparator);
+
+   // Иконка
+
+   --icon-size_toggleSeparator: var(--icon-size_s);
+   --primary_icon-color_toggleSeparator: var(--primary_text-color);
+   --secondary_icon-color_toggleSeparator: var(--secondary_icon-color);
+   --unaccented_icon-color_toggleSeparator: var(--unaccented_icon-color);
+   --primary_hover_icon-color_toggleSeparator: var(--primary_color);
+   --secondary_hover_icon-color_toggleSeparator: var(--secondary_hover_icon-color);
+   --unaccented_hover_icon-color_toggleSeparator: var(--secondary_hover_icon-color);
+   --primary_active_icon-color_toggleSeparator: var(--primary_hover_icon-color_toggleSeparator);
+   --secondary_active_icon-color_toggleSeparator: var(--secondary_hover_icon-color_toggleSeparator);
+   --unaccented_active_icon-color_toggleSeparator: var(--unaccented_hover_icon-color_toggleSeparator);
+
+
+
+
+   // Переменные для чекбокса
+   //
+   // Размеры и отступы
+
+   --height_checkbox: var(--inline_height_m);
+   --click-area_width_checkbox: 20px;
+   --padding-vertical_checkbox: 3px;
+   --text_line-height_checkbox: 18px;
+
+   // Текст
+
+   --font-size_checkbox: var(--font-size_m);
+   --text-color_checkbox: var(--text-color);
+   --readonly_text-color_checkbox: var(--readonly_color);
+
+   // обводка маркера
+
+   --marker-box_border-color_checkbox: var(--border-color);
+   --readonly_marker-box_border-color_checkbox: #E4E4E4;
+   --marker-box_border-thickness_checkbox: var(--border-thickness);
+   --marker-box_size_checkbox: 12px;
+
+   // маркер
+
+   --true_marker_size_checkbox: 18px;
+   --true_marker_padding-left_checkbox: 3px;
+   --true_marker_padding-top_checkbox: 0;
+   --tristate_marker_size_checkbox: 6px;
+
+   --marker_color_checkbox: var(--marker_color);
+   --readonly_marker_color_checkbox: var(--readonly_marker-color);
+
+
+
+   // Переменные для группы чекбоксов
+   --item_offset_checkbox-group: var(--offset_s);
+   --item_offset-right_checkbox-group: var(--offset_m);
+   --hierarchy_padding-left_checkbox-group: var(--offset_3xl);
+
+
+
+   // Переменные для группы радиокнопок
+   //
+   // Размер и отступы
+   --item_offset-vertical_radioGroup: var(--offset_s);
+   --item_offset-horizontal_radioGroup: var(--offset_m);
+   --item_height_radioGroup: var(--inline_height_m);
+
+   // Текст
+
+   --text_offset_radioGroup: var(--text_offset_switcher);
+   --font-size_radioGroup: var(--font-size_switcher);
+   --text-color_radioGroup: var(--text-color_switcher);
+   --readonly_text-color_radioGroup: var(--readonly_text-color_switcher);
+   --unselected_text-color_radioGroup: var(--unselected_text-color_switcher);
+   --readonly_unselected_text-color_radioGroup: var(--readonly_unselected_text-color_switcher);
+
+   //Маркер
+
+   --marker_color_radioGroup: var(--marker_color_switcher);
+   --readonly_marker_color_radioGroup: var(--readonly_marker_color_switcher);
+   --marker-size_radioGroup: var(--marker-size_switcher);
+   --marker-box_border-thickness_radioGroup: var(--marker-box_border-thickness_switcher);
+   --marker-box_border-color_radioGroup: var(--marker-box_border-color_switcher);
+   --readonly_marker-box_border-color_radioGroup: var(--readonly_marker-box_border-color_switcher);
+   --marker-box_hover_border-color_radioGroup: var(--marker-box_hover_border-color_switcher);
+   --marker-box_size_radioGroup: var(--marker-box_size_switcher);
+
+
+
+
+
+   // Переменные для тумблера
+
    --inline_height_tumbler: var(--inline_height_m);
    --background-color_tumbler: #f2f2f2;
    --inline_height_tumbler-button: var(--inline_height_s);
@@ -8,6 +244,6 @@
    --selected_text-color_tumbler: var(--text_color);
    --unselected_text-color_tumbler: var(--label_text-color);
    --selected_background-color_tumbler: var(--background-color);
-   --border-radius_tumbler-button: calc(var(--inline_height_tumbler-button)/2);
-   --border-radius_tumbler: calc(var(--inline_height_tumbler)/2);
+   --border-radius_tumbler-button: calc(var(--inline_height_tumbler-button) / 2);
+   --border-radius_tumbler: calc(var(--inline_height_tumbler) / 2);
 }

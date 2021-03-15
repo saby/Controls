@@ -4,6 +4,7 @@
         <Controls.tabs:Buttons
                 bind:selectedKey='SelectedKey1'
                 keyProperty="id"
+                markerThickness="s"
                 items="{{_items1}}"
         />
     </div>
@@ -13,7 +14,6 @@
                 bind:selectedKey='SelectedKey2'
                 keyProperty="id"
                 inlineHeight="l"
-                markerThickness="l"
                 items="{{_items1}}"
         />
     </div>
@@ -22,7 +22,6 @@
         <Controls.tabs:Buttons
                 bind:selectedKey='SelectedKey3'
                 keyProperty="id"
-                markerThickness="l"
                 items="{{_items1}}"
         />
     </div>

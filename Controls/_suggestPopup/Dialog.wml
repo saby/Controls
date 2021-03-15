@@ -1,4 +1,4 @@
-<div class="controls-SuggestV__dialog">
+<div class="controls_theme-{{_options.theme}} controls-SuggestV__dialog">
     <Controls.popupTemplate:Stack attr:class="controls-SuggestV__dialog-layout" headingCaption="{[Все записи]}">
         <ws:bodyContentTemplate>
             <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-Suggest__dialog-scrollContainer" name="scroll">

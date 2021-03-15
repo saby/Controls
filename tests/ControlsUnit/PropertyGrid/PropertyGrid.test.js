@@ -89,8 +89,7 @@ define([
                   keyProperty: 'name'
                };
                 const collection = ViewInstance._getCollection(options);
-                collection.moveToFirst();
-                const group = collection.getCurrent();
+                const group = collection.at(0);
                 const resultDisplay = ViewInstance._displayFilter(group.getContents());
                 assert.isTrue(resultDisplay);
             });

@@ -1,5 +1,5 @@
 import { GridFooterRow } from 'Controls/gridNew';
-import TreeGridFooterCell from "Controls/_treeGridNew/display/TreeGridFooterCell";
+import TreeGridFooterCell from 'Controls/_treeGridNew/display/TreeGridFooterCell';
 
 export default class TreeGridFooterRow<S> extends GridFooterRow<S> {
    /**

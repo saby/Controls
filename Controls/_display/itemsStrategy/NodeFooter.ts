@@ -1,18 +1,17 @@
 import IItemsStrategy from 'Controls/_display/IItemsStrategy';
 import TreeItem from '../TreeItem';
 import Tree from '../Tree';
+import {Model} from 'Types/entity';
 
 interface IOptions<S, T extends TreeItem<S>> {
     source: IItemsStrategy<S, T>;
     display: Tree<S, T>;
-    nodeFooterConstructor: (options: any) => any;
     footerVisibilityCallback?: (nodeItem: S) => boolean;
 }
 
 interface ISortOptions<S, T extends TreeItem<S>> {
     display: Tree<S, T>;
     nodeFooters: Array<T>;
-    nodeFooterConstructor: (options: any) => any;
     footerVisibilityCallback?: (nodeItem: S) => boolean;
 }
 
@@ -88,7 +87,6 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
 
     invalidate(): void {
         this._itemsOrder = null;
-        this._nodeFooters = [];
         return this.source.invalidate();
     }
 
@@ -136,7 +134,6 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
         return NodeFooter.sortItems<S, T>(this.source.items, {
             display: this.options.display,
             nodeFooters: this._nodeFooters,
-            nodeFooterConstructor: this.options.nodeFooterConstructor,
             footerVisibilityCallback: this.options.footerVisibilityCallback
         });
     }
@@ -146,28 +143,35 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
      * @param items Элементы проекции.
      * @param options Опции
      */
-    static sortItems<S, T extends TreeItem<S> = TreeItem<S>>(
+    static sortItems<S extends Model = Model, T extends TreeItem<S> = TreeItem<S>>(
         items: T[],
         options: ISortOptions<S, T>
     ): number[] {
+
+        const nodeFooterContents = options.nodeFooters.map((it) => it.getContents());
         for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
             const item = items[itemIndex];
 
-            // TODO нужно добавить проверку, чтобы не создавать лишние футеры.
-            //  Нужно определить, что если в узле нет данных и для него не определен content, тофутер не нужно создавать
-            //  Сейчас в этой ситуации, он создастся и не отобразится и это наверное сломает виртуальный скролл
-            // Футер нужен только для развернутых узлов, для которых прикладник их разрешил
-            if (!item['[Controls/_display/TreeItem]'] || item.isNode() === null || !item.isExpanded()
-               || options.footerVisibilityCallback instanceof Function && !options.footerVisibilityCallback(item.getContents())) {
+            if (!item['[Controls/_display/TreeItem]'] || item['[Controls/treeGrid:TreeGridNodeFooterRow]'] || item.isNode() === null || !item.isExpanded()) {
                 continue;
             }
 
-            const nodeFooter = new options.nodeFooterConstructor({
-                owner: options.display,
-                contents: 'nodeFooter_' + item.getContents().getKey(),
-                parent: item,
-                columns: options.display.getColumnsConfig(),
-                multiSelectVisibility: options.display.getMultiSelectVisibility()
+            const nodeFooterContent = 'node-footer-' + item.getContents().getKey();
+            // TODO нужно добавить проверку, чтобы не создавать лишние футеры.
+            //  Нужно определить, что если в узле нет данных и для него не определен content, тофутер не нужно создавать
+            //  Сейчас в этой ситуации, он создастся и не отобразится и это наверное сломает виртуальный скролл
+            //  UPD: временно до решения проблемы, отображаем скрытый див
+            if (
+                nodeFooterContents.includes(nodeFooterContent)
+                || options.footerVisibilityCallback instanceof Function && !options.footerVisibilityCallback(item.getContents())
+            ) {
+                continue;
+            }
+
+            const nodeFooter = options.display.createItem({
+                itemModule: 'Controls/treeGrid:TreeGridNodeFooterRow',
+                contents: nodeFooterContent,
+                parent: item
             });
 
             options.nodeFooters.push(nodeFooter);

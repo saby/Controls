@@ -29,23 +29,16 @@
  * @author Крайнов Д.О.
  */
 
-import {default as Misspell} from 'Controls/_search/Misspell';
-import {default as ExpandableInput} from 'Controls/_search/Input/ExpandableInput/Search';
-import MisspellContainer = require('Controls/_search/Misspell/Container');
-import {default as Controller} from 'Controls/_search/Controller';
-
-import getSwitcherStrFromData = require('Controls/_search/Misspell/getSwitcherStrFromData');
-
+export {default as Misspell} from 'Controls/_search/Misspell';
+export {default as ExpandableInput} from 'Controls/_search/Input/ExpandableInput/Search';
+export {default as MisspellContainer} from 'Controls/_search/Misspell/Container';
+export {default as Controller} from 'Controls/_search/Controller';
 export {default as ControllerClass} from './_search/ControllerClass';
 export {default as InputContainer} from './_search/Input/Container';
 export {default as SearchResolver} from './_search/SearchResolver';
 export {default as Input} from './_search/Input/Search';
 
+import getSwitcherStrFromData = require('Controls/_search/Misspell/getSwitcherStrFromData');
 export {
-   Misspell,
-   MisspellContainer,
-   Controller,
-   ExpandableInput,
-
    getSwitcherStrFromData
 };

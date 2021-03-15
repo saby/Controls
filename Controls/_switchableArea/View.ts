@@ -5,13 +5,13 @@ import defaultItemTemplate from './ItemTpl';
 import {factory} from 'Types/chain';
 import {Logger} from 'UI/Utils';
 
-export interface ISwitchableOptions extends IControlOptions{
+export interface ISwitchableOptions extends IControlOptions {
     itemTemplate: TemplateFunction;
     selectedKey?: string| number;
     items?: ISwitchableAreaItem;
 }
 
-interface ISwitchableAreaItem {
+export interface ISwitchableAreaItem {
     key: string| number;
     itemTemplate?: TemplateFunction;
     templateOptions?: object;
@@ -84,6 +84,16 @@ class View extends Control<ISwitchableOptions> {
         };
     }
 }
+
+Object.defineProperty(View, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return View.getDefaultOptions();
+   }
+});
+
 /**
  * @typedef {Object} SwitchableAreaItem
  * @property {String|Number} key Ключ элемента.

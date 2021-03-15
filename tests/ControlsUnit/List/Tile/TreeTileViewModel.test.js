@@ -169,7 +169,8 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
 
       it('getMultiSelectClassList onhover selected', function() {
          treeTileViewModel.setMultiSelectVisibility('onhover');
-         treeTileViewModel.setSelectedItems([treeTileViewModel.getItemById(2, 'id'), treeTileViewModel.getItemById(3, 'id')], true);
+         treeTileViewModel.getItemById(2, 'id').setSelected(true);
+         treeTileViewModel.getItemById(3, 'id').setSelected(true);
          var item = treeTileViewModel.getItemDataByItem(treeTileViewModel.getItemById(2, 'id'));
          assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-TileView__checkbox js-controls-TileView__withoutZoom');
          item = treeTileViewModel.getItemDataByItem(treeTileViewModel.getItemById(3, 'id'));

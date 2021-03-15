@@ -1,8 +1,8 @@
 <div name="fieldWrapper"
-     class="controls-Area__fieldWrapper controls-Area__field_theme_{{options.theme}}_margin-{{options.horizontalPadding}}">
+     class="controls-Area__fieldWrapper controls-Area__field_margin-{{options.horizontalPadding}}">
    <div name="fakeField"
         class="controls-Area__fakeField
-               controls-Area__minHeight_theme_{{options.theme}}_countLines_{{minLines}}_size_{{heightLine}}">
+               controls-Area__minHeight_countLines_{{minLines}}_size_{{heightLine}}">
       <ws:if data="{{value}}">{{value}}{{emptySymbol}}</ws:if>
       <ws:else data="{{options.placeholder}}">
          <ws:partial template="{{placeholderTemplate}}"/>
@@ -19,8 +19,8 @@
          on:keydown="_keyDownHandler()"
          attr:wrap="hard"
          attr:spellcheck="{{options.spellCheck}}"
-         attr:class="controls-InputBase__nativeField_theme_{{options.theme}} controls-Area__realField
-                   controls-InputBase__nativeField_caret{{wasActionUser ? 'Filled' : 'Empty'}}_theme_{{options.theme}}
+         attr:class="controls-InputBase__nativeField controls-Area__realField
+                   controls-InputBase__nativeField_caret{{wasActionUser ? 'Filled' : 'Empty'}}
                    {{hidePlaceholderUsingCSS ? 'controls-InputBase__nativeField_hideCustomPlaceholder'}}
                    {{fixTextPosition ? 'controls-Area__realField_fixTextPosition'}}"
          attr:placeholder="{{hidePlaceholderUsingCSS ? emptySymbol}}"

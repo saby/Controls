@@ -862,7 +862,7 @@ define(
                   keyProperty: 'id',
                   rawData: items
                });
-               sandbox.replace(popup.Sticky, 'openPopup', (popupConfig) => {
+               sandbox.replace(popup.Sticky, '_openPopup', (popupConfig) => {
                   openConfig = popupConfig;
                   return Promise.resolve(true);
                });

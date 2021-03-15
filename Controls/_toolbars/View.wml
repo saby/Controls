@@ -1,4 +1,4 @@
-<div class="controls-Toolbar">
+<div class="controls-Toolbar controls_theme-{{_options.theme}}">
    <div class="controls-Toolbar_content">
       <ws:for data="item in _items">
          <ws:if data="{{_isShowToolbar(item, _parentProperty)}}">
@@ -15,11 +15,9 @@
       <ws:if data="{{_needShowMenu}}">
          <div name="menuTarget" title="{[Открыть меню]}"
               class="controls-Toolbar__menu
-                     controls-Toolbar__menu_spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}_theme-{{_options.theme}}
-                     controls-Toolbar__menu{{_options.contrastBackground ? '_contrastBackground'}}_theme-{{_options.theme}}
+                     controls-Toolbar__menu_spacing-{{_options.contrastBackground ? _options.itemsSpacing : 'small'}}
                      controls-Toolbar__menu{{_options.contrastBackground ? '_contrastBackground'}}
                      controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}
-                     controls-Toolbar__menu_{{_options.readOnly ? 'disabled': 'enabled'}}_theme-{{_options.theme}}
                      controls-icon_style-{{_options.readOnly ? 'readonly': _options.iconStyle}}_theme-{{_options.theme}}"
               on:click="_onClickHandler()"
               on:mousedown="_mouseDownHandler()"

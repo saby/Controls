@@ -184,11 +184,13 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     setKeyProperty(keyProperty: string): void {
-        const display = this.getDisplay();
-        if (display) {
-            display.setKeyProperty(keyProperty);
-        } else {
-            this._options.keyProperty = keyProperty;
+        if (keyProperty !== this.getKeyProperty()) {
+            const display = this.getDisplay();
+            if (display) {
+                display.setKeyProperty(keyProperty);
+            } else {
+                this._options.keyProperty = keyProperty;
+            }
         }
     },
 

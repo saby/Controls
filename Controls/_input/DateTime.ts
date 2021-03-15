@@ -31,15 +31,13 @@ import template = require('wml!Controls/_input/DateTime/DateTime');
  *
  * @class Controls/_input/DateTime
  * @extends UI/Base:Control
- * @mixes Controls/interface/IInputDateTime
+ * @mixes Controls/_input/interface/IInputDateTime
  * @mixes Controls/_input/interface/IDateTimeMask
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/_input/interface/IBorderVisibility
- * @mixes Controls/interface/IInputPlaceholder
+ * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IValueValidators
- *
- * @ignoreOptions Controls/_input/interface/IBase#placeholder
  *
  *
  * @public
@@ -196,5 +194,14 @@ class DateTime extends Control {
         };
     }
 }
+
+Object.defineProperty(DateTime, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DateTime.getDefaultOptions();
+   }
+});
 
 export default DateTime;

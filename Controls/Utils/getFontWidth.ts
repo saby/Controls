@@ -1,5 +1,5 @@
 import {constants, detection} from 'Env/Env';
-import { headDataStore } from 'UI/Base';
+import {headDataStore} from 'UI/Base';
 import {Logger} from 'UI/Utils';
 import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 
@@ -31,7 +31,11 @@ const generateErrorMessage = () => {
     Logger.error(`Utils/getFontWidth: ${message}`);
 }
 
-const getFontWidthWithFonts = (font, text, size) => {
+const getFontWidthWithFonts = (font, value: string, size: number) => {
+    let text = value;
+    if (!text) {
+        text = '';
+    }
     let textWidth = 0;
     for (let i = 0; i < text.length; i++) {
         textWidth += font[size][text[i]];

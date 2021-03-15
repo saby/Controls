@@ -68,9 +68,6 @@ define(
                top: 'auto',
                bottom: 'auto'
             };
-            scroll._stickyHeaderContext = {
-               updateConsumers: function() { }
-            };
 
             scroll._isMounted = true;
 

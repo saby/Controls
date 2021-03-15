@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/EditInPlace/DragNDrop/DragN
 import * as FirstColumn from 'wml!Controls-demo/gridNew/EditInPlace/DragNDrop/FirstColumn';
 import {Memory} from 'Types/source';
 import {getPorts} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import * as Dnd from '../../../../Controls/dragnDrop';

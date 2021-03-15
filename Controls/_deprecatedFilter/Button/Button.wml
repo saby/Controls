@@ -1,27 +1,27 @@
-<div class="controls-FilterButton controls-FilterButton_theme-{{_options.theme}}
-   {{_isItemsChanged && _text ? ' controls-FilterButton__state_changed controls-FilterButton_' + _options.alignment + '__state_changed_theme-' + _options.theme}}"
+<div class="controls_theme-{{_options.theme}} controls-FilterButton
+   {{_isItemsChanged && _text ? ' controls-FilterButton__state_changed controls-FilterButton_' + _options.alignment + '__state_changed'}}"
      name="panelTarget">
    <div class="controls-FilterButton__wrapper">
-      <div if="{{_options.lineSpaceTemplate || _text}}" class="controls-FilterButton__textLine-wrapper controls-FilterButton__textLine-wrapper_theme-{{_options.theme}}">
+      <div if="{{_options.lineSpaceTemplate || _text}}" class="controls-FilterButton__textLine-wrapper">
          <ws:if data="{{_text}}">
             <div class="controls-FilterButton__text-wrapper controls-FilterButton__text-wrapper_state_{{_getFilterState()}}"
                  on:click="openDetailPanel()"
                  name="filterText">
                <ws:if data="{{_options.alignment === 'right'}}">
-                  <div class="controls-FilterButton__arrow controls-FilterButton__arrow_theme-{{_options.theme}} controls-FilterButton__arrow_state_{{_getFilterState()}}_theme-{{_options.theme}} icon-DayForward"></div>
+                  <div class="controls-FilterButton__arrow controls-FilterButton__arrow_state_{{_getFilterState()}} icon-DayForward"></div>
                </ws:if>
-               <div class="controls-FilterButton__text controls-FilterButton__text_theme-{{_options.theme}} controls-FilterButton__text_state_{{_getFilterState()}}_theme-{{_options.theme}}" title="{{_text}}">{{_text}}</div>
+               <div class="controls-FilterButton__text controls-FilterButton__text_state_{{_getFilterState()}}" title="{{_text}}">{{_text}}</div>
             </div>
             <ws:if data="{{!_options.readOnly && _isItemsChanged}}">
-               <div class="controls-FilterButton__clear controls-FilterButton__clear_theme-{{_options.theme}} icon-CloseNew" title="Очистить фильтр" on:click="_clearClick()"></div>
+               <div class="controls-FilterButton__clear icon-CloseNew" title="Очистить фильтр" on:click="_clearClick()"></div>
             </ws:if>
          </ws:if>
          <ws:if data="{{_options.lineSpaceTemplate}}">
             <ws:partial template="{{_options.lineSpaceTemplate}}"
-                        class="controls-FilterButton__spaceTemplate_{{_options.alignment}}_theme-{{_options.theme}}"/>
+                        class="controls-FilterButton__spaceTemplate_{{_options.alignment}}"/>
          </ws:if>
       </div>
-      <div class="controls-FilterButton__icon controls-FilterButton__icon_theme-{{_options.theme}} controls-FilterButton__icon_{{_options.alignment}}_theme-{{_options.theme}} controls-FilterButton__icon_state_{{_getFilterState()}}_theme-{{_options.theme}} icon-FilterBig"
+      <div class="controls-FilterButton__icon controls-FilterButton__icon_{{_options.alignment}} controls-FilterButton__icon_state_{{_getFilterState()}} icon-FilterBig"
            on:click="openDetailPanel()">
       </div>
    </div>

@@ -76,6 +76,15 @@ class Bar extends Control<IBarOptions> {
    }
 }
 
+Object.defineProperty(Bar, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Bar.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_progress/Bar#value
  * @cfg {Number} Значение прогресса в процентах.
@@ -83,12 +92,12 @@ class Bar extends Control<IBarOptions> {
  * Целое число от 1 до 100.
  */
 
- /*
- * @name Controls/_progress/Bar#value
- * @cfg {Number} Progress in percents (ratio of the filled part)
- * @remark
- * An integer from 1 to 100.
- */
+/*
+* @name Controls/_progress/Bar#value
+* @cfg {Number} Progress in percents (ratio of the filled part)
+* @remark
+* An integer from 1 to 100.
+*/
 
 /**
  * @name Controls/_progress/Bar#barStyle

@@ -103,7 +103,7 @@ export interface IView {
 
 /**
  * @event Происходит перед стартом редактирования.
- * @name Controls/interface/IEditableArea#beforeBeginEdit
+ * @name Controls/_editableArea/interface/IView#beforeBeginEdit
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} options Объект, в котором лежит item — редактируемая строка.
  * @param {Boolean} isAdd Флаг, который позволяет различать редактирование (false) и добавление (true).
@@ -134,7 +134,7 @@ export interface IView {
 
 /**
  * @event Происходит до окончания редактирования.
- * @name Controls/interface/IEditableArea#beforeEndEdit
+ * @name Controls/_editableArea/interface/IView#beforeEndEdit
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} editObject Редактируемая запись.
  * @param {Boolean} commit Если значение параметра true, редактирование закончится сохранением.
@@ -168,7 +168,7 @@ export interface IView {
 
 /**
  * @event Происходит после окончания редактирования.
- * @name Controls/interface/IEditableArea#afterEndEdit
+ * @name Controls/_editableArea/interface/IView#afterEndEdit
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Record} editObject Редактируемая запись.
  * @example

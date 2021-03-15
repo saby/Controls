@@ -403,11 +403,12 @@
    display: flex;
    align-items: baseline;
    min-width: 0;
+   flex-grow: 1;
    // убрал overflow по задаче https://online.sbis.ru/opendoc.html?guid=c2378e36-137e-44e6-a339-1c5bd549a772
    //overflow: hidden;
 }
 
-.controls-ListView__groupSeparator-left_theme-@{themeName}, .controls-ListView__groupSeparator-right_theme-@{themeName} {
+.controls-ListView__groupSeparator_theme-@{themeName} {
    height: @grouping_height_list / 2 - @grouping_separator_thickness_list;
    margin-bottom: @grouping_height_list / 2;
    border-bottom: @grouping_separator_thickness_list solid @grouping_separator_color_list;
@@ -667,7 +668,7 @@
    justify-content: center;
 }
 
-.ws-is-hover {
+.ws-is-hover .controls-BaseControl_hover_enabled {
    .controls-ListView__item_highlightOnHover_default_theme_@{themeName} {
       &:hover {
          background-color: @item_hover_background-color_list;
@@ -744,4 +745,38 @@
    .controls-ListView__rowSeparator_size-l_theme-@{themeName} {
       border-bottom: @item-separator_l_thickness_list solid @item_edge_separator_l_color_list;
    }
+}
+
+
+// TODO вернуть в menu/_Control.less после перехода на css переменные
+@padding-right_menu-multiSelect: calc(var(--apply-button_inline-height_menuPopup) + var(--apply-button_offset_menuPopup) * 2);
+
+.controls-ListView__item-rightPadding_menu-multiselect_theme-@{themeName} {
+   padding-right: @padding-right_menu-multiSelect;
+}
+
+.controls-ListView__item-rightPadding_menu-expander_theme-@{themeName} {
+   padding-right: calc(var(--hierarchy_icon_offset-right_menu) + var(--hierarchy_icon-size_menu) + var(--hierarchy_icon_offset-left_menu));
+}
+
+@padding-right_menu-close: calc(var(--close-button_offset-left_sticky) + var(--width_closeButton_link) + var(--close-button_offset-right_sticky));
+
+.controls-ListView__item-rightPadding_menu-close_theme-@{themeName} {
+   padding-right: @padding-right_menu-close;
+}
+
+.controls-ListView__item-rightPadding_menu-close-multiselect_theme-@{themeName} {
+   padding-right: calc(@padding-right_menu-close + @padding-right_menu-multiSelect);
+}
+
+.controls-ListView__item-rightPadding_menu-pin_theme-@{themeName} {
+   padding-right: calc(var(--pin-button_offset-left_menu) + var(--pin-button_icon-size_menu) + var(--pin-button_offset-right_menu));
+}
+
+.controls-ListView__item-rightPadding_menu-xs_theme-@{themeName} {
+   padding-right: var(--item_padding-horizontal_s_menu);
+}
+
+.controls-ListView__item-leftPadding_menu-xs_theme-@{themeName} {
+   padding-left: var(--item_padding-horizontal_s_menu);
 }

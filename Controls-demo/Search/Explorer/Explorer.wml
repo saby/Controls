@@ -15,7 +15,7 @@
         nodeProperty="parent@"
         searchParam="title"
         minSearchLength="{{3}}"
-        searchStartingWith="{{_startingWith}}"
+        startingWith="{{_startingWith}}"
         bind:root="_root"
         bind:filter="_filter"
     >
@@ -31,6 +31,7 @@
               displayProperty="title"
               multiSelectVisibility="{{_multiselect}}"
               dedicatedItemProperty="{{_dedicatedItemProperty}}"
+              searchStartingWith="{{_startingWith}}"
               columns="{{_columns}}">
           </Controls.explorer:View>
         </Controls.list:Container>

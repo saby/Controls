@@ -47,7 +47,7 @@ describe('Controls/grid_clean/GridView', () => {
             gridView = new GridView(options);
         });
 
-        describe('disabled. Should ignore all methods', () =>   {
+        describe('disabled. Should ignore all methods', () => {
 
             it('_beforeMount', async () => {
                 await gridView._beforeMount(options);
@@ -84,7 +84,6 @@ describe('Controls/grid_clean/GridView', () => {
                 options.columns = columns;
                 options.multiSelectVisibility = 'hidden';
                 options.columnScroll = true;
-                options.isFullGridSupport = true;
 
                 gridView._beforeMount(options);
 
@@ -98,7 +97,6 @@ describe('Controls/grid_clean/GridView', () => {
                 options.columns = columns;
                 options.multiSelectVisibility = 'hidden';
                 options.columnScroll = true;
-                options.isFullGridSupport = true;
 
                 gridView._beforeMount(options);
 

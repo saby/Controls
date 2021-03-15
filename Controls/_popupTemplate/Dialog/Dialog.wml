@@ -1,7 +1,6 @@
 <Controls.dragnDrop:Container name="dragNDrop" on:dragmove="_onDragMove()" on:documentdragend="_onDragEnd()">
-    <div class="controls-DialogTemplate controls-DialogTemplate_theme_{{_options.theme}}
-                controls-DialogTemplate_backgroundStyle-{{_options.backgroundStyle}}_theme_{{_options.theme}}
-                {{_options.draggable ? 'ws-window-draggable'}}" ws-tab-cycling="true">
+    <div class="controls-DialogTemplate controls-DialogTemplate_backgroundStyle-{{_options.backgroundStyle}}
+                {{_options.draggable ? 'ws-window-draggable'}} controls_theme-{{_options.theme}}" ws-tab-cycling="true">
         <ws:if data="{{_options.headingCaption || _options.headerContentTemplate }}">
             <ws:partial template="Controls/_popupTemplate/Dialog/DialogHeader"
                         scope="{{_options}}"
@@ -14,7 +13,7 @@
             <ws:if data="{{_options.closeButtonVisibility}}">
                 <Controls._popupTemplate.CloseButton
                     name="closeButton"
-                    attr:class="controls-DialogTemplate__close_button controls-DialogTemplate__close_button_theme_{{_options.theme}}"
+                    attr:class="controls-DialogTemplate__close_button"
                     on:click="close()"
                     transparent="{{_options.closeButtonTransparent}}"
                     viewMode="{{_options.closeButtonViewMode}}"/>
@@ -31,7 +30,7 @@
             </div>
         </ws:if>
         <ws:if data="{{ _options.footerContentTemplate }}">
-            <ws:partial template="{{ _options.footerContentTemplate}}" attr:class="controls-DialogTemplate__footer_theme_{{_options.theme}}"></ws:partial>
+            <ws:partial template="{{ _options.footerContentTemplate}}" attr:class="controls-DialogTemplate__footer"></ws:partial>
         </ws:if>
     </div>
 </Controls.dragnDrop:Container>

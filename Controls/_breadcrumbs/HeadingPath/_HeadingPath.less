@@ -14,8 +14,8 @@
    white-space: nowrap;
 
    //TODO KINGO есть темы, в которых выравнивание ХК идет по базовой линии шрифта, размер которого отличается от размера шрифта кнопки назад
-   .controls-Back__wrapper_theme-@{themeName}:before {
-      font-size: @line-height_breadcrumbsView;
+   .controls-Back__wrapper:before {
+      font-size: var(--line-height_breadcrumbsView);
    }
 }
 .controls-BreadCrumbsPath__wrapper__multiline {
@@ -38,8 +38,8 @@
    text-align: left;
 
    //во всех темах
-   .controls-Back__caption_theme-@{themeName} {
-      font-weight: @font-weight_headingPathBack_headingBack;
+   .controls-Back__caption {
+      font-weight: var(--font-weight_headingPathBack_headingBack);
    }
 }
 

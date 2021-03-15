@@ -15,7 +15,10 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
     height?: number;
     maxHeight?: number;
     top?: number;
+    bottom?: number;
     left?: number;
+    right?: number;
+    resizeDirection?: IResizeDirection;
     maximize?: boolean;
     restrictiveContainer?: string;
 }
@@ -27,6 +30,16 @@ export interface IDialogPopupOptions extends IBasePopupOptions {
  */
 export interface IDialogOpener extends IOpener {
     readonly '[Controls/_popup/interface/IDialogOpener]': boolean;
+}
+
+/**
+ * @typedef {Object} IResizeDirection
+ * @property {String} vertical
+ * @property {String} horizontal
+ */
+export interface IResizeDirection {
+    vertical?: 'top' | 'bottom';
+    horizontal?: 'left' | 'right';
 }
 
 /**
@@ -66,6 +79,13 @@ export interface IDialogOpener extends IOpener {
  * @cfg {Number} Минимально допустимая ширина диалогового окна.
  * @see width
  * @see maxWidth
+ */
+/**
+ * @name Controls/_popup/interface/IDialogOpener#resizeDirection
+ * @cfg {IResizeDirection} Направление, в котором попап будет увеличиваться
+ * при динамическом изменении размеров контента.
+ * В этом случае противоположная сторона будет зафиксирована и не изменит свою позицию относительно окна браузера.
+ * @demo Controls-demo/Popup/Dialog/ResizeDirection/Index
  */
 /*
  * @name Controls/_popup/interface/IDialogOpener#top
@@ -171,7 +191,7 @@ export interface IDialogOpener extends IOpener {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions>{
  *    ...
  *
  *    _openDialog() {
@@ -185,7 +205,7 @@ export interface IDialogOpener extends IOpener {
  *       this._children.dialog.close()
  *    }
  *    ...
- * });
+ * }
  * </pre>
  * @see open
  */
@@ -209,9 +229,8 @@ export interface IDialogOpener extends IOpener {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    ...
- *
  *    _openDialog() {
  *       var popupOptions = {
  *          autofocus: true
@@ -223,7 +242,7 @@ export interface IDialogOpener extends IOpener {
  *       this._children.dialog.close()
  *    }
  *    ...
- * });
+ * };
  * </pre>
  * @see close
  */

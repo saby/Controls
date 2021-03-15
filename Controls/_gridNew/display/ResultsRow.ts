@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { Model as EntityModel } from 'Types/entity';
 import Collection from './Collection';
 import Row from './Row';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/interface';
 import { TColspanCallbackResult, TResultsColspanCallback } from './mixins/Grid';
 import ResultsCell from './ResultsCell';
 import Cell from './Cell';

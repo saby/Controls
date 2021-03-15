@@ -18,12 +18,14 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
-                isMultiline: () => false
-            }
+                isMultiline: () => false,
+                isSticked: () => false
+            };
 
             const headerRow = new GridHeaderRow({
                 header,
@@ -78,11 +80,13 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
-                isMultiline: () => false
+                isMultiline: () => false,
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -122,11 +126,13 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 'default',
                 getRightPadding: () => 'default',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
-                isMultiline: () => false
+                isMultiline: () => false,
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -177,7 +183,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
@@ -193,7 +200,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                             end: 3
                         }
                     }
-                }
+                },
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -233,7 +241,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
@@ -249,7 +258,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                             end: 3
                         }
                     }
-                }
+                },
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -290,7 +300,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                 getLeftPadding: () => 's',
                 getRightPadding: () => 's',
                 isStickyHeader: () => false,
-                hasColumnScroll: () => false
+                hasColumnScroll: () => false,
+                isSticked: () => false
             };
 
             const mockedHeaderModel = {
@@ -306,7 +317,8 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
                             end: 3
                         }
                     }
-                }
+                },
+                isSticked: () => false
             }
 
             const headerRow = new GridHeaderRow({
@@ -324,6 +336,62 @@ describe('Controls/grid_clean/Display/HeaderRow', () => {
             assert.isFalse(columnItems[3].isLastColumn());
             assert.isFalse(columnItems[4].isLastColumn());
             assert.isTrue(columnItems[5].isLastColumn());
+        });
+    });
+
+    describe('Controls/grid_clean/Display/HeaderRow/Sorting', () => {
+        describe('.setSorting()', () => {
+            it('should update sorting only in header cells with skipping itemActionsCell', () => {
+                const columns = [{}, {}, {}];
+
+                const header = [
+                    {caption: 'One'},
+                    {caption: 'Two'},
+                    {caption: 'Three'}
+                ];
+
+                const mockedHeaderOwner = {
+                    getStickyColumnsCount: () => 0,
+                    hasMultiSelectColumn: () => false,
+                    getColumnsConfig: () => columns,
+                    getHeaderConfig: () => header,
+                    hasItemActionsSeparatedCell: () => true,
+                    getLeftPadding: () => 's',
+                    getRightPadding: () => 's',
+                    isStickyHeader: () => false,
+                    hasColumnScroll: () => false
+                };
+
+                const mockedHeaderModel = {
+                    isMultiline: () => true,
+                    getBounds: () => ({
+                        column: {start: 1, end: 4},
+                        row: {start: 1, end: 2}
+                    })
+                };
+
+                const headerRow = new GridHeaderRow({
+                    header,
+                    headerModel: mockedHeaderModel,
+                    columns,
+                    owner: mockedHeaderOwner
+                });
+
+                // Проверяем, что в ячейку с операциями над записью не замешалась сортировка.
+                headerRow.getColumns()[3].setSorting = () => {
+                    throw Error('ItemActionsCell doesn\'t support sorting! Method .setSorting() shouldn\'t exist!');
+                };
+                headerRow.getColumns()[3].getSortingProperty = () => {
+                    throw Error('ItemActionsCell doesn\'t support sorting! Method .getSortingProperty() shouldn\'t exist!');
+                };
+
+                assert.doesNotThrow(() => {
+                    headerRow.setSorting({
+                        One: 'ASC',
+                        Two: 'DESC'
+                    });
+                });
+            });
         });
     });
 });

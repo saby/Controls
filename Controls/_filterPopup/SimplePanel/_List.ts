@@ -1,52 +1,31 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_filterPopup/SimplePanel/_List/List');
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import * as template from 'wml!Controls/_filterPopup/SimplePanel/_List/List';
 import {ItemTemplate as defaultItemTemplate} from 'Controls/dropdown';
-import emptyItemTemplate = require('wml!Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate');
-import {isEqual} from 'Types/object';
+import * as emptyItemTemplate from 'wml!Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate';
 import {DropdownViewModel} from 'Controls/dropdownPopup';
+import {IFilterItem} from 'Controls/filter';
 import collection = require('Types/collection');
 import Merge = require('Core/core-merge');
 import {factory} from 'Types/chain';
+import {isEqual} from 'Types/object';
+import {Model} from 'Types/entity';
+import {SyntheticEvent} from 'UI/Vdom';
+import {ISwipeEvent} from 'Controls/listRender';
+import 'css!Controls/filterPopup';
 
-var _private = {
-    isNeedUpdateSelectedKeys: function(self, target, item) {
-        var clickOnEmptyItem = item.get(self._options.keyProperty) === self._options.emptyKey,
-            clickOnCheckBox = target.closest('.controls-DropdownList__row-checkbox'),
-            clickOnFolder = item.get(self._options.nodeProperty);
-        return self._options.multiSelect && !clickOnEmptyItem && (clickOnCheckBox || self._selectionChanged) && !clickOnFolder;
-    },
+interface ISimplePanelListOptions extends IControlOptions {
 
-    updateSelection: function(listModel, item, resetValue) {
-        let updatedSelectedKeys = [...listModel.getSelectedKeys()];
-        if (updatedSelectedKeys.includes(item.getId())) {
-            var index = updatedSelectedKeys.indexOf(item.getId());
-            updatedSelectedKeys.splice(index, 1);
+}
 
-            if (!updatedSelectedKeys.length) {
-                updatedSelectedKeys = [];
-            }
-        } else {
-            if (isEqual(updatedSelectedKeys, resetValue)) {
-                updatedSelectedKeys = [];
-            }
-            updatedSelectedKeys.push(item.getId());
-        }
-        listModel.setSelectedKeys(updatedSelectedKeys);
-    },
+class List extends Control<ISimplePanelListOptions> {
+    protected _template: TemplateFunction = template;
+    protected _items: IFilterItem[] = null;
+    protected _defaultItemTemplate: TemplateFunction = defaultItemTemplate;
+    protected _emptyItemTemplate: TemplateFunction = emptyItemTemplate;
+    protected _selectionChanged: boolean = false;
+    protected _listModel: typeof DropdownViewModel;
 
-    afterOpenDialogCallback: function(selectedItems) {
-        this._notify('moreButtonClick', [selectedItems]);
-    }
-};
-
-var List = Control.extend({
-    _template: template,
-    _items: null,
-    _defaultItemTemplate: defaultItemTemplate,
-    _emptyItemTemplate: emptyItemTemplate,
-    _selectionChanged: false,
-
-    _beforeMount: function(options) {
+    _beforeMount(options) {
         this._listModel = new DropdownViewModel({
             iconSize: options.iconSize,
             items: options.items || [],
@@ -62,10 +41,10 @@ var List = Control.extend({
             theme: options.theme
         });
 
-        this._afterOpenDialogCallback = _private.afterOpenDialogCallback.bind(this);
-    },
+        this._afterOpenDialogCallback = this._afterOpenDialogCallback.bind(this);
+    }
 
-    _beforeUpdate: function(newOptions) {
+    _beforeUpdate(newOptions) {
         if (newOptions.items && newOptions.items !== this._options.items) {
             this._listModel.setItems(newOptions);
         }
@@ -76,40 +55,40 @@ var List = Control.extend({
         if (newOptions.selectionChanged !== this._options.selectionChanged) {
             this._selectionChanged = newOptions.selectionChanged;
         }
-    },
+    }
 
-    _itemClickHandler: function(event, item) {
-        if (_private.isNeedUpdateSelectedKeys(this, event.target, item)) {
+    _itemClickHandler(event, item: Model) {
+        if (this._isNeedUpdateSelectedKeys(event.target, item)) {
             this._selectionChanged = true;
-            _private.updateSelection(this._listModel, item, this._options.resetValue);
+            this._updateSelection(this._listModel, item, this._options.resetValue);
             let selectedKeys = this._listModel.getSelectedKeys().slice().sort();
             this._notify('checkBoxClick', [selectedKeys]);
         } else {
             this._notify('itemClick', [[item.get(this._options.keyProperty)]]);
         }
-    },
+    }
 
-    _onItemSwipe: function(event, itemData) {
+    _onItemSwipe(event: SyntheticEvent<ISwipeEvent>, itemData) {
         if (event.nativeEvent.direction === 'left') {
             this._listModel.setSwipeItem(itemData);
         }
-    },
+    }
 
-    _itemMouseEnter: function() {
+    _itemMouseEnter() {
         // Заглушка для обработчика на шаблоне dropdownPopup:For
-    },
+    }
 
-    _openSelectorDialog: function() {
-        const self = this;
+    _openSelectorDialog() {
+        const selectorOpener = this._options.selectorOpener;
         const selectorTemplate = this._options.selectorTemplate;
         const selectorOpener = this._options.selectorTemplate.mode === 'dialog' ? this._options.dialogOpener : this._options.selectorOpener;
         const selectorDialogResult = this._options.selectorDialogResult;
         const selectedItems = [];
 
         // TODO: Selector/Controller сейчас не поддерживает работу с ключами: https://online.sbis.ru/opendoc.html?guid=936f6546-2e34-4753-85af-8e644c320c8b
-        factory(this._options.selectedKeys).each(function(key) {
-            if (key !== undefined && key !== null && self._options.selectorItems.getRecordById(key)) {
-                selectedItems.push(self._options.selectorItems.getRecordById(key));
+        factory(this._options.selectedKeys).each((key) => {
+            if (key !== undefined && key !== null && this._options.selectorItems.getRecordById(key)) {
+                selectedItems.push(this._options.selectorItems.getRecordById(key));
             }
         });
 
@@ -138,10 +117,37 @@ var List = Control.extend({
             this._afterOpenDialogCallback(templateConfig.selectedItems);
         }
     }
-});
 
-List._theme = ['Controls/filterPopup'];
+    private _isNeedUpdateSelectedKeys(target: HTMLElement, item: Model) {
+        const clickOnEmptyItem = item.get(this._options.keyProperty) === this._options.emptyKey;
+        const clickOnCheckBox = target.closest('.controls-DropdownList__row-checkbox');
+        const clickOnFolder = item.get(this._options.nodeProperty);
+        return this._options.multiSelect && !clickOnEmptyItem && (clickOnCheckBox || this._selectionChanged) && !clickOnFolder;
+    }
 
-List._private = _private;
+    private _updateSelection(listModel: typeof DropdownViewModel, item: Model, resetValue: unknown): void {
+        let updatedSelectedKeys = [...listModel.getSelectedKeys()];
+        const key = item.getKey();
+        if (updatedSelectedKeys.includes(key)) {
+            const index = updatedSelectedKeys.indexOf(key);
+            updatedSelectedKeys.splice(index, 1);
+
+            if (!updatedSelectedKeys.length) {
+                updatedSelectedKeys = [];
+            }
+        } else {
+            if (isEqual(updatedSelectedKeys, resetValue)) {
+                updatedSelectedKeys = [];
+            }
+            updatedSelectedKeys.push(key);
+        }
+        listModel.setSelectedKeys(updatedSelectedKeys);
+    }
+
+    private _afterOpenDialogCallback(selectedItems): void {
+        this._notify('moreButtonClick', [selectedItems]);
+    }
+}
+
 
 export = List;

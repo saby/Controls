@@ -36,13 +36,14 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -70,9 +71,9 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/input:IValue
- * 
+ *
  * @public
  * @author Герасимов А.М.
  */
@@ -155,3 +156,12 @@ export default class MultipleInput extends BaseLookupInput {
         };
     }
 }
+
+Object.defineProperty(MultipleInput, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MultipleInput.getDefaultOptions();
+   }
+});

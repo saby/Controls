@@ -60,37 +60,6 @@ define(['Controls/_suggestPopup/Layer/__ContentLayer'], function(__ContentLayer)
          assert.isTrue(closed);
       });
 
-      it('Suggest::_getChildContext', function() {
-         var suggestComponent = new __ContentLayer.default();
-         var context;
-         var afterUpdateContext;
-         var contextFilterValue;
-         var contextSearchValue;
-         var afterUpdateFilterValue;
-         var afterUpdateSearchValue;
-
-         suggestComponent._options.filter = {test: 'test'};
-         suggestComponent._options.searchValue = 'test';
-         suggestComponent._beforeMount(suggestComponent._options);
-
-         context = suggestComponent._getChildContext();
-         contextFilterValue = context.filterLayoutField.filter;
-         contextSearchValue = context.searchLayoutField.searchValue;
-
-         var newOptions = {
-            filter: {test: 'test2'},
-            searchValue: 'test2'
-         };
-         suggestComponent._beforeUpdate(newOptions);
-
-         afterUpdateContext = suggestComponent._getChildContext();
-         afterUpdateFilterValue = afterUpdateContext.filterLayoutField.filter;
-         afterUpdateSearchValue = afterUpdateContext.searchLayoutField.searchValue;
-
-         assert.isTrue(contextFilterValue !== afterUpdateFilterValue);
-         assert.isTrue(contextSearchValue !== afterUpdateSearchValue);
-      });
-
       it('Suggest::_private.calcHeight', function() {
          var self = getComponentObject();
 

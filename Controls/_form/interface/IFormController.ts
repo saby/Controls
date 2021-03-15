@@ -2,6 +2,7 @@
  * Интерфейс для контроллера редактирования записи.
  *
  * @interface Controls/_form/interface/IFormController
+ * @extends Controls/_form/interface/IControllerBase
  * @public
  * @author Красильников А.С.
  */
@@ -15,16 +16,6 @@
  */
 
 /**
- * @name Controls/_form/interface/IFormController#record
- * @cfg {Types/entity:Model} Устанавливает запись, по данным которой будет инициализирован диалог редактирования.
- */
-
-/*
- * @name Controls/_form/interface/IFormController#record
- * @cfg {Types/entity:Model} Record that produced the control initialization data.
- */
-
-/**
  * @name Controls/_form/interface/IFormController#key
  * @cfg {String} Ключ, с помощью которого будет получена запись.
  */
@@ -32,16 +23,6 @@
 /*
  * @name Controls/_form/interface/IFormController#key
  * @cfg {String} The key by which the record will be received
- */
-
-/**
- * @name Controls/_form/interface/IFormController#keyProperty
- * @cfg {String} Имя свойства элемента, однозначно идентифицирующего элемент коллекции.
- */
-
-/*
- * @name Controls/_form/interface/IFormController#keyProperty
- * @cfg {String} Name of the item property that uniquely identifies collection item
  */
 
 /**
@@ -56,12 +37,6 @@
  * @cfg {Boolean} "New record" flag, which means that the record is initialized in the data source, but not saved.
  * If the record is marked isNewRecord flag, when saving the record, the request for BL will be executed, even if the record is not changed.
  * Also when control destroying will be called deleting the record.
- */
-
-/**
- * @name Controls/_form/interface/IFormController#confirmationShowingCallback
- * @cfg {Function} Функция, которая определяет должно ли показаться окно с подтверждением сохранения/не сохранения измененных данных при закрытии диалога редактирования записи. Необходимо для случаев, когда есть измененные данные, не связанные с рекордом.
- * @returns {Boolean} true - окно покажется. false - нет.
  */
 
 /**

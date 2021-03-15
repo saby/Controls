@@ -1,14 +1,15 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/Panel/Text/Text');
+import 'css!Controls/filterPopup';
 
 /**
  * Контрол, отображающий текст с кнопкой сброса в виде крестика.
  * Используется для демонстрации пользователю выбранного фильтра, клик по крестику сбрасывает фильтр.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
- * 
+ *
  * @class Controls/_filterPopup/Panel/Text
  * @extends UI/Base:Control
  * @mixes Controls/_interface/ITextValue
@@ -26,14 +27,22 @@ class Text extends Control<IControlOptions> {
          this._notify('visibilityChanged', [false]);
       }
 
-      static _theme: string[] = ['Controls/filterPopup'];
-
       static getDefaultOptions(): object {
          return {
             value: true
          };
       }
    }
+
+Object.defineProperty(Text, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Text.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_filterPopup/Panel/Text#caption
  * @cfg {String} Текст, который будет отображаться рядом с кнопкой сброса.

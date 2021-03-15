@@ -1,10 +1,11 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as coreMerge from 'Core/core-merge';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import * as StringValueConverter from 'Controls/_input/DateTime/StringValueConverter';
+import StringValueConverter from 'Controls/_input/DateTime/StringValueConverter';
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
 import {EventUtils} from 'UI/Events';
 import {Popup as PopupUtil} from 'Controls/dateUtils';
+import 'css!Controls/input';
 
 import template = require('wml!Controls/_input/Date/Picker/Picker');
 
@@ -17,17 +18,15 @@ import template = require('wml!Controls/_input/Date/Picker/Picker');
  *
  * @class Controls/_input/Date/Picker
  * @extends UI/Base:Control
- * @mixes Controls/interface/IInputDateTime
+ * @mixes Controls/_input/interface/IInputDateTime
  * @mixes Controls/_interface/IDateMask
- * @mixes Controls/interface/IInputTag
+ * @mixes Controls/_interface/IInputTag
  * @mixes Controls/_input/interface/IBorderVisibility
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
  * @mixes Controls/_input/interface/IBase
- * @mixes Controls/interface/IInputPlaceholder
  * @mixes Controls/_input/interface/IValueValidators
  * @mixes Controls/_interface/IOpenPopup
- *
  * @public
  * @demo Controls-demo/Input/Date/Picker
  * @author Красильников А.С.
@@ -52,7 +51,7 @@ class Picker extends Control<IControlOptions> {
             ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
-            className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
+            className: 'controls-PeriodDialog__picker',
             templateOptions: {
                 ...PopupUtil.getTemplateOptions(this),
                 startValue: value,
@@ -108,7 +107,16 @@ class Picker extends Control<IControlOptions> {
         return coreMerge({}, IDateTimeMask.getOptionTypes());
     }
 
-    static _theme: string[] = ['Controls/Classes', 'Controls/input'];
+    static _theme: string[] = ['Controls/Classes'];
 }
+
+Object.defineProperty(Picker, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Picker.getDefaultOptions();
+   }
+});
 
 export default Picker;

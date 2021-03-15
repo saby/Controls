@@ -15,7 +15,7 @@
          navigation="{{_navigation}}"
          name="view">
          <ws:itemTemplate>
-            <ws:partial template="Controls/listRender:ColumnsItemTemplate" highlightOnHover="{{false}}">
+            <ws:partial template="Controls/columns:ItemTemplate" highlightOnHover="{{false}}">
                <ws:contentTemplate>
                   <div class="controlsDemo_ColumnsView_itemTemplate-wrapper">
 

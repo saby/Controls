@@ -19,7 +19,6 @@ import fastUpdate from './StickyHeader/FastUpdate';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {IScrollState} from '../Utils/ScrollState';
 import {SCROLL_POSITION} from './Utils/Scroll';
-import Context = require('Controls/_scroll/StickyHeader/Context');
 import {IntersectionObserver} from 'Controls/sizeUtils';
 import Model = require('Controls/_scroll/StickyHeader/Model');
 import template = require('wml!Controls/_scroll/StickyHeader/StickyHeader');
@@ -162,7 +161,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._observeHandler = this._observeHandler.bind(this);
     }
 
-    protected _beforeMount(options: IStickyHeaderOptions, context): void {
+    protected _beforeMount(options: IStickyHeaderOptions): void {
         if (!this._isStickyEnabled(options)) {
             return;
         }
@@ -191,11 +190,20 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     }
 
     protected _beforeUpdate(options: IStickyHeaderOptions, context): void {
-        if (!this._isStickyEnabled(options)) {
+        // Проверяем именно по старым опциями (this._options), т.к. в случае, если режим прилипания был 'notsticky' и
+        // сменился на любой другой, мы должны заново инициализировать нужные для работы поля.
+        // На beforeUpdate контрол еще не успел перестроится и обсерверы не появились в верстке.
+        // Инициализируем поля на afterUpdate, соотвественно нет смысла что-то обновлять до этого момента.
+        if (!this._isStickyEnabled(this._options)) {
             return;
         }
-        if (options.mode !== this._options.mode && options.mode === MODE.notsticky) {
-            this._release();
+        if (options.mode !== this._options.mode) {
+            if (options.mode === MODE.notsticky) {
+                this._release();
+                return;
+            } else {
+                this._stickyModeChanged(options.mode);
+            }
         }
         if (options.fixedZIndex !== this._options.fixedZIndex) {
             this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
@@ -231,6 +239,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (this._model) {
             return;
         }
+        this._stickyDestroy = false;
         this._updateComputedStyle();
 
         // После реализации https://online.sbis.ru/opendoc.html?guid=36457ffe-1468-42bf-acc9-851b5aa24033
@@ -261,6 +270,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             //Let the listeners know that the element is no longer fixed before the unmount.
             this._fixationStateChangeHandler('', this._model.fixedPosition);
             this._model.destroy();
+            this._model = null;
         }
         this._stickyDestroy = true;
 
@@ -269,9 +279,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             this._observer.disconnect();
         }
 
-        this._observeHandler = undefined;
         this._observer = undefined;
         this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
+    }
+
+    private _stickyModeChanged(newMode: MODE): void {
+        this._notify('stickyModeChanged', [this._index, newMode], {bubbling: true});
+        this._updateShadowStyles(newMode, this._options.shadowVisibility);
     }
 
     getOffset(parentElement: HTMLElement, position: POSITION): number {
@@ -765,16 +779,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return this._isStickySupport && options.mode !== MODE.notsticky;
     }
 
-    static _theme: string[] = ['Controls/scroll', 'Controls/Classes'];
-
     static _isIOSChrome(): boolean {
         return detection.isMobileIOS && detection.chrome;
-    }
-
-    static contextTypes(): IStickyHeaderContext {
-        return {
-            stickyHeader: Context
-        };
     }
 
     static getDefaultOptions(): IStickyHeaderOptions {
@@ -819,7 +825,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return 1;
     }
 
-    static _theme: string[] = ['Controls/scroll'];
+    static _theme: string[] = ['Controls/scroll', 'Controls/Classes'];
 
 }
 /**
@@ -911,3 +917,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
  * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
+
+Object.defineProperty(StickyHeader, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return StickyHeader.getDefaultOptions();
+   }
+});

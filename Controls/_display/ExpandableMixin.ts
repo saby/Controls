@@ -10,6 +10,7 @@ export interface IOptions {
  */
 export default abstract class ExpandableMixin {
     '[Controls/_display/ExpandableMixin]': boolean;
+    readonly Expandable: boolean = true;
 
     /**
      * The node is expanded or collapsed. Expanded by default.

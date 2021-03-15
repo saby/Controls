@@ -1,84 +1,35 @@
-import {Control} from 'UI/Base';
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/SimplePanel/_HierarchyList/HierarchyList');
 import {factory} from 'Types/chain';
+import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import emptyItemTemplate = require('wml!Controls/_filterPopup/SimplePanel/_List/emptyItemTemplate');
 import {DropdownViewModel} from 'Controls/dropdownPopup';
 import hierarchyItemTemplate = require('wml!Controls/_filterPopup/SimplePanel/_HierarchyList/hierarchyItemTemplate');
+import 'css!Controls/filterPopup';
 
-var _private = {
+interface IHierarchyListFolder {
+    [key: string]: Model;
+}
 
-    getFolders: function(items, nodeProperty) {
-        let folders = {};
-        factory(items).each((item) => {
-            if (item.get(nodeProperty)) {
-                folders[item.getId()] = item;
-            }
-        });
-        return folders;
-    },
+interface IHierarchyListKeys {
+    [key: string]: string[];
+}
 
-    getItemsByFolder: function(items, folderId, parentProperty) {
-        return factory(items).filter((item) => {
-            return item.get(parentProperty) === folderId;
-        }).value();
-    },
+class HierarchyList extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+    protected _folders: IHierarchyListFolder = null;
+    protected _selectedKeys: IHierarchyListKeys = null;
+    protected _flatSelectedKeys: string[];
+    protected _emptyItemTemplate: TemplateFunction = emptyItemTemplate;
+    protected _selectionChanged: boolean = false;
+    protected _listModel: typeof DropdownViewModel;
 
-    getViewModelSelectedKeys: function(selectedKeys, emptyKey) {
-        let result = [];
-        factory(selectedKeys).each((key) => {
-            if (!key.includes(emptyKey)) {
-                result = result.concat(key);
-            }
-        });
-        return result;
-    },
-
-    clearSelectedKeys: function(folders, selectedKeys) {
-        factory(folders).each((folder, index) => {
-            selectedKeys[index] = [];
-        });
-    },
-
-    getSelectedKeys: function(selectedKeys, folders, emptyKey) {
-        let clonedKeys = {};
-        factory(folders).each((folder, index) => {
-            if (selectedKeys[index] === undefined || selectedKeys[index] === emptyKey) {
-                clonedKeys[index] = [];
-            } else {
-                clonedKeys[index] = selectedKeys[index];
-            }
-        });
-        return clonedKeys;
-    },
-
-    getNodeItems: function(folders, {items, keyProperty, parentProperty}) {
-        let nodeItems = {};
-        factory(folders).each((folder, index) => {
-            const records = new RecordSet({
-                keyProperty,
-                adapter: items.getAdapter()
-            });
-            records.add(folder);
-            records.append(_private.getItemsByFolder(items, folder.get(keyProperty), parentProperty));
-            nodeItems[index] = records;
-        });
-        return nodeItems;
-    }
-};
-
-var HierarchyList = Control.extend({
-    _template: template,
-    _folders: null,
-    _selectedKeys: null,
-    _emptyItemTemplate: emptyItemTemplate,
-    _selectionChanged: false,
-
-    _beforeMount: function(options) {
-        this._folders = _private.getFolders(options.selectorItems, options.nodeProperty);
-        this._selectedKeys = _private.getSelectedKeys(options.selectedKeys, this._folders, options.emptyKey);
-        this._flatSelectedKeys = _private.getViewModelSelectedKeys(this._selectedKeys, options.emptyKey);
-        this._nodeItems = _private.getNodeItems(this._folders, options);
+    _beforeMount(options) {
+        this._folders = this._getFolders(options.selectorItems, options.nodeProperty);
+        this._selectedKeys = this._getSelectedKeys(options.selectedKeys, this._folders, options.emptyKey);
+        this._flatSelectedKeys = this._getViewModelSelectedKeys(this._selectedKeys, options.emptyKey);
+        this._nodeItems = this._getNodeItems(this._folders, options);
 
         this._listModel = new DropdownViewModel({
             items: options.items,
@@ -91,13 +42,13 @@ var HierarchyList = Control.extend({
             hasApplyButton: options.hasApplyButton,
             hasClose: true
         });
-    },
+    }
 
-    _hasMoreButton: function(folder) {
+    _hasMoreButton(folder: Model): boolean {
         return this._options.sourceController.hasMoreData('down', folder.get(this._options.keyProperty));
-    },
+    }
 
-    _itemClickHandler: function(event, index, key) {
+    _itemClickHandler(event, index, key) {
         if (this._selectionChanged) {
             this._checkBoxClickHandler(event, index, key);
         } else {
@@ -105,14 +56,14 @@ var HierarchyList = Control.extend({
             this._selectedKeys[index] = key;
             this._notify('itemClick', [this._selectedKeys]);
         }
-    },
+    }
 
-    _emptyItemClickHandler: function() {
+    _emptyItemClickHandler() {
         this._selectedKeys = [this._options.emptyKey];
         this._notify('itemClick', [this._selectedKeys]);
-    },
+    }
 
-    _checkBoxClickHandler: function(event, index, keys) {
+    _checkBoxClickHandler(event, index, keys) {
         let eventName = 'checkBoxClick';
         let setKeys = () => {
             if (keys === undefined) {
@@ -123,7 +74,7 @@ var HierarchyList = Control.extend({
         };
 
         if (!!this._folders[keys[0]]) {
-            _private.clearSelectedKeys(this._folders, this._selectedKeys);
+            this._clearSelectedKeys(this._folders, this._selectedKeys);
             eventName = 'itemClick';
         } else {
             this._selectionChanged = true;
@@ -134,22 +85,85 @@ var HierarchyList = Control.extend({
         }
         setKeys();
         this._notify(eventName, [this._selectedKeys]);
-        this._listModel.setSelectedKeys(_private.getViewModelSelectedKeys(this._selectedKeys, this._options.emptyKey));
-    },
+        this._listModel.setSelectedKeys(this._getViewModelSelectedKeys(this._selectedKeys, this._options.emptyKey));
+    }
 
-    _moreButtonClick: function() {
+    _moreButtonClick() {
         this._notify('moreButtonClick');
     }
+
+    private _getFolders(items: RecordSet, nodeProperty: string): IHierarchyListFolder {
+        let folders = {};
+        factory(items).each((item) => {
+            if (item.get(nodeProperty)) {
+                folders[item.getKey()] = item;
+            }
+        });
+        return folders;
+    }
+
+    private _getItemsByFolder(items: Model[], folderId: string, parentProperty: string): Model[] {
+        return factory(items).filter((item) => {
+            return item.get(parentProperty) === folderId;
+        }).value();
+    }
+
+    private _getViewModelSelectedKeys(selectedKeys: IHierarchyListKeys, emptyKey: string) {
+        let result = [];
+        factory(selectedKeys).each((key) => {
+            if (!key.includes(emptyKey)) {
+                result = result.concat(key);
+            }
+        });
+        return result;
+    }
+
+    private _clearSelectedKeys(folders: IHierarchyListFolder, selectedKeys) {
+        factory(folders).each((folder, index) => {
+            selectedKeys[index] = [];
+        });
+    }
+
+    private _getSelectedKeys(selectedKeys, folders: IHierarchyListFolder, emptyKey): IHierarchyListKeys {
+        let clonedKeys = {};
+        factory(folders).each((folder, index: string) => {
+            if (selectedKeys[index] === undefined || selectedKeys[index] === emptyKey) {
+                clonedKeys[index] = [];
+            } else {
+                clonedKeys[index] = selectedKeys[index];
+            }
+        });
+        return clonedKeys;
+    }
+
+    private _getNodeItems(folders: IHierarchyListFolder, {items, keyProperty, parentProperty}) {
+        let nodeItems = {};
+        factory(folders).each((folder, index) => {
+            const records = new RecordSet({
+                keyProperty,
+                adapter: items.getAdapter()
+            });
+            records.add(folder);
+            records.append(this._getItemsByFolder(items, folder.get(keyProperty), parentProperty));
+            nodeItems[index] = records;
+        });
+        return nodeItems;
+    }
+
+    static getDefaultOptions(): object {
+        return {
+            itemTemplate: hierarchyItemTemplate
+        };
+    }
+}
+
+Object.defineProperty(HierarchyList, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return HierarchyList.getDefaultOptions();
+    }
 });
-
-HierarchyList.getDefaultOptions = (): object => {
-    return {
-        itemTemplate: hierarchyItemTemplate
-    };
-};
-
-HierarchyList._theme = ['Controls/filterPopup'];
-
-HierarchyList._private = _private;
 
 export = HierarchyList;

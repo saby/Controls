@@ -59,14 +59,14 @@ define('Controls/interface/IRemovable', [], function() {
     * <Controls.popup:Confirmation name="popupOpener"/>
     * </pre>
     * <pre class="brush: js">
-    * Control.extend({
-    *    _beforeItemsRemove: function(eventObject, idArray) {
+    * class MyControl extends Control<IControlOptions> {
+    *    _beforeItemsRemove(eventObject, idArray) {
     *       return this._children.popupOpener.open({
     *          message: 'Are you sure you want to delete the items?',
     *          type: 'yesno'
     *       });
     *    }
-    * });
+    * }
     * </pre>
     * @see afterItemsRemove
     * @see removeItems
@@ -85,14 +85,14 @@ define('Controls/interface/IRemovable', [], function() {
     * <Controls.popup:Confirmation name="popupOpener"/>
     * </pre>
     * <pre class="brush: js">
-    * Control.extend({
-    *    _beforeItemsRemove: function(eventObject, idArray) {
+    * class MyControl extends Control<IControlOptions> {
+    *    _beforeItemsRemove(eventObject, idArray) {
     *       return this._children.popupOpener.open({
     *          message: 'Are you sure you want to delete the items?',
     *          type: 'yesno'
     *       });
     *    }
-    * });
+    * }
     * </pre>
     * @see afterItemsRemove
     * @see removeItems
@@ -116,8 +116,8 @@ define('Controls/interface/IRemovable', [], function() {
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
-    *    _afterItemsRemove: function(eventObject, idArray, result) {
+    * class MyControl extends Control<IControlOptions> {
+    *    _afterItemsRemove(eventObject, idArray, result) {
     *       if (result instanceof Error) {
     *          return this._children.popupOpener.open({
     *             message: 'Removing records failed.',
@@ -125,7 +125,7 @@ define('Controls/interface/IRemovable', [], function() {
     *          });
     *       }
     *    }
-    * });
+    * }
     * </pre>
     * @see removeItems
     * @see beforeItemsRemove
@@ -146,8 +146,8 @@ define('Controls/interface/IRemovable', [], function() {
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
-    *    _afterItemsRemove: function(eventObject, idArray, result) {
+    * class MyControl extends Control<IControlOptions> {
+    *    _afterItemsRemove(eventObject, idArray, result) {
     *       if (result instanceof Error) {
     *          return this._children.popupOpener.open({
     *             message: 'Removing records failed.',
@@ -155,7 +155,7 @@ define('Controls/interface/IRemovable', [], function() {
     *          });
     *       }
     *    }
-    * });
+    * }
     * </pre>
     * @see removeItems
     * @see beforeItemsRemove
@@ -175,12 +175,12 @@ define('Controls/interface/IRemovable', [], function() {
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
-    *    _keysForRemove: [...],
-    *    _onRemoveButtonClick: function() {
+    * class MyControl extends Control<IControlOptions> {
+    *    _keysForRemove = [...];
+    *    _onRemoveButtonClick() {
     *       this._children.listRemover.removeItems(this._keysForRemove);
     *    }
-    * });
+    * }
     * </pre>
     * @see afterItemsRemove
     * @see beforeItemsRemove
@@ -200,12 +200,12 @@ define('Controls/interface/IRemovable', [], function() {
     *
     * <pre class="brush: js">
     * // JavaScript
-    * Control.extend({
-    *    _keysForRemove: [...],
-    *    _onRemoveButtonClick: function() {
+    * class MyControl extends Control<IControlOptions> {
+    *    _keysForRemove = [...];
+    *    _onRemoveButtonClick() {
     *       this._children.listRemover.removeItems(this._keysForRemove);
     *    }
-    * });
+    * }
     * </pre>
     * @see afterItemsRemove
     * @see beforeItemsRemove

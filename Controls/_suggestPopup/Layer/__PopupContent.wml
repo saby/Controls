@@ -1,5 +1,4 @@
-<div attr:class="controls-Suggest__suggestionsContainer
-                 controls-Suggest__suggestionsContainer_theme-{{_options.theme}}
+<div attr:class="controls_theme-{{_options.theme}} controls-Suggest__suggestionsContainer
                  controls-Suggest__suggestionsContainer_popup
                  controls-Suggest__suggestionsContainer_popup_shadow_{{_options.stickyPosition.direction.vertical}}
                  controls-Suggest__suggestionsContainer_popup_{{_options.stickyPosition.direction.vertical}}

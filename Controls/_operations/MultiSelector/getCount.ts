@@ -1,6 +1,6 @@
 import {Rpc} from 'Types/source';
 import {TSelectionRecord, ISelectionObject} from 'Controls/interface';
-import * as selectionToRecord from 'Controls/_operations/MultiSelector/selectionToRecord';
+import selectionToRecord from 'Controls/_operations/MultiSelector/selectionToRecord';
 import {Record} from 'Types/entity';
 
 type TCount = null|number|void;

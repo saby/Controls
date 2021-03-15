@@ -1,4 +1,5 @@
 import { mixin } from 'Types/util';
+import {TemplateFunction} from 'UI/Base';
 import TreeGridDataRow, {IOptions as ITreeGridRowOptions} from './TreeGridDataRow';
 import {
     TreeItem,
@@ -9,17 +10,17 @@ import {
     ITreeCollectionOptions, IItemActionsTemplateConfig
 } from 'Controls/display';
 import {
-    GridGroupItem,
+    GridGroupRow,
     GridMixin,
     IGridCollectionOptions
 } from 'Controls/gridNew';
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
-import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
-import {TemplateFunction} from "UI/Base";
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
-   extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {}
+   extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
+    nodeTypeProperty?: string;
+}
 
 /**
  * Рекурсивно проверяет скрыт ли элемент сворачиванием родительских узлов
@@ -47,6 +48,8 @@ export default class TreeGridCollection<
 > extends mixin<Tree<any>, GridMixin<any, any>>(Tree, GridMixin) {
     readonly '[Controls/treeGrid:TreeGridCollection]': boolean;
 
+    protected _$nodeTypeProperty: string;
+
     constructor(options: IOptions<S, T>) {
         super(options);
         GridMixin.call(this, options);
@@ -54,8 +57,17 @@ export default class TreeGridCollection<
         // TODO должно быть в Tree. Перенести туда, когда полностью перейдем на новую коллекцию TreeGrid.
         //  Если сразу в Tree положим, то все разломаем
         this.addFilter(
-            (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)
+           (contents, sourceIndex, item, collectionIndex) => itemIsVisible(item)
         );
+    }
+
+    setNodeTypeProperty(nodeTypeProperty: string): void {
+        this._$nodeTypeProperty = nodeTypeProperty;
+        this._nextVersion();
+    }
+
+    getNodeTypeProperty(): string {
+        return this._$nodeTypeProperty;
     }
 
     // TODO duplicate code with GridCollection. Нужно придумать как от него избавиться.
@@ -127,8 +139,8 @@ export default class TreeGridCollection<
         this._updateItemsColumns();
     }
 
-    protected _handleAfterCollectionChange(): void {
-        super._handleAfterCollectionChange();
+    protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[]): void {
+        super._handleAfterCollectionChange(changedItems);
         if (GridLadderUtil.isSupportLadder(this._$ladderProperties)) {
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
@@ -138,19 +150,12 @@ export default class TreeGridCollection<
 
     protected _getItemsFactory(): ItemsFactory<T> {
         const superFactory = super._getItemsFactory();
-        return function CollectionItemsFactory(options?: ITreeGridRowOptions<T>): T {
-            options.columns = this._$columns;
-            options.colspanCallback = this._$colspanCallback;
-            options.columnSeparatorSize = this._$columnSeparatorSize;
-            options.rowSeparatorSize = this._$rowSeparatorSize;
-            return superFactory.call(this, options);
-        };
+        return this._itemsFactoryResolver.bind(this, superFactory);
     }
 
-    protected _getGroupItemConstructor(): new() => GridGroupItem<T> {
-        return GridGroupItem;
+    protected _getGroupItemConstructor(): new() => GridGroupRow<T> {
+        return GridGroupRow;
     }
-
     setEditing(editing: boolean): void {
         super.setEditing(editing);
 
@@ -173,6 +178,35 @@ export default class TreeGridCollection<
 
     // endregion HasNodeWithChildren
 
+    // region itemsFactoryResolver
+
+    protected _itemsFactoryResolver(superFactory: ItemsFactory<T>, options?: ITreeGridRowOptions<S>): ItemsFactory<T> {
+        options.columns = this._$columns;
+        options.colspanCallback = this._$colspanCallback;
+        options.columnSeparatorSize = this._$columnSeparatorSize;
+        options.rowSeparatorSize = this._$rowSeparatorSize;
+
+        // Строит обычную фабрику
+        const CollectionItemsFactory = (factoryOptions?: ITreeGridRowOptions<S>): ItemsFactory<T> => {
+            return superFactory.call(this, factoryOptions);
+        };
+
+        // Строит фабрику, которая работает с TreeGridGroupDataRow
+        const GroupNodeFactory = (factoryOptions?: ITreeGridRowOptions<S>): ItemsFactory<T> => {
+            factoryOptions.itemModule = 'Controls/treeGrid:TreeGridGroupDataRow';
+            return superFactory.call(this, factoryOptions);
+        };
+
+        if (this._$nodeTypeProperty &&
+            options.contents && typeof options.contents !== 'string' && !Array.isArray(options.contents) &&
+            options.contents.get(this._$nodeTypeProperty) === 'group') {
+            return GroupNodeFactory.call(this, options);
+        }
+        return CollectionItemsFactory.call(this, options);
+    }
+
+    // endregion itemsFactoryResolver
+
     protected _initializeFooter(options: IOptions<S, T>): TreeGridFooterRow<S> {
         return new TreeGridFooterRow({
             ...options,
@@ -190,8 +224,7 @@ export default class TreeGridCollection<
         // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
         composer.append(itemsStrategy.NodeFooter, {
             display: this,
-            footerVisibilityCallback: this._$footerVisibilityCallback,
-            nodeFooterConstructor: TreeGridNodeFooterRow
+            footerVisibilityCallback: this._$footerVisibilityCallback
         });
 
         return composer;
@@ -206,5 +239,6 @@ export default class TreeGridCollection<
 Object.assign(TreeGridCollection.prototype, {
     '[Controls/treeGrid:TreeGridCollection]': true,
     _moduleName: 'Controls/treeGrid:TreeGridCollection',
-    _itemModule: 'Controls/treeGrid:TreeGridDataRow'
+    _itemModule: 'Controls/treeGrid:TreeGridDataRow',
+    _$nodeTypeProperty: null
 });

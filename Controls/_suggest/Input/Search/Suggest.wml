@@ -40,6 +40,6 @@
             on:searchClick="_searchClick()"
             on:resetClick="_resetClick()"
             on:valueChanged="_changeValueHandler()"
-            attr:class="{{_suggestState ? ('controls-Search_state-' + (_options.contrastBackground ? 'searchContrast' : 'search') + '__input_border_theme-' + _options.theme)}}">
+            attr:class="{{_suggestState ? ('controls-Search_state-' + (_options.contrastBackground ? 'searchContrast' : 'search') + '__input_border')}}">
     </Controls.search:Input>
 </Controls._suggest._InputController>

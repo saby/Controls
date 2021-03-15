@@ -27,8 +27,7 @@ type ISuggest = ISuggest & {
        * @example
        * myModule.js
        * <pre>
-       *    define('myModule', ['UI/Base:Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
-       *       return Control.extend({
+       *    class MyControl extends Control<IControlOptions> {
        *          _template: template,
        *          _suggestValue: null,
        *          _source: null,
@@ -41,13 +40,12 @@ type ISuggest = ISuggest & {
        *                ]
        *                keyProperty: 'id'
        *             });
-       *          },
+       *          }
        *
        *          _choose: function(event, value) {
        *             this._suggestValue = value;
        *          }
-       *       });
-       *    });
+       *    }
        * </pre>
        * myModule.wml
        * <pre>
@@ -66,8 +64,7 @@ type ISuggest = ISuggest & {
        * @example
        * myModule.js
        * <pre>
-       *    define('myModule', ['UI/Base:Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
-       *       return Control.extend({
+       *    class MyControl extends Control<IControlOptions> {
        *          _template: template,
        *          _suggestValue: null,
        *          _source: null,
@@ -86,7 +83,7 @@ type ISuggest = ISuggest & {
        *             this._suggestValue = value;
        *          }
        *       });
-       *    });
+       *    }
        * </pre>
        * myModule.wml
        * <pre>

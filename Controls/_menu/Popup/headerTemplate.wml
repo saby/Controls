@@ -1,7 +1,7 @@
 <ws:if data="{{_options.caption}}">
    <ws:partial template="wml!Controls/_menu/Popup/headerWrapperTemplate" scope="{{_options}}">
       <div class="controls-StickyTemplate__caption_text
-                  controls-StickyTemplate__caption_theme-{{_options.theme}}"
+                  controls-StickyTemplate__caption"
            title="{{_options.caption}}">{{_options.caption}}</div>
    </ws:partial>
 </ws:if>

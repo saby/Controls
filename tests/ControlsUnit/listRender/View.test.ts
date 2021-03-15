@@ -153,7 +153,7 @@ describe('Controls/_listRender/View', () => {
                     }]
                 }),
                 isSwiped: () => false,
-                isEditing: () => true
+                isEditing: () => false
             };
             view._collection = {
                 _$activeItem: null,

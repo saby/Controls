@@ -42,6 +42,15 @@ class Template extends Control<IConfirmationTemplate> {
    static _theme: string[] = ['Controls/popupConfirmation'];
 }
 
+Object.defineProperty(Template, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Template.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_popupConfirmation/Template#size
  * @cfg {String} Размер окна диалога.
