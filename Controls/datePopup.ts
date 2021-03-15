@@ -13,7 +13,7 @@ import headerTmpl = require('wml!Controls/_datePopup/header');
 import dayTmpl = require('wml!Controls/_datePopup/day');
 import {MonthViewDayTemplate} from 'Controls/calendar';
 import {Controller as ManagerController} from 'Controls/popup';
-import {_scrollContext as ScrollData, IntersectionObserverSyntheticEntry} from './scroll';
+import {IntersectionObserverSyntheticEntry} from './scroll';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {constants} from 'Env/Env';
 
@@ -427,12 +427,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     _closeClick(): void {
         this._notify('close');
-    }
-
-    _getChildContext(): object {
-        return {
-            ScrollData: new ScrollData({pagingVisible: false})
-        };
     }
 
     _inputControlHandler(event: SyntheticEvent, value: Date, displayValue: Date, selection: any): void {

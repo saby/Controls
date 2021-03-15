@@ -148,7 +148,7 @@ export default class Area extends BaseText<IAreaOptions> {
 
         // По другому до scrollTop не достучаться.
         // https://online.sbis.ru/opendoc.html?guid=e1770341-9126-4480-8798-45b5c339a294
-        const beginningVisibleArea = scroll._children.content.scrollTop;
+        const beginningVisibleArea = scroll.getScrollTop();
 
         const endingVisibleArea = beginningVisibleArea + sizeVisibleArea;
 
