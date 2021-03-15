@@ -35,6 +35,7 @@ interface IOffsetCache {
 
 interface IStickyHeaderGroupOptions extends IControlOptions {
     calculateHeadersOffsets?: boolean;
+    offsetTop: number;
 }
 /**
  * Allows you to combine sticky headers with the same behavior. It is necessary if you need to make
@@ -101,6 +102,10 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         // Group can be with style display: content. Use the height of the first header as the height of the group.
         const headersIds: number[] = Object.keys(this._headers);
         return headersIds.length ? this._headers[headersIds[0]].inst.height : 0;
+    }
+
+    get offsetTop(): number {
+        return this._options.offsetTop
     }
 
     set top(value: number) {
@@ -325,7 +330,8 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 
     static getDefaultOptions(): Partial<IStickyHeaderGroupOptions> {
         return {
-            calculateHeadersOffsets: true
+            calculateHeadersOffsets: true,
+            offsetTop: 0
         };
     }
 }

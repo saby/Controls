@@ -813,6 +813,7 @@ define([
                   },
                   inst: {
                      height: 20,
+                     offsetTop: 0,
                      resetSticky: () => undefined,
                      getHeaderContainer: function() {
                         return {
@@ -830,6 +831,7 @@ define([
                   },
                   inst: {
                      height: 30,
+                     offsetTop: 0,
                      resetSticky: () => undefined,
                      getHeaderContainer: function() {
                         return {
@@ -847,6 +849,7 @@ define([
                   },
                   inst: {
                      height: 40,
+                     offsetTop: 0,
                      resetSticky: () => undefined,
                      getHeaderContainer: function() {
                         return {

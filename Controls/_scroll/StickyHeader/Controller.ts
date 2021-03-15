@@ -623,7 +623,7 @@ class StickyHeaderController {
                                     parentElementOfNextHeader = parentElementOfNextHeader.parentElement;
                                 }
                                 if (parentElementOfNextHeader === parentElementOfPrevHeader) {
-                                    const height: number = header.inst.height;
+                                    const height: number = header.inst.height - header.inst.offsetTop;
                                     // Сохраним высоты по которым рассчитали позицию заголовков,
                                     // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
                                     this._updateElementsHeight(header.inst.getHeaderContainer(), height);

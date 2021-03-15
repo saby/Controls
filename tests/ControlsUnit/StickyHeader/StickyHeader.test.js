@@ -388,7 +388,7 @@ define([
                closest: () => false,
                offsetHeight: 10
             };
-            assert.strictEqual(component.height, 20);
+            assert.strictEqual(component.height, 10);
          });
       });
 
