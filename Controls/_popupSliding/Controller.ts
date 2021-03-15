@@ -90,12 +90,14 @@ class Controller extends BaseController {
         }
 
         const {
-            slidingPanelOptions: {minHeight, position: positionOption} = {}
+            slidingPanelOptions: {position: positionOption} = {}
         } = item.popupOptions;
         const heightOffset = positionOption === 'top' ? offset.y : -offset.y;
         const newHeight = item.dragStartHeight + heightOffset;
-        if (newHeight < minHeight && isFirstDrag) {
-            // При свайпе вниз на минимальной высоте закрываем попап
+        const isClosingSwipe = heightOffset < 0;
+
+        // При свайпе который уменьшает высоту на минимальной высоте закрываем попап
+        if (isClosingSwipe && newHeight < position.minHeight && isFirstDrag) {
             PopupController.remove(item.id);
         }
         position.height = newHeight;

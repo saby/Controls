@@ -397,6 +397,23 @@ define(
                   sinon.assert.called(PopupController.remove);
                   sandbox.restore();
                });
+               it('minHeight > windowHeight. try to drag top. window should not close', () => {
+                  const sandbox = sinon.sandbox.create();
+                  sandbox.stub(PopupController, 'remove').callsFake(() => null);
+
+                  const item = getPopupItem();
+                  const SlidingPanelStrategy = new StrategyConstructor();
+                  SlidingPanelStrategy._getWindowHeight = () => 300;
+
+                  item.position = SlidingPanelStrategy.getPosition(item);
+
+                  Controller.popupDragStart(item, {}, {
+                     x: 0, y: -10
+                  });
+                  Controller.popupDragEnd(item);
+                  sinon.assert.notCalled(PopupController.remove);
+                  sandbox.restore();
+               });
             });
          });
       });
