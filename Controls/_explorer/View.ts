@@ -201,10 +201,7 @@ export default class Explorer extends Control<IExplorerOptions> {
                 || item instanceof Array || item.get(this._options.nodeProperty) !== ITEM_TYPES.node;
         };
 
-        // 1. Сначала проставим итему и обновим хлебные крошки
-        this._setItems(cfg.items);
-        // 2. Потом получим корневой рут т.к. его вычисление идет на основании хлебных крошек
-        this._topRoot = this._getTopRoot(cfg);
+        this._applyItems(cfg.items, cfg);
         this._dragControlId = randomId();
         this._navigation = cfg.navigation;
 
@@ -234,9 +231,13 @@ export default class Explorer extends Control<IExplorerOptions> {
         const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
         const isRootChanged = cfg.root !== this._options.root;
 
-        if (this._options.items !== cfg.items) {
-            this._setItems(cfg.items);
-            this._topRoot = this._getTopRoot(cfg);
+        // Применяем новые итемы только если они были переданы изначально
+        // или если новые не равны текущим в опциях.
+        // Сейчас items передает только родительский dataContainer. По этому если он есть,
+        // то items будут всегда. Если его нет, то items мы сами получаем через дочерний
+        // DataContainer
+        if (this._options.items || this._options.items !== cfg.items) {
+            this._applyItems(cfg.items, cfg);
         }
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
@@ -665,15 +666,42 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     /**
-     * Запоминает новые итемы и обновляет данные для хлебных крошек
+     * Обновляет внутреннее состояние на основании переданных items:
+     * * Если ссылка на итемы изменилась, то обновит подписку на изменение данных path
+     *   и запомнит новый инстанс итемов. Данные path могут меняться пользователем, например,
+     *   при переименовании текущей папки
+     * * Высчитывает id записи, которая должна быть помечена маркером
+     * * Обновляет данные для хлебных крошек
      */
-    private _setItems(items: RecordSet): void {
+    private _applyItems(items: RecordSet, options: IExplorerOptions = this._options): void {
+        // Если ссылка на итемы поменялась, то обновим подписку на изменение данных хлебных крошек
+        // и сохраним новый инстанс итемов
         if (this._items !== items) {
             this._updateSubscriptionOnBreadcrumbs(this._items, items, this._updateHeadingPath);
             this._items = items;
         }
 
+        // Вычислим новые данные хлебных крошек
+        const newBreadcrumbs = calculatePath(items).path || [];
+        // Если кол-во новых крошек меньше чем старых, то скорее всего возвращаются назад
+        if (newBreadcrumbs?.length < this._breadCrumbsItems?.length) {
+            // Получаем потенциальную следующую папку в которой мы были
+            // newBreadcrumbs         = 1 -> 2
+            // this._breadCrumbsItems = 1 -> 2 -> 3 -> 4
+            // nextCrumb              = 3
+            const nextCrumb = this._breadCrumbsItems[newBreadcrumbs.length];
+
+            // Проверяем соответствует ли текущий root родительской папке nextCrumb
+            // Если соответствует, то помечаем папку соответствующую nextCrumb маркером
+            if (nextCrumb.get(options.parentProperty) === this._getRoot(options.root)) {
+                this._potentialMarkedKey = nextCrumb.getKey();
+            }
+        }
+
+        // Обновим данные по которым рисуются хлебные крошки
         this._updateBreadcrumbs(items);
+        // Обновим корневой root
+        this._topRoot = this._breadCrumbsItems?.length ? this._getTopRoot(options) : this._topRoot;
     }
 
     /**
@@ -689,7 +717,7 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _dataLoadCallback(items: RecordSet, direction: Direction): void {
         // Имеет смысл обновлять хлебные крошки только при получении первой страницы
         if (!direction) {
-            this._updateBreadcrumbs(items);
+            this._applyItems(items);
         }
 
         if (this._options.dataLoadCallback) {
@@ -968,8 +996,8 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     private _updateRootOnViewModeChanged(viewMode: string, options: IExplorerOptions): void {
         if (viewMode === 'search' && options.searchStartingWith === 'root') {
-            const topRoot = this._getTopRoot(options);
             const currentRoot = this._getRoot(options.root);
+            const topRoot = this._topRoot !== undefined ? this._topRoot : this._getTopRoot(options);
 
             if (topRoot !== currentRoot) {
                 this._setRoot(topRoot, topRoot);

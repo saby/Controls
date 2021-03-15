@@ -76,8 +76,6 @@
                                           on:tagClick="_notifyHandler('tagClick')"
                                           on:tagHover="_notifyHandler('tagHover')"
                                           itemsReadyCallback="{{_itemsReadyCallback}}"
-                                          dataLoadCallback="{{_dataLoadCallback}}"
-                                          serviceDataLoadCallback="{{_serviceDataLoadCallback}}"
                                           itemsSetCallback="{{_itemsSetCallback}}"
                                           _needSetMarkerCallback="{{_needSetMarkerCallback}}"/>
             </Controls._explorer.PathController>
