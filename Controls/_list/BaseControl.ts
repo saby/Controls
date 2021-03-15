@@ -411,16 +411,16 @@ const _private = {
 
     assignItemsToModel(self, items: RecordSet, newOptions): void {
         const listModel = self._listViewModel;
+        const currCollection = listModel.getCollection();
 
         // todo task1179709412 https://online.sbis.ru/opendoc.html?guid=43f508a9-c08b-4938-b0e8-6cfa6abaff21
         if (self._options.useNewModel) {
             // TODO restore marker + maybe should recreate the model completely
-            // Делаем assign только если формат текущего рекордсета и нового полностью совпадает, иначе необходима
-            // полная замена (example: https://online.sbis.ru/opendoc.html?guid=75a21c00-35ec-4451-b5d7-29544ddd9c40).
-            if (!isEqualItems(listModel.getCollection(), items)) {
+            if (!isEqualItems(currCollection, items) || items !== currCollection) {
                 listModel.setCollection(items);
                 self._onItemsReady(newOptions, listModel.getCollection());
             }
+
             // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
             if (self._options.itemsSetCallback) {
                 self._options.itemsSetCallback(items);
@@ -3167,7 +3167,8 @@ export interface IBaseControlOptions extends IControlOptions {
     sourceController?: SourceController;
 }
 
-export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOptions> extends Control<TOptions>
+export default class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOptions>
+    extends Control<TOptions, IReceivedState>
     implements IMovableList {
 
     //#region States
@@ -3345,7 +3346,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
      * @return {Promise}
      * @protected
      */
-    protected _beforeMount(newOptions: TOptions, context?, receivedState?: IReceivedState = {}): void | Promise<unknown> {
+    protected _beforeMount(newOptions: TOptions, context?, receivedState?: IReceivedState = {}): void | Promise<IReceivedState> {
         this._notifyNavigationParamsChanged = _private.notifyNavigationParamsChanged.bind(this);
         this._dataLoadCallback = _private.dataLoadCallback.bind(this);
         this._uniqueId = Guid.create();
