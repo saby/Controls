@@ -146,7 +146,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             return this._dataLoader.load<ILoadDataResult>().then(([result]) => {
                 this._updateFilterAndFilterItems();
                 this._defineShadowVisibility(result.data);
-                this._updateContext(result.sourceController.getState());
+                this._setItemsAndUpdateContext(result.data as RecordSet);
 
                 if (result.data) {
                     return {
