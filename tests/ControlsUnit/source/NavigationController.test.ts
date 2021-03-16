@@ -2,6 +2,7 @@ import {assert} from 'chai';
 import {RecordSet} from 'Types/collection';
 import {NavigationController} from 'Controls/dataSource';
 import {IBasePageSourceConfig} from 'Controls/interface';
+import {relation} from 'Types/entity';
 const dataPrev = [
     {
         id : 1,
@@ -634,6 +635,38 @@ describe('Controls/_source/NavigationController', () => {
                 rs.setMetaData({nextPosition : null, iterative: true});
                 params = nc.updateQueryProperties(rs, null, null, 'forward');
                 assert.deepEqual([null], params[0].forwardPosition, 'Wrong query properties');
+            });
+
+            it('updateQueryProperties + multiNavigaion', () => {
+                const nc = new NavigationController({
+                    navigationType: 'position',
+                    navigationConfig: {
+                        field: 'id',
+                        direction: 'forward'
+                    }
+                });
+
+                const rs = new RecordSet({
+                    rawData: dataPrev.concat(data).concat(dataNext),
+                    keyProperty: 'id'
+                });
+
+                const navigationRs = new RecordSet({
+                    rawData: [
+                        {
+                            id: 7,
+                            nav_result: true
+                        }
+                    ]
+                });
+
+                const hierarchyRelation = new relation.Hierarchy({
+                    parentProperty: 'parId',
+                    keyProperty: 'id'
+                });
+                rs.setMetaData({more: navigationRs});
+                const params = nc.updateQueryProperties(rs, null, null, void 0, hierarchyRelation);
+                assert.deepEqual([4], params[0].forwardPosition, 'Wrong query properties');
             });
 
             it('updateQueryRange + edge forward position', () => {
