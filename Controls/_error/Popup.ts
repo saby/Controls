@@ -124,8 +124,6 @@ export default class Popup implements IPopupHelper {
         'Controls/popup',
         'Controls/popupConfirmation',
         'Controls/popupTemplate',
-        'css!Controls/popup',
-        'css!Controls/popupConfirmation',
         'css!Controls/buttons'
     ];
 
