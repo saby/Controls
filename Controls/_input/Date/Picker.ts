@@ -36,6 +36,7 @@ class Picker extends Control<IControlOptions> {
     _template: TemplateFunction = template;
     _proxyEvent: Function = EventUtils.tmplNotify;
     _shouldValidate: boolean = false;
+    private _state: string;
 
     openPopup(event: SyntheticEvent<MouseEvent>): void {
         let value;
@@ -62,7 +63,8 @@ class Picker extends Control<IControlOptions> {
                 headerType: 'input',
                 closeButtonEnabled: true,
                 ranges: this._options.ranges,
-                startValueValidators: this._options.valueValidators
+                startValueValidators: this._options.valueValidators,
+                state: this._state
             }
         };
         this._children.opener.open(cfg);
@@ -79,7 +81,8 @@ class Picker extends Control<IControlOptions> {
         this._onResult(startValue);
     }
 
-    _onResult(startValue: Date): void {
+    _onResult(startValue: Date, endValue: Date, state: string): void {
+        this._state = state;
         const stringValueConverter = new StringValueConverter({
                 mask: this._options.mask,
                 replacer: this._options.replacer,
