@@ -2,8 +2,6 @@ import { constants } from 'Env/Env';
 import { Confirmation, Dialog, IConfirmationOptions, IBasePopupOptions } from 'Controls/popup';
 import { ViewConfig } from './Handler';
 import { load } from 'WasabyLoader/Library';
-import 'css!Controls/popup';
-import 'css!Controls/popupConfirmation';
 
 interface IPopupModule {
     Confirmation: typeof Confirmation;
