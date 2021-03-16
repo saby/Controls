@@ -561,6 +561,21 @@ define(
                assert.equal(position.left, 860);
                assert.equal(position.top, 430);
             });
+            it('inner resize with direction should update sizes', () => {
+               item.popupOptions.resizeDirection = {
+                  horizontal: HORIZONTAL_DIRECTION.RIGHT,
+                  vertical: VERTICAL_DIRECTION.BOTTOM
+               };
+               item.popupState = 'created';
+               let updateCalled = false;
+               const originUpdate = DialogController.elementUpdated;
+               DialogController.elementUpdated = () => {
+                  updateCalled = true;
+               };
+               DialogController.resizeInner(item, {});
+               DialogController.elementUpdated = originUpdate;
+               assert.isTrue(updateCalled);
+            });
             it('dragging', () => {
                item.popupOptions.resizeDirection = {
                   horizontal: HORIZONTAL_DIRECTION.LEFT,
