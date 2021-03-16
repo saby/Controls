@@ -91,7 +91,7 @@ class Picker extends Control<IControlOptions> {
             });
         const textValue = stringValueConverter.getStringByValue(startValue);
         this._notify('valueChanged', [startValue, textValue]);
-        this._children.opener.close();
+        this._children.opener?.close();
         this._notify('inputCompleted', [startValue, textValue]);
         /**
          * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
