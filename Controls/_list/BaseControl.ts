@@ -382,6 +382,7 @@ const _private = {
         if (!supportAttachLoadTriggerToNull) {
             return false;
         }
+        const oldState = self._attachLoadTopTriggerToNull;
         const needAttachLoadTopTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'up');
         if (needAttachLoadTopTriggerToNull && self._isMounted) {
             self._attachLoadTopTriggerToNull = true;
@@ -390,7 +391,9 @@ const _private = {
         } else {
             self._attachLoadTopTriggerToNull = false;
         }
-        self._updateScrollController(options);
+        if (oldState !== self._attachLoadTopTriggerToNull) {
+            self._updateScrollController(options);
+        }
         return needAttachLoadTopTriggerToNull;
     },
 
