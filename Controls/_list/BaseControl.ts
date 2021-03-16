@@ -381,7 +381,7 @@ const _private = {
     },
 
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
-        if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !self._listViewModel || !self._listViewModel['[Controls/_display/grid/Collection]']) {
+        if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !options.useNewModel) {
             return false;
         }
         const needAttachLoadDownTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'down');
