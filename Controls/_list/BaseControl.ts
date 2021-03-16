@@ -1707,14 +1707,17 @@ const _private = {
             }
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length) || action === IObservable.ACTION_ADD) {
-                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                    // Проскроллить к первому элементу, нужно только когда перезагрузился список
-                    // Если были добавлены элементы вниз, то не нужно сбрасывать флаг _needScrollToFirstItem
-                    if (action === IObservable.ACTION_ADD && newItemsIndex === 0) {
-                        self._needScrollToFirstItem = false;
+                if (newItemsIndex === 0) {
+                    if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                        // Проскроллить к первому элементу, нужно только когда перезагрузился список
+                        // Если были добавлены элементы вниз, то не нужно сбрасывать флаг _needScrollToFirstItem
+                        if (action === IObservable.ACTION_ADD) {
+                            self._needScrollToFirstItem = false;
+                        }
                     }
+                } else {
+                    _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
                 }
-                _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
             }
 
             if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
