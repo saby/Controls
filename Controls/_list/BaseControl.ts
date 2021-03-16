@@ -206,7 +206,6 @@ interface IIndicatorConfig {
     theme: string;
     isPortionedSearchInProgress: boolean;
     attachLoadTopTriggerToNull: boolean;
-    attachLoadDownTriggerToNull: boolean;
     attachLoadTopTriggerToNullOption: boolean;
 }
 
@@ -340,12 +339,12 @@ const _private = {
         }
     },
 
-    supportAttachLoadTriggerToNull(options, direction: 'up'|'down'): boolean {
+    supportAttachLoadTopTriggerToNull(options): boolean {
         // Поведение отложенной загрузки вверх нужно опциональное, например, для контактов
         // https://online.sbis.ru/opendoc.html?guid=f07ea1a9-743c-42e4-a2ae-8411d59bcdce
         // Для мобильных устройств данный функционал включать нельзя из-за инерционного скролла:
         // https://online.sbis.ru/opendoc.html?guid=45921906-4b0e-4d72-bb80-179c076412d5
-        if (direction === 'up' && options.attachLoadTopTriggerToNull === false || direction === 'down' && options.attachLoadDownTriggerToNull === false || detection.isMobilePlatform) {
+        if (options.attachLoadTopTriggerToNull === false || detection.isMobilePlatform) {
             return false;
         }
         // Прижимать триггер к верху списка нужно только при infinity-навигации.
@@ -357,18 +356,18 @@ const _private = {
         return true;
     },
 
-    needAttachLoadTriggerToNull(self, direction: 'up'|'down'): boolean {
+    needAttachLoadTopTriggerToNull(self): boolean {
         const sourceController = self._sourceController;
-        const hasMoreData = _private.hasMoreData(self, sourceController, direction);
+        const hasMoreData = _private.hasMoreData(self, sourceController, 'up');
         return sourceController && hasMoreData;
     },
 
     attachLoadTopTriggerToNullIfNeed(self, options): boolean {
-        const supportAttachLoadTriggerToNull = _private.supportAttachLoadTriggerToNull(options, 'up');
-        if (!supportAttachLoadTriggerToNull) {
+        const supportAttachLoadTopTriggerToNull = _private.supportAttachLoadTopTriggerToNull(options);
+        if (!supportAttachLoadTopTriggerToNull) {
             return false;
         }
-        const needAttachLoadTopTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'up');
+        const needAttachLoadTopTriggerToNull = _private.needAttachLoadTopTriggerToNull(self);
         if (needAttachLoadTopTriggerToNull && self._isMounted) {
             self._attachLoadTopTriggerToNull = true;
             self._needScrollToFirstItem = true;
@@ -378,19 +377,6 @@ const _private = {
         }
         self._updateScrollController(options);
         return needAttachLoadTopTriggerToNull;
-    },
-
-    attachLoadDownTriggerToNullIfNeed(self, options): boolean {
-        if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !options.useNewModel) {
-            return false;
-        }
-        const needAttachLoadDownTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'down');
-        if (needAttachLoadDownTriggerToNull) {
-            self._attachLoadDownTriggerToNull = true;
-        } else {
-            self._attachLoadDownTriggerToNull = false;
-        }
-        return needAttachLoadDownTriggerToNull;
     },
 
     reload(self, cfg, sourceConfig?: IBaseSourceConfig): Promise<any> | Deferred<any> {
@@ -1708,9 +1694,6 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
-                if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
-                    self._hideDownTrigger = true;
-                }
             }
 
             if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
@@ -2380,9 +2363,9 @@ const _private = {
         return loadingIndicatorState === 'all';
     },
     getLoadingIndicatorClasses(
-        {hasItems, hasPaging, loadingIndicatorState, theme, isPortionedSearchInProgress, attachLoadTopTriggerToNull, attachLoadTopTriggerToNullOption, attachLoadDownTriggerToNull}: IIndicatorConfig
+        {hasItems, hasPaging, loadingIndicatorState, theme, isPortionedSearchInProgress, attachLoadTopTriggerToNull, attachLoadTopTriggerToNullOption}: IIndicatorConfig
     ): string {
-        const state = attachLoadTopTriggerToNull && loadingIndicatorState === 'up' || attachLoadDownTriggerToNull && loadingIndicatorState === 'down'
+        const state = attachLoadTopTriggerToNull && loadingIndicatorState === 'up'
            ? 'attachToNull'
            : loadingIndicatorState;
 
@@ -3237,12 +3220,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     iWantVDOM: true,
 
     _attachLoadTopTriggerToNull: false,
-    _attachLoadDownTriggerToNull: false,
+
     // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
     _attachedToNullLoadTopTriggerOffset: ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET,
     _hideTopTrigger: false,
-    _hideDownTrigger: false,
-
     _listViewModel: null,
     _viewModelConstructor: null,
 
@@ -3534,12 +3515,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 _private.prepareFooter(self, newOptions, self._sourceController);
                 _private.initVisibleItemActions(self, newOptions);
 
-                if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
-                    _private.needAttachLoadTriggerToNull(self, 'up')) {
+                if (_private.supportAttachLoadTopTriggerToNull(newOptions) &&
+                    _private.needAttachLoadTopTriggerToNull(self)) {
                     self._hideTopTrigger = true;
-                }
-                if (_private.attachLoadDownTriggerToNullIfNeed(self, newOptions)) {
-                    self._hideDownTrigger = true;
                 }
                 return Promise.resolve();
             }
@@ -3824,12 +3802,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         if (!this._items || !this._items.getCount()) {
             _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
-            this._hideTopTrigger = false;
-
-            this._attachLoadDownTriggerToNull = false;
-        }
-        if (this._hideDownTrigger) {
-            this._hideDownTrigger = false;
+            if (this._hideTopTrigger) {
+                this._hideTopTrigger = false;
+            }
         }
     },
 
@@ -4193,8 +4168,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
 
         if (needReload) {
-            if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
-                _private.needAttachLoadTriggerToNull(this, 'up')) {
+            if (_private.supportAttachLoadTopTriggerToNull(newOptions) &&
+                _private.needAttachLoadTopTriggerToNull(this)) {
                     this._hideTopTrigger = true;
             }
             this._scrollPagingCtr = null;
@@ -4580,9 +4555,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         if (this._hideTopTrigger && this._needScrollToFirstItem) {
             this._hideTopTrigger = false;
-        }
-        if (this._hideDownTrigger) {
-            this._hideDownTrigger = false;
         }
         this._scrollToFirstItemIfNeed();
 
@@ -6184,8 +6156,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down' && !this._portionedSearchInProgress;
         return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull
-           :  shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull;
+           ? this._showLoadingIndicator && shouldDisplayDownIndicator
+           :  shouldDisplayDownIndicator;
     },
 
     _shouldDisplayTopPortionedSearch(): boolean {
@@ -6206,7 +6178,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             theme: this._options.theme,
             isPortionedSearchInProgress: !!this._portionedSearchInProgress,
             attachLoadTopTriggerToNull: this._attachLoadTopTriggerToNull,
-            attachLoadDownTriggerToNull: this._attachLoadDownTriggerToNull,
             attachLoadTopTriggerToNullOption: this._options.attachLoadTopTriggerToNull
         });
     },
@@ -6594,7 +6565,6 @@ BaseControl._theme = ['Controls/Classes', 'Controls/list', 'Controls/itemActions
 BaseControl.getDefaultOptions = function() {
     return {
         attachLoadTopTriggerToNull: true,
-        attachLoadDownTriggerToNull: true,
         uniqueKeys: true,
         multiSelectVisibility: 'hidden',
         multiSelectPosition: 'default',
