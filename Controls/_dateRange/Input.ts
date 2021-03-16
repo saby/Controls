@@ -164,7 +164,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     private _onResult(startValue: Date, endValue: Date, state: string): void {
         this._state = state;
         this._rangeModel.setRange(startValue, endValue);
-        this._children.opener.close();
+        this._children.opener?.close();
         this._notifyInputCompleted();
         /**
          * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
