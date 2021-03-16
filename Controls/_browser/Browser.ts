@@ -146,14 +146,15 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             return this._dataLoader.load<ILoadDataResult>().then(([result]) => {
                 this._updateFilterAndFilterItems();
                 this._defineShadowVisibility(result.data);
-                this._updateContext(result.sourceController.getState());
 
                 if (result.data) {
+                    this._setItemsAndUpdateContext(result.data as RecordSet);
                     return {
                         filterItems: (result.filterController && result.filterController.getFilterButtonItems()) || [],
                         items: result.data
                     };
                 } else {
+                    this._updateContext(result.sourceController.getState());
                     return result.error;
                 }
             });
