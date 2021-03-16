@@ -21,8 +21,8 @@ import * as template from 'wml!Controls/_spoiler/Cut/Cut';
 /**
  * @name Controls/_spoiler/ICut#buttonPosition
  * @cfg {String} Положение кнопки развертывания.
- * @variant start по центру контентной области
- * @variant center по левому краю контентной области
+ * @variant start по левому контентной области
+ * @variant center по центру краю контентной области
  * @default center
  * @demo Controls-demo/Spoiler/Cut/ButtonPosition/Index
  */
