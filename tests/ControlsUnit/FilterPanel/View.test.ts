@@ -103,17 +103,22 @@ describe('Controls/filterPanel:View', () => {
 
         it('with false value', () => {
             const editingObject = {
-                testName: false
+                testName: {
+                    value: false,
+                    textValue: 'No'
+                }
             };
             viewControl._source = [
                 {
                     name: 'testName',
-                    value: false,
-                    textValue: 'No'
+                    value: true,
+                    resetValue: true,
+                    textValue: 'Yes'
                 }
             ];
             viewControl._updateSource(editingObject);
             assert.equal(viewControl._source[0].value, false);
+            assert.equal(viewControl._source[0].textValue, 'No');
         });
 
     });
