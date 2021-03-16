@@ -3828,13 +3828,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
             this._attachLoadDownTriggerToNull = false;
         }
-
-        // если высота элементов меньше вьюпорта, то нужно делать дополнительный запрос за данными
-        const itemsContainerHeight = this._getItemsContainer && this._getItemsContainer()?.offsetHeight || 0;
-        if (itemsContainerHeight < this._viewportSize) {
-            this._attachLoadDownTriggerToNull = false;
-        }
-
         if (this._hideDownTrigger) {
             this._hideDownTrigger = false;
         }
