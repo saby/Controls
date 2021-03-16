@@ -4,7 +4,7 @@ import DateRangeContext from 'Controls/_dateRange/DateRangeContext';
 import IDateRangeContext from './interfaces/IDateRangeContext';
 
 /**
- * Контрол позволяет пользователю выбрать временной период: месяц, квартал, полугодие, год. Выбор происходит с помощью панели быстрого выбора периода.
+ * Контрол позволяет пользователю выбрать временной период: месяц, квартал, полугодие, год. Выбор происходит с помощью панели большого выбора периода.
  * @class Controls/_dateRange/RangeSelectorConsumer
  * @extends UI/Base:Control
  * @mixes Controls/_interface/IResetValues

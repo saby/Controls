@@ -1,4 +1,4 @@
-import DataContext = require('Core/DataContext');
+import * as DataContext from 'Core/DataContext';
 
 export default class DateRangeContext extends DataContext {
     _moduleName: string;

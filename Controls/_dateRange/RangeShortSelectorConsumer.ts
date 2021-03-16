@@ -4,8 +4,8 @@ import DateRangeContext from 'Controls/_dateRange/DateRangeContext';
 import IDateRangeContext from './interfaces/IDateRangeContext';
 
 /**
- * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре. Выбор происходит с помощью панели большого выбора периода.
- * @class Controls/_dateRange/RangeSelectorConsumer
+ * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре. Выбор происходит с помощью панели быстрого выбора периода.
+ * @class Controls/_dateRange/RangeShortSelectorConsumer
  * @extends UI/Base:Control
  * @mixes Controls/_interface/IResetValues
  * @mixes Controls/_dateRange/interfaces/ILinkView

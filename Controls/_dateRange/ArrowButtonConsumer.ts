@@ -22,6 +22,11 @@ export default class ButtonsController extends Control<IArrowButtonOptions> {
         this._dateRangeContext = context.DateRangeContext;
     }
 
+    protected _clickHandler(): void {
+        const delta = this._options.direction === 'left' ? -1 : 1;
+        this._dateRangeContext.shiftPeriod(delta);
+    }
+
     static contextTypes(): object {
         return {
             DateRangeContext

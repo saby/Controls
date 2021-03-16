@@ -1,1 +1,1 @@
-<Controls._dateRange.ArrowButton scope="{{ _options }}" dateRangeContext="{{ _dateRangeContext }}"/>
+<Controls.buttons:ArrowButton scope="{{ _options }}" on:click="_clickHandler()"/>
