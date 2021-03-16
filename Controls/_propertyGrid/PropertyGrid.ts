@@ -185,6 +185,7 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
                 );
             }
             resultEditingObject.set(name, value);
+            this._listModel.setEditingObject(resultEditingObject);
         } else {
             resultEditingObject = object.clone(editingObject);
             resultEditingObject[name] = value;
