@@ -1,6 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/Application/ApplicationWrapper';
 import {constants} from 'Env/Env';
+import 'css!Controls/application';
 
 export = class ApplicationWrapper extends Control<IControlOptions> {
    protected _template: TemplateFunction = template;
@@ -22,8 +23,6 @@ export = class ApplicationWrapper extends Control<IControlOptions> {
          this._version = ApplicationWrapper._calculateVersion(window.location.search);
       }
    }
-
-   static _theme: string[] = ['Controls/application'];
 
    private static _calculateVersion(search: string): string {
       const matchVersion = search.match(/(^\?|&)x_version=(.*)/);

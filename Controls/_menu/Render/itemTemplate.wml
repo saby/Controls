@@ -1,6 +1,5 @@
 <ws:template name="menuRowTemplate">
 <div attr:class="controls-Menu__row
-                 controls-DropdownList__row
                  controls-ListView__itemV js-controls-ListView__measurableContainer
                  {{itemData.itemClassList}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}">
@@ -85,7 +84,6 @@
 
 <ws:if data="{{treeItem['[Controls/_display/SearchSeparator]']}}">
    <div attr:class="controls-Menu__row
-                 controls-DropdownList__row
                  controls-ListView__itemV
                  {{itemData.itemClassList}}">
       <span class="controls-Menu__row__searchSeparator_line_horizontal"></span>
