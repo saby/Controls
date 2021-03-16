@@ -32,6 +32,10 @@ export interface IListConfiguration {
     excludedKeys?: TKey;
 }
 
+interface IListConfigurations {
+    [key: string]: IListConfiguration;
+}
+
 export interface IControllerState {
     keyProperty: string;
     source: ICrud | ICrudPlus;
@@ -47,9 +51,7 @@ export interface IControllerState {
     sourceController: Controller;
     dataLoadCallback: Function;
 
-    listConfigurations: {
-        [key: string]: IListConfiguration
-    };
+    listConfigurations: IListConfigurations;
 }
 
 export interface IControllerOptions extends
@@ -347,7 +349,7 @@ export default class Controller extends mixin<
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
             dataLoadCallback: this._options.dataLoadCallback,
-            listConfigurations: {}
+            listConfigurations: this._getListConfigurations(this._options.listConfigs)
         };
     }
 
@@ -841,6 +843,23 @@ export default class Controller extends mixin<
         }
 
         return resultFilterPromise;
+    }
+
+    private _getListConfigurations(listConfigs): IListConfigurations {
+        if (!this._listConfigurations) {
+            this._listConfigurations = {};
+            if (listConfigs) {
+                for (const listId in listConfigs) {
+                    if (listConfigs.hasOwnProperty(listId)) {
+                        this._listConfigurations[listId] = {
+                            selectedKeys: listConfigs[listId].selectedKeys || [],
+                            excludedKeys: listConfigs[listId].excludedKeys || []
+                        };
+                    }
+                }
+            }
+        }
+        return this._listConfigurations;
     }
 
     private static _getSource(source: ICrud | ICrudPlus | PrefetchProxy): IData & ICrud {

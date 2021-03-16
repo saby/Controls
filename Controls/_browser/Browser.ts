@@ -454,7 +454,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         if (listId) {
             const operationsController = this._getOperationsController();
             selectedKeys = operationsController.updateSelectedKeys(keys, added, deleted, listId);
-            this._updateListConfigurations({selectedKeys: selectedKeys.slice()}, listId);
+            this._updateListConfigurations({selectedKeys: keys.slice()}, listId);
         }
         this._notify('selectedKeysChanged', [selectedKeys]);
     }
@@ -468,7 +468,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         if (listId) {
             const operationsController = this._getOperationsController();
             excludedKeys = operationsController.updateExcludedKeys(keys, added, deleted, listId);
-            this._updateListConfigurations({excludedKeys: excludedKeys.slice()}, listId);
+            this._updateListConfigurations({excludedKeys: keys.slice()}, listId);
         }
         this._notify('excludedKeysChanged', [excludedKeys]);
     }
