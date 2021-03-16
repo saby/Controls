@@ -8,7 +8,6 @@
          attr:class="MonthList-ScrollContainer"
          scrollbarVisible="{{false}}"
          attachLoadTopTriggerToNull="{{_options.attachLoadTopTriggerToNull}}"
-         attachLoadBottomTriggerToNull="{{_options.attachLoadBottomTriggerToNull}}"
          topShadowVisibility="{{ _topShadowVisibility }}"
          bottomShadowVisibility="{{ _bottomShadowVisibility }}"
          shadowStyle="{{ _options.shadowStyle }}"
