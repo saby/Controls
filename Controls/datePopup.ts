@@ -162,7 +162,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._monthStateEnabled = periodDialogUtils.isMonthStateEnabled(options);
         this._yearStateEnabled = periodDialogUtils.isYearStateEnabled(options);
 
-        this._state = this.getViewState(options, this._monthStateEnabled, this._yearStateEnabled);
+        this._state = options.state || this.getViewState(options, this._monthStateEnabled, this._yearStateEnabled);
         if (this._state === STATES.year) {
             this._displayedDate = dateUtils.getStartOfYear(this._displayedDate);
         }
@@ -220,6 +220,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     _beforeUnmount(): void {
+        this.sendResult();
         this._rangeModel.destroy();
         this._headerRangeModel.destroy();
         this._yearRangeModel.destroy();
@@ -527,10 +528,10 @@ export default class DatePopup extends Control implements EventProxyMixin {
         }
     }
 
-    sendResult(start: Date, end: Date): void {
+    sendResult(start?: Date, end?: Date): void {
         this._notify(
             'sendResult',
-            [start || this._rangeModel.startValue, end || this._rangeModel.endValue],
+            [start || this._rangeModel.startValue, end || this._rangeModel.endValue, this._state],
             {bubbling: true}
         );
     }
