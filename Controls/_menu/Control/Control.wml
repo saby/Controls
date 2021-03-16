@@ -2,8 +2,7 @@
    <div class="controls_theme-{{_options.theme}} controls-menu" attr:ws-no-focus="true">
       <ws:if data="{{_listModel}}">
          <Controls.scroll:Container attr:class="controls-ScrollContainer__flex
-                                                controls-Menu__scroll
-                                                controls-DropdownList__scroll"
+                                                controls-Menu__scroll"
                                     scrollbarVisible="{{_options.scrollbarVisible}}"
                                     topShadowVisibility="hidden"
                                     bottomShadowVisibility="{{_options.footerContentTemplate ? 'auto' : 'hidden'}}">
@@ -25,7 +24,7 @@
             </Controls._menu.Render>
          </Controls.scroll:Container>
          <ws:if data="{{_moreButtonVisible || _expandButtonVisible}}">
-            <div class="controls-DropdownList__footer controls-Menu__footer
+            <div class="controls-Menu__footer
                         controls-Menu__footer-{{_moreButtonVisible ? 'moreButton' : 'additionalButton'}}-height"
                         on:mouseenter="_footerMouseEnter()">
                <ws:if data="{{_moreButtonVisible}}">
@@ -37,8 +36,7 @@
                   </div>
                </ws:if>
                <ws:else data="{{_expandButtonVisible}}">
-                  <div class="controls-DropdownList__additional-button
-                              controls-Menu__additional"
+                  <div class="controls-Menu__additional"
                         on:click="_toggleExpanded()">
                      <Controls.Container.Async templateName="Controls/toggle:BigSeparator">
                         <ws:partial template="{{content.resolvedTemplate}}"
@@ -56,7 +54,7 @@
                                 on:showIndicator="_changeIndicatorOverlay()"
                                 on:result="_subMenuResult()"
                                 template="Controls/menu:Popup"
-                                className="controls-DropdownList__subMenu controls-Menu__subMenu controls-Menu__subMenu_margin"/>
+                                className="controls-Menu__subMenu controls-Menu__subMenu_margin"/>
       </ws:if>
    </div>
 </Controls.dataSource:error.Container>
