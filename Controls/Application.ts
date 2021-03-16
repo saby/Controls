@@ -21,11 +21,12 @@ import {TouchContextField} from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 
-import 'css!Controls/CommonClasses';
-
 // Нужно чтобы oldCss прилетал первым на страницу. Есть контролы (например itemsActions), стили которыйх
 // Завязаны на порядок css.
-import 'css!theme?Controls/Application/oldCss';
+import 'css!Controls/Application/oldCss';
+import 'css!Controls/application';
+import 'css!Controls/dragnDrop';
+import 'css!Controls/CommonClasses';
 
 /**
  * Корневой контрол для Wasaby-приложений. Служит для создания базовых html-страниц.
@@ -421,7 +422,7 @@ export default class Application extends Control<IApplication> {
    }
    private _updateThemeClass(options: IApplication): void {
       this._updateBodyClasses({
-         themeClass: 'Application-body_theme-' + options.theme
+         themeClass: 'Application-body'
       });
    }
    /** ************************************************** */
@@ -552,9 +553,6 @@ export default class Application extends Control<IApplication> {
          isTouch: this._touchObjectContext
       };
    }
-
-   static _theme: string[] = ['Controls/application'];
-   static _styles: string[] = ['Controls/dragnDrop'];
 
    private static _isIOS13(): boolean {
       const oldIosVersion: number = 12;
