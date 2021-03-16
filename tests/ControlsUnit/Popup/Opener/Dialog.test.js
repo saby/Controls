@@ -278,6 +278,22 @@ define(
             assert.equal(item.position.maxHeight, 960);
          });
 
+
+
+         it('dialog positioned out of window at start without popupOptions position', () => {
+            let item = {
+               popupOptions: {
+                  maxWidth: 100,
+                  maxHeight: 100,
+                  minWidth: 10,
+                  minHeight: 10
+               }
+            };
+            DialogController.getDefaultConfig(item);
+            assert.equal(item.position.top, -10000);
+            assert.equal(item.position.left, -10000);
+         });
+
          it('calc coordinates _fixCompatiblePosition', () => {
             let item = {
                   popupOptions: {
