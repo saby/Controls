@@ -373,8 +373,7 @@ const _private = {
 
     needAttachLoadTopTriggerToNull(self): boolean {
         const sourceController = self._sourceController;
-        const hasMoreData = _private.hasMoreData(self, sourceController, 'up');
-        return sourceController && hasMoreData;
+        return sourceController && self._hasMoreData(sourceController, 'up');
     },
 
     attachLoadTopTriggerToNullIfNeed(self, options): boolean {
@@ -769,7 +768,7 @@ const _private = {
                     self._changeMarkedKey(newMarkedKey);
                 }
                 self._needScrollToFirstItem = false;
-                if (!self.hasMoreData(self, self._sourceController, direction)) {
+                if (!self._hasMoreData(self._sourceController, direction)) {
                     self._updateShadowModeHandler(self._shadowVisibility);
                 }
 
