@@ -51,15 +51,19 @@ define([
                 });
                 let resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.get('test'), 2);
+                assert.ok(resultPropertyValue === propertyValue);
+
                 propertyValue = {};
                 resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.test, 2);
+
                 propertyValue = new entity.Model({
                     rawData: {},
                     adapter: 'adapter.sbis'
                 });
                 resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.get('test'), 2);
+                assert.ok(resultPropertyValue === propertyValue);
             });
         });
 
