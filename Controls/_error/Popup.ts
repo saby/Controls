@@ -2,6 +2,8 @@ import { constants } from 'Env/Env';
 import { Confirmation, Dialog, IConfirmationOptions, IBasePopupOptions } from 'Controls/popup';
 import { ViewConfig } from './Handler';
 import { load } from 'WasabyLoader/Library';
+import 'css!Controls/popup';
+import 'css!Controls/popupConfirmation';
 
 interface IPopupModule {
     Confirmation: typeof Confirmation;
@@ -131,8 +133,6 @@ export default class Popup implements IPopupHelper {
      * Стили, которые нужны для нормального отображения диалогов.
      */
     private static readonly POPUP_THEMES: string[] = [
-        'Controls/popup',
-        'Controls/popupConfirmation',
         'Controls/Classes'
     ];
 
