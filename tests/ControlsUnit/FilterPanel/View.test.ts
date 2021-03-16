@@ -100,5 +100,21 @@ describe('Controls/filterPanel:View', () => {
             viewControl._updateSource(editingObject);
             assert.equal(viewControl._source[0].textValue, 'newTestTextValue');
         });
+
+        it('with false value', () => {
+            const editingObject = {
+                testName: false
+            };
+            viewControl._source = [
+                {
+                    name: 'testName',
+                    value: false,
+                    textValue: 'No'
+                }
+            ];
+            viewControl._updateSource(editingObject);
+            assert.equal(viewControl._source[0].value, false);
+        });
+
     });
 });
