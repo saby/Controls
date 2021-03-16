@@ -57,16 +57,16 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
       { id: 2, name: 'Alexey' },
       { id: 3, name: 'Olga' }
    ];
-   const rs = new RecordSet({
-      rawData: items,
-      keyProperty: 'id'
-   });
-
+   let rs;
    let source;
    let strategy;
    let display;
 
    beforeEach(() => {
+      rs = new RecordSet({
+         rawData: items,
+         keyProperty: 'id'
+      });
       display = new CollectionDisplay({
          collection: rs
       });
@@ -157,5 +157,27 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
       assert.equal(items.length, 2);
       assert.equal(items[0].getContents(), display.getItemBySourceKey(1).getContents());
       assert.equal(items[1].getContents(), display.getItemBySourceKey(3).getContents());
+   });
+
+   it('drag all items', () => {
+      strategy = new Drag({
+         source,
+         display,
+         draggableItem: display.getItemBySourceKey(1),
+         draggedItemsKeys: [1, 2, 3],
+         targetIndex: 0
+      });
+
+      const items = strategy.items;
+      assert.equal(items.length, 1);
+   });
+
+   it('remove item when drag', () => {
+      let items = strategy.items;
+      assert.equal(items.length, 3);
+
+      strategy.splice(1, 1, [], 'rm');
+      items = strategy.items;
+      assert.equal(items.length, 2);
    });
 });
