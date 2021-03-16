@@ -339,10 +339,12 @@
    .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
       background-color: @item_hover_background-color_list;
    }
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default {
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default,
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
-   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack {
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack,
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell__content_hiddenForLadder {
@@ -834,7 +836,8 @@
    .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;
    }
-   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master {
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master,
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;
    }
 }
