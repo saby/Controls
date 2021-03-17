@@ -324,6 +324,7 @@ var
                 }
             };
             if (current.nodeFooters) {
+                current.nodeFooterBaseTemplate = 'wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser';
                 current.nodeFooters.forEach(setNodeFooterRowStyles);
             }
             return current;

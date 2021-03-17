@@ -4,6 +4,8 @@ import {GridView, GridLayoutUtil} from 'Controls/grid';
 import * as GridItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/table/Item';
 
+import 'wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser';
+
 var
     TreeGridView = GridView.extend({
         _defaultItemTemplate: GridItemTemplate,
