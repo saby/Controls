@@ -4609,7 +4609,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
         this._actualPagingVisible = this._pagingVisible;
 
-        if (this._hideTopTrigger) {
+        if (this._hideTopTrigger && this._needScrollToFirstItem) {
             this._hideTopTrigger = false;
         }
         this._scrollToFirstItemIfNeed();
