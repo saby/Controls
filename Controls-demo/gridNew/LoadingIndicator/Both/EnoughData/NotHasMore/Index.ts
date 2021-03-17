@@ -1,5 +1,5 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as Template from 'wml!Controls-demo/gridNew/LoadingIndicator/Both/Both';
+import * as Template from 'wml!Controls-demo/gridNew/LoadingIndicator/Both/EnoughData/NotHasMore/NotHasMore';
 import {Memory} from 'Types/source';
 import { generateData } from 'Controls-demo/list_new/DemoHelpers/DataCatalog';
 
@@ -12,7 +12,7 @@ export default class extends Control {
             width: 'max-content'
         }
     ];
-    private _dataArray: unknown = generateData({count: 200, entityTemplate: {title: 'lorem'}});
+    private _dataArray: unknown = generateData({count: 20, entityTemplate: {title: 'lorem'}});
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({
