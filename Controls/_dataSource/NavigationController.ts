@@ -14,7 +14,7 @@ import PositionParamsCalculator from './NavigationController/PositionParamsCalcu
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 import {TNavigationSource, IBaseSourceConfig, INavigationSourceConfig, TNavigationDirection, TNavigationPagingMode} from 'Controls/interface';
 import {IHashMap} from 'Types/declarations';
-import {applied, Record, Model} from 'Types/entity';
+import {applied, Record, Model, relation} from 'Types/entity';
 import {isEqual} from 'Types/object';
 
 /**
@@ -210,7 +210,8 @@ export default class NavigationController {
         list: RecordSet,
         id: TKey = null,
         navigationConfig?: IBaseSourceConfig,
-        direction?: TNavigationDirection
+        direction?: TNavigationDirection,
+        hierarchyRelation?: relation.Hierarchy
     ): TStoreNavigationState[] {
 
         let updateResult: TStoreNavigationState[];
@@ -221,7 +222,6 @@ export default class NavigationController {
             updateResult = [];
             metaMore.each((nav: NavigationRecord) => {
                 const metaMoreItem = nav.get('nav_result');
-
                 let storeId = nav.get('id');
                 const storeIdInvertType = typeof storeId === 'string' ? Number(storeId) : String(storeId);
 
@@ -231,9 +231,11 @@ export default class NavigationController {
                     storeId = storeIdInvertType;
                 }
 
-                const store = this._getStore(storeId);
                 updateResult.push(
-                    calculator.updateQueryProperties(store, list, metaMoreItem, navigationConfig, direction)
+                    calculator.updateQueryProperties(
+                        this._getStore(storeId), list, metaMoreItem,
+                        navigationConfig, direction, hierarchyRelation?.getChildren(storeId, list) as Model[]
+                    )
                 );
             });
         } else {
