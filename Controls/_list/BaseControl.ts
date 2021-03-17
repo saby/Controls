@@ -1732,16 +1732,6 @@ const _private = {
                     }
                 }
             }
-            if (action === IObservable.ACTION_ADD) {
-                // Если добавили элементы в начало, то проверяем верхний триггер, иначе нижний
-                if (newItemsIndex === 0) {
-                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
-                    // После подгрузки элементов, не нужно скроллить
-                    self._needScrollToFirstItem = false;
-                } else {
-                    _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
-                }
-            }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
