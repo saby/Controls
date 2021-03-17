@@ -1,11 +1,11 @@
 <ws:template name="caption">
-   <span attr:class="controls-Back__caption controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}} controls-Back__caption_style-{{_options.fontColorStyle}}">{{_options.caption}}</span>
+   <span attr:class="controls-Back__caption controls-fontsize-{{_options.fontSize}} controls-Back__caption_style-{{_options.fontColorStyle}}">{{_options.caption}}</span>
 </ws:template>
 <span attr:title="{{_options.tooltip}}" class="controls-Back controls_theme-{{_options.theme}}">
    <span class="controls-Back__wrapper controls-Back__wrapper_{{_options.fontSize}}">
       <ws:if data="{{ _options.newIcon }}">
          <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-         viewBox="0 0 8 16" style="enable-background:new 0 0 8 16;" 
+         viewBox="0 0 8 16" style="enable-background:new 0 0 8 16;"
          xml:space="preserve" class="controls-Back_arrow controls-Back__icon_style-{{_options.iconStyle}}_modified controls-Back_size-{{_options.iconSize}}
          controls-Back_style-{{_options.iconStyle}}_size-{{_options.iconSize}}_modified">
             <polygon points="0.5,8 6,0 8,0 2.5,8 8,16 6,16 "/>
