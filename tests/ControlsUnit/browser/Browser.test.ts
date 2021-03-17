@@ -95,6 +95,14 @@ describe('Controls/browser:Browser', () => {
                 assert.ok(browser._viewMode === 'table');
             });
 
+            it('items', async () => {
+                let options = getBrowserOptions();
+                const browser = getBrowser(options);
+
+                await browser._beforeMount(options);
+                assert.ok(browser._items.getCount() === 3);
+            });
+
             it('searchValue/inputSearchValue', async () => {
                 let options = getBrowserOptions();
                 const browser = getBrowser(options);

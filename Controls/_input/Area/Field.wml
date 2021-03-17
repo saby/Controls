@@ -1,5 +1,5 @@
 <div name="fieldWrapper"
-     class="controls-Area__fieldWrapper controls-Area__field_margin-{{options.horizontalPadding}}">
+     class="controls-Area__fieldWrapper controls-Area__field_margin-{{horizontalPadding}}">
    <div name="fakeField"
         class="controls-Area__fakeField
                controls-Area__minHeight_countLines_{{minLines}}_size_{{heightLine}}">

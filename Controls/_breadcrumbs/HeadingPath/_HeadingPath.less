@@ -5,8 +5,8 @@
    box-sizing: border-box;
 }
 
-.controls-BreadCrumbsPath__twoRows_theme-@{themeName} {
-   padding-left: @padding-left_multiline_breadcrumbsPath;
+.controls-BreadCrumbsPath__twoRows {
+   padding-left: var(--padding-left_multiline_breadcrumbsPath);
 }
 
 .controls-BreadCrumbsPath__wrapper {
@@ -18,9 +18,11 @@
       font-size: var(--line-height_breadcrumbsView);
    }
 }
+
 .controls-BreadCrumbsPath__wrapper__multiline {
    flex-direction: column-reverse;
 }
+
 .controls-BreadCrumbsPath__crumbsWrapper {
    white-space: nowrap;
    display: flex;
@@ -28,7 +30,7 @@
    width: 100%;
    // добавляем минимальную ширину, чтобы обводка не обрезалась.
    // min-width = ширина домика + левый отступ + обводка справа.
-   min-width: @home_icon-size_breadcrumbsPath + @back_offset_breadcrumbsHeadingPath + @droppable_padding-horizontal_breadcrumbsView;
+   min-width: calc(var(--home_icon-size_breadcrumbsPath) + var(--back_offset_breadcrumbsHeadingPath) + var(--droppable_padding-horizontal_breadcrumbsView));
 }
 
 .controls-BreadCrumbsPath__backButton {
@@ -43,11 +45,9 @@
    }
 }
 
-.controls-BreadCrumbsPath__home_theme-@{themeName} {
-   .icon(@home_icon-size_breadcrumbsPath);
-   color: @home_icon-color_breadcrumbsPath;
-}
 .controls-BreadCrumbsPath__home {
+   .icon(var(--home_icon-size_breadcrumbsPath));
+   color: var(--home_icon-color_breadcrumbsPath);
    cursor: pointer;
    flex-shrink: 0;
 }
@@ -73,53 +73,56 @@
    align-self: flex-start;
    max-width: 100%;
 }
+
 .controls-BreadCrumbsPath__homeContainer.controls-BreadCrumbsView__dropTarget_withoutArrow:after {
-   left: -@droppable_padding-horizontal_breadcrumbsView;
-   right: -@droppable_padding-horizontal_breadcrumbsView;
+   left: calc(-1 * var(--droppable_padding-horizontal_breadcrumbsView));
+   right: calc(-1 * var(--droppable_padding-horizontal_breadcrumbsView));
 }
+
 .controls-BreadCrumbsPath__backButtonArrow-container {
    .baseline-fix();
    height: 100%;
    position: absolute;
    align-self: baseline;
    align-items: baseline;
-   right: -@back_offset_breadcrumbsHeadingPath;
+   right: calc(-1 * var(--back_offset_breadcrumbsHeadingPath));
    bottom: 0;
-}
-.controls-BreadCrumbsPath__backButtonArrow-container_theme-@{themeName} {
+
    &:before {
-      font-size: @line-height_breadcrumbsView;
+      font-size: var(--line-height_breadcrumbsView);
    }
 }
 
 .controls-BreadCrumbsPath__backButtonArrow {
-   display: none;
    cursor: pointer;
-}
-.controls-BreadCrumbsPath__backButtonArrow_theme-@{themeName} {
-   .icon(@back_editButton_icon-size_breadcrumbsHeadingPath);
-   fill: @back_editButton_icon-color_breadcrumbsHeadingPath;
+   .icon(var(--back_editButton_icon-size_breadcrumbsHeadingPath));
+   display: none;
+   fill: var(--back_editButton_icon-color_breadcrumbsHeadingPath);
 }
 
-.controls-Path__backButtonArrow_readonly_theme-@{themeName} {
-   color: @back_editButton_readonly_icon-color_breadcrumbsHeadingPath;
+.controls-Path__backButtonArrow_readonly {
+   color: var(--back_editButton_readonly_icon-color_breadcrumbsHeadingPath);
 }
-.controls-BreadCrumbsPath__backButton__container__only__withArrow_theme-@{themeName} {
-   padding-right: @back_editButton_icon-size_breadcrumbsHeadingPath;
+
+.controls-BreadCrumbsPath__backButton__container__only__withArrow {
+   padding-right: var(--back_editButton_icon-size_breadcrumbsHeadingPath);
 }
+
 .controls-BreadCrumbsPath__backButtonArrow-container__only {
    right: 0;
 }
-.controls-BreadCrumbsPath__counter_theme-@{themeName} {
-   margin-left: @back_counter_offset_breadcrumbsHeadingPath;
+
+.controls-BreadCrumbsPath__counter {
+   margin-left: var(--back_counter_offset_breadcrumbsHeadingPath);
 }
 
 .controls-BreadCrumbsPath__breadCrumbs {
    overflow: hidden;
    flex-grow: 1;
 }
-.controls-BreadCrumbsPath__breadCrumbs_home-path-spacing_theme-@{themeName} {
-   padding-left: @home_offset_breadcrumbsPath;
+
+.controls-BreadCrumbsPath__breadCrumbs_home-path-spacing {
+   padding-left: var(--home_offset_breadcrumbsPath);
 }
 
 .controls-BreadCrumbsPath__homeContainer {
@@ -128,10 +131,9 @@
    position: relative;
    display: inline-flex;
    align-items: baseline;
-}
-.controls-BreadCrumbsPath__homeContainer_theme-@{themeName} {
+
    &:before {
-     font-size: @line-height_breadcrumbsView;
+      font-size: var(--line-height_breadcrumbsView);
    }
 }
 
@@ -142,14 +144,15 @@
 }
 
 .controls-BreadCrumbsPath__backButton_short {
-   min-width: @item_text_min-width_breadcrumbs + @icon_m_width_headingBack + @icon_s_offset_headingBack;
+   min-width: calc(var(--item_text_min-width_breadcrumbs) + var(--icon_m_width_headingBack) + var(--icon_s_offset_headingBack));
 }
 
 .controls-BreadCrumbsPath__homeContainer__withoutBackButton {
    margin-left: 0;
 }
-.controls-BreadCrumbsPath__homeContainer__withBackButton_theme-@{themeName} {
-   margin-left: @back_offset_breadcrumbsHeadingPath;
+
+.controls-BreadCrumbsPath__homeContainer__withBackButton {
+   margin-left: var(--back_offset_breadcrumbsHeadingPath);
 }
 
 .controls-BreadCrumbsPath__backButton_half,
@@ -167,15 +170,17 @@
    .controls-BreadCrumbsPath__backButtonArrow:hover {
       display: inline-flex;
    }
+
    .controls-BreadCrumbsPath__backButton__wrapper:hover .controls-BreadCrumbsPath__backButtonArrow {
       display: inline-flex;
    }
-   .controls-BreadCrumbsPath__backButtonArrow_theme-@{themeName}:hover {
-      fill: @back_editButton_hover_icon-color_breadcrumbsHeadingPath;
+
+   .controls-BreadCrumbsPath__backButtonArrow:hover {
+      fill: var(--back_editButton_hover_icon-color_breadcrumbsHeadingPath);
    }
 
-   .controls-BreadCrumbsPath__home_theme-@{themeName}:hover {
-      color: @home_hover_icon-color_breadcrumbsPath;
+   .controls-BreadCrumbsPath__home:hover {
+      color: var(--home_hover_icon-color_breadcrumbsPath);
    }
 }
 
@@ -183,8 +188,8 @@
    width: 0;
 }
 
-.controls-fontsize-headingPathBack_theme-@{themeName} {
-   font-size: @font-size_headingPathBack_headingBack;
+.controls-fontsize-headingPathBack {
+   font-size: var(--font-size_headingPathBack_headingBack);
 }
 
 .controls-BreadCrumbsPath__backButton__container {
@@ -194,6 +199,7 @@
    align-items: baseline;
    box-sizing: border-box;
 }
+
 .controls-BreadCrumbsPath__breadCrumbs__wrapper {
    display: flex;
    flex-grow: 1;

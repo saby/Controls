@@ -1,5 +1,5 @@
 <div class="controls-BreadCrumbsView__itemsTemplate">
-    <div attr:class="controls-BreadCrumbsView__items controls-BreadCrumbsView__items_theme-{{_options.theme}}">
+    <div attr:class="controls-BreadCrumbsView__items">
         <ws:template name="templatePart">
             <ws:partial
                     attr:class="{{applyHighlighter(highlighter, itemData.item.getId(), itemData.hasArrow)}}"

@@ -2,14 +2,14 @@
    display: inline-flex;
    overflow: hidden;
    width: 100%;
+   height: var(--height_breadcrumbsView);
 }
-.controls-BreadCrumbsView__items_theme-@{themeName} {
-   height: @height_breadcrumbsView;
-}
+
 .controls-BreadCrumbsView__itemsTemplate {
    display: flex;
    align-items: flex-end;
 }
+
 .controls-BreadCrumbsView__crumb__edge {
    flex-shrink: 0;
    white-space: nowrap;
@@ -19,7 +19,7 @@
 }
 
 .controls-BreadCrumbsView__crumb__last {
-   min-width: @item_icon-size_default_breadcrumbsView + @item_text_min-width_breadcrumbs;
+   min-width: calc(var(--item_icon-size_default_breadcrumbsView) + var(--item_text_min-width_breadcrumbs));
 }
 
 .controls-BreadCrumbsView__items__middle {
@@ -29,6 +29,7 @@
    flex-shrink: 1;
    font-size: 0;
 }
+
 .controls-BreadCrumbsView__crumb {
    display: inline-block;
    overflow: hidden;
@@ -37,36 +38,38 @@
    position: relative;
    box-sizing: border-box;
    .baseline-fix();
-}
-.controls-BreadCrumbsView__crumb_theme-@{themeName} {
-  height: @height_breadcrumbsView;
-  &:before {
-    font-size: @line-height_breadcrumbsView;
-  }
-   padding-right: @droppable_border-thickness_breadcrumbsView;
+
+   height: var(--height_breadcrumbsView);
+   padding-right: var(--droppable_border-thickness_breadcrumbsView);
+
+   &:before {
+      font-size: var(--line-height_breadcrumbsView);
+   }
 }
 
-.controls-BreadCrumbsView__crumb_color_theme-@{themeName} {
-   color: @item_text-color_default_breadcrumbsView;
+.controls-BreadCrumbsView__crumb_color {
+   color: var(--item_text-color_default_breadcrumbsView);
 }
 
 .controls-BreadCrumbsView__crumb_withOverflow {
    flex-shrink: 1;
+   min-width: calc(var(--item_icon-size_default_breadcrumbsView) + var(--item_text_min-width_breadcrumbs));
+
    .text-overflow();
 }
-.controls-BreadCrumbsView__crumb_withOverflow_theme-@{themeName} {
-   min-width: @item_icon-size_default_breadcrumbsView + @item_text_min-width_breadcrumbs;
+
+.controls-BreadCrumbsView__crumb_withOverflow_withoutArrow {
+   min-width: var(--item_text_min-width_breadcrumbs);
 }
-.controls-BreadCrumbsView__crumb_withOverflow_withoutArrow_theme-@{themeName} {
-   min-width: @item_text_min-width_breadcrumbs ;
-}
+
 .controls-BreadCrumbsView__crumb_withoutOverflow {
    flex-shrink: 0;
 }
 
 .controls-BreadCrumbsView__crumb__left_edge {
-   padding: 0 @droppable_border-thickness_breadcrumbsView;
+   padding: 0 var(--droppable_border-thickness_breadcrumbsView);
 }
+
 .controls-BreadCrumbsView__menu {
    float: right;
    position: relative;
@@ -74,41 +77,39 @@
    /* Обводка dragNDrop должна уходить в тень меню, т.к. у нее z-index: 1, то для меню и его тени выставляем z-index выше.
     Сейчас у тени скролла z-index 5, поэтому она будет над крошками.*/
    z-index: 2;
+   bottom: var(--height_breadcrumbsView);
 }
-.controls-BreadCrumbsView__menu_theme-@{themeName} {
-   bottom: @height_breadcrumbsView;
-}
+
 .controls-BreadCrumbsView__menu__dots {
    position: absolute;
    top: 0;
    .baseline-fix();
    padding-right: 1px;
    display: block;
+   right: 0;
+   height: var(--height_breadcrumbsView);
+
+   &:before {
+      font-size: var(--line-height_breadcrumbsView);
+   }
 }
 
-.controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
-  right: 0;
-  height: @height_breadcrumbsView;
-  &:before {
-    font-size: @line-height_breadcrumbsView;
-  }
-}
 .controls-BreadCrumbsView__menu__dots__shadow {
    position: absolute;
    top: 0;
-}
-.controls-BreadCrumbsView__menu__dots__shadow_theme-@{themeName} {
    // уменьшаем высоту тени, чтобы из-за блюра, когда точки не видны, тень не нависала сверху.
-   height: @height_breadcrumbsView - 2*@dots_shadow-blur_breadcrumbsView;
-   filter: blur(@dots_shadow-blur_breadcrumbsView);
+   height: calc(var(--height_breadcrumbsView) - (2 * var(--dots_shadow-blur_breadcrumbsView)));
+   filter: blur(var(--dots_shadow-blur_breadcrumbsView));
    background-color: inherit;
-   padding-left: @dots_shadow-offset_breadcrumbsView;
+   padding-left: var(--dots_shadow-offset_breadcrumbsView);
    // отодвигаем тень на ее ширину за исключением заблюренной правой области, чтобы не было пропуска.
-   margin-left: -@dots_shadow-offset_breadcrumbsView + @dots_shadow-blur_breadcrumbsView;
+   margin-left: calc((-1 * var(--dots_shadow-offset_breadcrumbsView)) + var(--dots_shadow-blur_breadcrumbsView));
 }
+
 .controls-BreadCrumbsView__max-width {
    max-width: 100%;
 }
+
 .controls-BreadCrumbsView__max-width__edge {
    max-width: 50%;
 }
@@ -117,18 +118,15 @@
    white-space: nowrap;
    flex-grow: 1;
    max-width: 100%;
+   //Так как мы добавляем отступы у крошек, чтобы обводка dragNDrop не обрезалась за счет overflow-hidden, появляется лишний левый отступ. Делаем отрицательный margin на такое же значение, как левый отступ у первой крошки.
+   margin-left: calc(-1 * var(--droppable_border-thickness_breadcrumbsView));
 }
-
-//Так как мы добавляем отступы у крошек, чтобы обводка dragNDrop не обрезалась за счет overflow-hidden, появляется лишний левый отступ. Делаем отрицательный margin на такое же значение, как левый отступ у первой крошки.
-.controls-BreadCrumbsView_theme-@{themeName} {
-    margin-left: -@droppable_border-thickness_breadcrumbsView;
- }
 
 .controls-BreadCrumbsView__dropTarget_withArrow, .controls-BreadCrumbsView__dropTarget_withoutArrow {
    &:after {
       content: '';
-      height: @height_breadcrumbsView;
-      border: @droppable_border-thickness_breadcrumbsView solid @droppable_border-color_breadcrumbsView;
+      height: var(--height_breadcrumbsView);
+      border: var(--droppable_border-thickness_breadcrumbsView) solid var(--droppable_border-color_breadcrumbsView);
       top: 0;
       left: 0;
       right: 0;
@@ -136,7 +134,7 @@
       box-sizing: border-box;
       position: absolute;
       display: block;
-      border-radius: @droppable_border-radius_breadcrumbsView;
+      border-radius: var(--droppable_border-radius_breadcrumbsView);
       z-index: 1;
       align-self: center;
    }
@@ -148,7 +146,7 @@
 
 
 /*.controls-BreadCrumbsView__dropTarget_withoutArrow:after {
-   left: -@droppable_padding-horizontal_breadcrumbsView;
+   left: calc(-1 * var(--droppable_padding-horizontal_breadcrumbsView));
 }*/
 .controls-BreadCrumbsView__titleWrapper {
    overflow: hidden;
@@ -168,17 +166,15 @@
 .controls-BreadCrumbsView__arrow {
    flex-shrink: 0;
    display: inline;
-}
-.controls-BreadCrumbsView__arrow_theme-@{themeName}{
-   .icon(@item_icon-size_default_breadcrumbsView);
+   .icon(var(--item_icon-size_default_breadcrumbsView));
 }
 
 .controls-BreadCrumbsView__arrow_enabled {
    cursor: pointer;
 }
 
-.controls-BreadCrumbsController__menu_theme-@{themeName}.controls-Menu__popup_theme-@{themeName}{
-   max-width: @popup_max-width_breadcrumbsView;
+.controls-BreadCrumbsController__menu.controls-Menu__popup {
+   max-width: var(--popup_max-width_breadcrumbsView);
 }
 
 .controls-BreadCrumbsView__menuItem {
@@ -187,9 +183,11 @@
    display: inline-flex;
    align-items: center;
 }
-.controls-BreadCrumbsView__menuItem_theme-@{themeName} {
-   height: @popup_item_height_breadcrumbsView;
+
+.controls-BreadCrumbsView__menuItem {
+   height: var(--popup_item_height_breadcrumbsView);
 }
+
 .controls-BreadCrumbsView__menuTitle {
    .text-overflow();
    flex-shrink: 1;
@@ -201,27 +199,28 @@
    align-self: flex-start;
    flex-shrink: 0;
 }
-.controls-BreadCrumbsView__indentation_theme-@{themeName} {
-   .icon(@popup_item_icon-size_breadcrumbsView);
-   color: @popup_item_icon-color_breadcrumbsView;
+
+.controls-BreadCrumbsView__indentation {
+   .icon(var(--popup_item_icon-size_breadcrumbsView));
+   color: var(--popup_item_icon-color_breadcrumbsView);
 }
 
 .ws-is-hover {
-   .controls-BreadCrumbsView__crumb:hover, .controls-BreadCrumbsView__menu__dots_theme-@{themeName}:hover {
-      .controls-BreadCrumbsView__title_enabled_theme-@{themeName} {
-         color: @item_hover_text-color_default_breadcrumbsView;
+   .controls-BreadCrumbsView__crumb:hover, .controls-BreadCrumbsView__menu__dots:hover {
+      .controls-BreadCrumbsView__title_enabled {
+         color: var(--item_hover_text-color_default_breadcrumbsView);
          text-decoration: underline;
       }
 
-      .controls-BreadCrumbsView__arrow_enabled_theme-@{themeName} {
-         color: @item_hover_icon-color_default_breadcrumbsView;
+      .controls-BreadCrumbsView__arrow_enabled {
+         color: var(--item_hover_icon-color_default_breadcrumbsView);
       }
    }
 }
 
 //Класс сделан только для удобства замеров
 .controls-BreadCrumbsView__crumbMeasurer {
-   font-family: @font-family, "Courier New";
+   font-family: var(--font-family,) "Courier New";
 }
 
 .ws-is-ie {
@@ -232,6 +231,7 @@
       transform: translateY(-50%);
    }
 }
+
 //Только для Edge
 .ws-is-ie12 {
 
@@ -240,11 +240,12 @@
       width: 1px;
    }
 }
+
 // хлебные крошки в гридах TODO Должно быть удалено после https://online.sbis.ru/opendoc.html?guid=efaebaed-3a79-43e9-8bd8-39172c56bde3
 .controls-Grid__breadCrumbs {
-   .controls-BreadCrumbsView__crumb_theme-@{themeName}, .controls-BreadCrumbsView__menu__dots_theme-@{themeName} {
+   .controls-BreadCrumbsView__crumb, .controls-BreadCrumbsView__menu__dots {
       &:before {
-         font-size: @item_font-size_2xl_grid;
+         font-size: var(--item_font-size_2xl_grid);
       }
    }
 }

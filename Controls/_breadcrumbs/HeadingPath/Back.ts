@@ -1,6 +1,7 @@
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_breadcrumbs/HeadingPath/Back');
 import 'css!Controls/heading';
+import 'css!Controls/breadcrumbs';
 
 class Back extends Control {
    protected _template = template;
@@ -20,7 +21,6 @@ class Back extends Control {
       this._notify('arrowClick', []);
    }
 
-   static _theme: string[] = ['Controls/crumbs'];
    static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
 

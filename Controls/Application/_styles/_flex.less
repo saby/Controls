@@ -1,0 +1,84 @@
+@import "Controls-default-theme/_mixins";
+
+.ws-flexbox {
+   .flexbox();
+}
+.ws-inline-flexbox {
+   .inline-flexbox();
+}
+
+// ws-flex-row, ws-flex-column, ws-flex-row-reverse, ws-flex-column-reverse
+@flex-direction-arr: row, column, row-reverse, column-reverse;
+.for(@flex-direction-arr, {
+   .ws-flex-@{_item} {
+      .flex-direction(@_item);
+   }
+});
+
+.ws-flex-first {
+   .order(-100);
+}
+.ws-flex-last {
+   .order(100);
+}
+.ws-flex-unordered {
+   .order(0);
+}
+
+// ws-flex-grow-0 ... ws-flex-grow-12
+.for(0, 12, {
+   .ws-flex-grow-@{_i} {
+      .flex-grow(@_i);
+   }
+});
+
+// ws-flex-shrink-0 ... ws-flex-shrink-12
+.for(0, 12, {
+   .ws-flex-shrink-@{_i} {
+      .flex-shrink(@_i);
+   }
+});
+
+// ws-flex-wrap, ws-flex-nowrap, ws-flex-wrap-reverse
+@flex-wrap-arr: wrap, nowrap, wrap-reverse;
+.for(@flex-wrap-arr, {
+   .ws-flex-@{_item} {
+      .flex-wrap(@_item);
+   }
+});
+
+// ws-justify-content-start, ws-justify-content-end, ws-justify-content-center, ws-justify-content-between, ws-justify-content-around
+@flex-justify-content-arr: start flex-start, end flex-end, center center, between space-between, around space-around;
+.for(@flex-justify-content-arr, {
+   @flex-justify-content-value: extract(@_item, 1);
+   .ws-justify-content-@{flex-justify-content-value} {
+      .justify-content(extract(@_item, 2));
+   }
+});
+
+// ws-align-items-start, ws-align-items-end, ws-align-items-center, ws-align-items-baseline, ws-align-items-stretch
+@flex-align-items-arr: start flex-start, end flex-end, center center, baseline baseline, stretch stretch;
+.for(@flex-align-items-arr, {
+   @flex-align-items-value: extract(@_item, 1);
+   .ws-align-items-@{flex-align-items-value} {
+      .align-items(extract(@_item, 2));
+   }
+});
+
+// ws-align-content-start, ws-align-content-end, ws-align-content-center, ws-align-content-between, ws-align-content-around, ws-align-content-stretch
+@flex-align-content-arr: start flex-start, end flex-end, center center, between space-between, around space-around;
+.for(@flex-align-content-arr, {
+   @flex-align-content-value: extract(@_item, 1);
+   .ws-align-content-@{flex-align-content-value} {
+      .align-content(extract(@_item, 2));
+   }
+});
+
+// ws-align-self-auto, ws-align-self-start, ws-align-self-end, ws-align-self-center, ws-align-self-baseline, ws-align-self-stretch
+@flex-align-self-arr: auto auto, start flex-start, end flex-end, center center, baseline baseline, stretch stretch;
+.for(@flex-align-self-arr, {
+   @flex-align-self-value: extract(@_item, 1);
+   .ws-align-self-@{flex-align-self-value} {
+      .align-self(extract(@_item, 2));
+   }
+});

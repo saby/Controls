@@ -16,7 +16,7 @@ interface IPosition {
 }
 
 // Minimum popup indentation from the right edge
-const MINIMAL_PANEL_DISTANCE = 100;
+const MINIMAL_PANEL_DISTANCE = 48;
 
 const _private = {
     getPanelWidth(item: IPopupItem, tCoords, maxPanelWidth: number): number {

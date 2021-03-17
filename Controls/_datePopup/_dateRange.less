@@ -196,6 +196,9 @@
 }
 
 .controls-DateRangeBigChoose-DateRangePicker__item_theme-@{themeName} {
+   // Если в феврале будет ровно 4 недели, будет полностью видно сразу 2 месяца: Ферваль и Март. Из-за этого ломается
+   // логика работы маркера. Устанавливаем минимальную высоту равную 5 неделям.
+   min-height: @monthlist_monthview_item_height_datePicker * 5 + @monthlist_heading_height_datePicker;
    width: @monthlist_monthview_width_datePicker;
    height: @monthlist_monthview_height_datePicker;
    margin-bottom: @monthlist_heading_border-thickness_datePicker;
