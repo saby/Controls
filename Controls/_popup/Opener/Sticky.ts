@@ -1,10 +1,11 @@
 import BaseOpener, {IBaseOpenerOptions, ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
-import {Logger} from 'UI/Utils';
 import {IStickyOpener, IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 import {TemplateFunction} from 'UI/Base';
 import Template = require('wml!Controls/_popup/Opener/Sticky');
 import {detection} from 'Env/Env';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
+import CancelablePromise from 'Controls/_popup/utils/CancelablePromise';
+import openPopup from 'Controls/_popup/utils/openPopup';
 
 const getStickyConfig = (config) => {
     config = config || {};
@@ -84,22 +85,17 @@ class Sticky extends BaseOpener<IStickyOpenerOptions> implements IStickyOpener {
         return baseConfig;
     }
 
-    static openPopup(config: IStickyPopupOptions, popupController: string = POPUP_CONTROLLER): Promise<string> {
+    static _openPopup(config: IStickyPopupOptions): CancelablePromise<string> {
+        const newCfg = getStickyConfig(config);
+        const moduleName = Sticky.prototype._moduleName;
+        return openPopup(newCfg, POPUP_CONTROLLER, moduleName);
+    }
+
+    static openPopup(config: IStickyPopupOptions): Promise<string> {
+        const cancelablePromise = Sticky._openPopup(config);
         return new Promise((resolve, reject) => {
-            const newCfg = getStickyConfig(config);
-            if (!newCfg.hasOwnProperty('isHelper')) {
-                Logger.warn('Controls/popup:Sticky: Для открытия прилипающих окон из кода используйте StickyOpener');
-            }
-            if (!newCfg.hasOwnProperty('opener')) {
-                Logger.error('Controls/popup:Sticky: Для открытия окна через статический метод, обязательно нужно указать опцию opener');
-            }
-            BaseOpener.requireModules(newCfg, popupController).then((result: ILoadDependencies) => {
-                BaseOpener.showDialog(result.template, newCfg, result.controller).then((popupId: string) => {
-                    resolve(popupId);
-                });
-            }).catch((error: RequireError) => {
-                reject(error);
-            });
+            cancelablePromise.then(resolve);
+            cancelablePromise.catch(reject);
         });
     }
 

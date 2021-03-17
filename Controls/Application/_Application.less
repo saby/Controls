@@ -1,9 +1,8 @@
-@import "Controls/Application/_theme/_links";
 //шрифты надо подключать в темизированном файле, который подключен в _theme чтоб прилетало только при ините Application
 @import "Controls-default-theme/fonts/TensorFont";
 @import "Controls-default-theme/fonts/cbus-icons";
 
-/* сброс стилей. copy normilize.less*/
+// сброс стилей. copy normilize.less
 * {
    margin: 0;
    padding: 0;
@@ -13,10 +12,10 @@
 html {
    min-width: 100%;
    min-height: 100%;
-   -webkit-tap-highlight-color: rgba(0,0,0,0);
+   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
    -webkit-print-color-adjust: exact;
 
-   //В мобильных браузерах для удобства чтения бразуер увеличивает размер шрифта, необходимо это блокировать
+   // В мобильных браузерах для удобства чтения бразуер увеличивает размер шрифта, необходимо это блокировать
    text-size-adjust: none;
    -webkit-text-size-adjust: none;
    -moz-text-size-adjust: none;
@@ -33,6 +32,7 @@ body {
    -moz-osx-font-smoothing: grayscale;
 }
 
+<<<<<<< HEAD
 .Application-body_theme-@{themeName} {
    font-family: @font-family;
    font-size: @font-size_default;
@@ -53,6 +53,8 @@ body {
    width: 100%;
 }
 
+=======
+>>>>>>> caf06c5aa594a9b01954d39f54244300e0301ec6
 table {
    border-spacing: 0;
 }
@@ -61,25 +63,30 @@ img {
    border: none;
 }
 
-.ws-is-phone.ws-is-adaptive {
-   // Если название шрифта не соответствует шрифтам, установленным на устройстве, то системный шрифт не подцепляется
-   // Поэтому объявляем стек системных шрифтов ios
-   // https://online.sbis.ru/opendoc.html?guid=7532bfcc-578b-4fb4-a990-a3cb22b4d7aa
-   &.ws-is-mobile-safari, &.ws-is-mobile-chrome-ios {
-      font-family: -apple-system, San Francisco;
-   }
-   &.ws-is-mobile-android {
-      font-family: 'Roboto';
+.clearfix {
+   display: inline-block;
+
+   &:after {
+      content: "";
+      display: block;
+      height: 0;
+      line-height: 0;
+      clear: both;
+      visibility: hidden;
    }
 }
 
+html > body .clearfix {
+   display: block;
+}
 // На iPad, в сафари и хроме, в пустой textarea, курсор встает на 3px правее, чем нужно,
 // и при наличии в поле плейсхолдера (кастомного или нативного) он оказывается по центру его первого символа
 // Поэтому для пустого поля добавляем text-indent: -3px
 // https://stackoverflow.com/questions/6890149/remove-3-pixels-in-ios-webkit-textarea
 // :empty не получается использовать, т.к. он работает только если area пуста/не пуста изначально. Динамически не меняется
 // На всех area у нас есть атрибут required (для показа placeholder), соответственно можем использовать :invalid для проверки на пустоту
-.ws-is-mobile-safari, .ws-is-mobile-chrome-ios {
+.ws-is-mobile-safari,
+.ws-is-mobile-chrome-ios {
    textarea:invalid {
       text-indent: -3px;
    }
@@ -110,93 +117,48 @@ input[type="reset"]::-moz-focus-inner {
    border: 0 none !important;
 }
 
-/*core-min::  styles*/
+.Application-body {
+   font-family: var(--font-family);
+   font-size: var(--font-size_default);
+   color: var(--text-color);
+   background-color: var(--background-color);
 
-.controls-roundedCorner_size_s {
-   border-radius: @border-radius_s_image;
-}
-
-.controls-roundedCorner_size_m {
-   border-radius: @border-radius_m_image;
-}
-
-.ws-hidden {
-   display: none !important;
-}
-.ws-invisible {
-   visibility: hidden !important;
-}
-
-.ws-absolute {
-   position:absolute !important;
-}
-
-.ws-fixed {
-   position: fixed;
-}
-
-.ws-ellipsis {
-   overflow: hidden;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-}
-
-.ws-line-clamp {
-   display: -webkit-box;
-   overflow: hidden;
-   -ms-box-orient: vertical;
-   -moz-box-orient: vertical;
-   -webkit-box-orient: vertical;
-}
-
-.ws-line-clamp_2 {
-   -ms-line-clamp: 2;
-   -moz-line-clamp: 2;
-   -webkit-line-clamp: 2;
-   // Совместимость для IE, потому что в нём не поддеживается line-clamp
-   max-height: @line-height_m_inputArea * 2;
-}
-
-.ws-line-clamp_3 {
-   -ms-line-clamp: 3;
-   -moz-line-clamp: 3;
-   -webkit-line-clamp: 3;
-   // Совместимость для IE, потому что в нём не поддеживается line-clamp
-   max-height: @line-height_m_inputArea * 3;
-}
-
-.ws-line-clamp_4 {
-   -ms-line-clamp: 4;
-   -moz-line-clamp: 4;
-   -webkit-line-clamp: 4;
-   // Совместимость для IE, потому что в нём не поддеживается line-clamp
-   max-height: @line-height_m_inputArea * 4;
-}
-
-.ws-standartLink .asLink {
-   text-decoration: underline !important;
-}
-
-.clearfix {
-   display: inline-block;
-   &:after {
-      content: "";
-      display: block;
-      height: 0;
-      line-height: 0;
-      clear: both;
-      visibility: hidden;
+   &.ws-fix-emoji {
+      font-family: var(--font-family), 'EmojiFont';
    }
 }
 
-html>body .clearfix {
-   display: block;
+.bodyContent {
+   height: 100%;
+   width: 100%;
 }
 
+.ws-is-phone.ws-is-adaptive {
+   // Если название шрифта не соответствует шрифтам, установленным на устройстве, то системный шрифт не подцепляется
+   // Поэтому объявляем стек системных шрифтов ios
+   // https://online.sbis.ru/opendoc.html?guid=7532bfcc-578b-4fb4-a990-a3cb22b4d7aa
+   &.ws-is-mobile-safari,
+   &.ws-is-mobile-chrome-ios {
+      font-family: -apple-system, San Francisco;
+   }
+
+   &.ws-is-mobile-android {
+      font-family: 'Roboto';
+   }
+}
+
+.controls-roundedCorner_size_s {
+   border-radius: var(--border-radius_s_image);
+}
+
+.controls-roundedCorner_size_m {
+   border-radius: var(--border-radius_m_image);
+}
 
 .pre-load {
    pointer-events: none;
 }
+
 .theme-changing {
    //transition: opacity .25s ease-in-out;
    //-moz-transition: opacity .25s ease-in-out;
@@ -204,6 +166,7 @@ html>body .clearfix {
    opacity: 0.2;
    pointer-events: none;
 }
+
 #theme-changing-overlay {
    width: 100%;
    height: 100%;

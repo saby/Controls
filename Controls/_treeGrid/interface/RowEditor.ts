@@ -22,7 +22,7 @@
 
 export default interface IRowEditorOptions {
     /**
-     * @cfg {String|Function} Пользовательский шаблон, описывающий содержимое элемента в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ режиме редактирования}.
+     * @cfg {String|TemplateFunction} Пользовательский шаблон, описывающий содержимое элемента в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ режиме редактирования}.
      * @default undefined
      */
     content?: string;

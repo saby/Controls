@@ -631,7 +631,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
        IPAD пытается переместить input к верху страницы. Проблема не повторяется,
        если input будет выше клавиатуры после открытия. */
     _lockScrollPositionUntilKeyboardShown(): void {
-        this._scrollLockedPosition = this._scrollModel.scrollTop;
+        // Если модель не инициализирована, значить точно не было скролирования и scrollTop равен 0.
+        this._scrollLockedPosition = this._scrollModel?.scrollTop || 0;
         setTimeout(() => {
             this._scrollLockedPosition = null;
         }, KEYBOARD_SHOWING_DURATION);

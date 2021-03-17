@@ -158,7 +158,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          return this._sourceController
              .reload()
              .then((items) => {
-                this._items = this._sourceController.setItems(items as RecordSet);
+                this._items = this._sourceController.getItems();
                 return items;
              })
              .catch((error) => error)

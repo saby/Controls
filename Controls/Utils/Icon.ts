@@ -18,7 +18,7 @@ export function getIcon(url: string): string {
 }
 
 export function isSVGIcon(icon: string = ''): boolean {
-    return icon && getIconData(icon).isSvg;
+    return !!(icon && getIconData(icon).isSvg);
 }
 
 function getIconData(icon: string): IIconData {

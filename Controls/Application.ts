@@ -12,7 +12,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {dispatcherHandler} from 'UI/HotKeys';
 import {List} from 'Types/collection';
 
-import {_scrollContext} from 'Controls/scroll';
 import {setController as setSettingsController, IPopupSettingsController} from
        'Controls/Application/SettingsController';
 import {ManagerClass as PopupManager, GlobalController as PopupGlobalController, IPopupItem} from
@@ -21,11 +20,12 @@ import {TouchContextField} from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 
-import 'css!Controls/CommonClasses';
-
 // Нужно чтобы oldCss прилетал первым на страницу. Есть контролы (например itemsActions), стили которыйх
 // Завязаны на порядок css.
-import 'css!theme?Controls/Application/oldCss';
+import 'css!Controls/Application/oldCss';
+import 'css!Controls/application';
+import 'css!Controls/dragnDrop';
+import 'css!Controls/CommonClasses';
 
 /**
  * Корневой контрол для Wasaby-приложений. Служит для создания базовых html-страниц.
@@ -113,7 +113,6 @@ export default class Application extends Control<IApplication> {
 
    private _registers: IApplicationRegistrars;
    private _popupManager: PopupManager;
-   private _scrollData: _scrollContext;
    private _globalPopup: PopupGlobalController;
    private _dragnDropController: DnDController;
    private _isPopupShow: boolean;
@@ -124,7 +123,6 @@ export default class Application extends Control<IApplication> {
    // start hooks
    protected _beforeMount(options: IApplication): void {
       this._checkDeprecatedOptions(options);
-      this._scrollData = new _scrollContext({ pagingVisible: options.pagingVisible });
 
       const appData = AppData.getAppData();
       this.RUMEnabled = options.RUMEnabled || appData.RUMEnabled || false;
@@ -182,10 +180,6 @@ export default class Application extends Control<IApplication> {
 
    }
    protected _beforeUpdate(options: IApplication): void {
-      if (this._scrollData.pagingVisible !== options.pagingVisible) {
-         this._scrollData.pagingVisible = options.pagingVisible;
-         this._scrollData.updateConsumers();
-      }
       this._updateTouchClass();
       this._updateThemeClass(options);
       this._updateFromOptionsClass(options);
@@ -421,7 +415,7 @@ export default class Application extends Control<IApplication> {
    }
    private _updateThemeClass(options: IApplication): void {
       this._updateBodyClasses({
-         themeClass: 'Application-body_theme-' + options.theme
+         themeClass: 'Application-body'
       });
    }
    /** ************************************************** */
@@ -548,13 +542,9 @@ export default class Application extends Control<IApplication> {
 
    private _getChildContext(): object {
       return {
-         ScrollData: this._scrollData,
          isTouch: this._touchObjectContext
       };
    }
-
-   static _theme: string[] = ['Controls/application'];
-   static _styles: string[] = ['Controls/dragnDrop'];
 
    private static _isIOS13(): boolean {
       const oldIosVersion: number = 12;

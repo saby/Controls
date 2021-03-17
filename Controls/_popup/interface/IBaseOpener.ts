@@ -187,7 +187,7 @@ export interface IBaseOpener {
 
 /**
  * @name Controls/_popup/interface/IBaseOpener#template
- * @cfg {String|Function} Шаблон всплывающего окна
+ * @cfg {String|TemplateFunction} Шаблон всплывающего окна
  */
 
 /**
@@ -228,17 +228,17 @@ export interface IBaseOpener {
 
 /*
  * @name Controls/_popup/interface/IBaseOpener#template
- * @cfg {String|Function} Template inside popup.
+ * @cfg {String|TemplateFunction} Template inside popup.
  */
 
 /**
  * @name Controls/_popup/interface/IBaseOpener#templateOptions
- * @cfg {String|Function} Опции для контрола, переданного в {@link template}
+ * @cfg {String|TemplateFunction} Опции для контрола, переданного в {@link template}
  */
 
 /*
  * @name Controls/_popup/interface/IBaseOpener#templateOptions
- * @cfg {String|Function} Template options inside popup.
+ * @cfg {String|TemplateFunction} Template options inside popup.
  */
 
 /**

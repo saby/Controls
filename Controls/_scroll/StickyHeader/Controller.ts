@@ -5,7 +5,8 @@ import {IFixedEventData,
     SHADOW_VISIBILITY,
     TRegisterEventData,
     TYPE_FIXED_HEADERS,
-    getGapFixSize} from './Utils';
+    getGapFixSize,
+    MODE} from './Utils';
 import StickyHeader from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
@@ -434,7 +435,7 @@ class StickyHeaderController {
             const header = this._headers[headerId];
 
             if (headers.includes(headerId)) {
-                if (this._getHeaderOffset(headerId, position) <= fixedHeadersHeight + replaceableHeight) {
+                if (this._getHeaderOffset(headerId, position) < fixedHeadersHeight + replaceableHeight) {
                     header.inst.setFixedPosition(POSITION.top);
                 }
             }
@@ -586,6 +587,11 @@ class StickyHeaderController {
         });
     }
 
+    updateStickyMode(stickyId: number, newMode: MODE): void {
+        this._headers[stickyId].mode = newMode;
+        this._updateTopBottom();
+    }
+
     private _updateTopBottom() {
         // Обновляем положение заголовков один раз в микротаске
         if (this._updateTopBottomInitialized) {
@@ -635,7 +641,7 @@ class StickyHeaderController {
                                     parentElementOfNextHeader = parentElementOfNextHeader.parentElement;
                                 }
                                 if (parentElementOfNextHeader === parentElementOfPrevHeader) {
-                                    const height: number = header.inst.height;
+                                    const height: number = header.inst.height + header.inst.offsetTop;
                                     // Сохраним высоты по которым рассчитали позицию заголовков,
                                     // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
                                     this._updateElementsHeight(header.inst.getHeaderContainer(), height);

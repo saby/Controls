@@ -9,6 +9,7 @@
             toggledEditors="{{listModel.getToggledEditors()}}"
             keyProperty="{{listModel.getKeyProperty()}}"
             collapsedGroups="{{collapsedGroups}}"
+            captionPosition="{{captionPosition}}"
             on:mouseenter="_mouseEnterHandler(item)"
             on:mouseleave="_mouseLeaveHandler()"
             on:click="_itemClick(item)"

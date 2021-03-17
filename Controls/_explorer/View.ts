@@ -115,7 +115,6 @@ export default class Explorer extends Control<IControlOptions> {
     private _newBackgroundStyle: any;
     private _newHeader: undefined;
     private _isGoingBack: boolean;
-    private _backgrounStyle: string;
     private _pendingViewMode: string;
     private _dataRoot: undefined;
     private _itemsResolver: any;
@@ -694,7 +693,7 @@ export default class Explorer extends Control<IControlOptions> {
             this._newItemTemplate = null;
         }
         if (this._newBackgroundStyle) {
-            this._backgrounStyle = this._newBackgroundStyle;
+            this._backgroundStyle = this._newBackgroundStyle;
             this._newBackgroundStyle = null;
         }
         if (this._newHeader) {
@@ -997,7 +996,7 @@ Object.defineProperty(Explorer, 'defaultProps', {
 
 /**
  * @name Controls/_explorer/View#tileItemTemplate
- * @cfg {String|Function} Шаблон отображения элемента в режиме "Плитка".
+ * @cfg {String|TemplateFunction} Шаблон отображения элемента в режиме "Плитка".
  * @default undefined
  * @markdown
  * @remark

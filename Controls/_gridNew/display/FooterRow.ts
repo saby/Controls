@@ -83,6 +83,7 @@ export default class FooterRow<T> extends Row<T> {
                         template: this._$footerTemplate
                     },
                     colspan: this._$owner.getColumnsConfig().length,
+                    isSingleCell: true,
                     isFixed: true
                 })];
             }

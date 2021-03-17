@@ -343,6 +343,7 @@ define(
                   _icon: 'icon-Linked',
                   _iconSize: 'm',
                   _iconStyle: 'readonly',
+                  _isSVGIcon: false,
                   _stringCaption: true,
                   _viewMode: 'toolButton',
                   readOnly: true

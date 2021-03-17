@@ -120,13 +120,14 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     displayProperty?: string;
     itemTemplateProperty?: string;
     multiSelectVisibility?: string;
-    multiSelectPosition?: 'default'|'custom';
+    multiSelectPosition?: 'default' | 'custom';
     itemPadding?: IItemPadding;
     emptyTemplate?: TemplateFunction;
     rowSeparatorSize?: string;
     stickyMarkedItem?: boolean;
     stickyHeader?: boolean;
     theme?: string;
+    style?: string;
     backgroundStyle?: string;
     hoverBackgroundStyle?: string;
     collapsedGroups?: TArrayGroupKey;
@@ -866,8 +867,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         this._$theme = options.theme;
 
-        if (options.hoverBackgroundStyle) {
-            this._$hoverBackgroundStyle = options.hoverBackgroundStyle;
+        if (!options.hoverBackgroundStyle && options.style) {
+            this._$hoverBackgroundStyle = options.style;
         }
 
         this._$collapsedGroups = options.collapsedGroups;
@@ -3512,7 +3513,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         const sortMap = [];
         const groupMap = [];
 
-        strategy.splice(start, 0, items);
+        strategy.splice(start, 0, items, IObservable.ACTION_ADD);
         innerIndex = strategy.getDisplayIndex(start);
 
         items.forEach((item, index) => {
@@ -3543,7 +3544,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         count = count === undefined ? strategy.count - start : count;
 
-        result = strategy.splice(start, count);
+        result = strategy.splice(start, count, [], IObservable.ACTION_REMOVE);
         innerIndex = result.start = strategy.getDisplayIndex(start);
 
         this._filterMap.splice(innerIndex, count);
@@ -3561,7 +3562,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      */
     protected _replaceItems(start: number, newItems: S[]): ISplicedArray<T> {
         const strategy = this._getItemsStrategy();
-        const result = strategy.splice(start, newItems.length, newItems) as ISplicedArray<T>;
+        const result = strategy.splice(start, newItems.length, newItems, IObservable.ACTION_REPLACE) as ISplicedArray<T>;
         result.start = strategy.getDisplayIndex(start);
 
         return result;
@@ -3580,8 +3581,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         const strategy = this._getItemsStrategy();
         let movedItems;
 
-        movedItems = strategy.splice(oldIndex, length);
-        strategy.splice(newIndex, 0, movedItems);
+        movedItems = strategy.splice(oldIndex, length, [], IObservable.ACTION_MOVE);
+        strategy.splice(newIndex, 0, movedItems, IObservable.ACTION_MOVE);
         movedItems.oldIndex = strategy.getDisplayIndex(oldIndex);
 
         return movedItems;

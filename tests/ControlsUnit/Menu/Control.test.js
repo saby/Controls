@@ -633,6 +633,10 @@ define(
             result = menuControl._getMarkedKey([2], 'emptyKey', true);
             assert.equal(result, 2);
 
+            // item out of list
+            result = menuControl._getMarkedKey([123], 'emptyKey', true);
+            assert.isUndefined(result);
+
             // single selection
             result = menuControl._getMarkedKey([1, 2], 'emptyKey');
             assert.equal(result, 1);
@@ -769,7 +773,7 @@ define(
             let selectCompleted = false, closed = false, opened = false, actualOptions;
 
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                opened = true;
                actualOptions = tplOptions;
                return Promise.resolve();
@@ -814,7 +818,7 @@ define(
             };
             items.push(emptyItem);
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                selectorOptions = tplOptions;
                return Promise.resolve();
             });

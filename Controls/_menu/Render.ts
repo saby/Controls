@@ -133,7 +133,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
                 classes += ' controls-Menu__defaultItem';
             }
             if (!this._isFixedItem(treeItem) && item.get('pinned') === true && !this._hasParent(item)) {
-                classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
+                classes += ' controls-Menu__row_pinned';
             }
             if (this._options.listModel.getLast() !== treeItem && !this._isGroupNext(treeItem) &&
                 !(this._options.allowPin && this._isHistorySeparatorVisible(treeItem))) {

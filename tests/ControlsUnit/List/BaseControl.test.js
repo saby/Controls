@@ -8488,6 +8488,31 @@ define([
                assert.isFalse(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
                assert.isTrue(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
             });
+
+            it('not set new marked key, when load items', () => {
+               const sourceController = {
+                  isLoading: () => true,
+                  getState: () => {
+                     return {
+                        source: {}
+                     };
+                  },
+                  getItems: () => new collection.RecordSet({
+                     rawData: data,
+                     keyProperty: 'id'
+                  }),
+                  setDataLoadCallback: () => null
+               };
+               const newCfg = {
+                  ...cfg,
+                  markedKey: 2,
+                  sourceController
+               };
+               baseControl._beforeUpdate(newCfg);
+
+               assert.isTrue(baseControl.getViewModel().getItemBySourceKey(1).isMarked());
+               assert.isFalse(baseControl.getViewModel().getItemBySourceKey(2).isMarked());
+            });
          });
       });
 

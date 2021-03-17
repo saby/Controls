@@ -11,73 +11,73 @@
    min-height: 100%;
    position: relative;
    .tabs-baseline();
+
    &:after {
       content: '';
       position: absolute;
       bottom: 0;
-      left:0;
+      left: 0;
       width: 100%;
       z-index: 1;
    }
 }
 
-.controls-Tabs__itemClickableArea_inlineHeight-s_theme-@{themeName} {
+.controls-Tabs__itemClickableArea_inlineHeight-s {
    &:before {
-      line-height: @item_height_s_tabs;
-      font-size: @unselected_item_font-size_tabs;
-   }
-}
-.controls-Tabs__itemClickableArea_inlineHeight-l_theme-@{themeName} {
-   &:before {
-      line-height: @item_height_l_tabs;
-      font-size: @unselected_item_font-size_tabs;
-   }
-}
-.controls-Tabs__itemClickableArea_markerThickness-s_theme-@{themeName} {
-   &:after {
-      height: @marker_thickness-s_tabs;
-   }
-}
-.controls-Tabs__itemClickableArea_markerThickness-l_theme-@{themeName} {
-   &:after {
-      height: @marker_thickness-l_tabs;
+      line-height: var(--item_height_s_tabs);
+      font-size: var(--unselected_item_font-size_tabs);
    }
 }
 
-.controls-Tabs_theme_@{themeName} {
+.controls-Tabs__itemClickableArea_inlineHeight-l {
+   &:before {
+      line-height: var(--item_height_l_tabs);
+      font-size: var(--unselected_item_font-size_tabs);
+   }
+}
+
+.controls-Tabs__itemClickableArea_markerThickness-s {
    &:after {
-      background: @border-color_tabs;
+      height: var(--marker_thickness-s_tabs);
+   }
+}
+
+.controls-Tabs__itemClickableArea_markerThickness-l {
+   &:after {
+      height: var(--marker_thickness-l_tabs);
    }
 }
 
 .controls-Tabs {
    position: relative;
+
    &:after {
       content: '';
       position: absolute;
-      bottom:0;
-      left:0;
+      bottom: 0;
+      left: 0;
       width: 100%;
+      background: var(--border-color_tabs);
    }
 }
 
-.controls-Tabs_inlineHeight-s_theme-@{themeName} {
-   height: @item_height_s_tabs;
+.controls-Tabs_inlineHeight-s {
+   height: var(--item_height_s_tabs);
 }
 
-.controls-Tabs_inlineHeight-l_theme-@{themeName} {
-   height: @item_height_l_tabs;
+.controls-Tabs_inlineHeight-l {
+   height: var(--item_height_l_tabs);
 }
 
-.controls-Tabs_border-s_theme-@{themeName} {
+.controls-Tabs_border-s {
    &:after {
-      height: @border-thickness_s_tabs;
+      height: var(--border-thickness_s_tabs);
    }
 }
 
-.controls-Tabs_border-l_theme-@{themeName} {
+.controls-Tabs_border-l {
    &:after {
-      height: @border-thickness_l_tabs;
+      height: var(--border-thickness_l_tabs);
    }
 }
 
@@ -86,6 +86,7 @@
    width: 100%;
    height: 100%;
 }
+
 .controls-Tabs__space {
    display: inline-flex;
    //TODO: по поручению опишут как и что должно сжиматься. Пока вешаю огромный flex-shrink на дыру между элементами вкладок, чтобы главная вкладка не начинала сжиматься раньше времени
@@ -95,30 +96,31 @@
    align-items: baseline;
    .tabs-baseline();
    position: relative;
-   width:100%;
+   width: 100%;
    min-width: 0;
-   height:100%;
+   height: 100%;
    order: 20;
 }
 
-.controls-Tabs__space_inlineHeight-s_theme_@{themeName} {
+.controls-Tabs__space_inlineHeight-s {
    &:before {
-      line-height: @item_height_s_tabs;
-      font-size: @unselected_item_font-size_tabs;
-   }
-}
-.controls-Tabs__space_inlineHeight-l_theme_@{themeName} {
-   &:before {
-      line-height: @item_height_l_tabs;
-      font-size: @unselected_item_font-size_tabs;
+      line-height: var(--item_height_s_tabs);
+      font-size: var(--unselected_item_font-size_tabs);
    }
 }
 
-.controls-Tabs__item-underline_theme-@{themeName}{
-  border-bottom: @border-thickness_tabs solid @border-color_tabs;
+.controls-Tabs__space_inlineHeight-l {
+   &:before {
+      line-height: var(--item_height_l_tabs);
+      font-size: var(--unselected_item_font-size_tabs);
+   }
 }
 
-.controls-Tabs__item_theme_@{themeName} {
+.controls-Tabs__item-underline {
+   border-bottom: var(--border-thickness_tabs) solid var(--border-color_tabs);
+}
+
+.controls-Tabs__item {
    display: inline-flex;
    flex-shrink: 0;
    align-items: baseline;
@@ -126,23 +128,23 @@
    .tabs-baseline();
    height: 100%;
    position: relative;
-   font-size: @unselected_item_font-size_tabs;
+   font-size: var(--unselected_item_font-size_tabs);
    cursor: pointer;
-   max-width: @item_max-width_tabs;
+   max-width: var(--item_max-width_tabs);
    white-space: nowrap;
 }
 
-.controls-Tabs__item_inlineHeight-s_theme-@{themeName} {
+.controls-Tabs__item_inlineHeight-s {
    &:before {
-      line-height: @item_height_s_tabs;
-      font-size: @unselected_item_font-size_tabs;
+      line-height: var(--item_height_s_tabs);
+      font-size: var(--unselected_item_font-size_tabs);
    }
 }
 
-.controls-Tabs__item_inlineHeight-l_theme-@{themeName} {
+.controls-Tabs__item_inlineHeight-l {
    &:before {
-      line-height: @item_height_l_tabs;
-      font-size: @unselected_item_font-size_tabs;
+      line-height: var(--item_height_l_tabs);
+      font-size: var(--unselected_item_font-size_tabs);
    }
 }
 
@@ -150,93 +152,114 @@
    flex-shrink: 1;
    min-width: 0;
 }
+
 .controls-Tabs__item_notShrink {
    flex-shrink: 0;
    min-width: 0;
 }
-.controls-Tabs__itemSeparator_theme_@{themeName} {
+
+.controls-Tabs__itemSeparator {
    pointer-events: none;
    position: absolute;
-   top: calc(50% ~'-' @separator_length_tabs / 2);
-   height: @separator_length_tabs;
-   width: @separator_thickness_tabs;
-   background: @separator_color_tabs;
+   top: calc(50% ~'-' var(--separator_length_tabs) / 2);
+   height: var(--separator_length_tabs);
+   width: var(--separator_thickness_tabs);
+   background: var(--separator_color_tabs);
 }
+
 .controls-Tabs__itemSeparator_align_left {
-   right: -(@padding-horizontal_tabs + @border-thickness_tabs);
+   right: calc(-1 * (var(--padding-horizontal_tabs) + var(--border-thickness_tabs)));
 }
+
 .controls-Tabs__itemSeparator_align_right {
-   left: -(@padding-horizontal_tabs + @border-thickness_tabs);
+   left: calc(-1 * (var(--padding-horizontal_tabs) + var(--border-thickness_tabs)));
 }
-.controls-Tabs__item_state_default_theme_@{themeName} {
+
+.controls-Tabs__item_state_default {
    .user-select();
-   color: @unselected_item_text-color_tabs;
+   color: var(--unselected_item_text-color_tabs);
 }
+
 .ws-is-hover {
-   .controls-Tabs__item_state_default_theme_@{themeName}:hover {
+   .controls-Tabs__item_state_default:hover {
       &:after {
-         background: @marker_hover_color_tabs;
+         background: var(--marker_hover_color_tabs);
       }
    }
-   .controls-Tabs__itemClickableArea_markerThickness-s_theme-@{themeName}:hover {
+
+   .controls-Tabs__itemClickableArea_markerThickness-s:hover {
       &:after {
-         height: @marker_hover_thickness-s_tabs;
+         height: var(--marker_hover_thickness-s_tabs);
       }
    }
-   .controls-Tabs__itemClickableArea_markerThickness-l_theme-@{themeName}:hover {
+
+   .controls-Tabs__itemClickableArea_markerThickness-l:hover {
       &:after {
-         height: @marker_hover_thickness-l_tabs;
+         height: var(--marker_hover_thickness-l_tabs);
       }
    }
-   .controls-Tabs__item_state_default_theme_@{themeName}:hover {
-      color: @unselected_item_hover_text-color_tabs;
+
+   .controls-Tabs__item_state_default:hover {
+      color: var(--unselected_item_hover_text-color_tabs);
    }
 }
-.controls-Tabs__item_state_selected_theme_@{themeName} {
-   font-weight: @item_selected_font-weight_tabs;
-   font-size: @secondary_item_font-size_tabs;
+
+.controls-Tabs__item_state_selected {
+   font-weight: var(--item_selected_font-weight_tabs);
+   font-size: var(--secondary_item_font-size_tabs);
 }
-.controls-Tabs__item_align_left_theme_@{themeName} {
-   margin-left: -@border-thickness_tabs + @item_offset_tabs;
+
+.controls-Tabs__item_align_left {
+   margin-left: calc(var(--border-thickness_tabs) + var(--item_offset_tabs) - var(--border-thickness_tabs));
 }
-.controls-Tabs__item_align_right_theme_@{themeName} {
-   margin-right: -@border-thickness_tabs + @item_offset_tabs;
+
+.controls-Tabs__item_align_right {
+   margin-right: calc(var(--item_offset_tabs) - var(--border-thickness_tabs));
 }
-.controls-Tabs__item_extreme_theme_@{themeName} {
-   margin-right:0;
+
+.controls-Tabs__item_extreme {
+   margin-right: 0;
    margin-left: 0;
 }
-.controls-Tabs__item_extreme_first_theme_@{themeName} {
-   margin-right: @padding-horizontal_tabs + @border-thickness_tabs;
-   margin-left: @padding-horizontal_tabs;
+
+.controls-Tabs__item_extreme_first {
+   margin-right: calc(var(--padding-horizontal_tabs) + var(--border-thickness_tabs));
+   margin-left: var(--padding-horizontal_tabs);
 }
-.controls-Tabs__item_extreme_last_theme_@{themeName} {
-   margin-right: @padding-horizontal_tabs;
-   margin-left: @padding-horizontal_tabs + @border-thickness_tabs;
+
+.controls-Tabs__item_extreme_last {
+   margin-right: var(--padding-horizontal_tabs);
+   margin-left: calc(var(--padding-horizontal_tabs) + var(--border-thickness_tabs));
 }
-.controls-Tabs__item_default_theme_@{themeName} {
-   margin: 0 @padding-horizontal_tabs + @border-thickness_tabs;
+
+.controls-Tabs__item_default {
+   margin: 0 calc(var(--padding-horizontal_tabs) + var(--border-thickness_tabs));
 }
-.controls-Tabs_style_primary__item_state_selected_theme_@{themeName} {
-   color: @primary_item_text-color_tabs;
+
+.controls-Tabs_style_primary__item_state_selected {
+   color: var(--primary_item_text-color_tabs);
+
    &:after {
-      background: @primary_marker_color_tabs;
+      background: var(--primary_marker_color_tabs);
    }
 }
 
-.controls-Tabs_style_unaccented__item_state_selected_theme_@{themeName} {
-   color: @unaccented_item_text-color_tabs;
+.controls-Tabs_style_unaccented__item_state_selected {
+   color: var(--unaccented_item_text-color_tabs);
+
    &:after {
-      background: @unaccented_marker_color_tabs;
+      background: var(--unaccented_marker_color_tabs);
    }
 }
 
-.controls-Tabs_style_secondary__item_state_selected_theme_@{themeName} {
-   color: @secondary_item_text-color_tabs;
+.controls-Tabs_style_secondary__item_state_selected {
+   color: var(--secondary_item_text-color_tabs);
+
    &:after {
-      background: @secondary_marker_color_tabs;
+      background: var(--secondary_marker_color_tabs);
    }
 }
+
 .controls-Tabs__item_overflow {
    overflow: hidden;
    text-overflow: ellipsis;
@@ -245,35 +268,43 @@
    white-space: nowrap;
    height: 100%;
 }
+
 //TODO: удалить этот стиль для фото над табами оп задаче https://online.sbis.ru/opendoc.html?guid=c54eee1c-0578-4047-b3e8-666f078a3ae8
-.controls-Tabs__item_type_photo_theme_@{themeName} {
+.controls-Tabs__item_type_photo {
    padding: 0;
    .align-items(flex-end);
+
    &:before {
       content: '';
    }
 }
+
 .controls-Tabs__content_heading {
    font-weight: bold;
-   color: @secondary_text-color_heading;
-   font-size: @font-size_3xl;
+   color: var(--secondary_text-color_heading);
+   font-size: var(--font-size_3xl);
 }
+
 .controls-Tabs__content_heading_state_selected {
    font-weight: bold;
-   color: @primary_text-color_heading;
-   font-size: @font-size_3xl;
+   color: var(--primary_text-color_heading);
+   font-size: var(--font-size_3xl);
 }
+
 .controls-Tabs__content_text {
-   color: @text-color;
-   font-size: @font-size_l;
+   color: var(--text-color);
+   font-size: var(--font-size_l);
 }
+
 .controls-Tabs__content_additionaltext {
-   color: @unaccented_text-color;
-   font-size: @font-size_l;
+   color: var(--unaccented_text-color);
+   font-size: var(--font-size_l);
 }
+
 .controls-AdaptiveButtons {
    width: 100%;
 }
+
 .controls-Tabs__overlay {
    position: absolute;
    left: 0;
@@ -281,27 +312,32 @@
    right: 0;
    bottom: 0;
 }
+
 .controls-AdaptiveButtons__more {
    display: inline-flex;
-   color: @link_text-color;
+   color: var(--link_text-color);
    cursor: pointer;
    align-items: baseline;
    flex-shrink: 0;
 }
+
 .controls-AdaptiveButtons__more:hover {
-   color: @link_hover_text-color;
+   color: var(--link_hover_text-color);
    text-decoration: underline;
 }
+
 .controls-AdaptiveButtons__item {
    min-width: 26px;
 }
+
 .controls-AdaptiveButtons__more_align_right {
-   margin-right: @offset_xs;
-}
-.controls-AdaptiveButtons__more_align_left {
-   margin-left: @offset_xs;
+   margin-right: var(--offset_xs);
 }
 
-.tempFix_1180388539.controls-Tabs_theme_@{themeName}:after {
+.controls-AdaptiveButtons__more_align_left {
+   margin-left: var(--offset_xs);
+}
+
+.tempFix_1180388539.controls-Tabs:after {
    height: 3px;
 }

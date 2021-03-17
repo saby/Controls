@@ -1,6 +1,6 @@
 define(
-   ['Controls/suggestPopup', 'Env/Env', 'Types/entity', 'Types/collection', 'Controls/dataSource', 'Types/source'],
-   function(suggestPopup, Env, entity, collection, dataSource, sourceLib) {
+   ['Controls/suggestPopup', 'Controls/_suggestPopup/List', 'Env/Env', 'Types/entity', 'Types/collection', 'Controls/dataSource', 'Types/source'],
+   function(suggestPopup, SuggestPopupListContainer, Env, entity, collection, dataSource, sourceLib) {
 
       'use strict';
 
@@ -25,19 +25,15 @@ define(
 
       describe('Controls.Container.Suggest.List', function() {
          describe('_beforeUpdate', function() {
-            var suggestList = new suggestPopup.ListContainer();
-            var contextObject = {
-               suggestOptionsField: {
-                  options: {
-                     tabsSelectedKey: null
-                  }
+            var suggestList = new SuggestPopupListContainer();
+            var optionsObject = {
+               _suggestListOptions: {
+                  tabsSelectedKey: null
                }
             };
-            var contextObjectWithNewKey = {
-               suggestOptionsField: {
-                  options: {
-                     tabsSelectedKey: 'test'
-                  }
+            var optionsObjectWithNewKey = {
+               _suggestListOptions: {
+                  tabsSelectedKey: 'test'
                }
             };
 
@@ -54,14 +50,14 @@ define(
             };
 
             it('default', function() {
-               suggestList._beforeUpdate({}, contextObject);
+               suggestList._beforeUpdate(optionsObject);
 
                assert.isFalse(eventFired);
                assert.equal(tab, null);
             });
 
             it('with new tab key', function() {
-               suggestList._beforeUpdate({}, contextObjectWithNewKey);
+               suggestList._beforeUpdate(optionsObjectWithNewKey);
 
                assert.isTrue(eventFired);
                assert.equal(tab, 'test');
@@ -70,27 +66,25 @@ define(
 
          describe('_beforeMount', () => {
             it('items from sourceController is saved on beforeMount', () => {
-               const suggestList = new suggestPopup.ListContainer();
+               const suggestList = new SuggestPopupListContainer();
                const sourceController = new dataSource.NewSourceController({
                   source: new sourceLib.Memory()
                });
                sourceController.setItems(getSuggestItems());
 
-               const contextObject = {
-                  suggestOptionsField: {
-                     options: {
-                        sourceController
-                     }
+               const optionsObject = {
+                  _suggestListOptions: {
+                     sourceController
                   }
                };
 
-               suggestList._beforeMount({}, contextObject);
+               suggestList._beforeMount(optionsObject);
                assert.deepStrictEqual(suggestList._items.getRawData(), getSuggestItems().getRawData());
             });
          });
 
          it('_tabsSelectedKeyChanged', function() {
-            var suggestList = new suggestPopup.ListContainer();
+            var suggestList = new SuggestPopupListContainer();
             var tab = null;
             suggestList._suggestListOptions = {
                tabsSelectedKeyChangedCallback: function(newtab) {
@@ -103,8 +97,8 @@ define(
          });
 
          it('isTabChanged', function() {
-            assert.isTrue(suggestPopup.ListContainer._private.isTabChanged({tabsSelectedKey: 1}, 2));
-            assert.isFalse(suggestPopup.ListContainer._private.isTabChanged({tabsSelectedKey: 1}, 1));
+            assert.isTrue(SuggestPopupListContainer._private.isTabChanged({tabsSelectedKey: 1}, 2));
+            assert.isFalse(SuggestPopupListContainer._private.isTabChanged({tabsSelectedKey: 1}, 1));
          });
 
          it('dispatchEvent', function() {
@@ -116,27 +110,25 @@ define(
                }
             }
 
-            suggestPopup.ListContainer._private.dispatchEvent(container, {keyCode: 'testKeyCode'}, {});
+            SuggestPopupListContainer._private.dispatchEvent(container, {keyCode: 'testKeyCode'}, {});
             assert.isTrue(eventDispatched);
          });
 
          it('getTabKeyFromContext', function() {
             var emptyContext = {};
             var contextWithValue = {
-               suggestOptionsField: {
-                  options: {
-                     tabsSelectedKey: 1
-                  }
+               _suggestListOptions: {
+                  tabsSelectedKey: 1
                }
             };
 
-            assert.equal(suggestPopup.ListContainer._private.getTabKeyFromContext(emptyContext), null);
-            assert.equal(suggestPopup.ListContainer._private.getTabKeyFromContext(contextWithValue), 1);
+            assert.equal(SuggestPopupListContainer._private.getTabKeyFromContext(emptyContext), null);
+            assert.equal(SuggestPopupListContainer._private.getTabKeyFromContext(contextWithValue), 1);
          });
 
          describe('_inputKeydown, markedKey is null', function() {
             var
-               suggestList = new suggestPopup.ListContainer(),
+               suggestList = new SuggestPopupListContainer(),
                domEvent = {
                   nativeEvent: {
                      keyCode: Env.constants.key.up
@@ -173,19 +165,17 @@ define(
          });
 
          it('_private:checkContext', function() {
-            let suggestList = new suggestPopup.ListContainer();
-            let contextObject = {
-               suggestOptionsField: {
-                  options: {
-                     dialogMode: true
-                  }
+            let suggestList = new SuggestPopupListContainer();
+            let optionsObject = {
+               _suggestListOptions: {
+                  dialogMode: true
                }
             };
 
-            suggestPopup.ListContainer._private.checkContext(suggestList, contextObject);
+            SuggestPopupListContainer._private.checkContext(suggestList, optionsObject);
             assert.isTrue(suggestList._navigation === undefined);
 
-            contextObject.suggestOptionsField.options.navigation = {
+            optionsObject._suggestListOptions.navigation = {
                source: 'page',
                view: 'page',
                sourceConfig: {
@@ -204,27 +194,25 @@ define(
                   page: 0
                }
             };
-            suggestPopup.ListContainer._private.checkContext(suggestList, contextObject);
+            SuggestPopupListContainer._private.checkContext(suggestList, optionsObject);
             assert.deepStrictEqual(suggestList._navigation, expectedNavigation);
          });
 
          describe('collectionChange', () => {
 
             it('maxCount navigation', () => {
-               const suggestList = new suggestPopup.ListContainer();
-               const suggestContext = {
-                  suggestOptionsField: {
-                     options: {
-                        navigation: {
-                           view: 'maxCount'
-                        }
+               const suggestList = new SuggestPopupListContainer();
+               const suggestOptions = {
+                  _suggestListOptions: {
+                     navigation: {
+                        view: 'maxCount'
                      }
                   }
                };
                const suggestItems = getSuggestItems();
                const sandbox = sinon.createSandbox();
                const notifyStub = sandbox.stub(suggestList, '_notify');
-               suggestList._beforeMount({}, suggestContext);
+               suggestList._beforeMount(suggestOptions);
                suggestList._itemsReadyCallback(suggestItems);
                assert.isFalse(suggestList._isSuggestListEmpty);
 

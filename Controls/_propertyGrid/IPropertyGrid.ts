@@ -148,7 +148,7 @@ export interface IPropertyGrid {
 
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#groupTemplate
- * @cfg {String|function} Устанавливает шаблон отображения заголовка группы.
+ * @cfg {String|TemplateFunction} Устанавливает шаблон отображения заголовка группы.
  * @default Controls/propertyGrid:GroupTemplate
  * @example
  * Далее показано как изменить параметры шаблона.

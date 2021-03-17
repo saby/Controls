@@ -15,7 +15,7 @@
 
     </ws:if>
     <ws:else>
-        <ws:if data="{{ (gridColumn || itemData).config.tooltip }}">
+        <ws:if data="{{ (gridColumn || itemData).config.tooltipProperty }}">
             <Controls.Container.Async templateName="Controls/popup:InfoboxTarget">
                 <ws:partial template="{{content.resolvedTemplate}}">
                     <ws:content>
@@ -30,11 +30,11 @@
                         </ws:if>
                         <ws:else>
                             <!-- Контент по умолчанию -->
-                            {{ (gridColumn || itemData).getDefaultDisplayValue() }}
+                            <div>{{ (gridColumn || itemData).getDefaultDisplayValue() }}</div>
                         </ws:else>
                     </ws:content>
                     <ws:template>
-                        <div>{{ (gridColumn || itemData).config.tooltip }}</div>
+                        <div>{{ (gridColumn || itemData).getTooltip() }}</div>
                     </ws:template>
                 </ws:partial>
             </Controls.Container.Async>

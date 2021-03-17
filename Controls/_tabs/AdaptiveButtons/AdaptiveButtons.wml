@@ -1,6 +1,6 @@
-<div class="controls-AdaptiveButtons">
+<div class="controls-AdaptiveButtons controls_theme-{{_options.theme}}">
     <ws:template name="templateMore">
-        <div class="controls-AdaptiveButtons__more controls-AdaptiveButtons__more_theme_{{_options.theme}} controls-AdaptiveButtons__more_align_{{_options.align}}" >
+        <div class="controls-AdaptiveButtons__more controls-AdaptiveButtons__more_align_{{_options.align}}" >
             <div class="controls-AdaptiveButtons__more__text controls-AdaptiveButtons__more__text_align_{{_options.align}}">
                 <Controls.dropdown:Selector
                         name="menuButton"

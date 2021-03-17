@@ -271,13 +271,13 @@ var
         },
 
         isFixedCell: function(params) {
-            const { hasMultiSelectColumn, stickyColumnsCount, columnIndex, rowIndex, isHeader, isMultiHeader, endColumn } = params;
+            const { hasMultiSelectColumn, stickyColumnsCount, columnIndex, rowIndex, isHeader, isMultiHeader, endColumn, stickyLadderCellsCount } = params;
             const
-                columnOffset = hasMultiSelectColumn ? 1 : 0;
+                columnOffset = (hasMultiSelectColumn ? 1 : 0) + (stickyLadderCellsCount || 0);
 
             if (isHeader && typeof endColumn !== 'undefined') {
                 // endColumn - конфиг GridLayout, он всегда больше на 1.
-                return endColumn - 1 <= stickyColumnsCount;
+                return endColumn - 1 <= stickyColumnsCount + (stickyLadderCellsCount || 0);
             }
             const isCellIndexLessTheFixedIndex = columnIndex < (stickyColumnsCount + columnOffset);
             if (isMultiHeader !== undefined) {
@@ -294,7 +294,10 @@ var
         // сделаем перерисовку столбцов после установки isColumnScrollVisible
         getHeaderZIndex(params): number {
             if (params.columnScroll) {
-                return _private.isFixedCell(params) ? FIXED_HEADER_ZINDEX : STICKY_HEADER_ZINDEX;
+                // Если есть лесенка, то z-index заголовка стики-колонки надо увеличить на 1
+                return _private.isFixedCell(params) ?
+                    FIXED_HEADER_ZINDEX + (params.stickyLadderCellsCount ? 1 : 0) :
+                    STICKY_HEADER_ZINDEX;
             } else {
                 // Пока в таблице нет горизонтального скролла, шапка ен может быть проскролена по горизонтали.
                 return FIXED_HEADER_ZINDEX;
@@ -524,7 +527,7 @@ var
             return { left, right };
         },
 
-        prepareLadder(self) {
+        prepareLadder(self, silent?: boolean) {
             if (!self.isSupportLadder(self._options.ladderProperties)) {
                 return {};
             }
@@ -539,7 +542,9 @@ var
             // без nextModelVersion не обновляется itemData и возникают ошибки
             // https://online.sbis.ru/opendoc.html?guid=fc64fa58-7cb7-4bca-a691-f2ed2acf648c
             // https://online.sbis.ru/opendoc.html?guid=98a4f247-3efa-4d3a-a83f-8994678ec335
-            self._nextModelVersion();
+            if (!silent) {
+                self._nextModelVersion();
+            }
 
             const hasVirtualScroll = !!self._options.virtualScrolling || Boolean(self._options.virtualScrollConfig);
             const displayStopIndex = self.getDisplay() ? self.getDisplay().getCount() : 0;
@@ -552,7 +557,8 @@ var
                 stopIndex,
                 display: self.getDisplay(),
                 columns: self._columns,
-                stickyColumn: self._options.stickyColumn
+                stickyColumn: self._options.stickyColumn,
+                hasColumnScroll: self._options.columnScroll
             });
             return newLadder;
         },
@@ -1084,6 +1090,7 @@ var
                   isMultiHeader: this._isMultiHeader,
                   hasMultiSelectColumn,
                   stickyColumnsCount: this._options.stickyColumnsCount,
+                  stickyLadderCellsCount: this.stickyLadderCellsCount(),
                    columnScroll: this._options.columnScroll
                });
             }
@@ -1100,7 +1107,8 @@ var
                     isHeader: true,
                     isMultiHeader: this._isMultiHeader,
                     hasMultiSelectColumn,
-                    stickyColumnsCount: this._options.stickyColumnsCount
+                    stickyColumnsCount: this._options.stickyColumnsCount,
+                    stickyLadderCellsCount: this.stickyLadderCellsCount()
                 };
                 cellClasses += _private.getColumnScrollCalculationCellClasses(params, this._options.theme);
                 cellClasses += _private.getColumnScrollCellClasses(params, this._options.theme);
@@ -1429,7 +1437,7 @@ var
 
         _setColumns(columns: IGridColumn[], silent: boolean = false): void {
             this._columns = this._prepareColumns(columns);
-            this._ladder = _private.prepareLadder(this);
+            this._ladder = _private.prepareLadder(this, silent);
             this._prepareResultsColumns(this._columns, this._hasMultiSelectColumn());
             this._prepareColgroupColumns(this._columns, this._hasMultiSelectColumn());
             if (!silent) {
@@ -1957,7 +1965,7 @@ var
                 }
 
                 if (current.columnScroll) {
-                    currentColumn.itemActionsGridCellStyles = ' position: sticky; overflow: visible; display: inline-block; right: 0;';
+                    currentColumn.itemActionsGridCellStyles = ' position: sticky; overflow: visible; display: inline-block; right: 0; z-index: 2;';
                     if (!GridLayoutUtil.isFullGridSupport()) {
                         currentColumn.tableCellStyles = _private.getTableCellStyles(currentColumn);
                     }
@@ -2496,6 +2504,10 @@ var
 
         _hasMultiSelectColumn(): boolean {
             return this._options.multiSelectVisibility !== 'hidden' && this._options.multiSelectPosition === 'default';
+        },
+
+        hasMultiSelectColumn(): boolean {
+            return this._hasMultiSelectColumn();
         },
 
         getEmptyTemplateStyles(): string {

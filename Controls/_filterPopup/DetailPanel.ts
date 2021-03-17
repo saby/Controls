@@ -10,7 +10,6 @@ import {factory, List, RecordSet} from 'Types/collection';
 import {HistoryUtils, FilterUtils, IFilterItem} from 'Controls/filter';
 import {Controller, IValidateResult} from 'Controls/validate';
 import 'Controls/form';
-import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {IFilterDetailPanelOptions, THistorySaveMode} from 'Controls/_filterPopup/interface/IFilterPanel';
 import 'css!Controls/filterPopup';
 
@@ -23,7 +22,7 @@ const setPropValue = Utils.object.setPropertyValue.bind(Utils);
  *
  * @remark
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/#step-3 руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/#step-3 руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less переменные тем оформления filter}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления filterPopup}
  *
@@ -160,12 +159,6 @@ class FilterPanel extends Control<IFilterDetailPanelOptions, RecordSet | List<IF
       }
 
       return hasAdditional;
-   }
-
-   protected _getChildContext(): object {
-      return {
-         ScrollData: new ScrollData({pagingVisible: false})
-      };
    }
 
    private _resolveItems(options: IFilterDetailPanelOptions): void {
@@ -349,7 +342,7 @@ export default FilterPanel;
 
 /**
  * @name Controls/_filterPopup/DetailPanel#topTemplate
- * @cfg {String|Function} Шаблон отображения заголовка на Панели фильтров.
+ * @cfg {String|TemplateFunction} Шаблон отображения заголовка на Панели фильтров.
  */
 
 /**

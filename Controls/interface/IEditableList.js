@@ -579,7 +579,7 @@ define('Controls/interface/IEditableList', [
     * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * @function Controls/interface/IEditableList#beginEdit
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры редактирования.
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Перед запуском редактирования по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
     *
@@ -609,7 +609,7 @@ define('Controls/interface/IEditableList', [
     * Starts editing.
     * @function Controls/interface/IEditableList#beginEdit
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Options of editing.
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Use this method in situations when you want to start editing from an unusual location, e.g., from item actions.
     * @example
@@ -635,7 +635,7 @@ define('Controls/interface/IEditableList', [
     * Запускает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ добавление по месту}.
     * @function Controls/interface/IEditableList#beginAdd
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Параметры добавления.
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Перед запуском добавления по месту происходит событие {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}, а после запуска — {@link Controls/interface/IEditableList#afterBeginEdit afterBeginEdit}.
     *
@@ -670,7 +670,7 @@ define('Controls/interface/IEditableList', [
     * Starts adding.
     * @function Controls/interface/IEditableList#beginAdd
     * @param {Controls/interface/IEditableList/ItemEditOptions.typedef} options Options of adding.
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * If you don't pass the options then {@link Types/source:ICrud#create create} method of the list's source will be called and the result will be added to the list.
     * @example
@@ -693,7 +693,7 @@ define('Controls/interface/IEditableList', [
    /**
     * Завершает {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} с сохранением введенных данных.
     * @function Controls/interface/IEditableList#commitEdit
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя, например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
     * @example
@@ -716,7 +716,7 @@ define('Controls/interface/IEditableList', [
    /*
     * Ends editing and commits changes.
     * @function Controls/interface/IEditableList#commitEdit
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Use this method when you want to end editing in response to user action, e.g., when a user tries to close a dialog you'd use this method to save changes.
     * @example
@@ -739,7 +739,7 @@ define('Controls/interface/IEditableList', [
    /**
     * Завершает{@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование/добавление по месту} без сохранения введенных данных.
     * @function Controls/interface/IEditableList#cancelEdit
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Используйте этот метод, когда вы хотите завершить редактирование или добавление в ответ на действия пользователя, например, когда пользователь нажимает на кнопку "Отмена".
     * @example
@@ -762,7 +762,7 @@ define('Controls/interface/IEditableList', [
    /*
     * Ends editing and discards changes.
     * @function Controls/interface/IEditableList#cancelEdit
-    * @returns {Core/Deferred}
+    * @returns {Promise}
     * @remark
     * Use this method when you want to end editing in response to user action, e.g., when a user clicks on a 'Cancel' button.
     * @example

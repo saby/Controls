@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_filterPanelPopup/Stack';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 /**
  * Шаблон стекового окна для панели фильтра.
@@ -17,6 +18,10 @@ import * as template from 'wml!Controls/_filterPanelPopup/Stack';
 
 export default class Stack extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+
+    protected _collapsedGroupsChanged(event: SyntheticEvent, collapsedFilters: string[]|number[]): void {
+        this._notify('sendResult', [{action: 'collapsedFiltersChanged', collapsedFilters}], {bubbling: true});
+    }
 
     static _theme: string[] = ['Controls/filterPanelPopup'];
 }

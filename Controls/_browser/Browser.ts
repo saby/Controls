@@ -146,14 +146,15 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             return this._dataLoader.load<ILoadDataResult>().then(([result]) => {
                 this._updateFilterAndFilterItems();
                 this._defineShadowVisibility(result.data);
-                this._updateContext(result.sourceController.getState());
 
                 if (result.data) {
+                    this._setItemsAndUpdateContext(result.data as RecordSet);
                     return {
                         filterItems: (result.filterController && result.filterController.getFilterButtonItems()) || [],
                         items: result.data
                     };
                 } else {
+                    this._updateContext(result.sourceController.getState());
                     return result.error;
                 }
             });
@@ -284,7 +285,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             }
         }
 
-        if (isChanged) {
+        if (isChanged && this._source) {
             methodResult = this._reload(newOptions);
         } else if (isChanged) {
             this._afterSourceLoad(sourceController, newOptions);
@@ -406,6 +407,9 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         if (root !== dataRoot && this._searchController) {
             this._updateFilter(this._searchController);
             this._inputSearchValue = '';
+            if (this._options.useStore) {
+                Store.sendCommand('resetSearch');
+            }
         }
     }
 
@@ -614,6 +618,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     protected _search(event: SyntheticEvent, value: string): Promise<Error|RecordSet|void> {
         this._inputSearchValue = value;
         this._loading = true;
+        event?.stopPropagation();
         return this._getSearchController().then((searchController) => {
             return searchController
                 .search(value)
@@ -734,7 +739,9 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             if (this._searchController) {
                 this._searchController.setPath(this._path);
             } else if (this._path) {
-                this._getSearchController().then((searchController) => searchController.setPath(this._path));
+                this._getSearchController()
+                    .then((searchController) => searchController.setPath(this._path))
+                    .catch((error) => error);
             }
         }
 

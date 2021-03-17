@@ -107,6 +107,13 @@ define(
             }, new BaseController());
             element = Manager.find(id);
             element.popupState = 'created';
+            Manager._redrawItems = () => {
+               return {
+                  then: (callback) => {
+                     callback();
+                  }
+               }
+            };
             id = Manager.update(id, {
                testOption: 'updated1'
             });

@@ -1,7 +1,6 @@
 <Controls.Container.Async templateName="Controls/toggle:Checkbox"
                           on:valueChanged="_checkBoxClick()"
                           attr:class="controls-Menu__row-checkbox
-                                      controls-DropdownList__row-checkbox
                                       controls-Menu__row-checkbox-{{checkBoxAlign === 'left' ? 'left' : 'right'}}
                                       controls-Menu__row-checkbox_{{itemData.isEmptyItem ? 'invisible' :
                                       treeItem.isSelected() ? 'active' : 'default'}}">

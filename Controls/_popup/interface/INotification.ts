@@ -30,7 +30,7 @@ export interface INotificationOpener extends IOpener {
  * @description Sets the popup configuration.
  * @property {Boolean} autofocus Определяет, установится ли фокус на шаблон попапа после его открытия.
  * @property {String} className Имена классов, которые будут применены к корневой ноде всплывающего окна.
- * @property {String|Function} template Шаблон всплывающего окна.
+ * @property {String|TemplateFunction} template Шаблон всплывающего окна.
  * @property {Object} templateOptions Опции для контрола, который добавлен в шаблон {@link template}.
  */
 

@@ -89,6 +89,21 @@ describe('Controls/search:ControllerClass', () => {
 
    after(() => sandbox.restore());
 
+   it('searchValue in constructor', () => {
+      let options;
+      let searchControllerClass;
+
+      options = {
+         searchValue: 'testSearchValue'
+      };
+      searchControllerClass = new ControllerClass(options);
+      assert.ok(searchControllerClass.getSearchValue() === 'testSearchValue');
+
+      options = {};
+      searchControllerClass = new ControllerClass(options);
+      assert.ok(searchControllerClass.getSearchValue() === '');
+   });
+
    it('search method', () => {
       const filter: QueryWhereExpression<unknown> = {
          testParam: 'testValue',

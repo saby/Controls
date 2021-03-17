@@ -14,9 +14,11 @@
                      item="{{item}}"/>
       </ws:if>
       <ws:else>
-         <div if="{{icon}}" class="controls-Dropdown__icon controls-icon_style-{{item.get('iconStyle') || 'secondary'}}"
+         <div if="{{icon}}" class="controls-Dropdown__icon
+          controls-icon_style-{{item.get('iconStyle') || 'secondary'}}"
               title="{{tooltip}}">
-            <div class="{{iconSize ? 'controls-icon_size-' + iconSize}} {{icon}}"></div>
+            <Controls.icon:Icon iconSize="{{iconSize}}"
+                                icon="{{icon}}" />
          </div>
          <div class="controls-Dropdown__text-wrapper">
             <div if="{{!icon}}" class="controls-Dropdown__text" title="{{tooltip}}">{{text}}</div>

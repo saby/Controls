@@ -3,7 +3,10 @@
       <div class="controls-Dropdown__iconTemplate_wrapper">
          <div if="{{icon}}" class="controls-Dropdown__icon controls-icon_style-{{item.get('iconStyle') || 'secondary'}}
                {{text ? ' controls-Dropdown__icon-rightSpacing'}}"
-              title="{{tooltip || text}}"><div class="{{iconSize ? 'controls-icon_size-' + iconSize}} {{icon}}"></div></div>
+              title="{{tooltip || text}}">
+            <Controls.icon:Icon iconSize="{{iconSize}}"
+                                icon="{{icon}}" />
+         </div>
          <div class="controls-Dropdown__text-wrapper">
             <div class="controls-Dropdown__text" title="{{tooltip}}">{{text}}</div>
          </div>

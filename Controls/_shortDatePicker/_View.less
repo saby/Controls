@@ -404,7 +404,7 @@
 }
 
 .controls-PeriodLiteDialog__fullYear-listElement_theme-@{themeName} {
-   height: @grouping_height_shortDatePicker + @separator_thickness_shortDatePicker;
+   height: @grouping_height_shortDatePicker;
    background-color: @background-color_shortDatePicker;
    color: @grouping_text-color_shortDatePicker;
    padding-left: @quarterly_yearselector_padding-left_shortDatePicker - @item_border-thickness_shortDatePicker;
@@ -414,6 +414,7 @@
 }
 
 .controls-PeriodLiteDialog__fullPicker_theme-@{themeName} {
+   height: @grouping_height_shortDatePicker + @separator_thickness_shortDatePicker;
    &::after {
       border-bottom: solid @separator_thickness_shortDatePicker @separator_color_shortDatePicker;
    }

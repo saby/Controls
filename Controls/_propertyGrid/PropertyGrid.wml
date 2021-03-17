@@ -7,6 +7,7 @@
     listModel="{{_listModel}}"
     collapsedGroups="{{_collapsedGroups}}"
     editingObject="{{_options.editingObject}}"
+    captionPosition="{{_options.captionPosition}}"
     on:groupClick="_groupClick()"
     on:propertyValueChanged="_propertyValueChanged()"
     on:toggleEditor="_toggleEditor()"

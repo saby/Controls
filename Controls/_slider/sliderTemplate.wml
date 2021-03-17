@@ -1,8 +1,8 @@
-<div class="controls-Slider_theme-{{_options.theme}}
-            controls-Slider{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}
-            {{!_options.borderVisible ? (' controls-Slider_' + _options.size + '_withoutBorder-' + _options.direction + '_theme-'+_options.theme)}}">
+<div class="controls-Slider
+            controls-Slider{{_options.readOnly ? '_disabled' : '_enabled'}}
+            {{!_options.borderVisible ? (' controls-Slider_' + _options.size + '_withoutBorder-' + _options.direction)}}">
    <div class="controls-Slider__wrapper controls-Slider__wrapper_{{_options.direction}}
-               {{_options.borderVisible ? ' controls-Slider__withBorder_' + _options.direction + '_theme-'+_options.theme}}"
+               {{_options.borderVisible ? ' controls-Slider__withBorder_' + _options.direction}}"
         on:mousedown="_mouseDownAndTouchStartHandler()"
         on:touchstart="_mouseDownAndTouchStartHandler()"
         on:mousemove="_mouseMoveAndTouchMoveHandler()"
@@ -10,21 +10,21 @@
         on:mouseleave="_mouseLeaveAndTouchEndHandler()"
         on:touchend="_mouseLeaveAndTouchEndHandler()">
       <div class="controls-Slider__mainSlider
-                  controls-Slider__mainSlider_{{_options.size}}_{{_options.direction}}{{_viewMode}}_theme-{{_options.theme}}
-                  controls-Slider__mainSlider_{{_options.size}}__offset_{{_options.borderVisible ? 'withBorder' : 'withoutBorder'}}_{{_options.direction}}_theme-{{_options.theme}}"
+                  controls-Slider__mainSlider_{{_options.size}}_{{_options.direction}}{{_viewMode}}
+                  controls-Slider__mainSlider_{{_options.size}}__offset_{{_options.borderVisible ? 'withBorder' : 'withoutBorder'}}_{{_options.direction}}"
            name="area">
          <ws:for data="key, point in _pointData">
             <ws:if data="{{point.name=='tooltip' && (_tooltipValue || _tooltipValue==0) && !_options.readOnly || point.name!='tooltip'}}">
-               <div class="controls-Slider__point_theme-{{_options.theme}}
-                          controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_theme-{{_options.theme}}
-                          controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_{{_options.direction}}_theme-{{_options.theme}}
-                          controls-Slider__point{{_options.readOnly ? '_disabled' : '_enabled'}}{{_viewMode}}_theme-{{_options.theme}}
-                          {{point.name=='tooltip' ? (_isDrag ? 'controls-Slider__point_hidden controls-Slider__point_hidden_theme-' + _options.theme : 'controls-Slider__point_tooltip controls-Slider__point_tooltip_theme-' + _options.theme)}}"
+               <div class="controls-Slider__point
+                          controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}
+                          controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_{{_options.direction}}
+                          controls-Slider__point{{_options.readOnly ? '_disabled' : '_enabled'}}{{_viewMode}}
+                          {{point.name=='tooltip' ? (_isDrag ? 'controls-Slider__point_hidden controls-Slider__point_hidden' : 'controls-Slider__point_tooltip controls-Slider__point_tooltip')}}"
                     name="{{point.name}}"
                     style="left: {{_options.direction === 'horizontal' ? point.position + '%'}};
                            bottom: {{_options.direction === 'vertical' ? point.position + '%'}};">
                   <ws:if data="{{point.name=='tooltip' && _options.tooltipVisible && !_options.readOnly && (_tooltipValue || _tooltipValue==0)}}">
-                     <div class="controls-Slider__tooltipValue controls-Slider__tooltipValue_theme-{{_options.theme}} controls-Slider__point{{_options.size === 'm' ? '_big' : '_small'}} controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_tooltipValue_position-{{_options.tooltipPosition}}_theme-{{_options.theme}}">
+                     <div class="controls-Slider__tooltipValue controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_tooltipValue_position-{{_options.tooltipPosition}}">
                         {{_tooltipValue}}
                      </div>
                   </ws:if>
@@ -36,20 +36,18 @@
                                        on:dragstart="_onDragStartHandler()"
                                        on:dragmove="_onDragNDropHandler()"
                                        on:dragend="_onDragNDropHandler()">
-            <div class="controls-Slider__line__wrapper_theme-{{_options.theme}}
-                          controls-Slider__line__wrapper{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}
-                          controls-Slider__line__wrapper_{{_options.size}}_{{_options.direction}}{{_viewMode}}_theme-{{_options.theme}}">
-               <div class="controls-Slider__line_{{_options.direction}}{{_viewMode}}_theme-{{_options.theme}}
-                           controls-Slider__line controls-Slider__line_theme-{{_options.theme}}
-                             controls-Slider__line_{{_options.size}}_{{_options.direction}}{{_viewMode}}_theme-{{_options.theme}}
-                             controls-Slider__line__empty_{{_options.readOnly ? 'disabled' : 'enabled'}}{{_viewMode}}_theme-{{_options.theme}}
+            <div class="controls-Slider__line__wrapper
+                          controls-Slider__line__wrapper{{_options.readOnly ? '_disabled' : '_enabled'}}
+                          controls-Slider__line__wrapper_{{_options.size}}_{{_options.direction}}{{_viewMode}}">
+               <div class="controls-Slider__line_{{_options.direction}}{{_viewMode}} controls-Slider__line
+                             controls-Slider__line_{{_options.size}}_{{_options.direction}}{{_viewMode}}
+                             controls-Slider__line__empty_{{_options.readOnly ? 'disabled' : 'enabled'}}{{_viewMode}}
                              controls-Slider__line__empty">
                </div>
-               <div class="controls-Slider__line_{{_options.direction}}{{_viewMode}}_theme-{{_options.theme}}
-                           controls-Slider__line controls-Slider__line_theme-{{_options.theme}}
-                           controls-Slider__line_{{_options.size}}_{{_options.direction}}{{_viewMode}}_theme-{{_options.theme}}
+               <div class="controls-Slider__line_{{_options.direction}}{{_viewMode}}
+                           controls-Slider__line controls-Slider__line_{{_options.size}}_{{_options.direction}}{{_viewMode}}
                            controls-Slider__line__full
-                           controls-Slider__line__full_{{_options.readOnly ? 'disabled' : 'enabled'}}{{_viewMode}}_theme-{{_options.theme}}"
+                           controls-Slider__line__full_{{_options.readOnly ? 'disabled' : 'enabled'}}{{_viewMode}}"
                     style="left: {{_options.direction === 'horizontal' ? _lineData.position + '%'}};
                         width: {{_options.direction === 'horizontal' ? _lineData.width + '%'}};
                         bottom: {{_options.direction === 'vertical' ? _lineData.position + '%'}};
@@ -66,10 +64,9 @@
    </div>
    <div if="{{_scaleData && !_options.borderVisible}}" class="controls-Slider__scale">
       <ws:for data="key, segment in _scaleData">
-         <span class="controls-Slider__segment controls-Slider__segment_theme-{{_options.theme}}
+         <span class="controls-Slider__segment
                       controls-Slider__segment{{_options.size=='m' ? '_big' : '_small'}}
-                      controls-Slider__segment{{_options.size=='m' ? '_big' : '_small'}}_theme-{{_options.theme}}
-                      controls-Slider__segment{{_options.readOnly ? '_disabled' : '_enabled'}}_theme-{{_options.theme}}">{{segment.value}}</span>
+                      controls-Slider__segment{{_options.readOnly ? '_disabled' : '_enabled'}}">{{segment.value}}</span>
       </ws:for>
    </div>
 </div>

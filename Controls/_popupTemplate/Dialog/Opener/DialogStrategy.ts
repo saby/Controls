@@ -29,7 +29,7 @@ class DialogStrategy {
      * @param containerSizes Popup container sizes
      * @param item Popup configuration
      */
-    getPosition(windowData: IPopupPosition, containerSizes: IPopupSizes, item: IPopupItem): Position {
+    getPosition(windowData: IPopupPosition = {}, containerSizes: IPopupSizes, item: IPopupItem): Position {
         const popupOptions = item.popupOptions;
         const {
             minWidth, maxWidth,

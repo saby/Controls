@@ -799,7 +799,10 @@ class Manager {
 
     private _updatePopupOptions(id: string, item: IPopupItem, oldOptions: IPopupOptions, result: boolean): void {
         if (result) {
+            // Эмулируется поведение при открытии, когда состояние с initializing меняется на created
+            item.controller._beforeUpdateOptions(item);
             this._redrawItems().then(() => {
+                item.controller._afterUpdateOptions(item);
                 ManagerController.getContainer().activatePopup(id);
             });
         } else {

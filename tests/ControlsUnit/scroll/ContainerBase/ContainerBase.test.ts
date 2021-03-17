@@ -629,4 +629,19 @@ describe('Controls/scroll:ContainerBase', () => {
       });
    });
 
+   describe('_lockScrollPositionUntilKeyboardShown', () => {
+      it('should set 0 if scroll state is not initialized', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._lockScrollPositionUntilKeyboardShown();
+         assert.strictEqual(control._scrollLockedPosition, 0);
+      });
+
+      it('should set value from scroll state', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._scrollModel = { scrollTop: 10 }
+         control._lockScrollPositionUntilKeyboardShown();
+         assert.strictEqual(control._scrollLockedPosition, control._scrollModel.scrollTop);
+      });
+   });
+
 });

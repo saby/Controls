@@ -10,9 +10,7 @@ type TMultiSelectVisibility = 'visible'|'onhover'|'hidden';
 type TListStyle = 'master'|'default';
 
 /**
- * Интерфейс для списков.
- *
- * @interface Controls/_list/interface/IList
+ * Интерфейс для {@link /doc/platform/developmentapl/interface-development/controls/list/ списков}.
  * @public
  * @author Авраменко А.С.
  */
@@ -50,7 +48,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#stickyHeader
- * @cfg {Boolean} Закрепляет заголовок списка.
+ * @cfg {Boolean} Прилипание {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ шапки} при прокрутке таблицы.
  * @demo Controls-demo/list_new/Grouped/NoSticky/Index В демо-примере опция stickyHeader установлена в значение false.
  * @demo Controls-demo/list_new/Grouped/Sticky/Index В демо-примере опция stickyHeader установлена в значение true.
  * @default true
@@ -65,7 +63,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#pagingContentTemplate
- * @cfg {Function} Шаблон отображения слева от кнопки навигации. Используется для отображения {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/infinite-scrolling/#button-number счетчика непрочитанных сообщений}.
+ * @cfg {String|TemplateFunction} Шаблон отображения слева от кнопки навигации. Используется для отображения {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/infinite-scrolling/#button-number счетчика непрочитанных сообщений}.
  * @demo Controls-demo/list_new/Navigation/Paging/End/ContentTemplate/Index
  * @see pagingMode
  */
@@ -80,17 +78,18 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#loadingIndicatorTemplate
- * @cfg {string|Function} Определяет шаблон индикатора загрузки данных. В данный момент этот шаблон работает только для индикатора, который отображается при подгрузке по скролу.
+ * @cfg {String|TemplateFunction} Определяет шаблон индикатора загрузки данных. В данный момент этот шаблон работает только для индикатора, который отображается при подгрузке по скролу.
  * @default Controls/list:LoadingIndicatorTemplate
  */
 
 /**
  * @name Controls/_list/interface/IList#continueSearchTemplate
- * @cfg {string|Function} Шаблон отображения блока, который отображается при прерывании {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/portion-loading/#batch-filtration-search итеративного поиска}.
+ * @cfg {String|TemplateFunction} Шаблон отображения блока, который отображается при прерывании {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/portion-loading/#batch-filtration-search итеративного поиска}.
  * @default Controls/list:ContinueSearchTemplate
  * @demo Controls-demo/list_new/Searching/PortionedSearch/Index
  * @example
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.list:View>
  *     <ws:loadingIndicatorTemplate>
  *         <ws:partial template="Controls/list:ContinueSearchTemplate"
@@ -106,11 +105,12 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#emptyTemplate
- * @cfg {Function} Пользовательский шаблон отображения пустого списка.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty-list/ пустого списка}.
  * @demo Controls-demo/list_new/EmptyList/Default/Index
  * @default undefined
  * @example
  * <pre class="brush: html">
+ * <!-- WML -->
  * <Controls.list:View>
  *     <ws:emptyTemplate>
  *         <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
@@ -121,12 +121,11 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * </pre>
  * @remark
  * Пользовательский шаблон получается путем конфигурации базового шаблона {@link Controls/list:EmptyTemplate}.
- * См. {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty-list/ руководство разработчика}.
  */
 
 /*ENG
  * @name Controls/_list/interface/IList#emptyTemplate
- * @cfg {Function} Template for the empty list.
+ * @cfg {TemplateFunction|String} Template for the empty list.
  * @remark
  * We recommend to use default template for emptyTemplate: Controls/list:EmptyTemplate
  * The template accepts the following options:
@@ -148,42 +147,38 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#footerTemplate
- * @cfg {Function} Шаблон отображения подвала списка.
- * @remark
- * См. {@link /doc/platform/developmentapl/interface-development/controls/list/list/footer/ руководство разработчика}.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/footer/ подвала списка}.
  * @demo Controls-demo/list_new/FooterTemplate/Index
  */
 
 /*ENG
  * @name Controls/_list/interface/IList#footerTemplate
- * @cfg {Function} Template that will be rendered below the list.
+ * @cfg {TemplateFunction|String} Template that will be rendered below the list.
  * @demo Controls-demo/list_new/FooterTemplate/Index
  */
 
 /**
  * @name Controls/_list/interface/IList#pagingLeftTemplate
- * @cfg {Function} Шаблон для отображения слева от {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/data-pagination/ постраничной навигации}.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон для отображения слева от {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/data-pagination/ постраничной навигации}.
  * @demo Controls-demo/list_new/Navigation/Paging/LeftTemplate/Index
  * @see pagingRightTemplate
  */
 
 /*ENG
  * @name Controls/_list/interface/IList#pagingLeftTemplate
- * @cfg {Function} Template to display to the left of page navigation.
- * <a href="/materials/Controls-demo/app/Controls-demo%2Flist_new%2FNavigation%2FPaging%2FLeftTemplate%2FIndex">Example</a>.
+ * @cfg {TemplateFunction|String} Template to display to the left of page navigation.
  */
 
 /**
  * @name Controls/_list/interface/IList#pagingRightTemplate
- * @cfg {Function} Шаблон для отображения справа от {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/data-pagination/ постраничной навигации}.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон для отображения справа от {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/data-pagination/ постраничной навигации}.
  * @demo Controls-demo/list_new/Navigation/Paging/Position/RightTemplate/Index
  * @see pagingLeftTemplate
  */
 
 /*ENG
  * @name Controls/_list/interface/IList#pagingRightTemplate
- * @cfg {Function} Template to display to the right of page navigation.
- * <a href="/materials/Controls-demo/app/Controls-demo%2Flist_new%2FNavigation%2FPaging%2FPosition%2FRightTemplate%2FIndex">Example</a>.
+ * @cfg {TemplateFunction|String} Template to display to the right of page navigation.
  */
 
 /**
@@ -220,7 +215,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @typedef {String} MultiSelectPosition
  * @description Допустимые значения для опции {@link multiSelectPosition}.
- * @variant custom Позиционирование чекбокса в произвольном месте пользовательского шаблона. Подробнее читайте {@link здесь}.
+ * @variant custom Позиционирование чекбокса в произвольном месте пользовательского шаблона. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/position/ здесь}.
  * @variant default Стандартная позиция чекбоксов множественного выбора в начале строки.
  */
 
@@ -249,6 +244,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 /**
  * @name Controls/_list/interface/IList#multiSelectAccessibilityProperty
  * @cfg {Controls/display:MultiSelectAccessibility} Имя поля записи, в котором хранится состояние видимости {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ чекбокса}.
+ * @remark Подробная настройка функционала описана {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/read-only/ здесь}.
  * @demo Controls-demo/list_new/ItemTemplate/MultiSelectAccessibilityProperty/Index
  * @see multiSelectVisibility
  * @see multiSelectPosition
@@ -333,6 +329,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * }
  * </pre>
  * @see dataLoadCallback
+ * @see dataLoadErrback
  */
 
 /**
@@ -353,11 +350,14 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * }
  * </pre>
  * @see itemsReadyCallback
+ * @see dataLoadErrback
  */
 
 /**
  * @name Controls/_list/interface/IList#dataLoadErrback
  * @cfg {Function} Функция обратного вызова для определения сбоя загрузки данных из источника.
+ * @see itemsReadyCallback
+ * @see dataLoadCallback
  */
 
 /*ENG
@@ -482,7 +482,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 
 /**
- * @event Происходит при свайпе на элементе списка.
+ * @event Происходит при {@link /doc/platform/developmentapl/interface-development/controls/list/actions/swipe/ свайпе} на элементе списка.
  * @name Controls/_list/interface/IList#itemSwipe
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Types/entity:Model} item Экземпляр элемента списка, по которому производим свайп.
@@ -550,12 +550,13 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * Активация происходит при клике по элементу.
  * Событие не происходит, если:
  *
- * * элемент нельзя отметить маркером.
- * * при клике начинается <a href="/doc/platform/developmentapl/interface-development/controls/list/actions/edit/">редактирование по месту</a>.
+ * * элемент нельзя отметить {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркером}.
+ * * при клике начинается {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
  */
 
 /**
  * @typedef {String} VerticalItemPaddingEnum
+ * @description Допустимые значения для свойств {@link Controls/list:IList.ItemPadding ItemPadding}.
  * @variant null Нулевой отступ.
  * @variant s Маленький отступ.
  * @variant l Большой отступ.
@@ -570,6 +571,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @typedef {String} HorizontalItemPaddingEnum
+ * @description Допустимые значения для свойств {@link Controls/list:IList.ItemPadding ItemPadding}.
  * @variant null Нулевой отступ.
  * @variant xs Минимальный отступ.
  * @variant s Маленький отступ.
@@ -592,6 +594,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @typedef {Object} ItemPadding
+ * @description Свойства для конфигурации опции {@link Controls/list:IList#itemPadding itemPadding}.
  * @property {VerticalItemPaddingEnum} [top=s] Отступ от содержимого до верхней границы элемента. Если свойство принимает значение null, то отступ отсутствует.
  * @property {VerticalItemPaddingEnum} [bottom=s] Отступ от содержимого до нижней границы элемента. Если свойство принимает значение null, то отступ отсутствует.
  * @property {HorizontalItemPaddingEnum} [left=m] Отступ от содержимого до левой границы элемента. Если свойство принимает значение null, то отступ отсутствует.
@@ -611,8 +614,6 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @name Controls/_list/interface/IList#itemPadding
  * @demo Controls-demo/list_new/ItemPadding/DifferentPadding/Index В примере заданы горизонтальные отступы.
  * @demo Controls-demo/list_new/ItemPadding/NoPadding/Index В примере отступы отсутствуют.
- * @remark
- * См. {@link /doc/platform/developmentapl/interface-development/controls/list/list/paddings/ руководство разработчика}.
  */
 
 /*ENG
@@ -623,6 +624,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @typedef {String} BackgroundStyle
+ * @description Допустимые значения для опции {@link Controls/list:IList#backgroundStyle backgroundStyle}.
  * @variant master Предназначен для настройки фона masterDetail (Берётся из свойства style)
  * @variant infoBox Предназначен для настройки фона infoBox.
  * @variant stack Предназначен для настройки фона стековой панели.
@@ -648,6 +650,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  */
 /**
  * @typedef {String} RowSeparatorSize
+ * @description Допустимые значения для опции {@link Controls/list:IList#rowSeparatorSize rowSeparatorSize}.
  * @variant s Размер тонкой линии-разделителя.
  * @variant l Размер толстой линии-разделителя.
  * @variant null Без линии-разделителя.
@@ -674,7 +677,6 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
  * @default default
  * @remark
  * По умолчанию подсветка соответствует @background-color. Поддерживаются любые произвольные значения опции.
- * Подробнее в <a href="/doc/platform/developmentapl/interface-development/controls/list/list/background/#hover">статье</a>.
  * @example
  * <pre class="brush: html; highlight: [5]">
  * <!-- WML -->
@@ -687,6 +689,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @typedef {String} ButtonName
+ * @description Допустимые значения для аргумента события {@link Controls/list:IList#pagingArrowClick pagingArrowClick}.
  * @variant Begin Кнопка "В начало".
  * @variant End Кнопка "В конец".
  */

@@ -4,7 +4,6 @@
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_suggestPopup/List/List');
 import clone = require('Core/core-clone');
-import _SuggestOptionsField = require('Controls/_suggestPopup/_OptionsField');
 import {EventUtils} from 'UI/Events';
 import { constants } from 'Env/Env';
 import {RecordSet} from 'Types/collection';
@@ -14,9 +13,9 @@ import 'css!Controls/suggest';
 const DIALOG_PAGE_SIZE = 25;
 
 const _private = {
-   checkContext(self, context) {
-      if (context && context.suggestOptionsField) {
-         self._suggestListOptions = context.suggestOptionsField.options;
+   checkContext(self, options) {
+      if (options && options._suggestListOptions) {
+         self._suggestListOptions = options._suggestListOptions;
 
          if (!self._layerName && self._suggestListOptions.layerName) {
             self._layerName = self._suggestListOptions.layerName.split('_').pop();
@@ -49,8 +48,8 @@ const _private = {
       return currentTabSelectedKey !== tabKey;
    },
 
-   getTabKeyFromContext(context) {
-      const tabKey = context && context.suggestOptionsField && context.suggestOptionsField.options.tabsSelectedKey;
+   getTabKeyFromContext(options) {
+      const tabKey = options._suggestListOptions?.tabsSelectedKey;
       return tabKey !== undefined ? tabKey : null;
    },
 
@@ -139,12 +138,12 @@ const List = Control.extend({
    _layerName: null,
    _isSuggestListEmpty: false,
 
-   _beforeMount(options, context) {
+   _beforeMount(options) {
       this._collectionChange = this._collectionChange.bind(this);
       this._itemsReadyCallback = this._itemsReadyCallback.bind(this);
 
       const currentReverseList = this._reverseList;
-      _private.checkContext(this, context);
+      _private.checkContext(this, options);
 
       if (this._reverseList !== currentReverseList) {
          if (this._reverseList) {
@@ -162,8 +161,8 @@ const List = Control.extend({
       }
    },
 
-   _beforeUpdate(newOptions, context) {
-      const tabKey = _private.getTabKeyFromContext(context);
+   _beforeUpdate(newOptions) {
+      const tabKey = _private.getTabKeyFromContext(newOptions);
 
       /* Need notify after getting tab from query */
       if (_private.isTabChanged(this._suggestListOptions, tabKey)) {
@@ -171,7 +170,7 @@ const List = Control.extend({
       }
 
       const currentReverseList = this._reverseList;
-      _private.checkContext(this, context);
+      _private.checkContext(this, newOptions);
 
       if (this._reverseList !== currentReverseList) {
          if (this._reverseList) {
@@ -254,12 +253,6 @@ const List = Control.extend({
       return this._notify('markedKeyChanged', [key]);
    }
 });
-
-List.contextTypes = function() {
-   return {
-      suggestOptionsField: _SuggestOptionsField
-   };
-};
 
 List._private = _private;
 

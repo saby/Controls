@@ -96,12 +96,14 @@ var Suggest = Control.extend({
       this._notify('valueChanged', [item.get(this._options.displayProperty || '')]);
    },
 
+   _clearMousedown(event) {
+      event.stopPropagation();
+   },
+
    _clearClick: function() {
       /* move focus to input after clear text, because focus will be lost after hiding cross  */
       this.activate({enableScreenKeyboard: true});
-      if (!this._options.autoDropDown) {
-         this._suggestState = false;
-      }
+      this._suggestState = this._options.autoDropDown;
       this._notify('valueChanged', ['']);
    },
 

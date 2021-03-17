@@ -7,7 +7,7 @@
 
 /**
  * @name Controls/calendar:MonthListMonthTemplate#bodyTemplate
- * @cfg {String|Function} Шаблон отображения месяца
+ * @cfg {String|TemplateFunction} Шаблон отображения месяца
  * @remark
  * В шаблон будет переданы:
  * 

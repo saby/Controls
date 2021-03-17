@@ -4397,4 +4397,38 @@ describe('Controls/_display/Collection', () => {
             assert.equal(display.getVersion(), curVersion);
         });
     });
+
+    describe('hoverBackgroundStyle', () => {
+        it('exists in options', () => {
+            let display = new CollectionDisplay({
+                collection: new RecordSet({
+                    rawData: items,
+                    keyProperty: 'id'
+                }),
+                hoverBackgroundStyle: 'custom'
+            });
+            assert.equal(display.getHoverBackgroundStyle(), 'custom');
+        });
+
+        it('not exists in options', () => {
+            let display = new CollectionDisplay({
+                collection: new RecordSet({
+                    rawData: items,
+                    keyProperty: 'id'
+                })
+            });
+            assert.equal(display.getHoverBackgroundStyle(), 'default');
+        });
+
+        it('not exists in options but exists style in options', () => {
+            let display = new CollectionDisplay({
+                collection: new RecordSet({
+                    rawData: items,
+                    keyProperty: 'id'
+                }),
+                style: 'master'
+            });
+            assert.equal(display.getHoverBackgroundStyle(), 'master');
+        });
+    });
 });

@@ -44,7 +44,9 @@
                <div if="{{_options.value}}"
                     class="controls-SuggestV__clear controls-icon icon-Close"
                     on:click="_clearClick()"
-                    title="{[Очистить]}"></div>
+                    on:mousedown="_clearMousedown()"
+                    title="{[Очистить]}"
+                    attr:ws-no-focus="true"></div>
             </div>
          </ws:if>
          <ws:if data="{{_options.rightFieldTemplate}}">

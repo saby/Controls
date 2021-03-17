@@ -14,6 +14,8 @@ export interface IFilterViewOptions extends IControlOptions {
 
     panelTemplateName: string;
     panelTemplateOptions: unknown;
+
+    useStore: boolean;
 }
 
 /**
@@ -142,7 +144,7 @@ export interface IFilterView {
  * @cfg {String} Шаблон всплывающей панели, которая открывается после клика по кнопке.
  * @remark
  * В качестве шаблона рекомендуется использовать контрол {@link Controls/filterPopup:DetailPanel}
- * Подробнее о настройке панели фильтров читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/ здесь}.
+ * Подробнее о настройке панели фильтров читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/ здесь}.
  * Важно: для ленивой загрузки шаблона в опции укажите путь до контрола.
  * @example
  * Пример настройки параметров для двух фильтров.
@@ -422,7 +424,7 @@ export interface IFilterView {
 
 /**
  * @name Controls/_filter/View/interface/IFilterView#itemTemplate
- * @cfg {String|Function} Устанавливает шаблон отображения фильтров на панели.
+ * @cfg {String|TemplateFunction} Устанавливает шаблон отображения фильтров на панели.
  * @default Controls/filter:ViewItemTemplate
  * @demo Controls-demo/FilterView/ItemTemplates/Index
  * @example

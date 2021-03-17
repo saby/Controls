@@ -1,6 +1,7 @@
-<div class="{{item.get(displayProperty || 'title') ?
-                  'controls-Menu__icon controls-Menu__icon-' + iconAlign}}
-                  controls-icon_style-{{(item.get('readOnly') ? 'readonly' : (item.get('iconStyle') || _options.iconStyle || 'secondary'))}}
-                  controls-icon_size-{{itemData.iconSize || iconPadding || 'm'}}
-                  controls-icon
-                  {{item.get('icon') || 'controls-Menu__icon-invisible'}}"></div>
+<Controls.icon:Icon iconStyle="{{(item.get('readOnly') ? 'readonly' : (item.get('iconStyle') || _options.iconStyle || 'secondary'))}}"
+                    iconSize="{{itemData.iconSize || iconPadding || 'm'}}"
+                    icon="{{item.get('icon')}}"
+                    class="{{item.get(displayProperty || 'title') ?
+                     'controls-Menu__icon controls-Menu__icon-' + iconAlign}}
+                     {{!item.get('icon') ? 'controls-Menu__icon-invisible'}}"
+/>

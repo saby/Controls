@@ -84,8 +84,8 @@ export default class ControllerClass {
          this._sourceController = options.sourceController;
       }
 
-      if (options.hasOwnProperty('searchValue')) {
-         this._searchValue = this._options.searchValue;
+      if (options.searchValue !== undefined) {
+         this._searchValue = options.searchValue;
       }
 
       if (options.root !== undefined) {

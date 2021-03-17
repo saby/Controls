@@ -265,9 +265,9 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     /**
      * Признак, означающий что есть узел с детьми
-     * @private
+     * @protected
      */
-    private _hasNodeWithChildren: boolean;
+    protected _hasNodeWithChildren: boolean;
 
     constructor(options?: IOptions<S, T>) {
         super(validateOptions<S, T>(options));

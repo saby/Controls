@@ -11,7 +11,7 @@ import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
 import {descriptor, Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import {PrefetchProxy, ICrudPlus} from 'Types/source';
+import {PrefetchProxy, ICrudPlus, Query} from 'Types/source';
 import * as mStubs from 'Core/moduleStubs';
 import * as cInstance from 'Core/core-instance';
 import * as Merge from 'Core/core-merge';
@@ -42,6 +42,7 @@ export default class _Controller implements IDropdownController {
    protected _loadItemsTempPromise: Promise<any> = null;
    protected _options: IDropdownControllerOptions = null;
    protected _source: ICrudPlus = null;
+   protected _preloadedItems: RecordSet = null;
    protected _sourceController: SourceController = null;
    private _filter: object;
    private _selectedItems: RecordSet<Model>;
@@ -146,6 +147,7 @@ export default class _Controller implements IDropdownController {
          }
          if (newOptions.lazyItemsLoading && !this._isOpened) {
             /* source changed, items is not actual now */
+            this._preloadedItems = null;
             this._setItems(null);
          } else if (selectedKeysChanged && newKeys.length) {
             return this._reloadSelectedItems(newOptions);
@@ -162,6 +164,7 @@ export default class _Controller implements IDropdownController {
    }
 
    reload(): Promise<RecordSet> {
+      this._preloadedItems = null;
       return this._loadItems(this._options).addCallback((items) => {
          if (items && this._isOpened) {
             this._open();
@@ -169,8 +172,41 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   loadDependencies(): Promise<unknown[]> {
-      const deps = [this._loadMenuTemplates(this._options)];
+   tryPreloadItems(): Promise<void> {
+      let source = this._options.source;
+      if (isHistorySource(source) && source.getOriginSource && source.getOriginSource()) {
+         source = source.getOriginSource();
+      }
+      if (source instanceof PrefetchProxy) {
+         source = source.getOriginal();
+      }
+
+      const sourceController = new SourceController({
+         source,
+         filter: this._options.filter,
+         keyProperty: this._options.keyProperty,
+         navigation: {
+            source: 'page',
+            view: 'pages',
+            sourceConfig: {
+               pageSize: 1,
+               page: 0,
+               limit: 1
+            }
+         }
+      });
+      return sourceController.load('down', null, this._options.filter).then((items) => {
+         if (items instanceof RecordSet && items.getCount() === 1 && !sourceController.hasMoreData('down')) {
+            this._preloadedItems = items;
+         }
+      });
+   }
+
+   loadDependencies(needLoadMenuTemplates: boolean = true): Promise<unknown[]> {
+      const deps = [];
+      if (needLoadMenuTemplates) {
+         deps.push(this._loadMenuTemplates(this._options));
+      }
 
       if (!this._items) {
          deps.push(this._getLoadItemsPromise()
@@ -179,7 +215,7 @@ export default class _Controller implements IDropdownController {
                return Promise.reject(error);
             })
          );
-      } else {
+      } else if (needLoadMenuTemplates) {
          deps.push(this._loadItemsTemplates(this._options));
       }
 
@@ -264,8 +300,11 @@ export default class _Controller implements IDropdownController {
       const openPopup = () => {
          return this._sticky.open(this._getPopupOptions(this._popupOptions));
       };
-
-      return this.loadDependencies().then(
+      if (this._preloadedItems) {
+         this._source = this._options.source;
+         this._resolveLoadedItems(this._options, this._preloadedItems);
+      }
+      return this.loadDependencies(!this._preloadedItems).then(
           () => {
              const count = this._items.getCount();
              if (count > 1 || count === 1 && (this._options.emptyText || this._options.footerContentTemplate)) {

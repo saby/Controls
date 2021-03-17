@@ -95,6 +95,14 @@ describe('Controls/browser:Browser', () => {
                 assert.ok(browser._viewMode === 'table');
             });
 
+            it('items', async () => {
+                let options = getBrowserOptions();
+                const browser = getBrowser(options);
+
+                await browser._beforeMount(options);
+                assert.ok(browser._items.getCount() === 3);
+            });
+
             it('searchValue/inputSearchValue', async () => {
                 let options = getBrowserOptions();
                 const browser = getBrowser(options);
@@ -215,6 +223,12 @@ describe('Controls/browser:Browser', () => {
             describe('search', () => {
                 it('search query returns error', async () => {
                     let dataErrorProcessed = false;
+                    let propagationStopped = false;
+                    let eventMock = {
+                        stopPropagation: () => {
+                            propagationStopped = true;
+                        }
+                    };
                     const options = {...getBrowserOptions(), dataLoadErrback: () => {
                             dataErrorProcessed = true;
                         }
@@ -228,8 +242,9 @@ describe('Controls/browser:Browser', () => {
                         return Promise.reject(error);
                     };
 
-                    await browser._search({}, 'test');
+                    await browser._search(eventMock, 'test');
                     assert.isTrue(dataErrorProcessed);
+                    assert.isTrue(propagationStopped);
                     assert.isFalse(browser._loading);
                     assert.deepStrictEqual(browser._filter, {name: 'test'});
                 });
@@ -252,14 +267,14 @@ describe('Controls/browser:Browser', () => {
                     const browser = getBrowser(browserOptions);
                     await browser._beforeMount(browserOptions);
                     browser.saveOptions(browserOptions);
-                    const searchPromise = browser._search({}, 'test');
+                    const searchPromise = browser._search(null, 'test');
                     assert.ok(browser._loading);
                     await searchPromise;
                     assert.ok(!browser._loading);
                     assert.ok(browser._searchValue === 'test');
 
                     // search with same value
-                    searchPromise = browser._search({}, 'test');
+                    searchPromise = browser._search(null, 'test');
                     assert.ok(browser._loading);
                     await searchPromise;
                     assert.ok(!browser._loading);
@@ -436,7 +451,7 @@ describe('Controls/browser:Browser', () => {
                 await browser._beforeMount(options);
                 browser.saveOptions(options);
 
-                await browser._search({}, 'testSearchValue');
+                await browser._search(null, 'testSearchValue');
                 options.searchValue = 'testSearchValue';
                 browser.saveOptions(options);
                 assert.ok(browser._inputSearchValue === 'testSearchValue');
@@ -553,6 +568,20 @@ describe('Controls/browser:Browser', () => {
             };
             await browser._beforeUpdate(options);
             assert.ok(browser._errorRegister);
+        });
+
+        it('beforeUpdate without source', async () => {
+            let options = getBrowserOptions();
+            const browser = getBrowser();
+
+            await browser._beforeMount(options);
+
+            options = {...options};
+            delete options.source;
+            options.filter = {newFilterField: 'newFilterValue'};
+
+            await browser._beforeUpdate(options);
+            assert.deepStrictEqual(browser._filter, {newFilterField: 'newFilterValue'});
         });
 
         it('if searchValue is empty, then the same field i filter must be reset', async () => {
@@ -692,7 +721,7 @@ describe('Controls/browser:Browser', () => {
            const browser = getBrowser(options);
            await browser._beforeMount(options);
            browser.saveOptions(options);
-           await browser._search({}, 'testSearchValue');
+           await browser._search(null, 'testSearchValue');
 
            browser._handleItemOpen('testRoot', undefined, null);
            assert.ok(!browser._inputSearchValue);

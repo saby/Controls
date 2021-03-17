@@ -10,7 +10,7 @@
                        fontColorStyle="{{_fontColorStyle}}"
                        borderStyle="{{_options.borderStyle}}"
                        validationStatus="{{_options.validationStatus}}"
-                       borderVisibility="visible"
+                       borderVisibility="{{_options.borderVisibility}}"
                        contrastBackground="{{ _options.contrastBackground }}"
                        on:mouseenter="_mouseEnterHandler()"
                        on:tagClick="_notifyHandler('tagClick')"

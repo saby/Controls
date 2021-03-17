@@ -189,14 +189,23 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         return this._container;
     }
 
-    protected _beforeUpdate(options: IStickyHeaderOptions): void {
-        if (!this._isStickyEnabled(options)) {
+    protected _beforeUpdate(options: IStickyHeaderOptions, context): void {
+        // Проверяем именно по старым опциями (this._options), т.к. в случае, если режим прилипания был 'notsticky' и
+        // сменился на любой другой, мы должны заново инициализировать нужные для работы поля.
+        // На beforeUpdate контрол еще не успел перестроится и обсерверы не появились в верстке.
+        // Инициализируем поля на afterUpdate, соотвественно нет смысла что-то обновлять до этого момента.
+        if (!this._isStickyEnabled(this._options)) {
             return;
         }
-        if (options.mode !== this._options.mode && options.mode === MODE.notsticky) {
-            this._release();
+        if (options.mode !== this._options.mode) {
+            if (options.mode === MODE.notsticky) {
+                this._release();
+                return;
+            } else {
+                this._stickyModeChanged(options.mode);
+            }
         }
-        if (options.fixedZIndex !== this._options.fixedZIndex) {
+        if (options.fixedZIndex !== this._options.fixedZIndex || options.offsetTop !== this._options.offsetTop) {
             this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
         }
     }
@@ -230,6 +239,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (this._model) {
             return;
         }
+        this._stickyDestroy = false;
         this._updateComputedStyle();
 
         // После реализации https://online.sbis.ru/opendoc.html?guid=36457ffe-1468-42bf-acc9-851b5aa24033
@@ -260,6 +270,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             //Let the listeners know that the element is no longer fixed before the unmount.
             this._fixationStateChangeHandler('', this._model.fixedPosition);
             this._model.destroy();
+            this._model = null;
         }
         this._stickyDestroy = true;
 
@@ -268,9 +279,13 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             this._observer.disconnect();
         }
 
-        this._observeHandler = undefined;
         this._observer = undefined;
         this._notify('stickyRegister', [{id: this._index}, false], {bubbling: true});
+    }
+
+    private _stickyModeChanged(newMode: MODE): void {
+        this._notify('stickyModeChanged', [this._index, newMode], {bubbling: true});
+        this._updateShadowStyles(newMode, this._options.shadowVisibility);
     }
 
     getOffset(parentElement: HTMLElement, position: POSITION): number {
@@ -310,9 +325,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             if (this._model?.isFixed()) {
                 this._height -= getGapFixSize();
             }
-            this._height += this._options.offsetTop;
         }
         return this._height;
+    }
+
+    get offsetTop(): number {
+        return this._options.offsetTop
     }
 
     get top(): number {

@@ -72,6 +72,24 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
         return classes;
     }
 
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+        let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
+
+        // нужен shouldDisplayMarker именно для всего элемента, т.к. эти стили навешиваются на все ячейки для текста
+        if (this.getOwner().shouldDisplayMarker()) {
+            classes += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
+
+            if (this.isFirstColumn()) {
+                classes += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
+            }
+            if (this.isLastColumn()) {
+                classes += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}_theme-${theme}`;
+            }
+        }
+
+        return classes;
+    }
+
     // region Аспект "Рендер"
     getDefaultDisplayValue(): T {
         const itemModel = this._$owner.getContents();
@@ -81,10 +99,20 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
             return itemModel[this.getDisplayProperty()];
         }
     }
+
+    getTooltip(): string {
+        const itemModel = this._$owner.getContents();
+
+        if (itemModel instanceof Record) {
+            return itemModel.get(this.getTooltipProperty());
+        } else {
+            return itemModel[this.getTooltipProperty()];
+        }
+    }
     // endregion
 
     // region Аспект "Маркер"
-    shouldDisplayMarker(marker: boolean, markerPosition: 'left' | 'right' = 'left'): boolean {
+    shouldDisplayMarker(marker?: boolean, markerPosition: 'left' | 'right' = 'left'): boolean {
         if (markerPosition === 'right') {
             return this._$owner.shouldDisplayMarker(marker) && this.isLastColumn();
         } else {

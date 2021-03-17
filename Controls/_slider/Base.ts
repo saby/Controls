@@ -9,6 +9,7 @@ import {IInterval} from './interface/IInterval';
 import {constants} from 'Env/Env';
 import * as SliderTemplate from 'wml!Controls/_slider/sliderTemplate';
 import * as intervalTemplate from 'wml!Controls/_slider/BaseIntervalTemplate';
+import 'css!Controls/slider';
 
 export interface ISliderBaseOptions extends IControlOptions, ISliderOptions {
    value: number;
@@ -158,8 +159,6 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
       }
    }
 
-   static _theme: string[] = ['Controls/slider'];
-
    static getDefaultOptions(): object {
       return {
          ...{
@@ -224,7 +223,7 @@ Object.defineProperty(Base, 'defaultProps', {
 
 /**
  * @name Controls/_slider/Base#intervalTemplate
- * @cfg {String|Function} Устанавливает шаблон, отображающий интервалы шкалы выбора значения, а также дает возможность задавать точность точек интервалов.
+ * @cfg {String|TemplateFunction} Устанавливает шаблон, отображающий интервалы шкалы выбора значения, а также дает возможность задавать точность точек интервалов.
  * @remark
  * Его рекомендуется использовать в тех случаях, когда используется слайдер с большими выбором значений, и при этом задаются короткие интервалы.
  * В шаблоне можно использовать объект interval, в котором хранятся:

@@ -99,7 +99,7 @@ export default class HorizontalScrollWrapper extends Control<IControlOptions> {
         let lastCellOffset = 1;
         const listModel = options.listModel;
         // Учёт колонки с чекбоксами для выбора записей
-        if (listModel.getMultiSelectVisibility() !== 'hidden') {
+        if (listModel.hasMultiSelectColumn()) {
             offset += 1;
         }
         // Учёт колонки(или колонок) с лесенкой

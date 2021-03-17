@@ -5,7 +5,7 @@
     </svg>
 </ws:if>
 <ws:else>
-    <i class="controls-icon {{_icon}}
+    <div class="controls-icon {{_icon}}
               {{_options.iconSize ? 'controls-icon_size-' + _options.iconSize : ''}}
-              {{_options.iconStyle ? 'controls-icon_style-' + _options.iconStyle : ''}}"/>
+              {{_options.iconStyle ? 'controls-icon_style-' + _options.iconStyle : ''}}"></div>
 </ws:else>

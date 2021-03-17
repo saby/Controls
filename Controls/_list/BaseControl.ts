@@ -75,6 +75,7 @@ import {IEditableListOption} from './interface/IEditableList';
 import {default as ScrollController, IScrollParams} from './ScrollController';
 
 import {groupUtil} from 'Controls/dataSource';
+import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {IDirection} from './interface/IVirtualScroll';
 import {CssClassList} from './resources/utils/CssClassList';
 import {
@@ -708,6 +709,9 @@ const _private = {
             allDataCount = _private.getAllDataCount(self);
             if (typeof loadedDataCount === 'number' && typeof allDataCount === 'number') {
                 self._loadMoreCaption = allDataCount - loadedDataCount;
+                if (self._loadMoreCaption === 0) {
+                    self._shouldDrawFooter = false;
+                }
             } else {
                 self._loadMoreCaption = '...';
             }
@@ -1577,10 +1581,6 @@ const _private = {
                 _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
             }
 
-            if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
-                self._itemActionsMenuId) {
-                _private.closeItemActionsMenuForActiveItem(self, removedItems);
-            }
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
             }
@@ -1619,6 +1619,14 @@ const _private = {
                     // TODO: уйдет после перехода на новую модель
                     self._scrollController.setIndicesAfterCollectionChange();
                 }
+            }
+
+            // Тут вызывается nextVersion на коллекции, и это приводит к вызову итератора.
+            // Поэтому это должно быть после обработки изменений коллекции scrollController'ом, чтобы итератор
+            // вызывался с актуальными индексами
+            if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
+                self._itemActionsMenuId) {
+                _private.closeItemActionsMenuForActiveItem(self, removedItems);
             }
 
             // Изначально могло не создаться selectionController (не был задан source), но в целом работа с выделением
@@ -2938,7 +2946,8 @@ const _private = {
     prepareMoverControllerOptions(self, options: IList): IMoveControllerOptions {
         const controllerOptions: IMoveControllerOptions = {
             source: options.source,
-            parentProperty: options.parentProperty
+            parentProperty: options.parentProperty,
+            sorting: options.sorting
         };
         if (options.moveDialogTemplate) {
             if (options.moveDialogTemplate.templateName) {
@@ -2966,9 +2975,9 @@ const _private = {
     getMoveTargetItem(self: typeof BaseControl, selectedKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): CrudEntityKey {
         let siblingItem;
         if (position === LOCAL_MOVE_POSITION.Before) {
-            siblingItem = self._listViewModel.getPrevByKey(selectedKey);
+            siblingItem = self._listViewModel.getPrevByKey(selectedKey, true);
         } else {
-            siblingItem = self._listViewModel.getNextByKey(selectedKey);
+            siblingItem = self._listViewModel.getNextByKey(selectedKey, true);
         }
         const siblingKey = siblingItem && siblingItem.getContents && siblingItem.getContents().getKey();
         return siblingKey !== undefined && siblingKey !== null ? siblingKey : null;
@@ -3140,6 +3149,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
     _attachedToNullLoadTopTriggerOffset = ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET;
     _hideTopTrigger = false;
+
     protected _listViewModel = null;
     _viewModelConstructor = null;
 
@@ -3293,7 +3303,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
         if (newOptions.sourceController) {
             this._sourceController = newOptions.sourceController;
-            this._sourceController.updateOptions(newOptions);
             this._sourceController.setDataLoadCallback(this._dataLoadCallback);
             _private.validateSourceControllerOptions(this, newOptions);
         }
@@ -3332,11 +3341,8 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             }
         };
 
-        // Prepare collapsed groups if need.
-        addOperation(() => this._prepareGroups(newOptions));
-
         // Prepare items on mount
-        addOperation((collapsedGroups) => this._prepareItemsOnMount(this, newOptions, receivedState, collapsedGroups));
+        addOperation(() => this._prepareItemsOnMount(this, newOptions, receivedState));
 
         // Try to start initial editing
         addOperation(() => {
@@ -3397,7 +3403,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
     }
 
-    _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}, collapsedGroups): Promise<unknown> | void {
+    _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
         let receivedData = receivedState.data;
         let viewModelConfig = {...newOptions, keyProperty: self._keyProperty};
         let collapsedGroups;
@@ -3408,7 +3414,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
 
         if (collapsedGroups) {
-            viewModelConfig = cMerge(viewModelConfig, {collapsedGroups});
+            viewModelConfig = cMerge(viewModelConfig, {collapsedGroups: collapsedGroups || newOptions.collapsedGroups});
         }
 
         if (newOptions.groupProperty) {
@@ -3480,18 +3486,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         } else {
             _private.createScrollController(self, newOptions);
         }
-    }
-
-    _prepareGroups(newOptions, callback?: (...args: unknown[]) => unknown): Promise<TCollapsedGroups> | unknown {
-        let result = null;
-        if (newOptions.historyIdCollapsedGroups || newOptions.groupHistoryId) {
-            result = (this._sourceController && this._sourceController.getCollapsedGroups()) ||
-                      newOptions.collapsedGroups;
-        } else if (newOptions.collapsedGroups) {
-            result = newOptions.collapsedGroups;
-        }
-
-        return (callback && callback(result)) || result;
     }
 
     _initKeyProperty(options): void {
@@ -3582,6 +3576,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         this._scrollController?.setTriggerVisibility(direction, state);
         if (state) {
             this.handleTriggerVisible(direction);
+        }
+        if (detection.isMobilePlatform) {
+            _private.initPaging(this);
         }
     }
 
@@ -4036,7 +4033,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             || newOptions.markerVisibility === 'onactivated' && newOptions.markedKey !== undefined || this._modelRecreated;
 
         // Если будет выполнена перезагрузка, то мы на событие reset применим новый ключ
-        if (shouldProcessMarker && !needReload) {
+        if (shouldProcessMarker && !needReload && !isSourceControllerLoadingNow) {
             const markerController = _private.getMarkerController(this, newOptions);
             // могут скрыть маркер и занового показать, тогда markedKey из опций нужно проставить даже если он не изменился
             if (this._options.markedKey !== newOptions.markedKey || this._options.markerVisibility === 'hidden' && newOptions.markerVisibility === 'visible' && newOptions.markedKey !== undefined) {
@@ -4096,7 +4093,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
         if (newOptions.searchValue || this._loadedBySourceController) {
             const isPortionedLoad = _private.isPortionedLoad(this);
-            const hasMoreData = this._hasMoreData(this._sourceController, 'down');
+            const hasMoreData = _private.hasMoreDataInAnyDirection(this, this._sourceController);
             const isSearchReturnsEmptyResult = this._items && !this._items.getCount();
             const needCheckLoadToDirection =
                 hasMoreData &&
@@ -4133,11 +4130,13 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 }
             });
             if (!isEqual(newOptions.groupHistoryId, this._options.groupHistoryId)) {
-                this._prepareGroups(newOptions, (collapsedGroups) => {
-                    if (self._listViewModel) {
-                        self._listViewModel.setCollapsedGroups(collapsedGroups ? collapsedGroups : []);
-                    }
-                });
+                if (self._listViewModel) {
+                    self._listViewModel.setCollapsedGroups(
+                        this._sourceController.getCollapsedGroups() ||
+                        newOptions.collapsedGroups ||
+                        []
+                    );
+                }
             }
         }
         // Если поменялись ItemActions, то закрываем свайп
@@ -4463,9 +4462,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                              [paramsToRestoreScroll.heightDifference, paramsToRestoreScroll.direction, correctingHeight],
                              {bubbling: true});
             }
-
-            let needCheckTriggers = this._scrollController.continueScrollToItemIfNeed() ||
-                this._scrollController.completeVirtualScrollIfNeed() || paramsToRestoreScroll;
+            const scrollToItemContinued = this._scrollController.continueScrollToItemIfNeed();
+            const virtualScrollCompleted = this._scrollController.completeVirtualScrollIfNeed();
+            const needCheckTriggers = scrollToItemContinued || virtualScrollCompleted || paramsToRestoreScroll;
 
             // Для корректного отображения скроллбара во время использования виртуального скролла
             // необходимо, чтобы события 'restoreScrollPosition' и 'updatePlaceholdersSize'
@@ -4588,9 +4587,14 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             this._notify('drawItems');
             this._shouldNotifyOnDrawItems = false;
             this._itemsChanged = false;
-            if (this._doAfterDrawItems) {
-                this._doAfterDrawItems();
-            }
+            this._onDrawItems();
+        }
+    }
+
+    protected _onDrawItems() {
+        if (this._doAfterDrawItems) {
+            this._doAfterDrawItems();
+            this._doAfterDrawItems = null;
         }
     }
 
