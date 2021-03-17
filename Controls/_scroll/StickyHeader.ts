@@ -197,7 +197,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (options.mode !== this._options.mode && options.mode === MODE.notsticky) {
             this._release();
         }
-        if (options.fixedZIndex !== this._options.fixedZIndex) {
+        if (options.fixedZIndex !== this._options.fixedZIndex || options.offsetTop !== this._options.offsetTop) {
             this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
         }
     }
@@ -311,9 +311,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             if (this._model?.isFixed()) {
                 this._height -= getGapFixSize();
             }
-            this._height += this._options.offsetTop;
         }
         return this._height;
+    }
+
+    get offsetTop(): number {
+        return this._options.offsetTop
     }
 
     get top(): number {
