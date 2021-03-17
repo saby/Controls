@@ -14,6 +14,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
+import {create as DiCreate} from 'Types/di';
 import {groupConstants as constView} from 'Controls/list';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {TouchContextField} from 'Controls/context';
@@ -29,6 +30,11 @@ interface IMenuPosition {
     left: number;
     top: number;
     height: number;
+}
+
+interface ISourcePropertyConfig {
+    moduleName: string;
+    options: object;
 }
 
 const SUB_DROPDOWN_DELAY = 400;
@@ -882,10 +888,13 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     private _getTemplateOptions(item: CollectionItem<Model>): object {
         const root: TKey = item.getContents().get(this._options.keyProperty);
         const isLoadedChildItems = this._isLoadedChildItems(root);
+        const sourcePropertyConfig = item.getContents().get(this._options.sourceProperty);
+        const dataLoadCallback = !isLoadedChildItems &&
+        !sourcePropertyConfig ? this._subMenuDataLoadCallback.bind(this) : null;
         const subMenuOptions: object = {
-            root,
+            root: sourcePropertyConfig ? null : root,
             bodyContentTemplate: 'Controls/_menu/Control',
-            dataLoadCallback: !isLoadedChildItems ? this._subMenuDataLoadCallback.bind(this) : null,
+            dataLoadCallback,
             footerContentTemplate: this._options.nodeFooterTemplate,
             footerItemData: {
                 key: root,
@@ -900,7 +909,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             additionalProperty: null,
             searchParam: null,
             itemPadding: null,
-            source: this._getSourceSubMenu(isLoadedChildItems),
+            source: this._getSourceSubMenu(isLoadedChildItems, sourcePropertyConfig),
             subMenuLevel: this._options.subMenuLevel ? this._options.subMenuLevel + 1 : 1,
             iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
         };
@@ -908,7 +917,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return {...this._options, ...subMenuOptions};
     }
 
-    private _getSourceSubMenu(isLoadedChildItems: boolean): ICrudPlus {
+    private _getSourceSubMenu(isLoadedChildItems: boolean, sourcePropertyConfig: ISourcePropertyConfig): ICrudPlus {
         let source: ICrudPlus = this._options.source;
 
         if (isLoadedChildItems) {
@@ -918,8 +927,14 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                     query: this._listModel.getCollection()
                 }
             });
+        } else if (sourcePropertyConfig) {
+            source = this._createMenuSource(sourcePropertyConfig);
         }
         return source;
+    }
+
+    private _createMenuSource(sourceConfig: ISourcePropertyConfig): ICrudPlus {
+        return DiCreate(sourceConfig.moduleName, sourceConfig.options);
     }
 
     private _isLoadedChildItems(root: TKey): boolean {

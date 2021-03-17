@@ -578,6 +578,26 @@ define(
             assert.deepEqual(resultOptions, expectedOptions);
          });
 
+         it('getTemplateOptions sourceProperty', function() {
+            let actualConfig;
+            let menuControl = getMenu();
+            menuControl._options.sourceProperty = 'source';
+            menuControl._listModel = getListModel();
+            const item = new display.CollectionItem({
+               contents: new entity.Model({
+                  rawData: {
+                     source: 'testSource'
+                  }
+               })
+            });
+            menuControl._getSourceSubMenu = (isLoadedChildItems, config) => {
+               actualConfig = config;
+            };
+
+            menuControl._getTemplateOptions(item);
+            assert.equal(actualConfig, 'testSource');
+         });
+
          it('isSelectedKeysChanged', function() {
             let menuControl = getMenu();
             let initKeys = [];

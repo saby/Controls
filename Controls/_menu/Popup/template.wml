@@ -83,6 +83,7 @@
                        filter="{{filter || _options.filter}}"
                        parentProperty="{{_options.parentProperty}}"
                        nodeProperty="{{_options.nodeProperty}}"
+                       sourceProperty="{{_options.sourceProperty}}"
                        selectedKeys="{{_options.selectedKeys}}"
                        itemTemplateProperty="{{_options.itemTemplateProperty}}"
                        itemTemplate="{{_options.itemTemplate}}"
