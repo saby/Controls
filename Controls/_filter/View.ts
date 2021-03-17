@@ -235,6 +235,9 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             } else {
                 resultDef = this._loadSelectedItems(this._source, this._configs).then(() => {
                     this._updateText(this._source, this._configs);
+                    if (this._getFilterPopupOpener().isOpened()) {
+                        this.openDetailPanel();
+                    }
                 });
             }
             return resultDef;
