@@ -1,6 +1,7 @@
 <ws:if data="{{ _isStickySupport }}">
    <ws:partial template="{{_options.content}}"
                on:fixed="_fixedHandler()"
+               on:stickyModeChanged="_stickyModeChanged()"
                on:stickyRegister="_stickyRegisterHandler()"/>
 </ws:if>
 <ws:else>
