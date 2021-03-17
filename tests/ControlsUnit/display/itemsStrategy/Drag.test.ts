@@ -7,7 +7,7 @@ import {
 } from 'Controls/display';
 import Drag from 'Controls/_display/itemsStrategy/Drag';
 import { Model } from 'Types/entity';
-import { RecordSet } from 'Types/collection';
+import {IObservable, RecordSet} from 'Types/collection';
 
 describe('Controls/_display/itemsStrategy/Drag', () => {
    function wrapItem<S extends Model = Model, T = CollectionItem>(item: S): T {
@@ -157,6 +157,14 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
       assert.equal(items.length, 2);
       assert.equal(items[0].getContents(), display.getItemBySourceKey(1).getContents());
       assert.equal(items[1].getContents(), display.getItemBySourceKey(3).getContents());
+   });
+
+   it('splice', () => {
+      strategy.splice(0, 1, [], IObservable.ACTION_MOVE);
+      assert.equal(strategy.count, 3);
+
+      strategy.splice(0, 1, [], IObservable.ACTION_REMOVE);
+      assert.equal(strategy.count, 2);
    });
 
    it('drag all items', () => {

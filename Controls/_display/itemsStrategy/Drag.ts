@@ -4,6 +4,7 @@ import { mixin } from 'Types/util';
 import { DestroyableMixin, Model } from 'Types/entity';
 import IItemsStrategy, { IOptions as IItemsStrategyOptions } from '../IItemsStrategy';
 import { IDragPosition } from 'Controls/_display/interface/IDragPosition';
+import {IObservable} from "Types/collection";
 
 type TKey = string|number;
 
@@ -114,16 +115,20 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
         return this.source.getCollectionIndex(index);
     }
 
-    splice(start: number, deleteCount: number, added: S[] = []): T[] {
+    splice(start: number, deleteCount: number, added: S[] = [], action?: string): T[] {
         this._itemsOrder = null;
 
-        // Drag содержит свой список перетаскиваемых элементов, т.к. перетаскиваемая запись - это "призрачная запись"
-        const reallyAdded: T[] = added.map(
-           (contents) => contents instanceof CollectionItem ? contents as any as T : this._createItem(contents)
-        );
-        if (this._items) {
-            this._items.splice(start, deleteCount, ...reallyAdded);
+        // Если метод вызывают по move, то элементы в этой стратегии не нужно перещать, т.к. они здесь уже перемещены
+        if (action !== IObservable.ACTION_MOVE) {
+            // Drag содержит свой список перетаскиваемых элементов, т.к. перетаскиваемая запись - это "призрачная запись"
+            const reallyAdded: T[] = added.map(
+                (contents) => contents instanceof CollectionItem ? contents as any as T : this._createItem(contents)
+            );
+            if (this._items) {
+                this._items.splice(start, deleteCount, ...reallyAdded);
+            }
         }
+
         return this.source.splice(
             start,
             deleteCount,

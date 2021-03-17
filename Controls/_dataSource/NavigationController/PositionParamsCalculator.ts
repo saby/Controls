@@ -84,7 +84,8 @@ class PositionParamsCalculator implements IParamsCalculator {
         list: RecordSet,
         metaMore: object,
         config: IBasePositionSourceConfig,
-        direction?: TNavigationDirection
+        direction?: TNavigationDirection,
+        listForCurrentStore: Model[] = []
     ): IPositionNavigationState  {
         const storeParams = store.getState();
 
@@ -154,13 +155,13 @@ class PositionParamsCalculator implements IParamsCalculator {
 
         } else {
             let edgeElem;
-            if ((list as RecordSet).getCount() && !(metaIterative && metaIterative !== storeParams.iterative)) {
+            if (list.getCount() && !(metaIterative && metaIterative !== storeParams.iterative)) {
                 if (queryDirection !== 'forward') {
-                    edgeElem = (list as RecordSet).at(0);
+                    edgeElem = listForCurrentStore.shift() || list.at(0);
                     store.setBackwardPosition(PositionParamsCalculator._resolvePosition(edgeElem, queryField));
                 }
                 if (queryDirection !== 'backward') {
-                    edgeElem = (list as RecordSet).at((list as RecordSet).getCount() - 1);
+                    edgeElem = listForCurrentStore.pop() || list.at(list.getCount() - 1);
                     store.setForwardPosition(PositionParamsCalculator._resolvePosition(edgeElem, queryField));
                 }
             } else {
