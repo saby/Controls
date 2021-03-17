@@ -195,7 +195,7 @@ export default class _Controller implements IDropdownController {
             }
          }
       });
-      return sourceController.load('down', null, this._options.filter).then((items) => {
+      return sourceController.load().then((items) => {
          if (items instanceof RecordSet && items.getCount() === 1 && !sourceController.hasMoreData('down')) {
             this._preloadedItems = items;
          }
