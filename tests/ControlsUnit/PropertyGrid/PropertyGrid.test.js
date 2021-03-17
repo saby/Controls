@@ -14,7 +14,7 @@ define([
    itemActions
 ) {
     describe('Controls/_propertyGrid/PropertyGrid', () => {
-        const ViewInstance = new propertyGridLib.PropertyGrid();
+        let ViewInstance = new propertyGridLib.PropertyGrid();
         let source, editingObject, editors;
         beforeEach(() => {
             source = [
@@ -31,6 +31,10 @@ define([
                 booleanField: Constants.DEFAULT_EDITORS.boolean,
                 stringField1: Constants.DEFAULT_EDITORS.string
             };
+            ViewInstance = new propertyGridLib.PropertyGrid();
+            ViewInstance._beforeMount({source, editingObject});
+            ViewInstance._itemActionsController = new itemActions.Controller();
+            ViewInstance.saveOptions({source, editingObject});
         });
 
         describe('_getCollapsedGroups', () => {
@@ -51,15 +55,19 @@ define([
                 });
                 let resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.get('test'), 2);
+                assert.ok(resultPropertyValue === propertyValue);
+
                 propertyValue = {};
                 resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.test, 2);
+
                 propertyValue = new entity.Model({
                     rawData: {},
                     adapter: 'adapter.sbis'
                 });
                 resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.get('test'), 2);
+                assert.ok(resultPropertyValue === propertyValue);
             });
         });
 
@@ -141,10 +149,6 @@ define([
        });
 
       describe('itemActions', () => {
-         before(() => {
-            ViewInstance._itemActionsController = new itemActions.Controller();
-         });
-
          it('_updateItemActions', () => {
             const options = {
                nodeProperty: '',

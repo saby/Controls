@@ -1,6 +1,7 @@
 <div class="controlsDemo__wrapper">
 <Controls.propertyGrid:PropertyGrid
     bind:editingObject="_editingObject"
+    captionPosition="left"
     source="{{_source}}">
   <ws:groupTemplate>
     <ws:partial template="Controls/propertyGrid:GroupTemplate">
