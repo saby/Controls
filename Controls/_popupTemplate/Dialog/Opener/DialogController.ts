@@ -258,8 +258,8 @@ class DialogController extends BaseController {
             width: 0,
             height: 0
         };
-        let defaultCoordinate: number = -10000;
         this._prepareConfig(item, sizes);
+        let defaultCoordinate: number = -10000;
 
         // Error on ios when position: absolute container is created outside the screen and stretches the page
         // which leads to incorrect positioning due to incorrect coordinates. + on page scroll event firing
@@ -267,6 +267,10 @@ class DialogController extends BaseController {
             defaultCoordinate = 0;
             item.position.invisible = true;
         }
+
+        // Диалог изначально должен позиционироваться вне экрана, если не задана позиция(например из propStorage)
+        item.position[verticalPositionProperty] = item.popupOptions[verticalPositionProperty] || defaultCoordinate;
+        item.position[horizontalPositionProperty] = item.popupOptions[horizontalPositionProperty] || defaultCoordinate;
     }
 
     _hasMaximizePopup(): boolean {
