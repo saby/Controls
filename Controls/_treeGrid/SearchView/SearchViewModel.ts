@@ -1,4 +1,4 @@
-import {SearchItemsUtil} from 'Controls/list';
+import {groupConstants, SearchItemsUtil} from 'Controls/list';
 import {TreeViewModel} from 'Controls/tree';
 import {Record} from 'Types/entity';
 
@@ -16,6 +16,9 @@ var
       getDisplayFilter: function (data, cfg) {
          var
             filter = [];
+         if (cfg.groupingKeyCallback || cfg.groupProperty) {
+             filter.push(this.displayFilterGroups.bind({ collapsedGroups: data.collapsedGroups }));
+         }
          if (cfg.itemsFilterMethod) {
             filter.push(cfg.itemsFilterMethod);
          }
@@ -124,6 +127,12 @@ var
       },
        setBreadcrumbsItemClickCallback(breadcrumbsItemClickCallback): void {
            this._breadcrumbsItemClickCallback = breadcrumbsItemClickCallback;
+       },
+       displayFilterGroups: function(item, index, displayItem) {
+          if (item instanceof Array) {
+              item = item[item.length - 1];
+          }
+          return SearchViewModel.superclass.displayFilterGroups.call(this, item, index, displayItem);
        }
    });
 
