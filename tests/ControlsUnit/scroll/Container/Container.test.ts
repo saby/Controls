@@ -1,4 +1,4 @@
-import {Container} from 'Controls/scroll';
+import Container from 'Controls/_scroll/Container';
 import {compatibility, constants} from 'Env/Env';
 import {SHADOW_VISIBILITY, SHADOW_MODE} from 'Controls/_scroll/Container/Interface/IShadows';
 import {SCROLL_DIRECTION, SCROLL_POSITION} from 'Controls/_scroll/Utils/Scroll';
@@ -360,7 +360,7 @@ describe('Controls/scroll:Container', () => {
                 component._updateState({
                     ...state
                 });
-                component._beforeUpdate({ scrollMode: 'vertical' }, { ScrollData: { pagingVisible: true } });
+                component._beforeUpdate({ scrollMode: 'vertical', pagingVisible: true });
                 assert.include(component._contentWrapperCssClass, 'controls-Scroll__content_paging');
 
                 sinon.restore();

@@ -281,7 +281,7 @@ export default abstract class Row<T> {
     }
 
     getStickyHeaderMode(): string {
-        return 'stackable';
+        return this.isSticked() ? 'stackable' : 'notsticky';
     }
 
     getStickyHeaderPosition(): string {
@@ -508,6 +508,7 @@ export default abstract class Row<T> {
     abstract isEditing(): boolean;
     abstract isSelected(): boolean;
     abstract isDragged(): boolean;
+    abstract isSticked(): boolean;
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
     protected abstract _nextVersion(): void;
 }

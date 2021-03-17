@@ -39,54 +39,56 @@
    </ws:if>
 </ws:template>
 
-<Controls.form:PrimaryAction on:triggered="_applyFilter()">
-    <Controls.popupTemplate:Dialog headingCaption="{{_options.headingCaption}}"
-                                                    headingFontColorStyle="{{_options.headingStyle}}"
-                                                    attr:class="controls_theme-{{_options.theme}} controls-PanelFilter
+<Controls.scroll:ScrollContextProvider pagingVisible="{{ false }}">
+   <Controls.form:PrimaryAction on:triggered="_applyFilter()">
+      <Controls.popupTemplate:Dialog headingCaption="{{_options.headingCaption}}"
+                                     headingFontColorStyle="{{_options.headingStyle}}"
+                                     attr:class="controls_theme-{{_options.theme}} controls-PanelFilter
                                                     controls-FilterPanel__{{_options.orientation}}
                                                     {{_hasHistory || _options.emptyHistoryTemplate ? 'controls-FilterPanel__' + _options.orientation + '_withHistory'}}">
-       <ws:headerContentTemplate>
-          <ws:if data="{{_options.topTemplate}}">
-             <div class="controls-FilterPanel__header-topTemplate">
-                <ws:partial template="{{_options.topTemplate}}"/>
-             </div>
-          </ws:if>
-          <div class="controls-FilterPanel__header__buttons">
-             <ws:if data="{{_hasResetValue && _isChanged}}">
-                <div
-                   class="controls-FilterPanel__resetButton
+         <ws:headerContentTemplate>
+            <ws:if data="{{_options.topTemplate}}">
+               <div class="controls-FilterPanel__header-topTemplate">
+                  <ws:partial template="{{_options.topTemplate}}"/>
+               </div>
+            </ws:if>
+            <div class="controls-FilterPanel__header__buttons">
+               <ws:if data="{{_hasResetValue && _isChanged}}">
+                  <div
+                          class="controls-FilterPanel__resetButton
                           controls-inlineheight-m
                           controls-fontsize-m"
-                   on:click="_resetFilter()"
-                   name="resetButton"
-                   tabindex="-1"
-                   title="{[По умолчанию]}">{[По умолчанию]}
-                </div>
-             </ws:if>
-             <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{{_options.applyButtonCaption}}" on:click="_applyFilter()"
-                              attr:tabindex="1"
-                              attr:ws-autofocus="true"
-                              attr:class="controls-FilterPanel__filterButton"/>
-          </div>
-       </ws:headerContentTemplate>
-       <ws:bodyContentTemplate>
-          <Controls.scroll:Container attr:class="controls-ScrollContainer__flex">
-             <ws:if data="{{_options.orientation === 'horizontal'}}">
-                <div class="controls-FilterPanel__content-horizontal">
-                   <div class="controls-FilterPanel__filtersWrapper
+                          on:click="_resetFilter()"
+                          name="resetButton"
+                          tabindex="-1"
+                          title="{[По умолчанию]}">{[По умолчанию]}
+                  </div>
+               </ws:if>
+               <Controls.buttons:Button viewMode="button" buttonStyle="primary" caption="{{_options.applyButtonCaption}}" on:click="_applyFilter()"
+                                        attr:tabindex="1"
+                                        attr:ws-autofocus="true"
+                                        attr:class="controls-FilterPanel__filterButton"/>
+            </div>
+         </ws:headerContentTemplate>
+         <ws:bodyContentTemplate>
+            <Controls.scroll:Container attr:class="controls-ScrollContainer__flex">
+               <ws:if data="{{_options.orientation === 'horizontal'}}">
+                  <div class="controls-FilterPanel__content-horizontal">
+                     <div class="controls-FilterPanel__filtersWrapper
                     controls-FilterPanel_{{_options.historyId && _historyItems.getCount() ? 'twoColumn' : 'oneColumn'}}__filtersWrapper">
-                      <ws:partial template="filtersContent"/>
-                   </div>
-                   <ws:partial template="history"/>
-                </div>
-             </ws:if>
-             <ws:else>
-                <div class="controls-FilterPanel__content-vertical">
-                    <ws:partial template="filtersContent"/>
-                </div>
-                <ws:partial template="history"/>
-             </ws:else>
-          </Controls.scroll:Container>
-       </ws:bodyContentTemplate>
-    </Controls.popupTemplate:Dialog>
-</Controls.form:PrimaryAction>
+                        <ws:partial template="filtersContent"/>
+                     </div>
+                     <ws:partial template="history"/>
+                  </div>
+               </ws:if>
+               <ws:else>
+                  <div class="controls-FilterPanel__content-vertical">
+                     <ws:partial template="filtersContent"/>
+                  </div>
+                  <ws:partial template="history"/>
+               </ws:else>
+            </Controls.scroll:Container>
+         </ws:bodyContentTemplate>
+      </Controls.popupTemplate:Dialog>
+   </Controls.form:PrimaryAction>
+</Controls.scroll:ScrollContextProvider>
