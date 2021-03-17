@@ -14,6 +14,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from "Types/entity";
 import dateControlsUtils from "./Utils";
 import {Base as dateUtils} from 'Controls/dateUtils';
+import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 
 export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyleOptions {
 }
@@ -78,6 +79,10 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       }
    }
 
+   protected _afterMount(options): void {
+      RegisterUtil(this, 'shiftDateRangePeriod', this._shiftPeriod);
+   }
+
    _beforeUpdate(options: ILinkViewControlOptions): void {
       this._updateResetButtonVisible(options);
       var changed = this._rangeModel.update(options);
@@ -96,6 +101,15 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
 
    _beforeUnmount() {
       this._rangeModel.destroy();
+      UnregisterUtil(this, 'shiftDateRangePeriod');
+   }
+
+   private _shiftPeriod(delta: number): void {
+       if (delta === 1) {
+           this.shiftForward();
+       } else {
+           this.shiftBack();
+       }
    }
 
    shiftBack(): void {

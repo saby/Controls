@@ -1,0 +1,1 @@
+<Controls.buttons:ArrowButton scope="{{ _options }}" on:click="_shiftPeriod()"/>
