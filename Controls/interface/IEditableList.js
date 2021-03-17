@@ -3,7 +3,7 @@ define('Controls/interface/IEditableList', [
 ], function() {
 
    /**
-    * Интерфейс для {@link {@link /doc/platform/developmentapl/interface-development/controls/list/ списков} с возможностью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
+    * Интерфейс для {@link /doc/platform/developmentapl/interface-development/controls/list/ списков} с возможностью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
     *
     * @interface Controls/interface/IEditableList
     * @public
