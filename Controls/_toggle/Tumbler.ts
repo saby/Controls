@@ -1,9 +1,14 @@
-import template = require('wml!Controls/_toggle/Tumbler/Tumbler');
+import * as template from 'wml!Controls/_toggle/Tumbler/Tumbler';
 import {TemplateFunction} from 'UI/Base';
 import {Model} from 'Types/entity';
 import ButtonGroupBase, {IButtonGroupOptions} from 'Controls/_toggle/ButtonGroupBase';
 
 interface IBackgroundPosition {
+    [key: number]: IBackgroundPositionData;
+    isEmpty: boolean;
+}
+
+interface IBackgroundPositionData {
     width: number;
     left: number;
 }
@@ -26,11 +31,11 @@ interface IBackgroundPosition {
 
 class Tumbler extends ButtonGroupBase {
     protected _template: TemplateFunction = template;
-    protected _backgroundPosition: IBackgroundPosition[] = [];
+    protected _backgroundPosition: IBackgroundPosition = {isEmpty: true};
 
     protected _beforeUpdate(newOptions: IButtonGroupOptions): void {
         if (this._options.items !== newOptions.items) {
-            this._backgroundPosition = [];
+            this._backgroundPosition = {isEmpty: true};
         }
     }
 
@@ -43,12 +48,14 @@ class Tumbler extends ButtonGroupBase {
     }
 
     private _setBackgroundPosition(): void {
-        if (this._backgroundPosition.length === 0) {
-            this._options.items.forEach((item: Model, key: number) => {
-                this._backgroundPosition.push({
-                    width: (this._children['TumblerButton' + key] as HTMLDivElement).offsetWidth,
-                    left: (this._children['TumblerButton' + key] as HTMLDivElement).offsetLeft
-                });
+        if (this._backgroundPosition.isEmpty) {
+            this._backgroundPosition = {isEmpty: false};
+            this._options.items.forEach((item: Model, index: number) => {
+                const key = item.get(this._options.keyProperty);
+                this._backgroundPosition[key] = {
+                    width: (this._children['TumblerButton' + index] as HTMLDivElement).offsetWidth,
+                    left: (this._children['TumblerButton' + index] as HTMLDivElement).offsetLeft
+                };
             });
         }
     }
