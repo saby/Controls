@@ -380,7 +380,6 @@ const _private = {
         } else {
             self._attachLoadTopTriggerToNull = false;
         }
-        self._updateScrollController(options);
         return needAttachLoadTopTriggerToNull;
     },
 
@@ -863,6 +862,11 @@ const _private = {
         if (direction === 'down' && this._resetDownTriggerOffset) {
             // после первого запроса остальные запросы нужно загружать заранее
             this._resetDownTriggerOffset = false;
+        }
+
+        if (direction === 'up' && this._resetTopTriggerOffset) {
+            // после первого запроса остальные запросы нужно загружать заранее
+            this._resetTopTriggerOffset = false;
         }
 
         _private.showIndicator(self, direction);
@@ -1712,8 +1716,19 @@ const _private = {
             }
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
-                _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
-                _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                    self._hideTopTrigger = true;
+                    if (!self._resetTopTriggerOffset) {
+                        self._resetTopTriggerOffset = true;
+                        self._updateScrollController(self._options);
+                    }
+                }
+                if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
+                    if (!self._resetDownTriggerOffset) {
+                        self._resetDownTriggerOffset = true;
+                        self._updateScrollController(self._options);
+                    }
+                }
             }
             if (action === IObservable.ACTION_ADD) {
                 // Если добавили элементы в начало, то проверяем верхний триггер, иначе нижний
@@ -3258,6 +3273,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
     _attachedToNullLoadTopTriggerOffset: ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET,
     _hideTopTrigger: false,
+    _resetTopTriggerOffset: false,
     _resetDownTriggerOffset: false,
     _listViewModel: null,
     _viewModelConstructor: null,
@@ -3553,6 +3569,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
                     _private.needAttachLoadTriggerToNull(self, 'up')) {
                     self._hideTopTrigger = true;
+                    self._resetTopTriggerOffset = true;
                 }
                 if (_private.attachLoadDownTriggerToNullIfNeed(self, newOptions)) {
                     self._resetDownTriggerOffset = true;
@@ -3697,7 +3714,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     applyTriggerOffset(offset: {top: number, bottom: number}): void {
         // Устанавливаем напрямую в style, чтобы не ждать и не вызывать лишний цикл синхронизации
         this._children.topVirtualScrollTrigger?.style.top = `${offset.top}px`;
-        this._children.bottomVirtualScrollTrigger?.style.bottom = `${this._resetDownTriggerOffset ? 0 : offset.bottom}px`;
+        this._children.bottomVirtualScrollTrigger?.style.bottom = `${offset.bottom}px`;
     },
     _viewResize(): void {
         if (this._isMounted) {
@@ -3842,6 +3859,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             this._attachLoadTopTriggerToNull = false;
             this._hideTopTrigger = false;
             this._attachLoadDownTriggerToNull = false;
+            this._resetTopTriggerOffset = false;
             this._resetDownTriggerOffset = false;
         }
     },
@@ -3852,7 +3870,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             const result = this._scrollController.update({
                 options: {
                     ...newOptions,
-                    attachLoadTopTriggerToNull: this._attachLoadTopTriggerToNull,
+                    resetTopTriggerOffset: this._resetTopTriggerOffset,
+                    resetDownTriggerOffset: this._resetDownTriggerOffset,
                     forceInitVirtualScroll: newOptions?.navigation?.view === 'infinity',
                     collection: this.getViewModel(),
                     needScrollCalculation: this._needScrollCalculation
@@ -4206,10 +4225,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
 
         if (needReload) {
-            if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
-                _private.needAttachLoadTriggerToNull(this, 'up')) {
-                    this._hideTopTrigger = true;
-            }
             this._scrollPagingCtr = null;
             _private.resetPagingNavigation(this, newOptions.navigation);
             _private.closeActionsMenu(this);
