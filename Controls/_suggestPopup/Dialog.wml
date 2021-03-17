@@ -1,14 +1,16 @@
-<div class="controls_theme-{{_options.theme}} controls-SuggestV__dialog">
-    <Controls.popupTemplate:Stack attr:class="controls-SuggestV__dialog-layout" headingCaption="{[Все записи]}">
-        <ws:bodyContentTemplate>
-            <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-Suggest__dialog-scrollContainer" name="scroll">
-                <ws:content>
-                    <ws:partial template="{{_options.template}}"
-                                scope="{{_options.templateOptions}}"
-                                on:itemClick="_itemClick()"
-                                dialogMode="{{true}}"/>
-                </ws:content>
-            </Controls.scroll:Container>
-        </ws:bodyContentTemplate>
-    </Controls.popupTemplate:Stack>
-</div>
+<Controls.scroll:ScrollContextProvider pagingVisible="{{ false }}">
+    <div class="controls_theme-{{_options.theme}} controls-SuggestV__dialog">
+        <Controls.popupTemplate:Stack attr:class="controls-SuggestV__dialog-layout" headingCaption="{[Все записи]}">
+            <ws:bodyContentTemplate>
+                <Controls.scroll:Container attr:class="controls-ScrollContainer__flex controls-Suggest__dialog-scrollContainer" name="scroll">
+                    <ws:content>
+                        <ws:partial template="{{_options.template}}"
+                                    scope="{{_options.templateOptions}}"
+                                    on:itemClick="_itemClick()"
+                                    dialogMode="{{true}}"/>
+                    </ws:content>
+                </Controls.scroll:Container>
+            </ws:bodyContentTemplate>
+        </Controls.popupTemplate:Stack>
+    </div>
+</Controls.scroll:ScrollContextProvider>

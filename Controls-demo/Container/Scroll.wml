@@ -1,35 +1,37 @@
-<div class="ControlsDemo-wrapper">
-    <div class="controlsDemo_fixedWidth300">
-        <div class="ControlsDemo-options_block">
-            <h3>Options</h3>
-            <div class="ControlsDemo-options_wrapper">
-                <Controls.toggle:Checkbox bind:value="_scrollbarVisible" caption="scrollbarVisible" attr:class="ControlsDemo-scrollbarVisible"/>
-                <Controls.toggle:Checkbox bind:value="_shadowVisible" caption="shadowVisible" attr:class="ControlsDemo-shadowVisible"/>
-            </div>
-
-            <h3>Settings</h3>
-            <div class="ControlsDemo-settings_wrapper">
-                <Controls.input:Label caption="Number of records"/>
-                <Controls.input:Number precision="{{0}}" integersLength="{{3}}" bind:value="_numberOfRecords" attr:class="ControlsDemo-numberOfRecords"/>
-                <Controls.toggle:Switch caption="Activate paging" bind:value="_pagingVisible" attr:class="ControlsDemo-pagingVisible"/>
-            </div>
-        </div>
-
-        <div class="ControlsDemo-example_block">
-            <h2>Scroll</h2>
-            <Controls.scroll:Container attr:class="ControlsDemo-scroll_container"
-                                       scrollbarVisible="{{_scrollbarVisible}}"
-                                       topShadowVisibility="{{shadowVisibility}}"
-                                       bottomShadowVisibility="{{shadowVisibility}}"
-
-                                       optimizeShadow="{{false}}">
-
-                <div>
-                    <ws:for data="index in _numberOfRecords">
-                        <div class="ControlsDemo-record">Record {{index + 1}}</div>
-                    </ws:for>
+<Controls.scroll:ScrollContextProvider pagingVisible="{{ _pagingVisible }}">
+    <div class="ControlsDemo-wrapper">
+        <div class="controlsDemo_fixedWidth300">
+            <div class="ControlsDemo-options_block">
+                <h3>Options</h3>
+                <div class="ControlsDemo-options_wrapper">
+                    <Controls.toggle:Checkbox bind:value="_scrollbarVisible" caption="scrollbarVisible" attr:class="ControlsDemo-scrollbarVisible"/>
+                    <Controls.toggle:Checkbox bind:value="_shadowVisible" caption="shadowVisible" attr:class="ControlsDemo-shadowVisible"/>
                 </div>
-            </Controls.scroll:Container>
+
+                <h3>Settings</h3>
+                <div class="ControlsDemo-settings_wrapper">
+                    <Controls.input:Label caption="Number of records"/>
+                    <Controls.input:Number precision="{{0}}" integersLength="{{3}}" bind:value="_numberOfRecords" attr:class="ControlsDemo-numberOfRecords"/>
+                    <Controls.toggle:Switch caption="Activate paging" bind:value="_pagingVisible" attr:class="ControlsDemo-pagingVisible"/>
+                </div>
+            </div>
+
+            <div class="ControlsDemo-example_block">
+                <h2>Scroll</h2>
+                <Controls.scroll:Container attr:class="ControlsDemo-scroll_container"
+                                           scrollbarVisible="{{_scrollbarVisible}}"
+                                           topShadowVisibility="{{shadowVisibility}}"
+                                           bottomShadowVisibility="{{shadowVisibility}}"
+
+                                           optimizeShadow="{{false}}">
+
+                    <div>
+                        <ws:for data="index in _numberOfRecords">
+                            <div class="ControlsDemo-record">Record {{index + 1}}</div>
+                        </ws:for>
+                    </div>
+                </Controls.scroll:Container>
+            </div>
         </div>
     </div>
-</div>
+</Controls.scroll:ScrollContextProvider>

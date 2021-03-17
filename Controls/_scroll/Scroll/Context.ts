@@ -50,10 +50,24 @@ import DataContext = require('Core/DataContext');
  * @author Красильников А.С.
  *
  */
-const ScrollContext = DataContext.extend({
-   _moduleName: 'Controls/_scroll/Scroll/Context',
-   constructor: function(cfg) {
+class ScrollContext extends DataContext {
+   _moduleName: string;
+   pagingVisible: boolean;
+
+   constructor(cfg: { pagingVisible: boolean }) {
+      super();
       this.pagingVisible = cfg.pagingVisible;
    }
-});
-export = ScrollContext;
+
+   setPagingVisible(pagingVisible: boolean) {
+      this.pagingVisible = pagingVisible;
+      // Core/DataContext написан на js, в итоге с него не цепляются типы
+      // tslint:disable-next-line:ban-ts-ignore
+      // @ts-ignore
+      this.updateConsumers();
+   }
+}
+
+ScrollContext.prototype._moduleName = 'Controls/_scroll/Scroll/Context';
+
+export default ScrollContext;
