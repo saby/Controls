@@ -1719,7 +1719,6 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                    self._hideTopTrigger = true;
                     if (!self._resetTopTriggerOffset) {
                         self._resetTopTriggerOffset = true;
                         self._updateScrollController(self._options);
