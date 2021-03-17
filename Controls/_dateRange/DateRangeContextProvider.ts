@@ -1,19 +1,19 @@
 import {Control, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_dateRange/ButtonsController/ButtonsController';
+import * as template from 'wml!Controls/_dateRange/DateRangeContextProvider/DateRangeContextProvider';
 import DateRangeContext from 'Controls/_dateRange/DateRangeContext';
 
 /**
  * Контрол-обертка для связи выбора периода и кнопок-стрелок, которые будут сдвигать период.
  *
- * @class Controls/_dateRange/ButtonsController
+ * @class Controls/_dateRange/DateRangeContextProvider
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/dateRange/ButtonsController/Index
+ * @demo Controls-demo/dateRange/DateRangeContextProvider/Index
  * @see Controls/_dateRange/ArrowButton
  */
 
 /**
- * @name Controls/_dateRange/ButtonsController#content
+ * @name Controls/_dateRange/DateRangeContextProvider#content
  * @cfg {TemplateFunction} Пользовательский шаблон.
  * @example
  * <pre>
@@ -25,7 +25,7 @@ import DateRangeContext from 'Controls/_dateRange/DateRangeContext';
  * </pre>
  */
 
-export default class ButtonsController extends Control {
+export default class DateRangeContextProvider extends Control {
     protected _template: TemplateFunction = template;
     private _dateRangeContext: DateRangeContext = new DateRangeContext();
 

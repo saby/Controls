@@ -1,1 +1,1 @@
-<Controls._dateRange.DateSelector scope="{{ _options }}" name="dateRange"/>
+<Controls._dateRange.DateSelector scope="{{ _options }}" name="dateRange" register="{{ _register }}"/>

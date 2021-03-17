@@ -30,9 +30,10 @@ import IDateRangeContext from './interfaces/IDateRangeContext';
 
 export default class DateSelectorConsumer extends Control {
     protected _template: TemplateFunction = template;
+    protected _register: Function;
 
-    protected _afterMount(options, context: IDateRangeContext): void {
-        context.DateRangeContext.shiftPeriod = this._children.dateRange.shiftPeriod;
+    protected _beforeMount(options: IControlOptions, context: IDateRangeContext): void {
+        this._register = context.DateRangeContext.setShiftPeriod;
     }
 
     static contextTypes(): object {

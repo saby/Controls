@@ -14,17 +14,16 @@ import IDateRangeContext from './interfaces/IDateRangeContext';
  * @see Controls/_buttons/ArrowButton
  */
 
-export default class ButtonsController extends Control<IArrowButtonOptions> {
+export default class ArrowButtonConsumer extends Control<IArrowButtonOptions> {
     protected _template: TemplateFunction = template;
-    protected _dateRangeContext: DateRangeContext;
+    protected _shiftPeriod: Function;
 
     protected _beforeMount(options: IArrowButtonOptions, context: IDateRangeContext): void {
-        this._dateRangeContext = context.DateRangeContext;
+        this._shiftPeriod = context.DateRangeContext.shiftPeriod;
     }
 
-    protected _clickHandler(): void {
-        const delta = this._options.direction === 'left' ? -1 : 1;
-        this._dateRangeContext.shiftPeriod(delta);
+    protected _beforeUpdate(options: IArrowButtonOptions, context: IDateRangeContext): void {
+        this._shiftPeriod = context.DateRangeContext.shiftPeriod;
     }
 
     static contextTypes(): object {

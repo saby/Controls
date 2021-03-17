@@ -1,1 +1,1 @@
-<Controls.buttons:ArrowButton scope="{{ _options }}" on:click="_clickHandler()"/>
+<Controls._dateRange.ArrowButton scope="{{ _options }}" shiftPeriod="{{ _shiftPeriod }}"/>

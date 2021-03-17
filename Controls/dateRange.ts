@@ -18,7 +18,7 @@ export {default as IPeriodLiteDialog} from './_dateRange/interfaces/IPeriodLiteD
 export {default as ILinkView} from './_dateRange/interfaces/ILinkView';
 export {default as WeekdayFormatter} from './_dateRange/WeekdayFormatter';
 export {default as keyboardPeriodController} from './_dateRange/Utils/keyboardPeriodController';
-export {default as ButtonsController} from './_dateRange/ButtonsController';
+export {default as DateRangeContextProvider} from './_dateRange/DateRangeContextProvider';
 export {default as ArrowButtonConsumer} from './_dateRange/ArrowButtonConsumer';
 export {default as RangeSelectorConsumer} from './_dateRange/RangeSelectorConsumer';
 export {default as DateSelectorConsumer} from './_dateRange/DateSelectorConsumer';

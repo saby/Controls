@@ -5,6 +5,11 @@ export default class DateRangeContext extends DataContext {
     shiftPeriod: Function;
     constructor() {
         super();
+        this.setShiftPeriod = this.setShiftPeriod.bind(this);
+    }
+    setShiftPeriod(shiftPeriod: Function): void {
+        this.shiftPeriod = shiftPeriod;
+        this.updateConsumers();
     }
 }
 
