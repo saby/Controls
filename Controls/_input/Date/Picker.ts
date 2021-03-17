@@ -36,6 +36,7 @@ class Picker extends Control<IControlOptions> {
     _template: TemplateFunction = template;
     _proxyEvent: Function = EventUtils.tmplNotify;
     _shouldValidate: boolean = false;
+    private _state: string;
 
     openPopup(event: SyntheticEvent<MouseEvent>): void {
         let value;
@@ -62,7 +63,8 @@ class Picker extends Control<IControlOptions> {
                 headerType: 'input',
                 closeButtonEnabled: true,
                 ranges: this._options.ranges,
-                startValueValidators: this._options.valueValidators
+                startValueValidators: this._options.valueValidators,
+                state: this._state
             }
         };
         this._children.opener.open(cfg);
@@ -79,21 +81,27 @@ class Picker extends Control<IControlOptions> {
         this._onResult(startValue);
     }
 
-    _onResult(startValue: Date): void {
-        const stringValueConverter = new StringValueConverter({
+    _onResult(startValue: Date, endValue: Date, state: string): void {
+        // В тестах используется метод reloadDemo. Если вызвать этот метод во время того как открыт попап, beforeUnmount
+        // произайдет раньше, чем onResult и кинет ошибку в консоль, т.к. мы пытаемся добавить свойство в задестроенный
+        // контрол.
+        if (!this._destroyed) {
+            this._state = state;
+            const stringValueConverter = new StringValueConverter({
                 mask: this._options.mask,
                 replacer: this._options.replacer,
                 dateConstructor: this._options.dateConstructor
             });
-        const textValue = stringValueConverter.getStringByValue(startValue);
-        this._notify('valueChanged', [startValue, textValue]);
-        this._children.opener.close();
-        this._notify('inputCompleted', [startValue, textValue]);
-        /**
-         * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
-         * Валидация срабатывает раньше, чем значение меняется, поэтому откладываем ее до _afterUpdate
-         */
-        this._shouldValidate = true;
+            const textValue = stringValueConverter.getStringByValue(startValue);
+            this._notify('valueChanged', [startValue, textValue]);
+            this._children.opener?.close();
+            this._notify('inputCompleted', [startValue, textValue]);
+            /**
+             * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
+             * Валидация срабатывает раньше, чем значение меняется, поэтому откладываем ее до _afterUpdate
+             */
+            this._shouldValidate = true;
+        }
     }
 
     static getDefaultOptions(): object {

@@ -57,7 +57,7 @@ export default class BaseSelector<T> extends Control<T> {
     }
 
     closePopup(): void {
-        this._children.opener.close();
+        this._children.opener?.close();
     }
 
     openPopup(): void {
