@@ -48,7 +48,7 @@
    <ws:footerTemplate>
       <ws:if data="{{_options.footerTemplate}}">
          <ws:partial template="{{_options.footerTemplate}}"
-                     attr:class="{{_options.horizontalPadding === "null" ? "" : "controls-Area__footer"}}"/>
+                     attr:class="controls-Area__footer controls-Area__footer_margin-{{_options.horizontalPadding}}"/>
       </ws:if>
    </ws:footerTemplate>
 </Controls._input.Render>
