@@ -6076,7 +6076,8 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
     _updateItemActionsOnItem(event: SyntheticEvent<Event>, itemKey: string | number, itemWidth: number): void {
         event.stopImmediatePropagation();
-        if (this._listViewModel.isActionsAssigned()) {
+        // Если в модели поменялся набор записей до перерисовки контрола, не нужно обрабатывать событие
+        if (this._listViewModel.isActionsAssigned() && !this._itemsChanged) {
             const itemActionsController = _private.getItemActionsController(this);
             itemActionsController.updateItemActions(itemKey, itemWidth);
         }
