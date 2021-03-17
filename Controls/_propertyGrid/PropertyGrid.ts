@@ -172,19 +172,25 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         editingObject: Record<string, any> | Model,
         name: string, value: any
     ): Record<string, any> | Model {
-        const editingObjectClone = object.clone(editingObject);
-        if (editingObjectClone instanceof Model) {
-            if (!editingObjectClone.has(name)) {
+        let resultEditingObject;
+        if (editingObject instanceof Model) {
+            resultEditingObject = editingObject;
+
+            if (!resultEditingObject.has(name)) {
                 const newEditingObject = factory(editingObject).toObject();
                 newEditingObject[name] = value;
-                return Model.fromObject(newEditingObject, editingObjectClone.getAdapter());
-            } else {
-                editingObjectClone.set(name, value);
+                const format = Model.fromObject(newEditingObject, resultEditingObject.getAdapter()).getFormat();
+                resultEditingObject.addField(
+                    format.at(format.getFieldIndex(name))
+                );
             }
+            resultEditingObject.set(name, value);
+            this._listModel.setEditingObject(resultEditingObject);
         } else {
-            editingObjectClone[name] = value;
+            resultEditingObject = object.clone(editingObject);
+            resultEditingObject[name] = value;
         }
-        return editingObjectClone;
+        return resultEditingObject;
     }
 
     protected _propertyValueChanged(event: SyntheticEvent<Event>, item: Model, value: any): void {
