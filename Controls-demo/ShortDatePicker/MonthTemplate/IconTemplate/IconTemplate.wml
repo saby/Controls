@@ -6,7 +6,7 @@
             <div style="min-width: 110px;">
                 <ws:partial template="Controls/shortDatePicker:MonthTemplate" >
                     <ws:iconTemplate>
-                        <ws:if data="{{_getState()}}">
+                        <ws:if data="{{_getState(iconTemplate.value)}}">
                             <div class="controls-PeriodLiteDialog-item__checkBox" title="{[Красный]}">
                                 <div class="icon-16 icon-Yes icon-done" style='color: red'></div>
                             </div>

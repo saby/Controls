@@ -15,7 +15,8 @@ export default class Demo extends Control<IControlOptions> {
             rawData: getEditingObject()
         });
         this._source = new RecordSet<IPropertyGridItem>({
-            rawData: getSource()
+            rawData: getSource(),
+            keyProperty: 'name'
         });
     }
 
