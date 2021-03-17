@@ -618,6 +618,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     protected _search(event: SyntheticEvent, value: string): Promise<Error|RecordSet|void> {
         this._inputSearchValue = value;
         this._loading = true;
+        event?.stopPropagation();
         return this._getSearchController().then((searchController) => {
             return searchController
                 .search(value)
