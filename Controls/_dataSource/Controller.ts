@@ -108,11 +108,9 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
 }
 
 export default class Controller extends mixin<
-    ObservableMixin,
-    EventRaisingMixin
+    ObservableMixin
     >(
-    ObservableMixin,
-    EventRaisingMixin
+    ObservableMixin
 ) {
     private _options: IControllerOptions;
     private _filter: QueryWhereExpression<unknown>;
@@ -705,11 +703,13 @@ export default class Controller extends mixin<
             dataLoadCallbackResult = this._dataLoadCallback(result, direction);
         }
 
-        if ((loadedInCurrentRoot || direction) && this._dataLoadCallbackFromOptions) {
-            this._dataLoadCallbackFromOptions(result, direction);
-        }
+        if (loadedInCurrentRoot || direction) {
+            this._notify('dataLoad', result, direction);
 
-        this._notify('dataLoadCallback', result);
+            if (this._dataLoadCallbackFromOptions) {
+                this._dataLoadCallbackFromOptions(result, direction);
+            }
+        }
 
         if (dataLoadCallbackResult instanceof Promise) {
             methodResult = dataLoadCallbackResult.then(() => {
