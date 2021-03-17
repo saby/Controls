@@ -1602,7 +1602,6 @@ const _private = {
 
             if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                    self._hideTopTrigger = true;
                     if (!self._resetTopTriggerOffset) {
                         self._resetTopTriggerOffset = true;
                         self._updateScrollController(self._options);
@@ -4533,7 +4532,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
         this._actualPagingVisible = this._pagingVisible;
 
-        if (this._hideTopTrigger) {
+        if (this._hideTopTrigger && this._needScrollToFirstItem) {
             this._hideTopTrigger = false;
         }
         this._scrollToFirstItemIfNeed();
