@@ -17,6 +17,7 @@ export type TKey = string|number|null;
 
 export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, IBackgroundStyle,
     IBackgroundStyleOptions, INavigationOptions<INavigationSourceConfig>, IFilterOptions, ISelectorDialogOptions {
+    sourceProperty: string;
     nodeFooterTemplate?: TemplateFunction;
     root?: TKey;
     selectorOpener?: Stack;
