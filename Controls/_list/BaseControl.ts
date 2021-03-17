@@ -738,14 +738,16 @@ const _private = {
         const listViewModel = self._listViewModel;
         const isPortionedLoad = _private.isPortionedLoad(self);
 
-        if (direction === 'down' && this._resetDownTriggerOffset) {
+        if (direction === 'down' && self._resetDownTriggerOffset) {
             // после первого запроса остальные запросы нужно загружать заранее
-            this._resetDownTriggerOffset = false;
+            self._resetDownTriggerOffset = false;
+            self._updateScrollController(self._options);
         }
 
-        if (direction === 'up' && this._resetTopTriggerOffset) {
+        if (direction === 'up' && self._resetTopTriggerOffset) {
             // после первого запроса остальные запросы нужно загружать заранее
-            this._resetTopTriggerOffset = false;
+            self._resetTopTriggerOffset = false;
+            self._updateScrollController(self._options);
         }
 
         _private.showIndicator(self, direction);
@@ -2706,7 +2708,9 @@ const _private = {
             collection: self._listViewModel,
             activeElement: options.activeElement,
             useNewModel: options.useNewModel,
-            forceInitVirtualScroll: options?.navigation?.view === 'infinity'
+            forceInitVirtualScroll: options?.navigation?.view === 'infinity',
+            resetTopTriggerOffset: self._resetTopTriggerOffset,
+            resetDownTriggerOffset: self._resetDownTriggerOffset
         });
         const result = self._scrollController.handleResetItems();
         _private.handleScrollControllerResult(self, result);
@@ -3510,11 +3514,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                     newOptions.serviceDataLoadCallback(null, self._items);
                 }
 
-                _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
-                _private.createScrollController(self, newOptions);
-                _private.prepareFooter(self, newOptions, self._sourceController);
-                _private.initVisibleItemActions(self, newOptions);
-
                 if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
                     _private.needAttachLoadTriggerToNull(self, 'up')) {
                     self._hideTopTrigger = true;
@@ -3523,6 +3522,11 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 if (_private.attachLoadDownTriggerToNullIfNeed(self, newOptions)) {
                     self._resetDownTriggerOffset = true;
                 }
+
+                _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
+                _private.createScrollController(self, newOptions);
+                _private.prepareFooter(self, newOptions, self._sourceController);
+                _private.initVisibleItemActions(self, newOptions);
             }
 
             if (receivedState.errorConfig) {
@@ -3779,8 +3783,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             this._attachLoadTopTriggerToNull = false;
             this._hideTopTrigger = false;
             this._attachLoadDownTriggerToNull = false;
-            this._resetTopTriggerOffset = false;
-            this._resetDownTriggerOffset = false;
         }
     }
 
@@ -4531,7 +4533,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
         this._actualPagingVisible = this._pagingVisible;
 
-        if (this._hideTopTrigger && this._needScrollToFirstItem) {
+        if (this._hideTopTrigger) {
             this._hideTopTrigger = false;
         }
         this._scrollToFirstItemIfNeed();
