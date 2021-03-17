@@ -229,12 +229,6 @@ export class Controller {
 
     updateItemActions(itemKey: TItemKey, containerWidth: number): void {
         const item = this._collection.getItemBySourceKey(itemKey);
-        // Если метод вызвали в обработчике события в момент, когда поменялась модель, запись
-        // может отсутствовать. Предупредить вызов обработчика нельзя. Ситуация происходит, если
-        // в дереве навели на плитку после нажатия на кнопку "назад", но до перерисовки.
-        if (!item) {
-            return;
-        }
         const actions = item.getActions();
         const visibleActions = getActions(actions, this._iconSize, null, containerWidth);
         item.setActions(this._fixActionsDisplayOptions(visibleActions), true);
