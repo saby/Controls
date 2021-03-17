@@ -778,6 +778,9 @@ var Filter = Control.extend({
             } else {
                 resultDef = _private.loadSelectedItems(this._source, this._configs).addCallback(() => {
                     _private.updateText(self, self._source, self._configs);
+                    if (self._getFilterPopupOpener().isOpened()) {
+                        self.openDetailPanel();
+                    }
                 });
             }
             return resultDef;
