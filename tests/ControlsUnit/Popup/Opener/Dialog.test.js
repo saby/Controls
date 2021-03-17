@@ -278,7 +278,33 @@ define(
             assert.equal(item.position.maxHeight, 960);
          });
 
-
+         it('dialog positioned on prop storage coordinates', () => {
+            const directions = [
+               {horizontal: 'right', vertical: 'bottom'},
+               {horizontal: 'right', vertical: 'top'},
+               {horizontal: 'right', vertical: 'bottom'},
+               {horizontal: 'right', vertical: 'bottom'}
+            ];
+            const getItem = (direction) => {
+               return {
+                  popupOptions: {
+                     resizeDirection: direction,
+                     maxWidth: 100,
+                     maxHeight: 100,
+                     minWidth: 10,
+                     minHeight: 10,
+                     [direction.vertical === 'bottom' ? 'top' : 'bottom']: 100,
+                     [direction.horizontal === 'right' ? 'left' : 'right']: 100
+                  }
+               };
+            };
+            directions.forEach((direction) => {
+               const item = getItem(direction);
+               DialogController.getDefaultConfig(item);
+               assert.equal(item.position[direction.vertical === 'bottom' ? 'top' : 'bottom'], 100);
+               assert.equal(item.position[direction.horizontal === 'right' ? 'left' : 'right'], 100);
+            });
+         });
 
          it('dialog positioned out of window at start without popupOptions position', () => {
             let item = {
