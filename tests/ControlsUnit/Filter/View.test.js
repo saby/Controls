@@ -328,7 +328,7 @@ define(
             assert.isTrue(result);
 
             oldItems = [];
-            result = filter.View._private.isNeedReload(oldItems, newItems);
+            result = view._isNeedReload(oldItems, newItems);
             assert.isTrue(result);
          });
 
