@@ -596,12 +596,13 @@ define([
             const sandbox = sinon.sandbox.create(),
                component = calendarTestUtils.createComponent(PeriodDialog.default, {}),
                start = new Date(),
-               end = new Date();
+               end = new Date(),
+               state = 'year';
 
             sandbox.stub(component, '_notify');
 
-            component._dateRangeSelectionEnded(null, start, end);
-            sinon.assert.calledWith(component._notify, 'sendResult', [start, end]);
+            component._dateRangeSelectionEnded(null, start, end, state);
+            sinon.assert.calledWith(component._notify, 'sendResult', [start, end, state]);
             sandbox.restore();
          });
       });
@@ -611,6 +612,7 @@ define([
             const sandbox = sinon.createSandbox(),
                start = new Date(),
                end = new Date(),
+               state = 'month',
                component = calendarTestUtils.createComponent(PeriodDialog.default, { startValue: start, endValue: end });
 
             sandbox.stub(component, '_notify');
@@ -622,7 +624,7 @@ define([
                }
             };
             return component._applyClick(null).then(() => {
-               sinon.assert.calledWith(component._notify, 'sendResult', [start, end]);
+               sinon.assert.calledWith(component._notify, 'sendResult', [start, end, state]);
                sandbox.restore();
             });
          });

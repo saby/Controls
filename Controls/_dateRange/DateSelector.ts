@@ -49,7 +49,8 @@ import {descriptor} from "Types/entity";
  */
 
 export default class DateSelector extends BaseSelector<IControlOptions> {
-   _template: TemplateFunction = componentTmpl;
+   protected _template: TemplateFunction = componentTmpl;
+   private _state: string;
 
    _beforeMount(options?: IControlOptions): Promise<void> | void {
       this._updateValues(options);
@@ -82,7 +83,8 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
             closeButtonEnabled: true,
             rangeselect: false,
             selectionType: 'single',
-            ranges: null
+            ranges: null,
+            state: this._state
          }
       };
    }
@@ -92,11 +94,12 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
       this._startDependenciesTimer('Controls/datePopup', loadCss);
    }
 
-   protected _onResult(value: Date): void {
-      this._notify('valueChanged', [value]);
-      this._startValue = value;
-      this._endValue = value;
-      super._onResult(value, value);
+   protected _onResult(startValue: Date, endValue: Date, state: string): void {
+      this._notify('valueChanged', [startValue]);
+      this._startValue = startValue;
+      this._endValue = endValue;
+      this._state = state;
+      super._onResult(startValue, endValue);
    }
 
    protected _rangeChangedHandler(event: SyntheticEvent, value: Date): void {

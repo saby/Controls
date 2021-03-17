@@ -69,6 +69,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     protected _startValueValidators: Function[] = [];
     protected _endValueValidators: Function[] = [];
     private _shouldValidate: boolean;
+    private _state: string;
 
     protected _beforeMount(options: IDateRangeInputOptions) {
         this._rangeModel = new DateRangeModel({dateConstructor: this._options.dateConstructor});
@@ -117,7 +118,8 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
                 headerType: 'input',
                 closeButtonEnabled: true,
                 rangeselect: true,
-                range: this._options.range
+                range: this._options.range,
+                state: this._state
             }
         };
         this._children.opener.open(cfg);
@@ -158,9 +160,10 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         }
     }
 
-    private _onResult(startValue: Date, endValue: Date): void {
+    private _onResult(startValue: Date, endValue: Date, state: string): void {
+        this._state = state;
         this._rangeModel.setRange(startValue, endValue);
-        this._children.opener.close();
+        this._children.opener?.close();
         this._notifyInputCompleted();
         /**
          * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
