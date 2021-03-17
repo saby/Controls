@@ -13,6 +13,11 @@ define(
       var getPopupItem = () => {
          return {
             id: 'randomId',
+            position: {
+               bottom: 0,
+               left: 0,
+               right: 0
+            },
             popupOptions: {
                desktopMode: 'stack',
                slidingPanelOptions: {
@@ -186,6 +191,28 @@ define(
                   clearTimeout(timeoutId);
                   resolve();
                });
+            });
+
+            it('safari body dragging fix', () => {
+               const sandbox = sinon.sandbox.create();
+               const item1 = getPopupItem();
+               const item2 = getPopupItem();
+
+               sandbox.stub(Controller, '_toggleCancelBodyDragging');
+
+               Controller.elementCreated(item1);
+               Controller.elementCreated(item2);
+
+               sinon.assert.calledOnce(Controller._toggleCancelBodyDragging);
+               sinon.assert.calledWithMatch(Controller._toggleCancelBodyDragging, true);
+
+               Controller.elementDestroyed(item1);
+               Controller.elementDestroyed(item2);
+
+               sinon.assert.calledTwice(Controller._toggleCancelBodyDragging);
+               sinon.assert.calledWithMatch(Controller._toggleCancelBodyDragging, false);
+
+               sandbox.restore();
             });
             describe('getDefaultConfig', () => {
                it('postion bottom', () => {
