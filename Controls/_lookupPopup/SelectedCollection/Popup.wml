@@ -16,7 +16,7 @@
             on:crossClick="_crossClick()"
             on:itemClick="_itemClick()"
             attr:style="width: {{_options.width}}px"
-            attr:class="controls-SelectedCollection__in_popup">
+            attr:class="controls-SelectedCollection__in_popup controls-SelectedCollection__in_popup_theme-{{_options.theme}}">
       </Controls.lookup:Collection>
    </Controls.scroll:Container>
 </Controls.popupTemplate:InfoBox>
