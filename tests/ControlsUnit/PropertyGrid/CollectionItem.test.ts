@@ -154,7 +154,7 @@ describe('Controls/propertyGrid:CollectionItem', () => {
     });
 
     describe('getPropertyValue', () => {
-        it('item not contains propertyValue in options', () => {
+        it('returns value from editingObject', () => {
             const propertyValue = collection.getItemBySourceKey('description').getPropertyValue();
             assert.equal(propertyValue, 'This is http://mysite.com');
         });
