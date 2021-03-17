@@ -3173,8 +3173,8 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     iWantVDOM = true;
 
     _attachLoadTopTriggerToNull = false;
-    private _attachLoadDownTriggerToNull = false;
-    private _resetDownTriggerOffset = false,
+    private _attachLoadDownTriggerToNull: boolean = false;
+    private _resetDownTriggerOffset: boolean = false;
 
     // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
     _attachedToNullLoadTopTriggerOffset = ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET;
