@@ -104,8 +104,7 @@ var Component = BaseControl.extend([EventProxyMixin], {
         if (this._quarterSelectionEnabled) {
             this._selectionViewType = SELECTION_VEIW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
-            const ranges = this._calculateRangeSelectedCallback(date, dateUtils.getEndOfQuarter(date));
-            this._notify('fixedPeriodClick', ranges);
+            this._notify('fixedPeriodClick', [date, dateUtils.getEndOfQuarter(date)]);
         }
     },
 
@@ -121,21 +120,11 @@ var Component = BaseControl.extend([EventProxyMixin], {
         }
     },
 
-    _calculateRangeSelectedCallback: function(startValue, endValue) {
-        if (this._options.rangeSelectedCallback) {
-            const ranges = this._options.rangeSelectedCallback(startValue, endValue);
-            startValue = ranges[0];
-            endValue = ranges[1];
-        }
-        return [startValue, endValue];
-    },
-
     _onHalfYearClick: function (e, date) {
         if (this._halfyearSelectionEnabled) {
             this._selectionViewType = SELECTION_VEIW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
-            const ranges = this._calculateRangeSelectedCallback(date, dateUtils.getEndOfHalfyear(date));
-            this._notify('fixedPeriodClick', ranges);
+            this._notify('fixedPeriodClick', [date, dateUtils.getEndOfHalfyear(date)]);
         }
     },
 
