@@ -4,26 +4,28 @@
    border-top-style: solid;
    height: 100%;
    box-sizing: border-box;
-}
+   border-top-width: var(--marker_thickness_confirmation);
+   background: var(--background-color_dialog);
+   box-shadow: var(--box-shadow_dialog);
 
-.controls-ConfirmationTemplate_theme-@{themeName} {
-   border-top-width: @marker_thickness_confirmation;
-   background: @background-color_dialog;
-   box-shadow: @box-shadow_dialog;
-   &.controls-ConfirmationTemplate__status-default_theme-@{themeName} {
-      border-top-color: @secondary_marker_color_confirmation;
+   &.controls-ConfirmationTemplate__status-default {
+      border-top-color: var(--secondary_marker_color_confirmation);
    }
-   &.controls-ConfirmationTemplate__status-success_theme-@{themeName} {
-      border-top-color: @success_color;
+
+   &.controls-ConfirmationTemplate__status-success {
+      border-top-color: var(--success_color);
    }
-   &.controls-ConfirmationTemplate__status-danger_theme-@{themeName} {
-      border-top-color: @danger_color;
+
+   &.controls-ConfirmationTemplate__status-danger {
+      border-top-color: var(--danger_color);
    }
-   &.controls-ConfirmationTemplate__status-secondary_theme-@{themeName} {
-      border-top-color: @secondary_marker_color_confirmation;
+
+   &.controls-ConfirmationTemplate__status-secondary {
+      border-top-color: var(--secondary_marker_color_confirmation);
    }
-   &.controls-ConfirmationTemplate__status-primary_theme-@{themeName} {
-      border-top-color: @primary_marker_color_confirmation;
+
+   &.controls-ConfirmationTemplate__status-primary {
+      border-top-color: var(--primary_marker_color_confirmation);
    }
 }
 
@@ -32,12 +34,9 @@
    display: flex;
    flex-direction: column;
    box-sizing: border-box;
-}
-
-.controls-ConfirmationTemplate__body_theme-@{themeName} {
-   border-left: @border-thickness_dialog solid @border-color_dialog;
-   border-right: @border-thickness_dialog solid @border-color_dialog;
-   border-bottom: @border-thickness_dialog solid @border-color_dialog;
+   border-left: var(--border-thickness_dialog) solid var(--border-color_dialog);
+   border-right: var(--border-thickness_dialog) solid var(--border-color_dialog);
+   border-bottom: var(--border-thickness_dialog) solid var(--border-color_dialog);
 }
 
 .controls-ConfirmationTemplate__main {
@@ -46,27 +45,24 @@
    overflow: hidden;
    display: flex;
    flex-direction: column;
+   padding: var(--content_padding_confirmation);
 }
 
-.controls-ConfirmationTemplate__main_theme-@{themeName} {
-   padding: @content_padding_confirmation;
+.controls-ConfirmationTemplate__footer {
+   padding: var(--footer-content_padding_confirmation);
+   border-top: var(--footer_top-border-thickness_confirmation) solid var(--footer_top-border-color_confirmation);
+   background: var(--footer_background-color_confirmation);
 }
 
-.controls-ConfirmationTemplate__footer_theme-@{themeName} {
-   padding: @footer-content_padding_confirmation;
-   border-top: @footer_top-border-thickness_confirmation solid @footer_top-border-color_confirmation;
-   background: @footer_background-color_confirmation;
-}
-
-.controls-ConfirmationTemplate__size-l_theme-@{themeName} {
-   width: @width_l_confirmation;
+.controls-ConfirmationTemplate__size-l {
+   width: var(--width_l_confirmation);
 }
 
 //TODO: временный класс для поддержки size: 'm'
-.controls-ConfirmationTemplate__size-m_theme-@{themeName} {
-   width: @width_s_confirmation;
+.controls-ConfirmationTemplate__size-m {
+   width: var(--width_s_confirmation);
 }
 
-.controls-ConfirmationTemplate__size-s_theme-@{themeName} {
-   width: @width_s_confirmation;
+.controls-ConfirmationTemplate__size-s {
+   width: var(--width_s_confirmation);
 }

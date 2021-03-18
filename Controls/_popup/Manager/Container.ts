@@ -5,6 +5,7 @@ import {dispatcherHandler} from 'UI/HotKeys';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {PendingClass, IPendingConfig} from 'Controls/Pending';
 import template = require('wml!Controls/_popup/Manager/Container');
+import 'css!Controls/popup';
 
 // step zindex between popups.
 // It should be enough to place all the additional popups (menu, infobox, suggest) on the main popups (stack, window)
@@ -21,7 +22,7 @@ class Container extends Control<IControlOptions> {
      * Container for displaying popups
      * @class Controls/_popup/Manager/Container
      * @extends UI/Base:Control
-     * 
+     *
      * @private
      * @author Красильников А.С.
      */
@@ -157,7 +158,6 @@ class Container extends Control<IControlOptions> {
 
     // To calculate the zIndex in a compatible notification Manager
     static POPUP_ZINDEX_STEP: number = POPUP_ZINDEX_STEP;
-    static _theme: string[] = ['Controls/popup'];
 }
 
 export default Container;
