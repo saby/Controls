@@ -98,7 +98,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeMount(baseControlCfg);
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             baseControl._afterMount();
-            assert.isFalse(!!baseControl._listViewModel.getCollapsedGroups());
+            assert.isFalse(!!baseControl._listViewModel.getCollapsedGroups()?.length);
         });
         it('is CollapsedGroup', () => {
             const cfgClone = {...baseControlCfg};
