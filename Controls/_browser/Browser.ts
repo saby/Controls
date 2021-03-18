@@ -36,6 +36,7 @@ import {IShadowsOptions} from 'Controls/_scroll/Container/Interface/IShadows';
 import {IControllerState} from 'Controls/_dataSource/Controller';
 import {isEqual} from 'Types/object';
 import {DataLoader, IDataLoaderOptions, ILoadDataResult} from 'Controls/dataSource';
+import {Logger} from 'UI/Utils';
 
 type Key = string|number|null;
 
@@ -133,7 +134,6 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                            receivedState?: IReceivedState): void | Promise<IReceivedState | Error | void> {
         this._initStates(options, receivedState);
         this._dataLoader = new DataLoader(this._getDataLoaderOptions(options));
-
         if (receivedState &&  'filterItems' in receivedState && 'items' in receivedState) {
             this._setFilterItems(receivedState.filterItems as IFilterItem[]);
             this._dataLoader.getSourceController().setFilter(this._filter);
@@ -142,7 +142,10 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             if (options.source && options.dataLoadCallback) {
                 options.dataLoadCallback(receivedState.items);
             }
-        } else if (options.source || options.filterButtonSource) {
+        } else if (options.source || options.filterButtonSource || options.fastFilterSource) {
+            if (options.fastFilterSource) {
+                Logger.warn('Browser: контрол Controls/deprecatedFilter:Fast является устаревшим и будет удалён в 21.3100', this);
+            }
             return this._dataLoader.load<ILoadDataResult>().then(([result]) => {
                 this._updateFilterAndFilterItems();
                 this._defineShadowVisibility(result.data);
