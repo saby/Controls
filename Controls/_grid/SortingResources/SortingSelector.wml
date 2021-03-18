@@ -19,7 +19,6 @@
                 name="dropdown"
                 selectedKeys="{{_selectedKeys}}"
                 keyProperty="paramName"
-                inlineHeight="{{_nocaption ? 'xl' : 'm'}}"
                 displayProperty="title"
                 source="{{_source}}"
                 fontSize="{{_options.fontSize}}"
