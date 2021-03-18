@@ -144,7 +144,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             }
         } else if (options.source || options.filterButtonSource || options.fastFilterSource) {
             if (options.fastFilterSource) {
-                Logger.warn('Browser: контрол Controls/deprecatedFilter:Fast является устаревшим и будет удалён в 21.3100', this);
+                Logger.error('Browser: контрол Controls/deprecatedFilter:Fast является устаревшим и будет удалён в 21.3100', this);
             }
             return this._dataLoader.load<ILoadDataResult>().then(([result]) => {
                 this._updateFilterAndFilterItems();
