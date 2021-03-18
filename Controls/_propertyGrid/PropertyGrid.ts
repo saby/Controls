@@ -3,7 +3,7 @@ import * as template from 'wml!Controls/_propertyGrid/PropertyGrid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {GroupItem, CollectionItem} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
-import {Model} from 'Types/entity';
+import {Model, Record as entityRecord} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {object} from 'Types/util';
 import {default as renderTemplate} from 'Controls/_propertyGrid/Render';
@@ -169,11 +169,11 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
     }
 
     protected _updatePropertyValue(
-        editingObject: Record<string, any> | Model,
+        editingObject: Record<string, any> | entityRecord,
         name: string, value: any
-    ): Record<string, any> | Model {
+    ): Record<string, any> | entityRecord {
         let resultEditingObject;
-        if (editingObject instanceof Model) {
+        if (editingObject instanceof entityRecord) {
             resultEditingObject = editingObject;
 
             if (!resultEditingObject.has(name)) {
