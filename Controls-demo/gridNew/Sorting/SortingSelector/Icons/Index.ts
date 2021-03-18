@@ -20,19 +20,18 @@ export default class extends Control {
             {
                 title: 'По населению',
                 paramName: 'population',
-                icon: 'icon-Attach',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:partner'
             },
             {
                 title: 'По площади',
                 paramName: 'square',
-                icon: 'icon-1c',
+                icon: 'Controls/sortIcons:deflection',
                 iconSize: 's'
             },
             {
                 title: 'По плотности населения',
                 paramName: 'populationDensity',
-                icon: 'icon-Vacation',
+                icon: 'Controls/sortIcons:difficult_sort',
                 iconSize: 's'
             }
         ];
