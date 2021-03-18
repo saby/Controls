@@ -4,6 +4,7 @@ export default abstract class GroupCell<T> {
     getContentClasses(theme: string): string {
         let classes = '';
         classes += ` controls-Grid__row-cell__content_baseline_default_theme-${theme}`;
+        classes += this._getHorizontalPaddingClasses(theme);
         classes += this._getContentAlignClasses();
         classes += ' controls-ListView__groupContent';
         return classes;

@@ -33,6 +33,9 @@ export default class extends Control {
     }
 
     protected _colspanCallback(item: Model, column, columnIndex: number, isEditing: boolean): TColspanCallbackResult {
+        if (typeof item === 'string') {
+            return 'end';
+        }
         if (item.get(NODE_TYPE_PROPERTY) === 'group' && columnIndex === 0) {
             return 3;
         }
