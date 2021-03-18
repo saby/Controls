@@ -5,7 +5,7 @@
    <svg role="image"
         xmlns="http://www.w3.org/2000/svg"
         class="controls-TileView__richTemplate_image
-               {{imagePosition === 'top' ? 'controls-TileView__image controls-TileView__image_align_center' : ''}}
+               {{imagePosition === 'top' && imageViewMode === 'rectangle' ? 'controls-TileView__image controls-TileView__image_align_center' : ''}}
                controls-TileView__richTemplate_image_viewMode_{{imageViewMode}}
                {{!imageProportion || imageViewMode !== 'rectangle' || imagePosition !== 'top' ? 'controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + imagePosition + '_viewMode_' + imageViewMode + '_theme-' + theme +
                ' controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + (imagePosition !== 'top' ? 'vertical' : 'top') + '_theme-' + theme : ''}}"
