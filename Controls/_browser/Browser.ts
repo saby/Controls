@@ -758,7 +758,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         return {
             minSearchLength: 3,
             searchDelay: 500,
-            startingWith: 'root'
+            startingWith: 'root',
+            filter: {}
         };
     }
 
