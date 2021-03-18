@@ -4,10 +4,10 @@
          <h4>Simple</h4>
          <div>
             <Controls.dropdown:Selector bind:selectedKeys="_selectedKeysSimple"
-                                     keyProperty="id"
-                                     displayProperty="title"
-                                     attr:class="ControlsDemo-simple ControlsDemo-InputDropdown__item"
-                                     source="{{_simpleItems}}"/>
+                                        keyProperty="id"
+                                        displayProperty="title"
+                                        attr:class="ControlsDemo-simple ControlsDemo-InputDropdown__item"
+                                        source="{{_simpleItems}}"/>
          </div>
       </div>
       <div class="ControlsDemo-InputDropdown__wrapper demo-InputDropdown__divSubparagraphs">

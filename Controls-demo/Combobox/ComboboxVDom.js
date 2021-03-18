@@ -23,7 +23,6 @@ define('Controls-demo/Combobox/ComboboxVDom',
          _selectedKey7: 'Branch, representative of a foreign legal entity accredited in accordance with ' +
          'the established procedure in the ',
          _selectedKeyReadOnly: '1',
-         _selectedKeyHistory: null,
          _historySource: null,
 
          _beforeMount: function() {

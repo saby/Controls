@@ -6,22 +6,27 @@ import {RecordSet} from 'Types/collection';
 import {DropdownReceivedState} from 'Controls/_dropdown/BaseDropdown';
 import {IStickyPosition} from 'Controls/popup';
 import {Model} from 'Types/entity';
+import {NewSourceController as SourceController} from 'Controls/dataSource';
 export type TKey = string|number|null;
 
 export default interface IDropdownController {
     loadItems(): Promise<DropdownReceivedState>;
+    loadSelectedItems(): Promise<DropdownReceivedState>;
     reload(): Promise<RecordSet>;
-    setItems(items?: RecordSet): Promise<RecordSet>;
+    setItems(items?: RecordSet): Promise<SourceController>;
     setHistoryItems(history?: RecordSet): void;
-    update(newOptions: IDropdownControllerOptions): Promise<RecordSet>|void;
+    update(newOptions: IDropdownControllerOptions): Promise<RecordSet|void>|void;
     loadDependencies(): Promise<unknown[]>;
+    tryPreloadItems(): Promise<void>;
     setMenuPopupTarget(target: HTMLElement): void;
-    openMenu(popupOptions?: object): Promise<unknown[]>;
+    openMenu(popupOptions?: object): Promise<any>;
     closeMenu(): void;
     destroy(): void;
     getPreparedItem(item: Model): Model;
     handleSelectorResult(selectedItems: RecordSet): void;
     handleSelectedItems(selectedItem: Model): void;
+    handleClose(): void;
+    pinClick(item: Model): void;
 }
 
 export interface IDropdownControllerOptions extends IControlOptions, IDropdownSourceOptions,

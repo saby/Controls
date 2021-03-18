@@ -1,9 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__ml1">
         <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
-                                 keyProperty="key"
-                                 displayProperty="title"
-                                 source="{{_source}}">
-        </Controls.dropdown:Selector>
+                                    source="{{_source}}" />
     </div>
 </div>

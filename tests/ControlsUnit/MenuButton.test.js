@@ -68,7 +68,6 @@ define(
          };
 
          let testConfig = {
-            selectedKeys: [2],
             keyProperty: 'id',
             emptyText: true,
             source: new sourceLib.Memory({

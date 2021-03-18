@@ -71,6 +71,9 @@ define(
 
          it('data load callback', () => {
             let ddl = getDropdown(config);
+            ddl._controller = {
+               getKeyProperty: () => config.keyProperty
+            };
             ddl._prepareDisplayState(config, [itemsRecords.at(5)]);
             assert.equal(ddl._text, 'Запись 6');
             assert.equal(ddl._icon, 'icon-16 icon-Admin icon-primary');
@@ -98,6 +101,9 @@ define(
 
          it('_prepareDisplayState hasMoreText', () => {
             let ddl = getDropdown(config);
+            ddl._controller = {
+               getKeyProperty: () => config.keyProperty
+            };
             ddl._prepareDisplayState(config, [itemsRecords.at(1), itemsRecords.at(3), itemsRecords.at(5)]);
             assert.equal(ddl._text, 'Запись 2');
             assert.equal(ddl._tooltip, 'Запись 2, Запись 4, Запись 6');
@@ -111,6 +117,9 @@ define(
 
          it('check selectedItemsChanged event', () => {
             let ddl = getDropdown(config);
+            ddl._controller = {
+               getKeyProperty: () => config.keyProperty
+            };
             let keys, text, isKeysChanged;
             ddl._notify = (e, data) => {
                if (e === 'selectedKeysChanged') {
@@ -121,14 +130,14 @@ define(
                   text = data[0];
                }
             };
-            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], 'itemClick');
+            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], ['6']);
             assert.deepEqual(keys, ['6']);
             assert.strictEqual(text, 'Запись 6');
             assert.isTrue(isKeysChanged);
 
             isKeysChanged = false;
             ddl._options.selectedKeys = ['6'];
-            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], 'itemClick'); // key = '6'
+            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], ['6']);
             assert.isFalse(isKeysChanged);
          });
 
@@ -189,6 +198,9 @@ define(
             let newConfig = Clone(config);
             newConfig.emptyText = true;
             let ddl = getDropdown(newConfig);
+            ddl._controller = {
+               getKeyProperty: () => newConfig.keyProperty
+            };
             ddl._prepareDisplayState(newConfig, [null]);
             assert.equal(ddl._text, 'Не выбрано');
             assert.isNull(ddl._icon);
@@ -203,6 +215,9 @@ define(
 
          it('_private::getTooltip', function() {
             let ddl = getDropdown(config);
+            ddl._controller = {
+               getKeyProperty: () => config.keyProperty
+            };
             ddl._prepareDisplayState(config, [null]);
             assert.equal(ddl._tooltip, '');
 

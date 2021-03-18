@@ -520,9 +520,8 @@ define(
                ]
             });
             dropdownController._items = newItems;
+            dropdownController._selectedKeys = [];
             dropdownController._updateSelectedItems({
-               selectedKeys: [],
-               keyProperty: 'id',
                emptyText: undefined,
                emptyKey: null,
                selectedItemsChangedCallback: selectedItemsChangedCallback

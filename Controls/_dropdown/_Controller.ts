@@ -8,11 +8,12 @@ import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
 import {descriptor, Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import {PrefetchProxy, ICrudPlus, Query} from 'Types/source';
+import {PrefetchProxy, ICrudPlus} from 'Types/source';
 import * as mStubs from 'Core/moduleStubs';
 import * as cInstance from 'Core/core-instance';
 import * as Merge from 'Core/core-merge';
-import {TKeysSelection} from 'Controls/interface';
+import {TSelectedKeys} from 'Controls/interface';
+import {Logger} from 'UI/Utils';
 
 /**
  * Контроллер для выпадающих списков.
@@ -41,16 +42,20 @@ export default class _Controller implements IDropdownController {
    protected _options: IDropdownControllerOptions = null;
    protected _source: ICrudPlus = null;
    protected _preloadedItems: RecordSet = null;
+   protected _selectedKeys: TSelectedKeys = null;
    protected _sourceController: SourceController = null;
    private _filter: object;
    private _selectedItems: RecordSet<Model>;
-   private _selectedKeys: TKeysSelection;
    private _sticky: StickyOpener;
 
    constructor(options: IDropdownControllerOptions) {
       this._options = options;
       this._selectedKeys = options.selectedKeys;
       this._sticky = new StickyOpener();
+   }
+
+   getKeyProperty(): string {
+      return this._options.keyProperty || this._sourceController.getKeyProperty();
    }
 
    loadItems(): Promise<DropdownReceivedState> {
@@ -133,7 +138,7 @@ export default class _Controller implements IDropdownController {
       const filterChanged = !isEqual(newOptions.filter, oldOptions.filter);
 
       if (selectedKeysChanged) {
-         this._selectedKeys = newOptions.selectedKeys
+         this._selectedKeys = newOptions.selectedKeys;
       }
 
       let newKeys = [];
@@ -188,7 +193,7 @@ export default class _Controller implements IDropdownController {
       const sourceController = new SourceController({
          source,
          filter: this._options.filter,
-         keyProperty: this._options.keyProperty,
+         keyProperty: this.getKeyProperty(),
          navigation: {
             source: 'page',
             view: 'pages',
@@ -230,7 +235,7 @@ export default class _Controller implements IDropdownController {
       });
    }
 
-   setMenuPopupTarget(target): void {
+   setMenuPopupTarget(target: HTMLElement): void {
       this.target = target;
    }
 
@@ -252,17 +257,21 @@ export default class _Controller implements IDropdownController {
       this._sticky = null;
    }
 
-   handleSelectedItems(data): void {
+   setSelectedKeys(keys: TSelectedKeys): void {
+      this._selectedKeys = keys;
+   }
+
+   handleSelectedItems(data: Model): void {
       this._updateHistory(data);
       this._closeDropdownList();
    }
 
    getPreparedItem(item: Model): Model {
-      return this._prepareItem(item, this._options.keyProperty, this._source);
+      return this._prepareItem(item, this.getKeyProperty(), this._source);
    }
 
    handleSelectorResult(selectedItems: RecordSet): void {
-      const newItems = this._getNewItems(this._items, selectedItems, this._options.keyProperty);
+      const newItems = this._getNewItems(this._items, selectedItems, this.getKeyProperty());
 
       // From selector dialog records may return not yet been loaded, so we save items in the history and then load data.
       if (isHistorySource(this._source)) {
@@ -284,8 +293,8 @@ export default class _Controller implements IDropdownController {
        this._menuSource = null;
    }
 
-   pinClick(item): void {
-      const preparedItem = this._prepareItem(item, this._options.keyProperty, this._source);
+   pinClick(item: Model): void {
+      const preparedItem = this._prepareItem(item, this.getKeyProperty(), this._source);
       this._source.update(preparedItem.clone(), {
          $_pinned: !preparedItem.get('pinned')
       }).then(() => {
@@ -439,11 +448,12 @@ export default class _Controller implements IDropdownController {
    }
 
    private _loadSelectedItems(options: IDropdownControllerOptions): Promise<RecordSet> {
+      const keyProperty = this.getKeyProperty();
       const filter = {...options.filter};
-      filter[options.keyProperty] = this._selectedKeys;
+      filter[keyProperty] = this._selectedKeys;
       const config = {
          source: options.source,
-         keyProperty: options.keyProperty,
+         keyProperty,
          filter,
          emptyText: options.emptyText,
          emptyKey: options.emptyKey,
@@ -465,7 +475,7 @@ export default class _Controller implements IDropdownController {
          options.dataLoadCallback(items);
       }
       if (this._selectedItems) {
-         items.prepend(this._getNewItems(items, this._selectedItems, options.keyProperty));
+         items.prepend(this._getNewItems(items, this._selectedItems, this.getKeyProperty()));
          this._selectedItems = null;
       }
       this._setItems(items);
@@ -489,13 +499,13 @@ export default class _Controller implements IDropdownController {
       return item;
    }
 
-   private _updateSelectedItems({selectedKeys,
-                                 keyProperty,
-                                 emptyText,
+   private _updateSelectedItems({emptyText,
                                  emptyKey,
                                  selectedItemsChangedCallback}: Partial<IDropdownControllerOptions>,
-                                items: RecordSet = this._items): void {
+                                 items: RecordSet = this._items): void {
       const selectedItems = [];
+      const selectedKeys = this._selectedKeys;
+      const keyProperty = this.getKeyProperty();
 
       const addEmptyTextToSelected = () => {
          selectedItems.push(null);
@@ -507,13 +517,16 @@ export default class _Controller implements IDropdownController {
 
          if (selectedItem) {
             selectedItems.push(selectedItem);
+         } else if (!emptyText && key !== undefined) {
+               Logger.error(`Controls/dropdown: ошибка при загрузке записи с ключом ${key}.
+                              Необходимо проверить, что метод корректно вернул данные.`)
          }
       };
 
       if (!selectedKeys || !selectedKeys.length || selectedKeys[0] === emptyKey) {
          if (emptyText) {
             addEmptyTextToSelected();
-         } else {
+         } else if (emptyKey !== undefined) {
             addToSelected(emptyKey);
          }
       } else {
@@ -533,7 +546,7 @@ export default class _Controller implements IDropdownController {
    private _getUnloadedKeys(items: RecordSet, options: IDropdownControllerOptions): string[] {
       const keys = [];
       this._selectedKeys.forEach((key) => {
-         if (key !== options.emptyKey && !this._getItemByKey(items, key, options.keyProperty)) {
+         if (key !== options.emptyKey && !this._getItemByKey(items, key, this.getKeyProperty())) {
             keys.push(key);
          }
       });

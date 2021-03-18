@@ -104,7 +104,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
 
    protected _afterMount(options: IComboboxOptions): void {
       if (this._countItems === 1) {
-         if (this._selectedItem.get(options.keyProperty) !== options.selectedKey) {
+         if (this._selectedItem.get(this._controller.getKeyProperty()) !== options.selectedKey) {
             this._selectedItemsChangedHandler([this._selectedItem]);
          }
       }
@@ -179,7 +179,8 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
    }
 
    _selectedItemsChangedHandler(selectedItems): void {
-      const key = getPropValue(selectedItems[0], this._options.keyProperty);
+      const key = getPropValue(selectedItems[0], this._controller.getKeyProperty());
+      this._controller.setSelectedKeys([key]);
       this._setText(this._options, selectedItems);
       this._notify('valueChanged', [this._value]);
       this._notify('selectedKeyChanged', [key]);
@@ -251,6 +252,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
 
    static getDefaultOptions(): object {
       return {
+         displayProperty: 'title',
          placeholder: rk('Выберите') + '...',
          validationStatus: 'valid',
          textAlign: 'left',

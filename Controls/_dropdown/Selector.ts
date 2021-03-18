@@ -1,5 +1,5 @@
 import rk = require('i18n!Controls');
-import {Control, TemplateFunction} from 'UI/Base';
+import {TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/Input/Input');
 import defaultContentTemplate = require('wml!Controls/_dropdown/Input/resources/defaultContentTemplate');
 import * as Utils from 'Types/util';
@@ -125,7 +125,7 @@ export default class Selector extends BaseDropdown {
       return { ...controllerOptions, ...{
             dataLoadCallback: this._dataLoadCallback.bind(this),
             selectorOpener: this,
-            selectedKeys: options.selectedKeys || [],
+            selectedKeys: options.selectedKeys,
             popupClassName: options.popupClassName || ((options.showHeader ||
                 options.headerTemplate || options.headerContentTemplate) ?
                 'controls-DropdownList__margin-head' : options.multiSelect ?
@@ -151,10 +151,10 @@ export default class Selector extends BaseDropdown {
       };
    }
 
-   _selectedItemsChangedHandler(items: Model[]): void|unknown {
+   _selectedItemsChangedHandler(items: Model[], newSelectedKeys: TKey[]): void|unknown {
       const text = this._getText(items[0], this._options) + this._getMoreText(items);
       this._notify('textValueChanged', [text]);
-      const newSelectedKeys = this._getSelectedKeys(items, this._options.keyProperty);
+
       if (!isEqual(this._options.selectedKeys, newSelectedKeys) || this._options.task1178744737) {
          return this._notify('selectedKeysChanged', [newSelectedKeys]);
       }
@@ -176,7 +176,8 @@ export default class Selector extends BaseDropdown {
          this._selectedItems = items;
          this._needInfobox = options.readOnly && this._selectedItems.length > 1;
          this._item = items[0];
-         this._isEmptyItem = isEmptyItem(this._item, options.emptyText, options.keyProperty, options.emptyKey);
+         this._isEmptyItem = isEmptyItem(this._item, options.emptyText,
+             this._controller.getKeyProperty(), options.emptyKey);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
          this._text = this._getText(items[0], options);
          this._hasMoreText = this._getMoreText(items);
@@ -223,27 +224,37 @@ export default class Selector extends BaseDropdown {
 
    protected _itemClick(data: Model): void {
       const item = this._controller.getPreparedItem(data);
-      const res = this._selectedItemsChangedHandler([item]);
+      const selectedKeys = this._getSelectedKeys([item], this._controller.getKeyProperty());
+      const res = this._selectedItemsChangedHandler([item], selectedKeys);
 
       // dropDown must close by default, but user can cancel closing, if returns false from event
       if (res !== false) {
+         this._prepareDisplayState(this._options, [item]);
          this._controller.handleSelectedItems(item);
+         this._controller.setSelectedKeys(selectedKeys);
       }
    }
 
    protected _applyClick(data: Model[]): void {
-      this._selectedItemsChangedHandler(data);
+      this._updateSelectedItems(data);
       this._controller.handleSelectedItems(data);
    }
 
    protected _selectorResult(data): void {
+      this._updateSelectedItems(factory(data).toArray());
       this._controller.handleSelectorResult(data);
-      this._selectedItemsChangedHandler(factory(data).toArray());
    }
 
    protected _selectorTemplateResult(event: Event, selectedItems: List<Model>): void {
       const result = this._notify('selectorCallback', [this._initSelectorItems, selectedItems]) || selectedItems;
       this._selectorResult(result);
+   }
+
+   private _updateSelectedItems(items: Model[]): void {
+      const selectedKeys = this._getSelectedKeys(items, this._controller.getKeyProperty());
+      this._selectedItemsChangedHandler(items, selectedKeys);
+      this._controller.setSelectedKeys(selectedKeys);
+      this._prepareDisplayState(this._options, items);
    }
 
    private _getSelectedKeys(items: Model[], keyProperty: string): TKey[] {
@@ -287,10 +298,12 @@ export default class Selector extends BaseDropdown {
 
    static getDefaultOptions(): Partial<IBaseDropdownOptions> {
       return {
+         displayProperty: 'title',
          iconSize: 's',
          emptyKey: null
       };
    }
+
 }
 /**
  * @name Controls/_dropdown/Selector#contentTemplate

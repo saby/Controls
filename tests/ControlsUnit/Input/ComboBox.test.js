@@ -151,6 +151,9 @@ define(
 
          it('_afterMount', () => {
             let combobox = getCombobox(config);
+            combobox._controller = {
+               getKeyProperty: () => 'key'
+            };
             let selectedItemIsChanged = false;
             combobox._selectedItemsChangedHandler = () => {
                selectedItemIsChanged = true;

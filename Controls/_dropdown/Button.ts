@@ -135,6 +135,7 @@ export default class Button extends BaseDropdown {
    _getControllerOptions(options: IButtonOptions): object {
       const controllerOptions = getDropdownControllerOptions(options);
       return { ...controllerOptions, ...{
+            selectedKeys: undefined,
             headerTemplate: options.headTemplate || options.headerTemplate,
             headingCaption: options.caption,
             headingIcon: options.icon,
@@ -248,6 +249,7 @@ export default class Button extends BaseDropdown {
 
    static getDefaultOptions(): object {
       return {
+         displayProperty: 'title',
          showHeader: true,
          filter: {},
          buttonStyle: 'secondary',
@@ -289,7 +291,6 @@ export default class Button extends BaseDropdown {
  * <pre class="brush: html">
  * <!-- WML -->
  * <Controls.dropdown:Button
- *    bind:selectedKeys="_selectedKeys"
  *    keyProperty="id"
  *    displayProperty="title"
  *    source="{{_source)}}"
