@@ -181,11 +181,20 @@ describe('Controls/_display/itemsStrategy/Drag', () => {
    });
 
    it('remove item when drag', () => {
+      strategy = new Drag({
+         source,
+         display,
+         draggableItem: display.getItemBySourceKey(3),
+         draggedItemsKeys: [3],
+         targetIndex: 2
+      });
+
       let items = strategy.items;
       assert.equal(items.length, 3);
 
       strategy.splice(1, 1, [], 'rm');
+      strategy.invalidate();
       items = strategy.items;
-      assert.equal(items.length, 2);
+      assert.equal(items.length, 3);
    });
 });

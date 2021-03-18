@@ -247,7 +247,7 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
         let countVisibleItem = 0;
         let projectionIndex = 0;
 
-        while (countVisibleItem < sourceIndex) {
+        while (countVisibleItem < sourceIndex && projectionIndex < filterMap.length) {
             projectionIndex++;
             if (filterMap[projectionIndex]) {
                 countVisibleItem++;
