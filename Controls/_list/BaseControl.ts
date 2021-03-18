@@ -446,9 +446,6 @@ const _private = {
 
     executeAfterReloadCallbacks(self, loadedList, options): void {
         self._afterReloadCallback(options, loadedList);
-        if (options.serviceDataLoadCallback instanceof Function) {
-            options.serviceDataLoadCallback(this._items, loadedList);
-        }
     },
 
     callDataLoadCallbackCompatibility(self, items, direction, options): void {
@@ -2183,10 +2180,6 @@ const _private = {
             this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController)
         );
 
-        if (this._options.serviceDataLoadCallback instanceof Function) {
-            this._options.serviceDataLoadCallback(this._items, items);
-        }
-
         _private.callDataLoadCallbackCompatibility(this, items, direction, this._options);
 
         if (
@@ -3509,10 +3502,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 }
 
                 self._afterReloadCallback(newOptions, self._items, self._listViewModel);
-
-                if (newOptions.serviceDataLoadCallback instanceof Function) {
-                    newOptions.serviceDataLoadCallback(null, self._items);
-                }
 
                 if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
                     _private.needAttachLoadTriggerToNull(self, 'up')) {
