@@ -2717,7 +2717,18 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     getCollapsedGroups(): TArrayGroupKey {
-        return this._$collapsedGroups;
+        // TODO зарефакторить https://online.sbis.ru/opendoc.html?guid=e20934c7-95fa-44f3-a7c2-c2a3ec32e8a3
+        if (this._$collapsedGroups) {
+            return this._$collapsedGroups;
+        } else {
+            const collapsedGroups = [];
+            this.each((it) => {
+                if (it['[Controls/_display/GroupItem]'] && !it.isExpanded()) {
+                    collapsedGroups.push(it.getContents());
+                }
+            });
+            return collapsedGroups;
+        }
     }
 
     setCollapsedGroups(collapsedGroups: TArrayGroupKey): void {
