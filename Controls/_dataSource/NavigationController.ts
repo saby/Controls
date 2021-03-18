@@ -261,12 +261,17 @@ export default class NavigationController {
         const store = this._getStore(id);
         return calculator.shiftToEdge(store, direction, shiftMode, this._navigationConfig);
     }
-
+    // Если id не передан то берется стор для корневого раздела, для которого жесткий id = null
     hasMoreData(direction?: TNavigationDirection, id: TKey = null): boolean {
-        // Если id не передан то берется стор для корневого раздела, для которого жесткий id = null
-        const store = this._getStore(id);
-        const calculator = this._getCalculator();
-        return calculator.hasMoreData(store, direction);
+        let hasMoreResult = false;
+
+        if (this.hasLoaded(id)) {
+            const store = this._getStore(id);
+            const calculator = this._getCalculator();
+            hasMoreResult = calculator.hasMoreData(store, direction);
+        }
+
+        return hasMoreResult;
     }
 
     hasLoaded(id: TKey): boolean {
