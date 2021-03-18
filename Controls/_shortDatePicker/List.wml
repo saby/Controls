@@ -3,6 +3,7 @@
         displayedRanges="{{_displayedRanges}}"
         stubTemplate="{{stubTemplate}}"
         bind:position="_position"
+        attr:class="controls-PeriodLiteDialog-MonthList"
         source="{{_options.source}}">
     <ws:yearHeaderTemplate>
 

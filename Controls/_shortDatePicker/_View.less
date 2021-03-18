@@ -55,7 +55,7 @@
 }
 
 .controls-PeriodLiteDialog__height-big_theme-@{themeName} {
-   height: @height_shortDatePicker;
+   max-height: @height_shortDatePicker;
 }
 
 .controls-PeriodLiteDialog__width-big_theme-@{themeName} {
@@ -67,7 +67,7 @@
 }
 
 .controls-PeriodLiteDialog__height-medium_theme-@{themeName} {
-   height: @height_shortDatePicker;
+   max-height: @height_shortDatePicker;
 }
 
 .controls-PeriodLiteDialog__width-small_theme-@{themeName} {
@@ -499,4 +499,9 @@
    .controls-PeriodLiteDialog-item__quarter-caption_theme-@{themeName}:active {
       color: @quarterly_quarters_active_text-color_shortDatePicker;
    }
+}
+
+.controls-PeriodLiteDialog-MonthList {
+   max-height: @height_shortDatePicker - (@yearselector_height_shortDatePicker +
+   @header_height_shortDatePicker + @footer_height_shortDatePicker - 2 * @border-thickness_shortDatePicker);
 }
