@@ -43,6 +43,7 @@ export interface ILoadDataConfig extends
     id?: string;
     type?: 'list';
     sorting?: TSortingOptionValue;
+    sourceController?: NewSourceController;
     filter?: TFilter;
     filterButtonSource?: IFilterItem[];
     fastFilterSource?: object[];
@@ -90,8 +91,8 @@ function getFilterController(options: IFilterControllerOptions): FilterControlle
     return new controllerClass(options);
 }
 
-function getSourceController(options: IControllerOptions): NewSourceController {
-    return new NewSourceController(options);
+function getSourceController(options: ILoadDataConfig): NewSourceController {
+    return (options.sourceController || new NewSourceController(options));
 }
 
 function getFilterControllerWithHistoryFromLoader(loadConfig: ILoadDataConfig): Promise<IFilterResult> {
