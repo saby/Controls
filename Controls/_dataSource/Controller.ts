@@ -138,7 +138,7 @@ export default class Controller extends mixin<
         super();
         EventRaisingMixin.call(this, cfg);
         this._options = cfg;
-        this.setFilter(cfg.filter);
+        this.setFilter(cfg.filter || {});
         this.setNavigation(cfg.navigation);
 
         if (cfg.root !== undefined) {
