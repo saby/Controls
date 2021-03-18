@@ -3,7 +3,7 @@
         displayedRanges="{{_displayedRanges}}"
         stubTemplate="{{stubTemplate}}"
         bind:position="_position"
-        attr:class="controls-PeriodLiteDialog-MonthList"
+        attr:class="controls-PeriodLiteDialog-MonthList{{ isExpandedPopup ? '_expanded' }}_theme-{{ _options.theme }}"
         source="{{_options.source}}">
     <ws:yearHeaderTemplate>
 
