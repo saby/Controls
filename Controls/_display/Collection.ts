@@ -3665,6 +3665,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             return;
         }
         const groupStrategy = this._composer.getInstance<GroupItemsStrategy<S, T>>(GroupItemsStrategy);
+        // Если происходит пересоздание групп, надо актуализировать collapsedGroups
+        groupStrategy.collapsedGroups = this._$collapsedGroups;
         groupStrategy.invalidate();
     }
 

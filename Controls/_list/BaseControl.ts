@@ -4990,6 +4990,11 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                     group: groupId,
                     collapsedGroups
                 };
+                // При setExpanded() не обновляется collection.collapsedGroups.
+                // При collection.reBuild в стратегию группы будет передано текущее значение collapsedGroups и
+                // при пересоздании группы её актуальное состояние развёрнутости не будет учитываться.
+                // Поэтому тут нужно изменить текущее значение списка свёрнутых групп.
+                collection.setCollapsedGroups(collapsedGroups);
                 _private.groupsExpandChangeHandler(this, changes);
             } else {
                 const needExpandGroup = !collection.isGroupExpanded(groupId);
