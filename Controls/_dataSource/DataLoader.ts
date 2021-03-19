@@ -82,7 +82,7 @@ export interface ILoadDataResult extends ILoadDataConfig {
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
-    return !!loadDataConfig.filterButtonSource;
+    return !!(loadDataConfig.filterButtonSource || loadDataConfig.fastFilterSource);
 }
 
 function getFilterController(options: IFilterControllerOptions): FilterController {
