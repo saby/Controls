@@ -31,7 +31,8 @@
                         caption="{{item.caption}}"
                         scope="{{item.captionOptions}}"
                         attr:class="controls-PropertyGrid__editor-caption_theme-{{theme}}
-                                    controls-PropertyGrid__gridLayout_editor-caption-baseline"/>
+                                    controls-PropertyGrid__gridLayout_editor-caption-baseline"
+                        attr:tabindex="-1"/>
         </div>
     </ws:if>
     <ws:if data="{{collectionItem.getEditorTemplateName()}}">
