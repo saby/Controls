@@ -2804,7 +2804,7 @@ const _private = {
      * @param self
      */
     closeSwipe(self): void {
-        if (self._listViewModel.isActionsAssigned()) {
+        if (self._listViewModel?.isActionsAssigned()) {
             _private.getItemActionsController(self, self._options).deactivateSwipe();
         }
     },
