@@ -5869,7 +5869,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
     protected _keyDownHandler(event): boolean | void {}
 
-    _getViewClasses(addShowActionsClass: boolean, addHoverEnabledClass: boolean, uniqueId: string): string  {
+    protected _getViewClasses(addShowActionsClass: boolean, addHoverEnabledClass: boolean, uniqueId: string): string  {
         const classes: string[] = [];
         if (addShowActionsClass) {
             const visibility = this._getEditingConfig(this._options)?.mode === 'cell' ? 'onhovercell' : this._options.itemActionsVisibility;
@@ -6134,11 +6134,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             const itemActionsController = _private.getItemActionsController(this);
             itemActionsController.updateItemActions(itemKey, itemWidth);
         }
-    }
-
-    _getItemActionVisibilityClasses(): string {
-        const visibility = this._getEditingConfig(this._options)?.mode === 'cell' ? 'onhovercell' : this._options.itemActionsVisibility;
-        return `controls-BaseControl_showActions controls-BaseControl_showActions_${visibility}`;
     }
 
     /**
