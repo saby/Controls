@@ -146,10 +146,17 @@ describe('Controls/propertyGrid:CollectionItem', () => {
     });
 
     describe('getEditorOptions', () => {
-        it('item contains propertyValue in options', () => {
+        it('item not contains propertyValue in options', () => {
             const editorOptions = collection.getItemBySourceKey('description').getEditorOptions();
             assert.equal(editorOptions.minLines, 3);
-            assert.equal(editorOptions.propertyValue, 'This is http://mysite.com');
+            assert.equal(editorOptions.propertyValue, undefined);
         });
     });
+
+    describe('getPropertyValue', () => {
+        it('returns value from editingObject', () => {
+            const propertyValue = collection.getItemBySourceKey('description').getPropertyValue();
+            assert.equal(propertyValue, 'This is http://mysite.com');
+        });
+    })
 });

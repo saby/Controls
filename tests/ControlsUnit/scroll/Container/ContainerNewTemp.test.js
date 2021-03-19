@@ -1,16 +1,16 @@
 define(
    [
       'Env/Env',
-      'Controls/scroll'
+      'Controls/_scroll/Container'
    ],
-   function(Env, scrollMod) {
+   function(Env, ScrollContainer) {
       'use strict';
 
       describe('Controls.Container.Scroll', function() {
          var scroll;
          beforeEach(function() {
-            scroll = new scrollMod.Container(scrollMod.Container.getDefaultOptions());
-            scroll._options = scrollMod.Container.getDefaultOptions();
+            scroll = new ScrollContainer.default(ScrollContainer.default.getDefaultOptions());
+            scroll._options = ScrollContainer.default.getDefaultOptions();
          });
 
          describe('_shadowVisible', function() {

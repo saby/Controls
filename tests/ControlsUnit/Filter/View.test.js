@@ -246,6 +246,52 @@ define(
             assert.equal(view._configs.document.items.length, 7);
          });
 
+         it('_beforeUpdate with opened filterPopupOpener', function(done) {
+            let filterReopened = false;
+            const source = [
+               {
+                  name: 'document',
+                  value: null,
+                  resetValue: null,
+                  textValue: '',
+                  emptyText: 'All documents',
+                  editorOptions: {
+                     keyProperty: 'id'
+                  }
+               }
+            ];
+            let view = getView({source});
+            view._options.source = source;
+            let newConfig = {
+               source: [
+                  {
+                     name: 'document',
+                     value: 1,
+                     resetValue: 2,
+                     textValue: '',
+                     emptyText: 'All documents',
+                     editorOptions: {
+                        keyProperty: 'key'
+                     }
+                  }
+               ]
+            };
+            view._configs = {};
+            view._displayText = {};
+            view._getFilterPopupOpener = () => {
+               return {
+                  isOpened: () => true
+               };
+            };
+            view.openDetailPanel = () => {
+               filterReopened = true;
+            };
+            view._beforeUpdate(newConfig).addCallback(() => {
+               assert.isTrue(filterReopened);
+               done();
+            });
+         });
+
          it ('_clearConfigs', function() {
             let view = getView(defaultConfig);
             let source = Clone(defaultSource);

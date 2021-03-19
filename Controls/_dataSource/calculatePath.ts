@@ -11,7 +11,7 @@ interface IPathResult {
     backButtonItem: Model;
 }
 
-function getPath(data: RecordSet|[]): Path {
+function getPath(data: RecordSet | Path): Path {
     const path = data instanceof RecordSet && data.getMetaData().path;
     let breadCrumbs = null;
 
@@ -54,7 +54,7 @@ function getPathWithoutItemForBackButton(breadCrumbs: Path): Path {
     return breadCrumbsWithoutItemForBackButton;
 }
 
-export default function calculatePath(data: RecordSet, displayProperty?: string): IPathResult {
+export default function calculatePath(data: RecordSet | Path, displayProperty?: string): IPathResult {
     const path = getPath(data);
 
     return {
