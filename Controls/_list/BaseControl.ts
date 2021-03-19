@@ -5014,10 +5014,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         }
     },
 
-    _updateCollapsedGroups(): void {
-
-    },
-
     isLoading(): boolean {
         return this._sourceController && this._sourceController.isLoading();
     },
