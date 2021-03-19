@@ -30,7 +30,7 @@ interface IBackgroundPositionData {
  *       <ws:itemTemplate>
  *          <ws:partial template="Controls/toggle:tumblerItemTemplate"/>
  *       </ws:itemTemplate>
- *    </Controls.toggle:RadioGroup>
+ *    </Controls.toggle:Tumbler>
  * </pre>
  * @see itemTemplateProperty
  */
@@ -47,7 +47,7 @@ interface IBackgroundPositionData {
  * Пример описания.
  * <pre>
  *    <Controls.toggle:Tumbler itemTemplateProperty="myTemplate" source="{{_source}}...>
- *    </Controls.toggle:RadioGroup>
+ *    </Controls.toggle:Tumbler>
  * </pre>
  * myTemplate
  * <pre>
