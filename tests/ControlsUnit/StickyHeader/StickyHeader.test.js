@@ -155,6 +155,17 @@ define([
             sinon.assert.calledWith(stubStickyModeChanged, newMode);
             sinon.restore();
          });
+
+         it('should generate "stickyHeaderOffsetTopChanged" event if offsetTop option has been changed', function () {
+            const component = createComponent(StickyHeader, { mode: 'notsticky' });
+            sinon.stub(component, '_notify');
+
+            component._beforeUpdate(coreMerge({ offsetTop: 100 }, StickyHeader.getDefaultOptions(), { preferSource: true }));
+
+            sinon.assert.calledWith(component._notify, 'stickyHeaderOffsetTopChanged', [], { bubbling: true });
+
+            sinon.restore();
+         });
       });
 
       describe('_afterUpdate', function() {
