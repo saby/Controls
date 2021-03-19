@@ -19,6 +19,7 @@ import {mixin} from 'Types/util';
 import {SerializableMixin} from 'Types/entity';
 import {ControllerClass as SearchController} from 'Controls/search';
 import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
+import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 
 const DEFAULT_LOAD_TIMEOUT = 10000;
 
@@ -77,6 +78,7 @@ export interface ILoadDataResult extends ILoadDataConfig {
     sourceController: NewSourceController;
     filterController?: FilterController;
     searchController?: SearchController;
+    collapsedGroups?: TArrayGroupId;
 }
 
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
@@ -137,7 +139,8 @@ function getLoadResult(
         data: sourceController.getItems(),
         error: sourceController.getLoadError(),
         filter: sourceController.getFilter(),
-        sorting:  sourceController.getSorting() as TSortingOptionValue
+        sorting:  sourceController.getSorting() as TSortingOptionValue,
+        collapsedGroups: sourceController.getCollapsedGroups()
     };
 }
 
