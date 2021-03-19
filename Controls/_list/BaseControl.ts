@@ -4304,7 +4304,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         return this._items;
     }
 
-    scrollToItem(key: TItemKey, toBottom: boolean, force: boolean): void {
+    scrollToItem(key: TItemKey, toBottom?: boolean, force?: boolean): Promise<void> {
         return _private.scrollToItem(this, key, toBottom, force);
     }
 
