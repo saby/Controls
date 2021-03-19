@@ -56,9 +56,11 @@ export {default as Tumbler} from './_toggle/Tumbler';
 import ItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/ItemTemplate');
 import CheckboxItemTemplate = require('wml!Controls/_toggle/CheckboxGroup/resources/ItemTemplate');
 import switchCircleTemplate = require('wml!Controls/_toggle/RadioGroup/resources/RadioCircle/RadioCircle');
+import * as tumblerItemTemplate from 'wml!Controls/_toggle/Tumbler/itemTemplate';
 
 export {
     ItemTemplate,
     CheckboxItemTemplate,
-    switchCircleTemplate
+    switchCircleTemplate,
+    tumblerItemTemplate
 };

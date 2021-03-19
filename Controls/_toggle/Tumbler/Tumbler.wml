@@ -8,7 +8,9 @@
                         {{itemData[_options.keyProperty] === _options.selectedKey && _backgroundPosition.isEmpty ? 'controls-Tumbler__button-selected_background'}}"
                  on:click="_onItemClick(itemData)"
                  name="TumblerButton{{index}}">
-                {{itemData.get('caption')}}
+                <ws:partial
+                    template="{{_getTemplate(_options.itemTemplate, itemData, _options.itemTemplateProperty) || _defaultItemTemplate}}"
+                    item="{{itemData}}"/>
             </div>
         </ws:for>
         <div class="controls-Tumbler__button-background"
