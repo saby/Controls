@@ -35,7 +35,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataCell', () 
     });
 
     it('getExpanderClasses should include expander js-class', () => {
-        CssClassesAssert.notInclude(groupCell.getExpanderClasses(true, 'right', 'default'),
+        CssClassesAssert.include(groupCell.getExpanderClasses(true, 'right', 'default'),
             'js-controls-Tree__row-expander');
     });
 

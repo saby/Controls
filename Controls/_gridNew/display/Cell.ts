@@ -198,8 +198,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _getBackgroundColorWrapperClasses(
        theme: string,
        style: string,
-       templateHighlightOnHover: boolean = true,
-       backgroundColorStyle: string = 'default',
+       templateHighlightOnHover?: boolean,
+       backgroundColorStyle?: string,
        hoverBackgroundStyle?: string
     ): string {
         let wrapperClasses = '';
@@ -214,7 +214,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
                 wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}_theme-${theme}`;
             }
 
-            if (backgroundColorStyle !== 'default' || this.getOwner().hasColumnScroll()) {
+            if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
                 wrapperClasses += ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
             }
         }
