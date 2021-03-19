@@ -10,7 +10,7 @@
             scope="{{_options}}"
             items="{{_items}}"
             itemsReadyCallback="{{_itemsReadyCallback}}"
-            dataLoadCallback="{{_dataLoadCallback}}"
+            dataLoadCallback="{{_options.sourceController ? _options.dataLoadCallback : _dataLoadCallback}}"
             sourceController="{{_sourceController}}"
             filter="{{_sourceControllerState.filter}}"
             navigation="{{_sourceControllerState.navigation}}"
