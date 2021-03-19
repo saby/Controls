@@ -1,7 +1,7 @@
 import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig} from 'Controls/dataSource';
 import {Memory} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
-import {useFakeTimers} from 'sinon';
+import {NewSourceController} from 'Controls/dataSource';
 
 function getDataArray(): object[] {
     return [
@@ -155,6 +155,15 @@ describe('Controls/dataSource:loadData', () => {
 
         ok(loadDataPromises.length === 2);
         ok(loadResults.length === 2);
+    });
+
+    it('load data with sourceController in config', async () => {
+        const source = getSource();
+        const sourceController = new NewSourceController({source});
+        const dataLoader = getDataLoader();
+        await dataLoader.load([{source, sourceController}]);
+
+        ok(dataLoader.getSourceController() === sourceController);
     });
 
 });
