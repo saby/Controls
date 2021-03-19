@@ -1,9 +1,11 @@
-import {IPopupItem, IPopupPosition, ISlidingPanelPopupOptions} from 'Controls/popup';
+import {IPopupItem, IPopupPosition, IPopupSizes, ISlidingPanelPopupOptions} from 'Controls/popup';
 import constants from 'Env/Constants';
 
 interface ISlidingPanelItem extends IPopupItem {
     popupOptions: ISlidingPanelPopupOptions;
 }
+
+const POSITION_OUT_OF_VIEW = -10000;
 
 class Strategy {
 
@@ -11,6 +13,7 @@ class Strategy {
      * Returns popup position
      * @function Controls/_popupSliding/Strategy#getPosition
      * @param item Popup configuration
+     * @param sizes Popup container sizes
      */
     getPosition({position: popupPosition = {}, popupOptions}: ISlidingPanelItem): IPopupPosition {
         const windowHeight = this._getWindowHeight();
@@ -18,22 +21,29 @@ class Strategy {
             slidingPanelOptions: {
                 position,
                 maxHeight: optionsMaxHeight = windowHeight,
-                minHeight: optionsMinHeight
+                minHeight: optionsMinHeight,
+                autoHeight
             } = {}
         } = popupOptions;
         const maxHeight = this._getHeightWithoutOverflow(optionsMaxHeight, windowHeight);
         const minHeight = this._getHeightWithoutOverflow(optionsMinHeight, maxHeight);
-        const initialHeight = this._getHeightWithoutOverflow(popupPosition.height, maxHeight);
-        const height = this._getHeightWithoutOverflow(initialHeight || minHeight, maxHeight);
+        const currentPositionHeight = this._getHeightWithoutOverflow(popupPosition.height, maxHeight);
+
+        // Если еще не тянули шторку и включили авто высоту, то строимся по контейнеру
+        const height = autoHeight && !currentPositionHeight ? undefined : (currentPositionHeight || minHeight);
+
+        // Признак того, что попап открыт, в этом случае край попапа всегда на краю экрана
+        const popupPositionInitialized = popupPosition[position] !== undefined &&
+            popupPosition[position] !== POSITION_OUT_OF_VIEW;
         return {
             left: 0,
             right: 0,
 
-            // Попап изначально показывается за пределами экрана
-            [position]: initialHeight ? 0 : -minHeight,
-            maxHeight,
+            // Изначально позиционируемся за экраном, если уже перепозиционировались, то уже показываемся у края экрана
+            [position]: popupPositionInitialized ? 0 : POSITION_OUT_OF_VIEW,
+            maxHeight: maxHeight || windowHeight,
             minHeight,
-            height: height < minHeight ? minHeight : height,
+            height: minHeight && height && height < minHeight ? minHeight : height,
             position: 'fixed'
         };
     }
@@ -47,7 +57,7 @@ class Strategy {
      */
     private _getHeightWithoutOverflow(height: number, maxHeight: number): number {
         if (!height) {
-            return height;
+            return undefined;
         }
         return maxHeight > height ? height : maxHeight;
     }

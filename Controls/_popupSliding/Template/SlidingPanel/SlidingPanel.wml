@@ -4,6 +4,7 @@
       on:dragmove="_dragMoveHandler()"
       on:documentdragend="_dragEndHandler()">
       <div
+         name="controlLine"
          on:mousedown="_startDragNDrop()"
          on:touchstart="_startDragNDrop()"
          class="controls-SlidingPanel__controller-container">
