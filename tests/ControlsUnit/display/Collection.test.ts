@@ -4431,25 +4431,4 @@ describe('Controls/_display/Collection', () => {
             assert.equal(display.getHoverBackgroundStyle(), 'master');
         });
     });
-
-    describe('groups', () => {
-        it('getCollapsedGroups', () => {
-            const items = [
-                {id: 1, group: 1},
-                {id: 2, group: 2}
-            ];
-            const display = new CollectionDisplay({
-                collection: new RecordSet({
-                    rawData: items,
-                    keyProperty: 'id'
-                }),
-                keyProperty: 'id',
-                group: (item) => item.get('group')
-            });
-
-            display.at(0).setExpanded(false);
-
-            assert.deepEqual(display.getCollapsedGroups(), [1]);
-        });
-    });
 });
