@@ -75,8 +75,8 @@ export function each(
             stickyItemBefore = { current, index: enumerator.getCurrentIndex() };
         }
     }
-    enumerator.setPosition(stopIndex - 1 + (stickyItemBefore ? 1 : 0));
-    while (enumerator.moveNext() && enumerator.getCurrentIndex() < count - (stickyItemAfter ? 1 : 0)) {
+    enumerator.setPosition(stopIndex - 1);
+    while (enumerator.moveNext() && enumerator.getCurrentIndex() < count) {
         const current = enumerator.getCurrent() as any;
         if (current && current.isSticked && current.isSticked()) {
             stickyItemAfter = { current, index: enumerator.getCurrentIndex() };
@@ -91,9 +91,9 @@ export function each(
             stickyItemBefore.index
         );
     }
-    enumerator.setPosition(startIndex - 1);
+    enumerator.setPosition(startIndex - 1 + (stickyItemBefore ? 1 : 0));
 
-    while (enumerator.moveNext() && enumerator.getCurrentIndex() < stopIndex) {
+    while (enumerator.moveNext() && enumerator.getCurrentIndex() < stopIndex - (stickyItemAfter ? 1 : 0)) {
         callback.call(
             context,
             enumerator.getCurrent(),
