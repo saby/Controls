@@ -66,29 +66,29 @@ export function each(
     const enumerator = collection.getEnumerator();
     const count = collection.getCount();
 
-    let styckyItemBefore = null;
-    let styckyItemAfter = null;
+    let stickyItemBefore = null;
+    let stickyItemAfter = null;
     enumerator.setPosition(-1);
     while (enumerator.moveNext() && enumerator.getCurrentIndex() < startIndex) {
-        let current = enumerator.getCurrent() as any;
+        const current = enumerator.getCurrent() as any;
         if (current && current.isSticked && current.isSticked()) {
-            styckyItemBefore = { current, index: enumerator.getCurrentIndex() };
+            stickyItemBefore = { current, index: enumerator.getCurrentIndex() };
         }
     }
-    enumerator.setPosition(stopIndex - 1);
-    while (enumerator.moveNext() && enumerator.getCurrentIndex() < count) {
-        let current = enumerator.getCurrent() as any;
+    enumerator.setPosition(stopIndex - 1 + (stickyItemBefore ? 1 : 0));
+    while (enumerator.moveNext() && enumerator.getCurrentIndex() < count - (stickyItemAfter ? 1 : 0)) {
+        const current = enumerator.getCurrent() as any;
         if (current && current.isSticked && current.isSticked()) {
-            styckyItemAfter = { current, index: enumerator.getCurrentIndex() };
+            stickyItemAfter = { current, index: enumerator.getCurrentIndex() };
             break;
         }
     }
 
-    if (styckyItemBefore) {
+    if (stickyItemBefore) {
         callback.call(
             context,
-            styckyItemBefore.current,
-            styckyItemBefore.index
+            stickyItemBefore.current,
+            stickyItemBefore.index
         );
     }
     enumerator.setPosition(startIndex - 1);
@@ -101,11 +101,11 @@ export function each(
         );
     }
 
-    if (styckyItemAfter) {
+    if (stickyItemAfter) {
         callback.call(
             context,
-            styckyItemAfter.current,
-            styckyItemAfter.index
+            stickyItemAfter.current,
+            stickyItemAfter.index
         );
     }
 }
