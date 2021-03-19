@@ -3443,9 +3443,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             _private.addShowActionsClass(this);
         }
 
-        return Promise.resolve(this._prepareGroups(newOptions, (collapsedGroups) => {
-            return this._prepareItemsOnMount(this, newOptions, receivedState, collapsedGroups);
-        })).then((res) => {
+        return Promise.resolve(this._prepareItemsOnMount(this, newOptions, receivedState)).then((res) => {
             const editingConfig = this._getEditingConfig(newOptions);
             return editingConfig.item ? this._startInitialEditing(editingConfig) : res;
         }).then((res) => {
@@ -3500,12 +3498,14 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         _private.prepareFooter(this, cfg, this._sourceController);
     },
 
-    _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}, collapsedGroups) {
+    _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}) {
         let receivedData = receivedState.data;
         let viewModelConfig = {...newOptions, keyProperty: self._keyProperty};
+        let collapsedGroups;
 
         if (self._sourceController) {
             receivedData = self._sourceController.getItems();
+            collapsedGroups = self._sourceController.getCollapsedGroups();
         }
 
         if (collapsedGroups) {
@@ -3597,10 +3597,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     _prepareGroups(newOptions, callback: Function) {
         let result = null;
         if (newOptions.historyIdCollapsedGroups || newOptions.groupHistoryId) {
-            result = new Deferred();
-            groupUtil.restoreCollapsedGroups(newOptions.historyIdCollapsedGroups || newOptions.groupHistoryId).addCallback(function(collapsedGroupsFromStore) {
-                result.callback(collapsedGroupsFromStore || newOptions.collapsedGroups);
-            });
+            result = Deferred.success(
+                (this._sourceController && this._sourceController.getCollapsedGroups()) ||
+                newOptions.collapsedGroups
+            );
         } else if (newOptions.collapsedGroups) {
             result = new Deferred();
             result.callback(newOptions.collapsedGroups);

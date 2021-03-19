@@ -1,6 +1,8 @@
 import {DataLoader, ILoadDataResult} from 'Controls/dataSource';
 import {Memory} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
+import {createSandbox} from 'sinon';
+import {default as groupUtil} from 'Controls/_dataSource/GroupUtil';
 
 function getDataArray(): object[] {
     return [
@@ -145,6 +147,22 @@ describe('Controls/dataSource:loadData', () => {
             }
         );
         deepStrictEqual(loadDataResult[0].historyItems, [{...historyItem}]);
+    });
+
+    it('load with collapsedGroups', async () => {
+        const sinonSandbox = createSandbox();
+        const loadDataConfigWithFilter = {
+            source: getSource(),
+            filter: {},
+            groupHistoryId: 'testGroupHistoryId'
+        };
+
+        sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', () => {
+            return Promise.resolve(['testCollapsedGroup1', 'testCollapsedGroup2']);
+        });
+        const loadDataResult = await getDataLoaded().load([loadDataConfigWithFilter]);
+        deepStrictEqual((loadDataResult[0] as ILoadDataResult).collapsedGroups, ['testCollapsedGroup1', 'testCollapsedGroup2']);
+        sinonSandbox.restore();
     });
 
 });

@@ -255,6 +255,14 @@ describe('Controls/dataSource:SourceController', () => {
             const loadedItems = await controller.reload();
             ok(loadedItems.getCount() === 4);
             sinonSandbox.restore();
+
+            sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', () => {
+                return Promise.resolve(['testCollapsedGroup1', 'testCollapsedGroup2']);
+            });
+            await controller.reload();
+            deepStrictEqual(controller.getCollapsedGroups(), ['testCollapsedGroup1', 'testCollapsedGroup2']);
+
+            sinonSandbox.restore();
         });
 
         it('load call with direction update items',  async () => {

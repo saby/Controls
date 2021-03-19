@@ -14,6 +14,7 @@ import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {Logger} from 'UI/Utils';
 import {loadSavedConfig} from 'Controls/Application/SettingsController';
 import {loadAsync, loadSync, isLoaded} from 'WasabyLoader/ModulesLoader';
+import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 
 const FILTER_PARAMS_LOAD_TIMEOUT = 1000;
 
@@ -63,6 +64,7 @@ export interface ILoadDataResult extends ILoadDataConfig {
     error: Error;
     sourceController: NewSourceController;
     filterController?: FilterController;
+    collapsedGroups?: TArrayGroupId;
 }
 
 function isNeedPrepareFilter(loadDataConfig: ILoadDataConfig): boolean {
@@ -160,6 +162,7 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
                     data: sourceController.getItems(),
                     error: sourceController.getLoadError(),
                     filter: sourceController.getFilter(),
+                    collapsedGroups: sourceController.getCollapsedGroups(),
                     sorting,
                     navigation: loadConfig.navigation,
                     historyItems: filterHistoryItems
