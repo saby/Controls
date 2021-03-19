@@ -2531,18 +2531,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     getCollapsedGroups(): TArrayGroupKey {
-        // TODO зарефакторить https://online.sbis.ru/opendoc.html?guid=e20934c7-95fa-44f3-a7c2-c2a3ec32e8a3
-        if (this._$collapsedGroups) {
-            return this._$collapsedGroups;
-        } else {
-            const collapsedGroups = [];
-            this.each((it) => {
-                if (it['[Controls/_display/GroupItem]'] && !it.isExpanded()) {
-                    collapsedGroups.push(it.getContents());
-                }
-            });
-            return collapsedGroups;
-        }
+        return this._$collapsedGroups;
     }
 
     setCollapsedGroups(collapsedGroups: TArrayGroupKey): void {
@@ -3474,6 +3463,15 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             return;
         }
         const groupStrategy = this._composer.getInstance<GroupItemsStrategy<S, T>>(GroupItemsStrategy);
+        // prependStrategy вызывает _reGroup после composer.prepend().
+        // Внутри composer.prepend() имеющийся экземпляр стратегии удаляется, и пересоздаётся с опциями,
+        // которые были переданы для неё при добавлении в компоновщик.
+        // Необходимо устанавливать актуальное состояние "свёрнутости" групп,
+        // т.к. после пересоздания стратегии, она ничего не знает об актуальном значении collapsedGroups.
+        // Чтобы убрать этот костыль, надо или научить компоновщик пересоздавать стратегии с актуальными опциями
+        // или сделать получение collapsedGroups через callback или пересмотреть необходимость пересоздания
+        // стратегий при prepend.
+        groupStrategy.collapsedGroups = this._$collapsedGroups;
         groupStrategy.invalidate();
     }
 

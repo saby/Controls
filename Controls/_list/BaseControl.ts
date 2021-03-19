@@ -5045,6 +5045,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                     group: groupId,
                     collapsedGroups
                 };
+                // При setExpanded() не обновляется collection.collapsedGroups, на основе которого стратегия
+                // определяет, какие группы надо создавать свёрнутыми. Поэтому обновляем его тут.
+                collection.setCollapsedGroups(collapsedGroups);
                 _private.groupsExpandChangeHandler(this, changes);
             } else {
                 const needExpandGroup = !collection.isGroupExpanded(groupId);

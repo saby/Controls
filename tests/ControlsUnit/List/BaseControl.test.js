@@ -3857,6 +3857,50 @@ define([
             });
          });
       });
+
+      describe('_onGroupClick', () => {
+         let ctrl;
+         const cfg = {
+            viewName: 'Controls/List/ListView',
+            viewModelConstructor: 'Controls/display:Collection',
+            useNewModel: true,
+            keyProperty: 'id',
+            groupProperty: 'group',
+            source: new sourceLib.Memory({
+               keyProperty: 'id',
+               data: [
+                  {
+                     id: 1,
+                     title: 'item 1',
+                     group: 'group'
+                  },
+                  {
+                     id: 2,
+                     title: 'item 2',
+                     group: 'group'
+                  }
+               ]
+            })
+         };
+
+         beforeEach(() => {
+            ctrl = correctCreateBaseControl(cfg);
+            ctrl.saveOptions(cfg);
+         });
+
+         it('should call setCollapsedGroups', () => {
+            ctrl._beforeMount(cfg);
+            const spySetCollapsedGroups = sinon.spy(ctrl.getViewModel(), 'setCollapsedGroups');
+            ctrl._onGroupClick({}, 0, {
+               target: {
+                  closest: () => true
+               }
+            }, ctrl.getViewModel().at(0));
+            sinon.assert.called(spySetCollapsedGroups);
+            spySetCollapsedGroups.restore();
+         });
+      });
+
       it('can\'t start drag on readonly list', async function() {
          let
              cfg = {
