@@ -1719,10 +1719,13 @@ var
 
             current.hasCellContentRender = (column) => {
                 return Boolean(
-                    column.displayType ||
-                    column.textOverflow ||
-                    column.fontColorStyle ||
-                    column.fontSize
+                    !current.dispItem['[Controls/_display/BreadcrumbsItem]'] &&
+                    (
+                        column.displayType ||
+                        column.textOverflow ||
+                        column.fontColorStyle ||
+                        column.fontSize
+                    )
                 );
             };
 
