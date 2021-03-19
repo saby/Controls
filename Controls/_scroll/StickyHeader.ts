@@ -654,7 +654,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (StickyHeader.getDevicePixelRatio() !== 1) {
             coord += 1;
         }
-        if (position === POSITION.top && offsetTop && shadowVisibility === SHADOW_VISIBILITY.visible) {
+        if (position === POSITION.top && offsetTop && shadowVisibility !== SHADOW_VISIBILITY.hidden) {
             coord += offsetTop;
         }
         // Учитываем бордеры на фиксированных заголовках
@@ -668,7 +668,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             }
         }
 
-        return position + ': -' + coord + 'px;';
+        return `${position}: ${-coord}px;`;
     }
 
     protected updateFixed(ids: number[]): void {
