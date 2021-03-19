@@ -3888,18 +3888,16 @@ define([
             ctrl.saveOptions(cfg);
          });
 
-         it('should call setCollapsedGroups', (done) => {
-            ctrl._beforeMount(cfg).then(() => {
-               const spySetCollapsedGroups = sinon.spy(ctrl.getViewModel(), 'setCollapsedGroups');
-               ctrl._onGroupClick({}, 0, {
-                  target: {
-                     closest: () => true
-                  }
-               }, ctrl.getViewModel().at(0));
-               sinon.assert.called(spySetCollapsedGroups);
-               spySetCollapsedGroups.restore();
-               done();
-            });
+         it('should call setCollapsedGroups', () => {
+            ctrl._beforeMount(cfg);
+            const spySetCollapsedGroups = sinon.spy(ctrl.getViewModel(), 'setCollapsedGroups');
+            ctrl._onGroupClick({}, 0, {
+               target: {
+                  closest: () => true
+               }
+            }, ctrl.getViewModel().at(0));
+            sinon.assert.called(spySetCollapsedGroups);
+            spySetCollapsedGroups.restore();
          });
       });
 
