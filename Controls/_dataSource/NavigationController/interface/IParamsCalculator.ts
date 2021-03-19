@@ -16,7 +16,8 @@ export default interface IParamsCalculator {
          list: RecordSet,
          metaMore: object | number | boolean,
          navigationQueryConfig: IBaseSourceConfig,
-         direction: TNavigationDirection
+         direction: TNavigationDirection,
+         listForCurrentStore?: Model[]
      ): any;
      shiftToEdge(
          store: INavigationStore,

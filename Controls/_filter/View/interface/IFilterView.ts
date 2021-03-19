@@ -14,6 +14,8 @@ export interface IFilterViewOptions extends IControlOptions {
 
     panelTemplateName: string;
     panelTemplateOptions: unknown;
+
+    useStore: boolean;
 }
 
 /**

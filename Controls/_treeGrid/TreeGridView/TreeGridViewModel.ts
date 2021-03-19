@@ -77,11 +77,41 @@ var
         getRoot: function() {
             return this._model.getRoot();
         },
-        getNextByKey: function() {
-           return this._model.getNextByKey.apply(this._model, arguments);
+        getNextByKey(key: string|number, forMoving?: boolean) {
+            if (forMoving) {
+                const items = this.getItems();
+                const relation = this._model.getHierarchyRelation();
+                const item = items.getRecordById(key);
+                const itemParent = item.get(this._options.parentProperty);
+                const children = relation.getChildren(itemParent, items);
+                const curItemIndex = children.indexOf(item);
+                const display = this.getDisplay();
+                if (curItemIndex === -1 || curItemIndex === children.length - 1) {
+                    return this._model.getNextByKey(key);
+                } else {
+                    return display.getItemBySourceItem(children[curItemIndex + 1]);
+                }
+            } else {
+                return this._model.getNextByKey(key);
+            }
         },
-        getPrevByKey: function() {
-           return this._model.getPrevByKey.apply(this._model, arguments);
+        getPrevByKey(key: string|number, forMoving?: boolean) {
+            if (forMoving) {
+                const items = this.getItems();
+                const relation = this._model.getHierarchyRelation();
+                const item = items.getRecordById(key);
+                const itemParent = item.get(this._options.parentProperty);
+                const children = relation.getChildren(itemParent, items);
+                const curItemIndex = children.indexOf(item);
+                const display = this.getDisplay();
+                if (curItemIndex <= 0) {
+                    return this._model.getPrevByKey(key);
+                } else {
+                    return display.getItemBySourceItem(children[curItemIndex - 1]);
+                }
+            } else {
+                return this._model.getPrevByKey(key);
+            }
         },
         getNextByIndex: function() {
            return this._model.getNextByIndex.apply(this._model, arguments);

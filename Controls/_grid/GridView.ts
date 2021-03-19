@@ -189,6 +189,7 @@ var
                 hasMultiSelect: options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition === 'default',
                 theme: options.theme,
                 backgroundStyle: options.backgroundStyle,
+                stickyLadderCellsCount: self._listModel.stickyLadderCellsCount(),
                 isEmptyTemplateShown: options.needShowEmptyTemplate
             });
             const uniqueSelector = self._columnScrollController.getTransformSelector();

@@ -6,6 +6,7 @@ import SliderBase from './_SliderBase';
 import SliderTemplate = require('wml!Controls/_slider/sliderTemplate');
 import {IScaleData, ILineData, IPointDataList, default as Utils} from './Utils';
 import { SyntheticEvent } from 'Vdom/Vdom';
+import 'css!Controls/slider';
 
 export interface ISliderRangeOptions extends IControlOptions, ISliderOptions {
    startValue: number;
@@ -167,8 +168,6 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
          }
       }
    }
-
-   static _theme: string[] = ['Controls/slider'];
 
    static getDefaultOptions(): object {
       return {...{

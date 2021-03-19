@@ -18,7 +18,8 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataCell', () 
         hasMultiSelectColumn: () => false,
         hasColumnScroll: () => false,
         isDragTargetNode: () => false,
-        isEditing: () => false
+        isEditing: () => false,
+        shouldDisplayMarker: () => false
     } as undefined as TreeGridGroupDataRow<any>;
 
     const groupCell = new TreeGridGroupDataCell({

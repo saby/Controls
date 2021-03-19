@@ -73,18 +73,15 @@ async function getCorrectBaseControlConfigAsync(cfg): Promise<object> {
 }
 
 describe('Controls/list_clean/BaseControl', () => {
-    describe('BaseControl watcher groupHistoryId', () => {
+    describe('BaseControl watcher groupHistoryId', async () => {
 
         const GROUP_HISTORY_ID_NAME: string = 'MY_NEWS';
 
-        const baseControlCfg = getCorrectBaseControlConfig({
+        const baseControlCfg = await getCorrectBaseControlConfigAsync({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
-            items: new RecordSet({
-                keyProperty: 'id',
-                rawData: []
-            })
+            source: new Memory()
         });
         let baseControl;
 
@@ -101,7 +98,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeMount(baseControlCfg);
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             baseControl._afterMount();
-            assert.isFalse(!!baseControl._listViewModel.getCollapsedGroups());
+            assert.isFalse(!!baseControl._listViewModel.getCollapsedGroups()?.length);
         });
         it('is CollapsedGroup', () => {
             const cfgClone = {...baseControlCfg};

@@ -1,6 +1,8 @@
 <Controls.popupTemplate:Stack closeButtonViewMode="link"
                               attr:class="controls-FilterViewPanel__popup-template_theme-{{_options.theme}}">
     <ws:bodyContentTemplate>
-        <Controls.filterPanel:View source="{{_options.items}}"/>
+        <Controls.filterPanel:View source="{{_options.items}}"
+                                   collapsedGroups="{{_options.collapsedGroups}}"
+                                   on:collapsedGroupsChanged="_collapsedGroupsChanged()"/>
     </ws:bodyContentTemplate>
 </Controls.popupTemplate:Stack>

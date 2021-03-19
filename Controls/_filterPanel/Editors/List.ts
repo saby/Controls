@@ -86,7 +86,7 @@ class ListEditor extends Control<IListEditorOptions> {
             this._selectedKeys = options.propertyValue;
             this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
         }
-        if (filterChanged || valueChanged) {
+        if (filterChanged || (valueChanged && !options.multiSelect)) {
             this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
         }
     }

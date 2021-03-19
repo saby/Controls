@@ -813,6 +813,7 @@ define([
                   },
                   inst: {
                      height: 20,
+                     offsetTop: 0,
                      resetSticky: () => undefined,
                      getHeaderContainer: function() {
                         return {
@@ -830,6 +831,7 @@ define([
                   },
                   inst: {
                      height: 30,
+                     offsetTop: 0,
                      resetSticky: () => undefined,
                      getHeaderContainer: function() {
                         return {
@@ -847,6 +849,7 @@ define([
                   },
                   inst: {
                      height: 40,
+                     offsetTop: 0,
                      resetSticky: () => undefined,
                      getHeaderContainer: function() {
                         return {
@@ -908,6 +911,32 @@ define([
             component._updateHeadersFixedPositions(['sticky2']);
 
             sinon.assert.calledWith(setFixedPosition, 'top');
+         });
+
+         it('Header with id equal to "sticky2" should not be unfixed', function() {
+            const setFixedPosition = sinon.fake();
+            component._headers = {
+               sticky1: {
+                  mode: 'stackable',
+                  inst: {
+                     height: 10
+                  }
+               },
+               sticky2: {
+                  mode: 'stackable',
+                  inst: {
+                     height: 10,
+                     setFixedPosition: setFixedPosition
+                  },
+                  offset: { top: 10 }
+               }
+            };
+            component._headersStack = {
+               top: ['sticky1', 'sticky2']
+            };
+            component._updateHeadersFixedPositions(['sticky2']);
+
+            sinon.assert.notCalled(setFixedPosition);
          });
       });
 

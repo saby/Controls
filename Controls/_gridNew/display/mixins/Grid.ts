@@ -280,6 +280,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (header) {
             header.setColumns(newColumns);
         }
+        const results = this.getResults();
+        if (results) {
+            results.setColumns(newColumns);
+        }
     }
 
     setSorting(sorting: Array<{[p: string]: string}>): void {
@@ -349,14 +353,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _updateItemsColumns(): void {
-        if (this._$results) {
-            this._$results.setColumns(this._$columns);
-        }
-
         this.getViewIterator().each((item: GridRowMixin<S>) => {
-            if (item.LadderSupport) {
-                item.setColumns(this._$columns);
-            }
+            item.setColumns(this._$columns);
         });
     }
 

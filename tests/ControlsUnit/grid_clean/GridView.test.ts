@@ -40,7 +40,8 @@ describe('Controls/grid_clean/GridView', () => {
         beforeEach(() => {
             mockListViewModel = {
                 subscribe: () => {},
-                setItemPadding: () => {}
+                setItemPadding: () => {},
+                getDraggableItem: () => undefined
             };
             options = { listModel: mockListViewModel };
             gridView = new GridView(options);

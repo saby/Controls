@@ -5,6 +5,7 @@ import template = require('wml!Controls/_breadcrumbs/Path/Path');
 import {IBreadCrumbsOptions} from './interface/IBreadCrumbs';
 import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
 import {Record} from 'Types/entity';
+import 'css!Controls/breadcrumbs';
 
 interface IReceivedState {
     items: Record[];
@@ -145,7 +146,6 @@ class BreadCrumbs extends Control<IBreadCrumbsOptions> {
             this._options.breadCrumbsItemClickCallback(e, item);
         }
     }
-    static _theme: string[] = ['Controls/crumbs'];
     static getDefaultOptions(): IBreadCrumbsOptions {
         return {
             displayProperty: 'title',

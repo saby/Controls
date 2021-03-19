@@ -2,9 +2,11 @@
    <Controls.scroll:Container attr:class="controls-FilterViewPanel__scroll">
       <Controls.scroll:StickyHeader backgroundStyle="transparent">
          <div class="controls-FilterViewPanel__header controls-FilterViewPanel__header_theme-{{_options.theme}}">
-            <div class="controls-FilterViewPanel__resetButton controls-FilterViewPanel__resetButton_theme-{{_options.theme}}"
-                 on:click="_resetFilter()"> {{rk('Сбросить')}}
-            </div>
+            <Controls.buttons:Button viewMode="linkButton"
+                                     caption="{{rk('Сбросить')}}"
+                                     fontColorStyle="label"
+                                     readOnly="{{_filterReseted}}"
+                                     on:click="_resetFilter()"/>
             <ws:if data="{{_options.applyButtonCaption}}">
                <div class="controls-FilterViewPanel__applyButton controls-FilterViewPanel__applyButton_theme-{{_options.theme}}"
                     on:click="_applyFilter()"> {{rk(_options.applyButtonCaption)}}

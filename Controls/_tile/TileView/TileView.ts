@@ -129,18 +129,13 @@ var TileView = ListView.extend({
             if (!imageWrapper) {
                 return null;
             }
-            let previewWidth = imageWrapper.clientWidth;
-            let previewHeight = imageWrapper.clientHeight;
+
             menuOptions.image = itemData.imageData.url;
             menuOptions.title = itemData.item.get(itemData.displayProperty);
             menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
             menuOptions.imageClasses = itemData.imageData?.class;
-            if (this._options.tileScalingMode === TILE_SCALING_MODE.NONE) {
-                previewHeight = previewHeight * ZOOM_COEFFICIENT;
-                previewWidth = previewWidth * ZOOM_COEFFICIENT;
-            }
-            menuOptions.previewHeight = previewHeight;
-            menuOptions.previewWidth = previewWidth;
+            menuOptions.previewHeight = imageWrapper.clientHeight;
+            menuOptions.previewWidth = imageWrapper.clientWidth;
 
             return {
                 templateOptions: menuOptions,

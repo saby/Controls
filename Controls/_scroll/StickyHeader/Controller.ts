@@ -435,7 +435,7 @@ class StickyHeaderController {
             const header = this._headers[headerId];
 
             if (headers.includes(headerId)) {
-                if (this._getHeaderOffset(headerId, position) <= fixedHeadersHeight + replaceableHeight) {
+                if (this._getHeaderOffset(headerId, position) < fixedHeadersHeight + replaceableHeight) {
                     header.inst.setFixedPosition(POSITION.top);
                 }
             }
@@ -641,7 +641,7 @@ class StickyHeaderController {
                                     parentElementOfNextHeader = parentElementOfNextHeader.parentElement;
                                 }
                                 if (parentElementOfNextHeader === parentElementOfPrevHeader) {
-                                    const height: number = header.inst.height;
+                                    const height: number = header.inst.height + header.inst.offsetTop;
                                     // Сохраним высоты по которым рассчитали позицию заголовков,
                                     // что бы при последующих изменениях понимать, надо ли пересчитывать их позиции.
                                     this._updateElementsHeight(header.inst.getHeaderContainer(), height);

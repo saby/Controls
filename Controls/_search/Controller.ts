@@ -15,6 +15,7 @@ import {
 } from 'Controls/dataSource';
 import {QueryWhereExpression} from 'Types/source';
 import * as getSwitcherStrFromData from 'Controls/_search/Misspell/getSwitcherStrFromData';
+import Store from "Controls/Store";
 
 /**
  * Контрол используют в качестве контроллера для организации поиска в реестрах.
@@ -75,6 +76,7 @@ interface IContainerOptions extends IControlOptions, ISearchOptions, IHierarchyS
    root?: Key;
    searchValue?: string;
    sourceController?: SourceController;
+   useStore?: boolean;
 }
 
 type Key = string | number | null;
@@ -98,6 +100,9 @@ export default class Container extends Control<IContainerOptions> {
    private _searchController: SearchController = null;
 
    private _sourceController: SourceController = null;
+
+   private _storeCallbackIds: string[];
+   private _storeCtxCallbackId: string;
 
    protected _beforeMount(options: IContainerOptions, context: typeof DataOptions): void {
       this._itemOpenHandler = this._itemOpenHandler.bind(this);
@@ -132,7 +137,23 @@ export default class Container extends Control<IContainerOptions> {
       }
    }
 
+   protected _afterMount(options: IContainerOptions): void {
+      if (options.useStore) {
+         this._storeCallbackIds = this._createNewStoreObservers();
+         this._storeCtxCallbackId = Store.onPropertyChanged('_contextName', () => {
+            this._storeCallbackIds.forEach((id) => Store.unsubscribe(id));
+            this._storeCallbackIds = this._createNewStoreObservers();
+         }, true);
+      }
+   }
+
    protected _beforeUnmount(): void {
+      if (this._storeCallbackIds) {
+         this._storeCallbackIds.forEach((id) => Store.unsubscribe(id));
+      }
+      if (this._storeCtxCallbackId) {
+         Store.unsubscribe(this._storeCtxCallbackId);
+      }
       if (this._searchController) {
          if (this._isSearchViewMode()) {
             this._searchController.reset(true);
@@ -359,6 +380,19 @@ export default class Container extends Control<IContainerOptions> {
       this._search(null, this._misspellValue);
       this._inputSearchValue = this._misspellValue;
       this._misspellValue = '';
+   }
+
+   protected _createNewStoreObservers(): string[] {
+      const searchValueCallbackId = Store.onPropertyChanged('searchValue',
+          (searchValue: string) => {
+             if (searchValue) {
+                this._search(null, searchValue);
+             } else {
+                this._searchReset(null);
+             }
+          });
+
+      return [searchValueCallbackId];
    }
 
    private static _prepareExpandedItems(

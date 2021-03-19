@@ -460,6 +460,9 @@ export interface IColumn extends IColspanParams {
      * @see backgroundColorStyle
      */
     hoverBackgroundStyle?: string;
-    tooltip?: string;
+    /**
+     * @cfg {string} Поле с текстом подсказки при наведении на ячейку
+     */
+    tooltipProperty?: string;
     fontSize?: TFontSize;
 }

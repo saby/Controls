@@ -6,11 +6,13 @@ import { IColspanParams } from 'Controls/interface';
 export interface IOptions<T> extends ICellOptions<T> {
     owner: FooterRow<T>;
     template?: TemplateFunction;
+    isSingleCell?: boolean;
 }
 
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:FooterContent';
 
 export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
+    protected _$isSingleCell: boolean;
 
     constructor(options?: IOptions<T>) {
         super(options);
@@ -55,7 +57,7 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
     }
 
     getWrapperStyles(containerSize?: number): string {
-        return `${this.getColspan()} ${(this.getColspan() && containerSize) ? `width:${containerSize}px;` : ''}`;
+        return `${this.getColspan()} ${(this._$isSingleCell && containerSize) ? `width: ${containerSize}px;` : ''}`;
     }
 
     getContentClasses(theme: string): string {
@@ -70,5 +72,6 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
 Object.assign(FooterCell.prototype, {
     '[Controls/_display/grid/FooterCell]': true,
     _moduleName: 'Controls/gridNew:GridFooterCell',
-    _instancePrefix: 'grid-footer-cell-'
+    _instancePrefix: 'grid-footer-cell-',
+    _$isSingleCell: false
 });

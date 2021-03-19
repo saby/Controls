@@ -356,9 +356,15 @@ const GridView = ListView.extend({
     },
 
     _createColumnScroll(options): ColumnScrollViewController {
+        const stickyLadderCellsCount = GridLadderUtil.stickyLadderCellsCount(
+            this._options.columns,
+            this._options.stickyColumn,
+            this._listModel.getDraggableItem()
+        );
         return new ColumnScrollViewController({
             ...options,
             hasMultiSelectColumn: options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom',
+            stickyLadderCellsCount,
             isActivated: !this._showFakeGridWithColumnScroll,
             onOverlayChangedCallback: (newState) => {
                 if (newState) {

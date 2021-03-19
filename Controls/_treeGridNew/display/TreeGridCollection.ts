@@ -212,7 +212,8 @@ export default class TreeGridCollection<
             ...options,
             owner: this,
             footer: options.footer,
-            footerTemplate: options.footerTemplate
+            footerTemplate: options.footerTemplate,
+            hasNodeWithChildren: this._hasNodeWithChildren
         });
     }
 

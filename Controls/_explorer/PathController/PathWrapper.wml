@@ -2,7 +2,6 @@
    <Controls.Container.Async templateName="Controls/breadcrumbs:HeadingPath">
       <ws:partial template="{{ content.resolvedTemplate }}"
                   scope="{{_options}}"
-                  items="{{_items}}"
                   name="Path"
                   displayMode="{{_options.breadcrumbsDisplayMode}}"
                   withoutBackButton="{{_withoutBackButton}}"

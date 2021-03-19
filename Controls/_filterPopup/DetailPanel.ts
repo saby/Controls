@@ -10,7 +10,6 @@ import {factory, List, RecordSet} from 'Types/collection';
 import {HistoryUtils, FilterUtils, IFilterItem} from 'Controls/filter';
 import {Controller, IValidateResult} from 'Controls/validate';
 import 'Controls/form';
-import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {IFilterDetailPanelOptions, THistorySaveMode} from 'Controls/_filterPopup/interface/IFilterPanel';
 import 'css!Controls/filterPopup';
 
@@ -160,12 +159,6 @@ class FilterPanel extends Control<IFilterDetailPanelOptions, RecordSet | List<IF
       }
 
       return hasAdditional;
-   }
-
-   protected _getChildContext(): object {
-      return {
-         ScrollData: new ScrollData({pagingVisible: false})
-      };
    }
 
    private _resolveItems(options: IFilterDetailPanelOptions): void {

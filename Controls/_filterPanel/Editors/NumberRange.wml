@@ -1,28 +1,21 @@
-<Controls.validate:Container name="numberRangeValidate">
-   <ws:validators>
-      <ws:Function minValue="{{_minValue}}" maxValue="{{_maxValue}}">Controls/filterPanel:isValidNumberRange</ws:Function>
-   </ws:validators>
-   <ws:content>
-      <div class="controls-FilterEditors__numberRange controls-FilterEditors__numberRange_theme-{{_options.theme}}">
-         <Controls.input:Number scope="{{_options}}"
-                                placeholder="{{_options.minValueInputPlaceholder}}"
-                                value="{{_minValue}}"
-                                on:valueChanged="_handleMinValueChanged()"
-                                on:inputCompleted="_handleInputCompleted()"
-                                attr:class="controls-FilterEditors__numberRange-editor"/>
-         <span class="controls-FilterEditors__numberRange_separator_theme-{{_options.theme}}">-</span>
-         <Controls.input:Number scope="{{_options}}"
-                                placeholder="{{_options.maxValueInputPlaceholder}}"
-                                value="{{_maxValue}}"
-                                on:valueChanged="_handleMaxValueChanged()"
-                                on:inputCompleted="_handleInputCompleted()"
-                                attr:class="controls-FilterEditors__numberRange-editor"/>
-         <ws:if data="{{_options.afterEditorTemplate}}">
-            <Controls.Container.Async templateName="{{_options.afterEditorTemplate}}">
-               <ws:partial template="{{ content.resolvedTemplate }}"/>
-            </Controls.Container.Async>
-         </ws:if>
-      </div>
-   </ws:content>
-</Controls.validate:Container>
+<div class="controls-FilterEditors__numberRange controls-FilterEditors__numberRange_theme-{{_options.theme}}">
+   <Controls.input:Number scope="{{_options}}"
+                          placeholder="{{_options.minValueInputPlaceholder}}"
+                          value="{{_minValue}}"
+                          on:valueChanged="_handleMinValueChanged()"
+                          on:inputCompleted="_handleInputCompleted()"
+                          attr:class="controls-FilterEditors__numberRange-editor"/>
+   <span class="controls-FilterEditors__numberRange_separator_theme-{{_options.theme}}">-</span>
+   <Controls.input:Number scope="{{_options}}"
+                          placeholder="{{_options.maxValueInputPlaceholder}}"
+                          value="{{_maxValue}}"
+                          on:valueChanged="_handleMaxValueChanged()"
+                          on:inputCompleted="_handleInputCompleted()"
+                          attr:class="controls-FilterEditors__numberRange-editor"/>
+   <ws:if data="{{_options.afterEditorTemplate}}">
+      <Controls.Container.Async templateName="{{_options.afterEditorTemplate}}">
+         <ws:partial template="{{ content.resolvedTemplate }}"/>
+      </Controls.Container.Async>
+   </ws:if>
+</div>
 

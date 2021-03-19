@@ -1,5 +1,4 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_explorer/View/View';
 import * as cInstance from 'Core/core-instance';
 import {EventUtils} from 'UI/Events';
 import * as randomId from 'Core/helpers/Number/randomId';
@@ -7,21 +6,38 @@ import {SearchGridViewModel, SearchView, TreeGridView, ViewModel as TreeGridView
 import {constants} from 'Env/Env';
 import {Logger} from 'UI/Utils';
 import {Model} from 'Types/entity';
-import {ListView} from 'Controls/list';
+import {IItemPadding, IList, ListView} from 'Controls/list';
 import {isEqual} from 'Types/object';
-import {DataSet} from 'Types/source';
+import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
 import {
-    INavigationSourceConfig,
+    Direction,
+    IBasePageSourceConfig, IBaseSourceConfig,
+    IDraggableOptions, IFilterOptions, IHeaderCell,
+    IHierarchyOptions,
+    INavigationOptions,
+    INavigationOptionValue,
+    INavigationOptionValue as INavigation,
+    INavigationPageSourceConfig,
     INavigationPositionSourceConfig as IPositionSourceConfig,
-    INavigationOptionValue as INavigation
+    INavigationSourceConfig,
+    ISelectionObject, ISortingOptions, ISourceOptions,
+    TKey
 } from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
-import {ISelectionObject} from 'Controls/interface';
-import {CrudEntityKey, LOCAL_MOVE_POSITION} from 'Types/source';
 import {RecordSet} from 'Types/collection';
-import {calculatePath} from 'Controls/dataSource';
+import {calculatePath, NewSourceController, Path} from 'Controls/dataSource';
 import {SearchView as SearchViewNew} from 'Controls/searchBreadcrumbsGrid';
 import {TreeGridView as TreeGridViewNew} from 'Controls/treeGridNew';
+import {SyntheticEvent} from 'UI/Vdom';
+import {IDragObject} from 'Controls/_dragnDrop/Container';
+import {ItemsEntity} from 'Controls/dragnDrop';
+import {IGridControl} from 'Controls/_grid/interface/IGridControl';
+import {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';
+import {TreeControl} from 'Controls/tree';
+// tslint:disable-next-line:ban-ts-ignore
+// @ts-ignore
+import * as template from 'wml!Controls/_explorer/View/View';
+import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -70,59 +86,97 @@ const USE_NEW_MODEL_VALUES_NEW = {
 };
 
 const EXPLORER_CONSTANTS = {
-    DEFAULT_VIEW_MODE: DEFAULT_VIEW_MODE,
-    ITEM_TYPES: ITEM_TYPES,
-    VIEW_NAMES: VIEW_NAMES,
-    VIEW_MODEL_CONSTRUCTORS: VIEW_MODEL_CONSTRUCTORS
+    DEFAULT_VIEW_MODE,
+    ITEM_TYPES,
+    VIEW_NAMES,
+    VIEW_MODEL_CONSTRUCTORS
 };
 
-export default class Explorer extends Control<IControlOptions> {
+interface IExplorerOptions
+    extends
+        IControlOptions,
+        IHierarchyOptions,
+        IDraggableOptions,
+        IList,
+        IEditableListOption,
+        INavigationOptions<IBasePageSourceConfig>,
+        IGridControl,
+        ISourceOptions,
+        IFilterOptions,
+        ISortingOptions {
+
+    root?: TKey;
+    viewMode?: TExplorerViewMode;
+    searchNavigationMode?: string;
+    displayMode?: string;
+    itemTemplate?: TemplateFunction;
+    items?: RecordSet;
+    itemOpenHandler?: Function;
+    searchStartingWith?: 'root' | 'current';
+    sourceController?: NewSourceController;
+    useNewModel?: boolean;
+    expandByItemClick?: boolean;
+}
+
+interface IMarkedKeysStore {
+    [p: string]: { markedKey: TKey, parent?: TKey, cursorPosition?: unknown };
+}
+
+export default class Explorer extends Control<IExplorerOptions> {
     protected _template: TemplateFunction = template;
-    protected _breadCrumbsItems: object[];
+    protected _breadCrumbsItems: Path;
     protected _viewName: string;
-    protected _viewMode: string;
+    protected _viewMode: TExplorerViewMode;
     protected _viewModelConstructor: string;
     protected _navigation: object;
     protected _itemTemplate: TemplateFunction;
-    protected _notifyHandler: EventUtils.tmplNotify = EventUtils.tmplNotify;
+    protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
     protected _backgroundStyle: string;
     protected _header: object;
-    protected _dataLoadErrback: Function;
-    protected _serviceDataLoadCallback: Function;
     protected _itemsReadyCallback: Function;
     protected _itemsSetCallback: Function;
     protected _itemPadding: object;
+    protected _dragOnBreadCrumbs: boolean = false;
+    protected _needSetMarkerCallback: (item: Model, domEvent: Event) => boolean;
+    protected _breadCrumbsDragHighlighter: Function;
+    protected _canStartDragNDrop: Function;
+    protected _headerVisibility: string;
+    protected _useNewModel: boolean;
+    protected _children: {
+        treeControl: TreeControl
+    };
 
-    private _root: number = null;
-    private _dragOnBreadCrumbs: boolean = false;
+    /**
+     * Идентификатор узла данные которого отображаются в текущий момент.
+     */
+    private _root: TKey = null;
+    /**
+     * Идентификатор самого верхнего корневого элемента.
+     * Вычисляется на основании хлебных крошек либо на основании текущего root
+     * если хлебные крошки отсутствуют.
+     */
+    private _topRoot: TKey;
     private _hoveredBreadCrumb: string;
     private _dragControlId: string;
-    private _itemsPromise: Promise<void>;
-    private _markerForRestoredScroll: string;
+    private _markerForRestoredScroll: TKey;
     private _resetScrollAfterViewModeChange: boolean = false;
     private _isMounted: boolean = false;
+    // TODO: используется только в ф-ии _setViewMode, нет смысла хранить это промис
     private _setViewModePromise: Promise<void>;
-    private _firstLoad: boolean = true;
-    private _needSetMarkerCallback: (item: Model, domEvent: any) => boolean;
-    private _breadCrumbsDragHighlighter: any;
-    private _updateHeadingPath: any;
-    private _canStartDragNDrop: any;
-    private _restoredMarkedKeys: { [p: string]: { markedKey: null } };
-    private _headerVisibility: string;
-    private _potentialMarkedKey: undefined;
-    private _newItemPadding: any;
-    private _newItemTemplate: any;
-    private _newBackgroundStyle: any;
-    private _newHeader: undefined;
+    private _updateHeadingPath: Function;
+    private _restoredMarkedKeys: IMarkedKeysStore;
+    private _potentialMarkedKey: TKey;
+    private _newItemPadding: IItemPadding;
+    private _newItemTemplate: TemplateFunction;
+    private _newBackgroundStyle: string;
+    private _newHeader: IHeaderCell[];
     private _isGoingBack: boolean;
-    private _backgrounStyle: string;
-    private _pendingViewMode: string;
-    private _dataRoot: undefined;
-    private _itemsResolver: any;
-    private _items: any;
+    private _pendingViewMode: TExplorerViewMode;
+
+    private _items: RecordSet;
     private _isGoingFront: boolean;
 
-    protected _beforeMount(cfg): Promise<void> {
+    protected _beforeMount(cfg: IExplorerOptions): Promise<void> {
         if (cfg.itemPadding) {
             this._itemPadding = cfg.itemPadding;
         }
@@ -135,40 +189,37 @@ export default class Explorer extends Control<IControlOptions> {
         if (cfg.header) {
             this._header = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
-        this._dataLoadErrback = this._dataLoadErrbackHandler.bind(this, cfg);
-        this._serviceDataLoadCallback = this._serviceDataLoadCallbackFunc.bind(this);
+
         this._itemsReadyCallback = this._itemsReadyCallbackFunc.bind(this);
         this._itemsSetCallback = this._itemsSetCallbackFunc.bind(this);
+        this._dataLoadCallback = this._dataLoadCallback.bind(this);
+        this._updateHeadingPath = this._updateBreadcrumbs.bind(this);
         this._canStartDragNDrop = this._canStartDragNDropFunc.bind(this);
-        this._updateHeadingPath = this._updateHeadingPathFunc.bind(this);
         this._breadCrumbsDragHighlighter = this._dragHighlighter.bind(this);
-        this._needSetMarkerCallback = (item: Model, domEvent: any): boolean => {
-            return domEvent.target.closest('.js-controls-ListView__checkbox')
+        this._needSetMarkerCallback = (item: Model, domEvent: Event): boolean => {
+            return !!(domEvent.target as HTMLElement).closest('.js-controls-ListView__checkbox')
                 || item instanceof Array || item.get(this._options.nodeProperty) !== ITEM_TYPES.node;
         };
 
-        this._itemsPromise = new Promise((res) => {
-            this._itemsResolver = res;
-        });
-        if (!cfg.source || (cfg.sourceController && cfg.sourceController.getLoadError())) {
-            this._resolveItemsPromise();
-        }
-        const root = this._getRoot(cfg.root);
-        this._restoredMarkedKeys = {
-            [root]: {
-                markedKey: null
-            }
-        };
+        this._applyItems(cfg.items, cfg);
+        this._dragControlId = randomId();
+        this._navigation = cfg.navigation;
 
+        const root = this._getRoot(cfg.root);
         this._headerVisibility = root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
+        this._initMarkedKeys(
+            root,
+            this._topRoot,
+            this._breadCrumbsItems,
+            cfg.parentProperty,
+            cfg.navigation
+        );
 
         // TODO: для 20.5100. в 20.6000 можно удалить
         if (cfg.displayMode) {
             Logger.error(`${this._moduleName}: Для задания многоуровневых хлебных крошек вместо displayMode используйте опцию breadcrumbsDisplayMode`, this);
         }
 
-        this._dragControlId = randomId();
-        this._navigation = cfg.navigation;
         return this._setViewMode(cfg.viewMode, cfg);
     }
 
@@ -176,9 +227,18 @@ export default class Explorer extends Control<IControlOptions> {
         this._isMounted = true;
     }
 
-    protected _beforeUpdate(cfg): void {
+    protected _beforeUpdate(cfg: IExplorerOptions): void {
         const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
         const isRootChanged = cfg.root !== this._options.root;
+
+        // Применяем новые итемы только если они были переданы изначально
+        // или если новые не равны текущим в опциях.
+        // Сейчас items передает только родительский dataContainer. По этому если он есть,
+        // то items будут всегда. Если его нет, то items мы сами получаем через дочерний
+        // DataContainer
+        if (this._options.items || this._options.items !== cfg.items) {
+            this._applyItems(cfg.items, cfg);
+        }
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
@@ -206,6 +266,7 @@ export default class Explorer extends Control<IControlOptions> {
         if (cfg.header !== this._options.header || isViewModeChanged) {
             this._newHeader = cfg.viewMode === 'tile' ? undefined : cfg.header;
         }
+
         /*
         * Позиция скрола при выходе из папки восстанавливается через скроллирование к отмеченной записи.
         * Чтобы список мог восстановить позицию скрола по отмеченой записи, она должна быть в наборе данных.
@@ -236,7 +297,8 @@ export default class Explorer extends Control<IControlOptions> {
             // или "tile" будет перезагрузка. Этот код нужен до тех пор, пока не будут спускаться данные сверху-вниз.
             // https://online.sbis.ru/opendoc.html?guid=f90c96e6-032c-404c-94df-cc1b515133d6
             const filterChanged = !isEqual(cfg.filter, this._options.filter);
-            const recreateSource = cfg.source !== this._options.source || (isSourceControllerLoading && this._options.viewMode === 'search');
+            const recreateSource = cfg.source !== this._options.source ||
+                (isSourceControllerLoading && this._options.viewMode === 'search');
             const sortingChanged = !isEqual(cfg.sorting, this._options.sorting);
             if ((filterChanged || recreateSource || sortingChanged || navigationChanged) && !cfg.sourceController) {
                 this._setPendingViewMode(cfg.viewMode, cfg);
@@ -277,15 +339,16 @@ export default class Explorer extends Control<IControlOptions> {
         }
     }
 
-    protected _documentDragEnd(event, dragObject): void {
+    protected _documentDragEnd(event: SyntheticEvent, dragObject: IDragObject): void {
         if (this._hoveredBreadCrumb !== undefined) {
             this._notify('dragEnd', [dragObject.entity, this._hoveredBreadCrumb, 'on']);
         }
         this._dragOnBreadCrumbs = false;
     }
 
-    protected _documentDragStart(event, dragObject): void {
-        //TODO: Sometimes at the end of dnd, the parameter is not reset. Will be fixed by: https://online.sbis.ru/opendoc.html?guid=85cea965-2aa6-4f1b-b2a3-1f0d65477687
+    protected _documentDragStart(event: SyntheticEvent, dragObject: IDragObject<ItemsEntity>): void {
+        // TODO: Sometimes at the end of dnd, the parameter is not reset. Will be fixed by:
+        //  https://online.sbis.ru/opendoc.html?guid=85cea965-2aa6-4f1b-b2a3-1f0d65477687
         this._hoveredBreadCrumb = undefined;
 
         if (
@@ -294,25 +357,34 @@ export default class Explorer extends Control<IControlOptions> {
             cInstance.instanceOfModule(dragObject.entity, 'Controls/dragnDrop:ItemsEntity') &&
             dragObject.entity.dragControlId === this._dragControlId
         ) {
-            //No need to show breadcrumbs when dragging items from the root, being in the root of the registry.
-            this._dragOnBreadCrumbs = this._getRoot(this._options.root) !== this._getDataRoot(this._options) || !this._dragItemsFromRoot(dragObject.entity.getItems());
+            // Принудительно показываем "домик" в хлебных крошках если находимся не в корневом узле
+            // или не все перетаскиваемые итемы лежат в корне
+            this._dragOnBreadCrumbs =
+                this._getRoot(this._options.root) !== this._getTopRoot(this._options) ||
+                !this._dragItemsFromRoot(dragObject.entity.getItems());
         }
     }
 
-    protected _hoveredCrumbChanged(event, item): void {
-        this._hoveredBreadCrumb = item ? item.getId() : undefined;
+    protected _hoveredCrumbChanged(event: SyntheticEvent, item: Model): void {
+        this._hoveredBreadCrumb = item ? item.getKey() : undefined;
 
         // If you change hovered bread crumb, must be called installed in the breadcrumbs highlighter,
         // but is not called, because the template has no reactive properties.
         this._forceUpdate();
     }
 
-    protected _onItemClick(event, item, clickEvent, columnIndex?: number): boolean {
-        const res = this._notify('itemClick', [item, clickEvent, columnIndex]);
+    protected _onItemClick(
+        event: SyntheticEvent,
+        item: Model,
+        clickEvent: SyntheticEvent,
+        columnIndex?: number
+    ): boolean {
+
+        const res = this._notify('itemClick', [item, clickEvent, columnIndex]) as boolean;
         event.stopPropagation();
 
         const changeRoot = () => {
-            this._setRoot(item.getId());
+            this._setRoot(item.getKey());
             // При search не должны сбрасывать маркер, так как он встанет на папку
             if (this._options.searchNavigationMode !== 'expand') {
                 this._isGoingFront = true;
@@ -337,7 +409,10 @@ export default class Explorer extends Control<IControlOptions> {
 
             // Проваливание возможно только в узел (ITEM_TYPES.node).
             // Проваливание невозможно, если по клику следует развернуть узел/скрытый узел.
-            if ((!isSearchMode && this._options.expandByItemClick && nodeType !== ITEM_TYPES.leaf) || (nodeType !== ITEM_TYPES.node)) {
+            if (
+                (!isSearchMode && this._options.expandByItemClick && nodeType !== ITEM_TYPES.leaf) ||
+                (nodeType !== ITEM_TYPES.node)
+            ) {
                 return res;
             }
 
@@ -363,45 +438,48 @@ export default class Explorer extends Control<IControlOptions> {
             // Мы не можем провалиться в папку, пока на другом элементе списка запущено редактирование.
             return false;
         }
+
         return res;
     }
 
-    protected _onBreadCrumbsClick(event, item): void {
-        this._cleanRestoredKeyObject(item.getId());
-        this._setRoot(item.getId());
+    protected _onBreadCrumbsClick(event: SyntheticEvent, item: Model): void {
+        const itemKey = item.getKey();
+
+        this._cleanRestoredKeyObject(itemKey);
+        this._setRoot(itemKey);
         this._isGoingBack = true;
     }
 
-    protected _onExternalKeyDown(event): void {
+    protected _onExternalKeyDown(event: SyntheticEvent): void {
         this._onExplorerKeyDown(event);
         if (!event.stopped && event._bubbling !== false) {
             this._children.treeControl.handleKeyDown(event);
         }
     }
 
-    protected _onExplorerKeyDown(event): void {
+    protected _onExplorerKeyDown(event: SyntheticEvent): void {
         EventUtils.keysHandler(event, HOT_KEYS, this, this);
     }
 
-    protected _onArrowClick(e): void {
-        let item = this._children.treeControl.getViewModel().getMarkedItem().getContents();
+    protected _onArrowClick(e: SyntheticEvent): void {
+        const item = this._children.treeControl.getViewModel().getMarkedItem().getContents();
         this._notifyHandler(e, 'arrowClick', item);
     }
 
-    scrollToItem(key: string | number, toBottom: boolean): void {
+    scrollToItem(key: string | number, toBottom?: boolean): void {
         this._children.treeControl.scrollToItem(key, toBottom);
     }
 
     reloadItem(): Promise<unknown> {
-        let treeControl = this._children.treeControl;
+        const treeControl = this._children.treeControl;
         return treeControl.reloadItem.apply(treeControl, arguments);
     }
 
-    beginEdit(options): Promise<unknown> {
+    beginEdit(options: object): Promise<unknown> {
         return this._children.treeControl.beginEdit(options);
     }
 
-    beginAdd(options): Promise<unknown> {
+    beginAdd(options: object): Promise<unknown> {
         return this._children.treeControl.beginAdd(options);
     }
 
@@ -413,7 +491,7 @@ export default class Explorer extends Control<IControlOptions> {
         return this._children.treeControl.commitEdit();
     }
 
-    reload(keepScroll, sourceConfig): Promise<unknown> {
+    reload(keepScroll: boolean, sourceConfig: IBaseSourceConfig): Promise<unknown> {
         return this._children.treeControl.reload(keepScroll, sourceConfig);
     }
 
@@ -423,7 +501,7 @@ export default class Explorer extends Control<IControlOptions> {
 
     // todo removed or documented by task:
     // https://online.sbis.ru/opendoc.html?guid=24d045ac-851f-40ad-b2ba-ef7f6b0566ac
-    toggleExpanded(id): Promise<unknown> {
+    toggleExpanded(id: TKey): Promise<unknown> {
         return this._children.treeControl.toggleExpanded(id);
     }
 
@@ -458,72 +536,70 @@ export default class Explorer extends Control<IControlOptions> {
     }
 
     // endregion remover
-
-    private _resolveItemsPromise(): void {
-        this._itemsResolver();
-    }
-
-    protected _getRoot(newRoot?: number): number {
+    /**
+     * Возвращает идентификатор текущего корневого узла
+     */
+    protected _getRoot(newRoot?: TKey): TKey {
         return typeof newRoot !== 'undefined' ? newRoot : this._root;
     }
 
-    private _dragHighlighter(itemKey, hasArrow): string {
+    private _dragHighlighter(itemKey: TKey, hasArrow: boolean): string {
         return this._dragOnBreadCrumbs && this._hoveredBreadCrumb === itemKey && itemKey !== 'dots'
             ? 'controls-BreadCrumbsView__dropTarget_' + (hasArrow ? 'withArrow' : 'withoutArrow') : '';
     }
 
-    private _updateHeadingPathFunc(): void {
-        this._breadCrumbsItems = calculatePath(this._items).path;
-    }
-
-    private _setRoot(root, dataRoot = null): void {
+    private _setRoot(root: TKey, dataRoot: TKey = null): void {
         if (!this._options.hasOwnProperty('root')) {
             this._root = root;
         } else {
             this._potentialMarkedKey = root;
         }
+
         if (typeof this._options.itemOpenHandler === 'function') {
             this._options.itemOpenHandler(root, this._items, dataRoot);
         }
+
         this._notify('rootChanged', [root]);
         this._forceUpdate();
     }
 
-    private _setRestoredKeyObject(root): void {
+    private _setRestoredKeyObject(root: Model): void {
+        const rootId = root.getKey();
         const curRoot = this._getRoot(this._options.root);
-        const rootId = root.getId();
+
         this._restoredMarkedKeys[rootId] = {
             parent: curRoot,
             markedKey: null
         };
-        if (this._restoredMarkedKeys[curRoot]) {
-            this._restoredMarkedKeys[curRoot].markedKey = rootId;
+
+        const currRootInfo = this._restoredMarkedKeys[curRoot];
+        if (currRootInfo) {
+            currRootInfo.markedKey = rootId;
 
             if (this._isCursorNavigation(this._options.navigation)) {
-                this._restoredMarkedKeys[curRoot].cursorPosition = this._getCursorPositionFor(root, this._options.navigation);
+                currRootInfo.cursorPosition = this._getCursorPositionFor(root, this._options.navigation);
             }
         }
     }
 
-    private _cleanRestoredKeyObject(root): void {
+    private _cleanRestoredKeyObject(root: TKey): void {
         this._pathCleaner(root);
     }
 
-    private _pathCleaner(root) {
-        const self = this;
+    private _pathCleaner(root: TKey): void {
         if (this._restoredMarkedKeys[root]) {
             if (this._restoredMarkedKeys[root].parent === undefined) {
                 const markedKey = this._restoredMarkedKeys[root].markedKey;
                 const cursorPosition = this._restoredMarkedKeys[root].cursorPosition;
                 this._restoredMarkedKeys = {
                     [root]: {
-                        markedKey: markedKey,
-                        cursorPosition: cursorPosition
+                        markedKey,
+                        cursorPosition
                     }
                 };
                 return;
             } else {
-                _remover(root);
+                _remover(this._restoredMarkedKeys, root);
             }
         } else {
             const curRoot = this._getRoot(this._options.root);
@@ -532,78 +608,131 @@ export default class Explorer extends Control<IControlOptions> {
             }
         }
 
-        function _remover(key) {
-            Object.keys(self._restoredMarkedKeys).forEach((cur) => {
-                if (self._restoredMarkedKeys[cur] && String(self._restoredMarkedKeys[cur].parent) === String(key)) {
-                    const nextKey = cur;
-                    delete self._restoredMarkedKeys[cur];
-                    _remover(nextKey);
-                }
-            });
+        function _remover(store: IMarkedKeysStore, key: TKey): void {
+            Object
+                .keys(store)
+                .forEach((cur) => {
+                    const info = store[cur];
+
+                    if (info && String(info.parent) === String(key)) {
+                        const nextKey = cur;
+                        delete store[cur];
+                        _remover(store, nextKey);
+                    }
+                });
         }
     }
 
-    private _resolveItemsOnFirstLoad(resolver, result): void {
-        if (this._firstLoad) {
-            resolver(result);
-            this._firstLoad = false;
-            this._fillRestoredMarkedKeysByBreadCrumbs(
-                this._getDataRoot(this._options),
-                this._breadCrumbsItems,
-                this._restoredMarkedKeys,
-                this._options.parentProperty,
-                this._options.navigation
-            );
+    private _initMarkedKeys(
+        root: TKey,
+        topRoot: TKey,
+        breadcrumbs: Path,
+        parentProperty: string,
+        navigation: INavigationOptionValue<INavigationPageSourceConfig>
+    ): void {
+
+        const store = this._restoredMarkedKeys = {
+            [root]: {
+                markedKey: null
+            }
+        } as IMarkedKeysStore;
+
+        // Если хлебных крошек нет, то дальне идти нет смысла
+        if (!breadcrumbs?.length) {
+            return;
         }
-    }
 
-    private _dataLoadErrbackHandler(cfg, error): void {
-        this._resolveItemsOnFirstLoad(this._itemsResolver, null);
-        if (cfg.dataLoadErrback) {
-            cfg.dataLoadErrback(error);
-        }
-    }
-
-    private _serviceDataLoadCallbackFunc(oldData, newData): void {
-        this._breadCrumbsItems = calculatePath(newData).path;
-        this._dataRoot = this._breadCrumbsItems && this._breadCrumbsItems.length ?
-            this._getDataRoot(this._options) :
-            this._dataRoot;
-        this._resolveItemsOnFirstLoad(this._itemsResolver, this._breadCrumbsItems);
-        this._updateSubscriptionOnBreadcrumbs(oldData, newData, this._updateHeadingPath);
-    }
-
-    private _fillRestoredMarkedKeysByBreadCrumbs(root, breadCrumbs, restoredMarkedKeys, parentProperty, navigation): void {
-        restoredMarkedKeys[root] = {
+        store[topRoot] = {
             markedKey: null
         };
-        if (breadCrumbs && breadCrumbs.forEach) {
-            breadCrumbs.forEach((crumb) => {
-                const parentKey = crumb.get(parentProperty);
-                const crumbKey = crumb.getKey();
-                restoredMarkedKeys[crumbKey] = {
-                    parent: parentKey,
-                    markedKey: null
-                };
-                if (restoredMarkedKeys[parentKey]) {
-                    restoredMarkedKeys[parentKey].markedKey = crumbKey;
 
-                    if (this._isCursorNavigation(navigation)) {
-                        restoredMarkedKeys[parentKey].cursorPosition = this._getCursorPositionFor(crumb, navigation);
-                    }
+        breadcrumbs?.forEach((crumb) => {
+            const crumbKey = crumb.getKey();
+            const parentKey = crumb.get(parentProperty);
+
+            store[crumbKey] = {
+                parent: parentKey,
+                markedKey: null
+            };
+
+            if (store[parentKey]) {
+                store[parentKey].markedKey = crumbKey;
+
+                if (this._isCursorNavigation(navigation)) {
+                    store[parentKey].cursorPosition = this._getCursorPositionFor(crumb, navigation);
                 }
-            });
+            }
+        });
+    }
+
+    /**
+     * Обновляет внутреннее состояние на основании переданных items:
+     * * Если ссылка на итемы изменилась, то обновит подписку на изменение данных path
+     *   и запомнит новый инстанс итемов. Данные path могут меняться пользователем, например,
+     *   при переименовании текущей папки
+     * * Высчитывает id записи, которая должна быть помечена маркером
+     * * Обновляет данные для хлебных крошек
+     */
+    private _applyItems(items: RecordSet, options: IExplorerOptions = this._options): void {
+        // Если ссылка на итемы поменялась, то обновим подписку на изменение данных хлебных крошек
+        // и сохраним новый инстанс итемов
+        if (this._items !== items) {
+            this._updateSubscriptionOnBreadcrumbs(this._items, items, this._updateHeadingPath);
+            this._items = items;
+        }
+
+        // Вычислим новые данные хлебных крошек
+        const newBreadcrumbs = calculatePath(items).path || [];
+        // Если кол-во новых крошек меньше чем старых, то скорее всего возвращаются назад
+        if (newBreadcrumbs?.length < this._breadCrumbsItems?.length) {
+            // Получаем потенциальную следующую папку в которой мы были
+            // newBreadcrumbs         = 1 -> 2
+            // this._breadCrumbsItems = 1 -> 2 -> 3 -> 4
+            // nextCrumb              = 3
+            const nextCrumb = this._breadCrumbsItems[newBreadcrumbs.length];
+
+            // Проверяем соответствует ли текущий root родительской папке nextCrumb
+            // Если соответствует, то помечаем папку соответствующую nextCrumb маркером
+            if (nextCrumb.get(options.parentProperty) === this._getRoot(options.root)) {
+                this._potentialMarkedKey = nextCrumb.getKey();
+            }
+        }
+
+        // Обновим данные по которым рисуются хлебные крошки
+        this._updateBreadcrumbs(items);
+        // Обновим корневой root
+        this._topRoot = this._breadCrumbsItems?.length ? this._getTopRoot(options) : this._topRoot;
+    }
+
+    /**
+     * На основании переданного RecordSet обновляет данные для хлебных крошек
+     */
+    private _updateBreadcrumbs(items: RecordSet): void {
+        this._breadCrumbsItems = calculatePath(items).path;
+    }
+
+    /**
+     * Обработчик получения новой порции данных из внутреннего Controls.list:DataContainer
+     */
+    protected _dataLoadCallback(items: RecordSet, direction: Direction): void {
+        // Имеет смысл обновлять хлебные крошки только при получении первой страницы
+        if (!direction) {
+            this._applyItems(items);
+        }
+
+        if (this._options.dataLoadCallback) {
+            this._options.dataLoadCallback(items, direction);
         }
     }
 
-    private _itemsReadyCallbackFunc(items): void {
+    private _itemsReadyCallbackFunc(items: RecordSet): void {
         this._items = items;
         if (this._options.itemsReadyCallback) {
             this._options.itemsReadyCallback(items);
         }
     }
 
-    private _itemsSetCallbackFunc(items, newOptions): void {
+    private _itemsSetCallbackFunc(items: RecordSet, newOptions: IExplorerOptions): void {
         if (this._isGoingBack) {
             const options = newOptions || this._options;
             const curRoot = this._getRoot(options.root);
@@ -617,6 +746,7 @@ export default class Explorer extends Control<IControlOptions> {
             }
             this._isGoingBack = false;
         }
+
         if (this._isGoingFront) {
             // Проверить. Возможно, больше этот код не нужен.
             // До перевода на наследование работало так:
@@ -626,8 +756,10 @@ export default class Explorer extends Control<IControlOptions> {
             // 3. Происходил еще один цикл синхронизации, в котором старое и новое значение ключа разные.
             // 4. По иерархии, шло обновление treeControl, который тут устанавливал снова новый ключ
             // маркера - null (в itemsSetCallback от эксплорера).
-            // 5. update доходит до BaseControl'a и ключ маркера устанавливается по новым опциям(ключ папки в которую вошли).
-            // [ ключ папки -> обновление бинда -> цикл -> treeControl: ключ null (itemsSetCallback) -> baseControl: ключ по бинду ]
+            // 5. update доходит до BaseControl'a и ключ маркера устанавливается по новым опциям
+            // (ключ папки в которую вошли).
+            // [ ключ папки -> обновление бинда -> цикл -> treeControl: ключ null (itemsSetCallback) ->
+            // baseControl: ключ по бинду ]
 
             // https://online.sbis.ru/opendoc.html?guid=fe8dec0c-8396-45d3-9609-6163eee40346
             // this._children.treeControl.setMarkedKey(null);
@@ -636,15 +768,16 @@ export default class Explorer extends Control<IControlOptions> {
             // поменялся порядок апдейтов контролов. После перевода на наследование сначала обновляется BaseControl.
             this._isGoingFront = false;
         }
+
         if (this._pendingViewMode) {
             this._checkedChangeViewMode(this._pendingViewMode, this._options);
             this._pendingViewMode = null;
         }
     }
 
-    private _setViewConfig(viewMode, useNewModel): void {
-        // todo useNewModel - это ветка, к котой стремимся, условие (и всё что в else) можно убрать, когда везде
-        // будет использоваться Controls/explorer:View на новой модели
+    private _setViewConfig(viewMode: TExplorerViewMode, useNewModel: boolean): void {
+        // todo useNewModel - это ветка, к которой стремимся, условие (и всё что в else) можно убрать,
+        //  когда везде будет использоваться Controls/explorer:View на новой модели
         if (useNewModel) {
             this._viewName = VIEW_NAMES_NEW[viewMode];
             this._useNewModel = USE_NEW_MODEL_VALUES_NEW[viewMode];
@@ -656,7 +789,7 @@ export default class Explorer extends Control<IControlOptions> {
         }
     }
 
-    private _setViewModeSync(viewMode, cfg): void {
+    private _setViewModeSync(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
         this._viewMode = viewMode;
         this._setViewConfig(this._viewMode, cfg.useNewModel);
         this._applyNewVisualOptions();
@@ -666,7 +799,7 @@ export default class Explorer extends Control<IControlOptions> {
         }
     }
 
-    private _setViewMode(viewMode, cfg): Promise<void> {
+    private _setViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): Promise<void> {
         if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
             this._updateRootOnViewModeChanged(viewMode, cfg);
             this._breadCrumbsItems = null;
@@ -694,7 +827,7 @@ export default class Explorer extends Control<IControlOptions> {
             this._newItemTemplate = null;
         }
         if (this._newBackgroundStyle) {
-            this._backgrounStyle = this._newBackgroundStyle;
+            this._backgroundStyle = this._newBackgroundStyle;
             this._newBackgroundStyle = null;
         }
         if (this._newHeader) {
@@ -703,10 +836,15 @@ export default class Explorer extends Control<IControlOptions> {
         }
     }
 
-    private _getDataRoot(options): string {
-        var result;
+    /**
+     * Возвращает идентификатор самого верхнего известного корневого узла.
+     */
+    private _getTopRoot(options: IExplorerOptions): TKey {
+        let result;
 
-        if (this._breadCrumbsItems && this._breadCrumbsItems.length > 0) {
+        // Если есть хлебные крошки, то получаем top root из них.
+        // В противном случае просто возвращаем текущий root
+        if (this._breadCrumbsItems?.length) {
             result = this._breadCrumbsItems[0].get(this._options.parentProperty);
         } else {
             result = this._getRoot(options.root);
@@ -715,14 +853,16 @@ export default class Explorer extends Control<IControlOptions> {
         return result;
     }
 
-    private _dragItemsFromRoot(dragItems): boolean {
-        var
-            item,
-            itemFromRoot = true,
-            root = this._getDataRoot(this._options);
+    /**
+     * Вернет true если все перетаскиваемые итемы лежат в корне
+     */
+    private _dragItemsFromRoot(dragItems: TKey[]): boolean {
+        let itemFromRoot = true;
+        const root = this._getTopRoot(this._options);
 
-        for (var i = 0; i < dragItems.length; i++) {
-            item = this._items.getRecordById(dragItems[i]);
+        for (let i = 0; i < dragItems.length; i++) {
+            const item = this._items.getRecordById(dragItems[i]);
+
             if (!item || item.get(this._options.parentProperty) !== root) {
                 itemFromRoot = false;
                 break;
@@ -732,13 +872,13 @@ export default class Explorer extends Control<IControlOptions> {
         return itemFromRoot;
     }
 
-    private _loadTileViewMode(options: any): Promise<void> {
+    private _loadTileViewMode(options: IExplorerOptions): Promise<void> {
         if (options.useNewModel) {
             return new Promise((resolve) => {
                 import('Controls/treeTile').then((tile) => {
                     VIEW_NAMES_NEW.tile = tile.TreeTileView;
                     VIEW_MODEL_CONSTRUCTORS_NEW.tile = 'Controls/treeTile:TreeTileCollection';
-                    resolve(tile);
+                    resolve();
                 }).catch((err) => {
                     Logger.error('Controls/_explorer/View: ' + err.message, this, err);
                 });
@@ -748,7 +888,7 @@ export default class Explorer extends Control<IControlOptions> {
                 import('Controls/tile').then((tile) => {
                     VIEW_NAMES.tile = tile.TreeView;
                     VIEW_MODEL_CONSTRUCTORS.tile = tile.TreeViewModel;
-                    resolve(tile);
+                    resolve();
                 }).catch((err) => {
                     Logger.error('Controls/_explorer/View: ' + err.message, this, err);
                 });
@@ -760,27 +900,32 @@ export default class Explorer extends Control<IControlOptions> {
         return this._viewMode !== 'search';
     }
 
-    private _updateSubscriptionOnBreadcrumbs(oldItems, newItems, updateHeadingPathCallback): void {
-        const getPathRecordSet = (items) => items && items.getMetaData() && items.getMetaData().path;
-        const oldPath = getPathRecordSet(oldItems);
-        const newPath = getPathRecordSet(newItems);
+    private _updateSubscriptionOnBreadcrumbs(
+        oldItems: RecordSet,
+        newItems: RecordSet,
+        updateHeadingPathCallback: Function
+    ): void {
+
+        const [oldPath, newPath]: RecordSet[] =
+            [oldItems, newItems].map((items) => items?.getMetaData()?.path);
 
         if (oldItems !== newItems || oldPath !== newPath) {
-            if (oldPath && oldPath.getCount) {
+            if (oldPath?.getCount) {
                 oldPath.unsubscribe('onCollectionItemChange', updateHeadingPathCallback);
             }
-            if (newPath && newPath.getCount) {
+
+            if (newPath?.getCount) {
                 newPath.subscribe('onCollectionItemChange', updateHeadingPathCallback);
             }
         }
     }
 
-    private _checkedChangeViewMode(viewMode: string, cfg): void {
+    private _checkedChangeViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
         this._setViewMode(viewMode, cfg)
-        // Обрабатываем searchNavigationMode только после того как
-        // проставится setViewMode, т.к. он может проставится асинхронно
-        // а код ниже вызывает изменение версии модели что приводит к лишней
-        // перерисовке до изменения viewMode
+            // Обрабатываем searchNavigationMode только после того как
+            // проставится setViewMode, т.к. он может проставится асинхронно
+            // а код ниже вызывает изменение версии модели что приводит к лишней
+            // перерисовке до изменения viewMode
             .then(() => {
                 if (cfg.searchNavigationMode !== 'expand') {
                     this._children.treeControl.resetExpandedItems();
@@ -788,7 +933,7 @@ export default class Explorer extends Control<IControlOptions> {
             });
     }
 
-    protected _backByPath(self): void {
+    protected _backByPath(self: Explorer): void {
         if (self._breadCrumbsItems && self._breadCrumbsItems.length > 0) {
             self._isGoingBack = true;
             self._setRoot(self._breadCrumbsItems[self._breadCrumbsItems.length - 1].get(self._options.parentProperty));
@@ -804,8 +949,11 @@ export default class Explorer extends Control<IControlOptions> {
      * @param item - запись, для которой нужно "собрать" курсор
      * @param positionNavigation - конфигурация курсорной навигации
      */
-    private _getCursorPositionFor(item: Model,
-                                  positionNavigation: INavigation<IPositionSourceConfig>): IPositionSourceConfig['position'] {
+    private _getCursorPositionFor(
+        item: Model,
+        positionNavigation: INavigation<IPositionSourceConfig>
+    ): IPositionSourceConfig['position'] {
+
         const position: unknown[] = [];
         const optField = positionNavigation.sourceConfig.field;
         const fields: string[] = (optField instanceof Array) ? optField : [optField];
@@ -823,7 +971,7 @@ export default class Explorer extends Control<IControlOptions> {
      *
      * @param itemId id узла из которого выходим
      */
-    private _restorePositionNavigation(itemId): void {
+    private _restorePositionNavigation(itemId: TKey): void {
         const hasRestoreDataForCurrent = !!this._restoredMarkedKeys[itemId];
         if (hasRestoreDataForCurrent) {
             const parentId = this._restoredMarkedKeys[itemId].parent;
@@ -838,7 +986,7 @@ export default class Explorer extends Control<IControlOptions> {
         }
     }
 
-    private _setPendingViewMode(viewMode: string, options): void {
+    private _setPendingViewMode(viewMode: TExplorerViewMode, options: IExplorerOptions): void {
         this._pendingViewMode = viewMode;
 
         if (viewMode === 'search') {
@@ -846,13 +994,13 @@ export default class Explorer extends Control<IControlOptions> {
         }
     }
 
-    private _updateRootOnViewModeChanged(viewMode: string, options): void {
+    private _updateRootOnViewModeChanged(viewMode: string, options: IExplorerOptions): void {
         if (viewMode === 'search' && options.searchStartingWith === 'root') {
             const currentRoot = this._getRoot(options.root);
-            const dataRoot = this._dataRoot !== undefined ? this._dataRoot : this._getDataRoot(options);
+            const topRoot = this._topRoot !== undefined ? this._topRoot : this._getTopRoot(options);
 
-            if (dataRoot !== currentRoot) {
-                this._setRoot(dataRoot, dataRoot);
+            if (topRoot !== currentRoot) {
+                this._setRoot(topRoot, topRoot);
             }
         }
     }

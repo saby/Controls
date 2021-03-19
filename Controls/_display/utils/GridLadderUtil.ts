@@ -32,6 +32,7 @@ interface IPrepareLadderParams extends IStickyColumnsParams{
     startIndex: number;
     stopIndex: number;
     display: any;
+    hasColumnScroll?: boolean;
 
     task1181099336?: boolean;
 }
@@ -55,7 +56,8 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
         supportSticky = !!stickyColumn,
         stickyProperties = [],
         ladder = {}, ladderState = {}, stickyLadder = {},
-        stickyLadderState = {};
+        stickyLadderState = {},
+        hasColumnScroll = params.hasColumnScroll;
 
     const nodeProperty = params.task1181099336 && params.display && params.display.getNodeProperty();
 
@@ -88,6 +90,12 @@ export function prepareLadder(params: IPrepareLadderParams): ILadderObject {
         processLadder(params);
         if (params.ladder.ladderLength && isFullGridSupport()) {
             params.ladder.headingStyle = 'grid-row: span ' + params.ladder.ladderLength;
+
+            // Для лесенки, если включен горизонтальный скролл, нужно делать z-index больше,
+            // чем у застиканных колонок. Иначе её содержимое будет находиться позади.
+            if (hasColumnScroll) {
+                params.ladder.headingStyle += '; z-index: 4;';
+            }
         }
     }
 

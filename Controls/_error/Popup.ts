@@ -124,6 +124,8 @@ export default class Popup implements IPopupHelper {
         'Controls/popup',
         'Controls/popupConfirmation',
         'Controls/popupTemplate',
+        'css!Controls/popup',
+        'css!Controls/popupConfirmation',
         'css!Controls/buttons'
     ];
 
@@ -131,8 +133,6 @@ export default class Popup implements IPopupHelper {
      * Стили, которые нужны для нормального отображения диалогов.
      */
     private static readonly POPUP_THEMES: string[] = [
-        'Controls/popup',
-        'Controls/popupConfirmation',
         'Controls/Classes'
     ];
 

@@ -150,14 +150,19 @@ describe('Controls/dataSource:SourceController', () => {
             controllerState = controller.getState();
             ok(controllerState.parentProperty === parentProperty);
             ok(controllerState.root === root);
+            ok(!controllerState.keyProperty);
 
             hierarchyOptions = {
-                parentProperty
+                parentProperty,
+                source: new Memory({
+                    keyProperty: 'testKeyProperty'
+                })
             };
             controller = new NewSourceController(hierarchyOptions);
             controllerState = controller.getState();
             ok(controllerState.parentProperty === parentProperty);
             ok(controllerState.root === null);
+            ok(controllerState.keyProperty === 'testKeyProperty');
         });
     });
 
@@ -591,5 +596,23 @@ describe('Controls/dataSource:SourceController', () => {
             ok(sourceController.getKeyProperty() === 'testKeyProperty');
         });
 
+    });
+
+    describe('hasMoreData', () => {
+        it('hasMoreData for root', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            await controller.reload();
+            ok(controller.hasMoreData('down'));
+        });
+
+        it('hasMoreData for not loaded folder', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            ok(!controller.hasMoreData('down', 'anyFolderKey'));
+            ok(!controller.hasLoaded('anyFolderKey'));
+        });
     });
 });

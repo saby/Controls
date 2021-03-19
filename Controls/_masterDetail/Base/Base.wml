@@ -1,4 +1,4 @@
-<div class="controls-MasterDetail">
+<div class="controls-MasterDetail controls_theme-{{_options.theme}}">
    <ws:if data="{{_options.masterVisibility !== 'hidden'}}">
       <div class="controls-MasterDetail_master controls-MasterDetail_master_theme-{{_options.theme}}" style="width: {{_currentWidth}}; max-width: {{_currentMaxWidth}}; min-width: {{_currentMinWidth}}"
            on:touchstart="_touchstartHandler()"

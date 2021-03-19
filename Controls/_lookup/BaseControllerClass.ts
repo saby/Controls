@@ -1,4 +1,4 @@
-import {IFilterOptions, ISourceOptions} from 'Controls/interface';
+import {IFilterOptions, ISourceOptions, TKey} from 'Controls/interface';
 import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
 import {RecordSet, List} from 'Types/collection';
 import {Model} from 'Types/entity';
@@ -6,7 +6,6 @@ import {Logger} from 'UI/Utils';
 import {ToSourceModel} from 'Controls/_lookup/resources/ToSourceModel';
 import {isEqual} from 'Types/object';
 import {object} from 'Types/util';
-import {QueryWhereExpression} from 'Types/source';
 import { constants } from 'Env/Constants';
 
 type Key = string|number|null;
@@ -15,6 +14,7 @@ export type SelectedItems = RecordSet|List<Model>|List<void>;
 export interface ILookupBaseControllerOptions extends IFilterOptions, ISourceOptions {
     selectedKeys: Key[];
     dataLoadCallback?: Function;
+    dataLoadErrback?: Function;
     multiSelect: boolean;
     displayProperty: string;
     historyId: string;
@@ -100,7 +100,7 @@ export default class LookupBaseControllerClass {
         return sourceController.load().then(
             (items) => {
                 if (!constants.isProduction) {
-                    LookupBaseControllerClass.checkLoadedItems(items, this._selectedKeys, keyProperty);
+                    this._checkLoadedItems(items as RecordSet, this._selectedKeys, keyProperty);
                 }
 
                 if (options.dataLoadCallback) {
@@ -252,21 +252,31 @@ export default class LookupBaseControllerClass {
         });
     }
 
-    private static checkLoadedItems(
+    private _checkLoadedItems(
         items: RecordSet,
         selectedKeys: Key[],
         keyProperty: string
     ): void {
+        const processError = (message: string) => {
+            if (this._options.dataLoadErrback) {
+                const error = new Error(message);
+                error.name = 'lookupKeyError';
+                this._options.dataLoadErrback(error);
+            } else {
+                Logger.error(message);
+            }
+        };
         items.each((item) => {
-            if (selectedKeys.indexOf(item.get(keyProperty)) === -1) {
-                Logger.error(`Controls/lookup: ошибка при загрузке записи с ключом ${item.get(keyProperty)}.
-                                   Необходимо проверить, что метод корректно вернул данные.`);
+            const key = item.get(keyProperty);
+            if (selectedKeys.indexOf(key) === -1) {
+                processError(`Controls/lookup: ошибка при загрузке записи с ключом ${key}.
+                              Необходимо проверить, что метод корректно вернул данные.`);
             }
         });
         selectedKeys.forEach((key) => {
             if (items.getIndexByValue(keyProperty, key) === -1) {
-                Logger.error(`Controls/lookup: ошибка при загрузке записи с ключом ${key}.
-                                   Необходимо проверить, что метод корректно вернул данные.`);
+                processError(`Controls/lookup: ошибка при загрузке записи с ключом ${key}.
+                              Необходимо проверить, что метод корректно вернул данные.`);
             }
         });
     }

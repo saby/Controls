@@ -78,26 +78,12 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     }
 
     /**
-     * Фикс для сафари, чтобы при свайпе по шторке не тянулся body.
-     * TODO: Нужно сделать какое-то общее решение для d'n'd
-     * https://online.sbis.ru/opendoc.html?guid=2e549898-5980-49bc-b4b7-e0a27f02bf55
-     * @param state
-     * @private
-     */
-    private _toggleCancelBodyDragging(state: boolean): void {
-        if (detection.isMobileIOS) {
-            document.documentElement.style.overflow = state ? 'hidden' : '';
-        }
-    }
-
-    /**
      * Запоминаем начальную позицию тача, чтобы считать offset от нее
      * @param {<TouchEvent>} event
      * @private
      */
     protected _touchStartHandler(event: SyntheticEvent<TouchEvent>): void {
         this._currentTouchYPosition = event.nativeEvent.targetTouches[0].clientY;
-        this._toggleCancelBodyDragging(true);
     }
 
     /**
@@ -132,7 +118,6 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
             this._notifyDragEnd();
             this._touchDragOffset = null;
         }
-        this._toggleCancelBodyDragging(false);
     }
 
     private _notifyDragStart(offset: IDragObject['offset']): void {

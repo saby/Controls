@@ -1,5 +1,5 @@
 import {Model, Record} from 'Types/entity';
-import {DataSet, SbisService, ICrudPlus} from 'Types/source';
+import {DataSet, SbisService, ICrudPlus, Query, QueryOrderSelector} from 'Types/source';
 import {Logger} from 'UI/Utils';
 import {ISelectionObject} from 'Controls/interface';
 import {Confirmation, Dialog, IBasePopupOptions} from 'Controls/popup';
@@ -20,26 +20,26 @@ interface IValidationResult {
 
 /**
  * Интерфейс опций контроллера.
- * @interface Controls/_list/Controllers/IMoveController
- * @public
  * @author Аверкиев П.А.
+ * @private
  */
 export interface IMoveControllerOptions {
     /**
-     * @name Controls/_list/Controllers/IMoveController#source
      * @cfg {TSource} Ресурс, в котором производится перемещение
      */
     source: TSource;
     /**
-     * @name Controls/_list/Controllers/IMoveController#parentProperty
      * @cfg {String} Имя поля, содержащего идентификатор родительского элемента.
      */
     parentProperty: string;
     /**
-     * @name Controls/_list/Controllers/IMoveController#popupOptions
      * @cfg {Controls/popup:IBasePopupOptions} опции диалога перемещения
      */
     popupOptions?: IBasePopupOptions;
+    /**
+     * @cfg Array<{[columnName: string] Массив сортировок. Необходим при перемещении записей вверх/вниз
+     */
+    sorting: QueryOrderSelector;
 }
 
 /**
@@ -61,6 +61,9 @@ export class MoveController {
     // Имя свойства, хранящего ключ родителя в дереве, необходим для _moveInSource
     protected _parentProperty: string;
 
+    // Сортировка при перемещении вверх/вниз
+    private _sorting: QueryOrderSelector;
+
     constructor(options: IMoveControllerOptions) {
         this.updateOptions(options);
     }
@@ -74,6 +77,7 @@ export class MoveController {
         this._popupOptions = options.popupOptions;
         this._source = options.source;
         this._parentProperty = options.parentProperty;
+        this._sorting = options.sorting;
     }
 
     /**
@@ -198,8 +202,10 @@ export class MoveController {
                 });
             });
         }
+        const query = new Query().orderBy(this._sorting);
         return this._source.move(selection.selected, targetKey, {
             position,
+            query,
             parentProperty: this._parentProperty
         });
     }

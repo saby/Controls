@@ -15,6 +15,7 @@ const RESIZE_DELAY = 10;
 
 interface IPopupControlOptions extends IPopupOptions, IControlOptions {
     _prefetchPromise?: Promise<IPrefetchPromises>; // TODO: Compatible предзагрузка
+    prefetchData?: Record<string, unknown>; // TODO: Compatible предзагрузка
 }
 interface IPrefetchPromises {  // TODO: Compatible предзагрузка
     [key: string]: Promise<unknown>;
@@ -69,6 +70,9 @@ class Popup extends Control<IPopupControlOptions> {
             this._preparePrefetchData(options._prefetchPromise).then((data: IPrefetchData) => {
                 this._prefetchData = data;
             });
+        } else if (options.prefetchData) {
+            // Если с прикладной стороны сами получили предзагруженные данные
+            this._isPrefetchDataMode = true;
         }
     }
 
@@ -109,6 +113,8 @@ class Popup extends Control<IPopupControlOptions> {
                 this._prefetchData = null;
                 this._isPrefetchDataMode = false;
             }
+        } else if (!options._prefetchPromise && options.prefetchData !== this._options.prefetchData) {
+            this._isPrefetchDataMode = !!options.prefetchData;
         }
     }
 

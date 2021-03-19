@@ -281,7 +281,7 @@ export default abstract class Row<T> {
     }
 
     getStickyHeaderMode(): string {
-        return 'stackable';
+        return this.isSticked() ? 'stackable' : 'notsticky';
     }
 
     getStickyHeaderPosition(): string {
@@ -304,7 +304,7 @@ export default abstract class Row<T> {
     }
 
     protected _prepareColumnItems(columns: IColspanParams[], factory: (options: Partial<ICellOptions<T>>) => Cell<T, Row<T>>): Array<Cell<T, Row<T>>> {
-        const columnItems = [];
+        const creatingColumnsParams = [];
         for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
             const column = columns[columnIndex];
             let colspan = this._getColspan(column, columnIndex);
@@ -317,14 +317,19 @@ export default abstract class Row<T> {
             if (colspan) {
                 columnIndex += colspan - 1;
             }
-            columnItems.push(factory({
+            creatingColumnsParams.push({
                 ...this._getColumnFactoryParams(column, columnIndex),
                 instanceId: `${this.key}_column_${columnIndex}`,
                 colspan: colspan as number,
-                isFixed: columnIndex < this.getStickyColumnsCount(),
-            }));
+                isFixed: columnIndex < this.getStickyColumnsCount()
+            });
         }
-        return columnItems;
+
+        if (creatingColumnsParams.length === 1) {
+            creatingColumnsParams[0].isSingleCell = true;
+        }
+
+        return creatingColumnsParams.map((params) => factory(params));
     }
 
     protected _getColumnFactoryParams(column: IColumn, columnIndex: number): Partial<ICellOptions<T>> {
@@ -503,6 +508,7 @@ export default abstract class Row<T> {
     abstract isEditing(): boolean;
     abstract isSelected(): boolean;
     abstract isDragged(): boolean;
+    abstract isSticked(): boolean;
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
     protected abstract _nextVersion(): void;
 }

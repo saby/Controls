@@ -5,5 +5,6 @@
                 itemTemplate="{{_options.itemTemplate}}"
                 groupTemplate="{{_options.groupTemplate || _groupTemplate}}"
                 collapsedGroups="{{_options.collapsedGroups}}"
-                toggleEditorsTemplate="{{_toggleEditorsTemplate}}"/>
+                toggleEditorsTemplate="{{_toggleEditorsTemplate}}"
+                captionPosition="{{_options.captionPosition}}"/>
 </div>

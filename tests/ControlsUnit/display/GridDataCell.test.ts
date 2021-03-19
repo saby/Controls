@@ -38,7 +38,8 @@ describe('Controls/display/GridDataCell', () => {
             },
             getContents(): Model {
                 return {} as undefined as Model;
-            }
+            },
+            getMarkerVisibility: () => 'hidden'
         } as Partial<GridDataRow<Model>> as undefined as GridDataRow<Model>;
     });
 
@@ -80,7 +81,8 @@ describe('Controls/display/GridDataCell', () => {
                 getEditingBackgroundStyle: () => 'default',
                 isActive: () => false,
                 getRowSeparatorSize: () => 's',
-                getEditingConfig: () => ({})
+                getEditingConfig: () => ({}),
+                getMarkerVisibility: () => 'hidden'
             } as undefined as GridCollection<Model>;
             return new GridDataRow({
                 columns,

@@ -9,6 +9,7 @@ import {IInterval} from './interface/IInterval';
 import {constants} from 'Env/Env';
 import * as SliderTemplate from 'wml!Controls/_slider/sliderTemplate';
 import * as intervalTemplate from 'wml!Controls/_slider/BaseIntervalTemplate';
+import 'css!Controls/slider';
 
 export interface ISliderBaseOptions extends IControlOptions, ISliderOptions {
    value: number;
@@ -157,8 +158,6 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
          this._setValue(newValue);
       }
    }
-
-   static _theme: string[] = ['Controls/slider'];
 
    static getDefaultOptions(): object {
       return {
