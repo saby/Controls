@@ -20,6 +20,7 @@
         <ws:partial template="label"
                     attr:class="controls-PropertyGrid__editor-caption_theme-{{theme}}
                              {{'controls-PropertyGrid__editor-caption_' + (collectionItem.getEditorTemplateName() ? 'withEditor' : 'withoutEditor')}}"
+                    attr:tabindex="-1"
                     caption="{{item.caption || item.name}}"
                     collectionItem="{{collectionItem}}"
                     scope="{{item.captionOptions}}"/>
