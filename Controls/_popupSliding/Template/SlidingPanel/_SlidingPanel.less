@@ -10,12 +10,20 @@
    height: 100%;
    display: flex;
    flex-direction: column;
+   min-height: 0;
+   flex: 1;
+}
+
+.controls-SlidingPanel__popup {
+   display: flex;
+   flex-direction: column;
 }
 
 .controls-SlidingPanel__content {
    height: 100%;
    display: flex;
    flex-direction: column;
+   flex: 1;
    overflow: hidden;
 }
 
@@ -60,11 +68,11 @@
 }
 
 .controls-SlidingPanel__customContent {
-   flex-grow: 1;
+   flex: 1;
 }
 
 .controls-SlidingPanel__customContent-scroll-available {
-   flex-shrink: 1;
+   flex: 1;
 }
 
 .controls-SlidingPanel__customContent-scroll-disabled {
