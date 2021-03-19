@@ -593,6 +593,10 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         }
     }
 
+    protected _stickyHeaderOffsetTopChangedHandler(): void {
+        this._stickyHeaderController.resizeHandler();
+    }
+
     getHeadersHeight(position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {
         return this._stickyHeaderController.getHeadersHeight(position, type);
     }
