@@ -70,7 +70,7 @@ class ListEditor extends Control<IListEditorOptions> {
     private _itemsReadyCallback: Function = null;
 
     protected _beforeMount(options: IListEditorOptions): void {
-        this._selectedKeys = options.propertyValue;
+        this._selectedKeys = options.propertyValue || [];
         this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
         this._itemsReadyCallback = this._handleItemsReadyCallback.bind(this);
         this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
