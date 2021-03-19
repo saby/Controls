@@ -1,11 +1,11 @@
-<div class="controls-FilterEditors__numberRange controls-FilterEditors__numberRange_theme-{{_options.theme}}">
+<div class="controls_theme-{{_options.theme}} controls-FilterEditors__numberRange">
    <Controls.input:Number scope="{{_options}}"
                           placeholder="{{_options.minValueInputPlaceholder}}"
                           value="{{_minValue}}"
                           on:valueChanged="_handleMinValueChanged()"
                           on:inputCompleted="_handleInputCompleted()"
                           attr:class="controls-FilterEditors__numberRange-editor"/>
-   <span class="controls-FilterEditors__numberRange_separator_theme-{{_options.theme}}">-</span>
+   <span class="controls-FilterEditors__numberRange_separator">-</span>
    <Controls.input:Number scope="{{_options}}"
                           placeholder="{{_options.maxValueInputPlaceholder}}"
                           value="{{_maxValue}}"
