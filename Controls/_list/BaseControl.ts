@@ -4486,7 +4486,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     this.changeIndicatorStateHandler(false, 'up');
                 }
-                this.changeIndicatorStateHandler(false, 'down');
+                if (!this._shouldDisplayBottomLoadingIndicator()) {
+                    this.changeIndicatorStateHandler(false, 'down');
+                }
                 this._syncLoadingIndicatorState = null;
             }
             let itemsUpdated = false;
