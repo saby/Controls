@@ -4572,7 +4572,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     this.changeIndicatorStateHandler(false, 'up');
                 }
-                this.changeIndicatorStateHandler(false, 'down');
+                if (!this._shouldDisplayBottomLoadingIndicator()) {
+                    this.changeIndicatorStateHandler(false, 'down');
+                }
                 this._syncLoadingIndicatorState = null;
             }
             let itemsUpdated = false;
