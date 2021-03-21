@@ -3,6 +3,17 @@ import {assert} from 'chai';
 
 describe('Controls/filterPanel:ListEditor', () => {
 
+    it('_beforeMount', () => {
+        const listEditor = new ListEditor({});
+        const options = {
+            propertyValue: null,
+            filter: {},
+            keyProperty: 'id'
+        };
+        listEditor._beforeMount(options);
+        assert.deepEqual(listEditor._selectedKeys, []);
+    });
+
     describe('_beforeUpdate', () => {
         const listEditor = new ListEditor({});
         const options = {
