@@ -567,14 +567,16 @@ define(
                   vertical: VERTICAL_DIRECTION.BOTTOM
                };
                item.popupState = 'created';
-               let updateCalled = false;
-               const originUpdate = DialogController.elementUpdated;
-               DialogController.elementUpdated = () => {
-                  updateCalled = true;
+               const originGetPopupSizes = DialogController._getPopupSizes;
+               const newPopupSizes = {
+                  height: 123,
+                  width: 123
                };
+               DialogController._getPopupSizes = () => newPopupSizes;
                DialogController.resizeInner(item, {});
-               DialogController.elementUpdated = originUpdate;
-               assert.isTrue(updateCalled);
+               DialogController._getPopupSizes = originGetPopupSizes;
+               assert.equal(item.sizes.height, newPopupSizes.height);
+               assert.equal(item.sizes.width, newPopupSizes.width);
             });
             it('dragging', () => {
                item.popupOptions.resizeDirection = {

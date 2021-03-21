@@ -156,6 +156,18 @@ class DialogController extends BaseController {
         return false;
     }
 
+    resizeInner(item: IDialogItem, container: HTMLDivElement): boolean {
+        /* Если задан resizeDirection не перепозиционируем,
+           т.к. это опция отвечает как раз за ресайз без изменения позиции */
+        if (item.popupOptions?.resizeDirection) {
+
+            // Обновляем только размеры попапа
+            item.sizes = this._getPopupSizes(item, container);
+            return false;
+        }
+        return super.resizeInner(item, container);
+    }
+
     pageScrolled(): boolean {
         // Don't respond to page scrolling. The popup should remain where it originally positioned.
         return false;
