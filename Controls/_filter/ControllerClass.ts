@@ -751,6 +751,10 @@ export default class FilterControllerClass {
         return minimizedItem;
     }
 
+    static getControllerClass(options: IFilterControllerOptions): FilterControllerClass {
+        return new FilterControllerClass(options);
+    }
+
     private static _deleteFromHistory(item: Model, historyId: string): void {
         getHistorySource({historyId}).destroy(item.getKey(), {$_history: true});
     }
