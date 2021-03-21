@@ -1,0 +1,73 @@
+<div class="controlsDemo__wrapper" xmlns:ws="http://www.w3.org/1999/html">
+   <div class="toolbar-row">
+      <Controls.buttons:Button
+         caption="Add row"
+         on:click="_addRow()"
+         attr:class="toolbar-btn"
+         attr:title="Сгенерировать новую запись и добавить её в конец списка"
+      />
+      <Controls.buttons:Button
+         caption="Del row"
+         on:click="_delRow()"
+         attr:class="toolbar-btn"
+         attr:title="Удалить первую запись из списка"
+      />
+      <Controls.buttons:Button
+         caption="Reset rows"
+         on:click="_resetRows()"
+         attr:class="toolbar-btn"
+         attr:title="Вернуть список к исходному состоянию"
+      />
+   </div>
+   <div class="toolbar-row">
+      <Controls.toggle:Switch
+         bind:value="_editOnClick"
+         caption="editOnClick"
+         attr:title="{{_editOnClick ? 'Выключить': 'Включить'}} режим редактирования по клику"
+      />
+   </div>
+
+   <div class="controlsDemo_m">
+      items count: {{_items.getCount()}}
+   </div>
+
+   <h2>Controls.list:ItemsView</h2>
+   <Controls.list:ItemsView name="itemsView" items="{{_items}}">
+      <ws:editingConfig editOnClick="{{_editOnClick}}"/>
+      <ws:itemTemplate>
+         <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
+            <ws:contentTemplate>
+               <ws:partial
+                  template="Controls/list:EditingTemplate"
+                  value="Row title: {{ itemTemplate.itemData.item.title }}"
+                  enabled="{{_editOnClick}}"
+               >
+                  <ws:editorTemplate>
+                     <Controls.input:Text bind:value="itemTemplate.itemData.item.title"/>
+                  </ws:editorTemplate>
+               </ws:partial>
+            </ws:contentTemplate>
+         </ws:partial>
+      </ws:itemTemplate>
+
+      <ws:footerTemplate>
+         <Controls.list:AddButton caption="Add record" on:click="_beginAdd()"/>
+      </ws:footerTemplate>
+
+      <ws:emptyTemplate>
+         <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
+            <ws:contentTemplate>
+               <div>Нет данных</div>
+               items count: {{_items.getCount()}}
+            </ws:contentTemplate>
+         </ws:partial>
+      </ws:emptyTemplate>
+   </Controls.list:ItemsView>
+
+   <h2>ws:for</h2>
+   <div>
+      <ws:for data="key, value in _items">
+         <div>{{value.title}}</div>
+      </ws:for>
+   </div>
+</div>
