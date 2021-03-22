@@ -13,7 +13,7 @@
 </ws:template>
 <div
    on:_slidingPanelScrollStateChanged="_scrollStateChanged()"
-   class="controls-SlidingPanel controls_theme-{{_options.theme}}">
+   class="controls-SlidingPanel">
    <div class="controls-SlidingPanel__content controls-SlidingPanel__content
             controls-SlidingPanel__box-shadow
             controls-SlidingPanel__position-{{_position}}">

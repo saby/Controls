@@ -1,4 +1,4 @@
-<div class="controls-AdaptiveButtons controls_theme-{{_options.theme}}">
+<div class="controls-AdaptiveButtons">
     <ws:template name="templateMore">
         <div class="controls-AdaptiveButtons__more controls-AdaptiveButtons__more_align_{{_options.align}}" >
             <div class="controls-AdaptiveButtons__more__text controls-AdaptiveButtons__more__text_align_{{_options.align}}">

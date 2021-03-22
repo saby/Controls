@@ -205,8 +205,11 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                 this._stickyModeChanged(options.mode);
             }
         }
-        if (options.fixedZIndex !== this._options.fixedZIndex || options.offsetTop !== this._options.offsetTop) {
+        if (options.fixedZIndex !== this._options.fixedZIndex) {
             this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
+        }
+        if (options.offsetTop !== this._options.offsetTop) {
+            this._notify('stickyHeaderOffsetTopChanged', [], {bubbling: true});
         }
     }
 
