@@ -5835,14 +5835,6 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
     },
 
     _mouseEnter(event): void {
-        // В тач режиме mouseEnter происходит сразу после touch
-        // В этом случае создавать тут itemActions не нужно.
-        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
-        // touch режимом isMobilePlatform может быть false
-        if (!this._context?.isTouch?.isTouch) {
-            _private.updateItemActionsOnce(this, this._options);
-        }
-
         this._dragEnter(this._getDragObject());
 
         // нельзя делать это в процессе обновления или загрузки
@@ -6316,6 +6308,20 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
     _isPagingPadding(): boolean {
         return !(detection.isMobileIOS || !this._isPagingPaddingFromOptions());
+    },
+
+    /**
+     * Подписка на событие mouseMove внутри всего списка, а не только внутри item
+     * @param event
+     * @private
+     */
+    _onListMouseMove(event): void {
+        // В тач режиме itemActions создаются непосредственно при свайпе
+        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
+        // touch режимом isMobilePlatform может быть false
+        if (!this._context?.isTouch?.isTouch) {
+            _private.updateItemActionsOnce(this, this._options);
+        }
     },
 
     _onMouseMove(event): void {
