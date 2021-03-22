@@ -334,7 +334,7 @@ export default class Application extends Control<IApplication> {
          }
          HeadAPI.createTag('meta', {
             name: 'viewport',
-            content: 'width=device-width, initial-scale=1.0'
+            content: 'width=device-width, initial-scale=1.0, user-scalable=no'
          });
          this._bodyClasses.isAdaptiveClass = 'ws-is-adaptive';
       } else {

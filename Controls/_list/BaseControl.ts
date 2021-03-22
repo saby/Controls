@@ -446,9 +446,6 @@ const _private = {
 
     executeAfterReloadCallbacks(self, loadedList, options): void {
         self._afterReloadCallback(options, loadedList);
-        if (options.serviceDataLoadCallback instanceof Function) {
-            options.serviceDataLoadCallback(this._items, loadedList);
-        }
     },
 
     callDataLoadCallbackCompatibility(self, items, direction, options): void {
@@ -2183,10 +2180,6 @@ const _private = {
             this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController)
         );
 
-        if (this._options.serviceDataLoadCallback instanceof Function) {
-            this._options.serviceDataLoadCallback(this._items, items);
-        }
-
         _private.callDataLoadCallbackCompatibility(this, items, direction, this._options);
 
         if (
@@ -2804,7 +2797,7 @@ const _private = {
      * @param self
      */
     closeSwipe(self): void {
-        if (self._listViewModel.isActionsAssigned()) {
+        if (self._listViewModel?.isActionsAssigned()) {
             _private.getItemActionsController(self, self._options).deactivateSwipe();
         }
     },
@@ -3509,10 +3502,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 }
 
                 self._afterReloadCallback(newOptions, self._items, self._listViewModel);
-
-                if (newOptions.serviceDataLoadCallback instanceof Function) {
-                    newOptions.serviceDataLoadCallback(null, self._items);
-                }
 
                 if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
                     _private.needAttachLoadTriggerToNull(self, 'up')) {
@@ -4497,7 +4486,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     this.changeIndicatorStateHandler(false, 'up');
                 }
-                this.changeIndicatorStateHandler(false, 'down');
+                if (!this._shouldDisplayBottomLoadingIndicator()) {
+                    this.changeIndicatorStateHandler(false, 'down');
+                }
                 this._syncLoadingIndicatorState = null;
             }
             let itemsUpdated = false;
@@ -5045,6 +5036,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                     group: groupId,
                     collapsedGroups
                 };
+                // При setExpanded() не обновляется collection.collapsedGroups, на основе которого стратегия
+                // определяет, какие группы надо создавать свёрнутыми. Поэтому обновляем его тут.
+                collection.setCollapsedGroups(collapsedGroups);
                 _private.groupsExpandChangeHandler(this, changes);
             } else {
                 const needExpandGroup = !collection.isGroupExpanded(groupId);

@@ -19,6 +19,7 @@ import {mixin} from 'Types/util';
 import {SerializableMixin} from 'Types/entity';
 import {ControllerClass as SearchController} from 'Controls/search';
 import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
+import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 
 const DEFAULT_LOAD_TIMEOUT = 10000;
 
@@ -43,6 +44,7 @@ export interface ILoadDataConfig extends
     id?: string;
     type?: 'list';
     sorting?: TSortingOptionValue;
+    sourceController?: NewSourceController;
     filter?: TFilter;
     filterButtonSource?: IFilterItem[];
     fastFilterSource?: object[];
@@ -77,6 +79,7 @@ export interface ILoadDataResult extends ILoadDataConfig {
     sourceController: NewSourceController;
     filterController?: FilterController;
     searchController?: SearchController;
+    collapsedGroups?: TArrayGroupId;
 }
 
 type TLoadedConfigs = Map<string, ILoadDataResult|ILoadDataConfig>;
@@ -90,8 +93,8 @@ function getFilterController(options: IFilterControllerOptions): FilterControlle
     return new controllerClass(options);
 }
 
-function getSourceController(options: IControllerOptions): NewSourceController {
-    return new NewSourceController(options);
+function getSourceController(options: ILoadDataConfig): NewSourceController {
+    return (options.sourceController || new NewSourceController(options));
 }
 
 function getFilterControllerWithHistoryFromLoader(loadConfig: ILoadDataConfig): Promise<IFilterResult> {
@@ -137,7 +140,8 @@ function getLoadResult(
         data: sourceController.getItems(),
         error: sourceController.getLoadError(),
         filter: sourceController.getFilter(),
-        sorting:  sourceController.getSorting() as TSortingOptionValue
+        sorting:  sourceController.getSorting() as TSortingOptionValue,
+        collapsedGroups: sourceController.getCollapsedGroups()
     };
 }
 

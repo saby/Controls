@@ -835,8 +835,7 @@ export default class Controller extends mixin<
         initialFilter: QueryWhereExpression<unknown>,
         options: IControllerOptions
     ): Promise<QueryWhereExpression<unknown>> {
-        const hasGrouping = !!options.groupProperty || !!options.groupingKeyCallback;
-        const historyId = hasGrouping ? (options.groupHistoryId || options.historyIdCollapsedGroups) : undefined;
+        const historyId = options.groupHistoryId || options.historyIdCollapsedGroups;
         const collapsedGroups = options.collapsedGroups;
         const getFilterWithCollapsedGroups = (collapsedGroupsIds: TArrayGroupId) => {
             let modifiedFilter;
