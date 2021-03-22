@@ -1235,5 +1235,18 @@
   "--placeholder_padding-bottom_l_list": "var(--offset_l)",
   "--placeholder_padding-bottom_xl_list": "var(--offset_3xl)",
   "--placeholder_padding-bottom_2xl_list": "44px",
-  "--master_item_background-color_list": "#f8f8f8"
+  "--master_item_background-color_list": "#f8f8f8",
+
+  "--zero_text-color_decorator_fraction": "#ccc",
+  "--default_text-color_decorator_fraction": "#999",
+  "--unaccented_text-color_decorator_fraction": "#999",
+  "--readOnly_text-color_decorator_fraction": "#ccc",
+  "--primary_text-color_decorator_fraction": "#ccab9d",
+  "--secondary_text-color_decorator_fraction": "#afb4cc",
+  "--info_text-color_decorator_fraction": "#b5becc",
+  "--link_text-color_decorator_fraction": "#9db2cc",
+  "--success_text-color_decorator_fraction": "#9fcca7",
+  "--warning_text-color_decorator_fraction": "#ccc1a9",
+  "--danger_text-color_decorator_fraction": "#ceb1b1",
+  "--stroked_line-color_decorator": "#999"
 }
