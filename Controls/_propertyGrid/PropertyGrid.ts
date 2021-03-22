@@ -169,9 +169,10 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
     }
 
     protected _updatePropertyValue(
-        editingObject: Record<string, any> | entityRecord,
-        name: string, value: any
-    ): Record<string, any> | entityRecord {
+        editingObject: Record<string, unknown> | entityRecord,
+        name: string,
+        value: unknown
+    ): Record<string, unknown> | entityRecord {
         let resultEditingObject;
         if (editingObject instanceof entityRecord) {
             resultEditingObject = editingObject;
@@ -180,9 +181,12 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
                 const newEditingObject = factory(editingObject).toObject();
                 newEditingObject[name] = value;
                 const format = Model.fromObject(newEditingObject, resultEditingObject.getAdapter()).getFormat();
-                resultEditingObject.addField(
-                    format.at(format.getFieldIndex(name))
-                );
+                const propertyFormat = format.at(format.getFieldIndex(name));
+                resultEditingObject.addField({
+                    name: propertyFormat.getName(),
+                    type: propertyFormat.getType(),
+                    defaultValue: value
+                });
             }
             resultEditingObject.set(name, value);
             this._listModel.setEditingObject(resultEditingObject);
