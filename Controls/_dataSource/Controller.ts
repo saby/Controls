@@ -26,6 +26,7 @@ import * as cInstance from 'Core/core-instance';
 import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
+import {default as calculatePath, Path} from 'Controls/_dataSource/calculatePath';
 
 export interface IControllerState {
     keyProperty: string;
@@ -39,6 +40,10 @@ export interface IControllerState {
     root?: TKey;
 
     items: RecordSet;
+    breadCrumbsItems: Path;
+    backButtonCaption: string;
+    breadCrumbsItemsWithoutBackButton: Path;
+
     sourceController: Controller;
     dataLoadCallback: Function;
 }
@@ -115,6 +120,27 @@ export default class Controller extends mixin<
     private _options: IControllerOptions;
     private _filter: QueryWhereExpression<unknown>;
     private _items: RecordSet;
+    /**
+     * Данные хлебных крошек, которые спускаем дочерним контролам
+     */
+    private _breadCrumbsItems: Path;
+    /**
+     * Заголовок кнопки назад, вычисленный на основании текущих хлебных крошек.
+     * Спускаем дочерним контролам.
+     */
+    private _backButtonCaption: string;
+    /**
+     * Данные хлебных крошек, которые спускаем дочерним контролам,
+     * без итема, который используется для вывода кнопки назад
+     */
+    private _breadCrumbsItemsWithoutBackButton: Path;
+    /**
+     * RecordSet в котором хранятся данные хлебных крошек.
+     * Нужен только для того, что бы иметь возможность подписаться и отписаться от события
+     * onCollectionChange. Т.к. данные хлебных крошек могут меняться из UI, например,
+     * при редактировании названия папки в которой находимся.
+     */
+    private _breadcrumbsRecordSet: RecordSet;
     private _loadPromise: CancelablePromise<RecordSet|Error>;
     private _loadError: Error;
 
@@ -152,8 +178,11 @@ export default class Controller extends mixin<
         }
         this.setParentProperty(cfg.parentProperty);
         this._resolveNavigationParamsChangedCallback(cfg);
+
+        this._updateBreadcrumbsData = this._updateBreadcrumbsData.bind(this);
         this._collectionChange = this._collectionChange.bind(this);
     }
+
     load(direction?: Direction,
          key: TKey = this._root,
          filter?: QueryWhereExpression<unknown>
@@ -334,6 +363,10 @@ export default class Controller extends mixin<
             root: this._root,
 
             items: this._items,
+            breadCrumbsItems: this._breadCrumbsItems,
+            backButtonCaption: this._backButtonCaption,
+            breadCrumbsItemsWithoutBackButton: this._breadCrumbsItemsWithoutBackButton,
+
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
@@ -407,6 +440,7 @@ export default class Controller extends mixin<
         this.cancelLoading();
         this._unsubscribeItemsCollectionChangeEvent();
         this._destroyNavigationController();
+        this._updateBreadcrumbsRecordSet(undefined);
     }
 
     private _setRoot(key: TKey): void {
@@ -544,6 +578,9 @@ export default class Controller extends mixin<
             this._subscribeItemsCollectionChangeEvent(items);
             this._items = items;
         }
+
+        this._updateBreadcrumbsRecordSet(this._items.getMetaData().path);
+        this._updateBreadcrumbsData();
     }
 
     private _appendItems(items: RecordSet): void {
@@ -759,6 +796,27 @@ export default class Controller extends mixin<
         }
     }
 
+    /**
+     * Если требуется, то обновляет подписку на изменение данных хлебных крошек.
+     * Так же запоминает переданный RecordSet что бы в дальнейшем иметь возможность
+     * отписаться от события onCollectionChange
+     */
+    private _updateBreadcrumbsRecordSet(breadcrumbs: RecordSet): void {
+        // Если пришел другой инстанс хлебных крошек, то обновим подписку на изменение
+        // этой коллекции
+        if (this._breadcrumbsRecordSet !== breadcrumbs) {
+            if (this._breadcrumbsRecordSet) {
+                this._breadcrumbsRecordSet.unsubscribe('onCollectionChange', this._updateBreadcrumbsData);
+            }
+
+            if (breadcrumbs) {
+                breadcrumbs.subscribe('onCollectionChange', this._updateBreadcrumbsData);
+            }
+        }
+
+        this._breadcrumbsRecordSet = breadcrumbs;
+    }
+
     private _collectionChange(): void {
         if (this._hasNavigationBySource()) {
             // Навигация при изменении ReocrdSet'a должно обновляться только по записям из корня,
@@ -778,6 +836,14 @@ export default class Controller extends mixin<
                     );
             }
         }
+    }
+
+    private _updateBreadcrumbsData(): void {
+        const pathResult = calculatePath(this._items, this._options.displayProperty);
+
+        this._breadCrumbsItems = pathResult.path;
+        this._backButtonCaption = pathResult.backButtonCaption;
+        this._breadCrumbsItemsWithoutBackButton = pathResult.pathWithoutItemForBackButton;
     }
 
     private _getFirstItemFromRoot(): Model|void {

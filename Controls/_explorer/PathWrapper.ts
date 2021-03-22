@@ -23,7 +23,8 @@ interface IOptions extends IControlOptions {
 }
 
 /**
- * * Рисует хлебные крошки и кастомный контент после них когда итемы для списка загружены
+ * * Определяет нужно ли рисовать хлебные крошки
+ * * Определяет нужно ли выводить в хлебных крошках кнопку "Назад"
  */
 export default class PathWrapper extends Control<IOptions> {
     protected _template: TemplateFunction = template;
