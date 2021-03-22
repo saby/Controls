@@ -38,7 +38,6 @@
     <ws:if data="{{collectionItem.getEditorTemplateName()}}">
        <div class="controls-PropertyGrid__gridLayout_editor
                    controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
-                   controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
                    {{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}
                    {{collectionItem.getItemPaddingClasses(theme, 2)}}"
              style="{{getItemStyles(collectionItem, 2, !item.caption)}}">
