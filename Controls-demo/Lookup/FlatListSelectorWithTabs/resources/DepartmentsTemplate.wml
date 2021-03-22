@@ -2,42 +2,41 @@
     attr:class="demo-Selector__departmentsLayout"
     name="SelectorController"
     selectedItems="{{_options.selectedItems}}">
-    <Controls.list:DataContainer source="{{_source}}" keyProperty="{{_keyProperty}}" filter="{{_filter}}">
-        <Controls.search:Controller searchParam="title" minSearchLength="{{3}}">
-            <div class="ws-fragment">
-                <div class="controlsDemo__wrapper">
-                    <Controls.search:InputContainer>
-                        <Controls.search:Input/>
-                    </Controls.search:InputContainer>
-                </div>
-                <Controls.lookupPopup:Container keyProperty="{{_keyProperty}}" multiSelect="{{_options.multiSelect}}">
-                    <Controls.operations:Controller>
-                        <Controls.list:Container>
-                            <Controls.lookupPopup:ListContainer>
-                                <Controls.list:View
-                                    attr:class="ControlsDemo-Selector__flatListDepartments"
-                                    displayProperty="title"
-                                    idProperty="{{_keyProperty}}"
-                                    multiSelectVisibility="{{_options.multiSelect ? 'visible'}}">
-                                    <ws:itemTemplate>
-                                        <ws:partial template="Controls/list:ItemTemplate">
-                                            <ws:contentTemplate>
-                                                <div class="controlsDemo-Selector__listItem">
-                                                    <span class="controlsDemo__mr1_control">{{itemTemplate.itemData.item.get('department')}}</span>
-                                                    <span class="controlsDemo-Selector__title">{{itemTemplate.itemData.item.get('owner')}}
-                                                        <span class="controlsDemo-Selector__icon icon-16 icon-Company icon-disabled"></span> (78)
-                                                    </span>
-                                                </div>
-                                            </ws:contentTemplate>
-                                        </ws:partial>
-                                    </ws:itemTemplate>
-                               </Controls.list:View>
-                            </Controls.lookupPopup:ListContainer>
-                        </Controls.list:Container>
-                    </Controls.operations:Controller>
-                </Controls.lookupPopup:Container>
+    <Controls.browser:Browser source="{{_source}}" keyProperty="{{_keyProperty}}" filter="{{_filter}}"
+                              searchParam="title" minSearchLength="{{3}}">
+        <div class="ws-fragment">
+            <div class="controlsDemo__wrapper">
+                <Controls.search:InputContainer>
+                    <Controls.search:Input/>
+                </Controls.search:InputContainer>
             </div>
-        </Controls.search:Controller>
-    </Controls.list:DataContainer>
+            <Controls.lookupPopup:Container keyProperty="{{_keyProperty}}" multiSelect="{{_options.multiSelect}}">
+                <Controls.operations:Controller>
+                    <Controls.list:Container>
+                        <Controls.lookupPopup:ListContainer>
+                            <Controls.list:View
+                                attr:class="ControlsDemo-Selector__flatListDepartments"
+                                displayProperty="title"
+                                idProperty="{{_keyProperty}}"
+                                multiSelectVisibility="{{_options.multiSelect ? 'visible'}}">
+                                <ws:itemTemplate>
+                                    <ws:partial template="Controls/list:ItemTemplate">
+                                        <ws:contentTemplate>
+                                            <div class="controlsDemo-Selector__listItem">
+                                                <span class="controlsDemo__mr1_control">{{itemTemplate.itemData.item.get('department')}}</span>
+                                                <span class="controlsDemo-Selector__title">{{itemTemplate.itemData.item.get('owner')}}
+                                                    <span class="controlsDemo-Selector__icon icon-16 icon-Company icon-disabled"></span> (78)
+                                                </span>
+                                            </div>
+                                        </ws:contentTemplate>
+                                    </ws:partial>
+                                </ws:itemTemplate>
+                           </Controls.list:View>
+                        </Controls.lookupPopup:ListContainer>
+                    </Controls.list:Container>
+                </Controls.operations:Controller>
+            </Controls.lookupPopup:Container>
+        </div>
+    </Controls.browser:Browser>
 </Controls.lookupPopup:Controller>
 

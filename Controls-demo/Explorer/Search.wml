@@ -1,58 +1,57 @@
 <div>
    <div>Demo Controls/Explorer</div>
    <Controls.scroll:Container>
-      <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter">
+      <Controls.browser:Browser source="{{_viewSource}}" keyProperty="id" bind:filter="_filter"
+                                searchParam="title" minSearchLength="{{3}}" startingWith="{{_searchStartingWith}}" parentProperty="parent">
          <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
                                            bind:excludedKeys="_excludedKeys">
-            <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" startingWith="{{_searchStartingWith}}" parentProperty="parent">
-               <div class="ws-fragment">
-                  <div class="controlsDemo-Explorer-Search__header">
-                     <Controls.search:InputContainer>
-                        <Controls.search:Input
-                          attr:class="demo-Search__searchinput"/>
-                     </Controls.search:InputContainer>
-                     <div class="demo-Explorer__options">
-                        <div class="ControlsDemo-Explorer-Search__optionWrapper">
-                           <div>searchStartingWith:</div>
-                           <Controls.toggle:RadioGroup
-                                   bind:selectedKey="_searchStartingWith"
-                                   source="{{_searchStartingWithSource}}"
-                                   keyProperty="id"
-                                   direction="horizontal"
-                                   attr:class="demo-Search__searchStartingWith"/>
-                        </div>
-                        <div class="ControlsDemo-Explorer-Search__optionWrapper">
-                           <div>multiselectVisibility:</div>
-                           <Controls.toggle:RadioGroup
-                                   bind:selectedKey="_multiselectVisibility"
-                                   source="{{_multiselectVisibilitySource}}"
-                                   keyProperty="id"
-                                   direction="horizontal"
-                                   attr:class="demo-Search__multiselectVisibility"/>
-                        </div>
+            <div class="ws-fragment">
+               <div class="controlsDemo-Explorer-Search__header">
+                  <Controls.search:InputContainer>
+                     <Controls.search:Input
+                       attr:class="demo-Search__searchinput"/>
+                  </Controls.search:InputContainer>
+                  <div class="demo-Explorer__options">
+                     <div class="ControlsDemo-Explorer-Search__optionWrapper">
+                        <div>searchStartingWith:</div>
+                        <Controls.toggle:RadioGroup
+                                bind:selectedKey="_searchStartingWith"
+                                source="{{_searchStartingWithSource}}"
+                                keyProperty="id"
+                                direction="horizontal"
+                                attr:class="demo-Search__searchStartingWith"/>
+                     </div>
+                     <div class="ControlsDemo-Explorer-Search__optionWrapper">
+                        <div>multiselectVisibility:</div>
+                        <Controls.toggle:RadioGroup
+                                bind:selectedKey="_multiselectVisibility"
+                                source="{{_multiselectVisibilitySource}}"
+                                keyProperty="id"
+                                direction="horizontal"
+                                attr:class="demo-Search__multiselectVisibility"/>
                      </div>
                   </div>
-                  <Controls.list:Container>
-                     <Controls.explorer:View
-                        attr:class="demo-Explorer ControlsDemo-Explorer_search"
-                        multiSelectVisibility="{{_multiselectVisibility}}"
-                        displayProperty="title"
-                        bind:markedKey="_markedKey"
-                        markerVisibility="visible"
-                        parentProperty="parent"
-                        nodeProperty="parent@"
-                        columns="{{_viewColumns}}"
-                        searchStartingWith="{{_searchStartingWith}}">
-                           <ws:emptyTemplate>
-                              <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
-                                 <ws:contentTemplate>Не найдено</ws:contentTemplate>
-                              </ws:partial>
-                           </ws:emptyTemplate>
-                     </Controls.explorer:View>
-                  </Controls.list:Container>
                </div>
-            </Controls.search:Controller>
+               <Controls.list:Container>
+                  <Controls.explorer:View
+                     attr:class="demo-Explorer ControlsDemo-Explorer_search"
+                     multiSelectVisibility="{{_multiselectVisibility}}"
+                     displayProperty="title"
+                     bind:markedKey="_markedKey"
+                     markerVisibility="visible"
+                     parentProperty="parent"
+                     nodeProperty="parent@"
+                     columns="{{_viewColumns}}"
+                     searchStartingWith="{{_searchStartingWith}}">
+                        <ws:emptyTemplate>
+                           <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
+                              <ws:contentTemplate>Не найдено</ws:contentTemplate>
+                           </ws:partial>
+                        </ws:emptyTemplate>
+                  </Controls.explorer:View>
+               </Controls.list:Container>
+            </div>
          </Controls.operations:Controller>
-      </Controls.list:DataContainer>
+      </Controls.browser:Browser>
    </Controls.scroll:Container>
 </div>
