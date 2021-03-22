@@ -1,0 +1,1 @@
+<Controls._dateRange.RangeShortSelector scope="{{ _options }}" name="dateRange" register="{{ _register }}"/>

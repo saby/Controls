@@ -25,6 +25,10 @@ export default class BaseSelector<T> extends Control<T> {
     };
 
     protected _beforeMount(options: IBaseSelectorOptions): void {
+        if (options.register) {
+            this.shiftPeriod = this.shiftPeriod.bind(this);
+            options.register(this.shiftPeriod);
+        }
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
         this._updateRangeModel(options);
@@ -35,6 +39,7 @@ export default class BaseSelector<T> extends Control<T> {
         if (options.prevArrowVisibility) {
             this._isMinWidth = true;
         }
+        this.shiftPeriod = this.shiftPeriod.bind(this);
     }
 
     protected _beforeUnmount(): void {
@@ -54,6 +59,10 @@ export default class BaseSelector<T> extends Control<T> {
             this._rangeModel.setRange(startValue, endValue);
             this.closePopup();
         }
+    }
+
+    shiftPeriod(delta: number): void {
+        this._children.linkView.shiftPeriod(delta);
     }
 
     closePopup(): void {
