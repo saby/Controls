@@ -59,17 +59,25 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
     protected _beforeMount(options): void {
         this._updateValues(options);
         super._beforeMount(options);
-        if (options.emptyCaption) {
-            this._emptyCaption = options.emptyCaption;
-        } else {
-            this._emptyCaption = options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single ?
-                this.EMPTY_CAPTIONS.ALL_TIME : this.EMPTY_CAPTIONS.NOT_SPECIFIED;
-        }
+        this._setEmptyCaption(options);
     }
 
     protected _beforeUpdate(options): void {
         this._updateValues(options);
         super._beforeUpdate(options);
+        this._setEmptyCaption(options);
+    }
+
+    private _setEmptyCaption(options): void {
+        if (options.emptyCaption && this._emptyCaption !== options.emptyCaption) {
+            this._emptyCaption = options.emptyCaption;
+        } else {
+            const newCaption = options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single ?
+                this.EMPTY_CAPTIONS.ALL_TIME : this.EMPTY_CAPTIONS.NOT_SPECIFIED;
+            if (newCaption !== this._emptyCaption) {
+                this._emptyCaption = newCaption;
+            }
+        }
     }
 
     _updateValues(options): void {
