@@ -6,6 +6,8 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrudPlus, PrefetchProxy, QueryWhere} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
+import * as cInstance from 'Core/core-instance';
+import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 import {Collection, Search, CollectionItem} from 'Controls/display';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
@@ -14,7 +16,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
-import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 import {groupConstants as constView} from 'Controls/list';
 import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {TouchContextField} from 'Controls/context';
@@ -922,7 +923,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         });
     }
 
-    private _getSourceSubMenu(isLoadedChildItems: boolean, sourcePropertyConfig: ISourcePropertyConfig): Promise<ICrudPlus> {
+    private _getSourceSubMenu(isLoadedChildItems: boolean,
+                              sourcePropertyConfig: ISourcePropertyConfig | ICrudPlus): Promise<ICrudPlus> {
         let result = Promise.resolve(this._options.source);
 
         if (isLoadedChildItems) {
@@ -938,10 +940,16 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return result;
     }
 
-    private _createMenuSource(sourceConfig: ISourcePropertyConfig): Promise<ICrudPlus> {
-        return ModulesLoader.loadAsync(sourceConfig.moduleName).then((module) => {
-            return new module(sourceConfig.options);
-        });
+    private _createMenuSource(source: ISourcePropertyConfig | ICrudPlus): Promise<ICrudPlus> {
+        if (cInstance.instanceOfModule(source, 'Types/_source/ICrud') ||
+            cInstance.instanceOfMixin(source, 'Types/_source/ICrud')) {
+            return Promise.resolve(source as ICrudPlus);
+        } else {
+            const sourceConfig = source as ISourcePropertyConfig;
+            return ModulesLoader.loadAsync(sourceConfig.moduleName).then((module) => {
+                return new module(sourceConfig.options);
+            });
+        }
     }
 
     private _isLoadedChildItems(root: TKey): boolean {

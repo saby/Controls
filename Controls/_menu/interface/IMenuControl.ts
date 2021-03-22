@@ -47,6 +47,19 @@ export default interface IMenuControl {
 }
 
 /**
+ * @typedef {Object} ISourcePropertyConfig
+ * @property {String} moduleName Путь до модуля загрузки данных, поддерживающего интерфейс {@link Types/source:ICrud ICrud}.
+ * @property {Object} options Опции для создания класса, указанного в moduleName.
+ */
+
+/**
+ * @name Controls/_menu/interface/IMenuControl#sourceProperty
+ * @cfg {String} Имя свойства, которое содержит {@link Controls/interface:ISource#source источник} или
+ * {@link ISourcePropertyConfig конфигурацию} для создания класса для загрузки данных подменю.
+ * @demo Controls-demo/Menu/Control/SourceProperty/Index
+ */
+
+/**
  * @name Controls/_menu/interface/IMenuControl#nodeFooterTemplate
  * @cfg {Function | String} Шаблон подвала, отображающийся для всех подменю.
  * В шаблон передается объект itemData со следующими полями:
