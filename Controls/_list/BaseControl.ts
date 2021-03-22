@@ -6449,25 +6449,17 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
      * @private
      */
     _onListMouseMove(event): void {
-        // Использовать itemMouseMove тут нельзя, т.к. отслеживать перемещение мышки надо вне itemsContainer
-        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this)) {
-            this._hoverFreezeController.restartUnfreezeHoverTimeout(event);
-        }
-    }
-
-    /**
-     * Подписка на событие mouseMove внутри всего списка, а не только внутри item
-     * @param event
-     * @private
-     */
-    _onListMouseMove(event): void {
         // В тач режиме itemActions создаются непосредственно при свайпе
         // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
         // touch режимом isMobilePlatform может быть false
         if (!this._context?.isTouch?.isTouch) {
             _private.updateItemActionsOnce(this, this._options);
         }
-    },
+        // Использовать itemMouseMove тут нельзя, т.к. отслеживать перемещение мышки надо вне itemsContainer
+        if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this)) {
+            this._hoverFreezeController.restartUnfreezeHoverTimeout(event);
+        }
+    }
 
     _onMouseMove(event): void {
         // В яндекс браузере каким то образом пришел nativeEvent === null, после чего
