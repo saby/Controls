@@ -17,6 +17,7 @@ export type TKey = string|number|null;
 
 export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, IBackgroundStyle,
     IBackgroundStyleOptions, INavigationOptions<INavigationSourceConfig>, IFilterOptions, ISelectorDialogOptions {
+    sourceProperty: string;
     nodeFooterTemplate?: TemplateFunction;
     root?: TKey;
     selectorOpener?: Stack;
@@ -44,6 +45,19 @@ export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, I
 export default interface IMenuControl {
     readonly '[Controls/_menu/interface/IMenuControl]': boolean;
 }
+
+/**
+ * @typedef {Object} ISourcePropertyConfig
+ * @property {String} moduleName Путь до модуля загрузки данных, поддерживающего интерфейс {@link Types/source:ICrud ICrud}.
+ * @property {Object} options Опции для создания класса, указанного в moduleName.
+ */
+
+/**
+ * @name Controls/_menu/interface/IMenuControl#sourceProperty
+ * @cfg {String} Имя свойства, которое содержит {@link Controls/interface:ISource#source источник} или
+ * {@link ISourcePropertyConfig конфигурацию} для создания класса для загрузки данных подменю.
+ * @demo Controls-demo/Menu/Control/SourceProperty/Index
+ */
 
 /**
  * @name Controls/_menu/interface/IMenuControl#nodeFooterTemplate
