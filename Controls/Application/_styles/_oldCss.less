@@ -1,0 +1,108 @@
+//
+//Удаляю всякие старые классы из VDOM согласно новости https://online.sbis.ru/news/711232e7-7c9c-4800-bcb4-5c71a9d68da5
+//все эти класcы есть в старых темах и должны прилетать со слоем совместимости
+//для всех кто по каким то причинам их использует в VDOM я выписываю задачи и оставляю временно классы в этом блоке
+//пока что достоверно известно что asLink используют в новостях на главной
+
+//action-hover тоже
+.asLink {
+   cursor: pointer;
+   text-decoration: none;
+   background-color: transparent;
+   color: var(--link_text-color_inline);
+}
+
+.ws-standartLink .asLink {
+   text-decoration: underline !important;
+}
+
+.ws-is-hover .asLink:hover,
+.asLink:active {
+   text-decoration: underline;
+   color: var(--link_hover_text-color_inline);
+}
+
+.ws-is-hover {
+   .action-hover:not(.ws-disabled):hover {
+      color: var(--link_hover_text-color);
+   }
+}
+
+//icons compatibility with new params
+//тут определяю только размеры иконок. Делаю это через новые алиасы, чтоб работала темизация. Вообще от этих иконок избавлюсь по проекту
+//иконки на старых страницах будут работать чеоез стили определенные в теме, в oldIcons.less
+
+.icon-small,
+.icon-16 {
+   .icon-size(var(--icon-size_s), var(--icon_font-family_s));
+}
+
+.icon-medium,
+.icon-24 {
+   .icon-size(var(--icon-size_m), var(--icon_font-family_m));
+}
+
+.icon-default {
+   .icon-size(var(--icon-size_m), var(--icon_font-family_m));
+}
+
+.icon-large,
+.icon-32 {
+   .icon-size(var(--icon-size_l), var(--icon_font-family_l));
+}
+
+//todo change font icons to svg https://online.sbis.ru/opendoc.html?guid=90761cbd-04f8-4fad-be7d-8c1707bdd30e
+//icon-24 font has a problem with baseline in FF IE
+//important is for cases when non-theme css loads after theme css
+.controls_theme-default {
+   .icon-24, .icon-medium {
+      line-height: calc(var(--icon-size_m) - 1px) !important;
+   }
+}
+
+/* ATTENTION styles */
+.icon-attention {
+   color: var(--warning_color);
+}
+
+/* DONE styles */
+.icon-done {
+   color: var(--success_color);
+}
+
+/* ERROR styles */
+.icon-error {
+   color: var(--danger_color);
+}
+
+/* PRIMARY styles */
+.icon-primary {
+   color: var(--secondary_icon-color);
+   fill: var(--secondary_icon-color);
+}
+
+/* DISABLED styles */
+.icon-disabled {
+   color: var(--unaccented_icon-color);
+   fill: var(--unaccented_icon-color);
+}
+.icon-hover {
+   color: var(--primary_color);
+}
+/* Для тех, кто поддерживает... */
+.icon-small,
+.icon-medium,
+.icon-large,
+.icon-size,
+.icon-16,
+.icon-24,
+.icon-32,
+.icon-default {
+   speak: none;
+   font-style: normal;
+   font-weight: normal;
+   font-variant: normal;
+   text-transform: none;
+   line-height: 1;
+   display: inline-block;
+}

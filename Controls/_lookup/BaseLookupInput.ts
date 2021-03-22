@@ -9,8 +9,8 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {List} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
-import {ITextOptions, IValueOptions, IBaseOptions} from 'Controls/input';
-import {IFontSizeOptions, ISelectorDialogOptions} from 'Controls/interface';
+import {ITextOptions, IValueOptions, IBaseOptions, IPaddingOptions} from 'Controls/input';
+import {ISelectorDialogOptions, IContrastBackgroundOptions} from 'Controls/interface';
 import {isEqual} from 'Types/object';
 import {EventUtils} from 'UI/Events';
 import {ICrudPlus} from 'Types/source';
@@ -28,8 +28,9 @@ export interface ILookupInputOptions extends
     ITextOptions,
     IValueOptions<string>,
     IBaseOptions,
-    IFontSizeOptions,
-    ISelectorDialogOptions {
+    ISelectorDialogOptions,
+    IPaddingOptions,
+    IContrastBackgroundOptions  {
     suggestSource?: ICrudPlus;
     multiLine?: boolean;
     autoDropDown?: boolean;
@@ -55,6 +56,7 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     private _needSetFocusInInput: boolean = false;
     private _suggestState: boolean = false;
     private _subscribedOnResizeEvent: boolean = false;
+    protected _horizontalPadding: string;
     protected _maxVisibleItems: number = 0;
     protected _listOfDependentOptions: string[];
 
@@ -78,6 +80,19 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
         } else {
             this._maxVisibleItems = itemsCount;
         }
+        this._updateHorizontalPadding(options);
+    }
+
+    private _updateHorizontalPadding(options: ILookupInputOptions): void {
+        let padding;
+        if (options.horizontalPadding) {
+            padding = options.horizontalPadding;
+        } else if (options.contrastBackground !== false) {
+            padding = 'xs';
+        } else {
+            padding = 'null';
+        }
+        this._horizontalPadding = padding;
     }
 
     protected _inheritorBeforeUpdate(newOptions: ILookupInputOptions): void {

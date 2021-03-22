@@ -41,9 +41,6 @@ var _private = {
             (Object.getPrototypeOf(newList).constructor == Object.getPrototypeOf(newList).constructor) &&
             (Object.getPrototypeOf(newList.getAdapter()).constructor == Object.getPrototypeOf(oldList.getAdapter()).constructor);
     },
-    displayFilterGroups: function(item, index, displayItem) {
-        return (item ? (item === groupConstants.hiddenGroup || !item.get) : true) || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];
-    },
     prepareCollapsedGroupsByArray(collapsedGroups: Grouping.TArrayGroupId): {} {
         const result = {};
         if (collapsedGroups) {
@@ -56,9 +53,6 @@ var _private = {
     getDisplayFilter: function(data, cfg) {
         var
             filter = [];
-        if (cfg.groupingKeyCallback || cfg.groupProperty) {
-            filter.push(_private.displayFilterGroups.bind({ collapsedGroups: data.collapsedGroups }));
-        }
         if (cfg.itemsFilterMethod) {
             filter.push(cfg.itemsFilterMethod);
         }
@@ -357,9 +351,15 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     getDisplayFilter: function(data, cfg) {
-        return _private.getDisplayFilter(data, cfg);
+        const filters = _private.getDisplayFilter(data, cfg);
+        if (cfg.groupingKeyCallback || cfg.groupProperty) {
+            filters.push(this.displayFilterGroups.bind({ collapsedGroups: data.collapsedGroups }));
+        }
+        return filters;
     },
-
+    displayFilterGroups: function(item, index, displayItem) {
+        return (item ? (item === groupConstants.hiddenGroup || !item.get) : true) || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];
+    },
     setGroupProperty(groupProperty: string): void {
         const display = this.getDisplay();
         if (display) {

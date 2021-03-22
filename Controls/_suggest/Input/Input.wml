@@ -22,8 +22,7 @@
    value="{{_options.value}}"
    dataLoadCallback="{{_options.dataLoadCallback}}"
    suggestPopupOptions="{{_options.suggestPopupOptions}}"
-   bind:suggestState="_suggestState"
-   attr:class="controls_theme-{{_options.theme}}">
+   bind:suggestState="_suggestState">
    <Controls.input:Text
       scope="{{_options}}"
       size="{{undefined}}"

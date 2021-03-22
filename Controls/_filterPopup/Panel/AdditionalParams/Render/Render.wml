@@ -10,7 +10,7 @@
                additionalTemplate="{{_options.itemTemplate}}"
                column="{{direction}}"/>
 </ws:template>
-<div class="controls_theme-{{_options.theme}} controls-AdditionalParamsRender">
+<div class="controls-AdditionalParamsRender">
    <ws:if data="{{_options.headingCaption}}">
       <div
          class="controls-AdditionalParamsRender__heading">

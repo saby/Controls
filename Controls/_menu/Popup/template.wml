@@ -1,10 +1,9 @@
 <ws:template name="menuPopup" >
-   <div class="controls_theme-{{_options.theme}} controls-Menu__popup"
+   <div class="controls-Menu__popup"
         on:mouseEnter="_mouseEvent()"
         on:mouseLeave="_mouseEvent()">
       <Controls.popupTemplate:Sticky
-              attr:class="controls-DropdownList__popup
-                          controls-Popup__isolatedFocusingContext
+              attr:class="controls-Popup__isolatedFocusingContext
                           controls-Menu__popup-template
                           controls-Menu__popup-background-{{_options.backgroundStyle}}
                           controls-Menu__popup-direction-vertical-{{_verticalDirection}}
@@ -33,8 +32,7 @@
             <div class="{{_options.headerTemplate && _verticalDirection === 'top' ? 'controls-Menu__popup-reverse'}}
              controls-Menu__popup-content">
                <ws:if data="{{_applyButtonVisible}}">
-                  <div class="controls-DropdownList__applyButton
-                        controls-Menu__popup_applyButton
+                  <div class="controls-Menu__popup_applyButton
                         controls-Menu_{{(_options.headerTemplate || _headingCaption || _headerTemplate) ? 'withHeader' +
                         (_verticalDirection === 'top' ? '-reverse') : 'withoutHeader'}}__applyButton
                         controls-Menu_{{_closeButtonVisibility ? 'withClose' : 'withoutClose'}}__applyButton">

@@ -1,8 +1,8 @@
 <Controls.popupTemplate:InfoBox
         stickyPosition="{{_options.stickyPosition}}"
         attr:class="controls-SelectedCollection__infobox_content">
-   <div class="controls-SelectedCollection__header_wrapper controls-SelectedCollection__header_wrapper_theme-{{_options.theme}}">
-      <span attr:class="controls-SelectedCollection__header_theme-{{_options.theme}}">
+   <div class="controls-SelectedCollection__header_wrapper">
+      <span attr:class="controls-SelectedCollection__header">
          {[Выбрано]}
       </span>
    </div>

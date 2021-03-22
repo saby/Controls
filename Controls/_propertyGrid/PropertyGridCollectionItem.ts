@@ -68,7 +68,6 @@ export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
     getEditorOptions(): object {
         const itemContents = this.getContents();
         const editorOptions = itemContents.get('editorOptions') || {};
-        editorOptions.propertyValue = this._$propertyValue;
         return editorOptions;
     }
 

@@ -15,6 +15,7 @@
                     on:fixed="_stickyFixedHandler()"
                     on:stickyModeChanged="_stickyModeChanged()"
                     on:stickyRegister="_stickyRegisterHandler()"
+                    on:stickyHeaderOffsetTopChanged="_stickyHeaderOffsetTopChangedHandler()"
                     on:keydown="_keydownHandler()"
                     on:updateShadowMode="_updateShadowVisibility()"/>
         <ws:if data="{{_shadows.top.isEnabled && !_isOptimizeShadowEnabled }}">

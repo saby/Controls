@@ -1,5 +1,4 @@
-<div class="controls-StickyTemplate controls_theme-{{_options.theme}}
-           controls-StickyTemplate-background-{{_options.backgroundStyle}} {{_options.shadowVisible ? 'controls-StickyTemplate-shadow'}}"
+<div class="controls-StickyTemplate controls-StickyTemplate-background-{{_options.backgroundStyle}} {{_options.shadowVisible ? 'controls-StickyTemplate-shadow'}}"
      ws-tab-cycling="true">
     <ws:if data="{{_options.headingCaption || _options.headerContentTemplate}}">
         <ws:partial template="Controls/_popupTemplate/Sticky/resources/Header"
@@ -12,7 +11,7 @@
     </ws:if>
     <ws:else>
         <ws:if data="{{_options.closeButtonVisibility}}">
-            <Controls._popupTemplate.CloseButton attr:class="controls-DropdownList-cross controls-StickyTemplate__close_button
+            <Controls._popupTemplate.CloseButton attr:class="controls-StickyTemplate__close_button
                                                              controls-StickyTemplate__close_button-without-header"
                                                  viewMode="link"
                                                  on:click="close()"/>
@@ -25,7 +24,7 @@
     </ws:if>
     <ws:if data="{{_options.footerContentTemplate}}">
         <ws:partial template="{{_options.footerContentTemplate}}"
-                    class="controls-StickyTemplate__footer controls-DropdownList__footer"
+                    class="controls-StickyTemplate__footer"
                     scope="{{_options}}"
                     on:click="_proxyEvent('footerClick')"></ws:partial>
     </ws:if>

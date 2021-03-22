@@ -1,15 +1,15 @@
-<div class="controls-BreadCrumbsView__crumb {{'controls-fontsize-' + fontSize + '_theme-' + _options.theme}}
-{{edge ? ' controls-BreadCrumbsView__max-width__edge' : ' controls-BreadCrumbsView__max-width'}} controls-BreadCrumbsView__crumb_theme-{{_options.theme}}
-{{fontColorStyle ? 'controls-text-' + fontColorStyle + '_theme-' + _options.theme : 'controls-BreadCrumbsView__crumb_color_theme-' + _options.theme}}
-{{itemData.withOverflow ? (itemData.hasArrow ? ' controls-BreadCrumbsView__crumb_withOverflow controls-BreadCrumbsView__crumb_withOverflow_theme-' + _options.theme : ' controls-BreadCrumbsView__crumb_withOverflow  controls-BreadCrumbsView__crumb_withOverflow_withoutArrow_theme-' + _options.theme)
+<div class="controls-BreadCrumbsView__crumb {{'controls-fontsize-' + fontSize}}
+{{edge ? ' controls-BreadCrumbsView__max-width__edge' : ' controls-BreadCrumbsView__max-width'}}
+{{fontColorStyle ? 'controls-text-' + fontColorStyle : 'controls-BreadCrumbsView__crumb_color'}}
+{{itemData.withOverflow ? (itemData.hasArrow ? ' controls-BreadCrumbsView__crumb_withOverflow' : ' controls-BreadCrumbsView__crumb_withOverflow  controls-BreadCrumbsView__crumb_withOverflow_withoutArrow')
  : ' controls-BreadCrumbsView__crumb_withoutOverflow'}}">
     <ws:if data="{{ itemData.hasArrow }}">
-        <span class="controls-BreadCrumbsView__arrow controls-BreadCrumbsView__arrow_theme-{{_options.theme}} icon-size icon-DayForwardBsLine{{!_options.readOnly ? ' controls-BreadCrumbsView__arrow_enabled controls-BreadCrumbsView__arrow_enabled_theme-' + _options.theme}}"></span>
+        <span class="controls-BreadCrumbsView__arrow icon-size icon-DayForwardBsLine{{!_options.readOnly ? ' controls-BreadCrumbsView__arrow_enabled'}}"></span>
     </ws:if>
     <span class="controls-BreadCrumbsView__titleWrapper"
          title="{{itemData.item.get(displayProperty)}}">
         <span class="controls-BreadCrumbsView__title
-        {{!_options.readOnly ? ' controls-BreadCrumbsView__title_enabled controls-BreadCrumbsView__title_enabled_theme-' + _options.theme}}">
+        {{!_options.readOnly ? ' controls-BreadCrumbsView__title_enabled'}}">
             <ws:if data="{{contentTemplate}}"><ws:partial template="{{contentTemplate}}" displayProperty="{{displayProperty}}" itemData="{{itemData}}"/></ws:if><ws:else>{{ itemData.item.get(displayProperty) }}</ws:else></span>
     </span>
 </div>
