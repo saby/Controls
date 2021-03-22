@@ -20,20 +20,17 @@ export default class extends Control {
             {
                 title: 'По населению',
                 paramName: 'population',
-                icon: 'icon-Attach',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:partner'
             },
             {
                 title: 'По площади',
                 paramName: 'square',
-                icon: 'icon-1c',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:deflection'
             },
             {
                 title: 'По плотности населения',
                 paramName: 'populationDensity',
-                icon: 'icon-Vacation',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:difficult_sort'
             }
         ];
         this._sorting.push({population: 'ASC'});

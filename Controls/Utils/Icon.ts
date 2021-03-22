@@ -1,4 +1,4 @@
-import {getResourceUrl} from 'UI/Utils';
+import {constants} from 'Env/Env';
 
 interface IIconData {
     icon: string;
@@ -10,7 +10,7 @@ interface IIconData {
 export function getIcon(url: string): string {
     const iconData = getIconData(url);
     if (iconData.isSvg) {
-        const fileUrl = getResourceUrl(`${iconData.iconModule}/${iconData.iconPackage}.svg`);
+        const fileUrl = (`${constants.resourceRoot}${iconData.iconModule}/${iconData.iconPackage}.svg`);
         return `${fileUrl}#${iconData.icon}`;
     } else {
         return iconData.icon;

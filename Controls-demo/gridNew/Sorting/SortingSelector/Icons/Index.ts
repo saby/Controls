@@ -25,14 +25,12 @@ export default class extends Control {
             {
                 title: 'По площади',
                 paramName: 'square',
-                icon: 'Controls/sortIcons:deflection',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:deflection'
             },
             {
                 title: 'По плотности населения',
                 paramName: 'populationDensity',
-                icon: 'Controls/sortIcons:difficult_sort',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:difficult_sort'
             }
         ];
         this._sorting.push({population: 'ASC'});
