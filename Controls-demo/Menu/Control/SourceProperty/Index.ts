@@ -14,18 +14,15 @@ class Source extends Control {
                     title: 'Разработка',
                     node: true,
                     parent: null,
-                    subMenuSource: {
-                        moduleName: 'Types/source:Memory',
-                        options: {
-                            data: [
-                                {key: 3, title: 'Задача в разработку'},
-                                {key: 4, title: 'Ошибка'},
-                                {key: 5, title: 'Merge request'},
-                                {key: 6, title: 'Работы на стендах'},
-                                {key: 7, title: 'Работы по проектам'}],
-                            keyProperty: 'key'
-                        }
-                    }
+                    subMenuSource: new Memory({
+                        data: [
+                            {key: 3, title: 'Задача в разработку'},
+                            {key: 4, title: 'Ошибка'},
+                            {key: 5, title: 'Merge request'},
+                            {key: 6, title: 'Работы на стендах'},
+                            {key: 7, title: 'Работы по проектам'}],
+                        keyProperty: 'key'
+                    })
                 },
                 {
                     key: 2,
