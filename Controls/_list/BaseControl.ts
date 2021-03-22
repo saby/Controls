@@ -6473,7 +6473,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         if (!this._context?.isTouch?.isTouch) {
             _private.updateItemActionsOnce(this, this._options);
         }
-    },
+    }
 
     _onMouseMove(event): void {
         // В яндекс браузере каким то образом пришел nativeEvent === null, после чего
