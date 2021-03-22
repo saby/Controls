@@ -6598,6 +6598,14 @@ define([
              baseControl._loadingIndicatorState = 'bottom';
              baseControl.__needShowEmptyTemplate = () => true;
              assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+
+             baseControl._loadingIndicatorState = 'bottom';
+             baseControl._attachLoadDownTriggerToNull = true;
+             baseControl.__needShowEmptyTemplate = () => false;
+             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), true);
+
+             baseControl._showContinueSearchButtonDirection = true;
+             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
           });
 
           it('attachToNull, onCollectionChanged', () => {

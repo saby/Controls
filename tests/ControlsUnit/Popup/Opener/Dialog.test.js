@@ -603,6 +603,23 @@ define(
                assert.equal(position.left, 860);
                assert.equal(position.top, 430);
             });
+            it('inner resize with direction should update sizes', () => {
+               item.popupOptions.resizeDirection = {
+                  horizontal: HORIZONTAL_DIRECTION.RIGHT,
+                  vertical: VERTICAL_DIRECTION.BOTTOM
+               };
+               item.popupState = 'created';
+               const originGetPopupSizes = DialogController._getPopupSizes;
+               const newPopupSizes = {
+                  height: 123,
+                  width: 123
+               };
+               DialogController._getPopupSizes = () => newPopupSizes;
+               DialogController.resizeInner(item, {});
+               DialogController._getPopupSizes = originGetPopupSizes;
+               assert.equal(item.sizes.height, newPopupSizes.height);
+               assert.equal(item.sizes.width, newPopupSizes.width);
+            });
             it('dragging', () => {
                item.popupOptions.resizeDirection = {
                   horizontal: HORIZONTAL_DIRECTION.LEFT,

@@ -80,7 +80,7 @@ const VIEW_MODEL_CONSTRUCTORS_NEW = {
 };
 const USE_NEW_MODEL_VALUES_NEW = {
     search: true,
-    tile: true,
+    tile: false,
     table: true,
     list: true
 };
@@ -115,6 +115,7 @@ interface IExplorerOptions
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
     useNewModel?: boolean;
+    useNewTileModel?: boolean;
     expandByItemClick?: boolean;
 }
 
@@ -873,11 +874,12 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     private _loadTileViewMode(options: IExplorerOptions): Promise<void> {
-        if (options.useNewModel) {
+        if (options.useNewTileModel) {
             return new Promise((resolve) => {
                 import('Controls/treeTile').then((tile) => {
                     VIEW_NAMES_NEW.tile = tile.TreeTileView;
                     VIEW_MODEL_CONSTRUCTORS_NEW.tile = 'Controls/treeTile:TreeTileCollection';
+                    USE_NEW_MODEL_VALUES_NEW.tile = true;
                     resolve();
                 }).catch((err) => {
                     Logger.error('Controls/_explorer/View: ' + err.message, this, err);

@@ -65,9 +65,14 @@ define([
                     rawData: {},
                     adapter: 'adapter.sbis'
                 });
+                let propertyChangedCount = 0;
+                propertyValue.subscribe('onPropertyChange', () => {
+                    propertyChangedCount++;
+                });
                 resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.get('test'), 2);
                 assert.ok(resultPropertyValue === propertyValue);
+                assert.ok(propertyChangedCount === 1);
             });
         });
 

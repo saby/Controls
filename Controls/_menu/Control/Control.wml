@@ -1,6 +1,6 @@
 <Controls.scroll:ScrollContextProvider pagingVisible="{{ false }}">
    <Controls.dataSource:error.Container viewConfig="{{_errorConfig}}">
-      <div class="controls_theme-{{_options.theme}} controls-menu" attr:ws-no-focus="true">
+      <div class="controls-menu" attr:ws-no-focus="true">
          <ws:if data="{{_listModel}}">
             <Controls.scroll:Container attr:class="controls-ScrollContainer__flex
                                                 controls-Menu__scroll"

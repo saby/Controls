@@ -1299,6 +1299,18 @@ const _private = {
         if (!self._isMounted) {
             return;
         }
+
+        // hideIndicator вызывают после окончания порционного поиска и нужно пересчитать отображение ромашек(attachToNull)
+        if (self._loadingState === 'down') {
+            _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+        } else if (self._loadingState === 'up') {
+            const scrollTop = self._scrollTop;
+            if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                self._needScrollToFirstItem = false;
+                self._scrollTop = scrollTop;
+            }
+        }
+
         self._loadingState = null;
         self._showLoadingIndicator = false;
         self._loadingIndicatorContainerOffsetTop = 0;
@@ -3736,10 +3748,10 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
 
         // в тач интерфейсе инициализировать пейджер необходимо при загрузке страницы
-        // В beforeMount инициализировать пейджер нельзя, т.к. не корректно посчитаются его размеры
-        // Также, в тач интерфейсе может быть включено управление мышью, и мы можем не знать,
-        // как устройство управляется в данный момент, поэтому определяем по isMobilePlatform
-        if (detection.isMobilePlatform) {
+        // В beforeMount инициализировать пейджер нельзя, т.к. не корректно посчитаются его размеры.
+        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
+        // touch режимом isMobilePlatform может быть false
+        if (!!this._context?.isTouch?.isTouch) {
             _private.initPaging(this);
         }
 
@@ -5958,8 +5970,11 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     }
 
     _mouseEnter(event): void {
-        // В chrome/safari mouseEnter происходит всегда, сразу после touch
-        if (!detection.isMobilePlatform) {
+        // В тач режиме mouseEnter происходит сразу после touch
+        // В этом случае создавать тут itemActions не нужно.
+        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
+        // touch режимом isMobilePlatform может быть false
+        if (!this._context?.isTouch?.isTouch) {
             _private.updateItemActionsOnce(this, this._options);
         }
 
@@ -6073,6 +6088,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
      * @param swipeEvent
      * @private
      */
+
     _onItemSwipe(e: SyntheticEvent<Event>, item: CollectionItem<Model>, swipeEvent: SyntheticEvent<ISwipeEvent>): void {
         if (item['[Controls/_display/GroupItem]']) {
             return;
@@ -6338,8 +6354,8 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
         const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down' && !this._portionedSearchInProgress;
         return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull
-           :  shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull;
+           ? this._showLoadingIndicator && shouldDisplayDownIndicator
+           : shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection;
     }
 
     _shouldDisplayTopPortionedSearch(): boolean {
