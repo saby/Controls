@@ -45,7 +45,7 @@ abstract class BaseController {
 
     abstract popupMouseLeave(item: IPopupItem): void;
 
-    abstract elementAnimated(item: IPopupItem): boolean;
+    abstract elementAnimated(item: IPopupItem, container: HTMLDivElement): boolean;
 
     _elementCreated(item: IPopupItem, container: HTMLDivElement): boolean {
         if (this._checkContainer(item, container, 'elementCreated')) {
@@ -112,8 +112,8 @@ abstract class BaseController {
         return this.popupResizingLine && this.popupResizingLine(item, offset);
     }
 
-    _elementAnimated(item: IPopupItem): boolean {
-        return this.elementAnimated && this.elementAnimated(item);
+    _elementAnimated(item: IPopupItem, container: HTMLDivElement): boolean {
+        return this.elementAnimated && this.elementAnimated(item, container);
     }
 
     getDefaultConfig(item: IPopupItem): void {
