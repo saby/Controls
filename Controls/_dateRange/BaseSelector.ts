@@ -28,13 +28,7 @@ export default class BaseSelector<T> extends Control<T> {
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
         this._updateRangeModel(options);
-
-        // при добавлении управляющих стрелок устанавливаем минимальную ширину блока,
-        // чтобы стрелки всегда были зафиксированы и не смещались.
-        // https://online.sbis.ru/opendoc.html?guid=ae195d05-0e33-4532-a77a-7bd8c9783ef1
-        if (options.prevArrowVisibility) {
-            this._isMinWidth = true;
-        }
+        this._updateIsMinWidth(options);
     }
 
     protected _beforeUnmount(): void {
@@ -43,6 +37,14 @@ export default class BaseSelector<T> extends Control<T> {
 
     protected _beforeUpdate(options: IBaseSelectorOptions): void {
         this._updateRangeModel(options);
+        this._updateIsMinWidth(options);
+    }
+
+    private _updateIsMinWidth(options): void {
+        // при добавлении управляющих стрелок устанавливаем минимальную ширину блока,
+        // чтобы стрелки всегда были зафиксированы и не смещались.
+        // https://online.sbis.ru/opendoc.html?guid=ae195d05-0e33-4532-a77a-7bd8c9783ef1
+        this._isMinWidth = options.prevArrowVisibility;
     }
 
     protected _updateRangeModel(options: IBaseSelectorOptions): void {
