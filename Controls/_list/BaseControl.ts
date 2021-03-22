@@ -1304,8 +1304,10 @@ const _private = {
         if (self._loadingState === 'down') {
             _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
         } else if (self._loadingState === 'up') {
+            const scrollTop = self._scrollTop;
             if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
                 self._needScrollToFirstItem = false;
+                self._scrollTop = scrollTop;
             }
         }
 
@@ -4496,7 +4498,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     this.changeIndicatorStateHandler(false, 'up');
                 }
-                this.changeIndicatorStateHandler(false, 'down');
+                if (!this._shouldDisplayBottomLoadingIndicator()) {
+                    this.changeIndicatorStateHandler(false, 'down');
+                }
                 this._syncLoadingIndicatorState = null;
             }
             let itemsUpdated = false;
