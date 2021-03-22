@@ -1,4 +1,4 @@
-<div class="controls-ToolbarBox controls_theme-{{_options.theme}}">
+<div class="controls-ToolbarBox">
    <div class="ws-flexbox ws-align-items-center">
       <ws:for data="key, item in _items">
          <ws:partial template="{{_getTemplateByItem(item)}}"

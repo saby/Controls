@@ -1,4 +1,4 @@
-<div class="controls-Toolbar controls_theme-{{_options.theme}}">
+<div class="controls-Toolbar">
    <div class="controls-Toolbar_content">
       <ws:for data="item in _items">
          <ws:if data="{{_isShowToolbar(item, _parentProperty)}}">
