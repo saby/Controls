@@ -2,10 +2,9 @@ define('Controls-demo/Container/Scroll',
    [
       'UI/Base',
       'Types/source',
-      'Controls/scroll',
       'wml!Controls-demo/Container/Scroll',
    ],
-   function(Base, source, scroll, template) {
+   function(Base, source, template) {
       var ModuleClass = Base.Control.extend({
          _template: template,
          _pagingVisible: true,
@@ -13,14 +12,6 @@ define('Controls-demo/Container/Scroll',
          _shadowVisible: true,
          _numberOfRecords: 50,
          _scrollStyleSource: null,
-
-         _getChildContext: function() {
-            return {
-               ScrollData: new scroll._scrollContext({
-                  pagingVisible: this._pagingVisible
-               })
-            };
-         },
 
          get shadowVisibility() {
             return this._shadowVisible ? 'auto' : 'hidden';

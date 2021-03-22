@@ -8,6 +8,7 @@
       on:mouseenter="_mouseEnterHandler()"
       on:mouseleave="_mouseLeaveHandler()"
       on:rangeChanged="_rangeChangedHandler()"
+      on:resetButtonClick="_resetButtonClickHandler()"
       on:linkClick="openPopup()"
       attr:class="controls-DateRangeSelectorLite__view {{_isMinWidth ? 'controls-DateRangeSelectorLite__view_minWidth'}}"
    />

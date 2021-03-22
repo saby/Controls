@@ -1,6 +1,5 @@
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_suggestPopup/Dialog');
-import {_scrollContext as ScrollData} from 'Controls/scroll';
 import 'css!Controls/suggestPopup';
 import 'css!Controls/suggest';
 import 'Controls/popupTemplate';
@@ -30,16 +29,6 @@ import 'Controls/popupTemplate';
 
          _template: template,
          _resizeTimeout: null,
-
-         _beforeMount: function() {
-            this._scrollData = new ScrollData({pagingVisible: false});
-         },
-
-         _getChildContext: function() {
-            return {
-               ScrollData: this._scrollData
-            };
-         },
 
          _beforeUnmount: function() {
             clearTimeout(this._resizeTimeout);

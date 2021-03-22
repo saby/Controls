@@ -208,6 +208,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (options.fixedZIndex !== this._options.fixedZIndex) {
             this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
         }
+        if (options.offsetTop !== this._options.offsetTop) {
+            this._notify('stickyHeaderOffsetTopChanged', [], {bubbling: true});
+        }
     }
 
     protected _afterUpdate(oldOptions: IStickyHeaderOptions): void {
@@ -325,9 +328,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             if (this._model?.isFixed()) {
                 this._height -= getGapFixSize();
             }
-            this._height += this._options.offsetTop;
         }
         return this._height;
+    }
+
+    get offsetTop(): number {
+        return this._options.offsetTop
     }
 
     get top(): number {
@@ -651,7 +657,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (StickyHeader.getDevicePixelRatio() !== 1) {
             coord += 1;
         }
-        if (position === POSITION.top && offsetTop && shadowVisibility === SHADOW_VISIBILITY.visible) {
+        if (position === POSITION.top && offsetTop && shadowVisibility !== SHADOW_VISIBILITY.hidden) {
             coord += offsetTop;
         }
         // Учитываем бордеры на фиксированных заголовках
@@ -665,7 +671,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             }
         }
 
-        return position + ': -' + coord + 'px;';
+        return `${position}: ${-coord}px;`;
     }
 
     protected updateFixed(ids: number[]): void {

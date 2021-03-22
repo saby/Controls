@@ -1,5 +1,4 @@
-<div class="controls-Tabs controls_theme-{{_options.theme}}
-            controls-Tabs_inlineHeight-{{_options.inlineHeight}}
+<div class="controls-Tabs controls-Tabs_inlineHeight-{{_options.inlineHeight}}
             {{_options.borderVisible ? 'controls-Tabs_border-' + _options.markerThickness}}">
     <div class="controls-Tabs-wrapper">
         <ws:for data="index, item in _itemsArray">

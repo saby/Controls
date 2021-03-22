@@ -1,24 +1,24 @@
-.controls-ConfirmationDialog__message_theme-@{themeName} {
-   font-size: @message_font-size_confirmation;
-   color: @message_text-color_confirmation;
+.controls-ConfirmationDialog__message {
+   font-size: var(--message_font-size_confirmation);
+   color: var(--message_text-color_confirmation);
 }
 
-.controls-ConfirmationDialog__message_withDetails_theme-@{themeName} {
-   margin-bottom: @details_offset_confirmation;
+.controls-ConfirmationDialog__message_withDetails {
+   margin-bottom: var(--details_offset_confirmation);
 }
 
-.controls-ConfirmationDialog__details_theme-@{themeName}{
-   font-size: @details_font-size_confirmation;
-   color: @details_text-color_confirmation;
+.controls-ConfirmationDialog__details {
+   font-size: var(--details_font-size_confirmation);
+   color: var(--details_text-color_confirmation);
 }
 
-.controls-ConfirmationDialog__message, .controls-ConfirmationDialog__details{
+.controls-ConfirmationDialog__message, .controls-ConfirmationDialog__details {
    white-space: pre-wrap;
    line-height: normal;
    word-wrap: break-word;
 }
 
-.controls-ConfirmationDialog__message-centered, .controls-ConfirmationDialog__details-centered{
+.controls-ConfirmationDialog__message-centered, .controls-ConfirmationDialog__details-centered {
    text-align: center;
 }
 
@@ -27,16 +27,16 @@
    .justify-content(center);
 }
 
-.controls-ConfirmationDialog__button-standard_theme-@{themeName} {
-   min-width: @min-width_button_l_confirmation;
+.controls-ConfirmationDialog__button-standard {
+   min-width: var(--min-width_button_l_confirmation);
 }
 
-.controls-ConfirmationDialog__button-mini_theme-@{themeName} {
-   min-width: @min-width_button_s_confirmation;
+.controls-ConfirmationDialog__button-mini {
+   min-width: var(--min-width_button_s_confirmation);
 }
 
-.controls-ConfirmationDialog__no-cancel-button_theme-@{themeName} {
-   margin-left: @offset_button_confirmation;
+.controls-ConfirmationDialog__no-cancel-button {
+   margin-left: var(--offset_button_confirmation);
 }
 
 .controls-ConfirmationDialog__button {
@@ -50,6 +50,7 @@
 
 .controls-Button__wrapper_button_confirmation {
    padding: 0 calc(var(--padding-horizontal_default_button) - var(--border-thickness_button));
+
    &:before {
       line-height: calc(var(--height_button_confirmation) - 2 * var(--border-thickness_button));
    }

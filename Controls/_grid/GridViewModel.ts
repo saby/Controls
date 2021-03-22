@@ -363,7 +363,7 @@ var
                     classLists.base += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
                 } else {
                     let backgroundHoverStyle = current.hoverBackgroundStyle || 'default';
-                    classLists.base += ` controls-Grid__row-cell-background-hover-${backgroundHoverStyle}_theme-${theme}`;
+                    classLists.base += ` controls-Grid__row-cell-background-hover-${backgroundHoverStyle} controls-Grid__row-cell-background-hover-${backgroundHoverStyle}_theme-${theme}`;
                 }
             }
 
@@ -694,7 +694,7 @@ var
                 let classes = `${itemData.calcCursorClasses(tmplParams.clickable, tmplParams.cursor).trim()} `;
 
                 if (tmplParams.highlightOnHover !== false && !itemData.isEditing()) {
-                    classes += `controls-Grid__row_highlightOnHover_${style}_theme-${theme} `;
+                    classes += `controls-Grid__row_highlightOnHover_${style} controls-Grid__row_highlightOnHover_${style}_theme-${theme} `;
                 }
 
                 if (itemData.isLastRow) {
@@ -1719,10 +1719,13 @@ var
 
             current.hasCellContentRender = (column) => {
                 return Boolean(
-                    column.displayType ||
-                    column.textOverflow ||
-                    column.fontColorStyle ||
-                    column.fontSize
+                    !current.dispItem['[Controls/_display/BreadcrumbsItem]'] &&
+                    (
+                        column.displayType ||
+                        column.textOverflow ||
+                        column.fontColorStyle ||
+                        column.fontSize
+                    )
                 );
             };
 

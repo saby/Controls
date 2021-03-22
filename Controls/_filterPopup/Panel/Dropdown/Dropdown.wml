@@ -1,4 +1,4 @@
-<div class="controls_theme-{{_options.theme}} controls-FilterDropdown">
+<div class="controls-FilterDropdown">
    <Controls.dropdown:Selector
            scope="{{_options}}"
            attr:class="controls-FilterDropdown__content"
