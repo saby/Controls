@@ -3,6 +3,8 @@ import {TemplateFunction} from 'UI/Base';
 import {Model} from 'Types/entity';
 import ButtonGroupBase, {IButtonGroupOptions} from 'Controls/_toggle/ButtonGroupBase';
 import * as ItemTemplate from 'wml!Controls/_toggle/Tumbler/itemTemplate';
+import {IItemTemplateOptions} from 'Controls/interface';
+import {Record} from 'Types/entity';
 
 interface IBackgroundPosition {
     [key: number]: IBackgroundPositionData;
@@ -14,21 +16,36 @@ interface IBackgroundPositionData {
     left: number;
 }
 
+interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
+
 /**
  * @name Controls/_toggle/Tumbler#itemTemplate
- * @cfg {Function} Шаблон для рендеринга элемента.
  * @demo Controls-demo/toggle/Tumbler/ItemTemplate/Index
- * @default Base template
- * @remark
- * Чтобы определить шаблон, вы должны вызвать базовый шаблон.
- * Шаблон размещается в компоненте с использованием тега <ws:partial> с атрибутом "template".
  *
  * @example
  * Tumbler с itemTemplate.
  * <pre>
  *    <Controls.toggle:Tumbler ... >
  *       <ws:itemTemplate>
- *          <ws:partial template="Controls/toggle:tumblerItemTemplate"/>
+ *          <ws:partial template="Controls/toggle:tumblerItemTemplate" scope="{{itemTemplate}}">
+ *              {{itemTemplate.item.title}}
+ *          </ws:partial>
+ *       </ws:itemTemplate>
+ *    </Controls.toggle:Tumbler>
+ * </pre>
+ *
+ * Tumbler с itemTemplate и contentTemplate.
+ * <pre>
+ *    <Controls.toggle:Tumbler ... >
+ *       <ws:itemTemplate>
+ *          <ws:partial template="Controls/toggle:tumblerItemTemplate" scope="{{itemTemplate}}">
+ *              <ws:contentTemplate>
+ *                  <ws:partial template="{{contentTemplate.captionTemplate}}"/>
+ *                  <ws:if data="{{contentTemplate.item.get('count')}}">
+ *                      <div class="controlsDemo__toggle-counter">{{ contentTemplate.item.get('count') }}</div>
+ *                  </ws:if>
+ *              </ws:contentTemplate>
+ *          </ws:partial>
  *       </ws:itemTemplate>
  *    </Controls.toggle:Tumbler>
  * </pre>
@@ -37,8 +54,6 @@ interface IBackgroundPositionData {
 
 /**
  * @name Controls/_toggle/Tumbler#itemTemplateProperty
- * @cfg {String} Имя свойства элемента, которое содержит шаблон для рендеринга элемента.
- * @default Если не установлено, вместо него используется itemTemplate.
  * @remark
  * Чтобы определить шаблон, вы должны вызвать базовый шаблон.
  * Шаблон размещается в компоненте с использованием тега <ws:partial> с атрибутом "template".
@@ -71,6 +86,7 @@ interface IBackgroundPositionData {
  * неакцентный выбор из одного или нескольких параметров.
  * @class Controls/_toggle/Tumbler
  * @extends Controls/_toggle/ButtonGroupBase
+ * @implements Controls/interface/IItemTemplate
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/Tumbler/Index
@@ -83,7 +99,6 @@ interface IBackgroundPositionData {
  */
 
 class Tumbler extends ButtonGroupBase {
-    protected _defaultItemTemplate: TemplateFunction = ItemTemplate;
     protected _template: TemplateFunction = template;
     protected _backgroundPosition: IBackgroundPosition = {isEmpty: true};
 
@@ -103,11 +118,11 @@ class Tumbler extends ButtonGroupBase {
 
     protected _getTemplate(
         template: TemplateFunction,
-        item: IButtonGroupOptions,
+        item: Record,
         itemTemplateProperty: string
     ): TemplateFunction {
         if (itemTemplateProperty) {
-            const templatePropertyByItem = item[itemTemplateProperty];
+            const templatePropertyByItem = item.get(itemTemplateProperty);
             if (templatePropertyByItem) {
                 return templatePropertyByItem;
             }
@@ -126,6 +141,12 @@ class Tumbler extends ButtonGroupBase {
                 };
             });
         }
+    }
+    static getDefaultOptions(): ITumblerOptions {
+        return {
+            keyProperty: 'id',
+            itemTemplate: ItemTemplate
+        };
     }
 }
 

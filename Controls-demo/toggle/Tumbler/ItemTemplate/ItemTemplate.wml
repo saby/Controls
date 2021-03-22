@@ -4,11 +4,14 @@
         <Controls.toggle:Tumbler items="{{_items}}" bind:selectedKey="_selectedKey">
             <ws:itemTemplate>
                 <ws:partial template="Controls/toggle:tumblerItemTemplate"
-                            item="{{itemTemplate.item}}"
-                            scope="{{itemTemplate}}" />
-                <ws:if data="{{itemTemplate.item.get('count')}}">
-                    <div class="controlsDemo__toggle-counter">{{ itemTemplate.item.get('count') }}</div>
-                </ws:if>
+                            scope="{{itemTemplate}}">
+                    <ws:contentTemplate>
+                        <ws:partial template="{{contentTemplate.captionTemplate}}"/>
+                        <ws:if data="{{contentTemplate.item.get('count')}}">
+                            <div class="controlsDemo__toggle-counter">{{ contentTemplate.item.get('count') }}</div>
+                        </ws:if>
+                    </ws:contentTemplate>
+                </ws:partial>
             </ws:itemTemplate>
         </Controls.toggle:Tumbler>
     </div>
