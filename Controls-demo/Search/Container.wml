@@ -1,6 +1,6 @@
 <div class="controls-demo__search-container">
-    <Controls.list:DataContainer source="{{_source}}" navigation="{{_navigation}}" keyProperty="id" bind:filter="_filter"
-                                 searchParam="department">
+    <Controls.browser:Browser source="{{_source}}" navigation="{{_navigation}}" keyProperty="id" bind:filter="_filter"
+                              searchParam="department">
         <ws:content>
             <Controls.search:InputContainer>
                 <Controls.search:Input bind:value="_searchValue" attr:class="controls-demo__search"/>
@@ -22,5 +22,5 @@
                 </Controls.list:View>
             </Controls.list:Container>
         </ws:content>
-    </Controls.list:DataContainer>
+    </Controls.browser:Browser>
 </div>

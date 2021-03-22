@@ -2,7 +2,8 @@
    <div>Demo Controls/Explorer</div>
    <Controls.scroll:Container>
       <Controls.browser:Browser source="{{_viewSource}}" keyProperty="id" bind:filter="_filter"
-                                searchParam="title" minSearchLength="{{3}}" startingWith="{{_searchStartingWith}}" parentProperty="parent">
+                                searchParam="title" minSearchLength="{{3}}" startingWith="{{_searchStartingWith}}" parentProperty="parent"
+                                bind:root="_root">
          <Controls.operations:Controller bind:selectedKeys="_selectedKeys"
                                            bind:excludedKeys="_excludedKeys">
             <div class="ws-fragment">
