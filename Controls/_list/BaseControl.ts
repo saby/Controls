@@ -6461,6 +6461,20 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
     }
 
+    /**
+     * Подписка на событие mouseMove внутри всего списка, а не только внутри item
+     * @param event
+     * @private
+     */
+    _onListMouseMove(event): void {
+        // В тач режиме itemActions создаются непосредственно при свайпе
+        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
+        // touch режимом isMobilePlatform может быть false
+        if (!this._context?.isTouch?.isTouch) {
+            _private.updateItemActionsOnce(this, this._options);
+        }
+    },
+
     _onMouseMove(event): void {
         // В яндекс браузере каким то образом пришел nativeEvent === null, после чего
         // упала ошибка в коде ниже и страница стала некликабельной. Повторить ошибку не получилось
