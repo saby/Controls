@@ -70,12 +70,15 @@ define(['Controls/filter', 'Controls/dateRange'],
          it ('_beforeUpdate', () => {
             let rangeEditor = new filter.DateRangeEditor();
             const resetValue = [new Date('April 17, 1995'), new Date('May 17, 1995')];
+            rangeEditor._beforeMount({
+               editorMode: 'Selector'
+            }).then(() => {
+               rangeEditor._beforeUpdate({value: resetValue, resetValue});
+               assert.isTrue(rangeEditor._reseted);
 
-            rangeEditor._beforeUpdate({value: resetValue, resetValue});
-            assert.isTrue(rangeEditor._reseted);
-
-            rangeEditor._beforeUpdate({value: [new Date('April 17, 1998'), new Date('May 17, 1998')], resetValue});
-            assert.isFalse(rangeEditor._reseted);
+               rangeEditor._beforeUpdate({value: [new Date('April 17, 1998'), new Date('May 17, 1998')], resetValue});
+               assert.isFalse(rangeEditor._reseted);
+            });
          });
 
          it('_rangeChanged', () => {
