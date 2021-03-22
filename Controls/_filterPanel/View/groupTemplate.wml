@@ -1,5 +1,5 @@
 <div class="controls-FilterViewPanel__group-wrapper
-            {{collapsedGroups[item] ? 'controls-FilterViewPanel__group-wrapper-collapsed'">
+            {{collapsedGroups[item] ? 'controls-FilterViewPanel__group-wrapper-collapsed'}}">
    <div class="controls-FilterViewPanel__group-header">
       <div class="controls-FilterViewPanel__group" attr:key="group-{{item}}">
          <div class="controls-FilterViewPanel__group controls-FilterViewPanel__group-content"

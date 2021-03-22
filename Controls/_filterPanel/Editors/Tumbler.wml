@@ -1,4 +1,4 @@
-<div class="controls_theme-{{_options.theme}} controls-FilterEditors__toggleTumbler">
+<div class="controls-FilterEditors__toggleTumbler">
    <Controls.toggle:Tumbler items="{{_options.items}}"
                             selectedKey="{{_options.propertyValue}}"
                             readOnly="{{_options.readOnly}}"

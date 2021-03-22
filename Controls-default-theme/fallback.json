@@ -1214,5 +1214,6 @@
   "--circle_size_filterViewPanel": "var(--icon-size_2xs)",
   "--item_color_filterViewPanel": "var(--unaccented_color)",
   "--item_padding-left_filterViewPanel": "var(--offset_2xs)",
-  "--item-additional-column_color_filterViewPanel": "var(--label_text-color)"
+  "--item-additional-column_color_filterViewPanel": "var(--label_text-color)",
+  "--content_padding_propertyGrid": "var(--offset_m)"
 }

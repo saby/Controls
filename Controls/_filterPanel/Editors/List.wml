@@ -36,7 +36,7 @@
    </ws:else>
 </ws:template>
 
-<div class="controls_theme-{{_options.theme}} controls-FilterEditors__list">
+<div class="controls-FilterEditors__list">
    <ws:if data="{{_options.multiSelect}}">
       <ws:partial template="listEditor" on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
    </ws:if>

@@ -1,4 +1,4 @@
-<div class="controls_theme-{{_options.theme}} controls-FilterEditors__numberRange">
+<div class="controls-FilterEditors__numberRange">
    <Controls.input:Number scope="{{_options}}"
                           placeholder="{{_options.minValueInputPlaceholder}}"
                           value="{{_minValue}}"

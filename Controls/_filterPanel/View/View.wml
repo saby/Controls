@@ -1,4 +1,4 @@
-<div class="controls_theme-{{_options.theme}} controls-FilterViewPanel">
+<div class="controls-FilterViewPanel">
    <Controls.scroll:Container attr:class="controls-FilterViewPanel__scroll">
       <Controls.scroll:StickyHeader backgroundStyle="transparent">
          <div class="controls-FilterViewPanel__header">
