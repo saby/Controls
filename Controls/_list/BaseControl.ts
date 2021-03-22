@@ -1299,6 +1299,18 @@ const _private = {
         if (!self._isMounted) {
             return;
         }
+
+        // hideIndicator вызывают после окончания порционного поиска и нужно пересчитать отображение ромашек(attachToNull)
+        if (self._loadingState === 'down') {
+            _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+        } else if (self._loadingState === 'up') {
+            const scrollTop = self._scrollTop;
+            if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                self._needScrollToFirstItem = false;
+                self._scrollTop = scrollTop;
+            }
+        }
+
         self._loadingState = null;
         self._showLoadingIndicator = false;
         self._loadingIndicatorContainerOffsetTop = 0;
@@ -6342,8 +6354,8 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
         const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down' && !this._portionedSearchInProgress;
         return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull
-           :  shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull;
+           ? this._showLoadingIndicator && shouldDisplayDownIndicator
+           : shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection;
     }
 
     _shouldDisplayTopPortionedSearch(): boolean {
