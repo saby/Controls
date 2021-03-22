@@ -1423,8 +1423,10 @@ const _private = {
         if (self._loadingState === 'down') {
             _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
         } else if (self._loadingState === 'up') {
+            const scrollTop = self._scrollTop;
             if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
                 self._needScrollToFirstItem = false;
+                self._scrollTop = scrollTop;
             }
         }
 
