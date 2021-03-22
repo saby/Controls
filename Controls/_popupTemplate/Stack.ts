@@ -132,11 +132,11 @@ Object.defineProperty(StackTemplate, 'defaultProps', {
  *
  * 1. класс, добавляющий фон для шапки:
  * <pre class="brush: css">
- * controls-StackTemplate__top-area-background_theme_{{_options.theme}}
+ * controls-StackTemplate__top-area-background
  * </pre>
  * 2. класс, добавляющий нижнюю границу для шапки:
  * <pre class="brush: css">
- * controls-StackTemplate__top-area-border_theme_{{_options.theme}}
+ * controls-StackTemplate__top-area-border
  * </pre>
  * @demo Controls-demo/PopupTemplate/Stack/HeaderBorderVisible/Index
  */

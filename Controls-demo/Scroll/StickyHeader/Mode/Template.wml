@@ -24,7 +24,7 @@
          </div>
       </Controls.scroll:Container>
       <div class="controlsDemo__wrapper">
-         <span class="controlsDemo__button" on:click="_updateEnabled()">{{_enabled ? 'Отключить' : 'Включить'}} фиксацию</span>
+         <span class="controlsDemo__button" on:click="_updateEnabled()">{{_mode === 'notsticky' ? 'Включить' : 'Отключить'}} фиксацию</span>
       </div>
    </div>
    <div class="controlsDemo__wrapper">

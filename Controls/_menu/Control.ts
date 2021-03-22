@@ -12,7 +12,6 @@ import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {isEqual, merge} from 'Types/object';
 import {groupConstants as constView} from 'Controls/list';
-import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {TouchContextField} from 'Controls/context';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
@@ -964,12 +963,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             itemActionsClass: `controls-Menu__itemActions_position_rightCenter`,
             iconSize: editingConfig ? 's' : 'm'
         });
-    }
-
-    private _getChildContext(): object {
-        return {
-            ScrollData: new ScrollData({pagingVisible: false})
-        };
     }
 
     private _processError(error: Error): Promise<dataSourceError.ViewConfig|void> {

@@ -1,18 +1,18 @@
-<div class="controls-Tumbler controls_theme-{{_options.theme}}">
+<div class="controls-Tumbler">
     <div class="controls-Tumbler__wrapper" on:mouseenter="_mouseEnterHandler()" on:touchstart="_touchStartHandler()">
         <ws:for data="index, itemData in _options.items">
             <div class="controls-Tumbler__button
                         {{itemData[_options.keyProperty] !== _options.selectedKey && !_options.readOnly? 'controls-Tumbler__button-underline'}}
                         controls-Tumbler__button-{{itemData[_options.keyProperty] === _options.selectedKey ? 'selected' : 'unselected'}}
                         controls-Tumbler__button-{{_options.readOnly? 'disabled' : 'enabled'}}
-                        {{itemData[_options.keyProperty] === _options.selectedKey && _backgroundPosition.length === 0 ? 'controls-Tumbler__button-selected_background'}}"
+                        {{itemData[_options.keyProperty] === _options.selectedKey && _backgroundPosition.isEmpty ? 'controls-Tumbler__button-selected_background'}}"
                  on:click="_onItemClick(itemData)"
                  name="TumblerButton{{index}}">
                 {{itemData.get('caption')}}
             </div>
         </ws:for>
         <div class="controls-Tumbler__button-background"
-             style="width:{{_backgroundPosition[_options.selectedKey-1].width}}px;
-             left:{{_backgroundPosition[_options.selectedKey-1].left}}px;"></div>
+             style="width:{{_backgroundPosition[_options.selectedKey].width}}px;
+             left:{{_backgroundPosition[_options.selectedKey].left}}px;"></div>
     </div>
 </div>

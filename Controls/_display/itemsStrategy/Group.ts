@@ -100,10 +100,13 @@ export default class Group<S, T extends CollectionItem<S> = CollectionItem<S>> e
     }
 
     set collapsedGroups(value: IGroups) {
+        const valueChanged = this._options.collapsedGroups !== value;
         this._options.collapsedGroups = value;
-        // reset created groups
-        this._groups = [];
-        this._itemsOrder = null;
+        if (valueChanged) {
+            // reset created groups
+            this._groups = [];
+            this._itemsOrder = null;
+        }
     }
 
     get groups(): Array<GroupItem<IGroup>> {

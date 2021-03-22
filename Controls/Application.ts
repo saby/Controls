@@ -12,7 +12,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {dispatcherHandler} from 'UI/HotKeys';
 import {List} from 'Types/collection';
 
-import {_scrollContext} from 'Controls/scroll';
 import {setController as setSettingsController, IPopupSettingsController} from
        'Controls/Application/SettingsController';
 import {ManagerClass as PopupManager, GlobalController as PopupGlobalController, IPopupItem} from
@@ -114,7 +113,6 @@ export default class Application extends Control<IApplication> {
 
    private _registers: IApplicationRegistrars;
    private _popupManager: PopupManager;
-   private _scrollData: _scrollContext;
    private _globalPopup: PopupGlobalController;
    private _dragnDropController: DnDController;
    private _isPopupShow: boolean;
@@ -125,7 +123,6 @@ export default class Application extends Control<IApplication> {
    // start hooks
    protected _beforeMount(options: IApplication): void {
       this._checkDeprecatedOptions(options);
-      this._scrollData = new _scrollContext({ pagingVisible: options.pagingVisible });
 
       const appData = AppData.getAppData();
       this.RUMEnabled = options.RUMEnabled || appData.RUMEnabled || false;
@@ -183,10 +180,6 @@ export default class Application extends Control<IApplication> {
 
    }
    protected _beforeUpdate(options: IApplication): void {
-      if (this._scrollData.pagingVisible !== options.pagingVisible) {
-         this._scrollData.pagingVisible = options.pagingVisible;
-         this._scrollData.updateConsumers();
-      }
       this._updateTouchClass();
       this._updateThemeClass(options);
       this._updateFromOptionsClass(options);
@@ -341,7 +334,7 @@ export default class Application extends Control<IApplication> {
          }
          HeadAPI.createTag('meta', {
             name: 'viewport',
-            content: 'width=device-width, initial-scale=1.0'
+            content: 'width=device-width, initial-scale=1.0, user-scalable=no'
          });
          this._bodyClasses.isAdaptiveClass = 'ws-is-adaptive';
       } else {
@@ -549,7 +542,6 @@ export default class Application extends Control<IApplication> {
 
    private _getChildContext(): object {
       return {
-         ScrollData: this._scrollData,
          isTouch: this._touchObjectContext
       };
    }

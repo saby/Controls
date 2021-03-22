@@ -13,6 +13,7 @@ import {IColumn} from 'Controls/interface';
 import {List, RecordSet} from 'Types/collection';
 import {factory} from 'Types/chain';
 import 'css!Controls/toggle';
+import 'css!Controls/filterPanel';
 
 export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISourceOptions, INavigationOptions,
     IItemActionsOptions, IList, IColumn, ISelectorDialogOptions {
@@ -215,8 +216,6 @@ class ListEditor extends Control<IListEditorOptions> {
         }
         return this._stackOpener;
     }
-
-    static _theme: string[] = ['Controls/filterPanel'];
 
     static getDefaultOptions(): object {
         return {

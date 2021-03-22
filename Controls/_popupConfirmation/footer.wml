@@ -1,6 +1,6 @@
 <div class="controls-ConfirmationDialog__buttonContainer">
    <ws:if data="{{_options.type === 'ok'}}">
-      <div class="controls-ConfirmationDialog__button-standard_theme-{{_options.theme}}">
+      <div class="controls-ConfirmationDialog__button-standard">
          <Controls.buttons:Button
             attr:ws-autofocus="{{true}}"
             buttonStyle="primary"
@@ -13,7 +13,7 @@
       </div>
    </ws:if>
    <ws:else>
-      <div class="controls-ConfirmationDialog__button-{{_options.type === 'yesnocancel' ? 'mini' : 'standard'}}_theme-{{_options.theme}}">
+      <div class="controls-ConfirmationDialog__button-{{_options.type === 'yesnocancel' ? 'mini' : 'standard'}}">
          <Controls.buttons:Button
             attr:ws-autofocus="{{true}}"
             inlineHeight="confirmation"
@@ -25,8 +25,8 @@
             on:click="_tmplNotify('result', true)"
          />
       </div>
-      <div class="controls-ConfirmationDialog__button-{{_options.type === 'yesnocancel' ? 'mini' : 'standard'}}_theme-{{_options.theme}}
-                  controls-ConfirmationDialog__no-cancel-button_theme-{{_options.theme}}">
+      <div class="controls-ConfirmationDialog__button-{{_options.type === 'yesnocancel' ? 'mini' : 'standard'}}
+                  controls-ConfirmationDialog__no-cancel-button">
          <Controls.buttons:Button
             buttonStyle="{{_options.primaryAction === 'no' ? 'primary' : 'secondary'}}"
             inlineHeight="confirmation"
@@ -37,8 +37,8 @@
          />
       </div>
       <ws:if data="{{_options.type === 'yesnocancel'}}">
-         <div class="controls-ConfirmationDialog__button-mini_theme-{{_options.theme}}
-                     controls-ConfirmationDialog__no-cancel-button_theme-{{_options.theme}}">
+         <div class="controls-ConfirmationDialog__button-mini
+                     controls-ConfirmationDialog__no-cancel-button">
             <Controls.buttons:Button
                buttonStyle="{{_options.primaryAction === 'cancel' ? 'primary' : 'secondary'}}"
                inlineHeight="confirmation"

@@ -4,6 +4,10 @@ import getRecordSet from 'ControlsUnit/searchBreadcrumbsGrid/display/getRecordSe
 import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
 
 describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemCell', () => {
+   const editArrowVisibilityCallback = (item) => {
+      return item.get('node');
+   };
+
    const searchGridCollection = new SearchGridCollection({
       collection: getRecordSet(),
       root: null,
@@ -18,7 +22,8 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemCell', () => {
          displayProperty: 'taxBase',
          width: '200px',
          template: 'wml!template1'
-      }]
+      }],
+      editArrowVisibilityCallback
    });
 
    describe('getTemplate', () => {
@@ -42,6 +47,13 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemCell', () => {
             ' controls-Grid__cell_spacingFirstCol_default_theme-default';
          const cell = searchGridCollection.at(0).getColumns()[0];
          CssClassesAssert.isSame(cell.getContentClasses('default', 'default'), expected);
+      });
+   });
+
+   describe('shouldDisplayEditArrow', () => {
+      it('shouldDisplayEditArrow', () => {
+         const cell = searchGridCollection.at(0).getColumns()[0];
+         assert.isTrue(cell.shouldDisplayEditArrow());
       });
    });
 });

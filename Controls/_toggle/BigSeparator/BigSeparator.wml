@@ -20,8 +20,7 @@
 <div on:click="_clickHandler()"
      class="controls-BigSeparator
             controls-BigSeparator-size-{{_options.iconSize}}
-            controls-BigSeparator__{{_options.value ? 'expanded' : 'collapsed'}}
-            controls_theme-{{_options.theme}}">
+            controls-BigSeparator__{{_options.value ? 'expanded' : 'collapsed'}}">
     <div class="controls-BigSeparator-{{_options.readOnly ? 'readonly' : 'iconContainer'}}
                 {{(!_options.readOnly && _options.contrastBackground) ? 'controls-BigSeparator-contrast' : 'controls-BigSeparator-same'}}
                 controls-BigSeparator-container-icon-size-{{_options.iconSize}}">

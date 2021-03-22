@@ -1,4 +1,4 @@
-<div class="controls-StackTemplate controls_theme-{{_options.theme}}" ws-tab-cycling="true">
+<div class="controls-StackTemplate" ws-tab-cycling="true">
     <div class="controls-StackTemplate-shadow"></div>
     <ws:if data="{{_options.caption || _options.headingCaption || _options.topArea || _options.headerContentTemplate}}">
         <ws:partial template="Controls/_popupTemplate/Stack/resources/Header" scope="{{_options}}"

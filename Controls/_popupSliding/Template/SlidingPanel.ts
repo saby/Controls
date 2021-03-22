@@ -22,6 +22,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         dragNDrop: Container;
         customContent: Element;
         customContentWrapper: Element;
+        controlLine: Element;
     };
     private _isPanelMounted: boolean = false;
     private _currentTouchYPosition: number = null;
@@ -51,8 +52,13 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._isPanelMounted = true;
     }
 
-    protected _isScrollAvailable({slidingPanelOptions}: ISlidingPanelTemplateOptions): boolean {
-        const contentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
+    protected _isScrollAvailable(
+        {slidingPanelOptions, controlButtonVisibility}: ISlidingPanelTemplateOptions
+    ): boolean {
+        const scrollContentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
+        const controllerContainer = this._children.controlLine;
+        const controllerHeight = this._isPanelMounted && controlButtonVisibility ? controllerContainer.clientHeight : 0;
+        const contentHeight = scrollContentHeight + controllerHeight;
         return slidingPanelOptions.height === slidingPanelOptions.maxHeight ||
             slidingPanelOptions.height === contentHeight;
     }
@@ -74,20 +80,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     }
 
     protected _getScrollAvailableHeight(): number {
-        return this._children.customContentWrapper.clientHeight;
-    }
-
-    /**
-     * Фикс для сафари, чтобы при свайпе по шторке не тянулся body.
-     * TODO: Нужно сделать какое-то общее решение для d'n'd
-     * https://online.sbis.ru/opendoc.html?guid=2e549898-5980-49bc-b4b7-e0a27f02bf55
-     * @param state
-     * @private
-     */
-    private _toggleCancelBodyDragging(state: boolean): void {
-        if (detection.isMobileIOS) {
-            document.documentElement.style.overflow = state ? 'hidden' : '';
-        }
+        return this._children.customContent.clientHeight;
     }
 
     /**
@@ -97,7 +90,6 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      */
     protected _touchStartHandler(event: SyntheticEvent<TouchEvent>): void {
         this._currentTouchYPosition = event.nativeEvent.targetTouches[0].clientY;
-        this._toggleCancelBodyDragging(true);
     }
 
     /**
@@ -132,7 +124,6 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
             this._notifyDragEnd();
             this._touchDragOffset = null;
         }
-        this._toggleCancelBodyDragging(false);
     }
 
     private _notifyDragStart(offset: IDragObject['offset']): void {
@@ -140,7 +131,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         /* Запоминаем высоту скролла, чтобы при увеличении проверять на то,
            что не увеличим шторку больше, чем есть контента */
         if (!this._dragStartScrollHeight) {
-            this._dragStartScrollHeight = this._getScrollAvailableHeight();
+            this._dragStartScrollHeight = this._children.customContentWrapper.clientHeight;
         }
         this._notify('popupDragStart', [
             this._getDragOffsetWithOverflowChecking(offset)

@@ -8,6 +8,7 @@ import * as clone from 'Core/core-clone';
 import {IItemPadding} from 'Controls/display';
 import rk = require('i18n!Controls');
 import {isEqual} from 'Types/object';
+import 'css!Controls/filterPanel';
 
 /**
  * Контрол "Панель фильтра с набираемыми параметрами".
@@ -145,7 +146,7 @@ export default class View extends Control<IControlOptions> {
     private _updateSource(editingObject: object): void {
         this._source.forEach((item) => {
             const editingItem = editingObject[item.name];
-            item.value = editingItem?.value || editingItem;
+            item.value = editingItem?.value === undefined ? item.resetValue : editingItem?.value;
             if (editingItem.textValue !== undefined) {
                 item.textValue = editingItem.textValue;
             }
@@ -180,6 +181,4 @@ export default class View extends Control<IControlOptions> {
         this._notify('filterChanged', [this._editingObject]);
         this._notify('sourceChanged', [this._source]);
     }
-
-    static _theme: string[] = ['Controls/filterPanel', 'Controls/Classes'];
 }

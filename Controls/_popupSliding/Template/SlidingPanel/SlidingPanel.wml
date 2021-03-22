@@ -4,6 +4,7 @@
       on:dragmove="_dragMoveHandler()"
       on:documentdragend="_dragEndHandler()">
       <div
+         name="controlLine"
          on:mousedown="_startDragNDrop()"
          on:touchstart="_startDragNDrop()"
          class="controls-SlidingPanel__controller-container">
@@ -13,7 +14,7 @@
 </ws:template>
 <div
    on:_slidingPanelScrollStateChanged="_scrollStateChanged()"
-   class="controls-SlidingPanel controls_theme-{{_options.theme}}">
+   class="controls-SlidingPanel">
    <div class="controls-SlidingPanel__content controls-SlidingPanel__content
             controls-SlidingPanel__box-shadow
             controls-SlidingPanel__position-{{_position}}">

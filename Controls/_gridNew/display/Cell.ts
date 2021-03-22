@@ -81,7 +81,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     }
 
     getCellContentRender(): string {
-        if (this.getSearchValue()) {
+        if (this.getSearchValue() && this.getDisplayValue()) {
             return STRING_SEARCH_RENDER;
         }
 
@@ -152,6 +152,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     // region Аспект "Отображение данных"
     getDisplayProperty(): string {
         return this._$column.displayProperty;
+    }
+
+    getDisplayValue(): string {
+        return this.getContents().get(this.getDisplayProperty());
     }
 
     getTooltipProperty(): string {

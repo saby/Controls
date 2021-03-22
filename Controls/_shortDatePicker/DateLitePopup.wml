@@ -54,6 +54,7 @@
                  monthTemplate="{{_options.monthTemplate}}"
                  _yearHovered="{{_yearHovered}}"
                  formatDate="{{_formatDate}}"
+                 isExpandedPopup="{{ _isExpandedPopup }}"
                  _isFullPicker="{{_isFullPicker}}"
          />
       </div>
@@ -73,7 +74,7 @@
    <ws:if data="{{!_options.chooseMonths && !_options.chooseQuarters && !_options.chooseHalfyears}}">
       <div class="controls-PeriodLiteDialog__years-next controls-PeriodLiteDialog__years-next_theme-{{_options.theme}}">
          <Controls.buttons:ArrowButton direction="up" inlineHeight="l" attr:title="{[Предыдущий год]}"
-                                       on:click="_changeYear (-1)"
+                                       on:click="_changeYear(1)"
                                        attr:class="controls-PeriodLiteDialog__arrowUp"/>
       </div>
       <div class="controls-PeriodLiteDialog__close controls-PeriodLiteDialog__close_theme-{{_options.theme}}
@@ -111,7 +112,7 @@
       </Controls.calendar:MonthList>
       <div class="controls-PeriodLiteDialog__years-prev controls-PeriodLiteDialog__years-prev_theme-{{_options.theme}}">
          <Controls.buttons:ArrowButton direction="down" inlineHeight="l" attr:title="{[Следующий год]}"
-                                       on:click="_changeYear (1)"
+                                       on:click="_changeYear(-1)"
                                        attr:class="controls-PeriodLiteDialog__arrowDown"/>
       </div>
    </ws:if>

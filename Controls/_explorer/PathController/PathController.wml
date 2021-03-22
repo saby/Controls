@@ -1,19 +1,24 @@
 <div>
    <Controls._explorer.PathWrapper
-           scope="{{_options}}"
-           name="Path"
-           needShadow="{{_needShadow}}"
-           header="{{ _header }}"
-           itemsAndHeaderPromise="{{_itemsAndHeaderPromise}}"
-           on:backButtonClick="_notifyHandler('backButtonClick')"
-           on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
-           on:arrowActivated="_notifyHandler('arrowActivated')"
-           on:itemClick="_notifyHandler('itemClick')"
-           on:itemMouseDown="_notifyHandler('itemMouseDown')"
-           on:arrowClick="_notifyHandler('arrowClick')"/>
-   <ws:partial template="{{ _options.content }}"
-               scope="{{ _options }}"
-               header="{{ _header }}"
-               on:backButtonClick="_onBackButtonClick()"
-               on:arrowClick="_notifyHandler('arrowClick')" />
+      name="Path"
+      scope="{{_options}}"
+      header="{{_header}}"
+      needShadow="{{_needShadow}}"
+
+      on:backButtonClick="_notifyHandler('backButtonClick')"
+      on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+      on:itemClick="_notifyHandler('itemClick')"
+      on:itemMouseDown="_notifyHandler('itemMouseDown')"
+      on:arrowClick="_notifyHandler('arrowClick')"
+      on:arrowActivated="_notifyHandler('arrowActivated')"
+   />
+
+   <ws:partial
+      template="{{_options.content}}"
+      scope="{{_options}}"
+      header="{{_header}}"
+
+      on:backButtonClick="_onBackButtonClick()"
+      on:arrowClick="_notifyHandler('arrowClick')"
+   />
 </div>

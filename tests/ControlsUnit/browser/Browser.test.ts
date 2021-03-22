@@ -39,6 +39,11 @@ const browserHierarchyData = [
     }
 ];
 
+const eventMock = {
+    stopPropagation: () => void 0,
+    preventDefault: () => void 0
+};
+
 function getBrowserOptions(): object {
     return {
         minSearchLength: 3,
@@ -223,6 +228,12 @@ describe('Controls/browser:Browser', () => {
             describe('search', () => {
                 it('search query returns error', async () => {
                     let dataErrorProcessed = false;
+                    let propagationStopped = false;
+                    let eventMock = {
+                        stopPropagation: () => {
+                            propagationStopped = true;
+                        }
+                    };
                     const options = {...getBrowserOptions(), dataLoadErrback: () => {
                             dataErrorProcessed = true;
                         }
@@ -236,8 +247,9 @@ describe('Controls/browser:Browser', () => {
                         return Promise.reject(error);
                     };
 
-                    await browser._search({}, 'test');
+                    await browser._search(eventMock, 'test');
                     assert.isTrue(dataErrorProcessed);
+                    assert.isTrue(propagationStopped);
                     assert.isFalse(browser._loading);
                     assert.deepStrictEqual(browser._filter, {name: 'test'});
                 });
@@ -260,14 +272,14 @@ describe('Controls/browser:Browser', () => {
                     const browser = getBrowser(browserOptions);
                     await browser._beforeMount(browserOptions);
                     browser.saveOptions(browserOptions);
-                    const searchPromise = browser._search({}, 'test');
+                    const searchPromise = browser._search(null, 'test');
                     assert.ok(browser._loading);
                     await searchPromise;
                     assert.ok(!browser._loading);
                     assert.ok(browser._searchValue === 'test');
 
                     // search with same value
-                    searchPromise = browser._search({}, 'test');
+                    searchPromise = browser._search(null, 'test');
                     assert.ok(browser._loading);
                     await searchPromise;
                     assert.ok(!browser._loading);
@@ -283,20 +295,36 @@ describe('Controls/browser:Browser', () => {
 
                     const sourceController = browser._getSourceController();
                     sourceController.reload();
-                    browser._searchReset({} as SyntheticEvent);
+                    browser._searchResetHandler();
                     assert.ok(!sourceController.isLoading());
                 });
 
                 it('_searchReset with startingWith === "current"', async () => {
                     const options = getBrowserOptions();
                     options.startingWith = 'current';
+                    options.root = 'testRoot';
+                    options.source.query = (query) => {
+                        const recordSet = new RecordSet();
+                        recordSet.setMetaData({
+                            path: new RecordSet({
+                                rawData: [
+                                    {
+                                        id: query.getWhere()[options.parentProperty]
+                                    }
+                                ]
+                            })
+                        });
+                        return Promise.resolve(recordSet);
+                    };
                     const browser = getBrowser(options);
                     await browser._beforeMount(options);
                     browser.saveOptions(options);
 
-                    browser._rootBeforeSearch = 'testRoot';
-                    await browser._searchReset({} as SyntheticEvent);
-                    assert.isNull(browser._rootBeforeSearch);
+                    await browser._search(eventMock, 'testSearchValue');
+                    assert.ok(browser._root === 'testRoot');
+
+                    await browser._searchResetHandler();
+                    assert.ok(browser._root === 'testRoot');
                 });
             });
         });
@@ -444,7 +472,7 @@ describe('Controls/browser:Browser', () => {
                 await browser._beforeMount(options);
                 browser.saveOptions(options);
 
-                await browser._search({}, 'testSearchValue');
+                await browser._search(null, 'testSearchValue');
                 options.searchValue = 'testSearchValue';
                 browser.saveOptions(options);
                 assert.ok(browser._inputSearchValue === 'testSearchValue');
@@ -673,24 +701,25 @@ describe('Controls/browser:Browser', () => {
 
             browser._dataLoadCallback(new RecordSet());
             assert.isUndefined(browser._viewMode);
-            assert.isNull(browser._rootBeforeSearch);
-            assert.isEmpty(browser._misspellValue);
+            assert.ok(browser._misspellValue === '');
         });
 
         it('path is updated in searchController after load', async () => {
             const options = getBrowserOptions();
-            const browser = await getBrowserWithMountCall(options);
-            await browser._getSearchController();
-            const recordset = new RecordSet();
             const path = new RecordSet({
                 rawData: [
                     {id: 1, title: 'folder'}
                 ]
             });
-            recordset.setMetaData({path});
-            browser._dataLoadCallback(recordset);
+            options.source.query = () => {
+                const recordSet = new RecordSet();
+                recordSet.setMetaData({path});
+                return Promise.resolve(recordSet);
+            };
+            const browser = await getBrowserWithMountCall(options);
+            await browser._getSearchController();
+            await browser._reload(options);
             assert.ok(browser._searchController._path === path);
-            assert.ok(browser._path === path);
         });
     });
 
@@ -714,7 +743,7 @@ describe('Controls/browser:Browser', () => {
            const browser = getBrowser(options);
            await browser._beforeMount(options);
            browser.saveOptions(options);
-           await browser._search({}, 'testSearchValue');
+           await browser._search(null, 'testSearchValue');
 
            browser._handleItemOpen('testRoot', undefined, null);
            assert.ok(!browser._inputSearchValue);
