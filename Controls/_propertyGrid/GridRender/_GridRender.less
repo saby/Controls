@@ -7,6 +7,7 @@
    font-size: @font-size_m;
    padding-right: @offset_m;
    color: @label_text-color;
+   box-sizing: border-box;
 }
 
 .controls-PropertyGrid__gridLayout__itemsContainer {
@@ -40,4 +41,9 @@
       visibility: visible;
       opacity: 1;
    }
+}
+
+// Костыль с откатом в 21.2000, необходим для выравнивания редакторов-полей ввода и остальных
+.controls-PropertyGrid__gridLayout_editor_captionPosition-left_theme-@{themeName} .controls-Render {
+   margin-left: -(@padding-horizontal_inputText + @border-thickness_inputText);
 }
