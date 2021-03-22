@@ -1,8 +1,7 @@
 <div class="controls-ConfirmationTemplate
             controls-ConfirmationTemplate__status-{{_options.style}}
             controls-ConfirmationTemplate__size-{{_options.size}}
-            controls-Popup__isolatedFocusingContext
-            controls_theme-{{_options.theme}}"
+            controls-Popup__isolatedFocusingContext"
     ws-tab-cycling="true"
     ws-delegates-tabfocus="true">
     <div class="controls-ConfirmationTemplate__body">
