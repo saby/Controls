@@ -1,4 +1,4 @@
-import { TColumns } from 'Controls/interface';
+import {IHeaderCell, TColumns} from 'Controls/interface';
 import { IList } from 'Controls/list';
 /**
  * Интерфейс для контрола {@link Controls/grid:View Таблица}.
@@ -6,8 +6,12 @@ import { IList } from 'Controls/list';
  * @author Авраменко А.С.
  */
 
+type HeaderVisibility = 'hasdata' | 'visible';
+
 export interface IGridControl extends IList {
     columns: TColumns;
+    header?: IHeaderCell[];
+    headerVisibility?: HeaderVisibility;
 }
 
 /*

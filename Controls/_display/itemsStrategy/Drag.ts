@@ -220,6 +220,10 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
         if (!itemsCount) {
             return [];
         }
+        if (itemsCount === 1) {
+            // Если элемент остается один, то есть только единственный вариант itemsOrder
+            return [0];
+        }
 
         const itemsOrder = new Array(itemsCount - 1);
         for (let i = 0; i < itemsCount; i++) {
@@ -243,7 +247,7 @@ export default class Drag<S extends Model = Model, T extends CollectionItem<S> =
         let countVisibleItem = 0;
         let projectionIndex = 0;
 
-        while (countVisibleItem < sourceIndex) {
+        while (countVisibleItem < sourceIndex && projectionIndex < filterMap.length) {
             projectionIndex++;
             if (filterMap[projectionIndex]) {
                 countVisibleItem++;

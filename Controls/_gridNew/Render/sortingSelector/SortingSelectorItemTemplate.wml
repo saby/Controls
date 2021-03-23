@@ -1,0 +1,22 @@
+<ws:template name="itemTemplate">
+    <ws:partial template="Controls/dropdown:ItemTemplate"
+                itemData="{{itemData}}"
+                rightTemplate="{{rightTemplate}}"
+                on:click="_dropdownItemClick(itemData.item.getKey())" />
+</ws:template>
+
+<ws:if data="{{itemData.item.get('paramName') !== null}}">
+   <ws:partial template="itemTemplate">
+        <ws:rightTemplate>
+            <div class="controls-SortingSelector_arrowWrapper">
+                <div class="controls-SortingSelector_arrowsContainer" on:click="_arrowClick(itemData.item)">
+                    <ws:partial attr:class="controls-SortingSelector_arrow_theme-{{_options.theme}}"
+                                value="{{itemData.item.get('value')}}" template="wml!Controls/_gridNew/Render/SortingButton/SortingArrow"/>
+                </div>
+            </div>
+        </ws:rightTemplate>
+   </ws:partial>
+</ws:if>
+<ws:else>
+    <ws:partial template="itemTemplate" />
+</ws:else>

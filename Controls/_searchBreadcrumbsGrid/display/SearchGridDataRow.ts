@@ -20,10 +20,9 @@ export default class SearchGridDataRow<S extends Model> extends TreeGridDataRow<
 
    getLevelIndentClasses(
       expanderSizeTmpl?: string,
-      levelIndentSize?: string,
-      theme: string = 'default'
+      levelIndentSize?: string
    ): string {
-      return `controls-TreeGrid__row-levelPadding_size_search_theme-${theme}`;
+      return `controls-TreeGrid__row-levelPadding_size_search_theme-${this.getTheme()}`;
    }
 }
 

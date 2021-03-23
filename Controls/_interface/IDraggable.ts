@@ -1,3 +1,8 @@
+export interface IDraggableOptions {
+    itemsDragNDrop?: boolean;
+    draggingTemplate?: Function;
+}
+
 /**
  * Интерфейс для перемещения элементов списка с помощью drag'n'drop.
  * Больше информации можно прочитать {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ здесь}.

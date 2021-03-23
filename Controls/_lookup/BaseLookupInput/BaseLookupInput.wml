@@ -1,4 +1,4 @@
-<div class="{{_rootContainerClasses}} controls_theme-{{_options.theme}}">
+<div class="{{_rootContainerClasses}}">
     <Controls.suggest:_InputController
             name="layout"
             on:choose="_choose()"
@@ -59,7 +59,7 @@
                 on:tagHover="_notifyHandler('tagHover')"
                 on:keyDownInput="_keyDown()"
                 attr:class="controls-Lookup__inputRender
-                     controls-Lookup__inputRender_horizontalPadding-{{_options.horizontalPadding}}
+                     controls-Lookup__inputRender_horizontalPadding-{{_horizontalPadding}}
                      controls-Lookup__inputRender_{{_multiLineState ? 'multiLine' : 'singleLine'}}">
 
             <ws:leftFieldWrapper>
@@ -109,7 +109,7 @@
                         </ws:if>
                         <ws:partial template="{{_showSelectorTemplate}}"
                                     name="showSelector"
-                                    horizontalPadding="{{_options.horizontalPadding}}"
+                                    horizontalPadding="{{_horizontalPadding}}"
                                     on:mousedown="_onMouseDownShowSelector()"
                                     on:mouseleave="_linkMouseLeaveHandler()"
                                     on:mouseenter="_linkMouseEnterHandler()"/>

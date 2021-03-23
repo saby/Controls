@@ -597,4 +597,22 @@ describe('Controls/dataSource:SourceController', () => {
         });
 
     });
+
+    describe('hasMoreData', () => {
+        it('hasMoreData for root', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            await controller.reload();
+            ok(controller.hasMoreData('down'));
+        });
+
+        it('hasMoreData for not loaded folder', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            ok(!controller.hasMoreData('down', 'anyFolderKey'));
+            ok(!controller.hasLoaded('anyFolderKey'));
+        });
+    });
 });

@@ -1703,14 +1703,18 @@ describe('Controls/_display/Tree', () => {
         const rsTree = getRecordSetTree();
         it('setExpandedItems', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
-            rsTree.setExpandedItems([1]);
+            const expandedItems = [1];
+            rsTree.setExpandedItems(expandedItems);
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.notEqual(rsTree.getExpandedItems(), expandedItems);
         });
 
         it('setCollapsedItems', () => {
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
-            rsTree.setCollapsedItems([1]);
+            const collapsedItems = [1];
+            rsTree.setCollapsedItems(collapsedItems);
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.notEqual(rsTree.getCollapsedItems(), collapsedItems);
         });
 
         it('toggleItem will not change version for another items', () => {

@@ -108,11 +108,9 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
 }
 
 export default class Controller extends mixin<
-    ObservableMixin,
-    EventRaisingMixin
+    ObservableMixin
     >(
-    ObservableMixin,
-    EventRaisingMixin
+    ObservableMixin
 ) {
     private _options: IControllerOptions;
     private _filter: QueryWhereExpression<unknown>;
@@ -140,7 +138,7 @@ export default class Controller extends mixin<
         super();
         EventRaisingMixin.call(this, cfg);
         this._options = cfg;
-        this.setFilter(cfg.filter);
+        this.setFilter(cfg.filter || {});
         this.setNavigation(cfg.navigation);
 
         if (cfg.root !== undefined) {
@@ -705,11 +703,13 @@ export default class Controller extends mixin<
             dataLoadCallbackResult = this._dataLoadCallback(result, direction);
         }
 
-        if ((loadedInCurrentRoot || direction) && this._dataLoadCallbackFromOptions) {
-            this._dataLoadCallbackFromOptions(result, direction);
-        }
+        if (loadedInCurrentRoot || direction) {
+            this._notify('dataLoad', result, direction);
 
-        this._notify('dataLoadCallback', result);
+            if (this._dataLoadCallbackFromOptions) {
+                this._dataLoadCallbackFromOptions(result, direction);
+            }
+        }
 
         if (dataLoadCallbackResult instanceof Promise) {
             methodResult = dataLoadCallbackResult.then(() => {
@@ -728,7 +728,7 @@ export default class Controller extends mixin<
     ): Error {
         // Если упала ошибка при загрузке в каком-то направлении,
         // то контроллер навигации сбрасывать нельзя,
-        // Т.к. в этом направлении могут продолжить загрухзку
+        // Т.к. в этом направлении могут продолжить загрузку
         if (!direction) {
             this._navigationController = null;
         }
@@ -835,8 +835,7 @@ export default class Controller extends mixin<
         initialFilter: QueryWhereExpression<unknown>,
         options: IControllerOptions
     ): Promise<QueryWhereExpression<unknown>> {
-        const hasGrouping = !!options.groupProperty || !!options.groupingKeyCallback;
-        const historyId = hasGrouping ? (options.groupHistoryId || options.historyIdCollapsedGroups) : undefined;
+        const historyId = options.groupHistoryId || options.historyIdCollapsedGroups;
         const collapsedGroups = options.collapsedGroups;
         const getFilterWithCollapsedGroups = (collapsedGroupsIds: TArrayGroupId) => {
             let modifiedFilter;

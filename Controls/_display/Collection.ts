@@ -865,8 +865,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._$itemTemplateProperty = options.itemTemplateProperty;
         }
 
-        this._$theme = options.theme;
-
         if (!options.hoverBackgroundStyle && options.style) {
             this._$hoverBackgroundStyle = options.style;
         }
@@ -3084,6 +3082,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.multiSelectAccessibilityProperty = this._$multiSelectAccessibilityProperty;
             options.backgroundStyle = this._$backgroundStyle;
             options.theme = this._$theme;
+            options.style = this._$style;
             options.leftPadding = this._$leftPadding;
             options.rightPadding = this._$rightPadding;
             options.topPadding = this._$topPadding;
@@ -3463,6 +3462,15 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             return;
         }
         const groupStrategy = this._composer.getInstance<GroupItemsStrategy<S, T>>(GroupItemsStrategy);
+        // prependStrategy вызывает _reGroup после composer.prepend().
+        // Внутри composer.prepend() имеющийся экземпляр стратегии удаляется, и пересоздаётся с опциями,
+        // которые были переданы для неё при добавлении в компоновщик.
+        // Необходимо устанавливать актуальное состояние "свёрнутости" групп,
+        // т.к. после пересоздания стратегии, она ничего не знает об актуальном значении collapsedGroups.
+        // Чтобы убрать этот костыль, надо или научить компоновщик пересоздавать стратегии с актуальными опциями
+        // или сделать получение collapsedGroups через callback или пересмотреть необходимость пересоздания
+        // стратегий при prepend.
+        groupStrategy.collapsedGroups = this._$collapsedGroups;
         groupStrategy.invalidate();
     }
 
@@ -3887,6 +3895,7 @@ Object.assign(Collection.prototype, {
     _$markerVisibility: 'onactivated',
     _$multiSelectAccessibilityProperty: '',
     _$style: 'default',
+    _$theme: 'default',
     _$hoverBackgroundStyle: 'default',
     _$backgroundStyle: null,
     _$rowSeparatorSize: null,
