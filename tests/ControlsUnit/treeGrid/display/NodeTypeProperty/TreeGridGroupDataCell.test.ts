@@ -29,7 +29,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataCell', () 
 
     it('getContentClasses should return group cell content classes', () => {
         CssClassesAssert.include(groupCell.getContentClasses('default'), [
-            'controls-Grid__row-cell__content_baseline_default_theme-default',
+            'controls-Grid__row-cell__content_baseline_S_theme-default',
             'controls-TreeGrid__row-cell__firstColumn__contentSpacing_null',
             'controls-ListView__groupContent']);
     });
