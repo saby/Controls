@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/ColumnSeparator/PartialColu
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import * as clone from 'Core/core-clone';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { IHeader } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 

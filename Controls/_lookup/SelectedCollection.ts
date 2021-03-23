@@ -11,6 +11,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import { Model } from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import { Sticky, IStickyPopupOptions } from 'Controls/popup';
+import 'css!Controls/lookup';
 
 const JS_CLASS_CAPTION_ITEM = '.js-controls-SelectedCollection__item__caption';
 const JS_CLASS_CROSS_ITEM = '.js-controls-SelectedCollection__item__cross';
@@ -177,8 +178,6 @@ class SelectedCollection extends Control<ISelectedCollectionOptions, number> {
       return itemsCount > maxVisibleItems;
    }
 
-   static _theme: string[] = ['Controls/lookup'];
-
    static getDefaultOptions(): Object {
         return {
             itemTemplate: ItemTemplate,
@@ -186,5 +185,14 @@ class SelectedCollection extends Control<ISelectedCollectionOptions, number> {
         };
     }
 }
+
+Object.defineProperty(SelectedCollection, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return SelectedCollection.getDefaultOptions();
+   }
+});
 
 export default SelectedCollection;

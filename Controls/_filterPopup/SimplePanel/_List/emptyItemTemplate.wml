@@ -5,7 +5,6 @@
                itemData="{{itemData}}"
                displayProperty="{{displayProperty}}"
                multiSelect="{{false}}"
-               class="controls-SimplePanel-dropdown__emptyItem
-                     controls-SimplePanel-dropdown__emptyItem_theme_{{_options.theme}}">
+               class="controls-SimplePanel-dropdown__emptyItem">
    </ws:partial>
 </Controls.scroll:StickyHeader>

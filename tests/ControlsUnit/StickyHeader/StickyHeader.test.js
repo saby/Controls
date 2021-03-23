@@ -121,7 +121,6 @@ define([
             };
 
             component._beforeUnmount();
-            assert.isUndefined(component._observeHandler);
             assert.isUndefined(component._observer);
             sandbox.restore();
          });
@@ -144,6 +143,27 @@ define([
             component._options.mode = 'notSticky';
             component._beforeUpdate(coreMerge({ mode: 'notsticky' }, StickyHeader.getDefaultOptions(), { preferSource: true }));
             assert.isUndefined(component._observer);
+            sinon.restore();
+         });
+
+         it('should call _stickyModeChanged if mode changed', () => {
+            const component = createComponent(StickyHeader, { mode: 'stackable' });
+            const newMode = 'replaceable';
+            const stubStickyModeChanged = sinon.stub(component, '_stickyModeChanged');
+            component._beforeUpdate({ mode: newMode, ...StickyHeader.getDefaultOptions() });
+
+            sinon.assert.calledWith(stubStickyModeChanged, newMode);
+            sinon.restore();
+         });
+
+         it('should generate "stickyHeaderOffsetTopChanged" event if offsetTop option has been changed', function () {
+            const component = createComponent(StickyHeader, {});
+            sinon.stub(component, '_notify');
+
+            component._beforeUpdate(coreMerge({ offsetTop: 100 }, StickyHeader.getDefaultOptions(), { preferSource: true }));
+
+            sinon.assert.calledWith(component._notify, 'stickyHeaderOffsetTopChanged', [], { bubbling: true });
+
             sinon.restore();
          });
       });
@@ -397,14 +417,21 @@ define([
             const component = createComponent(StickyHeader, {});
             component._model = { fixedPosition: '' };
 
-            assert.strictEqual(component._getObserverStyle('top'), 'top: -2px;');
-            assert.strictEqual(component._getObserverStyle('bottom'), 'bottom: -2px;');
+            assert.strictEqual(component._getObserverStyle('top', 0, StickyHeaderUtils.SHADOW_VISIBILITY.visible),
+               'top: -2px;');
+            assert.strictEqual(component._getObserverStyle('bottom', 0, StickyHeaderUtils.SHADOW_VISIBILITY.visible),
+               'bottom: -2px;');
+
             component._stickyHeadersHeight = {
                top: 2,
                bottom: 3
             };
-            assert.strictEqual(component._getObserverStyle('top'), 'top: -4px;');
-            assert.strictEqual(component._getObserverStyle('bottom'), 'bottom: -5px;');
+
+            assert.strictEqual(component._getObserverStyle('top', 0, StickyHeaderUtils.SHADOW_VISIBILITY.visible),
+               'top: -4px;');
+            assert.strictEqual(component._getObserverStyle('bottom', 0, StickyHeaderUtils.SHADOW_VISIBILITY.visible),
+               'bottom: -5px;');
+
             sinon.restore();
          });
          it('should consider borders', function() {
@@ -415,14 +442,19 @@ define([
             sinon.stub(component, '_getComputedStyle').returns({ 'border-top-width': '1px', 'border-bottom-width': '1px' });
             component._model = { fixedPosition: '' };
 
-            assert.strictEqual(component._getObserverStyle('top'), 'top: -3px;');
-            assert.strictEqual(component._getObserverStyle('bottom'), 'bottom: -3px;');
+            assert.strictEqual(component._getObserverStyle('top', 0, StickyHeaderUtils.SHADOW_VISIBILITY.visible),
+               'top: -3px;');
+            assert.strictEqual(component._getObserverStyle('bottom', 0, StickyHeaderUtils.SHADOW_VISIBILITY.visible),
+               'bottom: -3px;');
+
             component._stickyHeadersHeight = {
                top: 2,
                bottom: 3
             };
-            assert.strictEqual(component._getObserverStyle('top'), 'top: -5px;');
-            assert.strictEqual(component._getObserverStyle('bottom'), 'bottom: -6px;');
+            assert.strictEqual(component._getObserverStyle('top', 0, StickyHeaderUtils.SHADOW_VISIBILITY.visible),
+               'top: -5px;');
+            assert.strictEqual(component._getObserverStyle('bottom', 0, StickyHeaderUtils.SHADOW_VISIBILITY.visible),
+               'bottom: -6px;');
             EnvLib.constants.isServerSide = oldIsServerSide;
             sinon.restore();
          });

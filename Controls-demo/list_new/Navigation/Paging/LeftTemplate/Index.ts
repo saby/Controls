@@ -3,6 +3,9 @@ import * as Template from 'wml!Controls-demo/list_new/Navigation/Paging/LeftTemp
 import {Memory} from 'Types/source';
 import {generateData} from '../../../DemoHelpers/DataCatalog';
 
+/**
+ * Слева от пейджинга задан шаблон.
+ */
 export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _viewSource: Memory;

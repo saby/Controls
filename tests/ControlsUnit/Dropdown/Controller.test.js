@@ -492,6 +492,25 @@ define(
                selectedItemsChangedCallback: selectedItemsChangedCallback});
             assert.deepEqual(selectedItems, [null]);
 
+            // emptyText + selectedKeys = [123]
+            dropdownController._updateSelectedItems({
+               selectedKeys: [123],
+               keyProperty: 'id',
+               emptyText: 'text',
+               selectedItemsChangedCallback: selectedItemsChangedCallback
+            });
+            assert.deepEqual(selectedItems, [null]);
+
+            // emptyText + selectedKeys = [undefined] (combobox)
+            dropdownController._updateSelectedItems({
+               selectedKeys: [undefined],
+               keyProperty: 'id',
+               emptyText: 'text',
+               emptyKey: null,
+               selectedItemsChangedCallback: selectedItemsChangedCallback
+            });
+            assert.deepEqual(selectedItems, []);
+
             // selectedKeys = []
             let newItems = new collection.RecordSet({
                keyProperty: 'id',
@@ -862,7 +881,7 @@ define(
                   keyProperty: 'id',
                   rawData: items
                });
-               sandbox.replace(popup.Sticky, 'openPopup', (popupConfig) => {
+               sandbox.replace(popup.Sticky, '_openPopup', (popupConfig) => {
                   openConfig = popupConfig;
                   return Promise.resolve(true);
                });

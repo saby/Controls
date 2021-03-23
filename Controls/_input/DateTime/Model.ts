@@ -1,8 +1,7 @@
 import cExtend = require('Core/core-simpleExtend');
 import entity = require('Types/entity');
-import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
+import StringValueConverter from 'Controls/_input/DateTime/StringValueConverter';
 import {Base as dateUtils} from 'Controls/dateUtils';
-
 
    var _private = {
       updateLastValue: function(self) {

@@ -8,6 +8,9 @@ import {TKey} from 'Controls/interface';
 // @ts-ignore
 import * as isEmpty from 'Core/helpers/Object/isEmpty';
 import * as ArrayUtil from 'Controls/Utils/ArraySimpleValuesUtil';
+import {getDefaultBorderVisibilityOptions, getDefaultPaddingOptions} from 'Controls/input';
+import 'css!Controls/lookup';
+import 'css!Controls/CommonClasses';
 
 type LookupReceivedState = SelectedItems|null;
 
@@ -143,12 +146,11 @@ export default abstract class
 
     protected abstract _itemsChanged(items: SelectedItems): void;
 
-    static _theme: string[] = ['Controls/lookup', 'Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
-            multiSelect: false,
-            horizontalPadding: 'xs'
+            ...getDefaultBorderVisibilityOptions(),
+            ...getDefaultPaddingOptions(),
+            multiSelect: false
         };
     }
 
@@ -159,3 +161,12 @@ export default abstract class
         };
     }
 }
+
+Object.defineProperty(BaseLookup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BaseLookup.getDefaultOptions();
+   }
+});

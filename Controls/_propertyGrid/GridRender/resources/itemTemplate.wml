@@ -31,12 +31,12 @@
                         caption="{{item.caption}}"
                         scope="{{item.captionOptions}}"
                         attr:class="controls-PropertyGrid__editor-caption_theme-{{theme}}
-                                    controls-PropertyGrid__gridLayout_editor-caption-baseline"/>
+                                    controls-PropertyGrid__gridLayout_editor-caption-baseline"
+                        attr:tabindex="-1"/>
         </div>
     </ws:if>
     <ws:if data="{{collectionItem.getEditorTemplateName()}}">
        <div class="controls-PropertyGrid__gridLayout_editor
-                   controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
                    controls-PropertyGrid__gridLayout_editor_theme-{{theme}}
                    {{collectionItem.isHovered() && highlightOnHover ? 'controls-PropertyGrid__cell_highlightOnHover_theme-' + theme}}
                    {{collectionItem.getItemPaddingClasses(theme, 2)}}"

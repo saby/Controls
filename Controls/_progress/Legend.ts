@@ -23,7 +23,7 @@ export interface ILegendOptions extends IControlOptions {
  * Legend for StateIndicator
  * @class Controls/_progress/Legend
  * @author Колесов В.А.
- */ 
+ */
 class Legend extends Control<ILegendOptions> {
    protected _template: TemplateFunction = legendTemplate;
 
@@ -41,6 +41,15 @@ class Legend extends Control<ILegendOptions> {
       };
    }
 }
+
+Object.defineProperty(Legend, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Legend.getDefaultOptions();
+   }
+});
 
 export default Legend;
 /**

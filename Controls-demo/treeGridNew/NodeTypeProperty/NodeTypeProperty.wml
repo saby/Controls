@@ -1,0 +1,31 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/NodeTypeProperty/Base/Index' }}">
+            <a href="{{content.href}}">Базовая настройка узла в виде группы</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.NodeTypeProperty.Base.Index/>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/NodeTypeProperty/AlignedByColumn/Index' }}">
+            <a href="{{content.href}}">Узел в виде группы, заголовок выровнен относительно колонки</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.NodeTypeProperty.AlignedByColumn.Index/>
+    </div>
+
+
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/treeGridNew/NodeTypeProperty/ChildNodes/Index' }}">
+            <a href="{{content.href}}">Узел в виде группы с подгрузкой данных по кнопке Ещё</a>
+        </Router.router:Reference>
+        <Controls-demo.treeGridNew.NodeTypeProperty.ChildNodes.Index/>
+    </div>
+
+</div>

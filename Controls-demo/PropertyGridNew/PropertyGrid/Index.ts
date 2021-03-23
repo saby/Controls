@@ -115,10 +115,6 @@ export default class Demo extends Control<IControlOptions> {
         return source.getIndex(sourceItem);
     }
 
-    protected _handleItemClick(event, item) {
-        alert(`Clicked at ${item.getContents().getId()}`);
-    }
-
     protected _itemActionVisibilityCallback(itemAction, item): boolean {
         const index = this._getSourceItemIndex(this._source, item);
         if (index === 0 && itemAction.title === 'Переместить вверх' ||

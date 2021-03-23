@@ -2,30 +2,26 @@
    <div if="{{ gridColumn.shouldDisplayMarker(marker) }}"
         class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
 
-   <ws:if data="{{item.shouldDisplayExpanderBlock(gridColumn)}}">
-      <ws:if data="{{ item.shouldDisplayLevelPadding(withoutLevelPadding) }}">
-         <ws:for data="i in item.getLevel() - 1">
-            <div class="{{item.getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+   <ws:if data="{{(item || itemData).shouldDisplayExpanderBlock(gridColumn)}}">
+      <ws:if data="{{ (item || itemData).shouldDisplayLevelPadding(withoutLevelPadding) }}">
+         <ws:for data="i in (item || itemData).getLevel() - 1">
+            <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
          </ws:for>
       </ws:if>
-      <ws:if data="{{ item.shouldDisplayExpander(expanderIcon, 'default') }}">
-         <ws:partial template="{{item.getExpanderTemplate(expanderTemplate)}}"
-                     itemData="{{item}}"
-                     item="{{item}}"
-                     expanderIcon="{{item.getExpanderIcon(expanderIcon)}}"
-                     expanderSize="{{item.getExpanderSize(expanderSize)}}"/>
+      <ws:if data="{{ (item || itemData).shouldDisplayExpander(expanderIcon, 'default') }}">
+         <div class="{{(item || itemData).getExpanderClasses((item || itemData).getExpanderIcon(expanderIcon), (item || itemData).getExpanderSize(expanderSize))}}"></div>
       </ws:if>
-      <ws:else data="{{item.shouldDisplayExpanderPadding(expanderIcon, expanderSize)}}">
-         <div class="{{item.getExpanderPaddingClasses(expanderSize)}}"></div>
+      <ws:else data="{{(item || itemData).shouldDisplayExpanderPadding(expanderIcon, expanderSize)}}">
+         <div class="{{(item || itemData).getExpanderPaddingClasses(expanderSize)}}"></div>
       </ws:else>
    </ws:if>
 
    <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
                attr:key="{{ gridColumn.getInstanceId() }}"
-               gridColumn="{{ gridColumn }}"
-               column="{{ gridColumn.getColumnConfig() }}"
                item="{{ (item || itemData) }}"
+               column="{{ gridColumn }}"
                itemData="{{ gridColumn }}"
+               gridColumn="{{ gridColumn }}"
                colData="{{ gridColumn }}"
                theme="{{ theme }}"
                style="{{ style }}"
@@ -34,7 +30,8 @@
                itemActionsClass="{{ itemActionsClass }}"
                templateHighlightOnHover="{{ templateHighlightOnHover }}"
                tagTemplate="{{ gridColumn.TagCell ? tagTemplate }}"
-               tagStyle="{{ gridColumn.TagCell ? tagStyle }}">
+               tagStyle="{{ gridColumn.TagCell ? tagStyle }}"
+               editArrowTemplate="{{ editArrowTemplate }}">
       <ws:ladderWrapper>
          <ws:partial template="{{ladderWrapper.content}}"
                      if="{{ (item || itemData).shouldDrawLadderContent(ladderWrapper.ladderProperty, ladderWrapper.stickyProperty) }}"
@@ -51,7 +48,7 @@
       <ws:afterContentTemplate>
          <!-- Стрелка редактирования. Если шаблон прикладной, то не показываем -->
          <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() && editArrowTemplate }}">
-            <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).getColumnConfig().textOverflow}}"/>
+            <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).config.textOverflow}}"/>
          </ws:if>
 
          <!-- Тэг -->
@@ -65,18 +62,10 @@
 
          <!-- Экспандер -->
          <ws:if data="{{ item.shouldDisplayExpanderBlock(gridColumn) && item.shouldDisplayExpander(afterContentTemplate.expanderIcon, 'right') }}">
-            <ws:partial template="{{item.getExpanderTemplate(afterContentTemplate.expanderTemplate)}}"
-                        itemData="{{item}}"
-                        item="{{item}}"
-                        expanderIcon="{{item.getExpanderIcon(afterContentTemplate.expanderIcon)}}"
-                        expanderSize="{{item.getExpanderSize(afterContentTemplate.expanderSize)}}"/>
+            <div class="{{item.getExpanderClasses(item.getExpanderIcon(expanderIcon), item.getExpanderSize(expanderSize))}}"></div>
          </ws:if>
       </ws:afterContentTemplate>
    </ws:partial>
-
-   <ws:if data="{{ gridColumn.shouldDisplayEditArrow() }}">
-      <ws:partial template="{{ editArrowTemplate }}" item="{{ item || itemData }}"/>
-   </ws:if>
 
    <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
       <ws:if data="{{ (item || itemData).isSwiped() && itemActionsPosition !== 'outside' }}">
@@ -97,20 +86,21 @@
 </ws:template>
 
 
-<ws:if data="{{ item.isSticked() }}">
+<ws:if data="{{ (item || itemData).isSticked() }}">
    <Controls.scroll:Group>
-      <div class="{{ item.getItemClasses({
+      <div class="{{ (item || itemData).getItemClasses({
            'highlightOnHover': highlightOnHover,
            'theme': theme,
            'style': style,
            'cursor': cursor,
            'clickable': clickable
        }) }}">
-         <ws:for data="column in item.getColumns()">
+         <ws:for data="column in (item || itemData).getColumns()">
             <Controls.scroll:StickyHeader position="topbottom"
-                                          mode="stackable"
+                                          mode="{{ (item || itemData).getStickyHeaderMode() }}"
                                           shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                           backgroundStyle="{{ backgroundStyle }}"
+                                          fixedZIndex="{{ column.getZIndex()}}"
                                           attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
                                           attr:style="{{ column.getWrapperStyles(containerSize) }}">
                <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
@@ -120,16 +110,16 @@
    </Controls.scroll:Group>
 </ws:if>
 <ws:else>
-   <div class="{{ item.getItemClasses({
+   <div class="{{ (item || itemData).getItemClasses({
            'highlightOnHover': highlightOnHover,
            'theme': theme,
            'style': style,
            'cursor': cursor,
            'clickable': clickable
        }) }}">
-      <ws:for data="column in item.getColumns()">
+      <ws:for data="column in (item || itemData).getColumns()">
          <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-              style="{{ column.getWrapperStyles() }}">
+              style="{{ column.getWrapperStyles(containerSize) }}">
             <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
          </div>
       </ws:for>

@@ -16,7 +16,7 @@
     templateOptions Опции, передаваемые в шаблон ячейки заголовка.
 */
 import { TemplateFunction } from 'UI/Base';
-import {IColspanParams, IHeaderCell, IRowspanParams} from 'Controls/grid';
+import {IColspanParams, IHeaderCell} from 'Controls/interface';
 import { IItemPadding } from 'Controls/display';
 import HeaderRow from './HeaderRow';
 import Cell, {IOptions as ICellOptions} from './Cell';
@@ -113,7 +113,11 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     // endregion
 
     // region Аспект "Объединение строк"
-    _getRowspanParams(): Required<IRowspanParams> {
+    _getRowspanParams(): {
+        startRow: number,
+        endRow: number,
+        rowspan: number
+    } {
         const startRow = typeof this._$column.startRow === 'number' ? this._$column.startRow : (this._$owner.getIndex() + 1);
         let endRow;
 
@@ -133,7 +137,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     }
     getRowspan(): string {
         if (!this._$owner.isFullGridSupport()) {
-            return this._getRowspanParams().rowspan;
+            return '' + this._getRowspanParams().rowspan;
         }
         const {startRow, endRow} = this._getRowspanParams();
         return `grid-row: ${startRow} / ${endRow};`;
@@ -178,10 +182,6 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             wrapperClasses += ' controls-Grid__header-cell_static';
         }
 
-        if (!this.isMultiSelectColumn()) {
-            wrapperClasses += ' controls-Grid__header-cell_min-width';
-        }
-
         if (this._$valign) {
             wrapperClasses += ` controls-Grid__header-cell__content_valign-${this._$valign}`;
         }
@@ -207,7 +207,6 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         if (this._$align) {
             contentClasses += ` controls-Grid__header-cell_justify_content_${this._$align}`;
         }
-
         return contentClasses;
     }
 
@@ -317,6 +316,16 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             paddingClasses += ` controls-Grid__cell_spacingLastCol_${rightPadding}_theme-${theme}`;
         } else {
             paddingClasses += ` controls-Grid__cell_spacingRight${compatibleRightPadding}_theme-${theme}`;
+        }
+
+        // Для хлебной крошки в первой ячейке хедера не нужен отступ слева.
+        // Никак больше нельзя определить, что в ячейку передали хлебную крошку,
+        // поэтому мы в header[0] проставляем isBreadCrumbs
+        // TODO нужно сделать так, чтобы отступы задавались в header.
+        //  И здесь бы уже звали толкьо this._$column.getLeftPadding()
+        //  https://online.sbis.ru/opendoc.html?guid=686fb34b-fb74-4a11-8306-67b71e3ded0c
+        if (this._$column.isBreadCrumbs) {
+            paddingClasses += ` controls-Grid__cell_spacingFirstCol_null_theme-${theme}`;
         }
 
         return paddingClasses;

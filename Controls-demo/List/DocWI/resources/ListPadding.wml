@@ -1,5 +1,0 @@
-<Controls.list:View
-        source="{{_viewSource}}"
-        keyProperty="id"
-        itemPadding="{{_itemPadding}}">
-</Controls.list:View>

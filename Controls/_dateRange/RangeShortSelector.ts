@@ -117,6 +117,10 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
         }
     }
 
+    _resetButtonClickHandler(): void {
+        this._rangeModel.setRange(this._options.resetStartValue || null, this._options.resetEndValue || null);
+    }
+
     _sendResultHandler(event: SyntheticEvent, fittingMode: string): void {
         if (typeof fittingMode === 'string') {
             this._fittingMode = fittingMode;
@@ -150,3 +154,12 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
         };
     }
 }
+
+Object.defineProperty(RangeShortSelector, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return RangeShortSelector.getDefaultOptions();
+   }
+});

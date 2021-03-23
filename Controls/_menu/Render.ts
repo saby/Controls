@@ -11,10 +11,15 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {factory} from 'Types/chain';
 import {ItemsUtil} from 'Controls/list';
 import {Visibility as MarkerVisibility} from 'Controls/marker';
+import {IItemAction} from 'Controls/itemActions';
 import {create as DiCreate} from 'Types/di';
+import 'css!Controls/menu';
+import 'css!Controls/CommonClasses';
 
 interface IMenuRenderOptions extends IMenuBaseOptions, IRenderOptions {
 }
+
+const ICON_SIZES = [['icon-small', 's'], ['icon-medium', 'm'], ['icon-large', 'l'], ['icon-size', 'default']];
 
 /**
  * Контрол меню рендер.
@@ -77,11 +82,32 @@ class MenuRender extends Control<IMenuRenderOptions> {
         };
     }
 
-    protected _proxyEvent(e: SyntheticEvent<MouseEvent>, eventName: string): void {
+    protected _itemMouseEnter(e: SyntheticEvent<MouseEvent>,
+                              item: TreeItem<Model>,
+                              sourceEvent: SyntheticEvent<MouseEvent>): void {
         e.stopPropagation();
-        const slicePos = 2;
-        const args = Array.prototype.slice.call(arguments, slicePos);
-        this._notify(eventName, args);
+        this._notify('itemMouseEnter', [item, sourceEvent]);
+    }
+
+    protected _itemSwipe(e: SyntheticEvent<MouseEvent>,
+                         item: TreeItem<Model>,
+                         swipeEvent: SyntheticEvent<TouchEvent>,
+                         swipeContainerWidth: number,
+                         swipeContainerHeight: number): void {
+        e.stopPropagation();
+        this._notify('itemSwipe', [item, swipeEvent, swipeContainerWidth, swipeContainerHeight]);
+    }
+
+    protected _itemActionMouseDown(e: SyntheticEvent<MouseEvent>,
+                                   item: TreeItem<Model>,
+                                   action: IItemAction,
+                                   sourceEvent: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+        this._notify('itemActionMouseDown', [item, action, sourceEvent]);
+    }
+
+    protected _checkBoxClick(): void {
+        this._notify('checkBoxClick');
     }
 
     protected _separatorMouseEnter(event: SyntheticEvent<MouseEvent>): void {
@@ -100,22 +126,21 @@ class MenuRender extends Control<IMenuRenderOptions> {
         let classes = treeItem.getContentClasses(this._options.theme);
         if (item && item.get) {
             classes += ' controls-Menu__row_state_' +
-                (item.get('readOnly') ? 'readOnly' : 'default') +
-                '_theme-' + this._options.theme;
+                (item.get('readOnly') ? 'readOnly' : 'default');
             if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
-                classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
+                classes += ' controls-Menu__emptyItem';
             } else {
-                classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
+                classes += ' controls-Menu__defaultItem';
             }
-            if (!this._isFixedItem(treeItem) && item.get('pinned') === true && !this.hasParent(item)) {
-                classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
+            if (!this._isFixedItem(treeItem) && item.get('pinned') === true && !this._hasParent(item)) {
+                classes += ' controls-Menu__row_pinned';
             }
             if (this._options.listModel.getLast() !== treeItem && !this._isGroupNext(treeItem) &&
                 !(this._options.allowPin && this._isHistorySeparatorVisible(treeItem))) {
-                classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
+                classes += ' controls-Menu__row-separator';
             }
         } else if (item) {
-            classes += ' controls-Menu__row-breadcrumbs_theme-' + this._options.theme;
+            classes += ' controls-Menu__row-breadcrumbs';
         }
         return classes;
     }
@@ -127,7 +152,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return !isGroupNext &&
             nextItem?.getContents() &&
             this._isHistoryItem(item) &&
-            !this.hasParent(treeItem.getContents()) &&
+            !this._hasParent(treeItem.getContents()) &&
             !this._isHistoryItem(nextItem.getContents());
     }
 
@@ -137,7 +162,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return !groupItem.isHiddenGroup() && itemsGroupCount > 0 && itemsGroupCount !== collection.getCount(true);
     }
 
-    private hasParent(item: Model): boolean {
+    private _hasParent(item: Model): boolean {
         return item.get(this._options.parentProperty) !== undefined && item.get(this._options.parentProperty) !== null;
     }
 
@@ -272,9 +297,8 @@ class MenuRender extends Control<IMenuRenderOptions> {
     }
 
     private getIconSize(icon: string): string {
-        const iconSizes = [['icon-small', 's'], ['icon-medium', 'm'], ['icon-large', 'l'], ['icon-size', 'default']];
         let result = '';
-        iconSizes.forEach((size) => {
+        ICON_SIZES.forEach((size) => {
             if (icon.indexOf(size[0]) !== -1) {
                 result = size[1];
             }
@@ -290,13 +314,20 @@ class MenuRender extends Control<IMenuRenderOptions> {
         }
     }
 
-    static _theme: string[] = ['Controls/menu', 'Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
             itemTemplate
         };
     }
 }
+
+Object.defineProperty(MenuRender, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MenuRender.getDefaultOptions();
+   }
+});
 
 export default MenuRender;

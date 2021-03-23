@@ -459,7 +459,7 @@ describe('Controls/marker/Controller', () => {
       assert.equal(result, 4);
 
       result = controller.getPrevMarkedKey();
-      assert.equal(result, 1);
+      assert.equal(result, 2);
 
       controller.setMarkedKey(4);
       result = controller.calculateMarkedKeyForVisible();

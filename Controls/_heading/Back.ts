@@ -1,6 +1,8 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import backTemplate = require('wml!Controls/_heading/Back/Back');
 import {descriptor as EntityDescriptor} from 'Types/entity';
+import 'css!Controls/heading';
+
 import {
     IFontColorStyle,
     IFontColorStyleOptions,
@@ -66,7 +68,7 @@ class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, 
     protected _template: TemplateFunction = backTemplate;
     protected _isOldIe: Boolean = false;
 
-    static _theme: string[] = ['Controls/heading', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {
@@ -96,5 +98,14 @@ class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, 
         };
     }
 }
+
+Object.defineProperty(Back, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Back.getDefaultOptions();
+   }
+});
 
 export default Back;

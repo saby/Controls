@@ -1,6 +1,8 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_popupTemplate/Notification/Simple/Simple');
 import {default as INotification, INotificationOptions} from './interface/INotification';
+import 'css!Controls/popupTemplate';
+import 'css!Controls/CommonClasses';
 
 export interface INotificationSimpleOptions extends IControlOptions, INotificationOptions {
     icon?: String;
@@ -14,11 +16,11 @@ export interface INotificationSimpleOptions extends IControlOptions, INotificati
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
- * 
+ *
  * @class Controls/_popupTemplate/Notification/Simple
  * @extends UI/Base:Control
  * @mixes Controls/_popupTemplate/Notification/interface/INotification
- * 
+ *
  * @public
  * @demo Controls-demo/NotificationDemo/NotificationTemplate
  * @author Красильников А.С.
@@ -55,9 +57,17 @@ class NotificationSimple extends Control<INotificationSimpleOptions> implements 
             closeButtonVisibility: true
         };
     }
-
-    static _theme: string[] = ['Controls/popupTemplate', 'Controls/Classes'];
 }
+
+Object.defineProperty(NotificationSimple, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return NotificationSimple.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_popupTemplate/Notification/Simple#icon
  * @cfg {String} Устанавливает значок сообщения окна уведомления.

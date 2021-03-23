@@ -8,25 +8,19 @@ import DataContext = require('Core/DataContext');
  * Пример настройки постраничной навигации, когда кнопки не отображаются для внутреннего скролл-контейнера.
  *
  * <pre class="brush: html">
- * Component = Control.extend({
- *    _stickyHeaderContext: null,
- *    _beforeMount: function(options, context, receivedState) {
+ * class MyControl extends Control<IControlOptions> {
+ *    _beforeMount(options, context, receivedState) {
  *       this._scrollDataContext = new DataContext({
  *          pagingVisible: false
  *       });
- *    },
- *    _getChildContext: function() {
- *       return {
- *          stickyHeader: this._scrollDataContext
- *       };
  *    }
- * });
+ * }
  * </pre>
  *
  * @class Controls/_scroll/Context
  * @extends Core/DataContext
  * @demo Controls-demo/Scroll/Context/Index
- * 
+ *
  * @private
  * @author Красильников А.С.
  *
@@ -40,32 +34,40 @@ import DataContext = require('Core/DataContext');
  * Example setting paginated navigation is't visible for internal scroll container.
  *
  * <pre>
- *    Component = Control.extend({
- *       _stickyHeaderContext: null,
+ *    class MyControl extends Control<IControlOptions> {
  *       _beforeMount: function(options, context, receivedState) {
  *          this._scrollDataContext = new DataContext({
  *              pagingVisible: false
  *          });
  *       }
- *       _getChildContext: function() {
- *          return {
- *             stickyHeader: this._scrollDataContext
- *          };
- *       },
- *    })
+ *    }
  * </pre>
  *
  * @class Controls/_scroll/Scroll/Context
  * @extends Core/DataContext
- * 
+ *
  * @private
  * @author Красильников А.С.
  *
  */
-const ScrollContext = DataContext.extend({
-   _moduleName: 'Controls/_scroll/Scroll/Context',
-   constructor: function(cfg) {
+class ScrollContext extends DataContext {
+   _moduleName: string;
+   pagingVisible: boolean;
+
+   constructor(cfg: { pagingVisible: boolean }) {
+      super();
       this.pagingVisible = cfg.pagingVisible;
    }
-});
-export = ScrollContext;
+
+   setPagingVisible(pagingVisible: boolean) {
+      this.pagingVisible = pagingVisible;
+      // Core/DataContext написан на js, в итоге с него не цепляются типы
+      // tslint:disable-next-line:ban-ts-ignore
+      // @ts-ignore
+      this.updateConsumers();
+   }
+}
+
+ScrollContext.prototype._moduleName = 'Controls/_scroll/Scroll/Context';
+
+export default ScrollContext;

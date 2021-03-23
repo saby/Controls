@@ -25,28 +25,19 @@
  * @author Авраменко А.С.
  */
 
-import ControllerClass from 'Controls/_dragnDrop/ControllerClass';
-import DraggingTemplate = require('Controls/_dragnDrop/DraggingTemplate');
-import Entity from 'Controls/_dragnDrop/Entity';
-import ItemsEntity from 'Controls/_dragnDrop/Entity/Items';
-import ItemEntity from 'Controls/_dragnDrop/Entity/Item';
-
-import Compound = require('Controls/_dragnDrop/Controller/Compound');
-import DraggingTemplateWrapper = require('wml!Controls/_dragnDrop/DraggingTemplateWrapper');
-import ListItems from 'Controls/_dragnDrop/Entity/List/Items';
+export {default as ControllerClass} from 'Controls/_dragnDrop/ControllerClass';
+export {default as Container, IDragObject} from 'Controls/_dragnDrop/Container';
+export {default as DraggingTemplate} from 'Controls/_dragnDrop/DraggingTemplate';
 export {default as Controller} from 'Controls/_dragnDrop/Controller';
 export {default as ResizingLine} from 'Controls/_dragnDrop/ResizingLine';
+export {default as Compound} from 'Controls/_dragnDrop/Controller/Compound';
+export {default as ListItems} from 'Controls/_dragnDrop/Entity/List/Items';
+export {default as Entity} from 'Controls/_dragnDrop/Entity';
+export {default as ItemsEntity} from 'Controls/_dragnDrop/Entity/Items';
+export {default as ItemEntity} from 'Controls/_dragnDrop/Entity/Item';
 export {IResizingLine} from 'Controls/_dragnDrop/interface/IResizingLine';
-export {default as Container, IDragObject} from 'Controls/_dragnDrop/Container';
 
+import DraggingTemplateWrapper = require('wml!Controls/_dragnDrop/DraggingTemplateWrapper');
 export {
-   ControllerClass,
-   DraggingTemplate,
-   Entity,
-   ItemsEntity,
-   ItemEntity,
-
-   Compound,
-   DraggingTemplateWrapper,
-   ListItems
+   DraggingTemplateWrapper
 };

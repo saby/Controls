@@ -5,6 +5,7 @@ import {RecordSet} from 'Types/collection';
 import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import {NewSourceController} from 'Controls/dataSource';
 import * as sinon from 'sinon';
+import {Logger} from 'UI/Utils';
 
 const getData = (dataCount: number = 0) => {
     const data = [];
@@ -72,18 +73,15 @@ async function getCorrectBaseControlConfigAsync(cfg): Promise<object> {
 }
 
 describe('Controls/list_clean/BaseControl', () => {
-    describe('BaseControl watcher groupHistoryId', () => {
+    describe('BaseControl watcher groupHistoryId', async () => {
 
         const GROUP_HISTORY_ID_NAME: string = 'MY_NEWS';
 
-        const baseControlCfg = getCorrectBaseControlConfig({
+        const baseControlCfg = await getCorrectBaseControlConfigAsync({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
-            items: new RecordSet({
-                keyProperty: 'id',
-                rawData: []
-            })
+            source: new Memory()
         });
         let baseControl;
 
@@ -100,7 +98,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeMount(baseControlCfg);
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             baseControl._afterMount();
-            assert.isFalse(!!baseControl._listViewModel.getCollapsedGroups());
+            assert.isFalse(!!baseControl._listViewModel.getCollapsedGroups()?.length);
         });
         it('is CollapsedGroup', () => {
             const cfgClone = {...baseControlCfg};
@@ -779,11 +777,6 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControlOptions.filter = 'testFilter';
             baseControl._beforeUpdate(baseControlOptions);
             assert.isFalse(loadStarted);
-
-            baseControlOptions.searchValue = undefined;
-            baseControlOptions.filter = 'testFilter';
-            baseControl._beforeUpdate(baseControlOptions);
-            assert.isTrue(loadStarted, 'searchValue is not changed');
         });
 
         it('portioned search is started after sourceController load without searchValue', async () => {
@@ -884,25 +877,42 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.isTrue(!mountResult);
         });
         it('_beforeMount keyProperty', async () => {
-            const baseControlOptions = await getCorrectBaseControlConfigAsync({
+            let baseControlOptions = await getCorrectBaseControlConfigAsync({
                 source: new Memory({
                     keyProperty: 'keyProperty',
                     data: []
                 }),
                 viewModelConstructor: ListViewModel
             });
-            const baseControl = new BaseControl(baseControlOptions);
+
+            let baseControl = new BaseControl(baseControlOptions);
             await baseControl._beforeMount(baseControlOptions);
             assert.equal(baseControl._keyProperty, 'keyProperty');
+
+            baseControlOptions = {...baseControlOptions};
             baseControlOptions.keyProperty = 'keyPropertyOptions';
-            baseControl._initKeyProperty(baseControlOptions);
+            baseControlOptions = await getCorrectBaseControlConfigAsync(baseControlOptions);
+            baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
             assert.equal(baseControl._keyProperty, 'keyPropertyOptions');
+
+            baseControlOptions = {...baseControlOptions};
             baseControlOptions.source = null;
-            baseControl._initKeyProperty(baseControlOptions);
+            baseControlOptions.sourceController = null;
+            baseControlOptions = await getCorrectBaseControlConfigAsync(baseControlOptions);
+            baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
             assert.equal(baseControl._keyProperty, 'keyPropertyOptions');
+
+            const loggerErrorStub = sinon.stub(Logger, 'error');
+            baseControlOptions = {...baseControlOptions};
             baseControlOptions.keyProperty = undefined;
-            baseControl._initKeyProperty(baseControlOptions);
+            baseControlOptions = await getCorrectBaseControlConfigAsync(baseControlOptions);
+            baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
             assert.isFalse(!!baseControl._keyProperty);
+            assert.ok(loggerErrorStub.calledOnce);
+            loggerErrorStub.restore();
         });
 
         it('_beforeMount returns errorConfig', async () => {
@@ -960,13 +970,12 @@ describe('Controls/list_clean/BaseControl', () => {
                 }
             };
 
-            return baseControl._beforeUpdate({
+            baseControl._beforeUpdate({
                 ...baseControlCfg,
                 filter: {field: 'ASC'},
                 useNewModel: true
-            }).then(() => {
-                assert.isTrue(isEditingCancelled);
             });
+            assert.isTrue(isEditingCancelled);
         });
 
         it('should immediately resolve promise if cancel edit called without eipController', () => {
@@ -1127,17 +1136,14 @@ describe('Controls/list_clean/BaseControl', () => {
             it('_beforeMount without source and sourceController, then _beforeUpdate with sourceController', async () => {
                 let baseControlOptions = getBaseControlOptionsWithEmptyItems();
                 let afterReloadCallbackCalled = false;
-                let serviceDataLoadCallbackCalled = false;
-                baseControlOptions.afterReloadCallback = () => {
-                    afterReloadCallbackCalled = true;
-                };
-                baseControlOptions.serviceDataLoadCallback = () => {
-                    serviceDataLoadCallbackCalled = true;
-                };
                 baseControlOptions.source = null;
                 baseControlOptions.sourceController = null;
 
+                const sandbox = sinon.createSandbox();
                 const baseControl = new BaseControl(baseControlOptions);
+                sandbox.stub(baseControl, '_afterReloadCallback').callsFake(() => {
+                    afterReloadCallbackCalled = true;
+                });
                 await baseControl._beforeMount(baseControlOptions);
                 baseControl.saveOptions(baseControlOptions);
 
@@ -1151,7 +1157,7 @@ describe('Controls/list_clean/BaseControl', () => {
                 baseControl._updateInProgress = false;
                 baseControl.saveOptions(baseControlOptions);
                 assert.isTrue(afterReloadCallbackCalled);
-                assert.isTrue(serviceDataLoadCallbackCalled);
+                sandbox.restore();
             });
 
         });
@@ -1173,7 +1179,7 @@ describe('Controls/list_clean/BaseControl', () => {
             let isCancelCalled = false;
 
             beforeEach(() => {
-                stubReload = sinon.stub(BaseControl._private, 'reload').callsFake(() => Promise.resolve());
+                stubReload = sinon.stub(baseControl, '_reload').callsFake(() => Promise.resolve());
                 baseControl._editInPlaceController = {
                     isEditing: () => true
                 };

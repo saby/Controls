@@ -77,7 +77,7 @@ describe('Controls/_display/collection/UpdateOption', () => {
             assert.isTrue(unsubscribeSpy.calledWith('onPropertyChange'));
         });
 
-        it('3. [with meta-results] -> [with meta-results]. Should unsubscribe from old meta results.', () => {
+        it('3. [with meta-results] -> [with meta-results]. Should unsubscribe from old meta results and subscribe to new.', () => {
             const oldResults = createMetaResults();
             const newResults = createMetaResults();
             const oldRecordSet = createRecordSet({results: oldResults});

@@ -1,6 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_filter/Controller';
-import {RecordSet} from 'Types/Collection';
 import * as Deferred from 'Core/Deferred';
 import FilterController, {IFilterControllerOptions} from 'Controls/_filter/ControllerClass';
 import {IPrefetchHistoryParams} from './IPrefetch';
@@ -329,3 +328,12 @@ export default class Container extends Control<IFilterContainerOptions, IFilterH
  * @param {Env/Event.Object} event Дескриптор события.
  * @param {Array|Function|Types/collection:IList} historyItems Список полей фильтра и их конфигурация, которая будет сохранена в историю.
  */
+
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});

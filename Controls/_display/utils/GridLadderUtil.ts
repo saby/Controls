@@ -1,6 +1,6 @@
 import { isEqual } from 'Types/object';
 import isFullGridSupport from './GridSupportUtil';
-import { TColumns } from 'Controls/grid';
+import { TColumns } from 'Controls/interface';
 
 export interface IStickyColumn {
     index: number;

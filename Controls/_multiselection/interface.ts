@@ -75,17 +75,6 @@ export interface ISelectionModel extends IBaseCollection<Model, ISelectionItem> 
    getCollection(): RecordSet;
 
    /**
-    * Задать выбранные элементы
-    * @method
-    * @public
-    * @param {Model[]} items Список элементов
-    * @param {boolean} selected Состояние переданных элементов
-    * @param {Boolean} silent Не уведомлять о изменении
-    * @void
-    */
-   setSelectedItems(items: Array<CollectionItem<Model>>, selected: boolean, silent: boolean): void;
-
-   /**
     * Возвращает кол-во элементов в проекции
     * @return {number} кол-во элементов
     */

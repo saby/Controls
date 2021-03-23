@@ -1,20 +1,21 @@
-import CompoundContainer = require('Core/CompoundContainer');
-import template = require('wml!Controls/_compatiblePopup/CompoundAreaForOldTpl/CompoundArea');
-import LikeWindowMixin = require('Lib/Mixins/LikeWindowMixin');
-import arrayFindIndex = require('Core/helpers/Array/findIndex');
-import cDeferred = require('Core/Deferred');
-import {delay as runDelayed} from 'Types/function';
-import trackElement = require('Core/helpers/Hcontrol/trackElement');
-import doAutofocus = require('Core/helpers/Hcontrol/doAutofocus');
-import EnvEvent = require('Env/Event');
+import * as CompoundContainer from 'Core/CompoundContainer';
+import * as template from 'wml!Controls/_compatiblePopup/CompoundAreaForOldTpl/CompoundArea';
+import * as LikeWindowMixin from 'Lib/Mixins/LikeWindowMixin';
+import * as arrayFindIndex from 'Core/helpers/Array/findIndex';
+import * as trackElement from 'Core/helpers/Hcontrol/trackElement';
+import * as doAutofocus from 'Core/helpers/Hcontrol/doAutofocus';
+import * as EnvEvent from 'Env/Event';
+import * as cDeferred from 'Core/Deferred';
+import * as cInstance from 'Core/core-instance';
+import * as callNext from 'Core/helpers/Function/callNext';
 import {Controller} from 'Controls/popup';
+import {delay as runDelayed} from 'Types/function';
 import {InstantiableMixin} from 'Types/entity';
-import callNext = require('Core/helpers/Function/callNext');
-import cInstance = require('Core/core-instance');
-import { SyntheticEvent } from 'Vdom/Vdom';
+import {SyntheticEvent} from 'Vdom/Vdom';
 import {Logger} from 'UI/Utils';
 import {Bus as EventBus} from 'Env/Event';
 import {constants, detection, coreDebug} from 'Env/Env';
+import 'css!Controls/compatiblePopup';
 
 function removeOperation(operation, array) {
    var idx = arrayFindIndex(array, function(op) {
@@ -1560,5 +1561,4 @@ var CompoundArea = CompoundContainer.extend([
       return res;
    }
 });
-CompoundArea._theme = ['Controls/compatiblePopup'];
 export default CompoundArea;

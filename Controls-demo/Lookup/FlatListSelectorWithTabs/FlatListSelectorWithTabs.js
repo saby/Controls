@@ -4,9 +4,7 @@ define('Controls-demo/Lookup/FlatListSelectorWithTabs/FlatListSelectorWithTabs',
    'Controls-demo/Lookup/DemoHelpers/DataCatalog',
    'Types/source',
 ], function(Base, template, lookupData, source) {
-
    'use strict';
-
    var FlatListSelector = Base.Control.extend({
       _template: template,
       _keyProperty: 'id',
@@ -40,6 +38,15 @@ define('Controls-demo/Lookup/FlatListSelectorWithTabs/FlatListSelectorWithTabs',
          filter: {}
       };
    };
+
+   Object.defineProperty(FlatListSelector, 'defaultProps', {
+      enumerable: true,
+      configurable: true,
+
+      get: function() {
+         return FlatListSelector.getDefaultOptions();
+      }
+   });
 
    FlatListSelector._styles = ['Controls-demo/Controls-demo', 'Controls-demo/Lookup/Index'];
 

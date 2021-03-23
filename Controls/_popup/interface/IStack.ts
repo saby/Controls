@@ -118,14 +118,14 @@ export interface IStackOpener extends IOpener {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions>{
  *    _openStack() {
  *       var popupOptions = {
  *          autofocus: true
  *       }
  *       this._children.stack.open(popupOptions)
  *    }
- * });
+ * }
  * </pre>
  * @see close
  */
@@ -145,11 +145,11 @@ export interface IStackOpener extends IOpener {
  * 
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions>{
  *    _closeStack() {
  *       this._children.stack.close()
  *    }
- * });
+ * }
  * </pre>
  * @see open
  */

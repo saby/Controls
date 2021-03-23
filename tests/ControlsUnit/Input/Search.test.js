@@ -91,6 +91,14 @@ define(
                assert.isTrue(eventStopPropagation);
             });
 
+            it('reset', function() {
+               let valueReseted = false;
+               let search = new searchMod.Input();
+               search._resetClick = () => { valueReseted = true; };
+               search.reset();
+               assert.isTrue(valueReseted);
+            });
+
             it('Enter click', function() {
                let search = new searchMod.Input();
                let activated = false;

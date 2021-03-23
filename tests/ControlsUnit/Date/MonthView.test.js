@@ -123,14 +123,14 @@ define([
          it('should update month and month caption when month changed', function() {
             const mv = calendarTestUtils.createComponent(calendar.MonthView, config),
                month = new Date(2018, 4, 1);
-            calendar.MonthView._private._updateView(mv, Object.assign({}, mv._options, {month: month}));
+            mv._updateView(Object.assign({}, mv._options, {month: month}));
             assert.equal(mv._month.getTime(), month.getTime(), 'wrong _month');
             assert.strictEqual(mv._caption, "Май'18", 'wrong _caption');
          });
 
          it('should not update month if month did not changed', function() {
             const mv = calendarTestUtils.createComponent(calendar.MonthView, config);
-            calendar.MonthView._private._updateView(mv, Object.assign({}, config, {month: new Date(config.month)}));
+            mv._updateView(Object.assign({}, config, {month: new Date(config.month)}));
             assert.strictEqual(mv._month.getTime(), config.month.getTime(), 'wrong _month');
          });
       });

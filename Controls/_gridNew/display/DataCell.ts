@@ -17,7 +17,7 @@ export interface IOptions<T> extends ICellOptions<T>, IDisplaySearchValueOptions
     backgroundStyle: string;
 }
 
-export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
+export default class DataCell<T extends Model, TOwner extends DataRow<T>> extends mixin<
     Cell<T, TOwner>,
     DataCellCompatibility<T>
 >(
@@ -69,7 +69,7 @@ export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
             if (this.isEditing()) {
                 classes += ` controls-Grid__row-cell_single-cell_editing_theme-${theme}`;
             } else {
-                if (this.getColumnConfig().editable !== false && tmplIsEditable !== false) {
+                if (this.config.editable !== false && tmplIsEditable !== false) {
                     classes += ` controls-Grid__row-cell_single-cell_editable_theme-${theme}`;
                 } else {
                     classes += ` js-controls-ListView__notEditable controls-Grid__row-cell_single-cell_not-editable_theme-${theme}`;
@@ -105,6 +105,16 @@ export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
             return itemModel.get(this.getDisplayProperty());
         } else {
             return itemModel[this.getDisplayProperty()];
+        }
+    }
+
+    getTooltip(): string {
+        const itemModel = this._$owner.getContents();
+
+        if (itemModel instanceof Record) {
+            return itemModel.get(this.getTooltipProperty());
+        } else {
+            return itemModel[this.getTooltipProperty()];
         }
     }
     // endregion

@@ -66,34 +66,37 @@ export function each(
     const enumerator = collection.getEnumerator();
     const count = collection.getCount();
 
-    let styckyItemBefore = null;
-    let styckyItemAfter = null;
+    let stickyItemBefore = null;
+    let stickyItemAfter = null;
     enumerator.setPosition(-1);
     while (enumerator.moveNext() && enumerator.getCurrentIndex() < startIndex) {
-        let current = enumerator.getCurrent() as any;
+        const current = enumerator.getCurrent() as any;
         if (current && current.isSticked && current.isSticked()) {
-            styckyItemBefore = { current, index: enumerator.getCurrentIndex() };
+            stickyItemBefore = { current, index: enumerator.getCurrentIndex() };
         }
     }
     enumerator.setPosition(stopIndex - 1);
     while (enumerator.moveNext() && enumerator.getCurrentIndex() < count) {
-        let current = enumerator.getCurrent() as any;
+        const current = enumerator.getCurrent() as any;
         if (current && current.isSticked && current.isSticked()) {
-            styckyItemAfter = { current, index: enumerator.getCurrentIndex() };
+            stickyItemAfter = { current, index: enumerator.getCurrentIndex() };
             break;
         }
     }
 
-    if (styckyItemBefore) {
+    if (stickyItemBefore) {
         callback.call(
             context,
-            styckyItemBefore.current,
-            styckyItemBefore.index
+            stickyItemBefore.current,
+            stickyItemBefore.index
         );
     }
-    enumerator.setPosition(startIndex - 1);
 
-    while (enumerator.moveNext() && enumerator.getCurrentIndex() < stopIndex) {
+    // TODO: Отрефакторить. Ошибка: https://online.sbis.ru/opendoc.html?guid=0c097079-0143-4b19-9f43-dc38c68ba3bc
+    const startIndexOffset = (stickyItemBefore && !stickyItemBefore.current['[Controls/_display/GroupItem]']) ? 1 : 0;
+    enumerator.setPosition(startIndex - 1 + startIndexOffset);
+
+    while (enumerator.moveNext() && enumerator.getCurrentIndex() < stopIndex - (stickyItemAfter ? 1 : 0)) {
         callback.call(
             context,
             enumerator.getCurrent(),
@@ -101,11 +104,11 @@ export function each(
         );
     }
 
-    if (styckyItemAfter) {
+    if (stickyItemAfter) {
         callback.call(
             context,
-            styckyItemAfter.current,
-            styckyItemAfter.index
+            stickyItemAfter.current,
+            stickyItemAfter.index
         );
     }
 }

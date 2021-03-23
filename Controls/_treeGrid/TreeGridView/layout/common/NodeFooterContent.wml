@@ -14,12 +14,11 @@
         </ws:for>
         <div class="{{footer.getExpanderPaddingClasses(footer.getExpanderSize(expanderSize), theme, true)}}"></div>
         <ws:if data="{{footer.hasMoreStorage}}">
-            <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore"
+            <Controls.buttons:Button attr:class="controls-TreeGrid__nodeFooterLoadMore js-controls-TreeGrid__nodeFooter__LoadMoreButton"
                                      fontSize="xs"
                                      viewMode="link"
                                      fontColorStyle="{{moreFontColorStyle}}"
                                      caption="{{rk('Еще') + '...'}}"
-                                     on:click="_onLoadMoreClick(footer.dispItem)"
                                      readOnly="{{false}}"/>
         </ws:if>
         <ws:else>

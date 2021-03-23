@@ -472,7 +472,7 @@ describe('Controls/_display/CollectionItem', () => {
             'controls-ListView__itemV',
             'controls-ListView__item_default',
             'controls-ListView__item_showActions',
-            'js-controls-ItemActions__swipeMeasurementContainer'
+            'js-controls-ListView__measurableContainer'
         ];
         const editingClasses = [
             'controls-ListView__item_background-editing'

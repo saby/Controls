@@ -1,18 +1,19 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/Panel/Link/Link');
+import 'css!Controls/filterPopup';
 
 /**
  * Кнопка-ссылка на панели фильтров.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
- * 
+ *
  * @class Controls/_filterPopup/Panel/Link
  * @extends UI/Base:Control
  * @public
- * @author Золотова Э.Е.
- * 
+ * @author Михайлов С.Е.
+ *
  * @example
  * Пример использования контрола на панели фильтра в блоке "Еще можно отобрать"
  * AdditionalItemTemplate.wml
@@ -30,8 +31,6 @@ class FilterLink extends Control<IControlOptions> {
    protected  _clickHandler(): void {
       this._notify('visibilityChanged', [true]);
    }
-
-   static _theme: string[] = ['Controls/filterPopup'];
 }
 
 /**

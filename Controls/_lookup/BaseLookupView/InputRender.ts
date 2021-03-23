@@ -1,6 +1,7 @@
 import {Text, generateStates} from 'Controls/input';
 import {TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_lookup/BaseLookupView/InputRender/InputRender');
+import 'css!Controls/lookup';
 
 class InputRenderLookup extends Text {
     _template: TemplateFunction = template;
@@ -66,7 +67,6 @@ class InputRenderLookup extends Text {
         this._notify('keyDownInput', [event]);
     }
 
-    static _theme: string[] = ['Controls/lookup'];
 }
 
 export default InputRenderLookup;

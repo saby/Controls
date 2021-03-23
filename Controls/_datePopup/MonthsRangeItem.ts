@@ -1,22 +1,18 @@
-import {Control as BaseControl} from 'UI/Base';
-import coreMerge = require('Core/core-merge');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_datePopup/MonthsRangeItem';
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
-import isEmpty = require('Core/helpers/Object/isEmpty');
-import EventProxyMixin from './Mixin/EventProxy';
 import {MonthModel as modelViewModel} from 'Controls/calendar';
-import {IDateRangeSelectable, rangeSelection as rangeSelectionUtils, keyboardPeriodController} from 'Controls/dateRange';
+import {
+    IDateRangeSelectable,
+    rangeSelection as rangeSelectionUtils,
+    keyboardPeriodController
+} from 'Controls/dateRange';
 import {Base as dateUtils} from 'Controls/dateUtils';
-import componentTmpl = require('wml!Controls/_datePopup/MonthsRangeItem');
 import {constants} from 'Env/Env';
+import * as coreMerge from 'Core/core-merge';
+import * as isEmpty from 'Core/helpers/Object/isEmpty';
 
-var _private = {},
-    SELECTION_VEIW_TYPES = {
-        days: 'days',
-        months: 'months'
-    };
-
-const MONTHS_RANGE_CSS_CLASS_PREFIX = 'controls-PeriodDialog-MonthsRange__';
 /**
  * Item for the period selection component of multiple months.
  *
@@ -27,24 +23,24 @@ const MONTHS_RANGE_CSS_CLASS_PREFIX = 'controls-PeriodDialog-MonthsRange__';
  * @private
  */
 
-var _private = {},
-    SELECTION_VIEW_TYPES = {
-        days: 'days',
-        months: 'months'
-    };
+const SELECTION_VIEW_TYPES = {
+    days: 'days',
+    months: 'months'
+};
 
-const MONTHS_RANGE_CSS_CLASS_PREFIX = 'controls-PeriodDialog-MonthsRange__';
+const MONTHS_RANGE_CSS_CLASS_PREFIX: string = 'controls-PeriodDialog-MonthsRange__';
 
-var Component = BaseControl.extend([EventProxyMixin], {
-    _template: componentTmpl,
-    _monthViewModel: modelViewModel,
-
-    _SELECTION_VIEW_TYPES: SELECTION_VIEW_TYPES,
-
-    _FULL_HALF_YEAR: formatDate.FULL_HALF_YEAR,
-    _FULL_QUATER: formatDate.FULL_QUATER,
-
-    _yearStructure: [{
+export default class MonthsRangeItem extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+    protected _monthViewModel: modelViewModel = modelViewModel;
+    protected _SELECTION_VIEW_TYPES: string = SELECTION_VIEW_TYPES;
+    protected _FULL_HALF_YEAR: string = formatDate.FULL_HALF_YEAR;
+    protected  _FULL_QUATER: string =  formatDate.FULL_QUATER;
+    protected _quarterHovered: boolean;
+    protected _halfYearHovered: boolean;
+    protected _selectionViewType: string;
+    protected _months: number[];
+    protected _yearStructure: object[] = [{
         name: 'I',
         startMonth: 0,
         quarters: [{
@@ -60,37 +56,20 @@ var Component = BaseControl.extend([EventProxyMixin], {
         }, {
             name: 'IV', startMonth: 9
         }]
-    }],
+    }];
+    protected _formatDate: Function = formatDate;
+    protected _quarterSelectionEnabled: boolean = true;
+    protected _monthsSelectionEnabled: boolean = true;
+    private _halfyearSelectionEnabled: boolean = true;
+    private _yearSelectionEnabled: boolean = true;
+    private _hoveredItem: WSDate;
+    private _baseHoveredItem: WSDate;
 
-    _formatDate: formatDate,
-
-    _quarterSelectionEnabled: true,
-    _monthsSelectionEnabled: true,
-    _halfyearSelectionEnabled: true,
-    _yearSelectionEnabled: true,
-
-    _quarterHovered: null,
-    _halfYearHovered: null,
-
-    _selectionViewType: null,
-
-    _monthClickable: true,
-
-    _months: null,
-
-    _hoveredItem: null,
-    _baseHoveredItem: null,
-
-    // constructor: function() {
-    //    this._dayFormatter = this._dayFormatter.bind(this);
-    //    Component.superclass.constructor.apply(this, arguments);
-    // },
-
-    _beforeMount: function (options) {
+    protected _beforeMount(options): void {
         const year = options.date.getFullYear();
         this._selectionViewType = options.selectionViewType;
         if (options.readOnly || options.selectionType === IDateRangeSelectable.SELECTION_TYPES.single ||
-                options.selectionType === IDateRangeSelectable.SELECTION_TYPES.disable) {
+            options.selectionType === IDateRangeSelectable.SELECTION_TYPES.disable) {
             this._monthsSelectionEnabled = false;
             this._quarterSelectionEnabled = false;
             this._halfyearSelectionEnabled = false;
@@ -105,121 +84,108 @@ var Component = BaseControl.extend([EventProxyMixin], {
         for (let i = 0; i < 12; i++) {
             this._months.push(new WSDate(year, i, 1));
         }
-    },
+    }
 
-    _beforeUpdate: function (options) {
+    protected _beforeUpdate(options): void {
         if (this._options.selectionViewType !== options.selectionViewType) {
             this._selectionViewType = options.selectionViewType;
         }
-    },
+    }
 
-    _onQuarterClick: function (e, date) {
+    protected _proxyEvent(event): void {
+        this._notify(event.type, Array.prototype.slice.call(arguments, 1));
+    }
+
+    protected _onQuarterClick(e, date): void {
         if (this._quarterSelectionEnabled) {
             this._selectionViewType = SELECTION_VIEW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
             const ranges = this._calculateRangeSelectedCallback(date, dateUtils.getEndOfQuarter(date));
             this._notify('fixedPeriodClick', ranges);
         }
-    },
+    }
 
-    _onQuarterMouseEnter: function (e, index) {
+    protected _onQuarterMouseEnter(e, index): void {
         if (this._quarterSelectionEnabled) {
             this._quarterHovered = index;
         }
-    },
+    }
 
-    _onQuarterMouseLeave: function () {
+    protected _onQuarterMouseLeave(): void {
         if (this._quarterSelectionEnabled) {
             this._quarterHovered = null;
         }
-    },
+    }
 
-    _calculateRangeSelectedCallback: function(startValue, endValue) {
-        if (this._options.rangeSelectedCallback) {
-            const ranges = this._options.rangeSelectedCallback(startValue, endValue);
-            startValue = ranges[0];
-            endValue = ranges[1];
-        }
-        return [startValue, endValue];
-    },
-
-    _onHalfYearClick: function (e, date) {
+    protected _onHalfYearClick(e, date): void {
         if (this._halfyearSelectionEnabled) {
             this._selectionViewType = SELECTION_VIEW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
             const ranges = this._calculateRangeSelectedCallback(date, dateUtils.getEndOfHalfyear(date));
             this._notify('fixedPeriodClick', ranges);
         }
-    },
+    }
 
-    _onHalfYearMouseEnter: function (e, index) {
+    protected _onHalfYearMouseEnter(e, index): void {
         if (this._halfyearSelectionEnabled) {
             this._halfYearHovered = index;
         }
-    },
+    }
 
-    _onHalfYearMouseLeave: function () {
+    protected _onHalfYearMouseLeave(): void {
         if (this._halfyearSelectionEnabled) {
             this._halfYearHovered = null;
         }
-    },
+    }
 
-    _onMonthTitleClick: function (e, date) {
+    protected _onMonthTitleClick(e, date): void {
         if (this._monthsSelectionEnabled && !this._options.selectionProcessing && this._options.monthClickable) {
             this._selectionViewType = SELECTION_VIEW_TYPES.months;
             this._notify('selectionViewTypeChanged', [this._selectionViewType]);
 
             this._notify('itemClick', [date]);
         }
-    },
+    }
 
-    _onMonthTitleMouseEnter: function (e, date) {
+    protected _onMonthTitleMouseEnter(e, date): void {
         if (!this._options.selectionProcessing) {
             this._notify('itemMouseEnter', [date]);
         }
-    },
+    }
 
-    _onMonthTitleMouseLeave: function (e, date) {
+    protected _onMonthTitleMouseLeave(e, date): void {
         if (!this._options.selectionProcessing && this._options.monthClickable) {
             this._notify('itemMouseLeave', [date]);
         }
-    },
+    }
 
-    _onMonthBodyClick: function (e, date) {
+    protected _onMonthBodyClick(e, date): void {
         if (!this._options.selectionProcessing && this._options.monthClickable) {
             this._notify('monthClick', [date]);
         }
-    },
+    }
 
-    _chooseMonth(date: Date): void {
-        if (this._options.selectionProcessing || !this._options.monthClickable) {
-            this._selectionViewType = SELECTION_VIEW_TYPES.months;
-            this._notify('selectionViewTypeChanged', [this._selectionViewType]);
-            this._notify('itemClick', [date]);
-        }
-    },
-
-    _onMonthClick: function (e, date) {
+    protected _onMonthClick(e, date): void{
         this._baseHoveredItem = date;
         this._hoveredItem = this._baseHoveredItem;
         this._chooseMonth(date);
-    },
+    }
 
-    _onMonthMouseEnter: function (e, date) {
+    protected _onMonthMouseEnter(e, date): void {
         if (this._options.selectionProcessing || !this._options.monthClickable) {
             this._hoveredItem = date;
             this._notify('itemMouseEnter', [date]);
         }
-    },
+    }
 
-    _onMonthMouseLeave: function (e, date) {
+    protected _onMonthMouseLeave(e, date): void {
         if (this._options.selectionProcessing || !this._options.monthClickable) {
             this._hoveredItem = this._baseHoveredItem;
             this._notify('itemMouseLeave', [date]);
         }
-    },
+    }
 
-    _onMonthKeyDown: function(event: Event, item: Date): void {
+    protected _onMonthKeyDown(event: Event, item: Date): void {
         const hoveredItem = this._hoveredItem || item;
         const keyCode = event.nativeEvent.keyCode;
         if (this._options.selectionProcessing || !this._options.monthClickable) {
@@ -239,18 +205,18 @@ var Component = BaseControl.extend([EventProxyMixin], {
                 }
             }
         }
-    },
+    }
 
-    _dateToDataString: function(date: Date): string {
+    protected _dateToDataString(date: Date): string {
         return formatDate(date, 'YYYY-MM-DD');
-    },
+    }
 
-    _prepareItemClass: function (itemValue) {
+    protected  _prepareItemClass(itemValue): string {
         const css = [];
         const startValue = this._options.startValue;
         const endValue = this._options.endValue;
         if (rangeSelectionUtils.isSelected(itemValue, startValue, endValue, this._options.selectionProcessing,
-                this._options.selectionBaseValue, this._options.selectionHoveredValue) &&
+            this._options.selectionBaseValue, this._options.selectionHoveredValue) &&
             this._selectionViewType === SELECTION_VIEW_TYPES.months) {
             css.push('controls-PeriodDialog-MonthsRange__item-selected');
             css.push('controls-PeriodDialog-MonthsRange__item-selected_theme-' + this._options.theme);
@@ -282,22 +248,38 @@ var Component = BaseControl.extend([EventProxyMixin], {
         }
 
         return css.join(' ');
-    },
+    }
 
+    private _calculateRangeSelectedCallback(startValue, endValue): Date[] {
+        if (this._options.rangeSelectedCallback) {
+            const ranges = this._options.rangeSelectedCallback(startValue, endValue);
+            startValue = ranges[0];
+            endValue = ranges[1];
+        }
+        return [startValue, endValue];
+    }
+    private _chooseMonth(date: Date): void {
+        if (this._options.selectionProcessing || !this._options.monthClickable) {
+            this._selectionViewType = SELECTION_VIEW_TYPES.months;
+            this._notify('selectionViewTypeChanged', [this._selectionViewType]);
+            this._notify('itemClick', [date]);
+        }
+    }
+
+    static SELECTION_VIEW_TYPES: object = SELECTION_VIEW_TYPES;
+
+    static getDefaultOptions(): object {
+        return coreMerge({
+            selectionViewType: SELECTION_VIEW_TYPES.days
+        }, {} /*IPeriodSimpleDialog.getDefaultOptions()*/);
+    }
+}
+
+Object.defineProperty(MonthsRangeItem, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return MonthsRangeItem.getDefaultOptions();
+    }
 });
-
-Component._private = _private;
-
-Component.SELECTION_VIEW_TYPES = SELECTION_VIEW_TYPES;
-
-Component.getDefaultOptions = function () {
-    return coreMerge({
-        selectionViewType: SELECTION_VIEW_TYPES.days
-    }, {} /*IPeriodSimpleDialog.getDefaultOptions()*/);
-};
-
-// Component.getOptionTypes = function() {
-//    return coreMerge({}, IPeriodSimpleDialog.getOptionTypes());
-// };
-
-export default Component;

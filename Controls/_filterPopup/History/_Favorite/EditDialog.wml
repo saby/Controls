@@ -2,7 +2,7 @@
    <ws:partial template="Controls/toggle:CheckboxItemTemplate">
       <ws:contentTemplate>
          <span>
-            <span class="controls-icon_style-label_theme-{{_options.theme}}">{{itemTemplate.item.caption}}</span>&nbsp;
+            <span class="controls-icon_style-label">{{itemTemplate.item.caption}}</span>&nbsp;
             <span class="controls-FavoriteEditDialog__itemContent">{{itemTemplate.item.textValue}}</span>
          </span>
       </ws:contentTemplate>

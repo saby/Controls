@@ -5,9 +5,9 @@ import DateRangeTemplate = require('wml!Controls/_filter/Editors/DateRange');
 import {EventUtils} from 'UI/Events';
 
 /**
- * Контрол используют в качестве редактора для выбора периода дат на {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/#step-3 панели фильтров}.
+ * Контрол используют в качестве редактора для выбора периода дат на {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/#step-3 панели фильтров}.
  * @remark
- * Подробнее о настройке объединенного фильтра с выбором периода читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/#step-3 здесь}.
+ * Подробнее о настройке объединенного фильтра с выбором периода читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/#step-3 здесь}.
  * @class Controls/_filter/Editors/DateRange
  * @extends UI/Base:Control
  * @mixes Controls/_dateRange/interfaces/ILinkView
@@ -45,6 +45,11 @@ class DateRangeEditor extends Control<IControlOptions> {
         if (this._options.value !== newOptions.value) {
             this._reseted = isEqual(newOptions.value, newOptions.resetValue);
         }
+        if (this._options.emptyCaption !== newOptions.emptyCaption) {
+            this._emptyCaption = newOptions.emptyCaption;
+        } else if (newOptions.resetValue !== this._options.resetValue && newOptions.resetValue) {
+            this._emptyCaption = this.getCaption(newOptions.resetValue[0], newOptions.resetValue[1]);
+        }
     }
 
     protected _rangeChanged(event: SyntheticEvent<'rangeChanged'>, startValue: Date, endValue: Date): Promise<void> {
@@ -72,6 +77,16 @@ class DateRangeEditor extends Control<IControlOptions> {
         };
     }
 }
+
+Object.defineProperty(DateRangeEditor, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DateRangeEditor.getDefaultOptions();
+   }
+});
+
 /**
  * @event Происходит при изменении выбранного значения.
  * @name Controls/_filter/Editors/DateRange#textValueChanged

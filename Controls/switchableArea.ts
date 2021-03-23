@@ -18,7 +18,7 @@
 
 import itemTemplate from 'Controls/_switchableArea/ItemTpl';
 
-export {default as View, ISwitchableOptions} from './_switchableArea/View';
+export {default as View, ISwitchableOptions, ISwitchableAreaItem} from './_switchableArea/View';
 
 export {
    itemTemplate

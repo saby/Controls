@@ -8,7 +8,7 @@ export interface IPaddingOptions {
 
 export function getDefaultPaddingOptions(): Partial<IPaddingOptions> {
     return {
-        horizontalPadding: 'xs'
+        horizontalPadding: 'null'
     };
 }
 

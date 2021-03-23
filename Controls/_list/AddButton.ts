@@ -1,10 +1,11 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_list/AddButton/AddButton');
-import entity = require('Types/entity');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_list/AddButton/AddButton';
+import {descriptor} from 'Types/entity';
+import {SyntheticEvent} from 'Vdom/Vdom';
 
 /**
  * Специализированный тип кнопки.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления}
@@ -12,28 +13,28 @@ import entity = require('Types/entity');
  * @class Controls/_list/AddButton
  * @mixes Controls/_buttons/interface/IClick
  * @extends UI/Base:Control
- * 
+ *
  * @public
  * @author Красильников А.С.
  */
 
-var AddButton = Control.extend({
-    _template: template,
+export default class AddButton extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
 
-    clickHandler: function (e) {
+    protected clickHandler(e: SyntheticEvent<MouseEvent>): void {
         if (this._options.readOnly) {
             e.stopPropagation();
         }
     }
-});
 
-AddButton.getOptionTypes = function getOptionTypes() {
-    return {
-        caption: entity.descriptor(String)
-    };
-};
+    static _theme: string[] = ['Controls/list'];
 
-AddButton._theme = ['Controls/list'];
+    static getOptionTypes(): object {
+        return {
+            caption: descriptor(String)
+        };
+    }
+}
 
 /**
  * @name Controls/_list/AddButton#caption
@@ -43,22 +44,3 @@ AddButton._theme = ['Controls/list'];
  * <Controls.list:AddButton caption="add record"/>
  * </pre>
  */
-
-/*
- * Specialized type of button.
- *
- * @class Controls/_list/AddButton
- * @extends UI/Base:Control
- * 
- * @public
- * @author Красильников А.С.
- *
- *
- * @name Controls/_list/AddButton#caption
- * @cfg {String} Control caption text.
- * @example
- * <pre>
- *    <Controls.list:AddButton caption="add record"/>
- * </pre>
- */
-export = AddButton;

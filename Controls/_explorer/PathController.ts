@@ -1,107 +1,118 @@
-import {Control} from 'UI/Base';
 import {EventUtils} from 'UI/Events';
-import template = require('wml!Controls/_explorer/PathController/PathController');
+import {SyntheticEvent} from 'UI/Vdom';
+import {Path} from 'Controls/dataSource';
+import {IGridControl, IHeaderCell} from 'Controls/grid';
+import HeadingPathBack from 'Controls/_explorer/HeadingPathBack';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
-import HeadingPathBack = require('Controls/_explorer/HeadingPathBack');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+// tslint:disable-next-line:ban-ts-ignore
+// @ts-ignore
+import * as template from 'wml!Controls/_explorer/PathController/PathController';
 
-   var _private = {
-      needShadow: function(header, headerCfg) {
+interface IOptions extends IControlOptions, IGridControl {
+    items: Path;
+    rootVisible: boolean;
+    displayProperty: string;
+    showActionButton: boolean;
+    backButtonStyle: string;
+    backButtonIconStyle: string;
+    backButtonFontColorStyle: string;
+}
 
-         //если есть заголовок, то тень будет под ним, и нам не нужно рисовать ее под хлебными крошками
-         return !(header || headerCfg);
-      }
-   };
+function isItemsEqual(oldItems: Path, newItems: Path): boolean {
+    if ((!oldItems && newItems) || (oldItems && !newItems)) {
+        return false;
+    }
 
-   var PathController = Control.extend({
-      _template: template,
-      _header: null,
-      _needShadow: false,
-      _lastCrumbId: null,
-      _itemsAndHeaderPromiseResolver: null,
+    if (!oldItems && !newItems) {
+        return true;
+    }
 
-      _beforeMount: function(options) {
-         this._prepareHeader({}, options);
-         options.itemsPromise.then((items) => {
-            this._needShadow = _private.needShadow(this._header, options.header);
-            this._resolveItemsAndHeaderPromise(items);
-         });
-      },
+    return oldItems.length === newItems.length &&
+        oldItems.reduce((acc, prev, index) => acc && prev.isEqual(newItems[index]), true);
+}
 
-      _beforeUpdate: function(newOptions) {
-         this._prepareHeader(this._options, newOptions);
-         this._resolveItemsAndHeaderPromise(newOptions.items);
-         this._needShadow = _private.needShadow(this._header, newOptions.header);
-      },
+/**
+ * * Если возможно, то патчит первую ячейку заголовка таблицы добавляя туда хлебные крошки
+ * * Вычисляет нужна ли тень у хлебных крошек
+ */
+export default class PathController extends Control<IOptions> {
+    protected _template: TemplateFunction = template;
+    protected _header: IHeaderCell[];
+    protected _needShadow: boolean = false;
 
-      _notifyHandler: EventUtils.tmplNotify,
+    protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
 
-      _onBackButtonClick: function(e) {
-         const self = this;
-         require(['Controls/breadcrumbs'], function (breadcrumbs) {
-            breadcrumbs.HeadingPathCommon.onBackButtonClick.call(self, e);
-         });
-      },
+    protected _beforeMount(options: IOptions): void {
+        // Пропатчим первую колонку хлебными крошками если надо
+        this._header = PathController._getHeader(options, options.items);
+        this._needShadow = PathController._isNeedShadow(this._header);
+    }
 
-      _prepareHeader: function(oldOptions, newOptions) {
-         const isEqualItems = (oldItems, newItems) => {
-            if ((!oldItems && newItems) || (oldItems && !newItems)) { return false }
-            if (!oldItems && !newItems) { return true }
+    protected _beforeUpdate(newOptions: IOptions): void {
+        const headerChanged = !GridIsEqualUtil.isEqualWithSkip(
+            this._options.header,
+            newOptions.header,
+            { template: true }
+        );
 
-            return oldItems.length === newItems.length && oldItems.reduce((acc, prev, index) => acc && prev.isEqual(newItems[index]), true);
-         };
+        if (
+            headerChanged ||
+            !isItemsEqual(this._options.items, newOptions.items) ||
+            this._options.rootVisible !== newOptions.rootVisible
+        ) {
+            this._header = PathController._getHeader(newOptions, newOptions.items);
+            this._needShadow = PathController._isNeedShadow(this._header);
+        }
+    }
 
-         if (
-             oldOptions.rootVisible !== newOptions.rootVisible ||
-             !isEqualItems(oldOptions.items, newOptions.items) ||
-             !GridIsEqualUtil.isEqualWithSkip(oldOptions.header, newOptions.header, {template: true})
-         ) {
-            this._itemsAndHeaderPromise = new Promise((resolve) => {
-               this._itemsAndHeaderPromiseResolver = resolve;
-            });
+    protected _onBackButtonClick(e: SyntheticEvent): void {
+        require(['Controls/breadcrumbs'], (breadcrumbs) => {
+            breadcrumbs.HeadingPathCommon.onBackButtonClick.call(this, e);
+        });
+    }
 
-            this._header = null;
-         }
+    /**
+     * Патчит первую ячейку заголовка таблицы добавляя туда хлебные крошки
+     * если не задан пользовательский контент для этой ячейки.
+     */
+    private static _getHeader(options: IOptions, items: Path): IHeaderCell[] {
+        let newHeader = options.header;
+        // title - устаревшее поле колонки
+        const firstHeaderCell = options.header?.length && options.header[0] as IHeaderCell & {title: string};
 
-         if (!this._header) {
-            let newHeader;
+        // Если пользовательский контент первой ячейки заголовка не задан, то
+        // то задаем наш шаблон с хлебными крошками
+        if (
+            firstHeaderCell &&
+            !(firstHeaderCell.title || firstHeaderCell.caption) &&
+            !firstHeaderCell.template
+        ) {
+            newHeader = options.header.slice();
+            newHeader[0] = {
+                ...options.header[0],
+                template: HeadingPathBack,
+                templateOptions: {
+                    showActionButton: !!options.showActionButton,
+                    showArrowOutsideOfBackButton: !!options.showActionButton,
+                    backButtonStyle: options.backButtonStyle,
+                    backButtonIconStyle: options.backButtonIconStyle,
+                    backButtonFontColorStyle: options.backButtonFontColorStyle,
+                    displayProperty: options.displayProperty,
+                    items
+                },
 
-            if (newOptions.header && newOptions.header.length && !(newOptions.header[0].title || newOptions.header[0].caption) && !newOptions.header[0].template) {
-               newHeader = newOptions.header.slice();
-               newHeader[0] = {
-                  ...newOptions.header[0],
-                  template: HeadingPathBack,
-                  templateOptions: {
-                     itemsAndHeaderPromise: this._itemsAndHeaderPromise,
-                     showActionButton: !!newOptions.showActionButton,
-                     showArrowOutsideOfBackButton: !!newOptions.showActionButton,
-                     backButtonStyle: newOptions.backButtonStyle,
-                     backButtonIconStyle: newOptions.backButtonIconStyle,
-                     backButtonFontColorStyle: newOptions.backButtonFontColorStyle,
-                     displayProperty: newOptions.displayProperty,
-                     items: newOptions.items
-                  },
+                // TODO: удалить эту опцию после
+                //  https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
+                isBreadCrumbs: true
+            };
+        }
 
-                  // TODO: удалить эту опцию после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
-                  isBreadCrumbs: true
-               };
-            } else {
-               newHeader = newOptions.header;
-            }
+        return newHeader;
+    }
 
-            this._header = newHeader;
-         }
-      },
-
-      _resolveItemsAndHeaderPromise: function(items) {
-         if (this._itemsAndHeaderPromiseResolver) {
-            this._itemsAndHeaderPromiseResolver({
-               items: items,
-               header: this._header
-            });
-            this._itemsAndHeaderPromiseResolver = null;
-         }
-      }
-
-   });
-   PathController._private = _private;
-   export = PathController;
+    private static _isNeedShadow(header: IHeaderCell[]): boolean {
+        // если есть заголовок, то тень будет под ним, и нам не нужно рисовать ее под хлебными крошками
+        return !header;
+    }
+}

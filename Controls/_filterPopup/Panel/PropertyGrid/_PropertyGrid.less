@@ -3,23 +3,23 @@
    align-items: center;
 }
 
-.controls-FilterPanel__PropertyGrid__item_theme-@{themeName} {
-   min-height: @basic_item_height_filterPanel;
+.controls-FilterPanel__PropertyGrid__item {
+   min-height: var(--basic_item_height_filterPanel);
 }
 
-.controls-FilterPanel__PropertyGrid__item_theme-@{themeName}::before {
+.controls-FilterPanel__PropertyGrid__item::before {
    content: "\200b";
-   height: @basic_item_height_filterPanel;
+   height: var(--basic_item_height_filterPanel);
 }
 
-.controls-FilterPanel__PropertyGrid__item_theme-@{themeName}:empty {
+.controls-FilterPanel__PropertyGrid__item:empty {
    min-height: 0;
    max-height: 0;
    margin-bottom: 0;
 }
 
 .controls-FilterPanel__PropertyGrid__notLastItem {
-   margin-bottom: @basic_item_padding-bottom_filterPanel;
+   margin-bottom: var(--basic_item_padding-bottom_filterPanel);
 }
 
 .controls-FilterPanel__PropertyGrid__lastItem {

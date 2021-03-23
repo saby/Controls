@@ -1,78 +1,76 @@
-.controls-SimplePanel_theme_@{themeName} {
+.controls-SimplePanel {
    .flexbox();
    .flex-direction(column);
 
-   max-width: @max-width_filterSimplePanel;
-   border: @border-thickness_sticky solid @border-color_sticky;
-   background: @background-color_sticky;
+   max-width: var(--max-width_filterSimplePanel);
+   border: var(--border-thickness_sticky) solid var(--border-color_sticky);
+   background: var(--background-color_sticky);
    box-sizing: border-box;
-   box-shadow: @popup_box-shadow-color_menuPopup 0 0 @popup_box-shadow-offset_menuPopup 0;
+   box-shadow: var(--popup_box-shadow-color_menuPopup) 0 0 var(--popup_box-shadow-offset_menuPopup) 0;
    width: 100%;
 }
 
-.controls-SimplePanel__scroll_theme_@{themeName} {
-   margin-top: @content_padding-top_sticky;
-   margin-bottom: @content_padding-bottom_sticky;
+.controls-SimplePanel__scroll {
+   margin-top: var(--content_padding-top_sticky);
+   margin-bottom: var(--content_padding-bottom_sticky);
 }
 
-.controls-SimplePanel__block_separator_theme_@{themeName} {
-   border-bottom: @grouping_separator_thickness_menu solid @grouping_separator_color_menu;
-   margin-top: @grouping_padding-vertical_menu;
-   margin-right: @grouping_padding-horizontal_menu;
-   margin-bottom: @grouping_padding-vertical_menu;
-   margin-left: @grouping_padding-horizontal_menu;
+.controls-SimplePanel__block_separator {
+   border-bottom: var(--grouping_separator_thickness_menu) solid var(--grouping_separator_color_menu);
+   margin-top: var(--grouping_padding-vertical_menu);
+   margin-right: var(--grouping_padding-horizontal_menu);
+   margin-bottom: var(--grouping_padding-vertical_menu);
+   margin-left: var(--grouping_padding-horizontal_menu);
 }
 
-@spacing-between-applyButton-rightBorder: @apply-button_offset-right_filterSimplePanel + @width_closeButton_link + @close-button_offset-right_sticky + @border-thickness_sticky;
-
-.controls-SimplePanel__applyButton_theme_@{themeName} {
+.controls-SimplePanel__applyButton {
    position: absolute;
-   top: @apply-button_offset-top_filterSimplePanel;
-   right: @spacing-between-applyButton-rightBorder;
+   top: var(--apply-button_offset-top_filterSimplePanel);
+   right: calc(var(--apply-button_offset-right_filterSimplePanel) + var(--width_closeButton_link) + var(--close-button_offset-right_sticky) + var(--border-thickness_sticky));
    z-index: 2;
 }
 
-.controls-SimplePanel-cross_theme_@{themeName} {
+.controls-SimplePanel-cross {
    position: absolute;
-   right: @close-button_offset-right_sticky + @border-thickness_sticky;
-   top: @close-button_offset-top_sticky + @content_padding-top_sticky + @border-thickness_sticky;
+   right: calc(var(--close-button_offset-right_sticky) + var(--border-thickness_sticky));
+   top: calc(var(--close-button_offset-top_sticky) + var(--content_padding-top_sticky) + var(--border-thickness_sticky));
    z-index: 2;
 }
 
-.controls-SimplePanel-dropdown__emptyItem_theme_@{themeName} {
-   color: @empty-item_text-color_filterSimplePanel;
-   font-size: @empty-item_font-size_filterSimplePanel;
+.controls-SimplePanel-dropdown__emptyItem {
+   color: var(--empty-item_text-color_filterSimplePanel);
+   font-size: var(--empty-item_font-size_filterSimplePanel);
    font-weight: bold;
    text-transform: uppercase;
 }
 
 .controls-DropdownList__item-rightPadding_multiSelect {
-   padding-right: @apply-button_offset-left_filterSimplePanel + @inline_height_l + @spacing-between-applyButton-rightBorder;
+   padding-right:
+           calc(var(--apply-button_offset-left_filterSimplePanel) + var(--inline_height_l) +
+           var(--apply-button_offset-right_filterSimplePanel) + var(--width_closeButton_link) +
+           var(--close-button_offset-right_sticky) + var(--border-thickness_sticky));
 }
 
-.controls-SimplePanel-folderItem_theme_@{themeName} {
+.controls-SimplePanel-folderItem {
    font-weight: bold;
 }
 
-.controls-DropdownList__hierarchyItem-leftPadding_default_theme-@{themeName} {
-   padding-left: @item_padding-horizontal_l_menu + @hierarchy-item_offset-left_filterSimplePanel;
+.controls-DropdownList__hierarchyItem-leftPadding_default {
+   padding-left: calc(var(--item_padding-horizontal_l_menu) + var(--hierarchy-item_offset-left_filterSimplePanel));
 }
 
-.controls-DropdownList__hierarchyItem-leftPadding_theme-@{themeName} {
-   padding-left: @item_padding-horizontal_s_menu + @hierarchy-item_offset-left_filterSimplePanel;
+.controls-DropdownList__hierarchyItem-leftPadding {
+   padding-left: calc(var(--item_padding-horizontal_s_menu) + var(--hierarchy-item_offset-left_filterSimplePanel));
 }
-
-@shift-top_default-SimplePanel-popup: -((@item_height_menu - @inline_height_default_link_button) / 2 + @border-thickness_sticky + @content_padding-top_sticky);
-@shift-left_default-SimplePanel-popup: -(@border-thickness_sticky + @item_padding-horizontal_l_menu);
 
 .controls-FilterView-SimplePanel-popup {
-   margin-top: @shift-top_default-SimplePanel-popup;
-   margin-left: @shift-left_default-SimplePanel-popup;
+   margin-top: (calc(-1 * ((var(--item_height_menu) - var(--inline_height_default_link_button)) / 2 + var(--border-thickness_sticky) + var(--content_padding-top_sticky))));
+   margin-left: (calc(-1 * (var(--border-thickness_sticky) + var(--item_padding-horizontal_l_menu))));
 }
 
 .controls-FilterView-SimplePanel__buttonTarget-popup {
-   margin-top: -((@item_height_menu - @icon-size_filterButton_filterView) / 2 + @border-thickness_sticky + @content_padding-top_sticky);
+   margin-top: (calc(-1 * ((var(--item_height_menu) - var(--icon-size_filterButton_filterView)) / 2 + var(--border-thickness_sticky) + var(--content_padding-top_sticky))));
 
    // Чтобы при позиционировании над кнопкой, панель открывалась в том же месте, нужно сдвинуть ее на ширину иконки треугольника
-   margin-left: @shift-left_default-SimplePanel-popup + @item_icon-size_filterView;
+   margin-left: calc(-1 * (var(--border-thickness_sticky) + var(--item_padding-horizontal_l_menu)) + var(--item_icon-size_filterView));
 }

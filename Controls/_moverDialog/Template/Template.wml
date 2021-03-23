@@ -12,8 +12,6 @@
            nodeProperty="{{_options.nodeProperty}}"
            displayProperty="{{_options.displayProperty}}"
            hasChildrenProperty="{{_options.hasChildrenProperty}}"
-           bind:root="_root"
-           bind:expandedItems="_expandedItems"
            itemsFilterMethod="{{_itemsFilterMethod}}"
            expanderDisplayMode="adaptive"
            expanderVisibility="{{_options.expanderVisibility}}"
@@ -36,8 +34,6 @@
            nodeProperty="{{_options.nodeProperty}}"
            displayProperty="{{_options.displayProperty}}"
            hasChildrenProperty="{{_options.hasChildrenProperty}}"
-           bind:root="_root"
-           bind:expandedItems="_expandedItems"
            itemsFilterMethod="{{_itemsFilterMethod}}"
            expanderDisplayMode="adaptive"
            expanderVisibility="{{_options.expanderVisibility}}"
@@ -49,12 +45,14 @@
 
 <Controls._moverDialog.BaseTemplate>
    <ws:bodyContentTemplate>
-      <Controls.list:DataContainer source="{{_options.source}}"
-                                   bind:filter="_filter"
-                                   navigation="{{_options.navigation}}"
-                                   dataLoadCallback="{{_options.dataLoadCallback}}"
-                                   keyProperty="{{_options.keyProperty}}">
-         <Controls.search:Controller searchParam="{{_options.searchParam}}">
+      <Controls.browser:Browser source="{{_options.source}}"
+                                bind:filter="_filter"
+                                bind:root="_root"
+                                bind:expandedItems="_expandedItems"
+                                navigation="{{_options.navigation}}"
+                                dataLoadCallback="{{_options.dataLoadCallback}}"
+                                keyProperty="{{_options.keyProperty}}"
+                                searchParam="{{_options.searchParam}}">
             <div class="controls-MoveDialog__content">
                <Controls.search:InputContainer attr:class="controls-MoveDialog__search controls-MoveDialog__search_theme-{{_options.theme}}">
                   <Controls.search:Input/>
@@ -79,7 +77,6 @@
                   </Controls.list:Container>
                </Controls.scroll:Container>
             </div>
-         </Controls.search:Controller>
-      </Controls.list:DataContainer>
+      </Controls.browser:Browser>
    </ws:bodyContentTemplate>
 </Controls._moverDialog.BaseTemplate>

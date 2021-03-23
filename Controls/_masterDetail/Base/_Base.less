@@ -50,7 +50,11 @@
    // https://online.sbis.ru/opendoc.html?guid=add422e3-ea09-494b-821f-514acab083f1
    z-index: 9999;
 }
-
+// хлебные крошки перешли на css variable, поэтому добавляем класс без theme.
+// Удалить после перехода на css variable
+.controls-background-master {
+   background-color: var(--master_item_background-color_list);
+}
 // Класс для установки фона контрола через backgroundStyle
 // применяется к хлебным крошкам, группам. Для выбранной застиканной строки стили ниже
 .controls-background-master_theme-@{themeName} {

@@ -79,12 +79,17 @@
     <ws:if data="{{_shouldDrawFooter}}">
         <ws:partial template="wml!Controls/_list/BaseControl/Footer" moreFontColorStyle="{{_options.moreFontColorStyle}}" loadMoreCaption="{{_loadMoreCaption}}" theme="{{_options.theme}}"/>
     </ws:if>
+    <ws:if data="{{_shouldDrawCut}}">
+        <ws:partial template="wml!Controls/_list/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
+    </ws:if>
 </ws:template>
+
 <ws:template name="multiSelectTplIf">
     <ws:if data="{{_options.multiSelectVisibility}}">
         <ws:partial template="wml!Controls/_list/BaseControl/multiSelect" scope="{{multiSelectTpl.templateOptions}}" multiSelectTemplate="{{_options.multiSelectTemplate}}" triState="{{true}}"/>
     </ws:if>
 </ws:template>
+
 <ws:template name="emptyTemplateIf">
     <ws:if data="{{__needShowEmptyTemplate(_options.emptyTemplate, _listViewModel, _options.emptyTemplateColumns)}}">
         <div class="controls-BaseControl__emptyTemplate">
@@ -94,6 +99,7 @@
         </div>
     </ws:if>
 </ws:template>
+
 <ws:template name="viewTpl">
     <div class="controls-BaseControl__viewContainer controls-ScrollController" name="viewContainer">
         <ws:partial if="{{ _shouldDisplayMiddleLoadingIndicator() }}" template="loadingIndicator"/>
@@ -103,7 +109,7 @@
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: ' + _attachedToNullLoadTopTriggerOffset + 'px;'}}"
                 name="{{name}}"
-                template="{{ _options.content }}"
+                template="{{ _options.viewName }}"
                 scope="{{_options}}"
                 loadingState="{{_showLoadingIndicator ? _loadingIndicatorState}}"
                 _needBottomPadding="{{_needBottomPadding}}"
@@ -111,6 +117,7 @@
                 listModel="{{_listViewModel}}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
                 preventServerSideColumnScroll="{{ !_useServerSideColumnScroll }}"
+                on:arrowClick="_notifyHandler('arrowClick')"
                 on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
                 on:validateDestroyed="_onValidateDestroyed()"
@@ -147,7 +154,7 @@
             <ws:itemActionsTemplate>
                 <ws:partial
                         template="{{_itemActionsTemplate}}"
-                        scope="{{ _listViewModel.getActionsTemplateConfig() }}"
+                        scope="{{ _listViewModel.getActionsTemplateConfig(itemActionsTemplate) }}"
                         useNewModel="{{ _options.useNewModel }}"/>
             </ws:itemActionsTemplate>
             <ws:swipeTemplate>
@@ -180,9 +187,6 @@
         </ws:if>
     </div>
 </ws:template>
-<ws:template name="fullView">
-    <ws:partial template="viewTpl" name="{{name}}"/>
-</ws:template>
 
 <Controls.dataSource:error.Container
     name="errorContainer"
@@ -192,8 +196,11 @@
     <div class="controls-BaseControl"
          on:sortingChanged="_sortingChanged()"
          on:mouseenter="_mouseEnter()"
-         on:mouseleave="_mouseLeave()">
+         on:mouseleave="_mouseLeave()"
+         on:mouseMove="_onListMouseMove()">
         <div name="fakeFocusElem" tabindex="0" class="controls-BaseControl__fakeFocusElem"></div>
+
+        <style name="itemActionsOutsideStyle" data-vdom-ignore="true"></style>
 
         <ws:if data="{{_showContinueSearchButtonDirection === 'up'}}">
             <ws:partial template="continueSearch"/>
@@ -204,7 +211,9 @@
         <ws:if data="{{_listViewModel}}">
             <ws:partial template="loadingIndicator" loadingIndicatorState="up"/>
 
-            <ws:partial template="fullView" name="listView" attr:class="{{ _addShowActionsClass ? _getItemActionVisibilityClasses() }}"/>
+            <ws:partial template="viewTpl"
+                        name="listView"
+                        attr:class="{{ _getViewClasses(_addShowActionsClass, _addHoverEnabledClass, _uniqueId) }}"/>
 
             <ws:partial template="loadingIndicator" loadingIndicatorState="down"/>
         </ws:if>

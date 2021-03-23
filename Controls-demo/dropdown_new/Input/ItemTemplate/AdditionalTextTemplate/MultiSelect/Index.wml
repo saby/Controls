@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper controlsDemo__flexRow">
+    <div class="controlsDemo__mr4">
+        <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
+                                    keyProperty="key"
+                                    displayProperty="title"
+                                    emptyText="Not selected"
+                                    multiSelect="{{true}}"
+                                    source="{{_source}}">
+            <ws:itemTemplate>
+                <ws:partial template="Controls/dropdown:ItemTemplate"
+                            iconAlign="right"
+                            multiLine="{{true}}">
+                    <ws:additionalTextTemplate>
+                        <div>{{itemTemplate.itemData.item.get('comment')}}</div>
+                    </ws:additionalTextTemplate>
+                </ws:partial>
+            </ws:itemTemplate>
+        </Controls.dropdown:Selector>
+    </div>
+</div>

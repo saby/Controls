@@ -1,0 +1,5 @@
+<ws:partial attr:class="{{_canShowActions ? 'controls-TileView__previewTemplate_canShowActions' : ''}}"
+            template="{{_options.content}}"
+            showedActions="{{_item.getActions().showed}}"
+            scope="{{_options}}"
+/>

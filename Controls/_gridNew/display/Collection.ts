@@ -8,7 +8,7 @@ import {
     GridLadderUtil
 } from 'Controls/display';
 
-import GroupItem from './GroupItem';
+import GroupRow from './GroupRow';
 import GridMixin, { IOptions as IGridMixinOptions } from './mixins/Grid';
 import Row, {IOptions as IRowOptions} from './Row';
 import DataRow from './DataRow';
@@ -131,8 +131,8 @@ export default class Collection<
         };
     }
 
-    protected _getGroupItemConstructor(): new() => GroupItem<T> {
-        return GroupItem;
+    protected _getGroupItemConstructor(): new() => GroupRow<T> {
+        return GroupRow;
     }
 
     setGroupProperty(groupProperty: string): boolean {
@@ -174,7 +174,7 @@ export default class Collection<
     protected _hasStickyGroup(): boolean {
         return !!(this.at(0)
             && this.at(0)['[Controls/_display/GroupItem]']
-            && !(this.at(0) as unknown as GroupItem<S>).isHiddenGroup()
+            && !(this.at(0) as unknown as GroupRow<S>).isHiddenGroup()
             && this._$stickyHeader);
     }
 }

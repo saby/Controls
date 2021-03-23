@@ -9,7 +9,7 @@ import { IEntryPathItem, ITreeSelectionStrategyOptions, TKeys } from '../interfa
 // @ts-ignore
 import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
-import { BreadcrumbsItem, Tree, TreeItem } from 'Controls/display';
+import { Tree, TreeItem } from 'Controls/display';
 
 const LEAF = null;
 
@@ -486,7 +486,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          }
       }
 
-      if (countChildrenInList && countChildrenInList === children.getCount() && node instanceof BreadcrumbsItem) {
+      if (countChildrenInList && countChildrenInList === children.getCount() && node && node['[Controls/_display/BreadcrumbsItem]']) {
          stateNode = !initialState;
       } else if (countChildrenInList > 0) {
          stateNode = null;
@@ -611,7 +611,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          let childNodeSelectedCount;
 
          children.each((childItem) => {
-            if (childItem instanceof BreadcrumbsItem && this._isAllSelectedInRoot(selection)) {
+            if (childItem && childItem['[Controls/_display/BreadcrumbsItem]'] && this._isAllSelectedInRoot(selection)) {
                selectedChildrenCount = null;
             }
 
@@ -656,7 +656,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
    private _isNode(item: TreeItem<Model>): boolean {
       if (item instanceof TreeItem) {
          return item.isNode() !== LEAF;
-      } else if (item instanceof BreadcrumbsItem) {
+      } else if (item && item['[Controls/_display/BreadcrumbsItem]']) {
          return true;
       }
       return false;
@@ -675,7 +675,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       let contents = item.getContents();
       // tslint:disable-next-line:ban-ts-ignore
       // @ts-ignore
-      if (item instanceof BreadcrumbsItem || item.breadCrumbs) {
+      if (item['[Controls/_display/BreadcrumbsItem]'] || item.breadCrumbs) {
          // tslint:disable-next-line
          contents = contents[(contents as any).length - 1];
       }

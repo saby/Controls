@@ -166,9 +166,6 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     _updateZIndex(config: ILoadingIndicatorOptions): void {
         const popupItem = ManagerController && ManagerController.find((config || {}).popupId);
         const POPUP_BASE_ZINDEX = 10;
-        // Сейчас z-index индикатора трогать опасно, для совместимости в 2106 может все поломаться.
-        // Даю возможность задать zIndex руками по месту.
-        // в 21.2100 в этой же доброске делаю zIndex максимально большим (10000) при открытии из опенера.
         // Код с zIndex'ами (и прочими отсылками на окна) сможет уехать отсюда только после перевода индикатора на окно.
         // Это произойдет после перехода на React ввиду особенностей ограничений работы на Wasaby.
         if (config.zIndex) {

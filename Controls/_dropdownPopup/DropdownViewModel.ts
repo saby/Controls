@@ -86,7 +86,7 @@ var _private = {
             } else if (!options.multiSelect && (!options.nodeProperty || item.get(options.nodeProperty))) {
                classes += ' controls-DropdownList__item-leftPadding_' + (paddings.left || 'default');
             } else if (!options.multiSelect) {
-               classes += ' controls-DropdownList__hierarchyItem-leftPadding_' + (paddings.left || 'default') + '_theme-' + options.theme;
+               classes += ' controls-DropdownList__hierarchyItem-leftPadding_' + (paddings.left || 'default');
             }
             classes += ' controls-DropdownList__item-rightPadding_' +
                 _private.getRightPadding(options, paddings.right, itemData, hasHierarchy, options.hasApplyButton);

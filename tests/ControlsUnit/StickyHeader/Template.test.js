@@ -27,9 +27,6 @@ define(
                top: 0,
                bottom: 0
             };
-            inst._context = {
-               stickyHeader: new scroll._stickyHeaderContext({shadowPosition: ''})
-            };
             inst._options = {
                fixedZIndex: 2,
                position: 'top'
@@ -56,7 +53,7 @@ define(
                inst._options.theme = 'default';
                inst._options.content = TemplateUtil.content;
 
-               assert.equal(template(inst), '<div class="controls-background-default_theme-default"><div>testing the template</div></div>');
+               assert.equal(template(inst), '<div><div>testing the template</div></div>');
             });
          });
 

@@ -28,7 +28,7 @@ define(
          };
 
          function getPropertyGrid(PGConfig) {
-            var pGrid = new PropertyGrid(PGConfig);
+            var pGrid = new PropertyGrid.default(PGConfig);
             pGrid._beforeMount(PGConfig);
             pGrid.saveOptions(PGConfig);
             return pGrid;
@@ -36,6 +36,7 @@ define(
 
 
          it('_private::getIndexChangedVisibility', function() {
+            let pGrid = getPropertyGrid(config);
             var oldItems = [
                {
                   id: 'list',
@@ -74,17 +75,17 @@ define(
                   visibility: false
                }
             ];
-            assert.equal(PropertyGrid._private.getIndexChangedVisibility(newItems, oldItems), 1);
+            assert.equal(pGrid._getIndexChangedVisibility(newItems, oldItems), 1);
             oldItems[1].visibility = true;
             newItems[1].visibility = false;
-            assert.equal(PropertyGrid._private.getIndexChangedVisibility(newItems, oldItems), -1);
+            assert.equal(pGrid._getIndexChangedVisibility(newItems, oldItems), -1);
             newItems.push({
                id: 'newItem',
                value: 'testValue',
                resetValue: '',
                visibility: true
             });
-            assert.equal(PropertyGrid._private.getIndexChangedVisibility(newItems, oldItems), -1);
+            assert.equal(pGrid._getIndexChangedVisibility(newItems, oldItems), -1);
          });
 
          it('_beforeUpdate', function() {
@@ -181,7 +182,8 @@ define(
          });
 
          it('getLastVisibleItemIndex', function () {
-            var lastVisibleIndex = PropertyGrid._private.getLastVisibleItemIndex(config.items);
+            let pGrid = getPropertyGrid(config);
+            var lastVisibleIndex = pGrid._getLastVisibleItemIndex(config.items);
             assert.equal(lastVisibleIndex, 1);
 				var items = [
 					  {
@@ -209,7 +211,7 @@ define(
 						  visibility: true
 					 }
 				 ];
-            lastVisibleIndex = PropertyGrid._private.getLastVisibleItemIndex(items);
+            lastVisibleIndex = pGrid._getLastVisibleItemIndex(items);
             assert.equal(lastVisibleIndex, 3);
          });
 

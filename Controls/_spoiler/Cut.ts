@@ -1,6 +1,7 @@
 import {descriptor} from 'Types/entity';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IBackgroundStyle, IBackgroundStyleOptions, IExpandable, IExpandableOptions} from 'Controls/interface';
+import {ICutButton} from './CutButton';
 import Util from './Util';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -11,10 +12,32 @@ import * as template from 'wml!Controls/_spoiler/Cut/Cut';
  * @interface Controls/_spoiler/ICut
  * @mixes Control/interface:IBackgroundStyle
  * @mixes Control/interface:IExpandable
+ * @implements Controls/interface:IIconSize
+ * @mixes Control/interface:IContrastBackground
  * @public
  * @author Красильников А.С.
  */
-export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, IExpandableOptions {
+
+/**
+ * @name Controls/_spoiler/ICut#buttonPosition
+ * @cfg {String} Положение кнопки развертывания.
+ * @variant start по левому краю контентной области
+ * @variant center по центру контентной области
+ * @default center
+ * @demo Controls-demo/Spoiler/Cut/ButtonPosition/Index
+ */
+
+/**
+ * @name Controls/_spoiler/ICut#iconSize
+ * @demo Controls-demo/Spoiler/Cut/IconSize/Index
+ */
+
+/**
+ * @name Controls/_spoiler/ICut#contrastBackground
+ * @demo Controls-demo/Spoiler/Cut/ContrastBackground/Index
+ */
+
+export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, IExpandableOptions, ICutButton {
     /**
      * Высота строки.
      * @variant xs
@@ -84,8 +107,7 @@ class Cut extends Control<ICutOptions> implements IBackgroundStyle, IExpandable 
         super._beforeUpdate(options, contexts);
     }
 
-    protected _clickOnEllipsisHandler(): void {
-        const expanded = !this._expanded;
+    protected _onExpandedChangedHandler(event: Event, expanded: boolean): void {
         if (!this._options.hasOwnProperty('expanded')) {
             this._expanded = expanded;
         }
@@ -113,5 +135,14 @@ class Cut extends Control<ICutOptions> implements IBackgroundStyle, IExpandable 
         };
     }
 }
+
+Object.defineProperty(Cut, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Cut.getDefaultOptions();
+   }
+});
 
 export default Cut;

@@ -140,28 +140,28 @@ define([
                keyProperty: 'karambola',
                theme: 'default'
             },
-            expected = 'controls-Tabs__item controls-Tabs__item_theme_default ' +
-               'controls-Tabs__item_inlineHeight-s_theme-default ' +
-               'controls-Tabs__item_align_left controls-Tabs__item_align_left_theme_default' +
-               ' controls-Tabs__item_extreme controls-Tabs__item_extreme_theme_default ' +
-               'controls-Tabs__item_extreme_first controls-Tabs__item_extreme_first_theme_default ' +
+            expected = 'controls-Tabs__item ' +
+               'controls-Tabs__item_inlineHeight-s ' +
+               'controls-Tabs__item_align_left' +
+               ' controls-Tabs__item_extreme ' +
+               'controls-Tabs__item_extreme_first ' +
                'controls-Tabs__item_notShrink',
-            expected2 = 'controls-Tabs__item controls-Tabs__item_theme_default' +
-               ' controls-Tabs__item_inlineHeight-s_theme-default' +
-               ' controls-Tabs__item_align_right controls-Tabs__item_align_right_theme_default' +
-               ' controls-Tabs__item_default controls-Tabs__item_default_theme_default' +
-               ' controls-Tabs__item_type_photo controls-Tabs__item_type_photo_theme_default ' +
+            expected2 = 'controls-Tabs__item' +
+               ' controls-Tabs__item_inlineHeight-s' +
+               ' controls-Tabs__item_align_right' +
+               ' controls-Tabs__item_default' +
+               ' controls-Tabs__item_type_photo ' +
                'controls-Tabs__item_notShrink',
-            expected3 = 'controls-Tabs__item controls-Tabs__item_theme_default ' +
-               'controls-Tabs__item_inlineHeight-s_theme-default ' +
-               'controls-Tabs__item_align_right controls-Tabs__item_align_right_theme_default' +
-               ' controls-Tabs__item_default controls-Tabs__item_default_theme_default' +
+            expected3 = 'controls-Tabs__item ' +
+               'controls-Tabs__item_inlineHeight-s ' +
+               'controls-Tabs__item_align_right' +
+               ' controls-Tabs__item_default' +
                ' controls-Tabs__item_canShrink',
-            expected4 = 'controls-Tabs__item controls-Tabs__item_theme_default ' +
-               'controls-Tabs__item_inlineHeight-s_theme-default ' +
-               'controls-Tabs__item_align_right controls-Tabs__item_align_right_theme_default' +
-               ' controls-Tabs__item_extreme controls-Tabs__item_extreme_theme_default' +
-               ' controls-Tabs__item_extreme_last controls-Tabs__item_extreme_last_theme_default' +
+            expected4 = 'controls-Tabs__item ' +
+               'controls-Tabs__item_inlineHeight-s ' +
+               'controls-Tabs__item_align_right' +
+               ' controls-Tabs__item_extreme' +
+               ' controls-Tabs__item_extreme_last' +
                ' controls-Tabs__item_notShrink';
           const tabInstance = new tabsMod.Buttons();
           tabInstance.saveOptions(options);
@@ -191,10 +191,9 @@ define([
                keyProperty: 'karambola',
                theme: 'default'
             },
-            expected = 'controls-Tabs_style_secondary__item_state_selected ' +
-            'controls-Tabs_style_secondary__item_state_selected_theme_default' +
-            ' controls-Tabs__item_state_selected controls-Tabs__item_state_selected_theme_default',
-            expected2 = 'controls-Tabs__item_state_default controls-Tabs__item_state_default_theme_default';
+            expected = 'controls-Tabs_style_secondary__item_state_selected' +
+            ' controls-Tabs__item_state_selected',
+            expected2 = 'controls-Tabs__item_state_default';
          const tabs = new tabsMod.Buttons();
          tabs.saveOptions(options);
          assert.equal(expected, tabs._prepareItemSelectedClass(item), 'wrong order cross-brwoser styles');

@@ -2,7 +2,7 @@ import {assert} from 'chai';
 
 import {GridCell, GridCollection, GridRow} from 'Controls/gridNew';
 import {Model} from 'Types/entity';
-import {IColumn} from 'Controls/grid';
+import {IColumn} from 'Controls/interface';
 
 const createCell = (cell: IColumn) => {
     const gridCollection = new GridCollection({

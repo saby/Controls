@@ -18,7 +18,9 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
 }
 /**
  * Контрол, который обеспечивает связь между двумя контролами для отображения подробной информации по выбранному элементу.
- * Подробное описание и инструкцию по настройке читайте <a href='/doc/platform/developmentapl/interface-development/controls/layout/master-detail/'>здесь</a>.
+ * @remark
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/master-detail/ руководство разработчик}
  * @class Controls/_masterDetail/Base
  * @extends UI/Base:Control
  * @mixes Controls/_interface/IPropStorage
@@ -30,7 +32,7 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
 
 /*
  * Control that allows to implement the Master-Detail interface
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/master-detail/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/master-detail/'>here</a>.
  * @class Controls/_masterDetail/Base
  * @extends UI/Base:Control
  *
@@ -402,5 +404,14 @@ class Base extends Control<IMasterDetail> {
         };
     }
 }
+
+Object.defineProperty(Base, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Base.getDefaultOptions();
+   }
+});
 
 export default Base;

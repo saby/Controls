@@ -298,8 +298,13 @@ describe('Controls/scroll:ContainerBase', () => {
          sinon.stub(control._registrars.scrollStateChanged, 'register');
          sinon.stub(control._registrars.listScroll, 'register');
          sinon.stub(control._registrars.scroll, 'register');
+         sinon.stub(control, '_onRegisterNewComponent');
+         sinon.stub(control, '_onRegisterNewListScrollComponent');
 
-         control._registerIt();
+         const registerTypes = ['scrollStateChanged', 'listScroll', 'scroll'];
+         registerTypes.forEach((registerType) => {
+            control._registerIt('event', registerType);
+         });
 
          sinon.assert.called(control._registrars.scrollStateChanged.register);
          sinon.assert.called(control._registrars.listScroll.register);
@@ -317,7 +322,10 @@ describe('Controls/scroll:ContainerBase', () => {
          sinon.stub(control._registrars.listScroll, 'unregister');
          sinon.stub(control._registrars.scroll, 'unregister');
 
-         control._unRegisterIt();
+         const registerTypes = ['scrollStateChanged', 'listScroll', 'scroll'];
+         registerTypes.forEach((registerType) => {
+            control._unRegisterIt('event', registerType);
+         });
 
          sinon.assert.called(control._registrars.scrollStateChanged.unregister);
          sinon.assert.called(control._registrars.listScroll.unregister);

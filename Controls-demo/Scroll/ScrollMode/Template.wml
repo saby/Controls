@@ -1,5 +1,5 @@
 <div class="pageWrap">
-    <div class="options-wrap">
+    <div class="options-wrap demo-scrollMode__verticalHorizontal">
         <div class="options-value">scrollMode = verticalHorizontal</div>
         <Controls.scroll:Container class="scroll-container" scrollMode="verticalHorizontal">
             <div class="content">
@@ -21,7 +21,7 @@
             </div>
         </Controls.scroll:Container>
     </div>
-    <div class="options-wrap">
+    <div class="options-wrap demo-scrollMode__verticalDefault">
         <div class="options-value">scrollMode = vertical (default)</div>
         <Controls.scroll:Container class="scroll-container" scrollMode="vertical">
             <div class="content">

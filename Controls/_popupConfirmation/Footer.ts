@@ -35,5 +35,15 @@ class Footer extends Control<IFooterOptions> implements IConfirmationFooter {
         };
     }
 }
+
+Object.defineProperty(Footer, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Footer.getDefaultOptions();
+   }
+});
+
 //TODO https://online.sbis.ru/doc/15f3d383-8953-4f38-a0f2-f5f8942cf148
 export default Footer;

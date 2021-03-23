@@ -1,0 +1,12 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <Controls.slider:Base
+            maxValue="{{1000}}"
+            minValue="{{0}}"
+            bind:value="_value"
+            intervals="{{_intervals}}">
+        <ws:intervalTemplate>
+            <ws:partial template="Controls/slider:IntervalTemplate"
+                        interval="{{_getInterval(intervalTemplate.interval)}}" scope="{{intervalTemplate}}"/>
+        </ws:intervalTemplate>
+    </Controls.slider:Base>
+</div>

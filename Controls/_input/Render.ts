@@ -1,6 +1,7 @@
 import {detection} from 'Env/Env';
 import {descriptor} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/input';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {
     IHeight, IHeightOptions, IFontColorStyle,
@@ -192,7 +193,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         this._setState(this._options);
     }
 
-    static _theme: string[] = ['Controls/input', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/Classes'];
 
     private static notSupportFocusWithin(): boolean {
         return detection.isIE || (detection.isWinXP && detection.yandex);
@@ -255,5 +256,14 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         };
     }
 }
+
+Object.defineProperty(Render, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Render.getDefaultOptions();
+   }
+});
 
 export default Render;

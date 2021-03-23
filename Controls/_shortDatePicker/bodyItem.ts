@@ -144,4 +144,13 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
     }
 }
 
+Object.defineProperty(BodyItem, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BodyItem.getDefaultOptions();
+   }
+});
+
 export default BodyItem;

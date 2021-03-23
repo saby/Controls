@@ -110,6 +110,15 @@ class SwitchableAreaItem extends Control<IControlOptions> {
     }
 }
 
+Object.defineProperty(SwitchableAreaItem, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return SwitchableAreaItem.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/switchableArea:itemTemplate#selectedKey
  * @cfg {String} Ключ выбранного элемента.

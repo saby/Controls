@@ -32,6 +32,7 @@ import Deferred = require('Core/Deferred');
 import {TVisibility} from 'Controls/marker';
 import {DependencyTimer} from 'Controls/popup';
 import {ISearchControllerOptions} from "../_search/ControllerClass";
+import 'css!Controls/suggest';
 
 const CURRENT_TAB_META_FIELD = 'tabsSelectedKey';
 const HISTORY_KEYS_FIELD = 'historyKeys';
@@ -896,7 +897,6 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    protected _getSourceController(options?: IInputControllerOptions): SourceController {
       if (!this._sourceController) {
          this._sourceController = new SourceController(this._getSourceControllerOptions(options));
-         this._sourceController.loadedBySuggest = true;
       }
       return this._sourceController;
    }
@@ -971,23 +971,14 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       };
       this._setSuggestMarkedKey(null);
 
-      let newFilter;
       // change only filter for query, tabSelectedKey will be changed after processing query result,
       // otherwise interface will blink
       if (this._tabsSelectedKey !== tabId) {
-         const currentFilter = {...this._filter};
          this._setFilterAndLoad(this._options.filter, this._options, tabId)
              .finally(() => {
-                this._sourceController.setFilter(newFilter);
-                this._filter = newFilter;
                 changeTabCallback();
                 this._tabsSelectedKey = tabId;
              });
-         //Костыль, пока список сам грузит данные при изменении опции filter
-         //Удалено в 21.2000
-         newFilter = {...this._filter};
-         this._filter = currentFilter;
-         this._sourceController.setFilter(currentFilter);
       } else {
          changeTabCallback();
       }
@@ -1107,8 +1098,6 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       this._close();
    }
 
-   static _theme: string[] = ['Controls/suggest'];
-
    static getOptionTypes(): object {
       return {
          searchParam: descriptor(String).required()
@@ -1130,3 +1119,11 @@ export default class InputContainer extends Control<IInputControllerOptions> {
       };
    }
 }
+
+Object.defineProperty(InputContainer, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+   get(): object {
+      return InputContainer.getDefaultOptions();
+   }
+});

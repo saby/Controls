@@ -1,0 +1,39 @@
+<div class="controls-TileView__itemActions_menu">
+   <Controls.Container.Async
+      templateName="Controls/popupTemplate:Sticky">
+      <ws:partial
+         template="{{content.resolvedTemplate}}"
+         shadowVisible="{{true}}">
+         <ws:headerContentTemplate>
+            <div class="controls-TileView__itemActions__menu_header
+                  controls-TileView__itemActions__menu_header_theme-{{_options.theme}}">
+               <div class="controls-TileView__itemActions__menu_header_title_theme-{{_options.theme}}"
+                    title="{{_options.title}}">{{_options.title}}</div>
+               <div class="controls-TileView__itemActions__menu_header_additionalTitle_theme-{{_options.theme}}"
+                    title="{{_options.additionalTitle}}">{{_options.additionalText}}</div>
+            </div>
+         </ws:headerContentTemplate>
+         <ws:bodyContentTemplate>
+            <div class="controls-TileView__itemActions__menu_content">
+               <div class="controls-TileView__itemActions__menu_imageWrapper" style="min-width: {{_options.previewWidth}}px; min-height: {{_options.previewHeight}}px;">
+                  <img class="contrls-TileView__itemActions_menu_image {{_options.imageClasses}}"
+                       src="{{_options.image}}"/>
+               </div>
+               <Controls.Container.Async templateName="Controls/menu:Control">
+                  <ws:partial
+                     template="{{content.resolvedTemplate}}"
+                     additionalProperty="{{null}}"
+                     attr:class="controls-TileView__itemActions__menu controls-TileView__itemActions__menu_theme-{{_options.theme}}"
+                     source="{{_options.source}}"
+                     parentProperty="{{_options.parentProperty}}"
+                     on:itemClick="_sendResult('itemClick')"
+                     keyProperty="id"
+                     displayProperty="title"
+                     scope="{{_options}}"
+                  />
+               </Controls.Container.Async>
+            </div>
+         </ws:bodyContentTemplate>
+      </ws:partial>
+   </Controls.Container.Async>
+</div>

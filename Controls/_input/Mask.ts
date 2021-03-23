@@ -3,6 +3,7 @@ import {default as Base, IBaseInputOptions} from 'Controls/_input/Base';
 import * as ViewModel from 'Controls/_input/Mask/ViewModel';
 import {descriptor} from 'Types/entity';
 import {Logger} from 'UI/Utils';
+import 'css!Controls/input';
 import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
 
 // TODO: https://online.sbis.ru/doc/f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
@@ -27,29 +28,13 @@ const regExpQuantifiers: RegExp = /\\({.*?}|.)/;
  * @ignoreOptions Controls/_input/Base#value
  * @ignoreEvents Controls/_input/Base#valueChanged Controls/_input/Base#inputCompleted
  *
- * @mixes Controls/interface/IInputMaskValue
+ * @mixes Controls/_input/interface/IInputMaskValue
  * @mixes Controls/_decorator/resources/IMask
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Input/Masks/Index
  */
 
-/*
- * A component for entering text in a {@link mask specific format}.
- * Characters that are not yet entered in the field can be replaced by another {@link replacer character}.
- * If the input character does not fit the format, then character won't be added.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FExample%2FInput демо-пример}.
- * @remark
- * If the {@link replacer} is not empty and container with width: auto, then the width is determined based on the content.
- *
- * @class Controls/_input/Mask
- * @extends Controls/_input/Base
- *
- * @mixes Controls/interface/IInputMaskValue
- * @public
- * @author Красильников А.С.
- * @demo Controls-demo/Input/Masks/Index
- */
 class Mask extends Base {
     protected _viewModel: ViewModel;
     protected _defaultValue: string = '';
@@ -102,7 +87,6 @@ class Mask extends Base {
         }
         super._clickHandler();
     }
-    static _theme: string[] = Base._theme.concat(['Controls/input']);
 
     private static _validateReplacer(replacer, mask): boolean {
         if (replacer && regExpQuantifiers.test(mask)) {
@@ -143,4 +127,14 @@ class Mask extends Base {
         return optionTypes;
     }
 }
+
+Object.defineProperty(Mask, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Mask.getDefaultOptions();
+   }
+});
+
 export default Mask;

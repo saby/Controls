@@ -13,7 +13,7 @@ export interface ISortingButtonOptions extends IControlOptions {
  *
  * @private
  *
- * @see Controls/grid:SortingSelector
+ * @see Controls/gridNew:SortingSelector
  */
 class SortingButton extends Control<ISortingButtonOptions> {
     protected _template: TemplateFunction = template;

@@ -38,19 +38,19 @@
    white-space: pre;
 }
 
-.controls-InputBase__nativeField_caretEmpty_theme_@{themeName} {
-   caret-color: @caret-color_empty_inputText;
+.controls-InputBase__nativeField_caretEmpty {
+   caret-color: var(--caret-color_empty_inputText);
 }
 
-.controls-InputBase__nativeField_caretFilled_theme_@{themeName} {
-   caret-color: @caret-color_fill_inputText;
+.controls-InputBase__nativeField_caretFilled {
+   caret-color: var(--caret-color_fill_inputText);
 }
 
-.controls-InputBase__field_theme_@{themeName}_margin-xs {
-   margin: 0 @padding-horizontal_inputText;
+.controls-InputBase__field_margin-xs {
+   margin: 0 var(--padding-horizontal_inputText);
 }
 
-.controls-InputBase__field_theme_@{themeName}_margin-null {
+.controls-InputBase__field_margin-null {
    margin: 0;
 }
 
@@ -115,8 +115,8 @@
  */
 & {
    .expansionFix(@value) {
-      .controls-InputBase__field_autoWidth.controls-InputBase__field_theme_@{themeName}_margin-xs {
-         margin: 0 @padding-horizontal_inputText - @value 0 @padding-horizontal_inputText;
+      .controls-InputBase__field_autoWidth.controls-InputBase__field_margin-xs {
+         margin: 0 calc(var(--padding-horizontal_inputText) - @value) 0 var(--padding-horizontal_inputText);
       }
       .controls-InputBase__stretcher-block {
          padding-right: @value;
@@ -137,6 +137,6 @@
    align-self: center;
 }
 
-.controls-Input_negativeOffset_theme_@{themeName} {
-   margin-left: -(@padding-horizontal_inputText + @border-thickness_inputText);
+.controls-Input_negativeOffset {
+   margin-left: calc((var(--padding-horizontal_inputText) + var(--border-thickness_inputText)) / (-1));
 }

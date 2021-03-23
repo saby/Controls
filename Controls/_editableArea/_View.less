@@ -16,13 +16,8 @@
    display: inline-flex;
 }
 
-//TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=86403ac8-e2d8-42f8-b59b-2933bbd870f1
-.controls-EditableArea_isEditing_style_withBackground_theme-@{themeName} {
-   background-color: @contrast_background-color_editableArea;
-}
-
-.controls-background-editableArea_theme-@{themeName} {
-   background-color: @contrast_background-color_editableArea;
+.controls-background-editableArea {
+   background-color: var(--contrast_background-color_editableArea);
 }
 
 .controls-EditableArea__applyButton,
@@ -45,62 +40,62 @@
    cursor: default;
 }
 
-.controls-EditableArea__applyButton_theme-@{themeName} {
-   height: @height_applyButton_editableArea;
-   width: @width_applyButton_editableArea;
-   border-radius: @border-radius_applyButton_editableArea;
-   box-shadow: @box-shadow_applyButton_editableArea;
-   background-color: @background-color_applyButton_editableArea;
+.controls-EditableArea__applyButton {
+   height: var(--height_applyButton_editableArea);
+   width: var(--width_applyButton_editableArea);
+   border-radius: var(--border-radius_applyButton_editableArea);
+   box-shadow: var(--box-shadow_applyButton_editableArea);
+   background-color: var(--background-color_applyButton_editableArea);
 }
 
-.controls-EditableArea__applyButton_theme-@{themeName}:hover {
-   background-color: @background-color_hover_applyButton_editableArea;
+.controls-EditableArea__applyButton:hover {
+   background-color: var(--background-color_hover_applyButton_editableArea);
 }
-.controls-EditableArea__applyButton_theme-@{themeName}:active {
+.controls-EditableArea__applyButton:active {
    box-shadow: none;
-   background-color: @background-color_active_applyButton_editableArea;
+   background-color: var(--background-color_active_applyButton_editableArea);
 }
 
-.controls-EditableArea__closeButton_theme-@{themeName} {
-   width: @width_closeButton_editableArea;
-   height: @height_closeButton_editableArea;
-   border-width: @border-thickness_closeButton_editableArea;
+.controls-EditableArea__closeButton {
+   width: var(--width_closeButton_editableArea);
+   height: var(--height_closeButton_editableArea);
+   border-width: var(--border-thickness_closeButton_editableArea);
    border-style: solid;
-   border-color: @border-color_button_toolButton;
-   border-radius: @border-radius_closeButton_editableArea;
-   box-shadow: @box-shadow_closeButton_editableArea;
-   margin-left: @toolbar_padding-left_editableArea;
-   margin-right: @toolbar_padding-right_editableArea;
-   background-color: @background-color_closeButton_editableArea;
+   border-color: var(--border-color_button_toolButton);
+   border-radius: var(--border-radius_closeButton_editableArea);
+   box-shadow: var(--box-shadow_closeButton_editableArea);
+   margin-left: var(--toolbar_padding-left_editableArea);
+   margin-right: var(--toolbar_padding-right_editableArea);
+   background-color: var(--background-color_closeButton_editableArea);
 }
 
-.controls-EditableArea__closeButton_theme-@{themeName}:hover {
-   border-color: @border-color_hover_closeButton_editableArea;
-   background-color: @background-color_hover_closeButton_editableArea;
+.controls-EditableArea__closeButton:hover {
+   border-color: var(--border-color_hover_closeButton_editableArea);
+   background-color: var(--background-color_hover_closeButton_editableArea);
 }
-.controls-EditableArea__closeButton_theme-@{themeName}:active {
+.controls-EditableArea__closeButton:active {
    box-shadow: none;
-   border-color: @border-color_active_closeButton_editableArea;
-   background-color: @background-color_active_closeButton_editableArea;
+   border-color: var(--border-color_active_closeButton_editableArea);
+   background-color: var(--background-color_active_closeButton_editableArea);
 }
 
-.controls-EditableArea__closeButton-icon_theme-@{themeName} {
-   background-image: @icon_background-image_closeButton_editableArea;
-   width: @icon-size_closeButton_editableArea;
-   height: @icon-size_closeButton_editableArea;
+.controls-EditableArea__closeButton-icon {
+   background-image: var(--icon_background-image_closeButton_editableArea);
+   width: var(--icon-size_closeButton_editableArea);
+   height: var(--icon-size_closeButton_editableArea);
 }
 
-.controls-EditableArea__closeButton-icon_theme-@{themeName}:hover {
-   background-image: @icon_hovered_background-image_closeButton_editableArea;
-   width: @icon-size_closeButton_editableArea;
-   height: @icon-size_closeButton_editableArea;
+.controls-EditableArea__closeButton-icon:hover {
+   background-image: var(--icon_hovered_background-image_closeButton_editableArea);
+   width: var(--icon-size_closeButton_editableArea);
+   height: var(--icon-size_closeButton_editableArea);
 }
 
-.controls-EditableArea__applyButton-icon_theme-@{themeName} {
-   text-shadow: @text-shadow_applyButton_editableArea;
-   .icon(@icon-size_applyButton_editableArea, 'cbuc-icons');
+.controls-EditableArea__applyButton-icon {
+   text-shadow: var(--text-shadow_applyButton_editableArea);
+   .icon(var(--icon-size_applyButton_editableArea), 'cbuc-icons');
 }
 
-.controls-EditableArea_isEditing_wrapper_theme-@{themeName} {
-   margin-left: @toolbar_button_offset_editableArea;
+.controls-EditableArea_isEditing_wrapper {
+   margin-left: var(--toolbar_button_offset_editableArea);
 }

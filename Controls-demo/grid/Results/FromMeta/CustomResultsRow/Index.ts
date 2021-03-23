@@ -28,7 +28,7 @@ export default class extends Control {
     }
 
     private _setResultRow(): void {
-        const items = this._children.grid._children.listControl._children.baseControl.getViewModel().getItems();
+        const items = this._children.grid._children.listControl.getViewModel().getItems();
         const results = items.getMetaData().results;
         results.set('population', getCountriesStats().getResults().partial[this._partialResultsIndex]);
         this._partialResultsIndex = ++this._partialResultsIndex % getCountriesStats().getResults().partial.length;
@@ -46,7 +46,7 @@ export default class extends Control {
     }
 
     private _setMeta(): void {
-        const items = this._children.grid._children.listControl._children.baseControl.getViewModel().getItems();
+        const items = this._children.grid._children.listControl.getViewModel().getItems();
         items.setMetaData({
             ...items.getMetaData(),
             results: this._generateResults(items)

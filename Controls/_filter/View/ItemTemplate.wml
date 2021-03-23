@@ -1,12 +1,12 @@
 <ws:template name="defaultBeforeTpl">
-   <div class="icon-DayForward controls-FilterView__iconArrow_theme-{{_options.theme}}
-               controls-FilterView-{{alignment}}__iconArrow_theme-{{_options.theme}}
-               controls-FilterView__iconArrow_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}_theme-{{_options.theme}} "></div>
+   <div class="icon-DayForward controls-FilterView__iconArrow
+               controls-FilterView-{{alignment}}__iconArrow
+               controls-FilterView__iconArrow_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}"></div>
 </ws:template>
 
-<div class="controls-FilterView__block controls-FilterView__block_theme-{{_options.theme}}
-   {{(beforeContentTemplate === null ? 'controls-FilterView__block-withoutArrow_theme-' :
-    'controls-FilterView__block-withArrow_theme-') + _options.theme}}">
+<div class="controls-FilterView__block
+   {{beforeContentTemplate === null ? 'controls-FilterView__block-withoutArrow' :
+    'controls-FilterView__block-withArrow'}}">
 
    <ws:partial template="{{beforeContentTemplate !== undefined ? beforeContentTemplate : 'defaultBeforeTpl'}}" />
 
@@ -14,13 +14,13 @@
       <ws:partial template="{{contentTemplate}}" scope="{{_options}}" attr:class="js-controls-FilterView__target"/>
    </ws:if>
    <ws:else>
-      <div class="controls-FilterView__text-wrapper_theme-{{_options.theme}}
+      <div class="controls-FilterView__text-wrapper
                   js-controls-FilterView__target
-                  controls-FilterView__text_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}_theme-{{_options.theme}}"
+                  controls-FilterView__text_state_{{_options.readOnly ? 'readOnly' : 'enabled'}}"
            title="{{title}}"
            name="{{itemName}}">  <!--  for tests  -->
-         <div class="controls-FilterView__text_theme-{{_options.theme}}">{{text}}</div>
-         <span if="{{moreText}}" class="controls-FilterView__hasMoreText_theme-{{_options.theme}}">{{moreText}}</span>
+         <div class="controls-FilterView__text">{{text}}</div>
+         <span if="{{moreText}}" class="controls-FilterView__hasMoreText">{{moreText}}</span>
       </div>
    </ws:else>
 </div>

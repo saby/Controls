@@ -1,63 +1,74 @@
-import {Control} from 'UI/Base';
 import {EventUtils} from 'UI/Events';
-import template = require('wml!Controls/_explorer/PathController/PathWrapper');
+import {Path} from 'Controls/_dataSource/calculatePath';
+import {IHeaderCell} from 'Controls/_interface/grid/IHeaderCell';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+// tslint:disable-next-line:ban-ts-ignore
+// @ts-ignore
+import * as template from 'wml!Controls/_explorer/PathController/PathWrapper';
 
-const _private = {
-   needCrumbs: function(header, items, options) {
-      if (options.breadcrumbsVisibility === 'hidden') {
-         return false;
-      }
+interface IOptions extends IControlOptions {
+    items?: Path;
+    header?: IHeaderCell[];
 
-      return !!items &&
-          ((!_private.withoutBackButton(header) && items.length > 0) || items.length > 1) ||
-          !!options.rootVisible;
-   },
-   withoutBackButton: function(header) {
-      return header && header[0] && header[0].isBreadCrumbs;
-   }
-};
+    needShadow?: boolean;
+    stickyHeader?: boolean;
 
-var PathWrapper = Control.extend({
-   _template: template,
-   _needCrumbs: false,
-   _withoutBackButton: false,
-   _items: null,
+    style?: string;
+    backgroundStyle?: string;
 
-   _beforeMount: function(options) {
-      return options.itemsAndHeaderPromise.then((params) => {
-         this._items = params.items;
-         this._needCrumbs = _private.needCrumbs(params.header, params.items, options);
-         this._header = params.header;
-         this._withoutBackButton = _private.withoutBackButton(this._header);
-      });
-   },
+    rootVisible?: boolean;
+    breadcrumbsVisibility?: 'hidden' | 'visible';
+    afterBreadCrumbsTemplate?: string | TemplateFunction;
+}
 
-   _beforeUpdate: function(newOptions) {
-      const isEqualsHeader = GridIsEqualUtil.isEqualWithSkip(
-          this._header,
-          newOptions.header,
-          { template: true }
-       );
+/**
+ * * Рисует хлебные крошки и кастомный контент после них когда итемы для списка загружены
+ */
+export default class PathWrapper extends Control<IOptions> {
+    protected _template: TemplateFunction = template;
+    protected _needCrumbs: boolean = false;
+    protected _withoutBackButton: boolean = false;
+    protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
 
-      if (this._items !== newOptions.items ||
-          this._options.rootVisible !== newOptions.rootVisible || !isEqualsHeader) {
-         this._items = newOptions.items;
-         this._needCrumbs = _private.needCrumbs(newOptions.header,  this._items, newOptions);
-      }
+    protected _beforeMount(options: IOptions): void {
+        this._needCrumbs = PathWrapper._isNeedCrumbs(options);
+        this._withoutBackButton = PathWrapper._isWithoutBackButton(options.header);
+    }
 
-      if (this._options.breadcrumbsVisibility !== newOptions.breadcrumbsVisibility) {
-         this._needCrumbs = _private.needCrumbs(newOptions.header,  this._items, newOptions);
-      }
+    protected _beforeUpdate(newOptions: IOptions): void {
+        const headerChanged = GridIsEqualUtil.isEqualWithSkip(
+            this._options.header,
+            newOptions.header,
+            { template: true }
+        );
 
-      if (!isEqualsHeader) {
-         this._header = newOptions.header;
-         this._withoutBackButton = _private.withoutBackButton(this._header);
-      }
-   },
+        if (
+            headerChanged ||
+            this._options.items !== newOptions.items ||
+            this._options.rootVisible !== newOptions.rootVisible ||
+            this._options.breadcrumbsVisibility !== newOptions.breadcrumbsVisibility
+        ) {
+            this._needCrumbs = PathWrapper._isNeedCrumbs(newOptions);
+        }
 
-   _notifyHandler: EventUtils.tmplNotify
+        if (headerChanged) {
+            this._withoutBackButton = PathWrapper._isWithoutBackButton(newOptions.header);
+        }
+    }
 
-});
-PathWrapper._private = _private;
-export = PathWrapper;
+    private static _isNeedCrumbs(options: IOptions): boolean {
+        if (options.breadcrumbsVisibility === 'hidden') {
+            return false;
+        }
+
+        const items = options.items;
+        return !!items &&
+            ((!PathWrapper._isWithoutBackButton(options.header) && items.length > 0) || items.length > 1) ||
+            !!options.rootVisible;
+    }
+
+    private static _isWithoutBackButton(header: IHeaderCell[]): boolean {
+        return !!(header && header[0] && (header[0] as any).isBreadCrumbs);
+    }
+}

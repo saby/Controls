@@ -1,4 +1,4 @@
-import Cell, { IOptions as ICellOptions } from './Cell';
+import { IOptions as ICellOptions } from './Cell';
 import { OptionsToPropertyMixin }  from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 import DataRow from './DataRow';

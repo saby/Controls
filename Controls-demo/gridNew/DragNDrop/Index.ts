@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/DragNDrop/DragNDrop';
 import {Memory} from 'Types/source';
 import {DragNDrop} from '../DemoHelpers/DataCatalog';
 import * as Dnd from '../../../Controls/dragnDrop';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';

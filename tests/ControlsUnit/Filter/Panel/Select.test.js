@@ -3,7 +3,7 @@ define(['Controls/_filterPopup/Panel/Select'
    describe('Controls/_filterPopup/Panel/Select', function() {
 
       it('_clickHandler', function() {
-         let select = new Select();
+         let select = new Select.default();
          let textValue, selectedKeys;
 
          const items = [

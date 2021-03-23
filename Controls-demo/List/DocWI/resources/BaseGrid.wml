@@ -1,5 +1,0 @@
-<Controls.grid:View
-        source="{{_viewSource}}"
-        keyProperty="id"
-        columns="{{_columns}}">
-</Controls.grid:View>

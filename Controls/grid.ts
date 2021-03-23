@@ -76,27 +76,7 @@ export {
     GridLayoutUtil
 };
 
-export {
-    TColumns,
-    IColumn,
-    IColspanParams,
-    IRowspanParams,
-    ICellPadding,
-    TCellAlign,
-    TCellPaddingVariant,
-    TCellVerticalAlign,
-    TOverflow,
-    IColumnSeparatorSizeConfig,
-    TColumnSeparatorSize
-} from './_grid/interface/IColumn';
-export { TMarkerClassName } from 'Controls/_grid/interface/ColumnTemplate';
-
 export {IGridControl} from './_grid/interface/IGridControl';
-
-export {
-    THeader,
-    IHeaderCell
-} from './_grid/interface/IHeaderCell';
 
 export {
     COLUMN_SCROLL_JS_SELECTORS,
@@ -104,3 +84,18 @@ export {
     ColumnScrollController as ColumnScroll,
     IColumnScrollControllerOptions as IColumnScrollOptions
 } from 'Controls/columnScroll';
+
+export {
+    TColumns,
+    IColumn,
+    IColspanParams,
+    ICellPadding,
+    TCellAlign,
+    TCellPaddingVariant,
+    TCellVerticalAlign,
+    TOverflow,
+    IColumnSeparatorSizeConfig,
+    TColumnSeparatorSize,
+    THeader,
+    IHeaderCell
+} from 'Controls/interface';

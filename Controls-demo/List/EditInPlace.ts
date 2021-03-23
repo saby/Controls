@@ -5,7 +5,7 @@ import {Model} from 'Types/entity';
 import 'Controls/validate';
 import 'Controls-demo/List/EditInPlace/Validators';
 
-import * as Constants from 'Controls/list';
+import {editing as Constants} from 'Controls/list';
 import * as template from 'wml!Controls-demo/List/EditInPlace/EditInPlace';
 
 const data = {
@@ -134,7 +134,7 @@ export default class EditInPlace extends Control {
       }
       switch (options.item.get('id')) {
          case 1:
-            return Constants.editing.CANCEL;
+            return Constants.CANCEL;
          case 2:
             return {
                item: new Model({
@@ -177,7 +177,7 @@ export default class EditInPlace extends Control {
 
    _cancelItemAdd(e, options, isAdd: boolean) {
       if (isAdd) {
-         return Constants.editing.CANCEL;
+         return Constants.CANCEL;
       }
    }
 

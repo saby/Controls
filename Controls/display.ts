@@ -50,10 +50,11 @@ import {
     ItemsFactory,
     IViewIterator
 } from './_display/Collection';
-export {Collection, ICollectionOptions, IEditingConfig, IItemActionsTemplateConfig, ISwipeConfig, ItemsFactory, IViewIterator};
+export {
+    Collection, ICollectionOptions, IEditingConfig,
+    IItemActionsTemplateConfig, ISwipeConfig, ItemsFactory, IViewIterator
+};
 export {default as CollectionItem, IOptions as ICollectionItemOptions} from './_display/CollectionItem';
-import BreadcrumbsItem from './_display/BreadcrumbsItem';
-export {BreadcrumbsItem};
 import {default as Enum} from './_display/Enum';
 export {Enum};
 import {default as Flags} from './_display/Flags';
@@ -77,12 +78,16 @@ export {ITreeItemOptions};
 import ExpandableMixin, {IOptions as IExpandableMixinOptions} from 'Controls/_display/ExpandableMixin';
 export {ExpandableMixin, IExpandableMixinOptions};
 
-export {default as IMarkable} from './_display/interface/IMarkable';
+export {default as IMarkable, TMarkerClassName} from './_display/interface/IMarkable';
 export {default as ISelectableItem} from './_display/interface/ISelectableItem';
 
-import {default as CollectionItem} from 'Controls/_display/CollectionItem';
+export {default as IGroupNode} from './_display/interface/IGroupNode';
 
-export {ANIMATION_STATE} from './_display/interface/ICollection';
+import {default as CollectionItem} from 'Controls/_display/CollectionItem';
+import BreadcrumbsItem from './_display/BreadcrumbsItem';
+export {BreadcrumbsItem};
+
+export {ANIMATION_STATE, IItemPadding} from './_display/interface/ICollection';
 export {IEditableCollection} from './_display/interface/IEditableCollection';
 export {IEditableCollectionItem} from './_display/interface/IEditableCollectionItem';
 export {ICollectionItem} from './_display/interface/ICollectionItem';
@@ -92,11 +97,6 @@ import {default as TileCollection} from './_display/TileCollection';
 export {TileCollection};
 import {default as TileCollectionItem} from './_display/TileCollectionItem';
 export {TileCollectionItem};
-
-import {default as ColumnsCollection} from './_display/ColumnsCollection';
-export {ColumnsCollection};
-import {default as ColumnsCollectionItem} from './_display/ColumnsCollectionItem';
-export {ColumnsCollectionItem};
 
 import * as GridLadderUtil from './_display/utils/GridLadderUtil';
 export {GridLadderUtil};
@@ -118,20 +118,20 @@ export {IDragPosition};
 export {groupConstants} from './_display/itemsStrategy/Group';
 export {MultiSelectAccessibility} from './_display/Collection';
 
-export { IItemPadding } from 'Controls/_display/Collection';
+import IItemsStrategy, {IOptions as IItemsStrategyOptions} from 'Controls/_display/IItemsStrategy';
+import TreeItemDecorator from 'Controls/_display/TreeItemDecorator';
+export {IItemsStrategy, IItemsStrategyOptions};
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});
-register('Controls/display:ColumnsCollection', ColumnsCollection, {instantiate: false});
-register('Controls/display:ColumnsCollectionItem', ColumnsCollectionItem, {instantiate: false});
 register('Controls/display:Enum', Enum, {instantiate: false});
 register('Controls/display:Flags', Flags, {instantiate: false});
 register('Controls/display:FlagsItem', FlagsItem, {instantiate: false});
 
 register('Controls/display:GroupItem', GroupItem, {instantiate: false});
-register('Controls/display:Search', Search, {instantiate: false});
 register('Controls/display:TileCollection', TileCollection, {instantiate: false});
 register('Controls/display:TileCollectionItem', TileCollectionItem, {instantiate: false});
 register('Controls/display:Tree', Tree, {instantiate: false});
 register('Controls/display:TreeChildren', TreeChildren, {instantiate: false});
 register('Controls/display:TreeItem', TreeItem, {instantiate: false});
+register('Controls/display:TreeItemDecorator', TreeItemDecorator, {instantiate: false});

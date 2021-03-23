@@ -2,7 +2,7 @@ export interface ISearchOptions {
    searchParam: string;
    minSearchLength: number;
    searchDelay: number;
-   searchValueTrim: boolean;
+   searchValueTrim?: boolean;
 }
 /**
  * Интерфейс для ввода запроса в поле поиска.

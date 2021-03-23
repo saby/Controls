@@ -2,6 +2,7 @@ import {ICrud, Memory, PrefetchProxy} from 'Types/source';
 import {deepStrictEqual} from "assert";
 
 import {DataLoader} from 'Controls/_dataSource/error';
+import {useFakeTimers} from 'sinon';
 
 describe('Controls/_dataSource/_error/DataLoader', () => {
     let memory: Memory;
@@ -43,23 +44,6 @@ describe('Controls/_dataSource/_error/DataLoader', () => {
             async () => {
                 const wrapper = await getResult(defaultSourcesProp, 2000);
                 return deepStrictEqual(wrapper, data, 'Wrong response defaultSourcesProp data');
-            }
-        );
-
-        //  Ошибка 504 в ответе
-        it(
-            'wrongResponse',
-            async () => {
-
-                const originQuery = memory.query;
-                memory.query = (query) => {
-                    return new Promise((resolve) => {
-                        setTimeout(() => resolve(originQuery.apply(memory, query)));
-                    });
-                };
-
-                const wrapper = await getResult(defaultSourcesProp);
-                return deepStrictEqual(wrapper, 504, 'This is not the wrong response');
             }
         );
 

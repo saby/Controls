@@ -1,5 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
-import {IColspanParams, IColumn} from 'Controls/grid';
+import {IColspanParams, IColumn} from 'Controls/interface';
 
 import Row, {IOptions as IRowOptions} from './Row';
 import EmptyCell from './EmptyCell';

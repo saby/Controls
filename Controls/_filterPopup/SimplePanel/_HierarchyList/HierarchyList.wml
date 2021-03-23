@@ -33,6 +33,6 @@
    </ws:for>
 
    <ws:if data="{{!_options.isLast && _options.showSeparator !== false}}">
-      <div class="controls-SimplePanel__block_separator_theme_{{_options.theme}}"></div>
+      <div class="controls-SimplePanel__block_separator"></div>
    </ws:if>
 </div>

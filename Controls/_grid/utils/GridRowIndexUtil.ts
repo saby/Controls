@@ -1,5 +1,5 @@
-import {Collection, CollectionItem} from 'Controls/display'
-import {IHeaderCell} from '../interface/IHeaderCell';
+import {Collection, CollectionItem} from 'Controls/display';
+import {IHeaderCell} from 'Controls/interface';
 
 /**
  * @author Родионов Е.А.

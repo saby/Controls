@@ -12,7 +12,7 @@ import {List} from 'Types/collection';
  * @author Красильников А.С.
  */
 
-export interface IInfoBoxPopupOptions extends IValidationStatusOptions {
+export interface IInfoBoxPopupOptions extends IValidationStatusOptions, IControlOptions {
     target?: HTMLElement | EventTarget | Control;
     opener?: Control<IControlOptions, unknown>;
     maxWidth?: number;
@@ -69,7 +69,7 @@ export interface IInfoBoxOpener {
  * @example
  * js
  * <pre>
- *   Control.extend({
+ *   class MyControl extends Control<IControlOptions>{
  *      ...
  *
  *      _openInfobox() {
@@ -83,7 +83,7 @@ export interface IInfoBoxOpener {
  *      _closeInfobox() {
  *          this._notify('closeInfoBox', [], {bubbling: true});
  *      }
- *   });
+ *   };
  * </pre>
  */
 

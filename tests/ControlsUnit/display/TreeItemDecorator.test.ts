@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 
-import TreeItemDecorator from 'Controls/_display/TreeItemDecorator';
 import { TreeItem } from 'Controls/display';
+import TreeItemDecorator from 'Controls/_display/TreeItemDecorator';
 
 
 describe('Controls/_display/TreeItemDecorator', () => {

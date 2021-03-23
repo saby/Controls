@@ -2,7 +2,7 @@ import { Control, TemplateFunction, IControlOptions } from 'UI/Base';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { Model } from 'Types/entity';
 
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 
 import * as Template from 'wml!Controls-demo/treeGridNew/EditArrow/WithColumnTemplate/WithColumnTemplate';
 import * as TreeMemory from 'Controls-demo/List/Tree/TreeMemory';

@@ -1,0 +1,14 @@
+<div class="controlsDemo__flexColumn">
+   <div class="controlsDemo__wrapper">
+      <Controls.dropdown:Button
+              keyProperty="key"
+              caption="Create"
+              viewMode="button"
+              source="{{_source}}"
+              groupProperty="group">
+         <ws:groupTemplate>
+            <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}"/>
+         </ws:groupTemplate>
+      </Controls.dropdown:Button>
+   </div>
+</div>

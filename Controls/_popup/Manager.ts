@@ -59,7 +59,7 @@ class Manager {
         ManagerController.setTheme(options.theme);
     }
 
-    protected init(options: IManagerOptions, context: IManagerTouchContext): void {
+    init(context: IManagerTouchContext): void {
         this._updateContext(context);
         ManagerController.setManager(this);
         EventBus.channel('navigation').subscribe('onBeforeNavigate', this._navigationHandler.bind(this));
@@ -82,17 +82,17 @@ class Manager {
         }
     }
 
-    protected updateOptions(options: IManagerOptions, context: IManagerTouchContext): void {
+    updateOptions(popupHeaderTheme: string, context: IManagerTouchContext): void {
         this._updateContext(context);
         // Theme of the popup header can be changed dynamically.
         // The option is not inherited, so in order for change option in 1 synchronization cycle,
         // we have to make an event model on ManagerController.
         // Now there are no cases where the theme changes when the popup are open,
         // so now just change the theme to afterUpdate.
-        ManagerController.setPopupHeaderTheme(options.popupHeaderTheme);
+        ManagerController.setPopupHeaderTheme(popupHeaderTheme);
     }
 
-    protected destroy(): void {
+    public destroy(): void {
         if (detection.isMobileIOS) {
             EventBus.globalChannel().unsubscribe('MobileInputFocus', this._controllerVisibilityChangeHandler);
             EventBus.globalChannel().unsubscribe('MobileInputFocusOut', this._controllerVisibilityChangeHandler);
@@ -799,7 +799,10 @@ class Manager {
 
     private _updatePopupOptions(id: string, item: IPopupItem, oldOptions: IPopupOptions, result: boolean): void {
         if (result) {
+            // Эмулируется поведение при открытии, когда состояние с initializing меняется на created
+            item.controller._beforeUpdateOptions(item);
             this._redrawItems().then(() => {
+                item.controller._afterUpdateOptions(item);
                 ManagerController.getContainer().activatePopup(id);
             });
         } else {

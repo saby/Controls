@@ -85,9 +85,11 @@ export default {
                 document.body.insertBefore(managerContainer, document.body.firstChild);
 
                 ManagerWrapperCreatingPromise = new Promise((resolve, reject) => {
-                    require(['Core/Creator', 'Controls/compatiblePopup'], (Creator, compatiblePopup) => {
-                        Creator(compatiblePopup.ManagerWrapper, {}, managerContainer).then(resolve);
-                    }, reject);
+                    const compatibleDeps = [import('UI/Base'), import('Controls/compatiblePopup')];
+
+                    Promise.all(compatibleDeps).then(([base, compatiblePopup]) => {
+                        base.AsyncCreator(compatiblePopup.ManagerWrapper, {}, managerContainer).then(resolve);
+                    }).catch(reject);
                 });
             } else {
                 // Защита от случаев, когда позвали открытие окна до полного построения страницы

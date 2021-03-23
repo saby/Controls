@@ -3,28 +3,28 @@
                 <Controls.popupTemplate:NotificationSimple name="myOpenerDanger"
                                                            text="DANGER"
                                                            style="danger"
-                                                           icon="icon-small icon-Subscribe"
+                                                           icon="icon-Subscribe"
 														   attr:class="controlsDemo-Notification__danger">
                 </Controls.popupTemplate:NotificationSimple>
 
                 <Controls.popupTemplate:NotificationSimple name="myOpenerWarning"
                                                            text="WARNING"
                                                            style="warning"
-                                                           icon="icon-medium icon-Attach"
+                                                           icon="icon-Attach"
 														   attr:class="controlsDemo-Notification__warning">
                 </Controls.popupTemplate:NotificationSimple>
 
                 <Controls.popupTemplate:NotificationSimple name="myOpenerSuccess"
                                                            text="Success"
                                                            style="success"
-                                                           icon="icon-small icon-Vacation"
+                                                           icon="icon-Vacation"
 														   attr:class="controlsDemo-Notification__success">
                 </Controls.popupTemplate:NotificationSimple>
 
                 <Controls.popupTemplate:NotificationSimple name="myOpenerSecondary"
                                                            text="Secondary"
                                                            style="secondary"
-                                                           icon="icon-small icon-AdminInfo"
+                                                           icon="icon-AdminInfo"
 														   attr:class="controlsDemo-Notification__primary">
                 </Controls.popupTemplate:NotificationSimple>
 
@@ -32,7 +32,7 @@
                                                            text="NotificationSimple- no closeButton"
                                                            style="danger"
                                                            closeButtonVisibility="{{false}}"
-                                                           icon="icon-small icon-Subscribe"
+                                                           icon="icon-Subscribe"
 														   attr:class="controlsDemo-Notification__noClose">
                 </Controls.popupTemplate:NotificationSimple>
 

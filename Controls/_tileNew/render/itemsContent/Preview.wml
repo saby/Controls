@@ -1,0 +1,32 @@
+<div class="{{ (item || itemData).getContentClasses(itemType, imagePosition) }}" style="display: contents;">
+    <ws:partial template="{{ (item || itemData).getImageTemplate(itemType) }}" scope="{{_options}}"/>
+
+    <ws:partial if="{{topTemplate}}"
+                template="{{topTemplate}}"
+                itemData="{{(item || itemData)}}"
+                item="{{(item || itemData)}}"
+                attr:class="controls-TileView__previewTemplate_topTemplate"/>
+
+    <ws:partial template="wml!Controls/_tileNew/render/Title" scope="{{_options}}">
+        <ws:bottomRightTpl>
+            <ws:partial if="{{bottomRightTemplate}}"
+                        template="{{bottomRightTemplate}}"
+                        attr:class="controls-TileView__previewTemplate_bottomRightTemplate controls-TileView__previewTemplate_bottomRightTemplate_theme-{{_options.theme}}"
+                        itemData="{{(item || itemData)}}"
+                        item="{{(item || itemData)}}"/>
+        </ws:bottomRightTpl>
+        <ws:itemActionsTpl>
+            <ws:partial template="Controls/_tileNew/itemActions/Control" item="{{(item)}}">
+                <ws:partial template="{{itemActionsTemplate}}"
+                            actionPadding="{{ (item || itemData).getActionPadding(itemType) }}"
+                            actionStyle="{{!titleStyle || titleStyle === 'light' ? 'tileLight' : 'tileDark'}}"
+                            iconStyle="{{!titleStyle || titleStyle === 'light' ? 'contrast' : 'tileDark'}}"
+                            actionMode="{{ (item || itemData).getActionMode(itemType) }}"
+                            highlightOnHover="{{false}}"
+                            itemData="{{(item || itemData)}}"
+                            item="{{(item || itemData)}}"
+                            itemActionsClass="{{ (item || itemData).getItemActionsClasses(itemType) }}"/>
+            </ws:partial>
+        </ws:itemActionsTpl>
+    </ws:partial>
+</div>

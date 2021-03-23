@@ -3,9 +3,10 @@ import * as template from 'wml!Controls/_editableArea/View';
 import {IViewOptions} from './interface/IView';
 import * as Deferred from 'Core/Deferred';
 import buttonsTemplate from 'Controls/_editableArea/Templates/Buttons';
-import {autoEdit, toolbarVisible, backgroundStyleClass} from './ActualAPI';
 import {Record} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/CommonClasses';
+import 'css!Controls/editableArea';
 
 'use strict';
 /**
@@ -19,7 +20,7 @@ import {SyntheticEvent} from 'Vdom/Vdom';
  *
  * @remark
  * Если в качестве шаблона редактирования используются поля ввода, то при переключении в режим чтения может наблюдаться скачок текста.
- * Для того, чтобы избежать этого, рекомендуется навесить CSS-класс **controls-Input_negativeOffset_theme_{{_options.theme}}** на редактируемую область.
+ * Для того, чтобы избежать этого, рекомендуется навесить CSS-класс **controls-Input_negativeOffset** на редактируемую область.
  *
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less переменные тем оформления}
@@ -36,16 +37,15 @@ export default class View extends Control<IViewControlOptions> {
    protected _template: TemplateFunction = template;
    protected _buttonsTemplate: typeof buttonsTemplate = buttonsTemplate;
    protected _isEditing: boolean = false;
-   protected _backgroundStyleClass: string;
-   protected _toolbarVisible: boolean;
    protected _editObject: Record;
    private _isStartEditing: boolean = false;
 
    protected _beforeMount(newOptions: IViewControlOptions): void {
-      this._isEditing = autoEdit(newOptions.autoEdit, newOptions.editWhenFirstRendered);
-      this._toolbarVisible = toolbarVisible(newOptions.toolbarVisible, newOptions.toolbarVisibility);
-      this._backgroundStyleClass = backgroundStyleClass(newOptions.theme, newOptions.backgroundStyle, newOptions.style);
-      this._editObject = newOptions.editObject;
+       this._isEditing = newOptions.autoEdit;
+       this._editObject = newOptions.editObject;
+   }
+   protected _afterMount(): void {
+        this._registerFormOperation();
    }
    protected _beforeUpdate(newOptions: IViewControlOptions): void {
       /* В режиме редактирования создается клон, ссылка остается на старый объект.
@@ -53,8 +53,6 @@ export default class View extends Control<IViewControlOptions> {
       if (newOptions.editObject !== this._options.editObject) {
          this._editObject = newOptions.editObject;
       }
-      this._toolbarVisible = toolbarVisible(newOptions.toolbarVisible, newOptions.toolbarVisibility);
-      this._backgroundStyleClass = backgroundStyleClass(newOptions.theme, newOptions.backgroundStyle, newOptions.style);
    }
    protected _afterUpdate(): void {
       if (this._isStartEditing) {
@@ -69,8 +67,16 @@ export default class View extends Control<IViewControlOptions> {
       }
    }
 
+   protected _registerFormOperation(): void {
+        this._notify('registerFormOperation', [{
+            save: this.commitEdit.bind(this),
+            cancel: this.cancelEdit.bind(this),
+            isDestroyed: () => this._destroyed
+        }], {bubbling: true});
+    }
+
    protected _onDeactivatedHandler(): void {
-      if (!this._options.readOnly && this._isEditing && !this._toolbarVisible) {
+      if (!this._options.readOnly && this._isEditing && !this._options.toolbarVisible) {
          this.commitEdit();
       }
    }
@@ -184,7 +190,7 @@ export default class View extends Control<IViewControlOptions> {
       this._editObject = this._options.editObject;
    }
 
-   static _theme: string[] = ['Controls/list', 'Controls/editableArea', 'Controls/Classes'];
+   static _theme: string[] = ['Controls/list'];
 
    static getDefaultOptions(): IViewControlOptions {
       return {
@@ -193,3 +199,12 @@ export default class View extends Control<IViewControlOptions> {
       };
    }
 }
+
+Object.defineProperty(View, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return View.getDefaultOptions();
+    }
+});

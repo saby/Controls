@@ -1,4 +1,4 @@
-define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collection', 'Controls/operations'], function(lookupPopup, entity, sourceLib, collection, operations) {
+define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collection', 'Controls/operations', 'Controls/_lookupPopup/Container'], function(lookupPopup, entity, sourceLib, collection, operations, LookupPopupContainer) {
 
    var getRawData = function(id) {
       return {
@@ -24,29 +24,8 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
 
    describe('Controls/_lookupPopup/Container', function() {
 
-      it('_private::getSelectedItems', () => {
-          const options = {
-             selectedItems: 'testOptionsItems'
-          };
-          const emptyOptions = {};
-
-          const context = {
-             selectorControllerContext: {
-                selectedItems: 'testContextItems'
-             }
-          };
-
-          const emptyContext = {
-             selectorControllerContext: {}
-          };
-
-          assert.equal(lookupPopup.Container._private.getSelectedItems(options, emptyContext), 'testOptionsItems');
-          assert.equal(lookupPopup.Container._private.getSelectedItems(emptyOptions, context), 'testContextItems');
-          assert.equal(lookupPopup.Container._private.getSelectedItems(emptyOptions, emptyContext).getCount(), 0);
-      });
-
       it('_beforeUnmount', () => {
-         const container = new lookupPopup.Container();
+         const container = new LookupPopupContainer();
 
          container._loadingIndicatorId = 'testId';
          container._beforeUnmount();
@@ -67,7 +46,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             }
          };
 
-         assert.equal(lookupPopup.Container._private.getInitialSelectedItems(self, options, context).getCount(), 1);
+         assert.equal(LookupPopupContainer._private.getInitialSelectedItems(self, options, context).getCount(), 1);
       });
 
       it('getFilteredItems', function() {
@@ -79,27 +58,27 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             return true;
          };
 
-         assert.deepEqual(lookupPopup.Container._private.getFilteredItems(items, retTrue), items);
-         assert.deepEqual(lookupPopup.Container._private.getFilteredItems(items, filterFunc), ['toSaveItem', 'toSaveItem']);
+         assert.deepEqual(LookupPopupContainer._private.getFilteredItems(items, retTrue), items);
+         assert.deepEqual(LookupPopupContainer._private.getFilteredItems(items, filterFunc), ['toSaveItem', 'toSaveItem']);
       });
 
       it('getKeysByItems', function() {
-         assert.deepEqual(lookupPopup.Container._private.getKeysByItems(getItems(), 'id'), [0, 1, 2, 3, 4]);
+         assert.deepEqual(LookupPopupContainer._private.getKeysByItems(getItems(), 'id'), [0, 1, 2, 3, 4]);
       });
 
       it('getEmptyItems', function() {
          var listWithItems = new collection.List({items: getItems()});
 
-         assert.equal(lookupPopup.Container._private.getEmptyItems(listWithItems).getCount(), 0);
-         assert.equal(lookupPopup.Container._private.getEmptyItems(listWithItems)._moduleName, 'Types/collection:List');
+         assert.equal(LookupPopupContainer._private.getEmptyItems(listWithItems).getCount(), 0);
+         assert.equal(LookupPopupContainer._private.getEmptyItems(listWithItems)._moduleName, 'Types/collection:List');
       });
 
 
       it('getValidSelectionType', function() {
-         assert.equal(lookupPopup.Container._private.getValidSelectionType('all'), 'all');
-         assert.equal(lookupPopup.Container._private.getValidSelectionType('leaf'), 'leaf');
-         assert.equal(lookupPopup.Container._private.getValidSelectionType('node'), 'node');
-         assert.equal(lookupPopup.Container._private.getValidSelectionType('test'), 'all');
+         assert.equal(LookupPopupContainer._private.getValidSelectionType('all'), 'all');
+         assert.equal(LookupPopupContainer._private.getValidSelectionType('leaf'), 'leaf');
+         assert.equal(LookupPopupContainer._private.getValidSelectionType('node'), 'node');
+         assert.equal(LookupPopupContainer._private.getValidSelectionType('test'), 'all');
       });
 
       it('getFilterFunction', function() {
@@ -107,15 +86,12 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             return false;
          }
 
-         assert.isTrue(lookupPopup.Container._private.getFilterFunction()());
-         assert.isFalse(lookupPopup.Container._private.getFilterFunction(retFalse)());
+         assert.isTrue(LookupPopupContainer._private.getFilterFunction()());
+         assert.isFalse(LookupPopupContainer._private.getFilterFunction(retFalse)());
       });
 
       it('getSelectedKeys', function() {
          var context = {
-            selectorControllerContext: {
-               selectedItems: getItems()
-            },
             dataOptions: {
                keyProperty: 'id'
             }
@@ -127,11 +103,9 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             }
          };
 
-         assert.deepEqual(lookupPopup.Container._private.getSelectedKeys(options, context), [0, 2, 4]);
-
          options.selectedItems = getItems();
          options.selectedItems[0].set('id', 'testId');
-         assert.deepEqual(lookupPopup.Container._private.getSelectedKeys(options, context), ['testId', 2, 4]);
+         assert.deepEqual(LookupPopupContainer._private.getSelectedKeys(options, context), ['testId', 2, 4]);
       });
 
       describe('prepareFilter', () => {
@@ -147,7 +121,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
 
          it('searchParam and parentProperty are deleted from filter on select', () => {
             const selection = operations.selectionToRecord({ selected: [1, 2], excluded: [3, 4] }, source.getAdapter());
-            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+            const preparedFilter = LookupPopupContainer._private.prepareFilter({
                filter,
                selection,
                searchParam: 'searchParam',
@@ -163,7 +137,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
 
          it('searchParam not deleted from filter on select all', () => {
             const selection = operations.selectionToRecord({ selected: [null], excluded: [null] }, source.getAdapter());
-            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+            const preparedFilter = LookupPopupContainer._private.prepareFilter({
                filter,
                selection,
                searchParam: 'searchParam'
@@ -176,7 +150,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
 
          it('searchParam not deleted from filter on select all in hierarchy list', () => {
             let selection = operations.selectionToRecord({ selected: ['testRoot'], excluded: [null] }, source.getAdapter());
-            let preparedFilter = lookupPopup.Container._private.prepareFilter({
+            let preparedFilter = LookupPopupContainer._private.prepareFilter({
                filter,
                selection,
                searchParam: 'searchParam',
@@ -185,7 +159,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             assert.isTrue(preparedFilter.searchParam === 'test');
 
             selection = operations.selectionToRecord({ selected: [1], excluded: [null] }, source.getAdapter());
-            preparedFilter = lookupPopup.Container._private.prepareFilter({
+            preparedFilter = LookupPopupContainer._private.prepareFilter({
                filter,
                selection,
                searchParam: 'searchParam',
@@ -203,7 +177,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             };
             source = new sourceLib.Memory();
             const selection = operations.selectionToRecord({ selected: [1, 2], excluded: [3, 4] }, source.getAdapter());
-            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+            const preparedFilter = LookupPopupContainer._private.prepareFilter({
                filter,
                selection,
                searchParam: 'searchParam',
@@ -223,7 +197,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
                   }
                ]
             });
-            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+            const preparedFilter = LookupPopupContainer._private.prepareFilter({
                filter,
                selection,
                searchParam: 'searchParam',
@@ -244,7 +218,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
                   }
                ]
             });
-            const preparedFilter = lookupPopup.Container._private.prepareFilter({
+            const preparedFilter = LookupPopupContainer._private.prepareFilter({
                filter,
                selection,
                searchParam: 'searchParam',
@@ -263,7 +237,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
          var keyProperty = 'id';
          var selectCompleteInitiator = true;
 
-         assert.deepEqual(lookupPopup.Container._private.prepareResult(result, selectedKeys, keyProperty, selectCompleteInitiator), {
+         assert.deepEqual(LookupPopupContainer._private.prepareResult(result, selectedKeys, keyProperty, selectCompleteInitiator), {
             resultSelection: result,
             initialSelection: selectedKeys,
             keyProperty: keyProperty,
@@ -274,7 +248,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
       it('getCrudWrapper', function() {
          var source = new sourceLib.Memory();
          var navigation = {};
-         var crudWrapper = lookupPopup.Container._private.getCrudWrapper(source);
+         var crudWrapper = LookupPopupContainer._private.getCrudWrapper(source);
 
          assert.include(
             ['Controls/dataSource:CrudWrapper', 'Controls/_dataSource/CrudWrapper'],
@@ -283,7 +257,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
       });
 
       it('_selectedKeysChanged', function() {
-         let container = new lookupPopup.Container();
+         let container = new LookupPopupContainer();
          let eventFired = false;
 
          container._notify = (e) => {
@@ -297,7 +271,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
       });
 
       it('_excludedKeysChanged', function() {
-         let container = new lookupPopup.Container();
+         let container = new LookupPopupContainer();
          let eventFired = false;
 
          container._notify = (e) => {
@@ -347,7 +321,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             excluded: [3]
          };
 
-         let preparedSelection = lookupPopup.Container._private.prepareNotRecursiveSelection(
+         let preparedSelection = LookupPopupContainer._private.prepareNotRecursiveSelection(
             selection,
             items,
             'id',
@@ -397,7 +371,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             excluded: [null, 3]
          };
 
-         let preparedSelection = lookupPopup.Container._private.prepareNotRecursiveSelection(
+         let preparedSelection = LookupPopupContainer._private.prepareNotRecursiveSelection(
              selection,
              items,
              'id',
@@ -419,7 +393,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             excluded: [1]
          };
          let adapter = (new sourceLib.Memory()).getAdapter();
-         let selectionRecord = lookupPopup.Container._private.getSelection(selection, adapter, selectionType, false);
+         let selectionRecord = LookupPopupContainer._private.getSelection(selection, adapter, selectionType, false);
 
          assert.deepEqual(
             selectionRecord.getRawData(),
@@ -431,7 +405,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
             });
 
          selectionType = 'node';
-         selectionRecord = lookupPopup.Container._private.getSelection(selection, adapter, selectionType, true);
+         selectionRecord = LookupPopupContainer._private.getSelection(selection, adapter, selectionType, true);
          assert.deepEqual(
             selectionRecord.getRawData(),
             {
@@ -445,7 +419,7 @@ define(['Controls/lookupPopup', 'Types/entity', 'Types/source', 'Types/collectio
       describe('_selectComplete', function() {
          const getContainer = () => {
             let
-               container = new lookupPopup.Container(),
+               container = new LookupPopupContainer(),
                isSelectionLoad = false,
                items = getItems(),
                recordSet = new collection.List({ items: items });

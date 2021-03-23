@@ -1,36 +1,15 @@
-import {Control as BaseControl} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_datePopup/DateRange';
+import * as monthHeaderTmpl from 'wml!Controls/_datePopup/DateRangeMonthHeaderTemplate';
 import {Date as WSDate} from 'Types/entity';
 import {date as formatDate} from 'Types/formatter';
 import { SyntheticEvent } from 'Vdom/Vdom';
-import EventProxy from './Mixin/EventProxy';
 import {DateRangeModel, Utils as DateControlsUtils, dateRangeQuantum as quantumUtils} from 'Controls/dateRange';
 import {EventUtils} from 'UI/Events';
 import {MonthModel} from 'Controls/calendar';
 import {Base as dateUtils} from 'Controls/dateUtils';
-import datePopupUtils from './Utils';
-import componentTmpl = require('wml!Controls/_datePopup/DateRange');
-import * as monthHeaderTmpl from 'wml!Controls/_datePopup/DateRangeMonthHeaderTemplate';
 import {detection} from 'Env/Env';
 
-const _private = {
-    updateView: function (self, options) {
-        self._rangeModel.update(options);
-        self._monthSelectionEnabled = !options.readOnly && (options.selectionType === 'range' ||
-            (options.selectionType === 'quantum' && quantumUtils.monthSelectionEnabled(options.ranges) &&
-                options.ranges.months[0] === 1));
-        if (self._position !== options.position) {
-            self._position = options.position;
-        }
-        if (!self._singleDayHover) {
-            self._hoveredStartValue = options.hoveredStartValue;
-            self._hoveredEndValue = options.hoveredEndValue;
-        }
-    },
-
-    notifyPositionChanged: function(self, position) {
-        self._notify('positionChanged', [position]);
-    }
-};
 /**
  * Component that allows you to select periods of multiple days.
  *
@@ -40,26 +19,24 @@ const _private = {
  * @author Красильников А.С.
  * @private
  */
-var Component = BaseControl.extend([EventProxy], {
-    _template: componentTmpl,
-    _monthHeaderTmpl: monthHeaderTmpl,
 
-    _monthViewModel: MonthModel,
+export default class DateRange extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+    protected _monthHeaderTmpl: TemplateFunction = monthHeaderTmpl;
+    protected _monthViewModel: MonthModel = MonthModel;
+    protected _weekdaysCaptions: string = DateControlsUtils.getWeekdaysCaptions();
+    protected _monthSelectionEnabled: boolean = true;
+    protected _markedKey: string;
 
-    _weekdaysCaptions: DateControlsUtils.getWeekdaysCaptions(),
-    _formatDate: formatDate,
+    private _rangeModel: typeof DateRangeModel;
+    private _position: Date;
+    private _monthsPosition: any;
 
-    _monthSelectionEnabled: true,
-    _selectionProcessing: false,
+    private _singleDayHover: boolean = true;
+    private _shouldUpdateMonthsPosition: boolean = true;
 
-    _singleDayHover: true,
-    _shouldUpdateMonthsPosition: true,
-
-    // We store the position locally in the component, and don't use the value from options
-    // to be able to quickly switch it on the mouse wheel.
-
-    constructor: function (options) {
-        Component.superclass.constructor.apply(this, arguments);
+    constructor(options) {
+        super(options);
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged']);
         // Нет необходимости передавать опцию hoveredStartValue и hoveredEndValue, если ховер работает только по одному
@@ -69,26 +46,26 @@ var Component = BaseControl.extend([EventProxy], {
             const isSingleDayQuantum = 'days' in options.ranges && options.ranges.days.indexOf(1) !== -1;
             this._singleDayHover = isSingleDayQuantum;
         }
-    },
+    }
 
-    _beforeMount: function (options) {
+    protected _beforeMount(options): void {
         if (options.position) {
             this._monthsPosition = new Date(options.position.getFullYear(), 0);
             const markedKeyDate = new Date(options.position.getFullYear(), options.position.getMonth());
             this._markedKey = this._dateToId(markedKeyDate);
         }
-        _private.updateView(this, options);
-    },
+        this._updateView(options);
+    }
 
-    _beforeUpdate: function (options) {
-        _private.updateView(this, options);
-    },
+    protected _beforeUpdate(options): void {
+        this._updateView(options);
+    }
 
-    _beforeUnmount: function () {
+    protected _beforeUnmount(): void {
         this._rangeModel.destroy();
-    },
+    }
 
-    _monthObserverHandler: function(event, entries) {
+    protected _monthObserverHandler(event, entries): void {
         // Меняем маркер выбранного месяца если месяц стал полностью видимым.
         // На Android значение intersectionRatio никогда не равно 1. Нам подойдет любое значение больше или равное 0.9.
         const fullItemIntersectionRatio = detection.isMobileAndroid ? 0.9 : 1;
@@ -102,9 +79,9 @@ var Component = BaseControl.extend([EventProxy], {
             }
             this._markedKey = this._dateToId(entries.data);
         }
-    },
+    }
 
-    _monthCaptionClick: function(e: SyntheticEvent, yearDate: Date, month: number): void {
+    protected _monthCaptionClick(e: SyntheticEvent, yearDate: Date, month: number): void {
         let date;
         if (this._monthSelectionEnabled) {
             date = new this._options.dateConstructor(yearDate.getFullYear(), month);
@@ -117,11 +94,11 @@ var Component = BaseControl.extend([EventProxy], {
             }
             this._notify('fixedPeriodClick', [startValue, endValue]);
         }
-    },
+    }
 
-    _dateToId: function(date: Date): string {
+    private _dateToId(date: Date): string {
         return formatDate(date, 'YYYY-MM-DD');
-    },
+    }
 
     /**
      * [текст, условие, если true, если false]
@@ -130,7 +107,7 @@ var Component = BaseControl.extend([EventProxy], {
      * @param cfgArr
      * @private
      */
-    _prepareCssClass: function (prefix, style, cfgArr) {
+    protected _prepareCssClass(prefix, style, cfgArr): string {
         var cssClass = prefix;
         if (style) {
             cssClass += '-' + style;
@@ -142,35 +119,32 @@ var Component = BaseControl.extend([EventProxy], {
             }
             return previousValue;
         }, cssClass);
-    },
+    }
 
-    _onItemClick: function (e) {
+    protected _onItemClick(e): void {
         e.stopPropagation();
-    },
+    }
 
-    _dateToString: function(date) {
-        return datePopupUtils.dateToDataString(date);
-    },
-
-    _scrollToMonth: function(e, year, month) {
-        _private.notifyPositionChanged(this, new this._options.dateConstructor(year, month));
+    protected _scrollToMonth(e, year, month): void {
+        const newDate = new this._options.dateConstructor(year, month);
+        this._notifyPositionChanged(newDate);
+        if (newDate.getFullYear() !== this._monthsPosition.getFullYear()) {
+            this._monthsPosition = new this._options.dateConstructor(newDate.getFullYear(), 0);
+        }
+        this._markedKey = this._dateToId(newDate);
         e.stopPropagation();
-    },
+    }
 
-    _formatMonth: function(month) {
+    protected _formatMonth(month): Date {
         return formatDate(new Date(2000, month), 'MMMM');
-    },
+    }
 
-    _getMonth: function(year, month) {
-        return new this._options.dateConstructor(year, month, 1);
-    },
-
-    _onPositionChanged: function(e: Event, position: Date) {
+   protected _onPositionChanged(e: Event, position: Date): void {
         this._position = position;
-        _private.notifyPositionChanged(this, position);
-    },
+        this._notifyPositionChanged(position);
+    }
 
-    _onMonthsPositionChanged: function(e: Event, position: Date) {
+    protected _onMonthsPositionChanged(e: Event, position: Date): void {
         let positionChanged;
         let newPosition;
         // При скролле колонки с месяцами нужно менять позицию календаря только тогда,
@@ -198,11 +172,11 @@ var Component = BaseControl.extend([EventProxy], {
         }
         if (positionChanged) {
             this._markedKey = this._dateToId(newPosition);
-            _private.notifyPositionChanged(this, newPosition);
+            this._notifyPositionChanged(newPosition);
         }
-    },
+    }
 
-    _preventEvent(event: Event): void {
+    protected _preventEvent(event: Event): void {
         // Отключаем скролл ленты с месяцами, если свайпнули по колонке с месяцами
         // Для тач-устройств нельзя остановить событие скрола, которое стреляет с ScrollContainer,
         // внутри которого лежит 2 контейнера для которых требуется разное поведение на тач устройствах
@@ -210,20 +184,42 @@ var Component = BaseControl.extend([EventProxy], {
         event.stopPropagation();
     }
 
+    protected _proxyEvent(event): void {
+        this._notify(event.type, Array.prototype.slice.call(arguments, 1));
+    }
+
+    private _updateView(options): void {
+        this._rangeModel.update(options);
+        this._monthSelectionEnabled = !options.readOnly && (options.selectionType === 'range' ||
+            (options.selectionType === 'quantum' && quantumUtils.monthSelectionEnabled(options.ranges) &&
+                options.ranges.months[0] === 1));
+        if (this._position !== options.position) {
+            this._position = options.position;
+        }
+        if (!this._singleDayHover) {
+            this._hoveredStartValue = options.hoveredStartValue;
+            this._hoveredEndValue = options.hoveredEndValue;
+        }
+    }
+
+    private _notifyPositionChanged(position): void {
+        this._notify('positionChanged', [position]);
+    }
+
+    static _theme: string[] = ['Controls/datePopup'];
+
+    static getDefaultOptions(): object {
+        return {
+            dateConstructor: WSDate
+        };
+    }
+}
+
+Object.defineProperty(DateRange, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DateRange.getDefaultOptions();
+   }
 });
-
-Component._private = _private;
-Component._theme = ['Controls/datePopup'];
-// Component.EMPTY_CAPTIONS = IPeriodSimpleDialog.EMPTY_CAPTIONS;
-
-Component.getDefaultOptions = function() {
-   return {
-       dateConstructor: WSDate
-   };
-};
-
-// Component.getOptionTypes = function() {
-//    return coreMerge({}, IPeriodSimpleDialog.getOptionTypes());
-// };
-
-export = Component;

@@ -3,6 +3,7 @@ import {ICheckable, ICheckableOptions} from './interface/ICheckable';
 import BigSeparatorTemplate = require('wml!Controls/_toggle/BigSeparator/BigSeparator');
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {IIconSize, IIconSizeOptions} from 'Controls/interface';
+import 'css!Controls/toggle';
 
 /**
  * @typedef TViewMode
@@ -60,7 +61,6 @@ class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable, 
       this._notify('valueChanged', [!this._options.value]);
    }
 
-   static _theme: string[] = ['Controls/toggle', 'Controls/Classes'];
    static getDefaultOptions(): IBigSeparatorOptions {
       return {
          value: false,
@@ -75,6 +75,16 @@ class BigSeparator extends Control<IBigSeparatorOptions> implements ICheckable, 
       };
    }
 }
+
+Object.defineProperty(BigSeparator, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return BigSeparator.getDefaultOptions();
+   }
+});
+
 /**
  * @name Controls/_toggle/Separator#value
  * @cfg {Boolean} Если значение - "true", то будет отображаться иконка открытия, иначе будет отображаться иконка закрытия.

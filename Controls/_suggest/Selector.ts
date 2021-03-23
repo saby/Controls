@@ -6,6 +6,7 @@ import {Service, Source} from 'Controls/history';
 import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/suggest';
 
 var _private = {
    loadSelectedItem: function(self, options) {
@@ -59,7 +60,6 @@ var _private = {
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/_interface/INavigation
- * @demo Controls-demo/Input/Search/Suggest/SuggestPG
  *
  * @author Герасимов А.М.
  * @public
@@ -76,7 +76,6 @@ var _private = {
  * @mixes Controls/_interface/IFilterChanged
  * @mixes Controls/_suggest/ISuggest
  * @mixes Controls/_interface/INavigation
- * @demo Controls-demo/Input/Search/Suggest/SuggestPG
  *
  * @public
  */
@@ -167,6 +166,7 @@ Suggest.getOptionTypes = getOptionTypes;
 Suggest.getDefaultOptions = function() {
    return {
       minSearchLength: 3,
+      borderVisibility: 'visible',
       suggestState: false,
       suggestTemplate: {
          templateName: 'Controls/suggestPopup:SuggestTemplate'
@@ -175,7 +175,15 @@ Suggest.getDefaultOptions = function() {
    };
 };
 
-Suggest._theme = ['Controls/suggest'];
+Object.defineProperty(Suggest, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Suggest.getDefaultOptions();
+   }
+});
+
 Suggest._private = _private;
 
 export default Suggest;

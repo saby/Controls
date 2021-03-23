@@ -7,47 +7,49 @@ import template = require('wml!Controls/_toggle/RadioGroup/RadioGroup');
 import defaultItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/ItemTemplate');
 import {ISource, ISourceOptions, ISingleSelectable, ISingleSelectableOptions} from 'Controls/interface';
 import {IToggleGroup, IToggleGroupOptions} from './interface/IToggleGroup';
+import 'css!Controls/toggle';
+import 'css!Controls/CommonClasses';
 
 export interface IRadioGroupOptions extends IControlOptions,
     ISingleSelectableOptions,
     ISourceOptions,
     IToggleGroupOptions {}
 
-   /**
-    * Группа контролов, которые предоставляют пользователям возможность выбора между двумя или более параметрами.
-    * 
-    * @remark
-    * Полезные ссылки:
-    * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckboxGroup%2FIndex демо-пример}
-    * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
-    *
-    * @class Controls/_toggle/RadioGroup
-    * @extends UI/Base:Control
-    * @mixes Controls/_interface/ISource
-    * @mixes Controls/_interface/ISingleSelectable
-    * @mixes Controls/_interface/IValidationStatus
-    * @implements Controls/_toggle/interface/IToggleGroup
-    * 
-    * @public
-    * @author Красильников А.С.
-    * @demo Controls-demo/toggle/RadioGroup/Base/Index
-    */
+/**
+ * Группа контролов, которые предоставляют пользователям возможность выбора между двумя или более параметрами.
+ * 
+ * @remark
+ * Полезные ссылки:
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckboxGroup%2FIndex демо-пример}
+ * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
+ *
+ * @class Controls/_toggle/RadioGroup
+ * @extends UI/Base:Control
+ * @mixes Controls/_interface/ISource
+ * @mixes Controls/_interface/ISingleSelectable
+ * @mixes Controls/_interface/IValidationStatus
+ * @implements Controls/_toggle/interface/IToggleGroup
+ * 
+ * @public
+ * @author Красильников А.С.
+ * @demo Controls-demo/toggle/RadioGroup/Base/Index
+ */
 
-   /*
-    * Controls are designed to give users a choice among two or more settings.
-    *
-    * <a href="/materials/Controls-demo/app/Controls-demo%2Ftoggle%2fRadioGroup%2fIndex">Demo-example</a>.
-    *
-    * @class Controls/_toggle/RadioGroup
-    * @extends UI/Base:Control
-    * @mixes Controls/_interface/ISource
-    * @mixes Controls/_interface/ISingleSelectable
-    * @implements Controls/_toggle/interface/IToggleGroup
-    * 
-    * @public
-    * @author Красильников А.С.
-    * @demo Controls-demo/toggle/RadioGroup/Base/Index
-    */
+/*
+ * Controls are designed to give users a choice among two or more settings.
+ *
+ * <a href="/materials/Controls-demo/app/Controls-demo%2Ftoggle%2fRadioGroup%2fIndex">Demo-example</a>.
+ *
+ * @class Controls/_toggle/RadioGroup
+ * @extends UI/Base:Control
+ * @mixes Controls/_interface/ISource
+ * @mixes Controls/_interface/ISingleSelectable
+ * @implements Controls/_toggle/interface/IToggleGroup
+ * 
+ * @public
+ * @author Красильников А.С.
+ * @demo Controls-demo/toggle/RadioGroup/Base/Index
+ */
 
 class Radio extends Control<IRadioGroupOptions, RecordSet> implements ISource, ISingleSelectable, IToggleGroup {
    '[Controls/_interface/ISource]': boolean = true;
@@ -94,8 +96,6 @@ class Radio extends Control<IRadioGroupOptions, RecordSet> implements ISource, I
       });
    }
 
-   static _theme: string[] = ['Controls/toggle'];
-
    static getDefaultOptions(): object {
       return {
          direction: 'vertical',
@@ -103,5 +103,14 @@ class Radio extends Control<IRadioGroupOptions, RecordSet> implements ISource, I
       };
    }
 }
+
+Object.defineProperty(Radio, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Radio.getDefaultOptions();
+   }
+});
 
 export default Radio;

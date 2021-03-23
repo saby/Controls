@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center controlsDemo_fixedWidth550">
-    <div class="demo-VirtualScrollResize__element1 controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+    <div class="demo-VirtualScroll__title controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
         Корректная загрузка при изменении размеров списка
     </div>
     <Controls.scroll:Container
@@ -11,7 +11,7 @@
             <ws:navigation view="infinity"/>
         </Controls.list:View>
     </Controls.scroll:Container>
-    <div class="demo-VirtualScrollResize__element2 ws-link controlsDemo__mb1" on:click="_changeOptions()">
+    <div class="demo-VirtualScroll__changeOptions ws-link controlsDemo__mb1" on:click="_changeOptions()">
         Изменить опции списка
     </div>
 </div>

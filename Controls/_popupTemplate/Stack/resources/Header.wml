@@ -1,10 +1,9 @@
-<div class="controls-StackTemplate__top-area controls-StackTemplate__top-area_theme_{{_options.theme}}
-            controls-StackTemplate__top-area-background_theme_{{_options.theme}}
-            {{_options.headerBorderVisible ? 'controls-StackTemplate__top-area-border_theme_' + _options.theme}} ">
+<div class="controls-StackTemplate__top-area controls-StackTemplate__top-area-background
+            {{_options.headerBorderVisible ? 'controls-StackTemplate__top-area-border'}} ">
    <div class="controls-StackTemplate__top-area-content">
       <ws:if data="{{_options.headingCaption}}">
-         <div class="controls-StackTemplate__caption controls-StackTemplate__caption_theme_{{_options.theme}}">
-            <Controls.heading:Title attr:class="controls-StackTemplate__caption_text controls-StackTemplate__caption_text_theme_{{_options.theme}}"
+         <div class="controls-StackTemplate__caption">
+            <Controls.heading:Title attr:class="controls-StackTemplate__caption_text"
                                     caption="{{_options.headingCaption}}"
                                     fontSize="{{_options.headingFontSize}}"
                                     fontColorStyle="{{_options.headingFontColorStyle}}"
@@ -13,7 +12,7 @@
          </div>
       </ws:if>
       <ws:if data="{{_options.headerContentTemplate}}">
-         <div class="controls-StackTemplate__headerContentTemplate controls-StackTemplate__headerContentTemplate_theme_{{_options.theme}}">
+         <div class="controls-StackTemplate__headerContentTemplate">
                <ws:partial template="{{_options.headerContentTemplate}}"
                            scope="{{_options.stackOptions}}"
                            theme="{{_options.theme}}"
@@ -23,12 +22,16 @@
                                                                     Чтобы опция не пролетала до выпадающего списка, который лежит в стеке -->
          </div>
       </ws:if>
-      <div class="controls-StackTemplate__command_buttons controls-StackTemplate__command_buttons_theme_{{_options.theme}}">
+      <div class="controls-StackTemplate__command_buttons">
          <ws:if data="{{_options.showMaximizedButton || _options._maximizeButtonVisibility}}">
-            <div class="controls-StackTemplate__maximized_button controls-StackTemplate__maximized_button_theme_{{_options.theme}}" on:click="changeMaximizedState()" attr:title="{{_options._maximizeButtonTitle}}"></div>
+            <div class="controls-StackTemplate__maximized_button" on:click="changeMaximizedState()"
+                 attr:title="{{_options._maximizeButtonTitle}}"></div>
          </ws:if>
          <ws:if data="{{_options.closeButtonVisibility}}">
-            <Controls._popupTemplate.CloseButton attr:class="controls-StackTemplate__close_button controls-StackTemplate__close_button_theme_{{_options.theme}}" viewMode="{{_options.closeButtonViewMode}}" transparent="{{_options.closeButtonTransparent}}" on:click="close()"/>
+            <Controls._popupTemplate.CloseButton attr:class="controls-StackTemplate__close_button"
+                                                 viewMode="{{_options.closeButtonViewMode}}"
+                                                 transparent="{{_options.closeButtonTransparent}}"
+                                                 on:click="close()"/>
          </ws:if>
       </div>
    </div>

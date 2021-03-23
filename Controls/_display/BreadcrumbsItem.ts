@@ -5,6 +5,7 @@ import {register} from 'Types/di';
 import TreeChildren from './TreeChildren';
 import { object } from 'Types/util';
 import {Model} from 'Types/entity';
+import IGroupNode from './interface/IGroupNode';
 
 export interface IOptions<T extends Model = Model> extends ICollectionItemOptions<T> {
     owner?: Tree<T>;
@@ -18,7 +19,7 @@ export interface IOptions<T extends Model = Model> extends ICollectionItemOption
  * @private
  * @author Мальцев А.А.
  */
-export default class BreadcrumbsItem<T extends Model = Model> extends CollectionItem<T> {
+export default class BreadcrumbsItem<T extends Model = Model> extends CollectionItem<T> implements IGroupNode {
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
     readonly Markable: boolean = false;
 
@@ -99,6 +100,10 @@ export default class BreadcrumbsItem<T extends Model = Model> extends Collection
 
     isRoot(): boolean {
         // Хлебная крошка не может быть корнем
+        return false;
+    }
+
+    isGroupNode(): boolean {
         return false;
     }
 

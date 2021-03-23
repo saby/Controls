@@ -1,4 +1,3 @@
 <div class="js-controls-SelectedCollection__item__cross icon-CloseNew
-            controls-SelectedCollection__item__cross
-            controls-SelectedCollection__item__cross_theme-{{_options.theme}}"
+            controls-SelectedCollection__item__cross"
      title="{[Удалить]}"></div>

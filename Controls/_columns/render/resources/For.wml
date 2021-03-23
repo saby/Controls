@@ -1,0 +1,46 @@
+<ws:for data="index, item in collection.getViewIterator()">
+   <ws:if data="{{item.getColumn() === column}}">
+      <ws:partial
+              item="{{ item }}"
+              template="{{ item.getTemplate(itemTemplateProperty, itemTemplate, groupTemplate) }}"
+              multiSelectVisibility="{{ collection.getMultiSelectVisibility() }}"
+              searchValue="{{ collection.getSearchValue() }}"
+              style="{{_options.style}}"
+
+              attr:class="{{ collection.getViewIterator().isItemAtIndexHidden(index) ? 'controls-ListView__hiddenContainer' }}"
+              attr:key="{{ keyPrefix }}-{{ item.getUid() }}"
+              attr:style="min-width:{{columnMinWidth}}px; max-width:{{columnMaxWidth}}px;"
+
+              on:click="_onItemClick(item)"
+              on:contextmenu="_onItemContextMenu(item)"
+              on:swipe="_onItemSwipe(item)"
+              on:longtap="_onItemLongTap(item)"
+              on:mouseenter="_onItemMouseEnter(item)"
+              on:mousedown="_onItemMouseDown(item)"
+              on:mouseup="_onItemMouseUp(item)"
+              on:mousemove="_onItemMouseMove(item)"
+              on:mouseleave="_onItemMouseLeave(item)"
+              on:wheel="_onItemWheel(item)"
+
+              multiSelectTpl="{{ multiSelectTpl }}"
+              isAdd="{{ isAdd }}">
+         <ws:itemActionsTemplate>
+            <!-- We have to support setting of "itemActionsClass" option in BaseControl and while using Controls/list:ItemTemplate -->
+            <ws:partial
+                    template="{{ _options.itemActionsTemplate.itemActionsTemplate || 'Controls/itemActions:ItemActionsTemplate' }}"
+                    scope="{{ collection.getActionsTemplateConfig() }}"
+                    itemActionsClass="{{ itemActionsTemplate.itemActionsClass || collection.getActionsTemplateConfig().itemActionsClass }}"
+                    useNewModel="{{ true }}"
+                    itemData="{{ item }}" />
+         </ws:itemActionsTemplate>
+         <ws:swipeTemplate>
+            <ws:partial
+                    template="{{ _options.swipeTemplate.swipeTemplate || 'Controls/itemActions:SwipeActionsTemplate' }}"
+                    scope="{{ collection.getActionsTemplateConfig() }}"
+                    swipeConfig="{{ collection.getSwipeConfig() }}"
+                    itemData="{{ item }}" />
+         </ws:swipeTemplate>
+      </ws:partial>
+
+   </ws:if>
+</ws:for>
