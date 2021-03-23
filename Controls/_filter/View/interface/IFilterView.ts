@@ -218,6 +218,7 @@ export interface IFilterView {
 /**
  * @typedef {String} detailPanelOpenMode
  * @variant stack Шаблон всплывающей панели откроется в стековой панели.
+ * @variant dialog Шаблон всплывающей панели откроется в диалоговом окне.
  * @variant sticky Шаблон всплывающей панели откроется в sticky панели.
  */
 
