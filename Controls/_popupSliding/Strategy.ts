@@ -5,10 +5,7 @@ interface ISlidingPanelItem extends IPopupItem {
     popupOptions: ISlidingPanelPopupOptions;
 }
 
-const INVERTED_POSITION_MAP = {
-    top: 'bottom',
-    bottom: 'top'
-};
+const POSITION_OUT_OF_VIEW = -10000;
 
 class Strategy {
 
@@ -18,11 +15,8 @@ class Strategy {
      * @param item Popup configuration
      * @param containerSizes Popup container sizes
      */
-    getPosition(
-        {position: popupPosition = {}, popupOptions}: ISlidingPanelItem,
-        containerSizes: IPopupSizes
-    ): IPopupPosition {
-        const windowHeight = this.getWindowHeight();
+    getPosition({position: popupPosition = {}, popupOptions}: ISlidingPanelItem): IPopupPosition {
+        const windowHeight = this._getWindowHeight();
         const {
             slidingPanelOptions: {
                 position,
@@ -36,16 +30,17 @@ class Strategy {
         const currentPositionHeight = this._getHeightWithoutOverflow(popupPosition.height, maxHeight);
 
         // Если еще не тянули шторку и включили авто высоту, то строимся по контейнеру
-        const height = autoHeight && !currentPositionHeight ? undefined : (currentPositionHeight || minHeight);
+        let height = autoHeight && !currentPositionHeight ? undefined : (currentPositionHeight || minHeight);
 
         // Признак того, что попап открыт, в этом случае край попапа всегда на краю экрана
-        const positionValue = containerSizes ? windowHeight - containerSizes.height : windowHeight;
+        const popupPositionInitialized = popupPosition[position] !== undefined &&
+            popupPosition[position] !== POSITION_OUT_OF_VIEW;
         return {
             left: 0,
             right: 0,
 
             // Изначально позиционируемся за экраном, если уже перепозиционировались, то уже показываемся у края экрана
-            [INVERTED_POSITION_MAP[position]]: positionValue,
+            [position]: popupPositionInitialized ? 0 : POSITION_OUT_OF_VIEW,
             maxHeight: maxHeight || windowHeight,
             minHeight,
             height: minHeight && height && height < minHeight ? minHeight : height,
@@ -72,16 +67,8 @@ class Strategy {
      * @return {number}
      * @private
      */
-    getWindowHeight(): number {
+    private _getWindowHeight(): number {
         return constants.isBrowserPlatform && window.innerHeight;
-    }
-
-    /**
-     * Получение название css свойства отвечающего за позиционирование окна с соответствующим значением опции position
-     * @param positionOption
-     */
-    getPositionProperty(positionOption: string): string {
-        return INVERTED_POSITION_MAP[positionOption];
     }
 }
 
