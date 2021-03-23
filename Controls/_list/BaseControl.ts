@@ -1,5 +1,8 @@
 //#region Imports
 import rk = require('i18n!Controls');
+import 'css!Controls/list';
+import 'css!Controls/itemActions';
+import 'css!Controls/CommonClasses';
 
 // Core imports
 import {Control, IControlOptions} from 'UI/Base';
@@ -2317,12 +2320,12 @@ const _private = {
         return CssClassList.add('controls-BaseControl__loadingIndicator')
             .add(`controls-BaseControl__loadingIndicator__state-${state}`, !isAbsoluteTopIndicator)
             .add('controls-BaseControl__loadingIndicator__state-up-absolute', isAbsoluteTopIndicator)
-            .add(`controls-BaseControl__loadingIndicator__state-${state}_theme-${theme}`)
-            .add(`controls-BaseControl_empty__loadingIndicator__state-down_theme-${theme}`,
+            .add(`controls-BaseControl__loadingIndicator__state-${state}`)
+            .add(`controls-BaseControl_empty__loadingIndicator__state-down`,
                 !hasItems && loadingIndicatorState === 'down')
-            .add(`controls-BaseControl_withPaging__loadingIndicator__state-down_theme-${theme}`,
+            .add(`controls-BaseControl_withPaging__loadingIndicator__state-down`,
                 loadingIndicatorState === 'down' && hasPaging && hasItems)
-            .add(`controls-BaseControl__loadingIndicator_style-portionedSearch_theme-${theme}`,
+            .add(`controls-BaseControl__loadingIndicator_style-portionedSearch`,
                 isPortionedSearchInProgress)
             .compile();
     },
@@ -6796,7 +6799,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         };
     }
 
-    static _theme = ['Controls/Classes', 'Controls/list', 'Controls/itemActions']
+    static _theme = ['Controls/Classes', 'Controls/itemActions'];
 }
 
 BaseControl._private = _private;

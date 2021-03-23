@@ -12,7 +12,7 @@
                     showLoadingIndicator="{{_showLoadingIndicator}}"
                     portionedSearchInProgress="{{_portionedSearchInProgress}}">
             <ws:contentTemplate>
-                <div class="controls-BaseControl__abortSearch controls-BaseControl__abortSearch_theme-{{_options.theme}}" on:click="_abortSearch()">{[Прервать поиск]}</div>
+                <div class="controls-BaseControl__abortSearch controls-BaseControl__abortSearch" on:click="_abortSearch()">{[Прервать поиск]}</div>
             </ws:contentTemplate>
         </ws:partial>
     </div>
@@ -31,10 +31,10 @@
 <ws:template name="pagingTpl">
     <ws:if data="{{_pagingLabelData}}">
         <ws:if data="{{_options.navigation.viewConfig.totalInfo === 'extended'}}">
-            <div class="controls-BaseControl_paging-label_theme-{{_options.theme}}">
+            <div class="controls-BaseControl_paging-label">
                 <div>{{_pagingLabelData.firstItemNumber}} - {{_pagingLabelData.lastItemNumber}} {{rk('из')}} {{_pagingLabelData.totalItemsCount}}, {{rk('по')}} </div>
                 <Controls.dropdown:Selector
-                        attr:class="controls-BaseControl_paging-pageSizeChooser controls-BaseControl_paging-pageSizeChooser_theme-{{_options.theme}}"
+                        attr:class="controls-BaseControl_paging-pageSizeChooser controls-BaseControl_paging-pageSizeChooser"
                         keyProperty="id"
                         style="secondary"
                         displayProperty="title"
@@ -46,11 +46,11 @@
             </div>
         </ws:if>
         <ws:else>
-            <div class="controls-BaseControl_paging-label_theme-{{_options.theme}}">{{rk('Всего')}} {{_pagingLabelData.totalItemsCount}}</div>
+            <div class="controls-BaseControl_paging-label">{{rk('Всего')}} {{_pagingLabelData.totalItemsCount}}</div>
         </ws:else>
     </ws:if>
     <Controls.paging:Paging
-        attr:class="controls-BaseControl__footerPaging_theme-{{_options.theme}}"
+        attr:class="controls-BaseControl__footerPaging"
         showDigits = "{{!_options.navigation.sourceConfig.hasMore}}"
         pagesCount = "{{_knownPagesCount}}"
         selectedPage = "{{_currentPage}}"
@@ -60,14 +60,14 @@
 
 <ws:template name="footerTemplateIf">
     <ws:if data="{{_options.footerTemplate}}">
-        <div class="controls-BaseControl__footer-content_theme-{{_options.theme}}">
+        <div class="controls-BaseControl__footer-content">
             <ws:partial template="{{_options.footerTemplate}}"/>
         </div>
     </ws:if>
     <ws:if data="{{_pagingNavigation && _pagingNavigationVisible}}">
         <div class="controls-BaseControl__footerPaging_wrapper">
             <ws:if data="{{_options.columnScroll}}">
-                <div class="controls-BaseControl_paging-wrapper_theme-{{_options.theme}}">
+                <div class="controls-BaseControl_paging-wrapper">
                     <ws:partial template="pagingTpl" />
                 </div>
             </ws:if>
@@ -229,7 +229,7 @@
             Вместо этого, задаем пэйджингу высоту как у разделителя.
             https://online.sbis.ru/opendoc.html?guid=aafcd848-43e0-4ac3-a4b8-cffff9f04be0 -->
             <div if="{{ _isPagingPadding() }}" name="pagingPaddingContainer"
-                 class="controls-BaseControl_paging-Padding_theme-{{_options.theme}}">
+                 class="controls-BaseControl_paging-Padding">
             </div>
             <div class="controls-BaseControl__pagingContainer
     controls-BaseControl__pagingContainer_position-{{_options.navigation.viewConfig.pagingPosition === 'left' ? 'left' : 'right'}}
@@ -238,7 +238,7 @@
                     <ws:partial template="{{_options.pagingLeftTemplate}}"/>
                 </ws:if>
                 <Controls.paging:Paging
-                        attr:class="controls-BaseControl__scrollPaging_theme-{{_options.theme}}"
+                        attr:class="controls-BaseControl__scrollPaging"
                         contrastBackground="{{true}}"
                         pagingMode="{{_options.navigation.viewConfig.pagingMode}}"
                         scope="{{_pagingCfg}}"

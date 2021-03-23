@@ -1,9 +1,9 @@
 <ws:template name="localItemActionsTemplate">
     <div attr:class="controls-itemActionsV
-        {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + (style ? style : 'default') + '_theme-' + theme }}
+        {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + (style ? style : 'default') }}
         {{itemData.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemData.itemPadding, theme)}}
         {{itemData.getItemActionClasses(itemActionsPosition, theme, itemData.isLastRow, itemData.rowSeparatorSize)}}
-        {{itemData.isEditing() ? 'controls-itemActionsV_editing_theme-' + theme}}
+        {{itemData.isEditing() ? 'controls-itemActionsV_editing'}}
         {{itemData.isEditing() && toolbarVisibility ? 'controls-itemActionsV_editingToolbarVisible'}}
         {{itemData.isActive() && actionMenuIsShown ? 'controls-itemActionsV_visible'}}
         {{itemData.isSwiped() ? 'controls-itemActionsV_swiped'}}
@@ -25,7 +25,7 @@
             <ws:if data="{{itemData.isEditing() && toolbarVisibility}}">
                 <Controls.Container.Async templateName="Controls/editableArea:Buttons">
                     <ws:partial template="{{content.resolvedTemplate}}"
-                                attr:class="controls-itemActionsV__wrapper-isEditing_theme-{{theme}}"
+                                attr:class="controls-itemActionsV__wrapper-isEditing"
                                 on:applyButtonClick="_commitEditActionHandler(itemData.dispItem || itemData)"
                                 on:closeButtonClick="_cancelEditActionHandler(itemData.dispItem || itemData)"/>
                 </Controls.Container.Async>

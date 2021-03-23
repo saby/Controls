@@ -8,48 +8,48 @@
 }
 
 .controls-AddButton_state-enable:active {
-   .controls-AddButtonText-enable_theme-@{themeName} {
+   .controls-AddButtonText-enable {
       text-decoration: underline;
    }
 }
 
 .ws-is-hover {
    .controls-AddButton_state-enable:hover {
-      .controls-AddButtonText-enable_theme-@{themeName} {
+      .controls-AddButtonText-enable {
          text-decoration: underline;
       }
    }
 }
 
-.controls-AddButton_icon-disable_theme-@{themeName} {
-   background-image: @readonly_icon_background-image_listAddButton;
+.controls-AddButton_icon-disable {
+   background-image: var(--readonly_icon_background-image_listAddButton);
 }
 
-.controls-AddButton_icon-enable_theme-@{themeName} {
-   background-image: @icon_background-image_listAddButton;
+.controls-AddButton_icon-enable {
+   background-image: var(--icon_background-image_listAddButton);
 }
 
-.controls-AddButton__icon_theme-@{themeName} {
-   height: @icon-size_listAddButton;
-   width: @icon-size_listAddButton;
+.controls-AddButton__icon {
+   height: var(--icon-size_listAddButton);
+   width: var(--icon-size_listAddButton);
 }
 
-.controls-AddButton__svgWrapper_theme-@{themeName} {
-   width: @icon-size_listAddButton;
+.controls-AddButton__svgWrapper {
+   width: var(--icon-size_listAddButton);
    display: inline-flex;
    justify-content: center;
 }
 
-.controls-AddButtonText-disable_theme-@{themeName} {
-   margin-left: @icon_offset_listAddButton;
-   color: @readonly_text-color_listAddButton;
+.controls-AddButtonText-disable {
+   margin-left: var(--icon_offset_listAddButton);
+   color: var(--readonly_text-color_listAddButton);
 }
 
-.controls-AddButtonText-enable_theme-@{themeName} {
-   margin-left: @icon_offset_listAddButton;
-   color: @text-color_listAddButton;
+.controls-AddButtonText-enable {
+   margin-left: var(--icon_offset_listAddButton);
+   color: var(--text-color_listAddButton);
 }
 
-.controls-AddButton_theme-@{themeName} {
-   font-size: @font-size_listAddButton;
+.controls-AddButton {
+   font-size: var(--font-size_listAddButton);
 }

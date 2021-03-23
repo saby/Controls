@@ -1,5 +1,5 @@
-<div class="controls-ListViewV controls-ListView_{{_options.style}} controls-ListView_{{_options.style}}_theme-{{_options.theme}}
-            {{_options.loadingState ? 'controls-ListViewV__loading_' + _options.loadingState + '_theme-' + _options.theme}}">
+<div class="controls-ListViewV controls-ListView_{{_options.style}}
+            {{_options.loadingState ? 'controls-ListViewV__loading_' + _options.loadingState}}">
    <ws:if data="{{_listModel}}">
       <div name="itemsContainer" class="controls-ListViewV__itemsContainer">
          <ws:partial
@@ -25,7 +25,7 @@
          </ws:partial>
 
          <ws:if data="{{_options._needBottomPadding}}">
-            <div  class="controls-itemActionsV_outside-spacing_theme-{{_options.theme}}"></div>
+            <div  class="controls-itemActionsV_outside-spacing"></div>
          </ws:if>
       </div>
       <ws:if data="{{_options.emptyTemplate}}">

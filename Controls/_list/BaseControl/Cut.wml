@@ -1,4 +1,4 @@
-<div class="controls-BaseControl__cut ws-flexbox ws-justify-content-center controls-BaseControl__cut-container_{{cutSize}}_theme-{{_options.theme}}">
+<div class="controls-BaseControl__cut ws-flexbox ws-justify-content-center controls-BaseControl__cut-container_{{cutSize}}">
     <Controls.toggle:BigSeparator
         value="{{expanded}}"
         on:valueChanged="_onCutClick()"/>

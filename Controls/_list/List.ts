@@ -13,6 +13,7 @@ import { DataSet, CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
 import {IRemovableList} from './interface/IRemovableList';
 import { RecordSet } from 'Types/collection';
+import 'css!Controls/list';
 
 /**
  * Контрол «Плоский список» с пользовательским шаблоном элемента. Может загружать данные из источника данных.
@@ -88,8 +89,6 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
     protected _viewModelConstructor = null;
     protected _children: { listControl: ListControl };
     protected _supportNewModel: boolean = true;
-
-    static _theme = ['Controls/list'];
 
     _beforeMount(options) {
         this._viewModelConstructor = this._getModelConstructor(options.useNewModel);

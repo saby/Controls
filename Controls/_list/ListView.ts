@@ -6,6 +6,7 @@ import GroupTemplate = require('wml!Controls/_list/GroupTemplate');
 import defaultItemTemplate = require('wml!Controls/_list/ItemTemplate');
 import * as forTemplate from 'wml!Controls/_list/Render/For';
 import * as oldForTemplate from 'wml!Controls/_list/resources/For';
+import 'css!Controls/list';
 
 const DEBOUNCE_HOVERED_ITEM_CHANGED = 150;
 
@@ -296,7 +297,7 @@ var ListView = BaseControl.extend(
             } else {
                 leftPadding = (this._options.itemPadding && this._options.itemPadding.left || 'default').toLowerCase();
             }
-            return `controls-ListView__footer__paddingLeft_${leftPadding}_theme-${this._options.theme}`;
+            return `controls-ListView__footer__paddingLeft_${leftPadding}`;
         },
 
         activateEditingRow(enableScrollToElement?: boolean): boolean {
@@ -327,7 +328,5 @@ Object.defineProperty(ListView, 'defaultProps', {
       return ListView.getDefaultOptions();
    }
 });
-
-ListView._theme = ['Controls/list'];
 
 export = ListView;
