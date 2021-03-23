@@ -91,7 +91,10 @@ export function each(
             stickyItemBefore.index
         );
     }
-    enumerator.setPosition(startIndex - 1 + (stickyItemBefore ? 1 : 0));
+
+    // TODO: Отрефакторить. Ошибка: https://online.sbis.ru/opendoc.html?guid=0c097079-0143-4b19-9f43-dc38c68ba3bc
+    const startIndexOffset = (stickyItemBefore && !stickyItemBefore.current['[Controls/_display/GroupItem]']) ? 1 : 0;
+    enumerator.setPosition(startIndex - 1 + startIndexOffset);
 
     while (enumerator.moveNext() && enumerator.getCurrentIndex() < stopIndex - (stickyItemAfter ? 1 : 0)) {
         callback.call(
