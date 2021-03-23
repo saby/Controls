@@ -135,8 +135,6 @@ class BodyItem extends Control<IShortDatePickerOptions> implements IDateConstruc
         this._notify('sendResult', [month, dateUtils.getEndOfMonth(month)], {bubbling: true});
     }
 
-    static _theme: string[] = ['Controls/shortDatePicker'];
-
     static getDefaultOptions(): IShortDatePickerOptions {
         return {
             dateConstructor: WSDate

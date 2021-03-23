@@ -219,10 +219,10 @@ export default class MonthsRangeItem extends Control<IControlOptions> {
             this._options.selectionBaseValue, this._options.selectionHoveredValue) &&
             this._selectionViewType === SELECTION_VIEW_TYPES.months) {
             css.push('controls-PeriodDialog-MonthsRange__item-selected');
-            css.push('controls-PeriodDialog-MonthsRange__item-selected_theme-' + this._options.theme);
+            css.push('controls-PeriodDialog-MonthsRange__item-selected');
         } else {
             css.push('controls-PeriodDialog-MonthsRange__item-unselected');
-            css.push('controls-PeriodDialog-MonthsRange__item-unselected_theme-' + this._options.theme);
+            css.push('controls-PeriodDialog-MonthsRange__item-unselected');
         }
 
         if (this._selectionViewType === SELECTION_VIEW_TYPES.months) {
