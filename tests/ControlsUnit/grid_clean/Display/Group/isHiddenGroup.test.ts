@@ -40,6 +40,7 @@ describe('Controls/grid_clean/Display/GroupRow/HasStickyGroup', () => {
         assert.isTrue(hiddenGroup.isHiddenGroup());
 
         CssClassesAssert.notInclude(hiddenGroup.getItemClasses({ style: 'default', theme: 'default' }), [
+            'controls-ListView__group',
             'controls-Grid__row',
             'controls-Grid__row_default_theme-default'
         ]);
