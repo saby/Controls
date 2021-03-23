@@ -1,13 +1,13 @@
 import {IHeaderCell, TColumns} from 'Controls/interface';
 import { IList } from 'Controls/list';
+
+type HeaderVisibility = 'hasdata' | 'visible';
+
 /**
  * Интерфейс для контрола {@link Controls/grid:View Таблица}.
  * @public
  * @author Авраменко А.С.
  */
-
-type HeaderVisibility = 'hasdata' | 'visible';
-
 export interface IGridControl extends IList {
     columns: TColumns;
     header?: IHeaderCell[];
@@ -533,7 +533,7 @@ export interface IGridControl extends IList {
 /**
  * @name Controls/_grid/interface/IGridControl#emptyTemplateColumns
  * @cfg {Array.<Controls/_grid/interface/IGridControl/IEmptyTemplateColumn.typedef>} Конфигурация колонок {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty-grid/#empty-template-columns пустой таблицы}.
- * @demo Controls-demo/gridNew/EmptyGrid/Editing/Index 
+ * @demo Controls-demo/gridNew/EmptyGrid/Editing/Index
  */
 
 /**
