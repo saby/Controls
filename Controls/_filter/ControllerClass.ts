@@ -799,6 +799,14 @@ export default class FilterControllerClass {
         }
         return resultItems;
     }
+
+    static getCalculatedFilter(cfg: object): Promise<any> {
+        return new FilterControllerClass({}).getCalculatedFilter(cfg);
+    }
+
+    static updateFilterHistory(cfg: object): Promise<any> {
+        return new FilterControllerClass({}).saveFilterToHistory(cfg);
+    }
 }
 
 function getCalculatedFilter(config) {
