@@ -47,7 +47,7 @@ import BooleanEditor = require("Controls/_propertyGrid/defaultEditors/Boolean");
 import StringEditor = require("Controls/_propertyGrid/defaultEditors/String");
 import TextEditor = require("Controls/_propertyGrid/defaultEditors/Text");
 import EnumEditor = require("Controls/_propertyGrid/defaultEditors/Enum");
-import NumberEditor = require("Controls/_propertyGrid/defaultEditors/Number");
+import {default as NumberEditor} from 'Controls/_propertyGrid/defaultEditors/Number';
 import BooleanGroupEditor = require("Controls/_propertyGrid/extendedEditors/BooleanGroup");
 import FlatEnumEditor = require("Controls/_propertyGrid/extendedEditors/FlatEnum");
 import {default as DropdownEditor} from 'Controls/_propertyGrid/extendedEditors/Dropdown';
