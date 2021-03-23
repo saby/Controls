@@ -45,6 +45,7 @@
                                               iconSize="s"
                                               iconStyle="contrast"
                                               buttonStyle="success"
+                                              caption="{{null}}"
                                               attr:class="controls-Menu__applyButton"
                                               inlineHeight="menuapply"
                                               on:click="_applyButtonClick()"/>
