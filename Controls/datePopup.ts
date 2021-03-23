@@ -16,6 +16,7 @@ import {Controller as ManagerController} from 'Controls/popup';
 import {IntersectionObserverSyntheticEntry} from './scroll';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {constants} from 'Env/Env';
+import 'css!Controls/datePopup';
 
 const HEADER_TYPES = {
         link: 'link',
@@ -583,8 +584,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
         this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
     }
-
-    static _theme: string[] = ['Controls/datePopup'];
 
     static getDefaultOptions(): object {
         return coreMerge({

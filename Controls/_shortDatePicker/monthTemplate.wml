@@ -1,8 +1,7 @@
-<div class="controls-PeriodLiteDialog__vLayoutItem controls-PeriodLiteDialog__vLayoutItem_theme-{{theme}}
-    controls-PeriodLiteDialog__vLayoutItem-clickable controls-PeriodLiteDialog__vLayoutItem-clickable_theme-{{theme}}"
+<div class="controls-PeriodLiteDialog__vLayoutItem
+    controls-PeriodLiteDialog__vLayoutItem-clickable"
      title="{{ month.tooltip }}">
-    <div class="controls-PeriodLiteDialog__vLayoutItem-caption
-                controls-PeriodLiteDialog__vLayoutItem-caption_theme-{{theme}}">
+    <div class="controls-PeriodLiteDialog__vLayoutItem-caption">
         <ws:if data="{{!!contentTemplate}}">
             <ws:partial template="{{contentTemplate}}" value="{{month.date}}"/>
         </ws:if>

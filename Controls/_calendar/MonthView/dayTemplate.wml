@@ -1,6 +1,6 @@
 <ws:if data="{{newMode !== true}}">
     <ws:if data="{{value.clickable}}">
-        <div if="{{value.today}}" class="controls-MonthViewVDOM__item-today-background controls-MonthViewVDOM__item-today-background_theme-{{theme}}"></div>
+        <div if="{{value.today}}" class="controls-MonthViewVDOM__item-today-background controls-MonthViewVDOM__item-today-background"></div>
         <ws:if data="{{!!contentTemplate}}">
             <ws:partial template="{{contentTemplate}}" value="{{value}}"/>
         </ws:if>
@@ -10,12 +10,12 @@
     </ws:if>
 </ws:if>
 <ws:else>
-    <div class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item{{sizeStyle? '_style-' + sizeStyle}}_theme-{{theme}}
-    {{ monthViewModel._prepareClass(value, theme, fontColorStyle, backgroundStyle, borderStyle, fontWeight) }}">
+    <div class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item_style-{{sizeStyle? sizeStyle : 'default'}}
+    {{ monthViewModel._prepareClass(value, fontColorStyle, backgroundStyle, borderStyle, fontWeight) }}">
         <ws:if data="{{value.clickable}}">
             <div if="{{value.today}}"
                  class="controls-MonthViewVDOM__item-today-background
-                        controls-MonthViewVDOM__item-today-background{{sizeStyle? '_style-' + sizeStyle}}_theme-{{theme}}"></div>
+                        controls-MonthViewVDOM__item-today-background_style-{{sizeStyle? sizeStyle : 'default'}}"></div>
             <ws:if data="{{!!contentTemplate}}">
                 <ws:partial template="{{contentTemplate}}" value="{{value}}"/>
             </ws:if>
