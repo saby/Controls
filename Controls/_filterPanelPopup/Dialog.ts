@@ -1,6 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_filterPanelPopup/Dialog';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/filterPanelPopup';
 
 /**
  * Шаблон диалогового окна для панели фильтра.
@@ -22,6 +23,4 @@ export default class Dialog extends Control<IControlOptions> {
     protected _collapsedGroupsChanged(event: SyntheticEvent, collapsedFilters: string[]|number[]): void {
         this._notify('sendResult', [{action: 'collapsedFiltersChanged', collapsedFilters}], {bubbling: true});
     }
-
-    static _theme: string[] = ['Controls/filterPanelPopup'];
 }
