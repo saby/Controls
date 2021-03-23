@@ -3,16 +3,8 @@ export default abstract class GroupCell<T> {
 
     getContentClasses(theme: string): string {
         let classes = '';
-        // TODO необходимо разобраться с высотой групп. По стандарту группы должны быть высотой 18px, а
-        //  не 24/22 как сейчас в зависимости от наличия separator.
-        //  нужно разобраться, как сделать группу высотой 18px с выровненными по baseLine элементами, и
-        //  скорее всего использовать вместо font-иконок svg:
-        //  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        //      <path d="{{ (gridColumn || itemData).isExpanded() ?
-        //              'M8,11.22,2.41,5.59l.81-.81L8,9.53l4.78-4.75.81.84Z' :
-        //              'M5.63,13.59l-.84-.84L9.53,8,4.78,3.22l.81-.81L11.22,8Z' }}"/>
-        //  </svg>
-        //  Нужно учесть, что это повлияет и на группы в плоском списке, соответственно, там тоже поменяется шаблон.
+        // TODO необходимо разобраться с высотой групп.
+        //  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
         classes += ` controls-Grid__row-cell__content_baseline_S_theme-${theme}`;
         classes += this._getHorizontalPaddingClasses(theme);
         classes += this._getContentAlignClasses();

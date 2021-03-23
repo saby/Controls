@@ -49,4 +49,9 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataCell', () 
             'controls-Grid__row-cell_withRowSeparator_size-null'
         ]);
     });
+
+    it('getWrapperClasses should not include spacingFirstCol class', () => {
+        CssClassesAssert.notInclude(groupCell.getWrapperClasses('default', 'default'),
+            'controls-Grid__cell_spacingFirstCol_default_theme-default');
+    });
 });
