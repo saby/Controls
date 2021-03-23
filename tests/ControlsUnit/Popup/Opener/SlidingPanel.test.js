@@ -14,6 +14,7 @@ define(
          return {
             id: 'randomId',
             position: {
+               bottom: 0,
                left: 0,
                right: 0
             },
@@ -23,20 +24,6 @@ define(
                   minHeight: 400,
                   position: 'bottom',
                   maxHeight: 800
-               }
-            }
-         };
-      };
-      var getPopupContainer = () => {
-         return {
-            style: {},
-            classList: {
-               _classes: [],
-               add(className): void {
-                  this._classes.push(className);
-               },
-               contains(className) {
-                  return this._classes.includes(className);
                }
             }
          };
@@ -53,7 +40,7 @@ define(
                assert.deepEqual(position, {
                   left: 0,
                   right: 0,
-                  bottom: -10000,
+                  bottom: -400,
                   maxHeight: 800,
                   minHeight: 400,
                   height: 400,
@@ -84,7 +71,7 @@ define(
                   assert.equal(position.height, heightForOverflow);
                   assert.equal(position.minHeight, heightForOverflow);
                   assert.equal(position.maxHeight, heightForOverflow);
-                  assert.equal(position.bottom, -10000);
+                  assert.equal(position.bottom, -heightForOverflow);
                });
                it('minHeight < window height < maxHeight', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
@@ -96,7 +83,7 @@ define(
                   assert.equal(position.height, 400);
                   assert.equal(position.minHeight, 400);
                   assert.equal(position.maxHeight, heightForOverflow);
-                  assert.equal(position.bottom, -10000);
+                  assert.equal(position.bottom, -400);
                });
                it('initial height < minHeight', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
@@ -119,7 +106,7 @@ define(
                   item.popupOptions.slidingPanelOptions.position = 'bottom';
                   const position = SlidingPanelStrategy.getPosition(item);
 
-                  assert.equal(position.bottom, -10000);
+                  assert.equal(position.bottom, -400);
                });
                it('bottom', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
@@ -128,7 +115,7 @@ define(
                   SlidingPanelStrategy._getWindowHeight = () => 900;
                   const position = SlidingPanelStrategy.getPosition(item);
 
-                  assert.equal(position.top, -10000);
+                  assert.equal(position.top, -400);
                });
             });
          });
@@ -141,12 +128,9 @@ define(
                   SlidingPanelStrategy._getWindowHeight = () => 900;
                   item.position = SlidingPanelStrategy.getPosition(item);
 
-                  assert.equal(item.position.bottom, -10000);
+                  assert.equal(item.position.bottom, -400);
 
-                  const container = getPopupContainer();
-                  const result = Controller.elementCreated(item, container);
-                  assert.equal(container.style.inset, '0 auto 0 0');
-                  assert.isTrue(item.popupOptions.className.includes('controls-SlidingPanel__animation-position-bottom'));
+                  const result = Controller.elementCreated(item, {});
 
                   assert.equal(item.position.bottom, 0);
                   assert.equal(result, true);
@@ -158,10 +142,9 @@ define(
                   SlidingPanelStrategy._getWindowHeight = () => 900;
                   item.position = SlidingPanelStrategy.getPosition(item);
 
-                  assert.equal(item.position.top, -10000);
+                  assert.equal(item.position.top, -400);
 
-                  const result = Controller.elementCreated(item, getPopupContainer());
-                  assert.isTrue(item.popupOptions.className.includes('controls-SlidingPanel__animation-position-top'));
+                  const result = Controller.elementCreated(item, {});
 
                   assert.equal(item.position.top, 0);
                   assert.equal(result, true);
@@ -177,7 +160,7 @@ define(
 
                sandbox.stub(StrategySingleton, 'getPosition');
 
-               const result = Controller.elementUpdated(item, getPopupContainer());
+               const result = Controller.elementUpdated(item, {});
 
                sinon.assert.called(StrategySingleton.getPosition);
                assert.equal(result, true);
@@ -191,11 +174,11 @@ define(
                item.position = SlidingPanelStrategy.getPosition(item);
                let destroyedPromiseResolved = false;
 
-               const result = Controller.elementDestroyed(item, getPopupContainer());
+               const result = Controller.elementDestroyed(item);
 
                assert.equal(result instanceof Promise, true);
 
-               Controller.elementAnimated(item, getPopupContainer());
+               Controller.elementAnimated(item);
 
                const timeoutId = setTimeout(() => {
                   assert.equal(destroyedPromiseResolved, true);
@@ -216,17 +199,15 @@ define(
                const item2 = getPopupItem();
 
                sandbox.stub(Controller, '_toggleCancelBodyDragging');
-               const container1 = getPopupContainer();
-               const container2 = getPopupContainer();
 
-               Controller.elementCreated(item1, container1);
-               Controller.elementCreated(item2, container2);
+               Controller.elementCreated(item1);
+               Controller.elementCreated(item2);
 
                sinon.assert.calledOnce(Controller._toggleCancelBodyDragging);
                sinon.assert.calledWithMatch(Controller._toggleCancelBodyDragging, true);
 
-               Controller.elementDestroyed(item1, container1);
-               Controller.elementDestroyed(item2, container2);
+               Controller.elementDestroyed(item1);
+               Controller.elementDestroyed(item2);
 
                sinon.assert.calledTwice(Controller._toggleCancelBodyDragging);
                sinon.assert.calledWithMatch(Controller._toggleCancelBodyDragging, false);
@@ -238,8 +219,9 @@ define(
 
                   const item = getPopupItem();
                   item.popupOptions.slidingPanelOptions.position = 'bottom';
-                  Controller.getDefaultConfig(item, getPopupContainer());
+                  Controller.getDefaultConfig(item);
 
+                  assert.equal(item.popupOptions.className.includes('controls-SlidingPanel__animation-position-bottom'), true);
                   assert.deepEqual(item.popupOptions.slidingPanelData, {
                      minHeight: item.position.minHeight,
                      maxHeight: item.position.maxHeight,
@@ -255,6 +237,10 @@ define(
                   item.popupOptions.slidingPanelOptions.position = 'top';
                   Controller.getDefaultConfig(item);
 
+                  assert.equal(
+                     item.popupOptions.className.includes('controls-SlidingPanel__animation-position-top'),
+                     true
+                  );
                   assert.deepEqual(item.popupOptions.slidingPanelData, {
                      minHeight: item.position.minHeight,
                      maxHeight: item.position.maxHeight,
@@ -282,13 +268,12 @@ define(
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
-                  const container = getPopupContainer()
 
-                  Controller.popupDragStart(item, container, {
+                  Controller.popupDragStart(item, {}, {
                      x: 0,
                      y: 10
                   });
-                  Controller.popupDragEnd(item, container);
+                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight - 10);
                   sandbox.restore();
                });
@@ -310,7 +295,7 @@ define(
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
 
-                  Controller.popupDragStart(item, getPopupContainer(), {
+                  Controller.popupDragStart(item, {}, {
                      x: 0, y: 10
                   });
                   Controller.popupDragEnd(item);
@@ -333,17 +318,16 @@ define(
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
-                  const container = getPopupContainer();
 
-                  Controller.popupDragStart(item, container, {
+                  Controller.popupDragStart(item, {}, {
                      x: 0,
                      y: 10
                   });
-                  Controller.popupDragStart(item, container, {
+                  Controller.popupDragStart(item, {}, {
                      x: 0,
                      y: -20
                   });
-                  Controller.popupDragEnd(item, container);
+                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight + 20);
                   sandbox.restore();
                });
@@ -362,12 +346,11 @@ define(
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
-                  const container = getPopupContainer();
 
-                  Controller.popupDragStart(item, container, {
+                  Controller.popupDragStart(item, {}, {
                      x: 0, y: -10000
                   });
-                  Controller.popupDragEnd(item, container);
+                  Controller.popupDragEnd(item);
 
                   assert.equal(height, startHeight + 10000);
                   sinon.assert.called(StrategySingleton.getPosition);
@@ -388,12 +371,11 @@ define(
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
-                  const container = getPopupContainer();
 
-                  Controller.popupDragStart(item, container, {
+                  Controller.popupDragStart(item, {}, {
                      x: 0, y: 10000
                   });
-                  Controller.popupDragEnd(item, container);
+                  Controller.popupDragEnd(item);
                   assert.equal(height, startHeight - 10000);
                   sinon.assert.called(StrategySingleton.getPosition);
                   sandbox.restore();
@@ -408,7 +390,7 @@ define(
 
                   item.position = SlidingPanelStrategy.getPosition(item);
 
-                  Controller.popupDragStart(item, getPopupContainer(), {
+                  Controller.popupDragStart(item, {}, {
                      x: 0, y: 10
                   });
                   Controller.popupDragEnd(item);
@@ -425,7 +407,7 @@ define(
 
                   item.position = SlidingPanelStrategy.getPosition(item);
 
-                  Controller.popupDragStart(item, getPopupContainer(), {
+                  Controller.popupDragStart(item, {}, {
                      x: 0, y: -10
                   });
                   Controller.popupDragEnd(item);

@@ -17,7 +17,6 @@ export interface ISlidingPanelOptions {
     position?: TSlidingPanelPosition;
     height?: number;
     desktopMode?: 'dialog' | 'stack';
-    autoHeight?: boolean;
 }
 
 export interface IDialogOptions {
@@ -70,7 +69,6 @@ export interface ISlidingPanel {
  * @property {Number} minHeight Минимально допустимая высота шторки. С такой высотой она открывается.
  * @property {Number} maxHeight Максимально допустимая высота шторки.
  * @property {String} position Определяет с какой стороны отображается попап. (Варианты: 'top', 'bottom')
- * @property {Boolean} autoHeight Позволяет шторке до начала изменения высоты с помощью свайпа принимать высоту по контенту.
  */
 
 /**
