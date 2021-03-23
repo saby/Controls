@@ -800,6 +800,7 @@ export default class FilterControllerClass {
         return resultItems;
     }
 
+    // Методы добавлены для получения прикладными разработчиками конфига фильтра и обновления истории
     static getCalculatedFilter(cfg: object): Promise<any> {
         return new FilterControllerClass({}).getCalculatedFilter(cfg);
     }
