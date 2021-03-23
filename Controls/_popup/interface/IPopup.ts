@@ -86,7 +86,7 @@ export interface IPopupController {
    getDefaultConfig(item: IPopupItem): null|Promise<void>;
    _popupDragEnd(item: IPopupItem): boolean;
    _popupResizingLine(item: IPopupItem, offset: IDragOffset): boolean;
-   _elementAnimated(item: IPopupItem, container: HTMLElement): boolean;
+   _elementAnimated(item: IPopupItem): boolean;
    _elementMaximized(item: IPopupItem, container: HTMLElement, state: boolean): boolean;
    workspaceResize(): boolean;
    _beforeUpdateOptions(item: IPopupItem): void;
