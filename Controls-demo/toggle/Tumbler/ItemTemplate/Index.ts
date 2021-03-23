@@ -13,7 +13,8 @@ export default class extends Control {
                 {
                     id: '1',
                     caption: 'Название 1',
-                    count: 10
+                    count: 10,
+                    counter: 15
                 },
                 {
                     id: '2',
@@ -25,8 +26,5 @@ export default class extends Control {
     }
 
     static _theme: string[] = ['Controls/Classes'];
-    static _styles: string[] = [
-        'Controls-demo/Controls-demo',
-        'Controls-demo/toggle/Tumbler/ItemTemplate/ItemTemplate'
-    ];
+    static _styles: string[] = ['Controls-demo/Controls-demo'];
 }

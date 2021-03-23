@@ -21,26 +21,16 @@ interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
 /**
  * @name Controls/_toggle/Tumbler#itemTemplate
  * @demo Controls-demo/toggle/Tumbler/ItemTemplate/Index
- * @demo Controls-demo/toggle/Tumbler/CounterProperty/Index
+ *
+ * По умолчанию используется шаблон "Controls/toogle:tumblerItemTemplate".
+ * Также есть базовый шаблон для отображения записей со счетчиком Controls/toggle:tumblerItemCounterTemplate
+ *
+ * Шаблон tumblerItemCounterTemplate поддерживает следующие параметры:
+ * - item {Types/entity:Record} — Отображаемый элемент;
+ * - counterProperty {string} — Имя свойства элемента, содержимое которого будет отображаться в счетчике.
  *
  * @example
- * Tumbler с itemTemplate и contentTemplate.
- * <pre>
- *    <Controls.toggle:Tumbler ... >
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/toggle:tumblerItemTemplate" scope="{{itemTemplate}}">
- *              <ws:contentTemplate>
- *                  <ws:partial template="{{contentTemplate.captionTemplate}}"/>
- *                  <ws:if data="{{contentTemplate.item.get('count')}}">
- *                      <div class="controlsDemo__toggle-counter">{{ contentTemplate.item.get('count') }}</div>
- *                  </ws:if>
- *              </ws:contentTemplate>
- *          </ws:partial>
- *       </ws:itemTemplate>
- *    </Controls.toggle:Tumbler>
- * </pre>
- *
- * Tumbler с itemTemplate и счетчиком.
+ * Отображение записей со счетчиками
  * JS:
  * <pre>
  * this._items = new Memory({
