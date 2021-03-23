@@ -11,6 +11,7 @@ import IItemActionsCell from './interface/IItemActionsCell';
 import Cell, {IOptions as ICellOptions} from './Cell';
 import DataRow from './DataRow';
 import DataCellCompatibility from './compatibility/DataCell';
+import {TemplateFunction} from 'UI/Base';
 
 export interface IOptions<T> extends ICellOptions<T>, IDisplaySearchValueOptions {
     backgroundStyle: string;
@@ -42,6 +43,13 @@ export default class DataCell<T, TOwner extends DataRow<T>> extends mixin<
     setSearchValue(searchValue: string): void {
         this._$searchValue = searchValue;
         this._nextVersion();
+    }
+
+    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+        if (this.isEditing() && this._$itemEditorTemplate) {
+            return this._$itemEditorTemplate;
+        }
+        return super.getTemplate(multiSelectTemplate);
     }
 
     getContentClasses(theme: string,
@@ -182,5 +190,6 @@ Object.assign(DataCell.prototype, {
     _moduleName: 'Controls/gridNew:GridDataCell',
     _$backgroundStyle: 'default',
     _$searchValue: '',
-    _instancePrefix: 'grid-data-cell-'
+    _instancePrefix: 'grid-data-cell-',
+    _$itemEditorTemplate: null
 });

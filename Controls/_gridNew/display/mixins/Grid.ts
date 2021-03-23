@@ -481,6 +481,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return !!this.getColumnsConfig() && this.hasColumnScroll() && (this.getActionsTemplateConfig()?.itemActionsPosition !== 'custom');
     }
 
+    getItemEditorTemplate(): TemplateFunction {
+        return this._$itemEditorTemplate;
+    }
+
     // region Controls/_display/CollectionItem
 
     abstract getMetaResults(): EntityModel;
@@ -518,5 +522,6 @@ Object.assign(Grid.prototype, {
     _$columnScroll: false,
     _$stickyColumnsCount: 1,
     _$sorting: null,
-    _$emptyTemplateColumns: null
+    _$emptyTemplateColumns: null,
+    _$itemEditorTemplate: null
 });

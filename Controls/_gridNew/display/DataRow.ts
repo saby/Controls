@@ -7,6 +7,9 @@ import DataCell, { IOptions as IGridDataCellOptions } from './DataCell';
 import ILadderSupport from './interface/ILadderSupport';
 import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDisplaySearchValue';
 import ItemActionsCell from './ItemActionsCell';
+import {IColumn} from 'Controls/interface';
+import { Model } from 'Types/entity';
+import {TColspanCallbackResult} from 'Controls/_gridNew/display/mixins/Grid';
 import {IColumn} from "../../_grid/interface/IColumn";
 
 export interface IOptions<T> extends IRowOptions<T>, IDisplaySearchValueOptions {
@@ -54,7 +57,8 @@ export default class DataRow<T> extends Row<T> implements
         return {
             ...super._getColumnFactoryParams(column, columnIndex),
             searchValue: this._$searchValue,
-            backgroundStyle: this._$backgroundStyle
+            backgroundStyle: this._$backgroundStyle,
+            itemEditorTemplate: this._$owner.getItemEditorTemplate()
         };
     }
 
@@ -72,6 +76,13 @@ export default class DataRow<T> extends Row<T> implements
 
     getSearchValue(): string {
         return this._$searchValue;
+    }
+
+    protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
+        if (this.isEditing() && this._$owner.getItemEditorTemplate()) {
+            return 'end';
+        }
+        return super._getColspan(column, columnIndex);
     }
 
     setEditing(editing: boolean, editingContents?: T, silent?: boolean, columnIndex?: number): void {
