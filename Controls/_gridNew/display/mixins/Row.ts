@@ -73,7 +73,7 @@ export default abstract class Row<T> {
     }
 
     protected _getBaseItemClasses(style: string, theme: string): string {
-        return `controls-ListView__itemV controls-Grid__row controls-Grid__row_${style}_theme-${theme}`
+        return `controls-ListView__itemV controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
     }
 
     protected _getItemHighlightClasses(style: string, theme: string, highlightOnHover?: boolean): string {

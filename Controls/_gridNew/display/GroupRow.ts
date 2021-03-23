@@ -89,12 +89,23 @@ export default class GroupRow<T> extends mixin<
 
     getItemClasses(params: IItemTemplateParams = { theme: 'default' }): string {
         params.highlightOnHover = false;
-        let classes = super.getItemClasses(params);
-        classes += ' controls-ListView__group';
+        let itemClasses =
+            `${this._getBaseItemClasses(params.style, params.theme)} ` +
+            `${this._getCursorClasses(params.cursor, params.clickable)} ` +
+            'controls-ListView__group';
+
         if (this.isHiddenGroup()) {
-            classes += ' controls-ListView__groupHidden';
+            itemClasses += ' controls-ListView__groupHidden';
         }
-        return classes;
+        return itemClasses;
+    }
+
+    protected _getBaseItemClasses(style: string, theme: string): string {
+        let itemClasses = 'controls-ListView__itemV';
+        if (!this.isHiddenGroup()) {
+            itemClasses += ` controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
+        }
+        return itemClasses;
     }
 
     getStickyHeaderMode(): string {
