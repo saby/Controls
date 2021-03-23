@@ -5,7 +5,7 @@
    <ws:if data="{{(item || itemData).shouldDisplayExpanderBlock(gridColumn)}}">
       <ws:if data="{{ (item || itemData).shouldDisplayLevelPadding(withoutLevelPadding) }}">
          <ws:for data="i in (item || itemData).getLevel() - 1">
-            <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+            <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
          </ws:for>
       </ws:if>
       <ws:if data="{{ (item || itemData).shouldDisplayExpander(expanderIcon, 'default') }}">
@@ -85,24 +85,43 @@
    </ws:if>
 </ws:template>
 
-<Controls.scroll:Group>
-<div class="{{ (item || itemData).getItemClasses({
+
+<ws:if data="{{ (item || itemData).isSticked() }}">
+   <Controls.scroll:Group>
+      <div class="{{ (item || itemData).getItemClasses({
            'highlightOnHover': highlightOnHover,
            'theme': theme,
            'style': style,
            'cursor': cursor,
            'clickable': clickable
        }) }}">
-   <ws:for data="column in (item || itemData).getColumns()">
-      <Controls.scroll:StickyHeader position="topbottom"
-                                    mode="{{ (item || itemData).getStickyHeaderMode() }}"
-                                    shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
-                                    backgroundStyle="{{ backgroundStyle }}"
-                                    fixedZIndex="{{ column.getZIndex()}}"
-                                    attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-                                    attr:style="{{ column.getWrapperStyles(containerSize) }}">
-         <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
-      </Controls.scroll:StickyHeader>
-   </ws:for>
-</div>
-</Controls.scroll:Group>
+         <ws:for data="column in (item || itemData).getColumns()">
+            <Controls.scroll:StickyHeader position="topbottom"
+                                          mode="{{ (item || itemData).getStickyHeaderMode() }}"
+                                          shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
+                                          backgroundStyle="{{ backgroundStyle }}"
+                                          fixedZIndex="{{ column.getZIndex()}}"
+                                          attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+                                          attr:style="{{ column.getWrapperStyles(containerSize) }}">
+               <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
+            </Controls.scroll:StickyHeader>
+         </ws:for>
+      </div>
+   </Controls.scroll:Group>
+</ws:if>
+<ws:else>
+   <div class="{{ (item || itemData).getItemClasses({
+           'highlightOnHover': highlightOnHover,
+           'theme': theme,
+           'style': style,
+           'cursor': cursor,
+           'clickable': clickable
+       }) }}">
+      <ws:for data="column in (item || itemData).getColumns()">
+         <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
+              style="{{ column.getWrapperStyles(containerSize) }}">
+            <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
+         </div>
+      </ws:for>
+   </div>
+</ws:else>

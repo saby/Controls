@@ -865,8 +865,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._$itemTemplateProperty = options.itemTemplateProperty;
         }
 
-        this._$theme = options.theme;
-
         if (!options.hoverBackgroundStyle && options.style) {
             this._$hoverBackgroundStyle = options.style;
         }
@@ -3084,6 +3082,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.multiSelectAccessibilityProperty = this._$multiSelectAccessibilityProperty;
             options.backgroundStyle = this._$backgroundStyle;
             options.theme = this._$theme;
+            options.style = this._$style;
             options.leftPadding = this._$leftPadding;
             options.rightPadding = this._$rightPadding;
             options.topPadding = this._$topPadding;
@@ -3896,6 +3895,7 @@ Object.assign(Collection.prototype, {
     _$markerVisibility: 'onactivated',
     _$multiSelectAccessibilityProperty: '',
     _$style: 'default',
+    _$theme: 'default',
     _$hoverBackgroundStyle: 'default',
     _$backgroundStyle: null,
     _$rowSeparatorSize: null,

@@ -97,6 +97,7 @@ describe('Controls/_display/controllers/VirtualScroll', () => {
 
             // 1, 7 и 15 записи застиканы и должны участвовать в обходе.
             // 7 должна быть только 1 раз.
+            // При этом, с тех сторон, где есть застканные записи, нужно убрать лишние записи
             enumerator.getCurrent = () => {
                 if (enumerator._$position === 1 ||
                     enumerator._$position === 7 ||
@@ -112,6 +113,31 @@ describe('Controls/_display/controllers/VirtualScroll', () => {
             VirtualScrollController.each(collection, (_item, index) => iteratedIndices.push(index));
 
             assert.deepEqual(iteratedIndices, [1, 6, 7, 8, 15]);
+        });
+        it('iterates over each item once with correct indices with sticky group', () => {
+            const collection = makeCollection();
+
+            VirtualScrollController.setup(collection);
+            VirtualScrollController.setIndices(collection, 5, 10);
+
+            const enumerator = makeEnumerator();
+
+            // 1 запись - застиканная группа. Группу выводим, лишние записи не убираем.
+            // https://online.sbis.ru/opendoc.html?guid=d3f8f3a4-e7cf-40e5-9dee-e415b0db5b03
+            enumerator.getCurrent = () => {
+                if (enumerator._$position === 1) {
+                    return {
+                        '[Controls/_display/GroupItem]': true,
+                        isSticked: () => true
+                    };
+                }
+            };
+            collection.getEnumerator = () => enumerator;
+
+            const iteratedIndices = [];
+            VirtualScrollController.each(collection, (_item, index) => iteratedIndices.push(index));
+
+            assert.deepEqual(iteratedIndices, [1, 5, 6, 7, 8, 9]);
         });
     });
 

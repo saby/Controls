@@ -106,7 +106,13 @@
 .controls-Slider__point_big {
    width: calc(var(--marker_l_size_slider) - 2 * var(--marker_border-thickness_slider));
    height: calc(var(--marker_l_size_slider) - 2 * var(--marker_border-thickness_slider));
-   border-radius: calc(var(--marker_l_size_slider) / 2);
+   // В ie есть проблема с calc.
+   // Если передавать border-radius: calc(val / 2), то это воспринимается как невалидное значение.
+   // Поэтому явно указываем все значения
+   border-top-left-radius: calc(var(--marker_l_size_slider) / 2);
+   border-top-right-radius: calc(var(--marker_l_size_slider) / 2);
+   border-bottom-left-radius: calc(var(--marker_l_size_slider) / 2);
+   border-bottom-right-radius: calc(var(--marker_l_size_slider) / 2);
 }
 
 .controls-Slider__point_big_vertical {
@@ -120,7 +126,13 @@
 .controls-Slider__point_small {
    width: calc(var(--marker_s_size_slider) - 2 * var(--marker_border-thickness_slider));
    height: calc(var(--marker_s_size_slider) - 2 * var(--marker_border-thickness_slider));
-   border-radius: calc(var(--marker_s_size_slider) / 2);
+   // В ie есть проблема с calc.
+   // Если передавать border-radius: calc(val / 2), то это воспринимается как невалидное значение.
+   // Поэтому явно указываем все значения
+   border-top-left-radius: calc(var(--marker_s_size_slider) / 2);
+   border-top-right-radius: calc(var(--marker_s_size_slider) / 2);
+   border-bottom-left-radius: calc(var(--marker_s_size_slider) / 2);
+   border-bottom-right-radius: calc(var(--marker_s_size_slider) / 2);
 }
 
 .controls-Slider__point_small_vertical {
