@@ -21,6 +21,7 @@ interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
 /**
  * @name Controls/_toggle/Tumbler#itemTemplate
  * @demo Controls-demo/toggle/Tumbler/ItemTemplate/Index
+ * @demo Controls-demo/toggle/Tumbler/CounterProperty/Index
  *
  * @example
  * Tumbler с itemTemplate и contentTemplate.
@@ -35,6 +36,28 @@ interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
  *                  </ws:if>
  *              </ws:contentTemplate>
  *          </ws:partial>
+ *       </ws:itemTemplate>
+ *    </Controls.toggle:Tumbler>
+ * </pre>
+ *
+ * Tumbler с itemTemplate и счетчиком.
+ * JS:
+ * <pre>
+ * this._items = new Memory({
+ *    keyProperty: 'key',
+ *    data: [
+ *       {key: 1, caption: 'Element 1', counter: 5},
+ *       {key: 2, caption: 'Element 2', counter: 3},
+ *       {key: 3, caption: 'Element 3', counter: 7}
+ *    ]
+ * });
+ * </pre>
+ *
+ * WML
+ * <pre>
+ *    <Controls.toggle:Tumbler items="{{_items}}" >
+ *       <ws:itemTemplate>
+ *          <ws:partial template="Controls/toggle:tumblerItemCounterTemplate" scope="{{itemTemplate}}" />
  *       </ws:itemTemplate>
  *    </Controls.toggle:Tumbler>
  * </pre>
