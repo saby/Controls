@@ -29,14 +29,14 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataCell', () 
 
     it('getContentClasses should return group cell content classes', () => {
         CssClassesAssert.include(groupCell.getContentClasses('default'), [
-            'controls-Grid__cell_spacingRight_theme-default',
+            'controls-Grid__row-cell__content_baseline_S_theme-default',
             'controls-TreeGrid__row-cell__firstColumn__contentSpacing_null',
             'controls-ListView__groupContent']);
     });
 
-    it('getContentClasses should not include default baseline class', () => {
-        CssClassesAssert.notInclude(groupCell.getContentClasses('default'),
-            'controls-Grid__row-cell__content_baseline_default_theme-default');
+    it('getExpanderClasses should include expander js-class', () => {
+        CssClassesAssert.include(groupCell.getExpanderClasses(true, 'right', 'default'),
+            'js-controls-Tree__row-expander');
     });
 
     it('getWrapperClasses should return group cell wrapper classes', () => {
@@ -48,5 +48,10 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataCell', () 
             'controls-Grid__no-rowSeparator',
             'controls-Grid__row-cell_withRowSeparator_size-null'
         ]);
+    });
+
+    it('getWrapperClasses should not include spacingFirstCol class', () => {
+        CssClassesAssert.notInclude(groupCell.getWrapperClasses('default', 'default'),
+            'controls-Grid__cell_spacingFirstCol_default_theme-default');
     });
 });

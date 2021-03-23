@@ -54,6 +54,12 @@ export default class SearchGridCollection<S extends Model = Model, T extends Sea
    protected getExpanderIcon(): string {
       return 'none';
    }
+
+   protected _recountHasNodeWithChildren(): void {
+      // В поисковой модели не нужно выставлять флаг hasNodeWithChildren, т.к. это нужно только для экспандера
+      // а экспандер в моделе с хлебными крошками не отображается
+      this._setHasNodeWithChildren(false);
+   }
 }
 
 Object.assign(SearchGridCollection.prototype, {
