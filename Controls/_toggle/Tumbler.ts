@@ -23,17 +23,6 @@ interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
  * @demo Controls-demo/toggle/Tumbler/ItemTemplate/Index
  *
  * @example
- * Tumbler с itemTemplate.
- * <pre>
- *    <Controls.toggle:Tumbler ... >
- *       <ws:itemTemplate>
- *          <ws:partial template="Controls/toggle:tumblerItemTemplate" scope="{{itemTemplate}}">
- *              {{itemTemplate.item.title}}
- *          </ws:partial>
- *       </ws:itemTemplate>
- *    </Controls.toggle:Tumbler>
- * </pre>
- *
  * Tumbler с itemTemplate и contentTemplate.
  * <pre>
  *    <Controls.toggle:Tumbler ... >
