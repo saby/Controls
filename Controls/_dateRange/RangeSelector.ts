@@ -69,8 +69,10 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
     }
 
     private _setEmptyCaption(options): void {
-        if (options.emptyCaption && this._emptyCaption !== options.emptyCaption) {
-            this._emptyCaption = options.emptyCaption;
+        if (options.emptyCaption) {
+            if (this._emptyCaption !== options.emptyCaption) {
+                this._emptyCaption = options.emptyCaption;
+            }
         } else {
             const newCaption = options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single ?
                 this.EMPTY_CAPTIONS.ALL_TIME : this.EMPTY_CAPTIONS.NOT_SPECIFIED;
