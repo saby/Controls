@@ -146,7 +146,7 @@ export default class View extends Control<IControlOptions> {
     private _updateSource(editingObject: object): void {
         this._source.forEach((item) => {
             const editingItem = editingObject[item.name];
-            item.value = editingItem?.value === undefined ? item.resetValue : editingItem?.value;
+            item.value = editingItem?.value === undefined ? editingItem : editingItem?.value;
             if (editingItem.textValue !== undefined) {
                 item.textValue = editingItem.textValue;
             }
