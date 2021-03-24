@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {descriptor} from 'Types/entity';
 import * as template from 'wml!Controls/_dateRange/RelationButton/RelationButton';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/dateRange';
 
 /**
  * Кнопка для связывания периодов. Контрол, который может использоваться с {@link Controls/_dateRange/RelationController RelationController}.
@@ -32,8 +33,6 @@ export default class RelationButton extends Control<IControlOptions> {
         this._notify('valueChanged', [valueMap[this._options.value]]);
         this._notify('relationButtonBindTypeChanged', [valueMap[this._options.value]], { bubbling: true });
     }
-
-    static _theme: string[] = ['Controls/dateRange'];
 
     static getOptionTypes(): object {
         return {

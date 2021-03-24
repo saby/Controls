@@ -14,6 +14,8 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from "Types/entity";
 import dateControlsUtils from "./Utils";
 import {Base as dateUtils} from 'Controls/dateUtils';
+import 'css!Controls/dateRange';
+import 'css!Controls/CommonClasses';
 
 export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyleOptions {
 }
@@ -199,14 +201,14 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
          if (this._viewMode !== 'label') {
             this._styleClass = '';
             if (newOption.readOnly && !(newOption.fontColorStyle || newOption.fontSize)) {
-               this._styleClass = `controls-DateLinkView__style-readOnly_theme-${newOption.theme}`;
+               this._styleClass = 'controls-DateLinkView__style-readOnly';
                this._fontColorStyle = 'default';
             }
             if (newOption.clickable && !newOption.readOnly) {
-               this._styleClass +=  ` controls-DateLinkView__style-clickable_theme-${newOption.theme}`;
+               this._styleClass +=  ' controls-DateLinkView__style-clickable';
             }
             if (this._viewMode === 'selector' && this._fontColorStyle === 'link' && !newOption.readOnly) {
-               this._styleClass += ` controls-DateLinkView__style-hover_theme-${newOption.theme}`;
+               this._styleClass += ' controls-DateLinkView__style-hover';
             }
          } else {
             this._styleClass = null;
@@ -216,8 +218,6 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       }
    }
 }
-
-LinkView._theme = ['Controls/dateRange', 'Controls/Classes'];
 
 LinkView.EMPTY_CAPTIONS = IDateLinkView.EMPTY_CAPTIONS;
 

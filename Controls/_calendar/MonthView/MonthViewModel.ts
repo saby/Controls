@@ -45,8 +45,7 @@ export default class MonthViewModel extends VersionableMixin {
         return this._modelArray;
     }
 
-    _prepareClass(scope, theme, fontColorStyle, backgroundStyle, borderStyle, fontWeight): string {
-
+    _prepareClass(scope, fontColorStyle, backgroundStyle, borderStyle, fontWeight): string {
         let textColorClass = 'controls-MonthView__textColor',
             backgroundColorClass = 'controls-MonthView__backgroundColor',
             backgroundColorClassRangeHovered,
@@ -73,14 +72,14 @@ export default class MonthViewModel extends VersionableMixin {
                     backgroundColorClass += '-startend-unfinished';
                 }
                 if (fontWeight !== 'normal') {
-                    css.push('controls-MonthView__fontWeight_theme-' + theme);
+                    css.push('controls-MonthView__fontWeight');
                 }
             }
 
             let borderColorClass = 'controls-MonthViewVDOM__item-border';
 
             const borderStylePostfix = borderStyle ? '_style-' + borderStyle : '';
-            css.push(`${borderColorClass}${borderStylePostfix}_theme-${theme}`);
+            css.push(`${borderColorClass}${borderStylePostfix}`);
 
             borderColorClass = 'controls-MonthView__item-border';
             if (scope.selectedStart && scope.selectedEnd && !scope.selectionProcessing) {
@@ -92,7 +91,7 @@ export default class MonthViewModel extends VersionableMixin {
                 borderColorClass += '-end';
             }
             css.push(`${borderColorClass}${borderStylePostfix}`);
-            css.push(`${borderColorClass}${borderStylePostfix}_theme-${theme}`);
+            css.push(`${borderColorClass}${borderStylePostfix}`);
         } else {
             backgroundColorClass += '-unselected';
         }
@@ -101,9 +100,6 @@ export default class MonthViewModel extends VersionableMixin {
             backgroundColorClass += '-readOnly';
         }
         backgroundColorClassRangeHovered = backgroundColorClass + '-hovered';
-        textColorClass += '_theme-' + theme;
-        backgroundColorClass += '_theme-' + theme;
-        backgroundColorClassRangeHovered += '_theme-' + theme;
 
         if (fontColorStyle) {
             textColorClass += '_style-' + fontColorStyle;
@@ -129,9 +125,9 @@ export default class MonthViewModel extends VersionableMixin {
             if (!scope.selected) {
                 let borderStyle;
                 if (scope.selectionEnabled && this._singleDayHover) {
-                    borderStyle = 'controls-MonthView__border-currentMonthDay-unselected_theme-' + theme;
+                    borderStyle = 'controls-MonthView__border-currentMonthDay-unselected';
                 } else if (scope.hovered) {
-                    borderStyle = 'controls-MonthView__border-hover_theme-' + theme;
+                    borderStyle = 'controls-MonthView__border-hover';
                 }
                 if (borderStyle) {
                     borderStyle += backgroundStyle ? '_style-' + backgroundStyle : '';
@@ -147,35 +143,35 @@ export default class MonthViewModel extends VersionableMixin {
             }
 
             if (scope.selectedUnfinishedStart) {
-                css.push('controls-MonthViewVDOM__item-selectedStart-unfinished_theme-' + theme);
+                css.push('controls-MonthViewVDOM__item-selectedStart-unfinished');
             }
             if (scope.selectedUnfinishedEnd) {
-                css.push('controls-MonthViewVDOM__item-selectedEnd-unfinished_theme-' + theme);
+                css.push('controls-MonthViewVDOM__item-selectedEnd-unfinished');
             }
             if (scope.selected) {
                 if (scope.selectedStart && scope.selectedEnd && !scope.selectionProcessing) {
-                    css.push('controls-MonthViewVDOM__item-selectedStartEnd_theme-' + theme);
+                    css.push('controls-MonthViewVDOM__item-selectedStartEnd');
                 } else if (scope.selectedStart && !scope.selectedUnfinishedStart) {
-                    css.push('controls-MonthViewVDOM__item-selectedStart_theme-' + theme);
+                    css.push('controls-MonthViewVDOM__item-selectedStart');
                     css.push('controls-MonthViewVDOM__item-selectedStart');
                 } else if (scope.selectedEnd && (!scope.selectionProcessing ||
                     (scope.selectedEnd !== scope.selectedStart && !scope.selectedUnfinishedEnd))) {
-                    css.push('controls-MonthViewVDOM__item-selectedEnd_theme-' + theme);
+                    css.push('controls-MonthViewVDOM__item-selectedEnd');
                     css.push('controls-MonthViewVDOM__item-selectedEnd');
                 }
             }
             if (scope.selectedInner) {
-                css.push('controls-MonthViewVDOM__item-selectedInner_theme-' + theme);
+                css.push('controls-MonthViewVDOM__item-selectedInner');
                 css.push('controls-MonthViewVDOM__item-selectedInner');
             }
 
             if (scope.today) {
-                css.push('controls-MonthViewVDOM__today_theme-' + theme);
+                css.push('controls-MonthViewVDOM__today');
                 css.push('controls-MonthViewVDOM__today');
             }
         }
-        css.push(scope.isCalendar ? 'controls-MonthViewVDOM__currentMonthDay_theme-' +
-            theme : 'controls-MonthViewVDOM__' + scope.month + '_theme-' + theme);
+        css.push(scope.isCalendar ? 'controls-MonthViewVDOM__currentMonthDay' :
+            'controls-MonthViewVDOM__' + scope.month);
 
         if (scope.weekend) {
             css.push('controls-MonthViewVDOM__weekend');

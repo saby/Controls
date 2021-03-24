@@ -1,0 +1,38 @@
+.controls_theme-@{themeName} {
+  // Переменные для ввода интервала дат
+
+  --dash_length_dateRangeInput:                         5px;
+  --dash_padding-horizontal_dateRangeInput:             var(--offset_2xs);
+  --dash_thickness_dateRangeInput:                      1px;
+  --dash_color_dateRangeInput:                          var(--text-color);
+
+  //кнопка ссылка для отображения периода
+  --min-width_dateRangeSelector:                        150px;
+  --arrow_width_dateRangeSelector:                      24px;
+  --font-weight_dateRangeSelector:                      bold;
+  --arrow_icon-size_dateRangeSelector:                  var(--icon-size_s);
+  --reset-button_icon-size_dateRangeSelector:           var(--icon-size_s);
+  --reset-button_icon-color_dateRangeSelector:          #CCC;
+  --reset-button_margin-left_dateRangeSelector:         4px;
+  --height_dateRangeSelector:                           19px;
+
+  //кнопка ссылка для быстрого выбора периода
+  --height_rangeShortSelectorLink:                      24px;
+  --line-height_rangeShortSelectorLink:                 18px;
+  --clear_line-height_rangeShortSelectorLink:           24px;
+
+  //кнопка для связывания периодов
+  --icon-color_dateRangeRelationButton:                 var(--unaccented_icon-color);
+  --hover_icon-color_dateRangeRelationButton:           #999;
+  --active_icon-color_dateRangeRelationButton:          var(--hover_icon-color_dateRangeRelationButton);
+  --toggled_icon-color_dateRangeRelationButton:         var(--secondary_color);
+  --toggled_hover_icon-color_dateRangeRelationButton:   var(--link_hover_text-color);
+  --toggled_active_icon-color_dateRangeRelationButton:  var(--toggled_hover_icon-color_dateRangeRelationButton);
+  --icon-size_dateRangeRelationButton:                  var(--icon-size_s);
+
+  // Смещаем на расстояние высоты эл-та со стрелкой + расстояние от верха текста эл-та с годом до начала этого блока
+  // и так же учитываем такое же расстояние у вызывающего эл-та.
+  --shift-top_fontSize-s_PeriodDialog-selector:         calc(-1 * (var(--annually_header_height_shortDatePicker) + var(--item_layout_line-height_shortDatePicker) / 2 - (var(--height_rangeShortSelectorLink) - var(--item_font-size_shortDatePicker))));
+  --shift-top_fontSize-m_PeriodDialog-selector:         calc(var(--shift-top_fontSize-s_PeriodDialog-selector) + 1px);
+  --shift-top_fontSize-l_PeriodDialog-selector:         calc(var(--shift-top_fontSize-m_PeriodDialog-selector) + 1px);
+}
