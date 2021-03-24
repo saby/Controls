@@ -546,6 +546,8 @@ export class Controller {
      */
     private _cloneMenuTarget(realTarget: HTMLElement): HTMLElement {
         const rect = realTarget.getBoundingClientRect();
+        // FIXME: Если отдать клон таргета, то возникает зацикливание при расчетах
+        //  https://online.sbis.ru/opendoc.html?guid=d462d4d2-17fe-41e1-9caf-b5087bc246f2
         return {
             children: [],
             getBoundingClientRect(): ClientRect {
