@@ -120,11 +120,11 @@ define(
                         result = res;
                      },
                      top: {
-                        isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined }),
+                        getStickyHeadersShadowsVisibility: sinon.stub().returns({ then: () => 'auto' }),
                         getVisibilityByInnerComponents: () => false
                      },
                      bottom: {
-                        isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })
+                        getStickyHeadersShadowsVisibility: sinon.stub().returns({ then: () => 'auto' })
                      }
                   };
                   scroll._stickyFixedHandler({}, {});

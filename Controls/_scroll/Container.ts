@@ -272,8 +272,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
             this._stickyHeaderController.setCanScroll(this._scrollModel.canVerticalScroll);
             this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.isStickyHeadersShadowsEnabled(),
-                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+                this._shadows.top.getStickyHeadersShadowsVisibility(),
+                this._shadows.bottom.getStickyHeadersShadowsVisibility());
 
             this._updateScrollContainerPaigingSccClass(this._options);
         }
@@ -338,8 +338,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._initHeaderController();
         }
         this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.isStickyHeadersShadowsEnabled(),
-                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+                this._shadows.top.getStickyHeadersShadowsVisibility(),
+                this._shadows.bottom.getStickyHeadersShadowsVisibility());
 
         this._updateStateAndGenerateEvents(this._scrollModel);
     }
@@ -555,8 +555,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._shadows.updateScrollState(this._scrollModel, false);
         }
         this._stickyHeaderController.setShadowVisibility(
-            this._shadows.top.isStickyHeadersShadowsEnabled(),
-            this._shadows.bottom.isStickyHeadersShadowsEnabled());
+            this._shadows.top.getStickyHeadersShadowsVisibility(),
+            this._shadows.bottom.getStickyHeadersShadowsVisibility());
         const needUpdate = this._wasMouseEnter || this._options.shadowMode === SHADOW_MODE.JS;
         this._shadows.setStickyFixed(
             this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
