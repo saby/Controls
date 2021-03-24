@@ -6345,10 +6345,12 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             return false;
         }
 
-        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down' && !this._portionedSearchInProgress;
+        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
+        // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
+        const isAborted = _private.getPortionedSearch(this).isAborted();
         return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator
-           : shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection;
+           ? this._showLoadingIndicator && shouldDisplayDownIndicator && !this._portionedSearchInProgress && !isAborted
+           : (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection) && !this._portionedSearchInProgress && !isAborted;
     }
 
     _shouldDisplayTopPortionedSearch(): boolean {
