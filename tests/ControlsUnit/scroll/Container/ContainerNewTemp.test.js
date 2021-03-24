@@ -46,10 +46,10 @@ define(
                      updateScrollStateCalled = true;
                   },
                   top: {
-                     isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })
+                     getStickyHeadersShadowsVisibility: sinon.stub().returns({ then: () => 'auto' })
                   },
                   bottom: {
-                     isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })
+                     getStickyHeadersShadowsVisibility: sinon.stub().returns({ then: () => 'auto' })
                   }
                };
                scroll._updateState({scrollTop: 555});
