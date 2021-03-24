@@ -540,7 +540,7 @@ define(
             sinon.restore();
          });
 
-         it('getTemplateOptions', function() {
+         it('getTemplateOptions', async function() {
             let menuControl = getMenu();
             menuControl._isLoadedChildItems = () => true;
             menuControl._listModel = getListModel();
@@ -574,8 +574,29 @@ define(
             expectedOptions.subMenuLevel = 1;
             expectedOptions.iWantBeWS3 = false;
 
-            let resultOptions = menuControl._getTemplateOptions(item);
+            let resultOptions = await menuControl._getTemplateOptions(item);
             assert.deepEqual(resultOptions, expectedOptions);
+         });
+
+         it('getTemplateOptions sourceProperty', async function() {
+            let actualConfig;
+            let menuControl = getMenu();
+            menuControl._options.sourceProperty = 'source';
+            menuControl._listModel = getListModel();
+            const item = new display.CollectionItem({
+               contents: new entity.Model({
+                  rawData: {
+                     source: 'testSource'
+                  }
+               })
+            });
+            menuControl._getSourceSubMenu = (isLoadedChildItems, config) => {
+               actualConfig = config;
+               return Promise.resolve('source');
+            };
+
+            await menuControl._getTemplateOptions(item);
+            assert.equal(actualConfig, 'testSource');
          });
 
          it('isSelectedKeysChanged', function() {

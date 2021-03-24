@@ -6,6 +6,8 @@ import {RecordSet, List} from 'Types/collection';
 import {ICrudPlus, PrefetchProxy, QueryWhere} from 'Types/source';
 import * as Clone from 'Core/core-clone';
 import * as Merge from 'Core/core-merge';
+import * as cInstance from 'Core/core-instance';
+import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 import {Collection, Search, CollectionItem} from 'Controls/display';
 import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
@@ -29,6 +31,11 @@ interface IMenuPosition {
     left: number;
     top: number;
     height: number;
+}
+
+interface ISourcePropertyConfig {
+    moduleName: string;
+    options: object;
 }
 
 const SUB_DROPDOWN_DELAY = 400;
@@ -856,70 +863,93 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         // openSubDropdown is called by debounce and a function call can occur when the control is destroyed,
         // just check _children to make sure, that the control isn't destroyed
         if (item && this._children.Sticky && this._subDropdownItem) {
-            const popupOptions: object = this._getPopupOptions(target, item);
-            this._notify('beforeSubMenuOpen', [popupOptions]);
-            this._children.Sticky.open(popupOptions).then();
+            this._getPopupOptions(target, item).then((popupOptions) => {
+                this._notify('beforeSubMenuOpen', [popupOptions]);
+                this._children.Sticky.open(popupOptions);
+            });
         }
     }
 
-    private _getPopupOptions(target: EventTarget, item: CollectionItem<Model>): object {
-        return {
-            templateOptions: this._getTemplateOptions(item),
-            target,
-            autofocus: false,
-            direction: {
-                horizontal: 'right'
-            },
-            targetPoint: {
-                horizontal: 'right'
-            },
-            hoverController: this._options.hoverController,
-            backgroundStyle: this._options.backgroundStyle,
-            trigger: this._options.trigger
-        };
+    private _getPopupOptions(target: EventTarget, item: CollectionItem<Model>): Promise<object> {
+        return this._getTemplateOptions(item).then((templateOptions) => {
+            return {
+                templateOptions,
+                target,
+                autofocus: false,
+                direction: {
+                    horizontal: 'right'
+                },
+                targetPoint: {
+                    horizontal: 'right'
+                },
+                hoverController: this._options.hoverController,
+                backgroundStyle: this._options.backgroundStyle,
+                trigger: this._options.trigger
+            };
+        });
     }
 
-    private _getTemplateOptions(item: CollectionItem<Model>): object {
+    private _getTemplateOptions(item: CollectionItem<Model>): Promise<object> {
         const root: TKey = item.getContents().get(this._options.keyProperty);
         const isLoadedChildItems = this._isLoadedChildItems(root);
-        const subMenuOptions: object = {
-            root,
-            bodyContentTemplate: 'Controls/_menu/Control',
-            dataLoadCallback: !isLoadedChildItems ? this._subMenuDataLoadCallback.bind(this) : null,
-            footerContentTemplate: this._options.nodeFooterTemplate,
-            footerItemData: {
-                key: root,
-                item
-            },
-            closeButtonVisibility: false,
-            emptyText: null,
-            showClose: false,
-            showHeader: false,
-            headerTemplate: null,
-            headerContentTemplate: null,
-            additionalProperty: null,
-            searchParam: null,
-            itemPadding: null,
-            source: this._getSourceSubMenu(isLoadedChildItems),
-            subMenuLevel: this._options.subMenuLevel ? this._options.subMenuLevel + 1 : 1,
-            iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
-        };
+        const sourcePropertyConfig = item.getContents().get(this._options.sourceProperty);
+        const dataLoadCallback = !isLoadedChildItems &&
+        !sourcePropertyConfig ? this._subMenuDataLoadCallback.bind(this) : null;
+        return this._getSourceSubMenu(isLoadedChildItems, sourcePropertyConfig).then((source) => {
+            const subMenuOptions: object = {
+                root: sourcePropertyConfig ? null : root,
+                bodyContentTemplate: 'Controls/_menu/Control',
+                dataLoadCallback,
+                footerContentTemplate: this._options.nodeFooterTemplate,
+                footerItemData: {
+                    key: root,
+                    item
+                },
+                closeButtonVisibility: false,
+                emptyText: null,
+                showClose: false,
+                showHeader: false,
+                headerTemplate: null,
+                headerContentTemplate: null,
+                additionalProperty: null,
+                searchParam: null,
+                itemPadding: null,
+                source,
+                subMenuLevel: this._options.subMenuLevel ? this._options.subMenuLevel + 1 : 1,
+                iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
+            };
 
-        return {...this._options, ...subMenuOptions};
+            return {...this._options, ...subMenuOptions};
+        });
     }
 
-    private _getSourceSubMenu(isLoadedChildItems: boolean): ICrudPlus {
-        let source: ICrudPlus = this._options.source;
+    private _getSourceSubMenu(isLoadedChildItems: boolean,
+                              sourcePropertyConfig: ISourcePropertyConfig | ICrudPlus): Promise<ICrudPlus> {
+        let result = Promise.resolve(this._options.source);
 
         if (isLoadedChildItems) {
-            source = new PrefetchProxy({
+            result = Promise.resolve(new PrefetchProxy({
                 target: this._options.source,
                 data: {
                     query: this._listModel.getCollection()
                 }
+            }));
+        } else if (sourcePropertyConfig) {
+            result = this._createMenuSource(sourcePropertyConfig);
+        }
+        return result;
+    }
+
+    private _createMenuSource(source: ISourcePropertyConfig | ICrudPlus): Promise<ICrudPlus> {
+        if (cInstance.instanceOfModule(source, 'Types/_source/ICrud') ||
+            cInstance.instanceOfMixin(source, 'Types/_source/ICrud')) {
+            return Promise.resolve(source as ICrudPlus);
+        } else {
+            const sourceConfig = source as ISourcePropertyConfig;
+            return ModulesLoader.loadAsync(sourceConfig.moduleName).then((module) => {
+                return new module(sourceConfig.options);
             });
         }
-        return source;
     }
 
     private _isLoadedChildItems(root: TKey): boolean {
