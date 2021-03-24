@@ -547,7 +547,7 @@ export class Controller {
     private _cloneMenuTarget(realTarget: HTMLElement): HTMLElement {
         const rect = realTarget.getBoundingClientRect();
         return {
-            ...clone(realTarget),
+            children: [],
             getBoundingClientRect(): ClientRect {
                 return rect;
             }
