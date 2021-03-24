@@ -7,7 +7,7 @@
 
 /**
  * @name Controls/calendar:MonthListYearTemplate#bodyTemplate
- * @cfg {String|Function} Шаблон отображения года.
+ * @cfg {String|TemplateFunction} Шаблон отображения года.
  * @remark
  * В шаблон будет переданы:
  * 

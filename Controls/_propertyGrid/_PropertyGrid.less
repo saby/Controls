@@ -50,10 +50,20 @@
    align-items: baseline;
 }
 
+.controls-PropertyGrid__group_expander-left {
+   flex-direction: row-reverse;
+   justify-content: flex-end;
+}
+
 .controls-PropertyGrid__groupExpander {
    cursor: pointer;
    margin-left: auto;
    align-self: center;
+}
+
+.controls-PropertyGrid__groupExpander-left_theme-@{themeName} {
+   margin-left: 0;
+   margin-right: @expander_margin-right_propertyGrid;
 }
 
 .controls-PropertyGrid__editor_booleanGroup_item,

@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/WithItemAction
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import {getActionsForContacts as getItemActions} from '../../../../list_new/DemoHelpers/ItemActionsCatalog';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { IHeader } from 'Controls-demo/types';
 import { IItemAction } from 'Controls/itemActions';
 

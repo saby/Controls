@@ -1,0 +1,19 @@
+<div class="controlsDemo__wrapper">
+   <Controls.treeTile:View
+      tileMode="static"
+      displayProperty="title"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      imageFit="contain"
+      tileHeight="300"
+      imageProperty="image"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tileNew:ItemTemplate"
+            scope="{{itemTemplate}}"
+            hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+      </ws:itemTemplate>
+   </Controls.treeTile:View>
+</div>

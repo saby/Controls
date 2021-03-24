@@ -1,8 +1,5 @@
 import { assert } from 'chai';
-
-import {Search, Tree} from 'Controls/display';
-import BreadcrumbsItem from 'Controls/_display/BreadcrumbsItem';
-import {List} from 'Types/collection';
+import { BreadcrumbsItem, Search } from 'Controls/display';
 
 describe('Controls/_display/Search', () => {
     describe('.each()', () => {

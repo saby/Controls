@@ -245,6 +245,7 @@ export interface IItemActionsOptions {
      *
      * * action — объект с конфигурацией опции записи.
      * * item — модель (см. {@link Types/entity:Model}), содержащая данные записи.
+     * * isEditing — флаг, редактируется ли запись в данный момент.
      *
      * Чтобы опция записи отображалась, из функции следует вернуть true.
      * Подробнее об использовании функции читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/separate-set-options/#visibility здесь}.
@@ -269,7 +270,7 @@ export interface IItemActionsOptions {
      * <pre class="brush: js">
      * // TypeScript
      *  ...
-     *  private _visibilityCallback(action: IItemAction, item: Model): boolean {
+     *  private _visibilityCallback(action: IItemAction, item: Model, isEditing: boolean): boolean {
      *   if (action.title === 'Read') {
      *     return item.get('isNew');
      *   }
@@ -289,6 +290,7 @@ export interface IItemActionsOptions {
      * @cfg {Function} item operation visibility filter function
      * @param {ItemAction} action Object with configuration of an action.
      * @param {Types/entity:Model} item Instance of the item whose action is being processed.
+     * @param {Boolean} isEditing Determines whether the item is editing at the moment.
      * @returns {Boolean} Determines whether the action should be rendered.
      * @example
      * Item action Read don't display if item has property isNew === false

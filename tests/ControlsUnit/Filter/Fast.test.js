@@ -667,7 +667,7 @@ define(
             assert.deepStrictEqual(expectedConfig.templateOptions.selectorItems, fastFilter._configs[0]._items);
             assert.strictEqual(expectedConfig.templateOptions.selectedKeys[0], 'Россия');
             assert.isTrue(isOpened);
-            assert.equal(expectedConfig.templateOptions.dropdownClassName, 'controls-FastFilter_width-popup_theme-default');
+            assert.equal(expectedConfig.templateOptions.dropdownClassName, 'controls-FastFilter_width-popup');
             assert.isOk(expectedConfig.templateOptions.selectorOpener)
 
             isOpened = false;

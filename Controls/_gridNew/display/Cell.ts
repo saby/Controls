@@ -5,15 +5,15 @@ import {
     InstantiableMixin,
     VersionableMixin,
     IInstantiable,
-    IVersionable
+    IVersionable,
+    Model
 } from 'Types/entity';
 import { TemplateFunction } from 'UI/Base';
 
-import { IColumn, IColspanParams, IRowspanParams, TColumnSeparatorSize } from 'Controls/grid';
+import { IColumn, IColspanParams, TColumnSeparatorSize } from 'Controls/interface';
 
-import {TMarkerClassName} from 'Controls/_grid/interface/ColumnTemplate';
-import {IItemPadding} from 'Controls/_list/interface/IList';
-import {COLUMN_SCROLL_JS_SELECTORS} from 'Controls/columnScroll';
+import { IItemPadding, TMarkerClassName } from 'Controls/display';
+import { COLUMN_SCROLL_JS_SELECTORS } from 'Controls/columnScroll';
 
 import Row from './Row';
 
@@ -21,8 +21,9 @@ const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:ColumnTemplate';
 const MONEY_RENDER = 'Controls/gridNew:MoneyTypeRender';
 const NUMBER_RENDER = 'Controls/gridNew:NumberTypeRender';
 const STRING_RENDER = 'Controls/gridNew:StringTypeRender';
+const STRING_SEARCH_RENDER = 'Controls/gridNew:StringSearchTypeRender';
 
-export interface IOptions<T> extends IColspanParams, IRowspanParams {
+export interface IOptions<T> extends IColspanParams {
     owner: Row<T>;
     column: IColumn;
     instanceId?: string;
@@ -36,7 +37,7 @@ export interface IOptions<T> extends IColspanParams, IRowspanParams {
     rowSeparatorSize?: string;
 }
 
-export default class Cell<T, TOwner extends Row<T>> extends mixin<
+export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     DestroyableMixin,
     OptionsToPropertyMixin,
     InstantiableMixin,
@@ -74,11 +75,16 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
             this._$column.displayType ||
             this._$column.textOverflow ||
             this._$column.fontColorStyle ||
-            this._$column.fontSize
+            this._$column.fontSize ||
+            this.getSearchValue()
         );
     }
 
     getCellContentRender(): string {
+        if (this.getSearchValue() && this.getDisplayValue()) {
+            return STRING_SEARCH_RENDER;
+        }
+
         switch (this._$column.displayType) {
             case 'money': return MONEY_RENDER;
             case 'number': return NUMBER_RENDER;
@@ -99,6 +105,10 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
 
     getOwner(): TOwner {
         return this._$owner;
+    }
+
+    getSearchValue(): string {
+        return this.getOwner().getSearchValue();
     }
 
     // region Аспект "Объединение колонок"
@@ -142,6 +152,14 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
     // region Аспект "Отображение данных"
     getDisplayProperty(): string {
         return this._$column.displayProperty;
+    }
+
+    getDisplayValue(): string {
+        return this.getContents().get(this.getDisplayProperty());
+    }
+
+    getTooltipProperty(): string {
+        return this._$column.tooltipProperty;
     }
 
     getContents(): T {
@@ -197,7 +215,7 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
             wrapperClasses += `controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme} `;
 
             if (backgroundColorStyle !== 'default') {
-                wrapperClasses += `controls-Grid__row-cell_background_${backgroundColorStyle}_theme-${theme} `;
+                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}_theme-${theme}`;
             }
 
             if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
@@ -242,15 +260,9 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
         contentClasses += this._getHorizontalPaddingClasses(theme);
         contentClasses += this._getVerticalPaddingClasses(theme);
 
-        contentClasses += ' controls-Grid__row-cell_withoutRowSeparator_size-null_theme-default';
+        contentClasses += ` controls-Grid__row-cell_withoutRowSeparator_size-null_theme-${theme}`;
 
-        if (this._$column.align) {
-            contentClasses += ` controls-Grid__row-cell__content_halign_${this._$column.align}`;
-        }
-
-        if (this._$column.valign) {
-            contentClasses += ` controls-Grid__cell_valign_${this._$column.valign} controls-Grid__cell-content_full-height`;
-        }
+        contentClasses += this._getContentAlignClasses();
 
         // todo Чтобы работало многоточие - нужна ещё одна обертка над contentTemplate. Задача пересекается с настройкой
         //      шаблона колонки (например, cursor на демо CellNoClickable)
@@ -274,6 +286,8 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
         if (this.getOwner().isDragged()) {
             contentClasses += ` controls-ListView__itemContent_dragging_theme-${theme}`;
         }
+
+        contentClasses += ' js-controls-ListView__measurableContainer';
 
         return contentClasses;
     }
@@ -324,7 +338,7 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
         }
 
         if (topPadding === 'null' && bottomPadding === 'null') {
-            classes += `controls-Grid__row-cell_small_min_height-theme-${theme} `;
+            classes += ` controls-Grid__row-cell_small_min_height-theme-${theme} `;
         } else {
             classes += ` controls-Grid__row-cell_default_min_height-theme-${theme}`;
         }
@@ -411,11 +425,26 @@ export default class Cell<T, TOwner extends Row<T>> extends mixin<
 
         return classes;
     }
+
+    protected _getContentAlignClasses(): string {
+        let classes = '';
+        if (this._$column.align) {
+            classes += ` controls-Grid__row-cell__content_halign_${this._$column.align}`;
+        }
+
+        if (this._$column.valign) {
+            classes += ` controls-Grid__cell_valign_${this._$column.valign} controls-Grid__cell-content_full-height`;
+        }
+        return classes;
+    }
     // endregion
 
     // region Аспект "Ячейка"
-    getColumnConfig(): IColumn {
+    get config(): IColumn {
         return this._$column;
+    }
+    getColumnConfig(): IColumn {
+        return this.config;
     }
 
     getColumnIndex(): number {

@@ -1,8 +1,6 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_operations/Container/Container');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_operations/Container/Container';
 
-var MultiSelector = Control.extend({
-    _template: template
-});
-
-export = MultiSelector;
+export default class MultiSelector extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+}

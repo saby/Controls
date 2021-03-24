@@ -32,7 +32,6 @@ export function getOptionTypes() {
  * @interface Controls/_input/interface/IValueValidators
  * @public
  */
-
 export default interface IValueValidators {
     readonly '[Controls/_input/interface/IValueValidators]': boolean;
 }

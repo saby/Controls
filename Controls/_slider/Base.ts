@@ -3,15 +3,18 @@ import {Logger} from 'UI/Utils';
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ISlider, ISliderOptions} from './interface/ISlider';
 import SliderBase from './_SliderBase';
-import SliderTemplate = require('wml!Controls/_slider/sliderTemplate');
-import {IScaleData, ILineData, IPointDataList, IPositionedInterval, default as Utils} from './Utils';
+import {default as Utils, ILineData, IPointDataList, IPositionedInterval, IScaleData} from './Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IInterval} from './interface/IInterval';
 import {constants} from 'Env/Env';
+import * as SliderTemplate from 'wml!Controls/_slider/sliderTemplate';
+import * as intervalTemplate from 'wml!Controls/_slider/BaseIntervalTemplate';
+import 'css!Controls/slider';
 
 export interface ISliderBaseOptions extends IControlOptions, ISliderOptions {
    value: number;
    intervals: IInterval[];
+   intervalTemplate: Function;
 }
 
 const maxPercentValue = 100;
@@ -156,14 +159,13 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
       }
    }
 
-   static _theme: string[] = ['Controls/slider'];
-
    static getDefaultOptions(): object {
       return {
          ...{
             theme: 'default',
             value: undefined,
-            intervals: []
+            intervals: [],
+            intervalTemplate
          }, ...SliderBase.getDefaultOptions()
       };
 
@@ -179,6 +181,15 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
 
    }
 }
+
+Object.defineProperty(Base, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Base.getDefaultOptions();
+   }
+});
 
 /**
  * @name Controls/_slider/Base#value
@@ -210,6 +221,52 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
  * </pre>
  */
 
+/**
+ * @name Controls/_slider/Base#intervalTemplate
+ * @cfg {String|TemplateFunction} Устанавливает шаблон, отображающий интервалы шкалы выбора значения, а также дает возможность задавать точность точек интервалов.
+ * @remark
+ * Его рекомендуется использовать в тех случаях, когда используется слайдер с большими выбором значений, и при этом задаются короткие интервалы.
+ * В шаблоне можно использовать объект interval, в котором хранятся:
+ *
+ * * start — определяет начало интервала в процентах.
+ * * width — определяет длину интервала в процентах.
+ * * color — определяет цвет интервала.
+ * @example
+ * В данном примере без указания шаблона, интервал не отобразится на слайдере из-за маленьких значений, поэтому указываем минимальную ширину в 5%.
+ * <pre class="brush: js">
+ * _intervals = [
+ *    {
+ *       start: 100,
+ *       end: 101,
+ *       color: 'primary'
+ *    }, {
+ *       start: 510,
+ *       end: 550,
+ *       color: 'danger'
+ *    }
+ * ];
+ * _getInterval(interval) {
+ *    if(interval.width < 5){
+ *       interval.width = 5;
+ *    }
+ *    return interval;
+ * }
+ * </pre>
+ *
+ * <pre class="brush: html">
+ * <Controls.slider:Base
+ *       maxValue="{{1000}}"
+ *       minValue="{{0}}"
+ *       bind:value="_value"
+ *       intervals="{{_intervals}}">
+ *    <ws:intervalTemplate>
+ *       <ws:partial template="Controls/slider:IntervalTemplate"
+ *                   interval="{{_getInterval(intervalTemplate.interval)}}" scope="{{intervalTemplate}}"/>
+ *       </ws:intervalTemplate>
+ * </Controls.slider:Base>
+ * </pre>
+ * @demo Controls-demo/Slider/Base/IntervalTemplate/Index
+ */
 /**
  * @name Controls/_slider/Base#intervals
  * @cfg {Array<IInterval>>} Интервалы шкалы выбора значения, закрашенные выбранным цветом.

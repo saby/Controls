@@ -131,6 +131,7 @@ class PendingClass {
 
     }
 
+    
     finishPendingOperations(forceFinishValue: boolean, root: string = null): Promise<unknown> {
         let pendingResolver, pendingReject;
         const resultPromise = new Promise((resolve, reject) => {

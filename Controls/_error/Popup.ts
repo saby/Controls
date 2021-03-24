@@ -123,16 +123,16 @@ export default class Popup implements IPopupHelper {
     private static readonly POPUP_MODULES: string[] = [
         'Controls/popup',
         'Controls/popupConfirmation',
-        'Controls/popupTemplate'
+        'Controls/popupTemplate',
+        'css!Controls/popup',
+        'css!Controls/popupConfirmation',
+        'css!Controls/buttons'
     ];
 
     /**
      * Стили, которые нужны для нормального отображения диалогов.
      */
     private static readonly POPUP_THEMES: string[] = [
-        'Controls/popup',
-        'Controls/popupConfirmation',
-        'Controls/buttons',
         'Controls/Classes'
     ];
 

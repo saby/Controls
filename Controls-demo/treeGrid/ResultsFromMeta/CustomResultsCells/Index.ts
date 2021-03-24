@@ -43,7 +43,7 @@ export default class extends Control {
     }
 
     private _setMeta(): void {
-        const items = this._children.tree._children.listControl._children.baseControl.getViewModel().getItems();
+        const items = this._children.tree._children.listControl.getViewModel().getItems();
         items.setMetaData({
             ...items.getMetaData(),
             results: this._generateResults(items)

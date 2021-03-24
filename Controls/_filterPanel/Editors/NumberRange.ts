@@ -1,6 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import DateRangeTemplate = require('wml!Controls/_filterPanel/Editors/NumberRange');
+import 'css!Controls/filterPanel';
 
 interface INumberRangeOptions extends IControlOptions {
     propertyValue: number[];

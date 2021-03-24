@@ -227,6 +227,15 @@ Container.getDefaultOptions = function getDefaultOptions() {
    };
 };
 
+Object.defineProperty(Container, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Container.getDefaultOptions();
+   }
+});
+
 /**
  * @typedef {Object} ItemAction
  * @property {String} id Идентификатор операции над записью.

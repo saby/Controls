@@ -7,9 +7,12 @@ import {
     IFontSizeOptions, IFontSize,
     IHeightOptions, IHeight
 } from 'Controls/interface';
-import {fontWeight, fontSize, fontColorStyle} from '../../ActualAPI';
 
-interface IBaseOptions extends IFontSizeOptions, IFontWeightOptions, IFontColorStyleOptions, IHeightOptions {
+import 'css!Controls/CommonClasses';
+import 'css!Controls/editableArea';
+
+interface IBaseOptions extends IFontSizeOptions, IFontWeightOptions, IFontColorStyleOptions, IHeightOptions,
+                                IControlOptions {
     value: string;
     isEditing: boolean;
     editorTemplate: TemplateFunction;
@@ -30,23 +33,12 @@ interface IBaseOptions extends IFontSizeOptions, IFontWeightOptions, IFontColorS
  */
 class Base extends Control<IBaseOptions>
     implements IHeight, IFontSize, IFontWeight, IFontColorStyle {
-    protected _fontSize: string;
-    protected _fontWeight: string;
-    protected _inlineHeight: string;
-    protected _fontColorStyle: string;
     protected _template: TemplateFunction = template;
 
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
     readonly '[Controls/_interface/IFontSize]': boolean = true;
     readonly '[Controls/_interface/IFontWeight]': boolean = true;
     readonly '[Controls/_interface/IHeight]': boolean = true;
-
-    protected _beforeMount(options: IControlOptions): void {
-        this._fontSize = fontSize(options.fontSize, options.style, options.size);
-        this._fontWeight = fontWeight(options.fontWeight, options.style);
-        this._inlineHeight = options.inlineHeight;
-        this._fontColorStyle = fontColorStyle(options.fontColorStyle, options.style);
-    }
 
     protected _prepareValueForEditor(value: string | TemplateFunction): string | TemplateFunction {
         return value;
@@ -56,15 +48,22 @@ class Base extends Control<IBaseOptions>
         this._notify('valueChanged', [value]);
     }
 
-    static getDefaultOptions() {
+    static getDefaultOptions(): object {
         return {
             fontWeight: 'default',
             inlineHeight: 'default'
         };
     }
-
-    static _theme: string[] = ['Controls/editableArea', 'Controls/Classes'];
 }
+
+Object.defineProperty(Base, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Base.getDefaultOptions();
+   }
+});
 
 export default Base;
 

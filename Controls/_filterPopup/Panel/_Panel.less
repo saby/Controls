@@ -1,86 +1,86 @@
 //Panel background
 // Без каскада сейчас нельзя: https://online.sbis.ru/opendoc.html?guid=a65ae72b-65d4-41ca-b028-2c84433f4439
-.controls-FilterPanel__vertical_theme-@{themeName} .controls-DialogTemplate__top-area {
-   background-color: @header_background-color_vertical_filterPanel;
+.controls-FilterPanel__vertical .controls-DialogTemplate__top-area {
+   background-color: var(--header_background-color_vertical_filterPanel);
 }
 // Без каскада сейчас нельзя: https://online.sbis.ru/opendoc.html?guid=a65ae72b-65d4-41ca-b028-2c84433f4439
-.controls-FilterPanel__horizontal_theme-@{themeName} .controls-DialogTemplate__top-area {
-   background-color: @header_background-color_horizontal_filterPanel;
+.controls-FilterPanel__horizontal .controls-DialogTemplate__top-area {
+   background-color: var(--header_background-color_horizontal_filterPanel);
 }
 
-.controls-FilterPanel__content-horizontal_theme-@{themeName} {
+.controls-FilterPanel__content-horizontal {
    display: flex;
    flex-direction: row;
-   background-color: @background-color_horizontal_filterPanel;
+   background-color: var(--background-color_horizontal_filterPanel);
 }
 
-.controls-FilterPanel__content-vertical_theme-@{themeName} {
-   background-color: @background-color_vertical_filterPanel;
+.controls-FilterPanel__content-vertical {
+   background-color: var(--background-color_vertical_filterPanel);
 }
 
 //Panel width
-.controls-FilterPanel__width-s.controls-FilterPanel__vertical_theme-@{themeName} {
-   width: @width_s_filterPanel;
+.controls-FilterPanel__width-s.controls-FilterPanel__vertical {
+   width: var(--width_s_filterPanel);
 }
 
-.controls-FilterPanel__width-m.controls-FilterPanel__vertical_theme-@{themeName} {
-   width: @width_m_filterPanel;
+.controls-FilterPanel__width-m.controls-FilterPanel__vertical {
+   width: var(--width_m_filterPanel);
 }
 
-.controls-FilterPanel__width-l.controls-FilterPanel__vertical_theme-@{themeName} {
-   width: @width_l_filterPanel;
+.controls-FilterPanel__width-l.controls-FilterPanel__vertical {
+   width: var(--width_l_filterPanel);
 }
 
 .controls-FilterPanel__width-m.controls-FilterPanel__horizontal_withHistory {
-   width: @width_m_filterPanel + @history_width_s_filterPanel;
+   width: calc(var(--width_m_filterPanel) + var(--history_width_s_filterPanel));
 }
 
 .controls-FilterPanel__width-l.controls-FilterPanel__horizontal_withHistory {
-   width: @width_m_filterPanel + @history_width_l_filterPanel;
+   width: calc(var(--width_m_filterPanel) + var(--history_width_l_filterPanel));
 }
 
-.controls-FilterPanel__width-xl.controls-FilterPanel__vertical_theme-@{themeName} {
-   width: @width_xl_filterPanel;
+.controls-FilterPanel__width-xl.controls-FilterPanel__vertical {
+   width: var(--width_xl_filterPanel);
 }
 
 .controls-FilterPanel__width-m .controls-FilterPanel__filtersWrapper {
-   width: @width_m_filterPanel;
+   width: var(--width_m_filterPanel);
 }
 
-.controls-FilterPanel__width-m .controls-HistoryList__horizontal_theme-@{themeName}  {
-   width: @history_width_s_filterPanel;
+.controls-FilterPanel__width-m .controls-HistoryList__horizontal {
+   width: var(--history_width_s_filterPanel);
 }
 
 .controls-FilterPanel__width-l .controls-FilterPanel__filtersWrapper {
-   width: @width_m_filterPanel;
+   width: var(--width_m_filterPanel);
 }
 
-.controls-FilterPanel__width-l .controls-HistoryList__horizontal_theme-@{themeName}  {
-   width: @history_width_l_filterPanel;
+.controls-FilterPanel__width-l .controls-HistoryList__horizontal {
+   width: var(--history_width_l_filterPanel);
 }
 
 //Wrong class name, for compatibility
 .controls-PanelFilter__width-m {
-   width: @width_s_filterPanel;
+   width: var(--width_s_filterPanel);
 }
 
 .controls-PanelFilter__width-l {
-   width: @width_l_filterPanel;
+   width: var(--width_l_filterPanel);
 }
 
 .controls-PanelFilter__width-xl {
-   width: @width_xl_filterPanel;
+   width: var(--width_xl_filterPanel);
 }
 
 //Header of panel
 .controls-FilterPanel__header-topTemplate {
-   margin-right: @header-content_padding-right_filterPanel;
+   margin-right: var(--header-content_padding-right_filterPanel);
 }
 
-.controls-FilterPanel__resetButton_theme-@{themeName} {
-   margin-right: @reset-button_offset-right_filterPanel;
-   color: @reset-button_color_filterPanel;
-   line-height: @inline_height_m;
+.controls-FilterPanel__resetButton {
+   margin-right: var(--reset-button_offset-right_filterPanel);
+   color: var(--reset-button_color_filterPanel);
+   line-height: var(--inline_height_m);
 }
 
 .controls-FilterPanel__resetButton {
@@ -93,29 +93,29 @@
 
 //PropertyGrid block
 .controls-FilterPanel__PropertyGrid {
-   padding: @basic_content_padding-top_filterPanel @basic_content_padding-right_filterPanel 0 @basic_content_padding-left_filterPanel;
+   padding: var(--basic_content_padding-top_filterPanel) var(--basic_content_padding-right_filterPanel) 0 var(--basic_content_padding-left_filterPanel);
 }
 
 //AdditionalParams
 .controls-FilterPanel__AdditionalParams {
    padding:
-      @extended_offset_filterPanel @extended_content_padding-right_filterPanel
-      0 @extended_heading_padding-left_filterPanel;
+      var(--extended_offset_filterPanel) var(--extended_content_padding-right_filterPanel)
+      0 var(--extended_heading_padding-left_filterPanel);
 }
 
 //History
-.controls-HistoryList__vertical_theme-@{themeName}{
-   padding: @history_offset_filterPanel / 2 @history_content_padding-right_filterPanel @padding-bottom_filterPanel @history_heading_padding-left_filterPanel;
-   margin-top: @history_offset_filterPanel / 2;
-   background-color: @history_background-color_filterPanel;
+.controls-HistoryList__vertical{
+   padding: calc(var(--history_offset_filterPanel) / 2) var(--history_content_padding-right_filterPanel) var(--padding-bottom_filterPanel) var(--history_heading_padding-left_filterPanel);
+   margin-top: calc(var(--history_offset_filterPanel) / 2);
+   background-color: var(--history_background-color_filterPanel);
 }
 
-.controls-HistoryList__horizontal_theme-@{themeName} {
+.controls-HistoryList__horizontal {
    width: 50%;
    box-sizing: border-box;
-   margin-bottom: @padding-bottom_filterPanel;
-   padding: 0 @history_content_padding-right_filterPanel 0 @history_heading_padding-left_filterPanel;
-   border-left: @separator_thickness_filterPanel solid @separator_color_filterPanel;
+   margin-bottom: var(--padding-bottom_filterPanel);
+   padding: 0 var(--history_content_padding-right_filterPanel) 0 var(--history_heading_padding-left_filterPanel);
+   border-left: var(--separator_thickness_filterPanel) solid var(--separator_color_filterPanel);
 }
 
 .controls-FilterPanel__separator {
@@ -139,42 +139,42 @@
 
 //Filters block common styles
 .controls-FilterPanel_lastBlock {
-   padding-bottom: @padding-bottom_filterPanel;
+   padding-bottom: var(--padding-bottom_filterPanel);
 }
 
 .controls-FilterButton-popup-orientation-left {
-   margin-top: @popup_offset-vertical_filterPanel;
-   margin-left: @popup_offset-horizontal_filterPanel;
+   margin-top: var(--popup_offset-vertical_filterPanel);
+   margin-left: var(--popup_offset-horizontal_filterPanel);
 }
 
 .controls-FilterButton-popup-orientation-right {
-   margin-top: @popup_offset-vertical_filterPanel;
-   margin-left: -(@popup_offset-horizontal_filterPanel + @border-thickness_dialog);
+   margin-top: var(--popup_offset-vertical_filterPanel);
+   margin-left: calc(-1 * (var(--popup_offset-horizontal_filterPanel) + var(--border-thickness_dialog)));
 }
 
 .controls-FilterPanel__DateRange {
    display: flex;
    align-items: center;
-   height: @item_height_filterPanel;
+   height: var(--item_height_filterPanel);
 }
 
-.controls-text-filterPanelItem_theme-@{themeName} {
-   color: @item_text-color_filterPanel;
+.controls-text-filterPanelItem {
+   color: var(--item_text-color_filterPanel);
 }
 
 .ws-is-hover {
-   .controls-text-filterPanelItem_theme-@{themeName}:hover {
-      color: @item_hover_text-color_filterPanel;
+   .controls-text-filterPanelItem:hover {
+      color: var(--item_hover_text-color_filterPanel);
    }
-   .controls-FilterPanel__resetButton_theme-@{themeName}:hover {
+   .controls-FilterPanel__resetButton:hover {
       text-decoration: underline;
       cursor: pointer;
-      color: @reset-button_hover_color_filterPanel;
+      color: var(--reset-button_hover_color_filterPanel);
    }
 }
 
-.controls-text-filterPanelItem_theme-@{themeName}:active {
-   color: @item_active_text-color_filterPanel;
+.controls-text-filterPanelItem:active {
+   color: var(--item_active_text-color_filterPanel);
 }
 
 .controls-FilterPanel__header__buttons {

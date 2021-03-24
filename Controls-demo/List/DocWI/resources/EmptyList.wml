@@ -1,9 +1,0 @@
-<Controls.list:View
-        source="{{_viewSource}}"
-        keyProperty="id">
-    <ws:emptyTemplate>
-        <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xxl" bottomSpacing="m">
-            <ws:contentTemplate>No data available!</ws:contentTemplate>
-        </ws:partial>
-    </ws:emptyTemplate>
-</Controls.list:View>

@@ -1,1 +1,1 @@
-<span>{{column.result}}</span>
+<span>{{column.config.result}}</span>

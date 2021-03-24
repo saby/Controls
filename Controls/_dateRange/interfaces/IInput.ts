@@ -29,14 +29,14 @@
  *    <Controls.dateRange:Input on:inputCompleted="_inputCompletedHandler()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions>{
  *       ....
  *       _inputCompletedHandler(startValue, endValue, displaydStartValue, displaydEndValue) {
  *          this._saveEnteredValueToDabase1(startValue, endValue);
  *          this._saveEnteredValueToDabase2(displaydStartValue, displaydEndValue);
  *       },
  *       ...
- *    })
+ *    }
  * </pre>
  */
 
@@ -55,14 +55,14 @@
  *    <Controls.dateRange:Input on:inputCompleted="_inputCompletedHandler()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ....
  *       _inputCompletedHandler(startValue, endValue, displaydStartValue, displaydEndValue) {
  *          this._saveEnteredValueToDabase1(startValue, endValue);
  *          this._saveEnteredValueToDabase2(displaydStartValue, displaydEndValue);
- *       },
+ *       }
  *       ...
- *    })
+ *    }
  * </pre>
  */
 

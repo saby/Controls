@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/ColumnScroll/Base/Base';
 import {Memory} from 'Types/source';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import {IHeader} from 'Controls-demo/types';
 

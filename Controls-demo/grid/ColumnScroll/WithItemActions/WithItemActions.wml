@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell demo-ColumnScroll__inside">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/ColumnScroll/WithItemActions/Inside/Index' }}">
@@ -9,7 +9,7 @@
     </div>
 
 
-    <div class="controlsDemo__cell">
+    <div class="controlsDemo__cell controlsDemo__wrapper__padding-left demo-ColumnScroll__outside">
         <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/grid/ColumnScroll/WithItemActions/Outside/Index' }}">

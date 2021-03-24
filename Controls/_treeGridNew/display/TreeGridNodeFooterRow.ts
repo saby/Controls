@@ -9,6 +9,7 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     readonly Markable: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly ItemActionsItem: boolean = false;
 
     // TODO нужно удалить, когда перепишем колспан для футеров узлов
     // Храним колспан, чтобы правильно определять индекс столбца.

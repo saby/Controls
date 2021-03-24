@@ -2,20 +2,20 @@
    border-radius: 50%;
 }
 
-.controls-SwitchCircle_theme-@{themeName} {
-   width: @marker_width_switcher;
-   height: @marker_height_switcher;
+.controls-SwitchCircle {
+   width: var(--marker_width_switcher);
+   height: var(--marker_height_switcher);
 }
 
-.controls-SwitchCircle_selected_theme-@{themeName} {
-   background-color: @selected_marker_color_switcher;
+.controls-SwitchCircle_selected {
+   background-color: var(--selected_marker_color_switcher);
 }
-.controls-SwitchCircle_unselected_theme-@{themeName} {
-   background-color: @unselected_marker_color_switcher;
+.controls-SwitchCircle_unselected {
+   background-color: var(--unselected_marker_color_switcher);
 }
-.controls-SwitchCircle_selected_disabled_theme-@{themeName} {
-   background-color: @readonly_marker_color_switcher;
+.controls-SwitchCircle_selected_disabled {
+   background-color: var(--readonly_marker_color_switcher);
 }
-.controls-SwitchCircle_unselected_disabled_theme-@{themeName} {
-   background-color: @readonly_unselected_marker_color_switcher;
+.controls-SwitchCircle_unselected_disabled {
+   background-color: var(--readonly_unselected_marker_color_switcher);
 }

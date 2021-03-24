@@ -8,7 +8,7 @@
 /**
  * @typedef {Object} SourceConfig
  * @description Конфигурация навигации ({@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#cursor по курсору} или {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/#page постраничная}).
- * Так же в конфигурации можно передать опцию multiNavigation, если метод БЛ поддержимает работу с {@link /doc/platform/developmentapl/interface-development/controls/list/tree/navigation/multi-navigation/ множественной навигацией}.
+ * Так же в конфигурации можно передать опцию multiNavigation, если метод БЛ поддержимает работу с {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/navigation/ множественной навигацией}.
  */
 
 /**

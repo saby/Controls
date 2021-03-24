@@ -1,1 +1,1 @@
-<div attr:class="controls-Lookup__icon controls-icon controls-Lookup__showSelector controls-Lookup__showSelector_horizontalPadding-{{horizontalPadding ? horizontalPadding : 'xs'}}_theme_{{theme}} controls-Lookup__showSelector_theme_{{theme}} icon-ListView"></div>
+<div attr:class="controls-Lookup__icon controls-icon controls-Lookup__showSelector controls-Lookup__showSelector_horizontalPadding-{{horizontalPadding ? horizontalPadding : 'xs'}} icon-ListView"></div>

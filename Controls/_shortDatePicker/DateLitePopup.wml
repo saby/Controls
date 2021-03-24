@@ -54,6 +54,7 @@
                  monthTemplate="{{_options.monthTemplate}}"
                  _yearHovered="{{_yearHovered}}"
                  formatDate="{{_formatDate}}"
+                 isExpandedPopup="{{ _isExpandedPopup }}"
                  _isFullPicker="{{_isFullPicker}}"
          />
       </div>

@@ -1,0 +1,16 @@
+<div class="ws-flexbox">
+    <div class="controlsDemo__cell controls-demo__List-Cut_containerWidth">
+        <div class="ws-flexbox ws-justify-content-center controls-demo__List-Cut_columnHeader">Controls/browser:Browser</div>
+        <Controls.browser:Browser
+            source="{{_source}}"
+            navigation="{{_navigation}}">
+            <Controls.list:View/>
+        </Controls.browser:Browser>
+    </div>
+    <div class="controlsDemo__cell controls-demo__List-Cut_containerWidth">
+        <div class="ws-flexbox ws-justify-content-center controls-demo__List-Cut_columnHeader">Controls/list:View</div>
+        <Controls.list:View
+            source="{{_source}}"
+            navigation="{{_navigation1}}"/>
+    </div>
+</div>

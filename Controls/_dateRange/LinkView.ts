@@ -70,15 +70,11 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
          Logger.warn('LinkView: Используется устаревшая опция clearButtonVisibility, используйте' +
              'resetStartValue и resetEndValue');
       }
-
-      if (options.showPrevArrow || options.showNextArrow) {
-         Logger.error('LinkView: ' + rk('You should use prevArrowVisibility and nextArrowVisibility instead of showPrevArrow and showNextArrow'), this);
+      if (options.prevArrowVisibility) {
+         Logger.warn('LinkView: Используется устаревшая опция prevArrowVisibility, используйте контрол ArrowButton');
       }
-
-      // clearButtonVisibility is option of clearButton visibility state
-
-      if ((options.prevArrowVisibility && options.clearButtonVisibility) || (options.nextArrowVisibility && options.clearButtonVisibility)) {
-         Logger.error('LinkView: ' + rk('The Controls functional is not intended for showClearButton and prevArrowVisibility/nextArrowVisibility options using in one time'), this);
+      if (options.nextArrowVisibility) {
+         Logger.warn('LinkView: Используется устаревшая опция nextArrowVisibility, используйте контрол ArrowButton');
       }
    }
 
@@ -231,6 +227,15 @@ LinkView.getDefaultOptions = () => {
       emptyCaption: IDateLinkView.EMPTY_CAPTIONS.NOT_SPECIFIED,
    };
 };
+
+Object.defineProperty(LinkView, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return LinkView.getDefaultOptions();
+   }
+});
 
 LinkView.getOptionTypes = () => {
    return {

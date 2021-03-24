@@ -1,7 +1,7 @@
 import { TemplateFunction } from 'UI/Base';
 import { isEqual } from 'Types/object';
 
-import { IColspanParams } from 'Controls/_grid/interface/IColumn';
+import { IColspanParams } from 'Controls/interface';
 
 import { IItemActionsTemplateConfig } from 'Controls/display';
 

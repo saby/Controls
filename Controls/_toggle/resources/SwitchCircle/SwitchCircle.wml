@@ -1,3 +1,3 @@
-<div class="controls-SwitchCircle controls-SwitchCircle_theme-{{ _options.theme }}
-            controls-SwitchCircle_{{selected ? 'selected' : 'unselected'}}{{readOnly ? '_disabled'}}_theme-{{_options.theme}}">
+<div class="controls-SwitchCircle
+            controls-SwitchCircle_{{selected ? 'selected' : 'unselected'}}{{readOnly ? '_disabled'}}">
 </div>

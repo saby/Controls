@@ -1,0 +1,24 @@
+<div class="controlsDemo__wrapper">
+   <Controls.treeTile:View
+      tileMode="static"
+      displayProperty="title"
+      imageFit="cover"
+      tileHeight="150"
+      imageUrlResolver="{{_imageUrlResolver}}"
+      parentProperty="parent"
+      tileScalingMode="inside"
+      nodeProperty="parent@"
+      imageWidthProperty="imageWidth"
+      imageHeightProperty="imageHeight"
+      tileWidthProperty="width"
+      imageProperty="image"
+      keyProperty="id"
+      source="{{_viewSource}}">
+      <ws:itemTemplate>
+         <ws:partial
+            template="Controls/tileNew:ItemTemplate"
+            scope="{{itemTemplate}}"
+            hasTitle="{{false}}"/>
+      </ws:itemTemplate>
+   </Controls.treeTile:View>
+</div>

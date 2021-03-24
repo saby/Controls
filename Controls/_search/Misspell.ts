@@ -1,10 +1,11 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {ICaption} from 'Controls/interface';
 import template = require('wml!Controls/_search/Misspell');
+import 'css!Controls/search';
 
 /**
   * Контрол, отображающий подсказку, если в запросе при поиске найдена и исправлена опечатка.
-  * 
+  *
   * @remark
   * Полезные ссылки:
   * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ руководство разработчика по организации поиска и фильтрации в реестре}
@@ -15,7 +16,7 @@ import template = require('wml!Controls/_search/Misspell');
   * @class Controls/_search/Misspell
   * @mixes Controls/_interface/ICaption
   * @extends UI/Base:Control
-  * 
+  *
   * @public
   * @author Крайнов Д.О.
   */
@@ -24,7 +25,7 @@ import template = require('wml!Controls/_search/Misspell');
  * @class Controls/_search/Misspell
  * @mixes Controls/_interface/ICaption
  * @extends UI/Base:Control
- * 
+ *
  * @public
  * @author Крайнов Д.О.
  */
@@ -33,7 +34,6 @@ class Misspell extends Control<IControlOptions & ICaption> implements ICaption{
    protected _template: TemplateFunction = template;
 
    readonly '[Controls/_interface/ICaption]': true;
-   static _theme: string[] = ['Controls/search'];
 }
 
 export default Misspell;

@@ -21,12 +21,12 @@
     * <pre class="brush: js">
     * // JavaScript
     * define("MyControl", ["UI/Base",  "wml!Template", "Controls/decorator"], function(Base, template, decorator) {
-    *    var ModuleClass = Base.Control.extend({
+    *    class MyControl extends Control<IControlOptions> {
     *       _template: template,
     *       json: [["p", "моя строка"]],
     *       tagResolver: decorator._highlightResolver,
     *       resolverParams: { "textToHighlight": "моя" }
-    *    });
+    *    }
     *    return ModuleClass;
     * });
     * </pre>

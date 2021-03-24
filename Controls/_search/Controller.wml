@@ -7,7 +7,6 @@
             viewMode="{{_viewMode}}"
             loading="{{_loading || _options.loading}}"
             dataLoadCallback="{{_dataLoadCallback}}"
-            afterSetItemsOnReloadCallback="{{_afterSetItemsOnReloadCallback}}"
             deepReload="{{_deepReload}}"
             root="{{_options.searchNavigationMode === 'expand' ? undefined : _root}}"
             searchParam="{{null}}"

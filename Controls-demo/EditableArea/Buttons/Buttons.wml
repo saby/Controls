@@ -4,7 +4,7 @@
         <Controls.editableArea:View
                 autoEdit="{{true}}"
                 toolbarVisible="{{false}}"
-                style="withBackground"
+                backgroundStyle="editableArea"
                 editObject="{{_editObject}}">
             <ws:if data="{{content.isEditing}}">
                 <div class="controlsDemo-EditableArea__mainWrapper">

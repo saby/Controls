@@ -1,15 +1,13 @@
-import {descriptor} from 'Types/entity';
-
-export interface DateRangeValidatorObject {
+interface IDateRangeValidatorObject {
    validator: Function;
-   arguments: object
+   arguments: object;
 }
 
-export type DateRangeValidators = DateRangeValidatorObject[] | Function[]
+export type TDateRangeValidators = IDateRangeValidatorObject[] | Function[];
 
 export interface IDateRangeValidatorsOptions {
-    startValueValidators: DateRangeValidators;
-    endValueValidators: DateRangeValidators;
+    startValueValidators: TDateRangeValidators;
+    endValueValidators: TDateRangeValidators;
     validateByFocusOut: boolean;
 }
 

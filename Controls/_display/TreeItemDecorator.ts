@@ -1,7 +1,7 @@
 import TreeItem from './TreeItem';
 import BreadcrumbsItem from './BreadcrumbsItem';
 import Tree from './Tree';
-import {register} from 'Types/di';
+import IGroupNode from './interface/IGroupNode';
 
 export interface IOptions<T> {
     source: TreeItem<T>;
@@ -17,7 +17,7 @@ export interface IOptions<T> {
  * @author Мальцев А.А.
  * @private
  */
-export default class TreeItemDecorator<T> extends TreeItem<T> {
+export default class TreeItemDecorator<T> extends TreeItem<T> implements IGroupNode {
     protected _$source: TreeItem<T>;
 
     constructor(options?: IOptions<T>) {
@@ -120,6 +120,10 @@ export default class TreeItemDecorator<T> extends TreeItem<T> {
         return this._$source && this._$source.getChildrenProperty();
     }
 
+    isGroupNode(): boolean {
+        return this._$source && this._$source.isGroupNode();
+    }
+
     // endregion
 }
 
@@ -128,5 +132,3 @@ Object.assign(TreeItemDecorator.prototype, {
     _moduleName: 'Controls/display:TreeItemDecorator',
     _$source: undefined
 });
-
-register('Controls/display:TreeItemDecorator', TreeItemDecorator, {instantiate: false});

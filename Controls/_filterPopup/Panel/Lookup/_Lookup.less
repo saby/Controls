@@ -3,15 +3,15 @@
   min-width: 1px;
 }
 
-.controls-FilterPanel__Lookup_link_theme-@{themeName} {
-  margin-right: @link_offset-right_filterPopupLookup;
-  font-size: @item_font-size_filterPanel;
+.controls-FilterPanel__Lookup_link {
+  margin-right: var(--link_offset-right_filterPopupLookup);
+  font-size: var(--item_font-size_filterPanel);
 }
 
 // Единственное решение, которое позволяет сдвинуть поле ввода влево
 // с помощью отрицательного margin'a
 // и не получить дырку справа от поля ввода на ширину этого сдвига
-.controls-Input_negativeOffset_theme_@{themeName}.controls-FilterPanel__LookupSelector {
+.controls-Input_negativeOffset.controls-FilterPanel__LookupSelector {
   display: block;
   width: auto;
 }

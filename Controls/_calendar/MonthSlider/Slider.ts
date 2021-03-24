@@ -1,15 +1,14 @@
-import {Control as BaseControl} from 'UI/Base';
-import coreMerge = require('Core/core-merge');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_calendar/MonthSlider/Slider/Slider';
+import * as coreMerge from 'Core/core-merge';
 import {descriptor} from 'Types/entity';
-import tmpl = require('wml!Controls/_calendar/MonthSlider/Slider/Slider');
 
-    // Компонент можно сделать публичным, но надо придумать более подходящее название. Данный компонент не листает
-    // переданные ему контейнеры как это делает класический слайдер, а анимирует смену данных используя один и тот же шаблон.
-    // Приватные методы и константы, возможно, можно выделить в отдельный слой абстракции для анимаций и
-    // переиспользовать в других компонентах.
+// Компонент можно сделать публичным, но надо придумать более подходящее название. Данный компонент не листает
+// переданные ему контейнеры как это делает класический слайдер, а анимирует смену данных используя один и тот же шаблон
+// Приватные методы и константы, возможно, можно выделить в отдельный слой абстракции для анимаций и
+// переиспользовать в других компонентах.
 
-var
-    ANIMATIONS_DATA = {
+const ANIMATIONS_DATA = {
         slideRight: {
             preAnimationInClasses: 'controls-MonthSlider-Slider__slideLeftRight-left',
             preAnimationOutClasses: 'controls-MonthSlider-Slider__slideLeftRight-center',
@@ -22,48 +21,11 @@ var
             animationInClasses: 'controls-MonthSlider-Slider__slideLeftRight-animate controls-MonthSlider-Slider__slideLeftRight-center',
             animationOutClasses: 'controls-MonthSlider-Slider__slideLeftRight-animate controls-MonthSlider-Slider__slideLeftRight-left'
         }
-    },
-    ANIMATIONS = {
+    };
+const ANIMATIONS = {
         slideRight: 'slideRight',
         slideLeft: 'slideLeft'
     };
-
-var _private = {
-    _prepareAnimation: function (self, itemData) {
-        var item = _private._getDisplayedItem(self);
-
-        // Обновлем данные в новом представлении
-        item.data = itemData;
-
-        // Перед анимацией новое представление невидимо.
-        // Устанавливаем классы подготавливающие его к анимации. Но класс анимации не устанавливаем.
-        item.transitionClasses = ANIMATIONS_DATA[self._inAnimation].preAnimationInClasses;
-
-        // У старого представления сбрасываем класс анимации, оставляем только классы устанавливающие его текущее состояние.
-        item = _private.getNotDisplayedItem(self);
-        item.transitionClasses = ANIMATIONS_DATA[self._outAnimation].preAnimationOutClasses;
-    },
-
-    _animate: function (self) {
-        var month;
-
-        // Применим класс анимации к новому представлению что бы оно плавно появилось.
-        month = _private._getDisplayedItem(self);
-        month.transitionClasses = ANIMATIONS_DATA[self._inAnimation].animationInClasses;
-
-        // Применим класс анимации и нового состояния к старому представлению что бы оно плавно исчезло.
-        month = _private.getNotDisplayedItem(self);
-        month.transitionClasses = ANIMATIONS_DATA[self._outAnimation].animationOutClasses;
-    },
-
-    _getDisplayedItem: function (self) {
-        return self._items[self._currentItem];
-    },
-
-    getNotDisplayedItem: function (self) {
-        return self._items[(self._currentItem + 1) % 2];
-    }
-};
 
 /**
  * Slider. Renders the element by template. Redraws with animation when changing data.
@@ -71,22 +33,21 @@ var _private = {
  *
  * @class Controls/_calendar/MonthSlider:Base
  * @extends UI/Base:Control
- * 
+ *
  * @private
  * @author Красильников А.С.
  * @noShow
  */
 
-var Component = BaseControl.extend({
-    _template: tmpl,
+export default class Slider extends Control<IControlOptions> {
+    _template: TemplateFunction = template;
+    _items: object[];
+    _currentItem: number = 0;
+    _inAnimation: string;
+    _outAnimation: string;
+    _animationState: number = 0;
 
-    _items: null,
-    _currentItem: 0,
-    _inAnimation: null,
-    _outAnimation: null,
-    _animationState: 0,
-
-    _beforeMount: function (options) {
+    protected _beforeMount(options): void {
         this._items = [{
             data: options.data,
             transitionClasses: ''
@@ -94,9 +55,9 @@ var Component = BaseControl.extend({
             data: options.data,
             transitionClasses: ''
         }];
-    },
+    }
 
-    _beforeUpdate: function (options) {
+    protected _beforeUpdate(options): void {
         this._inAnimation = options.inAnimation || options.animation;
         this._outAnimation = options.outAnimation || options.animation;
         if (this._options.data !== options.data) {
@@ -104,17 +65,17 @@ var Component = BaseControl.extend({
 
             // Подготавливаем контролы к анимации. Vdom применит модель чуть позже.
             // Анимацию начнем после это в _afterUpdate.
-            _private._prepareAnimation(this, options.data);
+            this._prepareAnimation(options.data);
             this._animationState = 1;
             this._forceUpdate();
         }
-    },
+    }
 
-    _afterUpdate: function () {
+    protected _afterUpdate(): void {
         // Запускаем анимацию после вызова _prepareAnimation.
         // При других обновлениях интерфейса анимацию запускать не надо.
         if (this._animationState === 1) {
-            // Хак. Эта функция вызывается синхронно после того как vdom применил классы установленные в _prepareAnimation.
+            // Хак. Функция вызывается синхронно после того как vdom применил классы установленные в _prepareAnimation
             // Необходимо что бы браузер пересчитал верстку, что бы контейнеры переместились в нужные позиции.
             // В тестах нет dom и соответсвенно ссылок на контейнеры
             if (this._children.container0 && this._children.container1) {
@@ -122,76 +83,115 @@ var Component = BaseControl.extend({
                 this._children.container1.offsetWidth;
             }
 
-            _private._animate(this);
+            this._animate();
 
             this._animationState = 2;
             this._forceUpdate();
         }
     }
 
+    private _prepareAnimation(itemData): void {
+        let item = this._getDisplayedItem();
+
+        // Обновлем данные в новом представлении
+        item.data = itemData;
+
+        // Перед анимацией новое представление невидимо.
+        // Устанавливаем классы подготавливающие его к анимации. Но класс анимации не устанавливаем.
+        item.transitionClasses = ANIMATIONS_DATA[this._inAnimation].preAnimationInClasses;
+
+        // У старого представления сбрасываем класс анимации, оставляем классы устанавливающие его текущее состояние.
+        item = this._getNotDisplayedItem();
+        item.transitionClasses = ANIMATIONS_DATA[this._outAnimation].preAnimationOutClasses;
+    }
+
+    private _animate(): void {
+        let month;
+
+        // Применим класс анимации к новому представлению что бы оно плавно появилось.
+        month = this._getDisplayedItem();
+        month.transitionClasses = ANIMATIONS_DATA[this._inAnimation].animationInClasses;
+
+        // Применим класс анимации и нового состояния к старому представлению что бы оно плавно исчезло.
+        month = this._getNotDisplayedItem();
+        month.transitionClasses = ANIMATIONS_DATA[this._outAnimation].animationOutClasses;
+    }
+
+    private _getDisplayedItem(): object {
+        return this._items[this._currentItem];
+    }
+
+    private _getNotDisplayedItem(): object {
+        return this._items[(this._currentItem + 1) % 2];
+    }
+
+    static ANIMATIONS: object = ANIMATIONS;
+    static _theme: string[] = ['Controls/calendar'];
+
+    static getOptionTypes(): object {
+        return coreMerge({}, {
+
+            /**
+             * @name Controls/_calendar/MonthSlider/Slider#animation
+             * @cfg {AnimationType} The type of animation used to turn the items.
+             * @see inAnimation
+             * @see outAnimation
+             */
+            animation: descriptor(String).required(),
+
+            /**
+             * @name Controls/_calendar/MonthSlider/Slider#inAnimation
+             * @cfg {AnimationType} The type of animation used when the item appears.
+             * @see animation
+             * @see outAnimation
+             */
+            inAnimation: descriptor(String),
+
+            /**
+             * @name Controls/_calendar/MonthSlider/Slider#outAnimation
+             * @cfg {AnimationType} The type of animation used when the item disappears.
+             * @see animation
+             * @see inAnimation
+             */
+            outAnimation: descriptor(String),
+
+            /**
+             * @name Controls/_calendar/MonthSlider/Slider#data
+             * @cfg {Object} When this option changes, the content disappears smoothly, and in its place the new content drawn with this data smoothly appears.
+             * @see animation
+             * @see inAnimation
+             * @see outAnimation
+             */
+            data: descriptor(Object)
+
+            /**
+             * @name Controls/_calendar/MonthSlider/Slider#content
+             * @cfg {Content} Template of displayed content.
+             */
+        });
+    }
+
+    static getDefaultOptions(): object {
+        return coreMerge({}, {
+            animation: ANIMATIONS.slideRight,
+            inAnimation: undefined,
+            outAnimation: undefined,
+            data: undefined
+        });
+    }
+}
+
+Object.defineProperty(Slider, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return Slider.getDefaultOptions();
+    }
 });
-
-Component.ANIMATIONS = ANIMATIONS;
-
-Component.getDefaultOptions = function () {
-    return coreMerge({
-        animation: ANIMATIONS.slideRight,
-        inAnimation: undefined,
-        outAnimation: undefined,
-        data: undefined
-    });
-};
 
 /**
  * @typedef {String} AnimationType
  * @variant 'slideRight' Move the animated element to the right.
  * @variant 'slideLeft' Move the animated element to the left.
  */
-
-Component._theme = ['Controls/calendar'];
-
-Component.getOptionTypes = function () {
-    return coreMerge({
-
-        /**
-         * @name Controls/_calendar/MonthSlider/Slider#animation
-         * @cfg {AnimationType} The type of animation used to turn the items.
-         * @see inAnimation
-         * @see outAnimation
-         */
-        animation: descriptor(String).required(),
-
-        /**
-         * @name Controls/_calendar/MonthSlider/Slider#inAnimation
-         * @cfg {AnimationType} The type of animation used when the item appears.
-         * @see animation
-         * @see outAnimation
-         */
-        inAnimation: descriptor(String),
-
-        /**
-         * @name Controls/_calendar/MonthSlider/Slider#outAnimation
-         * @cfg {AnimationType} The type of animation used when the item disappears.
-         * @see animation
-         * @see inAnimation
-         */
-        outAnimation: descriptor(String),
-
-        /**
-         * @name Controls/_calendar/MonthSlider/Slider#data
-         * @cfg {Object} When this option changes, the content disappears smoothly, and in its place the new content drawn with this data smoothly appears.
-         * @see animation
-         * @see inAnimation
-         * @see outAnimation
-         */
-        data: descriptor(Object)
-
-        /**
-         * @name Controls/_calendar/MonthSlider/Slider#content
-         * @cfg {Content} Template of displayed content.
-         */
-    });
-};
-
-
-export default Component;

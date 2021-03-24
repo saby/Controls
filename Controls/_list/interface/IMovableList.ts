@@ -27,6 +27,11 @@ export interface IMoveDialogTemplate {
  * @author Аверкиев П.А.
  */
 export interface IMovableOptions {
+    /**
+     * @cfg {IMoveDialogTemplate} Шаблон диалогового окна выбора целевой записи для перемещения.
+     * Рекомендуется использовать стандартный шаблон {@link Controls/moverDialog:Template}.
+     * @see Controls/moverDialog:Template
+     */
     moveDialogTemplate?: IMoveDialogTemplate
 }
 

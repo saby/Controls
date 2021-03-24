@@ -1,24 +1,24 @@
-.controls-text-buttonGroupSelected_theme-@{themeName} {
-  color: @contrast_text-color;
+.controls-text-buttonGroupSelected {
+  color: var(--contrast_text-color);
 }
 
-.controls-Button_buttonGroup_style-buttonGroupSelected_theme-@{themeName} {
-  background-color: @secondary_background-color_button_functionalButton;
-  border-color: @secondary_background-color_button_functionalButton;
+.controls-Button_buttonGroup_style-buttonGroupSelected {
+  background-color: var(--secondary_background-color_button_functionalButton);
+  border-color: var(--secondary_background-color_button_functionalButton);
 }
 
-.controls-Button_buttonGroup_style-buttonGroupUnselected_theme-@{themeName} {
-  background-color: @background-color;
-  box-shadow: @box-shadow_ToolbarBox;
+.controls-Button_buttonGroup_style-buttonGroupUnselected {
+  background-color: var(--background-color);
+  box-shadow: var(--box-shadow_ToolbarBox);
 }
 .ws-is-hover {
-  .controls-Button_buttonGroup_style-buttonGroupUnselected_theme-@{themeName}:hover {
-    background-color: @hover_background-color;
+  .controls-Button_buttonGroup_style-buttonGroupUnselected:hover {
+    background-color: var(--hover_background-color);
   }
 }
 
-.controls-ButtonGroup__button_withMargin_theme-@{themeName} {
-  margin-right: @offset_m;
+.controls-ButtonGroup__button_withMargin {
+  margin-right: var(--offset_m);
 }
 
 .controls-ButtonGroup__wrapper {
@@ -26,17 +26,17 @@
   flex-direction: row;
 }
 
-.controls-Button_buttonGroup_theme-@{themeName} {
-  min-width: @min-width_button_button;
+.controls-Button_buttonGroup {
+  min-width: var(--min-width_button_button);
 }
 
-.controls-Button__wrapper_buttonGroup_m_theme-@{themeName} {
-  padding: 0 @padding-horizontal_m_button - @border-thickness_button;
+.controls-Button__wrapper_buttonGroup_m {
+  padding: 0 calc(var(--padding-horizontal_m_button) - var(--border-thickness_button));
 }
 
-.controls-Button_buttonGroup_m_theme-@{themeName} {
-  border-radius: @border-radius_m_button;
-  border: @border-thickness_button solid transparent;
+.controls-Button_buttonGroup_m {
+  border-radius: var(--border-radius_m_button);
+  border: var(--border-thickness_button solid transparent);
 }
 
 .controls-Button__wrapper_viewMode-buttonGroup {

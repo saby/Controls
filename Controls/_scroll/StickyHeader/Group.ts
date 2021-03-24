@@ -8,7 +8,8 @@ import {
     IOffset,
     IFixedEventData,
     TRegisterEventData,
-    getGapFixSize
+    getGapFixSize,
+    MODE
 } from 'Controls/_scroll/StickyHeader/Utils';
 import template = require('wml!Controls/_scroll/StickyHeader/Group');
 import {SHADOW_VISIBILITY} from './Utils';
@@ -74,6 +75,8 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
     protected _isRegistry: boolean = false;
 
     private _delayedHeaders: number[] = [];
+
+    private _stickyMode: MODE;
 
     // Считаем заголовок инициализированным после того как контроллер установил ему top или bottom.
     // До этого не синхронизируем дом дерево при изменении состояния.
@@ -270,6 +273,16 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         }
     }
 
+    protected _stickyModeChanged(event: SyntheticEvent<Event>, stickyId: number, newMode: MODE): void {
+        // Если мы поменяли mode у заголовков внутри группы, метод вызовется несколько раз, в этом случае
+        // будем реагировать только на первый вызов
+        if (this._stickyMode !== newMode) {
+            this._stickyMode = newMode;
+            this._notify('stickyModeChanged', [this._index, newMode], {bubbling: true});
+        }
+        event.stopPropagation();
+    }
+
     private _updateTopBottom(data: TRegisterEventData): void {
         // Проблема в том, что чтобы узнать положение заголовка относительно группы нам надо снять position: sticky.
         // Это приводит к layout. И так для каждой ячейки для заголвков в таблице. Создадим список всех заголовков
@@ -346,3 +359,12 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
  * @param {Vdom/Vdom:SyntheticEvent} event Event descriptor.
  * @param {Controls/_scroll/StickyHeader/Types/InformationFixationEvent.typedef} information Information about the fixation event.
  */
+
+Object.defineProperty(Group, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Group.getDefaultOptions();
+   }
+});

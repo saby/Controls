@@ -26,13 +26,13 @@ export interface IClick {
  *    <Controls.buttons:Button on:click="_clickHandler()" icon="icon-Send" buttonStyle="primary" viewMode="button"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _clickHandler(e) {
  *          this.sendDocument();
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -46,12 +46,12 @@ export interface IClick {
  *    <Controls.buttons:Button on:click="_clickHandler()" icon="icon-Send" buttonStyle="primary" viewMode="button"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _clickHandler(e) {
  *          this.sendDocument();
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  */

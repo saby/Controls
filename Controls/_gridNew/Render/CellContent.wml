@@ -5,34 +5,36 @@
         <!-- Прикладной контент -->
         <ws:partial
                 template="{{ contentTemplate }}"
-                column="{{ (gridColumn || itemData).getColumnConfig() }}"
-                itemData="{{ (gridColumn || itemData) }}"
                 item="{{ (gridColumn || itemData).getOwner() }}"
+                column="{{ (gridColumn || itemData) }}"
+                itemData="{{ (gridColumn || itemData) }}"
+                gridColumn="{{ (gridColumn || itemData) }}"
                 itemActionsTemplate="{{ itemActionsTemplate }}"
                 itemActionsClass="{{ itemActionsClass }}"
                 editArrowTemplate="{{ editArrowTemplate }}"/>
 
     </ws:if>
     <ws:else>
-        <ws:if data="{{ (gridColumn || itemData).getColumnConfig().tooltip }}">
+        <ws:if data="{{ (gridColumn || itemData).config.tooltipProperty }}">
             <Controls.Container.Async templateName="Controls/popup:InfoboxTarget">
                 <ws:partial template="{{content.resolvedTemplate}}">
                     <ws:content>
                         <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
                             <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
-                            <div class="controls-Grid__cell_{{(gridColumn || itemData).getColumnConfig().textOverflow}}">
+                            <div class="controls-Grid__cell_{{(gridColumn || itemData).config.textOverflow}}">
                                 <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
                                             value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
-                                            scope="{{(gridColumn || itemData).getColumnConfig()}}"/>
+                                            searchValue="{{(gridColumn || itemData).getSearchValue()}}"
+                                            scope="{{(gridColumn || itemData).config}}"/>
                             </div>
                         </ws:if>
                         <ws:else>
                             <!-- Контент по умолчанию -->
-                            {{ (gridColumn || itemData).getDefaultDisplayValue() }}
+                            <div>{{ (gridColumn || itemData).getDefaultDisplayValue() }}</div>
                         </ws:else>
                     </ws:content>
                     <ws:template>
-                        <div>{{ (gridColumn || itemData).getColumnConfig().tooltip }}</div>
+                        <div>{{ (gridColumn || itemData).getTooltip() }}</div>
                     </ws:template>
                 </ws:partial>
             </Controls.Container.Async>
@@ -40,10 +42,11 @@
         <ws:else>
             <ws:if data="{{ (gridColumn || itemData).hasCellContentRender() }}">
                 <!-- Контент по умолчанию, обрезка длинного текста с многоточием -->
-                <div class="controls-Grid__cell_{{(gridColumn || itemData).getColumnConfig().textOverflow}}">
+                <div class="controls-Grid__cell_{{(gridColumn || itemData).config.textOverflow}}">
                     <ws:partial template="{{(gridColumn || itemData).getCellContentRender()}}"
                                 value="{{(gridColumn || itemData).getDefaultDisplayValue()}}"
-                                scope="{{(gridColumn || itemData).getColumnConfig()}}"/>
+                                searchValue="{{(gridColumn || itemData).getSearchValue()}}"
+                                scope="{{(gridColumn || itemData).config}}"/>
                 </div>
             </ws:if>
             <ws:else>

@@ -1,44 +1,35 @@
-//складываем все размеры и отступы крестика и вычитаем уже имеющийся отступ для текста, получаем сдвиг для текста
-@text_padding-horizontal_infobox: @close-button_offset-left_infobox + @width_closeButton_link + @close-button_offset-right_infobox - @content_padding-horizontal_infobox;
-
-.controls-InfoBox_theme-@{themeName} {
-   padding: @content_padding-vertical_infobox @content_padding-horizontal_infobox;
-}
-
 .controls-InfoBox {
    height: 100%;
    box-sizing: border-box;
    overflow: auto;
+   padding: var(--content_padding-vertical_infobox) var(--content_padding-horizontal_infobox);
 }
 
 .controls-InfoBox__content {
    height: 100%;
 }
 
-.controls-InfoBox__message_margin_theme-@{themeName} {
-   margin-right: @text_padding-horizontal_infobox;
+.controls-InfoBox__message_margin {
+   margin-right: var(--text_padding-horizontal_infobox);
 }
 
-.controls-InfoBox__message_theme-@{themeName} {
-   font-size: @font-size_infobox;
-}
-
-.controls-InfoBox_floatElement_theme-@{themeName} {
-   width: @text_padding-horizontal_infobox;
-   height: @text_padding-horizontal_infobox;
+.controls-InfoBox__message {
+   font-size: var(--font-size_infobox);
 }
 
 .controls-InfoBox_floatElement {
    float: right;
+   width: var(--text_padding-horizontal_infobox);
+   height: var(--text_padding-horizontal_infobox);
 }
 
 /*
    Class to access the constant themes from js
 */
 .controls-InfoBox__themeConstants {
-   margin-left: @arrow_base_length_infobox;
-   margin-right: @arrow_offset_infobox;
-   margin-bottom: @arrow_offset_infobox;
-   margin-top: @target_offset_infobox;
-   max-width: @max-width_infobox;
+   margin-left: var(--arrow_base_length_infobox);
+   margin-right: var(--arrow_offset_infobox);
+   margin-bottom: var(--arrow_offset_infobox);
+   margin-top: var(--target_offset_infobox);
+   max-width: var(--max-width_infobox);
 }

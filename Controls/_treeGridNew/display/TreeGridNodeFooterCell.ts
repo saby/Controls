@@ -6,7 +6,9 @@ export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeF
     readonly '[Controls/treeGrid:TreeGridNodeFooterCell]': boolean;
 
     getTemplate(content?: TemplateFunction): TemplateFunction|string {
-        return this._$owner.hasMoreStorage() ? this._$owner.getNodeFooterTemplateMoreButton() : content;
+        // Возвращать шаблон кнопки "Ещё".
+        // https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b
+        return this._$owner.hasMoreStorage() ? null : content;
     }
 
     getContentClasses(

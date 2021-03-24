@@ -478,7 +478,8 @@ define([
             rawData: {
                id: 'testId',
                caption: 'testCaption',
-               icon: 'testIcon'
+               icon: 'testIcon',
+               viewMode: 'button'
             }
          });
          let itemWithItemTemplateProperty = new entity.Model({
@@ -487,32 +488,35 @@ define([
                id: 'testId',
                caption: 'testCaption',
                icon: 'testIcon',
-               templateProperty: 'testTemplateProperty'
+               templateProperty: 'testTemplateProperty',
+               viewMode: 'button'
             }
          });
          let itemWithItemTemplatePropertyWithoutCaption = new entity.Model({
             keyProperty: 'id',
             rawData: {
                id: 'testId',
-               templateProperty: 'testTemplateProperty'
+               templateProperty: 'testTemplateProperty',
+               viewMode: 'button'
             }
          });
          let getExpectedOptions = () => {
             return {
                _hoverIcon: true,
                _buttonStyle: 'secondary',
-               _contrastBackground: false,
+               _contrastBackground: undefined,
                _fontSize: 'm',
                _hasIcon: true,
-               _caption: undefined,
+               _caption: '',
                _stringCaption: true,
                _captionPosition: 'right',
                _icon: undefined,
                _iconSize: 'm',
-               _iconStyle: '',
+               _iconStyle: 'secondary',
+               _isSVGIcon: false,
                _fontColorStyle: undefined,
-               _height: undefined,
-               _viewMode: undefined,
+               _height: 'default',
+               _viewMode: 'button',
                readOnly: undefined
             };
          };
@@ -541,8 +545,8 @@ define([
          it('get options for item with itemTemplateProperty and without caption', () => {
             const expectedOptions = getExpectedOptions();
             expectedOptions._hasIcon = false;
+            expectedOptions._caption = undefined;
             expectedOptions._stringCaption = false;
-            expectedOptions._iconSize = '';
             assert.deepEqual(
                WidthUtils._private.getButtonTemplateOptionsForItem(itemWithItemTemplatePropertyWithoutCaption, 'templateProperty'),
                expectedOptions

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridGroupItem } from 'Controls/gridNew';
+import { GridGroupRow as GridGroupItem } from 'Controls/gridNew';
 
 const column = { displayProperty: 'col1' };
 const GROUP_Z_INDEX_DEFAULT = 2;

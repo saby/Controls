@@ -1,8 +1,0 @@
-<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" scope="{{_options}}">
-   <ws:contentTemplate>
-      <ws:if data="{{itemData.columnIndex === 0 && itemData.item['photo']}}">
-         <img attr:class="demoTreeWithProto__imageBlock" src="{{itemData.item['photo']}}"/>
-      </ws:if>
-      <span>{{itemData.item['title']}}</span>
-   </ws:contentTemplate>
-</ws:partial>

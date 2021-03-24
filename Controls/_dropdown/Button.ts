@@ -13,6 +13,8 @@ import {IStickyPopupOptions} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
+import 'css!Controls/dropdown';
+import 'css!Controls/CommonClasses';
 
 export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
    additionalProperty?: string;
@@ -138,7 +140,7 @@ export default class Button extends BaseDropdown {
             headingIcon: options.icon,
             headingIconSize: options.iconSize,
             dataLoadCallback: this._dataLoadCallback.bind(this),
-            popupClassName: (options.popupClassName || this._offsetClassName) + ' theme_' + options.theme,
+            popupClassName: options.popupClassName || this._offsetClassName,
             hasIconPin: this._hasIconPin,
             allowPin: true,
             markerVisibility: 'hidden',
@@ -244,8 +246,6 @@ export default class Button extends BaseDropdown {
       }
    }
 
-   static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];
-
    static getDefaultOptions(): object {
       return {
          showHeader: true,
@@ -325,7 +325,7 @@ export default class Button extends BaseDropdown {
  * @name Controls/_dropdown/Button#menuPopupTrigger
  * @cfg {TMenuPopupTrigger} Название события, которое запускает открытие или закрытие меню.
  * @default click
- * @demo Controls-demo/dropdown_new/Button/PopupTrigger/Index
+ * @demo Controls-demo/dropdown_new/Button/MenuPopupTrigger/Index
  */
 
 /**
@@ -359,3 +359,12 @@ export default class Button extends BaseDropdown {
  * })
  * </pre>
  */
+
+Object.defineProperty(Button, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Button.getDefaultOptions();
+   }
+});

@@ -6,13 +6,18 @@
  */
 
 /**
+ * На БЛ, минимальное значение для года - 1400.
+ */
+const MIN_YEAR_VALUE = 1400;
+
+/**
  * Checks if the date is correct.
  * @param {Date} date
  * @returns {Boolean}
  */
 export function isValidDate(date: Date): boolean {
     // If date is Invalid Date, "instanceof Date" will return true, so check getTime
-    return date instanceof Date && !isNaN(date.getTime());
+    return date instanceof Date && !isNaN(date.getTime()) && (date.getFullYear() > MIN_YEAR_VALUE);
 }
 
 /**

@@ -23,13 +23,6 @@ const getSelectedItems = (itemsCount?: number) => {
    };
 
 describe('Controls/_lookupPopup/Controller', () => {
-
-   it('prepareItems', () => {
-      const itemList = new List({items: [1, 2]});
-
-      assert.equal(Controller._prepareItems()._moduleName, 'Types/collection:List');
-   });
-
    it('addItemToSelected', () => {
       const itemNew = new Model({
          rawData: {

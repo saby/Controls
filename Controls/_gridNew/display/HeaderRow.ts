@@ -7,7 +7,7 @@ import {
     IHeaderCell,
     TColumnSeparatorSize,
     THeader
-} from 'Controls/grid';
+} from 'Controls/interface';
 
 import Row, {IOptions as IRowOptions} from './Row';
 import Header, {IHeaderBounds} from './Header';

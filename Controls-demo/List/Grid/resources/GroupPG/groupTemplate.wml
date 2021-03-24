@@ -1,5 +1,0 @@
-<ws:partial template="Controls/grid:GroupTemplate" itemData="{{itemData}}" columnAlignGroup="{{1}}">
-    <ws:contentTemplate>
-            <span>{{itemData.item}}</span>
-    </ws:contentTemplate>
-</ws:partial>

@@ -1,4 +1,5 @@
 <div class="controls-Grid__editArrow-wrapper_theme-{{_options.theme}}">
+      <div if="{{textOverflow}}" class="controls-Grid__editArrow-withTextOverflow_theme-{{_options.theme}}"></div>
       <div class="controls-Grid__editArrow-blur_theme-{{_options.theme}}"></div>
       <div on:click="_onEditArrowClick(item)"
            class="controls-Grid__editArrow_theme-{{_options.theme}}">

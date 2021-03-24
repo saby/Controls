@@ -1,24 +1,22 @@
-.controls-ArrowButton_theme-@{themeName} {
-   border-width: @border-thickness_button;
-   box-shadow: @box-shadow_ArrowButton;
-   border-color: @border-color_ArrowButton;
-   background-color: @background-color_ArrowButton;
+.controls-ArrowButton {
+   border-width: var(--border-thickness_button);
+   box-shadow: var(--box-shadow_ArrowButton);
+   border-color: var(--border-color_ArrowButton);
+   background-color: var(--background-color_ArrowButton);
 }
 
-.controls-ArrowButton_inlineHeight-s_theme-@{themeName} {
-   width: @width_s_ArrowButton - 2 * @border-thickness_button;
-   height: @height_s_ArrowButton - 2 * @border-thickness_button;
+.controls-ArrowButton_inlineHeight-s {
+   width: calc(var(--width_s_ArrowButton) - 2 * var(--border-thickness_button));
+   height: calc(var(--height_s_ArrowButton) - 2 * var(--border-thickness_button));
 }
 
-.controls-ArrowButton_inlineHeight-l_theme-@{themeName} {
-   width: @width_l_ArrowButton - 2 * @border-thickness_button;
-   height: @height_l_ArrowButton - 2 * @border-thickness_button;
+.controls-ArrowButton_inlineHeight-l {
+   width: calc(var(--width_l_ArrowButton) - 2 * var(--border-thickness_button));
+   height: calc(var(--height_l_ArrowButton) - 2 * var(--border-thickness_button));
 }
 
-.controls-ArrowButton_icon_theme-@{themeName} {
-   fill: @icon-color_ArrowButton;
-   width: @arrow_icon-size_ArrowButton;
-   height: @arrow_icon-size_ArrowButton;
+.controls-ArrowButton_icon {
+   fill: var(--icon-color_ArrowButton);
 }
 
 .controls-ArrowButton {
@@ -34,27 +32,27 @@
 }
 
 .ws-is-hover {
-   .controls-ArrowButton-active_theme-@{themeName}:hover {
+   .controls-ArrowButton-active:hover {
       cursor: pointer;
-      border-color: @border-color_hover_ArrowButton;
-      background-color: @background-color_hover_ArrowButton;
-      .controls-ArrowButton_icon_theme-@{themeName} {
-         fill: @hover_icon-color_ArrowButton;
+      border-color: var(--border-color_hover_ArrowButton);
+      background-color: var(--background-color_hover_ArrowButton);
+      .controls-ArrowButton_icon {
+         fill: var(--hover_icon-color_ArrowButton);
       }
    }
 }
 
-.controls-ArrowButton-active_theme-@{themeName}:active {
-   border-color: @border-color_hover_ArrowButton;
-   background-color: @background-color_hover_ArrowButton;
-   .controls-ArrowButton_icon_theme-@{themeName} {
-      fill: @hover_icon-color_ArrowButton;
+.controls-ArrowButton-active:active {
+   border-color: var(--border-color_hover_ArrowButton);
+   background-color: var(--background-color_hover_ArrowButton);
+   .controls-ArrowButton_icon {
+      fill: var(--hover_icon-color_ArrowButton);
    }
 }
 
-.controls-ArrowButton-readOnly_theme-@{themeName} {
-   border-color: @readonly_border-color_ArrowButton;
-   .controls-ArrowButton_icon_theme-@{themeName} {
-      fill: @readonly_icon-color_ArrowButton;
+.controls-ArrowButton-readOnly {
+   border-color: var(--readonly_border-color_ArrowButton);
+   .controls-ArrowButton_icon {
+      fill: var(--readonly_icon-color_ArrowButton);
    }
 }

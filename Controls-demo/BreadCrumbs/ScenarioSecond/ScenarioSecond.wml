@@ -87,7 +87,7 @@
                 header="{{_header5}}"
                 bind:root="_root5"
                 showActionButton="{{true}}"
-                rowSeparatorVisibility="{{true}}"
+                rowSeparatorSize="s"
                 source="{{_viewSource1}}">
         </Controls.explorer:View>
     </div>

@@ -44,4 +44,4 @@ function getSelectionRecord(selection: ISelectionObject, adapter: adapter.IAdapt
    return result;
 }
 
-export = getSelectionRecord;
+export default getSelectionRecord;

@@ -340,16 +340,12 @@ var
             }
 
             if (changes.length) {
-                if (oldOptions.task1179424529 || oldOptions.task1181246826) {
-                    // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
-                    // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
-                    // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
-                    self._doAfterReload(() => {
-                        _private.applyChangedOptionsToModel(self._listModel, newOptions, changes);
-                    });
-                } else {
+                // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
+                // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
+                // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
+                self._doAfterReload(() => {
                     _private.applyChangedOptionsToModel(self._listModel, newOptions, changes);
-                }
+                });
             }
         },
         isFooterChanged(oldOptions, newOptions): boolean {

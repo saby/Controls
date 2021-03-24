@@ -41,4 +41,14 @@ class DropdownEditor extends Control implements IEditor {
         };
     }
 }
+
+Object.defineProperty(DropdownEditor, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DropdownEditor.getDefaultOptions();
+   }
+});
+
 export default DropdownEditor;

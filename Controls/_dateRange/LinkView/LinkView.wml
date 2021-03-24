@@ -14,6 +14,7 @@
                     class="controls-DateLinkView__value {{!_options.readOnly? 'controls-DateLinkView__value-hovered'}}
                     {{_fontSize? 'controls-fontsize-' + _fontSize + '_theme-' + _options.theme }}
                     {{_fontColorStyle? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }}
+                    {{_fontColorStyle? 'controls-text-' + _fontColorStyle}}
                     controls-DateLinkView__value_theme-{{_options.theme}}
                     {{ _styleClass }} {{ _valueEnabledClass }}"
                     title="{{_options.tooltip}}"

@@ -105,7 +105,7 @@
             />
          </div>
       </div>
-      <div class="demo__block">
+      <div class="demo__block demo-standartSliderBase__blockWithInput">
          <div class="demo__label">
             with input
          </div>
@@ -123,7 +123,7 @@
             </div>
          </div>
       </div>
-      <div class="demo__block">
+      <div class="demo__block demo-standartSliderBase__blockWithoutTooltip">
          <div class="demo__label">
             without tooltip
          </div>

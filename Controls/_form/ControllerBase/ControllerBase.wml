@@ -1,0 +1,12 @@
+<div on:registerFormOperation="_registerFormOperationHandler()"
+     on:validateCreated="_onValidateCreated()"
+     on:validateDestroyed="_onValidateDestroyed()">
+    <ws:if data="{{ _record }}">
+        <ws:partial
+            template="{{ _options.content }}"
+            record="{{ _record }}"/>
+    </ws:if>
+    <ws:else>
+        <invisible-node />
+    </ws:else>
+</div>

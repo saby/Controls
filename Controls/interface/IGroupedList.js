@@ -22,7 +22,7 @@ define('Controls/interface/IGroupedList', [
 
    /**
     * @name Controls/interface/IGroupedList#groupTemplate
-    * @cfg {String|Function} Устанавливает пользовательский шаблон, с помощью которого настраивается {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/ визуальное представление заголовка группы}.
+    * @cfg {String|TemplateFunction} Устанавливает пользовательский шаблон, с помощью которого настраивается {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/ визуальное представление заголовка группы}.
     * @default undefined
     * @remark
     * Конфигурация визуального представления группировки задаётся в опции groupTemplate путём настройки шаблона группировки {@link Controls/list:GroupTemplate}.

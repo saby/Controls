@@ -1,5 +1,5 @@
 <Controls.popupTemplate:NotificationSimple
         text="{{value}}"
         style="primary"
-        icon="Admin">
+        icon="icon-Admin">
 </Controls.popupTemplate:NotificationSimple>

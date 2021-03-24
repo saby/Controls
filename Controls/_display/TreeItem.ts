@@ -3,12 +3,12 @@ import CollectionItem, {
     ISerializableState as ICollectionItemSerializableState
 } from './CollectionItem';
 import ExpandableMixin, {IOptions as IExpandableMixinOptions} from './ExpandableMixin';
-import BreadcrumbsItem from './BreadcrumbsItem';
 import Tree from './Tree';
 import {mixin} from 'Types/util';
 import TreeChildren from './TreeChildren';
 import { TemplateFunction } from 'UI/Base';
 import { Model } from 'Types/entity';
+import IGroupNode from './interface/IGroupNode';
 
 export interface IOptions<T extends Model> extends ICollectionItemOptions<T>, IExpandableMixinOptions {
     owner?: Tree<T>;
@@ -16,7 +16,7 @@ export interface IOptions<T extends Model> extends ICollectionItemOptions<T>, IE
     childrenProperty?: string;
     hasChildren?: boolean;
     loaded?: boolean;
-    parent?: TreeItem<T> | BreadcrumbsItem<T>;
+    parent?: TreeItem<T>;
 }
 
 interface ISerializableState<T> extends ICollectionItemSerializableState<T> {
@@ -37,13 +37,13 @@ export default class TreeItem<T extends Model = Model> extends mixin<
     >(
     CollectionItem,
     ExpandableMixin
-) {
+) implements IGroupNode {
     protected _$owner: Tree<T>;
 
     /**
      * Родительский узел
      */
-    protected _$parent: TreeItem<T> | BreadcrumbsItem<T>;
+    protected _$parent: TreeItem<T>;
 
     /**
      * Является узлом
@@ -145,7 +145,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
             let parentLevel = 0;
             if (parent instanceof TreeItem) {
                 parentLevel = parent.getLevel();
-            } else if (parent instanceof BreadcrumbsItem) {
+            } else if (parent['[Controls/_display/BreadcrumbsItem]']) {
                 parentLevel = parent.getLevel();
             }
             return parentLevel + 1;
@@ -170,6 +170,13 @@ export default class TreeItem<T extends Model = Model> extends mixin<
      */
     setNode(node: boolean|null): void {
         this._$node = node;
+    }
+
+    /**
+     * Возвращает признак, является ли элемент узлом-группой
+     */
+    isGroupNode(): boolean {
+        return false;
     }
 
     /**
@@ -247,6 +254,10 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         }
     }
 
+    hasNodeWithChildren(): boolean {
+        return this._$hasNodeWithChildren;
+    }
+
     shouldDisplayExpander(expanderIcon?: string, position: 'default'|'right' = 'default'): boolean {
         if (this.getExpanderIcon(expanderIcon) === 'none' || this.isNode() === null) {
             return false;
@@ -272,17 +283,17 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         return !withoutLevelPadding && this.getLevel() > 1;
     }
 
-    getExpanderPaddingClasses(tmplExpanderSize?: string, theme: string = 'default'): string {
+    getExpanderPaddingClasses(tmplExpanderSize?: string): string {
         // expanderSize по дефолту undefined, т.к. есть логика, при которой если он задан,
         // то скрытый экспандер для отступа не рисуем, но по факту дефолтное значение 'default'
         const expanderSize = this.getExpanderSize(tmplExpanderSize) || 'default';
-        let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-${theme}`;
-        expanderPaddingClasses += ` controls-TreeGrid__row-expanderPadding_size_${expanderSize}_theme-${theme}`;
+        let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-${this.getTheme()}`;
+        expanderPaddingClasses += ` controls-TreeGrid__row-expanderPadding_size_${expanderSize}_theme-${this.getTheme()}`;
         expanderPaddingClasses += ' js-controls-ListView__notEditable';
         return expanderPaddingClasses;
     }
 
-    getLevelIndentClasses(expanderSizeTmpl?: string, levelIndentSize?: string, theme: string = 'default'): string {
+    getLevelIndentClasses(expanderSizeTmpl?: string, levelIndentSize?: string): string {
         const sizes = ['null', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl'];
         let resultLevelIndentSize;
         const expanderSize = this.getExpanderSize(expanderSizeTmpl);
@@ -299,26 +310,26 @@ export default class TreeItem<T extends Model = Model> extends mixin<
             resultLevelIndentSize = expanderSize || levelIndentSize;
         }
 
-        return `controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_${resultLevelIndentSize}_theme-${theme}`;
+        return `controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_${resultLevelIndentSize}_theme-${this.getTheme()}`;
     }
 
-    getExpanderClasses(tmplExpanderIcon?: string, tmplExpanderSize?: string, theme: string = 'default', style: string = 'default'): string {
+    getExpanderClasses(tmplExpanderIcon?: string, tmplExpanderSize?: string): string {
         const expanderIcon = this.getExpanderIcon(tmplExpanderIcon);
         const expanderSize = this.getExpanderSize(tmplExpanderSize);
         const expanderPosition = this._$owner.getExpanderPosition();
 
-        let expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`;
+        let expanderClasses = `js-controls-Tree__row-expander controls-TreeGrid__row-expander_theme-${this.getTheme()}`;
         let expanderIconClass = '';
 
         if (expanderPosition === 'default') {
-            expanderClasses += ` controls-TreeGrid__row_${style}-expander_size_${(expanderSize || 'default')}_theme-${theme} `;
+            expanderClasses += ` controls-TreeGrid__row_${this.getStyle()}-expander_size_${(expanderSize || 'default')}_theme-${this.getTheme()} `;
         } else {
-            expanderClasses += ` controls-TreeGrid__row_expander_position_right_theme-${theme} `;
+            expanderClasses += ` controls-TreeGrid__row_expander_position_right_theme-${this.getTheme()} `;
         }
         expanderClasses += 'js-controls-ListView__notEditable';
 
-        expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${this.getOwner().getTopPadding()}_theme-${theme}`;
-        expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${this.getOwner().getBottomPadding()}_theme-${theme}`;
+        expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${this.getOwner().getTopPadding()}_theme-${this.getTheme()}`;
+        expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${this.getOwner().getBottomPadding()}_theme-${this.getTheme()}`;
 
         if (expanderIcon) {
             expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;
@@ -326,19 +337,19 @@ export default class TreeItem<T extends Model = Model> extends mixin<
 
             // могут передать node или hiddenNode в этом случае добавляем наши классы для master/default
             if ((expanderIcon === 'node') || (expanderIcon === 'hiddenNode') || (expanderIcon === 'emptyNode')) {
-                expanderIconClass += '_' + (style === 'master' || style === 'masterClassic' ? 'master' : 'default');
+                expanderIconClass += '_' + (this.getStyle() === 'master' || this.getStyle() === 'masterClassic' ? 'master' : 'default');
             }
         } else {
             expanderIconClass = ' controls-TreeGrid__row-expander_' + (this.isNode() ? 'node_' : 'hiddenNode_')
-                + (style === 'master' || style === 'masterClassic' ? 'master' : 'default');
+                + (this.getStyle() === 'master' || this.getStyle() === 'masterClassic' ? 'master' : 'default');
         }
 
-        expanderClasses += expanderIconClass + `_theme-${theme}`;
+        expanderClasses += expanderIconClass + `_theme-${this.getTheme()}`;
 
         // добавляем класс свертнутости развернутости для тестов
         expanderClasses += ' controls-TreeGrid__row-expander' + (this.isExpanded() ? '_expanded' : '_collapsed');
         // добавляем класс свертнутости развернутости стилевой
-        expanderClasses += expanderIconClass + (this.isExpanded() ? '_expanded' : '_collapsed') + `_theme-${theme}`;
+        expanderClasses += expanderIconClass + (this.isExpanded() ? '_expanded' : '_collapsed') + `_theme-${this.getTheme()}`;
 
         return expanderClasses;
     }

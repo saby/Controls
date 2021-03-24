@@ -674,8 +674,7 @@ describe('Controls/_source/NavigationController', () => {
                     navigationType: 'position',
                     navigationConfig: {
                         field: 'id',
-                        direction: 'forward',
-                        task1181218142: true
+                        direction: 'forward'
                     }
                 });
 
@@ -685,8 +684,7 @@ describe('Controls/_source/NavigationController', () => {
                 const navigationConfig = {
                     field: 'id',
                     direction: 'forward',
-                    position: [-1],
-                    task1181218142: true
+                    position: [-1]
                 };
 
                 rs.setMetaData({more : true});

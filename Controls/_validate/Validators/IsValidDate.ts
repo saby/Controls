@@ -1,5 +1,16 @@
 import rk = require('i18n!Controls');
 import cInstance = require('Core/core-instance');
+
+interface IArgs {
+    value: Date;
+    doNotValidate?: boolean;
+}
+
+/**
+ * На БЛ, минимальное значение для года - 1400.
+ */
+const MIN_YEAR_VALUE = 1400;
+
 /**
  * Функция проверяет дату и время на валидность.
  * @class Controls/_validate/Validators/IsValidDate
@@ -30,22 +41,22 @@ import cInstance = require('Core/core-instance');
  * </Controls.validate:InputContainer>
  * </pre>
  */
-//todo: will be fixed by https://online.sbis.ru/opendoc.html?guid=9aea41a1-bac1-47b9-a2b5-fa81a3a2e979
+// todo: will be fixed by https://online.sbis.ru/opendoc.html?guid=9aea41a1-bac1-47b9-a2b5-fa81a3a2e979
 function isValidDateDefault(date: Date): boolean {
-   // If date is Invalid Date, "instanceof Date" will return true, so check getTime
-   return date instanceof Date && !isNaN(date.getTime());
+    // If date is Invalid Date, "instanceof Date" will return true, so check getTime
+    return date instanceof Date && !isNaN(date.getTime()) && (date.getFullYear() > MIN_YEAR_VALUE);
 }
 
-export = function (args) {
-   if (args.doNotValidate || !args.value || isValidDateDefault(args.value)) {
-      return true;
-   }
+export default function(args: IArgs): boolean | string {
+    if (args.doNotValidate || !args.value || isValidDateDefault(args.value)) {
+        return true;
+    }
 
-   if ( cInstance.instanceOfModule(args.value, 'Types/entity:Date')) {
-      return rk('Дата заполнена некорректно');
-   } else if (cInstance.instanceOfModule(args.value, 'Types/entity:Time')) {
-      return rk('Время заполнено некорректно');
-   }
+    if (cInstance.instanceOfModule(args.value, 'Types/entity:Date')) {
+        return rk('Дата заполнена некорректно');
+    } else if (cInstance.instanceOfModule(args.value, 'Types/entity:Time')) {
+        return rk('Время заполнено некорректно');
+    }
 
-   return rk('Дата или время заполнены некорректно');
-};
+    return rk('Дата или время заполнены некорректно');
+}

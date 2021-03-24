@@ -467,6 +467,15 @@ Scrollbar.getDefaultOptions = function () {
     };
 };
 
+Object.defineProperty(Scrollbar, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Scrollbar.getDefaultOptions();
+   }
+});
+
 Scrollbar._theme = ['Controls/scroll'];
 /**
  * @event Начала перемещения ползунка мышью.

@@ -60,7 +60,7 @@ export interface IEditOpener {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions>{
  *    ...
  *    _itemClick(event, record) {
  *       var popupOptions = {
@@ -68,7 +68,7 @@ export interface IEditOpener {
  *       };
  *       this._children.EditOpener.open({record: record}, popupOptions);
  *    }
- * });
+ * }
  * </pre>
  * @see close
  * @see isOpened
@@ -95,7 +95,7 @@ export interface IEditOpener {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions>{
  *    ...
  *    _itemClick(event, record) {
  *       var popupOptions = {
@@ -103,7 +103,7 @@ export interface IEditOpener {
  *       };
  *       this._children.EditOpener.open({record: record}, popupOptions);
  *    }
- * });
+ * }
  * </pre>
  * @see close
  * @see isOpened

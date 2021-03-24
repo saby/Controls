@@ -3,7 +3,7 @@ import {IControlOptions, Control} from 'UI/Base';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
-import { IItemPadding } from 'Controls/list';
+import { IItemPadding } from 'Controls/display';
 
 export interface IPropertyGridColumnOptions {
     width: string;
@@ -148,7 +148,7 @@ export interface IPropertyGrid {
 
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#groupTemplate
- * @cfg {String|function} Устанавливает шаблон отображения заголовка группы.
+ * @cfg {String|TemplateFunction} Устанавливает шаблон отображения заголовка группы.
  * @default Controls/propertyGrid:GroupTemplate
  * @example
  * Далее показано как изменить параметры шаблона.

@@ -690,7 +690,7 @@ define([
          it('getMultiSelectClassList onhover selected', function() {
             lvm._options.multiSelectVisibility = 'onhover';
             lvm._options.theme = 'default';
-            lvm.setSelectedItems([lvm.getItemById(2, 'id')], true);
+            lvm.getItemById(2, 'id').setSelected(true);
             var item = lvm.getItemDataByItem(lvm.getItemById('2', 'id'));
             assert.equal(item.multiSelectClassList, 'js-controls-ListView__checkbox js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default');
          });

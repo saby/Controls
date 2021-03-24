@@ -8,10 +8,9 @@ import {Base as DateUtil} from 'Controls/dateUtils';
  * @public
  */
 
-var ModuleClass = MonthViewModel.extend({
-
-    _normalizeState: function (state) {
-        var nState = ModuleClass.superclass._normalizeState.apply(this, arguments);
+export default class MonthModel extends MonthViewModel {
+    protected _normalizeState(state): object {
+        const nState = super._normalizeState(state);
         nState.selectionProcessing = state.selectionProcessing;
         nState.selectionType = state.selectionType;
         nState.hoveredEndValue = state.hoveredEndValue;
@@ -19,22 +18,24 @@ var ModuleClass = MonthViewModel.extend({
         nState.startValue = DateUtil.normalizeDate(state.startValue);
         nState.endValue = DateUtil.normalizeDate(state.endValue);
         return nState;
-    },
+    }
 
-    _isStateChanged: function (state) {
-        let isChanged = ModuleClass.superclass._isStateChanged.apply(this, arguments),
-            currentMonthStart = DateUtil.getStartOfMonth(this._state.month),
-            currentMonthEnd = DateUtil.getEndOfMonth(this._state.month);
+    protected _isStateChanged(state): boolean {
+        const isChanged = super._isStateChanged(state);
+        const currentMonthStart = DateUtil.getStartOfMonth(this._state.month);
+        const currentMonthEnd = DateUtil.getEndOfMonth(this._state.month);
 
         const hoveredRangeChanged = state.hoveredStartValue !== this._state.hoveredStartValue ||
             state.hoveredStartValue !== this._state.hoveredStartValue;
 
-        const hoveredRangeOverlaps = DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, state.hoveredStartValue, state.hoveredEndValue);
+        const hoveredRangeOverlaps = DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd,
+            state.hoveredStartValue, state.hoveredEndValue);
         // Нужно обновить месяц, если старое значение хавера пересекается с этим месяцем.
-        const lastHoveredRangeOverlaps = DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, this._state.hoveredStartValue, this._state.hoveredEndValue);
+        const lastHoveredRangeOverlaps = DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd,
+            this._state.hoveredStartValue, this._state.hoveredEndValue);
 
         // Обновляем, если навели или убрали курсор с ячейки дня.
-         if (!this._singleDayHover && hoveredRangeChanged && (hoveredRangeOverlaps || lastHoveredRangeOverlaps)) {
+        if (!this._singleDayHover && hoveredRangeChanged && (hoveredRangeOverlaps || lastHoveredRangeOverlaps)) {
             return true;
         }
 
@@ -42,19 +43,22 @@ var ModuleClass = MonthViewModel.extend({
             state.selectionProcessing !== this._state.selectionProcessing ||
 
             // обновляем только если старый выбранный или новый период пересекаются с отображаемым месяцем
-            (DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, this._state.startValue, this._state.endValue) ||
-            DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd, state.startValue, state.endValue)) &&
+            (DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd,
+                this._state.startValue, this._state.endValue) ||
+                DateUtil.isRangesOverlaps(currentMonthStart, currentMonthEnd,
+                    state.startValue, state.endValue)) &&
 
             // не обновляем если отображаемый месяц полностью входит в старый и новый периоды
-            !(this._state.startValue < currentMonthStart && state.startValue < currentMonthStart && this._state.endValue > currentMonthEnd && state.endValue > currentMonthEnd);
-    },
+            !(this._state.startValue < currentMonthStart && state.startValue < currentMonthStart &&
+                this._state.endValue > currentMonthEnd && state.endValue > currentMonthEnd);
+    }
 
-    _getDayObject: function (date, state) {
+    protected _getDayObject(date, state): object {
         state = state || this._state;
 
-        var obj = ModuleClass.superclass._getDayObject.apply(this, arguments),
-            startDate = state.startValue,
-            endDate = state.endValue;
+        const obj = super._getDayObject(date, state);
+        const startDate = state.startValue;
+        const endDate = state.endValue;
 
         obj.selectionProcessing = state.selectionProcessing;
 
@@ -68,11 +72,9 @@ var ModuleClass = MonthViewModel.extend({
         obj.selectedStart = DateUtil.isDatesEqual(date, startDate);
         obj.selectedEnd = DateUtil.isDatesEqual(date, endDate);
 
-        obj.selectedInner = (date && startDate && endDate && date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime());
+        obj.selectedInner = (date && startDate && endDate &&
+            date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime());
 
         return obj;
     }
-
-});
-
-export default ModuleClass;
+}

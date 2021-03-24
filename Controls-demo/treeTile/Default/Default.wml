@@ -1,0 +1,11 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_default">
+    <Controls.tile:View
+            tileMode="dynamic"
+            displayProperty="title"
+            imageProperty="image"
+            keyProperty="id"
+            parentProperty="parent"
+            nodeProperty="parent@"
+            source="{{_viewSource}}">
+    </Controls.tile:View>
+</div>

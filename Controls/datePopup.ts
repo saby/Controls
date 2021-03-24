@@ -13,7 +13,7 @@ import headerTmpl = require('wml!Controls/_datePopup/header');
 import dayTmpl = require('wml!Controls/_datePopup/day');
 import {MonthViewDayTemplate} from 'Controls/calendar';
 import {Controller as ManagerController} from 'Controls/popup';
-import {_scrollContext as ScrollData, IntersectionObserverSyntheticEntry} from './scroll';
+import {IntersectionObserverSyntheticEntry} from './scroll';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {constants} from 'Env/Env';
 
@@ -46,13 +46,11 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
  *    <Controls.datePopup on:inputCompleted="_inputCompletedHandler()" />
  * </pre>
  * <pre>
- *    Base.Control.extend({
- *       ....
+ *    class MyControl extends Control<IControlOptions> {
  *       _inputCompletedHandler(event, startValue, endValue, displaydStartValue, displaydEndValue) {
  *          this._saveEnteredValueToDabase1(startValue, endValue);
  *          this._saveEnteredValueToDabase2(displaydStartValue, displaydEndValue);
- *       },
- *       ...
+ *       }
  *    })
  * </pre>
  */
@@ -432,12 +430,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._notify('close');
     }
 
-    _getChildContext(): object {
-        return {
-            ScrollData: new ScrollData({pagingVisible: false})
-        };
-    }
-
     _inputControlHandler(event: SyntheticEvent, value: Date, displayValue: Date, selection: any): void {
         if (selection.end === displayValue.length &&
             this._options.selectionType !== IRangeSelectable.SELECTION_TYPES.single) {
@@ -643,3 +635,12 @@ export default class DatePopup extends Control implements EventProxyMixin {
         }, IDateRangeSelectable.getOptionTypes());
     }
 }
+
+Object.defineProperty(DatePopup, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return DatePopup.getDefaultOptions();
+   }
+});

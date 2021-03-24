@@ -1,0 +1,74 @@
+<div class="controlsDemo__wrapper">
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/ItemsContainerPadding/PaddingDefault/Index' }}">
+            <a href="{{content.href}}">Стандартные отступы</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.ItemsContainerPadding.PaddingDefault.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/ItemsContainerPadding/PaddingNull/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру null</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.ItemsContainerPadding.PaddingNull.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/ItemsContainerPadding/PaddingXS/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру XS</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.ItemsContainerPadding.PaddingXS.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/ItemsContainerPadding/PaddingS/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру S</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.ItemsContainerPadding.PaddingS.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/ItemsContainerPadding/PaddingM/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру M</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.ItemsContainerPadding.PaddingM.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/ItemsContainerPadding/PaddingL/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру L</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.ItemsContainerPadding.PaddingL.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/ItemsContainerPadding/PaddingXL/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру XL</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.ItemsContainerPadding.PaddingXL.Index />
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo-hor-padding-null">
+        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/tileNew/ItemsContainerPadding/Padding2XL/Index' }}">
+            <a href="{{content.href}}">Отступы соответствующие размеру 2XL</a>
+        </Router.router:Reference>
+        <Controls-demo.tileNew.ItemsContainerPadding.Padding2XL.Index />
+    </div>
+</div>

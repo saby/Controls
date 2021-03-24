@@ -18,7 +18,7 @@
  */
 
 import isRequired = require('Controls/_validate/Validators/IsRequired');
-import isValidDate = require('Controls/_validate/Validators/IsValidDate');
+import isValidDate from 'Controls/_validate/Validators/IsValidDate';
 import isValidDateRange from 'Controls/_validate/Validators/IsValidDateRange';
 import Highlighter = require('wml!Controls/_validate/Highlighter');
 

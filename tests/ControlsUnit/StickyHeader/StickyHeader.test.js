@@ -121,7 +121,6 @@ define([
             };
 
             component._beforeUnmount();
-            assert.isUndefined(component._observeHandler);
             assert.isUndefined(component._observer);
             sandbox.restore();
          });
@@ -147,8 +146,18 @@ define([
             sinon.restore();
          });
 
+         it('should call _stickyModeChanged if mode changed', () => {
+            const component = createComponent(StickyHeader, { mode: 'stackable' });
+            const newMode = 'replaceable';
+            const stubStickyModeChanged = sinon.stub(component, '_stickyModeChanged');
+            component._beforeUpdate({ mode: newMode, ...StickyHeader.getDefaultOptions() });
+
+            sinon.assert.calledWith(stubStickyModeChanged, newMode);
+            sinon.restore();
+         });
+
          it('should generate "stickyHeaderOffsetTopChanged" event if offsetTop option has been changed', function () {
-            const component = createComponent(StickyHeader, { mode: 'notsticky' });
+            const component = createComponent(StickyHeader, {});
             sinon.stub(component, '_notify');
 
             component._beforeUpdate(coreMerge({ offsetTop: 100 }, StickyHeader.getDefaultOptions(), { preferSource: true }));

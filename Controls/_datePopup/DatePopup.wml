@@ -1,112 +1,114 @@
-<Controls.validate:Controller name="formController" on:keyDown="_keyDownHandler()" on:click="_onClickHandler()">
-      <div class="controls-PeriodDialog controls-PeriodDialog_theme-{{_options.theme}}">
-      <ws:partial
-         template="{{_headerTmpl}}"
-         _options="{{_options}}"
-         theme="{{_headerTheme}}"
-         today="{{ _today }}"
-         resetButtonVisible="{{ _resetButtonVisible }}"
-         rightFieldTemplate="{{ _options.rightFieldTemplate }}"
-         todayCalendarEnabled="{{_todayCalendarEnabled}}"
-         selectionType="{{ _options.selectionType }}"
-         rangeModel="{{_rangeModel}}"
-         headerRangeModel="{{_headerRangeModel}}"
-         monthStateEnabled="{{_monthStateEnabled}}"
-         state="{{_state}}"
-         mask="{{_mask}}"
-         dateConstructor="{{_options.dateConstructor}}"
-         startValueValidators="{{_startValueValidators}}"
-         endValueValidators="{{_endValueValidators}}"
-         keyboardActive="{{ _keyboardActive }}"
-      />
-
-         <div if="{{ _state === _STATES.year }}" class="controls-PeriodDialog__months
-               controls-PeriodDialog__body controls-PeriodDialog__body_theme-{{_options.theme}}">
-            <Controls.dateRange:DateRangeSelectionController
-                  bind:startValue="_yearRangeModel.startValue"
-                  bind:endValue="_yearRangeModel.endValue"
-                  selectionType="{{_yearRangeSelectionType}}"
-                  quantum="{{_yearRangeQuantum}}"
-                  readOnly="{{false}}"
-                  rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
-                  bind:selectionProcessing="_yearsRangeSelectionProcessing"
-                  on:rangeChanged="_yearsRangeChanged()"
-                  on:selectionChanged="_yearsSelectionChanged()"
-                  on:onBeforeSelectionStarted="_yearsSelectionStarted()"
-                  on:selectionEnded="_yearsRangeSelectionEnded()"
-                  on:selectionHoveredValueChanged="_onYearsSelectionHoveredValueChanged()">
-
-            <Controls._datePopup.YearsRange
-               year="{{_displayedDate}}"
-               keyboardActive="{{ _keyboardActive }}"
-               dateConstructor="{{_options.dateConstructor}}"
-               on:itemClick="_onYearsItemClick()"
+<Controls.scroll:ScrollContextProvider pagingVisible="{{ false }}">
+    <Controls.validate:Controller name="formController" on:keyDown="_keyDownHandler()" on:click="_onClickHandler()">
+        <div class="controls-PeriodDialog controls-PeriodDialog_theme-{{_options.theme}}">
+            <ws:partial
+                    template="{{_headerTmpl}}"
+                    _options="{{_options}}"
+                    theme="{{_headerTheme}}"
+                    today="{{ _today }}"
+                    resetButtonVisible="{{ _resetButtonVisible }}"
+                    rightFieldTemplate="{{ _options.rightFieldTemplate }}"
+                    todayCalendarEnabled="{{_todayCalendarEnabled}}"
+                    selectionType="{{ _options.selectionType }}"
+                    rangeModel="{{_rangeModel}}"
+                    headerRangeModel="{{_headerRangeModel}}"
+                    monthStateEnabled="{{_monthStateEnabled}}"
+                    state="{{_state}}"
+                    mask="{{_mask}}"
+                    dateConstructor="{{_options.dateConstructor}}"
+                    startValueValidators="{{_startValueValidators}}"
+                    endValueValidators="{{_endValueValidators}}"
+                    keyboardActive="{{ _keyboardActive }}"
             />
-         </Controls.dateRange:DateRangeSelectionController>
+
+            <div if="{{ _state === _STATES.year }}" class="controls-PeriodDialog__months
+               controls-PeriodDialog__body controls-PeriodDialog__body_theme-{{_options.theme}}">
+                <Controls.dateRange:DateRangeSelectionController
+                        bind:startValue="_yearRangeModel.startValue"
+                        bind:endValue="_yearRangeModel.endValue"
+                        selectionType="{{_yearRangeSelectionType}}"
+                        quantum="{{_yearRangeQuantum}}"
+                        readOnly="{{false}}"
+                        rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
+                        bind:selectionProcessing="_yearsRangeSelectionProcessing"
+                        on:rangeChanged="_yearsRangeChanged()"
+                        on:selectionChanged="_yearsSelectionChanged()"
+                        on:onBeforeSelectionStarted="_yearsSelectionStarted()"
+                        on:selectionEnded="_yearsRangeSelectionEnded()"
+                        on:selectionHoveredValueChanged="_onYearsSelectionHoveredValueChanged()">
+
+                    <Controls._datePopup.YearsRange
+                            year="{{_displayedDate}}"
+                            keyboardActive="{{ _keyboardActive }}"
+                            dateConstructor="{{_options.dateConstructor}}"
+                            on:itemClick="_onYearsItemClick()"
+                    />
+                </Controls.dateRange:DateRangeSelectionController>
+
+                <Controls.dateRange:DateRangeSelectionController
+                        startValue="{{_rangeModel.startValue}}"
+                        endValue="{{_rangeModel.endValue}}"
+                        selectionType="{{_monthRangeSelectionType}}"
+                        quantum="{{_monthRangeQuantum}}"
+                        rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
+                        bind:selectionProcessing="_monthRangeSelectionProcessing"
+                        on:rangeChanged="_monthsRangeChanged()"
+                        on:selectionChanged="_monthsSelectionChanged()"
+                        on:onBeforeSelectionStarted="_monthsRangeSelectionStarted()"
+                        on:selectionEnded="_monthsRangeSelectionEnded()">
+
+                    <Controls._datePopup.MonthsRange
+                            attr:class="controls-DateRangeBigChoose__months-month-wrapper"
+                            monthClickable="{{_monthStateEnabled}}"
+                            rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
+                            bind:position="_displayedDate"
+                            displayedRanges="{{ _options.displayedRanges }}"
+                            dateConstructor="{{_options.dateConstructor}}"
+                            ranges="{{_options.ranges}}"
+                            on:monthClick="_monthRangeMonthClick()"
+                            _date="{{_options._date}}"
+                            on:fixedPeriodClick="_monthRangeFixedPeriodClick()">
+                        <ws:dayTemplate>
+                            <ws:partial
+                                    template="{{_dayTmpl}}"
+                                    _dayTemplate="{{_defaultDayTemplate}}"/>
+                        </ws:dayTemplate>
+                    </Controls._datePopup.MonthsRange>
+                </Controls.dateRange:DateRangeSelectionController>
+            </div>
 
             <Controls.dateRange:DateRangeSelectionController
-               startValue="{{_rangeModel.startValue}}"
-               endValue="{{_rangeModel.endValue}}"
-               selectionType="{{_monthRangeSelectionType}}"
-               quantum="{{_monthRangeQuantum}}"
-               rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
-               bind:selectionProcessing="_monthRangeSelectionProcessing"
-               on:rangeChanged="_monthsRangeChanged()"
-               on:selectionChanged="_monthsSelectionChanged()"
-               on:onBeforeSelectionStarted="_monthsRangeSelectionStarted()"
-               on:selectionEnded="_monthsRangeSelectionEnded()">
+                    if="{{ _state === _STATES.month }}"
+                    startValue="{{_rangeModel.startValue}}"
+                    endValue="{{_rangeModel.endValue}}"
+                    selectionType="{{_options.selectionType}}"
+                    quantum="{{_options.ranges}}"
+                    rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
+                    bind:selectionProcessing="_dateRangeSelectionProcessing"
+                    on:rangeChanged="_dateRangeChanged()"
+                    on:selectionChanged="_dateRangeSelectionChanged()"
+                    on:selectionEnded="_dateRangeSelectionEnded()">
 
-            <Controls._datePopup.MonthsRange
-               attr:class="controls-DateRangeBigChoose__months-month-wrapper"
-               monthClickable="{{_monthStateEnabled}}"
-               rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
-               bind:position="_displayedDate"
-               displayedRanges="{{ _options.displayedRanges }}"
-               dateConstructor="{{_options.dateConstructor}}"
-               ranges="{{_options.ranges}}"
-               on:monthClick="_monthRangeMonthClick()"
-               _date="{{_options._date}}"
-               on:fixedPeriodClick="_monthRangeFixedPeriodClick()">
-                  <ws:dayTemplate>
-                     <ws:partial
-                           template="{{_dayTmpl}}"
-                           _dayTemplate="{{_defaultDayTemplate}}"/>
-                  </ws:dayTemplate>
-               </Controls._datePopup.MonthsRange>
-            </Controls.dateRange:DateRangeSelectionController>
-         </div>
-
-         <Controls.dateRange:DateRangeSelectionController
-            if="{{ _state === _STATES.month }}"
-            startValue="{{_rangeModel.startValue}}"
-            endValue="{{_rangeModel.endValue}}"
-            selectionType="{{_options.selectionType}}"
-            quantum="{{_options.ranges}}"
-            rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
-            bind:selectionProcessing="_dateRangeSelectionProcessing"
-            on:rangeChanged="_dateRangeChanged()"
-            on:selectionChanged="_dateRangeSelectionChanged()"
-            on:selectionEnded="_dateRangeSelectionEnded()">
-
-            <Controls._datePopup.DateRange
-               attr:class="controls-DateRangeBigChoose__months-month-wrapper
+                <Controls._datePopup.DateRange
+                        attr:class="controls-DateRangeBigChoose__months-month-wrapper
                            controls-PeriodDialog__body controls-PeriodDialog__body_theme-{{_options.theme}}"
-               on:fixedPeriodClick="_dateRangeFixedPeriodClick()"
-               bind:position="_displayedDate"
-               displayedRanges="{{ _options.displayedRanges }}"
-               rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
-               selectionType="{{_options.selectionType}}"
-               ranges="{{_options.ranges}}"
-               calendarSource="{{_options.calendarSource}}"
-               dateConstructor="{{_options.dateConstructor}}"
-               _date="{{_options._date}}"
-            >
-               <ws:dayTemplate>
-                  <ws:partial
-                        template="{{_dayTmpl}}"
-                        _dayTemplate="{{_options.dayTemplate}}"/>
-               </ws:dayTemplate>
-            </Controls._datePopup.DateRange>
-         </Controls.dateRange:DateRangeSelectionController>
-      </div>
-</Controls.validate:Controller>
+                        on:fixedPeriodClick="_dateRangeFixedPeriodClick()"
+                        bind:position="_displayedDate"
+                        displayedRanges="{{ _options.displayedRanges }}"
+                        rangeSelectedCallback="{{_options.rangeSelectedCallback}}"
+                        selectionType="{{_options.selectionType}}"
+                        ranges="{{_options.ranges}}"
+                        calendarSource="{{_options.calendarSource}}"
+                        dateConstructor="{{_options.dateConstructor}}"
+                        _date="{{_options._date}}"
+                >
+                    <ws:dayTemplate>
+                        <ws:partial
+                                template="{{_dayTmpl}}"
+                                _dayTemplate="{{_options.dayTemplate}}"/>
+                    </ws:dayTemplate>
+                </Controls._datePopup.DateRange>
+            </Controls.dateRange:DateRangeSelectionController>
+        </div>
+    </Controls.validate:Controller>
+</Controls.scroll:ScrollContextProvider>

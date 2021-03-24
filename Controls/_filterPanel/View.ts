@@ -5,9 +5,10 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {IControlOptions, TemplateFunction} from 'UI/Base';
 import {IFilterItem} from 'Controls/filter';
 import * as clone from 'Core/core-clone';
-import {IItemPadding} from 'Controls/list';
+import {IItemPadding} from 'Controls/display';
 import rk = require('i18n!Controls');
 import {isEqual} from 'Types/object';
+import 'css!Controls/filterPanel';
 
 /**
  * Контрол "Панель фильтра с набираемыми параметрами".
@@ -180,6 +181,4 @@ export default class View extends Control<IControlOptions> {
         this._notify('filterChanged', [this._editingObject]);
         this._notify('sourceChanged', [this._source]);
     }
-
-    static _theme: string[] = ['Controls/filterPanel', 'Controls/Classes'];
 }

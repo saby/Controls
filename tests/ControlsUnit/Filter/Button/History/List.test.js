@@ -50,7 +50,7 @@ define(
 
          var itemsHistory = [items1, items2];
 
-         var list = new List();
+         var list = new List.default();
 
          var config = {
             historyId: 'TEST_HISTORY_ID',
@@ -97,12 +97,12 @@ define(
             list._forceUpdate = function() {
                updated = true;
             };
-            List._private.onResize(list);
+            list._onResize();
             assert.isTrue(list._isMaxHeight);
             assert.isTrue(updated);
 
             updated = false;
-            List._private.onResize(list);
+            list._onResize();
             assert.isFalse(updated);
          });
 
@@ -164,11 +164,9 @@ define(
 
             let openConfig;
 
-            list._children = {
-               stickyOpener: {
-                  open: (cfg) => {
-                     openConfig = cfg;
-                  }
+            list._stickyOpener = {
+               open: (cfg) => {
+                  openConfig = cfg;
                }
             };
             list._onFavoriteClick(event, favoriteItem, text);
@@ -182,43 +180,38 @@ define(
             });
          });
 
-         it('_private::deleteFavorite', () => {
+         it('_deleteFavorite', () => {
+            const listFavorite = new List.default();
             let closed = false;
             let removeFired = false;
             const sandBox = sinon.createSandbox();
-            const self = {
-               _editItem: {get: () => {}},
-               _options: { historyId: '1231123' },
-               _children: {
-                  stickyOpener: {
-                     close: () => closed = true
-                  }
-               },
-               _notify: () => {}
+            listFavorite._editItem = {get: () => {}};
+            listFavorite._options = { historyId: '1231123' };
+            listFavorite._stickyOpener = {
+               close: () => closed = true
             };
-            sandBox.replace(List._private, 'getSource',() => {
+            sandBox.replace(listFavorite, '_getSource',() => {
                return {
                   remove: () => {removeFired = true},
                   getDataObject: () => {}
                };
             });
 
-            List._private.deleteFavorite(self, {});
+            listFavorite._deleteFavorite({});
             assert.isTrue(closed);
             assert.isTrue(removeFired);
             sandBox.restore();
          });
 
-         it('_private::saveFavorite', () => {
+         it('_saveFavorite', () => {
+            const listFavorite = new List.default();
             let editedItem;
             let updateFired = false;
             const sandBox = sinon.createSandbox();
-            const self = {
-               _editItem: { get: () => {}, set: (property, data) => { editedItem = data; } },
-               _options: { historyId: '1231123' },
-               _notify: () => {}
-            };
-            sandBox.replace(List._private, 'getSource', () => {
+            listFavorite._editItem = { get: () => {}, set: (property, data) => { editedItem = data; } };
+            listFavorite._options = { historyId: '1231123' };
+
+            sandBox.replace(listFavorite, '_getSource', () => {
                return {
                   update: () => {updateFired = true},
                   getDataObject: () => {}
@@ -238,13 +231,13 @@ define(
                linkText: 'textLine',
                isClient: false
             });
-            List._private.saveFavorite(self, record);
+            listFavorite._saveFavorite(record);
             assert.deepEqual(editedItem, expectedEditedItem);
             assert.isTrue(updateFired);
             sandBox.restore();
          });
 
-         describe('_private::mapByField', function() {
+         describe('_mapByField', function() {
 
             it('map by resetValues', function() {
                var filterItems = [
@@ -253,7 +246,7 @@ define(
                   {id: 'author', value: 'Ivanov K.K.', resetValue: true, textValue: 'Ivanov K.K.', visibility: true},
                   {id: 'responsible', value: '', resetValue: '', textValue: 'Petrov T.T.', visibility: false}
                ];
-               var resetValues = List._private.mapByField(filterItems, 'resetValue');
+               var resetValues = list._mapByField(filterItems, 'resetValue');
                assert.deepEqual(resetValues, {
                   'period': [1],
                   'sender': 'test_sender',
@@ -263,7 +256,7 @@ define(
             });
 
             it('map by value', function() {
-               var byValue = List._private.mapByField(items1, 'value');
+               var byValue = list._mapByField(items1, 'value');
                var result = {
                   period: [3],
                   state: [1],
@@ -288,7 +281,7 @@ define(
          });
 
 
-         it('_private::getStringHistoryFromItems', function() {
+         it('_getStringHistoryFromItems', function() {
             let resetValues = {
                'period': [1],
                'sender': 'test_sender',
@@ -301,11 +294,11 @@ define(
                {name: 'author', value: 'Ivanov K.K.', textValue: 'Ivanov K.K.', visibility: true},
                {name: 'responsible', value: '', textValue: 'Petrov T.T.', visibility: false}
             ];
-            let historyString = List._private.getStringHistoryFromItems(historyItems, resetValues);
+            let historyString = list._getStringHistoryFromItems(historyItems, resetValues);
             assert.strictEqual(historyString, 'Today, Ivanov K.K.');
          });
 
-         it('_private::getEditDialogOptions', function() {
+         it('_getEditDialogOptions', function() {
             var favoriteItem = new entity.Model({
                rawData: {
                   ObjectId: 'testId',
@@ -321,7 +314,7 @@ define(
                   filterItems: items1
                }
             };
-            var editableOptions = List._private.getEditDialogOptions(self, favoriteItem, null, 'savedText');
+            var editableOptions = list._getEditDialogOptions(favoriteItem, null, 'savedText');
             assert.equal(editableOptions.editedTextValue, 'savedText');
          });
       });

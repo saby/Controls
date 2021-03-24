@@ -1,6 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import headingTemplate = require('wml!Controls/_heading/Heading/Heading');
 import {descriptor as EntityDescriptor} from 'Types/entity';
+import 'css!Controls/heading';
 import {
     ITooltip,
     ITooltipOptions,
@@ -37,7 +38,7 @@ export interface IHeadingOptions
  * @implements Controls/_interface/IFontSize
  * @public
  * @author Красильников А.С.
- * 
+ *
  * @demo Controls-demo/Heading/Title/SizesAndStyles/Index
  *
  */
@@ -49,7 +50,7 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
     readonly '[Controls/_interface/IFontSize]': boolean = true;
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
 
-    static _theme: string[] = ['Controls/heading', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {
@@ -65,6 +66,15 @@ class Header extends Control<IHeadingOptions> implements ICaption, ITooltip, IFo
         };
     }
 }
+
+Object.defineProperty(Header, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Header.getDefaultOptions();
+   }
+});
 
 /**
  * @typedef {String} TTextTransform

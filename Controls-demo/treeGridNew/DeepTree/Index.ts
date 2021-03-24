@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/treeGridNew/DeepTree/DeepTree';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../DemoHelpers/DataCatalog';
 import * as elipsisTpl from 'wml!Controls-demo/treeGridNew/DeepTree/elipsisTpl';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { TExpandOrColapsItems } from 'Controls-demo/types';
 
 export default class extends Control {

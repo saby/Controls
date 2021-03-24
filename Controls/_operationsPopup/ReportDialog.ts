@@ -3,14 +3,14 @@ import {Control} from 'UI/Base';
 // @ts-ignore
 import format = require('Core/helpers/String/format');
 import template = require('wml!Controls/_operationsPopup/ReportDialog/ReportDialog');
-
+import 'css!Controls/operationsPopup';
 
    /**
     * Шаблон диалога с результатами массовых операций.
     *
     * @class Controls/_operationsPopup/ReportDialog
     * @extends UI/Base:Control
-    * 
+    *
     * @author Сухоручкин А.С.
     * @public
     *
@@ -20,7 +20,7 @@ import template = require('wml!Controls/_operationsPopup/ReportDialog/ReportDial
     *
     * @class Controls/_operationsPopup/ReportDialog
     * @extends UI/Base:Control
-    * 
+    *
     * @author Сухоручкин А.С.
     * @public
     *
@@ -48,7 +48,6 @@ import template = require('wml!Controls/_operationsPopup/ReportDialog/ReportDial
          this._notify('close', [], {bubbling: true});
       }
    });
-   ReportDialog._theme = ['Controls/operationsPopup'];
 
    /**
     * @name Controls/_operationsPopup/ReportDialog#title

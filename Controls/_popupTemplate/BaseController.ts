@@ -133,6 +133,14 @@ abstract class BaseController {
         }
     }
 
+    _beforeUpdateOptions(item: IPopupItem): void {
+        item.popupState = item.controller.POPUP_STATE_INITIALIZING;
+    }
+
+    _afterUpdateOptions(item: IPopupItem): void {
+        item.popupState = item.controller.POPUP_STATE_CREATED;
+    }
+
     protected elementDestroyed(item: IPopupItem): Promise<undefined> {
         return (new Deferred()).callback();
     }
@@ -269,7 +277,7 @@ abstract class BaseController {
         if (BaseController.rootContainers[restrictiveContainer]) {
             return BaseController.rootContainers[restrictiveContainer];
         }
-        const restrictiveContainerNode = document.querySelector(restrictiveContainer);
+        const restrictiveContainerNode = document?.querySelector(restrictiveContainer);
 
         if (restrictiveContainerNode) {
             // TODO: В рамках оптимизации нижний попап скрывается через ws-hidden

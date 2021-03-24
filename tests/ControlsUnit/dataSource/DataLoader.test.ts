@@ -1,6 +1,7 @@
-import {DataLoader, ILoadDataResult} from 'Controls/dataSource';
+import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig} from 'Controls/dataSource';
 import {Memory} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
+import {NewSourceController} from 'Controls/dataSource';
 import {createSandbox} from 'sinon';
 import {default as groupUtil} from 'Controls/_dataSource/GroupUtil';
 
@@ -36,7 +37,7 @@ function getSource(): Memory {
     });
 }
 
-function getDataLoaded(): DataLoader {
+function getDataLoader(): DataLoader {
     return new DataLoader();
 }
 
@@ -46,7 +47,7 @@ describe('Controls/dataSource:loadData', () => {
         const loadDataConfig = {
             source: getSource()
         };
-        const loadDataResult = await getDataLoaded().load([loadDataConfig]);
+        const loadDataResult = await getDataLoader().load([loadDataConfig]);
 
         ok(loadDataResult.length === 1);
         ok(loadDataResult[0].data.getCount() === 5);
@@ -60,7 +61,7 @@ describe('Controls/dataSource:loadData', () => {
                 title: 'Sasha'
             }
         };
-        const loadDataResult = await getDataLoaded().load([loadDataConfig]);
+        const loadDataResult = await getDataLoader().load([loadDataConfig]);
 
         ok(loadDataResult.length === 1);
         ok(loadDataResult[0].data.getCount() === 1);
@@ -76,7 +77,7 @@ describe('Controls/dataSource:loadData', () => {
                 title: 'Sasha'
             }
         };
-        const loadDataResult = await getDataLoaded().load([loadDataConfig, loadDataConfigWithFilter]);
+        const loadDataResult = await getDataLoader().load([loadDataConfig, loadDataConfigWithFilter]);
 
         ok(loadDataResult.length === 2);
         ok(loadDataResult[0].data.getCount() === 5);
@@ -93,13 +94,13 @@ describe('Controls/dataSource:loadData', () => {
                     name: 'title', value: 'Sasha', textValue: 'Sasha'
                 }
             ]
-        };
-        const loadDataResult = await getDataLoaded().load([loadDataConfigWithFilter]);
+        } as ILoadDataConfig;
+        const loadDataResult = await getDataLoader().load<ILoadDataResult>([loadDataConfigWithFilter]);
 
         ok(loadDataResult.length === 1);
-        ok((loadDataResult[0] as ILoadDataResult).data.getCount() === 1);
+        ok((loadDataResult[0]).data.getCount() === 1);
         deepStrictEqual(
-            (loadDataResult[0] as ILoadDataResult).filter,
+            (loadDataResult[0]).filter,
             {
                 title: 'Sasha'
             }
@@ -110,8 +111,8 @@ describe('Controls/dataSource:loadData', () => {
         const loadDataConfigCustomLoader = {
             type: 'custom',
             loadDataMethod: () => Promise.resolve({ testField: 'testValue' })
-        };
-        const loadDataResult = await getDataLoaded().load([loadDataConfigCustomLoader]);
+        } as ILoadDataCustomConfig;
+        const loadDataResult = await getDataLoader().load([loadDataConfigCustomLoader]);
 
         ok(loadDataResult.length === 1);
         deepStrictEqual(loadDataResult[0], { testField: 'testValue' });
@@ -137,7 +138,7 @@ describe('Controls/dataSource:loadData', () => {
                 }
             })
         };
-        const loadDataResult = await getDataLoaded().load([loadDataConfigCustomLoader]);
+        const loadDataResult = await getDataLoader().load([loadDataConfigCustomLoader]);
 
         deepStrictEqual(
             (loadDataResult[0] as ILoadDataResult).filter,
@@ -147,6 +148,24 @@ describe('Controls/dataSource:loadData', () => {
             }
         );
         deepStrictEqual(loadDataResult[0].historyItems, [{...historyItem}]);
+    });
+
+    it('loadEvery', async () => {
+        const loadDataConfigs = [{source: getSource()}, {source: getSource()}];
+        const loadDataPromises = getDataLoader().loadEvery(loadDataConfigs);
+        const loadResults = await Promise.all(loadDataPromises);
+
+        ok(loadDataPromises.length === 2);
+        ok(loadResults.length === 2);
+    });
+
+    it('load data with sourceController in config', async () => {
+        const source = getSource();
+        const sourceController = new NewSourceController({source});
+        const dataLoader = getDataLoader();
+        await dataLoader.load([{source, sourceController}]);
+
+        ok(dataLoader.getSourceController() === sourceController);
     });
 
     it('load with collapsedGroups', async () => {
@@ -160,7 +179,7 @@ describe('Controls/dataSource:loadData', () => {
         sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', () => {
             return Promise.resolve(['testCollapsedGroup1', 'testCollapsedGroup2']);
         });
-        const loadDataResult = await getDataLoaded().load([loadDataConfigWithFilter]);
+        const loadDataResult = await getDataLoader().load([loadDataConfigWithFilter]);
         deepStrictEqual((loadDataResult[0] as ILoadDataResult).collapsedGroups, ['testCollapsedGroup1', 'testCollapsedGroup2']);
         sinonSandbox.restore();
     });

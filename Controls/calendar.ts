@@ -38,15 +38,9 @@
  * @author Крайнов Д.О.
  */
 
-import MonthViewDayTemplate = require('wml!Controls/_calendar/MonthView/dayTemplate');
-
-import MonthListYearTemplate = require('wml!Controls/_calendar/MonthList/YearTemplate');
-import MonthListMonthTemplate = require('wml!Controls/_calendar/MonthList/MonthTemplate');
-
 export {default as Month} from './_calendar/Month';
 export {default as MonthList} from './_calendar/MonthList';
-export {default as MonthSlider} from './_calendar/MonthSlider';
-export {Base as MonthSliderBase} from './_calendar/MonthSlider';
+export {default as MonthSlider, Base as MonthSliderBase} from './_calendar/MonthSlider';
 export {default as MonthModel} from './_calendar/Month/Model';
 export {default as MonthViewModel} from './_calendar/MonthView/MonthViewModel';
 export {default as MonthView} from './_calendar/MonthView';
@@ -55,6 +49,10 @@ export {default as IMonth} from './_calendar/interfaces/IMonth';
 export {IMonthList} from './_calendar/interfaces/IMonthList';
 export {IMonthListSource} from './_calendar/interfaces/IMonthListSource';
 export {IMonthListVirtualPageSize} from './_calendar/interfaces/IMonthListVirtualPageSize';
+
+import * as MonthViewDayTemplate from 'wml!Controls/_calendar/MonthView/dayTemplate';
+import * as MonthListYearTemplate from 'wml!Controls/_calendar/MonthList/YearTemplate';
+import * as MonthListMonthTemplate from 'wml!Controls/_calendar/MonthList/MonthTemplate';
 
 export {
    MonthViewDayTemplate,

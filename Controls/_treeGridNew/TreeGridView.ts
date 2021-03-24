@@ -21,6 +21,9 @@ export default class TreeGridView extends GridView {
     protected _onItemClick(e: SyntheticEvent, dispItem: TreeItem<Model>): void {
         if (dispItem['[Controls/treeGrid:TreeGridNodeFooterRow]']) {
             e.stopImmediatePropagation();
+            if (e.target.closest('.js-controls-TreeGrid__nodeFooter__LoadMoreButton')) {
+                this._notify('loadMore', [dispItem.getNode()]);
+            }
             return;
         }
 
@@ -43,15 +46,6 @@ export default class TreeGridView extends GridView {
         }
 
         super._onItemMouseDown(e, dispItem);
-    }
-
-    private _onExpanderClick(e: SyntheticEvent, item: TreeItem<Model>): void {
-        this._notify('expanderClick', [item], {bubbling: true});
-        e.stopImmediatePropagation();
-    }
-
-    private _onLoadMoreClick(e: SyntheticEvent, item: TreeItem<Model>): void {
-        this._notify('loadMoreClick', [item]);
     }
 
     static _theme: string[] =  ['Controls/grid', 'Controls/treeGrid'];

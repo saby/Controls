@@ -154,3 +154,12 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
         };
     }
 }
+
+Object.defineProperty(RangeShortSelector, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return RangeShortSelector.getDefaultOptions();
+   }
+});

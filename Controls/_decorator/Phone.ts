@@ -87,4 +87,13 @@ class Phone extends Control<IPhoneOptions> {
     }
 }
 
+Object.defineProperty(Phone, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Phone.getDefaultOptions();
+   }
+});
+
 export default Phone;

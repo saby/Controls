@@ -1,11 +1,11 @@
-import {Control as BaseControl} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_datePopup/YearsRange';
 import {Date as WSDate} from 'Types/entity';
 import {DateRangeModel, rangeSelection as rangeSelectionUtils} from 'Controls/dateRange';
 import {Base as dateUtils} from 'Controls/dateUtils';
-import componentTmpl = require('wml!Controls/_datePopup/YearsRange');
 import {constants} from 'Env/Env';
 
-const BUTTONS_COUNT = 6;
+const BUTTONS_COUNT: number = 6;
 /**
  * Component that allows you to select periods that are multiples of years.
  *
@@ -15,20 +15,15 @@ const BUTTONS_COUNT = 6;
  * @author Красильников А.С.
  * @private
  */
-var Component = BaseControl.extend({
-    _template: componentTmpl,
 
-    _year: null,
-    _rangeModel: null,
-    _model: null,
-    _lastYear: null,
+export default class YearsRange extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+    _year: number;
+    _rangeModel: DateRangeModel;
+    _model: object[];
+    _lastYear: number;
 
-    // constructor: function() {
-    //    this._dayFormatter = this._dayFormatter.bind(this);
-    //    Component.superclass.constructor.apply(this, arguments);
-    // },
-
-    _beforeMount: function (options) {
+    protected _beforeMount(options): void {
         this._year = options.year ? options.year.getFullYear() : (new Date()).getFullYear();
         if (dateUtils.isValidDate(options.endValue) && dateUtils.isValidDate(options.startValue) &&
             options.startValue.getFullYear() === options.endValue.getFullYear()) {
@@ -48,9 +43,9 @@ var Component = BaseControl.extend({
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         this._rangeModel.update(options);
         this._updateModel(options);
-    },
+    }
 
-    _beforeUpdate: function (options) {
+    protected _beforeUpdate(options): void {
         if (!dateUtils.isYearsEqual(options.year, this._options.year)) {
             this._year = options.year.getFullYear();
             if (this._year > this._lastYear) {
@@ -61,70 +56,43 @@ var Component = BaseControl.extend({
         }
         this._rangeModel.update(options);
         this._updateModel();
-    },
+    }
 
-    _beforeUnmount: function () {
+    protected _beforeUnmount(): void {
         this._rangeModel.destroy();
-    },
+    }
 
-    _changeYear: function(delta: number): void {
-        this._lastYear = this._lastYear + delta;
-        this._updateModel();
-    },
-
-    _onPrevNextButtonClick: function(event: Event, delta: number): void {
+    protected _onPrevNextButtonClick(event: Event, delta: number): void {
         this._changeYear(delta);
-    },
+    }
 
-    _prevNextBtnKeyDownHandler: function(event: Event, delta: number): void {
+    protected _prevNextBtnKeyDownHandler(event: Event, delta: number): void {
         if (event.nativeEvent.keyCode === constants.key.enter) {
             this._changeYear(delta);
         }
-    },
+    }
 
-    _onItemClick: function(event: Event, date: Date): void {
+    protected _onItemClick(event: Event, date: Date): void {
         this._notify('itemClick', [date]);
-    },
+    }
 
-    _onItemKeyDown: function(event: Event, date: Date): void {
+    protected _onItemKeyDown(event: Event, date: Date): void {
         if (event.nativeEvent.keyCode === constants.key.enter) {
             this._notify('itemClick', [date]);
         }
-    },
+    }
 
-    _onItemMouseEnter: function (e, date) {
+    protected _onItemMouseEnter(e, date): void {
         this._notify('itemMouseEnter', [date]);
-    },
+    }
 
-    _onItemMouseLeave: function (e, date) {
+    protected _onItemMouseLeave(e, date): void {
         this._notify('itemMouseLeave', [date]);
-    },
+    }
 
-    _updateModel: function (options) {
-        var items = [],
-            currentYear = (new Date()).getFullYear(),
-            ots = options || this._options,
-            item, year;
-
-        for (var i = 0; i < BUTTONS_COUNT; i++) {
-            year = this._lastYear - BUTTONS_COUNT + 1 + i;
-            item = {
-                caption: year,
-                isDisplayed: year === this._year,
-                isCurrent: year === currentYear,
-                date: new ots.dateConstructor(year, 0),
-                year: year
-            };
-
-            items.push(item);
-        }
-        this._model = items;
-    },
-
-    _prepareItemClass: function (itemValue) {
-        let
-            css = [],
-            itemDate = new Date(itemValue, 0);
+    protected _prepareItemClass(itemValue): string {
+        const css = [];
+        const itemDate = new Date(itemValue, 0);
 
         css.push(rangeSelectionUtils.prepareSelectionClass(
             itemDate,
@@ -150,19 +118,47 @@ var Component = BaseControl.extend({
         return css.join(' ');
     }
 
+    private _changeYear(delta: number): void {
+        this._lastYear = this._lastYear + delta;
+        this._updateModel();
+    }
+
+    private _updateModel(options?): void {
+        const items = [];
+        const currentYear = (new Date()).getFullYear();
+        const ots = options || this._options;
+        let item;
+        let year;
+
+        for (let i = 0; i < BUTTONS_COUNT; i++) {
+            year = this._lastYear - BUTTONS_COUNT + 1 + i;
+            item = {
+                caption: year,
+                isDisplayed: year === this._year,
+                isCurrent: year === currentYear,
+                date: new ots.dateConstructor(year, 0),
+                year
+            };
+
+            items.push(item);
+        }
+        this._model = items;
+    }
+
+    static _theme: string[] = ['Controls/datePopup'];
+
+    static getDefaultOptions(): object {
+        return {
+            dateConstructor: WSDate
+        };
+    }
+}
+
+Object.defineProperty(YearsRange, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return YearsRange.getDefaultOptions();
+   }
 });
-
-// Component.EMPTY_CAPTIONS = IPeriodSimpleDialog.EMPTY_CAPTIONS;
-
-Component.getDefaultOptions = function() {
-   return {
-       dateConstructor: WSDate
-   };
-};
-Component._theme = ['Controls/datePopup'];
-
-// Component.getOptionTypes = function() {
-//    return coreMerge({}, IPeriodSimpleDialog.getOptionTypes());
-// };
-
-export = Component;

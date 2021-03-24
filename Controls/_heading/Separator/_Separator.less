@@ -8,31 +8,31 @@
    align-items: center;
 }
 
-.controls-HeaderSeparator__arrow_theme-@{themeName} {
-   width: @width_headingSeparator;
-   height: @height_headingSeparator;
-   padding-left: @padding-left_headingSeparator;
+.controls-HeaderSeparator__arrow {
+   width: var(--width_headingSeparator);
+   height: var(--height_headingSeparator);
+   padding-left: var(--padding-left_headingSeparator);
 }
 
-.controls-HeaderSeparator__arrow_style-primary_theme-@{themeName} {
-   fill: @primary_icon-color_headingSeparator;
+.controls-HeaderSeparator__arrow_style-primary {
+   fill: var(--primary_icon-color_headingSeparator);
    &:active {
-      fill: @primary_active_icon-color_headingSeparator;
+      fill: var(--primary_active_icon-color_headingSeparator);
    }
 }
 
-.controls-HeaderSeparator__arrow_style-secondary_theme-@{themeName} {
-   fill: @secondary_icon-color_headingSeparator;
+.controls-HeaderSeparator__arrow_style-secondary {
+   fill: var(--secondary_icon-color_headingSeparator);
    &:active {
-      fill: @secondary_active_icon-color_headingSeparator;
+      fill: var(--secondary_active_icon-color_headingSeparator);
    }
 }
 
 .ws-is-hover {
-   .controls-HeaderSeparator__arrow_style-primary_theme-@{themeName}:hover {
-      fill: @primary_hover_icon-color_headingSeparator;
+   .controls-HeaderSeparator__arrow_style-primary:hover {
+      fill: var(--primary_hover_icon-color_headingSeparator);
    }
-   .controls-HeaderSeparator__arrow_style-secondary_theme-@{themeName}:hover {
-      fill: @secondary_hover_icon-color_headingSeparator;
+   .controls-HeaderSeparator__arrow_style-secondary:hover {
+      fill: var(--secondary_hover_icon-color_headingSeparator);
    }
 }

@@ -32,6 +32,8 @@ export const loadModule = (module: string|Control): Promise<Control> => {
     const moduleClass = getModuleByName(module);
     if (moduleClass) {
         return Promise.resolve(moduleClass);
+    } else if (!module) {
+        return Promise.reject('Не задано имя модуля для загрузки');
     }
     return load(module);
 };

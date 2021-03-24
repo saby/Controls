@@ -1,5 +1,6 @@
 import {TemplateFunction} from 'UI/Base';
 import Abstract, {IEnumerable, IOptions as IAbstractOptions} from './Abstract';
+import * as cMerge from 'Core/core-merge';
 import CollectionEnumerator from './CollectionEnumerator';
 import CollectionItem, {IOptions as ICollectionItemOptions, ICollectionItemCounters} from './CollectionItem';
 import GroupItem from './GroupItem';
@@ -33,9 +34,8 @@ import {mixin, object} from 'Types/util';
 import {Set, Map} from 'Types/shim';
 import {Object as EventObject} from 'Env/Event';
 import * as VirtualScrollController from './controllers/VirtualScroll';
-import {ICollection, ISourceCollection} from './interface/ICollection';
+import { ICollection, ISourceCollection, IItemPadding } from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
-import SearchSeparator from "./SearchSeparator";
 import {INavigationOptionValue} from 'Controls/interface';
 
 // tslint:disable-next-line:ban-comma-operator
@@ -47,6 +47,7 @@ const VERSION_UPDATE_ITEM_PROPERTIES = ['editing', 'editingContents', 'animated'
 /**
  *
  * Возможные значения {@link Controls/list:IList#multiSelectAccessibilityProperty доступности чекбокса}.
+ * @class
  * @public
  */
 const MultiSelectAccessibility = {
@@ -98,7 +99,7 @@ export type StrategyConstructor<
    T extends CollectionItem<S> = CollectionItem<S>
    > = new() => F;
 
-interface ISessionItems<T> extends Array<T> {
+export interface ISessionItems<T> extends Array<T> {
     properties?: object;
 }
 
@@ -154,12 +155,6 @@ export interface IViewIterator {
 
 export type TGroupKey = string|number;
 export type TArrayGroupKey = TGroupKey[];
-export interface IItemPadding {
-    top?: string;
-    bottom?: string;
-    left?: string;
-    right?: string;
-}
 
 export interface IItemActionsTemplateConfig {
     toolbarVisibility?: boolean;
@@ -870,8 +865,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._$itemTemplateProperty = options.itemTemplateProperty;
         }
 
-        this._$theme = options.theme;
-
         if (!options.hoverBackgroundStyle && options.style) {
             this._$hoverBackgroundStyle = options.style;
         }
@@ -919,15 +912,15 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._bindHandlers();
         this._initializeCollection();
 
-        if (options.itemPadding) {
-            this._setItemPadding(options.itemPadding);
-        }
-
         this._viewIterator = {
             each: this.each.bind(this),
             setIndices: () => false,
             isItemAtIndexHidden: () => false
         };
+
+        if (options.itemPadding) {
+            this._setItemPadding(options.itemPadding);
+        }
 
         if (this._isGrouped()) {
             // TODO What's a better way of doing this?
@@ -1274,66 +1267,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     // region Navigation
 
     /**
-     * Возвращает текущий элемент
-     * @return {Controls/_display/CollectionItem}
-     */
-    getCurrent(): T {
-        return this._getCursorEnumerator().getCurrent();
-    }
-
-    /**
-     * Устанавливает текущий элемент
-     * @param {Controls/_display/CollectionItem} item Новый текущий элемент
-     * @param {Boolean} [silent=false] Не генерировать событие onCurrentChange
-     */
-    setCurrent(item: T, silent?: boolean): void {
-        const oldCurrent = this.getCurrent();
-        if (oldCurrent !== item) {
-            const enumerator = this._getCursorEnumerator();
-            const oldPosition = this.getCurrentPosition();
-            enumerator.setCurrent(item);
-
-            if (!silent) {
-                this._notifyCurrentChange(
-                    this.getCurrent(),
-                    oldCurrent,
-                    enumerator.getPosition(),
-                    oldPosition
-                );
-            }
-        }
-    }
-
-    /**
-     * Возвращает позицию текущего элемента
-     * @return {Number}
-     */
-    getCurrentPosition(): number {
-        return this._getCursorEnumerator().getPosition();
-    }
-
-    /**
-     * Устанавливает позицию текущего элемента
-     * @param {Number} position Позиция текущего элемента. Значение -1 указывает, что текущий элемент не выбран.
-     * @param {Boolean} [silent=false] Не генерировать событие onCurrentChange
-     */
-    setCurrentPosition(position: number, silent?: boolean): void {
-        const oldPosition = this.getCurrentPosition();
-        if (position !== oldPosition) {
-            const oldCurrent = this.getCurrent();
-            this._getCursorEnumerator().setPosition(position);
-            if (!silent) {
-                this._notifyCurrentChange(
-                    this.getCurrent(),
-                    oldCurrent,
-                    position,
-                    oldPosition
-                );
-            }
-        }
-    }
-
-    /**
      * Возвращает первый элемент
      * @return {Controls/_display/CollectionItem}
      */
@@ -1420,69 +1353,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
     getPrevByIndex(index: number): T {
         return this.at(index - 1);
-    }
-
-    /**
-     * Устанавливает текущим следующий элемент
-     * @return {Boolean} Есть ли следующий элемент
-     */
-    moveToNext(): boolean {
-        const oldCurrent = this.getCurrent();
-        const oldCurrentPosition = this.getCurrentPosition();
-        const hasNext = this._getCursorEnumerator().moveNext();
-        if (hasNext) {
-            this._notifyCurrentChange(
-                this.getCurrent(),
-                oldCurrent,
-                this.getCurrentPosition(),
-                oldCurrentPosition
-            );
-        }
-        return hasNext;
-    }
-
-    /**
-     * Устанавливает текущим предыдущий элемент
-     * @return {Boolean} Есть ли предыдущий элемент
-     */
-    moveToPrevious(): boolean {
-        const oldCurrent = this.getCurrent();
-        const oldCurrentPosition = this.getCurrentPosition();
-        const hasPrevious = this._getCursorEnumerator().movePrevious();
-        if (hasPrevious) {
-            this._notifyCurrentChange(
-                this.getCurrent(),
-                oldCurrent,
-                this.getCurrentPosition(),
-                oldCurrentPosition
-            );
-        }
-        return hasPrevious;
-    }
-
-    /**
-     * Устанавливает текущим первый элемент
-     * @return {Boolean} Есть ли первый элемент
-     */
-    moveToFirst(): boolean {
-        if (this.getCurrentPosition() === 0) {
-            return false;
-        }
-        this.setCurrentPosition(0);
-        return this._getCursorEnumerator().getPosition() === 0;
-    }
-
-    /**
-     * Устанавливает текущим последний элемент
-     * @return {Boolean} Есть ли последний элемент
-     */
-    moveToLast(): boolean {
-        const position = this.getCount() - 1;
-        if (this.getCurrentPosition() === position) {
-            return false;
-        }
-        this.setCurrentPosition(position);
-        return this.getCurrentPosition() === position;
     }
 
     /**
@@ -2200,9 +2070,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      * @return {String}
      */
     setKeyProperty(keyProperty: string): void {
-        this._$keyProperty = keyProperty;
-        this._composer.getInstance<DirectItemsStrategy<T>>(DirectItemsStrategy).keyProperty = keyProperty;
-        this.nextVersion();
+        if (keyProperty !== this._$keyProperty) {
+            this._$keyProperty = keyProperty;
+            this._composer.getInstance<DirectItemsStrategy<T>>(DirectItemsStrategy).keyProperty = keyProperty;
+            this.nextVersion();
+        }
     }
 
     /**
@@ -2269,79 +2141,11 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             items,
             index
         );
-        this._handleAfterCollectionChange();
+        this._handleAfterCollectionChange(items);
 
         if (VERSION_UPDATE_ITEM_PROPERTIES.indexOf(properties as unknown as string) >= 0) {
             this._nextVersion();
         }
-    }
-
-    // endregion
-
-    // region Multiselectable
-
-    /**
-     * Возвращает массив выбранных элементов (без учета сортировки, фильтрации и группировки).
-     * @return {Array.<Controls/_display/CollectionItem>}
-     */
-    getSelectedItems(): T[] {
-        const items = this._getItems();
-        const result = [];
-        for (let i = items.length - 1; i >= 0; i--) {
-            if (items[i].isSelected()) {
-                result.push(items[i]);
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Устанавливает признак, что элемент выбран, переданным элементам.
-     * @remark Метод зависит от фильтра проекции.
-     * @param {Array} items Массив элементов коллекции
-     * @param {Boolean} selected Элемент выбран.
-     * @param {Boolean} [silent=false] Не уведомлять о изменении
-     * @example
-     * <pre>
-     *      var list = new List({...}),
-     *          display = new CollectionDisplay({
-     *              collection: list
-     *          });
-     *     display.setSelectedItems([list.at(0), list.at(1)], true) //установит признак двум элементам;
-     * </pre>
-     */
-    setSelectedItems(items: T[], selected: boolean|null, silent: boolean = false): void {
-        this._setSelectedItems(items, selected, silent);
-    }
-
-    /**
-     * Устанавливает признак, что элемент выбран, всем элементам проекции (без учета сортировки, фильтрации и
-     * группировки).
-     * @param {Boolean} selected Элемент выбран.
-     * @return {Array}
-     */
-    setSelectedItemsAll(selected: boolean): void {
-        this._setSelectedItems(this._getItems(), selected);
-    }
-
-    /**
-     * Инвертирует признак, что элемент выбран, у всех элементов проекции (без учета сортировки, фильтрации и
-     * группировки).
-     */
-    invertSelectedItemsAll(): void {
-        const items = this._getItems();
-        for (let i = items.length - 1; i >= 0; i--) {
-            items[i].setSelected(!items[i].isSelected(), true);
-        }
-        this._notifyBeforeCollectionChange();
-        this._notifyCollectionChange(
-            IObservable.ACTION_RESET,
-            items,
-            0,
-            items,
-            0
-        );
-        this._notifyAfterCollectionChange();
     }
 
     // endregion
@@ -2514,7 +2318,9 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _updateItemsMultiSelectVisibility(visibility: string): void {
         this.getViewIterator().each((item: CollectionItem<T>) => {
-            if (item.SelectableItem) {
+            // Нельзя проверять SelectableItem, т.к. элементы которые нельзя выбирать
+            // тоже должны перерисоваться при изменении видимости чекбоксов
+            if (item.setMultiSelectVisibility) {
                 item.setMultiSelectVisibility(visibility);
             }
         });
@@ -2522,21 +2328,27 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _updateItemsMultiSelectAccessibilityProperty(property: string): void {
         this.getViewIterator().each((item: CollectionItem) => {
-            if (item.SelectableItem) {
+            if (item.setMultiSelectAccessibilityProperty) {
                 item.setMultiSelectAccessibilityProperty(property);
             }
         });
     }
 
-    protected _setItemPadding(itemPadding: IItemPadding): void {
+    protected _setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
         this._$topPadding = itemPadding.top || 'default';
         this._$bottomPadding = itemPadding.bottom || 'default';
         this._$leftPadding = itemPadding.left || 'default';
         this._$rightPadding = itemPadding.right || 'default';
+
+        this.getViewIterator().each((item: CollectionItem) => {
+            if (item.setItemPadding) {
+                item.setItemPadding(itemPadding, silent);
+            }
+        });
     }
 
     setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
-        this._setItemPadding(itemPadding);
+        this._setItemPadding(itemPadding, silent);
         if (!silent) {
             this._nextVersion();
         }
@@ -2544,7 +2356,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     setMarkedKey(key: string|number, status: boolean): void {
         const item = this.getItemBySourceKey(key);
-        if (item) {
+        if (item && item.Markable) {
             item.setMarked(status);
         }
     }
@@ -2637,7 +2449,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     getSearchValue(): string {
-        return this._$searchValue;
+        return this._$searchValue || '';
     }
 
     getItemBySourceKey(key: string|number): T {
@@ -2781,7 +2593,27 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._actionsMenuConfig = config;
     }
 
-    getActionsTemplateConfig(): IItemActionsTemplateConfig {
+    getActionsTemplateConfig(templateOptions: any): IItemActionsTemplateConfig {
+        if (templateOptions && this._actionsTemplateConfig) {
+            if (templateOptions.actionStyle) {
+                this._actionsTemplateConfig.actionStyle = templateOptions.actionStyle;
+            }
+            if (templateOptions.actionPadding) {
+                this._actionsTemplateConfig.actionPadding = templateOptions.actionPadding;
+            }
+            if (templateOptions.iconStyle) {
+                this._actionsTemplateConfig.iconStyle = templateOptions.iconStyle;
+            }
+            if (templateOptions.actionMode) {
+                this._actionsTemplateConfig.actionMode = templateOptions.actionMode;
+            }
+            if (templateOptions.highlightOnHover) {
+                this._actionsTemplateConfig.highlightOnHover = templateOptions.highlightOnHover;
+            }
+            if (templateOptions.itemActionsClass) {
+                this._actionsTemplateConfig.itemActionsClass = templateOptions.itemActionsClass;
+            }
+        }
         return this._actionsTemplateConfig;
     }
 
@@ -3157,35 +2989,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         );
     }
 
-    /**
-     * Устанавливает признак, переданным, элементам проекции.
-     * @param selecItems массив элементов проекции
-     * @param selected Элемент выбран.
-     * @param {Boolean} silent Не уведомлять о изменении
-     */
-    protected _setSelectedItems(selecItems: T[], selected: boolean|null, silent: boolean = false): void {
-        const items = [];
-        for (let i = selecItems.length - 1; i >= 0; i--) {
-            if (selecItems[i].isSelected() !== selected) {
-                selecItems[i].setSelected(selected, silent);
-                items.push(selecItems[i]);
-            }
-        }
-        if (items.length > 0 && !silent) {
-            items.properties = 'selected';
-            const index = this.getIndex(items[0]);
-            this._notifyBeforeCollectionChange();
-            this._notifyCollectionChange(
-                IObservable.ACTION_CHANGE,
-                items,
-                index,
-                items,
-                index
-            );
-            this._notifyAfterCollectionChange();
-        }
-    }
-
     // endregion
 
     // region Protected methods
@@ -3278,7 +3081,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.multiSelectVisibility = this._$multiSelectVisibility;
             options.multiSelectAccessibilityProperty = this._$multiSelectAccessibilityProperty;
             options.backgroundStyle = this._$backgroundStyle;
-            return create(this._itemModule, options);
+            options.theme = this._$theme;
+            options.style = this._$style;
+            options.leftPadding = this._$leftPadding;
+            options.rightPadding = this._$rightPadding;
+            options.topPadding = this._$topPadding;
+            options.bottomPadding = this._$bottomPadding;
+            return create(options.itemModule || this._itemModule, options);
         };
     }
 
@@ -3490,7 +3299,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      * @protected
      */
     protected _reIndex(): void {
-        this._getCursorEnumerator().reIndex();
         this._getUtilityEnumerator().reIndex();
     }
 
@@ -3596,7 +3404,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 prevGroupIndex = index;
                 prevGroupPosition = position;
                 prevGroupHasMembers = false;
-            } else if (!(item instanceof SearchSeparator)) {
+            } else if (!(item['[Controls/_display/SearchSeparator]'])) {
                 // Check item match
                 match = isMatch(item, index, position);
                 changed = applyMatch(match, index) || changed;
@@ -3906,36 +3714,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                     index
                 );
             });
-            this._handleAfterCollectionChange();
+            this._handleAfterCollectionChange(items);
         }
-    }
-
-    /**
-     * Генерирует событие об изменении текущего элемента проекции коллекции
-     * @param newCurrent Новый текущий элемент
-     * @param oldCurrent Старый текущий элемент
-     * @param newPosition Новая позиция
-     * @param oldPosition Старая позиция
-     * @protected
-     */
-    protected _notifyCurrentChange(
-        newCurrent: T,
-        oldCurrent: T,
-        newPosition: number,
-        oldPosition: number
-    ): void {
-        if (!this.isEventRaising()) {
-            return;
-        }
-
-        this._removeFromQueue('onCurrentChange');
-        this._notify(
-            'onCurrentChange',
-            newCurrent,
-            oldCurrent,
-            newPosition,
-            oldPosition
-        );
     }
 
     /**
@@ -3969,7 +3749,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 );
             }
         );
-        this._handleAfterCollectionChange();
+        this._handleAfterCollectionChange(changedItems);
     }
 
     /**
@@ -4072,7 +3852,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._notify('onAfterCollectionChange');
     }
 
-    protected _handleAfterCollectionChange(): void {
+    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = []): void {
         this._notifyAfterCollectionChange();
         this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
     }
@@ -4115,6 +3895,7 @@ Object.assign(Collection.prototype, {
     _$markerVisibility: 'onactivated',
     _$multiSelectAccessibilityProperty: '',
     _$style: 'default',
+    _$theme: 'default',
     _$hoverBackgroundStyle: 'default',
     _$backgroundStyle: null,
     _$rowSeparatorSize: null,
@@ -4124,7 +3905,6 @@ Object.assign(Collection.prototype, {
     _composer: null,
     _sourceCollectionSynchronized: true,
     _sourceCollectionDelayedCallbacks: null,
-    _cursorEnumerator: null,
     _utilityEnumerator: null,
     _onCollectionChange: null,
     _onCollectionItemChange: null,

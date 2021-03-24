@@ -1,3 +1,0 @@
-<ws:partial template="Controls/list:ItemTemplate"
-            highlightOnHover="{{false}}"
-            itemData="{{itemData}}" />

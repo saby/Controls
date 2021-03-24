@@ -1,0 +1,4 @@
+<ws:partial template="wml!Controls/_tileNew/render/items/Default"
+            highlightOnHover="{{false}}"
+            scope="{{_options}}"
+            itemType="preview"/>

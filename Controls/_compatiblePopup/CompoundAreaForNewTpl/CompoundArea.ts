@@ -16,9 +16,12 @@ import {constants} from 'Env/Env';
 import {StackStrategy} from 'Controls/popupTemplate';
 import {load} from 'Core/library';
 import {Logger} from 'UI/Utils';
+import 'css!Controls/compatiblePopup';
+
 /**
  * Слой совместимости для открытия новых шаблонов в старых попапах
  * */
+// Наследование от CompoundControl
 const moduleClass = CompoundControl.extend({
    _dotTplFn: template,
    $protected: {
@@ -603,7 +606,6 @@ const moduleClass = CompoundControl.extend({
       }
    }
 });
-moduleClass._theme = ['Controls/compatiblePopup'];
 
 moduleClass.dimensions = {
    resizable: false

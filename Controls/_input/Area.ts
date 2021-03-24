@@ -6,13 +6,14 @@ import {descriptor} from 'Types/entity';
 import {delay as runDelayed} from 'Types/function';
 
 import {IAreaOptions} from 'Controls/_input/interface/IArea';
-import Text from 'Controls/_input/Text';
+import {BaseText} from 'Controls/_input/BaseText';
 import {processKeydownEvent} from 'Controls/_input/resources/Util';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
 import template = require('wml!Controls/_input/Area/Area');
 import fieldTemplate = require('wml!Controls/_input/Area/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Area/ReadOnly');
 import 'Controls/decorator';
+import 'css!Controls/input';
 
 /**
  * Многострочное поле ввода текста.
@@ -26,9 +27,12 @@ import 'Controls/decorator';
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_input.less переменные тем оформления}
  *
  * @class Controls/_input/Area
- * @extends Controls/input:Text
+ * @extends Controls/input:BaseText
  * @mixes Controls/input:INewLineKey
  * @mixes Controls/_input/interface/IArea
+ * @implements Controls/interface:IFontSize
+ * @implements Controls/input:IValue
+ * @implements Controls/input:IInputPlaceholder
  * @public
  *
  * @demo Controls-demo/Input/Area/MinMaxLines/Index
@@ -41,7 +45,7 @@ import 'Controls/decorator';
  * @demo Controls-demo/Input/Area/TextAlign/Index
  */
 
-export default class Area extends Text<IAreaOptions> {
+export default class Area extends BaseText<IAreaOptions> {
     protected _template: TemplateFunction = template;
 
     protected _multiline: boolean = true;
@@ -147,7 +151,7 @@ export default class Area extends Text<IAreaOptions> {
 
         // По другому до scrollTop не достучаться.
         // https://online.sbis.ru/opendoc.html?guid=e1770341-9126-4480-8798-45b5c339a294
-        const beginningVisibleArea = scroll._children.content.scrollTop;
+        const beginningVisibleArea = scroll.getScrollTop();
 
         const endingVisibleArea = beginningVisibleArea + sizeVisibleArea;
 
@@ -295,10 +299,8 @@ export default class Area extends Text<IAreaOptions> {
         }
     }
 
-    static _theme: string[] = Text._theme.concat(['Controls/input']);
-
     static getDefaultOptions(): object {
-        const defaultOptions = Text.getDefaultOptions();
+        const defaultOptions = BaseText.getDefaultOptions();
 
         defaultOptions.minLines = 1;
         defaultOptions.newLineKey = 'enter';
@@ -309,7 +311,7 @@ export default class Area extends Text<IAreaOptions> {
     }
 
     static getOptionTypes(): object {
-        const optionTypes = Text.getOptionTypes();
+        const optionTypes = BaseText.getOptionTypes();
 
         optionTypes.minLines = descriptor(Number, null);
         optionTypes.maxLines = descriptor(Number, null);
@@ -321,3 +323,12 @@ export default class Area extends Text<IAreaOptions> {
         return optionTypes;
     }
 }
+
+Object.defineProperty(Area, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return Area.getDefaultOptions();
+   }
+});

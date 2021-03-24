@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { Model as EntityModel } from 'Types/entity';
 import Collection from './Collection';
 import Row from './Row';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/interface';
 import { TColspanCallbackResult, TResultsColspanCallback } from './mixins/Grid';
 import ResultsCell from './ResultsCell';
 import Cell from './Cell';
@@ -22,12 +22,8 @@ export default class ResultsRow<T> extends Row<T> {
     protected _$resultsTemplate: TemplateFunction;
     protected _$resultsColspanCallback: TResultsColspanCallback;
 
-    constructor(options?: IOptions<T>) {
-        super(options);
-    }
-
     getContents(): T {
-        return 'results' as unknown as T
+        return 'results' as unknown as T;
     }
 
     isSticked(): boolean {
@@ -35,7 +31,7 @@ export default class ResultsRow<T> extends Row<T> {
     }
 
     getItemClasses(): string {
-        return `controls-Grid__results`;
+        return 'controls-Grid__results';
     }
 
     getMetaResults(): EntityModel {
@@ -44,7 +40,11 @@ export default class ResultsRow<T> extends Row<T> {
 
     setMetaResults(metaResults: EntityModel): void {
         this._$metaResults = metaResults;
-        this._$columnItems.forEach((c) => (c as ResultsCell<T>).setMetaResults(metaResults));
+        this._$columnItems.forEach((c) => {
+            if (c['[Controls/_display/grid/ResultsCell]']) {
+                (c as ResultsCell<T>).setMetaResults(metaResults);
+            }
+        });
         this._nextVersion();
     }
 

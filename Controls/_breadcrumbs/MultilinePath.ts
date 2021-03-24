@@ -11,6 +11,7 @@ import {Record, Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
 import {Logger} from 'UI/Utils';
+import 'css!Controls/breadcrumbs';
 
 //TODO удалить, когда появится возможность находить значение ширины иконок и отступов.
 const ARROW_WIDTH = 16;
@@ -134,5 +135,14 @@ class MultilinePath extends Control<IMultilinePathOptions, IReceivedState> imple
 
     static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
+
+Object.defineProperty(MultilinePath, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return MultilinePath.getDefaultOptions();
+   }
+});
 
 export default MultilinePath;

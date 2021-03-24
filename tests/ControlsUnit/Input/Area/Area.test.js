@@ -44,7 +44,6 @@ define(
                it('Insert in the text field "Hi https://www.google.ru/"', function() {
                   ctrl._readOnlyField.scope.value = 'Hi https://www.google.ru/';
                   ctrl._readOnlyField.scope.options = {
-                     theme: 'default',
                      horizontalPadding: 'xs'
                   };
 

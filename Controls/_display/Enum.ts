@@ -14,10 +14,6 @@ interface IOptions<S, T> extends ICollectionOptions<S, T> {
     collection: IEnumCollection<S>;
 }
 
-function onSourceChange(event: EventObject, index: number): void {
-    this.setCurrentPosition(this.getIndexBySourceIndex(index));
-}
-
 /**
  * Проекция для типа "Перечисляемое".
  * @class Controls/_display/Enum
@@ -27,11 +23,6 @@ function onSourceChange(event: EventObject, index: number): void {
  */
 export default class Enum<S, T extends CollectionItem<S> = CollectionItem<S>> extends Collection<S, T> {
     protected _$collection: IEnumCollection<S>;
-
-    /**
-     * Обработчик события об изменении текущего индекса Enum
-     */
-    protected _onSourceChange: Function;
 
     constructor(options?: IOptions<S, T>) {
         super(options);
@@ -43,42 +34,10 @@ export default class Enum<S, T extends CollectionItem<S> = CollectionItem<S>> ex
         this._getCursorEnumerator().setPosition(
             this.getIndexBySourceIndex(this._$collection.get() as number)
         );
-
-        if (this._$collection['[Types/_entity/ObservableMixin]']) {
-            (this._$collection as ObservableMixin).subscribe('onChange', this._onSourceChange);
-        }
-    }
-
-    destroy(): void {
-        if (this._$collection['[Types/_entity/DestroyableMixin]'] &&
-            this._$collection['[Types/_entity/ObservableMixin]'] &&
-            !(this._$collection as DestroyableMixin).destroyed
-        ) {
-            (this._$collection as ObservableMixin).unsubscribe('onChange', this._onSourceChange);
-        }
-
-        super.destroy();
     }
 
     protected _bindHandlers(): void {
         super._bindHandlers();
-
-        this._onSourceChange = onSourceChange.bind(this);
-    }
-
-    protected _notifyCurrentChange(
-        newCurrent: T,
-        oldCurrent: T,
-        newPosition: number,
-        oldPosition: number
-    ): void {
-        let value = null;
-        if (newPosition > -1) {
-            value = this.getSourceIndexByIndex(newPosition);
-        }
-        this._$collection.set(value);
-
-        super._notifyCurrentChange(newCurrent, oldCurrent, newPosition, oldPosition);
     }
 
     protected _getSourceIndex(index: number): number {

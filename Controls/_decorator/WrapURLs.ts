@@ -2,6 +2,7 @@ import {descriptor} from 'Types/entity';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // @ts-ignore
 import * as template from 'wml!Controls/_decorator/WrapURLs/WrapURLs';
+import 'css!Controls/CommonClasses';
 
 /**
  * Интерфейс для опций контрола {@link Controls/decorator:WrapURLs}.
@@ -189,8 +190,6 @@ class WrapURLs extends Control<IWrapURLsOptions, void> {
         return parsedText;
     }
 
-    static _theme: string[] = ['Controls/application'];
-
     static getOptionTypes() {
         return {
             newTab: descriptor(Boolean),
@@ -204,5 +203,14 @@ class WrapURLs extends Control<IWrapURLsOptions, void> {
         };
     }
 }
+
+Object.defineProperty(WrapURLs, 'defaultProps', {
+   enumerable: true,
+   configurable: true,
+
+   get(): object {
+      return WrapURLs.getDefaultOptions();
+   }
+});
 
 export default WrapURLs;

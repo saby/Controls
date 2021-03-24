@@ -1,6 +1,0 @@
-<ws:for data="item in collection">
-   <ws:partial
-      template="wml!Controls-demo/List/Display/DisplayList/resources/itemTemplateWrapper"
-      item="{{ item }}"
-      attr:key="{{ keyPrefix }}-{{ item.getUid() }}" />
-</ws:for>
