@@ -22,7 +22,7 @@ export default class extends Control {
     // tslint:disable-next-line
     protected _beforeBeginEdit(e: SyntheticEvent<null>, {item}: {item: Model}, isAdd: boolean): Promise<any> | string {
         if (item.get('id') === 1) {
-            return constEditing.CANCEL;
+            return 'GOTOPREV';
         }
         // tslint:disable-next-line
         if (item.get('id') === 2) {
