@@ -496,9 +496,9 @@ define('Controls/Application',
           */
          _orientationChange: function() {
             document.documentElement.style.height = 'initial';
-            setTimeout(() => {
+            setTimeout(function() {
                document.documentElement.style.height = '100%';
-               setTimeout(() => {
+               setTimeout(function () {
                   // this line prevents the content
                   // from hiding behind the address bar
                   window.scrollTo(0, 1);
