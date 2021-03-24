@@ -33,7 +33,8 @@ define([
                height: 10,
                resetSticky: sinon.fake(),
                restoreSticky: sinon.fake(),
-               updateShadowVisibility: sinon.fake()
+               updateShadowVisibility: sinon.fake(),
+               offsetTop: 0
             }
          };
       },
@@ -59,7 +60,8 @@ define([
                height: 10,
                resetSticky: sinon.fake(),
                restoreSticky: sinon.fake(),
-               updateShadowVisibility: sinon.fake()
+               updateShadowVisibility: sinon.fake(),
+               offsetTop: 0
             },
             container: {
                getBoundingClientRect() {
