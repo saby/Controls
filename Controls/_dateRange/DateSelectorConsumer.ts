@@ -30,7 +30,6 @@ import DateRangeSelectorConsumer from 'Controls/_dateRange/_DateRangeSelectorCon
 
 export default class DateSelectorConsumer extends Control {
     protected _template: TemplateFunction = template;
-    protected _register: Function;
     protected _children: {
         dateRange: DateSelector
         consumer: DateRangeSelectorConsumer
