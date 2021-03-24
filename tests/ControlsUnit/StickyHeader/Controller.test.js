@@ -11,6 +11,8 @@ define([
 ) {
    'use strict';
 
+   const SHADOW_VISIBILITY_BY_CONTROLLER = StickyHeaderUtils.SHADOW_VISIBILITY_BY_CONTROLLER;
+
    const
       getRegisterObject = function(cfg) {
          const container = {
@@ -33,7 +35,8 @@ define([
                height: 10,
                resetSticky: sinon.fake(),
                restoreSticky: sinon.fake(),
-               updateShadowVisibility: sinon.fake()
+               updateShadowVisibility: sinon.fake(),
+               offsetTop: 0
             }
          };
       },
@@ -59,7 +62,8 @@ define([
                height: 10,
                resetSticky: sinon.fake(),
                restoreSticky: sinon.fake(),
-               updateShadowVisibility: sinon.fake()
+               updateShadowVisibility: sinon.fake(),
+               offsetTop: 0
             },
             container: {
                getBoundingClientRect() {
@@ -776,17 +780,34 @@ define([
 
          [{
             _headersStack: ['header0', 'header1', 'header2'],
-            resp: [true, false, true]
+            resp: [
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+               SHADOW_VISIBILITY_BY_CONTROLLER.hidden,
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto
+            ]
          }, {
             _headersStack: ['header1', 'header2', 'header0'],
-            resp: [true, false, true]
+            resp: [
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+               SHADOW_VISIBILITY_BY_CONTROLLER.hidden,
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto
+            ]
          }, {
             _headersStack: ['header2', 'header0', 'header1'],
-            resp: [true, true, true]
+            resp: [
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto
+            ]
          }, {
             _headersStack: ['header0', 'header1', 'header2', 'header3'],
             fixedHeadersStack: ['header0', 'header1', 'header2', 'header3'],
-            resp: [true, false, true, true]
+            resp: [
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+               SHADOW_VISIBILITY_BY_CONTROLLER.hidden,
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto
+            ]
          }].forEach((test, index) => {
             it('test ' + index, () => {
                component._isShadowVisible = { top: true, bottom: true };

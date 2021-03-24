@@ -9,6 +9,8 @@ import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDi
 import ItemActionsCell from './ItemActionsCell';
 import {IColumn} from 'Controls/interface';
 import { Model } from 'Types/entity';
+import {TColspanCallbackResult} from 'Controls/_gridNew/display/mixins/Grid';
+import {IColumn} from "../../_grid/interface/IColumn";
 
 export interface IOptions<T> extends IRowOptions<T>, IDisplaySearchValueOptions {
 }
@@ -57,7 +59,8 @@ export default class DataRow<T extends Model> extends Row<T> implements
         return {
             ...super._getColumnFactoryParams(column, columnIndex),
             searchValue: this._$searchValue,
-            backgroundStyle: this._$backgroundStyle
+            backgroundStyle: this._$backgroundStyle,
+            itemEditorTemplate: this._$owner.getItemEditorTemplate()
         };
     }
 
@@ -75,6 +78,17 @@ export default class DataRow<T extends Model> extends Row<T> implements
 
     getSearchValue(): string {
         return this._$searchValue;
+    }
+
+    protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
+        // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
+        //  Первая ячейка редактируемой строки растягивается, а ее шаблон заменяется на
+        //  itemEditorTemplate (обычная колонка с прикладным контентом).
+        //  Избавиться по https://online.sbis.ru/opendoc.html?guid=80420a0d-1f45-4acb-8feb-281bf1007821
+        if (this.isEditing() && this._$owner.getItemEditorTemplate()) {
+            return 'end';
+        }
+        return super._getColspan(column, columnIndex);
     }
 
     setEditing(editing: boolean, editingContents?: T, silent?: boolean, columnIndex?: number): void {
