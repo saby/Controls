@@ -554,10 +554,13 @@ class StickyHeaderController {
                 // расчеты не сойдутся. Делайем это только если headerOffset не равен нулю, т.е. после первой итерации.
                 headerOffset -= Math.abs(1 - StickyHeader.getDevicePixelRatio());
             }
+
+            headerOffset += headerInst.offsetTop;
+
             if (headersHeight === headerOffset) {
                 this._headers[headerId].fixedInitially = true;
             }
-            headersHeight += headerInst.height;
+            headersHeight += headerInst.height + headerInst.offsetTop;
         }
     }
 
