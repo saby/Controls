@@ -25,6 +25,7 @@
                                 keyProperty="{{_options.keyProperty}}"
                                 items="{{_visibleItems}}"
                                 style="{{_options.style}}"
+                                borderVisible="{{_options.borderVisible}}"
                                 inlineHeight="{{_options.inlineHeight}}"
                                 markerThickness="{{ _options.markerThickness }}"
                                 displayProperty="{{_options.displayProperty}}"
