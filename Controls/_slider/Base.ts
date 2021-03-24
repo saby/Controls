@@ -134,9 +134,9 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
          this._intervals = Utils.convertIntervals(options.intervals, options.minValue, options.maxValue);
       }
       if (this._options.hasOwnProperty('value')) {
-         this._value = options.value === undefined ? options.maxValue : options.value;
+         this._value = options.value === undefined ? options.maxValue : Math.min(options.maxValue, options.value);
       } else {
-         this._value = this._value > options.maxValue ? options.maxValue : this._value;
+         this._value = Math.min(this._value, options.maxValue);
       }
       this._tooltipPosition = constants.browser.isMobilePlatform ? this._value : this._tooltipPosition;
       this._render(options.minValue, options.maxValue, this._value);
