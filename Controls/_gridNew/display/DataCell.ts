@@ -46,6 +46,10 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
     }
 
     getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+        // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
+        //  Первая ячейка редактируемой строки растягивается, а ее шаблон заменяется на
+        //  itemEditorTemplate (обычная колонка с прикладным контентом).
+        //  Избавиться по https://online.sbis.ru/opendoc.html?guid=80420a0d-1f45-4acb-8feb-281bf1007821
         if (this.isEditing() && this._$itemEditorTemplate) {
             return this._$itemEditorTemplate;
         }
