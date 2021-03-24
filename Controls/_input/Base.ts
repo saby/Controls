@@ -387,6 +387,8 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         let padding;
         if (options.horizontalPadding) {
             padding = options.horizontalPadding;
+        } else if (options.contrastBackground !== false) {
+            padding = 'xs';
         } else {
             padding = 'null';
         }
