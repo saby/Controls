@@ -363,6 +363,8 @@
   "--selected_text-color_tumbler": "var(--text_color)",
   "--unselected_text-color_tumbler": "var(--label_text-color)",
   "--selected_background-color_tumbler": "var(--background-color)",
+  "--counter_offset_tumbler": "4px",
+  "--counter_text-color_tumbler": "var(--primary_text-color)",
   "--box-shadow_closeButton_toolButton": "var(--box-shadow_button_toolButton)",
   "--background-color_closeButton_toolButton": "var(--background-color_button_toolButton)",
   "--background-color_hover_closeButton_toolButton": "var(--background-color_hover_button_toolButton)",
