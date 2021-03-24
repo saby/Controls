@@ -31,8 +31,8 @@
   --icon-size_dateRangeRelationButton:                  var(--icon-size_s);
 
   // Смещаем на расстояние высоты эл-та со стрелкой + расстояние от верха текста эл-та с годом до начала этого блока
-  // и так же учитываем такое же расстояние у вызывающего эл-та, см.комментарий у метода _getFontSizeClass
-  --shift-top_fontSize-m_PeriodDialog-selector:         calc(-1 * (var(--annually_header_height_shortDatePicker) + ((var(--item_height_shortDatePicker) - var(--item_font-size_shortDatePicker)) / 2) - ((var(--height_rangeShortSelectorLink) - var(--font-size_m)) / 2)));
-  --shift-top_fontSize-s_PeriodDialog-selector:         calc(var(--shift-top_fontSize-m_PeriodDialog-selector) - 1);
-  --shift-top_fontSize-l_PeriodDialog-selector:         calc(var(--shift-top_fontSize-m_PeriodDialog-selector) + 1);
+  // и так же учитываем такое же расстояние у вызывающего эл-та.
+  --shift-top_fontSize-s_PeriodDialog-selector:         calc(-1 * (var(--annually_header_height_shortDatePicker) + var(--item_layout_line-height_shortDatePicker) / 2 - (var(--height_rangeShortSelectorLink) - var(--item_font-size_shortDatePicker))));
+  --shift-top_fontSize-m_PeriodDialog-selector:         calc(var(--shift-top_fontSize-s_PeriodDialog-selector) + 1px);
+  --shift-top_fontSize-l_PeriodDialog-selector:         calc(var(--shift-top_fontSize-m_PeriodDialog-selector) + 1px);
 }

@@ -154,9 +154,9 @@
 
 .controls-PeriodDialog-MonthsRange__halfYear-hovered {
    &:before {
-      top: -var(--yearlist_item_border-thickness_datePicker);
+      top: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
       left: calc(var(--yearlist_halfyears_width_datePicker) + var(--yearlist_block-separator_thickness_datePicker));
-      right: -var(--yearlist_item_border-thickness_datePicker);
+      right: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
       border: solid var(--yearlist_item_border-thickness_datePicker) var(--yearlist_halfyears_hover_border-color_datePicker);
    }
 }
@@ -181,8 +181,8 @@
 
 .controls-PeriodDialog-MonthsRange__quarter-hovered {
    &:before {
-      top: -var(--yearlist_item_border-thickness_datePicker);
-      left: -var(--yearlist_item_border-thickness_datePicker);
+      top: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
+      left: calc(-1 * var(--yearlist_item_border-thickness_datePicker));
       border: solid var(--yearlist_item_border-thickness_datePicker) var(--yearlist_quarters_hover_border-color_datePicker);
    }
 }
