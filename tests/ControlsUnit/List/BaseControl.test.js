@@ -6679,6 +6679,12 @@ define([
 
              baseControl._showContinueSearchButtonDirection = true;
              assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+
+             baseControl._showContinueSearchButtonDirection = false;
+             baseControl._portionedSearch = {
+                isAborted: () => true
+             };
+             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
           });
 
           it('attachToNull, onCollectionChanged', () => {
