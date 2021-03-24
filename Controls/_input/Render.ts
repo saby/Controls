@@ -182,7 +182,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
     }
 
     protected _beforeUpdate(options: IRenderOptions): void {
-        if (options.borderVisibility !== this._options.borderVisibility) {
+        if (options.borderVisibility !== this._options.borderVisibility || options.border !== this._options.border) {
             if (options.border) {
                 this._border = options.border;
             } else {

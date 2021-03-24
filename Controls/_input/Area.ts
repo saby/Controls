@@ -15,6 +15,7 @@ import readOnlyFieldTemplate = require('wml!Controls/_input/Area/ReadOnly');
 import 'Controls/decorator';
 import 'css!Controls/input';
 import {IBorder} from 'Controls/_input/Render';
+import {getDefaultBorderVisibilityOptions} from './interface/IBorderVisibility';
 
 /**
  * Многострочное поле ввода текста.
@@ -332,7 +333,7 @@ export default class Area extends BaseText<IAreaOptions> {
     }
 
     static getDefaultOptions(): object {
-        const defaultOptions = BaseText.getDefaultOptions();
+        const defaultOptions = {...BaseText.getDefaultOptions(), ...getDefaultBorderVisibilityOptions()};
 
         defaultOptions.minLines = 1;
         defaultOptions.newLineKey = 'enter';
