@@ -24,7 +24,7 @@
       <div class="controls-TileView__richTemplate_title
                   {{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
                   controls-TileView__richTemplate_title_theme-{{theme}}
-                  controls-fontsize-{{itemData.dispItem.isNode() ? '4xl' : 'xl'}}_theme-{{theme}}
+                  controls-fontsize-{{itemData.dispItem.isNode() ? '3xl' : 'xl'}}_theme-{{theme}}
                   controls-text-{{titleColorStyle || 'default'}}_theme-{{theme}}
                   controls-fontweight-bold"
            title="{{itemData.item[itemData.displayProperty]}}"
