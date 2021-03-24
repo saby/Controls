@@ -5,7 +5,7 @@ import * as ListTemplate from 'wml!Controls/_filterPanel/Editors/List';
 import * as ColumnTemplate from 'wml!Controls/_filterPanel/Editors/resources/ColumnTemplate';
 import * as AdditionalColumnTemplate from 'wml!Controls/_filterPanel/Editors/resources/AdditionalColumnTemplate';
 import * as CircleTemplate from 'wml!Controls/_filterPanel/Editors/resources/CircleTemplate';
-import {StackOpener} from 'Controls/popup';
+import {StackOpener, DialogOpener} from 'Controls/popup';
 import {Model} from 'Types/entity';
 import {IFilterOptions, ISourceOptions, INavigationOptions, IItemActionsOptions, ISelectorDialogOptions} from 'Controls/interface';
 import {IList} from 'Controls/list';
@@ -65,7 +65,7 @@ class ListEditor extends Control<IListEditorOptions> {
     protected _template: TemplateFunction = ListTemplate;
     protected _circleTemplate: TemplateFunction = CircleTemplate;
     protected _columns: object[] = null;
-    protected _stackOpener: StackOpener = null;
+    protected _popupOpener: StackOpener|DialogOpener = null;
     protected _items: RecordSet = null;
     protected _selectedKeys: string[]|number[] = [];
     protected _filter: object = {};
@@ -124,7 +124,7 @@ class ListEditor extends Control<IListEditorOptions> {
 
     protected _handleFooterClick(event: SyntheticEvent): void {
         const selectorOptions = this._options.selectorTemplate;
-        this._getStackOpener().open({
+        this._getPopupOpener(selectorOptions.mode).open({
             ...{
                 opener: this,
                 templateOptions: {
@@ -172,8 +172,8 @@ class ListEditor extends Control<IListEditorOptions> {
     }
 
     protected _beforeUnmount(): void {
-        if (this._stackOpener) {
-            this._stackOpener.destroy();
+        if (this._popupOpener) {
+            this._popupOpener.destroy();
         }
     }
 
@@ -210,11 +210,11 @@ class ListEditor extends Control<IListEditorOptions> {
         return textArray.join(', ');
     }
 
-    private _getStackOpener(): StackOpener {
-        if (!this._stackOpener) {
-            this._stackOpener = new StackOpener();
+    private _getPopupOpener(mode?: string): StackOpener|DialogOpener {
+        if (!this._popupOpener) {
+            this._popupOpener = mode === 'dialog' ? new DialogOpener() : new StackOpener();
         }
-        return this._stackOpener;
+        return this._popupOpener;
     }
 
     static getDefaultOptions(): object {
