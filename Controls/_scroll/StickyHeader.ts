@@ -13,8 +13,9 @@ import {
     MODE,
     POSITION,
     SHADOW_VISIBILITY,
+    SHADOW_VISIBILITY_BY_CONTROLLER,
     validateIntersectionEntries
-} from 'Controls/_scroll/StickyHeader/Utils';
+} from './StickyHeader/Utils';
 import fastUpdate from './StickyHeader/FastUpdate';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
 import {IScrollState} from '../Utils/ScrollState';
@@ -100,7 +101,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     protected _isMobileIOS: boolean = detection.isMobileIOS;
 
     private _isFixed: boolean = false;
-    private _isShadowVisibleByController: boolean = true;
+    private _isShadowVisibleByController: { top: SHADOW_VISIBILITY_BY_CONTROLLER; bottom: SHADOW_VISIBILITY_BY_CONTROLLER; } = {
+        top: SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+        bottom: SHADOW_VISIBILITY_BY_CONTROLLER.auto
+    };
     private _stickyHeadersHeight: IOffset = {
         top: null,
         bottom: null
@@ -689,9 +693,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         this._isBottomShadowVisible = this._isShadowVisible(POSITION.bottom, mode, shadowVisibility);
     }
 
-    protected updateShadowVisibility(isVisible: boolean): void {
-        if (this._isShadowVisibleByController !== isVisible) {
-            this._isShadowVisibleByController = isVisible;
+    protected updateShadowVisibility(visibility: SHADOW_VISIBILITY_BY_CONTROLLER, position: POSITION): void {
+        if (this._isShadowVisibleByController[position] !== visibility) {
+            this._isShadowVisibleByController[position] = visibility;
             this._updateStylesIfCanScroll();
         }
     }
@@ -699,10 +703,14 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     protected _isShadowVisible(shadowPosition: POSITION, mode: MODE, shadowVisibility: SHADOW_VISIBILITY): boolean {
         //The shadow from above is shown if the element is fixed from below, from below if the element is fixed from above.
         const fixedPosition: POSITION = shadowPosition === POSITION.top ? POSITION.bottom : POSITION.top;
-        const shadowVisibility = this._options.shadowVisibility;
 
         if (this._initialShowShadow && this._options.position === fixedPosition) {
             return true;
+        }
+
+        if (this._isShadowVisibleByController[fixedPosition] !== SHADOW_VISIBILITY_BY_CONTROLLER.auto &&
+                this._model?.fixedPosition === fixedPosition) {
+            return this._isShadowVisibleByController[fixedPosition] === SHADOW_VISIBILITY_BY_CONTROLLER.visible;
         }
 
         const shadowEnabled: boolean = this._isShadowVisibleByScrollState(shadowPosition);
@@ -718,15 +726,11 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     private _isShadowVisibleByScrollState(shadowPosition: POSITION): boolean {
         const fixedPosition: POSITION = shadowPosition === POSITION.top ? POSITION.bottom : POSITION.top;
 
-        if (this._scrollState.hasUnrenderedContent[fixedPosition]) {
-            return true;
-        }
-
         const shadowVisible: boolean = !!(this._scrollState.verticalPosition &&
             (shadowPosition === POSITION.bottom && this._scrollState.verticalPosition !== SCROLL_POSITION.START ||
                 shadowPosition === POSITION.top && this._scrollState.verticalPosition !== SCROLL_POSITION.END));
 
-        return  this._isShadowVisibleByController && shadowVisible;
+        return  shadowVisible;
     }
 
     _updateComputedStyle(): void {

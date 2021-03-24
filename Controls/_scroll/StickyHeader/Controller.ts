@@ -1,5 +1,13 @@
 import {debounce} from 'Types/function';
-import {IFixedEventData, isHidden, POSITION, SHADOW_VISIBILITY, TRegisterEventData, TYPE_FIXED_HEADERS} from './Utils';
+import {
+    IFixedEventData,
+    isHidden,
+    POSITION,
+    SHADOW_VISIBILITY,
+    SHADOW_VISIBILITY_BY_CONTROLLER,
+    TRegisterEventData,
+    TYPE_FIXED_HEADERS
+} from './Utils';
 import StickyHeader from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
@@ -19,6 +27,10 @@ interface IHeightEntry {
 interface IStickyHeaderController {
     fixedCallback?: (position: string) => void;
     resizeCallback?: () => void;
+}
+
+function isLastVisibleModes(shadowVisibility: SHADOW_VISIBILITY): boolean {
+    return shadowVisibility === SHADOW_VISIBILITY.lastVisible || shadowVisibility === SHADOW_VISIBILITY.initial
 }
 
 class StickyHeaderController {
@@ -167,12 +179,29 @@ class StickyHeaderController {
             for (const headerId of headersStack) {
                 if (this._fixedHeadersStack[position].includes(headerId)) {
                     const header: TRegisterEventData = this._headers[headerId];
-                    let visibility: boolean = this._isShadowVisible[position];
-                    if (header.inst.shadowVisibility === SHADOW_VISIBILITY.lastVisible ||
-                        header.inst.shadowVisibility === SHADOW_VISIBILITY.initial) {
-                        visibility = visibility && (headerId === lastHeaderId);
+                    let visibility: SHADOW_VISIBILITY_BY_CONTROLLER = SHADOW_VISIBILITY_BY_CONTROLLER.auto;
+
+                    if (header.inst.shadowVisibility !== SHADOW_VISIBILITY.hidden) {
+                        if (this._isShadowVisible[position]) {
+                            // Если снаружи включили отбражать тени всегда, то для заголовков сконфигурированных
+                            // отображать тень только у последнего, принудительно отключим тени на всех заголовках
+                            // кроме последнего, а на последнем принудительно включим.
+                            if (isLastVisibleModes(header.inst.shadowVisibility)) {
+                                visibility = headerId === lastHeaderId ?
+                                    SHADOW_VISIBILITY_BY_CONTROLLER.visible : SHADOW_VISIBILITY_BY_CONTROLLER.hidden;
+                            } else {
+                                visibility = SHADOW_VISIBILITY_BY_CONTROLLER.visible;
+                            }
+                        } else {
+                            // Принудительно отключим тени у всех заголовков кроме последнего если они сконфигурированы
+                            // отображать тень только у последнего.
+                            if (isLastVisibleModes(header.inst.shadowVisibility) && (headerId !== lastHeaderId)) {
+                                visibility = SHADOW_VISIBILITY_BY_CONTROLLER.hidden;
+                            }
+                        }
                     }
-                    header.inst.updateShadowVisibility(visibility);
+
+                    header.inst.updateShadowVisibility(visibility, position);
                 }
             }
         }
