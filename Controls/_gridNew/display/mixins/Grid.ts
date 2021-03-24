@@ -316,6 +316,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         });
     }
 
+    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+    getLadderProperties(): string[] {
+        return this._$ladderProperties;
+    }
+
     protected _initializeEmptyRow(): void {
         this._$emptyGridRow = new EmptyRow<S>({
             owner: this,
