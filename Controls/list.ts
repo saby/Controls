@@ -148,7 +148,9 @@ const editing = {
     /*
      * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
      */
-    CANCEL: 'Cancel'
+    CANCEL: 'Cancel',
+    GOTONEXT: 'GoToNext',
+    GOTOPREV: 'GoToPrev'
 };
 
 import {groupConstants} from './display';

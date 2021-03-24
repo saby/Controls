@@ -24,7 +24,7 @@ define('Controls/interface/IEditableList', [
 
    /**
     * @typedef {Object} Controls/interface/IEditableList/ItemEditOptions
-    * @property {Types/entity:Model} [options.item] Запись списка, которая будет запущена на редактирование.
+    * @property {Types/entity:Model} [item] Запись списка, которая будет запущена на редактирование.
     * Если из обработчика события {@link beforeBeginEdit} также будет возвращена запись, то именно она будет запущена на редактирование вместо первоначальной.
     */
 
@@ -91,7 +91,9 @@ define('Controls/interface/IEditableList', [
    /**
     * @typedef {String|Types/entity:Model|Core/Deferred} ItemEditResult
     * @description Значения, которые можно возвращать из обработчика события {@link beforeBeginEdit}.
-    * @variant cancel Отменить редактирование/добавление по месту.
+    * @variant Сancel Отменить редактирование/добавление по месту.
+    * @variant GoToNext Пропустить запуск редактирования и незамедлительно попробовать начать редактирование следующей записи. Доступна только при запуске редактирования, добавление не поддерживает данную функцию.
+    * @variant GoToPrev Пропустить запуск редактирования и незамедлительно попробовать начать редактирование предыдущей записи. Доступна только при запуске редактирования, добавление не поддерживает данную функцию.
     * @variant options Параметры редактирования/добавление по месту.
     * @variant Promise Используется для асинхронной подготовки редактируемого элемента. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/#before-begin-edit здесь}.
     */
@@ -516,7 +518,7 @@ define('Controls/interface/IEditableList', [
     * Перед запуском редактирования по месту происходит событие {@link beforeBeginEdit}, а после запуска — {@link afterBeginEdit}.
     *
     * Используйте этот метод в ситуациях, когда вы хотите начать редактирование из нестандартного места, например, из {@link /doc/platform/developmentapl/interface-development/controls/list/actions/operations/ панели действий элемента}.
-    * 
+    *
     * Формат полей редактируемой записи может отличаться от формата полей Types/Collection:RecordSet, отображаемый списком. Подробнее читайтет {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/code/#begin-edit-format здесь}.
     * @example
     * В следующем примере показано, как начать редактирование элемента.
@@ -630,7 +632,7 @@ define('Controls/interface/IEditableList', [
     * @returns {Promise}
     * @remark
     * Используйте этот метод, когда вы хотите завершить редактирование в ответ на действие пользователя, например, когда пользователь пытается закрыть диалоговое окно, используйте этот метод для сохранения изменений.
-    * 
+    *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.
     * @example
     * В следующем примере показано, как завершить редактирование и сохранить изменения.
@@ -678,7 +680,7 @@ define('Controls/interface/IEditableList', [
     * @returns {Promise}
     * @remark
     * Используйте этот метод, когда вы хотите завершить редактирование или добавление в ответ на действия пользователя, например, когда пользователь нажимает на кнопку "Отмена".
-    * 
+    *
     * При завершении редактирования по месту происходят события, подробнее о которых читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/ здесь}.
     * @example
     * В следующем примере показано, как завершить редактирование и отменить изменения.
