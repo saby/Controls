@@ -187,7 +187,7 @@ export interface IBaseOpener {
 
 /**
  * @name Controls/_popup/interface/IBaseOpener#template
- * @cfg {String|TemplateFunction} Шаблон всплывающего окна
+ * @cfg {String} Шаблон всплывающего окна
  */
 
 /**
