@@ -187,7 +187,9 @@ export interface IBaseOpener {
 
 /**
  * @name Controls/_popup/interface/IBaseOpener#template
- * @cfg {String} Шаблон всплывающего окна
+ * @cfg {String} Опция принимает строку, в которой содержится имя открываемого шаблона.
+ * @remark
+ * Шаблон задается строкой для того чтобы загружаться лениво при открытии окна.
  */
 
 /**
