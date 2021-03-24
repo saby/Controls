@@ -1,4 +1,4 @@
-<div class="controls-MonthViewVDOM__item controls-MonthView__weekdays-item controls-MonthView__weekdays-item
+<div class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item_style-{{ sizeStyle ? sizeStyle : 'default' }} controls-MonthView__weekdays-item controls-MonthView__weekdays-item
             {{newMode !== true? 'controls-MonthViewVDOM__item-old'}}">
     {{ value.caption }}
 </div>

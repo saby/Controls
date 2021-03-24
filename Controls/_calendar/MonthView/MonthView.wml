@@ -18,6 +18,7 @@
                        newMode="{{_options.newMode}}"
                        template="{{_options.dayHeaderTemplate}}"
                        value="{{value}}"
+                       sizeStyle="{{ _options.sizeStyle }}"
                />
             </ws:for>
          </div>
