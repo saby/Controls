@@ -7,6 +7,7 @@
       fontStyle="{{_options.fontStyle}}"
       fontSize="{{_options.fontSize}}"
       fontWeight="{{_options.fontWeight}}"
+      horizontalPadding="{{_options.horizontalPadding}}"
       fontColorStyle="{{_options.fontColorStyle}}"
       borderStyle="{{_options.borderStyle}}"
       borderVisibility="{{_options.borderVisibility}}"
