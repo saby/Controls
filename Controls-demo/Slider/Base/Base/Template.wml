@@ -1,4 +1,10 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
+    <div class="controls-text-label_theme-{{_options.theme}}">slider</div>
+    <Controls.slider:Base
+            maxValue="{{100}}"
+            minValue="{{0}}"
+            bind:value="_value"
+    />
     <div class="controls-text-label_theme-{{_options.theme}}">default slider</div>
     <Controls.slider:Base
             maxValue="{{100}}"

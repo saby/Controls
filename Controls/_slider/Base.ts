@@ -102,11 +102,10 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
 
    private _setValue(val: number): void {
       if (this._value !== val) {
-         if(this._options.hasOwnProperty('value')){
+         if (this._options.hasOwnProperty('value')) {
             this._notify('valueChanged', [val]);
-         }else{
+         } else {
             this._value = val;
-            this._lineData = { position: 0, width: val };
          }   
       }
    }
@@ -134,9 +133,11 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
       if (this._options.intervals !== options.intervals) {
          this._intervals = Utils.convertIntervals(options.intervals, options.minValue, options.maxValue);
       }
-      if(this._options.hasOwnProperty('value')){
+      if (this._options.hasOwnProperty('value')) {
          this._value = options.value === undefined ? options.maxValue : options.value;
-      } 
+      } else {
+         this._value = this._value > options.maxValue ? options.maxValue : this._value;
+      }
       this._tooltipPosition = constants.browser.isMobilePlatform ? this._value : this._tooltipPosition;
       this._render(options.minValue, options.maxValue, this._value);
       this._renderTooltip(options.minValue, options.maxValue, this._tooltipPosition);
