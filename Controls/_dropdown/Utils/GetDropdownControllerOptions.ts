@@ -45,6 +45,7 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         groupingKeyCallback: options.groupingKeyCallback,
         parentProperty: options.parentProperty,
         nodeProperty: options.nodeProperty,
+        sourceProperty: options.sourceProperty,
         headingCaption: options.headingCaption,
         headingIcon: options.headingIcon,
         headingIconSize: options.headingIconSize,
