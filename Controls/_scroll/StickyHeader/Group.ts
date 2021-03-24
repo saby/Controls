@@ -9,6 +9,7 @@ import {
     IFixedEventData,
     TRegisterEventData,
     getGapFixSize,
+    SHADOW_VISIBILITY_BY_CONTROLLER,
     MODE
 } from 'Controls/_scroll/StickyHeader/Utils';
 import template = require('wml!Controls/_scroll/StickyHeader/Group');
@@ -69,7 +70,10 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         bottom: 0
     };
     protected _isFixed: boolean = false;
-    protected _isShadowVisibleByController: boolean = true;
+    protected _isShadowVisibleByController: { top: SHADOW_VISIBILITY_BY_CONTROLLER; bottom: SHADOW_VISIBILITY_BY_CONTROLLER; } = {
+        top: SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+        bottom: SHADOW_VISIBILITY_BY_CONTROLLER.auto
+    };
 
     protected _headers: IHeadersMap = {};
     protected _isRegistry: boolean = false;
@@ -219,11 +223,11 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         }
     }
 
-    protected updateShadowVisibility(isVisible: boolean): void {
-        if (this._isShadowVisibleByController !== isVisible) {
-            this._isShadowVisibleByController = isVisible;
+    protected updateShadowVisibility(visibility: SHADOW_VISIBILITY_BY_CONTROLLER, position: POSITION): void {
+        if (this._isShadowVisibleByController[position] !== visibility) {
+            this._isShadowVisibleByController[position] = visibility;
             for (const id in this._headers) {
-                this._headers[id].inst.updateShadowVisibility(isVisible);
+                this._headers[id].inst.updateShadowVisibility(visibility, position);
             }
         }
     }
