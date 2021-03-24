@@ -33,4 +33,4 @@ class DateEditor extends Control<IEditorOptions> implements IEditor {
         this._value = newValue;
     }
 }
-export default DateEditor;
+export = DateEditor;
