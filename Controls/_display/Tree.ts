@@ -480,11 +480,25 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._$nodeProperty;
     }
 
+    setNodeProperty(nodeProperty: string): void {
+        if (this._$nodeProperty !== nodeProperty) {
+            this._$nodeProperty = nodeProperty;
+            this._nextVersion();
+        }
+    }
+
     /**
      * Возвращает название свойства, содержащего дочерние элементы узла
      */
     getChildrenProperty(): string {
         return this._$childrenProperty;
+    }
+
+    setChildrenProperty(childrenProperty: string): void {
+        if (this._$childrenProperty !== childrenProperty) {
+            this._$childrenProperty = childrenProperty;
+            this._nextVersion();
+        }
     }
 
     /**
@@ -934,7 +948,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region HasNodeWithChildren
 
-    private _recountHasNodeWithChildren(): void {
+    protected _recountHasNodeWithChildren(): void {
         if (!this.getCount()) {
             return;
         }
@@ -963,6 +977,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             });
             this._nextVersion();
         }
+    }
+
+    hasNodeWithChildren(): boolean {
+        return this._hasNodeWithChildren;
     }
 
     // endregion HasNodeWithChildren

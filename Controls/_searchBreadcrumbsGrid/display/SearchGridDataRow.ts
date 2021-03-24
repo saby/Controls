@@ -30,5 +30,6 @@ Object.assign(SearchGridDataRow.prototype, {
    '[Controls/searchBreadcrumbsGrid:SearchGridDataRow]': true,
    _cellModule: 'Controls/searchBreadcrumbsGrid:SearchGridDataCell',
    _moduleName: 'Controls/searchBreadcrumbsGrid:SearchGridDataRow',
-   _instancePrefix: 'search-grid-row-'
+   _instancePrefix: 'search-grid-row-',
+   _$hasNodeWithChildren: false
 });

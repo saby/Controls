@@ -334,15 +334,19 @@ describe('Controls/_display/Tree', () => {
         });
     });
 
-    describe('.getNodeProperty()', () => {
+    describe('.getNodeProperty(), .setNodeProperty()', () => {
         it('should return given value', () => {
             assert.equal(tree.getNodeProperty(), 'node');
+            tree.setNodeProperty('nodeProperty');
+            assert.equal(tree.getNodeProperty(), 'nodeProperty');
         });
     });
 
-    describe('.getChildrenProperty()', () => {
+    describe('.getChildrenProperty(), .setChildrenProperty()', () => {
         it('should return given value', () => {
             assert.strictEqual(tree.getChildrenProperty(), '');
+            tree.setChildrenProperty('childrenProperty');
+            assert.strictEqual(tree.getChildrenProperty(), 'childrenProperty');
         });
     });
 

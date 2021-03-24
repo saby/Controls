@@ -42,4 +42,11 @@ describe('Controls/_searchBreadcrumbsGrid/display/SearchGridCollection', () => {
          assert.instanceOf(item, SearchSeparatorRow);
       });
    });
+
+   describe('hasNodeWithChildren', () => {
+      it('always is false', () => {
+         assert.isNotOk(searchGridCollection.hasNodeWithChildren());
+         assert.isNotOk(searchGridCollection.at(1).hasNodeWithChildren());
+      });
+   });
 });

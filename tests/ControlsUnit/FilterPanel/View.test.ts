@@ -121,5 +121,21 @@ describe('Controls/filterPanel:View', () => {
             assert.equal(viewControl._source[0].textValue, 'No');
         });
 
+        it('without value and textValue', () => {
+            const editingObject = {
+                testName: []
+            };
+            viewControl._source = [
+                {
+                    name: 'testName',
+                    value: [1],
+                    resetValue: [2],
+                    textValue: ''
+                }
+            ];
+            viewControl._updateSource(editingObject);
+            assert.deepEqual(viewControl._source[0].value, []);
+        });
+
     });
 });

@@ -4046,6 +4046,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 // TODO удалить когда полностью откажемся от старой модели
                 //  Если Items были обновлены, то в старой модели переинициализировался display и этот параметр сбросился
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
+                this._updateScrollController(newOptions);
             }
 
             if (!this._options.sourceController) {
