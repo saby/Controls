@@ -11,7 +11,7 @@
  * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
  * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnum
  * @includes TimeIntervalEditor Controls/_propertyGrid/extendedEditors/TimeInterval
- * @includes DateEditor Controls/_propertyGrid/extendedEditors/Date
+ * @includes DateEditor Controls/_propertyGrid/defaultEditors/Date
  * @includes CheckboxGroupEditor Controls/_propertyGrid/extendedEditors/CheckboxGroup
  * @includes DropdownEditor Controls/_propertyGrid/extendedEditors/Dropdown
  * @includes IPropertyGrid Controls/propertyGrid:GroupTemplate
@@ -33,7 +33,7 @@
  * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
  * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnum
  * @includes TimeIntervalEditor Controls/_propertyGrid/extendedEditors/TimeInterval
- * @includes DateEditor Controls/_propertyGrid/extendedEditors/Date
+ * @includes DateEditor Controls/_propertyGrid/defaultEditors/Date
  * @includes CheckboxGroupEditor Controls/_propertyGrid/extendedEditors/CheckboxGroup
  * @includes DropdownEditor Controls/_propertyGrid/extendedEditors/Dropdown
  * @includes IPropertyGrid Controls/propertyGrid:GroupTemplate
@@ -55,7 +55,7 @@ import FlatEnumEditor = require("Controls/_propertyGrid/extendedEditors/FlatEnum
 import {default as DropdownEditor} from 'Controls/_propertyGrid/extendedEditors/Dropdown';
 import {default as CheckboxGroupEditor} from 'Controls/_propertyGrid/extendedEditors/CheckboxGroup';
 import {default as TimeIntervalEditor} from 'Controls/_propertyGrid/extendedEditors/TimeInterval';
-import {default as DateEditor} from 'Controls/_propertyGrid/extendedEditors/Date';
+import {default as DateEditor} from 'Controls/_propertyGrid/defaultEditors/Date';
 
 import IPropertyGrid = require("Controls/_propertyGrid/IPropertyGrid");
 import IEditor = require("Controls/_propertyGrid/IEditor");

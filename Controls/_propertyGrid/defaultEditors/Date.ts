@@ -2,13 +2,13 @@ import {Control, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import IEditor from 'Controls/_propertyGrid/IEditor';
 import IEditorOptions from 'Controls/_propertyGrid/IEditorOptions';
-import * as template from 'wml!Controls/_propertyGrid/extendedEditors/Date';
+import * as template from 'wml!Controls/_propertyGrid/defaultEditors/Date';
 
 /**
  * Редактор для данных с типом "дата".
- * @class Controls/_propertyGrid/extendedEditors/DateEditor
+ * @class Controls/_propertyGrid/defaultEditors/DateEditor
  * @extends UI/Base:Control
- * @author Журков И.С.
+ * @author Герасимов А.М.
  * @public
  */
 class DateEditor extends Control<IEditorOptions> implements IEditor {
