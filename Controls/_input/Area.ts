@@ -14,6 +14,7 @@ import fieldTemplate = require('wml!Controls/_input/Area/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Area/ReadOnly');
 import 'Controls/decorator';
 import 'css!Controls/input';
+import {IBorder} from 'Controls/_input/Render';
 
 /**
  * Многострочное поле ввода текста.
@@ -53,16 +54,18 @@ export default class Area extends BaseText<IAreaOptions> {
     protected _minLines: number;
     protected _maxLines: number;
     protected _controlName: string = 'Area';
+    protected _border: IBorder;
 
     protected _syncBeforeMount(options: IAreaOptions): void {
         super._syncBeforeMount(options);
         this._validateLines(options.minLines, options.maxLines);
     }
 
-    protected _afterMount(): void {
+    protected _afterMount(options: IAreaOptions): void {
         this._resizeObserver = new ResizeObserverUtil(
             this, this._resizeObserverCallback.bind(this));
         this._resizeObserver.observe(this._container);
+        this._border = this._detectToBorder(options);
     }
 
     protected _beforeUpdate(newOptions: IAreaOptions): void {
@@ -70,6 +73,9 @@ export default class Area extends BaseText<IAreaOptions> {
 
         if (this._options.minLines !== newOptions.minLines || this._options.maxLines !== newOptions.maxLines) {
             this._validateLines(newOptions.minLines, newOptions.maxLines);
+        }
+        if (this._options.borderVisibility !== newOptions.borderVisibility || this._options.minLines !== newOptions.minLines){
+            this._border = this._detectToBorder(newOptions);
         }
     }
 
@@ -296,6 +302,32 @@ export default class Area extends BaseText<IAreaOptions> {
          */
         if (detection.isMacOSDesktop || detection.chrome) {
             this._children.fakeField.innerText = this._viewModel.displayValue + this._field.scope.emptySymbol;
+        }
+    }
+
+    private _detectToBorder(options: IAreaOptions): IBorder {
+        switch (options.borderVisibility) {
+            case 'visible':
+                return {
+                    top: true,
+                    right: true,
+                    bottom: true,
+                    left: true
+                };
+            case 'partial':
+                return {
+                    top: options.minLines > 1,
+                    right: false,
+                    bottom: true,
+                    left: false
+                };
+            case 'hidden':
+                return {
+                    top: false,
+                    right: false,
+                    bottom: false,
+                    left: false
+                };
         }
     }
 
