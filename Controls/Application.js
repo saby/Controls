@@ -486,6 +486,24 @@ define('Controls/Application',
          _popupEventHandler: function(event, action) {
             var args = Array.prototype.slice.call(arguments, 2);
             this._popupManager.eventHandler.apply(this._popupManager, [action, args]);
+         },
+
+         /**
+          * Решение взято отсюда
+          * https://stackoverflow.com/questions/62717621/white-space-at-page-bottom-after-device-rotation-in-ios-safari
+          * @param event
+          * @private
+          */
+         _orientationChange: function() {
+            document.documentElement.style.height = 'initial';
+            setTimeout(() => {
+               document.documentElement.style.height = '100%';
+               setTimeout(() => {
+                  // this line prevents the content
+                  // from hiding behind the address bar
+                  window.scrollTo(0, 1);
+               }, 500);
+            }, 500);
          }
       });
 
