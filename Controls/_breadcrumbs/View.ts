@@ -11,6 +11,7 @@ import calculatedItemsTemplate = require('wml!Controls/_breadcrumbs/View/resourc
 import menuItemTemplate = require('wml!Controls/_breadcrumbs/resources/menuItemTemplate');
 import 'wml!Controls/_breadcrumbs/resources/menuContentTemplate';
 import {Record} from 'Types/entity';
+import 'css!Controls/breadcrumbs';
 
 const CRUMBS_COUNT = 2;
 const MIN_COUNT_OF_LETTER = 3;
@@ -113,7 +114,7 @@ class BreadCrumbsView extends Control<IControlOptions> {
             });
 
             if (!this._popupIsOpen) {
-                const templateClassName = `controls-BreadCrumbsController__menu_theme-${this._options.theme}`;
+                const templateClassName = 'controls-BreadCrumbsController__menu';
                 this._menuOpener.open({
                     template: 'Controls/menu:Popup',
                     opener: this,
@@ -171,7 +172,6 @@ class BreadCrumbsView extends Control<IControlOptions> {
             fontSize: 'xs'
         };
     }
-    static _theme: string[] = ['Controls/crumbs'];
     static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
 

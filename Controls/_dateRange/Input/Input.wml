@@ -33,7 +33,7 @@
          />
       </ws:if>
    </div>
-   <div class="controls-Input-DateRange__dash controls-Input-DateRange__dash_theme-{{_options.theme}}"></div>
+   <div class="controls-Input-DateRange__dash"></div>
    <div class="controls-Input-DateRange__inputs">
       <Controls.input:DateBase
               name="endValueField"
@@ -69,15 +69,13 @@
          />
       </ws:if>
    </div>
-   <span class="controls-Input-DateRange__buttonWrapper
-                controls-Input-DateRange__buttonWrapper_theme-{{_options.theme}}"
+   <span class="controls-Input-DateRange__buttonWrapper"
          attr:tabindex="-1"
          on:mousedown="openPopup()"
          on:mouseenter="_mouseEnterHandler()"
          on:mouseleave="_mouseLeaveHandler()">
       <svg class="controls-Input-DateRange__button
-                        controls-Input-DateRange__button_theme-{{_options.theme}}
-                        controls-icon_style-secondary_theme-{{_options.theme}}"
+                        controls-icon_style-secondary"
            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
            viewBox="0 0 21 21" style="enable-background:new 0 0 21 21;" xml:space="preserve">
          <g>

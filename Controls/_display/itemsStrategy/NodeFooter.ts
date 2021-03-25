@@ -192,7 +192,9 @@ export default class NodeFooter<S, T extends TreeItem<S> = TreeItem<S>> implemen
 
             let count = 0;
             items.forEach((item) => {
-                if (item.getLevel() > node.getLevel() && oneOfParentsIsEqualNode(item)) {
+                // TODO: Убрать в константу или определить getLevel для группы дерева
+                //  https://online.sbis.ru/opendoc.html?guid=ca34d365-26db-453d-b05a-eb6c708c59ee
+                if ((item['[Controls/_display/GroupItem]'] ? 1 : item.getLevel()) > node.getLevel() && oneOfParentsIsEqualNode(item)) {
                     count++;
                 }
             });

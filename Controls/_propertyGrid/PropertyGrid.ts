@@ -3,7 +3,7 @@ import * as template from 'wml!Controls/_propertyGrid/PropertyGrid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {GroupItem, CollectionItem} from 'Controls/display';
 import {RecordSet} from 'Types/collection';
-import {Model} from 'Types/entity';
+import {Model, Record as entityRecord} from 'Types/entity';
 import {factory} from 'Types/chain';
 import {object} from 'Types/util';
 import {default as renderTemplate} from 'Controls/_propertyGrid/Render';
@@ -169,22 +169,32 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
     }
 
     protected _updatePropertyValue(
-        editingObject: Record<string, any> | Model,
-        name: string, value: any
-    ): Record<string, any> | Model {
-        const editingObjectClone = object.clone(editingObject);
-        if (editingObjectClone instanceof Model) {
-            if (!editingObjectClone.has(name)) {
+        editingObject: Record<string, unknown> | entityRecord,
+        name: string,
+        value: unknown
+    ): Record<string, unknown> | entityRecord {
+        let resultEditingObject;
+        if (editingObject instanceof entityRecord) {
+            resultEditingObject = editingObject;
+
+            if (!resultEditingObject.has(name)) {
                 const newEditingObject = factory(editingObject).toObject();
                 newEditingObject[name] = value;
-                return Model.fromObject(newEditingObject, editingObjectClone.getAdapter());
-            } else {
-                editingObjectClone.set(name, value);
+                const format = Model.fromObject(newEditingObject, resultEditingObject.getAdapter()).getFormat();
+                const propertyFormat = format.at(format.getFieldIndex(name));
+                resultEditingObject.addField({
+                    name: propertyFormat.getName(),
+                    type: propertyFormat.getType(),
+                    defaultValue: value
+                });
             }
+            resultEditingObject.set(name, value);
+            this._listModel.setEditingObject(resultEditingObject);
         } else {
-            editingObjectClone[name] = value;
+            resultEditingObject = object.clone(editingObject);
+            resultEditingObject[name] = value;
         }
-        return editingObjectClone;
+        return resultEditingObject;
     }
 
     protected _propertyValueChanged(event: SyntheticEvent<Event>, item: Model, value: any): void {

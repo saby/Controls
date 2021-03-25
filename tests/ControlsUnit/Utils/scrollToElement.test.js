@@ -13,7 +13,8 @@ define([
                scrollTop: bodyScrollTop || 0,
                clientHeight: bodyClientHeight || 0,
                className: '',
-               closest: () => []
+               closest: () => [],
+               getBoundingClientRect: () => { return { height: 100 }; }
             },
             documentElement: documentElement
          };
@@ -100,6 +101,39 @@ define([
             };
             scroll.scrollToElement(element, false, true);
             assert.equal(element.parentElement.scrollTop, 5);
+         });
+
+         it('to center', function() {
+            mockDOM();
+            var element = {
+               classList: {
+                  contains: () => false
+               },
+               querySelector: () => null,
+               parentElement: {
+                  overflowY: 'scroll',
+                  scrollHeight: 1000,
+                  clientHeight: 100,
+                  top: 10,
+                  getBoundingClientRect: function() {
+                     return {
+                        top: this.top,
+                        height: this.clientHeight
+                     };
+                  },
+                  scrollTop: 300,
+                  className: '',
+                  closest: () => []
+               },
+               getBoundingClientRect: function() {
+                  return {
+                     top: 200,
+                     height: 10
+                  };
+               }
+            };
+            scroll.scrollToElement(element, 'center');
+            assert.equal(element.parentElement.scrollTop, 445);
          });
 
          it('to bottom', function() {

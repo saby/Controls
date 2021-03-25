@@ -1,7 +1,6 @@
 <div class="controls-ArrowButton controls-ArrowButton_{{_options.direction}}
             controls-ArrowButton_inlineHeight-{{_options.inlineHeight}}
-            controls-ArrowButton-{{_options.readOnly? 'readOnly' : 'active'}}
-            controls_theme-{{_options.theme}}"
+            controls-ArrowButton-{{_options.readOnly? 'readOnly' : 'active'}}"
      on:click="_clickHandler()">
     <ws:if data="{{_options.direction === 'up' || _options.direction === 'down'}}">
         <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"

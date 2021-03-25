@@ -1,0 +1,25 @@
+<div class="controlsDemo__wrapper">
+    <Controls.filter:Controller filterButtonSource="{{_filterButtonData}}">
+        <Controls.list:DataContainer source="{{_source}}" navigation="{{_navigation}}" keyProperty="id">
+            <div class="controlsDemo__flexRow">
+                <Controls.filterPanel:Container>
+                    <Controls.filterPanel:View applyButtonCaption="Отобрать" attr:class="controls-demo__filterButton"/>
+                </Controls.filterPanel:Container>
+                <Controls.list:Container>
+                    <Controls.list:View emptyTemplate="Не найдено">
+                        <ws:itemTemplate>
+                            <ws:partial template="Controls/list:ItemTemplate">
+                                <ws:contentTemplate>
+                                    <div class="demo-FilterSearch__listItem-wrapper">
+                                        <span class="demo-FilterSearch__department"> {{itemTemplate.itemData.item.get('department')}} </span>
+                                        <span class="demo-FilterSearch__title">{{itemTemplate.itemData.item.get('owner')}}<span class="icon-16 icon-Company icon-disabled"></span> ({{itemTemplate.itemData.item.get('amount')}})</span>
+                                    </div>
+                                </ws:contentTemplate>
+                            </ws:partial>
+                        </ws:itemTemplate>
+                    </Controls.list:View>
+                </Controls.list:Container>
+            </div>
+        </Controls.list:DataContainer>
+    </Controls.filter:Controller>
+</div>

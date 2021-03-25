@@ -26,7 +26,7 @@
  * @author Крайнов Д.О.
  */
 
-import Container from 'Controls/_scroll/Container';
+import Container from 'Controls/_scroll/ScrollContextConsumer';
 export {default as StickyHeader} from 'Controls/_scroll/StickyHeader';
 export {scrollToElement} from 'Controls/_scroll/Utils/scrollToElement';
 export {hasScrollbar} from './_scroll/Utils/HasScrollbar';
@@ -35,7 +35,8 @@ export {IScrollbars} from './_scroll/Container/Interface/IScrollbars';
 export {IShadows} from './_scroll/Container/Interface/IShadows';
 export {getScrollbarWidth, getScrollbarWidthByMeasuredBlock} from './_scroll/Utils/getScrollbarWidth';
 import {default as _Scrollbar} from 'Controls/_scroll/Scroll/Scrollbar';
-import _scrollContext = require('Controls/_scroll/Scroll/Context');
+import _scrollContext from 'Controls/_scroll/Scroll/Context';
+import ScrollContextProvider from 'Controls/_scroll/ScrollContextProvider';
 import _stickyHeaderController from 'Controls/_scroll/StickyHeader/Controller';
 import IntersectionObserverController from 'Controls/_scroll/IntersectionObserver/Controller';
 import IntersectionObserverContainer from 'Controls/_scroll/IntersectionObserver/Container';
@@ -53,6 +54,7 @@ import HotKeysContainer from 'Controls/_scroll/HotKeysContainer';
 
 export {
    Container,
+   ScrollContextProvider,
    _Scrollbar,
    _scrollContext,
    _stickyHeaderController,

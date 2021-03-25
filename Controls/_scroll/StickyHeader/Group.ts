@@ -9,6 +9,7 @@ import {
     IFixedEventData,
     TRegisterEventData,
     getGapFixSize,
+    SHADOW_VISIBILITY_BY_CONTROLLER,
     MODE
 } from 'Controls/_scroll/StickyHeader/Utils';
 import template = require('wml!Controls/_scroll/StickyHeader/Group');
@@ -36,6 +37,7 @@ interface IOffsetCache {
 
 interface IStickyHeaderGroupOptions extends IControlOptions {
     calculateHeadersOffsets?: boolean;
+    offsetTop: number;
 }
 /**
  * Allows you to combine sticky headers with the same behavior. It is necessary if you need to make
@@ -68,7 +70,10 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         bottom: 0
     };
     protected _isFixed: boolean = false;
-    protected _isShadowVisibleByController: boolean = true;
+    protected _isShadowVisibleByController: { top: SHADOW_VISIBILITY_BY_CONTROLLER; bottom: SHADOW_VISIBILITY_BY_CONTROLLER; } = {
+        top: SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+        bottom: SHADOW_VISIBILITY_BY_CONTROLLER.auto
+    };
 
     protected _headers: IHeadersMap = {};
     protected _isRegistry: boolean = false;
@@ -104,6 +109,10 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         // Group can be with style display: content. Use the height of the first header as the height of the group.
         const headersIds: number[] = Object.keys(this._headers);
         return headersIds.length ? this._headers[headersIds[0]].inst.height : 0;
+    }
+
+    get offsetTop(): number {
+        return this._options.offsetTop
     }
 
     set top(value: number) {
@@ -214,11 +223,11 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
         }
     }
 
-    protected updateShadowVisibility(isVisible: boolean): void {
-        if (this._isShadowVisibleByController !== isVisible) {
-            this._isShadowVisibleByController = isVisible;
+    protected updateShadowVisibility(visibility: SHADOW_VISIBILITY_BY_CONTROLLER, position: POSITION): void {
+        if (this._isShadowVisibleByController[position] !== visibility) {
+            this._isShadowVisibleByController[position] = visibility;
             for (const id in this._headers) {
-                this._headers[id].inst.updateShadowVisibility(isVisible);
+                this._headers[id].inst.updateShadowVisibility(visibility, position);
             }
         }
     }
@@ -338,7 +347,8 @@ export default class Group extends Control<IStickyHeaderGroupOptions> {
 
     static getDefaultOptions(): Partial<IStickyHeaderGroupOptions> {
         return {
-            calculateHeadersOffsets: true
+            calculateHeadersOffsets: true,
+            offsetTop: 0
         };
     }
 }

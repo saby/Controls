@@ -10,7 +10,7 @@ import 'css!Controls/lookup';
  * @class Controls/_lookupPopup/SelectedCollection/Popup
  * @extends UI/Base:Control
  * @mixes Controls/_lookup/SelectedCollection/SelectedCollectionStyles
- * 
+ *
  * @public
  * @author Крайнов Д.О.
  */
@@ -23,7 +23,7 @@ import 'css!Controls/lookup';
  * @class Controls/_lookupPopup/SelectedCollection/Popup
  * @extends UI/Base:Control
  * @mixes Controls/_lookup/SelectedCollection/SelectedCollectionStyles
- * 
+ *
  * @public
  * @author Крайнов Д.О.
  */
@@ -46,8 +46,4 @@ import 'css!Controls/lookup';
             this._options.clickCallback('crossClick', item);
          }
       });
-
-      itemHiddenTemplate._theme = ['Controls/popup'];
-
       export = itemHiddenTemplate;
-

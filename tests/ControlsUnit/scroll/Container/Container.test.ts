@@ -1,4 +1,4 @@
-import {Container} from 'Controls/scroll';
+import Container from 'Controls/_scroll/Container';
 import {compatibility, constants} from 'Env/Env';
 import {SHADOW_VISIBILITY, SHADOW_MODE} from 'Controls/_scroll/Container/Interface/IShadows';
 import {SCROLL_DIRECTION, SCROLL_POSITION} from 'Controls/_scroll/Utils/Scroll';
@@ -360,7 +360,7 @@ describe('Controls/scroll:Container', () => {
                 component._updateState({
                     ...state
                 });
-                component._beforeUpdate({ scrollMode: 'vertical' }, { ScrollData: { pagingVisible: true } });
+                component._beforeUpdate({ scrollMode: 'vertical', pagingVisible: true });
                 assert.include(component._contentWrapperCssClass, 'controls-Scroll__content_paging');
 
                 sinon.restore();
@@ -530,8 +530,8 @@ describe('Controls/scroll:Container', () => {
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
             assert.isTrue(component._shadows._models.bottom.isVisible);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.top);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.top, SHADOW_VISIBILITY.VISIBLE);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.bottom, SHADOW_VISIBILITY.VISIBLE);
             assert.notEqual(component._shadows.getVersion(), version);
             sinon.restore();
         });
@@ -547,8 +547,8 @@ describe('Controls/scroll:Container', () => {
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
             assert.isTrue(component._shadows._models.bottom.isVisible);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.top);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.top, SHADOW_VISIBILITY.VISIBLE);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.bottom, SHADOW_VISIBILITY.VISIBLE);
             assert.strictEqual(component._shadows.getVersion(), version);
             sinon.restore();
         });
@@ -566,8 +566,8 @@ describe('Controls/scroll:Container', () => {
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
             assert.isTrue(component._shadows._models.bottom.isVisible);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.top);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.top, SHADOW_VISIBILITY.VISIBLE);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.bottom, SHADOW_VISIBILITY.VISIBLE);
             assert.strictEqual(component._shadows.getVersion(), version);
             sinon.restore();
         });
@@ -597,8 +597,8 @@ describe('Controls/scroll:Container', () => {
                 event, { top: SHADOW_VISIBILITY.HIDDEN, bottom: SHADOW_VISIBILITY.HIDDEN });
             assert.isFalse(component._shadows._models.top.isVisible);
             assert.isFalse(component._shadows._models.bottom.isVisible);
-            assert.isFalse(component._stickyHeaderController._isShadowVisible.top);
-            assert.isFalse(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.top, SHADOW_VISIBILITY.HIDDEN);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.bottom, SHADOW_VISIBILITY.HIDDEN);
             assert.notEqual(component._shadows.getVersion(), version);
             sinon.restore();
         });

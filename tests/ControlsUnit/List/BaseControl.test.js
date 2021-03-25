@@ -161,21 +161,6 @@ define([
          global.window = undefined;
          sandbox.restore();
       });
-      it('remove incorrect config', async function() {
-         var cfg = {
-            viewName: 'Controls/List/ListView',
-            keyProperty: 'id',
-            viewModelConstructor: lists.ListViewModel,
-            items: new collection.RecordSet({
-               keyProperty: 'id',
-               rawData: data
-            })
-         };
-         var baseControl = correctCreateBaseControl(cfg);
-         baseControl.saveOptions(cfg);
-         await baseControl._beforeMount(cfg);
-         assert.equal(baseControl._listViewModel.getItems(), null);
-      });
       it('life cycle', async function() {
          var dataLoadFired = false;
          var filter = {
@@ -783,7 +768,9 @@ define([
          assert.isFalse(ctrl._listViewModel.getHasMoreData());
       });
 
-      it('loadToDirection down with portioned load', async function() {
+      // Тест отключен до решения задачи https://online.sbis.ru/opendoc.html?guid=51841686-80a2-4ae9-9362-fd9f8c2a293b
+      // т.к. на данный момент потребности в serviceDataLoadCallback больше нет и он был выпилен
+      xit('loadToDirection down with portioned load', async function() {
          const source = new sourceLib.Memory({
             keyProperty: 'id',
             data: data
@@ -3857,6 +3844,50 @@ define([
             });
          });
       });
+
+      describe('_onGroupClick', () => {
+         let ctrl;
+         const cfg = {
+            viewName: 'Controls/List/ListView',
+            viewModelConstructor: 'Controls/display:Collection',
+            useNewModel: true,
+            keyProperty: 'id',
+            groupProperty: 'group',
+            source: new sourceLib.Memory({
+               keyProperty: 'id',
+               data: [
+                  {
+                     id: 1,
+                     title: 'item 1',
+                     group: 'group'
+                  },
+                  {
+                     id: 2,
+                     title: 'item 2',
+                     group: 'group'
+                  }
+               ]
+            })
+         };
+
+         beforeEach(() => {
+            ctrl = correctCreateBaseControl(cfg);
+            ctrl.saveOptions(cfg);
+         });
+
+         it('should call setCollapsedGroups', () => {
+            ctrl._beforeMount(cfg);
+            const spySetCollapsedGroups = sinon.spy(ctrl.getViewModel(), 'setCollapsedGroups');
+            ctrl._onGroupClick({}, 0, {
+               target: {
+                  closest: () => true
+               }
+            }, ctrl.getViewModel().at(0));
+            sinon.assert.called(spySetCollapsedGroups);
+            spySetCollapsedGroups.restore();
+         });
+      });
+
       it('can\'t start drag on readonly list', async function() {
          let
              cfg = {
@@ -6552,6 +6583,20 @@ define([
              baseControl._loadingIndicatorState = 'bottom';
              baseControl.__needShowEmptyTemplate = () => true;
              assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+
+             baseControl._loadingIndicatorState = 'bottom';
+             baseControl._attachLoadDownTriggerToNull = true;
+             baseControl.__needShowEmptyTemplate = () => false;
+             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), true);
+
+             baseControl._showContinueSearchButtonDirection = true;
+             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+
+             baseControl._showContinueSearchButtonDirection = false;
+             baseControl._portionedSearch = {
+                isAborted: () => true
+             };
+             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
           });
 
           it('attachToNull, onCollectionChanged', () => {
@@ -8805,12 +8850,13 @@ define([
             viewName: 'Controls/List/ListView',
             viewModelConstructor: lists.ListViewModel,
             keyProperty: 'id',
-            markerVisibility: 'visible'
+            markerVisibility: 'visible',
+            items: recordSet
          };
 
          const baseControl = new lists.BaseControl();
          baseControl.saveOptions(cfg);
-         baseControl._beforeMount(cfg, null, { data: recordSet });
+         baseControl._beforeMount(cfg, null);
          const newRecord = new entity.Model({ rawData: { id: 0 }, keyProperty: 'id' });
 
          recordSet.setEventRaising(false, true);

@@ -73,7 +73,7 @@ export default abstract class Row<T> {
     }
 
     protected _getBaseItemClasses(style: string, theme: string): string {
-        return `controls-ListView__itemV controls-Grid__row controls-Grid__row_${style}_theme-${theme}`
+        return `controls-ListView__itemV controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
     }
 
     protected _getItemHighlightClasses(style: string, theme: string, highlightOnHover?: boolean): string {
@@ -281,7 +281,7 @@ export default abstract class Row<T> {
     }
 
     getStickyHeaderMode(): string {
-        return 'stackable';
+        return this.isSticked() ? 'stackable' : 'notsticky';
     }
 
     getStickyHeaderPosition(): string {
@@ -508,6 +508,7 @@ export default abstract class Row<T> {
     abstract isEditing(): boolean;
     abstract isSelected(): boolean;
     abstract isDragged(): boolean;
+    abstract isSticked(): boolean;
     protected abstract _getCursorClasses(cursor: string, clickable: boolean): string;
     protected abstract _nextVersion(): void;
 }

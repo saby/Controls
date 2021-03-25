@@ -9,6 +9,7 @@ import {EventUtils} from 'UI/Events';
 import {MonthModel} from 'Controls/calendar';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import {detection} from 'Env/Env';
+import 'css!Controls/datePopup';
 
 /**
  * Component that allows you to select periods of multiple days.
@@ -205,8 +206,6 @@ export default class DateRange extends Control<IControlOptions> {
     private _notifyPositionChanged(position): void {
         this._notify('positionChanged', [position]);
     }
-
-    static _theme: string[] = ['Controls/datePopup'];
 
     static getDefaultOptions(): object {
         return {
