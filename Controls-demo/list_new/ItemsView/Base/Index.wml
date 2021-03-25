@@ -1,33 +1,33 @@
 <div class="controlsDemo__wrapper" xmlns:ws="http://www.w3.org/1999/html">
-<div class="toolbar-row">
-   <Controls.buttons:Button
-      caption="Add row"
-      on:click="_addRow()"
-      attr:class="toolbar-btn"
-      attr:title="Сгенерировать новую запись и добавить её в конец списка"
-   />
-   <Controls.buttons:Button
-      caption="Del row"
-      on:click="_delRow()"
-      attr:class="toolbar-btn"
-      attr:title="Удалить первую запись из списка"
-   />
-   <Controls.buttons:Button
-      caption="Reset rows"
-      on:click="_resetRows()"
-      attr:class="toolbar-btn"
-      attr:title="Вернуть список к исходному состоянию"
-   />
-</div>
+   <div class="toolbar-row">
+      <Controls.buttons:Button
+         caption="Add row"
+         on:click="_addRow()"
+         attr:class="toolbar-btn"
+         attr:title="Сгенерировать новую запись и добавить её в конец списка"
+      />
+      <Controls.buttons:Button
+         caption="Del row"
+         on:click="_delRow()"
+         attr:class="toolbar-btn"
+         attr:title="Удалить первую запись из списка"
+      />
+      <Controls.buttons:Button
+         caption="Reset rows"
+         on:click="_resetRows()"
+         attr:class="toolbar-btn"
+         attr:title="Вернуть список к исходному состоянию"
+      />
+   </div>
 
-<Controls.list:ItemsView items="{{_items}}">
-   <ws:emptyTemplate>
-      <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
-         <ws:contentTemplate>
-            <div>Нет данных</div>
-            items count: {{_items.getCount()}}
-         </ws:contentTemplate>
-      </ws:partial>
-   </ws:emptyTemplate>
-</Controls.list:ItemsView>
+   <Controls.list:ItemsView items="{{_items}}">
+      <ws:emptyTemplate>
+         <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="l">
+            <ws:contentTemplate>
+               <div>Нет данных</div>
+               items count: {{_items.getCount()}}
+            </ws:contentTemplate>
+         </ws:partial>
+      </ws:emptyTemplate>
+   </Controls.list:ItemsView>
 </div>
