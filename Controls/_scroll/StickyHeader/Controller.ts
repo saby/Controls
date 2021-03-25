@@ -1,6 +1,7 @@
 import {debounce} from 'Types/function';
 import {IFixedEventData,
     isHidden,
+    MODE,
     POSITION,
     SHADOW_VISIBILITY,
     SHADOW_VISIBILITY_BY_CONTROLLER,
@@ -190,7 +191,7 @@ class StickyHeaderController {
                             // Если снаружи включили отбражать тени всегда, то для заголовков сконфигурированных
                             // отображать тень только у последнего, принудительно отключим тени на всех заголовках
                             // кроме последнего, а на последнем принудительно включим.
-                            if (isLastVisibleModes(header.inst.shadowVisibility)) {
+                            if (isLastVisibleModes(header.inst.shadowVisibility) || header.mode === MODE.replaceable) {
                                 visibility = headerId === lastHeaderId ?
                                     SHADOW_VISIBILITY_BY_CONTROLLER.visible : SHADOW_VISIBILITY_BY_CONTROLLER.hidden;
                             } else {
