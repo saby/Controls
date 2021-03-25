@@ -24,7 +24,6 @@ interface IInputOptions extends IBaseDropdownOptions {
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
-   caption?: string;
 }
 
 const getPropValue = Utils.object.getPropertyValue.bind(Utils);
@@ -472,7 +471,6 @@ export default class Selector extends BaseDropdown {
 * <Controls.dropdown:Selector
 *    keyProperty="key"
 *    source="{{_source}}"
-*    caption="Create"
 *    viewMode="link"
 *    iconSize="m" />
 * </pre>
