@@ -25,6 +25,7 @@
             <ws:partial options="{{_options}}"
                         scope="{{_readOnlyField.scope}}"
                         value="{{_viewModel.displayValue}}"
+                        horizontalPadding="{{_horizontalPadding}}"
                         template="{{_readOnlyField.template}}"/>
          </ws:if>
          <ws:else>
