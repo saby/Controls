@@ -17,11 +17,11 @@ import DateRangeContext from 'Controls/_dateRange/DateRangeContext';
  * @cfg {TemplateFunction} Пользовательский шаблон.
  * @example
  * <pre>
- *     <Controls.dateRange:ButtonsController>
+ *     <Controls.dateRange:DateRangeContextProvider>
  *         <Controls.dateRange:ArrowButtonConsumer direction="left"/>
  *         <Controls.dateRange:RangeSelectorConsumer bind:startValue="_startValue" bind:endValue="_endValue"/>
  *         <Controls.dateRange:ArrowButtonConsumer direction="right"/>
- *     </Controls.dateRange:ButtonsController>
+ *     </Controls.dateRange:DateRangeContextProvider>
  * </pre>
  */
 

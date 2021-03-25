@@ -20,12 +20,12 @@ import DateRangeSelectorConsumer from 'Controls/_dateRange/_DateRangeSelectorCon
  * @mixes Controls/_interface/IDateRangeValidators
  * @remark
  * Контрол используется для работы с кнопками dateRange:ArrowButtonConsumer, которые двигают период.
- * Стоит использовать контрол только в связке с dateRange:ButtonsController.
+ * Стоит использовать контрол только в связке с dateRange:DateRangeContextProvider.
  * @example
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/dateRange/ButtonsController/Index
- * @see Controls/_dateRange/ButtonsController
+ * @demo Controls-demo/dateRange/DateRangeContextProvider/Index
+ * @see Controls/_dateRange/DateRangeContextProvider
  * @see Controls/_buttons/ArrowButton
  * @see Controls/_dateRange/ArrowButtonConsumer
  */

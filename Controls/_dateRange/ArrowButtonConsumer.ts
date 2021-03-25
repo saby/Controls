@@ -7,16 +7,12 @@ import {IArrowButtonOptions} from 'Controls/buttons';
  * @class Controls/_dateRange/ArrowButtonConsumer
  * @public
  * @author Красильников А.С.
- * @demo Controls-demo/dateRange/ButtonsController/Index
- * @see Controls/_dateRange/ButtonsController
+ * @demo Controls-demo/dateRange/DateRangeContextProvider/Index
+ * @see Controls/_dateRange/DateRangeContextProvider
  * @see Controls/_buttons/ArrowButton
  */
 
-interface IDateRangeArrowButton extends IArrowButtonOptions {
-    shiftPeriod: Function;
-}
-
-export default class ButtonsController extends Control<IDateRangeArrowButton> {
+export default class ArrowButtonConsumer extends Control<IArrowButtonOptions> {
     protected _template: TemplateFunction = template;
 
     protected _clickHandler(): void {
