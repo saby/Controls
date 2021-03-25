@@ -1,7 +1,6 @@
 import {descriptor} from 'Types/entity';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_spoiler/CutButton/CutButton';
-import 'css!Controls/spoiler';
 
 type TIconSize = 's' | 'm' | 'l';
 type TButtonPosition = 'start' | 'center';
@@ -43,6 +42,8 @@ class CutButton extends Control<ICutButton, IControlOptions> {
             contrastBackground: true
         };
     }
+
+    static _theme: string[] = ['Controls/spoiler'];
 }
 
 Object.defineProperty(CutButton, 'defaultProps', {
