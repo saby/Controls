@@ -39,6 +39,7 @@ export interface IOptions<T extends Model = Model> {
     backgroundStyle?: string;
     theme?: string;
     style: string;
+    searchValue?: string;
     leftPadding: string;
     rightPadding: string;
     topPadding: string;
@@ -91,6 +92,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     readonly SelectableItem: boolean = true;
     readonly DraggableItem: boolean = true;
     readonly ItemActionsItem: boolean = true;
+    readonly DisplaySearchValue: boolean = true;
+
     private _$editingColumnIndex: number;
 
     getInstanceId: () => string;
@@ -104,6 +107,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * Содержимое элемента коллекции
      */
     protected _$contents: T;
+
+    protected _$searchValue: string;
 
     /**
      * Элемент выбран
@@ -313,8 +318,15 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
     }
 
+    setSearchValue(searchValue: string): void {
+        if (this._$searchValue !== searchValue) {
+            this._$searchValue = searchValue;
+            this._nextVersion();
+        }
+    }
+
     getSearchValue(): string {
-        return this.getOwner().getSearchValue();
+        return this._$searchValue;
     }
 
     // endregion
@@ -965,6 +977,7 @@ Object.assign(CollectionItem.prototype, {
     _moduleName: 'Controls/display:CollectionItem',
     _instancePrefix: 'collection-item-',
     _$owner: null,
+    _$searchValue: '',
     _$contents: null,
     _$selected: false,
     _$marked: false,
