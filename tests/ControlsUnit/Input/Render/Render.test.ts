@@ -38,27 +38,15 @@ describe('Controls.input:Render', () => {
                left: false
             });
          });
-         it('partial and minLines', () => {
+         it('partial and multiline', () => {
             inst._beforeMount({
                ...defaultOptions,
                borderVisibility: 'partial',
-               minLines: 2
+               multiline: true
             } as IRenderOptions);
 
             assert.deepEqual(inst._border, {
                top: true,
-               right: false,
-               bottom: true,
-               left: false
-            });
-            inst._beforeUpdate({
-               ...defaultOptions,
-               borderVisibility: 'partial',
-               minLines: 1
-            } as IRenderOptions);
-
-            assert.deepEqual(inst._border, {
-               top: false,
                right: false,
                bottom: true,
                left: false

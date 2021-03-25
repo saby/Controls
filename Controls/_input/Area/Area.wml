@@ -5,7 +5,6 @@
                         viewModel="{{_viewModel}}"
                         validationStatus="{{_options.validationStatus}}"
                         multiline="{{_multiline}}"
-                        minLines="{{_options.minLines}}"
                         tagStyle="{{_options.tagStyle}}"
                         textAlign="{{_options.textAlign}}"
                         placeholder="{{_options.placeholder}}"
