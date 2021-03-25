@@ -114,20 +114,34 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
          this._scaleData = Utils.getScaleData( options.minValue, options.maxValue, options.scaleStep,
              options.scaleLabelFormatter);
       }
-      this._endValue = options.endValue === undefined ? options.maxValue : Math.min(options.maxValue, options.endValue);
-      this._startValue = options.startValue === undefined ?
-                                                options.minValue : Math.max(options.minValue, options.startValue);
+      if (this._options.hasOwnProperty('value')) {
+         this._endValue = options.endValue === undefined ? options.maxValue : Math.min(options.maxValue, options.endValue);
+         this._startValue = options.startValue === undefined ? options.minValue : Math.max(options.minValue, options.startValue);
+      } else {
+         this._endValue = Math.min(options.maxValue, this._endValue);
+         this._startValue = Math.max(options.minValue, this._startValue);
+      }
       this._render(options.minValue, options.maxValue, this._startValue, this._endValue);
       this._renderTooltip(options.minValue, options.maxValue, this._tooltipPosition);
    }
 
    private _setStartValue(val: number): void {
-      this._startValue = val;
-      this._notify('startValueChanged', [val]);
+      if (this._startValue !== val) {
+         if (this._options.hasOwnProperty('value')) {
+            this._notify('startValueChanged', [val]);
+         } else {
+            this._startValue = val;
+         }
+      }
    }
    private _setEndValue(val: number): void {
-      this._endValue = val;
-      this._notify('endValueChanged', [val]);
+      if (this._startValue !== val) {
+         if (this._options.hasOwnProperty('value')) {
+            this._notify('endValueChanged', [val]);
+         } else {
+            this._endValue = val;
+         }
+      }
    }
 
    private _getClosestPoint(value: number, startValue: number, endValue: number): string {
