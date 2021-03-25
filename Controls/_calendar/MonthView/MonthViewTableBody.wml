@@ -1,11 +1,11 @@
 <div for="index, week in monthViewModel.getMonthArray()" class="controls-MonthViewVDOM__tableRow
-                    controls-MonthViewVDOM__tableRow {{ newMode !== true? 'controls-MonthViewVDOM__tableRow-old' }}">
+                    {{ newMode !== true? 'controls-MonthViewVDOM__tableRow-old' }}">
     <ws:if data="{{newMode !== true}}">
         <div for="indexOfDay, value in week"
              on:click="_dayClickHandler(value.date, value.isCurrentMonth)"
              on:mouseenter="_mouseEnterHandler(value.date, value.isCurrentMonth)"
              on:mouseleave="_mouseLeaveHandler(value.date, value.isCurrentMonth)"
-             attr:class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item-old controls-MonthViewVDOM__item-old
+             attr:class="controls-MonthViewVDOM__item controls-MonthViewVDOM__item-old
                         {{ monthViewModel._prepareClass(value, fontColorStyle, backgroundStyle, sizeStyle) }}"
              data-date="{{value.id}}"
         >

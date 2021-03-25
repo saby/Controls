@@ -1,5 +1,5 @@
-<div attr:class="controls-MonthViewVDOM controls-MonthViewVDOM
-                  {{_options.newMode !== true? 'controls-MonthViewVDOM-old controls-MonthViewVDOM-old'}}
+<div attr:class="controls-MonthViewVDOM
+                  {{_options.newMode !== true? 'controls-MonthViewVDOM-old'}}
          {{rangeselect ? ' controls-RangeSelectable__rangeselect'}}" data-date="{{_dateToDataString(_month)}}">
    <ws:if data="{{_options.showCaption}}">
       <div attr:class="controls-MonthViewVDOM__caption">
@@ -10,9 +10,9 @@
          />
       </div>
    </ws:if>
-   <div attr:class="controls-MonthViewVDOM__table controls-MonthViewVDOM__table">
+   <div attr:class="controls-MonthViewVDOM__table">
       <ws:if data="{{_options.showWeekdays}}">
-         <div class="controls-MonthViewVDOM__tableRow controls-MonthViewVDOM__tableRow controls-MonthViewVDOM_tableHead">
+         <div class="controls-MonthViewVDOM__tableRow controls-MonthViewVDOM_tableHead">
             <ws:for data="value in _days">
                <ws:partial
                        newMode="{{_options.newMode}}"
