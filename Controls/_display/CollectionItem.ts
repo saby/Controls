@@ -20,6 +20,7 @@ import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from 
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 import Collection from 'Controls/_display/Collection';
 import IItemActionsItem from './interface/IItemActionsItem';
+import DataRow from "Controls/_gridNew/display/DataRow";
 
 export interface IOptions<T extends Model = Model> {
     itemModule: string;
@@ -39,6 +40,7 @@ export interface IOptions<T extends Model = Model> {
     backgroundStyle?: string;
     theme?: string;
     style: string;
+    searchValue?: string;
     leftPadding: string;
     rightPadding: string;
     topPadding: string;
@@ -104,6 +106,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * Содержимое элемента коллекции
      */
     protected _$contents: T;
+
+    protected _$searchValue: string;
 
     /**
      * Элемент выбран
@@ -313,8 +317,15 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
     }
 
+    setSearchValue(searchValue: string): void {
+        if (this._$searchValue !== searchValue) {
+            this._$searchValue = searchValue;
+            this._nextVersion();
+        }
+    }
+
     getSearchValue(): string {
-        return this.getOwner().getSearchValue();
+        return this._$searchValue;
     }
 
     // endregion
@@ -965,6 +976,7 @@ Object.assign(CollectionItem.prototype, {
     _moduleName: 'Controls/display:CollectionItem',
     _instancePrefix: 'collection-item-',
     _$owner: null,
+    _$searchValue: '',
     _$contents: null,
     _$selected: false,
     _$marked: false,

@@ -65,7 +65,7 @@ export default class DataRow<T extends Model> extends Row<T> implements
     }
 
     setSearchValue(searchValue: string): void {
-        this._$searchValue = searchValue;
+        super.setSearchValue(searchValue);
         if (this._$columnItems) {
             this._$columnItems.forEach((cell, cellIndex) => {
                 if (cell.DisplaySearchValue) {
@@ -73,7 +73,6 @@ export default class DataRow<T extends Model> extends Row<T> implements
                 }
             });
         }
-        this._nextVersion();
     }
 
     getSearchValue(): string {

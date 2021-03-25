@@ -37,6 +37,7 @@ import * as VirtualScrollController from './controllers/VirtualScroll';
 import { ICollection, ISourceCollection, IItemPadding } from './interface/ICollection';
 import { IDragPosition } from './interface/IDragPosition';
 import {INavigationOptionValue} from 'Controls/interface';
+import DataRow from "Controls/_gridNew/display/DataRow";
 
 // tslint:disable-next-line:ban-comma-operator
 const GLOBAL = (0, eval)('this');
@@ -2439,13 +2440,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$editingConfig;
     }
 
-    setSearchValue(searchValue: string): boolean {
+    setSearchValue(searchValue: string): void {
         if (this._$searchValue !== searchValue) {
             this._$searchValue = searchValue;
+            this.getViewIterator().each((item: DataRow<S>) => {
+                if (item.DisplaySearchValue) {
+                    item.setSearchValue(searchValue);
+                }
+            });
             this._nextVersion();
-            return true;
         }
-        return false;
     }
 
     getSearchValue(): string {
@@ -3087,6 +3091,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.rightPadding = this._$rightPadding;
             options.topPadding = this._$topPadding;
             options.bottomPadding = this._$bottomPadding;
+            options.searchValue = this._$searchValue;
             return create(options.itemModule || this._itemModule, options);
         };
     }
