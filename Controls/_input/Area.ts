@@ -44,10 +44,6 @@ import 'css!Controls/input';
  * @name Controls/_input/Area#textAlign
  * @demo Controls-demo/Input/Area/TextAlign/Index
  */
-/**
- * @name Controls/_input/Area#contrastBackground
- * @default false
- */
 
 export default class Area extends BaseText<IAreaOptions> {
     protected _template: TemplateFunction = template;
@@ -310,7 +306,6 @@ export default class Area extends BaseText<IAreaOptions> {
         defaultOptions.newLineKey = 'enter';
         // В темной теме розницы у полей ввода нестандартный фон
         defaultOptions.shadowMode = 'js';
-        defaultOptions.contrastBackground = false;
 
         return defaultOptions;
     }

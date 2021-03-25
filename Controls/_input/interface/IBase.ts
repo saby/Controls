@@ -168,4 +168,5 @@ export interface IBase {
 /**
  * @name Controls/_input/interface/IBase#contrastBackground
  * @demo Controls-demo/Input/ContrastBackground/Index
+ * @default false
  */
