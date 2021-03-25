@@ -20,6 +20,7 @@ interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
 
 /**
  * @name Controls/_toggle/Tumbler#itemTemplate
+ * @cfg {TemplateFunction} Шаблон элемента кнопочного переключателя.
  * @demo Controls-demo/toggle/Tumbler/ItemTemplate/Index
  *
  * По умолчанию используется шаблон "Controls/toogle:tumblerItemTemplate".
@@ -56,6 +57,7 @@ interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
 
 /**
  * @name Controls/_toggle/Tumbler#itemTemplateProperty
+ * @cfg {String} Имя свойства, содержащего ссылку на шаблон элемента. Если значение свойства не передано, то для отрисовки используется itemTemplate.
  * @remark
  * Чтобы определить шаблон, вы должны вызвать базовый шаблон.
  * Шаблон размещается в компоненте с использованием тега <ws:partial> с атрибутом "template".
@@ -88,7 +90,6 @@ interface ITumblerOptions extends IButtonGroupOptions, IItemTemplateOptions {}
  * неакцентный выбор из одного или нескольких параметров.
  * @class Controls/_toggle/Tumbler
  * @extends Controls/_toggle/ButtonGroupBase
- * @implements Controls/interface/IItemTemplate
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/toggle/Tumbler/Index
