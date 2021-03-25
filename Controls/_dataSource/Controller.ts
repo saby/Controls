@@ -371,10 +371,12 @@ export default class Controller extends mixin<
     }
 
     hasLoaded(key: TKey): boolean {
-        let loadedResult = false;
+        let loadedResult;
 
         if (this._hasNavigationBySource()) {
             loadedResult = this._getNavigationController(this._navigation).hasLoaded(key);
+        } else if (this.getItems()) {
+            loadedResult = true;
         }
 
         return loadedResult;

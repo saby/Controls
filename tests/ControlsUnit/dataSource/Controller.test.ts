@@ -615,4 +615,19 @@ describe('Controls/dataSource:SourceController', () => {
             ok(!controller.hasLoaded('anyFolderKey'));
         });
     });
+
+    describe('hasLoaded', () => {
+        it('hasLoaded without navigation', async () => {
+            const controller = getController();
+            await controller.reload();
+            ok(controller.hasLoaded('anyTestKey'));
+        });
+
+        it('hasLoaded with navigation', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            ok(!controller.hasLoaded('anyFolderKey'));
+        });
+    });
 });
