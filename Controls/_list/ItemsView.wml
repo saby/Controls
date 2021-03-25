@@ -1,0 +1,44 @@
+<div>
+   <Controls._list.BaseControl
+      name="baseControl"
+      scope="{{_options}}"
+
+      useNewModel="{{true}}"
+      viewName="Controls/list:ListView"
+      viewModelConstructor="Controls/display:Collection"
+
+      on:activated="_notifyHandler('activated')"
+      on:deactivated="_notifyHandler('deactivated')"
+      on:actionClick="_notifyHandler('actionClick')"
+
+      on:groupExpanded="_notifyHandler('groupExpanded')"
+      on:groupCollapsed="_notifyHandler('groupCollapsed')"
+
+      on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
+      on:beforeMarkedKeyChanged="_notifyHandler('beforeMarkedKeyChanged')"
+
+      on:itemClick="_notifyHandler('itemClick')"
+      on:itemSwipe="_notifyHandler('itemSwipe')"
+      on:itemActivate="_notifyHandler('itemActivate')"
+      on:itemMouseDown="_notifyHandler('itemMouseDown')"
+      on:itemMouseMove="_notifyHandler('itemMouseMove')"
+      on:itemMouseLeave="_notifyHandler('itemMouseLeave')"
+      on:itemMouseEnter="_notifyHandler('itemMouseEnter')"
+      on:hoveredItemChanged="_notifyHandler('hoveredItemChanged')"
+
+      on:dragEnd="_notifyHandler('dragEnd')"
+      on:dragEnter="_notifyHandler('dragEnter')"
+      on:dragStart="_notifyHandler('dragStart')"
+      on:changeDragTarget="_notifyHandler('changeDragTarget')"
+
+      on:afterBeginEdit="_notifyHandler('afterBeginEdit')"
+      on:afterEndEdit="_notifyHandler('afterEndEdit')"
+      on:beforeEndEdit="_notifyHandler('beforeEndEdit')"
+      on:beforeBeginEdit="_notifyHandler('beforeBeginEdit')"
+
+      on:selectedKeysChanged="_notifyHandler('selectedKeysChanged')"
+      on:excludedKeysChanged="_notifyHandler('excludedKeysChanged')"
+      on:activeElementChanged="_notifyHandler('activeElementChanged')"
+      on:beforeSelectionChanged="_notifyHandler('beforeSelectionChanged')"
+   />
+</div>
