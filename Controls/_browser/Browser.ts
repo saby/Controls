@@ -240,6 +240,8 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         const sourceChanged = this._options.source !== newOptions.source;
         const hasSearchValueInOptions = newOptions.searchValue !== undefined;
         const isInputSearchValueLongerThenMinSearchLength = this._inputSearchValue && this._inputSearchValue.length >= this._options.minSearchLength;
+        const searchValueOptionsChanged = this._options.searchValue !== newOptions.searchValue;
+        const searchValueChanged = this._searchValue !== newOptions.searchValue;
         let methodResult;
 
         this._getOperationsController().update(newOptions);
@@ -247,9 +249,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             this._listMarkedKey = this._getOperationsController().setListMarkedKey(newOptions.markedKey);
         }
 
-        const isFilterOptionsChanged = this._dataLoader.getFilterController().update(this._getFilterControllerOptions(newOptions));
-
-        if (isFilterOptionsChanged) {
+        if (this._dataLoader.getFilterController().update(this._getFilterControllerOptions(newOptions))) {
             this._updateFilterAndFilterItems();
         }
 
@@ -277,7 +277,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         const isChanged = sourceController.updateOptions(
            this._getSourceControllerOptions(newOptions as ISourceControllerOptions));
 
-        if ((this._options.searchValue !== newOptions.searchValue) && (this._searchValue !== newOptions.searchValue)) {
+        if (searchValueOptionsChanged && searchValueChanged) {
             this._inputSearchValue = newOptions.searchValue;
 
             if (!newOptions.searchValue && sourceChanged && this._searchController) {
@@ -295,8 +295,7 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
             this._inputSearchValue = '';
         }
 
-        const searchParamChanged = this._options.searchParam !== newOptions.searchParam;
-        if ((hasSearchValueInOptions && this._searchValue !== newOptions.searchValue) || searchParamChanged) {
+        if ((hasSearchValueInOptions && searchValueChanged) || this._options.searchParam !== newOptions.searchParam || this._options.startingWith !== newOptions.startingWith) {
             if (!methodResult) {
                 methodResult = this._updateSearchController(newOptions).catch((error) => {
                     this._processLoadError(error);
