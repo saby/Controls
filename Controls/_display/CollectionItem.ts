@@ -93,6 +93,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     readonly SelectableItem: boolean = true;
     readonly DraggableItem: boolean = true;
     readonly ItemActionsItem: boolean = true;
+    readonly DisplaySearchValue: boolean = true;
+
     private _$editingColumnIndex: number;
 
     getInstanceId: () => string;
