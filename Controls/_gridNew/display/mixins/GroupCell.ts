@@ -1,10 +1,11 @@
-import {GridRow} from 'Controls/gridNew';
-
 export default abstract class GroupCell<T> {
     readonly '[Controls/_display/grid/mixins/GroupCell]': boolean;
 
     getContentClasses(theme: string): string {
         let classes = '';
+        // TODO необходимо разобраться с высотой групп.
+        //  https://online.sbis.ru/opendoc.html?guid=6693d47c-515c-4751-949d-55be05fe124e
+        classes += ` controls-Grid__row-cell__content_baseline_S_theme-${theme}`;
         classes += this._getHorizontalPaddingClasses(theme);
         classes += this._getContentAlignClasses();
         classes += ' controls-ListView__groupContent';
@@ -17,18 +18,21 @@ export default abstract class GroupCell<T> {
             `controls-ListView__groupContent-text_default_theme-${theme} `;
     }
 
-    getExpanderClasses(expanderVisible: boolean, expanderAlign: string, theme: string): string {
+    getExpanderClasses(expanderVisible: boolean = true,
+                       expanderAlign: 'right' | 'left' = 'left',
+                       theme: string = 'default'): string {
         let classes = '';
-        const expander = expanderAlign === 'right' ? 'right' : 'left';
         if (expanderVisible !== false) {
             if (!this.isExpanded()) {
                 classes += ' controls-ListView__groupExpander_collapsed';
-                classes += ` controls-ListView__groupExpander_collapsed_${expander}`;
+                classes += ` controls-ListView__groupExpander_collapsed_${expanderAlign}`;
             }
 
             classes += ` controls-ListView__groupExpander controls-ListView__groupExpander_theme-${theme}` +
-                ` controls-ListView__groupExpander_${expander}_theme-${theme}` +
+                ` controls-ListView__groupExpander_${expanderAlign}_theme-${theme}` +
                 ` controls-ListView__groupExpander-iconSize_default_theme-${theme}`;
+
+            classes += ' js-controls-Tree__row-expander';
         }
         return classes;
     }

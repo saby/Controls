@@ -11,7 +11,15 @@ import {
 } from 'Controls/dataSource';
 import {ISourceControllerState} from 'Controls/dataSource';
 import {ContextOptions} from 'Controls/context';
-import {ISourceOptions, IHierarchyOptions, IFilterOptions, INavigationOptions, ISortingOptions, TKey} from 'Controls/interface';
+import {
+   ISourceOptions,
+   IHierarchyOptions,
+   IFilterOptions,
+   INavigationOptions,
+   ISortingOptions,
+   TKey,
+   Direction
+} from 'Controls/interface';
 import {SyntheticEvent} from 'UI/Vdom';
 import {isEqual} from 'Types/object';
 
@@ -38,6 +46,9 @@ export interface IDataContextOptions extends ISourceOptions,
    keyProperty: string;
    items: RecordSet;
 }
+
+type ReceivedState = RecordSet | Error;
+
 /**
  * Контрол-контейнер, предоставляющий контекстное поле "dataOptions" с необходимыми данными для дочерних контейнеров.
  *
@@ -97,7 +108,7 @@ export interface IDataContextOptions extends ISourceOptions,
  * @author Герасимов А.М.
  */
 
-class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype */{
+class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list/Data.prototype */{
    protected _template: TemplateFunction = template;
    private _isMounted: boolean;
    private _loading: boolean = false;
@@ -115,7 +126,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    _beforeMount(
        options: IDataOptions,
        context?: object,
-       receivedState?: RecordSet|Error
+       receivedState?: ReceivedState
    ): Promise<RecordSet|Error>|void {
       // TODO придумать как отказаться от этого свойства
       this._itemsReadyCallback = this._itemsReadyCallbackHandler.bind(this);
@@ -131,14 +142,15 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       } else {
          this._source = options.source;
       }
+
       if (options.root !== undefined) {
          this._root = options.root;
       }
-      this._sourceController =
-          options.sourceController || this._getSourceController(options);
+
+      this._sourceController = options.sourceController || this._getSourceController(options);
       this._fixRootForMemorySource(options);
 
-      let controllerState = this._sourceController.getState();
+      const controllerState = this._sourceController.getState();
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
       this._dataOptionsContext = this._createContext(controllerState);
@@ -376,7 +388,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
           });
    }
 
-   private _dataLoadCallback(items: RecordSet, direction): void {
+   private _dataLoadCallback(items: RecordSet, direction: Direction): void {
       const rootChanged =
           this._sourceController.getRoot() !== undefined &&
           this._root !== this._sourceController.getRoot();

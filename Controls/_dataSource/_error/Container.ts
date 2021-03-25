@@ -5,6 +5,11 @@ import { Mode, Popup, ViewConfig } from 'Controls/error';
 import { isEqual } from 'Types/object';
 import { load } from 'Core/library';
 import { default as IContainer, IContainerConfig } from './IContainer';
+/**
+ * Нужно загружать стили для показа диалога сразу.
+ * При возникновении ошибки они могут не загрузиться (нет связи или сервис недоступен).
+ */
+import 'css!Controls/popupConfirmation';
 
 interface IInlistTemplateOptions {
     listOptions: object;
@@ -253,12 +258,6 @@ export default class Container extends Control<IContainerConfig> implements ICon
         };
         (this.__viewConfig as Config<IInlistTemplateOptions>).options.listOptions = options;
     }
-
-    /**
-     * Нужно загружать стили для показа диалога сразу.
-     * При возникновении ошибки они могут не загрузиться (нет связи или сервис недоступен).
-     */
-    static _theme: string[] = ['Controls/popupConfirmation'];
 }
 
 interface IDialogData {

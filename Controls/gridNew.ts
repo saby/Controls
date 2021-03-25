@@ -36,12 +36,14 @@ import * as StringTypeRender from 'wml!Controls/_gridNew/Render/types/string';
 import * as StringSearchTypeRender from 'wml!Controls/_gridNew/Render/types/StringSearch';
 
 import SortingButton from 'Controls/_gridNew/SortingButton';
+import SortingSelector from 'Controls/_gridNew/SortingSelector';
 import {register} from 'Types/di';
 
 export {
     View,
     GridView,
     ItemTemplate,
+    ColumnTemplate as ItemEditorTemplate,
     ResultsTemplate,
     ResultColumnTemplate,
     ColumnTemplate,
@@ -57,7 +59,8 @@ export {
     StringTypeRender,
     StringSearchTypeRender,
     TableTemplate,
-    SortingButton
+    SortingButton,
+    SortingSelector
 };
 
 import {

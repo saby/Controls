@@ -50,6 +50,7 @@ interface IBodyClassesField {
    hoverClass: string;
    dragClass: string;
    themeClass: string;
+   bodyThemeClass: string;
    isAdaptiveClass: string;
 }
 
@@ -99,6 +100,7 @@ const BODY_CLASSES = {
    hoverClass: '',
    dragClass: 'ws-is-no-drag',
    themeClass: '',
+   bodyThemeClass: '',
    isAdaptiveClass: ''
 };
 
@@ -334,7 +336,7 @@ export default class Application extends Control<IApplication> {
          }
          HeadAPI.createTag('meta', {
             name: 'viewport',
-            content: 'width=device-width, initial-scale=1.0'
+            content: 'width=device-width, initial-scale=1.0, user-scalable=no'
          });
          this._bodyClasses.isAdaptiveClass = 'ws-is-adaptive';
       } else {
@@ -415,7 +417,8 @@ export default class Application extends Control<IApplication> {
    }
    private _updateThemeClass(options: IApplication): void {
       this._updateBodyClasses({
-         themeClass: 'Application-body'
+         themeClass: 'Application-body',
+         bodyThemeClass: `controls_theme-${options.theme}`
       });
    }
    /** ************************************************** */

@@ -4,6 +4,12 @@ import {POSITION, TYPE_FIXED_HEADERS} from 'Controls/_scroll/StickyHeader/Utils'
 
 const SCROLL_CONTAINERS_SELECTOR = '.controls-Scroll, .controls-Scroll-Container';
 
+enum SCROLL_POSITION {
+   top = 'top',
+   bottom = 'bottom',
+   center = 'center',
+}
+
 function getScrollableParents(element: HTMLElement): HTMLElement[] {
    let
       scrollableParents: HTMLElement[] = [],
@@ -56,16 +62,27 @@ function getStickyHeaderHeight(scrollableElement: HTMLElement): { top: number; b
    return { top: 0, bottom: 0 };
 }
 
+function getCenterOffset(parentElement: HTMLElement, element: HTMLElement): number {
+   const elementHeight: number = getDimensions(element).height;
+   const parentHeight: number = getDimensions(parentElement).height;
+   return (parentHeight - elementHeight)/2;
+}
+
+/**
+ * Тип данных для позиции к которой можно подскролить
+ * @typedef {string | } TPosition
+ * @variant top
+ * @variant center
+ * @variant bottom
+ */
+
 /**
  * Модуль возвращает функцию, которая позволяет проскроллить содержимое, находящееся внутри родительского скролл-контейнера, к выбранному элементу, сделав его видимым.
- * @remark
- * Аргументы функции:
- *
- * * element: HTMLElement — DOM-элемент, к которому нужно проскроллить содержимое
- * * toBottom: boolean — определяет, должен ли быть виден нижний край контейнера
- * * force: boolean:
- *     * true — позволяет прокручивать элемент вверх/вниз в области прокрутки, безоговорочно.
- *     * false — элемент будет прокручиваться только в случае, если он частично или полностью скрыт за пределами области прокрутки.
+ * @param {HTMLElement} element DOM-элемент, к которому нужно проскроллить содержимое
+ * @param {boolean|TPosition} toBottomOrPosition определяет, должен ли быть виден нижний край контейнера
+ * @param {boolean} force
+ * @variant true позволяет прокручивать элемент вверх/вниз в области прокрутки, безоговорочно.
+ * @variant false элемент будет прокручиваться только в случае, если он частично или полностью скрыт за пределами области прокрутки.
  *
  * @example
  * <pre>
@@ -82,7 +99,10 @@ function getStickyHeaderHeight(scrollableElement: HTMLElement): { top: number; b
  * @author Красильников А.С.
  */
 
-export function scrollToElement(element: HTMLElement, toBottom?: Boolean, force?: Boolean): void {
+export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boolean | SCROLL_POSITION, force?: Boolean): void {
+   // TODO: переделать аргумент toBottom в position https://online.sbis.ru/opendoc.html?guid=4693dfce-f11d-4792-b62d-9faf54564553
+   const position: SCROLL_POSITION = toBottomOrPosition === true ? SCROLL_POSITION.bottom : toBottomOrPosition;
+
    getScrollableParents(element).forEach(parent => {
       const
          elemToScroll = parent === document.documentElement ? document.body : parent,
@@ -115,7 +135,10 @@ export function scrollToElement(element: HTMLElement, toBottom?: Boolean, force?
       }
 
       if (force || parentOffset.bottom < elemOffset.bottom) {
-         if (toBottom) {
+         if (position === SCROLL_POSITION.center) {
+            const centerOffset: number = getCenterOffset(parent, element);
+            elemToScroll.scrollTop += Math.floor(elemOffset.top - parentOffset.top - stickyHeaderHeight.top - centerOffset);
+         } else if (position === SCROLL_POSITION.bottom) {
             elemToScroll.scrollTop += Math.ceil(elemOffset.bottom - parentOffset.bottom + stickyHeaderHeight.bottom);
          } else {
             elemToScroll.scrollTop += Math.floor(elemOffset.top - parentOffset.top - stickyHeaderHeight.top);
@@ -125,7 +148,10 @@ export function scrollToElement(element: HTMLElement, toBottom?: Boolean, force?
          force = false;
       } else {
          if (parentOffset.top + stickyHeaderHeight.top > elemOffset.top) {
-            if (toBottom) {
+            if (position === SCROLL_POSITION.center) {
+               const centerOffset: number = getCenterOffset(parent, element);
+               elemToScroll.scrollTop -= Math.max(parentOffset.top - elemOffset.top + stickyHeaderHeight.top + centerOffset, 0);
+            } else if (position === SCROLL_POSITION.bottom) {
                elemToScroll.scrollTop -= Math.max(parentOffset.bottom - elemOffset.bottom + stickyHeaderHeight.bottom, 0);
             } else {
                elemToScroll.scrollTop -= Math.max(parentOffset.top - elemOffset.top + stickyHeaderHeight.top, 0);

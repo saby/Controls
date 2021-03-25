@@ -1,60 +1,74 @@
-import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls/_explorer/PathController/PathWrapper';
 import {EventUtils} from 'UI/Events';
+import {Path} from 'Controls/_dataSource/calculatePath';
+import {IHeaderCell} from 'Controls/_interface/grid/IHeaderCell';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+// tslint:disable-next-line:ban-ts-ignore
+// @ts-ignore
+import * as template from 'wml!Controls/_explorer/PathController/PathWrapper';
 
-export default class PathWrapper extends Control<IControlOptions> {
-   protected _template: TemplateFunction = template;
-   protected _needCrumbs: boolean = false;
-   protected _withoutBackButton: boolean = false;
-   protected _items: object[];
-   private _header: object;
+interface IOptions extends IControlOptions {
+    items?: Path;
+    header?: IHeaderCell[];
 
-   protected _notifyHandler: EventUtils.tmplNotify = EventUtils.tmplNotify;
+    needShadow?: boolean;
+    stickyHeader?: boolean;
 
-   protected _beforeMount(options): Promise<void> {
-      return options.itemsAndHeaderPromise.then((params) => {
-         this._items = params.items;
-         this._needCrumbs = this._isNeedCrumbs(params.header, params.items, options);
-         this._header = params.header;
-         this._withoutBackButton = this._isWithoutBackButton(this._header);
-      });
-   }
+    style?: string;
+    backgroundStyle?: string;
 
-   protected _beforeUpdate(newOptions): void {
-      const isEqualsHeader = GridIsEqualUtil.isEqualWithSkip(
-          this._header,
-          newOptions.header,
-          { template: true }
-       );
+    rootVisible?: boolean;
+    breadcrumbsVisibility?: 'hidden' | 'visible';
+    afterBreadCrumbsTemplate?: string | TemplateFunction;
+}
 
-      if (this._items !== newOptions.items ||
-          this._options.rootVisible !== newOptions.rootVisible || !isEqualsHeader) {
-         this._items = newOptions.items;
-         this._needCrumbs = this._isNeedCrumbs(newOptions.header,  this._items, newOptions);
-      }
+/**
+ * * Рисует хлебные крошки и кастомный контент после них когда итемы для списка загружены
+ */
+export default class PathWrapper extends Control<IOptions> {
+    protected _template: TemplateFunction = template;
+    protected _needCrumbs: boolean = false;
+    protected _withoutBackButton: boolean = false;
+    protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
 
-      if (this._options.breadcrumbsVisibility !== newOptions.breadcrumbsVisibility) {
-         this._needCrumbs = _private.needCrumbs(newOptions.header,  this._items, newOptions);
-      }
+    protected _beforeMount(options: IOptions): void {
+        this._needCrumbs = PathWrapper._isNeedCrumbs(options);
+        this._withoutBackButton = PathWrapper._isWithoutBackButton(options.header);
+    }
 
-      if (!isEqualsHeader) {
-         this._header = newOptions.header;
-         this._withoutBackButton = this._isWithoutBackButton(this._header);
-      }
-   }
+    protected _beforeUpdate(newOptions: IOptions): void {
+        const headerChanged = GridIsEqualUtil.isEqualWithSkip(
+            this._options.header,
+            newOptions.header,
+            { template: true }
+        );
 
-   private _isNeedCrumbs(header, items, options): boolean {
-      if (options.breadcrumbsVisibility === 'hidden') {
-         return false;
-      }
+        if (
+            headerChanged ||
+            this._options.items !== newOptions.items ||
+            this._options.rootVisible !== newOptions.rootVisible ||
+            this._options.breadcrumbsVisibility !== newOptions.breadcrumbsVisibility
+        ) {
+            this._needCrumbs = PathWrapper._isNeedCrumbs(newOptions);
+        }
 
-      return !!items &&
-          ((!this._isWithoutBackButton(header) && items.length > 0) || items.length > 1) ||
-          !!options.rootVisible;
-   }
+        if (headerChanged) {
+            this._withoutBackButton = PathWrapper._isWithoutBackButton(newOptions.header);
+        }
+    }
 
-   private _isWithoutBackButton(header): boolean {
-      return !!(header && header[0] && header[0].isBreadCrumbs);
-   }
+    private static _isNeedCrumbs(options: IOptions): boolean {
+        if (options.breadcrumbsVisibility === 'hidden') {
+            return false;
+        }
+
+        const items = options.items;
+        return !!items &&
+            ((!PathWrapper._isWithoutBackButton(options.header) && items.length > 0) || items.length > 1) ||
+            !!options.rootVisible;
+    }
+
+    private static _isWithoutBackButton(header: IHeaderCell[]): boolean {
+        return !!(header && header[0] && (header[0] as any).isBreadCrumbs);
+    }
 }

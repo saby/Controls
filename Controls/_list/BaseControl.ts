@@ -446,9 +446,6 @@ const _private = {
 
     executeAfterReloadCallbacks(self, loadedList, options): void {
         self._afterReloadCallback(options, loadedList);
-        if (options.serviceDataLoadCallback instanceof Function) {
-            options.serviceDataLoadCallback(this._items, loadedList);
-        }
     },
 
     callDataLoadCallbackCompatibility(self, items, direction, options): void {
@@ -1302,6 +1299,18 @@ const _private = {
         if (!self._isMounted) {
             return;
         }
+
+        // hideIndicator вызывают после окончания порционного поиска и нужно пересчитать отображение ромашек(attachToNull)
+        if (self._loadingState === 'down') {
+            _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+        } else if (self._loadingState === 'up') {
+            const scrollTop = self._scrollTop;
+            if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                self._needScrollToFirstItem = false;
+                self._scrollTop = scrollTop;
+            }
+        }
+
         self._loadingState = null;
         self._showLoadingIndicator = false;
         self._loadingIndicatorContainerOffsetTop = 0;
@@ -2183,10 +2192,6 @@ const _private = {
             this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController)
         );
 
-        if (this._options.serviceDataLoadCallback instanceof Function) {
-            this._options.serviceDataLoadCallback(this._items, items);
-        }
-
         _private.callDataLoadCallbackCompatibility(this, items, direction, this._options);
 
         if (
@@ -2804,7 +2809,7 @@ const _private = {
      * @param self
      */
     closeSwipe(self): void {
-        if (self._listViewModel.isActionsAssigned()) {
+        if (self._listViewModel?.isActionsAssigned()) {
             _private.getItemActionsController(self, self._options).deactivateSwipe();
         }
     },
@@ -3510,10 +3515,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
                 self._afterReloadCallback(newOptions, self._items, self._listViewModel);
 
-                if (newOptions.serviceDataLoadCallback instanceof Function) {
-                    newOptions.serviceDataLoadCallback(null, self._items);
-                }
-
                 if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
                     _private.needAttachLoadTriggerToNull(self, 'up')) {
                     self._hideTopTrigger = true;
@@ -3747,10 +3748,10 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
 
         // в тач интерфейсе инициализировать пейджер необходимо при загрузке страницы
-        // В beforeMount инициализировать пейджер нельзя, т.к. не корректно посчитаются его размеры
-        // Также, в тач интерфейсе может быть включено управление мышью, и мы можем не знать,
-        // как устройство управляется в данный момент, поэтому определяем по isMobilePlatform
-        if (detection.isMobilePlatform) {
+        // В beforeMount инициализировать пейджер нельзя, т.к. не корректно посчитаются его размеры.
+        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
+        // touch режимом isMobilePlatform может быть false
+        if (!!this._context?.isTouch?.isTouch) {
             _private.initPaging(this);
         }
 
@@ -4045,6 +4046,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 // TODO удалить когда полностью откажемся от старой модели
                 //  Если Items были обновлены, то в старой модели переинициализировался display и этот параметр сбросился
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
+                this._updateScrollController(newOptions);
             }
 
             if (!this._options.sourceController) {
@@ -4304,7 +4306,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         return this._items;
     }
 
-    scrollToItem(key: TItemKey, toBottom: boolean, force: boolean): void {
+    scrollToItem(key: TItemKey, toBottom?: boolean, force?: boolean): Promise<void> {
         return _private.scrollToItem(this, key, toBottom, force);
     }
 
@@ -4497,7 +4499,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     this.changeIndicatorStateHandler(false, 'up');
                 }
-                this.changeIndicatorStateHandler(false, 'down');
+                if (!this._shouldDisplayBottomLoadingIndicator()) {
+                    this.changeIndicatorStateHandler(false, 'down');
+                }
                 this._syncLoadingIndicatorState = null;
             }
             let itemsUpdated = false;
@@ -5045,6 +5049,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                     group: groupId,
                     collapsedGroups
                 };
+                // При setExpanded() не обновляется collection.collapsedGroups, на основе которого стратегия
+                // определяет, какие группы надо создавать свёрнутыми. Поэтому обновляем его тут.
+                collection.setCollapsedGroups(collapsedGroups);
                 _private.groupsExpandChangeHandler(this, changes);
             } else {
                 const needExpandGroup = !collection.isGroupExpanded(groupId);
@@ -5964,11 +5971,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     }
 
     _mouseEnter(event): void {
-        // В chrome/safari mouseEnter происходит всегда, сразу после touch
-        if (!detection.isMobilePlatform) {
-            _private.updateItemActionsOnce(this, this._options);
-        }
-
         this._dragEnter(this._getDragObject());
 
         // нельзя делать это в процессе обновления или загрузки
@@ -6079,6 +6081,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
      * @param swipeEvent
      * @private
      */
+
     _onItemSwipe(e: SyntheticEvent<Event>, item: CollectionItem<Model>, swipeEvent: SyntheticEvent<ISwipeEvent>): void {
         if (item['[Controls/_display/GroupItem]']) {
             return;
@@ -6337,10 +6340,12 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             return false;
         }
 
-        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down' && !this._portionedSearchInProgress;
+        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
+        // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
+        const isAborted = _private.getPortionedSearch(this).isAborted();
         return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull
-           :  shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull;
+           ? this._showLoadingIndicator && shouldDisplayDownIndicator && !this._portionedSearchInProgress && !isAborted
+           : (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection) && !this._portionedSearchInProgress && !isAborted;
     }
 
     _shouldDisplayTopPortionedSearch(): boolean {
@@ -6442,6 +6447,12 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
      * @private
      */
     _onListMouseMove(event): void {
+        // В тач режиме itemActions создаются непосредственно при свайпе
+        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
+        // touch режимом isMobilePlatform может быть false
+        if (!this._context?.isTouch?.isTouch) {
+            _private.updateItemActionsOnce(this, this._options);
+        }
         // Использовать itemMouseMove тут нельзя, т.к. отслеживать перемещение мышки надо вне itemsContainer
         if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this)) {
             this._hoverFreezeController.restartUnfreezeHoverTimeout(event);
