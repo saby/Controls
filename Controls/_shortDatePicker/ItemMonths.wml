@@ -1,7 +1,6 @@
 <div>
     <ws:if data="{{_options._yearHovered === _options.currentYear}}">
         <div class="controls-PeriodLiteDialog__item-background-hovered
-               controls-PeriodLiteDialog__item-background-hovered_theme-{{_options.theme}}
                border-top-hidden"></div>
     </ws:if>
     <ws:for data="halfYear in _yearModel">

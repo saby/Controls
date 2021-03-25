@@ -7,8 +7,7 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeSelector/RangeSelec
 import {Popup as PopupUtil, Base as dateUtils} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
-import dateControlsUtils from "./Utils";
-import {descriptor} from "Types/entity";
+import 'css!Controls/dateRange';
 
 /**
  * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре.
@@ -119,15 +118,15 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
     protected _getPopupOptions(): IStickyPopupOptions {
         const container = this._children.linkView.getPopupTarget();
         const ranges = this._options.ranges;
-        let className = `controls-DatePopup__selector-marginTop_fontSize-${this._getFontSizeClass()}_theme-${this._options.theme}`;
+        let className = `controls-DatePopup__selector-marginTop_fontSize-${this._getFontSizeClass()}`;
         if (this._options.popupClassName) {
             className += `${this._options.popupClassName} `;
         }
         if ((ranges && ('days' in ranges || 'weeks' in ranges)) ||
             ((!ranges || isEmpty(ranges)) && this._options.minRange === 'day')) {
-            className += ' controls-DatePopup__selector-marginLeft_theme-' + this._options.theme;
+            className += ' controls-DatePopup__selector-marginLeft';
         } else {
-            className += ' controls-DatePopup__selector-marginLeft-withoutModeBtn_theme-' + this._options.theme;
+            className += ' controls-DatePopup__selector-marginLeft-withoutModeBtn';
         }
         return {
             ...PopupUtil.getCommonOptions(this),
@@ -193,8 +192,6 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
             ...ILinkView.getOptionTypes()
         };
     }
-
-    static _theme: string[] = ['Controls/dateRange'];
 
     EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 }
