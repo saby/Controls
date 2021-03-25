@@ -153,20 +153,16 @@ export default class MonthViewModel extends VersionableMixin {
                     css.push('controls-MonthViewVDOM__item-selectedStartEnd');
                 } else if (scope.selectedStart && !scope.selectedUnfinishedStart) {
                     css.push('controls-MonthViewVDOM__item-selectedStart');
-                    css.push('controls-MonthViewVDOM__item-selectedStart');
                 } else if (scope.selectedEnd && (!scope.selectionProcessing ||
                     (scope.selectedEnd !== scope.selectedStart && !scope.selectedUnfinishedEnd))) {
-                    css.push('controls-MonthViewVDOM__item-selectedEnd');
                     css.push('controls-MonthViewVDOM__item-selectedEnd');
                 }
             }
             if (scope.selectedInner) {
                 css.push('controls-MonthViewVDOM__item-selectedInner');
-                css.push('controls-MonthViewVDOM__item-selectedInner');
             }
 
             if (scope.today) {
-                css.push('controls-MonthViewVDOM__today');
                 css.push('controls-MonthViewVDOM__today');
             }
         }
