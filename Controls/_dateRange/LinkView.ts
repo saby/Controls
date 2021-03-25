@@ -98,6 +98,14 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       this._rangeModel.destroy();
    }
 
+   shiftPeriod(delta: number): void {
+       if (delta === 1) {
+           this.shiftForward();
+       } else {
+           this.shiftBack();
+       }
+   }
+
    shiftBack(): void {
       this._rangeModel.shiftBack();
       this._updateCaption();
