@@ -1,11 +1,11 @@
 // Если в будующем потребуется обводка для ячеек с толстыми разделителями, то стили должны добавиться сюда.
-.controls-Grid__row-cell_editing-mode-single-cell_theme-@{themeName} {
+.controls-Grid__row-cell_editing-mode-single-cell {
    &::after {
       position: absolute;
-      top: -@item-separator_s_thickness_list;
+      top: calc(-var(--item-separator_s_thickness_list));
       left: 0;
-      right: -@column_separator_s_thickness_grid;
-      bottom: -@item-separator_s_thickness_list;
+      right: calc(-var(--column_separator_s_thickness_grid));
+      bottom: calc(-var(--item-separator_s_thickness_list));
       z-index: 1;
       box-sizing: border-box;
       border: 0 solid transparent;
@@ -20,22 +20,22 @@
    opacity: 1;
 }
 
-.controls-Grid__row-cell_single-cell_editable_theme-@{themeName}:hover {
-   background-color: @single-editable-cell_hover_background-color_grid;
+.controls-Grid__row-cell_single-cell_editable:hover {
+   background-color: var(--single-editable-cell_hover_background-color_grid);
 
    &::after {
       content: '\200b';
-      border-color: @single-editable-cell_hover_border-color_grid;
-      border-width: @single-editable-cell_hover_border-width_grid;
+      border-color: var(--single-editable-cell_hover_border-color_grid);
+      border-width: var(--single-editable-cell_hover_border-width_grid);
    }
 }
 
-.controls-Grid__row-cell_single-cell_editing_theme-@{themeName}::after {
+.controls-Grid__row-cell_single-cell_editing::after {
    content: '\200b';
-   border-color: @single-editable-cell_editing_border-color_grid;
-   border-width: @single-editable-cell_editing_border-width_grid;
+   border-color: var(--single-editable-cell_editing_border-color_grid);
+   border-width: var(--single-editable-cell_editing_border-width_grid);
 }
 
-.controls-Grid__row-cell_single-cell_not-editable_theme-@{themeName}:hover {
-   background-color: @single-not-editable-cell_hover_background-color_grid;
+.controls-Grid__row-cell_single-cell_not-editable:hover {
+   background-color: var(--single-not-editable-cell_hover_background-color_grid);
 }

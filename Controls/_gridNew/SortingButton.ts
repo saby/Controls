@@ -1,5 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_gridNew/Render/SortingButton/SortingButton');
+import 'css!Controls/grid';
 
 export interface ISortingButtonOptions extends IControlOptions {
     property: string;
@@ -22,7 +23,6 @@ class SortingButton extends Control<ISortingButtonOptions> {
         this._notify('sortingChanged', [this._options.property], {bubbling: true});
     }
 
-    static _theme: [string] = ['Controls/grid'];
 }
 /**
  * @name Controls/_gridNew/SortingButton#property

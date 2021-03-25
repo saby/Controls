@@ -54,11 +54,11 @@
                                 keyProperty="{{_options.keyProperty}}"
                                 searchParam="{{_options.searchParam}}">
             <div class="controls-MoveDialog__content">
-               <Controls.search:InputContainer attr:class="controls-MoveDialog__search controls-MoveDialog__search_theme-{{_options.theme}}">
+               <Controls.search:InputContainer attr:class="controls-MoveDialog__search ">
                   <Controls.search:Input/>
                </Controls.search:InputContainer>
                <ws:if data="{{_options.showRoot}}">
-                  <Controls.buttons:Button attr:class="controls-MoveDialog__root controls-MoveDialog__root_theme-{{_options.theme}}"
+                  <Controls.buttons:Button attr:class="controls-MoveDialog__root"
                                            viewMode="link"
                                            fontColorStyle="link"
                                            caption="{[В корень]}"

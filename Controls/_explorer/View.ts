@@ -38,6 +38,8 @@ import {TreeControl} from 'Controls/tree';
 // @ts-ignore
 import * as template from 'wml!Controls/_explorer/View/View';
 import {IEditableListOption} from 'Controls/_list/interface/IEditableList';
+import 'css!Controls/tile';
+import 'css!Controls/explorer';
 
 const HOT_KEYS = {
     _backByPath: constants.key.backspace
@@ -1010,8 +1012,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     }
 
     static _constants: object = EXPLORER_CONSTANTS;
-
-    static _theme: string[] = ['Controls/explorer', 'Controls/tile'];
 
     static getDefaultOptions(): object {
         return {

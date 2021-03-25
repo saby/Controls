@@ -79,7 +79,7 @@ var TileViewModel = ListViewModel.extend({
         }
 
         if (current.hasMultiSelect) {
-            current.multiSelectClassList += ` controls-TileView__checkbox_position-${current.multiSelectPosition}_theme-${current.theme} ` +
+            current.multiSelectClassList += ` controls-TileView__checkbox_position-${current.multiSelectPosition} ` +
                 'controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom';
         }
         return current;
@@ -255,11 +255,10 @@ var TileViewModel = ListViewModel.extend({
 
     getItemPaddingClasses(): string {
         const padding = this.getPadding('itemPadding');
-        const theme = `_theme-${this._options.theme}`;
-        const leftSpacingClass = `controls-TileView__item_spacingLeft_${padding.left}${theme}`;
-        const rightSpacingClass = `controls-TileView__item_spacingRight_${padding.right}${theme}`;
-        const topSpacingClass = `controls-TileView__item_spacingTop_${padding.top}${theme}`;
-        const bottomSpacingClass = `controls-TileView__item_spacingBottom_${padding.bottom}${theme}`;
+        const leftSpacingClass = `controls-TileView__item_spacingLeft_${padding.left}`;
+        const rightSpacingClass = `controls-TileView__item_spacingRight_${padding.right}`;
+        const topSpacingClass = `controls-TileView__item_spacingTop_${padding.top}`;
+        const bottomSpacingClass = `controls-TileView__item_spacingBottom_${padding.bottom}`;
 
         return `${leftSpacingClass} ${rightSpacingClass} ${topSpacingClass} ${bottomSpacingClass}`;
     },
@@ -282,7 +281,6 @@ var TileViewModel = ListViewModel.extend({
     },
 
     getItemsPaddingContainerClasses(): string {
-        const theme = `_theme-${this._options.theme}`;
         const itemPadding = this.getPadding('itemPadding');
         let leftSpacingClass = '';
         let rightSpacingClass = '';
@@ -303,15 +301,15 @@ var TileViewModel = ListViewModel.extend({
             if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.right)) {
                 itemsContainerPadding.right = 'default';
             }
-            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}${theme}`;
-            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}${theme}`;
-            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}${theme}`;
-            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}${theme}`;
+            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}`;
+            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}`;
+            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}`;
+            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}`;
         } else {
-            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding.left}${theme}`;
-            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding.right}${theme}`;
-            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding.top}${theme}`;
-            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding.bottom}${theme}`;
+            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding.left}`;
+            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding.right}`;
+            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding.top}`;
+            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding.bottom}`;
         }
         return `${leftSpacingClass} ${rightSpacingClass} ${topSpacingClass} ${bottomSpacingClass}`;
     },
@@ -342,15 +340,14 @@ var TileViewModel = ListViewModel.extend({
     },
 
     getRoundBorderClasses(): string {
-        const theme = `_theme-${this._options.theme}`;
         const topLeftBorder = this._options.roundBorder?.tl || 'default';
         const topRightBorder = this._options.roundBorder?.tr || 'default';
         const bottomLeftBorder = this._options.roundBorder?.bl || 'default';
         const bottomRightBorder = this._options.roundBorder?.br || 'default';
-        const topLeftClass = `controls-TileView__item_roundBorder_topLeft_${topLeftBorder}${theme}`;
-        const topRightClass = `controls-TileView__item_roundBorder_topRight_${topRightBorder}${theme}`;
-        const bottomLeftClass = `controls-TileView__item_roundBorder_bottomLeft_${bottomLeftBorder}${theme}`;
-        const bottomRightClass = `controls-TileView__item_roundBorder_bottomRight_${bottomRightBorder}${theme}`;
+        const topLeftClass = `controls-TileView__item_roundBorder_topLeft_${topLeftBorder}`;
+        const topRightClass = `controls-TileView__item_roundBorder_topRight_${topRightBorder}`;
+        const bottomLeftClass = `controls-TileView__item_roundBorder_bottomLeft_${bottomLeftBorder}`;
+        const bottomRightClass = `controls-TileView__item_roundBorder_bottomRight_${bottomRightBorder}`;
 
         return `${topLeftClass} ${topRightClass} ${bottomLeftClass} ${bottomRightClass}`;
     }

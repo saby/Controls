@@ -7,8 +7,8 @@
         class="controls-TileView__richTemplate_image
                {{imagePosition === 'top' && imageViewMode === 'rectangle' && imageProportion ? 'controls-TileView__image controls-TileView__image_align_center' : ''}}
                controls-TileView__richTemplate_image_viewMode_{{imageViewMode}}
-               {{!imageProportion || imageViewMode !== 'rectangle' || imagePosition !== 'top' ? 'controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + imagePosition + '_viewMode_' + imageViewMode + '_theme-' + theme +
-               ' controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + (imagePosition !== 'top' ? 'vertical' : 'top') + '_theme-' + theme : ''}}"
+               {{!imageProportion || imageViewMode !== 'rectangle' || imagePosition !== 'top' ? 'controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + imagePosition + '_viewMode_' + imageViewMode +
+               ' controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + (imagePosition !== 'top' ? 'vertical' : 'top')  : ''}}"
         preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}">
       <image preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}" height="100%" width="100%" xlink:href="{{itemData.imageData.url}}"></image>
    </svg>
@@ -19,20 +19,20 @@
 </ws:template>
 
 <ws:template name="itemContentTemplate">
-   <div class="controls-TileView__richTemplate_itemContent controls-TileView__richTemplate_itemContent_theme-{{theme}} ws-ellipsis"
+   <div class="controls-TileView__richTemplate_itemContent ws-ellipsis"
         style="background-color: {{(!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right' ? gradientColor || '#FFF' : ''}}">
       <div class="controls-TileView__richTemplate_title
                   {{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
-                  controls-TileView__richTemplate_title_theme-{{theme}}
-                  controls-fontsize-{{itemData.dispItem.isNode() ? '4xl' : 'xl'}}_theme-{{theme}}
-                  controls-text-{{titleColorStyle || 'default'}}_theme-{{theme}}
+                  controls-TileView__richTemplate_title
+                  controls-fontsize-{{itemData.dispItem.isNode() ? '4xl' : 'xl'}}
+                  controls-text-{{titleColorStyle || 'default'}}
                   controls-fontweight-bold"
            title="{{itemData.item[itemData.displayProperty]}}"
            style="-webkit-line-clamp: {{titleLines || 1}};">{{itemData.item[itemData.displayProperty]}}</div>
       <ws:if data="{{description && descriptionLines !== 0}}">
          <div class="controls-TileView__richTemplate_description
-                     {{descriptionLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
-                     controls-TileView__richTemplate_description_theme-{{theme}}" title="{{description}}"
+                     {{descriptionLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}"
+              title="{{description}}"
               style="-webkit-line-clamp: {{descriptionLines || 1}};">{{description}}</div>
       </ws:if>
       <ws:if data="{{footerTemplate}}">
@@ -47,7 +47,7 @@
       <ws:if data="{{imageViewMode !== 'none'}}">
          <div class="controls-TileView__richTemplate_imageWrapper
                      {{imageViewMode !== 'rectangle' && (!imagePosition || imagePosition === 'top') && itemData.getTileSizes ? 'controls-TileView__richTemplate_imageWrapper__ellipse_proportion'}}
-                     controls-TileView_richTemplate_image_spacing_viewMode_{{imageViewMode || 'rectangle'}}_theme-{{theme}}">
+                     controls-TileView_richTemplate_image_spacing_viewMode_{{imageViewMode || 'rectangle'}}">
             <!-- TODO костыль для imageSize, убрать https://online.sbis.ru/opendoc.html?guid=2986407e-574b-476e-861e-5c14099eab22 -->
             <ws:partial template="imageTemplate"
                         imagePosition="{{imagePosition || 'top'}}"
@@ -66,15 +66,15 @@
      FIXME: https://online.sbis.ru/opendoc.html?guid=1da6f1dd-8f23-4353-a934-e1108d0c540e -->
 <ws:partial template="wml!Controls/_tile/TreeTileView/DefaultItemTpl"
             attr:class="controls-TileView__richTemplate_item
-                        {{'controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
+                        {{'controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) }}
                         {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
-                        'controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme :
-                         border !== false ? ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme
-                         : 'controls-TileView__item_withoutBorder controls-TileView__item_withoutBorder_theme-' + theme }}"
+                        'controls-TileView__item_withMarker ' :
+                         border !== false ? ' controls-TileView__item_withoutMarker '
+                         : 'controls-TileView__item_withoutBorder ' }}"
             shadowVisibility="none"
             marker="{{false}}"
             border="{{false}}"
-            itemActionsClass="controls-TileView__richTemplate_itemActions controls-TileView__itemActions_topRight controls-TileView__richTemplate_itemActions_theme-{{theme}}"
+            itemActionsClass="controls-TileView__richTemplate_itemActions controls-TileView__itemActions_topRight "
             itemActionsPadding="null"
             highlightOnHover="{{false}}"
             itemWidth="{{itemData.getTileSizes && itemData.getItemWidth(itemData.item, itemData.dispItem && itemData.dispItem.isNode(), null, null, imagePosition)}}"

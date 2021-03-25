@@ -4,19 +4,19 @@
    height: 100%; // max-height: 100% в IE не работает
 }
 
-.controls-MoveDialog__search_theme-@{themeName} {
-   width: @search_width_MoveDialog;
-   margin-bottom: @header_padding-vertical_MoveDialog;
-   margin-top: @header_padding-vertical_MoveDialog;
-   margin-left: @search_offset_MoveDialog;
+.controls-MoveDialog__search {
+   width: var(--search_width_MoveDialog);
+   margin-bottom: var(--header_padding-vertical_MoveDialog);
+   margin-top: var(--header_padding-vertical_MoveDialog);
+   margin-left: var(--search_offset_MoveDialog);
    flex-shrink: 0;
 }
 
 .controls-MoveDialog__scroll {
    height: 100%;
 }
-.controls-MoveDialog__root_theme-@{themeName} {
-   margin-left: @root_offset_MoveDialog;
-   margin-top: @root_padding-vertical_MoveDialog;
-   margin-bottom: @root_padding-vertical_MoveDialog;
+.controls-MoveDialog__root {
+   margin-left: var(--root_offset_MoveDialog);
+   margin-top: var(--root_padding-vertical_MoveDialog);
+   margin-bottom: var(--root_padding-vertical_MoveDialog);
 }

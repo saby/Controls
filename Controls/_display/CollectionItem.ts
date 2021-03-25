@@ -388,8 +388,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         } else {
             markerClass += `padding-${(itemPadding.top || 'l')}_${markerClassName})`;
         }
-        markerClass += ` controls-ListView__itemV_marker_${style}_theme-${theme}`;
-        markerClass += ` controls-ListView__itemV_marker_theme-${theme}`;
+        markerClass += ` controls-ListView__itemV_marker_${style}`;
+        markerClass += ' controls-ListView__itemV_marker';
         markerClass += ` controls-ListView__itemV_marker-${markerPosition}`;
         return markerClass;
     }
@@ -408,15 +408,15 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     getMultiSelectClasses(theme: string): string {
         let classes = 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable ';
         classes += 'js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable ';
-        classes += `controls-CheckboxMarker_inList_theme-${theme} controls-ListView__checkbox_theme-${theme} `;
-        classes += `controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()}_theme-${theme} `;
+        classes += `controls-CheckboxMarker_inList controls-ListView__checkbox `;
+        classes += `controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()} `;
 
         if (this.getMultiSelectVisibility() === 'onhover' && !this.isSelected()) {
             classes += 'controls-ListView__checkbox-onhover';
         }
 
         if (this.isDragged()) {
-            classes += ` controls-ListView__itemContent_dragging_theme-${theme}`;
+            classes += ' controls-ListView__itemContent_dragging';
         }
 
         return classes;
@@ -663,35 +663,34 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         const editingBackgroundStyle = this.getOwner().getEditingBackgroundStyle();
         let wrapperClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor)}`;
         wrapperClasses += ` controls-ListView__item_${style}`;
-        wrapperClasses += ` controls-ListView__item_${style}_theme-${theme}`;
         wrapperClasses += ' controls-ListView__item_showActions';
         wrapperClasses += ' js-controls-ListView__measurableContainer';
-        wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}`;
+        wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}`;
         if (templateHighlightOnHover && !this.isEditing()) {
-            wrapperClasses += ` controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}_theme_${theme}`;
+            wrapperClasses += ` controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}`;
         }
         if (this.isEditing()) {
-            wrapperClasses += ` controls-ListView__item_editing_theme-${theme} controls-ListView__item_background-editing_${editingBackgroundStyle}_theme-${theme}`;
+            wrapperClasses += ` controls-ListView__item_editing controls-ListView__item_background-editing_${editingBackgroundStyle}`;
         }
         if (this.isDragged()) {
-            wrapperClasses += ` controls-ListView__item_dragging_theme-${theme}`;
+            wrapperClasses += ' controls-ListView__item_dragging';
         }
         if (backgroundColorStyle) {
-            wrapperClasses += ` controls-ListView__item_background_${backgroundColorStyle}_theme-${theme}`;
+            wrapperClasses += ` controls-ListView__item_background_${backgroundColorStyle}`;
         }
         if (templateHighlightOnHover && this.isActive()) {
-            wrapperClasses += ` controls-ListView__item_active_theme-${theme}`;
+            wrapperClasses += ' controls-ListView__item_active';
         }
         return wrapperClasses;
     }
 
     getItemActionClasses(itemActionsPosition: string, theme?: string, isLastRow?: boolean, rowSeparatorSize?: string): string {
-        let itemActionClasses = `controls-itemActionsV_${itemActionsPosition}_theme-${theme}`;
+        let itemActionClasses = `controls-itemActionsV_${itemActionsPosition}`;
         if (itemActionsPosition === 'outside') {
-            const defaultSize = ` controls-itemActionsV__outside_bottom_size-default_theme-${theme}`;
+            const defaultSize = ' controls-itemActionsV__outside_bottom_size-default';
             if (isLastRow) {
                 if (rowSeparatorSize) {
-                    itemActionClasses += ` controls-itemActionsV__outside_bottom_size-${rowSeparatorSize}_theme-${theme}`;
+                    itemActionClasses += ` controls-itemActionsV__outside_bottom_size-${rowSeparatorSize}`;
                 } else {
                     itemActionClasses += defaultSize;
                 }
@@ -726,16 +725,16 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         const isAnimatedForSelection = this.isAnimatedForSelection();
         const rowSeparatorSize = this.getRowSeparatorSize();
         let contentClasses = `controls-ListView__itemContent ${this._getSpacingClasses(theme, style)}`;
-        contentClasses += ` controls-ListView__itemContent_${style}_theme-${theme}`;
+        contentClasses += ` controls-ListView__itemContent_${style}`;
 
         if (rowSeparatorSize) {
-            contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}_theme-${theme}`;
+            contentClasses += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
         }
         if (isAnimatedForSelection) {
             contentClasses += ' controls-ListView__item_rightSwipeAnimation';
         }
         if (this.isDragged()) {
-            contentClasses += ` controls-ListView__itemContent_dragging_theme-${theme}`;
+            contentClasses += ' controls-ListView__itemContent_dragging';
         }
         return contentClasses;
     }
@@ -768,7 +767,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
         if (itemPadding.top !== 'null' || itemPadding.bottom !== 'null') {
             const themedPositionClassCompile = (position) => (
-                `controls-itemActionsV_padding-${position}_${(itemPadding && itemPadding[position] === 'null' ? 'null' : 'default')}_theme-${theme}`
+                `controls-itemActionsV_padding-${position}_${(itemPadding && itemPadding[position] === 'null' ? 'null' : 'default')}`
             );
             if (classes.indexOf(ITEMACTIONS_POSITION_CLASSES.topRight) !== -1) {
                 result.push(themedPositionClassCompile('top'));
@@ -858,15 +857,15 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         const bottomSpacing = this.getOwner().getBottomPadding().toLowerCase();
         const rightSpacing = this.getOwner().getRightPadding().toLowerCase();
 
-        classes += ` controls-ListView__item_${preparedStyle}-topPadding_${topSpacing}_theme-${theme}`;
-        classes += ` controls-ListView__item_${preparedStyle}-bottomPadding_${bottomSpacing}_theme-${theme}`;
+        classes += ` controls-ListView__item_${preparedStyle}-topPadding_${topSpacing}`;
+        classes += ` controls-ListView__item_${preparedStyle}-bottomPadding_${bottomSpacing}`;
 
-        classes += ` controls-ListView__item-rightPadding_${rightSpacing}_theme-${theme}`;
+        classes += ` controls-ListView__item-rightPadding_${rightSpacing}`;
 
         if (this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom') {
-           classes += ` controls-ListView__itemContent_withCheckboxes_theme-${theme}`;
+           classes += ` controls-ListView__itemContent_withCheckboxes`;
         } else {
-           classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}_theme-${theme}`;
+           classes += ` controls-ListView__item-leftPadding_${this.getOwner().getLeftPadding().toLowerCase()}`;
         }
 
         return classes;

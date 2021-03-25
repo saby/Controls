@@ -46,7 +46,7 @@ export default class HeaderRow<T> extends Row<T> {
     }
 
     getItemClasses(params): string {
-        return `controls-Grid__header controls-Grid__header_theme-${params.theme}`;
+        return `controls-Grid__header`;
     }
 
     protected _processStickyLadderCells(): void {

@@ -187,7 +187,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         }
 
         if (this._$owner.isEditing()) {
-            wrapperClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
+            wrapperClasses += ' controls-Grid__row-cell-editing';
         }
 
         wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle)}`;
@@ -210,16 +210,16 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         const isSingleCellEditableMode = this._$owner.getEditingConfig()?.mode === 'cell';
         if (this._$owner.isEditing() && !isSingleCellEditableMode) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
-            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme} `;
+            wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
         } else if (!isSingleCellEditableMode && templateHighlightOnHover !== false) {
-            wrapperClasses += `controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme} `;
+            wrapperClasses += `controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
 
             if (backgroundColorStyle !== 'default') {
-                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}_theme-${theme}`;
+                wrapperClasses += ` controls-Grid__row-cell_background_${backgroundColorStyle}`;
             }
 
             if (backgroundColorStyle || this.getOwner().hasColumnScroll()) {
-                wrapperClasses += ` controls-background-${backgroundColorStyle || style}_theme-${theme}`;
+                wrapperClasses += ` controls-background-${backgroundColorStyle || style}`;
             }
         }
         return wrapperClasses;
@@ -234,7 +234,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         const shouldFixAlignment = this._$owner.getColumns().length === (this._$owner.hasMultiSelectColumn() ? 2 : 1);
 
         return 'controls-Grid__table__relative-cell-wrapper ' +
-            `controls-Grid__table__relative-cell-wrapper_rowSeparator-${rowSeparatorSize}_theme-${theme} ` +
+            `controls-Grid__table__relative-cell-wrapper_rowSeparator-${rowSeparatorSize} ` +
             (shouldFixAlignment ? 'controls-Grid__table__relative-cell-wrapper_singleCell' : '');
     }
 
@@ -254,13 +254,13 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         let contentClasses = 'controls-Grid__row-cell__content';
 
-        contentClasses += ` controls-Grid__row-cell__content_baseline_default_theme-${theme}`;
-        contentClasses += ` controls-Grid__row-cell_cursor-${cursor}`;
+        contentClasses += ' controls-Grid__row-cell__content_baseline_default';
+        contentClasses += ' controls-Grid__row-cell_cursor-${cursor}';
 
         contentClasses += this._getHorizontalPaddingClasses(theme);
         contentClasses += this._getVerticalPaddingClasses(theme);
 
-        contentClasses += ` controls-Grid__row-cell_withoutRowSeparator_size-null_theme-${theme}`;
+        contentClasses += ' controls-Grid__row-cell_withoutRowSeparator_size-null';
 
         contentClasses += this._getContentAlignClasses();
 
@@ -272,19 +272,18 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         if (this._$hiddenForLadder) {
             contentClasses += ' controls-Grid__row-cell__content_hiddenForLadder';
-            contentClasses += ` controls-Grid__row-cell__content_hiddenForLadder_theme-${theme}`;
         }
 
         if (backgroundColorStyle) {
-            contentClasses += ` controls-Grid__row-cell__content_background_${backgroundColorStyle}_theme-${theme}`;
+            contentClasses += ` controls-Grid__row-cell__content_background_${backgroundColorStyle}`;
         }
 
         if (templateHighlightOnHover !== false && this._$owner.getEditingConfig()?.mode !== 'cell') {
-            contentClasses += ` controls-Grid__item_background-hover_${hoverBackgroundStyle}_theme-${theme}`;
+            contentClasses += ` controls-Grid__item_background-hover_${hoverBackgroundStyle}`;
         }
 
         if (this.getOwner().isDragged()) {
-            contentClasses += ` controls-ListView__itemContent_dragging_theme-${theme}`;
+            contentClasses += ' controls-ListView__itemContent_dragging';
         }
 
         contentClasses += ' js-controls-ListView__measurableContainer';
@@ -322,19 +321,18 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
 
         classes += ` controls-Grid__row-cell controls-Grid__cell_${preparedStyle}`;
-        classes += ` controls-Grid__row-cell_${preparedStyle}_theme-${theme}`;
 
         if (isEditing && !isSingleCellEditing) {
-            classes += ` controls-ListView__item_editing_theme-${theme}`;
-            classes += ` controls-ListView__item_background-editing_${editingBackgroundStyle}_theme-${theme}`;
+            classes += ' controls-ListView__item_editing';
+            classes += ` controls-ListView__item_background-editing_${editingBackgroundStyle}`;
         }
 
         if (isDragged) {
-            classes += ` controls-ListView__item_dragging_theme-${theme}`;
+            classes += ' controls-ListView__item_dragging';
         }
 
         if (this._$owner.isActive() && templateHighlightOnHover !== false) {
-            classes += ` controls-GridView__item_active_theme-${theme}`;
+            classes += ' controls-GridView__item_active';
         }
 
         if (topPadding === 'null' && bottomPadding === 'null') {
@@ -351,8 +349,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         let classes = '';
 
         if (rowSeparatorSize) {
-            classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}_theme-${theme}`;
-            classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}_theme-${theme}`;
+            classes += ` controls-Grid__row-cell_withRowSeparator_size-${rowSeparatorSize}`;
+            classes += ` controls-Grid__rowSeparator_size-${rowSeparatorSize}`;
         } else {
             // Вспомогательные классы, вешаются на ячейку. Обеспечивают отсутствие "скачков" при смене rowSeparatorSize.
             classes += ' controls-Grid__no-rowSeparator';
@@ -368,14 +366,14 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             const columnSeparatorSize = typeof this._$columnSeparatorSize === 'string' ?
                 this._$columnSeparatorSize.toLowerCase() :
                 null;
-            return ` controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${theme}`;
+            return ` controls-Grid__columnSeparator_size-${columnSeparatorSize}`;
         }
         return '';
     }
 
     protected _getColumnScrollWrapperClasses(theme: string): string {
         if (this._$isFixed) {
-            return `${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed controls-GridNew__cell_fixed_theme-${theme}`;
+            return `${COLUMN_SCROLL_JS_SELECTORS.FIXED_ELEMENT} js-controls-ColumnScroll__notDraggable controls-GridNew__cell_fixed`;
         }
         return COLUMN_SCROLL_JS_SELECTORS.SCROLLABLE_ELEMENT;
     }
@@ -391,13 +389,12 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
         const isFirstColumnAfterCheckbox = this.getColumnIndex() === 1 && this._$owner.hasMultiSelectColumn();
         if (this._$owner.getMultiSelectVisibility() === 'hidden' && this.isFirstColumn()) {
-            classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}_theme-${theme}`;
+            classes += ` controls-Grid__cell_spacingFirstCol_${leftPadding}`;
         } else if (!this.isFirstColumn() && !isFirstColumnAfterCheckbox) {
             classes += ' controls-Grid__cell_spacingLeft';
             if (cellPadding?.left) {
                 classes += `_${cellPadding.left.toLowerCase()}`;
             }
-            classes += `_theme-${theme}`;
         }
 
         if (!this.isLastColumn()) {
@@ -405,9 +402,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             if (cellPadding?.right) {
                 classes += `_${cellPadding.right.toLowerCase()}`;
             }
-            classes += `_theme-${theme}`;
         } else {
-            classes += ` controls-Grid__cell_spacingLastCol_${rightPadding}_theme-${theme}`;
+            classes += ` controls-Grid__cell_spacingLastCol_${rightPadding}`;
         }
 
         return classes;
@@ -420,8 +416,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         const bottomPadding = this._$owner.getBottomPadding();
 
         // top <-> bottom
-        classes += ` controls-Grid__row-cell_rowSpacingTop_${topPadding}_theme-${theme}`;
-        classes += ` controls-Grid__row-cell_rowSpacingBottom_${bottomPadding}_theme-${theme}`;
+        classes += ` controls-Grid__row-cell_rowSpacingTop_${topPadding}`;
+        classes += ` controls-Grid__row-cell_rowSpacingBottom_${bottomPadding}`;
 
         return classes;
     }

@@ -4,6 +4,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import dButtonsTemplate = require('wml!Controls/_paging/Paging/DigitButtons');
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/paging';
 
 export interface IDigitButtonsOptions extends IControlOptions {
     count: number;
@@ -41,8 +42,6 @@ class DigitButtons extends Control<IDigitButtonsOptions> {
     protected _digitClick(e: SyntheticEvent<Event>, digit: number): void {
         this._notify('onDigitClick', [digit]);
     }
-
-    static _theme: string[] = ['Controls/paging'];
 
     // получаем граничные цифры, окружающие выбранный элемент, по условия +-3 в обе стороны (4 5 6 [7] 8 9 10)
     private static _getSurroundElemens(digitsCount: number, currentDigit: number,

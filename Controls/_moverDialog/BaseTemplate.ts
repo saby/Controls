@@ -2,8 +2,9 @@ import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {DOMUtil} from 'Controls/sizeUtils';
 
 import template = require('wml!Controls/_moverDialog/BaseTemplate/BaseTemplate');
+import 'css!Controls/moverDialog';
 
-const MOVE_DIALOG_MEASURER_CLASS_TEMPLATE = 'controls-MoveDialog_theme-';
+const MOVE_DIALOG_MEASURER_CLASS_TEMPLATE = 'controls-MoveDialog';
 
 /**
  * Базовый шаблон диалогового окна, используемый в списках при перемещении элементов для выбора целевой папки.
@@ -12,7 +13,7 @@ const MOVE_DIALOG_MEASURER_CLASS_TEMPLATE = 'controls-MoveDialog_theme-';
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_moveDialog.less переменные тем оформления}
  *
- * 
+ *
  * @public
  * @class Controls/_moverDialog/BaseTemplate
  * @author Авраменко А.С.
@@ -28,10 +29,8 @@ export default class BaseTemplate extends Control<IControlOptions> {
     }
 
     protected _calculateWidth(theme: string): number {
-        return DOMUtil.getWidthForCssClass(MOVE_DIALOG_MEASURER_CLASS_TEMPLATE + theme);
+        return DOMUtil.getWidthForCssClass(MOVE_DIALOG_MEASURER_CLASS_TEMPLATE);
     }
-
-    static _theme = ['Controls/moverDialog'];
 }
 /**
  * @name Controls/_moverDialog/BaseTemplate#headerContentTemplate

@@ -76,7 +76,7 @@ export default class GroupCell<T>
                             columnAlignGroup: number,
                             textAlign: string,
                             theme: string): string {
-        let classes = `controls-ListView__groupContent-rightTemplate_theme-${theme}`;
+        let classes = `controls-ListView__groupContent-rightTemplate`;
         const groupPaddingClasses = this._$owner.getGroupPaddingClasses(theme, 'right');
 
         if (!this._shouldFixGroupOnColumn(columnAlignGroup, textVisible)) {

@@ -9,6 +9,8 @@ import TreeGridViewTable from 'Controls/_treeGridNew/TreeGridViewTable';
 import { Model } from 'Types/entity';
 import { isFullGridSupport } from 'Controls/display';
 import ITreeGrid, {IOptions as ITreeGridOptions} from 'Controls/_treeGridNew/interface/ITreeGrid';
+import 'css!Controls/grid';
+import 'css!Controls/treeGrid';
 
 export default class TreeGrid extends Grid implements ITreeGrid {
     protected _viewName: TemplateFunction = null;
@@ -50,8 +52,6 @@ export default class TreeGrid extends Grid implements ITreeGrid {
     protected _getModelConstructor(): string {
         return 'Controls/treeGrid:TreeGridCollection';
     }
-
-    static _theme: string[] = ['Controls/treeGrid', 'Controls/grid'];
 
     static getOptionTypes(): object {
         return {

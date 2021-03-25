@@ -4,6 +4,7 @@ import {debounce} from 'Types/function';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {IPropStorageOptions} from 'Controls/interface';
+import 'css!Controls/masterDetail';
 
 const RESIZE_DELAY = 50;
 
@@ -391,8 +392,6 @@ class Base extends Control<IMasterDetail> {
             this._startResizeRegister();
         }
     }
-
-    static _theme: string[] = ['Controls/masterDetail'];
 
     static getDefaultOptions(): Partial<IMasterDetail> {
         return {

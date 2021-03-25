@@ -110,7 +110,7 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         if (this.isNode()) {
             classes += ' controls-TreeTileView__node';
             if (this.isDragTargetNode()) {
-                classes += ` controls-TileView__dragTargetNode_theme-${this.getTheme()}`;
+                classes += ` controls-TileView__dragTargetNode`;
             }
         }
 
@@ -128,8 +128,8 @@ export default class TreeTileCollectionItem<T extends Model = Model>
             case 'small':
                 if (this.isNode()) {
                     classes = classes.replace(
-                        `controls-TileView__smallTemplate_listItem_theme-${this.getTheme()}`,
-                        `controls-TileView__smallTemplate_nodeItem_theme-${this.getTheme()}`
+                        'controls-TileView__smallTemplate_listItem',
+                        'controls-TileView__smallTemplate_nodeItem'
                     );
                 }
                 break;
@@ -182,21 +182,21 @@ export default class TreeTileCollectionItem<T extends Model = Model>
                 if (this.isNode()) {
                     classes += ' controls-fontweight-bold';
                     classes = classes.replace(
-                        `controls-fontsize-m_theme-${this.getTheme()}`,
-                        `controls-fontsize-l_theme-${this.getTheme()}`
+                        'controls-fontsize-m',
+                        'controls-fontsize-l'
                     );
                 }
                 break;
             case 'small':
                 if (this.isNode()) {
-                    classes += ` controls-TileView__smallTemplate_title_node_theme-${this.getTheme()}`;
+                    classes += ' controls-TileView__smallTemplate_title_node';
                 }
                 break;
             case 'rich':
                 if (this.isNode()) {
                     classes = classes.replace(
-                        `controls-fontsize-xl_theme-${this.getTheme()}`,
-                        `controls-fontsize-4xl_theme-${this.getTheme()}`
+                        'controls-fontsize-xl',
+                        'controls-fontsize-4xl'
                     );
                 }
                 break;
@@ -223,8 +223,8 @@ export default class TreeTileCollectionItem<T extends Model = Model>
                 if (this.isNode()) {
                     classes += ' controls-fontweight-bold';
                     classes = classes.replace(
-                        `controls-fontsize-m_theme-${this.getTheme()}`,
-                        `controls-fontsize-l_theme-${this.getTheme()}`
+                        'controls-fontsize-m',
+                        'controls-fontsize-l'
                     );
                 }
                 break;
@@ -258,7 +258,7 @@ export default class TreeTileCollectionItem<T extends Model = Model>
 
     getMultiSelectClasses(theme: string): string {
         let classes = super.getMultiSelectClasses(theme);
-        classes = classes.replace(`controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()}_theme-${theme}`, '');
+        classes = classes.replace(`controls-ListView__checkbox_position-${this.getOwner().getMultiSelectPosition()}`, '');
         classes += ' controls-TileView__checkbox controls-TileView__checkbox_top js-controls-TileView__withoutZoom';
         return classes;
     }

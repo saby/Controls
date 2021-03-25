@@ -11,7 +11,7 @@
         <ws:bottomRightTpl>
             <ws:partial if="{{bottomRightTemplate}}"
                         template="{{bottomRightTemplate}}"
-                        attr:class="controls-TileView__previewTemplate_bottomRightTemplate controls-TileView__previewTemplate_bottomRightTemplate_theme-{{_options.theme}}"
+                        attr:class="controls-TileView__previewTemplate_bottomRightTemplate"
                         itemData="{{(item || itemData)}}"
                         item="{{(item || itemData)}}"/>
         </ws:bottomRightTpl>

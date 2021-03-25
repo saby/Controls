@@ -6798,8 +6798,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             isTouch: TouchContextField
         };
     }
-
-    static _theme = ['Controls/Classes', 'Controls/itemActions'];
 }
 
 BaseControl._private = _private;

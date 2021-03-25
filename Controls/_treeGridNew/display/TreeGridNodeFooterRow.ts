@@ -57,8 +57,8 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
         let classes = super.getExpanderPaddingClasses(tmplExpanderSize, theme);
 
         classes = classes.replace(
-           `controls-TreeGrid__row-expanderPadding_theme-${theme}`,
-           `controls-TreeGrid__node-footer-expanderPadding_theme-${theme}`
+           'controls-TreeGrid__row-expanderPadding',
+           'controls-TreeGrid__node-footer-expanderPadding'
         );
 
         return classes;

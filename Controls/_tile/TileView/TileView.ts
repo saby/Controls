@@ -4,6 +4,7 @@ import defaultItemTpl = require('wml!Controls/_tile/TileView/TileTpl');
 import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
 import {TouchContextField} from 'Controls/context';
 import { getItemSize } from 'Controls/tileNew';
+import 'css!Controls/tile';
 
 var _private = {
     getPositionInContainer: function (itemNewSize, itemRect, containerRect, zoomCoefficient, withoutCorrection = false) {
@@ -367,6 +368,5 @@ TileView.contextTypes = function contextTypes() {
 };
 
 TileView._private = _private;
-TileView._theme = ['Controls/tile'];
 
 export = TileView;

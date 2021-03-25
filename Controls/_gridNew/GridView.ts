@@ -10,6 +10,8 @@ import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
 import { _Options } from 'UI/Vdom';
+import 'css!Controls/grid';
+import 'css!Controls/CommonClasses';
 
 const GridView = ListView.extend({
     _template: GridTemplate,
@@ -206,7 +208,7 @@ const GridView = ListView.extend({
     },
 
     _getGridViewClasses(options): string {
-        let classes = `controls-Grid controls-Grid_${options.style}_theme-${options.theme}`;
+        let classes = `controls-Grid controls-Grid_${options.style}`;
         if (GridLadderUtil.isSupportLadder(options.ladderProperties)) {
             classes += ' controls-Grid_support-ladder';
         }
@@ -215,7 +217,7 @@ const GridView = ListView.extend({
             !this._listModel.getFooter() &&
             !(this._listModel.getResults() && this._listModel.getResultsPosition() === 'bottom')
         ) {
-            classes += ` controls-GridView__paddingBottom__itemActionsV_outside_theme-${options.theme}`;
+            classes += ` controls-GridView__paddingBottom__itemActionsV_outside`;
         }
 
         classes += ` ${this._columnScrollContentClasses}`;
@@ -469,8 +471,6 @@ const GridView = ListView.extend({
 
     //#endregion
 });
-
-GridView._theme = ['Controls/grid', 'Controls/Classes'];
 
 GridView.contextTypes = () => {
     return {

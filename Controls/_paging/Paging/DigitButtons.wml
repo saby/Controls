@@ -1,13 +1,13 @@
-<div class="controls-DigitButtons controls-DigitButtons_theme-{{_options.theme}}">
+<div class="controls-DigitButtons">
 <ws:for data="digit in _digits">
    <ws:if data="{{digit == '. . .'}}">
-      <span class="controls-Paging__btn controls-Paging__btn_theme-{{_options.theme}} controls-DigitButtons__digit
-            controls-DigitButtons__ellipsis controls-DigitButtons__ellipsis_theme-{{_options.theme}}">{{digit}}</span>
+      <span class="controls-Paging__btn controls-DigitButtons__digit
+            controls-DigitButtons__ellipsis ">{{digit}}</span>
    </ws:if>
    <ws:else>
-      <span on:click="_digitClick(digit)" class="controls-Paging__btn controls-Paging__btn_theme-{{_options.theme}}
-                  controls-DigitButtons__digit controls-DigitButtons__digit_theme-{{_options.theme}}
-                  {{digit == _options.selectedKey ? ' controls-DigitButtons__digit__selected controls-DigitButtons__digit__selected_theme-' + _options.theme}}"
+      <span on:click="_digitClick(digit)" class="controls-Paging__btn
+                  controls-DigitButtons__digit
+                  {{digit == _options.selectedKey ? ' controls-DigitButtons__digit__selected '}}"
       >{{digit}}</span>
    </ws:else>
 </ws:for>

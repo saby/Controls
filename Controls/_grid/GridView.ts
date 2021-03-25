@@ -40,6 +40,8 @@ import * as GroupTemplate from 'wml!Controls/_grid/GroupTemplate';
 import {Logger} from 'UI/Utils';
 import { GridLadderUtil } from 'Controls/display';
 import {SyntheticEvent} from "Vdom/Vdom";
+import 'css!Controls/grid';
+import 'css!Controls/CommonClasses';
 
 var
     _private = {
@@ -589,7 +591,7 @@ var
             const classes = new CssClassList();
             classes
                 .add('controls-Grid')
-                .add(`controls-Grid_${this._options.style}_theme-${this._options.theme}`);
+                .add(`controls-Grid_${this._options.style}`);
 
             if (!GridLayoutUtil.isFullGridSupport()) {
                 const isFixedLayout = this._listModel.isFixedLayout();
@@ -752,7 +754,7 @@ var
             if (this._showFakeGridWithColumnScroll && options.columnScrollStartPosition === 'end') {
                 let classes = '';
                 if (options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom') {
-                    classes += `controls-Grid__ColumnScroll__shadow_withMultiselect_theme-${options.theme} `;
+                    classes += `controls-Grid__ColumnScroll__shadow_withMultiselect `;
                 }
                 return classes + ColumnScroll.getShadowClasses(position, {
                     isVisible: position === 'start',
@@ -1016,7 +1018,5 @@ GridView.contextTypes = () => {
         isTouch
     };
 };
-
-GridView._theme = ['Controls/grid', 'Controls/Classes'];
 
 export = GridView;

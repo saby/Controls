@@ -5,6 +5,8 @@ import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import { SyntheticEvent } from 'UI/Vdom';
 import { Model } from 'Types/entity';
+import 'css!Controls/grid';
+import 'css!Controls/treeGrid';
 
 export default class TreeGridView extends GridView {
     _beforeUpdate(newOptions: any): void {
@@ -48,5 +50,4 @@ export default class TreeGridView extends GridView {
         super._onItemMouseDown(e, dispItem);
     }
 
-    static _theme: string[] =  ['Controls/grid', 'Controls/treeGrid'];
 }

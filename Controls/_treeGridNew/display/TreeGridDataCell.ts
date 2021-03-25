@@ -12,15 +12,15 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
         let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
 
         if (!this._$owner.hasMultiSelectColumn() && this.isFirstColumn()) {
-            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}_theme-${theme}`;
+            classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
         }
 
         if (this._$owner.isDragTargetNode()) {
-            classes += ` controls-TreeGridView__dragTargetNode_theme-${theme}`;
+            classes += ` controls-TreeGridView__dragTargetNode`;
             if (this.isFirstColumn()) {
-                classes += ` controls-TreeGridView__dragTargetNode_first_theme-${theme}`;
+                classes += ` controls-TreeGridView__dragTargetNode_first`;
             } else if (this.isLastColumn()) {
-                classes += ` controls-TreeGridView__dragTargetNode_last_theme-${theme}`;
+                classes += ` controls-TreeGridView__dragTargetNode_last`;
             }
 
             // controls-Grid__no-rowSeparator перебивает стили dragTargetNode
@@ -42,14 +42,14 @@ export default class TreeGridDataCell<T extends Model> extends GridDataCell<T, T
 
     protected _getWrapperBaseClasses(theme: string, style: string, templateHighlightOnHover: boolean): string {
         let classes = super._getWrapperBaseClasses(theme, style, templateHighlightOnHover);
-        classes += ` controls-TreeGrid__row-cell_theme-${theme} controls-TreeGrid__row-cell_${style || 'default'}_theme-${theme}`;
+        classes += ` controls-TreeGrid__row-cell controls-TreeGrid__row-cell_${style || 'default'}`;
 
         if (this._$owner.isNode()) {
-            classes += ` controls-TreeGrid__row-cell__node_theme-${theme}`;
+            classes += ' controls-TreeGrid__row-cell__node';
         } else if (this._$owner.isNode() === false) {
-            classes += ` controls-TreeGrid__row-cell__hiddenNode_theme-${theme}`;
+            classes += ' controls-TreeGrid__row-cell__hiddenNode';
         } else {
-            classes += ` controls-TreeGrid__row-cell__item_theme-${theme}`;
+            classes += ' controls-TreeGrid__row-cell__item';
         }
 
         return classes;

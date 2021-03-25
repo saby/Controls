@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import pagingTemplate = require('wml!Controls/_paging/Paging/Paging');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TNavigationPagingMode} from 'Controls/interface';
+import 'css!Controls/paging';
 
 type TButtonState = 'normal' | 'disabled';
 type TArrowStateVisibility = 'visible' | 'hidden' | 'readonly';
@@ -162,8 +163,6 @@ class Paging extends Control<IPagingOptions> {
         }
         this._notify('onArrowClick', [btnName]);
     }
-
-    static _theme: string[] = ['Controls/paging'];
 
 }
 

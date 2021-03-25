@@ -534,17 +534,17 @@ describe('Controls/_display/CollectionItem', () => {
         // multiselect onhover + not selected
         item.setMultiSelectVisibility('onhover');
         const onhoverMultiSelectClasses = item.getMultiSelectClasses('default');
-        CssClassesAssert.isSame(onhoverMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox_theme-default controls-ListView__checkbox_position-default_theme-default controls-ListView__checkbox-onhover');
+        CssClassesAssert.isSame(onhoverMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-ListView__checkbox controls-ListView__checkbox_position-default controls-ListView__checkbox-onhover');
 
         // multiselect onhover + selected
         item.setSelected(true, true);
         const selectedMultiSelectClasses = item.getMultiSelectClasses('default');
-        CssClassesAssert.isSame(selectedMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox_theme-default controls-ListView__checkbox_position-default_theme-default');
+        CssClassesAssert.isSame(selectedMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-ListView__checkbox controls-ListView__checkbox_position-default');
 
         // custom position
         owner.getMultiSelectPosition = () => 'custom';
         const customMultiSelectClasses = item.getMultiSelectClasses('default');
-        CssClassesAssert.isSame(customMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList_theme-default controls-ListView__checkbox_theme-default controls-ListView__checkbox_position-custom_theme-default ');
+        CssClassesAssert.isSame(customMultiSelectClasses, 'js-controls-ListView__notEditable controls-List_DragNDrop__notDraggable js-controls-ListView__checkbox js-controls-ColumnScroll__notDraggable controls-CheckboxMarker_inList controls-ListView__checkbox controls-ListView__checkbox_position-custom ');
     });
 
     describe('.setEditing()', () => {
@@ -710,25 +710,25 @@ describe('Controls/_display/CollectionItem', () => {
         // Если опции внутри строки и itemActionsClass не задан, возвращает класс, добавляющий выравнивание bottomRight
         it('getItemActionPositionClasses() should return classes for bottom-right positioning when itemActionClass is not set', () => {
             const result = item.getItemActionPositionClasses('inside', null, {top: 'null', bottom: 's'}, 'default');
-            assert.equal(result, ' controls-itemActionsV_position_bottomRight controls-itemActionsV_padding-bottom_default_theme-default ');
+            assert.equal(result, ' controls-itemActionsV_position_bottomRight controls-itemActionsV_padding-bottom_default ');
         });
 
         // Если опции внутри строки и itemActionsClass задан, возвращает класс, добавляющий выравнивание согласно itemActionsClass и itemPadding
         it('getItemActionPositionClasses() should return classes for bottom-right positioning when itemActionClass is set', () => {
             const result = item.getItemActionPositionClasses('inside', 'controls-itemActionsV_position_topRight', {top: 'null', bottom: 's'}, 'default');
-            assert.equal(result, ' controls-itemActionsV_position_topRight controls-itemActionsV_padding-top_null_theme-default ');
+            assert.equal(result, ' controls-itemActionsV_position_topRight controls-itemActionsV_padding-top_null ');
         });
 
         // Всегда, кроме новой модели происходит попытка рассчитать класс, добавляющий padding
         it('getItemActionPositionClasses() should try to add padding class for any case except of useNewModel', () => {
             const result = item.getItemActionPositionClasses('inside', 'controls-itemActionsV_position_topRight', {top: 's', bottom: 's'}, 'default', false);
-            assert.equal(result, ' controls-itemActionsV_position_topRight controls-itemActionsV_padding-top_default_theme-default ');
+            assert.equal(result, ' controls-itemActionsV_position_topRight controls-itemActionsV_padding-top_default ');
         });
 
         // Если новая модель, то в любом случае не считается класс, добавляющий padding
         it('getItemActionPositionClasses() should not add padding class in case of useNewModel', () => {
             const result = item.getItemActionPositionClasses('inside', null, {top: 's', bottom: 's'}, 'default', true);
-            assert.equal(result, ' controls-itemActionsV_position_bottomRight controls-itemActionsV_padding-bottom_default_theme-default ');
+            assert.equal(result, ' controls-itemActionsV_position_bottomRight controls-itemActionsV_padding-bottom_default ');
         });
     })
 });

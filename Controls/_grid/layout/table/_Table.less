@@ -26,8 +26,8 @@
     display: table-column;
   }
 
-  .controls-Grid__colgroup-columnMultiSelect_theme-@{themeName} {
-    width: @click-area_width_checkbox;
+  .controls-Grid__colgroup-columnMultiSelect {
+    width: var(--click-area_width_checkbox);
   }
 
   .controls-Grid__header {
@@ -71,19 +71,19 @@
     vertical-align: bottom;
   }
 
-  .controls-Grid__multi-header-cell_min-height_theme-@{themeName} {
+  .controls-Grid__multi-header-cell_min-height {
     // В таблицах функцию min-height выполняет height
-    height: @header_multiline_cell_min-height_grid;
+    height: var(--header_multiline_cell_min-height_grid);
   }
 
-  .controls-Grid__header-cell_min-height_theme-@{themeName} {
+  .controls-Grid__header-cell_min-height {
     // В таблицах функцию min-height выполняет height
-    height: @header_cell_min-height_grid;
+    height: var(--header_cell_min-height_grid);
 
     // В ie без этого будут не корректно будет определяться высота. Из-за чего будет появится скролл.
     // https://online.sbis.ru/opendoc.html?guid=91d94bb5-362a-4fd7-9ca5-9a2578fd5abc
-    .controls-Grid__header-cell__content_theme-@{themeName} {
-      min-height: @header_cell_min-height_grid;
+    .controls-Grid__header-cell__content {
+      min-height: var(--header_cell_min-height_grid);
     }
   }
 
@@ -97,8 +97,8 @@
     position: static;
   }
 
-  .controls-Grid__results-cell__content_theme-@{themeName} {
-    min-height: @results_cell_min-height_grid;
+  .controls-Grid__results-cell__content {
+    min-height: var(--results_cell_min-height_grid);
   }
 
   .controls-GridView__footer {
@@ -112,7 +112,7 @@
   // В IE необходимо добавить дополнительный блок при колспане подвала.
   // Чтобы сохранить выравнивание, необходимо навесть псевдоэлемент на внутренний блок, а не на прослойку.
   // TODO: Убрать при переходе на новую модель.
-  .controls-GridView__footer__cell_theme-@{themeName}::before {
+  .controls-GridView__footer__cell::before {
     display: none;
   }
 
@@ -150,11 +150,11 @@
   }
 
   .controls-Grid__row-cell {
-    .controls-Grid__row-cell_default_min_height-theme-@{themeName} {
-      height: @cell_min-height_grid;
+    .controls-Grid__row-cell_default_min_height {
+      height: var(--cell_min-height_grid);
     }
-    .controls-Grid__row-cell_small_min_height-theme-@{themeName} {
-      height: @cell_small-min-height_grid;
+    .controls-Grid__row-cell_small_min_height {
+      height: var(--cell_small-min-height_grid);
     }
   }
 
@@ -208,14 +208,14 @@
     white-space: normal;
   }
 
-  .controls-Grid__row-cell-checkbox_theme-@{themeName} {
-    width: @click-area_width_checkbox;
+  .controls-Grid__row-cell-checkbox {
+    width: var(--click-area_width_checkbox);
   }
 
-  .controls-Grid__row-cell_selected__first_theme-@{themeName} {
+  .controls-Grid__row-cell_selected__first {
     // Не понятно для чего этот стиль, если понядобится, то нужен коментарий
     // Отключил, потому что во всех браузерах появляется рыжая обводка у строки
-    //box-shadow: inset @marker_thickness_list 0 0 @marker_color_list;
+    //box-shadow: inset var(--marker_thickness_list) 0 0 var(--marker_color_list);
   }
 
   .controls-Grid__header-cell__content__innerWrapper {
@@ -240,7 +240,7 @@
     height: auto;
   }
 
-  .controls-Grid__row-cell-checkbox_theme-@{themeName} .controls-Grid__table__relative-cell-wrapper_singleCell {
+  .controls-Grid__row-cell-checkbox .controls-Grid__table__relative-cell-wrapper_singleCell {
     // При всем, описанном в #grid_relativeCell_td и #grid_relativeCell_colspanCell,
     // не нужно ограничивать высоту ячейки под чекбокс, т.к. она должна тянуться на высоту, которую дает единственная ячейка с контентом.
     // #grid_relativeCell_checkBox_td
@@ -249,16 +249,16 @@
     height: 100%;
   }
 
-  .controls-Grid__table__relative-cell-wrapper_rowSeparator-s_theme-@{themeName} {
-    min-height: @cell_min-height_grid;
+  .controls-Grid__table__relative-cell-wrapper_rowSeparator-s {
+    min-height: var(--cell_min-height_grid);
   }
 
-  .controls-Grid__table__relative-cell-wrapper_rowSeparator-l_theme-@{themeName} {
-    min-height: @cell_min-height_grid;
+  .controls-Grid__table__relative-cell-wrapper_rowSeparator-l {
+    min-height: var(--cell_min-height_grid);
   }
 
-  .controls-Grid__row-cell-editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV,
-  .controls-ListView__item_editing_theme-@{themeName} > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV {
+  .controls-Grid__row-cell-editing > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV,
+  .controls-ListView__item_editing > .controls-Grid__table__relative-cell-wrapper > .controls-itemActionsV {
       visibility: visible;
       opacity: 1;
   }
@@ -267,68 +267,68 @@
     box-sizing: border-box;
   }
 
-  .controls-GridView__footer__cell__paddingLeft_default_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    margin-left: -@item_padding-left_default_list;
+  .controls-GridView__footer__cell__paddingLeft_default > .controls-GridView__footer__cell-content_colspan {
+    margin-left: -var(--item_padding-left_default_list);
   }
 
-  .controls-GridView__footer__cell__paddingLeft_null_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
+  .controls-GridView__footer__cell__paddingLeft_null > .controls-GridView__footer__cell-content_colspan {
     margin-left: 0;
   }
 
-  .controls-GridView__footer__cell__paddingLeft_xs_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    margin-left: -@item_padding-left_xs_list;
+  .controls-GridView__footer__cell__paddingLeft_xs > .controls-GridView__footer__cell-content_colspan {
+    margin-left: -var(--item_padding-left_xs_list);
   }
 
-  .controls-GridView__footer__cell__paddingLeft_s_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    margin-left: -@item_padding-left_s_list;
+  .controls-GridView__footer__cell__paddingLeft_s > .controls-GridView__footer__cell-content_colspan {
+    margin-left: -var(--item_padding-left_s_list);
   }
 
-  .controls-GridView__footer__cell__paddingLeft_m_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    margin-left: -@item_padding-left_m_list;
+  .controls-GridView__footer__cell__paddingLeft_m > .controls-GridView__footer__cell-content_colspan {
+    margin-left: -var(--item_padding-left_m_list);
   }
 
-  .controls-GridView__footer__cell__paddingLeft_l_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    margin-left: -@item_padding-left_l_list;
+  .controls-GridView__footer__cell__paddingLeft_l > .controls-GridView__footer__cell-content_colspan {
+    margin-left: -var(--item_padding-left_l_list);
   }
 
-  .controls-GridView__footer__cell__paddingLeft_xl_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    margin-left: -@item_padding-left_xl_list;
+  .controls-GridView__footer__cell__paddingLeft_xl > .controls-GridView__footer__cell-content_colspan {
+    margin-left: -var(--item_padding-left_xl_list);
   }
 
-  .controls-GridView__footer__cell__paddingLeft_xxl_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    margin-left: -@item_padding-left_2xl_list;
+  .controls-GridView__footer__cell__paddingLeft_xxl > .controls-GridView__footer__cell-content_colspan {
+    margin-left: -var(--item_padding-left_2xl_list);
   }
 
-  .controls-GridView__footer__cell__paddingRight_default_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    padding-right: @item_padding-right_default_list;
+  .controls-GridView__footer__cell__paddingRight_default > .controls-GridView__footer__cell-content_colspan {
+    padding-right: var(--item_padding-right_default_list);
   }
 
-  .controls-GridView__footer__cell__paddingRight_null_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
+  .controls-GridView__footer__cell__paddingRight_null > .controls-GridView__footer__cell-content_colspan {
     padding-right: 0;
   }
 
-  .controls-GridView__footer__cell__paddingRight_xs_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    padding-right: @item_padding-right_xs_list;
+  .controls-GridView__footer__cell__paddingRight_xs > .controls-GridView__footer__cell-content_colspan {
+    padding-right: var(--item_padding-right_xs_list);
   }
 
-  .controls-GridView__footer__cell__paddingRight_s_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    padding-right: @item_padding-right_s_list;
+  .controls-GridView__footer__cell__paddingRight_s > .controls-GridView__footer__cell-content_colspan {
+    padding-right: var(--item_padding-right_s_list);
   }
 
-  .controls-GridView__footer__cell__paddingRight_m_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    padding-right: @item_padding-right_m_list;
+  .controls-GridView__footer__cell__paddingRight_m > .controls-GridView__footer__cell-content_colspan {
+    padding-right: var(--item_padding-right_m_list);
   }
 
-  .controls-GridView__footer__cell__paddingRight_l_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    padding-right: @item_padding-right_l_list;
+  .controls-GridView__footer__cell__paddingRight_l > .controls-GridView__footer__cell-content_colspan {
+    padding-right: var(--item_padding-right_l_list);
   }
 
-  .controls-GridView__footer__cell__paddingRight_xl_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    padding-right: @item_padding-right_xl_list;
+  .controls-GridView__footer__cell__paddingRight_xl > .controls-GridView__footer__cell-content_colspan {
+    padding-right: var(--item_padding-right_xl_list);
   }
 
-  .controls-GridView__footer__cell__paddingRight_xxl_theme-@{themeName} > .controls-GridView__footer__cell-content_colspan {
-    padding-right: @item_padding-right_2xl_list;
+  .controls-GridView__footer__cell__paddingRight_xxl > .controls-GridView__footer__cell-content_colspan {
+    padding-right: var(--item_padding-right_2xl_list);
   }
 }
 
@@ -346,21 +346,21 @@
     https://online.sbis.ru/opendoc.html?guid=09258c3e-e4eb-4552-85e2-8320ee02c411
     https://online.sbis.ru/open_dialog.html?guid=8f63d15a-1192-44dc-b6f5-72beb399dd45
   */
-  .controls-Grid_partial-support_theme-@{themeName} .controls-Grid__row-cell {
+  .controls-Grid_partial-support .controls-Grid__row-cell {
     height: auto;
   }
 }
 
 .ws-is-not-full-grid-support,
-.controls-Grid_partial-support_theme-@{themeName} {
-  .controls-itemActionsV_style_master_theme-@{themeName} {
+.controls-Grid_partial-support {
+  .controls-itemActionsV_style_master {
     //because of selected item border in Grid is realized by box-shadow, itemAction overlaps bottom shadow by z-index
     //best solution is to increase bottom position of itemAction by border bottom width in old grid master
     bottom: 0;
     //for the same reason as the problem described above, if in itemActions spacing between content and border-right will
     //realized by padding, itemActions will overlaps right shadow, with margin work fine
     padding-right: 0;
-    margin-right: @offset-right_itemActions;
-    height: @height_itemActions;
+    margin-right: var(--offset-right_itemActions);
+    height: var(--height_itemActions);
   }
 }

@@ -10,7 +10,7 @@
         <ws:rightTemplate>
             <div class="controls-SortingSelector_arrowWrapper">
                 <div class="controls-SortingSelector_arrowsContainer" on:click="_arrowClick(itemData.item)">
-                    <ws:partial attr:class="controls-SortingSelector_arrow_theme-{{_options.theme}}"
+                    <ws:partial attr:class="controls-SortingSelector_arrow"
                                 value="{{itemData.item.get('value')}}" template="wml!Controls/_gridNew/Render/SortingButton/SortingArrow"/>
                 </div>
             </div>

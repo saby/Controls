@@ -2,8 +2,8 @@
    display: flex;
 }
 
-.controls-MasterDetail_master_theme-@{themeName} {
-   background-color: @master_item_background-color_list;
+.controls-MasterDetail_master {
+   background-color: var(--master_item_background-color_list);
 }
 
 .controls-MasterDetail_master {
@@ -12,30 +12,30 @@
    width: 27%;
 }
 
-.controls-MasterDetail_master-template_theme-@{themeName} {
+.controls-MasterDetail_master-template {
    border-right-style: solid;
-   border-right-width: @master_separator_thickness_list;
+   border-right-width: var(--master_separator_thickness_list);
    box-sizing: border-box;
 }
 
-.controls-MasterDetail_master-template-contrast_theme-@{themeName} {
-   border-color: @master_separator_contrast-color_list;
+.controls-MasterDetail_master-template-contrast {
+   border-color: var(--master_separator_contrast-color_list);
 }
 
-.controls-MasterDetail_master-template-same_theme-@{themeName} {
-   border-color: @master_separator_color_list;
+.controls-MasterDetail_master-template-same {
+   border-color: var(--master_separator_color_list);
 }
 
 .controls-MasterDetail_details {
    min-width: 1px;
 }
 
-.controls-MasterDetail_details_bg-contrast_theme-@{themeName} {
-   background-color: @detail_contrast_background-color_masterDetail;
+.controls-MasterDetail_details_bg-contrast {
+   background-color: var(--detail_contrast_background-color_masterDetail);
 }
 
-.controls-MasterDetail_details_bg-same_theme-@{themeName} {
-   background-color: @detail_background-color_masterDetail;
+.controls-MasterDetail_details_bg-same {
+   background-color: var(--detail_background-color_masterDetail);
 }
 
 .controls-MasterDetail_resizing-line {
@@ -57,59 +57,59 @@
 }
 // Класс для установки фона контрола через backgroundStyle
 // применяется к хлебным крошкам, группам. Для выбранной застиканной строки стили ниже
-.controls-background-master_theme-@{themeName} {
-   background-color: @master_item_background-color_list;
+.controls-background-master {
+   background-color: var(--master_item_background-color_list);
 }
 
 // данный стиль применяется к выбранной строке мастера, когда она застикана
 // он нужен потому, что в случае мастера строка прозрачная, а в застиканном виде надо проставить фон
 // В случае мастерКлассик фон задается у самой строки.
 // При изменении требований к внешнему виду класс может стать ненужным
-.controls-background-master_sticked_theme-@{themeName} {
-   background-color: @master_item_selected_background-color_list;
+.controls-background-master_sticked {
+   background-color: var(--master_item_selected_background-color_list);
 }
 
 // Класс для установки фона контрола через backgroundStyle (detail)
-.controls-background-detail_theme-@{themeName} {
-   background-color: @detail_background-color_masterDetail;
+.controls-background-detail {
+   background-color: var(--detail_background-color_masterDetail);
 }
 
 // Класс для установки фона контрола через backgroundStyle (detailContrast)
-.controls-background-detailContrast_theme-@{themeName} {
-   background-color: @detail_contrast_background-color_masterDetail;
+.controls-background-detailContrast {
+   background-color: var(--detail_contrast_background-color_masterDetail);
 }
 
 // Набор классов для установки градиента горизонтального скролла через backgroundStyle (master, detail)
-.controls-horizontal-gradient-master_theme-@{themeName} {
-   background: linear-gradient(to right, @columnscroll_shadow-start-color_grid, @columnscroll_shadow-end-color_grid);
-   border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
+.controls-horizontal-gradient-master {
+   background: linear-gradient(to right, var(--columnscroll_shadow-start-color_grid), var(--columnscroll_shadow-end-color_grid));
+   border-left: var(--columnscroll_separator_thickness_grid) solid var(--columnscroll_separator_color_grid);
 }
 
-.controls-horizontal-gradient-detail_theme-@{themeName} {
-   background: linear-gradient(to right, @columnscroll_shadow-start-color_grid, @columnscroll_shadow-end-color_grid);
-   border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
+.controls-horizontal-gradient-detail {
+   background: linear-gradient(to right, var(--columnscroll_shadow-start-color_grid), var(--columnscroll_shadow-end-color_grid));
+   border-left: var(--columnscroll_separator_thickness_grid) solid var(--columnscroll_separator_color_grid);
 }
 
-.controls-horizontal-gradient-detailContrast_theme-@{themeName} {
-   background: linear-gradient(to right, @columnscroll_shadow-start-color_grid, @columnscroll_shadow-end-color_grid);
-   border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
+.controls-horizontal-gradient-detailContrast {
+   background: linear-gradient(to right, var(--columnscroll_shadow-start-color_grid), var(--columnscroll_shadow-end-color_grid));
+   border-left: var(--columnscroll_separator_thickness_grid) solid var(--columnscroll_separator_color_grid);
 }
 
 // todo https://online.sbis.ru/opendoc.html?guid=4427d008-ac6e-4ce3-bf04-1e1b65bd6f79
 .ws-is-mobile-platform .controls-MasterDetail_resizing-line {
-   right: -@resizingLine_mobile_offset-left_stack;
-   width: @resizingLine_mobile_thickness_stack;
-   .controls-ResizingLine__areaWrapper_horizontal_theme-@{themeName} {
-      width: @resizingLine_mobile_thickness_stack - @resizingLine_mobile_offset-left_stack;
+   right: -var(--resizingLine_mobile_offset-left_stack);
+   width: var(--resizingLine_mobile_thickness_stack);
+   .controls-ResizingLine__areaWrapper_horizontal {
+      width: calc(var(--resizingLine_mobile_thickness_stack) - var(--resizingLine_mobile_offset-left_stack));
    }
 }
 
 // Класс для css теней скролл контейнера
-.controls-Scroll__background-Shadow_style-master_theme-@{themeName} {
-   background-image: linear-gradient(@master_item_background-color_list 25%, rgba(@master_item_background-color_list, 0)),
-              linear-gradient(rgba(@master_item_background-color_list, 0), @master_item_background-color_list 75%),
-              linear-gradient(to bottom, @shadow_start-color_scroll, @shadow_end-color_scroll),
-              linear-gradient(to top, @shadow_start-color_scroll, @shadow_end-color_scroll);
+.controls-Scroll__background-Shadow_style-master {
+   background-image: linear-gradient(var(--master_item_background-color_list) 25%, rgba(var(--master_item_background-color_list), 0)),
+              linear-gradient(rgba(var(--master_item_background-color_list), 0), var(--master_item_background-color_list) 75%),
+              linear-gradient(to bottom, var(--shadow_start-color_scroll), var(--shadow_end-color_scroll)),
+              linear-gradient(to top, var(--shadow_start-color_scroll), var(--shadow_end-color_scroll));
    background-position: top, bottom, top, bottom;
    background-repeat: no-repeat;
    background-attachment: local, local, scroll, scroll;
