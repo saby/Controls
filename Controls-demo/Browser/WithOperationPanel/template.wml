@@ -13,10 +13,9 @@
         <ws:content>
             <div>
                 <Controls.operations:PanelContainer
-                        selectedKeys="{{ _selectedKeys }}"
+                        selectedKeys="{{ content._selectedKeys }}"
                         listMarkedKey="{{ content._options.listMarkedKey }}">
                     <Controls.operations:Panel
-                        selectedKeys="{{ _selectedKeys}}"
                         listMarkedKey="{{ content._options.listMarkedKey }}"
                         source="{{null}}"
                         parentProperty="parent"
@@ -25,18 +24,20 @@
                         keyProperty="id"/>
                 </Controls.operations:PanelContainer>
                 <Controls.list:HotKeysContainer>
-                    <Controls.treeGrid:View
-                            on:selectedKeysChanged="_selectedKeysChanged()"
-                            on:excludedKeysChanged="_excludedKeysChanged()"
-                            name="list"
-                            attr:class="demo-Grid__control"
-                            columns="{{_gridColumns}}">
-                        <ws:emptyTemplate>
-                            <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">
-                                <ws:contentTemplate>No data available!</ws:contentTemplate>
-                            </ws:partial>
-                        </ws:emptyTemplate>
-                    </Controls.treeGrid:View>
+                    <Controls.list:Container>
+                        <Controls.treeGrid:View
+                                on:selectedKeysChanged="_selectedKeysChanged()"
+                                on:excludedKeysChanged="_excludedKeysChanged()"
+                                name="list"
+                                attr:class="demo-Grid__control"
+                                columns="{{_gridColumns}}">
+                            <ws:emptyTemplate>
+                                <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">
+                                    <ws:contentTemplate>No data available!</ws:contentTemplate>
+                                </ws:partial>
+                            </ws:emptyTemplate>
+                        </Controls.treeGrid:View>
+                    </Controls.list:Container>
                 </Controls.list:HotKeysContainer>
             </div>
         </ws:content>
