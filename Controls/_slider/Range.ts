@@ -114,7 +114,7 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
          this._scaleData = Utils.getScaleData( options.minValue, options.maxValue, options.scaleStep,
              options.scaleLabelFormatter);
       }
-      if (this._options.hasOwnProperty('value')) {
+      if (this._options.hasOwnProperty('startValue') && this._options.hasOwnProperty('endValue')) {
          this._endValue = options.endValue === undefined ? options.maxValue : Math.min(options.maxValue, options.endValue);
          this._startValue = options.startValue === undefined ? options.minValue : Math.max(options.minValue, options.startValue);
       } else {
@@ -130,7 +130,8 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
          if (this._options.hasOwnProperty('value')) {
             this._notify('startValueChanged', [val]);
          } else {
-            this._startValue = val;
+            this._notify('startValueChanged', [val]);
+            this._startValue = val; 
          }
       }
    }
@@ -139,6 +140,7 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
          if (this._options.hasOwnProperty('value')) {
             this._notify('endValueChanged', [val]);
          } else {
+            this._notify('endValueChanged', [val]);
             this._endValue = val;
          }
       }

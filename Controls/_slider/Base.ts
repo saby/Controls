@@ -106,6 +106,7 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
             this._notify('valueChanged', [val]);
          } else {
             this._value = val;
+            this._notify('valueChanged', [val]);
          }   
       }
    }
