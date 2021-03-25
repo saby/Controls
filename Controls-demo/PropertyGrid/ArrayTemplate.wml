@@ -1,12 +1,12 @@
 <div>
    <Controls.input:Label caption="{{_options.caption}}" attr:class="demo-TextBox"/>
    <ws:if data="{{_options.editorType === 'EditingConfig'}}">
-      <Controls-demo.List.resources.EditableListPG.EditingConfigEditor
+      <Controls-demo.PropertyGrid.BasePg.EditingConfigEditor
               scope="{{_options}}"
               on:valueChanged="_valueChangedHandlerObj()"/>
    </ws:if>
    <ws:else data="{{_options.editorType === 'ItemPadding'}}">
-      <Controls-demo.List.List.resources.BasePG.ItemPaddingEditor
+      <Controls-demo.PropertyGrid.BasePg.ItemPaddingEditor
               scope="{{_options}}"
               on:valueChanged="_valueChangedHandlerObj()"/>
    </ws:else>
