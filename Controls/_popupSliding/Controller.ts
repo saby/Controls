@@ -1,7 +1,7 @@
 import {BaseController, IDragOffset} from 'Controls/popupTemplate';
 import {
     Controller as PopupController,
-    ISlidingPanelOptions
+    ISlidingPanelPopupOptions
 } from 'Controls/popup';
 import * as PopupContent from 'wml!Controls/_popupSliding/SlidingPanelContent';
 import SlidingPanelStrategy, {ISlidingPanelItem} from './Strategy';
@@ -22,7 +22,8 @@ class Controller extends BaseController {
     elementCreated(item: ISlidingPanelItem, container: HTMLDivElement): boolean {
         item.sizes = this._getPopupSizes(item, container);
         // После создания запускаем анимацию изменив позицию
-        SlidingPanelStrategy.startShowingAnimation(item);
+        item.position = SlidingPanelStrategy.getShowingPosition(item);
+        item.animationState = 'showing';
 
         // Фиксим оттягивание документа при свайпе на IOS
         if (!this._hasOpenedPopups()) {
@@ -41,7 +42,8 @@ class Controller extends BaseController {
 
     elementDestroyed(item: ISlidingPanelItem): Promise<null> {
         // Запускаем анимацию закрытия и откладываем удаление до её окончания
-        SlidingPanelStrategy.startHidingAnimation(item);
+        item.position = SlidingPanelStrategy.getHidingPosition(item);
+        item.animationState = 'closing';
         return new Promise((resolve) => {
             this._destroyPromiseResolvers[item.id] = resolve;
             this._removePopupFromList(item);
@@ -53,15 +55,13 @@ class Controller extends BaseController {
 
     elementAnimated(item: ISlidingPanelItem): boolean {
 
-        // После открытия прибиваем окно к границе вьюпорта
-        if (this._isShowing(item)) {
-            const oldAnimationProperty = this._getAnimationProperty(item);
-            const className = item.popupOptions.className;
+        if (item.animationState === 'showing') {
+            /*
+                После показа меняем координату позиционирования на противоположную,
+                чтобы прибить окно к краю вьюпорта и не пересчитывать позицию при изменении размеров.
+                Например: Если шторка открывается снизу, то будет bottom: 0;
+             */
             item.position = SlidingPanelStrategy.getPosition(item);
-            item.popupOptions.className = className.replace(
-                this._getAnimationClass(oldAnimationProperty),
-                this._getAnimationClass(this._getAnimationProperty(item))
-            );
         }
 
         // Резолвим удаление, только после окончания анимации закрытия
@@ -69,7 +69,7 @@ class Controller extends BaseController {
         if (destroyResolve) {
             destroyResolve();
         }
-        item.animationInProcess = false;
+        item.animationState = void 0;
         return true;
     }
 
@@ -77,7 +77,7 @@ class Controller extends BaseController {
         item.sizes = this._getPopupSizes(item, container);
 
         // Если еще открытие, то ресайзим по стартовым координатам(по которым анимируем открытие)
-        if (this._isShowing(item)) {
+        if (item.animationState === 'showing') {
             item.position = SlidingPanelStrategy.getStartPosition(item);
         } else {
             item.position = SlidingPanelStrategy.getPosition(item);
@@ -88,8 +88,8 @@ class Controller extends BaseController {
 
     getDefaultConfig(item: ISlidingPanelItem): void|Promise<void> {
         item.position = SlidingPanelStrategy.getStartPosition(item);
-        const className = `${item.popupOptions.className || ''}
-            ${this._getAnimationClass(this._getAnimationProperty(item))}`;
+        const className = `${item.popupOptions.className || ''} controls-SlidingPanel__popup
+            controls-SlidingPanel__animation`;
 
         item.popupOptions.className = className;
         item.popupOptions.content = PopupContent;
@@ -131,7 +131,7 @@ class Controller extends BaseController {
      * @return {ISlidingPanelData}
      * @private
      */
-    private _getPopupTemplatePosition(item: ISlidingPanelItem): ISlidingPanelOptions {
+    private _getPopupTemplatePosition(item: ISlidingPanelItem): ISlidingPanelPopupOptions['slidingPanelOptions'] {
         const {position, popupOptions} = item;
         return {
             minHeight: position.minHeight,
@@ -179,19 +179,6 @@ class Controller extends BaseController {
      */
     private _getHeight(item: ISlidingPanelItem): number {
         return item.position.height || item.sizes?.height;
-    }
-
-    private _getAnimationClass(propertyName: string): string {
-        return `controls-SlidingPanel__animation-property-${propertyName}`;
-    }
-
-    protected _getAnimationProperty({position}: ISlidingPanelItem): string {
-        return position.hasOwnProperty('top') ? 'top' : 'bottom';
-    }
-
-    protected _isShowing(item: ISlidingPanelItem): boolean {
-        const positionOption = item.popupOptions.slidingPanelOptions.position;
-        return !item.position.hasOwnProperty(positionOption);
     }
 }
 

@@ -3,7 +3,7 @@ import constants from 'Env/Constants';
 
 export interface ISlidingPanelItem extends IPopupItem {
     popupOptions: ISlidingPanelPopupOptions;
-    animationInProcess: boolean;
+    animationState: 'showing' | 'closing' | void;
     dragStartHeight: number;
 }
 
@@ -54,14 +54,16 @@ class Strategy {
         const containerHeight = item.sizes?.height;
         const windowHeight = this._getWindowHeight();
         const position = this.getPosition(item);
-        delete position[positionOption];
 
         /*
-            Попап изначально показывается за пределами экрана,
-            если уже есть sizes, то это resize при открытии и надо пересчитать размеры.
-        */
-        position[INVERTED_POSITION_MAP[positionOption]] = containerHeight ?
-            windowHeight - containerHeight : windowHeight;
+            Если у нас нет размеров контейнера, то это построение и мы позиционируем окно за пределами экрана
+            Если размеры есть, то это ресайз, запущенный до окончания анимации, поэтому выполняем ресайз
+         */
+        this._setInvertedPosition(
+            position,
+            positionOption,
+            containerHeight ? windowHeight - containerHeight : windowHeight
+        );
         return position;
     }
 
@@ -69,25 +71,22 @@ class Strategy {
      * Запуск анимации показа окна
      * @param item
      */
-    startShowingAnimation(item: ISlidingPanelItem): void {
+    getShowingPosition(item: ISlidingPanelItem): IPopupPosition {
         const positionOption = item.popupOptions.slidingPanelOptions.position;
         const position = this.getPosition(item);
-        delete position[positionOption];
-        position[INVERTED_POSITION_MAP[positionOption]] = this._getWindowHeight() - item.sizes.height;
-        item.position = position;
-        item.animationInProcess = true;
+        this._setInvertedPosition(position, positionOption, this._getWindowHeight() - item.sizes.height);
+        return  position;
     }
 
     /**
      * Запуск анимации сворачивания окна
      * @param item
      */
-    startHidingAnimation(item: ISlidingPanelItem): void {
+    getHidingPosition(item: ISlidingPanelItem): IPopupPosition {
         const positionOption = item.popupOptions.slidingPanelOptions.position;
         const position = this.getPosition(item);
         position[positionOption] = -item.sizes.height;
-        item.position = position;
-        item.animationInProcess = true;
+        return  position;
     }
 
     /**
@@ -111,6 +110,21 @@ class Strategy {
      */
     private _getWindowHeight(): number {
         return constants.isBrowserPlatform && window.innerHeight;
+    }
+
+    /**
+     * Устанавливает противоположную позицию, удаляя дефолтное значение.
+     * Нужно для того, чтобы изначально спозиционировать окно
+     * неизвестного размера на краю экрана + за пределами вьюпорта.
+     * (Пример: Если окно открывается снизу, то top: windowHeight)
+     * @param position
+     * @param property
+     * @param value
+     * @private
+     */
+    private _setInvertedPosition(position: IPopupPosition, property: string, value: number): void {
+        delete position[property];
+        position[INVERTED_POSITION_MAP[property]] = value;
     }
 }
 

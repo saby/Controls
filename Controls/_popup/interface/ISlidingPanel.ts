@@ -4,7 +4,7 @@ type TSlidingPanelPosition = 'top' | 'bottom';
 
 export interface ISlidingPanelPopupOptions {
     slidingPanelOptions: ISlidingPanelOptions;
-    className: string;
+    className?: string;
     dialogOptions: IDialogOptions;
     modal?: boolean;
     position?: TSlidingPanelPosition;

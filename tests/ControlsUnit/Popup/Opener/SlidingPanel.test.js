@@ -257,7 +257,7 @@ define(
                   });
                   Controller.getDefaultConfig(item);
 
-                  assert.equal(item.popupOptions.className.includes('controls-SlidingPanel__animation-property-top'), true);
+                  assert.equal(item.popupOptions.className.includes('controls-SlidingPanel__animation'), true);
                   assert.deepEqual(item.popupOptions.slidingPanelData, {
                      minHeight: item.position.minHeight,
                      maxHeight: item.position.maxHeight,
@@ -277,7 +277,7 @@ define(
                   Controller.getDefaultConfig(item);
 
                   assert.equal(
-                     item.popupOptions.className.includes('controls-SlidingPanel__animation-property-bottom'),
+                     item.popupOptions.className.includes('controls-SlidingPanel__animation'),
                      true
                   );
                   assert.deepEqual(item.popupOptions.slidingPanelData, {

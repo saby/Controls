@@ -34,6 +34,7 @@
             on:touchend="_touchEndHandler()">
             <ws:partial
                on:scrollStateChanged="_scrollStateChanged()"
+               name="customContentContainer"
                attr:class="controls-SlidingPanel__customContent"
                attr:style="{{ _scrollAvailable ? '' : 'height: auto;' }}"
                template="{{ _options.bodyContentTemplate }}">
