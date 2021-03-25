@@ -74,6 +74,7 @@ export interface IRenderOptions extends IControlOptions, IHeightOptions, IBorder
     state: string;
     border: IBorder;
     wasActionByUser: boolean;
+    minLines?: number;
 
     /**
      * @name Controls/_input/Render#contrastBackground
@@ -172,14 +173,14 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
     }
 
     protected _beforeMount(options: IRenderOptions): void {
-        this._border = Render._detectToBorder(options.borderVisibility, options.multiline);
+        this._border = Render._detectToBorder(options.borderVisibility, options.minLines);
         this._fontWeight = Render._getFontWeight(options.fontWeight, options.fontSize);
         this._setState(options);
     }
 
     protected _beforeUpdate(options: IRenderOptions): void {
         if (options.borderVisibility !== this._options.borderVisibility) {
-            this._border = Render._detectToBorder(options.borderVisibility, options.multiline);
+            this._border = Render._detectToBorder(options.borderVisibility, options.minLines);
         }
         if (options.fontWeight !== this._options.fontWeight || options.fontSize !== this._options.fontSize) {
             this._fontWeight = Render._getFontWeight(options.fontWeight, options.fontSize);
@@ -199,7 +200,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
         return detection.isIE || (detection.isWinXP && detection.yandex);
     }
 
-    private static _detectToBorder(borderVisibility: TBorderVisibility, multiline: boolean): IBorder {
+    private static _detectToBorder(borderVisibility: TBorderVisibility, minLines: number): IBorder {
         switch (borderVisibility) {
             case 'visible':
                 return {
@@ -210,7 +211,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
                 };
             case 'partial':
                 return {
-                    top: multiline,
+                    top: minLines > 1,
                     right: false,
                     bottom: true,
                     left: false
