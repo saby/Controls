@@ -142,7 +142,7 @@ describe('Controls/grid_clean/GridView', () => {
         it('should contain class for item actions padding when everything fine', async () => {
             const grid = await getGridView();
             const classes = grid._getGridViewClasses(options);
-            assert.include(classes, 'controls-GridView__paddingBottom__itemActionsV_outside_theme-default');
+            assert.include(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
         });
 
         it('should contain class for item actions padding when results exists and position = \'top\'', async () => {
@@ -150,7 +150,7 @@ describe('Controls/grid_clean/GridView', () => {
             fakeResults = {};
             const grid = await getGridView();
             const classes = grid._getGridViewClasses(options);
-            assert.include(classes, 'controls-GridView__paddingBottom__itemActionsV_outside_theme-default');
+            assert.include(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
         });
 
         it('shouldn\'t contain class for item actions padding when results exists and position = \'bottom\'', async () => {
@@ -158,21 +158,21 @@ describe('Controls/grid_clean/GridView', () => {
             fakeResults = {};
             const grid = await getGridView();
             const classes = grid._getGridViewClasses(options);
-            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside_theme-default');
+            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
         });
 
         it('shouldn\'t contain class for item actions padding when footer exists', async () => {
             fakeFooter = {};
             const grid = await getGridView();
             const classes = grid._getGridViewClasses(options);
-            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside_theme-default');
+            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
         });
 
         it('shouldn\'t contain class for item actions padding when itemActionsPosition = \'inside\'', async () => {
             options.itemActionsPosition = 'inside';
             const grid = await getGridView();
             const classes = grid._getGridViewClasses(options);
-            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside_theme-default');
+            assert.notInclude(classes, 'controls-GridView__paddingBottom__itemActionsV_outside');
         });
     });
 });

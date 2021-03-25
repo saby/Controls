@@ -255,7 +255,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         let contentClasses = 'controls-Grid__row-cell__content';
 
         contentClasses += ' controls-Grid__row-cell__content_baseline_default';
-        contentClasses += ' controls-Grid__row-cell_cursor-${cursor}';
+        contentClasses += ` controls-Grid__row-cell_cursor-${cursor}`;
 
         contentClasses += this._getHorizontalPaddingClasses(theme);
         contentClasses += this._getVerticalPaddingClasses(theme);
@@ -321,6 +321,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
 
         classes += ` controls-Grid__row-cell controls-Grid__cell_${preparedStyle}`;
+        classes += ` controls-Grid__row-cell_${preparedStyle}`;
 
         if (isEditing && !isSingleCellEditing) {
             classes += ' controls-ListView__item_editing';
@@ -336,9 +337,9 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         }
 
         if (topPadding === 'null' && bottomPadding === 'null') {
-            classes += `controls-Grid__row-cell_small_min_height-theme-${theme} `;
+            classes += ' controls-Grid__row-cell_small_min_height';
         } else {
-            classes += ` controls-Grid__row-cell_default_min_height-theme-${theme}`;
+            classes += ' controls-Grid__row-cell_default_min_height';
         }
 
         return classes;

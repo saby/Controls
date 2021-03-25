@@ -1076,7 +1076,7 @@ var
                 backgroundStyle: cell.ladderCell ? 'transparent' : '',
                 shadowVisibility: cell.ladderCell ? 'hidden' : 'visible'
             };
-            let cellClasses = 'controls-Grid__header-cell ' +
+            let cellClasses = 'controls-Grid__header-cell' +
                 ` controls-Grid__${this._isMultiHeader ? 'multi-' : ''}header-cell_min-height` +
                 _private.getBackgroundStyle(this._options, true);
 
@@ -1947,7 +1947,7 @@ var
                      * https://online.sbis.ru/opendoc.html?guid=4230f8f0-7fd1-4018-bd8c-08d703af3899
                      */
                     if (isColspaned) {
-                        columnData.classList.padding.right = 'controls-Grid__cell_spacingLastCol_${current.itemPadding.right}';
+                        columnData.classList.padding.right = `controls-Grid__cell_spacingLastCol_${current.itemPadding.right}`;
                     }
                     return columnData.classList.padding;
                 };

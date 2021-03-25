@@ -102,9 +102,9 @@ describe('Controls/_gridNew/display/DataCell', () => {
             const cell = new DataCell({owner});
             CssClassesAssert.notInclude(
                 cell.getWrapperClasses('default', '', 'master', false),
-                'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master_theme-default ' +
-                'controls-Grid__row-cell_selected__first-master_theme-default ' +
-                'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-master_theme-default'
+                'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master ' +
+                'controls-Grid__row-cell_selected__first-master ' +
+                'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-master'
             );
         });
 
@@ -114,9 +114,9 @@ describe('Controls/_gridNew/display/DataCell', () => {
             const cell = new DataCell({owner});
             CssClassesAssert.include(
                 cell.getWrapperClasses('default', '', 'master', false),
-                'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master_theme-default ' +
-                'controls-Grid__row-cell_selected__first-master_theme-default ' +
-                'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-master_theme-default'
+                'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master ' +
+                'controls-Grid__row-cell_selected__first-master ' +
+                'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-master'
             );
         });
 
@@ -127,8 +127,8 @@ describe('Controls/_gridNew/display/DataCell', () => {
             const cell = new DataCell({owner});
             CssClassesAssert.include(
                 cell.getWrapperClasses('default', '', 'master', false),
-                'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master_theme-default ' +
-                'controls-Grid__row-cell_selected__first-master_theme-default '
+                'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master ' +
+                'controls-Grid__row-cell_selected__first-master '
             );
         });
 
@@ -140,8 +140,8 @@ describe('Controls/_gridNew/display/DataCell', () => {
             const cell = new DataCell({owner});
             CssClassesAssert.include(
                 cell.getWrapperClasses('default', '', 'master', false),
-                'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master_theme-default ' +
-                'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-master_theme-default'
+                'controls-Grid__row-cell_selected controls-Grid__row-cell_selected-master ' +
+                'controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-master'
             );
         });
     });

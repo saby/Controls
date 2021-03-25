@@ -33,7 +33,7 @@ describe('Controls/treeGrid/display/NodeTypeProperty/TreeGridGroupDataRow/GetIte
         CssClassesAssert.isSame(groupRow.getItemClasses({ theme: 'default' }), [
             'controls-ListView__itemV',
             'controls-Grid__row',
-            'controls-Grid__row_undefined_theme-default',
+            'controls-Grid__row_undefined',
             'controls-ListView__itemV_cursor-pointer',
             'controls-Grid__row_last',
             'controls-ListView__group'].join(' '));

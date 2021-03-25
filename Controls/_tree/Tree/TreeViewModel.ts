@@ -208,14 +208,14 @@ var
             const style = itemData.style || 'default';
             const itemType = itemData.item.get(itemData.nodeProperty);
 
-            let expanderClasses = 'js-controls-Tree__row-expander';
+            let expanderClasses = 'js-controls-Tree__row-expander controls-TreeGrid__row-expander';
             let expanderIconClass = '';
 
             let expanderIconStyle = itemData.style;
             if (expanderPosition === 'default') {
                 expanderClasses += ` controls-TreeGrid__row_${style}-expander_size_${(expanderSize || 'default')} `;
             } else {
-                expanderClasses += ` controls-TreeGrid__row_expander_position_right `;
+                expanderClasses += ' controls-TreeGrid__row_expander_position_right ';
                 expanderIconStyle = 'default';
             }
             expanderClasses += EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE;

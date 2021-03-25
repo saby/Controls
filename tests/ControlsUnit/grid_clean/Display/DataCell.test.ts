@@ -38,14 +38,14 @@ describe('Controls/grid_clean/Display/DataCell', () => {
             cAssert.include(
                 cell.getContentClasses('default', 'default'),
                 [
-                    'controls-Grid__row-cell_editing-mode-single-cell_theme-default',
-                    'controls-Grid__row-cell_single-cell_editable_theme-default'
+                    'controls-Grid__row-cell_editing-mode-single-cell',
+                    'controls-Grid__row-cell_single-cell_editable'
                 ]
             );
 
             cAssert.notInclude(
                 cell.getContentClasses('default', 'default'),
-                'controls-Grid__row-cell_single-cell_editing_theme-default'
+                'controls-Grid__row-cell_single-cell_editing'
             );
         });
 
@@ -60,7 +60,7 @@ describe('Controls/grid_clean/Display/DataCell', () => {
             });
             cAssert.include(
                 cell.getContentClasses('default', 'default'),
-                'controls-Grid__row-cell_single-cell_editing_theme-default'
+                'controls-Grid__row-cell_single-cell_editing'
             );
         });
     });

@@ -100,26 +100,26 @@ define(['Controls/treeGrid',
          };
 
          function checkCellClasses(classes, itemType) {
-            assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell_theme-default') !== -1);
+            assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell') !== -1);
             if (itemType === itemTypes.node) {
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__node_theme-default') !== -1);
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__hiddenNode_theme-default') === -1);
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__item_theme-default') === -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__node') !== -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__hiddenNode') === -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__item') === -1);
             }
             if (itemType === itemTypes.hiddenNode) {
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__node_theme-default') === -1);
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__hiddenNode_theme-default') !== -1);
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__item_theme-default') === -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__node') === -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__hiddenNode') !== -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__item') === -1);
             }
             if (itemType === itemTypes.item) {
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__node_theme-default') === -1);
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__hiddenNode_theme-default') === -1);
-               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__item_theme-default') !== -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__node') === -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__hiddenNode') === -1);
+               assert.isTrue(classes.indexOf('controls-TreeGrid__row-cell__item') !== -1);
             }
          }
 
          function checkCellBackgroundClass(classes, backgroundColorStyle) {
-            assert.isTrue(classes.indexOf('controls-Grid__row-cell_background_' + backgroundColorStyle + '_theme-default') !== -1);
+            assert.isTrue(classes.indexOf('controls-Grid__row-cell_background_' + backgroundColorStyle) !== -1);
          }
 
          var current,
@@ -182,13 +182,13 @@ define(['Controls/treeGrid',
              }),
              current = model.getCurrent(),
              expected = {
-                defaultOrNull: 'controls-TreeGrid__row-levelPadding_size_default_theme-default',
-                onlyExpander_xs: 'controls-TreeGrid__row-levelPadding_size_xs_theme-default',
-                onlyExpander_xl: 'controls-TreeGrid__row-levelPadding_size_xl_theme-default',
-                onlyIndent_xxs: 'controls-TreeGrid__row-levelPadding_size_xxs_theme-default',
-                onlyIndent_m: 'controls-TreeGrid__row-levelPadding_size_m_theme-default',
-                s_m: 'controls-TreeGrid__row-levelPadding_size_m_theme-default',
-                l_xl: 'controls-TreeGrid__row-levelPadding_size_xl_theme-default'
+                defaultOrNull: 'controls-TreeGrid__row-levelPadding_size_default',
+                onlyExpander_xs: 'controls-TreeGrid__row-levelPadding_size_xs',
+                onlyExpander_xl: 'controls-TreeGrid__row-levelPadding_size_xl',
+                onlyIndent_xxs: 'controls-TreeGrid__row-levelPadding_size_xxs',
+                onlyIndent_m: 'controls-TreeGrid__row-levelPadding_size_m',
+                s_m: 'controls-TreeGrid__row-levelPadding_size_m',
+                l_xl: 'controls-TreeGrid__row-levelPadding_size_xl'
              };
 
          assert.equal(expected.defaultOrNull, current.getLevelIndentClasses({getExpanderSize: () => null}, null, null));
@@ -356,9 +356,9 @@ define(['Controls/treeGrid',
          assert.equal(nodeFooter.rowIndex, 2);
          assert.equal(nodeFooter.colspanStyles, 'grid-column-start: 2; grid-column-end: 4;');
 
-         assert.isTrue(nodeFooter.classes.indexOf('controls-TreeGrid__nodeFooterContent_rowSeparatorSize-null_theme-default') === -1);
-         assert.isTrue(nodeFooter.classes.indexOf('controls-TreeGrid__nodeFooterContent_rowSeparatorSize-s_theme-default') === -1);
-         assert.isTrue(nodeFooter.classes.indexOf('controls-TreeGrid__nodeFooterContent_rowSeparatorSize-l_theme-default') !== -1);
+         assert.isTrue(nodeFooter.classes.indexOf('controls-TreeGrid__nodeFooterContent_rowSeparatorSize-null') === -1);
+         assert.isTrue(nodeFooter.classes.indexOf('controls-TreeGrid__nodeFooterContent_rowSeparatorSize-s') === -1);
+         assert.isTrue(nodeFooter.classes.indexOf('controls-TreeGrid__nodeFooterContent_rowSeparatorSize-l') !== -1);
 
          treeGrid.ViewModel.superclass.getItemDataByItem = originFn;
       });
