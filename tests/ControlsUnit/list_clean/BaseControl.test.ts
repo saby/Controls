@@ -930,6 +930,21 @@ describe('Controls/list_clean/BaseControl', () => {
             const receivedState = await baseControl._beforeMount(baseControlOptions);
             assert.ok(receivedState.hasOwnProperty('errorConfig'));
         });
+
+        it('_beforeMount with items in options', async () => {
+            const items = new RecordSet({
+                rawData: getData(10)
+            });
+            const baseControlOptions = {
+                ...getBaseControlOptionsWithEmptyItems(),
+                items
+            };
+            const baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
+            baseControl.saveOptions(baseControlOptions);
+
+            assert.ok(baseControl.getItems() === items);
+        });
     });
 
     describe('Edit in place', () => {
