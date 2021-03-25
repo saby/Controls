@@ -20,7 +20,6 @@ import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from 
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
 import Collection from 'Controls/_display/Collection';
 import IItemActionsItem from './interface/IItemActionsItem';
-import DataRow from "Controls/_gridNew/display/DataRow";
 
 export interface IOptions<T extends Model = Model> {
     itemModule: string;
