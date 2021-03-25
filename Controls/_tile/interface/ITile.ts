@@ -195,9 +195,10 @@
  *    source="{{_viewSource}}"
  *    keyProperty="id"
  *    parentProperty="Раздел"
+ *    imageProperty="img"
  *    nodeProperty="Раздел@">
  *    <ws:itemTemplate>
- *       <ws:partial template="Controls/tile:ItemTemplate" imageProperty="img" >
+ *       <ws:partial template="Controls/tile:ItemTemplate">
  *    </ws:itemTemplate>
  *    </Controls.tile:View>
  * </pre>
