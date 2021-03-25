@@ -1,46 +1,44 @@
-<Controls.filter:Controller filter="{{_filter}}"
-                            filterButtonSource="{{_filterSource}}"
-                            fastFilterSource="{{_fastFilterData}}"
-                            attr:class="controls-demo__FilterLayout">
-   <Controls.list:DataContainer source="{{_dataSource}}" navigation="{{_navigation}}" keyProperty="id">
-      <Controls.search:Controller searchParam="firstName">
-         <div class="controls-demo__LayoutInner">
-            <div class="controls-demo__Layouts_filterComponents">
-               <Controls.search:InputContainer>
-                  <Controls.search:Input bind:value="_searchValue"/>
-               </Controls.search:InputContainer>
-               <div class="controls-demo__Layouts_filter">
-                  <Controls.deprecatedFilter:FastContainer>
-                     <Controls.deprecatedFilter:Fast/>
-                  </Controls.deprecatedFilter:FastContainer>
-                  <Controls.filter:ViewContainer>
-                     <Controls.deprecatedFilter:Selector
-                             templateName="wml!Controls-demo/Layouts/SearchLayout/FilterButtonTemplate/vdomFilterButtonTemplate"/>
-                  </Controls.filter:ViewContainer>
-               </div>
-            </div>
-            <Controls.list:Container>
-               <Controls.list:View emptyTemplate="Не найдено">
-                  <ws:itemTemplate>
-                     <ws:partial template="Controls/list:ItemTemplate">
-                        <ws:contentTemplate>
-                           <div style="padding: 4px; display: flex; justify-content: space-between">
-                              <div style="width: 200px">
-                                 {{itemTemplate.itemData.item.get('firstName')}}
-                              </div>
-                              <div style="font-size: 13px; color: darkblue">
-                                 {{itemTemplate.itemData.item.get('lastName')}}
-                              </div>
-                              <div style="font-size: 13px; color: limegreen">
-                                 {{itemTemplate.itemData.item.get('id')}}
-                              </div>
-                           </div>
-                        </ws:contentTemplate>
-                     </ws:partial>
-                  </ws:itemTemplate>
-               </Controls.list:View>
-            </Controls.list:Container>
+<Controls.browser:Controller filter="{{_filter}}"
+                             filterButtonSource="{{_filterSource}}"
+                             fastFilterSource="{{_fastFilterData}}"
+                             attr:class="controls-demo__FilterLayout"
+                             source="{{_dataSource}}" navigation="{{_navigation}}" keyProperty="id"
+                             searchParam="firstName">
+   <div class="controls-demo__LayoutInner">
+      <div class="controls-demo__Layouts_filterComponents">
+         <Controls.search:InputContainer>
+            <Controls.search:Input bind:value="_searchValue"/>
+         </Controls.search:InputContainer>
+         <div class="controls-demo__Layouts_filter">
+            <Controls.deprecatedFilter:FastContainer>
+               <Controls.deprecatedFilter:Fast/>
+            </Controls.deprecatedFilter:FastContainer>
+            <Controls.filter:ViewContainer>
+               <Controls.deprecatedFilter:Selector
+                       templateName="wml!Controls-demo/Layouts/SearchLayout/FilterButtonTemplate/vdomFilterButtonTemplate"/>
+            </Controls.filter:ViewContainer>
          </div>
-      </Controls.search:Controller>
-   </Controls.list:DataContainer>
-</Controls.filter:Controller>
+      </div>
+      <Controls.list:Container>
+         <Controls.list:View emptyTemplate="Не найдено">
+            <ws:itemTemplate>
+               <ws:partial template="Controls/list:ItemTemplate">
+                  <ws:contentTemplate>
+                     <div style="padding: 4px; display: flex; justify-content: space-between">
+                        <div style="width: 200px">
+                           {{itemTemplate.itemData.item.get('firstName')}}
+                        </div>
+                        <div style="font-size: 13px; color: darkblue">
+                           {{itemTemplate.itemData.item.get('lastName')}}
+                        </div>
+                        <div style="font-size: 13px; color: limegreen">
+                           {{itemTemplate.itemData.item.get('id')}}
+                        </div>
+                     </div>
+                  </ws:contentTemplate>
+               </ws:partial>
+            </ws:itemTemplate>
+         </Controls.list:View>
+      </Controls.list:Container>
+   </div>
+</Controls.browser:Controller>
