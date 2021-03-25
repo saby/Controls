@@ -1,4 +1,5 @@
-import {Control, TemplateFunction, IControlOptions, AppData, PrefetchLinksStore} from 'UI/Base';
+import {Control, TemplateFunction, IControlOptions, AppData} from 'UI/Base';
+import { PrefetchLinksStore } from 'UI/Deps';
 import * as template from 'wml!Controls/Application/Page';
 import {Body as PageBody, Head as PageHead} from 'Application/Page';
 
