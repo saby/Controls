@@ -773,6 +773,20 @@ define([
                      shadowVisibility: 'hidden',
                      updateShadowVisibility: sinon.stub()
                   }
+               },
+               header4: {
+                  inst: {
+                     shadowVisibility: 'visible',
+                     updateShadowVisibility: sinon.stub()
+                  },
+                  mode: StickyHeaderUtils.MODE.replaceable
+               },
+               header5: {
+                  inst: {
+                     shadowVisibility: 'visible',
+                     updateShadowVisibility: sinon.stub()
+                  },
+                  mode: StickyHeaderUtils.MODE.replaceable
                }
             };
             component._fixedHeadersStack.top = ['header0', 'header1', 'header2'];
@@ -788,8 +802,8 @@ define([
          }, {
             _headersStack: ['header1', 'header2', 'header0'],
             resp: [
-               SHADOW_VISIBILITY_BY_CONTROLLER.auto,
                SHADOW_VISIBILITY_BY_CONTROLLER.hidden,
+               SHADOW_VISIBILITY_BY_CONTROLLER.auto,
                SHADOW_VISIBILITY_BY_CONTROLLER.auto
             ]
          }, {
@@ -808,16 +822,28 @@ define([
                SHADOW_VISIBILITY_BY_CONTROLLER.auto,
                SHADOW_VISIBILITY_BY_CONTROLLER.auto
             ]
+         }, {
+            _headersStack: ['header0', 'header4', 'header5'],
+            fixedHeadersStack: ['header0', 'header4', 'header5'],
+            resp: [
+               SHADOW_VISIBILITY_BY_CONTROLLER.visible,
+               SHADOW_VISIBILITY_BY_CONTROLLER.visible,
+               SHADOW_VISIBILITY_BY_CONTROLLER.hidden
+            ],
+            scrollShadowVisibility: 'visible'
          }].forEach((test, index) => {
             it('test ' + index, () => {
-               component._isShadowVisible = { top: true, bottom: true };
+               component._shadowVisibility = {
+                  top: test.scrollShadowVisibility || 'auto',
+                  bottom: true
+               };
                component._headersStack.top = test._headersStack;
                if (test.fixedHeadersStack) {
                   component._fixedHeadersStack.top = test.fixedHeadersStack;
                }
                component._updateShadowsVisibility();
-               for (let i = 0; i < test.resp.length; i++) {
-                  sinon.assert.calledWith(component._headers['header' + i].inst.updateShadowVisibility, test.resp[i]);
+               for (let i = 0; i < component._headersStack.top.length; i++) {
+                  sinon.assert.calledWith(component._headers[component._headersStack.top[i]].inst.updateShadowVisibility, test.resp[i]);
                }
             });
          });
