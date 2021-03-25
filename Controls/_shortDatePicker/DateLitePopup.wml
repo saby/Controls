@@ -1,27 +1,25 @@
-<div class="controls-PeriodLiteDialog controls-PeriodLiteDialog_theme-{{_options.theme}}
+<div class="controls-PeriodLiteDialog
             {{_getSizeCssClass('width')}} {{_options.popupClassName}}
             {{!_isExpandedPopup ? _getSizeCssClass('height')}}">
    <ws:if data="{{_options.chooseMonths || _options.chooseQuarters || _options.chooseHalfyears}}">
       <div class="controls-PeriodLiteDialog__header">
-         <div class="controls-PeriodLiteDialog__currentValue
-                  controls-PeriodLiteDialog__currentValue_theme-{{_options.theme}}"
+         <div class="controls-PeriodLiteDialog__currentValue"
               title="{[Текущий период]}"
               on:click="_onHeaderClick()">{{_caption}}
          </div>
-         <div class="controls-PeriodLiteDialog__close controls-PeriodLiteDialog__close_theme-{{_options.theme}}
-                     controls-icon controls-icon_size-m_theme-{{_options.theme}}
-                     controls-PeriodLiteDialog__close_position-{{_closeBtnPosition}}_theme-{{_options.theme}}" title="{[Закрыть]}"
+         <div class="controls-PeriodLiteDialog__close
+                     controls-icon controls-icon_size-m
+                     controls-PeriodLiteDialog__close_position-{{_closeBtnPosition}}" title="{[Закрыть]}"
               on:click="_onHeaderClick()">
          </div>
       </div>
-      <div class="controls-PeriodLiteDialog__bodyWrapper controls-PeriodLiteDialog__bodyWrapper_theme-{{_options.theme}}">
+      <div class="controls-PeriodLiteDialog__bodyWrapper">
          <div class="controls-PeriodLiteDialog__yearWrapper {{_getYearWrapperCssClasses()}}
-                     controls-PeriodLiteDialog__yearWrapper_theme-{{_options.theme}}
                      controls-PeriodLiteDialog__yearHeader-border{{(_yearHovered === _position.getFullYear())?
-                     '-hovered'}}_theme-{{_options.theme}}"
+                     '-hovered'}}"
               title="{[Выбрать год]}">
             <div
-                    class="controls-PeriodLiteDialog__year controls-PeriodLiteDialog__year_theme-{{_options.theme}}
+                    class="controls-PeriodLiteDialog__year
                            {{ _getYearCssClasses() }}"
                     on:mouseenter="_onYearMouseEnter(_position.getFullYear())"
                     on:touchstart="_onYearMouseEnter(_position.getFullYear())"
@@ -34,16 +32,14 @@
             <Controls.buttons:ArrowButton direction="up" inlineHeight="l" attr:title="{[Предыдущий год]}"
                                           on:click="_changeYear (-1)"
                                           attr:class="controls-PeriodLiteDialog__arrowUp
-                                                      controls-PeriodLiteDialog__year-prev
-                                                      controls-PeriodLiteDialog__year-prev_theme-{{_options.theme}}"/>
+                                                      controls-PeriodLiteDialog__year-prev"/>
             <Controls.buttons:ArrowButton direction="down" inlineHeight="l" attr:title="{[Следующий год]}"
                                           on:click="_changeYear (1)"
                                           attr:class="controls-PeriodLiteDialog__arrowDown
-                                                      controls-PeriodLiteDialog__year-next
-                                                      controls-PeriodLiteDialog__year-next_theme-{{_options.theme}}"/>
+                                                      controls-PeriodLiteDialog__year-next"/>
          </div>
          <ws:partial
-                 class="controls-PeriodLiteDialog__body controls-PeriodLiteDialog__body_theme-{{_options.theme}}
+                 class="controls-PeriodLiteDialog__body
                         {{_getListCssClasses()}}"
                  _dateToDataString="{{_dateToDataString}}"
                  template="{{_defaultListTemplate}}"
@@ -58,10 +54,9 @@
                  _isFullPicker="{{_isFullPicker}}"
          />
       </div>
-      <div class="controls-PeriodLiteDialog__footer_theme-{{_options.theme}} controls-PeriodLiteDialog__{{_isExpandedPopup ? 'collapseButton' : 'expandButton'}}
-                                            controls-PeriodLiteDialog__expandButton_theme-{{_options.theme}}">
+      <div class="controls-PeriodLiteDialog__footer controls-PeriodLiteDialog__{{_isExpandedPopup ? 'collapseButton' : 'expandButton'}}">
          <ws:if data="{{_isExpandButtonVisible && _options.stickyPosition }}">
-            <Controls.toggle:BigSeparator attr:class="controls-PeriodLiteDialog__footer-points_wrapper  controls-PeriodLiteDialog__footer-points_wrapper_theme-{{_options.theme}}"
+            <Controls.toggle:BigSeparator attr:class="controls-PeriodLiteDialog__footer-points_wrapper"
                                           caption="{{_isExpandedPopup ? rk('Свернуть') : rk('Развернуть')}}"
                                           iconSize="l"
                                           contrastBackground="{{false}}"
@@ -72,14 +67,14 @@
       </div>
    </ws:if>
    <ws:if data="{{!_options.chooseMonths && !_options.chooseQuarters && !_options.chooseHalfyears}}">
-      <div class="controls-PeriodLiteDialog__years-next controls-PeriodLiteDialog__years-next_theme-{{_options.theme}}">
+      <div class="controls-PeriodLiteDialog__years-next">
          <Controls.buttons:ArrowButton direction="up" inlineHeight="l" attr:title="{[Предыдущий год]}"
                                        on:click="_changeYear(1)"
                                        attr:class="controls-PeriodLiteDialog__arrowUp"/>
       </div>
-      <div class="controls-PeriodLiteDialog__close controls-PeriodLiteDialog__close_theme-{{_options.theme}}
-                     controls-icon controls-icon_size-m_theme-{{_options.theme}}
-                     controls-PeriodLiteDialog__close_position-{{_closeBtnPosition}}_theme-{{_options.theme}}" title="{[Закрыть]}"
+      <div class="controls-PeriodLiteDialog__close
+                     controls-icon controls-icon_size-m
+                     controls-PeriodLiteDialog__close_position-{{_closeBtnPosition}}" title="{[Закрыть]}"
            on:click="_onHeaderClick()">
       </div>
       <Controls.calendar:MonthList
@@ -89,19 +84,17 @@
               bind:position="_position"
               attachLoadTopTriggerToNull="{{ false }}"
               _limit="{{_limit}}"
-         class="controls-PeriodLiteDialog__year-list controls-PeriodLiteDialog__year-list_theme-{{_options.theme}}">
+         class="controls-PeriodLiteDialog__year-list">
          <ws:yearTemplate>
             <ws:partial template="Controls/calendar:MonthListYearTemplate">
                <ws:bodyTemplate>
-                  <div class="controls-PeriodLiteDialog__body controls-PeriodLiteDialog__body_theme-{{_options.theme}}
+                  <div class="controls-PeriodLiteDialog__body
                               controls-PeriodLiteDialog__text-align-center">
-                        <div  class="controls-PeriodLiteDialog-item-yearList-years
-                                     controls-PeriodLiteDialog-item-yearList-years_theme-{{_options.theme}}"
+                        <div  class="controls-PeriodLiteDialog-item-yearList-years"
                               on:click="_onYearClick(yearTemplate.date.getFullYear())">
-                           <div class="controls-PeriodLiteDialog__vLayoutItem-caption_theme-{{_options.theme}}
-                                 controls-PeriodLiteDialog__vLayoutItem-caption
+                           <div class="controls-PeriodLiteDialog__vLayoutItem-caption
                                  {{_getYearItemCssClasses(yearTemplate.date.getFullYear())}}
-                                 controls-PeriodLiteDialog__yearList-year_theme-{{_options.theme}}">
+                                 controls-PeriodLiteDialog__yearList-year">
                               {{ yearTemplate.date.getFullYear() }}
                            </div>
                         </div>
@@ -110,7 +103,7 @@
             </ws:partial>
          </ws:yearTemplate>
       </Controls.calendar:MonthList>
-      <div class="controls-PeriodLiteDialog__years-prev controls-PeriodLiteDialog__years-prev_theme-{{_options.theme}}">
+      <div class="controls-PeriodLiteDialog__years-prev">
          <Controls.buttons:ArrowButton direction="down" inlineHeight="l" attr:title="{[Следующий год]}"
                                        on:click="_changeYear(-1)"
                                        attr:class="controls-PeriodLiteDialog__arrowDown"/>

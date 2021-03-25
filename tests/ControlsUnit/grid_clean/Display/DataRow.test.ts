@@ -17,7 +17,8 @@ const mockedCollection = {
     hasItemActionsSeparatedCell: () => false,
     getColumnsConfig: () => columns,
     getIndex: () => 0,
-    notifyItemChange: () => {}
+    notifyItemChange: () => {},
+    getItemEditorTemplate: () => {}
 } as GridCollection<Model>;
 
 describe('Controls/grid_clean/Display/DataRow', () => {

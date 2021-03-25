@@ -3461,18 +3461,22 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     }
 
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
-        let receivedData = receivedState.data;
-        let viewModelConfig = {...newOptions, keyProperty: self._keyProperty};
+        let items;
         let collapsedGroups;
 
         if (self._sourceController) {
-            receivedData = self._sourceController.getItems();
+            items = self._sourceController.getItems();
             collapsedGroups = self._sourceController.getCollapsedGroups();
+        } else if (newOptions.items) {
+            items = newOptions.items;
         }
 
-        if (collapsedGroups) {
-            viewModelConfig = cMerge(viewModelConfig, {collapsedGroups: collapsedGroups || newOptions.collapsedGroups});
-        }
+        const viewModelConfig = {
+            ...newOptions,
+            keyProperty: self._keyProperty,
+            items,
+            collapsedGroups: collapsedGroups || newOptions.collapsedGroups
+        };
 
         if (newOptions.groupProperty) {
             self._groupingLoader = new GroupingLoader({});
@@ -3480,16 +3484,11 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
         self._viewModelConstructor = newOptions.viewModelConstructor;
         if (!newOptions.useNewModel && newOptions.viewModelConstructor) {
-            if (receivedData) {
-                viewModelConfig.items = receivedData;
-            } else {
-                delete viewModelConfig.items;
-            }
             viewModelConfig.supportVirtualScroll = self._needScrollCalculation;
             self._listViewModel = new newOptions.viewModelConstructor(viewModelConfig);
-        } else if (newOptions.useNewModel && receivedData) {
+        } else if (newOptions.useNewModel && items) {
             self._listViewModel = self._createNewModel(
-                receivedData,
+                items,
                 viewModelConfig,
                 newOptions.viewModelConstructor
             );
@@ -3501,47 +3500,43 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
         }
 
-        if (newOptions.source) {
-            if (receivedData) {
-                _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController), true);
+        if (items) {
+            _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController), true);
 
-                if (newOptions.useNewModel) {
-                    self._items = self._listViewModel.getCollection();
-                } else {
-                    self._items = self._listViewModel.getItems();
-                }
-                self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
-                if (self._pagingNavigation) {
-                    const hasMoreData = self._items.getMetaData().more;
-                    _private.updatePagingData(self, hasMoreData);
-                }
-
-                self._afterReloadCallback(newOptions, self._items, self._listViewModel);
-
-                if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
-                    _private.needAttachLoadTriggerToNull(self, 'up')) {
-                    self._hideTopTrigger = true;
-                    self._resetTopTriggerOffset = true;
-                }
-                if (_private.attachLoadDownTriggerToNullIfNeed(self, newOptions)) {
-                    self._resetDownTriggerOffset = true;
-                }
-
-                _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
-                _private.createScrollController(self, newOptions);
-                _private.prepareFooter(self, newOptions, self._sourceController);
-                _private.initVisibleItemActions(self, newOptions);
+            if (newOptions.useNewModel) {
+                self._items = self._listViewModel.getCollection();
+            } else {
+                self._items = self._listViewModel.getItems();
+            }
+            self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
+            if (self._pagingNavigation) {
+                const hasMoreData = self._items.getMetaData().more;
+                _private.updatePagingData(self, hasMoreData);
             }
 
-            if (receivedState.errorConfig) {
-                _private.showError(self, receivedState.errorConfig);
-            } else if (self._sourceController && self._sourceController.getLoadError()) {
-                return _private.processError(self, {error: self._sourceController.getLoadError()}).then((errorConfig) => {
-                    return getState(errorConfig);
-                });
+            self._afterReloadCallback(newOptions, self._items, self._listViewModel);
+
+            if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
+                _private.needAttachLoadTriggerToNull(self, 'up')) {
+                self._hideTopTrigger = true;
+                self._resetTopTriggerOffset = true;
             }
-        } else {
-            _private.createScrollController(self, newOptions);
+            if (_private.attachLoadDownTriggerToNullIfNeed(self, newOptions)) {
+                self._resetDownTriggerOffset = true;
+            }
+
+            _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
+            _private.prepareFooter(self, newOptions, self._sourceController);
+            _private.initVisibleItemActions(self, newOptions);
+        }
+        _private.createScrollController(self, newOptions);
+
+        if (receivedState.errorConfig) {
+            _private.showError(self, receivedState.errorConfig);
+        } else if (self._sourceController && self._sourceController.getLoadError()) {
+            return _private.processError(self, {error: self._sourceController.getLoadError()}).then((errorConfig) => {
+                return getState(errorConfig);
+            });
         }
     }
 
@@ -6348,10 +6343,12 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             return false;
         }
 
-        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down' && !this._portionedSearchInProgress;
+        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
+        // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
+        const isAborted = _private.getPortionedSearch(this).isAborted();
         return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator
-           : shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection;
+           ? this._showLoadingIndicator && shouldDisplayDownIndicator && !this._portionedSearchInProgress && !isAborted
+           : (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection) && !this._portionedSearchInProgress && !isAborted;
     }
 
     _shouldDisplayTopPortionedSearch(): boolean {

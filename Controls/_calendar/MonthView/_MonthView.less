@@ -3,11 +3,6 @@
    text-align: center;
 }
 
-.controls-MonthViewVDOM-old {
-   display: flex;
-   flex-direction: column;
-}
-
 .controls-MonthViewVDOM__table {
    flex-shrink: 1;
    flex-grow: 1;
@@ -40,12 +35,18 @@
    align-items: center;
    justify-content: center;
    box-sizing: content-box;
+   font-size: var(--monthview_item_font-size_monthSlider);
+   margin-top: var(--monthview_item_border-thickness_monthSlider);
+   margin-left: var(--monthview_item_border-thickness_monthSlider);
 }
 
-.controls-MonthViewVDOM__item-old_theme-@{themeName} {
-   font-size: @monthview_item_font-size_monthSlider;
-   margin-top: @monthview_item_border-thickness_monthSlider;
-   margin-left: @monthview_item_border-thickness_monthSlider;
+.controls-MonthViewVDOM__item_style-default {
+   font-size: var(--monthview_item_font-size_monthSlider);
+   min-width: var(--monthview_item_width_monthSlider);
+   min-height: var(--monthview_item_height_monthSlider);
+   margin-top: var(--monthview_item_border-thickness_monthSlider);
+   margin-left: var(--monthview_item_border-thickness_monthSlider);
+   width: 100%;
 }
 
 .controls-MonthViewVDOM__item {
@@ -55,53 +56,44 @@
    justify-content: center;
 }
 
-.controls-MonthViewVDOM__item_theme-@{themeName} {
-   font-size: @monthview_item_font-size_monthSlider;
-   min-width: @monthview_item_width_monthSlider;
-   min-height: @monthview_item_height_monthSlider;
-   margin-top: @monthview_item_border-thickness_monthSlider;
-   margin-left: @monthview_item_border-thickness_monthSlider;
-   width: 100%;
-}
-
-.controls-MonthView__weekdays-item_theme-@{themeName} {
-   min-height: @weekdays_height_monthSlider;
+.controls-MonthView__weekdays-item {
+   min-height: var(--weekdays_height_monthSlider);
 }
 
 .ws-is-hover {
-   .controls-MonthView__backgroundColor-currentMonthDay-selected_theme-@{themeName},
-   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
-   .controls-MonthView__backgroundColor-otherMonthDay-selected_theme-@{themeName},
-   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished_theme-@{themeName} {
+   .controls-MonthView__backgroundColor-currentMonthDay-selected,
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished,
+   .controls-MonthView__backgroundColor-otherMonthDay-selected,
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished {
       &:hover {
-         background: @monthlist_monthview_item_selected_hover_background-color_datePicker;
+         background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
       }
    }
 
-   .controls-MonthView__backgroundColor-currentMonthDay-selected-hovered_theme-@{themeName},
-   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered_theme-@{themeName},
-   .controls-MonthView__backgroundColor-otherMonthDay-selected-hovered_theme-@{themeName},
-   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered_theme-@{themeName} {
-      background: @monthlist_monthview_item_selected_hover_background-color_datePicker;
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-hovered,
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered,
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-hovered,
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered {
+      background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
    }
-   .controls-MonthView__border-currentMonthDay-unselected_theme-@{themeName} {
+   .controls-MonthView__border-currentMonthDay-unselected {
       &:hover {
-         outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
+         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
-   .controls-MonthView__border-currentMonthDay-unselected_theme-@{themeName} {
+   .controls-MonthView__border-currentMonthDay-unselected {
       &:hover {
-         outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
+         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
 
-   .controls-MonthView__border-hover_theme-@{themeName} {
-      outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
+   .controls-MonthView__border-hover {
+      outline:var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
    }
-   .controls-MonthView__backgroundColor-currentMonthDay-unselected_theme-@{themeName}:hover,
-   .controls-MonthView__backgroundColor-otherMonthDay-unselected_theme-@{themeName}:hover {
-      background: @monthview_item_hover_background-color_monthSlider;
-      border-radius: @monthview_item_hover_border-radius_monthSlider;
+   .controls-MonthView__backgroundColor-currentMonthDay-unselected:hover,
+   .controls-MonthView__backgroundColor-otherMonthDay-unselected:hover {
+      background: var(--monthview_item_hover_background-color_monthSlider);
+      border-radius: var(--monthview_item_hover_border-radius_monthSlider);
    }
 
    .controls-MonthViewVDOM__cursor-item {
@@ -110,58 +102,58 @@
 }
 
 .ws-is-touch {
-   .controls-MonthView__backgroundColor-currentMonthDay-selected_theme-@{themeName},
-   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
-   .controls-MonthView__backgroundColor-otherMonthDay-selected_theme-@{themeName},
-   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished_theme-@{themeName} {
+   .controls-MonthView__backgroundColor-currentMonthDay-selected,
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished,
+   .controls-MonthView__backgroundColor-otherMonthDay-selected,
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished {
       &:active {
-         background: @monthlist_monthview_item_selected_hover_background-color_datePicker;
+         background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
       }
    }
 
-   .controls-MonthView__backgroundColor-currentMonthDay-selected-hovered_theme-@{themeName},
-   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered_theme-@{themeName},
-   .controls-MonthView__backgroundColor-otherMonthDay-selected-hovered_theme-@{themeName},
-   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered_theme-@{themeName} {
-      background: @monthlist_monthview_item_selected_hover_background-color_datePicker;
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-hovered,
+   .controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-hovered,
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-hovered,
+   .controls-MonthView__backgroundColor-otherMonthDay-selected-startend-unfinished-hovered {
+      background: var(--monthlist_monthview_item_selected_hover_background-color_datePicker);
    }
-   .controls-MonthView__border-currentMonthDay-unselected_theme-@{themeName} {
+   .controls-MonthView__border-currentMonthDay-unselected {
       &:active {
-         outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
+         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
-   .controls-MonthView__border-currentMonthDay-unselected_theme-@{themeName} {
+   .controls-MonthView__border-currentMonthDay-unselected {
       &:active {
-         outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
+         outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
       }
    }
 
-   .controls-MonthView__border-hover_theme-@{themeName} {
-      outline: @monthview_item_border-thickness_monthSlider solid @monthview_item_hover_border-color_monthSlider;
+   .controls-MonthView__border-hover {
+      outline: var(--monthview_item_border-thickness_monthSlider) solid var(--monthview_item_hover_border-color_monthSlider);
    }
-   .controls-MonthView__backgroundColor-currentMonthDay-unselected_theme-@{themeName}:active,
-   .controls-MonthView__backgroundColor-otherMonthDay-unselected_theme-@{themeName}:active {
-      background: @monthview_item_hover_background-color_monthSlider;
-      border-radius: @monthview_item_hover_border-radius_monthSlider;
+   .controls-MonthView__backgroundColor-currentMonthDay-unselected:active,
+   .controls-MonthView__backgroundColor-otherMonthDay-unselected:active {
+      background: var(--monthview_item_hover_background-color_monthSlider);
+      border-radius: var(--monthview_item_hover_border-radius_monthSlider);
    }
 }
 
-.controls-MonthView__item-border_theme-@{themeName},
-.controls-MonthView__item-border-start_theme-@{themeName},
-.controls-MonthView__item-border-end_theme-@{themeName} {
+.controls-MonthView__item-border,
+.controls-MonthView__item-border-start,
+.controls-MonthView__item-border-end {
    outline-style: solid;
-   outline-width: @monthview_item_border-thickness_monthSlider;
-   outline-color: @monthview_item_hover_border-color_monthSlider;
+   outline-width: var(--monthview_item_border-thickness_monthSlider);
+   outline-color: var(--monthview_item_hover_border-color_monthSlider);
 }
 
-.controls-MonthView__fontWeight_theme-@{themeName} {
+.controls-MonthView__fontWeight {
    font-weight: bold;
 }
 
-.controls-MonthView__item-border-start_theme-@{themeName}:before,
-.controls-MonthView__item-border-end_theme-@{themeName}:after {
-   width: @rangeSelection_border_thickness_datePicker;
-   background-color: @rangeSelection_border_color_datePicker;
+.controls-MonthView__item-border-start:before,
+.controls-MonthView__item-border-end:after {
+   width: var(--rangeSelection_border_thickness_datePicker);
+   background-color: var(--rangeSelection_border_color_datePicker);
 }
 
 .controls-MonthView__item-border-start:before,
@@ -181,15 +173,10 @@
    right: -1px;
 }
 
-.controls-MonthView__item-border-start-end_theme-@{themeName} {
-   outline: @yearlist_monthview_selection-border_single_color_datePicker solid @rangeSelection_border_single_thickness_datePicker;
-   outline-offset: @yearlist_monthview_selection-border_thickness_datePicker - @rangeSelection_border_single_thickness_datePicker;
+.controls-MonthView__item-border-start-end {
+   outline: var(--yearlist_monthview_selection-border_single_color_datePicker) solid var(--rangeSelection_border_single_thickness_datePicker);
+   outline-offset: calc(var(--yearlist_monthview_selection-border_thickness_datePicker) - var(--rangeSelection_border_single_thickness_datePicker));
    z-index: 1; //При масштабе 150% соседние блоки наезжают на outline
-}
-
-.controls-MonthViewVDOM__item-today-background {
-   position: absolute;
-   z-index: -1;
 }
 
 .controls-MonthViewVDOM__item-title {
@@ -201,58 +188,65 @@
    width: 100%;
 }
 
-.controls-MonthViewVDOM-old_theme-@{themeName} {
-   width: @monthview_width_monthSlider;
-   background: @monthview_background-color_monthSlider;
+.controls-MonthViewVDOM-old {
+   display: flex;
+   flex-direction: column;
+   width: var(--monthview_width_monthSlider);
+   background: var(--monthview_background-color_monthSlider);
 }
 
-.controls-MonthViewVDOM__tableRow-old_theme-@{themeName} {
-   flex-basis: @monthview_item_height_monthSlider + @monthview_item_border-thickness_monthSlider;
-   margin-right: @monthview_item_border-thickness_monthSlider;
+.controls-MonthViewVDOM__tableRow-old {
+   flex-basis: calc(var(--monthview_item_height_monthSlider) + var(--monthview_item_border-thickness_monthSlider));
+   margin-right: var(--monthview_item_border-thickness_monthSlide);
 }
 
-.controls-MonthViewVDOM__item-today-background_theme-@{themeName} {
-   top: @monthview_today_offset_monthSlider;
-   bottom: @monthview_today_offset_monthSlider;
-   left: @monthview_today_offset_monthSlider;
-   right: @monthview_today_offset_monthSlider;
-   border-radius: @monthview_today_border-radius_monthSlider;
-   background-color: @monthview_today_background-color_monthSlider;
-   border: @monthview_today_border-thickness_monthSlider solid @monthview_today_border-color_monthSlider;
+.controls-MonthViewVDOM__item-today-background_style-default {
+    top: var(--monthview_today_offset_monthSlider);
+    bottom: var(--monthview_today_offset_monthSlider);
+    left: var(--monthview_today_offset_monthSlider);
+    right: var(--monthview_today_offset_monthSlider);
+    border-radius: var(--monthview_today_border-radius_monthSlider);
+    background-color: var(--monthview_today_background-color_monthSlider);
+    border: var(--monthview_today_border-thickness_monthSlider) solid var(--monthview_today_border-color_monthSlider);
 }
 
-.controls-MonthView__backgroundColor-currentMonthDay-unselected_theme-@{themeName},
-.controls-MonthView__backgroundColor-currentMonthDay-unselected-readOnly_theme-@{themeName} {
-   background: @monthview_item_background-color_monthSlider;
+.controls-MonthViewVDOM__item-today-background {
+   position: absolute;
+   z-index: -1;
 }
 
-.controls-MonthView__backgroundColor-currentMonthDay-selected_theme-@{themeName},
-.controls-MonthView__backgroundColor-currentMonthDay-selected-readOnly_theme-@{themeName} {
-   background: @rangeSelection_item_background-color_datePicker;
+.controls-MonthView__backgroundColor-currentMonthDay-unselected,
+.controls-MonthView__backgroundColor-currentMonthDay-unselected-readOnly {
+   background: var(--monthview_item_background-color_monthSlider);
 }
 
-.controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished_theme-@{themeName},
-.controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-readOnly_theme-@{themeName} {
-   background: @rangeSelection_item_hover_background-color_datePicker;
+.controls-MonthView__backgroundColor-currentMonthDay-selected,
+.controls-MonthView__backgroundColor-currentMonthDay-selected-readOnly {
+   background: var(--rangeSelection_item_background-color_datePicker);
 }
 
-.controls-MonthView__textColor-currentMonthDay-workday_theme-@{themeName} {
-   color: @monthview_item_text-color_monthSlider;
+.controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished,
+.controls-MonthView__backgroundColor-currentMonthDay-selected-startend-unfinished-readOnly {
+   background: var(--rangeSelection_item_hover_background-color_datePicker);
 }
 
-.controls-MonthView__textColor-currentMonthDay-weekend_theme-@{themeName} {
-   color: @monthview_weekend_text-color_monthSlider;
+.controls-MonthView__textColor-currentMonthDay-workday {
+   color: var(--monthview_item_text-color_monthSlider);
 }
 
-.controls-MonthView__backgroundColor-otherMonthDay-selected_theme-@{themeName},
-.controls-MonthView__backgroundColor-otherMonthDay-selected-readOnly_theme-@{themeName},
-.controls-MonthView__backgroundColor-otherMonthDay-unselected_theme-@{themeName},
-.controls-MonthView__backgroundColor-otherMonthDay-unselected-readOnly_theme-@{themeName} {
-   color: @monthview_otherday_text-color_monthSlider;
+.controls-MonthView__textColor-currentMonthDay-weekend {
+   color: var(--monthview_weekend_text-color_monthSlider);
 }
 
-.controls-MonthViewVDOM__today_theme-@{themeName} {
-   color: @monthview_today_text-color_monthSlider;
+.controls-MonthView__backgroundColor-otherMonthDay-selected,
+.controls-MonthView__backgroundColor-otherMonthDay-selected-readOnly,
+.controls-MonthView__backgroundColor-otherMonthDay-unselected,
+.controls-MonthView__backgroundColor-otherMonthDay-unselected-readOnly {
+   color: var(--monthview_otherday_text-color_monthSlider);
+}
+
+.controls-MonthViewVDOM__today {
+   color: var(--monthview_today_text-color_monthSlider);
    // Изолируем контекст наложения. Раньше стоял z-index: 0;. Но если в windows учтановить масшатб 150%,
    // то контекст не изолируется.
    transform: translateY(0);

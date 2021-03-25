@@ -33,18 +33,6 @@ export default class Collection<
 
     // region override
 
-    setSearchValue(searchValue: string): boolean {
-        const searchValueChanged = super.setSearchValue(searchValue);
-        if (searchValueChanged) {
-            this.getViewIterator().each((item: DataRow<S>) => {
-                if (item.DisplaySearchValue) {
-                    item.setSearchValue(searchValue);
-                }
-            });
-        }
-        return searchValueChanged;
-    }
-
     setEmptyTemplate(emptyTemplate: TemplateFunction): boolean {
         const superResult = super.setEmptyTemplate(emptyTemplate);
         if (superResult) {

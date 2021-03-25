@@ -50,6 +50,7 @@ interface IBodyClassesField {
    hoverClass: string;
    dragClass: string;
    themeClass: string;
+   bodyThemeClass: string;
    isAdaptiveClass: string;
 }
 
@@ -99,6 +100,7 @@ const BODY_CLASSES = {
    hoverClass: '',
    dragClass: 'ws-is-no-drag',
    themeClass: '',
+   bodyThemeClass: '',
    isAdaptiveClass: ''
 };
 
@@ -164,6 +166,7 @@ export default class Application extends Control<IApplication> {
       timeTester.load();
       if (Application._isIOS13()) {
          window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
+         document.addEventListener('orientationchange', this._orientationChange);
       }
       window.addEventListener('resize', this._resizePage.bind(this))
       window.document.addEventListener('scroll', this._scrollPage.bind(this))
@@ -415,7 +418,8 @@ export default class Application extends Control<IApplication> {
    }
    private _updateThemeClass(options: IApplication): void {
       this._updateBodyClasses({
-         themeClass: 'Application-body'
+         themeClass: 'Application-body',
+         bodyThemeClass: `controls_theme-${options.theme}`
       });
    }
    /** ************************************************** */
@@ -530,6 +534,23 @@ export default class Application extends Control<IApplication> {
    protected _popupEventHandler(event, action): void {
       let args = Array.prototype.slice.call(arguments, 2);
       this._popupManager.eventHandler.apply(this._popupManager, [action, args]);
+   }
+
+   /**
+    * Решения взято отсюда
+    * https://stackoverflow.com/questions/62717621/white-space-at-page-bottom-after-device-rotation-in-ios-safari
+    * @protected
+    */
+   protected _orientationChange(): void {
+      document.documentElement.style.height = 'initial';
+      setTimeout(() => {
+         document.documentElement.style.height = '100%';
+         setTimeout(() => {
+            // this line prevents the content
+            // from hiding behind the address bar
+            window.scrollTo(0, 1);
+         }, 500);
+      }, 500);
    }
 
    private _getResourceUrl(str: string): string {

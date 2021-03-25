@@ -161,21 +161,6 @@ define([
          global.window = undefined;
          sandbox.restore();
       });
-      it('remove incorrect config', async function() {
-         var cfg = {
-            viewName: 'Controls/List/ListView',
-            keyProperty: 'id',
-            viewModelConstructor: lists.ListViewModel,
-            items: new collection.RecordSet({
-               keyProperty: 'id',
-               rawData: data
-            })
-         };
-         var baseControl = correctCreateBaseControl(cfg);
-         baseControl.saveOptions(cfg);
-         await baseControl._beforeMount(cfg);
-         assert.equal(baseControl._listViewModel.getItems(), null);
-      });
       it('life cycle', async function() {
          var dataLoadFired = false;
          var filter = {
@@ -6606,6 +6591,12 @@ define([
 
              baseControl._showContinueSearchButtonDirection = true;
              assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
+
+             baseControl._showContinueSearchButtonDirection = false;
+             baseControl._portionedSearch = {
+                isAborted: () => true
+             };
+             assert.equal(baseControl._shouldDisplayBottomLoadingIndicator(), false);
           });
 
           it('attachToNull, onCollectionChanged', () => {
@@ -8859,12 +8850,13 @@ define([
             viewName: 'Controls/List/ListView',
             viewModelConstructor: lists.ListViewModel,
             keyProperty: 'id',
-            markerVisibility: 'visible'
+            markerVisibility: 'visible',
+            items: recordSet
          };
 
          const baseControl = new lists.BaseControl();
          baseControl.saveOptions(cfg);
-         baseControl._beforeMount(cfg, null, { data: recordSet });
+         baseControl._beforeMount(cfg, null);
          const newRecord = new entity.Model({ rawData: { id: 0 }, keyProperty: 'id' });
 
          recordSet.setEventRaising(false, true);

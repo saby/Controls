@@ -4,6 +4,7 @@ import {Date as WSDate} from 'Types/entity';
 import {DateRangeModel, rangeSelection as rangeSelectionUtils} from 'Controls/dateRange';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import {constants} from 'Env/Env';
+import 'css!Controls/datePopup';
 
 const BUTTONS_COUNT: number = 6;
 /**
@@ -108,12 +109,12 @@ export default class YearsRange extends Control<IControlOptions> {
 
         if (itemValue === this._year) {
             css.push('controls-PeriodDialog-Years__item-displayed');
-            css.push('controls-PeriodDialog-Years__item-displayed_theme-' + this._options.theme);
+            css.push('controls-PeriodDialog-Years__item-displayed');
         } else if (itemValue === (new Date()).getFullYear()) {
             css.push('controls-PeriodDialog-Years__item-current');
-            css.push('controls-PeriodDialog-Years__item-current_theme-' + this._options.theme);
+            css.push('controls-PeriodDialog-Years__item-current');
         } else {
-            css.push('controls-PeriodDialog-Years__rangeBtn-regular_theme-' + this._options.theme);
+            css.push('controls-PeriodDialog-Years__rangeBtn-regular');
         }
         return css.join(' ');
     }
@@ -144,8 +145,6 @@ export default class YearsRange extends Control<IControlOptions> {
         }
         this._model = items;
     }
-
-    static _theme: string[] = ['Controls/datePopup'];
 
     static getDefaultOptions(): object {
         return {

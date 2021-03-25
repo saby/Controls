@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import {RecordSet} from 'Types/collection';
 import {Collection, CollectionItem} from 'Controls/display';
-import {ICollection} from "../../../Controls/_display/interface/ICollection";
+import {ICollection} from '../../../Controls/_display/interface/ICollection';
 import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
 
 interface IChangedData<T> {
@@ -731,4 +731,12 @@ describe('Controls/_display/CollectionItem', () => {
             assert.equal(result, ' controls-itemActionsV_position_bottomRight controls-itemActionsV_padding-bottom_default ');
         });
     })
+
+    it('.getSearchValue()', () => {
+        const item = new CollectionItem({searchValue: 'abc'});
+        assert.equal(item.getSearchValue(), 'abc');
+
+        item.setSearchValue('123');
+        assert.equal(item.getSearchValue(), '123');
+    });
 });

@@ -43,6 +43,7 @@ export {
     View,
     GridView,
     ItemTemplate,
+    ColumnTemplate as ItemEditorTemplate,
     ResultsTemplate,
     ResultColumnTemplate,
     ColumnTemplate,

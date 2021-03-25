@@ -303,7 +303,9 @@ var
                 footer.classes = footer.getColumnClasses(0);
                 const colspanCfg = {
                     columnStart: self._hasMultiSelectColumn() ? 1 : 0,
-                    columnSpan: (self._options.columnScroll ? self._columns.length + 1 : self._columns.length) + this.stickyLadderCellsCount(),
+                    columnSpan: self._columns.length +
+                        (self._options.columnScroll && self._options.itemActionsPosition !== 'custom' ? 1 : 0) +
+                        self.stickyLadderCellsCount()
                 };
                 if (self._options.task1181099336 && footer.isFullGridSupport) {
                     colspanCfg.columnStart += this.stickyLadderCellsCount();

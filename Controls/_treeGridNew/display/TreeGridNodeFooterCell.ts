@@ -2,7 +2,7 @@ import { TemplateFunction } from 'UI/Base';
 import { GridCell } from 'Controls/gridNew';
 import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
 
-export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeFooterRow<T>> {
+export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeFooterRow> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterCell]': boolean;
 
     getTemplate(content?: TemplateFunction): TemplateFunction|string {
@@ -40,8 +40,13 @@ export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeF
         return classes;
     }
 
+    // TODO нужно удалить, когда перепишем колспан для футеров узлов
     getColspan(colspan?: boolean): string {
-        return colspan !== false ? 'grid-column: 1 / ' + (this._$owner.getColumnsConfig().length + 1) : '';
+        if (this.getOwner().isSupportLadder()) {
+            return colspan !== false ? 'grid-column: 2 / ' + (this._$owner.getColumnsConfig().length + 2) : '';
+        } else {
+            return colspan !== false ? 'grid-column: 1 / ' + (this._$owner.getColumnsConfig().length + 1) : '';
+        }
     }
 }
 

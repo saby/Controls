@@ -92,6 +92,7 @@ export default class ControllerClass {
       if (options.sourceController) {
          this._sourceController = options.sourceController;
          this._sourceController.subscribe('dataLoad', this._dataLoadCallback);
+         this._path = ControllerClass._getPath(this._sourceController.getItems());
       }
 
       if (options.searchValue !== undefined) {
@@ -279,6 +280,7 @@ export default class ControllerClass {
             if (newRoot !== this._root) {
                this._rootBeforeSearch = this._root;
                this._root = newRoot;
+               this._sourceController.setRoot(newRoot);
             }
          }
 
@@ -289,7 +291,7 @@ export default class ControllerClass {
       if (this._searchValue) {
          this._misspellValue = getSwitcherStrFromData(items);
       }
-      this._path = items.getMetaData().path;
+      this._path = ControllerClass._getPath(items);
    }
 
    private _getFilter(searchValue: string): QueryWhereExpression<unknown> {
@@ -375,6 +377,10 @@ export default class ControllerClass {
 
    private _searchEnded(): void {
       this._searchInProgress = false;
+   }
+
+   private static _getPath(items: RecordSet): RecordSet {
+      return items && items.getMetaData().path;
    }
 
    private static _getRoot(path: RecordSet, currentRoot: TKey, parentProperty: string): TKey {

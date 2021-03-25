@@ -137,7 +137,7 @@ export function scrollToElement(element: HTMLElement, toBottomOrPosition?: Boole
       if (force || parentOffset.bottom < elemOffset.bottom) {
          if (position === SCROLL_POSITION.center) {
             const centerOffset: number = getCenterOffset(parent, element);
-            elemToScroll.scrollTop += Math.floor(elemOffset.top - parentOffset.top - stickyHeaderHeight.top + centerOffset);
+            elemToScroll.scrollTop += Math.floor(elemOffset.top - parentOffset.top - stickyHeaderHeight.top - centerOffset);
          } else if (position === SCROLL_POSITION.bottom) {
             elemToScroll.scrollTop += Math.ceil(elemOffset.bottom - parentOffset.bottom + stickyHeaderHeight.bottom);
          } else {

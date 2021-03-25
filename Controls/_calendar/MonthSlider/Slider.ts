@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_calendar/MonthSlider/Slider/Slider';
 import * as coreMerge from 'Core/core-merge';
 import {descriptor} from 'Types/entity';
+import 'css!Controls/calendar';
 
 // Компонент можно сделать публичным, но надо придумать более подходящее название. Данный компонент не листает
 // переданные ему контейнеры как это делает класический слайдер, а анимирует смену данных используя один и тот же шаблон
@@ -126,7 +127,6 @@ export default class Slider extends Control<IControlOptions> {
     }
 
     static ANIMATIONS: object = ANIMATIONS;
-    static _theme: string[] = ['Controls/calendar'];
 
     static getOptionTypes(): object {
         return coreMerge({}, {

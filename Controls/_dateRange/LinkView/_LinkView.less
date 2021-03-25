@@ -5,9 +5,9 @@
    max-width: 100%;
 }
 
-.controls-DateLinkView_theme-@{themeName} {
-   height: @height_dateRangeSelector;
-   line-height: @height_dateRangeSelector;
+.controls-DateLinkView {
+   height: var(--height_dateRangeSelector);
+   line-height: var(--height_dateRangeSelector);
 }
 
 .controls-DateLinkView-wrapper {
@@ -25,12 +25,12 @@
    content: "\e007";
 }
 
-.controls-DateLinkView__clear_theme-@{themeName},
+.controls-DateLinkView__clear,
 // Не меняем эти классы, используются в тестах
-.controls-DateLinkView__prev_theme-@{themeName},
-.controls-DateLinkView__next_theme-@{themeName} {
-   font-size: @arrow_icon-size_dateRangeSelector;
-   width: @arrow_width_dateRangeSelector;
+.controls-DateLinkView__prev,
+.controls-DateLinkView__next {
+   font-size: var(--arrow_icon-size_dateRangeSelector);
+   width: var(--arrow_width_dateRangeSelector);
 }
 
 .controls-DateLinkView__clear,
@@ -41,11 +41,11 @@
    text-align: center;
 }
 
-.controls-DateLinkView__style-readOnly_theme-@{themeName} {
-   color: @text-color;
+.controls-DateLinkView__style-readOnly {
+   color: var(--text-color);
 }
 
-.controls-DateLinkView__style-clickable_theme-@{themeName} {
+.controls-DateLinkView__style-clickable {
    cursor: pointer;
 }
 
@@ -53,13 +53,13 @@
    .controls-DateLinkView__value-hovered:hover {
       text-decoration: underline;
    }
-   .controls-DateLinkView__style-hover_theme-@{themeName}:hover {
-      color: @link_hover_text-color;
+   .controls-DateLinkView__style-hover:hover {
+      color: var(--link_hover_text-color);
    }
 }
 // Не меняем этот класс, используется в тестах
-.controls-DateLinkView__value-wrapper_theme-@{themeName} {
-   height: @height_dateRangeSelector + 1px;
+.controls-DateLinkView__value-wrapper {
+   height: calc(var(--height_dateRangeSelector) + 1px);
 }
 
 .controls-DateLinkView__value-wrapper {
@@ -73,18 +73,18 @@
    max-width: 100%;
 }
 
-.controls-DateLinkView__value-wrapper-minWidth_theme-@{themeName} {
-   min-width: @min-width_dateRangeSelector;
+.controls-DateLinkView__value-wrapper-minWidth {
+   min-width: var(--min-width_dateRangeSelector);
 }
 
-.controls-DateLinkView__value_theme-@{themeName} {
-   font-weight: @font-weight_dateRangeSelector;
+.controls-DateLinkView__value {
+   font-weight: var(--font-weight_dateRangeSelector);
 }
 
-.controls-DateLinkView__resetButton_theme-@{themeName} {
-   color: @reset-button_icon-color_dateRangeSelector;
-   font-family: @icon_font-family_s;
-   margin-left: @reset-button_margin-left_dateRangeSelector;
+.controls-DateLinkView__resetButton {
+   color: var(--reset-button_icon-color_dateRangeSelector);
+   font-family: var(--icon_font-family_s);
+   margin-left: var(--reset-button_margin-left_dateRangeSelector);
 }
 
 .controls-DateLinkView__resetButton {

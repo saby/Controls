@@ -5,7 +5,7 @@
    <svg role="image"
         xmlns="http://www.w3.org/2000/svg"
         class="controls-TileView__richTemplate_image
-               {{imagePosition === 'top' && imageViewMode === 'rectangle' && imageProportion ? 'controls-TileView__image controls-TileView__image_align_center' : ''}}
+               {{imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion || imageSize === 'xl') ? 'controls-TileView__image controls-TileView__image_align_center' : ''}}
                controls-TileView__richTemplate_image_viewMode_{{imageViewMode}}
                {{!imageProportion || imageViewMode !== 'rectangle' || imagePosition !== 'top' ? 'controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + imagePosition + '_viewMode_' + imageViewMode +
                ' controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + (imagePosition !== 'top' ? 'vertical' : 'top')  : ''}}"
@@ -24,7 +24,7 @@
       <div class="controls-TileView__richTemplate_title
                   {{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
                   controls-TileView__richTemplate_title
-                  controls-fontsize-{{itemData.dispItem.isNode() ? '4xl' : 'xl'}}
+                  controls-fontsize-{{itemData.dispItem.isNode() ? '3xl' : 'xl'}}
                   controls-text-{{titleColorStyle || 'default'}}
                   controls-fontweight-bold"
            title="{{itemData.item[itemData.displayProperty]}}"

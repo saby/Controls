@@ -41,6 +41,7 @@
                                               iconSize="s"
                                               iconStyle="contrast"
                                               buttonStyle="success"
+                                              caption="{{null}}"
                                               attr:class="controls-Menu__applyButton"
                                               inlineHeight="menuapply"
                                               on:click="_applyButtonClick()"/>
@@ -79,6 +80,7 @@
                        filter="{{filter || _options.filter}}"
                        parentProperty="{{_options.parentProperty}}"
                        nodeProperty="{{_options.nodeProperty}}"
+                       sourceProperty="{{_options.sourceProperty}}"
                        selectedKeys="{{_options.selectedKeys}}"
                        itemTemplateProperty="{{_options.itemTemplateProperty}}"
                        itemTemplate="{{_options.itemTemplate}}"

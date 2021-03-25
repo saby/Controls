@@ -1,21 +1,25 @@
 import {debounce} from 'Types/function';
 import {IFixedEventData,
     isHidden,
+    MODE,
     POSITION,
     SHADOW_VISIBILITY,
+    SHADOW_VISIBILITY_BY_CONTROLLER,
     TRegisterEventData,
     TYPE_FIXED_HEADERS,
     getGapFixSize,
-    MODE} from './Utils';
+    MODE
+} from './Utils';
+import { SHADOW_VISIBILITY as SCROLL_SHADOW_VISIBILITY } from 'Controls/_scroll/Container/Interface/IShadows';
 import StickyHeader from 'Controls/_scroll/StickyHeader';
 import fastUpdate from './FastUpdate';
 import {ResizeObserverUtil} from 'Controls/sizeUtils';
 
 // @ts-ignore
 
-interface IShadowVisible {
-    top: boolean;
-    bottom: boolean;
+interface IShadowVisibility {
+    top: SCROLL_SHADOW_VISIBILITY;
+    bottom: SCROLL_SHADOW_VISIBILITY;
 }
 
 interface IHeightEntry {
@@ -26,6 +30,10 @@ interface IHeightEntry {
 interface IStickyHeaderController {
     fixedCallback?: (position: string) => void;
     resizeCallback?: () => void;
+}
+
+function isLastVisibleModes(shadowVisibility: SHADOW_VISIBILITY): boolean {
+    return shadowVisibility === SHADOW_VISIBILITY.lastVisible || shadowVisibility === SHADOW_VISIBILITY.initial
 }
 
 class StickyHeaderController {
@@ -47,9 +55,9 @@ class StickyHeaderController {
     private _resizeHandlerDebounced: Function;
     private _container: HTMLElement;
     private _options: IStickyHeaderController = {};
-    private _isShadowVisible: IShadowVisible = {
-        top: false,
-        bottom: false
+    private _shadowVisibility: IShadowVisibility = {
+        top: SCROLL_SHADOW_VISIBILITY.AUTO,
+        bottom: SCROLL_SHADOW_VISIBILITY.AUTO
     };
 
     // TODO: Избавиться от передачи контрола доработав логику ResizeObserverUtil
@@ -156,13 +164,13 @@ class StickyHeaderController {
         return Promise.resolve();
     }
 
-    setShadowVisibility(isTopShadowVisible: boolean, isBottomShadowVisible: boolean): void {
-        this._isShadowVisible[POSITION.top] = isTopShadowVisible;
-        this._isShadowVisible[POSITION.bottom] = isBottomShadowVisible;
+    setShadowVisibility(topShadowVisibility: SCROLL_SHADOW_VISIBILITY, bottomShadowVisibility: SCROLL_SHADOW_VISIBILITY): void {
+        this._shadowVisibility[POSITION.top] = topShadowVisibility;
+        this._shadowVisibility[POSITION.bottom] = bottomShadowVisibility;
         this._updateShadowsVisibility();
         // Если есть только что зарегистрированные и не просчитанные заголовки, что бы не было мигания теней,
         // сразу, синхронно не дожидаясь срабатывания IntersectionObserver посчитаем зафиксированы ли ониё.
-        if (isTopShadowVisible && this._delayedHeaders.length) {
+        if (topShadowVisibility !== 'hidden' && this._delayedHeaders.length) {
             this._syncUpdate = true;
         }
     }
@@ -174,12 +182,31 @@ class StickyHeaderController {
             for (const headerId of headersStack) {
                 if (this._fixedHeadersStack[position].includes(headerId)) {
                     const header: TRegisterEventData = this._headers[headerId];
-                    let visibility: boolean = this._isShadowVisible[position];
-                    if (header.inst.shadowVisibility === SHADOW_VISIBILITY.lastVisible ||
-                        header.inst.shadowVisibility === SHADOW_VISIBILITY.initial) {
-                        visibility = visibility && (headerId === lastHeaderId);
+                    let visibility: SHADOW_VISIBILITY_BY_CONTROLLER = SHADOW_VISIBILITY_BY_CONTROLLER.auto;
+
+                    if (header.inst.shadowVisibility !== SHADOW_VISIBILITY.hidden) {
+                        if (this._shadowVisibility[position] === SCROLL_SHADOW_VISIBILITY.HIDDEN) {
+                            visibility = SHADOW_VISIBILITY_BY_CONTROLLER.hidden
+                        } else if (this._shadowVisibility[position] === SCROLL_SHADOW_VISIBILITY.VISIBLE) {
+                            // Если снаружи включили отбражать тени всегда, то для заголовков сконфигурированных
+                            // отображать тень только у последнего, принудительно отключим тени на всех заголовках
+                            // кроме последнего, а на последнем принудительно включим.
+                            if (isLastVisibleModes(header.inst.shadowVisibility) || header.mode === MODE.replaceable) {
+                                visibility = headerId === lastHeaderId ?
+                                    SHADOW_VISIBILITY_BY_CONTROLLER.visible : SHADOW_VISIBILITY_BY_CONTROLLER.hidden;
+                            } else {
+                                visibility = SHADOW_VISIBILITY_BY_CONTROLLER.visible;
+                            }
+                        } else {
+                            // Принудительно отключим тени у всех заголовков кроме последнего если они сконфигурированы
+                            // отображать тень только у последнего.
+                            if (isLastVisibleModes(header.inst.shadowVisibility) && (headerId !== lastHeaderId)) {
+                                visibility = SHADOW_VISIBILITY_BY_CONTROLLER.hidden;
+                            }
+                        }
                     }
-                    header.inst.updateShadowVisibility(visibility);
+
+                    header.inst.updateShadowVisibility(visibility, position);
                 }
             }
         }
@@ -554,10 +581,13 @@ class StickyHeaderController {
                 // расчеты не сойдутся. Делайем это только если headerOffset не равен нулю, т.е. после первой итерации.
                 headerOffset -= Math.abs(1 - StickyHeader.getDevicePixelRatio());
             }
+
+            headerOffset += headerInst.offsetTop;
+
             if (headersHeight === headerOffset) {
                 this._headers[headerId].fixedInitially = true;
             }
-            headersHeight += headerInst.height;
+            headersHeight += headerInst.height + headerInst.offsetTop;
         }
     }
 

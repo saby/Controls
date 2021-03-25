@@ -15,6 +15,7 @@ import IMonth from './interfaces/IMonth';
 
 import {Logger} from 'UI/Utils';
 import {constants} from 'Env/Env';
+import 'css!Controls/calendar';
 
 /**
  * Календарь, отображающий 1 месяц.
@@ -140,7 +141,6 @@ export default class MonthView extends Control<IControlOptions> {
       this._showWeekdays = options.showWeekdays;
    }
 
-   static _theme: string[] = ['Controls/calendar'];
 
    static getOptionTypes(): object {
       return IMonth.getOptionTypes();

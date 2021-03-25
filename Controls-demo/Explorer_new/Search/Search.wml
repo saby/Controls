@@ -8,31 +8,30 @@
                                  on:click="_onToggleDedicatedItemProperty()" attr:style="padding-left: 5px"
                                  attr:class="demo-ExplorerSearch__dedicatedItemProperty"/>
     </div>
-    <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id" bind:filter="_filter" parentProperty="parent" bind:root="_root">
-        <Controls.search:Controller searchParam="title" minSearchLength="{{3}}" startingWith="{{_startingWith}}">
-            <div class="ws-fragment">
-                <Controls.search:InputContainer>
-                    <Controls.search:Input/>
-                </Controls.search:InputContainer>
-                <Controls.list:Remover name="remover"/>
-                <Controls.list:Container>
-                    <Controls.explorer:View
-                            source="{{_viewSource}}"
-                            bind:root="_root"
-                            attr:class="demo-Explorer ControlsDemo-Explorer"
-                            keyProperty="id"
-                            itemActions="{{_itemActions}}"
-                            displayProperty="title"
-                            parentProperty="parent"
-                            nodeProperty="parent@"
-                            multiSelectVisibility="{{_multiselect}}"
-                            dedicatedItemProperty="{{_dedicatedItemProperty}}"
-                            columns="{{_columns}}"
-                            searchStartingWith="{{_startingWith}}">
-                    </Controls.explorer:View>
-                </Controls.list:Container>
-            </div>
-        </Controls.search:Controller>
-    </Controls.list:DataContainer>
+    <Controls.browser:Browser source="{{_viewSource}}" keyProperty="id" bind:filter="_filter" parentProperty="parent" bind:root="_root"
+                              searchParam="title" minSearchLength="{{3}}" startingWith="{{_startingWith}}">
+        <div class="ws-fragment">
+            <Controls.search:InputContainer>
+                <Controls.search:Input/>
+            </Controls.search:InputContainer>
+            <Controls.list:Remover name="remover"/>
+            <Controls.list:Container>
+                <Controls.explorer:View
+                        source="{{_viewSource}}"
+                        bind:root="_root"
+                        attr:class="demo-Explorer ControlsDemo-Explorer"
+                        keyProperty="id"
+                        itemActions="{{_itemActions}}"
+                        displayProperty="title"
+                        parentProperty="parent"
+                        nodeProperty="parent@"
+                        multiSelectVisibility="{{_multiselect}}"
+                        dedicatedItemProperty="{{_dedicatedItemProperty}}"
+                        columns="{{_columns}}"
+                        searchStartingWith="{{_startingWith}}">
+                </Controls.explorer:View>
+            </Controls.list:Container>
+        </div>
+    </Controls.browser:Browser>
 </div>
 

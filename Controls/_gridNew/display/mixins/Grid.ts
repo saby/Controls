@@ -315,6 +315,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         });
     }
 
+    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+    getLadderProperties(): string[] {
+        return this._$ladderProperties;
+    }
+
     protected _initializeEmptyRow(): void {
         this._$emptyGridRow = new EmptyRow<S>({
             owner: this,
@@ -480,6 +485,14 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return !!this.getColumnsConfig() && this.hasColumnScroll() && (this.getActionsTemplateConfig()?.itemActionsPosition !== 'custom');
     }
 
+    // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
+    //  Первая ячейка редактируемой строки растягивается, а ее шаблон заменяется на
+    //  itemEditorTemplate (обычная колонка с прикладным контентом).
+    //  Избавиться по https://online.sbis.ru/opendoc.html?guid=80420a0d-1f45-4acb-8feb-281bf1007821
+    getItemEditorTemplate(): TemplateFunction {
+        return this._$itemEditorTemplate;
+    }
+
     // region Controls/_display/CollectionItem
 
     abstract getMetaResults(): EntityModel;
@@ -517,5 +530,6 @@ Object.assign(Grid.prototype, {
     _$columnScroll: false,
     _$stickyColumnsCount: 1,
     _$sorting: null,
-    _$emptyTemplateColumns: null
+    _$emptyTemplateColumns: null,
+    _$itemEditorTemplate: null
 });
