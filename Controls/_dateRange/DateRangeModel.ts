@@ -174,12 +174,14 @@ var ModuleClass = cExtend.extend([ObservableMixin.prototype, VersionableMixin], 
     * then shift it for the same period forward.
     */
    _shiftRange(direction: number): void {
-      let range = this._prepareRange();
-      range = this._getDisplayedRange(range, direction);
-      if (this._hasRanges()) {
-         range = this._rangeSelected(range);
+      if (this._startValue && this._endValue) {
+         let range = this._prepareRange();
+         range = this._getDisplayedRange(range, direction);
+         if (this._hasRanges()) {
+            range = this._rangeSelected(range);
+         }
+         this.setRange(_private.createDate(this, range[0]), _private.createDate(this, range[1]));
       }
-      this.setRange(_private.createDate(this, range[0]), _private.createDate(this, range[1]));
    },
 
    shiftForward: function() {
