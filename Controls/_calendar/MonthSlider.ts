@@ -7,6 +7,7 @@ import Slider from './MonthSlider/Slider';
 import {Utils as calendarUtils} from 'Controls/dateRange';
 import {Base as DateUtil} from 'Controls/dateUtils';
 import monthTmpl = require('wml!Controls/_calendar/MonthSlider/MonthSlider');
+import 'css!Controls/calendar';
 
 /**
  * Календарь, который отображает 1 месяц и позволяет переключаться на следующий и предыдущий месяцы с помощью кнопок.
@@ -91,8 +92,6 @@ export default class MonthSlider extends Control<IControlOptions> {
             this._notify('monthChanged', [month]);
         }
     }
-
-    static _theme: string[] = ['Controls/calendar'];
 
     static getOptionTypes(): object {
         return coreMerge(IMonth.getOptionTypes());

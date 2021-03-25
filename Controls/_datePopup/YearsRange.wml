@@ -1,18 +1,18 @@
-<div class="controls-PeriodDialog-Years controls-PeriodDialog-Years_theme-{{_options.theme}}">
-   <div class="controls-PeriodDialog-Years__prevNextBtn controls-PeriodDialog-Years__prevNextBtn_theme-{{_options.theme}}">
+<div class="controls-PeriodDialog-Years">
+   <div class="controls-PeriodDialog-Years__prevNextBtn">
       <span tabindex="0"
             on:keyDown="_prevNextBtnKeyDownHandler(-1)"
             on:click="_onPrevNextButtonClick(-1)"
             title="{[Предыдущий год]}"
-            class="controls-PeriodDialog-Years__prevNextBtn_icon controls-PeriodDialog-Years__prevNextBtn_icon_theme-{{ _options.theme }}
-            controls-PeriodDialog__cursor-pointer icon-MarkLeftBold controls-icon controls-icon_size-m_theme-{{ _options.theme }}
-            {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__prevNextBtn_icon_focus_theme-' + _options.theme }}">
+            class="controls-PeriodDialog-Years__prevNextBtn_icon
+            controls-PeriodDialog__cursor-pointer icon-MarkLeftBold controls-icon controls-icon_size-m
+            {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__prevNextBtn_icon_focus' }}">
       </span>
    </div>
    <div class="controls-PeriodDialog-Years__yearsRange">
       <ws:for data="yearIndex, year in _model">
-         <div tabindex="0" class="controls-PeriodDialog-Years__rangeBtn controls-PeriodDialog-Years__rangeBtn_theme-{{_options.theme}}
-         {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__rangeBtn_focus_theme-' + _options.theme }}
+         <div tabindex="0" class="controls-PeriodDialog-Years__rangeBtn
+         {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__rangeBtn_focus' }}
          {{_prepareItemClass(year.year) }}"
             attr:title="{[Выбрать год]}"
             on:keyDown="_onItemKeyDown(year.date)"
@@ -23,14 +23,14 @@
          </div>
       </ws:for>
    </div>
-      <div class="controls-PeriodDialog-Years__prevNextBtn controls-PeriodDialog-Years__prevNextBtn_theme-{{_options.theme}}">
+      <div class="controls-PeriodDialog-Years__prevNextBtn">
          <span tabindex="0"
                on:keyDown="_prevNextBtnKeyDownHandler(1)"
                on:click="_onPrevNextButtonClick(1)"
                title="{[Следующий год]}"
-               class="controls-PeriodDialog-Years__prevNextBtn_icon controls-PeriodDialog-Years__prevNextBtn_icon_theme-{{ _options.theme }}
-               controls-PeriodDialog__cursor-pointer icon-MarkRightBold controls-icon controls-icon_size-m_theme-{{ _options.theme }}
-               {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__prevNextBtn_icon_focus_theme-' + _options.theme }}">
+               class="controls-PeriodDialog-Years__prevNextBtn_icon
+               controls-PeriodDialog__cursor-pointer icon-MarkRightBold controls-icon controls-icon_size-m
+               {{ _options.keyboardActive ? 'controls-PeriodDialog-Years__prevNextBtn_icon_focus' }}">
          </span>
       </div>
 </div>
