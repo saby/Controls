@@ -1,4 +1,8 @@
 <div class="controlsDemo__wrapper controlsDemo__background">
+    <Controls.buttons:Button
+        attr:style="margin-bottom: 8px;"
+        on:click="_openStackPanel()"
+        caption="Открыть стековую панель с раскладкой"/>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
         <div class="controls__block_theme-{{_options.theme}}" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}}</div>
     </div>

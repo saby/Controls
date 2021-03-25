@@ -1,0 +1,26 @@
+<Controls.popupTemplate:Stack>
+    <ws:bodyContentTemplate>
+        <div class="controlsDemo__blockLayout-stack-content ws-flexbox ws-flex-column">
+            <div class="controlsDemo__blockLayout-stack-header">
+                <Controls.heading:Title
+                        caption="Настройки"
+                        readOnly="{{true}}"
+                        fontStyle="primary"
+                        fontSize="2xl"/>
+            </div>
+            <div class="controlsDemo__blockLayout-stack-mainContent ws-flexbox">
+                <div class="controlsDemo__blockLayout-stack-contentArea controls__block_theme-{{_options.theme}} tr">
+                    Тест контент
+                </div>
+                <div class="controlsDemo__blockLayout-stack-sidebar">
+                    <div class="controlsDemo__blockLayout-stack-sidebar-item">
+                        Пункт 1
+                    </div>
+                    <div class="controlsDemo__blockLayout-stack-sidebar-item">
+                        Пункт 2
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ws:bodyContentTemplate>
+</Controls.popupTemplate:Stack>
