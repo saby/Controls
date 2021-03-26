@@ -98,7 +98,7 @@
       @lines: mod(@_i - 1, @countSupportLines) + 1;
       @size: extract(@sizes, ceil(@_i / @countSupportLines));
       // ei не умеет внутри calc вычислять calc
-      @sizeLines: @lines * ~"var(--line-height_@{size}_inputArea)";
+      @sizeLines: ~"@{lines} * var(--line-height_@{size}_inputArea)";
 
       .controls-Area__minHeight_countLines_@{lines}_size_@{size} {
          min-height: calc(@sizeLines);
