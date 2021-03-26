@@ -696,6 +696,9 @@ define(
                   }
                };
             };
+            StickyController._private.getContainerStyles = (container) => {
+               return container.currentStyle;
+            };
 
             const item = {
                popupOptions: {}
