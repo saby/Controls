@@ -339,39 +339,66 @@
    .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
       background-color: @item_hover_background-color_list;
    }
+
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default,
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
+
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack,
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
+
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell__content_hiddenForLadder {
       background-color: @item_hover_background-color_list;
    }
+
    .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__item_background-hover_default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell__content) {
       background-color: @item_hover_background-color_list;
    }
 
-   .controls-BaseControl_showActions_delayed .controls-Grid__row:hover {
+   /* region ItemActions display */
+
+   /*
+   В будущем неплохо бы разобраться с этим каскадом.
+   Некоторые классы, как то controls-itemActionsV__container, controls-Grid__itemAction вроде как могут быть сведены к одному
+
+   Классы BaseControl, которые позволяют с минимальными синхронихациями включить или отключить показ операций над записью:
+   controls-BaseControl_showActions_delayed,
+   controls-BaseControl_showActions_onhover
+   controls-BaseControl_showActions_visible
+
+   Класс, который добавляет "область ховера", при ховере на который должны быть показаны операции над записью
+   controls-ListView_item__hoverArea
+
+   Каскад нужен для поддержки возможности добавлять внутрь шаблона записи ещё один список со своими операциями над записью
+
+   controls-Grid__itemAction -  Класс, который вешается на контейнер itemActions и используется в ColumnScrollController
+   controls-itemActionsV__container - Класс контейнера, в который оборачиваются ItemActions при ColumnScroll для ItemActionsCell.
+   В старых гридах навешивается вообще всегда
+   */
+
+   .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover {
       > .controls-itemActionsV__container,
       > .controls-Grid__row-cell,
       > .controls-Grid__row-cell > .controls-Grid__table__relative-cell-wrapper,
       > .controls-Grid__row-cell .controls-Grid__row-cell__content {
+         .controls-itemActionsV_custom_theme-@{themeName},
          > .controls-itemActionsV {
             animation: timeout .5s;
          }
       }
    }
 
-   .controls-BaseControl_showActions_visible .controls-Grid .controls-Grid__row,
-   .controls-BaseControl_showActions_onhover .controls-Grid__row:hover,
-   .controls-BaseControl_showActions_delayed .controls-Grid__row:hover {
+   .controls-BaseControl_showActions_visible .controls-Grid .controls-ListView__item_showActions,
+   .controls-BaseControl_showActions_onhover .controls-ListView__item_showActions:hover,
+   .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover {
       > .controls-itemActionsV__container,
       > .controls-Grid__row-cell,
       > .controls-Grid__row-cell > .controls-Grid__table__relative-cell-wrapper,
       > .controls-Grid__row-cell .controls-Grid__row-cell__content {
+         .controls-itemActionsV_custom_theme-@{themeName},
          > .controls-itemActionsV {
             opacity: 1;
             visibility: visible;
@@ -379,8 +406,11 @@
       }
    }
 
+   /* endregion ItemActions display */
+
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover {
       /** Общая проблема с background'ом у контролов, которые лежат в списке, решается через background: inherit **/
+
       .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName} {
          background-color: @item_hover_background-color_list;
       }
@@ -388,20 +418,22 @@
       .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName}:after {
          .horizontal-gradient(@item_hover_background-color_list, rgba(255, 255, 255, 0));
       }
+
       /**********************************************/
    }
-}
-.ws-is-hover .controls-BaseControl_showActions_visible .controls-Grid__row,
-.ws-is-hover .controls-BaseControl_showActions_delayed .controls-Grid__row:hover,
-.ws-is-hover .controls-BaseControl_showActions_onhover .controls-Grid__row:hover {
-   .controls-Grid__editArrow-blur_theme-@{themeName},
-   .controls-Grid__editArrow-wrapper_theme-@{themeName} {
-      visibility: visible;
-   }
-   .controls-Grid__editArrow_theme-@{themeName}:hover {
-      fill: @edit-arrow_hover_icon-color_grid;
-   }
 
+   .controls-BaseControl_showActions_visible .controls-ListView__item_showActions,
+   .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover,
+   .controls-BaseControl_showActions_onhover .controls-ListView__item_showActions:hover {
+      .controls-Grid__editArrow-blur_theme-@{themeName},
+      .controls-Grid__editArrow-wrapper_theme-@{themeName} {
+         visibility: visible;
+      }
+
+      .controls-Grid__editArrow_theme-@{themeName}:hover {
+         fill: @edit-arrow_hover_icon-color_grid;
+      }
+   }
 }
 
 .controls-Grid__row-cell-editing_theme-@{themeName} {

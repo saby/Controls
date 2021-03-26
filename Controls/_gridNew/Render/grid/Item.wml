@@ -79,7 +79,8 @@
                 'theme': theme,
                 'style': style,
                 'cursor': cursor,
-                'clickable': clickable
+                'clickable': clickable,
+                'showItemActionsOnHover': showItemActionsOnHover
             }) }}">
             <ws:for data="column in (item || itemData).getColumns()">
                 <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
@@ -101,7 +102,8 @@
                 'theme': theme,
                 'style': style,
                 'cursor': cursor,
-                'clickable': clickable
+                'clickable': clickable,
+                'showItemActionsOnHover': showItemActionsOnHover
             }) }}">
         <ws:for data="column in (item || itemData).getColumns()">
             <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
