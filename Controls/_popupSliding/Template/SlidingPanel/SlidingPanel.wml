@@ -4,6 +4,7 @@
       on:dragmove="_dragMoveHandler()"
       on:documentdragend="_dragEndHandler()">
       <div
+         name="controlLine"
          on:mousedown="_startDragNDrop()"
          on:touchstart="_startDragNDrop()"
          class="controls-SlidingPanel__controller-container">
@@ -33,6 +34,7 @@
             on:touchend="_touchEndHandler()">
             <ws:partial
                on:scrollStateChanged="_scrollStateChanged()"
+               name="customContentContainer"
                attr:class="controls-SlidingPanel__customContent"
                attr:style="{{ _scrollAvailable ? '' : 'height: auto;' }}"
                template="{{ _options.bodyContentTemplate }}">
