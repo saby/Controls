@@ -20,6 +20,9 @@
                           controls-Slider__point{{_options.size=='m' ? '_big' : '_small'}}_{{_options.direction}}
                           controls-Slider__point{{_options.readOnly ? '_disabled' : '_enabled'}}{{_viewMode}}
                           {{point.name=='tooltip' ? (_isDrag ? 'controls-Slider__point_hidden controls-Slider__point_hidden' : 'controls-Slider__point_tooltip controls-Slider__point_tooltip')}}"
+                    value="{{_value}}"
+                    startValue="{{_startValue}}"
+                    endValue="{{_endValue}}"
                     name="{{point.name}}"
                     style="left: {{_options.direction === 'horizontal' ? point.position + '%'}};
                            bottom: {{_options.direction === 'vertical' ? point.position + '%'}};">

@@ -1,0 +1,17 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_default">
+   <Controls.buttons:Button caption="Add leaf" on:click="_addLeaf()"/>
+   <Controls.buttons:Button caption="Add node" on:click="_addNode()"/>
+   <Controls.buttons:Button caption="Reset items" on:click="_resetItems()"/>
+
+   <Controls.treeTile:ItemsView
+      tileMode="dynamic"
+      displayProperty="title"
+      imageProperty="image"
+      keyProperty="id"
+      parentProperty="parent"
+      nodeProperty="parent@"
+      items="{{_items}}"
+      root="{{_root}}"
+      on:itemClick="_onItemClick()"
+   />
+</div>
