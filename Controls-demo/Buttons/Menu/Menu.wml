@@ -1,227 +1,402 @@
-<div class="ControlsDemo-ButtonsMenu" style="padding: 50px;">
-   <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__firstWrapper">
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__oneItemWrapper">
-         <h4 id="oneItemLabel">One item</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 iconStyle="secondary"
-                 buttonStyle="primary"
-                 viewMode="button"
-                 caption="+ Add"
-                 source="{{_createMemory(_oneItem)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo-ButtonsMenu__oneItem"
-                 tooltip="Create"/>
+<Controls.scroll:Container attr:class="ControlsDemo-ButtonsMenu_scroll">
+   <div class="ControlsDemo-ButtonsMenu" style="padding: 50px;">
+      <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__firstWrapper">
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__oneItemWrapper">
+            <h4 id="oneItemLabel">One item</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    iconStyle="secondary"
+                    buttonStyle="primary"
+                    viewMode="button"
+                    caption="+ Add"
+                    source="{{_createMemory(_oneItem)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo-ButtonsMenu__oneItem"
+                    tooltip="Create"/>
+         </div>
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__simpleWrapper">
+            <h4>Simple</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    iconStyle="secondary"
+                    buttonStyle="primary"
+                    viewMode="button"
+                    caption="Create"
+                    source="{{_createMemory(_simpleItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__simple"
+                    tooltip="Create"/>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__iconWrapper">
+            <h4>Icons</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="primary"
+                    viewMode="button"
+                    caption="Download"
+                    source="{{_createMemory(_iconsItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__icon"
+                    tooltip="Download"/>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__subparagraphsWrapper">
+            <h4>Subparagraphs</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="primary"
+                    viewMode="button"
+                    caption="Reports"
+                    itemTemplateProperty="myTemplate"
+                    source="{{_createMemory(_subParagraphItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__subparagraphs"
+                    tooltip="Reports"/>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__commentsWrapper">
+            <h4>Comments</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    icon="icon-AddButtonNew"
+                    iconSize="m"
+                    iconStyle="primary"
+                    itemTemplateProperty="myTemplate"
+                    buttonStyle="primary"
+                    viewMode="button"
+                    source="{{_createMemory(_commentItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__comments"
+                    tooltip="Add">
+               <ws:headerTemplate>
+                  <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+               </ws:headerTemplate>
+            </Controls.dropdown:Button>
+         </div>
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__noIconsWrapper">
+            <h4>Without icons</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    caption="Topic +"
+                    itemTemplate="wml!Controls-demo/Buttons/Menu/itemTemplateComment"
+                    buttonStyle="primary"
+                    dropdownClassName="demo-menu"
+                    viewMode="button"
+                    source="{{_createMemory(_themesItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__noIcons"
+                    tooltip="Add topic"/>
+         </div>
       </div>
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__simpleWrapper">
-         <h4>Simple</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 iconStyle="secondary"
-                 buttonStyle="primary"
-                 viewMode="button"
-                 caption="Create"
-                 source="{{_createMemory(_simpleItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__simple"
-                 tooltip="Create"/>
+      <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__secondWrapper">
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__addWrapper">
+            <h4>Icon replaced by the text "Add"</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    icon="icon-AddButtonNew"
+                    iconSize="m"
+                    buttonStyle="secondary"
+                    viewMode="button"
+                    source="{{_createMemory(_simpleAdd)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText1"
+                    tooltip="Add">
+               <ws:headerTemplate>
+                  <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+               </ws:headerTemplate>
+            </Controls.dropdown:Button>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    icon="icon-AddButtonNew"
+                    iconSize="m"
+                    buttonStyle="secondary"
+                    viewMode="button"
+                    source="{{_createMemory(_simpleAdd2)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText2"
+                    tooltip="Add">
+               <ws:headerTemplate>
+                  <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Add" />
+               </ws:headerTemplate>
+            </Controls.dropdown:Button>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    icon="icon-AddButtonNew"
+                    iconSize="m"
+                    buttonStyle="secondary"
+                    viewMode="button"
+                    source="{{_createMemory(_simpleAdd3)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText3"
+                    tooltip="Add">
+            </Controls.dropdown:Button>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__headerWrapper">
+            <h4>Icon with text displayed in the header</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    inlineHeight="m"
+                    icon="icon-AddButtonNew"
+                    iconSize="s"
+                    viewMode="toolButton"
+                    buttonStyle="secondary"
+                    source="{{_createMemory(_iconAdd)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeader"
+                    tooltip="Add">
+               <ws:headerTemplate>
+                  <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+               </ws:headerTemplate>
+            </Controls.dropdown:Button>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    icon="icon-AddButtonNew"
+                    viewMode="toolButton"
+                    buttonStyle="secondary"
+                    inlineHeight="l"
+                    source="{{_createMemory(_iconAddMedium)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeaderBig"
+                    tooltip="Add">
+               <ws:headerTemplate>
+                  <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+               </ws:headerTemplate>
+            </Controls.dropdown:Button>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    icon="icon-AddButtonNew"
+                    viewMode="functionalButton"
+                    buttonStyle="secondary"
+                    iconStyle="contrast"
+                    inlineHeight="l"
+                    source="{{_createMemory(_iconAddMedium)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeaderCircle"
+                    tooltip="Add">
+               <ws:headerTemplate>
+                  <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
+               </ws:headerTemplate>
+            </Controls.dropdown:Button>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__historyWrapper">
+            <h4>Menu with history</h4>
+            <Controls.dropdown:Button
+                    keyProperty="key"
+                    icon="icon-AddButtonNew"
+                    buttonStyle="primary"
+                    viewMode="button"
+                    iconSize="m"
+                    iconStyle="primary"
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    source="{{_historySource}}"
+                    attr:class="ControlsDemo__history"
+                    tooltip="Add">
+               <ws:headerTemplate>
+                  <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Add" icon=""/>
+               </ws:headerTemplate>
+               <ws:itemTemplate>
+                  <ws:partial template="Controls/dropdown:ItemTemplate" iconPadding=""/>
+               </ws:itemTemplate>
+            </Controls.dropdown:Button>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__iconButtonsWrapper">
+            <h4>Menu with icon button</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    icon="icon-Save"
+                    iconSize="s"
+                    source="{{_createMemory(_iconButtonItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButton"
+                    headerTemplate="{{null}}"
+                    tooltip="All documents to disk" >
+            </Controls.dropdown:Button>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    iconSize="m"
+                    viewMode="link"
+                    icon="icon-Save"
+                    source="{{_createMemory(_iconButtonItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButtonBig"
+                    headerTemplate="{{null}}"
+                    tooltip="All documents to disk">
+            </Controls.dropdown:Button>
+         </div>
+      </div>
+      <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__thirdWrapper">
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__levelsWrapper">
+            <h4>Menu with multiple levels</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    caption="Document"
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    source="{{_createMemory(_multiItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__levels"
+                    tooltip="Document">
+            </Controls.dropdown:Button>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__inactiveWrapper">
+            <h4>With inactive items</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="primary"
+                    viewMode="button"
+                    caption="Document"
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    source="{{_createMemory(_hierarchyMultiItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__levelsComments">
+            </Controls.dropdown:Button>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__groupsWrapper">
+            <h4>Grouping in the menu</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="primary"
+                    iconStyle="primary"
+                    viewMode="button"
+                    icon="icon-AddButtonNew"
+                    iconSize="s"
+                    showHeader="{{false}}"
+                    source="{{_createMemory(_groupItems)}}"
+                    groupingKeyCallback="{{_groupingKeyCallback}}"
+                    groupTemplate="Controls/dropdown:GroupTemplate"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups"
+                    tooltip="Add">
+            </Controls.dropdown:Button>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    viewMode="link"
+                    icon="icon-Linked"
+                    iconSize="m"
+                    source="{{_createMemory(_groupTextItems)}}"
+                    groupingKeyCallback="{{_groupingKeyCallback}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups2"
+                    tooltip="Add">
+               <ws:groupTemplate>
+                  <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}"/>
+               </ws:groupTemplate>
+               <ws:headerTemplate>
+                  <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Related documents" icon=""/>
+               </ws:headerTemplate>
+               <ws:itemTemplate>
+                  <ws:partial template="Controls/dropdown:ItemTemplate" iconPadding=""/>
+               </ws:itemTemplate>
+            </Controls.dropdown:Button>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="primary"
+                    caption="One group"
+                    iconStyle="primary"
+                    iconSize="s"
+                    viewMode="button"
+                    showHeader="{{false}}"
+                    source="{{_createMemory(_oneGroupItems)}}"
+                    groupingKeyCallback="{{_groupingKeyCallback}}"
+                    groupTemplate="Controls/dropdown:GroupTemplate"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups3"
+                    tooltip="Add">
+            </Controls.dropdown:Button>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__multilevelWrapper">
+            <h4>Multilevel hierarchy</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    parentProperty="parent"
+                    nodeProperty="@parent"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    caption="hierarchy"
+                    source="{{_createMemory(_multilevelHierarchyItems)}}">
+            </Controls.dropdown:Button>
+         </div>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__iconWrapper">
-         <h4>Icons</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="primary"
-                 viewMode="button"
-                 caption="Download"
-                 source="{{_createMemory(_iconsItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__icon"
-                 tooltip="Download"/>
+      <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__fourthWrapper">
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__additionalWrapper">
+            <h4>Additional items</h4>
+            <Controls.dropdown:Button
+                    headerTemplate="{{null}}"
+                    keyProperty="id"
+                    additionalProperty="additional"
+                    groupingKeyCallback="{{_groupingKeyCallback}}"
+                    groupTemplate="Controls/dropdown:GroupTemplate"
+                    attr:class="ControlsDemo__additionalItems"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    icon="icon-Linked"
+                    iconSize="m"
+                    source="{{_createMemory(_additionalItems)}}">
+            </Controls.dropdown:Button>
+         </div>
+
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__bigMenuWrapper">
+            <h4>Big menu</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    caption="Big menu"
+                    source="{{_createMemory(_bigItems)}}">
+            </Controls.dropdown:Button>
+         </div>
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__scrollWrapper">
+            <h4>Scrolling in the menu</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    caption="Subtask"
+                    icon="icon-Check"
+                    iconSize="s"
+                    dropdownClassName="ControlsDemo-ButtonsMenu__scroll"
+                    source="{{_createMemory(_scrollItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__scroll"
+                    tooltip="Subtask">
+            </Controls.dropdown:Button>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="link"
+                    viewMode="link"
+                    caption="Subtask"
+                    icon="icon-Check"
+                    iconSize="m"
+                    dropdownClassName="ControlsDemo-ButtonsMenu__scroll"
+                    source="{{_createMemory(_scrollItems)}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__scrollBig"
+                    tooltip="Subtask">
+            </Controls.dropdown:Button>
+         </div>
+         <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__noItemsWrapper">
+            <h4 id="noItems">No items with footer</h4>
+            <Controls.dropdown:Button
+                    keyProperty="id"
+                    buttonStyle="secondary"
+                    fontColorStyle="default"
+                    viewMode="link"
+                    caption="Add"
+                    source="{{_createMemory([])}}"
+                    attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo-ButtonsMenu__noItems">
+               <ws:footerTemplate>
+                  <Controls.buttons:Button
+                          viewMode="link"
+                          caption="+ Add"
+                          attr:class="ControlsDemo-ButtonsMenu-footerTpl"/>
+               </ws:footerTemplate>
+            </Controls.dropdown:Button>
+         </div>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__subparagraphsWrapper">
-         <h4>Subparagraphs</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="primary"
-                 viewMode="button"
-                 caption="Reports"
-                 itemTemplateProperty="myTemplate"
-                 source="{{_createMemory(_subParagraphItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__subparagraphs"
-                 tooltip="Reports"/>
-      </div>
-
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__commentsWrapper">
-         <h4>Comments</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 icon="icon-AddButtonNew"
-                 iconSize="m"
-                 iconStyle="primary"
-                 itemTemplateProperty="myTemplate"
-                 buttonStyle="primary"
-                 viewMode="button"
-                 source="{{_createMemory(_commentItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__comments"
-                 tooltip="Add">
-            <ws:headerTemplate>
-               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
-            </ws:headerTemplate>
-         </Controls.dropdown:Button>
-      </div>
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__noIconsWrapper">
-         <h4>Without icons</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 caption="Topic +"
-                 itemTemplate="wml!Controls-demo/Buttons/Menu/itemTemplateComment"
-                 buttonStyle="primary"
-                 dropdownClassName="demo-menu"
-                 viewMode="button"
-                 source="{{_createMemory(_themesItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__noIcons"
-                 tooltip="Add topic"/>
-      </div>
-   </div>
-   <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__secondWrapper">
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__addWrapper">
-         <h4>Icon replaced by the text "Add"</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 icon="icon-AddButtonNew"
-                 iconSize="m"
-                 buttonStyle="secondary"
-                 viewMode="button"
-                 source="{{_createMemory(_simpleAdd)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText1"
-                 tooltip="Add">
-            <ws:headerTemplate>
-               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
-            </ws:headerTemplate>
-         </Controls.dropdown:Button>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 icon="icon-AddButtonNew"
-                 iconSize="m"
-                 buttonStyle="secondary"
-                 viewMode="button"
-                 source="{{_createMemory(_simpleAdd2)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText2"
-                 tooltip="Add">
-            <ws:headerTemplate>
-               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Add" />
-            </ws:headerTemplate>
-         </Controls.dropdown:Button>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 icon="icon-AddButtonNew"
-                 iconSize="m"
-                 buttonStyle="secondary"
-                 viewMode="button"
-                 source="{{_createMemory(_simpleAdd3)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__addText demo-ButtonsMenu__addText3"
-                 tooltip="Add">
-         </Controls.dropdown:Button>
-      </div>
-
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__headerWrapper">
-         <h4>Icon with text displayed in the header</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 inlineHeight="m"
-                 icon="icon-AddButtonNew"
-                 iconSize="s"
-                 viewMode="toolButton"
-                 buttonStyle="secondary"
-                 source="{{_createMemory(_iconAdd)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeader"
-                 tooltip="Add">
-            <ws:headerTemplate>
-               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
-            </ws:headerTemplate>
-         </Controls.dropdown:Button>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 icon="icon-AddButtonNew"
-                 viewMode="toolButton"
-                 buttonStyle="secondary"
-                 inlineHeight="l"
-                 source="{{_createMemory(_iconAddMedium)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeaderBig"
-                 tooltip="Add">
-            <ws:headerTemplate>
-               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
-            </ws:headerTemplate>
-         </Controls.dropdown:Button>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 icon="icon-AddButtonNew"
-                 viewMode="functionalButton"
-                 buttonStyle="secondary"
-                 iconStyle="contrast"
-                 inlineHeight="l"
-                 source="{{_createMemory(_iconAddMedium)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconHeaderCircle"
-                 tooltip="Add">
-            <ws:headerTemplate>
-               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="{[Add]}" />
-            </ws:headerTemplate>
-         </Controls.dropdown:Button>
-      </div>
-
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__historyWrapper">
-         <h4>Menu with history</h4>
-         <Controls.dropdown:Button
-                 keyProperty="key"
-                 icon="icon-AddButtonNew"
-                 buttonStyle="primary"
-                 viewMode="button"
-                 iconSize="m"
-                 iconStyle="primary"
-                 parentProperty="parent"
-                 nodeProperty="@parent"
-                 source="{{_historySource}}"
-                 attr:class="ControlsDemo__history"
-                 tooltip="Add">
-            <ws:headerTemplate>
-               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Add" icon=""/>
-            </ws:headerTemplate>
-            <ws:itemTemplate>
-               <ws:partial template="Controls/dropdown:ItemTemplate" iconPadding=""/>
-            </ws:itemTemplate>
-         </Controls.dropdown:Button>
-      </div>
-
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__iconButtonsWrapper">
-         <h4>Menu with icon button</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 viewMode="link"
-                 icon="icon-Save"
-                 iconSize="s"
-                 source="{{_createMemory(_iconButtonItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButton"
-                 headerTemplate="{{null}}"
-                 tooltip="All documents to disk" >
-         </Controls.dropdown:Button>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 iconSize="m"
-                 viewMode="link"
-                 icon="icon-Save"
-                 source="{{_createMemory(_iconButtonItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__iconButtonBig"
-                 headerTemplate="{{null}}"
-                 tooltip="All documents to disk">
-         </Controls.dropdown:Button>
-      </div>
-   </div>
-   <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__thirdWrapper">
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__levelsWrapper">
-         <h4>Menu with multiple levels</h4>
+      <div class="ControlsDemo-ButtonsMenu__wrapper ControlsDemo-ButtonsMenu-bottom-right">
          <Controls.dropdown:Button
                  keyProperty="id"
                  buttonStyle="secondary"
@@ -231,199 +406,26 @@
                  parentProperty="parent"
                  nodeProperty="@parent"
                  source="{{_createMemory(_multiItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__levels"
+                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__bottom-right"
                  tooltip="Document">
          </Controls.dropdown:Button>
+         <h4>The menu opens up and left</h4>
       </div>
 
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__inactiveWrapper">
-         <h4>With inactive items</h4>
+      <div class="ControlsDemo-ButtonsMenu__wrapper ControlsDemo-ButtonsMenu-top-right">
+         <h4>The menu opens down and left</h4>
          <Controls.dropdown:Button
                  keyProperty="id"
-                 buttonStyle="primary"
-                 viewMode="button"
+                 buttonStyle="secondary"
+                 fontColorStyle="link"
+                 viewMode="link"
                  caption="Document"
                  parentProperty="parent"
                  nodeProperty="@parent"
-                 source="{{_createMemory(_hierarchyMultiItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__levelsComments">
-         </Controls.dropdown:Button>
-      </div>
-
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__groupsWrapper">
-         <h4>Grouping in the menu</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="primary"
-                 iconStyle="primary"
-                 viewMode="button"
-                 icon="icon-AddButtonNew"
-                 iconSize="s"
-                 showHeader="{{false}}"
-                 source="{{_createMemory(_groupItems)}}"
-                 groupingKeyCallback="{{_groupingKeyCallback}}"
-                 groupTemplate="Controls/dropdown:GroupTemplate"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups"
-                 tooltip="Add">
-         </Controls.dropdown:Button>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 viewMode="link"
-                 icon="icon-Linked"
-                 iconSize="m"
-                 source="{{_createMemory(_groupTextItems)}}"
-                 groupingKeyCallback="{{_groupingKeyCallback}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups2"
-                 tooltip="Add">
-            <ws:groupTemplate>
-               <ws:partial template="Controls/dropdown:GroupTemplate" showText="{{true}}"/>
-            </ws:groupTemplate>
-            <ws:headerTemplate>
-               <ws:partial template="Controls/dropdown:HeaderTemplate" caption="Related documents" icon=""/>
-            </ws:headerTemplate>
-            <ws:itemTemplate>
-               <ws:partial template="Controls/dropdown:ItemTemplate" iconPadding=""/>
-            </ws:itemTemplate>
-         </Controls.dropdown:Button>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="primary"
-                 caption="One group"
-                 iconStyle="primary"
-                 iconSize="s"
-                 viewMode="button"
-                 showHeader="{{false}}"
-                 source="{{_createMemory(_oneGroupItems)}}"
-                 groupingKeyCallback="{{_groupingKeyCallback}}"
-                 groupTemplate="Controls/dropdown:GroupTemplate"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__groups3"
-                 tooltip="Add">
-         </Controls.dropdown:Button>
-      </div>
-
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__multilevelWrapper">
-         <h4>Multilevel hierarchy</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 parentProperty="parent"
-                 nodeProperty="@parent"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 viewMode="link"
-                 caption="hierarchy"
-                 source="{{_createMemory(_multilevelHierarchyItems)}}">
+                 source="{{_createMemory(_multiItems)}}"
+                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__top-right"
+                 tooltip="Document">
          </Controls.dropdown:Button>
       </div>
    </div>
-
-   <div class="ControlsDemo-ButtonsMenu__horWrapper demo-ButtonsMenu__fourthWrapper">
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__additionalWrapper">
-         <h4>Additional items</h4>
-         <Controls.dropdown:Button
-                 headerTemplate="{{null}}"
-                 keyProperty="id"
-                 additionalProperty="additional"
-                 groupingKeyCallback="{{_groupingKeyCallback}}"
-                 groupTemplate="Controls/dropdown:GroupTemplate"
-                 attr:class="ControlsDemo__additionalItems"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 viewMode="link"
-                 icon="icon-Linked"
-                 iconSize="m"
-                 source="{{_createMemory(_additionalItems)}}">
-         </Controls.dropdown:Button>
-      </div>
-
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__bigMenuWrapper">
-         <h4>Big menu</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 viewMode="link"
-                 caption="Big menu"
-                 source="{{_createMemory(_bigItems)}}">
-         </Controls.dropdown:Button>
-      </div>
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__scrollWrapper">
-         <h4>Scrolling in the menu</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 viewMode="link"
-                 caption="Subtask"
-                 icon="icon-Check"
-                 iconSize="s"
-                 dropdownClassName="ControlsDemo-ButtonsMenu__scroll"
-                 source="{{_createMemory(_scrollItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__scroll"
-                 tooltip="Subtask">
-         </Controls.dropdown:Button>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="secondary"
-                 fontColorStyle="link"
-                 viewMode="link"
-                 caption="Subtask"
-                 icon="icon-Check"
-                 iconSize="m"
-                 dropdownClassName="ControlsDemo-ButtonsMenu__scroll"
-                 source="{{_createMemory(_scrollItems)}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__scrollBig"
-                 tooltip="Subtask">
-         </Controls.dropdown:Button>
-      </div>
-      <div class="ControlsDemo-ButtonsMenu__wrapper demo-ButtonsMenu__noItemsWrapper">
-         <h4 id="noItems">No items with footer</h4>
-         <Controls.dropdown:Button
-                 keyProperty="id"
-                 buttonStyle="secondary"
-                 fontColorStyle="default"
-                 viewMode="link"
-                 caption="Add"
-                 source="{{_createMemory([])}}"
-                 attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo-ButtonsMenu__noItems">
-            <ws:footerTemplate>
-               <Controls.buttons:Button
-                       viewMode="link"
-                       caption="+ Add"
-                       attr:class="ControlsDemo-ButtonsMenu-footerTpl"/>
-            </ws:footerTemplate>
-         </Controls.dropdown:Button>
-      </div>
-   </div>
-
-   <div class="ControlsDemo-ButtonsMenu__wrapper ControlsDemo-ButtonsMenu-bottom-right">
-      <Controls.dropdown:Button
-              keyProperty="id"
-              buttonStyle="secondary"
-              fontColorStyle="link"
-              viewMode="link"
-              caption="Document"
-              parentProperty="parent"
-              nodeProperty="@parent"
-              source="{{_createMemory(_multiItems)}}"
-              attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__bottom-right"
-              tooltip="Document">
-      </Controls.dropdown:Button>
-      <h4>The menu opens up and left</h4>
-   </div>
-
-   <div class="ControlsDemo-ButtonsMenu__wrapper ControlsDemo-ButtonsMenu-top-right">
-      <h4>The menu opens down and left</h4>
-      <Controls.dropdown:Button
-              keyProperty="id"
-              buttonStyle="secondary"
-              fontColorStyle="link"
-              viewMode="link"
-              caption="Document"
-              parentProperty="parent"
-              nodeProperty="@parent"
-              source="{{_createMemory(_multiItems)}}"
-              attr:class="ControlsDemo-ButtonsMenu__item ControlsDemo__top-right"
-              tooltip="Document">
-      </Controls.dropdown:Button>
-   </div>
-</div>
+</Controls.scroll:Container>
