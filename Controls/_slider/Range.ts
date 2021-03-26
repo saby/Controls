@@ -136,7 +136,7 @@ class Range extends SliderBase<ISliderRangeOptions> implements ISlider {
       }
    }
    private _setEndValue(val: number): void {
-      if (this._startValue !== val) {
+      if (this._endValue !== val) {
          if (this._options.hasOwnProperty('value')) {
             this._notify('endValueChanged', [val]);
          } else {
