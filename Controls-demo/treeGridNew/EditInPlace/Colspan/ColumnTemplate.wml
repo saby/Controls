@@ -4,7 +4,7 @@
             <div class="controlDemo__input-row">
                 <div class="controlsDemo__ml1">
                     <span class="controlsDemo__wrapper__horizontal">Наименование</span>
-                    <Controls.input:Text fontSize="inherit" bind:value="itemData.item['title']" selectOnClick="{{ false }}"/>
+                    <Controls.input:Text contrastBackground="{{true}}" fontSize="inherit" bind:value="itemData.item['title']" selectOnClick="{{ false }}"/>
                 </div>
                 <ws:if data="{{itemData.item['parent'] === null}}">
                     <div class="controlsDemo__ml1">
