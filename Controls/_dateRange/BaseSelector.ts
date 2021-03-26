@@ -19,6 +19,7 @@ export default class BaseSelector<T> extends Control<T> {
     protected _loadCalendarPopupPromise: Promise<unknown> = null;
     protected _rangeModel: DateRangeModel = null;
     protected _isMinWidth: boolean = null;
+    protected _state: string;
     protected _children: {
         opener: Sticky;
         linkView: LinkView;
@@ -29,6 +30,7 @@ export default class BaseSelector<T> extends Control<T> {
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
         this._updateRangeModel(options);
         this._updateIsMinWidth(options);
+        this._stateChangedCallback = this._stateChangedCallback.bind(this);
     }
 
     protected _beforeUnmount(): void {
@@ -56,6 +58,10 @@ export default class BaseSelector<T> extends Control<T> {
             this._rangeModel.setRange(startValue, endValue);
             this.closePopup();
         }
+    }
+
+    protected _stateChangedCallback(state: string): void {
+        this._state = state;
     }
 
     closePopup(): void {

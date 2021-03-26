@@ -54,7 +54,6 @@ import {descriptor} from "Types/entity";
 export default class RangeSelector extends BaseSelector<IControlOptions> {
     protected _template: TemplateFunction = componentTmpl;
     protected _emptyCaption: string;
-    private _state: string;
 
     protected _beforeMount(options): void {
         this._updateValues(options);
@@ -151,14 +150,10 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
                 clearButtonVisible: this._options.clearButtonVisible || this._options.clearButtonVisibility,
                 _displayDate: this._options._displayDate,
                 rangeSelectedCallback: this._options.rangeSelectedCallback,
-                state: this._state
+                state: this._state,
+                stateChangedCallback: this._stateChangedCallback
             }
         };
-    }
-
-    protected _onResult(startValue: Date, endValue: Date, state: string): void {
-        this._state = state;
-        super._onResult(startValue, endValue);
     }
 
     _resetButtonClickHandler(): void {

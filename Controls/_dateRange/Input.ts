@@ -80,6 +80,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         );
         this._rangeModel.subscribe('rangeChanged', this._updateValidators.bind(this));
         this._updateValidators(options);
+        this._stateChangedCallback = this._stateChangedCallback.bind(this);
     }
 
     protected _beforeUpdate(options: IDateRangeInputOptions) {
@@ -119,7 +120,8 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
                 closeButtonEnabled: true,
                 rangeselect: true,
                 range: this._options.range,
-                state: this._state
+                state: this._state,
+                stateChangedCallback: this._stateChangedCallback
             }
         };
         this._children.opener.open(cfg);
@@ -134,6 +136,10 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     protected _mouseLeaveHandler(): void {
         this._dependenciesTimer?.stop();
+    }
+
+    protected _stateChangedCallback(state: string): void {
+        this._state = state;
     }
 
     private _loadDependencies(): Promise<unknown> {
@@ -160,8 +166,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         }
     }
 
-    private _onResult(startValue: Date, endValue: Date, state: string): void {
-        this._state = state;
+    private _onResult(startValue: Date, endValue: Date): void {
         this._rangeModel.setRange(startValue, endValue);
         this._children.opener?.close();
         this._notifyInputCompleted();
