@@ -7,7 +7,7 @@ import template = require('wml!Controls/_list/List');
 import Deferred = require('Core/Deferred');
 import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
-import {BaseControl as ListControl} from 'Controls/_list/BaseControl';
+import {default as ListControl} from 'Controls/_list/BaseControl';
 import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
 import { DataSet, CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
 import {IMovableList} from './interface/IMovableList';

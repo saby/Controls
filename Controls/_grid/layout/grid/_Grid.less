@@ -394,7 +394,6 @@
 .ws-is-hover .controls-BaseControl_showActions_visible .controls-Grid__row,
 .ws-is-hover .controls-BaseControl_showActions_delayed .controls-Grid__row:hover,
 .ws-is-hover .controls-BaseControl_showActions_onhover .controls-Grid__row:hover {
-   .controls-Grid__editArrow-blur,
    .controls-Grid__editArrow-wrapper {
       visibility: visible;
    }
@@ -897,7 +896,6 @@
    align-items: center;
 }
 
-.controls-Grid__editArrow-blur,
 .controls-Grid__editArrow-wrapper {
    visibility: hidden;
 }
@@ -940,6 +938,7 @@
    min-width: var(--edit-arrow_icon-size_grid);
    display: inline-flex;
    align-items: baseline;
+   cursor: pointer;
 }
 
 .controls-Grid__editArrow-blur_style-default_background:before,

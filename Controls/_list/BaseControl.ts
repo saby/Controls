@@ -412,24 +412,24 @@ const _private = {
         return needAttachLoadDownTriggerToNull;
     },
 
-    assignItemsToModel(self, items: RecordSet, newOptions): void {
+    assignItemsToModel(self: BaseControl, items: RecordSet, newOptions: IBaseControlOptions): void {
         const listModel = self._listViewModel;
+        const oldCollection = listModel.getCollection();
 
         // todo task1179709412 https://online.sbis.ru/opendoc.html?guid=43f508a9-c08b-4938-b0e8-6cfa6abaff21
         if (self._options.useNewModel) {
             // TODO restore marker + maybe should recreate the model completely
-            // Делаем assign только если формат текущего рекордсета и нового полностью совпадает, иначе необходима
-            // полная замена (example: https://online.sbis.ru/opendoc.html?guid=75a21c00-35ec-4451-b5d7-29544ddd9c40).
-            if (!isEqualItems(listModel.getCollection(), items)) {
+            if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
                 listModel.setCollection(items);
                 self._onItemsReady(newOptions, listModel.getCollection());
             }
+
             // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
             if (self._options.itemsSetCallback) {
                 self._options.itemsSetCallback(items);
             }
         } else {
-            const wasItemsReplaced = listModel.getCollection() && !isEqualItems(listModel.getCollection(), items);
+            const wasItemsReplaced = oldCollection && !isEqualItems(oldCollection, items);
             listModel.setItems(items, newOptions);
             self._items = listModel.getCollection();
 
@@ -444,6 +444,7 @@ const _private = {
                 self._markedKeyForRestoredScroll = _private.getMarkerController(self).getMarkedKey();
             }
         }
+
         self._items = listModel.getCollection();
     },
 
@@ -3173,9 +3174,11 @@ const _private = {
 
 export interface IBaseControlOptions extends IControlOptions {
     sourceController?: SourceController;
+    items?: RecordSet;
 }
 
-export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOptions> extends Control<TOptions>
+export default class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOptions>
+    extends Control<TOptions, IReceivedState>
     implements IMovableList {
 
     //#region States
@@ -3209,6 +3212,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     _resetDownTriggerOffset = false;
     protected _listViewModel = null;
     _viewModelConstructor = null;
+    protected _items: RecordSet;
 
     _loadMoreCaption = null;
     _shouldDrawFooter = false;
@@ -3540,8 +3544,10 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
     }
 
-    _initKeyProperty(options): void {
-        this._keyProperty = options.keyProperty || (this._sourceController && this._sourceController.getKeyProperty());
+    _initKeyProperty(options: TOptions): void {
+        this._keyProperty = options.keyProperty ||
+            (this._sourceController && this._sourceController.getKeyProperty()) ||
+            options.items?.getKeyProperty();
     }
 
     scrollMoveSyncHandler(params: IScrollParams): void {
@@ -4014,55 +4020,66 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             }
         }
 
-        if (newOptions.sourceController) {
-            const items = newOptions.sourceController.getItems();
+        if (newOptions.sourceController || newOptions.items) {
+            const items = newOptions.sourceController?.getItems() || newOptions.items;
 
-            if (this._options.sourceController !== newOptions.sourceController) {
-                this._sourceController = newOptions.sourceController;
-                this._sourceController.setDataLoadCallback(this._dataLoadCallback);
-            }
+            if (newOptions.sourceController) {
+                if (this._options.sourceController !== newOptions.sourceController) {
+                    this._sourceController = newOptions.sourceController;
+                    this._sourceController.setDataLoadCallback(this._dataLoadCallback);
+                }
 
-            if (newOptions.loading) {
-                this._noDataBeforeReload = !_private.hasDataBeforeLoad(self);
+                if (newOptions.loading) {
+                    this._noDataBeforeReload = !_private.hasDataBeforeLoad(self);
+                }
             }
 
             if (items && (this._listViewModel && !this._listViewModel.getCollection() || this._items !== items)) {
                 if (!this._listViewModel) {
                     _private.initializeModel(this, newOptions, items);
                 }
+
                 const isActionsAssigned = this._listViewModel.isActionsAssigned();
                 _private.assignItemsToModel(this, items, newOptions);
                 isItemsResetFromSourceController = true;
 
                 // TODO удалить когда полностью откажемся от старой модели
-                if (!_private.hasSelectionController(this) && newOptions.multiSelectVisibility !== 'hidden'
-                    && newOptions.selectedKeys && newOptions.selectedKeys.length) {
+                if (
+                    !_private.hasSelectionController(this) && newOptions.multiSelectVisibility !== 'hidden' &&
+                    newOptions.selectedKeys && newOptions.selectedKeys.length
+                ) {
                     const controller = _private.createSelectionController(this, newOptions);
                     controller.setSelection({ selected: newOptions.selectedKeys, excluded: newOptions.excludedKeys });
                 }
 
                 // TODO удалить когда полностью откажемся от старой модели
-                //  Если Items были обновлены, то в старой модели переинициализировался display и этот параметр сбросился
+                //  Если Items были обновлены, то в старой модели переинициализировался display
+                //  и этот параметр сбросился
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
                 this._updateScrollController(newOptions);
             }
 
-            if (!this._options.sourceController) {
-                _private.executeAfterReloadCallbacks(this, this._items, newOptions);
-            }
+            if (newOptions.sourceController) {
+                if (!this._options.sourceController) {
+                    _private.executeAfterReloadCallbacks(this, this._items, newOptions);
+                }
 
-            if (this._loadedBySourceController && !this._sourceController.getLoadError()) {
-                if (this._listViewModel) {
-                    this._listViewModel.setHasMoreData(_private.hasMoreDataInAnyDirection(this, this._sourceController));
+                if (this._loadedBySourceController && !this._sourceController.getLoadError()) {
+                    if (this._listViewModel) {
+                        this._listViewModel.setHasMoreData(
+                            _private.hasMoreDataInAnyDirection(this, this._sourceController)
+                        );
+                    }
+                    if (this.__error) {
+                        _private.hideError(this);
+                    }
+                    _private.resetScrollAfterLoad(self);
+                    _private.resolveIsLoadNeededByNavigationAfterReload(self, newOptions, items);
+                    _private.prepareFooter(this, newOptions, this._sourceController);
                 }
-                if (this.__error) {
-                    _private.hideError(this);
-                }
-                _private.resetScrollAfterLoad(self);
-                _private.resolveIsLoadNeededByNavigationAfterReload(self, newOptions, items);
-                _private.prepareFooter(this, newOptions, this._sourceController);
             }
         }
+
         this._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
@@ -5874,7 +5891,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
     protected _keyDownHandler(event): boolean | void {}
 
-    _getViewClasses(addShowActionsClass: boolean, addHoverEnabledClass: boolean, uniqueId: string): string  {
+    protected _getViewClasses(addShowActionsClass: boolean, addHoverEnabledClass: boolean, uniqueId: string): string  {
         const classes: string[] = [];
         if (addShowActionsClass) {
             const visibility = this._getEditingConfig(this._options)?.mode === 'cell' ? 'onhovercell' : this._options.itemActionsVisibility;
@@ -6135,11 +6152,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             const itemActionsController = _private.getItemActionsController(this);
             itemActionsController.updateItemActions(itemKey, itemWidth);
         }
-    }
-
-    _getItemActionVisibilityClasses(): string {
-        const visibility = this._getEditingConfig(this._options)?.mode === 'cell' ? 'onhovercell' : this._options.itemActionsVisibility;
-        return `controls-BaseControl_showActions controls-BaseControl_showActions_${visibility}`;
     }
 
     /**
