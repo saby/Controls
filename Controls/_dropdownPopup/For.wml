@@ -4,6 +4,7 @@
            on:mouseenter="_itemMouseEnter(listModel.getEmptyItem().item, listModel.getEmptyItem().hasChildren)"
            template="{{emptyTemplate || itemTemplate || defaultItemTemplate}}"
            itemData="{{listModel.getEmptyItem()}}"
+           item="{{listModel.getEmptyItem()}}"
            resultHandler="{{resultHandler}}"
            marker="{{multiSelect ? false : marker}}"
            displayProperty="{{displayProperty}}"
@@ -16,7 +17,7 @@
    <ws:if data="{{listModel.getCurrent().isGroup}}">
       <ws:if data="{{!listModel.getCurrent().isHiddenGroup}}">
          <ws:partial
-                 template="{{groupTemplate}}" itemData="{{listModel.getCurrent()}}"/>
+                 template="{{groupTemplate}}" itemData="{{listModel.getCurrent()}}" item="{{listModel.getCurrent()}}"/>
       </ws:if>
    </ws:if>
    <ws:else>
@@ -26,6 +27,7 @@
               on:mouseenter="_itemMouseEnter(listModel.getCurrent().item, listModel.getCurrent().hasChildren)"
               template="{{listModel.getCurrent().template || itemTemplate || defaultItemTemplate}}"
               itemData="{{listModel.getCurrent()}}"
+              item="{{listModel.getCurrent()}}"
               treeItem="{{listModel.getCurrent().treeItem}}"
               resultHandler="{{resultHandler}}"
               marker="{{multiSelect ? false : marker}}"
