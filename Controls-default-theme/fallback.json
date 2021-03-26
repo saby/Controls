@@ -991,9 +991,8 @@
   "--tabs_offset-top_suggest": "var(--offset_s)",
   "--misspell_padding-horizontal_suggest": "var(--offset_m)",
   "--spinner_offset_suggest": "var(--offset_2xs)",
-  "--placeholder_padding-top_l_list": "var(--offset_l)",
-
-  "--master_item_background-color_list": "#f8f8f8",
+  "--popup_z-index_suggest": "30",
+  "--input_z-index_suggest": "31",
 
   "--box-shadow-size_suggestSearch": "0 0 6px 0",
   "--padding-top_suggestSearch": "var(--offset_s)",
