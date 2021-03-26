@@ -1,6 +1,6 @@
 <Controls.Container.Async templateName="Controls/menu:GroupTemplate">
     <ws:partial
             template="{{ content.resolvedTemplate }}"
-            scope="{{_options}}"
+            scope="{{_options}}" 
     />
 </Controls.Container.Async>
