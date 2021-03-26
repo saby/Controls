@@ -860,5 +860,22 @@ define([
             sinon.restore();
          });
       });
+      describe('_beforeUnmount', () => {
+         it('should call sendResult', () => {
+            const component = calendarTestUtils.createComponent(PeriodDialog.default);
+            const stub = sinon.stub(component, 'sendResult');
+            component._beforeUnmount();
+            sinon.assert.calledOnce(stub);
+            sinon.restore();
+         });
+         it('should not call sendResult', () => {
+            const component = calendarTestUtils.createComponent(PeriodDialog.default);
+            component.sendResult();
+            const stub = sinon.stub(component, 'sendResult');
+            component._beforeUnmount();
+            sinon.assert.notCalled(stub);
+            sinon.restore();
+         });
+      });
    });
 });
