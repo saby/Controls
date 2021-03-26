@@ -2,16 +2,16 @@
    <ws:partial template="wml!Controls/_listTemplates/DefaultImageTemplate"
                attr:class="controls-listTemplates_tableCellTemplate-image-theme-{{_options.theme}}"
                viewMode="{{_options.viewMode}}"
-               src="{{_options.itemData.item[_options.imageProperty]}}"/>
+               src="{{_options.item.contents[_options.imageProperty]}}"/>
 </ws:template>
 
 <ws:template name="itemContentTpl">
    <div class="controls-listTemplates__tableCellTemplate-theme-{{_options.theme}}">
-      <ws:if data="{{itemData.dispItem.isNode()}}">
+      <ws:if data="{{item.isNode()}}">
          <ws:if data="{{contentTemplate}}">
             <ws:partial
                template="{{contentTemplate}}"
-               itemData="{{itemData}}"/>
+               scope="{{_options}}"/>
          </ws:if>
       </ws:if>
       <ws:else>
@@ -20,27 +20,27 @@
                template="imageTemplate"
                viewMode="{{_options.imageViewMode}}"
                imageProperty="{{_options.imageProperty}}"
-               itemData="{{itemData}}"/>
+               scope="{{_options}}"/>
          </ws:if>
          <div class="controls-listTemplates__tableCellTemplate__content-theme-{{_options.theme}}
                      {{_options.imageViewMode !== 'none' ? 'controls-listTemplates__tableCellTemplate__content-withPhoto'}} ws-ellipsis">
             <ws:if data="{{contentTemplate}}">
                <ws:partial
                   template="{{contentTemplate}}"
-                  itemData="{{itemData}}"/>
+                  scope="{{_options}}"/>
             </ws:if>
             <ws:if data="{{footerTemplate}}">
                <ws:partial
                   attr:class="controls-listTemplates__tableCellTemplate__footer-theme-{{_options.theme}} ws-ellipsis"
                   template="{{footerTemplate}}"
-                  itemData="{{itemData}}"/>
+                  scope="{{_options}}"/>
             </ws:if>
          </div>
       </ws:else>
    </div>
 </ws:template>
 
-<ws:partial template="Controls/grid:ColumnTemplate"
+<ws:partial template="Controls/gridNew:ColumnTemplate"
             scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial
