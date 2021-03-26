@@ -1,7 +1,8 @@
-<div class="controls-CutButton__container controls-CutButton__container_lineHeight-{{ _options.lineHeight }}
+<div class="controls-CutButton__container
+        controls-CutButton__container_lineHeight-{{ _options.lineHeight }}_theme-{{ _options.theme }}
             controls-CutButton__container_position-{{ _options.buttonPosition }}">
     <Controls.toggle:BigSeparator
-            attr:class="controls-CutButton controls-CutButton_size-{{ _options.iconSize }}"
+            attr:class="controls-CutButton controls-CutButton_size-{{ _options.iconSize }}_theme-{{ _options.theme }}"
             iconSize="{{ _options.iconSize }}"
             value="{{ _options.expanded }}"
             readOnly="{{ _options.readOnly }}"
