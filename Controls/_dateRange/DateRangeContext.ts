@@ -13,4 +13,4 @@ export default class DateRangeContext extends DataContext {
     }
 }
 
-DateRangeContext.prototype._moduleName = 'Controls/_dateRange/dateRangeContext';
+DateRangeContext.prototype._moduleName = 'Controls/_dateRange/DateRangeContext';

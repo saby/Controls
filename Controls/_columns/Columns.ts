@@ -9,6 +9,11 @@ export default class Columns extends View {/** @lends Controls/_list/List.protot
 
     static _theme = ['Controls/columns'];
 
+    _beforeMount(options: any): void|Promise<any> {
+        super._beforeMount(options);
+        return this._checkViewName(options.useNewModel);
+    }
+
     _checkViewName(useNewModel: boolean): void|Promise<any> {
         if (useNewModel) {
             this._viewName = Render;

@@ -1019,7 +1019,7 @@
   "--footer_additionalButton_min-height_menuPopup": "24px",
   "--apply-button_offset_menuPopup": "var(--offset_xs)",
   "--apply-button_inline-height_menuPopup": "var(--inline_height_m)",
-  "--apply-button_border-radius_menuPopup": "calc(var(--apply-button_inline-height_menuPopup) / 2)",
+  "--apply-button_border-radius_menuPopup": "12px",
   "--more_text-color_menuPopup": "var(--link_text-color)",
   "--more_hover_text-color_menuPopup": "var(--link_hover_text-color)",
   "--more_active_text-color_menuPopup": "var(--link_hover_text-color)",

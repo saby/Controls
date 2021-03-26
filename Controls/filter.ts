@@ -4,7 +4,6 @@
  * @includes View Controls/_filter/View
  * @includes ViewItemTemplate Controls/filter:ItemTemplate
  * @includes ViewContainer Controls/_filter/View/Container
- * @includes Controller Controls/_filter/Controller
  * @includes IFilterItem Controls/_filter/View/interface/IFilterItem
  * @includes IFastFilter Controls/_filter/View/interface/IFastFilter
  * @includes IFilterButton Controls/_filter/View/interface/IFilterButton
@@ -20,7 +19,6 @@
  * @includes View Controls/_filter/View
  * @includes ViewItemTemplate Controls/filter:ItemTemplate
  * @includes ViewContainer Controls/_filter/View/Container
- * @includes Controller Controls/_filter/Controller
  * @includes IFilterItem Controls/_filter/View/interface/IFilterItem
  * @includes IFastFilter Controls/_filter/View/interface/IFastFilter
  * @includes IFilterButton Controls/_filter/View/interface/IFilterButton
@@ -35,7 +33,6 @@ import ViewItemTemplate = require('wml!Controls/_filter/View/ItemTemplate');
 import HistoryUtils = require('Controls/_filter/HistoryUtils');
 import FilterUtils = require('Controls/_filter/resetFilterUtils');
 
-import {default as Controller} from 'Controls/_filter/Controller';
 export {default as View} from 'Controls/_filter/View';
 export {default as ControllerClass, IFilterControllerOptions} from './_filter/ControllerClass';
 export {default as ViewContainer} from './_filter/View/Container';
@@ -47,7 +44,6 @@ export {IFilterViewOptions, IFilterView} from 'Controls/_filter/View/interface/I
 
 export {
    ViewItemTemplate,
-   Controller,
    HistoryUtils,
    FilterUtils
 };
