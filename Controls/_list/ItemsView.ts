@@ -4,6 +4,7 @@ import * as template from 'wml!Controls/_list/ItemsView';
 import {RecordSet} from 'Types/collection';
 import {default as BaseControl} from 'Controls/_list/BaseControl';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import ListView = require('Controls/_list/ListView');
 
 /**
  * Опции для контрола {@link ItemsView}
@@ -23,9 +24,13 @@ export interface IItemsViewOptions extends IControlOptions {
 export default class ItemsView extends Control<IItemsViewOptions> {
     //region base control props
     protected _template: TemplateFunction = template;
+    //endregion
 
-    protected _children: {
-        baseControl: BaseControl
-    };
+    //region template props
+    protected _viewTemplate: Function = BaseControl;
+
+    protected _viewName: Function = ListView;
+
+    protected _viewModelConstructor: string = 'Controls/display:Collection';
     //endregion
 }
