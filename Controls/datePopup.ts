@@ -130,8 +130,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     _keyboardActive: boolean = false;
 
-    _cachedStartValue: Date | null;
-    _cachedEndValue: Date | null;
     _sendResultCalled: boolean = false;
 
     _beforeMount(options: IControlOptions): void {
@@ -214,8 +212,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._updateResetButtonVisible(options);
 
         this._headerType = options.headerType;
-        this._cachedStartValue = this._rangeModel.startValue;
-        this._cachedEndValue = this._rangeModel.endValue;
     }
 
     _afterUpdate(): void {
@@ -231,7 +227,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
         // Будем отправлять результат только в том случае, если пользователь не выбрал при этом новую
         // дату, т.е. sendResult еще не вызывался. Аргументом будут даты, которые БВП получил при инициализации.
         if (!this._sendResultCalled) {
-            this.sendResult(this._cachedStartValue, this._cachedEndValue);
+            this.sendResult(this._options.startValue, this._options.endValue);
         }
         this._rangeModel.destroy();
         this._headerRangeModel.destroy();
