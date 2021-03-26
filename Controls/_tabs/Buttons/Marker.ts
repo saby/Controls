@@ -26,7 +26,7 @@ export default class Marker extends mixin<VersionableMixin>(VersionableMixin) im
             for (const element of elements) {
                 clientRect = element.getBoundingClientRect();
                 this._position.push({
-                    width: Math.round(clientRect.width),
+                    width: Math.ceil(clientRect.width),
                     left: clientRect.left - baseClientRect.left - borderLeftWidth
                 });
             }
