@@ -1,0 +1,10 @@
+<div>
+   <Controls._list.BaseControl
+      name="baseControl"
+      scope="{{_options}}"
+
+      useNewModel="{{true}}"
+      viewName="Controls/list:ListView"
+      viewModelConstructor="Controls/display:Collection"
+   />
+</div>
