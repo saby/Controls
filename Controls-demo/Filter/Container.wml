@@ -1,32 +1,31 @@
 <div class="controls-demo__filter-container">
-    <Controls.filter:Controller bind:filter="_filter" fastFilterSource="{{_filterData}}" filterButtonSource="{{_filterButtonData}}">
-        <Controls.list:DataContainer source="{{_source}}" navigation="{{_navigation}}" keyProperty="id">
-            <div>
-                <div class="controls-demo__filter-filtersWrapper">
-                    <Controls.deprecatedFilter:FastContainer>
-                        <Controls.deprecatedFilter:Fast attr:class="controls-demo__fastFilter"/>
-                    </Controls.deprecatedFilter:FastContainer>
+    <Controls.browser:Browser bind:filter="_filter" fastFilterSource="{{_filterData}}" filterButtonSource="{{_filterButtonData}}"
+                              source="{{_source}}" navigation="{{_navigation}}" keyProperty="id">
+        <div>
+            <div class="controls-demo__filter-filtersWrapper">
+                <Controls.deprecatedFilter:FastContainer>
+                    <Controls.deprecatedFilter:Fast attr:class="controls-demo__fastFilter"/>
+                </Controls.deprecatedFilter:FastContainer>
 
-                    <Controls.filter:ViewContainer>
-                        <Controls.deprecatedFilter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/Filter/Panel"/>
-                    </Controls.filter:ViewContainer>
-                </div>
-                <Controls.list:Container>
-                    <Controls.list:View emptyTemplate="Не найдено">
-                        <ws:itemTemplate>
-                            <ws:partial template="Controls/list:ItemTemplate">
-                                <ws:contentTemplate>
-                                    <div style="padding: 4px; display: flex; justify-content: space-between">
-                                        <div style="width: 300px">{{itemTemplate.itemData.item.get('department')}}</div>
-                                        <div style="font-size: 13px; color: darkblue">{{itemTemplate.itemData.item.get('owner')}}(78)</div>
-                                        <div style="font-size: 13px; color: limegreen">{{itemTemplate.itemData.item.get('id')}}</div>
-                                    </div>
-                                </ws:contentTemplate>
-                            </ws:partial>
-                        </ws:itemTemplate>
-                    </Controls.list:View>
-                </Controls.list:Container>
+                <Controls.filter:ViewContainer>
+                    <Controls.deprecatedFilter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/Filter/Panel"/>
+                </Controls.filter:ViewContainer>
             </div>
-        </Controls.list:DataContainer>
-    </Controls.filter:Controller>
+            <Controls.list:Container>
+                <Controls.list:View emptyTemplate="Не найдено">
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/list:ItemTemplate">
+                            <ws:contentTemplate>
+                                <div style="padding: 4px; display: flex; justify-content: space-between">
+                                    <div style="width: 300px">{{itemTemplate.itemData.item.get('department')}}</div>
+                                    <div style="font-size: 13px; color: darkblue">{{itemTemplate.itemData.item.get('owner')}}(78)</div>
+                                    <div style="font-size: 13px; color: limegreen">{{itemTemplate.itemData.item.get('id')}}</div>
+                                </div>
+                            </ws:contentTemplate>
+                        </ws:partial>
+                    </ws:itemTemplate>
+                </Controls.list:View>
+            </Controls.list:Container>
+        </div>
+    </Controls.browser:Browser>
 </div>
