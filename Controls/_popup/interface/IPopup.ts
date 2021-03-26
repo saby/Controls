@@ -99,7 +99,7 @@ export interface IPopupItemInfo {
    popupOptions: {
       maximize: boolean,
       modal: boolean,
-      template: TemplateFunction | string
+      template: Control<IControlOptions, unknown> | TemplateFunction | string
    };
 }
 
