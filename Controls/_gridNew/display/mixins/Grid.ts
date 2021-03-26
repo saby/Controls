@@ -325,7 +325,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$emptyGridRow = new EmptyRow<S>({
             owner: this,
             emptyTemplate: this._$emptyTemplate,
-            emptyTemplateColumns: this._$emptyTemplateColumns
+            emptyTemplateColumns: this._$emptyTemplateColumns,
+            emptyTemplateOptions: this._$emptyTemplateOptions
         });
     }
 
