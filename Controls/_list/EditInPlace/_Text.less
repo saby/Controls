@@ -41,7 +41,7 @@
    В режиме редактирования контент замещается полем ввода, который также имеет внутренний отступ.
    Чтобы контент строки, обернутый полем ввода, не смещался вправо при активнации редактирования по месту, eip смещается влево на величину внутреннего отступа поля ввода.
    */
-   margin-left: calc(-var(--padding-horizontal_inputText));
+   margin-left: calc(-1 * var(--padding-horizontal_inputText));
 }
 
 .controls-EditingTemplateText__editorWrapper_align_right {
@@ -51,7 +51,7 @@
    В режиме редактирования контент замещается полем ввода, который также имеет внутренний отступ.
    Чтобы контент строки, обернутый полем ввода, не смещался влево при активнации редактирования по месту, eip смещается вправо на величину внутреннего отступа поля ввода.
    */
-   margin-right: calc(-var(--padding-horizontal_inputText));
+   margin-right: calc(-1 * var(--padding-horizontal_inputText));
 }
 
 .controls-EditingTemplateText {

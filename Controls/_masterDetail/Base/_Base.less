@@ -97,7 +97,7 @@
 
 // todo https://online.sbis.ru/opendoc.html?guid=4427d008-ac6e-4ce3-bf04-1e1b65bd6f79
 .ws-is-mobile-platform .controls-MasterDetail_resizing-line {
-   right: -var(--resizingLine_mobile_offset-left_stack);
+   right: calc(-1 * var(--resizingLine_mobile_offset-left_stack));
    width: var(--resizingLine_mobile_thickness_stack);
    .controls-ResizingLine__areaWrapper_horizontal {
       width: calc(var(--resizingLine_mobile_thickness_stack) - var(--resizingLine_mobile_offset-left_stack));

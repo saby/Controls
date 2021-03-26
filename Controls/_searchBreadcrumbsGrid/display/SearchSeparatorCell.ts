@@ -10,7 +10,7 @@ export default class SearchSeparatorCell extends GridCell<string, SearchSeparato
       let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
 
       if (!this._$owner.hasMultiSelectColumn()) {
-         classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}_theme-${theme}`;
+         classes += ` controls-Grid__cell_spacingFirstCol_${this._$owner.getLeftPadding()}`;
       }
 
       return classes;

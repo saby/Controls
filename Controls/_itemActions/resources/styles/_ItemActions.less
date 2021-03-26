@@ -55,7 +55,7 @@
     top:0;
     border-top: var(--height_outside_itemActions) solid var(--background-color_itemActions);
     border-left: var(--corner_width_outside_itemActions) solid transparent;
-    left: calc(-var(--corner_width_outside_itemActions));
+    left: calc(-1 * var(--corner_width_outside_itemActions));
   }
 
   & .controls-itemActionsV__action-area_size {
@@ -69,15 +69,15 @@
 }
 
 .controls-itemActionsV__outside_bottom_size-default {
-    bottom: calc(-var(--height_outside_itemActions));
+    bottom: calc(-1 * var(--height_outside_itemActions));
 }
 
 .controls-itemActionsV__outside_bottom_size-s {
-    bottom: calc(-var(--height_outside_itemActions) + var(--item-separator_s_thickness_list));
+    bottom: calc(var(--item-separator_s_thickness_list) - var(--height_outside_itemActions));
 }
 
 .controls-itemActionsV__outside_bottom_size-l {
-    bottom: calc(-var(--height_outside_itemActions) + var(--item-separator_l_thickness_list));
+    bottom: calc(var(--item-separator_l_thickness_list) - var(--height_outside_itemActions));
 }
 
 .controls-itemActionsV_outside-spacing {

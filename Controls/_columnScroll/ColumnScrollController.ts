@@ -251,10 +251,10 @@ export default class ColumnScrollController {
         backgroundStyle?: string;
     }): string {
         return `js-controls-ColumnScroll__shadow-${position}`
-            + ` controls-ColumnScroll__shadow_theme-${params.theme}`
-            + ` controls-ColumnScroll__shadow_with${params.needBottomPadding ? '' : 'out'}-bottom-padding_theme-${params.theme}`
-            + ` controls-ColumnScroll__shadow-${position}_theme-${params.theme}`
-            + ` controls-horizontal-gradient-${params.backgroundStyle}_theme-${params.theme}`;
+            + ' controls-ColumnScroll__shadow'
+            + ` controls-ColumnScroll__shadow_with${params.needBottomPadding ? '' : 'out'}-bottom-padding`
+            + ` controls-ColumnScroll__shadow-${position}`
+            + ` controls-horizontal-gradient-${params.backgroundStyle}`;
     }
 
     getShadowStyles(position: 'start' | 'end'): string {
@@ -465,8 +465,8 @@ export default class ColumnScrollController {
             }
         }
 
-        newHTML += ` .${this._transformSelector} .controls-Grid__cell_fixed_theme-${this._options.theme} { z-index: 3 }`;
-        newHTML += ` .${this._transformSelector} .controls-GridView__footer__cell.controls-GridNew__cell_fixed_theme-${this._options.theme} { z-index: 2 }`;
+        newHTML += ` .${this._transformSelector} .controls-Grid__cell_fixed { z-index: 3 }`;
+        newHTML += ` .${this._transformSelector} .controls-GridView__footer__cell.controls-GridNew__cell_fixed { z-index: 2 }`;
 
         if (this._stylesContainer.innerHTML !== newHTML) {
             this._stylesContainer.innerHTML = newHTML;

@@ -734,7 +734,7 @@
 }
 
 .controls-Grid__cell_spacingBackButton_with_multiSelection {
-   margin-left: -var(--click-area_width_checkbox);
+   margin-left: calc(-1 * var(--click-area_width_checkbox));
 }
 .controls-GridView__item_active {
    background-color: var(--item_hover_background-color_list);
@@ -961,7 +961,7 @@
 }
 
 .controls-Grid__editArrow-overflow-ellipsis {
-   margin-right: -var(--edit-arrow_icon-size_grid);
+   margin-right: calc(-1 * var(--edit-arrow_icon-size_grid));
 }
 
 .controls-Grid__editArrow-withTextOverflow {
@@ -991,9 +991,9 @@
 
 .controls-Grid__cell_tag {
    position: relative;
-   right: -var(--tag_offset-horizontal_gridView);
+   right: calc(-1 * var(--tag_offset-horizontal_gridView));
 
    .controls__tag {
-      top: -var(--tag_offset-vertical_gridView);
+      top: calc(-1 * var(--tag_offset-vertical_gridView));
    }
 }
