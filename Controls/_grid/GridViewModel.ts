@@ -685,6 +685,7 @@ var
             const theme = itemData.theme || 'default';
 
             itemData._staticRowClassses = `controls-Grid__row controls-Grid__row_${style}_theme-${theme} `;
+            itemData._staticRowClassses += ' controls-ListView__item_showActions';
 
             itemData.getRowClasses = (tmplParams: {
                 highlightOnHover?: boolean;
