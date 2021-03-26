@@ -66,7 +66,7 @@ export default class InvisibleStrategy<
     }
 
     protected static _getInvisibleItemParams(display: TreeTileCollection, prevItem: TileCollectionItem, options: object): object {
-        const params = super._getInvisibleItemParams(display, prevItem options);
+        const params = super._getInvisibleItemParams(display, prevItem, options);
         params.itemModule = 'Controls/treeTile:InvisibleTreeTileItem';
         params.node = options.isNodeItems;
         params.parent = options.parent;
