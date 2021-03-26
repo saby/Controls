@@ -336,6 +336,11 @@
    display: -ms-grid;
 }
 .ws-is-hover {
+
+   .controls-ListView__highlightOnHover_default_theme-@{themeName}:hover {
+      background-color: @item_hover_background-color_list;
+   }
+
    .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
       background-color: @item_hover_background-color_list;
    }
