@@ -1,0 +1,48 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div attr:class="controls-text-label">controls-padding_top-3xs controls-padding_right-2xs controls-padding_bottom-xs controls-padding_left-s</div>
+        <div class="controls-padding_top-3xs controls-padding_right-2xs controls-padding_bottom-xs controls-padding_left-s border inline">
+            <div class="background size"></div>
+        </div>
+    </div>
+    <div class="controlsDemo__cell">
+        <div attr:class="controls-text-label">controls-padding_top-m controls-padding_right-l controls-padding_bottom-2xl controls-padding_left-3xl</div>
+        <div class="controls-padding_top-m controls-padding_right-l controls-padding_bottom-2xl controls-padding_left-3xl border inline">
+            <div class="background size"></div>
+        </div>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <div attr:class="controls-text-label">controls-margin_top-3xs controls-margin_right-2xs controls-margin_bottom-xs controls-margin_left-s</div>
+        <div class="background inline">
+            <div class="controls-margin_top-3xs controls-margin_right-2xs controls-margin_bottom-xs controls-margin_left-s border">
+                <div class="size"></div>
+            </div>
+        </div>
+    </div>
+    <div class="controlsDemo__cell">
+        <div attr:class="controls-text-label">controls-margin_top-m controls-margin_right-l controls-margin_bottom-2xl controls-margin_left-3xl</div>
+        <div class="background inline">
+            <div class="controls-margin_top-m controls-margin_right-l controls-margin_bottom-2xl controls-margin_left-3xl border">
+                <div class="size"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controlsDemo__cell">
+        <div attr:class="controls-text-label">controls-top-3xs controls-right-2xs controls-bottom-xs controls-left-s</div>
+        <div class="background inline relative size_abs1">
+            <div class="controls-top-3xs controls-right-2xs controls-bottom-xs controls-left-s border absolute">
+
+            </div>
+        </div>
+    </div>
+    <div class="controlsDemo__cell">
+        <div attr:class="controls-text-label">controls-top-m controls-right-l controls-bottom-2xl controls-left-3xl</div>
+        <div class="background inline relative size_abs2">
+            <div class="controls-top-m controls-right-l controls-bottom-2xl controls-left-3xl border absolute">
+
+            </div>
+        </div>
+    </div>
+</div>

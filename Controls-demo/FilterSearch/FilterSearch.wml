@@ -76,37 +76,36 @@
         <div class="demo-filterSearch__secondCol">
             <div class="controls-demo__filterSearch-container ControlsDemo-FilterSearch__3">
                 <h3>Custom layout with Filter/Button, Filter/Fast and List</h3>
-                <Controls.filter:Controller bind:filter="_filter" fastFilterSource="{{_fullFastFilterData}}" filterButtonSource="{{_filterButtonData}}">
-                    <Controls.list:DataContainer source="{{_source}}" navigation="{{_navigation}}" keyProperty="id">
-                        <div>
-                            <div class="controls-demo__filterSearch-topWrapper demo__filterSearch-searchInTabs">
-                                <div class="controls-demo__filterSearch-filters">
-                                    <Controls.deprecatedFilter:FastContainer>
-                                        <Controls.deprecatedFilter:Fast attr:class="controls-demo__filterSearch-fastFilter"/>
-                                    </Controls.deprecatedFilter:FastContainer>
+                <Controls.browser:Browser bind:filter="_filter" fastFilterSource="{{_fullFastFilterData}}" filterButtonSource="{{_filterButtonData}}"
+                                          source="{{_source}}" navigation="{{_navigation}}" keyProperty="id">
+                    <div>
+                        <div class="controls-demo__filterSearch-topWrapper demo__filterSearch-searchInTabs">
+                            <div class="controls-demo__filterSearch-filters">
+                                <Controls.deprecatedFilter:FastContainer>
+                                    <Controls.deprecatedFilter:Fast attr:class="controls-demo__filterSearch-fastFilter"/>
+                                </Controls.deprecatedFilter:FastContainer>
 
-                                    <Controls.filter:ViewContainer>
-                                        <Controls.deprecatedFilter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/FilterSearch/Panel"/>
-                                    </Controls.filter:ViewContainer>
-                                </div>
+                                <Controls.filter:ViewContainer>
+                                    <Controls.deprecatedFilter:Selector attr:class="controls-demo__filterButton" templateName="Controls-demo/FilterSearch/Panel"/>
+                                </Controls.filter:ViewContainer>
                             </div>
-                            <Controls.list:Container>
-                                <Controls.list:View emptyTemplate="Не найдено">
-                                    <ws:itemTemplate>
-                                        <ws:partial template="Controls/list:ItemTemplate">
-                                            <ws:contentTemplate>
-                                                <div class="demo-FilterSearch__listItem-wrapper">
-                                                    <span class="demo-FilterSearch__department">{{itemTemplate.itemData.item.get('department')}}</span>
-                                                    <span class="demo-FilterSearch__title">{{itemTemplate.itemData.item.get('owner')}}<span class="demo-FilterSearch__iconDep icon-16 icon-Company icon-disabled"></span> (78)</span>
-                                                </div>
-                                            </ws:contentTemplate>
-                                        </ws:partial>
-                                    </ws:itemTemplate>
-                                </Controls.list:View>
-                            </Controls.list:Container>
                         </div>
-                    </Controls.list:DataContainer>
-                </Controls.filter:Controller>
+                        <Controls.list:Container>
+                            <Controls.list:View emptyTemplate="Не найдено">
+                                <ws:itemTemplate>
+                                    <ws:partial template="Controls/list:ItemTemplate">
+                                        <ws:contentTemplate>
+                                            <div class="demo-FilterSearch__listItem-wrapper">
+                                                <span class="demo-FilterSearch__department">{{itemTemplate.itemData.item.get('department')}}</span>
+                                                <span class="demo-FilterSearch__title">{{itemTemplate.itemData.item.get('owner')}}<span class="demo-FilterSearch__iconDep icon-16 icon-Company icon-disabled"></span> (78)</span>
+                                            </div>
+                                        </ws:contentTemplate>
+                                    </ws:partial>
+                                </ws:itemTemplate>
+                            </Controls.list:View>
+                        </Controls.list:Container>
+                    </div>
+                </Controls.browser:Browser>
             </div>
 
             <div class="controls-demo__filterSearch-container ControlsDemo-FilterSearch__4">
