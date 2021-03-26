@@ -98,7 +98,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _defaultDayTemplate: TemplateFunction = MonthViewDayTemplate;
     protected _today: number;
 
-    _rangeModel: object = null;
+    _rangeModel: DateRangeModel = null;
     _headerRangeModel: object = null;
     _yearRangeModel: object = null;
 
@@ -129,6 +129,10 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _endValueValidators = null;
 
     _keyboardActive: boolean = false;
+
+    _cachedStartValue: Date | null;
+    _cachedEndValue: Date | null;
+    _sendResultCalled: boolean = false;
 
     _beforeMount(options: IControlOptions): void {
         /* Опция _displayDate используется только(!) в тестах, чтобы иметь возможность перемотать
@@ -210,6 +214,8 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._updateResetButtonVisible(options);
 
         this._headerType = options.headerType;
+        this._cachedStartValue = this._rangeModel.startValue;
+        this._cachedEndValue = this._rangeModel.endValue;
     }
 
     _afterUpdate(): void {
@@ -220,7 +226,13 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     _beforeUnmount(): void {
-        this.sendResult();
+        // При закрытии БВП нужно отправлять результат, одним из аргументов будет текущий режим выбора. Это нужно
+        // для того, чтобы после повторого открытия открылся тот же самый режим.
+        // Будем отправлять результат только в том случае, если пользователь не выбрал при этом новую
+        // дату, т.е. sendResult еще не вызывался. Аргументом будут даты, которые БВП получил при инициализации.
+        if (!this._sendResultCalled) {
+            this.sendResult(this._cachedStartValue, this._cachedEndValue);
+        }
         this._rangeModel.destroy();
         this._headerRangeModel.destroy();
         this._yearRangeModel.destroy();
@@ -529,6 +541,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     sendResult(start?: Date, end?: Date): void {
+        this._sendResultCalled = true;
         this._notify(
             'sendResult',
             [start || this._rangeModel.startValue, end || this._rangeModel.endValue, this._state],
