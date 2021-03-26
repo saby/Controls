@@ -150,7 +150,7 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
 
     static closePopup(popupId: string): void {
         // TODO: Compatible. Нотификационные окна на старых страницах открываются через ws3 manager
-        if (typeof popupId !== 'string' && popupId.close) {
+        if (popupId && typeof popupId !== 'string' && popupId.close) {
             popupId.close();
         } else {
             BaseOpener.closeDialog(popupId);
