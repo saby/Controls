@@ -1,17 +1,45 @@
 <div class="controlsDemo__wrapper controlsDemo__background">
+    <Controls.buttons:Button
+            attr:style="margin-bottom: 8px;"
+            on:click="_openStackPanel()"
+            caption="Открыть стековую панель с раскладкой"/>
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls__block_theme-{{_options.theme}}" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}}</div>
+        <div class="controls__block" style="width: 500px; height: 150px">
+            <div class="controls__block-content">
+                controls__block_theme-{{_options.theme}}
+            </div>
+        </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls__block_theme-{{_options.theme}} tl" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tl</div>
+        <div class="controls__block tl" style="width: 500px; height: 150px">
+            <div class="controls__block-content">
+                controls__block_theme-{{_options.theme}} tl
+            </div>
+        </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls__block_theme-{{_options.theme}} tr" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tr</div>
+        <div class="controls__block tr" style="width: 500px; height: 150px">
+            <div class="controls__block-content">
+                controls__block_theme-{{_options.theme}} tr
+            </div>
+        </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls__block_theme-{{_options.theme}} tlr" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tlr</div>
+        <div class="controls__block tlr" style="width: 500px; height: 150px">
+            <div class="controls__block-content">
+                controls__block_theme-{{_options.theme}} tlr
+            </div>
+        </div>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls__block none" style="width: 500px; height: 150px">
+            <div class="controls__block-content">
+                controls__block_theme-{{_options.theme}} none
+            </div>
+        </div>
     </div>
 </div>

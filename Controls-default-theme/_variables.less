@@ -147,7 +147,10 @@
 
    // Блоки для нового дизайна
    --border-radius_default_block: 8px;
-   --box-shadow_block: 0 0 6px rgba(0, 0, 0, 0.15);
+   --box-shadow-blur_block: 6px;
+   --padding_block: var(--box-shadow-blur_block);
+   --margin_block: calc(var(--padding_block) * -1);
+   --box-shadow_block: 0 0 var(--box-shadow-blur_block) rgba(0, 0, 0, 0.15);
 
 }
 
