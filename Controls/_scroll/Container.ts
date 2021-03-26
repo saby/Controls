@@ -23,6 +23,7 @@ import {
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
 import StickyHeaderController from './StickyHeader/Controller';
 import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS} from './StickyHeader/Utils';
+import fastUpdate from './StickyHeader/FastUpdate';
 import {POSITION} from './Container/Type';
 import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
@@ -566,6 +567,14 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const stickyHeaderOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.fixed);
         const stickyHeaderOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.fixed);
         this._notify('fixed', [stickyHeaderOffsetTop, stickyHeaderOffsetBottom]);
+
+        // Спилить метод после того как будет сделана задача
+        // https://online.sbis.ru/opendoc.html?guid=8089ac76-89d3-42c0-9ef2-8b187014559f
+        if (fixedHeaderData.fixedPosition && !this._shadows.top?.isEnabled && this._children.hasOwnProperty('topShadow')) {
+            fastUpdate.mutate(() => {
+                this._children.topShadow.classList.add('ws-hidden');
+            });
+        }
     }
 
     _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {

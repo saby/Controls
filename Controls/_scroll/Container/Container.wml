@@ -18,7 +18,7 @@
                     on:keydown="_keydownHandler()"
                     on:updateShadowMode="_updateShadowVisibility()"/>
         <ws:if data="{{_shadows.top.isEnabled && !_isOptimizeShadowEnabled }}">
-            <div class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_top controls-Scroll__shadow_top_style-{{ _options.shadowStyle }}
+            <div name="topShadow" class="controls-Scroll__shadow controls-Scroll__shadow_horizontal controls-Scroll__shadow_top controls-Scroll__shadow_top_style-{{ _options.shadowStyle }}
             controls-Scroll__shadow_top_style-{{ _options.shadowStyle }}_theme-{{ _options.theme }} {{!_shadows.top.isVisible ? ' ws-invisible'}}"></div>
         </ws:if>
         <ws:if data="{{_shadows.bottom.isEnabled && !_isOptimizeShadowEnabled }}">
