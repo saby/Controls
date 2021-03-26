@@ -475,15 +475,44 @@
    }
 }
 
-.controls-ListView__groupExpander-iconSize_ {
-   @variants: 2xs, xs, s, m, l;
-   .for(@variants, { &@{_item} {
-      &::before,
-      &::after {
-         width: ~"@{grouping_expander_icon-size-@{_item}_list}";
-         font-size: ~"@{grouping_expander_icon-size-@{_item}_list}";
-      }
-   }});
+.controls-ListView__groupExpander-iconSize_2xs {
+   &::before,
+   &::after {
+      width: var(--grouping_expander_icon-size-2xs_list);;
+      font-size: var(--grouping_expander_icon-size-2xs_list);;
+   }
+}
+
+.controls-ListView__groupExpander-iconSize_xs {
+   &::before,
+   &::after {
+      width: var(--grouping_expander_icon-size-xs_list);;
+      font-size: var(--grouping_expander_icon-size-xs_list);;
+   }
+}
+
+.controls-ListView__groupExpander-iconSize_s {
+   &::before,
+   &::after {
+      width: var(--grouping_expander_icon-size-s_list);;
+      font-size: var(--grouping_expander_icon-size-s_list);;
+   }
+}
+
+.controls-ListView__groupExpander-iconSize_m {
+   &::before,
+   &::after {
+      width: var(--grouping_expander_icon-size-m_list);;
+      font-size: var(--grouping_expander_icon-size-m_list);;
+   }
+}
+
+.controls-ListView__groupExpander-iconSize_l {
+   &::before,
+   &::after {
+      width: var(--grouping_expander_icon-size-l_list);;
+      font-size: var(--grouping_expander_icon-size-l_list);;
+   }
 }
 
 .ws-is-hover .controls-ListView__groupExpander:hover {
