@@ -10,6 +10,7 @@ import { debounce } from 'Types/function';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import { TouchContextField } from 'Controls/context';
 import {constants} from 'Env/Env';
+import 'css!Controls/tile';
 
 const HOVERED_ITEM_CHANGE_DELAY = 150;
 
@@ -204,8 +205,6 @@ export default class TileRender extends BaseRender {
             !document.body.classList.contains('ws-is-drag')
         );
     }
-
-    static _theme: string[] = ['Controls/tile'];
 
     static getDefaultOptions(): Partial<ITileRenderOptions> {
         return {
