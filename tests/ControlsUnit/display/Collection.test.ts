@@ -4373,4 +4373,62 @@ describe('Controls/_display/Collection', () => {
             assert.isTrue(item.isReadonlyCheckbox());
         });
     });
+
+    describe('setDisplayProperty, getDisplayProperty', () => {
+        let display = new CollectionDisplay({
+            collection: new RecordSet({
+                rawData: items,
+                keyProperty: 'id'
+            }),
+            multiSelectAccessibilityProperty: 'multiSelectAccessibility'
+        });
+
+        it('changed display property', () => {
+            const curVersion = display.getVersion();
+            display.setDisplayProperty('name');
+            assert.equal(display.getDisplayProperty(), 'name');
+            assert.equal(display.getVersion(), curVersion + 1);
+        });
+
+        it('not changed display property', () => {
+            const curVersion = display.getVersion();
+            display.setDisplayProperty('name');
+            assert.equal(display.getDisplayProperty(), 'name');
+            assert.equal(display.getVersion(), curVersion);
+        });
+    });
+
+    describe('hoverBackgroundStyle', () => {
+        it('exists in options', () => {
+            let display = new CollectionDisplay({
+                collection: new RecordSet({
+                    rawData: items,
+                    keyProperty: 'id'
+                }),
+                hoverBackgroundStyle: 'custom'
+            });
+            assert.equal(display.getHoverBackgroundStyle(), 'custom');
+        });
+
+        it('not exists in options', () => {
+            let display = new CollectionDisplay({
+                collection: new RecordSet({
+                    rawData: items,
+                    keyProperty: 'id'
+                })
+            });
+            assert.equal(display.getHoverBackgroundStyle(), 'default');
+        });
+
+        it('not exists in options but exists style in options', () => {
+            let display = new CollectionDisplay({
+                collection: new RecordSet({
+                    rawData: items,
+                    keyProperty: 'id'
+                }),
+                style: 'master'
+            });
+            assert.equal(display.getHoverBackgroundStyle(), 'master');
+        });
+    });
 });

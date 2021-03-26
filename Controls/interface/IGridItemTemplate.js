@@ -20,7 +20,7 @@ define('Controls/interface/IGridItemTemplate', [
 
    /**
     * @name Controls/interface/IGridItemTemplate#itemTemplate
-    * @cfg {String|Function} Шаблон отображения элемента.
+    * @cfg {String|TemplateFunction} Шаблон отображения элемента.
     * @default undefined
     * @markdown
     * @remark

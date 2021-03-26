@@ -13,6 +13,8 @@ import {ItemsUtil} from 'Controls/list';
 import {Visibility as MarkerVisibility} from 'Controls/marker';
 import {IItemAction} from 'Controls/itemActions';
 import {create as DiCreate} from 'Types/di';
+import 'css!Controls/menu';
+import 'css!Controls/CommonClasses';
 
 interface IMenuRenderOptions extends IMenuBaseOptions, IRenderOptions {
 }
@@ -65,6 +67,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
     protected _getItemData(treeItem: TreeItem<Model>): object {
         return {
             item: treeItem.getContents(),
+            contents: treeItem.getContents(),
             treeItem,
             iconPadding: this._iconPadding,
             iconSize: treeItem.getContents() ? this._getIconSize(treeItem.getContents()) : null,
@@ -124,22 +127,21 @@ class MenuRender extends Control<IMenuRenderOptions> {
         let classes = treeItem.getContentClasses(this._options.theme);
         if (item && item.get) {
             classes += ' controls-Menu__row_state_' +
-                (item.get('readOnly') ? 'readOnly' : 'default') +
-                '_theme-' + this._options.theme;
+                (item.get('readOnly') ? 'readOnly' : 'default');
             if (this._isEmptyItem(treeItem) && !this._options.multiSelect) {
-                classes += ' controls-Menu__emptyItem_theme-' + this._options.theme;
+                classes += ' controls-Menu__emptyItem';
             } else {
-                classes += ' controls-Menu__defaultItem_theme-' + this._options.theme;
+                classes += ' controls-Menu__defaultItem';
             }
             if (!this._isFixedItem(treeItem) && item.get('pinned') === true && !this._hasParent(item)) {
-                classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
+                classes += ' controls-Menu__row_pinned';
             }
             if (this._options.listModel.getLast() !== treeItem && !this._isGroupNext(treeItem) &&
                 !(this._options.allowPin && this._isHistorySeparatorVisible(treeItem))) {
-                classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
+                classes += ' controls-Menu__row-separator';
             }
         } else if (item) {
-            classes += ' controls-Menu__row-breadcrumbs_theme-' + this._options.theme;
+            classes += ' controls-Menu__row-breadcrumbs';
         }
         return classes;
     }
@@ -312,8 +314,6 @@ class MenuRender extends Control<IMenuRenderOptions> {
             collection.nextVersion();
         }
     }
-
-    static _theme: string[] = ['Controls/menu', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

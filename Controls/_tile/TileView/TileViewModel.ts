@@ -18,7 +18,7 @@ const AVAILABLE_ITEM_PADDINGS = ['null', 'default', '3xs', '2xs', 'xs', 's', 'm'
 const TILE_SIZES = {
     s: {
         horizontal: {
-            width: 210,
+            width: 300,
             imageHeight: 180
         },
         vertical: {
@@ -28,7 +28,7 @@ const TILE_SIZES = {
     },
     m: {
         horizontal: {
-            width: 310,
+            width: 420,
             imageHeight: 240
         },
         vertical: {
@@ -38,7 +38,7 @@ const TILE_SIZES = {
     },
     l: {
         horizontal: {
-            width: 420,
+            width: 648,
             imageHeight: 320
         },
         vertical: {

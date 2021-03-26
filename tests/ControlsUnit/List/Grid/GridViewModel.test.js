@@ -2279,6 +2279,39 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             })
             assert.isFalse(secondRow);
          });
+
+         it('sticky ladder cells should be fixed', () => {
+            var firstRow = gridMod.GridViewModel._private.isFixedCell({
+               multiSelectVisibility: false,
+               stickyColumnsCount: 1,
+               columnIndex: 1,
+               rowIndex: 0,
+               isMultiHeader: true,
+               stickyLadderCellsCount: 2
+            });
+            assert.isTrue(firstRow);
+
+            var firstRow = gridMod.GridViewModel._private.isFixedCell({
+               multiSelectVisibility: false,
+               stickyColumnsCount: 1,
+               columnIndex: 2,
+               rowIndex: 0,
+               isMultiHeader: true,
+               stickyLadderCellsCount: 2
+            });
+            assert.isTrue(firstRow);
+
+            var secondRow = gridMod.GridViewModel._private.isFixedCell({
+               multiSelectVisibility: false,
+               stickyColumnsCount: 1,
+               columnIndex: 3,
+               rowIndex: 1,
+               isMultiHeader: true,
+               stickyLadderCellsCount: 2
+            });
+            assert.isFalse(secondRow);
+         });
+
          it('update version if column scroll visibility has been changed', function () {
             const testModel = new gridMod.GridViewModel({
                ...cfg,
@@ -2358,7 +2391,7 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
          });
 
          it('getBottomPaddingStyles', function() {
-            assert.equal('grid-column-start: 2; grid-column-end: 5; grid-row-start: 10; grid-row-end: 11;', gridViewModel.getBottomPaddingStyles());
+            assert.equal('grid-column-start: 2; grid-column-end: 5; grid-row-start: 17; grid-row-end: 18;', gridViewModel.getBottomPaddingStyles());
          });
 
          it('getColumnAlignGroupStyles', function () {
@@ -3025,6 +3058,23 @@ define(['Controls/grid', 'Core/core-merge', 'Types/collection', 'Types/entity', 
             assert.equal(4, gridMod.GridViewModel._private.getHeaderZIndex({...params, columnScroll: false}));
             // sticky fit coll withoutColumnScroll
             assert.equal(4, gridMod.GridViewModel._private.getHeaderZIndex({...params, columnScroll: false, columnIndex: 1}));
+         });
+
+         it('getHeaderZIndex with or columnScroll and ladder', function() {
+            const params = {
+               multiSelectVisibility: 'hidden',
+               stickyColumnsCount: 1,
+               columnIndex: 0,
+               rowIndex: 0,
+               isMultiHeader: false,
+               columnScroll: true,
+               isColumnScrollVisible: true,
+               stickyLadderCellsCount: 2
+            };
+            // fixed coll with columnScroll
+            assert.equal(5, gridMod.GridViewModel._private.getHeaderZIndex(params));
+            // sticky coll with columnScroll
+            assert.equal(3, gridMod.GridViewModel._private.getHeaderZIndex({...params, columnIndex: 3}));
          });
 
          it('updates prefix version with ladder only on add and remove', () => {

@@ -14,6 +14,8 @@ export interface IFilterViewOptions extends IControlOptions {
 
     panelTemplateName: string;
     panelTemplateOptions: unknown;
+
+    useStore: boolean;
 }
 
 /**
@@ -142,7 +144,7 @@ export interface IFilterView {
  * @cfg {String} Шаблон всплывающей панели, которая открывается после клика по кнопке.
  * @remark
  * В качестве шаблона рекомендуется использовать контрол {@link Controls/filterPopup:DetailPanel}
- * Подробнее о настройке панели фильтров читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/ здесь}.
+ * Подробнее о настройке панели фильтров читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/ здесь}.
  * Важно: для ленивой загрузки шаблона в опции укажите путь до контрола.
  * @example
  * Пример настройки параметров для двух фильтров.
@@ -181,7 +183,7 @@ export interface IFilterView {
  * @cfg {String} Template for the pop-up panel, that opens after clicking on the button.
  * @remark
  * As a template, it is recommended to use the control {@link Controls/filterPopup:DetailPanel}
- * The description of setting up the filter panel you can read <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/'>here</a>.
+ * The description of setting up the filter panel you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/panel/'>here</a>.
  * Important: for lazy loading template in the option give the path to the control
  * @example
  * Example setting options for two filters.
@@ -422,7 +424,7 @@ export interface IFilterView {
 
 /**
  * @name Controls/_filter/View/interface/IFilterView#itemTemplate
- * @cfg {String|Function} Устанавливает шаблон отображения фильтров на панели.
+ * @cfg {String|TemplateFunction} Устанавливает шаблон отображения фильтров на панели.
  * @default Controls/filter:ViewItemTemplate
  * @demo Controls-demo/FilterView/ItemTemplates/Index
  * @example

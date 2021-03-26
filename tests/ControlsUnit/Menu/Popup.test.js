@@ -34,6 +34,18 @@ function(menu, source, Clone, display, collection) {
          assert.isNull(menuPopup._headingIcon);
       });
 
+      it('_dataLoadErrback', function() {
+         let actualError = '';
+         let menuPopup = new menu.Popup();
+         menuPopup._headingCaption = 'testCaption';
+         menuPopup._headerTemplate = 'testTemplate';
+         menuPopup._dataLoadErrback({dataLoadErrback: (error) => {actualError = error;}}, 'error');
+         assert.isNull(menuPopup._headingCaption);
+         assert.isNull(menuPopup._headerTemplate);
+         assert.isFalse(menuPopup._headerVisible);
+         assert.equal(actualError, 'error');
+      });
+
       it('_dataLoadCallback headingIconSize', function() {
          let menuPopup = new menu.Popup();
          let items = new collection.RecordSet({

@@ -208,15 +208,15 @@ export default class ScrollPagingController {
         return pagingCfg;
     }
 
-    getScrollTopByPage(page: number): number {
+    getScrollTopByPage(page: number, scrollParams: IScrollParams): number {
         if (this._options.pagingMode === 'numbers') {
             let scrollTop;
             if (this._numbersState === 'up') {
-                scrollTop = (page - 1) * this._options.scrollParams.clientHeight;
+                scrollTop = (page - 1) * scrollParams.clientHeight;
             } else {
-                const scrollBottom = (this._pagingData.pagesCount - page) * this._options.scrollParams.clientHeight;
-                scrollTop = this._options.scrollParams.scrollHeight - scrollBottom -
-                    this._options.scrollParams.clientHeight;
+                const scrollBottom = (this._pagingData.pagesCount - page) * scrollParams.clientHeight;
+                scrollTop = scrollParams.scrollHeight - scrollBottom -
+                    scrollParams.clientHeight;
             }
             return scrollTop;
         }

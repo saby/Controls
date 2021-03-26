@@ -96,7 +96,7 @@ export interface IMenuOptions {
      */
     additionalProperty?: string;
     /**
-     * @cfg {String|Function} Шаблон футера дополнительного меню тулбара.
+     * @cfg {String|TemplateFunction} Шаблон футера дополнительного меню тулбара.
      * @demo Controls-demo/Toolbar/PopupFooterTemplate/Index
      */
     popupFooterTemplate?: String | Function;
@@ -368,11 +368,10 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     }
 
     private _setMenuSource(): void {
-        const menuItems = Toolbar._calcMenuItems(this._items);
-
         if (this._options.menuSource) {
             this._menuSource = this._options.menuSource;
         } else {
+            const menuItems = Toolbar._calcMenuItems(this._items);
             const source = this._options.source || this._getSynchronousSourceForMenu();
             this._menuSource = this._createPrefetchProxy(source, menuItems);
         }

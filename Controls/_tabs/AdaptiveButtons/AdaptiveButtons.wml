@@ -1,6 +1,6 @@
 <div class="controls-AdaptiveButtons">
     <ws:template name="templateMore">
-        <div class="controls-AdaptiveButtons__more controls-AdaptiveButtons__more_theme_{{_options.theme}} controls-AdaptiveButtons__more_align_{{_options.align}}" >
+        <div class="controls-AdaptiveButtons__more controls-AdaptiveButtons__more_align_{{_options.align}}" >
             <div class="controls-AdaptiveButtons__more__text controls-AdaptiveButtons__more__text_align_{{_options.align}}">
                 <Controls.dropdown:Selector
                         name="menuButton"
@@ -25,6 +25,7 @@
                                 keyProperty="{{_options.keyProperty}}"
                                 items="{{_visibleItems}}"
                                 style="{{_options.style}}"
+                                borderVisible="{{_options.borderVisible}}"
                                 inlineHeight="{{_options.inlineHeight}}"
                                 markerThickness="{{ _options.markerThickness }}"
                                 displayProperty="{{_options.displayProperty}}"

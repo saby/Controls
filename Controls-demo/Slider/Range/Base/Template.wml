@@ -3,6 +3,11 @@
     <Controls.slider:Range
             maxValue="{{100}}"
             minValue="{{0}}"
+    />
+    <div class="controls-text-label_theme-{{_options.theme}}">slider</div>
+    <Controls.slider:Range
+            maxValue="{{100}}"
+            minValue="{{0}}"
             bind:startValue="_startValue"
             bind:endValue="_endValue"
     />

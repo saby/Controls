@@ -8,6 +8,7 @@ export interface IControllerOptions {
     hasMultiSelect: boolean;
     isEmptyTemplateShown?: boolean;
     isFullGridSupport?: boolean;
+    stickyLadderCellsCount?: number;
 
     theme?: string;
     backgroundStyle?: string;
@@ -228,6 +229,7 @@ export default class ColumnScrollController {
         }
         this._scrollableColumns = [];
         let htmlColumns: NodeList;
+        let htmlColumns: NodeList;
         if (!container) {
             return this._scrollableColumns;
         }
@@ -397,7 +399,7 @@ export default class ColumnScrollController {
             return 0;
         }
 
-        const columnOffset = this._options.hasMultiSelect ? 1 : 0;
+        const columnOffset = (this._options.hasMultiSelect ? 1 : 0) + (this._options.stickyLadderCellsCount || 0);
         const lastStickyColumnIndex = this._options.stickyColumnsCount + columnOffset;
         const lastStickyColumnSelector = `.${JS_SELECTORS.FIXED_ELEMENT}:nth-child(${lastStickyColumnIndex})`;
         const stickyCellContainer = this._contentContainer.querySelector(lastStickyColumnSelector) as HTMLElement;
@@ -463,7 +465,8 @@ export default class ColumnScrollController {
             }
         }
 
-        newHTML += ` .controls-Grid__cell_fixed_theme-${this._options.theme} { z-index: 3 }`;
+        newHTML += ` .${this._transformSelector} .controls-Grid__cell_fixed_theme-${this._options.theme} { z-index: 3 }`;
+        newHTML += ` .${this._transformSelector} .controls-GridView__footer__cell.controls-GridNew__cell_fixed_theme-${this._options.theme} { z-index: 2 }`;
 
         if (this._stylesContainer.innerHTML !== newHTML) {
             this._stylesContainer.innerHTML = newHTML;

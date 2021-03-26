@@ -47,6 +47,7 @@ export interface ILookupOptions extends ILookupInputOptions {
  * @mixes Controls/_interface/ITextValue
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize

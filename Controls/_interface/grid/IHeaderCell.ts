@@ -56,7 +56,7 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      */
     valign?: TCellVerticalAlign;
     /**
-     * @cfg {String|Function} Шаблон отображения заголовка ячейки.
+     * @cfg {String|TemplateFunction} Шаблон отображения заголовка ячейки.
      * @default Controls/grid:HeaderContent
      * @remark
      * Параметры шаблона Controls/grid:HeaderContent доступны {@link Controls/grid:HeaderContent здесь}.

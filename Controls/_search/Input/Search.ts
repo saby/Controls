@@ -167,6 +167,7 @@ class Search extends Base {
             return;
         }
 
+        event.stopPropagation();
         this._notifySearchClick(event);
 
         // move focus from search button to input
@@ -195,6 +196,10 @@ class Search extends Base {
         super._clickHandler.apply(this, arguments);
 
         this._wasActionUser = true;
+    }
+
+    reset(): void {
+        this._resetClick();
     }
 
     static _private = _private;
@@ -322,6 +327,26 @@ Object.defineProperty(Search, 'defaultProps', {
  *    <Controls.search:Input contrastBackground="{{true}}" bind:value="_searchValue"/>
  * </pre>
  * @see style
+ */
+
+ /**
+ * Сбрасывает значение в строке поиска
+ * @name  Controls/_search/Input/Search#reset
+ * @function
+ * @example
+ * <pre class="brush: js">
+ * // TS
+ * private _resetSearchValue():void {
+ *     this._children.search.reset();
+ * }
+ * </pre>
+ * <pre class="brush: html">
+ * <!-- WML -->
+ * <Controls.buttons:Button caption='Reset filter' on:click='_resetFilter()'/>
+ * <Controls.search:Input name='search'>
+ *     ...
+ * </Controls.search:Input>
+ * </pre>
  */
 
 export default Search;

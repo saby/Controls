@@ -2,23 +2,25 @@ import {QueryWhereExpression} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController} from 'Controls/dataSource';
 import {Logger} from 'UI/Utils';
-import {IHierarchyOptions, ISearchOptions} from 'Controls/interface';
+import {IHierarchyOptions, ISearchOptions, TKey} from 'Controls/interface';
 import {IHierarchySearchOptions} from 'Controls/interface/IHierarchySearch';
+import * as getSwitcherStrFromData from 'Controls/_search/Misspell/getSwitcherStrFromData';
 
-type Key = string | number | null;
+type TViewMode = 'search' | 'tile' | 'table' | 'list';
 
 export interface ISearchControllerOptions extends ISearchOptions,
    IHierarchyOptions,
    IHierarchySearchOptions {
    sourceController?: NewSourceController;
    searchValue?: string;
-   root?: Key;
+   root?: TKey;
+   viewMode?: TViewMode;
 }
 
 const SERVICE_FILTERS = {
    HIERARCHY: {
-      'Разворот': 'С разворотом',
-      'usePages': 'full'
+      Разворот: 'С разворотом',
+      usePages: 'full'
    }
 };
 
@@ -71,26 +73,36 @@ export default class ControllerClass {
    protected _options: ISearchControllerOptions = null;
 
    private _searchValue: string = '';
+   private _misspellValue: string = '';
    private _searchInProgress: boolean = false;
    private _sourceController: NewSourceController = null;
-   private _searchPromise: Promise<RecordSet>;
-   private _root: Key = null;
+   private _searchPromise: Promise<RecordSet|Error>;
+
+   private _root: TKey = null;
+   private _rootBeforeSearch: TKey = null;
    private _path: RecordSet = null;
+
+   private _viewMode: TViewMode;
+   private _previousViewMode: TViewMode;
 
    constructor(options: ISearchControllerOptions) {
       this._options = options;
+      this._dataLoadCallback = this._dataLoadCallback.bind(this);
 
       if (options.sourceController) {
          this._sourceController = options.sourceController;
+         this._sourceController.subscribe('dataLoad', this._dataLoadCallback);
+         this._path = ControllerClass._getPath(this._sourceController.getItems());
       }
 
-      if (options.hasOwnProperty('searchValue')) {
-         this._searchValue = this._options.searchValue;
+      if (options.searchValue !== undefined) {
+         this._searchValue = options.searchValue;
       }
 
       if (options.root !== undefined) {
          this.setRoot(options.root);
       }
+      this._previousViewMode = this._viewMode = options.viewMode;
    }
 
    /**
@@ -104,6 +116,13 @@ export default class ControllerClass {
    reset(dontLoad?: boolean): Promise<RecordSet | Error> | QueryWhereExpression<unknown> {
       this._checkSourceController();
       this._searchValue = '';
+      this._misspellValue = '';
+      this._viewMode = this._previousViewMode;
+      this._previousViewMode = null;
+      if (this._rootBeforeSearch && this._root !== this._rootBeforeSearch && this._options.startingWith === 'current') {
+         this._root = this._rootBeforeSearch;
+      }
+      this._rootBeforeSearch = null;
       const filter = this._getFilter(this._searchValue);
 
       if (!dontLoad) {
@@ -120,6 +139,11 @@ export default class ControllerClass {
    search(value: string): Promise<RecordSet | Error> {
       const newSearchValue = this._trim(value);
       this._checkSourceController();
+
+      if (this._viewMode !== 'search') {
+         this._previousViewMode = this._viewMode;
+         this._viewMode = 'search';
+      }
 
       if (this._searchValue !== newSearchValue || !this._searchPromise) {
          this._searchValue = newSearchValue;
@@ -172,9 +196,7 @@ export default class ControllerClass {
          if (searchValue) {
             updateResult = this.search(searchValue);
          } else {
-            // TODO: Убрать флаг в аргументе после выполнения
-            // https://online.sbis.ru/doc/fe106611-647d-4212-908f-87b81757327b
-            updateResult = this.reset(true);
+            updateResult = this.reset();
          }
       }
       // TODO: Должны ли использоваться новые опции в reset или search?
@@ -189,14 +211,14 @@ export default class ControllerClass {
     * Установить корень для поиска в иерархическом списке.
     * @param {string|number|null} value Значение корня
     */
-   setRoot(value: Key): void {
+   setRoot(value: TKey): void {
       this._root = value;
    }
 
    /**
     * Получить корень поиска по иерархическому списку.
     */
-   getRoot(): Key {
+   getRoot(): TKey {
       return this._root;
    }
 
@@ -222,6 +244,54 @@ export default class ControllerClass {
    needChangeSearchValueToSwitchedString(items: RecordSet): boolean {
       const metaData = items && items.getMetaData();
       return metaData ? metaData.returnSwitched : false;
+   }
+
+   getExpandedItemsForOpenRoot(root: TKey, items: RecordSet): TKey[] {
+      const expandedItems = [];
+      let item;
+      let nextItemKey = root;
+      do {
+         item = items.getRecordById(nextItemKey);
+         nextItemKey = item.get(this._options.parentProperty);
+         expandedItems.unshift(item.getId());
+      } while (nextItemKey !== this.getRoot());
+
+      return expandedItems;
+   }
+
+   getViewMode(): TViewMode {
+      return this._viewMode;
+   }
+
+   getMisspellValue(): string {
+      return this._misspellValue;
+   }
+
+   private _dataLoadCallback(event: unknown, items: RecordSet): void {
+      const filter = this._getFilter(this._searchValue);
+      const isSearchMode = !!this._sourceController.getFilter()[this._options.searchParam];
+
+      if (this.isSearchInProcess() && this._searchValue) {
+         this._sourceController.setFilter(filter);
+
+         if (this._options.startingWith === 'root' && !isSearchMode && this._options.parentProperty) {
+            const newRoot = ControllerClass._getRoot(this._path, this._root, this._options.parentProperty);
+
+            if (newRoot !== this._root) {
+               this._rootBeforeSearch = this._root;
+               this._root = newRoot;
+               this._sourceController.setRoot(newRoot);
+            }
+         }
+
+         this._sourceController.setFilter(this._getFilter(this._searchValue));
+      } else if (!this._searchValue) {
+         this._misspellValue = '';
+      }
+      if (this._searchValue) {
+         this._misspellValue = getSwitcherStrFromData(items);
+      }
+      this._path = ControllerClass._getPath(items);
    }
 
    private _getFilter(searchValue: string): QueryWhereExpression<unknown> {
@@ -272,21 +342,15 @@ export default class ControllerClass {
       return filter;
    }
 
-   private _updateFilterAndLoad(filter: QueryWhereExpression<unknown>): Promise<Error | RecordSet> {
+   private _updateFilterAndLoad(filter: QueryWhereExpression<unknown>): Promise<RecordSet|Error> {
       this._searchStarted();
-      return this._searchPromise = this._sourceController
-          .load(undefined, undefined, filter)
-          .then((recordSet) => {
-             if (recordSet instanceof RecordSet) {
-                this._path = recordSet.getMetaData().path;
-                this._sourceController.setFilter(filter);
-                return recordSet as RecordSet;
-             }
-          })
-          .finally(() => {
-             this._searchEnded();
-             this._searchPromise = null;
-          });
+      return this._searchPromise =
+          this._sourceController
+              .load(undefined, undefined, filter)
+              .finally(() => {
+                 this._searchEnded();
+                 this._searchPromise = null;
+              });
    }
 
    private _deleteRootFromFilter(filter: QueryWhereExpression<unknown>): void {
@@ -307,15 +371,19 @@ export default class ControllerClass {
       }
    }
 
-   private _searchStarted() {
+   private _searchStarted(): void {
       this._searchInProgress = true;
    }
 
-   private _searchEnded() {
+   private _searchEnded(): void {
       this._searchInProgress = false;
    }
 
-   private static _getRoot(path: RecordSet, currentRoot: Key, parentProperty: string): Key {
+   private static _getPath(items: RecordSet): RecordSet {
+      return items && items.getMetaData().path;
+   }
+
+   private static _getRoot(path: RecordSet, currentRoot: TKey, parentProperty: string): TKey {
      let root;
 
      if (path && path.getCount() > 0) {

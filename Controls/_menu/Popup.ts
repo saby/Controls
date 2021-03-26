@@ -12,6 +12,8 @@ import {TSelectedKeys} from 'Controls/interface';
 import {CollectionItem} from 'Controls/display';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
 import HoverController from 'Controls/_menu/HoverController';
+import 'css!Controls/menu';
+import 'css!Controls/CommonClasses';
 
 const SEARCH_DEPS = [
     'Controls/browser',
@@ -38,6 +40,7 @@ const SEARCH_DEPS = [
 class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     readonly '[Controls/_menu/interface/IMenuPopup]': boolean;
     protected _template: TemplateFunction = PopupTemplate;
+    protected _headerVisible: boolean = true;
     protected _headerTemplate: TemplateFunction;
     protected _headerTheme: string;
     protected _headingCaption: string;
@@ -54,6 +57,7 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     protected _beforeMount(options: IMenuPopupOptions): Promise<void>|void {
         this._headerTheme = this._getTheme();
         this._dataLoadCallback = this._dataLoadCallback.bind(this, options);
+        this._dataLoadErrback = this._dataLoadErrback.bind(this, options);
 
         this._setCloseButtonVisibility(options);
         this._prepareHeaderConfig(options);
@@ -171,6 +175,15 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         }
     }
 
+    protected _dataLoadErrback(options: IMenuPopupOptions, error: Error): void {
+        this._headerVisible = false;
+        this._headingCaption = null;
+        this._headerTemplate = null;
+        if (options.dataLoadErrback) {
+            options.dataLoadErrback(error);
+        }
+    }
+
     protected _prepareSubMenuConfig(event: SyntheticEvent<MouseEvent>, popupOptions: IStickyPopupOptions): void {
         // The first level of the popup is always positioned on the right by standard
         if (this._options.root) {
@@ -255,8 +268,6 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     private _getTheme(): string {
         return ManagerController.getPopupHeaderTheme();
     }
-
-    static _theme: string[] = ['Controls/menu', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

@@ -671,7 +671,7 @@ describe('Controls/list_clean/MoveController', () => {
             const stubMove = stub(sbisServiceSource, 'move')
                 .callsFake((items: CrudEntityKey[], target: CrudEntityKey, meta?: IHashMap<any>) => {
                     // @ts-ignore
-                    assert.exists(meta.parentProperty, parentProperty);
+                    assert.exists(meta.parentProperty);
                     return Promise.resolve();
                 });
             return resolveMove(controller, selectionObject, {}, 4, LOCAL_MOVE_POSITION.Before)
@@ -681,6 +681,32 @@ describe('Controls/list_clean/MoveController', () => {
                     sinonAssert.notCalled(stubLoggerError);
                     sinonAssert.called(stubMove);
                     assert.isNotFalse(result);
+                    stubMove.restore();
+                });
+        });
+
+        // move() вызывается с учётом sorting
+        it('should call move() with Sorting', () => {
+            const parentProperty = {};
+            controller = new MoveController({
+                ...cfg,
+                // @ts-ignore
+                parentProperty,
+                source: (sbisServiceSource as SbisService),
+                sorting: [{field: 'ASC'}]
+            });
+            const stubMove = stub(sbisServiceSource, 'move')
+                .callsFake((items: CrudEntityKey[], target: CrudEntityKey, meta?: IHashMap<any>) => {
+                    // @ts-ignore
+                    assert.exists(meta.query);
+                    const orderBy = meta.query.getOrderBy();
+                    assert.equal(orderBy[0].getSelector(), 'field');
+                    assert.isFalse(orderBy[0].getOrder());
+                    return Promise.resolve();
+                });
+            return resolveMove(controller, selectionObject, {}, 4, LOCAL_MOVE_POSITION.Before)
+                .then((result: boolean) => {
+                    sinonAssert.called(stubMove);
                     stubMove.restore();
                 });
         });

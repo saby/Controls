@@ -9,6 +9,7 @@ import {EventUtils} from 'UI/Events';
 import {MonthModel} from 'Controls/calendar';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import {detection} from 'Env/Env';
+import 'css!Controls/datePopup';
 
 /**
  * Component that allows you to select periods of multiple days.
@@ -51,6 +52,8 @@ export default class DateRange extends Control<IControlOptions> {
     protected _beforeMount(options): void {
         if (options.position) {
             this._monthsPosition = new Date(options.position.getFullYear(), 0);
+            const markedKeyDate = new Date(options.position.getFullYear(), options.position.getMonth());
+            this._markedKey = this._dateToId(markedKeyDate);
         }
         this._updateView(options);
     }
@@ -124,7 +127,12 @@ export default class DateRange extends Control<IControlOptions> {
     }
 
     protected _scrollToMonth(e, year, month): void {
-        this._notifyPositionChanged(new this._options.dateConstructor(year, month));
+        const newDate = new this._options.dateConstructor(year, month);
+        this._notifyPositionChanged(newDate);
+        if (newDate.getFullYear() !== this._monthsPosition.getFullYear()) {
+            this._monthsPosition = new this._options.dateConstructor(newDate.getFullYear(), 0);
+        }
+        this._markedKey = this._dateToId(newDate);
         e.stopPropagation();
     }
 
@@ -198,8 +206,6 @@ export default class DateRange extends Control<IControlOptions> {
     private _notifyPositionChanged(position): void {
         this._notify('positionChanged', [position]);
     }
-
-    static _theme: string[] = ['Controls/datePopup'];
 
     static getDefaultOptions(): object {
         return {

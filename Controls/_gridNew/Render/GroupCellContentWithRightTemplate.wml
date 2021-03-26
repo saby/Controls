@@ -11,7 +11,7 @@ TODO Нужно удалить этот шаблон, когда починим 
         <div class="{{ (gridColumn || itemData).getContentTextClasses(theme) }}
                     {{ (gridColumn || itemData).getExpanderClasses(expanderVisible, expanderAlign, theme) }}">
             <ws:if data="{{ contentTemplate }}">
-                <ws:partial template="{{ contentTemplate }}" itemData="{{ item || itemData }}"/>
+                <ws:partial template="{{ contentTemplate }}" itemData="{{ item || itemData }}" column="{{ (gridColumn || itemData) }}"/>
             </ws:if>
             <ws:else>
                 {{ (gridColumn || itemData).getDefaultDisplayValue() }}

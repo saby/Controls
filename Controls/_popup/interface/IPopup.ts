@@ -89,6 +89,8 @@ export interface IPopupController {
    _elementAnimated(item: IPopupItem): boolean;
    _elementMaximized(item: IPopupItem, container: HTMLElement, state: boolean): boolean;
    workspaceResize(): boolean;
+   _beforeUpdateOptions(item: IPopupItem): void;
+   _afterUpdateOptions(item: IPopupItem): void;
 }
 
 export interface IPopupItemInfo {

@@ -340,7 +340,7 @@ export default class HoverFreeze {
               .${uniqueClass} .controls-Grid__row:nth-child(${index}) .controls-Grid__row-cell {
                 background-color: ${hoverBackgroundColor};
               }
-              .${uniqueClass} .controls-ListView__itemV:nth-child(${index}) .controls-itemActionsV {
+              .${uniqueClass} .controls-ListView__itemV:nth-child(${index}) .js-controls-ListView__visible-on-hoverFreeze {
                  opacity: 1;
                  visibility: visible;
               }

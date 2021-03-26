@@ -6,6 +6,7 @@ import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
 import {IndicatorOpener} from 'Controls/LoadingIndicator';
 
 interface IOpenerStaticMethods {
+    _openPopup: (popupOptions: IBasePopupOptions, popupController?: string) => Promise<string>;
     openPopup: (popupOptions: IBasePopupOptions, popupController?: string) => Promise<string>;
     closePopup: (popupId: string) => void;
 }
@@ -23,6 +24,7 @@ export default class Base {
     protected _opener: IOpenerStaticMethods;
     private _indicatorId: string;
     protected _options: IBasePopupOptions;
+    private _openPromise: Array<Promise<string>> = [];
 
     constructor(cfg: IBasePopupOptions = {}) {
         this._options = cfg;
@@ -65,6 +67,7 @@ export default class Base {
     }
 
     close(): void {
+        this._cancelOpen();
         this._opener.closePopup(this._popupId);
         this._popupId = null;
     }
@@ -82,7 +85,15 @@ export default class Base {
     }
 
     protected _openPopup(config: IBasePopupOptions, popupController: string): void {
-        this._opener.openPopup(config, popupController).catch(() => {
+        const promise = this._opener._openPopup(config, popupController);
+        this._openPromise.push(promise);
+        promise.then(() => {
+            const index = this._openPromise.indexOf(promise);
+            if (index > -1) {
+                this._openPromise.splice(index, 1);
+            }
+        });
+        promise.catch(() => {
             this._hideIndicator();
         });
     }
@@ -91,6 +102,18 @@ export default class Base {
         if (this._indicatorId) {
             IndicatorOpener.hide(this._indicatorId);
             this._indicatorId = null;
+        }
+    }
+
+    private _cancelOpen(): void {
+        // Notification и SlidingPanel еще не переведены на механизм cancelablePromise, нужны проверки
+        if (this._openPromise.length) {
+            for (const promise of this._openPromise) {
+                if (promise.cancelPromise) {
+                    promise.cancelPromise();
+                }
+            }
+            this._openPromise = [];
         }
     }
 

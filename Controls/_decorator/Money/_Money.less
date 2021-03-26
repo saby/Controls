@@ -3,14 +3,6 @@
    align-items: baseline;
 }
 
-.controls-DecoratorMoney__integer_fontWeight_default {
-   font-weight: var(--font-weight);
-}
-
-.controls-DecoratorMoney__integer_fontWeight_bold {
-   font-weight: bold;
-}
-
 .controls-DecoratorMoney__fraction {
    color: var(--fractional_color);
    font-weight: var(--font-weight);
@@ -28,7 +20,7 @@
    color: var(--unaccented_text-color_decorator_fraction);
 }
 
-.controls-DecoratorMoney__fraction__colorStyle-readOnly {
+.controls-DecoratorMoney__fraction__colorStyle-readonly {
    color: var(--readOnly_text-color_decorator_fraction);
 }
 
@@ -67,7 +59,7 @@
 .controls-DecoratorMoney__stroked::before {
    content: '';
    height: 1px;
-   background-color: black;
+   background-color: var(--stroked_line-color_decorator);
    left: 0;
    top: 50%;
    width: 100%;

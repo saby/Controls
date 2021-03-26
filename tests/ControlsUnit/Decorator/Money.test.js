@@ -176,7 +176,7 @@ define(
                   value: '0.00',
                   abbreviationType: 'none'
                });
-               assert.equal(ctrl._tooltip, '0');
+               assert.equal(ctrl._tooltip, '0.00');
             });
             it('value: "0.12"', function() {
                ctrl._beforeMount({

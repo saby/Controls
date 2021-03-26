@@ -65,7 +65,7 @@ export type TResultsColspanCallback = (column: IColumn, columnIndex: number) => 
 /**
  * @typedef {Object} IEmptyTemplateColumn
  * @description
- * Объект конфигурации колонки представления пустой таблицы.
+ * Объект конфигурации колонки представления {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty-grid/ пустой таблицы}.
  * @param {TemplateFunction} template Элемент, для которого рассчитывается объединение
  * @param {Number} startColumn Начальный индекс колонки.
  * @param {Number} endColumn Конечный индекс колонки.
@@ -280,6 +280,10 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         if (header) {
             header.setColumns(newColumns);
         }
+        const results = this.getResults();
+        if (results) {
+            results.setColumns(newColumns);
+        }
     }
 
     setSorting(sorting: Array<{[p: string]: string}>): void {
@@ -310,6 +314,11 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
                 item.setColumnSeparatorSize(columnSeparatorSize);
             }
         });
+    }
+
+    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+    getLadderProperties(): string[] {
+        return this._$ladderProperties;
     }
 
     protected _initializeEmptyRow(): void {
@@ -349,14 +358,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _updateItemsColumns(): void {
-        if (this._$results) {
-            this._$results.setColumns(this._$columns);
-        }
-
         this.getViewIterator().each((item: GridRowMixin<S>) => {
-            if (item.LadderSupport) {
-                item.setColumns(this._$columns);
-            }
+            item.setColumns(this._$columns);
         });
     }
 
@@ -483,6 +486,14 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         return !!this.getColumnsConfig() && this.hasColumnScroll() && (this.getActionsTemplateConfig()?.itemActionsPosition !== 'custom');
     }
 
+    // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
+    //  Первая ячейка редактируемой строки растягивается, а ее шаблон заменяется на
+    //  itemEditorTemplate (обычная колонка с прикладным контентом).
+    //  Избавиться по https://online.sbis.ru/opendoc.html?guid=80420a0d-1f45-4acb-8feb-281bf1007821
+    getItemEditorTemplate(): TemplateFunction {
+        return this._$itemEditorTemplate;
+    }
+
     // region Controls/_display/CollectionItem
 
     abstract getMetaResults(): EntityModel;
@@ -520,5 +531,6 @@ Object.assign(Grid.prototype, {
     _$columnScroll: false,
     _$stickyColumnsCount: 1,
     _$sorting: null,
-    _$emptyTemplateColumns: null
+    _$emptyTemplateColumns: null,
+    _$itemEditorTemplate: null
 });

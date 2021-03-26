@@ -1,11 +1,11 @@
 <div class="controls-PeriodDialog-DateRange">
-   <div class="controls-PeriodDialog-DateRange__header controls-PeriodDialog-DateRange__header_theme-{{_options.theme}}">
-      <div class="controls-PeriodDialog-DateRange__year controls-PeriodDialog-DateRange__year_theme-{{_options.theme}}">{{_monthsPosition.getFullYear()}}</div>
-      <div class="controls-PeriodDialog-DateRange-header-weekdays controls-PeriodDialog-DateRange-header-weekdays_theme-{{_options.theme}}">
+   <div class="controls-PeriodDialog-DateRange__header">
+      <div class="controls-PeriodDialog-DateRange__year">{{_monthsPosition.getFullYear()}}</div>
+      <div class="controls-PeriodDialog-DateRange-header-weekdays">
          <div for="weekday in _weekdaysCaptions"
               class="{{ _prepareCssClass('controls-PeriodDialog-DateRange-header-weekdays', null,
                            [[weekday.weekend, 'weekend', 'workday']])
-                     }}_theme-{{_options.theme}}">
+                     }}">
             {{ weekday.caption }}
          </div>
       </div>
@@ -33,7 +33,7 @@
          <ws:monthTemplate>
             <ws:partial template="Controls/calendar:MonthListMonthTemplate">
                <ws:bodyTemplate>
-                  <div class="controls-PeriodDialog-DateRangeItem__months-btn controls-PeriodDialog-DateRangeItem__months-btn_theme-{{_options.theme}}"
+                  <div class="controls-PeriodDialog-DateRangeItem__months-btn"
                        on:click="_scrollToMonth(monthTemplate.date.getFullYear(), monthTemplate.date.getMonth())" data-date="{{ _dateToId(monthTemplate.date) }}">
                      {{ _formatMonth(monthTemplate.date.getMonth()) }}
                   </div>
@@ -52,7 +52,7 @@
                  position="{{_position}}"
                  displayedRanges="{{ displayedRanges }}"
                  viewMode="month"
-                 attr:class="controls-PeriodDialog-DateRange-dates-wrapper controls-PeriodDialog-DateRangeItem__monthList controls-PeriodDialog-DateRangeItem__monthList_theme-{{_options.theme}}"
+                 attr:class="controls-PeriodDialog-DateRange-dates-wrapper controls-PeriodDialog-DateRangeItem__monthList"
                  source="{{_options.calendarSource}}"
                  dayTemplate="{{_options.dayTemplate}}"
                  on:itemClick="_onItemClick()"
@@ -66,7 +66,7 @@
                              on:intersect="_monthObserverHandler()"
                              threshold="{{[0.99, 1]}}">
                         <Controls.calendar:MonthView
-                                attr:class="controls-DateRangeBigChoose-DateRangePicker__item_theme-{{_options.theme}}"
+                                attr:class="controls-DateRangeBigChoose-DateRangePicker__item"
                                 monthViewModel="{{_monthViewModel}}"
                                 showCaption="{{true}}"
                                 selectionType="{{_options.selectionType}}"
@@ -98,9 +98,8 @@
                         >
                            <ws:captionTemplate>
                               <div class="controls-PeriodDialog-DateRangeItem__monthList_title
-                     controls-PeriodDialog-DateRangeItem__monthList_title_theme-{{_options.theme}}
                      {{_monthSelectionEnabled ? ' controls-PeriodDialog-DateRangeItem__monthList_title_selectable
-                     controls-PeriodDialog-DateRangeItem__monthList_title_selectable_theme-' + _options.theme}}"
+                     controls-PeriodDialog-DateRangeItem__monthList_title_selectable'}}"
                                    on:click="_monthCaptionClick(monthTemplate.date, monthTemplate.date.getMonth())">
                                  {{ _formatMonth(monthTemplate.date.getMonth()) }}
                               </div>

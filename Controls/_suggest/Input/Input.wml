@@ -37,13 +37,15 @@
       on:inputCompleted="_inputCompletedHandler()">
       <ws:rightFieldTemplate>
          <ws:if data="{{!_options.readOnly && (_searchState || _options.value)}}">
-            <div class="controls-SuggestV__rightFieldWrapper controls-Suggest__rightFieldWrapper_theme-{{_options.theme}}">
+            <div class="controls-SuggestV__rightFieldWrapper">
                <div if="{{_searchState}}"
-                    class="controls-SuggestV__loader controls-Suggest__loader_theme-{{_options.theme}}"></div>
+                    class="controls-SuggestV__loader"></div>
                <div if="{{_options.value}}"
-                    class="controls-SuggestV__clear controls-Suggest__clear_theme-{{_options.theme}} controls-icon icon-Close"
+                    class="controls-SuggestV__clear controls-icon icon-Close"
                     on:click="_clearClick()"
-                    title="{[Очистить]}"></div>
+                    on:mousedown="_clearMousedown()"
+                    title="{[Очистить]}"
+                    attr:ws-no-focus="true"></div>
             </div>
          </ws:if>
          <ws:if data="{{_options.rightFieldTemplate}}">

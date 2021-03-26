@@ -32,6 +32,7 @@ import Deferred = require('Core/Deferred');
 import {TVisibility} from 'Controls/marker';
 import {DependencyTimer} from 'Controls/popup';
 import {ISearchControllerOptions} from "../_search/ControllerClass";
+import 'css!Controls/suggest';
 
 const CURRENT_TAB_META_FIELD = 'tabsSelectedKey';
 const HISTORY_KEYS_FIELD = 'historyKeys';
@@ -676,7 +677,11 @@ export default class InputContainer extends Control<IInputControllerOptions> {
          this._setFilter(newOptions.filter, newOptions);
       }
       if (filterChanged && (this._showContent || this._sourceController?.isLoading())) {
-         this._resolveSearch(this._searchValue, newOptions);
+         if (this._searchValue) {
+            this._resolveSearch(this._searchValue, newOptions);
+         } else {
+            this._resolveLoad();
+         }
       }
 
       if (emptyTemplateChanged) {
@@ -716,6 +721,7 @@ export default class InputContainer extends Control<IInputControllerOptions> {
 
    protected _closeHandler(event: SyntheticEvent): void {
       event.stopPropagation();
+      this.activate();
       this._close();
    }
 
@@ -1091,8 +1097,6 @@ export default class InputContainer extends Control<IInputControllerOptions> {
    closeSuggest(): void {
       this._close();
    }
-
-   static _theme: string[] = ['Controls/suggest'];
 
    static getOptionTypes(): object {
       return {

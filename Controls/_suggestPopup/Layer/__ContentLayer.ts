@@ -1,9 +1,10 @@
 /**
  * Created by am.gerasimov on 18.04.2018.
  */
-
-import BaseLayer from './__BaseLayer';
+import { Control } from 'UI/Base';
 import template = require('wml!Controls/_suggestPopup/Layer/__ContentLayer');
+import 'css!Controls/suggestPopup';
+import 'css!Controls/suggest';
 
 var _private = {
    getSizes(self, dropDownContainer?: HTMLElement): object {
@@ -125,7 +126,7 @@ var _private = {
    }
 };
 
-var __ContentLayer = BaseLayer.extend({
+var __ContentLayer = Control.extend({
 
    _template: template,
    _height: '0px',
@@ -166,8 +167,6 @@ var __ContentLayer = BaseLayer.extend({
    }
 
 });
-
-__ContentLayer._theme = ['Controls/suggest', 'Controls/suggestPopup'];
 __ContentLayer._private = _private;
 
 export default __ContentLayer;

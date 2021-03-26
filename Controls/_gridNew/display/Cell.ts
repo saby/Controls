@@ -81,7 +81,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     }
 
     getCellContentRender(): string {
-        if (this.getSearchValue()) {
+        if (this.getSearchValue() && this.getDisplayValue()) {
             return STRING_SEARCH_RENDER;
         }
 
@@ -154,6 +154,14 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return this._$column.displayProperty;
     }
 
+    getDisplayValue(): string {
+        return this.getContents().get(this.getDisplayProperty());
+    }
+
+    getTooltipProperty(): string {
+        return this._$column.tooltipProperty;
+    }
+
     getContents(): T {
         return this._$owner.getContents();
     }
@@ -182,11 +190,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             wrapperClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
         }
 
-        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle, style)}`;
+        wrapperClasses += ` ${this._getBackgroundColorWrapperClasses(theme, style, templateHighlightOnHover, backgroundColorStyle, hoverBackgroundStyle)}`;
 
         if (this._$owner.hasColumnScroll()) {
             wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
-
         }
 
         return wrapperClasses;
@@ -194,10 +201,10 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
     protected _getBackgroundColorWrapperClasses(
        theme: string,
+       style: string,
        templateHighlightOnHover?: boolean,
        backgroundColorStyle?: string,
-       hoverBackgroundStyle?: string,
-       style: string = 'default'
+       hoverBackgroundStyle?: string
     ): string {
         let wrapperClasses = '';
         const isSingleCellEditableMode = this._$owner.getEditingConfig()?.mode === 'cell';
@@ -331,7 +338,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         }
 
         if (topPadding === 'null' && bottomPadding === 'null') {
-            classes += `controls-Grid__row-cell_small_min_height-theme-${theme} `;
+            classes += ` controls-Grid__row-cell_small_min_height-theme-${theme} `;
         } else {
             classes += ` controls-Grid__row-cell_default_min_height-theme-${theme}`;
         }
@@ -433,8 +440,11 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     // endregion
 
     // region Аспект "Ячейка"
-    getColumnConfig(): IColumn {
+    get config(): IColumn {
         return this._$column;
+    }
+    getColumnConfig(): IColumn {
+        return this.config;
     }
 
     getColumnIndex(): number {

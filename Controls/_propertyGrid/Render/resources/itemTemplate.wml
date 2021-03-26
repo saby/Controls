@@ -1,9 +1,14 @@
 <ws:template name="label">
     <ws:if data="{{collectionItem.isNode()}}">
-      <Controls.heading:Title scope="{{_options}}" readOnly="{{true}}" fontSize="m"/>
+        <div class="controls-PropertyGrid__editor_nodeCaption_wrapper_theme-{{theme}}">
+            <Controls.heading:Title scope="{{_options}}"
+                                    readOnly="{{true}}"
+                                    fontSize="m"
+                                    attr:class="controls-PropertyGrid__editor_nodeCaption"/>
+        </div>
     </ws:if>
     <ws:else>
-      <Controls.input:Label scope="{{_options}}"/>
+        <Controls.input:Label scope="{{_options}}"/>
     </ws:else>
 </ws:template>
 
@@ -15,6 +20,7 @@
         <ws:partial template="label"
                     attr:class="controls-PropertyGrid__editor-caption_theme-{{theme}}
                              {{'controls-PropertyGrid__editor-caption_' + (collectionItem.getEditorTemplateName() ? 'withEditor' : 'withoutEditor')}}"
+                    attr:tabindex="-1"
                     caption="{{item.caption || item.name}}"
                     collectionItem="{{collectionItem}}"
                     scope="{{item.captionOptions}}"/>
@@ -23,7 +29,8 @@
          TODO: https://online.sbis.ru/opendoc.html?guid=89e73e15-8f85-427e-b49c-16c6f8df5c34-->
     <ws:partial template="wml!Controls/_propertyGrid/Render/resources/editorTemplate"
                 caption="{{item.editorOptions.caption || item.caption || item.name}}"
-                scope="{{_options}}"/>
+                scope="{{_options}}"
+                attr:class="{{captionPosition === 'left' ? 'controls-PropertyGrid__editor_captionPosition-left'}}"/>
 </ws:template>
 
 
@@ -40,7 +47,7 @@
 <ws:else>
     <div class="controls-PropertyGrid__editor_theme-{{theme}}
                 {{highlightOnHover ? 'controls-PropertyGrid__row_highlightOnHover_theme-' + theme}}
-                {{captionPosition === 'top' ? 'controls-PropertyGrid__flex-editor_theme-' + theme}}
+                {{!!captionPosition  ? ('controls-PropertyGrid__flex-row controls-PropertyGrid__row_captionPosition-' + captionPosition)}}
                 {{collectionItem.getItemPaddingClasses(theme)}}">
         <ws:partial template="itemTemplate" />
         <ws:if data="{{ collectionItem.shouldDisplayActions() }}">

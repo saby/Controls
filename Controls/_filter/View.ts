@@ -87,8 +87,8 @@ const FILTER_PANEL_POPUP = 'Controls/filterPanelPopup';
  * При клике на параметры быстрого фильтра открывается панель "Быстрых фильтров", созданная на основе {@link Controls/filterPopup:SimplePanel}.
  *
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/ руководство разработчика по работе с контролом}
- * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/ руководство разработчика по организации поиска и фильтрации в реестре}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/ руководство разработчика по работе с контролом}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-and-search/ руководство разработчика по организации поиска и фильтрации в реестре}
  * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/component-kinds/ руководство разработчика по классификации контролов Wasaby и схеме их взаимодействия}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less переменные тем оформления filter}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления filterPopup}
@@ -135,8 +135,12 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
     private _filterPopupOpener: StackOpener | StickyOpener;
     private _stackOpener: StackOpener;
     private _detailPanelTemplateName: string;
+    private _openCallbackId: string;
+    private _resetCallbackId: string;
+    private _storeCtxCallbackId: string;
     private _loadPromise: CancelablePromise<any>;
     private _loadOperationsPanelPromise: Promise<unknown>;
+    private _collapsedFilters: string[]|number[] = null;
 
     openDetailPanel(): void {
         if (this._detailPanelTemplateName) {
@@ -194,12 +198,21 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
     protected _afterMount(options: IFilterViewOptions): void {
         if (options.useStore) {
-            this._openCallbackId = Store.declareCommand(
-                'openFilterDetailPanel',
-                this.openDetailPanel.bind(this)
-            );
-            this._resetCallbackId = Store.declareCommand('resetFilter', this.reset.bind(this));
+            this._subscribeStoreCommands();
+            this._storeCtxCallbackId = Store.onPropertyChanged('_contextName', () => {
+                Store.unsubscribe(this._openCallbackId);
+                Store.unsubscribe(this._resetCallbackId);
+                this._subscribeStoreCommands();
+            }, true);
         }
+    }
+
+    _subscribeStoreCommands(): void {
+        this._openCallbackId = Store.declareCommand(
+            'openFilterDetailPanel',
+            this.openDetailPanel.bind(this)
+        );
+        this._resetCallbackId = Store.declareCommand('resetFilter', this.reset.bind(this));
     }
 
     protected _beforeUpdate(newOptions: IFilterViewOptions): void {
@@ -222,6 +235,9 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             } else {
                 resultDef = this._loadSelectedItems(this._source, this._configs).then(() => {
                     this._updateText(this._source, this._configs);
+                    if (this._getFilterPopupOpener().isOpened()) {
+                        this.openDetailPanel();
+                    }
                 });
             }
             return resultDef;
@@ -248,6 +264,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         if (this._options.useStore) {
             Store.unsubscribe(this._openCallbackId);
             Store.unsubscribe(this._resetCallbackId);
+            Store.unsubscribe(this._storeCtxCallbackId);
         }
     }
 
@@ -380,6 +397,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             opener: this,
             templateOptions: {
                 items,
+                collapsedGroups: this._collapsedFilters,
                 historyId: this._options.historyId
             },
             target: this._container[0] || this._container,
@@ -432,9 +450,10 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                 case 'applyClick': this._applyClick(result); break;
                 case 'selectorResult': this._selectorResult(result); break;
                 case 'moreButtonClick': this._moreButtonClick(result); break;
+                case 'collapsedFiltersChanged': this._collapsedFiltersChanged(result); break;
             }
         }
-        if (result.action !== 'moreButtonClick') {
+        if (result.action !== 'moreButtonClick' && result.action !== 'collapsedFiltersChanged') {
             if (result.history) {
                 this._notify('historyApply', [result.history]);
             }
@@ -556,7 +575,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             if (this._isFrequentItem(item) && config?.items) {
                 const sourceController = this._getSourceController(configs[item.name], item.editorOptions.source,
                     item.editorOptions.navigation);
-                sourceController.calculateState(configs[item.name].items);
+                sourceController.setItems(configs[item.name].items);
             }
         });
     }
@@ -613,7 +632,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
                     }
                     if (!configs[item.name].sourceController) {
                         const sourceController = this._getSourceController(configs[item.name], item.editorOptions.source, item.editorOptions.navigation);
-                        sourceController.calculateState(popupItem.items);
+                        sourceController.setItems(popupItem.items);
                     }
                     popupItem.hasMoreButton = configs[item.name].sourceController.hasMoreData('down');
                     popupItem.sourceController = configs[item.name].sourceController;
@@ -1053,6 +1072,10 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
     private _moreButtonClick(result: IResultPopup): void {
         this._idOpenSelector = result.id;
         this._configs[result.id].initSelectorItems = result.selectedItems;
+    }
+
+    private _collapsedFiltersChanged(result: object): void {
+        this._collapsedFilters = result.collapsedFilters;
     }
 
     private _isNeedReload(oldItems: IFilterItem[],

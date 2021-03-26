@@ -16,7 +16,6 @@ import {
 } from 'Controls/gridNew';
 import TreeGridFooterRow from './TreeGridFooterRow';
 import {Model as EntityModel, Model} from 'Types/entity';
-import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
 
 export interface IOptions<S extends Model, T extends TreeGridDataRow<S>>
    extends IGridCollectionOptions<S, T>, ITreeCollectionOptions<S, T> {
@@ -140,8 +139,8 @@ export default class TreeGridCollection<
         this._updateItemsColumns();
     }
 
-    protected _handleAfterCollectionChange(): void {
-        super._handleAfterCollectionChange();
+    protected _handleAfterCollectionChange(changedItems: TreeGridDataRow[]): void {
+        super._handleAfterCollectionChange(changedItems);
         if (GridLadderUtil.isSupportLadder(this._$ladderProperties)) {
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
@@ -213,7 +212,8 @@ export default class TreeGridCollection<
             ...options,
             owner: this,
             footer: options.footer,
-            footerTemplate: options.footerTemplate
+            footerTemplate: options.footerTemplate,
+            hasNodeWithChildren: this._hasNodeWithChildren
         });
     }
 
@@ -225,8 +225,7 @@ export default class TreeGridCollection<
         // TODO нужно определить когда точно нужна эта стратегия и добавлять только в этом случае
         composer.append(itemsStrategy.NodeFooter, {
             display: this,
-            footerVisibilityCallback: this._$footerVisibilityCallback,
-            nodeFooterConstructor: TreeGridNodeFooterRow
+            footerVisibilityCallback: this._$footerVisibilityCallback
         });
 
         return composer;

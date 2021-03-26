@@ -72,6 +72,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         this._registrars.viewportResize = new RegisterClass({register: 'viewportResize'});
         this._registrars.scrollResize = new RegisterClass({register: 'scrollResize'});
         this._registrars.scrollMove = new RegisterClass({register: 'scrollMove'});
+        this._registrars.virtualScrollMove = new RegisterClass({register: 'virtualScrollMove'});
         this._scrollCssClass = this._getScrollContainerCssClass(options);
         this._updateContentWrapperCssClass();
         this._registrars.listScroll = new RegisterClass({register: 'listScroll'});
@@ -208,25 +209,46 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     _registerIt(event: SyntheticEvent, registerType: string, component: any,
                 callback: () => void, triggers): void {
-        this._registrars.scrollStateChanged.register(event, registerType, component, callback);
-        if (registerType === 'scrollStateChanged') {
-            this._onRegisterNewComponent(component);
+        switch (registerType) {
+            case 'scrollStateChanged':
+                this._registrars.scrollStateChanged.register(event, registerType, component, callback);
+                this._onRegisterNewComponent(component);
+                break;
+            case 'listScroll':
+                // совместимость со списками
+                this._registrars.listScroll.register(event, registerType, component, callback);
+                this._onRegisterNewListScrollComponent(component);
+                break;
+            case 'virtualScrollMove':
+                this._registrars.virtualScrollMove.register(event, registerType, component, callback);
+                break;
+            case 'scroll':
+                this._registrars.scroll.register(event, registerType, component, callback, {listenAll: true});
+                break;
+            case 'virtualNavigation':
+                this._virtualNavigationRegistrar.register(event, registerType, component, callback);
+                break;
         }
-        // совместимость со списками
-        this._registrars.listScroll.register(event, registerType, component, callback);
-        if (registerType === 'listScroll') {
-            this._onRegisterNewListScrollComponent(component);
-        }
-
-        this._registrars.scroll.register(event, registerType, component, callback, {listenAll: true});
-        this._virtualNavigationRegistrar.register(event, registerType, component, callback);
     }
 
     _unRegisterIt(event: SyntheticEvent, registerType: string, component: any): void {
-        this._registrars.scrollStateChanged.unregister(event, registerType, component);
-        this._registrars.scroll.unregister(event, registerType, component);
-        this._registrars.listScroll.unregister(event, registerType, component);
-        this._virtualNavigationRegistrar.unregister(event, registerType, component);
+        switch (registerType) {
+            case 'scrollStateChanged':
+                this._registrars.scrollStateChanged.unregister(event, registerType, component);
+                break;
+            case 'listScroll':
+                this._registrars.listScroll.unregister(event, registerType, component);
+                break;
+            case 'virtualScrollMove':
+                this._registrars.virtualScrollMove.unregister(event, registerType, component);
+                break;
+            case 'scroll':
+                this._registrars.scroll.unregister(event, registerType, component);
+                break;
+            case 'virtualNavigation':
+                this._virtualNavigationRegistrar.unregister(event, registerType, component);
+                break;
+        }
     }
 
     protected _enableVirtualNavigationHandler(): void {
@@ -609,7 +631,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
        IPAD пытается переместить input к верху страницы. Проблема не повторяется,
        если input будет выше клавиатуры после открытия. */
     _lockScrollPositionUntilKeyboardShown(): void {
-        this._scrollLockedPosition = this._scrollModel.scrollTop;
+        // Если модель не инициализирована, значить точно не было скролирования и scrollTop равен 0.
+        this._scrollLockedPosition = this._scrollModel?.scrollTop || 0;
         setTimeout(() => {
             this._scrollLockedPosition = null;
         }, KEYBOARD_SHOWING_DURATION);
@@ -798,6 +821,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             } else if (this._topPlaceholderSize === 0 && realScrollTop < 0 || scrollTopOverflow && this._bottomPlaceholderSize === 0) {
                 applyScrollTop();
             } else {
+                const scrollState = this._scrollModel.clone();
+                this._generateEvent('virtualScrollMove', [{
+                    scrollTop,
+                    scrollState,
+                    applyScrollTopCallback: applyScrollTop
+                }]);
+                // TODO: Удалить после перехода списков на новые события
+                //  https://online.sbis.ru/opendoc.html?guid=ca70827b-ee39-4d20-bf8c-32b10d286682
                 this._sendByListScrollRegistrar(
                     'virtualScrollMove',
                     {

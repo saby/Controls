@@ -177,8 +177,10 @@ export default class HeaderRow<T> extends Row<T> {
 
     setSorting(sorting: Array<{[p: string]: string}>): void {
         this._$sorting = sorting;
-        this.getColumns().forEach((cell: HeaderCell<Model>) => {
-            cell.setSorting(this._getSortingBySortingProperty(cell.getSortingProperty()));
+        this.getColumns().forEach((cell: HeaderCell<Model> | ItemActionsCell<void>) => {
+            if (cell instanceof HeaderCell) {
+                cell.setSorting(this._getSortingBySortingProperty(cell.getSortingProperty()));
+            }
         });
         this._nextVersion();
     }

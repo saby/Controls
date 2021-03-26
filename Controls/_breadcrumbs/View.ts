@@ -11,6 +11,7 @@ import calculatedItemsTemplate = require('wml!Controls/_breadcrumbs/View/resourc
 import menuItemTemplate = require('wml!Controls/_breadcrumbs/resources/menuItemTemplate');
 import 'wml!Controls/_breadcrumbs/resources/menuContentTemplate';
 import {Record} from 'Types/entity';
+import 'css!Controls/breadcrumbs';
 
 const CRUMBS_COUNT = 2;
 const MIN_COUNT_OF_LETTER = 3;
@@ -23,7 +24,7 @@ const MIN_COUNT_OF_LETTER = 3;
  * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/IFontSize
- * 
+ *
  * @private
  * @author Авраменко А.С.
  */
@@ -52,7 +53,8 @@ class BreadCrumbsView extends Control<IControlOptions> {
     private _addWithOverflow(displayProperty: string): void {
         if (this._items.length <= CRUMBS_COUNT) {
             this._items.forEach((item) => {
-                if (!item.isDots && item.item.get(displayProperty).length > MIN_COUNT_OF_LETTER) {
+                const itemLength = item.item.get(displayProperty)?.length || 0;
+                if (!item.isDots && itemLength > MIN_COUNT_OF_LETTER) {
                     item.withOverflow = true;
                 }
             });
@@ -112,7 +114,7 @@ class BreadCrumbsView extends Control<IControlOptions> {
             });
 
             if (!this._popupIsOpen) {
-                const templateClassName = `controls-BreadCrumbsController__menu_theme-${this._options.theme}`;
+                const templateClassName = 'controls-BreadCrumbsController__menu';
                 this._menuOpener.open({
                     template: 'Controls/menu:Popup',
                     opener: this,
@@ -170,7 +172,6 @@ class BreadCrumbsView extends Control<IControlOptions> {
             fontSize: 'xs'
         };
     }
-    static _theme: string[] = ['Controls/crumbs'];
     static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
 }
 

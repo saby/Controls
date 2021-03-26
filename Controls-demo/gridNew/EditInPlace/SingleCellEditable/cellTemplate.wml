@@ -1,12 +1,12 @@
 <ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}">
     <ws:contentTemplate>
         <ws:partial template="Controls/list:EditingTemplate"
-                    value="{{ itemData.item[column.displayProperty || 'title'] }}"
+                    value="{{ itemData.item[column.config.displayProperty || 'title'] }}"
                     itemData="{{itemData}}">
             <ws:editorTemplate>
                 <Controls.input:Text
                         attr:class="js-controls-Grid__editInPlace__input-1"
-                        bind:value="itemData.item[column.displayProperty || 'title']"
+                        bind:value="itemData.item[column.config.displayProperty || 'title']"
                         contrastBackground="{{ false }}"
                         borderVisibility="{{ false }}"/>
             </ws:editorTemplate>

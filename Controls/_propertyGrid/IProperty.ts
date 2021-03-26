@@ -100,6 +100,11 @@ import {ILabelOptions} from 'Controls/input';
 /**
  * @name Controls/_propertyGrid/IProperty#editorTemplateName
  * @cfg {String} Имя контрола, который будет использоваться в качестве редактора. Если параметр не задан, будет использоваться редактор по-умолчанию.
+ * @remark
+ * Редактору в опции propertyValue приходит текущее значение св-во из {@link Controls/propertyGrid:PropertyGrid#editingObject}
+ * При изменении значения редактор должен пронотифицировать об изменениях событием propertyValueChanged
+ * @demo Controls-demo/PropertyGridNew/Editors/CustomEditor/Index
+ * @link Controls/_propertyGrid/IProperty#type
  */
 
 /**
@@ -151,12 +156,11 @@ import {ILabelOptions} from 'Controls/input';
 
 /**
  * @typedef {String} PropertyType
- * @variant number
- * @variant boolean
- * @variant string
- * @variant text
- * @variant enum
- * @variant date
+ * @variant number Числовой тип, редактор по умолчанию - {@link Controls/propertyGrid:NumberEditor}
+ * @variant boolean Логический тип, редактор по умолчанию - {@link Controls/propertyGrid:BooleanEditor}
+ * @variant string Строковой тип, редактор по умолчанию - {@link Controls/propertyGrid:StringEditor}
+ * @variant text Строковой тип, отличается от типа string редактором - {@link Controls/propertyGrid:TextEditor}
+ * @variant enum Перечисляемый тип, редактор по умолчанию - {@link Controls/propertyGrid:EnumEditor}
  */
 
 /**

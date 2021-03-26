@@ -186,7 +186,7 @@ export interface IColumn extends IColspanParams {
      */
     compatibleWidth?: string;
     /**
-     * @cfg {String|Function} Шаблон отображения ячейки.
+     * @cfg {String|TemplateFunction} Шаблон отображения ячейки.
      * @default undefined
      * @markdown
      * @remark
@@ -272,7 +272,7 @@ export interface IColumn extends IColspanParams {
      */
     templateOptions?: object;
     /**
-     * @cfg {String|Function} Шаблон отображения ячейки в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строке итогов}.
+     * @cfg {String|TemplateFunction} Шаблон отображения ячейки в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строке итогов}.
      * @default undefined
      * @demo Controls-demo/grid/Results/FromMeta/CustomResultsCells/Index
      * @markdown
@@ -460,6 +460,9 @@ export interface IColumn extends IColspanParams {
      * @see backgroundColorStyle
      */
     hoverBackgroundStyle?: string;
-    tooltip?: string;
+    /**
+     * @cfg {string} Поле с текстом подсказки при наведении на ячейку
+     */
+    tooltipProperty?: string;
     fontSize?: TFontSize;
 }

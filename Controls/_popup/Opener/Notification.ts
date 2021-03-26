@@ -116,7 +116,14 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
         return getCompatibleConfig(BaseOpenerCompat, config);
     }
 
+    static _openPopup(config: INotificationPopupOptions): Promise<string> {
+        return Notification._privateOpenPopup(config);
+    }
+    // TODO: Проверить, можно ли Notification перевести на utils/OpenPopup
     static openPopup(config: INotificationPopupOptions): Promise<string> {
+        return Notification._privateOpenPopup(config);
+    }
+    private static _privateOpenPopup(config: INotificationPopupOptions): Promise<string> {
         return new Promise((resolve) => {
             if (!config.hasOwnProperty('isHelper')) {
                 Logger.warn('Controls/popup:Dialog: Для открытия нотификационных окон из ' +
@@ -150,7 +157,7 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
 
     static closePopup(popupId: string): void {
         // TODO: Compatible. Нотификационные окна на старых страницах открываются через ws3 manager
-        if (typeof popupId !== 'string' && popupId.close) {
+        if (popupId && typeof popupId !== 'string' && popupId.close) {
             popupId.close();
         } else {
             BaseOpener.closeDialog(popupId);

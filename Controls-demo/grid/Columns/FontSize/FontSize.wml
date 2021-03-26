@@ -7,7 +7,7 @@
             <ws:columns>
                 <ws:Array>
                     <ws:Object displayProperty="country"
-                               tooltip="Государство"
+                               tooltipProperty="country"
                                fontSize="xs"/>
                     <ws:Object displayProperty="population"
                                displayType="number"

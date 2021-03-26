@@ -106,7 +106,16 @@ function getResultsIndex(cfg: GridRowIndexOptions<HasEmptyTemplate>): number {
         const itemsCount = cfg.display.getCount();
 
         if (itemsCount) {
-            index += itemsCount;
+
+            /* https://online.sbis.ru/opendoc.html?guid=243ef2d3-59a5-4c2e-a39d-ef00f971cf28
+             * в treeGrid позволял вставлять дополнительные элементы в списке из-за такой оптимизации рассчета
+             * подвалов. После замены его на grid, стала из-за дополнительных элементов разъезжаться верстка грида.
+             * (grid-area для отступа под операции рассчитывался без учета дополнительных элементов).
+             * Самое простое и безопасное решение - сделать рассчеты индексов как в treeGrid.
+             * В новых гридах проблема не актуальна: отступ под записи встроен в футер,
+             * grid-area для него не рассчитывается.
+             */
+            index += itemsCount * 2;
         } else {
             index += cfg.hasEmptyTemplate ? 1 : 0;
         }
@@ -133,7 +142,7 @@ function getBottomPaddingRowIndex(cfg: GridRowIndexOptions): number {
     index += cfg.hasHeader ? 1 : 0;
     index += isResultsInTop ? 1 : 0;
     index += cfg.multiHeaderOffset ? cfg.multiHeaderOffset : 0;
-    index += itemsCount;
+    index += itemsCount * 2;
     index += cfg.hasColumnScroll ? 1 : 0;
 
     return index;
@@ -159,7 +168,7 @@ function getFooterIndex(cfg: GridRowIndexOptions<HasEmptyTemplate>): number {
     index += cfg.hasColumnScroll ? 1 : 0;
 
     if (itemsCount) {
-        index += itemsCount;
+        index += itemsCount * 2;
     } else {
         index += cfg.hasEmptyTemplate ? 1 : 0;
     }

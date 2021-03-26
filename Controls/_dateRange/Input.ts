@@ -8,6 +8,8 @@ import {StringValueConverter, IDateTimeMask, ISelection} from 'Controls/input';
 import template = require('wml!Controls/_dateRange/Input/Input');
 import {DependencyTimer} from 'Controls/popup';
 import {Logger} from 'UI/Utils';
+import 'css!Controls/dateRange';
+import 'css!Controls/CommonClasses';
 
 interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
 }
@@ -23,6 +25,7 @@ interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
  * @class Controls/_dateRange/Input
  * @extends UI/Base:Control
  * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_dateRange/interfaces/IInput
  * @mixes Controls/_dateRange/interfaces/IDateRange
  * @mixes Controls/_dateRange/interfaces/IRangeInputTag
@@ -69,6 +72,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
     protected _startValueValidators: Function[] = [];
     protected _endValueValidators: Function[] = [];
     private _shouldValidate: boolean;
+    private _state: string;
 
     protected _beforeMount(options: IDateRangeInputOptions) {
         this._rangeModel = new DateRangeModel({dateConstructor: this._options.dateConstructor});
@@ -105,7 +109,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
             ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
-            className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
+            className: 'controls-PeriodDialog__picker',
             templateOptions: {
                 ...PopupUtil.getDateRangeTemplateOptions(this),
                 _date: this._options._date,
@@ -117,7 +121,8 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
                 headerType: 'input',
                 closeButtonEnabled: true,
                 rangeselect: true,
-                range: this._options.range
+                range: this._options.range,
+                state: this._state
             }
         };
         this._children.opener.open(cfg);
@@ -158,9 +163,10 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         }
     }
 
-    private _onResult(startValue: Date, endValue: Date): void {
+    private _onResult(startValue: Date, endValue: Date, state: string): void {
+        this._state = state;
         this._rangeModel.setRange(startValue, endValue);
-        this._children.opener.close();
+        this._children.opener?.close();
         this._notifyInputCompleted();
         /**
          * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
@@ -203,8 +209,6 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
         this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
     }
-
-    static _theme: string[] = ['Controls/dateRange', 'Controls/Classes'];
 
     static getDefaultOptions(): Partial<IDateRangeInputOptions> {
         return {

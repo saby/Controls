@@ -10,7 +10,7 @@ const DEFAULT_CELL_CONTENT = 'Controls/gridNew:ItemActionsCellContent';
 export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItemActionsCell {
     readonly ItemActionsCell = true;
 
-    getTemplate() {
+    getTemplate(): string {
         return DEFAULT_CELL_CONTENT;
     }
 
@@ -25,10 +25,9 @@ export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItem
         }
     }
 
-    getWrapperStyles() {
-        return 'width: 0px; min-width: 0px; max-width: 0px; padding: 0px;';
+    getWrapperStyles(): string {
+        return 'width: 0px; min-width: 0px; max-width: 0px; padding: 0px; z-index: 2;';
     }
-
 
     shouldDisplayItemActions(): boolean {
         return !!this._$owner.DisplayItemActions;

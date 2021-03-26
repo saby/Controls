@@ -225,7 +225,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          rightImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'right');
          assert.equal(topImagePositionWidth, 164);
          assert.isTrue(leftImagePositionWidth === rightImagePositionWidth);
-         assert.equal(leftImagePositionWidth, 210);
+         assert.equal(leftImagePositionWidth, 300);
 
 
          treeTileViewModel.setTileSize('m');
@@ -234,7 +234,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          rightImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'right');
          assert.equal(topImagePositionWidth, 200);
          assert.isTrue(leftImagePositionWidth === rightImagePositionWidth);
-         assert.equal(leftImagePositionWidth, 310);
+         assert.equal(leftImagePositionWidth, 420);
 
          treeTileViewModel.setTileSize('l');
          topImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'top');
@@ -242,7 +242,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          rightImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'right');
          assert.equal(topImagePositionWidth, 256);
          assert.isTrue(leftImagePositionWidth === rightImagePositionWidth);
-         assert.equal(leftImagePositionWidth, 420);
+         assert.equal(leftImagePositionWidth, 648);
 
          treeTileViewModel.setTileSize(null);
       });

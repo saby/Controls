@@ -18,6 +18,7 @@ import 'css!Controls/input';
 
 import 'wml!Controls/_input/Base/Stretcher';
 import 'wml!Controls/_input/Base/FixValueAttr';
+import { getOptionBorderVisibilityTypes } from 'Controls/_input/interface/IBorderVisibility';
 
 interface IFieldTemplate {
     template: string|TemplateFunction;
@@ -673,6 +674,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
 
     static getOptionTypes(): object {
         return {
+            ...getOptionBorderVisibilityTypes(),
             value: descriptor(String, null),
             selectionStart: descriptor(Number),
             selectionEnd: descriptor(Number),

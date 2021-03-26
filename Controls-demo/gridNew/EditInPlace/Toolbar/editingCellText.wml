@@ -1,11 +1,11 @@
 <ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{gridColumn}}">
     <ws:contentTemplate>
         <ws:partial template="Controls/list:EditingTemplate"
-                    value="{{ itemData.item[column.displayProperty] }}"
+                    value="{{ itemData.item[column.config.displayProperty] }}"
                     itemData="{{itemData}}"
                     enabled="{{true}}">
             <ws:editorTemplate>
-                <Controls.input:Text bind:value="itemData.item[column.displayProperty]" selectOnClick="{{ false }}" />
+                <Controls.input:Text bind:value="itemData.item[column.config.displayProperty]" selectOnClick="{{ false }}" />
             </ws:editorTemplate>
         </ws:partial>
     </ws:contentTemplate>

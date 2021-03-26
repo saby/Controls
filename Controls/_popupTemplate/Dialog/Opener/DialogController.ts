@@ -150,7 +150,7 @@ class DialogController extends BaseController {
         // ресайз страницы это также смена ориентации устройства
         // если окно открыто на полный экран, то после переворота оно должно остаться на весь экран
         //TODO: will be fixed by https://online.sbis.ru/opendoc.html?guid=1b290673-5722-41cb-8120-ad6af46e64aa
-        if (window.innerWidth >= IPAD_MIN_WIDTH && item.popupOptions.maximize ) {
+        if (window.innerWidth >= IPAD_MIN_WIDTH && item.popupOptions.maximize) {
             return this._elementUpdated(item, container);
         }
         return false;
@@ -160,6 +160,9 @@ class DialogController extends BaseController {
         /* Если задан resizeDirection не перепозиционируем,
            т.к. это опция отвечает как раз за ресайз без изменения позиции */
         if (item.popupOptions?.resizeDirection) {
+
+            // Обновляем только размеры попапа
+            item.sizes = this._getPopupSizes(item, container);
             return false;
         }
         return super.resizeInner(item, container);
@@ -258,8 +261,8 @@ class DialogController extends BaseController {
             width: 0,
             height: 0
         };
-        let defaultCoordinate: number = -10000;
         this._prepareConfig(item, sizes);
+        let defaultCoordinate: number = -10000;
 
         // Error on ios when position: absolute container is created outside the screen and stretches the page
         // which leads to incorrect positioning due to incorrect coordinates. + on page scroll event firing
@@ -267,6 +270,10 @@ class DialogController extends BaseController {
             defaultCoordinate = 0;
             item.position.invisible = true;
         }
+
+        // Диалог изначально должен позиционироваться вне экрана, если не задана позиция(например из propStorage)
+        item.position[verticalPositionProperty] = item.popupOptions[verticalPositionProperty] || defaultCoordinate;
+        item.position[horizontalPositionProperty] = item.popupOptions[horizontalPositionProperty] || defaultCoordinate;
     }
 
     _hasMaximizePopup(): boolean {

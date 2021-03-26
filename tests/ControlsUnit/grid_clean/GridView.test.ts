@@ -40,7 +40,8 @@ describe('Controls/grid_clean/GridView', () => {
         beforeEach(() => {
             mockListViewModel = {
                 subscribe: () => {},
-                setItemPadding: () => {}
+                setItemPadding: () => {},
+                getDraggableItem: () => undefined
             };
             options = { listModel: mockListViewModel };
             gridView = new GridView(options);
@@ -79,24 +80,28 @@ describe('Controls/grid_clean/GridView', () => {
 
         describe('._getGridTemplateColumns()', () => {
             it('shouldn\'t add actions column if list is empty', () => {
-                options.columns = [{}, {}];
+                const columns = [{}, {}];
+                options.columns = columns;
                 options.multiSelectVisibility = 'hidden';
                 options.columnScroll = true;
 
                 gridView._beforeMount(options);
 
                 mockListViewModel.getCount = () => 0;
+                mockListViewModel.getColumnsConfig = () => columns;
                 assert.equal(gridView._getGridTemplateColumns(options), 'grid-template-columns: 1fr 1fr;');
             });
 
             it('should add actions column if list in not empty', () => {
-                options.columns = [{}, {}];
+                const columns = [{}, {}];
+                options.columns = columns;
                 options.multiSelectVisibility = 'hidden';
                 options.columnScroll = true;
 
                 gridView._beforeMount(options);
 
                 mockListViewModel.getCount = () => 10;
+                mockListViewModel.getColumnsConfig = () => columns;
                 assert.equal(gridView._getGridTemplateColumns(options), 'grid-template-columns: 1fr 1fr 0px;');
             });
         });

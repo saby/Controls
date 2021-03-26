@@ -36,6 +36,7 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize

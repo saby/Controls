@@ -103,33 +103,6 @@ export default class ColumnsControl<TOptions extends IColumnsControlOptions = IC
         }
     }
 
-    private _changeMarkedKey(newMarkedKey: CrudEntityKey): Promise<CrudEntityKey>|CrudEntityKey {
-        // Пока выполнялся асинхронный запрос, контрол мог быть уничтожен. Например, всплывающие окна.
-        if (this._destroyed) {
-            return undefined;
-        }
-
-        const eventResult = this._notify('beforeMarkedKeyChanged', [newMarkedKey], { bubbling: true }) as Promise<CrudEntityKey>|CrudEntityKey;
-
-        let result = eventResult;
-        if (eventResult instanceof Promise) {
-            eventResult.then((key) => {
-                this._markerController.setMarkedKey(key);
-                this._notify('markedKeyChanged', [key]);
-                return key;
-            });
-        } else if (eventResult !== undefined) {
-            this._markerController.setMarkedKey(eventResult);
-            this._notify('markedKeyChanged', [eventResult]);
-        } else {
-            result = newMarkedKey;
-            this._markerController.setMarkedKey(newMarkedKey);
-            this._notify('markedKeyChanged', [newMarkedKey]);
-        }
-
-        return result;
-    }
-
     protected _keyDownHandler(e: SyntheticEvent<KeyboardEvent>): boolean {
         let direction = '';
         switch (e.nativeEvent.keyCode) {

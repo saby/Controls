@@ -2,6 +2,7 @@ define(
    [
       'Controls/filterPopup',
       'Controls/filter',
+      'Controls/_filterPopup/DetailPanel',
       'Controls/history',
       'Types/collection',
       'Core/core-clone',
@@ -9,7 +10,7 @@ define(
       'Env/Env',
       'UI/Utils'
    ],
-   function(filterPopup, filter, history, collection, Clone, Deferred, Env, Utils) {
+   function(filterPopup, filter, FilterPopupDetailPanel, history, collection, Clone, Deferred, Env, Utils) {
       describe('FilterPanelVDom', function() {
          var template = 'tmpl!Controls-demo/Layouts/SearchLayout/FilterButtonTemplate/filterItemsTemplate';
          var config = {},
@@ -38,7 +39,7 @@ define(
          config.additionalTemplate = template;
 
          function getFilterPanel(FPconfig) {
-            var panel2 = new filterPopup.DetailPanel(FPconfig);
+            var panel2 = new FilterPopupDetailPanel.default(FPconfig);
             panel2._items = FPconfig.items;
             panel2.saveOptions(FPconfig);
             return panel2;
@@ -141,16 +142,6 @@ define(
             newConfig.items[2].visibility = false;
             panel._beforeUpdate(newConfig);
             assert.isTrue(panel._hasAdditionalParams);
-         });
-
-         it('before update new historyId', function() {
-            var changedConfig = Clone(config);
-            changedConfig.historyId = 'new_history_id';
-            var panel2 = getFilterPanel(config);
-            panel2._beforeMount(config);
-            assert.equal(panel2._historyId, undefined);
-            panel2._beforeUpdate(changedConfig);
-            assert.equal(panel2._historyId, changedConfig.historyId);
          });
 
          it('apply', async function() {
@@ -326,7 +317,7 @@ define(
                options = {};
             options.items = rs;
             options.additionalTemplate = template;
-            var panel2 = new filterPopup.DetailPanel(options);
+            var panel2 = new FilterPopupDetailPanel.default(options);
             panel2._beforeMount(options);
             panel2._beforeUpdate(options);
             assert.isTrue(panel2._isChanged);
@@ -355,14 +346,6 @@ define(
             var options = {
                items: items
             };
-            var context = {
-               filterPanelOptionsField: {
-                  options: {
-                     items: items
-                  }
-               }
-            };
-            var errorCathed = false;
 
             panel._resolveItems(options);
             assert.isTrue(options.items !== panel._items);
@@ -370,36 +353,9 @@ define(
 
             var stubLoggerError = sinon.stub(Utils.Logger, 'error');
 
-            panel._resolveItems({}, context);
-            assert.isTrue(context.filterPanelOptionsField.options.items !== panel._items);
-            assert.equal(panel._items[0], 'test');
-
-            try {
-               panel._resolveItems({}, {});
-            } catch (e) {
-               errorCathed = true;
-            }
-            assert.isTrue(errorCathed);
-            stubLoggerError.restore();
-         });
-         it('resolveHistoryId', function() {
-            var panel = getFilterPanel(config);
-            var options = { items: ['test'] };
-            var context = {
-               filterPanelOptionsField: {
-                  options: {
-                     historyId: 'testId'
-                  }
-               }
-            };
-            var stubLoggerError = sinon.stub(Utils.Logger, 'error');
-
-            panel._resolveItems(options, context);
-            assert.isTrue(context.filterPanelOptionsField.options.items !== panel._items);
-            assert.equal(panel._items[0], 'test');
-            panel._resolveHistoryId({}, panel._contextOptions);
-            assert.equal(panel._historyId, 'testId');
-
+            assert.throws(() => {
+               panel._resolveItems({});
+            }, 'Controls/filterPopup:Panel::items option is required');
             stubLoggerError.restore();
          });
 
@@ -646,9 +602,10 @@ define(
 
          it('_historyItemsChanged', function() {
             if (Env.constants.isServerSide) { return; }
+            var newConfig = Object.assign({}, config);
+            newConfig.historyId = 'TEST_HISTORY_ID';
             var panel = getFilterPanel(config);
             panel._loadHistoryItems = (historyId) => {assert.equal(historyId, 'TEST_PANEL_HISTORY_ID')};
-            panel._historyId = 'TEST_HISTORY_ID';
             panel._historyItemsChanged();
          });
 

@@ -1,6 +1,6 @@
 import { GridFooterCell } from 'Controls/gridNew';
 
-export default class TreeGridFooterCell<S> extends GridFooterCell<S> {
+export default class TreeGridFooterCell extends GridFooterCell<any> {
    /**
     * Признак, означающий что в списке есть узел с детьми
     */
@@ -14,7 +14,7 @@ export default class TreeGridFooterCell<S> extends GridFooterCell<S> {
    ): string {
       let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
 
-      if (this._shouldDrawExpanderPadding()) {
+      if (this._shouldDisplayExpanderPadding()) {
          const expanderSize = this.getOwner().getExpanderSize() || 'default';
          classes += ` controls-TreeGridView__footer__expanderPadding-${expanderSize}_theme-${theme}`;
       }
@@ -33,10 +33,15 @@ export default class TreeGridFooterCell<S> extends GridFooterCell<S> {
 
    // endregion HasNodeWithChildren
 
-   private _shouldDrawExpanderPadding(): boolean {
+   private _shouldDisplayExpanderPadding(): boolean {
       const isFirstColumnWithCorrectingForCheckbox = this._$owner.hasMultiSelectColumn() ?
           this.getColumnIndex() === 1 : this.isFirstColumn();
-      return isFirstColumnWithCorrectingForCheckbox && this._$hasNodeWithChildren;
+      const expanderIcon = this.getOwner().getExpanderIcon();
+      const expanderPosition = this.getOwner().getExpanderPosition();
+      const expanderVisibility = this.getOwner().getExpanderVisibility();
+
+      return isFirstColumnWithCorrectingForCheckbox && expanderIcon !== 'none' && expanderPosition === 'default'
+          && (expanderVisibility === 'hasChildren' ? this._$hasNodeWithChildren : true) ;
    }
 }
 

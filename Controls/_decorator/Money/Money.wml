@@ -1,4 +1,4 @@
-<span class="controls-DecoratorMoney controls_theme-{{_options.theme}} controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
+<span class="controls-DecoratorMoney controls-DecoratorMoney_style-{{_options.style}} {{ _options.underline === 'hovered' ? 'controls-DecoratorMoney__underline' }}"
       title="{{_tooltip}}">
     <ws:if data="{{_options.currency && _options.currencyPosition === 'left'}}">
             <div class="controls-icon icon-{{_options.currency}} controls-icon_size-{{_options.currencySize}}_theme-{{_options.theme}} controls-icon_style-{{_options.fontColorStyle}}_theme-{{_options.theme}}"></div>
@@ -6,7 +6,7 @@
     <ws:if data="{{_options.abbreviationType === 'long'}}">
         <span class="controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}
                  controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
-                 controls-DecoratorMoney__integer_fontWeight_{{_options.fontWeight}}
+                 controls-fontweight-{{_options.fontWeight}}
                  {{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
             {{_formattedNumber}}
         </span>
@@ -15,12 +15,12 @@
         <span class="{{ _options.stroked ? 'controls-DecoratorMoney__stroked' }}">
             <span class="controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}}
                     controls-text-{{_fontColorStyle}}_theme-{{_options.theme}}
-                    controls-DecoratorMoney__integer_fontWeight_{{_options.fontWeight}}">
+                    controls-fontweight-{{_options.fontWeight}}">
                 {{_formattedNumber.integer}}
             </span>
             <ws:if data="{{_isDisplayFractionPath(_formattedNumber.fraction, _options.showEmptyDecimals)}}">
-                <span class="controls-DecoratorMoney__fraction__colorStyle-{{ _formattedNumber.fraction === '.00' ? 'readOnly' : _fontColorStyle}}
-                            controls-fontsize-xs_theme-{{_options.theme}}">
+                <span class="controls-DecoratorMoney__fraction__colorStyle-{{ _formattedNumber.fraction === '.00' ? 'readonly' : _fontColorStyle}}
+                            controls-fontsize-{{_fractionFontSize}}_theme-{{_options.theme}}">
                     {{_formattedNumber.fraction}}
                 </span>
             </ws:if>

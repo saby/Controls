@@ -99,7 +99,7 @@ export type StrategyConstructor<
    T extends CollectionItem<S> = CollectionItem<S>
    > = new() => F;
 
-interface ISessionItems<T> extends Array<T> {
+export interface ISessionItems<T> extends Array<T> {
     properties?: object;
 }
 
@@ -120,13 +120,14 @@ export interface IOptions<S, T> extends IAbstractOptions<S> {
     displayProperty?: string;
     itemTemplateProperty?: string;
     multiSelectVisibility?: string;
-    multiSelectPosition?: 'default'|'custom';
+    multiSelectPosition?: 'default' | 'custom';
     itemPadding?: IItemPadding;
     emptyTemplate?: TemplateFunction;
     rowSeparatorSize?: string;
     stickyMarkedItem?: boolean;
     stickyHeader?: boolean;
     theme?: string;
+    style?: string;
     backgroundStyle?: string;
     hoverBackgroundStyle?: string;
     collapsedGroups?: TArrayGroupKey;
@@ -864,10 +865,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             this._$itemTemplateProperty = options.itemTemplateProperty;
         }
 
-        this._$theme = options.theme;
-
-        if (options.hoverBackgroundStyle) {
-            this._$hoverBackgroundStyle = options.hoverBackgroundStyle;
+        if (!options.hoverBackgroundStyle && options.style) {
+            this._$hoverBackgroundStyle = options.style;
         }
 
         this._$collapsedGroups = options.collapsedGroups;
@@ -1002,6 +1001,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._cursorEnumerator = null;
         this._utilityEnumerator = null;
         this._userStrategies = null;
+        this._$metaResults = null;
 
         super.destroy();
     }
@@ -2141,7 +2141,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             items,
             index
         );
-        this._handleAfterCollectionChange();
+        this._handleAfterCollectionChange(items);
 
         if (VERSION_UPDATE_ITEM_PROPERTIES.indexOf(properties as unknown as string) >= 0) {
             this._nextVersion();
@@ -2233,6 +2233,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     getItemTemplateProperty(): string {
         return this._$itemTemplateProperty;
+    }
+
+    setDisplayProperty(displayProperty: string): void {
+        if (this._$displayProperty !== displayProperty) {
+            this._$displayProperty = displayProperty;
+            this._nextVersion();
+        }
     }
 
     getDisplayProperty(): string {
@@ -2432,13 +2439,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$editingConfig;
     }
 
-    setSearchValue(searchValue: string): boolean {
+    setSearchValue(searchValue: string): void {
         if (this._$searchValue !== searchValue) {
             this._$searchValue = searchValue;
+            this.getViewIterator().each((item: T) => {
+                if (item.DisplaySearchValue) {
+                    item.setSearchValue(searchValue);
+                }
+            });
             this._nextVersion();
-            return true;
         }
-        return false;
     }
 
     getSearchValue(): string {
@@ -3073,12 +3083,14 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.owner = this;
             options.multiSelectVisibility = this._$multiSelectVisibility;
             options.multiSelectAccessibilityProperty = this._$multiSelectAccessibilityProperty;
-            options.backgroundStyle = this._$backgroundStyle;            
+            options.backgroundStyle = this._$backgroundStyle;
             options.theme = this._$theme;
+            options.style = this._$style;
             options.leftPadding = this._$leftPadding;
             options.rightPadding = this._$rightPadding;
             options.topPadding = this._$topPadding;
             options.bottomPadding = this._$bottomPadding;
+            options.searchValue = this._$searchValue;
             return create(options.itemModule || this._itemModule, options);
         };
     }
@@ -3454,6 +3466,15 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             return;
         }
         const groupStrategy = this._composer.getInstance<GroupItemsStrategy<S, T>>(GroupItemsStrategy);
+        // prependStrategy вызывает _reGroup после composer.prepend().
+        // Внутри composer.prepend() имеющийся экземпляр стратегии удаляется, и пересоздаётся с опциями,
+        // которые были переданы для неё при добавлении в компоновщик.
+        // Необходимо устанавливать актуальное состояние "свёрнутости" групп,
+        // т.к. после пересоздания стратегии, она ничего не знает об актуальном значении collapsedGroups.
+        // Чтобы убрать этот костыль, надо или научить компоновщик пересоздавать стратегии с актуальными опциями
+        // или сделать получение collapsedGroups через callback или пересмотреть необходимость пересоздания
+        // стратегий при prepend.
+        groupStrategy.collapsedGroups = this._$collapsedGroups;
         groupStrategy.invalidate();
     }
 
@@ -3504,7 +3525,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         const sortMap = [];
         const groupMap = [];
 
-        strategy.splice(start, 0, items);
+        strategy.splice(start, 0, items, IObservable.ACTION_ADD);
         innerIndex = strategy.getDisplayIndex(start);
 
         items.forEach((item, index) => {
@@ -3535,7 +3556,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         count = count === undefined ? strategy.count - start : count;
 
-        result = strategy.splice(start, count);
+        result = strategy.splice(start, count, [], IObservable.ACTION_REMOVE);
         innerIndex = result.start = strategy.getDisplayIndex(start);
 
         this._filterMap.splice(innerIndex, count);
@@ -3553,7 +3574,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
      */
     protected _replaceItems(start: number, newItems: S[]): ISplicedArray<T> {
         const strategy = this._getItemsStrategy();
-        const result = strategy.splice(start, newItems.length, newItems) as ISplicedArray<T>;
+        const result = strategy.splice(start, newItems.length, newItems, IObservable.ACTION_REPLACE) as ISplicedArray<T>;
         result.start = strategy.getDisplayIndex(start);
 
         return result;
@@ -3572,8 +3593,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         const strategy = this._getItemsStrategy();
         let movedItems;
 
-        movedItems = strategy.splice(oldIndex, length);
-        strategy.splice(newIndex, 0, movedItems);
+        movedItems = strategy.splice(oldIndex, length, [], IObservable.ACTION_MOVE);
+        strategy.splice(newIndex, 0, movedItems, IObservable.ACTION_MOVE);
         movedItems.oldIndex = strategy.getDisplayIndex(oldIndex);
 
         return movedItems;
@@ -3697,7 +3718,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                     index
                 );
             });
-            this._handleAfterCollectionChange();
+            this._handleAfterCollectionChange(items);
         }
     }
 
@@ -3732,7 +3753,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
                 );
             }
         );
-        this._handleAfterCollectionChange();
+        this._handleAfterCollectionChange(changedItems);
     }
 
     /**
@@ -3835,7 +3856,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         this._notify('onAfterCollectionChange');
     }
 
-    protected _handleAfterCollectionChange(): void {
+    protected _handleAfterCollectionChange(changedItems: ISessionItems<T> = []): void {
         this._notifyAfterCollectionChange();
         this._updateItemsMultiSelectVisibility(this._$multiSelectVisibility);
     }
@@ -3878,6 +3899,7 @@ Object.assign(Collection.prototype, {
     _$markerVisibility: 'onactivated',
     _$multiSelectAccessibilityProperty: '',
     _$style: 'default',
+    _$theme: 'default',
     _$hoverBackgroundStyle: 'default',
     _$backgroundStyle: null,
     _$rowSeparatorSize: null,

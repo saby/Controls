@@ -1,8 +1,7 @@
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_suggestPopup/Dialog');
-import {SearchContextField} from 'Controls/context';
-import {_scrollContext as ScrollData} from 'Controls/scroll';
-
+import 'css!Controls/suggestPopup';
+import 'css!Controls/suggest';
 import 'Controls/popupTemplate';
 
       /**
@@ -31,21 +30,6 @@ import 'Controls/popupTemplate';
          _template: template,
          _resizeTimeout: null,
 
-         _beforeMount: function() {
-            this._scrollData = new ScrollData({pagingVisible: false});
-
-            //TODO временное решение, контекст должен долетать от Application'a, удалить, как будет сделано (Шипин делает)
-            //https://online.sbis.ru/opendoc.html?guid=91b2abcb-ca15-46ea-8cdb-7b1f51074c65
-            this._searchData = new SearchContextField(null);
-         },
-
-         _getChildContext: function() {
-            return {
-               searchLayoutField: this._searchData,
-               ScrollData: this._scrollData
-            };
-         },
-
          _beforeUnmount: function() {
             clearTimeout(this._resizeTimeout);
             this._resizeTimeout = null;
@@ -57,7 +41,6 @@ import 'Controls/popupTemplate';
          }
 
       });
-      List._theme = ['Controls/suggest', 'Controls/suggestPopup'];
       export = List;
 
 

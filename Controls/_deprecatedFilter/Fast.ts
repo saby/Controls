@@ -276,7 +276,7 @@ var _private = {
          }
 
          _private.getSourceController(config, getPropValue(items.at(index), 'properties')).addCallback((sourceController) => {
-              sourceController.calculateState(config._items);
+              sourceController.setItems(config._items);
          });
       });
    },

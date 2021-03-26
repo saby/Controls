@@ -873,6 +873,11 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._display.setRowSeparatorSize(rowSeparatorSize);
         this._nextModelVersion();
     },
+    setDisplayProperty(displayProperty: string): void {
+        this._options.displayProperty = displayProperty;
+        this._display?.setDisplayProperty(displayProperty);
+        this._nextModelVersion();
+    },
 
     /**
      * Обновляет стиль фона фиксированных элемекнтов

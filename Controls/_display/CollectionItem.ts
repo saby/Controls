@@ -38,6 +38,8 @@ export interface IOptions<T extends Model = Model> {
     rowSeparatorSize?: string;
     backgroundStyle?: string;
     theme?: string;
+    style: string;
+    searchValue?: string;
     leftPadding: string;
     rightPadding: string;
     topPadding: string;
@@ -90,6 +92,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     readonly SelectableItem: boolean = true;
     readonly DraggableItem: boolean = true;
     readonly ItemActionsItem: boolean = true;
+    readonly DisplaySearchValue: boolean = true;
+
     private _$editingColumnIndex: number;
 
     getInstanceId: () => string;
@@ -103,6 +107,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * Содержимое элемента коллекции
      */
     protected _$contents: T;
+
+    protected _$searchValue: string;
 
     /**
      * Элемент выбран
@@ -142,6 +148,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     protected _$dragged: boolean;
 
     protected _$theme: string;
+
+    protected _$style: string;
 
     protected _$leftPadding: string;
 
@@ -310,8 +318,15 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
     }
 
+    setSearchValue(searchValue: string): void {
+        if (this._$searchValue !== searchValue) {
+            this._$searchValue = searchValue;
+            this._nextVersion();
+        }
+    }
+
     getSearchValue(): string {
-        return this.getOwner().getSearchValue();
+        return this._$searchValue;
     }
 
     // endregion
@@ -707,6 +722,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this._$theme;
     }
 
+    getStyle(): string {
+        return this._$style;
+    }
+
     /**
      * Возвращает строку с классами, устанавливаемыми в шаблоне элемента div'а, расположенного внутри корневого div'a -
      * так называемого контентного div'a.
@@ -958,6 +977,7 @@ Object.assign(CollectionItem.prototype, {
     _moduleName: 'Controls/display:CollectionItem',
     _instancePrefix: 'collection-item-',
     _$owner: null,
+    _$searchValue: '',
     _$contents: null,
     _$selected: false,
     _$marked: false,
@@ -973,6 +993,7 @@ Object.assign(CollectionItem.prototype, {
     _$rowSeparatorSize: null,
     _$backgroundStyle: null,
     _$theme: 'default',
+    _$style: 'default',
     _$leftPadding: 'default',
     _$rightPadding: 'default',
     _$topPadding: 'default',

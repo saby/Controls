@@ -1,4 +1,5 @@
-import {Control, TemplateFunction, IControlOptions, AppData, PrefetchLinksStore} from 'UI/Base';
+import {Control, TemplateFunction, IControlOptions, AppData} from 'UI/Base';
+import { PrefetchLinksStore } from 'UI/Deps';
 import * as template from 'wml!Controls/Application/Page';
 import {Body as PageBody, Head as PageHead} from 'Application/Page';
 
@@ -12,7 +13,6 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {dispatcherHandler} from 'UI/HotKeys';
 import {List} from 'Types/collection';
 
-import {_scrollContext} from 'Controls/scroll';
 import {setController as setSettingsController, IPopupSettingsController} from
        'Controls/Application/SettingsController';
 import {ManagerClass as PopupManager, GlobalController as PopupGlobalController, IPopupItem} from
@@ -21,11 +21,12 @@ import {TouchContextField} from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
 
-import 'css!Controls/CommonClasses';
-
 // Нужно чтобы oldCss прилетал первым на страницу. Есть контролы (например itemsActions), стили которыйх
 // Завязаны на порядок css.
-import 'css!theme?Controls/Application/oldCss';
+import 'css!Controls/Application/oldCss';
+import 'css!Controls/application';
+import 'css!Controls/dragnDrop';
+import 'css!Controls/CommonClasses';
 
 /**
  * Корневой контрол для Wasaby-приложений. Служит для создания базовых html-страниц.
@@ -50,6 +51,7 @@ interface IBodyClassesField {
    hoverClass: string;
    dragClass: string;
    themeClass: string;
+   bodyThemeClass: string;
    isAdaptiveClass: string;
 }
 
@@ -99,6 +101,7 @@ const BODY_CLASSES = {
    hoverClass: '',
    dragClass: 'ws-is-no-drag',
    themeClass: '',
+   bodyThemeClass: '',
    isAdaptiveClass: ''
 };
 
@@ -113,7 +116,6 @@ export default class Application extends Control<IApplication> {
 
    private _registers: IApplicationRegistrars;
    private _popupManager: PopupManager;
-   private _scrollData: _scrollContext;
    private _globalPopup: PopupGlobalController;
    private _dragnDropController: DnDController;
    private _isPopupShow: boolean;
@@ -124,7 +126,6 @@ export default class Application extends Control<IApplication> {
    // start hooks
    protected _beforeMount(options: IApplication): void {
       this._checkDeprecatedOptions(options);
-      this._scrollData = new _scrollContext({ pagingVisible: options.pagingVisible });
 
       const appData = AppData.getAppData();
       this.RUMEnabled = options.RUMEnabled || appData.RUMEnabled || false;
@@ -166,6 +167,7 @@ export default class Application extends Control<IApplication> {
       timeTester.load();
       if (Application._isIOS13()) {
          window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
+         document.addEventListener('orientationchange', this._orientationChange);
       }
       window.addEventListener('resize', this._resizePage.bind(this))
       window.document.addEventListener('scroll', this._scrollPage.bind(this))
@@ -182,10 +184,6 @@ export default class Application extends Control<IApplication> {
 
    }
    protected _beforeUpdate(options: IApplication): void {
-      if (this._scrollData.pagingVisible !== options.pagingVisible) {
-         this._scrollData.pagingVisible = options.pagingVisible;
-         this._scrollData.updateConsumers();
-      }
       this._updateTouchClass();
       this._updateThemeClass(options);
       this._updateFromOptionsClass(options);
@@ -340,7 +338,7 @@ export default class Application extends Control<IApplication> {
          }
          HeadAPI.createTag('meta', {
             name: 'viewport',
-            content: 'width=device-width, initial-scale=1.0'
+            content: 'width=device-width, initial-scale=1.0, user-scalable=no'
          });
          this._bodyClasses.isAdaptiveClass = 'ws-is-adaptive';
       } else {
@@ -421,7 +419,8 @@ export default class Application extends Control<IApplication> {
    }
    private _updateThemeClass(options: IApplication): void {
       this._updateBodyClasses({
-         themeClass: 'Application-body_theme-' + options.theme
+         themeClass: 'Application-body',
+         bodyThemeClass: `controls_theme-${options.theme}`
       });
    }
    /** ************************************************** */
@@ -538,6 +537,23 @@ export default class Application extends Control<IApplication> {
       this._popupManager.eventHandler.apply(this._popupManager, [action, args]);
    }
 
+   /**
+    * Решения взято отсюда
+    * https://stackoverflow.com/questions/62717621/white-space-at-page-bottom-after-device-rotation-in-ios-safari
+    * @protected
+    */
+   protected _orientationChange(): void {
+      document.documentElement.style.height = 'initial';
+      setTimeout(() => {
+         document.documentElement.style.height = '100%';
+         setTimeout(() => {
+            // this line prevents the content
+            // from hiding behind the address bar
+            window.scrollTo(0, 1);
+         }, 500);
+      }, 500);
+   }
+
    private _getResourceUrl(str: string): string {
       return getResourceUrl(str);
    }
@@ -548,13 +564,9 @@ export default class Application extends Control<IApplication> {
 
    private _getChildContext(): object {
       return {
-         ScrollData: this._scrollData,
          isTouch: this._touchObjectContext
       };
    }
-
-   static _theme: string[] = ['Controls/application'];
-   static _styles: string[] = ['Controls/dragnDrop'];
 
    private static _isIOS13(): boolean {
       const oldIosVersion: number = 12;

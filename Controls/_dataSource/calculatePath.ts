@@ -8,9 +8,10 @@ interface IPathResult {
     path: Path;
     pathWithoutItemForBackButton: Path;
     backButtonCaption: string|null;
+    backButtonItem: Model;
 }
 
-function getPath(data: RecordSet|[]): Path {
+function getPath(data: RecordSet | Path): Path {
     const path = data instanceof RecordSet && data.getMetaData().path;
     let breadCrumbs = null;
 
@@ -33,6 +34,16 @@ function getBackButtonCaption(path: Path, displayProperty?: string): string {
     return caption;
 }
 
+function getBackButtonItem(path: Path): Model {
+    let item;
+
+    if (path && path.length >= 1) {
+        item = path[path.length - 1];
+    }
+
+    return item;
+}
+
 function getPathWithoutItemForBackButton(breadCrumbs: Path): Path {
     let breadCrumbsWithoutItemForBackButton = null;
 
@@ -43,12 +54,13 @@ function getPathWithoutItemForBackButton(breadCrumbs: Path): Path {
     return breadCrumbsWithoutItemForBackButton;
 }
 
-export default function calculatePath(data: RecordSet, displayProperty?: string): IPathResult {
+export default function calculatePath(data: RecordSet | Path, displayProperty?: string): IPathResult {
     const path = getPath(data);
 
     return {
         path,
         pathWithoutItemForBackButton: getPathWithoutItemForBackButton(path),
+        backButtonItem: getBackButtonItem(path),
         backButtonCaption: getBackButtonCaption(path, displayProperty)
     };
 }

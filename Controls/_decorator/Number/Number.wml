@@ -1,4 +1,4 @@
-<span class="controls-DecoratorNumber controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}} controls-text-{{_fontColorStyle}}_theme-{{_options.theme}} controls-DecoratorMoney__integer_fontWeight_{{_options.fontWeight}} {{ _options.stroked ? 'controls-DecoratorNumber__stroked' }} {{ _options.underline === 'hovered' ? 'controls-DecoratorNumber__underline' }}"
+<span class="controls-DecoratorNumber controls-fontsize-{{_options.fontSize}}_theme-{{_options.theme}} controls-text-{{_fontColorStyle}}_theme-{{_options.theme}} controls-fontweight-{{_options.fontWeight}} {{ _options.stroked ? 'controls-DecoratorNumber__stroked' }} {{ _options.underline === 'hovered' ? 'controls-DecoratorNumber__underline' }}"
       title="{{_formattedNumber}}">
         {{_formattedNumber}}
 </span>

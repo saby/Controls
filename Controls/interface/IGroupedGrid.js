@@ -22,7 +22,7 @@ define('Controls/interface/IGroupedGrid', [
 
    /**
     * @name Controls/interface/IGroupedGrid#groupTemplate
-    * @cfg {String|Function} Шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/ заголовка группы}.
+    * @cfg {String|TemplateFunction} Шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/ заголовка группы}.
     * @default undefined
     * @remark
     * Конфигурация визуального представления группировки задаётся в опции groupTemplate путём настройки шаблона группировки {@link Controls/grid:GroupTemplate}.

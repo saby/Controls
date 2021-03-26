@@ -1,0 +1,35 @@
+.border {
+   box-sizing: border-box;
+   border: 1px solid #aaa;
+}
+
+.inline {
+   display: inline-block;
+}
+
+.size {
+   width: 100px;
+   height: 30px;
+}
+
+.size_abs1 {
+   width: calc(100px + 2px + var(--offset_s) + var(--offset_2xs));
+   height: calc(30px + 2px + var(--offset_3xs) + var(--offset_xs));
+}
+
+.size_abs2 {
+   width: calc(100px + 2px + var(--offset_l) + var(--offset_3xl));
+   height: calc(30px + 2px + var(--offset_m) + var(--offset_2xl));
+}
+
+.background {
+   background-color: #eaeaea;
+}
+
+.relative {
+   position: relative;
+}
+
+.absolute {
+   position: absolute;
+}

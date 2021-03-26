@@ -497,7 +497,6 @@ define(
             let emptyConfig = clone(config);
             emptyConfig.emptyText = 'Не выбрано';
             emptyConfig.displayProperty = 'title';
-            emptyConfig.theme = 'default';
             let emptyItem = getEmpty(emptyConfig);
             assert.isFalse(emptyItem._isSelected);
             assert.equal(emptyItem.emptyText, emptyConfig.emptyText);
@@ -519,7 +518,6 @@ define(
 
             // spacingClassList
             let expectedClassList = 'controls-DropdownList__row_state_default ' +
-               'controls-DropdownList__hierarchyItem-leftPadding_default_theme-default ' +
                'controls-DropdownList__hierarchyItem-leftPadding_default ' +
                'controls-DropdownList__item-rightPadding_default';
             assert.equal(emptyItem.itemClassList, expectedClassList);

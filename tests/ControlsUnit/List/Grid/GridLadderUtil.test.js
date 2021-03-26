@@ -229,4 +229,33 @@ define(['Types/collection', 'Controls/display', 'Env/Env'], function(Collection,
          assert.deepEqual(ladder.stickyLadder, resultStickyLadder, 'Incorrect value prepared stickyLadder.');
       });
    });
+
+   it('should return z-index styles for sticky column', () => {
+      const items = new Collection.RecordSet({
+         keyProperty: 'key',
+         rawData: [
+            { key: 0, title: 'i0', first: 1, second: 1 },
+            { key: 1, title: 'i1', first: 2, second: 1 },
+            { key: 2, title: 'i2', first: 3, second: 2 },
+            { key: 3, title: 'i3', first: 3, second: 2 }
+         ]
+      });
+      const columns = [
+         {
+            width: '1fr',
+            displayProperty: 'title',
+            stickyProperty: ['first', 'second']
+         }];
+      const display = new Display.Collection({ collection: items, keyProperty: 'id' });
+      const ladder = Util.prepareLadder({
+         display,
+         columns: columns,
+         ladderProperties: ['first', 'second'],
+         startIndex: 0,
+         stopIndex: 4,
+         hasColumnScroll: true
+      });
+
+      assert.equal(ladder.stickyLadder[0].first.headingStyle, 'grid-row: span 1; z-index: 4;');
+   });
 });

@@ -205,13 +205,16 @@ define(
 
          it('_mouseEnterHandler', () => {
             menu._beforeMount(config);
+            const event = {
+               nativeEvent: {}
+            };
 
-            menu._handleMouseEnter();
+            menu._handleMouseEnter(event);
             assert.isOk(menu._dependenciesTimer);
 
             menu._dependenciesTimer = null;
             menu._options.readOnly = true;
-            menu._handleMouseEnter();
+            menu._handleMouseEnter(event);
             assert.isNull(menu._dependenciesTimer);
             menu._options.readOnly = false;
          });

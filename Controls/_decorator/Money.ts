@@ -38,14 +38,14 @@ type TAbbreviationType = 'long' | 'none';
 type TCurrency = 'Ruble' | 'Euro' | 'Dollar';
 /**
  * Тип данных для позиции отображаемой валюты
- * @typedef {string} TAbbreviationType
+ * @typedef {string} TCurrencyPosition
  * @variant right
  * @variant left
  */
 type TCurrencyPosition = 'right' | 'left';
 /**
  * Тип данных для размера отображаемой валюты
- * @typedef {string} TCurrency
+ * @typedef {string} TCurrencySize
  * @variant 2xs
  * @variant xs
  * @variant s
@@ -132,6 +132,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     protected _tooltip: string;
     private _formattedNumber: string | IPaths;
     private _fontColorStyle: string;
+    private _fractionFontSize: string;
 
     readonly '[Controls/_interface/ITooltip]': boolean = true;
     readonly '[Controls/_interface/IFontColorStyle]': boolean = true;
@@ -153,9 +154,7 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
             return options.tooltip;
         }
 
-        return this._isDisplayFractionPath(this._formattedNumber.fraction, options.showEmptyDecimals)
-            ? this._formattedNumber.number
-            : this._formattedNumber.integer;
+        return this._formattedNumber.number;
     }
 
     private _changeState(options: IMoneyOptions, useLogging: boolean): boolean {
@@ -200,12 +199,16 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     }
 
     private _setFontState(options: IMoneyOptions): void {
-        if (options.readOnly) {
+        if (options.readOnly || options.stroked) {
             this._fontColorStyle = 'readonly';
-        } else if (options.stroked) {
-            this._fontColorStyle = 'unaccented';
         } else {
             this._fontColorStyle = options.fontColorStyle;
+        }
+
+        if (options.fontSize === '6xl' || options.fontSize === '8xl' ) {
+            this._fractionFontSize = '3xl';
+        } else {
+            this._fractionFontSize = 'xs';
         }
     }
 

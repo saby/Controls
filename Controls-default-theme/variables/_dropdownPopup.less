@@ -1,13 +1,111 @@
 .controls_theme-@{themeName} {
+   // Параметры для выпадающего окна
+
+   --popup_max-width_menuPopup: 700px;
+   --popup_box-shadow-offset_menuPopup: 6px;
+   --popup_box-shadow-blur_menuPopup: 6px;
+   --popup_box-shadow-color_menuPopup: rgba(0, 0, 0, 0.2);
+
+   // Параметры для подвала
+
+   --footer_min-height_menuPopup: 32px;
+   --footer_additionalButton_min-height_menuPopup: 24px;
+
    // Кнопка подтверждения в списке с мультивыбором
 
    --apply-button_offset_menuPopup: var(--offset_xs);
    --apply-button_inline-height_menuPopup: var(--inline_height_m);
    --apply-button_border-radius_menuPopup: calc(var(--apply-button_inline-height_menuPopup) / 2);
 
-
    //Кнопка "Ещё" в меню
    --more_text-color_menuPopup: var(--link_text-color);
    --more_hover_text-color_menuPopup: var(--link_hover_text-color);
    --more_active_text-color_menuPopup: var(--link_hover_text-color);
+
+   // Параметры для элементов меню
+   //
+   // Разделители
+
+   --item_separator_color_menu: transparent;
+   --item_separator_thickness_menu: 0px;
+   --item_separator_padding-horizontal_menu: 0px;
+
+   // Цвета фона
+
+   --item_background-color_menu: var(--background-color);
+   --item_hover_background-color_menu: var(--hover_background-color);
+   --item_active_background-color_menu: var(--item_hover_background-color_menu);
+
+   //Параметры шрифта
+   --item_font-size_menu: var(--font-size_l);
+   --item_text-color_menu: var(--text-color);
+   --empty-item_text-color_menu: #ccc;
+   --readonly_item_text-color_menu: var(--readonly_color);
+
+   // Размеры и отступы
+
+   --item_height_menu: 32px;
+   --item_padding-horizontal_s_menu: var(--offset_2xs);
+   --item_padding-horizontal_l_menu: var(--offset_m);
+   --item_padding-top_menu: var(--offset_xs);
+   --item_padding-bottom_menu: var(--offset_xs);
+   --item_icon_offset_menu: var(--offset_xs);
+
+   // Параметры для вспомогательных элементов меню
+   //
+   // Иконка разворота иерархии
+   --hierarchy_icon-size_menu: var(--icon-size_s);
+   --hierarchy_icon-color_menu: var(--secondary_icon-color);
+   --readonly_hierarchy_icon-color_menu: var(--readonly_color);
+   --hierarchy_icon_offset-right_menu: var(--offset_xs);
+   --hierarchy_icon_offset-left_menu: var(--offset_xs);
+
+   // Кнопка "закрепить"
+   --pin-button_icon-size_menu: var(--icon-size_s);
+   --pin-button_offset-right_menu: var(--offset_m);
+   --pin-button_offset-left_menu: var(--offset_xs);
+   --pin-button_icon-color_menu: var(--unaccented_icon-color);
+   --pin-button_hover_icon-color_menu: var(--secondary_hover_icon-color);
+
+   //Параметры для маркера
+
+   --marker_width_menu: 6px;
+   --marker_height_menu: 9px;
+   --marker_color_menu: #d94700;
+
+   //Параметры для чекбокса
+   --checkbox_offset-right_menu: 8px;
+
+   //Параметры для группировки
+
+   --grouping_padding-vertical_menu: var(--offset_s);
+   --grouping_padding-horizontal_menu: var(--offset_m);
+   --grouping_separator_thickness_menu: 1px;
+   --grouping_separator_color_menu: #eaeaea;
+   --grouping_text-color_menu: var(--label_text-color);
+   --grouping_font-size_menu: var(--font-size_xs);
+
+   // Параметры для шаблона справа от пункта
+   --rightTemplate_separator_thickness_menu: 1px;
+   --rightTemplate_separator_color_menu: var(--item_background-color_menu);
+   --rightTemplate_padding-horizontal_menu: var(--offset_m);
+
+   // Параметры для поиска
+   --search_width_s_menuPopup: 184px;
+   --search_width_l_menuPopup: 300px;
+   --search_offset-right_menuPopup: var(--offset_m);
+
+   // Результаты поиска
+   // иерархический отступ элементов
+   --search-hierarchy_offset_menuPopup: @search-hierarchy_offset_treeGrid;
+   // разделитель между результатами из корня и из папок
+   --search-separator_length_menuPopup: @search-separator_length_treeGrid;
+   --search-separator_thickness_menuPopup: @search-separator_thickness_treeGrid;
+   --search-separator_color_menuPopup: @search-separator_color_treeGrid;
+   --search-separator_padding-top_menuPopup: @search-separator_padding-top_treeGrid;
+   --search-separator_padding-bottom_menuPopup: @search-separator_padding-bottom_treeGrid;
+
+   // временно
+   --height_itemActions: @height_itemActions;
+   --height_breadcrumbsView: @height_breadcrumbsView;
 }

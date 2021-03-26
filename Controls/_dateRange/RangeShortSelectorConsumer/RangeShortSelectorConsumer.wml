@@ -1,0 +1,3 @@
+<Controls._dateRange._DateRangeSelectorConsumer name="consumer">
+    <Controls._dateRange.RangeShortSelector scope="{{ _options }}" name="dateRange"/>
+</Controls._dateRange._DateRangeSelectorConsumer>

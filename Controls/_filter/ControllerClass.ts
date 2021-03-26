@@ -799,6 +799,17 @@ export default class FilterControllerClass {
         }
         return resultItems;
     }
+
+    // Методы добавлены для совместимости, чтобы не сломался код у прикладных программистов,
+    // которые используют статический метод getCalculatedFilter у Controls/filter:Controller
+    // будет исправлено по задаче https://online.sbis.ru/opendoc.html?guid=8bd01598-d6cd-4581-ae3a-2a6915b34b79
+    static getCalculatedFilter(cfg: object): Promise<any> {
+        return new FilterControllerClass({}).getCalculatedFilter(cfg);
+    }
+
+    static updateFilterHistory(cfg: object): Promise<any> {
+        return new FilterControllerClass({}).saveFilterToHistory(cfg);
+    }
 }
 
 function getCalculatedFilter(config) {

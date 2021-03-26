@@ -77,11 +77,41 @@ var
         getRoot: function() {
             return this._model.getRoot();
         },
-        getNextByKey: function() {
-           return this._model.getNextByKey.apply(this._model, arguments);
+        getNextByKey(key: string|number, forMoving?: boolean) {
+            if (forMoving) {
+                const items = this.getItems();
+                const relation = this._model.getHierarchyRelation();
+                const item = items.getRecordById(key);
+                const itemParent = item.get(this._options.parentProperty);
+                const children = relation.getChildren(itemParent, items);
+                const curItemIndex = children.indexOf(item);
+                const display = this.getDisplay();
+                if (curItemIndex === -1 || curItemIndex === children.length - 1) {
+                    return this._model.getNextByKey(key);
+                } else {
+                    return display.getItemBySourceItem(children[curItemIndex + 1]);
+                }
+            } else {
+                return this._model.getNextByKey(key);
+            }
         },
-        getPrevByKey: function() {
-           return this._model.getPrevByKey.apply(this._model, arguments);
+        getPrevByKey(key: string|number, forMoving?: boolean) {
+            if (forMoving) {
+                const items = this.getItems();
+                const relation = this._model.getHierarchyRelation();
+                const item = items.getRecordById(key);
+                const itemParent = item.get(this._options.parentProperty);
+                const children = relation.getChildren(itemParent, items);
+                const curItemIndex = children.indexOf(item);
+                const display = this.getDisplay();
+                if (curItemIndex <= 0) {
+                    return this._model.getPrevByKey(key);
+                } else {
+                    return display.getItemBySourceItem(children[curItemIndex - 1]);
+                }
+            } else {
+                return this._model.getPrevByKey(key);
+            }
         },
         getNextByIndex: function() {
            return this._model.getNextByIndex.apply(this._model, arguments);
@@ -274,7 +304,9 @@ var
                 footer.classes = footer.getColumnClasses(0);
                 const colspanCfg = {
                     columnStart: self._hasMultiSelectColumn() ? 1 : 0,
-                    columnSpan: (self._options.columnScroll ? self._columns.length + 1 : self._columns.length) + this.stickyLadderCellsCount(),
+                    columnSpan: self._columns.length +
+                        (self._options.columnScroll && self._options.itemActionsPosition !== 'custom' ? 1 : 0) +
+                        self.stickyLadderCellsCount()
                 };
                 if (self._options.task1181099336 && footer.isFullGridSupport) {
                     colspanCfg.columnStart += this.stickyLadderCellsCount();

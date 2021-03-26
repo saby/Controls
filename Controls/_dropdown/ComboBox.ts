@@ -17,6 +17,8 @@ import {isLeftMouseButton} from 'Controls/popup';
 import {generateStates} from 'Controls/input';
 import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
+import 'css!Controls/dropdown';
+import 'css!Controls/CommonClasses';
 
 interface IComboboxOptions extends IBaseDropdownOptions, ISingleSelectableOptions, IBorderStyleOptions,
     IValidationStatusOptions, IInputPlaceholderOptions {
@@ -30,6 +32,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  *
  * @remark
  * Полезные ссылки:
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FCombobox%2FIndex демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/combobox/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less переменные тем оформления dropdownPopup}
@@ -41,7 +44,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * @implements Controls/_menu/interface/IMenuBase
  * @implements Controls/_interface/IFilterChanged
  * @implements Controls/_interface/ISingleSelectable
- * @implements Controls/_interface/IInputPlaceholder
+ * @implements Controls/interface:IInputPlaceholder
  * @implements Controls/_input/interface/ITag
  * @implements Controls/_interface/IValidationStatus
  * @implements Controls/_interface/IFontSize
@@ -122,8 +125,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
             selectedKeys: [options.selectedKey],
             markerVisibility: 'hidden',
             dataLoadCallback: this._dataLoadCallback.bind(this),
-            popupClassName: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup')
-                           + ' controls-ComboBox-popup_theme-' + options.theme,
+            popupClassName: (options.popupClassName ? options.popupClassName + ' controls-ComboBox-popup' : 'controls-ComboBox-popup'),
             typeShadow: 'suggestionsContainer',
             close: this._onClose,
             open: this._onOpen,
@@ -246,7 +248,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
       return validationStatus;
    }
 
-   static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];
+   static _theme: string[] = ['Controls/Classes'];
 
    static getDefaultOptions(): object {
       return {

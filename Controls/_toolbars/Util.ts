@@ -6,6 +6,7 @@ import {Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {CrudWrapper} from 'Controls/dataSource';
 import {showType} from './interfaces/IShowType';
+import {getIcon, isSVGIcon} from 'Controls/Utils/Icon';
 
 type TItem = Record;
 type TItems = RecordSet<TItem>;
@@ -27,7 +28,8 @@ export function hasSourceChanged(newSource?: ICrudPlus, oldSource?: ICrudPlus): 
 export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions: IControlOptions = {}): IButtonOptions {
     const cfg: IButtonOptions = {};
     const defaultOptions = getDefaultOptions();
-    const icon = item.get('icon');
+    const icon = getIcon(item.get('icon'));
+    const isSVG = isSVGIcon(item.get('icon'));
     const readOnly = item.get('readOnly') || toolbarOptions.readOnly;
     const buttonStyle = item.get('buttonStyle') || defaultOptions.buttonStyle;
     const iconStyle = item.get('iconStyle') || toolbarOptions.iconStyle || defaultOptions.iconStyle;
@@ -58,6 +60,7 @@ export function getSimpleButtonTemplateOptionsByItem(item: TItem, toolbarOptions
     cfg._stringCaption = typeof caption === 'string';
     cfg._captionPosition = item.get('captionPosition') || defaultOptions.captionPosition;
     cfg._icon = icon;
+    cfg._isSVGIcon = isSVG;
     cfg._iconSize = iconSize;
     cfg._iconStyle = readOnly ? 'readonly' : iconStyle;
     cfg.readOnly = readOnly;

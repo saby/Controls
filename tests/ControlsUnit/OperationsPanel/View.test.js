@@ -513,6 +513,7 @@ define([
                _icon: undefined,
                _iconSize: 'm',
                _iconStyle: 'secondary',
+               _isSVGIcon: false,
                _fontColorStyle: undefined,
                _height: 'default',
                _viewMode: 'button',

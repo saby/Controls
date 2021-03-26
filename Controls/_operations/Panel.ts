@@ -38,7 +38,7 @@ export default class Panel extends Control<IControlOptions> {
 
 /**
  * @name Controls/_operations/Panel#rightTemplate
- * @cfg {String|Function} Шаблон, отображаемый в правой части панели массового выбора.
+ * @cfg {String|TemplateFunction} Шаблон, отображаемый в правой части панели массового выбора.
  * @demo Controls-demo/OperationsPanelNew/RightTemplate/Index
  * @example
  * <pre class="brush: html">
@@ -68,7 +68,7 @@ export default class Panel extends Control<IControlOptions> {
 
 /**
  * @name Controls/_operations/Panel#popupFooterTemplate
- * @cfg {String|Function} Шаблон футера дополнительного меню тулбара.
+ * @cfg {String|TemplateFunction} Шаблон футера дополнительного меню тулбара.
  * @demo Controls-demo/OperationsPanelNew/PopupFooterTemplate/Index
  */
 

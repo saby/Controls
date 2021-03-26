@@ -1,9 +1,9 @@
-<div class="controls-Dropdown__wrapper_theme_{{_options.theme}}
-            {{fontSize ? 'controls-fontsize-' + fontSize : 'controls-Dropdown-fontsize' }}_theme-{{_options.theme}}">
-   <div class="controls-Dropdown__content-wrapper_theme-{{_options.theme}}
+<div class="controls-Dropdown__wrapper
+            {{fontSize ? 'controls-fontsize-' + fontSize : 'controls-Dropdown-fontsize' }}">
+   <div class="controls-Dropdown__content-wrapper
       {{!readOnly && (countItems === undefined || countItems > 1 || footerTemplate) ? 'controls-Dropdown__text_enabled ' +
       (style && !fontColorStyle ? 'controls-Dropdown__item_style-' + style : (isEmptyItem && !fontColorStyle ? 'controls-Dropdown__emptyItem'
-         : 'controls-Dropdown__defaultItem controls-text-' + (fontColorStyle || 'link'))) + '_theme-' + _options.theme + ' controls-Dropdown__item_style-' + style}}"
+         : 'controls-Dropdown__defaultItem controls-text-' + (fontColorStyle || 'link'))) + ' controls-Dropdown__item_style-' + style}}"
         name="popupTarget">
 
       <ws:if data="{{contentTemplate}}">
@@ -14,13 +14,15 @@
                      item="{{item}}"/>
       </ws:if>
       <ws:else>
-         <div if="{{icon}}" class="controls-Dropdown__icon controls-Dropdown__icon_theme_{{_options.theme}} controls-icon_style-{{item.get('iconStyle') || 'secondary'}}_theme-{{_options.theme}}"
+         <div if="{{icon}}" class="controls-Dropdown__icon
+          controls-icon_style-{{item.get('iconStyle') || 'secondary'}}"
               title="{{tooltip}}">
-            <div class="{{iconSize ? 'controls-icon_size-' + iconSize + '_theme-' + _options.theme}} {{icon}}"></div>
+            <Controls.icon:Icon iconSize="{{iconSize}}"
+                                icon="{{icon}}" />
          </div>
-         <div class="controls-Dropdown__text-wrapper theme_{{_options.theme}}">
-            <div if="{{!icon}}" class="controls-Dropdown__text theme_{{_options.theme}}" title="{{tooltip}}">{{text}}</div>
-            <span class="controls-Dropdown__hasMoreText theme_{{_options.theme}}">{{hasMoreText}}</span>
+         <div class="controls-Dropdown__text-wrapper">
+            <div if="{{!icon}}" class="controls-Dropdown__text" title="{{tooltip}}">{{text}}</div>
+            <span class="controls-Dropdown__hasMoreText">{{hasMoreText}}</span>
          </div>
       </ws:else>
    </div>

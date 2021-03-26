@@ -1,24 +1,6 @@
-<ws:template name="cross">
-   <ws:if data="{{!_options.readOnly}}">
-      <span class="controls-FilterView__iconReset icon-CloseNew"
-            ws-no-focus="{{true}}"
-            title="{[Сбросить]}"></span>
-   </ws:if>
-</ws:template>
-
-<ws:template name="itemTemplate">
-   <ws:partial template="{{_options.itemTemplate}}"
-               text="{{text}}"
-               title="{{title}}"
-               moreText="{{moreText}}"
-               item="{{item}}"
-               itemName="{{itemName}}"
-               attr:class="{{_options.detailPanelTemplateName ? 'controls-FilterView-' + _options.alignment + '__block'}}"/>
-</ws:template>
-
-<div class="controls_theme-{{_options.theme}} controls-FilterView controls-FilterView-{{_options.alignment}}
+<div class="controls-FilterView controls-FilterView-{{_options.alignment}}
             {{_options.readOnly ? 'controls-FilterView_readOnly'}}"
-   on:mouseenter="_mouseEnterHandler()">
+     on:mouseenter="_mouseEnterHandler()">
    <div class="controls-FilterView__wrapper">
       <ws:if data="{{_dateRangeItem}}">
          <ws:partial template="Controls/_filter/Editors/DateRange"
@@ -31,11 +13,12 @@
       </ws:if>
       <ws:if data="{{_needShowFastFilter(_source)}}">
          <ws:if data="{{_isFastReseted() && _options.detailPanelTemplateName}}">
-            <ws:partial template="itemTemplate"
+            <ws:partial template="{{_options.itemTemplate}}"
                         name="all_frequent"
                         itemName="all_frequent"
                         text="{{_options.emptyText || rk('Все')}}"
-                        attr:class="controls-FilterView__frequentFilter"
+                        attr:class="controls-FilterView__frequentFilter
+                                    {{_options.detailPanelTemplateName ? 'controls-FilterView-' + _options.alignment + '__block'}}"
                         on:mousedown="_openPanel('all_frequent')"/>
          </ws:if>
          <ws:for data="index, item in _source">
@@ -43,7 +26,7 @@
                            _configs[item.name].items.getCount() &&
                            _displayText[item.name].text !== undefined ||
                            _displayText[item.name].text}}">
-               <ws:partial template="itemTemplate"
+               <ws:partial template="{{_options.itemTemplate}}"
                            text="{{_displayText[item.name].text}}"
                            title="{{_displayText[item.name].title}}"
                            moreText="{{_displayText[item.name].hasMoreText}}"
@@ -51,26 +34,38 @@
                            name="{{item.name}}"
                            item="{{item}}"
                            itemName="{{item.name}}"
-                           attr:class="controls-FilterView__frequentFilter"
+                           attr:class="controls-FilterView__frequentFilter {{_options.detailPanelTemplateName ? 'controls-FilterView-' + _options.alignment + '__block'}}"
                />
                <ws:if data="{{item.hasOwnProperty('resetValue')}}">
-                  <ws:partial template="cross" on:mousedown="_reset(item)" item="{{item}}"/>
+                  <ws:if data="{{!_options.readOnly}}">
+                     <span class="controls-FilterView__iconReset icon-CloseNew"
+                           ws-no-focus="{{true}}"
+                           on:mousedown="_reset(item)"
+                           title="{[Сбросить]}">
+                     </span>
+                  </ws:if>
                </ws:if>
             </ws:if>
          </ws:for>
       </ws:if>
       <ws:if data="{{_filterText}}">
-         <ws:partial template="itemTemplate"
+         <ws:partial template="{{_options.itemTemplate}}"
                      text="{{_filterText}}"
                      title="{{_filterText}}"
                      on:mousedown="openDetailPanel()"
-                     attr:class="controls-FilterView__filterTextLine"/>
+                     attr:class="controls-FilterView__filterTextLine {{_options.detailPanelTemplateName ? 'controls-FilterView-' + _options.alignment + '__block'}}"/>
          <ws:if data="{{_hasResetValues}}">
-            <ws:partial template="cross" on:mousedown="_resetFilterText()" />
+            <ws:if data="{{!_options.readOnly}}">
+                     <span class="controls-FilterView__iconReset icon-CloseNew"
+                           ws-no-focus="{{true}}"
+                           on:mousedown="_resetFilterText()"
+                           title="{[Сбросить]}">
+                     </span>
+            </ws:if>
          </ws:if>
       </ws:if>
    </div>
-   <ws:if data="{{(_options.detailPanelTemplateName || _isFastReseted()) && !_options.readOnly}}">
+   <ws:if data="{{(_options.detailPanelTemplateName || (_isFastReseted() && _needShowFastFilter(_source))) && !_options.readOnly}}">
       <ws:if data="{{!_options.emptyText || _options.detailPanelTemplateName}}">
          <div name="detailPanelTarget" class="controls-FilterView__icon
                                               controls-FilterView-button-{{_options.alignment}}
@@ -80,9 +75,10 @@
          </div>
       </ws:if>
       <ws:else>
-         <ws:partial template="itemTemplate"
+         <ws:partial template="{{_options.itemTemplate}}"
                      text="{{_options.emptyText}}"
                      title="{{_options.emptyText}}"
+                     attr:class="{{_options.detailPanelTemplateName ? 'controls-FilterView-' + _options.alignment + '__block'}}"
                      on:mousedown="openDetailPanel()"/>
       </ws:else>
    </ws:if>

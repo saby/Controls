@@ -156,6 +156,7 @@ describe('Controls/suggest', () => {
          };
          suggestComponent._loading = true;
          suggestComponent._showContent = true;
+         suggestComponent.activate = () => {};
 
          suggestComponent._closeHandler(event);
          assert.isTrue(propagationStopped);
@@ -1134,6 +1135,8 @@ describe('Controls/suggest', () => {
          suggestComponent._options.filter = {param: 'old_test'};
          suggestComponent._showContent = true;
          resolveLoadStub.reset();
+
+         suggestComponent._searchValue = 'test';
          const resolveSearchStub  = sandbox.stub(suggestComponent, '_resolveSearch').callsFake(() => Promise.resolve());
          suggestComponent._beforeUpdate({
             suggestState: true,

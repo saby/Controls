@@ -17,12 +17,13 @@ import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
+import 'css!Controls/dropdown';
+import 'css!Controls/CommonClasses';
 
 interface IInputOptions extends IBaseDropdownOptions {
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
-   caption?: string;
 }
 
 const getPropValue = Utils.object.getPropertyValue.bind(Utils);
@@ -36,6 +37,7 @@ const getPropValue = Utils.object.getPropertyValue.bind(Utils);
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
  *
  * Полезные ссылки:
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FInput%2FIndex демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less переменные тем оформления dropdownPopup}
@@ -127,8 +129,7 @@ export default class Selector extends BaseDropdown {
             popupClassName: options.popupClassName || ((options.showHeader ||
                 options.headerTemplate || options.headerContentTemplate) ?
                 'controls-DropdownList__margin-head' : options.multiSelect ?
-                    'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
-                ' theme_' + options.theme,
+                    'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin'),
             allowPin: false,
             selectedItemsChangedCallback: this._prepareDisplayState.bind(this, options),
             openerControl: this
@@ -283,8 +284,6 @@ export default class Selector extends BaseDropdown {
    protected _deactivated(): void {
       this.closeMenu();
    }
-
-   static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];
 
    static getDefaultOptions(): Partial<IBaseDropdownOptions> {
       return {
@@ -473,7 +472,6 @@ export default class Selector extends BaseDropdown {
 * <Controls.dropdown:Selector
 *    keyProperty="key"
 *    source="{{_source}}"
-*    caption="Create"
 *    viewMode="link"
 *    iconSize="m" />
 * </pre>

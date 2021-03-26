@@ -182,6 +182,9 @@ const _private = {
                         }
                         self.hideIndicator();
                     }).catch((error: Error) => {
+                        if (error.isCanceled) {
+                            return;
+                        }
                         self._onDataError({ error });
                         // Вернуть элемент модели в предыдущее состояние, т.к. раскрытие не состоялось.
                         _private.toggleExpandedOnModel(self, listViewModel, dispItem, !expanded);
@@ -504,6 +507,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     private _markedLeaf = '';
     private _doAfterItemExpanded = null;
     private _goToNextAfterExpand: true;
+    private _scrollToLeaf = null;
+    private _scrollToLeafOnDrawItems = false;
 
     private _itemOnWhichStartCountDown = null;
     private _timeoutForExpandOnDrag = null;
@@ -524,7 +529,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const superResult = super._beforeMount(...args);
         const doBeforeMount = () => {
             const options = args[0];
-            this._initKeyProperty(options);
 
             if (options.sourceController) {
                 // FIXME для совместимости, т.к. сейчас люди задают опции, которые требуетюся для запроса
@@ -601,18 +605,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         const searchValueChanged = this._options.searchValue !== newOptions.searchValue;
         let updateSourceController = false;
 
-        if ((this._options.keyProperty !== newOptions.keyProperty) || (newOptions.source !== this._options.source)) {
-            this._initKeyProperty(newOptions);
-        }
-
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
-            const sourceControllerRoot = sourceController.getState().root;
-
             this._root = newOptions.root;
             this._listViewModel.setRoot(this._root);
 
             if (this._options.itemsSetCallback) {
-                this._options.itemsSetCallback(sourceController.getItems(), newOptions);
+                const items = sourceController?.getItems() || newOptions.items;
+                this._options.itemsSetCallback(items, newOptions);
             }
 
             // При смене корне, не надо запрашивать все открытые папки,
@@ -622,6 +621,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._needResetExpandedItems = true;
             }
 
+            const sourceControllerRoot = sourceController?.getState().root;
             if (sourceControllerRoot === undefined || sourceControllerRoot !== newOptions.root) {
                 updateSourceController = true;
             }
@@ -669,6 +669,13 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
+    protected _componentDidUpdate() {
+        super._componentDidUpdate(...arguments);
+        if (this._scrollToLeaf && !this._scrollToLeafOnDrawItems) {
+            this._scrollToLeaf();
+            this._scrollToLeaf = null;
+        }
+    }
     protected _afterUpdate(oldOptions: TOptions) {
         super._afterUpdate(...arguments);
 
@@ -682,8 +689,18 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     protected _beforeUnmount(): void {
+        this._scrollToLeaf = null;
         this._clearTimeoutForExpandOnDrag();
         super._beforeUnmount(...arguments);
+    }
+
+    protected _onDrawItems(): void {
+        super._onDrawItems();
+        if (this._scrollToLeaf && this._scrollToLeafOnDrawItems) {
+            this._scrollToLeaf();
+            this._scrollToLeaf = null;
+            this._scrollToLeafOnDrawItems = false;
+        }
     }
 
     public resetExpandedItems(): void {
@@ -1061,11 +1078,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             const expanded = [key];
             let curItem = model.getChildren(key, items)[0];
             while (curItem && curItem.get(options.nodeProperty) !== null) {
-                expanded.push(curItem.get(options.keyProperty));
+                expanded.push(curItem.get(this._keyProperty));
                 curItem = model.getChildren(curItem, items)[0];
             }
             if (curItem && this._doAfterItemExpanded) {
-                this._doAfterItemExpanded(curItem.get(options.keyProperty));
+                this._doAfterItemExpanded(curItem.get(this._keyProperty));
             }
             return expanded;
         }
@@ -1105,6 +1122,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                         this._doAfterItemExpanded();
                         resolve();
                     } else {
+                        this._scrollToLeafOnDrawItems = true;
                         const expandResult = this.toggleExpanded(this._tempItem, model);
                         if (expandResult instanceof Promise) {
                             expandResult.then(() => {
@@ -1115,8 +1133,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                         }
                     }
                 } else {
+                    const itemKey = this._tempItem;
                     this._applyMarkedLeaf(this._tempItem, model, markerController);
-                    this.scrollToItem(this._tempItem, true);
+                    this._scrollToLeaf = () => {
+                        this.scrollToItem(itemKey, true);
+                    };
                     resolve();
                 }
             } else {
@@ -1145,6 +1166,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                         resolve();
                     } else {
                         this._goToNextAfterExpand = false;
+                        this._scrollToLeafOnDrawItems = true;
                         const expandResult = this.toggleExpanded(itemKey);
                         if (expandResult instanceof Promise) {
                             expandResult.then(() => {
@@ -1159,7 +1181,9 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 } else {
                     this._tempItem = itemKey;
                     this._applyMarkedLeaf(this._tempItem, model, markerController);
-                    this.scrollToItem(itemKey, false);
+                    this._scrollToLeaf = () => {
+                        this.scrollToItem(itemKey, false);
+                    };
                     resolve();
                 }
             } else {
@@ -1179,17 +1203,21 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
             this._markedLeaf = newMarkedLeaf;
         }
 
-        // TODO: отрефакторить после наследования (TreeControl <- BaseControl) Нужно вызывать BaseControl._private::changeMarkedKey
-        if (markerController.getMarkedKey() !== this._currentItem) {
-            markerController.setMarkedKey(this._currentItem);
-            if (this._isMounted) {
-                this._notify('markedKeyChanged', [this._currentItem]);
-            }
+        if (this._isMounted) {
+            this._changeMarkedKey(this._currentItem);
         }
 
         this._tempItem = null;
         this._goToNextAfterExpand = true;
+    }
 
+    protected _changeMarkedKey(newMarkedKey: CrudEntityKey, shouldFireEvent: boolean = false): Promise<CrudEntityKey> | CrudEntityKey {
+        const item = this.getViewModel().getItemBySourceKey(newMarkedKey);
+        if (this._options.markerMoveMode === 'leaves' && (item && item.isNode() !== null)) {
+            return;
+        }
+
+        return super._changeMarkedKey(newMarkedKey, shouldFireEvent);
     }
 
     getNextItem(key: CrudEntityKey, model?): Model {
@@ -1205,7 +1233,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     private _isExpanded(item, model): boolean {
-        return model.getExpandedItems().indexOf(item.getContents().get(this._options.keyProperty)) > -1;
+        return model.getExpandedItems().indexOf(item.getContents().get(this._keyProperty)) > -1;
     }
 
     static _theme = [...BaseControl._theme, 'Controls/treeGrid'];

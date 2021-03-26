@@ -21,7 +21,8 @@
                        style="{{gradientType === 'custom' ? 'background: linear-gradient(to top, ' + gradientColor +  ' 0%, ' + gradientColor + ' calc(100% - 4px), rgba(255, 255, 255, 0) 100%);' : ''}}"></div>
                <ws:if data="{{!itemData.canShowActions || !itemData.hasVisibleActions()|| itemData.dispItem.isNode()}}">
                   <div class="controls-TileView__previewTemplate_title_text" title="{{itemData.item[itemData.displayProperty]}}">
-                     <div class="{{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}" style="-webkit-line-clamp: {{titleLines || 1}};">
+                     <div class="controls-TileView__previewTemplate_text
+                                 {{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}" style="-webkit-line-clamp: {{titleLines || 1}};">
                         <ws:if data="{{itemData.searchValue && task1180643735}}">
                            <Controls.decorator:Highlight highlightedValue="{{itemData.searchValue}}" className="{{highlightClassName}}">
                               <ws:value>

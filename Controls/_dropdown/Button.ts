@@ -1,4 +1,5 @@
-import {Control, TemplateFunction} from 'UI/Base';
+import {TemplateFunction} from 'UI/Base';
+import {TouchDetect} from 'Env/Touch';
 import template = require('wml!Controls/_dropdown/Button/Button');
 import {cssStyleGeneration} from 'Controls/_dropdown/Button/MenuUtils';
 import {EventUtils} from 'UI/Events';
@@ -12,6 +13,8 @@ import {IStickyPopupOptions} from 'Controls/popup';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
+import 'css!Controls/dropdown';
+import 'css!Controls/CommonClasses';
 
 export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHeightOptions {
    additionalProperty?: string;
@@ -31,6 +34,7 @@ export interface IButtonOptions extends IBaseDropdownOptions, IIconOptions, IHei
  * @remark
  * Полезные ссылки:
  *
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FButton%2FIndex демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/button/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less переменные тем оформления dropdownPopup}
@@ -137,7 +141,7 @@ export default class Button extends BaseDropdown {
             headingIcon: options.icon,
             headingIconSize: options.iconSize,
             dataLoadCallback: this._dataLoadCallback.bind(this),
-            popupClassName: (options.popupClassName || this._offsetClassName) + ' theme_' + options.theme,
+            popupClassName: options.popupClassName || this._offsetClassName,
             hasIconPin: this._hasIconPin,
             allowPin: true,
             markerVisibility: 'hidden',
@@ -183,7 +187,9 @@ export default class Button extends BaseDropdown {
    }
     _handleMouseEnter(event: SyntheticEvent<MouseEvent>): void {
       super._handleMouseEnter(event);
-      if (this._options.menuPopupTrigger === 'hover') {
+      const isOpenMenuPopup = !(event.nativeEvent.relatedTarget
+          && event.nativeEvent.relatedTarget.closest('.controls-Menu__popup'));
+      if (this._options.menuPopupTrigger === 'hover' && isOpenMenuPopup) {
          this.openMenu();
       }
     }
@@ -235,7 +241,11 @@ export default class Button extends BaseDropdown {
       this.closeMenu();
    }
 
-   static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];
+   protected _afterMount(options: IButtonOptions): void {
+      if (options.lazyItemsLoading && TouchDetect.getInstance().isTouch() && this._options.preloadItemsOnTouch) {
+         this._controller.tryPreloadItems();
+      }
+   }
 
    static getDefaultOptions(): object {
       return {
@@ -316,7 +326,7 @@ export default class Button extends BaseDropdown {
  * @name Controls/_dropdown/Button#menuPopupTrigger
  * @cfg {TMenuPopupTrigger} Название события, которое запускает открытие или закрытие меню.
  * @default click
- * @demo Controls-demo/dropdown_new/Button/PopupTrigger/Index
+ * @demo Controls-demo/dropdown_new/Button/MenuPopupTrigger/Index
  */
 
 /**

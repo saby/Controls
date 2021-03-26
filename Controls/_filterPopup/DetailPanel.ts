@@ -5,14 +5,11 @@ import chain = require('Types/chain');
 import Utils = require('Types/util');
 import Clone = require('Core/core-clone');
 import find = require('Core/helpers/Object/find');
-import _FilterPanelOptions = require('Controls/_filterPopup/Panel/Wrapper/_FilterPanelOptions');
 import {isEqual} from 'Types/object';
 import {factory, List, RecordSet} from 'Types/collection';
 import {HistoryUtils, FilterUtils, IFilterItem} from 'Controls/filter';
 import {Controller, IValidateResult} from 'Controls/validate';
 import 'Controls/form';
-import {Logger} from 'UI/Utils';
-import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {IFilterDetailPanelOptions, THistorySaveMode} from 'Controls/_filterPopup/interface/IFilterPanel';
 import 'css!Controls/filterPopup';
 
@@ -25,7 +22,7 @@ const setPropValue = Utils.object.setPropertyValue.bind(Utils);
  *
  * @remark
  * Полезные ссылки:
- * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/base-settings/#step-3 руководство разработчика}
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/#step-3 руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filter.less переменные тем оформления filter}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления filterPopup}
  *
@@ -74,41 +71,36 @@ class FilterPanel extends Control<IFilterDetailPanelOptions, RecordSet | List<IF
    protected _items: IFilterItem[];
    protected _historyItems: RecordSet | List<IFilterItem[]>;
    protected _historyId: string;
-   private _contextOptions: object;
 
    protected _children: {
       formController: Controller;
    };
 
-   protected _beforeMount(options: IFilterDetailPanelOptions,
-                          context: object): Promise<RecordSet | List<IFilterItem[]>> {
-      this._resolveItems(options, context);
-      this._resolveHistoryId(options, this._contextOptions);
+   protected _beforeMount(options: IFilterDetailPanelOptions): Promise<RecordSet | List<IFilterItem[]>> {
+      this._resolveItems(options);
       this._hasAdditionalParams = this._hasAddParams(options);
       this._keyProperty = this._getKeyProperty(this._items);
       this._isChanged = this._isChangedValue(this._items);
       this._hasResetValue = FilterUtils.hasResetValue(this._items);
       this._historySaveMode = options.orientation === 'horizontal' || options.historySaveMode === 'favorite' ? 'favorite' : 'pinned';
-      return this._loadHistoryItems(this._historyId, this._historySaveMode);
+      return this._loadHistoryItems(options.historyId, this._historySaveMode);
    }
 
-   protected _beforeUpdate(newOptions: IFilterDetailPanelOptions,
-                           context: object): void | Promise<RecordSet | List<IFilterItem[]>> {
+   protected _beforeUpdate(newOptions: IFilterDetailPanelOptions): void | Promise<RecordSet | List<IFilterItem[]>> {
       if (!isEqual(this._options.items, newOptions.items)) {
-         this._resolveItems(newOptions, context);
+         this._resolveItems(newOptions);
       }
       this._keyProperty = this._getKeyProperty(this._items);
       this._isChanged = this._isChangedValue(this._items);
       this._hasAdditionalParams = this._hasAddParams(newOptions);
       this._hasResetValue = FilterUtils.hasResetValue(this._items);
       if (this._options.historyId !== newOptions.historyId) {
-         this._resolveHistoryId(newOptions, context);
-         return this._loadHistoryItems(this._historyId, this._historySaveMode);
+         return this._loadHistoryItems(newOptions.historyId, this._historySaveMode);
       }
    }
 
    protected _historyItemsChanged(): void {
-      this._reloadHistoryItems(this._historyId);
+      this._reloadHistoryItems(this._options.historyId);
    }
 
    protected _itemsChangedHandler(event: Event, items: IFilterItem[]): void {
@@ -150,7 +142,7 @@ class FilterPanel extends Control<IFilterDetailPanelOptions, RecordSet | List<IF
    }
 
    protected _resetFilter(): void {
-      this._items = this._cloneItems(this._options.items || this._contextOptions.items);
+      this._items = this._cloneItems(this._options.items);
       FilterUtils.resetFilter(this._items);
       this._isChanged = false;
       this._notify('itemsChanged', [this._items]);
@@ -169,19 +161,9 @@ class FilterPanel extends Control<IFilterDetailPanelOptions, RecordSet | List<IF
       return hasAdditional;
    }
 
-   protected _getChildContext(): object {
-      return {
-         ScrollData: new ScrollData({pagingVisible: false})
-      };
-   }
-
-   private _resolveItems(options: IFilterDetailPanelOptions, context: object): void {
-      this._contextOptions = context && context.filterPanelOptionsField && context.filterPanelOptionsField.options;
+   private _resolveItems(options: IFilterDetailPanelOptions): void {
       if (options.items) {
          this._items = this._cloneItems(options.items);
-      } else if (this._contextOptions) {
-         this._items = this._cloneItems(context.filterPanelOptionsField.options.items);
-         Logger.error('Controls/filterPopup:Panel: You must pass the items option for the panel.', this);
       } else {
          throw new Error('Controls/filterPopup:Panel::items option is required');
       }
@@ -192,15 +174,6 @@ class FilterPanel extends Control<IFilterDetailPanelOptions, RecordSet | List<IF
     */
    private _getItemName(item: IFilterItem): string {
       return item.name || item.id;
-   }
-
-   private _resolveHistoryId(options: IFilterDetailPanelOptions, context: object): void {
-      if (options.historyId) {
-         this._historyId = options.historyId;
-      } else if (context && context.historyId) {
-         this._historyId = context.historyId;
-         Logger.error('Controls/filterPopup:Panel:', 'You must pass the historyId option for the panel.', this);
-      }
    }
 
    private _loadHistoryItems(historyId: string, historySaveMode: THistorySaveMode) {
@@ -354,12 +327,6 @@ class FilterPanel extends Control<IFilterDetailPanelOptions, RecordSet | List<IF
          additionalPanelTemplate: 'Controls/filterPopup:AdditionalPanelTemplate'
       };
    }
-
-   static contextTypes(): object {
-      return {
-         filterPanelOptionsField: _FilterPanelOptions
-      };
-   }
 }
 
 Object.defineProperty(FilterPanel, 'defaultProps', {
@@ -375,7 +342,7 @@ export default FilterPanel;
 
 /**
  * @name Controls/_filterPopup/DetailPanel#topTemplate
- * @cfg {String|Function} Шаблон отображения заголовка на Панели фильтров.
+ * @cfg {String|TemplateFunction} Шаблон отображения заголовка на Панели фильтров.
  */
 
 /**

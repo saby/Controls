@@ -553,7 +553,7 @@ define(
             clock.restore();
          });
 
-         it('getTemplateOptions', function() {
+         it('getTemplateOptions', async function() {
             let menuControl = getMenu();
             menuControl._isLoadedChildItems = () => true;
             menuControl._listModel = getListModel();
@@ -587,8 +587,29 @@ define(
             expectedOptions.subMenuLevel = 1;
             expectedOptions.iWantBeWS3 = false;
 
-            let resultOptions = menuControl._getTemplateOptions(item);
+            let resultOptions = await menuControl._getTemplateOptions(item);
             assert.deepEqual(resultOptions, expectedOptions);
+         });
+
+         it('getTemplateOptions sourceProperty', async function() {
+            let actualConfig;
+            let menuControl = getMenu();
+            menuControl._options.sourceProperty = 'source';
+            menuControl._listModel = getListModel();
+            const item = new display.CollectionItem({
+               contents: new entity.Model({
+                  rawData: {
+                     source: 'testSource'
+                  }
+               })
+            });
+            menuControl._getSourceSubMenu = (isLoadedChildItems, config) => {
+               actualConfig = config;
+               return Promise.resolve('source');
+            };
+
+            await menuControl._getTemplateOptions(item);
+            assert.equal(actualConfig, 'testSource');
          });
 
          it('isSelectedKeysChanged', function() {
@@ -632,6 +653,10 @@ define(
             // fixed item
             result = menuControl._getMarkedKey([2], 'emptyKey', true);
             assert.equal(result, 2);
+
+            // item out of list
+            result = menuControl._getMarkedKey([123], 'emptyKey', true);
+            assert.isUndefined(result);
 
             // single selection
             result = menuControl._getMarkedKey([1, 2], 'emptyKey');
@@ -769,7 +794,7 @@ define(
             let selectCompleted = false, closed = false, opened = false, actualOptions;
 
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                opened = true;
                actualOptions = tplOptions;
                return Promise.resolve();
@@ -814,7 +839,7 @@ define(
             };
             items.push(emptyItem);
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                selectorOptions = tplOptions;
                return Promise.resolve();
             });

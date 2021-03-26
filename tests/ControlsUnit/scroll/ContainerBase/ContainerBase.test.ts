@@ -298,8 +298,13 @@ describe('Controls/scroll:ContainerBase', () => {
          sinon.stub(control._registrars.scrollStateChanged, 'register');
          sinon.stub(control._registrars.listScroll, 'register');
          sinon.stub(control._registrars.scroll, 'register');
+         sinon.stub(control, '_onRegisterNewComponent');
+         sinon.stub(control, '_onRegisterNewListScrollComponent');
 
-         control._registerIt();
+         const registerTypes = ['scrollStateChanged', 'listScroll', 'scroll'];
+         registerTypes.forEach((registerType) => {
+            control._registerIt('event', registerType);
+         });
 
          sinon.assert.called(control._registrars.scrollStateChanged.register);
          sinon.assert.called(control._registrars.listScroll.register);
@@ -317,7 +322,10 @@ describe('Controls/scroll:ContainerBase', () => {
          sinon.stub(control._registrars.listScroll, 'unregister');
          sinon.stub(control._registrars.scroll, 'unregister');
 
-         control._unRegisterIt();
+         const registerTypes = ['scrollStateChanged', 'listScroll', 'scroll'];
+         registerTypes.forEach((registerType) => {
+            control._unRegisterIt('event', registerType);
+         });
 
          sinon.assert.called(control._registrars.scrollStateChanged.unregister);
          sinon.assert.called(control._registrars.listScroll.unregister);
@@ -618,6 +626,21 @@ describe('Controls/scroll:ContainerBase', () => {
          sinon.assert.calledWith(control._registrars.listScroll.startOnceTarget, registeredControl, 'cantScroll');
          sinon.assert.calledWith(control._registrars.listScroll.startOnceTarget, registeredControl, 'viewportResize');
          sinon.restore();
+      });
+   });
+
+   describe('_lockScrollPositionUntilKeyboardShown', () => {
+      it('should set 0 if scroll state is not initialized', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._lockScrollPositionUntilKeyboardShown();
+         assert.strictEqual(control._scrollLockedPosition, 0);
+      });
+
+      it('should set value from scroll state', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._scrollModel = { scrollTop: 10 }
+         control._lockScrollPositionUntilKeyboardShown();
+         assert.strictEqual(control._scrollLockedPosition, control._scrollModel.scrollTop);
       });
    });
 

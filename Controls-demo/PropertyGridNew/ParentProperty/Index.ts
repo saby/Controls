@@ -24,7 +24,7 @@ export default class Demo extends Control<IControlOptions> {
             },
             {
                 name: 'tileView',
-                caption: 'Список плиткой',
+                caption: 'Список плиткой, с длинным описанием, чтобы не влезло в отведённую ширину',
                 '@parent': true,
                 parent: null
             },

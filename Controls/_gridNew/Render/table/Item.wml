@@ -15,14 +15,15 @@
                      attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>
                 <!-- TODO избавиться от прокидывания _onBreadcrumbClick https://online.sbis.ru/doc/0649e69a-d507-4024-9f99-c70205f535ef-->
                 <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
-                            scope="{{ gridColumn.getColumnConfig().templateOptions }}"
+                            scope="{{ gridColumn.config.templateOptions }}"
                             attr:key="{{ gridColumn.getInstanceId() }}"
-                            gridColumn="{{ gridColumn }}"
-                            column="{{ gridColumn.getColumnConfig() }}"
                             item="{{ (item || itemData) }}"
+                            column="{{ gridColumn }}"
                             itemData="{{ gridColumn }}"
+                            gridColumn="{{ gridColumn }}"
                             colData="{{ gridColumn }}"
                             theme="{{ theme }}"
+                            style="{{ style }}"
                             cursor="{{ cursor }}"
                             backgroundColorStyle="{{ backgroundColorStyle }}"
                             highlightOnHover="{{ highlightOnHover }}"
@@ -50,7 +51,7 @@
                     <ws:afterContentTemplate>
                         <!-- Стрелка редактирования. Если шаблон прикладной, то не показываем -->
                         <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() && editArrowTemplate }} ">
-                            <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).getColumnConfig().textOverflow}}"/>
+                            <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).config.textOverflow}}"/>
                         </ws:if>
 
                         <!-- Тэг -->

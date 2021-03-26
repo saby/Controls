@@ -86,7 +86,6 @@ var _private = {
             } else if (!options.multiSelect && (!options.nodeProperty || item.get(options.nodeProperty))) {
                classes += ' controls-DropdownList__item-leftPadding_' + (paddings.left || 'default');
             } else if (!options.multiSelect) {
-               classes += ' controls-DropdownList__hierarchyItem-leftPadding_' + (paddings.left || 'default') + '_theme-' + options.theme;
                classes += ' controls-DropdownList__hierarchyItem-leftPadding_' + (paddings.left || 'default');
             }
             classes += ' controls-DropdownList__item-rightPadding_' +
@@ -223,6 +222,7 @@ var _private = {
 
                return itemsModelCurrent;
             }
+            itemsModelCurrent.contents = itemsModelCurrent.item;
             itemsModelCurrent.hasChildren = this._hasItemChildren(itemsModelCurrent.item);
             itemsModelCurrent.hasParent = this._hasParent(itemsModelCurrent.item);
             // TODO USE itemsModelCurrent.isSelected()
@@ -322,6 +322,7 @@ var _private = {
                   rawData: itemData
                });
                emptyItem.item = item;
+               emptyItem.contents = item;
                emptyItem._isSelected = this._options.selectedKeys.length ? this._isItemSelected(item) : true;
                emptyItem.getPropValue = ItemsUtil.getPropertyValue;
                emptyItem.emptyText = this._options.emptyText;

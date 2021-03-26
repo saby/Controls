@@ -5,7 +5,7 @@
    <ws:if data="{{(item || itemData).shouldDisplayExpanderBlock(gridColumn)}}">
       <ws:if data="{{ (item || itemData).shouldDisplayLevelPadding(withoutLevelPadding) }}">
          <ws:for data="i in (item || itemData).getLevel() - 1">
-            <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+            <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
          </ws:for>
       </ws:if>
       <ws:if data="{{ (item || itemData).shouldDisplayExpander(expanderIcon, 'default') }}">
@@ -18,10 +18,10 @@
 
    <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
                attr:key="{{ gridColumn.getInstanceId() }}"
-               gridColumn="{{ gridColumn }}"
-               column="{{ gridColumn.getColumnConfig() }}"
                item="{{ (item || itemData) }}"
+               column="{{ gridColumn }}"
                itemData="{{ gridColumn }}"
+               gridColumn="{{ gridColumn }}"
                colData="{{ gridColumn }}"
                theme="{{ theme }}"
                style="{{ style }}"
@@ -48,7 +48,7 @@
       <ws:afterContentTemplate>
          <!-- Стрелка редактирования. Если шаблон прикладной, то не показываем -->
          <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() && editArrowTemplate }}">
-            <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).getColumnConfig().textOverflow}}"/>
+            <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).config.textOverflow}}"/>
          </ws:if>
 
          <!-- Тэг -->
@@ -97,9 +97,10 @@
        }) }}">
          <ws:for data="column in (item || itemData).getColumns()">
             <Controls.scroll:StickyHeader position="topbottom"
-                                          mode="stackable"
+                                          mode="{{ (item || itemData).getStickyHeaderMode() }}"
                                           shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
                                           backgroundStyle="{{ backgroundStyle }}"
+                                          fixedZIndex="{{ column.getZIndex()}}"
                                           attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
                                           attr:style="{{ column.getWrapperStyles(containerSize) }}">
                <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
@@ -118,7 +119,7 @@
        }) }}">
       <ws:for data="column in (item || itemData).getColumns()">
          <div class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-              style="{{ column.getWrapperStyles() }}">
+              style="{{ column.getWrapperStyles(containerSize) }}">
             <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
          </div>
       </ws:for>

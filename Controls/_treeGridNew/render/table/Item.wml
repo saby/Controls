@@ -30,10 +30,10 @@
 
                 <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
                             attr:key="{{ gridColumn.getInstanceId() }}"
-                            gridColumn="{{ gridColumn }}"
-                            column="{{ gridColumn.getColumnConfig() }}"
                             item="{{ (item || itemData) }}"
+                            column="{{ gridColumn }}"
                             itemData="{{ gridColumn }}"
+                            gridColumn="{{ gridColumn }}"
                             colData="{{ gridColumn }}"
                             theme="{{ theme }}"
                             cursor="{{ cursor }}"
@@ -60,7 +60,7 @@
                     <ws:afterContentTemplate>
                         <!-- Стрелка редактирования. Если шаблон прикладной, то не показываем -->
                         <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() && editArrowTemplate }}">
-                            <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).getColumnConfig().textOverflow}}"/>
+                            <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).config.textOverflow}}"/>
                         </ws:if>
 
                         <!-- Тэг -->

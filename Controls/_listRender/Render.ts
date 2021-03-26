@@ -228,7 +228,7 @@ export default class Render extends Control<IRenderOptions> {
         }
     }
 
-    static _theme: string[] = ['Controls/list', 'Controls/itemActions'];
+    static _theme: string[] = ['Controls/list', 'Controls/itemActions', 'Controls/Classes'];
 
     static getDefaultOptions(): Partial<IRenderOptions> {
         return {

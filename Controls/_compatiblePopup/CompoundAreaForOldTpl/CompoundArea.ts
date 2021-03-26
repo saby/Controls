@@ -264,22 +264,30 @@ var CompoundArea = CompoundContainer.extend([
    // getReadyDeferred с areaAbstract, который даёт возможность отложить показ компонента в области, пока
    // не завершится деферред
    _getReadyDeferred: function() {
-      var self = this;
       if (this._childControl.getReadyDeferred) {
-         var def = this._childControl.getReadyDeferred();
+         const def = this._childControl.getReadyDeferred();
          if (cInstance.instanceOfModule(def, 'Core/Deferred') && !def.isReady()) {
-            def.addCallback(function() {
-               self._waitReadyDeferred = false;
-               if (self._isPopupCreated) { // Если попап создан и отработал getReadyDeferred - начинаем показ
-                  self._callCallbackCreated();
+            def.addCallback(() => {
+               this._waitReadyDeferred = false;
+               if (this._isPopupCreated) { // Если попап создан и отработал getReadyDeferred - начинаем показ
+                  this._callCallbackCreated();
                }
-               self._notifyVDOM('controlResize', [], { bubbling: true });
+               this._notifyVDOM('controlResize', [], { bubbling: true });
+            });
+            def.addErrback(() => {
+               // Защита на случай если промис из getReadyDeferred упал с ошибкой.
+               // В этом случае даем окну достроиться, чтобы корректно отработали внутренние механизмы,
+               // и сразу закрываем. Визуально окно не откроется.
+               if (this._isPopupCreated) {
+                  this._callCallbackCreated();
+                  this._notify('close', [], {bubbling: true});
+               }
             });
          } else {
-            self._waitReadyDeferred = false;
+            this._waitReadyDeferred = false;
          }
       } else {
-         self._waitReadyDeferred = false;
+         this._waitReadyDeferred = false;
       }
    },
 

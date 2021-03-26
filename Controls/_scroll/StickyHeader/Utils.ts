@@ -15,6 +15,12 @@ export const enum SHADOW_VISIBILITY {
     initial = 'initial'
 }
 
+export const enum SHADOW_VISIBILITY_BY_CONTROLLER {
+    visible = 'visible',
+    hidden = 'hidden',
+    auto = 'auto',
+}
+
 /**
  * @typedef {String} TYPE_FIXED_HEADERS
  * @variant initialFixed учитываются высоты заголовков которые были зафиксированы изначально

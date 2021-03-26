@@ -5,17 +5,17 @@
    height: 100%;
 }
 
-.controls-Menu__popup_theme-@{themeName} {
-   max-width: @popup_max-width_menuPopup;
+.controls-Menu__popup-template {
+   max-width: var(--popup_max-width_menuPopup);
    .flexbox();
    .flex-direction(column);
-   border: @border-thickness_sticky solid @border-color_sticky;
+   border: var(--border-thickness_sticky) solid var(--border-color_sticky);
    box-sizing: border-box;
    overflow: hidden;
 }
 
-.controls-Menu__popup-background-default_theme-@{themeName} {
-   background: @background-color_sticky;
+.controls-Menu__popup-background-default {
+   background: var(--background-color_sticky);
 }
 
 .controls-Menu__popup-list {
@@ -23,32 +23,32 @@
    position: static;
 }
 
-.controls-Menu__popup-header-multiSelect_theme-@{themeName} {
-   padding-right: @apply-button_inline-height_menuPopup + (@apply-button_offset_menuPopup * 2);
+.controls-Menu__popup-header-multiSelect {
+   padding-right: calc(var(--apply-button_inline-height_menuPopup) + (var(--apply-button_offset_menuPopup) * 2));
 }
 
-.controls-Menu__popup-list-padding-top_theme-@{themeName} {
-   padding-bottom: @content_padding-top_sticky;
+.controls-Menu__popup-list-padding-top {
+   padding-bottom: var(--content_padding-top_sticky);
 }
 
-.controls-Menu__popup-list-padding-bottom_theme-@{themeName} {
-   padding-top: @content_padding-top_sticky;
+.controls-Menu__popup-list-padding-bottom {
+   padding-top: var(--content_padding-top_sticky);
 }
 
-.controls-Menu__popup-shadow-default_theme-@{themeName} {
-   box-shadow: @popup_box-shadow-color_menuPopup 0 0 @popup_box-shadow-offset_menuPopup 0;
+.controls-Menu__popup-shadow-default {
+   box-shadow: var(--popup_box-shadow-color_menuPopup) 0 0 var(--popup_box-shadow-offset_menuPopup) 0;
 }
 
-.controls-Menu__popup-direction-vertical-top.controls-Menu__popup-shadow-suggestionsContainer_theme-@{themeName}{
-   box-shadow: @popup_box-shadow-color_menuPopup -@popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup,
-   @popup_box-shadow-color_menuPopup @popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup,
-   @popup_box-shadow-color_menuPopup 0 -@popup_box-shadow-offset_menuPopup @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup;
+.controls-Menu__popup-direction-vertical-top.controls-Menu__popup-shadow-suggestionsContainer {
+   box-shadow: var(--popup_box-shadow-color_menuPopup) calc(-1 * var(--popup_box-shadow-offset_menuPopup)) 0 var(--popup_box-shadow-blur_menuPopup) calc(-1 * var(--popup_box-shadow-offset_menuPopup)),
+   var(--popup_box-shadow-color_menuPopup) var(--popup_box-shadow-offset_menuPopup) 0 var(--popup_box-shadow-blur_menuPopup) calc(-1 * var(--popup_box-shadow-offset_menuPopup)),
+   var(--popup_box-shadow-color_menuPopup) 0 calc(-1 * var(--popup_box-shadow-offset_menuPopup)) var(--popup_box-shadow-blur_menuPopup) calc(-1 * var(--popup_box-shadow-offset_menuPopup));
 }
 
-.controls-Menu__popup-direction-vertical-bottom.controls-Menu__popup-shadow-suggestionsContainer_theme-@{themeName}{
-   box-shadow: @popup_box-shadow-color_menuPopup -@popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup,
-   @popup_box-shadow-color_menuPopup @popup_box-shadow-offset_menuPopup 0 @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup,
-   @popup_box-shadow-color_menuPopup 0 @popup_box-shadow-offset_menuPopup @popup_box-shadow-blur_menuPopup -@popup_box-shadow-offset_menuPopup;
+.controls-Menu__popup-direction-vertical-bottom.controls-Menu__popup-shadow-suggestionsContainer {
+   box-shadow: var(--popup_box-shadow-color_menuPopup) calc(-1 * var(--popup_box-shadow-offset_menuPopup)) 0 var(--popup_box-shadow-blur_menuPopup) calc(-1 * var(--popup_box-shadow-offset_menuPopup)),
+   var(--popup_box-shadow-color_menuPopup) var(--popup_box-shadow-offset_menuPopup) 0 var(--popup_box-shadow-blur_menuPopup) calc(-1 * var(--popup_box-shadow-offset_menuPopup)),
+   var(--popup_box-shadow-color_menuPopup) 0 var(--popup_box-shadow-offset_menuPopup) var(--popup_box-shadow-blur_menuPopup) calc(-1 * var(--popup_box-shadow-offset_menuPopup));
 }
 
 .controls-StickyTemplate.controls-Menu__popup-reverse {
@@ -61,12 +61,12 @@
 }
 
 .controls-Menu__popup-direction-vertical-top.controls-StickyTemplate {
-   padding-top: @content_padding-top_sticky;
+   padding-top: var(--content_padding-top_sticky);
    flex-direction: column-reverse;
 }
 
 .controls-Menu__popup-direction-vertical-bottom {
-   padding-bottom: @content_padding-top_sticky;
+   padding-bottom: var(--content_padding-top_sticky);
 }
 
 .controls-Menu__popup-content {
@@ -75,9 +75,6 @@
    overflow: hidden;
    display: flex;
    flex-direction: column;
-}
-
-.controls-Menu__popup-content_theme-@{themeName} {
    background: inherit;
 }
 
@@ -95,64 +92,65 @@
    flex-shrink: 0;
 }
 
-.controls-Menu__popup-icon_wrapper_width-m_theme-@{themeName} {
-   width: @icon-size_m;
-   height: @icon-size_m;
+.controls-Menu__popup-icon_wrapper_width-m {
+   width: var(--icon-size_m);
+   height: var(--icon-size_m);
 }
 
-.controls-Menu__popup_headerIcon_padding_theme-@{themeName} {
-   margin-right: @item_icon_offset_menu;
+.controls-Menu__popup_headerIcon_padding {
+   margin-right: var(--item_icon_offset_menu);
 }
 
-.controls-Menu__popup_headerIcon_theme-@{themeName} {
-   color: @header_color_sticky;
+.controls-Menu__popup_headerIcon {
+   color: var(--header_color_sticky);
+   fill: var(--header_color_sticky);
 }
 
-.controls-Menu__popup_header_search_theme-@{themeName} {
+.controls-Menu__popup_header_search {
    display: flex;
    align-items: center;
-   margin-right: @search_offset-right_menuPopup;
+   margin-right: var(--search_offset-right_menuPopup);
 }
 
-.controls-Menu__popup_header_search_width_s_theme-@{themeName} {
-   width: @search_width_s_menuPopup;
+.controls-Menu__popup_header_search_width_s {
+   width: var(--search_width_s_menuPopup);
 }
 
-.controls-Menu__popup_header_search_width_l_theme-@{themeName} {
-   width: @search_width_l_menuPopup;
+.controls-Menu__popup_header_search_width_l {
+   width: var(--search_width_l_menuPopup);
 }
 
-.controls-MenuButton__popup-header_theme-@{themeName} {
-   background: @header_background-color_sticky;
-   padding: 0 @header_padding-horizontal_sticky 0 @header_padding-horizontal_sticky;
-   min-height: @header_min-height_sticky;
+.controls-MenuButton__popup-header {
+   background: var(--header_background-color_sticky);
+   padding: 0 var(--header_padding-horizontal_sticky) 0 var(--header_padding-horizontal_sticky);
+   min-height: var(--header_min-height_sticky);
 }
 
-.controls-Menu__popup_headerSearch-multiSelect-@{themeName} {
-   margin-right: @padding-right_menu-multiSelect - @header_padding-horizontal_sticky;
+.controls-Menu__popup_headerSearch-multiSelect() {
+   margin-right: calc(@padding-right_menu-multiSelect - var(--header_padding-horizontal_sticky));
 }
 
-.controls-Menu__applyButton_theme-@{themeName} {
+.controls-Menu__popup_applyButton {
    position: absolute;
    z-index: 2;
 }
 
-.controls-Menu_withHeader__applyButton_theme-@{themeName} {
-   top: (@item_height_menu - @apply-button_inline-height_menuPopup) / 2;
+.controls-Menu_withHeader__applyButton {
+   top: calc((var(--item_height_menu) - var(--apply-button_inline-height_menuPopup)) / 2);
 }
 
-.controls-Menu_withHeader-reverse__applyButton_theme-@{themeName} {
-   bottom: (@item_height_menu - @apply-button_inline-height_menuPopup) / 2;
+.controls-Menu_withHeader-reverse__applyButton {
+   bottom: calc((var(--item_height_menu) - var(--apply-button_inline-height_menuPopup)) / 2);
 }
 
-.controls-Menu_withoutHeader__applyButton_theme-@{themeName} {
-   top: (@item_height_menu - @apply-button_inline-height_menuPopup) / 2 + @content_padding-top_sticky;
+.controls-Menu_withoutHeader__applyButton {
+   top: calc((var(--item_height_menu) - var(--apply-button_inline-height_menuPopup)) / 2 + var(--content_padding-top_sticky));
 }
 
-.controls-Menu_withClose__applyButton_theme-@{themeName} {
-   right: @close-button_offset-right_sticky + @width_closeButton_link + @apply-button_offset_menuPopup;
+.controls-Menu_withClose__applyButton {
+   right: calc(var(--close-button_offset-right_sticky) + var(--width_closeButton_link) + var(--apply-button_offset_menuPopup));
 }
 
-.controls-Menu_withoutClose__applyButton_theme-@{themeName} {
-   right: @apply-button_offset_menuPopup;
+.controls-Menu_withoutClose__applyButton {
+   right: var(--apply-button_offset_menuPopup);
 }

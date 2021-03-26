@@ -7,7 +7,7 @@ import template = require('wml!Controls/_list/List');
 import Deferred = require('Core/Deferred');
 import {EventUtils} from 'UI/Events';
 import viewName = require('Controls/_list/ListView');
-import {BaseControl as ListControl} from 'Controls/_list/BaseControl';
+import {default as ListControl} from 'Controls/_list/BaseControl';
 import {ISelectionObject, IBaseSourceConfig} from 'Controls/interface';
 import { DataSet, CrudEntityKey, LOCAL_MOVE_POSITION } from 'Types/source';
 import {IMovableList} from './interface/IMovableList';
@@ -30,7 +30,6 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/interface/IPromisedSelectable
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/interface/IEditableList
@@ -64,7 +63,6 @@ import { RecordSet } from 'Types/collection';
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_interface/ISorting
@@ -95,15 +93,6 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
 
     _beforeMount(options) {
         this._viewModelConstructor = this._getModelConstructor(options.useNewModel);
-        return this._checkViewName(options.useNewModel);
-    }
-
-    _checkViewName(useNewModel) {
-        if (useNewModel) {
-            return import('Controls/listRender').then((listRender) => {
-                this._viewName = listRender.Render;
-            });
-        }
     }
 
     protected _getActionsMenuConfig(e, item, clickEvent, action, isContextMenu) {

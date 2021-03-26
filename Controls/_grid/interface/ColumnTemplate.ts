@@ -46,7 +46,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
 
  export default interface IColumnTemplateOptions {
    /**
-    * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки.
+    * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки.
     * @see Controls/grid:IGridControl#showEditArrow
     * @remark
     * В области видимости шаблона доступны переменные **itemData**, **editArrowTemplate** и **expanderTemplate**.
@@ -57,7 +57,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * * **index** — порядковый номер строки. Отсчет от 0.
     * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * * **item** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
-    * * **column** (тип {@link Controls/interface:IColumn IColumn}) — объект с конфигурацией колонки.
+    * * **column.config** (тип {@link Controls/interface:IColumn IColumn}) — объект с конфигурацией колонки.
     *
     * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
     *

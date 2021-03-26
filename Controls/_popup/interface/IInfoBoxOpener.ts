@@ -12,7 +12,7 @@ import {List} from 'Types/collection';
  * @author Красильников А.С.
  */
 
-export interface IInfoBoxPopupOptions extends IValidationStatusOptions {
+export interface IInfoBoxPopupOptions extends IValidationStatusOptions, IControlOptions {
     target?: HTMLElement | EventTarget | Control;
     opener?: Control<IControlOptions, unknown>;
     maxWidth?: number;

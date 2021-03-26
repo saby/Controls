@@ -9,7 +9,7 @@ export interface IOptions<T extends Model> extends IGridRowOptions<T>, ITreeItem
     owner: TreeGridCollection<T>;
 }
 
-export default class TreeGridDataRow<T extends Model>
+export default class TreeGridDataRow<T extends Model = Model>
    extends mixin<TreeItem<any>, GridRowMixin<any>>(TreeItem, GridRowMixin) implements IDisplaySearchValue, IGroupNode {
     readonly '[Controls/_display/grid/Row]': boolean;
     readonly '[Controls/treeGrid:TreeGridDataRow]': boolean;
@@ -22,6 +22,7 @@ export default class TreeGridDataRow<T extends Model>
     readonly LadderSupport: boolean = true;
     readonly DraggableItem: boolean = true;
     protected _$searchValue: string;
+    protected _$hasStickyGroup: boolean;
 
     constructor(options: IOptions<T>) {
         super(options);
@@ -139,6 +140,17 @@ export default class TreeGridDataRow<T extends Model>
         }
     }
 
+    setHasStickyGroup(hasStickyGroup: boolean): void {
+        if (this._$hasStickyGroup !== hasStickyGroup) {
+            this._$hasStickyGroup = hasStickyGroup;
+            this._nextVersion();
+        }
+    }
+
+    hasStickyGroup(): boolean {
+        return this._$hasStickyGroup;
+    }
+
     // Убираем ExpanderPadding для подуровней TreeGridGroupRow
     shouldDisplayExpanderPadding(tmplExpanderIcon?: string, tmplExpanderSize?: string): boolean {
         const should = super.shouldDisplayExpanderPadding(tmplExpanderIcon, tmplExpanderSize);
@@ -159,5 +171,6 @@ Object.assign(TreeGridDataRow.prototype, {
     _cellModule: 'Controls/treeGrid:TreeGridDataCell',
     _moduleName: 'Controls/treeGrid:TreeGridDataRow',
     _$searchValue: '',
-    _instancePrefix: 'tree-grid-row-'
+    _instancePrefix: 'tree-grid-row-',
+    _$hasStickyGroup: false
 });

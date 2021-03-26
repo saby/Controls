@@ -3,6 +3,7 @@
 
     <ws:if data="{{ !!content || !!contentTemplate }}">
         <ws:partial template="{{ content || contentTemplate }}"
+                    column="{{ (gridColumn || colData) }}"
                     colData="{{ (gridColumn || colData) }}"
                     results="{{ (gridColumn || colData).getMetaResults() }}"/>
     </ws:if>

@@ -1,0 +1,27 @@
+.controls_theme-@{themeName} {
+
+   // Параметры для иконки Combobox
+
+   --trigger-color_combobox: var(--secondary_icon-color_toggleSeparator);
+   --trigger-color_hover_combobox: var(--secondary_hover_icon-color_toggleSeparator);
+   --trigger_icon-size_combobox: var(--icon-size_toggleSeparator);
+   --trigger_padding-right_combobox: var(--offset_2xs);
+
+   //Menu offsets
+   --inline_height_default_link_button: 18px; // TODO Высота текста link кнопки, чтобы посчитать offset переменную для меню
+
+   // Переменные для вызывающего элемента выпадающего списка
+
+   --height_dropdownSelector: var(--inline_height_default);
+   --font-size_default_dropdownSelector: var(--font-size_default);
+   --icon_offset_dropdownSelector: var(--offset_xs);
+
+   // Переменные для валидации выбранного значения выпадающего списка
+
+   --invalid_border-thickness_dropdownSelector: var(--border-thickness);
+   --invalid_border-color_dropdownSelector: var(--danger_color);
+
+   // цвет текста пустого элемента
+
+   --empty-item_text-color_dropdownSelector: #ccc;
+}
