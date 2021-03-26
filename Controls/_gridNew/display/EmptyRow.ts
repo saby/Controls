@@ -5,6 +5,7 @@ import Row, {IOptions as IRowOptions} from './Row';
 import EmptyCell from './EmptyCell';
 import {IItemTemplateParams} from './mixins/Row';
 import {TColspanCallbackResult} from './mixins/Grid';
+import {isEqual} from 'Types/object';
 
 export interface IOptions<T> extends IRowOptions<T> {
 }
@@ -18,7 +19,7 @@ export default class EmptyRow<T> extends Row<T> {
     protected _$emptyTemplateOptions: object;
 
     getContents(): T {
-        return 'emptyRow' as unknown as T
+        return 'emptyRow' as unknown as T;
     }
 
     getItemClasses(params: IItemTemplateParams = { theme: 'default' }): string {
@@ -27,7 +28,7 @@ export default class EmptyRow<T> extends Row<T> {
     }
 
     setEmptyTemplateOptions(options: object): void {
-        if (this._$emptyTemplateOptions !== options) {
+        if (!isEqual(this._$emptyTemplateOptions, options)) {
             this._$emptyTemplateOptions = options;
             this._reinitializeColumns();
             this._nextVersion();

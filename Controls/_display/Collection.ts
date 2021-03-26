@@ -2430,7 +2430,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
     }
 
     setEmptyTemplateOptions(options: object): void {
-        if (this._$emptyTemplateOptions !== options) {
+        if (!isEqual(this._$emptyTemplateOptions, options)) {
             this._$emptyTemplateOptions = options;
             this._nextVersion();
         }
