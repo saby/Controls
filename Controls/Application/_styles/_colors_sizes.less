@@ -321,3 +321,65 @@
    bottom: calc(-1 * (var(--invalid_padding-vertical) + var(--border-thickness)));
    padding: var(--invalid_padding-vertical) var(--invalid_padding-horizontal);
 }
+
+//offsets
+
+@variants: 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl;
+
+.for(@variants, {
+   .controls-padding_top-@{_item} {
+      padding-top: ~"var(--offset_@{_item})";
+   }
+
+   .controls-padding_right-@{_item} {
+      padding-right: ~"var(--offset_@{_item})";
+   }
+
+   .controls-padding_bottom-@{_item} {
+      padding-bottom: ~"var(--offset_@{_item})";
+   }
+
+   .controls-padding_left-@{_item} {
+      padding-left: ~"var(--offset_@{_item})";
+   }
+
+   .controls-padding-@{_item} {
+      padding: ~"var(--offset_@{_item})";;
+   }
+
+   .controls-margin_top-@{_item} {
+      margin-top: ~"var(--offset_@{_item})";
+   }
+
+   .controls-margin_right-@{_item} {
+      margin-right: ~"var(--offset_@{_item})";
+   }
+
+   .controls-margin_bottom-@{_item} {
+      margin-bottom: ~"var(--offset_@{_item})";
+   }
+
+   .controls-margin_left-@{_item} {
+      margin-left: ~"var(--offset_@{_item})";
+   }
+
+   .controls-margin-@{_item} {
+      margin: ~"var(--offset_@{_item})";;
+   }
+
+   .controls-top-@{_item} {
+      top: ~"var(--offset_@{_item})";
+   }
+
+   .controls-right-@{_item} {
+      right: ~"var(--offset_@{_item})";
+   }
+
+   .controls-bottom-@{_item} {
+      bottom: ~"var(--offset_@{_item})";
+   }
+
+   .controls-left-@{_item} {
+      left: ~"var(--offset_@{_item})";
+   }
+});
