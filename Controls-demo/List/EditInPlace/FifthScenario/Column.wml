@@ -8,7 +8,7 @@
                      align="{{ itemData.column.align }}"
                      enabled="{{true}}">
             <ws:editorTemplate>
-               <Controls.input:Text bind:value="itemData.item[itemData.column.displayProperty]"
+               <Controls.input:Text contrastBackground="{{true}}" bind:value="itemData.item[itemData.column.displayProperty]"
                                     textAlign="right"
                                     selectOnClick="{{ false }}" />
             </ws:editorTemplate>
