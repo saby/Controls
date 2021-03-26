@@ -102,12 +102,10 @@ class Base extends SliderBase<ISliderBaseOptions> implements ISlider {
 
    private _setValue(val: number): void {
       if (this._value !== val) {
-         if (this._options.hasOwnProperty('value')) {
-            this._notify('valueChanged', [val]);
-         } else {
+         this._notify('valueChanged', [val]);
+         if (!this._options.hasOwnProperty('value')) {
             this._value = val;
-            this._notify('valueChanged', [val]);
-         }   
+         }
       }
    }
 
