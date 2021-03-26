@@ -886,7 +886,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     setBackgroundStyle(backgroundStyle) {
         this._options.backgroundStyle = backgroundStyle;
         this._nextVersion();
-    }
+    },
 
     // TODO падает тест, т.к. там сразу изменяется нужное условие и проставляется флаг useNewModel, но новая модель не создается
     setEmptyTemplateOptions(): void {}
