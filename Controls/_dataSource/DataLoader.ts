@@ -1,4 +1,4 @@
-import {default as NewSourceController, IControllerOptions} from 'Controls/_dataSource/Controller';
+import {default as NewSourceController, IControllerOptions, IControllerState} from 'Controls/_dataSource/Controller';
 import {IFilterItem, ControllerClass as FilterController, IFilterControllerOptions} from 'Controls/filter';
 import {
     ISourceOptions,
@@ -15,8 +15,6 @@ import {Logger} from 'UI/Utils';
 import {loadSavedConfig} from 'Controls/Application/SettingsController';
 import {loadAsync, loadSync, isLoaded} from 'WasabyLoader/ModulesLoader';
 import {Guid} from 'Types/entity';
-import {mixin} from 'Types/util';
-import {SerializableMixin} from 'Types/entity';
 import {ControllerClass as SearchController} from 'Controls/search';
 import {ISearchControllerOptions} from 'Controls/_search/ControllerClass';
 import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
@@ -62,6 +60,7 @@ export interface ILoadDataConfig extends
     historySaveCallback?: (historyData: Record<string, unknown>, filterButtonItems: IFilterItem[]) => void;
     minSearchLength?: number;
     searchDelay?: number;
+    items?: RecordSet;
 }
 
 export interface ILoadDataCustomConfig extends IBaseLoadDataConfig {
@@ -117,7 +116,7 @@ function getFilterControllerWithHistoryFromLoader(loadConfig: ILoadDataConfig): 
 
 function getFilterControllerWithFilterHistory(loadConfig: ILoadDataConfig): Promise<IFilterResult> {
     const controller = getFilterController(loadConfig as IFilterControllerOptions);
-    return controller.loadFilterItemsFromHistory().then((historyItems) => {
+    return Promise.resolve(loadConfig.historyItems || controller.loadFilterItemsFromHistory()).then((historyItems) => {
         controller.setFilterItems(historyItems);
         return {
             controller,
@@ -187,7 +186,7 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
     return Promise.all([
         filterPromise,
         sortingPromise
-    ]).then(([filterPromiseResult, sortingPromiseResult]: [TFilter, ISortingOptions]) => {
+    ]).then(([, sortingPromiseResult]: [TFilter, ISortingOptions]) => {
         const sorting = sortingPromiseResult ? sortingPromiseResult.sorting : loadConfig.sorting;
         const sourceController = getSourceController({
             ...loadConfig,
@@ -208,14 +207,11 @@ function loadDataByConfig(loadConfig: ILoadDataConfig): Promise<ILoadDataResult>
     });
 }
 
-export default class DataLoader extends mixin<SerializableMixin>(SerializableMixin) {
+export default class DataLoader {
     private _loadedConfigStorage: TLoadedConfigs = new Map();
     private _loadDataConfigs: ILoadDataConfig[];
-    private _searchControllerCreatePromise: Promise<SearchController>;
 
     constructor(options: IDataLoaderOptions = {}) {
-        super();
-        SerializableMixin.call(this);
         this._loadDataConfigs = options.loadDataConfigs || [];
         this._fillLoadedConfigStorage(this._loadDataConfigs);
     }
@@ -241,6 +237,12 @@ export default class DataLoader extends mixin<SerializableMixin>(SerializableMix
             } else {
                 loadPromise = loadDataByConfig(loadConfig);
             }
+            loadPromise.then((result) => {
+                if (!result.source && result.historyItems) {
+                    result.sourceController.setFilter(result.filter);
+                }
+                return result;
+            });
             if (loadConfig.afterLoadCallback) {
                 const afterReloadCallbackLoadPromise = loadAsync(loadConfig.afterLoadCallback);
                 loadPromise.then((result) => {
@@ -263,24 +265,31 @@ export default class DataLoader extends mixin<SerializableMixin>(SerializableMix
 
     getSourceController(id?: string): NewSourceController {
         const config = this._getConfig(id);
-        let sourceController;
+        let {sourceController, items} = config;
 
-        if (config.sourceController) {
-            sourceController = config.sourceController;
-        } else {
+        if (!sourceController) {
             sourceController = config.sourceController = getSourceController(config);
+
+            if (items) {
+                sourceController.setItems(items);
+            }
         }
+
         return sourceController;
     }
 
     getFilterController(id?: string): FilterController {
         const config = this._getConfig(id);
-        let filterController;
+        let {filterController, historyItems} = config;
 
-        if (config.filterController) {
-            filterController = config.filterController;
-        } else if (isLoaded('Controls/filter')) {
-            filterController = config.filterController = getFilterController(config as IFilterControllerOptions);
+        if (!filterController) {
+            if (isLoaded('Controls/filter')) {
+                filterController = config.filterController = getFilterController(config as IFilterControllerOptions);
+
+                if (historyItems) {
+                    filterController.setFilterItems(config.historyItems);
+                }
+            }
         }
         return filterController;
     }
@@ -288,31 +297,44 @@ export default class DataLoader extends mixin<SerializableMixin>(SerializableMix
     getSearchController(id?: string): Promise<SearchController> {
         const config = this._getConfig(id);
         if (!config.searchController) {
-            if (!this._searchControllerCreatePromise) {
-                this._searchControllerCreatePromise = import('Controls/search').then((result) => {
+            if (!config.searchControllerCreatePromise) {
+                config.searchControllerCreatePromise = import('Controls/search').then((result) => {
                     config.searchController = new result.ControllerClass(
-                        {
-                            ...config,
-                            sourceController: this.getSourceController(id)
-                        } as ISearchControllerOptions
+                        {...config} as ISearchControllerOptions
                     );
 
                     return config.searchController;
                 });
             }
-            return this._searchControllerCreatePromise;
+            return config.searchControllerCreatePromise;
         }
 
         return Promise.resolve(config.searchController);
     }
 
+    getSearchControllerSync(id?: string): SearchController {
+        return this._getConfig(id).searchController;
+    }
+
+    getState(): Record<string, IControllerState> {
+        const state = {};
+        this.each((config, id) => {
+            state[id] = this.getSourceController(id).getState();
+        });
+        return state;
+    }
+
     destroy(): void {
-        this._loadedConfigStorage.forEach((config: ILoadDataResult) => {
-            if (config.sourceController) {
-                config.sourceController.destroy();
-            }
+        this.each(({sourceController}) => {
+            sourceController?.destroy();
         });
         this._loadedConfigStorage.clear();
+    }
+
+    each(callback: Function): void {
+        this._loadedConfigStorage.forEach((config: ILoadDataResult, id) => {
+            callback(config, id);
+        });
     }
 
     private _fillLoadedConfigStorage(
@@ -338,7 +360,3 @@ export default class DataLoader extends mixin<SerializableMixin>(SerializableMix
         return config;
     }
 }
-
-Object.assign(DataLoader.prototype, {
-    _moduleName: 'Controls/dataSource:DataLoader'
-});

@@ -5,8 +5,16 @@ import {ContextOptions as DataOptions} from 'Controls/context';
 import {ISourceControllerState} from 'Controls/dataSource';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
+interface IMultipleListConfigs {
+    listConfigs: ISourceControllerState[];
+}
+
 interface IDataContext {
-    dataOptions: ISourceControllerState;
+    dataOptions: ISourceControllerState | IMultipleListConfigs;
+}
+
+export interface IListContainerOptions extends IControlOptions {
+    id: string;
 }
 
 /**
@@ -37,22 +45,34 @@ interface IDataContext {
  * @author Герасимов А.М.
  * @public
  */
-export default class ListContainer extends Control<IControlOptions> {
+export default class ListContainer extends Control<IListContainerOptions> {
     protected _template: TemplateFunction = template;
     protected _dataOptions: ISourceControllerState = null;
 
-    protected _beforeMount(options: IControlOptions, context: IDataContext): void {
-        this._dataOptions = context.dataOptions;
+    protected _beforeMount(options: IListContainerOptions, context: IDataContext): void {
+        this._dataOptions = ListContainer._getListOptions(options, context);
     }
 
-    protected _beforeUpdate(options: IControlOptions, context: IDataContext): void {
-        this._dataOptions = context.dataOptions;
+    protected _beforeUpdate(options: IListContainerOptions, context: IDataContext): void {
+        this._dataOptions = ListContainer._getListOptions(options, context);
     }
 
     protected _notifyEventWithBubbling(e: SyntheticEvent, eventName: string): unknown {
         return this._notify(eventName, Array.prototype.slice.call(arguments, 2), {
             bubbling: true
         });
+    }
+
+    private static _getListOptions(options: IListContainerOptions, dataContext: IDataContext): ISourceControllerState {
+        let listOptions;
+
+        if (options.id) {
+            listOptions = (dataContext.dataOptions as IMultipleListConfigs).listConfigs[options.id];
+        } else {
+            listOptions = dataContext.dataOptions;
+        }
+
+        return listOptions;
     }
 
     static contextTypes(): IDataContext {
