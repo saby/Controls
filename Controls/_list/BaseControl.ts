@@ -3819,6 +3819,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (emptyTemplateChanged && newOptions.useNewModel) {
             this._listViewModel.setEmptyTemplate(newOptions.emptyTemplate);
         }
+        // todo При отказе от старой - выпилить проверку "useNewModel".
+        if (!isEqual(newOptions.filter, this._options.filter) && newOptions.useNewModel) {
+            this._listViewModel.setEmptyTemplateOptions({items: this._items, filter: newOptions.filter});
+        }
 
         if (this._listViewModel.setSupportVirtualScroll) {
             this._listViewModel.setSupportVirtualScroll(!!this._needScrollCalculation);
@@ -6186,7 +6190,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (typeof modelName !== 'string') {
             throw new TypeError('BaseControl: model name has to be a string when useNewModel is enabled');
         }
-        return diCreate(modelName, {...modelConfig, collection: items, unique: true});
+        return diCreate(modelName, {...modelConfig, collection: items, unique: true, emptyTemplateOptions: {items, filter: modelConfig.filter}});
     }
 
     _stopBubblingEvent(event: SyntheticEvent<Event>): void {
