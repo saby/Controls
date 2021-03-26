@@ -385,7 +385,7 @@ class Scrollbar extends Control<IScrollBarOptions> {
     }
 
     private static _isScrollBarVisible(scrollbar: HTMLElement): boolean {
-        return !!scrollbar.getClientRects().length;
+        return !!scrollbar && !scrollbar.closest('.ws-hidden');
     }
 
     private static _getMouseCoord(nativeEvent: Event, direction: TDirection): number {
