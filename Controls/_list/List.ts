@@ -93,15 +93,6 @@ export default class List extends Control /** @lends Controls/_list/List.prototy
 
     _beforeMount(options) {
         this._viewModelConstructor = this._getModelConstructor(options.useNewModel);
-        return this._checkViewName(options.useNewModel);
-    }
-
-    _checkViewName(useNewModel) {
-        if (useNewModel) {
-            return import('Controls/listRender').then((listRender) => {
-                this._viewName = listRender.Render;
-            });
-        }
     }
 
     protected _getActionsMenuConfig(e, item, clickEvent, action, isContextMenu) {
