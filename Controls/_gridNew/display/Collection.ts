@@ -49,6 +49,13 @@ export default class Collection<
         return superResult;
     }
 
+    setEmptyTemplateOptions(options: object): boolean {
+        super.setEmptyTemplateOptions(options);
+        if (this.getEmptyGridRow()) {
+            this.getEmptyGridRow().setEmptyTemplateOptions(options);
+        }
+    }
+
     setMultiSelectVisibility(visibility: string): void {
         super.setMultiSelectVisibility(visibility);
 

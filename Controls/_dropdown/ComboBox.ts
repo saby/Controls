@@ -193,7 +193,7 @@ class ComboBox extends BaseDropdown implements IInputPlaceholder {
          this._value = '';
          this._placeholder = prepareEmpty(emptyText);
       } else {
-         this._value = String(getPropValue(selectedItems[0], displayProperty) || '');
+         this._value = String(getPropValue(selectedItems[0], displayProperty) ?? '');
          this._placeholder = placeholder;
       }
    }

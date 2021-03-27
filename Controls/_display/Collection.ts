@@ -675,6 +675,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$emptyTemplate: TemplateFunction;
 
+    protected _$emptyTemplateOptions: object;
+
     protected _$theme: string;
 
     protected _$hoverBackgroundStyle: string;
@@ -2427,6 +2429,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return false;
     }
 
+    setEmptyTemplateOptions(options: object): void {
+        if (!isEqual(this._$emptyTemplateOptions, options)) {
+            this._$emptyTemplateOptions = options;
+            this._nextVersion();
+        }
+    }
+
     setEditingConfig(config: IEditingConfig): void {
         if (this._$editingConfig === config) {
             return;
@@ -3920,6 +3929,7 @@ Object.assign(Collection.prototype, {
     _swipeConfig: null,
     _userStrategies: null,
     _$emptyTemplate: null,
+    _$emptyTemplateOptions: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
 
