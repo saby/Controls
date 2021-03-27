@@ -5456,8 +5456,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
             const collection = this._options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay();
             const columnIndex = this._getEditingConfig()?.mode === 'cell' ? collection.find((cItem) => cItem.isEditing()).getEditingColumnIndex() : undefined;
-            this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, collection.getIndexBySourceItem(item));
-            return this._beginEdit({ item }, { shouldActivateInput: false, columnIndex });
+            let shouldActivateInput = true;
+            if (this._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
+                shouldActivateInput = false;
+                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, collection.getIndexBySourceItem(item));
+            }
+            return this._beginEdit({ item }, { shouldActivateInput, columnIndex });
         };
 
         switch (nativeEvent.keyCode) {
