@@ -77,6 +77,7 @@ interface IResultPopup {
 
 const DEFAULT_FILTER_NAME = 'all_frequent';
 const FILTER_PANEL_POPUP_STACK = 'Controls/filterPanelPopup:Stack';
+const FILTER_PANEL_POPUP_DIALOG = 'Controls/filterPanelPopup:Dialog';
 const FILTER_PANEL_POPUP = 'Controls/filterPanelPopup';
 
 /**
@@ -383,7 +384,11 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
     }
 
     private _getDetailPanelTemplateName({detailPanelTemplateName, detailPanelOpenMode}: IFilterViewOptions): string {
-        return detailPanelOpenMode === 'stack' ? FILTER_PANEL_POPUP_STACK : detailPanelTemplateName;
+        const needShowFilterPanelPopup = detailPanelOpenMode === 'stack' || detailPanelOpenMode === 'dialog';
+        if (needShowFilterPanelPopup) {
+            return detailPanelOpenMode === 'stack' ? FILTER_PANEL_POPUP_STACK : FILTER_PANEL_POPUP_DIALOG;
+        }
+        return detailPanelTemplateName;
     }
 
     private _open(items: RecordSet, panelPopupOptions: IPopupOptions): void {
@@ -419,8 +424,13 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
     private _getFilterPopupOpener(): StickyOpener|StackOpener {
         if (!this._filterPopupOpener) {
-            this._filterPopupOpener = this._options.detailPanelOpenMode === 'stack' ?
-                new StackOpener() : new StickyOpener();
+            if (this._options.detailPanelOpenMode === 'stack') {
+                this._filterPopupOpener = new StackOpener();
+            } else if (this._options.detailPanelOpenMode === 'dialog') {
+                this._filterPopupOpener = new DialogOpener();
+            } else {
+                this._filterPopupOpener = new StickyOpener();
+            }
         }
         return this._filterPopupOpener;
     }
@@ -459,7 +469,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             }
             this._notifyChanges(this._source);
         }
-        if (this._options.detailPanelOpenMode !== 'stack') {
+        if (this._options.detailPanelOpenMode !== 'stack' && this._options.detailPanelOpenMode !== 'dialog') {
             this._getFilterPopupOpener().close();
         }
     }
@@ -1160,7 +1170,8 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
 
     private _loadDependencies(): Promise<unknown> {
         try {
-            const popupLibrary = this._options.detailPanelOpenMode === 'stack' ? FILTER_PANEL_POPUP : 'Controls/filterPopup';
+            const needLoadFilterPanelPopup = this._options.detailPanelOpenMode === 'stack' || this._options.detailPanelOpenMode === 'dialog';
+            const popupLibrary = needLoadFilterPanelPopup ? FILTER_PANEL_POPUP : 'Controls/filterPopup';
             const detailPanelTemplateName = this._detailPanelTemplateName;
 
             if (!this._loadOperationsPanelPromise) {
