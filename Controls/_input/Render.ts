@@ -251,7 +251,7 @@ class Render extends Control<IRenderOptions> implements IHeight, IFontColorStyle
     static getDefaultOptions(): Partial<IRenderOptions> {
         return {
             ...getDefaultBorderVisibilityOptions(),
-            contrastBackground: false,
+            contrastBackground: true,
             state: '',
             validationStatus: 'valid'
         };
