@@ -24,6 +24,7 @@ import {IIntersectionObserverObject} from './IntersectionObserver/Types';
 import fastUpdate from './StickyHeader/FastUpdate';
 import StickyHeaderController from './StickyHeader/Controller';
 import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS} from './StickyHeader/Utils';
+import fastUpdate from './StickyHeader/FastUpdate';
 import {POSITION} from './Container/Type';
 import {SCROLL_DIRECTION} from './Utils/Scroll';
 import {IHasUnrenderedContent, IScrollState} from './Utils/ScrollState';
