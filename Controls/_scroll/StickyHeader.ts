@@ -161,12 +161,15 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     // До этого не синхронизируем дом дерево при изменении состояния.
     private _initialized: boolean = false;
 
+    private _offsetTop: number;
+
     constructor(cfg: IStickyHeaderOptions) {
         super(cfg);
         this._observeHandler = this._observeHandler.bind(this);
     }
 
     protected _beforeMount(options: IStickyHeaderOptions, context): void {
+        this._offsetTop = options.offsetTop;
         if (!this._isStickyEnabled(options)) {
             return;
         }
@@ -331,7 +334,17 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     }
 
     set top(value: number) {
-        if (this._stickyHeadersHeight.top !== value) {
+        if (this._stickyHeadersHeight.top !== value || (typeof this._offsetTop === 'number' && this._options.offsetTop !== this._offsetTop)) {
+            // top у заголовка - это высота всех прилипающих заголовков до него. Мы расчитываем высоту начиная с 0,
+            // не учитывая опцию offsetTop, из-за этого в случае если мы обновим offsetTop у первого заголовка, у него
+            // не пересчитается top, т.к. в расчетах его top как был 0, так и остался.
+            // Из-за этого появляется такая ошибка
+            // https://online.sbis.ru/opendoc.html?guid=f68df0fb-e18a-4060-ae04-cfe3a5410fa7
+            // Графическая шапа при смене на вкладку, где не поддерживается развертывание/свертывание шапки меняет
+            // offsetTop у заголовка с -120 на 0, top остается тем же самым и появляется дыра между заголовками.
+            // Установим новый top если поменялся offsetTop, нам нужно сделать это только
+            // один раз, по этому _offsetTop зануляем
+            this._offsetTop = null;
             this._stickyHeadersHeight.top = value;
             this._initialized = true;
             // При установке top'а учитываем gap
