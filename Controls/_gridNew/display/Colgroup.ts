@@ -44,6 +44,11 @@ export default class Colgroup<T> extends mixin<
         return this._$owner.getMultiSelectVisibility();
     }
 
+    setMultiSelectVisibility(newVisibility: string) {
+        // TODO: Можно переделать на чесное обновление, не критично.
+        this.reBuild();
+    }
+
     hasMultiSelectColumn(): boolean {
         return this._$owner.hasMultiSelectColumn();
     }
@@ -51,6 +56,11 @@ export default class Colgroup<T> extends mixin<
     reBuild(): void {
         this._$cells = this._prepareCells(this._$owner.getColumnsConfig());
         this._nextVersion();
+    }
+
+    setColumns(newColumns: TColumns): void {
+        // TODO: Можно переделать на чесное обновление, не критично.
+        this.reBuild();
     }
 
     protected _prepareCells(columns: TColumns): TColgroupCells<T> {

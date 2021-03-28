@@ -70,7 +70,9 @@ export default class Collection<
             this.getHeader().setMultiSelectVisibility(visibility);
         }
 
-        this._$colgroup?.reBuild();
+        if (this.getColgroup()) {
+            this.getColgroup().setMultiSelectVisibility(visibility);
+        }
     }
 
     setActionsTemplateConfig(config: IItemActionsTemplateConfig) {
@@ -92,7 +94,7 @@ export default class Collection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
         }
         super._reBuild(reset);
-        this._$colgroup?.reBuild();
+        this.getColgroup()?.reBuild();
     }
 
     setIndexes(start: number, stop: number): void {
