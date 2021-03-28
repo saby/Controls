@@ -4,6 +4,7 @@
             inlineHeight="{{_nocaption ? 'xl' : 'm'}}"
             iconSize="{{(_nocaption) ? 'l' : 's' }}"
             icon="{{_getIcon()}}"
+            fontColorStyle="{{_options.fontColorStyle}}"
             captionPosition="{{(!_nocaption && _currentParamName) ? 'left' : 'right' }}"
             iconStyle="{{_arrowIconStyle}}"
             caption="{{_getCaption()}}"

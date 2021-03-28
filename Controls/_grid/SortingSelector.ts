@@ -126,11 +126,13 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
             }
         }
     }
+
     private _getCaption(): string {
         if (!this._currentIcon) {
             return this._currentCaption;
         }
     }
+
     protected _dropdownItemClick(e: SyntheticEvent<Event>, key: number|string): boolean | void {
         if (key === null) {
             this._resetValue();
