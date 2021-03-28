@@ -9,7 +9,7 @@ export interface IOptions<T> extends ICellOptions<T> {
     isSingleCell?: boolean;
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:FooterContent';
+const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:FooterColumnTemplate';
 
 export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
     protected _$isSingleCell: boolean;
