@@ -35,6 +35,7 @@ export interface ISortingSelectorOptions extends IControlOptions, IFontColorStyl
  * @implements Controls/interface:IFontColorStyle
  * @implements Controls/_interface/IFontSize
  * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/Icons/Index
  * @author Авраменко А.С.
  */
 class SortingSelector extends Control<ISortingSelectorOptions> {
@@ -223,8 +224,7 @@ Object.defineProperty(SortingSelector, 'defaultProps', {
  * @demo Controls-demo/gridNew/Sorting/SortingSelector/SortingSelectorWithReset/Index
  * @demo Controls-demo/gridNew/Sorting/SortingSelector/Icons/Index
  * @demo Controls-demo/gridNew/Sorting/SortingSelector/ArrowTitle/Index
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconsSvg/Index
- * @demo Controls-demo/gridNew/Sorting/SortingSelector/IconStyle/Index
+ * @demo Controls-demo/gridNew/Sorting/SortingSelector/SingleField/Index
  * @example
  * В опцию передается массив вида
  * <pre class="brush: js;">
