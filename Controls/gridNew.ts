@@ -29,6 +29,7 @@ import * as FooterContent from 'wml!Controls/_gridNew/Render/FooterCellContent';
 import * as EmptyTemplate from 'wml!Controls/_gridNew/Render/EmptyCellContent';
 import * as EmptyColumnTemplate from 'wml!Controls/_gridNew/Render/EmptyCellContent';
 import * as ItemActionsCellContent from 'wml!Controls/_gridNew/Render/ItemActionsCellContent';
+import * as ItemEditorTemplate from 'wml!Controls/_gridNew/Render/ItemEditorTemplate';
 
 import * as MoneyTypeRender from 'wml!Controls/_gridNew/Render/types/money';
 import * as NumberTypeRender from 'wml!Controls/_gridNew/Render/types/number';
@@ -43,7 +44,7 @@ export {
     View,
     GridView,
     ItemTemplate,
-    ColumnTemplate as ItemEditorTemplate,
+    ItemEditorTemplate,
     ResultsTemplate,
     ResultColumnTemplate,
     ColumnTemplate,
