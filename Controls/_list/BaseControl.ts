@@ -1905,6 +1905,7 @@ const _private = {
         self._targetItem = clickEvent.target.closest('.controls-ListView__itemV');
         menuConfig.eventHandlers = {
             onResult: self._onItemActionsMenuResult,
+            onOpen: () => self._onItemActionsMenuResult('onOpen'),
             onClose(): void {
                 // При разрушении список сам закрывает меню, пока меню закроется и отстрелит колбек,
                 // список полностью разрушится.
@@ -5671,7 +5672,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 const item = _private.getItemActionsController(this, this._options).getActiveItem();
                 _private.handleItemActionClick(this, action, clickEvent, item, true);
             }
-        } else if (eventName === 'menuOpened') {
+        } else if (eventName === 'menuOpened' || eventName === 'onOpen') {
             if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this)) {
                 this._hoverFreezeController.unfreezeHover();
             }
