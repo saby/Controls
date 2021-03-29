@@ -862,9 +862,11 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     }
 
     resetPrefetch(): void {
-        this._filterController.resetPrefetch();
-        this._filter = this._filterController.getFilter() as QueryWhereExpression<unknown>;
-        this._notify('filterChanged', [this._filter]);
+        if (!this._getSourceController().isLoading()) {
+            this._filterController.resetPrefetch();
+            this._filter = this._filterController.getFilter() as QueryWhereExpression<unknown>;
+            this._notify('filterChanged', [this._filter]);
+        }
     }
 
     static _getRoot(path: RecordSet, currentRoot: Key, parentProperty: string): Key {
