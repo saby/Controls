@@ -1,3 +1,1 @@
-<div class="controls-PropertyGrid__editor_checkbox_control ws-flexbox">
-	<Controls.toggle:Checkbox on:valueChanged="_valueChanged()" value="{{value}}"></Controls.toggle:Checkbox>
-</div>
+<Controls.toggle:Checkbox on:valueChanged="_valueChanged()" value="{{value}}" attr:class="controls-PropertyGrid__editor_checkbox_control"></Controls.toggle:Checkbox>
