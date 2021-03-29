@@ -10,7 +10,7 @@
                     <ws:Function value="{{itemData.item[column.config.displayProperty || 'title']}}">Controls/validate:isRequired</ws:Function>
                 </ws:validators>
                 <ws:content>
-                    <Controls.input:Text bind:value="itemData.item[column.config.displayProperty || 'title']"
+                    <Controls.input:Text contrastBackground="{{true}}" bind:value="itemData.item[column.config.displayProperty || 'title']"
                                          selectOnClick="{{ false }}" />
                 </ws:content>
             </Controls.validate:InputContainer>
