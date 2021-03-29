@@ -9,7 +9,7 @@ import { IEntryPathItem, ITreeSelectionStrategyOptions, TKeys } from '../interfa
 // @ts-ignore
 import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
-import { Tree, TreeItem } from 'Controls/display';
+import {CollectionItem, Tree, TreeItem} from 'Controls/display';
 
 const LEAF = null;
 
@@ -173,15 +173,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
-   expandRange(selection: ISelection, firstKey: CrudEntityKey, secondKey: CrudEntityKey): ISelection {
-      if (firstKey === secondKey) {
-         return selection;
-      }
-      const firstIndex = this._model.getIndexByKey(firstKey);
-      const secondIndex = this._model.getIndexByKey(secondKey);
-      const sliceStart = secondIndex > firstIndex ? firstIndex : secondIndex;
-      const sliceEnd = sliceStart === secondIndex ? firstIndex + 1 : secondIndex + 1;
-      const items = this._model.getItems().slice(sliceStart, sliceEnd);
+   selectRange(selection: ISelection, items: Array<CollectionItem<Model>>): ISelection {
       let newSelection = selection;
       items.forEach((elem) => {
          if (elem.SelectableItem && (!elem.isNode() || elem.isNode() && !elem.isExpanded())) {

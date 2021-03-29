@@ -234,11 +234,21 @@ export class Controller {
    }
 
    /**
-    * Выбирает все элементы от предыдущего выбранного до текущего
+    * Выбирает элементы с firstKey до secondKey
     * @return {ISelection}
     */
-   expandRange(firstKey: CrudEntityKey, secondKey: CrudEntityKey): ISelection {
-      return this._strategy.expandRange(this._selection, firstKey, secondKey);
+   selectRange(firstKey: CrudEntityKey, secondKey: CrudEntityKey): ISelection {
+      if (firstKey === secondKey) {
+         return this._selection;
+      }
+
+      const firstIndex = this._model.getIndexByKey(firstKey);
+      const secondIndex = this._model.getIndexByKey(secondKey);
+      const sliceStart = secondIndex > firstIndex ? firstIndex : secondIndex;
+      const sliceEnd = sliceStart === secondIndex ? firstIndex + 1 : secondIndex + 1;
+      const items = this._model.getItems().slice(sliceStart, sliceEnd);
+
+      return this._strategy.selectRange(this._selection, items);
    }
 
    /**
