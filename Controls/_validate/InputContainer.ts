@@ -22,7 +22,6 @@ class Input extends Container {
         this._validationStatus = this._getValidStatus(this._contentActive);
         if (!this._options.readOnly) {
             this._shouldValidate = true;
-            this._forceUpdate();
         }
     }
     _inputCompletedHandler(event: Event, ...rest: any): void {
