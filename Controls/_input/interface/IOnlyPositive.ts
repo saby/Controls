@@ -9,7 +9,7 @@ export interface IOnlyPositiveOptions {
 }
 
 /**
- * @name Controls/_input/interface/IOnlyPositive#onlyPositive
+ * @name Controls/_input/interface/IOnlyPositiveOptions#onlyPositive
  * @cfg {Boolean} Определяет, можно ли вводить в поле только положительные числа.
  * @default false
  * @remark
