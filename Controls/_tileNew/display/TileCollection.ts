@@ -14,6 +14,13 @@ export default class TileCollection<
         super(options);
     }
 
+    setActiveItem(item: T): void {
+        if (!item) {
+            this.setHoveredItem(null);
+        }
+        super.setActiveItem(item);
+    }
+
     protected _getItemsFactory(): ItemsFactory<T> {
         const parent = super._getItemsFactory();
 
