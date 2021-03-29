@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import {Controller as EditInPlace, CONSTANTS} from 'Controls/editInPlace';
-import {Collection, CollectionItem} from 'Controls/display';
+import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {Logger} from 'UI/Utils';
@@ -429,7 +429,7 @@ describe('Controls/_editInPlace/EditInPlace', () => {
             });
         });
 
-        it('should be exist a possibility to pass args from edit to before callback', () => {
+        it('should exists a possibility to pass args from edit to before callback', () => {
             const options = {
                 myOptions: true,
                 item: collection.at(0).contents
@@ -444,6 +444,58 @@ describe('Controls/_editInPlace/EditInPlace', () => {
 
             return editInPlace.edit(options).then(() => {
                 assert.isTrue(onBeforeBeginEditCalled);
+            });
+        });
+
+        describe('skip editing item', () => {
+            describe('go to prev', () => {
+
+                it('skip editing second item and go to first', () => {
+                    editInPlace.updateOptions({
+                        onBeforeBeginEdit: (options) => options.item.getKey() === 2 ? CONSTANTS.GOTOPREV : undefined
+                    });
+                    // Try start editing item with key 2
+                    return editInPlace.edit({item: collection.at(1).contents}).then(() => {
+                        // Started editing of item with key 1
+                        assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 1);
+                    });
+                });
+
+                it('skip all', () => {
+                    editInPlace.updateOptions({
+                        onBeforeBeginEdit: () => CONSTANTS.GOTOPREV
+                    });
+                    // Try start editing item with key 2
+                    return editInPlace.edit({item: collection.at(1).contents}).then(() => {
+                        // Started editing of item with key 1
+                        assert.isNull(collection.find((i) => i.isEditing()));
+                    });
+                });
+            });
+
+            describe('go to next', () => {
+
+                it('skip editing first item and go to second', () => {
+                    editInPlace.updateOptions({
+                        onBeforeBeginEdit: (options) => options.item.getKey() === 1 ? CONSTANTS.GOTONEXT : undefined
+                    });
+                    // Try start editing item with key 1
+                    return editInPlace.edit({item: collection.at(0).contents}).then(() => {
+                        // Started editing of item with key 2
+                        assert.equal(collection.find((i) => i.isEditing()).contents.getKey(), 2);
+                    });
+                });
+
+                it('skip all', () => {
+                    editInPlace.updateOptions({
+                        onBeforeBeginEdit: () => CONSTANTS.GOTONEXT
+                    });
+                    // Try start editing item with key 2
+                    return editInPlace.edit({item: collection.at(2).contents}).then(() => {
+                        // Started editing of item with key 1
+                        assert.isNull(collection.find((i) => i.isEditing()));
+                    });
+                });
             });
         });
     });

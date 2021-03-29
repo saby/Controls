@@ -1,6 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500">
     <Controls.treeGridNew:View
             keyProperty="id"
+            attr:style="width: 500px;"
             parentProperty="parent"
             nodeProperty="parent@"
             showEditArrow="{{ true }}"
