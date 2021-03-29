@@ -556,17 +556,17 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     loadMore(direction: IDirection): void {
-        // const hasMoreRootData = this._sourceController.hasMoreData('down', this._root);
-        // const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
-        // const lastRootItem = rootItems.at(rootItems.getCount() - 1);
-        // if (!hasMoreRootData && lastRootItem.isNode() && lastRootItem.isExpanded()) {
-        //     const hasMoreData = this._sourceController.hasMoreData('down', lastRootItem.getContents().getKey());
-        //     if (hasMoreData) {
-        //         _private.loadMore(this, lastRootItem);
-        //     }
-        // } else {
+        const hasMoreRootData = this._sourceController.hasMoreData('down', this._root);
+        const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
+        const lastRootItem = rootItems.at(rootItems.getCount() - 1);
+        if (!hasMoreRootData && lastRootItem.isNode() && lastRootItem.isExpanded()) {
+            const hasMoreData = this._sourceController.hasMoreData('down', lastRootItem.getContents().getKey());
+            if (hasMoreData) {
+                _private.loadMore(this, lastRootItem);
+            }
+        } else {
             super.loadMore(direction);
-        // }
+        }
     }
 
     private _updateTreeControlModel(newOptions): void {
