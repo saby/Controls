@@ -6,7 +6,7 @@
             <Controls.buttons:Button viewMode="linkButton"
                                      caption="{{rk('Сбросить')}}"
                                      fontColorStyle="label"
-                                     readOnly="{{_filterReseted}}"
+                                     readOnly="{{_viewModel.isFilterReseted()}}"
                                      on:click="_resetFilter()"/>
             <ws:if data="{{_options.applyButtonCaption}}">
                <div class="controls-FilterViewPanel__applyButton"
@@ -16,9 +16,9 @@
          </div>
       </Controls.scroll:StickyHeader>
       <Controls.propertyGrid:PropertyGrid
-              editingObject="{{_editingObject}}"
-              source="{{_source}}"
-              collapsedGroups="{{_collapsedGroups}}"
+              editingObject="{{_viewModel.getEditingObject()}}"
+              source="{{_viewModel.getBasicFilterItems()}}"
+              collapsedGroups="{{_viewModel.getCollapsedGroups()}}"
               itemPadding="{{_itemPadding}}"
               on:editingObjectChanged="_editingObjectChanged()"
               on:groupClick="_groupClick()"
@@ -27,16 +27,19 @@
             <ws:partial template="Controls/propertyGrid:ItemTemplate" attr:class="controls-FilterViewPanel__propertyGrid_itemTemplate"/>
          </ws:itemTemplate>
          <ws:groupTemplate>
-            <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate" resetCaption="{{_resetCaption}}" groupItems="{{_groupItems}}"/>
+            <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate"
+                        scope="{{groupTemplate}}"
+                        resetCaption="{{_resetCaption}}"
+                        groupItems="{{_viewModel.getGroupItems()}}"/>
          </ws:groupTemplate>
       </Controls.propertyGrid:PropertyGrid>
-      <ws:if data="{{_needShowAdditionalEditors}}">
+      <ws:if data="{{_viewModel.hasExtendedItems()}}">
          <div class="controls-FilterViewPanel__additional-editors-container">
             <div class="controls-FilterViewPanel__additional-caption controls-FilterViewPanel__additional-{{_options.backgroundStyle}}">
                {{_additionalEditorsCaption}}
             </div>
             <div class="controls-FilterViewPanel__additional-editors">
-               <ws:for data="filter in _source">
+               <ws:for data="filter in _viewModel.getExtendedFilterItems()">
                   <ws:partial template="{{filter.editorTemplateName}}" scope="{{filter.editorOptions}}" viewMode="{{filter.viewMode}}"/>
                </ws:for>
             </div>
