@@ -261,6 +261,7 @@
   "--unselected_marker_color_switcher": "#CCC",
   "--readonly_unselected_marker_color_switcher": "#CCC",
   "--marker_border-offset_switcher": "3px",
+  "--background-color_switcher": "var(--background-color)",
 
   "--icon_expanded_height_s_BigSeparator": "2px",
   "--icon_expanded_height_m_BigSeparator": "4px",
