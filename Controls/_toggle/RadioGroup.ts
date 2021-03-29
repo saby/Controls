@@ -114,3 +114,8 @@ Object.defineProperty(Radio, 'defaultProps', {
 });
 
 export default Radio;
+
+/**
+ * @name Controls/_toggle/interface/IToggleGroup#direction
+ * @demo Controls-demo/toggle/RadioGroup/Direction/Index
+ */
