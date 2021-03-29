@@ -224,8 +224,9 @@ export default class _Controller implements IDropdownController {
       }
 
       return Promise.allSettled(deps).then((results) => {
-         if (results.some((result) => result.reason)) {
-            return Promise.reject();
+         const errorResult = results.find((result) => result.reason);
+         if (errorResult) {
+            return Promise.reject(errorResult.reason);
          }
       });
    }
