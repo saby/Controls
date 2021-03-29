@@ -1,8 +1,8 @@
 import {mixin} from 'Types/util';
 import {IVersionable, VersionableMixin} from 'Types/entity';
 import {POSITION} from './Type';
-import {SHADOW_VISIBILITY, IShadowsOptions} from './Interface/IShadows';
-import {canScrollByState, SCROLL_POSITION, SCROLL_DIRECTION} from '../Utils/Scroll';
+import {IShadowsOptions, SHADOW_VISIBILITY} from './Interface/IShadows';
+import {SCROLL_DIRECTION, SCROLL_POSITION} from '../Utils/Scroll';
 import {IScrollState} from '../Utils/ScrollState';
 
 const SHADOW_ENABLE_MAP = {
@@ -159,6 +159,16 @@ export default class ShadowModel extends mixin<VersionableMixin>(VersionableMixi
 
     isStickyHeadersShadowsEnabled(): boolean {
         return this._getShadowEnable();
+    }
+
+    getStickyHeadersShadowsVisibility(): SHADOW_VISIBILITY {
+        let visibility: SHADOW_VISIBILITY = SHADOW_VISIBILITY.AUTO;
+        if (this._visibilityByInnerComponents !== SHADOW_VISIBILITY.AUTO) {
+            visibility = this._visibilityByInnerComponents;
+        } else if(!this._getShadowEnable() || !this._getVisibleByState(this._scrollState)) {
+            visibility = SHADOW_VISIBILITY.HIDDEN;
+        }
+        return visibility;
     }
 
     private _canScrollByScrollState(): boolean {

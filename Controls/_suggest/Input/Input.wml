@@ -31,6 +31,7 @@
       inlineHeight="{{_inlineHeight}}"
       fontColorStyle="{{_fontColorStyle}}"
       borderVisibility="{{_options.borderVisibility}}"
+      contrastBackground="{{_options.contrastBackground}}"
       on:tagClick="_notifyHandler('tagClick')"
       on:tagHover="_notifyHandler('tagHover')"
       on:valueChanged="_changeValueHandler()"

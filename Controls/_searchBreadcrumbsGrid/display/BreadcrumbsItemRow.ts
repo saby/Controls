@@ -128,5 +128,6 @@ Object.assign(BreadcrumbsItemRow.prototype, {
    _instancePrefix: 'search-breadcrumbs-grid-row-',
    _cellModule: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemCell',
    _$cellTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
-   _$last: null
+   _$last: null,
+   _$hasNodeWithChildren: false
 });

@@ -3,11 +3,13 @@ import TreeTileView from 'Controls/_treeTile/TreeTileView';
 import TreeTileCollection from 'Controls/_treeTile/display/TreeTileCollection';
 import TreeTileCollectionItem from 'Controls/_treeTile/display/TreeTileCollectionItem';
 import InvisibleTreeTileItem from 'Controls/_treeTile/display/InvisibleTreeTileItem';
+import {default as ItemsView} from 'Controls/_treeTile/ItemsView';
 import {register} from 'Types/di';
 import * as FolderTemplate from 'wml!Controls/_treeTile/render/Folder';
 
 export {
     View,
+    ItemsView,
     TreeTileView,
     FolderTemplate
 };

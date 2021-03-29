@@ -675,6 +675,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$emptyTemplate: TemplateFunction;
 
+    protected _$emptyTemplateOptions: object;
+
     protected _$theme: string;
 
     protected _$hoverBackgroundStyle: string;
@@ -2427,6 +2429,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return false;
     }
 
+    setEmptyTemplateOptions(options: object): void {
+        if (!isEqual(this._$emptyTemplateOptions, options)) {
+            this._$emptyTemplateOptions = options;
+            this._nextVersion();
+        }
+    }
+
     setEditingConfig(config: IEditingConfig): void {
         if (this._$editingConfig === config) {
             return;
@@ -2439,13 +2448,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$editingConfig;
     }
 
-    setSearchValue(searchValue: string): boolean {
+    setSearchValue(searchValue: string): void {
         if (this._$searchValue !== searchValue) {
             this._$searchValue = searchValue;
+            this.getViewIterator().each((item: T) => {
+                if (item.DisplaySearchValue) {
+                    item.setSearchValue(searchValue);
+                }
+            });
             this._nextVersion();
-            return true;
         }
-        return false;
     }
 
     getSearchValue(): string {
@@ -3087,6 +3099,7 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.rightPadding = this._$rightPadding;
             options.topPadding = this._$topPadding;
             options.bottomPadding = this._$bottomPadding;
+            options.searchValue = this._$searchValue;
             return create(options.itemModule || this._itemModule, options);
         };
     }
@@ -3916,6 +3929,7 @@ Object.assign(Collection.prototype, {
     _swipeConfig: null,
     _userStrategies: null,
     _$emptyTemplate: null,
+    _$emptyTemplateOptions: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
 

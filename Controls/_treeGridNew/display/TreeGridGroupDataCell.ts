@@ -13,6 +13,19 @@ export default class TreeGridGroupDataCell<T extends Model>
         super(options);
     }
 
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+        let wrapperClasses = '';
+
+        wrapperClasses += this._getWrapperBaseClasses(theme, style, templateHighlightOnHover);
+        wrapperClasses += this._getWrapperSeparatorClasses(theme);
+
+        if (this._$owner.hasColumnScroll()) {
+            wrapperClasses += ` ${this._getColumnScrollWrapperClasses(theme)}`;
+        }
+
+        return wrapperClasses;
+    }
+
     // region Аспект "Ячейка группы"
 
     isExpanded(): boolean {

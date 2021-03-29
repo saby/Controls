@@ -10,7 +10,7 @@
                 <ws:contentTemplate>
                     <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.title }}">
                         <ws:editorTemplate>
-                            <Controls.input:Text attr:style="width: calc(100% - 55px)" bind:value="itemTemplate.itemData.item.title"/>
+                            <Controls.input:Text contrastBackground="{{true}}" attr:style="width: calc(100% - 55px)" bind:value="itemTemplate.itemData.item.title"/>
                         </ws:editorTemplate>
                     </ws:partial>
                 </ws:contentTemplate>

@@ -1,1 +1,1 @@
- <div class="content_tab_margin">{{item.get('text')}}</div>
+ <div>{{item.get('text')}}</div>

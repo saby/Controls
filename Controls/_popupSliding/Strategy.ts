@@ -1,8 +1,10 @@
-import {IPopupItem, IPopupPosition, IPopupSizes, ISlidingPanelPopupOptions} from 'Controls/popup';
+import {IPopupItem, IPopupPosition, ISlidingPanelPopupOptions} from 'Controls/popup';
 import constants from 'Env/Constants';
 
-interface ISlidingPanelItem extends IPopupItem {
+export interface ISlidingPanelItem extends IPopupItem {
     popupOptions: ISlidingPanelPopupOptions;
+    animationState: 'showing' | 'closing' | void;
+    dragStartHeight: number;
 }
 
 const INVERTED_POSITION_MAP = {
@@ -16,13 +18,9 @@ class Strategy {
      * Returns popup position
      * @function Controls/_popupSliding/Strategy#getPosition
      * @param item Popup configuration
-     * @param containerSizes Popup container sizes
      */
-    getPosition(
-        {position: popupPosition = {}, popupOptions}: ISlidingPanelItem,
-        containerSizes: IPopupSizes
-    ): IPopupPosition {
-        const windowHeight = this.getWindowHeight();
+    getPosition({position: popupPosition = {}, popupOptions}: ISlidingPanelItem): IPopupPosition {
+        const windowHeight = this._getWindowHeight();
         const {
             slidingPanelOptions: {
                 position,
@@ -33,24 +31,62 @@ class Strategy {
         } = popupOptions;
         const maxHeight = this._getHeightWithoutOverflow(optionsMaxHeight, windowHeight);
         const minHeight = this._getHeightWithoutOverflow(optionsMinHeight, maxHeight);
-        const currentPositionHeight = this._getHeightWithoutOverflow(popupPosition.height, maxHeight);
-
-        // Если еще не тянули шторку и включили авто высоту, то строимся по контейнеру
-        const height = autoHeight && !currentPositionHeight ? undefined : (currentPositionHeight || minHeight);
-
-        // Признак того, что попап открыт, в этом случае край попапа всегда на краю экрана
-        const positionValue = containerSizes ? windowHeight - containerSizes.height : windowHeight;
+        const initialHeight = this._getHeightWithoutOverflow(popupPosition.height, maxHeight);
+        const heightValue = autoHeight && !initialHeight ? undefined : (initialHeight || minHeight);
+        const height = this._getHeightWithoutOverflow(heightValue, maxHeight);
         return {
             left: 0,
             right: 0,
-
-            // Изначально позиционируемся за экраном, если уже перепозиционировались, то уже показываемся у края экрана
-            [INVERTED_POSITION_MAP[position]]: positionValue,
-            maxHeight: maxHeight || windowHeight,
+            [position]: 0,
+            maxHeight,
             minHeight,
-            height: minHeight && height && height < minHeight ? minHeight : height,
+            height: height < minHeight ? minHeight : height,
             position: 'fixed'
         };
+    }
+
+    /**
+     * Получение позиции перед октрытием
+     * @param item
+     */
+    getStartPosition(item: ISlidingPanelItem): IPopupPosition {
+        const positionOption = item.popupOptions.slidingPanelOptions.position;
+        const containerHeight = item.sizes?.height;
+        const windowHeight = this._getWindowHeight();
+        const position = this.getPosition(item);
+
+        /*
+            Если у нас нет размеров контейнера, то это построение и мы позиционируем окно за пределами экрана
+            Если размеры есть, то это ресайз, запущенный до окончания анимации, поэтому выполняем ресайз
+         */
+        this._setInvertedPosition(
+            position,
+            positionOption,
+            containerHeight ? windowHeight - containerHeight : windowHeight
+        );
+        return position;
+    }
+
+    /**
+     * Запуск анимации показа окна
+     * @param item
+     */
+    getShowingPosition(item: ISlidingPanelItem): IPopupPosition {
+        const positionOption = item.popupOptions.slidingPanelOptions.position;
+        const position = this.getPosition(item);
+        this._setInvertedPosition(position, positionOption, this._getWindowHeight() - item.sizes.height);
+        return  position;
+    }
+
+    /**
+     * Запуск анимации сворачивания окна
+     * @param item
+     */
+    getHidingPosition(item: ISlidingPanelItem): IPopupPosition {
+        const positionOption = item.popupOptions.slidingPanelOptions.position;
+        const position = this.getPosition(item);
+        position[positionOption] = -item.sizes.height;
+        return  position;
     }
 
     /**
@@ -62,7 +98,7 @@ class Strategy {
      */
     private _getHeightWithoutOverflow(height: number, maxHeight: number): number {
         if (!height) {
-            return undefined;
+            return height;
         }
         return maxHeight > height ? height : maxHeight;
     }
@@ -72,16 +108,23 @@ class Strategy {
      * @return {number}
      * @private
      */
-    getWindowHeight(): number {
+    private _getWindowHeight(): number {
         return constants.isBrowserPlatform && window.innerHeight;
     }
 
     /**
-     * Получение название css свойства отвечающего за позиционирование окна с соответствующим значением опции position
-     * @param positionOption
+     * Устанавливает противоположную позицию, удаляя дефолтное значение.
+     * Нужно для того, чтобы изначально спозиционировать окно
+     * неизвестного размера на краю экрана + за пределами вьюпорта.
+     * (Пример: Если окно открывается снизу, то top: windowHeight)
+     * @param position
+     * @param property
+     * @param value
+     * @private
      */
-    getPositionProperty(positionOption: string): string {
-        return INVERTED_POSITION_MAP[positionOption];
+    private _setInvertedPosition(position: IPopupPosition, property: string, value: number): void {
+        delete position[property];
+        position[INVERTED_POSITION_MAP[property]] = value;
     }
 }
 
