@@ -251,7 +251,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         }
         this._configs = null;
         this._displayText = null;
-        UnregisterUtil(this, 'scroll');
+        UnregisterUtil(this, 'scroll', {listenAll: true});
         if (this._filterPopupOpener) {
             this._filterPopupOpener.destroy();
         }
@@ -391,7 +391,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             return;
         }
         if (!detection.isMobileIOS) {
-            RegisterUtil(this, 'scroll', this._handleScroll.bind(this));
+            RegisterUtil(this, 'scroll', this._handleScroll.bind(this), {listenAll: true});
         }
         const popupOptions = {
             opener: this,
