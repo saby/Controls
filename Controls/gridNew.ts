@@ -1,5 +1,6 @@
 import {isFullGridSupport} from 'Controls/display';
 import { default as View } from 'Controls/_gridNew/Grid';
+import { default as ItemsView } from 'Controls/_gridNew/ItemsGrid';
 import GridView from 'Controls/_gridNew/GridView';
 
 import * as GridItemTemplate from 'wml!Controls/_gridNew/Render/grid/Item';
@@ -43,6 +44,7 @@ import {register} from 'Types/di';
 
 export {
     View,
+    ItemsView,
     GridView,
     ItemTemplate,
     ItemEditorTemplate,
