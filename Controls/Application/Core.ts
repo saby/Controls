@@ -1,4 +1,5 @@
-import {Control, IControlOptions, TemplateFunction, AppData} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import { AppData } from 'UI/State';
 import * as template from 'wml!Controls/Application/Core';
 import {setStore, getStore} from 'Application/Env';
 import {getThemeController} from 'UI/theme/controller';

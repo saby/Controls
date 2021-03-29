@@ -147,7 +147,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
             this._initializeResults(options);
         }
         if (!this._$isFullGridSupport) {
-            this._$colgroup = this._initializeColgroup(options);
+            this._initializeColgroup(options);
         }
 
         if (this._$emptyTemplate || this._$emptyTemplateColumns) {
@@ -273,17 +273,13 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
 
     setColumns(newColumns: TColumns): void {
         this._$columns = newColumns;
-        this._$colgroup?.reBuild();
         this._nextVersion();
+        // Строки данных, группы
         this._updateItemsColumns();
-        const header = this.getHeader();
-        if (header) {
-            header.setColumns(newColumns);
-        }
-        const results = this.getResults();
-        if (results) {
-            results.setColumns(newColumns);
-        }
+
+        [this.getColgroup(), this.getHeader(), this.getResults(), this.getFooter()].forEach((gridUnit) => {
+            gridUnit?.setColumns(newColumns);
+        });
     }
 
     setSorting(sorting: Array<{[p: string]: string}>): void {
@@ -325,7 +321,8 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
         this._$emptyGridRow = new EmptyRow<S>({
             owner: this,
             emptyTemplate: this._$emptyTemplate,
-            emptyTemplateColumns: this._$emptyTemplateColumns
+            emptyTemplateColumns: this._$emptyTemplateColumns,
+            emptyTemplateOptions: this._$emptyTemplateOptions
         });
     }
 
@@ -403,7 +400,7 @@ export default abstract class Grid<S, T extends GridRowMixin<S>> {
     }
 
     protected _initializeColgroup(options: IOptions): Colgroup<S> {
-        return new Colgroup({
+        this._$colgroup = new Colgroup({
             owner: this
         });
     }
