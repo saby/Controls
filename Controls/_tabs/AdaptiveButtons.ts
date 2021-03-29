@@ -265,7 +265,7 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
         const currentTextOfTab = this._getTextOfTabByIndex(options, items, indexLast);
         let currentMinWidth = this._getMinWidth(currentTextOfTab);
         width = width + this._moreButtonWidth + currentMinWidth + COUNT_OF_MARGIN * MARGIN + PADDING_OF_MORE_BUTTON;
-        while (width > options.containerWidth) {
+        while (width > options.containerWidth && indexLast >= 0) {
             indexLast--;
             width = width - arrWidth[indexLast] - currentMinWidth;
             currentMinWidth = this._getMinWidth(this._getTextOfTabByIndex(options, items, indexLast));
@@ -288,7 +288,7 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
 
     private _getTextOfTabByIndex(options: ITabsAdaptiveButtonsOptions, items: RecordSet, index: number): string {
         const tab = options.align === 'right' ? items.at(items.getCount() - 1 - index) : items.at(index);
-        return tab.get(options.displayProperty);
+        return tab ? tab.get(options.displayProperty) : '';
     }
 
     private _getMinWidth(text: string): number {
