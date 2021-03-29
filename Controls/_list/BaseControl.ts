@@ -4023,9 +4023,10 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
         if (newOptions.sourceController || newOptions.items) {
             const items = newOptions.sourceController?.getItems() || newOptions.items;
+            const sourceControllerChanged = this._options.sourceController !== newOptions.sourceController;
 
             if (newOptions.sourceController) {
-                if (this._options.sourceController !== newOptions.sourceController) {
+                if (sourceControllerChanged) {
                     this._sourceController = newOptions.sourceController;
                     this._sourceController.setDataLoadCallback(this._dataLoadCallback);
                 }
@@ -4061,7 +4062,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             }
 
             if (newOptions.sourceController) {
-                if (!this._options.sourceController) {
+                if (sourceControllerChanged) {
                     _private.executeAfterReloadCallbacks(this, this._items, newOptions);
                 }
 
