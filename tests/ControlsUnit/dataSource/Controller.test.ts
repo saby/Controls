@@ -619,6 +619,7 @@ describe('Controls/dataSource:SourceController', () => {
     describe('hasLoaded', () => {
         it('hasLoaded without navigation', async () => {
             const controller = getController();
+            controller.setExpandedItems(['anyTestKey']);
             await controller.reload();
             ok(controller.hasLoaded('anyTestKey'));
         });

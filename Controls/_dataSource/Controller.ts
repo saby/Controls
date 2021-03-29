@@ -375,7 +375,7 @@ export default class Controller extends mixin<
 
         if (this._hasNavigationBySource()) {
             loadedResult = this._getNavigationController(this._navigation).hasLoaded(key);
-        } else if (this.getItems()) {
+        } else if (this.getExpandedItems()?.includes(key)) {
             loadedResult = true;
         }
 
