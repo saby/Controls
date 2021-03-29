@@ -1,7 +1,8 @@
 <div class="controls-FilterViewPanel">
    <Controls.scroll:Container attr:class="controls-FilterViewPanel__scroll">
       <Controls.scroll:StickyHeader backgroundStyle="transparent">
-         <div class="controls-FilterViewPanel__header">
+         <div class="controls-FilterViewPanel__header
+                     controls-FilterViewPanel__header-{{_options.backgroundStyle}}">
             <Controls.buttons:Button viewMode="linkButton"
                                      caption="{{rk('Сбросить')}}"
                                      fontColorStyle="label"
@@ -21,7 +22,7 @@
               itemPadding="{{_itemPadding}}"
               on:editingObjectChanged="_editingObjectChanged()"
               on:groupClick="_groupClick()"
-              attr:class="controls-FilterViewPanel__propertyGrid">
+              attr:class="controls-FilterViewPanel__propertyGrid controls-FilterViewPanel__propertyGrid-{{_options.backgroundStyle}}">
          <ws:itemTemplate>
             <ws:partial template="Controls/propertyGrid:ItemTemplate" attr:class="controls-FilterViewPanel__propertyGrid_itemTemplate"/>
          </ws:itemTemplate>
@@ -29,5 +30,17 @@
             <ws:partial template="wml!Controls/_filterPanel/View/groupTemplate" resetCaption="{{_resetCaption}}" groupItems="{{_groupItems}}"/>
          </ws:groupTemplate>
       </Controls.propertyGrid:PropertyGrid>
+      <ws:if data="{{_needShowAdditionalEditors}}">
+         <div class="controls-FilterViewPanel__additional-editors-container">
+            <div class="controls-FilterViewPanel__additional-caption controls-FilterViewPanel__additional-{{_options.backgroundStyle}}">
+               {{_additionalEditorsCaption}}
+            </div>
+            <div class="controls-FilterViewPanel__additional-editors">
+               <ws:for data="filter in _source">
+                  <ws:partial template="{{filter.editorTemplateName}}" scope="{{filter.editorOptions}}" viewMode="{{filter.viewMode}}"/>
+               </ws:for>
+            </div>
+         </div>
+      </ws:if>
    </Controls.scroll:Container>
 </div>

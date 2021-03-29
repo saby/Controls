@@ -51,6 +51,7 @@ interface IViewPanelOptions {
     source: IFilterItem[];
     applyButtonCaption: string;
     collapsedGroups: string[]|number[];
+    backgroundStyle: string;
 }
 
 export default class View extends Control<IControlOptions> {
@@ -64,6 +65,8 @@ export default class View extends Control<IControlOptions> {
     protected _itemPadding: IItemPadding = {
         bottom: 'null'
     };
+    protected _additionalEditorsCaption: string = rk('Еще можно отобрать');
+    protected _needShowAdditionalEditors: boolean = false;
 
     protected _beforeMount(options: IViewPanelOptions): void {
         this._setSource(options.source);
@@ -71,12 +74,14 @@ export default class View extends Control<IControlOptions> {
         if (options.collapsedGroups) {
             this._collapsedGroups = options.collapsedGroups;
         }
+        this._needShowAdditionalEditors = this._checkExtendedEditors(options.source);
     }
 
     protected _beforeUpdate(newOptions: IViewPanelOptions): void {
         if (this._options.source !== newOptions.source) {
             this._setSource(newOptions.source);
             this._updateFilterParams();
+            this._needShowAdditionalEditors = this._checkExtendedEditors(newOptions.source);
         }
         if (this._options.collapsedGroups !== newOptions.collapsedGroups) {
             this._collapsedGroups = newOptions.collapsedGroups;
@@ -118,6 +123,12 @@ export default class View extends Control<IControlOptions> {
             displayItem.toggleExpanded();
         }
         this._notify('collapsedGroupsChanged', [this._collapsedGroups]);
+    }
+
+    private _checkExtendedEditors(source: IFilterItem[]): boolean {
+        return source.some((item) => {
+            return item.viewMode === 'extended';
+        });
     }
 
     private _isFilterReseted(): boolean {
@@ -181,4 +192,19 @@ export default class View extends Control<IControlOptions> {
         this._notify('filterChanged', [this._editingObject]);
         this._notify('sourceChanged', [this._source]);
     }
+
+    static getDefaultOptions(): Partial<IViewPanelOptions> {
+        return {
+            backgroundStyle: 'default'
+        };
+    }
 }
+
+Object.defineProperty(View, 'defaultProps', {
+    enumerable: true,
+    configurable: true,
+
+    get(): object {
+        return View.getDefaultOptions();
+    }
+});

@@ -1,0 +1,6 @@
+<ws:if data="{{_options.viewMode === 'basic'}}">
+    <ws:partial template="{{_options.editorTemplate}}" scope="{{_options}}"/>
+</ws:if>
+<ws:else>
+    <ws:partial template="{{_options.extendedCaption}}"/>
+</ws:else>

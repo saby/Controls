@@ -12,7 +12,14 @@
    padding: var(--heading_vertical-offset_filterViewPanel) var(--heading_horizontal-offset_filterViewPanel);
    height: var(--heading_height_filterViewPanel);
    border-bottom: var(--heading_border_width_filterViewPanel) solid var(--heading_border_color_filterViewPanel);
+}
+
+.controls-FilterViewPanel__header-default {
    background-color: var(--background-color_filterViewPanel);
+}
+
+.controls-FilterViewPanel__header-filterPanelPopup {
+   background-color: var(--background-color-popup_filterViewPanel);
 }
 
 .controls-FilterViewPanel__applyButton,
@@ -126,10 +133,55 @@
    padding-right: var(--padding-right_filterViewPanel);
 }
 
-.controls-FilterViewPanel__propertyGrid {
+.controls-FilterViewPanel__propertyGrid-default {
    background-color: var(--background-color_filterViewPanel);
 }
 
+.controls-FilterViewPanel__propertyGrid-filterPanelPopup {
+   background-color: var(--background-color-popup_filterViewPanel);
+}
+
 .controls-FilterViewPanel__scroll {
+   padding-bottom: var(--content_padding_propertyGrid);
    height: 100%;
+}
+
+.controls-FilterViewPanel__additional-caption {
+   color: var(--caption-additional-editor_color_filterViewPanel);
+   margin-right: var(--padding-right_filterViewPanel);
+   margin-left: var(--padding-left_filterViewPanel);
+   padding-top: var(--additional-editor_vertical-offset_filterViewPanel);
+   font-size: var(--caption-additional-editor_font-size_filterViewPanel);
+}
+
+.controls-FilterViewPanel__additional-default {
+   border-top: var(--border-additional-editor_thickness_filterViewPanel) solid var(--border-additional-editor_color_filterViewPanel);
+}
+
+.controls-FilterViewPanel__additional-editors-container {
+   padding-bottom: var(--additional-editor_vertical-offset_filterViewPanel);
+   background-color: var(--background-color_filterViewPanel);
+
+}
+
+.controls-FilterViewPanel__additional-editors {
+   display: flex;
+   flex-wrap: wrap;
+   width: 100%;
+   box-sizing: border-box;
+   padding-left: calc(var(--padding-left_filterViewPanel) - var(--additional-editor_horizontal-offset_filterViewPanel));
+   padding-right: var(--padding-right_filterViewPanel);
+}
+
+.controls-FilterViewPanel__additional-editor {
+   cursor: pointer;
+   height: var(--additional-editor_height_filterViewPanel);
+   padding: 0 var(--additional-editor_horizontal-offset_filterViewPanel);
+   margin-top: var(--additional-editor_margin-top_filterViewPanel);
+   border-radius: calc(var(--additional-editor_height_filterViewPanel) / 2);
+   color: var(--additional-editor_color_filterViewPanel);
+}
+
+.controls-FilterViewPanel__additional-editor:hover {
+   background: var(--additional-editor-hover_background-color_filterViewPanel);
 }

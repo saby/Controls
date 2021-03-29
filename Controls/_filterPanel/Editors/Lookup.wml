@@ -1,0 +1,10 @@
+<Controls._filterPanel.BaseEditor scope="{{_options}}">
+    <ws:editorTemplate>
+        <Controls.lookup:Input scope="{{_options}}" bind:selectedKeys="_selectedKeys" searchParam="title"/>
+    </ws:editorTemplate>
+    <ws:extendedCaption>
+        <ws:partial template="wml!Controls/_filterPanel/Editors/resources/ExtendedItemTemplate"
+                    caption="{{_options.extendedCaption}}"
+                    on:click="_handleExtendedCaptionClick()"/>
+    </ws:extendedCaption>
+</Controls._filterPanel.BaseEditor>
