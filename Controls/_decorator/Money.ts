@@ -22,6 +22,12 @@ import * as template from 'wml!Controls/_decorator/Money/Money';
 import 'css!Controls/decorator';
 
 /**
+ * Тип данных для форматируемого значения
+ * @typedef {string|number|null} TValue
+ */
+type TValue = string | number | null;
+
+/**
  * Тип данных для аббревиатуры
  * @typedef {string} TAbbreviationType
  * @variant long
@@ -70,11 +76,11 @@ export interface IMoneyOptions extends IControlOptions, INumberFormatOptions, IT
     IFontColorStyleOptions, IFontWeightOptions, IFontSizeOptions {
     /**
      * @name Controls/_decorator/IMoney#value
-     * @cfg {String} Декорируемое число.
+     * @cfg {TValue} Декорируемое число.
      * @default null
      * @demo Controls-demo/Decorator/Money/Value/Index
      */
-    value: string;
+    value: TValue;
     /**
      * @name Controls/_decorator/IMoney#abbreviationType
      * @cfg {TAbbreviationType} Тип аббревиатуры.

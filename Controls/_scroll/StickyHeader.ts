@@ -160,6 +160,8 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     // До этого не синхронизируем дом дерево при изменении состояния.
     private _initialized: boolean = false;
 
+    _offsetTopChanged: boolean = false;
+
     constructor(cfg: IStickyHeaderOptions) {
         super(cfg);
         this._observeHandler = this._observeHandler.bind(this);
@@ -213,6 +215,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             this._updateStyle(options.position, options.fixedZIndex, options.zIndex, options.offsetTop, options.task1177692247, options.task1181007458);
         }
         if (options.offsetTop !== this._options.offsetTop) {
+            this._offsetTopChanged = true;
             this._notify('stickyHeaderOffsetTopChanged', [], {bubbling: true});
         }
     }
@@ -345,7 +348,7 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     }
 
     set top(value: number) {
-        if (this._stickyHeadersHeight.top !== value) {
+        const setTop = () => {
             this._stickyHeadersHeight.top = value;
             this._initialized = true;
             // При установке top'а учитываем gap
@@ -356,6 +359,22 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
                 this._container.style.top = `${topValue}px`;
             });
             this._updateStylesIfCanScroll();
+        };
+        if (this._stickyHeadersHeight.top !== value) {
+            setTop();
+            return;
+        }
+        if (this._offsetTopChanged) {
+            // top у заголовка - это высота всех прилипающих заголовков до него. Мы расчитываем высоту начиная с 0,
+            // не учитывая опцию offsetTop, из-за этого в случае если мы обновим offsetTop у первого заголовка, у него
+            // не пересчитается top, т.к. в расчетах его top как был 0, так и остался.
+            // Из-за этого появляется такая ошибка
+            // https://online.sbis.ru/opendoc.html?guid=f68df0fb-e18a-4060-ae04-cfe3a5410fa7
+            // Графическая шапа при смене на вкладку, где не поддерживается развертывание/свертывание шапки меняет
+            // offsetTop у заголовка с -120 на 0, top остается тем же самым и появляется дыра между заголовками.
+            // Установим новый top если поменялся offsetTop.
+            this._offsetTopChanged = false;
+            setTop();
         }
     }
 
@@ -517,12 +536,12 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
         if (this._model.fixedPosition !== fixedPosition) {
             this._fixationStateChangeHandler(this._model.fixedPosition, fixedPosition);
             this._updateStyles(this._options);
-            if (this._isBottomShadowVisible) {
-                fastUpdate.mutate(() => {
+            fastUpdate.mutate(() => {
+                if (this._isBottomShadowVisible) {
                     this._children.shadowBottom.classList.remove(this._isMobileIOS ? 'ws-invisible' : 'ws-hidden');
-                    this._container.style.zIndex = this._options.fixedZIndex;
-                });
-            }
+                }
+                this._container.style.zIndex = this._model?.fixedPosition ? this._options.fixedZIndex : '';
+            });
         }
     }
 

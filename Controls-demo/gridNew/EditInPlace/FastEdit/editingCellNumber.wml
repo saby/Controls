@@ -6,7 +6,7 @@
                     enabled="{{true}}">
             <ws:editorTemplate>
                 <Controls.input:Number
-                        attr:class="js-controls-Grid__editInPlace__input-1"
+ contrastBackground="{{true}}"                        attr:class="js-controls-Grid__editInPlace__input-1"
                         bind:value="itemData.item[column.config.displayProperty]"
                         selectOnClick="{{ false }}" />
             </ws:editorTemplate>

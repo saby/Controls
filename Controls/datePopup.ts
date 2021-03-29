@@ -219,7 +219,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     _beforeUnmount(): void {
-        this.sendResult();
         this._rangeModel.destroy();
         this._headerRangeModel.destroy();
         this._yearRangeModel.destroy();
@@ -524,7 +523,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     sendResult(start?: Date, end?: Date): void {
         this._notify(
             'sendResult',
-            [start || this._rangeModel.startValue, end || this._rangeModel.endValue, this._state],
+            [start || this._rangeModel.startValue, end || this._rangeModel.endValue],
             {bubbling: true}
         );
     }
@@ -546,6 +545,9 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     toggleState(date?: Date): void {
         this._state = this._state === STATES.year ? STATES.month : STATES.year;
+        if (this._options.stateChangedCallback) {
+            this._options.stateChangedCallback(this._state);
+        }
         let displayedDate;
         if (date) {
             displayedDate = date;

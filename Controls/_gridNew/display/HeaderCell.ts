@@ -28,6 +28,11 @@ export interface IOptions<T> extends ICellOptions<T> {
     cellPadding?: IItemPadding;
 }
 
+interface ICellContentOrientation {
+    align: 'left' | 'center' | 'right';
+    valign: 'top' | 'center' | 'baseline' | 'bottom';
+}
+
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:HeaderContent';
 
 const FIXED_HEADER_Z_INDEX = 4;
@@ -37,11 +42,10 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     protected _$owner: HeaderRow<T>;
     protected _$column: IHeaderCell;
     protected _$cellPadding: IItemPadding;
-    protected _$align?: string;
-    protected _$valign?: string;
     protected _$shadowVisibility?: string;
     protected _$backgroundStyle?: string;
     protected _$sorting?: string;
+    protected _$contentOrientation?: ICellContentOrientation;
 
     get shadowVisibility(): string {
         return this._$shadowVisibility;
@@ -49,16 +53,21 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     get backgroundStyle(): string {
         return this._$backgroundStyle;
     }
-    constructor(options?: IOptions<T>) {
-        super(options);
-        if (!this.isCheckBoxCell()) {
-            const {align, valign} = this.getContentOrientation();
-            this._$align = align;
-            this._$valign = valign;
+    protected get contentOrientation(): ICellContentOrientation {
+        if (!this._$contentOrientation) {
+            this._calcContentOrientation();
         }
+        return this._$contentOrientation;
     }
 
-    getContentOrientation(): {align?: string; valign?: string} {
+    private _calcContentOrientation(): void {
+        if (this.isCheckBoxCell()) {
+            this._$contentOrientation = {
+                align: undefined,
+                valign: undefined
+            } as ICellContentOrientation;
+            return;
+        }
         /*
         * Выравнивание задается со следующим приоритетом
         * 1) Выравнивание заданное на ячейки шапки
@@ -66,10 +75,8 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         * 3) Контент выравнивается также, как контент колонки данных
         * 4) По верхнему левому углу
         * */
-        const hasAlign = 'align' in this._$column;
-        const hasValign = 'valign' in this._$column;
-        let align = hasAlign ? this._$column.align : undefined;
-        let valign = hasValign ? this._$column.valign : undefined;
+        const hasAlign = typeof this._$column.align !== 'undefined';
+        const hasValign = typeof this._$column.valign !== 'undefined';
 
         const get = (prop: 'align' | 'valign'): string | undefined => {
             const gridUnit = prop === 'align' ? 'Column' : 'Row';
@@ -78,21 +85,20 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
                     (this._$column[`end${gridUnit}`] - this._$column[`start${gridUnit}`]) > 1)
             ) {
                 return 'center';
-            } else if (typeof this._$column[`start${gridUnit}`] !== 'undefined') {
-                return this._$owner.getColumnsConfig()[this._$column[`start${gridUnit}`] - 1][prop];
+            } else if (typeof this._$column.startColumn !== 'undefined') {
+                // ВНИМАТЕЛЬНО! Независимо от оси для которой считается выравнивание, считать нужно через startColumn,
+                // т.к. чтобы получить корректное значение для выравнивания контента растянутой ячейки заголовка по
+                // опции колонки данных, нужно получить конфигурацию колонки расположенной под данной ячейкой заголовка.
+                return this._$owner.getColumnsConfig()[this._$column.startColumn - 1][prop];
             } else {
                 return this._$owner.getColumnsConfig()[this._$owner.getHeaderConfig().indexOf(this._$column)][prop];
             }
         };
 
-        if (!hasAlign) {
-            align = get('align');
-        }
-        if (!hasValign) {
-            valign = get('valign');
-        }
-
-        return { align, valign };
+        this._$contentOrientation = {
+            align: hasAlign ? this._$column.align : get('align'),
+            valign: hasValign ? this._$column.valign : get('valign')
+        } as ICellContentOrientation;
     }
 
     isCheckBoxCell(): boolean {
@@ -181,8 +187,8 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             wrapperClasses += ' controls-Grid__header-cell_static';
         }
 
-        if (this._$valign) {
-            wrapperClasses += ` controls-Grid__header-cell__content_valign-${this._$valign}`;
+        if (this.contentOrientation.valign) {
+            wrapperClasses += ` controls-Grid__header-cell__content_valign-${this.contentOrientation.valign}`;
         }
 
         if (this._$owner.hasColumnScroll()) {
@@ -202,8 +208,8 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         } else {
             contentClasses += ` controls-Grid__row-header__content_baseline`;
         }
-        if (this._$align) {
-            contentClasses += ` controls-Grid__header-cell_justify_content_${this._$align}`;
+        if (this.contentOrientation.align) {
+            contentClasses += ` controls-Grid__header-cell_justify_content_${this.contentOrientation.align}`;
         }
         return contentClasses;
     }
@@ -243,11 +249,11 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     }
 
     getAlign(): string {
-        return this._$align;
+        return this.contentOrientation.align;
     }
 
     getVAlign(): string {
-        return this._$valign;
+        return this.contentOrientation.valign;
     }
 
     getTextOverflow(): string {
