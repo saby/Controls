@@ -251,7 +251,6 @@ export class Controller {
          if (elem.SelectableItem && (!elem.isNode() || elem.isNode() && !elem.isExpanded())) {
             const elemKey = this._getKey(elem);
             if (!selection.selected.includes(elemKey)) {
-               // selection.selected.push(elemKey);
                selection = this._strategy.select(selection, elemKey);
             }
          }
