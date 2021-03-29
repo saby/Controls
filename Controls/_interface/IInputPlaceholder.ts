@@ -10,7 +10,7 @@ export interface IInputPlaceholderOptions {
 }
 
 /**
- * @name Controls/_interface/IInputPlaceholder#placeholder
+ * @name Controls/_interface/IInputPlaceholderOptions#placeholder
  * @cfg {String|TemplateFunction} Текст, который отображается в пустом поле ввода.
  * @remark
  * Отображает текст в пустом поле ввода. Мы не используем собственные HTML-подсказки и не отображаем подсказки как div, наложенный поверх поля, чтобы разрешить использование пользовательских шаблонов.
