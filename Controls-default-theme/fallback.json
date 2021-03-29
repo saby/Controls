@@ -1330,7 +1330,12 @@
   "--grouping_expander_icon_offset_list": "var(--offset_xs)",
   "--grouping_right-template_padding-left_list": "var(--offset_m)",
   "--grouping_right-template_padding-right_list": "var(--offset_m)",
-
+  "--content_background-color_loadingIndicator": "var(--background-color)",
+  "--spinner_s_background-image_loadingIndicator": "url('/cdn/LoaderIndicator/1.0.0/ajax-loader-indicator.gif')",
+  "--spinner_l_background-image_loadingIndicator": "url('/cdn/LoaderIndicator/1.0.0/ajax-loader-indicator.gif')",
+  "--content_l_border_radius_loadingIndicator": "8px",
+  "--content_l_padding_loadingIndicator": "var(--offset_s)",
+  "--text-color_loadingIndicator": "var(--text-color)",
   "--placeholder_text-color_list": "var(--unaccented_text-color)",
   "--placeholder_font-size_list": "var(--font-size_l)",
   "--placeholder_padding-top_xs_list": "0",
