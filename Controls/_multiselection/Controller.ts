@@ -234,6 +234,32 @@ export class Controller {
    }
 
    /**
+    * Выбирает все элементы от предыдущего выбранного до текущего
+    * @return {ISelection}
+    */
+   selectRange(key: CrudEntityKey, lastCheckedItemKey: CrudEntityKey): ISelection {
+      if (lastCheckedItemKey === key) {
+         return this.getSelection();
+      }
+      const lastCheckedIndex = this._model.getIndexByKey(lastCheckedItemKey);
+      const currentCheckedIndex = this._model.getIndexByKey(key);
+      const sliceStart = lastCheckedIndex > currentCheckedIndex ? currentCheckedIndex : lastCheckedIndex;
+      const sliceEnd = sliceStart === lastCheckedIndex ? currentCheckedIndex + 1 : lastCheckedIndex + 1;
+      const items = this._model.getItems().slice(sliceStart, sliceEnd);
+      let selection = this.getSelection();
+      items.forEach((elem) => {
+         if (elem.SelectableItem && (!elem.isNode() || elem.isNode() && !elem.isExpanded())) {
+            const elemKey = this._getKey(elem);
+            if (!selection.selected.includes(elemKey)) {
+               // selection.selected.push(elemKey);
+               selection = this._strategy.select(selection, elemKey);
+            }
+         }
+      });
+      return selection;
+   }
+
+   /**
     * Обрабатывает удаление элементов из коллекции
     * @param {Array<CollectionItem<Model>>} removedItems Удаленные элементы
     * @return {ISelection}

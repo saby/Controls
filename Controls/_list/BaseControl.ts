@@ -3336,6 +3336,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     __errorController = null;
 
+    protected _lastCheckedItemKey: string;
+
     //#endregion
 
     constructor(options) {
@@ -4818,7 +4820,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const contents = _private.getPlainItemContents(item);
         const key = contents.getKey();
         if (!readOnly) {
-            const newSelection = _private.getSelectionController(this).toggleItem(key);
+            let newSelection;
+            if (e.nativeEvent.shiftKey && this._lastCheckedItemKey) {
+                newSelection = _private.getSelectionController(this).selectRange(key, this._lastCheckedItemKey);
+                // newSelection = this._selectCheckboxRange(key);
+            } else {
+                newSelection = _private.getSelectionController(this).toggleItem(key);
+            }
+            this._lastCheckedItemKey = key;
             this._notify('checkboxClick', [key, item.isSelected()]);
             _private.changeSelection(this, newSelection);
         }
