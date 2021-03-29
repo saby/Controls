@@ -1,4 +1,4 @@
-import {GridViewModel, GridLayoutUtil, COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS} from 'Controls/grid';
+import {GridViewModel, GridLayoutUtil, COLUMN_SCROLL_JS_SELECTORS, DRAG_SCROLL_JS_SELECTORS} from 'Controls/gridOld';
 import {
     getBottomPaddingRowIndex,
     getFooterIndex,

@@ -1,5 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
-import {GridView, GridLayoutUtil} from 'Controls/grid';
+import {GridView, GridLayoutUtil} from 'Controls/gridOld';
 import SearchItemTpl = require('wml!Controls/_treeGrid/SearchView/Item');
 import 'Controls/decorator';
 import 'wml!Controls/_treeGrid/SearchView/SearchBreadCrumbsContent';

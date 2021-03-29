@@ -1,6 +1,6 @@
 define([
    'Controls/tree',
-   'Controls/treeGrid',
+   'Controls/treeGridOld',
    'Core/core-merge',
    'Types/entity',
    'Types/collection',

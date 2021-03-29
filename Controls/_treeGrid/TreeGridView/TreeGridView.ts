@@ -1,5 +1,5 @@
 import {TemplateFunction} from 'UI/Base';
-import {GridView, GridLayoutUtil} from 'Controls/grid';
+import {GridView, GridLayoutUtil} from 'Controls/gridOld';
 
 import * as GridItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/table/Item';

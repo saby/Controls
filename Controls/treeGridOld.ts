@@ -9,7 +9,7 @@
 
 import {default as View} from 'Controls/_treeGrid/View';
 
-import { GridLayoutUtil } from 'Controls/grid';
+import { GridLayoutUtil } from 'Controls/gridOld';
 import GridLayoutItemTemplate = require('wml!Controls/_treeGrid/TreeGridView/layout/grid/Item');
 import TableLayoutItemTemplate = require('wml!Controls/_treeGrid/TreeGridView/layout/table/Item');
 import NodeFooterTemplate = require('wml!Controls/_treeGrid/TreeGridView/NodeFooterTemplate');

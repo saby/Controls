@@ -1,7 +1,7 @@
 define([
    'Controls/_treeGrid/utils/TreeGridRowIndexUtil',
    'Controls/_list/resources/utils/ItemsUtil',
-   'Controls/treeGrid',
+   'Controls/treeGridOld',
    'Types/collection'
 ], function (RowUtil, ItemsUtil, treeGridLib, collection) {
 
