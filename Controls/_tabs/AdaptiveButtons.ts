@@ -200,7 +200,10 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
          */
         const selectedItem = rawData.find((data) => data[items.getKeyProperty()] === options.selectedKey);
         if (selectedItem === undefined) {
-            rawData[rawData.length - 1] = items.getRecordById(options.selectedKey).getRawData();
+            const item = items.getRecordById(options.selectedKey);
+            if (item) {
+                rawData[rawData.length - 1] = items.getRecordById(options.selectedKey).getRawData();
+            }
         }
         // чтобы ужималась
         rawData[this._lastIndex].isMainTab = true;
