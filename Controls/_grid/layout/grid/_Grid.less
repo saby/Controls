@@ -147,7 +147,7 @@
 }
 
 .controls-Grid__results-cell {
-   z-index: var(--z-index-Grid-results-cell);
+   z-index: @z-index-Grid-results-cell;
    min-width: 0;
    min-height: var(--results_cell_min-height_grid);
 }
@@ -260,7 +260,7 @@
 }
 
 .controls-Grid__itemAction.controls-itemActionsV_outside {
-   z-index: calc(var(--z-index-Grid-results-cell) + 1) // на 1 больше чем у results; только для весла, иначе будут поверх шапки
+   z-index: @z-index-Grid-results-cell + 1 // на 1 больше чем у results; только для весла, иначе будут поверх шапки
 }
 
 
