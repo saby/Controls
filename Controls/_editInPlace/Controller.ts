@@ -1,17 +1,17 @@
-import {Model, DestroyableMixin} from 'Types/entity';
+import {DestroyableMixin, Model} from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import {CONSTANTS, TAddPosition} from './Types';
 import {CollectionEditor} from './CollectionEditor';
 import {RecordSet} from 'Types/collection';
 import {mixin} from 'Types/util';
 import {IEditableCollection, IEditableCollectionItem} from 'Controls/display';
-import {Object as EventObject} from 'Env/Event';
 
 const ERROR_MSG = {
     COLLECTION_IS_NOT_DEFINED: 'IEditInPlaceOptions.collection is not defined. Option is required. It must be installed at least once.',
     BEFORE_BEGIN_EDIT_FAILED: 'Error in callback IEditInPlaceOptions.onBeforeBeginEdit. All errors should be handled.',
     BEFORE_END_EDIT_FAILED: 'Error in callback IEditInPlaceOptions.onBeforeEndEdit. All errors should be handled.',
-    ITEM_MISSED: 'Item for editing was not given. It must be given in arguments method or as a result of callback before begin edit(sync or async).'
+    ITEM_MISSED: 'Item for editing was not given. It must be given in arguments method or as a result of callback before begin edit(sync or async).',
+    CAN_NOT_SKIP: '!!!',
 };
 
 /**
@@ -24,7 +24,7 @@ type TAsyncOperationResult = Promise<void | { canceled: true }>;
  * @typedef {void|CONSTANTS.CANCEL|Promise.<void|{CONSTANTS.CANCEL}>} TBeforeCallbackBaseResult
  * @description Базовый тип, который можно вернуть из любой функций обратного вызова до начала операции редактирования по месту.
  */
-type TBeforeCallbackBaseResult = void | CONSTANTS.CANCEL | Promise<void | CONSTANTS.CANCEL>;
+type TBeforeCallbackBaseResult = void | CONSTANTS | Promise<void | CONSTANTS>;
 
 /**
  * @typedef IBeginEditUserOptions
@@ -32,7 +32,7 @@ type TBeforeCallbackBaseResult = void | CONSTANTS.CANCEL | Promise<void | CONSTA
  * @property {Types/entity:Model} [item=undefined] item Запись для которой запускается редактирования.
  */
 interface IBeginEditUserOptions {
-    item?: Model
+    item?: Model;
 }
 
 /**
@@ -46,7 +46,7 @@ interface IBeginEditUserOptions {
  */
 interface IBeginEditOptions {
     isAdd?: boolean;
-    addPosition?: TAddPosition
+    addPosition?: TAddPosition;
     columnIndex?: number;
 }
 
@@ -67,15 +67,6 @@ type TBeforeBeginEditCallback = (options: IBeginEditUserOptions, isAdd: boolean)
  * @param isAdd Флаг, принимает значение true, если запись добавляется
  */
 type TBeforeEndEditCallback = (item: Model, willSave: boolean, isAdd: boolean) => TBeforeCallbackBaseResult;
-
-/**
- * @typedef {String} TCommitStrategy
- * @description Стратегия сохранения изменений.
- * @variant all Безусловно обновить/сохранить запись в источнике данных.
- * @variant hasChanges Обновить/сохранить запись в источнике данных только при наличии незафиксированных изменений.
- * @default all
- */
-type TCommitStrategy = 'all' | 'hasChanges';
 
 /**
  * @typedef {String} TEditingMode
@@ -108,7 +99,7 @@ interface IEditInPlaceOptions {
      * @name Controls/_editInPlace/IEditInPlaceOptions#mode
      * @cfg {TEditingMode} Режим редактирования.
      */
-    mode: 'row' | 'cell'
+    mode: 'row' | 'cell';
 }
 
 /**
@@ -314,8 +305,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
-    getNextEditableItem(): IEditableCollectionItem {
-        return this._collectionEditor.getNextEditableItem();
+    getNextEditableItem(fromItem?: IEditableCollectionItem): IEditableCollectionItem {
+        return this._collectionEditor.getNextEditableItem(fromItem);
     }
 
     /**
@@ -324,8 +315,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
-    getPrevEditableItem(): IEditableCollectionItem {
-        return this._collectionEditor.getPrevEditableItem();
+    getPrevEditableItem(fromItem?: IEditableCollectionItem): IEditableCollectionItem {
+        return this._collectionEditor.getPrevEditableItem(fromItem);
     }
 
     private _endPreviousAndBeginEdit(userOptions: IBeginEditUserOptions, options: IBeginEditOptions): TAsyncOperationResult {
@@ -345,7 +336,7 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
         }
     }
 
-    private _beginEdit(userOptions: IBeginEditUserOptions, { isAdd = false, addPosition = 'bottom', columnIndex }: IBeginEditOptions = {}): TAsyncOperationResult {
+    private _beginEdit(userOptions: IBeginEditUserOptions, options: IBeginEditOptions = {}): TAsyncOperationResult {
         if (this._getEditingItem()) {
             return Promise.resolve({canceled: true});
         }
@@ -354,31 +345,37 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             return this._operationsPromises.begin;
         }
 
+        const { isAdd = false, addPosition = 'bottom', columnIndex } = options;
+
         this._operationsPromises.begin = new Promise((resolve) => {
-            if (this._options.onBeforeBeginEdit) {
-                resolve(this._options.onBeforeBeginEdit(userOptions, isAdd));
-            } else {
-                resolve();
-            }
-        }).catch((err) => {
-            if (!err.errorProcessed) {
-                Logger.error(ERROR_MSG.BEFORE_BEGIN_EDIT_FAILED, this, err);
-            } else {
-                delete err.errorProcessed;
-            }
+            // Ждем результат колбека "до начала редактирования".
+            const callbackResult = this._options.onBeforeBeginEdit ? this._options.onBeforeBeginEdit(userOptions, isAdd) : undefined;
+            resolve(callbackResult);
+        }).catch((e) => {
+            // Уведомляем об ошибке если нужно и отменяем начало редактирования. Промис продолжится по ветке resolved.
+            this._processError(e, ERROR_MSG.BEFORE_BEGIN_EDIT_FAILED);
             return CONSTANTS.CANCEL;
-        }).then((result?: IBeginEditUserOptions | CONSTANTS.CANCEL) => {
-            if (result === CONSTANTS.CANCEL) {
-                return {canceled: true};
+        }).then((callbackResult?: IBeginEditUserOptions | CONSTANTS) => {
+
+            // Пропускаем старт, если он отменен в колбеке или в результате ошибки.
+            if (callbackResult === CONSTANTS.CANCEL) {
+                return CONSTANTS.CANCEL;
             }
-            let model: Model;
-            if (result?.item instanceof Model) {
-                model = result.item.clone();
-            } else if (userOptions?.item instanceof Model) {
-                model = userOptions.item.clone();
-            } else {
+
+            // Пропуск начала редактирования текущей записи.
+            // Игнорироем начало редактирования текущей, находим следуюшую редактируемую запись и пробуем начать ее редактирование.
+            // Добавление не пропускается.
+            if (!isAdd && (callbackResult === CONSTANTS.GOTONEXT || callbackResult === CONSTANTS.GOTOPREV)) {
+                this._operationsPromises.begin = null;
+                return tryEditNext(callbackResult === CONSTANTS.GOTONEXT ? 'after' : 'before', userOptions, options);
+            }
+
+            // Нужно запускать редактирование для текущей записи. Получаем актуальную модель.
+            // Модель может быть передана из колбека или напрямую в метод. Приоритет у модели из колбека.
+            const model: Model = getModel(callbackResult, userOptions);
+            if (!model) {
                 Logger.error(ERROR_MSG.ITEM_MISSED, this);
-                return {canceled: true};
+                return CONSTANTS.CANCEL;
             }
 
             if (isAdd) {
@@ -393,9 +390,38 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             model.acceptChanges();
             (this._options.collection.getCollection() as unknown as RecordSet).acceptChanges();
             return this._options?.onAfterBeginEdit(this._getEditingItem(), isAdd);
+        }).then((beginEditResult) => {
+            if (beginEditResult === CONSTANTS.CANCEL) {
+                return {canceled: true};
+            }
         }).finally(() => {
             this._operationsPromises.begin = null;
         }) as TAsyncOperationResult;
+
+        const getModel = (eventResult, callMethodUserOptions): Model => {
+            if (eventResult?.item instanceof Model) {
+                return eventResult.item.clone();
+            } else if (callMethodUserOptions?.item instanceof Model) {
+                return callMethodUserOptions.item.clone();
+            }
+        };
+
+        const tryEditNext = (position: 'after' | 'before', _userOptions, _options): TAsyncOperationResult | CONSTANTS.CANCEL => {
+            let current;
+            if (_userOptions?.item) {
+                current = this._options.collection.getItemBySourceKey(_userOptions.item.getKey());
+                if (!current) {
+                    Logger.error(ERROR_MSG.CAN_NOT_SKIP, this);
+                    return CONSTANTS.CANCEL;
+                }
+            }
+            const next = position === 'after' ? this.getNextEditableItem(current) : this.getPrevEditableItem(current);
+            if (!next) {
+                return;
+            } else {
+                return this._beginEdit({ ..._userOptions, item: next.contents }, _options);
+            }
+        };
 
         return this._operationsPromises.begin;
     }
@@ -422,12 +448,8 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             } else {
                 resolve();
             }
-        }).catch((err) => {
-            if (!err.errorProcessed) {
-                Logger.error(ERROR_MSG.BEFORE_END_EDIT_FAILED, this, err);
-            } else {
-                delete err.errorProcessed;
-            }
+        }).catch((e) => {
+            this._processError(e, ERROR_MSG.BEFORE_END_EDIT_FAILED);
             return CONSTANTS.CANCEL;
         }).then((result) => {
             if (result === CONSTANTS.CANCEL || this.destroyed) {
@@ -457,6 +479,15 @@ export class Controller extends mixin<DestroyableMixin>(DestroyableMixin) {
             return isSameItem;
         }
     }
+
+    private _processError = (e: { errorProcessed?: boolean } = {}, msg: string): void => {
+        if (e && e.errorProcessed) {
+            // Ошибка обработана выше, не уведомляем.
+            delete e.errorProcessed;
+        } else {
+            Logger.error(msg, this, e);
+        }
+    };
 
     destroy(): void {
         this._collectionEditor.destroy();
