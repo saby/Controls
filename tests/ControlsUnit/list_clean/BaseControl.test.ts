@@ -1152,6 +1152,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 baseControl.saveOptions(baseControlOptions);
                 assert.isTrue(afterReloadCallbackCalled);
                 assert.isTrue(serviceDataLoadCallbackCalled);
+
+                baseControlOptions = {...baseControlOptions};
+                baseControlOptions.sourceController = new NewSourceController(baseControlOptions);
+                afterReloadCallbackCalled = false;
+                await baseControl._beforeUpdate(baseControlOptions);
+                baseControl.saveOptions(baseControlOptions);
+                assert.isTrue(afterReloadCallbackCalled);
             });
 
         });

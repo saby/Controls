@@ -4059,8 +4059,9 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
 
         if (newOptions.sourceController) {
             const items = newOptions.sourceController.getItems();
+            const sourceControllerChanged = this._options.sourceController !== newOptions.sourceController;
 
-            if (this._options.sourceController !== newOptions.sourceController) {
+            if (sourceControllerChanged) {
                 this._sourceController = newOptions.sourceController;
                 this._sourceController.setDataLoadCallback(this._dataLoadCallback);
             }
@@ -4096,7 +4097,7 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
             }
 
-            if (!this._options.sourceController) {
+            if (sourceControllerChanged) {
                 _private.executeAfterReloadCallbacks(this, this._items, newOptions);
             }
 
