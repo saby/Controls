@@ -97,9 +97,6 @@ var Utils = {
          return DEFAULT_CSS_CLASS_BASE;
       }
       let cssClass = ((cfg && cfg.cssPrefix) || (DEFAULT_CSS_CLASS_BASE + '__')) + parts.join('-');
-      if (cfg?.theme) {
-         cssClass += ` ${cssClass}_theme-${cfg.theme}`;
-      }
       return cssClass;
    },
 

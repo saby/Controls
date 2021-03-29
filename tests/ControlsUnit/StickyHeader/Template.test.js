@@ -79,6 +79,10 @@ define(
                   return {};
                };
                inst._scrollState = {};
+               inst._isShadowVisibleByController = {
+                  top: StickyHeaderUtils.SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+                  bottom: StickyHeaderUtils.SHADOW_VISIBILITY_BY_CONTROLLER.auto
+               };
                template = TemplateUtil.clearTemplate(ctrl._template);
             });
 
@@ -211,16 +215,17 @@ define(
             it('The header is fixed, but there should be no shadow', function() {
                inst._scrollState.verticalPosition = 'end';
                inst._isFixed = true;
-               inst._isShadowVisibleByController = true;
+               inst._isShadowVisibleByController = {
+                  top: StickyHeaderUtils.SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+                  bottom: StickyHeaderUtils.SHADOW_VISIBILITY_BY_CONTROLLER.auto
+               };
                inst._model.fixedPosition = 'top';
                inst._options.fixedZIndex = 1;
                inst._options.content = TemplateUtil.content;
                inst._options.theme = 'default';
-               inst._scrollState = {
-                  hasUnrenderedContent: {
-                     top: true,
-                     bottom: true
-                 }
+               inst._scrollState.hasUnrenderedContent = {
+                  top: true,
+                  bottom: true
                };
                inst._isStickySupport = true;
 
@@ -238,12 +243,13 @@ define(
             it('The header is fixed, the shadow should be', function() {
                inst._scrollState.verticalPosition = 'start';
                inst._isFixed = true;
-               inst._isShadowVisibleByController = true;
-               inst._scrollState = {
-                  hasUnrenderedContent: {
-                     top: true,
-                     bottom: true
-                 }
+               inst._isShadowVisibleByController = {
+                  top: StickyHeaderUtils.SHADOW_VISIBILITY_BY_CONTROLLER.auto,
+                  bottom: StickyHeaderUtils.SHADOW_VISIBILITY_BY_CONTROLLER.auto
+               };
+               inst._scrollState.hasUnrenderedContent = {
+                  top: true,
+                  bottom: true
                };
                inst._isStickySupport = true;
                inst._model.fixedPosition = 'bottom';

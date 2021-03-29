@@ -5,7 +5,7 @@
    <ws:if data="{{(item || itemData).shouldDisplayExpanderBlock(gridColumn)}}">
       <ws:if data="{{ (item || itemData).shouldDisplayLevelPadding(withoutLevelPadding) }}">
          <ws:for data="i in (item || itemData).getLevel() - 1">
-            <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize, theme)}}"></div>
+            <div class="{{(item || itemData).getLevelIndentClasses(expanderSize, levelIndentSize)}}"></div>
          </ws:for>
       </ws:if>
       <ws:if data="{{ (item || itemData).shouldDisplayExpander(expanderIcon, 'default') }}">

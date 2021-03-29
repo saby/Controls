@@ -1,6 +1,6 @@
 import {IBasePopupOptions} from './IBaseOpener';
 import {IBasePopupOptions} from './ISticky';
-import {Control} from 'UI/Base';
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {IDragOffset} from '../../_popupTemplate/BaseController';
 
 /**
@@ -86,7 +86,7 @@ export interface IPopupController {
    getDefaultConfig(item: IPopupItem): null|Promise<void>;
    _popupDragEnd(item: IPopupItem): boolean;
    _popupResizingLine(item: IPopupItem, offset: IDragOffset): boolean;
-   _elementAnimated(item: IPopupItem, container: HTMLElement): boolean;
+   _elementAnimated(item: IPopupItem): boolean;
    _elementMaximized(item: IPopupItem, container: HTMLElement, state: boolean): boolean;
    workspaceResize(): boolean;
    _beforeUpdateOptions(item: IPopupItem): void;
@@ -100,7 +100,8 @@ export interface IPopupItemInfo {
    parentZIndex: null|number;
    popupOptions: {
       maximize: boolean,
-      modal: boolean
+      modal: boolean,
+      template: Control<IControlOptions, unknown> | TemplateFunction | string
    };
 }
 

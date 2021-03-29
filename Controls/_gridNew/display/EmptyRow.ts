@@ -5,6 +5,7 @@ import Row, {IOptions as IRowOptions} from './Row';
 import EmptyCell from './EmptyCell';
 import {IItemTemplateParams} from './mixins/Row';
 import {TColspanCallbackResult} from './mixins/Grid';
+import {isEqual} from 'Types/object';
 
 export interface IOptions<T> extends IRowOptions<T> {
 }
@@ -15,14 +16,23 @@ export default class EmptyRow<T> extends Row<T> {
     protected _$emptyTemplateColumns: Array<{
         template: TemplateFunction
     } & IColspanParams>;
+    protected _$emptyTemplateOptions: object;
 
     getContents(): T {
-        return 'emptyRow' as unknown as T
+        return 'emptyRow' as unknown as T;
     }
 
     getItemClasses(params: IItemTemplateParams = { theme: 'default' }): string {
         return `${this._getBaseItemClasses(params.style, params.theme)}`
             + ' js-controls-GridView__emptyTemplate controls-GridView__emptyTemplate';
+    }
+
+    setEmptyTemplateOptions(options: object): void {
+        if (!isEqual(this._$emptyTemplateOptions, options)) {
+            this._$emptyTemplateOptions = options;
+            this._reinitializeColumns();
+            this._nextVersion();
+        }
     }
 
     setEmptyTemplate(emptyTemplate): void {
@@ -58,6 +68,7 @@ export default class EmptyRow<T> extends Row<T> {
 
             this._$columnItems = this._prepareColumnItems([{
                 template: this._$emptyTemplate,
+                templateOptions: this._$emptyTemplateOptions,
                 startColumn: 1,
                 endColumn
             }], (options) => {
@@ -87,5 +98,6 @@ Object.assign(EmptyRow.prototype, {
     _cellModule: 'Controls/gridNew:GridEmptyCell',
     _instancePrefix: 'grid-empty-row-',
     _$emptyTemplate: null,
-    _$emptyTemplateColumns: null
+    _$emptyTemplateColumns: null,
+    _$emptyTemplateOptions: null
 });

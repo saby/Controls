@@ -1,6 +1,7 @@
 <div class="controls-Cut__container">
    <div class="controls-Cut
-            controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight_theme-{{_options.theme}}">
+            controls-Cut_lineHeight-{{_options.lineHeight}}_lines-{{_lines}}_maxHeight_theme-{{_options.theme}}
+            controls-Cut_lineHeight-{{_options.lineHeight}}_theme-{{_options.theme}}">
       <ws:partial template="{{_options.content}}"/>
       <ws:if data="{{_options.lines !== null}}">
          <div class="controls-Cut__ellipsisWrapper{{ _expanded ? '_expanded_lineHeight-' +  _options.lineHeight + '_theme-' + _options.theme}}

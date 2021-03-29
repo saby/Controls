@@ -1,21 +1,18 @@
 <div class="controlsDemo__wrapper ">
-    <Controls.list:DataContainer source="{{_source}}" keyProperty="id" bind:filter="_filter">
+    <Controls.browser:Browser source="{{_source}}" keyProperty="id" bind:filter="_filter"
+                              searchParam="department">
         <ws:content>
-            <Controls.search:Controller searchParam="department">
-                <div>
-                    <Controls.search:InputContainer>
-                        <Controls.search:ExpandableInput bind:value="_searchValue" attr:class="controlsDemo__ml1"/>
-                    </Controls.search:InputContainer>
+            <Controls.search:InputContainer>
+                <Controls.search:ExpandableInput bind:value="_searchValue" attr:class="controlsDemo__ml1"/>
+            </Controls.search:InputContainer>
 
-                    <Controls.list:Container>
-                        <Controls.list:View emptyTemplate="Не найдено">
-                            <ws:itemTemplate>
-                                <ws:partial template="Controls/list:ItemTemplate"/>
-                            </ws:itemTemplate>
-                        </Controls.list:View>
-                    </Controls.list:Container>
-                </div>
-            </Controls.search:Controller>
+            <Controls.list:Container>
+                <Controls.list:View emptyTemplate="Не найдено">
+                    <ws:itemTemplate>
+                        <ws:partial template="Controls/list:ItemTemplate"/>
+                    </ws:itemTemplate>
+                </Controls.list:View>
+            </Controls.list:Container>
         </ws:content>
-    </Controls.list:DataContainer>
+    </Controls.browser:Browser>
 </div>

@@ -8,6 +8,8 @@ import {StringValueConverter, IDateTimeMask, ISelection} from 'Controls/input';
 import template = require('wml!Controls/_dateRange/Input/Input');
 import {DependencyTimer} from 'Controls/popup';
 import {Logger} from 'UI/Utils';
+import 'css!Controls/dateRange';
+import 'css!Controls/CommonClasses';
 
 interface IDateRangeInputOptions extends IDateRangeValidatorsOptions {
 }
@@ -81,6 +83,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         );
         this._rangeModel.subscribe('rangeChanged', this._updateValidators.bind(this));
         this._updateValidators(options);
+        this._stateChangedCallback = this._stateChangedCallback.bind(this);
     }
 
     protected _beforeUpdate(options: IDateRangeInputOptions) {
@@ -107,7 +110,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
             ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
-            className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
+            className: 'controls-PeriodDialog__picker',
             templateOptions: {
                 ...PopupUtil.getDateRangeTemplateOptions(this),
                 _date: this._options._date,
@@ -120,7 +123,8 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
                 closeButtonEnabled: true,
                 rangeselect: true,
                 range: this._options.range,
-                state: this._state
+                state: this._state,
+                stateChangedCallback: this._stateChangedCallback
             }
         };
         this._children.opener.open(cfg);
@@ -135,6 +139,10 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
 
     protected _mouseLeaveHandler(): void {
         this._dependenciesTimer?.stop();
+    }
+
+    protected _stateChangedCallback(state: string): void {
+        this._state = state;
     }
 
     private _loadDependencies(): Promise<unknown> {
@@ -161,8 +169,7 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         }
     }
 
-    private _onResult(startValue: Date, endValue: Date, state: string): void {
-        this._state = state;
+    private _onResult(startValue: Date, endValue: Date): void {
         this._rangeModel.setRange(startValue, endValue);
         this._children.opener?.close();
         this._notifyInputCompleted();
@@ -207,8 +214,6 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
         this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
     }
-
-    static _theme: string[] = ['Controls/dateRange', 'Controls/Classes'];
 
     static getDefaultOptions(): Partial<IDateRangeInputOptions> {
         return {

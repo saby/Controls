@@ -606,13 +606,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         let updateSourceController = false;
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
-            const sourceControllerRoot = sourceController.getState().root;
-
             this._root = newOptions.root;
             this._listViewModel.setRoot(this._root);
 
             if (this._options.itemsSetCallback) {
-                this._options.itemsSetCallback(sourceController.getItems(), newOptions);
+                const items = sourceController?.getItems() || newOptions.items;
+                this._options.itemsSetCallback(items, newOptions);
             }
 
             // При смене корне, не надо запрашивать все открытые папки,
@@ -622,6 +621,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._needResetExpandedItems = true;
             }
 
+            const sourceControllerRoot = sourceController?.getState().root;
             if (sourceControllerRoot === undefined || sourceControllerRoot !== newOptions.root) {
                 updateSourceController = true;
             }
@@ -749,7 +749,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (direction === 'depth') {
             result = _private.reloadItem(this, key);
         } else {
-            result = super.reloadItem(key, readMeta, direction);
+            result = super.reloadItem.apply(this, arguments);
         }
 
         return result;

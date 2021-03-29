@@ -52,9 +52,10 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._isPanelMounted = true;
     }
 
-    protected _isScrollAvailable(
-        {slidingPanelOptions, controlButtonVisibility}: ISlidingPanelTemplateOptions
-    ): boolean {
+    protected _isScrollAvailable({
+        slidingPanelOptions,
+        controlButtonVisibility
+    }: ISlidingPanelTemplateOptions): boolean {
         const scrollContentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
         const controllerContainer = this._children.controlLine;
         const controllerHeight = this._isPanelMounted && controlButtonVisibility ? controllerContainer.clientHeight : 0;

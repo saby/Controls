@@ -183,7 +183,7 @@ export interface IFilterView {
  * @cfg {String} Template for the pop-up panel, that opens after clicking on the button.
  * @remark
  * As a template, it is recommended to use the control {@link Controls/filterPopup:DetailPanel}
- * The description of setting up the filter panel you can read <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/'>here</a>.
+ * The description of setting up the filter panel you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/panel/'>here</a>.
  * Important: for lazy loading template in the option give the path to the control
  * @example
  * Example setting options for two filters.

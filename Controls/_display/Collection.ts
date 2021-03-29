@@ -675,6 +675,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$emptyTemplate: TemplateFunction;
 
+    protected _$emptyTemplateOptions: object;
+
     protected _$theme: string;
 
     protected _$hoverBackgroundStyle: string;
@@ -864,8 +866,6 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         if (options.itemTemplateProperty) {
             this._$itemTemplateProperty = options.itemTemplateProperty;
         }
-
-        this._$theme = options.theme;
 
         if (!options.hoverBackgroundStyle && options.style) {
             this._$hoverBackgroundStyle = options.style;
@@ -2429,6 +2429,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return false;
     }
 
+    setEmptyTemplateOptions(options: object): void {
+        if (!isEqual(this._$emptyTemplateOptions, options)) {
+            this._$emptyTemplateOptions = options;
+            this._nextVersion();
+        }
+    }
+
     setEditingConfig(config: IEditingConfig): void {
         if (this._$editingConfig === config) {
             return;
@@ -2441,13 +2448,16 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return this._$editingConfig;
     }
 
-    setSearchValue(searchValue: string): boolean {
+    setSearchValue(searchValue: string): void {
         if (this._$searchValue !== searchValue) {
             this._$searchValue = searchValue;
+            this.getViewIterator().each((item: T) => {
+                if (item.DisplaySearchValue) {
+                    item.setSearchValue(searchValue);
+                }
+            });
             this._nextVersion();
-            return true;
         }
-        return false;
     }
 
     getSearchValue(): string {
@@ -3084,10 +3094,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             options.multiSelectAccessibilityProperty = this._$multiSelectAccessibilityProperty;
             options.backgroundStyle = this._$backgroundStyle;
             options.theme = this._$theme;
+            options.style = this._$style;
             options.leftPadding = this._$leftPadding;
             options.rightPadding = this._$rightPadding;
             options.topPadding = this._$topPadding;
             options.bottomPadding = this._$bottomPadding;
+            options.searchValue = this._$searchValue;
             return create(options.itemModule || this._itemModule, options);
         };
     }
@@ -3896,6 +3908,7 @@ Object.assign(Collection.prototype, {
     _$markerVisibility: 'onactivated',
     _$multiSelectAccessibilityProperty: '',
     _$style: 'default',
+    _$theme: 'default',
     _$hoverBackgroundStyle: 'default',
     _$backgroundStyle: null,
     _$rowSeparatorSize: null,
@@ -3916,6 +3929,7 @@ Object.assign(Collection.prototype, {
     _swipeConfig: null,
     _userStrategies: null,
     _$emptyTemplate: null,
+    _$emptyTemplateOptions: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
 

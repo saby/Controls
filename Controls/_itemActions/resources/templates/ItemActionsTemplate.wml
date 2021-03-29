@@ -1,5 +1,6 @@
 <ws:template name="localItemActionsTemplate">
     <div attr:class="controls-itemActionsV
+        js-controls-ListView__visible-on-hoverFreeze
         {{highlightOnHover !== false ? 'controls-itemActionsV_style_' + (style ? style : 'default') + '_theme-' + theme }}
         {{itemData.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemData.itemPadding, theme)}}
         {{itemData.getItemActionClasses(itemActionsPosition, theme, itemData.isLastRow, itemData.rowSeparatorSize)}}

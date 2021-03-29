@@ -1,10 +1,92 @@
-<div class="controlsDemo__wrapper">
-    <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
-                                 state="/Controls-demo/app/:app"
-                                 app="{{ 'Controls-demo/dropdown_new/Button/FooterTemplate/Index' }}">
-            <a href="{{content.href}}">Меню с футером</a>
-        </Router.router:Reference>
-        <Controls-demo.dropdown_new.Button.FooterTemplate.Index/>
+<Controls.scroll:Container attr:class="controlsDemo-Dropdown_button_scroll">
+    <div class="controlsDemo__wrapper">
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/AdditionalProperty/Index' }}">
+                <a href="{{content.href}}">additionalProperty</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.AdditionalProperty.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/DropdownClassName/Index' }}">
+                <a href="{{content.href}}">dropdownClassName</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.DropdownClassName.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/FontColorStyle/Index' }}">
+                <a href="{{content.href}}">fontColorStyle</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.FontColorStyle.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/FontSize/Index' }}">
+                <a href="{{content.href}}">fontSize</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.FontSize.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/FooterContentTemplate/Index' }}">
+                <a href="{{content.href}}">footerContentTemplate</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.FooterContentTemplate.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/GroupProperty/Index' }}">
+                <a href="{{content.href}}">groupProperty</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.GroupProperty.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/HeaderTemplate/IconSize/Index' }}">
+                <a href="{{content.href}}">headerTemplate</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.HeaderTemplate.IconSize.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/HistoryId/Index' }}">
+                <a href="{{content.href}}">historyId</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.HistoryId.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/MenuPopupBackground/Index' }}">
+                <a href="{{content.href}}">menuPopupBackground</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.MenuPopupBackground.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/MenuPopupTrigger/Index' }}">
+                <a href="{{content.href}}">menuPopupTrigger</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.MenuPopupTrigger.Index/>
+        </div>
+        <div class="controlsDemo__cell">
+            <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+                                     state="/Controls-demo/app/:app"
+                                     app="{{ 'Controls-demo/dropdown_new/Button/Source/Index' }}">
+                <a href="{{content.href}}">simple</a>
+            </Router.router:Reference>
+            <Controls-demo.dropdown_new.Button.Source.Index/>
+        </div>
     </div>
-</div>
+</Controls.scroll:Container>

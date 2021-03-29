@@ -8,6 +8,7 @@
  * @includes TextEditor Controls/_propertyGrid/defaultEditors/Text
  * @includes EnumEditor Controls/_propertyGrid/defaultEditors/Enum
  * @includes NumberEditor Controls/_propertyGrid/defaultEditors/Number
+ * @includes DateEditor Controls/_propertyGrid/defaultEditors/Date
  * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
  * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnum
  * @includes TimeIntervalEditor Controls/_propertyGrid/extendedEditors/TimeInterval
@@ -30,6 +31,7 @@
  * @includes TextEditor Controls/_propertyGrid/defaultEditors/Text
  * @includes EnumEditor Controls/_propertyGrid/defaultEditors/Enum
  * @includes NumberEditor Controls/_propertyGrid/defaultEditors/Number
+ * @includes DateEditor Controls/_propertyGrid/defaultEditors/Date
  * @includes BooleanGroupEditor Controls/_propertyGrid/extendedEditors/BooleanGroup
  * @includes FlatEnumEditor Controls/_propertyGrid/extendedEditors/FlatEnum
  * @includes TimeIntervalEditor Controls/_propertyGrid/extendedEditors/TimeInterval
@@ -48,7 +50,8 @@ import BooleanEditor = require("Controls/_propertyGrid/defaultEditors/Boolean");
 import StringEditor = require("Controls/_propertyGrid/defaultEditors/String");
 import TextEditor = require("Controls/_propertyGrid/defaultEditors/Text");
 import EnumEditor = require("Controls/_propertyGrid/defaultEditors/Enum");
-import NumberEditor = require("Controls/_propertyGrid/defaultEditors/Number");
+import DateEditor = require('Controls/_propertyGrid/defaultEditors/Date');
+import {default as NumberEditor} from 'Controls/_propertyGrid/defaultEditors/Number';
 import BooleanGroupEditor = require("Controls/_propertyGrid/extendedEditors/BooleanGroup");
 import FlatEnumEditor = require("Controls/_propertyGrid/extendedEditors/FlatEnum");
 import {default as DropdownEditor} from 'Controls/_propertyGrid/extendedEditors/Dropdown';
@@ -70,6 +73,7 @@ export {
     TextEditor,
     EnumEditor,
     NumberEditor,
+    DateEditor,
     BooleanGroupEditor,
     FlatEnumEditor,
     TimeIntervalEditor,

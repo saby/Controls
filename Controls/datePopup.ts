@@ -16,6 +16,7 @@ import {Controller as ManagerController} from 'Controls/popup';
 import {IntersectionObserverSyntheticEntry} from './scroll';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {constants} from 'Env/Env';
+import 'css!Controls/datePopup';
 
 const HEADER_TYPES = {
         link: 'link',
@@ -218,7 +219,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     _beforeUnmount(): void {
-        this.sendResult();
         this._rangeModel.destroy();
         this._headerRangeModel.destroy();
         this._yearRangeModel.destroy();
@@ -523,7 +523,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
     sendResult(start?: Date, end?: Date): void {
         this._notify(
             'sendResult',
-            [start || this._rangeModel.startValue, end || this._rangeModel.endValue, this._state],
+            [start || this._rangeModel.startValue, end || this._rangeModel.endValue],
             {bubbling: true}
         );
     }
@@ -545,6 +545,9 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     toggleState(date?: Date): void {
         this._state = this._state === STATES.year ? STATES.month : STATES.year;
+        if (this._options.stateChangedCallback) {
+            this._options.stateChangedCallback(this._state);
+        }
         let displayedDate;
         if (date) {
             displayedDate = date;
@@ -583,8 +586,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
         this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
     }
-
-    static _theme: string[] = ['Controls/datePopup'];
 
     static getDefaultOptions(): object {
         return coreMerge({

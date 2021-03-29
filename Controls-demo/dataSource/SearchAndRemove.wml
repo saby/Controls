@@ -9,15 +9,15 @@
          on:click="_resetSource()"
       />
    </div>
-   <Controls.list:DataContainer
+   <Controls.browser:Browser
       keyProperty="id"
       source="{{ _source }}"
       navigation="{{ _navigation }}"
+      searchParam="title"
       bind:filter="_filter"
       attr:class="controlsDemo_fixedWidth500"
    >
-      <Controls.search:Controller searchParam="title">
-         <div>
+      <div>
             <Controls.search:InputContainer>
                <Controls.search:Input />
             </Controls.search:InputContainer>
@@ -28,6 +28,5 @@
             </Controls.list:Container>
             <Controls.list:Remover name="listRemover" on:afterItemsRemove="_afterItemsRemove()" />
          </div>
-      </Controls.search:Controller>
-   </Controls.list:DataContainer>
+   </Controls.browser:Browser>
 </div>

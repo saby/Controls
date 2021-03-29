@@ -1,9 +1,5 @@
-.controls-SlidingPanel__animation-position-bottom {
-   transition: top var(--animation-duration_slidingPanel);
-}
-
-.controls-SlidingPanel__animation-position-top {
-   transition: bottom var(--animation-duration_slidingPanel);
+.controls-SlidingPanel__animation {
+   transition: bottom var(--animation-duration_slidingPanel), top var(--animation-duration_slidingPanel);
 }
 
 .controls-SlidingPanel {
@@ -14,17 +10,18 @@
    flex: 1;
 }
 
-.controls-SlidingPanel__popup {
-   display: flex;
-   flex-direction: column;
-}
-
 .controls-SlidingPanel__content {
    height: 100%;
    display: flex;
    flex-direction: column;
-   flex: 1;
    overflow: hidden;
+   background-color: var(--background-color_slidingPanel);
+   flex: 1;
+}
+
+.controls-SlidingPanel__popup {
+   display: flex;
+   flex-direction: column;
 }
 
 .controls-SlidingPanel__box-shadow {
@@ -37,10 +34,6 @@
 
 .controls-SlidingPanel__position-top {
    border-radius: var(--border-radius-position-top_slidingPanel);
-}
-
-.controls-SlidingPanel__content {
-   background-color: var(--background-color_slidingPanel);
 }
 
 .controls-SlidingPanel__controller {
@@ -68,7 +61,8 @@
 }
 
 .controls-SlidingPanel__customContent {
-   flex: 1;
+   flex-grow: 1;
+   flex-shrink: 1;
 }
 
 .controls-SlidingPanel__customContent-scroll-available {

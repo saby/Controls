@@ -20,6 +20,7 @@ import {
     SHADOW_VISIBILITY
 } from './Container/Interface/IShadows';
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
+import fastUpdate from './StickyHeader/FastUpdate';
 import StickyHeaderController from './StickyHeader/Controller';
 import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS, MODE} from './StickyHeader/Utils';
 import {POSITION} from './Container/Type';
@@ -272,8 +273,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
             this._stickyHeaderController.setCanScroll(this._scrollModel.canVerticalScroll);
             this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.isStickyHeadersShadowsEnabled(),
-                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+                this._shadows.top.getStickyHeadersShadowsVisibility(),
+                this._shadows.bottom.getStickyHeadersShadowsVisibility());
 
             this._updateScrollContainerPaigingSccClass(this._options);
         }
@@ -342,8 +343,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._initHeaderController();
         }
         this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.isStickyHeadersShadowsEnabled(),
-                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+                this._shadows.top.getStickyHeadersShadowsVisibility(),
+                this._shadows.bottom.getStickyHeadersShadowsVisibility());
 
         this._updateStateAndGenerateEvents(this._scrollModel);
     }
@@ -559,8 +560,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._shadows.updateScrollState(this._scrollModel, false);
         }
         this._stickyHeaderController.setShadowVisibility(
-            this._shadows.top.isStickyHeadersShadowsEnabled(),
-            this._shadows.bottom.isStickyHeadersShadowsEnabled());
+            this._shadows.top.getStickyHeadersShadowsVisibility(),
+            this._shadows.bottom.getStickyHeadersShadowsVisibility());
         const needUpdate = this._wasMouseEnter || this._options.shadowMode === SHADOW_MODE.JS;
         this._shadows.setStickyFixed(
             this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
@@ -570,6 +571,14 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const stickyHeaderOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.fixed);
         const stickyHeaderOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.fixed);
         this._notify('fixed', [stickyHeaderOffsetTop, stickyHeaderOffsetBottom]);
+
+        // Спилить метод после того как будет сделана задача
+        // https://online.sbis.ru/opendoc.html?guid=8089ac76-89d3-42c0-9ef2-8b187014559f
+        if (fixedHeaderData.fixedPosition && !this._shadows.top?.isEnabled && this._children.hasOwnProperty('topShadow')) {
+            fastUpdate.mutate(() => {
+                this._children.topShadow.classList.add('ws-hidden');
+            });
+        }
     }
 
     _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {

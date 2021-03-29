@@ -22,7 +22,7 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
 }
 
 /**
- * Интерфейс панели фильтров.
+ * Интерфейс {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/panel/ панели фильтров}.
  *
  * @interface Controls/_filterPopup/interface/IFilterPanel
  * @public
@@ -59,7 +59,7 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
 
 /**
  * @name Controls/_filterPopup/interface/IFilterPanel#orientation
- * @cfg {String} Устанавливает ориентацию панели фильтрации.
+ * @cfg {String} Ориентация панели фильтрации.
  * @variant vertical Вертикальная ориентация панели. Блок истории отображается внизу.
  * @variant horizontal Горизонтальная ориентация панели. Блок истории отображается справа.
  * @default vertical
@@ -185,8 +185,8 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    </Controls.filterPopup:Panel>
  * </pre>
  *
- * Module/itemTemplate.wml
- * <pre>
+ * <pre class="brush: html">
+ * <!-- Module/itemTemplate.wml -->
  * <ws:template name="type">
  *    <Controls.filterPopup:Dropdown
  *          bind:selectedKeys="item.value"
@@ -205,8 +205,7 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  * <ws:partial template="{{item.id}}" item="{{item}}"/>
  * </pre>
  *
- * JS:
- * <pre>
+ * <pre class="brush: js">
  *    import {Memory} from 'Types/source';
  *
  *    protected _items: array;
@@ -233,7 +232,6 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    }
  * </pre>
  * @see itemTemplateProperty
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
  */
 
 /*
@@ -283,7 +281,6 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    ];
  * </pre>
  * @see itemTemplateProperty
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
  */
 
 /**
@@ -351,7 +348,6 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    ];
  * </pre>
  * @see additionalTemplateProperty
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
  */
 
 /*
@@ -419,7 +415,6 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    ];
  * </pre>
  * @see additionalTemplateProperty
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
  */
 
 /**
@@ -536,7 +531,6 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    ];
  * </pre>
  * @see additionalTemplate
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
  */
 
 /*
@@ -608,7 +602,6 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    ];
  * </pre>
  * @see additionalTemplate
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Guide for setup Fast Filter</a>
  */
 
 /**
@@ -668,7 +661,6 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    ];
  * </pre>
  * @see itemTemplate
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/fast-filter-settings/'>Руководство по настройке быстрого фильтра.</a>
  */
 
 /*
@@ -716,21 +708,19 @@ export interface IFilterDetailPanelOptions extends IControlOptions {
  *    ];
  * </pre>
  * @see itemTemplate
- * @see <a href='/doc/platform/developmentapl/interface-development/controls/filterbutton-and-fastfilters/'>Guide for setup Filter Button and Fast Filter</a>
  */
 
 /**
  * @name Controls/_filterPopup/interface/IFilterPanel#historyId
  * @cfg {String} Уникальный идентификатор для сохранения истории.
- * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/'>инструкции</a>.
  * @demo Controls-demo/Filter_new/DetailPanel/HistoryId/Index
- * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/'>инструкции</a>.
+ * @remark Для корректной работы необходимо настроить параметр items в контроле с помощью {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/ инструкции}.
  */
 
 /*
  * @name Controls/_filterPopup/interface/IFilterPanel#historyId
  * @cfg {String} Unique id for save history.
- * @remark For the correct work of the history mechanism, you need to configure the items property on the control by the <a href='/doc/platform/developmentapl/interface-development/controls/filter-search/'>instruction</a>.
+ * @remark For the correct work of the history mechanism, you need to configure the items property on the control by the <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/base-settings/'>instruction</a>.
  */
 
 /**

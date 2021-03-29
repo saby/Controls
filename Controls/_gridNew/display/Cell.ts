@@ -338,7 +338,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         }
 
         if (topPadding === 'null' && bottomPadding === 'null') {
-            classes += `controls-Grid__row-cell_small_min_height-theme-${theme} `;
+            classes += ` controls-Grid__row-cell_small_min_height-theme-${theme} `;
         } else {
             classes += ` controls-Grid__row-cell_default_min_height-theme-${theme}`;
         }

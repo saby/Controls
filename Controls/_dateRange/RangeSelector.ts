@@ -7,8 +7,7 @@ import componentTmpl = require('wml!Controls/_dateRange/RangeSelector/RangeSelec
 import {Popup as PopupUtil, Base as dateUtils} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
-import dateControlsUtils from "./Utils";
-import {descriptor} from "Types/entity";
+import 'css!Controls/dateRange';
 
 /**
  * Контрол позволяет пользователю выбрать диапазон дат с начальным и конечным значениями в календаре.
@@ -55,7 +54,6 @@ import {descriptor} from "Types/entity";
 export default class RangeSelector extends BaseSelector<IControlOptions> {
     protected _template: TemplateFunction = componentTmpl;
     protected _emptyCaption: string;
-    private _state: string;
 
     protected _beforeMount(options): void {
         this._updateValues(options);
@@ -70,8 +68,10 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
     }
 
     private _setEmptyCaption(options): void {
-        if (options.emptyCaption && this._emptyCaption !== options.emptyCaption) {
-            this._emptyCaption = options.emptyCaption;
+        if (options.emptyCaption) {
+            if (this._emptyCaption !== options.emptyCaption) {
+                this._emptyCaption = options.emptyCaption;
+            }
         } else {
             const newCaption = options.selectionType !== IDateRangeSelectable.SELECTION_TYPES.single ?
                 this.EMPTY_CAPTIONS.ALL_TIME : this.EMPTY_CAPTIONS.NOT_SPECIFIED;
@@ -117,15 +117,15 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
     protected _getPopupOptions(): IStickyPopupOptions {
         const container = this._children.linkView.getPopupTarget();
         const ranges = this._options.ranges;
-        let className = `controls-DatePopup__selector-marginTop_fontSize-${this._getFontSizeClass()}_theme-${this._options.theme}`;
+        let className = `controls-DatePopup__selector-marginTop_fontSize-${this._getFontSizeClass()}`;
         if (this._options.popupClassName) {
             className += `${this._options.popupClassName} `;
         }
         if ((ranges && ('days' in ranges || 'weeks' in ranges)) ||
             ((!ranges || isEmpty(ranges)) && this._options.minRange === 'day')) {
-            className += ' controls-DatePopup__selector-marginLeft_theme-' + this._options.theme;
+            className += ' controls-DatePopup__selector-marginLeft';
         } else {
-            className += ' controls-DatePopup__selector-marginLeft-withoutModeBtn_theme-' + this._options.theme;
+            className += ' controls-DatePopup__selector-marginLeft-withoutModeBtn';
         }
         return {
             ...PopupUtil.getCommonOptions(this),
@@ -150,14 +150,10 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
                 clearButtonVisible: this._options.clearButtonVisible || this._options.clearButtonVisibility,
                 _displayDate: this._options._displayDate,
                 rangeSelectedCallback: this._options.rangeSelectedCallback,
-                state: this._state
+                state: this._state,
+                stateChangedCallback: this._stateChangedCallback
             }
         };
-    }
-
-    protected _onResult(startValue: Date, endValue: Date, state: string): void {
-        this._state = state;
-        super._onResult(startValue, endValue);
     }
 
     _resetButtonClickHandler(): void {
@@ -191,8 +187,6 @@ export default class RangeSelector extends BaseSelector<IControlOptions> {
             ...ILinkView.getOptionTypes()
         };
     }
-
-    static _theme: string[] = ['Controls/dateRange'];
 
     EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 }

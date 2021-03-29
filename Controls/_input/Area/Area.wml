@@ -5,6 +5,7 @@
                         viewModel="{{_viewModel}}"
                         validationStatus="{{_options.validationStatus}}"
                         multiline="{{_multiline}}"
+                        minLines="{{_options.minLines}}"
                         tagStyle="{{_options.tagStyle}}"
                         textAlign="{{_options.textAlign}}"
                         placeholder="{{_options.placeholder}}"
@@ -25,6 +26,7 @@
             <ws:partial options="{{_options}}"
                         scope="{{_readOnlyField.scope}}"
                         value="{{_viewModel.displayValue}}"
+                        horizontalPadding="{{_horizontalPadding}}"
                         template="{{_readOnlyField.template}}"/>
          </ws:if>
          <ws:else>
@@ -36,6 +38,7 @@
                         maxLines="{{_maxLines}}"
                         fieldName="{{_fieldName}}"
                         heightLine="{{_options.fontSize}}"
+                        horizontalPadding="{{_horizontalPadding}}"
                         template="{{_field.template}}"
                         wasActionUser="{{_wasActionUser}}"
                         value="{{_viewModel.displayValue}}"

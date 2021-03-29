@@ -11,6 +11,7 @@ import {date as formatDate} from 'Types/formatter';
 import monthTmpl = require('wml!Controls/_shortDatePicker/monthTemplate');
 import {Logger} from 'UI/Utils';
 import {Utils as dateControlsUtils} from 'Controls/dateRange';
+import 'css!Controls/shortDatePicker';
 
 const enum POSITION {
     RIGHT = 'right',
@@ -384,26 +385,25 @@ class View extends Control<IDateLitePopupOptions> {
 
     protected _getSizeCssClass(data: string): string {
         if (this._options.chooseHalfyears) {
-            return 'controls-PeriodLiteDialog__' + data + '-big_theme-' + this._options.theme;
+            return 'controls-PeriodLiteDialog__' + data + '-big';
         }
         if (this._options.chooseQuarters || this._options.chooseMonths) {
-            return 'controls-PeriodLiteDialog__' + data + '-medium_theme-' + this._options.theme;
+            return 'controls-PeriodLiteDialog__' + data + '-medium';
         }
-        return 'controls-PeriodLiteDialog__' + data + '-small_theme-' + this._options.theme;
+        return 'controls-PeriodLiteDialog__' + data + '-small';
     }
 
     protected _getListCssClasses(): string {
         if (this._options.chooseHalfyears) {
-            return 'controls-PeriodLiteDialog-item controls-PeriodLiteDialog__fullYear-list_theme-' +
-                this._options.theme;
+            return 'controls-PeriodLiteDialog-item controls-PeriodLiteDialog__fullYear-list';
         }
         if (this._options.chooseMonths) {
-            return 'controls-PeriodLiteDialog__vLayout_theme-' + this._options.theme +
-                ' controls-PeriodLiteDialog__month-list_theme-' + this._options.theme;
+            return 'controls-PeriodLiteDialog__vLayout' +
+                ' controls-PeriodLiteDialog__month-list';
         }
         if (this._options.chooseQuarters) {
-            return 'controls-PeriodLiteDialog__vLayout_theme-' + this._options.theme +
-                ' controls-PeriodLiteDialog__quarter-list_theme-' + this._options.theme;
+            return 'controls-PeriodLiteDialog__vLayout' +
+                ' controls-PeriodLiteDialog__quarter-list';
         }
         return '';
     }
@@ -424,7 +424,7 @@ class View extends Control<IDateLitePopupOptions> {
             css.push('controls-PeriodLiteDialog__year-clickable');
         }
         if (this._options.chooseMonths && this._options.chooseQuarters && this._options.chooseHalfyears) {
-            css.push('controls-PeriodLiteDialog__year-medium_theme-' + this._options.theme);
+            css.push('controls-PeriodLiteDialog__year-medium');
         } else if (this._options.chooseMonths) {
             css.push('controls-PeriodLiteDialog__year-center-lite');
         }
@@ -435,11 +435,11 @@ class View extends Control<IDateLitePopupOptions> {
         const css: string[] = [];
         const date = this._options.startValue;
         if (!dateUtils.isValidDate(date) || (year !== date.getFullYear())) {
-            css.push('controls-PeriodLiteDialog__vLayoutItem-clickable_theme-' + this._options.theme);
+            css.push('controls-PeriodLiteDialog__vLayoutItem-clickable');
         }
         if (dateUtils.isValidDate(date) && (year === date.getFullYear())) {
             css.push('controls-PeriodLiteDialog__selectedYear');
-            css.push('controls-PeriodLiteDialog__selectedYear_theme-' + this._options.theme);
+            css.push('controls-PeriodLiteDialog__selectedYear');
         }
         return css.join(' ');
     }
@@ -490,8 +490,6 @@ class View extends Control<IDateLitePopupOptions> {
     private getWindowInnerWidth(): number {
         return window?.innerWidth;
     }
-
-    static _theme: string[] = ['Controls/shortDatePicker'];
 
     static getDefaultOptions(): IDateLitePopupOptions {
         const PeriodDialogOptions: IDateLitePopupOptions = IPeriodSimpleDialog.getDefaultOptions();
