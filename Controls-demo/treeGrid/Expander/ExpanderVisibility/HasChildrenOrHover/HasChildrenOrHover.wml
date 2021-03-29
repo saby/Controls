@@ -20,7 +20,7 @@
 </ws:template>
 
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-reverseType-byItemClick">
-   <Controls.treeGrid:View
+   <Controls.treeGridOld:View
       keyProperty="id"
       nodeProperty="Раздел@"
       parentProperty="Раздел"
@@ -42,5 +42,5 @@
             </ws:Object>
          </ws:Array>
       </ws:columns>
-   </Controls.treeGrid:View>
+   </Controls.treeGridOld:View>
 </div>

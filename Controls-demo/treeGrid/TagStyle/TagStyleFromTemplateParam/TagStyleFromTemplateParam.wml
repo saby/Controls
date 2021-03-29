@@ -3,7 +3,7 @@
         &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' +
         _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
     </div>
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             multiSelectVisibility="hidden"
@@ -25,5 +25,5 @@
                 </ws:Object>
             </ws:Array>
         </ws:columns>
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>

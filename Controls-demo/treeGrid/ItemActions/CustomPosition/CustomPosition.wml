@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth550">
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             parentProperty="parent"
@@ -8,7 +8,7 @@
             itemActionsPosition="custom"
             name="gridView">
         <ws:itemTemplate>
-            <ws:partial template="Controls/treeGrid:ItemTemplate"
+            <ws:partial template="Controls/treeGridOld:ItemTemplate"
                         itemActionsClass="my-super-class"/>
         </ws:itemTemplate>
         <ws:columns>
@@ -26,5 +26,5 @@
                 <ws:Object displayProperty="rating" width="150px"/>
             </ws:Array>
         </ws:columns>
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>
