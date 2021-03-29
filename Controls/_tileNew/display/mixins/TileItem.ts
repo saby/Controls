@@ -716,12 +716,19 @@ export default abstract class TileItem<T extends Model = Model> {
         const width = this.getTileWidth(templateWidth);
         if (this.getTileMode() === 'dynamic') {
             const flexBasis = width * this.getCompressionCoefficient();
-            return `
-                -ms-flex-preferred-size: ${flexBasis}px;
-                flex-basis: ${flexBasis}px;
-                height: ${this.getTileHeight()}px;
-                max-width: ${width}px;
-            `;
+            if (itemType === 'invisible') {
+                return `
+                    -ms-flex-preferred-size: ${flexBasis}px;
+                    flex-basis: ${flexBasis}px;
+                `;
+            } else {
+                return `
+                    -ms-flex-preferred-size: ${flexBasis}px;
+                    flex-basis: ${flexBasis}px;
+                    height: ${this.getTileHeight()}px;
+                    max-width: ${width}px;
+                `;
+            }
         } else {
             let styles = `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
             if (staticHeight && itemType !== 'rich') {

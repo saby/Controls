@@ -247,7 +247,7 @@ export default class TileView extends ListView {
     }
 
     protected _needUpdateActions(item: TileCollectionItem, event: SyntheticEvent): boolean {
-        return item && this._options.actionMode === 'adaptive' && event;
+        return item && this._options.actionMode === 'adaptive' && !!event;
     }
 
     _getZoomCoefficient(): number {

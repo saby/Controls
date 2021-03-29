@@ -3,6 +3,12 @@ import TileCollectionItem from './TileCollectionItem';
 import * as Template from 'wml!Controls/_tileNew/render/items/Invisible';
 
 export default class InvisibleTileItem extends TileCollectionItem {
+    readonly Markable: boolean = false;
+    readonly SelectableItem: boolean = false;
+    readonly DraggableItem: boolean = false;
+    readonly ItemActionsItem: boolean = false;
+    readonly DisplaySearchValue: boolean = false;
+
     getTemplate(): TemplateFunction {
         return Template;
     }
@@ -18,7 +24,7 @@ export default class InvisibleTileItem extends TileCollectionItem {
     }
 
     getInvisibleStyles(templateWidth?: number): string {
-        return this.getItemStyles('', templateWidth);
+        return this.getItemStyles('invisible', templateWidth);
     }
 
     isLastInvisibleItem(): boolean {
