@@ -794,7 +794,7 @@ var Filter = Control.extend({
         }
         this._configs = null;
         this._displayText = null;
-        UnregisterUtil(this, 'scroll');
+        UnregisterUtil(this, 'scroll', {listenAll: true});
         if (this._filterPopupOpener) {
             this._filterPopupOpener.destroy();
         }
@@ -887,7 +887,7 @@ var Filter = Control.extend({
             return;
         }
         if (!detection.isMobileIOS) {
-            RegisterUtil(this, 'scroll', this._handleScroll.bind(this));
+            RegisterUtil(this, 'scroll', this._handleScroll.bind(this), {listenAll: true});
         }
         const popupOptions = {
             opener: this,
