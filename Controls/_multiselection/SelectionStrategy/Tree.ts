@@ -177,13 +177,11 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       const items = this._model.getItems().filter((elem) => {
          return elem.SelectableItem && (!elem.isNode() || elem.isNode() && !elem.isExpanded());
       }).slice(0, count);
-      let newSelection = selection;
+      let newSelection = {selected: [], excluded: []};
 
       items.forEach((elem) => {
          const elemKey = this._getKey(elem);
-         if (!newSelection.selected.includes(elemKey)) {
-            newSelection = this.select(newSelection, elemKey);
-         }
+         newSelection = this.select(newSelection, elemKey);
       });
 
       return newSelection;
