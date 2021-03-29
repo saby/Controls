@@ -83,15 +83,15 @@ export default class TileView extends ListView {
     }
 
     getActionsMenuConfig(
-        item: Model,
+        contents: Model,
         clickEvent: SyntheticEvent,
         action: object,
         isContextMenu: boolean,
         menuConfig: object,
-        itemData: TileCollectionItem
+        item: TileCollectionItem
     ): Record<string, any> {
         const isActionMenu = !!action && !action.isMenu;
-        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, itemData) && menuConfig) {
+        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, item) && menuConfig) {
             const MENU_MAX_WIDTH = 200;
             const menuOptions = menuConfig.templateOptions;
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
@@ -99,18 +99,12 @@ export default class TileView extends ListView {
             if (!imageWrapper) {
                 return null;
             }
-            let previewWidth = imageWrapper.clientWidth;
-            let previewHeight = imageWrapper.clientHeight;
-            menuOptions.image = itemData.getImageUrl();
-            menuOptions.title = itemData.getDisplayValue();
-            menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
-            menuOptions.imageClasses = itemData.getImageClasses();
-            if (this._options.tileScalingMode === TILE_SCALING_MODE.NONE) {
-                previewHeight = previewHeight * ZOOM_COEFFICIENT;
-                previewWidth = previewWidth * ZOOM_COEFFICIENT;
-            }
-            menuOptions.previewHeight = previewHeight;
-            menuOptions.previewWidth = previewWidth;
+            menuOptions.image = item.getImageUrl();
+            menuOptions.title = item.getDisplayValue();
+            menuOptions.additionalText = item.item.get(menuOptions.headerAdditionalTextProperty);
+            menuOptions.imageClasses = item.getImageClasses();
+            menuOptions.previewHeight = imageWrapper.clientHeight;
+            menuOptions.previewWidth = imageWrapper.clientWidth;
 
             return {
                 templateOptions: menuOptions,
@@ -127,7 +121,10 @@ export default class TileView extends ListView {
                 },
                 opener: menuConfig.opener,
                 template: 'Controls/tileNew:ActionsMenu',
-                actionOnScroll: 'close'
+                actionOnScroll: 'close',
+                fittingMode: {
+                    vertical: 'overflow'
+                }
             };
         } else {
             return null;
