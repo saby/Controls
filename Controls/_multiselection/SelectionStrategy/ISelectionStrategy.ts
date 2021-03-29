@@ -63,6 +63,16 @@ export default interface ISelectionStrategy {
    unselectAll(selection: ISelection): ISelection;
 
    /**
+    * Возвращает расширенный selection со всеми элементами с firstKey до secondKey
+    *
+    * @param {ISelection} selection текущее состояние выбранных ключей
+    * @param {CrudEntityKey} firstKey ключ первого элемента
+    * @param {CrudEntityKey} secondKey ключ второго элемента
+    * @return {ISelection} новое состояние выбранных элементов
+    */
+   expandRange(selection: ISelection, firstKey: CrudEntityKey, secondKey: CrudEntityKey): ISelection;
+
+   /**
     * Возвращает состояние элементов для модели
     *
     * @param {ISelection} selection текущее состояние выбранных ключей

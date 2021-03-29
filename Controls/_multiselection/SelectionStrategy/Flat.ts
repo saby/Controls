@@ -88,6 +88,27 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
+   expandRange(selection: ISelection, firstKey: CrudEntityKey, secondKey: CrudEntityKey): ISelection {
+      if (firstKey === secondKey) {
+         return selection;
+      }
+      const firstIndex = this._model.getIndexByKey(firstKey);
+      const secondIndex = this._model.getIndexByKey(secondKey);
+      const sliceStart = secondIndex > firstIndex ? firstIndex : secondIndex;
+      const sliceEnd = sliceStart === secondIndex ? firstIndex + 1 : secondIndex + 1;
+      const items = this._model.getItems().slice(sliceStart, sliceEnd);
+      let newSelection = selection;
+      items.forEach((elem) => {
+         if (elem.SelectableItem) {
+            const elemKey = this._getKey(elem);
+            if (!newSelection.selected.includes(elemKey)) {
+               newSelection = this.select(newSelection, elemKey);
+            }
+         }
+      });
+      return newSelection;
+   }
+
    getSelectionForModel(
        selection: ISelection,
        limit?: number,
