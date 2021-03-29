@@ -26,7 +26,7 @@ export interface INotificationOpener extends IOpener {
  */
 
 /**
- * @typedef {Object} PopupOptions
+ * @typedef {Object} Controls/_popup/interface/INotificationOpener/PopupOptions
  * @description Sets the popup configuration.
  * @property {Boolean} autofocus Определяет, установится ли фокус на шаблон попапа после его открытия.
  * @property {String} className Имена классов, которые будут применены к корневой ноде всплывающего окна.
@@ -39,7 +39,7 @@ export interface INotificationOpener extends IOpener {
  * Повторный вызов этого метода вызовет переририсовку контрола.
  * @function
  * @name Controls/_popup/interface/INotificationOpener#open
- * @param {PopupOptions} popupOptions Конфигурация окна.
+ * @param {Controls/_popup/interface/INotificationOpener/PopupOptions.typedef} popupOptions Конфигурация окна.
  * @remark
  * Чтобы открыть окно без создания в верстке {@link Controls/popup:Notification}, используйте статический метод {@link openPopup}.
  * @example
@@ -76,7 +76,7 @@ export interface INotificationOpener extends IOpener {
  * Статический метод для открытия нотификационного окна. При использовании метода не требуется создавать popup:Notification в верстке.
  * @function 
  * @name Controls/_popup/interface/INotificationOpener#openPopup
- * @param {PopupOptions} config Конфигурация окна.
+ * @param {Controls/_popup/interface/INotificationOpener/PopupOptions.typedef} config Конфигурация окна.
  * @returns {Promise<string>} Возвращает Promise, который в качестве результата вернет идентификатор окна.
  * Такой идентификатор используют в методе {@link closePopup} для закрытия окна.
  * @static

@@ -64,6 +64,11 @@
             keyProperty="id"
             itemTemplateProperty="itemTemplate"
             source="{{_tabSource2}}"
+
+            name="tabsButtons2"
+            _invalidSize="{{_invalidSize}}"
+            on:afterEndEdit="_resize()"
+            on:activated="_resize()"
             />
    </div>
 </div>
