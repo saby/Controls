@@ -5013,7 +5013,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._options.moveMarkerOnScrollPaging;
     }
 
-    _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
+    protected _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
         return !!(sourceController?.hasMoreData(direction));
     }
 
