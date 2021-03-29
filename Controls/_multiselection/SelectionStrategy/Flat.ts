@@ -90,6 +90,7 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
 
    selectRange(selection: ISelection, items: Array<CollectionItem<Model>>): ISelection {
       let newSelection = selection;
+
       items.forEach((elem) => {
          if (elem.SelectableItem) {
             const elemKey = this._getKey(elem);
@@ -98,6 +99,7 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
             }
          }
       });
+
       return newSelection;
    }
 

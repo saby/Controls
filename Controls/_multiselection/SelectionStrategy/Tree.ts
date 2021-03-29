@@ -175,6 +175,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
 
    selectRange(selection: ISelection, items: Array<CollectionItem<Model>>): ISelection {
       let newSelection = selection;
+
       items.forEach((elem) => {
          if (elem.SelectableItem && (!elem.isNode() || elem.isNode() && !elem.isExpanded())) {
             const elemKey = this._getKey(elem);
@@ -183,6 +184,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
             }
          }
       });
+
       return newSelection;
    }
 
