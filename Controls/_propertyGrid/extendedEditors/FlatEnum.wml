@@ -1,4 +1,4 @@
-<div class="controls-PropertyGrid__editor_enum_control ws-flexbox">
+<div class="controls-PropertyGrid__editor_flatenum_control ws-flexbox">
     <ws:for data="index, button in _buttons">
         <Controls.toggle:Button
                 value="{{button.id === selectedKey}}"
