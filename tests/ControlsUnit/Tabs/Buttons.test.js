@@ -191,8 +191,9 @@ define([
                keyProperty: 'karambola',
                theme: 'default'
             },
-            expected = 'controls-Tabs_style_secondary__item_state_selected' +
-            ' controls-Tabs__item_state_selected',
+            expected = 'controls-Tabs_style_secondary__item_state_selected ' +
+               'controls-Tabs__item_state_selected ' +
+               ' controls-Tabs_style_secondary__item-marker_state_selected',
             expected2 = 'controls-Tabs__item_state_default';
          const tabs = new tabsMod.Buttons();
          tabs.saveOptions(options);
@@ -284,6 +285,35 @@ define([
          tabs._onItemClick(event1, 1);
          assert.equal(notifyCorrectCalled, true, 'leftButtonClick _onItemClick');
          tabs.destroy();
+      });
+
+      describe('_updateMarker', () => {
+         it('should update marker model', () => {
+            const tabs = new tabsMod.Buttons();
+            let items = new collection.RecordSet({
+               rawData: data,
+               keyProperty: 'id'
+            });
+
+            const getBoundingClientRect = () => {
+               return { width: 10, left: 20 };
+            };
+
+            tabs._container = { getBoundingClientRect };
+
+            tabs._children = {};
+            for (let i = 0; i < data.length; i++) {
+               tabs._children[`Tab${i}`] = { getBoundingClientRect };
+            }
+
+            tabs._beforeUpdate({ items, selectedKey: 1 });
+            tabs._updateMarker();
+            assert.equal(tabs._marker.getLeft(), 0, 'leftButtonClick _onItemClick');
+            assert.equal(tabs._marker.getWidth(), 10, 'leftButtonClick _onItemClick');
+
+            tabs.destroy();
+         });
+
       });
    });
 });
