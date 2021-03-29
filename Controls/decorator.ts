@@ -18,7 +18,7 @@ import * as Formatter from './_decorator/resources/Formatter';
 import * as FormatBuilder from './_decorator/resources/FormatBuilder';
 
 export {default as Markup} from './_decorator/Markup';
-export {default as Number, INumberOptions, RoundMode} from 'Controls/_decorator/Number';
+export {default as INumberOptions, RoundMode, Number} from 'Controls/_decorator/Number';
 export {default as Phone, IPhoneOptions} from 'Controls/_decorator/Phone';
 export {default as Money, IMoneyOptions} from 'Controls/_decorator/Money';
 export {default as WrapURLs, IWrapURLsOptions} from 'Controls/_decorator/WrapURLs';
