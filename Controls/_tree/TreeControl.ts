@@ -749,7 +749,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (direction === 'depth') {
             result = _private.reloadItem(this, key);
         } else {
-            result = super.reloadItem(key, readMeta, direction);
+            result = super.reloadItem.apply(this, arguments);
         }
 
         return result;
