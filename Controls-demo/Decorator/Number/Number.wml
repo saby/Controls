@@ -4,8 +4,8 @@
       <Controls.decorator:Number value="{{null}}"/>
    </div>
    <div class="controlsDemo__cell">
-      <div class="controls-text-label_theme-{{_options.theme}}">value = 123456 useGrouping = false tooltip = Text</div>
-      <Controls.decorator:Number value="{{123456}}" useGrouping="{{false}}" tooltip="Text"/>
+      <div class="controls-text-label_theme-{{_options.theme}}">value = 123456 useGrouping = false tooltip = Сумма</div>
+      <Controls.decorator:Number value="{{123456}}" useGrouping="{{false}}" tooltip="Сумма"/>
    </div>
    <div class="controlsDemo__cell">
       <div class="controls-text-label_theme-{{_options.theme}}">value = 123456 useGrouping = true</div>
