@@ -2503,6 +2503,18 @@ const _private = {
             case 'toggleAll':
                 result = selectionController.toggleAll();
                 break;
+            case 'count-10':
+                result = selectionController.selectCount(10);
+                break;
+            case 'count-25':
+                result = selectionController.selectCount(25);
+                break;
+            case 'count-50':
+                result = selectionController.selectCount(50);
+                break;
+            case 'count-100':
+                result = selectionController.selectCount(100);
+                break;
         }
 
         _private.changeSelection(this, result);

@@ -88,6 +88,22 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
+   selectCount(selection: ISelection, count: number): ISelection {
+      const items = this._model.getItems().slice(0, count);
+      let newSelection = selection;
+
+      items.forEach((elem) => {
+         if (elem.SelectableItem) {
+            const elemKey = this._getKey(elem);
+            if (!newSelection.selected.includes(elemKey)) {
+               newSelection = this.select(newSelection, elemKey);
+            }
+         }
+      });
+
+      return newSelection;
+   }
+
    getSelectionForModel(
        selection: ISelection,
        limit?: number,

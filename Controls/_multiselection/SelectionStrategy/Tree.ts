@@ -173,6 +173,22 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
+   selectCount(selection: ISelection, count: number): ISelection {
+      const items = this._model.getItems().filter((elem) => {
+         return elem.SelectableItem && (!elem.isNode() || elem.isNode() && !elem.isExpanded());
+      }).slice(0, count);
+      let newSelection = selection;
+
+      items.forEach((elem) => {
+         const elemKey = this._getKey(elem);
+         if (!newSelection.selected.includes(elemKey)) {
+            newSelection = this.select(newSelection, elemKey);
+         }
+      });
+
+      return newSelection;
+   }
+
    getSelectionForModel(
        selection: ISelection,
        limit?: number,

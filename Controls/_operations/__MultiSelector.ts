@@ -21,6 +21,22 @@ const DEFAULT_ITEMS = [
    }, {
       id: 'toggleAll',
       title: rk('Инвертировать')
+   },
+   {
+      id: 'count-10',
+      title: '10'
+   },
+   {
+      id: 'count-25',
+      title: '25'
+   },
+   {
+      id: 'count-50',
+      title: '50'
+   },
+   {
+      id: 'count-100',
+      title: '100'
    }
 ];
 

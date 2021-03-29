@@ -234,6 +234,15 @@ export class Controller {
    }
 
    /**
+    * Выбирает число элементов указанных в count с начала списка
+    * @param {number} count кололичество элементов
+    * @return {ISelection}
+    */
+   selectCount(count: number): ISelection {
+      return this._strategy.selectCount(this._selection, count);
+   }
+
+   /**
     * Обрабатывает удаление элементов из коллекции
     * @param {Array<CollectionItem<Model>>} removedItems Удаленные элементы
     * @return {ISelection}
