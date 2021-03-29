@@ -19,7 +19,7 @@ const DEFAULT_WIDTH_PROPORTION = 1;
 const TILE_SIZES = {
     s: {
         horizontal: {
-            width: 210,
+            width: 300,
             imageHeight: 180
         },
         vertical: {
@@ -29,7 +29,7 @@ const TILE_SIZES = {
     },
     m: {
         horizontal: {
-            width: 310,
+            width: 420,
             imageHeight: 240
         },
         vertical: {
@@ -39,7 +39,7 @@ const TILE_SIZES = {
     },
     l: {
         horizontal: {
-            width: 420,
+            width: 648,
             imageHeight: 320
         },
         vertical: {
@@ -502,6 +502,11 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'rich':
                 classes += ' controls-TileView__richTemplate_image';
                 classes += ` controls-TileView__richTemplate_image_viewMode_${imageViewMode}`;
+
+                if (imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion || imageSize === 'xl')) {
+                    classes += ' controls-TileView__image controls-TileView__image_align_center';
+                }
+
                 if (!imageProportionOnItem || imageViewMode !== 'rectangle' || imagePosition !== 'top') {
                     classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition}_viewMode_${imageViewMode}_theme-${this.getTheme()}`;
                     classes += ` controls-TileView__richTemplate_image_size_${imageSize}_position_${imagePosition !== 'top' ? 'vertical' : 'top'}_theme-${this.getTheme()}`;
