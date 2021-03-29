@@ -5,7 +5,7 @@
             controls-DigitButtons__ellipsis ">{{digit}}</span>
    </ws:if>
    <ws:else>
-      <span on:click="_digitClick(digit)" class="controls-Paging__btn
+      <span on:click="_digitClick(digit)" class="controls-Paging__btn controls-DigitButtons__digit_btn
                   controls-DigitButtons__digit
                   {{digit == _options.selectedKey ? ' controls-DigitButtons__digit__selected '}}"
       >{{digit}}</span>

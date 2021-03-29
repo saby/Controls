@@ -235,7 +235,7 @@ var
                 if (currentColumn.nodeType) {
                     currentColumn.classList.base += ' controls-TreeGrid__row-cell__node';
                 } else if (currentColumn.nodeType === false) {
-                    currentColumn.classList.base += ' controls-TreeGrid__row-cell__hiddenNode_';
+                    currentColumn.classList.base += ' controls-TreeGrid__row-cell__hiddenNode';
                 } else {
                     currentColumn.classList.base += ' controls-TreeGrid__row-cell__item';
                 }
