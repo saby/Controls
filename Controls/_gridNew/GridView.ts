@@ -194,7 +194,7 @@ const GridView = ListView.extend({
 
         // Дополнительная колонка для отображения застиканных операций над записью при горизонтальном скролле.
         // Если в списке нет данных, дополнительная колонка не нужна, т.к. операций над записью точно нет.
-        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom' && this._listModel.getCount()) {
+        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition && options.itemActionsPosition !== 'custom' && this._listModel.getCount()) {
             columnsWidths.push('0px');
         }
 
