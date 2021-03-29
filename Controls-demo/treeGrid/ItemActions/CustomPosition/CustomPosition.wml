@@ -16,7 +16,7 @@
                 <ws:Object displayProperty="title" width="200px"/>
                 <ws:Object displayProperty="country" width="150px">
                     <ws:template>
-                        <ws:partial template="Controls/grid:ColumnTemplate">
+                        <ws:partial template="Controls/gridOld:ColumnTemplate">
                             <ws:contentTemplate>
                                 <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="{{contentTemplate.itemActionsClass}}"/>
                             </ws:contentTemplate>

@@ -6,7 +6,7 @@
             <Controls.operations:Panel selectedCountConfig="{{_selectedCountConfig}}" source="{{null}}"/>
 
                 <Controls.list:Container>
-                    <Controls.treeGrid:View
+                    <Controls.treeGridOld:View
                             keyProperty="id"
                             columns="{{_gridColumns}}"
                             parentProperty="parent"

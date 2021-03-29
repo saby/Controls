@@ -19,12 +19,12 @@
                             </div>
                             <Controls.lookupPopup:ListContainer multiSelect="{{_options.multiSelect ? 'visible'}}" keyProperty="{{_keyProperty}}">
                                 <Controls.list:Container>
-                                    <Controls.grid:View displayProperty="title" idProperty="{{_keyProperty}}" multiSelectVisibility="{{_options.multiSelect ? 'visible'}}" emptyTemplate="Не найдено">
+                                    <Controls.gridOld:View displayProperty="title" idProperty="{{_keyProperty}}" multiSelectVisibility="{{_options.multiSelect ? 'visible'}}" emptyTemplate="Не найдено">
                                         <ws:columns>
                                             <ws:Array>
                                                 <ws:Object>
                                                     <ws:template>
-                                                        <ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+                                                        <ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}">
                                                             <ws:contentTemplate>
                                                                 <div>
                                                                 <span class="{{ !template.itemData.item.get('city') && !template.itemData.item.get('owner') ? 'ControlsDemo-Lookup__item_bold' }}">
@@ -40,7 +40,7 @@
                                                 </ws:Object>
                                             </ws:Array>
                                         </ws:columns>
-                                    </Controls.grid:View>
+                                    </Controls.gridOld:View>
                                 </Controls.list:Container>
                             </Controls.lookupPopup:ListContainer>
                         </div>

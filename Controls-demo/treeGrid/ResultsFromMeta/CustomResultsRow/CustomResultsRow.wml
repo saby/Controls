@@ -15,7 +15,7 @@
                 dataLoadCallback="{{ _dataLoadCallback }}"
                 resultsPosition="top">
             <ws:resultsTemplate>
-                <ws:partial template="Controls/grid:ResultsTemplate">
+                <ws:partial template="Controls/gridOld:ResultsTemplate">
                     <ws:contentTemplate>
                         <div style="color: #313E78; font-weight: bold; padding-top: 5px; padding-bottom: 5px; background-color: #fafafa; padding-left: 20px;">
                             Результаты из метаданных. Средний рейтинг - {{contentTemplate.results.get('rating')}}. Средняя цена - {{ contentTemplate.results.get('price') }}

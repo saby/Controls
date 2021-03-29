@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
+<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
    <ws:contentTemplate>
       <div attr:style="width: 100%; padding-right: 80px;">
          <ws:partial template="Controls/list:EditingTemplate"
