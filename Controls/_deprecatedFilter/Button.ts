@@ -9,6 +9,8 @@ import Deferred = require('Core/Deferred');
 import libHelper = require('Core/library');
 import {isEqual} from 'Types/object';
 import {FilterUtils} from 'Controls/filter';
+import {RegisterUtil, UnregisterUtil} from 'Controls/event';
+import {detection} from 'Env/Env';
 
 var _private = {
    getText: function(items) {
@@ -173,6 +175,10 @@ var FilterButton = Control.extend(/** @lends Controls/_filter/Button.prototype *
       _private.setPopupOptions(this, options.alignment);
    },
 
+   _beforeUnmount: function() {
+      UnregisterUtil(this, 'scroll', {listenAll: true});
+   },
+
    _beforeUpdate: function(options) {
       if (!isEqual(this._options.items, options.items)) {
          _private.resolveItems(this, options.items);
@@ -203,10 +209,20 @@ var FilterButton = Control.extend(/** @lends Controls/_filter/Button.prototype *
    openDetailPanel: function() {
       var self = this;
       if (!this._options.readOnly) {
+         if (!detection.isMobileIOS) {
+            RegisterUtil(this, 'scroll', this._handleScroll.bind(this), {listenAll: true});
+         }
          _private.requireDeps(this).addCallback(function(res) {
             self._children.filterStickyOpener.open(_private.getPopupConfig(self));
             return res;
          });
+      }
+   },
+
+   _handleScroll(): void {
+      const opener = this._children.filterStickyOpener;
+      if (opener.isOpened()) {
+         opener.close();
       }
    },
 
