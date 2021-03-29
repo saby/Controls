@@ -67,6 +67,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
     protected _getItemData(treeItem: TreeItem<Model>): object {
         return {
             item: treeItem.getContents(),
+            contents: treeItem.getContents(),
             treeItem,
             iconPadding: this._iconPadding,
             iconSize: treeItem.getContents() ? this._getIconSize(treeItem.getContents()) : null,

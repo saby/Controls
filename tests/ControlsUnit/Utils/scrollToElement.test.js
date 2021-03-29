@@ -121,7 +121,7 @@ define([
                         height: this.clientHeight
                      };
                   },
-                  scrollTop: 0,
+                  scrollTop: 300,
                   className: '',
                   closest: () => []
                },
@@ -133,7 +133,7 @@ define([
                }
             };
             scroll.scrollToElement(element, 'center');
-            assert.equal(element.parentElement.scrollTop, 235);
+            assert.equal(element.parentElement.scrollTop, 445);
          });
 
          it('to bottom', function() {

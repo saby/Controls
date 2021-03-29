@@ -7,7 +7,8 @@ const mockedCollection = {
     hasMultiSelectColumn: () => false,
     hasItemActionsSeparatedCell: () => false,
     getIndex: () => 0,
-    notifyItemChange: () => {}
+    notifyItemChange: () => {},
+    getItemEditorTemplate: () => {}
 } as GridCollection<Model>;
 
 describe('Controls/grid_clean/Display/columns/Row', () => {

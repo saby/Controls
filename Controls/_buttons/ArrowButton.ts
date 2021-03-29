@@ -2,7 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_buttons/ArrowButton/ArrowButton');
 import 'css!Controls/buttons';
 
-type TArrowButtonDirection = 'right' | 'left' | 'up' | 'down';
+export type TArrowButtonDirection = 'right' | 'left' | 'up' | 'down';
 
 export interface IArrowButtonOptions extends IControlOptions {
     direction?: TArrowButtonDirection;

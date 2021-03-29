@@ -2,6 +2,10 @@
 
     <ws:if data="{{ !!(contentTemplate || content) }}">
         <!-- Прикладной контент -->
-        <ws:partial template="{{ contentTemplate || content }}" column="{{ gridColumn || emptyViewColumn }}" emptyViewColumn="{{ gridColumn || emptyViewColumn }}"/>
+        <ws:partial template="{{ contentTemplate || content }}"
+                    column="{{ gridColumn || emptyViewColumn }}"
+                    emptyViewColumn="{{ gridColumn || emptyViewColumn }}"
+                    items="{{items}}"
+                    filter="{{filter}}"/>
     </ws:if>
 </div>

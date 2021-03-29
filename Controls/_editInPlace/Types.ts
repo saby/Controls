@@ -4,7 +4,9 @@
  * @variant CANCEL позволяет отменить асинхронную операцию, вернув значение из функции обратного вызова до начала операции.
  */
 export enum CONSTANTS {
-    CANCEL = 'Cancel'
+    CANCEL = 'Cancel',
+    GOTONEXT = 'GoToNext',
+    GOTOPREV = 'GoToPrev'
 }
 
 /**

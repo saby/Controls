@@ -1,0 +1,1 @@
+<ws:partial template="{{ _options.content }}"/>

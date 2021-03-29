@@ -20,6 +20,7 @@ export interface IPortionedSearchOptions {
 export default class PortionedSearch<PortionedSearchOptions> {
     protected _searchTimer: NodeJS.Timeout = null;
     protected _searchState: SEARCH_STATES = 0;
+    protected _isAborted: boolean = false;
     protected _options: IPortionedSearchOptions = null;
 
     constructor(constructorOptions: IPortionedSearchOptions) {
@@ -36,12 +37,18 @@ export default class PortionedSearch<PortionedSearchOptions> {
 
     abortSearch(): void {
         this._setSearchState(SEARCH_STATES.STOPPED);
+        this._isAborted = true;
         this._clearTimer();
         this._options.searchAbortCallback();
     }
 
+    isAborted(): boolean {
+        return this._isAborted;
+    }
+
     reset(): void {
         this._setSearchState(SEARCH_STATES.NOT_STARTED);
+        this._isAborted = false;
         this._clearTimer();
         this._options.searchResetCallback();
     }

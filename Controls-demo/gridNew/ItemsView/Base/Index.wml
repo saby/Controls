@@ -1,0 +1,6 @@
+<div class="controlsDemo__wrapper">
+   <Controls.gridNew:ItemsView
+      items="{{_items}}"
+      columns="{{_columns}}"
+   />
+</div>

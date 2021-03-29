@@ -58,8 +58,7 @@ define([
                extOptions = {
                   readOnly: true,
                   startValue: new Date(2019, 0, 1),
-                  endValue: new Date(2019, 0, 1),
-                  theme: 'default'
+                  endValue: new Date(2019, 0, 1)
                },
                component = calendarTestUtils.createComponent(dateRange.Input, extOptions);
             component._children.opener = {
@@ -68,7 +67,7 @@ define([
             component.openPopup();
             sinon.assert.called(component._children.opener.open);
             sinon.assert.calledWith(component._children.opener.open, sinon.match({
-               className: 'controls-PeriodDialog__picker_theme-default',
+               className: 'controls-PeriodDialog__picker',
                templateOptions: {
                   startValue: extOptions.startValue,
                   endValue: extOptions.endValue,

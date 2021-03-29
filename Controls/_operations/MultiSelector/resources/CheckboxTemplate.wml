@@ -1,6 +1,8 @@
-<Controls.toggle:CheckboxMarker
-        readOnly="{{_options.readOnly}}"
-        value="{{_checkboxValue}}"
-        triState="{{true}}"
-        on:click="_onCheckBoxClick()"
-        attr:class="controls-MultiSelector__checkbox"/>
+<Controls.Container.Async templateName="Controls/toggle:CheckboxMarker">
+    <ws:partial template="{{ content.resolvedTemplate }}"
+                readOnly="{{_options.readOnly}}"
+                value="{{_checkboxValue}}"
+                triState="{{true}}"
+                on:click="_onCheckBoxClick()"
+                attr:class="controls-MultiSelector__checkbox"/>
+</Controls.Container.Async>

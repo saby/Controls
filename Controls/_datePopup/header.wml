@@ -1,14 +1,14 @@
-<div class="controls-PeriodDialog__header controls-PeriodDialog__header_theme-{{theme}} controls_theme-{{theme}}">
+<div class="controls-PeriodDialog__header controls_theme-{{theme}}">
    <!--<div class="controls-PeriodDialog__stateButton-wrapper">-->
       <Controls._datePopup.fakeThemeLoader theme="{{theme}}"/>
     <div if="{{monthStateEnabled}}"
          on:click="_toggleStateClick()"
          on:keyDown="_stateButtonKeyDownHandler()"
          tabindex="0"
-         class="controls-PeriodDialog__stateButton controls-PeriodDialog__stateButton_theme-{{theme}}"
+         class="controls-PeriodDialog__stateButton"
          title="{{state === 'year' ? rk('Месячный режим') : rk('Годовой режим')}}">
             <span class="{{ state === 'year' ? 'icon-ArrangeList' : 'icon-ArrangePreview' }}
-                controls-PeriodDialog_stateButton_icon_theme-{{ theme }} {{ keyboardActive? 'controls-PeriodDialog_stateButton_icon_focus_theme-' + theme }}">
+                controls-PeriodDialog_stateButton_icon {{ keyboardActive? 'controls-PeriodDialog_stateButton_icon_focus'}}">
             </span>
     </div>
     <ws:if data="{{ selectionType === 'quantum' }}">
@@ -59,7 +59,7 @@
                 </ws:if>
             </div>
             <ws:if data="{{_options.selectionType !== 'single'}}">
-                <div class="controls-PeriodDialog__header-rangeDash controls-PeriodDialog__header-rangeDash_theme-{{theme}}"></div>
+                <div class="controls-PeriodDialog__header-rangeDash"></div>
                 <div class="controls-PeriodDialog__header_inputs">
                     <Controls.input:DateBase
                             horizontalPadding="null"
@@ -86,9 +86,9 @@
                 </div>
             </ws:if>
             <ws:if data="{{ resetButtonVisible }}">
-                <span tabindex="0" class="controls-DateLinkView__resetButton controls-DateLinkView__resetButton_theme-{{theme}}
-                        controls-icon controls-icon_style-unaccented_theme-{{ theme }}
-                        controls-icon_size-s_theme-{{ theme }} icon-Close"
+                <span tabindex="0" class="controls-DateLinkView__resetButton
+                        controls-icon controls-icon_style-unaccented
+                        controls-icon_size-s icon-Close"
                       on:click="_resetButtonClickHandler()"
                       on:keyDown="_resetButtonKeyDownHandler()" ></span>
             </ws:if>
@@ -97,12 +97,12 @@
     <div attr:date="{{ today }}"
          on:click="_todayCalendarClick()"
          title="{[Текущий период]}"
-         class="controls-PeriodDialog__header_calendar controls-PeriodDialog__header_calendar_theme-{{ theme }}">
+         class="controls-PeriodDialog__header_calendar">
         <svg id="Слой_1" data-name="Слой 1" xmlns="http://www.w3.org/2000/svg"
-             class="controls-PeriodDialog__header_calendar_svg controls-PeriodDialog__header_calendar_svg_theme-{{ theme }}"
+             class="controls-PeriodDialog__header_calendar_svg"
              viewBox="0 0 28 28">
             <path class="controls-PeriodDialog__header_calendar_svg-content
-             controls-PeriodDialog__header_calendar_svg-content_theme-{{ theme }}"
+             controls-PeriodDialog__header_calendar_svg-content"
                   d="M23,2V.5a.5.5,0,0,0-1,0V2H21V.5a.5.5,0,0,0-1,0V2H8V.5a.5.5,0,0,0-1,0V2H6V.5a.5.5,0,0,0-1,0V2A3,3,0,0,0,2,5V24a3,3,0,0,0,3,3H23a3,3,0,0,0,3-3V5A3,3,0,0,0,23,2Zm2,22a2,2,0,0,1-2,2H5a2,2,0,0,1-2-2V5A2,2,0,0,1,5,3V4.5a.5.5,0,0,0,1,0V3H7V4.5a.5.5,0,0,0,1,0V3H20V4.5a.5.5,0,0,0,1,0V3h1V4.5a.5.5,0,0,0,1,0V3a2,2,0,0,1,2,2Z"/>
         </svg>
     </div>
@@ -116,11 +116,10 @@
       iconSize="s"
       inlineHeight="m"
       tooltip="{[Подтвердить]}"
-      attr:class="controls-PeriodDialog__applyButton controls-PeriodDialog__applyButton_theme-{{theme}}"
+      attr:class="controls-PeriodDialog__applyButton"
       on:click="_applyClick()"
    />
 
    <Controls.popupTemplate:CloseButton attr:title="{[Закрыть]}" on:click="_closeClick()" viewMode="linkButton"
-                                       attr:class="controls-PeriodDialog__closeButton
-                                                   controls-PeriodDialog__closeButton_theme-{{theme}}"/>
+                                       attr:class="controls-PeriodDialog__closeButton"/>
 </div>
