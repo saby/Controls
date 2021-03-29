@@ -7,6 +7,12 @@
          keyProperty="id"
          source="{{_viewSource}}">
          <ws:itemPadding left="3xs" right="3xs" bottom="3xs" top="3xs"/>
+         <ws:itemTemplate>
+            <ws:partial
+                    template="Controls/tile:PreviewTemplate"
+                    hasTitle="{{false}}"
+                    scope="{{itemTemplate}}"/>
+         </ws:itemTemplate>
       </Controls.tile:View>
    </div>
 </div>
