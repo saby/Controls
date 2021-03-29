@@ -1,4 +1,5 @@
 import { default as View } from 'Controls/_treeGridNew/TreeGrid';
+import { default as ItemsView } from 'Controls/_treeGridNew/ItemsTreeGrid';
 import TreeGridView from 'Controls/_treeGridNew/TreeGridView';
 
 import * as GroupColumnTemplate from 'wml!Controls/_treeGridNew/render/GroupCellContent';
@@ -25,6 +26,7 @@ ItemTemplate.isWasabyTemplate = true;
 
 export {
     View,
+    ItemsView,
     TreeGridView,
     ItemTemplate,
     NodeFooterTemplate,

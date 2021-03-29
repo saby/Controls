@@ -165,7 +165,7 @@ const _private = {
             self._notify(expanded ? 'itemExpand' : 'itemCollapse', [item]);
             if (
                 !_private.isExpandAll(self._options.expandedItems) &&
-                !baseSourceController.hasLoaded(nodeKey) &&
+                !baseSourceController?.hasLoaded(nodeKey) &&
                 !dispItem.isRoot() &&
                 _private.shouldLoadChildren(self, nodeKey)
             ) {
@@ -181,7 +181,8 @@ const _private = {
                             options.nodeLoadCallback(list, nodeKey);
                         }
                         self.hideIndicator();
-                    }).catch((error: Error) => {
+                    })
+                    .catch((error: Error) => {
                         if (error.isCanceled) {
                             return;
                         }
@@ -253,8 +254,10 @@ const _private = {
         // 2. у него вообще есть дочерние элементы (по значению поля hasChildrenProperty)
         const viewModel = self.getViewModel();
         const items = viewModel.getCollection();
-        const isAlreadyLoaded = self.getSourceController().hasLoaded(nodeKey) ||
-                                viewModel.getHasMoreStorage().hasOwnProperty(nodeKey);
+
+        const sourceController = self.getSourceController();
+        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items) ||
+            viewModel.getHasMoreStorage().hasOwnProperty(nodeKey);
 
         if (isAlreadyLoaded) {
             return false;
