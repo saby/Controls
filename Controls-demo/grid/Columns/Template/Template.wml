@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.grid:View
+    <Controls.gridOld:View
             attr:class="controlsDemo__inline-flex"
             keyProperty="id"
             source="{{_viewSource}}"

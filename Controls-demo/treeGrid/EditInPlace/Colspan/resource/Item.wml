@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:RowEditor" scope="{{_options}}">
+<ws:partial template="Controls/gridOld:RowEditor" scope="{{_options}}">
     <div class="controlDemo__input-row">
         <div class="controlsDemo__ml1">
             <span class="controlsDemo__wrapper__horizontal">Наименование</span>

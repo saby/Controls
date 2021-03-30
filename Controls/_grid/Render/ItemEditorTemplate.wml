@@ -1,0 +1,18 @@
+<ws:template name="localTemplateForFixContentScope">
+    <ws:partial template="wml!Controls/_grid/Render/CellContent" scope="{{ _options }}">
+        <ws:contentTemplate>
+            <!-- Прикладной контент -->
+            <!-- Рвстягивание через ширину нужно, т.к. контент ячейки оборачиваетя в inline-flex блок -->
+            <!-- Контент в реультате не тянется. -->
+            <!-- Инлайн стиль, т.к. решение временное. Нет желания разбивать фикс на 2 файла -->
+            <!-- Один файл удалить проще чем 2 -->
+            <div style="width: 100%;">
+                <ws:partial template="{{ originContentTemplate }}" scope="{{ _options }}"/>
+            </div>
+        </ws:contentTemplate>
+    </ws:partial>
+</ws:template>
+
+<!-- Подъехали хаки, если кто то знает как написать contentTemplate || content внутри - дайте знать. -->
+<!-- На данный момент content.contentTemplate || content.content не работает, т.к. внутренний contentTemplate затирается наружним. -->
+<ws:partial template="localTemplateForFixContentScope" originContentTemplate="{{ contentTemplate || content }}" />

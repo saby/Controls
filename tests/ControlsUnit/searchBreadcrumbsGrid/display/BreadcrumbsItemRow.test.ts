@@ -37,7 +37,7 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemRow', () => {
    describe('getTemplate', () => {
       it('getTemplate', () => {
          const item = searchGridCollection.at(0);
-         assert.equal(item.getTemplate(), 'Controls/gridNew:ItemTemplate');
+         assert.equal(item.getTemplate(), 'Controls/grid:ItemTemplate');
       });
    });
 
