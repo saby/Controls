@@ -112,9 +112,13 @@ class DateTime extends Control {
         e.stopImmediatePropagation();
     }
 
-    validate(): void {
+    validate() {
         // Возвращаем результат валидации для совместимости со старыми формами.
         return this._children.validator.validate();
+    }
+
+    setValidationResult(validationResult): void {
+        this._children.validator.setValidationResult(validationResult);
     }
 
     protected _onKeyDown(event: SyntheticEvent<KeyboardEvent>): void {
