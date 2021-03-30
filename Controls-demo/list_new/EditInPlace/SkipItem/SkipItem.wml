@@ -3,7 +3,6 @@
             name="list"
             keyProperty="id"
             on:beforeBeginEdit="_onBeforeBeginEdit()"
-            on:afterBeginEdit="_onAfterBeginEdit()"
             source="{{_viewSource}}">
         <ws:editingConfig editOnClick="{{true}}"/>
         <ws:itemTemplate>

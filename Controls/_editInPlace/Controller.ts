@@ -11,7 +11,7 @@ const ERROR_MSG = {
     BEFORE_BEGIN_EDIT_FAILED: 'Error in callback IEditInPlaceOptions.onBeforeBeginEdit. All errors should be handled.',
     BEFORE_END_EDIT_FAILED: 'Error in callback IEditInPlaceOptions.onBeforeEndEdit. All errors should be handled.',
     ITEM_MISSED: 'Item for editing was not given. It must be given in arguments method or as a result of callback before begin edit(sync or async).',
-    CAN_NOT_SKIP: '!!!',
+    CAN_NOT_SKIP: 'Can not skip item, because there is no item passed into options.'
 };
 
 /**
