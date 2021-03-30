@@ -40,7 +40,11 @@
             </div>
             <div class="controls-FilterViewPanel__additional-editors">
                <ws:for data="filter in _viewModel.getExtendedFilterItems()">
-                  <ws:partial template="{{filter.editorTemplateName}}" scope="{{filter.editorOptions}}" viewMode="{{filter.viewMode}}"/>
+                  <ws:partial template="{{filter.editorTemplateName}}"
+                              scope="{{filter.editorOptions}}"
+                              viewMode="{{filter.viewMode}}"
+                              propertyValue="{{filter.value}}"
+                              on:propertyValueChanged="_propertyValueChanged(filter)"/>
                </ws:for>
             </div>
          </div>

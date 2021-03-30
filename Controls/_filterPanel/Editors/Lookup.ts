@@ -51,7 +51,7 @@ class LookupEditor extends Control<ILookupEditorOptions> {
             selectedKeys.push(item.get(this._options.keyProperty));
         });
         this._selectedKeys = selectedKeys;
-        this._notify('viewModeChanged', ['basic']);
+        this._notify('propertyValueChanged', [{value: selectedKeys, textValue: ''}], {bubbling: true});
     }
 
 }

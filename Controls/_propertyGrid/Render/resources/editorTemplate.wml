@@ -23,6 +23,7 @@
                      <ws:partial template="{{content.resolvedTemplate}}"
                                  attr:key="{{collectionItem.getUid()}}"
                                  validationStatus="{{content.validationStatus}}"
+                                 viewMode="{{item.viewMode}}"
                                  caption="{{caption}}"
                                  scope="{{collectionItem.getEditorOptions()}}"/>
                   </ws:content>
@@ -43,6 +44,7 @@
                attr:data-qa="controls-PropertyGrid__editor_{{item[keyProperty]}}"
                attr:key="{{collectionItem.getUid()}}"
                template="{{content.resolvedTemplate}}"
+               viewMode="{{item.viewMode}}"
                caption="{{caption}}"
                scope="{{collectionItem.getEditorOptions()}}"/>
          </ws:content>

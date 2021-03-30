@@ -1,5 +1,9 @@
 <ws:if data="{{_options.viewMode === 'basic'}}">
-    <ws:partial template="{{_options.editorTemplate}}" scope="{{_options}}"/>
+    <div class="controls-FilterViewPanel__baseEditor-container">
+        <ws:partial template="{{_options.editorTemplate}}" scope="{{_options}}"/>
+        <div class="controls-FilterViewPanel__baseEditor-cross icon-CloseNew controls-FilterViewPanel__groupReset-icon"
+             on:click="_handleCloseEditorClick()"></div>
+    </div>
 </ws:if>
 <ws:else>
     <ws:partial template="{{_options.extendedCaption}}"/>

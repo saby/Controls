@@ -2,6 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/filterPanel/ViewMode/Index';
 import * as stackTemplate from 'wml!Controls-demo/filterPanel/resources/MultiSelectStackTemplate/StackTemplate';
 import {Memory} from 'Types/source';
+import {RecordSet} from 'Types/collection';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -23,6 +24,7 @@ export default class extends Control {
                 value: [],
                 textValue: '',
                 editorOptions: {
+                    searchParam: 'title',
                     source: new Memory({
                         data: [
                             { id: 1, title: 'Новиков Д.В.', owner: 'Новиков Д.В.' },
@@ -49,16 +51,39 @@ export default class extends Control {
                     }
                 }
             }, {
-                group: 'Без рабочих групп',
-                name: 'booleanEditor2',
-                editorTemplateName: 'Controls/filterPanel:LookupEditor',
-                resetValue: [],
-                viewMode: 'extended',
                 caption: '',
-                value: [],
-                textValue: '',
+                name: 'booleanEditor2',
+                editorTemplateName: 'Controls/filterPanel:BooleanEditor',
+                resetValue: false,
+                viewMode: 'extended',
+                value: false,
                 editorOptions: {
                     extendedCaption: 'Без рабочих групп'
+                }
+            }, {
+                group: 'Пол',
+                name: 'gender',
+                resetValue: '1',
+                caption: '',
+                viewMode: 'extended',
+                value: '1',
+                textValue: 'Мужской',
+                editorTemplateName: 'Controls/filterPanel:TumblerEditor',
+                editorOptions: {
+                    extendedCaption: 'Пол',
+                    items: new RecordSet({
+                        rawData: [
+                            {
+                                id: '1',
+                                caption: 'Мужской'
+                            },
+                            {
+                                id: '2',
+                                caption: 'Женский'
+                            }
+                        ],
+                        keyProperty: 'id'
+                    })
                 }
             }
         ];

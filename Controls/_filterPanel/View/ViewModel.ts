@@ -6,6 +6,7 @@ import {isEqual} from 'Types/object';
 import {VersionableMixin} from 'Types/entity';
 import {mixin} from 'Types/util';
 import {FilterUtils} from 'Controls/filter';
+import * as coreClone from 'Core/core-clone';
 
 interface IFilterViewModelOptions {
     source: IFilterItem[];
@@ -37,6 +38,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
     update(options: IFilterViewModelOptions): void {
         if (!isEqual(this._options.source, options.source)) {
             this._source = object.clone(options.source);
+            this._editingObject = this._getEditingObjectBySource(this._source);
             this._nextVersion();
         }
 
@@ -96,12 +98,27 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
                 this.collapseGroup(item.group);
             }
 
-            if (item.viewMode === 'extended' && !isEqual(item.value, item.resetValue)) {
+            if (editingItemProperty?.viewMode) {
+                item.viewMode = editingItemProperty?.viewMode;
+            } else if (item.viewMode === 'extended' && !isEqual(item.value, item.resetValue)) {
                 item.viewMode = 'basic';
             }
         });
         this._groupItems = this._getGroupItemsBySource(this._source);
         this._editingObject = this._getEditingObjectBySource(this._source);
+        this._nextVersion();
+    }
+
+    setEditingObjectValue(editorName: string, value: object): void {
+        const source = coreClone(this._source);
+        const item = source.find((item) => {
+            return item.name === editorName;
+        });
+        if (item.viewMode === 'extended') {
+            item.viewMode = 'basic';
+        }
+        item.value = value;
+        this._source = source;
         this._nextVersion();
     }
 

@@ -1,8 +1,6 @@
 <Controls._filterPanel.BaseEditor scope="{{_options}}">
     <ws:editorTemplate>
-        <Controls.lookup:Selector scope="{{_options}}"
-                                  bind:selectedKeys="_selectedKeys"
-                                  fontColorStyle="default"/>
+        <div> {{_options.extendedCaption}} </div>
     </ws:editorTemplate>
     <ws:extendedCaption>
         <ws:partial template="wml!Controls/_filterPanel/Editors/resources/ExtendedItemTemplate"

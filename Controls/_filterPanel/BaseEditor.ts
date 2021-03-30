@@ -5,4 +5,13 @@ import 'css!Controls/filterPanel';
 
 export default class View extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
+
+    protected _handleCloseEditorClick(): void {
+        const extendedValue = {
+            value: this._options.propertyValue,
+            textValue: '',
+            viewMode: 'extended'
+        };
+        this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
+    }
 }

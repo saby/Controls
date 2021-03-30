@@ -93,6 +93,10 @@ export default class View extends Control<IViewPanelOptions> {
         }
     }
 
+    protected _propertyValueChanged(event: SyntheticEvent, filterItem: IFilterItem, itemValue: object): void {
+        this._viewModel.setEditingObjectValue(filterItem.name, itemValue);
+    }
+
     protected _groupClick(e: SyntheticEvent, dispItem: GroupItem<Model>, clickEvent: SyntheticEvent<MouseEvent>): void {
         const itemContents = dispItem.getContents() as string;
         const isResetClick = clickEvent?.target.closest('.controls-FilterViewPanel__groupReset');
