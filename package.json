@@ -29,7 +29,7 @@
       "prepare": "npm run update-cli-store && npm run build:typescript"
    },
    "wasaby-cli": {
-      "port": 777
+      "port": 778
    },
    "dependencies": {},
    "devDependencies": {
