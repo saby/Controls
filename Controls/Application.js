@@ -317,7 +317,7 @@ define('Controls/Application',
             timeTester.load();
             if (this._isIOS13()) {
                window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
-               document.addEventListener('orientationchange', this._orientationChange);
+               window.addEventListener('orientationchange', this._orientationChange);
             }
             var channelPopupManager = EnvEvent.Bus.channel('popupManager');
             channelPopupManager.subscribe('managerPopupCreated', this._popupCreatedHandler, this);
