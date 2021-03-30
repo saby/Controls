@@ -1,0 +1,7 @@
+<div class="controlsDemo__EditingConfigEditor-wrapper">
+   <Controls.toggle:CheckboxGroup source="{{_source}}"
+                                  direction="vertical"
+                                  bind:selectedKeys="_selectedKeys"
+                                  on:selectedKeysChanged="_onSelectedKeysChanged()"
+                                  keyProperty="{{_keyProperty}}"/>
+</div>
