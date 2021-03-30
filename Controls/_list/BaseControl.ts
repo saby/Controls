@@ -915,9 +915,19 @@ const _private = {
                     const newMarkedKey = _private.getMarkerController(self).onCollectionReset();
                     _private.changeMarkedKey(self, newMarkedKey);
                 }
-                self._needScrollToFirstItem = false;
                 if (!_private.hasMoreData(self, self._sourceController, direction)) {
                     self._updateShadowModeHandler(self._shadowVisibility);
+                }
+
+                // Пересчитывать ромашки нужно сразу после загрузки, а не по событию add, т.к.
+                // например при порционном поиске последний запрос в сторону может подгрузить пустой список
+                // и событие add не сработает
+                if (direction === 'up') {
+                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
+                    // После подгрузки элементов, не нужно скроллить
+                    self._needScrollToFirstItem = false;
+                } else if (direction === 'down') {
+                    _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
                 }
 
                 // Скрываем ошибку после успешной загрузки данных
@@ -1743,16 +1753,6 @@ const _private = {
                     }
                 }
             }
-            if (action === IObservable.ACTION_ADD) {
-                // Если добавили элементы в начало, то проверяем верхний триггер, иначе нижний
-                if (newItemsIndex === 0) {
-                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
-                    // После подгрузки элементов, не нужно скроллить
-                    self._needScrollToFirstItem = false;
-                } else {
-                    _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
-                }
-            }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
@@ -2438,8 +2438,6 @@ const _private = {
             .add(`controls-BaseControl__loadingIndicator__state-${state}_theme-${theme}`)
             .add(`controls-BaseControl_empty__loadingIndicator__state-down_theme-${theme}`,
                 !hasItems && loadingIndicatorState === 'down')
-            .add(`controls-BaseControl_withPaging__loadingIndicator__state-down_theme-${theme}`,
-                loadingIndicatorState === 'down' && hasPaging && hasItems)
             .add(`controls-BaseControl__loadingIndicator_style-portionedSearch_theme-${theme}`,
                 isPortionedSearchInProgress)
             .compile();
@@ -6227,9 +6225,8 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
         const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
         // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
         const isAborted = _private.getPortionedSearch(this).isAborted();
-        return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator && !this._portionedSearchInProgress && !isAborted
-           : (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection) && !this._portionedSearchInProgress && !isAborted;
+        return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection)
+            && !this._portionedSearchInProgress && !isAborted;
     },
 
     _shouldDisplayTopPortionedSearch(): boolean {
