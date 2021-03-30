@@ -1,5 +1,5 @@
 define([
-   'Controls/_grid/utils/GridLayoutUtil',
+   'Controls/_gridOld/utils/GridLayoutUtil',
    'Env/Env',
    'Core/core-clone'
 ], function (Util, Env, cClone) {
