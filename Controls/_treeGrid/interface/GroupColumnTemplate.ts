@@ -1,7 +1,7 @@
 /**
  * Шаблон, который используется для отображения ячейки заголовка группы в {@link Controls/treeGridNew:View дереве} и {@link Controls/explorer:View иерархическом проводнике}.
  *
- * @class Controls/_treeGridNew/interface/GroupColumnTemplate
+ * @class Controls/_treeGrid/interface/GroupColumnTemplate
  * @mixes Controls/list:IBaseGroupTemplate
  * @author Аверкиев П.А.
  * @remark
@@ -10,7 +10,7 @@
  * 2) Необходимо подгружать данные группы по кнопке "Ещё".
  *
  * В обоих случаях работа с узлом-группой должна быть реализована через {@link Controls/grid:IColumn#template шаблон колонки}.
- * Прикладной программист указывает у списка в опции {@link Controls/_treeGridNew/interface/ITreeGrid#nodeTypeProperty nodeTypeProperty} имя свойства, которое отвечает за отображение узла в виде группы.
+ * Прикладной программист указывает у списка в опции {@link Controls/_treeGrid/interface/ITreeGrid#nodeTypeProperty nodeTypeProperty} имя свойства, которое отвечает за отображение узла в виде группы.
  * Для узлов, которые необходимо будет отобразить в виде групп, в этом поле должно лежать значение ‘group’. При любых других значениях запись будет отображена по обычным правилам на основе nodeProperty.
  *
  * Необходимо учесть, что применение данного типа группировки записей не совместимо с обычной группировкой, которая настраивается через groupProperty. Их нельзя использовать вместе.

@@ -1,8 +1,8 @@
 import {TemplateFunction} from 'UI/Base';
 import {GridView, GridLayoutUtil} from 'Controls/gridOld';
 
-import * as GridItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/grid/Item';
-import * as TableItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/table/Item';
+import * as GridItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/grid/Item';
+import * as TableItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/table/Item';
 
 var
     TreeGridView = GridView.extend({

@@ -76,7 +76,7 @@ export default class GroupRow<T> extends mixin<
         } else {
             this._groupTemplate = null;
         }
-        return 'Controls/gridNew:ItemTemplate';
+        return 'Controls/grid:ItemTemplate';
     }
 
     isSticked(): boolean {

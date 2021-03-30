@@ -1,25 +1,25 @@
 /**
  * Библиотека контролов, которые реализуют иерархический список, отображающийся в виде дерева.
  * @library Controls/treeGrid
- * @includes ItemTemplate Controls/_treeGrid/interface/ItemTemplate
- * @includes RowEditor Controls/_treeGrid/interface/RowEditor
+ * @includes ItemTemplate Controls/_treeGridOld/interface/ItemTemplate
+ * @includes RowEditor Controls/_treeGridOld/interface/RowEditor
  * @public
  * @author Крайнов Д.О.
  */
 
-import {default as View} from 'Controls/_treeGrid/View';
+import {default as View} from 'Controls/_treeGridOld/View';
 
 import { GridLayoutUtil } from 'Controls/gridOld';
-import GridLayoutItemTemplate = require('wml!Controls/_treeGrid/TreeGridView/layout/grid/Item');
-import TableLayoutItemTemplate = require('wml!Controls/_treeGrid/TreeGridView/layout/table/Item');
-import NodeFooterTemplate = require('wml!Controls/_treeGrid/TreeGridView/NodeFooterTemplate');
-import ViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');
+import GridLayoutItemTemplate = require('wml!Controls/_treeGridOld/TreeGridView/layout/grid/Item');
+import TableLayoutItemTemplate = require('wml!Controls/_treeGridOld/TreeGridView/layout/table/Item');
+import NodeFooterTemplate = require('wml!Controls/_treeGridOld/TreeGridView/NodeFooterTemplate');
+import ViewModel = require('Controls/_treeGridOld/TreeGridView/TreeGridViewModel');
 
-import SearchGridViewModel = require('Controls/_treeGrid/SearchView/SearchGridViewModel');
-import {SearchView, SearchItemTpl} from 'Controls/_treeGrid/SearchView';
-import * as SearchBreadCrumbsItemTemplate from 'wml!Controls/_treeGrid/SearchView/SearchBreadCrumbsItemTemplate';
-import TreeGridView = require('Controls/_treeGrid/TreeGridView/TreeGridView');
-import RowEditor = require('wml!Controls/_treeGrid/TreeGrid/RowEditor');
+import SearchGridViewModel = require('Controls/_treeGridOld/SearchView/SearchGridViewModel');
+import {SearchView, SearchItemTpl} from 'Controls/_treeGridOld/SearchView';
+import * as SearchBreadCrumbsItemTemplate from 'wml!Controls/_treeGridOld/SearchView/SearchBreadCrumbsItemTemplate';
+import TreeGridView = require('Controls/_treeGridOld/TreeGridView/TreeGridView');
+import RowEditor = require('wml!Controls/_treeGridOld/TreeGrid/RowEditor');
 
 // FIXME: при обычном условном присвоении шаблона tmpl = isAny ? tmpl1 : tmpl2, переменной один раз присвоится значение и не будет меняться.
 //  В таком случае возникает ошибка при открытии одной страницы из разных браузеров (Chrome и IE), с сервера всегда будет возвращаться один и тот же шаблон,
@@ -48,4 +48,4 @@ export {
     TreeGridView,
     RowEditor
 };
-export {IReloadableTreeGrid} from 'Controls/_treeGrid/interface/IReloadableTreeGrid';
+export {IReloadableTreeGrid} from 'Controls/_treeGridOld/interface/IReloadableTreeGrid';

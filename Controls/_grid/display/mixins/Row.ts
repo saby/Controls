@@ -19,7 +19,7 @@ import StickyLadderCell from '../StickyLadderCell';
 import CheckboxCell from '../CheckboxCell';
 import {TColspanCallback, TColspanCallbackResult} from './Grid';
 
-const DEFAULT_GRID_ROW_TEMPLATE = 'Controls/gridNew:ItemTemplate';
+const DEFAULT_GRID_ROW_TEMPLATE = 'Controls/grid:ItemTemplate';
 
 export interface IItemTemplateParams {
     highlightOnHover?: boolean,

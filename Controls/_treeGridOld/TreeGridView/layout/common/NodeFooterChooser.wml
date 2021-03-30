@@ -13,7 +13,7 @@
 </ws:if>
 <ws:else>
     <ws:for data="nodeFooter in nodeFooters">
-        <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterContent"
+        <ws:partial template="wml!Controls/_treeGridOld/TreeGridView/layout/common/NodeFooterContent"
                     footer="{{nodeFooter}}"
                     moreFontColorStyle="{{moreFontColorStyle}}"
                     on:click="_onNodeFooterClick(nodeFooter.dispItem)"

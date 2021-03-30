@@ -1,6 +1,6 @@
 import TreeGridView from './TreeGridView';
 import { TemplateFunction } from 'UI/Base';
-import * as TableItem from 'wml!Controls/_treeGridNew/render/table/Item';
+import * as TableItem from 'wml!Controls/_treeGrid/render/table/Item';
 import { TableTemplate } from 'Controls/gridNew';
 
 export default class TreeGridViewTable extends TreeGridView {

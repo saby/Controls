@@ -11,7 +11,7 @@ export interface IReloadableTreeGrid {
 }
 /**
  * Перезагружает данные дерева.
- * @name Controls/_treeGrid/interface/IReloadableTreeGrid#reload
+ * @name Controls/_treeGridOld/interface/IReloadableTreeGrid#reload
  * @function
  * @param {boolean} keepScroll Сохранить ли позицию скролла после перезагрузки.
  * @param {Controls/interface:INavigationOptionValue#sourceConfig} sourceConfig Конфигурация источника данных для перезагрузки.

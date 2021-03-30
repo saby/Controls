@@ -5,7 +5,7 @@ import IItemActionsCell from './interface/IItemActionsCell';
 export interface IOptions<T> extends ICellOptions<T> {
 }
 
-const DEFAULT_CELL_CONTENT = 'Controls/gridNew:ItemActionsCellContent';
+const DEFAULT_CELL_CONTENT = 'Controls/grid:ItemActionsCellContent';
 
 export default class ItemActionsCell<T> extends Cell<T, Row<T>> implements IItemActionsCell {
     readonly ItemActionsCell = true;

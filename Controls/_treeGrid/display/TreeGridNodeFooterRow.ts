@@ -51,7 +51,7 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     }
 
     getTemplate(): TemplateFunction | string {
-        return this._$owner.getNodeFooterTemplate() || 'Controls/treeGridNew:NodeFooterTemplate';
+        return this._$owner.getNodeFooterTemplate() || 'Controls/treeGrid:NodeFooterTemplate';
     }
 
     getNodeFooterTemplateMoreButton(): TemplateFunction {

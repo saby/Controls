@@ -4,7 +4,7 @@ import {
     getFooterIndex,
     getIndexByDisplayIndex, getIndexById, getIndexByItem,
     getResultsIndex, getTopOffset, IBaseTreeGridRowIndexOptions
-} from 'Controls/_treeGrid/utils/TreeGridRowIndexUtil';
+} from 'Controls/_treeGridOld/utils/TreeGridRowIndexUtil';
 import { TreeViewModel } from 'Controls/tree';
 
 
@@ -257,7 +257,7 @@ var
 
 
                 if (current.useNewNodeFooters) {
-                    footer.template = self._options.nodeFooterTemplate || 'wml!Controls/_treeGrid/TreeGridView/NodeFooterTemplate';
+                    footer.template = self._options.nodeFooterTemplate || 'wml!Controls/_treeGridOld/TreeGridView/NodeFooterTemplate';
                 }
 
                 footer.getColumnClasses = (index, tmplOptions = {}) => {

@@ -1,5 +1,5 @@
-import TreeGridViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');
-import SearchViewModel = require('Controls/_treeGrid/SearchView/SearchViewModel');
+import TreeGridViewModel = require('Controls/_treeGridOld/TreeGridView/TreeGridViewModel');
+import SearchViewModel = require('Controls/_treeGridOld/SearchView/SearchViewModel');
 import {Record} from 'Types/entity';
 
 var SearchGridViewModel = TreeGridViewModel.extend({

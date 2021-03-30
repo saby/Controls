@@ -4,11 +4,11 @@ import { TemplateFunction } from 'UI/Base';
 import {Logger} from 'UI/Utils';
 import { descriptor } from 'Types/entity';
 import { CrudEntityKey } from 'Types/source';
-import TreeGridView from 'Controls/_treeGridNew/TreeGridView';
-import TreeGridViewTable from 'Controls/_treeGridNew/TreeGridViewTable';
+import TreeGridView from 'Controls/_treeGrid/TreeGridView';
+import TreeGridViewTable from 'Controls/_treeGrid/TreeGridViewTable';
 import { Model } from 'Types/entity';
 import { isFullGridSupport } from 'Controls/display';
-import ITreeGrid, {IOptions as ITreeGridOptions} from 'Controls/_treeGridNew/interface/ITreeGrid';
+import ITreeGrid, {IOptions as ITreeGridOptions} from 'Controls/_treeGrid/interface/ITreeGrid';
 
 export default class TreeGrid extends Grid implements ITreeGrid {
     protected _viewName: TemplateFunction = null;

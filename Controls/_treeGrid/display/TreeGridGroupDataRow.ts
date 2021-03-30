@@ -1,4 +1,4 @@
-import TreeGridDataRow from 'Controls/_treeGridNew/display/TreeGridDataRow';
+import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
 import {GridCell, IGridDataCellOptions, IItemTemplateParams} from 'Controls/gridNew';
 import { Model } from 'Types/entity';
 import {IColumn} from 'Controls/_grid/interface/IColumn';

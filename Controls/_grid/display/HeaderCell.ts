@@ -33,7 +33,7 @@ interface ICellContentOrientation {
     valign: 'top' | 'center' | 'baseline' | 'bottom';
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:HeaderContent';
+const DEFAULT_CELL_TEMPLATE = 'Controls/grid:HeaderContent';
 
 const FIXED_HEADER_Z_INDEX = 4;
 const STICKY_HEADER_Z_INDEX = 3;

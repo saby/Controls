@@ -10,7 +10,7 @@ export interface IOptions<T> extends ICellOptions<T> {
     isFullColspan?: boolean;
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:EmptyColumnTemplate';
+const DEFAULT_CELL_TEMPLATE = 'Controls/grid:EmptyColumnTemplate';
 
 export default class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompatibility>(Cell, CellCompatibility) {
     protected _$isFullColspan: boolean;

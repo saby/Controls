@@ -1,4 +1,4 @@
-import * as Item from 'wml!Controls/_treeGridNew/render/grid/Item';
+import * as Item from 'wml!Controls/_treeGrid/render/grid/Item';
 
 import { GridView } from 'Controls/gridNew';
 import { TemplateFunction } from 'UI/Base';

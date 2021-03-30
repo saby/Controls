@@ -1,7 +1,7 @@
 import {Model} from 'Types/entity';
 import {mixin} from 'Types/util';
 import {GridGroupCellMixin, IGridRowOptions} from 'Controls/gridNew';
-import TreeGridDataCell from 'Controls/_treeGridNew/display/TreeGridDataCell';
+import TreeGridDataCell from 'Controls/_treeGrid/display/TreeGridDataCell';
 
 export default class TreeGridGroupDataCell<T extends Model>
     extends mixin<TreeGridDataCell<T>, GridGroupCellMixin<any>>(TreeGridDataCell, GridGroupCellMixin) {

@@ -1,7 +1,7 @@
 import {View as Grid} from 'Controls/gridOld';
-import TreeGridViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');
+import TreeGridViewModel = require('Controls/_treeGridOld/TreeGridView/TreeGridViewModel');
 import entity = require('Types/entity');
-import TreeGridView = require('Controls/_treeGrid/TreeGridView/TreeGridView');
+import TreeGridView = require('Controls/_treeGridOld/TreeGridView/TreeGridView');
 import { TreeControl } from 'Controls/tree';
 
 

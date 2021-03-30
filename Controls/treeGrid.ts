@@ -1,10 +1,10 @@
-import { default as View } from 'Controls/_treeGridNew/TreeGrid';
-import TreeGridView from 'Controls/_treeGridNew/TreeGridView';
+import { default as View } from 'Controls/_treeGrid/TreeGrid';
+import TreeGridView from 'Controls/_treeGrid/TreeGridView';
 
-import * as GroupColumnTemplate from 'wml!Controls/_treeGridNew/render/GroupCellContent';
-import * as GridItemTemplate from 'wml!Controls/_treeGridNew/render/grid/Item';
-import * as TableItemTemplate from 'wml!Controls/_treeGridNew/render/table/Item';
-import * as NodeFooterTemplate from 'wml!Controls/_treeGridNew/render/NodeFooterTemplate';
+import * as GroupColumnTemplate from 'wml!Controls/_treeGrid/render/GroupCellContent';
+import * as GridItemTemplate from 'wml!Controls/_treeGrid/render/grid/Item';
+import * as TableItemTemplate from 'wml!Controls/_treeGrid/render/table/Item';
+import * as NodeFooterTemplate from 'wml!Controls/_treeGrid/render/NodeFooterTemplate';
 
 // FIXME: при обычном условном присвоении шаблона tmpl = isAny ? tmpl1 : tmpl2, переменной один раз присвоится значение и не будет меняться.
 //  В таком случае возникает ошибка при открытии одной страницы из разных браузеров (Chrome и IE), с сервера всегда будет возвращаться один и тот же шаблон,
@@ -20,7 +20,7 @@ ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
 /**
- * @includes GroupColumnTemplate Controls/_treeGridNew/interface/GroupColumnTemplate
+ * @includes GroupColumnTemplate Controls/_treeGrid/interface/GroupColumnTemplate
  */
 
 export {
@@ -32,16 +32,16 @@ export {
 };
 
 import { register } from 'Types/di';
-import TreeGridCollection from 'Controls/_treeGridNew/display/TreeGridCollection';
-import TreeGridDataRow from 'Controls/_treeGridNew/display/TreeGridDataRow';
-import TreeGridDataCell from 'Controls/_treeGridNew/display/TreeGridDataCell';
-import TreeGridNodeFooterRow from 'Controls/_treeGridNew/display/TreeGridNodeFooterRow';
-import TreeGridNodeFooterCell from 'Controls/_treeGridNew/display/TreeGridNodeFooterCell';
-import TreeGridFooterRow from 'Controls/_treeGridNew/display/TreeGridFooterRow';
-import TreeGridFooterCell from 'Controls/_treeGridNew/display/TreeGridFooterCell';
+import TreeGridCollection from 'Controls/_treeGrid/display/TreeGridCollection';
+import TreeGridDataRow from 'Controls/_treeGrid/display/TreeGridDataRow';
+import TreeGridDataCell from 'Controls/_treeGrid/display/TreeGridDataCell';
+import TreeGridNodeFooterRow from 'Controls/_treeGrid/display/TreeGridNodeFooterRow';
+import TreeGridNodeFooterCell from 'Controls/_treeGrid/display/TreeGridNodeFooterCell';
+import TreeGridFooterRow from 'Controls/_treeGrid/display/TreeGridFooterRow';
+import TreeGridFooterCell from 'Controls/_treeGrid/display/TreeGridFooterCell';
 import { isFullGridSupport } from 'Controls/display';
-import TreeGridGroupDataRow from 'Controls/_treeGridNew/display/TreeGridGroupDataRow';
-import TreeGridGroupDataCell from 'Controls/_treeGridNew/display/TreeGridGroupDataCell';
+import TreeGridGroupDataRow from 'Controls/_treeGrid/display/TreeGridGroupDataRow';
+import TreeGridGroupDataCell from 'Controls/_treeGrid/display/TreeGridGroupDataCell';
 
 export {
     TreeGridFooterCell,

@@ -1,7 +1,7 @@
 import {View as Grid} from 'Controls/gridOld';
-import TreeGridViewModel = require('Controls/_treeGrid/TreeGridView/TreeGridViewModel');
+import TreeGridViewModel = require('Controls/_treeGridOld/TreeGridView/TreeGridViewModel');
 import entity = require('Types/entity');
-import TreeGridView = require('Controls/_treeGrid/TreeGridView/TreeGridView');
+import TreeGridView = require('Controls/_treeGridOld/TreeGridView/TreeGridView');
 import { TreeControl } from 'Controls/tree';
 import {CrudEntityKey} from 'Types/source';
 import { Model } from 'Types/entity';
@@ -17,7 +17,7 @@ import { Model } from 'Types/entity';
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_treeGrid.less переменные тем оформления treeGrid}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_list.less переменные тем оформления list}
  *
- * @class Controls/_treeGrid/View
+ * @class Controls/_treeGridOld/View
  * @extends Controls/_grid/Grid
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_list/interface/IClickableView
@@ -33,7 +33,7 @@ import { Model } from 'Types/entity';
  * @mixes Controls/_interface/IDraggable
  * @mixes Controls/_grid/interface/IGridControl
  * @mixes Controls/_grid/interface/IPropStorage
- * @mixes Controls/_treeGrid/interface/IReloadableTreeGrid
+ * @mixes Controls/_treeGridOld/interface/IReloadableTreeGrid
  *
  * @mixes Controls/_list/interface/IVirtualScrollConfig
  *
@@ -53,7 +53,7 @@ import { Model } from 'Types/entity';
  *    <li><a href="/materials/Controls-demo/app/Controls-demo%2FList%2FTree%2FSingleExpand">Tree with singleExpand option</a>.</li>
  * </ul>
  *
- * @class Controls/_treeGrid/View
+ * @class Controls/_treeGridOld/View
  * @extends Controls/_grid/Grid
  * @mixes Controls/_interface/ISource
  * @mixes Controls/interface/IPromisedSelectable
@@ -70,7 +70,7 @@ import { Model } from 'Types/entity';
  * @mixes Controls/_grid/interface/IGridControl
  * @mixes Controls/_grid/interface/IPropStorage
  * @mixes Controls/_list/interface/IVirtualScrollConfig
- * @mixes Controls/_treeGrid/interface/IReloadableTreeGrid
+ * @mixes Controls/_treeGridOld/interface/IReloadableTreeGrid
  *
  *
  * @public
@@ -110,7 +110,7 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
 
    /**
     * Возвращает следующую запись в проекции дерева.
-    * @function Controls/_treeGrid/View#getNextItem
+    * @function Controls/_treeGridOld/View#getNextItem
     * @param {String|Number} key Ключ записи, относительно которой нужно найти следующую запись.
     * @return {Model} Следующая запись.
     */
@@ -120,7 +120,7 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
 
    /**
     * Возвращает предыдущую запись в проекции дерева.
-    * @function Controls/_treeGrid/View#getPrevItem
+    * @function Controls/_treeGridOld/View#getPrevItem
     * @param {String|Number} key Ключ записи, относительно которой нужно найти предыдущую запись.
     * @return {Model} Предыдущая запись.
     */
@@ -141,7 +141,7 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
  * @variant custom Произвольное расположение иконки узла. При данном значении опции, шаблон иконки передается в прикладной шаблон и может быть выведен в любом месте записи.
  */
 /**
- * @name Controls/_treeGrid/View#expanderPosition
+ * @name Controls/_treeGridOld/View#expanderPosition
  * @cfg {Position} Расположение иконки для узла и скрытого узла.
  * @remark
  * Чтобы разместить иконку узла в произвольном месте пользовательского шаблона, сделайте следующее:
@@ -157,11 +157,11 @@ export default class Tree extends Grid/** @lends Controls/TreeGrid */ {
  * @markdown
  */
 /**
- * @name Controls/_treeGrid/View#root
+ * @name Controls/_treeGridOld/View#root
  * @cfg {Number|String} Идентификатор корневого узла.
  */
 /**
- * @name Controls/_treeGrid/View#markerMoveMode
+ * @name Controls/_treeGridOld/View#markerMoveMode
  * @cfg {String} режим перемещения маркера по кнопкам вверх/вниз.
  * @variant all - маркер движется по всем записям.
  * @variant leaves - маркер движется по листьям. Узлы раскрываются до ближайшего листа.

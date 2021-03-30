@@ -4,7 +4,7 @@ import { TemplateFunction } from 'UI/Base';
 import DataRow from './DataRow';
 import DataCell from './DataCell';
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:StickyLadderColumnTemplate';
+const DEFAULT_CELL_TEMPLATE = 'Controls/grid:StickyLadderColumnTemplate';
 
 export interface IOptions<T> extends ICellOptions<T> {
     wrapperStyle: string;

@@ -11,7 +11,7 @@ export interface IOptions<T> extends ICellOptions<T> {
     metaResults?: EntityModel;
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:ResultColumnTemplate';
+const DEFAULT_CELL_TEMPLATE = 'Controls/grid:ResultColumnTemplate';
 const FIXED_RESULTS_Z_INDEX = 4;
 const STICKY_RESULTS_Z_INDEX = 3;
 

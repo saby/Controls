@@ -1,6 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения элементов в {@link Controls/treeGrid:View дереве}.
- * @class Controls/_treeGrid/interface/ItemTemplate
+ * @class Controls/_treeGridOld/interface/ItemTemplate
  * @mixes Controls/list:IBaseItemTemplate
  * @author Авраменко А.С.
  * @see Controls/interface/ITreeGridItemTemplate#itemTemplate

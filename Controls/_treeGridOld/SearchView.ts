@@ -1,10 +1,10 @@
 import {TemplateFunction} from 'UI/Base';
 import {GridView, GridLayoutUtil} from 'Controls/gridOld';
-import SearchItemTpl = require('wml!Controls/_treeGrid/SearchView/Item');
+import SearchItemTpl = require('wml!Controls/_treeGridOld/SearchView/Item');
 import 'Controls/decorator';
-import 'wml!Controls/_treeGrid/SearchView/SearchBreadCrumbsContent';
-import * as GridItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/grid/Item';
-import * as TableItemTemplate from 'wml!Controls/_treeGrid/TreeGridView/layout/table/Item';
+import 'wml!Controls/_treeGridOld/SearchView/SearchBreadCrumbsContent';
+import * as GridItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/grid/Item';
+import * as TableItemTemplate from 'wml!Controls/_treeGridOld/TreeGridView/layout/table/Item';
 
 var
     SearchView = GridView.extend({

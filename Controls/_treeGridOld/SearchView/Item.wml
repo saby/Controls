@@ -4,7 +4,7 @@
                on:click="_onSearchItemClick(itemData.dispItem)"/>
 </ws:if>
 <ws:else data="{{itemData.dispItem && itemData.dispItem['[Controls/_display/SearchSeparator]']}}">
-   <ws:partial template="wml!Controls/_treeGrid/SearchView/SearchSeparatorTemplate" scope="{{_options}}"/>
+   <ws:partial template="wml!Controls/_treeGridOld/SearchView/SearchSeparatorTemplate" scope="{{_options}}"/>
 </ws:else>
 <ws:else>
    <ws:partial template="{{itemData.resolveItemTemplate(itemData)}}"
