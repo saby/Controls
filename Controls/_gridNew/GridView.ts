@@ -111,6 +111,10 @@ const GridView = ListView.extend({
         }
     },
 
+    resetColumnScroll(): void {
+        this._columnScrollViewController?.reset();
+    },
+
     _beforeUpdate(newOptions): void {
         GridView.superclass._beforeUpdate.apply(this, arguments);
 

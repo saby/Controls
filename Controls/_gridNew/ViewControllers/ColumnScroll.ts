@@ -76,6 +76,15 @@ export default class ColumnScroll {
         return this._columnScroll.getScrollPosition();
     }
 
+    reset(): void {
+        if (this._options.columnScrollStartPosition === 'start') {
+            this._setScrollPosition(0);
+        } else {
+            const { contentSize, containerSize } = this.getSizes();
+            this._setScrollPosition(contentSize - containerSize);
+        }
+    }
+
     getClasses(target: 'wrapper'): string;
     getClasses(target: 'content'): string;
     getClasses(target: 'overlay'): string;
@@ -347,6 +356,10 @@ export default class ColumnScroll {
     }
 
     onPositionChanged(newPosition: number): void {
+        this._setScrollPosition(newPosition);
+    }
+
+    _setScrollPosition(newPosition: number): void {
         this._columnScroll.setScrollPosition(newPosition);
         this._dragScroll?.setScrollPosition(this._columnScroll.getScrollPosition());
     }
