@@ -168,7 +168,7 @@ export default class Application extends Control<IApplication> {
       timeTester.load();
       if (Application._isIOS13()) {
          window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
-         document.addEventListener('orientationchange', this._orientationChange);
+         window.addEventListener('orientationchange', this._orientationChange);
       }
       window.addEventListener('resize', this._resizePage.bind(this))
       window.document.addEventListener('scroll', this._scrollPage.bind(this))
