@@ -3,7 +3,6 @@ import * as template from 'wml!Controls/_browser/resources/BrowserTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {ControllerClass as OperationsController} from 'Controls/operations';
 import {ControllerClass as SearchController} from 'Controls/search';
-import {default as BrowserController} from 'Controls/_browser/resources/BrowserController';
 import {IFilterItem} from 'Controls/filter';
 import * as filterLib from 'Controls/filter';
 import {IFilterControllerOptions, IFilterHistoryData} from 'Controls/_filter/ControllerClass';
@@ -130,14 +129,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     private _inputSearchValue: string = '';
     private _searchValue: string = '';
     private _misspellValue: string = '';
-    private _browserController: BrowserController;
 
     protected _beforeMount(options: IBrowserOptions,
                            context?: typeof ContextOptions,
                            receivedState?: TReceivedState): void | Promise<TReceivedState | Error | void> {
         this._initStates(options, receivedState);
         this._dataLoader = new DataLoader(this._getDataLoaderOptions(options, receivedState));
-        this._browserController = new BrowserController(this._dataLoader);
 
         if (Browser._checkLoadResult(Browser._getListsOptions(options), receivedState as IReceivedState[])) {
             this._updateFilterAndFilterItems();
@@ -274,7 +271,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             }
         }
 
-        const sourceController = this._browserController.getSourceController();
+        const sourceController = this._getSourceController();
         const isChanged = sourceController.updateOptions({...newOptions, ...this._getSourceControllerOptions()});
 
         if (searchValueOptionsChanged && searchValueChanged) {
@@ -311,7 +308,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         return this._getSearchController().then((searchController) => {
             const updateResult = searchController.update({
                 ...newOptions,
-                sourceController: this._browserController.getSourceController()
+                sourceController: this._getSourceController()
             });
 
             if (updateResult instanceof Promise) {
@@ -359,11 +356,21 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _setItemsAndUpdateContext(): void {
-        const sourceController = this._browserController.getSourceController();
+        const sourceController = this._getSourceController();
         // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
         this._items = sourceController.getItems();
         sourceController.subscribe('rootChanged', this._rootChanged.bind(this));
         this._updateContext();
+    }
+
+    protected _getSourceController(): SourceController {
+        return this._dataLoader.getSourceController();
+    }
+
+    protected _cancelLoading(): void {
+        this._dataLoader.each(({sourceController}) => {
+            sourceController?.cancelLoading();
+        });
     }
 
     private _getSearchController(): Promise<SearchController> {
@@ -432,7 +439,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _updateContext(): void {
-        const sourceControllerState = this._browserController.getSourceController().getState();
+        const sourceControllerState = this._getSourceController().getState();
         const contextState = {
             ...sourceControllerState,
             listConfigs: this._dataLoader.getState()
@@ -616,12 +623,39 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     protected _search(event: SyntheticEvent, value: string): Promise<Error|RecordSet[]|void> {
+        const searchPromises = [];
+
         this._inputSearchValue = value;
         this._loading = true;
         event?.stopPropagation();
-        return this._browserController.search(value).catch((error) => {
+        this._dataLoader.each((config, id) => {
+            if (config.searchParam) {
+                searchPromises.push(this._dataLoader.getSearchController(id).then((searchController) => {
+                    return searchController.search(value);
+                }));
+            }
+        });
+
+        return Promise.all(searchPromises).catch((error) => {
             return this._processSearchError(error);
         });
+    }
+
+    private _resetSearch(): void {
+        const configsCount = Object.keys(this._dataLoader.getState()).length;
+
+        if (configsCount > 1) {
+            this._dataLoader.each(({searchController}) => {
+                searchController.reset(Object.keys(this._dataLoader.getState()).length === 1);
+            });
+        } else {
+            const filter = this._getSearchControllerSync().reset(true);
+            if (!isEqual(this._filter, filter)) {
+                this._filterChanged(null, filter);
+            }
+        }
+
+        this._setSearchValue('');
     }
 
     protected _inputSearchValueChanged(event: SyntheticEvent, value: string): void {
@@ -641,20 +675,11 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _searchResetHandler(): Promise<void> {
-        this._browserController.cancelLoading();
+        this._cancelLoading();
         return this._getSearchController().then(() => {
             this._resetSearch();
             this._updateRootAfterSearch();
         });
-    }
-
-    private _resetSearch(): void {
-        this._browserController.resetSearch();
-        const filter = this._getSearchControllerSync().reset(true);
-        if (!isEqual(this._filter, filter)) {
-            this._filterChanged(null, filter);
-        }
-        this._setSearchValue('');
     }
 
     private _afterSearch(recordSet: RecordSet): void {
@@ -699,7 +724,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         }
 
         if (this._loading) {
-            this._afterSourceLoad(this._browserController.getSourceController(), this._options);
+            this._afterSourceLoad(this._getSourceController(), this._options);
             this._loading = false;
         }
 
@@ -733,7 +758,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     private _reload(options: IBrowserOptions): Promise<RecordSet> {
-        const sourceController = this._browserController.getSourceController();
+        const sourceController = this._getSourceController();
 
         this._loading = true;
         return sourceController.reload()
