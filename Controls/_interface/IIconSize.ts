@@ -26,7 +26,7 @@ export default interface IIconSize {
  * @variant default по-умолчанию
  * @remark
  * Размер иконки задается константой из стандартного набора размеров, который определен для текущей темы оформления.
- * @demo Controls-demo/Buttons/SizesAndHeights/Index
+ * @demo Controls-demo/toggle/Checkbox/Icon/Index
  * @example
  * Кнопка с размером иконки по умолчанию.
  * <pre class="brush: html">

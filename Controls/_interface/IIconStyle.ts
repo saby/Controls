@@ -31,7 +31,7 @@ export default interface IIconStyle {
  * @default secondary
  * @remark
  * Цвет иконки задается константой из стандартного набора цветов, который определен для текущей темы оформления.
- * @demo Controls-demo/Buttons/IconStyles/Index
+ * @demo Controls-demo/toggle/Checkbox/Icon/Index
  * @example
  * Кнопка с иконкой по умолчанию.
  * <pre class="brush: html">
