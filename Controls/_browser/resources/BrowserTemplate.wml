@@ -31,6 +31,7 @@
         on:listSelectedKeysChanged="_notifyHandler('selectedKeysChanged')"
         on:listExcludedKeysChanged="_notifyHandler('excludedKeysChanged')"
         on:listSelectedKeysCountChanged="_selectedKeysCountChanged()"
+        on:operationPanelItemClick="_operationPanelItemClick()"
         on:listSelectionTypeForAllSelectedChanged="_listSelectionTypeForAllSelectedChanged()"
         on:markedKeyChanged="_markedKeyChangedHandler()"
         on:selectedTypeChanged="_selectedTypeChangedHandler()"
