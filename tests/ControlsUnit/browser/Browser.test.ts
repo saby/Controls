@@ -814,4 +814,26 @@ describe('Controls/browser:Browser', () => {
         });
     });
 
+    it('resetPrefetch', async () => {
+        const filter = {
+            testField: 'testValue',
+            PrefetchSessionId: 'test'
+        };
+        let options = {...getBrowserOptions(), filter};
+        const browser = getBrowser(options);
+        await browser._beforeMount(options);
+        browser.saveOptions(options);
+
+        options = {...options};
+        options.source = new Memory();
+        const loadPromise = browser._beforeUpdate(options);
+
+        browser.resetPrefetch();
+        assert.ok(!!browser._filter.PrefetchSessionId);
+
+        await loadPromise;
+        browser.resetPrefetch();
+        assert.ok(!browser._filter.PrefetchSessionId);
+    });
+
 });
