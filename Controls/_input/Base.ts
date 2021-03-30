@@ -491,7 +491,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         return this._children[this._fieldName] as Field<String, IViewModelOptions>;
     }
 
-    protected _getReadOnlyField(): HTMLElement | undefined {
+    protected _getReadOnlyField(): HTMLElement | void {
         if (this._children.hasOwnProperty('readOnlyField')) {
             return this._children.readOnlyField as HTMLElement;
         } else {
@@ -527,7 +527,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     _getTooltip(): string {
         let hasFieldHorizontalScroll: boolean = false;
         const field = this._getField();
-        const readOnlyField: HTMLElement | undefined = this._getReadOnlyField();
+        const readOnlyField: HTMLElement | void = this._getReadOnlyField();
 
         if (field) {
             hasFieldHorizontalScroll = field.hasHorizontalScroll();
