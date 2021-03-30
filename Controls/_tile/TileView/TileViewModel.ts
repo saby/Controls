@@ -288,31 +288,24 @@ var TileViewModel = ListViewModel.extend({
         let rightSpacingClass = '';
         let bottomSpacingClass = '';
         let topSpacingClass = '';
-        if (this._options.itemsContainerPadding) {
-            const itemsContainerPadding = this.getPadding('itemsContainerPadding');
-            this.preparePadding(AVAILABLE_ITEM_PADDINGS, itemPadding);
-            if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(itemsContainerPadding.top)) {
-                itemsContainerPadding.top = 'default';
-            }
-            if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(itemsContainerPadding.bottom)) {
-                itemsContainerPadding.bottom = 'default';
-            }
-            if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.left)) {
-                itemsContainerPadding.left = 'default';
-            }
-            if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.right)) {
-                itemsContainerPadding.right = 'default';
-            }
-            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}${theme}`;
-            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}${theme}`;
-            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}${theme}`;
-            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}${theme}`;
-        } else {
-            leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemPadding.left}${theme}`;
-            rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemPadding.right}${theme}`;
-            topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemPadding.top}${theme}`;
-            bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemPadding.bottom}${theme}`;
+        const itemsContainerPadding = this.getPadding('itemsContainerPadding');
+        this.preparePadding(AVAILABLE_ITEM_PADDINGS, itemPadding);
+        if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(itemsContainerPadding.top)) {
+            itemsContainerPadding.top = 'default';
         }
+        if (!AVAILABLE_CONTAINER_VERTICAL_PADDINGS.includes(itemsContainerPadding.bottom)) {
+            itemsContainerPadding.bottom = 'default';
+        }
+        if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.left)) {
+            itemsContainerPadding.left = 'default';
+        }
+        if (!AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS.includes(itemsContainerPadding.right)) {
+            itemsContainerPadding.right = 'default';
+        }
+        leftSpacingClass = `controls-TileView__itemsPaddingContainer_spacingLeft_${itemsContainerPadding.left}_itemPadding_${itemPadding.left}${theme}`;
+        rightSpacingClass = `controls-TileView__itemsPaddingContainer_spacingRight_${itemsContainerPadding.right}_itemPadding_${itemPadding.right}${theme}`;
+        topSpacingClass = `controls-TileView__itemsPaddingContainer_spacingTop_${itemsContainerPadding.top}_itemPadding_${itemPadding.top}${theme}`;
+        bottomSpacingClass = `controls-TileView__itemsPaddingContainer_spacingBottom_${itemsContainerPadding.bottom}_itemPadding_${itemPadding.bottom}${theme}`;
         return `${leftSpacingClass} ${rightSpacingClass} ${topSpacingClass} ${bottomSpacingClass}`;
     },
 

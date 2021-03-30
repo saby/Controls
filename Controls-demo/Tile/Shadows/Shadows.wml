@@ -10,7 +10,7 @@
                         <ws:partial
                                 shadowVisibility="{{itemTemplate.itemData.item.isShadow === false ? 'hidden'}}"
                                 template="Controls/tile:ItemTemplate"
-                                hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+                                hasTitle="{{false}}"/>
                 </ws:itemTemplate>
         </Controls.tile:View>
 </div>
