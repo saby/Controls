@@ -866,8 +866,15 @@ var
                 this._options.hasChildrenProperty = hasChildrenProperty;
             }
         },
-        getChildren: function(rootId, items) {
-            return this._hierarchyRelation.getChildren(rootId, items || this._items);
+        getChildren: function(root, withFilter, items) {
+            const rootId = root.getContents().getKey();
+            const childrenRecords = this._hierarchyRelation.getChildren(rootId, items || this._items);
+            return childrenRecords.map((it) => {
+                const display = this.getDisplay();
+                return display.createItem({
+                    contents: it
+                });
+            });
         },
         thereIsChildItem(): boolean {
             return this._thereIsChildItem;
