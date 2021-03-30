@@ -384,8 +384,8 @@ var
             };
         },
 
-        getChildren(nodeKey, items) {
-            return this._model.getChildren(nodeKey, items);
+        getChildren(node, withFilter, items) {
+            return this._model.getChildren(node, withFilter, items);
         },
 
         getDisplayChildrenCount(nodeKey, items) {

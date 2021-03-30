@@ -180,6 +180,11 @@ var TileViewModel = ListViewModel.extend({
         this._nextModelVersion();
     },
 
+    setTileWidth(width: number): void {
+        this._options.tileWidth = width;
+        this._nextModelVersion();
+    },
+
     setRoundBorder(value): void {
         this._options.roundBorder = value;
         this._nextModelVersion();

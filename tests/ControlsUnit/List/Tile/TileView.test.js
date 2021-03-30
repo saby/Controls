@@ -40,7 +40,8 @@ define(['Controls/_tile/TileView/TileView',
          cfg = {
             listModel: treeTileViewModel,
             keyProperty: 'id',
-            tileScalingMode: 'outside'
+            tileScalingMode: 'outside',
+            tileWidth: 200
          };
          tileView = new TileView(cfg);
          tileView.saveOptions(cfg);
@@ -511,10 +512,12 @@ define(['Controls/_tile/TileView/TileView',
       it('_beforeUpdate', function() {
          tileView._beforeUpdate({
             tileMode: 'dynamic',
-            tileHeight: 200
+            tileHeight: 200,
+            tileWidth: 400
          });
          assert.equal(tileView._listModel.getTileMode(), 'dynamic');
          assert.equal(tileView._listModel.getItemsHeight(), 200);
+         assert.equal(tileView._listModel._tileModel._options.tileWidth, 400);
       });
 
       it('_onResize', function() {
