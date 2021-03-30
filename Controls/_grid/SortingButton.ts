@@ -1,5 +1,5 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import template = require('wml!Controls/_grid/SortingResources/SortingButton');
+import template = require('wml!Controls/_grid/Render/SortingButton/SortingButton');
 
 export interface ISortingButtonOptions extends IControlOptions {
     property: string;
@@ -10,10 +10,10 @@ export interface ISortingButtonOptions extends IControlOptions {
  * @class Controls/_grid/SortingButton
  * @extends UI/Base:Control
  * @mixes Controls/_grid/SortingButton/Styles
- * 
+ *
  * @private
- * 
- * @see Controls/grid:SortingSelector
+ *
+ * @see Controls/gridNew:SortingSelector
  */
 class SortingButton extends Control<ISortingButtonOptions> {
     protected _template: TemplateFunction = template;

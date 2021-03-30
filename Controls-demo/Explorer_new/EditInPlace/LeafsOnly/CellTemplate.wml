@@ -1,9 +1,9 @@
 <ws:if data="{{ itemData.item['parent@'] !== null }}">
-    <ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}"
+    <ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}"
                 attr:class="js-controls-ListView__notEditable"/>
 </ws:if>
 <ws:else>
-<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}">
     <ws:contentTemplate>
         <ws:partial template="Controls/list:EditingTemplate"
                     value="{{ itemData.item['title'] }}"

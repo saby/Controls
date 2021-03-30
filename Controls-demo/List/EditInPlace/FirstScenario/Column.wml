@@ -1,5 +1,5 @@
 <ws:if data="{{itemData.columnIndex >= 2}}">
-   <ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
+   <ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
       <ws:contentTemplate>
          <div class="controlsDemo_EditInPlace__scenarios__editorWrapper controls-EditingTemplateText__editorWrapper controls-EditingTemplateText__editorWrapper_align_{{itemData.column.align ? itemData.column.align : 'left'}}">
             <ws:if data="{{itemData.isEditing()}}">
@@ -20,7 +20,7 @@
    </ws:partial>
 </ws:if>
 <ws:else>
-   <ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
+   <ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
       <ws:contentTemplate>
          <ws:partial template="Controls/list:EditingTemplate"
                      attr:class="ControlsDemo-EipScenarios__editorWrapper"

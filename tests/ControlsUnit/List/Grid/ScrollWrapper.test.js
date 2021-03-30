@@ -1,4 +1,4 @@
-define(['Controls/_grid/ScrollWrapper'], function(ScrollWrapper) {
+define(['Controls/_gridOld/ScrollWrapper'], function(ScrollWrapper) {
    describe('calculating grid header offsets with protected method _getGridStyles()', function() {
       let wrapper;
       let options;

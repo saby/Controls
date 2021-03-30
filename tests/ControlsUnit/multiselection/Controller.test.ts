@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { FlatSelectionStrategy, SelectionController, TreeSelectionStrategy, ISelectionItem } from 'Controls/multiselection';
 import { ListViewModel } from 'Controls/list';
 import { RecordSet } from 'Types/collection';
-import { SearchGridViewModel} from 'Controls/treeGrid';
+import { SearchGridViewModel} from 'Controls/treeGridOld';
 import { Collection, CollectionItem, Tree } from 'Controls/display';
 import { Model } from 'Types/entity';
 import * as ListData from 'ControlsUnit/ListData';

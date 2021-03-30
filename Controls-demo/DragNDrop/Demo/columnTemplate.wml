@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:ColumnTemplate" expanderSize="xl" itemData="{{itemData}}">
+<ws:partial template="Controls/gridOld:ColumnTemplate" expanderSize="xl" itemData="{{itemData}}">
    <ws:contentTemplate>
       <div class="demo-DragNDrop__explorerItem">
          <ws:if data="{{itemData.dispItem.isNode()}}">
