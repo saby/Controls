@@ -435,7 +435,7 @@ define(
          });
 
          it('loadDependencies, load rejected', async() => {
-            let errorCatched = false;
+            let actualError = false;
             const controller = getDropdownController(config);
 
             sandbox.replace(controller, '_getLoadItemsPromise', () => {
@@ -451,10 +451,10 @@ define(
             });
 
             // items is loaded, loadItemsTemplates was called
-            await controller.loadDependencies().then(() => {}, () => {
-               errorCatched = true;
+            await controller.loadDependencies().then(() => {}, (error) => {
+               actualError = error;
             });
-            assert.isTrue(errorCatched);
+            assert.equal(actualError, 'error');
          });
 
          it('check empty item update', () => {
@@ -491,6 +491,25 @@ define(
                emptyKey: 100,
                selectedItemsChangedCallback: selectedItemsChangedCallback});
             assert.deepEqual(selectedItems, [null]);
+
+            // emptyText + selectedKeys = [123]
+            dropdownController._updateSelectedItems({
+               selectedKeys: [123],
+               keyProperty: 'id',
+               emptyText: 'text',
+               selectedItemsChangedCallback: selectedItemsChangedCallback
+            });
+            assert.deepEqual(selectedItems, [null]);
+
+            // emptyText + selectedKeys = [undefined] (combobox)
+            dropdownController._updateSelectedItems({
+               selectedKeys: [undefined],
+               keyProperty: 'id',
+               emptyText: 'text',
+               emptyKey: null,
+               selectedItemsChangedCallback: selectedItemsChangedCallback
+            });
+            assert.deepEqual(selectedItems, []);
 
             // selectedKeys = []
             let newItems = new collection.RecordSet({

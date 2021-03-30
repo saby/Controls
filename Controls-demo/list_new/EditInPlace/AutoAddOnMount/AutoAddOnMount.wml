@@ -9,7 +9,7 @@
                     <ws:contentTemplate>
                         <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.title }}">
                             <ws:editorTemplate>
-                                <Controls.input:Text attr:style="max-width: calc(100% - 61px)" bind:value="itemTemplate.itemData.item.title"/>
+                                <Controls.input:Text contrastBackground="{{true}}" attr:style="max-width: calc(100% - 61px)" bind:value="itemTemplate.itemData.item.title"/>
                             </ws:editorTemplate>
                         </ws:partial>
                     </ws:contentTemplate>
@@ -29,7 +29,7 @@
                     <ws:contentTemplate>
                         <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.title }}">
                             <ws:editorTemplate>
-                                <Controls.input:Text attr:style="max-width: calc(100% - 61px)" bind:value="itemTemplate.itemData.item.title"/>
+                                <Controls.input:Text contrastBackground="{{true}}" attr:style="max-width: calc(100% - 61px)" bind:value="itemTemplate.itemData.item.title"/>
                             </ws:editorTemplate>
                         </ws:partial>
                     </ws:contentTemplate>
@@ -47,7 +47,7 @@
                     <ws:contentTemplate>
                         <ws:partial template="Controls/list:EditingTemplate" value="{{ itemTemplate.itemData.item.title }}">
                             <ws:editorTemplate>
-                                <Controls.input:Text attr:style="max-width: calc(100% - 61px)" bind:value="itemTemplate.itemData.item.title"/>
+                                <Controls.input:Text contrastBackground="{{true}}" attr:style="max-width: calc(100% - 61px)" bind:value="itemTemplate.itemData.item.title"/>
                             </ws:editorTemplate>
                         </ws:partial>
                     </ws:contentTemplate>

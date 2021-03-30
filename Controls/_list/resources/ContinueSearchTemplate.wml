@@ -25,8 +25,8 @@
             controls-BaseControl__continueSearch_theme-{{_options.theme}}
             {{ _options.pagingVisible ? ('controls-BaseControl_withPaging__continueSearch_theme-' + _options.theme) }}
             ws-justify-content-center">
-    <div class="controls-BaseControl__loadingIndicatorImg controls-BaseControl__loadingIndicatorImg-wrapper_theme-default
-    controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch_theme-default">
+    <div class="controls-BaseControl__loadingIndicatorImg controls-BaseControl__loadingIndicatorImg-wrapper_theme-{{_options.theme}}
+    controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch_theme-{{_options.theme}}">
         <ws:if data="{{_options.footerTemplate}}">
             <ws:partial template="searchWithFooter"/>
         </ws:if>

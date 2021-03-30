@@ -27,45 +27,39 @@ define([
          describe('Styles', function() {
             [{
                options: {
-                  viewMode: 'selector',
-                  theme: 'default'
+                  viewMode: 'selector'
                },
-               styleClass: ' controls-DateLinkView__style-clickable_theme-default controls-DateLinkView__style-hover_theme-default',
+               styleClass: ' controls-DateLinkView__style-clickable controls-DateLinkView__style-hover',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'selector',
-                  fontColorStyle: 'label',
-                  theme: 'default'
+                  fontColorStyle: 'label'
                },
-               styleClass: ' controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-DateLinkView__style-clickable',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'selector',
-                  clickable: false,
-                  theme: 'default'
+                  clickable: false
                },
-               styleClass: ' controls-DateLinkView__style-hover_theme-default'
+               styleClass: ' controls-DateLinkView__style-hover'
             }, {
                options: {
-                  viewMode: 'link',
-                  theme: 'default'
+                  viewMode: 'link'
                },
-               styleClass: ' controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-DateLinkView__style-clickable',
                valueEnabledClass: true
             }, {
                options: {
                   viewMode: 'link',
-                  fontColorStyle: 'unaccented',
-                  theme: 'default'
+                  fontColorStyle: 'unaccented'
                },
-               styleClass: ' controls-DateLinkView__style-clickable_theme-default',
+               styleClass: ' controls-DateLinkView__style-clickable',
                valueEnabledClass: true
             }, {
                options: {
-                  viewMode: 'label',
-                  theme: 'default'
+                  viewMode: 'label'
                },
                styleClass: null,
                valueEnabledClass: true
@@ -83,77 +77,65 @@ define([
             [{
                options: {
                   viewMode: 'selector',
-                  clickable: false,
-                  theme: 'default'
+                  clickable: false
                },
                newOptions: {
-                  viewMode: 'link',
-                  theme: 'default'
+                  viewMode: 'link'
                },
                valueEnabledClass: true,
-               styleClass: ' controls-DateLinkView__style-clickable_theme-default'
+               styleClass: ' controls-DateLinkView__style-clickable'
             }, {
                options: {
                   viewMode: 'link',
-                  clickable: true,
-                  theme: 'default',
+                  clickable: true
                },
                newOptions: {
-                  viewMode: 'selector',
-                  theme: 'default'
+                  viewMode: 'selector'
                },
                valueEnabledClass: true,
-               styleClass: ' controls-DateLinkView__style-clickable_theme-default controls-DateLinkView__style-hover_theme-default'
+               styleClass: ' controls-DateLinkView__style-clickable controls-DateLinkView__style-hover'
             }, {
                options: {
                   viewMode: 'selector',
-                  clickable: false,
-                  theme: 'default'
+                  clickable: false
                },
                newOptions: {
                   viewMode: 'selector',
-                  clickable: false,
-                  theme: 'default'
+                  clickable: false
                },
-               styleClass: ' controls-DateLinkView__style-hover_theme-default'
+               styleClass: ' controls-DateLinkView__style-hover'
             }, {
                options: {
                   viewMode: 'selector',
                   clickable: false,
-                  theme: 'default',
                   valueEnabledClass: false
                },
                newOptions: {
                   viewMode: 'selector',
                   clickable: false,
-                  theme: 'default',
                   valueEnabledClass: true
                },
-               styleClass: ' controls-DateLinkView__style-hover_theme-default'
+               styleClass: ' controls-DateLinkView__style-hover'
             }, {
                options: {
                   viewMode: 'selector',
                   clickable: false,
-                  theme: 'default',
                   valueEnabledClass: false
                },
                newOptions: {
                   viewMode: 'selector',
                   clickable: false,
-                  theme: 'default',
                   valueEnabledClass: true
                },
-               styleClass: ' controls-DateLinkView__style-hover_theme-default'
+               styleClass: ' controls-DateLinkView__style-hover'
             }, {
                options: {
                   viewMode: 'selector',
-                  clickable: false,
-                  theme: 'default'
+                  clickable: false
                },
                newOptions: {
                   viewMode: 'label',
-                  clickable: false,
-                  theme: 'default'
+                  clickable: false
                },
                styleClass: null
             }].forEach(function(test, testNumber) {

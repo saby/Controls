@@ -165,11 +165,15 @@ const _private = {
         const fakeDiv = _private.getFakeDiv();
         fakeDiv.className = item.popupOptions.className;
 
-        const styles = fakeDiv.currentStyle || window.getComputedStyle(fakeDiv);
+        const styles = this.getContainerStyles(fakeDiv);
         return {
             top: parseFloat(styles.marginTop),
             left: parseFloat(styles.marginLeft)
         };
+    },
+
+    getContainerStyles(container: Element): object {
+        return window.getComputedStyle(container);
     },
 
     /**

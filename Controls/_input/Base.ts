@@ -668,7 +668,8 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
             fontSize: 'm',
             fontColorStyle: 'default',
             spellCheck: true,
-            selectOnClick: false
+            selectOnClick: false,
+            contrastBackground: false
         };
     }
 

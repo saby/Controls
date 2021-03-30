@@ -1,4 +1,4 @@
-<div config="{{_options.__$config}}" data-component="{{_moduleName}}" class="{{_className}} controls_theme-{{_options.theme}}" hasMarkup="true"
+<div config="{{_options.__$config}}" data-component="{{_moduleName}}" class="{{_className}}" hasMarkup="true"
      on:close="closeHandler()" on:keydown="_keyDown()" on:keyup="_keyUp()"
      on:mouseenter="_mouseenterHandler()" on:mouseleave="_mouseleaveHandler()">
    <ws:if data="{{_options.type === 'base'}}">

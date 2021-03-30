@@ -7,10 +7,13 @@
         <ws:editorTemplate>
             <Controls.validate:InputContainer name="InputValidate">
                 <ws:validators>
-                    <ws:Function value="{{itemData.item[itemData.column.displayProperty || 'title']}}">Controls/validate:isEmail</ws:Function>
+                    <ws:Array>
+                        <ws:Function value="{{itemData.item[itemData.column.displayProperty || 'title']}}">Controls/validate:isEmail</ws:Function>
+                        <ws:Function changed="{{itemData.item.getState()}}">Controls-demo/grid/EditInPlace/Validation/Index:ChangedChecker</ws:Function>
+                    </ws:Array>
                 </ws:validators>
                 <ws:content>
-                    <Controls.input:Text bind:value="itemData.item[itemData.column.displayProperty || 'title']"
+                    <Controls.input:Text contrastBackground="{{true}}" bind:value="itemData.item[itemData.column.displayProperty || 'title']"
                                          selectOnClick="{{ false }}" />
                 </ws:content>
             </Controls.validate:InputContainer>

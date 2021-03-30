@@ -61,7 +61,6 @@
    });
 }
 
-.controls-Area__footer,
 .controls-Area__field_margin-xs {
    margin: var(--padding-vertical_inputArea) var(--padding-horizontal_inputText) 0 var(--padding-horizontal_inputText);
    // Для нижнего отступа используем padding потому что в firefox, в отличии от других браузеров,
@@ -98,16 +97,17 @@
    .for(@countSupportLines * length(@sizes), {
       @lines: mod(@_i - 1, @countSupportLines) + 1;
       @size: extract(@sizes, ceil(@_i / @countSupportLines));
-      @sizeLines: calc(@lines * ~"var(--line-height_@{size}_inputArea)");
+      // ei не умеет внутри calc вычислять calc
+      @sizeLines: ~"@{lines} * var(--line-height_@{size}_inputArea)";
 
       .controls-Area__minHeight_countLines_@{lines}_size_@{size} {
-         min-height: @sizeLines;
+         min-height: calc(@sizeLines);
       }
       .controls-Area__scroll.controls-Area__minHeight_countLines_@{lines}_size_@{size}_indented {
-         min-height: calc(@sizeLines + (2 * var(--padding-vertical_inputArea)));
+         min-height: calc((@sizeLines) + (2 * var(--padding-vertical_inputArea)));
       }
       .controls-Area__scroll.controls-Area__maxHeight_countLines_@{lines}_size_@{size}_indented {
-         max-height: calc(@sizeLines + (2 * var(--padding-vertical_inputArea)));
+         max-height: calc((@sizeLines) + (2 * var(--padding-vertical_inputArea)));
       }
    });
 }

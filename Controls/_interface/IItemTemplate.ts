@@ -5,7 +5,7 @@ export interface IItemTemplateOptions {
      * @name Controls/_interface/IItemTemplate#itemTemplateProperty
      * @cfg {String} Имя свойства, содержащего ссылку на шаблон элемента. Если значение свойства не передано, то для отрисовки используется itemTemplate.
      */
-    itemTemplateProperty: string;
+    itemTemplateProperty?: string;
     /**
      * @name Controls/_interface/IItemTemplate#itemTemplate
      * @cfg {TemplateFunction} Шаблон элемента списка.
@@ -35,7 +35,7 @@ export interface IItemTemplateOptions {
      * </Controls.list:View>
      * </pre>
      */
-    itemTemplate: TemplateFunction;
+    itemTemplate?: TemplateFunction;
 }
 
 /**

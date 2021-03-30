@@ -404,6 +404,16 @@ define([
                assert(dateUtils.Base.isDatesEqual(component._displayedDate, test.displayedDate));
             });
          });
+         it('should call stateChangedCallback', () => {
+            let callbackCalled = false;
+            const stateChangedCallback = () => {
+               callbackCalled = true;
+            };
+            const component = calendarTestUtils.createComponent(PeriodDialog.default, { stateChangedCallback });
+            component._toggleStateClick();
+
+            assert.isTrue(callbackCalled);
+         });
       });
 
       describe('_yearsRangeChanged', function() {

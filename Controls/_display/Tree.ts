@@ -480,11 +480,25 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         return this._$nodeProperty;
     }
 
+    setNodeProperty(nodeProperty: string): void {
+        if (this._$nodeProperty !== nodeProperty) {
+            this._$nodeProperty = nodeProperty;
+            this._nextVersion();
+        }
+    }
+
     /**
      * Возвращает название свойства, содержащего дочерние элементы узла
      */
     getChildrenProperty(): string {
         return this._$childrenProperty;
+    }
+
+    setChildrenProperty(childrenProperty: string): void {
+        if (this._$childrenProperty !== childrenProperty) {
+            this._$childrenProperty = childrenProperty;
+            this._nextVersion();
+        }
     }
 
     /**
@@ -607,7 +621,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._expandedItems, expandedKeys);
         diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(false));
 
-        this._expandedItems = expandedKeys;
+        this._expandedItems = [...expandedKeys];
         if (expandedKeys[0] === null) {
             const expandAllChildesNodes = (parent) => {
                 if (!parent['[Controls/_display/TreeItem]']) {
@@ -643,7 +657,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         const diff = ArraySimpleValuesUtil.getArrayDifference(this._collapsedItems, collapsedKeys);
         diff.removed.forEach((it) => this.getItemBySourceKey(it)?.setExpanded(true));
 
-        this._collapsedItems = collapsedKeys;
+        this._collapsedItems = [...collapsedKeys];
 
         collapsedKeys.forEach((key) => {
             const item = this.getItemBySourceKey(key);
@@ -876,7 +890,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 let item;
                 while (enumerator.moveNext()) {
                     item = enumerator.getCurrent();
-                    if (!(item instanceof TreeItem) && !(item['[Controls/_display/BreadcrumbsItem]'])) {
+                    if (
+                        item['[Controls/treeGrid:TreeGridNodeFooterRow]'] ||
+                        !(item instanceof TreeItem) && !(item['[Controls/_display/BreadcrumbsItem]'])
+                    ) {
                         continue;
                     }
                     if (item.getParent() === parent) {
@@ -934,7 +951,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
 
     // region HasNodeWithChildren
 
-    private _recountHasNodeWithChildren(): void {
+    protected _recountHasNodeWithChildren(): void {
         if (!this.getCount()) {
             return;
         }
@@ -944,7 +961,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         let hasNodeWithChildren = false;
         for (let i = 0; i < itemsInRoot.getCount(); i++) {
             const item = itemsInRoot.at(i);
-            if (item.isNode() && item.isHasChildren()) {
+            if (item.isNode() !== null && item.isHasChildren()) {
                 hasNodeWithChildren = true;
                 break;
             }
@@ -963,6 +980,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
             });
             this._nextVersion();
         }
+    }
+
+    hasNodeWithChildren(): boolean {
+        return this._hasNodeWithChildren;
     }
 
     // endregion HasNodeWithChildren

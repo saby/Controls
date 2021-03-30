@@ -339,9 +339,11 @@
    .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
       background-color: @item_hover_background-color_list;
    }
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default,
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack,
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
@@ -392,7 +394,6 @@
 .ws-is-hover .controls-BaseControl_showActions_visible .controls-Grid__row,
 .ws-is-hover .controls-BaseControl_showActions_delayed .controls-Grid__row:hover,
 .ws-is-hover .controls-BaseControl_showActions_onhover .controls-Grid__row:hover {
-   .controls-Grid__editArrow-blur_theme-@{themeName},
    .controls-Grid__editArrow-wrapper_theme-@{themeName} {
       visibility: visible;
    }
@@ -834,6 +835,7 @@
    .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;
    }
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master,
    .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;
    }
@@ -894,7 +896,6 @@
    align-items: center;
 }
 
-.controls-Grid__editArrow-blur_theme-@{themeName},
 .controls-Grid__editArrow-wrapper_theme-@{themeName} {
    visibility: hidden;
 }
@@ -937,6 +938,7 @@
    min-width: @edit-arrow_icon-size_grid;
    display: inline-flex;
    align-items: baseline;
+   cursor: pointer;
 }
 
 .controls-Grid__editArrow-blur_style-default_background_theme-default:before,

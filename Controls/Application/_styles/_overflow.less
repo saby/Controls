@@ -1,0 +1,47 @@
+.ws-ellipsis {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+}
+
+.ws-line-clamp {
+   display: -webkit-box;
+   overflow: hidden;
+   -ms-box-orient: vertical;
+   -moz-box-orient: vertical;
+   -webkit-box-orient: vertical;
+}
+
+.ws-line-clamp_2 {
+   -ms-line-clamp: 2;
+   -moz-line-clamp: 2;
+   -webkit-line-clamp: 2;
+}
+
+.ws-line-clamp_3 {
+   -ms-line-clamp: 3;
+   -moz-line-clamp: 3;
+   -webkit-line-clamp: 3;
+}
+
+.ws-line-clamp_4 {
+   -ms-line-clamp: 4;
+   -moz-line-clamp: 4;
+   -webkit-line-clamp: 4;
+}
+
+// Совместимость для IE, потому что в нём не поддеживается line-clamp
+.ws-is-ie {
+   .ws-line-clamp_2 {
+      max-height: calc(var(--line-height_m_inputArea) * 2);
+   }
+
+   .ws-line-clamp_3 {
+      max-height: calc(var(--line-height_m_inputArea) * 3);
+   }
+
+   .ws-line-clamp_4 {
+      max-height: calc(var(--line-height_m_inputArea) * 4);
+   }
+
+}

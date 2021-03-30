@@ -13,9 +13,10 @@ import headerTmpl = require('wml!Controls/_datePopup/header');
 import dayTmpl = require('wml!Controls/_datePopup/day');
 import {MonthViewDayTemplate} from 'Controls/calendar';
 import {Controller as ManagerController} from 'Controls/popup';
-import {_scrollContext as ScrollData, IntersectionObserverSyntheticEntry} from './scroll';
+import {IntersectionObserverSyntheticEntry} from './scroll';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import {constants} from 'Env/Env';
+import 'css!Controls/datePopup';
 
 const HEADER_TYPES = {
         link: 'link',
@@ -160,7 +161,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._monthStateEnabled = periodDialogUtils.isMonthStateEnabled(options);
         this._yearStateEnabled = periodDialogUtils.isYearStateEnabled(options);
 
-        this._state = this.getViewState(options, this._monthStateEnabled, this._yearStateEnabled);
+        this._state = options.state || this.getViewState(options, this._monthStateEnabled, this._yearStateEnabled);
         if (this._state === STATES.year) {
             this._displayedDate = dateUtils.getStartOfYear(this._displayedDate);
         }
@@ -429,12 +430,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._notify('close');
     }
 
-    _getChildContext(): object {
-        return {
-            ScrollData: new ScrollData({pagingVisible: false})
-        };
-    }
-
     _inputControlHandler(event: SyntheticEvent, value: Date, displayValue: Date, selection: any): void {
         if (selection.end === displayValue.length &&
             this._options.selectionType !== IRangeSelectable.SELECTION_TYPES.single) {
@@ -525,7 +520,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
         }
     }
 
-    sendResult(start: Date, end: Date): void {
+    sendResult(start?: Date, end?: Date): void {
         this._notify(
             'sendResult',
             [start || this._rangeModel.startValue, end || this._rangeModel.endValue],
@@ -550,6 +545,9 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     toggleState(date?: Date): void {
         this._state = this._state === STATES.year ? STATES.month : STATES.year;
+        if (this._options.stateChangedCallback) {
+            this._options.stateChangedCallback(this._state);
+        }
         let displayedDate;
         if (date) {
             displayedDate = date;
@@ -588,8 +586,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
         this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
     }
-
-    static _theme: string[] = ['Controls/datePopup'];
 
     static getDefaultOptions(): object {
         return coreMerge({

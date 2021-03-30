@@ -19,6 +19,7 @@ export default class BaseSelector<T> extends Control<T> {
     protected _loadCalendarPopupPromise: Promise<unknown> = null;
     protected _rangeModel: DateRangeModel = null;
     protected _isMinWidth: boolean = null;
+    protected _state: string;
     protected _children: {
         opener: Sticky;
         linkView: LinkView;
@@ -28,13 +29,9 @@ export default class BaseSelector<T> extends Control<T> {
         this._rangeModel = new DateRangeModel({ dateConstructor: options.dateConstructor });
         EventUtils.proxyModelEvents(this, this._rangeModel, ['startValueChanged', 'endValueChanged', 'rangeChanged']);
         this._updateRangeModel(options);
-
-        // при добавлении управляющих стрелок устанавливаем минимальную ширину блока,
-        // чтобы стрелки всегда были зафиксированы и не смещались.
-        // https://online.sbis.ru/opendoc.html?guid=ae195d05-0e33-4532-a77a-7bd8c9783ef1
-        if (options.prevArrowVisibility) {
-            this._isMinWidth = true;
-        }
+        this._updateIsMinWidth(options);
+        this._stateChangedCallback = this._stateChangedCallback.bind(this);
+        this.shiftPeriod = this.shiftPeriod.bind(this);
     }
 
     protected _beforeUnmount(): void {
@@ -43,6 +40,14 @@ export default class BaseSelector<T> extends Control<T> {
 
     protected _beforeUpdate(options: IBaseSelectorOptions): void {
         this._updateRangeModel(options);
+        this._updateIsMinWidth(options);
+    }
+
+    private _updateIsMinWidth(options): void {
+        // при добавлении управляющих стрелок устанавливаем минимальную ширину блока,
+        // чтобы стрелки всегда были зафиксированы и не смещались.
+        // https://online.sbis.ru/opendoc.html?guid=ae195d05-0e33-4532-a77a-7bd8c9783ef1
+        this._isMinWidth = options.prevArrowVisibility;
     }
 
     protected _updateRangeModel(options: IBaseSelectorOptions): void {
@@ -56,8 +61,16 @@ export default class BaseSelector<T> extends Control<T> {
         }
     }
 
+    protected _stateChangedCallback(state: string): void {
+        this._state = state;
+    }
+
+    shiftPeriod(delta: number): void {
+        this._children.linkView.shiftPeriod(delta);
+    }
+
     closePopup(): void {
-        this._children.opener.close();
+        this._children.opener?.close();
     }
 
     openPopup(): void {

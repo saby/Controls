@@ -165,7 +165,7 @@ const _private = {
             self._notify(expanded ? 'itemExpand' : 'itemCollapse', [item]);
             if (
                 !_private.isExpandAll(self._options.expandedItems) &&
-                !baseSourceController.hasLoaded(nodeKey) &&
+                !baseSourceController?.hasLoaded(nodeKey) &&
                 !dispItem.isRoot() &&
                 _private.shouldLoadChildren(self, nodeKey)
             ) {
@@ -181,7 +181,8 @@ const _private = {
                             options.nodeLoadCallback(list, nodeKey);
                         }
                         self.hideIndicator();
-                    }).catch((error: Error) => {
+                    })
+                    .catch((error: Error) => {
                         if (error.isCanceled) {
                             return;
                         }
@@ -253,8 +254,10 @@ const _private = {
         // 2. у него вообще есть дочерние элементы (по значению поля hasChildrenProperty)
         const viewModel = self.getViewModel();
         const items = viewModel.getCollection();
-        const isAlreadyLoaded = self.getSourceController().hasLoaded(nodeKey) ||
-                                viewModel.getHasMoreStorage().hasOwnProperty(nodeKey);
+
+        const sourceController = self.getSourceController();
+        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items) ||
+            viewModel.getHasMoreStorage().hasOwnProperty(nodeKey);
 
         if (isAlreadyLoaded) {
             return false;
@@ -334,7 +337,15 @@ const _private = {
         }
 
         const reset = () => {
-            viewModel.resetExpandedItems();
+            if (self._options.useNewModel) {
+                viewModel.setExpandedItems([]);
+                self._notify('expandedItemsChanged', [[]]);
+
+                viewModel.setCollapsedItems([]);
+                self._notify('collapsedItemsChanged', [[]]);
+            } else {
+                viewModel.resetExpandedItems();
+            }
             viewModel.setHasMoreStorage({});
         };
 
@@ -606,13 +617,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         let updateSourceController = false;
 
         if (typeof newOptions.root !== 'undefined' && this._root !== newOptions.root) {
-            const sourceControllerRoot = sourceController.getState().root;
-
             this._root = newOptions.root;
             this._listViewModel.setRoot(this._root);
 
             if (this._options.itemsSetCallback) {
-                this._options.itemsSetCallback(sourceController.getItems(), newOptions);
+                const items = sourceController?.getItems() || newOptions.items;
+                this._options.itemsSetCallback(items, newOptions);
             }
 
             // При смене корне, не надо запрашивать все открытые папки,
@@ -622,6 +632,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 this._needResetExpandedItems = true;
             }
 
+            const sourceControllerRoot = sourceController?.getState().root;
             if (sourceControllerRoot === undefined || sourceControllerRoot !== newOptions.root) {
                 updateSourceController = true;
             }
@@ -749,7 +760,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (direction === 'depth') {
             result = _private.reloadItem(this, key);
         } else {
-            result = super.reloadItem(key, readMeta, direction);
+            result = super.reloadItem.apply(this, arguments);
         }
 
         return result;

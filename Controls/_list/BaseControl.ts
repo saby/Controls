@@ -355,12 +355,16 @@ const _private = {
         }
     },
 
-    supportAttachLoadTriggerToNull(options, direction: 'up'|'down'): boolean {
+    supportAttachLoadTriggerToNull(options: any, direction: 'up'|'down'): boolean {
         // Поведение отложенной загрузки вверх нужно опциональное, например, для контактов
         // https://online.sbis.ru/opendoc.html?guid=f07ea1a9-743c-42e4-a2ae-8411d59bcdce
         // Для мобильных устройств данный функционал включать нельзя из-за инерционного скролла:
         // https://online.sbis.ru/opendoc.html?guid=45921906-4b0e-4d72-bb80-179c076412d5
-        if (direction === 'up' && options.attachLoadTopTriggerToNull === false || direction === 'down' && options.attachLoadDownTriggerToNull === false || detection.isMobilePlatform) {
+        if (
+            direction === 'up' && options.attachLoadTopTriggerToNull === false ||
+            direction === 'down' && options.attachLoadDownTriggerToNull === false ||
+            detection.isMobilePlatform
+        ) {
             return false;
         }
         // Прижимать триггер к верху списка нужно только при infinity-навигации.
@@ -378,8 +382,8 @@ const _private = {
     },
 
     attachLoadTopTriggerToNullIfNeed(self, options): boolean {
-        const supportAttachLoadTriggerToNull = _private.supportAttachLoadTriggerToNull(options, 'up');
-        if (!supportAttachLoadTriggerToNull) {
+        const supportAttachLoadTopTriggerToNull = _private.supportAttachLoadTriggerToNull(options, 'up');
+        if (!supportAttachLoadTopTriggerToNull) {
             return false;
         }
         const needAttachLoadTopTriggerToNull = _private.needAttachLoadTriggerToNull(self, 'up');
@@ -390,10 +394,8 @@ const _private = {
         } else {
             self._attachLoadTopTriggerToNull = false;
         }
-        self._updateScrollController(options);
         return needAttachLoadTopTriggerToNull;
     },
-
     attachLoadDownTriggerToNullIfNeed(self, options): boolean {
         if (!_private.supportAttachLoadTriggerToNull(options, 'down') || !self._listViewModel || !self._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
             return false;
@@ -407,24 +409,24 @@ const _private = {
         return needAttachLoadDownTriggerToNull;
     },
 
-    assignItemsToModel(self, items: RecordSet, newOptions): void {
+    assignItemsToModel(self: BaseControl, items: RecordSet, newOptions: IBaseControlOptions): void {
         const listModel = self._listViewModel;
+        const oldCollection = listModel.getCollection();
 
         // todo task1179709412 https://online.sbis.ru/opendoc.html?guid=43f508a9-c08b-4938-b0e8-6cfa6abaff21
         if (self._options.useNewModel) {
             // TODO restore marker + maybe should recreate the model completely
-            // Делаем assign только если формат текущего рекордсета и нового полностью совпадает, иначе необходима
-            // полная замена (example: https://online.sbis.ru/opendoc.html?guid=75a21c00-35ec-4451-b5d7-29544ddd9c40).
-            if (!isEqualItems(listModel.getCollection(), items)) {
+            if (!isEqualItems(oldCollection, items) || oldCollection !== items) {
                 listModel.setCollection(items);
                 self._onItemsReady(newOptions, listModel.getCollection());
             }
+
             // При старой модели зовется из модели. Нужен чтобы в explorer поменять модель только уже при наличии данных
             if (self._options.itemsSetCallback) {
                 self._options.itemsSetCallback(items);
             }
         } else {
-            const wasItemsReplaced = listModel.getCollection() && !isEqualItems(listModel.getCollection(), items);
+            const wasItemsReplaced = oldCollection && !isEqualItems(oldCollection, items);
             listModel.setItems(items, newOptions);
             self._items = listModel.getCollection();
 
@@ -439,14 +441,12 @@ const _private = {
                 self._markedKeyForRestoredScroll = _private.getMarkerController(self).getMarkedKey();
             }
         }
+
         self._items = listModel.getCollection();
     },
 
     executeAfterReloadCallbacks(self, loadedList, options): void {
         self._afterReloadCallback(options, loadedList);
-        if (options.serviceDataLoadCallback instanceof Function) {
-            options.serviceDataLoadCallback(this._items, loadedList);
-        }
     },
 
     callDataLoadCallbackCompatibility(self, items, direction, options): void {
@@ -737,9 +737,16 @@ const _private = {
         const listViewModel = self._listViewModel;
         const isPortionedLoad = _private.isPortionedLoad(self);
 
-        if (direction === 'down' && this._resetDownTriggerOffset) {
+        if (direction === 'down' && self._resetDownTriggerOffset) {
             // после первого запроса остальные запросы нужно загружать заранее
-            this._resetDownTriggerOffset = false;
+            self._resetDownTriggerOffset = false;
+            self._updateScrollController(self._options);
+        }
+
+        if (direction === 'up' && self._resetTopTriggerOffset) {
+            // после первого запроса остальные запросы нужно загружать заранее
+            self._resetTopTriggerOffset = false;
+            self._updateScrollController(self._options);
         }
 
         _private.showIndicator(self, direction);
@@ -786,6 +793,7 @@ const _private = {
                     const newMarkedKey = _private.getMarkerController(self).onCollectionReset();
                     self._changeMarkedKey(newMarkedKey);
                 }
+                self._needScrollToFirstItem = false;
                 if (!self._hasMoreData(self._sourceController, direction)) {
                     self._updateShadowModeHandler(self._shadowVisibility);
                 }
@@ -1292,6 +1300,18 @@ const _private = {
         if (!self._isMounted) {
             return;
         }
+
+        // hideIndicator вызывают после окончания порционного поиска и нужно пересчитать отображение ромашек(attachToNull)
+        if (self._loadingState === 'down') {
+            _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+        } else if (self._loadingState === 'up') {
+            const scrollTop = self._scrollTop;
+            if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                self._needScrollToFirstItem = false;
+                self._scrollTop = scrollTop;
+            }
+        }
+
         self._loadingState = null;
         self._showLoadingIndicator = false;
         self._loadingIndicatorContainerOffsetTop = 0;
@@ -1591,21 +1611,31 @@ const _private = {
                 }
             }
 
-            if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length) || action === IObservable.ACTION_ADD) {
+            if (action === IObservable.ACTION_RESET && (removedItems && removedItems.length || newItems && newItems.length)) {
                 if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                    // Проскроллить к первому элементу, нужно только когда перезагрузился список
-                    // Если были добавлены элементы вниз, то не нужно сбрасывать флаг _needScrollToFirstItem
-                    if (action === IObservable.ACTION_ADD && newItemsIndex === 0) {
-                        self._needScrollToFirstItem = false;
+                    if (!self._resetTopTriggerOffset) {
+                        self._resetTopTriggerOffset = true;
+                        self._updateScrollController(self._options);
                     }
                 }
-                _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+                if (_private.attachLoadDownTriggerToNullIfNeed(self, self._options)) {
+                    if (!self._resetDownTriggerOffset) {
+                        self._resetDownTriggerOffset = true;
+                        self._updateScrollController(self._options);
+                    }
+                }
+            }
+            if (action === IObservable.ACTION_ADD) {
+                // Если добавили элементы в начало, то проверяем верхний триггер, иначе нижний
+                if (newItemsIndex === 0) {
+                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
+                    // После подгрузки элементов, не нужно скроллить
+                    self._needScrollToFirstItem = false;
+                } else {
+                    _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+                }
             }
 
-            if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
-                self._itemActionsMenuId) {
-                _private.closeItemActionsMenuForActiveItem(self, removedItems);
-            }
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
             }
@@ -1644,6 +1674,14 @@ const _private = {
                     // TODO: уйдет после перехода на новую модель
                     self._scrollController.setIndicesAfterCollectionChange();
                 }
+            }
+
+            // Тут вызывается nextVersion на коллекции, и это приводит к вызову итератора.
+            // Поэтому это должно быть после обработки изменений коллекции scrollController'ом, чтобы итератор
+            // вызывался с актуальными индексами
+            if ((action === IObservable.ACTION_REMOVE || action === IObservable.ACTION_REPLACE) &&
+                self._itemActionsMenuId) {
+                _private.closeItemActionsMenuForActiveItem(self, removedItems);
             }
 
             // Изначально могло не создаться selectionController (не был задан source), но в целом работа с выделением
@@ -2154,10 +2192,6 @@ const _private = {
         _private.setHasMoreData(
             this._listViewModel, _private.hasMoreDataInAnyDirection(this, this._sourceController)
         );
-
-        if (this._options.serviceDataLoadCallback instanceof Function) {
-            this._options.serviceDataLoadCallback(this._items, items);
-        }
 
         _private.callDataLoadCallbackCompatibility(this, items, direction, this._options);
 
@@ -2680,7 +2714,9 @@ const _private = {
             collection: self._listViewModel,
             activeElement: options.activeElement,
             useNewModel: options.useNewModel,
-            forceInitVirtualScroll: options?.navigation?.view === 'infinity'
+            forceInitVirtualScroll: options?.navigation?.view === 'infinity',
+            resetTopTriggerOffset: self._resetTopTriggerOffset,
+            resetDownTriggerOffset: self._resetDownTriggerOffset
         });
         const result = self._scrollController.handleResetItems();
         _private.handleScrollControllerResult(self, result);
@@ -2774,7 +2810,7 @@ const _private = {
      * @param self
      */
     closeSwipe(self): void {
-        if (self._listViewModel.isActionsAssigned()) {
+        if (self._listViewModel?.isActionsAssigned()) {
             _private.getItemActionsController(self, self._options).deactivateSwipe();
         }
     },
@@ -3135,9 +3171,11 @@ const _private = {
 
 export interface IBaseControlOptions extends IControlOptions {
     sourceController?: SourceController;
+    items?: RecordSet;
 }
 
-export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOptions> extends Control<TOptions>
+export default class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOptions>
+    extends Control<TOptions, IReceivedState>
     implements IMovableList {
 
     //#region States
@@ -3167,10 +3205,11 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     // расстояние, на которое поднят верхний триггер, если _attachLoadTopTriggerToNull === true
     _attachedToNullLoadTopTriggerOffset = ATTACHED_TO_NULL_LOAD_TOP_TRIGGER_OFFSET;
     _hideTopTrigger = false;
+    _resetTopTriggerOffset = false;
     _resetDownTriggerOffset = false;
-
     protected _listViewModel = null;
     _viewModelConstructor = null;
+    protected _items: RecordSet;
 
     _loadMoreCaption = null;
     _shouldDrawFooter = false;
@@ -3423,18 +3462,22 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     }
 
     _prepareItemsOnMount(self, newOptions, receivedState: IReceivedState = {}): Promise<unknown> | void {
-        let receivedData = receivedState.data;
-        let viewModelConfig = {...newOptions, keyProperty: self._keyProperty};
+        let items;
         let collapsedGroups;
 
         if (self._sourceController) {
-            receivedData = self._sourceController.getItems();
+            items = self._sourceController.getItems();
             collapsedGroups = self._sourceController.getCollapsedGroups();
+        } else if (newOptions.items) {
+            items = newOptions.items;
         }
 
-        if (collapsedGroups) {
-            viewModelConfig = cMerge(viewModelConfig, {collapsedGroups: collapsedGroups || newOptions.collapsedGroups});
-        }
+        const viewModelConfig = {
+            ...newOptions,
+            keyProperty: self._keyProperty,
+            items,
+            collapsedGroups: collapsedGroups || newOptions.collapsedGroups
+        };
 
         if (newOptions.groupProperty) {
             self._groupingLoader = new GroupingLoader({});
@@ -3442,16 +3485,11 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
         self._viewModelConstructor = newOptions.viewModelConstructor;
         if (!newOptions.useNewModel && newOptions.viewModelConstructor) {
-            if (receivedData) {
-                viewModelConfig.items = receivedData;
-            } else {
-                delete viewModelConfig.items;
-            }
             viewModelConfig.supportVirtualScroll = self._needScrollCalculation;
             self._listViewModel = new newOptions.viewModelConstructor(viewModelConfig);
-        } else if (newOptions.useNewModel && receivedData) {
+        } else if (newOptions.useNewModel && items) {
             self._listViewModel = self._createNewModel(
-                receivedData,
+                items,
                 viewModelConfig,
                 newOptions.viewModelConstructor
             );
@@ -3463,55 +3501,50 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             _private.initListViewModelHandler(self, self._listViewModel, newOptions.useNewModel);
         }
 
-        if (newOptions.source) {
-            if (receivedData) {
-                _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController), true);
+        if (items) {
+            _private.setHasMoreData(self._listViewModel, _private.hasMoreDataInAnyDirection(self, self._sourceController), true);
 
-                if (newOptions.useNewModel) {
-                    self._items = self._listViewModel.getCollection();
-                } else {
-                    self._items = self._listViewModel.getItems();
-                }
-                self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
-                if (self._pagingNavigation) {
-                    const hasMoreData = self._items.getMetaData().more;
-                    _private.updatePagingData(self, hasMoreData);
-                }
-
-                self._afterReloadCallback(newOptions, self._items, self._listViewModel);
-
-                if (newOptions.serviceDataLoadCallback instanceof Function) {
-                    newOptions.serviceDataLoadCallback(null, self._items);
-                }
-
-                _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
-                _private.createScrollController(self, newOptions);
-                _private.prepareFooter(self, newOptions, self._sourceController);
-                _private.initVisibleItemActions(self, newOptions);
-
-                if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
-                    _private.needAttachLoadTriggerToNull(self, 'up')) {
-                    self._hideTopTrigger = true;
-                }
-                if (_private.attachLoadDownTriggerToNullIfNeed(self, newOptions)) {
-                    self._resetDownTriggerOffset = true;
-                }
+            if (newOptions.useNewModel) {
+                self._items = self._listViewModel.getCollection();
+            } else {
+                self._items = self._listViewModel.getItems();
+            }
+            self._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
+            if (self._pagingNavigation) {
+                const hasMoreData = self._items.getMetaData().more;
+                _private.updatePagingData(self, hasMoreData);
             }
 
-            if (receivedState.errorConfig) {
-                _private.showError(self, receivedState.errorConfig);
-            } else if (self._sourceController && self._sourceController.getLoadError()) {
-                return _private.processError(self, {error: self._sourceController.getLoadError()}).then((errorConfig) => {
-                    return getState(errorConfig);
-                });
+            self._afterReloadCallback(newOptions, self._items, self._listViewModel);
+
+            if (_private.supportAttachLoadTriggerToNull(newOptions, 'up') &&
+                _private.needAttachLoadTriggerToNull(self, 'up')) {
+                self._hideTopTrigger = true;
+                self._resetTopTriggerOffset = true;
             }
-        } else {
-            _private.createScrollController(self, newOptions);
+            if (_private.attachLoadDownTriggerToNullIfNeed(self, newOptions)) {
+                self._resetDownTriggerOffset = true;
+            }
+
+            _private.callDataLoadCallbackCompatibility(self, self._items, undefined, newOptions);
+            _private.prepareFooter(self, newOptions, self._sourceController);
+            _private.initVisibleItemActions(self, newOptions);
+        }
+        _private.createScrollController(self, newOptions);
+
+        if (receivedState.errorConfig) {
+            _private.showError(self, receivedState.errorConfig);
+        } else if (self._sourceController && self._sourceController.getLoadError()) {
+            return _private.processError(self, {error: self._sourceController.getLoadError()}).then((errorConfig) => {
+                return getState(errorConfig);
+            });
         }
     }
 
-    _initKeyProperty(options): void {
-        this._keyProperty = options.keyProperty || (this._sourceController && this._sourceController.getKeyProperty());
+    _initKeyProperty(options: TOptions): void {
+        this._keyProperty = options.keyProperty ||
+            (this._sourceController && this._sourceController.getKeyProperty()) ||
+            options.items?.getKeyProperty();
     }
 
     scrollMoveSyncHandler(params: IScrollParams): void {
@@ -3607,7 +3640,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     applyTriggerOffset(offset: {top: number, bottom: number}): void {
         // Устанавливаем напрямую в style, чтобы не ждать и не вызывать лишний цикл синхронизации
         this._children.topVirtualScrollTrigger?.style.top = `${offset.top}px`;
-        this._children.bottomVirtualScrollTrigger?.style.bottom = `${this._resetDownTriggerOffset ? 0 : offset.bottom}px`;
+        this._children.bottomVirtualScrollTrigger?.style.bottom = `${offset.bottom}px`;
     }
     protected _viewResize(): void {
         if (this._isMounted) {
@@ -3716,10 +3749,10 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
 
         // в тач интерфейсе инициализировать пейджер необходимо при загрузке страницы
-        // В beforeMount инициализировать пейджер нельзя, т.к. не корректно посчитаются его размеры
-        // Также, в тач интерфейсе может быть включено управление мышью, и мы можем не знать,
-        // как устройство управляется в данный момент, поэтому определяем по isMobilePlatform
-        if (detection.isMobilePlatform) {
+        // В beforeMount инициализировать пейджер нельзя, т.к. не корректно посчитаются его размеры.
+        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
+        // touch режимом isMobilePlatform может быть false
+        if (!!this._context?.isTouch?.isTouch) {
             _private.initPaging(this);
         }
 
@@ -3749,9 +3782,8 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         }
 
         if (!this._items || !this._items.getCount()) {
-            _private.attachLoadTopTriggerToNullIfNeed(this, this._options);
+            this._attachLoadTopTriggerToNull = false;
             this._hideTopTrigger = false;
-
             this._attachLoadDownTriggerToNull = false;
         }
     }
@@ -3762,7 +3794,8 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             const result = this._scrollController.update({
                 options: {
                     ...newOptions,
-                    attachLoadTopTriggerToNull: this._attachLoadTopTriggerToNull,
+                    resetTopTriggerOffset: this._resetTopTriggerOffset,
+                    resetDownTriggerOffset: this._resetDownTriggerOffset,
                     forceInitVirtualScroll: newOptions?.navigation?.view === 'infinity',
                     collection: this.getViewModel(),
                     needScrollCalculation: this._needScrollCalculation
@@ -3785,6 +3818,10 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         // todo При отказе от старой - выпилить проверку "useNewModel".
         if (emptyTemplateChanged && newOptions.useNewModel) {
             this._listViewModel.setEmptyTemplate(newOptions.emptyTemplate);
+        }
+        // todo При отказе от старой - выпилить проверку "useNewModel".
+        if (!isEqual(newOptions.filter, this._options.filter) && newOptions.useNewModel) {
+            this._listViewModel.setEmptyTemplateOptions({items: this._items, filter: newOptions.filter});
         }
 
         if (this._listViewModel.setSupportVirtualScroll) {
@@ -3984,54 +4021,67 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             }
         }
 
-        if (newOptions.sourceController) {
-            const items = newOptions.sourceController.getItems();
+        if (newOptions.sourceController || newOptions.items) {
+            const items = newOptions.sourceController?.getItems() || newOptions.items;
+            const sourceControllerChanged = this._options.sourceController !== newOptions.sourceController;
 
-            if (this._options.sourceController !== newOptions.sourceController) {
-                this._sourceController = newOptions.sourceController;
-                this._sourceController.setDataLoadCallback(this._dataLoadCallback);
-            }
+            if (newOptions.sourceController) {
+                if (sourceControllerChanged) {
+                    this._sourceController = newOptions.sourceController;
+                    this._sourceController.setDataLoadCallback(this._dataLoadCallback);
+                }
 
-            if (newOptions.loading) {
-                this._noDataBeforeReload = !_private.hasDataBeforeLoad(self);
+                if (newOptions.loading) {
+                    this._noDataBeforeReload = !_private.hasDataBeforeLoad(self);
+                }
             }
 
             if (items && (this._listViewModel && !this._listViewModel.getCollection() || this._items !== items)) {
                 if (!this._listViewModel) {
                     _private.initializeModel(this, newOptions, items);
                 }
+
                 const isActionsAssigned = this._listViewModel.isActionsAssigned();
                 _private.assignItemsToModel(this, items, newOptions);
                 isItemsResetFromSourceController = true;
 
                 // TODO удалить когда полностью откажемся от старой модели
-                if (!_private.hasSelectionController(this) && newOptions.multiSelectVisibility !== 'hidden'
-                    && newOptions.selectedKeys && newOptions.selectedKeys.length) {
+                if (
+                    !_private.hasSelectionController(this) && newOptions.multiSelectVisibility !== 'hidden' &&
+                    newOptions.selectedKeys && newOptions.selectedKeys.length
+                ) {
                     const controller = _private.createSelectionController(this, newOptions);
                     controller.setSelection({ selected: newOptions.selectedKeys, excluded: newOptions.excludedKeys });
                 }
 
                 // TODO удалить когда полностью откажемся от старой модели
-                //  Если Items были обновлены, то в старой модели переинициализировался display и этот параметр сбросился
+                //  Если Items были обновлены, то в старой модели переинициализировался display
+                //  и этот параметр сбросился
                 this._listViewModel.setActionsAssigned(isActionsAssigned);
+                this._updateScrollController(newOptions);
             }
 
-            if (!this._options.sourceController) {
-                _private.executeAfterReloadCallbacks(this, this._items, newOptions);
-            }
+            if (newOptions.sourceController) {
+                if (sourceControllerChanged) {
+                    _private.executeAfterReloadCallbacks(this, this._items, newOptions);
+                }
 
-            if (this._loadedBySourceController && !this._sourceController.getLoadError()) {
-                if (this._listViewModel) {
-                    this._listViewModel.setHasMoreData(_private.hasMoreDataInAnyDirection(this, this._sourceController));
+                if (this._loadedBySourceController && !this._sourceController.getLoadError()) {
+                    if (this._listViewModel) {
+                        this._listViewModel.setHasMoreData(
+                            _private.hasMoreDataInAnyDirection(this, this._sourceController)
+                        );
+                    }
+                    if (this.__error) {
+                        _private.hideError(this);
+                    }
+                    _private.resetScrollAfterLoad(self);
+                    _private.resolveIsLoadNeededByNavigationAfterReload(self, newOptions, items);
+                    _private.prepareFooter(this, newOptions, this._sourceController);
                 }
-                if (this.__error) {
-                    _private.hideError(this);
-                }
-                _private.resetScrollAfterLoad(self);
-                _private.resolveIsLoadNeededByNavigationAfterReload(self, newOptions, items);
-                _private.prepareFooter(this, newOptions, this._sourceController);
             }
         }
+
         this._needBottomPadding = _private.needBottomPadding(newOptions, self._listViewModel);
 
         const groupPropertyChanged = newOptions.groupProperty !== this._options.groupProperty;
@@ -4273,7 +4323,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         return this._items;
     }
 
-    scrollToItem(key: TItemKey, toBottom: boolean, force: boolean): void {
+    scrollToItem(key: TItemKey, toBottom?: boolean, force?: boolean): Promise<void> {
         return _private.scrollToItem(this, key, toBottom, force);
     }
 
@@ -4466,7 +4516,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                 if (!this._shouldDisplayTopLoadingIndicator()) {
                     this.changeIndicatorStateHandler(false, 'up');
                 }
-                this.changeIndicatorStateHandler(false, 'down');
+                if (!this._shouldDisplayBottomLoadingIndicator()) {
+                    this.changeIndicatorStateHandler(false, 'down');
+                }
                 this._syncLoadingIndicatorState = null;
             }
             let itemsUpdated = false;
@@ -5014,6 +5066,9 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
                     group: groupId,
                     collapsedGroups
                 };
+                // При setExpanded() не обновляется collection.collapsedGroups, на основе которого стратегия
+                // определяет, какие группы надо создавать свёрнутыми. Поэтому обновляем его тут.
+                collection.setCollapsedGroups(collapsedGroups);
                 _private.groupsExpandChangeHandler(this, changes);
             } else {
                 const needExpandGroup = !collection.isGroupExpanded(groupId);
@@ -5402,8 +5457,12 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             }
             const collection = this._options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay();
             const columnIndex = this._getEditingConfig()?.mode === 'cell' ? collection.find((cItem) => cItem.isEditing()).getEditingColumnIndex() : undefined;
-            this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, collection.getIndexBySourceItem(item));
-            return this._beginEdit({ item }, { shouldActivateInput: false, columnIndex });
+            let shouldActivateInput = true;
+            if (this._listViewModel['[Controls/_display/grid/mixins/Grid]']) {
+                shouldActivateInput = false;
+                this._editInPlaceInputHelper.setInputForFastEdit(nativeEvent.target, collection.getIndexBySourceItem(item));
+            }
+            return this._beginEdit({ item }, { shouldActivateInput, columnIndex });
         };
 
         switch (nativeEvent.keyCode) {
@@ -5838,7 +5897,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
     protected _keyDownHandler(event): boolean | void {}
 
-    _getViewClasses(addShowActionsClass: boolean, addHoverEnabledClass: boolean, uniqueId: string): string  {
+    protected _getViewClasses(addShowActionsClass: boolean, addHoverEnabledClass: boolean, uniqueId: string): string  {
         const classes: string[] = [];
         if (addShowActionsClass) {
             const visibility = this._getEditingConfig(this._options)?.mode === 'cell' ? 'onhovercell' : this._options.itemActionsVisibility;
@@ -5933,11 +5992,6 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
     }
 
     _mouseEnter(event): void {
-        // В chrome/safari mouseEnter происходит всегда, сразу после touch
-        if (!detection.isMobilePlatform) {
-            _private.updateItemActionsOnce(this, this._options);
-        }
-
         this._dragEnter(this._getDragObject());
 
         // нельзя делать это в процессе обновления или загрузки
@@ -6048,6 +6102,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
      * @param swipeEvent
      * @private
      */
+
     _onItemSwipe(e: SyntheticEvent<Event>, item: CollectionItem<Model>, swipeEvent: SyntheticEvent<ISwipeEvent>): void {
         if (item['[Controls/_display/GroupItem]']) {
             return;
@@ -6098,15 +6153,11 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
 
     _updateItemActionsOnItem(event: SyntheticEvent<Event>, itemKey: string | number, itemWidth: number): void {
         event.stopImmediatePropagation();
-        if (this._listViewModel.isActionsAssigned()) {
+        // Если в модели поменялся набор записей до перерисовки контрола, не нужно обрабатывать событие
+        if (this._listViewModel.isActionsAssigned() && !this._itemsChanged) {
             const itemActionsController = _private.getItemActionsController(this);
             itemActionsController.updateItemActions(itemKey, itemWidth);
         }
-    }
-
-    _getItemActionVisibilityClasses(): string {
-        const visibility = this._getEditingConfig(this._options)?.mode === 'cell' ? 'onhovercell' : this._options.itemActionsVisibility;
-        return `controls-BaseControl_showActions controls-BaseControl_showActions_${visibility}`;
     }
 
     /**
@@ -6144,7 +6195,7 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
         if (typeof modelName !== 'string') {
             throw new TypeError('BaseControl: model name has to be a string when useNewModel is enabled');
         }
-        return diCreate(modelName, {...modelConfig, collection: items, unique: true});
+        return diCreate(modelName, {...modelConfig, collection: items, unique: true, emptyTemplateOptions: {items, filter: modelConfig.filter}});
     }
 
     _stopBubblingEvent(event: SyntheticEvent<Event>): void {
@@ -6310,10 +6361,12 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
             return false;
         }
 
-        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down' && !this._portionedSearchInProgress;
+        const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
+        // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
+        const isAborted = _private.getPortionedSearch(this).isAborted();
         return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull
-           :  shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull;
+           ? this._showLoadingIndicator && shouldDisplayDownIndicator && !this._portionedSearchInProgress && !isAborted
+           : (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection) && !this._portionedSearchInProgress && !isAborted;
     }
 
     _shouldDisplayTopPortionedSearch(): boolean {
@@ -6415,6 +6468,12 @@ export class BaseControl<TOptions extends IBaseControlOptions = IBaseControlOpti
      * @private
      */
     _onListMouseMove(event): void {
+        // В тач режиме itemActions создаются непосредственно при свайпе
+        // isMobilePlatform использовать для проверки не целесообразно, т.к. на интерфейсах с
+        // touch режимом isMobilePlatform может быть false
+        if (!this._context?.isTouch?.isTouch) {
+            _private.updateItemActionsOnce(this, this._options);
+        }
         // Использовать itemMouseMove тут нельзя, т.к. отслеживать перемещение мышки надо вне itemsContainer
         if (_private.hasHoverFreezeController(this) && _private.isAllowedHoverFreeze(this)) {
             this._hoverFreezeController.restartUnfreezeHoverTimeout(event);

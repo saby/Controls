@@ -2,7 +2,6 @@ import {compatibility, constants, detection} from 'Env/Env';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {TemplateFunction} from 'UI/Base';
 import ContainerBase, {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
-import * as ScrollData from 'Controls/_scroll/Scroll/Context';
 import Observer from './IntersectionObserver/Observer';
 import ShadowsModel from './Container/ShadowsModel';
 import ScrollbarsModel from './Container/ScrollbarsModel';
@@ -21,6 +20,7 @@ import {
     SHADOW_VISIBILITY
 } from './Container/Interface/IShadows';
 import {IIntersectionObserverObject} from './IntersectionObserver/Types';
+import fastUpdate from './StickyHeader/FastUpdate';
 import StickyHeaderController from './StickyHeader/Controller';
 import {IFixedEventData, TRegisterEventData, TYPE_FIXED_HEADERS, MODE} from './StickyHeader/Utils';
 import {POSITION} from './Container/Type';
@@ -41,6 +41,7 @@ interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, I
     pagingMode?: TPagingModeScroll;
     pagingContentTemplate?: Function | string;
     pagingPosition?: TPagingPosition;
+    pagingVisible: boolean;
 }
 
 const SCROLL_BY_ARROWS = 40;
@@ -119,9 +120,9 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         }
     }
 
-    _afterMount(options: IContainerOptions, context) {
+    _afterMount(options: IContainerOptions) {
 
-        if (this._isPagingVisible(this._options, context)) {
+        if (this._isPagingVisible(this._options)) {
             this._paging = new PagingModel();
             this._scrollCssClass = this._getScrollContainerCssClass(options);
             this._paging.pagingMode = this._options.pagingMode;
@@ -147,16 +148,16 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         }
     }
 
-    protected _isPagingVisible(options: IContainerOptions, context): boolean {
+    protected _isPagingVisible(options: IContainerOptions): boolean {
         if (typeof options.pagingMode !== 'undefined') {
             return options.pagingMode !== 'hidden';
         }
-        return context.ScrollData?.pagingVisible;
+        return options.pagingVisible;
     }
 
-    protected _beforeUpdate(options: IContainerOptions, context) {
+    protected _beforeUpdate(options: IContainerOptions) {
         super._beforeUpdate(...arguments);
-        if (this._isPagingVisible(options, context)) {
+        if (this._isPagingVisible(options)) {
             if (!this._paging) {
                 this._paging = new PagingModel();
             }
@@ -272,8 +273,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
 
             this._stickyHeaderController.setCanScroll(this._scrollModel.canVerticalScroll);
             this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.isStickyHeadersShadowsEnabled(),
-                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+                this._shadows.top.getStickyHeadersShadowsVisibility(),
+                this._shadows.bottom.getStickyHeadersShadowsVisibility());
 
             this._updateScrollContainerPaigingSccClass(this._options);
         }
@@ -342,8 +343,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._initHeaderController();
         }
         this._stickyHeaderController.setShadowVisibility(
-                this._shadows.top.isStickyHeadersShadowsEnabled(),
-                this._shadows.bottom.isStickyHeadersShadowsEnabled());
+                this._shadows.top.getStickyHeadersShadowsVisibility(),
+                this._shadows.bottom.getStickyHeadersShadowsVisibility());
 
         this._updateStateAndGenerateEvents(this._scrollModel);
     }
@@ -559,8 +560,8 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
             this._shadows.updateScrollState(this._scrollModel, false);
         }
         this._stickyHeaderController.setShadowVisibility(
-            this._shadows.top.isStickyHeadersShadowsEnabled(),
-            this._shadows.bottom.isStickyHeadersShadowsEnabled());
+            this._shadows.top.getStickyHeadersShadowsVisibility(),
+            this._shadows.bottom.getStickyHeadersShadowsVisibility());
         const needUpdate = this._wasMouseEnter || this._options.shadowMode === SHADOW_MODE.JS;
         this._shadows.setStickyFixed(
             this._stickyHeaderController.hasFixed(POSITION.TOP) && this._stickyHeaderController.hasShadowVisible(POSITION.TOP),
@@ -570,6 +571,14 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         const stickyHeaderOffsetTop = this._stickyHeaderController.getHeadersHeight(POSITION.TOP, TYPE_FIXED_HEADERS.fixed);
         const stickyHeaderOffsetBottom = this._stickyHeaderController.getHeadersHeight(POSITION.BOTTOM, TYPE_FIXED_HEADERS.fixed);
         this._notify('fixed', [stickyHeaderOffsetTop, stickyHeaderOffsetBottom]);
+
+        // Спилить метод после того как будет сделана задача
+        // https://online.sbis.ru/opendoc.html?guid=8089ac76-89d3-42c0-9ef2-8b187014559f
+        if (fixedHeaderData.fixedPosition && !this._shadows.top?.isEnabled && this._children.hasOwnProperty('topShadow')) {
+            fastUpdate.mutate(() => {
+                this._children.topShadow.classList.add('ws-hidden');
+            });
+        }
     }
 
     _stickyRegisterHandler(event: SyntheticEvent<Event>, data: TRegisterEventData, register: boolean): void {
@@ -597,20 +606,22 @@ export default class Container extends ContainerBase<IContainerOptions> implemen
         }
     }
 
+    protected _stickyHeaderOffsetTopChangedHandler(): void {
+        this._stickyHeaderController.resizeHandler();
+    }
+
     getHeadersHeight(position: POSITION, type: TYPE_FIXED_HEADERS = TYPE_FIXED_HEADERS.initialFixed): number {
         return this._stickyHeaderController.getHeadersHeight(position, type);
+    }
+    // FIXME: костыль для input:Area, чтобы она напрямую в детей не лазала
+    getScrollTop(): number {
+        return this._children.content.scrollTop;
     }
 
     static _isCssShadowsSupported(): boolean {
         // Ie и Edge неправильно позиционируют фон со стилями
         // background-position: bottom и background-attachment: local
         return !detection.isMobileIOS && !detection.isIE;
-    }
-
-    static contextTypes() {
-       return {
-          ScrollData
-       };
     }
 
     static _theme: string[] = ['Controls/scroll'];

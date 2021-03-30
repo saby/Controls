@@ -1,7 +1,9 @@
 import {DataLoader, ILoadDataResult, ILoadDataConfig, ILoadDataCustomConfig} from 'Controls/dataSource';
 import {Memory} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
-import {useFakeTimers} from 'sinon';
+import {NewSourceController} from 'Controls/dataSource';
+import {createSandbox} from 'sinon';
+import {default as groupUtil} from 'Controls/_dataSource/GroupUtil';
 
 function getDataArray(): object[] {
     return [
@@ -155,6 +157,31 @@ describe('Controls/dataSource:loadData', () => {
 
         ok(loadDataPromises.length === 2);
         ok(loadResults.length === 2);
+    });
+
+    it('load data with sourceController in config', async () => {
+        const source = getSource();
+        const sourceController = new NewSourceController({source});
+        const dataLoader = getDataLoader();
+        await dataLoader.load([{source, sourceController}]);
+
+        ok(dataLoader.getSourceController() === sourceController);
+    });
+
+    it('load with collapsedGroups', async () => {
+        const sinonSandbox = createSandbox();
+        const loadDataConfigWithFilter = {
+            source: getSource(),
+            filter: {},
+            groupHistoryId: 'testGroupHistoryId'
+        };
+
+        sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', () => {
+            return Promise.resolve(['testCollapsedGroup1', 'testCollapsedGroup2']);
+        });
+        const loadDataResult = await getDataLoader().load([loadDataConfigWithFilter]);
+        deepStrictEqual((loadDataResult[0] as ILoadDataResult).collapsedGroups, ['testCollapsedGroup1', 'testCollapsedGroup2']);
+        sinonSandbox.restore();
     });
 
 });

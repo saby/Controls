@@ -1,6 +1,5 @@
 <ws:template name="menuRowTemplate">
 <div attr:class="controls-Menu__row
-                 controls-DropdownList__row
                  controls-ListView__itemV js-controls-ListView__measurableContainer
                  {{itemData.itemClassList}}
                  controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}">
@@ -34,6 +33,7 @@
                   <ws:partial
                           template="{{content.resolvedTemplate}}"
                           itemData="{{itemData}}"
+                          item="{{itemData}}"
                           selected="{{treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected()}}"
                   />
                </Controls.Container.Async>
@@ -43,6 +43,7 @@
                        template="{{contentTemplate}}"
                        selected="{{treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected()}}"
                        itemData="{{itemData}}"
+                       item="{{itemData}}"
                />
             </ws:else>
          </ws:if>
@@ -85,7 +86,6 @@
 
 <ws:if data="{{treeItem['[Controls/_display/SearchSeparator]']}}">
    <div attr:class="controls-Menu__row
-                 controls-DropdownList__row
                  controls-ListView__itemV
                  {{itemData.itemClassList}}">
       <span class="controls-Menu__row__searchSeparator_line_horizontal"></span>

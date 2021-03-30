@@ -235,6 +235,9 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             } else {
                 resultDef = this._loadSelectedItems(this._source, this._configs).then(() => {
                     this._updateText(this._source, this._configs);
+                    if (this._getFilterPopupOpener().isOpened()) {
+                        this.openDetailPanel();
+                    }
                 });
             }
             return resultDef;
@@ -248,7 +251,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
         }
         this._configs = null;
         this._displayText = null;
-        UnregisterUtil(this, 'scroll');
+        UnregisterUtil(this, 'scroll', {listenAll: true});
         if (this._filterPopupOpener) {
             this._filterPopupOpener.destroy();
         }
@@ -388,7 +391,7 @@ class FilterView extends Control<IFilterViewOptions, IFilterReceivedState> imple
             return;
         }
         if (!detection.isMobileIOS) {
-            RegisterUtil(this, 'scroll', this._handleScroll.bind(this));
+            RegisterUtil(this, 'scroll', this._handleScroll.bind(this), {listenAll: true});
         }
         const popupOptions = {
             opener: this,

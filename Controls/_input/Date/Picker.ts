@@ -36,6 +36,11 @@ class Picker extends Control<IControlOptions> {
     _template: TemplateFunction = template;
     _proxyEvent: Function = EventUtils.tmplNotify;
     _shouldValidate: boolean = false;
+    private _state: string;
+
+    protected _beforeMount(): void {
+        this._stateChangedCallback = this._stateChangedCallback.bind(this);
+    }
 
     openPopup(event: SyntheticEvent<MouseEvent>): void {
         let value;
@@ -62,7 +67,9 @@ class Picker extends Control<IControlOptions> {
                 headerType: 'input',
                 closeButtonEnabled: true,
                 ranges: this._options.ranges,
-                startValueValidators: this._options.valueValidators
+                startValueValidators: this._options.valueValidators,
+                state: this._state,
+                stateChangedCallback: this._stateChangedCallback
             }
         };
         this._children.opener.open(cfg);
@@ -75,19 +82,23 @@ class Picker extends Control<IControlOptions> {
         }
     }
 
+    protected _stateChangedCallback(state: string): void {
+        this._state = state;
+    }
+
     _onResultWS3(event: Event, startValue: Date): void {
         this._onResult(startValue);
     }
 
     _onResult(startValue: Date): void {
         const stringValueConverter = new StringValueConverter({
-                mask: this._options.mask,
-                replacer: this._options.replacer,
-                dateConstructor: this._options.dateConstructor
-            });
+            mask: this._options.mask,
+            replacer: this._options.replacer,
+            dateConstructor: this._options.dateConstructor
+        });
         const textValue = stringValueConverter.getStringByValue(startValue);
         this._notify('valueChanged', [startValue, textValue]);
-        this._children.opener.close();
+        this._children.opener?.close();
         this._notify('inputCompleted', [startValue, textValue]);
         /**
          * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged

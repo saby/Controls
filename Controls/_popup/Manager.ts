@@ -693,7 +693,8 @@ class Manager {
                 parentZIndex,
                 popupOptions: {
                     maximize: !!item.popupOptions.maximize, // for notification popup
-                    modal: !!item.popupOptions.modal // for notification popup
+                    modal: !!item.popupOptions.modal, // for notification popup
+                    template: item.popupOptions.template
                 }
             });
         });

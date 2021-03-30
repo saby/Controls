@@ -15,7 +15,7 @@ import {INavigationOptionValue,
         INavigationOptions} from 'Controls/interface';
 import {TNavigationPagingMode} from 'Controls/interface';
 import {RecordSet} from 'Types/collection';
-import {Record as EntityRecord, CancelablePromise, Model, EventRaisingMixin, ObservableMixin} from 'Types/entity';
+import {Record as EntityRecord, CancelablePromise, Model, EventRaisingMixin, ObservableMixin, relation} from 'Types/entity';
 import {Logger} from 'UI/Utils';
 import {IQueryParams} from 'Controls/_interface/IQueryParams';
 import {default as groupUtil} from './GroupUtil';
@@ -108,11 +108,9 @@ export function isEqualItems(oldList: RecordSet, newList: RecordSet): boolean {
 }
 
 export default class Controller extends mixin<
-    ObservableMixin,
-    EventRaisingMixin
+    ObservableMixin
     >(
-    ObservableMixin,
-    EventRaisingMixin
+    ObservableMixin
 ) {
     private _options: IControllerOptions;
     private _filter: QueryWhereExpression<unknown>;
@@ -140,7 +138,7 @@ export default class Controller extends mixin<
         super();
         EventRaisingMixin.call(this, cfg);
         this._options = cfg;
-        this.setFilter(cfg.filter);
+        this.setFilter(cfg.filter || {});
         this.setNavigation(cfg.navigation);
 
         if (cfg.root !== undefined) {
@@ -148,6 +146,9 @@ export default class Controller extends mixin<
         }
         if (cfg.dataLoadCallback !== undefined) {
             this._setDataLoadCallbackFromOptions(cfg.dataLoadCallback);
+        }
+        if (cfg.expandedItems !== undefined) {
+            this.setExpandedItems(cfg.expandedItems);
         }
         this.setParentProperty(cfg.parentProperty);
         this._resolveNavigationParamsChangedCallback(cfg);
@@ -282,10 +283,6 @@ export default class Controller extends mixin<
 
         if (rootChanged) {
             this.setRoot(newOptions.root);
-
-            if (!isExpadedItemsChanged) {
-                this.setExpandedItems([]);
-            }
         }
 
         if (dataLoadCallbackChanged) {
@@ -315,6 +312,9 @@ export default class Controller extends mixin<
             !isEqual(newOptions.sorting, this._options.sorting) ||
             (this._parentProperty && rootChanged);
 
+        if (isChanged && !(isExpadedItemsChanged || this._isDeepReload())) {
+            this.setExpandedItems([]);
+        }
         this._options = newOptions;
         return isChanged;
     }
@@ -442,15 +442,30 @@ export default class Controller extends mixin<
     private _updateQueryPropertiesByItems(
         list: RecordSet,
         id?: TKey,
-        navigationConfig?: IBaseSourceConfig,
+        navigationConfig?: INavigationSourceConfig,
         direction?: Direction
     ): void {
+        let hierarchyRelation;
+
         if (this._hasNavigationBySource()) {
             if (this._deepReload || !direction && this._root === id) {
                 this._destroyNavigationController();
             }
+            if (this._options.parentProperty && this._isMultiNavigation(navigationConfig)) {
+                hierarchyRelation = new relation.Hierarchy({
+                    parentProperty: this._options.parentProperty,
+                    nodeProperty: this._options.nodeProperty,
+                    keyProperty: this._options.keyProperty
+                });
+            }
             this._getNavigationController(this._navigation)
-                .updateQueryProperties(list, id, navigationConfig, NAVIGATION_DIRECTION_COMPATIBILITY[direction]);
+                .updateQueryProperties(
+                    list,
+                    id,
+                    navigationConfig,
+                    NAVIGATION_DIRECTION_COMPATIBILITY[direction],
+                    hierarchyRelation
+                );
         }
     }
 
@@ -459,32 +474,47 @@ export default class Controller extends mixin<
         key: TKey,
         navigationSourceConfig: INavigationSourceConfig,
         direction: Direction
-        ): IQueryParams|IQueryParams[] {
+    ): IQueryParams|IQueryParams[] {
         const navigationController = this._getNavigationController(this._navigation);
-        const navigationConfig = navigationSourceConfig || this._navigation.sourceConfig;
         const userQueryParams = {
             filter: queryParams.filter,
             sorting: queryParams.sorting
         };
+        const isMultiNavigation = this._isMultiNavigation(navigationSourceConfig);
+        const isHierarchyQueryParamsNeeded =
+            isMultiNavigation &&
+            this._isDeepReload() &&
+            this._expandedItems?.length &&
+            !direction;
+        let resultQueryParams;
 
-        if (navigationConfig?.multiNavigation && this._isDeepReload() && this._expandedItems?.length) {
-            return navigationController.getQueryParamsForHierarchy(
+        if (isHierarchyQueryParamsNeeded) {
+            resultQueryParams = navigationController.getQueryParamsForHierarchy(
                 userQueryParams,
                 navigationSourceConfig,
-                false
+                !isMultiNavigation
             );
-        } else {
-            return navigationController.getQueryParams(
+        }
+
+        if (!isHierarchyQueryParamsNeeded || !resultQueryParams || !resultQueryParams.length) {
+            resultQueryParams = navigationController.getQueryParams(
                 userQueryParams,
                 key,
                 navigationSourceConfig,
-                NAVIGATION_DIRECTION_COMPATIBILITY[direction]
+                NAVIGATION_DIRECTION_COMPATIBILITY[direction],
+                !isMultiNavigation
             );
         }
+
+        return resultQueryParams;
     }
 
     private _isDeepReload(): boolean {
         return this._deepReload || this._options.deepReload;
+    }
+
+    private _isMultiNavigation(navigationSourceConfig: INavigationSourceConfig): boolean {
+        return (navigationSourceConfig || this._options.navigation.sourceConfig)?.multiNavigation;
     }
 
     private _addItems(items: RecordSet, key: TKey, direction: Direction): RecordSet {
@@ -672,11 +702,13 @@ export default class Controller extends mixin<
             dataLoadCallbackResult = this._dataLoadCallback(result, direction);
         }
 
-        if ((loadedInCurrentRoot || direction) && this._dataLoadCallbackFromOptions) {
-            this._dataLoadCallbackFromOptions(result, direction);
-        }
+        if (loadedInCurrentRoot || direction) {
+            this._notify('dataLoad', result, direction);
 
-        this._notify('dataLoadCallback', result);
+            if (this._dataLoadCallbackFromOptions) {
+                this._dataLoadCallbackFromOptions(result, direction);
+            }
+        }
 
         if (dataLoadCallbackResult instanceof Promise) {
             methodResult = dataLoadCallbackResult.then(() => {
@@ -695,7 +727,7 @@ export default class Controller extends mixin<
     ): Error {
         // Если упала ошибка при загрузке в каком-то направлении,
         // то контроллер навигации сбрасывать нельзя,
-        // Т.к. в этом направлении могут продолжить загрухзку
+        // Т.к. в этом направлении могут продолжить загрузку
         if (!direction) {
             this._navigationController = null;
         }
@@ -802,8 +834,7 @@ export default class Controller extends mixin<
         initialFilter: QueryWhereExpression<unknown>,
         options: IControllerOptions
     ): Promise<QueryWhereExpression<unknown>> {
-        const hasGrouping = !!options.groupProperty || !!options.groupingKeyCallback;
-        const historyId = hasGrouping ? (options.groupHistoryId || options.historyIdCollapsedGroups) : undefined;
+        const historyId = options.groupHistoryId || options.historyIdCollapsedGroups;
         const collapsedGroups = options.collapsedGroups;
         const getFilterWithCollapsedGroups = (collapsedGroupsIds: TArrayGroupId) => {
             let modifiedFilter;

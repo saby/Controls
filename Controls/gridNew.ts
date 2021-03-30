@@ -1,5 +1,6 @@
 import {isFullGridSupport} from 'Controls/display';
 import { default as View } from 'Controls/_gridNew/Grid';
+import { default as ItemsView } from 'Controls/_gridNew/ItemsGrid';
 import GridView from 'Controls/_gridNew/GridView';
 
 import * as GridItemTemplate from 'wml!Controls/_gridNew/Render/grid/Item';
@@ -25,10 +26,12 @@ import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupCellContentWit
 import * as HeaderContent from 'wml!Controls/_gridNew/Render/HeaderCellContent';
 import * as ResultColumnTemplate from 'wml!Controls/_gridNew/Render/ResultsCellContent';
 import * as ResultsTemplate from 'wml!Controls/_gridNew/Render/ResultsCellContent';
-import * as FooterContent from 'wml!Controls/_gridNew/Render/FooterCellContent';
+import * as FooterColumnTemplate from 'wml!Controls/_gridNew/Render/FooterCellContent';
+import * as FooterTemplate from 'wml!Controls/_gridNew/Render/FooterCellContent';
 import * as EmptyTemplate from 'wml!Controls/_gridNew/Render/EmptyCellContent';
 import * as EmptyColumnTemplate from 'wml!Controls/_gridNew/Render/EmptyCellContent';
 import * as ItemActionsCellContent from 'wml!Controls/_gridNew/Render/ItemActionsCellContent';
+import * as ItemEditorTemplate from 'wml!Controls/_gridNew/Render/ItemEditorTemplate';
 
 import * as MoneyTypeRender from 'wml!Controls/_gridNew/Render/types/money';
 import * as NumberTypeRender from 'wml!Controls/_gridNew/Render/types/number';
@@ -36,19 +39,23 @@ import * as StringTypeRender from 'wml!Controls/_gridNew/Render/types/string';
 import * as StringSearchTypeRender from 'wml!Controls/_gridNew/Render/types/StringSearch';
 
 import SortingButton from 'Controls/_gridNew/SortingButton';
+import SortingSelector from 'Controls/_gridNew/SortingSelector';
 import {register} from 'Types/di';
 
 export {
     View,
+    ItemsView,
     GridView,
     ItemTemplate,
+    ItemEditorTemplate,
     ResultsTemplate,
     ResultColumnTemplate,
     ColumnTemplate,
     StickyLadderColumnTemplate,
     GroupTemplate,
     HeaderContent,
-    FooterContent,
+    FooterTemplate,
+    FooterColumnTemplate,
     ItemActionsCellContent,
     EmptyTemplate,
     EmptyColumnTemplate,
@@ -57,7 +64,8 @@ export {
     StringTypeRender,
     StringSearchTypeRender,
     TableTemplate,
-    SortingButton
+    SortingButton,
+    SortingSelector
 };
 
 import {

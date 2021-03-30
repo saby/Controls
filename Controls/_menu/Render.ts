@@ -67,6 +67,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
     protected _getItemData(treeItem: TreeItem<Model>): object {
         return {
             item: treeItem.getContents(),
+            contents: treeItem.getContents(),
             treeItem,
             iconPadding: this._iconPadding,
             iconSize: treeItem.getContents() ? this._getIconSize(treeItem.getContents()) : null,
@@ -133,7 +134,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
                 classes += ' controls-Menu__defaultItem';
             }
             if (!this._isFixedItem(treeItem) && item.get('pinned') === true && !this._hasParent(item)) {
-                classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
+                classes += ' controls-Menu__row_pinned';
             }
             if (this._options.listModel.getLast() !== treeItem && !this._isGroupNext(treeItem) &&
                 !(this._options.allowPin && this._isHistorySeparatorVisible(treeItem))) {

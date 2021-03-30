@@ -2,8 +2,9 @@ import { TemplateFunction } from 'UI/Base';
 import { IItemActionsOptions } from 'Controls/itemActions';
 import { IMarkerListOptions } from 'Controls/marker';
 import { IItemPadding } from 'Controls/display';
-import {IFontColorStyle} from 'Controls/interface';
+import {Direction, IFontColorStyle, IItemTemplateOptions} from 'Controls/interface';
 import {IMovableOptions} from './IMovableList';
+import {RecordSet} from 'Types/collection';
 
 type TMultiSelectVisibility = 'visible'|'onhover'|'hidden';
 
@@ -32,9 +33,9 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
     multiSelectVisibility?: TMultiSelectVisibility;
     stickyMarkedItem?: boolean;
     uniqueKeys?: boolean;
-    itemsReadyCallback?: (items) => void;
-    dataLoadCallback?: (items) => void;
-    dataLoadErrback?: () => void;
+    itemsReadyCallback?: (items: RecordSet) => void;
+    dataLoadCallback?: (items: RecordSet, direction?: Direction) => void;
+    dataLoadErrback?: (error: unknown) => void;
     style?: TListStyle;
     backgroundStyle?: string;
     hoverBackgroundStyle?: string;
@@ -105,7 +106,7 @@ export interface IList extends IItemActionsOptions, IMarkerListOptions, IMovable
 
 /**
  * @name Controls/_list/interface/IList#emptyTemplate
- * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty-list/ пустого списка}.
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}.
  * @demo Controls-demo/list_new/EmptyList/Default/Index
  * @default undefined
  * @example

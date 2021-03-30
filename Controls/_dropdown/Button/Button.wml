@@ -1,4 +1,4 @@
-<div class="controls_theme-{{_options.theme}} controls-MenuButton controls-MenuButton__Wrapper">
+<div class="controls-MenuButton controls-MenuButton__Wrapper">
     <ws:if data="{{!_options.lazyItemsLoading && !_hasItems && _options.viewMode === 'link'}}">
         <div class="controls-text controls-MenuButton__text controls-text-default
                      controls-fontsize-{{_options.fontSize}}"
@@ -12,6 +12,7 @@
                 iconSize="{{_options.iconSize}}"
                 iconStyle="{{_options.iconStyle}}"
                 caption="{{_options.caption}}"
+                captionPosition="{{_options.captionPosition}}"
                 fontColorStyle="{{_options.fontColorStyle}}"
                 fontSize="{{_options.fontSize}}"
                 inlineHeight="{{_options.inlineHeight}}"

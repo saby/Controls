@@ -1,20 +1,16 @@
 <div>
     <ws:if data="{{_options._yearHovered === _options.currentYear}}">
         <div class="controls-PeriodLiteDialog__item-background-hovered
-               controls-PeriodLiteDialog__item-background-hovered_theme-{{_options.theme}}
                border-top-hidden"></div>
     </ws:if>
     <ws:for data="halfYearIndex as halfYear in _yearModel">
         <ws:for data="quarterIndex as quarter in halfYear.quarters">
-            <div class="controls-PeriodLiteDialog__vLayoutItem controls-PeriodLiteDialog__vLayoutItem-clickable
-                        controls-PeriodLiteDialog__vLayoutItem_theme-{{_options.theme}}
-                        controls-PeriodLiteDialog__vLayoutItem-clickable_theme-{{_options.theme}}"
+            <div class="controls-PeriodLiteDialog__vLayoutItem controls-PeriodLiteDialog__vLayoutItem-clickable"
                  on:click="_onQuarterClick(quarter.number,  _options.currentYear)"
                  on:mouseenter="_onQuarterMouseEnter(quarter.number)"
                  on:mouseleave="_onQuarterMouseLeave(quarter.number)"
             >
-                <div class="controls-PeriodLiteDialog__vLayoutItem-caption
-                            controls-PeriodLiteDialog__vLayoutItem-caption_theme-{{_options.theme}}"
+                <div class="controls-PeriodLiteDialog__vLayoutItem-caption"
                      title="{{ quarter.tooltip }}">
                     {{ quarter.fullName }}
                 </div>

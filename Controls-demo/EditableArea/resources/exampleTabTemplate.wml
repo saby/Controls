@@ -11,7 +11,7 @@
                     attr:class="ControlsDemo-EditableArea__date ControlsDemo-EditableArea__tabEditor"
             >
                 <ws:editorTemplate>
-                    <Controls.input:Text selectOnClick="{{ false }}"
+                    <Controls.input:Text contrastBackground="{{true}}" selectOnClick="{{ false }}"
                                          attr:class="ControlsDemo-EditableArea__input controls-Input_negativeOffset_theme_{{_options.theme}}"/>
                 </ws:editorTemplate>
             </Controls.editableArea:Base>
@@ -22,7 +22,7 @@
                 attr:class="controls-Tabs__content_additionaltext ControlsDemo-EditableArea__number ControlsDemo-EditableArea__tabEditor"
         >
             <ws:editorTemplate>
-                <Controls.input:Text selectOnClick="{{ false }}"
+                <Controls.input:Text contrastBackground="{{true}}" selectOnClick="{{ false }}"
                                      attr:class="ControlsDemo-EditableArea__input controls-Input_negativeOffset_theme_{{_options.theme}}"/>
             </ws:editorTemplate>
         </Controls.editableArea:Base>

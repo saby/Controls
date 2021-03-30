@@ -1,4 +1,4 @@
-<span attr:class="controls-Button__close sbisname-window-title-close controls_theme-{{_options.theme}}"
+<span attr:class="controls-Button__close sbisname-window-title-close"
       attr:ws-creates-context="false"
       sbisname="floatAreaCloseButton">
     <span class="controls-Button__close__wrapper
