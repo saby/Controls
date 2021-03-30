@@ -1,5 +1,5 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import template = require('wml!Controls/_grid/Render/SortingButton/SortingButton');
+import template = require('wml!Controls/_gridOld/SortingResources/SortingButton');
 
 export interface ISortingButtonOptions extends IControlOptions {
     property: string;
@@ -7,13 +7,13 @@ export interface ISortingButtonOptions extends IControlOptions {
 /**
  * Контрол, используемый для изменения сортировки внутри таблиц
  *
- * @class Controls/_grid/SortingButton
+ * @class Controls/_gridOld/SortingButton
  * @extends UI/Base:Control
- * @mixes Controls/_grid/SortingButton/Styles
- *
+ * @mixes Controls/_gridOld/SortingButton/Styles
+ * 
  * @private
- *
- * @see Controls/gridNew:SortingSelector
+ * 
+ * @see Controls/grid:SortingSelector
  */
 class SortingButton extends Control<ISortingButtonOptions> {
     protected _template: TemplateFunction = template;
@@ -25,7 +25,7 @@ class SortingButton extends Control<ISortingButtonOptions> {
     static _theme: [string] = ['Controls/grid'];
 }
 /**
- * @name Controls/_grid/SortingButton#property
+ * @name Controls/_gridOld/SortingButton#property
  * @cfg {String} Поле для сортировки.
  */
 export default SortingButton;

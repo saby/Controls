@@ -1,12 +1,12 @@
 import {isFullGridSupport} from 'Controls/display';
-import { default as View } from 'Controls/_gridNew/Grid';
-import { default as ItemsView } from 'Controls/_gridNew/ItemsGrid';
-import GridView from 'Controls/_gridNew/GridView';
+import { default as View } from 'Controls/_grid/Grid';
+import { default as ItemsView } from 'Controls/_grid/ItemsGrid';
+import GridView from 'Controls/_grid/GridView';
 
-import * as GridItemTemplate from 'wml!Controls/_gridNew/Render/grid/Item';
-import * as TableItemTemplate from 'wml!Controls/_gridNew/Render/table/Item';
+import * as GridItemTemplate from 'wml!Controls/_grid/Render/grid/Item';
+import * as TableItemTemplate from 'wml!Controls/_grid/Render/table/Item';
 
-import * as TableTemplate from 'wml!Controls/_gridNew/Render/table/GridView';
+import * as TableTemplate from 'wml!Controls/_grid/Render/table/GridView';
 // FIXME: при обычном условном присвоении шаблона tmpl = isAny ? tmpl1 : tmpl2, переменной один раз присвоится значение и не будет меняться.
 //  В таком случае возникает ошибка при открытии одной страницы из разных браузеров (Chrome и IE), с сервера всегда будет возвращаться один и тот же шаблон,
 //  для того браузера, который первый открыл страницу.
@@ -20,26 +20,26 @@ const ItemTemplate = function() {
 ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
-import * as ColumnTemplate from 'wml!Controls/_gridNew/Render/CellContent';
-import * as StickyLadderColumnTemplate from 'wml!Controls/_gridNew/Render/grid/StickyLadderColumn';
-import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupCellContentWithRightTemplate';
-import * as HeaderContent from 'wml!Controls/_gridNew/Render/HeaderCellContent';
-import * as ResultColumnTemplate from 'wml!Controls/_gridNew/Render/ResultsCellContent';
-import * as ResultsTemplate from 'wml!Controls/_gridNew/Render/ResultsCellContent';
-import * as FooterColumnTemplate from 'wml!Controls/_gridNew/Render/FooterCellContent';
-import * as FooterTemplate from 'wml!Controls/_gridNew/Render/FooterCellContent';
-import * as EmptyTemplate from 'wml!Controls/_gridNew/Render/EmptyCellContent';
-import * as EmptyColumnTemplate from 'wml!Controls/_gridNew/Render/EmptyCellContent';
-import * as ItemActionsCellContent from 'wml!Controls/_gridNew/Render/ItemActionsCellContent';
-import * as ItemEditorTemplate from 'wml!Controls/_gridNew/Render/ItemEditorTemplate';
+import * as ColumnTemplate from 'wml!Controls/_grid/Render/CellContent';
+import * as StickyLadderColumnTemplate from 'wml!Controls/_grid/Render/grid/StickyLadderColumn';
+import * as GroupTemplate from 'wml!Controls/_grid/Render/GroupCellContentWithRightTemplate';
+import * as HeaderContent from 'wml!Controls/_grid/Render/HeaderCellContent';
+import * as ResultColumnTemplate from 'wml!Controls/_grid/Render/ResultsCellContent';
+import * as ResultsTemplate from 'wml!Controls/_grid/Render/ResultsCellContent';
+import * as FooterColumnTemplate from 'wml!Controls/_grid/Render/FooterCellContent';
+import * as FooterTemplate from 'wml!Controls/_grid/Render/FooterCellContent';
+import * as EmptyTemplate from 'wml!Controls/_grid/Render/EmptyCellContent';
+import * as EmptyColumnTemplate from 'wml!Controls/_grid/Render/EmptyCellContent';
+import * as ItemActionsCellContent from 'wml!Controls/_grid/Render/ItemActionsCellContent';
+import * as ItemEditorTemplate from 'wml!Controls/_grid/Render/ItemEditorTemplate';
 
-import * as MoneyTypeRender from 'wml!Controls/_gridNew/Render/types/money';
-import * as NumberTypeRender from 'wml!Controls/_gridNew/Render/types/number';
-import * as StringTypeRender from 'wml!Controls/_gridNew/Render/types/string';
-import * as StringSearchTypeRender from 'wml!Controls/_gridNew/Render/types/StringSearch';
+import * as MoneyTypeRender from 'wml!Controls/_grid/Render/types/money';
+import * as NumberTypeRender from 'wml!Controls/_grid/Render/types/number';
+import * as StringTypeRender from 'wml!Controls/_grid/Render/types/string';
+import * as StringSearchTypeRender from 'wml!Controls/_grid/Render/types/StringSearch';
 
-import SortingButton from 'Controls/_gridNew/SortingButton';
-import SortingSelector from 'Controls/_gridNew/SortingSelector';
+import SortingButton from 'Controls/_grid/SortingButton';
+import SortingSelector from 'Controls/_grid/SortingSelector';
 import {register} from 'Types/di';
 
 export {
@@ -71,39 +71,39 @@ export {
 import {
     default as GridCollection,
     IOptions as IGridCollectionOptions
-} from 'Controls/_gridNew/display/Collection';
-export { default as GridMixin, TColspanCallbackResult, TColspanCallback, TResultsColspanCallback, IEmptyTemplateColumn } from 'Controls/_gridNew/display/mixins/Grid';
-export { default as GridRowMixin } from 'Controls/_gridNew/display/mixins/Row';
-export { default as GridGroupCellMixin } from 'Controls/_gridNew/display/mixins/GroupCell';
-export { IItemTemplateParams } from 'Controls/_gridNew/display/mixins/Row';
+} from 'Controls/_grid/display/Collection';
+export { default as GridMixin, TColspanCallbackResult, TColspanCallback, TResultsColspanCallback, IEmptyTemplateColumn } from 'Controls/_grid/display/mixins/Grid';
+export { default as GridRowMixin } from 'Controls/_grid/display/mixins/Row';
+export { default as GridGroupCellMixin } from 'Controls/_grid/display/mixins/GroupCell';
+export { IItemTemplateParams } from 'Controls/_grid/display/mixins/Row';
 
-import GridRow, {IOptions as IGridRowOptions} from 'Controls/_gridNew/display/Row';
-import { default as GridItemActionsCell } from 'Controls/_gridNew/display/ItemActionsCell';
-import GridCell, {IOptions as IGridCellOptions} from 'Controls/_gridNew/display/Cell';
-import GridHeader, {IOptions as IGridHeaderOptions} from 'Controls/_gridNew/display/Header';
-import GridHeaderRow, {IOptions as IGridHeaderRowOptions} from 'Controls/_gridNew/display/HeaderRow';
-import GridHeaderCell, {IOptions as IGridHeaderCellOptions} from 'Controls/_gridNew/display/HeaderCell';
+import GridRow, {IOptions as IGridRowOptions} from 'Controls/_grid/display/Row';
+import { default as GridItemActionsCell } from 'Controls/_grid/display/ItemActionsCell';
+import GridCell, {IOptions as IGridCellOptions} from 'Controls/_grid/display/Cell';
+import GridHeader, {IOptions as IGridHeaderOptions} from 'Controls/_grid/display/Header';
+import GridHeaderRow, {IOptions as IGridHeaderRowOptions} from 'Controls/_grid/display/HeaderRow';
+import GridHeaderCell, {IOptions as IGridHeaderCellOptions} from 'Controls/_grid/display/HeaderCell';
 
-import GridStickyLadderCell, {IOptions as IGridStickyLadderCellOptions} from 'Controls/_gridNew/display/StickyLadderCell';
+import GridStickyLadderCell, {IOptions as IGridStickyLadderCellOptions} from 'Controls/_grid/display/StickyLadderCell';
 
-import GridEmptyRow, {IOptions as IGridEmptyRowOptions} from 'Controls/_gridNew/display/EmptyRow';
-import GridEmptyCell, {IOptions as IGridEmptyCellOptions} from 'Controls/_gridNew/display/EmptyCell';
+import GridEmptyRow, {IOptions as IGridEmptyRowOptions} from 'Controls/_grid/display/EmptyRow';
+import GridEmptyCell, {IOptions as IGridEmptyCellOptions} from 'Controls/_grid/display/EmptyCell';
 
-import GridTableHeader from 'Controls/_gridNew/display/TableHeader';
-import GridTableHeaderRow from 'Controls/_gridNew/display/TableHeaderRow';
+import GridTableHeader from 'Controls/_grid/display/TableHeader';
+import GridTableHeaderRow from 'Controls/_grid/display/TableHeaderRow';
 
-import GridDataRow, {IOptions as IGridDataRowOptions} from 'Controls/_gridNew/display/DataRow';
-import GridDataCell, {IOptions as IGridDataCellOptions} from 'Controls/_gridNew/display/DataCell';
+import GridDataRow, {IOptions as IGridDataRowOptions} from 'Controls/_grid/display/DataRow';
+import GridDataCell, {IOptions as IGridDataCellOptions} from 'Controls/_grid/display/DataCell';
 
-import GridResultsRow, {IOptions as IGridResultsRowOptions} from 'Controls/_gridNew/display/ResultsRow';
-import GridResultsCell, {IOptions as IGridResultsCellOptions} from 'Controls/_gridNew/display/ResultsCell';
+import GridResultsRow, {IOptions as IGridResultsRowOptions} from 'Controls/_grid/display/ResultsRow';
+import GridResultsCell, {IOptions as IGridResultsCellOptions} from 'Controls/_grid/display/ResultsCell';
 
-import GridFooterRow, {IOptions as IGridFooterRowOptions} from 'Controls/_gridNew/display/FooterRow';
-import GridFooterCell, {IOptions as IGridFooterCellOptions} from 'Controls/_gridNew/display/FooterCell';
-import GridGroupRow, {IOptions as IGridGroupRowOptions} from 'Controls/_gridNew/display/GroupRow';
-import GridGroupCell, {IOptions as IGridGroupCellOptions} from 'Controls/_gridNew/display/GroupCell';
+import GridFooterRow, {IOptions as IGridFooterRowOptions} from 'Controls/_grid/display/FooterRow';
+import GridFooterCell, {IOptions as IGridFooterCellOptions} from 'Controls/_grid/display/FooterCell';
+import GridGroupRow, {IOptions as IGridGroupRowOptions} from 'Controls/_grid/display/GroupRow';
+import GridGroupCell, {IOptions as IGridGroupCellOptions} from 'Controls/_grid/display/GroupCell';
 
-import { IDisplaySearchValueOptions, IDisplaySearchValue } from 'Controls/_gridNew/display/interface/IDisplaySearchValue';
+import { IDisplaySearchValueOptions, IDisplaySearchValue } from 'Controls/_grid/display/interface/IDisplaySearchValue';
 
 register('Controls/gridNew:GridCollection', GridCollection, {instantiate: false});
 register('Controls/gridNew:GridRow', GridRow, {instantiate: false});

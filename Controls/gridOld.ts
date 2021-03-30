@@ -1,26 +1,26 @@
 /**
  * Библиотека контролов, которые реализуют плоский список, отображающийся в виде таблицы.
  * @library Controls/grid
- * @includes ItemTemplate Controls/_grid/interface/ItemTemplate
- * @includes ResultsTemplate Controls/_grid/interface/ResultsTemplate
- * @includes GroupTemplate Controls/_grid/interface/GroupTemplate
- * @includes HeaderContent Controls/_grid/interface/HeaderContent
- * @includes LadderWrapper Controls/_grid/interface/LadderWrapper
- * @includes ColumnTemplate Controls/_grid/interface/ColumnTemplate
- * @includes ResultColumnTemplate Controls/_grid/interface/ResultColumnTemplate
- * @includes EditingEmptyTemplate Controls/_grid/interface/EditingEmptyTemplate
- * @includes RowEditor Controls/_grid/interface/RowEditor
- * @includes IPropStorage Controls/_grid/interface/IPropStorage
- * @includes ITagColumn Controls/_grid/interface/ITagColumn
+ * @includes ItemTemplate Controls/_gridOld/interface/ItemTemplate
+ * @includes ResultsTemplate Controls/_gridOld/interface/ResultsTemplate
+ * @includes GroupTemplate Controls/_gridOld/interface/GroupTemplate
+ * @includes HeaderContent Controls/_gridOld/interface/HeaderContent
+ * @includes LadderWrapper Controls/_gridOld/interface/LadderWrapper
+ * @includes ColumnTemplate Controls/_gridOld/interface/ColumnTemplate
+ * @includes ResultColumnTemplate Controls/_gridOld/interface/ResultColumnTemplate
+ * @includes EditingEmptyTemplate Controls/_gridOld/interface/EditingEmptyTemplate
+ * @includes RowEditor Controls/_gridOld/interface/RowEditor
+ * @includes IPropStorage Controls/_gridOld/interface/IPropStorage
+ * @includes ITagColumn Controls/_gridOld/interface/ITagColumn
  * @public
  * @author Крайнов Д.О.
  */
 
-import {default as View} from 'Controls/_grid/Grid';
-import * as GridLayoutUtil from './_grid/utils/GridLayoutUtil';
+import {default as View} from 'Controls/_gridOld/Grid';
+import * as GridLayoutUtil from './_gridOld/utils/GridLayoutUtil';
 
-import GridLayoutItemTemplate = require('wml!Controls/_grid/layout/grid/Item');
-import TableLayoutItemTemplate = require('wml!Controls/_grid/layout/table/Item');
+import GridLayoutItemTemplate = require('wml!Controls/_gridOld/layout/grid/Item');
+import TableLayoutItemTemplate = require('wml!Controls/_gridOld/layout/table/Item');
 
 // FIXME: при обычном условном присвоении шаблона tmpl = isAny ? tmpl1 : tmpl2, переменной один раз присвоится значение и не будет меняться.
 //  В таком случае возникает ошибка при открытии одной страницы из разных браузеров (Chrome и IE), с сервера всегда будет возвращаться один и тот же шаблон,
@@ -35,22 +35,22 @@ const ItemTemplate = function() {
 ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
-import ResultsTemplate = require('wml!Controls/_grid/ResultsTemplateResolver');
-import GroupTemplate = require('wml!Controls/_grid/GroupTemplate');
-import LadderWrapper = require('wml!Controls/_grid/LadderWrapper');
-import ColumnTemplate = require('wml!Controls/_grid/layout/common/ColumnContent');
-import ColumnLightTemplate = require('wml!Controls/_grid/layout/common/ColumnContentLight');
+import ResultsTemplate = require('wml!Controls/_gridOld/ResultsTemplateResolver');
+import GroupTemplate = require('wml!Controls/_gridOld/GroupTemplate');
+import LadderWrapper = require('wml!Controls/_gridOld/LadderWrapper');
+import ColumnTemplate = require('wml!Controls/_gridOld/layout/common/ColumnContent');
+import ColumnLightTemplate = require('wml!Controls/_gridOld/layout/common/ColumnContentLight');
 
-import HeaderContent = require('wml!Controls/_grid/HeaderContent');
-import SortingButton from 'Controls/_grid/SortingButton';
-import GridView = require('Controls/_grid/GridView');
-import GridViewModel = require('Controls/_grid/GridViewModel');
+import HeaderContent = require('wml!Controls/_gridOld/HeaderContent');
+import SortingButton from 'Controls/_gridOld/SortingButton';
+import GridView = require('Controls/_gridOld/GridView');
+import GridViewModel = require('Controls/_gridOld/GridViewModel');
 
-import {default as SortingSelector, ISortingSelectorOptions} from 'Controls/_grid/SortingSelector';
-import RowEditor = require('wml!Controls/_grid/RowEditor');
-import * as ResultColumnTemplate from 'wml!Controls/_grid/layout/common/ResultCellContent';
+import {default as SortingSelector, ISortingSelectorOptions} from 'Controls/_gridOld/SortingSelector';
+import RowEditor = require('wml!Controls/_gridOld/RowEditor');
+import * as ResultColumnTemplate from 'wml!Controls/_gridOld/layout/common/ResultCellContent';
 
-import * as EditingEmptyTemplate from 'wml!Controls/_grid/emptyTemplates/Editing';
+import * as EditingEmptyTemplate from 'wml!Controls/_gridOld/emptyTemplates/Editing';
 
 export {
     View,
@@ -76,7 +76,7 @@ export {
     GridLayoutUtil
 };
 
-export {IGridControl} from './_grid/interface/IGridControl';
+export {IGridControl} from './_gridOld/interface/IGridControl';
 
 export {
     COLUMN_SCROLL_JS_SELECTORS,
