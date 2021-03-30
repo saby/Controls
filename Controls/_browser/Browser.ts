@@ -23,7 +23,8 @@ import {
     IHierarchyOptions,
     ISearchOptions,
     ISourceOptions,
-    TSelectionType
+    TSelectionType,
+    ISelectionObject
 } from 'Controls/interface';
 import Store from 'Controls/Store';
 import {SHADOW_VISIBILITY} from 'Controls/scroll';
@@ -36,7 +37,7 @@ import {IControllerState} from 'Controls/_dataSource/Controller';
 import {isEqual} from 'Types/object';
 import {DataLoader, IDataLoaderOptions, ILoadDataResult} from 'Controls/dataSource';
 import {Logger} from 'UI/Utils';
-import {descriptor} from 'Types/entity';
+import {descriptor, Model} from 'Types/entity';
 
 type Key = string|number|null;
 
@@ -212,6 +213,21 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
                 this._storeCallbackIds = this._createNewStoreObservers();
             }, true);
         }
+    }
+
+    protected _operationPanelItemClick(
+        event: SyntheticEvent,
+        item: Model,
+        clickEvent: SyntheticEvent,
+        selection: ISelectionObject
+    ): void {
+        event.stopImmediatePropagation();
+        this._getOperationsController().executeAction({
+            target: clickEvent,
+            selection,
+            item,
+            filter: this._filter
+        });
     }
 
     protected _createNewStoreObservers(): string[] {
