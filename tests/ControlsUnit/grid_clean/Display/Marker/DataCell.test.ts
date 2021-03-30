@@ -1,8 +1,8 @@
 import {assert} from 'chai';
-import DataCell from 'Controls/_gridNew/display/DataCell';
+import DataCell from 'Controls/_grid/display/DataCell';
 import {CssClassesAssert} from 'ControlsUnit/CustomAsserts';
 
-describe('Controls/_gridNew/display/DataCell', () => {
+describe('Controls/_grid/display/DataCell', () => {
     let shouldDisplayMarker, hasMultiSelectColumn, columnsCount, columnIndex;
 
     const owner = {

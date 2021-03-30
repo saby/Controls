@@ -1,5 +1,5 @@
-<ws:partial template="Controls/grid:ColumnTemplate"
-            attr:class="js-controls-ListView__notEditable "
+<ws:partial template="Controls/gridOld:ColumnTemplate"
+            attr:class="js-controls-ListView__notEditable"
             itemData="{{itemData}}">
     <ws:contentTemplate>
         <div>

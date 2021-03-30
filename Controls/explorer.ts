@@ -7,5 +7,5 @@
  */
 
 export {default as View} from 'Controls/_explorer/View';
-export {SearchItemTpl as SearchItemTemplate} from 'Controls/treeGrid';
+export {SearchItemTpl as SearchItemTemplate} from 'Controls/treeGridOld';
 export {TExplorerViewMode} from 'Controls/_explorer/interface/IExplorer';

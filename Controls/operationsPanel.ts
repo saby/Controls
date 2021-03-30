@@ -14,8 +14,4 @@
  * @author Крайнов Д.О.
  */
 
-import OperationsPanel = require('Controls/_operationsPanel/OperationsPanel');
-
-export {
-   OperationsPanel
-};
+export {default as OperationsPanel} from './_operationsPanel/OperationsPanel';

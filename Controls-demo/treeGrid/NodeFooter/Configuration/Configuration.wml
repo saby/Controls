@@ -5,7 +5,7 @@
         <div class="controlsDemo__cell controlsDemo__mr2">
             <div class="controls-text-label">Подвал не определен</div>
 
-            <Controls.treeGrid:View
+            <Controls.treeGridOld:View
                     name="tree1"
                     keyProperty="id"
                     source="{{_viewSource}}"
@@ -20,7 +20,7 @@
         <div class="controlsDemo__cell">
             <div class="controls-text-label">Кастомный подвал не определен, colspan false</div>
 
-            <Controls.treeGrid:View
+            <Controls.treeGridOld:View
                     keyProperty="id"
                     name="tree2"
                     source="{{_viewSource}}"
@@ -31,9 +31,9 @@
                     useNewNodeFooters="{{ true }}"
                     navigation="{{_navigation}}">
                 <ws:nodeFooterTemplate>
-                    <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />
+                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass" />
                 </ws:nodeFooterTemplate>
-            </Controls.treeGrid:View>
+            </Controls.treeGridOld:View>
         </div>
 
     </div>
@@ -43,7 +43,7 @@
         <div class="controlsDemo__cell controlsDemo__mr2">
             <div class="controls-text-label">Задан прикладной шаблон подвала узла, с colspan</div>
 
-            <Controls.treeGrid:View
+            <Controls.treeGridOld:View
                     keyProperty="id"
                     name="tree3"
                     source="{{_viewSource}}"
@@ -54,11 +54,11 @@
                     useNewNodeFooters="{{ true }}"
                     navigation="{{_navigation}}">
                 <ws:nodeFooterTemplate>
-                    <ws:partial template="Controls/treeGrid:NodeFooterTemplate" cellClassName="customClass">
+                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" cellClassName="customClass">
                         <Controls.list:AddButton caption="Добавить товар" />
                     </ws:partial>
                 </ws:nodeFooterTemplate>
-            </Controls.treeGrid:View>
+            </Controls.treeGridOld:View>
         </div>
 
 
@@ -66,7 +66,7 @@
         <div class="controlsDemo__cell">
             <div class="controls-text-label">Задан прикладной шаблон подвала узла, без colspan</div>
 
-            <Controls.treeGrid:View
+            <Controls.treeGridOld:View
                     keyProperty="id"
                     name="tree4"
                     source="{{_viewSource}}"
@@ -77,11 +77,11 @@
                     useNewNodeFooters="{{ true }}"
                     navigation="{{_navigation}}">
                 <ws:nodeFooterTemplate>
-                    <ws:partial template="Controls/treeGrid:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass">
+                    <ws:partial template="Controls/treeGridOld:NodeFooterTemplate" colspan="{{ false }}" cellClassName="customClass">
                         <Controls.list:AddButton caption="Добавить товар" />
                     </ws:partial>
                 </ws:nodeFooterTemplate>
-            </Controls.treeGrid:View>
+            </Controls.treeGridOld:View>
         </div>
     </div>
 

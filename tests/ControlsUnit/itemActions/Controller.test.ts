@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {stub, SinonStub} from 'sinon';
+import {stub, SinonStub, spy, assert as sinonAssert} from 'sinon';
 import {Model, Record} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -510,6 +510,26 @@ describe('Controls/_itemActions/Controller', () => {
         //  знать о группах
         //  надо разобраться как в коллекцию добавить group
         // it('should set item actions when some items are groups', () => {});
+
+        it('should call collection.setActions() when itemAction\'s showType has changed', () => {
+            const newItemActions = itemActions.map((itemAction: IItemAction) => {
+                const itemActionClone: IItemAction = {...itemAction};
+                if (itemActionClone.showType === TItemActionShowType.TOOLBAR) {
+                    itemActionClone.showType = TItemActionShowType.MENU_TOOLBAR;
+                }
+                return itemActionClone;
+            });
+            const item3 = collection.getItemBySourceKey(3);
+            const spySetActions = spy(item3, 'setActions');
+            // @ts-ignore
+            itemActionsController.update(initializeControllerOptions({
+                collection,
+                itemActions: newItemActions,
+                theme: 'default'
+            }));
+            sinonAssert.called(spySetActions);
+            spySetActions.restore();
+        });
     });
 
     // T2. Активация и деактивация Swipe происходит корректно

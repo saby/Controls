@@ -625,6 +625,52 @@ define([
                assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0);
             });
          });
+
+         it('should return the correct height after a new stackable header has been registered and fixed.', function () {
+            component.init(container);
+            const data = {
+               id: 2,
+               position: 'top',
+               mode: 'stackable',
+               inst: {
+                  getOffset: function() {
+                     return 10;
+                  },
+                  getHeaderContainer: function() {
+                     return {
+                        getBoundingClientRect() {
+                           return { height: 300 };
+                        }
+                     };
+                  },
+                  offsetTop: -130,
+                  height: 300,
+                  resetSticky: sinon.fake(),
+                  restoreSticky: sinon.fake(),
+                  updateShadowVisibility: sinon.fake()
+               },
+               container: {
+                  getBoundingClientRect() {
+                     return { height: 300 };
+                  }
+               }
+            };
+            return component.registerHandler(event, coreMerge({ mode: 'stackable' }, data, { preferSource: true }), true).then(function() {
+               component.fixedHandler(event, {
+                  id: data.id,
+                  fixedPosition: 'top',
+                  prevPosition: '',
+                  height: 10,
+                  shadowVisible: true
+               });
+               assert.equal(component.getHeadersHeight('top'), 300);
+               assert.equal(component.getHeadersHeight('bottom'), 0);
+               assert.equal(component.getHeadersHeight('top', 'allFixed'), 300);
+               assert.equal(component.getHeadersHeight('bottom', 'allFixed'), 0);
+               assert.equal(component.getHeadersHeight('top', 'fixed'), 300);
+               assert.equal(component.getHeadersHeight('bottom', 'fixed'), 0);
+            });
+         });
       });
 
       describe('_resizeObserverCallback', () => {

@@ -2,7 +2,7 @@
     <Controls.buttons:Button caption="Toggle selectionType={{_selectionType}}" on:click="_onToggle()"/>
 
     <div class="demo-Grid__container">
-        <Controls.treeGrid:View
+        <Controls.treeGridOld:View
                 attr:class="controlsDemo__inline-flex"
                 keyProperty="id"
                 source="{{ _viewSource }}"

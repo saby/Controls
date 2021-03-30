@@ -866,8 +866,16 @@ var
                 this._options.hasChildrenProperty = hasChildrenProperty;
             }
         },
-        getChildren: function(rootId, items) {
-            return this._hierarchyRelation.getChildren(rootId, items || this._items);
+        getChildren: function(root, withFilter, items) {
+            const contents = root.getContents();
+            const rootId = contents instanceof Array ? contents[contents.length - 1].getKey() : contents.getKey();
+            const childrenRecords = this._hierarchyRelation.getChildren(rootId, items || this._items);
+            return childrenRecords.map((it) => {
+                const display = this.getDisplay();
+                return display.createItem({
+                    contents: it
+                });
+            });
         },
         thereIsChildItem(): boolean {
             return this._thereIsChildItem;

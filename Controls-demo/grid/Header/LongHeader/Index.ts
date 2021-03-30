@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/grid/Header/LongHeader/LongHeader';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
 import { IHeader } from 'Controls-demo/types';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridOld';
 
 const MAXITEM = 10;
 

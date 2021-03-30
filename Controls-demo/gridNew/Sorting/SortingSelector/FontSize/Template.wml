@@ -1,66 +1,66 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontSize=xs</div>
-        <Controls.grid:SortingSelector
+        <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontSize="xs">
-        </Controls.grid:SortingSelector>
+        </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontSize=s</div>
-        <Controls.grid:SortingSelector
+        <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontSize="s">
-        </Controls.grid:SortingSelector>
+        </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontSize=m</div>
-        <Controls.grid:SortingSelector
+        <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontSize="m">
-        </Controls.grid:SortingSelector>
+        </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontSize=l</div>
-        <Controls.grid:SortingSelector
+        <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontSize="l">
-        </Controls.grid:SortingSelector>
+        </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontSize=xl</div>
-        <Controls.grid:SortingSelector
+        <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontSize="xl">
-        </Controls.grid:SortingSelector>
+        </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontSize=2xl</div>
-        <Controls.grid:SortingSelector
+        <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontSize="2xl">
-        </Controls.grid:SortingSelector>
+        </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontSize=3xl</div>
-        <Controls.grid:SortingSelector
+        <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontSize="3xl">
-        </Controls.grid:SortingSelector>
+        </Controls.gridOld:SortingSelector>
     </div>
     <div class="controlsDemo__cell">
         <div class="controls-text-label">fontSize=4xl</div>
-        <Controls.grid:SortingSelector
+        <Controls.gridOld:SortingSelector
                 sortingParams="{{_sortingParams}}"
                 bind:value="_sorting"
                 fontSize="4xl">
-        </Controls.grid:SortingSelector>
+        </Controls.gridOld:SortingSelector>
     </div>
 </div>

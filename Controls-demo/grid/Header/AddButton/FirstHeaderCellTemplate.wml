@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:HeaderContent" colData="{{colData}}">
+<ws:partial template="Controls/gridOld:HeaderContent" colData="{{colData}}">
     <ws:contentTemplate>
         <div class="controlsDemo__Grid_header-gridTitle-spacing">
             <Controls.heading:Title caption="{{colData.column.captionForGrid}}" fontColorStyle="primary" fontSize="l" readOnly="{{true}}"/>

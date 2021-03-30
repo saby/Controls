@@ -168,7 +168,7 @@ const _private = {
             self._notify(expanded ? 'itemExpand' : 'itemCollapse', [item]);
             if (
                 !_private.isExpandAll(self._options.expandedItems) &&
-                !baseSourceController.hasLoaded(nodeKey) &&
+                !baseSourceController?.hasLoaded(nodeKey) &&
                 !dispItem.isRoot() &&
                 _private.shouldLoadChildren(self, nodeKey)
             ) {
@@ -184,7 +184,8 @@ const _private = {
                             options.nodeLoadCallback(list, nodeKey);
                         }
                         self.hideIndicator();
-                    }).catch((error: Error) => {
+                    })
+                    .catch((error: Error) => {
                         if (error.isCanceled) {
                             return;
                         }
@@ -256,8 +257,10 @@ const _private = {
         // 2. у него вообще есть дочерние элементы (по значению поля hasChildrenProperty)
         const viewModel = self.getViewModel();
         const items = viewModel.getCollection();
-        const isAlreadyLoaded = self.getSourceController().hasLoaded(nodeKey) ||
-                                viewModel.getHasMoreStorage().hasOwnProperty(nodeKey);
+
+        const sourceController = self.getSourceController();
+        const isAlreadyLoaded = (sourceController ? sourceController.hasLoaded(nodeKey) : !!self._options.items) ||
+            viewModel.getHasMoreStorage().hasOwnProperty(nodeKey);
 
         if (isAlreadyLoaded) {
             return false;
@@ -337,7 +340,15 @@ const _private = {
         }
 
         const reset = () => {
-            viewModel.resetExpandedItems();
+            if (self._options.useNewModel) {
+                viewModel.setExpandedItems([]);
+                self._notify('expandedItemsChanged', [[]]);
+
+                viewModel.setCollapsedItems([]);
+                self._notify('collapsedItemsChanged', [[]]);
+            } else {
+                viewModel.resetExpandedItems();
+            }
             viewModel.setHasMoreStorage({});
         };
 
@@ -409,16 +420,19 @@ const _private = {
 
     nodeChildsIterator(viewModel, nodeKey, nodeProp, nodeCallback, leafCallback) {
         var findChildNodesRecursive = function(key) {
-            viewModel.getChildren(key).forEach(function(elem) {
-                if (elem.get(nodeProp) !== null) {
-                    if (nodeCallback) {
-                        nodeCallback(elem);
+            const item = viewModel.getItemBySourceKey(key);
+            if (item) {
+                viewModel.getChildren(item).forEach(function(elem) {
+                    if (elem.isNode() !== null) {
+                        if (nodeCallback) {
+                            nodeCallback(elem.getContents());
+                        }
+                        findChildNodesRecursive(elem.getContents().get(nodeProp));
+                    } else if (leafCallback) {
+                        leafCallback(elem.getContents());
                     }
-                    findChildNodesRecursive(elem.get(nodeProp));
-                } else if (leafCallback) {
-                    leafCallback(elem);
-                }
-            });
+                });
+            }
         };
 
         findChildNodesRecursive(nodeKey);
@@ -965,7 +979,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                     if (item.get(options.nodeProperty) !== null) {
                         const itemKey = item.getId();
                         const dispItem = this._listViewModel.getItemBySourceKey(itemKey);
-                        if (dispItem && this._listViewModel.getChildren(dispItem, loadedList).length) {
+                        if (dispItem && this._listViewModel.getChildren(dispItem, undefined, loadedList).length) {
                             modelHasMoreStorage[itemKey] = sourceController.hasMoreData('down', itemKey);
                         }
                     }
@@ -1079,13 +1093,16 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (items.getCount()) {
             const model = this._listViewModel;
             const expanded = [key];
-            let curItem = model.getChildren(key, items)[0];
-            while (curItem && curItem.get(options.nodeProperty) !== null) {
-                expanded.push(curItem.get(this._keyProperty));
-                curItem = model.getChildren(curItem, items)[0];
+            const item = model.getItemBySourceKey(key);
+            // TODO после полного перехода на новую модель в getChildren передавать только элемент списка
+            //  https://online.sbis.ru/opendoc.html?guid=624e1380-3b9b-45dd-9825-a7188dd7c52e
+            let curItem = model.getChildren(item, undefined, items)[0];
+            while (curItem && curItem.isNode() !== null) {
+                expanded.push(curItem.getContents().getKey());
+                curItem = model.getChildren(curItem, undefined, items)[0];
             }
             if (curItem && this._doAfterItemExpanded) {
-                this._doAfterItemExpanded(curItem.get(this._keyProperty));
+                this._doAfterItemExpanded(curItem.getContents().getKey());
             }
             return expanded;
         }

@@ -129,9 +129,6 @@ define([
                   clientWidth: 360
                }
             };
-            instance._forceUpdate = function() {
-               forceUpdateCalled = true;
-            };
             WidthUtils.fillItemsType = mockFillItemsType([80, 90]);
             instance._beforeMount(cfg).addCallback(function() {
                instance.saveOptions(cfg);
@@ -146,7 +143,6 @@ define([
                instance._toolbarSource.query().addCallback(function(result) {
                   assert.equal(result.getAll().getRecordById(0).get('showType'), 2);
                   assert.equal(result.getAll().getRecordById(1).get('showType'), 2);
-                  assert.isTrue(forceUpdateCalled);
                   done();
                });
             });
@@ -171,7 +167,6 @@ define([
                instance._toolbarSource.query().addCallback(function(result) {
                   assert.equal(result.getAll().getRecordById(0).get('showType'), 1);
                   assert.equal(result.getAll().getRecordById(1).get('showType'), 0);
-                  assert.isTrue(forceUpdateCalled);
                   done();
                });
             });
@@ -290,7 +285,6 @@ define([
                   forceUpdateCalled = true;
                };
                instance._afterUpdate(newCfg);
-               assert.isTrue(forceUpdateCalled);
                done();
             });
          });
@@ -310,7 +304,6 @@ define([
                instance._toolbarSource.query().addCallback(function(result) {
                   assert.equal(result.getAll().getRecordById(0).get('showType'), 2);
                   assert.equal(result.getAll().getRecordById(1).get('showType'), 2);
-                  assert.isTrue(forceUpdateCalled);
                   done();
                });
             });
@@ -332,7 +325,6 @@ define([
                instance._toolbarSource.query().addCallback(function(result) {
                   assert.equal(result.getAll().getRecordById(0).get('showType'), 1);
                   assert.equal(result.getAll().getRecordById(1).get('showType'), 0);
-                  assert.isTrue(forceUpdateCalled);
                   done();
                });
             });
@@ -354,7 +346,6 @@ define([
                instance._afterUpdate(cfgWithOneItem);
                instance._toolbarSource.query().addCallback(function(result) {
                   assert.equal(result.getAll().getRecordById(0).get('showType'), 2);
-                  assert.isTrue(forceUpdateCalled);
                   done();
                });
             });
@@ -378,7 +369,6 @@ define([
                instance._toolbarSource.query().addCallback(function(result) {
                   assert.equal(result.getAll().getRecordById(0).get('showType'), 2);
                   assert.equal(result.getAll().getRecordById(1).get('showType'), 2);
-                  assert.isTrue(forceUpdateCalled);
                   done();
                });
             });
@@ -400,7 +390,6 @@ define([
                instance._toolbarSource.query().addCallback(function(result) {
                   assert.equal(result.getAll().getRecordById(0).get('showType'), 1);
                   assert.equal(result.getAll().getRecordById(1).get('showType'), 0);
-                  assert.isTrue(forceUpdateCalled);
                   done();
                });
             });

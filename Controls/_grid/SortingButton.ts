@@ -1,7 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import template = require('wml!Controls/_grid/SortingResources/SortingButton');
+import template = require('wml!Controls/_grid/Render/SortingButton/SortingButton');
 import 'css!Controls/grid';
-
 export interface ISortingButtonOptions extends IControlOptions {
     property: string;
 }

@@ -5,7 +5,7 @@
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-null">
                 <div class="controls-text-label">Отступы размер null</div>
-                <Controls.treeGrid:View
+                <Controls.treeGridOld:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -15,12 +15,12 @@
                     <ws:footerTemplate>
                         <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
                     </ws:footerTemplate>
-                </Controls.treeGrid:View>
+                </Controls.treeGridOld:View>
             </div>
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-s">
                 <div class="controls-text-label">Отступы размер S</div>
-                <Controls.treeGrid:View
+                <Controls.treeGridOld:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -30,12 +30,11 @@
                     <ws:footerTemplate>
                         <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
                     </ws:footerTemplate>
-                </Controls.treeGrid:View>
+                </Controls.treeGridOld:View>
             </div>
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-m">
                 <div class="controls-text-label">Отступы размер M</div>
-                <Controls.treeGrid:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -45,12 +44,12 @@
                     <ws:footerTemplate>
                         <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
                     </ws:footerTemplate>
-                </Controls.treeGrid:View>
+                </Controls.treeGridOld:View>
             </div>
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-l">
                 <div class="controls-text-label">Отступы размер L</div>
-                <Controls.treeGrid:View
+                <Controls.treeGridOld:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -60,12 +59,12 @@
                     <ws:footerTemplate>
                         <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
                     </ws:footerTemplate>
-                </Controls.treeGrid:View>
+                </Controls.treeGridOld:View>
             </div>
 
             <div class="controlsDemo__cell  controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-xl">
                 <div class="controls-text-label">Отступы размер XL</div>
-                <Controls.treeGrid:View
+                <Controls.treeGridOld:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -75,12 +74,12 @@
                     <ws:footerTemplate>
                         <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
                     </ws:footerTemplate>
-                </Controls.treeGrid:View>
+                </Controls.treeGridOld:View>
             </div>
 
             <div class="controlsDemo__cell  controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-xxl">
                 <div class="controls-text-label">Отступы размер XXL</div>
-                <Controls.treeGrid:View
+                <Controls.treeGridOld:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
@@ -90,7 +89,7 @@
                     <ws:footerTemplate>
                         <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
                     </ws:footerTemplate>
-                </Controls.treeGrid:View>
+                </Controls.treeGridOld:View>
             </div>
         </div>
     </div>
