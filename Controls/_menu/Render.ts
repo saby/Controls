@@ -114,7 +114,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
                 !(this._options.allowPin && this._isHistorySeparatorVisible(treeItem))) {
                 classes += ' controls-Menu__row-separator_theme-' + this._options.theme;
             }
-        } else if (item) {
+        } else if (item && item !== 'search-separator') {
             classes += ' controls-Menu__row-breadcrumbs_theme-' + this._options.theme;
         }
         return classes;
