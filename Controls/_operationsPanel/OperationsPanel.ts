@@ -258,6 +258,7 @@ Object.defineProperty(OperationsPanel, 'defaultProps', {
  * @variant null Кпопка скрыта
  * @variant all Кнопка "Показать отмеченные"
  * @variant selected Кнопка "Показать все"
+ * @variant partial Кнопки с количеством записей для выбора
  * @default null
  * @example
  * <pre>

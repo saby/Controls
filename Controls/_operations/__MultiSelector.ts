@@ -21,7 +21,20 @@ const DEFAULT_ITEMS = [
    }, {
       id: 'toggleAll',
       title: rk('Инвертировать')
-   },
+   }
+];
+
+const SHOW_SELECTED_ITEM =  {
+   id: 'selected',
+   title: rk('Показать отмеченные')
+};
+
+const SHOW_ALL_ITEM =  {
+   id: 'all',
+   title: rk('Показать все')
+};
+
+const SHOW_SELECT_COUNT = [
    {
       id: 'count-10',
       title: '10'
@@ -39,16 +52,6 @@ const DEFAULT_ITEMS = [
       title: '100'
    }
 ];
-
-const SHOW_SELECTED_ITEM =  {
-   id: 'selected',
-   title: rk('Показать отмеченные')
-};
-
-const SHOW_ALL_ITEM =  {
-   id: 'all',
-   title: rk('Показать все')
-};
 
 interface IMultiSelectorChildren {
    countIndicator: LoadingIndicator;
@@ -68,7 +71,7 @@ export interface IMultiSelectorOptions extends IControlOptions {
    excludedKeys: TKeysSelection;
    selectedKeysCount: TCount;
    isAllSelected?: boolean;
-   selectionViewMode?: 'all'|'selected';
+   selectionViewMode?: 'all'|'selected'|'partial';
    selectedCountConfig?: IGetCountCallParams;
 }
 
@@ -126,13 +129,15 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
    }
 
    private _getAdditionalMenuItems(options: IMultiSelectorOptions): MultiSelectorMenuItems {
-      const additionalItems = [];
+      let additionalItems = [];
 
       if (options.selectionViewMode === 'selected') {
          additionalItems.push(SHOW_ALL_ITEM);
          // Показываем кнопку если есть выбранные и невыбранные записи
       } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && !options.isAllSelected) {
          additionalItems.push(SHOW_SELECTED_ITEM);
+      } else if (options.selectionViewMode === 'partial') {
+         additionalItems = additionalItems.concat(SHOW_SELECT_COUNT);
       }
 
       return additionalItems;
