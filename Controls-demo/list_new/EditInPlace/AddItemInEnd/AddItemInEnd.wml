@@ -20,6 +20,6 @@
             </ws:itemTemplate>
         </Controls.list:View>
     </Controls.scroll:Container>
-    <a href="#" class="controls-text-link_theme-default controlsDemo-addButton-virtual-scroll_autotest"
+    <a href="#" class="controls-text-link controlsDemo-addButton-virtual-scroll_autotest"
        on:click="_addItem()">Добавить запись в конец</a>
 </div>

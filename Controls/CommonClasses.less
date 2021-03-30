@@ -3,3 +3,24 @@
 @import "Application/_styles/_flex";
 @import "Application/_styles/_links";
 @import "Application/_styles/_colors_sizes";
+
+// Набор классов для настройки tag (уголок) у ячеек таблиц и input
+.controls__tag {
+   top: 0;
+   right: 0;
+   cursor: pointer;
+   position: absolute;
+   width: var(--tag-size);
+   height: var(--tag-size);
+}
+
+.controls__tag_style- {
+   @variants: danger, primary, success, secondary, warning;
+   .for(@variants, { &@{_item} {
+      fill: ~"var(--@{_item}_color)";
+   } });
+}
+
+.controls__tag_style-info {
+   fill: var(--unaccented_color);
+}

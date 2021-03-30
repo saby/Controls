@@ -8,7 +8,7 @@
         <ws:if data="{{_options.elementsCount && _options.pagingMode === 'numbers'}}">
             <span class="controls-Paging__btn
                          controls-Paging__btn-elements-count
-                         controls-Paging__btn_first controls-Paging__arrow controls-Paging__arrow__state-normal">
+                         controls-Paging__btn_first ">
             <span class="controls-Paging__info_m">{[Всего]} {{_options.elementsCount}}</span>
          </span>
         </ws:if>

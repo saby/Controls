@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/ConstantHeights/Default/Index' }}">
             <a href="{{content.href}}">Стандартные значения опций</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/ConstantHeights/UpdateByScrolling/Index' }}">
             <a href="{{content.href}}">Обновление записей при скроле</a>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/ConstantHeights/SmallDialog/Index' }}">
             <a href="{{content.href}}">Список с маленькими записями</a>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/ConstantHeights/AddItemInEnd/Index' }}">
             <a href="{{content.href}}">Добавление записи в список с маленькими записями</a>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/ConstantHeights/DeleteLastItems/Index' }}">
             <a href="{{content.href}}">Удаление последних десяти записей</a>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/ConstantHeights/ScrollToItem/Index' }}">
             <a href="{{content.href}}">Подскрол к записи</a>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/VirtualScroll/ConstantHeights/OneLoadOnInit/Index' }}">
             <a href="{{content.href}}">Загруженных изначально двух пачек хватает для отображения. Еще одна загрузка не пошла, потому что тригер скрыт</a>

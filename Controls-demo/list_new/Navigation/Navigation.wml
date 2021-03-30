@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow controlsDemo__childMinWidth400">
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/DigitPaging/Index' }}">
             <a href="{{content.href}}">Постраничная навигация</a>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/HasMorePaging/Index' }}">
             <a href="{{content.href}}">Подгрузка данных по кнопке "Ещё"</a>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4 controlsDemo__maxWidth500">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/ScrollPaging/Index' }}">
             <a href="{{content.href}}">Навигация без подсчета страниц (навигация по скроллу, навигация с кнопками прокрутки)</a>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/Direction/Index' }}">
             <a href="{{content.href}}">Подгрузка данных по скролу</a>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/MaxCountValue/Index' }}">
             <a href="{{content.href}}">Подгрузка данных по скролу</a>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr4">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Navigation/Paging/Index' }}">
             <a href="{{content.href}}">Подгрузка данных по скролу</a>

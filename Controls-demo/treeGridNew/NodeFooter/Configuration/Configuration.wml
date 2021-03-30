@@ -3,7 +3,7 @@
     <div class="controlsDemo__cell controlsDemo__flexRow controlsDemo__mb2">
 
         <div class="controlsDemo__cell controlsDemo__mr2">
-            <div class="controls-text-label_theme-{{_options.theme}}">Подвал не определен</div>
+            <div class="controls-text-label">Подвал не определен</div>
 
             <Controls.treeGridNew:View
                     name="tree1"
@@ -17,7 +17,7 @@
 
 
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}}">Кастомный подвал не определен, colspan false</div>
+            <div class="controls-text-label">Кастомный подвал не определен, colspan false</div>
 
             <Controls.treeGridNew:View
                     keyProperty="id"
@@ -39,7 +39,7 @@
     <div class="controlsDemo__cell controlsDemo__flexRow controlsDemo__mb2">
 
         <div class="controlsDemo__cell controlsDemo__mr2">
-            <div class="controls-text-label_theme-{{_options.theme}}">Задан прикладной шаблон подвала узла, с colspan</div>
+            <div class="controls-text-label">Задан прикладной шаблон подвала узла, с colspan</div>
 
             <Controls.treeGridNew:View
                     keyProperty="id"
@@ -61,7 +61,7 @@
 
 
         <div class="controlsDemo__cell">
-            <div class="controls-text-label_theme-{{_options.theme}}">Задан прикладной шаблон подвала узла, без colspan</div>
+            <div class="controls-text-label">Задан прикладной шаблон подвала узла, без colspan</div>
 
             <Controls.treeGridNew:View
                     keyProperty="id"

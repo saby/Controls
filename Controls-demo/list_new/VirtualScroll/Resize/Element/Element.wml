@@ -17,5 +17,5 @@
             </ws:itemTemplate>
         </Controls.list:View>
     </Controls.scroll:Container>
-    <div class="controls-text-label_theme-{{_options.theme}}">Активный элемент - {{_activeElement}}</div>
+    <div class="controls-text-label">Активный элемент - {{_activeElement}}</div>
 </div>

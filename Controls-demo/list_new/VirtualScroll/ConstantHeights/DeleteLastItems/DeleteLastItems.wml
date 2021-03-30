@@ -12,5 +12,5 @@
             </Controls.scroll:Container>
         </ws:content>
     </Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index>
-    <a href="#" class="controls-text-link_theme-default controlsDemo-removeButton-virtual-scroll_autotest" on:click="_removeItems()">Удалить последние 10 записей</a>
+    <a href="#" class="controls-text-link controlsDemo-removeButton-virtual-scroll_autotest" on:click="_removeItems()">Удалить последние 10 записей</a>
 </div>
