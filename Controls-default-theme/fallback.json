@@ -1287,7 +1287,7 @@
   "--box-shadow-size_datePicker": "0 0 6px 0",
   "--box-shadow-color_datePicker": "rgba(0, 0, 0, 0.45)",
   "--shadow_start-color_datePicker": "rgba(204, 204, 204, 0.3)",
-  "--shadow_end-color_datePicker": "rgba(var(--background-color_datePicker), 0)",
+  "--shadow_end-color_datePicker": "rgba(255, 255, 255, 0)",
   "--background-color_datePicker": "var(--background-color)",
   "--border-radius_datePicker": "8px",
   "--header_height_datePicker": "var(--header-min-height_dialog)",
