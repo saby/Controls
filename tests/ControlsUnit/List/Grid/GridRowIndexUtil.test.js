@@ -1,5 +1,5 @@
 define([
-   'Controls/_grid/utils/GridRowIndexUtil',
+   'Controls/_gridOld/utils/GridRowIndexUtil',
    'Controls/_list/resources/utils/ItemsUtil',
    'Controls/gridOld',
    'Types/collection'
