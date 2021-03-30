@@ -96,7 +96,7 @@ export default class GroupRow<T> extends mixin<
     protected _getBaseItemClasses(style: string, theme: string): string {
         let itemClasses = 'controls-ListView__itemV';
         if (!this.isHiddenGroup()) {
-            itemClasses += ` controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
+            itemClasses += ` controls-Grid__row controls-Grid__row_${style}`;
         }
         return itemClasses;
     }
