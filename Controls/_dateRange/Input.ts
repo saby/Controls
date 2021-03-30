@@ -180,9 +180,32 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         this._shouldValidate = true;
     }
 
-    protected _inputControlHandler(event: SyntheticEvent, value: unknown, displayValue: string, selection: ISelection): void {
+    protected _startFieldInputControlHandler(event: SyntheticEvent, value: unknown, displayValue: string, selection: ISelection): void {
         if (selection.end === displayValue.length) {
             this._children.endValueField.activate({enableScreenKeyboard: true});
+        }
+        // При изменении значения в поле сбрасывается валидатор.
+        // Проблема в том, что если изменилось значение в одном поле, то валидатор не сбросится во втором.
+        // Появляется такая ошибка https://online.sbis.ru/opendoc.html?guid=42046d94-7a30-491a-b8b6-1ce710bddbaa
+        // Если включена опция validateByFocusOut, то нужно провалидировать поле на afterUpdate, когда value уже
+        // поменяется. В ином случае просто сбросим значение.
+        if (this._options.validateByFocusOut) {
+            // Если поле пустое - не будем его валидировать
+            if (this._rangeModel.endValue !== null) {
+                this._shouldValidate = true;
+            }
+        } else {
+            this._children.endValueField.setValidationResult(null);
+        }
+    }
+
+    protected _endFieldInputControlHandler(): void {
+        if (this._options.validateByFocusOut) {
+            if (this._rangeModel.startValue !== null) {
+                this._shouldValidate = true;
+            }
+        } else {
+            this._children.startValueField.setValidationResult(null);
         }
     }
 
