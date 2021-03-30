@@ -18,7 +18,7 @@
                     <ws:template>
                         <ws:partial template="Controls/gridNew:ColumnTemplate">
                             <ws:contentTemplate>
-                                <div class="cloud controls-ListView__item_showActions controls-ListView__highlightOnHover_primary_theme-default">
+                                <div class="cloud controls-ListView__item_showActions controls-ListView__highlightOnHover_default_theme-default">
                                     <div class="cloud-content">
                                         <div>
                                             <div>country:&nbsp;{{ contentTemplate.item.getContents().get('country') }}</div>
