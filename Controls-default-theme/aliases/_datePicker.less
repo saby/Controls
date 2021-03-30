@@ -5,11 +5,15 @@
 @box-shadow-size_datePicker:                                                  0 0 6px 0;
 @box-shadow-color_datePicker:                                                 rgba(0,0,0,0.45);
 @shadow_start-color_datePicker:                                               rgba(204, 204, 204, 0.3);
-@shadow_end-color_datePicker:                                                 rgba(0, 0, 0, 0);
+@shadow_end-color_datePicker:                                                 rgba(@background-color_datePicker, 0);
 
 // Цвет фона
 
 @background-color_datePicker:                                                 @background-color;
+
+// Скругление обводки
+
+@border-radius_datePicker:                                                    8px;
 
 // Заголовок
 
@@ -30,6 +34,10 @@
 
 @apply-button_offset_datePicker:                                              @offset_m;
 
+// Отступ от кнопки закрытия до границы контрола
+
+@close-button_offset_datePicker:                                              @offset_xs;
+
 //Кнопка переключения к текущему периоду
 
 @calendar-icon-size_datePicker:                                                28px;
@@ -39,13 +47,13 @@
 //Шапка со списком годов
 
 @yearnav_height_datePicker:                                                    44px;
-@yearnav_arrow_width_datePicker:                                               35px;
+@yearnav_arrow_width_datePicker:                                               36px;
 @yearnav_item_width_datePicker:                                                48px;
 @yearnav_item_height_datePicker:                                               30px;
 
 //Переменные для текста внутри кнопок годов
 
-@yearnav_item_font-size_datePicker:                                             @font-size_m;
+@yearnav_item_font-size_datePicker:                                             @font-size_l;
 @yearnav_item_text-color_datePicker:                                            @unaccented_text-color;
 @yearnav_item_current_text-color_datePicker:                                    @secondary_text-color;
 @yearnav_item_displayed_text-color_datePicker:                                  @primary_text-color;
@@ -111,12 +119,12 @@
 
 //Переменные для текущего года
 
-@current-year_font-size_datePicker:                                              @font-size_l;
+@current-year_font-size_datePicker:                                              @font-size_xl;
 @current-year_text-color_datePicker:                                             @primary_text-color_heading;
 @current-year_font-weight_datePicker:                                            bold;
 
 // Переменные для дней недели в заголовке
-@weekdays_font-size_datePicker:                                                  @font-size_l;
+@weekdays_font-size_datePicker:                                                  @font-size_xl;
 @weekdays_text-color_datePicker:                                                 @label_text-color;
 @weekend_weekdays_text-color_datePicker:                                         @primary_text-color;
 
@@ -143,14 +151,14 @@
 // Ячейка месяца
 
 @monthnav_item_text-color_datePicker:                                            @text-color;
-@monthnav_item_font-size_datePicker:                                             @font-size_m;
-@monthnav_item_height_datePicker:                                                30px;
+@monthnav_item_font-size_datePicker:                                             @font-size_l;
+@monthnav_item_height_datePicker:                                                35px;
 
 // Переменные для кнопки года
 //
 //Размеры и отступы
 
-@monthnav_year_height_datePicker:                                                36px;
+@monthnav_year_height_datePicker:                                                35px;
 @monthnav_year_padding-left_datePicker:                                          @monthnav_item_padding-left_datePicker;
 
 //Фон
@@ -166,7 +174,7 @@
 //Текст
 
 @monthnav_year_text-color_datePicker:                                            @primary_text-color;
-@monthnav_year_font-size_datePicker:                                             @font-size_l;
+@monthnav_year_font-size_datePicker:                                             @font-size_xl;
 
 //Разделитель
 
@@ -210,6 +218,7 @@
 
 @monthlist_monthview_item_font-size_datePicker:                                  @font-size_l;
 @monthlist_monthview_item_text-color_datePicker:                                 @text-color;
+@yearlist_monthview_item_text-color_datePicker:                                  @monthlist_monthview_item_text-color_datePicker;
 
 // Обводка
 
@@ -261,6 +270,7 @@
 
 @monthlist_monthview_weekend_text-color_datePicker:                              @primary_text-color;
 @monthlist_monthview_today_text-color_datePicker:                                #fff;
+@yearlist_monthview_weekend_text-color_datePicker:                               @monthlist_monthview_weekend_text-color_datePicker;
 
 // Фон
 

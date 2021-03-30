@@ -78,9 +78,9 @@ define(
                scrollbar: {
                   offsetWidth: 0,
                   clientWidth: 0,
-                  getClientRects: () => []
+                  closest: () => true
                }
-            }
+            };
             result = component._setSizes(650);
             assert.isFalse(result);
          });
@@ -144,9 +144,7 @@ define(
                sinon.stub(Scrollbar.default, '_calcThumbSize').returns(10);
                component._children.scrollbar = {
                   offsetHeight: 50,
-                  getClientRects: function() {
-                     return [{}];
-                  }
+                  closest: () => false
                };
                component._scrollPosition = options.position;
                component._afterMount(options);

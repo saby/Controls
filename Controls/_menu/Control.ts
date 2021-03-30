@@ -4,18 +4,16 @@ import {TSelectedKeys, IOptions} from 'Controls/interface';
 import {default as IMenuControl, IMenuControlOptions} from 'Controls/_menu/interface/IMenuControl';
 import {RecordSet, List} from 'Types/collection';
 import {ICrudPlus, PrefetchProxy, QueryWhere} from 'Types/source';
-import * as Clone from 'Core/core-clone';
-import * as Merge from 'Core/core-merge';
 import {Collection, CollectionItem, Search} from 'Controls/display';
-import Deferred = require('Core/Deferred');
 import ViewTemplate = require('wml!Controls/_menu/Control/Control');
 import * as groupTemplate from 'wml!Controls/_menu/Render/groupTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Model} from 'Types/entity';
 import {factory} from 'Types/chain';
-import {isEqual} from 'Types/object';
+import {isEqual, merge} from 'Types/object';
+import * as cInstance from 'Core/core-instance';
+import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
 import {groupConstants as constView} from 'Controls/list';
-import {_scrollContext as ScrollData} from 'Controls/scroll';
 import {TouchContextField} from 'Controls/context';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {error as dataSourceError, NewSourceController as SourceController} from 'Controls/dataSource';
@@ -24,11 +22,17 @@ import {StickyOpener, StackOpener} from 'Controls/popup';
 import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import { MarkerController, Visibility as MarkerVisibility } from 'Controls/marker';
 import {FlatSelectionStrategy, SelectionController, IFlatSelectionStrategyOptions} from 'Controls/multiselection';
+import 'css!Controls/menu';
 
 interface IMenuPosition {
     left: number;
     top: number;
     height: number;
+}
+
+interface ISourcePropertyConfig {
+    moduleName: string;
+    options: object;
 }
 
 const SUB_DROPDOWN_DELAY = 400;
@@ -53,7 +57,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     readonly '[Controls/_menu/interface/IMenuControl]': boolean = true;
     protected _template: TemplateFunction = ViewTemplate;
 
-    _children: {
+    protected _children: {
         Sticky: StickyOpener
     };
 
@@ -90,7 +94,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     protected _beforeMount(options: IMenuControlOptions,
                            context?: object,
-                           receivedState?: void): Deferred<RecordSet> {
+                           receivedState?: void): Promise<RecordSet> {
         this._expandedItemsFilter = this._expandedItemsFilterCheck.bind(this);
         this._additionalFilter = MenuControl._additionalFilterCheck.bind(this, options);
         this._limitHistoryFilter = this._limitHistoryCheck.bind(this);
@@ -132,7 +136,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             }
             this._closeSubMenu();
             result = this._loadItems(newOptions).then((res) => {
-               this._updateItems(res, newOptions);
+                this._updateItems(res, newOptions);
                 this._notifyResizeAfterRender = true;
                 return res;
             });
@@ -157,6 +161,11 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     protected _beforeUnmount(): void {
+        if (this._options.searchValue) {
+            // items dropdown/_Controller'a обновляются по ссылке.
+            // если был поиск, то зануляем items, чтобы при след. открытии меню отображались все записи.
+            this._listModel.getCollection().clear();
+        }
         if (this._sourceController) {
             this._sourceController.cancelLoading();
             this._sourceController = null;
@@ -343,7 +352,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             const action = actionModel && actionModel.getRawData();
             if (action && !action['parent@']) {
                 const item = this._itemActionsController.getActiveItem();
-                this._itemActionClick(null, item, action, clickEvent);
+                this._itemActionMouseDown(null, item, action, clickEvent);
                 this._itemActionSticky.close();
             }
         }
@@ -511,7 +520,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _startClosingTimout(): void {
         // window для соотвествия типов
-        this._closingTimer = window.setTimeout(this._closeSubMenu.bind(this), SUB_DROPDOWN_DELAY);
+        this._closingTimer = setTimeout(this._closeSubMenu.bind(this), SUB_DROPDOWN_DELAY);
     }
 
     private _clearOpeningTimout(): void {
@@ -528,7 +537,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _startOpeningTimeout(): void {
         this._clearOpeningTimout();
-        this._openingTimer = window.setTimeout((): void => {
+        this._openingTimer = setTimeout((): void => {
             this._handleItemTimeoutCallback();
         }, SUB_DROPDOWN_DELAY);
     }
@@ -563,11 +572,11 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                     selectorDialogResult(event, result);
                     opener.close();
                 }
-            }
+            },
+            ...selectorTemplate.templateOptions
         };
-        Merge(templateConfig, selectorTemplate.templateOptions);
 
-        return Merge({
+        return {
             // Т.к само меню закроется после открытия стекового окна,
             // в опенер нужно положить контрол, который останется на странице.
             opener: this._options.selectorOpener,
@@ -580,8 +589,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                     selectorDialogResult(event, result);
                     opener.close();
                 }
-            }
-        }, selectorTemplate.popupOptions || {});
+            },
+            ...selectorTemplate.popupOptions
+        };
     }
 
     private _changeSelection(key: string|number|null): void {
@@ -666,7 +676,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                 markedKey = emptyKey;
             } else {
                 const item = this._listModel.getItemBySourceKey(selectedKeys[0]);
-                if (MenuControl._isFixedItem(item.getContents())) {
+                if (item && MenuControl._isFixedItem(item.getContents())) {
                     markedKey = selectedKeys[0];
                 }
             }
@@ -765,7 +775,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
         if (options.additionalProperty) {
             listModel.addFilter(this._additionalFilter);
-        } else if (options.allowPin && options.root === null && !this._expander) {
+        } else if (options.allowPin && !options.subMenuLevel && !this._expander) {
             listModel.addFilter(this._limitHistoryFilter);
         }
         return listModel;
@@ -773,7 +783,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
 
     private _groupMethod(options: IMenuControlOptions, item: Model): string {
         const groupId: string = item.get(options.groupProperty);
-        const isHistoryItem: boolean = MenuControl._isHistoryItem(item) && this._options.root === null;
+        const isHistoryItem: boolean = MenuControl._isHistoryItem(item) && !this._options.subMenuLevel;
         return groupId !== undefined && !isHistoryItem ? groupId : constView.hiddenGroup;
     }
 
@@ -790,7 +800,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
     }
 
     private _loadExpandedItems(options: IMenuControlOptions): void {
-        const loadConfig: IMenuControlOptions = Clone(options);
+        const loadConfig: IMenuControlOptions = merge({}, options);
 
         delete loadConfig.navigation;
         this._sourceController = null;
@@ -801,8 +811,8 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         });
     }
 
-    private _loadItems(options: IMenuControlOptions): Deferred<RecordSet> {
-        const filter: QueryWhere = Clone(options.filter) || {};
+    private _loadItems(options: IMenuControlOptions): Promise<RecordSet> {
+        const filter: QueryWhere = merge({}, options.filter);
         filter[options.parentProperty] = options.root;
         const sourceController = this._getSourceController(options);
         sourceController.setFilter(filter);
@@ -831,11 +841,11 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
                     hasAdditional = item.get(options.additionalProperty) && !MenuControl._isHistoryItem(item);
                 }
             });
-        } else if (options.allowPin && options.root === null) {
+        } else if (options.allowPin && !options.subMenuLevel) {
             this._visibleIds = [];
             factory(items).each((item) => {
-                const hasParent = item.get(options.parentProperty);
-                if (!hasParent)  {
+                const parent = item.get(options.parentProperty);
+                if (parent === options.root || !parent && options.root === null)  {
                     this._visibleIds.push(item.getKey());
                 }
             });
@@ -851,66 +861,93 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         // openSubDropdown is called by debounce and a function call can occur when the control is destroyed,
         // just check _children to make sure, that the control isn't destroyed
         if (item && this._children.Sticky && this._subDropdownItem) {
-            const popupOptions: object = this._getPopupOptions(target, item);
-            this._notify('beforeSubMenuOpen', [popupOptions]);
-            this._children.Sticky.open(popupOptions).then();
+            this._getPopupOptions(target, item).then((popupOptions) => {
+                this._notify('beforeSubMenuOpen', [popupOptions]);
+                this._children.Sticky.open(popupOptions);
+            });
         }
     }
 
-    private _getPopupOptions(target: EventTarget, item: CollectionItem<Model>): object {
-        return {
-            templateOptions: this._getTemplateOptions(item),
-            target,
-            autofocus: false,
-            direction: {
-                horizontal: 'right'
-            },
-            targetPoint: {
-                horizontal: 'right'
-            }
-        };
+    private _getPopupOptions(target: EventTarget, item: CollectionItem<Model>): Promise<object> {
+        return this._getTemplateOptions(item).then((templateOptions) => {
+            return {
+                templateOptions,
+                target,
+                autofocus: false,
+                direction: {
+                    horizontal: 'right'
+                },
+                targetPoint: {
+                    horizontal: 'right'
+                },
+                hoverController: this._options.hoverController,
+                backgroundStyle: this._options.backgroundStyle,
+                trigger: this._options.trigger
+            };
+        });
     }
 
-    private _getTemplateOptions(item: CollectionItem<Model>): object {
+    private _getTemplateOptions(item: CollectionItem<Model>): Promise<object> {
         const root: TKey = item.getContents().get(this._options.keyProperty);
         const isLoadedChildItems = this._isLoadedChildItems(root);
-        const subMenuOptions: object = {
-            root,
-            bodyContentTemplate: 'Controls/_menu/Control',
-            dataLoadCallback: !isLoadedChildItems ? this._subMenuDataLoadCallback.bind(this) : null,
-            footerContentTemplate: this._options.nodeFooterTemplate,
-            footerItemData: {
-                key: root,
-                item
-            },
-            closeButtonVisibility: false,
-            emptyText: null,
-            showClose: false,
-            showHeader: false,
-            headerTemplate: null,
-            headerContentTemplate: null,
-            additionalProperty: null,
-            searchParam: null,
-            itemPadding: null,
-            source: this._getSourceSubMenu(isLoadedChildItems),
-            iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
-        };
+        const sourcePropertyConfig = item.getContents().get(this._options.sourceProperty);
+        const dataLoadCallback = !isLoadedChildItems &&
+        !sourcePropertyConfig ? this._subMenuDataLoadCallback.bind(this) : null;
+        return this._getSourceSubMenu(isLoadedChildItems, sourcePropertyConfig).then((source) => {
+            const subMenuOptions: object = {
+                root: sourcePropertyConfig ? null : root,
+                bodyContentTemplate: 'Controls/_menu/Control',
+                dataLoadCallback,
+                footerContentTemplate: this._options.nodeFooterTemplate,
+                footerItemData: {
+                    key: root,
+                    item
+                },
+                closeButtonVisibility: false,
+                emptyText: null,
+                showClose: false,
+                showHeader: false,
+                headerTemplate: null,
+                headerContentTemplate: null,
+                additionalProperty: null,
+                searchParam: null,
+                itemPadding: null,
+                source,
+                subMenuLevel: this._options.subMenuLevel ? this._options.subMenuLevel + 1 : 1,
+                iWantBeWS3: false // FIXME https://online.sbis.ru/opendoc.html?guid=9bd2e071-8306-4808-93a7-0e59829a317a
+            };
 
-        return {...this._options, ...subMenuOptions};
+            return {...this._options, ...subMenuOptions};
+        });
     }
 
-    private _getSourceSubMenu(isLoadedChildItems: boolean): ICrudPlus {
-        let source: ICrudPlus = this._options.source;
+    private _getSourceSubMenu(isLoadedChildItems: boolean,
+                              sourcePropertyConfig: ISourcePropertyConfig | ICrudPlus): Promise<ICrudPlus> {
+        let result = Promise.resolve(this._options.source);
 
         if (isLoadedChildItems) {
-            source = new PrefetchProxy({
+            result = Promise.resolve(new PrefetchProxy({
                 target: this._options.source,
                 data: {
                     query: this._listModel.getCollection()
                 }
+            }));
+        } else if (sourcePropertyConfig) {
+            result = this._createMenuSource(sourcePropertyConfig);
+        }
+        return result;
+    }
+
+    private _createMenuSource(source: ISourcePropertyConfig | ICrudPlus): Promise<ICrudPlus> {
+        if (cInstance.instanceOfModule(source, 'Types/_source/ICrud') ||
+            cInstance.instanceOfMixin(source, 'Types/_source/ICrud')) {
+            return Promise.resolve(source as ICrudPlus);
+        } else {
+            const sourceConfig = source as ISourcePropertyConfig;
+            return ModulesLoader.loadAsync(sourceConfig.moduleName).then((module) => {
+                return new module(sourceConfig.options);
             });
         }
-        return source;
     }
 
     private _isLoadedChildItems(root: TKey): boolean {
@@ -953,15 +990,9 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
             theme: options.theme,
             actionAlignment: 'horizontal',
             actionCaptionPosition: 'none',
-            itemActionsClass: `controls-Menu__itemActions_position_rightCenter_theme-${options.theme}`,
+            itemActionsClass: `controls-Menu__itemActions_position_rightCenter`,
             iconSize: editingConfig ? 's' : 'm'
         });
-    }
-
-    private _getChildContext(): object {
-        return {
-            ScrollData: new ScrollData({pagingVisible: false})
-        };
     }
 
     private _processError(error: Error): Promise<dataSourceError.ViewConfig|void> {
@@ -991,8 +1022,6 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         }
         return this._errorController;
     }
-
-    static _theme: string[] = ['Controls/menu'];
 
     private static _isPinIcon(target: EventTarget): boolean {
         return !!((target as HTMLElement)?.closest('.controls-Menu__iconPin'));

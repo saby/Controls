@@ -17,19 +17,17 @@ import {IBaseDropdownOptions} from 'Controls/_dropdown/interface/IBaseDropdown';
 import getDropdownControllerOptions from 'Controls/_dropdown/Utils/GetDropdownControllerOptions';
 import * as Merge from 'Core/core-merge';
 import {isLeftMouseButton} from 'Controls/popup';
+import 'css!Controls/dropdown';
+import 'css!Controls/CommonClasses';
 
 interface IInputOptions extends IBaseDropdownOptions {
    fontColorStyle?: string;
    fontSize?: string;
    showHeader?: boolean;
-   caption?: string;
 }
 
 const getPropValue = Utils.object.getPropertyValue.bind(Utils);
 
-interface IDropdownInputChildren {
-   infoboxTarget: InfoboxTarget;
-}
 
 /**
  * Контрол, позволяющий выбрать значение из списка. Отображается в виде ссылки.
@@ -39,6 +37,7 @@ interface IDropdownInputChildren {
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
  *
  * Полезные ссылки:
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Fdropdown_new%2FInput%2FIndex демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/dropdown-menu/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdown.less переменные тем оформления dropdown}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dropdownPopup.less переменные тем оформления dropdownPopup}
@@ -101,7 +100,9 @@ export default class Selector extends BaseDropdown {
    protected _tooltip: string;
    protected _selectedItems: Model[];
    protected _controller: Controller;
-   protected _children: IDropdownInputChildren;
+   protected _children: {
+      infoboxTarget: InfoboxTarget;
+   };
 
    _beforeMount(options: IInputOptions,
                 context: object,
@@ -128,8 +129,7 @@ export default class Selector extends BaseDropdown {
             popupClassName: options.popupClassName || ((options.showHeader ||
                 options.headerTemplate || options.headerContentTemplate) ?
                 'controls-DropdownList__margin-head' : options.multiSelect ?
-                    'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin') +
-                ' theme_' + options.theme,
+                    'controls-DropdownList_multiSelect__margin' :  'controls-DropdownList__margin'),
             allowPin: false,
             selectedItemsChangedCallback: this._prepareDisplayState.bind(this, options),
             openerControl: this
@@ -151,10 +151,10 @@ export default class Selector extends BaseDropdown {
       };
    }
 
-   _selectedItemsChangedHandler(items: Model[]): void|unknown {
+   _selectedItemsChangedHandler(items: Model[], newSelectedKeys: TKey[]): void|unknown {
       const text = this._getText(items[0], this._options) + this._getMoreText(items);
       this._notify('textValueChanged', [text]);
-      const newSelectedKeys = this._getSelectedKeys(items, this._options.keyProperty);
+
       if (!isEqual(this._options.selectedKeys, newSelectedKeys) || this._options.task1178744737) {
          return this._notify('selectedKeysChanged', [newSelectedKeys]);
       }
@@ -176,7 +176,8 @@ export default class Selector extends BaseDropdown {
          this._selectedItems = items;
          this._needInfobox = options.readOnly && this._selectedItems.length > 1;
          this._item = items[0];
-         this._isEmptyItem = isEmptyItem(this._item, options.emptyText, options.keyProperty, options.emptyKey);
+         this._isEmptyItem = isEmptyItem(this._item, options.emptyText,
+             options.keyProperty, options.emptyKey);
          this._icon = this._isEmptyItem ? null : getPropValue(this._item, 'icon');
          this._text = this._getText(items[0], options);
          this._hasMoreText = this._getMoreText(items);
@@ -223,27 +224,37 @@ export default class Selector extends BaseDropdown {
 
    protected _itemClick(data: Model): void {
       const item = this._controller.getPreparedItem(data);
-      const res = this._selectedItemsChangedHandler([item]);
+      const selectedKeys = this._getSelectedKeys([item], this._options.keyProperty);
+      const res = this._selectedItemsChangedHandler([item], selectedKeys);
 
       // dropDown must close by default, but user can cancel closing, if returns false from event
       if (res !== false) {
+         this._prepareDisplayState(this._options, [item]);
          this._controller.handleSelectedItems(item);
+         this._controller.setSelectedKeys(selectedKeys);
       }
    }
 
    protected _applyClick(data: Model[]): void {
-      this._selectedItemsChangedHandler(data);
+      this._updateSelectedItems(data);
       this._controller.handleSelectedItems(data);
    }
 
    protected _selectorResult(data): void {
+      this._updateSelectedItems(factory(data).toArray());
       this._controller.handleSelectorResult(data);
-      this._selectedItemsChangedHandler(factory(data).toArray());
    }
 
    protected _selectorTemplateResult(event: Event, selectedItems: List<Model>): void {
       const result = this._notify('selectorCallback', [this._initSelectorItems, selectedItems]) || selectedItems;
       this._selectorResult(result);
+   }
+
+   private _updateSelectedItems(items: Model[]): void {
+      const selectedKeys = this._getSelectedKeys(items, this._options.keyProperty);
+      this._selectedItemsChangedHandler(items, selectedKeys);
+      this._controller.setSelectedKeys(selectedKeys);
+      this._prepareDisplayState(this._options, items);
    }
 
    private _getSelectedKeys(items: Model[], keyProperty: string): TKey[] {
@@ -284,8 +295,6 @@ export default class Selector extends BaseDropdown {
    protected _deactivated(): void {
       this.closeMenu();
    }
-
-   static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];
 
    static getDefaultOptions(): Partial<IBaseDropdownOptions> {
       return {
@@ -474,7 +483,6 @@ export default class Selector extends BaseDropdown {
 * <Controls.dropdown:Selector
 *    keyProperty="key"
 *    source="{{_source}}"
-*    caption="Create"
 *    viewMode="link"
 *    iconSize="m" />
 * </pre>

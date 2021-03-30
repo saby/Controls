@@ -5,7 +5,7 @@ import locales = require('Core/helpers/i18n/locales');
 import {Date as WSDate, DateTime} from 'Types/entity';
 import {Base as DateUtil} from 'Controls/dateUtils';
 
-var locale = locales.current;
+var localeCode = locales.current.code;
 var weekdaysCaptions;
 
 const enum WEEKS_MODE {
@@ -41,9 +41,11 @@ var Utils = {
     * @returns {Array}
     */
    getWeekdaysCaptions: function() {
-      if (!weekdaysCaptions || locale !== locales.current) {
-         var days = locale.config.daysSmall.slice(1);
-         days.push(locale.config.daysSmall[0]);
+      if (!weekdaysCaptions || localeCode !== locales.current.code) {
+         localeCode = locales.current.code
+         const daysSmall = locales.current.config.daysSmall;
+         const days = daysSmall.slice(1);
+         days.push(daysSmall[0]);
 
          weekdaysCaptions = days.map(function(value, index) {
             return {caption: value, weekend: index === 5 || index === 6, day: index};

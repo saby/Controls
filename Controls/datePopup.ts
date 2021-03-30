@@ -13,10 +13,10 @@ import headerTmpl = require('wml!Controls/_datePopup/header');
 import dayTmpl = require('wml!Controls/_datePopup/day');
 import {MonthViewDayTemplate} from 'Controls/calendar';
 import {Controller as ManagerController} from 'Controls/popup';
-import {_scrollContext as ScrollData, IntersectionObserverSyntheticEntry} from './scroll';
+import {IntersectionObserverSyntheticEntry} from './scroll';
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import {IFontColorStyle} from './interface';
-import {ILinkViewControlOptions} from './_dateRange/LinkView';
+import {constants} from 'Env/Env';
+import 'css!Controls/datePopup';
 
 const HEADER_TYPES = {
         link: 'link',
@@ -47,13 +47,11 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
  *    <Controls.datePopup on:inputCompleted="_inputCompletedHandler()" />
  * </pre>
  * <pre>
- *    Base.Control.extend({
- *       ....
+ *    class MyControl extends Control<IControlOptions> {
  *       _inputCompletedHandler(event, startValue, endValue, displaydStartValue, displaydEndValue) {
  *          this._saveEnteredValueToDabase1(startValue, endValue);
  *          this._saveEnteredValueToDabase2(displaydStartValue, displaydEndValue);
- *       },
- *       ...
+ *       }
  *    })
  * </pre>
  */
@@ -63,6 +61,7 @@ const popupMask = coreMerge({auto: 'auto'}, Range.dateMaskConstants);
  *
  * @class Controls/datePopup
  * @extends UI/Base:Control
+ * @mixes Controls/_interface/IResetValues
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
  * @mixes Controls/_interface/IDayTemplate
  * @mixes Controls/_interface/IDateMask
@@ -128,15 +127,19 @@ export default class DatePopup extends Control implements EventProxyMixin {
     _startValueValidators = null;
     _endValueValidators = null;
 
+    _keyboardActive: boolean = false;
+
     _beforeMount(options: IControlOptions): void {
         /* Опция _displayDate используется только(!) в тестах, чтобы иметь возможность перемотать
-         календарь в нужный период, если startValue endValue не заданы. */
+         календарь в нужный период, если startValue endValue не заданы.
+         https://online.sbis.ru/opendoc.html?guid=e7dc54f8-1b15-4c93-9d38-e6f33022b53d */
         this._displayedDate = dateUtils.getStartOfMonth(options._displayDate ?
             options._displayDate :
             (dateUtils.isValidDate(options.startValue) ?
                 options.startValue :
                 new Date()));
         // Опция _date используется только на демках для тестирования. В заголовке у нас указывается сегодняшний день.
+        // https://online.sbis.ru/opendoc.html?guid=e7dc54f8-1b15-4c93-9d38-e6f33022b53d
         this._today = options._date ? options._date.getDate() : new Date().getDate();
         this._rangeModel = new DateRangeModel({dateConstructor: options.dateConstructor});
         this._rangeModel.update(options);
@@ -158,7 +161,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._monthStateEnabled = periodDialogUtils.isMonthStateEnabled(options);
         this._yearStateEnabled = periodDialogUtils.isYearStateEnabled(options);
 
-        this._state = this.getViewState(options, this._monthStateEnabled, this._yearStateEnabled);
+        this._state = options.state || this.getViewState(options, this._monthStateEnabled, this._yearStateEnabled);
         if (this._state === STATES.year) {
             this._displayedDate = dateUtils.getStartOfYear(this._displayedDate);
         }
@@ -181,10 +184,13 @@ export default class DatePopup extends Control implements EventProxyMixin {
             } else {
                 this._yearRangeSelectionType = IDateRangeSelectable.SELECTION_TYPES.disable;
             }
-            if ('months' in options.ranges) {
-                this._monthRangeSelectionType = options.selectionType;
-                this._monthRangeQuantum = {'months': options.ranges.months};
-            } else {
+            const monthsRangeQuantums = ['months', 'quarters', 'halfyears'];
+            for (const quantumRange of monthsRangeQuantums) {
+                if (quantumRange in options.ranges) {
+                    this._monthRangeQuantum[quantumRange] = options.ranges[quantumRange];
+                }
+            }
+            if (!Object.keys(this._monthRangeQuantum).length) {
                 this._monthRangeSelectionType = IDateRangeSelectable.SELECTION_TYPES.disable;
             }
         }
@@ -227,9 +233,24 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this._updateTodayCalendarState();
     }
 
+    _stateButtonKeyDownHandler(event: SyntheticEvent): void {
+        if (event.nativeEvent.keyCode === constants.key.enter) {
+            this.toggleState();
+            this._updateTodayCalendarState();
+        }
+    }
+
     _todayCalendarClick(): void {
+        this._scrollToCurrentMonth();
+    }
+
+    _scrollToCurrentMonth(): void {
         if (this._todayCalendarEnabled) {
-            this._displayedDate = dateUtils.getStartOfMonth(new Date());
+            if (this._state === STATES.year) {
+                this._displayedDate = dateUtils.getStartOfYear(new Date());
+            } else {
+                this._displayedDate = dateUtils.getStartOfMonth(new Date());
+            }
         }
     }
 
@@ -373,7 +394,31 @@ export default class DatePopup extends Control implements EventProxyMixin {
         this.fixedPeriodClick(start, end);
     }
 
+    _keyDownHandler(event: SyntheticEvent): void {
+        switch (event.nativeEvent.keyCode) {
+            case constants.key.home:
+                this._scrollToCurrentMonth();
+                break;
+            case constants.key.esc:
+                this._applyResult();
+                break;
+            case constants.key.tab:
+                // Если управление происходит через клавиатуру,
+                // то мы включаем режим, при котором фокус на элементах будет выделять их.
+                this._keyboardActive = true;
+                break;
+        }
+    }
+
+    _onClickHandler(): void {
+        this._keyboardActive = false;
+    }
+
     _applyClick(e: SyntheticEvent): Promise<void> {
+        return this._applyResult();
+    }
+
+    _applyResult(): Promise<void> {
         return this.isInputsValid().then((valid: boolean) => {
             if (valid) {
                 this.sendResult();
@@ -383,12 +428,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     _closeClick(): void {
         this._notify('close');
-    }
-
-    _getChildContext(): object {
-        return {
-            ScrollData: new ScrollData({pagingVisible: false})
-        };
     }
 
     _inputControlHandler(event: SyntheticEvent, value: Date, displayValue: Date, selection: any): void {
@@ -416,6 +455,16 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     _resetButtonClickHandler(): void {
+        this._resetValues();
+    }
+
+    _resetButtonKeyDownHandler(event: SyntheticEvent): void {
+        if (constants.key.enter === event.nativeEvent.keyCode) {
+            this._resetValues();
+        }
+    }
+
+    _resetValues(): void {
         this.rangeChanged(this._options.resetStartValue || null, this._options.resetEndValue || null);
         this._resetButtonVisible = false;
     }
@@ -442,11 +491,22 @@ export default class DatePopup extends Control implements EventProxyMixin {
     }
 
     rangeChanged(start: Date, end: Date): void {
-        this._rangeModel.startValue = start;
-        this._rangeModel.endValue = end;
-        this._headerRangeModel.startValue = start;
-        this._headerRangeModel.endValue = end;
-        this.updateYearsRangeModel(start, end);
+        let startValue = start;
+        let endValue = end;
+        // Если передать null в качестве начала и конца периода, то выделится
+        // период от -бесконечности до +бесконечности.
+        // В режиме выбора одного дня мы не должны выбирать ни один день.
+        if (this._options.selectionType === IRangeSelectable.SELECTION_TYPES.single) {
+            if (start === null || end === null) {
+                startValue = undefined;
+                endValue = undefined;
+            }
+        }
+        this._rangeModel.startValue = startValue;
+        this._rangeModel.endValue = endValue;
+        this._headerRangeModel.startValue = startValue;
+        this._headerRangeModel.endValue = endValue;
+        this.updateYearsRangeModel(start, endValue);
         this._updateResetButtonVisible(this._options);
     }
 
@@ -460,7 +520,7 @@ export default class DatePopup extends Control implements EventProxyMixin {
         }
     }
 
-    sendResult(start: Date, end: Date): void {
+    sendResult(start?: Date, end?: Date): void {
         this._notify(
             'sendResult',
             [start || this._rangeModel.startValue, end || this._rangeModel.endValue],
@@ -485,8 +545,19 @@ export default class DatePopup extends Control implements EventProxyMixin {
 
     toggleState(date?: Date): void {
         this._state = this._state === STATES.year ? STATES.month : STATES.year;
-
-        const displayedDate = date || this._options.startValue || this._options.endValue || new Date();
+        if (this._options.stateChangedCallback) {
+            this._options.stateChangedCallback(this._state);
+        }
+        let displayedDate;
+        if (date) {
+            displayedDate = date;
+        } else if (dateUtils.isValidDate(this._options.startValue)) {
+            displayedDate = this._options.startValue;
+        } else if (dateUtils.isValidDate(this._options.endDate)) {
+            displayedDate = this._options.endDate;
+        } else {
+            displayedDate = new Date();
+        }
         this._displayedDate = this._state === STATES.year ?
             dateUtils.getStartOfYear(displayedDate) : dateUtils.getStartOfMonth(displayedDate);
     }
@@ -515,8 +586,6 @@ export default class DatePopup extends Control implements EventProxyMixin {
         const endValueValidators: Function[] = validators || this._options.endValueValidators;
         this._endValueValidators = Range.getRangeValueValidators(endValueValidators, this._rangeModel, this._rangeModel.endValue);
     }
-
-    static _theme: string[] = ['Controls/datePopup'];
 
     static getDefaultOptions(): object {
         return coreMerge({

@@ -3,8 +3,9 @@
 
     <ws:if data="{{ !!content || !!contentTemplate }}">
         <ws:partial template="{{ content || contentTemplate }}"
+                    column="{{ (gridColumn || colData) }}"
                     colData="{{ (gridColumn || colData) }}"
-                    results="{{ (gridColumn || colData).getResults() }}"/>
+                    results="{{ (gridColumn || colData).getMetaResults() }}"/>
     </ws:if>
     <ws:else data="{{ (gridColumn || colData).data !== undefined && (gridColumn || colData).data !== null }}">
         <ws:if data="{{ (gridColumn || colData).format === 'money' }}">

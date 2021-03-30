@@ -2,7 +2,6 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_search/Input/Container';
 import {SyntheticEvent} from 'UI/Vdom';
 import SearchResolver from 'Controls/_search/SearchResolver';
-import {default as Store} from 'Controls/Store';
 import {constants} from 'Env/Env';
 
 export interface ISearchInputContainerOptions extends IControlOptions {
@@ -55,7 +54,7 @@ export default class Container extends Control<ISearchInputContainerOptions> {
    protected _beforeMount(options?: ISearchInputContainerOptions): void {
       if (options.inputSearchValue) {
          this._searchResolverController = this._initializeSearchResolverController(options);
-         this._updateSearchData(options.inputSearchValue);
+         this._updateSearchData(options.inputSearchValue, options.minSearchLength);
       }
    }
 
@@ -67,7 +66,7 @@ export default class Container extends Control<ISearchInputContainerOptions> {
 
    protected _beforeUpdate(newOptions: ISearchInputContainerOptions): void {
       if (this._options.inputSearchValue !== newOptions.inputSearchValue) {
-         this._updateSearchData(newOptions.inputSearchValue);
+         this._updateSearchData(newOptions.inputSearchValue, newOptions.minSearchLength);
       }
    }
 
@@ -96,11 +95,16 @@ export default class Container extends Control<ISearchInputContainerOptions> {
       this._resolve('', 'searchReset');
    }
 
-   private _updateSearchData(inputSearchValue: string): void {
+   private _updateSearchData(inputSearchValue: string, minSearchLength: number): void {
+      const searchResolver = this._getSearchResolverController();
       if (this._value !== inputSearchValue) {
          this._value = inputSearchValue;
+
+         if (!inputSearchValue) {
+            searchResolver.clearTimer();
+         }
+         searchResolver.setSearchStarted(this._value && this._value.length >= minSearchLength);
       }
-      this._getSearchResolverController().setSearchStarted(true);
    }
 
    private _resolve(value: string, event: 'searchReset' | 'search'): void {
@@ -118,6 +122,7 @@ export default class Container extends Control<ISearchInputContainerOptions> {
       if (this._value !== value) {
          this._value = value;
          this._getSearchResolverController().resolve(value);
+         this._notify('inputSearchValueChanged', [value], {bubbling: true});
       }
    }
 

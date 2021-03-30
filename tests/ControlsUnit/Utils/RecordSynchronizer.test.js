@@ -196,6 +196,12 @@ define(
             assert.equal(ids.length, 3);
             assert.equal(items.getCount(), 0);
          });
+
+         it('delete nonexistent record', () => {
+            items.clear();
+            RecordSynchronizer.deleteRecord(items, 1);
+            assert.equal(items.getCount(), 0);
+         });
       });
    }
 );

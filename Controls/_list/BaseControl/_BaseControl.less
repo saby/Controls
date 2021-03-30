@@ -27,16 +27,16 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    height: @more_height_list;
 }
 
-.controls-text-listMore_theme-@{themeName} {
+.controls-text-listMore {
    color: @more_text-color_list;
 }
 
-.controls-BaseButton:active .controls-text-listMore_theme-@{themeName} {
+.controls-BaseButton:active .controls-text-listMore {
    color: @more_active_text-color_list;
 }
 
 .ws-is-hover {
-   .controls-BaseButton:hover .controls-text-listMore_theme-@{themeName} {
+   .controls-BaseButton:hover .controls-text-listMore {
       color: @more_hover_text-color_list;
    }
 }
@@ -103,11 +103,13 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl__scrollPaging_theme-@{themeName} {
    pointer-events: auto;
 }
+
 .controls-BaseControl__loadingIndicator {
    background-color: transparent;
    display: flex;
    justify-content: center;
    cursor: auto;
+   min-height: 48px;
 
    // TODO: KINGO
    // Локальный индикатор загрузки на весь экран должен блокировать список, перекрывая кнопки навигации и скроллбар.
@@ -124,6 +126,14 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    pointer-events: none;
 }
 
+.controls-BaseControl__loadingIndicator__state-up-absolute {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   pointer-events: none;
+}
+
 // По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка
 .controls-BaseControl__loadingIndicator__state-down {
    position: sticky;
@@ -131,8 +141,7 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 // Поднимаем индикатор на высоту контейнера с пэйджингом
-.controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName},
-.controls-BaseControl_withPaging__continueSearch_theme-@{themeName} {
+.controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName} {
    margin-bottom: -(@item_height_paging + @scrollpaging_offset-vertical_list);
 }
 
@@ -260,6 +269,13 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl__abortSearch_theme-@{themeName}:active {
    text-decoration: underline;
    color: @abortSearch_active_text-color_list;
+}
+
+.controls-BaseControl__continueSearch {
+   display: inline-flex;
+   width: 100%;
+   position: absolute;
+   bottom: 0px;
 }
 
 .controls-BaseControl__continueSearch_theme-@{themeName} {

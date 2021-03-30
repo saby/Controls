@@ -11,6 +11,7 @@ export default class extends Control {
     protected _viewSource: Memory;
     protected _columns: IColumn[];
     protected _expandedItems: TExpandOrColapsItems = [null];
+    protected _collapsedItems: TExpandOrColapsItems = [12];
 
     protected _beforeMount(): void {
         this._viewSource = new Memory({

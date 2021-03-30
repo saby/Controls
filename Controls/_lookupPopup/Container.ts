@@ -1,6 +1,5 @@
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_lookupPopup/Container');
-import ControllerContext = require('Controls/_lookupPopup/__ControllerContext');
 import chain = require('Types/chain');
 import Utils = require('Types/util');
 import cInstance = require('Core/core-instance');
@@ -15,7 +14,7 @@ import {
     TSelectionRecord,
     TSelectionType,
     IHierarchyOptions,
-    IFilterOptions, 
+    IFilterOptions,
     TKey
 } from 'Controls/interface';
 import {RegisterUtil, UnregisterUtil} from 'Controls/event';
@@ -53,13 +52,14 @@ var _private = {
    },
 
    getSelectedKeys: function(options, context) {
-      const selectedItems = _private.getSelectedItems(options, context);
+      const selectedItems = _private.getSelectedItems(options);
       const items = _private.getFilteredItems(selectedItems, _private.getFilterFunction(options.selectionFilter));
       return _private.getKeysByItems(items, context.dataOptions.keyProperty);
    },
 
-   getSelectedItems(options, context): List|RecordSet  {
-      return options.selectedItems || context.selectorControllerContext.selectedItems || new List();
+   // TODO: вообще не уверен что это нужно, но я побоялся трогать
+   getSelectedItems(options): List|RecordSet  {
+      return options.selectedItems || new List();
    },
 
    getCrudWrapper: function(source) {
@@ -170,7 +170,7 @@ var _private = {
    },
 
    getInitialSelectedItems(self, options, context): List|RecordSet {
-      const selectedItems = _private.getSelectedItems(options, context).clone();
+      const selectedItems = _private.getSelectedItems(options).clone();
       const itemsToRemove = [];
       const keyProp = context.dataOptions.keyProperty;
 
@@ -324,7 +324,7 @@ var _private = {
  *
  * @class Controls/_lookupPopup/Container
  * @extends UI/Base:Control
- * 
+ *
  * @mixes Controls/_interface/ISource
  * @mixes Controls/_interface/ISelectionType
  * @public
@@ -343,7 +343,7 @@ var _private = {
 *
 * @class Controls/_lookupPopup/Container
 * @extends UI/Base:Control
-* 
+*
 * @mixes Controls/_interface/ISource
 * @public
 * @author Герасимов Александр Максимович
@@ -368,8 +368,8 @@ var Container = Control.extend({
    },
 
    _beforeUpdate(newOptions, context): void {
-      const currentSelectedItems = this._options.selectedItems || this.context.get('selectorControllerContext').selectedItems;
-      const newSelectedItems = newOptions.selectedItems || context.selectorControllerContext.selectedItems;
+      const currentSelectedItems = this._options.selectedItems;
+      const newSelectedItems = newOptions.selectedItems;
 
       if (currentSelectedItems !== newSelectedItems) {
          this._selectedKeys = _private.getSelectedKeys(newOptions, context);
@@ -454,7 +454,6 @@ var Container = Control.extend({
 
 Container.contextTypes = function() {
    return {
-      selectorControllerContext: ControllerContext,
       dataOptions: ContextOptions
    };
 };

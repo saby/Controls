@@ -6,6 +6,7 @@ export interface ISliderOptions {
     tooltipFormatter?: Function;
     size?: string;
     direction?: string;
+    tooltipPosition?: 'top' | 'bottom' | 'center';
     minValue: number;
     maxValue: number;
     scaleLabelFormatter?: Function;
@@ -151,6 +152,18 @@ export interface ISlider {
  * .mySliderBase_height {
  *    height: 200px;
  * }
+ * </pre>
+ */
+
+/**
+ * @name Controls/_slider/interface/ISlider#tooltipPosition
+ * @cfg {string} Определяет расположения подсказки.
+ * @variant top Подсказка расположена сверху.
+ * @variant bottom Подсказка расположена снизу.
+ * @demo Controls-demo/Slider/Base/TooltipPosition/Index
+ * @example
+ * <pre class="brush:html">
+ *   <Controls.slider:Base tooltipPosition="bottom" maxValue="{{100}}" minValue="{{0}}" bind:value="_value"/>
  * </pre>
  */
 

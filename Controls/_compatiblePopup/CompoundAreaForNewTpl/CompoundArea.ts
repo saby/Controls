@@ -21,6 +21,7 @@ import 'css!Controls/compatiblePopup';
 /**
  * Слой совместимости для открытия новых шаблонов в старых попапах
  * */
+// Наследование от CompoundControl
 const moduleClass = CompoundControl.extend({
    _dotTplFn: template,
    $protected: {

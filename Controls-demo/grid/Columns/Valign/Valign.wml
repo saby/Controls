@@ -2,6 +2,6 @@
     <Controls.grid:View
             keyProperty="id"
             source="{{_viewSource}}"
-            rowSeparatorVisibility="{{true}}"
+            rowSeparatorSize="s"
             columns="{{_columns}}"/>
 </div>

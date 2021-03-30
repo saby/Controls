@@ -24,6 +24,7 @@ export {default as Money, IMoneyOptions} from 'Controls/_decorator/Money';
 export {default as WrapURLs, IWrapURLsOptions} from 'Controls/_decorator/WrapURLs';
 export {default as Highlight, SearchMode, IHighlightOptions} from 'Controls/_decorator/Highlight';
 export {default as IMask} from 'Controls/_decorator/resources/IMask';
+export {default as Date, IDateOptions} from 'Controls/_decorator/Date';
 
 export * from './_decorator/resources/IMask';
 export * from './_decorator/resources/Util';

@@ -16,7 +16,6 @@ import { TreeControl } from 'Controls/tree';
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_interface/INavigation
     * @mixes Controls/_interface/IFilterChanged
-    * @mixes Controls/interface/IHighlighter
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/IHierarchy
@@ -44,7 +43,6 @@ import { TreeControl } from 'Controls/tree';
     * @mixes Controls/interface/IGroupedGrid
     * @mixes Controls/_interface/INavigation
     * @mixes Controls/_interface/IFilterChanged
-    * @mixes Controls/interface/IHighlighter
     * @mixes Controls/_list/interface/IList
     * @mixes Controls/_itemActions/interface/IItemActionsOptions
     * @mixes Controls/_interface/ISorting

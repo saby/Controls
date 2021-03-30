@@ -16,6 +16,10 @@ import {
 const QUERY_DELAY = 100;
 
 export class DemoSource extends HierarchicalMemory {
+    constructor(options?: any) {
+        super(options);
+    }
+
     query(query?: Query): Promise<DataSet> {
         const templateConfig = getFolderConfig(query);
 
@@ -40,13 +44,26 @@ export class DemoSource extends HierarchicalMemory {
     }
 }
 
+export function getDefaultViewCfg(): IBrowserViewConfig {
+    return {
+        settings: {
+            access: 'global',
+            accountViewMode: DetailViewMode.list,
+            clientViewMode: DetailViewMode.list
+        },
+        list: LIST_CFG,
+        tile: TILE_CFG,
+        table: TABLE_CFG
+    };
+}
+
 const LIST_CFG: IListConfig = {
     list: {
         imagePosition: ListImagePosition.left
     },
     node: {
         descriptionLines: 4,
-        position: NodesPosition.top
+        position: NodesPosition.left
     },
     leaf: {
         descriptionLines: 3
@@ -83,16 +100,7 @@ const TABLE_CFG: ITableConfig = {
 
 function getFolderConfig(query?: Query): IBrowserViewConfig {
     const filter = query.getWhere() as {parent: unknown};
-    const result = {
-        settings: {
-            access: 'global',
-            accountViewMode: DetailViewMode.list,
-            clientViewMode: DetailViewMode.list
-        },
-        list: LIST_CFG,
-        tile: TILE_CFG,
-        table: TABLE_CFG
-    };
+    const result = getDefaultViewCfg();
 
     if (filter.parent == null) {
         result.settings.clientViewMode = DetailViewMode.list;

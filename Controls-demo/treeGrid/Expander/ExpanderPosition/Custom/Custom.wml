@@ -7,5 +7,6 @@
             nodeProperty="type"
             expanderIcon="emptyNode"
             bind:expandedItems="_expandedItems"
+            bind:collapsedItems="_collapsedItems"
             expanderPosition="custom"/>
 </div>

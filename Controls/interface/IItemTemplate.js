@@ -20,7 +20,7 @@ define('Controls/interface/IItemTemplate', [
 
    /**
     * @name Controls/interface/IItemTemplate#itemTemplate
-    * @cfg {String|Function} Пользовательский шаблон отображения элемента.
+    * @cfg {String|TemplateFunction} Пользовательский шаблон отображения элемента.
     * @default undefined
     * @demo Controls-demo/list_new/ItemTemplate/CustomContent/Index
     * @markdown

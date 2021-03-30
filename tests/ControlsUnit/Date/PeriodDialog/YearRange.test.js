@@ -67,24 +67,19 @@ define([
          });
       });
 
-
-      describe('_onPrevClick', function() {
-         it('should decrease year.', function() {
+      describe('_changeYear', function() {
+         it('should decrease year', function() {
             const component = calendarTestUtils.createComponent(YearsRange, { year: year });
             const cachedYear = component._lastYear;
-            component._onPrevClick();
+            component._changeYear(-1);
             assert.equal(component._lastYear, cachedYear - 1);
          });
-      });
-
-      describe('_onNextClick', function() {
-         it('should increase year.', function() {
+         it('should increase year', function() {
             const component = calendarTestUtils.createComponent(YearsRange, { year: year });
             const cachedYear = component._lastYear;
-            component._onNextClick();
+            component._changeYear(1);
             assert.equal(component._lastYear, cachedYear + 1);
          });
       });
-
    });
 });

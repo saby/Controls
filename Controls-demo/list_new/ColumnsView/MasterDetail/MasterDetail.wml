@@ -63,7 +63,7 @@
                            <ws:filter parent="{{detail.selectedMasterValue || '0'}}">
                            </ws:filter>
                            <ws:itemTemplate>
-                              <ws:partial template="Controls/listRender:ColumnsItemTemplate" highlightOnHover="{{false}}">
+                              <ws:partial template="Controls/columns:ItemTemplate" highlightOnHover="{{false}}">
                                  <ws:contentTemplate>
                                     <ws:partial
                                             item="{{itemTemplate.item.getContents()}}"

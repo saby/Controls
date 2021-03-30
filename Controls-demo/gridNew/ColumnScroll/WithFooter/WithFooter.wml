@@ -9,9 +9,9 @@
                     backgroundStyle="default"
                     header="{{_header}}"
                     stickyColumnsCount="{{2}}">
-                <ws:footerTemplate>
+                <ws:partial template="Controls/gridNew:FooterTemplate">
                     <div class="controlsDemo__hor-scroll__grid__footerContent">Подвал таблицы</div>
-                </ws:footerTemplate>
+                </ws:partial>
             </Controls.gridNew:View>
         </Controls.scroll:Container>
     </div>
@@ -26,29 +26,33 @@
                     backgroundStyle="default"
                     header="{{_header}}"
                     stickyColumnsCount="{{2}}">
-                <ws:footerTemplate>
-                    <ws:partial template="Controls/gridNew:FooterTemplate">
-                        <ws:columns>
-                            <ws:Array>
-                                <ws:Object startColumn="{{ 2 }}">
-                                    <ws:template>
-                                        <span style="color: darkgrey">Подвал под названием</span>
-                                    </ws:template>
-                                </ws:Object>
-                                <ws:Object>
-                                    <ws:template>
-                                        <span style="color: darkgrey">Подвал для столицы</span>
-                                    </ws:template>
-                                </ws:Object>
-                                <ws:Object>
-                                    <ws:template>
-                                        <span style="color: darkgrey">Весь остальной подвал под характеристиками</span>
-                                    </ws:template>
-                                </ws:Object>
-                            </ws:Array>
-                        </ws:columns>
-                    </ws:partial>
-                </ws:footerTemplate>
+                <ws:footer>
+                    <ws:Array>
+                        <ws:Object startColumn="{{ 2 }}" endColumn="{{ 3 }}">
+                            <ws:template>
+                                <ws:partial template="Controls/gridNew:FooterColumnTemplate">
+                                    <span style="color: darkgrey">Подвал под названием</span>
+                                </ws:partial>
+                            </ws:template>
+                        </ws:Object>
+
+                        <ws:Object startColumn="{{ 3 }}" endColumn="{{ 4 }}">
+                            <ws:template>
+                                <ws:partial template="Controls/gridNew:FooterColumnTemplate">
+                                    <span style="color: darkgrey">Подвал для столицы</span>
+                                </ws:partial>
+                            </ws:template>
+                        </ws:Object>
+
+                        <ws:Object startColumn="{{ 4 }}" endColumn="{{ 7 }}">
+                            <ws:template>
+                                <ws:partial template="Controls/gridNew:FooterColumnTemplate">
+                                    <span style="color: darkgrey">Весь остальной подвал под характеристиками</span>
+                                </ws:partial>
+                            </ws:template>
+                        </ws:Object>
+                    </ws:Array>
+                </ws:footer>
             </Controls.gridNew:View>
         </Controls.scroll:Container>
     </div>

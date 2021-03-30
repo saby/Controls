@@ -27,6 +27,8 @@
 
 import ILoadingIndicator, {ILoadingIndicatorOptions} from './interface/ILoadingIndicator';
 
+const GLOBAL_INDICATOR_ZINDEX: number = 10000;
+
 /*
  * show indicator (bypassing requests of indicator showing stack)
  */
@@ -46,6 +48,7 @@ import ILoadingIndicator, {ILoadingIndicatorOptions} from './interface/ILoadingI
  * @see hide
  */
 function show(config: ILoadingIndicatorOptions = {}, waitPromise?: Promise<unknown>): string {
+    config.zIndex = GLOBAL_INDICATOR_ZINDEX;
     return this.mainIndicator?.show(config, waitPromise);
 }
 /*

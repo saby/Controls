@@ -24,11 +24,10 @@
                         swipeTemplate="{{ swipeTemplate }}"
                         editArrowTemplate="{{ editArrowTemplate }}"
                         multiSelectTpl="{{ multiSelectTpl }}"
+                        multiSelectVisibility="{{ listModel.getMultiSelectVisibility() }}"
                         backgroundStyle="{{ backgroundStyle }}"
-                        isColumnScrollVisible="{{ isColumnScrollVisible }}"
                         tagTemplate="{{ tagTemplate }}"
                         markerPosition="{{_options.markerPosition}}"
-
                         on:editingItemClick="_onEditingItemClick(itemData.dispItem)"
 
                         on:contextmenu="_onItemContextMenu(itemData)"
@@ -51,8 +50,8 @@
                     swipeTemplate="{{ swipeTemplate }}"
                     editArrowTemplate="{{ editArrowTemplate }}"
                     multiSelectTpl="{{ multiSelectTpl }}"
+                    multiSelectVisibility="{{ listModel.getMultiSelectVisibility() }}"
                     backgroundStyle="{{ backgroundStyle }}"
-                    isColumnScrollVisible="{{ isColumnScrollVisible }}"
                     tagTemplate="{{ tagTemplate }}"
                     markerPosition="{{_options.markerPosition}}"
 
@@ -72,7 +71,10 @@
     <!-- Подвалы узлов для дерева. Живем так до перехода на новую модель или до ws:fragment. -->
     <!-- В записи подвал не вывести, т.к. редатируемая строка оборачивается в контрол. Контрол может принять только один корневой элемент. -->
     <ws:if data="{{ nodeFooters && nodeFooters.length > 0 }}">
-        <ws:partial template="{{ itemData.footerContentTemplate }}" useNewNodeFooters="{{ itemData.useNewNodeFooters }}" nodeFooters="{{nodeFooters}}"/>
+        <ws:partial template="wml!Controls/_treeGrid/TreeGridView/layout/common/NodeFooterChooser"
+                    useNewNodeFooters="{{ itemData.useNewNodeFooters }}"
+                    nodeFooters="{{ nodeFooters }}"
+                    moreFontColorStyle="{{ itemData.moreFontColorStyle }}"/>
     </ws:if>
 </ws:template>
 

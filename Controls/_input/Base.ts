@@ -14,11 +14,11 @@ import fieldTemplate = require('wml!Controls/_input/Base/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Base/ReadOnly');
 import Field from 'Controls/_input/resources/Field';
 import {IViewModelOptions} from 'Controls/_input/Text/ViewModel';
-
-import {getOptionPaddingTypes, getDefaultPaddingOptions} from './interface/IPadding';
+import 'css!Controls/input';
 
 import 'wml!Controls/_input/Base/Stretcher';
 import 'wml!Controls/_input/Base/FixValueAttr';
+import { getOptionBorderVisibilityTypes } from 'Controls/_input/interface/IBorderVisibility';
 
 interface IFieldTemplate {
     template: string|TemplateFunction;
@@ -195,6 +195,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     protected _focusByMouseDown: boolean;
     protected _leftFieldWrapper: IFieldTemplate;
     protected _rightFieldWrapper: IFieldTemplate;
+    protected _horizontalPadding: string;
     private _isBrowserPlatform: boolean;
 
     constructor(cfg: IBaseInputOptions) {
@@ -232,6 +233,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         );
         this._updateSelectionByOptions(options);
         this._initProperties(options);
+        this._updateHorizontalPadding(options);
 
         if (this._autoComplete !== 'off') {
             /**
@@ -267,6 +269,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._viewModel.displayValueBeforeUpdate = this._viewModel.displayValue;
         this._updateViewModel(newViewModelOptions, this._getValue(newOptions));
         this._updateSelectionByOptions(newOptions);
+        this._updateHorizontalPadding(newOptions);
     }
 
     /**
@@ -380,6 +383,18 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._calculateValueForTemplate();
     }
 
+    private _updateHorizontalPadding(options: IBaseInputOptions): void {
+        let padding;
+        if (options.horizontalPadding) {
+            padding = options.horizontalPadding;
+        } else if (options.contrastBackground !== false) {
+            padding = 'xs';
+        } else {
+            padding = 'null';
+        }
+        this._horizontalPadding = padding;
+    }
+
     /**
      *
      * @return {HTMLElement}
@@ -477,7 +492,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     }
 
     protected _getReadOnlyField(): HTMLElement {
-        return this._children.readOnlyField;
+        return this._children.readOnlyField as HTMLElement;
     }
 
     /**
@@ -566,7 +581,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
          * A field in focus when it is the active element on the page.
          * The active element is only on the client. The field cannot be focused on the server.
          */
-        if (this._isBrowserPlatform) {
+        if (this._isBrowserPlatform && this._mounted) {
             return this._getActiveElement() === this._getField();
         }
 
@@ -643,11 +658,8 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
         this._getField().paste(text);
     }
 
-    static _theme: string[] = ['Controls/input'];
-
     static getDefaultOptions(): object {
         return {
-            ...getDefaultPaddingOptions(),
             tooltip: '',
             inlineHeight: 'default',
             placeholder: '',
@@ -656,13 +668,14 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
             fontSize: 'm',
             fontColorStyle: 'default',
             spellCheck: true,
-            selectOnClick: false
+            selectOnClick: false,
+            contrastBackground: false
         };
     }
 
     static getOptionTypes(): object {
         return {
-            ...getOptionPaddingTypes(),
+            ...getOptionBorderVisibilityTypes(),
             value: descriptor(String, null),
             selectionStart: descriptor(Number),
             selectionEnd: descriptor(Number),

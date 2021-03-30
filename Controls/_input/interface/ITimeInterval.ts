@@ -5,6 +5,9 @@ import {TimeInterval} from 'Types/entity';
  * @public
  * @author Красильников А.С.
  */
+export interface ITimeInterval {
+    readonly '[Controls/_input/interface/ITimeInterval]': boolean;
+}
 
 export interface ITimeIntervalOptions {
     /**
@@ -36,8 +39,4 @@ export interface ITimeIntervalOptions {
      * @demo Controls-demo/Input/TimeInterval/Base/Index
      */
     value: TimeInterval;
-}
-
-export interface ITimeInterval {
-    readonly '[Controls/_input/interface/ITimeInterval]': boolean;
 }

@@ -7,7 +7,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dateRange/RangeShortSelector/RangeShortSelector');
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import dateControlsUtils from './Utils';
+import 'css!Controls/dateRange';
 
 interface IRangeShortSelectorOptions extends IControlOptions {
     chooseMonths: boolean;
@@ -36,6 +36,7 @@ interface IRangeShortSelectorOptions extends IControlOptions {
  *
  * @class Controls/_dateRange/RangeShortSelector
  * @extends UI/Base:Control
+ * @mixes Controls/_interface/IResetValues
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_dateRange/interfaces/IPeriodLiteDialog
  * @mixes Controls/_dateRange/interfaces/IDateRange
@@ -61,7 +62,7 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
         let className;
         const container = this._children.linkView.getPopupTarget();
         if (!this._options.chooseMonths && !this._options.chooseQuarters && !this._options.chooseHalfyears) {
-            className = `controls-DateRangeSelectorLite__picker-years_fontSize-${this._getFontSizeClass()}_theme-${this._options.theme}`;
+            className = `controls-DateRangeSelectorLite__picker-years_fontSize-${this._getFontSizeClass()}`;
         } else {
             className = 'controls-DateRangeSelectorLite__picker-normal';
         }
@@ -116,6 +117,10 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
         }
     }
 
+    _resetButtonClickHandler(): void {
+        this._rangeModel.setRange(this._options.resetStartValue || null, this._options.resetEndValue || null);
+    }
+
     _sendResultHandler(event: SyntheticEvent, fittingMode: string): void {
         if (typeof fittingMode === 'string') {
             this._fittingMode = fittingMode;
@@ -130,8 +135,6 @@ export default class RangeShortSelector extends BaseSelector<IRangeShortSelector
     shiftForward(): void {
         this._children.linkView.shiftForward();
     }
-
-    static _theme: string[] = ['Controls/dateRange'];
 
     static getDefaultOptions(): object {
         return {

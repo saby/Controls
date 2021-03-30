@@ -1,248 +1,273 @@
-/**
- * Created by kraynovdo on 31.01.2018.
- */
-import {Control as BaseControl} from 'UI/Base';
-import template = require('wml!Controls/_filterPopup/History/List');
-import Utils = require('Types/util');
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import * as template from 'wml!Controls/_filterPopup/History/List';
 import {Serializer} from 'UI/State';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {RecordSet} from 'Types/collection';
 import {Model} from 'Types/entity';
+import {isEqual} from 'Types/object';
+import {factory} from 'Types/chain';
+import * as Utils from 'Types/util';
 import * as Merge from 'Core/core-merge';
 import * as Clone from 'Core/core-clone';
-import {isEqual} from 'Types/object';
-import {HistoryUtils} from 'Controls/filter';
-import {factory} from 'Types/chain';
-import {Constants} from 'Controls/history';
+import {HistoryUtils, IFilterItem} from 'Controls/filter';
+import {IEditDialogResult, IEditDialogOptions} from './_EditDialog';
+import {Constants, FilterSource as FilterHistorySource} from 'Controls/history';
+import {StickyOpener} from 'Controls/popup';
+import {ISwipeEvent} from 'Controls/listRender';
+import 'css!Controls/filterPopup';
 
-var MAX_NUMBER_ITEMS = 5;
+const MAX_NUMBER_ITEMS = 5;
+const getPropValue = Utils.object.getPropertyValue.bind(Utils);
 
-   var getPropValue = Utils.object.getPropertyValue.bind(Utils);
+interface IHistoryListOptions extends IControlOptions{
+   items: RecordSet;
+   filterItems: IFilterItem[];
+   saveMode: 'pinned'|'favorite';
+   historyId: string;
+   orientation: 'vertical'|'horizontal';
+}
 
-   var _private = {
-      getSource: function(historyId) {
-         return HistoryUtils.getHistorySource({ historyId: historyId });
-      },
+type TFilterHistorySource = typeof FilterHistorySource;
 
-      getItemId: function(item) {
-         let id;
-         if (item.hasOwnProperty('id')) {
-            id = getPropValue(item, 'id');
-         } else {
-            id = getPropValue(item, 'name');
-         }
-         return id;
-      },
+interface IHistoryText {
+   [key: string]: string;
+}
 
-      setObjectData: function(editItem, data) {
-         editItem.set('ObjectData', JSON.stringify(data, new Serializer().serialize));
-      },
+class HistoryList extends Control<IHistoryListOptions> {
+   protected _template: TemplateFunction = template;
+   protected _items: RecordSet;
+   protected _arrowVisible: boolean;
+   protected _isMaxHeight: boolean = true;
+   protected _itemsText: IHistoryText = null;
+   protected _historyCount: number = null;
+   protected _swipeItem: Model = null;
+   private _editItem: Model = null;
+   private _stickyOpener: StickyOpener;
 
-      getStringHistoryFromItems: function(items, resetValues) {
-         var textArr = [];
-         factory(items).each(function(elem) {
-            var value = getPropValue(elem, 'value'),
-               resetValue = resetValues[_private.getItemId(elem)],
-               textValue = getPropValue(elem, 'textValue'),
-               visibility = getPropValue(elem, 'visibility');
-
-            if (!isEqual(value, resetValue) && (visibility === undefined || visibility) && textValue) {
-               textArr.push(textValue);
-            }
-         });
-         return textArr.join(', ');
-      },
-
-      mapByField: function(items: Array, field: string): object {
-         const result = {};
-         let value;
-
-         factory(items).each((item) => {
-            value = getPropValue(item, field);
-
-            if (value !== undefined) {
-               result[_private.getItemId(item)] = getPropValue(item, field);
-            }
-         });
-
-         return result;
-      },
-
-      onResize: function(self) {
-         if (self._options.orientation === 'vertical') {
-            var arrowVisibility = self._arrowVisible;
-            self._arrowVisible = self._options.items.getCount() > MAX_NUMBER_ITEMS;
-
-            if (arrowVisibility !== self._arrowVisible) {
-               self._isMaxHeight = true;
-               self._forceUpdate();
-            }
-         }
-      },
-
-      minimizeHistoryItems: function(items) {
-         factory(items).each((item) => {
-            delete item.caption;
-         });
-      },
-
-      setLinkTextValue: function(data) {
-         data.linkText = _private.getStringHistoryFromItems(data.items, _private.mapByField(data.items, 'resetValue'));
-      },
-
-      getEditDialogOptions: function(self, item, historyId, savedTextValue) {
-         const history = _private.getSource(historyId).getDataObject(item);
-         let items = history.items || history;
-
-         let captionsObject = _private.mapByField(self._options.filterItems, 'caption');
-         items = factory(items).map((historyItem) => {
-            historyItem.caption = captionsObject[_private.getItemId(historyItem)];
-            return historyItem;
-         }).value();
-
-         return {
-            items,
-            editedTextValue: savedTextValue || '',
-            isClient: history.globalParams === undefined ? !!history.isClient : !!history.globalParams,
-            isFavorite: item.get('pinned') || item.get('client')
-         };
-      },
-
-      deleteFavorite: function(self, data) {
-         _private.getSource(self._options.historyId).remove(self._editItem, {
-            $_favorite: true, isClient: data.isClient
-         });
-
-         self._children.stickyOpener.close();
-         self._notify('historyChanged');
-      },
-
-      saveFavorite: function(self, record) {
-         const editItemData = _private.getSource(self._options.historyId).getDataObject(self._editItem);
-         const ObjectData = Merge(Clone(editItemData), record.getRawData(), {rec: false});
-         _private.minimizeHistoryItems(ObjectData.items);
-
-         _private.setObjectData(self._editItem, ObjectData);
-         _private.getSource(self._options.historyId).update(self._editItem, {
-               $_favorite: true,
-               isClient: record.get('isClient')
-         });
-         self._notify('historyChanged');
-      },
-
-      updateFavorite(self, item, text, target): void {
-         const templateOptions = _private.getEditDialogOptions(self, item, self._options.historyId, text);
-         const popupOptions = {
-            opener: self,
-            target,
-            templateOptions,
-            targetPoint: {
-               vertical: 'bottom',
-               horizontal: 'left'
-            },
-            direction: {
-               horizontal: 'left'
-            }
-         };
-         self._children.stickyOpener.open(popupOptions);
-      },
-   };
-
-   var HistoryList = BaseControl.extend({
-      _template: template,
-      _historySource: null,
-      _isMaxHeight: true,
-      _itemsText: null,
-      _editItem: null,
-      _historyCount: null,
-      _swipeItem: null,
-
-      _beforeMount: function(options) {
-         if (options.items) {
-            this._items = options.items.clone();
-         }
-         if (options.saveMode === 'favorite') {
-             this._historyCount = Constants.MAX_HISTORY_REPORTS;
-             this._items = _private.getSource(options.historyId).getItems();
-         } else {
-            this._historyCount = Constants.MAX_HISTORY;
-         }
-         this._itemsText = this._getText(this._items, options.filterItems, _private.getSource(options.historyId));
-      },
-
-      _beforeUpdate: function(newOptions) {
-         if (!isEqual(this._options.items, newOptions.items)) {
-            this._items = newOptions.items.clone();
-            if (newOptions.saveMode === 'favorite') {
-               this._items = _private.getSource(newOptions.historyId).getItems();
-            }
-            this._itemsText = this._getText(newOptions.items, newOptions.filterItems, _private.getSource(newOptions.historyId));
-         }
-      },
-
-      _onPinClick: function(event, item) {
-           _private.getSource(this._options.historyId).update(item, {
-               $_pinned: !item.get('pinned')
-           });
-           this._notify('historyChanged');
-      },
-
-      _onFavoriteClick: function(event, item, text) {
-         this._editItem = item;
-         _private.updateFavorite(this, item, text, event.target);
-      },
-
-      _editDialogResult: function(event, data) {
-         if (data.action === 'save') {
-            _private.saveFavorite(this, data.record);
-         } else if (data.action === 'delete') {
-            _private.deleteFavorite(this, data);
-         }
-      },
-
-      _itemSwipe(event: SyntheticEvent<Event>, item: Model): void {
-         const direction = event.nativeEvent.direction;
-         if (direction === 'left') {
-            this._swipeItem = item;
-         } else if (direction === 'right') {
-            this._swipeItem = null;
-         }
-      },
-
-      _clickHandler: function(event, item) {
-         const history = _private.getSource(this._options.historyId).getDataObject(item);
-         this._notify('applyHistoryFilter', [history]);
-      },
-
-      _afterMount: function() {
-         _private.onResize(this);
-      },
-
-      _afterUpdate: function() {
-         _private.onResize(this);
-      },
-
-      _getText: function(items, filterItems, historySource) {
-         const itemsText = {};
-         // the resetValue is not stored in history, we take it from the current filter items
-         const resetValues = _private.mapByField(filterItems, 'resetValue');
-
-         factory(items).each((item, index) => {
-            let text = '';
-            const history = historySource.getDataObject(item);
-
-            if (history) {
-               text = history.linkText || _private.getStringHistoryFromItems(history.items || history, resetValues);
-            }
-            itemsText[index] = text;
-         });
-         return itemsText;
-      },
-
-      _clickSeparatorHandler: function() {
-         this._isMaxHeight = !this._isMaxHeight;
-         this._notify('controlResize', [], {bubbling: true});
+   protected _beforeMount(options: IHistoryListOptions): void {
+      if (options.items) {
+         this._items = options.items.clone();
       }
-   });
-   HistoryList._theme = ['Controls/filterPopup'];
-   HistoryList._private = _private;
-   export = HistoryList;
+      if (options.saveMode === 'favorite') {
+          this._historyCount = Constants.MAX_HISTORY_REPORTS;
+          this._items = this._getSource(options.historyId).getItems();
+      } else {
+         this._historyCount = Constants.MAX_HISTORY;
+      }
+      this._itemsText = this._getText(this._items, options.filterItems, this._getSource(options.historyId));
+   }
+
+   protected _beforeUpdate(newOptions: IHistoryListOptions): void {
+      if (!isEqual(this._options.items, newOptions.items)) {
+         this._items = newOptions.items.clone();
+         if (newOptions.saveMode === 'favorite') {
+            this._items = this._getSource(newOptions.historyId).getItems();
+         }
+         this._itemsText = this._getText(newOptions.items,
+             newOptions.filterItems, this._getSource(newOptions.historyId));
+      }
+   }
+
+   protected _afterMount(): void {
+      this._onResize();
+   }
+
+   protected _afterUpdate(): void {
+      this._onResize();
+   }
+
+   protected _onPinClick(event: Event, item: Model): void {
+        this._getSource(this._options.historyId).update(item, {
+            $_pinned: !item.get('pinned')
+        });
+        this._notify('historyChanged');
+   }
+
+   protected _onFavoriteClick(event: Event, item: Model, text: string): void {
+      this._editItem = item;
+      this._updateFavorite(item, text, event.target);
+   }
+
+   protected _editDialogResult(data: IEditDialogResult): void {
+      if (data.action === 'save') {
+         this._saveFavorite(data.record);
+      } else if (data.action === 'delete') {
+         this._deleteFavorite(data);
+      }
+   }
+
+   protected _itemSwipe(event: SyntheticEvent<ISwipeEvent>, item: Model): void {
+      const direction = event.nativeEvent.direction;
+      if (direction === 'left') {
+         this._swipeItem = item;
+      } else if (direction === 'right') {
+         this._swipeItem = null;
+      }
+   }
+
+   protected _clickHandler(event: Event, item: Model): void {
+      const history = this._getSource(this._options.historyId).getDataObject(item);
+      this._notify('applyHistoryFilter', [history]);
+   }
+
+   protected _clickSeparatorHandler(): void {
+      this._isMaxHeight = !this._isMaxHeight;
+      this._notify('controlResize', [], {bubbling: true});
+   }
+
+   private _getText(items: RecordSet,
+                    filterItems: IFilterItem[],
+                    historySource: TFilterHistorySource): IHistoryText {
+      const itemsText = {};
+      // the resetValue is not stored in history, we take it from the current filter items
+      const resetValues = this._mapByField(filterItems, 'resetValue');
+
+      factory(items).each((item, index: number) => {
+         let text = '';
+         const history = historySource.getDataObject(item);
+
+         if (history) {
+            text = history.linkText || this._getStringHistoryFromItems(history.items || history, resetValues);
+         }
+         itemsText[index] = text;
+      });
+      return itemsText;
+   }
+
+   private _getSource(historyId: string): TFilterHistorySource {
+      return HistoryUtils.getHistorySource({ historyId });
+   }
+
+   private _getItemId(item: Model | IFilterItem): string {
+      let id;
+      if (item.hasOwnProperty('id')) {
+         id = getPropValue(item, 'id');
+      } else {
+         id = getPropValue(item, 'name');
+      }
+      return id;
+   }
+
+   private _setObjectData(editItem: Model, data: object): void {
+      editItem.set('ObjectData', JSON.stringify(data, new Serializer().serialize));
+   }
+
+   private _getStringHistoryFromItems(items: RecordSet, resetValues: object): string {
+      const textArr = [];
+      let value;
+      let resetValue;
+      let textValue;
+      let visibility;
+      factory(items).each((elem) => {
+         value = getPropValue(elem, 'value');
+         resetValue = resetValues[this._getItemId(elem)];
+         textValue = getPropValue(elem, 'textValue');
+         visibility = getPropValue(elem, 'visibility');
+
+         if (!isEqual(value, resetValue) && (visibility === undefined || visibility) && textValue) {
+            textArr.push(textValue);
+         }
+      });
+      return textArr.join(', ');
+   }
+
+   private _mapByField(items: RecordSet|IFilterItem[], field: string): object {
+      const result = {};
+      let value;
+
+      factory(items).each((item: Model) => {
+         value = getPropValue(item, field);
+
+         if (value !== undefined) {
+            result[this._getItemId(item)] = getPropValue(item, field);
+         }
+      });
+
+      return result;
+   }
+
+   private _onResize(): void {
+      if (this._options.orientation === 'vertical') {
+         const arrowVisibility = this._arrowVisible;
+         this._arrowVisible = this._options.items.getCount() > MAX_NUMBER_ITEMS;
+
+         if (arrowVisibility !== this._arrowVisible) {
+            this._isMaxHeight = true;
+            this._forceUpdate();
+         }
+      }
+   }
+
+   private _minimizeHistoryItems(items: IFilterItem[]): void {
+      factory(items).each((item) => {
+         delete item.caption;
+      });
+   }
+
+   private _getEditDialogOptions(item: Model, historyId: string, savedTextValue: string): IEditDialogOptions {
+      const history = this._getSource(historyId).getDataObject(item);
+      let items = (history.items || history) as IFilterItem[];
+
+      const captionsObject = this._mapByField(this._options.filterItems, 'caption');
+      items = factory(items).map((historyItem) => {
+         historyItem.caption = captionsObject[this._getItemId(historyItem)];
+         return historyItem;
+      }).value();
+
+      return {
+         items,
+         editedTextValue: savedTextValue || '',
+         isClient: history.globalParams === undefined ? !!history.isClient : !!history.globalParams,
+         isFavorite: item.get('pinned') || item.get('client')
+      };
+   }
+
+   private _deleteFavorite(data: IEditDialogResult): void {
+      this._getSource(this._options.historyId).remove(this._editItem, {
+         $_favorite: true, isClient: data.isClient
+      });
+
+      this._stickyOpener.close();
+      this._notify('historyChanged');
+   }
+
+   private _saveFavorite(record: Model): void {
+      const editItemData = this._getSource(this._options.historyId).getDataObject(this._editItem);
+      const ObjectData = Merge(Clone(editItemData), record.getRawData(), {rec: false});
+      this._minimizeHistoryItems(ObjectData.items);
+
+      this._setObjectData(this._editItem, ObjectData);
+      this._getSource(this._options.historyId).update(this._editItem, {
+         $_favorite: true,
+         isClient: record.get('isClient')
+      });
+      this._notify('historyChanged');
+   }
+
+   private _updateFavorite(item: Model, text: string, target: EventTarget): void {
+      const templateOptions = this._getEditDialogOptions(item, this._options.historyId, text);
+      const popupOptions = {
+         template: 'Controls/_filterPopup/History/_EditDialog',
+         opener: this,
+         target,
+         closeOnOutsideClick: true,
+         targetPoint: {
+            vertical: 'bottom',
+            horizontal: 'left'
+         },
+         direction: {
+            horizontal: 'left'
+         },
+         eventHandlers: {
+            onResult: this._editDialogResult
+         },
+         templateOptions
+      };
+      if (!this._stickyOpener) {
+         this._stickyOpener = new StickyOpener();
+      }
+      this._stickyOpener.open(popupOptions);
+   }
+}
+
+export default HistoryList;

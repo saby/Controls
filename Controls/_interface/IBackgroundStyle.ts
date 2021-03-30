@@ -1,5 +1,5 @@
 export interface IBackgroundStyleOptions {
-    backgroundStyle: string;
+    backgroundStyle?: string;
 }
 
 /**

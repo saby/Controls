@@ -6,6 +6,7 @@ import textTemplate = require('wml!Controls/_toggle/DoubleSwitch/resources/Doubl
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ICheckable, ICheckableOptions} from './interface/ICheckable';
 import {ITooltip, ITooltipOptions} from 'Controls/interface';
+import 'css!Controls/toggle';
 
 export interface IDoubleSwitchOptions extends IControlOptions, ICheckableOptions, ITooltipOptions {
    captions?: string[];
@@ -92,7 +93,6 @@ class DoubleSwitch extends Control<IDoubleSwitchOptions> implements ICheckable, 
       this._checkCaptions(newOptions.captions);
    }
 
-   static _theme: string[] = ['Controls/toggle'];
    static getDefaultOptions(): object {
       return {
          value: false

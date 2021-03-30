@@ -58,10 +58,26 @@ function getCellStyles(cfg: IColumnOptions & IRowOptions): string {
     return getColumnStyles(cfg) + ' ' + getRowStyles(cfg);
 }
 
-function getMultiHeaderStyles(columnStart: number, columnEnd: number, rowStart: number, rowEnd: number, additionalColumn: number): string {
+function getMultiHeaderStyles(columnStart: number,
+                              columnEnd: number,
+                              rowStart: number,
+                              rowEnd: number,
+                              additionalColumn: number,
+                              ladderCellsCount: number = 0): string {
+    let startColumn = columnStart;
+    let endColumn = columnEnd;
+
+    if (ladderCellsCount === 1) {
+        startColumn = startColumn + 1;
+        endColumn = endColumn + 1;
+    }
+    if (ladderCellsCount === 2) {
+        startColumn = startColumn > 1 ? startColumn + 2 : startColumn + 1;
+        endColumn = endColumn + 2;
+    }
     return getCellStyles({
-        columnStart: columnStart + additionalColumn - 1,
-        columnEnd: columnEnd + additionalColumn - 1,
+        columnStart: startColumn + additionalColumn - 1,
+        columnEnd: endColumn + additionalColumn - 1,
         rowStart: rowStart - 1,
         rowEnd: rowEnd - 1
     });

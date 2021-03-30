@@ -5,6 +5,29 @@ define([
 ], function (Util, Env, cClone) {
 
    describe('Controls/_grid/GridLayoutUtil', function () {
+      describe('Controls/_grid/GridLayoutUtil/getMultiHeaderStyles', () => {
+         it('first spanned header cell with ladder cell', () => {
+            const expected = 'grid-column-start: 2; grid-column-end: 4; grid-row-start: 1; grid-row-end: 2;';
+            const result = Util.getMultiHeaderStyles(1, 3, 1, 2, 0, 1);
+            assert.equal(result, expected);
+         });
+         it('second header cell with ladder cell', () => {
+            const expected = 'grid-column-start: 4; grid-column-end: 5; grid-row-start: 1; grid-row-end: 2;';
+            const result = Util.getMultiHeaderStyles(3, 4, 1, 2, 0, 1);
+            assert.equal(result, expected);
+         });
+         it('first spanned header cell with two ladder cells', () => {
+            const expected = 'grid-column-start: 2; grid-column-end: 5; grid-row-start: 1; grid-row-end: 2;';
+            const result = Util.getMultiHeaderStyles(1, 3, 1, 2, 0, 2);
+            assert.equal(result, expected);
+         });
+         it('second header cell with two ladder cells', () => {
+            const expected = 'grid-column-start: 5; grid-column-end: 6; grid-row-start: 1; grid-row-end: 2;';
+            const result = Util.getMultiHeaderStyles(3, 4, 1, 2, 0, 2);
+            assert.equal(result, expected);
+         });
+      });
+
       it('toCssString', function () {
 
          assert.equal(Util.toCssString([

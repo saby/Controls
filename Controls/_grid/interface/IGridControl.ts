@@ -1,15 +1,17 @@
-import { TColumns } from './IColumn';
+import {IHeaderCell, TColumns} from 'Controls/interface';
 import { IList } from 'Controls/list';
+
+type HeaderVisibility = 'hasdata' | 'visible';
+
 /**
  * Интерфейс для контрола {@link Controls/grid:View Таблица}.
- *
- * @interface Controls/_grid/interface/IGridControl
  * @public
  * @author Авраменко А.С.
  */
-
 export interface IGridControl extends IList {
     columns: TColumns;
+    header?: IHeaderCell[];
+    headerVisibility?: HeaderVisibility;
 }
 
 /*
@@ -22,8 +24,8 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#ladderProperties
- * @cfg {Array.<String>} Массив свойств, по которым происходит прилипание.
- * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере настроено отображение данных "лесенкой" для свойств "photo" и "date". Дополнительно включено прилипание заголовка таблицы, а также прилипание по первой колонке (см. {@link Controls/grid:IColumn#stickyProperty stickyProperty}).
+ * @cfg {Array.<String>} Массив с именами полей, по которым строится {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ лесенка}.
+ * @demo Controls-demo/grid/Ladder/Sticky/Index В демо-примере настроено отображение данных "лесенкой" для свойств "photo" и "date". Дополнительно включено прилипание заголовка таблицы, а также прилипание по первой колонке (см. {@link Controls/interface:IColumn#stickyProperty stickyProperty}).
  * @demo Controls-demo/grid/LadderStickyMultiline/StickyMultiline/Index В демо-примере настроено отображение данных "лесенкой" для свойств "date" и "time". Дополнительно включено прилипание по первой колонке.
  * @example
  * <pre class="brush: js">
@@ -37,8 +39,10 @@ export interface IGridControl extends IList {
  *     header="{{_header}}"
  *     ladderProperties="{{_ladderProperties}}"/>
  * </pre>
- * @remark Подробнее о конфигурации лесенки читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/ladder/">руководстве разработчика</a>.
- * @see Controls/grid:IColumn#stickyProperty
+ * @remark
+ * Подробнее о конфигурации лесенки читайте в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/ladder/ руководстве разработчика}.
+ * @see Controls/interface:IColumn#stickyProperty
+ * @markdown
  */
 
 /*
@@ -77,64 +81,8 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#header
- * @cfg {Controls/grid:IHeaderCell} Конфигурация заголовка таблицы.
- * @remark
- * В качестве значения опция принимает массив объектов, в которых задают конфигурацию для ячеек заголовка.
- * Для одноуровневого заголовка первый объект массива задаёт конфигурацию для первой ячейки.
- * Условно ячейки заголовка нумеруются слева направо.
- * Для многоуровневого заголовка порядок объектов массива не соответствует конфигурируемой ячейке.
- * Подробнее о работе с заголовком таблицы читайте <a href="/doc/platform/developmentapl/interface-development/controls/list/grid/header/">здесь</a>.
+ * @cfg {Array.<Controls/interface:IHeaderCell>} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ шапки} таблицы.
  * @demo Controls-demo/grid/Header/Default/Index
- * @example
- * Пример 1. Для первой ячейки задаём пользовательский шаблон.
- * <pre class="brush: html; highlight: [2,3,4,5,6,7,8]">
- *    <Controls.grid:View>
- *       <ws:header>
- *          <ws:Array>
- *              <ws:template>
- *                  <ws:partial template="Controls/grid:HeaderContent" attr:class="controls-Grid__cell_spacing_money" colData="{{colData}}" />
- *              </ws:template>
- *          </ws:Array>
- *       </ws:header>
- *    </Controls.grid:View>
- * </pre>
- * @example
- * Пример 2. Настройка опции задаётся в хуке и передаётся в шаблон.
- * <pre class="brush: js">
- * _header: null,
- * _beforeMount: function(options) {
- *    this._header = [
- *       {
- *          caption: 'Name',
- *          startRow: 1,
- *          endRow: 3,
- *          startColumn: 1,
- *          endColumn: 2
- *       },
- *       {
- *          caption: 'Price',
- *          startRow: 1,
- *          endRow: 2,
- *          startColumn: 2,
- *          endColumn: 4
- *       },
- *       {
- *          caption: 'Cell',
- *          startRow: 2,
- *          endRow: 3,
- *          startColumn: 2,
- *          endColumn: 3
- *       },
- *       {
- *          caption: 'Residue',
- *          startRow: 2,
- *          endRow: 3,
- *          startColumn: 3,
- *          endColumn: 4
- *       }
- *    ]
- * }
- * </pre>
  */
 
 /*
@@ -152,11 +100,10 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#columns
- * @cfg {Array.<Controls/grid:IColumn>} Описывает колонки таблицы.
+ * @cfg {Array.<Controls/interface:IColumn>} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/ колонок} таблицы.
  * @remark
- * Если при отрисовске контрола данные не отображаются или выводится только их часть, то следует проверить {@link Controls/collection:RecordSet}, полученный от источника данных.
+ * Если при отрисовске контрола данные не отображаются или выводится только их часть, то следует проверить {@link Controls/collection:RecordSet}, полученный от {@link /doc/platform/developmentapl/interface-development/controls/list/source/ источника данных}.
  * Такой RecordSet должен содержать набор полей, которые заданы в конфигурации контрола в опции columns, а также сами данные для каждого поля.
- *
  * @example
  * <pre class="brush: js">
  * _columns: null,
@@ -214,11 +161,11 @@ export interface IGridControl extends IList {
  */
 
 /**
- * @typedef {IFooterColumn}
- * @description Тип колонки подваалов таблицы
- * @property {Number} [startColumn] Индекс колонки таблицы, с которой начинается ячейка подвала. Необязательное поле, если неопределено, берется endColumn предыдущей ячейки или 1(если это первая колонка).
- * @property {Number} [endColumn] Индекс колонки таблицы, на которой заканчивается ячейка подвала. Необязательное поле, если неопределено, берется startColumn текущей ячейки увеличенный на один.
- * @property {Number} [template] Шаблон содержимого ячейки подвала. Необязательное поле, если неопределено, содержимое ячейки будет пустым.
+ * @typedef {Array} IFooterColumn
+ * @description Свойства объектов в опции {@link footer}.
+ * @property {Number} [startColumn=undefined] Индекс колонки таблицы, с которой начинается ячейка подвала. Если поле не определено, тогда берется endColumn предыдущей ячейки или 1 (если это первая колонка).
+ * @property {Number} [endColumn=undefined] Индекс колонки таблицы, на которой заканчивается ячейка подвала. Если поле не определено, тогда берется startColumn текущей ячейки, увеличенный на один.
+ * @property {String|TemplateFunction} [template=undefined] Шаблон содержимого колонки подвала. Если поле не определено, тогда содержимое колонки будет пустым.
  * @remark
  * Значения опций startColumn и endColumn задаются в соответствии с GridLayout CSS, т.е. с единицы. Индексы считаются по границам колонок.
  * Например, чтобы отобразить объединенную ячейку подвала под второй и третей колонкой таблицы, нужно задать startColumn и endColumn в значения
@@ -241,40 +188,7 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#footer
- * @cfg {Array.<IFooterColumn>} Описывает колонки подвала таблицы.
- * @example
- * В примере показана настройка колонок подвала для таблицы с десятью колонками.
- * <pre class="brush: js">
- * _columns: null,
- * _beforeMount: function() {
- *    this._columns = getGridColumns();
- *    // this._columns.length === 10
- * }
- * </pre>
- *
- * <pre class="brush: html">
- *  <Controls.grid:View ...>
- *      <ws:footer>
- *          <ws:Array>
- *              <ws:Object startColumn="{{ 2 }}">
- *                  <ws:template>
- *                      <div>Footer column 2 - 4</div>
- *                  </ws:template>
- *              </ws:Object>
- *              <ws:Object startColumn="{{ 4 }}" endColumn="{{ 6 }}">
- *                  <ws:template>
- *                      <div>Footer column 4 - 6</div>
- *                  </ws:template>
- *              </ws:Object>
- *              <ws:Object endColumn="{{ 8 }}" >
- *                  <ws:template>
- *                      <div>Footer column 6 - 8</div>
- *                  </ws:template>
- *              </ws:Object>
- *              </ws:Array>
- *          </ws:footer>
- *      </Controls.grid:View>
- * </pre>
+ * @cfg {Array.<IFooterColumn>} Конфигурация колонок {@link /doc/platform/developmentapl/interface-development/controls/list/grid/footer/ подвала таблицы}.
  */
 
 /*
@@ -316,7 +230,7 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#stickyHeader
- * @cfg {Boolean} Закрепляет заголовок таблицы.
+ * @cfg {Boolean} Закрепляет {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ шапку} таблицы.
  * @demo Controls-demo/grid/Header/NoSticky/Index В демо-примере опция stickyHeader установлена в значение false.
  * @demo Controls-demo/grid/Header/Sticky/Index В демо-примере опция stickyHeader установлена в значение true.
  * @default true
@@ -332,7 +246,7 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#columnScroll
- * @cfg {Boolean} Включает скроллирование колонок.
+ * @cfg {Boolean} Включает {@link /doc/platform/developmentapl/interface-development/controls/list/grid/horizontal-scrolling/ горизонтальную прокрутку} колонок.
  * @default false
  * @see Controls/_grid/interface/IGridControl#columnScrollStartPosition
  * @see Controls/_grid/interface/IGridControl#stickyColumnsCount
@@ -347,7 +261,8 @@ export interface IGridControl extends IList {
  */
 
 /**
- * @typedef {String} ColumnScrollStartPosition
+ * @typedef {String} Controls/_grid/interface/IGridControl/ColumnScrollStartPosition
+ * @description Допустимые значения для опции {@link columnScrollStartPosition}.
  * @variant start Устанавливает горизонтальную прокрутку в начальное (крайнее левое) положение.
  * @variant end Устанавливает горизонтальную прокрутку в конечное (крайнее правое) положение.
  */
@@ -360,26 +275,30 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#columnScrollStartPosition
- * @cfg {ColumnScrollStartPosition} Определяет начальное положение горизонтальной прокрутки колонок, если она включена.
+ * @cfg {Controls/_grid/interface/IGridControl/ColumnScrollStartPosition.typedef} Начальное положение {@link /doc/platform/developmentapl/interface-development/controls/list/grid/horizontal-scrolling/ горизонтальной прокрутки} колонок.
  * @default start
- * @see Controls/_grid/interface/IGridControl#columnScroll
+ * @see columnScroll
+ * @see stickyColumnsCount
+ * @see dragScrolling
  */
 
 /*
  * @name Controls/_grid/interface/IGridControl#columnScrollStartPosition
- * @cfg {ColumnScrollStartPosition} Determines the starting columns scroll position if it is enabled.
+ * @cfg {Controls/_grid/interface/IGridControl/ColumnScrollStartPosition.typedef} Determines the starting columns scroll position if it is enabled.
  * @default start
  * @see Controls/_grid/interface/IGridControl#columnScroll
  */
 
 /**
  * @name Controls/_grid/interface/IGridControl#stickyColumnsCount
- * @cfg {Number} Количество зафиксированных колонок, которые не двигаются при горизонтальном скролле.
+ * @cfg {Number} Количество зафиксированных колонок, которые не двигаются при {@link /doc/platform/developmentapl/interface-development/controls/list/grid/horizontal-scrolling/ горизонтальной прокрутке}.
  * @default 1
- * @see Controls/_grid/interface/IGridControl#columnScroll
  * @remark
- * Столбец флагов множественного выбора всегда зафиксирован, и не входит в число stickyColumnsCount.
+ * Колонка с чекбоксами {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/ множественного выбора} всегда зафиксирована и не входит в число stickyColumnsCount.
  * @demo Controls-demo/grid/ColumnScroll/Base/Index
+ * @see columnScroll
+ * @see columnScrollStartPosition
+ * @see dragScrolling
  */
 
 /*
@@ -394,9 +313,12 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#dragScrolling
- * @cfg {Boolean} Включает скроллирование колонок перетаскиванием при горизонтальном скролле.
- * @remark По-умолчанью скроллирование колонок перетаскиванием включено если в списке нет Drag'N'Drop записей.
+ * @cfg {Boolean} Включает скроллирование колонок перетаскиванием при {@link /doc/platform/developmentapl/interface-development/controls/list/grid/horizontal-scrolling/ горизонтальной прокрутке}.
+ * @remark По умолчанию прокрутка колонок перетаскиванием включена, если в списке нет Drag'N'Drop записей.
  * @default true
+ * @see columnScroll
+ * @see stickyColumnsCount
+ * @see columnScrollStartPosition
  */
 
 /*
@@ -410,7 +332,7 @@ export interface IGridControl extends IList {
 /**
  * @name Controls/_grid/interface/IGridControl#rowSeparatorVisibility
  * @deprecated Опция устарела и в ближайшее время её поддержка будет прекращена. Используйте опцию {@link Controls/grid:IGridControl#rowSeparatorSize rowSeparatorSize}.
- * @cfg {Boolean} Позволяет отображать/скрывать разделитель строк.
+ * @cfg {Boolean} Видимость разделителей строк.
  * @default false
  */
 
@@ -422,13 +344,18 @@ export interface IGridControl extends IList {
  */
 
 /**
+ * @typedef {String} Controls/_grid/interface/IGridControl/RowSeparatorSize
+ * @description Допустимые значения для опции {@link rowSeparatorSize}.
+ * @variant s Тонкая линия-разделитель.
+ * @variant l Толстая линия-разделитель.
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#rowSeparatorSize
- * @cfg {Enum} Высота линии-разделителя строк.
- * @variant s Размер тонкой линии-разделителя.
- * @variant l Размер толстой линии-разделителя.
- * @variant null Без линии-разделителя.
+ * @cfg {Controls/_grid/interface/IGridControl/RowSeparatorSize.typedef|null} Толщина линии-разделителя строк.
  * @default null
- * @default s
+ * @remark В значении null линия-разделители не отображается.
+ * @see columnSeparatorSize
  */
 
 /*
@@ -441,11 +368,16 @@ export interface IGridControl extends IList {
  */
 
 /**
+ * @typedef {String} Controls/_grid/interface/IGridControl/ColumnSeparatorSize
+ * @variant s Тонкая линия-разделитель.
+ */
+
+/**
  * @name Controls/_grid/interface/IGridControl#columnSeparatorSize
- * @cfg {Enum} Ширина линии-разделителя колонок.
- * @variant s Размер тонкой линии-разделителя.
- * @variant null Без линии-разделителя.
+ * @cfg {Controls/_grid/interface/IGridControl/ColumnSeparatorSize.typedef} Толщина {@link /doc/platform/developmentapl/interface-development/controls/list/grid/line-separator/#column линии-разделителя колонок}.
+ * @remark В значении null линия-разделители не отображается.
  * @default null
+ * @see rowSeparatorSize
  */
 
 /*
@@ -458,8 +390,8 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsTemplate
- * @cfg {Function} Шаблон отображения строки итогов.
- * @default undeined
+ * @cfg {TemplateFunction|String} Пользовательский шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строки итогов}.
+ * @default undefined
  * @demo Controls-demo/grid/Results/ResultsTemplate/Index
  * @markdown
  * @remark
@@ -467,7 +399,7 @@ export interface IGridControl extends IList {
  *
  * В разделе "Примеры" показано как с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial} задать пользовательский шаблон. Также в опцию resultsTemplate можно передавать и более сложные шаблоны, которые содержат иные директивы, например {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-if ws:if}. В этом случае каждая ветка вычисления шаблона должна заканчиваться директивой ws:partial, которая встраивает Controls/grid:ResultTemplate.
  *
- * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/row/ руководстве разработчика}.
+ * Дополнительно о работе с шаблоном вы можете прочитать в {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/template/ руководстве разработчика}.
  *
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
  * @example
@@ -495,18 +427,19 @@ export interface IGridControl extends IList {
  */
 
 /**
- * @typedef {String} ResultsPosition
+ * @typedef {String} Controls/_grid/interface/IGridControl/ResultsPosition
+ * @description Допустимые значения для опции {@link resultsPosition}.
  * @variant top Над списком.
  * @variant bottom Под списком.
  */
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsPosition
- * @cfg {ResultsPosition|undefined} Положение строки итогов.
+ * @cfg {Controls/_grid/interface/IGridControl/ResultsPosition.typedef|undefined} Позиция отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строки итогов}.
  * @default undefined
  * @demo Controls-demo/grid/Results/ResultsPosition/Index
  * @remark
- * При значении опции **undefined** строка итогов скрыта.
+ * В значении undefined строка итогов скрыта.
  * @result
  * @see resultsTemplate
  * @see resultsVisibility
@@ -520,20 +453,15 @@ export interface IGridControl extends IList {
  */
 
 /**
- * @typedef {String} ResultsVisibility
- * @variant hasdata Отображается при наличии более 1 записи в списке.
- * @variant visible Отображается всегда, вне зависимости от количества записей в списке.
- */
-
-/**
- * @typedef {String} HeaderVisibility
- * @variant hasdata Отображается при наличии данных в списке.
- * @variant visible Отображается всегда, вне зависимости от количества записей в списке.
+ * @typedef {String} Controls/_grid/interface/IGridControl/ResultsVisibility
+ * @description Допустимые значения для опции {@link resultsVisibility}.
+ * @variant hasdata Отображается при наличии более 1 элемента в таблице.
+ * @variant visible Отображается всегда, вне зависимости от количества элементов в таблице.
  */
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsVisibility
- * @cfg {ResultsVisibility} Режим отображения строки итогов.
+ * @cfg {Controls/_grid/interface/IGridControl/ResultsVisibility.typedef} Отображение {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строки итогов} при наличии или отсутствии элементов.
  * @demo Controls-demo/grid/Results/FromMeta/Index
  * @remark
  * Для отображения строки итогов необходимо задать значение в опции {@link resultsPosition}.
@@ -541,9 +469,17 @@ export interface IGridControl extends IList {
  * @see resultsTemplate
  * @see resultsPosition
  */
+
+/**
+ * @typedef {String} Controls/_grid/interface/IGridControl/HeaderVisibility
+ * @description Допустимые значения для опции {@link headerVisibility}.
+ * @variant hasdata Отображается при наличии элементов в таблице.
+ * @variant visible Отображается всегда, вне зависимости от количества элементов в таблице.
+ */
+
 /**
  * @name Controls/_grid/interface/IGridControl#headerVisibility
- * @cfg {HeaderVisibility} Режим отображения заголовков колонки.
+ * @cfg {Controls/_grid/interface/IGridControl/HeaderVisibility.typedef} Отображение {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ шапки} при наличии или отсутствии элементов.
  * @demo Controls-demo/grid/Header/HeaderVisibility/Index
  * @default hasdata
  */
@@ -551,40 +487,53 @@ export interface IGridControl extends IList {
 
 /**
  * @name Controls/_grid/interface/IGridControl#editArrowVisibilityCallback
- * @cfg {TEditArrowVisibilityCallback} Функция обратного вызова для определения видимости кнопки редактирования
- * @param {Controls/_itemActions/interface/IItemAction/TEditArrowVisibilityCallback.typedef} TEditArrowVisibilityCallback
+ * @cfg {Function} Функция обратного вызова для управления видимостью кнопки редактирования.
  * @remark
- * Первый и единственный аргумент - текущая запись
+ * Первый и единственный аргумент функции - запись таблицы, для которой вызвана функция.
  */
 
 /**
  * @name Controls/_grid/interface/IGridControl#colspanCallback
- * @cfg {TColspanCallback} Функция обратного вызова для расчёта объединения колонок строки (колспана).
+ * @cfg {Function} Функция обратного вызова для расчёта объединения колонок строки (колспана).
  * @remark
- * Параметры функции:
- * * {Types/entity:Model} item Элемент, для которого рассчитывается объединение
- * * {Controls/grid:IColumn} column Колонка грида
- * * {Number} columnIndex Индекс колонки грида
- * * {Boolean} isEditing Актуальное состояние редактирования элемента
+ * Аргументы функции:
+ * * {Types/entity:Model} item Элемент, для которого рассчитывается объединение.
+ * * {Controls/interface:IColumn} column Колонка таблицы.
+ * * {Number} columnIndex Индекс колонки таблицы.
+ * * {Boolean} isEditing Актуальное состояние редактирования элемента.
+ *
  * Функция возвращает {Controls/gridNew:TColspanCallbackResult} - количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
  * @markdown
+ * @see resultsColspanCallback
  */
 
 /**
  * @name Controls/_grid/interface/IGridControl#resultsColspanCallback
- * @cfg {TResultsColspanCallback} Функция обратного вызова для расчёта объединения колонок строки результатов.
+ * @cfg {Function} Функция обратного вызова для расчёта объединения колонок {@link /doc/platform/developmentapl/interface-development/controls/list/grid/results/ строки итого}.
  * @remark
- * Параметры функции:
- * * {Controls/grid:IColumn} column Колонка грида
- * * {Number} columnIndex Индекс колонки грида
- * Функция возвращает {Controls/gridNew:TColspanCallbackResult} - количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение 'end'.
+ * Аргументы функции:
+ * * {Controls/interface:IColumn} column Колонка таблицы.
+ * * {Number} columnIndex Индекс колонки таблицы.
+ *
+ * Функция возвращает Controls/gridNew:TColspanCallbackResult - количество объединяемых колонок, учитывая текущую. Для объединения всех колонок, начиная с текущей, из функции нужно вернуть специальное значение "end".
  * @markdown
+ * @see colspanCallback
+ */
+
+
+/**
+ * @typedef {Object} Controls/_grid/interface/IGridControl/IEmptyTemplateColumn
+ * @description
+ * Объект конфигурации колонки представления пустой таблицы.
+ * @param {TemplateFunction} template Элемент, для которого рассчитывается объединение.
+ * @param {Number} startColumn Начальный индекс колонки.
+ * @param {Number} endColumn Конечный индекс колонки.
  */
 
 /**
  * @name Controls/_grid/interface/IGridControl#emptyTemplateColumns
- * @cfg {Array.<IEmptyTemplateColumn>} Описывает колонки пустой таблицы.
- * @markdown
+ * @cfg {Array.<Controls/_grid/interface/IGridControl/IEmptyTemplateColumn.typedef>} Конфигурация колонок {@link /doc/platform/developmentapl/interface-development/controls/list/grid/empty-grid/#empty-template-columns пустой таблицы}.
+ * @demo Controls-demo/gridNew/EmptyGrid/Editing/Index
  */
 
 /**
@@ -630,17 +579,18 @@ export interface IGridControl extends IList {
  */
 
 /**
- * @event Происходит при клике на тег внутри ячейки таблицы.
+ * @event Происходит при клике на {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/visual/tag/ тег} внутри ячейки таблицы.
  * @name Controls/_grid/interface/IGridControl#tagClick
  * @param {Object} event Нативное событие. Может быть использовано для получения тега как DOM-элемента для отображения инфобокса.
- * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/grid:IColumn#tagStyleProperty tagStyleProperty} у колонки.
+ * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/interface:IColumn#tagStyleProperty tagStyleProperty} у колонки.
  * @see tagStyle
+ * @see tagHover
  */
 
 /**
- * @event Происходит при наведении курсора мыши на тег внутри ячейки таблицы.
+ * @event Происходит при наведении курсора мыши на {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/visual/tag/ тег} внутри ячейки таблицы.
  * @name Controls/_grid/interface/IGridControl#tagHover
  * @param {Object} event Нативное событие. Может быть использовано для получения тега как DOM-элемента для отображения инфобокса.
- * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/grid:IColumn#tagStyleProperty tagStyleProperty} у колонки.
+ * @remark Событие никогда не запустится, если вы не укажете опцию {@link Controls/grid:ColumnTemplate#tagStyle tagStyle} шаблона колонки или {@link Controls/interface:IColumn#tagStyleProperty tagStyleProperty} у колонки.
  * @see tagClick
  */

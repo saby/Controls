@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/Header/Multiheader/AddButto
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
 import 'wml!Controls-demo/gridNew/Header/Multiheader/AddButton/GridCaptionHeaderCell';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {

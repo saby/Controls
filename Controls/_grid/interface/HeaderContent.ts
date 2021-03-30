@@ -1,5 +1,5 @@
 /**
- * Шаблон, который по умолчанию используется для отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ ячейки шапки} в контроле {@link Controls/grid:View Таблица}.
+ * Шаблон, который по умолчанию используется для отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grid/header/ ячейки заголовка} в {@link Controls/grid:View таблице}.
  *  
  * @class Controls/_grid/interface/HeaderContent
  * @author Авраменко А.С.
@@ -29,7 +29,7 @@
  */
 export default interface IHeaderContentOptions {
    /**
-    * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки шапки.
+    * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки шапки.
     * @remark
     * В области видимости шаблона доступен объект **colData**. Через него можно получить доступ к свойству **column**, которое содержит конфигурацию {@link /docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.
     * @example

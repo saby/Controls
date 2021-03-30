@@ -1,7 +1,7 @@
 import {
    actualItems,
    getButtonTemplate,
-   getButtonTemplateOptionsByItem,
+   getSimpleButtonTemplateOptionsByItem,
    ItemTemplate,
    showType
 } from 'Controls/toolbars';
@@ -55,7 +55,7 @@ import {constants} from 'Env/Env';
       },
 
       getButtonTemplateOptionsForItem(item: Record, itemTemplateProperty?: string): object {
-         const buttonOptions = getButtonTemplateOptionsByItem(item);
+         const buttonOptions = getSimpleButtonTemplateOptionsByItem(item);
 
          if (itemTemplateProperty &&
              item.get(itemTemplateProperty) &&

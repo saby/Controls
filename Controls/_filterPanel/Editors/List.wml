@@ -1,5 +1,6 @@
 <ws:template name="listBase">
    <Controls.grid:View source="{{_options.source}}"
+                       filter="{{_filter}}"
                        columns="{{_columns}}"
                        keyProperty="{{_options.keyProperty}}"
                        selectedKeys="{{_selectedKeys}}"
@@ -26,7 +27,7 @@
                                      caption="{{_options.showSelectorCaption}}"
                                      fontColorStyle="label"
                                      on:click="_handleFooterClick()"
-                                     attr:class="controls-EditorList__footer_theme-{{_options.theme}}"/>
+                                     attr:class="controls-EditorList__footer"/>
          </ws:footerTemplate>
       </ws:partial>
    </ws:if>
@@ -35,7 +36,7 @@
    </ws:else>
 </ws:template>
 
-<div class="controls-FilterEditors__list controls-FilterEditors__list_theme-{{_options.theme}}">
+<div class="controls-FilterEditors__list">
    <ws:if data="{{_options.multiSelect}}">
       <ws:partial template="listEditor" on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
    </ws:if>

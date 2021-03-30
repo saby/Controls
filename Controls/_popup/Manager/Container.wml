@@ -5,14 +5,13 @@
     <ws:for data="index, item in _popupItems">
         <ws:if data="{{item.id === _overlayId}}">
             <div class="controls-Container__overlay"
-                 on:mousedown="_overlayClickHandler()"
+                 on:mousedown="_overlayClickHandler(item)"
                  style="z-index: {{item.currentZIndex}};">
             </div>
         </ws:if>
         <Controls._popup.Manager.Popup id="{{item.id}}" __key="{{item.id}}" attr:key="{{item.id}}"
                                        name="{{item.id}}"
                                        theme="{{_options.theme}}"
-                                       on:deactivated="_popupDeactivated(item.id)"
                                        on:keydown="_keyDownHandler()"
                                        on:activated="_popupActivated(item.id)"
                                        attr:class="

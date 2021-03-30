@@ -135,5 +135,10 @@
   "$errors$s$ из $count$s$ операций были обработаны с ошибкой": "$errors$s$ out of $count$s$ operations were processed with an error",
   "ПанельФильтра@@Развернуть": "Expand",
   "ПанельФильтра@@Свернуть": "Collapse",
-  "Удалить": "Delete"
+  "Удалить": "Delete",
+  "трлн": "tril",
+  "млрд": "bil",
+  "млн": "mil",
+  "тыс.": "thsnd",
+  "Г": "B"
 }

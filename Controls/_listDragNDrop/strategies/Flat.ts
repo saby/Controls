@@ -72,7 +72,7 @@ export default class Flat<
         if (targetItem['[Controls/_display/GroupItem]'] && targetIndex > 0) {
             const shouldChangePosition = this._shouldChangePosition(targetIndex, position);
             if (shouldChangePosition) {
-                position = currentPosition.position === 'after' ? 'before' : 'after';
+                position = currentPosition && currentPosition.position === 'after' ? 'before' : 'after';
             } else {
                 return currentPosition;
             }

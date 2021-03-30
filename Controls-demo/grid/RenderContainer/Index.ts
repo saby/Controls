@@ -6,13 +6,9 @@ import { RecordSet } from 'Types/collection';
 import titleColumnTpl = require('wml!Controls-demo/grid/RenderContainer/titleColumn');
 import subtitleColumnTpl = require('wml!Controls-demo/grid/RenderContainer/subtitleColumn');
 import { IItemAction } from 'Controls/itemActions';
+import { IColumn } from 'Controls/grid';
 
 const MAXITEMCOUNT = 100;
-
-interface IColumn {
-    template: unknown;
-    width?: string;
-}
 
 export default class GridRenderContainerDemo extends Control {
     protected _template: TemplateFunction = template;

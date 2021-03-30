@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper ws-flexbox PageBlock__title">
+    <Controls.datePopup
+            attr:class="controls-PeriodDialog_3"
+            startValue="{{_startValue}}"
+            endValue="{{_endValue}}"
+            selectionType="quantum"
+            ranges="{{ {'days': [1], 'months': [1], 'years': [1]} }}"
+            _date="{{ _date }}"
+    />
+</div>

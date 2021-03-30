@@ -3,8 +3,7 @@
             bind:selectedKeys="_selectedKeys"
             bind:excludedKeys="_excludedKeys">
         <div>
-            <Controls.operations:Panel selectedCountConfig="{{_selectedCountConfig}}" source="{{null}}"/>
-
+            <Controls.operations:Panel selectedCountConfig="{{_selectedCountConfig}}" source="{{null}}" items="{{null}}"/>
                 <Controls.list:Container>
                     <Controls.treeGrid:View
                             keyProperty="id"

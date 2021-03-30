@@ -24,15 +24,27 @@ interface IPosition {
     top?: Number;
     bottom?: Number;
 }
-   const INVERTING_CONST = {
-      top: 'bottom',
-      bottom: 'top',
-      left: 'right',
-      right: 'left',
-      center: 'center'
-   };
+
+const POSITION_PROPERTIES_BY_DIRECTION = {
+   horizontal: ['left', 'right'],
+   vertical: ['top', 'bottom']
+};
+
+const INVERTING_CONST = {
+   top: 'bottom',
+   bottom: 'top',
+   left: 'right',
+   right: 'left',
+   center: 'center'
+};
 
    var _private = {
+      getPositionProperty(position: IPosition, direction: string): string {
+         return POSITION_PROPERTIES_BY_DIRECTION[direction].filter((property) => {
+            return position.hasOwnProperty(property);
+         });
+      },
+
       getWindowSizes: function() {
          // Ширина берется по body специально. В случае, когда уменьшили окно браузера и появился горизонтальный скролл
          // надо правильно вычислить координату right. Для высоты аналогично.
@@ -100,11 +112,22 @@ interface IPosition {
 
       checkOverflow: function(popupCfg, targetCoords, position, direction) {
          const isHorizontal = direction === 'horizontal';
+         const popupDirection = popupCfg.direction[direction];
+         const restrictiveContainerPosition = popupCfg.restrictiveContainerCoords;
+         const restrictiveContainerCoord = restrictiveContainerPosition?.[popupDirection] || 0;
+
          if (position.hasOwnProperty(isHorizontal ? 'right' : 'bottom')) {
             if (position[isHorizontal ? 'right' : 'bottom'] < 0) {
                return -(position[isHorizontal ? 'right' : 'bottom']);
             }
-            return popupCfg.sizes[isHorizontal ? 'width' : 'height'] - (_private.getTargetCoords(popupCfg, targetCoords, isHorizontal ? 'right' : 'bottom', direction) - targetCoords[isHorizontal ? 'leftScroll' : 'topScroll']);
+            const targetCoord = _private.getTargetCoords(
+                popupCfg,
+                targetCoords,
+                isHorizontal ? 'right' : 'bottom', direction
+            );
+            return popupCfg.sizes[isHorizontal ? 'width' : 'height'] -
+                (targetCoord - targetCoords[isHorizontal ? 'leftScroll' : 'topScroll']) +
+                restrictiveContainerCoord;
          }
          if (position[isHorizontal ? 'left' : 'top'] < 0) {
             return -(position[isHorizontal ? 'left' : 'top']);
@@ -133,7 +156,8 @@ interface IPosition {
 
          const positionValue: number = position[isHorizontal ? 'left' : 'top'];
          const popupSize: number = popupCfg.sizes[isHorizontal ? 'width' : 'height'];
-         const windowSize: number = _private.getWindowSizes()[isHorizontal ? 'width' : 'height'];
+         const windowSize: number = restrictiveContainerPosition ? restrictiveContainerCoord :
+             _private.getWindowSizes()[isHorizontal ? 'width' : 'height'];
          let overflow = positionValue + taskBarKeyboardIosHeight + popupSize - windowSize - viewportOffset;
          if (_private.isIOS12()) {
             overflow -= targetCoords[isHorizontal ? 'leftScroll' : 'topScroll'];
@@ -168,8 +192,21 @@ interface IPosition {
          return position;
       },
 
-      calculateOverflowModePosition: function(popupCfg, property, targetCoords, position, positionOverflow) {
+      calculateOverflowModePosition: function(popupCfg, property, targetCoords, position, positionOverflow, direction) {
          _private.moveContainer(popupCfg, position, property, positionOverflow);
+
+         // Если после перепозиционирования попап всё равно не влезает, то уменьшаем ему высоту до высоты окна
+         const popupSize = position[property] || popupCfg.sizes[property] || 0;
+         const windowSize = _private.getWindowSizes()[property];
+
+         /*
+            Фиксируем высоту, т.к. некоторые браузеры(ie) не могут понять высоту родителя без заданного height
+            >= 0 из-за того, что висит max-height/max-width и в случае когда контейнер больше то у него размер
+            будет равен размеру вью порта
+          */
+         if (popupSize >= windowSize) {
+            position[property] = windowSize;
+         }
          return position;
       },
 
@@ -196,7 +233,7 @@ interface IPosition {
             if (popupCfg.fittingMode[direction] === 'fixed') {
                resultPosition = _private.calculateFixedModePosition(popupCfg, property, targetCoords, position, positionOverflow);
             } else if (popupCfg.fittingMode[direction] === 'overflow') {
-               resultPosition = _private.calculateOverflowModePosition(popupCfg, property, targetCoords, position, positionOverflow);
+               resultPosition = _private.calculateOverflowModePosition(popupCfg, property, targetCoords, position, positionOverflow, direction);
             } else {
                _private.invertPosition(popupCfg, direction);
                const revertPosition = _private.getPosition(popupCfg, targetCoords, direction);
@@ -228,7 +265,6 @@ interface IPosition {
          _private.calculateRestrictionContainerCoords(popupCfg, resultPosition);
          return resultPosition;
       },
-
 
       restrictContainer: function(position, property, popupCfg, overflow) {
          position[property] = popupCfg.sizes[property] - overflow;

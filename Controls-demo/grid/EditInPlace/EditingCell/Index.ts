@@ -41,7 +41,7 @@ export default class extends Control {
     }
 
     protected _afterMount(): void {
-        this._viewModel = this._children.list._children.listControl._children.baseControl.getViewModel();
+        this._viewModel = this._children.list._children.listControl.getViewModel();
     }
 
     private _dataCallback(items: RecordSet): void {

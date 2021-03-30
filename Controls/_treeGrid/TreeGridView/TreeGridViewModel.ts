@@ -77,11 +77,41 @@ var
         getRoot: function() {
             return this._model.getRoot();
         },
-        getNextByKey: function() {
-           return this._model.getNextByKey.apply(this._model, arguments);
+        getNextByKey(key: string|number, forMoving?: boolean) {
+            if (forMoving) {
+                const items = this.getItems();
+                const relation = this._model.getHierarchyRelation();
+                const item = items.getRecordById(key);
+                const itemParent = item.get(this._options.parentProperty);
+                const children = relation.getChildren(itemParent, items);
+                const curItemIndex = children.indexOf(item);
+                const display = this.getDisplay();
+                if (curItemIndex === -1 || curItemIndex === children.length - 1) {
+                    return this._model.getNextByKey(key);
+                } else {
+                    return display.getItemBySourceItem(children[curItemIndex + 1]);
+                }
+            } else {
+                return this._model.getNextByKey(key);
+            }
         },
-        getPrevByKey: function() {
-           return this._model.getPrevByKey.apply(this._model, arguments);
+        getPrevByKey(key: string|number, forMoving?: boolean) {
+            if (forMoving) {
+                const items = this.getItems();
+                const relation = this._model.getHierarchyRelation();
+                const item = items.getRecordById(key);
+                const itemParent = item.get(this._options.parentProperty);
+                const children = relation.getChildren(itemParent, items);
+                const curItemIndex = children.indexOf(item);
+                const display = this.getDisplay();
+                if (curItemIndex <= 0) {
+                    return this._model.getPrevByKey(key);
+                } else {
+                    return display.getItemBySourceItem(children[curItemIndex - 1]);
+                }
+            } else {
+                return this._model.getPrevByKey(key);
+            }
         },
         getNextByIndex: function() {
            return this._model.getNextByIndex.apply(this._model, arguments);
@@ -272,11 +302,16 @@ var
                 };
 
                 footer.classes = footer.getColumnClasses(0);
-
                 const colspanCfg = {
                     columnStart: self._hasMultiSelectColumn() ? 1 : 0,
-                    columnSpan: (self._options.columnScroll ? self._columns.length + 1 : self._columns.length) + this.stickyLadderCellsCount(),
+                    columnSpan: self._columns.length +
+                        (self._options.columnScroll && self._options.itemActionsPosition !== 'custom' ? 1 : 0) +
+                        self.stickyLadderCellsCount()
                 };
+                if (self._options.task1181099336 && footer.isFullGridSupport) {
+                    colspanCfg.columnStart += this.stickyLadderCellsCount();
+                    colspanCfg.columnSpan -= this.stickyLadderCellsCount();
+                }
                 if (current.columnScroll) {
                     footer.rowIndex = current.rowIndex + index + 1;
 
@@ -291,36 +326,6 @@ var
                 }
             };
             if (current.nodeFooters) {
-
-                // nodeFooter разбивает лесенку на две части.
-                // В старом гриде на этапе вычисления лесенки нет информации о футерах,
-                // разбиваем лесенку тут, когда информация о футерах уже есть.
-                // В новом гриде проблема не актуальна, так как, футеры будут в display и будут учтены на этапе вычисления лесенки.
-                if (current.nodeFooters.length && current.stickyLadder) {
-                    current.stickyProperties.forEach((property) => {
-                        let lastLadderIndex = current.index;
-                        // находим ближайшую сверху строку с нескрытой лесенкой.
-                        while (lastLadderIndex > 0 && !self._ladder.stickyLadder[lastLadderIndex][property].ladderLength) {
-                            lastLadderIndex--;
-                        }
-                        if (self._ladder.stickyLadder[lastLadderIndex][property].ladderLength) {
-                            // разделяем лесенку на до и после футера.
-                            const ladderLength = self._ladder.stickyLadder[lastLadderIndex][property].ladderLength;
-                            const firstPart = current.index - lastLadderIndex + 1;
-                            const secondPart = ladderLength - firstPart;
-                            const next = current.index + 1;
-                            self._ladder.stickyLadder[lastLadderIndex][property].ladderLength = firstPart;
-                            self._ladder.ladder[lastLadderIndex][property].ladderLength = firstPart;
-                            self._ladder.stickyLadder[lastLadderIndex][property].headingStyle = 'grid-row: span ' + firstPart;
-
-                            if (self._ladder.stickyLadder[next] && !self._ladder.stickyLadder[next][property].ladderLength) {
-                                self._ladder.stickyLadder[next][property].ladderLength = secondPart;
-                                self._ladder.ladder[next][property].ladderLength = secondPart;
-                                self._ladder.stickyLadder[next][property].headingStyle = 'grid-row: span ' + secondPart;
-                            }
-                        }
-                    });
-                }
                 current.nodeFooters.forEach(setNodeFooterRowStyles);
             }
             return current;
@@ -379,8 +384,8 @@ var
             };
         },
 
-        getChildren(nodeKey, items) {
-            return this._model.getChildren(nodeKey, items);
+        getChildren(node, withFilter, items) {
+            return this._model.getChildren(node, withFilter, items);
         },
 
         getDisplayChildrenCount(nodeKey, items) {

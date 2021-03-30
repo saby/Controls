@@ -1,4 +1,4 @@
-import {Control} from 'UI/Base';
+import {Control, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_propertyGrid/defaultEditors/Number');
 
 import IEditorOptions from 'Controls/_propertyGrid/IEditorOptions';
@@ -14,6 +14,7 @@ import IEditor from 'Controls/_propertyGrid/IEditor';
  */
 
 export interface INumberEditorOptions extends IEditorOptions {
+    propertyValue: number;
     inputConfig: {
         useGrouping: boolean;
         showEmptyDecimals: boolean;
@@ -30,7 +31,7 @@ export interface INumberEditorOptions extends IEditorOptions {
  * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * @demo Controls-demo/PropertyGridNew/Editors/Number/Demo
- * 
+ *
  * @public
  * @author Борисов А.Н.
  */
@@ -40,23 +41,23 @@ export interface INumberEditorOptions extends IEditorOptions {
  * @class Controls/_propertyGrid/defaultEditors/Number
  * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
- * 
+ *
  * @public
  * @author Борисов А.Н.
  */
 
-class NumberEditor extends Control implements IEditor {
-    protected _template: Function = template;
+export default class NumberEditor extends Control implements IEditor {
+    protected _template: TemplateFunction = template;
     protected _options: IEditorOptions;
 
     protected _value: number = null;
     private _initialValue: number = null;
 
-    _beforeMount(options: IEditorOptions): void {
+    _beforeMount(options: INumberEditorOptions): void {
         this._initialValue = this._value = options.propertyValue;
     }
 
-    _beforeUpdate(newOptions: IEditorOptions): void {
+    _beforeUpdate(newOptions: INumberEditorOptions): void {
         if (this._options.propertyValue !== newOptions.propertyValue) {
             this._value = newOptions.propertyValue;
             this._initialValue = newOptions.propertyValue;
@@ -64,15 +65,18 @@ class NumberEditor extends Control implements IEditor {
     }
 
     _inputCompleted(event: Event, value: number): void {
-        const newValue = value || 0;
-        if (this._initialValue !== newValue) {
-            this._initialValue = newValue;
-            this._notify('propertyValueChanged', [newValue], {bubbling: true});
+        if (this._initialValue !== value) {
+            this._initialValue = value;
+            this._notify('propertyValueChanged', [value], {bubbling: true});
         }
     }
-}
 
-export = NumberEditor;
+    static getDefaultOptions(): Partial<INumberEditorOptions> {
+        return {
+            propertyValue: null
+        };
+    }
+}
 /**
  * @name Controls/_propertyGrid/defaultEditors/Number/INumberEditorOptions#inputConfig
  * @cfg Конфигурация числового поля ввода.

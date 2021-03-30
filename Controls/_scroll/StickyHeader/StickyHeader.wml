@@ -5,32 +5,30 @@
    controls-background-{{ _options.backgroundStyle }}_theme-{{ _options.theme }}
    controls-StickyHeader_position" style="{{_style + (_options.style || '')}}"
         name="content">
-      <!--We use visibility style instead of "if" statement to prevent jumps when scrolling on iPad-->
-      <ws:if data="{{_isTopShadowVisible || _isMobileIOS}}">
-         <div class="controls-Scroll__shadow controls-StickyHeader__shadow-top controls-Scroll__shadow_horizontal
-                  {{ !_isTopShadowVisible && _isMobileIOS ? ' ws-invisible' }}"
-         ></div>
-      </ws:if>
+      <!-- We use visibility style instead of "display: none;" statement to prevent jumps when scrolling on iPad -->
+      <div class="controls-Scroll__shadow controls-StickyHeader__shadow-top controls-Scroll__shadow_horizontal
+               {{ !_isTopShadowVisible ? ' ws-invisible' }}"
+      ></div>
+
       <div name="observationTargetTop" class="controls-StickyHeader__observationTargetTop" style="{{ _getObserverStyle('top', _options.offsetTop, _options.shadowVisibility) }}"></div>
       <!-- Remove scope="{{_options}}" after complete https://online.sbis.ru/opendoc.html?guid=dd8d85ac-2024-41f6-b9b3-550b4413b566 -->
       <ws:partial template="{{_options.content}}"
                   attr:class="controls-StickyHeader__content"
                   scope="{{_options}}"
+                  isHeaderFixed="{{_isFixed}}"
                   on:arrowClick="_notifyHandler('arrowClick')"
                   on:controlResize="_selfResizeHandler()"/>
       <div name="observationTargetBottom" class="controls-StickyHeader__observationTargetBottom" style="{{ _getObserverStyle('bottom', _options.offsetTop, _options.shadowVisibility) }}"></div>
-      <!--We use visibility style insted of "if" statement to prevent jumps when scrolling on iPad-->
-      <ws:if data="{{_isBottomShadowVisible || _isMobileIOS}}">
-         <div class="controls-Scroll__shadow controls-StickyHeader__shadow-bottom controls-Scroll__shadow_horizontal
-                  {{ !_isBottomShadowVisible && _isMobileIOS ? ' ws-invisible' }}"
-              name="shadowBottom"></div>
-      </ws:if>
+      <!--We use visibility style insted of "display: none;" statement to prevent jumps when scrolling on iPad -->
+      <!-- visibility: hidden; добавляет scrollHeight, хотя тень невидима. -->
+      <!-- Проблема возникает например если свернуть последнюю группировку. -->
+      <div class="controls-Scroll__shadow controls-StickyHeader__shadow-bottom controls-Scroll__shadow_horizontal
+               {{ !_isBottomShadowVisible ? (_isMobileIOS ? ' ws-invisible' : ' ws-hidden') }}"
+           name="shadowBottom"></div>
    </div>
 </ws:if>
 <ws:else>
-   <!-- В случае, когда sticky в Controls.list:View не поддерживается, например, в IE выделенный пункт становится прозрачным. -->
-   <!-- Необходимов этом случае принудительно установить его в цвет основного фона списка -->
-   <div attr:class="controls-background-{{_options.backgroundStyle || 'default'}}_theme-{{_options.theme}}">
+   <div>
       <ws:partial if="{{_options.content}}" template="{{_options.content}}" scope="{{_options}}"/>
    </div>
 </ws:else>

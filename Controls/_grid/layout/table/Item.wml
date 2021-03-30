@@ -20,7 +20,7 @@
 </ws:template>
 
 <ws:template name="multiSelectTemplate">
-    <ws:partial template="{{multiSelectTpl}}">
+    <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ !!preventMergeOptions }}">
         <ws:templateOptions item="{{ itemData.dispItem }}" checkboxReadOnly="{{checkboxReadOnly}}" itemData="{{itemData}}"/>
     </ws:partial>
 </ws:template>
@@ -45,7 +45,7 @@
             <div class="controls-Grid__row-cell__content_colspaned {{ currentColumn.getColspanedPaddingClassList(currentColumn, colspan).getAll() }}">
                 <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}">
                     <ws:multiSelectTemplate>
-                        <ws:partial template="multiSelectTemplate" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
+                        <ws:partial template="multiSelectTemplate" preventMergeOptions="{{ true }}" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
                     </ws:multiSelectTemplate>
                 </ws:partial>
             </div>
@@ -62,7 +62,7 @@
                         backgroundStyle="{{backgroundStyle}}"
                         tagTemplate="{{tagTemplate}}">
                 <ws:multiSelectTemplate>
-                    <ws:partial template="multiSelectTemplate" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
+                    <ws:partial template="multiSelectTemplate" preventMergeOptions="{{ true }}" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
                 </ws:multiSelectTemplate>
             </ws:partial>
         </ws:else>

@@ -4,6 +4,18 @@
         <Controls.decorator:Money value="{{_value}}" fontColorStyle="default"/>
     </div>
     <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="unaccented" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=readonly</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="readonly" />
+    </div>
+    <div class="controlsDemo__cell">
+        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=link</div>
+        <Controls.decorator:Money value="{{_value}}" fontColorStyle="link" />
+    </div>
+    <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=primary</div>
         <Controls.decorator:Money value="{{_value}}" fontColorStyle="primary"/>
     </div>
@@ -22,17 +34,5 @@
     <div class="controlsDemo__cell">
         <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=danger</div>
         <Controls.decorator:Money value="{{_value}}" fontColorStyle="danger" />
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=unaccented</div>
-        <Controls.decorator:Money value="{{_value}}" fontColorStyle="unaccented" />
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=link</div>
-        <Controls.decorator:Money value="{{_value}}" fontColorStyle="link" />
-    </div>
-    <div class="controlsDemo__cell">
-        <div class="controls-text-label_theme-{{_options.theme}}">fontColorStyle=label</div>
-        <Controls.decorator:Money value="{{_value}}" fontColorStyle="label" />
     </div>
 </div>

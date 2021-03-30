@@ -1,7 +1,8 @@
 import {ICrudPlus} from 'Types/source';
 import {TemplateFunction} from 'UI/Base';
-import {IColumn, IHeaderCell} from 'Controls/grid';
 import {
+    IColumn,
+    IHeaderCell,
     IFilterOptions,
     IGroupingOptions,
     IHierarchyOptions,
@@ -11,6 +12,7 @@ import {
     ISortingOptions,
     ISourceOptions
 } from 'Controls/interface';
+import {RecordSet} from 'Types/collection';
 
 /**
  * Enum со списком доступных вариантов отображения контента в detail-колонке
@@ -103,6 +105,10 @@ export
      */
     gradientColorProperty?: string;
 
+    displayProperty?: string;
+
+    hasChildrenProperty?: string;
+
     /**
      * Конфигурация колонок таблицы.
      */
@@ -119,4 +125,6 @@ export
     backgroundColor?: string;
 
     searchStartingWith?: string;
+
+    dataLoadCallback?: (items: RecordSet, direction: string) => void;
 }

@@ -10,6 +10,7 @@ import sourceLib = require('Types/source');
 import Env = require('Env/Env');
 import Di = require('Types/di');
 import coreInstance = require('Core/core-instance');
+import {TKey} from 'Controls/_filter/View/interface/IFilterItem';
 
 var HISTORY_SOURCE = {};
 
@@ -101,20 +102,20 @@ function getUniqItems(items1, items2, keyProperty) {
    return createRecordSet(uniqItems, items1);
 }
 
-function prependNewItems(oldItems, newItems, sourceController, keyProperty) {
+function prependNewItems(oldItems, newItems, sourceController, keyProperty, folderId: TKey) {
    const allCount = oldItems.getCount();
    let uniqItems = getUniqItems(oldItems, newItems, keyProperty);
 
-   if (sourceController && sourceController.hasMoreData('down')) {
+   if (sourceController && sourceController.hasMoreData('down', folderId)) {
       uniqItems = factory(uniqItems).first(allCount);
       uniqItems = createRecordSet(uniqItems, oldItems);
    }
    return uniqItems;
 }
 
-function getItemsWithHistory(oldItems, newItems, sourceController, source, keyProperty) {
+function getItemsWithHistory(oldItems, newItems, sourceController, source, keyProperty, folderId?: TKey) {
    let itemsWithHistory;
-   const resultItems = prependNewItems(oldItems, newItems, sourceController, keyProperty);
+   const resultItems = prependNewItems(oldItems, newItems, sourceController, keyProperty, folderId);
    if (isHistorySource(source)) {
       itemsWithHistory = source.prepareItems(resultItems);
    } else {

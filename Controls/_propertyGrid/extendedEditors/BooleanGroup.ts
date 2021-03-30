@@ -9,15 +9,12 @@ export interface IPropertyGridButton {
     id: string;
     tooltip: string;
     icon: string;
-    active: boolean;
 }
 
 interface IOptions extends IEditorOptions, IControlOptions {
     buttons: IPropertyGridButton[];
-    propertyValue: IBooleanGroupPropertyValue;
+    propertyValue: boolean[];
 }
-
-type IBooleanGroupPropertyValue = [boolean, boolean, boolean, boolean];
 
 /**
  * Редактор для набора логических значений.
@@ -30,19 +27,10 @@ type IBooleanGroupPropertyValue = [boolean, boolean, boolean, boolean];
  * @author Борисов А.Н.
  */
 
-/**
- * Editor for a set of Boolean values.
- * @class Controls/_propertyGrid/extendedEditors/BooleanGroup
- * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IEditor
- * @public
- * @author Борисов А.Н.
- */
-
 export default class BooleanGroupEditor extends Control<IOptions> implements IEditor {
     protected _template: TemplateFunction = template;
     protected _buttons: RecordSet<IPropertyGridButton>;
-    protected _stateOfButtons: [boolean, boolean, boolean, boolean];
+    protected _stateOfButtons: boolean[];
 
     protected _beforeMount({propertyValue, buttons}: IOptions): void {
         this._stateOfButtons = propertyValue;
@@ -52,9 +40,9 @@ export default class BooleanGroupEditor extends Control<IOptions> implements IEd
         });
     }
 
-    protected _valueChangedHandler(event: SyntheticEvent, id: string, newValue: boolean): void {
-        this._stateOfButtons[id] = newValue;
-        this._stateOfButtons = this._stateOfButtons.slice() as IBooleanGroupPropertyValue;
+    protected _valueChangedHandler(event: SyntheticEvent, index: string, newValue: boolean): void {
+        this._stateOfButtons[index] = newValue;
+        this._stateOfButtons = this._stateOfButtons.slice();
         this._notify('propertyValueChanged', [this._stateOfButtons], {bubbling: true});
     }
 }

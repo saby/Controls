@@ -2,12 +2,10 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_masterDetail/Base/Base';
 import {debounce} from 'Types/function';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {goUpByControlTree} from 'UI/Focus';
 import {setSettings, getSettings} from 'Controls/Application/SettingsController';
 import {IPropStorageOptions} from 'Controls/interface';
 
 const RESIZE_DELAY = 50;
-const TOUCH_RESIZE_MASTER_OFFSET = 100;
 
 interface IMasterDetail extends IControlOptions, IPropStorageOptions {
     master: TemplateFunction;
@@ -20,7 +18,9 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
 }
 /**
  * Контрол, который обеспечивает связь между двумя контролами для отображения подробной информации по выбранному элементу.
- * Подробное описание и инструкцию по настройке читайте <a href='/doc/platform/developmentapl/interface-development/controls/layout/master-detail/'>здесь</a>.
+ * @remark
+ * Полезные ссылки:
+ * * {@link /doc/platform/developmentapl/interface-development/controls/list/master-detail/ руководство разработчик}
  * @class Controls/_masterDetail/Base
  * @extends UI/Base:Control
  * @mixes Controls/_interface/IPropStorage
@@ -32,7 +32,7 @@ interface IMasterDetail extends IControlOptions, IPropStorageOptions {
 
 /*
  * Control that allows to implement the Master-Detail interface
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/master-detail/'>here</a>.
+ * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/master-detail/'>here</a>.
  * @class Controls/_masterDetail/Base
  * @extends UI/Base:Control
  *
@@ -127,7 +127,6 @@ class Base extends Control<IMasterDetail> {
     protected _currentMaxWidth: string;
     protected _currentMinWidth: string;
     protected _containerWidth: number;
-    protected _updateOffsetDebounced: Function;
     private _touchstartPosition: number;
 
     protected _beforeMount(options: IMasterDetail, context: object, receivedState: string): Promise<number> | void {
@@ -139,13 +138,7 @@ class Base extends Control<IMasterDetail> {
         } else if (options.propStorageId) {
             return new Promise((resolve) => {
                 this._getSettings(options).then((storage) => {
-                    const width = storage && storage[options.propStorageId];
-                    if (width) {
-                        this._currentWidth = width + 'px';
-                        this._updateOffset(options);
-                    } else {
-                        this.initCurrentWidth(options.masterWidth);
-                    }
+                    this._updateSizesByPropStorageId(storage, options);
                     this._prepareLimitSizes(options);
                     resolve(this._currentWidth);
                 });
@@ -209,7 +202,7 @@ class Base extends Control<IMasterDetail> {
         this._prevCurrentWidth = this._currentWidth;
     }
 
-    protected _beforeUpdate(options: IMasterDetail): void {
+    protected _beforeUpdate(options: IMasterDetail): void|Promise<unknown> {
         // Если изменилась текущая ширина, то сбросим состояние, иначе работаем с тем, что выставил пользователь
         if (options.masterWidth !== this._options.masterWidth) {
             this._currentWidth = null;
@@ -219,6 +212,22 @@ class Base extends Control<IMasterDetail> {
             this._canResizing = this._isCanResizing(options);
             this._prepareLimitSizes(options);
             this._updateOffset(options);
+        }
+
+        if (options.propStorageId !== this._options.propStorageId) {
+            return this._getSettings(options).then((storage) => {
+                this._updateSizesByPropStorageId(storage, options);
+            });
+        }
+    }
+
+    private _updateSizesByPropStorageId(storage: object, options: IMasterDetail): void {
+        const width = storage && storage[options.propStorageId];
+        if (width) {
+            this._currentWidth = width + 'px';
+            this._updateOffset(options);
+        } else {
+            this.initCurrentWidth(options.masterWidth);
         }
     }
 
@@ -231,7 +240,7 @@ class Base extends Control<IMasterDetail> {
     }
 
     protected _touchstartHandler(e: SyntheticEvent<TouchEvent>): void {
-        const needHandleTouch: boolean = this._needHandleTouch(e.target as HTMLElement);
+        const needHandleTouch: boolean = this._needHandleTouch(e);
         if (needHandleTouch) {
             this._touchstartPosition = this._getTouchPageXCoord(e);
             this._beginResize();
@@ -249,24 +258,18 @@ class Base extends Control<IMasterDetail> {
         }
     }
 
-    private _needHandleTouch(target: HTMLElement): boolean {
-        const controlTree = goUpByControlTree(target);
-        const masterListModuleName: string = 'Controls/masterDetail:List';
-        for (let i = 0; i < controlTree.length; i++) {
-            // Если не встретили список и добрались до контрола, значит можем обрабатывать клик
-            if (controlTree[i]._moduleName === this._moduleName) {
-                return true;
-            }
-            // Если тач пришелся в список, то список обработает тач и ресайзиться не нужно
-            if (controlTree[i]._moduleName === masterListModuleName)  {
-                return false;
-            }
-        }
-        return true;
+    /**
+     * Если кто-то пометил событие тача, как обработанное, то не запускаем ресайз по тачу
+     * Например, чтобы не ресайзить во время скролла списка
+     * @param event
+     * @private
+     */
+    private _needHandleTouch(event: SyntheticEvent<TouchEvent>): boolean {
+        return !event.nativeEvent.processed;
     }
 
     protected _touchendHandler(e: SyntheticEvent<TouchEvent>): void {
-        if (this._touchstartPosition) {
+        if (this._touchstartPosition && this._canResizing) {
             const touchendPosition: number = this._getTouchPageXCoord(e);
             const touchOffset: number = touchendPosition - this._touchstartPosition;
             this._touchstartPosition = null;

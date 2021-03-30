@@ -184,7 +184,6 @@ export default class VirtualScroll {
      * @param direction
      */
     shiftRange(direction: IDirection): IRangeShiftResult {
-        this._oldRange = {...this._range};
         this._savedDirection = direction;
         const itemsHeightsData = this._itemsHeightData;
         const itemsCount = this._itemsCount;

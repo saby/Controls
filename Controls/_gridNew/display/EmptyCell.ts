@@ -45,7 +45,8 @@ export default class EmptyCell<T> extends mixin<Cell<T, EmptyRow<T>>, CellCompat
         } else if (this.isMultiSelectColumn()) {
             classes = '';
         } else {
-            classes = this._getContentPaddingClasses(theme)
+            classes = this._getHorizontalPaddingClasses(theme)
+                + this._getVerticalPaddingClasses(theme)
                 + ` controls-Grid__row-cell__content`
                 + ` controls-GridView__emptyTemplate__cell`
                 + ` controls-Grid__row-cell-editing_theme-${theme}`

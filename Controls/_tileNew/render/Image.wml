@@ -1,0 +1,35 @@
+<ws:template name="imageTpl">
+   <ws:if data="{{(item || itemData).getImageFit() === 'contain' || itemType === 'rich'}}">
+      <!--Делаем всегда object-fit: contain(background-size: contain) кроссбраузерно, пока поддерживаем ie11-->
+      <svg role="image"
+           xmlns="http://www.w3.org/2000/svg"
+           height="100%"
+           width="100%"
+           class="{{ (item || itemData).getImageClasses(itemType, width, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
+           preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}">
+         <image preserveAspectRatio="{{ (item || itemData).getImagePreserveAspectRatio(itemType, imageFit) }}" height="100%" width="100%" xlink:href="{{ (item || itemData).getImageUrl(width, imageFit) }}"></image>
+      </svg>
+   </ws:if>
+   <ws:else>
+      <div class="{{ (item || itemData).getImageAlignClasses(imageAlign) }}">
+         <img class="{{ (item || itemData).getImageClasses(itemType, width, imageAlign, imageViewMode, imageProportion, imagePosition, imageSize, imageFit, imageProportionOnItem) }}"
+              src="{{(item || itemData).getImageUrl(width, imageFit)}}"/>
+      </div>
+   </ws:else>
+</ws:template>
+
+<ws:if data="{{ imageViewMode !== 'none' }}">
+   <div attr:class="{{ (item || itemData).getImageWrapperClasses(itemType, hasTitle, titleStyle, imageViewMode) }}"
+        attr:style="{{ (item || itemData).getImageWrapperStyles(itemType) }}">
+      <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight, imagePosition, imageViewMode, imageProportionOnItem) }}">
+         <div class="{{ (item || itemData).getAutoResizerClasses(itemType, staticHeight, hasTitle) }}" style="{{ (item || itemData).getAutoResizerStyles(itemType, width, imageProportion) }}"></div>
+      </ws:if>
+
+      <ws:if data="{{ (item || itemData).shouldDisplayGradient(itemType, imageEffect, imageViewMode, imagePosition, 'image') }}">
+         <div class="{{ (item || itemData).getGradientClasses(itemType, gradientType) }}"
+              style="{{ (item || itemData).getGradientStyles(itemType, gradientColor, gradientType) }}"></div>
+      </ws:if>
+
+      <ws:partial template="imageTpl"/>
+   </div>
+</ws:if>

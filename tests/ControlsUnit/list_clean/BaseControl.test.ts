@@ -5,6 +5,7 @@ import {RecordSet} from 'Types/collection';
 import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import {NewSourceController} from 'Controls/dataSource';
 import * as sinon from 'sinon';
+import {Logger} from 'UI/Utils';
 
 const getData = (dataCount: number = 0) => {
     const data = [];
@@ -72,18 +73,15 @@ async function getCorrectBaseControlConfigAsync(cfg): Promise<object> {
 }
 
 describe('Controls/list_clean/BaseControl', () => {
-    describe('BaseControl watcher groupHistoryId', () => {
+    describe('BaseControl watcher groupHistoryId', async () => {
 
         const GROUP_HISTORY_ID_NAME: string = 'MY_NEWS';
 
-        const baseControlCfg = getCorrectBaseControlConfig({
+        const baseControlCfg = await getCorrectBaseControlConfigAsync({
             viewName: 'Controls/List/ListView',
             keyProperty: 'id',
             viewModelConstructor: ListViewModel,
-            items: new RecordSet({
-                keyProperty: 'id',
-                rawData: []
-            })
+            source: new Memory()
         });
         let baseControl;
 
@@ -100,7 +98,7 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControl._beforeMount(baseControlCfg);
             baseControl._container = {getElementsByClassName: () => ([{clientHeight: 100, offsetHeight: 0}])};
             baseControl._afterMount();
-            assert.isFalse(!!baseControl._listViewModel.getCollapsedGroups());
+            assert.isFalse(!!baseControl._listViewModel.getCollapsedGroups()?.length);
         });
         it('is CollapsedGroup', () => {
             const cfgClone = {...baseControlCfg};
@@ -144,6 +142,9 @@ describe('Controls/list_clean/BaseControl', () => {
 
         beforeEach(() => {
             baseControl = new BaseControl(baseControlCfg);
+            baseControl._children = {
+                scrollObserver: { startRegister: () => null }
+            };
         });
 
         afterEach(() => {
@@ -301,7 +302,7 @@ describe('Controls/list_clean/BaseControl', () => {
                     prev: 'visible'
                 }, baseControl._pagingCfg.arrowState);
 
-            baseControl.scrollMoveSyncHandler({scrollTop: 600});
+            baseControl.scrollMoveSyncHandler({scrollTop: 640});
             assert.deepEqual({
                 begin: 'visible',
                 end: 'hidden',
@@ -876,25 +877,42 @@ describe('Controls/list_clean/BaseControl', () => {
             assert.isTrue(!mountResult);
         });
         it('_beforeMount keyProperty', async () => {
-            const baseControlOptions = await getCorrectBaseControlConfigAsync({
+            let baseControlOptions = await getCorrectBaseControlConfigAsync({
                 source: new Memory({
                     keyProperty: 'keyProperty',
                     data: []
                 }),
                 viewModelConstructor: ListViewModel
             });
-            const baseControl = new BaseControl(baseControlOptions);
+
+            let baseControl = new BaseControl(baseControlOptions);
             await baseControl._beforeMount(baseControlOptions);
             assert.equal(baseControl._keyProperty, 'keyProperty');
+
+            baseControlOptions = {...baseControlOptions};
             baseControlOptions.keyProperty = 'keyPropertyOptions';
-            baseControl._initKeyProperty(baseControlOptions);
+            baseControlOptions = await getCorrectBaseControlConfigAsync(baseControlOptions);
+            baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
             assert.equal(baseControl._keyProperty, 'keyPropertyOptions');
+
+            baseControlOptions = {...baseControlOptions};
             baseControlOptions.source = null;
-            baseControl._initKeyProperty(baseControlOptions);
+            baseControlOptions.sourceController = null;
+            baseControlOptions = await getCorrectBaseControlConfigAsync(baseControlOptions);
+            baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
             assert.equal(baseControl._keyProperty, 'keyPropertyOptions');
+
+            const loggerErrorStub = sinon.stub(Logger, 'error');
+            baseControlOptions = {...baseControlOptions};
             baseControlOptions.keyProperty = undefined;
-            baseControl._initKeyProperty(baseControlOptions);
+            baseControlOptions = await getCorrectBaseControlConfigAsync(baseControlOptions);
+            baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
             assert.isFalse(!!baseControl._keyProperty);
+            assert.ok(loggerErrorStub.calledOnce);
+            loggerErrorStub.restore();
         });
 
         it('_beforeMount returns errorConfig', async () => {
@@ -911,6 +929,21 @@ describe('Controls/list_clean/BaseControl', () => {
             baseControlOptions.sourceController._loadError = new Error('test error');
             const receivedState = await baseControl._beforeMount(baseControlOptions);
             assert.ok(receivedState.hasOwnProperty('errorConfig'));
+        });
+
+        it('_beforeMount with items in options', async () => {
+            const items = new RecordSet({
+                rawData: getData(10)
+            });
+            const baseControlOptions = {
+                ...getBaseControlOptionsWithEmptyItems(),
+                items
+            };
+            const baseControl = new BaseControl(baseControlOptions);
+            await baseControl._beforeMount(baseControlOptions);
+            baseControl.saveOptions(baseControlOptions);
+
+            assert.ok(baseControl.getItems() === items);
         });
     });
 
@@ -1050,13 +1083,27 @@ describe('Controls/list_clean/BaseControl', () => {
 
                 sourceControllerOptions = {...sourceControllerOptions};
                 sourceControllerOptions.source = new Memory();
-                sourceControllerOptions.source.query = () => Promise.reject(new Error());
+                sourceControllerOptions.source.query = () => {
+                    const error = new Error();
+                    error.processed = true;
+                    return Promise.reject(error);
+                };
                 sourceController.updateOptions(sourceControllerOptions);
                 await sourceController.reload().catch(() => {});
                 baseControlOptions.source = new Memory();
                 assert.doesNotThrow(() => {
                     baseControl._beforeUpdate(baseControlOptions);
                 });
+
+                baseControl.__error = {testErrorField: 'testErrorValue'};
+                sourceControllerOptions = {...sourceControllerOptions};
+                sourceControllerOptions.source = new Memory();
+                sourceController.updateOptions(sourceControllerOptions);
+                await sourceController.reload();
+                baseControlOptions = {...baseControlOptions};
+                baseControlOptions.source = new Memory();
+                baseControl._beforeUpdate(baseControlOptions);
+                assert.ok(!baseControl.__error);
             });
 
             it('_beforeUpdate while source controller is loading', async () => {
@@ -1104,13 +1151,14 @@ describe('Controls/list_clean/BaseControl', () => {
             it('_beforeMount without source and sourceController, then _beforeUpdate with sourceController', async () => {
                 let baseControlOptions = getBaseControlOptionsWithEmptyItems();
                 let afterReloadCallbackCalled = false;
-                baseControlOptions.afterReloadCallback = () => {
-                    afterReloadCallbackCalled = true;
-                };
                 baseControlOptions.source = null;
                 baseControlOptions.sourceController = null;
 
+                const sandbox = sinon.createSandbox();
                 const baseControl = new BaseControl(baseControlOptions);
+                sandbox.stub(baseControl, '_afterReloadCallback').callsFake(() => {
+                    afterReloadCallbackCalled = true;
+                });
                 await baseControl._beforeMount(baseControlOptions);
                 baseControl.saveOptions(baseControlOptions);
 
@@ -1123,8 +1171,15 @@ describe('Controls/list_clean/BaseControl', () => {
                 await baseControl._beforeUpdate(baseControlOptions);
                 baseControl._updateInProgress = false;
                 baseControl.saveOptions(baseControlOptions);
-                await baseControl.reload();
                 assert.isTrue(afterReloadCallbackCalled);
+
+                baseControlOptions = {...baseControlOptions};
+                baseControlOptions.sourceController = new NewSourceController(baseControlOptions);
+                afterReloadCallbackCalled = false;
+                await baseControl._beforeUpdate(baseControlOptions);
+                baseControl.saveOptions(baseControlOptions);
+                assert.isTrue(afterReloadCallbackCalled);
+                sandbox.restore();
             });
 
         });
@@ -1146,7 +1201,7 @@ describe('Controls/list_clean/BaseControl', () => {
             let isCancelCalled = false;
 
             beforeEach(() => {
-                stubReload = sinon.stub(BaseControl._private, 'reload').callsFake(() => Promise.resolve());
+                stubReload = sinon.stub(baseControl, '_reload').callsFake(() => Promise.resolve());
                 baseControl._editInPlaceController = {
                     isEditing: () => true
                 };
@@ -1184,16 +1239,39 @@ describe('Controls/list_clean/BaseControl', () => {
     describe('reload', () => {
 
         it('baseControl destroyed on reload', async () => {
-            const options = getBaseControlOptionsWithEmptyItems();
+            const options = await getCorrectBaseControlConfigAsync(getBaseControlOptionsWithEmptyItems());
+            let afterReloadCallbackCalled = false;
+            options.afterReloadCallback = () => {
+                afterReloadCallbackCalled = true;
+            };
             const baseControl = new BaseControl(options);
             await baseControl._beforeMount(options);
             baseControl.saveOptions(options);
+            afterReloadCallbackCalled = false;
             const reloadPromise = baseControl.reload();
             baseControl._beforeUnmount();
             baseControl._destroyed = true;
 
             const reloadPromiseResult = await reloadPromise;
             assert.ok(!reloadPromiseResult, 'reload return wrong result');
+            assert.ok(!afterReloadCallbackCalled);
+        });
+
+        it('baseControl items not changed on reload', async () => {
+            const options = getBaseControlOptionsWithEmptyItems();
+            let itemsReadyCallbackCalled = false;
+            options.itemsReadyCallback = () => {
+                itemsReadyCallbackCalled = true;
+            };
+            const options = await getCorrectBaseControlConfigAsync(options);
+            const baseControl = new BaseControl(options);
+            await baseControl._beforeMount(options);
+            baseControl.saveOptions(options);
+            assert.ok(itemsReadyCallbackCalled);
+
+            itemsReadyCallbackCalled = false;
+            await baseControl.reload();
+            assert.ok(!itemsReadyCallbackCalled);
         });
 
     });

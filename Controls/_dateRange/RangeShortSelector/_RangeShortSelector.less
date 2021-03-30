@@ -1,9 +1,3 @@
-// Смещаем на расстояние высоты эл-та со стрелкой + расстояние от верха текста эл-та с годом до начала этого блока
-// и так же учитываем такое же расстояние у вызывающего эл-та, см.комментарий у метода _getFontSizeClass
-@shift-top_fontSize-m_PeriodDialog-selector: -(@annually_header_height_shortDatePicker + (ceil((@item_height_shortDatePicker - @item_font-size_shortDatePicker)/2)) - floor((@height_rangeShortSelectorLink - @font-size_l) / 2));
-@shift-top_fontSize-s_PeriodDialog-selector: @shift-top_fontSize-m_PeriodDialog-selector - 1;
-@shift-top_fontSize-l_PeriodDialog-selector: @shift-top_fontSize-m_PeriodDialog-selector + 1;
-
 .controls-DateRangeSelectorLite {
    display: inline-flex;
 }
@@ -14,21 +8,21 @@
 }
 
 .controls-DateRangeSelectorLite__view_minWidth {
-   min-width: @min-width_dateRangeSelector;
+   min-width: var(--min-width_dateRangeSelector);
 }
 
 .controls-DateRangeSelectorLite__picker-normal {
-   margin-top: ceil((@height_rangeShortSelectorLink - @item_height_shortDatePicker)/2) - @border-thickness_shortDatePicker;
+   margin-top: calc(((var(--height_rangeShortSelectorLink) - var(--item_height_shortDatePicker)) / 2) - var(--item_border-thickness_shortDatePicker));
 }
 
-.controls-DateRangeSelectorLite__picker-years_fontSize-m_theme-@{themeName} {
-   margin-top: @shift-top_fontSize-m_PeriodDialog-selector;
+.controls-DateRangeSelectorLite__picker-years_fontSize-m {
+   margin-top: var(--shift-top_fontSize-m_PeriodLiteDialog-selector);
 }
 
-.controls-DateRangeSelectorLite__picker-years_fontSize-s_theme-@{themeName} {
-   margin-top: @shift-top_fontSize-s_PeriodDialog-selector;
+.controls-DateRangeSelectorLite__picker-years_fontSize-s {
+   margin-top: var(--shift-top_fontSize-s_PeriodLiteDialog-selector);
 }
 
-.controls-DateRangeSelectorLite__picker-years_fontSize-l_theme-@{themeName} {
-   margin-top: @shift-top_fontSize-l_PeriodDialog-selector;
+.controls-DateRangeSelectorLite__picker-years_fontSize-l {
+   margin-top: var(--shift-top_fontSize-l_PeriodLiteDialog-selector);
 }

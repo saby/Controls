@@ -1,7 +1,7 @@
 import {TFontWeight} from 'Controls/_interface/IFontWeight';
 
 /**
- * Шаблон, который по умолчанию используется для отображения ячеек итогов в контроле {@link Controls/grid:View Таблица}.
+ * Шаблон, который по умолчанию используется для отображения ячеек итогов в {@link Controls/grid:View таблице}.
  * 
  * @class Controls/_grid/interface/ResultColumnTemplate
  * @author Авраменко А.С.
@@ -29,7 +29,7 @@ import {TFontWeight} from 'Controls/_interface/IFontWeight';
 export default interface IResultColumnTemplateOptions {
 
     /**
-     * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки итогов.
+     * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки итогов.
      * @remark
      * В области видимости шаблона доступен объект **results** - итогов, которые были переданы в метаданных RecordSet.
      * Результаты должны быть переданы в виде {@link Types/entity/Model}.

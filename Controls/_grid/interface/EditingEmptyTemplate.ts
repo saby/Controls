@@ -71,6 +71,7 @@ interface IEmptyColumnColumns {
 export default interface IEditingEmptyTemplateOptions {
     /**
      * @typedef {String} Spacing
+     * @descrition Допустимые значения для опций {@link topSpacing} и {@link bottomSpacing}.
      * @variant xs Минимальный отступ.
      * @variant s Маленький отступ.
      * @variant m Средний отступ.
@@ -80,7 +81,7 @@ export default interface IEditingEmptyTemplateOptions {
      */
 
     /**
-     * @cfg {Spacing|null} Отступ между верхней границей  и шаблоном contentTemplate.
+     * @cfg {Spacing|null} Отступ между верхней границей и шаблоном contentTemplate.
      * @remark
      * В значении null отступ отсутствует.
      * Каждому значению опции соответствует размер в px. Он зависит от {@link /doc/platform/developmentapl/interface-development/themes/ темы оформления} приложения.
@@ -96,7 +97,7 @@ export default interface IEditingEmptyTemplateOptions {
      */
     bottomSpacing?: string;
     /**
-     * @cfg {Array.<Controls/_grid/interface/EditingEmptyTemplate/IEmptyColumnColumns.typedef>} Набор конфигураций колонок пустого списка.
+     * @cfg {Array.<Controls/_grid/interface/EditingEmptyTemplate/IEmptyColumnColumns.typedef>} Конфигурация колонок пустого списка.
      */
     columns?: IEmptyColumnColumns[];
 }

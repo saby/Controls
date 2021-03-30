@@ -1,135 +1,34 @@
-import {ICrudPlus, ICrud} from 'Types/source';
-import {IPopupOptions} from 'Controls/popup';
-import {INavigationOptionValue} from 'Controls/interface';
+import {IControlOptions, TemplateFunction} from 'UI/_base/Control';
+import {IFilterItem} from 'Controls/_filter/View/interface/IFilterItem';
 
+export interface IFilterViewOptions extends IControlOptions {
+    source: IFilterItem[];
+    itemTemplate: TemplateFunction;
+    historyId: string;
+    alignment: 'right' | 'left';
+
+    detailPanelTemplateName: string;
+    detailPanelTemplateOptions: unknown;
+    detailPanelPopupOptions: unknown;
+    detailPanelOpenMode: 'stack' | 'sticky';
+
+    panelTemplateName: string;
+    panelTemplateOptions: unknown;
+
+    useStore: boolean;
+}
 
 /**
  * Интерфейс для поддержки просмотра и редактирования полей фильтра.
- * @interface Controls/_filter/View/interface/IFilterItem
  * @public
- * @author Золотова Э.Е.
+ * @author Михайлов С.Е.
  */
-
-/*
- * Provides a user interface for browsing and editing the filter fields.
- * @interface Controls/_filter/interface/IFilterView
- * @public
- * @author Золотова Э.Е.
- */
-export interface IFilterItem {
-    name: string;
-    id?: string;
-    value: any;
-    resetValue?: any;
-    textValue: string;
-    emptyText?: string;
-    emptyKey?: boolean | string | number;
-    doNotSaveToHistory?: boolean;
-    visibility?: boolean;
-    viewMode?: 'basic' | 'frequent' | 'extended';
-    type?: 'dateRange';
-    editorOptions?: {
-        source?: ICrudPlus | ICrud;
-        keyProperty?: string;
-        displayProperty?: string;
-        minVisibleItems?: number;
-        multiSelect?: boolean;
-        selectorTemplate?: {
-            templateName: string;
-            templateOptions?: Record<string, any>;
-            popupOptions?: IPopupOptions;
-        }
-        itemTemplate?: string;
-        editorMode?: string;
-        filter?: Record<string, any>;
-        navigation?: INavigationOptionValue<any>
-        itemTemplateProperty?: string;
-    };
-    [key: string]: any;
+export interface IFilterView {
+    readonly '[Controls/_filter/View/interface/IFilterView]': boolean;
 }
-/**
- * @typedef {Object} Controls/_filter/View/interface/IFilterItem/EditorOptions
- * @property {String} keyProperty Имя свойства, уникально идентифицирующего элемент коллекции.
- * @property {String} displayProperty Имя свойства элемента, содержимое которого будет отображаться. Влияет только на значение при выборе.
- * @property {Types/source:Base} source Объект, который реализует интерфейс {@link Types/source:ICrud} для доступа к данным.
- * Если свойство items указано, то свойство source будет игнорироваться.
- * @property {Boolean} multiSelect Определяет, установлен ли множественный выбор.
- * @property {Controls/_interface/ISelectorDialog} selectorTemplate Шаблон панели выбора элементов.
- * @property {Function|String} itemTemplate Шаблон рендеринга элементов.
- * Подробнее о настройке itemTemplate читайте {@link Controls/_menu/interface/IMenuBase#itemTemplate здесь}.
- * Для задания элемента в качестве заголовка используйте шаблон {@link Controls/filterPopup:SimplePanelEmptyItemTemplate}.
- * @property {String} itemTemplateProperty Имя свойства, содержащего шаблон для рендеринга элементов.
- * Подробнее о настройке itemTemplateProperty читайте {@link Controls/_menu/interface/IMenuBase#itemTemplateProperty здесь}.
- * Для задания элемента в качестве заголовка используйте шаблон {@link Controls/filterPopup:SimplePanelEmptyItemTemplate}.
- * @property {Object} filter Конфигурация фильтра-объект с именами полей и их значениями.
- * Подробнее читайте {@link Controls/_interface/IFilter#filter здесь}.
- * @property {Object} navigation Конфигурация навигации по списку. Настройка навигации источника данных (страницы, смещение, положение) и представления навигации (страницы, бесконечная прокрутка и т. д.).
- * Подробнее читайте {@link Controls/_interface/INavigation#navigation здесь}.
- * @property {String} editorMode Режим отображения редактора. Принимаемые значения смотрите в документации редактора.
- * @property {Number} minVisibleItems Минимальное количество элементов для отображения фильтра. По умолчанию фильтр с одним элементом будет скрыт.
- */
-
-/*
- * @typedef {Object} Controls/_filter/View/interface/IFilterItem/EditorOptions
- * @property {String} keyProperty Name of the item property that uniquely identifies collection item.
- * @property {String} displayProperty Name of the item property that content will be displayed. Only affects the value when selecting.
- * @property {Types/source:Base} source Object that implements ICrud interface for data access. If 'items' is specified, 'source' will be ignored.
- * @property {Boolean} multiSelect Determines whether multiple selection is set.
- * @property {Controls/interface/ISelectorDialog} selectorTemplate Items selection panel template.
- * @property {Function} itemTemplate Template for item render. For more information, see {@link Controls/_menu/interface/IMenuBase#itemTemplate}
- * @property {String} itemTemplateProperty Name of the item property that contains template for item render. For more information, see {@link Controls/_menu/interface/IMenuBase#itemTemplateProperty}
- * @property {Object} filter Filter configuration - object with field names and their values. {@link Controls/_interface/IFilter}
- * @property {Object} navigation List navigation configuration. Configures data source navigation (pages, offset, position) and navigation view (pages, infinite scroll, etc.) {@link Controls/_interface/INavigation}
- * @property {Types/collection:IList} items Special structure for the visual representation of the filter. {@link Types/collection:IList}.
- */
 
 /**
- * @typedef {String} Controls/_filter/View/interface/IFilterItem/FilterViewMode
- * @variant frequent Фильтр, отображаемый в быстрых фильтрах.
- * @variant basic Фильтр, отображаемый в блоке "Отбираются".
- * @variant extended Фильтр, отображаемый в блоке "Еще можно отобрать".
- */
-
-/*
- * @typedef {String} Controls/_filter/View/interface/IFilterItem/FilterViewMode
- * @variant frequent Filter is displayed in fast filters.
- * @variant basic Filter is displayed in the "Selected" block.
- * @variant extended Filter is displayed if the "Also possible to select" block.
- */
-
-/**
- * @typedef {Object} Controls/_filter/View/interface/IFilterItem/FilterItem
- * @property {String} name Имя фильтра.
- * @property {*} value Текущее значение фильтра.
- * @property {*} resetValue Значение фильтра по умолчанию.
- * @property {String} textValue Текстовое значение фильтра. Используется для отображения текста у кнопки фильтра.
- * @property {String} emptyText Текст пункта, значение которого является значением "по-умолчанию" для фильтра. Пункт будет добавлен в начало списка с заданным текстом.
- * @property {String|Number} emptyKey Первичный ключ для пункта выпадающего списка, который создаётся при установке опции emptyText.
- * @property {Controls/_filter/View/interface/IFilterItem/EditorOptions.typedef} editorOptions Опции для редактора.
- * @property {Controls/_filter/View/interface/IFilterItem/FilterViewMode.typedef} viewMode Режим отображения фильтра.
- * @property {Boolean} doNotSaveToHistory Флаг для отмены сохранения фильтра в истории.
- * @property {Boolean} visibility Отображение фильтра в блоке "Еще можно отобрать".
- * @property {String} type Тип значения фильтра.
- * Если тип не указан, он будет автоматически определяться по значению фильтра.
- * Для каждого типа будет построен соответствующий редактор этого типа.
- *
- * В настоящей версии фреймворка поддерживается только 1 значение — dateRange.
- * При его установке будет построен контрол {@link Controls/dateRange:RangeShortSelector}.
- */
-
-/*
- * @typedef {Object} Controls/_filter/View/interface/IFilterItem/FilterItem
- * @property {String} name Name of filter field
- * @property {*} value Current filter field value
- * @property {*} resetValue Value for reset
- * @property {String} textValue Text value of filter field.  Used to display a textual representation of the filter
- * @property {Controls/_filter/View/interface/IFilterItem/EditorOptions.typedef} editorOptions Options for editor
- * @property {Controls/_filter/View/interface/IFilterItem/FilterViewMode.typedef} viewMode Filter view mode
- * @property {Boolean} doNotSaveToHistory Flag to cancel saving filter in history
- */
-
-/**
- * @name Controls/_filter/View/interface/IFilterItem#emptyText
+ * @name Controls/_filter/View/interface/IFilterView#emptyText
  * @default Все
  * @cfg {String} Текстовое значение, которое будет использовано для отображения рядом с кнопкой, когда во всех фильтрах установлено значение "по-умолчанию"
  * @demo Controls-demo/Filter_new/FilterView/EmptyText/Index
@@ -144,7 +43,7 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#source
+ * @name Controls/_filter/View/interface/IFilterView#source
  * @cfg {Array.<Controls/_filter/View/interface/IFilterItem/FilterItem.typedef>} Устанавливает список полей фильтра и их конфигурацию.
  * В числе прочего, по конфигурации определяется визуальное представление поля фильтра в составе контрола.
  * @demo Controls-demo/Filter_new/FilterView/Source/AdditionalTemplateProperty/Index
@@ -193,8 +92,8 @@ export interface IFilterItem {
  */
 
 /*
- * @name Controls/_filter/View/interface/IFilterItem#source
- * @cfg {Array.<Controls/_filter/View/interface/IFilterItem/FilterItem.typedef>} Special structure for the visual representation of the filter.
+ * @name Controls/_filter/View/interface/IFilterView#source
+ * @cfg {Array.<Controls/_filter/View/interface/IFilterView/FilterItem.typedef>} Special structure for the visual representation of the filter.
  * @remark
  * The "value" from every item will insert in filter by "name" of this item.
  * @example
@@ -241,11 +140,11 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#detailPanelTemplateName
+ * @name Controls/_filter/View/interface/IFilterView#detailPanelTemplateName
  * @cfg {String} Шаблон всплывающей панели, которая открывается после клика по кнопке.
  * @remark
  * В качестве шаблона рекомендуется использовать контрол {@link Controls/filterPopup:DetailPanel}
- * Подробнее о настройке панели фильтров читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter-view/ здесь}.
+ * Подробнее о настройке панели фильтров читайте {@link /doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/ здесь}.
  * Важно: для ленивой загрузки шаблона в опции укажите путь до контрола.
  * @example
  * Пример настройки параметров для двух фильтров.
@@ -280,11 +179,11 @@ export interface IFilterItem {
  */
 
 /*
- * @name Controls/_filter/View/interface/IFilterItem#detailPanelTemplateName
+ * @name Controls/_filter/View/interface/IFilterView#detailPanelTemplateName
  * @cfg {String} Template for the pop-up panel, that opens after clicking on the button.
  * @remark
  * As a template, it is recommended to use the control {@link Controls/filterPopup:DetailPanel}
- * The description of setting up the filter panel you can read <a href='/doc/platform/developmentapl/interface-development/controls/list-environment/filter-search/'>here</a>.
+ * The description of setting up the filter panel you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/filter-and-search/filter/filter-view/panel/'>here</a>.
  * Important: for lazy loading template in the option give the path to the control
  * @example
  * Example setting options for two filters.
@@ -323,7 +222,7 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#detailPanelOpenMode
+ * @name Controls/_filter/View/interface/IFilterView#detailPanelOpenMode
  * @cfg {detailPanelOpenMode} Режим открытия шаблона всплывающей панели, которая открывается после клика по кнопке.
  * @remark
  * При указании detailPanelOpenMode равным 'stack', в качестве опции detailPanelTemplateName будет передано значение {@link Controls/filterPanelPopup:Stack}.
@@ -340,7 +239,7 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#panelTemplateName
+ * @name Controls/_filter/View/interface/IFilterView#panelTemplateName
  * @cfg {String} Устанавливает шаблон всплывающей панели быстрых фильтров, которая открывается после клика по параметрам быстрого фильтра.
  * @default Controls/filterPopup:SimplePanel
  * @remark
@@ -385,7 +284,7 @@ export interface IFilterItem {
  */
 
 /*
- * @name Controls/_filter/View/interface/IFilterItem#panelTemplateName
+ * @name Controls/_filter/View/interface/IFilterView#panelTemplateName
  * @cfg {String} Template for the pop-up panel, that opens after clicking on fast filter parameters.
  * @remark
  * As a template, it is recommended to use the control {@link Controls/filterPopup:SimplePanel}
@@ -427,7 +326,7 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#detailPanelTemplateOptions
+ * @name Controls/_filter/View/interface/IFilterView#detailPanelTemplateOptions
  * @cfg {Object} Опции для контрола, который передан в {@link detailPanelTemplateName}
  * @example
  * <pre class="brush: html">
@@ -450,7 +349,7 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#detailPanelPopupOptions
+ * @name Controls/_filter/View/interface/IFilterView#detailPanelPopupOptions
  * @cfg {Controls/popup:IStickyPopupOptions} Опции для Sticky-опенера, открывающего панель фильтров.
  * @example
  * <pre class="brush: html">
@@ -464,7 +363,7 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#panelTemplateOptions
+ * @name Controls/_filter/View/interface/IFilterView#panelTemplateOptions
  * @cfg {Object} Опции для контрола, который передан в {@link panelTemplateName}.
  * @example
  * <pre class="brush: html">
@@ -483,14 +382,14 @@ export interface IFilterItem {
  */
 
 /**
- * @typedef {String} Controls/_filter/View/interface/IFilterItem/Alignment
+ * @typedef {String} Controls/_filter/View/interface/IFilterView/Alignment
  * @variant right Кнопка прикреплена к правому краю. Всплывающая панель открывается влево. Строка выбранных фильтров отображается слева от кнопки.
  * @variant left Кнопка прикреплена к левому краю. Всплывающая панель открывается вправо. Строка выбранных фильтров отображается справа от кнопки.
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#alignment
- * @cfg {Controls/_filter/View/interface/IFilterItem/Alignment.typedef} Задаёт выравнивание элементов объединённого фильтра.
+ * @name Controls/_filter/View/interface/IFilterView#alignment
+ * @cfg {Controls/_filter/View/interface/IFilterView/Alignment.typedef} Задаёт выравнивание элементов объединённого фильтра.
  * @default right
  * @example
  * <pre class="brush: html">
@@ -502,14 +401,14 @@ export interface IFilterItem {
  */
 
 /*
- * @typedef {String} Controls/_filter/View/interface/IFilterItem/Alignment
+ * @typedef {String} Controls/_filter/View/interface/IFilterView/Alignment
  * right The button is attached to the right edge, the pop-up panel opens to the left.
  * left The button is attached to the left edge, the pop-up panel opens to the right.
  */
 
 /*
- * @name Controls/_filter/View/interface/IFilterItem#alignment
- * @cfg {Controls/_filter/View/interface/IFilterItem/Alignment.typedef} Sets the direction in which the popup panel will open.
+ * @name Controls/_filter/View/interface/IFilterView#alignment
+ * @cfg {Controls/_filter/View/interface/IFilterView/Alignment.typedef} Sets the direction in which the popup panel will open.
  * @default right
  * @remark
  * The string, that is formed by the values from items, also changes position.
@@ -524,8 +423,8 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#itemTemplate
- * @cfg {String|Function} Устанавливает шаблон отображения фильтров на панели.
+ * @name Controls/_filter/View/interface/IFilterView#itemTemplate
+ * @cfg {String|TemplateFunction} Устанавливает шаблон отображения фильтров на панели.
  * @default Controls/filter:ViewItemTemplate
  * @demo Controls-demo/FilterView/ItemTemplates/Index
  * @example
@@ -544,7 +443,7 @@ export interface IFilterItem {
  */
 
 /**
- * @name Controls/_filter/View/interface/IFilterItem#historyId
+ * @name Controls/_filter/View/interface/IFilterView#historyId
  * @cfg {String} Уникальный идентификатор для сохранения истории фильтров.
  * В истории будут храниться последние 10 применённых фильтров.
  * @remark
@@ -558,7 +457,7 @@ export interface IFilterItem {
 
 /**
  * @event Происходит при изменении фильтра.
- * @name Controls/_filter/View/interface/IFilterItem#filterChanged
+ * @name Controls/_filter/View/interface/IFilterView#filterChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Object} filter Новый фильтр.
  * @see sourceChanged
@@ -566,7 +465,7 @@ export interface IFilterItem {
 
 /*
  * @event Happens when filter changed.
- * @name Controls/_filter/View/interface/IFilterItem#filterChanged
+ * @name Controls/_filter/View/interface/IFilterView#filterChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} filter New filter.
  * @see sourceChanged
@@ -574,7 +473,7 @@ export interface IFilterItem {
 
 /**
  * @event Происходит при изменении структуры фильтра.
- * @name Controls/_filter/View/interface/IFilterItem#sourceChanged
+ * @name Controls/_filter/View/interface/IFilterView#sourceChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Array.<Controls/_filter/View/interface/IFilterItem/FilterItem>} items Новая структура фильтра.
  * @see filterChanged
@@ -582,7 +481,7 @@ export interface IFilterItem {
 
 /*
  * @event Happens when source changed.
- * @name Controls/_filter/View/interface/IFilterItem#sourceChanged
+ * @name Controls/_filter/View/interface/IFilterView#sourceChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Descriptor of the event.
  * @param {Object} items New items.
  * @see filterChanged
@@ -590,7 +489,7 @@ export interface IFilterItem {
 
 /**
  * Открыть панель фильтрации с шаблоном, который передан в опцию {@link detailPanelTemplateName}.
- * @name Controls/_filter/View/interface/IFilterItem#openDetailPanel
+ * @name Controls/_filter/View/interface/IFilterView#openDetailPanel
  * @function
  * @example
  * <pre class="brush: js">
@@ -610,7 +509,7 @@ export interface IFilterItem {
 /**
  * Сбрасывает объединенный фильтр к значениям по умолчанию.
  * Для каждого фильтра такие значения задаются через свойство resetValue при настройке структуры фильтров (см. {@link source}).
- * @name Controls/_filter/View/interface/IFilterItem#reset
+ * @name Controls/_filter/View/interface/IFilterView#reset
  * @function
  * @example
  * <pre class="brush: js">

@@ -13,12 +13,20 @@ define(
       var getPopupItem = () => {
          return {
             id: 'randomId',
+            position: {
+               bottom: 0,
+               left: 0,
+               right: 0
+            },
+            sizes: {
+               height: 400
+            },
             popupOptions: {
-               position: 'bottom',
+               desktopMode: 'stack',
                slidingPanelOptions: {
                   minHeight: 400,
-                  maxHeight: 800,
-                  desktopMode: 'stack'
+                  position: 'bottom',
+                  maxHeight: 800
                }
             }
          };
@@ -35,7 +43,7 @@ define(
                assert.deepEqual(position, {
                   left: 0,
                   right: 0,
-                  bottom: -400,
+                  bottom: 0,
                   maxHeight: 800,
                   minHeight: 400,
                   height: 400,
@@ -66,7 +74,6 @@ define(
                   assert.equal(position.height, heightForOverflow);
                   assert.equal(position.minHeight, heightForOverflow);
                   assert.equal(position.maxHeight, heightForOverflow);
-                  assert.equal(position.bottom, -heightForOverflow);
                });
                it('minHeight < window height < maxHeight', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
@@ -78,7 +85,6 @@ define(
                   assert.equal(position.height, 400);
                   assert.equal(position.minHeight, 400);
                   assert.equal(position.maxHeight, heightForOverflow);
-                  assert.equal(position.bottom, -400);
                });
                it('initial height < minHeight', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
@@ -98,51 +104,62 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   const item = getPopupItem();
                   SlidingPanelStrategy._getWindowHeight = () => 900;
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   const position = SlidingPanelStrategy.getPosition(item);
 
-                  assert.equal(position.bottom, -400);
+                  assert.equal(position.bottom, 0);
                });
                it('bottom', () => {
                   const SlidingPanelStrategy = new StrategyConstructor();
                   const item = getPopupItem();
-                  item.popupOptions.position = 'top';
+                  item.popupOptions.slidingPanelOptions.position = 'top';
                   SlidingPanelStrategy._getWindowHeight = () => 900;
                   const position = SlidingPanelStrategy.getPosition(item);
 
-                  assert.equal(position.top, -400);
+                  assert.equal(position.top, 0);
                });
             });
          });
          describe('Controller', () => {
             describe('elementCreated', () => {
                it('position bottom', () => {
+                  const sandbox = sinon.sandbox.create();
                   const SlidingPanelStrategy = new StrategyConstructor();
                   const item = getPopupItem();
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   SlidingPanelStrategy._getWindowHeight = () => 900;
-                  item.position = SlidingPanelStrategy.getPosition(item);
+                  sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                     return {
+                        height: item.position.height
+                     };
+                  });
 
+                  Controller.getDefaultConfig(item);
+                  const result = Controller.elementCreated(item, {});
+                  assert.equal(item.position.top, 0);
+
+                  assert.equal(result, true);
+                  sandbox.restore();
+               });
+               it('position top', () => {
+                  const sandbox = sinon.sandbox.create();
+                  const SlidingPanelStrategy = new StrategyConstructor();
+                  const item = getPopupItem();
+                  item.popupOptions.slidingPanelOptions.position = 'top';
+                  SlidingPanelStrategy._getWindowHeight = () => 900;
+                  sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                     return {
+                        height: item.position.height
+                     };
+                  });
+
+                  Controller.getDefaultConfig(item);
                   assert.equal(item.position.bottom, -400);
-
                   const result = Controller.elementCreated(item, {});
 
                   assert.equal(item.position.bottom, 0);
                   assert.equal(result, true);
-               });
-               it('position top', () => {
-                  const SlidingPanelStrategy = new StrategyConstructor();
-                  const item = getPopupItem();
-                  item.popupOptions.position = 'top';
-                  SlidingPanelStrategy._getWindowHeight = () => 900;
-                  item.position = SlidingPanelStrategy.getPosition(item);
-
-                  assert.equal(item.position.top, -400);
-
-                  const result = Controller.elementCreated(item, {});
-
-                  assert.equal(item.position.top, 0);
-                  assert.equal(result, true);
+                  sandbox.restore();
                });
             });
             it('elementUpdated', () => {
@@ -154,6 +171,11 @@ define(
                };
 
                sandbox.stub(StrategySingleton, 'getPosition');
+               sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                  return {
+                     height: item.position.height
+                  };
+               });
 
                const result = Controller.elementUpdated(item, {});
 
@@ -162,9 +184,15 @@ define(
                sandbox.restore();
             });
             it('elementDestroyed + elementAnimated', (resolve) => {
+               const sandbox = sinon.sandbox.create();
                const item = getPopupItem();
                const SlidingPanelStrategy = new StrategyConstructor();
                SlidingPanelStrategy._getWindowHeight = () => 900;
+               sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                  return {
+                     height: item.position.height
+                  };
+               });
 
                item.position = SlidingPanelStrategy.getPosition(item);
                let destroyedPromiseResolved = false;
@@ -186,58 +214,102 @@ define(
                   clearTimeout(timeoutId);
                   resolve();
                });
+               sandbox.restore();
+            });
+
+            it('safari body dragging fix', () => {
+               const sandbox = sinon.sandbox.create();
+               const item1 = getPopupItem();
+               const item2 = getPopupItem();
+
+               sandbox.stub(Controller, '_toggleCancelBodyDragging');
+               sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                  return {
+                     height: item1.position.height
+                  };
+               });
+
+               Controller.elementCreated(item1);
+               Controller.elementCreated(item2);
+
+               sinon.assert.calledOnce(Controller._toggleCancelBodyDragging);
+               sinon.assert.calledWithMatch(Controller._toggleCancelBodyDragging, true);
+
+               Controller.elementDestroyed(item1);
+               Controller.elementDestroyed(item2);
+
+               sinon.assert.calledTwice(Controller._toggleCancelBodyDragging);
+               sinon.assert.calledWithMatch(Controller._toggleCancelBodyDragging, false);
+
+               sandbox.restore();
             });
             describe('getDefaultConfig', () => {
                it('postion bottom', () => {
 
                   const item = getPopupItem();
-                  item.popupOptions.position = 'bottom';
+                  const sandbox = sinon.sandbox.create();
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
+                  sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                     return {
+                        height: item.position.height
+                     };
+                  });
                   Controller.getDefaultConfig(item);
 
-                  assert.equal(item.popupOptions.className.includes('controls-SlidingPanel__animation-position-bottom'), true);
+                  assert.equal(item.popupOptions.className.includes('controls-SlidingPanel__animation'), true);
                   assert.deepEqual(item.popupOptions.slidingPanelData, {
                      minHeight: item.position.minHeight,
                      maxHeight: item.position.maxHeight,
                      height: item.position.height,
-                     position: item.popupOptions.position,
+                     position: item.popupOptions.slidingPanelOptions.position,
                      desktopMode: 'stack'
                   });
                   assert.equal(item.popupOptions.hasOwnProperty('content'), true);
+                  sandbox.restore();
                });
 
-               it('postion top', () => {
+               it('position top', () => {
+                  const sandbox = sinon.sandbox.create();
                   const item = getPopupItem();
-                  item.popupOptions.position = 'top';
+                  item.popupOptions.slidingPanelOptions.position = 'top';
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                   Controller.getDefaultConfig(item);
 
                   assert.equal(
-                     item.popupOptions.className.includes('controls-SlidingPanel__animation-position-top'),
+                     item.popupOptions.className.includes('controls-SlidingPanel__animation'),
                      true
                   );
                   assert.deepEqual(item.popupOptions.slidingPanelData, {
                      minHeight: item.position.minHeight,
                      maxHeight: item.position.maxHeight,
                      height: item.position.height,
-                     position: item.popupOptions.position,
+                     position: item.popupOptions.slidingPanelOptions.position,
                      desktopMode: 'stack'
                   });
                   assert.equal(item.popupOptions.hasOwnProperty('content'), true);
+                  sandbox.restore();
                });
             });
             describe('popupDragStart', () => {
                it('position bottom', () => {
                   const sandbox = sinon.sandbox.create();
+                  const item = getPopupItem();
+                  const SlidingPanelStrategy = new StrategyConstructor();
                   let height = 0;
+
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
                   });
-
-                  const item = getPopupItem();
-                  const SlidingPanelStrategy = new StrategyConstructor();
+                  sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                     return {
+                        height: item.position.height
+                     };
+                  });
                   SlidingPanelStrategy._getWindowHeight = () => 900;
 
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
@@ -253,17 +325,22 @@ define(
 
                it('position top', () => {
                   const sandbox = sinon.sandbox.create();
+                  const item = getPopupItem();
+                  const SlidingPanelStrategy = new StrategyConstructor();
                   let height = 0;
+
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
                   });
-
-                  const item = getPopupItem();
-                  const SlidingPanelStrategy = new StrategyConstructor();
+                  sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
+                     return {
+                        height: item.position.height
+                     };
+                  });
                   SlidingPanelStrategy._getWindowHeight = () => 900;
 
-                  item.popupOptions.position = 'top';
+                  item.popupOptions.slidingPanelOptions.position = 'top';
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
@@ -277,17 +354,17 @@ define(
                });
                it('double drag', () => {
                   const sandbox = sinon.sandbox.create();
+                  const item = getPopupItem();
+                  const SlidingPanelStrategy = new StrategyConstructor();
                   let height = 0;
+
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
                   });
-
-                  const item = getPopupItem();
-                  const SlidingPanelStrategy = new StrategyConstructor();
                   SlidingPanelStrategy._getWindowHeight = () => 900;
 
-                  item.popupOptions.position = 'bottom';
+                  item.popupOptions.slidingPanelOptions.position = 'bottom';
                   item.position = SlidingPanelStrategy.getPosition(item);
                   item.position.height = item.position.height + 100;
                   const startHeight = item.position.height;
@@ -306,14 +383,14 @@ define(
                });
                it('overflow max', () => {
                   const sandbox = sinon.sandbox.create();
+                  const item = getPopupItem();
+                  const SlidingPanelStrategy = new StrategyConstructor();
                   let height = 0;
+
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
                   });
-
-                  const item = getPopupItem();
-                  const SlidingPanelStrategy = new StrategyConstructor();
                   SlidingPanelStrategy._getWindowHeight = () => 900;
 
                   item.position = SlidingPanelStrategy.getPosition(item);
@@ -368,6 +445,23 @@ define(
                   });
                   Controller.popupDragEnd(item);
                   sinon.assert.called(PopupController.remove);
+                  sandbox.restore();
+               });
+               it('minHeight > windowHeight. try to drag top. window should not close', () => {
+                  const sandbox = sinon.sandbox.create();
+                  sandbox.stub(PopupController, 'remove').callsFake(() => null);
+
+                  const item = getPopupItem();
+                  const SlidingPanelStrategy = new StrategyConstructor();
+                  SlidingPanelStrategy._getWindowHeight = () => 300;
+
+                  item.position = SlidingPanelStrategy.getPosition(item);
+
+                  Controller.popupDragStart(item, {}, {
+                     x: 0, y: -10
+                  });
+                  Controller.popupDragEnd(item);
+                  sinon.assert.notCalled(PopupController.remove);
                   sandbox.restore();
                });
             });

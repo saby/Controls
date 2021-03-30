@@ -278,6 +278,48 @@ define(
             assert.equal(item.position.maxHeight, 960);
          });
 
+         it('dialog positioned on prop storage coordinates', () => {
+            const directions = [
+               {horizontal: 'right', vertical: 'bottom'},
+               {horizontal: 'right', vertical: 'top'},
+               {horizontal: 'right', vertical: 'bottom'},
+               {horizontal: 'right', vertical: 'bottom'}
+            ];
+            const getItem = (direction) => {
+               return {
+                  popupOptions: {
+                     resizeDirection: direction,
+                     maxWidth: 100,
+                     maxHeight: 100,
+                     minWidth: 10,
+                     minHeight: 10,
+                     [direction.vertical === 'bottom' ? 'top' : 'bottom']: 100,
+                     [direction.horizontal === 'right' ? 'left' : 'right']: 100
+                  }
+               };
+            };
+            directions.forEach((direction) => {
+               const item = getItem(direction);
+               DialogController.getDefaultConfig(item);
+               assert.equal(item.position[direction.vertical === 'bottom' ? 'top' : 'bottom'], 100);
+               assert.equal(item.position[direction.horizontal === 'right' ? 'left' : 'right'], 100);
+            });
+         });
+
+         it('dialog positioned out of window at start without popupOptions position', () => {
+            let item = {
+               popupOptions: {
+                  maxWidth: 100,
+                  maxHeight: 100,
+                  minWidth: 10,
+                  minHeight: 10
+               }
+            };
+            DialogController.getDefaultConfig(item);
+            assert.equal(item.position.top, -10000);
+            assert.equal(item.position.left, -10000);
+         });
+
          it('calc coordinates _fixCompatiblePosition', () => {
             let item = {
                   popupOptions: {
@@ -560,6 +602,23 @@ define(
                let position = DialogStrategy.getPosition(windowData, dialogSizes, item);
                assert.equal(position.left, 860);
                assert.equal(position.top, 430);
+            });
+            it('inner resize with direction should update sizes', () => {
+               item.popupOptions.resizeDirection = {
+                  horizontal: HORIZONTAL_DIRECTION.RIGHT,
+                  vertical: VERTICAL_DIRECTION.BOTTOM
+               };
+               item.popupState = 'created';
+               const originGetPopupSizes = DialogController._getPopupSizes;
+               const newPopupSizes = {
+                  height: 123,
+                  width: 123
+               };
+               DialogController._getPopupSizes = () => newPopupSizes;
+               DialogController.resizeInner(item, {});
+               DialogController._getPopupSizes = originGetPopupSizes;
+               assert.equal(item.sizes.height, newPopupSizes.height);
+               assert.equal(item.sizes.width, newPopupSizes.width);
             });
             it('dragging', () => {
                item.popupOptions.resizeDirection = {

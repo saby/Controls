@@ -115,9 +115,9 @@ describe('Controls/list_clean/ScrollController', () => {
         });
     });
 
-    describe('attachLoadTopTriggerToNull', () => {
+    describe('resetTopTriggerOffset', () => {
         describe('mount', () => {
-            it('attachLoadTopTriggerToNull === true', () => {
+            it('resetTopTriggerOffset === true', () => {
                 const collection = new Collection({
                     collection: items
                 });
@@ -125,7 +125,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     collection,
                     virtualScrollConfig: {},
                     needScrollCalculation: false,
-                    attachLoadTopTriggerToNull: true
+                    resetTopTriggerOffset: true
                 });
                 controller.handleResetItems();
 
@@ -134,14 +134,14 @@ describe('Controls/list_clean/ScrollController', () => {
                         collection,
                         virtualScrollConfig: {},
                         needScrollCalculation: false,
-                        attachLoadTopTriggerToNull: true
+                        resetTopTriggerOffset: true
                     },
                     params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
                 });
 
                 assert.strictEqual(result.triggerOffset.top, 0);
             });
-            it('attachLoadTopTriggerToNull === false', () => {
+            it('resetTopTriggerOffset === false', () => {
                 const collection = new Collection({
                     collection: items
                 });
@@ -149,7 +149,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     collection,
                     virtualScrollConfig: {},
                     needScrollCalculation: false,
-                    attachLoadTopTriggerToNull: false
+                    resetTopTriggerOffset: false
                 });
                 controller.handleResetItems();
 
@@ -158,7 +158,7 @@ describe('Controls/list_clean/ScrollController', () => {
                         collection,
                         virtualScrollConfig: {},
                         needScrollCalculation: false,
-                        attachLoadTopTriggerToNull: false
+                        resetTopTriggerOffset: false
                     }, params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
                 });
 
@@ -166,7 +166,7 @@ describe('Controls/list_clean/ScrollController', () => {
             });
         });
         describe('update', () => {
-            it('attachLoadTopTriggerToNull === true -> false', () => {
+            it('resetTopTriggerOffset === true -> false', () => {
                 const collection = new Collection({
                     collection: items
                 });
@@ -174,7 +174,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     collection,
                     virtualScrollConfig: {},
                     needScrollCalculation: false,
-                    attachLoadTopTriggerToNull: true
+                    resetTopTriggerOffset: true
                 };
                 const controller = new ScrollController(options);
                 controller.handleResetItems();
@@ -184,7 +184,7 @@ describe('Controls/list_clean/ScrollController', () => {
                         collection,
                         virtualScrollConfig: {},
                         needScrollCalculation: false,
-                        attachLoadTopTriggerToNull: false
+                        resetTopTriggerOffset: false
                     },
                     params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
                 });
@@ -200,7 +200,7 @@ describe('Controls/list_clean/ScrollController', () => {
                     collection,
                     virtualScrollConfig: {},
                     needScrollCalculation: false,
-                    attachLoadTopTriggerToNull: false
+                    resetTopTriggerOffset: false
                 };
                 const controller = new ScrollController(options);
                 controller.handleResetItems();
@@ -216,6 +216,86 @@ describe('Controls/list_clean/ScrollController', () => {
                     params: {clientHeight: 100, scrollHeight: 0, scrollTop: 0}
                 });
                 assert.strictEqual(result.triggerOffset.top, 0);
+            });
+        });
+    });
+
+    describe('resetDownTriggerOffset', () => {
+        describe('mount', () => {
+            it('resetDownTriggerOffset === true', () => {
+                const collection = new Collection({
+                    collection: items
+                });
+                const controller = new ScrollController({
+                    collection,
+                    virtualScrollConfig: {},
+                    needScrollCalculation: false,
+                    resetDownTriggerOffset: true
+                });
+                controller.handleResetItems();
+
+                let result = controller.update({
+                    options: {
+                        collection,
+                        virtualScrollConfig: {},
+                        needScrollCalculation: false,
+                        resetDownTriggerOffset: true
+                    },
+                    params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
+                });
+
+                assert.strictEqual(result.triggerOffset.bottom, 0);
+            });
+            it('resetDownTriggerOffset === false', () => {
+                const collection = new Collection({
+                    collection: items
+                });
+                const controller = new ScrollController({
+                    collection,
+                    virtualScrollConfig: {},
+                    needScrollCalculation: false,
+                    resetDownTriggerOffset: false
+                });
+                controller.handleResetItems();
+
+                let result = controller.update({
+                    options: {
+                        collection,
+                        virtualScrollConfig: {},
+                        needScrollCalculation: false,
+                        resetDownTriggerOffset: false
+                    }, params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
+                });
+
+                assert.strictEqual(result.triggerOffset.bottom, 30);
+            });
+        });
+        describe('update', () => {
+            it('resetDownTriggerOffset === true -> false', () => {
+                const collection = new Collection({
+                    collection: items
+                });
+                let options = {
+                    collection,
+                    virtualScrollConfig: {},
+                    needScrollCalculation: false,
+                    resetDownTriggerOffset: true
+                };
+                const controller = new ScrollController(options);
+                controller.handleResetItems();
+
+                let result = controller.update({
+                    options: {
+                        collection,
+                        virtualScrollConfig: {},
+                        needScrollCalculation: false,
+                        resetDownTriggerOffset: false
+                    },
+                    params: {clientHeight: 100, scrollHeight: 300, scrollTop: 0}
+                });
+
+
+                assert.strictEqual(result.triggerOffset.bottom, 30);
             });
         });
     });

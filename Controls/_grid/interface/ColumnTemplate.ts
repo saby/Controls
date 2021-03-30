@@ -1,3 +1,5 @@
+import {TMarkerClassName} from 'Controls/display';
+
 /**
  * @typedef {String} TCursor
  * @description Значения для типа курсора, отображаемого при наведении на ячейку.
@@ -7,33 +9,17 @@
 export type TCursor = 'default' | 'pointer' | 'right';
 
 /**
- * @typedef {String} TMarkerClassName
- * @variant default Маркер по высоте растягивается на весь контейнер записи.
- * @variant image-l Используется для размещения маркера рядом с изображением размера "l".
- * @variant image-m Используется для размещения маркера рядом с изображением размера "m".
- * @variant image-s Используется для размещения маркера рядом с изображением размера "s".
- * @variant image-xs Используется для размещения маркера рядом с изображением размера "xs".
- * @variant text-2xl Используется для размещения маркера рядом с текстом размера "2xl".
- * @variant text-xl Используется для размещения маркера рядом с текстом размера "xl".
- * @variant text-l Используется для размещения маркера рядом с текстом размера "l".
- * @variant text-m Используется для размещения маркера рядом с текстом размера "m".
- * @variant text-xs Используется для размещения маркера рядом с текстом размера "xs".
- */
-export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | 'image-xl' |
-    'text-2xl' | 'text-xl' | 'text-l' | 'text-m' | 'text-xs';
-
-/**
- * Шаблон, который по умолчанию используется для отображения ячеек в контроле {@link Controls/grid:View Таблица}.
+ * Шаблон, который по умолчанию используется для отображения ячеек в {@link Controls/grid:View таблице}.
  *
  * @class Controls/_grid/interface/ColumnTemplate
  * @author Авраменко А.С.
- * 
+ *
  * @see Controls/_grid/interface/IGridControl/Column.typedef
  * @see Controls/grid:IGridControl#columns
- * 
+ *
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/grid/columns/template/#_2 здесь}.
- * 
+ *
  * @example
  * В следующем примере показано, как изменить параметры шаблона.
  * <pre class="brush: html; highlight: [6,7,8,9,10,11,12]">
@@ -60,7 +46,7 @@ export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | '
 
  export default interface IColumnTemplateOptions {
    /**
-    * @cfg {String|Function} Пользовательский шаблон для отображения содержимого ячейки.
+    * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки.
     * @see Controls/grid:IGridControl#showEditArrow
     * @remark
     * В области видимости шаблона доступны переменные **itemData**, **editArrowTemplate** и **expanderTemplate**.
@@ -71,7 +57,7 @@ export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | '
     * * **index** — порядковый номер строки. Отсчет от 0.
     * * **isEditing()** — возвращает true, если для записи выполняется {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирование по месту}.
     * * **item** (тип {@link Types/entity:Record}) — элемент, данные которого отображаются в колонке.
-    * * **column** (тип {@link Controls/grid:IColumn IColumn}) — объект с конфигурацией колонки.
+    * * **column.config** (тип {@link Controls/interface:IColumn IColumn}) — объект с конфигурацией колонки.
     *
     * Переменная **editArrowTemplate** позволяет отобразить {@link Controls/grid:IGridControl#showEditArrow стрелку-шеврон} в прикладном шаблоне для первой колонки. Переменную достаточно встроить в нужное место contentTemplate с помощью директивы {@link /doc/platform/developmentapl/interface-development/ui-library/template-engine/#ws-partial ws:partial}, как это показано в примере № 4.
     *
@@ -231,7 +217,7 @@ export type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | '
     tagStyle?: 'info' | 'danger' | 'primary' | 'success' | 'secondary';
 
     /**
-     * @cfg {TMarkerClassName} Размер маркера.
+     * @cfg {Controls/_display/interface/IMarkable/TMarkerClassName.typedef} Размер маркера.
      * @default default
      */
     markerClassName?: TMarkerClassName;

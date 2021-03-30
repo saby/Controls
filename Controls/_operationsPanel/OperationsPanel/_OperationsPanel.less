@@ -17,18 +17,18 @@
    height: 0;
 }
 
-.controls-operationsPanelV_initialized_theme-@{themeName} {
-   background-color: @background-color_operationsPanel;
-   height: @height_operationsPanel;
+.controls-operationsPanelV_initialized {
+   background-color: var(--background-color_operationsPanel);
+   height: var(--height_operationsPanel);
 }
 
 .controls-operationsPanelV__rightTemplate {
    flex-shrink: 0;
 }
 
-.controls-operationsPanelV__rightTemplate_theme-@{themeName} {
+.controls-operationsPanelV__rightTemplate {
    flex-shrink: 0;
-   margin: 0 @padding-right_operationsPanel 0 0;
+   margin: 0 var(--padding-right_operationsPanel) 0 0;
 }
 
 .controls-operationsPanelV__actions {
@@ -40,8 +40,8 @@
    overflow: hidden;
 }
 
-.controls-operationsPanelV__actions_theme-@{themeName} {
-   margin: 0 @toolbar_padding-right_operationsPanel 0 @toolbar_padding-left_operationsPanel;
+.controls-operationsPanelV__actions {
+   margin: 0 var(--toolbar_padding-right_operationsPanel) 0 var(--toolbar_padding-left_operationsPanel);
 }
 
 .controls-operationsPanelV__actions_notInitialized {

@@ -7,13 +7,13 @@
             <ws:columns>
                 <ws:Array>
                     <ws:Object displayProperty="country"
-                               tooltip="Государство"/>
+                               tooltipProperty="country"/>
                     <ws:Object displayProperty="population"
-                               tooltip="Население"
+                               tooltipProperty="population"
                                displayType="number"
                     />
                     <ws:Object displayProperty="populationDensity"
-                               tooltip="Зарплата"
+                               tooltipProperty="populationDensity"
                                displayType="money"/>
                 </ws:Array>
             </ws:columns>

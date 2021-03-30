@@ -1,7 +1,7 @@
-import {IColumn} from './IColumn';
+import {IColumn} from 'Controls/interface';
 
 /**
- * @typedef {String} TActionDisplayMode
+ * @typedef {String} Controls/_grid/interface/ITagColumn/TActionDisplayMode
  * @description Стиль тега
  * @variant info
  * @variant danger
@@ -11,7 +11,7 @@ import {IColumn} from './IColumn';
  * @variant secondary
  */
 /*
- * @typedef {String} TActionDisplayMode
+ * @typedef {String} Controls/_grid/interface/ITagColumn/TActionDisplayMode
  * @variant info
  * @variant danger
  * @variant primary
@@ -22,7 +22,7 @@ import {IColumn} from './IColumn';
 export type TTagStyle = 'info' | 'danger' | 'primary' | 'success' | 'warning' | 'secondary';
 
 /**
- * Интерфейс для конфигурации колонки c тегом в контролах {@link Controls/grid:View Таблица} и {@link Controls/treeGrid:View Дерево}.
+ * Интерфейс для конфигурации колонки c тегом в {@link Controls/grid:View таблице} и {@link Controls/treeGrid:View дереве}.
  *
  * @interface Controls/_grid/interface/ITagColumn
  * @mixes Controls/_grid/interface/IColumn

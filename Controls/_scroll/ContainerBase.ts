@@ -17,6 +17,7 @@ import {isHidden} from './StickyHeader/Utils';
 import {getHeadersHeight} from './StickyHeader/Utils/getHeadersHeight';
 
 export interface IContainerBaseOptions extends IControlOptions {
+    _notScrollableContent?: boolean; // Для HintWrapper, который сверстан максмально неудобно для скроллКонтейнера.
     scrollMode?: SCROLL_MODE;
 }
 
@@ -71,6 +72,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         this._registrars.viewportResize = new RegisterClass({register: 'viewportResize'});
         this._registrars.scrollResize = new RegisterClass({register: 'scrollResize'});
         this._registrars.scrollMove = new RegisterClass({register: 'scrollMove'});
+        this._registrars.virtualScrollMove = new RegisterClass({register: 'virtualScrollMove'});
         this._scrollCssClass = this._getScrollContainerCssClass(options);
         this._updateContentWrapperCssClass();
         this._registrars.listScroll = new RegisterClass({register: 'listScroll'});
@@ -81,6 +83,10 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // Не восстанавливаем скролл на то место, на котором он был перед релоадом страницы
         if (window && window.history && 'scrollRestoration' in window.history) {
            window.history.scrollRestoration = 'manual';
+        }
+
+        if (options._notScrollableContent) {
+            this._updateContentType(CONTENT_TYPE.restricted);
         }
     }
 
@@ -93,7 +99,13 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             // ResizeObserver при инициализации контрола стрелнет событием ресайза.
             // Вызваем метод при инициализации сами если браузер не поддерживает ResizeObserver
             this._controlResizeHandler();
+        } else if (this._options.scrollMode === SCROLL_MODE.VERTICAL_HORIZONTAL) {
+            // Из-за особенности верстки, контейнер, с которого мы считываем размеры скролла, растягивается только
+            // по высоте. По ширине он совпадает с размерами своего родителя. Из-за этого невозможно определить ширину
+            // скролла. Будем считать ширину скролла с дочернего элемента.
+            this._observeElementSize(this._children.userContent.children[0]);
         }
+
         this._observeElementSize(this._children.content);
 
         this._updateContentType();
@@ -197,25 +209,46 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     _registerIt(event: SyntheticEvent, registerType: string, component: any,
                 callback: () => void, triggers): void {
-        this._registrars.scrollStateChanged.register(event, registerType, component, callback);
-        if (registerType === 'scrollStateChanged') {
-            this._onRegisterNewComponent(component);
+        switch (registerType) {
+            case 'scrollStateChanged':
+                this._registrars.scrollStateChanged.register(event, registerType, component, callback);
+                this._onRegisterNewComponent(component);
+                break;
+            case 'listScroll':
+                // совместимость со списками
+                this._registrars.listScroll.register(event, registerType, component, callback);
+                this._onRegisterNewListScrollComponent(component);
+                break;
+            case 'virtualScrollMove':
+                this._registrars.virtualScrollMove.register(event, registerType, component, callback);
+                break;
+            case 'scroll':
+                this._registrars.scroll.register(event, registerType, component, callback, {listenAll: true});
+                break;
+            case 'virtualNavigation':
+                this._virtualNavigationRegistrar.register(event, registerType, component, callback);
+                break;
         }
-        // совместимость со списками
-        this._registrars.listScroll.register(event, registerType, component, callback);
-        if (registerType === 'listScroll') {
-            this._onRegisterNewListScrollComponent(component);
-        }
-
-        this._registrars.scroll.register(event, registerType, component, callback, {listenAll: true});
-        this._virtualNavigationRegistrar.register(event, registerType, component, callback);
     }
 
     _unRegisterIt(event: SyntheticEvent, registerType: string, component: any): void {
-        this._registrars.scrollStateChanged.unregister(event, registerType, component);
-        this._registrars.scroll.unregister(event, registerType, component);
-        this._registrars.listScroll.unregister(event, registerType, component);
-        this._virtualNavigationRegistrar.unregister(event, registerType, component);
+        switch (registerType) {
+            case 'scrollStateChanged':
+                this._registrars.scrollStateChanged.unregister(event, registerType, component);
+                break;
+            case 'listScroll':
+                this._registrars.listScroll.unregister(event, registerType, component);
+                break;
+            case 'virtualScrollMove':
+                this._registrars.virtualScrollMove.unregister(event, registerType, component);
+                break;
+            case 'scroll':
+                this._registrars.scroll.unregister(event, registerType, component);
+                break;
+            case 'virtualNavigation':
+                this._virtualNavigationRegistrar.unregister(event, registerType, component);
+                break;
+        }
     }
 
     protected _enableVirtualNavigationHandler(): void {
@@ -375,12 +408,15 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _onRegisterNewComponent(component: Control): void {
-        // Если состояние еще не инициализировано, то компонент получит его после инициализации.
-        if (this._scrollModel) {
-            const scrollState = this._scrollModel.clone();
-            const oldScrollState = this._oldScrollState.clone();
-            this._registrars.scrollStateChanged.startOnceTarget(component, scrollState, oldScrollState);
+        // Списку нужны события canScroll и cantScroll в момент инициализации до того,
+        // как у нас отработают обработчики и инициализируются состояние.
+        if (!this._scrollModel) {
+            this._createScrollModel();
         }
+        const scrollState = this._scrollModel.clone();
+        const oldScrollState = this._oldScrollState.clone();
+        this._registrars.scrollStateChanged.startOnceTarget(component, scrollState, oldScrollState);
+
     }
 
     _onResizeContainer(newState: IScrollState): void {
@@ -447,7 +483,7 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
     }
 
     _resizeObserverCallback(entries: any): void {
-        if(isHidden(this._container)) {
+        if (isHidden(this._container)) {
             return;
         }
         const newState: IScrollState = {};
@@ -455,16 +491,28 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             if (entry.target === this._children.content) {
                 newState.clientHeight = entry.contentRect.height;
                 newState.clientWidth = entry.contentRect.width;
+            } else if (entry.target === this._children.userContent.children[0] && this._options.scrollMode === SCROLL_MODE.VERTICAL_HORIZONTAL) {
+                newState.scrollWidth = entry.contentRect.width;
             } else {
                 this._updateContentType();
-                newState.scrollWidth = entry.borderBoxSize.inlineSize === undefined ?
-                    entry.borderBoxSize[0].inlineSize : entry.borderBoxSize.inlineSize;
+                // Свойство borderBoxSize учитывает размеры отступов при расчете. Поддерживается не во всех браузерах.
+                if (entry.borderBoxSize) {
+                    const scrollStateProperties = {
+                        // scrollWidth: 'inlineSize',
+                        scrollHeight: 'blockSize'
+                    };
+                    for (const property of Object.keys(scrollStateProperties)) {
+                        const borderBoxSizeProperty = scrollStateProperties[property];
+                        newState[property] = entry.borderBoxSize[borderBoxSizeProperty] === undefined ?
+                            entry.borderBoxSize[0][borderBoxSizeProperty] : entry.borderBoxSize[borderBoxSizeProperty];
+                    }
+                } else {
+                    // newState.scrollWidth = entry.contentRect.width;
+                    newState.scrollHeight = entry.contentRect.height;
+                }
 
                 if (this._contentType === CONTENT_TYPE.restricted) {
                     newState.scrollHeight = this._getContentHeightByChildren();
-                } else {
-                    newState.scrollHeight = entry.borderBoxSize.blockSize === undefined ?
-                        entry.borderBoxSize[0].blockSize : entry.borderBoxSize.blockSize;
                 }
             }
         }
@@ -479,11 +527,11 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         this._updateStateAndGenerateEvents(newState);
     }
 
-    _updateContentType(): void {
-        const contentType: CONTENT_TYPE = this._getContentType();
+    _updateContentType(newValue?: CONTENT_TYPE): void {
+        const contentType: CONTENT_TYPE = newValue || this._getContentType();
         if (this._contentType !== contentType) {
             this._contentType = contentType;
-            this._updateContentWrapperCssClass()
+            this._updateContentWrapperCssClass();
         }
     }
 
@@ -564,13 +612,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
 
     private _createScrollModel(): void {
         const scrollState = this._getFullStateFromDOM();
-        this._scrollModel = new ScrollModel(this._children.content, scrollState);
+        const {content} = this._children;
+        this._scrollModel = new ScrollModel(content, scrollState);
+        this._oldScrollState = new ScrollModel(content, {});
     }
 
     _updateState(newState: IScrollState): boolean {
         if (!this._scrollModel) {
             this._createScrollModel();
-            this._oldScrollState = new ScrollModel(this._children.content, {});
         } else {
             this._oldScrollState = this._scrollModel.clone();
         }
@@ -582,7 +631,8 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
        IPAD пытается переместить input к верху страницы. Проблема не повторяется,
        если input будет выше клавиатуры после открытия. */
     _lockScrollPositionUntilKeyboardShown(): void {
-        this._scrollLockedPosition = this._scrollModel.scrollTop;
+        // Если модель не инициализирована, значить точно не было скролирования и scrollTop равен 0.
+        this._scrollLockedPosition = this._scrollModel?.scrollTop || 0;
         setTimeout(() => {
             this._scrollLockedPosition = null;
         }, KEYBOARD_SHOWING_DURATION);
@@ -700,7 +750,6 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         // как у нас отработают обработчики и инициализируются состояние.
         if (!this._scrollModel) {
             this._createScrollModel();
-            this._updateStateAndGenerateEvents(this._getFullStateFromDOM());
         }
         this._sendByListScrollRegistrarToComponent(
             component,
@@ -772,6 +821,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
             } else if (this._topPlaceholderSize === 0 && realScrollTop < 0 || scrollTopOverflow && this._bottomPlaceholderSize === 0) {
                 applyScrollTop();
             } else {
+                const scrollState = this._scrollModel.clone();
+                this._generateEvent('virtualScrollMove', [{
+                    scrollTop,
+                    scrollState,
+                    applyScrollTopCallback: applyScrollTop
+                }]);
+                // TODO: Удалить после перехода списков на новые события
+                //  https://online.sbis.ru/opendoc.html?guid=ca70827b-ee39-4d20-bf8c-32b10d286682
                 this._sendByListScrollRegistrar(
                     'virtualScrollMove',
                     {

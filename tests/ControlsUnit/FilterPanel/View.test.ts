@@ -7,7 +7,6 @@ describe('Controls/filterPanel:View', () => {
         const viewControl = new View({});
         let itemToggled = false;
         const displayItem = {
-            isExpanded: () => true,
             getContents: () => 'elem',
             toggleExpanded: () => { itemToggled = true; }
         };
@@ -29,7 +28,6 @@ describe('Controls/filterPanel:View', () => {
 
         it('collapsedGroups includes item contents', () => {
             itemToggled = false;
-            displayItem.isExpanded = () => false;
             viewControl._collapsedGroups = ['elem'];
 
             viewControl._groupClick(null, displayItem, clickEvent);
@@ -40,20 +38,104 @@ describe('Controls/filterPanel:View', () => {
         it('displayItem is collapsed', () => {
             itemToggled = false;
             viewControl._collapsedGroups = [];
-            displayItem.isExpanded = () => true;
 
             viewControl._groupClick(null, displayItem, clickEvent);
             assert.deepEqual(viewControl._collapsedGroups, ['elem']);
             assert.isTrue(itemToggled);
         });
+    });
 
-        it('displayItem is collapsed, without click on group caption', () => {
-            itemToggled = false;
-            viewControl._collapsedGroups = [];
-
-            viewControl._groupClick(null, displayItem, null);
-            assert.deepEqual(viewControl._collapsedGroups, ['elem']);
-            assert.isFalse(itemToggled);
+    describe('_resetFilter', () => {
+        const viewControl = new View({});
+        viewControl._beforeMount({
+            source: [{
+                name: 'test',
+                value: 'test',
+                textValue: 'test'
+            }]
         });
+
+        it('_setSource was called', () => {
+            let sourceUpdated = false;
+            viewControl._setSource = () => {
+                sourceUpdated = true;
+            };
+            viewControl._resetFilter();
+            assert.isTrue(sourceUpdated);
+        });
+    });
+
+    describe('_updateSource', () => {
+        const viewControl = new View({});
+
+        it('without textValue', () => {
+            const editingObject = {
+                testName: 'testValue'
+            };
+            viewControl._source = [
+                {
+                    name: 'testName',
+                    value: 'testValue',
+                    textValue: 'testTextValue'
+                }
+            ];
+            viewControl._updateSource(editingObject);
+            assert.equal(viewControl._source[0].textValue, 'testTextValue');
+        });
+
+        it('with textValue', () => {
+            const editingObject = {
+                testName: {
+                    value: 'newTestValue',
+                    textValue: 'newTestTextValue'
+                }
+            };
+            viewControl._source = [
+                {
+                    name: 'testName',
+                    value: 'testValue',
+                    textValue: 'testTextValue'
+                }
+            ];
+            viewControl._updateSource(editingObject);
+            assert.equal(viewControl._source[0].textValue, 'newTestTextValue');
+        });
+
+        it('with false value', () => {
+            const editingObject = {
+                testName: {
+                    value: false,
+                    textValue: 'No'
+                }
+            };
+            viewControl._source = [
+                {
+                    name: 'testName',
+                    value: true,
+                    resetValue: true,
+                    textValue: 'Yes'
+                }
+            ];
+            viewControl._updateSource(editingObject);
+            assert.equal(viewControl._source[0].value, false);
+            assert.equal(viewControl._source[0].textValue, 'No');
+        });
+
+        it('without value and textValue', () => {
+            const editingObject = {
+                testName: []
+            };
+            viewControl._source = [
+                {
+                    name: 'testName',
+                    value: [1],
+                    resetValue: [2],
+                    textValue: ''
+                }
+            ];
+            viewControl._updateSource(editingObject);
+            assert.deepEqual(viewControl._source[0].value, []);
+        });
+
     });
 });

@@ -121,14 +121,14 @@ define(
                   text = data[0];
                }
             };
-            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], 'itemClick');
+            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], ['6']);
             assert.deepEqual(keys, ['6']);
             assert.strictEqual(text, 'Запись 6');
             assert.isTrue(isKeysChanged);
 
             isKeysChanged = false;
             ddl._options.selectedKeys = ['6'];
-            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], 'itemClick'); // key = '6'
+            ddl._selectedItemsChangedHandler([itemsRecords.at(5)], ['6']);
             assert.isFalse(isKeysChanged);
          });
 

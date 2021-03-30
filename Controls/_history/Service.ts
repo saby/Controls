@@ -270,8 +270,12 @@ export default class HistoryService extends mixin<SerializableMixin, OptionsToPr
         if (storageDef) {
             resultDef = new Deferred();
             // create new deferred, so in the first callback function, the result of the query will be changed
-            storageDef.addBoth(() => {
-                resultDef.callback(getHistoryDataSet());
+            storageDef.addBoth((dataSet) => {
+                /*
+                   В случае истории с меню, запись в кэш происходит после ответа списочного метода.
+                   Если метод подвиснет, то в кэше ничего не будет и мы создадим пустой dataSet, чего быть не должно.
+                 */
+                resultDef.callback(this.getHistory(historyId) ? getHistoryDataSet() : dataSet);
             });
         } else if (!storageDef && !storageData) {
             /**

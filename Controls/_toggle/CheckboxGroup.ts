@@ -11,6 +11,7 @@ import {
     ISource, ISourceOptions, IMultiSelectable,
     IMultiSelectableOptions, IHierarchy, IHierarchyOptions
 } from 'Controls/interface';
+import 'css!Controls/toggle';
 
 export interface ICheckboxGroupOptions extends IControlOptions,
             IMultiSelectableOptions,
@@ -254,8 +255,6 @@ class CheckboxGroup extends Control<ICheckboxGroupOptions, RecordSet> implements
     private _notifySelectedKeys(): void {
         this._notify('selectedKeysChanged', [this._selectedKeys]);
     }
-
-    static _theme: string[] = ['Controls/toggle'];
 
     static getDefaultOptions(): object {
         return {

@@ -3,6 +3,7 @@ import {default as Base, IBaseInputOptions} from 'Controls/_input/Base';
 import * as ViewModel from 'Controls/_input/Mask/ViewModel';
 import {descriptor} from 'Types/entity';
 import {Logger} from 'UI/Utils';
+import 'css!Controls/input';
 import {spaceToLongSpace} from 'Controls/_input/Mask/Space';
 
 // TODO: https://online.sbis.ru/doc/f654ff87-5fa9-4c80-a16e-fee7f1d89d0f
@@ -86,7 +87,6 @@ class Mask extends Base {
         }
         super._clickHandler();
     }
-    static _theme: string[] = Base._theme.concat(['Controls/input']);
 
     private static _validateReplacer(replacer, mask): boolean {
         if (replacer && regExpQuantifiers.test(mask)) {

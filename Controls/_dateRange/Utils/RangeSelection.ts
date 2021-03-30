@@ -97,9 +97,6 @@ var Utils = {
          return DEFAULT_CSS_CLASS_BASE;
       }
       let cssClass = ((cfg && cfg.cssPrefix) || (DEFAULT_CSS_CLASS_BASE + '__')) + parts.join('-');
-      if (cfg?.theme) {
-         cssClass += ` ${cssClass}_theme-${cfg.theme}`;
-      }
       return cssClass;
    },
 
@@ -109,10 +106,7 @@ var Utils = {
          hoveredSelectionValue),
          start = range[0],
          end = range[1];
-      return (start && end && itemValue >= start && itemValue <= end) ||
-          (start === null && end === null) ||
-          (start === null && itemValue <= end) ||
-          (itemValue >= start && end === null);
+      return start && end && itemValue >= start && itemValue <= end;
    },
 
    getRange: function(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue) {

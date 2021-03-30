@@ -1,4 +1,10 @@
 import rk = require('i18n!Controls');
+
+/**
+ * На БЛ, минимальное значение для года - 1400.
+ */
+const MIN_YEAR_VALUE = 1400;
+
 /**
  * Функция, позволяющая проверить период на валидность.
  * @class Controls/_validate/Validators/IsValidDateRange
@@ -35,7 +41,7 @@ import rk = require('i18n!Controls');
 //todo: will be fixed by https://online.sbis.ru/opendoc.html?guid=9aea41a1-bac1-47b9-a2b5-fa81a3a2e979
 function isValidDateDefault(date: Date): boolean {
    // If date is Invalid Date, "instanceof Date" will return true, so check getTime
-   return date instanceof Date && !isNaN(date.getTime());
+   return date instanceof Date && !isNaN(date.getTime()) && (date.getFullYear() > MIN_YEAR_VALUE);
 }
 
 function isValidDate(startValue: Date, endValue: Date): boolean {

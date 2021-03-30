@@ -57,7 +57,7 @@ describe('lookup', () => {
         let isSelectorOpened = false;
         let isCalculated = false;
         const sandBox = createSandbox();
-        sandBox.replace(Stack, 'openPopup', () => {
+        sandBox.replace(Stack, '_openPopup', () => {
             isSelectorOpened = true;
             return Promise.resolve('123');
         });

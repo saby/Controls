@@ -8,7 +8,11 @@ import {
     IHeightOptions, IHeight
 } from 'Controls/interface';
 
-interface IBaseOptions extends IFontSizeOptions, IFontWeightOptions, IFontColorStyleOptions, IHeightOptions {
+import 'css!Controls/CommonClasses';
+import 'css!Controls/editableArea';
+
+interface IBaseOptions extends IFontSizeOptions, IFontWeightOptions, IFontColorStyleOptions, IHeightOptions,
+                                IControlOptions {
     value: string;
     isEditing: boolean;
     editorTemplate: TemplateFunction;
@@ -44,14 +48,12 @@ class Base extends Control<IBaseOptions>
         this._notify('valueChanged', [value]);
     }
 
-    static getDefaultOptions() {
+    static getDefaultOptions(): object {
         return {
             fontWeight: 'default',
             inlineHeight: 'default'
         };
     }
-
-    static _theme: string[] = ['Controls/editableArea', 'Controls/Classes'];
 }
 
 Object.defineProperty(Base, 'defaultProps', {

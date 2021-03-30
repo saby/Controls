@@ -19,14 +19,14 @@ export interface IDateRangeOptions {
  *    <Controls.buttons:Button on:click="_sendButtonClick()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions>{
  *       ...
  *       _startValue: new Date(),
  *       _sendButtonClick() {
  *          this._sendData(this._startValue);
  *       }
  *       ...
- *   });
+ *   }
  * </pre>
  * @demo Controls-demo/dateRange/Input/Default/Index
  */
@@ -42,14 +42,14 @@ export interface IDateRangeOptions {
  *    <Controls.buttons:Button on:click="_sendButtonClick()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions>{
  *       ...
  *       _startValue: new Date(),
  *       _sendButtonClick() {
  *          this._sendData(this._startValue);
  *       }
  *       ...
- *   });
+ *   }
  * </pre>
  * @demo Controls-demo/dateRange/Input/Default/Index
  */
@@ -63,14 +63,14 @@ export interface IDateRangeOptions {
  *    <Controls.buttons:Button on:click="_sendButtonClick()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions>{
  *       ...
  *       _endValue: new Date(),
  *       _sendButtonClick() {
  *          this._sendData(this._endValue);
  *       }
  *       ...
- *   });
+ *   }
  * </pre>
  * @demo Controls-demo/dateRange/Input/Default/Index
  */
@@ -86,14 +86,14 @@ export interface IDateRangeOptions {
  *    <Controls.buttons:Button on:click="_sendButtonClick()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _endValue: new Date(),
  *       _sendButtonClick() {
  *          this._sendData(this._endValue);
  *       }
  *       ...
- *   });
+ *   }
  * </pre>
  * @demo Controls-demo/dateRange/Input/Default/Index
  */
@@ -122,7 +122,7 @@ export interface IDateRangeOptions {
  *    <Controls.dateRange:Input bind:startValue="_anotherFieldValue"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ....
  *       _fieldValue: null,
  *       _valueChangedHandler(value, displayValue) {
@@ -131,7 +131,7 @@ export interface IDateRangeOptions {
  *       },
  *       _anotherFieldValue: null
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -151,7 +151,7 @@ export interface IDateRangeOptions {
  *    <Controls.dateRange:Input bind:startValue="_anotherFieldValue"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ....
  *       _fieldValue: null,
  *       _valueChangedHandler(value, displayValue) {
@@ -160,7 +160,7 @@ export interface IDateRangeOptions {
  *       },
  *       _anotherFieldValue: null
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -181,7 +181,7 @@ export interface IDateRangeOptions {
  *    <Controls.dateRange:Input bind:endValue="_anotherFieldValue"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ....
  *       _fieldValue: null,
  *       _valueChangedHandler(value, displayValue) {
@@ -190,7 +190,7 @@ export interface IDateRangeOptions {
  *       },
  *       _anotherFieldValue: null,
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -210,7 +210,7 @@ export interface IDateRangeOptions {
  *    <Controls.dateRange:Input bind:endValue="_anotherFieldValue"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ....
  *       _fieldValue: null,
  *       _valueChangedHandler(value, displayValue) {
@@ -219,6 +219,6 @@ export interface IDateRangeOptions {
  *       },
  *       _anotherFieldValue: null,
  *       ...
- *    });
+ *    }
  * </pre>
  */

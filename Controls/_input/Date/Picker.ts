@@ -1,10 +1,11 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as coreMerge from 'Core/core-merge';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import * as StringValueConverter from 'Controls/_input/DateTime/StringValueConverter';
+import StringValueConverter from 'Controls/_input/DateTime/StringValueConverter';
 import IDateTimeMask from 'Controls/_input/interface/IDateTimeMask';
 import {EventUtils} from 'UI/Events';
 import {Popup as PopupUtil} from 'Controls/dateUtils';
+import 'css!Controls/input';
 
 import template = require('wml!Controls/_input/Date/Picker/Picker');
 
@@ -24,10 +25,8 @@ import template = require('wml!Controls/_input/Date/Picker/Picker');
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
  * @mixes Controls/_input/interface/IBase
- * @mixes Controls/_interface/IInputPlaceholder
  * @mixes Controls/_input/interface/IValueValidators
  * @mixes Controls/_interface/IOpenPopup
- *
  * @public
  * @demo Controls-demo/Input/Date/Picker
  * @author Красильников А.С.
@@ -37,22 +36,40 @@ class Picker extends Control<IControlOptions> {
     _template: TemplateFunction = template;
     _proxyEvent: Function = EventUtils.tmplNotify;
     _shouldValidate: boolean = false;
+    private _state: string;
+
+    protected _beforeMount(): void {
+        this._stateChangedCallback = this._stateChangedCallback.bind(this);
+    }
 
     openPopup(event: SyntheticEvent<MouseEvent>): void {
+        let value;
+        // Если передать null в datePopup в качестве начала и конца периода, то он выделит
+        // период от -бесконечности до +бесконечности.
+        // В режиме выбора одного дня мы не должны выбирать ни один день.
+        if (this._options.value === null) {
+            value = undefined;
+        } else {
+            value = this._options.value;
+        }
         const cfg = {
             ...PopupUtil.getCommonOptions(this),
             target: this._container,
             template: 'Controls/datePopup',
-            className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
+            className: 'controls-PeriodDialog__picker',
             templateOptions: {
                 ...PopupUtil.getTemplateOptions(this),
+                startValue: value,
+                endValue: value,
                 selectionType: 'single',
                 calendarSource: this._options.calendarSource,
                 dayTemplate: this._options.dayTemplate,
                 headerType: 'input',
                 closeButtonEnabled: true,
                 ranges: this._options.ranges,
-                startValueValidators: this._options.valueValidators
+                startValueValidators: this._options.valueValidators,
+                state: this._state,
+                stateChangedCallback: this._stateChangedCallback
             }
         };
         this._children.opener.open(cfg);
@@ -65,19 +82,23 @@ class Picker extends Control<IControlOptions> {
         }
     }
 
+    protected _stateChangedCallback(state: string): void {
+        this._state = state;
+    }
+
     _onResultWS3(event: Event, startValue: Date): void {
         this._onResult(startValue);
     }
 
     _onResult(startValue: Date): void {
         const stringValueConverter = new StringValueConverter({
-                mask: this._options.mask,
-                replacer: this._options.replacer,
-                dateConstructor: this._options.dateConstructor
-            });
+            mask: this._options.mask,
+            replacer: this._options.replacer,
+            dateConstructor: this._options.dateConstructor
+        });
         const textValue = stringValueConverter.getStringByValue(startValue);
         this._notify('valueChanged', [startValue, textValue]);
-        this._children.opener.close();
+        this._children.opener?.close();
         this._notify('inputCompleted', [startValue, textValue]);
         /**
          * Вызываем валидацию, т.к. при выборе периода из календаря не вызывается событие valueChanged
@@ -97,7 +118,7 @@ class Picker extends Control<IControlOptions> {
         return coreMerge({}, IDateTimeMask.getOptionTypes());
     }
 
-    static _theme: string[] = ['Controls/Classes', 'Controls/input'];
+    static _theme: string[] = ['Controls/Classes'];
 }
 
 Object.defineProperty(Picker, 'defaultProps', {

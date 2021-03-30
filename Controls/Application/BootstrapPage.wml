@@ -40,12 +40,6 @@
       attr:class="bodyContent__zIndex-context"
       template="{{ _options.content }}"
       scope="{{ templateConfig }}" />
-  <ws:if data="{{_options.notesContent}}">
-    <ws:partial
-        attr:class="bodyContent__notesContent"
-        template="{{ _options.notesContent }}"
-        scope="{{ templateConfig }}" />
-  </ws:if>
   <Controls.LoadingIndicator name="LoadingIndicator" mainIndicator="{{true}}" isGlobal="{{true}}">
     <div></div>
   </Controls.LoadingIndicator>

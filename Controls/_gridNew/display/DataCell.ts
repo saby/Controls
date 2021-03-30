@@ -3,14 +3,18 @@ import {Record, Model} from 'Types/entity';
 
 import {IMarkable, ILadderConfig, TLadderElement} from 'Controls/display';
 
+import { IDisplaySearchValue, IDisplaySearchValueOptions } from './interface/IDisplaySearchValue';
+
 import ITagCell from './interface/ITagCell';
 import ILadderContentCell from './interface/ILadderContentCell';
 import IItemActionsCell from './interface/IItemActionsCell';
 import Cell, {IOptions as ICellOptions} from './Cell';
 import DataRow from './DataRow';
 import DataCellCompatibility from './compatibility/DataCell';
+import {TemplateFunction} from 'UI/Base';
 
-export interface IOptions<T> extends ICellOptions<T> {
+export interface IOptions<T> extends ICellOptions<T>, IDisplaySearchValueOptions {
+    backgroundStyle: string;
 }
 
 export default class DataCell<T extends Model, TOwner extends DataRow<T>> extends mixin<
@@ -19,16 +23,37 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 >(
     Cell,
     DataCellCompatibility
-) implements IMarkable, ITagCell, IItemActionsCell, ILadderContentCell {
+) implements IMarkable, ITagCell, IItemActionsCell, ILadderContentCell, IDisplaySearchValue {
 
+    readonly DisplaySearchValue: boolean = true;
     readonly Markable: boolean = true;
     readonly Draggable: boolean = true;
     readonly TagCell: boolean = true;
     readonly ItemActionsCell: boolean = true;
     readonly LadderContentCell: boolean = true;
 
+    protected _$backgroundStyle: string;
+
+    protected _$searchValue: string;
+
     get ladder(): TLadderElement<ILadderConfig> {
         return this.getOwner().getLadder();
+    }
+
+    setSearchValue(searchValue: string): void {
+        this._$searchValue = searchValue;
+        this._nextVersion();
+    }
+
+    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
+        // FIXME: Временное решение - аналог RowEditor из старых таблиц(редактирование во всю строку).
+        //  Первая ячейка редактируемой строки растягивается, а ее шаблон заменяется на
+        //  itemEditorTemplate (обычная колонка с прикладным контентом).
+        //  Избавиться по https://online.sbis.ru/opendoc.html?guid=80420a0d-1f45-4acb-8feb-281bf1007821
+        if (this.isEditing() && this._$itemEditorTemplate) {
+            return this._$itemEditorTemplate;
+        }
+        return super.getTemplate(multiSelectTemplate);
     }
 
     getContentClasses(theme: string,
@@ -38,17 +63,39 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
                       tmplIsEditable: boolean = true): string {
         let classes = super.getContentClasses(theme, backgroundColorStyle, cursor, templateHighlightOnHover);
 
+        if (this._$hiddenForLadder) {
+            classes += ` controls-background-${this._$backgroundStyle}_theme-${theme}`;
+        }
+
         if (this._$owner.getEditingConfig()?.mode === 'cell') {
             classes += ` controls-Grid__row-cell_editing-mode-single-cell_theme-${theme}`;
 
             if (this.isEditing()) {
                 classes += ` controls-Grid__row-cell_single-cell_editing_theme-${theme}`;
             } else {
-                if (this.getColumnConfig().editable !== false && tmplIsEditable !== false) {
+                if (this.config.editable !== false && tmplIsEditable !== false) {
                     classes += ` controls-Grid__row-cell_single-cell_editable_theme-${theme}`;
                 } else {
                     classes += ` js-controls-ListView__notEditable controls-Grid__row-cell_single-cell_not-editable_theme-${theme}`;
                 }
+            }
+        }
+
+        return classes;
+    }
+
+    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+        let classes = super.getWrapperClasses(theme, backgroundColorStyle, style, templateHighlightOnHover);
+
+        // нужен shouldDisplayMarker именно для всего элемента, т.к. эти стили навешиваются на все ячейки для текста
+        if (this.getOwner().shouldDisplayMarker()) {
+            classes += ` controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
+
+            if (this.isFirstColumn()) {
+                classes += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
+            }
+            if (this.isLastColumn()) {
+                classes += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}_theme-${theme}`;
             }
         }
 
@@ -64,15 +111,25 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
             return itemModel[this.getDisplayProperty()];
         }
     }
+
+    getTooltip(): string {
+        const itemModel = this._$owner.getContents();
+
+        if (itemModel instanceof Record) {
+            return itemModel.get(this.getTooltipProperty());
+        } else {
+            return itemModel[this.getTooltipProperty()];
+        }
+    }
     // endregion
 
     // region Аспект "Маркер"
-    shouldDisplayMarker(marker: boolean, markerPosition: 'left' | 'right' = 'left'): boolean {
+    shouldDisplayMarker(marker?: boolean, markerPosition: 'left' | 'right' = 'left'): boolean {
         if (markerPosition === 'right') {
             return this._$owner.shouldDisplayMarker(marker) && this.isLastColumn();
         } else {
             return this._$owner.shouldDisplayMarker(marker) &&
-                this._$owner.getMultiSelectVisibility() === 'hidden' && this.isFirstColumn();
+                !this._$owner.hasMultiSelectColumn() && this.isFirstColumn();
         }
     }
     // endregion
@@ -145,5 +202,8 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 Object.assign(DataCell.prototype, {
     '[Controls/_display/grid/DataCell]': true,
     _moduleName: 'Controls/gridNew:GridDataCell',
-    _instancePrefix: 'grid-data-cell-'
+    _$backgroundStyle: 'default',
+    _$searchValue: '',
+    _instancePrefix: 'grid-data-cell-',
+    _$itemEditorTemplate: null
 });

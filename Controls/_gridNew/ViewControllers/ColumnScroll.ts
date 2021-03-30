@@ -27,6 +27,7 @@ interface IColumnScrollOptions {
     itemsDragNDrop?: boolean;
     columnScroll?: boolean;
     onOverlayChangedCallback?: Function;
+    stickyLadderCellsCount?: number;
 }
 
 interface IActualizeOptions {
@@ -246,7 +247,9 @@ export default class ColumnScroll {
 
         // При включении/выключении перемещения записей мышкой необходимо уведомить контроллер скроллирования перетаскиванием.
         // Попадаем сюда, если опции columnScroll и dragScrolling не поменялась и равны true.
-        if (this._options.dragScrolling && this._options.itemsDragNDrop !== oldOptions.itemsDragNDrop) {
+        // При опции dragScrolling = true, контроллера перетаскивания может не существовать, если нет скрола колонок,
+        // поэтому проверка if (options.dragScrolling) не является достоверной.
+        if (this._dragScroll && this._options.itemsDragNDrop !== oldOptions.itemsDragNDrop) {
             this._dragScroll.setStartDragNDropCallback(!this._options.itemsDragNDrop ? null : () => {
                 this._setGrabbing(false);
                 this._options.startDragNDropCallback();
@@ -261,6 +264,7 @@ export default class ColumnScroll {
             hasMultiSelect: this._options.hasMultiSelectColumn,
             theme: this._options.theme,
             backgroundStyle: this._options.backgroundStyle,
+            stickyLadderCellsCount: this._options.stickyLadderCellsCount,
             isEmptyTemplateShown: options.needShowEmptyTemplate
         });
         this._classes.columnScroll.wrapper = `${COLUMN_SCROLL_JS_SELECTORS.CONTAINER} ${this._columnScroll.getTransformSelector()}`;
@@ -339,19 +343,18 @@ export default class ColumnScroll {
         const newPosition = this._columnScroll.getScrollPosition();
         if (oldPosition !== newPosition) {
             this.onScrollEnded();
-            this._dragScroll.setScrollPosition(newPosition);
         }
     }
 
     onPositionChanged(newPosition: number): void {
         this._columnScroll.setScrollPosition(newPosition);
-        this._dragScroll.setScrollPosition(this._columnScroll.getScrollPosition());
+        this._dragScroll?.setScrollPosition(this._columnScroll.getScrollPosition());
     }
 
     onScrollEnded() {
         this._columnScroll.scrollToColumnWithinContainer(this._header);
         this._scrollBar.setPosition(this._columnScroll.getScrollPosition());
-        this._dragScroll.setScrollPosition(this._columnScroll.getScrollPosition());
+        this._dragScroll?.setScrollPosition(this._columnScroll.getScrollPosition());
     }
 
     startDragScrolling(e, startBy: 'mouse' | 'touch'): void {
@@ -449,7 +452,6 @@ export default class ColumnScroll {
             this._classes.dragScroll.overlay = '';
             this._classes.dragScroll.content = '';
             this._classes.dragScroll.grabbing = '';
-
         }
     }
 }

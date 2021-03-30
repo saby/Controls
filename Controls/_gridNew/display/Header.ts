@@ -1,6 +1,6 @@
 import { create } from 'Types/di';
 
-import {TColumns, TColumnSeparatorSize} from 'Controls/_grid/interface/IColumn';
+import { TColumns, TColumnSeparatorSize } from 'Controls/interface';
 
 import Collection from './Collection';
 import HeaderRow, {IOptions as IHeaderRowOptions} from './HeaderRow';

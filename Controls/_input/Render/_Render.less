@@ -3,30 +3,27 @@
    position: relative;
    display: inline-block;
    box-sizing: border-box;
+   border-style: var(--border-style_inputText);
 }
 
 .controls-Render__wrapper_footer {
    flex-wrap: wrap;
 }
 
-.controls-Render_theme-@{themeName} {
-   border-style: @border-style_inputText;
+.controls-Render_border-top {
+   border-top-width: var(--border-thickness_inputText);
 }
 
-.controls-Render_border-top_theme-@{themeName} {
-   border-top-width: @border-thickness_inputText;
+.controls-Render_border-right {
+   border-right-width: var(--border-thickness_inputText);
 }
 
-.controls-Render_border-right_theme-@{themeName} {
-   border-right-width: @border-thickness_inputText;
+.controls-Render_border-bottom {
+   border-bottom-width: var(--border-thickness_inputText);
 }
 
-.controls-Render_border-bottom_theme-@{themeName} {
-   border-bottom-width: @border-thickness_inputText;
-}
-
-.controls-Render_border-left_theme-@{themeName} {
-   border-left-width: @border-thickness_inputText;
+.controls-Render_border-left {
+   border-left-width: var(--border-thickness_inputText);
 }
 
 .controls-Render_border-top-empty {
@@ -92,96 +89,96 @@
    align-items: center;
 }
 
-.controls-Render__placeholder_theme-@{themeName} {
-   color: @placeholder-color_inputText;
+.controls-Render__placeholder {
+   color: var(--placeholder-color_inputText);
 }
 
 .controls-Render__placeholder_overflow {
    .text-overflow();
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-valid_theme-@{themeName} {
-   background-color: @background-color_inputText;
+.controls-Render_background-contrast.controls-Render_state-valid {
+   background-color: var(--background-color_inputText);
 }
 
-.controls-Render_state-valid_theme-@{themeName} {
-   border-style: @border-style_inputText;
-   border-color: @border-color_inputText;
+.controls-Render_state-valid {
+   border-style: var(--border-style_inputText);
+   border-color: var(--border-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-invalidAccent_theme-@{themeName} {
-   background-color: @invalid_focus_background-color;
+.controls-Render_background-contrast.controls-Render_state-invalidAccent {
+   background-color: var(--invalid_focus_background-color);
 }
-.controls-Render_state-invalidAccent_theme-@{themeName} {
-   border-style: @invalid_border-style_inputText;
-   border-color: @invalid_border-color_inputText;
-}
-
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-invalid_theme-@{themeName} {
-   background-color: @invalid_background-color_inputText;
+.controls-Render_state-invalidAccent {
+   border-style: var(--invalid_border-style_inputText);
+   border-color: var(--invalid_border-color_inputText);
 }
 
-.controls-Render_state-invalid_theme-@{themeName} {
-   border-style: @invalid_border-style_inputText;
-   border-color: @invalid_border-color_inputText;
+.controls-Render_background-contrast.controls-Render_state-invalid {
+   background-color: var(--invalid_background-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-success_theme-@{themeName} {
-   background-color: @background-color_inputText;
+.controls-Render_state-invalid {
+   border-style: var(--invalid_border-style_inputText);
+   border-color: var(--invalid_border-color_inputText);
 }
 
-.controls-Render_state-success_theme-@{themeName} {
-   border-color: @success_color;
+.controls-Render_background-contrast.controls-Render_state-success {
+   background-color: var(--background-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-secondary_theme-@{themeName} {
-   background-color: @background-color_inputText;
+.controls-Render_state-success {
+   border-color: var(--success_color);
 }
 
-.controls-Render_state-secondary_theme-@{themeName} {
-   border-color: @secondary_color;
+.controls-Render_background-contrast.controls-Render_state-secondary {
+   background-color: var(--background-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-warning_theme-@{themeName} {
-   background-color: @background-color_inputText;
+.controls-Render_state-secondary {
+   border-color: var(--secondary_color);
 }
 
-.controls-Render_state-warning_theme-@{themeName} {
-   border-color: @warning_color;
+.controls-Render_background-contrast.controls-Render_state-warning {
+   background-color: var(--background-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-readonly_theme-@{themeName} {
-   background-color: @readonly_background-color_inputText;
+.controls-Render_state-warning {
+   border-color: var(--warning_color);
 }
 
-.controls-Render_state-readonly_theme-@{themeName} {
-   border-color: @readonly_border-color_inputText;
+.controls-Render_background-contrast.controls-Render_state-readonly {
+   background-color: var(--readonly_background-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-readonly-multiline_theme-@{themeName} {
-   background-color: @readonly_background-color_inputText;
+.controls-Render_state-readonly {
+   border-color: var(--readonly_border-color_inputText);
 }
 
-.controls-Render_state-readonly-multiline_theme-@{themeName} {
-   border-color: @readonly_border-color_inputArea;
+.controls-Render_background-contrast.controls-Render_state-readonly-multiline {
+   background-color: var(--readonly_background-color_inputText);
+}
+
+.controls-Render_state-readonly-multiline {
+   border-color: var(--readonly_border-color_inputArea);
 }
 
 .ws-is-hover {
-   .controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-valid_theme-@{themeName}:hover {
-      background-color: @background-color_hover_inputText;
+   .controls-Render_background-contrast.controls-Render_state-valid:hover {
+      background-color: var(--background-color_hover_inputText);
    }
 
-   .controls-Render_state-valid_theme-@{themeName}:hover {
-      border-style: @border-style_hover_inputText;
-      border-color: @border-color_hover_inputText;
+   .controls-Render_state-valid:hover {
+      border-style: var(--border-style_hover_inputText);
+      border-color: var(--border-color_hover_inputText);
    }
 
-   .controls-Render_state-invalidAccent_theme-@{themeName}:hover {
-      border-style: @invalid_border-style_inputText;
+   .controls-Render_state-invalidAccent:hover {
+      border-style: var(--invalid_border-style_inputText);
    }
 
-   .controls-Render_state-invalid_theme-@{themeName}:hover {
-      border-style: @invalid_border-style_inputText;
+   .controls-Render_state-invalid:hover {
+      border-style: var(--invalid_border-style_inputText);
    }
 }
 
@@ -189,58 +186,58 @@
  * Do not use a selector enumeration if at least one uses focus-within.
  * They will not apply!!!
  */
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-valid_theme-@{themeName}:focus-within {
-   background-color: @background-color_focus_inputText;
+.controls-Render_background-contrast.controls-Render_state-valid:focus-within {
+   background-color: var(--background-color_focus_inputText);
 }
 
-.controls-Render_state-valid_theme-@{themeName}:focus-within {
-   border-style: @border-style_focus_inputText;
-   border-color: @border-color_focus_inputText;
+.controls-Render_state-valid:focus-within {
+   border-style: var(--border-style_focus_inputText);
+   border-color: var(--border-color_focus_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-invalid_theme-@{themeName}:focus-within {
-   background-color: @background-color_focus_inputText;
+.controls-Render_background-contrast.controls-Render_state-invalid:focus-within {
+   background-color: var(--background-color_focus_inputText);
 }
 
-.controls-Render_state-invalid_theme-@{themeName}:focus-within {
-   border-style: @invalid_border-style_inputText;
-   border-color: @invalid_focus_border-color_inputText;
+.controls-Render_state-invalid:focus-within {
+   border-style: var(--invalid_border-style_inputText);
+   border-color: var(--invalid_focus_border-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-invalidAccent-active_theme-@{themeName}:focus-within {
-   background-color: @invalid_focus_background-color;
+.controls-Render_background-contrast.controls-Render_state-invalidAccent-active:focus-within {
+   background-color: var(--invalid_focus_background-color);
 }
 
-.controls-Render_state-invalidAccent-active_theme-@{themeName}:focus-within {
-   border-style: @invalid_border-style_inputText;
-   border-color: @invalid_focus_border-color_inputText;
+.controls-Render_state-invalidAccent-active:focus-within {
+   border-style: var(--invalid_border-style_inputText);
+   border-color: var(--invalid_focus_border-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-valid-active_theme-@{themeName} {
-   background-color: @background-color_focus_inputText;
+.controls-Render_background-contrast.controls-Render_state-valid-active {
+   background-color: var(--background-color_focus_inputText);
 }
 
-.controls-Render_state-valid-active_theme-@{themeName} {
-   border-style: @border-style_focus_inputText;
-   border-color: @border-color_focus_inputText;
+.controls-Render_state-valid-active {
+   border-style: var(--border-style_focus_inputText);
+   border-color: var(--border-color_focus_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-invalid-active_theme-@{themeName} {
-   background-color: @background-color_focus_inputText;
+.controls-Render_background-contrast.controls-Render_state-invalid-active {
+   background-color: var(--background-color_focus_inputText);
 }
 
-.controls-Render_state-invalid-active_theme-@{themeName} {
-   border-style: @invalid_border-style_inputText;
-   border-color: @invalid_focus_border-color_inputText;
+.controls-Render_state-invalid-active {
+   border-style: var(--invalid_border-style_inputText);
+   border-color: var(--invalid_focus_border-color_inputText);
 }
 
-.controls-Render_background-contrast_theme-@{themeName}.controls-Render_state-invalidAccent-active_theme-@{themeName} {
-   background-color: @invalid_focus_background-color;
+.controls-Render_background-contrast.controls-Render_state-invalidAccent-active {
+   background-color: var(--invalid_focus_background-color);
 }
 
-.controls-Render_state-invalidAccent-active_theme-@{themeName} {
-   border-style: @invalid_border-style_inputText;
-   border-color: @invalid_focus_border-color_inputText;
+.controls-Render_state-invalidAccent-active {
+   border-style: var(--invalid_border-style_inputText);
+   border-color: var(--invalid_focus_border-color_inputText);
 }
 
 .controls-Render_textAlign {
@@ -255,73 +252,73 @@
 .controls-Render_borderRadius {
    @variants: xs, s, m, l, xl, 2xl, default;
    .for(@variants, {
-      &-@{_item}_theme-@{themeName} {
-         border-radius: ~"@{border-radius_@{_item}_inputText}";
+      &-@{_item} {
+         border-radius: ~"var(--border-radius_@{_item}_inputText)";
       }
    });
 }
 
 //fontsize
-.controls-fontsize-xs_theme-@{themeName}.controls-Render-fontsize-xs_theme-@{themeName} when not (@font-size_xs_input = @font-size_xs) {
-   font-size: @font-size_xs_input;
+.controls-fontsize-xs.controls-Render-fontsize-xs {
+   font-size: var(--font-size_xs_input);
 }
 
-.controls-fontsize-s_theme-@{themeName}.controls-Render-fontsize-s_theme-@{themeName} when not (@font-size_s_input = @font-size_s) {
-   font-size: @font-size_s_input;
+.controls-fontsize-s.controls-Render-fontsize-s {
+   font-size: var(--font-size_s_input);
 }
 
-.controls-fontsize-m_theme-@{themeName}.controls-Render-fontsize-m_theme-@{themeName} when not (@font-size_m_input = @font-size_m) {
-   font-size: @font-size_m_input;
+.controls-fontsize-m.controls-Render-fontsize-m {
+   font-size: var(--font-size_m_input);
 }
 
-.controls-fontsize-l_theme-@{themeName}.controls-Render-fontsize-l_theme-@{themeName} when not (@font-size_l_input = @font-size_l) {
-   font-size: @font-size_l_input;
+.controls-fontsize-l.controls-Render-fontsize-l {
+   font-size: var(--font-size_l_input);
 }
 
-.controls-fontsize-xl_theme-@{themeName}.controls-Render-fontsize-xl_theme-@{themeName} when not (@font-size_xl_input = @font-size_xl) {
-   font-size: @font-size_xl_input;
+.controls-fontsize-xl.controls-Render-fontsize-xl {
+   font-size: var(--font-size_xl_input);
 }
 
-.controls-fontsize-2xl_theme-@{themeName}.controls-Render-fontsize-2xl_theme-@{themeName} when not (@font-size_2xl_input = @font-size_2xl) {
-   font-size: @font-size_2xl_input;
+.controls-fontsize-2xl.controls-Render-fontsize-2xl {
+   font-size: var(--font-size_2xl_input);
 }
 
-.controls-fontsize-3xl_theme-@{themeName}.controls-Render-fontsize-3xl_theme-@{themeName} when not (@font-size_3xl_input = @font-size_3xl) {
-   font-size: @font-size_3xl_input;
+.controls-fontsize-3xl.controls-Render-fontsize-3xl {
+   font-size: var(--font-size_3xl_input);
 }
 
-.controls-fontsize-4xl_theme-@{themeName}.controls-Render-fontsize-4xl_theme-@{themeName} when not (@font-size_4xl_input = @font-size_4xl) {
-   font-size: @font-size_4xl_input;
+.controls-fontsize-4xl.controls-Render-fontsize-4xl {
+   font-size: var(--font-size_4xl_input);
 }
 
-.controls-fontsize-5xl_theme-@{themeName}.controls-Render-fontsize-5xl_theme-@{themeName} when not (@font-size_5xl_input = @font-size_5xl) {
-   font-size: @font-size_5xl_input;
+.controls-fontsize-5xl.controls-Render-fontsize-5xl {
+   font-size: var(--font-size_5xl_input);
 }
 
-.controls-inlineheight-xs_theme-@{themeName}.controls-Render-inlineheight-xs_theme-@{themeName} when not (@inline_height_xs_input = @inline_height_xs) {
-   height: @inline_height_xs_input;
+.controls-inlineheight-xs.controls-Render-inlineheight-xs {
+   height: var(--inline_height_xs_input);
 }
 
-.controls-inlineheight-s_theme-@{themeName}.controls-Render-inlineheight-s_theme-@{themeName} when not (@inline_height_s_input = @inline_height_s) {
-   height: @inline_height_s_input;
+.controls-inlineheight-s.controls-Render-inlineheight-s {
+   height: var(--inline_height_s_input);
 }
 
-.controls-inlineheight-m_theme-@{themeName}.controls-Render-inlineheight-m_theme-@{themeName} when not (@inline_height_m_input = @inline_height_m) {
-   height: @inline_height_m_input;
+.controls-inlineheight-m.controls-Render-inlineheight-m {
+   height: var(--inline_height_m_input);
 }
 
-.controls-inlineheight-l_theme-@{themeName}.controls-Render-inlineheight-l_theme-@{themeName} when not (@inline_height_l_input = @inline_height_l) {
-   height: @inline_height_l_input;
+.controls-inlineheight-l.controls-Render-inlineheight-l {
+   height: var(--inline_height_l_input);
 }
 
-.controls-inlineheight-xl_theme-@{themeName}.controls-Render-inlineheight-xl_theme-@{themeName} when not (@inline_height_xl_input = @inline_height_xl) {
-   height: @inline_height_xl_input;
+.controls-inlineheight-xl.controls-Render-inlineheight-xl {
+   height: var(--inline_height_xl_input);
 }
 
-.controls-inlineheight-2xl_theme-@{themeName}.controls-Render-inlineheight-2xl_theme-@{themeName} when not (@inline_height_2xl_input = @inline_height_2xl) {
-   height: @inline_height_2xl_input;
+.controls-inlineheight-2xl.controls-Render-inlineheight-2xl {
+   height: var(--inline_height_2xl_input);
 }
 
-.controls-inlineheight-default_theme-@{themeName}.controls-Render-inlineheight-default_theme-@{themeName} when not (@inline_height_default_input = @inline_height_default) {
-   height: @inline_height_default_input;
+.controls-inlineheight-default.controls-Render-inlineheight-default {
+   height: var(--inline_height_default_input);
 }

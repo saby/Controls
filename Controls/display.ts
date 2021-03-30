@@ -78,14 +78,16 @@ export {ITreeItemOptions};
 import ExpandableMixin, {IOptions as IExpandableMixinOptions} from 'Controls/_display/ExpandableMixin';
 export {ExpandableMixin, IExpandableMixinOptions};
 
-export {default as IMarkable} from './_display/interface/IMarkable';
+export {default as IMarkable, TMarkerClassName} from './_display/interface/IMarkable';
 export {default as ISelectableItem} from './_display/interface/ISelectableItem';
+
+export {default as IGroupNode} from './_display/interface/IGroupNode';
 
 import {default as CollectionItem} from 'Controls/_display/CollectionItem';
 import BreadcrumbsItem from './_display/BreadcrumbsItem';
 export {BreadcrumbsItem};
 
-export {ANIMATION_STATE} from './_display/interface/ICollection';
+export {ANIMATION_STATE, IItemPadding} from './_display/interface/ICollection';
 export {IEditableCollection} from './_display/interface/IEditableCollection';
 export {IEditableCollectionItem} from './_display/interface/IEditableCollectionItem';
 export {ICollectionItem} from './_display/interface/ICollectionItem';
@@ -95,11 +97,6 @@ import {default as TileCollection} from './_display/TileCollection';
 export {TileCollection};
 import {default as TileCollectionItem} from './_display/TileCollectionItem';
 export {TileCollectionItem};
-
-import {default as ColumnsCollection} from './_display/ColumnsCollection';
-export {ColumnsCollection};
-import {default as ColumnsCollectionItem} from './_display/ColumnsCollectionItem';
-export {ColumnsCollectionItem};
 
 import * as GridLadderUtil from './_display/utils/GridLadderUtil';
 export {GridLadderUtil};
@@ -121,16 +118,12 @@ export {IDragPosition};
 export {groupConstants} from './_display/itemsStrategy/Group';
 export {MultiSelectAccessibility} from './_display/Collection';
 
-export { IItemPadding } from 'Controls/_display/Collection';
-
 import IItemsStrategy, {IOptions as IItemsStrategyOptions} from 'Controls/_display/IItemsStrategy';
 import TreeItemDecorator from 'Controls/_display/TreeItemDecorator';
 export {IItemsStrategy, IItemsStrategyOptions};
 
 register('Controls/display:Collection', Collection, {instantiate: false});
 register('Controls/display:CollectionItem', CollectionItem, {instantiate: false});
-register('Controls/display:ColumnsCollection', ColumnsCollection, {instantiate: false});
-register('Controls/display:ColumnsCollectionItem', ColumnsCollectionItem, {instantiate: false});
 register('Controls/display:Enum', Enum, {instantiate: false});
 register('Controls/display:Flags', Flags, {instantiate: false});
 register('Controls/display:FlagsItem', FlagsItem, {instantiate: false});

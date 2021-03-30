@@ -30,7 +30,7 @@
       <ws:rightFieldTemplate>
          <ws:if data="{{!_options.readOnly}}">
             <span if="{{!_options.readOnly}}" class="controls-SelectorSuggest__arrow-wrapper"
-                  on:click="_open()"
+                  on:mousedown="_open()"
                   attr:ws-no-focus="true">
                <span class="controls-SelectorSuggest__iconArrow icon-{{_suggestState ? 'CollapseLight' : 'ExpandLight'}}"></span>
             </span>

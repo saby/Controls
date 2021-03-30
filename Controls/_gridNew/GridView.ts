@@ -2,14 +2,14 @@ import { ListView } from 'Controls/list';
 import { TemplateFunction } from 'UI/Base';
 import { TouchContextField as isTouch } from 'Controls/context';
 import { Logger} from 'UI/Utils';
-import { GridCollection, GridRow, GridLadderUtil, GridLayoutUtil } from 'Controls/display';
+import { GridCollection, GridRow, GridLadderUtil, GridLayoutUtil, isFullGridSupport } from 'Controls/display';
 import * as GridTemplate from 'wml!Controls/_gridNew/Render/grid/GridView';
 import * as GridItem from 'wml!Controls/_gridNew/Render/grid/Item';
-import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupTemplate';
-import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
+import * as GroupTemplate from 'wml!Controls/_gridNew/Render/GroupCellContentWithRightTemplate';
 import { Model } from 'Types/entity';
 import { SyntheticEvent } from 'Vdom/Vdom';
 import ColumnScrollViewController, {COLUMN_SCROLL_JS_SELECTORS} from './ViewControllers/ColumnScroll';
+import { _Options } from 'UI/Vdom';
 
 const GridView = ListView.extend({
     _template: GridTemplate,
@@ -31,7 +31,7 @@ const GridView = ListView.extend({
     _beforeMount(options): void {
         let result = GridView.superclass._beforeMount.apply(this, arguments);
 
-        if (options.columnScroll && options.columnScrollStartPosition === 'end' && options.isFullGridSupport) {
+        if (options.columnScroll && options.columnScrollStartPosition === 'end' && isFullGridSupport()) {
             // В таблице с горизонтальным скроллом изначально прокрученным в конец используется фейковая таблица.
             // Т.к. для отрисовки горизонтального скролла требуется знать размеры таблицы, инициализация горизонтального скролла
             // происходит на afterMount, который не вызывается на сервере. Чтобы измежать скачка, при оживлении таблицы с
@@ -67,24 +67,57 @@ const GridView = ListView.extend({
         this._isFullMounted = true;
     },
 
-    _beforeUpdate(newOptions): void {
-        GridView.superclass._beforeUpdate.apply(this, arguments);
-        const columnsChanged = !GridIsEqualUtil.isEqualWithSkip(this._options.columns, newOptions.columns,
-            { template: true, resultTemplate: true });
-        if (columnsChanged) {
-            this._listModel.setColumns(newOptions.columns, false);
+    _applyChangedOptionsToModel(listModel, options, changes): void {
+        if (changes.includes('columns')) {
+            // Если колонки изменились, например, их кол-во, а данные остались те же, то
+            // то без перерисовки мы не можем корректно отобразить данные в новых колонках.
+            // правка конфликтует с https://online.sbis.ru/opendoc.html?guid=a8429971-3a3c-44d0-8cca-098887c9c717
+            listModel.setColumns(options.columns, false);
         }
 
-        if (!GridIsEqualUtil.isEqualWithSkip(this._options.header, newOptions.header, { template: true })) {
-            this._listModel.setHeader(newOptions.header);
+        if (changes.includes('footer')) {
+            listModel.setFooter(options.footerTemplate, options.footer);
         }
+
+        if (changes.includes('header')) {
+            listModel.setHeader(options.header);
+        }
+    },
+
+    _applyNewOptionsAfterReload(oldOptions, newOptions): void {
+        const changes = [];
+
+        const changedOptions = _Options.getChangedOptions(newOptions, this._options);
+
+        if (changedOptions) {
+            if (changedOptions.footer || changedOptions.footerTemplate) {
+                changes.push('footer');
+            }
+            if (changedOptions.header) {
+                changes.push('header');
+            }
+            if (changedOptions.columns) {
+                changes.push('columns');
+            }
+        }
+
+        if (changes.length) {
+            // Набор колонок необходимо менять после перезагрузки. Иначе возникает ошибка, когда список
+            // перерисовывается с новым набором колонок, но со старыми данными. Пример ошибки:
+            // https://online.sbis.ru/opendoc.html?guid=91de986a-8cb4-4232-b364-5de985a8ed11
+            this._doAfterReload(() => {
+                this._applyChangedOptionsToModel(this._listModel, newOptions, changes);
+            });
+        }
+    },
+
+    _beforeUpdate(newOptions): void {
+        GridView.superclass._beforeUpdate.apply(this, arguments);
+
+        this._applyNewOptionsAfterReload(this._options, newOptions);
 
         if (newOptions.sorting !== this._options.sorting) {
             this._listModel.setSorting(newOptions.sorting);
-        }
-
-        if (this._isFooterChanged(this._options, newOptions) || columnsChanged) {
-            this._listModel.setFooter(newOptions.footerTemplate, newOptions.footer);
         }
 
         // Создание или разрушение контроллеров горизонтального скролла и скроллирования мышкой при изменении опций
@@ -134,17 +167,20 @@ const GridView = ListView.extend({
         return GridItem;
     },
     _getGridTemplateColumns(options): string {
+        // todo Вынести расчёт на viewModel: https://online.sbis.ru/opendoc.html?guid=09307163-7edb-4423-999d-525271e05586
+        // тогда метод можно покрыть нормально юнитом и проблемы с актуализацией колонок на самом grid-элементе не будет
+        const columns = this._listModel ? this._listModel.getColumnsConfig() : options.columns;
         const hasMultiSelect = options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom';
 
         if (!options.columns) {
             Logger.warn('You must set "columns" option to make grid work correctly!', this);
             return '';
         }
-        const initialWidths = options.columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth()));
+        const initialWidths = columns.map(((column) => column.width || GridLayoutUtil.getDefaultColumnWidth()));
         let columnsWidths: string[] = [];
         columnsWidths = initialWidths;
         const ladderStickyColumn = GridLadderUtil.getStickyColumn({
-            columns: options.columns
+            columns
         });
         if (ladderStickyColumn) {
             if (ladderStickyColumn.property.length === 2) {
@@ -156,7 +192,9 @@ const GridView = ListView.extend({
             columnsWidths = ['max-content'].concat(columnsWidths);
         }
 
-        if (options.isFullGridSupport && !!options.columnScroll && options.itemActionsPosition !== 'custom') {
+        // Дополнительная колонка для отображения застиканных операций над записью при горизонтальном скролле.
+        // Если в списке нет данных, дополнительная колонка не нужна, т.к. операций над записью точно нет.
+        if (isFullGridSupport() && !!options.columnScroll && options.itemActionsPosition !== 'custom' && this._listModel.getCount()) {
             columnsWidths.push('0px');
         }
 
@@ -200,11 +238,9 @@ const GridView = ListView.extend({
         // https://online.sbis.ru/doc/cefa8cd9-6a81-47cf-b642-068f9b3898b7
         if (!e.preventItemEvent) {
             const contents = dispItem.getContents();
-            if (this._options.useNewModel) {
-                if (dispItem['[Controls/_display/GroupItem]']) {
-                    this._notify('groupClick', [contents, e, dispItem], {bubbling: true});
-                    return;
-                }
+            if (dispItem['[Controls/_display/GroupItem]']) {
+                this._notify('groupClick', [contents, e, dispItem], {bubbling: true});
+                return;
             }
             this._notify('itemClick', [contents, e, this._getCellIndexByEventTarget(e)]);
         }
@@ -320,9 +356,15 @@ const GridView = ListView.extend({
     },
 
     _createColumnScroll(options): ColumnScrollViewController {
+        const stickyLadderCellsCount = GridLadderUtil.stickyLadderCellsCount(
+            this._options.columns,
+            this._options.stickyColumn,
+            this._listModel.getDraggableItem()
+        );
         return new ColumnScrollViewController({
             ...options,
             hasMultiSelectColumn: options.multiSelectVisibility !== 'hidden' && options.multiSelectPosition !== 'custom',
+            stickyLadderCellsCount,
             isActivated: !this._showFakeGridWithColumnScroll,
             onOverlayChangedCallback: (newState) => {
                 if (newState) {
@@ -422,26 +464,6 @@ const GridView = ListView.extend({
     _resizeHandler(): void {
         if (this._columnScrollViewController && this.isColumnScrollVisible()) {
             this._actualizeColumnScroll(this._options, this._options);
-        }
-    },
-
-    _isFooterChanged(oldOptions, newOptions): boolean {
-        if (
-           // Подвал появился/скрылся или индикатор загрузки в подвале появился, скрылся
-           (!oldOptions.footer && newOptions.footer) ||
-           (oldOptions.footer && !newOptions.footer) ||
-           (!oldOptions.footerTemplate && newOptions.footerTemplate) ||
-           (oldOptions.footerTemplate && !newOptions.footerTemplate)
-        ) {
-            return true;
-        } else if (
-           // Подвала не было и нет
-           !oldOptions.footer && !newOptions.footer &&
-           !oldOptions.footerTemplate && !newOptions.footerTemplate
-        ) {
-            return false;
-        } else {
-            return false;
         }
     }
 

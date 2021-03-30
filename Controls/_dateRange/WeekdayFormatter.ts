@@ -1,20 +1,23 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_dateRange/WeekdayFormatter/WeekdayFormatter';
 import {date as formatDate} from 'Types/formatter';
+import 'css!Controls/dateRange';
 
 /**
- * Контрол - день недели. При получении даты форматирует ее и вставляет ее в свой шаблон.
+ * Контрол - день недели. Преобразует дату в день недели. Контрол используется для отображения для недели по
+ * стандарту внутри шаблона {@link Controls/_dateRange/interfaces/IInput#rightFieldTemplate rightFieldTemplate}
  *
  * @class Controls/_dateRange/WeekdayFormatter
  * @public
  * @author Красильников А.С.
+ * @demo Controls-demo/dateRange/WeekdayFormatter/Index
  *
  */
 
-/*
+/**
  * @name Controls/_dateRange/WeekdayFormatter#value
  * @cfg {Date} Дата, которая будет отформатирована в день недели.
-*/
+ */
 
 export default class WeekdayFormatter extends Control {
     protected _template: TemplateFunction = template;
@@ -37,6 +40,4 @@ export default class WeekdayFormatter extends Control {
             this._weekday = '';
         }
     }
-
-    static _theme: string[] = ['Controls/dateRange'];
 }

@@ -23,6 +23,16 @@ function getItems(countItems: number): List<unknown> {
    });
 }
 
+function getLookup(): Lookup {
+   const lookup = new Lookup();
+   lookup._children = {
+      layout: {
+         closeSuggest: () => {}
+      }
+   };
+   return lookup;
+}
+
 describe('Controls/_lookup/BaseLookupView', function() {
    it('_beforeMount', function() {
       const lookup = new Lookup();
@@ -143,14 +153,14 @@ describe('Controls/_lookup/BaseLookupView', function() {
    });
 
    it('_deactivated', function() {
-      var lookup = new Lookup();
+      var lookup = getLookup();
       lookup._suggestState = true;
       lookup._deactivated();
       ok(!lookup._suggestState);
    });
 
    it('_suggestStateChanged', function() {
-      var lookup = new Lookup();
+      var lookup = getLookup();
 
       lookup._beforeMount({selectedKeys: []});
       lookup._suggestState = true;
@@ -188,7 +198,7 @@ describe('Controls/_lookup/BaseLookupView', function() {
    });
 
    it('_onMouseDownShowSelector', function() {
-      var lookup = new Lookup();
+      var lookup = getLookup();
 
       lookup._getFieldWrapperWidth = () => {};
       lookup._suggestState = true;
@@ -278,7 +288,7 @@ describe('Controls/_lookup/BaseLookupView', function() {
       var
          config = {},
          isNotifyOpenPopup = false,
-         lookup = new Lookup();
+         lookup = getLookup();
 
       lookup._suggestState = true;
       lookup._getContainer = function() {
@@ -424,7 +434,7 @@ describe('Controls/_lookup/BaseLookupView', function() {
    it('_itemClick', function() {
       let
          isNotifyItemClick = false,
-         lookup = new Lookup();
+         lookup = getLookup();
 
       lookup._suggestState = true;
       lookup._notify = function(eventName) {

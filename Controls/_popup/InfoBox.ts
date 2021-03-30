@@ -20,13 +20,13 @@ interface IInfoBoxTouchContext {
  * Контрол, отображающий всплывающую подсказку относительно указанного элемента.
  * Всплывающую подсказку вызывает событие, указанное в опции trigger.
  * В один момент времени на странице может отображаться только одна всплывающая подсказка.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FInfoBox%2FOpener%2FInfoBox демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/infobox/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
- * 
+ *
  * @class Controls/_popup/InfoBox
  * @mixes Controls/_popup/interface/IInfoBox
  * @public

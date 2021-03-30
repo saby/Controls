@@ -140,7 +140,7 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
          const baseController = getBaseController();
          baseController._options.selectorTemplate = null;
 
-         assert.isFalse(showSelector.default(baseController, {}));
+         assert.isTrue(showSelector.default(baseController, {}));
       });
 
       it('showSelector without selectorTemplate and popupOptions template', function() {

@@ -1,6 +1,8 @@
 import { default as View } from 'Controls/_treeGridNew/TreeGrid';
+import { default as ItemsView } from 'Controls/_treeGridNew/ItemsTreeGrid';
 import TreeGridView from 'Controls/_treeGridNew/TreeGridView';
 
+import * as GroupColumnTemplate from 'wml!Controls/_treeGridNew/render/GroupCellContent';
 import * as GridItemTemplate from 'wml!Controls/_treeGridNew/render/grid/Item';
 import * as TableItemTemplate from 'wml!Controls/_treeGridNew/render/table/Item';
 import * as NodeFooterTemplate from 'wml!Controls/_treeGridNew/render/NodeFooterTemplate';
@@ -13,16 +15,22 @@ import * as NodeFooterTemplate from 'wml!Controls/_treeGridNew/render/NodeFooter
 //  По словам Макса Крылова это ничего не сломает, если на функцию навесить флаги ядра.
 //  Найти нормальное решение по https://online.sbis.ru/opendoc.html?guid=41a8dbab-93bb-4bc0-8533-6b12c0ec6d8d
 const ItemTemplate = function() {
-    return GridLayoutUtil.isFullGridSupport() ? GridItemTemplate.apply(this, arguments) : TableItemTemplate.apply(this, arguments);
+    return isFullGridSupport() ? GridItemTemplate.apply(this, arguments) : TableItemTemplate.apply(this, arguments);
 };
 ItemTemplate.stable = true;
 ItemTemplate.isWasabyTemplate = true;
 
+/**
+ * @includes GroupColumnTemplate Controls/_treeGridNew/interface/GroupColumnTemplate
+ */
+
 export {
     View,
+    ItemsView,
     TreeGridView,
     ItemTemplate,
-    NodeFooterTemplate
+    NodeFooterTemplate,
+    GroupColumnTemplate
 };
 
 import { register } from 'Types/di';
@@ -33,14 +41,19 @@ import TreeGridNodeFooterRow from 'Controls/_treeGridNew/display/TreeGridNodeFoo
 import TreeGridNodeFooterCell from 'Controls/_treeGridNew/display/TreeGridNodeFooterCell';
 import TreeGridFooterRow from 'Controls/_treeGridNew/display/TreeGridFooterRow';
 import TreeGridFooterCell from 'Controls/_treeGridNew/display/TreeGridFooterCell';
-import { GridLayoutUtil } from 'Controls/grid';
+import { isFullGridSupport } from 'Controls/display';
+import TreeGridGroupDataRow from 'Controls/_treeGridNew/display/TreeGridGroupDataRow';
+import TreeGridGroupDataCell from 'Controls/_treeGridNew/display/TreeGridGroupDataCell';
 
 export {
+    TreeGridFooterCell,
     TreeGridCollection,
     TreeGridDataRow,
     TreeGridDataCell,
     TreeGridNodeFooterRow,
-    TreeGridNodeFooterCell
+    TreeGridNodeFooterCell,
+    TreeGridGroupDataRow,
+    TreeGridGroupDataCell
 };
 
 register('Controls/treeGrid:TreeGridCollection', TreeGridCollection, {instantiate: false});
@@ -50,3 +63,5 @@ register('Controls/treeGrid:TreeGridNodeFooterRow', TreeGridNodeFooterRow, {inst
 register('Controls/treeGrid:TreeGridNodeFooterCell', TreeGridNodeFooterCell, {instantiate: false});
 register('Controls/treeGrid:TreeGridFooterRow', TreeGridFooterRow, {instantiate: false});
 register('Controls/treeGrid:TreeGridFooterCell', TreeGridFooterCell, {instantiate: false});
+register('Controls/treeGrid:TreeGridGroupDataRow', TreeGridGroupDataRow, {instantiate: false});
+register('Controls/treeGrid:TreeGridGroupDataCell', TreeGridGroupDataCell, {instantiate: false});

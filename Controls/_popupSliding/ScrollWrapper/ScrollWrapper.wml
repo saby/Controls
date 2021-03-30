@@ -1,0 +1,4 @@
+<ws:partial
+    on:scrollStateChanged="_scrollStateChangedHandler()"
+    template="{{ _options.content }}"
+    scope="{{ _options }}"/>

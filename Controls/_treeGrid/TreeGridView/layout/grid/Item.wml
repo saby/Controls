@@ -20,9 +20,9 @@
 </ws:template>
 
 <ws:template name="multiSelectTemplate">
-   <ws:partial template="{{multiSelectTpl}}">
+   <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ preventMergeOptions }}">
       <ws:templateOptions triState="{{itemData.item[itemData.nodeProperty] !== null}}"
-                          readOnly="{{itemData.isAdd || checkboxReadOnly}}"
+                          checkboxReadOnly="{{itemData.isAdd || checkboxReadOnly}}"
                           item="{{ itemData.dispItem }}"
                           itemData="{{itemData}}"/>
    </ws:partial>
@@ -33,11 +33,14 @@
          {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).top}}
          {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).bottom}}
          {{currentColumn.getColspanedPaddingClassList(currentColumn, colspan).right}}
-         {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
+         {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-background-' + itemData.backgroundStyle + '_theme-' + itemData.theme + ' controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
          {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}">
-        <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}" expanderTemplate="{{itemData.expanderTemplate}}">
+        <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}">
+           <ws:expanderTemplate>
+              <div class="{{expanderTemplate.itemData.getExpanderClasses(expanderTemplate.expanderIcon, expanderTemplate.expanderSize)}}"></div>
+           </ws:expanderTemplate>
            <ws:multiSelectTemplate>
-              <ws:partial template="multiSelectTemplate" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
+              <ws:partial template="multiSelectTemplate" preventMergeOptions="{{ true }}" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
            </ws:multiSelectTemplate>
         </ws:partial>
     </div>
@@ -55,22 +58,21 @@
                 attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
                             {{currentColumn.column.valign ?' controls-Grid__cell_valign_' + currentColumn.column.valign + ' controls-Grid__cell-content_full-height' : ''}}
                             {{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}
-                            {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
+                            {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-background-' + itemData.backgroundStyle + '_theme-' + itemData.theme + ' controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
                             {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}
                             {{!!itemData.isDragging ? ' controls-ListView__itemContent_dragging_theme-' + itemData.theme}}"
                 ladderWrapper="{{currentColumn.ladderWrapper}}"
-                expanderTemplate="{{itemData.expanderTemplate}}"
                 itemData="{{currentColumn}}"
                 tagTemplate="{{tagTemplate}}">
+      <ws:expanderTemplate>
+         <div class="{{expanderTemplate.itemData.getExpanderClasses(expanderTemplate.expanderIcon, expanderTemplate.expanderSize)}}"></div>
+      </ws:expanderTemplate>
       <ws:afterItemTemplate>
-         <ws:partial if="{{!isSearchSeparator && itemData.isDrawExpander(currentColumn.columnIndex, expanderIcon, 'right')}}"
-                     template="{{itemData.expanderTemplate}}"
-                     itemData="{{itemData}}"
-                     expanderIcon="{{itemData.getExpanderIcon(expanderIcon)}}"
-                     expanderSize="{{itemData.getExpanderSize(expanderSize)}}"/>
+            <div if="{{!isSearchSeparator && itemData.isDrawExpander(currentColumn.columnIndex, expanderIcon, 'right')}}"
+                 class="{{itemData.getExpanderClasses(itemData.getExpanderIcon(expanderIcon), itemData.getExpanderSize(expanderSize))}}"></div>
       </ws:afterItemTemplate>
        <ws:multiSelectTemplate>
-          <ws:partial template="multiSelectTemplate" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
+          <ws:partial template="multiSelectTemplate" preventMergeOptions="{{ true }}" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
        </ws:multiSelectTemplate>
     </ws:partial>
 </ws:template>
@@ -107,10 +109,7 @@
             </ws:for>
          </ws:if>
          <ws:if data="{{!isSearchSeparator && itemData.isDrawExpander(currentColumn.columnIndex, expanderIcon, 'default')}}">
-            <ws:partial template="{{itemData.expanderTemplate}}"
-                        itemData="{{itemData}}"
-                        expanderIcon="{{itemData.getExpanderIcon(expanderIcon)}}"
-                        expanderSize="{{itemData.getExpanderSize(expanderSize)}}"/>
+            <div class="{{itemData.getExpanderClasses(itemData.getExpanderIcon(expanderIcon), itemData.getExpanderSize(expanderSize))}}"></div>
          </ws:if>
          <ws:else data="{{itemData.shouldDrawExpanderPadding(itemData, expanderIcon, expanderSize)}}">
             <div class="{{itemData.getExpanderPaddingClasses(itemData, expanderSize)}} js-controls-ListView__notEditable"></div>
@@ -162,7 +161,10 @@
 
 <ws:template name="STICKY_LADDER_HEADER">
    <ws:if data="{{itemData.stickyLadder[stickyProperty].headingStyle && currentColumn.hiddenForLadder}}">
-      <div attr:class="controls-Grid__row-ladder-cell {{!!itemData.isActive() ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}"
+      <div attr:class="controls-Grid__row-ladder-cell
+                       {{!!itemData.isActive() ? ' controls-GridView__item_active_theme-' + itemData.theme}}
+                       {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
+                       {{!!itemData.columnScroll ? currentColumn.classList.columnScroll}}"
            attr:key="{{itemData.key + stickyProperty + '_sticky_ladder'}}"
            attr:style="{{itemData.stickyLadder[stickyProperty].headingStyle}}">
 
@@ -176,7 +178,7 @@
             <ws:else>
                <div class="controls-Grid__row-main_ladderWrapper"
                   style="{{ 'left: 0; right: -' + currentColumn.column.width }};">
-                  <ws:partial template="STICKY_LADDER_HEADER_CONTENT"  attr:style="z-index: 2" currentColumn="{{currentColumn}}" stickyProperty="{{stickyProperty}}"/>
+                  <ws:partial template="STICKY_LADDER_HEADER_CONTENT" attr:style="z-index: {{currentColumn.columnScrollVisibility ? 4 : 2}}" currentColumn="{{currentColumn}}" stickyProperty="{{stickyProperty}}"/>
                </div>
             </ws:else>
          </ws:if>

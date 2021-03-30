@@ -2,11 +2,13 @@ import { TemplateFunction } from 'UI/Base';
 import { GridCell } from 'Controls/gridNew';
 import TreeGridNodeFooterRow from './TreeGridNodeFooterRow';
 
-export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeFooterRow<T>> {
+export default class TreeGridNodeFooterCell extends GridCell<null, TreeGridNodeFooterRow> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterCell]': boolean;
 
     getTemplate(content?: TemplateFunction): TemplateFunction|string {
-        return this._$owner.hasMoreStorage() ? this._$owner.getNodeFooterTemplateMoreButton() : content;
+        // Возвращать шаблон кнопки "Ещё".
+        // https://online.sbis.ru/opendoc.html?guid=15b9412b-159f-463c-9f4e-fa15a64fda4b
+        return this._$owner.hasMoreStorage() ? null : content;
     }
 
     getContentClasses(
@@ -39,8 +41,13 @@ export default class TreeGridNodeFooterCell<T> extends GridCell<T, TreeGridNodeF
         return classes;
     }
 
+    // TODO нужно удалить, когда перепишем колспан для футеров узлов
     getColspan(colspan?: boolean): string {
-        return colspan !== false ? 'grid-column: 1 / ' + (this._$owner.getColumnsConfig().length + 1) : '';
+        if (this.getOwner().isSupportLadder()) {
+            return colspan !== false ? 'grid-column: 2 / ' + (this._$owner.getColumnsConfig().length + 2) : '';
+        } else {
+            return colspan !== false ? 'grid-column: 1 / ' + (this._$owner.getColumnsConfig().length + 1) : '';
+        }
     }
 }
 

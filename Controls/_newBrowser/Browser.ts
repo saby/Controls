@@ -4,15 +4,21 @@ import {SyntheticEvent} from 'UI/Vdom';
 import {RecordSet} from 'Types/collection';
 import {TKey} from 'Controls/_interface/IItems';
 import {Control, TemplateFunction} from 'UI/Base';
+import {QueryWhereExpression} from 'Types/source';
 import {DataSource} from 'Controls/_newBrowser/DataSource';
-import {ISourceControllerOptions} from 'Controls/dataSource';
 import {IOptions} from 'Controls/_newBrowser/interfaces/IOptions';
-import {ISourceOptions} from 'Controls/_newBrowser/interfaces/ISourceOptions';
 import {DetailViewMode} from 'Controls/_newBrowser/interfaces/IDetailOptions';
+import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions';
 import {MasterVisibilityEnum} from 'Controls/_newBrowser/interfaces/IMasterOptions';
 import {BeforeChangeRootResult, IRootsData} from 'Controls/_newBrowser/interfaces/IRootsData';
 import {IBrowserViewConfig, NodesPosition} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
-import {compileSourceOptions, getListConfiguration, ListConfig, TileConfig} from 'Controls/_newBrowser/utils';
+import {
+    buildDetailOptions,
+    buildMasterOptions,
+    getListConfiguration,
+    ListConfig,
+    TileConfig
+} from 'Controls/_newBrowser/utils';
 //region templates import
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
@@ -23,6 +29,7 @@ import * as DefaultListItemTemplate from 'wml!Controls/_newBrowser/templates/Lis
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as DefaultTileItemTemplate from 'wml!Controls/_newBrowser/templates/TileItemTemplate';
+
 //endregion
 
 interface IReceivedState {
@@ -31,20 +38,27 @@ interface IReceivedState {
 }
 
 /**
- * Компонент реализует стандартную раскладку двухколоночного реестра с master и detail колонками.
+ * Компонент реализует стандартную раскладку и поведение двухколоночного реестра с master и detail списками:
+ *  * синхронное изменение списков при изменении корневой директории в одном из них
+ *  * возможность задавать режим отображения detail списка (список|плитка|дерево)
+ *  * возможность поиска с последующим отображением результатов в detail списке
+ *  * возможность конфигурирования стандартных шаблонов итема списка и плитки
  *
- * При получении списка записей для detail-колонки из метаданных ответа вычитывает поле
- * 'listConfiguration', в котором ожидается объект реализующий интерфейс {@link IBrowserViewConfig},
- * и применяет полученную конфигурацию к списку.
+ * @demo Controls-demo/NewBrowser/Index
  *
- * @class Controls/newBrowser:Browser
- * @extends UI/Base:Control
  * @public
  * @author Уфимцев Д.Ю.
+ * @class Controls/newBrowser:Browser
  */
 export default class Browser extends Control<IOptions, IReceivedState> {
 
     //region ⽥ fields
+    /**
+     * true если explorer загрузил шаблон и модель для плитки.
+     * Делает он это при первом переключении в плиточный режим.
+     */
+    private _isTileLoaded: boolean = false;
+
     /**
      * Шаблон отображения компонента
      */
@@ -83,37 +97,46 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     // Текущий режим отображения, полученный их метаданных ответа,
     // либо выставленный нами явно в 'search' при поиске
     private _viewMode: DetailViewMode;
+    protected _appliedViewMode: DetailViewMode;
 
     /**
      * Идентификатор текущего корневой узла относительно которого
      * отображаются данные в detail-колонке
      */
-    get root(): TKey {
-        return this._detailDataSource?.root || null;
-    }
+    protected root: TKey = null;
 
     /**
      * Идентификатор текущего корневого узла относительно которого
      * отображаются данные в master-колонке
      */
-    masterRoot: TKey;
+    protected _masterRoot: TKey;
 
-    masterMarkedKey: TKey;
+    protected _masterMarkedKey: TKey;
 
     //region source
     private _detailDataSource: DataSource;
 
     /**
-     * Скомпилированные опции для master-колонки.
-     * Результат мерджа одноименных корневых опций и опций в поле master.
+     * Поисковая строка введенная в search-input, проставляется
+     * когда он генерит событие search или resetSearch
      */
-    private _masterSourceOptions: ISourceOptions;
+    protected _inputSearchString: string;
 
     /**
-     * Скомпилированные опции для detail-колонки.
-     * Результат мерджа одноименных корневых опций и опций в поле detail.
+     * Значение опции searchValue, которое прокидывается в explorer.
+     * Проставляется после того как получены результаты поиска
      */
-    protected _detailSourceOptions: ISourceOptions;
+    protected _searchValue: string;
+
+    private _search: 'search' | 'reset' | false = false;
+
+    /**
+     * В случае если для detail-списка указана опция searchStartingWith === 'root'
+     * то после поиска сбрасывается текущее значение root, которое на время отображения
+     * результатов поиска хранится в этом поле для того, что бы после сброса поиска
+     * вернуть представление к исходному виду
+     */
+    protected _rootBeforeSearch: TKey;
     //endregion
 
     //region templates options
@@ -130,12 +153,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     /**
      * Опции для Controls/explorer:View в master-колонке
      */
-    protected _masterExplorerOptions: unknown;
+    protected _masterExplorerOptions: IExplorerOptions;
 
     /**
      * Опции для Controls/explorer:View в detail-колонке
      */
-    protected _detailExplorerOptions: unknown;
+    protected _detailExplorerOptions: IExplorerOptions;
 
     /**
      * Базовая часть уникального идентификатора контрола,
@@ -151,39 +174,34 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * true если контрол смонтирован в DOM
      */
     private _isMounted: boolean = false;
-
-    /**
-     * true если отправлен запрос на получение данных поиска
-     */
-    private _waitingSearchResult: boolean = false;
-
-    private _beforeSearchRoots: IRootsData = {
-        masterRoot: null,
-        detailRoot: null
-    };
     //endregion
     //endregion
 
     //region ⎆ life circle hooks
+
     protected _beforeMount(
         options?: IOptions,
         contexts?: object,
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
 
-        this._updateState(options);
+        this._initState(options);
         let result = Promise.resolve(undefined);
 
         if (receivedState) {
             this._detailDataSource.setItems(receivedState.detailItems);
             this._processItemsMetadata(receivedState.detailItems, options);
+            this._afterViewModeChanged(options);
         } else {
             result = Promise
                 .all([
                     this._detailDataSource.loadData()
                 ])
                 .then(
-                    ([detailItems]) => ({detailItems})
+                    ([detailItems]) => {
+                        this._afterViewModeChanged(options);
+                        return {detailItems};
+                    }
                 );
         }
 
@@ -195,7 +213,79 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
 
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
-        this._updateState(newOptions);
+        const masterOps = this._buildMasterExplorerOption(newOptions);
+        const detailOps = this._buildDetailExplorerOptions(newOptions);
+
+        this._detailDataSource.updateOptions(detailOps);
+        // Обязательно вызываем setFilter иначе фильтр в sourceController может
+        // не обновиться при updateOptions. Потому что updateOptions сравнивает
+        // не внутреннее поле _filter, фильтр который был передан в опциях при создании,
+        // либо при последнем updateOptions
+        this._detailDataSource.setFilter(detailOps.filter);
+
+        if (detailOps.searchValue && detailOps.searchValue !== this._searchValue) {
+            this._setSearchString(newOptions.searchValue);
+            return;
+        }
+
+        if (!newOptions.searchValue && this._searchValue) {
+            this._resetSearch();
+            return;
+        }
+
+        // Все что нужно применится в detailDataLoadCallback
+        if (this._search === 'search') {
+            return;
+        }
+
+        this._userViewMode = newOptions.userViewMode;
+
+        this._detailExplorerOptions = detailOps;
+        this._masterExplorerOptions = masterOps;
+        const isDetailRootChanged = this.root !== this._detailExplorerOptions.root;
+
+        this.root = this._detailExplorerOptions.root;
+        this._masterMarkedKey = this.root;
+
+        // Обновляем фон только если не менялся root, т.к. в этом случае фон нужно обносить после загрузки данных,
+        // и переключаются не на плитку или переключение на плитку уже состоялось ранее, т.к. в этом случае
+        // модель и шаблон для плитки уже загружены и переключение не будет асинхронным
+        if (!isDetailRootChanged && (this.viewMode !== DetailViewMode.tile || this._isTileLoaded)) {
+            this._updateDetailBgColor(newOptions);
+        }
+
+        //region update master
+        const newMasterVisibility = Browser.calcMasterVisibility(newOptions);
+        // Если видимость мастера не меняется, то меняем _masterRoot,
+        // т.к. если он есть, то произойдет загрузка новых данных, а если нет,
+        // то не произойдет, но _masterRoot будет актуальным
+        if (this._masterVisibility === newMasterVisibility) {
+            this._masterRoot = newOptions.masterRoot;
+        }
+
+        // Если мастера не было и его надо показать, сразу меняем его
+        // видимость и _masterRoot, это вызовет его показ и загрузку данных
+        if (
+            this._masterVisibility === MasterVisibilityEnum.hidden &&
+            newMasterVisibility === MasterVisibilityEnum.visible
+        ) {
+            if (!isDetailRootChanged && (this._isTileLoaded || this.viewMode !== DetailViewMode.tile)) {
+                this._masterVisibility = newMasterVisibility;
+            }
+            this._masterRoot = newOptions.masterRoot;
+        }
+
+        // Если мастер есть и скрывается, то ничего не меняем, все изменения
+        // произойдут после загрузки данных в detail-список
+        if (
+            this._masterVisibility === MasterVisibilityEnum.visible &&
+            newMasterVisibility === MasterVisibilityEnum.hidden
+        ) {
+            if (!isDetailRootChanged && (this._isTileLoaded || this.viewMode !== DetailViewMode.tile)) {
+                this._masterVisibility = newMasterVisibility;
+            }
+        }
+        //endregion
     }
 
     protected _beforeUnmount(): void {
@@ -203,9 +293,14 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
     //endregion
 
+    //region public methods
+    /**
+     * Вызывает перезагрузку данных в detail-колонке
+     */
     reload(): Promise<RecordSet> {
         return this._detailDataSource.loadData();
     }
+    //endregion
 
     /**
      * Меняет корневую директорию относительно которой отображаются данные.
@@ -215,7 +310,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      *
      * @see BeforeChangeRootResult
      */
-    private _setRoot(root: TKey | IRootsData): void {
+    private _setRoot(root: TKey | IRootsData): Promise<void> {
         let roots = root && typeof root === 'object' && (root as IRootsData);
         // По умолчанию master- и detail-root меняются синхронно
         roots = roots || {
@@ -225,7 +320,7 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         // Перед тем как менять root уведомим об этом пользователя.
         // Что бы он мог либо отменить обработку либо подменить root.
-        Promise.resolve(
+        return Promise.resolve(
             this._notify('beforeRootChanged', [roots])
         )
             // Обработаем результат события
@@ -242,28 +337,33 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
                 return roots;
             })
-            // Загрузим данные если нужно
+            // Обновим состояние чтобы загрузились новые данные
             .then((newRoots) => {
-                const detailRootChanged = newRoots?.detailRoot !== this.root;
-                const masterRootChanged = newRoots?.masterRoot !== this.masterRoot;
-
-                this.masterRoot = newRoots.masterRoot;
-                this.masterMarkedKey = newRoots.detailRoot;
-                this._detailDataSource.setRoot(newRoots.detailRoot);
-
-                // Уведомим об изменении root
-                if (detailRootChanged) {
-                    this._notify('rootChanged', [newRoots.detailRoot]);
+                // Если меняют root когда находимся в режиме поиска, то нужно
+                // сбросить поиск и отобразить содержимое нового root
+                if (this.viewMode === DetailViewMode.search) {
+                    this._resetSearch(newRoots);
+                    return;
                 }
 
-                // Уведомим об изменении masterRoot
-                if (masterRootChanged) {
-                    this._notify('masterRootChanged', [newRoots.masterRoot]);
-                }
+                this._changeRoot(newRoots);
             });
     }
 
-    private _setViewMode(value: DetailViewMode, options: IOptions = this._options): void {
+    private _changeRoot(roots?: IRootsData, afterSearch: boolean = false): void {
+        const detailRootChanged = roots?.detailRoot !== this.root;
+        const masterRootChanged = roots?.masterRoot !== this._masterRoot;
+
+        if (detailRootChanged) {
+            this._notify('rootChanged', [roots?.detailRoot, afterSearch]);
+        }
+
+        if (masterRootChanged) {
+            this._notify('masterRootChanged', [roots?.masterRoot]);
+        }
+    }
+
+    private _setViewMode(value: DetailViewMode): void {
         let result = value;
 
         // Если задан пользовательский вид отображения, то всегда используем его.
@@ -278,54 +378,114 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         }
 
         this._viewMode = result;
-
-        // Обновим видимость мастера, т.к. она зависит от viewMode
-        this._updateMasterVisibility(options);
-        // Обновим фон detail-колонки, т.к. он зависит от viewMode
-        this._updateDetailBgColor(options);
-
-        // Уведомляем о том, что изменился режим отображения списка в detail-колонке
-        this._notify('viewModeChanged', [result]);
     }
 
-    private _setSearchString(searchString: string): Promise<RecordSet> {
-        this._waitingSearchResult = !!searchString;
-
-        const searchStartingWith = this._options.detail.searchStartingWith || 'root';
-        // Перед выполнением поиска в режиме searchStartingWith === 'root'
-        // сбросим master- и detail-root, для того, что бы explorer не менял
-        // их сам. Иначе будет еще один запрос.
-        if (searchStartingWith === 'root') {
-            if (this._waitingSearchResult) {
-                this._beforeSearchRoots.detailRoot = this.root;
-                this._beforeSearchRoots.masterRoot = this.masterRoot;
-
-                this._setRoot(null);
-            } else {
-                this._setRoot(this._beforeSearchRoots);
-                this._beforeSearchRoots = {detailRoot: null, masterRoot: null};
-            }
+    /**
+     * Постобработчик смены viewMode т.к. explorer может менять его не сразу и нам нужно
+     * дождаться {@link _onDetailExplorerChangedViewMode| подтверждения смены viewMode от него}.
+     * Также используется в {@link _beforeMount} т.к. на сервере событие о смене viewMode не генерится.
+     */
+    private _afterViewModeChanged(options: IOptions = this._options): void {
+        this._appliedViewMode = this.viewMode;
+        if (this._appliedViewMode === DetailViewMode.tile) {
+            this._isTileLoaded = true;
         }
 
-        return this._detailDataSource
+        this._updateMasterVisibility(options);
+        this._updateDetailBgColor(options);
+        // Уведомляем о том, что изменился режим отображения списка в detail-колонке
+        this._notify('viewModeChanged', [this.viewMode]);
+    }
+
+    /**
+     * Запоминает значение, введенное в строку поиска, и запускает запрос
+     * для получения результатов поиска.
+     * Результаты поиска обработаются в _onDetailDataLoadCallback
+     */
+    private _setSearchString(searchString: string): void {
+        this._search = 'search';
+        this._inputSearchString = searchString;
+
+        this._detailDataSource
             .setSearchString(searchString)
-            .then((items) => {
-                // Если ждем результаты поиска, то нужно проставить DetailViewMode.search,
-                // т.к. в этом случае конфигурация не применяется. Но если строку поиска
-                // очистили, то тогда работаем по стандартному сценарию и анализируем
-                // метаданные
-                if (this._waitingSearchResult) {
-                    this._setViewMode(DetailViewMode.search);
-                    this._waitingSearchResult = false;
+            .then();
+    }
+
+    /**
+     * После загрузки результатов поиска:
+     *  * сменим режим отображения
+     *  * проставим searchValue
+     *  * сменим root если надо
+     *  * обновим фильтр
+     */
+    private _afterSearchDataLoaded(): void {
+        this._searchValue = this._inputSearchString;
+
+        // Если сказано, что искать нужно не от текущего корня, то нужно
+        // запомнить текущий root и сбросить его в null
+        if (this._options.detail.searchStartingWith !== 'current') {
+            if (this.viewMode !== DetailViewMode.search) {
+                this._rootBeforeSearch = this.root;
+            }
+
+            // Если нужно уведомим пользователя об изменении root
+            this._changeRoot(
+                {detailRoot: null, masterRoot: this._masterRoot},
+                true
+            );
+
+            this.root = null;
+        }
+
+        this._setViewMode(DetailViewMode.search);
+        this._updateDetailBgColor();
+
+        this._detailDataSource.updateFilterAfterSearch();
+        this._setDetailFilter(this._detailDataSource.getFilter());
+    }
+
+    /**
+     * Сбрасывает в _detailDataSource параметры фильтра, отвечающие за поиск,
+     * и если нужно меняет у него root.
+     */
+    private _resetSearch(newRoots?: IRootsData): void {
+        this._search = 'reset';
+        this._detailDataSource.sourceController.cancelLoading();
+
+        this._detailDataSource
+            .resetSearchString()
+            .then(() => {
+                let root = this.root;
+
+                if (newRoots) {
+                    root = newRoots.detailRoot;
+                    this._changeRoot(newRoots);
+                } else if (this._options.detail.searchStartingWith !== 'current') {
+                    root = this._rootBeforeSearch;
+                    this._changeRoot({
+                        detailRoot: this._rootBeforeSearch,
+                        masterRoot: this._masterRoot
+                    });
+                    this._rootBeforeSearch = null;
                 }
 
-                return items;
+                this._detailDataSource.setRoot(root);
+                this._detailDataSource.updateFilterAfterSearch();
+                this._setDetailFilter(this._detailDataSource.getFilter());
+
+                this._searchValue = null;
+                this._inputSearchString = null;
             });
     }
 
+    private _setDetailFilter(filter: QueryWhereExpression<unknown>): void {
+        this._detailExplorerOptions.filter = filter;
+        this._notify('filterChanged', [filter]);
+    }
+
     private _processItemsMetadata(items: RecordSet, options: IOptions = this._options): void {
-        // Не обрабатываем метаданные если ждем результаты поиска
-        if (this._waitingSearchResult) {
+        // Не обрабатываем метаданные если отображаем результаты поиска
+        if (this._searchValue) {
             return;
         }
 
@@ -345,57 +505,84 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._tileCfg = new TileConfig(cfg, options);
         this._listCfg = new ListConfig(cfg, options);
 
-        // Если не в режиме поиска, то нужно применить viewMode из конфига
-        this._setViewMode(cfg.settings.clientViewMode, options);
+        this._setViewMode(cfg.settings.clientViewMode);
         this._updateMasterVisibility(options);
+
+        this._notify('listConfigurationChanged', [cfg]);
     }
 
     //region ⇑ events handlers
+    private _onDetailDataLoadCallback(items: RecordSet, direction: string): void {
+        // Не обрабатываем последующие загрузки страниц. Нас интересует только
+        // загрузка первой страницы
+        if (direction) {
+            return;
+        }
+
+        if (this._inputSearchString) {
+            this._afterSearchDataLoaded();
+        }
+        this._search = false;
+
+        this._masterMarkedKey = this.root;
+        this._processItemsMetadata(items);
+    }
+
     /**
-     * Обработчик клика по итему в detail-списке.
-     * Если клик идет по папке, то отменяем дефолтную обработку и сами меняем root.
+     * Обрабатываем смену viewMode в explorer т.к. она может быть асинхронная если после загрузки
+     * переключаются в плиточный режим представления, т.к. шаблон и модель для плитки подтягиваются
+     * по требованию отдельной функцией
      */
-    protected _onDetailItemClick(
+    protected _onDetailExplorerChangedViewMode(): void {
+        this._afterViewModeChanged();
+    }
+
+    protected _onExplorerItemClick(
         event: SyntheticEvent,
+        isMaster: boolean,
         item: Model,
         clickEvent: unknown,
         columnIndex?: number
     ): unknown {
 
-        const isNode = item.get(this._detailSourceOptions.nodeProperty) !== null;
+        const explorerOptions = isMaster ? this._masterExplorerOptions : this._detailExplorerOptions;
+
+        const isNode = item.get(explorerOptions.nodeProperty) !== null;
         if (isNode) {
-            this._setRoot(item.get(this._detailSourceOptions.keyProperty));
+            this._setRoot(item.get(explorerOptions.keyProperty)).then();
             return false;
         }
 
-        // Перегенерим событие, т.к. explorer его без bubbling шлет, что бы пользователи
-        // могли открыть карточку при клике по листу дерева
-        return this._notify('itemClick', [item, clickEvent, columnIndex]);
+        if (!isMaster) {
+            // Перегенерим событие, т.к. explorer его без bubbling шлет, что бы пользователи
+            // могли открыть карточку при клике по листу дерева
+            return this._notify('itemClick', [item, clickEvent, columnIndex]);
+        }
     }
 
     /**
      * Обработчик события которое генерит detail-explorer когда в нем меняется root.
      * Сюда попадем только при клике по хлебным крошкам, т.к. explorer сам обрабатывает клик
      * по ним и ни как его не протаскивает. А клик по итему списка обрабатывается в ф-ии
-     * {@link _onDetailItemClick}
+     * {@link _onExplorerItemClick}
      */
     protected _onDetailRootChanged(event: SyntheticEvent, root: TKey): void {
-        this._setRoot(root);
+        this._setRoot(root).then();
     }
 
     /**
      * Обработчик события которое генерит master-explorer когда в нем меняется root
      */
     protected _onMasterRootChanged(event: SyntheticEvent, root: TKey): void {
-        this._setRoot(root);
+        this._setRoot(root).then();
     }
 
     protected _onSearch(event: SyntheticEvent, validatedValue: string): void {
-        this._setSearchString(validatedValue).then();
+        this._setSearchString(validatedValue);
     }
 
     protected _onSearchReset(): void {
-        this._setSearchString(null).then();
+        this._resetSearch();
     }
 
     // TODO: implement
@@ -408,47 +595,34 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     /**
      * Обновляет текущее состояние контрола в соответствии с переданными опциями
      */
-    private _updateState(options: IOptions): void {
+    private _initState(options: IOptions, oldOptions?: IOptions): void {
         Browser.validateOptions(options);
 
-        // Присваиваем во внутреннюю переменную, т.к. в данном случае не надо генерить событие
-        // об изменении значения, т.к. и так идет синхронизация опций
         this._userViewMode = options.userViewMode;
-        this._updateMasterVisibility(options);
-        this._updateDetailBgColor(options);
-
-        this._detailSourceOptions = compileSourceOptions(options, true);
-        this._masterSourceOptions = compileSourceOptions(options, false);
-
-        //region update master fields
-        this.masterRoot = this._masterSourceOptions.root;
-        // На основании полученного состояния соберем опции для master-списка
-        this._masterExplorerOptions = this._buildMasterExplorerOption(options);
-        //endregion
-
-        //region update detail fields
-        const dsOptions = {
-            ...options.detail,
-            ...this._detailSourceOptions,
-            dataLoadCallback: (items: RecordSet, direction: string) => {
-                // Если идет подгрузка страницы, то метаданные обрабатывать не нужно
-                if (direction) {
-                    return;
-                }
-
-                this._processItemsMetadata(items);
-            }
-        } as ISourceControllerOptions;
-
-        // Если еще не создавался DataSource для detail-колонки, то создадим
-        if (!this._detailDataSource) {
-            this._detailDataSource = new DataSource(dsOptions);
-        } else {
-            this._detailDataSource.sourceController.updateOptions(dsOptions);
+        this._appliedViewMode = options.userViewMode;
+        this._listConfiguration = options.listConfiguration;
+        // Если при инициализации указано плиточное представление,
+        // значит шаблон и модель плитки уже загружены
+        if (this.viewMode === DetailViewMode.tile) {
+            this._isTileLoaded = true;
         }
 
-        // На основании полученного состояния соберем опции для detail-explorer
+        //region update detail fields
         this._detailExplorerOptions = this._buildDetailExplorerOptions(options);
+
+        this.root = this._detailExplorerOptions.root;
+        this._detailDataSource = new DataSource(this._detailExplorerOptions);
+        this._detailExplorerOptions.sourceController = this._detailDataSource.sourceController;
+        //endregion
+
+        //region update master fields
+        // На основании полученного состояния соберем опции для master-списка
+        this._masterExplorerOptions = this._buildMasterExplorerOption(options);
+
+        this._masterMarkedKey = this.root;
+        this._masterRoot = this._masterExplorerOptions.root;
+
+        this._updateMasterVisibility(options);
         //endregion
 
         // Если передан кастомный идентификатор хранилища, то на основании него собираем
@@ -463,8 +637,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * По переданным опциям собирает конфигурацию для Controls/explorer:View,
      * расположенном в master-колонке.
      */
-    private _buildMasterExplorerOption(options: IOptions = this._options): unknown {
-        const defaultCfg = {
+    private _buildMasterExplorerOption(options: IOptions): IExplorerOptions {
+        const compiledOptions = buildMasterOptions(options);
+        return {
             style: 'master',
             backgroundStyle: 'master',
             viewMode: DetailViewMode.table,
@@ -472,43 +647,37 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             markerVisibility: 'onactivated',
             expanderVisibility: 'hasChildren',
 
-            ...this._masterSourceOptions
+            ...compiledOptions
         };
-
-        if (options.master?.treeGridView) {
-            return {...defaultCfg, ...options.master.treeGridView};
-        }
-
-        return defaultCfg;
     }
 
     /**
      * По переданным опциям собирает конфигурацию для Controls/explorer:View,
      * расположенном в detail-колонке.
      */
-    private _buildDetailExplorerOptions(options: IOptions = this._options): unknown {
-        const result: any = {
+    private _buildDetailExplorerOptions(options: IOptions): IExplorerOptions {
+        const compiledOptions = buildDetailOptions(options);
+
+        return {
             // Дефолтные опции
             style: 'default',
-            backgroundStyle: 'transparent',
 
             // Пользовательские опции
-            ...options.detail,
-            // Опции собранные на основании корневых и detail
-            ...this._detailSourceOptions,
+            ...compiledOptions,
 
-            // Наш sourceController для того что-бы контролировать загрузку данных
-            sourceController: this._detailDataSource.sourceController,
-            // Что бы подсвечивалась поисковая фраза
-            searchValue: this._detailDataSource.searchValue
+            itemTemplate: compiledOptions.itemTemplate || DefaultListItemTemplate,
+            tileItemTemplate: compiledOptions.tileItemTemplate || DefaultTileItemTemplate,
+
+            sourceController: this._detailDataSource?.sourceController,
+
+            dataLoadCallback: (items, direction) => {
+                this._onDetailDataLoadCallback(items, direction);
+
+                if (compiledOptions.dataLoadCallback) {
+                    compiledOptions.dataLoadCallback(items, direction);
+                }
+            }
         };
-
-        // Если кастомный шаблон отображения итема списка не задан, то используем наш дефолтный
-        result.itemTemplate = result.itemTemplate || DefaultListItemTemplate;
-        // Если кастомный шаблон отображения плитки не задан, то используем наш дефолтный
-        result.tileItemTemplate = result.tileItemTemplate || DefaultTileItemTemplate;
-
-        return result;
     }
 
     /**
@@ -517,21 +686,17 @@ export default class Browser extends Control<IOptions, IReceivedState> {
      * случае на основании конфигурации.
      */
     private _updateMasterVisibility(options: IOptions = this._options): void {
-        // По умолчанию вычисляем видимость мастера на основании опций
-        this._masterVisibility = options.master?.visibility || MasterVisibilityEnum.hidden;
-
-        // Если данных о конфигурации представления не достаточно или мы находимся в режиме поиска
-        // то оставляем видимость, которая вычислилась на основании опций
-        if (!this._listConfiguration || !this.viewMode || this.viewMode === DetailViewMode.search) {
+        // В режиме поиска не обновляем видимость мастера, т.к. если он был, то должен остаться
+        // если нет, то нет
+        if (this._appliedViewMode === DetailViewMode.search) {
             return;
         }
 
-        // Если конфигурация представления и текущий режим отображения заданы, то
-        // видимость мастера перевычисляем на основании конфигурации
-        const nodesPosition = this._listConfiguration[this.viewMode].node?.position;
-        this._masterVisibility = nodesPosition === NodesPosition.left
-            ? MasterVisibilityEnum.visible
-            : MasterVisibilityEnum.hidden;
+        this._masterVisibility = Browser.calcMasterVisibility({
+            master: options.master,
+            userViewMode: this._appliedViewMode,
+            listConfiguration: this._listConfiguration
+        });
     }
 
     private _updateDetailBgColor(options: IOptions = this._options): void {
@@ -554,16 +719,30 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     }
     //endregion
 
-    //region static utils
+    //region • static utils
     static _theme: string[] = [
         'Controls/listTemplates',
         'Controls/newBrowser'
     ];
 
+    static calcMasterVisibility(options: IOptions): MasterVisibilityEnum {
+        if (options.master?.visibility) {
+            return options.master.visibility;
+        }
+
+        if (options.listConfiguration && options.userViewMode) {
+            const nodesPosition = options.listConfiguration[options.userViewMode]?.node?.position;
+            return nodesPosition === NodesPosition.left
+                ? MasterVisibilityEnum.visible
+                : MasterVisibilityEnum.hidden;
+        }
+
+        return MasterVisibilityEnum.hidden;
+    }
+
     static getDefaultOptions(): IOptions {
         return {
             master: {
-                treeGridView: {},
                 visibility: MasterVisibilityEnum.hidden
             },
             detail: {

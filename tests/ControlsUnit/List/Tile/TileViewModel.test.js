@@ -90,6 +90,12 @@ define(['Controls/_tile/TileView/TileViewModel', 'Types/collection', 'Types/enti
          });
       });
 
+      it('getImageProportion', () => {
+         const tileItemData = tileViewModel.getTileItemData();
+         assert.equal(tileItemData.getImageProportion('1:1'), 1);
+         assert.equal(tileItemData.getImageProportion('16:9'), 0.56);
+      });
+
       it('getMultiSelectClassList hidden', function() {
          tileViewModel.setMultiSelectVisibility('hidden');
          var item = tileViewModel.getItemDataByItem(tileViewModel.getItemById(2, 'id'));

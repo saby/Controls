@@ -4,6 +4,7 @@ import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {Memory, QueryWhereExpression} from 'Types/source';
 import {createSandbox, SinonSpy} from 'sinon';
 import {IControllerOptions} from 'Controls/_dataSource/Controller';
+import {RecordSet} from 'Types/collection';
 
 const getMemorySource = (): Memory => {
    return new Memory({
@@ -60,7 +61,7 @@ const defaultOptionsControllerClass = {
    sourceController: getSourceController({})
 };
 
-const getControllerClass = (options) => {
+const getSearchController = (options) => {
    return new ControllerClass({
       ...defaultOptionsControllerClass,
       ...options
@@ -76,7 +77,7 @@ describe('Controls/search:ControllerClass', () => {
 
    beforeEach(() => {
       sourceController = getSourceController({});
-      controllerClass = getControllerClass({
+      controllerClass = getSearchController({
          sourceController
       });
       loadSpy = sandbox.spy(sourceController, 'load');
@@ -87,6 +88,21 @@ describe('Controls/search:ControllerClass', () => {
    });
 
    after(() => sandbox.restore());
+
+   it('searchValue in constructor', () => {
+      let options;
+      let searchControllerClass;
+
+      options = {
+         searchValue: 'testSearchValue'
+      };
+      searchControllerClass = new ControllerClass(options);
+      assert.ok(searchControllerClass.getSearchValue() === 'testSearchValue');
+
+      options = {};
+      searchControllerClass = new ControllerClass(options);
+      assert.ok(searchControllerClass.getSearchValue() === '');
+   });
 
    it('search method', () => {
       const filter: QueryWhereExpression<unknown> = {
@@ -105,6 +121,14 @@ describe('Controls/search:ControllerClass', () => {
       };
       controllerClass._searchValue = 'testSearchValue';
       assert.deepEqual(controllerClass.getFilter(), resultFilter);
+   });
+
+   it('needChangeSearchValueToSwitchedString', () => {
+      const rs = new RecordSet();
+      rs.setMetaData({
+         returnSwitched: true
+      });
+      assert.ok(controllerClass.needChangeSearchValueToSwitchedString(rs));
    });
 
    describe('with hierarchy', () => {
@@ -129,6 +153,33 @@ describe('Controls/search:ControllerClass', () => {
          assert.isTrue(loadSpy.withArgs(undefined, undefined, {
             payload: 'something'
          }).called);
+      });
+
+      it('startingWith: root', () => {
+         const hierarchyOptions = {
+            parentProperty: 'parentProperty',
+            root: 'testRoot',
+            startingWith: 'root'
+         };
+
+         const sourceController = getSourceController(hierarchyOptions);
+         const searchController = getSearchController({sourceController, ...hierarchyOptions});
+         const path = new RecordSet({
+            rawData: [
+               {
+                  id: 0,
+                  parentProperty: null
+               },
+               {
+                  id: 1,
+                  parentProperty: 0
+               }
+            ]
+         });
+
+         searchController.setPath(path);
+         searchController.search('testSearchValue');
+         assert.ok(sourceController.getRoot() === null);
       });
 
       it('without parent property', () => {

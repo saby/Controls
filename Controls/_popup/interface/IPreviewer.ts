@@ -14,6 +14,7 @@ export interface IPreviewerOptions extends IControlOptions {
     targetPoint?: any; // why?
     direction?: any; // why?
     offset?: any; // why?
+    delay?: number;
 }
 
 /**
@@ -89,7 +90,7 @@ export interface IPreviewer {
 
 /**
  * @name Controls/_popup/interface/IPreviewer#templateOptions
- * @cfg {String|Function} Опции для контрола, переданного в {@link template}
+ * @cfg {String|TemplateFunction} Опции для контрола, переданного в {@link template}
  */
 
 /*

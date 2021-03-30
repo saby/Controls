@@ -3,9 +3,9 @@
       <ws:partial template="{{multiSelectTemplate}}"
                   attr:class="{{ itemData && itemData.multiSelectClassList ? itemData.multiSelectClassList : item.getMultiSelectClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
                   triState="{{ triState }}"
-                  readOnly="{{ item.isReadonlyCheckbox() || checkboxReadOnly || readOnly }}"
+                  readOnly="{{ item.isReadonlyCheckbox() || checkboxReadOnly || false}}"
                   value="{{ item.isSelected() }}"
-                  on:click="_onCheckBoxClick(item, item.isReadonlyCheckbox() || checkboxReadOnly || readOnly)"/>
+                  on:click="_onCheckBoxClick(item, item.isReadonlyCheckbox() || checkboxReadOnly)"/>
   </ws:template>
 
   <ws:if data="{{multiSelectTemplate}}">

@@ -12,7 +12,7 @@
 import BaseViewModel = require('Controls/_input/Base/ViewModel');
 export {default as TextViewModel, IViewModelOptions as ITextViewModelOptions} from 'Controls/_input/Text/ViewModel';
 import MaskInputProcessor = require('Controls/_input/Mask/InputProcessor');
-import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
+export {default as StringValueConverter} from 'Controls/_input/DateTime/StringValueConverter';
 
 // Controls
 export {default as Base} from 'Controls/_input/Base';
@@ -93,7 +93,6 @@ export {
     BaseViewModel,
     MaskInputProcessor,
     MaskFormatterValue,
-    StringValueConverter,
     InputCallback,
     ActualAPI
 };

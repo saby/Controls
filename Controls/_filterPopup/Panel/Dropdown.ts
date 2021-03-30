@@ -3,17 +3,18 @@ import template = require('wml!Controls/_filterPopup/Panel/Dropdown/Dropdown');
 import {List} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/filterPopup';
 
 /**
  * Контрол, позволяющий выбрать значение из списка. Отображается в виде ссылки и используется на панели фильтров.
  * Текст ссылки отображает выбранные значения. Значения выбирают в выпадающем меню, которое по умолчанию скрыто.
- * 
+ *
  * @remark
  * Меню можно открыть кликом на контрол. Для работы единичным параметром selectedKeys используйте контрол с {@link Controls/source:SelectedKey}.
  *
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
- * 
+ *
  * @class Controls/_filterPopup/Panel/Dropdown
  * @extends Controls/_dropdown/Input
  * @public
@@ -48,8 +49,6 @@ class FilterDropdown extends Control<IControlOptions> {
       protected _dropDownClose(event: SyntheticEvent<Event>): void {
          this._notify('dropDownClose');
       }
-
-      static _theme: string[] = ['Controls/filterPopup'];
 
       static getDefaultOptions(): object {
          return {

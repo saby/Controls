@@ -2,15 +2,16 @@ import { TemplateFunction } from 'UI/Base';
 import { TreeItem } from 'Controls/display';
 import { Model } from 'Types/entity';
 import TreeGridDataRow from './TreeGridDataRow';
-import {GridRow as Row, GridCell as Cell} from 'Controls/gridNew';
+import {GridRow as Row, GridCell as Cell, IColumn} from 'Controls/gridNew';
 
 export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     readonly '[Controls/treeGrid:TreeGridNodeFooterRow]': boolean;
     readonly Markable: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly ItemActionsItem: boolean = false;
 
-    // TODO нужно удалить, когда перепишем колспан для футеров узлов
+    // TODO нужно удалить, когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
     // Храним колспан, чтобы правильно определять индекс столбца.
     // Он задается на темплейте, поэтмоу в моделе мы о нем не знаем
     private _colspan: boolean;
@@ -22,16 +23,25 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     // TODO нужно указывать тип TreeGridNodeFooterCell[], но тогда получается циклическая зависимость
     getColumns(colspan?: boolean): any[] {
         this._colspan = colspan;
-        const columns = super.getColumns();
-        return colspan !== false ? [columns[0]] : columns;
+        let columns = super.getColumns();
+        if (colspan !== false) {
+            // Сейчас ладдер для футера узла поддержан только для первой ячейки
+            //  TODO переписать когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+            if (this.isSupportLadder() && columns[0]['[Controls/_display/StickyLadderCell]']) {
+                columns = columns.slice(0, 2);
+            } else {
+                columns = columns.slice(0, 1);
+            }
+        }
+        return columns;
     }
 
-    // TODO нужно удалить, когда перепишем колспан для футеров узлов
+    // TODO нужно удалить, когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
     getColumnIndex(column: Cell<any, Row<any>>): number {
         return this.getColumns(this._colspan).indexOf(column);
     }
 
-    // TODO нужно удалить, когда перепишем колспан для футеров узлов
+    // TODO нужно удалить, когда перепишем колспан для футеров узлов https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
     getColumnsCount(): number {
         return this.getColumns(this._colspan).length;
     }
@@ -66,11 +76,21 @@ export default class TreeGridNodeFooterRow extends TreeGridDataRow<null> {
     shouldDisplayVisibleFooter(content: TemplateFunction): boolean {
         return this.hasMoreStorage() || !!content;
     }
+
+    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+    isSupportLadder(): boolean {
+        const ladderProperties = this.getOwner().getLadderProperties();
+        return ladderProperties && ladderProperties.length;
+    }
+
+    // TODO удалить после https://online.sbis.ru/opendoc.html?guid=76c1ba00-bfc9-4eb8-91ba-3977592e6648
+    protected _processStickyLadderCells(): void { }
 }
 
 Object.assign(TreeGridNodeFooterRow.prototype, {
     '[Controls/treeGrid:TreeGridNodeFooterRow]': true,
     _moduleName: 'Controls/treeGrid:TreeGridNodeFooterRow',
     _cellModule: 'Controls/treeGrid:TreeGridNodeFooterCell',
-    _instancePrefix: 'tree-grid-node-footer-row-'
+    _instancePrefix: 'tree-grid-node-footer-row-',
+    _$supportLadder: false
 });

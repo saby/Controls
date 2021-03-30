@@ -8,11 +8,12 @@ import {
     GridLadderUtil
 } from 'Controls/display';
 
-import GroupItem from './GroupItem';
+import GroupRow from './GroupRow';
 import GridMixin, { IOptions as IGridMixinOptions } from './mixins/Grid';
 import Row, {IOptions as IRowOptions} from './Row';
 import DataRow from './DataRow';
 import { TemplateFunction } from 'UI/Base';
+import {Model as EntityModel} from 'Types/entity';
 
 export interface IOptions<
     S,
@@ -23,24 +24,14 @@ export default class Collection<
     S,
     T extends Row<S> = Row<S>
 > extends mixin<BaseCollection<any>, GridMixin<any, any>>(BaseCollection, GridMixin) {
+    protected _$hasStickyGroup: boolean = false;
+
     constructor(options: IOptions<S, T>) {
         super(options);
         GridMixin.call(this, options);
     }
 
     // region override
-
-    setSearchValue(searchValue: string): boolean {
-        const searchValueChanged = super.setSearchValue(searchValue);
-        if (searchValueChanged) {
-            this.getViewIterator().each((item: DataRow<S>) => {
-                if (item.DisplaySearchValueItem) {
-                    item.setSearchValue(searchValue);
-                }
-            });
-        }
-        return searchValueChanged;
-    }
 
     setEmptyTemplate(emptyTemplate: TemplateFunction): boolean {
         const superResult = super.setEmptyTemplate(emptyTemplate);
@@ -58,6 +49,13 @@ export default class Collection<
         return superResult;
     }
 
+    setEmptyTemplateOptions(options: object): boolean {
+        super.setEmptyTemplateOptions(options);
+        if (this.getEmptyGridRow()) {
+            this.getEmptyGridRow().setEmptyTemplateOptions(options);
+        }
+    }
+
     setMultiSelectVisibility(visibility: string): void {
         super.setMultiSelectVisibility(visibility);
 
@@ -72,7 +70,9 @@ export default class Collection<
             this.getHeader().setMultiSelectVisibility(visibility);
         }
 
-        this._$colgroup?.reBuild();
+        if (this.getColgroup()) {
+            this.getColgroup().setMultiSelectVisibility(visibility);
+        }
     }
 
     setActionsTemplateConfig(config: IItemActionsTemplateConfig) {
@@ -94,7 +94,7 @@ export default class Collection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
         }
         super._reBuild(reset);
-        this._$colgroup?.reBuild();
+        this.getColgroup()?.reBuild();
     }
 
     setIndexes(start: number, stop: number): void {
@@ -112,6 +112,8 @@ export default class Collection<
             this._prepareLadder(this._$ladderProperties, this._$columns);
             this._updateItemsLadder();
         }
+        this._updateHasStickyGroup();
+        this._$results = null;
     }
 
     protected _getItemsFactory(): ItemsFactory<T> {
@@ -121,15 +123,57 @@ export default class Collection<
             options.colspanCallback = this._$colspanCallback;
             options.columnSeparatorSize = this._$columnSeparatorSize;
             options.rowSeparatorSize = this._$rowSeparatorSize;
+            options.hasStickyGroup = this._$hasStickyGroup;
             return superFactory.call(this, options);
         };
     }
 
-    protected _getGroupItemConstructor(): new() => GroupItem<T> {
-        return GroupItem;
+    protected _getGroupItemConstructor(): new() => GroupRow<T> {
+        return GroupRow;
+    }
+
+    setGroupProperty(groupProperty: string): boolean {
+        const groupPropertyChanged = super.setGroupProperty(groupProperty);
+        if (groupPropertyChanged) {
+            this._updateHasStickyGroup();
+        }
+        return groupPropertyChanged;
+    }
+
+    protected setMetaResults(metaResults: EntityModel) {
+        super.setMetaResults(metaResults);
+        this._$results?.setMetaResults(metaResults);
+    }
+
+    setEditing(editing: boolean): void {
+        super.setEditing(editing);
+
+        if (this._$headerModel && !this._headerIsVisible(this._$header)) {
+            this._$headerModel = null;
+        }
+        this._nextVersion();
     }
 
     // endregion
+
+    protected _updateHasStickyGroup(): void {
+        const hasStickyGroup = this._hasStickyGroup();
+        if (this._$hasStickyGroup !== hasStickyGroup) {
+            this._$hasStickyGroup = hasStickyGroup;
+            this.getViewIterator().each((item: DataRow<S>) => {
+                if (item.LadderSupport) {
+                    item.setHasStickyGroup(hasStickyGroup);
+                }
+            });
+        }
+    }
+
+    protected _hasStickyGroup(): boolean {
+        return !!(this.at(0)
+            && this.at(0)['[Controls/_display/GroupItem]']
+            && !(this.at(0) as unknown as GroupRow<S>).isHiddenGroup()
+            && this._$stickyHeader);
+    }
 }
 
 Object.assign(Collection.prototype, {

@@ -48,41 +48,41 @@
    order: 1;
 }
 
-.controls-Button__text_captionPosition_left_theme-@{themeName} {
+.controls-Button__text_captionPosition_left {
    order: 0;
    margin-right: var(--icon-offset_button);
 }
 
-.controls-Button__text_captionPosition_right_theme-@{themeName} {
+.controls-Button__text_captionPosition_right {
    order: 2;
    margin-left: var(--icon-offset_button);
 }
 
-.controls-Button__wrapper_button_xs_theme-@{themeName}:before {
+.controls-Button__wrapper_button_xs:before {
    line-height: calc(var(--inline_height_xs_button) - 2 * var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_s_theme-@{themeName}:before {
+.controls-Button__wrapper_button_s:before {
    line-height: calc(var(--inline_height_s_button) - 2 * var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_m_theme-@{themeName}:before {
+.controls-Button__wrapper_button_m:before {
    line-height: calc(var(--inline_height_m_button) - 2 * var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_l_theme-@{themeName}:before {
+.controls-Button__wrapper_button_l:before {
    line-height: calc(var(--inline_height_l_button) - 2 * var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_xl_theme-@{themeName}:before {
+.controls-Button__wrapper_button_xl:before {
    line-height: calc(var(--inline_height_xl_button) - 2 * var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_2xl_theme-@{themeName}:before {
+.controls-Button__wrapper_button_2xl:before {
    line-height: calc(var(--inline_height_2xl_button) - 2 * var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_default_theme-@{themeName}:before {
+.controls-Button__wrapper_button_default:before {
    line-height: calc(var(--inline_height_default_button) - 2 * var(--border-thickness_button));
 }
 
@@ -109,20 +109,20 @@
    cursor: default;
 }
 
-.controls-Button__text_viewMode-button_theme-@{themeName}, .controls-Button__text_viewMode-toolButton_theme-@{themeName} {
+.controls-Button__text_viewMode-button, .controls-Button__text_viewMode-toolButton {
    text-shadow: var(--text-shadow_button);
 }
 
-.controls-Button__text_clickable_theme-@{themeName} {
+.controls-Button__text_clickable {
    color: var(--text-color_button);
 }
 
-.controls-Button__text_readonly_button_theme-@{themeName} {
+.controls-Button__text_readonly_button {
    color: var(--readonly_text-color_button_button);
    text-shadow: none;
 }
 
-.controls-Button__text_readonly_link_theme-@{themeName}, .controls-Button__text_readonly_toolButton_theme-@{themeName} {
+.controls-Button__text_readonly_link, .controls-Button__text_readonly_toolButton {
    color: var(--readonly_text-color_button);
    text-shadow: none;
 }
@@ -133,605 +133,604 @@
    user-select: none;
 }
 
-.controls-Button_button_theme-@{themeName} {
+.controls-Button_button {
    box-shadow: var(--box-shadow_button);
 }
 
-.controls-Button_toolButton_theme-@{themeName} {
+.controls-Button_toolButton {
    box-shadow: var(--box-shadow_button_toolButton);
 }
 
-.controls-Button_functionalButton_theme-@{themeName} {
+.controls-Button_functionalButton {
    box-shadow: var(--box-shadow_button_functionalButton);
 }
 
 .controls-Button_button:active,
 .controls-Button_toolButton:active,
-.controls-Button_functionalButton:active {
+.controls-Button_functionalButton.controls-Button_clickable:active {
    box-shadow: none;
 }
 
 //hover styles
 .ws-is-hover {
-   .controls-BaseButton:hover .controls-Button__text_clickable_theme-@{themeName} {
+   .controls-BaseButton:hover .controls-Button__text_clickable {
       color: var(--hover_text-color_button);
    }
 
-   .controls-BaseButton:hover .controls-text-link_theme-@{themeName} {
+   .controls-BaseButton:hover .controls-text-link {
       color: var(--link_hover_text-color);
    }
 
-   .controls-BaseButton:hover .controls-text-label_theme-@{themeName} {
+   .controls-BaseButton:hover .controls-text-label {
       color: var(--link_hover_text-color);
    }
 }
 
 .ws-is-no-touch, .ws-is-touch {
-   .controls-BaseButton:active .controls-text-link_theme-@{themeName} {
+   .controls-BaseButton:active .controls-text-link {
       color: var(--link_hover_text-color);
    }
 
-   .controls-BaseButton:active .controls-text-label_theme-@{themeName} {
+   .controls-BaseButton:active .controls-text-label {
       color: var(--link_hover_text-color);
    }
 }
 
 .ws-is-hover {
-   .controls-Button_hoverIcon:hover .controls-icon_style-secondary_theme-@{themeName} {
+   .controls-Button_hoverIcon:hover .controls-icon_style-secondary {
       color: var(--link_hover_text-color);
    }
-   .controls-Button_hoverIcon:hover .controls-icon_style-label_theme-@{themeName} {
+   .controls-Button_hoverIcon:hover .controls-icon_style-label {
       color: var(--link_hover_text-color);
    }
 }
 
-.controls-Button_hoverIcon:active .controls-icon_style-secondary_theme-@{themeName} {
+.controls-Button_hoverIcon:active .controls-icon_style-secondary {
    color: var(--link_hover_text-color);
 }
-.controls-Button_hoverIcon:active .controls-icon_style-label_theme-@{themeName} {
+.controls-Button_hoverIcon:active .controls-icon_style-label {
    color: var(--link_hover_text-color);
 }
 
 //borders
 .controls-Button_button,
 .controls-Button_toolButton,
-.controls-Button_functionalButton
-{
+.controls-Button_functionalButton {
    border-style: solid;
 }
 
-.controls-Button_button_theme-@{themeName} {
+.controls-Button_button {
    border-width: var(--border-thickness_button);
 }
 
-.controls-Button_button_style-primary_theme-@{themeName} {
+.controls-Button_button_style-primary {
    border-color: var(--primary_border-color_button);
 }
 
-.controls-Button_button_style-secondary_theme-@{themeName} {
+.controls-Button_button_style-secondary {
    border-color: var(--secondary_border-color_button);
 }
 
-.controls-Button_button_style-readonly_theme-@{themeName} {
+.controls-Button_button_style-readonly {
    border-color: var(--readonly_border-color_button);
 }
 
-.controls-Button_toolButton_theme-@{themeName} {
+.controls-Button_toolButton {
    border-width: var(--border-thickness_button);
 }
 
-.controls-Button_toolButton_style-primary_theme-@{themeName} {
+.controls-Button_toolButton_style-primary {
    border-color: var(--border-color_button_toolButton);
 }
 
-.controls-Button_toolButton_style-secondary_theme-@{themeName} {
+.controls-Button_toolButton_style-secondary {
    border-color: var(--border-color_button_toolButton);
 }
 
-.controls-Button_toolButton_style-danger_theme-@{themeName} {
+.controls-Button_toolButton_style-danger {
    border-color: var(--border-color_button_toolButton);
 }
 
-.controls-Button_toolButton_style-success_theme-@{themeName} {
+.controls-Button_toolButton_style-success {
    border-color: var(--border-color_button_toolButton);
 }
 
-.controls-Button_toolButton_style-readonly_theme-@{themeName} {
+.controls-Button_toolButton_style-readonly {
    border-color: var(--readonly_border-color_button_toolButton);
 }
 
 .ws-is-hover {
-   .controls-Button_toolButton_style-primary_theme-@{themeName}:hover {
+   .controls-Button_toolButton_style-primary:hover {
       border-color: var(--border-color_hover_button_toolButton);
    }
-   .controls-Button_toolButton_style-secondary_theme-@{themeName}:hover {
+   .controls-Button_toolButton_style-secondary:hover {
       border-color: var(--border-color_hover_button_toolButton);
    }
-   .controls-Button_toolButton_style-danger_theme-@{themeName}:hover {
+   .controls-Button_toolButton_style-danger:hover {
       border-color: var(--danger_color);
    }
-   .controls-Button_toolButton_style-success_theme-@{themeName}:hover {
+   .controls-Button_toolButton_style-success:hover {
       border-color: var(--success_color);
    }
 }
 
-.controls-Button_toolButton_style-primary_theme-@{themeName}:active {
+.controls-Button_toolButton_style-primary:active {
    border-color: var(--border-color_hover_button_toolButton);
 }
 
-.controls-Button_toolButton_style-secondary_theme-@{themeName}:active {
+.controls-Button_toolButton_style-secondary:active {
    border-color: var(--border-color_hover_button_toolButton);
 }
 
-.controls-Button_toolButton_style-danger_theme-@{themeName}:active {
+.controls-Button_toolButton_style-danger:active {
    border-color: var(--danger_color);
 }
 
-.controls-Button_toolButton_style-success_theme-@{themeName}:active {
+.controls-Button_toolButton_style-success:active {
    border-color: var(--success_color);
 }
 
-.controls-Button_functionalButton_theme-@{themeName} {
+.controls-Button_functionalButton {
    border-width: var(--border-thickness_button);
 }
 
-.controls-Button_functionalButton_style-primary_theme-@{themeName} {
+.controls-Button_functionalButton_style-primary {
    border-color: var(--primary_background-color_button_functionalButton);
 }
 
-.controls-Button_functionalButton_style-secondary_theme-@{themeName} {
+.controls-Button_functionalButton_style-secondary {
    border-color: var(--secondary_background-color_button_functionalButton);
 }
 
-.controls-Button_functionalButton_style-danger_theme-@{themeName} {
+.controls-Button_functionalButton_style-danger {
    border-color: var(--danger_color);
 }
 
-.controls-Button_functionalButton_style-success_theme-@{themeName} {
+.controls-Button_functionalButton_style-success {
    border-color: var(--success_border-color_button_functionalButton);
 }
 
-.controls-Button_functionalButton_style-unaccented_theme-@{themeName} {
+.controls-Button_functionalButton_style-unaccented {
    border-color: var(--unaccented_background-color_button_functionalButton);
 }
 
-.controls-Button_functionalButton_style-readonly_theme-@{themeName} {
+.controls-Button_functionalButton_style-readonly {
    border-color: var(--readonly_border-color_button_functionalButton);
 }
 
 .ws-is-hover {
-   .controls-Button_functionalButton_style-success_theme-@{themeName}:hover {
+   .controls-Button_functionalButton_style-success:hover {
       border-color: var(--success_hover_border-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-danger_theme-@{themeName}:hover {
+   .controls-Button_functionalButton_style-danger:hover {
       border-color: var(--danger_hover_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-secondary_theme-@{themeName}:hover {
+   .controls-Button_functionalButton_style-secondary:hover {
       border-color: var(--secondary_hover_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-unaccented_theme-@{themeName}:hover {
+   .controls-Button_functionalButton_style-unaccented:hover {
       border-color: var(--unaccented_hover_background-color_button_functionalButton);
    }
 }
 
 .ws-is-no-touch,
 .ws-is-touch {
-   .controls-Button_functionalButton_style-success_theme-@{themeName}:active {
+   .controls-Button_functionalButton_style-success:active {
       border-color: var(--success_active_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-danger_theme-@{themeName}:active {
+   .controls-Button_functionalButton_style-danger:active {
       border-color: var(--danger_active_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-secondary_theme-@{themeName}:active {
+   .controls-Button_functionalButton_style-secondary:active {
       border-color: var(--secondary_active_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-unaccented_theme-@{themeName}:active {
+   .controls-Button_functionalButton_style-unaccented:active {
       border-color: var(--unaccented_active_background-color_button_functionalButton);
    }
 }
 //background
-.controls-Button_button_style-primary_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
+.controls-Button_button_style-primary.controls-Button_bg-contrast {
    background-color: var(--primary_contrast_background-color_button);
 }
 
-.controls-Button_button_style-secondary_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
+.controls-Button_button_style-secondary.controls-Button_bg-contrast {
    background-color: var(--secondary_contrast_background-color_button);
 }
 
-.controls-Button_button_style-readonly_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
+.controls-Button_button_style-readonly.controls-Button_bg-contrast {
    background-color: var(--readonly_contrast_background-color_button);
 }
 
-.controls-Button_button_style-danger_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
+.controls-Button_button_style-danger.controls-Button_bg-contrast {
    background-color: var(--danger_color);
 }
 
-.controls-Button_button_style-primary_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
+.controls-Button_button_style-primary.controls-Button_bg-same {
    background-color: var(--primary_background-color_button);
 }
 
-.controls-Button_button_style-secondary_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
+.controls-Button_button_style-secondary.controls-Button_bg-same {
    background-color: var(--secondary_background-color_button);
 }
 
-.controls-Button_button_style-readonly_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
+.controls-Button_button_style-readonly.controls-Button_bg-same {
    background-color: var(--readonly_background-color_button);
 }
 
-.controls-Button_button_style-danger_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
+.controls-Button_button_style-danger.controls-Button_bg-same {
    background-color: var(--danger_color);
 }
 
 .ws-is-hover {
-   .controls-Button_button_style-primary_theme-@{themeName}:hover {
+   .controls-Button_button_style-primary:hover {
       background-color: var(--primary_hover_background-color_button);
    }
-   .controls-Button_button_style-secondary_theme-@{themeName}:hover {
+   .controls-Button_button_style-secondary:hover {
       background-color: var(--secondary_hover_background-color_button);
    }
 }
 
 .ws-is-no-touch, .ws-is-touch {
-   .controls-Button_button_style-primary_theme-@{themeName}:active {
+   .controls-Button_button_style-primary:active {
       background-color: var(--primary_active_background-color_button);
    }
-   .controls-Button_button_style-secondary_theme-@{themeName}:active {
+   .controls-Button_button_style-secondary:active {
       background-color: var(--secondary_active_background-color_button);
    }
 }
 
-.controls-Button_toolButton_theme-@{themeName}.controls-Button_bg-contrast_theme-@{themeName} {
+.controls-Button_toolButton.controls-Button_bg-contrast {
    background-color: var(--background-color_contrast_button_toolButton);
 }
 
-.controls-Button_toolButton_theme-@{themeName}.controls-Button_bg-same_theme-@{themeName} {
+.controls-Button_toolButton.controls-Button_bg-same {
    background-color: var(--background-color_button_toolButton);
 }
 
 .ws-is-hover {
-   .controls-Button_toolButton_theme-@{themeName}:hover.controls-Button_bg-contrast_theme-@{themeName} {
+   .controls-Button_toolButton:hover.controls-Button_bg-contrast {
       background-color: var(--background-color_contrast_hover_button_toolButton);
    }
-   .controls-Button_toolButton_theme-@{themeName}:hover.controls-Button_bg-same_theme-@{themeName} {
+   .controls-Button_toolButton:hover.controls-Button_bg-same {
       background-color: var(--background-color_hover_button_toolButton);
    }
 }
 
 .ws-is-no-touch,
 .ws-is-touch {
-   .controls-Button_toolButton_theme-@{themeName}:active.controls-Button_bg-contrast_theme-@{themeName} {
+   .controls-Button_toolButton:active.controls-Button_bg-contrast {
       background-color: var(--background-color_contrast_active_button_toolButton);
    }
 
-   .controls-Button_toolButton_theme-@{themeName}:active.controls-Button_bg-same_theme-@{themeName} {
+   .controls-Button_toolButton:active.controls-Button_bg-same {
       background-color: var(--background-color_active_button_toolButton);
    }
 }
 
-.controls-Button_functionalButton_style-primary_theme-@{themeName} {
+.controls-Button_functionalButton_style-primary {
    background-color: var(--primary_background-color_button_functionalButton);
 }
 
-.controls-Button_functionalButton_style-secondary_theme-@{themeName} {
+.controls-Button_functionalButton_style-secondary {
    background-color: var(--secondary_background-color_button_functionalButton);
 }
 
-.controls-Button_functionalButton_style-success_theme-@{themeName} {
+.controls-Button_functionalButton_style-success {
    background-color: var(--success_background-color_button_functionalButton);
 }
 
-.controls-Button_functionalButton_style-danger_theme-@{themeName} {
+.controls-Button_functionalButton_style-danger {
    background-color: var(--danger_color);
 }
 
-.controls-Button_functionalButton_style-warning_theme-@{themeName} {
+.controls-Button_functionalButton_style-warning {
    background-color: var(--warning_color);
 }
 
-.controls-Button_functionalButton_style-unaccented_theme-@{themeName} {
+.controls-Button_functionalButton_style-unaccented {
    background-color: var(--unaccented_background-color_button_functionalButton);
 }
 
-.controls-Button_functionalButton_style-readonly_theme-@{themeName} {
+.controls-Button_functionalButton_style-readonly {
    background-color: var(--readonly_background-color_button_functionalButton);
 }
 
 .ws-is-hover {
-   .controls-Button_functionalButton_style-success_theme-@{themeName}:hover {
+   .controls-Button_functionalButton_style-success:hover {
       background-color: var(--success_hover_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-danger_theme-@{themeName}:hover {
+   .controls-Button_functionalButton_style-danger:hover {
       background-color: var(--danger_hover_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-secondary_theme-@{themeName}:hover {
+   .controls-Button_functionalButton_style-secondary:hover {
       background-color: var(--secondary_hover_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-unaccented_theme-@{themeName}:hover {
+   .controls-Button_functionalButton_style-unaccented:hover {
       background-color: var(--unaccented_hover_background-color_button_functionalButton);
    }
 }
 
 .ws-is-no-touch,
 .ws-is-touch {
-   .controls-Button_functionalButton_style-success_theme-@{themeName}:active {
+   .controls-Button_functionalButton_style-success:active {
       background-color: var(--success_active_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-danger_theme-@{themeName}:active {
+   .controls-Button_functionalButton_style-danger:active {
       background-color: var(--danger_active_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-secondary_theme-@{themeName}:active {
+   .controls-Button_functionalButton_style-secondary:active {
       background-color: var(--secondary_active_background-color_button_functionalButton);
    }
-   .controls-Button_functionalButton_style-unaccented_theme-@{themeName}:active {
+   .controls-Button_functionalButton_style-unaccented:active {
       background-color: var(--unaccented_active_background-color_button_functionalButton);
    }
 }
 
 //border-radiuses
-.controls-Button_button_xs_theme-@{themeName} {
+.controls-Button_button_xs {
    border-radius: var(--border-radius_xs_button);
 }
 
-.controls-Button_button_s_theme-@{themeName} {
+.controls-Button_button_s {
    border-radius: var(--border-radius_s_button);
 }
 
-.controls-Button_button_m_theme-@{themeName} {
+.controls-Button_button_m {
    border-radius: var(--border-radius_m_button);
 }
 
-.controls-Button_button_l_theme-@{themeName} {
+.controls-Button_button_l {
    border-radius: var(--border-radius_l_button);
 }
 
-.controls-Button_button_xl_theme-@{themeName} {
+.controls-Button_button_xl {
    border-radius: var(--border-radius_xl_button);
 }
 
-.controls-Button_button_2xl_theme-@{themeName} {
+.controls-Button_button_2xl {
    border-radius: var(--border-radius_2xl_button);
 }
 
-.controls-Button_button_default_theme-@{themeName} {
+.controls-Button_button_default {
    border-radius: var(--border-radius_default_button);
 }
 
-.controls-Button_toolButton_theme-@{themeName} {
+.controls-Button_toolButton {
    border-radius: var(--border-radius_button_toolButton);
 }
 
-.controls-Button_functionalButton_s_theme-@{themeName} {
+.controls-Button_functionalButton_s {
    border-radius: var(--border-radius_s_button_functionalButton);
 }
 
-.controls-Button_functionalButton_m_theme-@{themeName} {
+.controls-Button_functionalButton_m {
    border-radius: var(--border-radius_m_button_functionalButton);
 }
 
-.controls-Button_functionalButton_l_theme-@{themeName} {
+.controls-Button_functionalButton_l {
    border-radius: var(--border-radius_l_button_functionalButton);
 }
 
-.controls-Button_functionalButton_xl_theme-@{themeName} {
+.controls-Button_functionalButton_xl {
    border-radius: var(--border-radius_xl_button_functionalButton);
 }
 
-.controls-Button_functionalButton_2xl_theme-@{themeName} {
+.controls-Button_functionalButton_2xl {
    border-radius: var(--border-radius_2xl_button_functionalButton);
 }
 
-.controls-Button_functionalButton_default_theme-@{themeName} {
+.controls-Button_functionalButton_default {
    border-radius: var(--border-radius_default_button_functionalButton);
 }
 
 //widths
-.controls-Button_button_theme-@{themeName} {
+.controls-Button_button {
    //may be we need variable for this
    min-width: var(--min-width_button_button);
 }
 
 //this is square buttons, that's why width is equal to height
-.controls-Button_toolButton_xs_theme-@{themeName}, .controls-Button_functionalButton_xs_theme-@{themeName} {
+.controls-Button_toolButton_xs, .controls-Button_functionalButton_xs {
    min-width: var(--inline_height_xs);
 }
 
-.controls-Button_toolButton_s_theme-@{themeName}, .controls-Button_functionalButton_s_theme-@{themeName} {
+.controls-Button_toolButton_s, .controls-Button_functionalButton_s {
    min-width: var(--inline_height_s);
 }
 
-.controls-Button_toolButton_m_theme-@{themeName}, .controls-Button_functionalButton_m_theme-@{themeName} {
+.controls-Button_toolButton_m, .controls-Button_functionalButton_m {
    min-width: var(--inline_height_m);
 }
 
-.controls-Button_toolButton_l_theme-@{themeName}, .controls-Button_functionalButton_l_theme-@{themeName} {
+.controls-Button_toolButton_l, .controls-Button_functionalButton_l {
    min-width: var(--inline_height_l);
 }
 
-.controls-Button_toolButton_xl_theme-@{themeName}, .controls-Button_functionalButton_xl_theme-@{themeName} {
+.controls-Button_toolButton_xl, .controls-Button_functionalButton_xl {
    min-width: var(--inline_height_xl);
 }
 
-.controls-Button_toolButton_2xl_theme-@{themeName}, .controls-Button_functionalButton_2xl_theme-@{themeName} {
+.controls-Button_toolButton_2xl, .controls-Button_functionalButton_2xl {
    min-width: var(--inline_height_2xl);
 }
 
-.controls-Button_toolButton_default_theme-@{themeName}, .controls-Button_functionalButton_default_theme-@{themeName} {
+.controls-Button_toolButton_default, .controls-Button_functionalButton_default {
    min-width: var(--inline_height_default);
 }
 
 //paddings
-.controls-Button__wrapper_button_xs_theme-@{themeName} {
+.controls-Button__wrapper_button_xs {
    padding: 0 calc(var(--padding-horizontal_xs_button) - var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_s_theme-@{themeName} {
+.controls-Button__wrapper_button_s {
    padding: 0 calc(var(--padding-horizontal_s_button) - var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_m_theme-@{themeName} {
+.controls-Button__wrapper_button_m {
    padding: 0 calc(var(--padding-horizontal_m_button) - var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_l_theme-@{themeName} {
+.controls-Button__wrapper_button_l {
    padding: 0 calc(var(--padding-horizontal_l_button) - var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_xl_theme-@{themeName} {
+.controls-Button__wrapper_button_xl {
    padding: 0 calc(var(--padding-horizontal_xl_button) - var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_2xl_theme-@{themeName} {
+.controls-Button__wrapper_button_2xl {
    padding: 0 calc(var(--padding-horizontal_2xl_button) - var(--border-thickness_button));
 }
 
-.controls-Button__wrapper_button_default_theme-@{themeName} {
+.controls-Button__wrapper_button_default {
    padding: 0 calc(var(--padding-horizontal_default_button) - var(--border-thickness_button));
 }
 
 //fontsize buttons default view mode
-.controls-fontsize-xs_theme-@{themeName}.controls-Button_button__wrapper-fontsize-xs_theme-@{themeName} when not (@font-size_xs_button_button = @font-size_xs) {
+.controls-fontsize-xs.controls-Button_button__wrapper-fontsize-xs {
    font-size: var(--font-size_xs_button_button);
 }
 
-.controls-fontsize-s_theme-@{themeName}.controls-Button_button__wrapper-fontsize-s_theme-@{themeName} when not (@font-size_s_button_button = @font-size_s) {
+.controls-fontsize-s.controls-Button_button__wrapper-fontsize-s {
    font-size: var(--font-size_s_button_button);
 }
 
-.controls-fontsize-m_theme-@{themeName}.controls-Button_button__wrapper-fontsize-m_theme-@{themeName} when not (@font-size_m_button_button = @font-size_m) {
+.controls-fontsize-m.controls-Button_button__wrapper-fontsize-m {
    font-size: var(--font-size_m_button_button);
 }
 
-.controls-fontsize-l_theme-@{themeName}.controls-Button_button__wrapper-fontsize-l_theme-@{themeName} when not (@font-size_l_button_button = @font-size_l) {
+.controls-fontsize-l.controls-Button_button__wrapper-fontsize-l {
    font-size: var(--font-size_l_button_button);
 }
 
-.controls-fontsize-xl_theme-@{themeName}.controls-Button_button__wrapper-fontsize-xl_theme-@{themeName} when not (@font-size_xl_button_button = @font-size_xl) {
+.controls-fontsize-xl.controls-Button_button__wrapper-fontsize-xl {
    font-size: var(--font-size_xl_button_button);
 }
 
-.controls-fontsize-2xl_theme-@{themeName}.controls-Button_button__wrapper-fontsize-2xl_theme-@{themeName} when not (@font-size_2xl_button_button = @font-size_2xl) {
+.controls-fontsize-2xl.controls-Button_button__wrapper-fontsize-2xl {
    font-size: var(--font-size_2xl_button_button);
 }
 
-.controls-fontsize-3xl_theme-@{themeName}.controls-Button_button__wrapper-fontsize-3xl_theme-@{themeName} when not (@font-size_3xl_button_button = @font-size_3xl) {
+.controls-fontsize-3xl.controls-Button_button__wrapper-fontsize-3xl {
    font-size: var(--font-size_3xl_button_button);
 }
 
-.controls-fontsize-4xl_theme-@{themeName}.controls-Button_button__wrapper-fontsize-4xl_theme-@{themeName} when not (@font-size_4xl_button_button = @font-size_4xl) {
+.controls-fontsize-4xl.controls-Button_button__wrapper-fontsize-4xl {
    font-size: var(--font-size_4xl_button_button);
 }
 
-.controls-fontsize-5xl_theme-@{themeName}.controls-Button_button__wrapper-fontsize-5xl_theme-@{themeName} when not (@font-size_5xl_button_button = @font-size_5xl) {
+.controls-fontsize-5xl.controls-Button_button__wrapper-fontsize-5xl {
    font-size: var(--font-size_5xl_button_button);
 }
 
 //fontsize buttons link view mode
-.controls-fontsize-xs_theme-@{themeName}.controls-Button_link__wrapper-fontsize-xs_theme-@{themeName} when not (@font-size_xs_button_link = @font-size_xs) {
+.controls-fontsize-xs.controls-Button_link__wrapper-fontsize-xs {
    font-size: var(--font-size_xs_button_link);
 }
 
-.controls-fontsize-s_theme-@{themeName}.controls-Button_link__wrapper-fontsize-s_theme-@{themeName} when not (@font-size_s_button_link = @font-size_s) {
+.controls-fontsize-s.controls-Button_link__wrapper-fontsize-s {
    font-size: var(--font-size_s_button_link);
 }
 
-.controls-fontsize-m_theme-@{themeName}.controls-Button_link__wrapper-fontsize-m_theme-@{themeName} when not (@font-size_m_button_link = @font-size_m) {
+.controls-fontsize-m.controls-Button_link__wrapper-fontsize-m {
    font-size: var(--font-size_m_button_link);
 }
 
-.controls-fontsize-l_theme-@{themeName}.controls-Button_link__wrapper-fontsize-l_theme-@{themeName} when not (@font-size_l_button_link = @font-size_l) {
+.controls-fontsize-l.controls-Button_link__wrapper-fontsize-l {
    font-size: var(--font-size_l_button_link);
 }
 
-.controls-fontsize-xl_theme-@{themeName}.controls-Button_link__wrapper-fontsize-xl_theme-@{themeName} when not (@font-size_xl_button_link = @font-size_xl) {
+.controls-fontsize-xs.controls-Button_link__wrapper-fontsize-xl {
    font-size: var(--font-size_xl_button_link);
 }
 
-.controls-fontsize-2xl_theme-@{themeName}.controls-Button_link__wrapper-fontsize-2xl_theme-@{themeName} when not (@font-size_2xl_button_link = @font-size_2xl) {
+.controls-fontsize-2xl.controls-Button_link__wrapper-fontsize-2xl {
    font-size: var(--font-size_2xl_button_link);
 }
 
-.controls-fontsize-3xl_theme-@{themeName}.controls-Button_link__wrapper-fontsize-3xl_theme-@{themeName} when not (@font-size_3xl_button_link = @font-size_3xl) {
+.controls-fontsize-3xl.controls-Button_link__wrapper-fontsize-3xl {
    font-size: var(--font-size_3xl_button_link);
 }
 
-.controls-fontsize-4xl_theme-@{themeName}.controls-Button_link__wrapper-fontsize-4xl_theme-@{themeName} when not (@font-size_4xl_button_link = @font-size_4xl) {
+.controls-fontsize-4xl.controls-Button_link__wrapper-fontsize-4xl {
    font-size: var(--font-size_4xl_button_link);
 }
 
-.controls-fontsize-5xl_theme-@{themeName}.controls-Button_link__wrapper-fontsize-5xl_theme-@{themeName} when not (@font-size_5xl_button_link = @font-size_5xl) {
+.controls-fontsize-5xl.controls-Button_link__wrapper-fontsize-5xl {
    font-size: var(--font-size_5xl_button_link);
 }
 
 //fontsize buttons toolButton view mode
-.controls-fontsize-xs_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-xs_theme-@{themeName} when not (@font-size_xs_button = @font-size_xs) {
+.controls-fontsize-xs.controls-Button_toolButton__wrapper-fontsize-xs {
    font-size: var(--font-size_xs_button);
 }
 
-.controls-fontsize-s_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-s_theme-@{themeName} when not (@font-size_s_button = @font-size_s) {
+.controls-fontsize-s.controls-Button_toolButton__wrapper-fontsize-s {
    font-size: var(--font-size_s_button);
 }
 
-.controls-fontsize-m_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-m_theme-@{themeName} when not (@font-size_m_button = @font-size_m) {
+.controls-fontsize-m.controls-Button_toolButton__wrapper-fontsize-m {
    font-size: var(--font-size_m_button);
 }
 
-.controls-fontsize-l_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-l_theme-@{themeName} when not (@font-size_l_button = @font-size_l) {
+.controls-fontsize-l.controls-Button_toolButton__wrapper-fontsize-l {
    font-size: var(--font-size_l_button);
 }
 
-.controls-fontsize-xl_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-xl_theme-@{themeName} when not (@font-size_xl_button = @font-size_xl) {
+.controls-fontsize-xl.controls-Button_toolButton__wrapper-fontsize-xl {
    font-size: var(--font-size_xl_button);
 }
 
-.controls-fontsize-2xl_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-2xl_theme-@{themeName} when not (@font-size_2xl_button = @font-size_2xl) {
+.controls-fontsize-2xl.controls-Button_toolButton__wrapper-fontsize-2xl {
    font-size: var(--font-size_2xl_button);
 }
 
-.controls-fontsize-3xl_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-3xl_theme-@{themeName} when not (@font-size_3xl_button = @font-size_3xl) {
+.controls-fontsize-3xl.controls-Button_toolButton__wrapper-fontsize-3xl {
    font-size: var(--font-size_3xl_button);
 }
 
-.controls-fontsize-4xl_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-4xl_theme-@{themeName} when not (@font-size_4xl_button = @font-size_4xl) {
+.controls-fontsize-4xl.controls-Button_toolButton__wrapper-fontsize-4xl {
    font-size: var(--font-size_4xl_button);
 }
 
-.controls-fontsize-5xl_theme-@{themeName}.controls-Button_toolButton__wrapper-fontsize-5xl_theme-@{themeName} when not (@font-size_5xl_button = @font-size_5xl) {
+.controls-fontsize-5xl.controls-Button_toolButton__wrapper-fontsize-5xl {
    font-size: var(--font-size_5xl_button);
 }
 
 //inline heights buttons common
-.controls-inlineheight-xs_theme-@{themeName}.controls-Button-inlineheight-xs_theme-@{themeName} when not (@inline_height_xs_button = @inline_height_xs) {
+.controls-inlineheight-xs.controls-Button-inlineheight-xs {
    height: var(--inline_height_xs_button);
 }
 
-.controls-inlineheight-s_theme-@{themeName}.controls-Button-inlineheight-s_theme-@{themeName} when not (@inline_height_s_button = @inline_height_s) {
+.controls-inlineheight-s.controls-Button-inlineheight-s {
    height: var(--inline_height_s_button);
 }
 
-.controls-inlineheight-m_theme-@{themeName}.controls-Button-inlineheight-m_theme-@{themeName} when not (@inline_height_m_button = @inline_height_m) {
+.controls-inlineheight-m.controls-Button-inlineheight-m {
    height: var(--inline_height_m_button);
 }
 
-.controls-inlineheight-l_theme-@{themeName}.controls-Button-inlineheight-l_theme-@{themeName} when not (@inline_height_l_button = @inline_height_l) {
+.controls-inlineheight-l.controls-Button-inlineheight-l {
    height: var(--inline_height_l_button);
 }
 
-.controls-inlineheight-xl_theme-@{themeName}.controls-Button-inlineheight-xl_theme-@{themeName} when not (@inline_height_xl_button = @inline_height_xl) {
+.controls-inlineheight-xl.controls-Button-inlineheight-xl {
    height: var(--inline_height_xl_button);
 }
 
-.controls-inlineheight-2xl_theme-@{themeName}.controls-Button-inlineheight-2xl_theme-@{themeName} when not (@inline_height_2xl_button = @inline_height_2xl) {
+.controls-inlineheight-2xl.controls-Button-inlineheight-2xl {
    height: var(--inline_height_2xl_button);
 }
 
-.controls-inlineheight-default_theme-@{themeName}.controls-Button-inlineheight-default_theme-@{themeName} when not (@inline_height_default_button = @inline_height_default) {
+.controls-inlineheight-default.controls-Button-inlineheight-default {
    height: var(--inline_height_default_button);
 }
 
 //text colors
-.controls-text-primary_theme-@{themeName}.controls-Button__text-primary_viewMode-link_theme-@{themeName} when not (@primary_text-color_button_link = @primary_text-color){
+.controls-text-primary.controls-Button__text-primary_viewMode-link {
    color: var(--primary_text-color_button_link);
 }
-.controls-text-secondary_theme-@{themeName}.controls-Button__text-secondary_viewMode-link_theme-@{themeName} when not (@secondary_text-color_button_link = @secondary_text-color){
+.controls-text-secondary.controls-Button__text-secondary_viewMode-link {
    color: var(--secondary_text-color_button_link);
 }

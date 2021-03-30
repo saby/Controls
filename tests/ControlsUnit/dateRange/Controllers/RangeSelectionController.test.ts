@@ -56,9 +56,11 @@ describe('Controls/_dateRange/Controllers/RangeSelectionController', () => {
 
                 component._mouseleaveHandler();
 
-                assert.strictEqual(component._selectionHoveredValue, null);
+                assert.strictEqual(+component._selectionHoveredValue, +test.clickedItem);
                 assert.strictEqual(+component._displayedStartValue, +test.clickedItem);
-                assert.strictEqual(component._displayedEndValue, null);
+                assert.strictEqual(+component._displayedEndValue, +test.clickedItem);
+                assert.strictEqual(+component._startValue, +test.clickedItem);
+                assert.strictEqual(+component._endValue, +test.clickedItem);
             });
         });
     });

@@ -16,7 +16,7 @@ import { clearNeedDecorateGlobals, needDecorate, getDecoratedLink } from '../res
  * // JavaScript
  * define("MyControl", ["UI/Base", "wml!MyControl", "Controls/decorator"], 
  * function(Base, template, decorator) {
- *    var ModuleClass = Base.Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _template: template,
  *       _tagResolver: decorator.linkDecorate
  *       _json:
@@ -46,7 +46,7 @@ import { clearNeedDecorateGlobals, needDecorate, getDecoratedLink } from '../res
  *                ]
  *             ]
  *          ]
- *       });
+ *       }
  *   return ModuleClass;
  * });
  * </pre>

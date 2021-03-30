@@ -17,6 +17,11 @@ const MOBILE_TEMPLATE = 'Controls/popupSliding:_SlidingPanel';
 
 /**
  *  Базовый шаблон окна-шторки.
+ *  @remark
+ *  Для корректной работы требуется:
+ *    1) Задать опцию {@link Controls/_popupSliding/interface/ISlidingPanelTemplate#slidingPanelOptions slidingPanelOptions}
+ *    2) Если скролл находится не в корне {@link Controls/_popupSliding/interface/ISlidingPanelTemplate#bodyContentTemplate bodyContentTemplate},
+ *    то нужно проксировать выше событие ScrollContainer scrollStateChanged
  * @class Controls/_popupSliding/Template
  * @implements Controls/_popupSliding/interface/ISlidingPanelTemplate
  * @public
@@ -28,16 +33,16 @@ export default class Template extends Control<ISlidingPanelTemplateOptions> {
     protected _adaptiveTemplateName: string = MOBILE_TEMPLATE;
 
     protected _beforeMount(options: ISlidingPanelTemplateOptions): void {
-        this._adaptiveTemplateName = this._getDatapriveTemplate(options.slidingPanelOptions);
+        this._adaptiveTemplateName = this._getAdaptiveTemplate(options.slidingPanelOptions);
     }
 
     protected _beforeUpdate(options: ISlidingPanelTemplateOptions): void {
         if (options.slidingPanelOptions !== this._options.slidingPanelOptions) {
-            this._adaptiveTemplateName = this._getDatapriveTemplate(options.slidingPanelOptions);
+            this._adaptiveTemplateName = this._getAdaptiveTemplate(options.slidingPanelOptions);
         }
     }
 
-    private _getDatapriveTemplate(slidingPanelOptions: ISlidingPanelTemplateOptions['slidingPanelOptions']): string {
+    private _getAdaptiveTemplate(slidingPanelOptions: ISlidingPanelTemplateOptions['slidingPanelOptions']): string {
         return detection.isPhone ? MOBILE_TEMPLATE : DESKTOP_TEMPLATE_BY_MODE[slidingPanelOptions.desktopMode];
     }
 }

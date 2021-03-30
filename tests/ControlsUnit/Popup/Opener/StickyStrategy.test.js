@@ -26,6 +26,18 @@ define(
                leftScroll: 0
             };
             let popupCfg = {
+               targetPoint: {
+                  horizontal: 'left',
+                  vertical: 'top'
+               },
+               direction: {
+                  horizontal: 'right',
+                  vertical: 'bottom'
+               },
+               fittingMode: {
+                  horizontal: 'adaptive',
+                  vertical: 'adaptive'
+               },
                sizes: {
                   width: 120,
                   height: 120

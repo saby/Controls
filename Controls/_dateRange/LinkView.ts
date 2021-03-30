@@ -14,6 +14,8 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {descriptor} from "Types/entity";
 import dateControlsUtils from "./Utils";
 import {Base as dateUtils} from 'Controls/dateUtils';
+import 'css!Controls/dateRange';
+import 'css!Controls/CommonClasses';
 
 export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyleOptions {
 }
@@ -22,6 +24,7 @@ export interface ILinkViewControlOptions extends IControlOptions, IFontColorStyl
  * <a href="/materials/Controls-demo/app/Controls-demo%2FInput%2FDate%2FLinkView">Demo examples.</a>.
  * @class Controls/_dateRange/LinkView
  * @extends UI/Base:Control
+ * @mixes Controls/_interface/IResetValues
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
@@ -69,15 +72,11 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
          Logger.warn('LinkView: Используется устаревшая опция clearButtonVisibility, используйте' +
              'resetStartValue и resetEndValue');
       }
-
-      if (options.showPrevArrow || options.showNextArrow) {
-         Logger.error('LinkView: ' + rk('You should use prevArrowVisibility and nextArrowVisibility instead of showPrevArrow and showNextArrow'), this);
+      if (options.prevArrowVisibility) {
+         Logger.warn('LinkView: Используется устаревшая опция prevArrowVisibility, используйте контрол ArrowButton');
       }
-
-      // clearButtonVisibility is option of clearButton visibility state
-
-      if ((options.prevArrowVisibility && options.clearButtonVisibility) || (options.nextArrowVisibility && options.clearButtonVisibility)) {
-         Logger.error('LinkView: ' + rk('The Controls functional is not intended for showClearButton and prevArrowVisibility/nextArrowVisibility options using in one time'), this);
+      if (options.nextArrowVisibility) {
+         Logger.warn('LinkView: Используется устаревшая опция nextArrowVisibility, используйте контрол ArrowButton');
       }
    }
 
@@ -99,6 +98,14 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
 
    _beforeUnmount() {
       this._rangeModel.destroy();
+   }
+
+   shiftPeriod(delta: number): void {
+       if (delta === 1) {
+           this.shiftForward();
+       } else {
+           this.shiftBack();
+       }
    }
 
    shiftBack(): void {
@@ -202,14 +209,14 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
          if (this._viewMode !== 'label') {
             this._styleClass = '';
             if (newOption.readOnly && !(newOption.fontColorStyle || newOption.fontSize)) {
-               this._styleClass = `controls-DateLinkView__style-readOnly_theme-${newOption.theme}`;
+               this._styleClass = 'controls-DateLinkView__style-readOnly';
                this._fontColorStyle = 'default';
             }
             if (newOption.clickable && !newOption.readOnly) {
-               this._styleClass +=  ` controls-DateLinkView__style-clickable_theme-${newOption.theme}`;
+               this._styleClass +=  ' controls-DateLinkView__style-clickable';
             }
             if (this._viewMode === 'selector' && this._fontColorStyle === 'link' && !newOption.readOnly) {
-               this._styleClass += ` controls-DateLinkView__style-hover_theme-${newOption.theme}`;
+               this._styleClass += ' controls-DateLinkView__style-hover';
             }
          } else {
             this._styleClass = null;
@@ -219,8 +226,6 @@ class LinkView extends Control<ILinkViewControlOptions> implements IFontColorSty
       }
    }
 }
-
-LinkView._theme = ['Controls/dateRange', 'Controls/Classes'];
 
 LinkView.EMPTY_CAPTIONS = IDateLinkView.EMPTY_CAPTIONS;
 

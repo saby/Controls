@@ -1,13 +1,6 @@
 .controls-DecoratorMoney {
    white-space: nowrap;
-}
-
-.controls-DecoratorMoney__integer_fontWeight_default {
-   font-weight: var(--font-weight);
-}
-
-.controls-DecoratorMoney__integer_fontWeight_bold {
-   font-weight: bold;
+   align-items: baseline;
 }
 
 .controls-DecoratorMoney__fraction {
@@ -15,3 +8,64 @@
    font-weight: var(--font-weight);
 }
 
+.controls-DecoratorMoney__fraction__colorStyle {
+   color: var(--zero_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-default {
+   color: var(--default_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-unaccented {
+   color: var(--unaccented_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-readonly {
+   color: var(--readOnly_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-primary {
+   color: var(--primary_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-secondary {
+   color: var(--secondary_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-info {
+   color: var(--info_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-link {
+   color: var(--link_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-success {
+   color: var(--success_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-warning {
+   color: var(--warning_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__fraction__colorStyle-danger {
+   color: var(--danger_text-color_decorator_fraction);
+}
+
+.controls-DecoratorMoney__stroked {
+   position: relative;
+}
+
+.controls-DecoratorMoney__stroked::before {
+   content: '';
+   height: 1px;
+   background-color: var(--stroked_line-color_decorator);
+   left: 0;
+   top: 50%;
+   width: 100%;
+   position: absolute;
+}
+
+.ws-is-hover .controls-DecoratorMoney__underline:hover {
+   text-decoration: underline;
+}

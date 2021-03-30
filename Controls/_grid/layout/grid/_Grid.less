@@ -247,6 +247,7 @@
    flex-grow: 1;
    box-sizing: border-box;
    max-width: 100%;
+   min-width: 0;
 }
 
 // Хак для новой версии хрома (84 dev), заведён issue в поддержке хрома. В IE ломает вёрстку в автотестах
@@ -271,13 +272,8 @@
    font-size: @master_item_font-size_list;
 }
 
-.controls-ColumnScroll_visible .controls-GridNew__cell_fixed_theme-@{themeName},
-.controls-Grid__cell_fixed_theme-@{themeName} {
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed_theme-@{themeName} {
    z-index: 3;
-   // stickyHeader считает что колонка не зафиксированна если повесить overflow-y: hidden;, а без overflow-x: hidden оявляется горизонтальный скролл
-   &:not(.controls-StickyHeader) {
-      overflow: hidden;
-   }
 }
 
 // Строка редактирования имеет свой z-index, который вешается на все ячейки.
@@ -285,6 +281,11 @@
 .controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName},
 .controls-Grid__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName} {
    z-index: 3;
+}
+
+// Чтобы перетаскиваемая запись при днд была выше всех и соседние записи не перекрывали тень у неё
+.controls-Grid__cell_fixed.controls-ListView__item_dragging_theme-@{themeName} {
+   z-index: 4;
 }
 
 // In IE z-index on positioned elements and transform by itself create new "stacking contexts" on elements.
@@ -338,9 +339,11 @@
    .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
       background-color: @item_hover_background-color_list;
    }
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default,
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack,
    .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack_theme-@{themeName} {
       background-color: @item_hover_background-color_list;
    }
@@ -391,7 +394,6 @@
 .ws-is-hover .controls-BaseControl_showActions_visible .controls-Grid__row,
 .ws-is-hover .controls-BaseControl_showActions_delayed .controls-Grid__row:hover,
 .ws-is-hover .controls-BaseControl_showActions_onhover .controls-Grid__row:hover {
-   .controls-Grid__editArrow-blur_theme-@{themeName},
    .controls-Grid__editArrow-wrapper_theme-@{themeName} {
       visibility: visible;
    }
@@ -452,8 +454,18 @@
 .controls-Grid__row-cell__content_ladder-empty.controls-Grid__row-cell__content_hiddenForLadder {
    z-index: 0;
 }
+
+/*
+   !important в стилях ниже необходим. Для прилипающей лесенки в комбинации с другими прилипающими элементами таблицы,
+   такими как заголовки, резултаты и группировка, увеличиваем отступ (по умолчанию top: 0).
+   Лесенка не прилипает ниже верхних заголовков, так как находится в своих стеках заголовков.
+*/
 .controls-Grid__row-cell__ladder-spacing_theme-@{themeName} {
    top: @item_line-height_l_grid !important;
+   height: 0;
+}
+.controls-Grid__row-cell__ladder-spacing_withGroup_theme-@{themeName} {
+   top: @item_line-height_l_grid + @grouping_height_list !important;
    height: 0;
 }
 
@@ -471,6 +483,26 @@
    top: @item_line-height_l_grid + @header_cell_min-height_grid + @results_cell_min-height_grid !important;
    height: 0;
 }
+
+.controls-Grid__row-cell__ladder-spacing_withHeader_withGroup_theme-@{themeName} {
+   top: @item_line-height_l_grid + @header_cell_min-height_grid + @grouping_height_list !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-spacing_withResults_withGroup_theme-@{themeName} {
+   top: @item_line-height_l_grid + @results_cell_min-height_grid + @grouping_height_list !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup_theme-@{themeName} {
+   top: @item_line-height_l_grid + @header_cell_min-height_grid + @results_cell_min-height_grid + @grouping_height_list !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-main_spacing_withGroup_theme-@{themeName} {
+   top: @header_cell_min-height_grid !important;
+}
+
 .controls-Grid__cell-content-wrapper_ladder {
    align-items: baseline;
    position: absolute;
@@ -704,7 +736,6 @@
 .controls-Grid__cell_spacingBackButton_with_multiSelection_theme-@{themeName} {
    margin-left: -@click-area_width_checkbox;
 }
-.controls-Grid__row-cell__content_hiddenForLadder_theme-@{themeName},
 .controls-GridView__item_active_theme-@{themeName} {
    background-color: @item_hover_background-color_list;
 }
@@ -804,11 +835,12 @@
    .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;
    }
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master,
    .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master_theme-@{themeName} {
       background-color: @master_item_hover_background-color_list;
    }
 }
-.controls-Grid__row-cell__content_hiddenForLadder_theme-@{themeName},
+
 .controls-background-listItem_theme-@{themeName} {
    background-color: @background-color;
 }
@@ -864,7 +896,6 @@
    align-items: center;
 }
 
-.controls-Grid__editArrow-blur_theme-@{themeName},
 .controls-Grid__editArrow-wrapper_theme-@{themeName} {
    visibility: hidden;
 }
@@ -907,6 +938,7 @@
    min-width: @edit-arrow_icon-size_grid;
    display: inline-flex;
    align-items: baseline;
+   cursor: pointer;
 }
 
 .controls-Grid__editArrow-blur_style-default_background_theme-default:before,
@@ -931,15 +963,11 @@
 .controls-Grid__editArrow-overflow-ellipsis_theme-@{themeName} {
    margin-right: -@edit-arrow_icon-size_grid;
 }
-.controls-Grid__editArrow-separator_theme-@{themeName} {
+
+.controls-Grid__editArrow-withTextOverflow_theme-@{themeName} {
    flex-shrink: 1;
-   min-width: 0px;
-   width: @edit-arrow_offset_grid;
-}
-.controls-Grid__editArrow-separator-big_theme-@{themeName} {
-   flex-shrink: 1;
-   min-width: 0px;
-   width: @edit-arrow_offset_grid + @edit-arrow_icon-size_grid;
+   min-width: 0;
+   width: @edit-arrow_icon-size_grid;
 }
 
 .controls-Grid__cell_valign_top {

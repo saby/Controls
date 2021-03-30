@@ -1,11 +1,10 @@
+import {IItemPadding} from 'Controls/display';
 import {ListViewModel} from 'Controls/list';
 import cMerge = require('Core/core-merge');
 import {Logger} from 'UI/Utils';
 import {object} from 'Types/util';
 import {Model} from 'Types/entity';
-import {getImageUrl, getImageSize, getImageClasses, IMAGE_FIT, getImageRestrictions} from './resources/imageUtil';
-import {ZOOM_DELAY, ZOOM_COEFFICIENT, TILE_SCALING_MODE} from './resources/Constants';
-import {SyntheticEvent} from 'Vdom/Vdom';
+import {getImageClasses, getImageRestrictions, getImageSize, getImageUrl} from 'Controls/tileNew';
 
 const DEFAULT_ITEM_WIDTH = 250;
 const DEFAULT_ITEM_HEIGHT = 200;
@@ -15,41 +14,35 @@ const DEFAULT_WIDTH_PROPORTION = 1;
 const AVAILABLE_CONTAINER_VERTICAL_PADDINGS = ['null', 'default'];
 const AVAILABLE_CONTAINER_HORIZONTAL_PADDINGS = ['null', 'default', 'xs', 's', 'm', 'l', 'xl', '2xl'];
 const AVAILABLE_ITEM_PADDINGS = ['null', 'default', '3xs', '2xs', 'xs', 's', 'm'];
-interface IItemPadding {
-    left: string;
-    right: string;
-    bottom: string;
-    top: string;
-}
 
 const TILE_SIZES = {
     s: {
         horizontal: {
-            width: 210,
+            width: 300,
             imageHeight: 180
         },
         vertical: {
-            width: 390,
+            width: 164,
             imageWidth: 300
         }
     },
     m: {
         horizontal: {
-            width: 310,
+            width: 420,
             imageHeight: 240
         },
         vertical: {
-            width: 390,
+            width: 200,
             imageWidth: 160
         }
     },
     l: {
         horizontal: {
-            width: 420,
+            width: 648,
             imageHeight: 320
         },
         vertical: {
-            width: 640,
+            width: 256,
             imageWidth: 300
         }
     }
@@ -100,7 +93,7 @@ var TileViewModel = ListViewModel.extend({
 
     getTileSizes(tileSize: string, imagePosition: string = 'top', imageViewMode: string = 'rectangle'): object {
         const sizeParams = object.clone(TILE_SIZES[tileSize]);
-        const tileSizes = sizeParams[imagePosition === 'top' ? 'horizontal' : 'vertical'];
+        const tileSizes = sizeParams[imagePosition === 'top' ? 'vertical' : 'horizontal'];
         if (imagePosition === 'top') {
             tileSizes.imageWidth = null;
             if (imageViewMode !== 'rectangle') {
@@ -115,7 +108,7 @@ var TileViewModel = ListViewModel.extend({
     getImageProportion(proportion: string = '1:1'): number {
         const [width, height]: string[] = proportion.split(':');
         if (width && height) {
-            return +(Number(width) / Number(height)).toFixed(2);
+            return +(Number(height) / Number(width)).toFixed(2);
         }
         return 1;
     },
@@ -135,7 +128,7 @@ var TileViewModel = ListViewModel.extend({
         const imageHeight = item.get(imageHeightProperty) && Number(item.get(imageHeightProperty));
         const imageWidth = item.get(imageWidthProperty) && Number(item.get(imageWidthProperty));
         let baseUrl = item.get(imageProperty);
-        if (imageFit === IMAGE_FIT.COVER) {
+        if (imageFit === 'cover') {
             const sizes = getImageSize(
                 Number(itemWidth),
                 Number(itemsHeight),
@@ -184,6 +177,11 @@ var TileViewModel = ListViewModel.extend({
 
     setTileMode: function (tileMode) {
         this._tileMode = tileMode;
+        this._nextModelVersion();
+    },
+
+    setTileWidth(width: number): void {
+        this._options.tileWidth = width;
         this._nextModelVersion();
     },
 
@@ -330,7 +328,7 @@ var TileViewModel = ListViewModel.extend({
     ): number {
         const imageHeight = imageHeightProperty && Number(item.get(imageHeightProperty));
         const imageWidth = imageWidthProperty && Number(item.get(imageWidthProperty));
-        const itemWidth = item.get(this._options.tileWidthProperty) || this._options.tileWidth || DEFAULT_ITEM_WIDTH;
+        const itemWidth = item && item.get(this._options.tileWidthProperty) || this._options.tileWidth || DEFAULT_ITEM_WIDTH;
         let widthProportion = DEFAULT_WIDTH_PROPORTION;
         let resultWidth = null;
         if (this.getTileMode() === 'dynamic') {

@@ -11,7 +11,8 @@ define(['Controls/_grid/ScrollWrapper'], function(ScrollWrapper) {
             listModel: {
                isMultiHeader: () => false,
                getStickyColumnsCount: () => 1,
-               getMultiSelectVisibility: () => 'hidden',
+               getMultiSelectVisibility: () => 'custom',
+               hasMultiSelectColumn: () => false,
                stickyLadderCellsCount: () => 0,
                _shouldAddActionsCell: () => false,
                getColumns: () => columns,
@@ -35,10 +36,12 @@ define(['Controls/_grid/ScrollWrapper'], function(ScrollWrapper) {
       });
       it('should calculate grid header offset when MultiSelect column is visible', () => {
          wrapper._options.listModel.getMultiSelectVisibility = () => 'visible';
+         wrapper._options.listModel.hasMultiSelectColumn = () => true;
          assert.equal('grid-column: 3 / 7;width: 500px', wrapper._getGridStyles(options));
       });
       it('should calculate grid header offset when MultiSelect column and sticky ladder should be added', () => {
          wrapper._options.listModel.getMultiSelectVisibility = () => 'visible';
+         wrapper._options.listModel.hasMultiSelectColumn = () => true;
          wrapper._options.listModel.stickyLadderCellsCount = () => 1;
          assert.equal('grid-column: 4 / 8;width: 500px', wrapper._getGridStyles(options));
       });

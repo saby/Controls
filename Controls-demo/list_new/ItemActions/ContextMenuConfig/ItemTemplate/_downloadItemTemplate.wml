@@ -2,7 +2,7 @@
     <ws:contentTemplate>
         <div class="ControlsDemo_MenuItemTemplate-download-menu-item ws-flexbox ws-align-items-center">
             <div class="{{ itemData.icon || itemData.item.icon }} controls-DropdownList__icon
-                                               controls-Menu__icon-left_theme-{{ _options.theme }}
+                                               controls-Menu__icon-left
                                                controls-icon_style-{{ (itemData.iconStyle || itemData.item.iconStyle) + '_theme-' + _options.theme }}
                                                controls-icon_size-{{ (itemData.iconSize || itemData.item.iconSize || 'm') + '_theme-' + _options.theme }}"></div>
             <div class="ControlsDemo_MenuItemTemplate-download-menu-item__title">{{ itemData.item.title }}</div>

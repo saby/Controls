@@ -1,7 +1,7 @@
 /**
  * Библиотека контролов, которые реализуют содержимое автодополнения, отображающееся при вводе текста.
  * Автодополнение можно настроить в следующих контролах:
- * 
+ *
  * * {@link /doc/platform/developmentapl/interface-development/controls/input/ Поле ввода с автодополнением}
  * * {@link /doc/platform/developmentapl/interface-development/controls/directory/lookup/ Поле выбора}
  * @library Controls/suggestPopup
@@ -20,7 +20,7 @@
  * @author Крайнов Д.О.
  */
 
-import ListContainer = require('Controls/_suggestPopup/List');
+import ListContainer = require('wml!Controls/_suggestPopup/WrappedList');
 import FooterTemplate = require('wml!Controls/_suggestPopup/footer');
 import SuggestTemplate = require('wml!Controls/_suggestPopup/suggestTemplate');
 import EmptyTemplate = require('wml!Controls/_suggestPopup/resource/empty');

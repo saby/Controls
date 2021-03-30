@@ -94,7 +94,7 @@ export default class MonthsSource extends Memory {
                     });
                 } else {
                     period = this._getHiddenPeriod(month, delta);
-                    // для заглешки от минус бесконечности до даты используем в качестве id дату конца(period[1])
+                    // для заглушки от минус бесконечности до даты используем в качестве id дату конца(period[1])
                     if (this._stubTemplate) {
                         items.push({
                             id: monthListUtils.dateToId(period[0] || period[1]),
@@ -164,7 +164,14 @@ export default class MonthsSource extends Memory {
             return true;
         }
         for (const range of this._displayedRanges) {
-            if (date >= range[0] && (date <= range[1] || !range[1])) {
+            // Строим ленту до тех пор, пока мы не дошли до конца периода, указанного в displayedRanges
+            // При проверке, какая дата больше, даты переводятся в формат Unix-времени, т.е. количество секунд прошедшее
+            // c 1970 года. Даты раньше 1970 года переводятся в отрицательное число.
+            // Если в displayedRanges передали null, то лента должна строится бесконечно. Соотвественно, если мы будем
+            // проверять date > null, дата преобразуется в Unix, а null в ноль. Результатом проверки будет false в тех
+            // случаях, когда дата раньше 1970 (отрицательное число мньше, чем 0).
+            // Добавляем проверку на null.
+            if ((date >= range[0] || range[0] === null) && (date <= range[1] || range[1] === null)) {
                 return true;
             }
         }
@@ -175,7 +182,9 @@ export default class MonthsSource extends Memory {
         let range: Date[] = [];
         for (let i = 0; i < this._displayedRanges.length; i++) {
             range = this._displayedRanges[i];
-            if (date < range[0]) {
+            // См. коммент в методе _isDisplayed. Та же самая ситуация, только мы наоборот ищем период, который не
+            // попадает в displayedRanges
+            if (date < range[0] && range[0] !== null) {
                 return [
                     i === 0 ? null : this._shiftRange(this._displayedRanges[i - 1][1], 1),
                     this._shiftRange(range[0], -1)

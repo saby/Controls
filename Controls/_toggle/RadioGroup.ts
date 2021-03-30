@@ -7,6 +7,8 @@ import template = require('wml!Controls/_toggle/RadioGroup/RadioGroup');
 import defaultItemTemplate = require('wml!Controls/_toggle/RadioGroup/resources/ItemTemplate');
 import {ISource, ISourceOptions, ISingleSelectable, ISingleSelectableOptions} from 'Controls/interface';
 import {IToggleGroup, IToggleGroupOptions} from './interface/IToggleGroup';
+import 'css!Controls/toggle';
+import 'css!Controls/CommonClasses';
 
 export interface IRadioGroupOptions extends IControlOptions,
     ISingleSelectableOptions,
@@ -18,7 +20,7 @@ export interface IRadioGroupOptions extends IControlOptions,
  * 
  * @remark
  * Полезные ссылки:
- * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckboxGroup%2FIndex демо-пример}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FRadioGroup%2FIndex демо-пример}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  * @class Controls/_toggle/RadioGroup
@@ -94,8 +96,6 @@ class Radio extends Control<IRadioGroupOptions, RecordSet> implements ISource, I
       });
    }
 
-   static _theme: string[] = ['Controls/toggle'];
-
    static getDefaultOptions(): object {
       return {
          direction: 'vertical',
@@ -114,3 +114,8 @@ Object.defineProperty(Radio, 'defaultProps', {
 });
 
 export default Radio;
+
+/**
+ * @name Controls/_toggle/RadioGroup#direction
+ * @demo Controls-demo/toggle/RadioGroup/Direction/Index
+ */

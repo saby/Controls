@@ -1,6 +1,5 @@
-<div class="controls-PropertyGrid__editor_dropdown_control ws-flexbox">
-   <Controls.dropdown:Selector scope="{{_options}}"
+<Controls.dropdown:Selector scope="{{_options}}"
+                            attr:class="controls-PropertyGrid__editor_dropdown_control ws-flexbox"
                             bind:selectedKeys="_selectedKeys"
                             on:selectedKeysChanged="_handleSelectedKeysChanged()"/>
 
-</div>

@@ -16,7 +16,7 @@
     templateOptions Опции, передаваемые в шаблон ячейки заголовка.
 */
 import { TemplateFunction } from 'UI/Base';
-import {IColspanParams, IHeaderCell, IRowspanParams} from 'Controls/grid';
+import {IColspanParams, IHeaderCell} from 'Controls/interface';
 import { IItemPadding } from 'Controls/display';
 import HeaderRow from './HeaderRow';
 import Cell, {IOptions as ICellOptions} from './Cell';
@@ -28,6 +28,11 @@ export interface IOptions<T> extends ICellOptions<T> {
     cellPadding?: IItemPadding;
 }
 
+interface ICellContentOrientation {
+    align: 'left' | 'center' | 'right';
+    valign: 'top' | 'center' | 'baseline' | 'bottom';
+}
+
 const DEFAULT_CELL_TEMPLATE = 'Controls/gridNew:HeaderContent';
 
 const FIXED_HEADER_Z_INDEX = 4;
@@ -37,11 +42,10 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     protected _$owner: HeaderRow<T>;
     protected _$column: IHeaderCell;
     protected _$cellPadding: IItemPadding;
-    protected _$align?: string;
-    protected _$valign?: string;
     protected _$shadowVisibility?: string;
     protected _$backgroundStyle?: string;
     protected _$sorting?: string;
+    protected _$contentOrientation?: ICellContentOrientation;
 
     get shadowVisibility(): string {
         return this._$shadowVisibility;
@@ -49,16 +53,21 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     get backgroundStyle(): string {
         return this._$backgroundStyle;
     }
-    constructor(options?: IOptions<T>) {
-        super(options);
-        if (!this.isCheckBoxCell()) {
-            const {align, valign} = this.getContentOrientation();
-            this._$align = align;
-            this._$valign = valign;
+    protected get contentOrientation(): ICellContentOrientation {
+        if (!this._$contentOrientation) {
+            this._calcContentOrientation();
         }
+        return this._$contentOrientation;
     }
 
-    getContentOrientation(): {align?: string; valign?: string} {
+    private _calcContentOrientation(): void {
+        if (this.isCheckBoxCell()) {
+            this._$contentOrientation = {
+                align: undefined,
+                valign: undefined
+            } as ICellContentOrientation;
+            return;
+        }
         /*
         * Выравнивание задается со следующим приоритетом
         * 1) Выравнивание заданное на ячейки шапки
@@ -66,10 +75,8 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         * 3) Контент выравнивается также, как контент колонки данных
         * 4) По верхнему левому углу
         * */
-        const hasAlign = 'align' in this._$column;
-        const hasValign = 'valign' in this._$column;
-        let align = hasAlign ? this._$column.align : undefined;
-        let valign = hasValign ? this._$column.valign : undefined;
+        const hasAlign = typeof this._$column.align !== 'undefined';
+        const hasValign = typeof this._$column.valign !== 'undefined';
 
         const get = (prop: 'align' | 'valign'): string | undefined => {
             const gridUnit = prop === 'align' ? 'Column' : 'Row';
@@ -78,21 +85,20 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
                     (this._$column[`end${gridUnit}`] - this._$column[`start${gridUnit}`]) > 1)
             ) {
                 return 'center';
-            } else if (typeof this._$column[`start${gridUnit}`] !== 'undefined') {
-                return this._$owner.getColumnsConfig()[this._$column[`start${gridUnit}`] - 1][prop];
+            } else if (typeof this._$column.startColumn !== 'undefined') {
+                // ВНИМАТЕЛЬНО! Независимо от оси для которой считается выравнивание, считать нужно через startColumn,
+                // т.к. чтобы получить корректное значение для выравнивания контента растянутой ячейки заголовка по
+                // опции колонки данных, нужно получить конфигурацию колонки расположенной под данной ячейкой заголовка.
+                return this._$owner.getColumnsConfig()[this._$column.startColumn - 1][prop];
             } else {
                 return this._$owner.getColumnsConfig()[this._$owner.getHeaderConfig().indexOf(this._$column)][prop];
             }
         };
 
-        if (!hasAlign) {
-            align = get('align');
-        }
-        if (!hasValign) {
-            valign = get('valign');
-        }
-
-        return { align, valign };
+        this._$contentOrientation = {
+            align: hasAlign ? this._$column.align : get('align'),
+            valign: hasValign ? this._$column.valign : get('valign')
+        } as ICellContentOrientation;
     }
 
     isCheckBoxCell(): boolean {
@@ -113,7 +119,11 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     // endregion
 
     // region Аспект "Объединение строк"
-    _getRowspanParams(): Required<IRowspanParams> {
+    _getRowspanParams(): {
+        startRow: number,
+        endRow: number,
+        rowspan: number
+    } {
         const startRow = typeof this._$column.startRow === 'number' ? this._$column.startRow : (this._$owner.getIndex() + 1);
         let endRow;
 
@@ -133,7 +143,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     }
     getRowspan(): string {
         if (!this._$owner.isFullGridSupport()) {
-            return this._getRowspanParams().rowspan;
+            return '' + this._getRowspanParams().rowspan;
         }
         const {startRow, endRow} = this._getRowspanParams();
         return `grid-row: ${startRow} / ${endRow};`;
@@ -141,18 +151,22 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     // endregion
 
     getWrapperStyles(): string {
+        let styles = super.getWrapperStyles();
+        if (this._$owner.isFullGridSupport()) {
+            styles += this.getRowspan();
+        }
+        styles += ` z-index: ${this.getZIndex()};`;
+        return styles;
+    }
+
+    getZIndex(): number {
         let zIndex;
         if (this._$owner.hasColumnScroll()) {
             zIndex = this._$isFixed ? FIXED_HEADER_Z_INDEX : STICKY_HEADER_Z_INDEX;
         } else {
             zIndex = FIXED_HEADER_Z_INDEX;
         }
-        let styles = super.getWrapperStyles();
-        if (this._$owner.isFullGridSupport()) {
-            styles += this.getRowspan();
-        }
-        styles += ` z-index: ${zIndex};`;
-        return styles;
+        return zIndex;
     }
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string): string {
@@ -174,12 +188,8 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             wrapperClasses += ' controls-Grid__header-cell_static';
         }
 
-        if (!this.isMultiSelectColumn()) {
-            wrapperClasses += ' controls-Grid__header-cell_min-width';
-        }
-
-        if (this._$valign) {
-            wrapperClasses += ` controls-Grid__header-cell__content_valign-${this._$valign}`;
+        if (this.contentOrientation.valign) {
+            wrapperClasses += ` controls-Grid__header-cell__content_valign-${this.contentOrientation.valign}`;
         }
 
         if (this._$owner.hasColumnScroll()) {
@@ -200,8 +210,8 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
         } else {
             contentClasses += ` controls-Grid__row-header__content_baseline_theme-${theme}`;
         }
-        if (this._$align) {
-            contentClasses += ` controls-Grid__header-cell_justify_content_${this._$align}`;
+        if (this.contentOrientation.align) {
+            contentClasses += ` controls-Grid__header-cell_justify_content_${this.contentOrientation.align}`;
         }
         return contentClasses;
     }
@@ -241,11 +251,11 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     }
 
     getAlign(): string {
-        return this._$align;
+        return this.contentOrientation.align;
     }
 
     getVAlign(): string {
-        return this._$valign;
+        return this.contentOrientation.valign;
     }
 
     getTextOverflow(): string {
@@ -276,6 +286,12 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     }
 
     protected _getWrapperPaddingClasses(theme: string): string {
+        // Для ячейки, создаваемой в связи с множественной лесенкой не нужны отступы, иначе будут проблемы с наложением
+        // тени: https://online.sbis.ru/opendoc.html?guid=758f38c7-f5e7-447e-ab79-d81546b9f76e
+        if (this._$ladderCell) {
+            return '';
+        }
+
         let paddingClasses = '';
         const leftPadding = this._$owner.getLeftPadding();
         const rightPadding = this._$owner.getRightPadding();

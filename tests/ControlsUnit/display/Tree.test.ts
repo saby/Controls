@@ -120,8 +120,9 @@ describe('Controls/_display/Tree', () => {
         });
     }
 
-    function getTree(items: List<IData>): Tree<IData> {
+    function getTree(items: List<IData>, options: object = {}): Tree<IData> {
         return new Tree({
+            ...options,
             collection: items || getItems(),
             root: {
                 id: 0,
@@ -129,7 +130,8 @@ describe('Controls/_display/Tree', () => {
             },
             keyProperty: 'id',
             parentProperty: 'pid',
-            nodeProperty: 'node'
+            nodeProperty: 'node',
+            hasChildrenProperty: 'hasChildren'
         });
     }
 
@@ -334,15 +336,19 @@ describe('Controls/_display/Tree', () => {
         });
     });
 
-    describe('.getNodeProperty()', () => {
+    describe('.getNodeProperty(), .setNodeProperty()', () => {
         it('should return given value', () => {
             assert.equal(tree.getNodeProperty(), 'node');
+            tree.setNodeProperty('nodeProperty');
+            assert.equal(tree.getNodeProperty(), 'nodeProperty');
         });
     });
 
-    describe('.getChildrenProperty()', () => {
+    describe('.getChildrenProperty(), .setChildrenProperty()', () => {
         it('should return given value', () => {
             assert.strictEqual(tree.getChildrenProperty(), '');
+            tree.setChildrenProperty('childrenProperty');
+            assert.strictEqual(tree.getChildrenProperty(), 'childrenProperty');
         });
     });
 
@@ -1703,14 +1709,82 @@ describe('Controls/_display/Tree', () => {
         const rsTree = getRecordSetTree();
         it('setExpandedItems', () => {
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
-            rsTree.setExpandedItems([1]);
+            const expandedItems = [1];
+            rsTree.setExpandedItems(expandedItems);
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.notEqual(rsTree.getExpandedItems(), expandedItems);
         });
 
         it('setCollapsedItems', () => {
             assert.isTrue(rsTree.getItemBySourceKey(1).isExpanded());
-            rsTree.setCollapsedItems([1]);
+            const collapsedItems = [1];
+            rsTree.setCollapsedItems(collapsedItems);
             assert.isFalse(rsTree.getItemBySourceKey(1).isExpanded());
+            assert.notEqual(rsTree.getCollapsedItems(), collapsedItems);
+        });
+
+        it('toggleItem will not change version for another items', () => {
+            const currentVersions = rsTree.getItems().map((it) => {
+                return {
+                    key: it.getContents().getKey(),
+                    version: it.getVersion()
+                };
+            });
+            rsTree.toggleExpanded(rsTree.getItemBySourceKey(1));
+            currentVersions.forEach((it) => {
+                if (it.key !== 1) {
+                    assert.equal(it.version, rsTree.getItemBySourceKey(it.key).getVersion());
+                }
+            });
+        });
+    });
+
+    describe('hasNodeWithChildren', () => {
+       describe('hidden nodes', () => {
+           it('has node with children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {expanderVisibility: 'hasChildren'});
+               assert.isTrue(tree.hasNodeWithChildren());
+           });
+
+           it('not has node with children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: false, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {expanderVisibility: 'hasChildren'});
+               assert.isFalse(tree.hasNodeWithChildren());
+           });
+        });
+       describe('default nodes', () => {
+           it('has node with children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: true, node: true, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {expanderVisibility: 'hasChildren'});
+               assert.isTrue(tree.hasNodeWithChildren());
+           });
+
+           it('not has node with children', () => {
+               const rs = new RecordSet({
+                   rawData: [
+                       {id: 1, hasChildren: false, node: true, pid: 0}
+                   ],
+                   keyProperty: 'id'
+               });
+               const tree = getTree(rs, {expanderVisibility: 'hasChildren'});
+               assert.isFalse(tree.hasNodeWithChildren());
+           });
         });
     });
 });

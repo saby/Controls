@@ -123,7 +123,9 @@ const _private = {
     },
     deleteRecord(items: RecordSet, editKey: string): void {
         const syncRecord = _private.getSyncRecord(items, editKey);
-        items.remove(syncRecord);
+        if (syncRecord) {
+            items.remove(syncRecord);
+        }
     }
 };
 
@@ -138,7 +140,7 @@ const RecordSynchronizer = {
      * @example
      * js
      * <pre>
-     *     Control.extend({
+     *     class MyControl extends Control<IControlOptions> {
      *        ...
      *
      *        _addRecord(editRecord) {
@@ -148,7 +150,7 @@ const RecordSynchronizer = {
      *            RecordSynchronizer.addRecord(editRecord, additionalData, this._items)
      *        }
      *        ...
-     *     });
+     *     }
      * </pre>
      */
     addRecord(editRecord: Model | Model[], additionalData: IAdditionalData, items: RecordSet): void {
@@ -175,14 +177,14 @@ const RecordSynchronizer = {
      * @example
      * js
      * <pre>
-     *     Control.extend({
+     *     class MyControl extends Control<IControlOptions> {
      *        ...
      *
      *        _mergeRecordRecord(editRecord, editKey) {
      *            RecordSynchronizer.mergeRecord(editRecord, this._items, editKey)
      *        }
      *        ...
-     *     });
+     *     }
      * </pre>
      */
     mergeRecord(editRecord: Model | Model[], items: RecordSet, editKey: string): void {
@@ -205,14 +207,14 @@ const RecordSynchronizer = {
      * @example
      * js
      * <pre>
-     *     Control.extend({
+     *     class MyControl extends Control<IControlOptions> {
      *        ...
      *
      *        _deleteRecordRecord(removeKey) {
      *            RecordSynchronizer.deleteRecord(this._items, removeKey)
      *        }
      *        ...
-     *     });
+     *     }
      * </pre>
      */
     deleteRecord(items: RecordSet, editKey: string | string[]): void {

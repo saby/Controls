@@ -101,7 +101,7 @@ define('Controls/interface/IPromisedSelectable', [
 
    /**
     * @name Controls/interface/IPromisedSelectable#excludedKeys
-    * @cfg {Array.<Number|String>} Набор ключей элементов, которые {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/select/#excluded-keys исключены из выборки}.
+    * @cfg {Array.<Number|String>} Набор ключей {@link /doc/platform/developmentapl/interface-development/controls/list/actions/multiselect/select/#excluded-keys исключенных элементов}.
     * @demo Controls-demo/list_new/MultiSelect/AllSelected/Index В демо-примере по умолчанию выбраны все элементы.
     * @default []
     * @remark

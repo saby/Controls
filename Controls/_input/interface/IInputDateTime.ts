@@ -24,7 +24,7 @@ export interface IInputDateTimeOptions {
  *    <Controls.Button on:click="_sendButtonClick()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions>{
  *       ...
  *       _inputValue: new Date(),
  *
@@ -32,13 +32,14 @@ export interface IInputDateTimeOptions {
  *          this._sendData(this._inputValue);
  *       }
  *       ...
- *  });
+ *  };
  * </pre>
  */
 
 /**
  * @event Происходит при изменении значения поля ввода.
  * @name Controls/_input/interface/IInputDateTime#valueChanged
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} value Новое значение поля ввода.
  * @param {String} displayValue Текстовое значение поля ввода.
  * @remark
@@ -51,25 +52,26 @@ export interface IInputDateTimeOptions {
  * Оба поля в этом примере будут иметь одинаковое поведение.
  * <pre class="brush: html">
  * <!-- WML -->
- * <Controls.input:DateTime value="_fieldValue" on:valueChanged="_valueChangedHandler()"/>
+ * <Controls.input:DateTime value="{{_fieldValue}}" on:valueChanged="_valueChangedHandler()"/>
  * <Controls.input:DateTime bind:value="_anotherFieldValue"/>
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _fieldValue: null,
- *    _valueChangedHandler(value, displayValue) {
+ *    _valueChangedHandler(event, value, displayValue) {
  *       this._fieldValue = value;
  *       this._saveToDatabase(displayValue);
  *    },
  *    _anotherFieldValue: null
- * });
+ * }
  * </pre>
  */
 
 /**
  * @event Происходит при завершении ввода в поле (поле потеряло фокус или пользователь нажал клавишу "enter").
  * @name Controls/_input/interface/IInputDateTime#inputCompleted
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {Date} value Значение поля.
  * @param {String} displayValue Текстовое значение поля.
  * @remark
@@ -82,12 +84,12 @@ export interface IInputDateTimeOptions {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
- *    _inputCompletedHandler(value, displayValue) {
+ * class MyControl extends Control<IControlOptions> {
+ *    _inputCompletedHandler(event, value, displayValue) {
  *       this._saveEnteredValueToDabase1(value);
  *       this._saveEnteredValueToDabase2(displayValue);
  *    }
- * })
+ * }
  * </pre>
  */
 

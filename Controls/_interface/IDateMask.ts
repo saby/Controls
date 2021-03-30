@@ -38,13 +38,13 @@ export default interface IDateMask {
  * <!-- WML -->
  * <Controls.input.Date bind:value="_inputValue" mask="DD.MM.YYYY"/>
  * </pre>
- * 
+ *
  * <pre class="brush: js">
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _inputValue: null
- * });
+ * }
  * </pre>
- * 
+ *
  * В следующем примере значение в поле ввода инициализировано датой со временем. После того как пользователь ввел
  * "01:01:2018", в атребуте _inputValue будет значение равное "01.01.2018 14:15.000".
  * 
@@ -52,12 +52,12 @@ export default interface IDateMask {
  * <!-- WML -->
  * <Controls.input.Date bind:value="_inputValue" mask=”DD.MM.YYYY”/>
  * </pre>
- * 
+ *
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _inputValue: new Date(2001, 2, 10, 14, 15 )
- * });
+ * }
  * </pre>
  */
 
@@ -85,17 +85,17 @@ export default interface IDateMask {
  *    <Controls.input.Date bind:value="_inputValue" mask=”DD.MM.YYYY”/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _inputValue: null
- *    });
+ *    }
  * </pre>
  * In next example after a user has entered a “01:01:2018”, the value of the _inputValue will be equal “01.01.2018 14:15.000.
  * <pre>
  *    <Controls.input.Date bind:value="_inputValue" mask=”DD.MM.YYYY”/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _inputValue: ew Date(2001, 2, 10, 14, 15 )
- *    });
+ *    }
  * </pre>
  */

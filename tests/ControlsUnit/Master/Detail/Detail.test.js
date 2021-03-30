@@ -107,6 +107,24 @@ define(['Controls/masterDetail'], function (masterDetail) {
          Control.destroy();
       });
 
+      it ('_beforeUpdate with new propStorageId', async () => {
+         let Control = new masterDetail.Base();
+         let options = {
+            propStorageId: 'test'
+         };
+         Control._beforeMount(options);
+         options.propStorageId = 'newTest';
+         Control._getSettings = () => {
+            const result = {
+               newTest: 50
+            };
+            return Promise.resolve(result);
+         };
+         await Control._beforeUpdate(options);
+         assert.equal(Control._currentWidth, '50px');
+         Control.destroy();
+      });
+
       it ('_dragStartHandler', () => {
          let Control = new masterDetail.Base();
          let options = {
@@ -270,6 +288,7 @@ define(['Controls/masterDetail'], function (masterDetail) {
          assert.equal(isEndDragCalled, false);
 
          control._needHandleTouch = () => true;
+         control._canResizing = true;
          control._touchstartHandler(getFakeEvent(10, 'body', 'body'));
          control._touchMoveHandler(getFakeEvent(20, 'body', 'body'));
          control._touchendHandler(getFakeEvent(31, 'body', 'body'));

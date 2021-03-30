@@ -1,1 +1,1 @@
-<div attr:class="controls-Lookup__icon controls-Lookup__clearRecords controls-Lookup__clearRecords_theme_{{theme}} icon-Close" attr:ws-no-focus="true"></div>
+<div attr:class="controls-Lookup__icon controls-Lookup__clearRecords icon-Close" attr:ws-no-focus="true"></div>

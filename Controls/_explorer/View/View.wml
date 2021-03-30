@@ -1,19 +1,23 @@
 <div class="controls-Explorer" on:keyDown="_onExternalKeyDown()">
-   <Controls.list:DataContainer scope="{{_options}}" root="{{_getRoot()}}">
+   <Controls.list:DataContainer
+      scope="{{_options}}"
+      root="{{_getRoot(_options.root)}}"
+      dataLoadCallback="{{_dataLoadCallback}}"
+   >
       <ws:content>
          <Controls.dragnDrop:Container on:documentDragStart="_documentDragStart()" on:documentDragEnd="_documentDragEnd()">
             <Controls._explorer.PathController
-                                       scope="{{_options}}"
-                                       header="{{_header}}"
-                                       itemsPromise="{{_itemsPromise}}"
-                                       items="{{_breadCrumbsItems}}"
-                                       rootVisible="{{_dragOnBreadCrumbs}}"
-                                       highlighter="{{[_breadCrumbsDragHighlighter]}}"
-                                       root="{{content._options.root}}"
-                                       on:hoveredItemChanged="_hoveredCrumbChanged()"
-                                       on:arrowActivated="_notifyHandler('arrowActivated')"
-                                       on:arrowClick="_notifyHandler('arrowClick')"
-                                       on:itemClick="_onBreadCrumbsClick()">
+               scope="{{_options}}"
+               header="{{_header}}"
+               root="{{content._options.root}}"
+               items="{{_breadCrumbsItems}}"
+               rootVisible="{{_dragOnBreadCrumbs}}"
+               highlighter="{{[_breadCrumbsDragHighlighter]}}"
+               on:hoveredItemChanged="_hoveredCrumbChanged()"
+               on:arrowActivated="_notifyHandler('arrowActivated')"
+               on:arrowClick="_notifyHandler('arrowClick')"
+               on:itemClick="_onBreadCrumbsClick()"
+            >
                <Controls.tree:TreeControl scope="{{_options}}"
                                           itemPadding="{{_itemPadding}}"
                                           header="{{content.header}}"
@@ -71,9 +75,7 @@
                                           on:navigationParamsChanged="_notifyHandler('navigationParamsChanged')"
                                           on:tagClick="_notifyHandler('tagClick')"
                                           on:tagHover="_notifyHandler('tagHover')"
-                                          dataLoadErrback="{{_dataLoadErrback}}"
                                           itemsReadyCallback="{{_itemsReadyCallback}}"
-                                          serviceDataLoadCallback="{{_serviceDataLoadCallback}}"
                                           itemsSetCallback="{{_itemsSetCallback}}"
                                           _needSetMarkerCallback="{{_needSetMarkerCallback}}"/>
             </Controls._explorer.PathController>

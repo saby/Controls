@@ -1,12 +1,7 @@
 <div class="controls-Demo__wide-propertyGrid">
-    <div class="controls-text-label_theme-{{_options.theme}}">Дочерние элементы иерархического списка выделяются серым</div>
+    <div class="controls-text-label_theme-{{_options.theme}}">Source</div>
     <Controls.propertyGrid:PropertyGrid
             bind:editingObject="_editingObject"
-            source="{{_source}}"
-            nodeProperty="@parent"
-            parentProperty="parent">
-        <ws:itemTemplate>
-            <ws:partial template="wml!Controls-demo/PropertyGridNew/Source/itemTemplate"/>
-        </ws:itemTemplate>
+            source="{{_source}}">
     </Controls.propertyGrid:PropertyGrid>
 </div>

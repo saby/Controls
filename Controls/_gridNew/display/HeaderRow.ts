@@ -7,7 +7,7 @@ import {
     IHeaderCell,
     TColumnSeparatorSize,
     THeader
-} from 'Controls/grid';
+} from 'Controls/interface';
 
 import Row, {IOptions as IRowOptions} from './Row';
 import Header, {IHeaderBounds} from './Header';
@@ -83,7 +83,7 @@ export default class HeaderRow<T> extends Row<T> {
     protected _initializeColumns(): void {
         if (this._$header) {
             this._$columnItems = [];
-            const factory = this._getColumnsFactory();
+            const factory = this.getColumnsFactory();
             this._$columnItems = this._$header.map((column, index) => {
                 const isFixed = typeof column.endColumn !== 'undefined' ?
                     (column.endColumn - 1) <= this.getStickyColumnsCount() : index < this.getStickyColumnsCount();
@@ -110,7 +110,7 @@ export default class HeaderRow<T> extends Row<T> {
     }
 
     protected _addCheckBoxColumnIfNeed(): void {
-        const factory = this._getColumnsFactory();
+        const factory = this.getColumnsFactory();
         if (this._$owner.hasMultiSelectColumn()) {
             const {start, end} = this._$headerModel.getBounds().row;
             this._$columnItems.unshift(factory({
@@ -177,8 +177,10 @@ export default class HeaderRow<T> extends Row<T> {
 
     setSorting(sorting: Array<{[p: string]: string}>): void {
         this._$sorting = sorting;
-        this.getColumns().forEach((cell: HeaderCell<Model>) => {
-            cell.setSorting(this._getSortingBySortingProperty(cell.getSortingProperty()));
+        this.getColumns().forEach((cell: HeaderCell<Model> | ItemActionsCell<void>) => {
+            if (cell instanceof HeaderCell) {
+                cell.setSorting(this._getSortingBySortingProperty(cell.getSortingProperty()));
+            }
         });
         this._nextVersion();
     }

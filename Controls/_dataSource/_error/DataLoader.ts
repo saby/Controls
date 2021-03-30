@@ -1,18 +1,16 @@
 import {Control, TemplateFunction, IControlOptions } from 'UI/Base';
 import { Controller, Mode, ViewConfig as ErrorViewConfig } from 'Controls/error';
 import * as template from 'wml!Controls/_dataSource/_error/DataLoader';
-import requestDataUtil, {ISourceConfig, IRequestDataResult} from 'Controls/_dataSource/requestDataUtil';
 import {PrefetchProxy} from 'Types/source';
-import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
-import {fetch, HTTPStatus } from 'Browser/Transport';
+import {default as DataLoaderController, ILoadDataResult, ILoadDataConfig} from 'Controls/_dataSource/DataLoader';
 
 interface IErrorContainerReceivedState {
-   sources?: ISourceConfig[];
+   sources?: ILoadDataResult[];
    errorViewConfig?: ErrorViewConfig;
 }
 
 interface IErrorContainerOptions extends IControlOptions {
-   sources: ISourceConfig[];
+   sources: ILoadDataConfig[];
    errorHandlingEnabled: boolean;
    requestTimeout: number;
    errorController: Controller;
@@ -31,7 +29,7 @@ interface IErrorContainerOptions extends IControlOptions {
 
 export default class DataLoader extends Control<IErrorContainerOptions, IErrorContainerReceivedState> {
    protected _template: TemplateFunction = template;
-   protected _sources: ISourceConfig[];
+   protected _sources: ILoadDataConfig[];
    protected _errorViewConfig: ErrorViewConfig;
    private _errorController: Controller = new Controller({});
 
@@ -72,39 +70,26 @@ export default class DataLoader extends Control<IErrorContainerOptions, IErrorCo
       return this._options.errorController || this._errorController;
    }
 
-   static load(sources: ISourceConfig[],
-               loadDataTimeout?: number,
-               sourcesPromises?: Array<Promise<IRequestDataResult>>): Promise<{
-      sources: ISourceConfig[],
+   static load(sources: ILoadDataConfig[],
+               loadDataTimeout?: number): Promise<{
+      sources: ILoadDataResult[],
       errors: Error[]
    }> {
-      const sourcesResult: ISourceConfig[] = [];
+      const sourcesResult: ILoadDataResult[] = [];
       const errorsResult: Error[] = [];
+      const loadPromises = (new DataLoaderController()).loadEvery(sources);
 
-      const waitSources = sources.map((sourceConfig: ISourceConfig, sourceIndex: number) => {
-         const sourcePromise = sourcesPromises ? sourcesPromises[sourceIndex] : requestDataUtil(sourceConfig);
-
-         return wrapTimeout(sourcePromise, loadDataTimeout).catch((err) => {
-            // Если данные не получены за отведенное время, сами сгенерируем 504 ошибку
-            const data = err instanceof Error ? err : new fetch.Errors.HTTP({
-               httpError: HTTPStatus.GatewayTimeout,
-               message: undefined,
-               url: undefined
-            });
-
-            return {
-               data
-            };
-         }).then((loadDataResult: IRequestDataResult) => {
-            if (loadDataResult.data instanceof Error) {
-               errorsResult.push(loadDataResult.data);
+      loadPromises.forEach((loadPromise, sourceIndex) => {
+         loadPromise.then((loadDataResult: ILoadDataResult) => {
+            if (loadDataResult.error) {
+               errorsResult.push(loadDataResult.error);
             }
 
-            sourcesResult[sourceIndex] = DataLoader._createSourceConfig(sourceConfig, loadDataResult);
+            sourcesResult[sourceIndex] = DataLoader._createSourceConfig(loadDataResult);
          });
       });
 
-      return Promise.all(waitSources).then(() => {
+      return Promise.all(loadPromises).then(() => {
          return {
             sources: sourcesResult,
             errors: errorsResult
@@ -112,11 +97,8 @@ export default class DataLoader extends Control<IErrorContainerOptions, IErrorCo
       });
    }
 
-   static _createSourceConfig(
-      sourceConfig: ISourceConfig,
-      { data, historyItems, filter, sorting }: IRequestDataResult
-   ): ISourceConfig {
-      const result = {...sourceConfig, historyItems, filter, sorting};
+   static _createSourceConfig(sourceConfig: ILoadDataResult): ILoadDataResult {
+      const result = {...sourceConfig};
 
       result.source = new PrefetchProxy({
          // Не делаем вложенность PrefetchProxy в PrefetchProxy, иначе прикладным программистам сложно получиить
@@ -124,7 +106,7 @@ export default class DataLoader extends Control<IErrorContainerOptions, IErrorCo
          // у PrefetchProxy.
          target: sourceConfig.source instanceof PrefetchProxy ? sourceConfig.source.getOriginal() : sourceConfig.source,
          data: {
-            query: data
+            query: sourceConfig.data
          }
       });
 

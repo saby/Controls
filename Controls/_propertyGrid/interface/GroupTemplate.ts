@@ -1,6 +1,6 @@
 /**
  * Шаблон, который по умолчанию используется для отображения группы в {@link Controls/propertyGrid:PropertyGrid редакторе свойств}.
- * 
+ *
  * @class Controls/propertyGrid:GroupTemplate
  * @author Герасимов А.М.
  * @public
@@ -77,4 +77,14 @@ export default interface IGroupTemplateOptions {
      * @demo Controls-demo/PropertyGridNew/Group/Expander/Index
      */
     expanderVisible?: boolean;
+
+    /**
+     * @name Controls/propertyGrid:GroupTemplate#expanderAlign
+     * @cfg {String} Выравнивание кнопки-экспандера.
+     * @variant 'left'
+     * @variant 'right'
+     * @default 'right'
+     * @demo Controls-demo/PropertyGridNew/ExpanderAlign/Index
+     */
+    expanderAlign?: string;
 }

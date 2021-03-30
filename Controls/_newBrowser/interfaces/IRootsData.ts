@@ -4,7 +4,6 @@ import {TKey} from 'Controls/_interface/IItems';
  * Интерфейс описывает структуру данных, которая содержит информацию о
  * корневых каталогах master- и detail-списка.
  *
- * @interface Controls/newBrowser:IRootsData
  * @public
  * @author Уфимцев Д.Ю.
  */
@@ -25,5 +24,7 @@ export interface IRootsData {
 /**
  * Тип допустимых данных, которые может вернуть пользовательский обработчик события
  * beforeRootChanged для того, что бы изменить логику проваливания.
+ *
+ * @public
  */
 export type BeforeChangeRootResult = false | undefined | IRootsData;

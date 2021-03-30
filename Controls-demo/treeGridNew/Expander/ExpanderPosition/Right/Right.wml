@@ -6,5 +6,6 @@
             parentProperty="parent"
             nodeProperty="type"
             bind:expandedItems="_expandedItems"
+            bind:collapsedItems="_collapsedItems"
             expanderPosition="right"/>
 </div>

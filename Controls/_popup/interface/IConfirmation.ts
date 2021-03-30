@@ -76,7 +76,7 @@ export interface IConfirmationOpener {
  * </pre>
  * js
  * <pre>
- *     Control.extend({
+ *    class MyControl extends Control<IControlOptions>{
  *       ...
  *
  *        _open() {
@@ -94,7 +94,7 @@ export interface IConfirmationOpener {
  *              }
  *           });
  *        }
- *     });
+ *     };
  * </pre>
  */
 

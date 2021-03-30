@@ -1,20 +1,20 @@
 <ws:partial template="{{itemData.resolveItemTemplate(itemData)}}"
             scope="{{_options}}"
-            colspan="{{itemData.getColspan(colspan, isColumnScrollVisible)}}"
-            colspanLength="{{ itemData.getColspanLength(colspan, isColumnScrollVisible) }}"
+            colspan="{{itemData.getColspan(colspan, itemData.columnScrollVisibility)}}"
+            colspanLength="{{ itemData.getColspanLength(colspan, itemData.columnScrollVisibility) }}"
             renderSeparatedColumnContent="{{ colspan === false }}"
             expanderIcon="none"
             marker="{{ false }}"
             attr:class="controls-TreeGrid__row__searchBreadCrumbs js-controls-ListView__notEditable
-            {{ itemData.columnScroll && !isColumnScrollVisible ? 'controls-TreeGrid__row__searchBreadCrumbs_colspaned' }}
-            {{ itemData.shouldHideColumnSeparator(colspan, isColumnScrollVisible) ? 'controls-Grid__row__searchBreadCrumbs_withoutColumnSeparator' }}"
+            {{ itemData.columnScroll && !itemData.columnScrollVisibility ? 'controls-TreeGrid__row__searchBreadCrumbs_colspaned' }}
+            {{ itemData.shouldHideColumnSeparator(colspan, itemData.columnScrollVisibility) ? 'controls-Grid__row__searchBreadCrumbs_withoutColumnSeparator' }}"
             attr:key="{{ itemData.key }}__breadcrumbs">
     <ws:colspanTemplate>
         <Controls.Container.Async templateName="Controls/breadcrumbs:Path">
             <ws:partial template="{{ content.resolvedTemplate }}"
                         items="{{colspanTemplate.itemData.item}}"
                         backgroundStyle="{{_options.backgroundStyle}}"
-                        attr:class="controls-Grid__breadCrumbs {{ itemData.columnScroll && !isColumnScrollVisible ? 'controls-TreeGrid__breadCrumbs_colspaned' }}"
+                        attr:class="controls-Grid__breadCrumbs {{ itemData.columnScroll && !itemData.columnScrollVisibility ? 'controls-TreeGrid__breadCrumbs_colspaned' }}"
                         breadCrumbsItemClickCallback="{{ itemData.breadcrumbsItemClickCallback }}"
                         keyProperty="{{itemData.keyProperty}}"
                         displayProperty="{{itemData.breadCrumbsDisplayProperty}}">

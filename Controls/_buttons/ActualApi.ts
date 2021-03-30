@@ -335,13 +335,6 @@ const ActualApi = {
          }
          return height;
       }
-   },
-
-   actualLinkButton(viewMode: string, height: string): IViewModeAndHeight {
-      return {
-         viewMode: 'link',
-         height: height ? height : 'default'
-      };
    }
 };
 export default ActualApi;

@@ -4,10 +4,8 @@ import template = require('wml!Controls/_moverDialog/Template/Template');
 import {Record} from 'Types/entity';
 import {ICrudPlus, QueryWhereExpression} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import {TColumns} from 'Controls/grid';
 import rk = require('i18n!Controls');
-import {TKeysSelection} from 'Controls/interface';
-import {IHashMap} from 'Types/declarations';
+import {TKeysSelection, TColumns} from 'Controls/interface';
 
 export interface IMoverDialogTemplateOptions extends IControlOptions {
     displayProperty: string;
@@ -44,7 +42,7 @@ export interface IMoverDialogTemplateOptions extends IControlOptions {
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_explorer/interface/IExplorer
  * @mixes Controls/_interface/INavigation
- * 
+ *
  * @public
  * @author Авраменко А.С.
  */

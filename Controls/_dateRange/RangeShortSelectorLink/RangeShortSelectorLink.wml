@@ -1,13 +1,12 @@
-<div class="controls-RangeShortSelectorLink controls-RangeShortSelectorLink_theme-{{_options.theme}}">
+<div class="controls-RangeShortSelectorLink">
     <div class="controls-RangeShortSelectorLink-wrapper">
-        <span class="controls-RangeShortSelectorLink__value-wrapper controls-RangeShortSelectorLink__value-wrapper_theme-{{_options.theme}}
-                        {{_isMinWidth ? 'controls-RangeShortSelectorLink__value-wrapper-minWidth_theme-' + _options.theme}}">
+        <span class="controls-RangeShortSelectorLink__value-wrapper
+                        {{_isMinWidth ? 'controls-RangeShortSelectorLink__value-wrapper-minWidth'}}">
            <ws:if data="{{ _viewMode == 'selector' }}">
               <span
                     class="controls-RangeShortSelectorLink__value {{!_options.readOnly? 'controls-RangeShortSelectorLink__value-hovered'}}
-                    {{_fontSize? 'controls-fontsize-' + _fontSize + '_theme-' + _options.theme }}
-                    {{_fontColorStyle ? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }}
-                    controls-RangeShortSelectorLink__value_theme-{{_options.theme}}
+                    {{_fontSize? 'controls-fontsize-' + _fontSize}}
+                    {{_fontColorStyle ? ' controls-text-' + _fontColorStyle}}
                     {{ _styleClass }} {{ _valueEnabledClass }}"
                     name="openPopupTarget"
                     title="{{_options.tooltip}}"
@@ -19,6 +18,7 @@
               <Controls.buttons:Button
                     name="Link" caption="{{ _caption }}"
                     fontColorStyle="{{_fontColorStyle}}"
+                    attr:class="controls-RangeShortSelectorLink__value-viewMode-link"
                     fontSize="{{_fontSize}}"
                     viewMode="link"
                     tootltip="{{_options.tooltip}}"
@@ -34,18 +34,18 @@
            </ws:else>
         </span>
         <ws:if data="{{ _resetButtonVisible || _clearButtonVisible }}">
-            <span class="controls-DateLinkView__resetButton controls-DateLinkView__resetButton_theme-{{_options.theme}}
-                        controls-icon controls-icon_style-unaccented_theme-{{ _options.theme }}
-                        controls-icon_size-s_theme-{{ _options.theme }} icon-Close"
+            <span class="controls-DateLinkView__resetButton
+                        controls-icon controls-icon_style-unaccented
+                        controls-icon_size-s icon-Close"
                   on:click="_resetButtonClickHandler()"></span>
         </ws:if>
         <ws:if data="{{ _options.prevArrowVisibility && _viewMode == 'selector'  && !_options.readOnly}}">
-            <Controls.buttons:ArrowButton attr:class="controls-RangeShortSelectorLink__arrow-prev_theme-{{_options.theme}}"
+            <Controls.buttons:ArrowButton attr:class="controls-RangeShortSelectorLink__arrow-prev"
                                           direction="left"
                                           on:click="shiftBack()"/>
         </ws:if>
         <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
-            <Controls.buttons:ArrowButton attr:class="controls-RangeShortSelectorLink__arrow-next_theme-{{_options.theme}}"
+            <Controls.buttons:ArrowButton attr:class="controls-RangeShortSelectorLink__arrow-next"
                                           direction="right"
                                           on:click="shiftForward()"/>
         </ws:if>

@@ -3,5 +3,5 @@
                              displayProperty="title"
                              emptyText="{[Не выбрано]}"
                              iconSize="m"
-                             contentTemplate="wml!Controls/_dropdown/Input/resources/defaultContentTemplateWithIcon"
+                             contentTemplate="Controls/dropdown:defaultContentTemplateWithIcon"
                              bind:selectedKeys="_selectedKeys" />

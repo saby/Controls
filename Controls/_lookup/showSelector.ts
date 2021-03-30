@@ -66,7 +66,7 @@ export default function(self, popupOptions, multiSelect) {
             merge(stackPopupOptions, popupOptions);
         }
         self._opener.open(stackPopupOptions);
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }

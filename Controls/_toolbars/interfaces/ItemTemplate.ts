@@ -76,7 +76,7 @@ export default interface IItemTemplateOptions {
     item?: object;
     /**
      * @name Controls/toolbars:ItemTemplate#buttonTemplate
-     * @cfg {String|Function} Шаблон кнопки тулбара.
+     * @cfg {String|TemplateFunction} Шаблон кнопки тулбара.
      */
     buttonTemplate?: string | TemplateFunction;
     /**

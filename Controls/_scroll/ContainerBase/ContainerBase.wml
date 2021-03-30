@@ -23,6 +23,7 @@ https://online.sbis.ru/opendoc.html?guid=10a3ac25-9b67-4b76-9706-ba8e73415246
             attr:class="controls-Scroll-containerBase_userContent"
             template="{{_options.content}}"
             scope="{{_options}}"
+            _contentWrapperCssClass="{{undefined}}"
             _scrollCssClass="{{undefined}}"
 
             on:selectedKeysChanged="_selectedKeysChanged()"

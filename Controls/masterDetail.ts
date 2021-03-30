@@ -16,10 +16,5 @@
  * @author Авраменко А.С.
  */
 
-import Base from 'Controls/_masterDetail/Base';
-import List = require('Controls/_masterDetail/List');
-
-export {
-   Base,
-   List
-};
+export {default as Base} from 'Controls/_masterDetail/Base';
+export {default as List} from 'Controls/_masterDetail/List';

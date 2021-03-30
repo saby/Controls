@@ -2,6 +2,7 @@ import rk = require('i18n!Controls');
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_dropdown/Toggle/Toggle');
 import {Memory} from 'Types/source';
+import 'css!Controls/dropdown';
 
 interface IToggleOptions extends IControlOptions {
     selectedKeys: boolean[];
@@ -41,6 +42,4 @@ export default class Toggle extends Control<IToggleOptions> {
             keyProperty: 'key'
         });
     }
-
-    static _theme: string[] = ['Controls/dropdown', 'Controls/Classes'];
 }

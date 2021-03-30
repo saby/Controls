@@ -1,0 +1,74 @@
+.controls-TileView__smallTemplate_dragTargetNode_theme-@{themeName} {
+   border: @item_droppable_border_thickness_treeGrid solid @item_droppable_border_color_treeGrid;
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+}
+
+.controls-TileView__smallTemplate_title_theme-@{themeName} {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   width: 100%;
+   font-size: @node_font-size_tile;
+   margin-right: @offset_m;
+   flex-shrink: 1;
+}
+
+.controls-TileView__smallTemplate_title_node_theme-@{themeName} {
+   margin-left: @node_caption_padding-left_tile;
+}
+
+.controls-TileView__smallTemplate_nodeIcon_theme-@{themeName} {
+   margin-left: @title_offset_left_small_tile;
+   flex-shrink: 0;
+}
+
+.controls-TileView__smallTemplate_nodeItem_theme-@{themeName} {
+   height: @node_height_tile;
+ }
+
+.controls-TileView__smallTemplate_listItem_theme-@{themeName} {
+   height: @height_item_small_tile;
+}
+
+.controls-TileView__smallTemplate_item_theme-@{themeName} {
+   box-sizing: border-box;
+   display: flex;
+   align-items: center;
+   min-width: 0;
+}
+
+.controls-TileView__smallTemplate_item_theme-@{themeName}:hover, .controls-TileView__smallTemplate_item_active_theme-@{themeName} {
+   background-color: @node_hover_background-color_tile;
+   box-shadow: @node_shadow-size_tile @node_shadow-color_tile;
+}
+
+.controls-TileView__smallTemplate_image_size_m_theme-@{themeName} {
+   height: @image_height_m_small_tile;
+   width: @image_width_m_small_tile;
+}
+
+.controls-TileView__smallTemplate_image_size_l_theme-@{themeName} {
+   height: @image_height_l_small_tile;
+   width: @image_width_l_small_tile;
+}
+
+.controls-TileView__smallTemplate_image {
+   flex-shrink: 0;
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+}
+
+.controls-TileView__smallTemplate_imageWrapper {
+   height: @height_item_small_tile;
+   width: @width_item_small_tile;
+   display: flex;
+   align-items: center;
+   position: relative;
+   flex-shrink: 0;
+}

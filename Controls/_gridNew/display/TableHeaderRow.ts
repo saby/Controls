@@ -6,7 +6,7 @@ export default class TableHeaderRow<T> extends HeaderRow<T> {
     }
 
     protected _addCheckBoxColumnIfNeed(): void {
-        const factory = this._getColumnsFactory();
+        const factory = this.getColumnsFactory();
         if (this._$owner.hasMultiSelectColumn() && this._$headerModel.getRowIndex(this) === 0) {
             const {start, end} = this._$headerModel.getBounds().row;
             this._$columnItems.unshift(factory({

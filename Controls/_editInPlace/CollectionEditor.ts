@@ -206,8 +206,8 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
-    getNextEditableItem(): IEditableCollectionItem {
-        return this._getNextEditableItem('after');
+    getNextEditableItem(fromItem: IEditableCollectionItem = this._editingItem): IEditableCollectionItem {
+        return this._getNextEditableItem(fromItem, 'after');
     }
 
     /**
@@ -216,19 +216,19 @@ export class CollectionEditor extends mixin<DestroyableMixin>(DestroyableMixin) 
      * @return {CollectionItem.<Types/entity:Model>|undefined}
      * @public
      */
-    getPrevEditableItem(): IEditableCollectionItem {
-        return this._getNextEditableItem('before');
+    getPrevEditableItem(fromItem: IEditableCollectionItem = this._editingItem): IEditableCollectionItem {
+        return this._getNextEditableItem(fromItem, 'before');
     }
 
-    private _getNextEditableItem(direction: 'before' | 'after'): IEditableCollectionItem {
+    private _getNextEditableItem(fromItem: IEditableCollectionItem, direction: 'before' | 'after'): IEditableCollectionItem {
         let next: IEditableCollectionItem;
         const collection = this._options.collection;
 
-        if (!this._editingItem) {
+        if (!fromItem) {
             next = collection.getFirst();
         } else {
-            next = direction === 'after' ? collection.getNext(this._editingItem) :
-                collection.getPrevious(this._editingItem);
+            next = direction === 'after' ? collection.getNext(fromItem) :
+                collection.getPrevious(fromItem);
         }
 
         while (next && !next['[Controls/_display/IEditableCollectionItem]']) {

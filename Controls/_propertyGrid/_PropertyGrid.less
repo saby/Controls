@@ -6,16 +6,38 @@
    position: relative;
 }
 
-.controls-PropertyGrid__flex-editor_theme-@{themeName} {
+.controls-PropertyGrid__flex-row {
    display: flex;
+}
+
+.controls-PropertyGrid__row_captionPosition-top {
    flex-direction: column;
+}
+
+.controls-PropertyGrid__editor_captionPosition-left {
+   width: 100%;
 }
 
 .controls-PropertyGrid__editor-caption_theme-@{themeName} {
    display: inline-flex;
-   width: @label_width_propertyGrid;
-   color: @label_text-color;
    cursor: default;
+   white-space: nowrap;
+   max-width: 100%;
+}
+
+.controls-PropertyGrid__editor_nodeCaption {
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.controls-PropertyGrid__editor_nodeCaption_wrapper_theme-@{themeName} {
+   height: @inline_height_default_label;
+   align-items: center;
+}
+
+.controls-PropertyGrid__editor-caption_withEditor {
+   width: 50%;
+   flex-shrink: 0;
 }
 
 .controls-PropertyGrid__group_theme-@{themeName} {
@@ -28,10 +50,20 @@
    align-items: baseline;
 }
 
+.controls-PropertyGrid__group_expander-left {
+   flex-direction: row-reverse;
+   justify-content: flex-end;
+}
+
 .controls-PropertyGrid__groupExpander {
    cursor: pointer;
    margin-left: auto;
    align-self: center;
+}
+
+.controls-PropertyGrid__groupExpander-left_theme-@{themeName} {
+   margin-left: 0;
+   margin-right: @expander_margin-right_propertyGrid;
 }
 
 .controls-PropertyGrid__editor_booleanGroup_item,

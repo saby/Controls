@@ -1,13 +1,14 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
-import template = require('wml!Controls/_validate/Container');
-import ParallelDeferred = require('Core/ParallelDeferred');
-import Deferred = require('Core/Deferred');
-import isNewEnvironment = require('Core/helpers/isNewEnvironment');
+import * as template from 'wml!Controls/_validate/Container';
+import * as errorMessage from 'wml!Controls/_validate/ErrorMessage';
+import * as ParallelDeferred from 'Core/ParallelDeferred';
+import * as Deferred from 'Core/Deferred';
+import * as isNewEnvironment from 'Core/helpers/isNewEnvironment';
 import {UnregisterUtil, RegisterUtil} from 'Controls/event';
-import errorMessage = require('wml!Controls/_validate/ErrorMessage');
 import {ValidationStatus} from "Controls/interface";
 import {Logger} from 'UI/Utils';
 import 'css!Controls/validate';
+import {SyntheticEvent} from 'UI/Vdom';
 
 export interface IValidateConfig {
     hideInfoBox?: boolean;
@@ -155,11 +156,28 @@ class ValidateContainer extends Control<IValidateContainerOptions> {
         }
     }
 
-    protected _focusOutHandler(): void {
+    protected _focusOutHandler(event: SyntheticEvent<FocusEvent>): void {
         this._contentActive = false;
         this._validationStatus = this._getValidStatus(this._contentActive);
         if (!this.isValid()) {
-            this._closeInfoBox();
+            // При уходе фокуса закрываю без задержки. Сценарий:
+            // На документе нажимают кнопку сохранить, validate:Controller активирует первое поле ввода, провалившее
+            // валидацию, после документ показывает диалоговое окно с сообщением об ошибке, фокус уходит на это окно.
+            // Если инфобокс упел показаться, то визуально будет моргание.
+
+            const InfoboxClassName: string = 'controls-InfoBoxTemplate';
+            const {relatedTarget} = event.nativeEvent;
+            let isFocusOutToInfobox: boolean;
+            if (relatedTarget) {
+                isFocusOutToInfobox = !!(relatedTarget as HTMLElement).closest(`.${InfoboxClassName}`);
+            }
+            // Если фокус ушел в связанную подсказку, то дадим время для закрытия. Нужно чтобы внутри окна могли
+            // отработать обработчики на клик, если таковые имеются.
+            if (isFocusOutToInfobox) {
+                this._closeInfoBox();
+            } else {
+                this._forceCloseInfoBox();
+            }
         }
     }
 

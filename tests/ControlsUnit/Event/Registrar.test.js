@@ -15,7 +15,8 @@ define([
          compMock = {
             getInstanceId: function() {
                return '123abc'
-            }
+            },
+            _destroyed: false
          }
 
       });

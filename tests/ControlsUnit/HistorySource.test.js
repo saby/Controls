@@ -419,51 +419,54 @@ define(
                assert.equal(hSource._getKeyProperty.call(self), 'key');
             });
 
-            it('updateRecent', function() {
+            it('updateRecent', function(done) {
                let meta = {
                   $_history: true
                };
-               hSource.update(myItem, meta);
-               historyItems = hSource.getItems();
-               assert.equal(historyItems.at(3).get('title'), 'Запись 7');
-               hSource.update(myItem, meta);
-               historyItems = hSource.getItems();
-               assert.equal(hSource._$history.recent.at(0).getId(), '7');
-
-               hSource.update([myItem], meta);
-               historyItems = hSource.getItems();
-               assert.equal(historyItems.at(3).get('title'), 'Запись 7');
-               assert.equal(hSource._$history.recent.at(0).getId(), '7');
-               
-               let newRecentItem = new entity.Model({
-                  rawData: {
-                     id: '8'
-                  },
-                  keyProperty: 'id',
+               hSource.update(myItem, meta).then(() => {
+                  historyItems = hSource.getItems();
+                  assert.equal(historyItems.at(3).get('title'), 'Запись 7');
+                  hSource.update(myItem, meta).then(() => {
+                     historyItems = hSource.getItems();
+                     assert.equal(hSource._$history.recent.at(0).getId(), '7');
+                     hSource.update([myItem], meta).then(() => {
+                        historyItems = hSource.getItems();
+                        assert.equal(historyItems.at(3).get('title'), 'Запись 7');
+                        assert.equal(hSource._$history.recent.at(0).getId(), '7');
+                        let newRecentItem = new entity.Model({
+                           rawData: {
+                              id: '8'
+                           },
+                           keyProperty: 'id',
+                        });
+                        hSource.update([newRecentItem], meta).then(() => {
+                           historyItems = hSource.getItems();
+                           assert.equal(historyItems.at(3).get('title'), 'Запись 8');
+                           let pinnedItem = new entity.Model({
+                              rawData: {
+                                 id: '5'
+                              },
+                              keyProperty: 'id',
+                           });
+                           hSource.update([pinnedItem], meta).then(() => {
+                              assert.isNotNull(hSource._$historyItems);
+                              let item = new entity.Model({
+                                 rawData: {
+                                    id: 'notInOriginalRecordSet'
+                                 },
+                                 keyProperty: 'id',
+                              });
+                              hSource.update([item], meta).then(() => {
+                                 assert.isNull(hSource._$historyItems);
+                                 done();
+                              });
+                           });
+                        });
+                     });
+                  });
                });
-               hSource.update([newRecentItem], meta);
-               historyItems = hSource.getItems();
-               assert.equal(historyItems.at(3).get('title'), 'Запись 8');
-
-               let pinnedItem = new entity.Model({
-                  rawData: {
-                     id: '5'
-                  },
-                  keyProperty: 'id',
-               });
-               hSource.update([pinnedItem], meta);
-               assert.isNotNull(hSource._$historyItems);
-
-               let item = new entity.Model({
-                  rawData: {
-                     id: 'notInOriginalRecordSet'
-                  },
-                  keyProperty: 'id',
-               });
-               hSource.update([item], meta);
-               assert.isNull(hSource._$historyItems);
             });
-            it('updateRecent history not loaded', function() {
+            it('updateRecent history not loaded', async function() {
                let config2 = clone(config),
                   updatedData,
                   meta = {
@@ -473,7 +476,7 @@ define(
                   updatedData = data;
                };
                let hSource2 = new historyMod.Source(config2);
-               hSource2.update(myItem, meta);
+               await hSource2.update(myItem, meta);
                assert.deepEqual(myItem, updatedData);
 
             });
@@ -731,6 +734,10 @@ define(
                   // throw error
                   assert.equal(error, true);
                });
+            });
+
+            it('getKeyProperty', () => {
+               assert.equal(hSource.getKeyProperty(), 'id');
             });
 
             it('serialization', function() {

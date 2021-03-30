@@ -438,6 +438,17 @@ describe('Controls/_list/ScrollContainer/VirtualScroll', () => {
             // tslint:disable-next-line:no-magic-numbers
             assert.deepEqual({direction: 'up', heightDifference: -3}, instance.getParamsToRestoreScroll());
         });
+        it('after shifting and adding items in opposite directiond', () => {
+            // test for task https://online.sbis.ru/opendoc.html?guid=9040b3b7-eb6c-4a1f-b16a-7cf917bf6137
+            const instance = new controller({pageSize: 5, segmentSize: 1}, {viewport: 200, trigger: 10, scroll: 300});
+            instance.resetRange(0, 10);
+            // @ts-ignore
+            instance.shiftRange('down');
+            instance.addItems(0, 1, {up: false, down: false}, 'up');
+            instance.shiftRange('up');
+            instance.updateItemsHeights(getItemsHeightsData([60, 60, 60, 60, 60, 60, 60]));
+            assert.deepEqual({direction: 'up', heightDifference: -60}, instance.getParamsToRestoreScroll());
+        });
     });
     describe('.updateItemsHeights()', () => {
         it('range changed switch off', () => {

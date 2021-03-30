@@ -1,7 +1,7 @@
 import { TemplateFunction } from 'UI/Base';
 import { isEqual } from 'Types/object';
 
-import { IColspanParams } from 'Controls/_grid/interface/IColumn';
+import { IColspanParams } from 'Controls/interface';
 
 import { IItemActionsTemplateConfig } from 'Controls/display';
 
@@ -68,36 +68,12 @@ export default class FooterRow<T> extends Row<T> {
     }
 
     protected _getColspan(column: IFooter, columnIndex: number): number {
-        let colspan = 0;
-
-        if (column.startColumn && column.endColumn) {
-            colspan = column.endColumn - column.startColumn;
-        } else if (column.colspan) {
-            colspan = column.colspan;
-        }
-
-        if (columnIndex === 0) {
-            const stickyLadderProperties = this.getStickyLadderProperties(column);
-            const stickyLadderStyleForFirstProperty = stickyLadderProperties &&
-                this._getStickyLadderStyle(column, stickyLadderProperties[0]);
-            const stickyLadderStyleForSecondProperty = stickyLadderProperties && stickyLadderProperties.length === 2 &&
-                this._getStickyLadderStyle(column, stickyLadderProperties[1]);
-
-            if (stickyLadderStyleForFirstProperty) {
-                colspan++;
-            }
-
-            if (stickyLadderStyleForSecondProperty) {
-                colspan++;
-            }
-        }
-
-        return colspan;
+        return 0;
     }
 
     protected _initializeColumns(): void {
         if (this._$columns) {
-            const factory = this._getColumnsFactory();
+            const factory = this.getColumnsFactory();
 
             if (this._$footer) {
                 this._$columnItems = this._prepareColumnItems(this._$footer, factory);
@@ -107,6 +83,7 @@ export default class FooterRow<T> extends Row<T> {
                         template: this._$footerTemplate
                     },
                     colspan: this._$owner.getColumnsConfig().length,
+                    isSingleCell: true,
                     isFixed: true
                 })];
             }
@@ -114,6 +91,7 @@ export default class FooterRow<T> extends Row<T> {
             if (this._$owner.hasMultiSelectColumn()) {
                 this._$columnItems.unshift(factory({
                     column: {},
+                    colspan: 0,
                     isFixed: true
                 }));
             }

@@ -3,16 +3,18 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {RecordSet} from 'Types/collection';
 import {Record} from 'Types/entity';
 import 'css!Controls/toolbars';
+import 'css!Controls/buttons';
+import 'css!Controls/CommonClasses';
 
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {
     getButtonTemplate, hasSourceChanged,
-    getButtonTemplateOptionsByItem, getTemplateByItem, loadItems
+    getSimpleButtonTemplateOptionsByItem, getTemplateByItem, loadItems
 } from 'Controls/_toolbars/Util';
 
 import {
     IHierarchyOptions, IIconSizeOptions,
-    IItemTemplate, IItemTemplateOptions,
+    IItemTemplate, IItemTemplateOptions
 } from 'Controls/interface';
 import {IToolbarSourceOptions, default as IToolbarSource} from 'Controls/_toolbars/IToolbarSource';
 import * as template from 'wml!Controls/_toolbars/BoxView/BoxView';
@@ -37,12 +39,19 @@ export interface IToolbarBoxOptions extends IControlOptions, IHierarchyOptions, 
  *
  * @class Controls/_toolbars/BoxView
  * @extends UI/Base:Control
+ * @implements Controls/_interface/ISeparatorVisible
  * @implements Controls/interface/IItemTemplate
  * @demo Controls-demo/Toolbar/BoxView/Index
  *
  * @author Красильников А.С.
  * @public
  */
+
+/**
+ * @name Controls/_toolbars/BoxView#separatorVisible
+ * @demo Controls-demo/Toolbar/BoxView/SeparatorVisible/Index
+ */
+
 class ToolbarBox extends Control<IToolbarBoxOptions, TItems> implements IItemTemplate, IToolbarSource {
     protected _items: TItems = null;
     protected _source: ICrudPlus = null;
@@ -57,8 +66,8 @@ class ToolbarBox extends Control<IToolbarBoxOptions, TItems> implements IItemTem
         this._items = items;
     }
 
-    protected _getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
-        return getButtonTemplateOptionsByItem(item, this._options);
+    protected _getSimpleButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
+        return getSimpleButtonTemplateOptionsByItem(item, this._options);
     }
 
     protected _beforeMount(options: IToolbarBoxOptions, context: {}, receivedItems?: TItems): Promise<TItems> {
@@ -97,11 +106,10 @@ class ToolbarBox extends Control<IToolbarBoxOptions, TItems> implements IItemTem
         return getTemplateByItem(item, this._options);
     }
 
-    static _theme: string[] = ['Controls/buttons', 'Controls/Classes'];
-
     static getDefaultOptions(): object {
         return {
             iconSize: 's',
+            separatorVisible: true,
             itemTemplate: defaultItemTemplate
         };
     }

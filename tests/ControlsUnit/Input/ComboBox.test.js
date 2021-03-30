@@ -47,33 +47,47 @@ define(
             combobox._simpleViewModel = { updateOptions: function() {} };
             return combobox;
          };
-         it('_setText', function() {
-            const newConfig = {...config, emptyKey: null};
-            let combobox = getCombobox(newConfig);
-            combobox._setText(newConfig, [itemsRecords.at(1)]);
-            assert.equal('Запись 2', combobox._value);
-            combobox._setText(newConfig, []);
-            assert.strictEqual('', combobox._value);
-            assert.strictEqual('This is placeholder', combobox._placeholder);
 
-            combobox._setText(newConfig, [new entity.Model({
-               rawData: { id: '1', title: 123 }
-            })]);
-            assert.strictEqual('123', combobox._value);
-         });
+         describe('_setText', () => {
+            let combobox;
+            beforeEach(() => {
+               const newConfig = {...config, emptyKey: null};
+               combobox = getCombobox(newConfig);
+            });
 
-         it('_setText empty item', function() {
-            let emptyConfig = Clone(config),
-               emptyItems = new collection.RecordSet({
+            it('_setText', function() {
+               combobox._setText(combobox._options, [itemsRecords.at(1)]);
+               assert.equal('Запись 2', combobox._value);
+               combobox._setText(combobox._options, []);
+               assert.strictEqual('', combobox._value);
+               assert.strictEqual('This is placeholder', combobox._placeholder);
+
+               combobox._setText(combobox._options, [new entity.Model({
+                  rawData: { id: '1', title: 123 }
+               })]);
+               assert.strictEqual('123', combobox._value);
+            });
+
+            it('_setText set 0', function() {
+               let selectedItems = new collection.RecordSet({
+                  keyProperty: 'id',
+                  rawData: [{ id: '1', title: 0 }]
+               });
+               combobox._setText(combobox._options, [selectedItems.at(0)]);
+               assert.equal('0', combobox._value);
+            });
+
+            it('_setText empty item', function() {
+               let emptyItems = new collection.RecordSet({
                   keyProperty: 'id',
                   rawData: [{ id: null, title: 'Не выбрано' }]
                });
-            emptyConfig.emptyText = 'Не выбрано';
-            emptyConfig.emptyKey = null;
-            let combobox = getCombobox(emptyConfig);
-            combobox._setText(emptyConfig, [emptyItems.at(0)]);
-            assert.equal('', combobox._value);
-            assert.equal('Не выбрано', combobox._placeholder);
+               combobox._options.emptyText = 'Не выбрано';
+               combobox._options.emptyKey = null;
+               combobox._setText(combobox._options, [emptyItems.at(0)]);
+               assert.equal('', combobox._value);
+               assert.equal('Не выбрано', combobox._placeholder);
+            });
          });
 
          it('_selectedItemsChangedHandler', function() {

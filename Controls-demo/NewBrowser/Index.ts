@@ -1,8 +1,8 @@
 import {Memory} from 'Types/source';
 import {Control, TemplateFunction} from 'UI/Base';
-import {Browser, DetailViewMode} from 'Controls/newBrowser';
+import {BeforeChangeRootResult, Browser, DetailViewMode, IBrowserViewConfig, IRootsData} from 'Controls/newBrowser';
 import {FlatHierarchy} from 'Controls-demo/_DemoData/Data';
-import {DemoSource} from 'Controls-demo/NewBrowser/DemoSource';
+import {DemoSource, getDefaultViewCfg} from 'Controls-demo/NewBrowser/DemoSource';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as Template from 'wml!Controls-demo/NewBrowser/Index';
@@ -15,6 +15,26 @@ const baseSource = new DemoSource({
     data: FlatHierarchy.getData()
 });
 
+function findParentFolderId(itemId: TKey): TKey {
+    const data = FlatHierarchy.getData();
+    const item = data.find((dataItem) => dataItem.id === itemId);
+
+    if (item.hasSubNodes) {
+        return item.id;
+    }
+
+    if (item.parent === null) {
+        return null;
+    }
+
+    const parent = data.find((dataItem) => dataItem.id === item.parent);
+    if (parent.hasSubNodes) {
+        return parent.id;
+    }
+
+    return findParentFolderId(parent.id);
+}
+
 export default class extends Control {
     protected _template: TemplateFunction = Template;
 
@@ -23,17 +43,25 @@ export default class extends Control {
     };
 
     /**
-     * Источник данных для колонок каталога
+     * Корневая директория detail списка
      */
-    protected _baseSource: DemoSource = baseSource;
+    protected _root: TKey = null;
+
+    /**
+     * Корневая директория master списка
+     */
+    protected _masterRoot: TKey = null;
 
     /**
      * Флаг, идентифицирующий видна или нет master-колонка
      */
-    protected _isMasterVisible: boolean = false;
+    protected _isMasterVisible: boolean = true;
 
-    protected _viewMode: DetailViewMode;
-    protected _userViewMode: DetailViewMode[];
+    /**
+     * Источник данных для колонок каталога
+     */
+    protected _baseSource: DemoSource = baseSource;
+
     /**
      * Источник данных для выбора режима отображения списка в detail-колонке
      */
@@ -57,6 +85,9 @@ export default class extends Control {
             }
         ]
     });
+    protected _viewMode: DetailViewMode = DetailViewMode.list;
+    protected _userViewMode: DetailViewMode[] = [DetailViewMode.list];
+    protected _defaultViewCfg: IBrowserViewConfig = getDefaultViewCfg();
 
     /**
      * Набор колонок, отображаемый в master
@@ -73,13 +104,18 @@ export default class extends Control {
      */
     protected _detailTableColumns: unknown[] = FlatHierarchy.getGridColumns();
 
-    protected _root: TKey = null;
-
     //region life circle hooks
     protected _componentDidMount(options?: {}, contexts?: any): void {
         this._userViewMode = [this._children.browser.viewMode];
     }
     //endregion
+
+    protected _onBeforeRootChanged(event: SyntheticEvent, roots: IRootsData): BeforeChangeRootResult {
+        return {
+            detailRoot: roots.detailRoot,
+            masterRoot: findParentFolderId(roots.masterRoot)
+        };
+    }
 
     protected _onBrowserViewModeChanged(event: SyntheticEvent, viewMode: DetailViewMode): void {
         this._userViewMode = [viewMode];

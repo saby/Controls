@@ -2,12 +2,14 @@ define(
    [
       'Controls/popup',
       'Controls/_popupTemplate/BaseController',
+      'Controls/_popup/Manager/ManagerController',
       'Core/Deferred'
    ],
 
-   function(popupMod, BaseController, Deferred) {
+   function(popupMod, BaseController, ManagerController, Deferred) {
       'use strict';
       BaseController = BaseController.default;
+      ManagerController = ManagerController.default;
 
       function getManager() {
          let Manager = new popupMod.ManagerClass();
@@ -105,6 +107,13 @@ define(
             }, new BaseController());
             element = Manager.find(id);
             element.popupState = 'created';
+            Manager._redrawItems = () => {
+               return {
+                  then: (callback) => {
+                     callback();
+                  }
+               }
+            };
             id = Manager.update(id, {
                testOption: 'updated1'
             });
@@ -258,44 +267,6 @@ define(
                done();
             });
          });
-
-         it('popup deactivated', () => {
-            Manager = getManager();
-            let isDeactivated = false;
-            let controller = {
-               popupDeactivated: () => {
-                  isDeactivated = true;
-               },
-               getDefaultConfig: () => ({}),
-               POPUP_STATE_INITIALIZING: 'initializing'
-            };
-            let id = Manager.show({
-               closeOnOutsideClick: true,
-               closeOnDeactivated: true
-            }, controller);
-
-            let item = Manager.find(id);
-
-            let baseFinishPendings = Manager._finishPendings;
-            Manager._finishPendings = (popupId, popupCallback, pendingCallback, pendingsFinishedCallback) => {
-               pendingsFinishedCallback();
-            };
-            Manager._popupDeactivated(id);
-            assert.equal(isDeactivated, false);
-
-            item.popupState = 'create';
-            Manager._popupDeactivated(id);
-            assert.equal(isDeactivated, true);
-
-            isDeactivated = false;
-            item.popupOptions.closeOnOutsideClick = false;
-            item.popupOptions.closeOnDeactivated = false;
-            Manager._popupDeactivated(id);
-            assert.equal(isDeactivated, false);
-
-            Manager._finishPendings = baseFinishPendings;
-         });
-
          it('managerPopupMaximized notified', function() {
             let popupOptions = {
                modal: false,
@@ -371,37 +342,63 @@ define(
             var secondResult = Manager._isIgnoreActivationArea(focusedArea);
             assert.equal(secondResult, false);
          });
-         it('mousedownHandler', function() {
-            Manager =
-               getManager();
-            let deactivatedCount = 0;
-            Manager.remove = () => deactivatedCount++;
-            Manager._isIgnoreActivationArea = () => false;
-            Manager._isNewEnvironment = () => true;
-            Manager._needClosePopupByOutsideClick = (item) => item.popupOptions.closeOnOutsideClick;
-            let id1 = Manager.show({
-               testOption: 'created',
-               autofocus: false,
-               closeOnOutsideClick: true
-            }, new BaseController());
-            let id2 = Manager.show({
-               testOption: 'created'
-            }, new BaseController());
-            let id3 = Manager.show({
-               testOption: 'created',
-               autofocus: false,
-               closeOnOutsideClick: true
-            }, new BaseController());
-            let event = {
-               target: {
-                  classList: {
-                     contains: () => false
+         describe('mousedownHandler', function() {
+            it('closeOnOutsideClick', () => {
+               Manager = getManager();
+               let removedCount = 0;
+               Manager.remove = () => removedCount++;
+               Manager._isIgnoreActivationArea = () => false;
+               Manager._isNewEnvironment = () => true;
+               Manager._needClosePopupByOutsideClick = (item) => item.popupOptions.closeOnOutsideClick;
+               Manager.show({
+                  testOption: 'created',
+                  autofocus: false,
+                  closeOnOutsideClick: true
+               }, new BaseController());
+               Manager.show({
+                  testOption: 'created'
+               }, new BaseController());
+               Manager.show({
+                  testOption: 'created',
+                  autofocus: false,
+                  closeOnOutsideClick: true
+               }, new BaseController());
+               let event = {
+                  target: {
+                     classList: {
+                        contains: () => false
+                     }
                   }
                }
-            }
-            Manager.mouseDownHandler(event);
-            assert.equal(deactivatedCount, 2);
-            Manager.destroy();
+               Manager.mouseDownHandler(event);
+               assert.equal(removedCount, 2);
+               Manager.destroy();
+            });
+            it('closeOnOverlayClick', () => {
+               Manager = getManager();
+               let popupRemoved = false;
+               Manager.remove = () => popupRemoved = true;
+               Manager._isIgnoreActivationArea = () => false;
+               Manager._isNewEnvironment = () => true;
+               const popupId = Manager.show({
+                  testOption: 'created',
+                  closeOnOverlayClick: true
+               }, new BaseController());
+               const item = Manager.find(popupId);
+               item.popupState = item.controller.POPUP_STATE_CREATED;
+               let event = {
+                  target: {
+                     classList: {
+                        contains: () => true
+                     }
+                  }
+               };
+               const popupContainer = ManagerController.getContainer();
+               popupContainer.getOverlayId = () => item.id;
+               Manager.mouseDownHandler(event);
+               assert.equal(popupRemoved, true);
+               Manager.destroy();
+            });
          });
          it('Linked Popups', function(done) {
             Manager = getManager();
@@ -578,8 +575,7 @@ define(
          it('finishPendings', () => {
             Manager = getManager();
             let popupId = Manager.show({
-               closeOnOutsideClick: true,
-               closeOnDeactivated: true
+               closeOnOutsideClick: true
             }, new BaseController());
 
             let hasPending = true;

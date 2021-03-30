@@ -14,16 +14,23 @@ export default class extends Control {
         this._itemActions = [
             {
                 id: 1,
+                title: 'Show',
+                showType: showType.MENU,
+                parent: null,
+                'parent@': false
+            },
+            {
+                id: 2,
                 title: 'Edit',
                 showType: showType.MENU,
                 parent: null,
                 'parent@': true
             },
             {
-                id: 2,
+                id: 3,
                 title: 'Edit description',
                 showType: showType.MENU,
-                parent: 1,
+                parent: 2,
                 'parent@': null
             }
         ];

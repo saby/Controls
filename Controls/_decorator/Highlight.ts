@@ -4,6 +4,7 @@ import {escapeSpecialChars, addWordCheck} from 'Controls/_decorator/inputUtils/R
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Highlight/Highlight';
+import 'css!Controls/decorator';
 
 /**
  * @typedef HighlightMode
@@ -22,7 +23,7 @@ export type HighlightMode = 'word' | 'substring';
 export interface IHighlightOptions extends IControlOptions {
     /**
      * Класс обеспечивающий внешнее отображение подсветки.
-     * @default controls-Highlight_highlight_theme-{{_options.theme}}
+     * @default controls-Highlight_highlight
      * @demo Controls-demo/Decorator/Highlight/ClassName/Index
      */
     className: string;
@@ -187,7 +188,7 @@ class Highlight extends Control<IHighlightOptions> {
     }
 
     protected _beforeMount(options: IHighlightOptions): void {
-        this._className = options.className ? options.className : `controls-Highlight_highlight_theme-${options.theme}`;
+        this._className = options.className ? options.className : 'controls-Highlight_highlight';
         this._parsedText = this._prepareParsedText(options);
     }
 
@@ -195,13 +196,11 @@ class Highlight extends Control<IHighlightOptions> {
         if (this._needChangeParsedText(newOptions)) {
             this._parsedText = this._prepareParsedText(newOptions);
         }
-        this._className = newOptions.className ? newOptions.className : `controls-Highlight_highlight_theme-${newOptions.theme}`;;
+        this._className = newOptions.className ? newOptions.className : 'controls-Highlight_highlight';
     }
 
     private static WORD_SEPARATOR: RegExp = /\s+/g;
     private static MINIMUM_WORD_LENGTH: number = 2;
-
-    static _theme: string[] = ['Controls/decorator'];
 
     private static _isNotEmpty(value: string): boolean {
         return value !== '';
@@ -278,7 +277,7 @@ class Highlight extends Control<IHighlightOptions> {
         };
     }
 
-    static getOptionTypes() {
+    static getOptionTypes(): object {
         return {
             className: descriptor(String),
             highlightMode: descriptor(String).oneOf([

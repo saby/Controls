@@ -104,14 +104,45 @@ define([
             });
          });
       });
+       describe('_onMonthsPositionChanged', () => {
+           [{
+               position: new Date(2018, 5),
+               newPosition: new Date(2019, 2),
+               result: new Date(2019, 0)
+           }, {
+               position: new Date(2018, 5),
+               newPosition: new Date(2016, 4),
+               result: new Date(2017, 0)
+           }].forEach((test) => {
+               it('should set correct position', () => {
+                   const component = calendarTestUtils.createComponent(DateRange, {});
+                   component._position = test.position
+                   let resultValue;
+                   component._notify = (eventName, value) => {
+                       resultValue = value[0];
+                   };
+                   component._onMonthsPositionChanged('event', test.newPosition);
+                   assert.equal(resultValue.getFullYear(), test.result.getFullYear());
+               });
+           });
 
-      describe('_getMonth', function() {
-         it('should return proper date.', function() {
-            const component = calendarTestUtils.createComponent(DateRange, { year: year }),
-               rDate = component._getMonth(2019, 0);
-            assert.strictEqual(rDate.getTime(), (new Date(2019, 0)).getTime());
-            cInstance.instanceOfModule(rDate, 'Types/entity:Date');
-         });
-      });
+           [{
+               position: new Date(2018, 5),
+               newPosition: new Date(2018, 2)
+           }, {
+               position: new Date(2018, 5),
+               newPosition: new Date(2017, 4)
+           }].forEach((test) => {
+               it('should not set position', () => {
+                   const component = calendarTestUtils.createComponent(DateRange, {});
+                   component._position = test.position
+                   let resultValue;
+                   sinon.stub(component, '_notify');
+                   component._onMonthsPositionChanged('event', test.newPosition);
+                   sinon.assert.notCalled(component._notify);
+                   sinon.restore();
+               });
+           });
+       });
    });
 });

@@ -1,4 +1,7 @@
 .controls-newBrowser {
+   // fix for ie
+   max-width: 100%;
+
    // Каскад - не хорошо, лучшее решение будет по этой задаче
    // https://online.sbis.ru/opendoc.html?guid=dcb9fe64-a71c-4360-a863-945b8ed40713
    .controls-Explorer__PathWrapper {
@@ -17,6 +20,17 @@
    }
 }
 
+.controls-newBrowser__master {
+   height: 100%;
+}
+
 .controls-newBrowser__detail {
    flex: 1 1 100%;
+   display: flex;
+   flex-direction: column;
+}
+
+.controls-newBrowser__detail-list {
+   flex: 1 1 auto;
+   overflow: hidden;
 }

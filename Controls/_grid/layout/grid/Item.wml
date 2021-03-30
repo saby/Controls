@@ -22,7 +22,7 @@
 </ws:template>
 
 <ws:template name="multiSelectTemplate">
-   <ws:partial template="{{multiSelectTpl}}">
+   <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ !!preventMergeOptions}}">
       <ws:templateOptions item="{{ itemData.dispItem }}" checkboxReadOnly="{{checkboxReadOnly}}" itemData="{{itemData}}"/>
    </ws:partial>
 </ws:template>
@@ -47,11 +47,11 @@
       <ws:if data="{{colspan}}">
          <div class="controls-Grid__row-cell__content_colspaned
                      {{ currentColumn.getColspanedPaddingClassList(currentColumn, colspan).getAll() }}
-                     {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
+                     {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-background-' + itemData.backgroundStyle + '_theme-' + itemData.theme + ' controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
                      {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}">
             <ws:partial template="{{colspanTemplate}}" itemData="{{itemData}}">
                <ws:multiSelectTemplate>
-                  <ws:partial template="multiSelectTemplate" if="{{ multiSelectPosition === 'custom' }}"/>
+                  <ws:partial template="multiSelectTemplate" preventMergeOptions="{{ true }}" if="{{ multiSelectPosition === 'custom' }}"/>
                </ws:multiSelectTemplate>
             </ws:partial>
          </div>
@@ -64,7 +64,7 @@
                      ladderWrapper="{{currentColumn.ladderWrapper}}"
                      stickyProperty="{{stickyProperty}}"
                      attr:class="{{currentColumn.column.align ? ' controls-Grid__row-cell__content_halign_' + currentColumn.column.align : ''}}
-                                 {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder  controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
+                                 {{!isLadderHeader && currentColumn.hiddenForLadder && !colspan ? 'controls-Grid__row-cell__content_hiddenForLadder controls-background-' + itemData.backgroundStyle + '_theme-' + itemData.theme + ' controls-Grid__row-cell__content_hiddenForLadder_theme-' + itemData.theme}}
                                  {{!isLadderHeader && itemData.stickyLadder ? 'controls-Grid__row-cell__content_ladderHeader'}}
                                  {{itemData.stickyLadder && itemData.stickyProperties[1] && !itemData.stickyLadder[itemData.stickyProperties[1]].ladderLength ? 'controls-Grid__row-cell__content_ladder-empty'}}
                                  {{itemData.isAnimatedForSelection() ? ' controls-ListView__item_rightSwipeAnimation'}}
@@ -73,7 +73,7 @@
                      itemData="{{currentColumn}}"
                      tagTemplate="{{tagTemplate}}">
             <ws:multiSelectTemplate>
-               <ws:partial template="multiSelectTemplate" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
+               <ws:partial template="multiSelectTemplate" preventMergeOptions="{{ true }}" if="{{ itemData.multiSelectPosition === 'custom' }}"/>
             </ws:multiSelectTemplate>
          </ws:partial>
       </ws:else>
@@ -98,7 +98,10 @@
 
 <ws:template name="STICKY_LADDER_HEADER">
    <ws:if data="{{itemData.stickyLadder[stickyProperty].headingStyle && currentColumn.hiddenForLadder}}">
-      <div attr:class="controls-Grid__row-ladder-cell {{!!itemData.isActive() ? ' controls-GridView__item_active_theme-' + itemData.theme}}{{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}"
+      <div attr:class="controls-Grid__row-ladder-cell
+                       {{!!itemData.isActive() ? ' controls-GridView__item_active_theme-' + itemData.theme}}
+                       {{!!itemData.isDragging ? ' controls-ListView__item_dragging_theme-' + itemData.theme}}
+                       {{!!itemData.columnScroll ? currentColumn.classList.columnScroll}}"
            attr:key="{{itemData.key + stickyProperty + '_sticky_ladder'}}"
            attr:style="{{itemData.stickyLadder[stickyProperty].headingStyle}}">
 
@@ -112,7 +115,7 @@
             <ws:else>
                <div class="controls-Grid__row-main_ladderWrapper"
                   style="{{ 'left: 0; right: -'+ currentColumn.column.width }};">
-                  <ws:partial template="STICKY_LADDER_HEADER_CONTENT"  attr:style="z-index: 2" currentColumn="{{currentColumn}}" stickyProperty="{{stickyProperty}}"/>
+                  <ws:partial template="STICKY_LADDER_HEADER_CONTENT" attr:style="z-index: {{currentColumn.columnScrollVisibility ? 4 : 2}}" currentColumn="{{currentColumn}}" stickyProperty="{{stickyProperty}}"/>
                </div>
             </ws:else>
          </ws:if>

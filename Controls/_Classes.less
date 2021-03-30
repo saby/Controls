@@ -10,6 +10,7 @@
   display: inline-block;
 }
 
+
 //icon-sizes
 
 .controls-icon_size-default_theme-@{themeName} {
@@ -318,7 +319,7 @@
 }
 
 
-//Набор классв для верстки нового дизайна
+//Набор классов для верстки нового дизайна
 
 .controls__block_theme-@{themeName} {
   background-color: @background-color;
@@ -332,6 +333,9 @@
   }
   &.tlr {
     border-radius: @border-radius_default_block @border-radius_default_block 0 0;
+  }
+  &.none {
+    border-radius: 0;
   }
 }
 
@@ -361,4 +365,8 @@
 // Класс для установки фона контрола через backgroundStyle (infoBox)
 .controls-background-infoBox_theme-@{themeName} {
   background-color: var(--background-color_infobox);
+}
+
+.controls-Input_negativeOffset_theme_@{themeName} {
+  margin-left: -(@padding-horizontal_inputText + @border-thickness_inputText);
 }

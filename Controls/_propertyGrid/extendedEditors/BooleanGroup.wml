@@ -2,6 +2,7 @@
     <ws:for data="index, button in _buttons">
         <Controls.toggle:Button
                 bind:value="_stateOfButtons[index]"
+                attr:data-qa="controls-PropertyGrid__booleanGroupEditor_{{button.id}}"
                 attr:class="controls-PropertyGrid__editor_booleanGroup_item{{index === _buttons.length - 1 ? '-last' : ''}}"
                 fontSize="m"
                 inlineHeight="default"
@@ -10,6 +11,6 @@
                 icons="{{[button.icon + ' icon-small']}}"
                 iconStyle="secondary"
                 tooltip="{{button.tooltip}}"
-                on:valueChanged="_valueChangedHandler(button.id)"/>
+                on:valueChanged="_valueChangedHandler(index)"/>
     </ws:for>
 </div>

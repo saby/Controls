@@ -4,17 +4,18 @@
 import {Control} from 'UI/Base';
 import template = require('wml!Controls/_suggestPopup/List/List');
 import clone = require('Core/core-clone');
-import _SuggestOptionsField = require('Controls/_suggestPopup/_OptionsField');
 import {EventUtils} from 'UI/Events';
 import { constants } from 'Env/Env';
 import {RecordSet} from 'Types/collection';
+import 'css!Controls/suggestPopup';
+import 'css!Controls/suggest';
 
 const DIALOG_PAGE_SIZE = 25;
 
 const _private = {
-   checkContext(self, context) {
-      if (context && context.suggestOptionsField) {
-         self._suggestListOptions = context.suggestOptionsField.options;
+   checkContext(self, options) {
+      if (options && options._suggestListOptions) {
+         self._suggestListOptions = options._suggestListOptions;
 
          if (!self._layerName && self._suggestListOptions.layerName) {
             self._layerName = self._suggestListOptions.layerName.split('_').pop();
@@ -47,8 +48,8 @@ const _private = {
       return currentTabSelectedKey !== tabKey;
    },
 
-   getTabKeyFromContext(context) {
-      const tabKey = context && context.suggestOptionsField && context.suggestOptionsField.options.tabsSelectedKey;
+   getTabKeyFromContext(options) {
+      const tabKey = options._suggestListOptions?.tabsSelectedKey;
       return tabKey !== undefined ? tabKey : null;
    },
 
@@ -93,7 +94,7 @@ const _private = {
  *    ], function(Base, template) {
  *       'use strict';
  *
- *       return Base.Control.extend({
+ *       return class MyControl extends Control<IControlOptions> {
  *          _template: template
  *       });
  *    }
@@ -137,12 +138,12 @@ const List = Control.extend({
    _layerName: null,
    _isSuggestListEmpty: false,
 
-   _beforeMount(options, context) {
+   _beforeMount(options) {
       this._collectionChange = this._collectionChange.bind(this);
       this._itemsReadyCallback = this._itemsReadyCallback.bind(this);
 
       const currentReverseList = this._reverseList;
-      _private.checkContext(this, context);
+      _private.checkContext(this, options);
 
       if (this._reverseList !== currentReverseList) {
          if (this._reverseList) {
@@ -160,8 +161,8 @@ const List = Control.extend({
       }
    },
 
-   _beforeUpdate(newOptions, context) {
-      const tabKey = _private.getTabKeyFromContext(context);
+   _beforeUpdate(newOptions) {
+      const tabKey = _private.getTabKeyFromContext(newOptions);
 
       /* Need notify after getting tab from query */
       if (_private.isTabChanged(this._suggestListOptions, tabKey)) {
@@ -169,7 +170,7 @@ const List = Control.extend({
       }
 
       const currentReverseList = this._reverseList;
-      _private.checkContext(this, context);
+      _private.checkContext(this, newOptions);
 
       if (this._reverseList !== currentReverseList) {
          if (this._reverseList) {
@@ -234,8 +235,7 @@ const List = Control.extend({
          itemsCount = items && items.getCount();
 
       if (this._markedKey === null && itemsCount && domEvent.nativeEvent.keyCode === constants.key.up) {
-         const indexLastItem = this._reverseList ? 0 : itemsCount - 1;
-         this._markedKey = items.at(indexLastItem).getId();
+         this._markedKey = items.at(itemsCount - 1).getId();
       } else {
          /* TODO will refactor on the project https://online.sbis.ru/opendoc.html?guid=a2e1122b-ce07-4a61-9c04-dc9b6402af5d
           remove list._container[0] after https://online.sbis.ru/opendoc.html?guid=d7b89438-00b0-404f-b3d9-cc7e02e61bb3 */
@@ -254,13 +254,6 @@ const List = Control.extend({
    }
 });
 
-List.contextTypes = function() {
-   return {
-      suggestOptionsField: _SuggestOptionsField
-   };
-};
-
-List._theme = ['Controls/suggest', 'Controls/suggestPopup'];
 List._private = _private;
 
 export = List;

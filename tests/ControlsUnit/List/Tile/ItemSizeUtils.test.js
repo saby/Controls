@@ -1,4 +1,4 @@
-define(['Controls/_tile/TileView/resources/ItemSizeUtils'], function(ItemSizeUtils) {
+define(['Controls/_tileNew/utils/imageUtil'], function(ItemSizeUtils) {
    'use strict';
 
    function mockHTMLElement(width, height) {

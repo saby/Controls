@@ -5,9 +5,8 @@
                     itemData="{{itemData}}">
             <ws:editorTemplate>
                 <Controls.input:Text
-                        attr:class="js-controls-Grid__editInPlace__input-1"
+ contrastBackground="{{true}}"                        attr:class="js-controls-Grid__editInPlace__input-1"
                         bind:value="itemData.item[itemData.column.displayProperty || 'title']"
-                        contrastBackground="{{ false }}"
                         borderVisibility="{{ false }}"/>
             </ws:editorTemplate>
         </ws:partial>

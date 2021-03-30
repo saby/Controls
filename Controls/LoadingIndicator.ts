@@ -166,7 +166,11 @@ class LoadingIndicator extends Control<ILoadingIndicatorOptions> implements ILoa
     _updateZIndex(config: ILoadingIndicatorOptions): void {
         const popupItem = ManagerController && ManagerController.find((config || {}).popupId);
         const POPUP_BASE_ZINDEX = 10;
-        if (popupItem) {
+        // Код с zIndex'ами (и прочими отсылками на окна) сможет уехать отсюда только после перевода индикатора на окно.
+        // Это произойдет после перехода на React ввиду особенностей ограничений работы на Wasaby.
+        if (config.zIndex) {
+            this._zIndex = config.zIndex;
+        } else if (popupItem) {
             this._zIndex = popupItem.currentZIndex;
         } else if (isNewEnvironment() && this._options.mainIndicator) {
             // TODO https://online.sbis.ru/opendoc.html?guid=ce175632-8ecc-4789-803a-4fef10906f5c

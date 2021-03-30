@@ -1,5 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import template = require('wml!Controls/_menu/Popup/searchHeaderTemplate');
+import 'css!Controls/menu';
 
 /**
  * Шапка меню со строкой поиска.
@@ -30,8 +31,6 @@ class SearchHeaderTemplate extends Control<IControlOptions> {
     protected _afterMount(): void {
         this._children.menuSearch.activate();
     }
-
-    static _theme: string[] = ['Controls/menu'];
 }
 
 export default SearchHeaderTemplate;

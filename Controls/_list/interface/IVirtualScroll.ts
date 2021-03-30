@@ -43,9 +43,9 @@ export type IVirtualScrollMode = 'remove' | 'hide';
 
 /**
  * @name Controls/_list/interface/IVirtualScrollConfig#virtualScrollConfig
- * @cfg {Controls/_list/interface/IVirtualScrollConfig/VirtualScrollConfig.typedef} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/performance-optimization/virtual-scroll/ виртуального скроллинга}.
+ * @cfg {Controls/_list/interface/IVirtualScrollConfig/VirtualScrollConfig.typedef} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/performance-optimization/virtual-scroll/ виртуального скролла}.
  * @remark
- * Виртуальный скроллинг работает только при включенной {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/ навигации}.
+ * Виртуальный скролл работает только при включенной {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/ навигации}.
  * @example
  * В следующем примере показана конфигурация виртуального скролла: в свойстве pageSize задан размер виртуальной страницы.
  * Также задана конфигурация навигации в опции navigation.

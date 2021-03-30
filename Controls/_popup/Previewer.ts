@@ -6,6 +6,7 @@ import {debounce} from 'Types/function';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import PreviewerOpener from './Opener/Previewer';
 import {goUpByControlTree} from 'UI/Focus';
+import 'css!Controls/popup';
 
 const CALM_DELAY: number = 300; // During what time should not move the mouse to start opening the popup.
 /**
@@ -16,7 +17,7 @@ const CALM_DELAY: number = 300; // During what time should not move the mouse to
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
  *
  * @extends UI/Base:Control
- * 
+ *
  * @mixes Controls/_popup/interface/IPreviewer
  * @public
  * @author Красильников А.С.
@@ -98,6 +99,9 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         if (this._options.offset) {
             config.offset = this._options.offset;
         }
+        if (this._options.delay) {
+            config.delay = this._options.delay;
+        }
         return config;
     }
 
@@ -177,7 +181,9 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
     }
 
     protected _contentMouseDownHandler(event: SyntheticEvent<MouseEvent>): void {
-        if (this._options.trigger === 'click' || this._options.trigger === 'hoverAndClick') {
+        const isLeftMouseButton = event.nativeEvent.which === 1;
+        if ((this._options.trigger === 'click' || this._options.trigger === 'hoverAndClick')
+            && isLeftMouseButton) {
             /**
              * When trigger is set to 'hover', preview shouldn't be shown when user clicks on content.
              */
@@ -236,8 +242,6 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         this._isOpened = false;
         this._notify('close', []);
     }
-
-    static _theme: string[] = ['Controls/popup'];
 
     static getDefaultOptions(): IPreviewerOptions {
         return {

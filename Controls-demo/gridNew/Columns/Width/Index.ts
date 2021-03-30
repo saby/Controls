@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/Columns/Width/Width';
 import {Memory} from 'Types/source';
 import {forShowWidths} from '../../DemoHelpers/DataCatalog';
 import { IHeader } from 'Controls-demo/types';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

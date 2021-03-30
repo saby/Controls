@@ -3,7 +3,7 @@ import {Memory, PrefetchProxy, DataSet} from 'Types/source';
 import {ok, deepStrictEqual} from 'assert';
 import {RecordSet} from 'Types/collection';
 import {INavigationPageSourceConfig, INavigationOptionValue} from 'Controls/interface';
-import {createSandbox, stub} from 'sinon';
+import {createSandbox, stub, useFakeTimers} from 'sinon';
 import {default as groupUtil} from 'Controls/_dataSource/GroupUtil';
 
 const filterByEntries = (item, filter): boolean => {
@@ -118,7 +118,11 @@ function getPagingNavigation(hasMore: boolean = false, pageSize: number = 1): IN
 }
 
 const sourceWithError = new Memory();
-sourceWithError.query = () => Promise.reject(new Error());
+sourceWithError.query = () => {
+    const error = new Error();
+    error.processed = true;
+    return Promise.reject(error);
+};
 
 function getControllerWithHierarchy(additionalOptions: object = {}): NewSourceController {
     return new NewSourceController({...getControllerWithHierarchyOptions(), ...additionalOptions});
@@ -146,14 +150,19 @@ describe('Controls/dataSource:SourceController', () => {
             controllerState = controller.getState();
             ok(controllerState.parentProperty === parentProperty);
             ok(controllerState.root === root);
+            ok(!controllerState.keyProperty);
 
             hierarchyOptions = {
-                parentProperty
+                parentProperty,
+                source: new Memory({
+                    keyProperty: 'testKeyProperty'
+                })
             };
             controller = new NewSourceController(hierarchyOptions);
             controllerState = controller.getState();
             ok(controllerState.parentProperty === parentProperty);
             ok(controllerState.root === null);
+            ok(controllerState.keyProperty === 'testKeyProperty');
         });
     });
 
@@ -165,15 +174,34 @@ describe('Controls/dataSource:SourceController', () => {
             ok((loadedItems as RecordSet).getCount() === 5);
         });
 
+        it('load with direction "down"',  async () => {
+            const controller  = getController();
+            await controller.load('down');
+            ok(controller.getItems().getCount() === 4);
+        });
+
+        it('load without direction',  async () => {
+            const controller = getControllerWithHierarchy({
+                navigation: getPagingNavigation()
+            });
+            await controller.reload();
+            await controller.load(undefined, 3);
+            ok(controller.hasLoaded(3));
+
+            await controller.load();
+            ok(!controller.hasLoaded(3));
+        });
+
         it('load call while loading',  async () => {
             const controller = getController();
             let loadPromiseWasCanceled = false;
 
-            controller.load().catch(() => {
+            const promiseCanceled = controller.load().catch(() => {
                 loadPromiseWasCanceled = true;
             });
 
             await controller.load();
+            await promiseCanceled;
             ok(loadPromiseWasCanceled);
         });
 
@@ -231,6 +259,14 @@ describe('Controls/dataSource:SourceController', () => {
 
             const loadedItems = await controller.reload();
             ok(loadedItems.getCount() === 4);
+            sinonSandbox.restore();
+
+            sinonSandbox.replace(groupUtil, 'restoreCollapsedGroups', () => {
+                return Promise.resolve(['testCollapsedGroup1', 'testCollapsedGroup2']);
+            });
+            await controller.reload();
+            deepStrictEqual(controller.getCollapsedGroups(), ['testCollapsedGroup1', 'testCollapsedGroup2']);
+
             sinonSandbox.restore();
         });
 
@@ -320,6 +356,23 @@ describe('Controls/dataSource:SourceController', () => {
             ok(!dataLoadCallbackCalled);
         });
 
+        it('dataLoadCallback from setter returns promise',  async () => {
+            const controller = getController();
+            let promiseResolver;
+
+            const promise = new Promise((resolve) => {
+                promiseResolver = resolve;
+            });
+            controller.setDataLoadCallback(() => {
+                return promise;
+            });
+            const reloadPromise = controller.reload().then(() => {
+                ok(controller.getItems().getCount() === 4);
+            });
+            promiseResolver();
+            await reloadPromise;
+        });
+
         it('load with direction returns error',  () => {
             const navigation = getPagingNavigation();
             let options = {...getControllerOptions(), navigation};
@@ -343,6 +396,20 @@ describe('Controls/dataSource:SourceController', () => {
                         ok(controller.getItems().getCount() === 2);
                     });
                 });
+            });
+        });
+
+        it('load timeout error',  () => {
+            const options = getControllerOptions();
+            options.loadTimeout = 10;
+            options.source.query = () => {
+                return new Promise((resolve) => {
+                   setTimeout(resolve, 100);
+                });
+            };
+            const controller = getController(options);
+            return controller.load().catch((error) => {
+                ok(error.status === 504);
             });
         });
     });
@@ -387,25 +454,6 @@ describe('Controls/dataSource:SourceController', () => {
             ok(!isChanged);
         });
 
-        it('updateOptions with expandedItems',  async () => {
-            const controller = getControllerWithHierarchy();
-            let options = {...getControllerWithHierarchyOptions()};
-
-            options.expandedItems = [];
-            controller.updateOptions(options);
-            deepStrictEqual(controller._expandedItems, []);
-
-            options = {...options};
-            options.expandedItems = ['testRoot'];
-            controller.updateOptions(options);
-            deepStrictEqual(controller._expandedItems, ['testRoot']);
-
-            options = {...options};
-            delete options.expandedItems;
-            controller.updateOptions(options);
-            deepStrictEqual(controller._expandedItems, ['testRoot']);
-        });
-
         it('updateOptions with navigationParamsChangedCallback',  async () => {
             let isNavigationParamsChangedCallbackCalled = false;
             const controller = getController({
@@ -424,6 +472,62 @@ describe('Controls/dataSource:SourceController', () => {
             isNavigationParamsChangedCallbackCalled = false;
             await controller.reload();
             ok(isNavigationParamsChangedCallbackCalled);
+        });
+
+        it('updateOptions with new sorting',  async () => {
+            let controllerOptions = getControllerOptions();
+            controllerOptions.sorting = [{testField: 'DESC'}];
+            const controller = getController(controllerOptions);
+
+            // the same sorting
+            controllerOptions = {...controllerOptions};
+            controllerOptions.sorting = [{testField: 'DESC'}];
+            ok(!controller.updateOptions(controllerOptions));
+
+            // another sorting
+            controllerOptions = {...controllerOptions};
+            controllerOptions.sorting = [{testField: 'ASC'}];
+            ok(controller.updateOptions(controllerOptions));
+        });
+    });
+
+    describe('expandedItems in options', () => {
+        it('updateOptions with expandedItems',  async () => {
+            const controller = getControllerWithHierarchy();
+            let options = {...getControllerWithHierarchyOptions()};
+
+            options.expandedItems = [];
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), []);
+
+            options = {...options};
+            options.expandedItems = ['testRoot'];
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
+
+            options = {...options};
+            delete options.expandedItems;
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
+        });
+
+        it('reset expandedItems on options change',  async () => {
+            let options = {...getControllerWithHierarchyOptions()};
+            options.expandedItems = ['testRoot'];
+            const controller = getControllerWithHierarchy(options);
+
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
+
+            options = {...options};
+            options.root = 'testRoot';
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), []);
+
+            controller.setExpandedItems(['testRoot']);
+            options = {...options};
+            options.filter = {newFilterField: 'newFilterValue'};
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), []);
         });
     });
 
@@ -490,5 +594,62 @@ describe('Controls/dataSource:SourceController', () => {
             ok(hasMoreResult);
         });
 
+    });
+
+    describe('getKeyProperty', () => {
+
+        it('keyProperty in options', () => {
+            const options = {
+                source: new Memory({
+                    keyProperty: 'testKeyProperty'
+                })
+            };
+            const sourceController = new NewSourceController(options);
+            ok(sourceController.getKeyProperty() === 'testKeyProperty');
+        });
+
+        it('keyProperty from source', () => {
+            const options = {
+                source: new Memory(),
+                keyProperty: 'testKeyProperty'
+            };
+            const sourceController = new NewSourceController(options);
+            ok(sourceController.getKeyProperty() === 'testKeyProperty');
+        });
+
+    });
+
+    describe('hasMoreData', () => {
+        it('hasMoreData for root', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            await controller.reload();
+            ok(controller.hasMoreData('down'));
+        });
+
+        it('hasMoreData for not loaded folder', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            ok(!controller.hasMoreData('down', 'anyFolderKey'));
+            ok(!controller.hasLoaded('anyFolderKey'));
+        });
+    });
+
+    describe('hasLoaded', () => {
+        it('hasLoaded without navigation', async () => {
+            const controller = getController();
+            controller.setExpandedItems(['anyTestKey']);
+            await controller.reload();
+            ok(controller.hasLoaded('anyTestKey'));
+        });
+
+        it('hasLoaded with navigation', async () => {
+            const controller = getController({
+                navigation: getPagingNavigation(false)
+            });
+            ok(!controller.hasLoaded('anyFolderKey'));
+        });
     });
 });

@@ -54,7 +54,7 @@ export interface IResizingLine {
 /**
  * @event Происходит после перетаскивания мыши, когда клавиша мыши отпущена.
  * @name Controls/_dragnDrop/interface/IResizingLine#offset
- * @param {Number|null} Значение сдвига
+ * @param {Number|null} offset Значение сдвига
  * @remark Зависит от направления оси
  * @see direction
  */

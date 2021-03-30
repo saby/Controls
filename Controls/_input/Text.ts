@@ -15,6 +15,7 @@ interface ITextInputOptions extends IBaseTextInputOptions, IBaseFieldTemplate {}
  * @extends Controls/input:Base
  *
  * @mixes Controls/input:IText
+ * @mixes Controls/interface:IInputPlaceholder
  *
  * @public
  * @demo Controls-demo/Input/Text/Base/Index

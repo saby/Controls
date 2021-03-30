@@ -3,12 +3,12 @@
          class="{{ gridColumn.getMarkerClasses(theme, style, markerClassName, itemPadding, markerPosition) }}"></div>
     <!-- TODO избавиться от прокидывания _onBreadcrumbClick https://online.sbis.ru/doc/0649e69a-d507-4024-9f99-c70205f535ef-->
     <ws:partial template="{{ gridColumn.getTemplate(multiSelectTpl) }}"
-                scope="{{ gridColumn.getColumnConfig().templateOptions }}"
+                scope="{{ gridColumn.config.templateOptions }}"
                 attr:key="{{ gridColumn.getInstanceId() }}"
-                gridColumn="{{ gridColumn }}"
-                column="{{ gridColumn.getColumnConfig() }}"
                 item="{{ (item || itemData) }}"
+                column="{{ gridColumn }}"
                 itemData="{{ gridColumn }}"
+                gridColumn="{{ gridColumn }}"
                 colData="{{ gridColumn }}"
                 theme="{{ theme }}"
                 style="{{ style }}"
@@ -31,6 +31,26 @@
         </ws:ladderWrapper>
         <ws:templateOptions multiSelectStatus="{{ (item || itemData).isSelected() }}"
                             checkboxReadOnly="{{ checkboxReadOnly }}"/>
+        <ws:multiSelectTemplate>
+            <ws:partial template="{{multiSelectTpl}}" _preventMergeOptions="{{ true }}">
+                <ws:templateOptions item="{{ item }}" checkboxReadOnly="{{checkboxReadOnly}}"/>
+            </ws:partial>
+        </ws:multiSelectTemplate>
+        <ws:afterContentTemplate>
+            <!-- Стрелка редактирования. Если шаблон прикладной, то не показываем -->
+            <ws:if data="{{ !contentTemplate && (gridColumn || itemData).shouldDisplayEditArrow() && editArrowTemplate }}">
+                <ws:partial template="{{ editArrowTemplate }}" item="{{ (gridColumn || itemData).getOwner() }}" textOverflow="{{(gridColumn || itemData).config.textOverflow}}"/>
+            </ws:if>
+
+            <!-- Тэг -->
+            <div if="{{ (gridColumn || itemData).TagCell && (gridColumn || itemData).shouldDisplayTag(afterContentTemplate.tagStyle) }}"
+                 class="{{ (gridColumn || itemData).getTagClasses(afterContentTemplate.theme) }}">
+                <ws:partial template="{{ afterContentTemplate.tagTemplate }}"
+                            tagStyle="{{ (gridColumn || itemData).getTagStyle(afterContentTemplate.tagStyle) }}"
+                            dispItem="{{ (gridColumn || itemData).getOwner() }}"
+                            columnIndex="{{ (gridColumn || itemData).getColumnIndex() }}"/>
+            </div>
+        </ws:afterContentTemplate>
     </ws:partial>
 
     <ws:if data="{{ gridColumn.ItemActionsCell && gridColumn.shouldDisplayItemActions() }}">
@@ -65,11 +85,10 @@
                 <Controls.scroll:StickyHeader position="{{ (item || itemData).getStickyHeaderPosition() }}"
                                               mode="{{ (item || itemData).getStickyHeaderMode() }}"
                                               backgroundStyle="{{backgroundStyle}}"
-                                              style="{{style}}"
-                                              theme="{{theme}}"
                                               shadowVisibility="{{column.shadowVisibility || 'lastVisible'}}"
+                                              fixedZIndex="{{ column.getZIndex()}}"
                                               attr:class="{{ column.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
-                                              attr:style="{{ column.getWrapperStyles() }}">
+                                              attr:style="{{ column.getWrapperStyles(containerSize) }}">
                     <ws:partial template="COLUMN" gridColumn="{{ column }}"/>
                 </Controls.scroll:StickyHeader>
             </ws:for>

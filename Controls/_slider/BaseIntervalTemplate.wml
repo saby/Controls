@@ -1,0 +1,8 @@
+<div class="controls-Slider__interval
+            controls-Slider__interval_{{interval.color}}
+            controls-Slider__interval_{{options.size=='m' ? 'big' : 'small'}}"
+     style="left: {{options.direction === 'horizontal' ? interval.start + '%' : 'auto' }};
+            width: {{options.direction === 'horizontal' ? interval.width + '%' : 'auto' }};
+            bottom: {{options.direction === 'vertical' ? interval.start + '%' : 'auto' }};
+            height: {{options.direction === 'vertical' ? interval.width + '%'}};">
+</div>

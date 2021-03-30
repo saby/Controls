@@ -6,6 +6,8 @@ import {applyHighlighter} from 'Controls/_breadcrumbs/resources/applyHighlighter
 import template = require('wml!Controls/_breadcrumbs/HeadingPath/HeadingPath');
 import Common from './HeadingPath/Common';
 import 'Controls/heading';
+import 'css!Controls/heading';
+import 'css!Controls/breadcrumbs';
 import 'wml!Controls/_breadcrumbs/HeadingPath/Back';
 import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
 import {Record} from 'Types/entity';
@@ -31,7 +33,6 @@ const SIZES = {
  * @class Controls/_breadcrumbs/HeadingPath
  * @extends UI/Base:Control
  * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
- * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/IFontSize
  * @public
@@ -46,7 +47,6 @@ const SIZES = {
  * @class Controls/_breadcrumbs/HeadingPath
  * @extends UI/Base:Control
  * @mixes Controls/_breadcrumbs/interface/IBreadCrumbs
- * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/IFontSize
  * @public
@@ -200,7 +200,6 @@ class BreadCrumbsPath extends Control<IBreadCrumbsOptions> {
         }
     }
 
-    static _theme: string[] = ['Controls/crumbs', 'Controls/heading'];
     static _styles: string[] = ['Controls/_breadcrumbs/resources/FontLoadUtil'];
     static getDefaultOptions() {
         return {

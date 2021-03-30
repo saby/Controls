@@ -1,3 +1,8 @@
+export interface IDraggableOptions {
+    itemsDragNDrop?: boolean;
+    draggingTemplate?: Function;
+}
+
 /**
  * Интерфейс для перемещения элементов списка с помощью drag'n'drop.
  * Больше информации можно прочитать {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ здесь}.
@@ -19,7 +24,7 @@ export default interface IDraggable {
 
 /**
  * @name Controls/_interface/IDraggable#itemsDragNDrop
- * @cfg {Boolean} Определяет, может ли пользователь перемещать элементы в списке с помощью drag'n'drop. Когда опция установлена в значение true, перемещение разрешено.
+ * @cfg {Boolean} Определяет, может ли пользователь перемещать элементы в списке с помощью {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ drag'n'drop}. Когда опция установлена в значение true, перемещение разрешено.
  * @default false
  * @example
  * <pre class="brush: html; highlight: [5]">
@@ -48,9 +53,9 @@ export default interface IDraggable {
 
 /**
  * @name Controls/_interface/IDraggable#draggingTemplate
- * @cfg {Function} Шаблон перемещаемого элемента.
+ * @cfg {Function} Шаблон {@link https://fix-wi.sbis.ru/doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ перемещаемого элемента}.
  * @default undefined
- * @remark В процессе перемещения рядом с курсором отображается эскиз перемещаемого объекта.
+ * @remark В процессе перемещения рядом с курсором отображается эскиз перемещаемого объекта. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/tools/drag-n-drop/ здесь}.
  * @example
  * В следующем примере показано, как использовать базовый шаблон перемещения элементов {@link Controls/dragnDrop:DraggingTemplate}.
  * <pre class="brush: html; highlight: [5,7,8,9,10,11,12,13]">
@@ -111,7 +116,7 @@ export default interface IDraggable {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _onDragStart: function(event, items) {
  *          var mainItem = this._items.getRecordById(items[0]);
@@ -126,7 +131,7 @@ export default interface IDraggable {
  *          this._viewSource= new Source({...});
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -187,7 +192,7 @@ export default interface IDraggable {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _dragStart: function(event, items) {
  *          var eventResult = false;
@@ -203,7 +208,7 @@ export default interface IDraggable {
  *          this._viewSource = new Source({...});
  *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see dragEnd
  */

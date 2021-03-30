@@ -130,7 +130,7 @@ export default interface ISource {
 
 /**
  * @name Controls/_interface/ISource#keyProperty
- * @cfg {String} Имя свойства, содержащего информацию об идентификаторе текущей строки.
+ * @cfg {String} Имя поля записи, в котором хранится {@link /docs/js/Types/entity/applied/PrimaryKey/ первичный ключ}.
  * @remark Например, идентификатор может быть первичным ключом записи в базе данных.
  * Если keyProperty не задан, то значение будет взято из source.
  * @demo Controls-demo/list_new/KeyProperty/Source/Index

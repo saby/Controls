@@ -17,7 +17,12 @@ define(
             PWInstance._debouncedAction = function(method, args) {
                result = true;
             };
-            var event = new SyntheticEvent(null, {});
+            var nativeEvent = {
+                preventDefault: function () {},
+                stopPropagation: function () {},
+                which: 1
+            };
+            var event = new SyntheticEvent(nativeEvent, {});
             PWInstance._options.trigger = 'click';
             PWInstance._contentMouseDownHandler(event);
             assert.deepEqual(result, true);
@@ -28,6 +33,20 @@ define(
             PWInstance._options.trigger = 'hoverAndClick';
             PWInstance._contentMouseDownHandler(event);
             assert.deepEqual(result, true);
+
+            // имитируем нажатие ПКМ
+            nativeEvent.which = 3;
+            event = new SyntheticEvent(nativeEvent, {});
+            result = false;
+            PWInstance._options.trigger = 'click';
+            PWInstance._contentMouseDownHandler(event);
+            assert.deepEqual(result, false);
+            PWInstance._options.trigger = 'hover';
+            PWInstance._contentMouseDownHandler(event);
+            assert.deepEqual(result, false);
+            PWInstance._options.trigger = 'hoverAndClick';
+            PWInstance._contentMouseDownHandler(event);
+            assert.deepEqual(result, false);
             PWInstance.destroy();
          });
          it('contentMouseenterHandler', () => {

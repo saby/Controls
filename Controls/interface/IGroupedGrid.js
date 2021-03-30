@@ -12,7 +12,7 @@ define('Controls/interface/IGroupedGrid', [
 
    /**
     * @name Controls/interface/IGroupedGrid#groupProperty
-    * @cfg {String} Имя свойства, содержащего идентификатор {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы} элемента списка.
+    * @cfg {String} Имя поля записи, в котором хранится идентификатор {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/ группы} элемента списка.
     * @see groupTemplate
     * @see collapsedGroups
     * @see groupHistoryId
@@ -22,7 +22,7 @@ define('Controls/interface/IGroupedGrid', [
 
    /**
     * @name Controls/interface/IGroupedGrid#groupTemplate
-    * @cfg {String|Function} Устанавливает пользовательский шаблон, с помощью которого настраивается {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/ визуальное представление заголовка группы}.
+    * @cfg {String|TemplateFunction} Шаблон отображения {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/visual/ заголовка группы}.
     * @default undefined
     * @remark
     * Конфигурация визуального представления группировки задаётся в опции groupTemplate путём настройки шаблона группировки {@link Controls/grid:GroupTemplate}.
@@ -46,7 +46,7 @@ define('Controls/interface/IGroupedGrid', [
 
    /**
     * @name Controls/interface/IGroupedGrid#groupHistoryId
-    * @cfg {String} Идентификатор, по которому на {@link /doc/platform/developmentapl/middleware/parameter_service/ Сервисе параметров} сохраняется текущее {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/group/ состояние развернутости групп}.
+    * @cfg {String} Идентификатор, по которому на {@link /doc/platform/developmentapl/middleware/parameter_service/ Сервисе параметров} сохраняется текущее {@link /doc/platform/developmentapl/interface-development/controls/list/grouping/group/#history состояние развернутости групп}.
     */
 
 });
