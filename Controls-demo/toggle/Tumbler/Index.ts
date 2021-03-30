@@ -6,7 +6,7 @@ export default class extends Control {
     protected _template: TemplateFunction = Template;
     protected _items1: RecordSet;
     protected _items2: RecordSet;
-    protected _selectedKey1: string = '1';
+    protected _selectedKey1: string = null;
     protected _selectedKey2: string = '5';
     protected _beforeMount(): void {
         this._items1 = new RecordSet({
