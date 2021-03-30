@@ -4823,7 +4823,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!readOnly) {
             let newSelection;
 
-            if (e.nativeEvent.shiftKey && this._lastCheckedItemKey) {
+            if (e.hasOwnProperty('shiftKey') && e.nativeEvent.shiftKey && this._lastCheckedItemKey) {
                 newSelection = _private.getSelectionController(this).selectRange(key, this._lastCheckedItemKey);
             } else {
                 newSelection = _private.getSelectionController(this).toggleItem(key);
