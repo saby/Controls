@@ -1,5 +1,5 @@
 define([
-   'Controls/_treeGrid/utils/TreeGridRowIndexUtil',
+   'Controls/_treeGridOld/utils/TreeGridRowIndexUtil',
    'Controls/_list/resources/utils/ItemsUtil',
    'Controls/treeGridOld',
    'Types/collection'

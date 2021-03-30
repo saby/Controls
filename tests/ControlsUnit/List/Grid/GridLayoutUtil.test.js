@@ -4,8 +4,8 @@ define([
    'Core/core-clone'
 ], function (Util, Env, cClone) {
 
-   describe('Controls/_grid/GridLayoutUtil', function () {
-      describe('Controls/_grid/GridLayoutUtil/getMultiHeaderStyles', () => {
+   describe('Controls/_gridOld/GridLayoutUtil', function () {
+      describe('Controls/_gridOld/GridLayoutUtil/getMultiHeaderStyles', () => {
          it('first spanned header cell with ladder cell', () => {
             const expected = 'grid-column-start: 2; grid-column-end: 4; grid-row-start: 1; grid-row-end: 2;';
             const result = Util.getMultiHeaderStyles(1, 3, 1, 2, 0, 1);

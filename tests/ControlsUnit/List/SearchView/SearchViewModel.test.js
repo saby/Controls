@@ -1,4 +1,4 @@
-define(['Controls/_treeGrid/SearchView/SearchViewModel', 'Types/collection', 'Controls/_treeGrid/TreeGridView/TreeGridView'], function(SearchViewModel, Collection, TreeGridView) {
+define(['Controls/_treeGridOld/SearchView/SearchViewModel', 'Types/collection', 'Controls/_treeGridOld/TreeGridView/TreeGridView'], function(SearchViewModel, Collection, TreeGridView) {
    describe('Controls.List.SearchView.SearchViewModel', function() {
       it('getDisplayFilter', function() {
          var
