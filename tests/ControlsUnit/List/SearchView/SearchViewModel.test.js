@@ -59,9 +59,9 @@ define(['Controls/_treeGridOld/SearchView/SearchViewModel', 'Types/collection', 
 
          searchViewModel = new SearchViewModel({});
          itemData = searchViewModel.getItemDataByItem(false);
-         assert.equal(itemData.resolveItemTemplate(itemData).name, 'Controls__treeGrid_TreeGridView_layout_grid_Item');
+         assert.equal(itemData.resolveItemTemplate(itemData).name, 'Controls__treeGridOld_TreeGridView_layout_grid_Item');
          itemData = searchViewModel.getItemDataByItem(true);
-         assert.equal(itemData.resolveItemTemplate(itemData).name, 'Controls__treeGrid_TreeGridView_layout_grid_Item');
+         assert.equal(itemData.resolveItemTemplate(itemData).name, 'Controls__treeGridOld_TreeGridView_layout_grid_Item');
 
          searchViewModel = new SearchViewModel({
             itemTemplate: {
@@ -73,7 +73,7 @@ define(['Controls/_treeGridOld/SearchView/SearchViewModel', 'Types/collection', 
          itemData = searchViewModel.getItemDataByItem(false);
          assert.equal(itemData.resolveItemTemplate(itemData).prototype._moduleName, 'testItemTemplate');
          itemData = searchViewModel.getItemDataByItem(true);
-         assert.equal(itemData.resolveItemTemplate(itemData).name, 'Controls__treeGrid_TreeGridView_layout_grid_Item');
+         assert.equal(itemData.resolveItemTemplate(itemData).name, 'Controls__treeGridOld_TreeGridView_layout_grid_Item');
 
          SearchViewModel.superclass.getItemDataByItem = superclassGetItemDataByItem;
       });
