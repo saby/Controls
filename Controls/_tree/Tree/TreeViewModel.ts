@@ -867,7 +867,8 @@ var
             }
         },
         getChildren: function(root, withFilter, items) {
-            const rootId = root.getContents().getKey();
+            const contents = root.getContents();
+            const rootId = contents instanceof Array ? contents[contents.length - 1].getKey() : contents.getKey();
             const childrenRecords = this._hierarchyRelation.getChildren(rootId, items || this._items);
             return childrenRecords.map((it) => {
                 const display = this.getDisplay();
