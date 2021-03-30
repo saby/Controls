@@ -429,10 +429,44 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         this._notify('filterChanged', [this._filter]);
     }
 
+    protected _listSelectedKeysChanged(event: SyntheticEvent,
+                                       keys: Key[],
+                                       added: Key[],
+                                       deleted: Key[],
+                                       listId: string): void {
+        let selectedKeys = keys;
+        if (listId) {
+            const operationsController = this._getOperationsController();
+            selectedKeys = operationsController.updateSelectedKeys(keys, added, deleted, listId);
+            this._updateListConfigurations({selectedKeys: keys.slice()}, listId);
+        }
+        this._notify('selectedKeysChanged', [selectedKeys]);
+    }
+
+    protected _listExcludedKeysChanged(event: SyntheticEvent,
+                                       keys: Key[],
+                                       added: Key[],
+                                       deleted: Key[],
+                                       listId: string): void {
+        let excludedKeys = keys;
+        if (listId) {
+            const operationsController = this._getOperationsController();
+            excludedKeys = operationsController.updateExcludedKeys(keys, added, deleted, listId);
+            this._updateListConfigurations({excludedKeys: keys.slice()}, listId);
+        }
+        this._notify('excludedKeysChanged', [excludedKeys]);
+    }
+
     protected _getChildContext(): IDataChildContext {
         return {
             dataOptions: this._dataOptionsContext
         };
+    }
+
+    private _updateListConfigurations(config, listId): void {
+        const state = this._getSourceController().getState();
+        state.listConfigurations[listId] = {...state.listConfigurations[listId], ...config};
+        this._updateContext(state);
     }
 
     private _updateContext(sourceControllerState: IControllerState): void {
@@ -489,10 +523,11 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
         this._getOperationsController().selectionTypeChanged(typeName, limit);
     }
 
-    protected _selectedKeysCountChanged(e: SyntheticEvent, count: number|null, isAllSelected: boolean): void {
+    protected _selectedKeysCountChanged(e: SyntheticEvent, count: number|null, isAllSelected: boolean, listId: string): void {
         e.stopPropagation();
-        this._selectedKeysCount = count;
-        this._isAllSelected = isAllSelected;
+        const result = this._getOperationsController().updateSelectedKeysCount(count, isAllSelected, listId);
+        this._selectedKeysCount = result.count;
+        this._isAllSelected = result.isAllSelected;
     }
 
     protected _listSelectionTypeForAllSelectedChanged(event: SyntheticEvent, selectionType: TSelectionType): void {

@@ -27,6 +27,15 @@ import {TArrayGroupId} from 'Controls/_list/Controllers/Grouping';
 import {wrapTimeout} from 'Core/PromiseLib/PromiseLib';
 import {fetch, HTTPStatus} from 'Browser/Transport';
 
+export interface IListConfiguration {
+    selectedKeys?: TKey;
+    excludedKeys?: TKey;
+}
+
+interface IListConfigurations {
+    [key: string]: IListConfiguration;
+}
+
 export interface IControllerState {
     keyProperty: string;
     source: ICrud | ICrudPlus;
@@ -41,6 +50,8 @@ export interface IControllerState {
     items: RecordSet;
     sourceController: Controller;
     dataLoadCallback: Function;
+
+    listConfigurations: IListConfigurations;
 }
 
 export interface IControllerOptions extends
@@ -337,7 +348,8 @@ export default class Controller extends mixin<
             // FIXME sourceController не должен создаваться, если нет source
             // https://online.sbis.ru/opendoc.html?guid=3971c76f-3b07-49e9-be7e-b9243f3dff53
             sourceController: source ? this : null,
-            dataLoadCallback: this._options.dataLoadCallback
+            dataLoadCallback: this._options.dataLoadCallback,
+            listConfigurations: this._getListConfigurations(this._options.listConfigs)
         };
     }
 
@@ -864,6 +876,23 @@ export default class Controller extends mixin<
         }
 
         return resultFilterPromise;
+    }
+
+    private _getListConfigurations(listConfigs): IListConfigurations {
+        if (!this._listConfigurations) {
+            this._listConfigurations = {};
+            if (listConfigs) {
+                for (const listId in listConfigs) {
+                    if (listConfigs.hasOwnProperty(listId)) {
+                        this._listConfigurations[listId] = {
+                            selectedKeys: listConfigs[listId].selectedKeys || [],
+                            excludedKeys: listConfigs[listId].excludedKeys || []
+                        };
+                    }
+                }
+            }
+        }
+        return this._listConfigurations;
     }
 
     private static _getSource(source: ICrud | ICrudPlus | PrefetchProxy): IData & ICrud {

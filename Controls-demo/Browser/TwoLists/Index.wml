@@ -1,0 +1,42 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell">
+        <div class="controlsDemo__default">
+            <Controls.browser:Browser
+                    keyProperty="id"
+                    listConfigs="{{_listConfigs}}"
+                    bind:selectedKeys="_selectedKeys"
+                    bind:excludedKeys="_excludedKeys"
+                    bind:filter="_filter" >
+                <div class="controlsDemo-Browser-content">
+                    <Controls.operations:PanelContainer
+                            listMarkedKey="{{null}}">
+                        <Controls.operations:Panel />
+                    </Controls.operations:PanelContainer>
+                    <div class="controlsDemo-Browser-list controlsDemo-Browser-list1">
+                        <div>Список 1:</div>
+                        <Controls.list:Container id="list1">
+                            <Controls.list:View
+                                    source="{{_viewSource}}"
+                                    displayProperty="title"
+                                    markerVisibility="hidden"
+                                    multiSelectVisibility="onhover">
+                            </Controls.list:View>
+                        </Controls.list:Container>
+                    </div>
+                    <div class="controlsDemo-Browser-list">
+                        <div>Список 2:</div>
+                        <Controls.list:Container id="list2">
+                            <Controls.list:View
+                                    attr:class="demo-operations__browser_list2"
+                                    source="{{_viewSource2}}"
+                                    displayProperty="title"
+                                    markerVisibility="hidden"
+                                    multiSelectVisibility="onhover">
+                            </Controls.list:View>
+                        </Controls.list:Container>
+                    </div>
+                </div>
+            </Controls.browser:Browser>
+        </div>
+    </div>
+</div>
