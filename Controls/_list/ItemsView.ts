@@ -21,7 +21,7 @@ export interface IItemsViewOptions extends IControlOptions {
  * Контрол плоского списка, который умеет работать по {@link RecordSet}
  * @author Уфимцев Д.Ю.
  */
-export default class ItemsView extends Control<IItemsViewOptions> {
+export default class ItemsView<TOptions extends IItemsViewOptions = IItemsViewOptions> extends Control<TOptions> {
     //region base control props
     protected _template: TemplateFunction = template;
     //endregion
