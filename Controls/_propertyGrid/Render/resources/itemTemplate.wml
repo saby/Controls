@@ -45,7 +45,7 @@
     </ws:else>
 </ws:if>
 <ws:else>
-    <div class="controls-PropertyGrid__editor_theme-{{theme}}
+    <div class="controls-PropertyGrid__editor controls-PropertyGrid__editor_theme-{{theme}}
                 {{highlightOnHover ? 'controls-PropertyGrid__row_highlightOnHover_theme-' + theme}}
                 {{!!captionPosition  ? ('controls-PropertyGrid__flex-row controls-PropertyGrid__row_captionPosition-' + captionPosition)}}
                 {{collectionItem.getItemPaddingClasses(theme)}}">
