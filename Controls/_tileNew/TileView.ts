@@ -2,7 +2,7 @@ import {ListView} from 'Controls/list';
 import template = require('wml!Controls/_tileNew/render/TileView');
 import defaultItemTpl = require('wml!Controls/_tileNew/render/items/Default');
 import {TouchContextField} from 'Controls/context';
-import { TILE_SCALING_MODE, ZOOM_COEFFICIENT} from './utils/Constants';
+import { TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './utils/Constants';
 import {isEqual} from 'Types/object';
 import { TemplateFunction } from 'UI/Base';
 import TileCollectionItem from './display/TileCollectionItem';
@@ -11,7 +11,6 @@ import {SyntheticEvent} from 'UI/Vdom';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
-import {ZOOM_DELAY} from "Controls/_tile/TileView/resources/Constants";
 
 export default class TileView extends ListView {
     protected _template: TemplateFunction = template;
