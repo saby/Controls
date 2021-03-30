@@ -1,7 +1,7 @@
-import FooterCell from 'Controls/_gridNew/display/FooterCell';
+import FooterCell from 'Controls/_grid/display/FooterCell';
 import { assert } from 'chai';
 
-describe('Controls/_gridNew/display/FooterCell', () => {
+describe('Controls/_grid/display/FooterCell', () => {
     const owner = {
         shouldDisplayMarker: () => false,
         hasMultiSelectColumn: () => false,
