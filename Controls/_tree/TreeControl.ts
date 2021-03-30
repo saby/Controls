@@ -17,6 +17,7 @@ import { Collection, Tree, TreeItem } from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import { NewSourceController as SourceController, NewSourceController } from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
+import {IDirection} from "Controls/_list/interface/IVirtualScroll";
 
 
 const HOT_KEYS = {
@@ -562,6 +563,20 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         if (this._expandedItemsToNotify) {
             this._notify('expandedItemsChanged', [this._expandedItemsToNotify]);
             this._expandedItemsToNotify = null;
+        }
+    }
+
+    loadMore(direction: IDirection): void {
+        const hasMoreRootData = this._sourceController.hasMoreData('down', this._root);
+        const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
+        const lastRootItem = rootItems.at(rootItems.getCount() - 1);
+        if (!hasMoreRootData && lastRootItem.isNode() && lastRootItem.isExpanded()) {
+            const hasMoreData = this._sourceController.hasMoreData('down', lastRootItem.getContents().getKey());
+            if (hasMoreData) {
+                _private.loadMore(this, lastRootItem);
+            }
+        } else {
+            super.loadMore(direction);
         }
     }
 
