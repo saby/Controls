@@ -492,7 +492,7 @@ class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBa
     }
 
     protected _getReadOnlyField(): HTMLElement | undefined {
-        if (this._options.hasOwnProperty('readOnlyField')) {
+        if (this._children.hasOwnProperty('readOnlyField')) {
             return this._children.readOnlyField as HTMLElement;
         } else {
             return undefined;
