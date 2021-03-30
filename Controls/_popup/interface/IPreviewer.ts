@@ -14,6 +14,7 @@ export interface IPreviewerOptions extends IControlOptions {
     targetPoint?: any; // why?
     direction?: any; // why?
     offset?: any; // why?
+    delay?: number;
 }
 
 /**

@@ -334,7 +334,15 @@ const _private = {
         }
 
         const reset = () => {
-            viewModel.resetExpandedItems();
+            if (self._options.useNewModel) {
+                viewModel.setExpandedItems([]);
+                self._notify('expandedItemsChanged', [[]]);
+
+                viewModel.setCollapsedItems([]);
+                self._notify('collapsedItemsChanged', [[]]);
+            } else {
+                viewModel.resetExpandedItems();
+            }
             viewModel.setHasMoreStorage({});
         };
 
