@@ -25,6 +25,7 @@ ItemTemplate.isWasabyTemplate = true;
 
 export {
     View,
+    ItemsView,
     TreeGridView,
     ItemTemplate,
     NodeFooterTemplate,
@@ -42,6 +43,7 @@ import TreeGridFooterCell from 'Controls/_treeGrid/display/TreeGridFooterCell';
 import { isFullGridSupport } from 'Controls/display';
 import TreeGridGroupDataRow from 'Controls/_treeGrid/display/TreeGridGroupDataRow';
 import TreeGridGroupDataCell from 'Controls/_treeGrid/display/TreeGridGroupDataCell';
+import { ItemsView } from 'Controls/_treeGrid/ItemsTreeGrid';
 
 export {
     TreeGridFooterCell,
