@@ -744,10 +744,12 @@ export default class Browser extends Control<IBrowserOptions, IReceivedState> {
     }
 
     resetPrefetch(): void {
-        const filterController = this._dataLoader.getFilterController();
-        filterController.resetPrefetch();
-        this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
-        this._notify('filterChanged', [this._filter]);
+        if (!this._getSourceController().isLoading()) {
+            const filterController = this._dataLoader.getFilterController();
+            filterController.resetPrefetch();
+            this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
+            this._notify('filterChanged', [this._filter]);
+        }
     }
 
     static contextTypes(): object {
