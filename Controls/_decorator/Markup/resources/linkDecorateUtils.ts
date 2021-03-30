@@ -7,7 +7,7 @@ import { Logger } from 'UI/Utils';
 const hrefMaxLength = 1499;
 const onlySpacesRegExp = /^\s+$/;
 const startsWIthNewlineRegExp = /^\s*\n/;
-const paragraphTagNameRegExp = /^(p(re)?|div)$/;
+const paragraphTagNameRegExp = /^(p(re)?|div|blockquote)$/;
 const charsToScreenRegExp = /([\\"])/g;
 const classes = {
    wrap: 'LinkDecorator__wrap',
