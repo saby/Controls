@@ -4,7 +4,7 @@
         <Controls.buttons:Button caption="Pending" on:click="_onPen()"/>
     </div>
 
-    <Controls.grid:View
+    <Controls.gridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
 
@@ -16,5 +16,5 @@
                 <ws:contentTemplate>No data available!</ws:contentTemplate>
             </ws:partial>
         </ws:emptyTemplate>
-    </Controls.grid:View>
+    </Controls.gridOld:View>
 </div>

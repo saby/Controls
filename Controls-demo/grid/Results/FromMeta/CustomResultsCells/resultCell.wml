@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:ResultColumnTemplate" scope="{{_options}}">
+<ws:partial template="Controls/gridOld:ResultColumnTemplate" scope="{{_options}}">
     <span>
         Среднее: <Controls.decorator:Money value="{{ content.results.get('square') }}" useGrouping="{{ true }}" fontWeight="bold" fontColorStyle="primary"/>
     </span>

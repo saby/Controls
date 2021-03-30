@@ -5,7 +5,7 @@
             <div>
                 <Controls.list:Mover name="listMover" parentProperty="parent"/>
                 <Controls.list:Container>
-                    <Controls.treeGrid:View
+                    <Controls.treeGridOld:View
                             keyProperty="id"
                             on:dragStart="_dragStart()"
                             on:dragEnd="_dragEnd()"
@@ -24,7 +24,7 @@
                                         additionalText="{{draggingTemplate.entity._options.additionalText}}">
                             </ws:partial>
                         </ws:draggingTemplate>
-                    </Controls.treeGrid:View>
+                    </Controls.treeGridOld:View>
                 </Controls.list:Container>
             </div>
         </Controls.operations:Controller>

@@ -1,7 +1,7 @@
-import Cell from 'Controls/_gridNew/display/Cell';
+import Cell from 'Controls/_grid/display/Cell';
 import { assert } from 'chai';
 
-describe('Controls/_gridNew/display/Cell/getCellContentRender', () => {
+describe('Controls/_grid/display/Cell/getCellContentRender', () => {
     let searchValue, contents;
     const owner = {
         getSearchValue: () => searchValue,

@@ -1,14 +1,14 @@
 <div class="controlsDemo__wrapper">
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
             parentProperty="parent"
             nodeProperty="type">
         <ws:itemTemplate>
-            <ws:partial template="Controls/treeGrid:ItemTemplate"
+            <ws:partial template="Controls/treeGridOld:ItemTemplate"
                         itemData="{{itemData}}"
                         backgroundColorStyle="{{itemTemplate.itemData.item.get('rating') < 8 ? 'warning'}}"/>
         </ws:itemTemplate>
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>

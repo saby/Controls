@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
@@ -7,11 +7,11 @@
             nodeProperty="type">
         <ws:editingConfig editOnClick="{{true}}" enabled="{{true}}"/>
         <ws:itemTemplate>
-            <ws:partial template="Controls/grid:RowEditor">
+            <ws:partial template="Controls/gridOld:RowEditor">
                 <div style="padding-bottom: 30px">
                     Расширенный шаблон редактирования
                 </div>
             </ws:partial>
         </ws:itemTemplate>
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>

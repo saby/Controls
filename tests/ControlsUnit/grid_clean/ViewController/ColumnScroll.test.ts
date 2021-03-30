@@ -1,4 +1,4 @@
-import ColumnScroll from 'Controls/_gridNew/ViewControllers/ColumnScroll';
+import ColumnScroll from 'Controls/_grid/ViewControllers/ColumnScroll';
 import {assert} from 'chai';
 
 describe('Controls/grid_clean/ViewController/ColumnScroll', () => {

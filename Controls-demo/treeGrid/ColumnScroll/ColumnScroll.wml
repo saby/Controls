@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <Controls.scroll:Container attr:style="width: 600px; height: 400px">
-        <Controls.treeGrid:View
+        <Controls.treeGridOld:View
                 keyProperty="id"
                 parentProperty="parent"
                 nodeProperty="type"
@@ -12,8 +12,8 @@
                 itemActions="{{ _itemActions }}"
                 stickyColumnsCount="{{2}}">
             <ws:itemTemplate>
-                <ws:partial template="Controls/treeGrid:ItemTemplate" colspanNodes="{{true}}"/>
+                <ws:partial template="Controls/treeGridOld:ItemTemplate" colspanNodes="{{true}}"/>
             </ws:itemTemplate>
-        </Controls.treeGrid:View>
+        </Controls.treeGridOld:View>
     </Controls.scroll:Container>
 </div>
