@@ -39,8 +39,8 @@ export default class SearchSeparator<T> extends CollectionItem<T>  {
         return this._$source && this._$source.setOwner(owner);
     }
 
-    getContents(): T {
-        return this._$source && this._$source.getContents();
+    getContents(): string {
+        return 'search-separator';
     }
 
     setContents(contents: T, silent?: boolean): void {
