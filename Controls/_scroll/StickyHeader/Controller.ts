@@ -140,10 +140,10 @@ class StickyHeaderController {
                 !this._fixedHeadersStack[position].includes(headerId);
 
             // В режиме изначально зафиксированных заголовков не считаем заголовки которые не были изначально зафскированы
-            ignoreHeight ||= type === TYPE_FIXED_HEADERS.initialFixed && !header.fixedInitially;
+            ignoreHeight = ignoreHeight || (type === TYPE_FIXED_HEADERS.initialFixed && !header.fixedInitially);
 
             // Если у заголовка задан offsetTop, то учитываем его во всех ражимах в любом случае.
-            ignoreHeight &&= !header.inst.offsetTop;
+            ignoreHeight = ignoreHeight && !header.inst.offsetTop;
 
             if (ignoreHeight) {
                 continue;
