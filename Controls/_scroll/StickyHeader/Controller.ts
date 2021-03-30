@@ -128,19 +128,32 @@ class StickyHeaderController {
             height: number = 0,
             replaceableHeight: number = 0,
             header;
-        const headers = type === TYPE_FIXED_HEADERS.allFixed ? this._headersStack : this._fixedHeadersStack;
+        const headers = this._headersStack;
         for (let headerId of headers[position]) {
             header = this._headers[headerId];
 
-            const ignoreHeight: boolean = (type === TYPE_FIXED_HEADERS.initialFixed && !header.fixedInitially) ||
-                (!header || header.inst.shadowVisibility === SHADOW_VISIBILITY.hidden);
+            if (!header || header.inst.shadowVisibility === SHADOW_VISIBILITY.hidden) {
+                continue;
+            }
+
+            // Для всех режимов кроме allFixed пропустим все незафиксированные заголовки
+            let ignoreHeight: boolean = type !== TYPE_FIXED_HEADERS.allFixed &&
+                !this._fixedHeadersStack[position].includes(headerId);
+
+            // В режиме изначально зафиксированных заголовков не считаем заголовки которые не были изначально зафскированы
+            ignoreHeight ||= type === TYPE_FIXED_HEADERS.initialFixed && !header.fixedInitially;
+
+            // Если у заголовка задан offsetTop, то учитываем его во всех ражимах в любом случае.
+            ignoreHeight &&= !header.inst.offsetTop;
+
             if (ignoreHeight) {
                 continue;
             }
 
             // If the header is "replaceable", we take into account the last one after all "stackable" headers.
             if (header.mode === 'stackable') {
-                if (header.fixedInitially || type === TYPE_FIXED_HEADERS.allFixed || type === TYPE_FIXED_HEADERS.fixed) {
+                if (header.fixedInitially || header.inst.offsetTop ||
+                    type === TYPE_FIXED_HEADERS.allFixed || type === TYPE_FIXED_HEADERS.fixed) {
                     height += header.inst.height;
                 }
                 replaceableHeight = 0;
