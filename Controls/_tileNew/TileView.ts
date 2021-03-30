@@ -11,6 +11,7 @@ import {SyntheticEvent} from 'UI/Vdom';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
 import {getItemSize} from './utils/imageUtil';
+import {ZOOM_DELAY} from "Controls/_tile/TileView/resources/Constants";
 
 export default class TileView extends ListView {
     protected _template: TemplateFunction = template;
@@ -140,7 +141,9 @@ export default class TileView extends ListView {
     protected _onItemMouseEnter(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
         super._onItemMouseEnter(e, item);
         if (this._shouldProcessHover()) {
-            this._setHoveredItem(this, item, e);
+            this._mouseMoveTimeout = setTimeout(() => {
+                this._setHoveredItem(this, item, e);
+            }, ZOOM_DELAY);
         }
     }
 
