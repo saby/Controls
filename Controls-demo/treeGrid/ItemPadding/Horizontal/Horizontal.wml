@@ -35,6 +35,7 @@
 
             <div class="controlsDemo__cell controlsDemo__fixedWidth-s_theme-{{_options.theme}} controlsDemo__mr2 controlsDemo_treeGrid-iP-all-horizontal-m">
                 <div class="controls-text-label">Отступы размер M</div>
+                <Controls.treeGridOld:View
                         keyProperty="id"
                         source="{{_viewSource}}"
                         columns="{{_columns}}"
