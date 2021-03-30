@@ -28,11 +28,12 @@ import 'css!Controls/input';
  *
  * @class Controls/_input/Area
  * @extends Controls/input:BaseText
- * @mixes Controls/input:INewLineKey
- * @mixes Controls/_input/interface/IArea
+ * @implements Controls/input:INewLineKey
+ * @implements Controls/input:IAreaOptions
  * @implements Controls/interface:IFontSize
  * @implements Controls/input:IValue
- * @implements Controls/input:IInputPlaceholder
+ * @implements Controls/interface:IInputPlaceholderOptions
+ * @implements Controls/input:IText
  * @public
  *
  * @demo Controls-demo/Input/Area/MinMaxLines/Index

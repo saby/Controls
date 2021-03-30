@@ -454,25 +454,6 @@ describe('Controls/dataSource:SourceController', () => {
             ok(!isChanged);
         });
 
-        it('updateOptions with expandedItems',  async () => {
-            const controller = getControllerWithHierarchy();
-            let options = {...getControllerWithHierarchyOptions()};
-
-            options.expandedItems = [];
-            controller.updateOptions(options);
-            deepStrictEqual(controller._expandedItems, []);
-
-            options = {...options};
-            options.expandedItems = ['testRoot'];
-            controller.updateOptions(options);
-            deepStrictEqual(controller._expandedItems, ['testRoot']);
-
-            options = {...options};
-            delete options.expandedItems;
-            controller.updateOptions(options);
-            deepStrictEqual(controller._expandedItems, ['testRoot']);
-        });
-
         it('updateOptions with navigationParamsChangedCallback',  async () => {
             let isNavigationParamsChangedCallbackCalled = false;
             const controller = getController({
@@ -507,6 +488,46 @@ describe('Controls/dataSource:SourceController', () => {
             controllerOptions = {...controllerOptions};
             controllerOptions.sorting = [{testField: 'ASC'}];
             ok(controller.updateOptions(controllerOptions));
+        });
+    });
+
+    describe('expandedItems in options', () => {
+        it('updateOptions with expandedItems',  async () => {
+            const controller = getControllerWithHierarchy();
+            let options = {...getControllerWithHierarchyOptions()};
+
+            options.expandedItems = [];
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), []);
+
+            options = {...options};
+            options.expandedItems = ['testRoot'];
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
+
+            options = {...options};
+            delete options.expandedItems;
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
+        });
+
+        it('reset expandedItems on options change',  async () => {
+            let options = {...getControllerWithHierarchyOptions()};
+            options.expandedItems = ['testRoot'];
+            const controller = getControllerWithHierarchy(options);
+
+            deepStrictEqual(controller.getExpandedItems(), ['testRoot']);
+
+            options = {...options};
+            options.root = 'testRoot';
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), []);
+
+            controller.setExpandedItems(['testRoot']);
+            options = {...options};
+            options.filter = {newFilterField: 'newFilterValue'};
+            controller.updateOptions(options);
+            deepStrictEqual(controller.getExpandedItems(), []);
         });
     });
 

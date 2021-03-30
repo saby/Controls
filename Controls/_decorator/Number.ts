@@ -18,6 +18,12 @@ import {
 import 'css!Controls/decorator';
 
 /**
+ * Тип данных для форматируемого значения
+ * @typedef {string|number|null} TValue
+ */
+type TValue = string | number | null;
+
+/**
  * Тип данных для аббревиатуры
  * @typedef {string} TAbbreviationType
  * @variant short
@@ -44,10 +50,10 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
     IFontWeightOptions, IFontSizeOptions {
     /**
      * @name Controls/_decorator/INumber#value
-     * @cfg {String|Number|null} Декорируемое число.
+     * @cfg {TValue} Декорируемое число.
      * @demo Controls-demo/Decorator/Number/Value/Index
      */
-    value: string;
+    value: TValue;
     /**
      * @name Controls/_decorator/INumber#fractionSize
      * @cfg {Number} Количество знаков после запятой. Диапазон от 0 до 20.

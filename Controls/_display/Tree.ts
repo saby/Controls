@@ -890,7 +890,10 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
                 let item;
                 while (enumerator.moveNext()) {
                     item = enumerator.getCurrent();
-                    if (!(item instanceof TreeItem) && !(item['[Controls/_display/BreadcrumbsItem]'])) {
+                    if (
+                        item['[Controls/treeGrid:TreeGridNodeFooterRow]'] ||
+                        !(item instanceof TreeItem) && !(item['[Controls/_display/BreadcrumbsItem]'])
+                    ) {
                         continue;
                     }
                     if (item.getParent() === parent) {
@@ -958,7 +961,7 @@ export default class Tree<S extends Model = Model, T extends TreeItem<S> = TreeI
         let hasNodeWithChildren = false;
         for (let i = 0; i < itemsInRoot.getCount(); i++) {
             const item = itemsInRoot.at(i);
-            if (item.isNode() && item.isHasChildren()) {
+            if (item.isNode() !== null && item.isHasChildren()) {
                 hasNodeWithChildren = true;
                 break;
             }
