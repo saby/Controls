@@ -10,7 +10,7 @@
                 colspanCallback="{{ _colspanCallback }}">
             <ws:virtualScrollConfig pageSize="{{ 40 }}"/>
             <ws:navigation source="page" view="infinity">
-                <ws:getHasMoreData pageSize="{{40}}" page="{{0}}" hasMore="{{false}}"/>
+                <ws:sourceConfig pageSize="{{40}}" page="{{0}}" hasMore="{{false}}"/>
             </ws:navigation>
         </Controls.treeGridNew:View>
     </Controls.scroll:Container>

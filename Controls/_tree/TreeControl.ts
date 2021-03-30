@@ -567,11 +567,11 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     }
 
     loadMore(direction: IDirection): void {
-        const hasMoreRootData = this._sourceController.hasMoreData('down', this._root);
+        const hasMoreRootData = this._sourceController.hasMoreData(direction, this._root);
         const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
         const lastRootItem = rootItems.at(rootItems.getCount() - 1);
         if (!hasMoreRootData && lastRootItem.isNode() && lastRootItem.isExpanded()) {
-            const hasMoreData = this._sourceController.hasMoreData('down', lastRootItem.getContents().getKey());
+            const hasMoreData = this._sourceController.hasMoreData(direction, lastRootItem.getContents().getKey());
             if (hasMoreData) {
                 _private.loadMore(this, lastRootItem);
             }
