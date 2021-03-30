@@ -6,5 +6,11 @@
                 imageProperty="image"
                 keyProperty="id"
                 source="{{_viewSource}}"/>
+        <ws:itemTemplate>
+            <ws:partial
+                    template="Controls/tile:PreviewTemplate"
+                    hasTitle="{{false}}"
+                    scope="{{itemTemplate}}"/>
+        </ws:itemTemplate>
     </div>
 </div>
