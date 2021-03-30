@@ -176,6 +176,11 @@ var TileView = ListView.extend({
         if (this._options.tileHeight !== newOptions.tileHeight) {
             this._listModel.setItemsHeight(newOptions.tileHeight);
         }
+
+        if (this._options.tileWidth !== newOptions.tileWidth) {
+            this._listModel.setTileWidth(newOptions.tileWidth);
+        }
+
         TileView.superclass._beforeUpdate.apply(this, arguments);
     },
 
