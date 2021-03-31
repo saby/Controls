@@ -3,7 +3,6 @@ import * as template from 'wml!Controls/_popupSliding/Template/SlidingPanel/Slid
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IDragObject, Container} from 'Controls/dragnDrop';
 import {ISlidingPanelTemplateOptions} from 'Controls/_popupSliding/interface/ISlidingPanelTemplate';
-import {detection} from 'Env/Env';
 
 /**
  * Интерфейс для шаблона попапа-шторки.
@@ -99,7 +98,11 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      * @private
      */
     protected _touchMoveHandler(event: SyntheticEvent<TouchEvent>): void {
-        if (this._scrollAvailable && this._getScrollTop() !== 0) {
+        /*
+            Если свайпают внутри скролла и скролл не в самом верху,
+            то не тянем шторку, т.к. пользователь пытается скроллить
+         */
+        if (this._scrollAvailable && (this._getScrollTop() !== 0 || this._isSwipeInsideScroll(event))) {
             return;
         }
         const currentTouchY = event.nativeEvent.changedTouches[0].clientY;
@@ -118,6 +121,26 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         }
         event.stopPropagation();
         this._notifyDragStart(this._touchDragOffset);
+    }
+
+    /**
+     * Проверка на то, что тач произошел внутри скролла.
+     * Если тач внутри скролла, то мы не тянем шторку в случае если скролл проскроллен.
+     * @param touchEvent
+     * @protected
+     */
+    protected _isSwipeInsideScroll(touchEvent: SyntheticEvent<TouchEvent>): boolean {
+        const scrollClassName = 'controls-SlidingPanel__scrollWrapper';
+        let currentNode: HTMLElement = touchEvent.target;
+        while (currentNode !== this._container) {
+            const isScroll = currentNode.classList.contains(scrollClassName);
+            if (isScroll) {
+                return true;
+            } else {
+                currentNode = currentNode.parentElement;
+            }
+        }
+        return false;
     }
 
     protected _touchEndHandler(): void {
