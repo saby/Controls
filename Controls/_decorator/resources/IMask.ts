@@ -121,7 +121,7 @@ export interface IMaskOptions {
      * _beforeMount: function() {
      *    var formatMaskChars = {
      *       '+': '[+]',
-     *       d': '[0-9]'
+     *       d : '[0-9]'
      *    }
      *
      *    this._formatMaskChars = formatMaskChars;
