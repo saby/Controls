@@ -159,7 +159,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 '#A,AA,AAD',
                 '#B',
                 '#C',
-                '{}',
+                'search-separator',
                 'd',
                 'e'
             ];
@@ -284,7 +284,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
 
             const result = strategy.items.map((item) => stringifyResult(item.getContents())  + ':' + item.getLevel());
 
-            assert.deepEqual(result, ['#A,AA:0', 'AAa:1', '{}:0', 'b:0']);
+            assert.deepEqual(result, ['#A,AA:0', 'AAa:1', 'search-separator:0', 'b:0']);
         });
 
         it('return breadcrumbs as 1st level parent for leaves', () => {
@@ -591,7 +591,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 '#A,AA,AAD',
                 '#B',
                 '#C',
-                '{}',
+                'search-separator',
                 'd',
                 'e'
             ];
@@ -631,7 +631,7 @@ describe('Controls/_display/itemsStrategy/Search', () => {
                 '#A,AA,AAD',
                 '#B',
                 '#C',
-                '{}',
+                'search-separator',
                 'd',
                 'e'
             ];
