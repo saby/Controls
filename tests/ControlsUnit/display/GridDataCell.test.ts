@@ -55,6 +55,10 @@ describe('Controls/display/GridDataCell', () => {
             columnIndex = 3;
             assert.isFalse(initCell().shouldDisplayEditArrow());
         });
+        it('shouldDisplayEditArrow should not return true when custom contentTemplate is set', () => {
+            editArrowIsVisible = true;
+            assert.isFalse(initCell().shouldDisplayEditArrow(() => ''));
+        });
     });
 
     // endregion
