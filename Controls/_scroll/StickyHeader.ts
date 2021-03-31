@@ -161,7 +161,9 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
     // До этого не синхронизируем дом дерево при изменении состояния.
     private _initialized: boolean = false;
 
-    _offsetTopChanged: boolean = false;
+    private _offsetTopChanged: boolean = false;
+
+    private _syncDomOptimization: boolean = true;
 
     constructor(cfg: IStickyHeaderOptions) {
         super(cfg);
@@ -341,9 +343,11 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             const offset = getGapFixSize();
             const topValue = value - offset;
             // ОБновляем сразу же dom дерево что бы не было скачков в интерфейсе
-            fastUpdate.mutate(() => {
-                this._container.style.top = `${topValue}px`;
-            });
+            if (this._syncDomOptimization) {
+                fastUpdate.mutate(() => {
+                    this._container.style.top = `${topValue}px`;
+                });
+            }
             this._updateStylesIfCanScroll();
         };
         if (this._stickyHeadersHeight.top !== value) {
@@ -362,6 +366,10 @@ export default class StickyHeader extends Control<IStickyHeaderOptions> {
             this._offsetTopChanged = false;
             setTop();
         }
+    }
+
+    setSyncDomOptimization(value: boolean): void {
+        this._syncDomOptimization = value;
     }
 
     get bottom(): number {
