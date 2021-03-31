@@ -3,7 +3,7 @@ import {IControlOptions, Control} from 'UI/Base';
 import { RecordSet } from 'Types/collection';
 import { Model } from 'Types/entity';
 import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
-import { IItemPadding } from 'Controls/list';
+import { IItemPadding } from 'Controls/display';
 
 export interface IPropertyGridColumnOptions {
     width: string;
@@ -13,9 +13,11 @@ export interface IPropertyGridOptions extends IControlOptions {
     editingObject: Model | Record<string, any>;
     source: IPropertyGridProperty[] | RecordSet<IPropertyGridProperty>;
     groupTemplate?: Function;
+    groupProperty?: string;
     collapsedGroups?: Array<string|number>;
     nodeProperty?: string;
     parentProperty?: string;
+    keyProperty?: string;
     render?: Control<IPropertyGridOptions>;
     itemActions: IItemAction[];
     itemActionVisibilityCallback?: TItemActionVisibilityCallback;
@@ -42,6 +44,20 @@ export interface IPropertyGridOptions extends IControlOptions {
 export interface IPropertyGrid {
     readonly '[Controls/_propertyGrid/IPropertyGrid]': boolean;
 }
+
+/**
+ * @event Происходит при клике на элемент.
+ * @name Controls/_propertyGrid/IPropertyGrid#itemClick
+ * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
+ * @param {Controls/_propertyGrid/PropertyGridCollectionItem} item Элемент, по которому произвели клик.
+ * @param {Object} originalEvent Дескриптор исходного события.
+ */
+
+/**
+ * @name Controls/_propertyGrid/IPropertyGrid#keyProperty
+ * @cfg {String} Имя свойства, содержащего информацию об идентификаторе текущей строки.
+ */
+
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#editingObject
  * @cfg {Object | Types/entity:Model} Объект, свойства которого являются значениями для редакторов.
@@ -132,7 +148,7 @@ export interface IPropertyGrid {
 
 /**
  * @name Controls/_propertyGrid/IPropertyGrid#groupTemplate
- * @cfg {String|function} Устанавливает шаблон отображения заголовка группы.
+ * @cfg {String|TemplateFunction} Устанавливает шаблон отображения заголовка группы.
  * @default Controls/propertyGrid:GroupTemplate
  * @example
  * Далее показано как изменить параметры шаблона.
@@ -217,4 +233,43 @@ export interface IPropertyGrid {
  * @name Controls/_propertyGrid/IPropertyGrid#editorColumnOptions
  * @cfg {IPropertyGridColumnOptions} Конфигурации ширины колонки редактора.
  * @demo Controls-demo/PropertyGridNew/EditorColumnOptions/Index
+ */
+
+/**
+ * @name Controls/_propertyGrid/IPropertyGrid#parentProperty
+ * @cfg {String} Имя свойства, содержащего сведения о родительском узле.
+ * @demo Controls-demo/PropertyGridNew/ParentProperty/Index
+ */
+
+/**
+ * @name Controls/_propertyGrid/IPropertyGrid#nodeProperty
+ * @cfg {String} Имя свойства, содержащего информацию о типе элемента (лист, узел).
+ * @demo Controls-demo/PropertyGridNew/ParentProperty/Index
+ */
+
+/**
+ * @name Controls/_propertyGrid/IPropertyGrid#groupProperty
+ * @cfg {String} Имя свойства, содержащего идентификатор группы элемента редактора свойств.
+ * @see groupTemplate
+ * @default group
+ * @demo Controls-demo/PropertyGridNew/groupProperty/Index
+ * @example
+ *  <pre class="brush: html; highlight: [2]">
+ * <!-- WML -->
+ * <Controls.propertyGrid:PropertyGrid groupProperty='myGroupField'>
+ *    ...
+ * </Controls.propertyGrid:PropertyGrid>
+ * </pre>
+ * <pre class="brush: js;; highlight: [7]">
+ * // TypeScript
+ * _beforeMount() {
+ *     this._propertyGridSource = [
+ *         {
+ *             name: 'myProperty'
+ *             type: 'string',
+ *             myGroupField: 'myGroup'
+ *         }
+ *     ];
+ * }
+ * </pre>
  */

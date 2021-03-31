@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/Classes/IconSize/IconSize' }}">
             <a href="{{content.href}}">IconSize</a>
@@ -8,28 +8,35 @@
         <Controls-demo.Classes.IconSize.IconSize/>
     </div>
     <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
-                                state="/Controls-demo/app/:app"
-                                app="{{ 'Controls-demo/Classes/IconStyle/IconStyle' }}">
-           <a href="{{content.href}}">IconStyle</a>
-       </Router.router:Reference>
-       <Controls-demo.Classes.IconStyle.IconStyle/>
-   </div>
-   <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
-                                state="/Controls-demo/app/:app"
-                                app="{{ 'Controls-demo/Classes/Text/Text' }}">
-           <a href="{{content.href}}">Text</a>
-       </Router.router:Reference>
-       <Controls-demo.Classes.Text.Text/>
-   </div>
-   <div class="controlsDemo__cell">
-       <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
-                                state="/Controls-demo/app/:app"
-                                app="{{ 'Controls-demo/Classes/FontSize/FontSize' }}">
-           <a href="{{content.href}}">FontSize</a>
-       </Router.router:Reference>
-       <Controls-demo.Classes.FontSize.FontSize/>
-   </div>
-   
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Classes/IconStyle/IconStyle' }}">
+            <a href="{{content.href}}">IconStyle</a>
+        </Router.router:Reference>
+        <Controls-demo.Classes.IconStyle.IconStyle/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Classes/Text/Text' }}">
+            <a href="{{content.href}}">Text</a>
+        </Router.router:Reference>
+        <Controls-demo.Classes.Text.Text/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Classes/FontSize/FontSize' }}">
+            <a href="{{content.href}}">FontSize</a>
+        </Router.router:Reference>
+        <Controls-demo.Classes.FontSize.FontSize/>
+    </div>
+    <div class="controlsDemo__cell">
+        <Router.router:Reference attr:class="controls-text-label"
+                                 state="/Controls-demo/app/:app"
+                                 app="{{ 'Controls-demo/Classes/InlineHeight/InlineHeight' }}">
+            <a href="{{content.href}}">InlineHeight</a>
+        </Router.router:Reference>
+        <Controls-demo.Classes.InlineHeight.InlineHeight/>
+    </div>
 </div>

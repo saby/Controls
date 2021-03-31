@@ -91,6 +91,7 @@ class SliderBase<TSliderBaseOptions extends ISliderBaseOptions> extends Control<
             size: 'm',
             viewMode: 'default',
             direction: 'horizontal',
+            tooltipPosition: 'top',
             borderVisible: false,
             tooltipVisible: true,
             minValue: undefined,
@@ -110,6 +111,11 @@ class SliderBase<TSliderBaseOptions extends ISliderBaseOptions> extends Control<
             direction: EntityDescriptor(String).oneOf([
                 'horizontal',
                 'vertical'
+            ]),
+            tooltipPosition: EntityDescriptor(String).oneOf([
+                'top',
+                'bottom',
+                'center'
             ]),
             borderVisible: EntityDescriptor(Boolean),
             tooltipVisible: EntityDescriptor(Boolean),

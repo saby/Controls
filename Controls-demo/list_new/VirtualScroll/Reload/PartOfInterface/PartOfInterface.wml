@@ -1,5 +1,5 @@
-<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
-    <div class="controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center controlsDemo_fixedWidth800">
+    <div class="demo-VirtualScroll__title controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
         Перезагрузка списка, лежащего в скролл контейнере с остальными элементами интерфейса
     </div>
     <Controls.scroll:Container
@@ -13,7 +13,7 @@
                 keyProperty="id">
         </Controls.list:View>
     </Controls.scroll:Container>
-    <div class="ws-link controlsDemo__mb1" on:click="_reloadList()">
+    <div class="demo-VirtualScroll__reloadList ws-link controlsDemo__mb1" on:click="_reloadList()">
         Перезагрузить список
     </div>
 </div>

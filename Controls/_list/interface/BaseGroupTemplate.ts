@@ -72,7 +72,7 @@ export default interface IBaseGroupTemplateOptions {
  * @default center
  * @demo Controls-demo/list_new/Grouped/TextVisible/Index В следующем примере текст заголовка группы скрыт.
  * @remark
- * Позволяет вывести разделитель группы без текста и экспандера. При использовании игнорируются {@link textAlign} и {@link expanderVisible}
+ * Позволяет скрыть в заголовке группы текст вместе с кнопкой-экспандером. При использовании игнорируются {@link textAlign} и {@link expanderVisible}
  * @see textAlign
  * @see expanderVisible
  */

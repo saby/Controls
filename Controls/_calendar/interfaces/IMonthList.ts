@@ -99,7 +99,7 @@ export interface IMonthList {
 
 /**
  * @name Controls/_calendar/interfaces/IMonthList#yearTemplate
- * @cfg {String|Function} Шаблон года.
+ * @cfg {String|TemplateFunction} Шаблон года.
  * @remark
  * Отображается только в режиме года(viewMode: 'year'). В качестве опций получает date(дата начала года) и
  * extData(данные загруженные через источник данных). extData представляет из себя массив, содержащий месяцы.
@@ -131,7 +131,7 @@ export interface IMonthList {
 
 /**
  * @name Controls/_calendar/interfaces/IMonthList#monthTemplate
- * @cfg {String|Function} Шаблон месяца.
+ * @cfg {String|TemplateFunction} Шаблон месяца.
  *
  * @remark
  * В качестве опций получает date (дата начала месяца) и extData (данные, загруженные через источник данных).
@@ -163,7 +163,7 @@ export interface IMonthList {
 
 /**
  * @name Controls/_calendar/interface/IMonthList#stubTemplate
- * @cfg {String|Function} Шаблон заглушки, которая рисуется между отображаемыми периодами {@link displayedRanges}.
+ * @cfg {String|TemplateFunction} Шаблон заглушки, которая рисуется между отображаемыми периодами {@link displayedRanges}.
  *
  * @remark
  * В качестве опций получает startValue и endValue — даты начала и конца не отображаемого периода.

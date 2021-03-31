@@ -6,6 +6,7 @@ export interface IOptions<T extends Model> {
     source: SearchGridDataRow<T>;
     parent?: SearchGridDataRow<T> | BreadcrumbsItemRow<T>;
     multiSelectVisibility: string;
+    multiSelectAccessibilityProperty: string;
 }
 
 /**
@@ -21,7 +22,8 @@ export default class TreeGridItemDecorator<T extends Model> extends SearchGridDa
     constructor(options?: IOptions<T>) {
         super({
             contents: options?.source?.contents,
-            multiSelectVisibility: options?.multiSelectVisibility
+            multiSelectVisibility: options?.multiSelectVisibility,
+            multiSelectAccessibilityProperty: options?.multiSelectAccessibilityProperty
         });
         this._$source = options?.source;
         this._$parent = options?.parent;

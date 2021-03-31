@@ -1,6 +1,8 @@
-<ws:partial template="{{_options.content}}"
-            on:selectComplete="_selectComplete()"
-            on:selectionLoad="_selectionLoad()"
-            on:registerFormOperation="_registerFormOperationHandler()"
-            on:register="_registerHandler()"
-            on:unregister="_unregisterHandler()"/>
+<Controls._lookupPopup.__ControllerContextProvider selectedItems="{{ _selectedItems }}">
+    <ws:partial template="{{_options.content}}"
+                on:selectComplete="_selectComplete()"
+                on:selectionLoad="_selectionLoad()"
+                on:registerFormOperation="_registerFormOperationHandler()"
+                on:register="_registerHandler()"
+                on:unregister="_unregisterHandler()"/>
+</Controls._lookupPopup.__ControllerContextProvider>

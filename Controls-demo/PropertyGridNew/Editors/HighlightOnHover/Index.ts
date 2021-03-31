@@ -54,5 +54,5 @@ export default class Demo extends Control<IControlOptions> {
         decoration: [true, true, false, true]
     };
 
-    static _styles: string[] = ['Controls-demo/PropertyGridNew/Editors/HighlightOnHover/Index'];
+    static _styles: string[] = ['Controls-demo/PropertyGridNew/PropertyGrid'];
 }

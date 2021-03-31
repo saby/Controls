@@ -1,20 +1,19 @@
-<div class="controls-DateLinkView controls-DateLinkView_theme-{{_options.theme}}">
+<div class="controls-DateLinkView">
     <div class="controls-DateLinkView-wrapper">
         <ws:if data="{{ _options.prevArrowVisibility && _viewMode == 'selector'  && !_options.readOnly}}">
            <span
-              class="controls-DateLinkView__prev controls-DateLinkView__prev_theme-{{_options.theme}}
-              {{_fontColorStyle? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }} {{ _styleClass }}"
+              class="controls-DateLinkView__prev
+              {{_fontColorStyle? 'controls-text-' + _fontColorStyle}} {{ _styleClass }}"
               on:click="shiftBack()">
            </span>
         </ws:if>
-        <span class="controls-DateLinkView__value-wrapper controls-DateLinkView__value-wrapper_theme-{{_options.theme}}
-                        {{_isMinWidth ? 'controls-DateLinkView__value-wrapper-minWidth_theme-' + _options.theme}}">
+        <span class="controls-DateLinkView__value-wrapper
+                        {{_isMinWidth ? 'controls-DateLinkView__value-wrapper-minWidth'}}">
            <ws:if data="{{ _viewMode == 'selector' }}">
               <span
                     class="controls-DateLinkView__value {{!_options.readOnly? 'controls-DateLinkView__value-hovered'}}
-                    {{_fontSize? 'controls-fontsize-' + _fontSize + '_theme-' + _options.theme }}
-                    {{_fontColorStyle? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }}
-                    controls-DateLinkView__value_theme-{{_options.theme}}
+                    {{_fontSize? 'controls-fontsize-' + _fontSize}}
+                    {{_fontColorStyle? 'controls-text-' + _fontColorStyle + ' controls-DateLinkView_text-' + _fontColorStyle + '-hover'}}
                     {{ _styleClass }} {{ _valueEnabledClass }}"
                     title="{{_options.tooltip}}"
                     name="openPopupTarget"
@@ -42,15 +41,15 @@
         </span>
         <ws:if data="{{ _options.nextArrowVisibility && _viewMode == 'selector' && !_options.readOnly}}">
            <span
-              class="controls-DateLinkView__next controls-DateLinkView__next_theme-{{_options.theme}}
-              {{_fontColorStyle? 'controls-text-' + _fontColorStyle + '_theme-' + _options.theme }} {{ _styleClass }}"
+              class="controls-DateLinkView__next
+              {{_fontColorStyle? 'controls-text-' + _fontColorStyle}} {{ _styleClass }}"
               on:click="shiftForward()">
            </span>
         </ws:if>
-        <ws:if data="{{ _options.resetButtonVisible }}">
-            <span class="controls-DateLinkView__resetButton controls-DateLinkView__resetButton_theme-{{_options.theme}}
-                        controls-icon controls-icon_style-unaccented_theme-{{ _options.theme }}
-                        controls-icon_size-s_theme-{{ _options.theme }} icon-Close"
+        <ws:if data="{{ _resetButtonVisible || _clearButtonVisible }}">
+            <span class="controls-DateLinkView__resetButton
+                        controls-icon controls-icon_style-unaccented
+                        controls-icon_size-s icon-Close"
                   on:click="_resetButtonClickHandler()"></span>
         </ws:if>
     </div>

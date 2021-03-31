@@ -4,53 +4,55 @@
    </ws:if>
    <svg role="image"
         xmlns="http://www.w3.org/2000/svg"
-        height="100%"
-        width="100%"
         class="controls-TileView__richTemplate_image
+               {{imagePosition === 'top' && (imageViewMode === 'rectangle' && imageProportion || imageSize === 'xl') ? 'controls-TileView__image controls-TileView__image_align_center' : ''}}
                controls-TileView__richTemplate_image_viewMode_{{imageViewMode}}
                {{!imageProportion || imageViewMode !== 'rectangle' || imagePosition !== 'top' ? 'controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + imagePosition + '_viewMode_' + imageViewMode + '_theme-' + theme +
                ' controls-TileView__richTemplate_image_size_' + imageSize + '_position_' + (imagePosition !== 'top' ? 'vertical' : 'top') + '_theme-' + theme : ''}}"
         preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}">
       <image preserveAspectRatio="xMidYMid {{imageFit === 'cover' ? 'slice' : 'meet'}}" height="100%" width="100%" xlink:href="{{itemData.imageData.url}}"></image>
    </svg>
-   <ws:if data="{{imageEffect === 'gradient' && imageViewMode === 'rectangle'}}">
+   <ws:if data="{{imageEffect === 'gradient' && imageViewMode === 'rectangle' && imagePosition === 'top'}}">
       <div class="controls-TileView__richTemplate_image_effect_gradient"
            style="{{'background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%,' + (gradientColor || '#ffffff') + ' 100%);'}}"></div>
    </ws:if>
 </ws:template>
 
 <ws:template name="itemContentTemplate">
-   <div class="controls-TileView__richTemplate_itemContent controls-TileView__richTemplate_itemContent_theme-{{theme}}"
+   <div class="controls-TileView__richTemplate_itemContent controls-TileView__richTemplate_itemContent_theme-{{theme}} ws-ellipsis"
         style="background-color: {{(!imageViewMode || imageViewMode === 'rectangle') && imagePosition !== 'left' && imagePosition !== 'right' ? gradientColor || '#FFF' : ''}}">
       <div class="controls-TileView__richTemplate_title
                   {{titleLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
                   controls-TileView__richTemplate_title_theme-{{theme}}
-                  controls-fontsize-{{itemData.dispItem.isNode() ? '4xl' : 'xl'}}_theme-{{theme}}
+                  controls-fontsize-{{itemData.dispItem.isNode() ? '3xl' : 'xl'}}_theme-{{theme}}
                   controls-text-{{titleColorStyle || 'default'}}_theme-{{theme}}
                   controls-fontweight-bold"
            title="{{itemData.item[itemData.displayProperty]}}"
            style="-webkit-line-clamp: {{titleLines || 1}};">{{itemData.item[itemData.displayProperty]}}</div>
-      <ws:if data="{{description}}">
+      <ws:if data="{{description && descriptionLines !== 0}}">
          <div class="controls-TileView__richTemplate_description
                      {{descriptionLines > 1 ? 'controls-TileView__text_ellipsis_multiLine' : 'ws-ellipsis'}}
                      controls-TileView__richTemplate_description_theme-{{theme}}" title="{{description}}"
               style="-webkit-line-clamp: {{descriptionLines || 1}};">{{description}}</div>
       </ws:if>
+      <ws:if data="{{footerTemplate}}">
+         <ws:partial template="{{footerTemplate}}"
+                     itemData="{{itemData}}"/>
+      </ws:if>
    </div>
-   <ws:if data="{{footerTemplate}}">
-      <ws:partial template="{{footerTemplate}}"
-                  itemData="{{itemData}}"/>
-   </ws:if>
 </ws:template>
 
 <ws:template name="richTemplateContent">
    <div class="controls-TileView__richTemplate controls-TileView__richTemplate_imagePosition_{{imagePosition || 'top'}}">
       <ws:if data="{{imageViewMode !== 'none'}}">
-         <div class="controls-TileView__richTemplate_imageWrapper controls-TileView_richTemplate_image_spacing_viewMode_{{imageViewMode || 'rectangle'}}_theme-{{theme}}">
+         <div class="controls-TileView__richTemplate_imageWrapper
+                     {{imageViewMode !== 'rectangle' && (!imagePosition || imagePosition === 'top') && itemData.getTileSizes ? 'controls-TileView__richTemplate_imageWrapper__ellipse_proportion'}}
+                     controls-TileView_richTemplate_image_spacing_viewMode_{{imageViewMode || 'rectangle'}}_theme-{{theme}}">
+            <!-- TODO костыль для imageSize, убрать https://online.sbis.ru/opendoc.html?guid=2986407e-574b-476e-861e-5c14099eab22 -->
             <ws:partial template="imageTemplate"
                         imagePosition="{{imagePosition || 'top'}}"
                         imageViewMode="{{imageViewMode || 'rectangle'}}"
-                        imageSize="{{imageSize || 's'}}"
+                        imageSize="{{itemData.getTileSizes && imageViewMode !== 'rectangle' ? 'xl' : (imageSize || 's')}}"
                         imageFit="{{imageFit || 'cover'}}"
                         imageProportion="{{imageProportion ? itemData.getImageProportion(imageProportion) : null}}"/>
          </div>
@@ -59,11 +61,24 @@
    </div>
 </ws:template>
 
+<!-- Перенесена логика с маркером и бордером сюда из дефолтного шаблона из-за того, что для автовысоты у контента position: static.
+     Поэтому itemActions прилипают к элементу, а не к контенту и перекрывают маркер
+     FIXME: https://online.sbis.ru/opendoc.html?guid=1da6f1dd-8f23-4353-a934-e1108d0c540e -->
 <ws:partial template="wml!Controls/_tile/TreeTileView/DefaultItemTpl"
-            attr:class="controls-TileView__richTemplate_item"
+            attr:class="controls-TileView__richTemplate_item
+                        {{'controls-ListView__item_shadow_' + (shadowVisibility || itemData.defaultShadowVisibility) + '_theme-' + theme}}
+                        {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
+                        'controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme :
+                         border !== false ? ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme
+                         : 'controls-TileView__item_withoutBorder controls-TileView__item_withoutBorder_theme-' + theme }}"
+            shadowVisibility="none"
+            marker="{{false}}"
+            border="{{false}}"
             itemActionsClass="controls-TileView__richTemplate_itemActions controls-TileView__itemActions_topRight controls-TileView__richTemplate_itemActions_theme-{{theme}}"
             itemActionsPadding="null"
             highlightOnHover="{{false}}"
+            itemWidth="{{itemData.getTileSizes && itemData.getItemWidth(itemData.item, itemData.dispItem && itemData.dispItem.isNode(), null, null, imagePosition)}}"
+            folderWidth="{{itemData.getTileSizes && itemData.getItemWidth(itemData.item, itemData.dispItem && itemData.dispItem.isNode(), null, null, imagePosition)}}"
             staticHeight="{{true}}"
             height="auto"
             scope="{{_options}}">

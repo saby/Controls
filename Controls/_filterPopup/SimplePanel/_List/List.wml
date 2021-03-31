@@ -14,14 +14,13 @@
    <ws:if data="{{_options.hasMoreButton && _options.selectorTemplate}}">
       <Controls.buttons:Button viewMode="link"
                                class="controls-SimplePanel-List__hasMoreButton
-                                      controls-SimplePanel-List__hasMoreButton_theme_{{_options.theme}}
-                                      controls-SimplePanel-List__{{_options.nodeProperty ? 'hierarchy-'}}hasMoreButton_theme-{{_options.theme}}"
+                                      controls-SimplePanel-List__{{_options.nodeProperty ? 'hierarchy-'}}hasMoreButton"
                                fontColorStyle="link"
                                caption="{[Еще]}..."
                                on:click="_openSelectorDialog()"
                                afterOpenCallback="{{_afterOpenDialogCallback}}"/>
    </ws:if>
    <ws:if data="{{!_options.isLast && _options.showSeparator !== false}}">
-      <div class="controls-SimplePanel__block_separator_theme_{{_options.theme}}"></div>
+      <div class="controls-SimplePanel__block_separator"></div>
    </ws:if>
 </div>

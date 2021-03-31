@@ -1,0 +1,7 @@
+<div class="controls-Demo__wide-propertyGrid">
+  <Controls.propertyGrid:PropertyGrid
+      bind:editingObject="_editingObject"
+      source="{{_source}}"
+      groupProperty="groupField">
+  </Controls.propertyGrid:PropertyGrid>
+</div>

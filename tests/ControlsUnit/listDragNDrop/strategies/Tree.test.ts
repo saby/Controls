@@ -244,7 +244,7 @@ describe('Controls/_listDragNDrop/strategies/TreeStrategy', () => {
 
       describe('drag tiles', () => {
          beforeEach(() => {
-            model['[Controls/_tile/TreeTileViewModel]'] = true;
+            model['[Controls/_tile/Tile]'] = true;
          });
 
          it('drag node before node', () => {

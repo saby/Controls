@@ -39,13 +39,13 @@ export interface ITreeControlOptions extends IControlOptions {
     expanderSize?: 's'|'m'|'l'|'xl';
 }
 /**
- * @typedef {String} HierarchyViewModeEnum
+ * @typedef {String} Controls/_tree/interface/ITreeControl/HierarchyViewModeEnum
  * @variant tree Дерево.
  * @variant breadcrumbs Хлебные крошки.
  */
 
 /*
- * @typedef {String} HierarchyViewModeEnum
+ * @typedef {String} Controls/_tree/interface/ITreeControl/HierarchyViewModeEnum
  * @variant tree Tree-like view.
  * @variant breadcrumbs Just leaves, folders as paths.
  */
@@ -172,7 +172,9 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#hasChildrenProperty
- * @cfg {String} Имя свойства, содержащего информацию о наличии дочерних элементов в узле {@link Controls/treeGrid:View дерева}.
+ * @cfg {String} Имя поля записи, в котором хранится информация о наличии дочерних элементов в узле {@link Controls/treeGrid:View дерева}.
+ * @remark
+ * Эта настройка используется для режимов отображения кнопки-экспандепа "hasChildren" и "hasChildrenOrHover" (см. {@link expanderVisibility}).
  */
 
 /*
@@ -200,7 +202,7 @@ export interface ITreeControlOptions extends IControlOptions {
  */
 
 /**
- * @typedef {String} ExpanderVisibility
+ * @typedef {String} Controls/_tree/interface/ITreeControl/ExpanderVisibility
  * @variant visible Всегда показывать экспандер для узлов и отступ для листьев.
  * @variant hasChildren Показывать экспандер только для узлов с дочерними элементами. В этом значении опция, также, отключает отступ для листьев, если в текущей папке нет записей с дочерними элементами.
  * @variant hasChildrenOrHover Работает аналогично hasChildren, но в дополнение для узлов без дочерних элементов:
@@ -212,7 +214,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#expanderVisibility
- * @cfg {ExpanderVisibility} Режим отображения экспандера в {@link Controls/treeGrid:View дереве}.
+ * @cfg {Controls/_tree/interface/ITreeControl/ExpanderVisibility.typedef} Режим отображения экспандера в {@link Controls/treeGrid:View дереве}.
  * @default visible
  * @demo Controls-demo/treeGrid/Expander/ExpanderIcon/Node/Index В следующем примере для контрола опция expanderVisibility установлена в значение visible.
  * @demo Controls-demo/treeGrid/Expander/ExpanderVisibility/HasChildren/Index В следующем примере для контрола опция expanderVisibility установлена в значение hasChildren.
@@ -256,7 +258,6 @@ export interface ITreeControlOptions extends IControlOptions {
  * В поле фильтра, указанное в parentProperty будет отправлен массив раскрытых узлов.
  * Если в результате запроса для этих узлов будут присланы дочерние элементы, то узлы останутся раскрытыми, иначе они будут свёрнуты.
  * **Примечание.** Постраничная навигация в запросе передается для корня и её параметр {@link Controls/_interface/INavigation/INavigationPageSourceConfig.typedef pageSize} необходимо применять для всех узлов.
- * **Обратите внимание!** При смене фильтра/навигации/source список раскрытых узлов сбрасывается.
  * @example
  * Пример списочного метода БЛ
  * <pre class="brush: python">
@@ -317,7 +318,7 @@ export interface ITreeControlOptions extends IControlOptions {
  */
 
 /**
- * @typedef {String} ExpanderSize
+ * @typedef {String} Controls/_tree/interface/ITreeControl/ExpanderSize
  * @variant s
  * @variant m
  * @variant l
@@ -326,7 +327,7 @@ export interface ITreeControlOptions extends IControlOptions {
 
 /**
  * @name Controls/_tree/interface/ITreeControl#expanderSize
- * @cfg {ExpanderSize} Размер области, который отведён под иконку узла или скрытого узла.
+ * @cfg {Controls/_tree/interface/ITreeControl/ExpanderSize.typedef} Размер области, который отведён под иконку узла или скрытого узла.
  * @default s
  * @remark
  * Опции {@link Controls/_tree/interface/ITreeControl#expanderSize expanderSize на контроле} и {@link Controls/treeGrid:ItemTemplate#expanderSize expanderSize на шаблоне элемента} не являются взаимоисключающими.
@@ -340,14 +341,14 @@ export interface ITreeControlOptions extends IControlOptions {
  */
 
 /**
- * @typedef {String} ExpanderIcon
+ * @typedef {String} Controls/_tree/interface/ITreeControl/ExpanderIcon
  * @variant none Иконки всех узлов не отображаются.
  * @variant node Иконки всех узлов отображаются как иконки узлов.
  * @variant hiddenNode Иконки всех узлов отображаются как иконки скрытых узлов."
  */
 /**
  * @name Controls/_tree/interface/ITreeControl#expanderIcon
- * @cfg {ExpanderIcon|undefined} Стиль отображения иконки для узла и скрытого узла.
+ * @cfg {Controls/_tree/interface/ITreeControl/ExpanderIcon.typedef|undefined} Стиль отображения иконки для узла и скрытого узла.
  * @default undefined
  * @remark
  * Когда в опции задано undefined, используются иконки узлов и скрытых узлов.
@@ -472,4 +473,14 @@ export interface ITreeControlOptions extends IControlOptions {
  * @variant leaf только листья доступны для выбора
  * @variant all все типы записей доступны для выбора
  * @remark Опция {@link Controls/_list/interface/IList#multiSelectAccessibilityProperty multiSelectAccessibilityProperty} преобладает над этой опцией
+ */
+
+/**
+ * @name Controls/_tree/interface/ITreeControl#singleExpand 
+ * @cfg {Boolean} Режим единого развернутого узла.
+ * @remark
+ * В дереве можно задать такое поведение, при котором единовременно может быть раскрыт только один узел в рамках одного уровня иерархии. При раскрытии нового узла предыдущий будет автоматически сворачиваться.
+ * @default false
+ * @variant true
+ * @variant false
  */

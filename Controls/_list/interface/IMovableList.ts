@@ -4,14 +4,14 @@ import {ISelectionObject} from 'Controls/interface';
 import {IMoverDialogTemplateOptions} from 'Controls/moverDialog';
 
 /**
- * Интерфейс настройки диалогового окна выбора целевой записи для перемещения.
+ * Интерфейс настройки {@link /doc/platform/developmentapl/interface-development/controls/list/actions/mover/#move-items-with-dialog диалогового окна} выбора целевой записи для перемещения.
  * @public
  * @author Аверкиев П.А.
  */
 export interface IMoveDialogTemplate {
     /**
      * @cfg {UI/Base:Control<IControlOptions, unknown> | UI/Base:TemplateFunction | String} templateName
-     * Имя контрола, который будет отображаться в диалоговом окне выбора целевой записи для перемещения.
+     * Имя контрола, который будет отображаться в диалоговом окне выбора целевой записи, для перемещения.
      */
     templateName: Control<IControlOptions, unknown> | TemplateFunction | string,
     /**
@@ -22,13 +22,13 @@ export interface IMoveDialogTemplate {
 }
 
 /**
- * Интерфейс опций контрола View, который обладает возможностью перемещения записей
+ * Интерфейс опций контрола View, который обладает возможностью перемещения записей.
  * @public
  * @author Аверкиев П.А.
  */
 export interface IMovableOptions {
     /**
-     * @cfg {IMoveDialogTemplate} moveDialogTemplate Шаблон диалогового окна выбора целевой записи для перемещения.
+     * @cfg {IMoveDialogTemplate} Шаблон диалогового окна выбора целевой записи для перемещения.
      * Рекомендуется использовать стандартный шаблон {@link Controls/moverDialog:Template}.
      * @see Controls/moverDialog:Template
      */
@@ -36,14 +36,13 @@ export interface IMovableOptions {
 }
 
 /**
- * Интерфейс контрола View, который обладает возможностью перемещения записей
+ * Интерфейс контрола View, который обладает возможностью перемещения записей.
  * @public
  * @author Аверкиев П.А.
  */
 export interface IMovableList {
     /**
-     * Перемещает указанные записи в source относительно target в указанную позицию (after/before/on)
-     * и возвращает результат перемещения
+     * Перемещает указанные записи в указанную позицию position, которая может принимать значения after/before/on. Перемещение происходит только в источнике.
      * @method
      * @public
      * @param selection
@@ -53,7 +52,7 @@ export interface IMovableList {
     moveItems(selection: ISelectionObject, targetKey: CrudEntityKey, position: LOCAL_MOVE_POSITION): Promise<DataSet>;
 
     /**
-     * Перемещаетодин элемент вверх и возвращает результат перемещения
+     * Перемещает выбранную запись на одну позицию вверх. Перемещение происходит только в источнике.
      * @method
      * @public
      * @param selectedKey
@@ -61,7 +60,7 @@ export interface IMovableList {
     moveItemUp(selectedKey: CrudEntityKey): Promise<void>;
 
     /**
-     * Перемещает один элемент вниз и возвращает результат перемещения
+     * Перемещает выбранную запись на одну позицию вниз. Перемещение происходит только в источнике.
      * @method
      * @public
      * @param selectedKey

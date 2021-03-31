@@ -13,13 +13,13 @@ import Util from './Util';
 export interface IViewOptions extends IHeadingOptions {
     /**
      * @name Controls/_spoiler/IView#content
-     * @cfg {String|Function} Шаблон скрываемой области.
+     * @cfg {String|TemplateFunction} Шаблон скрываемой области.
      * @demo Controls-demo/Spoiler/View/Content/Index
      */
     content: TemplateFunction;
     /**
      * @name Controls/_spoiler/IView#headerContentTemplate
-     * @cfg {String|Function} Контент, занимающий свободное пространство справа от заголовка. Если заголовка нет, то контент занимает все пространство шапки, в этом случае заголовок можно добавить вручную в любом месте.
+     * @cfg {String|TemplateFunction} Контент, занимающий свободное пространство справа от заголовка. Если заголовка нет, то контент занимает все пространство шапки, в этом случае заголовок можно добавить вручную в любом месте.
      * @demo Controls-demo/Spoiler/Header/Index
      * @demo Controls-demo/Spoiler/HeaderRight/Index
      * @demo Controls-demo/Spoiler/HeadingLeft/Index

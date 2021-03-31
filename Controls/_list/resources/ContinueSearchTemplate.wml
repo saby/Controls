@@ -24,11 +24,14 @@
 <div class="controls-BaseControl__continueSearch
             controls-BaseControl__continueSearch_theme-{{_options.theme}}
             {{ _options.pagingVisible ? ('controls-BaseControl_withPaging__continueSearch_theme-' + _options.theme) }}
-            ws-flexbox ws-justify-content-center">
-    <ws:if data="{{_options.footerTemplate}}">
-        <ws:partial template="searchWithFooter"/>
-    </ws:if>
-    <ws:else>
-        <ws:partial template="searchWithoutFooter"/>
-    </ws:else>
+            ws-justify-content-center">
+    <div class="controls-BaseControl__loadingIndicatorImg controls-BaseControl__loadingIndicatorImg-wrapper_theme-{{_options.theme}}
+    controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch_theme-{{_options.theme}}">
+        <ws:if data="{{_options.footerTemplate}}">
+            <ws:partial template="searchWithFooter"/>
+        </ws:if>
+        <ws:else>
+            <ws:partial template="searchWithoutFooter"/>
+        </ws:else>
+    </div>
 </div>

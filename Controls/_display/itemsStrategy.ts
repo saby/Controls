@@ -18,6 +18,7 @@ export {default as AbstractStrategy} from './itemsStrategy/AbstractStrategy';
 export {default as AdjacencyList} from './itemsStrategy/AdjacencyList';
 export {default as Composer} from './itemsStrategy/Composer';
 export {default as Direct} from './itemsStrategy/Direct';
+export {default as Drag} from './itemsStrategy/Drag';
 export {default as Group} from './itemsStrategy/Group';
 export {default as Search} from './itemsStrategy/Search';
 export {default as MaterializedPath} from './itemsStrategy/MaterializedPath';

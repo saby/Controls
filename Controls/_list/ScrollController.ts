@@ -40,7 +40,8 @@ export interface IOptions extends IControlOptions, ICompatibilityOptions {
     activeElement: string | number;
     _triggerPositionCoefficient: number;
     forceInitVirtualScroll: boolean;
-    attachLoadTopTriggerToNull: boolean;
+    resetTopTriggerOffset: boolean;
+    resetDownTriggerOffset: boolean;
 }
 
 /**
@@ -120,7 +121,8 @@ export default class ScrollController {
             const result = {
                 triggerOffset: this.getTriggerOffset(this._viewHeight,
                                                      this._viewportHeight,
-                                                     this._options.attachLoadTopTriggerToNull)};
+                                                     this._options.resetTopTriggerOffset,
+                                                     this._options.resetDownTriggerOffset)};
             newParams.trigger = this._triggerOffset;
             this._virtualScroll.applyContainerHeightsData(newParams);
             return result;
@@ -149,12 +151,14 @@ export default class ScrollController {
                 this._options.needScrollCalculation = options.needScrollCalculation;
                 this._isRendering = true;
             }
-            if (options.attachLoadTopTriggerToNull !== this._options.attachLoadTopTriggerToNull) {
-                this._options.attachLoadTopTriggerToNull = options.attachLoadTopTriggerToNull;
+            if (options.resetTopTriggerOffset !== this._options.resetTopTriggerOffset || options.resetDownTriggerOffset !== this._options.resetDownTriggerOffset) {
+                this._options.resetTopTriggerOffset = options.resetTopTriggerOffset;
+                this._options.resetDownTriggerOffset = options.resetDownTriggerOffset;
                 if (!params) {
                     result.triggerOffset = this.getTriggerOffset(this._viewHeight,
                                                                  this._viewportHeight,
-                                                                 this._options.attachLoadTopTriggerToNull);
+                                                                 this._options.resetTopTriggerOffset,
+                                                                 this._options.resetDownTriggerOffset);
                 }
                 this._isRendering = true;
             }
@@ -421,7 +425,17 @@ export default class ScrollController {
             }
 
             if (collectionStartIndex !== start || collectionStopIndex !== stop || force) {
-                collection.setIndexes(start, stop);
+
+                // При удалении нескольких групп записей из коллекции с использованием setEventRaising(false),
+                // приходит нескольно событий удаления, причем после того, как все записи уже удалены.
+                // Получается, что после первого события, индексы виртуального скролла превышают размер коллекции.
+                // А правильные индексы будут проставлены только после обработки последнего события.
+                // А до того момента, вызов итератора приводит к ошибке переполнения индексов.
+                // Проставление индексов в коллекцию по событию afterCollectionChange не решило проблему, так как
+                // до того, как это событие дойдет до baseControl, вызывается итератор коллекции со старыми индексами,
+                // что приводит к той же проблеме.
+                // Самый надежный вариант - не ставить в коллекцию stopIndex, который заведомо превышает ее размер.
+                collection.setIndexes(start, Math.min(stop, collection.getCount()));
             }
         }
     }
@@ -566,7 +580,7 @@ export default class ScrollController {
             this._setCollectionIndices(
                 this._options.collection,
                 this._virtualScroll.getRange(),
-                false,
+                true,
                 this._options.needScrollCalculation
             );
         }
@@ -579,7 +593,6 @@ export default class ScrollController {
     isAppliedVirtualScroll(): boolean {
         return !!this._virtualScroll;
     }
-
 
     handleMoveItems(addIndex: number, addedItems: object[], removeIndex: number, removedIitems: object[],  direction?: IDirection): IScrollControllerResult {
         let result = {}
@@ -611,9 +624,10 @@ export default class ScrollController {
      * @param addIndex
      * @param items
      * @param direction направление добавления
+     * @param shift автоматически сдвинуть диапазон в направлении direction
      * @private
      */
-    handleAddItems(addIndex: number, items: object[], direction?: IDirection): IScrollControllerResult {
+    handleAddItems(addIndex: number, items: object[], direction?: IDirection, shift: boolean = false): IScrollControllerResult {
         let result = {};
         if (!this._virtualScroll) {
             result = this._initVirtualScroll(
@@ -622,13 +636,15 @@ export default class ScrollController {
             );
         }
 
-        const rangeShiftResult = this._virtualScroll.addItems(
+        let rangeShiftResult = this._virtualScroll.addItems(
             addIndex,
             items.length,
             this._triggerVisibility,
             direction
         );
-
+        if (shift && this._options.collection.getCount() - items.length > this._options.virtualScrollConfig.pageSize) {
+            rangeShiftResult = this._virtualScroll.shiftRange(direction);
+        }
         this._setCollectionIndices(this._options.collection, rangeShiftResult.range, false,
             this._options.needScrollCalculation);
         this.savePlaceholders(rangeShiftResult.placeholders);
@@ -661,19 +677,21 @@ export default class ScrollController {
     }
 
     calculateVirtualScrollHeight(): number {
-        return this._virtualScroll.calculateVirtualScrollHeight();
+        return Math.max(this._virtualScroll.calculateVirtualScrollHeight(),
+                        this._viewHeight + this._placeholders.top + this._placeholders.bottom);
     }
     setResetInEnd(resetInEnd: boolean) {
         this._resetInEnd = resetInEnd;
     }
 
-    private getTriggerOffset(scrollHeight: number, viewportHeight: number, attachLoadTopTriggerToNull: boolean):
+    private getTriggerOffset(scrollHeight: number, viewportHeight: number, resetTopTriggerOffset: boolean, resetDownTriggerOffset: boolean):
             {top: number, bottom: number} {
         this._triggerOffset =
             (scrollHeight && viewportHeight ? Math.min(scrollHeight, viewportHeight) : 0) *
             this._options._triggerPositionCoefficient;
-        const topTriggerOffset = attachLoadTopTriggerToNull ? 0 : this._triggerOffset;
-        return {top: topTriggerOffset, bottom: this._triggerOffset};
+        const topTriggerOffset = resetTopTriggerOffset ? 0 : this._triggerOffset;
+        const bottomTriggerOffset = resetDownTriggerOffset ? 0 : this._triggerOffset;
+        return {top: topTriggerOffset, bottom: bottomTriggerOffset};
     }
 
     private static _setCollectionIterator(collection: Collection<Record>, mode: 'remove' | 'hide'): void {

@@ -130,25 +130,27 @@ describe('Controls/Controllers/ScrollPaging', () => {
             });
             it('getScrollTopByPage numbersState = up', () => {
                 spInstance.shiftToEdge('up', {down: true});
-                spInstance.updateScrollParams({
+                const scrollParams = {
                     scrollTop: 0,
                     scrollHeight: 250,
                     clientHeight: 50
-                }, { up: false, down: true });
-                assert.equal(spInstance.getScrollTopByPage(1), 0, 'wrong scrollTop for page 1');
-                assert.equal(spInstance.getScrollTopByPage(2), 50, 'wrong scrollTop for page 2');
-                assert.equal(spInstance.getScrollTopByPage(3), 100, 'wrong scrollTop for page 3');
+                };
+                spInstance.updateScrollParams(scrollParams, { up: false, down: true });
+                assert.equal(spInstance.getScrollTopByPage(1, scrollParams), 0, 'wrong scrollTop for page 1');
+                assert.equal(spInstance.getScrollTopByPage(2, scrollParams), 50, 'wrong scrollTop for page 2');
+                assert.equal(spInstance.getScrollTopByPage(3, scrollParams), 100, 'wrong scrollTop for page 3');
             });
             it('getScrollTopByPage numbersState = down', () => {
                 spInstance.shiftToEdge('down', {up: true});
-                spInstance.updateScrollParams({
+                const scrollParams = {
                     scrollTop: 50,
                     scrollHeight: 250,
                     clientHeight: 50
-                }, { up: true, down: false });
-                assert.equal(spInstance.getScrollTopByPage(50), 200, 'wrong scrollTop for page 10');
-                assert.equal(spInstance.getScrollTopByPage(49), 150, 'wrong scrollTop for page 9');
-                assert.equal(spInstance.getScrollTopByPage(48), 100, 'wrong scrollTop for page 8');
+                };
+                spInstance.updateScrollParams(scrollParams, { up: true, down: false });
+                assert.equal(spInstance.getScrollTopByPage(50, scrollParams), 200, 'wrong scrollTop for page 10');
+                assert.equal(spInstance.getScrollTopByPage(49, scrollParams), 150, 'wrong scrollTop for page 9');
+                assert.equal(spInstance.getScrollTopByPage(48, scrollParams), 100, 'wrong scrollTop for page 8');
             });
         });
         describe('changing selectedPage', () => {

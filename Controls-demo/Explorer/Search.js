@@ -18,6 +18,7 @@ define('Controls-demo/Explorer/Search', [
          _title: '',
          _searchStartingWith: 'root',
          _multiselectVisibility: 'visible',
+         _root: null,
          _beforeMount: function() {
             this._viewColumns = [
                {

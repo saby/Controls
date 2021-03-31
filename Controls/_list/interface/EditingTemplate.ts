@@ -36,7 +36,7 @@
 export default interface IEditingTemplateOptions {
     /**
      * @name Controls/_list/interface/EditingTemplate#editorTemplate
-     * @cfg {String|Function} Шаблон, отображаемый поверх элемента в режиме редактирования. 
+     * @cfg {String|TemplateFunction} Шаблон, отображаемый поверх элемента в режиме редактирования. 
      */
     editorTemplate?: string;
     /**

@@ -1,7 +1,7 @@
 <div class="controlsDemo__wrapper">
-    <Controls.grid:View
+    <Controls.gridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
-            rowSeparatorVisibility="{{true}}"
+            rowSeparatorSize="s"
             columns="{{_columns}}"/>
 </div>

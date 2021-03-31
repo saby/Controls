@@ -2,18 +2,20 @@ import TreeItem from './TreeItem';
 import Tree from './Tree';
 import CollectionItem, {IOptions as ICollectionItemOptions} from './CollectionItem';
 import {register} from 'Types/di';
+import IGroupNode from './interface/IGroupNode';
 
 export interface IOptions<T> extends ICollectionItemOptions<T> {
     source: TreeItem<T>;
 }
 
-export default class SearchSeparator<T> extends CollectionItem<T>  {
+export default class SearchSeparator<T> extends CollectionItem<T> implements IGroupNode {
     readonly '[Controls/_display/SearchSeparator]': boolean = true;
     readonly '[Controls/_display/IEditableCollectionItem]': boolean = false;
     readonly '[Controls/_itemActions/interface/IItemActionsItem]': boolean = false;
 
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
+    readonly ItemActionsItem: boolean = false;
 
     protected _instancePrefix: 'search-separator-item-';
 
@@ -38,8 +40,8 @@ export default class SearchSeparator<T> extends CollectionItem<T>  {
         return this._$source && this._$source.setOwner(owner);
     }
 
-    getContents(): T {
-        return this._$source && this._$source.getContents();
+    getContents(): string {
+        return 'search-separator';
     }
 
     setContents(contents: T, silent?: boolean): void {
@@ -69,6 +71,10 @@ export default class SearchSeparator<T> extends CollectionItem<T>  {
      */
     getLevel(): number {
         return 0;
+    }
+
+    isGroupNode(): boolean {
+        return false;
     }
 }
 

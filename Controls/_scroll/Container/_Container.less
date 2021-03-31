@@ -2,12 +2,11 @@
    position: relative;
    overflow: hidden;
    display: flex;
-   flex-direction: column;
+   align-items: stretch;
    min-height: 0;
 }
 
 .controls-Scroll-Container__base {
-   height: 100%;
    flex-grow: 1;
    flex-shrink: 1;
    min-height: 0;
@@ -90,7 +89,8 @@
    }
 }
 
-.controls-DialogTemplate_backgroundStyle-default_theme_@{themeName} {
+.controls-DialogTemplate_backgroundStyle-default_theme_@{themeName},
+.controls-ConfirmationTemplate_theme-@{themeName} {
    .controls-Scroll__background-Shadow_style-default_theme-@{themeName} {
       background-image: linear-gradient(@background-color_dialog 25%, rgba(@background-color_dialog, 0)),
                         linear-gradient(rgba(@background-color_dialog, 0), @background-color_dialog 75%),

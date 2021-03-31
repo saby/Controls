@@ -33,7 +33,7 @@ class RegisterClass {
                if (typeof previousUnmountCallback === 'function') {
                    previousUnmountCallback();
                }
-               this.unregister(event, component);
+               this.unregister(event, registerType, component, config);
            };
            if (!config.listenAll) {
                event.stopPropagation();

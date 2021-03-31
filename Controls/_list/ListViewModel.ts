@@ -13,9 +13,8 @@ import { CollectionItem, IEditingConfig, ISwipeConfig } from 'Controls/display';
 import { CssClassList } from "./resources/utils/CssClassList";
 import {Logger} from 'UI/Utils';
 import {IItemAction, IItemActionsTemplateConfig} from 'Controls/itemActions';
-import { IDragPosition } from 'Controls/display';
+import { IDragPosition, IItemPadding } from 'Controls/display';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
-import { IItemPadding } from './interface/IList';
 import { ItemsEntity } from 'Controls/dragnDrop';
 
 interface IListSeparatorOptions {
@@ -155,9 +154,9 @@ const _private = {
             itemsModelCurrent.dispItem.getItemActionClasses ?
                 itemsModelCurrent.dispItem.getItemActionClasses(itemActionsPosition, theme, isLastRow, rowSeparatorSize) : ''
         );
-        itemsModelCurrent.getItemActionPositionClasses = (itemActionsPosition: string, itemActionsClass: string, itemPadding: {top?: string, bottom?: string}, theme: string, useNewModel?: boolean): string => (
+        itemsModelCurrent.getItemActionPositionClasses = (itemActionsPosition: string, itemActionsClass: string, itemPadding: {top?: string, bottom?: string}, theme: string): string => (
             itemsModelCurrent.dispItem.getItemActionPositionClasses ?
-                itemsModelCurrent.dispItem.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemPadding, theme, useNewModel) : ''
+                itemsModelCurrent.dispItem.getItemActionPositionClasses(itemActionsPosition, itemActionsClass, itemPadding, theme) : ''
         );
         itemsModelCurrent.getSwipeAnimation = (): string => itemsModelCurrent.dispItem.getSwipeAnimation();
         itemsModelCurrent.isAdd = itemsModelCurrent.dispItem.isAdd;
@@ -168,6 +167,18 @@ const _private = {
         itemsModelCurrent.getWrapperClasses = this.getWrapperClasses.bind(itemsModelCurrent);
         itemsModelCurrent.getContentClasses = () => {
             return `${itemsModelCurrent.spacingClassList} ${itemsModelCurrent.isRightSwiped?.() ? 'controls-ListView__item_rightSwipeAnimation' : ''}`;
+        };
+
+        itemsModelCurrent.getMultiSelectClasses = () => {
+            return itemsModelCurrent.multiSelectClassList;
+        };
+
+        itemsModelCurrent.isVisibleCheckbox = () => {
+            return itemsModelCurrent.dispItem.isVisibleCheckbox();
+        };
+
+        itemsModelCurrent.isReadonlyCheckbox = () => {
+            return itemsModelCurrent.dispItem.isReadonlyCheckbox();
         };
     },
     getSeparatorSizes(options: IListSeparatorOptions): IListSeparatorOptions['rowSeparatorSize'] {
@@ -264,7 +275,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.calcCursorClasses = this._calcCursorClasses;
         // Из Controls/scroll:Container прилетает backgroundStyle='default', нужно применять его только если style тоже default
         itemsModelCurrent.backgroundStyle = this._options.style === 'default' && this._options.backgroundStyle ? this._options.backgroundStyle : this._options.style;
-
+        itemsModelCurrent.moreFontColorStyle = this._options.moreFontColorStyle;
         itemsModelCurrent.hoverBackgroundStyle = this._options.hoverBackgroundStyle || this._options.style;
         if (itemsModelCurrent.isGroup) {
             itemsModelCurrent.isStickyHeader = this._options.stickyHeader;
@@ -549,6 +560,10 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         if (this.getDisplay()) {
             this.getDisplay().setDragOutsideList(outside);
         }
+    },
+
+    isDragOutsideList(): boolean {
+        return !!this.getDisplay()?.isDragOutsideList();
     },
 
     setDragEntity(entity: ItemsEntity): void {
@@ -858,6 +873,11 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._display.setRowSeparatorSize(rowSeparatorSize);
         this._nextModelVersion();
     },
+    setDisplayProperty(displayProperty: string): void {
+        this._options.displayProperty = displayProperty;
+        this._display?.setDisplayProperty(displayProperty);
+        this._nextModelVersion();
+    },
 
     /**
      * Обновляет стиль фона фиксированных элемекнтов
@@ -866,7 +886,10 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     setBackgroundStyle(backgroundStyle) {
         this._options.backgroundStyle = backgroundStyle;
         this._nextVersion();
-    }
+    },
+
+    // TODO падает тест, т.к. там сразу изменяется нужное условие и проставляется флаг useNewModel, но новая модель не создается
+    setEmptyTemplateOptions(): void {}
 });
 
 ListViewModel._private = _private;

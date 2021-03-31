@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_marker">
+<Controls.treeTile:View
+        tileMode="dynamic"
+        displayProperty="title"
+        imageProperty="image"
+        keyProperty="id"
+        markerVisibility="hidden"
+        source="{{_viewSource}}">
+        <ws:itemTemplate>
+                <ws:partial
+                        template="Controls/tileNew:ItemTemplate"
+                        hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+        </ws:itemTemplate>
+</Controls.treeTile:View>
+</div>

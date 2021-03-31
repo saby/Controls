@@ -266,7 +266,8 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
                   selectedNodes.push(key);
                }
 
-               if (!selection.excluded.includes(key)) {
+               const countBySelectionType = !(this._selectionType === 'leaf' && this._isNode(item));
+               if (!selection.excluded.includes(key) && countBySelectionType) {
                   countItemsSelected++;
                }
             }
@@ -303,14 +304,15 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
    isAllSelected(selection: ISelection,
                  hasMoreData: boolean,
                  itemsCount: number,
-                 byEveryItem: boolean = true): boolean {
+                 byEveryItem: boolean = true,
+                 rootId?: CrudEntityKey): boolean {
       let isAllSelected;
 
       if (byEveryItem) {
          isAllSelected = !hasMoreData && itemsCount > 0 && itemsCount === this.getCount(selection, hasMoreData)
-            || this._isAllSelectedInRoot(selection) && selection.excluded.length === 1;
+            || this._isAllSelectedInRoot(selection, rootId) && selection.excluded.length === 1;
       } else {
-         isAllSelected = this._isAllSelectedInRoot(selection);
+         isAllSelected = this._isAllSelectedInRoot(selection, rootId);
       }
 
       return isAllSelected;
@@ -344,8 +346,8 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       }
    }
 
-   private _isAllSelectedInRoot(selection: ISelection): boolean {
-      return selection.selected.includes(this._rootId) && selection.excluded.includes(this._rootId);
+   private _isAllSelectedInRoot(selection: ISelection, rootId?: CrudEntityKey): boolean {
+      return selection.selected.includes(rootId || this._rootId) && selection.excluded.includes(rootId || this._rootId);
    }
 
    private _unselectAllInRoot(selection: ISelection): ISelection {
@@ -557,18 +559,17 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
     * @param parentId
     * @private
     */
-   private _getChildrenIdsInEntryPath(parentId: CrudEntityKey): TKeys {
+   private _getRecursiveChildesInEntryPath(parentId: CrudEntityKey): TKeys {
       const childrenIds = [];
 
       const childesFromEntryPath = this._entryPath
           .filter((item) => item.parent === parentId)
           .map((item) => {
-             childrenIds.concat(this._getChildrenIdsInEntryPath(item.id));
+             childrenIds.concat(this._getRecursiveChildesInEntryPath(item.id));
              return item.id;
           });
 
-      childrenIds.concat(childesFromEntryPath);
-      return childrenIds;
+      return childrenIds.concat(childesFromEntryPath);
    }
 
    /**
@@ -585,7 +586,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
             if ((childrenIds.includes(entryPath.parent) || nodeId === entryPath.parent)
                 && !childrenIds.includes(entryPath.id)) {
                childrenIds.push(entryPath.id);
-               childrenIds = childrenIds.concat(this._getChildrenIdsInEntryPath(entryPath.id));
+               childrenIds = childrenIds.concat(this._getRecursiveChildesInEntryPath(entryPath.id));
             }
          });
       }
@@ -725,7 +726,7 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
          case 'allBySelectAction':
             return true;
          case 'leaf':
-            return !isNode || this._recursiveSelection && isNode;
+            return !isNode || this._recursiveSelection && isNode || item.isRoot();
          case 'node':
             return isNode;
       }

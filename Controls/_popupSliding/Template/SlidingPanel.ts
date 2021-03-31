@@ -21,24 +21,46 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         dragNDrop: Container;
         customContent: Element;
         customContentWrapper: Element;
+        controlLine: Element;
     };
+    private _isPanelMounted: boolean = false;
     private _currentTouchYPosition: number = null;
     private _scrollState: object = null;
 
     protected _beforeMount(options: ISlidingPanelTemplateOptions): void {
+        this._position = options.slidingPanelOptions?.position;
         this._scrollAvailable = this._isScrollAvailable(options);
-        this._position = options.slidingPanelPosition?.position;
     }
 
     protected _beforeUpdate(options: ISlidingPanelTemplateOptions): void {
-        if (options.slidingPanelPosition !== this._options.slidingPanelPosition) {
+        if (options.slidingPanelOptions !== this._options.slidingPanelOptions) {
+            this._position = options.slidingPanelOptions?.position;
             this._scrollAvailable = this._isScrollAvailable(options);
-            this._position = options.slidingPanelPosition?.position;
         }
     }
 
-    protected _isScrollAvailable({slidingPanelPosition}: ISlidingPanelTemplateOptions): boolean {
-        return slidingPanelPosition.height === slidingPanelPosition.maxHeight;
+    protected _afterMount(options: ISlidingPanelTemplateOptions): void {
+        /*
+            Если высотка контента максимальная, то нужно отпустить скролл,
+            т.к. внутри могут быть поля со своим скроллом, а мы превентим touchmove и не даем им скроллиться.
+         */
+        const scrollAvailable = this._isScrollAvailable(options);
+        if (scrollAvailable !== this._scrollAvailable) {
+            this._scrollAvailable = scrollAvailable;
+        }
+        this._isPanelMounted = true;
+    }
+
+    protected _isScrollAvailable({
+        slidingPanelOptions,
+        controlButtonVisibility
+    }: ISlidingPanelTemplateOptions): boolean {
+        const scrollContentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
+        const controllerContainer = this._children.controlLine;
+        const controllerHeight = this._isPanelMounted && controlButtonVisibility ? controllerContainer.clientHeight : 0;
+        const contentHeight = scrollContentHeight + controllerHeight;
+        return slidingPanelOptions.height === slidingPanelOptions.maxHeight ||
+            slidingPanelOptions.height === contentHeight;
     }
 
     protected _dragEndHandler(): void {
@@ -58,7 +80,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     }
 
     protected _getScrollAvailableHeight(): number {
-        return this._children.customContentWrapper.clientHeight;
+        return this._children.customContent.clientHeight;
     }
 
     /**
@@ -76,7 +98,11 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      * @private
      */
     protected _touchMoveHandler(event: SyntheticEvent<TouchEvent>): void {
-        if (this._scrollAvailable && this._getScrollTop() !== 0) {
+        /*
+            Если свайпают внутри скролла и скролл не в самом верху,
+            то не тянем шторку, т.к. пользователь пытается скроллить
+         */
+        if (this._scrollAvailable && (this._getScrollTop() !== 0 || this._isSwipeInsideScroll(event))) {
             return;
         }
         const currentTouchY = event.nativeEvent.changedTouches[0].clientY;
@@ -97,6 +123,26 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._notifyDragStart(this._touchDragOffset);
     }
 
+    /**
+     * Проверка на то, что тач произошел внутри скролла.
+     * Если тач внутри скролла, то мы не тянем шторку в случае если скролл проскроллен.
+     * @param touchEvent
+     * @protected
+     */
+    protected _isSwipeInsideScroll(touchEvent: SyntheticEvent<TouchEvent>): boolean {
+        const scrollClassName = 'controls-SlidingPanel__scrollWrapper';
+        let currentNode: HTMLElement = touchEvent.target;
+        while (currentNode && currentNode !== this._container) {
+            const isScroll = currentNode.classList.contains(scrollClassName);
+            if (isScroll) {
+                return true;
+            } else {
+                currentNode = currentNode.parentElement;
+            }
+        }
+        return false;
+    }
+
     protected _touchEndHandler(): void {
         if (this._touchDragOffset) {
             this._notifyDragEnd();
@@ -109,7 +155,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         /* Запоминаем высоту скролла, чтобы при увеличении проверять на то,
            что не увеличим шторку больше, чем есть контента */
         if (!this._dragStartScrollHeight) {
-            this._dragStartScrollHeight = this._getScrollAvailableHeight();
+            this._dragStartScrollHeight = this._children.customContentWrapper.clientHeight;
         }
         this._notify('popupDragStart', [
             this._getDragOffsetWithOverflowChecking(offset)
@@ -147,15 +193,15 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         return this._scrollState?.scrollTop || 0;
     }
 
-    static _theme: string[] = ['Controls/popupSliding'];
     static getDefaultOptions(): Partial<ISlidingPanelTemplateOptions> {
         return {
             controlButtonVisibility: true,
-            slidingPanelPosition: {
+            slidingPanelOptions: {
                 height: undefined,
                 maxHeight: undefined,
                 minHeight: undefined,
-                position: 'bottom'
+                position: 'bottom',
+                desktopMode: 'stack'
             }
         };
     }

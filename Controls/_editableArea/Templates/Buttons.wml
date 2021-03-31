@@ -1,9 +1,8 @@
 <div class="controls-EditableArea__Toolbar">
-    <div class="controls-EditableArea__applyButton controls-EditableArea__applyButton_theme-{{_options.theme}}" title="{[Подтвердить]}" on:click="_tmplNotify('applyButtonClick')">
-        <div class="controls-EditableArea__applyButton-icon controls-EditableArea__applyButton-icon_theme-{{_options.theme}}
-                           controls-icon_style-contrast_theme-{{_options.theme}} icon-Yes"></div>
+    <div class="controls-EditableArea__applyButton" title="{[Подтвердить]}" on:click="_tmplNotify('applyButtonClick')">
+        <div class="controls-EditableArea__applyButton-icon controls-icon_style-contrast icon-Yes"></div>
     </div>
-    <div class="controls-EditableArea__closeButton controls-EditableArea__closeButton_theme-{{_options.theme}}" title="{[Закрыть]}" on:click="_tmplNotify('closeButtonClick')">
-        <div class="controls-EditableArea__closeButton-icon controls-EditableArea__closeButton-icon_theme-{{_options.theme}}"></div>
+    <div class="controls-EditableArea__closeButton" title="{[Закрыть]}" on:click="_tmplNotify('closeButtonClick')">
+        <div class="controls-EditableArea__closeButton-icon"></div>
     </div>
 </div>

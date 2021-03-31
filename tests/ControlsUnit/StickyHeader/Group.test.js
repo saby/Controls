@@ -409,6 +409,30 @@ define([
             sinon.restore();
          });
       });
+      describe('_stickyModeChanged', () => {
+         it('should notify stickyModeChanged only once', () => {
+            const component = createComponent(scroll.Group, options);
+            sinon.stub(component, '_notify');
+            const event = {
+               stopPropagation: () => 0
+            };
+            const stickyHeadersInGroup = [{
+               id: 0,
+               mode: 'stackable'
+            }, {
+               id: 1,
+               mode: 'stackable'
+            }, {
+               id: 2,
+               mode: 'stackable'
+            }];
+            for (const stickyHeader of stickyHeadersInGroup) {
+               component._stickyModeChanged(event, stickyHeader.id, stickyHeader.mode);
+            }
+            sinon.assert.calledOnce(component._notify);
+            sinon.restore();
+         });
+      });
    });
 
 });

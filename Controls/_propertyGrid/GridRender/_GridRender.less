@@ -7,6 +7,7 @@
    font-size: @font-size_m;
    padding-right: @offset_m;
    color: @label_text-color;
+   box-sizing: border-box;
 }
 
 .controls-PropertyGrid__gridLayout__itemsContainer {
@@ -22,6 +23,8 @@
    position: relative;
    display: flex;
    flex-direction: column;
+   min-width: 0;
+   max-width: 100%;
 }
 
 .controls-PropertyGrid__gridLayout_editor-caption-baseline {

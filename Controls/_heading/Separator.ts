@@ -1,6 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import separatorTemplate = require('wml!Controls/_heading/Separator/Separator');
 import {descriptor as EntityDescriptor} from 'Types/entity';
+import 'css!Controls/heading';
 
 export interface ISeparatorOptions extends IControlOptions {
     style?: 'primary' | 'secondary';
@@ -8,7 +9,7 @@ export interface ISeparatorOptions extends IControlOptions {
 
 /**
  * Разделитель заголовков с поддержкой некоторых стилей отображения.
- * 
+ *
  * @remark
  * Используется в составе сложных заголовков, состоящих из {@link Controls/heading:Separator}, {@link Controls/heading:Counter} и {@link Controls/heading:Title}.
  * Для одновременной подсветки всех частей сложного заголовка при наведении используйте класс controls-Header_all__clickable на контейнере.
@@ -16,7 +17,7 @@ export interface ISeparatorOptions extends IControlOptions {
  * Полезные ссылки:
  * * {@link /doc/platform/developmentapl/interface-development/controls/content-managment/heading/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_heading.less переменные тем оформления}
- * 
+ *
  *
  * @class Controls/_heading/Separator
  * @extends UI/Base:Control
@@ -35,7 +36,7 @@ export interface ISeparatorOptions extends IControlOptions {
  *
  * @class Controls/_heading/Separator
  * @extends UI/Base:Control
- * 
+ *
  * @public
  * @author Красильников А.С.
  *
@@ -44,8 +45,6 @@ export interface ISeparatorOptions extends IControlOptions {
 
 class Separator extends Control<ISeparatorOptions> {
     protected _template: TemplateFunction = separatorTemplate;
-
-    static _theme: string[] = ['Controls/heading'];
 
     static getDefaultOptions(): object {
         return {

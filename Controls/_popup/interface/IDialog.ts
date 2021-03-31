@@ -191,7 +191,7 @@ export interface IResizeDirection {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions>{
  *    ...
  *
  *    _openDialog() {
@@ -205,7 +205,7 @@ export interface IResizeDirection {
  *       this._children.dialog.close()
  *    }
  *    ...
- * });
+ * }
  * </pre>
  * @see open
  */
@@ -229,9 +229,8 @@ export interface IResizeDirection {
  * </pre>
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    ...
- *
  *    _openDialog() {
  *       var popupOptions = {
  *          autofocus: true
@@ -243,7 +242,7 @@ export interface IResizeDirection {
  *       this._children.dialog.close()
  *    }
  *    ...
- * });
+ * };
  * </pre>
  * @see close
  */

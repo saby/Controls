@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ICaption, ICaptionOptions, IFontSize, IFontSizeOptions, IHref, IHrefOptions} from 'Controls/interface';
 import * as LabelTemplate from 'wml!Controls/_input/Label/Label';
+import 'css!Controls/input';
 
 export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSizeOptions, IHrefOptions {
     required?: boolean;
@@ -34,7 +35,7 @@ class Label extends Control<ILabelOptions> implements ICaption, IFontSize, IHref
     readonly '[Controls/_interface/ICaption]': boolean = true;
     readonly '[Controls/_interface/IFontSize]': boolean = true;
 
-    static _theme: string[] = ['Controls/input', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

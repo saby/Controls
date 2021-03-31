@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div attr:class="controls-text-label">controls-inlineheight-xs</div>
+        <div class="controls-inlineheight-xs border"></div>
+        <div attr:class="controls-text-label">controls-inlineheight-s</div>
+        <div class="controls-inlineheight-s border"></div>
+        <div attr:class="controls-text-label">controls-inlineheight-m</div>
+        <div class="controls-inlineheight-m border"></div>
+        <div attr:class="controls-text-label">controls-inlineheight-l</div>
+        <div class="controls-inlineheight-l border"></div>
+        <div attr:class="controls-text-label">controls-inlineheight-xl</div>
+        <div class="controls-inlineheight-xl border"></div>
+        <div attr:class="controls-text-label">controls-inlineheight-2xl</div>
+        <div class="controls-inlineheight-2xl border"></div>
+    </div>
+</div>

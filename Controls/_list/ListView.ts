@@ -30,7 +30,8 @@ var _private = {
        self._notify('controlResize', [], {bubbling: true});
     },
 
-    setHoveredItem: function(self, item, nativeEvent) {
+    setHoveredItem: function(self, itemData, nativeEvent) {
+        const item = itemData?.item;
         if (item !== self._hoveredItem) {
             self._hoveredItem = item;
             var container = nativeEvent ? nativeEvent.target.closest('.controls-ListView__itemV') : null;
@@ -262,7 +263,7 @@ var ListView = BaseControl.extend(
 
         _onItemMouseEnter: function(event, itemData) {
             this._notify('itemMouseEnter', [itemData, event]);
-            this._debouncedSetHoveredItem(this, itemData.item, event);
+            this._debouncedSetHoveredItem(this, itemData, event);
         },
 
         //TODO: из-за того что ItemOutput.wml один для всех таблиц, приходится подписываться в нем на события,

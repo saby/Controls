@@ -1,60 +1,60 @@
-.controls-FilterButton_theme-@{themeName} {
-   height: @height_filterView;
+.controls-FilterButton {
+   height: var(--height_filterView);
    display: inline-block;
-   min-width: @height_filterView + @filterButton_offset_filterView;
+   min-width: calc(var(--height_filterView) + var(--filterButton_offset_filterView));
 }
 
 .controls-FilterButton__state_changed {
    flex-shrink: 999;
 }
 
-.controls-FilterButton_right__state_changed_theme-@{themeName} {
-   min-width: @item_icon-size_filterView + @item_text_min-width_filterView + @item_icon-size_filterView + @item_spacing_filterView + @width_filterButton_filterView;
+.controls-FilterButton_right__state_changed {
+   min-width: calc(var(--item_icon-size_filterView) + var(--item_text_min-width_filterView) + var(--item_icon-size_filterView) + var(--item_spacing_filterView) + var(--width_filterButton_filterView));
 }
 
-.controls-FilterButton_left__state_changed_theme-@{themeName} {
-   min-width: @width_filterButton_filterView + @item_spacing_filterView + @item_text_min-width_filterView + @item_icon-size_filterView;
+.controls-FilterButton_left__state_changed {
+   min-width: calc(var(--width_filterButton_filterView) + var(--item_spacing_filterView) + var(--item_text_min-width_filterView) + var(--item_icon-size_filterView));
 }
 
-.controls-FilterButton__icon_state_default_theme-@{themeName} {
-   color: @icon-color_filterButton_filterView;
-   background-color: @background-color_filterButton_filterView;
-   box-shadow: @box-shadow_filterButton_filterView;
+.controls-FilterButton__icon_state_default {
+   color: var(--icon-color_filterButton_filterView);
+   background-color: var(--background-color_filterButton_filterView);
+   box-shadow: var(--box-shadow_filterButton_filterView);
    cursor: pointer;
 }
 
 .ws-is-hover {
-   .controls-FilterButton__icon_state_default_theme-@{themeName}:hover {
-      color: @hover_icon-color_filterButton_filterView;
-      background-color: @background-color_hover_filterButton_filterView;
+   .controls-FilterButton__icon_state_default:hover {
+      color: var(--hover_icon-color_filterButton_filterView);
+      background-color: var(--background-color_hover_filterButton_filterView);
    }
 }
 
-.controls-FilterButton__icon_state_default_theme-@{themeName}:active {
-   color: @active_icon-color_filterButton_filterView;
-   background-color: @background-color_active_filterButton_filterView;
+.controls-FilterButton__icon_state_default:active {
+   color: var(--active_icon-color_filterButton_filterView);
+   background-color: var(--background-color_active_filterButton_filterView);
 }
 
-.controls-FilterButton__icon_state_disabled_theme-@{themeName} {
-   color: @readonly_item_icon-color_filterView;
+.controls-FilterButton__icon_state_disabled {
+   color: var(--readonly_item_icon-color_filterView);
 }
 
-.controls-FilterButton__spaceTemplate_left_theme-@{themeName} {
+.controls-FilterButton__spaceTemplate_left {
    order: -1;
-   margin-right: @filterButton_offset_filterView;
+   margin-right: var(--filterButton_offset_filterView);
 }
 
-.controls-FilterButton__spaceTemplate_right_theme-@{themeName} {
-   margin-left: @filterButton_offset_filterView;
+.controls-FilterButton__spaceTemplate_right {
+   margin-left: var(--filterButton_offset_filterView);
 }
 
-.controls-FilterButton__icon_left_theme-@{themeName} {
+.controls-FilterButton__icon_left {
    order: -2;
-   margin-right: @filterButton_offset_filterView;
+   margin-right: var(--filterButton_offset_filterView);
 }
 
-.controls-FilterButton__icon_right_theme-@{themeName} {
-   margin-left: @filterButton_offset_filterView;
+.controls-FilterButton__icon_right {
+   margin-left: var(--filterButton_offset_filterView);
 }
 
 .controls-FilterButton__wrapper {
@@ -78,9 +78,9 @@
    flex-shrink: 1;
 }
 
-.controls-FilterButton__textLine-wrapper_theme-@{themeName}::before {
+.controls-FilterButton__textLine-wrapper::before {
    content: '\200b';
-   line-height: @height_filterView;
+   line-height: var(--height_filterView);
 }
 
 .controls-FilterButton__text-wrapper {
@@ -99,64 +99,64 @@
    .controls-FilterButton__text-wrapper_state_default:hover {
       cursor: pointer;
 
-      .controls-FilterButton__text_theme-@{themeName} {
-         color: @item_hover_color_filterView;
+      .controls-FilterButton__text {
+         color: var(--item_hover_color_filterView);
          text-decoration: underline;
       }
 
-      .controls-FilterButton__arrow_theme-@{themeName} {
-         color: @item_hover_icon-color_filterView;
+      .controls-FilterButton__arrow {
+         color: var(--item_hover_icon-color_filterView);
       }
    }
 }
 
 .controls-FilterButton__text-wrapper_state_default:active {
-   .controls-FilterButton__text_theme-@{themeName} {
-      color: @item_active_color_filterView;
+   .controls-FilterButton__text {
+      color: var(--item_active_color_filterView);
       text-decoration: underline;
    }
 
-   .controls-FilterButton__arrow_theme-@{themeName} {
-      color: @item_active_icon-color_filterView;
+   .controls-FilterButton__arrow {
+      color: var(--item_active_icon-color_filterView);
    }
 }
 
-.controls-FilterButton__text_theme-@{themeName} {
+.controls-FilterButton__text {
    .text-overflow();
 
    flex-shrink: 1;
-   font-size: @item_font-size_filterView;
+   font-size: var(--item_font-size_filterView);
 }
 
-.controls-FilterButton__text_state_default_theme-@{themeName} {
-   color: @item_color_filterView;
+.controls-FilterButton__text_state_default {
+   color: var(--item_color_filterView);
 }
 
-.controls-FilterButton__text_state_disabled_theme-@{themeName} {
-   color: @readonly_item_color_filterView;
+.controls-FilterButton__text_state_disabled {
+   color: var(--readonly_item_color_filterView);
 }
 
-.controls-FilterButton__arrow_state_default_theme-@{themeName} {
-   color: @item_icon-color_filterView;
+.controls-FilterButton__arrow_state_default {
+   color: var(--item_icon-color_filterView);
 }
 
-.controls-FilterButton__arrow_state_disabled_theme-@{themeName} {
-   color: @readonly_item_color_filterView;
+.controls-FilterButton__arrow_state_disabled {
+   color: var(--readonly_item_color_filterView);
 }
 
-.controls-FilterButton__clear_theme-@{themeName} {
-   color: @reset-button_icon-color_filterView;
+.controls-FilterButton__clear {
+   color: var(--reset-button_icon-color_filterView);
    cursor: pointer;
 }
 
-.controls-FilterButton__icon_theme-@{themeName} {
+.controls-FilterButton__icon {
    display: inline-flex;
    align-items: center;
    justify-content: center;
-   .icon-size-without-important(@icon-size_filterButton_filterView, @icon_font-family_m);
+   .icon-size-without-important(var(--icon-size_filterButton_filterView), var(--icon_font-family_m));
 
-   width: @width_filterButton_filterView;
-   height: @height_filterButton_filterView;
+   width: var(--width_filterButton_filterView);
+   height: var(--height_filterButton_filterView);
 }
 
 .controls-FilterButton__clear,
@@ -165,14 +165,14 @@
    .align-items(center);
 }
 
-.controls-FilterButton__arrow_theme-@{themeName} {
-   .icon-size-without-important(@item_icon-size_filterView);
+.controls-FilterButton__arrow {
+   .icon-size-without-important(var(--item_icon-size_filterView));
 
    align-self: center;
 }
 
-.controls-FilterButton__clear_theme-@{themeName} {
-   .icon-size-without-important(@reset-button_icon-size_filterView);
+.controls-FilterButton__clear {
+   .icon-size-without-important(var(--reset-button_icon-size_filterView));
 }
 
 .controls-FilterButton__clear,

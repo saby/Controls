@@ -1,12 +1,11 @@
-/**
- * Created by ia.kapustin on 27.09.2018.
- */
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_lookup/Lookup/Link/LookUp_Link');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_lookup/Lookup/Link/LookUp_Link';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/lookup';
 
 /**
  * Кнопка-ссылка для использования внутри подсказки поля связи.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less переменные тем оформления}
@@ -15,35 +14,24 @@ import template = require('wml!Controls/_lookup/Lookup/Link/LookUp_Link');
  * @extends UI/Base:Control
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_interface/IHeight
- * 
- * @public
- * @author Герасимов А.М.
- */
-/*
- * Label for use within the link field.
  *
- * @class Controls/_lookup/Lookup/Link
- * @extends UI/Base:Control
- * @mixes Controls/_interface/ICaption
- * @mixes Controls/_interface/IHeight
- * 
  * @public
  * @author Герасимов А.М.
  */
 
-const Link = Control.extend({
-   _template: template,
+export default class Link extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
 
-   _keyUpHandler: function (e) {
+   protected _keyUpHandler(e: SyntheticEvent<KeyboardEvent>): void {
       if (e.nativeEvent.keyCode === 13 && !this._options.readOnly) {
          this._notify('click');
       }
-   },
+   }
 
-   _clickHandler: function (e) {
-      /* toDo !KINGO Cаггест при установленной опции autoDropDown покажется при клике, поэтому отменяем всплытие нативного события,
-       и стреляем не всплывающим событием, что бы прикладник смог подписаться и показать справочник.
-       Всплытие тут не нужно, т.к. метка лежит только в подсказке поля связи.
+   protected  _clickHandler(e: SyntheticEvent<MouseEvent>): void {
+      /* toDo !KINGO Cаггест при установленной опции autoDropDown покажется при клике,
+          поэтому отменяем всплытие нативного события, и стреляем не всплывающим событием, что бы прикладник смог
+          подписаться и показать справочник. Всплытие тут не нужно, т.к. метка лежит только в подсказке поля связи.
        */
       e.stopPropagation();
 
@@ -51,15 +39,13 @@ const Link = Control.extend({
          this._notify('click');
       }
    }
-});
 
-Link.getDefaultOptions = () => {
-   return {
-      fontSize: 'm'
-   };
-};
-
-Link._theme = ['Controls/lookup'];
+   static getDefaultOptions(): object {
+      return {
+         fontSize: 'm'
+      };
+   }
+}
 
 Object.defineProperty(Link, 'defaultProps', {
    configurable: true,
@@ -69,5 +55,3 @@ Object.defineProperty(Link, 'defaultProps', {
       return Link.getDefaultOptions();
    }
 });
-
-export = Link;

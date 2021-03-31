@@ -6,7 +6,9 @@
 
 @width_filterViewPanel:                                                     250px;
 @padding-left_filterViewPanel:                                              @offset_3xl;
+@padding-bottom_filterViewPanel:                                            @offset_m;
 @padding-right_filterViewPanel:                                             @offset_m;
+@padding-top_filterViewPanel:                                               @offset_2xs;
 @background-color_filterViewPanel:                                          #f8f8f8;
 
 //Шапка панели фильтров
@@ -30,10 +32,9 @@
 //Группа в панели фильтров
 @group_color_filterViewPanel:                                               @label_text-color;
 @group_font-size_filterViewPanel:                                           @font-size_m;
-@group-expander_padding-left_filterViewPanel:                               @offset_2xs;
-@group-close-button_padding-top_filterViewPanel:                            0;
+@group-expander_horizontal-offset_filterViewPanel:                          @offset_2xs;
 @group-marker_size_filterViewPanel:                                         8px;
-@group-marker_color_filterViewPanel:                                        #349CEE;
+@group-marker_color_filterViewPanel:                                        @marker_color;
 @group_height_filterViewPanel:                                              18px;
 
 //ListEditor
@@ -46,5 +47,8 @@
 @item_color_filterViewPanel:                                                @unaccented_color;
 @item_padding-left_filterViewPanel:                                         @offset_2xs;
 @item-additional-column_color_filterViewPanel:                              @label_text-color;
+
+//ToggleEditor
+@toggle-tumbler_margin-left_filterViewPanel:                                -@offset_3xs;
 
 // Переменные для текста элементов

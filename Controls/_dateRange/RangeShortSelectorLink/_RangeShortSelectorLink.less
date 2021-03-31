@@ -2,11 +2,12 @@
    display: inline-block;
    .user-select();
    white-space: nowrap;
+   max-width: 100%;
 }
 
-.controls-RangeShortSelectorLink_theme-@{themeName} {
-   height: @height_rangeShortSelectorLink;
-   line-height: @height_rangeShortSelectorLink;
+.controls-RangeShortSelectorLink {
+   height: var(--height_rangeShortSelectorLink);
+   line-height: var(--height_rangeShortSelectorLink);
 }
 
 .controls-RangeShortSelectorLink-wrapper {
@@ -17,17 +18,19 @@
    justify-content: center;
 }
 
-.controls-RangeShortSelectorLink__clear_theme-@{themeName} {
-   color: @reset-button_icon-color_dateRangeSelector;
-   width: @arrow_width_dateRangeSelector;
+.controls-RangeShortSelectorLink__clear {
+   cursor: pointer;
+   text-align: center;
+   color: var(--reset-button_icon-color_dateRangeSelector);
+   width: var(--arrow_width_dateRangeSelector);
 }
 
-.controls-RangeShortSelectorLink__arrow-next_theme-@{themeName} {
-   margin-left: @yearselector_arrow-next_margin_shortDatePicker;
+.controls-RangeShortSelectorLink__arrow-next {
+   margin-left: var(--yearselector_arrow-next_margin_shortDatePicker);
 }
 
-.controls-RangeShortSelectorLink__arrow-prev_theme-@{themeName} {
-   margin-left: @yearselector_arrow-prev_margin_shortDatePicker;
+.controls-RangeShortSelectorLink__arrow-prev {
+   margin-left: var(--yearselector_arrow-prev_margin_shortDatePicker);
 }
 
 .controls-RangeShortSelectorLink__prev,
@@ -36,11 +39,11 @@
    text-align: center;
 }
 
-.controls-RangeShortSelectorLink__style-readOnly_theme-@{themeName} {
-   color: @text-color;
+.controls-RangeShortSelectorLink__style-readOnly {
+   color: var(--text-color);
 }
 
-.controls-RangeShortSelectorLink__style-clickable_theme-@{themeName} {
+.controls-RangeShortSelectorLink__style-clickable {
    cursor: pointer;
 }
 
@@ -48,8 +51,8 @@
    .controls-RangeShortSelectorLink__value-hovered:hover {
       text-decoration: underline;
    }
-   .controls-RangeShortSelectorLink__style-hover_theme-@{themeName}:hover {
-      color: @link_hover_text-color;
+   .controls-RangeShortSelectorLink__style-hover:hover {
+      color: var(--link_hover_text-color);
    }
 }
 
@@ -62,17 +65,17 @@
    flex-grow: 1;
    text-align: center;
    height: 100%;
+   min-width: 0;
 }
 
-.controls-RangeShortSelectorLink__value-wrapper-minWidth_theme-@{themeName} {
-   min-width: @min-width_dateRangeSelector;
+.controls-RangeShortSelectorLink__value-wrapper-minWidth {
+   min-width: var(--min-width_dateRangeSelector);
 }
 
-.controls-RangeShortSelectorLink__value_theme-@{themeName} {
-   font-weight: @font-weight_dateRangeSelector;
+.controls-RangeShortSelectorLink__value {
+   font-weight: var(--font-weight_dateRangeSelector);
 }
 
-.controls-RangeShortSelectorLink__clear {
-   cursor: pointer;
-   text-align: center;
+.controls-RangeShortSelectorLink__value-viewMode-link {
+   max-width: 100%;
 }

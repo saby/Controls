@@ -3,6 +3,7 @@ import * as Template from 'wml!Controls-demo/filterPanel/FilterView/Index';
 import {isEqual} from 'Types/object';
 import {Memory} from 'Types/source';
 import {departments} from 'Controls-demo/filterPanel/resources/DataStorage';
+import {RecordSet} from 'Types/collection';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -56,6 +57,29 @@ export default class extends Control {
                     source: new Memory({
                         data: this._filterItems,
                         keyProperty: 'owner'
+                    })
+                }
+            }, {
+                group: 'Пол',
+                name: 'gender',
+                resetValue: '1',
+                caption: '',
+                value: '1',
+                textValue: 'Мужской',
+                editorTemplateName: 'Controls/filterPanel:TumblerEditor',
+                editorOptions: {
+                    items: new RecordSet({
+                        rawData: [
+                            {
+                                id: '1',
+                                caption: 'Мужской'
+                            },
+                            {
+                                id: '2',
+                                caption: 'Женский'
+                            }
+                        ],
+                        keyProperty: 'id'
                     })
                 }
             }

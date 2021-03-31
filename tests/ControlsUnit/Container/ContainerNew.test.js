@@ -1,12 +1,12 @@
 define(
    [
       'Env/Env',
-      'Controls/scroll',
+      'Controls/_scroll/Container',
       'ControlsUnit/Calendar/Utils',
       'wml!ControlsUnit/Container/resources/Content',
       'Controls/_scroll/Container/PagingModel'
    ],
-   function(Env, scrollMod, utils, Content, PagingModel) {
+   function(Env, ScrollContainer, utils, Content, PagingModel) {
       'use strict';
 
       describe('Controls.Container.Scroll', function() {
@@ -17,8 +17,8 @@ define(
             event = {
                stopImmediatePropagation: sinon.fake()
             };
-            scroll = new scrollMod.Container(scrollMod.Container.getDefaultOptions());
-            scroll._options = scrollMod.Container.getDefaultOptions();
+            scroll = new ScrollContainer.default(ScrollContainer.default.getDefaultOptions());
+            scroll._options = ScrollContainer.default.getDefaultOptions();
 
             var templateFn = scroll._template;
 
@@ -68,9 +68,6 @@ define(
                top: 'auto',
                bottom: 'auto'
             };
-            scroll._stickyHeaderContext = {
-               updateConsumers: function() { }
-            };
 
             scroll._isMounted = true;
 
@@ -110,6 +107,9 @@ define(
                   let result;
 
                   scroll._scrollbars = {
+                     vertical: {
+                        isVisible: () => false
+                     },
                      setOffsets() {}
                   };
                   scroll._shadows = {
@@ -117,10 +117,11 @@ define(
                         result = res;
                      },
                      top: {
-                        isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })
+                        getStickyHeadersShadowsVisibility: sinon.stub().returns({ then: () => 'auto' }),
+                        getVisibilityByInnerComponents: () => false
                      },
                      bottom: {
-                        isStickyHeadersShadowsEnabled: sinon.stub().returns({ then: () => undefined })
+                        getStickyHeadersShadowsVisibility: sinon.stub().returns({ then: () => 'auto' })
                      }
                   };
                   scroll._stickyFixedHandler({}, {});

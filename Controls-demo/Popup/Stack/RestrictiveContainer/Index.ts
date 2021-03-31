@@ -20,12 +20,12 @@ class RestrictiveContainer extends Control<IControlOptions> {
     }
 
     protected _openStackHandler(event: Event, isInsideRestrictive: boolean): void {
-        this._stackOpener.open(baseStackConfig);
+        const cfg = {...baseStackConfig, ...{restrictiveContainer: '.ControlsDemo-Popup-Stack_restrictiveContainer'}};
+        this._stackOpener.open(cfg);
     }
 
     protected _openRestrictiveStackHandler(): void {
-        const config = {...baseStackConfig, ...{restrictiveContainer: '.ControlsDemo-Popup-Stack__globalContainer'}};
-        this._stackOpener.open(config);
+        this._stackOpener.open(baseStackConfig);
     }
 }
 export default RestrictiveContainer;

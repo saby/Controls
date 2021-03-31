@@ -5,7 +5,10 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {IControlOptions, TemplateFunction} from 'UI/Base';
 import {IFilterItem} from 'Controls/filter';
 import * as clone from 'Core/core-clone';
+import {IItemPadding} from 'Controls/display';
 import rk = require('i18n!Controls');
+import {isEqual} from 'Types/object';
+import 'css!Controls/filterPanel';
 
 /**
  * Контрол "Панель фильтра с набираемыми параметрами".
@@ -20,7 +23,7 @@ import rk = require('i18n!Controls');
 /**
  * @typedef {Object} FilterPanelSource
  * @property {String} name Имя фильтра.
- * @property {String} group Имя Группг.
+ * @property {String} group Имя группы.
  * @property {*} value Текущее значение фильтра.
  * @property {*} resetValue Значение фильтра по умолчанию.
  * @property {String} textValue Текстовое значение фильтра. Используется для отображения текста при закрытии группы.
@@ -47,6 +50,7 @@ import rk = require('i18n!Controls');
 interface IViewPanelOptions {
     source: IFilterItem[];
     applyButtonCaption: string;
+    collapsedGroups: string[]|number[];
 }
 
 export default class View extends Control<IControlOptions> {
@@ -54,18 +58,28 @@ export default class View extends Control<IControlOptions> {
     protected _source: IFilterItem[] = null;
     protected _editingObject: object = {};
     protected _groupItems: object = {};
-    protected _collapsedGroups: unknown[] = [];
+    protected _collapsedGroups: string[]|number[] = [];
     protected _resetCaption: string = rk('все');
+    protected _filterReseted: boolean = true;
+    protected _itemPadding: IItemPadding = {
+        bottom: 'null'
+    };
 
     protected _beforeMount(options: IViewPanelOptions): void {
-        this._source = clone(options.source);
+        this._setSource(options.source);
         this._updateFilterParams();
+        if (options.collapsedGroups) {
+            this._collapsedGroups = options.collapsedGroups;
+        }
     }
 
     protected _beforeUpdate(newOptions: IViewPanelOptions): void {
         if (this._options.source !== newOptions.source) {
-            this._source = clone(newOptions.source);
+            this._setSource(newOptions.source);
             this._updateFilterParams();
+        }
+        if (this._options.collapsedGroups !== newOptions.collapsedGroups) {
+            this._collapsedGroups = newOptions.collapsedGroups;
         }
     }
 
@@ -73,6 +87,7 @@ export default class View extends Control<IControlOptions> {
         FilterUtils.resetFilter(this._source);
         this._collapsedGroups = [];
         this._updateFilterParams();
+        this._setSource(this._source);
         this._notifyChanges();
     }
 
@@ -91,18 +106,28 @@ export default class View extends Control<IControlOptions> {
 
     protected _groupClick(event: SyntheticEvent, displayItem: unknown, clickEvent: SyntheticEvent<MouseEvent>): void {
         const itemContents = displayItem.getContents();
-        if (this._collapsedGroups.length && (displayItem.isExpanded() || this._collapsedGroups.includes(itemContents))) {
+        const isResetClick = clickEvent?.target.closest('.controls-FilterViewPanel__groupReset');
+        if (this._collapsedGroups.length && this._collapsedGroups.includes(itemContents)) {
             this._collapsedGroups = this._collapsedGroups.filter((item) => itemContents !== item);
-        } else {
+        } else if (!isResetClick) {
             this._collapsedGroups = this._collapsedGroups.concat(itemContents);
         }
-        const isResetClick = clickEvent?.target.closest('.controls-FilterViewPanel__groupReset');
-        const isGroupTitleClick = clickEvent?.target.closest('.controls-FilterViewPanel__group');
         if (isResetClick) {
             this._resetFilterItem(displayItem);
-        } else if (isGroupTitleClick) {
+        } else {
             displayItem.toggleExpanded();
         }
+        this._notify('collapsedGroupsChanged', [this._collapsedGroups]);
+    }
+
+    private _isFilterReseted(): boolean {
+        return !this._source.some((item) => {
+            return !isEqual(item.value, item.resetValue);
+        });
+    }
+
+    private _setSource(source: IFilterItem[]): void {
+        this._source = clone(source);
     }
 
     private _resetFilterItem(item: unknown): void {
@@ -113,6 +138,7 @@ export default class View extends Control<IControlOptions> {
                 item.textValue = null;
             }
         });
+        this._setSource(this._source);
         this._updateFilterParams();
         this._notifyChanges();
     }
@@ -120,8 +146,10 @@ export default class View extends Control<IControlOptions> {
     private _updateSource(editingObject: object): void {
         this._source.forEach((item) => {
             const editingItem = editingObject[item.name];
-            item.value = editingItem?.value || editingItem;
-            item.textValue = editingItem?.textValue || editingItem;
+            item.value = editingItem?.value === undefined ? editingItem : editingItem?.value;
+            if (editingItem.textValue !== undefined) {
+                item.textValue = editingItem.textValue;
+            }
             if (editingItem?.needColapse) {
                 this._colapseGroup(item.group);
             }
@@ -137,6 +165,7 @@ export default class View extends Control<IControlOptions> {
             this._setEditingParam(item.name, item.value);
             this._setGroupItem(item.group, item.textValue, item.editorOptions?.afterEditorTemplate);
         });
+        this._filterReseted = this._isFilterReseted();
     }
 
     private _setEditingParam(paramName: string, value: unknown): void {
@@ -152,6 +181,4 @@ export default class View extends Control<IControlOptions> {
         this._notify('filterChanged', [this._editingObject]);
         this._notify('sourceChanged', [this._source]);
     }
-
-    static _theme: string[] = ['Controls/filterPanel', 'Controls/Classes'];
 }

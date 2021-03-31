@@ -151,6 +151,11 @@ var
         },
 
         shouldDrawExpander(itemData, tmplExpanderIcon): boolean {
+            // Шаблонизатор вызывает в dirtyCheckingVars все подряд, даже то, что под условием if(false).
+            // В новых моделях такой код не нужен, там шаблон вынесен
+            if (itemData.breadCrumbs || itemData.dispItem['[Controls/_display/SearchSeparator]']) {
+                return false;
+            }
             const expanderIcon = itemData.getExpanderIcon(tmplExpanderIcon);
 
             // Hide expander icon if it is equal 'none' or render leafs
@@ -163,6 +168,11 @@ var
             return (itemData.expanderVisibility !== 'hasChildren' || itemData.thereIsChildItem && itemData.hasChildItem);
         },
         shouldDrawExpanderPadding(itemData, tmplExpanderIcon, tmplExpanderSize): boolean {
+            // Шаблонизатор вызывает в dirtyCheckingVars все подряд, даже то, что под условием if(false).
+            // В новых моделях такой код не нужен, там шаблон вынесен
+            if (itemData.breadCrumbs || itemData.dispItem['[Controls/_display/SearchSeparator]']) {
+                return false;
+            }
             const expanderIcon = itemData.getExpanderIcon(tmplExpanderIcon);
             const expanderPosition = itemData.getExpanderPosition();
             const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
@@ -174,12 +184,22 @@ var
             }
         },
         getExpanderPaddingClasses(itemData, tmplExpanderSize, isNodeFooter): string {
+            // Шаблонизатор вызывает в dirtyCheckingVars все подряд, даже то, что под условием if(false).
+            // В новых моделях такой код не нужен, там шаблон вынесен
+            if (itemData.breadCrumbs || (itemData.dispItem && itemData.dispItem['[Controls/_display/SearchSeparator]'])) {
+                return '';
+            }
             const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
             let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__${isNodeFooter ? 'node-footer' : 'row'}-expanderPadding` + `_theme-${itemData.theme}`;
             expanderPaddingClasses += ' controls-TreeGrid__row-expanderPadding_size_' + (expanderSize || 'default') + `_theme-${itemData.theme}`;
             return expanderPaddingClasses;
         },
         getExpanderClasses(itemData, tmplExpanderIcon, tmplExpanderSize): string {
+            // Шаблонизатор вызывает в dirtyCheckingVars все подряд, даже то, что под условием if(false).
+            // В новых моделях такой код не нужен, там шаблон вынесен
+            if (itemData.breadCrumbs || (itemData.dispItem && itemData.dispItem['[Controls/_display/SearchSeparator]'])) {
+                return '';
+            }
             const expanderIcon = itemData.getExpanderIcon(tmplExpanderIcon);
             const expanderSize = itemData.getExpanderSize(tmplExpanderSize);
             const expanderPosition = itemData.getExpanderPosition();
@@ -188,11 +208,11 @@ var
             const style = itemData.style || 'default';
             const itemType = itemData.item.get(itemData.nodeProperty);
 
-            let expanderClasses = `controls-TreeGrid__row-expander_theme-${theme}`;
+            let expanderClasses = `js-controls-Tree__row-expander controls-TreeGrid__row-expander_theme-${theme}`;
             let expanderIconClass = '';
 
             let expanderIconStyle = itemData.style;
-            if (expanderPosition !== 'right') {
+            if (expanderPosition === 'default') {
                 expanderClasses += ` controls-TreeGrid__row_${style}-expander_size_${(expanderSize || 'default')}_theme-${theme} `;
             } else {
                 expanderClasses += ` controls-TreeGrid__row_expander_position_right_theme-${theme} `;
@@ -481,16 +501,24 @@ var
             if (!isEqual(this._expandedItems, expandedItems)) {
                 this._expandedItems = expandedItems ? cClone(expandedItems) : [];
                 this._collapsedItems = _private.prepareCollapsedItems(expandedItems, this._options.collapsedItems);
-                this._display.setFilter(this.getDisplayFilter(this.prepareDisplayFilterData(), this._options));
-                this._nextModelVersion();
+
+                // Если модель создалась без элементов, проекция для такой модели не создается, однако опции по прежнему могут меняться
+                if (this._display) {
+                    this._display.setFilter(this.getDisplayFilter(this.prepareDisplayFilterData(), this._options));
+                    this._nextModelVersion();
+                }
             }
         },
 
         setCollapsedItems: function(collapsedItems: Array<unknown>) {
             if (!isEqual(this._collapsedItems, collapsedItems)) {
                 this._collapsedItems = _private.prepareCollapsedItems(this._options.expandedItems, collapsedItems ? collapsedItems : []);
-                this._display.setFilter(this.getDisplayFilter(this.prepareDisplayFilterData(), this._options));
-                this._nextModelVersion();
+
+                // Если модель создалась без элементов, проекция для такой модели не создается, однако опции по прежнему могут меняться
+                if (this._display) {
+                    this._display.setFilter(this.getDisplayFilter(this.prepareDisplayFilterData(), this._options));
+                    this._nextModelVersion();
+                }
             }
         },
 
@@ -677,8 +705,6 @@ var
             current.thereIsChildItem = this._thereIsChildItem;
             current.hasChildItem = !current.isGroup && _private.hasChildItem(this, current.key);
 
-            // todo https://online.sbis.ru/opendoc.html?guid=0649e69a-d507-4024-9f99-c70205f535ef
-            current.expanderTemplate = this._options.expanderTemplate;
             current.footerContentTemplate = this._options.footerContentTemplate;
 
             if (current.item && current.item.get) {
@@ -840,8 +866,16 @@ var
                 this._options.hasChildrenProperty = hasChildrenProperty;
             }
         },
-        getChildren: function(rootId, items) {
-            return this._hierarchyRelation.getChildren(rootId, items || this._items);
+        getChildren: function(root, withFilter, items) {
+            const contents = root.getContents();
+            const rootId = contents instanceof Array ? contents[contents.length - 1].getKey() : contents.getKey();
+            const childrenRecords = this._hierarchyRelation.getChildren(rootId, items || this._items);
+            return childrenRecords.map((it) => {
+                const display = this.getDisplay();
+                return display.createItem({
+                    contents: it
+                });
+            });
         },
         thereIsChildItem(): boolean {
             return this._thereIsChildItem;

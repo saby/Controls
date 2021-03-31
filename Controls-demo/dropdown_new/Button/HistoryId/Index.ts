@@ -1,7 +1,7 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls-demo/dropdown_new/Button/HistoryId/Index');
 import {Memory} from 'Types/source';
-import {getItems} from './Utils';
+import {getItems, overrideOrigSourceMethod} from './Utils';
 
 class HeaderContentTemplate extends Control {
     protected _template: TemplateFunction = controlTemplate;
@@ -12,6 +12,10 @@ class HeaderContentTemplate extends Control {
             keyProperty: 'key',
             data: getItems()
         });
+    }
+
+    protected _afterMount(): void {
+        overrideOrigSourceMethod();
     }
 
     static _theme: string[] = ['Controls/Classes'];

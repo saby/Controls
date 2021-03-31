@@ -1,4 +1,4 @@
-import StringValueConverter = require('Controls/_input/DateTime/StringValueConverter');
+import StringValueConverter from 'Controls/_input/DateTime/StringValueConverter';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import ViewModel = require('Controls/_input/Mask/ViewModel');
 

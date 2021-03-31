@@ -6,8 +6,7 @@ import {
     GridHeaderCell,
     TColspanCallback
 } from 'Controls/gridNew';
-import { IColumn } from 'Controls/_grid/interface/IColumn';
-import { THeader } from 'Controls/_grid/interface/IHeaderCell';
+import { IColumn, THeader } from 'Controls/interface';
 
 describe('Controls/display:HeaderCell', () => {
     describe('align and valign', () => {

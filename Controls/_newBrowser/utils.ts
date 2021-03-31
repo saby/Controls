@@ -1,7 +1,7 @@
 import {RecordSet} from 'Types/collection';
+import {IDetailOptions, IMasterOptions, IOptions} from 'Controls/newBrowser';
+import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions';
 import {IBrowserViewConfig, ImageGradient, ImageViewMode} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
-import {IOptions} from 'Controls/_newBrowser/interfaces/IOptions';
-import {ISourceOptions} from 'Controls/_newBrowser/interfaces/ISourceOptions';
 
 /**
  * Из метаданных RecordSet возвращает конфигурацию отображения списка
@@ -12,22 +12,39 @@ export function getListConfiguration(items: RecordSet): IBrowserViewConfig {
     return meta.listConfiguration || meta.results?.get('ConfigurationTemplate');
 }
 
-/**
- * На основании переданных опиций собирает полный набор ISourceOptions для master- или detail-колонки
- */
-export function compileSourceOptions(options: IOptions, forDetail: boolean): ISourceOptions {
-    const specific = forDetail ? options.detail : options.master;
+export function buildDetailOptions(options: IOptions): IExplorerOptions {
+    const detail = options.detail as IDetailOptions;
 
     return {
-        root: specific.root || (!forDetail ? options.masterRoot : null) || options.root,
-        filter: specific.filter || options.filter,
-        source: specific.source || options.source,
-        columns: specific.columns || options.columns,
-        keyProperty: specific.keyProperty || options.keyProperty,
-        nodeProperty: specific.nodeProperty || options.nodeProperty,
-        parentProperty: specific.parentProperty || options.parentProperty,
-        displayProperty: specific.displayProperty || options.displayProperty,
-        hasChildrenProperty: specific.hasChildrenProperty || options.hasChildrenProperty
+        ...detail,
+
+        root: options.root,
+        filter: options.filter,
+        searchValue: options.searchValue,
+
+        source: detail.source || options.source,
+        keyProperty: detail.keyProperty || options.keyProperty,
+        nodeProperty: detail.nodeProperty || options.nodeProperty,
+        parentProperty: detail.parentProperty || options.parentProperty,
+        displayProperty: detail.displayProperty || options.displayProperty,
+        hasChildrenProperty: detail.hasChildrenProperty || options.hasChildrenProperty
+    };
+}
+
+export function buildMasterOptions(options: IOptions): IExplorerOptions {
+    const master = options.master as IMasterOptions;
+
+    return {
+        ...options.master,
+
+        root: options.masterRoot === undefined ? options.root : options.masterRoot,
+
+        source: master.source || options.source,
+        keyProperty: master.keyProperty || options.keyProperty,
+        nodeProperty: master.nodeProperty || options.nodeProperty,
+        parentProperty: master.parentProperty || options.parentProperty,
+        displayProperty: master.displayProperty || options.displayProperty,
+        hasChildrenProperty: master.hasChildrenProperty || options.hasChildrenProperty
     };
 }
 

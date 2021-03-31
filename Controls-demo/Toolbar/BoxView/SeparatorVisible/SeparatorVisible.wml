@@ -1,0 +1,20 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo__cell controlsDemo__flexColumn" style="align-items: flex-start">
+        <span>separatorVisible="true"</span>
+        <Controls.toolbars:BoxView
+                name="myToolbarBox"
+                source="{{ _defaultSource }}"
+                separatorVisible="{{ true }}"
+                itemTemplateProperty="myTemplate"
+        />
+    </div>
+    <div class="controlsDemo__cell controlsDemo__flexColumn" style="align-items: flex-start">
+        <span>separatorVisible="false"</span>
+        <Controls.toolbars:BoxView
+                name="myToolbarBox"
+                source="{{ _defaultSource }}"
+                separatorVisible="{{ false }}"
+                itemTemplateProperty="myTemplate"
+        />
+    </div>
+</div>

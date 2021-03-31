@@ -13,16 +13,16 @@ const POPUP_CONTROLLER = 'Controls/popupTemplate:DialogController';
 /**
  * Контрол, открывающий диалог подтверждения. Диалог позиционируется в центре экрана, а также блокирует работу
  * пользователя с родительским приложением.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FConfirmation%2FConfirmation демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/confirmation/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
- * 
+ *
  * @extends Controls/_popup/Opener/BaseOpener
  * @implements Controls/popup:IConfirmationFooter
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Confirmation/Confirmation
@@ -75,10 +75,12 @@ class Confirmation extends Control<IControlOptions> implements IConfirmationOpen
 
     static openPopup(templateOptions: IConfirmationOptions,
                      opener?: Control<IControlOptions, unknown>): Promise<boolean | undefined> {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             const config: IConfirmationOpenerOptions = Confirmation._getConfig(templateOptions, resolve, opener);
             return BaseOpener.requireModules(config, POPUP_CONTROLLER).then((result: ILoadDependencies) => {
                 BaseOpener.showDialog(result.template, config, result.controller);
+            }).catch((error: RequireError) => {
+                reject(error);
             });
         });
     }

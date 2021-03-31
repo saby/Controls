@@ -25,7 +25,7 @@
             markedKey="{{ _options.markedKey }}"
             on:markedKeyChanged="_onMarkedKeyChanged()"
             >
-            <ws:virtualScrollConfig pageSize="{{_virtualPageSize}}"/>
+            <ws:virtualScrollConfig pageSize="{{_virtualPageSize}}" segmentSize="{{ _options.segmentSize }}"/>
             <ws:itemPadding left="null" right="null" bottom="null" top="null"/>
             <ws:navigation source="position" view="infinity">
                <ws:sourceConfig limit="{{_options._limit}}" position="{{_startPositionId}}" direction="bothways" field="id"></ws:sourceConfig>

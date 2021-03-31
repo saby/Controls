@@ -161,14 +161,16 @@ export class Controller {
     * @param {boolean} [byEveryItem = true] true - проверять выбранность каждого элемента по отдельности.
     *  false - проверка происходит по наличию единого признака выбранности всех элементов.
     * @param {ISelection} selection Список выбранных записей, по которому посчитаем признак isAllSelected.
+    * @param {CrudEntityKey} rootId Корень, в котором считать признак isAllSelected.
     * @return {ISelection}
     */
-   isAllSelected(byEveryItem: boolean = true, selection?: ISelection): boolean {
+   isAllSelected(byEveryItem: boolean = true, selection?: ISelection, rootId?: CrudEntityKey): boolean {
       return this._strategy.isAllSelected(
          selection || this._selection,
          this._model.getHasMoreData(),
          this._model.getCount(),
-         byEveryItem
+         byEveryItem,
+         rootId
       );
    }
 

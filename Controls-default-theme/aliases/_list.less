@@ -2,8 +2,8 @@
 //
 // Иконка
 
-@icon_background-image_listAddButton:                               url('../../Controls-default-theme/img/AddButtonEnable.svg');
-@readonly_icon_background-image_listAddButton:                      url('../../Controls-default-theme/img/AddButtonDisable.svg');
+@icon_background-image_listAddButton:                               url('../img/AddButtonEnable.svg');
+@readonly_icon_background-image_listAddButton:                      url('../img/AddButtonDisable.svg');
 @icon-size_listAddButton:                                           8px;
 @icon_offset_listAddButton:                                         @offset_2xs;
 
@@ -77,11 +77,13 @@
 
 // Перемещение записей
 @item_dragging_opacity_list:                                        0.6;
-@item_dragging_box-shadow_list:                                     5px 0 0 white, -5px 0 0 white, 0 3px 5px #e0e0e0, 0 -3px 5px #e0e0e0;
+@item_dragging_shadow-height_list:                                  3px;
+@item_dragging_shadow-color_list:                                   #e0e0e0;
+@item_dragging_shadow-spread_list:                                  4px;
 @item_dragging_counter_border-radius_list:                          @item_dragging_counter_height_list / 2;
 @item_dragging_counter_height_list:                                 20px;
-@item_dragging_counter_right_list:                                  @item_dragging_counter_height_list / 4;
-@item_dragging_counter_top_list:                                    @item_dragging_counter_height_list / 4;
+@item_dragging_counter_right_list:                                  4px;
+@item_dragging_counter_top_list:                                    4px;
 @item_dragging_counter_padding_list:                                0 6px;
 @item_dragging_counter_font-size_list:                              14px;
 @item_dragging_counter_background-color_list:                       @counter_background-color_draggingTemplate;

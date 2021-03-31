@@ -35,42 +35,41 @@
                     caption="Хлебные крошки во всю строку (когда нет скролла колонок)"/>
         </div>
     </div>
-    <Controls.list:DataContainer
+    <Controls.browser:Browser
             attr:class="controlsDemo__margin-top"
             source="{{ _isBigData ? _viewSource2 : _viewSource1 }}"
             keyProperty="id"
+            searchParam="title" minSearchLength="{{ 3 }}"
+            searchStartingWith="{{ _searchStartingWith }}"
             bind:filter="_filter">
-        <Controls.search:Controller searchParam="title" minSearchLength="{{ 3 }}"
-                                    searchStartingWith="{{ _searchStartingWith }}">
-            <div class="ws-fragment">
-                <Controls.search:InputContainer>
-                    <Controls.search:Input/>
-                </Controls.search:InputContainer>
-                <Controls.list:Container>
-                    <Controls.scroll:Container attr:style="width: 650px; height: 500px">
-                        <Controls.explorer:View
-                                name="explorer"
-                                attr:class="demo-Explorer ControlsDemo-Explorer"
-                                header="{{ _header }}"
-                                columns="{{ _isBigData ? _columns2 : _columns1 }}"
-                                parentProperty="parent"
-                                nodeProperty="parent@"
-                                bind:root="_root"
-                                rowSeparatorSize="s"
-                                columnSeparatorSize="s"
-                                multiSelectVisibility="{{ _hasMultiSelect ? 'visible' : 'hidden'}}"
-                                columnScroll="{{ true }}"
-                                stickyColumnsCount="{{ _isStickyColumnsCount + 1 }}"
-                                columnScrollStartPosition="end">
-                            <ws:searchBreadCrumbsItemTemplate>
-                                <ws:partial template="Controls/treeGrid:SearchBreadCrumbsItemTemplate"
-                                            colspan="{{ _canSetConfig ? _colspanBreadcrumbs : undefined }}"/>
-                            </ws:searchBreadCrumbsItemTemplate>
-                        </Controls.explorer:View>
-                    </Controls.scroll:Container>
-                </Controls.list:Container>
-            </div>
-        </Controls.search:Controller>
-    </Controls.list:DataContainer>
+        <div class="ws-fragment">
+            <Controls.search:InputContainer>
+                <Controls.search:Input/>
+            </Controls.search:InputContainer>
+            <Controls.list:Container>
+                <Controls.scroll:Container attr:style="width: 650px; height: 500px">
+                    <Controls.explorer:View
+                            name="explorer"
+                            attr:class="demo-Explorer ControlsDemo-Explorer"
+                            header="{{ _header }}"
+                            columns="{{ _isBigData ? _columns2 : _columns1 }}"
+                            parentProperty="parent"
+                            nodeProperty="parent@"
+                            bind:root="_root"
+                            rowSeparatorSize="s"
+                            columnSeparatorSize="s"
+                            multiSelectVisibility="{{ _hasMultiSelect ? 'visible' : 'hidden'}}"
+                            columnScroll="{{ true }}"
+                            stickyColumnsCount="{{ _isStickyColumnsCount + 1 }}"
+                            columnScrollStartPosition="end">
+                        <ws:searchBreadCrumbsItemTemplate>
+                            <ws:partial template="Controls/treeGridOld:SearchBreadCrumbsItemTemplate"
+                                        colspan="{{ _canSetConfig ? _colspanBreadcrumbs : undefined }}"/>
+                        </ws:searchBreadCrumbsItemTemplate>
+                    </Controls.explorer:View>
+                </Controls.scroll:Container>
+            </Controls.list:Container>
+        </div>
+    </Controls.browser:Browser>
 </div>
 

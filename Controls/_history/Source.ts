@@ -28,6 +28,7 @@ interface IHistoryData {
 }
 
 const HISTORY_META_FIELDS: string[] = ['$_favorite', '$_pinned', '$_history', '$_addFromData'];
+const HISTORY_UPDATE_RECENT_DELAY = 50;
 
 /**
  * Источник, который возвращает из исходного источника отсортированные данные с учётом истории.
@@ -36,7 +37,7 @@ const HISTORY_META_FIELDS: string[] = ['$_favorite', '$_pinned', '$_history', '$
  * @mixes Types/_entity/OptionsToPropertyMixin
  * @public
  * @author Герасимов А.М.
- * 
+ *
  * @example
  * <pre class="brush: js">
  *    var source = new history.Source({
@@ -58,7 +59,7 @@ const HISTORY_META_FIELDS: string[] = ['$_favorite', '$_pinned', '$_history', '$
  * @class Controls/_history/Source
  * @extends Core/core-extend
  * @mixes Types/_entity/OptionsToPropertyMixin
- * 
+ *
  * @public
  * @author Герасимов А.М.
  * @example
@@ -221,10 +222,14 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
     }
 
     private _resetHistoryFields(item: Model, keyProperty: string): Model {
-        const origItem = item.clone();
-        origItem.removeField('copyOriginalId');
-        origItem.setKeyProperty(keyProperty);
-        return origItem;
+        if (item.has('copyOriginalId')) {
+            const origItem = item.clone();
+            origItem.removeField('copyOriginalId');
+            origItem.setKeyProperty(keyProperty);
+            return origItem;
+        } else {
+            return item;
+        }
     }
 
     _prepareHistoryItem(item: Model, historyType: string): void {
@@ -454,30 +459,34 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
     }
 
     private _updateRecent(data: any, meta: any): Promise<any> {
-        let historyData;
-        let recentData;
+        return new Promise((resolve, re) => {
+            setTimeout(() => {
+                let historyData;
+                let recentData;
 
-        if (data instanceof Array) {
-            historyData = {
-                ids: []
-            };
-            factory(data).each((item: Model): void => {
-                const itemId = item.get(this._getKeyProperty());
-                historyData.ids.push(itemId);
-            });
-            recentData = data;
-        } else {
-            historyData = data;
-            recentData = [data];
-        }
+                if (data instanceof Array) {
+                    historyData = {
+                        ids: []
+                    };
+                    factory(data).each((item: Model): void => {
+                        const itemId = item.get(this._getKeyProperty());
+                        historyData.ids.push(itemId);
+                    });
+                    recentData = data;
+                } else {
+                    historyData = data;
+                    recentData = [data];
+                }
 
-        this._resolveRecent(recentData);
-        if (this._$historyItems && !this._updateRecentInItems(recentData)) {
-            this._$historyItems = null;
-        }
+                this._resolveRecent(recentData);
+                if (this._$historyItems && !this._updateRecentInItems(recentData)) {
+                    this._$historyItems = null;
+                }
 
-        this._$historySource.saveHistory(this._$historySource.getHistoryId(), this._$history);
-        return this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(historyData, meta);
+                this._$historySource.saveHistory(this._$historySource.getHistoryId(), this._$history);
+                resolve(this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(historyData, meta));
+            }, HISTORY_UPDATE_RECENT_DELAY);
+        });
     }
 
     private _updateRecentInItems(recent: Model[]): boolean {
@@ -567,7 +576,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
             return Promise.resolve(this._updatePinned(data, meta));
         }
         if (meta.hasOwnProperty('$_history')) {
-            return Promise.resolve(this._updateRecent(data, meta));
+            return Promise.resolve(this._updateRecent(data, meta).catch(() => {}));
         }
         return this._getSourceByMeta(meta, this._$historySource, this._$originSource).update(data, meta);
     }
@@ -606,7 +615,8 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
 
                 // method returns error
                 if (!isCancelled && data[1] && !this._isError(data[1])) {
-                    this._$oldItems = data[1].getAll();
+                    // PrefetchProxy returns RecordSet
+                    this._$oldItems = data[1].getAll ? data[1].getAll() : data[1];
 
                     // history service returns error
                     if (data[0] && !this._isError(data[0])) {
@@ -666,8 +676,11 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
     setHistory(history: IHistoryData): void {
         this._$history = history;
     }
-}
 
+    getKeyProperty(): string {
+        return this._getKeyProperty();
+    }
+}
 
 /**
  * @name Controls/_history/Source#originSource
@@ -684,6 +697,20 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
  * @default true
  * @cfg {Boolean} Флаг, определяющий будет ли снят пин с записи, которой нет в данных
  */
+
+/**
+ * @name Controls/_history/Source#pinned
+ * @cfg {String[]} Массив ключей элементов, которые по умолчанию должны быть запинены.
+ * @example
+ * <pre class="brush: js">
+ *    this._source = new HistorySource({
+ *       originSource: ...,
+ *       historySource: new HistoryService(),
+ *       pinned: ['1', '2', '3']
+ *    });
+ * </pre>
+ */
+
 /*
  * @name Controls/_history/Source#historySource
  * @cfg {Source} A source which work with history

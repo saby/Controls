@@ -5,6 +5,7 @@ import template = require('wml!Controls/_breadcrumbs/Path/Path');
 import {IBreadCrumbsOptions} from './interface/IBreadCrumbs';
 import {loadFontWidthConstants, getFontWidth} from 'Controls/Utils/getFontWidth';
 import {Record} from 'Types/entity';
+import 'css!Controls/breadcrumbs';
 
 interface IReceivedState {
     items: Record[];
@@ -56,35 +57,36 @@ class BreadCrumbs extends Control<IBreadCrumbsOptions> {
         contexts?: object,
         receivedState?: IReceivedState
     ): Promise<IReceivedState> | void {
-        if (options.items && options.items.length > 0) {
-            if (!options.containerWidth) {
+        const hasItems: boolean = options.items && options.items.length > 0;
+        if (!options.containerWidth) {
+            if (hasItems) {
                 this._visibleItems = PrepareDataUtil.drawBreadCrumbsItems(options.items);
-            } else {
-                /*
-                 * Утилиту PrepareDataUtil для основных преобразований крошек грузим всегда.
-                 * Утилиту для расчета ширины только тогда, когда нам передают containerWidth
-                 */
-                const arrPromise = [import('Controls/_breadcrumbs/Utils')];
-                if (!receivedState) {
-                    arrPromise.push(loadFontWidthConstants());
-                }
-                return Promise.all(arrPromise).then((res) => {
-                    this.calculateBreadcrumbsUtil = res[0].default;
-                    this._arrowWidth = res[0].ARROW_WIDTH;
-                    this._paddingRight = res[0].PADDING_RIGHT;
-                    if (receivedState) {
-                        this._dotsWidth = this._getDotsWidth(options.fontSize);
-                        this._prepareData(options, options.containerWidth);
-                    } else {
-                        const getTextWidth = res[1];
-                        this._dotsWidth = this._getDotsWidth(options.fontSize, getTextWidth);
-                        this._prepareData(options, options.containerWidth, getTextWidth);
-                        return {
-                            items: options.items
-                        };
-                    }
-                });
             }
+        } else {
+            /*
+             * Утилиту PrepareDataUtil для основных преобразований крошек грузим всегда.
+             * Утилиту для расчета ширины только тогда, когда нам передают containerWidth
+             */
+            const arrPromise = [import('Controls/_breadcrumbs/Utils')];
+            if (!receivedState) {
+                arrPromise.push(loadFontWidthConstants());
+            }
+            return Promise.all(arrPromise).then((res) => {
+                this.calculateBreadcrumbsUtil = res[0].default;
+                this._arrowWidth = res[0].ARROW_WIDTH;
+                this._paddingRight = res[0].PADDING_RIGHT;
+                if (receivedState) {
+                    this._dotsWidth = this._getDotsWidth(options.fontSize);
+                    this._prepareData(options, options.containerWidth);
+                } else {
+                    const getTextWidth = res[1];
+                    this._dotsWidth = this._getDotsWidth(options.fontSize, getTextWidth);
+                    this._prepareData(options, options.containerWidth, getTextWidth);
+                    return {
+                        items: options.items
+                    };
+                }
+            });
         }
     }
 
@@ -144,7 +146,6 @@ class BreadCrumbs extends Control<IBreadCrumbsOptions> {
             this._options.breadCrumbsItemClickCallback(e, item);
         }
     }
-    static _theme: string[] = ['Controls/crumbs'];
     static getDefaultOptions(): IBreadCrumbsOptions {
         return {
             displayProperty: 'title',

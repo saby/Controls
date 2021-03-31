@@ -6,7 +6,7 @@
 
 .controls-Input-DateRange__inputs {
    display: flex;
-   align-items: center;
+   align-items: baseline;
 }
 
 // The wrong height is set for the control in ie. min-height thing solves the problem.
@@ -16,10 +16,7 @@
 
 .controls-Input-DateRange__buttonWrapper {
    display: inline-flex;
-}
-
-.controls-Input-DateRange__buttonWrapper_theme-@{themeName} {
-   padding-left: @trigger-offset_inputDate;
+   padding-left: var(--trigger-offset_inputDate);
 }
 
 .controls-Input-DateRange__buttonBaseLine::before {
@@ -28,36 +25,30 @@
 
 .controls-Input-DateRange__button {
    cursor: pointer;
-}
-
-.controls-Input-DateRange__button_theme-@{themeName} {
-   font-size: @trigger_icon-size_inputDate;
-   line-height: @trigger_icon-size_inputDate;
-   width: @trigger_icon-size_inputDate;
-   height: @trigger_icon-size_inputDate;
-   font-family: @icon_font-family_s;
+   font-size: var(--trigger_icon-size_inputDate);
+   line-height: var(--trigger_icon-size_inputDate);
+   width: var(--trigger_icon-size_inputDate);
+   height: var(--trigger_icon-size_inputDate);
+   font-family: var(--icon_font-family_s);
 }
 
 .controls-Input-DateRange__dash {
    display: inline-block;
    vertical-align: middle;
-}
-
-.controls-Input-DateRange__dash_theme-@{themeName} {
-   width: @dash_length_dateRangeInput;
-   margin: 0 @dash_padding-horizontal_dateRangeInput;
-   border-top: @dash_thickness_dateRangeInput solid @dash_color_dateRangeInput;
+   width: var(--dash_length_dateRangeInput);
+   margin: 0 var(--dash_padding-horizontal_dateRangeInput);
+   border-top: var(--dash_thickness_dateRangeInput) solid var(--dash_color_dateRangeInput);
 }
 
 .ws-is-hover {
-   .controls-Input-DateRange__button_theme-@{themeName}:hover {
-      color: @trigger_hover_icon-color_inputDate;
+   .controls-Input-DateRange__button:hover {
+      color: var(--trigger_hover_icon-color_inputDate);
    }
 }
 
 .ws-is-no-touch,
 .ws-is-touch {
-   .controls-Input-DateRange__button_theme-@{themeName}:active {
-      color: @trigger_active_icon-color_inputDate;
+   .controls-Input-DateRange__button:active {
+      color: var(--trigger_active_icon-color_inputDate);
    }
 }

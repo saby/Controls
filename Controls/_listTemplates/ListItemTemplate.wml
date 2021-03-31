@@ -42,6 +42,7 @@
 </ws:template>
 
 <ws:partial template="Controls/list:ItemTemplate"
+            attr:class="controls-listTemplates__listItemTemplate"
             scope="{{_options}}">
    <ws:contentTemplate>
       <ws:partial template="itemContentTpl"

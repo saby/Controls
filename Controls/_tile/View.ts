@@ -25,7 +25,6 @@ import {TILE_SCALING_MODE, ZOOM_COEFFICIENT} from 'Controls/_tile/TileView/resou
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_interface/IHierarchy
@@ -55,7 +54,6 @@ import {TILE_SCALING_MODE, ZOOM_COEFFICIENT} from 'Controls/_tile/TileView/resou
  * @mixes Controls/interface/IGroupedList
  * @mixes Controls/_interface/INavigation
  * @mixes Controls/_interface/IFilterChanged
- * @mixes Controls/interface/IHighlighter
  * @mixes Controls/_list/interface/IList
  * @mixes Controls/_itemActions/interface/IItemActionsOptions
  * @mixes Controls/_interface/ISorting

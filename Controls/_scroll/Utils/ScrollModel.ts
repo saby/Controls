@@ -4,7 +4,10 @@ export default class ScrollModel extends ScrollState {
     updateState(newState: IScrollState): boolean {
         let isScrollStateUpdated = false;
         Object.keys(newState).forEach((state) => {
-            const protectedState = '_' + state;
+            let protectedState;
+            if (state.indexOf('_') === -1) {
+                protectedState = '_' + state;
+            }
             if (this[protectedState] !== newState[state]) {
                 this[protectedState] = newState[state];
                 isScrollStateUpdated = true;

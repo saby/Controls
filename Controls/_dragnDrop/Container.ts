@@ -37,11 +37,11 @@ interface IContainerOptions extends IControlOptions {
      * </pre>
      *
      * <pre>
-     *    Control.extend({
+     *    class MyControl extends Control<IControlOptions> {
      *       ...
      *     _items: [...]
      *       ...
-     *    });
+     *    }
      * </pre>
      */
     draggingTemplate: TemplateFunction;
@@ -320,7 +320,7 @@ class Container extends Control<IContainerOptions> {
      * </pre>
      *
      * <pre>
-     *    Control.extend({
+     *    class MyControl extends Control<IControlOptions> {
      *       ...
      *       _items: [...],
      *       _startDragNDrop: function(event, item) {
@@ -329,7 +329,7 @@ class Container extends Control<IContainerOptions> {
      *          }), event);
      *       },
      *       ...
-     *    });
+     *    }
      * </pre>
      */
     startDragNDrop(
@@ -476,7 +476,7 @@ Object.defineProperty(Container, 'defaultProps', {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _items: [...],
  *       _documentDrag: false,
@@ -489,7 +489,7 @@ Object.defineProperty(Container, 'defaultProps', {
  *          }), event);
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  * @see documentDragEnd
  * @see dragStart
@@ -524,7 +524,7 @@ Object.defineProperty(Container, 'defaultProps', {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _items: [...],
  *       _documentDrag: false,
@@ -540,7 +540,7 @@ Object.defineProperty(Container, 'defaultProps', {
  *          }), event);
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  * @see documentDragStart
  * @see dragStart
@@ -574,7 +574,7 @@ Object.defineProperty(Container, 'defaultProps', {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _items: [...],
  *       _dragItemKey: null,
@@ -587,7 +587,7 @@ Object.defineProperty(Container, 'defaultProps', {
  *          }), event);
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  * @see documentDragStart
  * @see documentDragEnd
@@ -619,7 +619,7 @@ Object.defineProperty(Container, 'defaultProps', {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _items: [...],
  *       _onDragEnd: function(event, dragObject) {
@@ -633,7 +633,7 @@ Object.defineProperty(Container, 'defaultProps', {
  *          }), event);
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  * @see documentDragStart
  * @see documentDragEnd
@@ -667,7 +667,7 @@ Object.defineProperty(Container, 'defaultProps', {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _items: [...],
  *       _documentDrag: false,
@@ -683,7 +683,7 @@ Object.defineProperty(Container, 'defaultProps', {
  *          }), event);
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  * @see dragLeave
  * @see dragMove
@@ -716,7 +716,7 @@ Object.defineProperty(Container, 'defaultProps', {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _items: [...],
  *       _documentDrag: false,
@@ -732,7 +732,7 @@ Object.defineProperty(Container, 'defaultProps', {
  *          }), event);
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  * @see dragEnter
  * @see dragMove
@@ -760,24 +760,24 @@ Object.defineProperty(Container, 'defaultProps', {
  * </pre>
  *
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _items: [...],
- *       _dragMove: function(event, dragObject) {
+ *       _dragMove(event, dragObject) {
  *          this._dragItemStyle = this._objectToString({
  *             top: dragObject.position.y + 'px',
  *             left: dragObject.position.x + 'px',
  *             position: 'absolute'
  *          });
- *       },
- *       _objectToString: function() {...},
- *       _startDragNDrop: function(event, item) {
+ *       }
+ *       _objectToString() {...},
+ *       _startDragNDrop(event, item) {
  *          this._children.dragNDropController.startDragNDrop(new Entity({
  *             item: item
  *          }), event);
- *       },
+ *       }
  *       ...
- *    });
+ *    }
  * </pre>
  * @see dragEnter
  * @see dragLeave

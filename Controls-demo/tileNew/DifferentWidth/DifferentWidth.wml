@@ -1,0 +1,15 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_diff-width">
+<Controls.treeTile:View
+        tileMode="dynamic"
+        displayProperty="title"
+        imageProperty="image"
+        keyProperty="id"
+        source="{{_viewSource}}">
+        <ws:itemTemplate>
+                <ws:partial
+                        itemWidth="{{itemTemplate.itemData.item.width}}"
+                        template="Controls/tileNew:ItemTemplate"
+                        hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+        </ws:itemTemplate>
+</Controls.treeTile:View>
+</div>

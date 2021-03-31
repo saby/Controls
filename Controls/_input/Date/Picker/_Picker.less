@@ -3,8 +3,8 @@
    white-space: nowrap;
 }
 
-.controls-Input-DatePicker__buttonWrapper_theme-@{themeName} {
-   padding-left: @trigger-offset_inputDate;
+.controls-Input-DatePicker__buttonWrapper {
+   padding-left: var(--trigger-offset_inputDate);
    display: inline-flex;
 }
 
@@ -16,24 +16,23 @@
    cursor: pointer;
 }
 
-.controls-Input-DatePicker__button_theme-@{themeName} {
-   font-size: @trigger_icon-size_inputDate;
-   line-height: @trigger_icon-size_inputDate;
-   width: @trigger_icon-size_inputDate;
-   height: @trigger_icon-size_inputDate;
-   font-family: @icon_font-family_s;
+.controls-Input-DatePicker__button {
+   font-size: var(--trigger_icon-size_inputDate);
+   line-height: var(--trigger_icon-size_inputDate);
+   width: var(--trigger_icon-size_inputDate);
+   height: var(--trigger_icon-size_inputDate);
+   font-family: var(--icon_font-family_s);
 }
 
 .ws-is-hover {
-   .controls-Input-DatePicker__button_theme-@{themeName}:hover {
-      color: @trigger_hover_icon-color_inputDate;
+   .controls-Input-DatePicker__button:hover {
+      color: var(--trigger_hover_icon-color_inputDate);
    }
 }
 
 .ws-is-no-touch,
 .ws-is-touch {
-   .controls-Input-DatePicker__button_theme-@{themeName}:active {
-      color: @trigger_active_icon-color_inputDate;
+   .controls-Input-DatePicker__button:active {
+      color: var(--trigger_active_icon-color_inputDate);
    }
 }
-

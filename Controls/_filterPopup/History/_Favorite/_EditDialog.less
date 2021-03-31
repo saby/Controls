@@ -1,5 +1,5 @@
 .controls-FilterPanel__FavoriteEditDialog {
-   width: @width_filterFavoriteDialog;
+   width: var(--width_filterFavoriteDialog);
 }
 
 .controls-FavoriteEditDialog__scroll {
@@ -9,26 +9,26 @@
 
 .controls-FavoriteEditDialog__textField {
    width: 100%;
-   margin-bottom: @checkbox-group_offset-top_filterFavoriteDialog;
+   margin-bottom: var(--checkbox-group_offset-top_filterFavoriteDialog);
 }
 
 .controls-FavoriteEditDialog__content {
    overflow: hidden;
-   margin: @content-padding-top_filterFavoriteDialog @content-padding-right_filterFavoriteDialog @content-padding-bottom_filterFavoriteDialog @content-padding-left_filterFavoriteDialog;
+   margin: var(--content-padding-top_filterFavoriteDialog) var(--content-padding-right_filterFavoriteDialog) var(--content-padding-bottom_filterFavoriteDialog) var(--content-padding-left_filterFavoriteDialog);
    display: flex;
    flex-direction: column;
 }
 
 .controls-FavoriteEditDialog__selector {
-   margin-right: @selector_padding-right_filterFavoriteDialog;
+   margin-right: var(--selector_padding-right_filterFavoriteDialog);
 }
 
 .controls-FavoriteEditDialog__deleteButton {
-   margin-right: @deleteButton_offset-right_filterFavoriteDialog;
+   margin-right: var(--deleteButton_offset-right_filterFavoriteDialog);
 }
 
 .controls-FavoriteEditDialog__itemCaption {
-   color: @label_text-color;
+   color: var(--label_text-color);
 }
 
 .controls-FavoriteEditDialog__itemContent {

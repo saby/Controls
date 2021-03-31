@@ -2,7 +2,7 @@ import { RecordSet } from 'Types/collection';
 import { TreeGridCollection } from 'Controls/treeGridNew';
 import { assert } from 'chai';
 import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
-import TreeGridNodeFooterRow from 'Controls/_treeGridNew/display/TreeGridNodeFooterRow';
+import TreeGridNodeFooterRow from 'Controls/_treeGrid/display/TreeGridNodeFooterRow';
 
 describe('Controls/_treeGridNew/display/TreeGridNodeFooterRow', () => {
    const recordSet = new RecordSet({
@@ -85,7 +85,6 @@ describe('Controls/_treeGridNew/display/TreeGridNodeFooterRow', () => {
    it('.getExpanderPaddingClasses()', () => {
       CssClassesAssert.isSame(nodeFooterRow.getExpanderPaddingClasses(), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__node-footer-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_default_theme-default js-controls-ListView__notEditable');
       CssClassesAssert.isSame(nodeFooterRow.getExpanderPaddingClasses('s'), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__node-footer-expanderPadding_theme-default controls-TreeGrid__row-expanderPadding_size_s_theme-default js-controls-ListView__notEditable');
-      CssClassesAssert.isSame(nodeFooterRow.getExpanderPaddingClasses('s', 'custom'), 'controls-TreeGrid__row-expanderPadding controls-TreeGrid__node-footer-expanderPadding_theme-custom controls-TreeGrid__row-expanderPadding_size_s_theme-custom js-controls-ListView__notEditable');
    });
 
    it('.shouldDisplayVisibleFooter()', () => {

@@ -8,5 +8,5 @@ export default interface IAction {
     /**
      * Запускает действие над записью
      */
-    execute(): Promise<void | 'fullReload'>;
+    execute(): Promise<void | string>;
 }

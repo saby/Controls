@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {getImageClasses, getImageUrl, getImageSize, IMAGE_FIT, getImageRestrictions} from 'Controls/_tile/TileView/resources/imageUtil';
+import {getImageClasses, getImageUrl, getImageSize, IMAGE_FIT, getImageRestrictions} from 'Controls/_tileNew/utils/imageUtil';
 
 describe('tileImageUtil', () => {
     describe('getImageClasses', () => {
@@ -26,26 +26,27 @@ describe('tileImageUtil', () => {
     });
     describe('getImageSize', () => {
         describe('cover image fit', () => {
-            it('proportional image must be require with scale width by 1.5', () => {
-                const proportionalImage = getImageSize(200, 200, 'static', 25, 25, 'cover');
-                assert.isTrue(proportionalImage.height === 25);
-                assert.isTrue(proportionalImage.width === 25);
+            it('Если широкая картинка (imageDeltaW > tileDeltaW), и шире увеличенной плитки', () => {
+                const wideImage = getImageSize(200, 200, 'static', 100, 300, 'cover');
+                assert.isTrue(wideImage.height === 0);
+                assert.isTrue(wideImage.width === 300);
             });
 
-            it('wide image', () => {
-                const imageSizesWide = getImageSize(200, 300, 'static', 400, 2500, 'cover');
-                assert.isTrue(imageSizesWide.height === 450);
-                assert.isTrue(imageSizesWide.width === 300);
+            it('Если широкая картинка (imageDeltaW > tileDeltaW), и не шире увеличенной плитки', () => {
+                const wideImage = getImageSize(200, 200, 'static', 100, 120, 'cover');
+                assert.isTrue(wideImage.height === 300);
+                assert.isTrue(wideImage.width === 0);
             });
-            it('tall image', () => {
-                const imageSizesTall = getImageSize(200, 300, 'static', 4000, 350, 'cover');
-                assert.isTrue(imageSizesTall.width === 300);
-                assert.isTrue(imageSizesTall.height === 450);
+
+            it('Если картинка высокая (imageDeltaW < tileDeltaW), но не выше увеличенной плитки', () => {
+                const tallImage = getImageSize(100, 400, 'static', 300, 100, 'cover');
+                assert.isTrue(tallImage.height === 600);
+                assert.isTrue(tallImage.width === 0);
             });
-            it('image is wider then tile, but not wider scaled tile ', () => {
-                const imageSizesTall = getImageSize(200, 200, 'static', 200, 250, 'cover');
-                assert.isTrue(imageSizesTall.width === 300);
-                assert.isTrue(imageSizesTall.height === 0);
+            it('Пропорциональная картинка ограничивается по ширине', () => {
+                const proportionalImage = getImageSize(100, 100, 'static', 300, 300, 'cover');
+                assert.isTrue(proportionalImage.width === 150);
+                assert.isTrue(proportionalImage.height === 0);
             });
         });
         describe('none and contain image fit', () => {
@@ -55,8 +56,8 @@ describe('tileImageUtil', () => {
                 assert.isTrue(imageSizes.height === 1);
 
                 const imageSizes = getImageSize(200, 300, 'static', 1, 1, 'none');
-                assert.isTrue(imageSizes.width === 200);
-                assert.isTrue(imageSizes.height === 300);
+                assert.isTrue(imageSizes.width === 1);
+                assert.isTrue(imageSizes.height === 1);
             });
         });
 
@@ -64,6 +65,26 @@ describe('tileImageUtil', () => {
             it('image without sizes', () => {
                 const restrictions = getImageRestrictions(0, null, 200, 300);
                 assert.isTrue(restrictions.width && restrictions.height);
+            });
+            it('Картинка пропорциоально шире плитки', () => {
+                const restrictions = getImageRestrictions(100, 300, 400, 400);
+                assert.isTrue(restrictions.height);
+            });
+            it('Картинка пропорционально ниже плитки', () => {
+                const restrictions = getImageRestrictions(300, 100, 400, 400);
+                assert.isTrue(restrictions.width);
+            });
+            it('Картинка пропорционально равна по ширине плитке, но выше', () => {
+                const restrictions = getImageRestrictions(5760, 3840, 196, 142);
+                assert.isTrue(restrictions.height);
+            });
+            it('Картинка пропорционально выше плитки', () => {
+                const restrictions = getImageRestrictions(300, 100, 200, 100);
+                assert.isTrue(restrictions.width);
+            });
+            it('Картинка полностью пропорциональна плитке', () => {
+                const restrictions = getImageRestrictions(300, 300, 500, 500);
+                assert.isTrue(restrictions.height);
             });
         });
     });

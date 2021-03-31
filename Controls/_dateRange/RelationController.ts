@@ -1,117 +1,100 @@
-import {Control} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import Model from './RelationController/Model';
-import template = require('wml!Controls/_dateRange/RelationController/RelationController');
+import * as template from 'wml!Controls/_dateRange/RelationController/RelationController';
 import {Date as WSDate} from 'Types/entity';
 
-var _private = {
-    notifyRangeChanged: function(self, newRanges, ranges?) {
-        let changed = false;
-        for (let i in newRanges) {
-            if (!ranges || ranges[i][0] !== newRanges[i][0]) {
-                self._notify('startValue' + i + 'Changed', [newRanges[i][0]]);
-                changed = true;
-            }
-            if (!ranges || ranges[i][1] !== newRanges[i][1]) {
-                self._notify('endValue' + i + 'Changed', [newRanges[i][1]]);
-                changed = true;
-            }
-        }
-        if (changed) {
-            self._notify('periodsChanged', [newRanges]);
-        }
-    }
-};
 /**
  * Контроллер, который позволяет связать несколько контролов для ввода периода.
- * 
+ *
  * @remark
  * Полезные ссылки:
- * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less переменные тем оформления} 
+ * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_dateRange.less переменные тем оформления}
  *
  * @class Controls/_dateRange/RelationController
  * @extends UI/Base:Control
  *
- * 
+ *
  * @public
  * @demo Controls-demo/dateRange/RelationController
  * @author Красильников А.С.
  */
 
-/*
- * Controller allows you to link several controls for entering periods.
- *
- * @class Controls/_dateRange/RelationController
- * @extends UI/Base:Control
- *
- * 
- * @public
- * @demo Controls-demo/dateRange/RelationController
- * @author Красильников А.С.
- */
-var Component = Control.extend({
-    _template: template,
-    _model: null,
+export default class RelationController extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+    protected _model: Model;
 
-    _beforeMount: function (options) {
+    protected _beforeMount(options): void {
         this._model = new Model(options);
-    },
+    }
 
-    _beforeUpdate: function (options) {
+    protected _beforeUpdate(options): void {
         this._model.update(options);
-    },
+    }
 
-    _onRelationWrapperRangeChanged: function(event, start, end, controlNumber, bindType) {
-        let ranges = this._model.ranges,
-            oldBindType = this._model.bindType;
+    protected _beforeUnmount(): void {
+        this._model = null;
+    }
+
+    protected _onRelationWrapperRangeChanged(event, start, end, controlNumber, bindType): void {
+        const ranges = this._model.ranges;
+        const oldBindType = this._model.bindType;
         this._model.updateRanges(start, end, controlNumber, bindType);
-        _private.notifyRangeChanged(this, this._model.ranges, ranges);
+        this._notifyRangeChanged(this._model.ranges, ranges);
         if (oldBindType !== this._model.bindType) {
             this._notify('bindTypeChanged', [this._model.bindType]);
         }
-    },
+    }
 
-    _onRelationButtonBindTypeChanged: function(event, bindType) {
+    protected _onRelationButtonBindTypeChanged(event, bindType): void {
         if (bindType !== this._model.bindType) {
             this._model.bindType = bindType;
             this._notify('bindTypeChanged', [this._model.bindType]);
         }
-    },
-
-    shiftForward: function() {
-        this._model.shiftForward();
-        _private.notifyRangeChanged(this, this._model.ranges);
-    },
-
-    shiftBackward: function() {
-        this._model.shiftBackward();
-        _private.notifyRangeChanged(this, this._model.ranges);
-    },
-
-    _beforeUnmount: function() {
-        this._model = null;
     }
-});
 
-Component.getDefaultOptions = function () {
-    return {
-        bindType: 'normal',
-        dateConstructor: WSDate
-    };
-};
+    shiftForward(): void {
+        this._model.shiftForward();
+        this._notifyRangeChanged(this._model.ranges);
+    }
 
-Object.defineProperty(Component, 'defaultProps', {
+    shiftBackward(): void {
+        this._model.shiftBackward();
+        this._notifyRangeChanged(this._model.ranges);
+    }
+
+    private _notifyRangeChanged(newRanges, ranges?): void {
+        let changed = false;
+        for (const i in newRanges) {
+            if (!ranges || ranges[i][0] !== newRanges[i][0]) {
+                this._notify('startValue' + i + 'Changed', [newRanges[i][0]]);
+                changed = true;
+            }
+            if (!ranges || ranges[i][1] !== newRanges[i][1]) {
+                this._notify('endValue' + i + 'Changed', [newRanges[i][1]]);
+                changed = true;
+            }
+        }
+        if (changed) {
+            this._notify('periodsChanged', [newRanges]);
+        }
+    }
+
+    static getDefaultOptions(): object {
+        return {
+            bindType: 'normal',
+            dateConstructor: WSDate
+        };
+    }
+}
+
+Object.defineProperty(RelationController, 'defaultProps', {
    enumerable: true,
    configurable: true,
 
    get(): object {
-      return Component.getDefaultOptions();
+      return RelationController.getDefaultOptions();
    }
 });
-
-//
-// Component.getOptionTypes = function() {
-//    return coreMerge({});
-// };
 
 /**
  * @name Controls/_dateRange/RelationController#startValue0
@@ -135,12 +118,12 @@ Object.defineProperty(Component, 'defaultProps', {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre class="brush: js">
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -166,12 +149,12 @@ Object.defineProperty(Component, 'defaultProps', {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -197,12 +180,12 @@ Object.defineProperty(Component, 'defaultProps', {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre class="brush: js">
- *    Control.extend({
+ *   class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -228,12 +211,12 @@ Object.defineProperty(Component, 'defaultProps', {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -261,9 +244,9 @@ Object.defineProperty(Component, 'defaultProps', {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre class="brush: js">
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _bindType: 'normal'
- *    });
+ *    }
  * </pre>
  */
 
@@ -279,9 +262,9 @@ Object.defineProperty(Component, 'defaultProps', {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _bindType: 'normal'
- *    });
+ *    }
  * </pre>
  */
 
@@ -307,12 +290,12 @@ Object.defineProperty(Component, 'defaultProps', {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre class="brush: js">
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -338,12 +321,12 @@ Object.defineProperty(Component, 'defaultProps', {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -356,7 +339,7 @@ Object.defineProperty(Component, 'defaultProps', {
  *    <Controls.dateRange:RelationController on:bindTypeChanged="_bindTypeChangedHandler()"/>
  * </pre>
  * <pre class="brush: js">
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _bindTypeChangedHandler(bindType) {
  *          if (bindType === 'normal') {
@@ -366,7 +349,7 @@ Object.defineProperty(Component, 'defaultProps', {
  *          }
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -379,7 +362,7 @@ Object.defineProperty(Component, 'defaultProps', {
  *    <Controls.dateRange:RelationController on:bindTypeChanged="_bindTypeChangedHandler()"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *   class MyControl extends Control<IControlOptions> {
  *       ...
  *       _bindTypeChangedHandler(bindType) {
  *          if (bindType === 'normal') {
@@ -389,7 +372,7 @@ Object.defineProperty(Component, 'defaultProps', {
  *          }
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -402,13 +385,13 @@ Object.defineProperty(Component, 'defaultProps', {
  *    <Controls.dateRange:RelationController on:periodsChanged="_periodsChangedHandler()"/>
  * </pre>
  * <pre class="brush: js">
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _periodsChangedHandler(periods) {
  *          this._saveToDatabase(periods);
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -421,13 +404,13 @@ Object.defineProperty(Component, 'defaultProps', {
  *    <Controls.dateRange:RelationController on:periodsChanged="_periodsChangedHandler()"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       _periodsChangedHandler(periods) {
  *          this._saveToDatabase(periods);
  *       },
  *       ...
- *    });
+ *    }
  * </pre>
  */
 
@@ -476,4 +459,3 @@ Object.defineProperty(Component, 'defaultProps', {
  * </pre>
  */
 
-export default Component;

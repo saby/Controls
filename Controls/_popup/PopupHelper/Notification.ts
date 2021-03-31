@@ -6,12 +6,14 @@ import {INotificationPopupOptions} from '../interface/INotification';
 /**
  * Хелпер для открытия нотификационных окон.
  * @class Controls/_popup/PopupHelper/Notification
- * 
+ * @implements Controls/_popup/interface/INotificationOpener
+ *
  * @author Красильников А.С.
  * @public
  */
 export default class NotificationOpener extends Base {
-    _opener = Notification;
+    protected _opener = Notification;
+    private _compatiblePopupInstance: unknown;
 
     /**
      * Метод для открытия нотификационных окон.
@@ -20,9 +22,9 @@ export default class NotificationOpener extends Base {
      * @example
      * <pre class="brush: js">
      * import {NotificationOpener} from 'Controls/popup';
-     * 
+     *
      * this._notification = new NotificationOpener();
-     * 
+     *
      * openNotification() {
      *     this._notification.open({
      *         template: 'Example/MyNotificationTemplate',
@@ -38,12 +40,31 @@ export default class NotificationOpener extends Base {
         super.open(popupOptions);
     }
 
+    close(): void {
+        if (isNewEnvironment()) {
+            return super.close();
+        }
+        this._compatiblePopupInstance.close();
+        this._compatiblePopupInstance = null;
+    }
+
+    isOpened(): boolean {
+        if (isNewEnvironment()) {
+            return super.isOpened();
+        }
+        if (this._compatiblePopupInstance) {
+            // @ts-ignore На старой странице для идентификатора используется инстанс PopupMixin'a
+            return this._compatiblePopupInstance.isDestroyed() === false;
+        }
+        return false;
+    }
+
     protected _openPopup(config, popupController): void {
         // На старых страницах нотификационные окна открываются через PopupMixin
         // Нужно учитывать, чтобы работал метод close
         if (!isNewEnvironment()) {
             this._opener.openPopup(config, popupController).then((popupInstance) => {
-                this._popupId = popupInstance;
+                this._compatiblePopupInstance = popupInstance;
             });
         } else {
             super._openPopup.apply(this, arguments);
@@ -57,7 +78,7 @@ export default class NotificationOpener extends Base {
  * @example
  * <pre class="brush: js">
  * import {NotificationOpener} from 'Controls/popup';
- * 
+ *
  * this._notification = new NotificationOpener();
  *
  * closeNotification() {
@@ -76,7 +97,7 @@ export default class NotificationOpener extends Base {
  * @example
  * <pre class="brush: js">
  * import {NotificationOpener} from 'Controls/popup';
- *    
+ *
  * this._notification = new NotificationOpener();
  *
  * _beforeUnmount() {

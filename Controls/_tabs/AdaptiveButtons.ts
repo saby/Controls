@@ -138,7 +138,8 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
         });
     }
 
-    private _menuItemClickHandler(event: SyntheticEvent<Event>, item: Model<object>): void {
+    private _menuItemClickHandler(event: SyntheticEvent<Event>, keys: number[]|string[]): void {
+        const item: Model<object> = this._items.getRecordById(keys[0]);
         item.set('isMainTab', true);
         /*Выбрав один из пунктов меню пользователь активирует соответствующую вкладку.
         Выбранная в меню вкладка заменяет собой прежнюю крайнюю на экране вкладку*/
@@ -193,6 +194,17 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
             oldRawData.reverse();
         }
         const rawData = oldRawData.slice(0, this._lastIndex + 1);
+
+        /**
+         * Если отмеченного элемента нет в rawData, то добавляем его вместо последнего.
+         */
+        const selectedItem = rawData.find((data) => data[items.getKeyProperty()] === options.selectedKey);
+        if (selectedItem === undefined) {
+            const item = items.getRecordById(options.selectedKey);
+            if (item) {
+                rawData[rawData.length - 1] = items.getRecordById(options.selectedKey).getRawData();
+            }
+        }
         // чтобы ужималась
         rawData[this._lastIndex].isMainTab = true;
         if (options.align === 'right') {

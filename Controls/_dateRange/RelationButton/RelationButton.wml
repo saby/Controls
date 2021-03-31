@@ -1,6 +1,5 @@
 <div attr:title ="{{_options.value === 'normal' ? rk('Выключить связь') : rk('Включить связь')}}"
      attr:class="controls-DateRangeRelationButton
-     controls-DateRangeRelationButton_{{_options.value}}_theme-{{_options.theme}}
      controls-DateRangeRelationButton_{{_options.value}}"
      on:click="_valueChanged()">
         <i attr:class="icon-small icon-ConnectionPeriod"/>

@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/treeGridNew/EditInPlace/Colspan/Col
 import * as ColumnTemplate from 'wml!Controls-demo/treeGridNew/EditInPlace/Colspan/ColumnTemplate';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { TColspanCallbackResult } from 'Controls/display';
 
 export default class extends Control {

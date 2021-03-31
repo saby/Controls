@@ -85,7 +85,7 @@ export default function process(options: IProcessOptions): Promise<PopupId | voi
         handlers = [],
         opener,
         dialogEventHandlers,
-        dialogOptions,
+        dialogOptions = {},
         postHandlers = [],
         beforeOpenDialogCallback,
         _popupHelper = getPopupHelper()

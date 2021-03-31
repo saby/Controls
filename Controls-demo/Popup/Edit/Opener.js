@@ -21,6 +21,7 @@ define('Controls-demo/Popup/Edit/Opener',
          _cancelEdit: false,
          _openRecordByNewKey: false,
          _initializingDelayedCreate: false,
+         _addedOnCreateInList: false,
 
          _beforeMount: function(opt, context) {
             this._dataLoadCallback = this._dataLoadCallback.bind(this);
@@ -101,7 +102,7 @@ define('Controls-demo/Popup/Edit/Opener',
             };
 
             var meta = {
-               record: record,
+               record: record
             };
 
             if (this._openRecordByNewKey) {
@@ -123,7 +124,6 @@ define('Controls-demo/Popup/Edit/Opener',
                record.set('balance', -10000);
                record.set('costPrice', -10000);
             }
-
             this._children.EditOpener.open(null, {
                templateOptions: {
                   record: record,
@@ -150,6 +150,22 @@ define('Controls-demo/Popup/Edit/Opener',
                return 'cancel';
             }
 
+            if (action === 'create' && this._addedOnCreateInList) {
+               record.set('id', this._addRecordCount);
+               this._addRecordCount++;
+               RecordSynchronizer.addRecord(record, { at: this._addPosition }, this._items);
+            }
+
+            if (action === 'update' && this._addedOnCreateInList) {
+               RecordSynchronizer.mergeRecord(record, this._items, record.get('id'));
+            }
+
+            if (action === 'deletestarted' && this._addedOnCreateInList) {
+               this._addRecordCount--;
+               RecordSynchronizer.deleteRecord(this._items, this._addRecordCount);
+                return 'cancel';
+            }
+
             if (additionaData && additionaData.isNewRecord) {
                additionaData.at = this._addPosition;
             }
@@ -167,7 +183,7 @@ define('Controls-demo/Popup/Edit/Opener',
                cloneRecord.set('id', i);
                cloneRecord.set('name', 'Созданная запись ' + i);
                addRecords.push(cloneRecord);
-            };
+            }
             this._addRecordCount += 10;
             RecordSynchronizer.addRecord(addRecords, {}, this._items);
          },

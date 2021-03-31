@@ -1,11 +1,12 @@
 import {Control, TemplateFunction} from 'UI/Base';
 import LookupTemplate = require('wml!Controls/_filterPopup/Panel/HierarchyLookup/HierarchyLookup');
+import 'css!Controls/filterPopup';
 
 import {factory} from 'Types/chain';
 
 /**
  * Обертка над контролом {@link Controls/_filterPopup/Panel/Lookup Controls/filterPopup:Lookup} для работы с иерархическим фильтром.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_filterPopup.less переменные тем оформления}
@@ -14,7 +15,7 @@ import {factory} from 'Types/chain';
  * @extends UI/Base:Control
  * @mixes Controls/_interface/IMultiSelectable
  * @public
- * @author Золотова Э.Е.
+ * @author Михайлов С.Е.
  *
  */
 
@@ -44,8 +45,6 @@ class HierarchyLookup extends Control {
             this._notify('selectedKeysChanged', [selectedKeys]);
         }
     }
-
-    static _theme: string[] = ['Controls/filterPopup'];
 }
 
 /**

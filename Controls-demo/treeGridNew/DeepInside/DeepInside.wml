@@ -7,7 +7,7 @@
             bind:expandedItems="_expandedItems"
             bind:collapsedItems="_collapsedItems"
             parentProperty="parent"
-            nodeProperty="type">
+            nodeProperty="nodeType">
         <ws:navigation source="page" view="demand">
             <ws:sourceConfig pageSize="{{21}}" page="{{0}}" hasMore="{{false}}"/>
         </ws:navigation>

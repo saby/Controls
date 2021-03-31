@@ -1,0 +1,18 @@
+<div class="controlsDemo__wrapper">
+    <span> contrastBackground = true</span>
+    <div class="controlsDemo__cell" style="background: #f8f8f8">
+        <Controls.dateRange:Input
+                contrastBackground="{{ true }}"
+                bind:startValue="_startDate"
+                bind:endValue="_endDate"
+        />
+    </div>
+    <span> contrastBackground = false</span>
+    <div class="controlsDemo__cell" style="background: #f8f8f8">
+        <Controls.dateRange:Input
+                contrastBackground="{{ false }}"
+                bind:startValue="_startDate"
+                bind:endValue="_endDate"
+        />
+    </div>
+</div>

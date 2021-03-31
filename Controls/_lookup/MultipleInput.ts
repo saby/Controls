@@ -36,6 +36,7 @@ let OUTER_INDENT_INPUT = 0;
  * @mixes Controls/_interface/IMultiSelectable
  * @mixes Controls/_interface/ISorting
  * @mixes Controls/_input/interface/IBase
+ * @mixes Controls/interface:IInputPlaceholder
  * @mixes Controls/_input/interface/IText
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IFontSize
@@ -83,6 +84,7 @@ export default class MultipleInput extends BaseLookupInput {
     protected _availableWidthCollection: number;
 
     showSelector(popupOptions?: IStackPopupOptions): boolean {
+        this.closeSuggest();
         return showSelector(this, popupOptions, false);
     }
 

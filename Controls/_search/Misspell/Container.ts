@@ -1,5 +1,5 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_search/Misspell/Container');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_search/Misspell/Container';
 
 /**
  * Контрол-контейнер для {@link Controls/list:Container}, который обеспечивает загрузку и отображение {@link Controls/search:Misspell}, если поиск был произведён в неправильной раскладке.
@@ -15,8 +15,9 @@ import template = require('wml!Controls/_search/Misspell/Container');
  * @public
  * @author Крайнов Д.О.
  */
-export = Control.extend({
-   _template: template,
+
+export default class MisspellContainer extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
 
    /**
     * @name Controls/_search/Misspell/Container#misspellClass
@@ -29,8 +30,7 @@ export = Control.extend({
     * </pre>
     */
 
-   _misspellClick: function () {
+   protected _misspellClick(): void {
       this._notify('misspellCaptionClick', [], {bubbling: true});
    }
-});
-
+}

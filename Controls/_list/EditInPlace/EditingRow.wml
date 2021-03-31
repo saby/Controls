@@ -4,5 +4,4 @@
             on:click="_stopMouseEvent('click')"
             on:itemClick="_stopMouseEvent('itemClick')"
             on:mouseup="_stopMouseEvent('mouseup')"
-            on:mousedown="_stopMouseEvent('mousedown')"
             on:keyDown="_onKeyDown()"/>

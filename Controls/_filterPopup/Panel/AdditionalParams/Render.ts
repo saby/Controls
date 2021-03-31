@@ -6,6 +6,7 @@ import * as template from 'wml!Controls/_filterPopup/Panel/AdditionalParams/Rend
 import * as itemTemplate from 'wml!Controls/_filterPopup/Panel/AdditionalParams/Render/resources/ItemTemplate';
 import * as groupTemplate from 'wml!Controls/_filterPopup/Panel/AdditionalParams/Render/resources/GroupTemplate';
 import {IFilterItem} from 'Controls/filter';
+import 'css!Controls/filterPopup';
 
 interface IAdditionalRenderOptions extends IControlOptions {
     columnProperty: string;
@@ -76,8 +77,6 @@ export default class AdditionalParamsRender extends Control<IAdditionalRenderOpt
     protected _propertyChanged(event: Event, item: IFilterItem, property: string, value: any): void {
         this._notify('propertyChanged', [item.getRawData(), property, value]);
     }
-
-    static _theme: string[] = ['Controls/filterPopup'];
 }
 /**
  * @name Controls/_filterPopup/Panel/AdditionalParams/Render#source

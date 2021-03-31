@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper ControlsDemo-Popup-Stack__globalContainer" attr:style="flex-grow: 1">
-    <div class="ControlsDemo-Popup-Stack_restrictiveContainer controls-Popup__stack-target-container" name="restrictiveContainer">
+    <div class="ControlsDemo-Popup-Stack_restrictiveContainer" name="restrictiveContainer">
         <div attr:style="width: 100px; height:300px;">
             <Controls.buttons:Button name="insideBtn" caption="Открыть stack внутри контейнера" attr:class="ControlsDemo-Popup-Stack_insideContainerButton" on:click="_openStackHandler(true)" />
         </div>

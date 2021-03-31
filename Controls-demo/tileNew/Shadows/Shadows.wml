@@ -1,0 +1,16 @@
+<div class="controlsDemo__wrapper controlDemo_Tile_shadows">
+<h4>shadowVisibility false на второй карточке</h4>
+        <Controls.treeTile:View
+                tileMode="dynamic"
+                displayProperty="title"
+                imageProperty="image"
+                keyProperty="id"
+                source="{{_viewSource}}">
+                <ws:itemTemplate>
+                        <ws:partial
+                                shadowVisibility="{{itemTemplate.itemData.item.isShadow === false ? 'hidden'}}"
+                                template="Controls/tileNew:ItemTemplate"
+                                hasTitle="{{itemTemplate.itemData.item.isDocument}}"/>
+                </ws:itemTemplate>
+        </Controls.treeTile:View>
+</div>

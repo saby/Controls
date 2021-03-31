@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
-    <Controls.grid:View
+    <Controls.gridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             itemActions="{{_itemActions}}"
@@ -10,7 +10,7 @@
                 <ws:Object displayProperty="number" width="30px"/>
                 <ws:Object displayProperty="country" width="200px">
                     <ws:template>
-                        <ws:partial template="Controls/grid:ColumnTemplate">
+                        <ws:partial template="Controls/gridOld:ColumnTemplate">
                             <ws:contentTemplate>
                                 <ws:partial template="{{contentTemplate.itemActionsTemplate}}" />
                             </ws:contentTemplate>
@@ -23,5 +23,5 @@
                 <ws:Object displayProperty="populationDensity" width="120px"/>
             </ws:Array>
         </ws:columns>
-    </Controls.grid:View>
+    </Controls.gridOld:View>
 </div>

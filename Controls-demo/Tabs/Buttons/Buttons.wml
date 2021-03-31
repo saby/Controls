@@ -1,4 +1,4 @@
-<div class="root {{_options.theme !== 'default' ? ' root__dark_background'}}">
+<div class="root {{_options.theme.indexOf('default') !== 0 ? ' root__dark_background'}}">
     <div class="separator">Прижатые к правому краю</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__rightAlign">
         <Controls.tabs:Buttons
@@ -62,7 +62,7 @@
     </div>
     <div class="separator">Прикладной контент перед вкладками</div>
     <div class="demo-TabButtons ControlsDemo-Tabs__contentBefore">
-        <div class="demo-TabButtons-container controls-Tabs__item-underline_theme-{{_options.theme}}">
+        <div class="demo-TabButtons-container controls-Tabs__item-underline">
                 <Controls.heading:Title caption="Бизнес" fontColorStyle="secondary"/>
         </div>
         <Controls.tabs:Buttons

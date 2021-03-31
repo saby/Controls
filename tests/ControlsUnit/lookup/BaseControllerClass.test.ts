@@ -44,7 +44,11 @@ function getSource(): Memory {
 const source = getSource();
 
 const sourceWithError = getSource();
-sourceWithError.query = () => Promise.reject(new Error());
+sourceWithError.query = () => {
+    const error = new Error();
+    error.processed = true;
+    return Promise.reject(error);
+};
 
 function getRecordSet(): RecordSet {
     return new RecordSet({
@@ -210,6 +214,18 @@ describe('Controls/_lookup/BaseControllerClass', () => {
             newOptions.items = new RecordSet({rawData: getData()});
 
             ok(controller.update(newOptions as ILookupBaseControllerOptions) === true);
+        });
+
+        it('items already updated', async () => {
+            const controller = getLookupControllerWithEmptySelectedKeys();
+            const newOptions = getControllerOptions();
+            const items = new RecordSet({rawData: getData()});
+
+            newOptions.selectedKeys = [0, 1, 2];
+            newOptions.items = items;
+            controller._items = items;
+
+            ok(controller.update(newOptions as ILookupBaseControllerOptions) === undefined);
         });
     });
 

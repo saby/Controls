@@ -9,8 +9,19 @@ import {Base as dateUtil} from 'Controls/dateUtils';
  * @author Красильников А.С.
  */
 
+type TMode = 'current' | 'extend';
+
+export interface IMonthOptions {
+    month?: Date;
+    showCaption?: boolean;
+    captionFormat?: string;
+    showWeekdays?: boolean;
+    dayFormatter?: (date: Date) => object;
+    mode?: TMode;
+}
+
 export default {
-    getDefaultOptions: function () {
+    getDefaultOptions(): IMonthOptions {
         return {
 
             /**
@@ -102,7 +113,7 @@ export default {
 
             /**
              * @name Controls/_calendar/interfaces/IMonth#dayHeaderTemplate
-             * @cfg {String|Function} Шаблон заголовка дня.
+             * @cfg {String|TemplateFunction} Шаблон заголовка дня.
              * @remark В шаблоне можно использовать объект value, в котором хранятся:
              *  <ul>
              *      <li>caption - сокращенное название дня недели</li>
@@ -126,7 +137,7 @@ export default {
 
             /**
              * @name Controls/_calendar/interfaces/IMonth#captionTemplate
-             * @cfg {String|Function} Шаблон заголовка.
+             * @cfg {String|TemplateFunction} Шаблон заголовка.
              * @remark В шаблоне можно использовать date (Дата месяца) caption (Заголовок месяца)
              * @example
              * <pre class="brush: html">
@@ -170,7 +181,7 @@ export default {
         };
     },
 
-    getOptionTypes: function () {
+    getOptionTypes(): object {
         return {
 
             // month: types(Date),

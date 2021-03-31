@@ -1,6 +1,7 @@
 import {Notification} from 'Controls/popupTemplate';
 import template = require('wml!Controls/_compatiblePopup/Notification/Base');
 import {TemplateFunction} from 'UI/Base';
+import 'css!Controls/popupTemplate';
 
 class NotificationBase extends Notification {
     protected _template: TemplateFunction = template;
@@ -21,7 +22,6 @@ class NotificationBase extends Notification {
 
       return  super._beforeMount(options);
    }
-   static _theme: string[] = ['Controls/popupTemplate'];
 }
 
 export default NotificationBase;

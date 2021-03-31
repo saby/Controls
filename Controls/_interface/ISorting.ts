@@ -1,3 +1,7 @@
+type TSortingValue = 'ASC'|'DESC';
+type TSorting = Record<string, TSortingValue>;
+export type TSortingOptionValue = TSorting[];
+
 export interface ISortingOptions {
    sorting?: any;
 }
@@ -13,7 +17,7 @@ export default interface ISorting {
 
 /**
  * @name Controls/_interface/ISorting#sorting
- * @cfg {Array.<Object>} Конфигурация сортировки.
+ * @cfg {Array.<Object>} Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/sorting/ сортировки}.
  * @remark
  * Допустимы значения ASC/DESC.
  * 

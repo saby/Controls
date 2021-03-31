@@ -68,7 +68,7 @@ export default Form;
  * Запускает валидацию.
  * @name Controls/_validate/Controller#submit
  * @function
- * @return {Deferred<Controls/_validate/interfaces/IValidateResult>}
+ * @return {Promise<Controls/_validate/interfaces/IValidateResult>}
  * @example
  * <pre>
  * <!-- WML -->

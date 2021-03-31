@@ -3,7 +3,7 @@ define('Controls/interface/IGridItemTemplate', [
 ], function() {
 
    /**
-    * Интерфейс для настройки отображения элементов в контроле {@link Controls/grid:View Таблица}.
+    * Интерфейс для настройки отображения элементов в {@link Controls/grid:View таблице}.
     *
     * @interface Controls/interface/IGridItemTemplate
     * @public
@@ -20,7 +20,7 @@ define('Controls/interface/IGridItemTemplate', [
 
    /**
     * @name Controls/interface/IGridItemTemplate#itemTemplate
-    * @cfg {String|Function} Пользовательский шаблон отображения элемента.
+    * @cfg {String|TemplateFunction} Шаблон отображения элемента.
     * @default undefined
     * @markdown
     * @remark
@@ -74,7 +74,7 @@ define('Controls/interface/IGridItemTemplate', [
 
    /**
     * @name Controls/interface/IGridItemTemplate#itemTemplateProperty
-    * @cfg {String|undefined} Имя поля элемента, которое содержит имя {@link Controls/interface/IGridItemTemplate#itemTemplate шаблона отображения элемента}. С помощью этой настройки отдельным элементам можно задать собственный шаблон отображения.
+    * @cfg {String|undefined} Имя поля записи, в котором хранится имя {@link Controls/interface/IGridItemTemplate#itemTemplate шаблона отображения элемента}. С помощью этой настройки отдельным элементам можно задать собственный шаблон отображения.
     * @default undefined
     * @remark
     * Если не задано значение в опции itemTemplateProperty или в свойстве элемента, то используется шаблон из {@link Controls/interface/IGridItemTemplate#itemTemplate itemTemplate}.

@@ -2,14 +2,12 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_search/Input/Container';
 import {SyntheticEvent} from 'UI/Vdom';
 import SearchResolver from 'Controls/_search/SearchResolver';
-import {default as Store} from 'Controls/Store';
 import {constants} from 'Env/Env';
 
 export interface ISearchInputContainerOptions extends IControlOptions {
    searchDelay?: number | null;
    minSearchLength?: number;
    inputSearchValue?: string;
-   useStore?: boolean;
 }
 
 /**
@@ -18,8 +16,6 @@ export interface ISearchInputContainerOptions extends IControlOptions {
  * @remark
  * Контрол принимает решение по событию valueChanged, должно ли сработать событие search или нет,
  * в зависимости от заданных параметров поиска - минимальной длины для начала поиска и времени задержки.
- *
- * Если задана опция useStore, то вместо использования события, будет отправлено значение свойства searchValue в Controls/Store.
  *
  * Использование c контролом {@link Controls/browser:Browser} можно посмотреть в демо {@link /materials/Controls-demo/app/Controls-demo%2FSearch%2FFlatList%2FIndex Controls-demo/Search/FlatList}
  *
@@ -53,12 +49,12 @@ export default class Container extends Control<ISearchInputContainerOptions> {
    protected _template: TemplateFunction = template;
 
    protected _value: string;
-   protected _contextCallbackId: string;
    protected _searchResolverController: SearchResolver = null;
 
    protected _beforeMount(options?: ISearchInputContainerOptions): void {
       if (options.inputSearchValue) {
-         this._updateSearchData(options.inputSearchValue);
+         this._searchResolverController = this._initializeSearchResolverController(options);
+         this._updateSearchData(options.inputSearchValue, options.minSearchLength);
       }
    }
 
@@ -66,40 +62,29 @@ export default class Container extends Control<ISearchInputContainerOptions> {
       if (this._searchResolverController) {
          this._searchResolverController.clearTimer();
       }
-      if (this._contextCallbackId) {
-         Store.unsubscribe(this._contextCallbackId);
-      }
    }
 
    protected _beforeUpdate(newOptions: ISearchInputContainerOptions): void {
       if (this._options.inputSearchValue !== newOptions.inputSearchValue) {
-         this._updateSearchData(newOptions.inputSearchValue);
-      }
-   }
-
-   protected _afterMount(): void {
-      if (this._options.useStore) {
-         this._contextCallbackId = Store.onPropertyChanged(
-             '_contextName',
-             () => {
-                this._value = this._options.inputSearchValue;
-             },
-             true
-         );
+         this._updateSearchData(newOptions.inputSearchValue, newOptions.minSearchLength);
       }
    }
 
    protected _getSearchResolverController(): SearchResolver {
       if (!this._searchResolverController) {
-         this._searchResolverController = new SearchResolver({
-            searchDelay: this._options.searchDelay,
-            minSearchLength: this._options.minSearchLength,
-            searchCallback: this._notifySearch.bind(this),
-            searchResetCallback: this._notifySearchReset.bind(this)
-         });
+         this._searchResolverController = this._initializeSearchResolverController(this._options);
       }
 
       return this._searchResolverController;
+   }
+
+   private _initializeSearchResolverController(options: ISearchInputContainerOptions): SearchResolver {
+      return new SearchResolver({
+         searchDelay: options.searchDelay,
+         minSearchLength: options.minSearchLength,
+         searchCallback: this._notifySearch.bind(this),
+         searchResetCallback: this._notifySearchReset.bind(this)
+      });
    }
 
    protected _notifySearch(value: string): void {
@@ -110,19 +95,20 @@ export default class Container extends Control<ISearchInputContainerOptions> {
       this._resolve('', 'searchReset');
    }
 
-   private _updateSearchData(inputSearchValue: string): void {
+   private _updateSearchData(inputSearchValue: string, minSearchLength: number): void {
+      const searchResolver = this._getSearchResolverController();
       if (this._value !== inputSearchValue) {
          this._value = inputSearchValue;
+
+         if (!inputSearchValue) {
+            searchResolver.clearTimer();
+         }
+         searchResolver.setSearchStarted(this._value && this._value.length >= minSearchLength);
       }
-      this._getSearchResolverController().setSearchStarted(true);
    }
 
    private _resolve(value: string, event: 'searchReset' | 'search'): void {
-      if (this._options.useStore) {
-         Store.dispatch('searchValue', value);
-      } else {
-         this._notify(event, [value], { bubbling: true });
-      }
+      this._notify(event, [value], { bubbling: true });
    }
 
    protected _searchClick(event: SyntheticEvent): void {
@@ -136,6 +122,7 @@ export default class Container extends Control<ISearchInputContainerOptions> {
       if (this._value !== value) {
          this._value = value;
          this._getSearchResolverController().resolve(value);
+         this._notify('inputSearchValueChanged', [value], {bubbling: true});
       }
    }
 
@@ -172,14 +159,6 @@ export default class Container extends Control<ISearchInputContainerOptions> {
 /**
  * @name Controls/_search/Input/Container#inputSearchValue
  * @cfg {string} Значение строки ввода
- * @demo Controls-demo/Search/Explorer/Index
- * @demo Controls-demo/Search/FlatList/Index
- * @demo Controls-demo/Search/TreeView/Index
- */
-
-/**
- * @name Controls/_search/Input/Container#useStore
- * @cfg {boolean} Использовать ли хранилище Store вместо отправки события при разрешении на поиск
  * @demo Controls-demo/Search/Explorer/Index
  * @demo Controls-demo/Search/FlatList/Index
  * @demo Controls-demo/Search/TreeView/Index

@@ -1,10 +1,10 @@
 <div on:registerFormOperation="_registerFormOperationHandler()"
      on:validateCreated="_onValidateCreated()"
      on:validateDestroyed="_onValidateDestroyed()">
-   <ws:if data="{{ __error }}">
+   <ws:if data="{{ _error }}">
       <ws:partial
          template="{{ _options.errorContainer || _errorContainer }}"
-         viewConfig="{{ __error }}"
+         viewConfig="{{ _error }}"
       />
    </ws:if>
    <ws:else data="{{ _record }}">

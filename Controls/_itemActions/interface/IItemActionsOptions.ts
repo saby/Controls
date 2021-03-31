@@ -73,7 +73,7 @@ export interface IItemActionsOptions {
     itemActions?: IItemAction[];
 
     /**
-     * @cfg {Controls/itemActions.TItemActionsPosition} Позиционирование панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/ опциями записи}.
+     * @cfg {Controls/itemActions.TItemActionsPosition} Позиционирование панели {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/ опций записи}.
      * @remark
      * Пример использования значения custom можно посмотреть в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/position/#custom-position статье}.
      * @demo Controls-demo/list_new/ItemActions/ItemActionsPosition/Outside/Index Панель с опциями записи отображается под элементом.
@@ -147,7 +147,7 @@ export interface IItemActionsOptions {
     itemActionsPosition?: TItemActionsPosition;
 
     /**
-     * @cfg {String} Имя свойства, которое содержит конфигурацию для панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опциями записи}.
+     * @cfg {String} Имя поля записи, в котором хранится конфигурация для панели с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опциями записи}.
      * @remark
      * С помощью этой опции можно задать конфигурацию набора опций для каждой записи.
      * Подробнее об использовании функционала читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/separate-set-options/#item-actions-property здесь}.
@@ -211,14 +211,14 @@ export interface IItemActionsOptions {
     actionAlignment?: TActionAlignment;
 
     /**
-     * @cfg {TActionCaptionPosition} Позиция заголовка для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}, когда они отображаются в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/swipe-mobile/ режиме swipe}.
+     * @cfg {Controls/itemActions.TActionCaptionPosition} Позиция заголовка для {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}, когда они отображаются в {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/swipe-mobile/ режиме swipe}.
      * @demo Controls-demo/List/Swipe/Scenarios
      * @see itemActions
      * @see actionAlignment
      */
 
     /*ENG
-     * @cfg {TActionCaptionPosition} Determines where the caption of an item action will be displayed on swipe.
+     * @cfg {Controls/itemActions.TActionCaptionPosition} Determines where the caption of an item action will be displayed on swipe.
      * @demo Controls-demo/List/Swipe/Scenarios
      * @variant right Title will be displayed to the right of the action's icon.
      * @variant bottom Title will be displayed under the action's icon.
@@ -245,6 +245,7 @@ export interface IItemActionsOptions {
      *
      * * action — объект с конфигурацией опции записи.
      * * item — модель (см. {@link Types/entity:Model}), содержащая данные записи.
+     * * isEditing — флаг, редактируется ли запись в данный момент.
      *
      * Чтобы опция записи отображалась, из функции следует вернуть true.
      * Подробнее об использовании функции читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/separate-set-options/#visibility здесь}.
@@ -269,7 +270,7 @@ export interface IItemActionsOptions {
      * <pre class="brush: js">
      * // TypeScript
      *  ...
-     *  private _visibilityCallback(action: IItemAction, item: Model): boolean {
+     *  private _visibilityCallback(action: IItemAction, item: Model, isEditing: boolean): boolean {
      *   if (action.title === 'Read') {
      *     return item.get('isNew');
      *   }
@@ -289,6 +290,7 @@ export interface IItemActionsOptions {
      * @cfg {Function} item operation visibility filter function
      * @param {ItemAction} action Object with configuration of an action.
      * @param {Types/entity:Model} item Instance of the item whose action is being processed.
+     * @param {Boolean} isEditing Determines whether the item is editing at the moment.
      * @returns {Boolean} Determines whether the action should be rendered.
      * @example
      * Item action Read don't display if item has property isNew === false

@@ -1,0 +1,31 @@
+<div class="controlsDemo__wrapper">
+    <Controls.heading:Title
+            caption="Controls performance tests"
+            fontSize="2xl"/>
+    <div>
+        <div class="ControlsDemo-Performance__panel">
+            <Controls.dropdown:Selector
+                    source="{{_controlsSource}}"
+                    emptyText="Select control type"
+                    keyProperty="id"
+                    displayProperty="title"
+                    selectedKeys="{{_curControlKeys}}"
+                    on:selectedKeysChanged="_curControlChanged()"></Controls.dropdown:Selector>
+            <ws:if data="{{_chosenControl}}">
+                <ws:if data="{{_displayedControl}}">
+                    <Controls.buttons:Button caption="Re-create" on:click="_recreateControl()"/>
+                    <Controls.buttons:Button caption="Destroy" on:click="_destroyControl()"/>
+                </ws:if>
+                <ws:else>
+                    <Controls.buttons:Button caption="Create" on:click="_createControl()"/>
+                </ws:else>
+            </ws:if>
+        </div>
+
+        <ws:if data="{{_displayedControl}}">
+            <div class="ControlsDemo-Performance__workArea">
+                <Controls.Container.Async templateName="{{_displayedControl}}"/>
+            </div>`
+        </ws:if>
+    </div>
+</div>

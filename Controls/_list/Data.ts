@@ -7,11 +7,19 @@ import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData, Memory} fr
 import {
    error as dataSourceError,
    ISourceControllerOptions,
-   NewSourceController as SourceController
+   NewSourceController as SourceController, Path
 } from 'Controls/dataSource';
 import {ISourceControllerState} from 'Controls/dataSource';
 import {ContextOptions} from 'Controls/context';
-import {ISourceOptions, IHierarchyOptions, IFilterOptions, INavigationOptions, ISortingOptions, TKey} from 'Controls/interface';
+import {
+   ISourceOptions,
+   IHierarchyOptions,
+   IFilterOptions,
+   INavigationOptions,
+   ISortingOptions,
+   TKey,
+   Direction
+} from 'Controls/interface';
 import {SyntheticEvent} from 'UI/Vdom';
 import {isEqual} from 'Types/object';
 
@@ -38,6 +46,9 @@ export interface IDataContextOptions extends ISourceOptions,
    keyProperty: string;
    items: RecordSet;
 }
+
+type ReceivedState = RecordSet | Error;
+
 /**
  * Контрол-контейнер, предоставляющий контекстное поле "dataOptions" с необходимыми данными для дочерних контейнеров.
  *
@@ -60,6 +71,27 @@ export interface IDataContextOptions extends ISourceOptions,
  * @author Герасимов А.М.
  */
 
+/**
+ * @name Controls/_list/Data#dataLoadCallback
+ * @cfg {Function} Функция, которая вызывается каждый раз после загрузки данных из источника контрола.
+ * Функцию можно использовать для изменения данных еще до того, как они будут отображены в контроле.
+ * @remark
+ * Функцию вызывается с двумя аргументами:
+ * - items коллекция, загруженная из источника данных с типом {@link Types/collection:RecordSet}.
+ * - direction направление загрузки данных (up/down), данный аргумент передаётся при подгрузке данных по скролу.
+ * @example
+ * <pre class="brush:html">
+ *    <Controls.list:DataContainer dataLoadCallback="{{_myDataLoadCallback}}" />
+ * </pre>
+ * <pre class="brush:js">
+ *    _myDataLoadCallback = function(items) {
+ *       items.each(function(item) {
+ *          item.set(field, value);
+ *       });
+ *    }
+ * </pre>
+ */
+
 /*
  * Container component that provides a context field "dataOptions" with necessary data for child containers.
  *
@@ -76,7 +108,7 @@ export interface IDataContextOptions extends ISourceOptions,
  * @author Герасимов А.М.
  */
 
-class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype */{
+class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list/Data.prototype */{
    protected _template: TemplateFunction = template;
    private _isMounted: boolean;
    private _loading: boolean = false;
@@ -89,12 +121,16 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    private _root: TKey = null;
 
    private _items: RecordSet;
+   protected _breadCrumbsItems: Path;
+   protected _backButtonCaption: string;
+   protected _breadCrumbsItemsWithoutBackButton: Path;
+
    private _filter: QueryWhereExpression<unknown>;
 
    _beforeMount(
        options: IDataOptions,
        context?: object,
-       receivedState?: RecordSet|Error
+       receivedState?: ReceivedState
    ): Promise<RecordSet|Error>|void {
       // TODO придумать как отказаться от этого свойства
       this._itemsReadyCallback = this._itemsReadyCallbackHandler.bind(this);
@@ -110,15 +146,15 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       } else {
          this._source = options.source;
       }
+
       if (options.root !== undefined) {
          this._root = options.root;
       }
-      this._sourceController =
-          options.sourceController ||
-          new SourceController(this._getSourceControllerOptions(options));
+
+      this._sourceController = options.sourceController || this._getSourceController(options);
       this._fixRootForMemorySource(options);
 
-      let controllerState = this._sourceController.getState();
+      const controllerState = this._sourceController.getState();
       // TODO filter надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._filter = controllerState.filter;
       this._dataOptionsContext = this._createContext(controllerState);
@@ -138,7 +174,9 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          return this._sourceController
              .reload()
              .then((items) => {
-                this._items = this._sourceController.setItems(items as RecordSet);
+                this._items = this._sourceController.getState().items;
+                this._updateBreadcrumbsFromSourceController();
+
                 return items;
              })
              .catch((error) => error)
@@ -152,6 +190,10 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
 
    protected _afterMount(): void {
       this._isMounted = true;
+
+      // После монтирования пошлем событие о изменении хлебных крошек для того,
+      // что бы эксплорер заполнил свое состояние, которое завязано на хлебные крошки
+      this._notifyAboutBreadcrumbsChanged();
    }
 
    protected _beforeUpdate(newOptions: IDataOptions): void|Promise<RecordSet|Error> {
@@ -203,6 +245,8 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
 
       if (!isEqual(sourceControllerState, this._sourceControllerState) && !this._sourceController.isLoading()) {
          this._filter = sourceControllerState.filter;
+         this._items = sourceControllerState.items;
+         this._updateBreadcrumbsFromSourceController();
          this._updateContext(sourceControllerState);
       }
    }
@@ -211,6 +255,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
       const controllerState = this._sourceController.getState();
       // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._items = controllerState.items;
+      this._updateBreadcrumbsFromSourceController();
       this._updateContext(controllerState);
    }
 
@@ -223,6 +268,12 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
          root: this._root,
          dataLoadCallback: this._dataLoadCallback
       } as ISourceControllerOptions;
+   }
+
+   private _getSourceController(options: IDataOptions): SourceController {
+      const sourceController = new SourceController(this._getSourceControllerOptions(options));
+      sourceController.subscribe('rootChanged', this._rootChanged.bind(this));
+      return sourceController;
    }
 
    private _notifyNavigationParamsChanged(params): void {
@@ -259,6 +310,8 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    _itemsReadyCallbackHandler(items): void {
       if (this._items !== items) {
          this._items = this._sourceController.setItems(items);
+         this._updateBreadcrumbsFromSourceController();
+
          this._dataOptionsContext.items = this._items;
          this._dataOptionsContext.updateConsumers();
       }
@@ -273,18 +326,22 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
    }
 
    _rootChanged(event, root): void {
+      const rootChanged = this._root !== root;
       if (this._options.root === undefined) {
          this._root = root;
          // root - не реактивное состояние, надо позвать forceUpdate
          this._forceUpdate();
       }
-      this._notify('rootChanged', [root]);
+      if (rootChanged) {
+         this._notify('rootChanged', [root]);
+      }
    }
 
    // TODO сейчас есть подписка на itemsChanged из поиска. По хорошему не должно быть.
    _itemsChanged(event: SyntheticEvent, items: RecordSet): void {
       this._sourceController.cancelLoading();
       this._items = this._sourceController.setItems(items);
+      this._updateBreadcrumbsFromSourceController();
       this._updateContext(this._sourceController.getState());
       event.stopPropagation();
    }
@@ -312,6 +369,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
           options.source &&
           Object.getPrototypeOf(options.source).constructor === Memory &&
           this._sourceController.getRoot() === null) {
+         this._root = undefined;
          this._sourceController.setRoot(undefined);
       }
    }
@@ -327,7 +385,7 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
                 this._sourceController.setRoot(currentRoot);
              }
              this._items = this._sourceController.getItems();
-             this._loading = false;
+             this._updateBreadcrumbsFromSourceController();
              return reloadResult;
           })
           .catch((error) => {
@@ -339,10 +397,15 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
                  }
              );
              return error;
+          })
+          .finally(() => {
+             const controllerState = this._sourceController.getState();
+             this._updateContext(controllerState);
+             this._loading = false;
           });
    }
 
-   private _dataLoadCallback(items: RecordSet, direction): void {
+   private _dataLoadCallback(items: RecordSet, direction: Direction): void {
       const rootChanged =
           this._sourceController.getRoot() !== undefined &&
           this._root !== this._sourceController.getRoot();
@@ -359,6 +422,27 @@ class Data extends Control<IDataOptions>/** @lends Controls/_list/Data.prototype
 
       if (this._options.dataLoadCallback) {
          this._options.dataLoadCallback(items, direction);
+      }
+   }
+
+   /**
+    * На основании текущего состояния sourceController обновляет информацию
+    * для хлебных крошек. Так же стреляет событие об изменении данных
+    * хлебных крошек.
+    */
+   private _updateBreadcrumbsFromSourceController(): void {
+      const scState = this._sourceController.getState();
+
+      this._breadCrumbsItems = scState.breadCrumbsItems;
+      this._backButtonCaption = scState.backButtonCaption;
+      this._breadCrumbsItemsWithoutBackButton = scState.breadCrumbsItemsWithoutBackButton;
+
+      this._notifyAboutBreadcrumbsChanged();
+   }
+
+   private _notifyAboutBreadcrumbsChanged(): void {
+      if (this._isMounted) {
+         this._notify('breadCrumbsItemsChanged', [this._breadCrumbsItems]);
       }
    }
 

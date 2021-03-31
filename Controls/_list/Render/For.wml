@@ -39,7 +39,7 @@
          <ws:partial
                  template="{{ itemActionsTemplate.itemActionsTemplate || 'Controls/itemActions:ItemActionsTemplate' }}"
                  highlightOnHover="{{ itemActionsTemplate.highlightOnHover }}"
-                 scope="{{ collection.getActionsTemplateConfig() }}"
+                 scope="{{ collection.getActionsTemplateConfig(itemActionsTemplate) }}"
                  itemActionsClass="{{ itemActionsTemplate.itemActionsClass || collection.getActionsTemplateConfig().itemActionsClass }}"
                  useNewModel="{{ true }}"
                  itemData="{{ item }}" />

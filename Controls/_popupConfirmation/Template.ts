@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_popupConfirmation/template';
+import 'css!Controls/popupConfirmation';
 
 type TStyle = 'default' | 'danger' | 'secondary' | 'success' | 'primary';
 type TSize = 's' | 'l';
@@ -11,14 +12,14 @@ interface IConfirmationTemplate extends IControlOptions {
 }
 /**
  * Базовый шаблон <a href='/doc/platform/developmentapl/interface-development/controls/openers/confirmation/'>диалога подтверждения</a>.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
- * 
+ *
  * @class Controls/_popupConfirmation/Template
  * @extends UI/Base:Control
- * 
+ *
  * @public
  * @author Красильников А.С.
  * @mixes Controls/_popupConfirmation/Template/mixin
@@ -38,8 +39,6 @@ class Template extends Control<IConfirmationTemplate> {
          style: 'secondary'
       };
    }
-
-   static _theme: string[] = ['Controls/popupConfirmation'];
 }
 
 Object.defineProperty(Template, 'defaultProps', {

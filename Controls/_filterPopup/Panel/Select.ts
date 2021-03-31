@@ -1,4 +1,4 @@
-import {Control} from 'UI/Base';
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_filterPopup/Panel/Select/Select');
 import itemTemplate = require('wml!Controls/_filterPopup/Panel/Select/ItemTemplate');
 import {object} from 'Types/util';
@@ -33,25 +33,24 @@ import {object} from 'Types/util';
  * @public
  * @author Герасимов А.М.
  */
+class FilterSelect extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
+   protected _itemTemplate: TemplateFunction = itemTemplate;
 
-var FilterSelect = Control.extend({
-   _template: template,
-   _itemTemplate: itemTemplate,
-
-   _clickHandler: function(event, item) {
-      const textValue = object.getPropertyValue(item, this._options.textValueProperty) || object.getPropertyValue(item, this._options.displayProperty);
+   protected _clickHandler(event, item): void {
+      const textValue = object.getPropertyValue(item, this._options.textValueProperty) ||
+          object.getPropertyValue(item, this._options.displayProperty);
       this._notify('textValueChanged', [textValue]);
       this._notify('selectedKeysChanged', [[object.getPropertyValue(item, this._options.keyProperty)]]);
    }
 
-});
-
-FilterSelect.getDefaultOptions = function() {
-   return {
-      displayProperty: 'title',
-      textValueProperty: 'textValue'
-   };
-};
+   static getDefaultOptions(): object {
+      return {
+         displayProperty: 'title',
+         textValueProperty: 'textValue'
+      };
+   }
+}
 
 Object.defineProperty(FilterSelect, 'defaultProps', {
    enumerable: true,
@@ -115,5 +114,5 @@ Object.defineProperty(FilterSelect, 'defaultProps', {
  * }
  * </pre>
  */
-export = FilterSelect;
+export default FilterSelect;
 

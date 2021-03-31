@@ -15,7 +15,7 @@ class InitialMemory extends Memory {
    }
 }
 
-export default class ListCut extends Control {
+export default class CutNavigation extends Control {
    protected _template: TemplateFunction = controlTemplate;
    protected _source: Memory;
    protected _navigation: INavigationOptionValue<INavigationPageSourceConfig>;

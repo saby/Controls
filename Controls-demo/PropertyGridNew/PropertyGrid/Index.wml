@@ -3,8 +3,7 @@
             bind:editingObject="_editingObject"
             itemActions="{{_itemActions}}"
             source="{{_source}}"
-            itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}"
-            on:itemClick="_handleItemClick()">
+            itemActionVisibilityCallback="{{_itemActionVisibilityCallback}}">
         <ws:captionColumnOptions
             width="50%"/>
         <ws:groupTemplate>

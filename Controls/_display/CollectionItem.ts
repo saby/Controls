@@ -13,15 +13,13 @@ import {IList} from 'Types/collection';
 import {mixin, object} from 'Types/util';
 import {TemplateFunction} from 'UI/Base';
 import {ICollectionItemStyled} from './interface/ICollectionItemStyled';
-import {ANIMATION_STATE, ICollection, ISourceCollection} from './interface/ICollection';
+import {ANIMATION_STATE, ICollection, ISourceCollection, IItemPadding} from './interface/ICollection';
 import {ICollectionItem} from './interface/ICollectionItem';
-import IMarkable from './interface/IMarkable';
+import IMarkable, {TMarkerClassName} from './interface/IMarkable';
 import { IItemCompatibilityListViewModel, ItemCompatibilityListViewModel } from './ItemCompatibilityListViewModel';
 import {IEditableCollectionItem} from './interface/IEditableCollectionItem';
-import {TMarkerClassName} from '../_grid/interface/ColumnTemplate';
-import {IItemPadding} from '../_list/interface/IList';
 import Collection from 'Controls/_display/Collection';
-import {TItemKey} from 'Controls/_display/interface';
+import IItemActionsItem from './interface/IItemActionsItem';
 
 export interface IOptions<T extends Model = Model> {
     itemModule: string;
@@ -38,6 +36,14 @@ export interface IOptions<T extends Model = Model> {
     multiSelectVisibility?: string;
     multiSelectAccessibilityProperty?: string;
     rowSeparatorSize?: string;
+    backgroundStyle?: string;
+    theme?: string;
+    style: string;
+    searchValue?: string;
+    leftPadding: string;
+    rightPadding: string;
+    topPadding: string;
+    bottomPadding: string;
 }
 
 export interface ISerializableState<T extends Model = Model> extends IDefaultSerializableState {
@@ -77,7 +83,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     InstantiableMixin,
     SerializableMixin,
     ItemCompatibilityListViewModel
-) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable {
+) implements IInstantiable, IVersionable, ICollectionItem, ICollectionItemStyled, IItemCompatibilityListViewModel, IEditableCollectionItem, IMarkable, IItemActionsItem {
 
     // region IInstantiable
 
@@ -85,6 +91,9 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
     readonly Markable: boolean = true;
     readonly SelectableItem: boolean = true;
     readonly DraggableItem: boolean = true;
+    readonly ItemActionsItem: boolean = true;
+    readonly DisplaySearchValue: boolean = true;
+
     private _$editingColumnIndex: number;
 
     getInstanceId: () => string;
@@ -98,6 +107,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * Содержимое элемента коллекции
      */
     protected _$contents: T;
+
+    protected _$searchValue: string;
 
     /**
      * Элемент выбран
@@ -129,9 +140,24 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     protected _$multiSelectVisibility: string = 'hidden';
 
+    // Фон застиканных записей и лесенки
+    protected _$backgroundStyle?: string;
+
     protected _$rowSeparatorSize: string;
 
     protected _$dragged: boolean;
+
+    protected _$theme: string;
+
+    protected _$style: string;
+
+    protected _$leftPadding: string;
+
+    protected _$rightPadding: string;
+
+    protected _$topPadding: string;
+
+    protected _$bottomPadding: string;
 
     protected _dragOutsideList: boolean;
 
@@ -292,8 +318,15 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
     }
 
+    setSearchValue(searchValue: string): void {
+        if (this._$searchValue !== searchValue) {
+            this._$searchValue = searchValue;
+            this._nextVersion();
+        }
+    }
+
     getSearchValue(): string {
-        return this.getOwner().getSearchValue();
+        return this._$searchValue;
     }
 
     // endregion
@@ -324,6 +357,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
 
     getDisplayProperty(): string {
         return this.getOwner().getDisplayProperty();
+    }
+
+    getDisplayValue(): string {
+        return this.getContents().get(this.getDisplayProperty());
     }
 
     getKeyProperty(): string {
@@ -567,6 +604,11 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         this._$rendered = state;
     }
 
+    setBackgroundStyle(backgroundStyle: string): void {
+        this._$backgroundStyle = backgroundStyle;
+        this._nextVersion();
+    }
+
     // region Drag-n-drop
 
     setDragged(dragged: boolean, silent?: boolean): void {
@@ -621,6 +663,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * @param cursor - курсор мыши
      * @param backgroundColorStyle - стиль background
      * @param style - режим отображения списка (master/default)
+     * @param showItemActionsOnHover - показывать или нет операции над записью по ховеру
      * @remark
      * Метод должен уйти в render-модель при её разработке.
      */
@@ -628,13 +671,16 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
                       theme?: string,
                       cursor: string = 'pointer',
                       backgroundColorStyle?: string,
-                      style: string = 'default'): string {
+                      style: string = 'default',
+                      showItemActionsOnHover: boolean = true): string {
         const hoverBackgroundStyle = this.getOwner().getHoverBackgroundStyle() || style;
         const editingBackgroundStyle = this.getOwner().getEditingBackgroundStyle();
         let wrapperClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor)}`;
         wrapperClasses += ` controls-ListView__item_${style}`;
         wrapperClasses += ` controls-ListView__item_${style}_theme-${theme}`;
-        wrapperClasses += ' controls-ListView__item_showActions';
+        if (showItemActionsOnHover !== false) {
+            wrapperClasses += ' controls-ListView__item_showActions';
+        }
         wrapperClasses += ' js-controls-ListView__measurableContainer';
         wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}`;
         if (templateHighlightOnHover && !this.isEditing()) {
@@ -676,6 +722,14 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this.getOwner().getRowSeparatorSize();
     }
 
+    getTheme(): string {
+        return this._$theme;
+    }
+
+    getStyle(): string {
+        return this._$style;
+    }
+
     /**
      * Возвращает строку с классами, устанавливаемыми в шаблоне элемента div'а, расположенного внутри корневого div'a -
      * так называемого контентного div'a.
@@ -715,9 +769,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * @param itemActionsClass
      * @param itemPadding @deprecated
      * @param theme
-     * @param useNewModel
      */
-    getItemActionPositionClasses(itemActionsPosition: string, itemActionsClass: string, itemPadding: {top?: string, bottom?: string}, theme: string, useNewModel?: boolean): string {
+    getItemActionPositionClasses(itemActionsPosition: string, itemActionsClass: string, itemPadding: {top?: string, bottom?: string}, theme: string): string {
         const classes = itemActionsClass || ITEMACTIONS_POSITION_CLASSES.bottomRight;
         const result: string[] = [];
         if (itemPadding === undefined) {
@@ -765,6 +818,10 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         return this.getOwner().getMultiSelectPosition();
     }
 
+    shouldDisplayMultiSelectTemplate(): boolean {
+        return this.getMultiSelectVisibility() !== 'hidden' && this.getMultiSelectPosition() !== 'custom';
+    }
+
     setRowSeparatorSize(rowSeparatorSize: string): boolean {
         const changed = this._$rowSeparatorSize !== rowSeparatorSize;
         if (changed) {
@@ -774,6 +831,40 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
         }
         return false;
     }
+
+    // region ItemPadding
+
+    getTopPadding(): string {
+        return this._$topPadding;
+    }
+
+    getBottomPadding(): string {
+        return this._$bottomPadding;
+    }
+
+    getLeftPadding(): string {
+        return this._$leftPadding;
+    }
+
+    getRightPadding(): string {
+        return this._$rightPadding;
+    }
+
+    setItemPadding(itemPadding: IItemPadding, silent?: boolean): void {
+        this._setItemPadding(itemPadding);
+        if (!silent) {
+            this._nextVersion();
+        }
+    }
+
+    protected _setItemPadding(itemPadding: IItemPadding): void {
+        this._$topPadding = itemPadding.top || 'default';
+        this._$bottomPadding = itemPadding.bottom || 'default';
+        this._$leftPadding = itemPadding.left || 'default';
+        this._$rightPadding = itemPadding.right || 'default';
+    }
+
+    // endregion ItemPadding
 
     protected _getSpacingClasses(theme: string, style: string = 'default'): string {
         let classes = '';
@@ -877,11 +968,8 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * @protected
      */
     protected _notifyItemChangeToOwner(property: string): void {
-        if (this._$owner) {
-            this._$owner.notifyItemChange(
-                this,
-                property as any
-            );
+        if (this._$owner && !this._$owner.destroyed) {
+            this._$owner.notifyItemChange(this, property as any);
         }
     }
 
@@ -893,6 +981,7 @@ Object.assign(CollectionItem.prototype, {
     _moduleName: 'Controls/display:CollectionItem',
     _instancePrefix: 'collection-item-',
     _$owner: null,
+    _$searchValue: '',
     _$contents: null,
     _$selected: false,
     _$marked: false,
@@ -906,6 +995,13 @@ Object.assign(CollectionItem.prototype, {
     _$multiSelectAccessibilityProperty: '',
     _$multiSelectVisibility: null,
     _$rowSeparatorSize: null,
+    _$backgroundStyle: null,
+    _$theme: 'default',
+    _$style: 'default',
+    _$leftPadding: 'default',
+    _$rightPadding: 'default',
+    _$topPadding: 'default',
+    _$bottomPadding: 'default',
     _contentsIndex: undefined,
     _version: 0,
     _counters: null,

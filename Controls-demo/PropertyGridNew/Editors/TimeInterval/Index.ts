@@ -10,7 +10,7 @@ export default class Index extends Control<IControlOptions> {
             caption: 'TimeInterval',
             editorTemplateName: 'Controls/propertyGrid:TimeIntervalEditor',
             editorOptions: {
-                mask: 'HH:MM'
+                mask: 'HH:mm'
             }
         }
     ];

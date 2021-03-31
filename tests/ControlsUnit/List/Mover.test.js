@@ -310,7 +310,7 @@ define([
                assert.equal(data.folder_id, targetId);
                assert.equal(data.filter.get('testProp'), 'testValue');
                assert.deepEqual(data.filter.get('selection').getRawData(),
-                  selectionToRecord({
+                  selectionToRecord.default({
                      selected: params.selectedKeys,
                      excluded: params.excludedKeys
                   }, mover._controller._source.getAdapter()).getRawData()

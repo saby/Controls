@@ -5,15 +5,16 @@ import {CollectionItem} from 'Controls/display';
 import {Model, CrudEntityKey} from 'Types/entity';
 
 export interface IFooterItemData {
-    item: CollectionItem<Model>,
-    key: CrudEntityKey
+    item: CollectionItem<Model>;
+    key: CrudEntityKey;
 }
 
 export interface IMenuPopupOptions extends IMenuControlOptions, ISearch {
     headerContentTemplate: TemplateFunction;
     footerContentTemplate: TemplateFunction;
     closeButtonVisibility: boolean;
-    footerItemData: IFooterItemData
+    footerItemData: IFooterItemData;
+    trigger: 'click' | 'hover';
 }
 
 /**

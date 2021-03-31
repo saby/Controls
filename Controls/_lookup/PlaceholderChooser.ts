@@ -1,47 +1,45 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_lookup/PlaceholderChooser/PlaceholderChooser');
-import collection = require('Types/collection');
-
-var _private = {
-    getPlaceholder: function(items, placeholders, placeholderKeyCallback) {
-        return placeholders[placeholderKeyCallback(items)];
-    }
-};
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_lookup/PlaceholderChooser/PlaceholderChooser';
+import {List} from 'Types/collection';
 
 /**
  * Обертка над "Lookup", которая следит за изменениями выбранных записей, и на основании них отдает один из возможных заранее сформированных "placeholders".
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less переменные тем оформления}
- * 
+ *
  * @class Controls/_lookup/PlaceholderChooser
- * 
+ *
  * @extends UI/Base:Control
  * @public
  * @author Герасимов А.М.
  */
-var PlaceholderChooser = Control.extend({
-    _template: template,
-    _placeholder: '',
 
-    _beforeMount: function(options) {
+export default class PlaceholderChooser extends Control<IControlOptions> {
+    protected _template: TemplateFunction = template;
+    protected _placeholder: string = '';
+
+    protected _beforeMount(options): void {
         this._dataLoadCallback = this._dataLoadCallback.bind(this);
-        this._placeholder = _private.getPlaceholder(new collection.List(), options.placeholders, options.placeholderKeyCallback);
-    },
+        this._placeholder = this._getPlaceholder(new List(), options.placeholders, options.placeholderKeyCallback);
+    }
 
-    _itemsChanged: function(event, items) {
-        this._placeholder = _private.getPlaceholder(items, this._options.placeholders, this._options.placeholderKeyCallback);
-    },
+    protected _itemsChanged(event, items): void {
+        this._placeholder = this._getPlaceholder(items, this._options.placeholders,
+            this._options.placeholderKeyCallback);
+    }
 
-    _dataLoadCallback: function(items) {
-        this._placeholder = _private.getPlaceholder(items, this._options.placeholders, this._options.placeholderKeyCallback);
+    protected _dataLoadCallback(items): void {
+        this._placeholder = this._getPlaceholder(items, this._options.placeholders,
+            this._options.placeholderKeyCallback);
         this._forceUpdate();
     }
-});
 
-PlaceholderChooser._private = _private;
-
+    private _getPlaceholder(items, placeholders, placeholderKeyCallback): string {
+        return placeholders[placeholderKeyCallback(items)];
+    }
+}
 /**
  * @name Controls/_lookup/PlaceholderChooser#placeholders
  * @cfg {Object} Подсказки для поля, которые выбираются с помощью {@link placeholderKeyCallback}
@@ -136,13 +134,3 @@ PlaceholderChooser._private = _private;
  * }
  * </pre>
  */
-/*
- * A wrapper over the "Lookup" that monitors changes to the selected entries, and on the basis of them gives one of the possible pre-formed "placeholders".
- * @class Controls/_lookup/PlaceholderChooser
- * 
- * @extends UI/Base:Control
- * @public
- * @author Kapustin I.A.
- */
-
-export = PlaceholderChooser;

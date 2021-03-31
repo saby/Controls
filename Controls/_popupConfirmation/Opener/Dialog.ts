@@ -1,30 +1,20 @@
-import rk = require('i18n!Controls');
-/// <amd-module name='Controls/_popupConfirmation/Opener/Dialog' />
-// @ts-ignore
+import * as rk from 'i18n!Controls';
 import { Converter as MarkupConverter } from 'Controls/decorator';
-// @ts-ignore
-import {Control} from 'UI/Base';
-// @ts-ignore
-import { constants } from 'Env/Env';
-// @ts-ignore
-import entity = require('Types/entity');
-// @ts-ignore
-import contentTemplate = require('wml!Controls/_popupConfirmation/Opener/Dialog/content');
-// @ts-ignore
-import messageTemplate = require('wml!Controls/_popupConfirmation/Opener/Dialog/message');
-// @ts-ignore
-import detailsTemplate = require('wml!Controls/_popupConfirmation/Opener/Dialog/details');
-// @ts-ignore
-import template = require('wml!Controls/_popupConfirmation/Opener/Dialog/Dialog');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {constants} from 'Env/Env';
+import {descriptor} from 'Types/entity';
+import * as contentTemplate from 'wml!Controls/_popupConfirmation/Opener/Dialog/content';
+import * as messageTemplate from 'wml!Controls/_popupConfirmation/Opener/Dialog/message';
+import * as detailsTemplate from 'wml!Controls/_popupConfirmation/Opener/Dialog/details';
+import * as template from 'wml!Controls/_popupConfirmation/Opener/Dialog/Dialog';
 
 import {Logger} from 'UI/Utils';
 
-
-var _private = {
-   keyPressed: function (e) {
+const _private = {
+   keyPressed(e) {
       if (e.nativeEvent.keyCode === constants.key.esc) {
          // for 'ok' and 'yesnocancel' type value equal undefined
-         var result = this._options.type === 'yesno' ? false : undefined;
+         const result = this._options.type === 'yesno' ? false : undefined;
          this._sendResult(result);
          e.stopPropagation();
       }
@@ -33,32 +23,32 @@ var _private = {
 /**
  * Класс контрола "Окно подтверждения". В зависимости от типа, может быть диалогом подтверждения, с кнопками "Да", "Нет" и "Отмена" (опционально), или диалогом с кнопкой "Ок".
  * @class Controls/_popupConfirmation/Opener/Dialog
- * 
+ *
  * @private
  * @author Красильников А.С.
  * @mixes Controls/_popupConfirmation/Opener/Dialog/DialogStyles
  * @demo Controls-demo/Popup/Confirmation/Template
  */
-var Submit = Control.extend({
-   _template: template,
-   _messageMaxLength: 100,
-   _detailsMaxLength: 160,
-   _messageTemplate: messageTemplate,
-   _detailsTemplate: detailsTemplate,
-   _contentTemplate: contentTemplate,
+export default class ConfirmDialog extends Control<IControlOptions> {
+   _template: TemplateFunction = template;
+   _messageMaxLength: number = 100;
+   _detailsMaxLength: number = 160;
+   _messageTemplate: TemplateFunction = messageTemplate;
+   _detailsTemplate: TemplateFunction = detailsTemplate;
+   _contentTemplate: TemplateFunction = contentTemplate;
 
-   _isEscDown: false,
+   _isEscDown: boolean = false;
 
-   _sendResultHandler: function (e, res) {
+   protected _sendResultHandler(e, res): void {
       this._sendResult(res);
-   },
+   }
 
-   _sendResult: function (res) {
+   private _sendResult(res): void {
       this._options.closeHandler(res);
       this._notify('close');
-   },
+   }
 
-   _keyDown: function (event) {
+   protected _keyDown(event): void {
       if (event.nativeEvent.keyCode === constants.key.esc) {
          this._isEscDown = true;
       }
@@ -68,9 +58,9 @@ var Submit = Control.extend({
          event.stopPropagation();
          this._onTriggerHandler();
       }
-   },
+   }
 
-   _keyPressed: function (e) {
+   protected _keyPressed(e): void {
       /**
        * Старая панель по событию keydown закрывается и блокирует всплытие события. Новая панель делает
        * то же самое, но по событию keyup. Из-за этого возникает следующая ошибка.
@@ -83,15 +73,15 @@ var Submit = Control.extend({
          this._isEscDown = false;
          _private.keyPressed.call(this, e);
       }
-   },
-   _getMessage: function () {
+   }
+   protected _getMessage(): string {
       if (this._hasMarkup()) {
          Logger.error('Confirmation: В тексте сообщения присутствует ссылка. Вывод html-тегов должен реализовываться через задание шаблона.', this);
          return MarkupConverter.htmlToJson('<span>' + this._options.message + '</span>');
       }
       return this._options.message;
-   },
-   _getSize: function () {
+   }
+   protected _getSize(): string {
       if (this._options.size) {
          return this._options.size;
       }
@@ -100,59 +90,60 @@ var Submit = Control.extend({
          return 'l';
       }
       return 'm';
-   },
-   _hasMarkup: function () {
-      var message = this._options.message;
+   }
+   private _hasMarkup(): boolean {
+      const message = this._options.message;
       return typeof message === 'string' && message.indexOf('<a') > -1 && message.indexOf('</a>') > -1;
-   },
+   }
 
-   _onTriggerHandler: function () {
+   private _onTriggerHandler(): void {
       if (this._options.primaryAction === 'no') {
          this._sendResult(false);
       } else {
          this._sendResult(true);
       }
    }
-});
 
-Submit.getDefaultOptions = function () {
-   return {
-      type: 'yesno',
-      style: 'default',
-      primaryAction: 'yes',
-      yesCaption: rk('Да'),
-      noCaption: rk('Нет'),
-      cancelCaption: rk('Отмена'),
-      okCaption: rk('ОК')
-   };
-};
+   static getOptionTypes(): object {
+      return {
+         type: descriptor(String).oneOf([
+            'ok',
+            'yesno',
+            'yesnocancel'
+         ]),
+         style: descriptor(String).oneOf([
+            'default',
+            'secondary',
+            'success',
+            'primary',
+            'error',
+            'danger'
+         ])
+      };
+   }
 
-Object.defineProperty(Submit, 'defaultProps', {
+   static getDefaultOptions(): IControlOptions {
+      return {
+         type: 'yesno',
+         style: 'default',
+         primaryAction: 'yes',
+         yesCaption: rk('Да'),
+         noCaption: rk('Нет'),
+         cancelCaption: rk('Отмена'),
+         okCaption: rk('ОК')
+      };
+   }
+}
+
+Object.defineProperty(ConfirmDialog, 'defaultProps', {
    enumerable: true,
    configurable: true,
 
    get(): object {
-      return Submit.getDefaultOptions();
+      return ConfirmDialog.getDefaultOptions();
    }
 });
 
-Submit.getOptionTypes = function () {
-   return {
-      type: entity.descriptor(String).oneOf([
-         'ok',
-         'yesno',
-         'yesnocancel'
-      ]),
-      style: entity.descriptor(String).oneOf([
-         'default',
-         'secondary',
-         'success',
-         'primary',
-         'error',
-         'danger'
-      ])
-   };
-};
 /**
  * @name Controls/_popupConfirmation/Opener/Dialog#type
  * @cfg {String} Тип диалога
@@ -213,5 +204,3 @@ Submit.getOptionTypes = function () {
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события
  * @param {Result} Результат
  */
-export default Submit;
-

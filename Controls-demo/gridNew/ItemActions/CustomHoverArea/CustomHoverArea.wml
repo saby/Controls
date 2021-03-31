@@ -1,0 +1,46 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth800">
+    <Controls.gridNew:View
+            keyProperty="id"
+            source="{{_viewSource}}"
+            itemActions="{{_itemActions}}"
+            itemActionsPosition="custom"
+            colspanCallback="{{ _colspanCallback }}"
+            name="gridView">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/gridNew:ItemTemplate"
+                        highlightOnHover="{{ false }}"
+                        showItemActionsOnHover="{{ false }}"
+                        itemActionsClass="my-super-class"/>
+        </ws:itemTemplate>
+        <ws:columns>
+            <ws:Array>
+                <ws:Object displayProperty="number" width="30px">
+                    <ws:template>
+                        <ws:partial template="Controls/gridNew:ColumnTemplate">
+                            <ws:contentTemplate>
+                                <div class="cloud controls-ListView__item_showActions controls-ListView__highlightOnHover_default_theme-default">
+                                    <div class="cloud-content">
+                                        <div>
+                                            <div>country:&nbsp;{{ contentTemplate.item.getContents().get('country') }}</div>
+                                            <div>capital:&nbsp;{{ contentTemplate.item.getContents().get('capital') }}</div>
+                                        </div>
+                                        <div>
+                                            <div>population:&nbsp;{{ contentTemplate.item.getContents().get('population') }}</div>
+                                            <div>square:&nbsp;{{ contentTemplate.item.getContents().get('square') }}</div>
+                                        </div>
+                                    </div>
+                                    <ws:partial template="{{contentTemplate.itemActionsTemplate}}" itemActionsClass="{{contentTemplate.itemActionsClass}}"/>
+                                </div>
+                            </ws:contentTemplate>
+                        </ws:partial>
+                    </ws:template>
+                </ws:Object>
+                <ws:Object displayProperty="country" width="200px"/>
+                <ws:Object displayProperty="capital" width="100px"/>
+                <ws:Object displayProperty="population" width="150px"/>
+                <ws:Object displayProperty="square" width="100px"/>
+                <ws:Object displayProperty="populationDensity" width="120px"/>
+            </ws:Array>
+        </ws:columns>
+    </Controls.gridNew:View>
+</div>

@@ -1,5 +1,8 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_menu/Popup/headerTemplate');
+import 'css!Controls/popupTemplate';
+import 'css!Controls/menu';
+import 'css!Controls/CommonClasses';
 
 /**
  * Контрол шапка меню.
@@ -9,14 +12,12 @@ import template = require('wml!Controls/_menu/Popup/headerTemplate');
  * @mixes Controls/_interface/IIcon
  * @mixes Controls/_interface/IIconSize
  * @public
- * 
+ *
  * @author Герасимов А.М.
  */
 
 class Header extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;
-
-    static _theme: string[] = ['Controls/Classes', 'Controls/menu', 'Controls/popupTemplate'];
 
     static getDefaultOptions(): object {
         return {

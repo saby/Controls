@@ -1,7 +1,7 @@
 import {factory} from 'Types/chain';
 import CoreClone = require('Core/core-clone');
 
-var differentFields = ['id', 'visibility'];
+const differentFields = ['id', 'visibility'];
 
 function convertToFilterSource(detailPanelItems) {
     let filterSource = CoreClone(detailPanelItems);

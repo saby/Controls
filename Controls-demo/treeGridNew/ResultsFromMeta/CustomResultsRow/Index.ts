@@ -4,7 +4,7 @@ import {Memory} from 'Types/source';
 import {RecordSet} from 'Types/collection';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
 import {Model} from 'Types/entity';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { IHeader } from 'Controls-demo/types';
 
 export default class extends Control {
@@ -39,7 +39,7 @@ export default class extends Control {
     }
 
     private _setMeta(): void {
-        const items = this._children.tree._children.listControl._children.baseControl.getViewModel().getItems();
+        const items = this._children.tree._children.listControl.getViewModel().getItems();
         items.setMetaData({
             ...items.getMetaData(),
             results: this._generateResults(items)
@@ -47,7 +47,7 @@ export default class extends Control {
     }
 
     private _setResultRow(): void {
-        const results = this._children.tree._children.listControl._children.baseControl
+        const results = this._children.tree._children.listControl
             .getViewModel().getItems().getMetaData().results;
         results.set('price', Gadgets.getResults().partial[this._partialResultsIndex]);
         this._fullResultsIndex = ++this._partialResultsIndex % Gadgets.getResults().partial.length;

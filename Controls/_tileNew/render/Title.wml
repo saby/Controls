@@ -1,0 +1,35 @@
+<div class="{{ item.getTitleWrapperClasses(itemType, titleLines, gradientType, titleStyle) }}"
+     style="{{ item.getTitleWrapperStyles(itemType, imageViewMode, imagePosition, gradientColor) }}">
+    <ws:if data="{{ (item || itemData).shouldDisplayGradient(itemType, imageEffect, imageViewMode, imagePosition, 'title') }}">
+        <div class="{{ (item || itemData).getGradientClasses(itemType, gradientType) }}"
+             style="{{ (item || itemData).getGradientStyles(itemType, gradientColor, gradientType) }}"></div>
+    </ws:if>
+
+    <ws:if data="{{ item.shouldDisplayTitle(itemType) }}">
+        <div class="{{ item.getTitleClasses(itemType, titleStyle, hasTitle, titleLines, titleColorStyle) }}" title="{{ item.getDisplayValue() }}">
+            <div class="{{ item.getEllipsisClasses(itemType, titleLines, staticHeight, hasTitle) }}" style="{{ item.getTitleStyles(itemType, titleLines) }}">
+                <ws:if data="{{ item.getSearchValue() }}">
+                    <Controls.decorator:Highlight highlightedValue="{{ item.getSearchValue() }}">
+                        <ws:value>
+                            <ws:String>{{ item.getDisplayValue() }}</ws:String>
+                        </ws:value>
+                    </Controls.decorator:Highlight>
+                </ws:if>
+                <ws:else>
+                    {{ item.getDisplayValue() }}
+                </ws:else>
+            </div>
+            <ws:partial if="{{bottomRightTpl}}" template="{{bottomRightTpl}}" scope="{{_options}}"/>
+        </div>
+    </ws:if>
+
+    <ws:if data="{{ item.shouldDisplayDescription(itemType, description, descriptionLines) }}">
+        <div class="{{ item.getDescriptionClasses(itemType, descriptionLines) }}"
+             style="{{ item.getDescriptionStyles(itemType, descriptionLines) }}"
+             title="{{description}}">
+            {{description}}
+        </div>
+    </ws:if>
+
+    <ws:partial if="{{itemActionsTpl}}" template="{{itemActionsTpl}}" scope="{{_options}}"/>
+</div>

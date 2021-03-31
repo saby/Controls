@@ -3,9 +3,9 @@
    text-decoration: none;
 }
 
-.controls-Label_underline_none_theme-@{themeName} {
-   height: @inline_height_default_label;
-   padding-right: @offset-horizontal_label;
+.controls-Label_underline_none {
+   height: var(--inline_height_default_label);
+   padding-right: var(--offset-horizontal_label);
 }
 
 .controls-Label__wrapper {
@@ -20,49 +20,49 @@
    // https://github.com/philipwalton/flexbugs#flexbug-6
    flex-shrink: 1;
    .text-overflow();
-}
-.controls-Label__caption_theme-@{themeName} {
-   font-size: @font-size_default_label;
-}
-.controls-Label__caption_underline_none_theme-@{themeName} {
-   color: @text-color_default_label;
+
+   font-size: var(--font-size_default_label);
 }
 
-.controls-Label__caption_underline_hovered_edit_theme-@{themeName} {
+.controls-Label__caption_underline_none {
+   color: var(--text-color_default_label);
+}
+
+.controls-Label__caption_underline_hovered_edit {
    cursor: pointer;
-   color: @text-color_default_label;
+   color: var(--text-color_default_label);
 }
 
-.controls-Label__caption_underline_hovered_read_theme-@{themeName} {
-   color: @readonly_color;
+.controls-Label__caption_underline_hovered_read {
+   color: var(--readonly_color);
 }
 
-.ws-is-hover .controls-Label__caption_underline_hovered_edit_theme-@{themeName}:hover,
-.controls-Label__caption_underline_hovered_edit_theme-@{themeName}:active {
+.ws-is-hover .controls-Label__caption_underline_hovered_edit:hover,
+.controls-Label__caption_underline_hovered_edit:active {
    text-decoration: underline;
-   color: @text-color_default_label;
+   color: var(--text-color_default_label);
 }
 
-.controls-Label__caption_underline_fixed_theme-@{themeName} {
+.controls-Label__caption_underline_fixed {
    text-decoration: underline;
 }
 
-.controls-Label__caption_underline_fixed_edit_theme-@{themeName} {
+.controls-Label__caption_underline_fixed_edit {
    cursor: pointer;
-   color: @text-color_default_label;
+   color: var(--text-color_default_label);
 }
 
-.controls-Label__caption_underline_fixed_read_theme-@{themeName} {
-   color: @readonly_color;
+.controls-Label__caption_underline_fixed_read {
+   color: var(--readonly_color);
 }
 
-.ws-is-hover .controls-Label__caption_underline_fixed_edit_theme-@{themeName}:hover,
-.controls-Label__caption_underline_fixed_edit_theme-@{themeName}:active {
-   color: @link_hover_text-color;
+.ws-is-hover .controls-Label__caption_underline_fixed_edit:hover,
+.controls-Label__caption_underline_fixed_edit:active {
+   color: var(--link_hover_text-color);
 }
 
-.controls-Label__asterisk_theme-@{themeName} {
-   color: @asterisk_color_label;
+.controls-Label__asterisk {
+   color: var(--asterisk_color_label);
 }
 
 .controls-Label__fakeLink {

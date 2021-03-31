@@ -15,6 +15,7 @@ import {isEqual} from 'Types/object';
 import {dropdownHistoryUtils as historyUtils} from 'Controls/dropdown';
 import {HistoryUtils as FilterHistoryUtils} from 'Controls/filter';
 import {Model} from 'Types/entity';
+import 'css!Controls/deprecatedFilter';
 
 var getPropValue = Utils.object.getPropertyValue.bind(Utils);
 var setPropValue = Utils.object.setPropertyValue.bind(Utils);
@@ -58,7 +59,7 @@ var _private = {
    },
 
     getSourceController: function(self, options) {
-       return historyUtils.getSource(options.source, options.historyId, {pinned: true}).addCallback((source) => {
+       return historyUtils.getSource(options.source, options).addCallback((source) => {
            self._source = source;
            return _private.createSourceController(self, self._source, options.navigation, options.keyProperty);
        });
@@ -219,7 +220,7 @@ var _private = {
    onResult: function(event, action, data) {
        if (action === 'footerClick') {
            this._children.DropdownOpener.close();
-       } else if (data && action !== 'menuOpened') {
+       } else if (data && action !== 'menuOpened' && action !== 'menuClosed') {
            const items = action === 'itemClick' ? [data] : data;
            if (action === 'selectorResult') {
                this.lastOpenIndex = this._indexOpenedFilter;
@@ -275,7 +276,7 @@ var _private = {
          }
 
          _private.getSourceController(config, getPropValue(items.at(index), 'properties')).addCallback((sourceController) => {
-              sourceController.calculateState(config._items);
+              sourceController.setItems(config._items);
          });
       });
    },
@@ -478,11 +479,11 @@ var Fast = Control.extend(/** @lends Controls/_filter/Fast.prototype */{
          navigation: this._configs[index].navigation,
          selectorDialogResult: this._onSelectorTemplateResult.bind(this),
          afterSelectorOpenCallback: this._afterSelectorOpenCallback.bind(this),
-         dropdownClassName: `controls-FastFilter_width-popup_theme-${this._options.theme}`
+         dropdownClassName: 'controls-FastFilter_width-popup'
       };
       var config = {
          templateOptions: Merge(_private.getItemPopupConfig(this._configs[index]), templateOptions),
-         className: (this._configs[index].multiSelect ? 'controls-FastFilter_multiSelect-popup' : 'controls-FastFilter-popup') + '_theme_' + this._options.theme,
+         className: (this._configs[index].multiSelect ? 'controls-FastFilter_multiSelect-popup' : 'controls-FastFilter-popup'),
          fittingMode: {
             horizontal: 'overflow',
             vertical: 'adaptive'
@@ -564,5 +565,4 @@ var Fast = Control.extend(/** @lends Controls/_filter/Fast.prototype */{
 });
 
 Fast._private = _private;
-Fast._theme = ['Controls/deprecatedFilter'];
 export = Fast;

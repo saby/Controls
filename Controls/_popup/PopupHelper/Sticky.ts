@@ -5,6 +5,7 @@ import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
 /**
  * Хелпер для открытия прилипающих окон
  * @class Controls/_popup/PopupHelper/Sticky
+ * @implements Controls/_popup/interface/IStickyOpener
  *
  * @author Красильников А.С.
  * @public
@@ -20,9 +21,9 @@ export default class Sticky extends Base {
      * @example
      * <pre class="brush: js">
      * import {StickyOpener} from 'Controls/popup';
-     * 
+     *
      * this._sticky = new StickyOpener();
-     * 
+     *
      * openSticky() {
      *     this._sticky.open({
      *         template: 'Example/MyStickyTemplate',
@@ -46,9 +47,9 @@ export default class Sticky extends Base {
  * @example
  * <pre class="brush: js">
  * import {StickyOpener} from 'Controls/popup';
- * 
+ *
  * this._sticky = new StickyOpener();
- * 
+ *
  * closeSticky() {
  *     this._sticky.close();
  * }
@@ -65,7 +66,7 @@ export default class Sticky extends Base {
  * @example
  * <pre class="brush: js">
  * import {StickyOpener} from 'Controls/popup';
- * 
+ *
  * this._sticky = new StickyOpener();
  *
  * _beforeUnmount() {

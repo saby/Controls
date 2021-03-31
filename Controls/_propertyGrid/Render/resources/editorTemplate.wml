@@ -14,13 +14,16 @@
             <ws:content>
                <Controls.Container.Async
                   templateName="{{collectionItem.getEditorTemplateName()}}"
+                  attr:data-qa="controls-PropertyGrid__editor_{{item[keyProperty]}}"
                   class="{{item.editorClass}}">
                   <ws:templateOptions
-                     validationStatus="{{content.validationStatus}}"/>
+                     validationStatus="{{content.validationStatus}}"
+                     propertyValue="{{collectionItem.getPropertyValue()}}"/>
                   <ws:content>
                      <ws:partial template="{{content.resolvedTemplate}}"
+                                 readOnly="{{readOnly}}"
+                                 attr:key="{{collectionItem.getUid()}}"
                                  validationStatus="{{content.validationStatus}}"
-                                 propertyValue="{{collectionItem.getPropertyValue()}}"
                                  caption="{{caption}}"
                                  scope="{{collectionItem.getEditorOptions()}}"/>
                   </ws:content>
@@ -34,11 +37,16 @@
    <ws:if data="{{collectionItem.getEditorTemplateName()}}">
       <Controls.Container.Async templateName="{{collectionItem.getEditorTemplateName()}}"
                                 class="{{item.editorClass}}">
-         <ws:partial
-            propertyValue="{{collectionItem.getPropertyValue()}}"
-            template="{{content.resolvedTemplate}}"
-            caption="{{caption}}"
-            scope="{{collectionItem.getEditorOptions()}}"/>
+         <ws:templateOptions
+            propertyValue="{{collectionItem.getPropertyValue()}}"/>
+         <ws:content>
+            <ws:partial
+               attr:data-qa="controls-PropertyGrid__editor_{{item[keyProperty]}}"
+               attr:key="{{collectionItem.getUid()}}"
+               template="{{content.resolvedTemplate}}"
+               caption="{{caption}}"
+               scope="{{collectionItem.getEditorOptions()}}"/>
+         </ws:content>
       </Controls.Container.Async>
    </ws:if>
 </ws:else>

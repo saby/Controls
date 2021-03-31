@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.grid:View
+    <Controls.gridOld:View
             name="grid"
             keyProperty="id"
             source="{{_viewSource}}"
@@ -11,5 +11,5 @@
         <ws:editingConfig>
             <ws:Object editOnClick="{{true}}" autoAdd="{{ true }}"/>
         </ws:editingConfig>
-    </Controls.grid:View>
+    </Controls.gridOld:View>
 </div>

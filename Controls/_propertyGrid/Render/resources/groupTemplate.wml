@@ -1,7 +1,9 @@
 <ws:if data="{{!collectionItem.isHiddenGroup() && collectionItem.getContents()}}">
     <div class="controls-PropertyGrid__group
+                {{expanderAlign ? 'controls-PropertyGrid__group_expander-' + expanderAlign}}
                 {{highlightOnHover ? 'controls-PropertyGrid__row_highlightOnHover_theme-' + theme}}
-                controls-PropertyGrid__group_theme-{{theme}}" attr:key="group-{{item}}"
+                controls-PropertyGrid__group_theme-{{theme}}"
+         attr:key="{{collectionItem.getUid()}}"
          style="{{isGridLayout ? getItemStyles(collectionItem, 2, true)}}">
         <div class="controls-PropertyGrid__group-content_theme-{{theme}}">
             <ws:if data="{{!!contentTemplate}}">
@@ -15,8 +17,9 @@
             </ws:else>
         </div>
         <ws:if data="{{expanderVisible}}">
-            <div title="{{!collapsedGroups[item] ? 'Свернуть' : 'Развернуть'}}"
+            <div title="{{!collapsedGroups[item] ? rk('Свернуть') : rk('Развернуть')}}"
                  class="controls-PropertyGrid__groupExpander
+                        {{expanderAlign ? 'controls-PropertyGrid__groupExpander-' + expanderAlign + '_theme-' + theme}}
                         controls-icon
                         controls-icon_size-s_theme-{{theme}}
                         {{!collapsedGroups[item] ? 'icon-MarkCollapseBold' : 'icon-MarkExpandBold'}}

@@ -5,7 +5,6 @@ define(
    ],
    (PendingRegistrator, Deferred) => {
       'use strict';
-
       describe('Controls/Container/PendingRegistrator', () => {
          it('finishPendingOperations', () => {
             let Registrator = new PendingRegistrator.default();
@@ -170,6 +169,31 @@ define(
                }).catch(done);
                resolver();
             });
+         });
+
+         it('should call pendingsFinished', () => {
+            let Registrator = new PendingRegistrator.PendingClass({
+               notifyHandler: () => {}
+            });
+
+            Registrator._pendings = {
+               'key': {
+                  'two': 2,
+                  'three': 3,
+               }
+            }
+            const pendingObj = { 
+               'key': {
+                  'three': 3,
+               }
+            }
+            Registrator.unregisterPending('key', 'two');
+            assert.deepEqual(Registrator._pendings, pendingObj);
+
+            Registrator.unregisterPending('key', 'three');
+            assert.deepEqual(Registrator._pendings, {});
+
+            Registrator.destroy();
          });
       });
    }

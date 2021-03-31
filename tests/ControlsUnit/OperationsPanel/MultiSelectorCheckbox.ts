@@ -66,11 +66,25 @@ describe('Controls/_operations/MultiSelector/Checkbox', () => {
         });
 
         describe('_onCheckBoxClick', () => {
-            const checkbox = getMultiSelectorCheckbox({});
+            let checkbox;
             let actionName;
-            checkbox._notify = (event, eventArgs) => {
-                actionName = eventArgs[0];
-            };
+
+            beforeEach(() => {
+                checkbox = getMultiSelectorCheckbox({});
+                checkbox._notify = (event, eventArgs) => {
+                    actionName = eventArgs[0];
+                };
+            });
+
+            afterEach(() => {
+                actionName = undefined;
+            });
+
+            it('checked checkbox readOnly click', () => {
+                checkbox._checkboxValue = true;
+                checkbox._onCheckBoxClick();
+                assert.isUndefined(actionName);
+            });
 
             it('checked checkbox click', () => {
                 checkbox._checkboxValue = true;

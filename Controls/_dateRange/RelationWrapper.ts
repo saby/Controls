@@ -63,12 +63,12 @@ class Component extends Control {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre class="brush: js">
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -91,12 +91,12 @@ class Component extends Control {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -133,12 +133,12 @@ class Component extends Control {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre class="brush: js">
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 
@@ -163,12 +163,12 @@ class Component extends Control {
  *    </Controls.dateRange:RelationController>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _startValue0: new Date(2019, 0, 0),
  *       _endValue0: new Date(2019, 0, 31),
  *       _startValue1: new Date(2019, 1, 0),
  *       _endValue1: new Date(2019, 1, 31),
- *    });
+ *    }
  * </pre>
  */
 export default Component;

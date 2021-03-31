@@ -5,7 +5,8 @@ import {IDialogPopupOptions} from 'Controls/_popup/interface/IDialog';
 /**
  * Хелпер для открытия диалоговых окон.
  * @class Controls/_popup/PopupHelper/Dialog
- * 
+ * @implements Controls/_popup/interface/IDialogOpener
+ *
  * @author Красильников А.С.
  * @public
  */
@@ -21,9 +22,9 @@ export default class Dialog extends Base {
      * @example
      * <pre class="brush: js">
      * import {DialogOpener} from 'Controls/popup';
-     * 
+     *
      * this._dialog = new DialogOpener();
-     * 
+     *
      * openDialog() {
      *     this._dialog.open({
      *         template: 'Example/MyDialogTemplate',
@@ -46,7 +47,7 @@ export default class Dialog extends Base {
  * @example
  * <pre class="brush: js">
  * import {DialogOpener} from 'Controls/popup';
- * 
+ *
  * this._dialog = new DialogOpener();
  *
  * closeDialog() {
@@ -65,7 +66,7 @@ export default class Dialog extends Base {
  * @example
  * <pre class="brush: js">
  * import {DialogOpener} from 'Controls/popup';
- * 
+ *
  * this._dialog = new DialogOpener();
  *
  * _beforeUnmount() {

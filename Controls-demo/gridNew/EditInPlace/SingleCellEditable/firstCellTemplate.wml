@@ -1,7 +1,7 @@
 <ws:partial template="Controls/gridNew:ColumnTemplate" itemData="{{itemData}}">
     <ws:contentTemplate>
         <div>
-            {{ itemData.item[column.displayProperty || 'title'] }}
+            {{ itemData.item[column.config.displayProperty || 'title'] }}
         </div>
         <ws:partial template="{{itemActionsTemplate}}" itemData="{{ itemData }}" highlightOnHover="{{ false }}"/>
     </ws:contentTemplate>

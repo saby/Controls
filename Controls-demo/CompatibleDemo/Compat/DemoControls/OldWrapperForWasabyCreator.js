@@ -3,9 +3,8 @@ define('Controls-demo/CompatibleDemo/Compat/DemoControls/OldWrapperForWasabyCrea
    'wml!Controls-demo/CompatibleDemo/Compat/DemoControls/OldWrapperForWasabyCreator',
    'UI/Base',
    'Vdom/Vdom',
-   'Controls/input',
-   'Core/Creator'
-], function(CompoundControl, template, Base, Vdom, input, CoreCreator) {
+   'Controls/input'
+], function(CompoundControl, template, Base, Vdom, input) {
 
    var CompatibleDemoNext = CompoundControl.extend({
       _dotTplFn: template,
@@ -16,7 +15,7 @@ define('Controls-demo/CompatibleDemo/Compat/DemoControls/OldWrapperForWasabyCrea
          this.myTextBoxElement = this._container.find('.for__ws4');
          this.myTextBox = null;
          var self = this;
-         CoreCreator(
+         Base.AsyncCreator(
             input.Text,
             {
                name: 'myTextBox',

@@ -1,7 +1,7 @@
 import {BrandsImages} from './images/brands';
 import {GadgetsImages} from './images/gadgets';
 
-interface IHierarchyData {
+export interface IHierarchyData {
     id: number;
     title: string;
     description?: string;
@@ -15,6 +15,7 @@ interface IHierarchyData {
     size?: string;
     year?: string;
     note?: string;
+    hasSubNodes?: boolean;
 }
 
 export const FlatHierarchy = {
@@ -29,6 +30,7 @@ export const FlatHierarchy = {
                 parent: null,
                 type: true,
                 hasChild: true,
+                hasSubNodes: true,
                 photo: BrandsImages.apple
             },
                 {
@@ -78,6 +80,7 @@ export const FlatHierarchy = {
                     rating: '9.2',
                     type: true,
                     hasChild: true,
+                    hasSubNodes: true,
                     photo: GadgetsImages.appleWathc
                 },
                     {

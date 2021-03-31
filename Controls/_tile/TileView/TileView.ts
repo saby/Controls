@@ -3,7 +3,7 @@ import template = require('wml!Controls/_tile/TileView/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/TileView/TileTpl');
 import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
 import {TouchContextField} from 'Controls/context';
-import ItemSizeUtils = require('Controls/_tile/TileView/resources/ItemSizeUtils');
+import { getItemSize } from 'Controls/tileNew';
 
 var _private = {
     getPositionInContainer: function (itemNewSize, itemRect, containerRect, zoomCoefficient, withoutCorrection = false) {
@@ -104,6 +104,12 @@ var TileView = ListView.extend({
 
     _onResize: function () {
        this._listModel.setHoveredItem(null);
+       if (this._options.initialWidth) {
+           const itemsContainerWidth = this.getItemsContainer().getBoundingClientRect().width;
+           if (itemsContainerWidth > 0) {
+               this._listModel.setCurrentWidth(itemsContainerWidth);
+           }
+       }
     },
 
     getActionsMenuConfig(
@@ -115,7 +121,7 @@ var TileView = ListView.extend({
         itemData
     ): Record<string, any> {
         const isActionMenu = !!action && !action.isMenu;
-        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, item)) {
+        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, item) && menuConfig) {
             const MENU_MAX_WIDTH = 200;
             const menuOptions = menuConfig.templateOptions;
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
@@ -123,18 +129,13 @@ var TileView = ListView.extend({
             if (!imageWrapper) {
                 return null;
             }
-            let previewWidth = imageWrapper.clientWidth;
-            let previewHeight = imageWrapper.clientHeight;
+
             menuOptions.image = itemData.imageData.url;
             menuOptions.title = itemData.item.get(itemData.displayProperty);
             menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
             menuOptions.imageClasses = itemData.imageData?.class;
-            if (this._options.tileScalingMode === TILE_SCALING_MODE.NONE) {
-                previewHeight = previewHeight * ZOOM_COEFFICIENT;
-                previewWidth = previewWidth * ZOOM_COEFFICIENT;
-            }
-            menuOptions.previewHeight = previewHeight;
-            menuOptions.previewWidth = previewWidth;
+            menuOptions.previewHeight = imageWrapper.clientHeight;
+            menuOptions.previewWidth = imageWrapper.clientWidth;
 
             return {
                 templateOptions: menuOptions,
@@ -145,6 +146,9 @@ var TileView = ListView.extend({
                 targetPoint: {
                     vertical: 'top',
                     horizontal: 'left'
+                },
+                fittingMode: {
+                    vertical: 'overflow'
                 },
                 opener: menuConfig.opener,
                 template: 'Controls/tile:ActionsMenu',
@@ -172,6 +176,11 @@ var TileView = ListView.extend({
         if (this._options.tileHeight !== newOptions.tileHeight) {
             this._listModel.setItemsHeight(newOptions.tileHeight);
         }
+
+        if (this._options.tileWidth !== newOptions.tileWidth) {
+            this._listModel.setTileWidth(newOptions.tileWidth);
+        }
+
         TileView.superclass._beforeUpdate.apply(this, arguments);
     },
 
@@ -258,7 +267,7 @@ var TileView = ListView.extend({
                 if (documentForUnits) {
                     itemSize = itemContainerRect;
                 } else {
-                    itemSize = ItemSizeUtils.getItemSize(itemContainer, 1, this._options.tileMode);
+                    itemSize = getItemSize(itemContainer, 1, this._options.tileMode);
                 }
                 let position = _private.getPositionInContainer(itemSize, itemContainerRect, containerRect, 1, true);
                 const documentRect = documentObject.documentElement.getBoundingClientRect();
@@ -268,7 +277,7 @@ var TileView = ListView.extend({
                 this._setHoveredItem(itemData, null, null, null, itemContainerRect.width);
             }
         } else {
-            itemSize = ItemSizeUtils.getItemSize(itemContainer, this._getZoomCoefficient(), this._options.tileMode);
+            itemSize = getItemSize(itemContainer, this._getZoomCoefficient(), this._options.tileMode);
             this._prepareHoveredItem(itemData, itemContainerRect, itemSize, containerRect);
         }
     },
@@ -291,7 +300,10 @@ var TileView = ListView.extend({
                 self._setHoveredItem(itemData, _private.getPositionInDocument(position, containerRect, documentRect), itemStartPosition, null, itemSize.width);
             }, ZOOM_DELAY);
         } else {
-            this._setHoveredItem(itemData);
+            /* Если позиции нет, то это означает, что плитка по одной из координат выходит за пределы контейнера.
+               В таком случае ее не надо увеличивать и itemAction'ы нужно посчитать от оригинального размера.
+             */
+            this._setHoveredItem(itemData, null, null, false, itemContainerRect.width);
         }
     },
 
@@ -329,7 +341,7 @@ var TileView = ListView.extend({
 
     _beforeUnmount: function () {
         this._notify('unregister', ['controlResize', this], {bubbling: true});
-        this._notify('unregister', ['scroll', this], {bubbling: true});
+        this._notify('unregister', ['scroll', this, {listenAll: true}], {bubbling: true});
     },
 
     _onTileViewKeyDown: function () {

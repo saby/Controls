@@ -6,6 +6,7 @@ import {Service, Source} from 'Controls/history';
 import {object} from 'Types/util';
 import {getOptionTypes} from 'Controls/_suggest/Utils';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/suggest';
 
 var _private = {
    loadSelectedItem: function(self, options) {
@@ -165,6 +166,7 @@ Suggest.getOptionTypes = getOptionTypes;
 Suggest.getDefaultOptions = function() {
    return {
       minSearchLength: 3,
+      borderVisibility: 'visible',
       suggestState: false,
       suggestTemplate: {
          templateName: 'Controls/suggestPopup:SuggestTemplate'
@@ -182,7 +184,6 @@ Object.defineProperty(Suggest, 'defaultProps', {
    }
 });
 
-Suggest._theme = ['Controls/suggest'];
 Suggest._private = _private;
 
 export default Suggest;

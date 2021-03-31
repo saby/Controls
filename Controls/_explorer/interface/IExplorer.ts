@@ -93,13 +93,26 @@ export type TExplorerViewMode = 'table' | 'search' | 'tile' | 'list';
  */
 
 /**
- * @typedef {String} SearchStartingWith
- * @description Допустимые значения для опции {@link SearchStartingWith}.
+ * @typedef {String} Controls/_explorer/interface/IExplorer/SearchStartingWith
+ * @description Допустимые значения для опции {@link searchStartingWith}.
+ * @variant root Поиск происходит в корне.
+ * @variant current Поиск происходит в текущем резделе.
+ */
+
+/**
+ * @name Controls/_explorer/interface/IExplorer#searchStartingWith
+ * @cfg {Controls/_explorer/interface/IExplorer/SearchStartingWith.typedef} Режим поиска в иерархическом списке.
+ * @default root
+ */
+
+/**
+ * @typedef {String} Controls/_explorer/interface/IExplorer/SearchNavigationMode
+ * @description Допустимые значения для опции {@link searchNavigationMode}.
  * @variant open В {@link Controls/_explorer/interface/IExplorer#viewMode режиме поиска} при клике на хлебную крошку происходит проваливание в данный узел.
  * @variant expand В режиме поиска при клике на хлебную крошку данные отображаются от корня, путь до узла разворачивается.
  */
 /**
- * @name Controls/_explorer/interface/IExplorer#searchStartingWith
- * @cfg {SearchStartingWith} Режим навигации при поиске в иерархическом списке.
+ * @name Controls/_explorer/interface/IExplorer#searchNavigationMode
+ * @cfg {Controls/_explorer/interface/IExplorer/SearchNavigationMode.typedef} Режим навигации при поиске в иерархическом списке.
  * @default open
  */

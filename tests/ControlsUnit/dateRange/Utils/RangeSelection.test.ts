@@ -59,4 +59,43 @@ describe('Controls/_dateRange/Utils/RangeSelection', function() {
             });
         });
     });
+    describe('isSelected', () => {
+        [{
+            itemValue: new Date(2021, 0, 1),
+            startValue: new Date(2020, 11, 1),
+            endValue: new Date(2021, 1, 1)
+        }, {
+            itemValue: new Date(2021, 0, 1),
+            startValue: new Date(2020, 11, 1),
+            endValue: new Date(2021, 1, 1),
+            selectionProcessing: true,
+            baseSelectionValue: new Date(2020, 11 , 1),
+            hoveredSelectionValue: new Date(2021, 5, 1)
+        }].forEach((test) => {
+            it('should return true', () => {
+                const isSelected = utils.isSelected(test.itemValue, test.startValue, test.endValue,
+                    test.selectionProcessing, test.baseSelectionValue, test.hoveredSelectionValue);
+                assert.isTrue(isSelected);
+            });
+        });
+
+        [{
+            itemValue: new Date(2021, 0, 1),
+            startValue: new Date(2021, 1, 1),
+            endValue: new Date(2021, 2, 1)
+        }, {
+            itemValue: new Date(2021, 0, 1),
+            startValue: new Date(2020, 11, 1),
+            endValue: new Date(2021, 1, 1),
+            selectionProcessing: true,
+            baseSelectionValue: new Date(2020, 11, 1),
+            hoveredSelectionValue: new Date(2020, 5, 1)
+        }].forEach((test) => {
+            it('should return false', () => {
+                const isSelected = utils.isSelected(test.itemValue, test.startValue, test.endValue,
+                    test.selectionProcessing, test.baseSelectionValue, test.hoveredSelectionValue);
+                assert.isFalse(isSelected);
+            });
+        });
+    });
 });

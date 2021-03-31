@@ -13,6 +13,7 @@ import template = require('wml!Controls/_input/Area/Area');
 import fieldTemplate = require('wml!Controls/_input/Area/Field');
 import readOnlyFieldTemplate = require('wml!Controls/_input/Area/ReadOnly');
 import 'Controls/decorator';
+import 'css!Controls/input';
 
 /**
  * Многострочное поле ввода текста.
@@ -27,8 +28,12 @@ import 'Controls/decorator';
  *
  * @class Controls/_input/Area
  * @extends Controls/input:BaseText
- * @mixes Controls/input:INewLineKey
- * @mixes Controls/_input/interface/IArea
+ * @implements Controls/input:INewLineKey
+ * @implements Controls/input:IAreaOptions
+ * @implements Controls/interface:IFontSize
+ * @implements Controls/input:IValue
+ * @implements Controls/interface:IInputPlaceholderOptions
+ * @implements Controls/input:IText
  * @public
  *
  * @demo Controls-demo/Input/Area/MinMaxLines/Index
@@ -92,7 +97,7 @@ export default class Area extends BaseText<IAreaOptions> {
     }
 
     protected _keyDownHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        const additionalProcessedKeys = ['Up', 'Down'];
+        const additionalProcessedKeys = ['ArrowUp', 'ArrowDown', 'Up', 'Down'];
         processKeydownEvent(event, additionalProcessedKeys);
         this._newLineHandler(event, true);
     }
@@ -147,7 +152,7 @@ export default class Area extends BaseText<IAreaOptions> {
 
         // По другому до scrollTop не достучаться.
         // https://online.sbis.ru/opendoc.html?guid=e1770341-9126-4480-8798-45b5c339a294
-        const beginningVisibleArea = scroll._children.content.scrollTop;
+        const beginningVisibleArea = scroll.getScrollTop();
 
         const endingVisibleArea = beginningVisibleArea + sizeVisibleArea;
 
@@ -294,8 +299,6 @@ export default class Area extends BaseText<IAreaOptions> {
             this._children.fakeField.innerText = this._viewModel.displayValue + this._field.scope.emptySymbol;
         }
     }
-
-    static _theme: string[] = BaseText._theme.concat(['Controls/input']);
 
     static getDefaultOptions(): object {
         const defaultOptions = BaseText.getDefaultOptions();

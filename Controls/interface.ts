@@ -27,10 +27,10 @@ export {default as IErrorController, IErrorControllerOptions} from './_interface
 export {default as IHierarchy, IHierarchyOptions} from './_interface/IHierarchy';
 export {default as INumberFormat, INumberFormatOptions} from './_interface/INumberFormat';
 export {default as IExpandable, IExpandableOptions} from './_interface/IExpandable';
-export {default as ISorting, ISortingOptions} from './_interface/ISorting';
+export {default as ISorting, ISortingOptions, TSortingOptionValue} from './_interface/ISorting';
 export {default as ILookup, ILookupOptions} from './_interface/ILookup';
 export {default as IDateMask, IDateMaskOptions} from './_interface/IDateMask';
-export {default as IDateRangeValidators, IDateRangeValidatorsOptions, DateRangeValidators} from './_interface/IDateRangeValidators';
+export {default as IDateRangeValidators, IDateRangeValidatorsOptions, TDateRangeValidators} from './_interface/IDateRangeValidators';
 export {default as IPropStorage, IPropStorageOptions} from './_interface/IPropStorage';
 export {default as IBorderStyle, IBorderStyleOptions} from './_interface/IBorderStyle';
 export {default as IValidationStatus, IValidationStatusOptions, ValidationStatus} from './_interface/IValidationStatus';
@@ -46,7 +46,7 @@ export {
 } from './_interface/ISelectionType';
 export {default as IApplication, IApplicationOptions, IAttributes, HeadJson} from './_interface/IApplication';
 export {default as IRUM, IRUMOptions} from './_interface/IRUM';
-export {default as IFilter, IFilterOptions} from './_interface/IFilter';
+export {default as IFilter, IFilterOptions, TFilter} from './_interface/IFilter';
 export {default as IFilterChanged} from './_interface/IFilterChanged';
 export {default as IContrastBackground, IContrastBackgroundOptions} from './_interface/IContrastBackground';
 export {
@@ -75,6 +75,30 @@ export {default as IBackgroundStyle, IBackgroundStyleOptions} from './_interface
 export {Direction, IQueryParamsMeta, IQueryParams} from './_interface/IQueryParams';
 export {default as IGrouping, IGroupingOptions} from './_interface/IGrouping';
 export {default as IPromiseSelectable, IPromiseSelectableOptions} from './_interface/IPromiseSelectable';
-export {default as IDraggable} from './_interface/IDraggable';
+export {default as IResetValues} from './_interface/IResetValues';
+export {default as IDraggable, IDraggableOptions} from './_interface/IDraggable';
 export {IInputPlaceholder, IInputPlaceholderOptions} from './_interface/IInputPlaceholder';
 export {IInputTag, IInputTagOptions} from './_interface/IInputTag';
+export {default as ITextValue} from './_interface/ITextValue';
+
+// region grid
+
+export {
+    TColumns,
+    IColumn,
+    IColspanParams,
+    ICellPadding,
+    TCellAlign,
+    TCellPaddingVariant,
+    TCellVerticalAlign,
+    TOverflow,
+    IColumnSeparatorSizeConfig,
+    TColumnSeparatorSize
+} from './_interface/grid/IColumn';
+
+export {
+    THeader,
+    IHeaderCell
+} from './_interface/grid/IHeaderCell';
+
+// endregion grid

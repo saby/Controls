@@ -77,6 +77,9 @@ define(['Controls/suggest', 'Types/entity', 'Env/Env'], function(suggest, entity
          assert.isTrue(searchSuggest._suggestState);
 
          searchSuggest._suggestMarkedKeyChanged(null, null);
+         searchSuggest.saveOptions({
+            value: 'testValue'
+         });
          searchSuggest._searchClick(null, {
             which: 'any'
          });
@@ -91,15 +94,17 @@ define(['Controls/suggest', 'Types/entity', 'Env/Env'], function(suggest, entity
          assert.isTrue(searchSuggest._suggestState);
       });
 
-      if('_choose', () => {
+      it('_choose', () => {
          const searchSuggest = new suggest.SearchInput();
+         let isActivated = false;
+         searchSuggest.activate = () => { isActivated = true; };
          const model = new entity.Model({
             rawData: {
                id: 0,
                title: 'test'
             }
          });
-         const stubNotify = sandbox.stub(instance, '_notify');
+         const stubNotify = sandbox.stub(searchSuggest, '_notify');
 
          searchSuggest.saveOptions({
             displayProperty: 'title'
@@ -108,6 +113,35 @@ define(['Controls/suggest', 'Types/entity', 'Env/Env'], function(suggest, entity
          searchSuggest._choose(null, model);
 
          assert.isTrue(stubNotify.withArgs('valueChanged', ['test']).calledOnce);
+         assert.isTrue(isActivated);
+      });
+
+      describe('_resetClick', () => {
+         let searchSuggest;
+         let stubNotify;
+         beforeEach(() => {
+            searchSuggest = new suggest.SearchInput();
+            searchSuggest._suggestState = true;
+            stubNotify = sandbox.stub(searchSuggest, '_notify');
+         });
+
+         it('autoDropDown = true', () => {
+            searchSuggest._options = { autoDropDown: true };
+
+            searchSuggest._resetClick();
+
+            assert.isTrue(stubNotify.withArgs('resetClick').calledOnce);
+            assert.isTrue(searchSuggest._suggestState);
+         });
+
+         it('autoDropDown = false', () => {
+            searchSuggest._options = { autoDropDown: false };
+
+            searchSuggest._resetClick();
+
+            assert.isFalse(searchSuggest._suggestState);
+            assert.isTrue(stubNotify.withArgs('resetClick').calledOnce);
+         });
       });
 
    });

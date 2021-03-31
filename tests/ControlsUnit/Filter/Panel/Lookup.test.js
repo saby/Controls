@@ -5,7 +5,7 @@ define(['Controls/_filterPopup/Panel/Lookup'
          var
             isActivate = false,
             callResize = false,
-            panelLookup = new PanelLookup();
+            panelLookup = new PanelLookup.default();
 
          panelLookup._options.selectedKeys = [];
          panelLookup._options.lookupTemplateName = 'string';
@@ -41,7 +41,7 @@ define(['Controls/_filterPopup/Panel/Lookup'
       it('showSelector', function() {
          var
             isShowSelector = false,
-            pLookup = new PanelLookup();
+            pLookup = new PanelLookup.default();
 
 
          pLookup._children.lookup = {
@@ -60,25 +60,55 @@ define(['Controls/_filterPopup/Panel/Lookup'
       });
 
       it('getCaption', function() {
+         const pLookup = new PanelLookup.default();
          var options = {
             caption: 'caption',
             emptyText: 'emptyText',
             selectedKeys: []
          };
 
-         assert.equal(PanelLookup._private.getCaption({}, options), 'emptyText');
-         assert.equal(PanelLookup._private.getCaption({_passed: true}, options), 'caption');
+         assert.equal(pLookup._getCaption(options), 'emptyText');
+         pLookup._passed = true;
+         assert.equal(pLookup._getCaption(options), 'caption');
 
          options.selectedKeys = [1];
-         assert.equal(PanelLookup._private.getCaption({}, options), 'caption');
+         assert.equal(pLookup._getCaption(options), 'caption');
       });
 
       it('init _passed state with keys', () => {
-         const pLookup = new PanelLookup();
+         const pLookup = new PanelLookup.default();
          pLookup._beforeMount({
             selectedKeys: [1]
          });
          assert.isTrue(pLookup._passed);
+      });
+
+      it('reset _passed when source or caption changed', () => {
+         const source = {};
+         const pLookup = new PanelLookup.default();
+         pLookup._beforeMount({
+            selectedKeys: [1],
+            source,
+            caption: 'testCaption'
+         });
+         assert.isTrue(pLookup._passed);
+
+         pLookup._beforeUpdate({
+            selectedKeys: [1],
+            source,
+            caption: 'newCaption'
+         });
+
+         assert.isFalse(pLookup._passed);
+
+         pLookup._passed = true;
+
+         pLookup._beforeUpdate({
+            selectedKeys: [1],
+            source: {},
+            caption: 'newCaption'
+         });
+         assert.isFalse(pLookup._passed);
       });
    });
 });

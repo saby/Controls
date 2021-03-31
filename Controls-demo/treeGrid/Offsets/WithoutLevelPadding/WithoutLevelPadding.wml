@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-offset-withoutLevelPadding">
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
@@ -7,7 +7,7 @@
             bind:expandedItems="_expandedItems"
             nodeProperty="type">
     <ws:itemTemplate>
-        <ws:partial template="Controls/treeGrid:ItemTemplate" withoutLevelPadding="{{true}}" />
+        <ws:partial template="Controls/treeGridOld:ItemTemplate" withoutLevelPadding="{{true}}" />
     </ws:itemTemplate>
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>
