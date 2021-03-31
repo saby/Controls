@@ -5223,8 +5223,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 }
             }
 
+            const sourceController = this.getSourceController();
+            // Пока считаем что редактирование итемов без указания SourceController не поддерживается
+            if (!sourceController) {
+                return LIST_EDITING_CONSTANTS.CANCEL;
+            }
+
             if (isAdd && !((options && options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
-                return this.getSourceController().create().then((item) => {
+                return sourceController.create().then((item) => {
                     if (item instanceof Model) {
                         return {item};
                     }

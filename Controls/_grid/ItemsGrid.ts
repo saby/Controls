@@ -7,7 +7,7 @@ import {IItemsViewOptions, ItemsView as ListItemsView, ListControl as viewTempla
  * Контрол плоской таблицы, который умеет работать по {@link RecordSet}
  * @author Уфимцев Д.Ю.
  */
-export default class ItemsGrid<TOptions extends IItemsViewOptions> extends ListItemsView<TOptions> {
+export default class ItemsGrid<TOptions extends IItemsViewOptions = IItemsViewOptions> extends ListItemsView<TOptions> {
     //region override base template props
     protected _viewName: Function = null;
     protected _viewTemplate: Function = viewTemplate;
