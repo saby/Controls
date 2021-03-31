@@ -7,9 +7,8 @@
                                                     excludedKeys="{{_options.excludedKeys}}">
                         <Controls.list:Container>
                             <Controls.lookupPopup:ListContainer>
-                                <Controls.grid:View displayProperty="title"
-                                                    idProperty="{{_keyProperty}}"
-                                                    columns="{{_columns}}"/>
+                                <Controls.list:View displayProperty="title"
+                                                    keyProperty="{{_keyProperty}}"/>
                             </Controls.lookupPopup:ListContainer>
                         </Controls.list:Container>
                     </Controls.operations:Controller>
