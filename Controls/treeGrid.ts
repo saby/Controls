@@ -1,4 +1,5 @@
 import { default as View } from 'Controls/_treeGrid/TreeGrid';
+import { default as ItemsView } from 'Controls/_treeGrid/ItemsTreeGrid';
 import TreeGridView from 'Controls/_treeGrid/TreeGridView';
 
 import * as GroupColumnTemplate from 'wml!Controls/_treeGrid/render/GroupCellContent';
@@ -43,7 +44,6 @@ import TreeGridFooterCell from 'Controls/_treeGrid/display/TreeGridFooterCell';
 import { isFullGridSupport } from 'Controls/display';
 import TreeGridGroupDataRow from 'Controls/_treeGrid/display/TreeGridGroupDataRow';
 import TreeGridGroupDataCell from 'Controls/_treeGrid/display/TreeGridGroupDataCell';
-import { ItemsView } from 'Controls/_treeGrid/ItemsTreeGrid';
 
 export {
     TreeGridFooterCell,

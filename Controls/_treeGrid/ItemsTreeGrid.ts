@@ -1,11 +1,11 @@
 import {Logger} from 'UI/Utils';
 import {IItemsViewOptions} from 'Controls/list';
 import {isFullGridSupport} from 'Controls/display';
+import {ItemsView as ItemsGrid} from 'Controls/grid';
 import {TreeControl} from 'Controls/_tree/TreeControl';
-import {ItemsView as ItemsGrid} from 'Controls/gridNew';
 import TreeGridView from 'Controls/_treeGrid/TreeGridView';
-import {default as ITreeGrid, IOptions as ITreeGridOptions} from 'Controls/_treeGrid/interface/ITreeGrid';
 import TreeGridViewTable from 'Controls/_treeGrid/TreeGridViewTable';
+import {default as ITreeGrid, IOptions as ITreeGridOptions} from 'Controls/_treeGrid/interface/ITreeGrid';
 
 /**
  * Опции для контрола {@link ItemsTreeGrid}
@@ -25,7 +25,7 @@ export default class ItemsTreeGrid extends ItemsGrid<IItemsTreeGridOptions> impl
     //endregion
 
     //region implement ITreeGrid
-    readonly '[Controls/_treeGridNew/interface/ITreeGrid]': true;
+    readonly '[Controls/_treeGrid/interface/ITreeGrid]': true;
     //endregion
 
     //region life circle hooks
