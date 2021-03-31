@@ -35,7 +35,8 @@ class Tumbler extends Control<ITumblerOptions> implements ITumbler {
     }
 
     protected _handleExtendedCaptionClick(event: SyntheticEvent): void {
-        this._selectedKeyChangedHandler(event, this._options.propertyValue);
+        const value = this._options.items.at(0).getKey();
+        this._selectedKeyChangedHandler(event, value);
     }
 
     private _getTextValue(id: string|number): string {

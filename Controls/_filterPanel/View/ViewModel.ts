@@ -29,7 +29,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         super(options);
         VersionableMixin.call(this, options);
         this._options = options;
-        this._source = object.clone(options.source);
+        this._source = this._getSource(options.source);
         this._collapsedGroups = options.collapsedGroups || [];
         this._editingObject = this._getEditingObjectBySource(this._source);
         this._groupItems = this._getGroupItemsBySource(this._source);
@@ -37,7 +37,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     update(options: IFilterViewModelOptions): void {
         if (!isEqual(this._options.source, options.source)) {
-            this._source = object.clone(options.source);
+            this._source = this._getSource(options.source);
             this._editingObject = this._getEditingObjectBySource(this._source);
             this._nextVersion();
         }
@@ -48,6 +48,15 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         }
 
         this._options = options;
+    }
+
+    private _getSource(source: IFilterItem[]): IFilterItem[] {
+        const newSource = [];
+        source.forEach((item) => {
+            const editorOptions = {...item.editorOptions, ...{viewMode: item.viewMode}};
+            newSource.push({...item, ...{editorOptions}});
+        });
+        return newSource;
     }
 
     private _getEditingObjectBySource(source: IFilterItem[]): Record<string, unknown> {
@@ -97,9 +106,13 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
             if (editingItemProperty?.needCollapse) {
                 this.collapseGroup(item.group);
             }
-
-            if (editingItemProperty?.viewMode) {
-                item.viewMode = editingItemProperty?.viewMode;
+            const newViewMode = editingItemProperty?.viewMode;
+            const viewModeChanged = newViewMode && newViewMode !== item.viewMode;
+            if (viewModeChanged) {
+                if (item.viewMode === 'basic') {
+                    item.value = item.resetValue;
+                }
+                item.viewMode = newViewMode;
             } else if (item.viewMode === 'extended' && !isEqual(item.value, item.resetValue)) {
                 item.viewMode = 'basic';
             }
@@ -118,7 +131,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
             item.viewMode = 'basic';
         }
         item.value = value;
-        this._source = source;
+        this._source = this._getSource(source);
         this._nextVersion();
     }
 

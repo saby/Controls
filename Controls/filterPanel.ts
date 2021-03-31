@@ -10,8 +10,7 @@
  */
 export {default as View} from './_filterPanel/View';
 export {default as BaseEditor} from './_filterPanel/BaseEditor';
-export {default as LookupEditor} from './_filterPanel/Editors/Lookup';
-export {default as BooleanEditor} from './_filterPanel/Editors/Boolean';
+export {default as CustomEditor} from './_filterPanel/Editors/Custom';
 export {default as NumberRangeEditor} from './_filterPanel/Editors/NumberRange';
 export {default as ListEditor} from './_filterPanel/Editors/List';
 export {default as TumblerEditor} from './_filterPanel/Editors/Tumbler';
