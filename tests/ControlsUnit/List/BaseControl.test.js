@@ -6373,7 +6373,7 @@ define([
          assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-all controls-BaseControl__loadingIndicator__state-all_theme-default', testCaseWithArgs('all', false));
          assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-up controls-BaseControl__loadingIndicator__state-up_theme-default', testCaseWithArgs('up', false));
          assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl__loadingIndicator__state-down_theme-default', testCaseWithArgs('down', false));
-         assert.equal(`controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl__loadingIndicator__state-down_theme-default controls-BaseControl_withPaging__loadingIndicator__state-down_theme-${theme}`, testCaseWithArgs('down', true));
+         assert.equal(`controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl__loadingIndicator__state-down_theme-default`, testCaseWithArgs('down', true));
          assert.equal('controls-BaseControl__loadingIndicator controls-BaseControl__loadingIndicator__state-down controls-BaseControl__loadingIndicator__state-down_theme-default controls-BaseControl__loadingIndicator_style-portionedSearch_theme-default', testCaseWithArgs('down', false, true));
 
       });
@@ -6566,7 +6566,7 @@ define([
                 ['up',   false, false, true,  false],
 
                 ['down', true,  true,  true,  true],
-                ['down', false, true,  false, false],
+                ['down', false, true,  false, true],
                 ['down', false, false, true,  true],
                 ['down', false, false, true,  true],
 
