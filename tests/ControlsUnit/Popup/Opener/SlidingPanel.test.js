@@ -128,15 +128,19 @@ define(
                   const item = getPopupItem();
                   item.popupOptions.slidingPanelOptions.position = 'bottom';
                   SlidingPanelStrategy._getWindowHeight = () => 900;
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                   sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
                      return {
                         height: item.position.height
                      };
                   });
 
+                  item.sizes = null;
                   Controller.getDefaultConfig(item);
+                  assert.equal(item.position.top, 900);
+
                   const result = Controller.elementCreated(item, {});
-                  assert.equal(item.position.top, 0);
+                  assert.equal(item.position.top, 500);
 
                   assert.equal(result, true);
                   sandbox.restore();
@@ -147,17 +151,19 @@ define(
                   const item = getPopupItem();
                   item.popupOptions.slidingPanelOptions.position = 'top';
                   SlidingPanelStrategy._getWindowHeight = () => 900;
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                   sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
                      return {
                         height: item.position.height
                      };
                   });
 
+                  item.sizes = null;
                   Controller.getDefaultConfig(item);
-                  assert.equal(item.position.bottom, -400);
+                  assert.equal(item.position.bottom, 900);
                   const result = Controller.elementCreated(item, {});
 
-                  assert.equal(item.position.bottom, 0);
+                  assert.equal(item.position.bottom, 500);
                   assert.equal(result, true);
                   sandbox.restore();
                });
@@ -171,6 +177,7 @@ define(
                };
 
                sandbox.stub(StrategySingleton, 'getPosition');
+               sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
                   return {
                      height: item.position.height
@@ -188,6 +195,7 @@ define(
                const item = getPopupItem();
                const SlidingPanelStrategy = new StrategyConstructor();
                SlidingPanelStrategy._getWindowHeight = () => 900;
+               sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
                   return {
                      height: item.position.height
@@ -223,6 +231,7 @@ define(
                const item2 = getPopupItem();
 
                sandbox.stub(Controller, '_toggleCancelBodyDragging');
+               sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                sandbox.stub(Controller, '_getPopupSizes').callsFake(() => {
                   return {
                      height: item1.position.height
@@ -298,6 +307,7 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   let height = 0;
 
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
@@ -329,6 +339,7 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   let height = 0;
 
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
@@ -358,6 +369,7 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   let height = 0;
 
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
@@ -387,6 +399,7 @@ define(
                   const SlidingPanelStrategy = new StrategyConstructor();
                   let height = 0;
 
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
@@ -409,6 +422,7 @@ define(
                it('overflow min', () => {
                   const sandbox = sinon.sandbox.create();
                   let height = 0;
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
                   sandbox.stub(StrategySingleton, 'getPosition').callsFake((item) => {
                      height = item.position.height;
                      return item.position;
@@ -437,6 +451,7 @@ define(
                   const item = getPopupItem();
                   const SlidingPanelStrategy = new StrategyConstructor();
                   SlidingPanelStrategy._getWindowHeight = () => 900;
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 900);
 
                   item.position = SlidingPanelStrategy.getPosition(item);
 
@@ -454,6 +469,7 @@ define(
                   const item = getPopupItem();
                   const SlidingPanelStrategy = new StrategyConstructor();
                   SlidingPanelStrategy._getWindowHeight = () => 300;
+                  sandbox.stub(StrategySingleton, '_getWindowHeight').callsFake(() => 300);
 
                   item.position = SlidingPanelStrategy.getPosition(item);
 

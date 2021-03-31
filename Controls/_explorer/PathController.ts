@@ -1,7 +1,7 @@
 import {EventUtils} from 'UI/Events';
 import {SyntheticEvent} from 'UI/Vdom';
 import {Path} from 'Controls/dataSource';
-import {IGridControl, IHeaderCell} from 'Controls/grid';
+import {IGridControl, IHeaderCell} from 'Controls/gridOld';
 import HeadingPathBack from 'Controls/_explorer/HeadingPathBack';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
@@ -15,6 +15,7 @@ interface IOptions extends IControlOptions, IGridControl {
     displayProperty: string;
     showActionButton: boolean;
     backButtonStyle: string;
+    backButtonCaption: string;
     backButtonIconStyle: string;
     backButtonFontColorStyle: string;
 }
@@ -35,6 +36,7 @@ function isItemsEqual(oldItems: Path, newItems: Path): boolean {
 /**
  * * Если возможно, то патчит первую ячейку заголовка таблицы добавляя туда хлебные крошки
  * * Вычисляет нужна ли тень у хлебных крошек
+ * * Обрабатывает клик по кнопке назад из заголовка таблицы
  */
 export default class PathController extends Control<IOptions> {
     protected _template: TemplateFunction = template;
@@ -99,6 +101,7 @@ export default class PathController extends Control<IOptions> {
                     backButtonIconStyle: options.backButtonIconStyle,
                     backButtonFontColorStyle: options.backButtonFontColorStyle,
                     displayProperty: options.displayProperty,
+                    backButtonCaption: options.backButtonCaption,
                     items
                 },
 

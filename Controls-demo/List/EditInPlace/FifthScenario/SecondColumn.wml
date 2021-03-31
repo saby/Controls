@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:ColumnTemplate"
+<ws:partial template="Controls/gridOld:ColumnTemplate"
             attr:class="controls-Grid__row-cell__content_baseline_L"
             attr:style="font-weight: bold;"
             itemData="{{itemData}}"/>

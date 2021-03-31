@@ -5,7 +5,7 @@ import * as editingCellText from 'wml!Controls-demo/grid/EditInPlace/FastEdit/ed
 import {Memory} from 'Types/source';
 import {Model} from 'Types/entity';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridOld';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;

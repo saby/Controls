@@ -31,7 +31,7 @@
                             readOnly="{{_options.readOnly}}"
                             theme="{{_options.theme}}"
                             value="{{_options.value}}"
-                            attr:class="controls-Search__expandable-input controls-Search__input-inlineWidth-{{_options.inlineWidth}}"
+                            attr:class="controls-Search__input-inlineWidth-{{_options.inlineWidth}}"
                             on:searchClick="_tmplNotify('searchClick')"
                             on:resetClick="_tmplNotify('resetClick')"
                             on:valueChanged="_tmplNotify('valueChanged')"/>

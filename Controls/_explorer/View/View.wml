@@ -3,16 +3,19 @@
       scope="{{_options}}"
       root="{{_getRoot(_options.root)}}"
       dataLoadCallback="{{_dataLoadCallback}}"
+      on:breadCrumbsItemsChanged="_onBreadcrumbsChanged()"
    >
       <ws:content>
          <Controls.dragnDrop:Container on:documentDragStart="_documentDragStart()" on:documentDragEnd="_documentDragEnd()">
             <Controls._explorer.PathController
                scope="{{_options}}"
                header="{{_header}}"
-               root="{{content._options.root}}"
-               items="{{_breadCrumbsItems}}"
                rootVisible="{{_dragOnBreadCrumbs}}"
                highlighter="{{[_breadCrumbsDragHighlighter]}}"
+
+               root="{{content._options.root}}"
+               items="{{content._options.breadCrumbsItems}}"
+
                on:hoveredItemChanged="_hoveredCrumbChanged()"
                on:arrowActivated="_notifyHandler('arrowActivated')"
                on:arrowClick="_notifyHandler('arrowClick')"

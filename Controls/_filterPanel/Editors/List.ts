@@ -21,6 +21,7 @@ export interface IListEditorOptions extends IControlOptions, IFilterOptions, ISo
     showSelectorCaption?: string;
     additionalTextProperty: string;
     multiSelect: boolean;
+    navigation?: object;
 }
 
 /**
@@ -69,6 +70,7 @@ class ListEditor extends Control<IListEditorOptions> {
     protected _items: RecordSet = null;
     protected _selectedKeys: string[]|number[] = [];
     protected _filter: object = {};
+    protected _navigation: object = null;
     private _itemsReadyCallback: Function = null;
 
     protected _beforeMount(options: IListEditorOptions): void {
@@ -76,6 +78,9 @@ class ListEditor extends Control<IListEditorOptions> {
         this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
         this._itemsReadyCallback = this._handleItemsReadyCallback.bind(this);
         this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
+        if (!this._selectedKeys.length) {
+            this._navigation = options.navigation;
+        }
     }
 
     protected _beforeUpdate(options: IListEditorOptions): void {
@@ -86,6 +91,7 @@ class ListEditor extends Control<IListEditorOptions> {
         if (additionalDataChanged || valueChanged || displayPropertyChanged) {
             this._selectedKeys = options.propertyValue;
             this._setColumns(options.displayProperty, options.propertyValue, options.keyProperty, options.additionalTextProperty);
+            this._navigation = this._selectedKeys.length ? null : options.navigation;
         }
         if (filterChanged || (valueChanged && !options.multiSelect)) {
             this._setFilter(this._selectedKeys, options.filter, options.keyProperty);
