@@ -474,3 +474,13 @@ export interface ITreeControlOptions extends IControlOptions {
  * @variant all все типы записей доступны для выбора
  * @remark Опция {@link Controls/_list/interface/IList#multiSelectAccessibilityProperty multiSelectAccessibilityProperty} преобладает над этой опцией
  */
+
+/**
+ * @name Controls/_tree/interface/ITreeControl#singleExpand 
+ * @cfg {Boolean} Режим единого развернутого узла.
+ * @remark
+ * В дереве можно задать такое поведение, при котором единовременно может быть раскрыт только один узел в рамках одного уровня иерархии. При раскрытии нового узла предыдущий будет автоматически сворачиваться.
+ * @default false
+ * @variant true
+ * @variant false
+ */
