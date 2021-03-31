@@ -1,5 +1,5 @@
 import cExtend = require('Core/core-simpleExtend');
-import {ObservableMixin, VersionableMixin, DateTime} from 'Types/entity';
+import {ObservableMixin, VersionableMixin, DateTime, Date} from 'Types/entity';
 import getPeriodType = require('Core/helpers/Date/getPeriodType');
 import {Range, Base} from 'Controls/dateUtils';
 import CalendarUtils from './Utils';
