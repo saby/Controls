@@ -199,7 +199,7 @@ const _private = {
                 if (self._editingItem) {
                     shouldCancelEditing = _private.hasInParents(
                         self._options.useNewModel ? listViewModel : listViewModel.getDisplay(),
-                        self._editingItem.getKey(),
+                        self._editingItem.getContents().getKey(),
                         dispItem.contents.getKey()
                     );
                 }
@@ -326,7 +326,7 @@ const _private = {
         let shouldCancelEditing = false;
 
         if (self._editingItem) {
-            const editingKey = self._editingItem.getKey();
+            const editingKey = self._editingItem.getContents().getKey();
             viewModel.getExpandedItems().forEach((itemKey) => {
                 shouldCancelEditing = shouldCancelEditing || _private.hasInParents(
                     self._options.useNewModel ? viewModel : viewModel.getDisplay(),
@@ -571,8 +571,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     loadMore(direction: IDirection): void {
         const hasMoreRootData = this._sourceController.hasMoreData(direction, this._root);
         const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
-        const lastRootItem = rootItems.at(rootItems.getCount() - 1);
-        if (!hasMoreRootData && lastRootItem.isNode() && lastRootItem.isExpanded()) {
+        const lastRootItem: TreeItem = rootItems.at(rootItems.getCount() - 1);
+        const hasNodeFooterTemplate: boolean = !!this._options.nodeFooterTemplate;
+        if (!hasMoreRootData &&
+            !hasNodeFooterTemplate &&
+            lastRootItem.isNode() &&
+            lastRootItem.isExpanded()) {
             const hasMoreData = this._sourceController.hasMoreData(direction, lastRootItem.getContents().getKey());
             if (hasMoreData) {
                 _private.loadMore(this, lastRootItem);
