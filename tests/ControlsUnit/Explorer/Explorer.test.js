@@ -50,25 +50,6 @@ define([
             }
          };
          const testRoot = 'testRoot';
-         const testBreadCrumbs = new collection.RecordSet({
-            rawData: [
-               { id: 1, title: 'item1', parent: null },
-               { id: 2, title: 'item2', parent: 1 },
-               { id: 3, title: 'item3', parent: 2 }
-            ]
-         });
-         const testBreadCrumbs2 = new collection.RecordSet({
-            rawData: []
-         });
-         const testData1 = new collection.RecordSet({});
-         const testData2 = new collection.RecordSet({});
-         testData2.setMetaData({
-            path: testBreadCrumbs
-         });
-         const testData3 = new collection.RecordSet({});
-         testData3.setMetaData({
-            path: testBreadCrumbs2
-         });
 
          GlobalView._setRoot.call(self, testRoot);
          assert.deepEqual({
@@ -82,90 +63,6 @@ define([
             }
          }, self, 'Incorrect self data after "setRoot(self, testRoot)".');
          assert.isTrue(itemOpenHandlerCalled);
-
-         self._updateSubscriptionOnBreadcrumbs = emptyFn;
-         self._getDataRoot = emptyFn;
-
-         GlobalView._beforeUpdate({ items: testData1 });
-         assert.deepEqual(GlobalView._breadCrumbsItems, null, 'Incorrect "breadCrumbsItems"');
-
-         GlobalView._beforeUpdate({ items: testData2 });
-         assert.deepEqual(GlobalView._breadCrumbsItems, chain.factory(testBreadCrumbs).toArray(), 'Incorrect "breadCrumbsItems"');
-
-         GlobalView._beforeUpdate({ items: testData1 });
-         assert.deepEqual(GlobalView._breadCrumbsItems, null, 'Incorrect "breadCrumbsItems"');
-
-         GlobalView._beforeUpdate({ items: testData3 });
-         assert.deepEqual(GlobalView._breadCrumbsItems, null, 'Incorrect "breadCrumbsItems"');
-      });
-
-      it('should update subscription on data recordSet on change', function() {
-         let isSubscribed = false;
-         let isUnSubscribed = false;
-         const _updateHeadingPath = emptyFn;
-         const subscribe = (eName, fn) => {
-            if (eName === 'onCollectionItemChange') {
-               isSubscribed = true;
-               assert.equal(fn, _updateHeadingPath);
-            }
-         };
-         const unsubscribe = (eName, fn) => {
-            if (eName === 'onCollectionItemChange') {
-               isUnSubscribed = true;
-               assert.equal(fn, _updateHeadingPath);
-            }
-         };
-
-         const self = new explorerMod.View();
-         const testBreadCrumbs1 = new collection.RecordSet({
-            rawData: []
-         });
-         const testBreadCrumbs2 = new collection.RecordSet({
-            rawData: []
-         });
-         const testDataRecordSet1 = {
-            getMetaData: function() {
-               return {
-                  path: testBreadCrumbs1
-               };
-            },
-            getCount() {
-            }
-         };
-         const testDataRecordSet2 = {
-            getMetaData: function() {
-               return {
-                  path: testBreadCrumbs2
-               };
-            },
-            getCount() {
-            }
-         };
-         const assertCase = (_isUnSubscribed, _isSubscribed) => {
-            assert.equal(_isUnSubscribed, isUnSubscribed);
-            assert.equal(_isSubscribed, isSubscribed);
-            isUnSubscribed = isSubscribed = false;
-         };
-
-
-         self._beforeMount({});
-         self._updateHeadingPath = _updateHeadingPath;
-         testBreadCrumbs1.subscribe = subscribe;
-         testBreadCrumbs1.unsubscribe = unsubscribe;
-         testBreadCrumbs2.subscribe = subscribe;
-         testBreadCrumbs2.unsubscribe = unsubscribe;
-
-         self._beforeUpdate({ items: testDataRecordSet1 });
-         assertCase(false, true);
-         self._options.items = testDataRecordSet1;
-
-         self._beforeUpdate({ items: testDataRecordSet2 });
-         assertCase(true, true);
-         self._options.items = testDataRecordSet2;
-
-         self._beforeUpdate({ items: testDataRecordSet1 });
-         assertCase(true, true);
-         self._options.items = testDataRecordSet1;
       });
 
       it('_private.canStartDragNDrop', function() {
@@ -202,24 +99,24 @@ define([
          const explorer = new explorerMod.View(cfg);
 
          explorer.saveOptions(cfg);
-         assert.equal(explorer._getTopRoot(cfg), 'rootFromOptions');
+         assert.equal(explorer._getTopRoot([], cfg.parentProperty, cfg.root), 'rootFromOptions');
 
          delete cfg.root;
          explorer.saveOptions(cfg);
          explorer._root = 'rootFromState';
-         assert.equal(explorer._getTopRoot(cfg), 'rootFromState');
+         assert.equal(explorer._getTopRoot([], cfg.parentProperty, cfg.root), 'rootFromState');
 
-         explorer._breadCrumbsItems = [new entityLib.Model({
+         let breadcrumbs = [new entityLib.Model({
             rawData: {
                parent: 'rootFromBreadCrumbs'
             },
             keyProperty: 'id'
          })];
-         assert.equal(explorer._getTopRoot(cfg), 'rootFromBreadCrumbs');
+         assert.equal(explorer._getTopRoot(breadcrumbs, cfg.parentProperty, cfg.root), 'rootFromBreadCrumbs');
 
          cfg.root = 'rootFromOptions';
          explorer.saveOptions(cfg);
-         assert.equal(explorer._getTopRoot(cfg), 'rootFromBreadCrumbs');
+         assert.equal(explorer._getTopRoot(breadcrumbs, cfg.parentProperty, cfg.root), 'rootFromBreadCrumbs');
       });
 
       it('itemsReadyCallback', function() {
@@ -262,6 +159,7 @@ define([
          };
 
          assert.equal(explorer._markerForRestoredScroll, null);
+         explorer._onBreadcrumbsChanged(null, []);
          explorer._itemsSetCallback();
 
          assert.strictEqual(markedKey, 'test');
@@ -318,6 +216,7 @@ define([
          let root;
 
          instance.saveOptions(cfg);
+         instance._isMounted = true;
 
          await instance._beforeMount(cfg);
          assert.equal(instance._viewMode, 'tree');
@@ -337,12 +236,12 @@ define([
          assert.equal(instance._viewModelConstructor, explorerMod.View._constants.VIEW_MODEL_CONSTRUCTORS.search);
          assert.isFalse(rootChanged);
 
-         instance._breadCrumbsItems = new collection.RecordSet({
+         let breadcrumbs = [new entityLib.Model({
             rawData: [
                { id: 1, title: 'item1' }
             ],
             keyProperty: 'id'
-         });
+         })];
          instance.saveOptions(Object.assign(
             {},
             instance._options,
@@ -352,6 +251,7 @@ define([
                parentProperty: 'id'
             }
          ));
+         instance._onBreadcrumbsChanged(null, breadcrumbs);
          instance._viewMode = 'tree';
          await instance._setViewMode(newCfg.viewMode, newCfg);
          assert.isFalse(rootChanged);
@@ -362,17 +262,17 @@ define([
          assert.equal(instance._viewModelConstructor, explorerMod.View._constants.VIEW_MODEL_CONSTRUCTORS.tile);
          assert.isFalse(rootChanged);
 
-         instance._breadCrumbsItems = [new entityLib.Model({
+         breadcrumbs = [new entityLib.Model({
             rawData: {
                id: 1,
                title: 'crumb'
             },
             keyProperty: 'id'
          })];
+         instance._onBreadcrumbsChanged(null, breadcrumbs);
          instance._setViewMode(newCfg3.viewMode, newCfg3);
          assert.isTrue(rootChanged);
          assert.equal(root, 1);
-         assert.equal(instance._breadCrumbsItems, null);
       });
 
       it('toggleExpanded', function() {
@@ -393,29 +293,12 @@ define([
 
       it('_beforeMount', function() {
          let instance = new explorerMod.View();
-         let path = new collection.RecordSet({
-            rawData: [
-               { id: 1, title: 'item1' }
-            ],
-            keyProperty: 'id'
-         });
          let cfg = {
-            items: {
-               getMetaData: function() {
-                  return { path: path };
-               }
-            },
             root: 1
          };
 
          instance._beforeMount(cfg);
-
          assert.deepEqual({ 1: { markedKey: null } }, instance._restoredMarkedKeys);
-
-         path.clear();
-
-         instance._beforeMount(cfg);
-         assert.equal(instance._breadCrumbsItems, null);
       });
 
       it('sourceController with error', async() => {
@@ -619,51 +502,6 @@ define([
                }
             };
 
-         it('backByPath', function() {
-            isNotified = false;
-
-            var
-               explorer = new explorerMod.View({});
-
-            explorer._notify = _notify;
-            explorer.saveOptions({
-               parentProperty: 'parent'
-            });
-            explorer._breadCrumbsItems = [new entityLib.Model({
-               rawData: {
-                  id: 2,
-                  parent: 1
-               },
-               keyProperty: 'id'
-            })];
-
-            explorer._backByPath(explorer);
-
-            assert.isTrue(isNotified);
-            assert.equal(root, 1);
-            isNotified = false;
-
-            explorer._breadCrumbsItems.push(new entityLib.Model({
-               rawData: {
-                  id: 3,
-                  parent: 2
-               },
-               keyProperty: 'id'
-            }));
-
-            explorer._backByPath(explorer);
-
-            assert.isTrue(isNotified);
-            assert.equal(root, 2);
-            isNotified = false;
-
-            explorer._breadCrumbsItems = [];
-
-            explorer._backByPath(explorer);
-
-            assert.isFalse(isNotified);
-         });
-
          it('_beforeUpdate', function() {
             isNotified = false;
 
@@ -764,6 +602,7 @@ define([
                isEventResultReturns = false,
                isPropagationStopped = isNotified = isNativeClickEventExists = false;
             explorer._beforeMount({});
+            explorer._isMounted = true;
 
             explorer.saveOptions({
                editingConfig: {}
@@ -911,6 +750,7 @@ define([
             var
                explorer = new explorerMod.View({});
             explorer.saveOptions({});
+            explorer._isMounted = true;
             explorer._notify = _notify;
             explorer._children = {
                treeControl: {
@@ -1084,12 +924,13 @@ define([
                      { id: 3, title: 'item3', parent: 2 }
                   ],
                   keyProperty: 'id'
-               })
+               });
 
             explorer = new explorerMod.View(explorerCfg);
 
             explorer.saveOptions(explorerCfg);
             explorer._beforeMount(explorerCfg);
+            explorer._onBreadcrumbsChanged(null, []);
             explorer._items = items;
          });
 
@@ -1379,18 +1220,14 @@ define([
                explorer._beforeUpdate(cfg);
             };
 
-            explorer._breadCrumbsItems = [rootItem, childItem];
-            GlobalView._backByPath(explorer);
-
+            explorer._backByPath([rootItem, childItem]);
             assert.deepEqual(
                explorer._navigation.sourceConfig.position,
                ['Title1', 1]
             );
 
 
-            explorer._breadCrumbsItems = [rootItem];
-            GlobalView._backByPath(explorer);
-
+            explorer._backByPath([rootItem]);
             assert.deepEqual(
                explorer._navigation.sourceConfig.position,
                null

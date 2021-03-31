@@ -35,8 +35,7 @@ export default class HeadingPathBack extends Control<IOptions> {
          this._headingPathBackOptions = {
             ...options,
             counterCaption: items[items.length - 1].get('counterCaption'),
-            backButtonClass: 'controls-BreadCrumbsPath__backButton__wrapper_inHeader',
-            backButtonCaption: calculatePath(items, options.displayProperty).backButtonCaption
+            backButtonClass: 'controls-BreadCrumbsPath__backButton__wrapper_inHeader'
          };
       }
    }

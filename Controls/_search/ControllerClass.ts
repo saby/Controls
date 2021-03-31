@@ -15,6 +15,7 @@ export interface ISearchControllerOptions extends ISearchOptions,
    searchValue?: string;
    root?: TKey;
    viewMode?: TViewMode;
+   items?: RecordSet;
 }
 
 const SERVICE_FILTERS = {
@@ -102,6 +103,11 @@ export default class ControllerClass {
       if (options.root !== undefined) {
          this.setRoot(options.root);
       }
+
+      if (options.items) {
+         this._path = options.items.getMetaData().path;
+      }
+
       this._previousViewMode = this._viewMode = options.viewMode;
    }
 
