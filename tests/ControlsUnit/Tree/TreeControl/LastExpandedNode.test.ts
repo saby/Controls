@@ -1,0 +1,143 @@
+import {HierarchicalMemory, Query} from 'Types/source';
+import {ITreeControlOptions, TreeControl} from 'Controls/tree';
+import { RecordSet } from 'Types/collection';
+import { TreeGridCollection } from 'Controls/treeGridNew';
+import { register } from 'Types/di';
+import { assert } from 'chai';
+import { stub, spy, assert as sinonAssert } from 'sinon';
+
+register('Controls/treeGrid:TreeGridCollection', TreeGridCollection, {instantiate: false});
+
+describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
+    let source: HierarchicalMemory;
+
+    const data = [
+        {
+            id: '1',
+            parent: null,
+            type: true
+        },
+        {
+            id: '2',
+            parent: null,
+            type: true
+        },
+        {
+            id: '21',
+            parent: '2',
+            type: null
+        },
+        {
+            id: '22',
+            parent: '2',
+            type: null
+        }
+    ];
+
+    const fakeSourceController = {
+        hasMoreData: (direction: string, root: string) => root !== null,
+        setDataLoadCallback: () => {},
+        getState: () => ({}),
+        getItems: () => new RecordSet({
+            keyProperty: 'id',
+            rawData: data
+        }),
+        getCollapsedGroups: () => {},
+        getLoadError: () => false,
+        updateOptions: () => {},
+        hasLoaded: (key: string) => true,
+        load: (direction: string, root: string) => {
+            const query = new Query().where({root});
+            return source.query(query);
+        }
+    };
+
+    function initTreeControl(cfg: Partial<ITreeControlOptions> = {}): TreeControl {
+        const config: ITreeControlOptions = {
+            viewName: 'Controls/List/TreeGridView',
+            useNewModel: true,
+            keyProperty: 'id',
+            parentProperty: 'parent',
+            nodeProperty: 'type',
+            source,
+            viewModelConstructor: 'Controls/treeGrid:TreeGridCollection',
+            sourceController: fakeSourceController,
+            virtualScrollConfig: {
+                pageSize: 1
+            },
+            ...cfg
+        };
+        const treeControl = new TreeControl(config);
+        treeControl.saveOptions(config);
+        treeControl._beforeMount(config);
+        return treeControl;
+    }
+
+    it ('should load from root when items are collapsed', () => {
+        source = new HierarchicalMemory({
+            keyProperty: 'id',
+            data
+        });
+        const spyQuery = spy(source, 'query');
+        const treeControl = initTreeControl();
+        treeControl.loadMore('down');
+        sinonAssert.notCalled(spyQuery);
+        spyQuery.restore();
+    });
+
+    it ('should load from root when expanded item is not last', () => {
+        source = new HierarchicalMemory({
+            keyProperty: 'id',
+            data: [
+                ...data,
+                {
+                    id: '3',
+                    parent: null,
+                    type: true
+                }
+            ]
+        });
+
+        const spyQuery = spy(source, 'query');
+        const treeControl = initTreeControl();
+        treeControl.loadMore('down');
+        sinonAssert.notCalled(spyQuery);
+        spyQuery.restore();
+    });
+
+    it ('should load from last expanded node', () => {
+        source = new HierarchicalMemory({
+            keyProperty: 'id',
+            data
+        });
+
+        const stubQuery = stub(source, 'query').callsFake((query: Query) => {
+            assert.equal(query.getWhere().root, 2);
+            return Promise.resolve();
+        });
+        const treeControl = initTreeControl();
+        treeControl.toggleExpanded('2');
+
+        treeControl.loadMore('down');
+
+        sinonAssert.called(stubQuery);
+        stubQuery.restore();
+    });
+
+    it ('should not load from last expanded node when nodeFooterTemplate is set', () => {
+        source = new HierarchicalMemory({
+            keyProperty: 'id',
+            data
+        });
+
+        const spyQuery = spy(source, 'query');
+        const treeControl = initTreeControl({
+            nodeFooterTemplate: () => {}
+        });
+        treeControl.toggleExpanded('2');
+
+        treeControl.loadMore('down');
+        sinonAssert.notCalled(spyQuery);
+        spyQuery.restore();
+    });
+});
