@@ -1,5 +1,6 @@
 import {descriptor} from 'Types/entity';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import {Logger} from 'UI/Utils';
 import splitIntoTriads from 'Controls/_decorator/inputUtils/splitIntoTriads';
 import toString from 'Controls/_decorator/inputUtils/toString';
 import * as template from 'wml!Controls/_decorator/Number/Number';
@@ -31,7 +32,7 @@ type TValue = string | number | null;
  * @variant none
  */
 type TAbbreviationType = 'none' | 'short' | 'long';
-type RoundingFn = (number: string, fractionSize: number) => string;
+type RoundingFn = (number: string, precision: number) => string;
 
 /**
  * @typedef RoundMode
@@ -58,8 +59,15 @@ export interface INumberOptions extends IControlOptions, INumberFormatOptions, I
      * @name Controls/_decorator/INumber#fractionSize
      * @cfg {Number} Количество знаков после запятой. Диапазон от 0 до 20.
      * @demo Controls-demo/Decorator/Number/FractionSize/Index
+     * @deprecated Опция устарела и в ближайшее время её поддержка будет прекращена. Используйте опцию {@link Controls/_decorator/INumber#precision}.
      */
     fractionSize?: number;
+    /**
+     * @name Controls/_decorator/INumber#precision
+     * @cfg {Number} Количество знаков после запятой. Диапазон от 0 до 20.
+     * @demo Controls-demo/Decorator/Number/precision/Index
+     */
+    precision?: number;
     /**
      * @name Controls/_decorator/INumber#roundMode
      * @cfg {RoundMode} Режим форматирования дробной части числа.
@@ -106,6 +114,7 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
             'value',
             'roundMode',
             'fractionSize',
+            'precision',
             'useGrouping'
         ].some((optionName: string) => {
             if (optionName === 'value') {
@@ -146,14 +155,20 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
         }
 
         const {useGrouping, roundMode, fractionSize, abbreviationType} = format;
+        let precision: number = format.precision;
 
         if (typeof fractionSize === 'number') {
+            Logger.warn('Controls/decorator:Number: Option "fractionSize" is deprecated and will be removed soon. Use "precision" option instead.', self);
+            precision = fractionSize;
+        }
+
+        if (typeof precision === 'number') {
             switch (roundMode) {
                 case 'round':
-                    strNumber = NumberDecorator._round(strNumber, fractionSize);
+                    strNumber = NumberDecorator._round(strNumber, precision);
                     break;
                 case 'trunc':
-                    strNumber = NumberDecorator._trunc(strNumber, fractionSize);
+                    strNumber = NumberDecorator._trunc(strNumber, precision);
                     break;
             }
         }
@@ -169,13 +184,13 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
         return strNumber;
     }
 
-    private static _round: RoundingFn = (number, fractionSize) => {
-        return toString(parseFloat(number).toFixed(fractionSize));
+    private static _round: RoundingFn = (number, precision) => {
+        return toString(parseFloat(number).toFixed(precision));
     };
 
-    private static _trunc: RoundingFn = (number, fractionSize) => {
-        if (fractionSize) {
-            const regExp = new RegExp(`-?\\d+.?\\d{0,${fractionSize}}`);
+    private static _trunc: RoundingFn = (number, precision) => {
+        if (precision) {
+            const regExp = new RegExp(`-?\\d+.?\\d{0,${precision}}`);
 
             return  String.prototype.match.call(number, regExp)[0];
         } else {
@@ -188,6 +203,7 @@ class NumberDecorator extends Control<INumberOptions> implements INumberFormat, 
             useGrouping: descriptor(Boolean),
             value: descriptor(String, Number, null).required(),
             fractionSize: descriptor(Number),
+            precision: descriptor(Number),
             roundMode: descriptor(String).oneOf([
                 'trunc',
                 'round'
