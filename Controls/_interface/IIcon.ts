@@ -30,7 +30,6 @@ export default interface IIcon {
  * <!-- WML -->
  * <Controls.buttons:Button icon="icon-Add" buttonStyle="primary" viewMode="button"/>
  * </pre>
- * @demo Controls-demo/toggle/Checkbox/Icon/Index
  * @see Controls/interface/IIconSize
  * @see Controls/interface/IIconStyle
  */

@@ -283,4 +283,16 @@ Object.defineProperty(Checkbox, 'defaultProps', {
  * @see value
  * @see triState
  */
+/**
+ * @name Controls/_toggle/Checkbox#icon
+ * @demo Controls-demo/toggle/Checkbox/Icon/Index
+ */
+/**
+ * @name Controls/_toggle/Checkbox#iconSize
+ * @demo Controls-demo/toggle/Checkbox/Icon/Index
+ */
+/**
+ * @name Controls/_toggle/Checkbox#iconStyle
+ * @demo Controls-demo/toggle/Checkbox/Icon/Index
+ */
 export default Checkbox;
