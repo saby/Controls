@@ -94,9 +94,6 @@ define([
             instance._beforeMount({
                header: header,
                items: items,
-               itemsPromise: new Promise((res) => {
-                  res(items);
-               }),
                displayProperty: 'title'
             });
             assert.deepEqual(instance._header, [{
@@ -105,6 +102,7 @@ define([
                   items: items,
                   displayProperty: 'title',
                   backButtonStyle: undefined,
+                  backButtonCaption: undefined,
                   backButtonIconStyle: undefined,
                   backButtonFontColorStyle: undefined,
                   showArrowOutsideOfBackButton: false,
@@ -220,6 +218,7 @@ define([
                   displayProperty: 'title',
                   items: items.slice(0, 1),
                   backButtonStyle: undefined,
+                  backButtonCaption: undefined,
                   backButtonIconStyle: undefined,
                   backButtonFontColorStyle: undefined,
                   showArrowOutsideOfBackButton: false,
@@ -273,18 +272,12 @@ define([
                   items: items,
                   header: header,
                   displayProperty: 'title',
-                  itemsPromise: new Promise((res) => {
-                     res(items);
-                  })
                },
                instance = new PathController.default();
             await instance._beforeMount(cfg);
             const headerInst = instance._header;
             instance.saveOptions({
                items: items,
-               itemsPromise: new Promise((res) => {
-                  res(items);
-               })
             });
             instance._beforeUpdate({
                header: header,
@@ -296,6 +289,7 @@ define([
                template: HeadingPathBack.default,
                templateOptions: {
                   backButtonStyle: undefined,
+                  backButtonCaption: undefined,
                   backButtonIconStyle: undefined,
                   backButtonFontColorStyle: undefined,
                   showArrowOutsideOfBackButton: false,
@@ -325,9 +319,6 @@ define([
                items: items,
                header: header,
                displayProperty: 'title',
-               itemsPromise: new Promise((res) => {
-                  res(items);
-               })
             };
             const instance = new PathController.default();
 
@@ -348,6 +339,7 @@ define([
                   template: HeadingPathBack.default,
                   templateOptions: {
                      backButtonStyle: undefined,
+                     backButtonCaption: undefined,
                      backButtonIconStyle: undefined,
                      backButtonFontColorStyle: undefined,
                      showArrowOutsideOfBackButton: false,
