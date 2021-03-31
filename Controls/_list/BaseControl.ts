@@ -4979,7 +4979,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             resDeferred.callback();
             Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
         }
-        return resDeferred;
+        return resDeferred.addCallback((result) => {
+            const hasColumnScroll = self._isMounted && self._children.listView &&
+                self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
+
+            if (hasColumnScroll) {
+                self._children.listView.resetColumnScroll();
+            }
+            return result;
+        });
     }
 
     // TODO удалить, когда будет выполнено наследование контролов (TreeControl <- BaseControl)
