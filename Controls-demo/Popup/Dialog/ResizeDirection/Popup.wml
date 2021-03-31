@@ -1,6 +1,6 @@
 <div class="ControlsDemo-Popup-DialogDirection">
    <Controls.popupTemplate:Dialog
-      attr:style="height: {{_applyHeight || 150}}px; width: {{_applyWidth || 300}}px;"
+      attr:style="height: {{_applyHeight}}px; width: {{_applyWidth}}px;"
       headingCaption="PopupManager"
       draggable="{{ true }}">
       <ws:bodyContentTemplate>
@@ -19,7 +19,7 @@
                                     placeholder="Введите ширину"/>
             </div>
             <div attr:style="width:50%; margin:0 auto; padding:10px 0 5px">
-               <Controls.buttons:Button attr:class='controlsDemo__viewMode-button1'
+               <Controls.buttons:Button attr:class='controlsDemo-DialogDirection__button'
                                         caption="Применить"
                                         on:click="_handleClick()"></Controls.buttons:Button>
             </div>
