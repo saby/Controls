@@ -8,6 +8,7 @@
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
  * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
+ * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
@@ -27,6 +28,7 @@
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
  * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
+ * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
