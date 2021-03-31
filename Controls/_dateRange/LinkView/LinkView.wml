@@ -13,8 +13,7 @@
               <span
                     class="controls-DateLinkView__value {{!_options.readOnly? 'controls-DateLinkView__value-hovered'}}
                     {{_fontSize? 'controls-fontsize-' + _fontSize}}
-                    {{_fontColorStyle? 'controls-text-' + _fontColorStyle}}
-                    {{_fontColorStyle? 'controls-text-' + _fontColorStyle}}
+                    {{_fontColorStyle? 'controls-text-' + _fontColorStyle + ' controls-DateLinkView_text-' + _fontColorStyle + '-hover'}}
                     {{ _styleClass }} {{ _valueEnabledClass }}"
                     title="{{_options.tooltip}}"
                     name="openPopupTarget"
