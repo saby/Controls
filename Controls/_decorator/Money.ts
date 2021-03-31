@@ -20,6 +20,7 @@ import { abbreviateNumber } from 'Controls/_decorator/resources/Formatter';
 //@ts-ignore
 import * as template from 'wml!Controls/_decorator/Money/Money';
 import 'css!Controls/decorator';
+import 'css!Controls/CommonClasses';
 
 /**
  * Тип данных для форматируемого значения
@@ -236,8 +237,6 @@ class Money extends Control<IMoneyOptions> implements INumberFormat, ITooltip, I
     private static FRACTION_LENGTH: number = 2;
     private static ZERO_FRACTION_PATH: string = '0'.repeat(Money.FRACTION_LENGTH);
     private static SEARCH_PATHS: RegExp = new RegExp(`(-?[0-9]*?)(\\.[0-9]{${Money.FRACTION_LENGTH}})`);
-
-    static _theme: string[] = ['Controls/Classes'];
 
     private static toString(value: string): string {
         if (value === null) {

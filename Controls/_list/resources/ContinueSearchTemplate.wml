@@ -24,7 +24,7 @@
 <div class="controls-BaseControl__continueSearch
             {{ _options.pagingVisible ? ('controls-BaseControl_withPaging__continueSearch') }}
             ws-justify-content-center">
-    <div class="controls-BaseControl__loadingIndicatorImg controls-BaseControl__loadingIndicatorImg-wrapper
+    <div class="controls-BaseControl__loadingIndicatorImg-wrapper
     controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch">
         <ws:if data="{{_options.footerTemplate}}">
             <ws:partial template="searchWithFooter"/>

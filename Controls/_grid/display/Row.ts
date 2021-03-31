@@ -57,7 +57,7 @@ export default class Row<T>
         classes += `controls-GridView__itemV_marker-${style} `;
         classes += `controls-GridView__itemV_marker-${style}_rowSpacingBottom-${itemPadding.bottom} `;
         classes += `controls-GridView__itemV_marker-${style}_rowSpacingTop-${itemPadding.top} `;
-        classes += `controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (itemPadding.top || 'l') + '_' + markerClassName)} `;
+        classes += `controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (itemPadding.top || 'l') + '_' + markerClassName)} `;
         classes += `controls-ListView__itemV_marker-${markerPosition} `;
         return classes;
     }

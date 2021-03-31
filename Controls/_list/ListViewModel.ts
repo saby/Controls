@@ -294,7 +294,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
                     controls-ListView__itemV_marker_${style}
                     controls-ListView__itemV_marker_${style}_topPadding-${itemsModelCurrent.itemPadding.top}
                     controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}
-                    controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (itemsModelCurrent.itemPadding.top || 'l') + '_' + markerClassName)}
+                    controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (itemsModelCurrent.itemPadding.top || 'l') + '_' + markerClassName)}
                     ${!!itemsModelCurrent.isDragging ? ' controls-ListView__itemContent_dragging' : ''}`;
         };
 
