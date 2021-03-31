@@ -1,5 +1,21 @@
+<ws:template name="iconButton">
+    <Controls.buttons:Button
+            attr:class="controls-SortingSelector_button"
+            inlineHeight="{{_nocaption ? 'xl' : 'm'}}"
+            iconSize="{{(_nocaption) ? 'l' : 's' }}"
+            icon="{{_getIcon()}}"
+            fontColorStyle="{{_options.fontColorStyle}}"
+            captionPosition="{{(!_nocaption && _currentParamName) ? 'left' : 'right' }}"
+            iconStyle="{{_arrowIconStyle}}"
+            caption="{{_getCaption()}}"
+            viewMode="{{_options.viewMode}}"/>
+</ws:template>
 <ws:template name="sortingSelector">
-    <div class="controls-SortingSelector">
+    <div class="controls-SortingSelector" attr:style="fill-rule: evenodd">
+        <ws:if data="{{_singleField }}">
+            <ws:partial template="iconButton" on:click="_switchValue()"/>
+        </ws:if>
+        <ws:else>
         <Controls.dropdown:Selector
                 name="dropdown"
                 selectedKeys="{{_selectedKeys}}"
@@ -19,17 +35,17 @@
                 on:dropDownClose="_resetSelectedArrow()"
                 dataLoadCallback="{{_saveLinkToItems}}">
             <ws:itemTemplate>
-                <ws:partial template="wml!Controls/_gridOld/SortingResources/SortingSelectorItemTemplate" scope="{{itemTemplate}}"></ws:partial>
+                <ws:partial template="wml!Controls/_gridOld/SortingResources/SortingSelectorItemTemplate" scope="{{itemTemplate}}" attr:style="fill-rule: evenodd"></ws:partial>
             </ws:itemTemplate>
-        </Controls.dropdown:Selector>
-        <ws:if data="{{_currentParamName}}">
-            <ws:partial on:click="_switchValue()"
-                        attr:class="controls-SortingSelector_arrow-outside_theme-{{_options.theme}}
-                        controls-icon_style-{{_arrowIconStyle}}_theme-{{_options.theme}}
-                        {{_arrowIconHover ? 'controls-icon_highlightOnHover_theme-' + _options.theme : ''}}
-                        controls-SortingSelector_arrow{{_nocaption ? '_nocaption' : '_caption'}}_theme-{{_options.theme}}"
-                        value="{{_orders[_currentParamName]}}" template="wml!Controls/_gridOld/SortingResources/SortingArrow"/>
-        </ws:if>
+                <ws:contentTemplate>
+                    <ws:partial template="Controls/dropdown:inputDefaultContentTemplate">
+                        <ws:contentTemplate>
+                                <ws:partial template="iconButton"/>
+                        </ws:contentTemplate>
+                    </ws:partial>
+                </ws:contentTemplate>
+            </Controls.dropdown:Selector>
+        </ws:else>
     </div>
 </ws:template>
 
