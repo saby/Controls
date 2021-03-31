@@ -1,5 +1,4 @@
 import {IPopupItem, IPopupPosition, ISlidingPanelPopupOptions} from 'Controls/popup';
-import constants from 'Env/Constants';
 
 export interface ISlidingPanelItem extends IPopupItem {
     popupOptions: ISlidingPanelPopupOptions;
@@ -11,6 +10,8 @@ const INVERTED_POSITION_MAP = {
     top: 'bottom',
     bottom: 'top'
 };
+
+const DEFAULT_POSITION_VALUE = 0;
 
 class Strategy {
 
@@ -37,7 +38,7 @@ class Strategy {
         return {
             left: 0,
             right: 0,
-            [position]: 0,
+            [position]: DEFAULT_POSITION_VALUE,
             maxHeight,
             minHeight,
             height: height < minHeight ? minHeight : height,
@@ -109,7 +110,11 @@ class Strategy {
      * @private
      */
     private _getWindowHeight(): number {
-        return constants.isBrowserPlatform && window.innerHeight;
+        const visualViewport = window.visualViewport;
+        return (
+            visualViewport && visualViewport.height ||
+            window.innerHeight
+        );
     }
 
     /**
