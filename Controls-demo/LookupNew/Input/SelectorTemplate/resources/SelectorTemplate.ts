@@ -6,7 +6,6 @@ import {COMPANIES} from 'Controls-demo/LookupNew/resources/DataStorage';
 export default class SelectorTemplate extends Control {
     protected _template: TemplateFunction = template;
     protected _source: Memory = null;
-    protected _columns: object[] = null;
     protected _keyProperty: string = 'id';
     protected _selectionChanged: boolean = false;
 
@@ -15,10 +14,5 @@ export default class SelectorTemplate extends Control {
             keyProperty: 'id',
             data: COMPANIES
         });
-        this._columns = [
-            {
-                displayProperty: 'title'
-            }
-        ];
     }
 }

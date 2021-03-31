@@ -366,6 +366,8 @@
    z-index: 1;
 }
 
+/* region ItemActions display */
+
 .controls-BaseControl_showActions_visible {
    .controls-ListView__item_showActions {
       .controls-itemActionsV_custom,
@@ -397,6 +399,8 @@
       background-color: var(--item_editing_background-color_list);
    }
 }
+
+/* endregion ItemActions display */
 
 .controls-ListView__groupContent {
    display: flex;
@@ -665,6 +669,10 @@
 
 .controls-ListView__groupContent_align-center {
    justify-content: center;
+}
+
+.ws-is-hover .controls-ListView__highlightOnHover_default_theme-@{themeName}:hover {
+   background-color: @item_hover_background-color_list;
 }
 
 .ws-is-hover .controls-BaseControl_hover_enabled {

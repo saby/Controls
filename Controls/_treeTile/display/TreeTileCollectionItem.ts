@@ -99,13 +99,13 @@ export default class TreeTileCollectionItem<T extends Model = Model>
         }
     }
 
-    getItemClasses(itemTypeTpl: string = 'default', templateClickable?: boolean, hasTitle?: boolean, cursor: string = 'pointer'): string {
+    getItemClasses(itemTypeTpl: string = 'default', templateClickable?: boolean, hasTitle?: boolean, cursor: string = 'pointer', marker?: boolean, shadowVisibility?: string, border?: boolean): string {
         let itemType = itemTypeTpl;
         if (itemType === 'default' && this.isNode()) {
             itemType = 'small';
         }
 
-        let classes = super.getItemClasses(itemType, templateClickable, hasTitle, cursor);
+        let classes = super.getItemClasses(itemType, templateClickable, hasTitle, cursor, marker, shadowVisibility, border);
 
         if (this.isNode()) {
             classes += ' controls-TreeTileView__node';
@@ -195,8 +195,8 @@ export default class TreeTileCollectionItem<T extends Model = Model>
             case 'rich':
                 if (this.isNode()) {
                     classes = classes.replace(
-                        'controls-fontsize-xl',
-                        'controls-fontsize-4xl'
+                        `controls-fontsize-xl`,
+                        `controls-fontsize-3xl`
                     );
                 }
                 break;
