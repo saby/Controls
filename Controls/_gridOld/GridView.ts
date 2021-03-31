@@ -698,6 +698,23 @@ var
         },
 
         /* COLUMN SCROLL */
+        resetColumnScroll(): void {
+            if (!this._columnScrollController) {
+                return;
+            }
+            const _setScrollPosition = (newScrollPosition) => {
+                this._columnScrollController.setScrollPosition(newScrollPosition);
+                this._setHorizontalScrollPosition(this._columnScrollController.getScrollPosition());
+                this._updateColumnScrollData();
+            };
+            if (this._options.columnScrollStartPosition === 'end') {
+                const { contentSize, containerSize } = this._columnScrollController.getSizes();
+                _setScrollPosition(contentSize - containerSize);
+            } else {
+                _setScrollPosition(0);
+            }
+        },
+
         _isColumnScrollVisible(): boolean {
             if (this._columnScrollController && this._columnScrollController.isVisible()) {
                 const hasItems = !!this._options.listModel.getItems()?.getCount();
