@@ -571,7 +571,10 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     loadMore(direction: Direction): void {
         const hasMoreRootData = this._sourceController.hasMoreData(direction, this._root);
         const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
-        const lastRootItem: TreeItem = rootItems.at(rootItems.getCount() - 1);
+        // @TODO Необходимо убрать условие с проверкой rootItems.at когда окончательно избавимся от старых моделей.
+        const lastRootItem: TreeItem = rootItems.at ?
+            rootItems.at(rootItems.getCount() - 1) :
+            rootItems[rootItems.length - 1];
         const hasNodeFooterTemplate: boolean = !!this._options.nodeFooterTemplate;
         if (!hasMoreRootData &&
             !hasNodeFooterTemplate &&
