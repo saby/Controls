@@ -44,6 +44,7 @@
                 on:arrowClick="_onDetailArrowClick()"
                 on:itemClick="_onExplorerItemClick(false)"
                 on:viewModeChanged="_onDetailExplorerChangedViewMode()"
+                scope="{{_detailExplorerOptions}}"
             />
          </ws:if>
          <ws:else>
