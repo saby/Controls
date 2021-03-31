@@ -19,7 +19,7 @@ export default class extends Control {
                 name: 'booleanEditor2',
                 editorTemplateName: 'Controls/filterPanel:CustomEditor',
                 resetValue: false,
-                viewMode: 'extended',
+                viewMode: 'basic',
                 value: false,
                 editorOptions: {
                     value: true,
