@@ -3630,7 +3630,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    loadMore(direction: IDirection): void {
+    _loadToDirection(direction: IDirection): void {
         if (this._options?.navigation?.view === 'infinity') {
             _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
@@ -4651,13 +4651,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Вызываем сдвиг диапазона в направлении видимого триггера
         this._shiftToDirection(direction);
     }
-    _shiftToDirection(direction): void {
+
+    protected _shiftToDirection(direction): void {
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
             } else {
-                this.loadMore(direction);
+                this._loadToDirection(direction);
             }
         });
     }
@@ -4820,7 +4821,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (this._hasEnoughData(page)) {
                     this._shiftToDirection(direction);
                 } else {
-                    this.loadMore(direction);
+                    this._loadToDirection(direction);
                 }
             }
         }

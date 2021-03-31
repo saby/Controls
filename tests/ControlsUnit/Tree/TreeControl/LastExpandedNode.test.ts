@@ -76,19 +76,19 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         ];
     })
 
-    it ('should load from root when items are collapsed', () => {
+    it ('should load from root when items are collapsed', async () => {
         source = new HierarchicalMemory({
             keyProperty: 'id',
             data
         });
         const spyQuery = spy(source, 'query');
         const treeControl = initTreeControl();
-        treeControl.loadMore('down');
+        await treeControl.handleTriggerVisible('down');
         sinonAssert.notCalled(spyQuery);
         spyQuery.restore();
     });
 
-    it ('should load from root when expanded item is not last', () => {
+    it ('should load from root when expanded item is not last', async () => {
         data = [
             ...data,
             {
@@ -106,12 +106,12 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         const treeControl = initTreeControl();
         treeControl.toggleExpanded('2');
 
-        treeControl.loadMore('down');
+        await treeControl.handleTriggerVisible('down');
         sinonAssert.notCalled(spyQuery);
         spyQuery.restore();
     });
 
-    it ('should load from last expanded node', () => {
+    it ('should load from last expanded node', async () => {
         source = new HierarchicalMemory({
             keyProperty: 'id',
             data
@@ -124,13 +124,13 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         const treeControl = initTreeControl();
         treeControl.toggleExpanded('2');
 
-        treeControl.loadMore('down');
+        await treeControl.handleTriggerVisible('down');
 
         sinonAssert.called(stubQuery);
         stubQuery.restore();
     });
 
-    it ('should not load from last expanded node when nodeFooterTemplate is set', () => {
+    it ('should not load from last expanded node when nodeFooterTemplate is set', async () => {
         source = new HierarchicalMemory({
             keyProperty: 'id',
             data
@@ -142,7 +142,7 @@ describe('Controls/Tree/TreeControl/LastExpandedNode', () => {
         });
         treeControl.toggleExpanded('2');
 
-        treeControl.loadMore('down');
+        await treeControl.handleTriggerVisible('down');
         sinonAssert.notCalled(spyQuery);
         spyQuery.restore();
     });

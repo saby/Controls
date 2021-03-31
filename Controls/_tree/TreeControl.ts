@@ -568,7 +568,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    loadMore(direction: Direction): void {
+    protected _loadToDirection(direction: Direction): void {
         const hasMoreRootData = this._sourceController.hasMoreData(direction, this._root);
         const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
         // @TODO Необходимо убрать условие с проверкой rootItems.at когда окончательно избавимся от старых моделей.
@@ -585,7 +585,7 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
                 _private.loadMore(this, lastRootItem);
             }
         } else {
-            super.loadMore(direction);
+            super._loadToDirection(direction);
         }
     }
 
