@@ -440,7 +440,7 @@ export default class Controller extends mixin<
         this.cancelLoading();
         this._unsubscribeItemsCollectionChangeEvent();
         this._destroyNavigationController();
-        this._updateBreadcrumbsRecordSet(undefined);
+        this._unsubscribeBreadcrumbsChange();
     }
 
     private _setRoot(key: TKey): void {
@@ -579,7 +579,8 @@ export default class Controller extends mixin<
             this._items = items;
         }
 
-        this._updateBreadcrumbsRecordSet(this._items.getMetaData().path);
+        this._breadcrumbsRecordSet = this._items.getMetaData().path;
+        this._subscribeBreadcrumbsChange(this._breadcrumbsRecordSet);
         this._updateBreadcrumbsData();
     }
 
@@ -797,24 +798,19 @@ export default class Controller extends mixin<
     }
 
     /**
-     * Если требуется, то обновляет подписку на изменение данных хлебных крошек.
-     * Так же запоминает переданный RecordSet что бы в дальнейшем иметь возможность
-     * отписаться от события onCollectionChange
+     * Обновляет подписку на изменение данных хлебных крошек
      */
-    private _updateBreadcrumbsRecordSet(breadcrumbs: RecordSet): void {
-        // Если пришел другой инстанс хлебных крошек, то обновим подписку на изменение
-        // этой коллекции
-        if (this._breadcrumbsRecordSet !== breadcrumbs) {
-            if (this._breadcrumbsRecordSet) {
-                this._breadcrumbsRecordSet.unsubscribe('onCollectionChange', this._updateBreadcrumbsData);
-            }
-
-            if (breadcrumbs) {
-                breadcrumbs.subscribe('onCollectionChange', this._updateBreadcrumbsData);
-            }
+    private _subscribeBreadcrumbsChange(breadcrumbs: RecordSet): void {
+        this._unsubscribeBreadcrumbsChange();
+        if (breadcrumbs) {
+            breadcrumbs.subscribe('onCollectionChange', this._updateBreadcrumbsData);
         }
+    }
 
-        this._breadcrumbsRecordSet = breadcrumbs;
+    private _unsubscribeBreadcrumbsChange(): void {
+        if (this._breadcrumbsRecordSet) {
+            this._breadcrumbsRecordSet.unsubscribe('onCollectionChange', this._updateBreadcrumbsData);
+        }
     }
 
     private _collectionChange(): void {
