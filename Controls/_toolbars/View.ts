@@ -8,10 +8,16 @@ import {StickyOpener} from 'Controls/popup';
 import {NewSourceController as SourceController} from 'Controls/dataSource';
 import {getMenuItems, needShowMenu} from './Util';
 import {showType} from './interfaces/IShowType';
+import 'css!Controls/toolbars';
+import 'css!Controls/buttons';
+import 'css!Controls/CommonClasses';
 
 import {
-    getButtonTemplate, hasSourceChanged,
-    getButtonTemplateOptionsByItem, getTemplateByItem, loadItems, getSimpleButtonTemplateOptionsByItem
+    getButtonTemplate,
+    hasSourceChanged,
+    getTemplateByItem,
+    loadItems,
+    getSimpleButtonTemplateOptionsByItem
 } from 'Controls/_toolbars/Util';
 import {IStickyPopupOptions, IStickyPosition, IEventHandlers} from 'Controls/popup';
 
@@ -36,11 +42,10 @@ import {IItemAction, TItemActionVisibilityCallback} from 'Controls/itemActions';
 import {IToolbarSourceOptions, default as IToolbarSource} from 'Controls/_toolbars/IToolbarSource';
 import {IButtonOptions} from 'Controls/buttons';
 import {IGrouped, IGroupedOptions} from 'Controls/dropdown';
-
 import * as template from 'wml!Controls/_toolbars/View';
 import * as defaultItemTemplate from 'wml!Controls/_toolbars/ItemTemplate';
 import {DependencyTimer, isLeftMouseButton} from 'Controls/popup';
-import {IoC} from "Env/Env";
+import {IoC} from 'Env/Env';
 
 type TItem = Record;
 type TItems = RecordSet<TItem>;
@@ -61,8 +66,17 @@ export interface IMenuOptions {
  * Интерфейс опций контрола {@link Controls/toolbars:View}.
  * @public
  * @author Красильников А.С.
+ * @implements Controls/interface:IHierarchy
+ * @implements Controls/interface:IIconSize
+ * @implements Controls/interface/IItemTemplate
+ * @implements Controls/dropdown:IGrouped
+ * @implements Controls/toolbars:IToolbarSource
+ * @implements Controls/interface:IFontColorStyle
+ * @implements Controls/interface:IIconStyle
+ * @implements Controls/interface:IFilterChanged
  */
-export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIconSizeOptions,
+
+ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIconSizeOptions,
     IItemTemplateOptions, IGroupedOptions, IToolbarSourceOptions, IItemsOptions<TItem>, IFontColorStyleOptions,
     IIconStyleOptions, IFilterOptions {
     /**
@@ -82,7 +96,7 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIc
      */
     additionalProperty?: string;
     /**
-     * @cfg {String|Function} Шаблон футера дополнительного меню тулбара.
+     * @cfg {String|TemplateFunction} Шаблон футера дополнительного меню тулбара.
      * @demo Controls-demo/Toolbar/PopupFooterTemplate/Index
      */
     popupFooterTemplate?: String | Function;
@@ -125,12 +139,15 @@ export interface IToolbarOptions extends IControlOptions, IHierarchyOptions, IIc
  * @extends UI/Base:Control
  * @implements Controls/toolbars:IToolbarOptions
  * // TODO: https://online.sbis.ru/opendoc.html?guid=64c95101-d268-4225-9e52-b6398ded5ced
- * @implements Controls/_interface/IItemTemplate
- * @implements Controls/_interface/IIconStyle
- * @implements Controls/_interface/IIconSize
- * @implements Controls/_interface/IFontColorStyle
- * @implements Controls/_toolbars/IToolbarSource
- * @implements Controls/toolbars:IToolbarOptions
+ * @implements Controls/interface/IItemTemplate
+ * @implements Controls/interface:IIconStyle
+ * @implements Controls/interface:IIconSize
+ * @implements Controls/interface:IFontColorStyle
+ * @implements Controls/interface:IHierarchy
+ * @implements Controls/interface:IFilterChanged
+ * @implements Controls/interface:IItems
+ * @implements Controls/toolbars:IToolbarSource
+ * @implements Controls/dropdown:IGrouped
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Toolbar/Base/Index
@@ -253,7 +270,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `${options.popupClassName} controls-Toolbar__popup__list_theme-${options.theme}`,
+            className: `${options.popupClassName} controls-Toolbar__popup__list`,
             templateOptions: {
                 source: this._menuSource,
                 ...this._getMenuTemplateOptions(),
@@ -287,7 +304,7 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return {
             ...this._getMenuOptions(),
             opener: this,
-            className: `controls-Toolbar__popup__${Toolbar._typeItem(item)}_theme-${options.theme} ${Toolbar._menuItemClassName(item)}`,
+            className: `controls-Toolbar__popup__${Toolbar._typeItem(item)} ${Toolbar._menuItemClassName(item)}`,
             targetPoint: {
                 vertical: 'top',
                 horizontal: 'left'
@@ -351,11 +368,10 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
     }
 
     private _setMenuSource(): void {
-        const menuItems = Toolbar._calcMenuItems(this._items);
-
         if (this._options.menuSource) {
             this._menuSource = this._options.menuSource;
         } else {
+            const menuItems = Toolbar._calcMenuItems(this._items);
             const source = this._options.source || this._getSynchronousSourceForMenu();
             this._menuSource = this._createPrefetchProxy(source, menuItems);
         }
@@ -498,10 +514,6 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         return getTemplateByItem(item, this._options);
     }
 
-    protected _getButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
-        return getButtonTemplateOptionsByItem(item, this._options);
-    }
-
     protected _getSimpleButtonTemplateOptionsByItem(item: TItem): IButtonOptions {
         return getSimpleButtonTemplateOptionsByItem(item, this._options);
     }
@@ -587,8 +599,6 @@ class Toolbar extends Control<IToolbarOptions, TItems> implements IHierarchy, II
         }
         return void 0;
     }
-
-    static _theme: string[] = ['Controls/buttons', 'Controls/Classes', 'Controls/toolbars'];
 
     private static _typeItem(item: TItem): TypeItem {
         if (item.get('icon')) {

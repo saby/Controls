@@ -1,6 +1,7 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import ButtonsTemplate = require('wml!Controls/_editableArea/Templates/Buttons');
 import {EventUtils} from 'UI/Events';
+import 'css!Controls/editableArea';
 
 /**
  * Кнопки для сохранения и отмены редактирования.
@@ -14,7 +15,6 @@ import {EventUtils} from 'UI/Events';
 class Buttons extends Control<IControlOptions> {
     protected _template: TemplateFunction = ButtonsTemplate;
     protected _tmplNotify: Function = EventUtils.tmplNotify;
-    static _theme: string[] = ['Controls/editableArea'];
 }
 /**
  * @event Происходит при клике на кнопку сохранения редактирования.

@@ -5,14 +5,14 @@ import {Base as dateUtils, Popup as PopupUtil} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
-import dateControlsUtils from "./Utils";
-import {descriptor} from "Types/entity";
+import 'css!Controls/dateRange';
 
 /**
  * Контрол позволяющий пользователю выбирать дату из календаря.
  *
  * @class Controls/_dateRange/DateSelector
  * @extends UI/Base:Control
+ * @mixes Controls/_interface/IResetValues
  * @mixes Controls/interface/IDateRange
  * @mixes Controls/_dateRange/interfaces/ILinkView
  * @mixes Controls/_interface/IOpenPopup
@@ -48,7 +48,8 @@ import {descriptor} from "Types/entity";
  */
 
 export default class DateSelector extends BaseSelector<IControlOptions> {
-   _template: TemplateFunction = componentTmpl;
+   protected _template: TemplateFunction = componentTmpl;
+   private _state: string;
 
    _beforeMount(options?: IControlOptions): Promise<void> | void {
       this._updateValues(options);
@@ -71,7 +72,7 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
          ...PopupUtil.getCommonOptions(this),
          target: container,
          template: 'Controls/datePopup',
-         className: 'controls-PeriodDialog__picker_theme-' + this._options.theme,
+         className: 'controls-PeriodDialog__picker',
          templateOptions: {
             ...PopupUtil.getTemplateOptions(this),
             headerType: 'link',
@@ -81,7 +82,9 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
             closeButtonEnabled: true,
             rangeselect: false,
             selectionType: 'single',
-            ranges: null
+            ranges: null,
+            state: this._state,
+            stateChangedCallback: this._stateChangedCallback
          }
       };
    }
@@ -115,19 +118,15 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
    static getDefaultOptions(): object {
       return {
          ...ILinkView.getDefaultOptions(),
-         emptyCaption: ILinkView.EMPTY_CAPTIONS.NOT_SPECIFIED,
-         captionFormatter: dateControlsUtils.formatDateRangeCaption
+         emptyCaption: ILinkView.EMPTY_CAPTIONS.NOT_SPECIFIED
       };
    }
 
    static getOptionTypes(): object {
       return {
-         ...ILinkView.getOptionTypes(),
-         captionFormatter: descriptor(Function)
+         ...ILinkView.getOptionTypes()
       };
    }
-
-   static _theme: string[] = ['Controls/dateRange'];
 
 }
 

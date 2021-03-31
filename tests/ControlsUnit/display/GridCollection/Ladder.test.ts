@@ -255,12 +255,13 @@ const result_items10_columns2_withoutMultiSelect = [{
 }, {
     columns: [
         { constructorName: 'DataCell' },
-        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
         { constructorName: 'DataCell' }]
 }, {
     columns: [
         { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 5' },
         { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
         { constructorName: 'DataCell' }]
 }, {
     columns: [
@@ -361,13 +362,14 @@ const result_items5_columns2_withMultiSelect_afterRemoveItem = [{
     columns: [
         { constructorName: 'CheckboxCell' },
         { constructorName: 'DataCell' },
-        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
         { constructorName: 'DataCell' }]
 },  {
     columns: [
         { constructorName: 'CheckboxCell' },
         { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
         { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
         { constructorName: 'DataCell' }]
 }];
 
@@ -397,13 +399,14 @@ const result_items10_columns3_withoutMultiSelect = [{
 }, {
     columns: [
         { constructorName: 'DataCell' },
-        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 2' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
         { constructorName: 'DataCell' },
         { constructorName: 'DataCell' }]
 }, {
     columns: [
         { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 5' },
         { constructorName: 'DataCell' },
+        { constructorName: 'StickyLadderCell', wrapperStyles: 'grid-row: span 1' },
         { constructorName: 'DataCell' },
         { constructorName: 'DataCell' }]
 }, {

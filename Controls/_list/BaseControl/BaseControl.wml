@@ -83,11 +83,13 @@
         <ws:partial template="wml!Controls/_list/BaseControl/Cut" bind:expanded="_expanded" cutSize="{{_cutSize}}"/>
     </ws:if>
 </ws:template>
+
 <ws:template name="multiSelectTplIf">
     <ws:if data="{{_options.multiSelectVisibility}}">
         <ws:partial template="wml!Controls/_list/BaseControl/multiSelect" scope="{{multiSelectTpl.templateOptions}}" multiSelectTemplate="{{_options.multiSelectTemplate}}" triState="{{true}}"/>
     </ws:if>
 </ws:template>
+
 <ws:template name="emptyTemplateIf">
     <ws:if data="{{__needShowEmptyTemplate(_options.emptyTemplate, _listViewModel, _options.emptyTemplateColumns)}}">
         <div class="controls-BaseControl__emptyTemplate">
@@ -97,6 +99,7 @@
         </div>
     </ws:if>
 </ws:template>
+
 <ws:template name="viewTpl">
     <div class="controls-BaseControl__viewContainer controls-ScrollController" name="viewContainer">
         <ws:partial if="{{ _shouldDisplayMiddleLoadingIndicator() }}" template="loadingIndicator"/>
@@ -106,7 +109,7 @@
                 attr:class="controls-itemActionsV_menu-{{_itemActionsMenuId ? 'shown' : 'hidden'}}"
                 attr:style="{{_attachLoadTopTriggerToNull ? 'padding-top: ' + _attachedToNullLoadTopTriggerOffset + 'px;'}}"
                 name="{{name}}"
-                template="{{ _options.content }}"
+                template="{{ _options.viewName }}"
                 scope="{{_options}}"
                 loadingState="{{_showLoadingIndicator ? _loadingIndicatorState}}"
                 _needBottomPadding="{{_needBottomPadding}}"
@@ -114,6 +117,7 @@
                 listModel="{{_listViewModel}}"
                 startDragNDropCallback="{{ _options.itemsDragNDrop ? _startDragNDropCallback }}"
                 preventServerSideColumnScroll="{{ !_useServerSideColumnScroll }}"
+                on:arrowClick="_notifyHandler('arrowClick')"
                 on:closeSwipe="_onCloseSwipe()"
                 on:validateCreated="_onValidateCreated()"
                 on:validateDestroyed="_onValidateDestroyed()"
@@ -129,6 +133,7 @@
                 on:itemLongTap="_onItemLongTap()"
                 on:itemMouseDown="_itemMouseDown()"
                 on:itemMouseUp="_itemMouseUp()"
+                on:touchstart="_touchStartHandler()"
                 on:itemMouseEnter="_itemMouseEnter()"
                 on:itemMouseMove="_itemMouseMove()"
                 on:itemMouseLeave="_itemMouseLeave()"
@@ -149,7 +154,7 @@
             <ws:itemActionsTemplate>
                 <ws:partial
                         template="{{_itemActionsTemplate}}"
-                        scope="{{ _listViewModel.getActionsTemplateConfig() }}"
+                        scope="{{ _listViewModel.getActionsTemplateConfig(itemActionsTemplate) }}"
                         useNewModel="{{ _options.useNewModel }}"/>
             </ws:itemActionsTemplate>
             <ws:swipeTemplate>
@@ -182,9 +187,6 @@
         </ws:if>
     </div>
 </ws:template>
-<ws:template name="fullView">
-    <ws:partial template="viewTpl" name="{{name}}"/>
-</ws:template>
 
 <Controls.dataSource:error.Container
     name="errorContainer"
@@ -204,15 +206,19 @@
             <ws:partial template="continueSearch"/>
         </ws:if>
 
+        <ws:partial if="{{ _shouldDisplayTopPortionedSearch() }}" template="portionedSearch"/>
+
         <ws:if data="{{_listViewModel}}">
             <ws:partial template="loadingIndicator" loadingIndicatorState="up"/>
 
-            <ws:partial template="fullView" name="listView" attr:class="{{ _getViewClasses(_addShowActionsClass, _addHoverEnabledClass, _uniqueId) }}"/>
+            <ws:partial template="viewTpl"
+                        name="listView"
+                        attr:class="{{ _getViewClasses(_addShowActionsClass, _addHoverEnabledClass, _uniqueId) }}"/>
 
             <ws:partial template="loadingIndicator" loadingIndicatorState="down"/>
         </ws:if>
 
-        <ws:partial if="{{ _shouldDisplayPortionedSearch() }}" template="portionedSearch"/>
+        <ws:partial if="{{ _shouldDisplayBottomPortionedSearch() }}" template="portionedSearch"/>
 
         <ws:if data="{{_showContinueSearchButtonDirection === 'down'}}">
             <ws:partial template="continueSearch"/>
@@ -244,8 +250,5 @@
                 </ws:if>
             </div>
         </ws:if>
-        <Controls.event:Listener
-           event="dataError"
-           on:dataError="_onDataError()"/>
     </div>
 </Controls.dataSource:error.Container>

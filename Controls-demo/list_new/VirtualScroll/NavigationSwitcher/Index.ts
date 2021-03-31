@@ -1,6 +1,6 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/VirtualScroll/NavigationSwitcher/NavigationSwitcher';
-import {TNavigationDirection} from 'Controls/list';
+import {TNavigationDirection} from 'Controls/interface';
 import { INavigation } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 

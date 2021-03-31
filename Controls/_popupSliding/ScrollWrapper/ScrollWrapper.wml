@@ -1,0 +1,5 @@
+<ws:partial
+    attr:class="controls-SlidingPanel__scrollWrapper"
+    on:scrollStateChanged="_scrollStateChangedHandler()"
+    template="{{ _options.content }}"
+    scope="{{ _options }}"/>

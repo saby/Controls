@@ -8,10 +8,10 @@ define(
    describe('dropdownHistoryUtils',() => {
       it('getSource', (done) => {
          let hSource = new history.Source({});
-         dropdown.dropdownHistoryUtils.getSource( hSource, 'test').addCallback((source) => {
+         dropdown.dropdownHistoryUtils.getSource( hSource, {historyId: 'test'}).addCallback((source) => {
             assert.deepStrictEqual(source, hSource);
 
-            dropdown.dropdownHistoryUtils.getSource('my source').addCallback((source) => {
+            dropdown.dropdownHistoryUtils.getSource('my source', {}).addCallback((source) => {
                assert.strictEqual(source, 'my source');
                done();
             });

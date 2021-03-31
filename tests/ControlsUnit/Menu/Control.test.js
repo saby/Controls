@@ -95,7 +95,11 @@ define(
                const options = Clone(defaultOptions);
                const menuControl = getMenu();
 
-               options.source.query = () => Promise.reject(new Error());
+               options.source.query = () => {
+                  const error = new Error();
+                  error.processed = true;
+                  return Promise.reject(error);
+               };
 
                await menuControl._loadItems(options).catch(() => {
                   assert.isNotNull(menuControl._errorConfig);
@@ -107,10 +111,14 @@ define(
                const options = Clone(defaultOptions);
                const menuControl = getMenu();
                menuControl._options.dataLoadErrback = () => {
-                  isDataLoadErrbackCalled = true
-               }
+                  isDataLoadErrbackCalled = true;
+               };
 
-               options.source.query = () => Promise.reject(new Error());
+               options.source.query = () => {
+                  const error = new Error();
+                  error.processed = true;
+                  return Promise.reject(error);
+               };
 
                await menuControl._loadItems(options).catch(() => {
                   assert.isNotNull(menuControl._errorConfig);
@@ -185,7 +193,9 @@ define(
 
             it('_loadItems return error', async() => {
                menuControl._loadItems = () => {
-                  return Promise.reject(new Error());
+                  const error = new Error();
+                  error.processed = true;
+                  return Promise.reject(error);
                };
                await menuControl._beforeMount(menuOptions);
 
@@ -226,6 +236,18 @@ define(
                menuControl._beforeMount(menuOptions);
                assert.isTrue(isErrorProcessed);
             });
+         });
+
+         it('_beforeUnmount', () => {
+            const items = Clone(defaultItems);
+            const menuControl = getMenu();
+            menuControl._options = {
+               searchValue: '123'
+            };
+            menuControl._listModel = getListModel(items);
+            let listModelItems = menuControl._listModel.getCollection();
+            menuControl._beforeUnmount();
+            assert.equal(listModelItems.getCount(), 0);
          });
 
          describe('getCollection', function() {
@@ -297,7 +319,7 @@ define(
             });
 
             it('expandButton hidden, history menu', () => {
-               const newMenuOptions = { allowPin: true };
+               const newMenuOptions = { allowPin: true, subMenuLevel: 1 };
 
                const result = menuControl._isExpandButtonVisible(items, newMenuOptions);
                assert.isFalse(result, 'level is not first');
@@ -518,7 +540,20 @@ define(
             sinon.restore();
          });
 
-         it('getTemplateOptions', function() {
+         it('_startOpeningTimeout', () => {
+            let isHandledItem = false;
+            const clock = sinon.useFakeTimers();
+            let menuControl = getMenu();
+            menuControl._handleCurrentItem = () => {
+               isHandledItem = true;
+            };
+            menuControl._startOpeningTimeout();
+            clock.tick(400);
+            assert.isTrue(isHandledItem);
+            clock.restore();
+         });
+
+         it('getTemplateOptions', async function() {
             let menuControl = getMenu();
             menuControl._isLoadedChildItems = () => true;
             menuControl._listModel = getListModel();
@@ -549,10 +584,32 @@ define(
             expectedOptions.additionalProperty = null;
             expectedOptions.itemPadding = null;
             expectedOptions.searchParam = null;
+            expectedOptions.subMenuLevel = 1;
             expectedOptions.iWantBeWS3 = false;
 
-            let resultOptions = menuControl._getTemplateOptions(item);
+            let resultOptions = await menuControl._getTemplateOptions(item);
             assert.deepEqual(resultOptions, expectedOptions);
+         });
+
+         it('getTemplateOptions sourceProperty', async function() {
+            let actualConfig;
+            let menuControl = getMenu();
+            menuControl._options.sourceProperty = 'source';
+            menuControl._listModel = getListModel();
+            const item = new display.CollectionItem({
+               contents: new entity.Model({
+                  rawData: {
+                     source: 'testSource'
+                  }
+               })
+            });
+            menuControl._getSourceSubMenu = (isLoadedChildItems, config) => {
+               actualConfig = config;
+               return Promise.resolve('source');
+            };
+
+            await menuControl._getTemplateOptions(item);
+            assert.equal(actualConfig, 'testSource');
          });
 
          it('isSelectedKeysChanged', function() {
@@ -596,6 +653,10 @@ define(
             // fixed item
             result = menuControl._getMarkedKey([2], 'emptyKey', true);
             assert.equal(result, 2);
+
+            // item out of list
+            result = menuControl._getMarkedKey([123], 'emptyKey', true);
+            assert.isUndefined(result);
 
             // single selection
             result = menuControl._getMarkedKey([1, 2], 'emptyKey');
@@ -733,7 +794,7 @@ define(
             let selectCompleted = false, closed = false, opened = false, actualOptions;
 
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                opened = true;
                actualOptions = tplOptions;
                return Promise.resolve();
@@ -778,7 +839,7 @@ define(
             };
             items.push(emptyItem);
             let sandbox = sinon.createSandbox();
-            sandbox.replace(popup.Stack, 'openPopup', (tplOptions) => {
+            sandbox.replace(popup.Stack, '_openPopup', (tplOptions) => {
                selectorOptions = tplOptions;
                return Promise.resolve();
             });
@@ -898,6 +959,30 @@ define(
                menuControl._openItemActionMenu('item', {}, null);
                assert.isTrue(isOpened);
                assert.isOk(actualConfig.eventHandlers);
+            });
+
+            it('_onItemActionsMenuResult', () => {
+               let isItemHandled = false;
+               let isClosed = false;
+               const actionModel = new entity.Model({
+                  rawData: {
+                     key: '1',
+                     handler: () => { isItemHandled = true; }
+                  },
+                  keyProperty: 'key'
+               });
+               let menuControl = getMenu();
+               menuControl._itemActionsController = {
+                  getActiveItem: () => ({ getContents: () => {} })
+               };
+               menuControl._itemActionSticky = {
+                  close: () => {
+                     isClosed = true;
+                  }
+               };
+               menuControl._onItemActionsMenuResult('itemClick', actionModel, null);
+               assert.isTrue(isItemHandled);
+               assert.isTrue(isClosed);
             });
          });
 

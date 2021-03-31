@@ -1,1 +1,1 @@
-<div style="color: red;">{{column.results}}</div>
+<div style="color: red;">{{column.config.results}}</div>

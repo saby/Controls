@@ -1,74 +1,17 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_operationsPanel/OperationsPanel/OperationsPanel');
-import toolbars = require('Controls/toolbars');
-import sourceLib = require('Types/source');
-import WidthUtils = require('Controls/_operationsPanel/OperationsPanel/Utils');
-import buttons = require('Controls/buttons');
+import {Control, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_operationsPanel/OperationsPanel/OperationsPanel';
+import {ItemTemplate as ToolbarItemTemplate} from 'Controls/toolbars';
+import {Memory} from 'Types/source';
+import * as WidthUtils from 'Controls/_operationsPanel/OperationsPanel/Utils';
+import {ActualApi} from 'Controls/buttons';
 import {EventUtils} from 'UI/Events';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Record} from 'Types/entity';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
-
-
-var _private = {
-   recalculateToolbarItems: function(self, items, toolbarWidth) {
-      if (items) {
-         self._oldToolbarWidth = toolbarWidth;
-         self._toolbarSource = new sourceLib.Memory({
-            keyProperty: self._options.keyProperty,
-            data: WidthUtils.fillItemsType(
-               self._options.keyProperty,
-               self._options.parentProperty,
-               items, toolbarWidth,
-               self._options.theme,
-               self._options.itemTemplate,
-               self._options.itemTemplateProperty
-            ).getRawData()
-         });
-         self._forceUpdate();
-      }
-   },
-   checkToolbarWidth: function(self) {
-      var newWidth = self._children.toolbarBlock.clientWidth;
-
-      /**
-       * Operations panel checks toolbar width on each update because we don't know if the rightTemplate has changed (will be fixed here: https://online.sbis.ru/opendoc.html?guid=b4ed11ba-1e4f-4076-986e-378d2ffce013 ).
-       * Because of this the panel gets unnecessary redrawn after the mount. Usually this doesn't cause problems because width of the toolbar doesn't change and update is essentially skipped.
-       * But if the panel becomes (or its parent) hidden and then updates, toolbar width is obviously 0 and that causes recalculation of toolbar items.
-       * And it's even worse than that - panel can become visible again without updating and the user will get stuck with the wrong UI.
-       * For example, this can happen if the user opens the panel and then immediately goes to another tab, making the tab with the panel hidden, and then goes back.
-       * The only way to prevent this is to block recalculation of toolbar items if the panel is not visible.
-       */
-      if ((self._oldToolbarWidth !== newWidth || !self._toolbarSource) && self._container.offsetParent !== null) {
-         self._oldToolbarWidth = newWidth;
-         _private.recalculateToolbarItems(self, self._items, newWidth);
-      }
-   },
-   loadData: function(self, source) {
-      var result;
-      if (source) {
-         result = source.query().addCallback(function(dataSet) {
-            self._items = dataSet.getAll();
-
-            // TODO: убрать когда полностью откажемся от поддержки задавания цвета в опции иконки. icon: icon-error, icon-done и т.д.
-            // TODO: https://online.sbis.ru/opendoc.html?guid=05bbeb41-d353-4675-9f73-6bfc654a5f00
-            buttons.ActualApi.itemsSetOldIconStyle(self._items);
-            return self._items;
-         });
-      }
-      return result;
-   },
-
-   initialized(self, options: object): void {
-      self._initialized = true;
-
-      if (options.operationsPanelOpenedCallback) {
-         options.operationsPanelOpenedCallback();
-      }
-   }
-};
-
+import {IOperationsPanelItem, IOperationsPanelOptions} from './_interface/IOperationsPanel';
+import 'css!Controls/toolbars';
+import 'css!Controls/operationsPanel';
 
 /*
  * Контрол, предназначенный для операций над множеством записей списка.
@@ -104,84 +47,166 @@ var _private = {
  *
  */
 
-var OperationsPanel = Control.extend({
-   _template: template,
-   _oldToolbarWidth: 0,
-   _initialized: false,
-   _notifyHandler: EventUtils.tmplNotify,
+export default class OperationsPanel extends Control<IOperationsPanelOptions> {
+   protected _template: TemplateFunction = template;
+   protected _oldToolbarWidth: number = 0;
+   protected _initialized: boolean = false;
+   protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
+   protected _items: RecordSet = null;
+   protected _toolbarSource: Memory = null;
+   protected _children: {
+      toolbarBlock: HTMLElement
+   };
 
-   _beforeMount(options: object): Promise<RecordSet>|void {
-      const loadDataCallback = (data?: RecordSet): RecordSet|void => {
-         if (!data) {
-            _private.initialized(this, options);
-         }
-         return data;
-      };
+   protected _loadData(source: Memory): Promise<RecordSet> | void {
+      let result;
+      if (source) {
+         result = source.query().then((dataSet) => {
+            this._resolveItems(dataSet.getAll(), dataSet.getKeyProperty());
+
+            // TODO: https://online.sbis.ru/opendoc.html?guid=05bbeb41-d353-4675-9f73-6bfc654a5f00
+            ActualApi.itemsSetOldIconStyle(this._items);
+            return this._items;
+         });
+      }
+      return result || Promise.resolve();
+   }
+
+   protected _recalculateToolbarItems(items: RecordSet, toolbarWidth: number): void {
+      if (items) {
+         this._oldToolbarWidth = toolbarWidth;
+         this._toolbarSource = new Memory({
+            keyProperty: this._options.keyProperty,
+            data: WidthUtils.fillItemsType(
+                this._options.keyProperty,
+                this._options.parentProperty,
+                items,
+                toolbarWidth,
+                this._options.theme,
+                this._options.itemTemplate,
+                this._options.itemTemplateProperty
+            ).getRawData()
+         });
+      }
+   }
+
+   protected _loadDataCallback(data?: RecordSet, options?: IOperationsPanelOptions): RecordSet | void {
+      if (!data) {
+         this._setInitializedState(options);
+      }
+      return data;
+   }
+
+   protected _setInitializedState(options: IOperationsPanelOptions): void {
+      this._initialized = true;
+
+      if (options.operationsPanelOpenedCallback) {
+         options.operationsPanelOpenedCallback();
+      }
+   }
+
+   protected _checkToolbarWidth(): void {
+      const newWidth = this._children.toolbarBlock.clientWidth;
+
+      /**
+       * Operations panel checks toolbar width on each update because we don't know if the rightTemplate has changed (will be fixed here: https://online.sbis.ru/opendoc.html?guid=b4ed11ba-1e4f-4076-986e-378d2ffce013 ).
+       * Because of this the panel gets unnecessary redrawn after the mount. Usually this doesn't cause problems because width of the toolbar doesn't change and update is essentially skipped.
+       * But if the panel becomes (or its parent) hidden and then updates, toolbar width is obviously 0 and that causes recalculation of toolbar items.
+       * And it's even worse than that - panel can become visible again without updating and the user will get stuck with the wrong UI.
+       * For example, this can happen if the user opens the panel and then immediately goes to another tab, making the tab with the panel hidden, and then goes back.
+       * The only way to prevent this is to block recalculation of toolbar items if the panel is not visible.
+       */
+      if ((this._oldToolbarWidth !== newWidth || !this._toolbarSource) && this._container.offsetParent !== null) {
+         this._oldToolbarWidth = newWidth;
+         this._recalculateToolbarItems(this._items, newWidth);
+      }
+   }
+   protected _resolveItems(items: RecordSet | IOperationsPanelItem[], keyProperty: string): void {
+      let resultItems;
+      if (items instanceof RecordSet) {
+         resultItems = items;
+      } else {
+         resultItems = new RecordSet({
+            rawData: items,
+            keyProperty
+         });
+      }
+
+      this._items = resultItems;
+   }
+
+   protected _beforeMount(options: IOperationsPanelOptions): Promise<void> | void {
       let result;
 
       if (options.source) {
-         result = _private.loadData(this, options.source).then(loadDataCallback);
+         result = this._loadData(options.source);
+         if (result instanceof Promise) {
+            result.then((data) => {this._loadDataCallback(data, options); });
+         }
+      } else if (options.items) {
+         this._resolveItems(options.items, options.keyProperty);
+         this._loadDataCallback(this._items, options);
       } else {
-         loadDataCallback();
+         this._loadDataCallback(null, options);
       }
 
       return result;
-   },
+   }
 
-   _afterMount(): void {
-      _private.checkToolbarWidth(this);
-      _private.initialized(this, this._options);
+   protected _afterMount(): void {
+      this._checkToolbarWidth();
+      this._setInitializedState(this._options);
       scheduleCallbackAfterRedraw(this, () => {
          this._notify('controlResize', [], {bubbling: true});
       });
       this._notify('operationsPanelOpened');
-   },
+   }
 
-   _afterUpdate(oldOptions: object): void {
+   protected _onResize(): void {
+      this._checkToolbarWidth();
+   }
+
+   protected _afterUpdate(oldOptions: IOperationsPanelOptions): void {
       if (this._options.source !== oldOptions.source) {
          // We should recalculate the size of the toolbar only when all the children have updated,
          // otherwise available width may be incorrect.
-         _private.loadData(this, this._options.source).addCallback(() => {
-            _private.recalculateToolbarItems(this, this._items, this._children.toolbarBlock.clientWidth);
-         });
+         const loadResult = this._loadData(this._options.source);
+         if (loadResult instanceof Promise) {
+            loadResult.then(() => {
+               this._recalculateToolbarItems(this._items, this._children.toolbarBlock.clientWidth);
+            });
+         }
+      } else if (this._options.items !== oldOptions.items) {
+         this._resolveItems(this._options.items, this._options.keyProperty);
+         this._recalculateToolbarItems(this._items, this._children.toolbarBlock.clientWidth);
       } else {
-         // TODO: размеры пересчитываются после каждого обновления, т.к. иначе нельзя понять что изменился rightTemplate (там каждый раз новая функция)
-         // TODO: будет исправляться по этой задаче: https://online.sbis.ru/opendoc.html?guid=b4ed11ba-1e4f-4076-986e-378d2ffce013
-         _private.checkToolbarWidth(this);
+         // TODO: размеры пересчитываются после каждого обновления, т.к. иначе нельзя понять что изменился rightTemplate
+         // (там каждый раз новая функция)
+         // TODO: https://online.sbis.ru/opendoc.html?guid=b4ed11ba-1e4f-4076-986e-378d2ffce013
+         this._checkToolbarWidth();
       }
-   },
+   }
 
-   _onResize: function() {
-      _private.checkToolbarWidth(this);
-
-      // todo зову _forceUpdate потому что нужно отрисовать пересчет, произошедший в checkToolbarWidth. добавляю на всякий случай, возможно это лишний вызов. раньше тут _forceUpdate звался из-за события
-      this._forceUpdate();
-   },
-
-   _itemClickHandler: function(event: SyntheticEvent<null>, item: Record, nativeEvent: MouseEvent) {
+   protected _itemClickHandler(event: SyntheticEvent<null>, item: Record, nativeEvent: MouseEvent): void {
       this._notify('itemClick', [item, nativeEvent, {
          selected: this._options.selectedKeys,
          excluded: this._options.excludedKeys
       }]);
    }
-});
 
-OperationsPanel.getDefaultOptions = function() {
-   return {
-      itemTemplate: toolbars.ItemTemplate
-   };
-};
+}
 
 Object.defineProperty(OperationsPanel, 'defaultProps', {
    enumerable: true,
    configurable: true,
 
-   get(): object {
-      return OperationsPanel.getDefaultOptions();
+   get(): Partial<IOperationsPanelOptions> {
+      return {
+         itemTemplate: ToolbarItemTemplate
+      };
    }
 });
 
-OperationsPanel._theme = ['Controls/operationsPanel', 'Controls/toolbars'];
 /**
  * @name Controls/_operationsPanel/OperationsPanel#rightTemplate
  * @cfg {Function} Шаблон, отображаемый в правой части панели массового выбора.
@@ -214,17 +239,17 @@ OperationsPanel._theme = ['Controls/operationsPanel', 'Controls/toolbars'];
  * JS:
  * <pre>
  *    onPanelItemClick: function(e, selection) {
-*       var itemId = item.get('id');
-*       switch (itemId) {
-*          case 'remove':
-*             this._removeItems();
-*             break;
-*          case 'move':
-*             this._moveItems();
-*             break;
-*    }
-* </pre>
-*/
+ *       var itemId = item.get('id');
+ *       switch (itemId) {
+ *          case 'remove':
+ *             this._removeItems();
+ *             break;
+ *          case 'move':
+ *             this._moveItems();
+ *             break;
+ *    }
+ * </pre>
+ */
 
 /*
  * @event Occurs when an item was clicked.
@@ -261,13 +286,12 @@ OperationsPanel._theme = ['Controls/operationsPanel', 'Controls/toolbars'];
  * @default null
  * @example
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       _selectionViewMode: 'all'
  *       ...
- *    });
+ *    }
  * </pre>
  * <pre>
  *    <Controls.operations:Panel bind:selectionViewMode="_selectionViewMode"/>
  * </pre>
  */
-export = OperationsPanel;

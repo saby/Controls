@@ -136,9 +136,15 @@ class StackController extends BaseController {
     }
 
     popupResizingLine(item: IPopupItem, offset: number): void {
-        item.popupOptions.stackWidth += offset;
-        item.popupOptions.width += offset;
-        item.popupOptions.workspaceWidth += offset;
+        // По идее position.width есть всегда и достаточно брать его. Для избежания падения в исключительных случаях
+        // оставляю еще проверну на popupOptions.stackWidth.
+        // popupOptions.width брать нельзя, т.к. в нем может содержаться значение, которое недопустимо в
+        // текущих условиях ( например на ipad ширина стекового окна не больше 1024)
+        const currentWidth = (item.position.width || item.popupOptions.stackWidth);
+        const newValue = currentWidth + offset;
+        item.popupOptions.stackWidth = newValue;
+        item.popupOptions.width = newValue;
+        item.popupOptions.workspaceWidth = newValue;
         this._update();
         this._savePopupWidth(item);
     }

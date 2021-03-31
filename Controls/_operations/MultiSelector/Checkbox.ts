@@ -1,6 +1,7 @@
 import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
 import * as template from 'wml!Controls/_operations/MultiSelector/resources/CheckboxTemplate';
 import {IMultiSelectableOptions} from 'Controls/interface';
+import 'css!Controls/operations';
 
 export interface IMultiSelectorCheckboxOptions extends IMultiSelectableOptions, IControlOptions {
     selectedKeysCount: number | null;
@@ -18,7 +19,7 @@ type TCheckboxValue = boolean | null;
  *
  * @class Controls/_operations/MultiSelector/Checkbox
  * @extends UI/Base:Control
- * 
+ *
  * @public
  * @author Герасимов А.М.
  * @demo Controls-demo/operations/MultiSelectorCheckbox/Index
@@ -41,10 +42,12 @@ export default class MultiSelectorCheckBox extends Control<IMultiSelectorCheckbo
     }
 
     protected _onCheckBoxClick(): void {
-        const eventName = this._checkboxValue === false ? 'selectAll' : 'unselectAll';
-        this._notify('selectedTypeChanged', [eventName], {
-            bubbling: true
-        });
+        if (!this._options.readOnly) {
+            const eventName = this._checkboxValue === false ? 'selectAll' : 'unselectAll';
+            this._notify('selectedTypeChanged', [eventName], {
+                bubbling: true
+            });
+        }
     }
 
     private _getCheckBoxState(options: IMultiSelectorCheckboxOptions): TCheckboxValue {
@@ -62,6 +65,4 @@ export default class MultiSelectorCheckBox extends Control<IMultiSelectorCheckbo
 
         return result;
     }
-
-    static _theme: string[] = ['Controls/operations'];
 }

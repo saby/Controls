@@ -3,6 +3,7 @@
         displayedRanges="{{_displayedRanges}}"
         stubTemplate="{{stubTemplate}}"
         bind:position="_position"
+        attr:class="controls-PeriodLiteDialog-MonthList{{ isExpandedPopup ? '_expanded' }}"
         source="{{_options.source}}">
     <ws:yearHeaderTemplate>
 
@@ -13,20 +14,16 @@
                 on:touchmove="_onYearMouseLeave()"
                 on:click="_onYearClick(yearHeaderTemplate.date.getFullYear())"
                 class="controls-PeriodLiteDialog__fullYear-listElement
-                       controls-PeriodLiteDialog__fullYear-listElement_theme-{{_options.theme}}
                        {{ _options.chooseYears && _yearHovered === yearHeaderTemplate.date.getFullYear() ?  'controls-PeriodLiteDialog__fullYear-listElement-hovered' +
-                       ' controls-PeriodLiteDialog__fullYear-listElement-hovered_theme-' + _options.theme +
-                       ' controls-PeriodLiteDialog__yearHeader-background-hovered_theme-' + _options.theme }}
+                       ' controls-PeriodLiteDialog__fullYear-listElement-hovered controls-PeriodLiteDialog__yearHeader-background-hovered'}}
                        controls-PeriodLiteDialog__vLayoutItem-caption controls-PeriodLiteDialog__text-align-left
-                       controls-PeriodLiteDialog__vLayoutItem-caption_theme-{{_options.theme}}
-                    {{_isFullPicker ? 'controls-PeriodLiteDialog__fullPicker_theme-' + _options.theme}}">
+                    {{_isFullPicker ? 'controls-PeriodLiteDialog__fullPicker'}}">
             {{ yearHeaderTemplate.date.getFullYear() }}
         </div>
     </ws:yearHeaderTemplate>
     <ws:yearTemplate>
         <Controls._shortDatePicker.bodyItem
-                attr:class="controls-PeriodLiteDialog_calendarBody
-                            controls-PeriodLiteDialog_calendarBody_theme-{{_options.theme}}"
+                attr:class="controls-PeriodLiteDialog_calendarBody"
                 attr:data-date="{{_dateToDataString(yearTemplate.date)}}"
                 scope="{{_options}}"
                 monthTemplate="{{monthTemplate}}"

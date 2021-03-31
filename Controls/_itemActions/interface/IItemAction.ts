@@ -250,10 +250,11 @@ export interface IItemAction {
  * @typedef {Function} TItemActionVisibilityCallback
  * @description
  * Функция обратного вызова для определения видимости {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ опций записи}.
- * @param action Item Action to check
- * @param item Model
+ * @param {IItemAction} action Операция над запись для которой вычисляется возможность отображения.
+ * @param {Model} item Запись, для которой вычисляется видимость операций.
+ * @param {Boolean} isEditing - Флаг, указывающий редактируется ли запись в данный момент.
  */
-export type TItemActionVisibilityCallback = (action: IItemAction, item: Model) => boolean;
+export type TItemActionVisibilityCallback = (action: IItemAction, item: Model, isEditing: boolean) => boolean;
 
 /**
  * @typedef {Function} TEditArrowVisibilityCallback

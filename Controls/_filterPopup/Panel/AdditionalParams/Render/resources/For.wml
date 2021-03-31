@@ -13,8 +13,7 @@
                      on:selectedKeyChanged="_propertyChanged(_options.item.getContents(), 'value')"/>
       </ws:if>
       <ws:else>
-         <div class="controls-AdditionalParamsRender__item controls-AdditionalParamsRender__item_theme-{{_options.theme}}
-                  controls-AdditionalParamsRender__item_{{_options.column}} controls-AdditionalParamsRender__item_{{_options.column}}_theme-{{_options.theme}}">
+         <div class="controls-AdditionalParamsRender__item controls-AdditionalParamsRender__item_{{_options.column}}">
             <ws:partial template="{{_options.item.getTemplate(_options.itemTemplateProperty, _options.itemTemplate, _options.groupTemplate)}}"
                         itemTemplateProperty="{{_options.itemTemplateProperty}}"
                         itemTemplate="{{_options.additionalTemplate}}"

@@ -1,6 +1,6 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import { Memory } from 'Types/source';
-import { TColumns } from 'Controls/grid';
+import { TColumns } from 'Controls/gridOld';
 import RawData from 'Controls-demo/grid/data/Colspan';
 import * as Template from 'wml!Controls-demo/grid/Colspan/Colspan';
 import * as FirstColumnTemplate from 'wml!Controls-demo/grid/Colspan/FirstColumn';

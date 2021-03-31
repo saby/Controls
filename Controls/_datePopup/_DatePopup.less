@@ -2,13 +2,6 @@
 @import "_monthsRange";
 @import "_dateRange";
 
-@shift-top_PeriodDialog-picker: -((@header_height_datePicker - @inline_height_default)/2);
-@shift-left_PeriodDialog-picker: -(@header_padding-left_datePicker + @icon-size_s + @switcher_offset_datePicker);
-@shift-left_PeriodDialog-picker-withoutModeBtn: - @header_padding-left_datePicker;
-@shift-top_PeriodDialog-selector: ceil((@height_dateRangeSelector - @header_height_datePicker)/2);
-@shift-top_fontSize-l_PeriodDialog-selector: ceil((@height_dateRangeSelector - @header_height_datePicker)/2) + 1;
-@shift-top_fontSize-s_PeriodDialog-selector: ceil((@height_dateRangeSelector - @header_height_datePicker)/2) - 1;
-
 // TODO: выпилить после того как приведут стили List в порядок
 .controls-PeriodDialog {
    .controls-ListView__itemContent {
@@ -33,34 +26,36 @@
    flex-direction: column;
 }
 
-.controls-PeriodDialog_theme-@{themeName} {
-   background-color: @background-color_datePicker;
-   box-shadow: @box-shadow-size_datePicker @box-shadow-color_datePicker;
+.controls-PeriodDialog {
+   background-color: var(--background-color_datePicker);
+   box-shadow: var(--box-shadow-size_datePicker) var(--box-shadow-color_datePicker);
+   border-radius: var(--border-radius_datePicker);
+   position: relative;
+   z-index: 1;
 }
 
-.controls-PeriodDialog__body_theme-@{themeName} {
-   max-height: @yearnav_height_datePicker + @yearlist_month_height_datePicker * 4 -
-         @yearlist_item_border-thickness_datePicker * 3;
+.controls-PeriodDialog__body {
+   max-height: calc(var(--monthnav_year_height_datePicker) + var(--monthnav_item_height_datePicker) * 12 + var(--calendar-header_height_datePicker) + var(--calendar-header_border-bottom-thickness_datePicker));
 }
 
-.controls-DatePopup__selector-marginTop_fontSize-m_theme-@{themeName} {
-   margin-top: @shift-top_PeriodDialog-selector;
+.controls-DatePopup__selector-marginTop_fontSize-m {
+   margin-top: var(--shift-top_PeriodDialog-selector);
 }
 
-.controls-DatePopup__selector-marginTop_fontSize-l_theme-@{themeName} {
-   margin-top: @shift-top_fontSize-l_PeriodDialog-selector;
+.controls-DatePopup__selector-marginTop_fontSize-l {
+   margin-top: var(--shift-top_fontSize-l_PeriodDialog-selector);
 }
 
-.controls-DatePopup__selector-marginTop_fontSize-s_theme-@{themeName} {
-   margin-top: @shift-top_fontSize-s_PeriodDialog-selector;
+.controls-DatePopup__selector-marginTop_fontSize-s {
+   margin-top: var(--shift-top_fontSize-s_PeriodDialog-selector);
 }
 
-.controls-DatePopup__selector-marginLeft_theme-@{themeName} {
-   margin-left: @shift-left_PeriodDialog-picker;
+.controls-DatePopup__selector-marginLeft {
+   margin-left: var(--shift-left_PeriodDialog-picker);
 }
 
-.controls-DatePopup__selector-marginLeft-withoutModeBtn_theme-@{themeName} {
-   margin-left: @shift-left_PeriodDialog-picker-withoutModeBtn;
+.controls-DatePopup__selector-marginLeft-withoutModeBtn {
+   margin-left: var(--shift-left_PeriodDialog-picker-withoutModeBtn);
 }
 
 // Header
@@ -69,25 +64,39 @@
    box-sizing: border-box;
    display: flex;
    align-items: center;
+   background-color: var(--header_background-color_datePicker);
+   padding-left: var(--header_padding-left_datePicker);
+   height: var(--header_height_datePicker);
+   border-radius: var(--border-radius_datePicker) var(--border-radius_datePicker) 0 0;
 }
 
-.controls-PeriodDialog__header_theme-@{themeName} {
-   background-color: @header_background-color_datePicker;
-   padding-left: @header_padding-left_datePicker;
-   height: @header_height_datePicker;
-}
-
-.controls-PeriodDialog__stateButton_theme-@{themeName} {
-   padding-right: @switcher_offset_datePicker;
-   width: @switcher_size_datePicker;
-   height: @switcher_size_datePicker;
+.controls-PeriodDialog__stateButton {
+   padding-right: var(--switcher_offset_datePicker);
+   width: var(--switcher_size_datePicker);
+   height: var(--switcher_size_datePicker);
    cursor: pointer;
 }
 
 .ws-is-hover {
-   .controls-PeriodDialog__stateButton_theme-@{themeName}:hover {
-      fill: @switcher_hover_icon-color_datePicker;
+   .controls-PeriodDialog_stateButton_icon:hover {
+      fill: var(--switcher_hover_icon-color_datePicker);
+      color: var(--switcher_hover_icon-color_datePicker);
    }
+}
+
+.controls-PeriodDialog__stateButton:focus {
+   .controls-PeriodDialog_stateButton_icon_focus {
+      fill: var(--switcher_hover_icon-color_datePicker);
+      color: var(--switcher_hover_icon-color_datePicker);
+   }
+}
+
+.controls-PeriodDialog_stateButton_icon {
+   font-size: var(--switcher_icon-size_datePicker);
+   line-height: var(--switcher_icon-size_datePicker);
+   font-family: var(--icon_font-family_s);
+   fill: var(--switcher_icon-color_datePicker);
+   color: var(--switcher_icon-color_datePicker);
 }
 
 .controls-PeriodDialog__header-period_link {
@@ -112,48 +121,36 @@
 
 .ws-is-mobile-safari,
 .ws-is-firefox {
-   .controls-PeriodDialog__header-period::before {
-      font-size: @header_lineheight_dialog - 1;
-   }
-}
-.controls-PeriodDialog__header_inputs::before {
-   content: '\200b';
-   display: inline-block;
-   width: 0;
-   font-size: @header_lineheight_dialog;
-}
-
-.ws-is-mobile-safari,
-.ws-is-firefox {
    .controls-PeriodDialog__header-period_link::before {
-      font-size: @header_lineheight_dialog - 1;
+      font-size: calc(var(--header_lineheight_dialog) - 1);
    }
 }
 .controls-PeriodDialog__header-period_link::before {
    content: '\200b';
    display: inline-block;
    width: 0;
-   font-size: @header_lineheight_dialog;
+   font-size: var(--header_lineheight_dialog);
 }
 
 .controls-PeriodDialog__header_inputs {
    display: flex;
-   align-items: center;
+   align-items: baseline;
 }
 
 .controls-PeriodDialog__header-rangeDash {
    display: inline-block;
    vertical-align: middle;
+   width: var(--dash_length_dateRangeInput);
+   border-bottom: var(--dash_thickness_dateRangeInput) solid var(--dash_color_dateRangeInput);
+   margin: 0 var(--dash_padding-horizontal_dateRangeInput);
 }
 
-.controls-PeriodDialog__header-rangeDash_theme-@{themeName} {
-   width: @dash_length_dateRangeInput;
-   border-bottom: @dash_thickness_dateRangeInput solid @dash_color_dateRangeInput;
-   margin: 0 @dash_padding-horizontal_dateRangeInput;
+.controls-PeriodDialog__applyButton {
+   margin: 0 var(--apply-button_offset_datePicker);
 }
 
-.controls-PeriodDialog__applyButton_theme-@{themeName} {
-   margin: 0 @apply-button_offset_datePicker;
+.controls-PeriodDialog__closeButton {
+   margin-right: var(--close-button_offset_datePicker);
 }
 
 .controls-PeriodDialog__header_calendar {
@@ -161,55 +158,42 @@
    display: flex;
    justify-content: center;
    align-items: center;
+   cursor: pointer;
 
    &::before {
       text-align: center;
       content: attr(date);
-      font-family: @font-family;
+      font-family: var(--font-family);
       position: absolute;
+      height: var(--calendar-icon-size_datePicker);
+      line-height: var(--calendar-icon-size_datePicker);
+      width: var(--calendar-icon-size_datePicker);
+      color: var(--secondary_color);
    }
-}
-
-.controls-PeriodDialog__header_calendar_theme-@{themeName}::before {
-   height: @calendar-icon-size_datePicker;
-   line-height: @calendar-icon-size_datePicker;
-   width: @calendar-icon-size_datePicker;
 }
 
 .ws-is-ie11 {
    // Под IE свойство line-height считается неправильно в абсолютно спозиционированных контейнерах
-   .controls-PeriodDialog__header_calendar_theme-@{themeName}::before {
+   .controls-PeriodDialog__header_calendar::before {
       line-height: 0;
    }
 }
 
-.controls-PeriodDialog__header_calendar_svg_theme-@{themeName} {
-   height: @calendar-icon-size_datePicker;
-   width: @calendar-icon-size_datePicker;
+.controls-PeriodDialog__header_calendar_svg {
+   height: var(--calendar-icon-size_datePicker);
+   width: var(--calendar-icon-size_datePicker);
 }
 
-.controls-PeriodDialog__header_calendar_svg-content_active_theme-@{themeName} {
-   fill: @secondary_color;
+.controls-PeriodDialog__header_calendar_svg-content {
+   fill: var(--secondary_color);
 }
 
-.controls-PeriodDialog__header_calendar_svg-content_readOnly_theme-@{themeName} {
-   fill: @readonly_color;
-}
-
-.controls-PeriodDialog__header_calendar_active_theme-@{themeName}::before {
-   color: @secondary_color;
-}
-
-.controls-PeriodDialog__header_calendar_readOnly_theme-@{themeName}::before {
-   color: @readonly_color;
-}
-
-.controls-icon_size-datePopupStateButton_theme-@{themeName} {
-   font-size: @switcher_icon-size_datePicker;
-   line-height: @switcher_icon-size_datePicker;
-   width: @switcher_icon-size_datePicker;
-   height: @switcher_icon-size_datePicker;
-   font-family: @icon_font-family_s;
+.controls-icon_size-datePopupStateButton {
+   font-size: var(--switcher_icon-size_datePicker);
+   line-height: var(--switcher_icon-size_datePicker);
+   width: var(--switcher_icon-size_datePicker);
+   height: var(--switcher_icon-size_datePicker);
+   font-family: var(--icon_font-family_s);
 }
 
 .controls-PeriodDialog__cursor-pointer {
@@ -223,20 +207,16 @@
    min-height: 1px;
 }
 
-.controls-PeriodDialog__picker_theme-@{themeName} {
-   margin-top: @shift-top_PeriodDialog-picker;
-   margin-left: @shift-left_PeriodDialog-picker;
+.controls-PeriodDialog__picker {
+   margin-top: var(--shift-top_PeriodDialog-picker);
+   margin-left: var(--shift-left_PeriodDialog-picker);
 }
 
 .controls-PeriodDialog__picker-withoutModeBtn {
-   margin-top: @shift-top_PeriodDialog-picker;
-   margin-left: @shift-left_PeriodDialog-picker-withoutModeBtn;
+   margin-top: var(--shift-top_PeriodDialog-picker);
+   margin-left: var(--shift-left_PeriodDialog-picker-withoutModeBtn);
 }
 
 .controls-Scroll__shadow_top_style-datePopup {
-   background: linear-gradient(to bottom, @shadow_start-color_datePicker, @shadow_end-color_datePicker);
-}
-
-.controls-Scroll__shadow_bottom_style-datePopup {
-   background: linear-gradient(to top, @shadow_start-color_datePicker, @shadow_end-color_datePicker);
+   background: linear-gradient(to bottom, var(--shadow_start-color_datePicker), var(--shadow_end-color_datePicker));
 }

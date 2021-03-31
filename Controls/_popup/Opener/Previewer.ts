@@ -39,7 +39,7 @@ const open = (callback: Function, config: IPreviewerPopupOptions, type?: string)
         config.openingTimerId = setTimeout(() => {
             config.openingTimerId = null;
             callback();
-        }, DISPLAY_DURATION);
+        }, config.delay || DISPLAY_DURATION);
     } else {
         callback();
     }
@@ -52,7 +52,7 @@ const close = (callback: Function, config: IPreviewerPopupOptions, type?: string
         config.closingTimerId = setTimeout(() => {
             config.closingTimerId = null;
             callback();
-        }, DISPLAY_DURATION);
+        }, config.delay || DISPLAY_DURATION);
     } else {
         callback();
     }

@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/gridNew/VirtualScroll/Default/Defau
 import {Memory} from 'Types/source';
 import {generateData} from '../../../list_new/DemoHelpers/DataCatalog';
 import {getCountriesStats, countries} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 
 interface IItem {
    capital: string;

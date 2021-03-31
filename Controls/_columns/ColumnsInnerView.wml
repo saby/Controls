@@ -1,9 +1,0 @@
-<ws:partial template="{{_options.content}}"
-            scope="{{_options}}"
-            columnsCount="{{_columnsCount}}"
-            spacing="{{_spacing}}"
-            on:resize="_resizeHandler()"
-            on:itemsContainerReady="saveItemsContainer()"
-            on:keyDown="keyDownHandler()"
-/>
-

@@ -14,7 +14,6 @@
  * @author Крайнов Д.О.
  */
 
-export {NavigationController} from 'Controls/_source/NavigationController';
-
+export {NavigationController} from 'Controls/dataSource';
 export {default as SelectedKey} from './_source/Adapter/SelectedKey';
 export {default as EnumAdapter} from './_source/Adapter/Enum';

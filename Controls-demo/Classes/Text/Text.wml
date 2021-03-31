@@ -1,14 +1,14 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo_fixedWidth350">
-        <div class="controls-text-default_theme-{_options.theme}}">controls-text-default_theme-{{_options.theme}}</div>
-        <div class="controls-text-primary_theme-{{_options.theme}}">controls-text-primary_theme-{{_options.theme}}</div>
-        <div class="controls-text-secondary_theme-{{_options.theme}}">controls-text-secondary_theme-{{_options.theme}}</div>
-        <div class="controls-text-link_theme-{{_options.theme}}">controls-text-link_theme-{{_options.theme}}</div>
-        <div class="controls-text-label_theme-{{_options.theme}}">controls-text-label_theme-{{_options.theme}}</div>
-        <div class="controls-text-danger_theme-{{_options.theme}}">controls-text-danger_theme-{{_options.theme}}</div>
-        <div class="controls-text-success_theme-{{_options.theme}}">controls-text-success_theme-{{_options.theme}}</div>
-        <div class="controls-text-warning_theme-{{_options.theme}}">controls-text-warning_theme-{{_options.theme}}</div>
-        <div class="controls-text-unaccented_theme-{{_options.theme}}">controls-text-unaccented_theme-{{_options.theme}}</div>
-        <div class="controls-text-readonly_theme-{{_options.theme}}">controls-text-readonly_theme-{{_options.theme}}</div>
+        <div class="controls-text-default">controls-text-default</div>
+        <div class="controls-text-primary">controls-text-primary</div>
+        <div class="controls-text-secondary">controls-text-secondary</div>
+        <div class="controls-text-link">controls-text-link</div>
+        <div class="controls-text-label">controls-text-label</div>
+        <div class="controls-text-danger">controls-text-danger</div>
+        <div class="controls-text-success">controls-text-success</div>
+        <div class="controls-text-warning">controls-text-warning</div>
+        <div class="controls-text-unaccented">controls-text-unaccented</div>
+        <div class="controls-text-readonly">controls-text-readonly</div>
     </div>
 </div>

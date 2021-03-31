@@ -25,6 +25,7 @@ export default class PropertyGridRender extends Control<IPropertyGridRenderOptio
 
     protected _handleMenuActionMouseEnter(): void {/**/}
     protected _handleMenuActionMouseLeave(): void {/**/}
+    protected _onItemActionsMouseEnter(): void {/**/}
 
     protected _mouseEnterHandler(e: SyntheticEvent<Event>, item: PropertyGridItem<Model>): void {
         this._notify('hoveredItemChanged', [item]);

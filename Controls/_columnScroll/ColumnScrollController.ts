@@ -8,6 +8,7 @@ export interface IControllerOptions {
     hasMultiSelect: boolean;
     isEmptyTemplateShown?: boolean;
     isFullGridSupport?: boolean;
+    stickyLadderCellsCount?: number;
 
     theme?: string;
     backgroundStyle?: string;
@@ -228,6 +229,7 @@ export default class ColumnScrollController {
         }
         this._scrollableColumns = [];
         let htmlColumns: NodeList;
+        let htmlColumns: NodeList;
         if (!container) {
             return this._scrollableColumns;
         }
@@ -323,10 +325,10 @@ export default class ColumnScrollController {
             if (newContentSize <= newContainerSize) {
                 this._scrollPosition = 0;
             }
-
-            this._updateShadowState();
-            this._updateFixedColumnWidth(isFullGridSupport);
         }
+        this._updateShadowState();
+        this._updateFixedColumnWidth(isFullGridSupport);
+
 
         if (newContainerSize + this._scrollPosition > newContentSize) {
             this._scrollPosition -= (newContainerSize + this._scrollPosition) - newContentSize;
@@ -397,7 +399,7 @@ export default class ColumnScrollController {
             return 0;
         }
 
-        const columnOffset = this._options.hasMultiSelect ? 1 : 0;
+        const columnOffset = (this._options.hasMultiSelect ? 1 : 0) + (this._options.stickyLadderCellsCount || 0);
         const lastStickyColumnIndex = this._options.stickyColumnsCount + columnOffset;
         const lastStickyColumnSelector = `.${JS_SELECTORS.FIXED_ELEMENT}:nth-child(${lastStickyColumnIndex})`;
         const stickyCellContainer = this._contentContainer.querySelector(lastStickyColumnSelector) as HTMLElement;
@@ -462,6 +464,9 @@ export default class ColumnScrollController {
                 newHTML += ` .${this._transformSelector} .controls-Grid-table-layout__itemActions__container { z-index: 1 }`;
             }
         }
+
+        newHTML += ` .${this._transformSelector} .controls-Grid__cell_fixed_theme-${this._options.theme} { z-index: 3 }`;
+        newHTML += ` .${this._transformSelector} .controls-GridView__footer__cell.controls-GridNew__cell_fixed_theme-${this._options.theme} { z-index: 2 }`;
 
         if (this._stylesContainer.innerHTML !== newHTML) {
             this._stylesContainer.innerHTML = newHTML;

@@ -1,22 +1,3 @@
-.controls-MonthSlider {
-   display: flex;
-   flex-direction: column;
-}
-
-.controls-MonthSlider__header {
-   flex-shrink: 0;
-   display: flex;
-   align-items: center;
-}
-
-.controls-MonthSlider__header-button {
-   cursor: pointer;
-}
-
-.controls-MonthSlider__header-title {
-   text-align: center;
-}
-
 .controls-MonthSlider__weekdays-item {
    flex-grow: 1;
    flex-shrink: 1;
@@ -24,9 +5,9 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   color: @weekdays_text-color_monthSlider;
-   font-size: @weekdays_font-size_monthSlider;
-   height: @weekdays_height_monthSlider;
+   color: var(--weekdays_text-color_monthSlider);
+   font-size: var(--weekdays_font-size_monthSlider);
+   height: var(--weekdays_height_monthSlider);
 }
 
 .controls-MonthSlider__slider {
@@ -34,34 +15,38 @@
    flex-grow: 1;
 }
 
-.controls-MonthSlider__header-button_theme-@{themeName} {
-   .icon(@arrow_icon-size_monthSlider);
-   color: @arrow_icon-color_monthSlider;
+.controls-MonthSlider__header-button {
+  cursor: pointer;
+   .icon(var(--arrow_icon-size_monthSlider));
+   color: var(--arrow_icon-color_monthSlider);
    &:hover {
-      color: @arrow_hover_icon-color_monthSlider;
+      color: var(--arrow_hover_icon-color_monthSlider);
    }
 }
 
-.controls-MonthSlider__home-button_theme-@{themeName} {
-   width: @monthview_item_width_monthSlider;
-}
-
 .controls-MonthSlider__home-button {
+   width: var(--monthview_item_width_monthSlider);
    display: flex;
    justify-content: center;
 }
 
-.controls-MonthSlider__header-title_theme-@{themeName} {
-   font-size: @heading_font-size_monthSlider;
-   min-width: @value_min-width_MonthSlider;
-   color: @heading_text-color_monthSlider;
+.controls-MonthSlider__header-title {
+   text-align: center;
+   font-size: var(--heading_font-size_monthSlider);
+   min-width: var(--value_min-width_MonthSlider);
+   color: var(--heading_text-color_monthSlider);
 }
 
-.controls-MonthSlider_theme-@{themeName} {
-   width: @monthview_width_monthSlider;
-   height: @monthview_height_monthSlider;
+.controls-MonthSlider {
+   display: flex;
+   flex-direction: column;
+   width: var(--monthview_width_monthSlider);
+   height: var(--monthview_height_monthSlider);
 }
 
-.controls-MonthSlider__header_theme-@{themeName} {
-   height: @header_height_monthSlider;
+.controls-MonthSlider__header {
+   flex-shrink: 0;
+   display: flex;
+   align-items: center;
+   height: var(--header_height_monthSlider);
 }

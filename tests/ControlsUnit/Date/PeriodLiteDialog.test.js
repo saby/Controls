@@ -409,11 +409,22 @@ define([
          });
       });
 
-      describe('_getYearListPosition', function() {
+      describe('_getYearsListPosition', function() {
          const currentYear = (new Date).getFullYear();
          [
-            [currentYear - 6, currentYear - 2],
-            [currentYear - 5, currentYear - 1],
+            [currentYear - 17, currentYear - 3],
+            [currentYear - 16, currentYear - 2],
+            [currentYear - 15, currentYear - 1],
+            [currentYear - 14, currentYear],
+            [currentYear - 13, currentYear],
+            [currentYear - 12, currentYear],
+            [currentYear - 11, currentYear],
+            [currentYear - 10, currentYear],
+            [currentYear - 9, currentYear],
+            [currentYear - 8, currentYear],
+            [currentYear - 7, currentYear],
+            [currentYear - 6, currentYear],
+            [currentYear - 5, currentYear],
             [currentYear - 4, currentYear],
             [currentYear - 3, currentYear],
             [currentYear - 2, currentYear],
@@ -425,8 +436,36 @@ define([
          ].forEach(function(test) {
             it(`should return ${test[1]} for ${test[0]} year`, function() {
                const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {});
-               let result = component._getYearListPosition({ startValue: new Date(test[0], 0, 1) }, Date).getFullYear();
+               let result = component._getYearsListPosition({
+                  startValue: new Date(test[0], 0, 1),
+                  dateConstructor: Date
+               }).getFullYear();
                assert.equal(result, test[1]);
+            });
+         });
+      });
+
+      describe('_getFullYearsListPosition', () => {
+         [{
+            displayedRanges: [[new Date(2020, 0), new Date(2025, 0)]],
+            position: new Date(2021, 0),
+            result: 2021
+         }, {
+            displayedRanges: [[new Date(2020, 0), new Date(2025, 0)]],
+            position: new Date(2025, 0),
+            result: 2024
+         }, {
+            position: new Date(2021, 0),
+            result: 2021
+         }].forEach((test) => {
+            it('should return correct position', () => {
+               const component = calendarTestUtils.createComponent(PeriodLiteDialog.View, {});
+               component._displayedRanges = test.displayedRanges;
+               let result = component._getPosition({
+                  startValue: test.position,
+                  dateConstructor: Date
+               }).getFullYear();
+               assert.equal(result, test.result);
             });
          });
       });
@@ -461,15 +500,15 @@ define([
             displayedRanges: [[new Date(2019, 0), new Date(2021, 0)]],
             startValue: new Date(2019, 0),
             endValue: new Date(2019, 11, 31),
-            nextArrowResult: true,
-            prevArrowResult: false
+            nextArrowResult: false,
+            prevArrowResult: true
          }, {
             name: 'should set prev arrow to readonly',
             displayedRanges: [[new Date(2019, 0), new Date(2021, 0)]],
             startValue: new Date(2021, 0),
             endValue: new Date(2021, 11, 31),
-            nextArrowResult: false,
-            prevArrowResult: true
+            nextArrowResult: true,
+            prevArrowResult: false
          }, {
             name: 'should set prev and next arrows to readonly',
             displayedRanges: [[new Date(2019, 0), new Date(2019, 0)]],

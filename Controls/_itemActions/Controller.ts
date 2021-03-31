@@ -196,7 +196,7 @@ export class Controller {
             this._commonItemActions = options.itemActions;
             this._itemActionsProperty = options.itemActionsProperty;
             this._itemActionVisibilityCallback = options.visibilityCallback ||
-                ((action: IItemAction, item: Model) => true);
+                ((action: IItemAction, item: Model, isEditing: boolean) => true);
         }
         if (this._commonItemActions || this._itemActionsProperty) {
             result = this._updateItemActions(options.editingItem);
@@ -451,7 +451,7 @@ export class Controller {
         let hasChanges = false;
         const changedItemsIds: Array<number | string> = [];
         const assignActionsOnItem = (item): void => {
-            if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_display/SearchSeparator]']) {
+            if (!item['[Controls/_display/GroupItem]'] && !item['[Controls/_display/SearchSeparator]'] && !item['[Controls/treeGrid:TreeGridNodeFooterRow]'] && !item['[Controls/_tileNew/InvisibleTileItem]']) {
                 const contents = Controller._getItemContents(item);
                 const actionsObject = this._fixActionsDisplayOptions(this._getActionsObject(item));
                 const itemChanged = Controller._setItemActions(item, actionsObject, this._actionMode);
@@ -497,7 +497,7 @@ export class Controller {
     private _getMenuActions(item: IItemActionsItem, parentAction: IShownItemAction): IItemAction[] {
         const contents = Controller._getItemContents(item);
         const actionsObject = item.getActions();
-        const visibleActions = actionsObject && actionsObject.all && this._filterVisibleActions(actionsObject.all, contents);
+        const visibleActions = actionsObject && actionsObject.all && this._filterVisibleActions(actionsObject.all, contents, item.isEditing());
         if (visibleActions) {
             // Кроме как intersection all vs showed мы не можем знать, какие опции Measurer скрыл под кнопку "Ещё",
             // Поэтому для свайпнутой записи имеет смысл показывать в меню те опции, которые отсутствуют в showed
@@ -546,8 +546,10 @@ export class Controller {
      */
     private _cloneMenuTarget(realTarget: HTMLElement): HTMLElement {
         const rect = realTarget.getBoundingClientRect();
+        // FIXME: Если отдать клон таргета, то возникает зацикливание при расчетах
+        //  https://online.sbis.ru/opendoc.html?guid=d462d4d2-17fe-41e1-9caf-b5087bc246f2
         return {
-            ...clone(realTarget),
+            children: [],
             getBoundingClientRect(): ClientRect {
                 return rect;
             }
@@ -578,7 +580,7 @@ export class Controller {
         const menuButtonVisibility = this._getSwipeMenuButtonVisibility(this._contextMenuConfig);
         this._actionsWidth = actionsContainerWidth;
         this._actionsHeight = actionsContainerHeight;
-        const actions = this._filterVisibleActions(item.getActions().all, contents);
+        const actions = this._filterVisibleActions(item.getActions().all, contents, item.isEditing());
         const actionsTemplateConfig = this._collection.getActionsTemplateConfig();
         actionsTemplateConfig.actionAlignment = this._actionsAlignment;
 
@@ -668,7 +670,7 @@ export class Controller {
         const all = this._itemActionsProperty
             ? contents.get(this._itemActionsProperty)
             : this._commonItemActions;
-        const visibleActions = this._filterVisibleActions(all, contents);
+        const visibleActions = this._filterVisibleActions(all, contents, item.isEditing());
         if (this._isEditing(item)) {
             showed = [];
         } else if (visibleActions.length > 1) {
@@ -694,9 +696,9 @@ export class Controller {
         return { all, showed };
     }
 
-    private _filterVisibleActions(itemActions: IItemAction[], contents: Model): IItemAction[] {
+    private _filterVisibleActions(itemActions: IItemAction[], contents: Model, isEditing: boolean): IItemAction[] {
         return itemActions.filter((action) =>
-            this._itemActionVisibilityCallback(action, contents)
+            this._itemActionVisibilityCallback(action, contents, isEditing)
         );
     }
 
@@ -893,7 +895,8 @@ export class Controller {
         for (let i = 0; i < length; i++) {
             if (
                 aActions[i].id !== bActions[i].id ||
-                aActions[i].icon !== bActions[i].icon
+                aActions[i].icon !== bActions[i].icon ||
+                aActions[i].showType !== bActions[i].showType
             ) {
                 return false;
             }

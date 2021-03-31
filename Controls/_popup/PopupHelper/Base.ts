@@ -6,12 +6,14 @@ import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
 import {IndicatorOpener} from 'Controls/LoadingIndicator';
 
 interface IOpenerStaticMethods {
+    _openPopup: (popupOptions: IBasePopupOptions, popupController?: string) => Promise<string>;
     openPopup: (popupOptions: IBasePopupOptions, popupController?: string) => Promise<string>;
     closePopup: (popupId: string) => void;
 }
 /**
  * Базовый хелпер для открытия всплывающих окон.
  * @class Controls/_popup/PopupHelper/Base
+ * @implements Controls/_popup/interface/IBaseOpener
  *
  * @author Красильников А.С.
  * @private
@@ -19,11 +21,17 @@ interface IOpenerStaticMethods {
 
 export default class Base {
     protected _popupId: string;
-    private _opener: IOpenerStaticMethods;
+    protected _opener: IOpenerStaticMethods;
     private _indicatorId: string;
+    protected _options: IBasePopupOptions;
+    private _openPromise: Array<Promise<string>> = [];
+
+    constructor(cfg: IBasePopupOptions = {}) {
+        this._options = cfg;
+    }
 
     open(popupOptions: IBasePopupOptions, popupController?: string): void {
-        const config: IBasePopupOptions = {...popupOptions};
+        const config: IBasePopupOptions = BaseOpenerUtil.getConfig(this._options, popupOptions);
         config.isHelper = true;
 
         // Защита от множ. вызова. Хэлпер сам генерирует id
@@ -59,6 +67,7 @@ export default class Base {
     }
 
     close(): void {
+        this._cancelOpen();
         this._opener.closePopup(this._popupId);
         this._popupId = null;
     }
@@ -75,14 +84,36 @@ export default class Base {
         this._opener = null;
     }
 
-    protected _openPopup(config, popupController): void {
-        this._opener.openPopup(config, popupController);
+    protected _openPopup(config: IBasePopupOptions, popupController: string): void {
+        const promise = this._opener._openPopup(config, popupController);
+        this._openPromise.push(promise);
+        promise.then(() => {
+            const index = this._openPromise.indexOf(promise);
+            if (index > -1) {
+                this._openPromise.splice(index, 1);
+            }
+        });
+        promise.catch(() => {
+            this._hideIndicator();
+        });
     }
 
     private _hideIndicator(): void {
         if (this._indicatorId) {
             IndicatorOpener.hide(this._indicatorId);
             this._indicatorId = null;
+        }
+    }
+
+    private _cancelOpen(): void {
+        // Notification и SlidingPanel еще не переведены на механизм cancelablePromise, нужны проверки
+        if (this._openPromise.length) {
+            for (const promise of this._openPromise) {
+                if (promise.cancelPromise) {
+                    promise.cancelPromise();
+                }
+            }
+            this._openPromise = [];
         }
     }
 

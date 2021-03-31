@@ -1,5 +1,5 @@
 <ws:template name="itemTpl">
-   <div attr:class="controls-TileView__item {{itemData.itemClasses}} controls-TileView__item_theme-{{theme}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
+   <div attr:class="controls-TileView__item {{itemData.itemClasses}} {{itemData.itemContentClasses}} controls-TileView__item_theme-{{theme}} controls-ListView__itemV controls-ListView__itemV_cursor-{{cursor || 'pointer'}}
                      {{!!itemData.dragTargetNode ? ' js-controls-TreeView__dragTargetNode'}}">
       <ws:partial template="{{content}}"/>
    </div>
@@ -31,7 +31,7 @@
                {{marker !== false && itemData.markerVisibility !== 'hidden' && itemData._isSelected ?
                   ' controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-' + theme :
                   border !== false ? ' controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-' + theme
-                  :  ' controls-TileView__item_withoutBorder_theme-' + theme }}
+                  :  'controls-TileView__item_withoutBorder controls-TileView__item_withoutBorder_theme-' + theme }}
                {{itemData.canShowActions ? ' controls-ListView__item_showActions'}}"
         attr:style="{{itemData.position ? itemData.position}} ">
       <ws:partial if="{{itemData.multiSelectVisibility !== 'hidden' && itemData.multiSelectPosition === 'default' }}" template="multiSelectTemplate"/>

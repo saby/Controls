@@ -26,26 +26,20 @@
  * @author Крайнов Д.О.
  */
 
-import {default as Selector} from 'Controls/_lookup/Button';
-import {default as Input} from 'Controls/_lookup/Lookup';
-import {default as MultipleInput} from 'Controls/_lookup/MultipleInput';
-import {default as Collection} from "Controls/_lookup/SelectedCollection";
-import ItemTemplate = require("wml!Controls/_lookup/SelectedCollection/ItemTemplate");
-import ButtonItemTemplate = require("wml!Controls/_lookup/Button/itemTemplate");
-import Opener = require("Controls/_lookup/Opener");
-import PlaceholderChooser = require("Controls/_lookup/PlaceholderChooser");
-import Link = require('Controls/_lookup/Lookup/Link');
+export {default as Selector} from 'Controls/_lookup/Button';
+export {default as Input} from 'Controls/_lookup/Lookup';
+export {default as MultipleInput} from 'Controls/_lookup/MultipleInput';
+export {default as Collection} from "Controls/_lookup/SelectedCollection";
+export {default as Link} from 'Controls/_lookup/Lookup/Link';
+export {default as PlaceholderChooser} from 'Controls/_lookup/PlaceholderChooser';
+export {default as Opener} from 'Controls/_lookup/Opener';
+
 export {ILookupOptions} from 'Controls/_lookup/Lookup';
 export {ISelectorButtonOptions as ISelectorOptions} from 'Controls/_lookup/Button';
 export {ToSourceModel} from 'Controls/_lookup/resources/ToSourceModel';
+
+import ItemTemplate = require("wml!Controls/_lookup/SelectedCollection/ItemTemplate");
 export {
-   Selector,
-   Input,
-   MultipleInput,
-   Collection,
    ItemTemplate,
-   Opener,
-   ItemTemplate as ButtonItemTemplate,
-   PlaceholderChooser,
-   Link
+   ItemTemplate as ButtonItemTemplate
 };

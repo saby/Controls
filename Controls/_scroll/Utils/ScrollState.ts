@@ -5,6 +5,11 @@ import {
     SCROLL_POSITION
 } from 'Controls/_scroll/Utils/Scroll';
 
+export interface IHasUnrenderedContent {
+    top: boolean;
+    bottom: boolean;
+}
+
 export interface IScrollState {
     scrollTop?: number;
     scrollLeft?: number;
@@ -17,11 +22,7 @@ export interface IScrollState {
     canVerticalScroll?: boolean;
     canHorizontalScroll?: boolean;
     viewPortRect?: ClientRect;
-}
-
-interface IHasUnrenderedContent {
-    top: boolean;
-    bottom: boolean;
+    hasUnrenderedContent?: IHasUnrenderedContent;
 }
 
 export default class ScrollState implements IScrollState {
@@ -48,8 +49,8 @@ export default class ScrollState implements IScrollState {
         this._clientWidth = scrollState.clientWidth;
         this._scrollWidth = scrollState.scrollWidth;
         this._hasUnrenderedContent = {
-            top: false,
-            bottom: false
+            top: scrollState.hasUnrenderedContent?.top || false,
+            bottom: scrollState.hasUnrenderedContent?.bottom || false
         };
         if (calculatedState) {
             this._canVerticalScroll = calculatedState.canVerticalScroll;
@@ -140,7 +141,8 @@ export default class ScrollState implements IScrollState {
             clientHeight: this._clientHeight,
             scrollHeight: this._scrollHeight,
             clientWidth: this._clientWidth,
-            scrollWidth: this._scrollWidth
+            scrollWidth: this._scrollWidth,
+            hasUnrenderedContent: this._hasUnrenderedContent
         };
         const calculatedState = {
             canVerticalScroll: this._canVerticalScroll,

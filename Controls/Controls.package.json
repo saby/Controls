@@ -29,6 +29,7 @@
     "Controls/context",
     "Controls/dragnDrop",
     "Controls/popup",
+    "Controls/Pending",
     "Controls/popupConfirmation",
     "Controls/event",
     "Controls/error",

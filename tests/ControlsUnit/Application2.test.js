@@ -10,7 +10,7 @@ define([
       describe('popup logic', function() {
          it('not mobile', function () {
             let
-               ctrl = new Application({});
+               ctrl = new Application.default({});
 
             ctrl._popupCreatedHandler();
             assert.equal(ctrl._bodyClasses.scrollingClass, '');
@@ -29,7 +29,7 @@ define([
          });
 
          it('ios', function () {
-            let ctrl = new Application({}),
+            let ctrl = new Application.default({}),
                oldIsMobileIOS = Env.detection.isMobileIOS;
 
             Env.detection.isMobileIOS = true;

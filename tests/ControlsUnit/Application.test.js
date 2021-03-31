@@ -29,7 +29,7 @@ define([
          };
 
          beforeEach(function() {
-            application = new Application();
+            application = new Application.default();
             application._touchController = {};
          });
 

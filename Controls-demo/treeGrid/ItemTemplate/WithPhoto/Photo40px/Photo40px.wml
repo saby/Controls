@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth1700">
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
         attr:class="demoTreeWithProto__treeGrid40"
         keyProperty="id"
         source="{{_viewSource}}"
@@ -11,5 +11,5 @@
         <ws:footerTemplate>
             <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
         </ws:footerTemplate>
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>

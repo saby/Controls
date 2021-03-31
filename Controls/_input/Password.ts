@@ -3,6 +3,7 @@ import {descriptor} from 'Types/entity';
 import * as ViewModel from 'Controls/_input/Password/ViewModel';
 import passwordVisibilityButtonTemplate = require('wml!Controls/_input/Password/PasswordVisibilityButton');
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/input';
 
 /**
  * Поле ввода пароля.
@@ -89,7 +90,6 @@ class Password extends Base {
         this._type = Password._calculateType(this._passwordVisible, Password._isAutoComplete(this._autoComplete));
 
         this._rightFieldWrapper.template = passwordVisibilityButtonTemplate;
-        this._rightFieldWrapper.scope.getTheme = this._getTheme.bind(this);
         this._rightFieldWrapper.scope.horizontalPadding = options.horizontalPadding;
         this._rightFieldWrapper.scope.isVisibleButton = this._isVisibleButton.bind(this);
         this._rightFieldWrapper.scope.isVisiblePassword = this._isVisiblePassword.bind(this);
@@ -122,10 +122,6 @@ class Password extends Base {
         return this._passwordVisible;
     }
 
-    private _getTheme(): string {
-        return this._options.theme;
-    }
-
     private static _calculateType(passwordVisible: boolean, autoComplete: boolean): string {
         return passwordVisible || !autoComplete ? 'text' : 'password';
     }
@@ -133,8 +129,6 @@ class Password extends Base {
     private static _isAutoComplete(autoComplete: string): boolean {
         return autoComplete !== 'off';
     }
-
-    static _theme: string[] = Base._theme.concat(['Controls/input']);
 
     static getDefaultOptions() {
         const defaultOptions = Base.getDefaultOptions();

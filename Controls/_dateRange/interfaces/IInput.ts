@@ -1,6 +1,7 @@
 /**
  * Интерфейс для поля ввода диапазона дат.
  * @interface Controls/_dateRange/interfaces/IInput
+ * @implements Controls/interface:IContrastBackground
  * @public
  * @author Красильников А.С.
  */
@@ -28,14 +29,14 @@
  *    <Controls.dateRange:Input on:inputCompleted="_inputCompletedHandler()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions>{
  *       ....
  *       _inputCompletedHandler(startValue, endValue, displaydStartValue, displaydEndValue) {
  *          this._saveEnteredValueToDabase1(startValue, endValue);
  *          this._saveEnteredValueToDabase2(displaydStartValue, displaydEndValue);
  *       },
  *       ...
- *    })
+ *    }
  * </pre>
  */
 
@@ -54,14 +55,14 @@
  *    <Controls.dateRange:Input on:inputCompleted="_inputCompletedHandler()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ....
  *       _inputCompletedHandler(startValue, endValue, displaydStartValue, displaydEndValue) {
  *          this._saveEnteredValueToDabase1(startValue, endValue);
  *          this._saveEnteredValueToDabase2(displaydStartValue, displaydEndValue);
- *       },
+ *       }
  *       ...
- *    })
+ *    }
  * </pre>
  */
 
@@ -75,3 +76,8 @@
  *   <li>inputPosition - указывает с какой стороны находится поле ввода. 'right' или 'left'</li>
  * </ul>
 */
+
+/**
+ * @name Controls/_dateRange/interfaces/IInput#contrastBackground
+ * @demo Controls-demo/dateRange/Input/ContrastBackground/Index
+ */

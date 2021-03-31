@@ -35,12 +35,12 @@
 export default interface IItemTemplateOptions {
     /**
      * @name Controls/lookup:ItemTemplate#contentTemplate
-     * @cfg {String|Function} Шаблон отображения выбранной записи.
+     * @cfg {String|TemplateFunction} Шаблон отображения выбранной записи.
      */
     contentTemplate?: string;
     /**
      * @name Controls/lookup:ItemTemplate#crossTemplate
-     * @cfg {String|Function} Шаблон крестика удаления элемента.
+     * @cfg {String|TemplateFunction} Шаблон крестика удаления элемента.
      */
     crossTemplate?: string;
     /**

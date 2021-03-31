@@ -1,15 +1,15 @@
 <div class="controlsDemo__wrapper">
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls-fontsize-xs_theme-{_options.theme}}">controls-fontsize-xs_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-s_theme-{{_options.theme}}">controls-fontsize-s_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-m_theme-{{_options.theme}}">controls-fontsize-m_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-l_theme-{{_options.theme}}">controls-fontsize-l_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-xl_theme-{{_options.theme}}">controls-fontsize-xl_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-2xl_theme-{{_options.theme}}">controls-fontsize-2xl_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-3xl_theme-{{_options.theme}}">controls-fontsize-3xl_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-4xl_theme-{{_options.theme}}">controls-fontsize-4xl_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-5xl_theme-{{_options.theme}}">controls-fontsize-5xl_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-6xl_theme-{{_options.theme}}">controls-fontsize-6xl_theme-{{_options.theme}}</div>
-        <div class="controls-fontsize-7xl_theme-{{_options.theme}}">controls-fontsize-7xl_theme-{{_options.theme}}</div>
+        <div class="controls-fontsize-xs">controls-fontsize-xs</div>
+        <div class="controls-fontsize-s">controls-fontsize-s</div>
+        <div class="controls-fontsize-m">controls-fontsize-m</div>
+        <div class="controls-fontsize-l">controls-fontsize-l</div>
+        <div class="controls-fontsize-xl">controls-fontsize-xl</div>
+        <div class="controls-fontsize-2xl">controls-fontsize-2xl</div>
+        <div class="controls-fontsize-3xl">controls-fontsize-3xl</div>
+        <div class="controls-fontsize-4xl">controls-fontsize-4xl</div>
+        <div class="controls-fontsize-5xl">controls-fontsize-5xl</div>
+        <div class="controls-fontsize-6xl">controls-fontsize-6xl</div>
+        <div class="controls-fontsize-7xl">controls-fontsize-7xl</div>
     </div>
 </div>

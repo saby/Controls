@@ -1,50 +1,49 @@
-import { showType } from 'Controls/toolbars';
-import { IItemAction, TActionDisplayMode } from 'Controls/itemActions';
+import { IItemAction, TActionDisplayMode, TItemActionShowType } from 'Controls/itemActions';
 
 function getActionsForContacts(): IItemAction[] {
     return [
         {
             id: 1,
             title: 'Прочитано',
-            showType: showType.TOOLBAR
+            showType: TItemActionShowType.TOOLBAR
         },
         {
             id: 2,
             icon: 'icon-PhoneNull',
             title: 'Позвонить',
-            showType: showType.MENU_TOOLBAR
+            showType: TItemActionShowType.MENU_TOOLBAR
         },
         {
             id: 3,
             icon: 'icon-EmptyMessage',
             title: 'Написать',
             'parent@': true,
-            showType: showType.TOOLBAR
+            showType: TItemActionShowType.TOOLBAR
         },
         {
             id: 4,
             icon: 'icon-Chat',
             title: 'Диалог',
-            showType: showType.MENU_TOOLBAR,
+            showType: TItemActionShowType.MENU_TOOLBAR,
             parent: 3
         },
         {
             id: 5,
             icon: 'icon-Email',
             title: 'Email',
-            showType: showType.MENU,
+            showType: TItemActionShowType.MENU,
             parent: 3
         },
         {
             id: 6,
             icon: 'icon-Profile',
             title: 'Профиль пользователя',
-            showType: showType.MENU
+            showType: TItemActionShowType.MENU
         },
         {
             id: 7,
             title: 'Удалить',
-            showType: showType.MENU,
+            showType: TItemActionShowType.MENU,
             icon: 'icon-Erase',
             iconStyle: 'danger'
         }
@@ -58,19 +57,19 @@ function getActionsWithDisplayMode(): IItemAction[] {
             title: 'Email',
             displayMode: TActionDisplayMode.BOTH,
             tooltip: 'Электронная почта',
-            showType: showType.TOOLBAR
+            showType: TItemActionShowType.TOOLBAR
         },
         {
             id: 2,
             icon: 'icon-Profile',
             title: 'Профиль пользователя',
             displayMode: TActionDisplayMode.TITLE,
-            showType: showType.TOOLBAR
+            showType: TItemActionShowType.TOOLBAR
         },
         {
             id: 3,
             title: 'Удалить',
-            showType: showType.TOOLBAR,
+            showType: TItemActionShowType.TOOLBAR,
             displayMode: TActionDisplayMode.ICON,
             icon: 'icon-Erase',
             iconStyle: 'danger'
@@ -92,7 +91,7 @@ function getMoreActions(): Array<{
             id: 10,
             icon: 'icon-Erase icon-error',
             title: 'delete pls',
-            showType: showType.TOOLBAR,
+            showType: TItemActionShowType.TOOLBAR,
             // tslint:disable-next-line
             handler: () => { console.log('click to error-icon') }
         },
@@ -100,7 +99,7 @@ function getMoreActions(): Array<{
             id: 12,
             icon: 'icon-View icon-small',
             title: 'view',
-            showType: showType.TOOLBAR,
+            showType: TItemActionShowType.TOOLBAR,
             // tslint:disable-next-line
             handler: () => { console.log('click to View-icon') }
         },
@@ -108,7 +107,7 @@ function getMoreActions(): Array<{
             id: 13,
             icon: 'icon-Motion icon-small',
             title: 'motion',
-            showType: showType.TOOLBAR,
+            showType: TItemActionShowType.TOOLBAR,
             // tslint:disable-next-line
             handler: () => { console.log('click to Motion-icon') }
         }
@@ -118,6 +117,5 @@ function getMoreActions(): Array<{
 export {
     getActionsForContacts,
     getActionsWithDisplayMode,
-    getMoreActions,
-    getActionsWithParent
+    getMoreActions
 };

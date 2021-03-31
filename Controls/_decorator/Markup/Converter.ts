@@ -160,7 +160,7 @@ const hasAnyTagRegExp: RegExp = /<[a-zA-Z]+.*?>/;
          },
          _isMarkupConverter: true,
          _moduleName: 'Controls/decorator:Converter'
-      }, {}, {}, false, undefined, generatorConfig);
+      }, {}, {}, false, undefined, false, generatorConfig);
       return result;
    };
 

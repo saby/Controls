@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/treeGridNew/NodeFooter/Configuration/Configuration';
 import {HierarchicalMemory} from 'Types/source';
 import {Gadgets} from '../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 import { INavigation } from 'Controls-demo/types';
 import {SyntheticEvent} from 'Vdom/Vdom';
 
@@ -70,22 +70,6 @@ export default class extends Control {
                     type: null
                 },
                 {
-                    id: 123,
-                    title: 'IPhone XS Max',
-                    country: 'США',
-                    rating: '8.5',
-                    parent: 12,
-                    type: null
-                },
-                {
-                    id: 124,
-                    title: 'IPhone 8',
-                    country: 'США',
-                    rating: '8.5',
-                    parent: 12,
-                    type: null
-                },
-                {
                     id: 13,
                     title: 'iPad Air 2015',
                     country: 'США',
@@ -113,7 +97,7 @@ export default class extends Control {
     }
 
     private _toggleNodes(tree): void {
-        tree.toggleExpanded(1).then(() => tree.toggleExpanded(11));
+        tree.toggleExpanded(1).then(() => tree.toggleExpanded(11)).then(() => tree.toggleExpanded(12));
     }
 
     // tslint:disable-next-line

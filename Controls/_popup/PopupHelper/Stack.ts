@@ -5,6 +5,8 @@ import {IStackPopupOptions} from 'Controls/_popup/interface/IStack';
 /**
  * Хелпер для открытия стековых окон.
  * @class Controls/_popup/PopupHelper/Stack
+ * @implements Controls/_interface/IPropStorage
+ * @implements Controls/_popup/interface/IStackOpener
  *
  * @author Красильников А.С.
  * @public

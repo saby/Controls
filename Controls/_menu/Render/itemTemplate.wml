@@ -1,9 +1,8 @@
 <ws:template name="menuRowTemplate">
 <div attr:class="controls-Menu__row
-                 controls-DropdownList__row
                  controls-ListView__itemV js-controls-ListView__measurableContainer
-                 {{itemData.itemClassList}} theme_{{_options.theme}}
-                 controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}_theme-{{_options.theme}}">
+                 {{itemData.itemClassList}}
+                 controls-Menu__row_{{multiLine ? 'multiLine' : 'singleLine'}}">
    <ws:if data="{{!!treeItem.getContents().forEach}}">
       <ws:partial template="wml!Controls/_menu/Render/breadCrumbsTemplate"
                   treeItem="{{treeItem}}"
@@ -19,9 +18,9 @@
          <!--Проверка isSelected будет удалена после: https://online.sbis.ru/opendoc.html?guid=dbaef61b-7b5e-4f78-9ab8-04188f3cc94e-->
          <ws:if data="{{marker !== false && (treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected())
                && (!itemData.multiSelect || itemData.isEmptyItem || itemData.isFixedItem)}}">
-            <div class="controls-Menu__row_selected controls-Menu__row_selected_theme-{{_options.theme}}
-                        {{_options.multiLine ? 'controls-Menu__row_selected-multiLine_theme-' + _options.theme}}
-                        controls-Menu__content_{{additionalTextTemplate ? 'padding'}}_theme-{{_options.theme}}"></div>
+            <div class="controls-Menu__row_selected controls-Menu__row_selected
+                        {{_options.multiLine ? 'controls-Menu__row_selected-multiLine'}}
+                        controls-Menu__content_{{additionalTextTemplate ? 'padding'}}"></div>
          </ws:if>
          <ws:if data="{{(multiSelectTpl || itemData.multiSelectTpl) && (itemData.multiSelect || multiSelect) && !itemData.isFixedItem}}">
             <ws:partial template="{{multiSelectTpl || itemData.multiSelectTpl}}" scope="{{_options}}" class="{{itemData.isEmptyItem ? 'controls-Menu__row-checkbox_invisible'}}"/>
@@ -34,6 +33,7 @@
                   <ws:partial
                           template="{{content.resolvedTemplate}}"
                           itemData="{{itemData}}"
+                          item="{{itemData}}"
                           selected="{{treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected()}}"
                   />
                </Controls.Container.Async>
@@ -43,6 +43,7 @@
                        template="{{contentTemplate}}"
                        selected="{{treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected()}}"
                        itemData="{{itemData}}"
+                       item="{{itemData}}"
                />
             </ws:else>
          </ws:if>
@@ -66,7 +67,7 @@
          <ws:partial template="wml!Controls/_menu/Render/expanderTemplate" scope="{{_options}}"/>
       </ws:if>
       <ws:else data="{{rightTemplate}}">
-         <div class="controls-Menu__row__rightTemplate_separator_theme-{{_options.theme}}"></div>
+         <div class="controls-Menu__row__rightTemplate_separator"></div>
          <ws:partial template="{{rightTemplate}}" scope="{{_options}}" item="{{treeItem.getContents()}}"/>
       </ws:else>
 
@@ -85,10 +86,9 @@
 
 <ws:if data="{{treeItem['[Controls/_display/SearchSeparator]']}}">
    <div attr:class="controls-Menu__row
-                 controls-DropdownList__row
                  controls-ListView__itemV
-                 {{itemData.itemClassList}} theme_{{_options.theme}}">
-      <span class="controls-Menu__row__searchSeparator_line_horizontal_theme-{{_options.theme}}"></span>
+                 {{itemData.itemClassList}}">
+      <span class="controls-Menu__row__searchSeparator_line_horizontal"></span>
    </div>
 </ws:if>
 <ws:else>

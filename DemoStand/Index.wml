@@ -1,5 +1,5 @@
 <DemoStand.ContainerTheme>
-<Controls.Application scope="{{_options}}"
+<SbisEnvUI.Bootstrap scope="{{_options}}"
                       theme="{{content.theme}}"
                       popupHeaderTheme="{{_getPopupHeaderTheme(content.theme)}}"
                       bodyClass="controls-default-bg"
@@ -16,5 +16,5 @@
                sourceUrl="{{_options.sourceUrl}}"
             />
       </ws:content>
-</Controls.Application>
+</SbisEnvUI.Bootstrap>
 </DemoStand.ContainerTheme>

@@ -140,6 +140,10 @@ export default class Render extends Control<IRenderOptions> {
         e.stopPropagation();
     }
 
+    protected _onItemActionMouseUp(e: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
+    }
+
     protected _onItemActionClick(e: SyntheticEvent<MouseEvent>): void {
         e.stopPropagation();
     }
@@ -224,7 +228,7 @@ export default class Render extends Control<IRenderOptions> {
         }
     }
 
-    static _theme: string[] = ['Controls/list', 'Controls/itemActions'];
+    static _theme: string[] = ['Controls/list', 'Controls/itemActions', 'Controls/Classes'];
 
     static getDefaultOptions(): Partial<IRenderOptions> {
         return {

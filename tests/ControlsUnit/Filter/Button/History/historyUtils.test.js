@@ -78,6 +78,12 @@ define(
             });
             resultItems = filter.HistoryUtils.getItemsWithHistory(items, newItems, sourceController, source, 'key');
             assert.equal(resultItems.getModel(), items.getModel());
+
+            let folderKey;
+            sourceController = { hasMoreData: (direction, key) => {folderKey = key} };
+            resultItems = filter.HistoryUtils.getItemsWithHistory(items, newItems, sourceController, source, 'key', 'folder1');
+            assert.equal(resultItems.getModel(), items.getModel());
+            assert.equal(folderKey, 'folder1');
          });
 
          it('isHistorySource', function() {

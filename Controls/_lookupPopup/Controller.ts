@@ -8,7 +8,6 @@ import * as Deferred from 'Core/Deferred';
 import {RegisterClass} from 'Controls/event';
 import {IRegisterClassConfig} from 'Controls/_event/RegisterClass';
 import Utils = require('Types/util');
-import SelectorContext = require('Controls/_lookupPopup/__ControllerContext');
 import ParallelDeferred = require('Core/ParallelDeferred');
 import chain = require('Types/chain');
 
@@ -150,12 +149,6 @@ export default class Controller extends Control<ILookupPopupControllerOptions> {
          this._selectionLoadDef = new ParallelDeferred();
       }
       this._selectionLoadDef.push(deferred);
-   }
-
-   private _getChildContext(): object {
-      return {
-         selectorControllerContext: new SelectorContext(this._selectedItems)
-      };
    }
 
    selectComplete(): void {

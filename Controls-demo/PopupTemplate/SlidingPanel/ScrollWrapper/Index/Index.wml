@@ -1,0 +1,3 @@
+<div class="ControlDemo__SlidingPanel">
+    <Controls.buttons:Button caption="Открыть шторку" on:click="_openSlidingPanelHandler()"/>
+</div>

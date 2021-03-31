@@ -5,6 +5,7 @@ import {default as Store} from 'Controls/Store';
 import {DependencyTimer, isLeftMouseButton} from 'Controls/popup';
 import {IoC} from 'Env/Env';
 import {SyntheticEvent} from "Vdom/Vdom";
+import 'css!Controls/operations';
 
 export interface IOperationsButtonOptions extends IControlOptions, IExpandableOptions {
 }
@@ -20,7 +21,7 @@ export interface IOperationsButtonOptions extends IControlOptions, IExpandableOp
  * @class Controls/_operations/Button
  * @extends UI/Base:Control
  * @implements Controls/_interface/IExpandable
- * 
+ *
  * @author Авраменко А.С.
  * @public
  *
@@ -33,7 +34,7 @@ export interface IOperationsButtonOptions extends IControlOptions, IExpandableOp
  * @class Controls/_operations/Button
  * @extends UI/Base:Control
  * @implements Controls/_interface/IExpandable
- * 
+ *
  * @author Авраменко А.С.
  * @public
  *
@@ -103,6 +104,4 @@ export default class OperationsButton extends Control<IOperationsButtonOptions> 
          IoC.resolve('ILogger').error('_operations:Button', e);
       }
    }
-
-   static _theme: string[] = ['Controls/operations'];
 }

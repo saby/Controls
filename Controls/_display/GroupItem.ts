@@ -27,6 +27,7 @@ export default class GroupItem<T> extends mixin<
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly DraggableItem: boolean = false;
+    readonly ItemActionsItem: boolean = false;
 
     protected _$multiSelectVisibility: string;
 
@@ -75,8 +76,8 @@ export default class GroupItem<T> extends mixin<
         this._nextVersion();
     }
 
-    isStickyHeader(): boolean {
-        return super.isStickyHeader() && !this.isHiddenGroup();
+    isSticked(): boolean {
+        return this.isStickyHeader() && !this.isHiddenGroup();
     }
 }
 

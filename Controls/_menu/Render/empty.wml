@@ -1,4 +1,4 @@
-<div class="controls-Menu__emptyTemplate_theme-{{_options.theme}}">
+<div class="controls-Menu__emptyTemplate">
    <ws:if data="{{contentTemplate}}">
       <ws:partial template="{{contentTemplate}}"/>
    </ws:if>

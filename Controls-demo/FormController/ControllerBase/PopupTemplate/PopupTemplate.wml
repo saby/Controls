@@ -1,0 +1,38 @@
+<Controls.form:ControllerBase
+    record="{{ _options.record }}"
+    on:validationFailed="_validationFailedHandler()"
+    on:updateSuccessed="_updateSuccessedHandler()"
+    name="formController">
+    <Controls.popupTemplate:Stack
+        headerBorderVisible="{{false}}" >
+        <ws:headerContentTemplate>
+            <div class="demo-FormControllerBasePopup__header">
+                <div class="demo-FormControllerBasePopup__title">Диалог редактирования</div>
+                <Controls.buttons:Button
+                        caption="Сохранить"
+                        on:click="_saveClickHandler()"/>
+            </div>
+        </ws:headerContentTemplate>
+        <ws:bodyContentTemplate>
+            <Controls.propertyGrid:PropertyGrid
+                    editingObject="{{ content.record }}"
+                    on:editingObjectChanged="_editingObjectChanged()"
+                    source="{{_propertyGridSource}}">
+            </Controls.propertyGrid:PropertyGrid>
+            <div class="demo-FormControllerBasePopup__fieldLine">
+                <div class="demo-FormControllerBasePopup__label">Ветка(с валидацией):</div>
+                <Controls.validate:Container
+                    name="numberRangeValidate">
+                    <ws:validators>
+                        <ws:Function value="{{ content.record.branch }}">Controls/validate:isRequired</ws:Function>
+                    </ws:validators>
+                    <ws:content>
+                        <Controls.input:Text
+                           placeholder="{{_options.minValueInputPlaceholder}}"
+                           bind:value="bodyContentTemplate.record.branch"/>
+                    </ws:content>
+                </Controls.validate:Container>
+            </div>
+        </ws:bodyContentTemplate>
+    </Controls.popupTemplate:Stack>
+</Controls.form:ControllerBase>

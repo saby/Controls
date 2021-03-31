@@ -7,13 +7,31 @@ import {Model} from 'Types/entity';
 import {object} from 'Types/util';
 import {IOptions} from 'Controls/_display/grid/Collection';
 
+/**
+ * Элемент коллеции propertyGrid
+ *
+ * @class Controls/_propertyGrid/PropertyGridCollectionItem
+ * @extends Controls/_display/TreeItem
+ * @public
+ * @author Мельникова Е.А.
+ */
+
 export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
     protected _$owner: PropertyGridCollection<T>;
-    protected _$keyProperty: string = 'name';
+
+    /**
+     * Текущее значение элемента
+     */
     protected _$propertyValue: unknown;
+
+    /**
+     * Имя свойства, содержащего информацию об идентификаторе элемента
+     */
+    protected _$keyProperty: string;
 
     constructor(options?: IOptions<T>) {
         super(options);
+        this._$keyProperty = options.keyProperty;
         this.setPropertyValue(options.editingObject);
     }
 
@@ -50,7 +68,6 @@ export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
     getEditorOptions(): object {
         const itemContents = this.getContents();
         const editorOptions = itemContents.get('editorOptions') || {};
-        editorOptions.propertyValue = this._$propertyValue;
         return editorOptions;
     }
 
@@ -71,6 +88,10 @@ export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
         return this.getEditorOptions().validators;
     }
 
+    getUid(): string {
+        return `property-grid-item-${this.getContents().get(this._$keyProperty)}`;
+    }
+
     getPropertyValue(): any {
         return this._$propertyValue;
     }
@@ -78,6 +99,7 @@ export default class PropertyGridCollectionItem<T> extends TreeItem<T> {
     setPropertyValue(editingObject: Object | Model | Record<string, any>): void {
         const itemContents = this.getContents();
         this._$propertyValue = object.getPropertyValue(editingObject, itemContents.get(this._$keyProperty));
+        this._nextVersion();
     }
 }
 

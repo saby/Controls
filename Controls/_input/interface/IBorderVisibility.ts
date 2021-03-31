@@ -8,7 +8,7 @@ export interface IBorderVisibilityOptions {
 
 export function getDefaultBorderVisibilityOptions(): Partial<IBorderVisibilityOptions> {
     return {
-        borderVisibility: 'visible'
+        borderVisibility: 'partial'
     };
 }
 
@@ -24,7 +24,6 @@ export function getOptionBorderVisibilityTypes(): object {
  * Интерфейс для контролов, которые поддерживают разное количество видимых границ.
  *
  * @interface Controls/_input/interface/IBorderVisibility
- * @public
  * @author Красильников А.С.
  */
 export interface IBorderVisibility {

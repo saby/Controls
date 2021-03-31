@@ -2,10 +2,12 @@
 define([
    'Controls/dataSource',
    'Env/Env',
+   'WasabyLoader/Library',
    'Browser/Transport'
 ], function(
    dataSource,
-   { constants }
+   { constants },
+   WasabyLib
 ) {
    const require = requirejs;
    describe('Controls/dataSource:error.Popup', () => {
@@ -127,10 +129,20 @@ define([
       });
 
       describe('openDialog()', () => {
-         it('calls openPopup()', () => {
+         let p;
+
+         beforeEach(() => {
+            sinon.stub(Popup, 'showDefaultDialog');
             Popup.POPUP_MODULES = [fakeModuleNames[0]];
             Popup.POPUP_THEMES = [fakeModuleNames[1]];
-            const p = new Popup();
+            p = new Popup();
+         });
+
+         afterEach(() => {
+            sinon.restore();
+         });
+
+         it('calls openPopup()', () => {
             const viewConfig = {
                template: {},
                options: {}
@@ -150,10 +162,7 @@ define([
          });
 
          it('calls showDefaultDialog()', () => {
-            Popup.POPUP_MODULES = [fakeModuleNames[0]];
-            Popup.POPUP_THEMES = ['FakeFailModule1'];
-            const p = new Popup();
-            sinon.stub(Popup, 'showDefaultDialog');
+            p.themes = ['FakeFailModule1'];
             const config = {
                options: {
                   message: 'message',
@@ -168,6 +177,53 @@ define([
                   Popup.showDefaultDialog.getCall(0).args,
                   [config.options.message, config.options.details],
                   'showDefaultDialog() called with message and details'
+               );
+            });
+         });
+
+         it('combines dialogTemplate options with templateOptions', () => {
+            Popup.POPUP_MODULES = [fakeModuleNames[0]];
+            Popup.POPUP_THEMES = [fakeModuleNames[1]];
+            const dialogTmplOptions = { dialogOption: 'dialogTemplateOption' };
+            const dialogOptions = { templateOptions: dialogTmplOptions, handler: 42 };
+            const viewConfig = { options: { configOption: 'configTemplateOption' } };
+            const p = new Popup();
+            return p.openDialog(viewConfig, dialogOptions).then(() => {
+               const popup = require(fakeModuleNames[0]);
+               const cfg = popup.Dialog.openPopup.getCall(0).args[0];
+               assert.strictEqual(cfg.templateOptions.dialogOption, dialogTmplOptions.dialogOption);
+               assert.strictEqual(cfg.templateOptions.configOption, viewConfig.options.configOption);
+               assert.strictEqual(cfg.handler, dialogOptions.handler);
+            });
+         });
+
+         it('if config contains string template, it will load this and opens popup', () => {
+            const viewConfig = { template: fakeModuleNames[2], options: {} };
+            return p.openDialog(viewConfig, {}).then(() => {
+               const popup = require(fakeModuleNames[0]);
+               assert.isTrue(popup.Dialog.openPopup.calledOnce, 'openPopup() called');
+               return WasabyLib.load(fakeModuleNames[2]).then((module) => {
+                  assert.isDefined(module, 'template module exists');
+               });
+            });
+         });
+
+         it('if config contains falsy string template, it will opens default popup', () => {
+            const fakeModuleName = 'fakeModuleName';
+            const viewConfig = { template: fakeModuleName, options: {} };
+            return p.openDialog(viewConfig, {}).then(() => {
+               const popup = require(fakeModuleNames[0]);
+               assert.isFalse(
+                  popup.Confirmation.openPopup.called,
+                  'openPopup() should not be called'
+               );
+               assert.isTrue(
+                  Popup.showDefaultDialog.calledOnce,
+                  'showDefaultDialog() called'
+               );
+               return WasabyLib.load(fakeModuleName).then(
+                  () => assert.fail('template module exists'),
+                  (error) => assert.isOk(error, 'template module doesn\'t exist')
                );
             });
          });

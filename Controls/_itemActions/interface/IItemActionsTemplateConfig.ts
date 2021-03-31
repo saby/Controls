@@ -8,16 +8,15 @@ import {TActionCaptionPosition, TItemActionsPosition} from './IItemAction';
 export type TActionAlignment = 'horizontal'|'vertical';
 
 /**
- * Интерфейс конфигурации itemActionsTemplate/swipeTemplate
- * @remark Передаётся как scope для шаблона
- * @interface Controls/_itemActions/interface/IItemActionsTemplateConfig
+ * Интерфейс шаблона itemActionsTemplate и swipeTemplate
  * @author Аверкиев П.А.
+ * @private
  */
 
 /*
- * Interface of configuration for itemActionsTemplate/swipeTemplate
- * @interface Controls/_itemActions/interface/IItemActionsTemplateConfig
+ * Interface for templates itemActionsTemplate и swipeTemplate
  * @author Аверкиев П.А.
+ * @private
  */
 
 export interface IItemActionsTemplateConfig {

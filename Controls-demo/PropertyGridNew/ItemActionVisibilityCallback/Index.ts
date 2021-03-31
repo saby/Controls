@@ -90,6 +90,5 @@ export default class Demo extends Control<IControlOptions> {
         return itemAction.title === 'itemAction для первого редактора' ? key === 'number' : true;
     }
 
-    static _styles: string[] = ['Controls-demo/PropertyGridNew/Editors/HighlightOnHover/Index',
-        'Controls-demo/PropertyGridNew/PropertyGrid'];
+    static _styles: string[] = ['Controls-demo/PropertyGridNew/PropertyGrid'];
 }

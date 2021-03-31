@@ -255,9 +255,10 @@ function join(original: string[], position: number, additionalZeros: number): st
     const value = original.join('');
 
     if (additionalZeros > 0) {
-        const pastePosition = Math.max(value.indexOf(decimalSplitter) + 1, position);
         const zeros = '0'.repeat(additionalZeros);
-        return paste(value, zeros, pastePosition);
+
+        // Удаление дробного числа должно приводить к появлению нуля на конце
+        return paste(value, zeros, value.length);
     }
 
     return value;

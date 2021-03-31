@@ -1,4 +1,4 @@
-<div class="controlsDemo__wrapper">
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth350">
     <Controls.scroll:Container attr:style="max-height: 200px">
         <Controls.list:View
                 keyProperty="id"

@@ -1,7 +1,7 @@
 define(['Types/collection', 'Controls/display', 'Env/Env'], function(Collection, Display, Env) {
    const Util = Display.GridLadderUtil;
 
-   describe('Controls/_grid/GridLadderUtil', function() {
+   describe('Controls/_gridOld/GridLadderUtil', function() {
       it('isSupportLadder', function() {
          assert.isFalse(Util.isSupportLadder(undefined));
          assert.isFalse(Util.isSupportLadder([]));
@@ -134,5 +134,128 @@ define(['Types/collection', 'Controls/display', 'Env/Env'], function(Collection,
          assert.deepEqual(ladder.ladder, resultLadder, 'Incorrect value prepared ladder.');
          assert.deepEqual(ladder.stickyLadder, resultStickyLadder, 'Incorrect value prepared stickyLadder.');
       });
+      it('prepareLadder. first field must split second', () => {
+         const items = new Collection.RecordSet({
+            keyProperty: 'key',
+            rawData: [
+               { key: 0, title: 'i0', first: 1, second: 1 },
+               { key: 1, title: 'i1', first: 2, second: 1 },
+               { key: 2, title: 'i2', first: 3, second: 2 },
+               { key: 3, title: 'i3', first: 3, second: 2 }
+            ]});
+         const columns = [
+            {
+               width: '1fr',
+               displayProperty: 'title',
+               stickyProperty: ['first', 'second']
+            }];
+         const resultLadder = {
+            0: {
+               first: {
+                  ladderLength: 1
+               },
+               second: {
+                  ladderLength: 1
+               }
+            },
+            1: {
+               first: {
+                  ladderLength: 1
+               },
+               second: {
+                  ladderLength: 1
+               }
+            },
+            2: {
+               first: {
+                  ladderLength: 2
+               },
+               second: {
+                  ladderLength: 2
+               }
+            },
+            3: {
+               first: {},
+               second: {}
+            }
+         };
+         const resultStickyLadder = {
+            0: {
+               first: {
+                  ladderLength: 1,
+                  headingStyle: 'grid-row: span 1'
+               },
+               second: {
+                  ladderLength: 1,
+                  headingStyle: 'grid-row: span 1'
+               }
+            },
+            1: {
+               first: {
+                  ladderLength: 1,
+                  headingStyle: 'grid-row: span 1'
+               },
+               second: {
+                  ladderLength: 1,
+                  headingStyle: 'grid-row: span 1'
+               }
+            },
+            2: {
+               first: {
+                  ladderLength: 2,
+                  headingStyle: 'grid-row: span 2'
+               },
+               second: {
+                  ladderLength: 2,
+                  headingStyle: 'grid-row: span 2'
+               }
+            },
+            3: {
+               first: {},
+               second: {}
+            }
+         };
+
+         const display = new Display.Collection({ collection: items, keyProperty: 'id' });
+         const ladder = Util.prepareLadder({
+            display,
+            columns: columns,
+            ladderProperties: ['first', 'second'],
+            startIndex: 0,
+            stopIndex: 4
+         });
+
+         assert.deepEqual(ladder.ladder, resultLadder, 'Incorrect value prepared ladder.');
+         assert.deepEqual(ladder.stickyLadder, resultStickyLadder, 'Incorrect value prepared stickyLadder.');
+      });
+   });
+
+   it('should return z-index styles for sticky column', () => {
+      const items = new Collection.RecordSet({
+         keyProperty: 'key',
+         rawData: [
+            { key: 0, title: 'i0', first: 1, second: 1 },
+            { key: 1, title: 'i1', first: 2, second: 1 },
+            { key: 2, title: 'i2', first: 3, second: 2 },
+            { key: 3, title: 'i3', first: 3, second: 2 }
+         ]
+      });
+      const columns = [
+         {
+            width: '1fr',
+            displayProperty: 'title',
+            stickyProperty: ['first', 'second']
+         }];
+      const display = new Display.Collection({ collection: items, keyProperty: 'id' });
+      const ladder = Util.prepareLadder({
+         display,
+         columns: columns,
+         ladderProperties: ['first', 'second'],
+         startIndex: 0,
+         stopIndex: 4,
+         hasColumnScroll: true
+      });
+
+      assert.equal(ladder.stickyLadder[0].first.headingStyle, 'grid-row: span 1; z-index: 4;');
    });
 });

@@ -6,6 +6,60 @@ import {ICollectionItem} from 'Controls/_display/interface/ICollectionItem';
 export interface ISourceCollection<T> extends IEnumerable<T>, DestroyableMixin, ObservableMixin {
 }
 
+/**
+ * @typedef {String} TVerticalItemPadding
+ * @variant S
+ * @variant nyll
+ */
+export type TVerticalItemPadding = 'S'|'null';
+
+/**
+ * @typedef {String} THorizontalItemPadding
+ * @variant XS
+ * @variant S
+ * @variant M
+ * @variant L
+ * @variant XL
+ * @variant XXL
+ * @variant null
+ */
+export type THorizontalItemPadding = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'null';
+
+/**
+ * Интерфейс настройки отступов записи
+ * @Interface Controls/_display/interface/ICollection/IItemPadding
+ * @public
+ * @author Авраменко А.С.
+ */
+/*ENG
+ * Item padding settings interface
+ * @Interface Controls/_display/interface/ICollection/IItemPadding
+ * @public
+ * @author Авраменко А.С.
+ */
+export interface IItemPadding {
+    /**
+     * @name Controls/_display/interface/ICollection/IItemPadding#top
+     * @cfg {TVerticalItemPadding} Отступ записи сверху
+     */
+    top?: TVerticalItemPadding;
+    /**
+     * @name Controls/_display/interface/ICollection/IItemPadding#bottom
+     * @cfg {TVerticalItemPadding} Отступ записи снизу
+     */
+    bottom?: TVerticalItemPadding;
+    /**
+     * @name Controls/_display/interface/ICollection/IItemPadding#left
+     * @cfg {THorizontalItemPadding} Отступ записи слева
+     */
+    left?: THorizontalItemPadding;
+    /**
+     * @name Controls/_display/interface/ICollection/IItemPadding#right
+     * @cfg {THorizontalItemPadding} Отступ записи справа
+     */
+    right?: THorizontalItemPadding;
+}
+
 /*
  * @typedef {Enum} ANIMATION_STATE
  * @description Состояние анимации свайпа

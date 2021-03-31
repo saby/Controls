@@ -1,6 +1,6 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import { Memory } from 'Types/source';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridNew';
 
 import { getTasks } from '../../../DemoHelpers/DataCatalog';
 import * as Template from 'wml!Controls-demo/gridNew/Grouped/TextVisibility/RightTemplate/RightTemplate';

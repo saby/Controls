@@ -1,4 +1,4 @@
-<Controls.Application title="Demo-example: {{_options.caption}}"
+<SbisEnvUI.Bootstrap title="Demo-example: {{_options.caption}}"
                       headJson="{{ headJson }}"
                       appRoot="/materials/">
    <ws:content>
@@ -16,4 +16,4 @@
          </div>
       </Controls.scroll:Container>
    </ws:content>
-</Controls.Application>
+</SbisEnvUI.Bootstrap>

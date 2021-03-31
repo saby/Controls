@@ -1,16 +1,36 @@
+<ws:template name="label">
+    <ws:if data="{{collectionItem.isNode()}}">
+        <div class="controls-PropertyGrid__editor_nodeCaption_wrapper_theme-{{theme}}">
+            <Controls.heading:Title scope="{{_options}}"
+                                    readOnly="{{true}}"
+                                    fontSize="m"
+                                    attr:class="controls-PropertyGrid__editor_nodeCaption"/>
+        </div>
+    </ws:if>
+    <ws:else>
+        <Controls.input:Label scope="{{_options}}"/>
+    </ws:else>
+</ws:template>
+
 <ws:template name="itemTemplate">
     <ws:if data="{{item.captionTemplate}}">
         <ws:partial template="{{item.captionTemplate}}" item="{{item}}"/>
     </ws:if>
     <ws:else data="{{item.caption !== '' && !item.editorOptions.jumpingLabel}}">
-        <Controls.input:Label
-                attr:class="controls-PropertyGrid__editor-caption_theme-{{theme}}"
-                caption="{{item.caption || item.name}}"
-                scope="{{item.captionOptions}}" />
+        <ws:partial template="label"
+                    attr:class="controls-PropertyGrid__editor-caption_theme-{{theme}}
+                             {{'controls-PropertyGrid__editor-caption_' + (collectionItem.getEditorTemplateName() ? 'withEditor' : 'withoutEditor')}}"
+                    attr:tabindex="-1"
+                    caption="{{item.caption || item.name}}"
+                    collectionItem="{{collectionItem}}"
+                    scope="{{item.captionOptions}}"/>
     </ws:else>
+    <!-- Прикладники передают caption в editorOptions, чтобы нарисовать lookup с меткой, которая откроет окно, костыль, иначе перебиваем scope
+         TODO: https://online.sbis.ru/opendoc.html?guid=89e73e15-8f85-427e-b49c-16c6f8df5c34-->
     <ws:partial template="wml!Controls/_propertyGrid/Render/resources/editorTemplate"
-                caption="{{item.caption || item.name}}"
-                scope="{{_options}}"/>
+                caption="{{item.editorOptions.caption || item.caption || item.name}}"
+                scope="{{_options}}"
+                attr:class="{{captionPosition === 'left' ? 'controls-PropertyGrid__editor_captionPosition-left'}}"/>
 </ws:template>
 
 
@@ -26,10 +46,10 @@
 </ws:if>
 <ws:else>
     <div class="controls-PropertyGrid__editor_theme-{{theme}}
-                {{captionPosition === 'top' ? 'controls-PropertyGrid__flex-editor_theme-' + theme}}
+                {{highlightOnHover ? 'controls-PropertyGrid__row_highlightOnHover_theme-' + theme}}
+                {{!!captionPosition  ? ('controls-PropertyGrid__flex-row controls-PropertyGrid__row_captionPosition-' + captionPosition)}}
                 {{collectionItem.getItemPaddingClasses(theme)}}">
-        <ws:partial template="itemTemplate"
-                    attr:class="{{highlightOnHover ? 'controls-PropertyGrid__row_highlightOnHover_theme-' + theme}}"/>
+        <ws:partial template="itemTemplate" />
         <ws:if data="{{ collectionItem.shouldDisplayActions() }}">
             <ws:if data="{{ !collectionItem.isSwiped() }}">
                 <ws:partial template="{{ itemActionsTemplate }}" />

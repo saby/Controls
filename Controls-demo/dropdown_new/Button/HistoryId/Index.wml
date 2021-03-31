@@ -11,6 +11,7 @@
               historyId="demo_history_id"
               parentProperty="parent"
               nodeProperty="@parent"
+              lazyItemsLoading="{{true}}"
               attr:class="controlsDemo-menuButton"/>
    </div>
 </div>

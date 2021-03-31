@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/gridNew/Marker/PositionRight/PositionRight';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/grid';
+import {IColumn} from 'Controls/gridNew';
 import {IItemAction} from 'Controls/_itemActions/interface/IItemAction';
 import {
     getActionsForContacts as getItemActions,

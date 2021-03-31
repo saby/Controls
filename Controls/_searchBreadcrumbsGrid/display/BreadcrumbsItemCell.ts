@@ -42,6 +42,14 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
 
       return classes;
    }
+
+   shouldDisplayEditArrow(): boolean {
+      if (this.getColumnIndex() > 0) {
+         return false;
+      }
+      const contents = this._$owner.getLast().getContents();
+      return this._$owner.editArrowIsVisible(contents);
+   }
 }
 
 Object.assign(BreadcrumbsItemCell.prototype, {

@@ -62,15 +62,16 @@ define(
             return panel;
          };
 
-         describe('_private.getItems', () => {
+         describe('_getItems', () => {
             it('returns items only with 2 and more elements in collection', (done) => {
+               const panel = getPanel(defaultConfig);
                const itemsConfig = util.object.clone(defaultItemsConfig);
                itemsConfig[0].items.clear();
                const items = new collection.RecordSet({
                   keyProperty: 'id',
                   rawData: itemsConfig
                });
-               filterPopup.SimplePanel._private.getItems({}, items).then((resultItems) => {
+               panel._getItems(items).then((resultItems) => {
                   const itemWithEmptyCollection = resultItems.find((resultItem) => {
                      return resultItem.id === defaultItemsConfig[0].id;
                   });
@@ -79,6 +80,7 @@ define(
                });
             });
             it('returns item with 1 element with hasMore data', (done) => {
+               const panel = getPanel(defaultConfig);
                const item = util.object.clone(defaultItemsConfig[0]);
                const record = item.items.at(0);
                item.items.clear();
@@ -88,13 +90,14 @@ define(
                   keyProperty: 'id',
                   rawData: [item]
                });
-               filterPopup.SimplePanel._private.getItems({}, items).then((resultItems) => {
+               panel._getItems(items).then((resultItems) => {
                   assert.isTrue(resultItems.length === 1);
                   done();
                });
             });
 
             it('minVisibleItems option', (done) => {
+               const panel = getPanel(defaultConfig);
                const item = util.object.clone(defaultItemsConfig[0]);
                item.minVisibleItems = item.items.getCount() + 1;
                const item2 = util.object.clone(item);
@@ -103,26 +106,26 @@ define(
                   keyProperty: 'id',
                   rawData: [item, util.object.clone(item)]
                });
-               filterPopup.SimplePanel._private.getItems({}, items).then((resultItems) => {
+               panel._getItems(items).then((resultItems) => {
                   assert.isTrue(resultItems.length === 1);
                   done();
                });
             });
          });
 
-         it('_beforeMount', function() {
+         it('_beforeMount', async function() {
             let expectedItems = defaultConfig.items.getRawData();
             for (var i in expectedItems) {
                expectedItems[i].initSelectedKeys = expectedItems[i].selectedKeys;
             }
             let panel = getPanel(defaultConfig);
-            panel._beforeMount(defaultConfig);
+            await panel._beforeMount(defaultConfig);
             assert.deepStrictEqual(panel._items, expectedItems);
             assert.isFalse(panel._hasApplyButton);
 
             let multiSelectDefaultConfig = [...defaultItemsConfig];
             multiSelectDefaultConfig[0].multiSelect = true;
-            panel._beforeMount({
+            await panel._beforeMount({
                items: new collection.RecordSet({
                   keyProperty: 'id',
                   rawData: multiSelectDefaultConfig
@@ -131,9 +134,9 @@ define(
             assert.isTrue(panel._hasApplyButton);
          });
 
-         it('_beforeUpdate', function(done) {
+         it('_beforeUpdate', async function() {
             let panel = getPanel(defaultConfig);
-            panel._beforeMount(defaultConfig);
+            await panel._beforeMount(defaultConfig);
 
             let items = util.object.clone(defaultItemsConfig);
             items[0].selectedKeys = [1];
@@ -146,17 +149,15 @@ define(
             for (var i in expectedItems) {
                expectedItems[i].initSelectedKeys = expectedItems[i].selectedKeys;
             }
-            panel._needShowApplyButton = false;
-            panel._beforeUpdate(defaultConfig);
+            panel._applyButtonVisible = false;
+            await panel._beforeUpdate(defaultConfig);
             assert.deepStrictEqual(panel._items, expectedItems);
-            assert.isFalse(panel._needShowApplyButton);
+            assert.isFalse(panel._applyButtonVisible);
 
             expectedItems[0].selectedKeys = [1];
-            panel._beforeUpdate(newConfig).addCallback(() => {
-               assert.deepStrictEqual(panel._items, expectedItems);
-               assert.isTrue(panel._needShowApplyButton);
-               done();
-            });
+            await panel._beforeUpdate(newConfig);
+            assert.deepStrictEqual(panel._items, expectedItems);
+            assert.isTrue(panel._applyButtonVisible);
          });
 
          it('_beforeUpdate loadDeferred', function(done) {
@@ -201,7 +202,7 @@ define(
             assert.deepStrictEqual(actualResult, expectedResult);
          });
 
-         it('_checkBoxClickHandler', function() {
+         it('_checkBoxClickHandler', async function() {
             let actualResult;
             let panel = getPanel(defaultConfig);
             panel._notify = (event, data) => {
@@ -210,10 +211,10 @@ define(
                }
             };
             let expectedResult = [1, [1]];
-            panel._beforeMount(defaultConfig);
+            await panel._beforeMount(defaultConfig);
 
             panel._checkBoxClickHandler('checkBoxClick', 1, [1]);
-            assert.isTrue(panel._needShowApplyButton);
+            assert.isTrue(panel._applyButtonVisible);
             assert.deepStrictEqual(panel._items[1].selectedKeys, [1]);
             assert.deepStrictEqual(actualResult, expectedResult);
          });
@@ -230,7 +231,7 @@ define(
             assert.isTrue(isClosed);
          });
 
-         it('_applySelection', function() {
+         it('_applySelection', async function() {
             let actualResult;
             let panel = getPanel(defaultConfig);
             panel._notify = (event, data) => {
@@ -246,7 +247,7 @@ define(
                   'second': [0]
                }
             };
-            panel._beforeMount(defaultConfig);
+            await panel._beforeMount(defaultConfig);
 
             panel._applySelection('applyClickEvent');
             assert.deepStrictEqual(actualResult, expectedResult);
@@ -271,16 +272,17 @@ define(
             assert.deepStrictEqual(actualResult, expectedResult);
          });
 
-         it('_private::isEqualKeys', function() {
-            let isEqual = filterPopup.SimplePanel._private.isEqualKeys([1,2,3], [1,2,3,4]);
+         it('_isEqualKeys', function() {
+            const panel = getPanel(defaultConfig);
+            let isEqual = panel._isEqualKeys([1,2,3], [1,2,3,4]);
             assert.isFalse(isEqual);
-            isEqual = filterPopup.SimplePanel._private.isEqualKeys([1,2,3], [1,2,3]);
+            isEqual = panel._isEqualKeys([1,2,3], [1,2,3]);
             assert.isTrue(isEqual);
-            isEqual = filterPopup.SimplePanel._private.isEqualKeys([null], []);
+            isEqual = panel._isEqualKeys([null], []);
             assert.isFalse(isEqual);
-            isEqual = filterPopup.SimplePanel._private.isEqualKeys([null], [1,2,3]);
+            isEqual = panel._isEqualKeys([null], [1,2,3]);
             assert.isFalse(isEqual);
-            isEqual = filterPopup.SimplePanel._private.isEqualKeys([3,5,4], [1,2,3]);
+            isEqual = panel._isEqualKeys([3,5,4], [1,2,3]);
             assert.isFalse(isEqual);
          });
 

@@ -8,7 +8,7 @@
     <ws:partial
             attr:class="controls-Popup__template {{_options.position.height ? 'controls-Popup__template-height'}}"
             template="{{_options.content}}"
-            _prefetchData="{{_prefetchData}}"
+            _prefetchData="{{_prefetchData || _options.prefetchData}}"
             _isPrefetchDataMode="{{_isPrefetchDataMode}}"
             scope="{{_options}}"
             opener="{{null}}"

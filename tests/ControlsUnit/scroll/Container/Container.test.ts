@@ -1,4 +1,4 @@
-import {Container} from 'Controls/scroll';
+import Container from 'Controls/_scroll/Container';
 import {compatibility, constants} from 'Env/Env';
 import {SHADOW_VISIBILITY, SHADOW_MODE} from 'Controls/_scroll/Container/Interface/IShadows';
 import {SCROLL_DIRECTION, SCROLL_POSITION} from 'Controls/_scroll/Utils/Scroll';
@@ -347,6 +347,25 @@ describe('Controls/scroll:Container', () => {
                 assert.isTrue(component._scrollbars.vertical.isVisible);
             });
         });
+
+        describe('paging', () => {
+            it('should update _contentWrapperCssClass if paging appears', () => {
+                const component = createComponent(Container, {scrollMode: 'vertical'});
+                component._children = {
+                    content: {
+                        getBoundingClientRect: () => undefined
+                    }
+                };
+
+                component._updateState({
+                    ...state
+                });
+                component._beforeUpdate({ scrollMode: 'vertical', pagingVisible: true });
+                assert.include(component._contentWrapperCssClass, 'controls-Scroll__content_paging');
+
+                sinon.restore();
+            });
+        });
     });
 
     describe('_keydownHandler', () => {
@@ -511,8 +530,8 @@ describe('Controls/scroll:Container', () => {
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
             assert.isTrue(component._shadows._models.bottom.isVisible);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.top);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.top, SHADOW_VISIBILITY.VISIBLE);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.bottom, SHADOW_VISIBILITY.VISIBLE);
             assert.notEqual(component._shadows.getVersion(), version);
             sinon.restore();
         });
@@ -528,8 +547,27 @@ describe('Controls/scroll:Container', () => {
                 event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
             assert.isTrue(component._shadows._models.top.isVisible);
             assert.isTrue(component._shadows._models.bottom.isVisible);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.top);
-            assert.isTrue(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.top, SHADOW_VISIBILITY.VISIBLE);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.bottom, SHADOW_VISIBILITY.VISIBLE);
+            assert.strictEqual(component._shadows.getVersion(), version);
+            sinon.restore();
+        });
+        it('should\'t synchronize view if optimized shadows enabled.', () => {
+            const component = createComponent(Container, {});
+            const version: number = component._shadows.getVersion();
+            sinon.stub(component, '_updateStateAndGenerateEvents');
+            component._isOptimizeShadowEnabled = true;
+            component._wasMouseEnter = true;
+            component._shadows._models.top._scrollState.canVerticalScroll = true;
+            component._shadows._models.bottom._scrollState.canVerticalScroll = true;
+            component._shadows._models.top._isVisible = false;
+            component._shadows._models.bottom._isVisible = false;
+            component._updateShadowVisibility(
+                event, { top: SHADOW_VISIBILITY.VISIBLE, bottom: SHADOW_VISIBILITY.VISIBLE });
+            assert.isTrue(component._shadows._models.top.isVisible);
+            assert.isTrue(component._shadows._models.bottom.isVisible);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.top, SHADOW_VISIBILITY.VISIBLE);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.bottom, SHADOW_VISIBILITY.VISIBLE);
             assert.strictEqual(component._shadows.getVersion(), version);
             sinon.restore();
         });
@@ -559,8 +597,8 @@ describe('Controls/scroll:Container', () => {
                 event, { top: SHADOW_VISIBILITY.HIDDEN, bottom: SHADOW_VISIBILITY.HIDDEN });
             assert.isFalse(component._shadows._models.top.isVisible);
             assert.isFalse(component._shadows._models.bottom.isVisible);
-            assert.isFalse(component._stickyHeaderController._isShadowVisible.top);
-            assert.isFalse(component._stickyHeaderController._isShadowVisible.bottom);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.top, SHADOW_VISIBILITY.HIDDEN);
+            assert.strictEqual(component._stickyHeaderController._shadowVisibility.bottom, SHADOW_VISIBILITY.HIDDEN);
             assert.notEqual(component._shadows.getVersion(), version);
             sinon.restore();
         });

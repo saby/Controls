@@ -995,7 +995,7 @@
 }
 
 .controls-TileView__item_scaled,
-.controls-TileView__item:hover > .controls-TileView__item_unscaleable {
+.ws-is-hover .controls-TileView__item:hover > .controls-TileView__item_unscaleable {
    // TODO: KINGO
    // чекбоксы на плитке имеют z-index: 1, и, если плитка не увеличена (например навели на чекбокс),
    // то чекбоксы других плиток будут поверх заголовка текущей, если он появился снизу от плитки.
@@ -1212,6 +1212,12 @@
    overflow-wrap: break-word;
    max-width: 100%;
 }
+// в ie не работает line-camp, поэтому делаем всегда однострочный текст с обрезанием
+.ws-is-ie .controls-TileView__text_ellipsis_multiLine {
+   display: block;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+}
 
 .controls-TileView__image_fullHeight {
     max-height: 100%;
@@ -1222,7 +1228,7 @@
 }
 
 .controls-TileView__itemActions_menu_popup {
-   margin-top: -(@header_min-height_sticky + @border-thickness_sticky + @content_padding-top_sticky);
+   margin-top: -(@header_min-height_sticky + @border-thickness_sticky * 2);
    margin-left: -@border-thickness;
 }
 

@@ -1,13 +1,22 @@
 import Base from 'Controls/_popup/PopupHelper/Base';
 import BaseOpener, {ILoadDependencies} from 'Controls/_popup/Opener/BaseOpener';
-import {ISlidingPanelPopupOptions} from 'Controls/_popup/interface/ISlidingPanel';
+import {ISlidingPanelOptions, ISlidingPanelPopupOptions} from 'Controls/_popup/interface/ISlidingPanel';
 import StackOpener from 'Controls/_popup/PopupHelper/Stack';
+import DialogOpener from 'Controls/_popup/PopupHelper/Dialog';
 import {detection} from 'Env/Env';
+import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
 
 const POPUP_CONTROLLER = 'Controls/popupSliding:Controller';
+const DEFAULT_DESKTOP_MODE = 'stack';
+const OPENER_BY_DESKTOP_MODE = {
+    stack: StackOpener,
+    dialog: DialogOpener
+};
+
+type TDesktopOpener = StackOpener | DialogOpener;
 
 class SlidingPanelOpener extends BaseOpener {
-    static openPopup(config: ISlidingPanelPopupOptions, popupController: string = POPUP_CONTROLLER): Promise<string> {
+    static _openPopup(config: ISlidingPanelPopupOptions, popupController: string = POPUP_CONTROLLER): Promise<string> {
         return new Promise((resolve) => {
             BaseOpener.requireModules(config, popupController).then((result: ILoadDependencies) => {
                 BaseOpener.showDialog(result.template, config, result.controller).then((popupId: string) => {
@@ -25,41 +34,25 @@ class SlidingPanelOpener extends BaseOpener {
 /**
  * Хелпер для открытия Шторки.
  * @class Controls/_popup/PopupHelper/SlidingPanel
+ * @implements Controls/_popup/interface/ISlidingPanel
  *
  * @author Красильников А.С.
- * @demo Controls-demo/PopupTemplate/SlidingPanel/Index
+ * @demo Controls-demo/Popup/SlidingPanel/Index
  * @public
  */
 
 export default class SlidingPanel extends Base {
     private _opener: Function = SlidingPanelOpener;
-    private _desktopOpener: StackOpener;
-
-    /**
-     * Метод для открытия шторки.
-     * @function Controls/_popup/PopupHelper/SlidingPanel#open
-     * @param {PopupOptions} popupOptions Конфигурация шторки.
-     * @example
-     * <pre class="brush: js">
-     * import {SlidingPanelOpener} from 'Controls/popup';
-     *
-     * this._slidingPanel = new SlidingPanelOpener();
-     *
-     * openStack() {
-     *     this._slidingPanel.open({
-     *         template: 'Example/MyStackTemplate',
-     *         opener: this._children.myButton
-     *     });
-     * }
-     * </pre>
-     * @see close
-     * @see destroy
-     * @see isOpened
-     */
-
+    private _desktopOpener: TDesktopOpener;
+    protected _options: ISlidingPanelPopupOptions;
     open(popupOptions: ISlidingPanelPopupOptions): unknown {
-        const adaptivePopupOptions = this._getPopupOptionsWidthSizes(popupOptions);
-        return this._callMethodAdaptive('open', adaptivePopupOptions, detection.isPhone ? POPUP_CONTROLLER : undefined);
+        const adaptivePopupOptions = this._getPopupOptionsWithSizes(popupOptions);
+        const desktopMode = this._getDesktopMode(adaptivePopupOptions);
+        if (detection.isPhone) {
+            return super.open(adaptivePopupOptions, POPUP_CONTROLLER);
+        } else {
+            return this._getDesktopOpener(desktopMode).open(adaptivePopupOptions);
+        }
     }
 
     close(...args: unknown[]): void {
@@ -90,11 +83,34 @@ export default class SlidingPanel extends Base {
         }
     }
 
-    private _getDesktopOpener(): StackOpener {
+    private _getDesktopOpener(
+        desktopMode?: ISlidingPanelPopupOptions['slidingPanelOptions']['desktopMode']
+    ): TDesktopOpener {
+        const mode = desktopMode || this._getDesktopMode(this._options);
+        const OpenerConstructor = OPENER_BY_DESKTOP_MODE[mode];
         if (!this._desktopOpener) {
-            this._desktopOpener = new StackOpener();
+            this._desktopOpener = new OpenerConstructor();
         }
         return this._desktopOpener;
+    }
+
+    private _getDesktopMode(
+        popupOptions: ISlidingPanelPopupOptions
+    ): ISlidingPanelPopupOptions['slidingPanelOptions']['desktopMode'] {
+        return popupOptions?.desktopMode || DEFAULT_DESKTOP_MODE;
+    }
+
+    /**
+     * Получение дефолтного значения slidingPanelOptions,
+     * т.к. при открытии на десктопе мы не попадем в контроллел SlidingPanel
+     * @param {ISlidingPanelPopupOptions} popupOptions
+     * @return {ISlidingPanelOptions}
+     * @private
+     */
+    private _getDefaultSlidingPanelData(popupOptions: ISlidingPanelPopupOptions): ISlidingPanelOptions {
+        return {
+            desktopMode: popupOptions.desktopMode
+        };
     }
 
     /**
@@ -103,62 +119,34 @@ export default class SlidingPanel extends Base {
      * @return {ISlidingPanelPopupOptions}
      * @private
      */
-    private _getPopupOptionsWidthSizes(popupOptions: ISlidingPanelPopupOptions): ISlidingPanelPopupOptions {
-        const sizes = detection.isPhone ? popupOptions.slidingPanelSizes : popupOptions.dialogSizes;
-        return Object.assign(
-            {
-                position: 'bottom'
-            },
-            sizes,
-            popupOptions
-        );
+    private _getPopupOptionsWithSizes(popupOptions: ISlidingPanelPopupOptions): ISlidingPanelPopupOptions {
+        const isPhone = detection.isPhone;
+        const slidingPanelOptions = {
+            position: 'bottom',
+            desktopMode: DEFAULT_DESKTOP_MODE,
+            ...popupOptions.slidingPanelOptions
+        };
+        const options = isPhone ? slidingPanelOptions : popupOptions.dialogOptions;
+        const mergedConfig = BaseOpenerUtil.getConfig(this._options, popupOptions) as ISlidingPanelPopupOptions;
+        const resultPopupOptions = {
+            desktopMode: DEFAULT_DESKTOP_MODE,
+            ...mergedConfig,
+            ...(options || {}),
+            slidingPanelOptions
+        };
+
+        /*
+            Если открываемся на десктопе, то открываемся другим опенером и в контроллер SlidingPanel не попадаем,
+            соответственно slidingPanelOptions никто не прокинет, прокидываем сами через templateOptions
+         */
+        if (!isPhone) {
+            if (!resultPopupOptions.templateOptions) {
+                resultPopupOptions.templateOptions = {};
+            }
+            resultPopupOptions.templateOptions.slidingPanelOptions =
+                this._getDefaultSlidingPanelData(resultPopupOptions);
+        }
+
+        return resultPopupOptions;
     }
 }
-
-/**
- * Метод для закрытия стекового окна.
- * @name Controls/_popup/PopupHelper/SlidingPanel#close
- * @function
- * @example
- * <pre class="brush: js">
- * import {SlidingPanelOpener} from 'Controls/popup';
- *
- * this._slidingPanel = new SlidingPanelOpener();
- *
- * closeStack() {
- *     this._slidingPanel.close();
- * }
- * </pre>
- * @see open
- * @see destroy
- * @see isOpened
- */
-
-/**
- * Разрушает экземпляр класса
- * @name Controls/_popup/PopupHelper/SlidingPanel#destroy
- * @function
- * @example
- * <pre class="brush: js">
- * import {SlidingPanelOpener} from 'Controls/popup';
- *
- * this._slidingPanel = new SlidingPanelOpener();
- *
- * _beforeUnmount() {
- *     this._slidingPanel.destroy();
- *     this._slidingPanel = null;
- * }
- * </pre>
- * @see open
- * @see close
- * @see isOpened
- */
-
-/**
- * @name Controls/_popup/PopupHelper/SlidingPanel#isOpened
- * @description Возвращает информацию о том, открыта ли шторка.
- * @function
- * @see open
- * @see close
- * @see destroy
- */

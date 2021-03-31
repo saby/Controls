@@ -3,10 +3,12 @@ import template = require('wml!Controls/_popupTemplate/Dialog/Dialog');
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Controller as ManagerController} from 'Controls/popup';
 import {default as IPopupTemplate, IPopupTemplateOptions} from './interface/IPopupTemplate';
+import 'css!Controls/popupTemplate';
 
 export interface IDialogTemplateOptions extends IControlOptions, IPopupTemplateOptions {
    draggable?: boolean;
    headerBackgroundStyle?: string;
+   headerBorderVisible?: boolean;
    backgroundStyle?: string;
 }
 
@@ -60,25 +62,27 @@ class DialogTemplate extends Control<IDialogTemplateOptions> implements IPopupTe
         this._headerTheme = ManagerController.getPopupHeaderTheme();
     }
 
-    private _onMouseDown(event: SyntheticEvent<Event>): void {
-        if (this._needStartDrag(event.target)) {
+    protected _onMouseDown(event: SyntheticEvent<MouseEvent>): void {
+        if (this._needStartDrag(event)) {
             this._startDragNDrop(event);
         }
     }
 
-    private _needStartDrag(target: EventTarget): boolean {
-        return this._options.draggable && target.tagName !== 'INPUT';
+    private _needStartDrag(event: SyntheticEvent<MouseEvent>): boolean {
+        const {target} = event;
+        const isEventProcessed = event.nativeEvent.processed;
+        return this._options.draggable && (target as HTMLElement).tagName !== 'INPUT' && !isEventProcessed;
     }
 
     private _startDragNDrop(event: SyntheticEvent<Event>): void {
         this._children.dragNDrop.startDragNDrop(null, event);
     }
 
-    static _theme: string[] = ['Controls/popupTemplate'];
     static getDefaultOptions(): IDialogTemplateOptions {
         return {
             headingFontColorStyle: 'secondary',
             headerBackgroundStyle: 'default',
+            headerBorderVisible: false,
             backgroundStyle: 'default',
             headingFontSize: '3xl',
             closeButtonVisibility: true,
@@ -104,6 +108,13 @@ Object.defineProperty(DialogTemplate, 'defaultProps', {
  */
 
 /**
+ * @name Controls/_popupTemplate/Dialog#headerBorderVisible
+ * @cfg {Boolean} Определяет, будет ли отображаться граница шапки панели.
+ * @default false
+ * @demo Controls-demo/PopupTemplate/Dialog/headerBorderVisible/Index
+ */
+
+/**
  * @name Controls/_popupTemplate/Dialog#headerBackgroundStyle
  * @cfg {String} Определяет цвет фона шапки диалогового окна.
  * @variant default
@@ -111,7 +122,7 @@ Object.defineProperty(DialogTemplate, 'defaultProps', {
  * @default default
  * @demo Controls-demo/PopupTemplate/Dialog/headerBackgroundStyle/Index
  * @remark Данная опция определяет префикс стиля для настройки фона шапки диалогового окна.
- * На шапку будет установлен класс **.controls-DialogTemplate&#95;&#95;top-area&#95;@{headerBackgroundStyle}&#95;theme&#95;@{themeName}**, который следует определить у себя в стилях.
+ * На шапку будет установлен класс **.controls-DialogTemplate&#95;&#95;top-area&#95;@{headerBackgroundStyle}**, который следует определить у себя в стилях.
  */
 
 /**
@@ -122,7 +133,7 @@ Object.defineProperty(DialogTemplate, 'defaultProps', {
  * @default default
  * @demo Controls-demo/PopupTemplate/Dialog/backgroundStyle/Index
  * @remark Данная опция определяет префикс стиля для настройки фона диалогового окна.
- * На шаблон будет установлен класс **.controls-DialogTemplate&#95;backgroundStyle-@{headerBackgroundStyle}&#95;theme&#95;@{themeName}**, который следует определить у себя в стилях.
+ * На шаблон будет установлен класс **.controls-DialogTemplate&#95;backgroundStyle-@{headerBackgroundStyle}**, который следует определить у себя в стилях.
  */
 
 export default DialogTemplate;

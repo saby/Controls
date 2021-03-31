@@ -14,7 +14,7 @@ define([
    itemActions
 ) {
     describe('Controls/_propertyGrid/PropertyGrid', () => {
-        const ViewInstance = new propertyGridLib.PropertyGrid();
+        let ViewInstance = new propertyGridLib.PropertyGrid();
         let source, editingObject, editors;
         beforeEach(() => {
             source = [
@@ -31,6 +31,10 @@ define([
                 booleanField: Constants.DEFAULT_EDITORS.boolean,
                 stringField1: Constants.DEFAULT_EDITORS.string
             };
+            ViewInstance = new propertyGridLib.PropertyGrid();
+            ViewInstance._beforeMount({source, editingObject});
+            ViewInstance._itemActionsController = new itemActions.Controller();
+            ViewInstance.saveOptions({source, editingObject});
         });
 
         describe('_getCollapsedGroups', () => {
@@ -51,21 +55,37 @@ define([
                 });
                 let resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.get('test'), 2);
+                assert.ok(resultPropertyValue === propertyValue);
+
                 propertyValue = {};
                 resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.test, 2);
+
                 propertyValue = new entity.Model({
                     rawData: {},
                     adapter: 'adapter.sbis'
                 });
+                let propertyChangedCount = 0;
+                propertyValue.subscribe('onPropertyChange', () => {
+                    propertyChangedCount++;
+                });
                 resultPropertyValue = ViewInstance._updatePropertyValue(propertyValue, 'test', 2);
                 assert.equal(resultPropertyValue.get('test'), 2);
+                assert.ok(resultPropertyValue === propertyValue);
+                assert.ok(propertyChangedCount === 1);
             });
         });
 
         describe('displayFilter', () => {
             it('not filtered item from collapsed group', () => {
-                const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
+                const options = {
+                   nodeProperty: 'node',
+                   parentProperty: 'parent',
+                   editingObject,
+                   source,
+                   keyProperty: 'name'
+                };
+                const collection = ViewInstance._getCollection(options);
                 const collapsedItem = collection.getItemBySourceKey('stringField');
                 ViewInstance._collapsedGroups = {
                     text: true
@@ -73,10 +93,30 @@ define([
                 const resultDisplay = ViewInstance._displayFilter(collapsedItem.getContents());
                 assert.isFalse(resultDisplay);
             });
+            it('filtered groupItem', () => {
+               const options = {
+                  nodeProperty: 'node',
+                  parentProperty: 'parent',
+                  editingObject,
+                  source,
+                  keyProperty: 'name'
+               };
+                const collection = ViewInstance._getCollection(options);
+                const group = collection.at(0);
+                const resultDisplay = ViewInstance._displayFilter(group.getContents());
+                assert.isTrue(resultDisplay);
+            });
         });
         describe('groupClick', () => {
             it('toggle expand state on group item', () => {
-                const collection = ViewInstance._getCollection('node', 'parent', editingObject, source);
+               const options = {
+                  nodeProperty: 'node',
+                  parentProperty: 'parent',
+                  editingObject,
+                  source,
+                  keyProperty: 'name'
+               };
+                const collection = ViewInstance._getCollection(options);
                 const groupItem = collection.at(2);
                 const expandedState = groupItem.isExpanded();
                 let controlResizeNotified = false;
@@ -93,6 +133,7 @@ define([
                    }
                 };
                 ViewInstance._groupClick(null, groupItem, clickEvent);
+                ViewInstance._afterUpdate({});
                 assert.isTrue(expandedState !== groupItem.isExpanded());
                 assert.isTrue(controlResizeNotified);
             });
@@ -104,7 +145,8 @@ define([
                source[0].toggleEditorButtonIcon = 'testIcon';
                ViewInstance._beforeMount({
                    source,
-                   editingObject
+                   editingObject,
+                   keyProperty: 'name'
                });
                assert.deepEqual(ViewInstance._toggledEditors, {stringField: false});
            });
@@ -112,12 +154,15 @@ define([
        });
 
       describe('itemActions', () => {
-         before(() => {
-            ViewInstance._itemActionsController = new itemActions.Controller();
-         });
-
          it('_updateItemActions', () => {
-            const collection = ViewInstance._getCollection('', '', editingObject, source);
+            const options = {
+               nodeProperty: '',
+               parentProperty: '',
+               editingObject,
+               source,
+               keyProperty: 'name'
+            };
+            const collection = ViewInstance._getCollection(options);
             ViewInstance._updateItemActions(collection, {
                itemActions: []
             });

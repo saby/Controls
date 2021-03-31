@@ -1,13 +1,13 @@
 import {assert} from 'chai';
-import {getHeaderMaxEndCellData, getHeaderRowsArray} from 'Controls/_grid/utils/GridRowIndexUtil';
-import {IHeaderCell} from '../../../../Controls/_grid/interface/IHeaderCell';
+import {getHeaderMaxEndCellData, getHeaderRowsArray} from 'Controls/_gridOld/utils/GridRowIndexUtil';
+import {IHeaderCell} from 'Controls/interface';
 
 interface ICustomHeaderCell extends IHeaderCell {
     title?: string;
     style?: string;
 }
 
-describe('Controls/_grid/utils/GridRowIndexUtil', () => {
+describe('Controls/_gridOld/utils/GridRowIndexUtil', () => {
     describe('getHeaderMaxEndCellData', () => {
         let gridHeaderWithStartEndParams: ICustomHeaderCell[];
         let gridHeaderWithoutStartEndParams: ICustomHeaderCell[];

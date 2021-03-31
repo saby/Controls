@@ -27,6 +27,10 @@ export default class PropertyGridGroupItem<T> extends GroupItem<PropertyGridColl
             return super.getItemTemplate(itemTemplateProperty, userItemTemplate, userGroupTemplate);
         }
     }
+
+    getUid(): string {
+        return `group-${this.getContents()}`;
+    }
 }
 
 Object.assign(GroupItem.prototype, {

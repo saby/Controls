@@ -1,74 +1,14 @@
-import {Control} from 'UI/Base';
-import Deferred = require('Core/Deferred');
-import {editing as constEditing} from 'Controls/list';
-import template = require('wml!Controls/_editableArea/View');
-import buttonsTemplate = require('Controls/_editableArea/Templates/Buttons');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_editableArea/View';
+import {IViewOptions} from './interface/IView';
+import * as Deferred from 'Core/Deferred';
+import buttonsTemplate from 'Controls/_editableArea/Templates/Buttons';
+import {Record} from 'Types/entity';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/CommonClasses';
+import 'css!Controls/editableArea';
 
 'use strict';
-var
-   _private = {
-      validate: function (self) {
-         return self._children.formController.submit();
-      },
-      afterEndEdit: function (self, commit) {
-         if (commit) {
-            _private.acceptChanges(self);
-         } else {
-            self._editObject.rejectChanges();
-         }
-         self._isEditing = false;
-         self._notify('afterEndEdit', [self._editObject], {
-            bubbling: true
-         });
-         return Deferred.success();
-      },
-      endEdit: function (self, commit) {
-         var result = self._notify('beforeEndEdit', [self._editObject, commit], {
-            bubbling: true
-         });
-
-         if (result === constEditing.CANCEL) {
-            return Deferred.success();
-         }
-
-         if (result && result.addCallback) {
-            return result.addCallback((res) => {
-               if (res === constEditing.CANCEL) {
-                  return Deferred.success();
-               }
-               return _private.afterEndEdit(self, commit);
-            });
-         }
-
-         return _private.afterEndEdit(self, commit);
-      },
-      acceptChanges: function (self) {
-         /*
-          * TL;DR: we should never change the state of the record and leave it to the owner.
-          *
-          * EditableArea should never call neither acceptChanges() nor rejectChanges() because of the following problems:
-          *
-          * 1) acceptChanges breaks change detection. If we call acceptChanges then the owner of the record has no easy
-          * way to know if the record has changed, because isChanged() will return an empty array.
-          *
-          * 2) rejectChanges() doesn't work if nobody calls acceptChanges() between commits. For example, this scenario
-          * wouldn't work: start editing - make changes - commit - start editing again - make changes - cancel. If
-          * acceptChanges() is never called then rejectChanges() will revert everything, not just changes made since last commit.
-          */
-         var changedFields = self._editObject.getChanged();
-         if (changedFields) {
-            changedFields.forEach(function (field) {
-               self._options.editObject.set(field, self._editObject.get(field));
-            });
-         }
-
-         /* При старте редактирования в стейт кладется клон
-          * Нужно вернуть оригинальную запись, чтобы при изменении в ней изменения отражались в контроле
-          */
-         self._editObject = self._options.editObject;
-      }
-   };
-
 /**
  * Контроллер для <a href="/doc/platform/developmentapl/interface-development/controls/input/edit/">редактирования по месту в полях ввода</a>.
  *
@@ -80,7 +20,7 @@ var
  *
  * @remark
  * Если в качестве шаблона редактирования используются поля ввода, то при переключении в режим чтения может наблюдаться скачок текста.
- * Для того, чтобы избежать этого, рекомендуется навесить CSS-класс **controls-Input_negativeOffset_theme_{{_options.theme}}** на редактируемую область.
+ * Для того, чтобы избежать этого, рекомендуется навесить CSS-класс **controls-Input_negativeOffset** на редактируемую область.
  *
  * Полезные ссылки:
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_editableArea.less переменные тем оформления}
@@ -88,54 +28,60 @@ var
  * @demo Controls-demo/EditableArea/View/Index
  */
 
-var View = Control.extend( /** @lends Controls/List/View.prototype */ {
-   _template: template,
-   _buttonsTemplate: buttonsTemplate,
-   _isEditing: false,
-   _isStartEditing: false,
+const EDIT_CANCEL: string = 'Cancel';
 
-   _beforeMount: function (newOptions) {
-      this._isEditing = newOptions.autoEdit;
-      this._editObject = newOptions.editObject;
-   },
-   _afterMount: function () {
-      this._registerFormOperation();
-   },
-   /* В режиме редактирования создается клон, и ссылка остается на старый объект. Поэтому при изменении опций копируем ссылку
-    актуального объекта */
-   _beforeUpdate: function (newOptions) {
+interface IViewControlOptions extends IViewOptions, IControlOptions {
+}
+
+export default class View extends Control<IViewControlOptions> {
+   protected _template: TemplateFunction = template;
+   protected _buttonsTemplate: typeof buttonsTemplate = buttonsTemplate;
+   protected _isEditing: boolean = false;
+   protected _editObject: Record;
+   private _isStartEditing: boolean = false;
+
+   protected _beforeMount(newOptions: IViewControlOptions): void {
+       this._isEditing = newOptions.autoEdit;
+       this._editObject = newOptions.editObject;
+   }
+   protected _afterMount(): void {
+        this._registerFormOperation();
+   }
+   protected _beforeUpdate(newOptions: IViewControlOptions): void {
+      /* В режиме редактирования создается клон, ссылка остается на старый объект.
+      Поэтому при изменении опций копируем ссылку актуального объекта */
       if (newOptions.editObject !== this._options.editObject) {
          this._editObject = newOptions.editObject;
       }
-   },
-   _afterUpdate: function () {
+   }
+   protected _afterUpdate(): void {
       if (this._isStartEditing) {
          this.activate();
          this._isStartEditing = false;
       }
-   },
+   }
 
-   _onClickHandler: function (event) {
+   protected _onClickHandler(event: SyntheticEvent<MouseEvent>): void {
       if (!this._options.readOnly && !this._isEditing) {
          this.beginEdit(event);
       }
-   },
+   }
 
-    _registerFormOperation: function () {
+   protected _registerFormOperation(): void {
         this._notify('registerFormOperation', [{
             save: this.commitEdit.bind(this),
             cancel: this.cancelEdit.bind(this),
             isDestroyed: () => this._destroyed
         }], {bubbling: true});
-    },
+    }
 
-   _onDeactivatedHandler: function () {
+   protected _onDeactivatedHandler(): void {
       if (!this._options.readOnly && this._isEditing && !this._options.toolbarVisible) {
          this.commitEdit();
       }
-   },
+   }
 
-   _onKeyDown: function (event) {
+   protected _onKeyDown(event): void {
       if (this._isEditing) {
          switch (event.nativeEvent.keyCode) {
             case 13: // Enter
@@ -146,61 +92,119 @@ var View = Control.extend( /** @lends Controls/List/View.prototype */ {
                break;
          }
       }
-   },
+   }
 
-   beginEdit: function (event, res) {
+   beginEdit(event: SyntheticEvent<MouseEvent>, res: boolean = false): void {
       this._editObject = this._options.editObject.clone();
       // Если опция editObject изменилась, то она ждет подтверждения изменения, делаем подтверждение у клона.
       this._editObject.acceptChanges();
-      // TODO: res - это результат события со старым названием. Снести вместе со старым контролом 3.19.110, как только появится веха
-      var result = res || this._notify('beforeBeginEdit', [this._editObject], {
+      // TODO: res - это результат события со старым названием. Снести вместе со старым контролом 3.19.110
+      const result = res || this._notify('beforeBeginEdit', [this._editObject], {
          bubbling: true
       });
-      if (result !== constEditing.CANCEL) {
+      if (result !== EDIT_CANCEL) {
          this._isEditing = true;
          this._isStartEditing = true;
       }
-   },
+   }
 
-   cancelEdit: function () {
+   cancelEdit(): Promise<void> {
       /**
        * Защита от ситуации, когда зовут отмену редактирования, а оно не начиналось.
        */
       if (!this._isEditing) {
          return;
       }
-      return _private.endEdit(this, false);
-   },
+      return this._endEdit(false);
+   }
 
-   commitEdit: function () {
-      var self = this;
-      return _private.validate(this).addCallback(function (result) {
-         for (var key in result) {
+   commitEdit(): Promise<void> {
+      return this._validate().addCallback((result) => {
+         for (const key in result) {
             if (result.hasOwnProperty(key) && result[key]) {
                return Deferred.success();
             }
          }
-         return _private.endEdit(self, true);
+         return this._endEdit(true);
       });
    }
-});
 
-View._theme = ['Controls/list', 'Controls/editableArea', 'Controls/Classes'];
+   private _validate(): Promise<unknown> {
+      return this._children.formController.submit();
+   }
+   private _afterEndEdit(commit: boolean): Promise<void> {
+      if (commit) {
+         this._acceptChanges();
+      } else {
+         this._editObject.rejectChanges();
+      }
+      this._isEditing = false;
+      this._notify('afterEndEdit', [this._editObject], {
+         bubbling: true
+      });
+      return Deferred.success();
+   }
+   private _endEdit(commit: boolean): Promise<void> {
+      const result = this._notify('beforeEndEdit', [this._editObject, commit], {
+         bubbling: true
+      });
 
-View.getDefaultOptions = function () {
-   return {
-      autoEdit: false,
-      toolbarVisible: false
-   };
-};
+      if (result === EDIT_CANCEL) {
+         return Deferred.success();
+      }
+
+      if (result && result.addCallback) {
+         return result.addCallback((res) => {
+            if (res === EDIT_CANCEL) {
+               return Deferred.success();
+            }
+            return this._afterEndEdit(commit);
+         });
+      }
+
+      return this._afterEndEdit(commit);
+   }
+   private _acceptChanges(): void {
+      /*
+       * TL;DR: we should never change the state of the record and leave it to the owner.
+       *
+       * EditableArea should never call neither acceptChanges() nor rejectChanges() because of the following problems:
+       *
+       * 1) acceptChanges breaks change detection. If we call acceptChanges then the owner of the record has no easy
+       * way to know if the record has changed, because isChanged() will return an empty array.
+       *
+       * 2) rejectChanges() doesn't work if nobody calls acceptChanges() between commits. For example, this scenario
+       * wouldn't work: start editing - make changes - commit - start editing again - make changes - cancel. If
+       * acceptChanges() is never called then rejectChanges() will revert everything, not just changes made since last commit.
+       */
+      const changedFields = this._editObject.getChanged();
+      if (changedFields) {
+         changedFields.forEach((field) =>{
+            this._options.editObject.set(field, this._editObject.get(field));
+         });
+      }
+
+      /* При старте редактирования в стейт кладется клон
+       * Нужно вернуть оригинальную запись, чтобы при изменении в ней изменения отражались в контроле
+       */
+      this._editObject = this._options.editObject;
+   }
+
+   static _theme: string[] = ['Controls/list'];
+
+   static getDefaultOptions(): IViewControlOptions {
+      return {
+         autoEdit: false,
+         toolbarVisible: false
+      };
+   }
+}
 
 Object.defineProperty(View, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
+    enumerable: true,
+    configurable: true,
 
-   get(): object {
-      return View.getDefaultOptions();
-   }
+    get(): object {
+        return View.getDefaultOptions();
+    }
 });
-
-export default View;

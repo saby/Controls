@@ -7,6 +7,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 
 interface IOptions extends IEditorOptions {
     buttons: IPropertyGridButton[];
+    propertyValue: Enum<string>;
 }
 
 /**
@@ -16,27 +17,16 @@ interface IOptions extends IEditorOptions {
  * @extends UI/Base:Control
  * @mixes Controls/_propertyGrid/IEditor
  * @demo Controls-demo/PropertyGridNew/Editors/FlatEnum/Demo
- * 
- * @public
- * @author Борисов А.Н.
- */
-
-/*
- * Editor for the enum type as a list of push buttons.
- * @class Controls/_propertyGrid/extendedEditors/FlatEnum
- * @extends UI/Base:Control
- * @mixes Controls/_propertyGrid/IEditor
- * 
  * @public
  * @author Борисов А.Н.
  */
 
 export default class FlatEnumEditor extends Control implements IEditor {
     protected _template: TemplateFunction = template;
-    protected _options: IEditorOptions;
+    protected _options: IOptions;
 
     protected _buttons: RecordSet;
-    protected _enum: Enum<unknown>;
+    protected _enum: Enum<string>;
     protected selectedKey: string = '';
 
     _beforeMount(options: IOptions): void {
@@ -49,7 +39,9 @@ export default class FlatEnumEditor extends Control implements IEditor {
     }
 
     _beforeUpdate(options: IOptions): void {
-        this.selectedKey = options.propertyValue.getAsValue();
+        if (options.propertyValue.getAsValue() !== this._options.propertyValue.getAsValue()) {
+            this.selectedKey = options.propertyValue.getAsValue();
+        }
     }
 
     _selectedKeyChanged(event: Event, value: string): void {

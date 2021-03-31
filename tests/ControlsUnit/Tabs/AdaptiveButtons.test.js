@@ -61,6 +61,44 @@ define([
             const lastIndex4 = adaptiveButtons._getLastTabIndex(items, options);
             assert.equal(lastIndex4, 0);
         });
+        it('_calcVisibleItems', function () {
+            adaptiveButtons._getItemsWidth = () => {
+                return [50, 50, 50];
+            };
+            adaptiveButtons._getMinWidth = () => {
+                return 20;
+            };
+            adaptiveButtons._moreButtonWidth = 10;
+            const options = {
+                align: 'left',
+                displayProperty: 'title',
+                containerWidth: 120,
+                selectedKey: 1
+            };
+
+            adaptiveButtons._calcVisibleItems(items, options);
+            assert.deepEqual(adaptiveButtons._visibleItems.getRawData(), [{
+                id: 1,
+                title: 'Первый'
+            }, {
+                id: 2,
+                isMainTab: true,
+                title: 'Второй'
+            }
+            ]);
+
+            options.selectedKey = 3;
+            adaptiveButtons._calcVisibleItems(items, options);
+            assert.deepEqual(adaptiveButtons._visibleItems.getRawData(), [{
+                id: 1,
+                title: 'Первый'
+            }, {
+                id: 3,
+                isMainTab: true,
+                title: 'Третий'
+            }
+            ]);
+        });
         it('_menuItemClickHandler', function() {
             const buttons = new tabsMod.AdaptiveButtons();
             var notifyCorrectCalled = false;
@@ -83,7 +121,7 @@ define([
             buttons._items = items;
 
 
-            buttons._menuItemClickHandler(event1, items.at(0));
+            buttons._menuItemClickHandler(event1, [1]);
             assert.equal(notifyCorrectCalled, true);
 
             buttons.destroy();

@@ -1,5 +1,0 @@
-<ws:partial template="Controls/propertyGrid:ItemTemplate"
-            scope="{{_options}}"
-            collectionItem="{{collectionItem}}"
-            attr:class="controls-Demo__propertyGrid-caption-{{collectionItem.isNode() ? 'secondary' : 'default'}}_theme-{{theme}}"/>
-

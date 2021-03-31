@@ -147,6 +147,15 @@ define(
             });
          });
 
+         it('handleClose', function() {
+            let newOptions = clone(config);
+            let dropdownController = getDropdownController(newOptions);
+            dropdownController._items = new collection.RecordSet({});
+            dropdownController._options.searchParam = 'title';
+            dropdownController.handleClose();
+            assert.isNull(dropdownController._items);
+         });
+
          describe('update', function() {
             let dropdownController, opened, updatedItems;
             beforeEach(function() {
@@ -271,12 +280,12 @@ define(
                });
             });
 
-            it('_getloadItemsPromise', () => {
+            it('_getLoadItemsPromise', () => {
                let errorCathed = false;
                dropdownController._items = null;
                dropdownController._loadItemsPromise = null;
                dropdownController._options.source = null;
-               let promise = dropdownController._getloadItemsPromise();
+               let promise = dropdownController._getLoadItemsPromise();
 
                try {
                   promise.then(() => {});
@@ -363,6 +372,20 @@ define(
                dropdownController.update(readOnlyConfig);
                assert.isTrue(isClosed);
             });
+
+            it('_reloadSelectedItems', () => {
+               let isReloaded = false;
+               let configSelectedKeys = clone(config);
+               configSelectedKeys.navigation = true;
+               configSelectedKeys.selectedKeys = ['20'];
+               dropdownController._items = itemsRecords;
+               dropdownController._reloadSelectedItems = () => {
+                  isReloaded = true;
+               };
+
+               dropdownController.update({...configSelectedKeys});
+               assert.isTrue(isReloaded);
+            });
          });
 
          it('getItemByKey', () => {
@@ -411,6 +434,29 @@ define(
             assert.isOk(actualOptions);
          });
 
+         it('loadDependencies, load rejected', async() => {
+            let actualError = false;
+            const controller = getDropdownController(config);
+
+            sandbox.replace(controller, '_getLoadItemsPromise', () => {
+               return Promise.resolve(true);
+            });
+
+            sandbox.replace(controller, '_loadItemsTemplates', () => {
+               return Promise.resolve(true);
+            });
+
+            sandbox.replace(controller, '_loadMenuTemplates', () => {
+               return Promise.reject('error');
+            });
+
+            // items is loaded, loadItemsTemplates was called
+            await controller.loadDependencies().then(() => {}, (error) => {
+               actualError = error;
+            });
+            assert.equal(actualError, 'error');
+         });
+
          it('check empty item update', () => {
             let dropdownController = getDropdownController(config),
                selectedItems = [];
@@ -419,16 +465,51 @@ define(
             };
 
             // emptyText + selectedKeys = [null]
-            dropdownController._updateSelectedItems([null], 'id', '123', null, selectedItemsChangedCallback);
+            dropdownController._updateSelectedItems({
+               selectedKeys: [null],
+               keyProperty: 'id',
+               emptyText: '123',
+               emptyKey: null,
+               selectedItemsChangedCallback: selectedItemsChangedCallback
+            });
             assert.deepEqual(selectedItems, [null]);
 
             // emptyText + selectedKeys = []
-            dropdownController._updateSelectedItems([], 'id', '123', null, selectedItemsChangedCallback);
+            dropdownController._updateSelectedItems({
+               selectedKeys: [],
+               keyProperty: 'id',
+               emptyText: '123',
+               emptyKey: null,
+               selectedItemsChangedCallback: selectedItemsChangedCallback});
             assert.deepEqual(selectedItems, [null]);
 
             // emptyText + selectedKeys = [] + emptyKey = 100
-            dropdownController._updateSelectedItems([], 'id', '123', 100, selectedItemsChangedCallback);
+            dropdownController._updateSelectedItems({
+               selectedKeys: [],
+               keyProperty: 'id',
+               emptyText: '123',
+               emptyKey: 100,
+               selectedItemsChangedCallback: selectedItemsChangedCallback});
             assert.deepEqual(selectedItems, [null]);
+
+            // emptyText + selectedKeys = [123]
+            dropdownController._updateSelectedItems({
+               selectedKeys: [123],
+               keyProperty: 'id',
+               emptyText: 'text',
+               selectedItemsChangedCallback: selectedItemsChangedCallback
+            });
+            assert.deepEqual(selectedItems, [null]);
+
+            // emptyText + selectedKeys = [undefined] (combobox)
+            dropdownController._updateSelectedItems({
+               selectedKeys: [undefined],
+               keyProperty: 'id',
+               emptyText: 'text',
+               emptyKey: null,
+               selectedItemsChangedCallback: selectedItemsChangedCallback
+            });
+            assert.deepEqual(selectedItems, []);
 
             // selectedKeys = []
             let newItems = new collection.RecordSet({
@@ -439,7 +520,13 @@ define(
                ]
             });
             dropdownController._items = newItems;
-            dropdownController._updateSelectedItems([], 'id', undefined, null, selectedItemsChangedCallback);
+            dropdownController._updateSelectedItems({
+               selectedKeys: [],
+               keyProperty: 'id',
+               emptyText: undefined,
+               emptyKey: null,
+               selectedItemsChangedCallback: selectedItemsChangedCallback
+            });
             assert.deepEqual(selectedItems, [newItems.at(0)]);
          });
 
@@ -515,7 +602,7 @@ define(
             });
          });
 
-         it('_private::loadItemsTemplates', (done) => {
+         it('_loadItemsTemplates', (done) => {
             let dropdownController = getDropdownController(config);
             dropdownController._items = new collection.RecordSet({
                keyProperty: 'id',
@@ -527,7 +614,7 @@ define(
             });
          });
 
-         it('_private::loadItems', () => {
+         it('_loadItems', async () => {
             const controllerConfig = { ...config };
             controllerConfig.dataLoadCallback = function(loadedItems) {
                const item = new entity.Record({
@@ -539,13 +626,17 @@ define(
                loadedItems.add(item);
             };
             let dropdownController = getDropdownController(controllerConfig);
-            return new Promise((resolve) => {
-               dropdownController._loadItems(controllerConfig).then(() => {
-                  dropdownController._menuSource.query().then((menuItems) => {
-                     assert.isTrue(!!menuItems.getRecordById('9'));
-                     resolve();
-                  });
+            await dropdownController._loadItems(controllerConfig).then(() => {
+               dropdownController._menuSource.query().then((menuItems) => {
+                  assert.isTrue(!!menuItems.getRecordById('9'));
                });
+            });
+
+            dropdownController._sourceController = {
+               load: () => Promise.reject('error')
+            };
+            await dropdownController._loadItems(controllerConfig).then(() => {}, (error) => {
+               assert.equal(error, 'error');
             });
          });
 
@@ -790,7 +881,7 @@ define(
                   keyProperty: 'id',
                   rawData: items
                });
-               sandbox.replace(popup.Sticky, 'openPopup', (popupConfig) => {
+               sandbox.replace(popup.Sticky, '_openPopup', (popupConfig) => {
                   openConfig = popupConfig;
                   return Promise.resolve(true);
                });

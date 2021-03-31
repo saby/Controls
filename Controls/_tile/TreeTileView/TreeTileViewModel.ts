@@ -2,13 +2,12 @@ import TileViewModel = require('Controls/_tile/TileView/TileViewModel');
 import {TreeViewModel} from 'Controls/tree';
 import cMerge = require('Core/core-merge');
 import InvisibleFor = require('wml!Controls/_tile/TileView/resources/InvisibleFor');
-import {SyntheticEvent} from 'UI/Vdom';
 import {Model} from 'Types/entity';
 
 var DEFAULT_FOLDER_WIDTH = 250;
 
 var TreeTileViewModel = TreeViewModel.extend({
-    '[Controls/_tile/TreeTileViewModel]': true,
+    '[Controls/_tile/Tile]': true,
 
     constructor: function (cfg) {
         TreeTileViewModel.superclass.constructor.apply(this, arguments);
@@ -24,6 +23,8 @@ var TreeTileViewModel = TreeViewModel.extend({
             this._notify('onListChange', changesType);
         }.bind(this);
         this._tileModel.subscribe('onListChange', this._onListChangeFn);
+        this._currentWidth = this._options.initialWidth;
+        this.getItemWidth = this.getItemWidth.bind(this);
     },
 
     getItemDataByItem: function (dispItem) {
@@ -37,6 +38,7 @@ var TreeTileViewModel = TreeViewModel.extend({
         } else {
             current._treeTileViewModelCached = true;
         }
+        current.getItemWidth = this.getItemWidth;
         hoveredItem = this._tileModel.getHoveredItem();
         // New Model compatibility
         if (!(current.isHiddenGroup instanceof Function)) {
@@ -109,7 +111,7 @@ var TreeTileViewModel = TreeViewModel.extend({
         // Совместимость с newModel, https://online.sbis.ru/opendoc.html?guid=0bca7ba3-f49f-46da-986a-a1692deb9c47
         current.isStickyHeader = () => {
             return this._options.stickyHeader;
-        }
+        };
 
         return current;
     },
@@ -123,6 +125,7 @@ var TreeTileViewModel = TreeViewModel.extend({
         if (this._options.tileSize) {
             opts.tileSize = this._options.tileSize;
         }
+        opts.getItemWidth = this.getItemWidth;
         const itemContents = dispItem?.getContents();
         if (itemContents instanceof Model) {
             opts.itemWidth = this.getItemWidth(
@@ -147,6 +150,20 @@ var TreeTileViewModel = TreeViewModel.extend({
         this._tileModel.setTileMode(tileMode);
     },
 
+    getLastItemWidth(): number {
+        const lastItem = this.getLast();
+        return this.getItemDataByItem(lastItem).itemWidth;
+    },
+
+    getCurrentWidth(): number {
+        return this._currentWidth;
+    },
+
+    setCurrentWidth(width: number): void {
+        this._currentWidth = width;
+        this._nextModelVersion();
+    },
+
     setTileSize(size: string): void {
         this._options.tileSize = size;
         this._nextModelVersion();
@@ -162,6 +179,10 @@ var TreeTileViewModel = TreeViewModel.extend({
 
     setItemsHeight: function (itemsHeight) {
         this._tileModel.setItemsHeight(itemsHeight);
+    },
+
+    setTileWidth(width: number): void {
+        this._tileModel.setTileWidth(width);
     },
 
     setItemsContainerPadding(padding) {
@@ -248,14 +269,21 @@ var TreeTileViewModel = TreeViewModel.extend({
     getItemWidth(
         item: Model,
         isFolder: boolean,
-        imageWidthProperty: string,
-        imageHeightProperty: string
+        imageWidthProperty: string = this._options.imageWidthProperty,
+        imageHeightProperty: string = this._options.imageHeightProperty,
+        imagePosition: string
     ): number {
-        if (isFolder) {
-            return this._options.folderWidth || DEFAULT_FOLDER_WIDTH;
+        let itemWidth = null;
+        if (imagePosition && this._options.tileSize) {
+            // TODO Удалить ветку после https://online.sbis.ru/opendoc.html?guid=27d4f8e0-2054-4f6e-8fa9-e12dece27642
+            itemWidth = this._tileModel.getTileSizes(this._options.tileSize, imagePosition).width;
+        } else if (isFolder) {
+            itemWidth = this._options.folderWidth || DEFAULT_FOLDER_WIDTH;
         } else {
-            return this._tileModel.getTileWidth(item, imageWidthProperty, imageHeightProperty);
+            itemWidth = this._tileModel.getTileWidth(item, imageWidthProperty, imageHeightProperty);
         }
+
+        return itemWidth;
     },
 
     getImageData(itemWidth: number, itemData: Record<string, any>,  item: Model): {url: string, class: string} {

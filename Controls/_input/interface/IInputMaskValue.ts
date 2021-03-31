@@ -9,7 +9,7 @@ export interface IInputMaskValueOptions {
 }
 
 /**
- * @name Controls/_input/interface/IInputMaskValue#value
+ * @name Controls/_input/interface/IInputMaskValueOptions#value
  * @cfg {String} Значение контрола ввода.
  * Параметр представляет собой текст в поле ввода без разделителей.
  * @default '' (пустая строка)
@@ -26,12 +26,12 @@ export interface IInputMaskValueOptions {
  *
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _inputValue: '',
  *    _sendButtonClick(event) {
  *       this._sendData(this._inputValue);
  *    }
- * });
+ * }
  * </pre>
  * @see valueChanged
  * @see inputCompleted
@@ -39,7 +39,7 @@ export interface IInputMaskValueOptions {
 
 /**
  * @event Происходит при изменении значения поля ввода.
- * @name Controls/_input/interface/IInputMaskValue#valueChanged
+ * @name Controls/_input/interface/IInputMaskValueOptions#valueChanged
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Значение поля без разделителей.
  * @param {String} displayValue Значение поля с разделителями.
@@ -60,21 +60,21 @@ export interface IInputMaskValueOptions {
  *
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _fieldValue: '',
  *    _valueChangedHandler(event, value, displayValue) {
  *       this._fieldValue = value;
  *       this._fieldValueWithDelimiters = displayValue;
  *    },
  *    _anotherFieldValue: ''
- * });
+ * }
  * </pre>
  * @see value
  */
 
 /**
  * @event Происходит при завершении ввода (поле потеряло фокус или пользователь нажал клавишу "enter").
- * @name Controls/_input/interface/IInputMaskValue#inputCompleted
+ * @name Controls/_input/interface/IInputMaskValueOptions#inputCompleted
  * @param {Vdom/Vdom:SyntheticEvent} eventObject Дескриптор события.
  * @param {String} value Значение поля.
  * @param {String} displayValue Текстовое значение поля.
@@ -89,11 +89,11 @@ export interface IInputMaskValueOptions {
  *
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _inputCompletedHandler(event, value) {
  *       this._saveEnteredValueToDatabase(value);
  *    }
- * });
+ * };
  * </pre>
  * @see value
  */

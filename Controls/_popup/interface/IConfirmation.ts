@@ -18,6 +18,7 @@ export interface IConfirmationOptions extends IConfirmationFooterOptions, IContr
 /**
  * Интерфейс для опций окон подтверждения.
  * @public
+ * @extends Controls/_popup/interface/IConfirmationFooter
  * @author Красильников А.С.
  */
 export interface IConfirmationOpener {
@@ -75,7 +76,7 @@ export interface IConfirmationOpener {
  * </pre>
  * js
  * <pre>
- *     Control.extend({
+ *    class MyControl extends Control<IControlOptions>{
  *       ...
  *
  *        _open() {
@@ -93,7 +94,7 @@ export interface IConfirmationOpener {
  *              }
  *           });
  *        }
- *     });
+ *     };
  * </pre>
  */
 

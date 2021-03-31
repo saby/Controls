@@ -24,26 +24,13 @@
  * @author Крайнов Д.О.
  */
 
-import Panel = require('Controls/_operations/Panel');
-import Controller from 'Controls/_operations/Controller';
-import Container = require('Controls/_operations/Container');
-import selectionToRecord = require('Controls/_operations/MultiSelector/selectionToRecord');
-import {default as Button} from './_operations/Button';
-import {default as SimpleMultiSelector} from 'Controls/_operations/__MultiSelector';
-import {default as MultiSelector} from 'Controls/_operations/MultiSelector';
-import {default as MultiSelectorCheckbox} from 'Controls/_operations/MultiSelector/Checkbox';
-import {default as ControllerClass} from 'Controls/_operations/ControllerClass';
-
+export {default as Container} from 'Controls/_operations/Container';
+export {default as Panel} from 'Controls/_operations/Panel';
+export {default as Controller} from 'Controls/_operations/Controller';
+export {default as Button} from './_operations/Button';
+export {default as SimpleMultiSelector} from 'Controls/_operations/__MultiSelector';
+export {default as MultiSelector} from 'Controls/_operations/MultiSelector';
+export {default as MultiSelectorCheckbox} from 'Controls/_operations/MultiSelector/Checkbox';
+export {default as ControllerClass} from 'Controls/_operations/ControllerClass';
 export {default as PanelContainer} from 'Controls/_operations/Panel/Container';
-
-export {
-   Panel,
-   Button,
-   Controller,
-   Container,
-   selectionToRecord,
-   SimpleMultiSelector,
-   MultiSelector,
-   MultiSelectorCheckbox,
-   ControllerClass
-};
+export {default as selectionToRecord} from 'Controls/_operations/MultiSelector/selectionToRecord';

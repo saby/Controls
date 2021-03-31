@@ -185,13 +185,11 @@ interface ISuggest {
        *
        * <pre class="brush: js">
        * // myFooter.js
-       * define('myFooter', ['UI/Base:Control'], function(Control) {
-       *    return Control.extend({
-       *       _showTasksClick: function() {
+       *  class MyControl extends Control<IControlOptions> {
+       *       _showTasksClick() {
        *          stackOpener.open();
        *       }
-       *    });
-       * });
+       * }
        * </pre>
        *
        * <pre class="brush: html">
@@ -216,13 +214,11 @@ interface ISuggest {
        *
        * <pre class="brush: js">
        * // myFooter.js
-       * define('myFooter', ['UI/Base:Control'], function(Control) {
-       *    return Control.extend({
-       *       _showTasksClick: function() {
+       * class MyControl extends Control<IControlOptions> {
+       *       _showTasksClick() {
        *          stackOpener.open();
        *       }
-       *    });
-       * });
+       * }
        * </pre>
        *
        * <pre class="brush: html">
@@ -285,11 +281,10 @@ interface ISuggest {
        * В этом примере автодополнение будет открыто вверх.
        * <pre class="brush: js">
        * // myModule.js
-       * define('myModule', ['UI/Base:Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
-       *    return Control.extend({
+       * class MyControl extends Control<IControlOptions> {
        *       _template: template,
        *       _suggestPopupOptions: null,
-       *       _beforeMount: function() {
+       *       _beforeMount() {
        *          this._suggestPopupOptions = {
        *             direction : {
        *                vertical: 'bottom',
@@ -319,8 +314,7 @@ interface ISuggest {
        * In this example, suggest will open up.
        * <pre class="brush: js">
        * // myModule.js
-       * define('myModule', ['UI/Base:Control', 'wml!myModule', 'Types/source:Memory'], function(Control, template, Memory) {
-       *    return Control.extend({
+       * class MyControl extends Control<IControlOptions> {
        *       _template: template,
        *       _suggestPopupOptions: null,
        *       _beforeMount: function() {

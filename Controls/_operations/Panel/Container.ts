@@ -2,6 +2,8 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_operations/Panel/Container';
 import { isEqual } from 'Types/object';
 import { TKeysSelection as TKeys, TKeySelection as TKey } from 'Controls/interface';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import {Model} from 'Types/entity';
 
 export interface IOperationsPanelContainerOptions extends IControlOptions {
     selectedKeys: TKeys;
@@ -21,7 +23,7 @@ export interface IOperationsPanelContainerOptions extends IControlOptions {
  * @class Controls/_operations/Panel/Container
  * @extends UI/Base:Control
  * @author Герасимов А.М.
- * 
+ *
  * @public
  */
 export default class OperationsPanelContainer extends Control<IOperationsPanelContainerOptions> {
@@ -67,5 +69,14 @@ export default class OperationsPanelContainer extends Control<IOperationsPanelCo
         }
 
         return result;
+    }
+
+    protected _operationPanelItemClick(
+        event: SyntheticEvent,
+        clickEvent: SyntheticEvent,
+        item: Model,
+        selection: Record<string, Array<string | number | boolean>>
+    ): void {
+        this._notify('operationPanelItemClick', [clickEvent, item, selection], {bubbling: true});
     }
 }

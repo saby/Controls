@@ -3,7 +3,7 @@
       <Controls.toggle:DoubleSwitch
          attr:class="controlsDemo_m"
          bind:value="_isMasterVisible"
-         captions="{{['master on', 'master off']}}"
+         captions="{{['master auto', 'master off']}}"
       />
 
       <Controls.dropdown:Selector
@@ -19,15 +19,23 @@
 
    <Controls.newBrowser:Browser
       name="browser"
-      bind:root="_root"
-      source="{{_baseSource}}"
+
       keyProperty="id"
-      userViewMode="{{_viewMode}}"
       nodeProperty="type"
       parentProperty="parent"
       hasChildrenProperty="hasChild"
       propStorageId="catalogDemoBase"
+
+      source="{{_baseSource}}"
+      userViewMode="{{_viewMode}}"
+      listConfiguration="{{_defaultViewCfg}}"
+
+      bind:root="_root"
+      bind:masterRoot="_masterRoot"
+
+      on:beforeRootChanged="_onBeforeRootChanged()"
       on:viewModeChanged="_onBrowserViewModeChanged()"
+
       attr:style="flex: 1 1 100%;"
    >
       <!-- Задаем общую настройку master-колонки -->
@@ -37,13 +45,9 @@
          maxWidth="{{500}}"
          filter="{{_masterFilter}}"
          columns="{{_masterTableColumns}}"
-         visibility="{{_isMasterVisible ? 'visible' : 'hidden'}}"
-      >
-         <!-- Настраиваем отображение списка -->
-         <ws:treeGridView
-            expanderVisibility="hasChildren"
-         />
-      </ws:master>
+         visibility="{{_isMasterVisible ? undefined : 'hidden'}}"
+         expanderVisibility="hasChildren"
+      />
       <!-- Задаем общую настройку detail-колонки -->
       <ws:detail
          backgroundColor="#f0f0f0"

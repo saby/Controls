@@ -12,9 +12,12 @@ import {ITabsButtons, ITabsButtonsOptions} from './interface/ITabsButtons';
 import {constants} from 'Env/Env';
 import {adapter} from 'Types/entity';
 import {factory} from 'Types/chain';
+import Marker from './Buttons/Marker';
 
 import TabButtonsTpl = require('wml!Controls/_tabs/Buttons/Buttons');
 import ItemTemplate = require('wml!Controls/_tabs/Buttons/ItemTemplate');
+
+import 'css!Controls/tabs';
 
 interface ITabButtonItem {
     isMainTab?: boolean;
@@ -79,7 +82,7 @@ const isTemplateObject = (tmpl: any): boolean => {
  * @public
  * @author Красильников А.С.
  * @demo Controls-demo/Tabs/Buttons
- * @cssModifier controls-Tabs__item-underline_theme-{{_options.theme}} Позволяет добавить горизонтальный разделитель к прикладному контенту, чтобы расположить его перед вкладками.
+ * @cssModifier controls-Tabs__item-underline Позволяет добавить горизонтальный разделитель к прикладному контенту, чтобы расположить его перед вкладками.
  */
 
 class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems, ITabsTemplate {
@@ -90,6 +93,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _template: TemplateFunction = TabButtonsTpl;
     protected _defaultItemTemplate: TemplateFunction = ItemTemplate;
     protected _itemsArray: ITabButtonItem[];
+    protected _marker: Marker = new Marker();
+    protected _markerCssClass: string = '';
     private _itemsOrder: number[];
     private _lastRightOrder: number;
     private _items: RecordSet;
@@ -118,12 +123,63 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         if (newOptions.source && newOptions.source !== this._options.source) {
             this._initItems(newOptions.source).then((result) => {
                 this._prepareState(result);
+                this._marker.reset();
             });
         }
         if (newOptions.items && newOptions.items !== this._options.items) {
             const itemsData = this._prepareItems(newOptions.items);
             this._prepareState(itemsData);
+            this._marker.reset();
         }
+        if (newOptions.selectedKey !== this._options.selectedKey) {
+            this._updateMarkerSelectedIndex(newOptions);
+        }
+        if (newOptions.style !== this._options.style || newOptions.markerThickness !== this._options.markerThickness) {
+            this._updateMarkerCssClass(newOptions);
+        }
+    }
+
+    protected _mouseEnterHandler(): void {
+        this._updateMarker();
+    }
+
+    protected _touchStartHandler(): void {
+        this._updateMarker();
+    }
+
+    protected _resizeHandler(): void {
+        this._marker.reset();
+        this._updateMarker();
+    }
+
+    protected _updateMarker(): void {
+        if (this._marker.isInitialized()) {
+            return;
+        }
+        const tabElements: HTMLElement[] = this._itemsArray.map((item: ITabButtonItem, key: number) => {
+            return this._children[`Tab${key}`];
+        });
+        this._marker.updatePosition(tabElements, this._container);
+        this._updateMarkerSelectedIndex(this._options);
+        if (!this._markerCssClass) {
+            this._updateMarkerCssClass(this._options);
+        }
+    }
+
+    protected _updateMarkerSelectedIndex(options: ITabsButtonsOptions): void {
+        if (!this._marker.isInitialized()) {
+            return;
+        }
+        const index: number = this._itemsArray.findIndex((item: ITabButtonItem) => {
+            return item[options.keyProperty] === options.selectedKey;
+        });
+        this._marker.setSelectedIndex(index);
+    }
+
+    protected _updateMarkerCssClass(options: ITabsButtonsOptions): void {
+        const style = TabsButtons._prepareStyle(options.style);
+        this._markerCssClass = `controls-Tabs__marker_style-${style} ` +
+                               `controls-Tabs__marker_thickness-${options.markerThickness}`;
     }
 
     protected _onItemClick(event: SyntheticEvent<MouseEvent>, key: string): void {
@@ -135,32 +191,29 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
     protected _prepareItemClass(item: ITabButtonItem, index: number): string {
         const order: number = this._itemsOrder[index];
         const options: ITabsButtonsOptions = this._options;
-        const theme = options.theme;
-        const classes: string[] = ['controls-Tabs__item controls-Tabs__item_theme_' + theme +
-        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight + '_theme-' + theme];
+        const classes: string[] = ['controls-Tabs__item' +
+        ' controls-Tabs__item_inlineHeight-' + options.inlineHeight];
 
         const itemAlign: string = item.align;
         const align: string = itemAlign ? itemAlign : 'right';
 
         const isLastItem: boolean = order === this._lastRightOrder;
 
-        classes.push(`controls-Tabs__item_align_${align} ` +
-            `controls-Tabs__item_align_${align}_theme_${theme}`);
+        classes.push(`controls-Tabs__item_align_${align}`);
         if (order === 1 || isLastItem) {
-            classes.push('controls-Tabs__item_extreme controls-Tabs__item_extreme_theme_' + theme);
+            classes.push('controls-Tabs__item_extreme');
         }
         if (order === 1) {
-            classes.push('controls-Tabs__item_extreme_first controls-Tabs__item_extreme_first_theme_' + theme);
+            classes.push('controls-Tabs__item_extreme_first');
         } else if (isLastItem) {
-            classes.push('controls-Tabs__item_extreme_last controls-Tabs__item_extreme_last_theme_' + theme);
+            classes.push('controls-Tabs__item_extreme_last');
         } else {
-            classes.push('controls-Tabs__item_default controls-Tabs__item_default_theme_' + theme);
+            classes.push('controls-Tabs__item_default');
         }
 
         const itemType: string = item.type;
         if (itemType) {
-            classes.push('controls-Tabs__item_type_' + itemType +
-                ' controls-Tabs__item_type_' + itemType + '_theme_' + theme);
+            classes.push('controls-Tabs__item_type_' + itemType);
         }
 
         // TODO: по поручению опишут как и что должно сжиматься.
@@ -179,14 +232,24 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         const options = this._options;
         const style = TabsButtons._prepareStyle(options.style);
         if (item[options.keyProperty] === options.selectedKey) {
-            classes.push(`controls-Tabs_style_${style}__item_state_selected ` +
-                `controls-Tabs_style_${style}__item_state_selected_theme_${options.theme}`);
-            classes.push('controls-Tabs__item_state_selected ' +
-            `controls-Tabs__item_state_selected_theme_${options.theme}`);
+            classes.push(`controls-Tabs_style_${style}__item_state_selected`);
+            classes.push('controls-Tabs__item_state_selected ' );
+
+            // Если маркеры которые рисуются с абсолютной позицией не инициализированы, то нарисуем маркер
+            // внтри вкладки. Это можно сделать быстрее. Но невозможно анимировано передвигать его между вкладками.
+            // Инициализируем и переключимся на другой механизм маркеров после ховера.
+            if (!this._marker.isInitialized()) {
+                classes.push(`controls-Tabs_style_${style}__item-marker_state_selected`);
+            }
         } else {
-            classes.push('controls-Tabs__item_state_default controls-Tabs__item_state_default_theme_' + options.theme);
+            classes.push('controls-Tabs__item_state_default');
         }
         return classes.join(' ');
+    }
+
+    protected _prepareItemTypeClass(item: ITabButtonItem): string {
+        const itemType: string = item.type || 'default';
+        return `controls-Tabs__itemClickableArea_type-${itemType}`;
     }
 
     protected _prepareItemOrder(index: number): string {
@@ -216,7 +279,8 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
      */
     private _getItemsArray(items: RecordSet): ITabButtonItem[] {
         if (items.getAdapter() instanceof adapter.Json) {
-            return items.getRawData();
+            // Получаем массив без клонирования, т.к. оно является тяжелой операцией и замедляет построение
+            return items.getRawData(true);
         } else {
             return factory(items).map((item) => {
                 return factory(item).toObject();
@@ -266,8 +330,6 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         this._lastRightOrder = data.lastRightOrder;
     }
 
-    static _theme: string[] = ['Controls/tabs'];
-
     static _prepareStyle(style: string): string {
         if (style === 'default') {
             // 'Tabs/Buttons: Используются устаревшие стили. Используйте style = primary вместо style = default'
@@ -313,7 +375,7 @@ class TabsButtons extends Control<ITabsOptions> implements ITabsButtons, IItems,
         return {
             style: 'primary',
             inlineHeight: 's',
-            markerThickness: 's',
+            markerThickness: 'l',
             borderVisible: true,
             separatorVisible: true,
             displayProperty: 'title'
@@ -446,7 +508,7 @@ Object.defineProperty(TabsButtons, 'defaultProps', {
  *
  * <pre class="brush: html">
  * <!-- myTemplate.wml -->
- * <div class="{{item.get('icon')}} icon-small controls-icon_style-{{item.get('iconStyle')}}_theme-{{_options.theme}}"></div>
+ * <div class="{{item.get('icon')}} icon-small controls-icon_style-{{item.get('iconStyle')}}"></div>
  * </pre>
  *
  * <pre class="brush: js">
@@ -477,7 +539,7 @@ Object.defineProperty(TabsButtons, 'defaultProps', {
  *
  * <pre class="brush: html">
  * <!-- myTemplate.wml -->
- * <div class="{{item.get('icon')}} icon-small controls-icon_style-{{item.get('iconStyle')}}_theme-{{_options.theme}}"></div>
+ * <div class="{{item.get('icon')}} icon-small controls-icon_style-{{item.get('iconStyle')}}"></div>
  * </pre>
  *
  * <pre class="brush: js">

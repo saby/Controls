@@ -5,6 +5,7 @@ import {List} from 'Types/collection';
 import ManagerController from 'Controls/_popup/Manager/ManagerController';
 import {INotificationPopupOptions, INotificationOpener} from '../interface/INotification';
 import {Logger} from 'UI/Utils';
+import BaseOpenerUtil from 'Controls/_popup/Opener/BaseOpenerUtil';
 
 interface INotificationOpenerOptions extends INotificationPopupOptions, IBaseOpenerOptions {}
 
@@ -31,7 +32,7 @@ const isLinkedPopup = (popupItems: List<IPopupItemInfo>,
 };
 
 const compatibleOpen = (popupOptions: INotificationPopupOptions): Promise<string> => {
-    const config: INotificationPopupOptions = BaseOpener.getConfig({}, popupOptions);
+    const config: INotificationPopupOptions = BaseOpenerUtil.getConfig({}, popupOptions);
     delete config.id;
     return new Promise((resolve) => {
         Promise.all([
@@ -60,13 +61,13 @@ const getCompatibleConfig = (BaseOpenerCompat: any, config: INotificationPopupOp
 };
 /**
  * Контрол, открывающий окно, которое позиционируется в правом нижнем углу окна браузера. Одновременно может быть открыто несколько окон уведомлений. В этом случае они выстраиваются в стек по вертикали.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Controls-demo%2FNotificationDemo%2FNotificationDemo демо-пример}
  * * {@link /doc/platform/developmentapl/interface-development/controls/openers/notification/ руководство разработчика}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_popupTemplate.less переменные тем оформления}
- * 
+ *
  * @extends Controls/_popup/Opener/BaseOpener
  * @public
  * @author Красильников А.С.
@@ -115,13 +116,20 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
         return getCompatibleConfig(BaseOpenerCompat, config);
     }
 
+    static _openPopup(config: INotificationPopupOptions): Promise<string> {
+        return Notification._privateOpenPopup(config);
+    }
+    // TODO: Проверить, можно ли Notification перевести на utils/OpenPopup
     static openPopup(config: INotificationPopupOptions): Promise<string> {
+        return Notification._privateOpenPopup(config);
+    }
+    private static _privateOpenPopup(config: INotificationPopupOptions): Promise<string> {
         return new Promise((resolve) => {
             if (!config.hasOwnProperty('isHelper')) {
                 Logger.warn('Controls/popup:Dialog: Для открытия нотификационных окон из ' +
                     'кода используйте NotificationOpener');
             }
-            const newConfig = BaseOpener.getConfig(BASE_OPTIONS, config);
+            const newConfig = BaseOpenerUtil.getConfig(BASE_OPTIONS, config);
             // Сделал так же как в ws3. окна, которые закрываются автоматически - всегда выше всех.
             if (newConfig.autoClose) {
                 newConfig.topPopup = true;
@@ -149,7 +157,7 @@ class Notification extends BaseOpener<INotificationOpenerOptions> implements INo
 
     static closePopup(popupId: string): void {
         // TODO: Compatible. Нотификационные окна на старых страницах открываются через ws3 manager
-        if (typeof popupId !== 'string' && popupId.close) {
+        if (popupId && typeof popupId !== 'string' && popupId.close) {
             popupId.close();
         } else {
             BaseOpener.closeDialog(popupId);

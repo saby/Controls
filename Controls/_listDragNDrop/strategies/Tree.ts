@@ -41,7 +41,7 @@ export default class Tree extends Flat<IDraggableTreeItem, IDraggableTreeCollect
 
         let result;
 
-        const moveTileNodeToLeaves = this._model['[Controls/_tile/TreeTileViewModel]'] && this._draggableItem.isNode()
+        const moveTileNodeToLeaves = this._model['[Controls/_tile/Tile]'] && this._draggableItem.isNode()
             && targetItem && !targetItem.isNode();
         if (targetItem && targetItem.isNode() && !moveTileNodeToLeaves && mouseOffsetInTargetItem) {
             result = this._calculatePositionRelativeNode(targetItem, mouseOffsetInTargetItem);
@@ -61,7 +61,7 @@ export default class Tree extends Flat<IDraggableTreeItem, IDraggableTreeCollect
         // Если нет перетаскиваемого элемента, то значит мы перетаскивам в папку другого реестра, т.к
         // если перетаскивают не в узел, то нам вернут рекорд из которого мы создадим draggableItem
         // В плитке лист мы можем перенести только внутрь узла
-        if (!this._draggableItem || this._model['[Controls/_tile/TreeTileViewModel]'] && !this._draggableItem.isNode() && targetItem.isNode()) {
+        if (!this._draggableItem || this._model['[Controls/_tile/Tile]'] && !this._draggableItem.isNode() && targetItem.isNode()) {
             relativePosition = 'on';
         } else {
             if (mouseOffsetInTargetItem) {

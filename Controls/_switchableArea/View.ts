@@ -5,13 +5,13 @@ import defaultItemTemplate from './ItemTpl';
 import {factory} from 'Types/chain';
 import {Logger} from 'UI/Utils';
 
-export interface ISwitchableOptions extends IControlOptions{
+export interface ISwitchableOptions extends IControlOptions {
     itemTemplate: TemplateFunction;
     selectedKey?: string| number;
     items?: ISwitchableAreaItem;
 }
 
-interface ISwitchableAreaItem {
+export interface ISwitchableAreaItem {
     key: string| number;
     itemTemplate?: TemplateFunction;
     templateOptions?: object;

@@ -9,8 +9,8 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import {List} from 'Types/collection';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
-import {ITextOptions, IValueOptions, IBaseOptions} from 'Controls/input';
-import {IFontSizeOptions, ISelectorDialogOptions} from 'Controls/interface';
+import {ITextOptions, IValueOptions, IBaseOptions, IPaddingOptions} from 'Controls/input';
+import {ISelectorDialogOptions, IContrastBackgroundOptions} from 'Controls/interface';
 import {isEqual} from 'Types/object';
 import {EventUtils} from 'UI/Events';
 import {ICrudPlus} from 'Types/source';
@@ -28,13 +28,17 @@ export interface ILookupInputOptions extends
     ITextOptions,
     IValueOptions<string>,
     IBaseOptions,
-    IFontSizeOptions,
-    ISelectorDialogOptions {
+    ISelectorDialogOptions,
+    IPaddingOptions,
+    IContrastBackgroundOptions  {
     suggestSource?: ICrudPlus;
     multiLine?: boolean;
     autoDropDown?: boolean;
     comment?: string;
     toolbarItems?: RecordSet;
+    toolbarKeyProperty?: string;
+    toolbarParentProperty?: string;
+    toolbarNodeProperty?: string;
 }
 
 export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOptions> {
@@ -48,9 +52,11 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     private _inputValue: string;
     private _active: boolean = false;
     private _infoboxOpened: boolean = false;
+    private _toolbarMenuOpened: boolean = false;
     private _needSetFocusInInput: boolean = false;
     private _suggestState: boolean = false;
     private _subscribedOnResizeEvent: boolean = false;
+    protected _horizontalPadding: string;
     protected _maxVisibleItems: number = 0;
     protected _listOfDependentOptions: string[];
 
@@ -74,6 +80,19 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
         } else {
             this._maxVisibleItems = itemsCount;
         }
+        this._updateHorizontalPadding(options);
+    }
+
+    private _updateHorizontalPadding(options: ILookupInputOptions): void {
+        let padding;
+        if (options.horizontalPadding) {
+            padding = options.horizontalPadding;
+        } else if (options.contrastBackground !== false) {
+            padding = 'xs';
+        } else {
+            padding = 'null';
+        }
+        this._horizontalPadding = padding;
     }
 
     protected _inheritorBeforeUpdate(newOptions: ILookupInputOptions): void {
@@ -134,7 +153,16 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     }
 
     protected _toolbarItemClickHandler(event: SyntheticEvent<null>, item: Record, nativeEvent: MouseEvent): void {
+        this.closeSuggest();
         this._notify('toolbarItemClick', [item, nativeEvent]);
+    }
+
+    protected _toolbarMenuOpenedHandler(): void {
+        this._toolbarMenuOpened = true;
+    }
+
+    protected _toolbarMenuClosedHandler(): void {
+        this._toolbarMenuOpened = false;
     }
 
     protected _getFieldWrapper(): HTMLElement {
@@ -187,7 +215,7 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
     }
 
     private _suggestStateChanged(event: SyntheticEvent, state: boolean): void {
-        if (this._infoboxOpened || !this._isInputActive(this._options) || !state) {
+        if ((this._infoboxOpened || !this._isInputActive(this._options) || !state || this._toolbarMenuOpened) && this._suggestState) {
             this.closeSuggest();
         }
     }
@@ -385,6 +413,7 @@ export default abstract class BaseLookupInput extends BaseLookup<ILookupInputOpt
 
     closeSuggest(): void {
         this._suggestState = false;
+        this._children.layout.closeSuggest();
     }
 
     paste(value: string): void {

@@ -1,5 +1,5 @@
-<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center">
-    <div class="controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
+<div class="controlsDemo__wrapper ws-flexbox ws-flex-column ws-align-items-center controlsDemo_fixedWidth550">
+    <div class="demo-VirtualScroll__title controls-text-label_theme-{{_options.theme}} controls-fontsize-l_theme-{{_options.theme}} controlsDemo__mb1">
         Сохранение позиции скролла при добавлении/удалении элементов списка
     </div>
     <Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index totalCount="{{100}}" pageSize="{{20}}">
@@ -14,7 +14,7 @@
             </Controls.list:View>
         </Controls.scroll:Container>
     </Controls-demo.list_new.VirtualScroll.NavigationSwitcher.Index>
-    <div class="ws-link controlsDemo__mb1" on:click="_addItem('start')">
+    <div class="demo-VirtualScroll__addItemStart ws-link controlsDemo__mb1" on:click="_addItem('start')">
         Добавить запись в начало
     </div>
     <div class="ws-link controlsDemo__mb1" on:click="_addItem('end')">
@@ -23,7 +23,7 @@
     <div class="ws-link controlsDemo__mb1" on:click="_removeItem('start')">
         Удалить запись в начале
     </div>
-    <div class="ws-link controlsDemo__mb1" on:click="_removeItem('end')">
+    <div class="demo-VirtualScroll__removeItemEnd ws-link controlsDemo__mb1" on:click="_removeItem('end')">
         Удалить запись в конце
     </div>
 </div>

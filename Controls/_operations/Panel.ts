@@ -1,5 +1,5 @@
-import {Control} from 'UI/Base';
-import template = require('wml!Controls/_operations/Panel/Panel');
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_operations/Panel/Panel';
 import {error as loadDataError} from 'Controls/dataSource';
 
 /**
@@ -22,38 +22,23 @@ import {error as loadDataError} from 'Controls/dataSource';
  * @demo Controls-demo/OperationsPanelNew/PanelWithList/Default/Index
  */
 
-/*
- * Control for grouping operations.
- * The detailed description and instructions on how to configure the control you can read <a href='/doc/platform/developmentapl/interface-development/controls/list/actions/operations/'>here</a>.
- * <a href="/materials/Controls-demo/app/Controls-demo%2FOperationsPanel%2FDemo">Demo</a>.
- *
- * @class Controls/_operations/Panel
- * @extends UI/Base:Control
- * @mixes Controls/interface/IItemTemplate
- * @mixes Controls/_interface/IHierarchy
- * 
- * @public
- * @author Герасимов А.М.
- * @demo Controls-demo/OperationsPanelNew/Base/Index
- */
-
-var Panel = Control.extend({
-   _template: template,
-   _hidePanel: false,
+export default class Panel extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
+   protected _hidePanel: boolean = false;
 
    _beforeMount(): void {
       this._errorCallback = this._errorCallback.bind(this);
-   },
+   }
 
    _errorCallback(viewConfig: object, error): void {
       this._hidePanel = true;
       loadDataError.process({error});
    }
-});
+}
 
 /**
  * @name Controls/_operations/Panel#rightTemplate
- * @cfg {String|Function} Шаблон, отображаемый в правой части панели массового выбора.
+ * @cfg {String|TemplateFunction} Шаблон, отображаемый в правой части панели массового выбора.
  * @demo Controls-demo/OperationsPanelNew/RightTemplate/Index
  * @example
  * <pre class="brush: html">
@@ -83,7 +68,7 @@ var Panel = Control.extend({
 
 /**
  * @name Controls/_operations/Panel#popupFooterTemplate
- * @cfg {String|Function} Шаблон футера дополнительного меню тулбара.
+ * @cfg {String|TemplateFunction} Шаблон футера дополнительного меню тулбара.
  * @demo Controls-demo/OperationsPanelNew/PopupFooterTemplate/Index
  */
 
@@ -164,10 +149,10 @@ var Panel = Control.extend({
  * @example
  * <pre class="brush: js">
  * // JavaScript
- * Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _selectionViewMode: 'all',
  *    ...
- * });
+ * }
  * </pre>
  * <pre class="brush: html">
  * <!-- WML -->
@@ -217,5 +202,3 @@ var Panel = Control.extend({
  * <Controls.operations:Panel selectedCountConfig="{{_selectedCountConfig}}"/>
  * </pre>
  */
-
-export = Panel;

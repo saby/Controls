@@ -1,5 +1,6 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import controlTemplate = require('wml!Controls/_toggle/Checkbox/resources/CheckboxMarker');
+import 'css!Controls/toggle';
 
 export interface ICheckboxMarkerOptions extends IControlOptions {
     triState?: boolean;
@@ -19,7 +20,6 @@ export interface ICheckboxMarkerOptions extends IControlOptions {
 
 class CheckboxMarker extends Control<ICheckboxMarkerOptions> {
     protected _template: TemplateFunction = controlTemplate;
-    static _theme: string[] = ['Controls/toggle'];
 }
 
 /**

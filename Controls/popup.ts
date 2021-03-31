@@ -53,14 +53,13 @@ export {IInfoBoxPopupOptions, IInfoBoxOpener} from './_popup/interface/IInfoBoxO
 export {IEditOptions, IEditOpener} from './_popup/interface/IEdit';
 export {
     ISlidingPanelPopupOptions,
-    ISlidingPanelPosition
+    ISlidingPanel
 } from './_popup/interface/ISlidingPanel';
 
 export {isVDOMTemplate} from './_popup/utils/isVdomTemplate';
 
 export {isMouseEvent, MouseUp, MouseButtons} from './_popup/fastOpenUtils/MouseEventHelper';
 export {isLeftMouseButton, DependencyTimer} from './_popup/fastOpenUtils/FastOpen';
-
 
 // TODO Compatible
 import GlobalTemplate = require('wml!Controls/_popup/Global/Global');

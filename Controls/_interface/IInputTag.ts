@@ -1,9 +1,3 @@
-/**
- * Интерфейс для ввода тегов (цветные индикаторы в правом верхнем углу поля).
- * @public
- * @author Красильников А.С.
- */
-
 export interface IInputTagOptions {
     tagStyle?: 'info' | 'danger' | 'primary' | 'success' | 'secondary';
 }
@@ -28,14 +22,14 @@ export interface IInputTagOptions {
  *
  * <pre class="brush: js">
  * // JavaScript
- * Base.Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _tagClickHandler(target) {
  *       this._children.infoboxOpener.open({
  *          target: target,
  *          text: 'This field is required'
  *       });
  *    }
- * });
+ * }
  * </pre>
  * @see tagHover
  * @see tagClick
@@ -56,14 +50,14 @@ export interface IInputTagOptions {
  *
  * <pre class="brush: js">
  * // JavaScript
- * Base.Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _tagClickHandler(event) {
  *       this._children.infoboxOpener.open({
  *          target: event.target,
  *          text: 'This field is required'
  *       });
  *    }
- * });
+ * }
  * </pre>
  * @see tagStyle
  * @see tagHover
@@ -84,19 +78,24 @@ export interface IInputTagOptions {
  *
  * <pre class="brush: js">
  * // JavaScript
- * Base.Control.extend({
+ * class MyControl extends Control<IControlOptions> {
  *    _tagHoverHandler(event) {
  *       this._children.infoboxOpener.open({
  *          target: event.target,
  *          text: 'This field is required'
  *       });
  *    }
- * });
+ * }
  * </pre>
  * @see tagStyle
  * @see tagClick
  */
 
+/**
+ * Интерфейс для ввода тегов (цветные индикаторы в правом верхнем углу поля).
+ * @public
+ * @author Красильников А.С.
+ */
 export interface IInputTag {
     readonly '[Controls/_interface/IInputTag]': boolean;
 }

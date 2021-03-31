@@ -63,60 +63,16 @@ export default {
              */
             nextArrowVisibility: false,
 
-            /**
-             * @name Controls/_dateRange/interfaces/ILinkView#prevArrowVisibility
-             * @cfg {Boolean} Отображает стрелку перехода к предыдущему периоду.
-             * @demo Controls-demo/dateRange/LiteSelector/ArrowVisibility/Index
-             * @default false
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#prevArrowVisibility
-             * @cfg {Boolean} Display the control arrow to switch to the previous period
-             * @default false
-             */
-            prevArrowVisibility: false,
-
-            /**
-             * @name Controls/_dateRange/interfaces/ILinkView#clearButtonVisibility
-             * @cfg {Boolean} Включает/отключает отображение кнопки "очистить период".
-             * @default true
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#clearButtonVisibility
-             * @cfg {Boolean} Enables or disables the display of the period clear button.
-             * @default true
-             */
-            showDeleteButton: true,
+            prevArrowVisibility: false
 
             /**
              * @name Controls/_dateRange/interfaces/ILinkView#emptyCaption
              * @cfg {String} Отображаемый текст, когда в контроле не выбран период.
-             * @default Не указан
              */
 
             /*
              * @name Controls/_dateRange/interfaces/ILinkView#emptyCaption
              * @cfg {String} Text that is used if the period is not selected.
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#resetStartValue
-             * @cfg {Date} Дата начала периода по умолчанию
-             * При использовании опции, рядом с контролом появится крестик, нажав на который, пользователь перейдет к
-             * периоду, указанному в resetStartValue и resetEndValue. Если задана только resetEndValue - resetStartValue
-             * будет установлен как null.
-             * @see Controls/_dateRange/interfaces/ILinkView#resetEndValue
-             */
-
-            /*
-             * @name Controls/_dateRange/interfaces/ILinkView#resetEndValue
-             * @cfg {Date} Дата конца периода по умолчанию
-             * При использовании опции, рядом с контролом появится крестик, нажав на который, пользователь перейдет к
-             * периоду, указанному в resetStartValue и resetEndValue. Если задана только resetStartValue - resetEndValue
-             * будет установлен как null.
-             * @see Controls/_dateRange/interfaces/ILinkView#resetStartValue
              */
         };
     },
@@ -132,7 +88,6 @@ export default {
             ]),
             nextArrowVisibility: descriptor(Boolean),
             prevArrowVisibility: descriptor(Boolean),
-            showDeleteButton: descriptor(Boolean),
             emptyCaption: descriptor(String)
         };
     }

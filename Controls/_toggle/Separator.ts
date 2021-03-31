@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import SeparatorTemplate = require('wml!Controls/_toggle/Separator/Separator');
 import {descriptor as EntityDescriptor} from 'Types/entity';
 import {ICheckable, ICheckableOptions} from './interface/ICheckable';
+import 'css!Controls/toggle';
 
 export interface ISeparatorOptions extends IControlOptions, ICheckableOptions {
     style?: 'primary' | 'secondary' | 'unaccented';
@@ -72,8 +73,6 @@ class Separator extends Control<ISeparatorOptions> implements ICheckable {
     protected _beforeUpdate(newOptions: ISeparatorOptions): void {
         this._iconChangedValue(newOptions);
     }
-
-    static _theme: string[] = ['Controls/toggle', 'Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

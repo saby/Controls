@@ -1,7 +1,7 @@
 import { constants } from 'Env/Env';
 import { Confirmation, Dialog, IConfirmationOptions, IBasePopupOptions } from 'Controls/popup';
 import { ViewConfig } from './Handler';
-import { Control } from 'UI/Base';
+import { load } from 'WasabyLoader/Library';
 
 interface IPopupModule {
     Confirmation: typeof Confirmation;
@@ -79,17 +79,28 @@ export default class Popup implements IPopupHelper {
      */
     openDialog<T extends IViewConfigMessage>(config: ViewConfig<T>,
                                              dialogOptions: IBasePopupOptions): Promise<PopupId | void> {
-        return this.preloadPopup().then((popup) => {
-            if (!popup) {
+        const { template } = config;
+        const preloadConfigTemplate = typeof template === 'string'
+            ? load(template).catch(() => undefined)
+            : Promise.resolve(true);
+
+        return Promise.all([
+            this.preloadPopup(),
+            preloadConfigTemplate
+        ]).then(([popup, configTemplate]) => {
+            if (!popup || !configTemplate) {
                 Popup.showDefaultDialog(config.options.message, config.options.details);
                 return;
             }
 
             return popup.Dialog.openPopup({
                 template: config.template,
-                templateOptions: config.options,
                 modal: true,
-                ...dialogOptions
+                ...dialogOptions,
+                templateOptions: {
+                    ...dialogOptions.templateOptions as object,
+                    ...config.options
+                }
             });
         });
     }
@@ -112,16 +123,16 @@ export default class Popup implements IPopupHelper {
     private static readonly POPUP_MODULES: string[] = [
         'Controls/popup',
         'Controls/popupConfirmation',
-        'Controls/popupTemplate'
+        'Controls/popupTemplate',
+        'css!Controls/popup',
+        'css!Controls/popupConfirmation',
+        'css!Controls/buttons'
     ];
 
     /**
      * Стили, которые нужны для нормального отображения диалогов.
      */
     private static readonly POPUP_THEMES: string[] = [
-        'Controls/popup',
-        'Controls/popupConfirmation',
-        'Controls/buttons',
         'Controls/Classes'
     ];
 

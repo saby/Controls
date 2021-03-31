@@ -547,7 +547,7 @@ export default class AdjacencyList<S, T extends TreeItem<S>> extends mixin<
 
         // Every item leaved the tree should lost their parent
         oldItems.forEach((item) => {
-            if (item.setParent) {
+            if (item.setParent && !newItems.includes(item)) {
                 item.setParent(undefined);
             }
         });

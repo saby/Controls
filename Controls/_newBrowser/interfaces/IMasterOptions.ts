@@ -1,6 +1,4 @@
 import {ICrudPlus} from 'Types/source';
-import {ITreeControlOptions} from 'Controls/tree';
-import {IHierarchyOptions} from 'Controls/interface';
 import {ISourceOptions} from 'Controls/_newBrowser/interfaces/ISourceOptions';
 
 export enum MasterVisibilityEnum {
@@ -56,11 +54,4 @@ export interface IMasterOptions extends ISourceOptions {
      */
     visibility?: MasterVisibilityEnum;
     //endregion
-
-    /**
-     * Опции для компонента {@link Controls/treeGrid:View}, который отображает master-список.
-     * Данные опции перекрывают опции, вычисленные на основании конфигурации
-     * {@link ICatalogOptions.master|master-колонки}
-     */
-    treeGridView: ITreeControlOptions & IHierarchyOptions;
 }

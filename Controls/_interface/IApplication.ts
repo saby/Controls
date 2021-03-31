@@ -75,6 +75,12 @@ export default interface IApplication extends IHTML {
  * @cfg {String} title of the tab
  */
 
+/**
+ * @name Controls/_interface/IApplication#isAdaptive
+ * @cfg {boolean} Определяет режим отображения сайта. Если опция включена, то используется адаптивный дизайн, шрифты на мобильных устройствах используются системные.
+ * @default false
+ */
+
 export interface IAttributes {
     [index: string]: string | undefined
 }

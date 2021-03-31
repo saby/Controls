@@ -17,9 +17,10 @@ export default interface IToolbarSource {
 
 /**
  * @typedef {String} Controls/_toolbars/IToolbarSource/ShowType
- * @variant showType.MENU Элемент отображается только в меню.
- * @variant showType.MENU_TOOLBAR Элемент отображается в меню и в тулбаре.
- * @variant showType.TOOLBAR Элемент отображается только в тулбаре.
+ * @default 1
+ * @variant 0 Элемент отображается только в меню. Рекомендуем использовать константу toolbar.showType.MENU.
+ * @variant 1 Элемент отображается в меню и в тулбаре.Рекомендуем использовать константу toolbar.showType.MENU_TOOLBAR.
+ * @variant 2 Элемент отображается только в тулбаре. Рекомендуем использовать константу toolbar.showType.TOOLBAR.
  */
 
 /*
@@ -34,7 +35,20 @@ export default interface IToolbarSource {
  * @variant left Текст расположен перед иконкой.
  * @variant right Текст расположен после иконки.
  */
-
+export interface IToolBarItem {
+    readonly?: boolean;
+    caption?: string;
+    contrastBackground?: boolean;
+    iconStyle?: string;
+    icon?: string;
+    title?: string;
+    showHeader?: boolean;
+    tooltip?: string;
+    showType?: 0 | 1 | 2;
+    viewMode?: string;
+    captionPosition?: 'left' | 'right';
+    buttonStyle?: string;
+}
 /**
  * @typedef {Object} Controls/_toolbars/IToolbarSource/Item
  * @property {Boolean} [item.readOnly] Определяет, может ли пользователь изменить значение контрола. См. {@link UI/_base/Control#readOnly подробнее}.

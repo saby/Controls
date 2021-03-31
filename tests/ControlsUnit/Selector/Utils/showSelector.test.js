@@ -140,7 +140,7 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
          const baseController = getBaseController();
          baseController._options.selectorTemplate = null;
 
-         assert.isFalse(showSelector.default(baseController, {}));
+         assert.isTrue(showSelector.default(baseController, {}));
       });
 
       it('showSelector without selectorTemplate and popupOptions template', function() {
@@ -182,7 +182,7 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
             mode: 'dialog'
          };
          const sandbox = sinon.createSandbox();
-         sandbox.replace(popup.Dialog, 'openPopup', () => {});
+         sandbox.replace(popup.Dialog, 'openPopup', () => {return new Promise(() => {})});
 
          showSelector.default(baseController, {});
          assert.isTrue(baseController._opener instanceof popup.DialogOpener);
@@ -196,7 +196,7 @@ define(['Controls/_lookup/showSelector', 'Controls/_lookup/Lookup', 'Controls/po
             mode: 'stack'
          };
          const sandbox = sinon.createSandbox();
-         sandbox.replace(popup.Stack, 'openPopup', () => {});
+         sandbox.replace(popup.Stack, 'openPopup', () => {return new Promise(() => {});});
 
          showSelector.default(baseController, {});
          assert.isTrue(baseController._opener instanceof popup.StackOpener);

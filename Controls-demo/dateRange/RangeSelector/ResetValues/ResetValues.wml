@@ -1,0 +1,10 @@
+<div class="controlsDemo__wrapper">
+    <div class="controlsDemo-RageLink__componentWrap controlsDemo-RangeLink_capture">
+        <Controls.dateRange:RangeSelector
+                bind:startValue="_startValue"
+                bind:endValue="_endValue"
+                resetStartValue="{{ _resetStartValue }}"
+                resetEndValue="{{ _resetEndValue }}"
+        />
+    </div>
+</div>

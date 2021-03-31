@@ -147,6 +147,5 @@ export default class Demo extends Control<IControlOptions> {
         this._children.validateController.submit();
     }
 
-    static _styles: string[] = ['Controls-demo/PropertyGridNew/Editors/HighlightOnHover/Index',
-        'Controls-demo/PropertyGridNew/PropertyGrid'];
+    static _styles: string[] = ['Controls-demo/PropertyGridNew/PropertyGrid'];
 }

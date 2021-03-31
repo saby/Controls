@@ -1,0 +1,3 @@
+<Controls._suggestPopup._OptionsFieldConsumer scope="{{ _options }}">
+    <Controls._suggestPopup.List scope="{{ content }}" />
+</Controls._suggestPopup._OptionsFieldConsumer>

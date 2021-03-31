@@ -6,7 +6,6 @@
     >
         <ws:itemTemplate>
             <ws:partial template="Controls/propertyGrid:ItemTemplate"
-                        class="controls-demo-pg-highlightOnHover-editor-padding"
                         highlightOnHover="{{true}}"
             />
         </ws:itemTemplate>

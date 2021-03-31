@@ -1,3 +1,5 @@
+import {TMarkerClassName} from 'Controls/display';
+
 /**
  * @typedef {String} Controls/_list/interface/IBaseItemTemplate/TCursor
  * @description Значения, с помощью которых задается вид курсора мыши.
@@ -5,23 +7,6 @@
  * @variant pointer Указатель.
  */
 export type TCursor = 'default' | 'pointer' | 'right';
-
-/**
- * @typedef {String} Controls/_list/interface/IBaseItemTemplate/TMarkerClassName
- * @description Значения, с помощью которых задается размер {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера}.
- * @variant default Маркер по высоте растягивается на весь контейнер записи.
- * @variant image-l Используется для размещения маркера рядом с изображением размера "l".
- * @variant image-m Используется для размещения маркера рядом с изображением размера "m".
- * @variant image-s Используется для размещения маркера рядом с изображением размера "s".
- * @variant image-xs Используется для размещения маркера рядом с изображением размера "xs".
- * @variant text-2xl Используется для размещения маркера рядом с текстом размера "2xl".
- * @variant text-xl Используется для размещения маркера рядом с текстом размера "xl".
- * @variant text-l Используется для размещения маркера рядом с текстом размера "l".
- * @variant text-m Используется для размещения маркера рядом с текстом размера "m".
- * @variant text-xs Используется для размещения маркера рядом с текстом размера "xs".
- */
-type TMarkerClassName = 'default' | 'image-l' | 'image-m' | 'image-s' | 'image-xl' |
-    'text-2xl' | 'text-xl' | 'text-l' | 'text-m' | 'text-xs';
 
 export default interface IBaseItemTemplateOptions {
    highlightOnHover?: boolean;
@@ -103,13 +88,13 @@ export default interface IBaseItemTemplateOptions {
 /**
  * @name Controls/_list/interface/IBaseItemTemplate#backgroundColorStyle
  * @cfg {Controls/_list/interface/IBaseItemTemplate/BackgroundColorStyle.typedef} Настройка фона строки.
- * @remark 
+ * @remark
  * Подробнее о настройке фона строки читайте {@link /doc/platform/developmentapl/interface-development/controls/list/list/background/#highlight здесь}.
  * @demo Controls-demo/list_new/ItemTemplate/BackgroundColorStyle/Index
  */
 /**
  * @name Controls/_list/interface/IBaseItemTemplate#markerClassName
- * @cfg {Controls/_list/interface/IBaseItemTemplate/TMarkerClassName.typedef} Размер {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера}.
+ * @cfg {Controls/_display/interface/IMarkable/TMarkerClassName.typedef} Размер {@link /doc/platform/developmentapl/interface-development/controls/list/actions/marker/ маркера}.
  * @default default
  * @see marker
  */

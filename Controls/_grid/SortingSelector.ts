@@ -1,4 +1,4 @@
-import template = require('wml!Controls/_grid/SortingResources/SortingSelector');
+import * as template from 'wml!Controls/_grid/Render/sortingSelector/SortingSelector';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Record} from 'Types/entity';
@@ -28,7 +28,7 @@ export interface ISortingSelectorOptions extends IControlOptions, IFontColorStyl
  *
  * @extends UI/Base:Control
  * @public
- * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/interface:IFontColorStyle
  * @implements Controls/_interface/IFontSize
  * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
  * @author Авраменко А.С.

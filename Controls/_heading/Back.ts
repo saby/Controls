@@ -1,6 +1,8 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import backTemplate = require('wml!Controls/_heading/Back/Back');
 import {descriptor as EntityDescriptor} from 'Types/entity';
+import 'css!Controls/heading';
+
 import {
     IFontColorStyle,
     IFontColorStyleOptions,
@@ -32,10 +34,10 @@ const MODERN_IE_VERSION = 11;
  * @implements Controls/_interface/ICaption
  * @implements Controls/_buttons/interface/IClick
  * @implements Controls/_interface/ITooltip
- * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/interface:IFontColorStyle
  * @implements Controls/_interface/IFontSize
- * @implements Controls/_interface/IIconSize
- * @implements Controls/_interface/IIconStyle
+ * @implements Controls/interface:IIconSize
+ * @implements Controls/interface:IIconStyle
  * 
  * @public
  * @author Красильников А.С.
@@ -52,10 +54,10 @@ const MODERN_IE_VERSION = 11;
  * @mixes Controls/_interface/ICaption
  * @mixes Controls/_buttons/interface/IClick
  * @mixes Controls/_interface/ITooltip
- * @implements Controls/_interface/IFontColorStyle
+ * @implements Controls/interface:IFontColorStyle
  * @implements Controls/_interface/IFontSize
- * @implements Controls/_interface/IIconSize
- * @implements Controls/_interface/IIconStyle
+ * @implements Controls/interface:IIconSize
+ * @implements Controls/interface:IIconStyle
  * 
  * @public
  * @author Красильников А.С.
@@ -66,7 +68,7 @@ class Back extends Control<IBackOptions> implements IFontColorStyle, IFontSize, 
     protected _template: TemplateFunction = backTemplate;
     protected _isOldIe: Boolean = false;
 
-    static _theme: string[] = ['Controls/heading', 'Controls/Classes'];
+    static _theme: string[] = ['Controls/Classes'];
 
     static getDefaultOptions(): object {
         return {

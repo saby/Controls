@@ -3,6 +3,7 @@ import template = require('wml!Controls/_search/Input/ExpandableInput/Search');
 import {EventUtils} from 'UI/Events';
 import {ITextOptions, IBaseOptions} from 'Controls/input';
 import {IRenderOptions, IPaddingOptions, ITagOptions} from 'Controls/interface';
+import 'css!Controls/search';
 
 interface IExpandableInputOptions extends IBaseOptions, ITextOptions,
     IRenderOptions, IPaddingOptions, ITagOptions {
@@ -24,10 +25,14 @@ export default class ExpandableInput extends Control<IControlOptions> {
    protected _expanded: boolean = false;
    protected _template: TemplateFunction = template;
    protected _tmplNotify: Function = EventUtils.tmplNotify;
-   protected _needShowButtonAnimation: boolean = false;
+   protected _needShowAnimation: boolean = false;
 
    protected _beforeMount(options: IExpandableInputOptions): void {
       this._expanded = this._getExpanded(options.expanded);
+   }
+
+   protected _animationendHandler(): void {
+      this._needShowAnimation = false;
    }
 
    private _getExpanded(expanedOption?: boolean): boolean {
@@ -42,11 +47,12 @@ export default class ExpandableInput extends Control<IControlOptions> {
 
    protected _handleOpenClick(): void {
       this._expanded = true;
+      this._needShowAnimation = true;
    }
 
    protected _handleCloseClick(): void {
       this._expanded = false;
-      this._needShowButtonAnimation = true;
+      this._needShowAnimation = true;
       this._notify('valueChanged', ['']);
    }
 
@@ -56,8 +62,6 @@ export default class ExpandableInput extends Control<IControlOptions> {
          expanded: false
       };
    }
-
-   static _theme: string[] = ['Controls/search'];
 }
 /**
  * @name Controls/_search/Input/ExpandableInput/Search#expanded

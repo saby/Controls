@@ -31,6 +31,7 @@
       <ws:if data="{{_options.readOnly}}">
          <ws:partial options="{{_options}}"
                      scope="{{_readOnlyField.scope}}"
+                     horizontalPadding="{{_horizontalPadding}}"
                      value="{{_viewModel.displayValue}}"
                      template="{{_readOnlyField.template}}"/>
       </ws:if>
@@ -41,6 +42,7 @@
                      scope="{{_field.scope}}"
                      autoWidth="{{_autoWidth}}"
                      fieldName="{{_fieldName}}"
+                     horizontalPadding="{{_horizontalPadding}}"
                      template="{{_field.template}}"
                      wasActionUser="{{_wasActionUser}}"
                      value="{{_viewModel.displayValue}}"

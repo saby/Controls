@@ -41,9 +41,6 @@ var _private = {
             (Object.getPrototypeOf(newList).constructor == Object.getPrototypeOf(newList).constructor) &&
             (Object.getPrototypeOf(newList.getAdapter()).constructor == Object.getPrototypeOf(oldList.getAdapter()).constructor);
     },
-    displayFilterGroups: function(item, index, displayItem) {
-        return (item ? (item === groupConstants.hiddenGroup || !item.get) : true) || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];
-    },
     prepareCollapsedGroupsByArray(collapsedGroups: Grouping.TArrayGroupId): {} {
         const result = {};
         if (collapsedGroups) {
@@ -56,9 +53,6 @@ var _private = {
     getDisplayFilter: function(data, cfg) {
         var
             filter = [];
-        if (cfg.groupingKeyCallback || cfg.groupProperty) {
-            filter.push(_private.displayFilterGroups.bind({ collapsedGroups: data.collapsedGroups }));
-        }
         if (cfg.itemsFilterMethod) {
             filter.push(cfg.itemsFilterMethod);
         }
@@ -184,11 +178,13 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     setKeyProperty(keyProperty: string): void {
-        const display = this.getDisplay();
-        if (display) {
-            display.setKeyProperty(keyProperty);
-        } else {
-            this._options.keyProperty = keyProperty;
+        if (keyProperty !== this.getKeyProperty()) {
+            const display = this.getDisplay();
+            if (display) {
+                display.setKeyProperty(keyProperty);
+            } else {
+                this._options.keyProperty = keyProperty;
+            }
         }
     },
 
@@ -235,7 +231,7 @@ var ItemsViewModel = BaseViewModel.extend({
 
     _getItemVersion(item) {
         // records have defined method getVersion, groups haven't
-        if (item.getVersion) {
+        if (item && item.getVersion) {
             return '' + item.getVersion();
         }
         return '' + item;
@@ -355,9 +351,15 @@ var ItemsViewModel = BaseViewModel.extend({
     },
 
     getDisplayFilter: function(data, cfg) {
-        return _private.getDisplayFilter(data, cfg);
+        const filters = _private.getDisplayFilter(data, cfg);
+        if (cfg.groupingKeyCallback || cfg.groupProperty) {
+            filters.push(this.displayFilterGroups.bind({ collapsedGroups: data.collapsedGroups }));
+        }
+        return filters;
     },
-
+    displayFilterGroups: function(item, index, displayItem) {
+        return (item ? (item === groupConstants.hiddenGroup || !item.get) : true) || !this.collapsedGroups[displayItem.getOwner().getGroup()(item, index, displayItem)];
+    },
     setGroupProperty(groupProperty: string): void {
         const display = this.getDisplay();
         if (display) {
@@ -473,10 +475,6 @@ var ItemsViewModel = BaseViewModel.extend({
         const shouldUpdate = !!metaData && !isEqual(metaData, {}) && typeof metaData.results !== 'undefined';
         if (shouldUpdate) {
             this._updateSubscriptionOnMetaChange(this._items, items, true);
-            const display = this.getDisplay();
-            if (display) {
-                display.setMetaResults(metaData && metaData.results);
-            }
         }
         return shouldUpdate;
     },
@@ -581,7 +579,7 @@ var ItemsViewModel = BaseViewModel.extend({
             // Необходимо нотифицировать о ресете модели отсюда, иначе никто этого не сделает
             // и об изменениях модели никто не узнает. Вследствие этого скакнет virtualScroll
             // https://online.sbis.ru/opendoc.html?guid=569a3c15-462f-4765-b624-c913baed1a57
-            this._notify('onListChange', 'collectionChanged', collection.IObservable.ACTION_RESET);
+            this._notify('onListChange', 'collectionChanged', collection.IObservable.ACTION_RESET, this.getDisplay().getItems(), 0, [], 0);
         }
         if (this._options.itemsSetCallback) {
             this._options.itemsSetCallback(this._items);

@@ -89,7 +89,7 @@ var Suggest = Control.extend({
       if (!this._markedKeyChanged || nativeEvent.which !== constants.key.enter) {
          const eventResult = this._notify('searchClick');
 
-         if (eventResult !== false) {
+         if (eventResult !== false && this._options.value) {
             this._suggestState = false;
             this._notify('suggestStateChanged', [false]);
             this._children.suggestController.closeSuggest();
@@ -98,6 +98,9 @@ var Suggest = Control.extend({
    },
 
    _resetClick: function() {
+      if (!this._options.autoDropDown) {
+         this._suggestState = false;
+      }
       this._notify('resetClick');
    }
 

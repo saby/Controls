@@ -3,7 +3,6 @@ import IMenuPopup, {IMenuPopupOptions} from 'Controls/_menu/interface/IMenuPopup
 import PopupTemplate = require('wml!Controls/_menu/Popup/template');
 import {default as searchHeaderTemplate} from 'Controls/_menu/Popup/searchHeaderTemplate';
 import {SyntheticEvent} from 'Vdom/Vdom';
-import * as mStubs from 'Core/moduleStubs';
 import {default as headerTemplate} from 'Controls/_menu/Popup/headerTemplate';
 import {Controller as ManagerController, IStickyPopupOptions} from 'Controls/popup';
 import {RecordSet} from 'Types/collection';
@@ -12,12 +11,14 @@ import {Model} from 'Types/entity';
 import {TSelectedKeys} from 'Controls/interface';
 import {CollectionItem} from 'Controls/display';
 import scheduleCallbackAfterRedraw from 'Controls/Utils/scheduleCallbackAfterRedraw';
+import HoverController from 'Controls/_menu/HoverController';
+import 'css!Controls/menu';
+import 'css!Controls/CommonClasses';
 
 const SEARCH_DEPS = [
-    'Controls/browser:Browser',
-    'Controls/list:Container',
-    'Controls/search:Input',
-    'Controls/search:InputContainer'
+    'Controls/browser',
+    'Controls/list',
+    'Controls/search'
 ];
 
 /**
@@ -39,27 +40,45 @@ const SEARCH_DEPS = [
 class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
     readonly '[Controls/_menu/interface/IMenuPopup]': boolean;
     protected _template: TemplateFunction = PopupTemplate;
+    protected _headerVisible: boolean = true;
     protected _headerTemplate: TemplateFunction;
     protected _headerTheme: string;
     protected _headingCaption: string;
     protected _headingIcon: string;
+    protected _headingIconSize: string;
     protected _itemPadding: object;
     protected _closeButtonVisibility: boolean;
     protected _verticalDirection: string = 'bottom';
     protected _horizontalDirection: string = 'right';
     protected _applyButtonVisible: boolean = false;
     protected _selectedItems: Model[] = null;
+    protected _hoverController: HoverController = null;
 
     protected _beforeMount(options: IMenuPopupOptions): Promise<void>|void {
         this._headerTheme = this._getTheme();
         this._dataLoadCallback = this._dataLoadCallback.bind(this, options);
+        this._dataLoadErrback = this._dataLoadErrback.bind(this, options);
 
         this._setCloseButtonVisibility(options);
         this._prepareHeaderConfig(options);
         this._setItemPadding(options);
 
+        if (options.trigger === 'hover') {
+            if (!options.root) {
+                this._hoverController = new HoverController(
+                    () => {
+                        this._notify('close', [], {bubbling: true});
+                    }
+                );
+            } else {
+                this._hoverController = options.hoverController;
+            }
+        }
         if (options.searchParam) {
-            return mStubs.require(SEARCH_DEPS);
+            const depPromise = SEARCH_DEPS.map((dep) => {
+                return import(dep)
+            });
+            return Promise.all(depPromise);
         }
     }
 
@@ -98,6 +117,23 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         this._notify('sendResult', ['menuOpened', this._container], {bubbling: true});
     }
 
+    protected _beforeUnmount(): void {
+        this._notify('sendResult', ['menuClosed', this._container], {bubbling: true});
+    }
+
+    protected _mouseEvent(event: SyntheticEvent<MouseEvent>) {
+        if (this._hoverController) {
+            switch (event.type) {
+                case 'mouseenter':
+                    this._hoverController.mouseEnter();
+                    break;
+                case 'mouseleave':
+                    this._hoverController.mouseLeave();
+                    break;
+            }
+        }
+    }
+
     protected _headerClick(): void {
         if (!this._options.searchParam) {
             this._notify('close', [], {bubbling: true});
@@ -108,21 +144,43 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         this._notify('sendResult', ['footerClick', sourceEvent], {bubbling: true});
     }
 
+    protected _mouseEnterHandler(): void {
+        if (this._container.closest('.controls-Menu__subMenu')) {
+            this._notify('sendResult', ['subMenuMouseenter'], {bubbling: true});
+        }
+    }
+
     protected _dataLoadCallback(options: IMenuPopupOptions, items: RecordSet): void {
+        const sizes = ['s', 'm', 'l'];
+        let iconSize;
+        let headingIconSize = -1;
         if (this._headingIcon) {
             const root = options.root !== undefined ? options.root : null;
             let needShowHeadingIcon = false;
             factory(items).each((item) => {
                 if (item.get('icon') && (!options.parentProperty || item.get(options.parentProperty) === root)) {
+                    iconSize = sizes.indexOf(item.get('iconSize'));
+                    headingIconSize = iconSize > headingIconSize ? iconSize : headingIconSize;
                     needShowHeadingIcon = true;
                 }
             });
             if (!needShowHeadingIcon) {
                 this._headingIcon = null;
+            } else {
+                this._headingIconSize = sizes[headingIconSize] || options.iconSize;
             }
         }
         if (options.dataLoadCallback) {
             options.dataLoadCallback(items);
+        }
+    }
+
+    protected _dataLoadErrback(options: IMenuPopupOptions, error: Error): void {
+        this._headerVisible = false;
+        this._headingCaption = null;
+        this._headerTemplate = null;
+        if (options.dataLoadErrback) {
+            options.dataLoadErrback(error);
         }
     }
 
@@ -211,11 +269,10 @@ class Popup extends Control<IMenuPopupOptions> implements IMenuPopup {
         return ManagerController.getPopupHeaderTheme();
     }
 
-    static _theme: string[] = ['Controls/menu'];
-
     static getDefaultOptions(): object {
         return {
-            selectedKeys: []
+            selectedKeys: [],
+            backgroundStyle: 'default'
         };
     }
 }

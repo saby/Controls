@@ -213,6 +213,40 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
          assert.equal(treeTileViewModel.getHoveredItem(), null);
       });
 
+      it('getItemWidth', () => {
+         let leftImagePositionWidth;
+         let rightImagePositionWidth;
+         let topImagePositionWidth;
+         const item = treeTileViewModel.getItems().at(0);
+
+         treeTileViewModel.setTileSize('s');
+         topImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'top');
+         leftImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'left');
+         rightImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'right');
+         assert.equal(topImagePositionWidth, 164);
+         assert.isTrue(leftImagePositionWidth === rightImagePositionWidth);
+         assert.equal(leftImagePositionWidth, 300);
+
+
+         treeTileViewModel.setTileSize('m');
+         topImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'top');
+         leftImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'left');
+         rightImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'right');
+         assert.equal(topImagePositionWidth, 200);
+         assert.isTrue(leftImagePositionWidth === rightImagePositionWidth);
+         assert.equal(leftImagePositionWidth, 420);
+
+         treeTileViewModel.setTileSize('l');
+         topImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'top');
+         leftImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'left');
+         rightImagePositionWidth = treeTileViewModel.getItemWidth(item, false, '', '', 'right');
+         assert.equal(topImagePositionWidth, 256);
+         assert.isTrue(leftImagePositionWidth === rightImagePositionWidth);
+         assert.equal(leftImagePositionWidth, 648);
+
+         treeTileViewModel.setTileSize(null);
+      });
+
       it('getTileItemData', function() {
          let tileItemData = treeTileViewModel.getTileItemData({
             isNode: () => true,
@@ -234,6 +268,7 @@ define(['Controls/_tile/TreeTileView/TreeTileViewModel', 'Types/collection'], fu
             getImageProportion: treeTileViewModel._tileModel.getImageProportion,
             imageHeightProperty: 'imageHeight',
             imageFit: 'cover',
+            getItemWidth: treeTileViewModel.getItemWidth,
             imageUrlResolver: urlResolver
          });
          tileItemData = treeTileViewModel.getTileItemData({

@@ -1,0 +1,10 @@
+<ws:partial template="wml!Controls/_tileNew/render/items/Default"
+            itemActionsPadding="null"
+            highlightOnHover="{{false}}"
+            itemWidth="{{ (item || itemData).getTileSizes(imagePosition, imageViewMode).width }}"
+            folderWidth="{{ (item || itemData).getTileSizes(imagePosition, imageViewMode).width }}"
+            staticHeight="{{true}}"
+            height="auto"
+            imageProportionOnItem="{{imageProportion}}"
+            scope="{{_options}}"
+            itemType="rich"/>

@@ -25,9 +25,10 @@
 
    function cssStyleGeneration(options) {
       // для каждого размера вызывающего элемента создаем класс, который выравнивает popup через margin.
-      let offsetClassName = 'controls-MenuButton_' + (options.viewMode);
+      let offsetClassName = 'controls-MenuButton_' + options.viewMode;
 
-      if ((!options.icon || options.viewMode === 'toolButton' || options.viewMode === 'functionalButton')) {
+      if (!options.icon || options.viewMode === 'toolButton'
+          || options.viewMode === 'functionalButton' || options.viewMode === 'linkButton') {
          const currentHeight = options.inlineHeight || options.fontSize;
          offsetClassName += ('__' + currentHeight);
 

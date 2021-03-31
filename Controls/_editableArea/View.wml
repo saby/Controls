@@ -1,6 +1,6 @@
 <ws:template name="buttonsTemplateBase">
    <ws:partial template="{{_buttonsTemplate}}"
-               attr:class="controls-EditableArea_isEditing_wrapper_theme-{{_options.theme}}"
+               attr:class="controls-EditableArea_isEditing_wrapper"
                on:applyButtonClick="commitEdit()"
                on:closeButtonClick="cancelEdit()"/>
 </ws:template>
@@ -11,7 +11,7 @@
 >
    <div
       class="controls-EditableArea
-      {{ _isEditing && _options.backgroundStyle ? 'controls-background-' + _options.backgroundStyle + '_theme-' + _options.theme }}
+      {{ _isEditing && _options.backgroundStyle ? 'controls-background-' + _options.backgroundStyle }}
       controls-EditableArea_{{_options.readOnly ? 'readonly' : 'clickable'}}"
    >
       <div class="controls-EditableArea__wrapper">

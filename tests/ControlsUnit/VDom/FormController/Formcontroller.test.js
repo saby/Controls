@@ -87,26 +87,6 @@ define([
             done();
          });
       });
-
-      it('registerPending', async () => {
-         let updatePromise;
-         let FC = new form.Controller();
-         FC._crudController = {
-            hideIndicator() {}
-         };
-         FC._createChangeRecordPending();
-         assert.isTrue(FC._pendingPromise !== undefined);
-         FC.update = () => new Promise((res) => updatePromise = res);
-         FC._confirmDialogResult(true, new Deferred());
-         await updatePromise({});
-         assert.isTrue(FC._pendingPromise === null);
-
-         FC._createChangeRecordPending();
-         FC._beforeUnmount();
-         assert.isTrue(FC._pendingPromise === null);
-         FC.destroy();
-      });
-
       it('beforeUpdate', async () => {
          let FC = new form.Controller();
          let setRecordCalled = false;
@@ -348,79 +328,6 @@ define([
          });
       });
 
-      it('FormController _confirmRecordChangeHandler', async() => {
-         let FC = new form.Controller();
-         let isDefaultCalled = false;
-         let isNegativeCalled = false;
-         let showConfirmPopupResult = false;
-         const defaultAnswerCallback = () => isDefaultCalled = true;
-         const negativeAnswerCallback = () => isNegativeCalled = true;
-         const mokePromiseFunction = () => {
-            return {
-               then: (thenCallback) => thenCallback(showConfirmPopupResult)
-            };
-         };
-
-         FC._needShowConfirmation = () => false;
-         FC._confirmRecordChangeHandler(defaultAnswerCallback, negativeAnswerCallback);
-         assert.equal(isDefaultCalled, true);
-         assert.equal(isNegativeCalled, false);
-         isDefaultCalled = false;
-
-         FC._needShowConfirmation = () => true;
-         FC._showConfirmPopup = mokePromiseFunction;
-         FC._confirmRecordChangeHandler(defaultAnswerCallback, negativeAnswerCallback);
-         assert.equal(isDefaultCalled, false);
-         assert.equal(isNegativeCalled, true);
-         isNegativeCalled = false;
-
-         showConfirmPopupResult = true;
-         FC.update = mokePromiseFunction;
-         FC._confirmRecordChangeHandler(defaultAnswerCallback, negativeAnswerCallback);
-         assert.equal(isDefaultCalled, true);
-         assert.equal(isNegativeCalled, false);
-         FC.destroy();
-      });
-
-      it('FormController user operations', () => {
-         const FC = new form.Controller();
-         let isSaveCalled = false;
-         let isCancelCalled = false;
-         let isDestroyed = false;
-         const operation = {
-            save() {
-               isSaveCalled = true;
-            },
-            cancel() {
-               isCancelCalled = true;
-            },
-            isDestroyed() {
-               return isDestroyed;
-            }
-         };
-         FC._registerFormOperationHandler(null, operation);
-         FC._registerFormOperationHandler(null, operation);
-         assert.equal(FC._formOperationsStorage.length, 2);
-
-         FC._startFormOperations('save');
-         assert.equal(isSaveCalled, true);
-         assert.equal(isCancelCalled, false);
-
-         isSaveCalled = false;
-         FC._startFormOperations('cancel');
-         assert.equal(isSaveCalled, false);
-         assert.equal(isCancelCalled, true);
-         isCancelCalled = false;
-
-         isDestroyed = true;
-         FC._startFormOperations('cancel');
-         assert.equal(isSaveCalled, false);
-         assert.equal(isCancelCalled, false);
-         assert.equal(FC._formOperationsStorage.length, 0);
-
-         FC.destroy();
-      });
-
       it('FormController update with Config', (done) => {
          let configData = {
             additionalData: {
@@ -433,7 +340,7 @@ define([
          };
          let data;
          FC._record = {
-            getId: () => 'id1',
+            getKey: () => 'id1',
             isChanged: () => true
          };
          FC._isNewRecord = true;
@@ -476,7 +383,7 @@ define([
             let FC = new form.Controller();
             FC.saveOptions({ source });
             FC._record = {
-               getId: () => 'id1'
+               getKey: () => 'id1'
             };
             FC._crudController = {
                hideIndicator () {}
@@ -512,7 +419,7 @@ define([
          assert.equal(isDestroyCalled, false);
 
          FC._record = {
-            getId: () => null
+            getKey: () => null
          };
          FC._isNewRecord = true;
 
@@ -520,7 +427,7 @@ define([
          assert.equal(isDestroyCalled, false);
 
          FC._record = {
-            getId: () => 'key'
+            getKey: () => 'key'
          };
          FC._tryDeleteNewRecord();
          assert.equal(isDestroyCalled, true);
@@ -544,39 +451,6 @@ define([
          sandbox.restore();
       });
 
-      it('_confirmDialogResult', (done) => {
-         let FC = new form.Controller();
-         let promise = new Promise((resolve, reject) => {
-            reject('update error');
-         });
-         FC.update = () => promise;
-         let calledEventName;
-         FC._notify = (event) => {
-            calledEventName = event;
-         };
-         FC._confirmDialogResult(true, new Promise(()=>{}));
-         promise.catch(() => {
-            assert.equal(calledEventName, 'cancelFinishingPending');
-            FC.destroy();
-            done();
-         })
-      });
-      it('_needShowConfirmation', () => {
-         let FC = new form.Controller();
-         FC._record = {
-            isChanged: () => true
-         };
-         let result = FC._needShowConfirmation();
-         assert.isTrue(result);
-
-         FC._record = {
-            isChanged: () => false
-         };
-         FC._options.confirmationShowingCallback = () => {
-            return true;
-         };
-         assert.isTrue(result);
-      });
 
       it('requestCustomUpdate isNewRecord', (done) => {
          let FC = new form.Controller();
@@ -614,7 +488,7 @@ define([
             return false;
          };
          FC._record = {
-            getId: () => 'id1',
+            getKey: () => 'id1',
             isChanged: () => true
          };
          let crud = {
@@ -631,7 +505,7 @@ define([
          let error = false;
          let FC = new form.Controller();
          FC._record = {
-            getId: () => 'id1',
+            getKey: () => 'id1',
             isChanged: () => true
          };
          FC._notify = (event) => {
@@ -690,7 +564,7 @@ define([
 
          beforeEach(() => {
             fc = new form.Controller();
-            fc.__error = {};
+            fc._error = {};
             sinon.stub(fc, '_notify');
          });
 
@@ -700,7 +574,7 @@ define([
 
          it('without record', () => {
             fc._onCloseErrorDialog();
-            assert.isNotOk(fc.__error, 'resets viewConfig of error container');
+            assert.isNotOk(fc._error, 'resets viewConfig of error container');
             assert.isTrue(fc._notify.calledOnce, 'notifies "close"');
             assert.deepEqual(fc._notify.getCall(0).args, ['close', [], { bubbling: true }]);
          });
@@ -708,7 +582,7 @@ define([
          it('with record', () => {
             fc._record = {};
             fc._onCloseErrorDialog();
-            assert.isNotOk(fc.__error, 'resets viewConfig of error container');
+            assert.isNotOk(fc._error, 'resets viewConfig of error container');
             assert.isNotOk(fc._notify.called, 'does not notify "close"');
          });
       });

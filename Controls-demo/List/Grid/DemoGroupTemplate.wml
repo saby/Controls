@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:GroupTemplate" itemData="{{itemData}}" columnAlignGroup="{{1}}">
+<ws:partial template="Controls/gridOld:GroupTemplate" itemData="{{itemData}}" columnAlignGroup="{{1}}">
    <ws:contentTemplate>
       <ws:if data="{{itemData.item === 'nonexclusive'}}">Неисключительные права</ws:if>
       <ws:if data="{{itemData.item === 'works'}}">Работы</ws:if>

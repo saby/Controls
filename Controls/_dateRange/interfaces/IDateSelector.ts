@@ -18,14 +18,14 @@ export interface IDateSelectorOptions {
  *    <Controls.buttons:Button on:click="_sendButtonClick()" />
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ...
  *       value: new Date(),
  *       _sendButtonClick() {
  *          this._sendData(this._startValue);
  *       }
  *       ...
- *   });
+ *   }
  * </pre>
  */
 
@@ -41,13 +41,13 @@ export interface IDateSelectorOptions {
  *    <Controls.dateRange:Input value="_fieldValue" on:valueChanged="_valueChangedHandler()"/>
  * </pre>
  * <pre>
- *    Control.extend({
+ *    class MyControl extends Control<IControlOptions> {
  *       ....
  *       _fieldValue: null,
  *       _valueChangedHandler(value) {
  *          this._fieldValue = value;
  *       }
  *       ...
- *    });
+ *    };
  * </pre>
  */

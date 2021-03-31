@@ -17,7 +17,7 @@ export default interface IDayTemplate {
 
 /**
  * @name Controls/_interface/IDayTemplate#dayTemplate
- * @cfg {String|Function} Шаблон дня.
+ * @cfg {String|TemplateFunction} Шаблон дня.
  * @remark
  * В шаблон передается объект value, в котором хранятся:
  * 

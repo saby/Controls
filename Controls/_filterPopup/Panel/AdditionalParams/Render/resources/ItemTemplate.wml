@@ -1,4 +1,14 @@
-<ws:partial template="{{item[_options.itemTemplateProperty] || _options.itemTemplate.templateName}}"
-            item="{{item}}"
-            templateOptions="{{_options.itemTemplate.templateOptions}}"/>
+<ws:if data="{{(item[_options.itemTemplateProperty] || _options.itemTemplate.templateName).at}}">
+   <Controls.Container.Async
+      templateName="{{item[_options.itemTemplateProperty] || _options.itemTemplate.templateName}}">
+      <ws:partial template="{{content.resolvedTemplate}}"
+                  item="{{item}}"
+                  templateOptions="{{_options.itemTemplate.templateOptions}}"/>
+   </Controls.Container.Async>
+</ws:if>
+<ws:else>
+   <ws:partial template="{{item[_options.itemTemplateProperty] || _options.itemTemplate.templateName}}"
+               item="{{item}}"
+               templateOptions="{{_options.itemTemplate.templateOptions}}"/>
+</ws:else>
 

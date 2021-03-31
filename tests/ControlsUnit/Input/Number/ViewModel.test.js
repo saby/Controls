@@ -280,6 +280,48 @@ define(
                assert.equal(model.displayValue, '123.5');
                assert.deepEqual(model.selection, getSelection(4));
             });
+            it('Remove "." use delete with useAdditionToMaxPrecision.', function() {
+               model.options = cMerge(model.options, {
+                  integersLength: 3,
+                  precision: 2,
+                  useAdditionToMaxPrecision: true
+               });
+               model.handleInput({
+                  after: '45',
+                  before: '123',
+                  delete: '.',
+                  insert: ''
+               }, 'deleteForward');
+
+               assert.equal(model.displayValue, '123.50');
+               assert.deepEqual(model.selection, getSelection(4));
+            });
+            it('Keep removing use delete before equal 0.00.', function() {
+               model.options = cMerge(model.options, {
+                  integersLength: 3,
+                  precision: 2,
+                  useAdditionToMaxPrecision: true
+               });
+               let value = '123.45';
+               let splittedValue = value.split('.');
+               const inputCfg = {
+                  after: splittedValue[1],
+                  before: splittedValue[0],
+                  delete: '.',
+                  insert: ''
+               };
+               model.handleInput(inputCfg, 'deleteForward');
+
+               assert.equal(model.displayValue, '123.50');
+
+               value = model.displayValue;
+               splittedValue = value.split('.');
+               inputCfg.before = splittedValue[0];
+               inputCfg.after = splittedValue[1];
+               model.handleInput(inputCfg, 'deleteForward');
+
+               assert.equal(model.displayValue, '123.00');
+            });
             it('Remove and replace with zero.', function() {
                model.options = cMerge(model.options, {
                   precision: 2,
@@ -292,7 +334,7 @@ define(
                   insert: ''
                }, 'deleteBackward');
 
-               assert.equal(model.displayValue, '123.05');
+               assert.equal(model.displayValue, '123.50');
                assert.deepEqual(model.selection, getSelection(4));
             });
 

@@ -30,10 +30,10 @@ export default class IPropertyGridRender extends Control<IPropertyGridGridRender
     protected _getColumnsWidth(captionTemplateOptions: IColumnOptions, editorTemplateOptions: IColumnOptions): string {
         const isIE = detection.isIE;
         const width = {
-            compatibleCaption: captionTemplateOptions?.compatibleWidth || '50%',
-            compatibleEditor: editorTemplateOptions?.compatibleWidth || '50%',
-            caption: captionTemplateOptions?.width || '50%',
-            editor: editorTemplateOptions?.width || '50%'
+            compatibleCaption: captionTemplateOptions?.compatibleWidth || '1fr',
+            compatibleEditor: editorTemplateOptions?.compatibleWidth || '1fr',
+            caption: captionTemplateOptions?.width || '1fr',
+            editor: editorTemplateOptions?.width || '1fr'
         };
         return isIE ? `-ms-grid-columns: ${width.compatibleCaption} ${width.compatibleEditor}` :
             `grid-template-columns: ${width.caption} ${width.editor}`;
@@ -72,18 +72,19 @@ export default class IPropertyGridRender extends Control<IPropertyGridGridRender
         this._notify('toggleEditor', [item, value]);
     }
 
-    protected _handleMenuActionMouseEnter(): void {
-        //
-    }
-    protected _handleMenuActionMouseLeave(): void {
-        //
-    }
+    protected _handleMenuActionMouseEnter(): void {/**/}
+    protected _handleMenuActionMouseLeave(): void {/**/}
+    protected _onItemActionsMouseEnter(): void {/**/}
 
     protected _onItemActionMouseDown(e: SyntheticEvent<MouseEvent>,
                                      action: unknown,
                                      item: PropertyGridItem<Model>): void {
         e.stopPropagation();
         this._notify('itemActionMouseDown', [item, action, e]);
+    }
+
+    protected _onItemActionMouseUp(e: SyntheticEvent<MouseEvent>): void {
+        e.stopPropagation();
     }
 
     protected _onItemActionClick(e: SyntheticEvent<MouseEvent>): void {

@@ -37,6 +37,10 @@ export = simpleExtend.extend({
       return this._fixedPosition;
    },
 
+   set fixedPosition(value: string) {
+      this._fixedPosition = value;
+   },
+
    isFixed(): boolean {
       return !!this._fixedPosition;
    },

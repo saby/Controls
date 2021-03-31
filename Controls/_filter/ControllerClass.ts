@@ -8,7 +8,7 @@ import mergeSource from 'Controls/_filter/Utils/mergeSource';
 import {getHistorySource} from 'Controls/_filter/HistoryUtils';
 import {_assignServiceFilters} from '../_search/Utils/FilterUtils';
 import {selectionToRecord} from 'Controls/operations';
-import {TKeysSelection} from 'Controls/interface';
+import {TKeysSelection, TFilter} from 'Controls/interface';
 
 import * as clone from 'Core/core-clone';
 import * as isEmpty from 'Core/helpers/Object/isEmpty';
@@ -29,7 +29,7 @@ type THistoryData = IFilterHistoryData | IFilterItem[];
 
 export interface IFilterControllerOptions {
     prefetchParams?: IPrefetchHistoryParams;
-    filter: object;
+    filter?: TFilter;
     useStore?: boolean;
     filterButtonSource: IFilterItem[];
     fastFilterSource?: IFilterItem[];
@@ -43,7 +43,7 @@ export interface IFilterControllerOptions {
     excludedKeys?: TKeysSelection;
     source?: ICrud;
     selectionViewMode?: string;
-    historySaveCallback?: (historyData: Record<string, any>, filterButtonItems: IFilterItem[]) => void;
+    historySaveCallback?: (historyData: Record<string, unknown>, filterButtonItems: IFilterItem[]) => void;
 }
 
 const getPropValue = Utils.object.getPropertyValue.bind(Utils);
@@ -57,7 +57,7 @@ export default class FilterControllerClass {
     private _crudWrapper: CrudWrapper;
     private _filterButtonItems: IFilterItem[] = null;
     private _fastFilterItems: IFilterItem[] = null;
-    private _filter: object = {};
+    private _filter: TFilter = {};
 
     /* Флаг необходим, т.к. добавлять запись в историю после изменения фильтра
    необходимо только после загрузки данных, т.к. только в ответе списочного метода
@@ -223,7 +223,7 @@ export default class FilterControllerClass {
         }
     }
 
-    getFilter(): object {
+    getFilter(): TFilter {
         return this._filter;
     }
 
@@ -386,6 +386,13 @@ export default class FilterControllerClass {
         let minimizedItemFromOption;
 
         const historySource = getHistorySource({historyId});
+        /* На сервере historySource не кэшируется и история никогда не будет проинициализирована
+           Нужно переводить кэширование на сторы Санникова
+           https://online.sbis.ru/opendoc.html?guid=4ca5d3b8-65a7-4d98-8ca4-92ed1fbcc0fc
+         */
+        if (!historySource.historyReady()) {
+            return;
+        }
         const historyItems = historySource.getItems();
         if (historyItems && historyItems.getCount()) {
             historyItems.each((item, index) => {
@@ -791,6 +798,17 @@ export default class FilterControllerClass {
             });
         }
         return resultItems;
+    }
+
+    // Методы добавлены для совместимости, чтобы не сломался код у прикладных программистов,
+    // которые используют статический метод getCalculatedFilter у Controls/filter:Controller
+    // будет исправлено по задаче https://online.sbis.ru/opendoc.html?guid=8bd01598-d6cd-4581-ae3a-2a6915b34b79
+    static getCalculatedFilter(cfg: object): Promise<any> {
+        return new FilterControllerClass({}).getCalculatedFilter(cfg);
+    }
+
+    static updateFilterHistory(cfg: object): Promise<any> {
+        return new FilterControllerClass({}).saveFilterToHistory(cfg);
     }
 }
 

@@ -1,9 +1,8 @@
-import {Control} from 'UI/Base';
-import template = require('tmpl!Controls/_lookup/Opener');
-
+import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
+import * as template from 'wml!Controls/_lookup/Opener';
 /**
  * Контрол, который открывает всплывающее окно со списком, располагающимся справа от контентной области на всю высоту экрана, из которого можно выбрать значение.
- * 
+ *
  * @remark
  * Полезные ссылки:
  * * {@link /materials/Controls-demo/app/Engine-demo%2FSelector демо-пример}
@@ -11,37 +10,19 @@ import template = require('tmpl!Controls/_lookup/Opener');
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_lookup.less переменные тем оформления}
  *
  * @class Controls/_lookup/Opener
- * 
+ *
  * @extends Controls/_popup/Opener/Stack
  * @author Герасимов А.М.
  * @private
  */
-/*
- * Component that opens the popup with list, to the right of content area at the full height of the screen, from which you can select a value. {@link /doc/platform/developmentapl/interface-development/controls/layout-selector-stack/ See more}.
- *
- * Here you can see <a href="/materials/Controls-demo/app/Engine-demo%2FSelector">demo-example</a>.
- *
- * @class Controls/_lookup/Opener
- * 
- * @extends Controls/_popup/Opener/Stack
- * @author Gerasimov A.M.
- * @private
- */
 
-var SelectorOpener = Control.extend({
-
-   _template: template,
-
-   open: function (cfg) {
-      return this._children.stackOpener.open(cfg || {});
-   },
-
-   close: function () {
-      return this._children.stackOpener.close();
+export default class PlaceholderChooser extends Control<IControlOptions> {
+   protected _template: TemplateFunction = template;
+   open(cfg = {}): Promise<void> {
+      return this._children.stackOpener.open(cfg);
    }
 
-});
-
-export = SelectorOpener;
-
-
+   close(): Promise<void> {
+      return this._children.stackOpener.close();
+   }
+}

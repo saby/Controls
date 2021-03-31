@@ -35,7 +35,6 @@ export interface ICollectionItemStyled {
      * @param itemActionsClass
      * @param itemPadding
      * @param theme
-     * @param useNewModel Убрать этот параметр, если он более не будет нужен
      */
-    getItemActionPositionClasses(itemActionsPosition: string, itemActionsClass: string, itemPadding: {top?: string, bottom?: string}, theme: string, useNewModel?: boolean): string;
+    getItemActionPositionClasses(itemActionsPosition: string, itemActionsClass: string, itemPadding: {top?: string, bottom?: string}, theme: string): string;
 }

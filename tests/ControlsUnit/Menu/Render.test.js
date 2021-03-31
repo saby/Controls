@@ -59,12 +59,12 @@ define(
             return menuControl;
          };
 
-         it('_proxyEvent', function() {
+         it('_itemMouseEnter', function() {
             let menuRender = getRender();
             let actualData;
             let isStopped = false;
             menuRender._notify = (e, d) => {
-               if (e === 'itemClick') {
+               if (e === 'itemMouseEnter') {
                   actualData = d;
                }
             };
@@ -72,9 +72,9 @@ define(
                type: 'click',
                stopPropagation: () => {isStopped = true;}
             };
-            menuRender._proxyEvent(event, 'itemClick', { key: 1 }, 'item1');
+            menuRender._itemMouseEnter(event, { key: 1 }, 'event');
             assert.deepEqual(actualData[0], { key: 1 });
-            assert.deepEqual(actualData[1], 'item1');
+            assert.deepEqual(actualData[1], 'event');
             assert.isTrue(isStopped);
          });
 
@@ -159,14 +159,25 @@ define(
                assert.equal(renderOptions.listModel.getCollection().at(0).get('node'), false);
             });
 
-            it('check marked empty item', function() {
-               renderOptions.selectedKeys = [];
-               menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
-               assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isMarked());
+            describe('check marked empty item', function() {
+               it('selectedKeys = []', () => {
+                  renderOptions.selectedKeys = [];
+                  menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
+                  assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isMarked());
+               });
 
-               renderOptions.selectedKeys = [null];
-               menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
-               assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isMarked());
+               it('selectedKeys = [null]', () => {
+                  renderOptions.selectedKeys = [null];
+                  menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
+                  assert.isTrue(renderOptions.listModel.getItemBySourceKey(null).isMarked());
+               });
+
+               it('markerVisibility = hidden', () => {
+                  renderOptions.selectedKeys = [null];
+                  renderOptions.markerVisibility = 'hidden';
+                  menuRender.addEmptyItem(renderOptions.listModel, renderOptions);
+                  assert.isFalse(renderOptions.listModel.getItemBySourceKey(null).isMarked());
+               });
             });
 
             it('check model', function() {

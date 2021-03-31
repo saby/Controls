@@ -1,11 +1,13 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import template = require('wml!Controls/_buttons/ArrowButton/ArrowButton');
+import 'css!Controls/buttons';
 
-type TArrowButtonDirection = 'right' | 'left' | 'up' | 'down';
+export type TArrowButtonDirection = 'right' | 'left' | 'up' | 'down';
 
 export interface IArrowButtonOptions extends IControlOptions {
     direction?: TArrowButtonDirection;
-    inlineHeight?: string;
+    inlineHeight: string;
+    iconSize: string;
 }
 
 /**
@@ -13,6 +15,7 @@ export interface IArrowButtonOptions extends IControlOptions {
  * @class Controls/_buttons/ArrowButton
  * @extends UI/Base:Control
  * @public
+ * @implements Controls/_interface/IIconSize
  * @author Красильников А.С.
  * @demo Controls-demo/Buttons/ArrowButton/Index
  */
@@ -20,18 +23,20 @@ export interface IArrowButtonOptions extends IControlOptions {
 class ArrowButton extends Control<IArrowButtonOptions>  {
     protected _template: TemplateFunction = template;
 
-    private _clickHandler = (event: Event): void => {
+    protected _clickHandler(event: Event): void {
         if (this._options.readOnly) {
             event.stopPropagation();
         }
     }
+
+    static _theme: string[] = ['Controls/Classes'];
+
     static getDefaultOptions(): object {
         return {
-            inlineHeight: 's'
+            inlineHeight: 's',
+            iconSize: 's'
         };
     }
-
-    static _theme: string[] = ['Controls/buttons', 'Controls/Classes'];
 }
 
 Object.defineProperty(ArrowButton, 'defaultProps', {
@@ -66,7 +71,6 @@ Object.defineProperty(ArrowButton, 'defaultProps', {
  * @cfg {Enum} Высота контрола.
  * @variant s
  * @variant l
- * @variant s
  * @demo Controls-demo/Buttons/ArrowButton/InlineHeight/Index
  * @example
  * Кнопка большого размера (l).
@@ -74,6 +78,11 @@ Object.defineProperty(ArrowButton, 'defaultProps', {
  * <!-- WML -->
  * <Controls.buttons:ArrowButton direction="down" inlineHeight="l"/>
  * </pre>
+ */
+
+/**
+ * @name Controls/_buttons/ArrowButton#iconSize
+ * @demo Controls-demo/Buttons/ArrowButton/IconSize/Index
  */
 
 export default ArrowButton;

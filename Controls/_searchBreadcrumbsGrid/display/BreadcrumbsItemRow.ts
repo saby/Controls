@@ -5,7 +5,7 @@ import SearchGridDataRow from './SearchGridDataRow';
 import { TreeChildren } from 'Controls/display';
 import SearchGridCollection from './SearchGridCollection';
 import { GridDataRow, TColspanCallbackResult } from 'Controls/gridNew';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/interface';
 
 export interface IOptions<T extends Model> {
     owner?: SearchGridCollection<T>;
@@ -128,5 +128,6 @@ Object.assign(BreadcrumbsItemRow.prototype, {
    _instancePrefix: 'search-breadcrumbs-grid-row-',
    _cellModule: 'Controls/searchBreadcrumbsGrid:BreadcrumbsItemCell',
    _$cellTemplate: 'Controls/searchBreadcrumbsGrid:SearchBreadcrumbsItemTemplate',
-   _$last: null
+   _$last: null,
+   _$hasNodeWithChildren: false
 });
