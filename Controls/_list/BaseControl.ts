@@ -4982,7 +4982,15 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             resDeferred.callback();
             Logger.error('BaseControl: Source option is undefined. Can\'t load data', self);
         }
-        return resDeferred;
+        return resDeferred.addCallback((result) => {
+            const hasColumnScroll = self._isMounted && self._children.listView &&
+                self._children.listView.isColumnScrollVisible && self._children.listView.isColumnScrollVisible();
+
+            if (hasColumnScroll) {
+                self._children.listView.resetColumnScroll();
+            }
+            return result;
+        });
     }
 
     // TODO удалить, когда будет выполнено наследование контролов (TreeControl <- BaseControl)
@@ -5226,8 +5234,14 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 }
             }
 
+            const sourceController = this.getSourceController();
+            // Пока считаем что редактирование итемов без указания SourceController не поддерживается
+            if (!sourceController) {
+                return LIST_EDITING_CONSTANTS.CANCEL;
+            }
+
             if (isAdd && !((options && options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
-                return this.getSourceController().create().then((item) => {
+                return sourceController.create().then((item) => {
                     if (item instanceof Model) {
                         return {item};
                     }

@@ -7,7 +7,7 @@ import {QueryWhereExpression, PrefetchProxy, ICrud, ICrudPlus, IData, Memory} fr
 import {
    error as dataSourceError,
    ISourceControllerOptions,
-   NewSourceController as SourceController
+   NewSourceController as SourceController, Path
 } from 'Controls/dataSource';
 import {ISourceControllerState} from 'Controls/dataSource';
 import {ContextOptions} from 'Controls/context';
@@ -121,6 +121,10 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
    private _root: TKey = null;
 
    private _items: RecordSet;
+   protected _breadCrumbsItems: Path;
+   protected _backButtonCaption: string;
+   protected _breadCrumbsItemsWithoutBackButton: Path;
+
    private _filter: QueryWhereExpression<unknown>;
 
    _beforeMount(
@@ -170,7 +174,9 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
          return this._sourceController
              .reload()
              .then((items) => {
-                this._items = this._sourceController.getItems();
+                this._items = this._sourceController.getState().items;
+                this._updateBreadcrumbsFromSourceController();
+
                 return items;
              })
              .catch((error) => error)
@@ -184,6 +190,10 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
 
    protected _afterMount(): void {
       this._isMounted = true;
+
+      // После монтирования пошлем событие о изменении хлебных крошек для того,
+      // что бы эксплорер заполнил свое состояние, которое завязано на хлебные крошки
+      this._notifyAboutBreadcrumbsChanged();
    }
 
    protected _beforeUpdate(newOptions: IDataOptions): void|Promise<RecordSet|Error> {
@@ -235,6 +245,8 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
 
       if (!isEqual(sourceControllerState, this._sourceControllerState) && !this._sourceController.isLoading()) {
          this._filter = sourceControllerState.filter;
+         this._items = sourceControllerState.items;
+         this._updateBreadcrumbsFromSourceController();
          this._updateContext(sourceControllerState);
       }
    }
@@ -243,6 +255,7 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
       const controllerState = this._sourceController.getState();
       // TODO items надо распространять либо только по контексту, либо только по опциям. Щас ждут и так и так
       this._items = controllerState.items;
+      this._updateBreadcrumbsFromSourceController();
       this._updateContext(controllerState);
    }
 
@@ -297,6 +310,8 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
    _itemsReadyCallbackHandler(items): void {
       if (this._items !== items) {
          this._items = this._sourceController.setItems(items);
+         this._updateBreadcrumbsFromSourceController();
+
          this._dataOptionsContext.items = this._items;
          this._dataOptionsContext.updateConsumers();
       }
@@ -326,6 +341,7 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
    _itemsChanged(event: SyntheticEvent, items: RecordSet): void {
       this._sourceController.cancelLoading();
       this._items = this._sourceController.setItems(items);
+      this._updateBreadcrumbsFromSourceController();
       this._updateContext(this._sourceController.getState());
       event.stopPropagation();
    }
@@ -369,6 +385,7 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
                 this._sourceController.setRoot(currentRoot);
              }
              this._items = this._sourceController.getItems();
+             this._updateBreadcrumbsFromSourceController();
              return reloadResult;
           })
           .catch((error) => {
@@ -405,6 +422,27 @@ class Data extends Control<IDataOptions, ReceivedState>/** @lends Controls/_list
 
       if (this._options.dataLoadCallback) {
          this._options.dataLoadCallback(items, direction);
+      }
+   }
+
+   /**
+    * На основании текущего состояния sourceController обновляет информацию
+    * для хлебных крошек. Так же стреляет событие об изменении данных
+    * хлебных крошек.
+    */
+   private _updateBreadcrumbsFromSourceController(): void {
+      const scState = this._sourceController.getState();
+
+      this._breadCrumbsItems = scState.breadCrumbsItems;
+      this._backButtonCaption = scState.backButtonCaption;
+      this._breadCrumbsItemsWithoutBackButton = scState.breadCrumbsItemsWithoutBackButton;
+
+      this._notifyAboutBreadcrumbsChanged();
+   }
+
+   private _notifyAboutBreadcrumbsChanged(): void {
+      if (this._isMounted) {
+         this._notify('breadCrumbsItemsChanged', [this._breadCrumbsItems]);
       }
    }
 

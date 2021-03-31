@@ -5,6 +5,7 @@ import {Tree, TreeItem, GroupItem, Collection} from 'Controls/display';
 import * as itemTemplate from 'wml!Controls/_menu/Render/itemTemplate';
 import * as multiSelectTpl from 'wml!Controls/_menu/Render/multiSelectTpl';
 import ViewTemplate = require('wml!Controls/_menu/Render/Render');
+import {TKey} from 'Controls/_menu/interface/IMenuControl';
 import {Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
@@ -133,8 +134,9 @@ class MenuRender extends Control<IMenuRenderOptions> {
             } else {
                 classes += ' controls-Menu__defaultItem';
             }
-            if (!this._isFixedItem(treeItem) && item.get('pinned') === true && !this._hasParent(item)) {
-                classes += ' controls-Menu__row_pinned';
+            if (!this._isFixedItem(treeItem) && item.get('pinned') === true &&
+                !this._hasParent(item, this._options.historyRoot)) {
+                classes += ' controls-Menu__row_pinned controls-DropdownList__row_pinned';
             }
             if (this._options.listModel.getLast() !== treeItem && !this._isGroupNext(treeItem) &&
                 !(this._options.allowPin && this._isHistorySeparatorVisible(treeItem))) {
@@ -163,8 +165,8 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return !groupItem.isHiddenGroup() && itemsGroupCount > 0 && itemsGroupCount !== collection.getCount(true);
     }
 
-    private _hasParent(item: Model): boolean {
-        return item.get(this._options.parentProperty) !== undefined && item.get(this._options.parentProperty) !== null;
+    private _hasParent(item: Model, root?: TKey = null): boolean {
+        return item.get(this._options.parentProperty) !== undefined && item.get(this._options.parentProperty) !== root;
     }
 
     private _isHistoryItem(item: Model): boolean {

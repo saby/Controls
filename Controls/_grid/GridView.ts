@@ -328,6 +328,10 @@ const GridView = ListView.extend({
 
     //#region COLUMN SCROLL
 
+    resetColumnScroll(): void {
+        this._columnScrollViewController?.reset();
+    },
+
     isColumnScrollVisible(): boolean {
         return !!this._columnScrollViewController?.isVisible() && (
             !!this._listModel.getCount() ||

@@ -28,6 +28,7 @@ export interface IMenuControlOptions extends IMenuBaseOptions, ISourceOptions, I
     selectorDialogResult: Function;
     sourceController?: NewSourceController;
     hoverController?: HoverController;
+    historyRoot: string;
 }
 
 /**

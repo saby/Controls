@@ -9,7 +9,8 @@
    <ws:partial template="itemTemplate">
         <ws:rightTemplate>
             <div class="controls-SortingSelector_arrowWrapper">
-                <div class="controls-SortingSelector_arrowsContainer" on:click="_arrowClick(itemData.item)">
+                <div class="controls-SortingSelector_arrowsContainer" on:click="_arrowClick(itemData.item)"
+                     attr:title="{{itemData.item.get('value')==='DESC' ? itemData.item.get('titleDesc') : itemData.item.get('titleAsc') }}">
                     <ws:partial attr:class="controls-SortingSelector_arrow"
                                 value="{{itemData.item.get('value')}}" template="wml!Controls/_grid/Render/SortingButton/SortingArrow"/>
                 </div>

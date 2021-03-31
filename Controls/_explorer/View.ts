@@ -10,7 +10,6 @@ import {IItemPadding, IList, ListView} from 'Controls/list';
 import {isEqual} from 'Types/object';
 import {CrudEntityKey, DataSet, LOCAL_MOVE_POSITION} from 'Types/source';
 import {
-    Direction,
     IBasePageSourceConfig, IBaseSourceConfig,
     IDraggableOptions, IFilterOptions, IHeaderCell,
     IHierarchyOptions,
@@ -25,7 +24,7 @@ import {
 } from 'Controls/interface';
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
-import {calculatePath, NewSourceController, Path} from 'Controls/dataSource';
+import {NewSourceController, Path} from 'Controls/dataSource';
 import {SearchView as SearchViewNew} from 'Controls/searchBreadcrumbsGrid';
 import {TreeGridView as TreeGridViewNew} from 'Controls/treeGridNew';
 import {SyntheticEvent} from 'UI/Vdom';
@@ -127,11 +126,10 @@ interface IMarkedKeysStore {
 
 export default class Explorer extends Control<IExplorerOptions> {
     protected _template: TemplateFunction = template;
-    protected _breadCrumbsItems: Path;
     protected _viewName: string;
     protected _viewMode: TExplorerViewMode;
     protected _viewModelConstructor: string;
-    protected _navigation: object;
+    private _navigation: object;
     protected _itemTemplate: TemplateFunction;
     protected _notifyHandler: typeof EventUtils.tmplNotify = EventUtils.tmplNotify;
     protected _backgroundStyle: string;
@@ -166,7 +164,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _isMounted: boolean = false;
     // TODO: используется только в ф-ии _setViewMode, нет смысла хранить это промис
     private _setViewModePromise: Promise<void>;
-    private _updateHeadingPath: Function;
     private _restoredMarkedKeys: IMarkedKeysStore;
     private _potentialMarkedKey: TKey;
     private _newItemPadding: IItemPadding;
@@ -195,8 +192,6 @@ export default class Explorer extends Control<IExplorerOptions> {
 
         this._itemsReadyCallback = this._itemsReadyCallbackFunc.bind(this);
         this._itemsSetCallback = this._itemsSetCallbackFunc.bind(this);
-        this._dataLoadCallback = this._dataLoadCallback.bind(this);
-        this._updateHeadingPath = this._updateBreadcrumbs.bind(this);
         this._canStartDragNDrop = this._canStartDragNDropFunc.bind(this);
         this._breadCrumbsDragHighlighter = this._dragHighlighter.bind(this);
         this._needSetMarkerCallback = (item: Model, domEvent: Event): boolean => {
@@ -204,19 +199,16 @@ export default class Explorer extends Control<IExplorerOptions> {
                 || item instanceof Array || item.get(this._options.nodeProperty) !== ITEM_TYPES.node;
         };
 
-        this._applyItems(cfg.items, cfg);
         this._dragControlId = randomId();
         this._navigation = cfg.navigation;
 
         const root = this._getRoot(cfg.root);
         this._headerVisibility = root === null ? cfg.headerVisibility || 'hasdata' : 'visible';
-        this._initMarkedKeys(
-            root,
-            this._topRoot,
-            this._breadCrumbsItems,
-            cfg.parentProperty,
-            cfg.navigation
-        );
+        this._restoredMarkedKeys = {
+            [root]: {
+                markedKey: null
+            }
+        };
 
         // TODO: для 20.5100. в 20.6000 можно удалить
         if (cfg.displayMode) {
@@ -233,15 +225,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     protected _beforeUpdate(cfg: IExplorerOptions): void {
         const isViewModeChanged = cfg.viewMode !== this._options.viewMode;
         const isRootChanged = cfg.root !== this._options.root;
-
-        // Применяем новые итемы только если они были переданы изначально
-        // или если новые не равны текущим в опциях.
-        // Сейчас items передает только родительский dataContainer. По этому если он есть,
-        // то items будут всегда. Если его нет, то items мы сами получаем через дочерний
-        // DataContainer
-        if (this._options.items || this._options.items !== cfg.items) {
-            this._applyItems(cfg.items, cfg);
-        }
 
         // Мы не должны ставить маркер до проваливания, т.к. это лишняя синхронизация.
         // Но если отменили проваливание, то нужно поставить маркер.
@@ -363,7 +346,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             // Принудительно показываем "домик" в хлебных крошках если находимся не в корневом узле
             // или не все перетаскиваемые итемы лежат в корне
             this._dragOnBreadCrumbs =
-                this._getRoot(this._options.root) !== this._getTopRoot(this._options) ||
+                this._getRoot(this._options.root) !== this._topRoot ||
                 !this._dragItemsFromRoot(dragObject.entity.getItems());
         }
     }
@@ -443,6 +426,39 @@ export default class Explorer extends Control<IExplorerOptions> {
         }
 
         return res;
+    }
+
+    /**
+     * Обрабатываем изменение хлебных крошек от внутреннего DataContainer.
+     * Сейчас хлебные крошки используются:
+     *  * для вычисления topRoot
+     *  * для вычисления id записи, которая должна быть помечена при возврате
+     *  назад по хлебным крошкам.
+     *
+     * TODO: нужно подумать над вариантами избавления от breadcrumbs для этого функционала
+     *  https://online.sbis.ru/opendoc.html?guid=b08d48ac-b6c2-4278-b48e-cb58618c7ffd
+     */
+    protected _onBreadcrumbsChanged(event: SyntheticEvent, breadcrumbs: Path): void {
+        if (this._isGoingBack) {
+            const curRoot = this._getRoot(this._options.root);
+
+            if (this._restoredMarkedKeys[curRoot]) {
+                this._potentialMarkedKey = this._restoredMarkedKeys[curRoot].markedKey;
+            }
+        }
+
+        const parentProperty = this._options.parentProperty;
+        this._topRoot = this._getTopRoot(breadcrumbs, parentProperty, this._options.root);
+
+        // На основании новых данных заполним хранилище в котором хранятся идентификаторы
+        // помеченных записей для каждого корня
+        this._initMarkedKeys(
+            this._getRoot(this._options.root),
+            this._topRoot,
+            breadcrumbs,
+            parentProperty,
+            this._options.navigation
+        );
     }
 
     protected _onBreadCrumbsClick(event: SyntheticEvent, item: Model): void {
@@ -562,7 +578,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._options.itemOpenHandler(root, this._items, dataRoot);
         }
 
-        this._notify('rootChanged', [root]);
+        if (this._isMounted) {
+            this._notify('rootChanged', [root]);
+        }
+
         this._forceUpdate();
     }
 
@@ -668,66 +687,6 @@ export default class Explorer extends Control<IExplorerOptions> {
         });
     }
 
-    /**
-     * Обновляет внутреннее состояние на основании переданных items:
-     * * Если ссылка на итемы изменилась, то обновит подписку на изменение данных path
-     *   и запомнит новый инстанс итемов. Данные path могут меняться пользователем, например,
-     *   при переименовании текущей папки
-     * * Высчитывает id записи, которая должна быть помечена маркером
-     * * Обновляет данные для хлебных крошек
-     */
-    private _applyItems(items: RecordSet, options: IExplorerOptions = this._options): void {
-        // Если ссылка на итемы поменялась, то обновим подписку на изменение данных хлебных крошек
-        // и сохраним новый инстанс итемов
-        if (this._items !== items) {
-            this._updateSubscriptionOnBreadcrumbs(this._items, items, this._updateHeadingPath);
-            this._items = items;
-        }
-
-        // Вычислим новые данные хлебных крошек
-        const newBreadcrumbs = calculatePath(items).path || [];
-        // Если кол-во новых крошек меньше чем старых, то скорее всего возвращаются назад
-        if (newBreadcrumbs?.length < this._breadCrumbsItems?.length) {
-            // Получаем потенциальную следующую папку в которой мы были
-            // newBreadcrumbs         = 1 -> 2
-            // this._breadCrumbsItems = 1 -> 2 -> 3 -> 4
-            // nextCrumb              = 3
-            const nextCrumb = this._breadCrumbsItems[newBreadcrumbs.length];
-
-            // Проверяем соответствует ли текущий root родительской папке nextCrumb
-            // Если соответствует, то помечаем папку соответствующую nextCrumb маркером
-            if (nextCrumb.get(options.parentProperty) === this._getRoot(options.root)) {
-                this._potentialMarkedKey = nextCrumb.getKey();
-            }
-        }
-
-        // Обновим данные по которым рисуются хлебные крошки
-        this._updateBreadcrumbs(items);
-        // Обновим корневой root
-        this._topRoot = this._breadCrumbsItems?.length ? this._getTopRoot(options) : this._topRoot;
-    }
-
-    /**
-     * На основании переданного RecordSet обновляет данные для хлебных крошек
-     */
-    private _updateBreadcrumbs(items: RecordSet): void {
-        this._breadCrumbsItems = calculatePath(items).path;
-    }
-
-    /**
-     * Обработчик получения новой порции данных из внутреннего Controls.list:DataContainer
-     */
-    protected _dataLoadCallback(items: RecordSet, direction: Direction): void {
-        // Имеет смысл обновлять хлебные крошки только при получении первой страницы
-        if (!direction) {
-            this._applyItems(items);
-        }
-
-        if (this._options.dataLoadCallback) {
-            this._options.dataLoadCallback(items, direction);
-        }
-    }
-
     private _itemsReadyCallbackFunc(items: RecordSet): void {
         this._items = items;
         if (this._options.itemsReadyCallback) {
@@ -737,12 +696,10 @@ export default class Explorer extends Control<IExplorerOptions> {
 
     private _itemsSetCallbackFunc(items: RecordSet, newOptions: IExplorerOptions): void {
         if (this._isGoingBack) {
-            const options = newOptions || this._options;
-            const curRoot = this._getRoot(options.root);
-            if (this._restoredMarkedKeys[curRoot]) {
-                const {markedKey} = this._restoredMarkedKeys[curRoot];
-                this._children.treeControl.setMarkedKey(markedKey);
-                this._markerForRestoredScroll = markedKey;
+            if (this._potentialMarkedKey) {
+                this._children.treeControl.setMarkedKey(this._potentialMarkedKey);
+                this._markerForRestoredScroll = this._potentialMarkedKey;
+                this._potentialMarkedKey = undefined;
             }
             if (this._children.treeControl.isAllSelected()) {
                 this._children.treeControl.clearSelection();
@@ -805,7 +762,6 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _setViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): Promise<void> {
         if (viewMode === 'search' && cfg.searchStartingWith === 'root') {
             this._updateRootOnViewModeChanged(viewMode, cfg);
-            this._breadCrumbsItems = null;
         }
 
         if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
@@ -842,15 +798,15 @@ export default class Explorer extends Control<IExplorerOptions> {
     /**
      * Возвращает идентификатор самого верхнего известного корневого узла.
      */
-    private _getTopRoot(options: IExplorerOptions): TKey {
+    private _getTopRoot(breadcrumbs: Path, parentProperty: string, root: TKey): TKey {
         let result;
 
         // Если есть хлебные крошки, то получаем top root из них.
         // В противном случае просто возвращаем текущий root
-        if (this._breadCrumbsItems?.length) {
-            result = this._breadCrumbsItems[0].get(this._options.parentProperty);
+        if (breadcrumbs?.length) {
+            result = breadcrumbs[0].get(parentProperty);
         } else {
-            result = this._getRoot(options.root);
+            result = this._getRoot(root);
         }
 
         return result;
@@ -861,12 +817,11 @@ export default class Explorer extends Control<IExplorerOptions> {
      */
     private _dragItemsFromRoot(dragItems: TKey[]): boolean {
         let itemFromRoot = true;
-        const root = this._getTopRoot(this._options);
 
         for (let i = 0; i < dragItems.length; i++) {
             const item = this._items.getRecordById(dragItems[i]);
 
-            if (!item || item.get(this._options.parentProperty) !== root) {
+            if (!item || item.get(this._options.parentProperty) !== this._topRoot) {
                 itemFromRoot = false;
                 break;
             }
@@ -906,26 +861,6 @@ export default class Explorer extends Control<IExplorerOptions> {
         return this._viewMode !== 'search';
     }
 
-    private _updateSubscriptionOnBreadcrumbs(
-        oldItems: RecordSet,
-        newItems: RecordSet,
-        updateHeadingPathCallback: Function
-    ): void {
-
-        const [oldPath, newPath]: RecordSet[] =
-            [oldItems, newItems].map((items) => items?.getMetaData()?.path);
-
-        if (oldItems !== newItems || oldPath !== newPath) {
-            if (oldPath?.getCount) {
-                oldPath.unsubscribe('onCollectionItemChange', updateHeadingPathCallback);
-            }
-
-            if (newPath?.getCount) {
-                newPath.subscribe('onCollectionItemChange', updateHeadingPathCallback);
-            }
-        }
-    }
-
     private _checkedChangeViewMode(viewMode: TExplorerViewMode, cfg: IExplorerOptions): void {
         this._setViewMode(viewMode, cfg)
             // Обрабатываем searchNavigationMode только после того как
@@ -939,10 +874,10 @@ export default class Explorer extends Control<IExplorerOptions> {
             });
     }
 
-    protected _backByPath(self: Explorer): void {
-        if (self._breadCrumbsItems && self._breadCrumbsItems.length > 0) {
-            self._isGoingBack = true;
-            self._setRoot(self._breadCrumbsItems[self._breadCrumbsItems.length - 1].get(self._options.parentProperty));
+    protected _backByPath(breadcrumbs: Path): void {
+        if (breadcrumbs?.length) {
+            this._isGoingBack = true;
+            this._setRoot(breadcrumbs[breadcrumbs.length - 1].get(this._options.parentProperty));
         }
     }
 
@@ -1003,10 +938,9 @@ export default class Explorer extends Control<IExplorerOptions> {
     private _updateRootOnViewModeChanged(viewMode: string, options: IExplorerOptions): void {
         if (viewMode === 'search' && options.searchStartingWith === 'root') {
             const currentRoot = this._getRoot(options.root);
-            const topRoot = this._topRoot !== undefined ? this._topRoot : this._getTopRoot(options);
 
-            if (topRoot !== currentRoot) {
-                this._setRoot(topRoot, topRoot);
+            if (this._topRoot !== currentRoot) {
+                this._setRoot(this._topRoot, this._topRoot);
             }
         }
     }
