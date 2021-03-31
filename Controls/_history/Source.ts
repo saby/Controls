@@ -15,6 +15,7 @@ export interface IHistorySourceOptions {
     originSource: ICrud;
     historySource: Service;
     parentProperty?: string;
+    root?: string;
     pinned?: Array<string | number>|boolean;
     displayProperty?: string;
     nodeProperty?: string;
@@ -85,6 +86,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
     protected _$oldItems: any = null;
     protected _$parentProperty: string = null;
     protected _$nodeProperty: string = null;
+    protected _$root: string = null;
     protected _$displayProperty: string = null;
     protected _$parents: any = null;
     protected _$originSource: ICrud = null;
@@ -288,7 +290,8 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
             const id = String(item.getKey());
             const historyItem = historyIds.indexOf(id);
             let newItem;
-            if (historyItem === -1 || item.get(this._$parentProperty)) {
+            if (historyItem === -1 ||
+                item.get(this._$parentProperty) && item.get(this._$parentProperty) !== this._$root) {
                 newItem = new Model({
                     rawData: item.getRawData(),
                     adapter: items.getAdapter(),
@@ -330,7 +333,7 @@ export default class HistorySource extends mixin<SerializableMixin, OptionsToPro
                     format: items.getFormat()
                 });
                 if (this._$parentProperty) {
-                    item.set(this._$parentProperty, null);
+                    item.set(this._$parentProperty, this._$root);
                 }
 
                 //removing group allows items to be shown in history items
