@@ -1,81 +1,16 @@
-import {InstantiableMixin, OptionsToPropertyMixin, VersionableMixin} from 'Types/entity';
-import { mixin } from 'Types/util';
 import { TemplateFunction } from 'UI/Base';
-import * as ItemTemplate from 'wml!Controls/_tileNew/render/items/Invisible';
+import TileCollectionItem from './TileCollectionItem';
+import * as Template from 'wml!Controls/_tileNew/render/items/Invisible';
 
-export default class InvisibleTileItem extends mixin<
-    VersionableMixin,
-    OptionsToPropertyMixin,
-    InstantiableMixin
->(VersionableMixin, OptionsToPropertyMixin, InstantiableMixin) {
+export default class InvisibleTileItem extends TileCollectionItem {
     readonly Markable: boolean = false;
     readonly SelectableItem: boolean = false;
     readonly DraggableItem: boolean = false;
     readonly ItemActionsItem: boolean = false;
-
-    protected _$theme: string;
-
-    protected _$tileWidth: number;
-
-    protected _$leftPadding: string;
-
-    protected _$rightPadding: string;
-
-    protected _$topPadding: string;
-
-    protected _$bottomPadding: string;
-
-    protected _$lastInvisibleItem: boolean;
-
-    constructor(options: any) {
-        super();
-        OptionsToPropertyMixin.call(this, options);
-    }
-
-    get key(): string {
-        return this.getInstanceId();
-    }
+    readonly DisplaySearchValue: boolean = false;
 
     getTemplate(): TemplateFunction {
-        return ItemTemplate;
-    }
-
-    getTileWidth(): number {
-        return this._$tileWidth;
-    }
-
-    setTileWidth(tileWidth: number): void {
-        if (this._$tileWidth !== tileWidth) {
-            this._$tileWidth = tileWidth;
-            this._nextVersion();
-        }
-    }
-
-    getTheme(): string {
-        return this._$theme;
-    }
-
-    setTheme(theme: string): void {
-        if (this._$theme !== theme) {
-            this._$theme = theme;
-            this._nextVersion();
-        }
-    }
-
-    getTopPadding(): string {
-        return this._$topPadding;
-    }
-
-    getBottomPadding(): string {
-        return this._$bottomPadding;
-    }
-
-    getLeftPadding(): string {
-        return this._$leftPadding;
-    }
-
-    getRightPadding(): string {
-        return this._$rightPadding;
+        return Template;
     }
 
     getInvisibleClasses(): string {
@@ -89,24 +24,11 @@ export default class InvisibleTileItem extends mixin<
     }
 
     getInvisibleStyles(templateWidth?: number): string {
-        const width = templateWidth || this.getTileWidth();
-        return `-ms-flex-preferred-size: ${width}px; flex-basis: ${width}px;`;
+        return this.getItemStyles('invisible', templateWidth);
     }
 
     isLastInvisibleItem(): boolean {
         return this._$lastInvisibleItem;
-    }
-
-    isEditing(): boolean {
-        return false;
-    }
-
-    isSelected(): boolean {
-        return false;
-    }
-
-    isSwiped(): boolean {
-        return false;
     }
 
     getContents(): object {

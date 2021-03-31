@@ -99,9 +99,9 @@ describe('Controls/_display/TreeItem', () => {
     });
 
     describe('.isNode()', () => {
-        it('should return false by default', () => {
+        it('should return null by default', () => {
             const item = new TreeItem();
-            assert.isFalse(item.isNode());
+            assert.isNull(item.isNode());
         });
 
         it('should return value passed to the constructor', () => {
@@ -179,7 +179,7 @@ describe('Controls/_display/TreeItem', () => {
                 getExpanderIcon: () => undefined,
                 getExpanderPosition: () => expanderPosition
             };
-            const item = new TreeItem({ owner });
+            const item = new TreeItem({ owner, node: true });
 
             assert.isTrue(item.shouldDisplayExpander(null, 'default'));
             expanderPosition = 'right';
