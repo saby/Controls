@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 
-import TreeGridFooterRow from 'Controls/_treeGridNew/display/TreeGridFooterRow';
+import TreeGridFooterRow from 'Controls/_treeGrid/display/TreeGridFooterRow';
 
 const columns = [ { displayProperty: 'col1' }, { displayProperty: 'col2' }, { displayProperty: 'col3' } ];
 const mockedOwner = {

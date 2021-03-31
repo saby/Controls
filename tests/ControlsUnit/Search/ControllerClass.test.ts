@@ -61,7 +61,7 @@ const defaultOptionsControllerClass = {
    sourceController: getSourceController({})
 };
 
-const getControllerClass = (options) => {
+const getSearchController = (options) => {
    return new ControllerClass({
       ...defaultOptionsControllerClass,
       ...options
@@ -77,7 +77,7 @@ describe('Controls/search:ControllerClass', () => {
 
    beforeEach(() => {
       sourceController = getSourceController({});
-      controllerClass = getControllerClass({
+      controllerClass = getSearchController({
          sourceController
       });
       loadSpy = sandbox.spy(sourceController, 'load');
@@ -153,6 +153,33 @@ describe('Controls/search:ControllerClass', () => {
          assert.isTrue(loadSpy.withArgs(undefined, undefined, {
             payload: 'something'
          }).called);
+      });
+
+      it('startingWith: root', () => {
+         const hierarchyOptions = {
+            parentProperty: 'parentProperty',
+            root: 'testRoot',
+            startingWith: 'root'
+         };
+
+         const sourceController = getSourceController(hierarchyOptions);
+         const searchController = getSearchController({sourceController, ...hierarchyOptions});
+         const path = new RecordSet({
+            rawData: [
+               {
+                  id: 0,
+                  parentProperty: null
+               },
+               {
+                  id: 1,
+                  parentProperty: 0
+               }
+            ]
+         });
+
+         searchController.setPath(path);
+         searchController.search('testSearchValue');
+         assert.ok(sourceController.getRoot() === null);
       });
 
       it('without parent property', () => {

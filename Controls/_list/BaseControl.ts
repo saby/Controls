@@ -67,7 +67,7 @@ import {ISwipeEvent} from 'Controls/listRender';
 import {
     Controller as EditInPlaceController,
     InputHelper as EditInPlaceInputHelper,
-    CONSTANTS,
+    CONSTANTS as EDIT_IN_PLACE_CONSTANTS,
     JS_SELECTORS
 } from '../editInPlace';
 import {IEditableListOption} from './interface/IEditableList';
@@ -175,6 +175,25 @@ const ITEM_ACTION_SELECTOR = '.js-controls-ItemActions__ItemAction';
 //#endregion
 
 //#region Types
+
+/**
+ * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактированием по месту}.
+ * @class Controls/list:editing
+ * @public
+ */
+export const LIST_EDITING_CONSTANTS = {
+    /**
+     * С помощью этой константы можно отменить или пропустить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
+     * Для этого константу следует вернуть из обработчика события {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}.
+     * При последовательном редактировании записей (при переходе через Tab, Enter, Arrow Down и Up) возврат константы CANCEL приведет к отмене запуска
+     * редактирования по месту и попытке старта редактирования следующей записи в направлении перехода.
+     * В остальных случаях возврат константы CANCEL приведет к отмене запуска редактирования в списке.
+     */
+    /*
+     * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
+     */
+    CANCEL: EDIT_IN_PLACE_CONSTANTS.CANCEL
+};
 
 interface IAnimationEvent extends Event {
     animationName: string;
@@ -793,9 +812,19 @@ const _private = {
                     const newMarkedKey = _private.getMarkerController(self).onCollectionReset();
                     self._changeMarkedKey(newMarkedKey);
                 }
-                self._needScrollToFirstItem = false;
                 if (!self._hasMoreData(self._sourceController, direction)) {
                     self._updateShadowModeHandler(self._shadowVisibility);
+                }
+
+                // Пересчитывать ромашки нужно сразу после загрузки, а не по событию add, т.к.
+                // например при порционном поиске последний запрос в сторону может подгрузить пустой список
+                // и событие add не сработает
+                if (direction === 'up') {
+                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
+                    // После подгрузки элементов, не нужно скроллить
+                    self._needScrollToFirstItem = false;
+                } else if (direction === 'down') {
+                    _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
                 }
 
                 // Скрываем ошибку после успешной загрузки данных
@@ -1625,16 +1654,6 @@ const _private = {
                     }
                 }
             }
-            if (action === IObservable.ACTION_ADD) {
-                // Если добавили элементы в начало, то проверяем верхний триггер, иначе нижний
-                if (newItemsIndex === 0) {
-                    _private.attachLoadTopTriggerToNullIfNeed(self, self._options);
-                    // После подгрузки элементов, не нужно скроллить
-                    self._needScrollToFirstItem = false;
-                } else {
-                    _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
-                }
-            }
 
             if (action === IObservable.ACTION_RESET && self._options.searchValue) {
                 _private.resetPortionedSearchAndCheckLoadToDirection(self, self._options);
@@ -2321,8 +2340,6 @@ const _private = {
             .add(`controls-BaseControl__loadingIndicator__state-${state}_theme-${theme}`)
             .add(`controls-BaseControl_empty__loadingIndicator__state-down_theme-${theme}`,
                 !hasItems && loadingIndicatorState === 'down')
-            .add(`controls-BaseControl_withPaging__loadingIndicator__state-down_theme-${theme}`,
-                loadingIndicatorState === 'down' && hasPaging && hasItems)
             .add(`controls-BaseControl__loadingIndicator_style-portionedSearch_theme-${theme}`,
                 isPortionedSearchInProgress)
             .compile();
@@ -3347,6 +3364,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
     _editInPlaceInputHelper = null;
 
     __errorController = null;
+
+    _continuationEditingDirection: 'top' | 'bottom' = null;
 
     //#endregion
 
@@ -5202,13 +5221,17 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             resolve(eventResult);
         }).then((result) => {
 
-            if (result === CONSTANTS.CANCEL) {
-                if (this._savedItemClickArgs && this._isMounted) {
-                    // Запись становится активной по клику, если не началось редактирование.
-                    // Аргументы itemClick сохранены в состояние и используются для нотификации об активации элемента.
-                    this._notify('itemActivate', this._savedItemClickArgs, {bubbling: true});
+            if (result === LIST_EDITING_CONSTANTS.CANCEL) {
+                if (this._continuationEditingDirection) {
+                    return this._continuationEditingDirection === 'top' ? EDIT_IN_PLACE_CONSTANTS.GOTOPREV : EDIT_IN_PLACE_CONSTANTS.GOTONEXT;
+                } else {
+                    if (this._savedItemClickArgs && this._isMounted) {
+                        // Запись становится активной по клику, если не началось редактирование.
+                        // Аргументы itemClick сохранены в состояние и используются для нотификации об активации элемента.
+                        this._notify('itemActivate', this._savedItemClickArgs, {bubbling: true});
+                    }
+                    return result;
                 }
-                return result;
             }
 
             if (isAdd && !((options && options.item) instanceof Model) && !((result && result.item) instanceof Model)) {
@@ -5237,6 +5260,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // Операции над записью должны быть обновлены до отрисовки строки редактирования,
             // иначе будет "моргание" операций.
             _private.updateItemActions(this, this._options, item);
+            this._continuationEditingDirection = null;
 
             if (this._isMounted) {
                 this._resolveAfterBeginEdit = resolve;
@@ -5284,13 +5308,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 return submitPromise.then((validationResult) => {
                     for (const key in validationResult) {
                         if (validationResult.hasOwnProperty(key) && validationResult[key]) {
-                            return CONSTANTS.CANCEL;
+                            return LIST_EDITING_CONSTANTS.CANCEL;
                         }
                     }
                 });
             }
         }).then((result) => {
-            if (result === CONSTANTS.CANCEL) {
+            if (result === LIST_EDITING_CONSTANTS.CANCEL) {
                 return result;
             }
             const eventResult = this._notify('beforeEndEdit', [item, willSave, isAdd]);
@@ -5299,7 +5323,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             // Пользовательское сохранение потенциально может начаться только если вернули Promise
             const shouldUseDefaultSaving = willSave && (isAdd || item.isChanged()) && (
                 !eventResult || (
-                    eventResult !== CONSTANTS.CANCEL && !(eventResult instanceof Promise)
+                    eventResult !== LIST_EDITING_CONSTANTS.CANCEL && !(eventResult instanceof Promise)
                 )
             );
 
@@ -5467,6 +5491,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (!item) {
                 return Promise.resolve();
             }
+            this._continuationEditingDirection = direction;
             const collection = this._options.useNewModel ? this._listViewModel : this._listViewModel.getDisplay();
             const columnIndex = this._getEditingConfig()?.mode === 'cell' ? collection.find((cItem) => cItem.isEditing()).getEditingColumnIndex() : undefined;
             let shouldActivateInput = true;
@@ -5511,10 +5536,12 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             let shouldAdd;
 
             if (eventOptions.isShiftKey) {
+                this._continuationEditingDirection = 'top';
                 next = this._getEditInPlaceController().getPrevEditableItem();
                 shouldEdit = !!next;
                 shouldAdd = editingConfig.autoAdd && !next && !shouldEdit && editingConfig.addPosition === 'top';
             } else {
+                this._continuationEditingDirection = 'bottom';
                 next = this._getEditInPlaceController().getNextEditableItem();
                 shouldEdit = !!next;
                 shouldAdd = editingConfig.autoAdd && !next && !shouldEdit && editingConfig.addPosition === 'bottom';
@@ -5532,6 +5559,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 return this._beginEdit({ item });
             } else if (shouldAdd) {
                 return this._beginAdd({}, { addPosition: this._getEditingConfig().addPosition });
+            } else {
+                this._continuationEditingDirection = null;
             }
         });
     }
@@ -6376,9 +6405,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         const shouldDisplayDownIndicator = this._loadingIndicatorState === 'down';
         // Если порционный поиск был прерван, то никаких ромашек не должно показываться, т.к. больше не будет подгрузок
         const isAborted = _private.getPortionedSearch(this).isAborted();
-        return this._loadToDirectionInProgress
-           ? this._showLoadingIndicator && shouldDisplayDownIndicator && !this._portionedSearchInProgress && !isAborted
-           : (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection) && !this._portionedSearchInProgress && !isAborted;
+        return (shouldDisplayDownIndicator || this._attachLoadDownTriggerToNull && !this._showContinueSearchButtonDirection)
+            && !this._portionedSearchInProgress && !isAborted;
     }
 
     _shouldDisplayTopPortionedSearch(): boolean {

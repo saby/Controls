@@ -4,7 +4,7 @@
             <Controls.buttons:Button icon="icon-Move" caption="Переместить" on:click="_moveButtonClick()" viewMode="linkButton"/>
             <Controls.operations:Controller bind:selectedKeys="_selectedKeys" bind:excludedKeys="_excludedKeys">
                 <Controls.list:Container>
-                    <Controls.treeGrid:View
+                    <Controls.treeGridOld:View
                             name="treeGrid"
                             multiSelectVisibility="visible"
                             parentProperty="parent"
@@ -22,7 +22,7 @@
                                     source="{{_viewSource}}"
                                     columns="{{_columns}}"/>
                         </ws:moveDialogTemplate>
-                    </Controls.treeGrid:View>
+                    </Controls.treeGridOld:View>
                 </Controls.list:Container>
             </Controls.operations:Controller>
         </div>

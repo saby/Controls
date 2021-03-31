@@ -1,5 +1,5 @@
 <div class="controlsDemo__cell">
-    <Controls.grid:View
+    <Controls.gridOld:View
             name="grid"
             keyProperty="id"
             source="{{_viewSource}}"
@@ -12,5 +12,5 @@
         <ws:editingConfig>
             <ws:Object mode="cell" toolbar="{{true}}" editOnClick="{{true}}" autoAdd="{{true}}"/>
         </ws:editingConfig>
-    </Controls.grid:View>
+    </Controls.gridOld:View>
 </div>

@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
@@ -9,5 +9,5 @@
         <ws:nodeFooterTemplate>
             <Controls.list:AddButton caption="Добавить товар"/>
         </ws:nodeFooterTemplate>
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>

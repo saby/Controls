@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" itemData="{{itemData}}">
+<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" itemData="{{itemData}}">
    <ws:contentTemplate>
       <div>{{itemData.item.name}}</div>
       <div if="{{itemData.item.shared}}" class="icon-small icon-Publish2 icon-primary demo-DragNDrop__MasterDetail_sharedIcon"></div>

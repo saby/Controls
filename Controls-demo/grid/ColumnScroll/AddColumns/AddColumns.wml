@@ -10,7 +10,7 @@
         <Controls.buttons:Button caption="Change Width" on:click="changeWidth()" attr:class="ControlsDemo-AddColumns__changeWidth"/>
     </div>
     <Controls.scroll:Container attr:style="width: {{ _tableWidth }}; height: 400px" shadowMode="js">
-        <Controls.grid:View
+        <Controls.gridOld:View
                 keyProperty="id"
                 source="{{_viewSource}}"
                 columns="{{_columns}}"
