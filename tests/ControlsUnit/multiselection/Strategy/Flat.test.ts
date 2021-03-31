@@ -121,6 +121,21 @@ describe('Controls/_multiselection/SelectionStrategy/Flat', () => {
       });
    });
 
+   describe('selectCount', () => {
+      it('count = 2', () => {
+         let selection = { selected: [], excluded: [] };
+         selection = strategy.selectCount(2);
+         assert.deepEqual(selection.selected, [1, 2]);
+         assert.deepEqual(selection.excluded, []);
+      });
+      it('count = 10', () => {
+         let selection = { selected: [], excluded: [] };
+         selection = strategy.selectCount(10);
+         assert.deepEqual(selection.selected, [1, 2, 3]);
+         assert.deepEqual(selection.excluded, []);
+      });
+   });
+
    describe('getSelectionForModel', () => {
       it('not selected', () => {
          const selection = { selected: [], excluded: [] };

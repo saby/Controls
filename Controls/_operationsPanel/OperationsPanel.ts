@@ -279,8 +279,8 @@ Object.defineProperty(OperationsPanel, 'defaultProps', {
 
 /**
  * @name Controls/_operationsPanel/OperationsPanel#selectionViewMode
- * @cfg {String} Задает отображение кнопки "Показать отмеченные" в меню мультивыбора.
- * @variant null Кпопка скрыта
+ * @cfg {String} Задает отображение дополнительных кнопок в меню мультивыбора.
+ * @variant null Дополнительные кнопки скрыты
  * @variant all Кнопка "Показать отмеченные"
  * @variant selected Кнопка "Показать все"
  * @variant partial Кнопки с количеством записей для выбора

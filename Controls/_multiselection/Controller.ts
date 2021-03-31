@@ -239,7 +239,7 @@ export class Controller {
     * @return {ISelection}
     */
    selectCount(count: number): ISelection {
-      return this._strategy.selectCount(this._selection, count);
+      return this._strategy.selectCount(count);
    }
 
    /**
