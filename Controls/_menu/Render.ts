@@ -140,7 +140,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
                 !(this._options.allowPin && this._isHistorySeparatorVisible(treeItem))) {
                 classes += ' controls-Menu__row-separator';
             }
-        } else if (item && item !== 'search-separator') {
+        } else if (item && !treeItem['[Controls/_display/SearchSeparator]']) {
             classes += ' controls-Menu__row-breadcrumbs';
         }
         return classes;
