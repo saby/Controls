@@ -1172,6 +1172,13 @@ describe('Controls/list_clean/BaseControl', () => {
                 baseControl._updateInProgress = false;
                 baseControl.saveOptions(baseControlOptions);
                 assert.isTrue(afterReloadCallbackCalled);
+
+                baseControlOptions = {...baseControlOptions};
+                baseControlOptions.sourceController = new NewSourceController(baseControlOptions);
+                afterReloadCallbackCalled = false;
+                await baseControl._beforeUpdate(baseControlOptions);
+                baseControl.saveOptions(baseControlOptions);
+                assert.isTrue(afterReloadCallbackCalled);
                 sandbox.restore();
             });
 

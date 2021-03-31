@@ -5,7 +5,7 @@
         <div>
             <Controls.operations:MultiSelectorCheckbox/>
             <Controls.list:Container>
-                <Controls.treeGrid:View
+                <Controls.treeGridOld:View
                         keyProperty="id"
                         columns="{{_gridColumns}}"
                         parentProperty="parent"

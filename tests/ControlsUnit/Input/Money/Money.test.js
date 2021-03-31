@@ -43,9 +43,9 @@ define(
                });
                ctrl._readOnlyField.scope.options = {
                   theme: 'default',
-                  precision: 2,
-                  horizontalPadding: 'xs'
+                  precision: 2
                };
+               ctrl._readOnlyField.scope.horizontalPadding = 'xs';
                ctrl._readOnlyField.template = TemplateUtil.clearTemplate(ctrl._readOnlyField.template);
             });
             it('Empty value', function() {

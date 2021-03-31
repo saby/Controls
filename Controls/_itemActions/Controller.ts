@@ -895,7 +895,8 @@ export class Controller {
         for (let i = 0; i < length; i++) {
             if (
                 aActions[i].id !== bActions[i].id ||
-                aActions[i].icon !== bActions[i].icon
+                aActions[i].icon !== bActions[i].icon ||
+                aActions[i].showType !== bActions[i].showType
             ) {
                 return false;
             }

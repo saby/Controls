@@ -1,0 +1,45 @@
+<div class="controlsDemo__wrapper">
+    <Controls.browser:Browser
+        bind:selectedKeys="_selectedKeys"
+        bind:excludedKeys="_excludedKeys"
+        multiSelectVisibility="visible"
+        navigation="{{null}}"
+        nodeProperty="Раздел@"
+        parentProperty="Раздел"
+        source="{{_source}}"
+        keyProperty="id">
+        <ws:filter
+            Служебные="{{true}}"/>
+        <ws:content>
+            <div>
+                <Controls.operations:PanelContainer
+                        selectedKeys="{{ content._selectedKeys }}"
+                        listMarkedKey="{{ content._options.listMarkedKey }}">
+                    <Controls.operations:Panel
+                        listMarkedKey="{{ content._options.listMarkedKey }}"
+                        source="{{null}}"
+                        parentProperty="parent"
+                        nodeProperty="@parent"
+                        items="{{_operationsItems}}"
+                        keyProperty="id"/>
+                </Controls.operations:PanelContainer>
+                <Controls.list:HotKeysContainer>
+                    <Controls.list:Container>
+                        <Controls.treeGrid:View
+                                on:selectedKeysChanged="_selectedKeysChanged()"
+                                on:excludedKeysChanged="_excludedKeysChanged()"
+                                name="list"
+                                attr:class="demo-Grid__control"
+                                columns="{{_gridColumns}}">
+                            <ws:emptyTemplate>
+                                <ws:partial template="Controls/list:EmptyTemplate" topSpacing="xl" bottomSpacing="m">
+                                    <ws:contentTemplate>No data available!</ws:contentTemplate>
+                                </ws:partial>
+                            </ws:emptyTemplate>
+                        </Controls.treeGrid:View>
+                    </Controls.list:Container>
+                </Controls.list:HotKeysContainer>
+            </div>
+        </ws:content>
+    </Controls.browser:Browser>
+</div>

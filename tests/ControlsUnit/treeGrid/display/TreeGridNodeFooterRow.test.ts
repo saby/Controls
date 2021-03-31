@@ -2,7 +2,7 @@ import { RecordSet } from 'Types/collection';
 import { TreeGridCollection } from 'Controls/treeGridNew';
 import { assert } from 'chai';
 import { CssClassesAssert } from 'ControlsUnit/CustomAsserts';
-import TreeGridNodeFooterRow from 'Controls/_treeGridNew/display/TreeGridNodeFooterRow';
+import TreeGridNodeFooterRow from 'Controls/_treeGrid/display/TreeGridNodeFooterRow';
 
 describe('Controls/_treeGridNew/display/TreeGridNodeFooterRow', () => {
    const recordSet = new RecordSet({

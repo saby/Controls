@@ -1,0 +1,51 @@
+@block-wrapper-padding: var(--box-shadow-blur_block);
+@block-wrapper-margin: calc(var(--box-shadow-blur_block) * -1);
+// Блоки для нового дизайна
+.controls__block-wrapper {
+   overflow: hidden;
+   padding: @block-wrapper-padding;
+   margin: @block-wrapper-margin;
+}
+
+.controls__block {
+   background-color: var(--background-color);
+   box-shadow: var(--box-shadow_block);
+   border-radius: var(--border-radius_default_block);
+   width: 100%;
+   height: 100%;
+}
+
+.controls__block-wrapper.tl {
+   padding: @block-wrapper-padding 0 0 @block-wrapper-padding;
+   margin: @block-wrapper-margin 0 0 @block-wrapper-margin;
+
+   .controls__block {
+      border-radius: var(--border-radius_default_block) 0 0 0;
+   }
+}
+
+.controls__block-wrapper.tr {
+   padding: @block-wrapper-padding @block-wrapper-padding 0 0;
+   margin: @block-wrapper-margin @block-wrapper-margin 0 0;
+
+   .controls__block {
+      border-radius: 0 var(--border-radius_default_block) 0 0;
+   }
+}
+
+.controls__block-wrapper.tlr {
+   padding: @block-wrapper-padding @block-wrapper-padding 0 @block-wrapper-padding;
+   margin: @block-wrapper-margin @block-wrapper-margin 0 @block-wrapper-margin;
+
+   .controls__block {
+      border-radius: var(--border-radius_default_block) var(--border-radius_default_block) 0 0;
+   }
+}
+
+.controls__block-wrapper.none {
+   padding: 0;
+
+   .controls__block {
+      border-radius: 0;
+   }
+}

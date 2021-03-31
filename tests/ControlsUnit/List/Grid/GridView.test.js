@@ -1,4 +1,4 @@
-define(['Controls/grid', 'Types/collection'], function(gridMod, collection) {
+define(['Controls/gridOld', 'Types/collection'], function(gridMod, collection) {
    var
       theme = 'default',
       gridColumns = [

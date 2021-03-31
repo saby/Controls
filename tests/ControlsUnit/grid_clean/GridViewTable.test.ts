@@ -1,4 +1,4 @@
-import GridViewTable from 'Controls/_gridNew/GridViewTable';
+import GridViewTable from 'Controls/_grid/GridViewTable';
 import {CssClassesAssert as assertClasses} from 'ControlsUnit/CustomAsserts';
 
 

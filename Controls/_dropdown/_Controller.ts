@@ -8,11 +8,11 @@ import {factory} from 'Types/chain';
 import {isEqual} from 'Types/object';
 import {descriptor, Model} from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import {PrefetchProxy, ICrudPlus, Query} from 'Types/source';
+import {PrefetchProxy, ICrudPlus} from 'Types/source';
 import * as mStubs from 'Core/moduleStubs';
 import * as cInstance from 'Core/core-instance';
 import * as Merge from 'Core/core-merge';
-import {TKeysSelection} from 'Controls/interface';
+import {TSelectedKeys} from 'Controls/interface';
 
 /**
  * Контроллер для выпадающих списков.
@@ -41,10 +41,10 @@ export default class _Controller implements IDropdownController {
    protected _options: IDropdownControllerOptions = null;
    protected _source: ICrudPlus = null;
    protected _preloadedItems: RecordSet = null;
+   protected _selectedKeys: TSelectedKeys = null;
    protected _sourceController: SourceController = null;
    private _filter: object;
    private _selectedItems: RecordSet<Model>;
-   private _selectedKeys: TKeysSelection;
    private _sticky: StickyOpener;
 
    constructor(options: IDropdownControllerOptions) {
@@ -133,7 +133,7 @@ export default class _Controller implements IDropdownController {
       const filterChanged = !isEqual(newOptions.filter, oldOptions.filter);
 
       if (selectedKeysChanged) {
-         this._selectedKeys = newOptions.selectedKeys
+         this._selectedKeys = newOptions.selectedKeys;
       }
 
       let newKeys = [];
@@ -158,7 +158,7 @@ export default class _Controller implements IDropdownController {
          } else {
             return this.reload();
          }
-      } else if (selectedKeysChanged && this._items) {
+      } else if (selectedKeysChanged && this._items && this._items.getCount()) {
          if (newKeys.length) {
             this._reloadSelectedItems(newOptions);
          } else {
@@ -224,8 +224,9 @@ export default class _Controller implements IDropdownController {
       }
 
       return Promise.allSettled(deps).then((results) => {
-         if (results.some((result) => result.reason)) {
-            return Promise.reject();
+         const errorResult = results.find((result) => result.reason);
+         if (errorResult) {
+            return Promise.reject(errorResult.reason);
          }
       });
    }
@@ -250,6 +251,10 @@ export default class _Controller implements IDropdownController {
       this._setItems(null);
       this._closeDropdownList();
       this._sticky = null;
+   }
+
+   setSelectedKeys(keys: TSelectedKeys): void {
+      this._selectedKeys = keys;
    }
 
    handleSelectedItems(data): void {

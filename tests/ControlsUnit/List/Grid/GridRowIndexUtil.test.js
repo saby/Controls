@@ -1,7 +1,7 @@
 define([
-   'Controls/_grid/utils/GridRowIndexUtil',
+   'Controls/_gridOld/utils/GridRowIndexUtil',
    'Controls/_list/resources/utils/ItemsUtil',
-   'Controls/grid',
+   'Controls/gridOld',
    'Types/collection'
 ], function(RowUtil, ItemsUtil, gridLib, collection) {
 

@@ -21,7 +21,7 @@
                                 <ws:partial template="Controls/list:EditingTemplate"
                                             value="{{ itemTemplate.itemData.item.title }}">
                                     <ws:editorTemplate>
-                                        <Controls.input:Text bind:value="itemTemplate.itemData.item.title"/>
+                                        <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.itemData.item.title"/>
                                     </ws:editorTemplate>
                                 </ws:partial>
                             </ws:contentTemplate>

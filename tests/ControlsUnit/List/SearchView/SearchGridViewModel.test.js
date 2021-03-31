@@ -1,4 +1,4 @@
-define(['Controls/treeGrid', 'Types/collection', 'Types/entity'], function(treeGrid, collection, entity) {
+define(['Controls/treeGridOld', 'Types/collection', 'Types/entity'], function(treeGrid, collection, entity) {
 
    describe('Controls.List.SearchView.SearchGridViewModel', function() {
 

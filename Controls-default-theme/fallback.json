@@ -81,6 +81,9 @@
   "--border-radius_m_image": "8px",
   "--border-radius_default_block": "8px",
   "--box-shadow_block": "0 0 6px rgba(0, 0, 0, 0.15)",
+  "--box-shadow-blur_block": "6px",
+  "--margin_block": "-6px",
+  "--padding_block": "6px",
 
 
   "--icon-offset_button": "var(--offset_xs)",
@@ -261,6 +264,7 @@
   "--unselected_marker_color_switcher": "#CCC",
   "--readonly_unselected_marker_color_switcher": "#CCC",
   "--marker_border-offset_switcher": "3px",
+  "--background-color_switcher": "var(--background-color)",
 
   "--icon_expanded_height_s_BigSeparator": "2px",
   "--icon_expanded_height_m_BigSeparator": "4px",
@@ -1287,7 +1291,7 @@
   "--box-shadow-size_datePicker": "0 0 6px 0",
   "--box-shadow-color_datePicker": "rgba(0, 0, 0, 0.45)",
   "--shadow_start-color_datePicker": "rgba(204, 204, 204, 0.3)",
-  "--shadow_end-color_datePicker": "rgba(var(--background-color_datePicker), 0)",
+  "--shadow_end-color_datePicker": "rgba(255, 255, 255, 0)",
   "--background-color_datePicker": "var(--background-color)",
   "--border-radius_datePicker": "8px",
   "--header_height_datePicker": "var(--header-min-height_dialog)",
