@@ -3336,6 +3336,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     __errorController = null;
 
+    _editingItem: IEditableCollectionItem;
+
     //#endregion
 
     constructor(options) {
