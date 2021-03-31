@@ -1082,6 +1082,7 @@ export default class MenuControl extends Control<IMenuControlOptions> implements
         return {
             selectedKeys: [],
             root: null,
+            historyRoot: null,
             emptyKey: null,
             moreButtonCaption: rk('Еще') + '...',
             groupTemplate,

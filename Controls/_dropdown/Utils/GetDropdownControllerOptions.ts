@@ -17,6 +17,7 @@ export default function getDropdownControllerOptions(options: IDropdownControlle
         selectedItemsChangedCallback: options.selectedItemsChangedCallback,
         dataLoadErrback: options.dataLoadErrback,
         historyId: options.historyId,
+        historyRoot: options.historyRoot,
         historyNew: options.historyNew,
         allowPin: options.allowPin,
         width: options.width,

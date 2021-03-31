@@ -58,7 +58,8 @@
       <ws:if data="{{_options.allowPin &&
                      treeItem.getContents().has('pinned') &&
                      !treeItem.getContents().get(itemData.nodeProperty) &&
-                     !(treeItem.getContents().get('pinned') === true && treeItem.getContents().get(itemData.parentProperty))}}">
+                     !(treeItem.getContents().get('pinned') === true &&
+                      treeItem.getContents().get(itemData.parentProperty) !== _options.historyRoot)}}">
          <ws:partial template="wml!Controls/_menu/Render/pinTemplate" scope="{{_options}}"/>
       </ws:if>
 
