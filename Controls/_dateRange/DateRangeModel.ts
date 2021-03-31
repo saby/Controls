@@ -1,5 +1,5 @@
 import cExtend = require('Core/core-simpleExtend');
-import {ObservableMixin, VersionableMixin, DateTime, Date} from 'Types/entity';
+import {ObservableMixin, VersionableMixin, DateTime} from 'Types/entity';
 import getPeriodType = require('Core/helpers/Date/getPeriodType');
 import {Range, Base} from 'Controls/dateUtils';
 import CalendarUtils from './Utils';
@@ -36,7 +36,7 @@ var _private = {
       return true;
    },
    notifyRangeChanged: function(self, start: Date, end: Date): void {
-      self._notify('rangeChanged', [start, end]);
+      self._notify('rangeChanged', [start = new Date(start), end = new Date(end)]);
    },
    createDate: function(self, date: Date): void {
       return new self._dateConstructor(date);
