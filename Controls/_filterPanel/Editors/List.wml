@@ -6,7 +6,7 @@
                        selectedKeys="{{_selectedKeys}}"
                        scope="{{_options}}"
                        markerVisibility="hidden"
-                       navigation="{{_options.navigation}}"
+                       navigation="{{_navigation}}"
                        backgroundStyle="transparent"
                        hoverBackgroundStyle="listEditor"
                        footerTemplate="{{footerTemplate}}"
