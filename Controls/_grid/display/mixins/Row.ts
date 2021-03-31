@@ -22,13 +22,14 @@ import {TColspanCallback, TColspanCallbackResult} from './Grid';
 const DEFAULT_GRID_ROW_TEMPLATE = 'Controls/grid:ItemTemplate';
 
 export interface IItemTemplateParams {
-    highlightOnHover?: boolean,
-    style?: string,
-    cursor?: 'default' | 'pointer',
-    theme: string,
+    highlightOnHover?: boolean;
+    style?: string;
+    cursor?: 'default' | 'pointer';
+    theme: string;
+    showItemActionsOnHover: boolean;
 
     // Deprecated, use cursor
-    clickable?: boolean,
+    clickable?: boolean;
 }
 
 export interface IOptions<T> extends IBaseOptions<T> {
@@ -60,6 +61,10 @@ export default abstract class Row<T> {
         let itemClasses = `${this._getBaseItemClasses(params.style, params.theme)} `
                         + `${this._getCursorClasses(params.cursor, params.clickable)} `
                         + `${this._getItemHighlightClasses(params.style, params.theme, params.highlightOnHover)}`;
+
+        if (params.showItemActionsOnHover !== false) {
+            itemClasses += ' controls-ListView__item_showActions';
+        }
 
         const navigation = this.getOwner().getNavigation();
         const isLastItem = (!navigation || navigation.view !== 'infinity' || !this.getOwner().getHasMoreData())
