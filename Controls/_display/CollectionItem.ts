@@ -396,7 +396,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
                      markerPosition: 'left' | 'right' = 'left'): string {
         let markerClass = 'controls-ListView__itemV_marker controls-ListView__itemV_marker_';
         if (markerClassName === 'default') {
-            markerClass += 'default';
+            markerClass += 'height';
         } else {
             markerClass += `padding-${(itemPadding.top || 'l')}_${markerClassName})`;
         }
