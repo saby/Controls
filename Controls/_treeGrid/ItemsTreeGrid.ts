@@ -2,7 +2,7 @@ import {Logger} from 'UI/Utils';
 import {IItemsViewOptions} from 'Controls/list';
 import {isFullGridSupport} from 'Controls/display';
 import {ItemsView as ItemsGrid} from 'Controls/grid';
-import {TreeControl} from 'Controls/_tree/TreeControl';
+import { TreeControl } from 'Controls/tree';
 import TreeGridView from 'Controls/_treeGrid/TreeGridView';
 import TreeGridViewTable from 'Controls/_treeGrid/TreeGridViewTable';
 import {default as ITreeGrid, IOptions as ITreeGridOptions} from 'Controls/_treeGrid/interface/ITreeGrid';
