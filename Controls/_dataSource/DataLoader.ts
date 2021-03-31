@@ -265,13 +265,18 @@ export default class DataLoader {
 
     getSourceController(id?: string): NewSourceController {
         const config = this._getConfig(id);
-        let {sourceController, items} = config;
+        let {sourceController} = config;
+        const {items, filterButtonSource, fastFilterSource} = config;
 
         if (!sourceController) {
             sourceController = config.sourceController = getSourceController(config);
 
             if (items) {
                 sourceController.setItems(items);
+            }
+
+            if (filterButtonSource || fastFilterSource) {
+                sourceController.setFilter(this.getFilterController(id).getFilter());
             }
         }
 
