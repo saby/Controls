@@ -4,7 +4,7 @@
         <Controls.toggle:Checkbox bind:value="_rowSeparator1" caption="Show row separator"/>
         <Controls.toggle:Checkbox bind:value="_columnSeparator1" caption="Show column separator"/>
     </div>
-    <Controls.grid:View
+    <Controls.gridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             header="{{_header}}"
@@ -19,7 +19,7 @@
             <Controls.toggle:Checkbox bind:value="_rowSeparator2" caption="Show row separator"/>
             <Controls.toggle:Checkbox bind:value="_columnSeparator2" caption="Show column separator"/>
         </div>
-        <Controls.grid:View
+        <Controls.gridOld:View
                 keyProperty="id"
                 source="{{_viewSource}}"
                 header="{{_header}}"
@@ -34,7 +34,7 @@
             <Controls.toggle:Checkbox bind:value="_rowSeparator3" caption="Show row separator"/>
             <Controls.toggle:Checkbox bind:value="_columnSeparator3" caption="Show column separator"/>
         </div>
-        <Controls.grid:View
+        <Controls.gridOld:View
                 keyProperty="id"
                 source="{{_viewSource}}"
                 header="{{_header}}"

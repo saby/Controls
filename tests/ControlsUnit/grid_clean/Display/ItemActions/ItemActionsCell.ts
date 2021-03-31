@@ -1,7 +1,7 @@
 import { assert } from 'chai';
-import ItemActionsCell from "Controls/_gridNew/display/ItemActionsCell";
+import ItemActionsCell from 'Controls/_grid/display/ItemActionsCell';
 
-describe('Controls/_gridNew/display/ItemActionsCell', () => {
+describe('Controls/_grid/display/ItemActionsCell', () => {
     const owner = {
         shouldDisplayMarker: () => false,
         hasMultiSelectColumn: () => false,

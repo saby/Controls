@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flex">
     <Controls.scroll:Container>
-        <Controls.grid:View
+        <Controls.gridOld:View
                 keyProperty="id"
                 source="{{_viewSource}}"
                 header="{{_header}}"

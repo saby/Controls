@@ -3,7 +3,7 @@
         &nbsp;&nbsp;{{_currentEvent && _currentColumnIndex && _currentValue ? (_currentEvent + ' на колонке №' +
         _currentColumnIndex + ' со значением ' + _currentValue) : ''}}
     </div>
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
@@ -14,5 +14,5 @@
             on:tagClick="_onTagClickCustomHandler()"
             on:tagHover="_onTagHoverCustomHandler()"
     >
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>
