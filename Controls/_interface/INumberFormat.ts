@@ -1,11 +1,10 @@
-export interface INumberFormatOptions {
+import {IUnderlineOptions} from 'Controls/interface';
+
+export interface INumberFormatOptions extends IUnderlineOptions {
     useGrouping?: boolean;
     showEmptyDecimals?: boolean;
     stroked?: boolean;
-    underline?: TUnderline;
 }
-
-type TUnderline = 'hovered' | 'none';
 
 /**
  * Интерфейс для контролов, которые поддерживают настройку числового формата.

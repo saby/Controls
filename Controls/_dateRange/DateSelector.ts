@@ -19,6 +19,7 @@ import 'css!Controls/dateRange';
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
  * @mixes Controls/_interface/IDayTemplate
  * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/IUnderline
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
  * @mixes Controls/_dateRange/interfaces/IDateSelector
  *
