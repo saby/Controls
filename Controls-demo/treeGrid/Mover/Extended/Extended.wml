@@ -18,7 +18,7 @@
                         </ws:moveDialogTemplate>
                     </Controls.list:Mover>
                     <Controls.list:Container>
-                        <Controls.treeGrid:View
+                        <Controls.treeGridOld:View
                                 name="treeGrid"
                                 multiSelectVisibility="visible"
                                 parentProperty="parent"

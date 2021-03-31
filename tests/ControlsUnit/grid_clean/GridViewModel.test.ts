@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GridViewModel } from 'Controls/grid';
+import { GridViewModel } from 'Controls/gridOld';
 import { generateFlatData, generateFlatSimpleColumns, generateFlatSimpleHeader } from '../_utils/lists';
 import { RecordSet } from 'Types/collection';
 

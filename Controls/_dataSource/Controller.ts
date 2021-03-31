@@ -283,10 +283,6 @@ export default class Controller extends mixin<
 
         if (rootChanged) {
             this.setRoot(newOptions.root);
-
-            if (!isExpadedItemsChanged) {
-                this.setExpandedItems([]);
-            }
         }
 
         if (dataLoadCallbackChanged) {
@@ -316,6 +312,9 @@ export default class Controller extends mixin<
             !isEqual(newOptions.sorting, this._options.sorting) ||
             (this._parentProperty && rootChanged);
 
+        if (isChanged && !(isExpadedItemsChanged || this._isDeepReload())) {
+            this.setExpandedItems([]);
+        }
         this._options = newOptions;
         return isChanged;
     }
@@ -371,10 +370,12 @@ export default class Controller extends mixin<
     }
 
     hasLoaded(key: TKey): boolean {
-        let loadedResult = false;
+        let loadedResult;
 
         if (this._hasNavigationBySource()) {
             loadedResult = this._getNavigationController(this._navigation).hasLoaded(key);
+        } else if (this.getExpandedItems()?.includes(key)) {
+            loadedResult = true;
         }
 
         return loadedResult;

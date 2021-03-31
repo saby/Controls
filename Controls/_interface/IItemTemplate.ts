@@ -20,7 +20,7 @@ export interface IItemTemplateOptions {
      *
      * В области видимости шаблона доступен объект itemData, позволяющий получить доступ к данным рендеринга (например, элемент, ключ и т.д.).
      *
-     * Подробнее о работе с шаблоном читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/list/item-template/">руководстве разработчика</a>.
+     * Подробнее о работе с шаблоном читайте в <a href="/doc/platform/developmentapl/interface-development/controls/list/list/item/">руководстве разработчика</a>.
      * @example
      * <pre class="brush: html">
      * <!-- WML -->

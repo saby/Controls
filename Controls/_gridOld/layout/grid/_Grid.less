@@ -1,0 +1,1010 @@
+@z-index-Grid-results-cell: 1;
+
+.controls-Grid {
+   display: -ms-grid;
+   display: grid;
+   width: 100%;
+   position: relative;
+}
+
+.controls-OldGridView__emptyTemplate,
+.controls-GridView__emptyTemplate {
+   display: contents;
+}
+
+.controls-GridView__emptyTemplate__cell {
+   display: flex;
+   align-items: baseline;
+   color: @label_text-color;
+   cursor: pointer;
+}
+
+.controls-GridView__emptyTemplate__checkBoxCell {
+   min-width: @click-area_width_checkbox;
+}
+
+.controls-Grid_dragging_process {
+   .controls-Grid__row-ladder-cell {
+      display: none;
+   }
+
+   .controls-Grid__row-cell__content_ladderHeader .controls-Grid__row-cell__ladder-content:not(.controls-Grid__row-cell__ladder-content_hiddenForLadder),
+   .controls-Grid__row-cell__content_ladderHeader {
+      visibility: visible;
+   }
+}
+
+.controls-GridView__itemV_marker-default_theme-@{themeName} {
+   position: absolute;
+   width: @marker_thickness_list;
+   background-color: @marker_color_list;
+   top: 0;
+   z-index: 2;
+   max-height: 100%;
+}
+
+.controls-Grid__header_theme-@{themeName} {
+   display: contents;
+   color: @header_text-color_grid;
+   cursor: default;
+}
+.controls-Grid__header-cell {
+   height: 100%;
+   box-sizing: border-box;
+}
+
+.controls-Grid__header-cell_min-width {
+   min-width: 0;
+}
+.controls-Grid__header-cell_theme-@{themeName} {
+   font-size: @header_font-size_grid;
+   z-index: 1;
+   display: inline-flex;
+   flex-direction: column;
+}
+
+.controls-Grid__header-cell__content_valign-top {
+   justify-content: flex-start;
+}
+.controls-Grid__header-cell__content_valign-center {
+   justify-content: center;
+}
+.controls-Grid__header-cell__content_valign-bottom {
+   justify-content: flex-end;
+}
+
+.controls-Grid__multi-header-cell_min-height_theme-@{themeName} {
+   min-height: @header_multiline_cell_min-height_grid;
+}
+
+.controls-Grid__header-cell_min-height_theme-@{themeName} {
+   min-height: @header_cell_min-height_grid;
+}
+
+.controls-Grid_columnScroll .controls-Grid__header-cell,
+.controls-Grid_columnScroll .controls-Grid__results-cell {
+   // With enabled column scroll and setting the value of grid column width as 'auto' in template columns, flex starts to shrink
+   // because grid has no fixed width and hack as min-width allows such behaviour.
+   min-width: auto;
+}
+
+.controls-Grid_columnScroll_wrapper {
+   z-index: 4;
+   position: sticky;
+}
+
+/* Этот костыль выпилен в 6000 по https://online.sbis.ru/opendoc.html?guid=f5e830c3-7be2-4272-9c38-594c241401cc */
+.ws-is-desktop-safari .controls-Grid__columnScroll_will-transform,
+.ws-is-mobile-safari .controls-Grid__columnScroll_will-transform {
+   will-change: transform;
+}
+
+.controls-Grid__cell_spacing_money:after,
+/* deprecated, remove by https://online.sbis.ru/opendoc.html?guid=eff529b3-eb2a-4171-882d-4ff8e1e7e421 */
+.controls-Grid__header-cell_spacing_money:after {
+   content: ".99";
+   visibility: hidden;
+   display: inline-block;
+}
+
+.controls-Grid__header-cell__content_theme-@{themeName} {
+   box-sizing: border-box;
+   min-height: @header_multiline_cell_min-height_grid;
+   display: flex;
+   justify-content: flex-start;
+   align-items: baseline; //baseline align by default;
+}
+
+.controls-Grid__sorting-button {
+   display: inline-flex;
+}
+
+.controls-Grid__row-header__content_baseline_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @header_max-font-size_grid;
+}
+
+.controls-Grid__row-multi-header__content_baseline_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @header_multiline_max-font-size_grid;
+}
+
+.controls-Grid__header-cell_valign_bottom {
+   justify-content: flex-end;
+}
+
+.controls-Grid__header-cell_valign_top {
+   justify-content: flex-start;
+}
+
+.controls-Grid__header-cell_valign_middle {
+   justify-content: center;
+}
+
+
+.controls-Grid__results {
+   display: contents;
+}
+
+.controls-Grid__results-cell_theme-@{themeName} {
+   z-index: @z-index-Grid-results-cell;
+   min-width: 0;
+   min-height: @results_cell_min-height_grid;
+}
+
+.controls-Grid__row-result-cell__content-font-weight_default_theme-@{themeName} {
+   font-weight: @font-weight;
+}
+
+.controls-Grid__row-result-cell__content-font-weight_bold_theme-@{themeName} {
+   font-weight: bold;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_secondary_theme-@{themeName} {
+   color: @secondary_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_unaccented_theme-@{themeName} {
+   color: @unaccented_text-color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_readonly_theme-@{themeName} {
+   color: @readonly_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_danger_theme-@{themeName} {
+   color: @danger_color;
+}
+
+.controls-Grid__row-result-cell__content-font-color-style_success_theme-@{themeName} {
+   color: @success_color;
+}
+
+.controls-GridViewV__itemsContainer {
+   display: contents;
+}
+.controls-Grid__row {
+   display: contents;
+}
+
+.controls-Grid__cell_fit {
+   // Default "min-width" value "auto" and width limited not working. Fix this bug by reset "min-width" value to "0".
+   // http://css-live.ru/articles/chto-mozhet-polomat-maket-na-gridax-css-grid-layout.html
+   min-width: 0;
+   max-width: 100%;
+}
+.controls-Grid__row-cell {
+   height: 100%;
+   display: flex;
+   box-sizing: border-box;
+   position: relative;
+}
+
+.controls-Grid__row-cell_background_danger_theme-@{themeName},
+.controls-Grid__row-cell__content_background_danger_theme-@{themeName} {
+   background-color: @danger_color;
+}
+
+.controls-Grid__row-cell_background_success_theme-@{themeName},
+.controls-Grid__row-cell__content_background_success_theme-@{themeName} {
+   background-color: @success_color;
+}
+
+.controls-Grid__row-cell_background_warning_theme-@{themeName},
+.controls-Grid__row-cell__content_background_warning_theme-@{themeName} {
+   background-color: @warning_color;
+}
+
+.controls-Grid__row-cell_background_primary_theme-@{themeName},
+.controls-Grid__row-cell__content_background_primary_theme-@{themeName} {
+   background-color: @primary_color;
+}
+
+.controls-Grid__row-cell_background_secondary_theme-@{themeName},
+.controls-Grid__row-cell__content_background_secondary_theme-@{themeName} {
+   background-color: @secondary_color;
+}
+
+.controls-Grid__row-cell_background_unaccented_theme-@{themeName},
+.controls-Grid__row-cell__content_background_unaccented_theme-@{themeName} {
+   background-color: @unaccented_color;
+}
+
+.controls-Grid__row-cell_background_readonly_theme-@{themeName},
+.controls-Grid__row-cell__content_background_readonly_theme-@{themeName} {
+   background-color: @readonly_color;
+}
+
+.controls-Grid__row-cell_default_min_height-theme-@{themeName} {
+   min-height: @cell_min-height_grid;
+}
+
+.controls-Grid__row-cell_small_min_height-theme-@{themeName} {
+   min-height: @cell_small-min-height_grid;
+}
+
+.controls-Grid__row-cell__content_colspaned {
+   flex-grow: 1;
+   box-sizing: border-box;
+   max-width: 100%;
+   min-width: 0;
+}
+
+// Хак для новой версии хрома (84 dev), заведён issue в поддержке хрома. В IE ломает вёрстку в автотестах
+// https://online.sbis.ru/opendoc.html?guid=2f994b36-59aa-49ba-8c49-d1a6c4e9084f
+// https://bugs.chromium.org/p/chromium/issues/detail?id=1103592
+.ws-is-chrome {
+   .controls-Grid__row-cell__content_colspaned {
+      height: 100%;
+   }
+}
+
+.controls-Grid__itemAction.controls-itemActionsV_outside_theme-@{themeName} {
+   z-index: @z-index-Grid-results-cell + 1 // на 1 больше чем у results; только для весла, иначе будут поверх шапки
+}
+
+
+.controls-Grid__row-cell_default_theme-@{themeName} {
+   font-size: @item_font-size_m_grid;
+}
+
+.controls-Grid__row-cell_master_theme-@{themeName} {
+   font-size: @master_item_font-size_list;
+}
+
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed_theme-@{themeName} {
+   z-index: 3;
+}
+
+// Строка редактирования имеет свой z-index, который вешается на все ячейки.
+// У фиксированных необходимо увеличить для перекрывания скроллируемых.
+.controls-ColumnScroll_visible .controls-GridNew__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName},
+.controls-Grid__cell_fixed.controls-Grid__row-cell-background-editing_theme-@{themeName} {
+   z-index: 3;
+}
+
+// Чтобы перетаскиваемая запись при днд была выше всех и соседние записи не перекрывали тень у неё
+.controls-Grid__cell_fixed.controls-ListView__item_dragging_theme-@{themeName} {
+   z-index: 4;
+}
+
+// In IE z-index on positioned elements and transform by itself create new "stacking contexts" on elements.
+// Setting relative position for fixed column makes context-level higher then context-level of transformed column.
+.ws-is-ie .controls-Grid__cell_fixed {
+   position: relative;
+}
+
+.controls-Grid__header-cell__content-ellipsis,
+.controls-Grid__cell_ellipsis {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   max-width: 100%;
+}
+
+.controls-Grid__header-cell_halign_left {
+   text-align: left;
+}
+
+.controls-Grid__header-cell_halign_right {
+   text-align: right;
+}
+
+.controls-Grid__header-cell_halign_center {
+   text-align: center;
+}
+
+.controls-Grid__row-cell__content_halign_left {
+   justify-content: flex-start;
+   text-align: left;
+}
+
+.controls-Grid__row-cell__content_halign_right {
+   justify-content: flex-end;
+   text-align: right;
+}
+
+.controls-Grid__row-cell__content_halign_center {
+   justify-content: center;
+   text-align: center;
+}
+.controls-Grid__row_editing {
+   display: contents;
+}
+.controls-Grid_partial-support_theme-@{themeName} .controls-Grid__row_editing {
+   display: grid;
+   display: -ms-grid;
+}
+.ws-is-hover {
+
+   .controls-ListView__highlightOnHover_default_theme-@{themeName}:hover {
+      background-color: @item_hover_background-color_list;
+   }
+   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell) {
+      background-color: @item_hover_background-color_list;
+   }
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default,
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-default_theme-@{themeName} {
+      background-color: @item_hover_background-color_list;
+   }
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack,
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-background-stack_theme-@{themeName} {
+      background-color: @item_hover_background-color_list;
+   }
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__row-cell__content_hiddenForLadder {
+      background-color: @item_hover_background-color_list;
+   }
+   .controls-BaseControl_hover_enabled .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover .controls-Grid__item_background-hover_default_theme-@{themeName}:not(.controls-Grid__row-ladder-cell__content) {
+      background-color: @item_hover_background-color_list;
+   }
+
+   /* region ItemActions display */
+
+   .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover {
+      > .controls-itemActionsV__container,
+      > .controls-Grid__row-cell,
+      > .controls-Grid__row-cell > .controls-Grid__table__relative-cell-wrapper,
+      > .controls-Grid__row-cell .controls-Grid__row-cell__content {
+         .controls-itemActionsV_custom_theme-@{themeName},
+         > .controls-itemActionsV {
+            animation: timeout .5s;
+         }
+      }
+   }
+
+   .controls-BaseControl_showActions_visible .controls-Grid .controls-ListView__item_showActions,
+   .controls-BaseControl_showActions_onhover .controls-ListView__item_showActions:hover,
+   .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover {
+      > .controls-itemActionsV__container,
+      > .controls-Grid__row-cell,
+      > .controls-Grid__row-cell > .controls-Grid__table__relative-cell-wrapper,
+      > .controls-Grid__row-cell .controls-Grid__row-cell__content {
+         .controls-itemActionsV_custom_theme-@{themeName},
+         > .controls-itemActionsV {
+            opacity: 1;
+            visibility: visible;
+         }
+      }
+   }
+
+   /* endregion ItemActions display */
+
+   .controls-Grid__row_highlightOnHover_default_theme-@{themeName}:hover {
+      /** Общая проблема с background'ом у контролов, которые лежат в списке, решается через background: inherit **/
+      .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName} {
+         background-color: @item_hover_background-color_list;
+      }
+
+      .controls-SelectedCollection__InfoBox_fixed_theme-@{themeName}:after {
+         .horizontal-gradient(@item_hover_background-color_list, rgba(255, 255, 255, 0));
+      }
+      /**********************************************/
+   }
+
+   .controls-BaseControl_showActions_visible .controls-ListView__item_showActions,
+   .controls-BaseControl_showActions_delayed .controls-ListView__item_showActions:hover,
+   .controls-BaseControl_showActions_onhover .controls-ListView__item_showActions:hover {
+      .controls-Grid__editArrow-wrapper_theme-@{themeName} {
+         visibility: visible;
+      }
+
+      .controls-Grid__editArrow_theme-@{themeName}:hover {
+         fill: @edit-arrow_hover_icon-color_grid;
+      }
+   }
+}
+
+.controls-Grid__row-cell-editing_theme-@{themeName} {
+   > .controls-itemActionsV,
+   +.controls-itemActionsV__container > .controls-itemActionsV
+   {
+      visibility: visible;
+      opacity: 1;
+   }
+}
+
+.controls-Grid__row-cell-background-editing_default_theme-@{themeName} {
+   background-color: @item_editing_background-color_list;
+   /** При редактировании по месту, переопределяем фон содержимого ячейки */
+   .controls-Grid__row-cell__content_colspaned,
+   .controls-Grid__row-cell__content {
+      background-color: @item_editing_background-color_list;
+      z-index: 1;
+   }
+}
+
+.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
+   right: @cell_padding-right_default_grid;
+}
+
+.controls-Grid__row-cell__content_halign_center .controls-Grid__row-cell__ladder-content_additional-with-main {
+   right: 0;
+   left: 0;
+}
+
+.controls-Grid__row-main_ladderWrapper,
+.controls-Grid__row-additional_ladderWrapper {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+}
+
+.controls-Grid_support-ladder {
+   .controls-Grid__row-cell__ladder-content_displayNoneForLadder {
+      display: none;
+   }
+   .controls-Grid__row-cell__ladder-content_hiddenForLadder,
+   .controls-Grid__row-cell__content_hiddenForLadder .controls-Grid__row-cell__ladder-content {
+      visibility: hidden;
+   }
+}
+.controls-Grid__row-cell__content_hiddenForLadder {
+   z-index: 1;
+}
+
+.controls-Grid__row-cell__content_ladder-empty.controls-Grid__row-cell__content_hiddenForLadder {
+   z-index: 0;
+}
+
+/*
+   !important в стилях ниже необходим. Для прилипающей лесенки в комбинации с другими прилипающими элементами таблицы,
+   такими как заголовки, резултаты и группировка, увеличиваем отступ (по умолчанию top: 0).
+   Лесенка не прилипает ниже верхних заголовков, так как находится в своих стеках заголовков.
+*/
+.controls-Grid__row-cell__ladder-spacing_theme-@{themeName} {
+   top: @item_line-height_l_grid !important;
+   height: 0;
+}
+.controls-Grid__row-cell__ladder-spacing_withGroup_theme-@{themeName} {
+   top: @item_line-height_l_grid + @grouping_height_list !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-spacing_withHeader_theme-@{themeName} {
+   top: @item_line-height_l_grid + @header_cell_min-height_grid !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-spacing_withResults_theme-@{themeName} {
+   top: @item_line-height_l_grid + @results_cell_min-height_grid !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-spacing_withHeader_withResults_theme-@{themeName} {
+   top: @item_line-height_l_grid + @header_cell_min-height_grid + @results_cell_min-height_grid !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-spacing_withHeader_withGroup_theme-@{themeName} {
+   top: @item_line-height_l_grid + @header_cell_min-height_grid + @grouping_height_list !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-spacing_withResults_withGroup_theme-@{themeName} {
+   top: @item_line-height_l_grid + @results_cell_min-height_grid + @grouping_height_list !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-spacing_withHeader_withResults_withGroup_theme-@{themeName} {
+   top: @item_line-height_l_grid + @header_cell_min-height_grid + @results_cell_min-height_grid + @grouping_height_list !important;
+   height: 0;
+}
+
+.controls-Grid__row-cell__ladder-main_spacing_withGroup_theme-@{themeName} {
+   top: @header_cell_min-height_grid !important;
+}
+
+.controls-Grid__cell-content-wrapper_ladder {
+   align-items: baseline;
+   position: absolute;
+   display: flex;
+   &:before {
+      content: '\200b';
+      font-size: @item_font-size_l_grid;
+   }
+}
+.controls-Grid__row-cell__ladder-content_additional-with-main {
+   position: absolute;
+}
+
+.controls-Grid__row-cell__content_hiddenForLadder .controls-Grid__row-cell__ladder-content
+.controls-Grid__row-ladder-cell {
+   pointer-events: none;
+   position: relative;
+   z-index: 1;
+}
+.controls-Grid__row-ladder-cell {
+   position: relative;
+}
+
+.controls-Grid__row-ladder-cell__content_default_theme-@{themeName} {
+   top: 0;
+}
+.controls-Grid__row-ladder-cell__content_m_theme-@{themeName} {
+   top: @item_padding-top_s_grid;
+}
+.controls-Grid__row-ladder-cell__content_l_theme-@{themeName} {
+   top: @item_padding-top_l_grid;
+}
+
+.controls-Grid__row-ladder-cell__content {
+   .position-sticky();
+   // иначе не будет работать мини-карточка
+   // https://online.sbis.ru/opendoc.html?guid=873e5d1a-016f-456f-b51e-1a67a18a53d4
+   pointer-events: auto;
+}
+
+// скрыть разделитель перед первой строкой в группе
+.controls-ListView__group + .controls-Grid__row .controls-Grid__row-cell {
+   border-top-color: transparent;
+}
+
+/* По умолчанию используется большая базова линия (первая строка всегда должна быть с большой базовой линией).
+   Далее, в зависимости от задачи, по месту устанавливаются нужные классы:
+   controls-Grid__row-cell__content_baseline_S
+   controls-Grid__row-cell__content_baseline_M
+   controls-Grid__row-cell__content_baseline_L */
+.controls-Grid__row-cell__content_baseline_L_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @item_font-size_l_grid;
+}
+
+.controls-Grid__row-cell__content_baseline_M_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @item_font-size_m_grid;
+}
+
+.controls-Grid__row-cell__content_baseline_S_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @item_font-size_s_grid;
+}
+
+.controls-Grid__header-cell_baseline_XL_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @header_max-font-size_grid;
+}
+
+.controls-Grid__row-cell__content_baseline_2XL_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @item_font-size_2xl_grid;
+}
+.controls-Grid__row-cell__content_baseline_default_theme-@{themeName}:before {
+   content: '\200b';
+   font-size: @item_max-font-size_grid;
+}
+
+.controls-Grid__header-cell-content-block:before {
+   display: block;
+}
+
+.controls-Grid__groupContent__spacingLeft_withCheckboxes_theme-@{themeName} {
+   padding-left: @click-area_width_checkbox;
+}
+
+.controls-GridView__footer {
+   display: contents;
+   box-sizing: border-box;
+   &::before {
+      display: none;
+   }
+}
+
+.controls-GridView__footer__cell {
+   box-sizing: border-box;
+}
+
+.controls-GridView__footer__cell_theme-@{themeName} {
+   display: flex;
+   align-items: baseline;
+}
+
+.controls-GridView__newFooter__cell_theme-@{themeName} {
+   min-height: @footer_min-height_list;
+   &::before {
+      content: '\200b';
+      font-size: @footer_font-size_list;
+   }
+}
+
+.controls-GridView__footerRow {
+   display: contents;
+}
+
+.controls-Grid__cell_spacingFirstCol_default_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_default_theme-@{themeName},
+.controls-Grid__groupContent__spacingLeft_default_theme-@{themeName} {
+   padding-left: @item_padding-left_default_list;
+}
+
+.controls-Grid__cell_spacingFirstCol_null_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_null_theme-@{themeName},
+.controls-Grid__groupContent__spacingLeft_null_theme-@{themeName} {
+   padding-left: 0;
+}
+
+.controls-Grid__cell_spacingFirstCol_xs_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_xs_theme-@{themeName},
+.controls-Grid__groupContent__spacingLeft_xs_theme-@{themeName} {
+   padding-left: @item_padding-left_xs_list;
+}
+
+.controls-Grid__cell_spacingFirstCol_s_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_s_theme-@{themeName},
+.controls-Grid__groupContent__spacingLeft_s_theme-@{themeName} {
+   padding-left: @item_padding-left_s_list;
+}
+
+.controls-Grid__cell_spacingFirstCol_m_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_m_theme-@{themeName},
+.controls-Grid__groupContent__spacingLeft_m_theme-@{themeName} {
+   padding-left: @item_padding-left_m_list;
+}
+
+.controls-Grid__cell_spacingFirstCol_l_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_l_theme-@{themeName},
+.controls-Grid__groupContent__spacingLeft_l_theme-@{themeName} {
+   padding-left: @item_padding-left_l_list;
+}
+
+.controls-Grid__cell_spacingFirstCol_xl_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_xl_theme-@{themeName},
+.controls-Grid__groupContent__spacingLeft_xl_theme-@{themeName} {
+   padding-left: @item_padding-left_xl_list;
+}
+
+.controls-Grid__cell_spacingFirstCol_xxl_theme-@{themeName},
+.controls-GridView__footer__cell__paddingLeft_xxl_theme-@{themeName},
+.controls-Grid__groupContent__spacingLeft_xxl_theme-@{themeName} {
+   padding-left: @item_padding-left_2xl_list;
+}
+
+.controls-Grid__cell_spacingLastCol_default_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_default_theme-@{themeName},
+.controls-Grid__groupContent__spacingRight_default_theme-@{themeName} {
+   padding-right: @item_padding-right_default_list;
+   &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
+      right: @cell_spacing-right_m_grid;
+   }
+}
+
+.controls-Grid__cell_spacingLastCol_null_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_null_theme-@{themeName},
+.controls-Grid__groupContent__spacingRight_null_theme-@{themeName} {
+   padding-right: 0;
+}
+
+.controls-Grid__cell_spacingLastCol_xs_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_xs_theme-@{themeName},
+.controls-Grid__groupContent__spacingRight_xs_theme-@{themeName} {
+   padding-right: @item_padding-right_xs_list;
+}
+
+.controls-Grid__cell_spacingLastCol_s_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_s_theme-@{themeName},
+.controls-Grid__groupContent__spacingRight_s_theme-@{themeName} {
+   padding-right: @item_padding-right_s_list;
+   &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
+      right: @cell_spacing-right_s_grid;
+   }
+}
+
+.controls-Grid__cell_spacingLastCol_m_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_m_theme-@{themeName},
+.controls-Grid__groupContent__spacingRight_m_theme-@{themeName} {
+   padding-right: @item_padding-right_m_list;
+   &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
+      right: @cell_spacing-right_m_grid;
+   }
+}
+
+.controls-Grid__cell_spacingLastCol_l_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_l_theme-@{themeName},
+.controls-Grid__groupContent__spacingRight_l_theme-@{themeName} {
+   padding-right: @item_padding-right_l_list;
+   &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
+      right: @cell_spacing-right_l_grid;
+   }
+}
+
+.controls-Grid__cell_spacingLastCol_xl_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_xl_theme-@{themeName},
+.controls-Grid__groupContent__spacingRight_xl_theme-@{themeName} {
+   padding-right: @item_padding-right_xl_list;
+   &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
+      right: @cell_spacing-right_xl_grid;
+   }
+}
+
+.controls-Grid__cell_spacingLastCol_xxl_theme-@{themeName},
+.controls-GridView__footer__cell__paddingRight_xxl_theme-@{themeName},
+.controls-Grid__groupContent__spacingRight_xxl_theme-@{themeName} {
+   padding-right: @item_padding-right_2xl_list;
+   &.controls-Grid__row-cell__content_halign_right .controls-Grid__row-cell__ladder-content_additional-with-main {
+      right: @cell_spacing-right_2xl_grid;
+   }
+}
+
+.controls-Grid__cell_spacingBackButton_with_multiSelection_theme-@{themeName} {
+   margin-left: -@click-area_width_checkbox;
+}
+.controls-GridView__item_active_theme-@{themeName} {
+   background-color: @item_hover_background-color_list;
+}
+.controls-GridView__item_active_theme-@{themeName} .controls-Grid__row-cell__content_hiddenForLadder_theme-@{themeName} {
+   background-color: @item_hover_background-color_list;
+}
+
+// Checkbox styles
+.controls-Grid__row-cell-checkbox_theme-@{themeName} {
+   min-width: @click-area_width_checkbox;
+   max-width: @click-area_width_checkbox;
+}
+
+.controls-Grid__header-cell-checkbox_theme-@{themeName} {
+   max-width: @click-area_width_checkbox;
+}
+
+// При включенном скроле колонок также нужен min-width https://online.sbis.ru/opendoc.html?guid=fe24dbc6-e04f-4cf3-a397-39c8e074f5f8
+.controls-Grid_columnScroll .controls-Grid__header-cell-checkbox_theme-@{themeName}.controls-Grid__header-cell-checkbox_min-width_theme-@{themeName},
+.controls-Grid__header-cell-checkbox_min-width_theme-@{themeName} {
+   min-width: @click-area_width_checkbox;
+}
+
+.controls-GridView__footer__paddingLeft_withCheckboxes_theme-@{themeName} {
+   padding-left: @click-area_width_checkbox;
+}
+
+.controls-GridView__paddingBottom__itemActionsV_outside_theme-@{themeName} {
+   padding-bottom: @height_outside_itemActions;
+}
+
+.controls-GridView__footer__itemActionsV_outside_theme-@{themeName} {
+   min-height: @height_outside_itemActions;
+}
+
+.controls-GridView__checkbox_theme-@{themeName} {
+   position: relative;
+}
+
+.controls-GridView__checkbox_position-custom_theme-@{themeName} {
+   display: inline-block;
+   // Высота чекбокса 18px и он ломает 17px базовую линию.
+   margin-top: @item_max-font-size_grid - @true_marker_size_checkbox;
+}
+
+.controls-Grid__row-cell__contentWrapper {
+   display: inline-flex;
+   width: 100%;
+}
+
+.controls-Grid__row-cell__content {
+   width: 100%;
+   display: inline-flex;
+   align-items: baseline;
+   min-width: 0; //https://css-tricks.com/flexbox-truncated-text/
+   flex-shrink: 1;
+   box-sizing: border-box;
+   height: 100%;
+}
+
+.controls-Grid__row-cell_cursor-default {
+   cursor: default;
+}
+
+//MasterList styles
+
+.ws-is-mobile-chrome-ios .controls-Grid__row-cell_selected-master_theme-@{themeName},
+.ws-is-desktop-safari .controls-Grid__row-cell_selected-master_theme-@{themeName},
+.ws-is-mobile-safari .controls-Grid__row-cell_selected-master_theme-@{themeName} {
+   // ave safari 13
+   // https://online.sbis.ru/opendoc.html?guid=6d560d7a-c140-4d06-a1b6-53b326efe950
+   // иначе все position: absolute элементы внутри position: sticky
+   // начинают сроиться относительно родителя уровнем выше
+   // translateZ лечит высоту, но ломает ширину внутри sticky контейнер
+   // translateY правит обе проблемы, с ним нормализуетя и высота и ширина, поэтому используем его
+   transform: translateY(0);
+}
+
+.controls-Grid__row-cell_selected-master_theme-@{themeName} {
+   font-weight: bold;
+   color: @master_item_selected_text-color_list;
+   font-size: @master_item_selected_font-size_list;
+}
+
+.controls-GridView__itemV_marker-master_theme-@{themeName} {
+   position: absolute;
+   box-sizing: border-box;
+   width: @master-marker_thickness_list;
+   height: 100%;
+   background-color: @master-marker_color_list;
+   top: 0;
+   left: 0;
+}
+
+.ws-is-hover .controls-BaseControl_hover_enabled {
+
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-Grid__row-cell-background-hover-master_theme-@{themeName} {
+      background-color: @master_item_hover_background-color_list;
+   }
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master,
+   .controls-Grid__row_highlightOnHover_master_theme-@{themeName}:hover .controls-background-master_theme-@{themeName} {
+      background-color: @master_item_hover_background-color_list;
+   }
+}
+
+.controls-background-listItem_theme-@{themeName} {
+   background-color: @background-color;
+}
+.controls-itemActionsV__container {
+   position: sticky;
+   right: 0;
+
+   // Нужен отдельный стек z-index, иначе при скролле колонок из-за transform опции оказываются ниже данных таблицы и неправильно обрабатывается ховер
+   // https://online.sbis.ru/opendoc.html?guid=6059b335-dad3-4458-b022-0260680d5c27
+   z-index: 1;
+
+   pointer-events: none;
+   .controls-itemActionsV {
+      pointer-events: auto;
+   }
+}
+
+.controls-Grid__cell_header-content_border-bottom_theme-@{themeName} {
+   border-bottom: @item-separator_s_thickness_list solid @item_edge_separator_s_color_list;
+}
+.controls-Grid__cell_header-content_border-transparent_theme-@{themeName} {
+   border-bottom: @item-separator_s_thickness_list solid transparent;
+}
+
+.controls-Grid__cell_header-relative {
+   position: relative;
+}
+
+.controls-Grid__header-cell_justify_content_left {
+   justify-content: flex-start;
+   text-align: left;
+}
+
+.controls-Grid__header-cell_justify_content_right {
+   justify-content: flex-end;
+   text-align: right;
+}
+
+.controls-Grid__header-cell_justify_content_center {
+   justify-content: center;
+   text-align: center;
+}
+
+.controls-Grid__header-cell_align_items_top {
+   align-items: flex-start;
+}
+
+.controls-Grid__header-cell_align_items_bottom {
+   align-items: flex-end;
+}
+
+.controls-Grid__header-cell_align_items_center {
+   align-items: center;
+}
+
+.controls-Grid__editArrow-wrapper_theme-@{themeName} {
+   visibility: hidden;
+}
+
+.controls-Grid__editArrow-wrapper_theme-@{themeName} {
+   position: relative;
+   flex-shrink: 9999999999;
+   min-width: 0;
+   display: flex;
+   justify-content: flex-end;
+   align-items: baseline;
+}
+.controls-Grid__editArrow-cellContent {
+   flex-shrink:0;
+   max-width: 100%;
+}
+.controls-Grid__editArrow-blur_theme-@{themeName} {
+   height: 100%;
+   min-height: @edit-arrow_icon-size_grid;
+   display: inline-block;
+   width: @edit-arrow_offset_grid;
+   flex-shrink: 0;
+   z-index: 0;
+}
+
+.controls-Grid__editArrow-blur_style-default_background_theme-@{themeName} {
+   background: linear-gradient(90deg, rgba(240,245,251,0), @item_hover_background-color_list);
+}
+
+.controls-Grid__editArrow-blur_style-master_background_theme-@{themeName} {
+   background: linear-gradient(90deg, rgba(240,245,251,0), @master_item_hover_background-color_list);
+}
+
+
+.controls-Grid__editArrow_theme-@{themeName} {
+   position: relative;
+   z-index: 1;
+   fill: @edit-arrow_icon-color_grid;
+   width: @edit-arrow_icon-size_grid;
+   min-width: @edit-arrow_icon-size_grid;
+   display: inline-flex;
+   align-items: baseline;
+   cursor: pointer;
+}
+
+.controls-Grid__editArrow-blur_style-default_background_theme-default:before,
+.controls-Grid__editArrow_style-default_background_theme-default:before,
+.controls-Grid__editArrow-wrapper_theme-default:before {
+   content: '\200b';
+   font-size: @item_max-font-size_grid;
+}
+.controls-Grid__editArrow-icon_theme-@{themeName} {
+   height: @edit-arrow_icon-size_grid;
+   width: @edit-arrow_icon-size_grid;
+}
+
+.controls-Grid__editArrow_style-default_background_theme-@{themeName} {
+   background-color: @item_hover_background-color_list;
+}
+
+.controls-Grid__editArrow_style-master_background_theme-@{themeName} {
+   background-color: @master_item_hover_background-color_list;
+}
+
+.controls-Grid__editArrow-overflow-ellipsis_theme-@{themeName} {
+   margin-right: -@edit-arrow_icon-size_grid;
+}
+
+.controls-Grid__editArrow-withTextOverflow_theme-@{themeName} {
+   flex-shrink: 1;
+   min-width: 0;
+   width: @edit-arrow_icon-size_grid;
+}
+
+.controls-Grid__cell_valign_top {
+   align-items: flex-start;
+   height: 100%;
+}
+
+.controls-Grid__cell_valign_bottom {
+   align-items: flex-end;
+   height: 100%;
+}
+
+.controls-Grid__cell_valign_center {
+   align-items: center;
+   height: 100%;
+}
+
+.controls-Grid__cell-content_full-height {
+   height: 100%;
+}
+
+.controls-Grid__cell_tag_theme-@{themeName} {
+   position: relative;
+   right: -@tag_offset-horizontal_gridView;
+
+   .controls__tag_theme-@{themeName} {
+      top: -@tag_offset-vertical_gridView;
+   }
+}

@@ -1,17 +1,41 @@
 <div class="controlsDemo__wrapper controlsDemo__background">
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls__block_theme-{{_options.theme}}" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}}</div>
+        <div class="controls__block-wrapper" style="width: 500px; height: 150px">
+            <div class="controls__block">
+                controls__block
+            </div>
+        </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls__block_theme-{{_options.theme}} tl" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tl</div>
+        <div class="controls__block-wrapper tl" style="width: 500px; height: 150px">
+            <div class="controls__block">
+                controls__block tl
+            </div>
+        </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls__block_theme-{{_options.theme}} tr" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tr</div>
+        <div class="controls__block-wrapper tr" style="width: 500px; height: 150px">
+            <div class="controls__block">
+                controls__block tr
+            </div>
+        </div>
     </div>
 
     <div class="controlsDemo__cell controlsDemo_fixedWidth500">
-        <div class="controls__block_theme-{{_options.theme}} tlr" style="width: 500px; height: 150px">controls__block_theme-{{_options.theme}} tlr</div>
+        <div class="controls__block-wrapper tlr" style="width: 500px; height: 150px">
+            <div class="controls__block">
+                controls__block tlr
+            </div>
+        </div>
+    </div>
+
+    <div class="controlsDemo__cell controlsDemo_fixedWidth500">
+        <div class="controls__block-wrapper none" style="width: 500px; height: 150px">
+            <div class="controls__block">
+                controls__block none
+            </div>
+        </div>
     </div>
 </div>

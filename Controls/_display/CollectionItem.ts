@@ -663,6 +663,7 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
      * @param cursor - курсор мыши
      * @param backgroundColorStyle - стиль background
      * @param style - режим отображения списка (master/default)
+     * @param showItemActionsOnHover - показывать или нет операции над записью по ховеру
      * @remark
      * Метод должен уйти в render-модель при её разработке.
      */
@@ -670,13 +671,16 @@ export default class CollectionItem<T extends Model = Model> extends mixin<
                       theme?: string,
                       cursor: string = 'pointer',
                       backgroundColorStyle?: string,
-                      style: string = 'default'): string {
+                      style: string = 'default',
+                      showItemActionsOnHover: boolean = true): string {
         const hoverBackgroundStyle = this.getOwner().getHoverBackgroundStyle() || style;
         const editingBackgroundStyle = this.getOwner().getEditingBackgroundStyle();
         let wrapperClasses = `controls-ListView__itemV ${this._getCursorClasses(cursor)}`;
         wrapperClasses += ` controls-ListView__item_${style}`;
         wrapperClasses += ` controls-ListView__item_${style}_theme-${theme}`;
-        wrapperClasses += ' controls-ListView__item_showActions';
+        if (showItemActionsOnHover !== false) {
+            wrapperClasses += ' controls-ListView__item_showActions';
+        }
         wrapperClasses += ' js-controls-ListView__measurableContainer';
         wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}`;
         if (templateHighlightOnHover && !this.isEditing()) {

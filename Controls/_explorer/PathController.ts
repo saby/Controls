@@ -1,7 +1,7 @@
 import {EventUtils} from 'UI/Events';
 import {SyntheticEvent} from 'UI/Vdom';
 import {Path} from 'Controls/dataSource';
-import {IGridControl, IHeaderCell} from 'Controls/grid';
+import {IGridControl, IHeaderCell} from 'Controls/gridOld';
 import HeadingPathBack from 'Controls/_explorer/HeadingPathBack';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';

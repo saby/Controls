@@ -8,6 +8,7 @@ export interface IPreviewerPopupOptions extends IStickyPopupOptions {
     closingTimerId?: number;
     openingTimerId?: number;
     isCancelOpening?: boolean;
+    delay?: number;
 }
 
 /**

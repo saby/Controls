@@ -20,7 +20,7 @@
                 </Controls.operations:PanelContainer>
             </ws:if>
             <Controls.list:Container>
-                <Controls.treeGrid:View
+                <Controls.treeGridOld:View
                         name="list"
                         attr:class="demo-Grid__control"
                         markerVisibility="hidden"
@@ -30,7 +30,7 @@
                         nodeProperty="Раздел@"
                         keyProperty="id"
                         columns="{{_gridColumns}}">
-                </Controls.treeGrid:View>
+                </Controls.treeGridOld:View>
             </Controls.list:Container>
         </div>
     </Controls.operations:Controller>

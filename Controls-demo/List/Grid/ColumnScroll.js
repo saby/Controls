@@ -10,7 +10,7 @@ define('Controls-demo/List/Grid/ColumnScroll', [
    'wml!Controls-demo/List/Grid/DemoHeaderCostPrice',
    'wml!Controls-demo/List/Grid/DemoName',
    'Controls/scroll',
-   'Controls/grid',
+   'Controls/gridOld',
    'wml!Controls-demo/List/Grid/Results'
 ], function(Base, GridData, template, source, Toolbar) {
    'use strict';
