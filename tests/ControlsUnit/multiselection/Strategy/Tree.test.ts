@@ -8,7 +8,7 @@ import * as ListData from 'ControlsUnit/ListData';
 import { RecordSet } from 'Types/collection';
 import { Search, Tree, TreeItem } from 'Controls/display';
 import GroupItem from 'Controls/_display/GroupItem';
-import { SearchGridViewModel } from 'Controls/treeGrid';
+import { SearchGridViewModel } from 'Controls/treeGridOld';
 
 describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
    const model = new Tree({

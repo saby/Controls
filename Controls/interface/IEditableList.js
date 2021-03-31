@@ -64,7 +64,7 @@ define('Controls/interface/IEditableList', [
    /**
     * @typedef {Object} Controls/interface/IEditableList/EditingConfig
     * @description Конфигурация {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования/добавления по месту}.
-    * @property {Boolean} [autoAddOnInit=false] Автоматический запуск добавления по месту при инициализации {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty-list/ пустого списка}. По умолчанию отключено (false). Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/init/ здесь}.
+    * @property {Boolean} [autoAddOnInit=false] Автоматический запуск добавления по месту при инициализации {@link /doc/platform/developmentapl/interface-development/controls/list/list/empty/ пустого списка}. По умолчанию отключено (false). Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/init/ здесь}.
     * @property {Boolean} [editOnClick=false] Запуск редактирования по месту при клике по элементу списка. Является частью {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/basic/ базовой конфигурации} функционала редактирования по месту. По умолчанию отключено (false).
     * @property {Boolean} [autoAdd=false] Автоматический запуск добавления нового элемента, происходящий при завершении редактирования последнего элемента списка. По умолчанию отключено (false). Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#add здесь}.
     * @property {Boolean} [autoAddByApplyButton=true] Отмена автоматического запуска добавления нового элемента, если завершение добавления предыдущего элемента происходит {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/item-actions/#visible кнопкой "Сохранить"} на {@link /doc/platform/developmentapl/interface-development/controls/list/actions/item-actions/ панели опций записи}. По умолчанию автоматический запуск включен (true). Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ways-to-start/auto/#add здесь}.
@@ -92,8 +92,7 @@ define('Controls/interface/IEditableList', [
     * @typedef {String|Types/entity:Model|Core/Deferred} ItemEditResult
     * @description Значения, которые можно возвращать из обработчика события {@link beforeBeginEdit}.
     * @variant Сancel Отменить редактирование/добавление по месту.
-    * @variant GoToNext Пропустить запуск редактирования и незамедлительно попробовать начать редактирование следующей записи. Доступна только при запуске редактирования, добавление не поддерживает данную функцию.
-    * @variant GoToPrev Пропустить запуск редактирования и незамедлительно попробовать начать редактирование предыдущей записи. Доступна только при запуске редактирования, добавление не поддерживает данную функцию.
+    * @variant Skip Пропустить запуск редактирования и незамедлительно попробовать начать редактирование следующей записи. Доступна только при запуске редактирования, добавление не поддерживает данную функцию.
     * @variant options Параметры редактирования/добавление по месту.
     * @variant Promise Используется для асинхронной подготовки редактируемого элемента. Подробнее читайте {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/events/#before-begin-edit здесь}.
     */

@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { GridCollection } from 'Controls/gridNew';
 import { Model } from 'Types/entity';
 import {RecordSet} from 'Types/collection';
-import {TEditArrowVisibilityCallback} from 'Controls/_gridNew/display/mixins/Grid';
+import {TEditArrowVisibilityCallback} from 'Controls/_grid/display/mixins/Grid';
 
 describe('Controls/display/GridCollection/EditArrow', () => {
     let rs: RecordSet;

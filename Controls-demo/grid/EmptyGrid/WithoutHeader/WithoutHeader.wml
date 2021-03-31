@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper">
-    <Controls.grid:View
+    <Controls.gridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}">
@@ -8,5 +8,5 @@
                 <ws:contentTemplate>No data available!</ws:contentTemplate>
             </ws:partial>
         </ws:emptyTemplate>
-    </Controls.grid:View>
+    </Controls.gridOld:View>
 </div>

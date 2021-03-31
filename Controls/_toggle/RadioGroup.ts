@@ -20,7 +20,7 @@ export interface IRadioGroupOptions extends IControlOptions,
  * 
  * @remark
  * Полезные ссылки:
- * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FCheckboxGroup%2FIndex демо-пример}
+ * * {@link /materials/Controls-demo/app/Controls-demo%2Ftoggle%2FRadioGroup%2FIndex демо-пример}
  * * {@link https://github.com/saby/wasaby-controls/blob/rc-20.4000/Controls-default-theme/aliases/_toggle.less переменные тем оформления}
  *
  * @class Controls/_toggle/RadioGroup
@@ -114,3 +114,8 @@ Object.defineProperty(Radio, 'defaultProps', {
 });
 
 export default Radio;
+
+/**
+ * @name Controls/_toggle/RadioGroup#direction
+ * @demo Controls-demo/toggle/RadioGroup/Direction/Index
+ */

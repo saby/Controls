@@ -3,7 +3,7 @@ import * as Template from 'wml!Controls-demo/treeGrid/Expander/ExpanderPosition/
 import * as CntTpl from 'wml!Controls-demo/treeGrid/Expander/ExpanderPosition/Custom/content';
 import {Memory} from 'Types/source';
 import {Gadgets} from '../../../DemoHelpers/DataCatalog';
-import {IColumn} from 'Controls/grid';
+import {IColumn} from 'Controls/gridOld';
 import { TExpandOrColapsItems } from 'Controls-demo/types';
 
 export default class extends Control {

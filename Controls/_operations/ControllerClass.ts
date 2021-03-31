@@ -1,6 +1,19 @@
 import {RegisterClass} from 'Controls/event';
+import {Model} from 'Types/entity';
+import {ISelectionObject} from 'Controls/interface';
+import {SyntheticEvent} from 'Vdom/Vdom';
+import * as ModulesLoader from 'WasabyLoader/ModulesLoader';
+import {object} from 'Types/util';
+import {merge} from 'Types/object';
 
 type Key = string|number|null;
+
+export interface IExecuteCommandParams {
+    target: SyntheticEvent;
+    selection: ISelectionObject;
+    item: Model;
+    filter: Record<string, any>;
+}
 
 export default class OperationsController {
     private _listMarkedKey: Key = null;
@@ -68,6 +81,29 @@ export default class OperationsController {
         if (this._options.itemOpenHandler instanceof Function) {
             return this._options.itemOpenHandler(newCurrentRoot, items, dataRoot);
         }
+    }
+
+    executeAction(params: IExecuteCommandParams): Promise<void> | void {
+        const actionName: string = object.getPropertyValue(params.item, 'actionName');
+        if (actionName) {
+            if (ModulesLoader.isLoaded(actionName)) {
+                this._executeAction(params, ModulesLoader.loadSync(actionName));
+            } else {
+                ModulesLoader.loadAsync(actionName).then((actionModule) => {
+                    this._executeAction(params, actionModule);
+                });
+            }
+        }
+    }
+
+    protected _executeAction(actionParams: IExecuteCommandParams, actionModule: IAction): void {
+        const actionOptions = object.clone(object.getPropertyValue(actionParams.item, 'actionOptions')) || {};
+        merge(actionOptions, {
+            filter: actionParams.filter,
+            selection: actionParams.selection,
+            target: actionParams.target
+        });
+        new actionModule(actionOptions).execute(actionOptions);
     }
 
     private _getRegister(): RegisterClass {

@@ -1,13 +1,13 @@
 <div class="controlsDemo__wrapper" attr:style="flex-grow: 1">
    <div class="ws-flexbox">
       <Controls.input:Label caption="direction.horizontal = "/>
-      <Controls.toggle:DoubleSwitch attr:class="controlsDemo__input"
+      <Controls.toggle:DoubleSwitch attr:class="controlsDemo__input controlsDemo_ResizeDirection__horizontal"
                                     bind:value="_horizontal"
                                     captions="{{['left', 'right']}}"/>
    </div>
    <div class="ws-flexbox">
       <Controls.input:Label caption="direction.vertical = "/>
-      <Controls.toggle:DoubleSwitch attr:class="controlsDemo__input"
+      <Controls.toggle:DoubleSwitch attr:class="controlsDemo__input controlsDemo_ResizeDirection__vertical"
                                     bind:value="_vertical"
                                     captions="{{['top', 'bottom']}}"/>
    </div>

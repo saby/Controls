@@ -1,0 +1,20 @@
+<ws:template name="arrow">
+    <ws:if data="{{_options.value}}">
+        <div class="controls-SortingButton__icon controls-SortingButton__icon_theme-{{_options.theme}}">
+               <ws:partial attr:class="controls-SortingButton_arrow_theme-{{_options.theme}} " value="{{_options.value}}" template="wml!Controls/_gridOld/SortingResources/SortingArrow"/>
+        </div>
+    </ws:if>
+</ws:template>
+
+<div class="controls-SortingButton">
+    <div class="controls-SortingButton__content" title="{{_options.caption}}">
+        
+        <div class="controls-SortingButton__caption controls-SortingButton__caption_theme-{{_options.theme}} 
+        controls-Grid__header-cell__content-{{_options.textOverflow}}" 
+        on:click="_clickHandler()">
+        <ws:partial if="{{_options.align !== 'left'}}" template="arrow"></ws:partial>
+        {{_options.caption}}
+    </div>
+    <ws:partial if="{{_options.align === 'left'}}" template="arrow"></ws:partial>
+    </div>
+</div>

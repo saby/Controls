@@ -1,4 +1,4 @@
-define(['Controls/grid', 'Types/source'], function(grid, TypesSource) {
+define(['Controls/gridOld', 'Types/source'], function(grid, TypesSource) {
    describe('Controls.grid:SortingSelector', function() {
       const sortingParams = [
          {

@@ -53,7 +53,7 @@ import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated
 
 import BaseViewModel = require('Controls/_list/BaseViewModel');
 import ListViewModel = require('Controls/_list/ListViewModel');
-import {default as ListControl} from 'Controls/_list/BaseControl';
+import {default as ListControl, LIST_EDITING_CONSTANTS as editing} from 'Controls/_list/BaseControl';
 import ListView = require('Controls/_list/ListView');
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
@@ -135,24 +135,6 @@ export {
     VirtualScroll,
     ScrollController,
     IListNavigation
-};
-
-/**
- * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактированием по месту}.
- * @class Controls/list:editing
- * @public
- */
-const editing = {
-    /**
-     * С помощью этой константы можно отменить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
-     * Для этого константу следует вернуть из обработчика события {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}.
-     */
-    /*
-     * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
-     */
-    CANCEL: 'Cancel',
-    GOTONEXT: 'GoToNext',
-    GOTOPREV: 'GoToPrev'
 };
 
 import {groupConstants} from './display';

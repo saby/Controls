@@ -1,0 +1,21 @@
+<div class="controlsDemo__wrapper">
+    <Controls.list:View
+            keyProperty="id"
+            source="{{_source}}">
+        <ws:itemTemplate>
+            <ws:partial template="Controls/list:ItemTemplate"
+                        scope="{{itemTemplate}}">
+                <ws:contentTemplate>
+                    <div>
+                        {{contentTemplate.itemData.item.title}}
+                        <ws:for data="i in 10">
+                            <div>Блок с иконкой {{i}}
+                                <div class="controls-icon controls-icon_size-m controls-icon_style-danger icon-Successful"></div>
+                            </div>
+                        </ws:for>
+                    </div>
+                </ws:contentTemplate>
+            </ws:partial>
+        </ws:itemTemplate>
+    </Controls.list:View>
+</div>

@@ -21,6 +21,7 @@ export default INumberFormat;
 /**
  * @name Controls/_interface/INumberFormat#useGrouping
  * @cfg {Boolean} Определяет, следует ли использовать разделители группы.
+ * @default true
  * @remark
  * * true - число разделено на группы.
  * * false - разделения не происходит.
@@ -28,6 +29,7 @@ export default INumberFormat;
 /**
  * @name Controls/_interface/INumberFormat#showEmptyDecimals
  * @cfg {Boolean} Определяет, отображать ли нули в конце десятичной части.
+ * @default false
  * @remark
  * * true - отображать нули в десятичной части.
  * * false - не отображать нули в десятичной части.

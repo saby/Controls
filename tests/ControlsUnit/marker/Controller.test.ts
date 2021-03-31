@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { MarkerController } from 'Controls/marker';
 import { ListViewModel } from 'Controls/list';
 import { RecordSet } from 'Types/collection';
-import { SearchGridViewModel } from 'Controls/treeGrid';
+import { SearchGridViewModel } from 'Controls/treeGridOld';
 import { Tree } from 'Controls/display';
 import * as ListData from 'ControlsUnit/ListData';
 import { Model } from 'Types/entity';
