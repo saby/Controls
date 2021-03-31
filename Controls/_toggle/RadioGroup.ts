@@ -117,5 +117,6 @@ export default Radio;
 
 /**
  * @name Controls/_toggle/RadioGroup#direction
+ * @cfg
  * @demo Controls-demo/toggle/RadioGroup/Direction/Index
  */
