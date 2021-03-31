@@ -99,6 +99,9 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
         if (this._options.offset) {
             config.offset = this._options.offset;
         }
+        if (this._options.delay) {
+            config.delay = this._options.delay;
+        }
         return config;
     }
 

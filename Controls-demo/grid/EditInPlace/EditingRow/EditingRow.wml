@@ -1,5 +1,5 @@
 <div class="controlsDemo__cell">
-    <Controls.grid:View
+    <Controls.gridOld:View
             keyProperty="id"
             source="{{_viewSource}}"
             columns="{{_columns}}"
@@ -13,5 +13,5 @@
                         onChange2="{{onChange2}}"
                         selectedKey="{{selectedKey}}"/>
         </ws:itemTemplate>
-    </Controls.grid:View>
+    </Controls.gridOld:View>
 </div>

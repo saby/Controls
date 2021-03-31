@@ -26,12 +26,21 @@ define(
             result = decorator.Number._formatNumber(10, {roundMode: 'round', fractionSize: 2});
             assert.equal(result, '10.00');
 
+            result = decorator.Number._formatNumber(10, {roundMode: 'round', precision: 2});
+            assert.equal(result, '10.00');
+
             result = decorator.Number._formatNumber(10.0001, {roundMode: 'round', fractionSize: 0});
+            assert.equal(result, '10');
+
+            result = decorator.Number._formatNumber(10.0001, {roundMode: 'round', precision: 0});
             assert.equal(result, '10');
          });
 
          it('Remove fractional path', function() {
             result = decorator.Number._formatNumber(10.123, {roundMode: 'round', fractionSize: 2});
+            assert.equal(result, '10.12');
+
+            result = decorator.Number._formatNumber(10.123, {roundMode: 'round', precision: 2});
             assert.equal(result, '10.12');
          });
 
@@ -58,7 +67,13 @@ define(
             result = decorator.Number._formatNumber(1.234567890, {roundMode: 'trunc', fractionSize: 4});
             assert.equal(result, '1.2345');
 
+            result = decorator.Number._formatNumber(1.234567890, {roundMode: 'trunc', precision: 4});
+            assert.equal(result, '1.2345');
+
             result = decorator.Number._formatNumber(1.234567890, {roundMode: 'trunc', fractionSize: 0});
+            assert.equal(result, '1');
+
+            result = decorator.Number._formatNumber(1.234567890, {roundMode: 'trunc', precision: 0});
             assert.equal(result, '1');
          });
       });

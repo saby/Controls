@@ -1,7 +1,7 @@
 <ws:template name="arrowIcon">
     <svg version="1.1" id="iconCollapsed" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
          viewBox="0 0 18 6" style="enable-background:new 0 0 18 6; transform: rotate({{rotate}}deg)" xml:space="preserve"
-         class="controls-BigSeparator-icon{{_options.readOnly ? '-readOnly' : ''}}
+         class="controls-BigSeparator-icon{{_options.readOnly ? '-readonly' : ''}}
                 controls-BigSeparator-iconCollapsed-size-{{_options.iconSize}}">
         <polygon class="st0" points="17.5,6 9,1.1 0.5,6 0,5.1 9,0 18,5.1 "/>
     </svg>
@@ -9,7 +9,7 @@
 <ws:template name="ellipsisIcon">
     <svg version="1.1" id="iconExpanded" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
          viewBox="0 0 22 4" style="enable-background:new 0 0 22 4;" xml:space="preserve"
-         class="controls-BigSeparator-icon{{_options.readOnly ? '-readOnly' : ''}}
+         class="controls-BigSeparator-icon{{_options.readOnly ? '-readonly' : ''}}
                 controls-BigSeparator-iconExpanded-size-{{_options.iconSize}}">
         <circle class="st0" cx="2" cy="2" r="2"/>
         <circle class="st0" cx="11" cy="2" r="2"/>

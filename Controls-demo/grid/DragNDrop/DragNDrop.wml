@@ -7,7 +7,7 @@
                     <div>
                         <Controls.list:Mover name="listMover"/>
                         <Controls.list:Container>
-                            <Controls.grid:View
+                            <Controls.gridOld:View
                                     on:dragStart="_dragStart()"
                                     on:dragEnd="_dragEnd()"
                                     displayProperty="title"
@@ -20,7 +20,7 @@
                                                 mainText="{{draggingTemplate.entity._options.title}}">
                                     </ws:partial>
                                 </ws:draggingTemplate>
-                            </Controls.grid:View>
+                            </Controls.gridOld:View>
                         </Controls.list:Container>
                     </div>
                 </Controls.operations:Controller>

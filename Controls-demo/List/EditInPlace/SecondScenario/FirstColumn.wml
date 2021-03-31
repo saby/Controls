@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
+<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_L" itemData="{{itemData}}">
    <ws:contentTemplate>
       <div class="controls-EditingTemplateText__editorWrapper controls-EditingTemplateText__editorWrapper_align_{{itemData.column.align ? itemData.column.align : 'left'}}">
          <ws:if data="{{itemData.isEditing()}}">

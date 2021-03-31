@@ -1,12 +1,19 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {descriptor as EntityDescriptor} from 'Types/entity';
-import {ICaption, ICaptionOptions, IFontSize, IFontSizeOptions, IHref, IHrefOptions} from 'Controls/interface';
+import {
+    ICaption,
+    ICaptionOptions,
+    IFontSize,
+    IFontSizeOptions,
+    IHref,
+    IHrefOptions,
+    IUnderlineOptions
+} from 'Controls/interface';
 import * as LabelTemplate from 'wml!Controls/_input/Label/Label';
 import 'css!Controls/input';
 
-export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSizeOptions, IHrefOptions {
+export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSizeOptions, IHrefOptions, IUnderlineOptions {
     required?: boolean;
-    underline?: string | null;
 }
 
 /**
@@ -20,6 +27,7 @@ export interface ILabelOptions extends IControlOptions, ICaptionOptions, IFontSi
  * @extends UI/Base:Control
  *
  * @mixes Controls/interface:IFontSize
+ * @mixes Controls/interface:IUnderline
  * @mixes Controls/interface:ICaption
  * @mixes Controls/interface:IHref
  *
@@ -82,16 +90,5 @@ export default Label;
 /**
  * @name Controls/_input/Label#underline
  * @cfg {String} Стиль декоративной линии, отображаемой для текста метки.
- * @variant hovered
- * @variant fixed
- * @variant none
  * @default none
- */
-
-/*
- * @name Controls/_input/Label#underline
- * @cfg {String} Display underline style of the label.
- * @variant hovered
- * @variant fixed
- * @variant none
  */

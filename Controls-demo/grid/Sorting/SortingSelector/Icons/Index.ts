@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/grid/Sorting/SortingSelector/Icons/Template';
 import {Memory} from 'Types/source';
 import {getCountriesStats} from '../../../DemoHelpers/DataCatalog';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridOld';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -20,20 +20,17 @@ export default class extends Control {
             {
                 title: 'По населению',
                 paramName: 'population',
-                icon: 'icon-Attach',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:partner'
             },
             {
                 title: 'По площади',
                 paramName: 'square',
-                icon: 'icon-1c',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:deflection'
             },
             {
                 title: 'По плотности населения',
                 paramName: 'populationDensity',
-                icon: 'icon-Vacation',
-                iconSize: 's'
+                icon: 'Controls/sortIcons:difficult_sort'
             }
         ];
         this._sorting.push({population: 'ASC'});

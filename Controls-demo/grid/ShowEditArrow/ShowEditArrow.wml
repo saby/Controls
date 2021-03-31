@@ -1,5 +1,6 @@
 <div class="controlsDemo__wrapper">
-    <Controls.grid:View
+    <Controls.gridOld:View
+            attr:style="max-width: 274px;"
             keyProperty="id"
             showEditArrow="{{true}}"
             source="{{_viewSource}}"

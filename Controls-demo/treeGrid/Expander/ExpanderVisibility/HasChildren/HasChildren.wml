@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth300 controlsDemo_treeGrid-reverseType-byItemClick">
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             source="{{_viewSource}}"
             keyProperty="id"
             columns="{{_columns}}"
@@ -8,5 +8,5 @@
             hasChildrenProperty="hasChild"
             bind:expandedItems="_expandedItems"
             expanderVisibility="hasChildren">
-    </Controls.treeGrid:View>
+    </Controls.treeGridOld:View>
 </div>

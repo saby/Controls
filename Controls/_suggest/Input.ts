@@ -24,6 +24,7 @@ import 'css!Controls/suggest';
  * @mixes Controls/_interface/IFontSize
  * @mixes Controls/_interface/IHeight
  * @mixes Controls/_interface/IValidationStatus
+ * @mixes Controls/_interface/IContrastBackground
  * @mixes Controls/_input/interface/ITag
  * @mixes Controls/_input/interface/IBase
  * @mixes Controls/interface:IInputPlaceholder

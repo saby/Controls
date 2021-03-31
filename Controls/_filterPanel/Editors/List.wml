@@ -1,12 +1,12 @@
 <ws:template name="listBase">
-   <Controls.grid:View source="{{_options.source}}"
+   <Controls.gridOld:View source="{{_options.source}}"
                        filter="{{_filter}}"
                        columns="{{_columns}}"
                        keyProperty="{{_options.keyProperty}}"
                        selectedKeys="{{_selectedKeys}}"
                        scope="{{_options}}"
                        markerVisibility="hidden"
-                       navigation="{{_options.navigation}}"
+                       navigation="{{_navigation}}"
                        backgroundStyle="transparent"
                        hoverBackgroundStyle="listEditor"
                        footerTemplate="{{footerTemplate}}"
@@ -16,7 +16,7 @@
       <ws:multiSelectTemplate>
          <ws:partial template="{{_circleTemplate}}" style="{{_options.style}}"/>
       </ws:multiSelectTemplate>
-   </Controls.grid:View>
+   </Controls.gridOld:View>
 </ws:template>
 
 <ws:template name="listEditor">

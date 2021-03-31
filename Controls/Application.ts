@@ -1,4 +1,6 @@
-import {Control, TemplateFunction, IControlOptions, AppData, PrefetchLinksStore} from 'UI/Base';
+import {Control, TemplateFunction, IControlOptions} from 'UI/Base';
+import { PrefetchLinksStore } from 'UI/Deps';
+import { AppData } from 'UI/State';
 import * as template from 'wml!Controls/Application/Page';
 import {Body as PageBody, Head as PageHead} from 'Application/Page';
 
@@ -166,7 +168,7 @@ export default class Application extends Control<IApplication> {
       timeTester.load();
       if (Application._isIOS13()) {
          window.visualViewport.addEventListener('resize', this._resizePage.bind(this));
-         document.addEventListener('orientationchange', this._orientationChange);
+         window.addEventListener('orientationchange', this._orientationChange);
       }
       window.addEventListener('resize', this._resizePage.bind(this))
       window.document.addEventListener('scroll', this._scrollPage.bind(this))

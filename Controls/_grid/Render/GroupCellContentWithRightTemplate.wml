@@ -1,0 +1,34 @@
+<!--
+TODO Нужно удалить этот шаблон, когда починим обычные группы. Это шаблон ячейки с возможностью добавления контента справа.
+ Для прикладников мы должны экспортировать из библиотеки grid шаблон СТРОКИ-ГРУППЫ,
+ т.е. GroupItemTemplate, который должен поддерживать API Controls/_list/interface/IBaseGroupTemplate.
+-->
+<div class="{{ (gridColumn || itemData).getContentClasses(theme) }}">
+    <ws:if data="{{ (gridColumn || itemData).shouldDisplayLeftSeparator(separatorVisibility, textVisible, columnAlignGroup, textAlign) }}">
+        <div class="controls-ListView__groupSeparator_theme-{{theme}} controls-ListView__groupSeparator-left_theme-{{ theme }}">&nbsp;</div>
+    </ws:if>
+    <ws:if data="{{ textVisible !== false }}">
+        <div class="{{ (gridColumn || itemData).getContentTextClasses(theme) }}
+                    {{ (gridColumn || itemData).getExpanderClasses(expanderVisible, expanderAlign, theme) }}">
+            <ws:if data="{{ contentTemplate }}">
+                <ws:partial template="{{ contentTemplate }}"
+                            item="{{ item || itemData }}"
+                            itemData="{{ item || itemData }}"
+                            column="{{ (gridColumn || itemData) }}"/>
+            </ws:if>
+            <ws:else>
+                {{ (gridColumn || itemData).getDefaultDisplayValue() }}
+            </ws:else>
+        </div>
+    </ws:if>
+    <ws:if data="{{ columnAlignGroup === undefined || textVisible === false}}">
+        <ws:if data="{{ (gridColumn || itemData).shouldDisplayRightSeparator(separatorVisibility, textVisible, columnAlignGroup, textAlign) }}">
+            <div class="controls-ListView__groupSeparator_theme-{{theme}}
+                    {{ textVisible !== false ? 'controls-ListView__groupSeparator-right_theme-' + theme }}">&nbsp;</div>
+        </ws:if>
+        <ws:if data="{{ !!rightTemplate }}">
+            <ws:partial template="{{ rightTemplate }}" itemData="{{ item || itemData }}"
+                        attr:class="{{ (gridColumn || itemData).getRightTemplateClasses(separatorVisibility, textVisible, columnAlignGroup, textAlign) }}" />
+        </ws:if>
+    </ws:if>
+</div>

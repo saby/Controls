@@ -4,7 +4,7 @@
                         {{_isMinWidth ? 'controls-RangeShortSelectorLink__value-wrapper-minWidth'}}">
            <ws:if data="{{ _viewMode == 'selector' }}">
               <span
-                    class="controls-RangeShortSelectorLink__value {{!_options.readOnly? 'controls-RangeShortSelectorLink__value-hovered'}}
+                    class="controls-RangeShortSelectorLink__value {{!_options.readOnly? 'controls-RangeShortSelectorLink__value-' + _options.underline}}
                     {{_fontSize? 'controls-fontsize-' + _fontSize}}
                     {{_fontColorStyle ? ' controls-text-' + _fontColorStyle}}
                     {{ _styleClass }} {{ _valueEnabledClass }}"

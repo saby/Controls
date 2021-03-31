@@ -181,6 +181,10 @@ var TreeTileViewModel = TreeViewModel.extend({
         this._tileModel.setItemsHeight(itemsHeight);
     },
 
+    setTileWidth(width: number): void {
+        this._tileModel.setTileWidth(width);
+    },
+
     setItemsContainerPadding(padding) {
         this._tileModel.setItemsContainerPadding(padding);
     },

@@ -2,7 +2,7 @@ import {ListView} from 'Controls/list';
 import template = require('wml!Controls/_tileNew/render/TileView');
 import defaultItemTpl = require('wml!Controls/_tileNew/render/items/Default');
 import {TouchContextField} from 'Controls/context';
-import { TILE_SCALING_MODE, ZOOM_COEFFICIENT} from './utils/Constants';
+import { TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './utils/Constants';
 import {isEqual} from 'Types/object';
 import { TemplateFunction } from 'UI/Base';
 import TileCollectionItem from './display/TileCollectionItem';
@@ -10,9 +10,7 @@ import TileCollection from './display/TileCollection';
 import {SyntheticEvent} from 'UI/Vdom';
 import {Model} from 'Types/entity';
 import {constants} from 'Env/Env';
-import {debounce} from 'Types/function';
-
-const HOVERED_ITEM_CHANGE_DELAY = 150;
+import {getItemSize} from './utils/imageUtil';
 
 export default class TileView extends ListView {
     protected _template: TemplateFunction = template;
@@ -85,15 +83,15 @@ export default class TileView extends ListView {
     }
 
     getActionsMenuConfig(
-        item: Model,
+        contents: Model,
         clickEvent: SyntheticEvent,
         action: object,
         isContextMenu: boolean,
         menuConfig: object,
-        itemData: TileCollectionItem
+        item: TileCollectionItem
     ): Record<string, any> {
         const isActionMenu = !!action && !action.isMenu;
-        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, itemData) && menuConfig) {
+        if (this._shouldOpenExtendedMenu(isActionMenu, isContextMenu, item) && menuConfig) {
             const MENU_MAX_WIDTH = 200;
             const menuOptions = menuConfig.templateOptions;
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
@@ -101,18 +99,12 @@ export default class TileView extends ListView {
             if (!imageWrapper) {
                 return null;
             }
-            let previewWidth = imageWrapper.clientWidth;
-            let previewHeight = imageWrapper.clientHeight;
-            menuOptions.image = itemData.getImageUrl();
-            menuOptions.title = itemData.getDisplayValue();
-            menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
-            menuOptions.imageClasses = itemData.getImageClasses();
-            if (this._options.tileScalingMode === TILE_SCALING_MODE.NONE) {
-                previewHeight = previewHeight * ZOOM_COEFFICIENT;
-                previewWidth = previewWidth * ZOOM_COEFFICIENT;
-            }
-            menuOptions.previewHeight = previewHeight;
-            menuOptions.previewWidth = previewWidth;
+            menuOptions.image = item.getImageUrl();
+            menuOptions.title = item.getDisplayValue();
+            menuOptions.additionalText = item.item.get(menuOptions.headerAdditionalTextProperty);
+            menuOptions.imageClasses = item.getImageClasses();
+            menuOptions.previewHeight = imageWrapper.clientHeight;
+            menuOptions.previewWidth = imageWrapper.clientWidth;
 
             return {
                 templateOptions: menuOptions,
@@ -124,9 +116,15 @@ export default class TileView extends ListView {
                     vertical: 'top',
                     horizontal: 'left'
                 },
+                fittingMode: {
+                    vertical: 'overflow'
+                },
                 opener: menuConfig.opener,
                 template: 'Controls/tileNew:ActionsMenu',
-                actionOnScroll: 'close'
+                actionOnScroll: 'close',
+                fittingMode: {
+                    vertical: 'overflow'
+                }
             };
         } else {
             return null;
@@ -142,7 +140,9 @@ export default class TileView extends ListView {
     protected _onItemMouseEnter(e: SyntheticEvent<MouseEvent>, item: TileCollectionItem): void {
         super._onItemMouseEnter(e, item);
         if (this._shouldProcessHover()) {
-            this._setHoveredItem(this, item, e);
+            this._mouseMoveTimeout = setTimeout(() => {
+                this._setHoveredItem(this, item, e);
+            }, ZOOM_DELAY);
         }
     }
 
@@ -236,13 +236,20 @@ export default class TileView extends ListView {
         }
 
         if (this._needUpdateActions(item, event)) {
-            const itemWidth = event.target.closest('.controls-TileView__item').clientWidth;
+            let itemWidth;
+            const itemContainer = event.target.closest('.controls-TileView__item');
+            if (event.target.closest('.js-controls-TileView__withoutZoom')) {
+                itemWidth = itemContainer.clientWidth;
+            } else {
+                const itemSizes = getItemSize(itemContainer, this._getZoomCoefficient(), this._options.tileMode);
+                itemWidth = itemSizes.width;
+            }
             this._notify('updateItemActionsOnItem', [item.getContents().getKey(), itemWidth], { bubbling: true });
         }
     }
 
     protected _needUpdateActions(item: TileCollectionItem, event: SyntheticEvent): boolean {
-        return item && this._options.actionMode === 'adaptive' && event;
+        return item && this._options.actionMode === 'adaptive' && !!event;
     }
 
     _getZoomCoefficient(): number {

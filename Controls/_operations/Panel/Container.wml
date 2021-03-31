@@ -1,4 +1,6 @@
 <ws:partial template="{{_options.content}}"
             selectedKeysCount="{{_selectedKeysCount}}"
+            on:itemClick="_operationPanelItemClick()"
+            items="{{null}}"
             scope="{{_options}}"
             selectedKeys="{{_selectedKeys}}"/>

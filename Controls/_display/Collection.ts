@@ -675,6 +675,8 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
     protected _$emptyTemplate: TemplateFunction;
 
+    protected _$emptyTemplateOptions: object;
+
     protected _$theme: string;
 
     protected _$hoverBackgroundStyle: string;
@@ -897,6 +899,12 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
 
         this._$sort = normalizeHandlers(this._$sort);
         this._$filter = normalizeHandlers(this._$filter);
+
+        // FIXME: метод для поддержания совместимости с ModerDialog при внедрении. Должен быть удален.
+        //  Убрать по задаче https://online.sbis.ru/opendoc.html?guid=7a607ef8-f2bc-461f-9de8-a97e14af88cb
+        if (options.itemsFilterMethod) {
+            this._setItemsFilterMethod(this._$filter, options.itemsFilterMethod);
+        }
 
         if (this._$keyProperty) {
             this._setImportantProperty(this._$keyProperty);
@@ -2427,6 +2435,13 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
         return false;
     }
 
+    setEmptyTemplateOptions(options: object): void {
+        if (!isEqual(this._$emptyTemplateOptions, options)) {
+            this._$emptyTemplateOptions = options;
+            this._nextVersion();
+        }
+    }
+
     setEditingConfig(config: IEditingConfig): void {
         if (this._$editingConfig === config) {
             return;
@@ -2528,6 +2543,17 @@ export default class Collection<S extends EntityModel = EntityModel, T extends C
             if (newMetaResults && newMetaResults['[Types/_entity/IObservableObject]']) {
                 newMetaResults.subscribe('onPropertyChange', this._onMetaResultsChange);
             }
+        }
+    }
+
+    private _setItemsFilterMethod(filter: Array<FilterFunction<S>>, method: FilterFunction<S>): void {
+        // FIXME: метод для поддержания совместимости с ModerDialog при внедрении. Должен быть удален.
+        //  Убрать по задаче https://online.sbis.ru/opendoc.html?guid=7a607ef8-f2bc-461f-9de8-a97e14af88cb
+        if (typeof method === 'function') {
+            filter.push((item) => {
+                const result = method(item);
+                return typeof result === 'boolean' ? result : true;
+            });
         }
     }
 
@@ -3920,6 +3946,7 @@ Object.assign(Collection.prototype, {
     _swipeConfig: null,
     _userStrategies: null,
     _$emptyTemplate: null,
+    _$emptyTemplateOptions: null,
     getIdProperty: Collection.prototype.getKeyProperty
 });
 

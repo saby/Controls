@@ -44,6 +44,13 @@ export default class TreeTileCollection<
         );
     }
 
+    setActiveItem(item: T): void {
+        if (!item) {
+            this.setHoveredItem(null);
+        }
+        super.setActiveItem(item);
+    }
+
     getNodesHeight(): number {
         return this._$nodesHeight;
     }

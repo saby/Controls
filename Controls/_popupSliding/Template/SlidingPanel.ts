@@ -3,7 +3,6 @@ import * as template from 'wml!Controls/_popupSliding/Template/SlidingPanel/Slid
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {IDragObject, Container} from 'Controls/dragnDrop';
 import {ISlidingPanelTemplateOptions} from 'Controls/_popupSliding/interface/ISlidingPanelTemplate';
-import {detection} from 'Env/Env';
 
 /**
  * Интерфейс для шаблона попапа-шторки.
@@ -22,6 +21,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         dragNDrop: Container;
         customContent: Element;
         customContentWrapper: Element;
+        controlLine: Element;
     };
     private _isPanelMounted: boolean = false;
     private _currentTouchYPosition: number = null;
@@ -51,8 +51,14 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._isPanelMounted = true;
     }
 
-    protected _isScrollAvailable({slidingPanelOptions}: ISlidingPanelTemplateOptions): boolean {
-        const contentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
+    protected _isScrollAvailable({
+        slidingPanelOptions,
+        controlButtonVisibility
+    }: ISlidingPanelTemplateOptions): boolean {
+        const scrollContentHeight = this._isPanelMounted ? this._getScrollAvailableHeight() : 0;
+        const controllerContainer = this._children.controlLine;
+        const controllerHeight = this._isPanelMounted && controlButtonVisibility ? controllerContainer.clientHeight : 0;
+        const contentHeight = scrollContentHeight + controllerHeight;
         return slidingPanelOptions.height === slidingPanelOptions.maxHeight ||
             slidingPanelOptions.height === contentHeight;
     }
@@ -74,7 +80,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
     }
 
     protected _getScrollAvailableHeight(): number {
-        return this._children.customContentWrapper.clientHeight;
+        return this._children.customContent.clientHeight;
     }
 
     /**
@@ -92,7 +98,11 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
      * @private
      */
     protected _touchMoveHandler(event: SyntheticEvent<TouchEvent>): void {
-        if (this._scrollAvailable && this._getScrollTop() !== 0) {
+        /*
+            Если свайпают внутри скролла и скролл не в самом верху,
+            то не тянем шторку, т.к. пользователь пытается скроллить
+         */
+        if (this._scrollAvailable && (this._getScrollTop() !== 0 || this._isSwipeInsideScroll(event))) {
             return;
         }
         const currentTouchY = event.nativeEvent.changedTouches[0].clientY;
@@ -113,6 +123,26 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         this._notifyDragStart(this._touchDragOffset);
     }
 
+    /**
+     * Проверка на то, что тач произошел внутри скролла.
+     * Если тач внутри скролла, то мы не тянем шторку в случае если скролл проскроллен.
+     * @param touchEvent
+     * @protected
+     */
+    protected _isSwipeInsideScroll(touchEvent: SyntheticEvent<TouchEvent>): boolean {
+        const scrollClassName = 'controls-SlidingPanel__scrollWrapper';
+        let currentNode: HTMLElement = touchEvent.target;
+        while (currentNode && currentNode !== this._container) {
+            const isScroll = currentNode.classList.contains(scrollClassName);
+            if (isScroll) {
+                return true;
+            } else {
+                currentNode = currentNode.parentElement;
+            }
+        }
+        return false;
+    }
+
     protected _touchEndHandler(): void {
         if (this._touchDragOffset) {
             this._notifyDragEnd();
@@ -125,7 +155,7 @@ export default class SlidingPanel extends Control<ISlidingPanelTemplateOptions> 
         /* Запоминаем высоту скролла, чтобы при увеличении проверять на то,
            что не увеличим шторку больше, чем есть контента */
         if (!this._dragStartScrollHeight) {
-            this._dragStartScrollHeight = this._getScrollAvailableHeight();
+            this._dragStartScrollHeight = this._children.customContentWrapper.clientHeight;
         }
         this._notify('popupDragStart', [
             this._getDragOffsetWithOverflowChecking(offset)

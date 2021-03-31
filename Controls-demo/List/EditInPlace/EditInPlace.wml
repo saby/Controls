@@ -109,7 +109,7 @@
                                     value="{{ itemTemplate.itemData.item.title }}"
                                     enabled="{{true}}">
                             <ws:editorTemplate>
-                                <Controls.input:Text bind:value="itemTemplate.itemData.item.title"
+                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.itemData.item.title"
                                                      selectOnClick="{{ false }}" />
                             </ws:editorTemplate>
                         </ws:partial>
@@ -138,7 +138,7 @@
                                     value="{{ itemTemplate.itemData.item.title }}"
                                     enabled="{{true}}">
                             <ws:editorTemplate>
-                                <Controls.input:Text bind:value="itemTemplate.itemData.item.title"
+                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.itemData.item.title"
                                                      selectOnClick="{{ false }}" />
                             </ws:editorTemplate>
                         </ws:partial>
@@ -166,7 +166,7 @@
                                     value="{{ itemTemplate.itemData.item.title }}"
                                     enabled="{{true}}">
                             <ws:editorTemplate>
-                                <Controls.input:Text bind:value="itemTemplate.itemData.item.title"
+                                <Controls.input:Text contrastBackground="{{true}}" bind:value="itemTemplate.itemData.item.title"
                                                      selectOnClick="{{ false }}" />
                             </ws:editorTemplate>
                         </ws:partial>

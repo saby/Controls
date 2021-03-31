@@ -8,6 +8,7 @@
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
  * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
+ * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
@@ -27,6 +28,7 @@
  * @includes EmptyTemplate Controls/_list/interface/EmptyTemplate
  * @includes GroupTemplate Controls/_list/interface/GroupTemplate
  * @includes IBaseGroupTemplate Controls/_list/interface/IBaseGroupTemplate
+ * @includes BaseEditingTemplate Controls/_list/interface/BaseEditingTemplate
  * @includes EditingTemplate Controls/_list/interface/EditingTemplate
  * @includes NumberEditingTemplate Controls/_list/interface/NumberEditingTemplate
  * @includes MoneyEditingTemplate Controls/_list/interface/MoneyEditingTemplate
@@ -53,12 +55,12 @@ import NumberEditingTemplate = require('wml!Controls/_list/EditInPlace/decorated
 
 import BaseViewModel = require('Controls/_list/BaseViewModel');
 import ListViewModel = require('Controls/_list/ListViewModel');
-import {BaseControl as ListControl} from 'Controls/_list/BaseControl';
+import {default as ListControl, LIST_EDITING_CONSTANTS as editing} from 'Controls/_list/BaseControl';
 import ListView = require('Controls/_list/ListView');
 import GroupContentResultsTemplate = require('wml!Controls/_list/GroupContentResultsTemplate');
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
 import TreeItemsUtil = require('Controls/_list/resources/utils/TreeItemsUtil');
-import {BaseControl, IBaseControlOptions} from 'Controls/_list/BaseControl';
+import {default as BaseControl, IBaseControlOptions} from 'Controls/_list/BaseControl';
 import ScrollEmitter = require('Controls/_list/BaseControl/Scroll/Emitter');
 import SearchItemsUtil = require('Controls/_list/resources/utils/SearchItemsUtil');
 import ItemsViewModel = require('Controls/_list/ItemsViewModel');
@@ -90,6 +92,8 @@ export {IMovableList, IMoveDialogTemplate, IMovableOptions} from 'Controls/_list
 
 export {RemoveController} from 'Controls/_list/Controllers/RemoveController';
 export {IRemovableList} from 'Controls/_list/interface/IRemovableList';
+
+export {default as ItemsView, IItemsViewOptions} from 'Controls/_list/ItemsView';
 
 export {
     Container,
@@ -133,22 +137,6 @@ export {
     VirtualScroll,
     ScrollController,
     IListNavigation
-};
-
-/**
- * Набор констант, используемых при работе с {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактированием по месту}.
- * @class Controls/list:editing
- * @public
- */
-const editing = {
-    /**
-     * С помощью этой константы можно отменить запуск {@link /doc/platform/developmentapl/interface-development/controls/list/actions/edit/ редактирования по месту}.
-     * Для этого константу следует вернуть из обработчика события {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit}.
-     */
-    /*
-     * Constant that can be returned in {@link Controls/interface/IEditableList#beforeBeginEdit beforeBeginEdit} to cancel editing
-     */
-    CANCEL: 'Cancel'
 };
 
 import {groupConstants} from './display';

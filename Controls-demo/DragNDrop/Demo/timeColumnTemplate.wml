@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}">
    <ws:contentTemplate>
       <span class="demo-DragNDrop__explorerItem_time">{{itemData.item.time}}</span>
    </ws:contentTemplate>

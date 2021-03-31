@@ -1,0 +1,8 @@
+<div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
+   <Controls.treeGrid:ItemsView
+      items="{{_items}}"
+      columns="{{_columns}}"
+      parentProperty="parent"
+      nodeProperty="type"
+   />
+</div>

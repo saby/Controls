@@ -19,6 +19,7 @@ import 'css!Controls/dateRange';
  * @mixes Controls/_dateRange/interfaces/IDatePickerSelectors
  * @mixes Controls/_interface/IDayTemplate
  * @mixes Controls/_interface/IFontColorStyle
+ * @mixes Controls/_interface/IUnderline
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
  * @mixes Controls/_dateRange/interfaces/IDateSelector
  *
@@ -83,7 +84,8 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
             rangeselect: false,
             selectionType: 'single',
             ranges: null,
-            state: this._state
+            state: this._state,
+            stateChangedCallback: this._stateChangedCallback
          }
       };
    }
@@ -93,12 +95,11 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
       this._startDependenciesTimer('Controls/datePopup', loadCss);
    }
 
-   protected _onResult(startValue: Date, endValue: Date, state: string): void {
-      this._notify('valueChanged', [startValue]);
-      this._startValue = startValue;
-      this._endValue = endValue;
-      this._state = state;
-      super._onResult(startValue, endValue);
+   protected _onResult(value: Date): void {
+      this._notify('valueChanged', [value]);
+      this._startValue = value;
+      this._endValue = value;
+      super._onResult(value, value);
    }
 
    protected _rangeChangedHandler(event: SyntheticEvent, value: Date): void {

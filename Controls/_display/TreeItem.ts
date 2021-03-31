@@ -78,7 +78,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
 
         // node может быть равен null, поэтому его не задали, только когда undefined
         if (this._$node === undefined) {
-            this._$node = false;
+            this._$node = null;
         }
 
         // Если hasChildren не задали, то для узла по дефолту есть дети
@@ -403,7 +403,7 @@ Object.assign(TreeItem.prototype, {
     '[Controls/_display/TreeItem]': true,
     _moduleName: 'Controls/display:TreeItem',
     _$parent: undefined,
-    _$node: false,
+    _$node: null,
     _$expanded: false,
     _$hasChildren: false,
     _$childrenProperty: '',

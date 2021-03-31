@@ -33,6 +33,7 @@
                   <ws:partial
                           template="{{content.resolvedTemplate}}"
                           itemData="{{itemData}}"
+                          item="{{itemData}}"
                           selected="{{treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected()}}"
                   />
                </Controls.Container.Async>
@@ -42,6 +43,7 @@
                        template="{{contentTemplate}}"
                        selected="{{treeItem.isMarked ? treeItem.isMarked() : treeItem.isSelected()}}"
                        itemData="{{itemData}}"
+                       item="{{itemData}}"
                />
             </ws:else>
          </ws:if>
@@ -57,7 +59,9 @@
       <ws:if data="{{_options.allowPin &&
                      treeItem.getContents().has('pinned') &&
                      !treeItem.getContents().get(itemData.nodeProperty) &&
-                     !(treeItem.getContents().get('pinned') === true && treeItem.getContents().get(itemData.parentProperty))}}">
+                     !(treeItem.getContents().get('pinned') === true &&
+                      treeItem.getContents().get(itemData.parentProperty) !== _options.historyRoot) &&
+                      !(_options.historyRoot && !treeItem.getContents().get(itemData.parentProperty))}}">
          <ws:partial template="wml!Controls/_menu/Render/pinTemplate" scope="{{_options}}"/>
       </ws:if>
 

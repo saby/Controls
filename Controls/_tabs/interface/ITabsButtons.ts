@@ -90,7 +90,7 @@ export interface ITabsButtonsOptions extends IControlOptions, ISingleSelectableO
      */
     style?: string;
     /**
-     * 
+     *
      * @demo Controls-demo/Tabs/Buttons/SeparatorVisible/Index
      */
     separatorVisible?: boolean;

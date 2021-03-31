@@ -21,7 +21,8 @@ import {
     IHierarchyOptions,
     ISearchOptions,
     ISourceOptions,
-    TSelectionType
+    TSelectionType,
+    ISelectionObject
 } from 'Controls/interface';
 import Store from 'Controls/Store';
 import {SHADOW_VISIBILITY} from 'Controls/scroll';
@@ -34,7 +35,7 @@ import {IControllerState} from 'Controls/_dataSource/Controller';
 import {isEqual} from 'Types/object';
 import {DataLoader, IDataLoaderOptions, ILoadDataResult} from 'Controls/dataSource';
 import {Logger} from 'UI/Utils';
-import {descriptor} from 'Types/entity';
+import {descriptor, Model} from 'Types/entity';
 
 type Key = string|number|null;
 
@@ -208,6 +209,21 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 this._storeCallbackIds = this._createNewStoreObservers();
             }, true);
         }
+    }
+
+    protected _operationPanelItemClick(
+        event: SyntheticEvent,
+        item: Model,
+        clickEvent: SyntheticEvent,
+        selection: ISelectionObject
+    ): void {
+        event.stopImmediatePropagation();
+        this._getOperationsController().executeAction({
+            target: clickEvent,
+            selection,
+            item,
+            filter: this._filter
+        });
     }
 
     protected _createNewStoreObservers(): string[] {
@@ -785,10 +801,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
     }
 
     resetPrefetch(): void {
-        const filterController = this._dataLoader.getFilterController();
-        filterController.resetPrefetch();
-        this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
-        this._notify('filterChanged', [this._filter]);
+        if (!this._getSourceController().isLoading()) {
+            const filterController = this._dataLoader.getFilterController();
+            filterController.resetPrefetch();
+            this._filter = filterController.getFilter() as QueryWhereExpression<unknown>;
+            this._notify('filterChanged', [this._filter]);
+        }
     }
 
     private static _checkLoadResult(options: IListConfiguration[], loadResult: IReceivedState[] = []): boolean {
