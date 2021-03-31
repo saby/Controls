@@ -1,9 +1,9 @@
-<div attr:class="{{ (item || itemData).getItemClasses(itemType, clickable, hasTitle, cursor, marker, shadowVisibility) }}" attr:style="{{ (item || itemData).getItemStyles(itemType, width || itemWidth, staticHeight) }}">
+<div attr:class="{{ (item || itemData).getItemClasses(itemType, clickable, hasTitle, cursor, marker, shadowVisibility, border) }}" attr:style="{{ (item || itemData).getItemStyles(itemType, width || itemWidth, staticHeight) }}">
    <ws:if data="{{ (item || itemData).shouldDisplayAutoResizer(itemType, staticHeight) }}">
       <div style="{{ (item || itemData).getAutoResizerStyles(itemType, width || itemWidth, imageProportion) }}"></div>
    </ws:if>
 
-   <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height) }}"
+   <div attr:class="{{ (item || itemData).getWrapperClasses(itemType, shadowVisibility, marker, highlightOnHover, backgroundColorStyle, height, border) }}"
         attr:style="{{ (item || itemData).getWrapperStyles(itemType) }}">
 
       <ws:partial if="{{ (item || itemData).shouldDisplayMultiSelectTemplate() }}"
@@ -30,10 +30,5 @@
                   itemData="{{(item || itemData)}}"
                   item="{{(item || itemData)}}"
                   itemActionsTemplate="{{itemActionsTemplate}}"/>
-      <ws:partial if="{{footerTemplate}}"
-                  template="{{footerTemplate}}"
-                  attr:class="controls-TileView__item_footer"
-                  itemData="{{(item || itemData)}}"
-                  item="{{(item || itemData)}}"/>
    </div>
 </div>
