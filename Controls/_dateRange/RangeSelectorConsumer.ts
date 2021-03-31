@@ -15,6 +15,7 @@ import DateRangeSelectorConsumer from 'Controls/_dateRange/_DateRangeSelectorCon
  * @mixes Controls/_dateRange/interfaces/IDateRangeSelectable
  * @mixes Controls/_interface/IFontColorStyle
  * @mixes Controls/_interface/IFontSize
+ * @mixes Controls/_interface/IUnderline
  * @mixes Controls/_interface/IOpenPopup
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
  * @mixes Controls/_interface/IDateRangeValidators

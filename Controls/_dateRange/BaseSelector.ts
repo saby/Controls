@@ -7,9 +7,9 @@ import {SyntheticEvent} from 'Vdom/Vdom';
 import Sticky from 'Controls/_popup/Opener/Sticky';
 import LinkView from './LinkView';
 import {IStickyPopupOptions} from 'Controls/_popup/interface/ISticky';
-import {IFontSizeOptions} from 'Controls/interface';
+import {IFontSizeOptions, IUnderlineOptions} from 'Controls/interface';
 
-interface IBaseSelectorOptions extends IControlOptions, IFontSizeOptions {
+interface IBaseSelectorOptions extends IControlOptions, IFontSizeOptions, IUnderlineOptions {
     prevArrowVisibility: boolean;
     dateConstructor: Function;
 }
