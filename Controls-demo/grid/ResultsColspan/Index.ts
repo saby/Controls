@@ -1,7 +1,7 @@
 import { Control, TemplateFunction } from 'UI/Base';
 import { Memory } from 'Types/source';
 import { Model } from 'Types/entity';
-import { TColumns, THeader } from 'Controls/grid';
+import { TColumns, THeader } from 'Controls/gridOld';
 import { RawData, ResultsRawData } from 'Controls-demo/grid/data/ResultsColspan';
 import * as Template from 'wml!Controls-demo/grid/ResultsColspan/ResultsColspan';
 import * as TotalResult from 'wml!Controls-demo/grid/ResultsColspan/TotalResult';

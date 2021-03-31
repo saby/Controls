@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {getHeaderMaxEndCellData, getHeaderRowsArray} from 'Controls/_grid/utils/GridRowIndexUtil';
+import {getHeaderMaxEndCellData, getHeaderRowsArray} from 'Controls/_gridOld/utils/GridRowIndexUtil';
 import {IHeaderCell} from 'Controls/interface';
 
 interface ICustomHeaderCell extends IHeaderCell {
@@ -7,7 +7,7 @@ interface ICustomHeaderCell extends IHeaderCell {
     style?: string;
 }
 
-describe('Controls/_grid/utils/GridRowIndexUtil', () => {
+describe('Controls/_gridOld/utils/GridRowIndexUtil', () => {
     describe('getHeaderMaxEndCellData', () => {
         let gridHeaderWithStartEndParams: ICustomHeaderCell[];
         let gridHeaderWithoutStartEndParams: ICustomHeaderCell[];

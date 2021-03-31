@@ -14,7 +14,7 @@
                </div>
                <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master" shadowMode="js">
                   <Controls.masterDetail:List bind:markedKey="_markedKey" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
-                     <Controls.grid:View
+                     <Controls.gridOld:View
                              source="{{_masterSource}}"
                              keyProperty="id"
                              style="master"
@@ -23,7 +23,7 @@
                              itemActions="{{_itemActions}}"
                              columns="{{gridColumns}}"
                      >
-                     </Controls.grid:View>
+                     </Controls.gridOld:View>
                   </Controls.masterDetail:List>
                </Controls.scroll:Container>
             </div>
@@ -129,7 +129,7 @@
                </div>
                <Controls.scroll:Container attr:class="controls-demo_MasterDetail_master" shadowMode="js">
                   <Controls.masterDetail:List bind:markedKey="_markedKey3" selectedField="sourceType" attr:class="controls-demo_MasterDetail_master_list">
-                     <Controls.treeGrid:View
+                     <Controls.treeGridOld:View
                              source="{{_masterSource}}"
                              keyProperty="id"
                              parentProperty="Раздел"
@@ -140,7 +140,7 @@
                              itemActions="{{_itemActions}}"
                              columns="{{gridColumns}}"
                      >
-                     </Controls.treeGrid:View>
+                     </Controls.treeGridOld:View>
                   </Controls.masterDetail:List>
                </Controls.scroll:Container>
             </div>

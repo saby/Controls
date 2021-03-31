@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo__childWidth400">
-    <Controls.treeGrid:View
+    <Controls.treeGridOld:View
             attr:class="controlsDemo__inline-flex"
             keyProperty="id"
             source="{{ _viewSource }}"

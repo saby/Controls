@@ -1,4 +1,4 @@
-import template = require('wml!Controls/_grid/SortingResources/SortingSelector');
+import * as template from 'wml!Controls/_grid/Render/sortingSelector/SortingSelector';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Record} from 'Types/entity';
@@ -172,15 +172,15 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
     }
 }
 /**
- * @typedef {Object} Controls/_grid/SortingSelector/SortingParam
+ * @typedef {Object} SortingParam
  * @property {String|null} paramName Имя поля элемента, по которому может осуществляться сортировка. Чтобы задать сброс сортировки, нужно указать значение null.
  * @property {String} title Подпись пункта меню, соответствующего данному полю.
  * @remark Если не задан пункт, сбрасывающий сортировку, то необходимо указать непустую конфигурацию сортировки в опции value.
  */
 
 /**
- * @name Controls/_grid/SortingSelector#sortingParams
- * @cfg {Array.<Controls/_grid/SortingSelector/SortingParam.typedef>} Параметры сортировки.
+ * @name Controls/grid:SortingSelector#sortingParams
+ * @cfg {Array.<SortingParam>} Параметры сортировки.
  * @demo Controls-demo/grid/Sorting/SortingSelector/Default/Index
  * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithReset/Index
  * @demo Controls-demo/grid/Sorting/SortingSelector/Icons/Index
@@ -245,7 +245,7 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
  * </pre>
  */
 /**
- * @name Controls/_grid/SortingSelector#value
+ * @name Controls/grid:SortingSelector#value
  * @cfg {Array.<Object>} Конфигурация сортировки.
  * @remark Если нет возможности сброса сортировки, то опция value должна содержать данные для сортировки.
  * @example
@@ -281,7 +281,7 @@ class SortingSelector extends Control<ISortingSelectorOptions> {
  */
 
 /**
- * @name Controls/_grid/SortingSelector#header
+ * @name Controls/grid:SortingSelector#header
  * @cfg {String} Заголовок для выпадающего списка сортировки.
  * @remark Если заголовок не требуется, опцию можно не указывать.
  * @demo Controls-demo/grid/Sorting/SortingSelector/SortingSelectorWithHeader/Index

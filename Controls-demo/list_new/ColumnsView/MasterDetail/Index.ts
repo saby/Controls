@@ -11,7 +11,7 @@ import {RecordSet} from 'Types/collection';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';
-import { IColumn } from 'Controls/grid';
+import { IColumn } from 'Controls/gridOld';
 import { INavigation } from 'Controls-demo/types';
 
 export default class RenderDemo extends Control {

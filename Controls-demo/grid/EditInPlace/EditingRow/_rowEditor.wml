@@ -1,4 +1,4 @@
-<ws:partial template="Controls/grid:RowEditor" scope="{{_options}}">
+<ws:partial template="Controls/gridOld:RowEditor" scope="{{_options}}">
     <div style="padding-left: 6px;">
         <div class="demo-EditableGrid__editor-flexWrapper" style="width: 100%;">
             <div class="demo-EditableGrid__editor-flexWrapper">
