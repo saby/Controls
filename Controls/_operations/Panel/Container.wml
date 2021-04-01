@@ -2,5 +2,6 @@
             selectedKeysCount="{{_selectedKeysCount}}"
             on:itemClick="_operationPanelItemClick()"
             items="{{null}}"
+            source="{{null}}"
             scope="{{_options}}"
             selectedKeys="{{_selectedKeys}}"/>
