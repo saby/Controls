@@ -22,7 +22,8 @@ import {
     ISearchOptions,
     ISourceOptions,
     TSelectionType,
-    ISelectionObject
+    ISelectionObject,
+    TKey
 } from 'Controls/interface';
 import Store from 'Controls/Store';
 import {SHADOW_VISIBILITY} from 'Controls/scroll';
@@ -533,13 +534,13 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._selectionType = selectionType;
     }
 
-    protected _excludedKeysChanged(event: SyntheticEvent, ...args): void {
-        args[0] = this._getOperationsController().updateExcludedKeys(...args);
+    protected _excludedKeysChanged(event: SyntheticEvent, ...args: [TKey[], TKey[], TKey[], string?]): void {
+        args[0] = args[3] ? this._getOperationsController().updateExcludedKeys(...args) : args[0];
         this._notify('excludedKeysChanged', args);
     }
 
-    protected _selectedKeysChanged(event: SyntheticEvent, ...args): void {
-        args[0] = this._getOperationsController().updateSelectedKeys(...args);
+    protected _selectedKeysChanged(event: SyntheticEvent, ...args: [TKey[], TKey[], TKey[], string?]): void {
+        args[0] = args[3] ? this._getOperationsController().updateSelectedKeys(...args) : args[0];
         this._notify('selectedKeysChanged', args);
     }
 
