@@ -2,7 +2,7 @@
     <div class="controlsDemo__cell controlsDemo__inline-block demo-ItemPaddingAll__vertical">
         <div class="ws-flexbox ws-flex-wrap">
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-first" style="width: 485px">
-                <Controls.explorer:View
+                <Controls.explorer:View useOldModel="{{ true }}"
                         source="{{_headerSource}}"
                         bind:root="_headerRoot"
                         attr:class="demo-Explorer ControlsDemo-Explorer"
@@ -18,7 +18,7 @@
                 </Controls.explorer:View>
             </div>
             <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_treeGrid-iP-all-vertical-m controlsDemo_backgroundStyle-second" style="width: 475px">
-                <Controls.explorer:View
+                <Controls.explorer:View useOldModel="{{ true }}"
                         source="{{_viewSource}}"
                         bind:root="_root"
                         attr:class="demo-Explorer ControlsDemo-Explorer"
@@ -38,7 +38,7 @@
                                       searchStartingWith="{{_searchStartingWith}}">
                     <div class="ws-fragment">
                         <Controls.list:Container>
-                            <Controls.explorer:View
+                            <Controls.explorer:View useOldModel="{{ true }}"
                                     source="{{_viewSearchSource}}"
                                     bind:root="_searchRoot"
                                     attr:class="demo-Explorer ControlsDemo-Explorer"

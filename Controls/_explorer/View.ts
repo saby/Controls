@@ -25,8 +25,8 @@ import {
 import {JS_SELECTORS as EDIT_IN_PLACE_JS_SELECTORS} from 'Controls/editInPlace';
 import {RecordSet} from 'Types/collection';
 import {NewSourceController, Path} from 'Controls/dataSource';
-import {SearchView as SearchViewNew} from 'Controls/searchBreadcrumbsGrid';
-import {TreeGridView as TreeGridViewNew} from 'Controls/treeGridNew';
+import {SearchView} from 'Controls/searchBreadcrumbsGrid';
+import {TreeGridView} from 'Controls/treeGridNew';
 import {SyntheticEvent} from 'UI/Vdom';
 import {IDragObject} from 'Controls/_dragnDrop/Container';
 import {ItemsEntity} from 'Controls/dragnDrop';
@@ -48,9 +48,9 @@ const ITEM_TYPES = {
 const DEFAULT_VIEW_MODE = 'table';
 
 const VIEW_NAMES = {
-    search: SearchViewNew,
+    search: SearchView,
     tile: null,
-    table: TreeGridViewNew,
+    table: TreeGridView,
     list: ListView
 };
 const VIEW_MODEL_CONSTRUCTORS = {
@@ -85,8 +85,8 @@ interface IExplorerOptions
         ISourceOptions,
         IFilterOptions,
         ISortingOptions {
-
     root?: TKey;
+
     viewMode?: TExplorerViewMode;
     searchNavigationMode?: string;
     displayMode?: string;
@@ -96,6 +96,7 @@ interface IExplorerOptions
     searchStartingWith?: 'root' | 'current';
     sourceController?: NewSourceController;
     useNewTileModel?: boolean;
+    useOldModel?: boolean;
     expandByItemClick?: boolean;
 }
 
@@ -735,7 +736,11 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
 
-        if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
+        if (cfg.useOldModel && !this._oldModelLoaded) {
+            this._setViewModePromise = this._loadOldViewMode(cfg).then(() => {
+                this._setViewModeSync(viewMode, cfg);
+            });
+        } else if (!VIEW_MODEL_CONSTRUCTORS[viewMode]) {
             this._setViewModePromise = this._loadTileViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
@@ -824,6 +829,28 @@ export default class Explorer extends Control<IExplorerOptions> {
                 });
             });
         }
+    }
+
+    private _loadOldViewMode(options: IExplorerOptions): Promise<void> {
+        return new Promise((resolve) => {
+            import('Controls/treeGridOld').then((treeGridOld) => {
+                VIEW_NAMES.table = treeGridOld.TreeGridView;
+                VIEW_NAMES.search = treeGridOld.SearchView;
+
+                VIEW_MODEL_CONSTRUCTORS.table = treeGridOld.ViewModel;
+                VIEW_MODEL_CONSTRUCTORS.list = treeGridOld.ViewModel;
+                VIEW_MODEL_CONSTRUCTORS.search = treeGridOld.SearchGridViewModel;
+
+                USE_NEW_MODEL_VALUES.table = false;
+                USE_NEW_MODEL_VALUES.list = false;
+                USE_NEW_MODEL_VALUES.search = false;
+
+                this._oldModelLoaded = true;
+                resolve();
+            }).catch((err) => {
+                Logger.error('Controls/_explorer/View: ' + err.message, this, err);
+            });
+        });
     }
 
     private _canStartDragNDropFunc(): boolean {
