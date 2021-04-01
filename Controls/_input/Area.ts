@@ -54,10 +54,17 @@ export default class Area extends BaseText<IAreaOptions> {
     protected _minLines: number;
     protected _maxLines: number;
     protected _controlName: string = 'Area';
+    protected _expanded: boolean = true;
+    protected _firstEditPassed: boolean = false;
+    protected _borderVisibility: string;
 
     protected _syncBeforeMount(options: IAreaOptions): void {
+        this._updateBorderVisibility(options);
         super._syncBeforeMount(options);
         this._validateLines(options.minLines, options.maxLines);
+        if (this._viewModel.displayValue.length) {
+            this._firstEditPassed = true;
+        }
     }
 
     protected _afterMount(): void {
@@ -69,14 +76,35 @@ export default class Area extends BaseText<IAreaOptions> {
     protected _beforeUpdate(newOptions: IAreaOptions): void {
         super._beforeUpdate.apply(this, arguments);
 
+        this._updateBorderVisibility(newOptions);
+
         if (this._options.minLines !== newOptions.minLines || this._options.maxLines !== newOptions.maxLines) {
             this._validateLines(newOptions.minLines, newOptions.maxLines);
+        }
+        if (this._options.readOnly !== newOptions.readOnly) {
+            if (newOptions.readOnly && this._viewModel.displayValue.length) {
+                this._firstEditPassed = true;
+            }
         }
     }
 
     protected _beforeUnmount(): void {
         super._beforeUnmount.apply(this, arguments);
         this._resizeObserver.terminate();
+    }
+
+    private _updateBorderVisibility(options: IAreaOptions): void {
+        if (options.type === 'cut') {
+            this._borderVisibility = 'hidden';
+        } else {
+            this._borderVisibility = options.borderVisibility;
+        }
+    }
+
+    protected _clickHandler(event: Event): void {
+        this._expanded = true;
+        event.preventDefault();
+        event.stopPropagation();
     }
 
     protected _inputHandler(): void {
@@ -107,27 +135,29 @@ export default class Area extends BaseText<IAreaOptions> {
     }
 
     protected _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        this._newLineHandler(event, false);
+        if (this._options.restrictiveMode === 'scroll') {
+            this._newLineHandler(event, false);
 
-        /**
-         * После нажатия на стрелки клавиатуры, происходит перемещение курсора в поле.
-         * В результате перемещения, курсор может выйти за пределы видимой области, тогда произойдет
-         * прокрутка в scroll:Container. Отступы не учитываются при прокрутке. Поэтому, когда курсор
-         * находится в начале или в конце, тогда scroll:Container не докручивается, остается тень.
-         * В такой ситуации будем докручивать самостоятельно.
-         */
-        const keyCode = event.nativeEvent.keyCode;
-        if (keyCode >= constants.key.end && keyCode <= constants.key.down) {
-            const container: HTMLElement = this._children.fakeField;
-            const textBeforeCursor: string = this._viewModel.displayValue.substring(0, this._viewModel.selection.end);
-            const cursorPosition: number = this._calcPositionCursor(container, textBeforeCursor);
-            const firstLinePosition: number = this._calcPositionCursor(container, '');
-            const lastLinePosition: number = container.offsetHeight;
+            /**
+             * После нажатия на стрелки клавиатуры, происходит перемещение курсора в поле.
+             * В результате перемещения, курсор может выйти за пределы видимой области, тогда произойдет
+             * прокрутка в scroll:Container. Отступы не учитываются при прокрутке. Поэтому, когда курсор
+             * находится в начале или в конце, тогда scroll:Container не докручивается, остается тень.
+             * В такой ситуации будем докручивать самостоятельно.
+             */
+            const keyCode = event.nativeEvent.keyCode;
+            if (keyCode >= constants.key.end && keyCode <= constants.key.down) {
+                const container: HTMLElement = this._children.fakeField;
+                const textBeforeCursor: string = this._viewModel.displayValue.substring(0, this._viewModel.selection.end);
+                const cursorPosition: number = this._calcPositionCursor(container, textBeforeCursor);
+                const firstLinePosition: number = this._calcPositionCursor(container, '');
+                const lastLinePosition: number = container.offsetHeight;
 
-            if (cursorPosition === firstLinePosition) {
-                this._children.scroll.scrollTo(0);
-            } else if (cursorPosition === lastLinePosition) {
-                this._children.scroll.scrollTo(this._getField().getFieldData('offsetHeight'));
+                if (cursorPosition === firstLinePosition) {
+                    this._children.scroll.scrollTo(0);
+                } else if (cursorPosition === lastLinePosition) {
+                    this._children.scroll.scrollTo(this._getField().getFieldData('offsetHeight'));
+                }
             }
         }
     }
@@ -137,39 +167,41 @@ export default class Area extends BaseText<IAreaOptions> {
      * Если курсор виден, расположение не изменяется. В противном случае новое местоположение будет таким, что курсор отобразится в середине области.
      */
     private _recalculateLocationVisibleArea(field: HTMLElement, value: string, selection: object): void {
-        const scroll = this._children.scroll;
-        const textBeforeCursor = value.substring(0, selection.end);
+        if (this._options.restrictiveMode === 'scroll') {
+            const scroll = this._children.scroll;
+            const textBeforeCursor = value.substring(0, selection.end);
 
-        const positionCursor = this._calcPositionCursor(this._children.fieldWrapper, textBeforeCursor);
+            const positionCursor = this._calcPositionCursor(this._children.fieldWrapper, textBeforeCursor);
 
-        /**
-         * По другому до clientHeight не достучаться.
-         * https://online.sbis.ru/opendoc.html?guid=1d24c04f-73d0-4e0f-9b61-4d0bc9c23e2f
-         */
-            // TODO remove after complete https://online.sbis.ru/opendoc.html?guid=7c921a5b-8882-4fd5-9b06-77950cbe2f79
-        const container = scroll._container.get ? scroll._container.get(0) : scroll._container;
-        const sizeVisibleArea = container.clientHeight;
-
-        // По другому до scrollTop не достучаться.
-        // https://online.sbis.ru/opendoc.html?guid=e1770341-9126-4480-8798-45b5c339a294
-        const beginningVisibleArea = scroll.getScrollTop();
-
-        const endingVisibleArea = beginningVisibleArea + sizeVisibleArea;
-
-        /**
-         * The cursor is visible if its position is between the beginning and the end of the visible area.
-         */
-        const hasVisibilityCursor = beginningVisibleArea < positionCursor && positionCursor < endingVisibleArea;
-
-        if (!hasVisibilityCursor) {
             /**
-             * At the time of the scroll position change, the DOM must be updated.
-             * So wait until the control redraws.
+             * По другому до clientHeight не достучаться.
+             * https://online.sbis.ru/opendoc.html?guid=1d24c04f-73d0-4e0f-9b61-4d0bc9c23e2f
              */
-            runDelayed(() => {
-                this._getField().scrollTo(0);
-                scroll.scrollTo(positionCursor - sizeVisibleArea / 2);
-            });
+                // TODO remove after complete https://online.sbis.ru/opendoc.html?guid=7c921a5b-8882-4fd5-9b06-77950cbe2f79
+            const container = scroll._container.get ? scroll._container.get(0) : scroll._container;
+            const sizeVisibleArea = container.clientHeight;
+
+            // По другому до scrollTop не достучаться.
+            // https://online.sbis.ru/opendoc.html?guid=e1770341-9126-4480-8798-45b5c339a294
+            const beginningVisibleArea = scroll.getScrollTop();
+
+            const endingVisibleArea = beginningVisibleArea + sizeVisibleArea;
+
+            /**
+             * The cursor is visible if its position is between the beginning and the end of the visible area.
+             */
+            const hasVisibilityCursor = beginningVisibleArea < positionCursor && positionCursor < endingVisibleArea;
+
+            if (!hasVisibilityCursor) {
+                /**
+                 * At the time of the scroll position change, the DOM must be updated.
+                 * So wait until the control redraws.
+                 */
+                runDelayed(() => {
+                    this._getField().scrollTo(0);
+                    scroll.scrollTo(positionCursor - sizeVisibleArea / 2);
+                });
+            }
         }
     }
 
@@ -307,6 +339,10 @@ export default class Area extends BaseText<IAreaOptions> {
         defaultOptions.newLineKey = 'enter';
         // В темной теме розницы у полей ввода нестандартный фон
         defaultOptions.shadowMode = 'js';
+        defaultOptions.maxLines = 10;
+        defaultOptions.borderVisibility = 'visible';
+        defaultOptions.restrictiveMode = 'cut';
+        defaultOptions.contrastBackground = true;
 
         return defaultOptions;
     }
