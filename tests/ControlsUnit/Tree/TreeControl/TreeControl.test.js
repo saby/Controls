@@ -1083,7 +1083,7 @@ define([
                 }
              };
          dataLoadCallbackCalled = false;
-         await tree.TreeControl._private.loadNodeChildren(mockedTreeControlInstance, dispItem);
+         await tree.TreeControl._private.loadNodeChildren(mockedTreeControlInstance, dispItem.getContents().getId());
          assert.deepEqual({
                 testParam: 11101989
              }, mockedTreeControlInstance._options.filter,

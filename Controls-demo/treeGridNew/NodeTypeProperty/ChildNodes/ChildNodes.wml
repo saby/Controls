@@ -20,6 +20,7 @@
             rowSeparatorSize="s"
             colspanCallback="{{ _colspanCallback }}"
             useNewNodeFooters="{{ true }}"
+            expandedItems="{{[null]}}"
             navigation="{{_navigation}}">
         <ws:columns>
             <ws:Array>
