@@ -4,9 +4,12 @@ import * as template from 'wml!Controls/_list/Container';
 import {ContextOptions as DataOptions} from 'Controls/context';
 import {ISourceControllerState} from 'Controls/dataSource';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import {TKey} from 'Controls/interface';
 
 interface IMultipleListConfigs {
-    listConfigs: ISourceControllerState[];
+    listsConfigs: ISourceControllerState[];
+    listsSelectedKeys: TKey[];
+    listsExcludedKeys: TKey[];
 }
 
 interface IDataContext {
@@ -58,16 +61,23 @@ export default class ListContainer extends Control<IListContainerOptions> {
     }
 
     protected _notifyEventWithBubbling(e: SyntheticEvent, eventName: string): unknown {
-        return this._notify(eventName, Array.prototype.slice.call(arguments, 2), {
-            bubbling: true
-        });
+        const eventArgs = Array.prototype.slice.call(arguments, 2);
+
+        if (this._options.id) {
+            eventArgs.push(this._options.id);
+        }
+        e.stopPropagation();
+        return this._notify(eventName, eventArgs, {bubbling: true});
     }
 
     private static _getListOptions(options: IListContainerOptions, dataContext: IDataContext): ISourceControllerState {
         let listOptions;
 
         if (options.id) {
-            listOptions = (dataContext.dataOptions as IMultipleListConfigs).listConfigs[options.id];
+            const dataOptions = dataContext.dataOptions as IMultipleListConfigs;
+            listOptions = dataOptions.listsConfigs[options.id];
+            listOptions.selectedKeys = dataOptions.listsSelectedKeys?.[options.id];
+            listOptions.excludedKeys = dataOptions.listsExcludedKeys?.[options.id];
         } else {
             listOptions = dataContext.dataOptions;
         }

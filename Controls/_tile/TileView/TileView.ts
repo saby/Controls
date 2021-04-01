@@ -127,6 +127,7 @@ var TileView = ListView.extend({
             const menuOptions = menuConfig.templateOptions;
             const itemContainer = clickEvent.target.closest('.controls-TileView__item');
             const imageWrapper = itemContainer.querySelector('.controls-TileView__imageWrapper');
+            const imageWrapperRect = imageWrapper.getBoundingClientRect();
             if (!imageWrapper) {
                 return null;
             }
@@ -135,8 +136,8 @@ var TileView = ListView.extend({
             menuOptions.title = itemData.item.get(itemData.displayProperty);
             menuOptions.additionalText = itemData.item.get(menuOptions.headerAdditionalTextProperty);
             menuOptions.imageClasses = itemData.imageData?.class;
-            menuOptions.previewHeight = imageWrapper.clientHeight;
-            menuOptions.previewWidth = imageWrapper.clientWidth;
+            menuOptions.previewHeight = imageWrapperRect.height;
+            menuOptions.previewWidth = imageWrapperRect.width;
 
             return {
                 templateOptions: menuOptions,

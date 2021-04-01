@@ -3357,6 +3357,8 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     __errorController = null;
 
+    _editingItem: IEditableCollectionItem;
+
     _continuationEditingDirection: 'top' | 'bottom' = null;
 
     //#endregion
@@ -3632,7 +3634,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    loadMore(direction: IDirection): void {
+    // TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
+    //  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
+    protected _loadMore(direction: IDirection): void {
         if (this._options?.navigation?.view === 'infinity') {
             _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
@@ -4653,13 +4657,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         // Вызываем сдвиг диапазона в направлении видимого триггера
         this._shiftToDirection(direction);
     }
-    _shiftToDirection(direction): void {
+    protected _shiftToDirection(direction): void {
         this._scrollController.shiftToDirection(direction).then((result) => {
             if (result) {
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
             } else {
-                this.loadMore(direction);
+                this._loadMore(direction);
             }
         });
     }
@@ -4822,7 +4826,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (this._hasEnoughData(page)) {
                     this._shiftToDirection(direction);
                 } else {
-                    this.loadMore(direction);
+                    this._loadMore(direction);
                 }
             }
         }
@@ -5045,7 +5049,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         return this._options.moveMarkerOnScrollPaging;
     }
 
-    _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
+    protected _hasMoreData(sourceController: SourceController, direction: Direction): boolean {
         return !!(sourceController?.hasMoreData(direction));
     }
 
@@ -5056,11 +5060,19 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
             if (groupId === display.getGroup()(display.find((i) => i.isEditing()).contents)) {
                 this._cancelEdit().then((result) => {
                     if (!(result && result.canceled)) {
-                        GroupingController.toggleGroup(collection, groupId);
+                        if (this._options.useNewModel) {
+                            dispItem.setExpanded(!dispItem.isExpanded());
+                        } else {
+                            GroupingController.toggleGroup(collection, groupId);
+                        }
                     }
                 });
             } else {
-                GroupingController.toggleGroup(collection, groupId);
+                if (this._options.useNewModel) {
+                    dispItem.setExpanded(!dispItem.isExpanded());
+                } else {
+                    GroupingController.toggleGroup(collection, groupId);
+                }
             }
         };
 
@@ -5827,7 +5839,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.startDragNDrop(this, this._savedItemMouseDownEventArgs.domEvent, this._savedItemMouseDownEventArgs.itemData);
     }
 
-    protected _loadMore(e): void {
+    protected _onClickMoreButton(e): void {
         _private.loadToDirectionIfNeed(this, 'down');
     }
 
