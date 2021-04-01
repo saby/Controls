@@ -1,3 +1,5 @@
+import { assert } from 'chai';
+
 import {_ContainerBase as ContainerBase} from 'Controls/scroll';
 import {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
 import {SCROLL_MODE} from 'Controls/_scroll/Container/Type';
@@ -20,10 +22,19 @@ describe('Controls/scroll:ContainerBase', () => {
       });
    });
 
+   describe('_componentDidMount', () => {
+      it('should restor scrollTop to 0', () => {
+         const control: ContainerBase = new ContainerBase(options);
+         control._children = { content: { scrollTop: 10 } };
+         control._componentDidMount();
+         assert.strictEqual(control._children.content.scrollTop, 0);
+      });
+   });
+
    describe('_afterMount', () => {
       it('should initialize models', () => {
          const control: ContainerBase = new ContainerBase(options);
-         const children = [ { classList: {contains} }, { classList: {contains} } ];
+         const children = [ { classList: { contains } }, { classList: { contains } } ];
          control._beforeMount(options);
 
          sinon.stub(control._resizeObserver, 'observe');
