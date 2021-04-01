@@ -3630,7 +3630,9 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         }
     }
 
-    _loadToDirection(direction: IDirection): void {
+    // TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
+    //  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
+    protected _loadMore(direction: IDirection): void {
         if (this._options?.navigation?.view === 'infinity') {
             _private.loadToDirectionIfNeed(this, direction, this._options.filter);
         }
@@ -4658,7 +4660,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 _private.handleScrollControllerResult(this, result);
                 this._syncLoadingIndicatorState = direction;
             } else {
-                this._loadToDirection(direction);
+                this._loadMore(direction);
             }
         });
     }
@@ -4821,7 +4823,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 if (this._hasEnoughData(page)) {
                     this._shiftToDirection(direction);
                 } else {
-                    this._loadToDirection(direction);
+                    this._loadMore(direction);
                 }
             }
         }
@@ -5812,7 +5814,7 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         _private.startDragNDrop(this, this._savedItemMouseDownEventArgs.domEvent, this._savedItemMouseDownEventArgs.itemData);
     }
 
-    protected _loadMore(e): void {
+    protected _onClickMoreButton(e): void {
         _private.loadToDirectionIfNeed(this, 'down');
     }
 
