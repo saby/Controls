@@ -293,9 +293,8 @@ const _private = {
         return entriesRecord;
     },
 
-    loadMore(self: TreeControl, dispItem) {
+    loadNodeChildren(self: TreeControl, nodeKey: CrudEntityKey): Promise<object> {
         const sourceController = self.getSourceController();
-        const nodeKey = dispItem.getContents().getId();
 
         self.showIndicator();
         return sourceController.load('down', nodeKey).then((list) => {
@@ -568,31 +567,50 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    // TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
-    //  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
-    protected _loadMore(direction: Direction): void {
-        const hasMoreRootData = this._sourceController.hasMoreData(direction, this._root);
+    /**
+     * Ищет последний элемент в дереве
+     * @private
+     * @TODO Необходимо убрать условие с проверкой rootItems.at когда окончательно избавимся от старых моделей.
+     */
+    private _getLastRootItem(): TreeItem {
         const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
-        // @TODO Необходимо убрать условие с проверкой rootItems.at когда окончательно избавимся от старых моделей.
-        const lastRootItem: TreeItem = rootItems.at ?
-            rootItems.at(rootItems.getCount() - 1) :
-            rootItems[rootItems.length - 1];
+        return rootItems.at ? rootItems.at(rootItems.getCount() - 1) : rootItems[rootItems.length - 1];
+    }
+
+    /**
+     * Проверяет, нужно ли подгружать данные при скролле для последнего раскрытого узла.
+     * Проверяем, что в руте больше нет данных, что шаблон футера узла не задан,
+     * последняя запись в списке - узел, и он раскрыт
+     * @param direction
+     * @param lastRootItem
+     * @private
+     */
+    private _shouldLoadLastExpandedNodeData(direction: Direction, lastRootItem: TreeItem): boolean {
+        if (direction !== 'down') {
+            return false;
+        }
+        const hasMoreRootData = this._sourceController.hasMoreData('down', this._root);
         const hasNodeFooterTemplate: boolean = !!this._options.nodeFooterTemplate;
+        return !hasMoreRootData && !hasNodeFooterTemplate && lastRootItem.isNode() && lastRootItem.isExpanded();
+    }
 
-        // Проверяем, что в руте больше нет данных, что шаблон футера узла не задан,
-        // последняя запись в списке - узел, и он раскрыт
-        if (!hasMoreRootData &&
-            !hasNodeFooterTemplate &&
-            lastRootItem.isNode() &&
-            lastRootItem.isExpanded()) {
-            const hasMoreData = this._sourceController.hasMoreData(direction, lastRootItem.getContents().getKey());
+    /**
+     * Метод, вызываемый после срабатывания триггера подгрузки данных
+     * TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
+     *  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
+     * @param direction
+     * @private
+     */
+    protected _loadMore(direction: Direction): void {
+        const lastRootItem = this._getLastRootItem();
+        if (this._shouldLoadLastExpandedNodeData(direction, lastRootItem)) {
+            const nodeKey = lastRootItem.getContents().getKey();
+            const hasMoreData = this._sourceController.hasMoreData(direction, nodeKey);
             if (hasMoreData) {
-
-                // Вызов метода, который подгружает данные с мультинавигацией
-                _private.loadMore(this, lastRootItem);
+                // Вызов метода, который подгружает дочерние записи узла
+                _private.loadNodeChildren(this, nodeKey);
             }
         } else {
-
             // Вызов метода подгрузки данных по умолчанию (по сути - loadToDirectionIfNeed).
             super._loadMore(direction);
         }
@@ -759,7 +777,8 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
 
     protected _onClickMoreButton(e, dispItem?): void {
         if (dispItem) {
-            _private.loadMore(this, dispItem);
+            const nodeKey = dispItem.getContents().getKey();
+            _private.loadNodeChildren(this, nodeKey);
         } else {
             super._onClickMoreButton(e);
         }
