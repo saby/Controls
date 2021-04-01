@@ -1,19 +1,33 @@
 .controls-CutButton__container {
+   z-index: 1;
    display: flex;
    justify-content: center;
 }
 
+.controls-CutButton {
+   display: flex;
+   align-items: flex-start;
+   z-index: 1;
+}
+
+.controls-CutButton_background-default {
+   background: var(--background-color_CutButton);
+}
+
 .controls-CutButton_size-s {
+   padding: 0 var(--padding-left-right_s_CutButton);
    margin-top: var(--margin-top_s_CutButton);
    line-height: var(--height_s_BigSeparator);
 }
 
 .controls-CutButton_size-m {
+   padding: 0 var(--padding-left-right_m_CutButton);
    margin-top: var(--margin-top_m_CutButton);
    line-height: var(--height_m_BigSeparator);
 }
 
 .controls-CutButton_size-l {
+   padding: 0 var(--padding-left-right_l_CutButton);
    margin-top: var(--margin-top_l_CutButton);
    line-height: var(--height_l_BigSeparator);
 }

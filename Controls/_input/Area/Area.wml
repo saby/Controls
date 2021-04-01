@@ -1,7 +1,36 @@
+<ws:template name="fieldTemplate">
+    <ws:if data="{{_options.readOnly}}">
+        <ws:partial options="{{_options}}"
+                    scope="{{_readOnlyField.scope}}"
+                    value="{{_viewModel.displayValue}}"
+                    horizontalPadding="{{_horizontalPadding}}"
+                    template="{{_readOnlyField.template}}"/>
+    </ws:if>
+    <ws:else>
+        <ws:partial type="{{_type}}"
+                    model="{{_viewModel}}"
+                    options="{{_options}}"
+                    scope="{{_field.scope}}"
+                    minLines="{{_minLines }}"
+                    maxLines="{{ _maxLines}}"
+                    fieldName="{{_fieldName}}"
+                    heightLine="{{_options.fontSize}}"
+                    horizontalPadding="{{_horizontalPadding}}"
+                    template="{{_field.template}}"
+                    wasActionUser="{{_wasActionUser}}"
+                    value="{{_viewModel.displayValue}}"
+                    isBrowserPlatform="{{_isBrowserPlatform}}"
+                    hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
+                    isEdge="{{_isEdge}}"
+                    on:click="_clickHandler()"
+                    on:touchstart="_clickHandler()"/>
+    </ws:else>
+</ws:template>
+
 <Controls._input.Render attr:title="{{_tooltip}}"
                         attr:class="controls-Area controls-Area_line-height_{{_options.fontSize}}"
                         inlineHeight="{{_options.inlineHeight}}"
-                        borderVisibility="{{_options.borderVisibility}}"
+                        borderVisibility="{{_borderVisibility}}"
                         viewModel="{{_viewModel}}"
                         validationStatus="{{_options.validationStatus}}"
                         multiline="{{_multiline}}"
@@ -16,42 +45,37 @@
                         on:mouseenter="_mouseEnterHandler()"
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">
-   <ws:content>
-      <Controls.scroll:Container name="scroll"
-                                 attr:class="controls-Area__scroll controls-InputBase__field
+    <ws:content>
+        <ws:if data="{{ _options.type === 'scroll' }}">
+            <Controls.scroll:Container name="scroll"
+                                       attr:class="controls-Area__scroll controls-InputBase__field
                                           controls-Area__minHeight_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
                                           {{_maxLines ? 'controls-Area__maxHeight_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}"
-                                  shadowMode="{{_options.shadowMode}}">
-         <ws:if data="{{_options.readOnly}}">
-            <ws:partial options="{{_options}}"
-                        scope="{{_readOnlyField.scope}}"
-                        value="{{_viewModel.displayValue}}"
-                        horizontalPadding="{{_horizontalPadding}}"
-                        template="{{_readOnlyField.template}}"/>
-         </ws:if>
-         <ws:else>
-            <ws:partial type="{{_type}}"
-                        model="{{_viewModel}}"
-                        options="{{_options}}"
-                        scope="{{_field.scope}}"
-                        minLines="{{_minLines}}"
-                        maxLines="{{_maxLines}}"
-                        fieldName="{{_fieldName}}"
-                        heightLine="{{_options.fontSize}}"
-                        horizontalPadding="{{_horizontalPadding}}"
-                        template="{{_field.template}}"
-                        wasActionUser="{{_wasActionUser}}"
-                        value="{{_viewModel.displayValue}}"
-                        isBrowserPlatform="{{_isBrowserPlatform}}"
-                        hidePlaceholderUsingCSS="{{_hidePlaceholderUsingCSS}}"
-                        isEdge="{{_isEdge}}"/>
-         </ws:else>
-      </Controls.scroll:Container>
-   </ws:content>
-   <ws:footerTemplate>
-      <ws:if data="{{_options.footerTemplate}}">
-         <ws:partial template="{{_options.footerTemplate}}"
-                     attr:class="controls-Area__footer controls-Area__field_margin-{{_options.horizontalPadding}}"/>
-      </ws:if>
-   </ws:footerTemplate>
+                                       shadowMode="{{_options.shadowMode}}">
+                <ws:partial template="fieldTemplate"/>
+            </Controls.scroll:Container>
+        </ws:if>
+        <ws:else>
+            <Controls.spoiler:InputAreaCut
+                    cutButtonVisible="{{ _firstEditPassed }}"
+                    bind:expanded="_expanded"
+                    scope="{{ _options }}"
+                    lines="{{ _maxLines  }}"
+                    attr:class="controls-InputBase__field
+                                          controls-Area__minHeight_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
+                                          {{_maxLines ? 'controls-Area__maxHeight_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}">
+                <ws:content>
+                    <div class="controls-Area__fieldContainer {{ !_options.readOnly ? 'controls-Area__fieldContainer__border-' + _options.borderVisibility }}">
+                        <ws:partial template="fieldTemplate" scope="{{ _options }}"/>
+                    </div>
+                </ws:content>
+            </Controls.spoiler:InputAreaCut>
+        </ws:else>
+    </ws:content>
+    <ws:footerTemplate>
+        <ws:if data="{{_options.footerTemplate}}">
+            <ws:partial template="{{_options.footerTemplate}}"
+                        attr:class="controls-Area__footer controls-Area__field_margin-{{_options.horizontalPadding}}"/>
+        </ws:if>
+    </ws:footerTemplate>
 </Controls._input.Render>
