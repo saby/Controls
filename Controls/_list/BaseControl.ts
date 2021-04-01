@@ -4962,11 +4962,19 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
             if (groupId === display.getGroup()(display.find((i) => i.isEditing()).contents)) {
                 this._cancelEdit().then((result) => {
                     if (!(result && result.canceled)) {
-                        GroupingController.toggleGroup(collection, groupId);
+                        if (this._options.useNewModel) {
+                            dispItem.setExpanded(!dispItem.isExpanded());
+                        } else {
+                            GroupingController.toggleGroup(collection, groupId);
+                        }
                     }
                 });
             } else {
-                GroupingController.toggleGroup(collection, groupId);
+                if (this._options.useNewModel) {
+                    dispItem.setExpanded(!dispItem.isExpanded());
+                } else {
+                    GroupingController.toggleGroup(collection, groupId);
+                }
             }
         };
 
