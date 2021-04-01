@@ -7,5 +7,8 @@
     </div>
 </ws:if>
 <ws:else>
-    <ws:partial template="{{_options.extendedCaption}}"/>
+    <div class="controls-FilterViewPanel__additional-editor"
+         on:click="_extendedCaptionClick()">
+        {{_options.extendedCaption}}
+    </div>
 </ws:else>

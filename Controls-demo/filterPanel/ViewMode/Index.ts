@@ -17,7 +17,7 @@ export default class extends Control {
             {
                 caption: '',
                 name: 'booleanEditor2',
-                editorTemplateName: 'Controls/filterPanel:CustomEditor',
+                editorTemplateName: 'Controls/filterPanel:TextEditor',
                 resetValue: false,
                 viewMode: 'basic',
                 value: false,

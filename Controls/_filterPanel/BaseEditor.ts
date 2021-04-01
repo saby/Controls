@@ -14,4 +14,8 @@ export default class View extends Control<IControlOptions> {
         };
         this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
     }
+
+    protected _extendedCaptionClick(): void {
+        this._notify('extendedCaptionClick');
+    }
 }

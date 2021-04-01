@@ -34,7 +34,7 @@ class Tumbler extends Control<ITumblerOptions> implements ITumbler {
         this._notify('propertyValueChanged', [extendedValue], {bubbling: true});
     }
 
-    protected _handleExtendedCaptionClick(event: SyntheticEvent): void {
+    protected _extendedCaptionClickHandler(event: SyntheticEvent): void {
         const value = this._options.items.at(0).getKey();
         this._selectedKeyChangedHandler(event, value);
     }
