@@ -52,6 +52,13 @@ export interface IField {
 }
 
 const MINIMAL_ANDROID_VERSION = 8;
+
+const PROCESSED_KEYS: string[] = [
+    'End', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+    // Поддержка значений key в IE
+    'Left', 'Right', 'Up', 'Down'
+];
+
 /**
  * Контрол-обертка над нативными полями ввода. Используется для реализации контролов с вводом данных.
  * Если требуется готовый контрол с вводом текста используйте {@link Controls/_input/Text Controls.input:Text}
@@ -404,7 +411,9 @@ class Field<Value, ModelOptions>
          * Поэтому заново вычисляем selection для модели.
          * https://online.sbis.ru/opendoc.html?guid=2d76628b-eacc-48ac-837a-99b26009c4e1
          */
-        this._selectionFromFieldToModel();
+        if (!PROCESSED_KEYS.includes(event.nativeEvent.key)) {
+            this._selectionFromFieldToModel();
+        }
         this._changeEventController.keyDownHandler(event, this._getConfigForController('changeEventController'));
 
         if (
@@ -416,6 +425,12 @@ class Field<Value, ModelOptions>
                 this._updateModel({value});
                 this._notifyEvent('valueChanged');
             });
+        }
+    }
+
+    protected _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
+        if (PROCESSED_KEYS.includes(event.nativeEvent.key)) {
+            this._selectionFromFieldToModel();
         }
     }
 
@@ -522,12 +537,12 @@ class Field<Value, ModelOptions>
 }
 
 Object.defineProperty(Field, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
+    enumerable: true,
+    configurable: true,
 
-   get(): object {
-      return Field.getDefaultOptions();
-   }
+    get(): object {
+        return Field.getDefaultOptions();
+    }
 });
 
 export default Field;
