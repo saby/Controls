@@ -69,7 +69,7 @@
                     <div class="controls-Area__fieldContainer
                     controls-Area controls-Area__fieldContainer_background-{{ _options.contrastBackground ? 'contrast' : 'same' }}
                     controls-Area__fieldContainer__border-{{ _options.borderVisibility }} {{ _options.readOnly ? 'controls-Area__fieldContainer__border-readonly'}}">
-                        <ws:partial template="fieldTemplate" scope="{{ _options }}"/>
+                        <ws:partial template="fieldTemplate"/>
                     </div>
                 </ws:content>
             </Controls.spoiler:AreaCut>

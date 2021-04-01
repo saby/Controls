@@ -1,5 +1,5 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
-import * as template from 'wml!Controls-demo/Input/Area/Type/Type';
+import * as template from 'wml!Controls-demo/Input/Area/RestrictiveMode/RestrictiveMode';
 
 class TextAlignments extends Control<IControlOptions> {
     protected _template: TemplateFunction = template;

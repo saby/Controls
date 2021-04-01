@@ -94,7 +94,7 @@ export default class Area extends BaseText<IAreaOptions> {
     }
 
     private _updateBorderVisibility(options: IAreaOptions): void {
-        if (options.type === 'cut') {
+        if (options.restrictiveMode === 'cut') {
             this._borderVisibility = 'hidden';
         } else {
             this._borderVisibility = options.borderVisibility;
@@ -341,7 +341,7 @@ export default class Area extends BaseText<IAreaOptions> {
         defaultOptions.shadowMode = 'js';
         defaultOptions.maxLines = 10;
         defaultOptions.borderVisibility = 'visible';
-        defaultOptions.restrictiveMode = 'cut';
+        defaultOptions.restrictiveMode = 'scroll';
         defaultOptions.contrastBackground = true;
 
         return defaultOptions;
