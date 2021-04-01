@@ -199,7 +199,7 @@ const _private = {
                 if (self._editingItem) {
                     shouldCancelEditing = _private.hasInParents(
                         self._options.useNewModel ? listViewModel : listViewModel.getDisplay(),
-                        self._editingItem.getKey(),
+                        self._editingItem.getContents().getKey(),
                         dispItem.contents.getKey()
                     );
                 }
@@ -293,9 +293,8 @@ const _private = {
         return entriesRecord;
     },
 
-    loadMore(self: TreeControl, dispItem) {
+    loadNodeChildren(self: TreeControl, nodeKey: CrudEntityKey): Promise<object> {
         const sourceController = self.getSourceController();
-        const nodeKey = dispItem.getContents().getId();
 
         self.showIndicator();
         return sourceController.load('down', nodeKey).then((list) => {
@@ -326,7 +325,7 @@ const _private = {
         let shouldCancelEditing = false;
 
         if (self._editingItem) {
-            const editingKey = self._editingItem.getKey();
+            const editingKey = self._editingItem.getContents().getKey();
             viewModel.getExpandedItems().forEach((itemKey) => {
                 shouldCancelEditing = shouldCancelEditing || _private.hasInParents(
                     self._options.useNewModel ? viewModel : viewModel.getDisplay(),
@@ -568,6 +567,71 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
+    /**
+     * Ищет последний элемент в дереве
+     * @private
+     * @TODO Необходимо убрать условие с проверкой rootItems.at когда окончательно избавимся от старых моделей.
+     */
+    private _getLastItem(item: TreeItem): TreeItem {
+        const rootItems = this._listViewModel.getChildren(item);
+        return rootItems.at ? rootItems.at(rootItems.getCount() - 1) : rootItems[rootItems.length - 1];
+    }
+
+    /**
+     * Проверяет, нужно ли подгружать данные при скролле для последнего раскрытого узла.
+     * Проверяем, что в руте больше нет данных, что шаблон футера узла не задан,
+     * последняя запись в списке - узел, и он раскрыт
+     * @param direction
+     * @param item
+     * @param parentKey
+     * @private
+     */
+    private _shouldLoadLastExpandedNodeData(direction: Direction, item: TreeItem, parentKey: CrudEntityKey): boolean {
+        if (direction !== 'down') {
+            return false;
+        }
+        const hasMoreParentData = this._sourceController.hasMoreData('down', parentKey);
+        const hasNodeFooterTemplate: boolean = !!this._options.nodeFooterTemplate;
+        return !hasMoreParentData && !hasNodeFooterTemplate && item.isNode() && item.isExpanded();
+    }
+
+    /**
+     * Загружает рекурсивно данные последнего раскрытого узла
+     * @param item
+     * @private
+     */
+    private _loadNodeChildrenRecursive(item: TreeItem): void {
+        const nodeKey = item.getContents().getKey();
+        const hasMoreData = this._sourceController.hasMoreData('down', nodeKey);
+        if (hasMoreData) {
+            // Вызов метода, который подгружает дочерние записи узла
+            _private.loadNodeChildren(this, nodeKey);
+        } else {
+            const lastItem = this._getLastItem(item);
+            if (this._shouldLoadLastExpandedNodeData('down', lastItem, nodeKey)) {
+                this._loadNodeChildrenRecursive(lastItem);
+            }
+        }
+    }
+
+    /**
+     * Метод, вызываемый после срабатывания триггера подгрузки данных
+     * TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
+     *  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
+     * @param direction
+     * @private
+     */
+    protected _loadMore(direction: Direction): void {
+        const lastRootItem = this._getLastItem(this._listViewModel.getRoot());
+        if (this._shouldLoadLastExpandedNodeData(direction, lastRootItem, this._options.root)) {
+            this._loadNodeChildrenRecursive(lastRootItem);
+
+        } else {
+            // Вызов метода подгрузки данных по умолчанию (по сути - loadToDirectionIfNeed).
+            super._loadMore(direction);
+        }
+    }
+
     private _updateTreeControlModel(newOptions): void {
         const viewModel = this.getViewModel();
 
@@ -727,11 +791,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return _private.toggleExpanded(this, item, model);
     }
 
-    protected _loadMore(e, dispItem?): void {
+    protected _onClickMoreButton(e, dispItem?): void {
         if (dispItem) {
-            _private.loadMore(this, dispItem);
+            const nodeKey = dispItem.getContents().getKey();
+            _private.loadNodeChildren(this, nodeKey);
         } else {
-            super._loadMore(e);
+            super._onClickMoreButton(e);
         }
     }
 
