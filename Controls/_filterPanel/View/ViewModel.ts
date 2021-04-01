@@ -178,7 +178,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     resetFilterItem(group: string): void {
         this._source = object.clone(this._source);
-        const item = this._source.find((filterItem) => item.group === group);
+        const item = this._source.find((filterItem) => filterItem.group === group);
         item.value = item.resetValue;
         item.textValue = '';
         this._nextVersion();
