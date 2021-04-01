@@ -1,11 +1,11 @@
-<ws:partial template="Controls/grid:ColumnTemplate"
+<ws:partial template="Controls/gridOld:ColumnTemplate"
             attr:class="controls-Grid__row-cell__content_baseline_L"
-            scope="{{_options}}">
+            itemData="{{itemData}}">
    <ws:contentTemplate>
-      <ws:if data="{{!item.isNode()}}">
-         <Controls.decorator:Money value="{{item.contents[column.config.displayProperty]}}"
+      <ws:if data="{{!itemData.dispItem.isNode()}}">
+         <Controls.decorator:Money value="{{itemData.item[itemData.column.displayProperty]}}"
                                    useGrouping="{{true}}"/>
-         <span if="{{column.getColumnIndex() === 2}}">шт</span>
+         <span if="{{itemData.columnIndex === 2}}">шт</span>
       </ws:if>
    </ws:contentTemplate>
 </ws:partial>

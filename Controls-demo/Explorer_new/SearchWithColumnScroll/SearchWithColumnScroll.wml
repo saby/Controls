@@ -63,7 +63,7 @@
                             stickyColumnsCount="{{ _isStickyColumnsCount + 1 }}"
                             columnScrollStartPosition="end">
                         <ws:searchBreadCrumbsItemTemplate>
-                            <ws:partial template="Controls/searchBreadcrumbsGrid:SearchBreadCrumbsItemTemplate"
+                            <ws:partial template="Controls/treeGridOld:SearchBreadCrumbsItemTemplate"
                                         colspan="{{ _canSetConfig ? _colspanBreadcrumbs : undefined }}"/>
                         </ws:searchBreadCrumbsItemTemplate>
                     </Controls.explorer:View>

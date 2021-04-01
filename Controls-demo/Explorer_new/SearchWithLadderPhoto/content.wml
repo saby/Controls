@@ -1,16 +1,16 @@
-<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL"
+<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL"
             scope="{{_options}}">
     <ws:contentTemplate>
-        <ws:if data="{{column.getColumnIndex() === 0 && item.contents['image']}}">
+        <ws:if data="{{itemData.columnIndex === 0 && itemData.item['image']}}">
             <ws:partial
-                    template="Controls/grid:LadderWrapper"
+                    template="Controls/gridOld:LadderWrapper"
                     ladderProperty="image">
-                <img attr:class="demoExplorerWithPhoto__imageBlock" src="{{item.contents['image']}}"/>
+                <img attr:class="demoExplorerWithPhoto__imageBlock" src="{{itemData.item['image']}}"/>
             </ws:partial>
         </ws:if>
-        <ws:else data="{{item.contents['type'] === null}}">
+        <ws:else data="{{itemData.item['type'] === null}}">
             <div class="demoExplorerWithPhoto__imageBlock"></div>
         </ws:else>
-        <span>{{item.contents['title']}}</span>
+        <span>{{itemData.item['title']}}</span>
     </ws:contentTemplate>
 </ws:partial>
