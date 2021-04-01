@@ -340,7 +340,6 @@ export default class Area extends BaseText<IAreaOptions> {
         // В темной теме розницы у полей ввода нестандартный фон
         defaultOptions.shadowMode = 'js';
         defaultOptions.maxLines = 10;
-        defaultOptions.borderVisibility = 'visible';
         defaultOptions.restrictiveMode = 'scroll';
         defaultOptions.contrastBackground = true;
 
