@@ -61,7 +61,6 @@ export default class View extends Control<IViewPanelOptions> {
         bottom: 'null'
     };
     protected _viewModel: ViewModel = null;
-    protected _additionalEditorsCaption: string = rk('Еще можно отобрать');
 
     protected _beforeMount(options: IViewPanelOptions): void {
         this._viewModel = new ViewModel({

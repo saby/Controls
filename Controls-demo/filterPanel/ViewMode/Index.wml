@@ -1,9 +1,9 @@
 <div class="controlsDemo__wrapper">
-    <Controls.filter:Controller filterButtonSource="{{_filterButtonData}}">
-        <div class="controlsDemo__flexRow">
-            <Controls.filterPanel:Container>
-                <Controls.filterPanel:View applyButtonCaption="Отобрать" attr:class="controls-demo__filterButton"/>
-            </Controls.filterPanel:Container>
-        </div>
-    </Controls.filter:Controller>
+<Controls.filter:Controller filterButtonSource="{{_filterButtonData}}">
+    <Controls.filter:ViewContainer>
+        <Controls.filter:View source="{{_filterSource}}"
+                              alignment="left"
+                              detailPanelOpenMode="stack" />
+    </Controls.filter:ViewContainer>
+</Controls.filter:Controller>
 </div>

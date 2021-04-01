@@ -39,6 +39,7 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         if (!isEqual(this._options.source, options.source)) {
             this._source = this._getSource(options.source);
             this._editingObject = this._getEditingObjectBySource(this._source);
+            this.setEditingObject(this._editingObject);
             this._nextVersion();
         }
 
@@ -149,6 +150,10 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
 
     hasExtendedItems(): boolean {
         return !!this.getExtendedFilterItems().length;
+    }
+
+    hasBasicItems(): boolean {
+        return !!this.getBasicFilterItems().length;
     }
 
     getGroupItems(): Record<string, IFilterGroup> {
