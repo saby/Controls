@@ -1083,13 +1083,13 @@ define([
                 }
              };
          dataLoadCallbackCalled = false;
-         await tree.TreeControl._private.loadMore(mockedTreeControlInstance, dispItem);
+         await tree.TreeControl._private.loadNodeChildren(mockedTreeControlInstance, dispItem);
          assert.deepEqual({
                 testParam: 11101989
              }, mockedTreeControlInstance._options.filter,
-             'Invalid value "filter" after call "TreeControl._private.loadMore(...)".');
+             'Invalid value "filter" after call "TreeControl._private.loadNodeChildren(...)".');
          assert.deepEqual(hasMore, {1: true});
-         assert.isTrue(dataLoadCallbackCalled, 'Invalid call "dataLoadCallbackCalled" by "TreeControl._private.loadMore(...)".');
+         assert.isTrue(dataLoadCallbackCalled, 'Invalid call "dataLoadCallbackCalled" by "TreeControl._private.loadNodeChildren(...)".');
          assert.isTrue(isIndicatorHasBeenShown);
          assert.isTrue(isIndicatorHasBeenHidden);
          assert.equal(loadNodeId, 1);
