@@ -7,11 +7,14 @@ import {ITextOptions} from 'Controls/_input/interface/IText';
  * @public
  * @author Красильников А.С.
  */
+type TRestrictiveMode = 'scroll' | 'cut';
+
 export interface IAreaOptions extends ITextOptions {
     maxLines?: number;
     minLines?: number;
     optimizeShadow?: boolean;
     footerTemplate?: string | TemplateFunction;
+    restrictiveMode: TRestrictiveMode;
 }
 
 /**
@@ -47,9 +50,19 @@ export interface IAreaOptions extends ITextOptions {
  * @remark
  * true - Оптимизированные тени.
  * false - Не оптимизированные тени.
- * 
+ *
  * Отключите оптимизированные тени, если:
- * 
+ *
  * * У {@link Controls/input:Area} непрозрачный фон.
  * * Controls/input:Area находится в элементе с непрозрачным фоном.
+ */
+
+/**
+ * @name Controls/_input/Area#restrictiveMode
+ * Определяет способ скрытия контента, если количетсво строк привышает значение переданное в опцию maxLines
+ * @default scroll
+ * @variant scroll После привышения максимального количества строк появляется скролл
+ * @variant cut После привышения максимального количества строк появляется cut
+ * @see Controls/_spoiler/AreaCut
+ * @demo Controls-demo/Input/Area/RestrictiveMode/Index
  */

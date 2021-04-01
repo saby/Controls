@@ -46,15 +46,6 @@ import 'css!Controls/input';
  * @demo Controls-demo/Input/Area/TextAlign/Index
  */
 
-/**
- * @name Controls/_input/Area#type
- * Определяет способ скрытия контента, если количетсво строк привышает значение переданное в опцию maxLines
- * @default scroll
- * @variant scroll После привышения максимального количества строк появляется скролл
- * @variant cut После привышения максимального количества строк появляется кат
- * @demo Controls-demo/Input/Area/Type/Index
- */
-
 export default class Area extends BaseText<IAreaOptions> {
     protected _template: TemplateFunction = template;
 
@@ -144,7 +135,7 @@ export default class Area extends BaseText<IAreaOptions> {
     }
 
     protected _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        if (this._children.scroll) {
+        if (this._options.restrictiveMode === 'scroll') {
             this._newLineHandler(event, false);
 
             /**
@@ -176,8 +167,8 @@ export default class Area extends BaseText<IAreaOptions> {
      * Если курсор виден, расположение не изменяется. В противном случае новое местоположение будет таким, что курсор отобразится в середине области.
      */
     private _recalculateLocationVisibleArea(field: HTMLElement, value: string, selection: object): void {
-        const scroll = this._children.scroll;
-        if (scroll) {
+        if (this._options.restrictiveMode === 'scroll') {
+            const scroll = this._children.scroll;
             const textBeforeCursor = value.substring(0, selection.end);
 
             const positionCursor = this._calcPositionCursor(this._children.fieldWrapper, textBeforeCursor);
@@ -349,8 +340,9 @@ export default class Area extends BaseText<IAreaOptions> {
         // В темной теме розницы у полей ввода нестандартный фон
         defaultOptions.shadowMode = 'js';
         defaultOptions.maxLines = 10;
-        defaultOptions.borderVisibility = 'partial';
-        defaultOptions.type = 'cut';
+        defaultOptions.borderVisibility = 'visible';
+        defaultOptions.restrictiveMode = 'cut';
+        defaultOptions.contrastBackground = true;
 
         return defaultOptions;
     }

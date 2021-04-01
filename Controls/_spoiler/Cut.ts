@@ -1,75 +1,11 @@
 import {descriptor} from 'Types/entity';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import {IBackgroundStyle, IBackgroundStyleOptions, IExpandable, IExpandableOptions} from 'Controls/interface';
-import {ICutButton} from './CutButton';
 import Util from './Util';
+import {ICutOptions} from './interface/ICut';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_spoiler/Cut/Cut';
-
-/**
- * Интерфейс для опций контрола, ограничивающего контент заданным числом строк.
- * @interface Controls/_spoiler/ICut
- * @mixes Control/interface:IBackgroundStyle
- * @mixes Control/interface:IExpandable
- * @implements Controls/interface:IIconSize
- * @mixes Control/interface:IContrastBackground
- * @public
- * @author Красильников А.С.
- */
-
-/**
- * @name Controls/_spoiler/ICut#buttonPosition
- * @cfg {String} Положение кнопки развертывания.
- * @variant start по левому краю контентной области
- * @variant center по центру контентной области
- * @default center
- * @demo Controls-demo/Spoiler/Cut/ButtonPosition/Index
- */
-
-/**
- * @name Controls/_spoiler/ICut#iconSize
- * @demo Controls-demo/Spoiler/Cut/IconSize/Index
- */
-
-/**
- * @name Controls/_spoiler/ICut#contrastBackground
- * @demo Controls-demo/Spoiler/Cut/ContrastBackground/Index
- */
-
-export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, IExpandableOptions, ICutButton {
-    /**
-     * Высота строки.
-     * @variant xs
-     * @variant s
-     * @variant m
-     * @variant l
-     * @variant xl
-     * @variant 2xl
-     * @variant 3xl
-     * @variant 4xl
-     * @variant 5xl
-     * @default m
-     * @demo Controls-demo/Spoiler/Cut/LineHeight/Index
-     * @remark
-     * Высота строки задается константой из стандартного набора размеров, который определен для текущей темы оформления.
-     * @remark
-     * Строковым значениям опции lineHeight соответствуют числовые (px), которые различны для каждой темы оформления.
-     */
-    lineHeight: string;
-    /**
-     * Количество строк.
-     * @remark
-     * Указав значение null контент не будет иметь ограничение.
-     * @demo Controls-demo/Spoiler/Cut/Lines/Index
-     */
-    lines: number | null;
-    /**
-     * Контент контрола.
-     * @demo Controls-demo/Spoiler/Cut/Content/Index
-     */
-    content: TemplateFunction | string;
-}
 
 /**
  * Графический контрол, который ограничивает контент заданным числом строк.
@@ -77,7 +13,7 @@ export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, I
  *
  * @class Controls/_spoiler/Cut
  * @extends UI/Base:Control
- * @implements Controls/_spoiler/ICut
+ * @mixes Controls/_spoiler/interface/ICut
  * @public
  * @demo Controls-demo/Spoiler/Cut/Index
  *

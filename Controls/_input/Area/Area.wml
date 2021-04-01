@@ -30,6 +30,7 @@
 <Controls._input.Render attr:title="{{_tooltip}}"
                         attr:class="controls-Area controls-Area_line-height_{{_options.fontSize}}"
                         inlineHeight="{{_options.inlineHeight}}"
+                        contrastBackground="{{ false }}"
                         borderVisibility="{{_borderVisibility}}"
                         viewModel="{{_viewModel}}"
                         validationStatus="{{_options.validationStatus}}"
@@ -46,7 +47,7 @@
                         on:tagClick="_notifyHandler('tagClick')"
                         on:tagHover="_notifyHandler('tagHover')">
     <ws:content>
-        <ws:if data="{{ _options.type === 'scroll' }}">
+        <ws:if data="{{ _options.restrictiveMode === 'scroll' }}">
             <Controls.scroll:Container name="scroll"
                                        attr:class="controls-Area__scroll controls-InputBase__field
                                           controls-Area__minHeight_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
@@ -56,8 +57,8 @@
             </Controls.scroll:Container>
         </ws:if>
         <ws:else>
-            <Controls.spoiler:InputAreaCut
-                    cutButtonVisible="{{ _firstEditPassed }}"
+            <Controls.spoiler:AreaCut
+                    buttonVisible="{{ _firstEditPassed }}"
                     bind:expanded="_expanded"
                     scope="{{ _options }}"
                     lines="{{ _maxLines  }}"
@@ -65,11 +66,13 @@
                                           controls-Area__minHeight_countLines_{{_minLines}}_size_{{_options.fontSize}}_indented
                                           {{_maxLines ? 'controls-Area__maxHeight_countLines_' + _maxLines + '_size_' + _options.fontSize + '_indented'}}">
                 <ws:content>
-                    <div class="controls-Area__fieldContainer {{ !_options.readOnly ? 'controls-Area__fieldContainer__border-' + _options.borderVisibility }}">
+                    <div class="controls-Area__fieldContainer
+                    controls-Area controls-Area__fieldContainer_background-{{ _options.contrastBackground ? 'contrast' : 'same' }}
+                    controls-Area__fieldContainer__border-{{ _options.borderVisibility }} {{ _options.readOnly ? 'controls-Area__fieldContainer__border-readonly'}}">
                         <ws:partial template="fieldTemplate" scope="{{ _options }}"/>
                     </div>
                 </ws:content>
-            </Controls.spoiler:InputAreaCut>
+            </Controls.spoiler:AreaCut>
         </ws:else>
     </ws:content>
     <ws:footerTemplate>

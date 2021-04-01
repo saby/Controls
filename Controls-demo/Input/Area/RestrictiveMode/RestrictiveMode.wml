@@ -4,13 +4,13 @@
         <div class="controlsDemo__cell">
             <span class="controls-text-label_theme-default controlsDemo__mb1">type=cut</span>
             <div>
-                <Controls.input:Area type="cut" attr:class="controlsDemo__input" readOnly="{{ _readOnly }}" placeholder="Enter your name" bind:value="_areaValue" maxLines="{{4}}"/>
+                <Controls.input:Area restrictiveMode="cut" attr:class="controlsDemo__input" readOnly="{{ _readOnly }}" placeholder="Enter your name" bind:value="_areaValue" maxLines="{{4}}"/>
             </div>
         </div>
         <div class="controlsDemo__cell controlsDemo__ml4">
             <span class="controls-text-label_theme-default controlsDemo__mb1">type=scroll</span>
             <div>
-                <Controls.input:Area attr:class="controlsDemo__input" readOnly="{{ _readOnly }}" placeholder="Enter your name" bind:value="_areaValue1" maxLines="{{4}}"/>
+                <Controls.input:Area restrictiveMode="scroll" attr:class="controlsDemo__input" readOnly="{{ _readOnly }}" placeholder="Enter your name" bind:value="_areaValue1" maxLines="{{4}}"/>
             </div>
         </div>
     </div>
