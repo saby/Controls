@@ -46,6 +46,15 @@ import 'css!Controls/input';
  * @demo Controls-demo/Input/Area/TextAlign/Index
  */
 
+/**
+ * @name Controls/_input/Area#type
+ * Определяет способ скрытия контента, если количетсво строк привышает значение переданное в опцию maxLines
+ * @default scroll
+ * @variant scroll После привышения максимального количества строк появляется скролл
+ * @variant cut После привышения максимального количества строк появляется кат
+ * @demo Controls-demo/Input/Area/Type/Index
+ */
+
 export default class Area extends BaseText<IAreaOptions> {
     protected _template: TemplateFunction = template;
 
