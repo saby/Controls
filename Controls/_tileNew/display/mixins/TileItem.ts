@@ -682,7 +682,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 break;
             case 'rich':
                 classes += ' controls-TileView__richTemplate_item';
-                classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}_theme-${this.getTheme()}`;
+                classes += ` controls-ListView__item_shadow_${this.getShadowVisibility(templateShadowVisibility)}`;
                 classes += this.getMarkerClasses(templateMarker, border);
                 break;
             case 'preview':
@@ -839,11 +839,11 @@ export default abstract class TileItem<T extends Model = Model> {
         let classes = '';
 
         if (this.shouldDisplayMarker(marker)) {
-            classes += ` controls-TileView__item_withMarker controls-TileView__item_withMarker_theme-${this.getTheme()}`;
+            classes += ' controls-TileView__item_withMarker';
         } else if (border !== false) {
-            classes += ` controls-TileView__item_withoutMarker controls-TileView__item_withoutMarker_theme-${this.getTheme()}`;
+            classes += ' controls-TileView__item_withoutMarker';
         } else {
-            classes += ` controls-TileView__item_withoutBorder controls-TileView__item_withoutBorder_theme-${this.getTheme()}`;
+            classes += ' controls-TileView__item_withoutBorder';
         }
 
         return classes;
@@ -883,7 +883,7 @@ export default abstract class TileItem<T extends Model = Model> {
                 classes += ' controls-TileView__mediumTemplate_content';
                 break;
             case 'rich':
-                classes += ' controls-TileView__richTemplate controls-TileView__richTemplate_imagePosition';
+                classes += ` controls-TileView__richTemplate controls-TileView__richTemplate_imagePosition_${imagePosition}`;
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate_content';
@@ -985,7 +985,7 @@ export default abstract class TileItem<T extends Model = Model> {
             case 'rich':
                 classes += ' controls-TileView__richTemplate_title controls-fontweight-bold';
                 classes += ' controls-fontsize-xl';
-                classes += ' controls-text-${titleColorStyle}';
+                classes += ` controls-text-${titleColorStyle}`;
                 break;
             case 'preview':
                 classes += ' controls-TileView__previewTemplate_title_text';
