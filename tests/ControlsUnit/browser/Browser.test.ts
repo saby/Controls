@@ -168,6 +168,24 @@ describe('Controls/browser:Browser', () => {
                 assert.ok(dataLoadCallbackCalled);
                 assert.deepStrictEqual(browser._filter, {filterField: 'filterValue'});
             });
+
+            it('_beforeMount without receivedState and historyItems in options', async () => {
+                const options = getBrowserOptions();
+                options.filterButtonSource = [{
+                    name: 'filterField',
+                    value: '',
+                    textValue: ''
+                }];
+                options.historyItems = [{
+                    name: 'filterField',
+                    value: 'historyValue'
+                }];
+                options.filter = {};
+                const browser = getBrowser(options);
+                await browser._beforeMount(options, {});
+                browser.saveOptions(options);
+                assert.deepStrictEqual(browser._filter, {filterField: 'historyValue'});
+            });
         });
 
         describe('searchController', () => {

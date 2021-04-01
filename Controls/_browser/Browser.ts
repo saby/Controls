@@ -55,6 +55,7 @@ interface IListConfiguration extends IControlOptions, ISearchOptions, ISourceOpt
     viewMode: TViewMode;
     root?: Key;
     fastFilterSource?: unknown;
+    historyItems?: IFilterItem[]
 }
 
 export interface IBrowserOptions extends IListConfiguration {
@@ -620,7 +621,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 ...listOptions,
                 ...additionalLoaderOptions,
                 items: receivedState?.[index]?.data,
-                historyItems: receivedState?.[index]?.historyItems,
+                historyItems: receivedState?.[index]?.historyItems || listOptions.historyItems,
                 source: receivedState ? listOptions.source : this._getOriginalSource(listOptions as IBrowserOptions)
             };
         });
