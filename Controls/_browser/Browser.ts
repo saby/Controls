@@ -304,6 +304,12 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
             this._afterSourceLoad(sourceController, newOptions);
         }
 
+        const selectedKeysChanged = !isEqual(this._options.selectedKeys, newOptions.selectedKeys);
+        const excludedKeysChanged = !isEqual(this._options.excludedKeys, newOptions.excludedKeys);
+        if (!isChanged && (selectedKeysChanged || excludedKeysChanged)) {
+            this._updateContext();
+        }
+
         if (isChanged && isInputSearchValueLongerThenMinSearchLength && hasSearchValueInOptions && !newOptions.searchValue) {
             this._inputSearchValue = '';
         }
@@ -458,7 +464,9 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         const sourceControllerState = this._getSourceController().getState();
         const contextState = {
             ...sourceControllerState,
-            listConfigs: this._dataLoader.getState()
+            listsConfigs: this._dataLoader.getState(),
+            listsSelectedKeys: this._getOperationsController().getSelectedKeysByLists(),
+            listsExcludedKeys: this._getOperationsController().getExcludedKeysByLists()
         };
 
         if (!this._dataOptionsContext) {
@@ -513,15 +521,26 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
         this._getOperationsController().selectionTypeChanged(typeName, limit);
     }
 
-    protected _selectedKeysCountChanged(e: SyntheticEvent, count: number|null, isAllSelected: boolean): void {
+    protected _selectedKeysCountChanged(e: SyntheticEvent, count: number|null, isAllSelected: boolean, id?: string): void {
         e.stopPropagation();
-        this._selectedKeysCount = count;
-        this._isAllSelected = isAllSelected;
+        const result = this._getOperationsController().updateSelectedKeysCount(count, isAllSelected, id);
+        this._selectedKeysCount = result.count;
+        this._isAllSelected = result.isAllSelected;
     }
 
     protected _listSelectionTypeForAllSelectedChanged(event: SyntheticEvent, selectionType: TSelectionType): void {
         event.stopPropagation();
         this._selectionType = selectionType;
+    }
+
+    protected _excludedKeysChanged(event: SyntheticEvent, ...args): void {
+        args[0] = this._getOperationsController().updateExcludedKeys(...args);
+        this._notify('excludedKeysChanged', args);
+    }
+
+    protected _selectedKeysChanged(event: SyntheticEvent, ...args): void {
+        args[0] = this._getOperationsController().updateSelectedKeys(...args);
+        this._notify('selectedKeysChanged', args);
     }
 
     protected _itemOpenHandler(newCurrentRoot: Key, items: RecordSet, dataRoot: Key = null): void {
