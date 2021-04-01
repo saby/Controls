@@ -64,6 +64,7 @@ export interface IControllerOptions extends
     collapsedGroups?: TArrayGroupId;
     navigationParamsChangedCallback?: Function;
     loadTimeout?: number;
+    items?: RecordSet;
 }
 
 interface ILoadConfig {
@@ -163,6 +164,9 @@ export default class Controller extends mixin<
     constructor(cfg: IControllerOptions) {
         super();
         EventRaisingMixin.call(this, cfg);
+        this._resolveNavigationParamsChangedCallback(cfg);
+        this._collectionChange = this._collectionChange.bind(this);
+        this._updateBreadcrumbsData = this._updateBreadcrumbsData.bind(this);
         this._options = cfg;
         this.setFilter(cfg.filter || {});
         this.setNavigation(cfg.navigation);
@@ -177,10 +181,10 @@ export default class Controller extends mixin<
             this.setExpandedItems(cfg.expandedItems);
         }
         this.setParentProperty(cfg.parentProperty);
-        this._resolveNavigationParamsChangedCallback(cfg);
-
-        this._updateBreadcrumbsData = this._updateBreadcrumbsData.bind(this);
-        this._collectionChange = this._collectionChange.bind(this);
+        
+        if (cfg.items) {
+            this.setItems(cfg.items);
+        }
     }
 
     load(direction?: Direction,
