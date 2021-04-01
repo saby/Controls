@@ -7,7 +7,7 @@ interface IStore {
     unsubscribe: (id: string) => void;
     dispatch: (propertyName: string, data: unknown, isGlobal?: boolean) => void;
     sendCommand: (commandName: string) => void;
-    declareCommand: (commandName: string, callback: (data: unknown) => void) => string;
+    declareCommand: (commandName: string, callback: (data: unknown) => void, isGlobal?: boolean) => string;
 }
 
 interface IStateCallback {
@@ -68,7 +68,11 @@ class Store implements IStore {
      * @param commandName
      */
     sendCommand(commandName: string): void {
-        this._notifySubscribers(commandName);
+        const state = Store._getState()[Store._getActiveContext()] || {};
+
+        return state.hasOwnProperty(commandName) ?
+            this._notifySubscribers(commandName) :
+            this._notifySubscribers(commandName, true);
     }
 
     /**
@@ -86,10 +90,11 @@ class Store implements IStore {
      * Подписывается на команду в текущем контексте
      * @param commandName
      * @param callback
+     * @param isGlobal
      * @return {string} id колбэка, чтоб отписаться при уничтожении контрола
      */
-    declareCommand(commandName: string, callback: (data: unknown) => void): string {
-        return this._addCallback(commandName, callback);
+    declareCommand(commandName: string, callback: (data: unknown) => void, isGlobal?: boolean): string {
+        return this._addCallback(commandName, callback, isGlobal);
     }
 
     /**
