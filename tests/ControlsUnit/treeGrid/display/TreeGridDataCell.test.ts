@@ -87,7 +87,7 @@ describe('Controls/_treeGridNew/display/TreeGridDataCell', () => {
       it('with multiselect && first column', () => {
          treeGridCollection.setMultiSelectVisibility('visible');
 
-         const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default_theme-default controls-Grid__row-cell_default_min_height-theme-default controls-Grid__no-rowSeparator ' +
+         const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default_theme-default controls-Grid__row-cell-checkbox_theme-default controls-Grid__row-cell_default_min_height-theme-default controls-Grid__no-rowSeparator ' +
             'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-ColumnScroll__notDraggable controls-GridView__checkbox_theme-default controls-GridView__checkbox_position-default_theme-default ' +
             'controls-Grid__row-checkboxCell_rowSpacingTop_default_theme-default controls-Grid__row-cell-background-hover-default_theme-default controls-background-default_theme-default';
          const cell = treeGridCollection.at(0).getColumns()[0];
@@ -108,7 +108,7 @@ describe('Controls/_treeGridNew/display/TreeGridDataCell', () => {
          treeGridCollection.setMultiSelectPosition('custom');
          treeGridCollection.setMultiSelectVisibility('visible');
 
-         const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default_theme-default controls-Grid__row-cell_default_min_height-theme-default controls-Grid__no-rowSeparator ' +
+         const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default_theme-default controls-Grid__row-cell-checkbox_theme-default controls-Grid__row-cell_default_min_height-theme-default controls-Grid__no-rowSeparator ' +
             'controls-Grid__row-cell_withRowSeparator_size-null js-controls-ListView__notEditable js-controls-ColumnScroll__notDraggable controls-GridView__checkbox_theme-default controls-GridView__checkbox_position-default_theme-default ' +
             'controls-Grid__row-checkboxCell_rowSpacingTop_default_theme-default controls-Grid__row-cell-background-hover-default_theme-default controls-background-default_theme-default';
          const cell = treeGridCollection.at(0).getColumns()[0];

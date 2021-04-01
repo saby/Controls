@@ -14,11 +14,12 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
 
         wrapperClasses += this._getWrapperBaseClasses(theme, style, templateHighlightOnHover);
         wrapperClasses += this._getWrapperSeparatorClasses(theme);
-        wrapperClasses += ' js-controls-ListView__notEditable' +
+        wrapperClasses += ' js-controls-ListView__notEditable ' +
             ' js-controls-ColumnScroll__notDraggable' +
             ` controls-GridView__checkbox_theme-${theme}` +
             ` controls-GridView__checkbox_position-default_theme-${theme}` +
-            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}_theme-${theme}`;
+            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}_theme-${theme}` +
+            ` controls-Grid__row-cell-checkbox_theme-${theme}`;
 
         if (this._$owner.isEditing()) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
