@@ -36,7 +36,7 @@ var _private = {
       return true;
    },
    notifyRangeChanged: function(self, start: Date, end: Date): void {
-      self._notify('rangeChanged', [start, end]);
+      self._notify('rangeChanged', [start = new Date(start), end = new Date(end)]);
    },
    createDate: function(self, date: Date): void {
       return new self._dateConstructor(date);
