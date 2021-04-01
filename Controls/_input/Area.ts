@@ -350,7 +350,7 @@ export default class Area extends BaseText<IAreaOptions> {
         defaultOptions.shadowMode = 'js';
         defaultOptions.maxLines = 10;
         defaultOptions.borderVisibility = 'partial';
-        defaultOptions.type = 'scroll';
+        defaultOptions.type = 'cut';
 
         return defaultOptions;
     }
