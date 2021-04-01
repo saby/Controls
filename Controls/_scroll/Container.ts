@@ -42,6 +42,7 @@ interface IContainerOptions extends IContainerBaseOptions, IScrollbarsOptions, I
     pagingContentTemplate?: Function | string;
     pagingPosition?: TPagingPosition;
     pagingVisible: boolean;
+    syncDomOptimization: boolean;
 }
 
 const SCROLL_BY_ARROWS = 40;
