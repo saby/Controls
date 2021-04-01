@@ -4,7 +4,7 @@ import * as ListEntity from 'Controls-demo/DragNDrop/ListEntity';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import { TRoot, TItemsReadyCallback } from 'Controls-demo/types';
 import {RecordSet} from 'Types/collection';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import {Collection} from 'Controls/display';
 import {Model} from 'Types/entity';

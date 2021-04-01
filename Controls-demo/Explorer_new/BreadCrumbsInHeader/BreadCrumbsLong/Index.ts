@@ -2,7 +2,7 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/Explorer_new/BreadCrumbsInHeader/BreadCrumbsLong/BreadCrumbsLong';
 import {Gadgets} from '../../DataHelpers/DataCatalog';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
-import { IColumn } from 'Controls/gridOld';
+import { IColumn } from 'Controls/grid';
 import {TRoot, IHeader} from 'Controls-demo/types';
 
 export default class extends Control {

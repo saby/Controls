@@ -1,9 +1,9 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/grid:ColumnTemplate" scope="{{_options}}">
     <ws:contentTemplate>
-        <ws:if data="{{ itemData.item.get }}">
-            <span class="custom_column_template">{{ itemData.item.get(itemData.column.displayProperty) }}</span>
+        <ws:if data="{{ item.contents.get }}">
+            <span class="custom_column_template">{{ item.contents.get(column.config.displayProperty) }}</span>
         </ws:if>
-        <ws:else data="{{ itemData.item.length > 0 && itemData.column.displayProperty === 'price' }}">
+        <ws:else data="{{ item.contents.length > 0 && column.config.displayProperty === 'price' }}">
             <div style="text-align: right; color: orangered; width: 100%;">BreadCrumb!</div>
         </ws:else>
     </ws:contentTemplate>

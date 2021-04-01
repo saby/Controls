@@ -20,13 +20,13 @@
         </Controls.search:InputContainer>
         <Controls.list:Remover name="remover"/>
         <Controls.list:Container>
-          <Controls.treeGridOld:View
+          <Controls.treeGrid:View
               attr:class="demo-Explorer ControlsDemo-Explorer"
               itemActions="{{_itemActions}}"
               displayProperty="title"
               multiSelectVisibility="{{_multiselect}}"
               columns="{{_columns}}">
-          </Controls.treeGridOld:View>
+          </Controls.treeGrid:View>
         </Controls.list:Container>
       </div>
     </Controls.browser:Browser>

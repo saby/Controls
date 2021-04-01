@@ -1,11 +1,11 @@
-<ws:partial template="Controls/gridOld:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" scope="{{_options}}">
+<ws:partial template="Controls/grid:ColumnTemplate" attr:class="controls-Grid__row-cell__content_baseline_XL" scope="{{_options}}">
     <ws:contentTemplate>
-        <ws:if data="{{itemData.columnIndex === 0 && itemData.item['image']}}">
-            <img attr:class="demoExplorerWithPhoto__imageBlock" src="{{itemData.item['image']}}"/>
+        <ws:if data="{{column.getColumnIndex() === 0 && item.contents['image']}}">
+            <img attr:class="demoExplorerWithPhoto__imageBlock" src="{{item.contents['image']}}"/>
         </ws:if>
-        <ws:else data="{{itemData.item['type'] === null}}">
+        <ws:else data="{{item.contents['type'] === null}}">
             <div class="demoExplorerWithPhoto__imageBlock"></div>
         </ws:else>
-        <span>{{itemData.item['title']}}</span>
+        <span>{{item.contents['title']}}</span>
     </ws:contentTemplate>
 </ws:partial>
