@@ -1,5 +1,5 @@
 <Controls.suggestPopup:ListContainer attr:class="{{_options.classListWrapper}}" attr:style="min-width: 600px;">
-    <Controls.explorer:View useOldModel="{{ true }}" displayProperty="title"
+    <Controls.explorer:View displayProperty="title"
                             parentProperty="parent"
                             nodeProperty="parent@"
                             keyProperty="id"
