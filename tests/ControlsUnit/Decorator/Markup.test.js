@@ -1142,6 +1142,41 @@ define([
             var checkResultNode = linkDecorateUtils.wrapLinksInString(parentNode[1], parentNode);
             assert.deepEqual(goodResultNode, checkResultNode);
          });
+
+         it('email ending with quote mark', function() {
+            var parentNode = ['p', '"Email": "test@mail.ru"'];
+            var goodResultNode = [[],
+               '"Email": "',
+               ['a',
+                  {
+                     href: 'mailto:test@mail.ru',
+                  },
+                  'test@mail.ru'
+               ],
+               '"'
+            ];
+            var checkResultNode = linkDecorateUtils.wrapLinksInString(parentNode[1]);
+            assert.deepEqual(goodResultNode, checkResultNode);
+         });
+
+         it('link ending with quote mark', function() {
+            var parentNode = ['p', '"Link": "www.google.com"'];
+            var goodResultNode = [[],
+               '"Link": "',
+               ['a',
+                  {
+                     class: 'asLink',
+                     rel: 'noreferrer noopener',
+                     href: 'http://www.google.com',
+                     target: '_blank'
+                  },
+                  'www.google.com'
+               ],
+               '"'
+            ];
+            var checkResultNode = linkDecorateUtils.wrapLinksInString(parentNode[1]);
+            assert.deepEqual(goodResultNode, checkResultNode);
+         });
       });
 
       describe('getLinks', function() {
