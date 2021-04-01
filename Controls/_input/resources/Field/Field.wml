@@ -16,7 +16,6 @@
                attr:class="controls-Field"
                on:blur="_blurHandler()"
                on:input="_inputHandler()"
-               on:keyup="_keyUpHandler()"
                on:focus="_focusHandler()"
                on:click="_clickHandler()"
                on:select="_selectHandler()"

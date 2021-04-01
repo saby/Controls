@@ -398,6 +398,13 @@ class Field<Value, ModelOptions>
         const T_KEY_CODE = 84;
         const PAUSE_KEY_CODE = 19;
 
+        /**
+         * При начале выделения и выходе за пределы field, не срабатывает событие click,
+         * из-за чего получаем неправильный selection у модели при вводе.
+         * Поэтому заново вычисляем selection для модели.
+         * https://online.sbis.ru/opendoc.html?guid=2d76628b-eacc-48ac-837a-99b26009c4e1
+         */
+        this._selectionFromFieldToModel();
         this._changeEventController.keyDownHandler(event, this._getConfigForController('changeEventController'));
 
         if (
@@ -409,18 +416,6 @@ class Field<Value, ModelOptions>
                 this._updateModel({value});
                 this._notifyEvent('valueChanged');
             });
-        }
-    }
-
-    protected _keyUpHandler(event: SyntheticEvent<KeyboardEvent>): void {
-        const processedKeys: string[] = [
-            'End', 'Home', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
-            // Поддержка значений key в IE
-            'Left', 'Right', 'Up', 'Down'
-        ];
-
-        if (processedKeys.includes(event.nativeEvent.key)) {
-            this._selectionFromFieldToModel();
         }
     }
 
