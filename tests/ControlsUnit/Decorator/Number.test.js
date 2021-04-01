@@ -22,17 +22,26 @@ define(
             assert.equal(result, '10.01');
          });
 
-         it('Add fractional path', function() {
-            result = decorator.Number._formatNumber(10, {roundMode: 'round', fractionSize: 2});
-            assert.equal(result, '10.00');
-
-            result = decorator.Number._formatNumber(10, {roundMode: 'round', precision: 2});
-            assert.equal(result, '10.00');
-
-            result = decorator.Number._formatNumber(10.0001, {roundMode: 'round', fractionSize: 0});
+         it('should trim trailing zeros', function() {
+            result = decorator.Number._formatNumber('10.00', {roundMode: 'round', precision: 2});
             assert.equal(result, '10');
 
-            result = decorator.Number._formatNumber(10.0001, {roundMode: 'round', precision: 0});
+            result = decorator.Number._formatNumber('10.1000', {roundMode: 'round', precision: 2});
+            assert.equal(result, '10.1');
+
+         });
+
+         it('Add fractional path', function() {
+            result = decorator.Number._formatNumber(10, {roundMode: 'round', fractionSize: 2, showEmptyDecimals: true});
+            assert.equal(result, '10.00');
+
+            result = decorator.Number._formatNumber(10, {roundMode: 'round', precision: 2, showEmptyDecimals: true});
+            assert.equal(result, '10.00');
+
+            result = decorator.Number._formatNumber(10.0001, {roundMode: 'round', fractionSize: 0, showEmptyDecimals: true});
+            assert.equal(result, '10');
+
+            result = decorator.Number._formatNumber(10.0001, {roundMode: 'round', precision: 0, showEmptyDecimals: true});
             assert.equal(result, '10');
          });
 
