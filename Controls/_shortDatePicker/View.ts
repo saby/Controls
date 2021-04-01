@@ -33,6 +33,7 @@ const MAX_VISIBLE_YEARS = 14;
  * @class Controls/shortDatePicker
  * @extends UI/Base:Control
  * @mixes Controls/shortDatePicker/IDateLitePopup
+ * @mixes Controls/_interface/IDateConstructor
  * @mixes Controls/_interface/IDisplayedRanges
  * @mixes Controls/_dateRange/interfaces/ICaptionFormatter
  *
