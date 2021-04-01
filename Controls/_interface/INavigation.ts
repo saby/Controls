@@ -259,6 +259,8 @@ export interface INavigationOptionValue<U> {
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
      * @cfg {INavigationSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @remark 
+     * Примеры работы с источником данных представлены в {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ статье}.
      */
     sourceConfig?: U;
     /**
