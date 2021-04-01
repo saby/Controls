@@ -149,7 +149,7 @@
                 on:updatePlaceholdersSize="_stopBubblingEvent()"
                 on:saveScrollPosition="_stopBubblingEvent()"
                 on:restoreScrollPosition="_stopBubblingEvent()"
-                on:loadMore="_loadMore()"
+                on:loadMore="_onClickMoreButton()"
         >
             <ws:itemActionsTemplate>
                 <ws:partial
