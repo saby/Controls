@@ -293,7 +293,7 @@ const _private = {
         return entriesRecord;
     },
 
-    loadMore(self: TreeControl, dispItem) {
+    loadNodeChildren(self: TreeControl, nodeKey: CrudEntityKey): Promise<object> {
         const sourceController = self.getSourceController();
         const nodeKey = dispItem.getContents().getId();
 
@@ -568,21 +568,52 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         }
     }
 
-    loadMore(direction: IDirection): void {
-        const hasMoreRootData = this._sourceController.hasMoreData(direction, this._root);
+    /**
+     * Ищет последний элемент в дереве
+     * @private
+     * @TODO Необходимо убрать условие с проверкой rootItems.at когда окончательно избавимся от старых моделей.
+     */
+    private _getLastRootItem(): TreeItem {
         const rootItems = this._listViewModel.getChildren(this._listViewModel.getRoot());
-        const lastRootItem: TreeItem = rootItems.at(rootItems.getCount() - 1);
+        return rootItems.at ? rootItems.at(rootItems.getCount() - 1) : rootItems[rootItems.length - 1];
+    }
+
+    /**
+     * Проверяет, нужно ли подгружать данные при скролле для последнего раскрытого узла.
+     * Проверяем, что в руте больше нет данных, что шаблон футера узла не задан,
+     * последняя запись в списке - узел, и он раскрыт
+     * @param direction
+     * @param lastRootItem
+     * @private
+     */
+    private _shouldLoadLastExpandedNodeData(direction: Direction, lastRootItem: TreeItem): boolean {
+        if (direction !== 'down') {
+            return false;
+        }
+        const hasMoreRootData = this._sourceController.hasMoreData('down', this._root);
         const hasNodeFooterTemplate: boolean = !!this._options.nodeFooterTemplate;
-        if (!hasMoreRootData &&
-            !hasNodeFooterTemplate &&
-            lastRootItem.isNode() &&
-            lastRootItem.isExpanded()) {
-            const hasMoreData = this._sourceController.hasMoreData(direction, lastRootItem.getContents().getKey());
+        return !hasMoreRootData && !hasNodeFooterTemplate && lastRootItem.isNode() && lastRootItem.isExpanded();
+    }
+
+    /**
+     * Метод, вызываемый после срабатывания триггера подгрузки данных
+     * TODO Необходимо провести рефакторинг механизма подгрузки данных по задаче
+     *  https://online.sbis.ru/opendoc.html?guid=8a5f7598-c7c2-4f3e-905f-9b2430c0b996
+     * @param direction
+     * @private
+     */
+    protected _loadMore(direction: Direction): void {
+        const lastRootItem = this._getLastRootItem();
+        if (this._shouldLoadLastExpandedNodeData(direction, lastRootItem)) {
+            const nodeKey = lastRootItem.getContents().getKey();
+            const hasMoreData = this._sourceController.hasMoreData(direction, nodeKey);
             if (hasMoreData) {
-                _private.loadMore(this, lastRootItem);
+                // Вызов метода, который подгружает дочерние записи узла
+                _private.loadNodeChildren(this, nodeKey);
             }
         } else {
-            super.loadMore(direction);
+            // Вызов метода подгрузки данных по умолчанию (по сути - loadToDirectionIfNeed).
+            super._loadMore(direction);
         }
     }
 
@@ -745,11 +776,12 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
         return _private.toggleExpanded(this, item, model);
     }
 
-    protected _loadMore(e, dispItem?): void {
+    protected _onClickMoreButton(e, dispItem?): void {
         if (dispItem) {
-            _private.loadMore(this, dispItem);
+            const nodeKey = dispItem.getContents().getKey();
+            _private.loadNodeChildren(this, nodeKey);
         } else {
-            super._loadMore(e);
+            super._onClickMoreButton(e);
         }
     }
 
