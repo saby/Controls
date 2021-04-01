@@ -736,7 +736,7 @@ export default class Explorer extends Control<IExplorerOptions> {
             this._updateRootOnViewModeChanged(viewMode, cfg);
         }
 
-        if (cfg.useOldModel && !this._oldModelLoaded) {
+        if (cfg.useOldModel && !this._oldModelLoaded && viewMode !== 'tile') {
             this._setViewModePromise = this._loadOldViewMode(cfg).then(() => {
                 this._setViewModeSync(viewMode, cfg);
             });
