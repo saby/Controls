@@ -295,7 +295,6 @@ const _private = {
 
     loadNodeChildren(self: TreeControl, nodeKey: CrudEntityKey): Promise<object> {
         const sourceController = self.getSourceController();
-        const nodeKey = dispItem.getContents().getId();
 
         self.showIndicator();
         return sourceController.load('down', nodeKey).then((list) => {
