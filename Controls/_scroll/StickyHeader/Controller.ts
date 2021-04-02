@@ -226,7 +226,7 @@ class StickyHeaderController {
     }
 
     registerHandler(event, data: TRegisterEventData, register: boolean, syncUpdate: boolean = false, syncDomOptimization: boolean = true): Promise<void> {
-        if (!syncDomOptimization) {
+        if (!syncDomOptimization && register) {
             data.inst.setSyncDomOptimization(syncDomOptimization);
         }
         const promise = this._register(data, register, syncUpdate);
