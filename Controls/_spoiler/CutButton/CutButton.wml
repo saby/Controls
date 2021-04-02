@@ -3,6 +3,7 @@
             controls-CutButton__container_position-{{ _options.buttonPosition }}">
     <div class="controls-CutButton controls-CutButton_background-{{ _options.backgroundStyle }} controls-CutButton_size-{{ _options.iconSize }}">
         <Controls.toggle:BigSeparator
+                attr:class="controls-CutButton__separator"
                 iconSize="{{ _options.iconSize }}"
                 value="{{ _options.expanded }}"
                 readOnly="{{ _options.readOnly }}"
