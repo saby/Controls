@@ -48,7 +48,7 @@
             </Controls.search:InputContainer>
             <Controls.list:Container>
                 <Controls.scroll:Container attr:style="width: 650px; height: 500px">
-                    <Controls.explorer:View
+                    <Controls.explorer:View useOldModel="{{ true }}"
                             name="explorer"
                             attr:class="demo-Explorer ControlsDemo-Explorer"
                             header="{{ _header }}"

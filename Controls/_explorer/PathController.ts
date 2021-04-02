@@ -1,13 +1,13 @@
 import {EventUtils} from 'UI/Events';
 import {SyntheticEvent} from 'UI/Vdom';
 import {Path} from 'Controls/dataSource';
-import {IGridControl, IHeaderCell} from 'Controls/gridOld';
 import HeadingPathBack from 'Controls/_explorer/HeadingPathBack';
 import * as GridIsEqualUtil from 'Controls/Utils/GridIsEqualUtil';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 // tslint:disable-next-line:ban-ts-ignore
 // @ts-ignore
 import * as template from 'wml!Controls/_explorer/PathController/PathController';
+import { IGridControl, IHeaderCell } from 'Controls/interface';
 
 interface IOptions extends IControlOptions, IGridControl {
     items: Path;

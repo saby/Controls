@@ -31,6 +31,11 @@ var _private = {
     },
 
     setHoveredItem: function(self, itemData, nativeEvent) {
+        // setHoveredItem вызывается с задержкой, поэтому список уже может задестроиться
+        if (self._destroyed) {
+            return;
+        }
+
         const item = itemData?.item;
         if (item !== self._hoveredItem) {
             self._hoveredItem = item;

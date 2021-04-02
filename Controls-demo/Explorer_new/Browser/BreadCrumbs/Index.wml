@@ -11,7 +11,7 @@
                <Controls.breadcrumbs:HeadingPath />
             </Controls.breadcrumbs:Container>
             <Controls.list:Container>
-               <Controls.explorer:View
+               <Controls.explorer:View useOldModel="{{ true }}"
                        attr:class="demo-Explorer ControlsDemo-Explorer"
                        breadcrumbsVisibility="hidden"
                        displayProperty="title"

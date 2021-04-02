@@ -14,6 +14,13 @@ export default class TreeTileCollectionItem<T extends Model = Model>
 
     protected _$folderWidth: number;
 
+    getContentTemplate(itemType: string = 'default', contentTemplate?: TemplateFunction, nodeContentTemplate?: TemplateFunction): TemplateFunction {
+        if (this.isNode() && nodeContentTemplate) {
+            return nodeContentTemplate;
+        }
+        return super.getContentTemplate(itemType, contentTemplate, nodeContentTemplate);
+    }
+
     getNodesHeight(): number {
         return this._$nodesHeight;
     }

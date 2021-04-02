@@ -14,7 +14,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
  * @class Controls/_gridOld/interface/ColumnTemplate
  * @author Авраменко А.С.
  *
- * @see Controls/_gridOld/interface/IGridControl/Column.typedef
+ * @see Controls/_interface/grid/IGridControl/Column.typedef
  * @see Controls/grid:IGridControl#columns
  *
  * @remark
