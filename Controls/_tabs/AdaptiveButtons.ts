@@ -79,6 +79,9 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
             this._items = receivedState.items;
             this._moreButtonWidth = this._getTextWidth(MORE_BUTTON_TEXT, 'm');
             this._calcVisibleItems(this._items, options);
+            if (this._lastIndex < 0) {
+                return;
+            }
             this._menuSource = this._createMemoryForMenu(options.keyProperty);
             this._updateFilter(options);
         } else {
@@ -160,6 +163,9 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
             item.set('align', options.align);
         });
         this._calcVisibleItems(this._items, options);
+        if (this._lastIndex < 0) {
+            return;
+        }
         this._menuSource = this._createMemoryForMenu(options.keyProperty);
         this._updateFilter(options);
     }
@@ -188,6 +194,9 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
 
     private _calcVisibleItems(items: RecordSet<object>, options: ITabsAdaptiveButtonsOptions): void {
         this._lastIndex = this._getLastTabIndex(items, options);
+        if (this._lastIndex < 0) {
+            return;
+        }
         const clonedItems = items.clone();
         const oldRawData = clonedItems.getRawData();
         if (options.align === 'right') {
@@ -266,7 +275,7 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
         }
         indexLast++;
         if (indexLast < 0) {
-            indexLast = 0;
+            return indexLast;
         }
         const currentTextOfTab = this._getTextOfTabByIndex(options, items, indexLast);
         let currentMinWidth = this._getMinWidth(currentTextOfTab);
