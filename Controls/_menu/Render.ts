@@ -155,7 +155,7 @@ class MenuRender extends Control<IMenuRenderOptions> {
         return !isGroupNext &&
             nextItem?.getContents() &&
             this._isHistoryItem(item) &&
-            !this._hasParent(treeItem.getContents()) &&
+            !this._hasParent(treeItem.getContents(), this._options.historyRoot) &&
             !this._isHistoryItem(nextItem.getContents());
     }
 
