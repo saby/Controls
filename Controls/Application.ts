@@ -19,6 +19,7 @@ import {ManagerClass as PopupManager, GlobalController as PopupGlobalController,
 import {TouchContextField} from 'Controls/context';
 import {RegisterClass} from 'Controls/event';
 import {ControllerClass as DnDController} from 'Controls/dragnDrop';
+import { getConfig } from 'Application/Env';
 
 // Нужно чтобы oldCss прилетал первым на страницу. Есть контролы (например itemsActions), стили которыйх
 // Завязаны на порядок css.
@@ -125,7 +126,7 @@ export default class Application extends Control<IApplication> {
       this._checkDeprecatedOptions(options);
 
       const appData = AppData.getAppData();
-      this.RUMEnabled = options.RUMEnabled || appData.RUMEnabled || false;
+      this.RUMEnabled = getConfig('RUMEnabled') || false;
       this.pageName = options.pageName || appData.pageName || '';
       this.resourceRoot = options.resourceRoot || constants.resourceRoot;
 
