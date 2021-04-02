@@ -5,8 +5,8 @@
             itemActions="{{_itemActions}}">
         <ws:contextMenuConfig>
             <ws:itemTemplate>
-                <ws:if data="{{itemTemplate.itemData.item.menuItemTemplate}}">
-                    <ws:partial template="{{itemTemplate.itemData.item.menuItemTemplate}}"/>
+                <ws:if data="{{itemTemplate.item.contents.menuItemTemplate}}">
+                    <ws:partial template="{{itemTemplate.item.contents.menuItemTemplate}}"/>
                 </ws:if>
                 <ws:else>
                     <ws:partial template="Controls/menu:ItemTemplate"/>

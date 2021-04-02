@@ -11,7 +11,7 @@
  *       <ws:partial template="Controls/grid:RowEditor" scope="{{itemTemplate}}">
  *          <div>
  *             Этот шаблон отображается в режиме редактирования.
- *             <Controls.dropdown:Combobox bind:selectedKey="content.itemData.item.documentSign"  />
+ *             <Controls.dropdown:Combobox bind:selectedKey="content.item.contents.documentSign"  />
  *          </div>
  *       </ws:partial>
  *    </ws:itemTemplate>

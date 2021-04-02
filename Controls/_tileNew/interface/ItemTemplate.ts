@@ -12,9 +12,9 @@
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/tile:ItemTemplate">
  *          <ws:contentTemplate>
- *             <img src="{{contentTemplate.itemData.item.Image}}"/>
- *             <div title="{{contentTemplate.itemData.item.Name}}">
- *                {{contentTemplate.itemData.item.Name}}
+ *             <img src="{{contentTemplate.item.contents.Image}}"/>
+ *             <div title="{{contentTemplate.item.contents.Name}}">
+ *                {{contentTemplate.item.contents.Name}}
  *             </div>
  *          </ws:contentTemplate>
  *       </ws:partial>
@@ -24,7 +24,7 @@
  * @remark
  * Дополнительно о работе с шаблоном читайте {@link /doc/platform/developmentapl/interface-development/controls/list/tile/item/ здесь}.
  * @public
- * @demo Controls-demo/Tile/DifferentItemTemplates/CustomTemplate/Index
+ * @demo Controls-demo/tileNew/DifferentItemTemplates/CustomTemplate/Index
  */
 
 export default interface IItemTemplateOptions {

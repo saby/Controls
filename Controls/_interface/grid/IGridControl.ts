@@ -66,7 +66,7 @@ export interface IGridControl extends IList {
  *                         <ws:contentTemplate>
  *                            <ws:partial template="{{template.ladderWrapper}}" ladderProperty="date">
  *                               <div class="demoGrid__date">
- *                                  {{template.itemData.item['date']}}
+ *                                  {{template.item.contents['date']}}
  *                               </div>
  *                            </ws:partial>
  *                         </ws:contentTemplate>
@@ -95,7 +95,7 @@ export interface IGridControl extends IList {
  * @example
  * Add header text spacing for columns with money fields:
  * <pre>
- *    <ws:partial template="Controls/grid:HeaderContent" attr:class="controls-Grid__cell_spacing_money" colData="{{colData}}" />
+ *    <ws:partial template="Controls/grid:HeaderContent" attr:class="controls-Grid__cell_spacing_money" scope="{{_options}}" />
  * </pre>
  */
 

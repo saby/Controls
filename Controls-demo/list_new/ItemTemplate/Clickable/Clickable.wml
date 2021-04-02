@@ -3,8 +3,8 @@
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate"
                         displayProperty="value"
-                        cursor="{{itemTemplate.itemData.item.get('cursor')}}"
-                        highlightOnHover="{{itemTemplate.itemData.item.get('hovered')}}" />
+                        cursor="{{itemTemplate.item.contents.get('cursor')}}"
+                        highlightOnHover="{{itemTemplate.item.contents.get('hovered')}}" />
         </ws:itemTemplate>
     </Controls.list:View>
 </div>

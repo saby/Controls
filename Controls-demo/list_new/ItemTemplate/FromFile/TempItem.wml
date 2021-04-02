@@ -1,7 +1,7 @@
-<ws:partial template="Controls/list:ItemTemplate" itemData="{{itemData}}">
+<ws:partial template="Controls/list:ItemTemplate" scope="{{ _options }}">
     <ws:contentTemplate>
         <div>
-            <div>{{itemData.item.description}}</div>
+            <div>{{item.contents.description}}</div>
             <div style="font-size: 11px; color: grey">From file "ItemTemplate.wml"</div>
         </div>
     </ws:contentTemplate>
