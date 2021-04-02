@@ -83,7 +83,7 @@ export default abstract class Row<T> {
 
     protected _getItemHighlightClasses(style: string, theme: string, highlightOnHover?: boolean): string {
         if (highlightOnHover !== false && !this.isEditing()) {
-            return `controls-Grid__row_highlightOnHover_${style}_theme-${theme}`;
+            return `controls-Grid__row_highlightOnHover_${style} controls-Grid__row_highlightOnHover_${style}_theme-${theme}`;
         }
         return '';
     }

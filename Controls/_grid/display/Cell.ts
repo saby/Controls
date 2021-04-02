@@ -212,6 +212,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
             wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme} `;
         } else if (!isSingleCellEditableMode && templateHighlightOnHover !== false) {
+            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle} `;
             wrapperClasses += `controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme} `;
 
             if (backgroundColorStyle !== 'default') {
