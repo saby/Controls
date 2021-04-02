@@ -622,7 +622,7 @@ export default class Browser extends Control<IBrowserOptions, TReceivedState> {
                 ...additionalLoaderOptions,
                 items: receivedState?.[index]?.data,
                 historyItems: receivedState?.[index]?.historyItems || listOptions.historyItems,
-                source: receivedState ? listOptions.source : this._getOriginalSource(listOptions as IBrowserOptions)
+                source: receivedState ? this._getOriginalSource(listOptions as IBrowserOptions) : listOptions.source
             };
         });
 
