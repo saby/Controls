@@ -1,9 +1,8 @@
 import BaseViewModel from '../BaseViewModel';
 import {decimalSplitter, decimalSplitters} from 'Controls/_input/Number/constant';
 import {format} from 'Controls/_input/Number/format';
-import {parse, IParsedNumber} from 'Controls/_input/Number/parse';
 import {InputType, ISplitValue} from '../resources/Types';
-import {IText, paste, replaceWithRepositioning, concatTriads, toString} from 'Controls/decorator';
+import {IText, paste, replaceWithRepositioning, concatTriads, toString, Formatter, Parser} from 'Controls/decorator';
 
 interface IViewModelOptions {
     useGrouping: boolean;
@@ -31,7 +30,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
             return displayValue;
         }
 
-        const parsedNumber: IParsedNumber = parse(displayValue, this._options);
+        const parsedNumber: Parser.IParsedNumber = Parser.parse(displayValue, this._options);
         return format(parsedNumber, this._options, displayValue.length).value;
     }
 
@@ -75,7 +74,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
         const text: IText = ViewModel._recoverText(splitValue);
 
         if (inputType === 'insert') {
-            const parsedNumber: IParsedNumber = parse(splitValue.insert, this._options);
+            const parsedNumber: Parser.IParsedNumber = Parser.parse(splitValue.insert, this._options);
 
             if (parsedNumber.negative && text.value[0] !== '-') {
                 text.carriagePosition++;
@@ -110,7 +109,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
             return text;
         }
 
-        const parsedNumber: IParsedNumber = parse(text.value, this._options);
+        const parsedNumber: Parser.IParsedNumber = Parser.parse(text.value, this._options);
 
         return format(parsedNumber, this._options, text.carriagePosition);
     }
@@ -120,10 +119,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
             return false;
         }
 
-        var regExp = leaveOneZero
-            ? ViewModel._valueWithOneTrailingZerosRegExp
-            : ViewModel._valueWithoutTrailingZerosRegExp;
-        var trimmedValue = this._displayValue.match(regExp)[0];
+        const trimmedValue:string = Formatter.trimTrailingZeros(this._displayValue, leaveOneZero);
 
         if (this._displayValue !== trimmedValue) {
             this._displayValue = trimmedValue;
@@ -134,9 +130,6 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
 
         return false;
     }
-
-    private static _valueWithoutTrailingZerosRegExp: RegExp = /-?[0-9 ]*(([1-9]|([0.])(?!0*$))*)?/;
-    private static _valueWithOneTrailingZerosRegExp: RegExp = /-?[0-9 ]*(\.[0-9]([1-9]|0(?!0*$))*)?/;
 
     private static _isEnteredSplitter(splitValue: ISplitValue): boolean {
         return decimalSplitters.includes(splitValue.insert) && splitValue.delete === '';
@@ -171,7 +164,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
         return {value, carriagePosition};
     }
 
-    private static _pasteInIntegerPart(text: IText, parsedNumber: IParsedNumber, splitterPosition: number): void {
+    private static _pasteInIntegerPart(text: IText, parsedNumber: Parser.IParsedNumber, splitterPosition: number): void {
         text.value = paste(text.value, parsedNumber.integer, text.carriagePosition);
 
         if (parsedNumber.fractional) {
@@ -189,7 +182,7 @@ class ViewModel extends BaseViewModel<string | number, IViewModelOptions> {
         }
     }
 
-    private static _pasteInFractionalPart(original: IText, parsedNumber: IParsedNumber): void {
+    private static _pasteInFractionalPart(original: IText, parsedNumber: Parser.IParsedNumber): void {
         const pastedValue: string = parsedNumber.integer + parsedNumber.fractional;
         replaceWithRepositioning(original, pastedValue, original.carriagePosition);
     }
