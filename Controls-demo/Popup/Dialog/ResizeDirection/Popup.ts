@@ -3,12 +3,12 @@ import controlTemplate = require('wml!Controls-demo/Popup/Dialog/ResizeDirection
 
 class Popup extends Control<IControlOptions> {
     protected _template: TemplateFunction = controlTemplate;
-    protected _height: number = 300;
-    protected _width: number = 600;
-    protected _applyHeight: number = 300;
-    protected _applyWidth: number = 600;
-    protected _minHeight: number = 300;
-    protected _minWidth: number = 600;
+    protected _height: number = 400;
+    protected _width: number = 650;
+    protected _applyHeight: number = 400;
+    protected _applyWidth: number = 650;
+    protected _minHeight: number = 400;
+    protected _minWidth: number = 650;
     static _theme: string[] = ['Controls/Classes'];
     static _styles: string[] = ['Controls-demo/Popup/Dialog/ResizeDirection/Popup', 'Controls-demo/Controls-demo'];
     protected _sizeChangedHandler(): void {
