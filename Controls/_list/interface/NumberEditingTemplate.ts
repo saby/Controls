@@ -16,9 +16,9 @@ import IEditingTemplateOptions from './EditingTemplate'
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
- *              <ws:partial template="Controls/list:NumberEditingTemplate" value="{{ itemData.item.count }}" enabled="{{true}}">
+ *              <ws:partial template="Controls/list:NumberEditingTemplate" value="{{ item.contents.count }}" enabled="{{true}}">
  *                  <ws:editorTemplate>
- *                      <Controls.input:Number bind:value="contentTemplate.itemData.item.count" selectOnClick="{{ false }}" />
+ *                      <Controls.input:Number bind:value="contentTemplate.item.contents.count" selectOnClick="{{ false }}" />
  *                  </ws:editorTemplate>
  *              </ws:partial>
  *          </ws:contentTemplate>

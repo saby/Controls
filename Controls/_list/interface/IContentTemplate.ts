@@ -11,7 +11,7 @@
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
- *             {{contentTemplate.itemData.item.title}}
+ *             {{contentTemplate.item.contents.title}}
  *          </ws:contentTemplate>
  *       </ws:partial>
  *    </ws:itemTemplate>
@@ -46,7 +46,7 @@ export default interface IContentTemplateOptions {
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
     *          <ws:contentTemplate>
-    *             {{contentTemplate.itemData.item.title}}
+    *             {{contentTemplate.item.contents.title}}
     *          </ws:contentTemplate>
     *       </ws:partial>
     *    </ws:itemTemplate>
@@ -67,7 +67,7 @@ export default interface IContentTemplateOptions {
     * <!-- file2.wml -->
     * <ws:partial template="Controls/list:ItemTemplate">
     *    <ws:contentTemplate>
-    *       {{contentTemplate.itemData.item.title}}
+    *       {{contentTemplate.item.contents.title}}
     *    </ws:contentTemplate>
     * </ws:partial>
     * </pre>
@@ -89,7 +89,7 @@ export default interface IContentTemplateOptions {
     * 
     * <pre class="brush: html">
     * <!-- file2.wml -->
-    * {{contentTemplate.itemData.item.title}}
+    * {{contentTemplate.item.contents.title}}
     * </pre>
     * 
     * **Пример 4.** Контрол и шаблон настроены в одном WML-файле. В пользовательском шаблоне задано отображение опций записи.
@@ -99,7 +99,7 @@ export default interface IContentTemplateOptions {
     *    <ws:itemTemplate>
     *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
     *          <ws:contentTemplate>
-    *             {{contentTemplate.itemData.item.title}}
+    *             {{contentTemplate.item.contents.title}}
     *             <ws:partial template="{{contentTemplate.itemActionsTemplate}}" />
     *          </ws:contentTemplate>
     *       </ws:partial>

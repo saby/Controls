@@ -11,14 +11,14 @@
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
- *             <ws:partial template="Controls/list:EditingTemplate" value="{{ contentTemplate.itemData.item.title }}" enabled="{{ true }}">
+ *             <ws:partial template="Controls/list:EditingTemplate" value="{{ contentTemplate.item.contents.title }}" enabled="{{ true }}">
  *                <ws:editorTemplate>
  *                   <Controls.validate:InputContainer>
  *                      <ws:validators>
- *                         <ws:Function value="{{ contentTemplate.itemData.item.title }}">Controls/validate:isRequired</ws:Function>
+ *                         <ws:Function value="{{ contentTemplate.item.contents.title }}">Controls/validate:isRequired</ws:Function>
  *                      </ws:validators>
  *                      <ws:content>
- *                         <Controls.input:Text bind:value="contentTemplate.itemData.item.title" selectOnClick="{{ false }}" />
+ *                         <Controls.input:Text bind:value="contentTemplate.item.contents.title" selectOnClick="{{ false }}" />
  *                      </ws:content>
  *                   </Controls.validate:InputContainer>
  *                </ws:editorTemplate>

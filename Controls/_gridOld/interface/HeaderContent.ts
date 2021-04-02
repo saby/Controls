@@ -16,7 +16,7 @@
  *             <ws:template>
  *                <ws:partial template="Controls/grid:HeaderContent">
  *                   <ws:contentTemplate>
- *                      {{contentTemplate.colData.column.title}}
+ *                      {{contentTemplate.column.config.title}}
  *                   </ws:contentTemplate>
  *                </ws:partial>
  *             </ws:template>
@@ -31,7 +31,7 @@ export default interface IHeaderContentOptions {
    /**
     * @cfg {String|TemplateFunction} Пользовательский шаблон для отображения содержимого ячейки шапки.
     * @remark
-    * В области видимости шаблона доступен объект **colData**. Через него можно получить доступ к свойству **column**, которое содержит конфигурацию {@link /docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.
+    * В области видимости шаблона доступен объект **column**. Через него можно получить доступ к свойству **config**, которое содержит конфигурацию {@link /docs/js/Controls/grid/IHeaderCell/ ячейки шапки}.
     * @example
     * **Пример 1.** Шаблон и контрол сконфигурированы в одном WML-файле.
     * <pre class="brush: html">
@@ -42,7 +42,7 @@ export default interface IHeaderContentOptions {
     *             <ws:template>
     *                <ws:partial template="Controls/grid:HeaderContent">
     *                   <ws:contentTemplate>
-    *                      {{contentTemplate.colData.column.title}}
+    *                      {{contentTemplate.column.config.title}}
     *                   </ws:contentTemplate>
     *                </ws:partial>
     *             </ws:template>
@@ -72,7 +72,7 @@ export default interface IHeaderContentOptions {
     * <!-- file2.wml -->
     * <ws:partial template="Controls/grid:HeaderContent">
     *    <ws:contentTemplate>
-    *       {{contentTemplate.colData.column.title}}
+    *       {{contentTemplate.column.config.title}}
     *    </ws:contentTemplate>
     * </ws:partial>
     * </pre>
@@ -100,7 +100,7 @@ export default interface IHeaderContentOptions {
     * 
     * <pre class="brush: html">
     * <!-- file2.wml -->
-    * {{contentTemplate.colData.column.title}}
+    * {{contentTemplate.column.config.title}}
     * </pre>
     */
    contentTemplate?: string;

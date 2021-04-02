@@ -224,7 +224,7 @@ export interface IColumn extends IColspanParams {
      * <!-- CountryRatingNumber.wml -->
      * <ws:partial template="Controls/grid:ColumnTemplate" itemData="{{itemData}}">
      *     <ws:contentTemplate>
-     *         <span style="color: #f60">№ {{itemData.item['number']}}</span>
+     *         <span style="color: #f60">№ {{item.contents['number']}}</span>
      *     </ws:contentTemplate>
      * </ws:partial>
      * </pre>
@@ -265,7 +265,7 @@ export interface IColumn extends IColspanParams {
      * <!-- ExampleColumn.wml -->
      * <Controls.grid:ColumnTemplate itemData="{{itemData}}">
      *     <ws:contentTemplate>
-     *         <div class="controls-text-{{style}}_theme-{{_options.theme}}">{{itemData.item[displayProperty]}}</div>
+     *         <div class="controls-text-{{style}}_theme-{{_options.theme}}">{{item.contents[displayProperty]}}</div>
      *     </ws:contentTemplate>
      * </Controls.grid:ColumnTemplate>
      * </pre>

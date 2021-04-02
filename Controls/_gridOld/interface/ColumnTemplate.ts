@@ -30,8 +30,8 @@ export type TCursor = 'default' | 'pointer' | 'right';
  *             <ws:template>
  *                <ws:partial template="Controls/grid:ColumnTemplate">
  *                   <ws:contentTemplate>
- *                      <div title="{{contentTemplate.itemData.item.name}}">
- *                         {{contentTemplate.itemData.item.name}}
+ *                      <div title="{{contentTemplate.item.contents.name}}">
+ *                         {{contentTemplate.item.contents.name}}
  *                      </div>
  *                   </ws:contentTemplate>
  *                </ws:partial>
@@ -72,8 +72,8 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *             <ws:template>
     *                <ws:partial template="Controls/grid:ColumnTemplate">
     *                   <ws:contentTemplate>
-    *                      <div title="{{contentTemplate.itemData.item.Name}}">
-    *                         {{contentTemplate.itemData.item.Name}}
+    *                      <div title="{{contentTemplate.item.contents.Name}}">
+    *                         {{contentTemplate.item.contents.Name}}
     *                      </div>
     *                   </ws:contentTemplate>
     *                </ws:partial>
@@ -104,7 +104,7 @@ export type TCursor = 'default' | 'pointer' | 'right';
     * <!-- file2.wml -->
     * <ws:partial template="Controls/grid:ColumnTemplate">
     *    <ws:contentTemplate>
-    *       <div>{{contentTemplate.itemData.item.Name}}</div>
+    *       <div>{{contentTemplate.item.contents.Name}}</div>
     *    </ws:contentTemplate>
     * </ws:partial>
     * </pre>
@@ -131,8 +131,8 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *
     * <pre class="brush: html">
     * <!-- file2.wml -->
-    * <div title="{{contentTemplate.itemData.item.Name}}">
-    *    {{contentTemplate.itemData.item.Name}}
+    * <div title="{{contentTemplate.item.contents.Name}}">
+    *    {{contentTemplate.item.contents.Name}}
     * </div>
     * </pre>
     *
@@ -145,8 +145,8 @@ export type TCursor = 'default' | 'pointer' | 'right';
     *             <ws:template>
     *                <ws:partial template="Controls/grid:ColumnTemplate">
     *                   <ws:contentTemplate>
-    *                      <div title="{{contentTemplate.itemData.item.name}}">
-    *                         {{contentTemplate.itemData.item.name}}
+    *                      <div title="{{contentTemplate.item.contents.name}}">
+    *                         {{contentTemplate.item.contents.name}}
     *                      </div>
     *                      <ws:partial template="{{contentTemplate.editArrowTemplate}}"/>
     *                   </ws:contentTemplate>

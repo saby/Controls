@@ -33,7 +33,7 @@ export default interface ISource {
  *    <ws:itemTemplate>
  *       <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *          <ws:contentTemplate>
- *             <span>{{contentTemplate.itemData.item.title}}</span>
+ *             <span>{{contentTemplate.item.contents.title}}</span>
  *          </ws:contentTemplate>
  *       </ws:partial>
  *    </ws:itemTemplate>
@@ -91,7 +91,7 @@ export default interface ISource {
  *        <ws:itemTemplate>
  *            <ws:partial template="Controls/list:ItemTemplate" scope="{{itemTemplate}}">
  *                <ws:contentTemplate>
- *                    <span>{{contentTemplate.itemData.item.title}}</span>
+ *                    <span>{{contentTemplate.item.contents.title}}</span>
  *                </ws:contentTemplate>
  *            </ws:partial>
  *        </ws:itemTemplate>
