@@ -339,7 +339,6 @@ export default class Area extends BaseText<IAreaOptions> {
         defaultOptions.newLineKey = 'enter';
         // В темной теме розницы у полей ввода нестандартный фон
         defaultOptions.shadowMode = 'js';
-        defaultOptions.maxLines = 10;
         defaultOptions.restrictiveMode = 'scroll';
 
         return defaultOptions;
