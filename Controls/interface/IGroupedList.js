@@ -37,8 +37,8 @@ define('Controls/interface/IGroupedList', [
     *          textAlign="left"
     *          scope="{{groupTemplate}}">
     *          <ws:contentTemplate>
-    *             <ws:if data="{{contentTemplate.itemData.item === 'nonexclusive'}}">Неисключительные права</ws:if>
-    *             <ws:if data="{{contentTemplate.itemData.item === 'works'}}">Работы</ws:if>
+    *             <ws:if data="{{contentTemplate.item.contents === 'nonexclusive'}}">Неисключительные права</ws:if>
+    *             <ws:if data="{{contentTemplate.item.contents === 'works'}}">Работы</ws:if>
     *          </ws:contentTemplate>
     *       </ws:partial>
     *    </ws:groupTemplate>

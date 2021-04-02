@@ -7,7 +7,7 @@
             <ws:groupTemplate>
                 <ws:partial template="Controls/list:GroupTemplate">
                     <ws:contentTemplate>
-                        <span>Все товары от компании {{contentTemplate.itemData.item.toUpperCase()}}</span>
+                        <span>Все товары от компании {{contentTemplate.item.contents.toUpperCase()}}</span>
                     </ws:contentTemplate>
                 </ws:partial>
             </ws:groupTemplate>

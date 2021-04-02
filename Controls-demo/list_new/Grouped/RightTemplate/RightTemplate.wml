@@ -8,7 +8,7 @@
             <ws:groupTemplate>
                 <ws:partial template="Controls/list:GroupTemplate">
                     <ws:rightTemplate>
-                        <span style="font-size: 12px; color: #268fcf">Средний рейтинг {{rightTemplate.itemData.metaData.groupResults[rightTemplate.itemData.item]}}</span>
+                        <span style="font-size: 12px; color: #268fcf">Средний рейтинг {{rightTemplate.itemData.metaData.groupResults[rightTemplate.item.contents]}}</span>
                     </ws:rightTemplate>
                 </ws:partial>
             </ws:groupTemplate>

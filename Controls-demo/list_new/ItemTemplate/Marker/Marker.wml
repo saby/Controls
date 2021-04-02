@@ -3,7 +3,7 @@
                         source="{{_viewSource}}">
         <ws:itemTemplate>
             <ws:partial template="Controls/list:ItemTemplate"
-                        marker="{{itemTemplate.itemData.item.id !== 1}}"/>
+                        marker="{{itemTemplate.item.contents.id !== 1}}"/>
         </ws:itemTemplate>
     </Controls.list:View>
 </div>

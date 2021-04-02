@@ -71,7 +71,7 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      *             <ws:template>
      *                <ws:partial template="Controls/grid:HeaderContent">
      *                   <ws:contentTemplate>
-     *                      {{contentTemplate.colData.column.title}}
+     *                      {{contentTemplate.column.config.title}}
      *                   </ws:contentTemplate>
      *                </ws:partial>
      *             </ws:template>
@@ -101,7 +101,7 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      * <!-- file2.wml -->
      * <ws:partial template="Controls/grid:HeaderContent">
      *    <ws:contentTemplate>
-     *       {{contentTemplate.colData.column.title}}
+     *       {{contentTemplate.column.config.title}}
      *    </ws:contentTemplate>
      * </ws:partial>
      * </pre>
@@ -129,7 +129,7 @@ export interface IHeaderCell extends IControlOptions, IRowspanParams, IColspanPa
      *
      * <pre class="brush: html">
      * <!-- file2.wml -->
-     * {{contentTemplate.colData.column.title}}
+     * {{contentTemplate.column.config.title}}
      * </pre>
      *
      * **Пример 4.** Конфигурация колонки для выравнивания контента по копейкам. На шаблон добавлен CSS-класс "controls-Grid&#95;&#95;cell&#95;spacing&#95;money".

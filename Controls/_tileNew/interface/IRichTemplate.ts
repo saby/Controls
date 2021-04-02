@@ -21,7 +21,7 @@ import {TemplateFunction} from 'UI/Base';
  * </Controls.tile:View>
  * </pre>
  * @public
- * @demo Controls-demo/Tile/DifferentItemTemplates/RichTemplate/Index
+ * @demo Controls-demo/tileNew/DifferentItemTemplates/RichTemplate/Index
  * @remark
  * Шаблон автоматическую высоту. Плитка вытягивается по высоте максимального элемента в строке. Опция tileHeight не учитывается.
  */
