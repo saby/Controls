@@ -187,16 +187,20 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         // Будем обнавлять другое поле сами.
         // Если устанолвена опция validateByFocusOut true, будем валидировать поле на afterMount, когда значение
         // поменяется. Если validateByFocusOut false, то просто сбросим результат валидации.
-        if (this._options.validateByFocusOut && this._rangeModel.endValue !== null) {
-            this._shouldValidate = true;
+        if (this._options.validateByFocusOut) {
+            if (this._rangeModel.endValue !== null) {
+                this._shouldValidate = true;
+            }
         } else {
             this._children.endValueField.setValidationResult(null);
         }
     }
 
     protected _endFieldInputControlHandler(): void {
-        if (this._options.validateByFocusOut && this._rangeModel.startValue !== null) {
-            this._shouldValidate = true;
+        if (this._options.validateByFocusOut) {
+            if (this._rangeModel.startValue !== null) {
+                this._shouldValidate = true;
+            }
         } else {
             this._children.startValueField.setValidationResult(null);
         }
