@@ -177,9 +177,28 @@ export default class DateRangeInput extends Control<IDateRangeInputOptions> impl
         this._shouldValidate = true;
     }
 
-    protected _inputControlHandler(event: SyntheticEvent, value: unknown, displayValue: string, selection: ISelection): void {
+    protected _startFieldInputControlHandler(event: SyntheticEvent, value: unknown, displayValue: string, selection: ISelection): void {
         if (selection.end === displayValue.length) {
             this._children.endValueField.activate({enableScreenKeyboard: true});
+        }
+        // После смены значения в поле ввода сбрасывается результат валидации.
+        // Проблема в том, что результат валидации не сбрасывается в другом поле. Из-за этого появляется инфобокс при
+        // наведении https://online.sbis.ru/opendoc.html?guid=42046d94-7a30-491a-b8b6-1ce710bddbaa
+        // Будем обнавлять другое поле сами.
+        // Если устанолвена опция validateByFocusOut true, будем валидировать поле на afterMount, когда значение
+        // поменяется. Если validateByFocusOut false, то просто сбросим результат валидации.
+        if (this._options.validateByFocusOut && this._rangeModel.endValue !== null) {
+            this._shouldValidate = true;
+        } else {
+            this._children.endValueField.setValidationResult(null);
+        }
+    }
+
+    protected _endFieldInputControlHandler(): void {
+        if (this._options.validateByFocusOut && this._rangeModel.startValue !== null) {
+            this._shouldValidate = true;
+        } else {
+            this._children.startValueField.setValidationResult(null);
         }
     }
 
