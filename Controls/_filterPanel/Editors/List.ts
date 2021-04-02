@@ -122,6 +122,7 @@ class ListEditor extends Control<IListEditorOptions> {
         });
         if (selectedKeys.length) {
             this._items.assign(result);
+            this._setFilter(selectedKeys, this._options.filter, this._options.keyProperty);
         }
         this._notifyPropertyValueChanged(selectedKeys, !this._options.multiSelect, result);
     }
