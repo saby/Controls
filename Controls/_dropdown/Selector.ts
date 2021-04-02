@@ -198,7 +198,8 @@ export default class Selector extends BaseDropdown {
 
       this._controller.openMenu(Merge(config, popupOptions || {})).then((result) => {
          if (result) {
-            this._selectedItemsChangedHandler(result);
+            const selectedKeys = this._getSelectedKeys(result, this._options.keyProperty);
+            this._selectedItemsChangedHandler(result, selectedKeys);
          }
       });
    }

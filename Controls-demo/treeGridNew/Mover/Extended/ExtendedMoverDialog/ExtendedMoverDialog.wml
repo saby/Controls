@@ -18,7 +18,7 @@
                                          iconSize="s" iconStyle="secondary"/>
                 <Controls.scroll:Container attr:class="ControlsDemo-ExtendedMoveDialog__scroll">
                     <Controls.list:Container>
-                        <Controls.explorer:View
+                        <Controls.explorer:View useOldModel="{{ true }}"
                                 name="moverExplorer"
                                 on:itemClick="_onItemClick()"
                                 parentProperty="parent"

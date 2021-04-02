@@ -2,7 +2,7 @@
    <div class="demo-Tile">
       <h1>Плитка</h1>
       <h2>Плитка с одинаковой шириной</h2>
-      <Controls.explorer:View
+      <Controls.explorer:View useOldModel="{{ true }}"
          attr:class="demo-Tile__static demo-Tile__staticEqualWidth"
          parentProperty="parent"
          nodeProperty="type"

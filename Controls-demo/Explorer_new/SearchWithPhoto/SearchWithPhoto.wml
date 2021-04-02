@@ -7,7 +7,7 @@
                 <Controls.search:Input/>
             </Controls.search:InputContainer>
             <Controls.list:Container>
-                <Controls.explorer:View
+                <Controls.explorer:View useOldModel="{{ true }}"
                         name="view"
                         source="{{_viewSource}}"
                         bind:root="_root"

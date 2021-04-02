@@ -31,7 +31,7 @@ import { Model } from 'Types/entity';
  * @implements Controls/_tree/interface/ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/_interface/IDraggable
- * @mixes Controls/_grid/interface/IGridControl
+ * @mixes Controls/_interface/grid/IGridControl
  * @mixes Controls/_grid/interface/IPropStorage
  * @mixes Controls/_treeGridOld/interface/IReloadableTreeGrid
  *
@@ -67,7 +67,7 @@ import { Model } from 'Types/entity';
  * @implements Controls/_tree/interface/ITreeControl
  * @mixes Controls/interface/ITreeGridItemTemplate
  * @mixes Controls/_interface/IDraggable
- * @mixes Controls/_grid/interface/IGridControl
+ * @mixes Controls/_interface/grid/IGridControl
  * @mixes Controls/_grid/interface/IPropStorage
  * @mixes Controls/_list/interface/IVirtualScrollConfig
  * @mixes Controls/_treeGridOld/interface/IReloadableTreeGrid

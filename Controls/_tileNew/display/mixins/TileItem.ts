@@ -853,7 +853,7 @@ export default abstract class TileItem<T extends Model = Model> {
 
     // region Content
 
-    getContentTemplate(itemType: string = 'default', contentTemplate?: TemplateFunction): TemplateFunction {
+    getContentTemplate(itemType: string = 'default', contentTemplate?: TemplateFunction, nodeContentTemplate?: TemplateFunction): TemplateFunction {
         if (contentTemplate) {
             return contentTemplate;
         }

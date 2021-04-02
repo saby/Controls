@@ -3,7 +3,7 @@
         <Controls.list:DataContainer source="{{_viewSource}}" keyProperty="id">
             <Controls.operations:Controller>
                 <Controls.list:Container>
-                    <Controls.explorer:View
+                    <Controls.explorer:View useOldModel="{{ true }}"
                             keyProperty="id"
                             columns="{{_columns}}"
                             bind:root="_root"

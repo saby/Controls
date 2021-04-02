@@ -16,9 +16,11 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
         wrapperClasses += this._getWrapperSeparatorClasses(theme);
         wrapperClasses += ' js-controls-ListView__notEditable' +
             ' js-controls-ColumnScroll__notDraggable' +
-            ' controls-GridView__checkbox' +
-            ' controls-GridView__checkbox_position-default' +
-            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}`;
+            ` controls-GridView__checkbox` +
+            ` controls-GridView__checkbox_position-default` +
+            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}` +
+            ` controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()} ` +
+            ` controls-Grid__row-cell-checkbox`;
 
         if (this._$owner.isEditing()) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();

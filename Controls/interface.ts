@@ -102,4 +102,6 @@ export {
     IHeaderCell
 } from './_interface/grid/IHeaderCell';
 
+export { IGridControl } from './_interface/grid/IGridControl';
+
 // endregion grid
