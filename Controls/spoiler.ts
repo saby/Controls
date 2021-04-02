@@ -2,7 +2,6 @@
  * Библиотека контролов, отвечающих за отображение контента с возможностью переключения состояния развернутости.
  * @library Controls/spoiler
  * @author Красильников А.С.
- * @includes ICut Controls/_spoiler/ICutOptions
  */
 
 export {default as Cut, ICutOptions} from 'Controls/_spoiler/Cut';
