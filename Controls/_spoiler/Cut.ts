@@ -9,37 +9,17 @@ import * as template from 'wml!Controls/_spoiler/Cut/Cut';
 
 /**
  * Интерфейс для опций контрола, ограничивающего контент заданным числом строк.
- * @interface Controls/_spoiler/ICut
- * @mixes Control/interface:IBackgroundStyle
- * @mixes Control/interface:IExpandable
+ * @implements Control/interface:IBackgroundStyle
+ * @implements Control/interface:IExpandable
  * @implements Controls/interface:IIconSize
- * @mixes Control/interface:IContrastBackground
+ * @implements Control/interface:IContrastBackground
  * @public
  * @author Красильников А.С.
  */
 
-/**
- * @name Controls/_spoiler/ICut#buttonPosition
- * @cfg {String} Положение кнопки развертывания.
- * @variant start по левому краю контентной области
- * @variant center по центру контентной области
- * @default center
- * @demo Controls-demo/Spoiler/Cut/ButtonPosition/Index
- */
-
-/**
- * @name Controls/_spoiler/ICut#iconSize
- * @demo Controls-demo/Spoiler/Cut/IconSize/Index
- */
-
-/**
- * @name Controls/_spoiler/ICut#contrastBackground
- * @demo Controls-demo/Spoiler/Cut/ContrastBackground/Index
- */
-
 export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, IExpandableOptions, ICutButton {
     /**
-     * Высота строки.
+     * @cfg {String} Высота строки.
      * @variant xs
      * @variant s
      * @variant m
@@ -55,20 +35,40 @@ export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, I
      * Высота строки задается константой из стандартного набора размеров, который определен для текущей темы оформления.
      * @remark
      * Строковым значениям опции lineHeight соответствуют числовые (px), которые различны для каждой темы оформления.
+     * @see lines
      */
     lineHeight: string;
     /**
-     * Количество строк.
+     * @cfg {Number|null} Количество строк.
      * @remark
      * Указав значение null контент не будет иметь ограничение.
      * @demo Controls-demo/Spoiler/Cut/Lines/Index
+     * @see lineHeight
      */
     lines: number | null;
     /**
-     * Контент контрола.
+     * @cfg {TemplateFunction|String} Контент контрола.
      * @demo Controls-demo/Spoiler/Cut/Content/Index
      */
     content: TemplateFunction | string;
+    /**
+     * @name Controls/_spoiler/ICutOptions#buttonPosition
+     * @cfg {String} Положение кнопки развертывания.
+     * @variant start по левому краю контентной области
+     * @variant center по центру контентной области
+     * @default center
+     * @demo Controls-demo/Spoiler/Cut/ButtonPosition/Index
+     */
+    /**
+     * @name Controls/_spoiler/ICutOptions#iconSize
+     * @cfg
+     * @demo Controls-demo/Spoiler/Cut/IconSize/Index
+     */
+    /**
+     * @name Controls/_spoiler/ICutOptions#contrastBackground
+     * @cfg
+     * @demo Controls-demo/Spoiler/Cut/ContrastBackground/Index
+     */
 }
 
 /**
@@ -77,7 +77,7 @@ export interface ICutOptions extends IControlOptions, IBackgroundStyleOptions, I
  *
  * @class Controls/_spoiler/Cut
  * @extends UI/Base:Control
- * @implements Controls/_spoiler/ICut
+ * @implements Controls/spoiler:ICutOptions
  * @public
  * @demo Controls-demo/Spoiler/Cut/Index
  *
