@@ -20,6 +20,7 @@ import PropertyGridCollection from './PropertyGridCollection';
 import PropertyGridCollectionItem from './PropertyGridCollectionItem';
 import {IItemAction, Controller as ItemActionsController} from 'Controls/itemActions';
 import {StickyOpener} from 'Controls/popup';
+import 'css!Controls/itemActions';
 
 export type TToggledEditors = Record<string, boolean>;
 type TPropertyGridCollection = PropertyGridCollection<PropertyGridCollectionItem<Model>>;
@@ -323,7 +324,7 @@ export default class PropertyGridView extends Control<IPropertyGridOptions> {
         return validatorResult;
     }
 
-    static _theme: string[] = ['Controls/propertyGrid', 'Controls/itemActions'];
+    static _theme: string[] = ['Controls/propertyGrid'];
 
     static getDefaultPropertyGridItem(): IPropertyGridItem {
         return {
