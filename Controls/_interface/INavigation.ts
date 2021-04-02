@@ -250,21 +250,58 @@ export interface INavigationViewConfig {
 export interface INavigationOptionValue<U> {
     /**
      * Режим {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
+     * @example 
+     * <pre class="brush: html">
+     * <!-- WML -->
+     * <Controls.list:View source="{{_viewSource}}">
+     * <ws:navigation source="position" view="pages">
+     *     <ws:sourceConfig
+     *         pageSize="{{25}}"
+     *         page="{{0}}"
+     *         hasMore="{{false}}"/>
+     * </ws:navigation>
+     * </Controls.list:View>
+     * </pre>
      */
     source?: TNavigationSource;
     /**
      * Вид {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * @example
+     * <pre class="brush: html">
+     * <!-- WML -->
+     * <Controls.scroll:Container>
+     * <Controls.list:View source="{{_viewSource}}">
+     *    <ws:navigation source="page" view="infinity"/>
+     * </Controls.list:View>
+     * </Controls.scroll:Container>
+     * </pre>
      */
     view?: TNavigationView;
     /**
      * @name Controls/_interface/INavigation/INavigationOptionValue#sourceConfig
      * @cfg {INavigationSourceConfig} Конфигурация режима {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ работы с источником данных}.
-     * @remark 
-     * Примеры работы с источником данных представлены в {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/data-source/ статье}.
+     * @example 
+     * <pre class="brush: html">
+     * <!-- WML -->
+     * <Controls.list:View source="{{_viewSource}}">
+     *    <ws:navigation source="position" view="infinity">
+     *       <ws:sourceConfig field="id" position="{{_position}}" direction="bothways" limit="{{20}}"/>
+     *    </ws:navigation>
+     * </Controls.list:View>
+     * </pre>
      */
     sourceConfig?: U;
     /**
      * Конфигурация вида {@link /doc/platform/developmentapl/interface-development/controls/list/navigation/visual-mode/ визуального представления навигации}.
+     * @example
+     * <pre class="brush: html">
+     * <Controls.list:View source="{{_viewSource}}">
+     *     <ws:navigation source="page" view="pages">
+     *         <ws:sourceConfig pageSize="{{10}}" page="{{0}}" hasMore="{{false}}"/>
+     *         <ws:viewConfig totalInfo="basic"/>
+     *     </ws:navigation>
+     * </Controls.list:View>
+     * </pre>
      */
     viewConfig?: INavigationViewConfig;
 }
