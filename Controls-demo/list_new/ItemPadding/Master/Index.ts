@@ -2,6 +2,8 @@ import {Control, TemplateFunction} from 'UI/Base';
 import * as Template from 'wml!Controls-demo/list_new/ItemPadding/Master/ItemPadding';
 import {Memory} from 'Types/source';
 import {getFewCategories as getData} from '../../DemoHelpers/DataCatalog';
+import 'css!Controls/masterDetail';
+import 'css!Controls/CommonClasses';
 
 export default class extends Control {
     protected _template: TemplateFunction = Template;
@@ -14,6 +16,5 @@ export default class extends Control {
         });
     }
 
-    static _theme: string[] = ['Controls/Classes', 'Controls/masterDetail'];
     static _styles: string[] = ['Controls-demo/Controls-demo'];
 }
