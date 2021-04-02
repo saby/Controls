@@ -163,6 +163,7 @@ define([
             sandbox = sinon.createSandbox();
             component = calendarTestUtils.createComponent(dateRange.Input, options);
             sandbox.stub(component._children.endValueField, 'activate');
+            sandbox.stub(component._children.endValueField, 'setValidationResult');
          });
          it('Move to the next field', function() {
             component._startFieldInputControlHandler({}, '', '12.12.12', {
