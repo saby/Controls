@@ -15,6 +15,7 @@ define(
          describe('parseNumber', function() {
             it('value: null, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: null,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -25,8 +26,22 @@ define(
                   fraction: '.00'
                });
             });
+            it('value: null, useGrouping: false, precision: 1', function() {
+               ctrl._beforeMount({
+                  precision: 1,
+                  value: null,
+                  useGrouping: false,
+                  abbreviationType: 'none'
+               });
+               assert.deepEqual(ctrl._formattedNumber, {
+                  number: '0.0',
+                  integer: '0',
+                  fraction: '.0'
+               });
+            });
             it('value: 0.035, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 0.035,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -39,6 +54,7 @@ define(
             });
             it('value: 0.075, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 0.075,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -51,6 +67,7 @@ define(
             });
             it('value: 20, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 20,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -63,6 +80,7 @@ define(
             });
             it('value: 20.1, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 20.1,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -75,6 +93,7 @@ define(
             });
             it('value: 20.18, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 20.18,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -87,6 +106,7 @@ define(
             });
             it('value: 20.181, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 20.181,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -99,6 +119,7 @@ define(
             });
             it('value: Infinity, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: Infinity,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -111,6 +132,7 @@ define(
             });
             it('value: 1000.00, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 1000.00,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -123,6 +145,7 @@ define(
             });
             it('value: 1000.00, useGrouping: true', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 1000.00,
                   useGrouping: true,
                   abbreviationType: 'none'
@@ -135,6 +158,7 @@ define(
             });
             it('value: -1000.00, useGrouping: false', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: -1000.00,
                   useGrouping: false,
                   abbreviationType: 'none'
@@ -147,6 +171,7 @@ define(
             });
             it('value: -1000.00, useGrouping: true', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: -1000.00,
                   useGrouping: true,
                   abbreviationType: 'none'
@@ -159,6 +184,7 @@ define(
             });
             it('value: 1234e20, useGrouping: true', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: 1234e20,
                   useGrouping: true,
                   abbreviationType: 'none'
@@ -173,6 +199,7 @@ define(
          describe('tooltip', function() {
             it('value: "0.00"', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: '0.00',
                   abbreviationType: 'none'
                });
@@ -180,6 +207,7 @@ define(
             });
             it('value: "0.12"', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: '0.12',
                   abbreviationType: 'none'
                });
@@ -187,6 +215,7 @@ define(
             });
             it('value: "0.00", tooltip: ""', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: '0.00',
                   tooltip: '',
                   abbreviationType: 'none'
@@ -195,6 +224,7 @@ define(
             });
             it('value: "0.00", tooltip: "tooltip"', function() {
                ctrl._beforeMount({
+                  precision: 2,
                   value: '0.00',
                   tooltip: 'tooltip',
                   abbreviationType: 'none'
