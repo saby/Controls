@@ -26,7 +26,7 @@ export interface IText {
  */
 /**
  * @name Controls/_input/interface/IText#convertPunycode
- * @cfg {String} Нужно ли преобразовывать вводимое значения из Punycode в Unicode.
+ * @cfg {Boolean} Нужно ли преобразовывать вводимое значения из Punycode в Unicode.
  * @remark
  * @demo Controls-demo/Input/ConvertPunycode/Index
  */
