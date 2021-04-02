@@ -12,6 +12,7 @@ import {IExplorerOptions} from 'Controls/_newBrowser/interfaces/IExplorerOptions
 import {MasterVisibilityEnum} from 'Controls/_newBrowser/interfaces/IMasterOptions';
 import {BeforeChangeRootResult, IRootsData} from 'Controls/_newBrowser/interfaces/IRootsData';
 import {IBrowserViewConfig, NodesPosition} from 'Controls/_newBrowser/interfaces/IBrowserViewConfig';
+import {isEqual} from 'Types/object';
 import {
     buildDetailOptions,
     buildMasterOptions,
@@ -214,6 +215,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     protected _beforeUpdate(newOptions?: IOptions, contexts?: unknown): void {
         const masterOps = this._buildMasterExplorerOption(newOptions);
         const detailOps = this._buildDetailExplorerOptions(newOptions);
+        if (newOptions.listConfiguration && !isEqual(this._options.listConfiguration, newOptions.listConfiguration)) {
+            this._createTemplateControllers(newOptions.listConfiguration, newOptions);
+        }
 
         this._detailDataSource.updateOptions(detailOps);
         // Обязательно вызываем setFilter иначе фильтр в sourceController может
@@ -476,11 +480,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
     private _applyListConfiguration(cfg: IBrowserViewConfig, options: IOptions = this._options): void {
         if (!cfg) {
             return;
+        } else {
+            this._createTemplateControllers(cfg, options);
         }
-
-        this._listConfiguration = cfg;
-        this._tileCfg = new TileConfig(cfg, options);
-        this._listCfg = new ListConfig(cfg, options);
 
         this._setViewMode(cfg.settings.clientViewMode);
         this._updateMasterVisibility(options);
@@ -562,6 +564,12 @@ export default class Browser extends Control<IOptions, IReceivedState> {
         this._resetSearch();
     }
 
+    protected _createTemplateControllers(cfg: IBrowserViewConfig, options: IOptions): void {
+        this._listConfiguration = cfg;
+        this._tileCfg = new TileConfig(this._listConfiguration, options);
+        this._listCfg = new ListConfig(this._listConfiguration, options);
+    }
+
     //endregion
 
     //region 🗘 update state
@@ -573,7 +581,9 @@ export default class Browser extends Control<IOptions, IReceivedState> {
 
         this._userViewMode = options.userViewMode;
         this._appliedViewMode = options.userViewMode;
-        this._listConfiguration = options.listConfiguration;
+        if (options.listConfiguration) {
+            this._createTemplateControllers(options.listConfiguration, options);
+        }
         // Если при инициализации указано плиточное представление,
         // значит шаблон и модель плитки уже загружены
         if (this.viewMode === DetailViewMode.tile) {
@@ -810,10 +820,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
  */
 
 Object.defineProperty(Browser, 'defaultProps', {
-   enumerable: true,
-   configurable: true,
+    enumerable: true,
+    configurable: true,
 
-   get(): object {
-      return Browser.getDefaultOptions();
-   }
+    get(): object {
+        return Browser.getDefaultOptions();
+    }
 });
