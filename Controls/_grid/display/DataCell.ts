@@ -181,8 +181,8 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
 
     // region Аспект "Кнопка редактирования"
 
-    shouldDisplayEditArrow(): boolean {
-        if (this.getColumnIndex() > 0) {
+    shouldDisplayEditArrow(contentTemplate?: TemplateFunction): boolean {
+        if (!!contentTemplate || this.getColumnIndex() > 0) {
             return false;
         }
         return this._$owner.editArrowIsVisible(this._$owner.getContents());

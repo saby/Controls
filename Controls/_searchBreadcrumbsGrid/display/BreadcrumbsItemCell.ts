@@ -43,8 +43,8 @@ export default class BreadcrumbsItemCell<S extends Model, TOwner extends Breadcr
       return classes;
    }
 
-   shouldDisplayEditArrow(): boolean {
-      if (this.getColumnIndex() > 0) {
+   shouldDisplayEditArrow(contentTemplate?: TemplateFunction): boolean {
+      if (!!contentTemplate || this.getColumnIndex() > 0) {
          return false;
       }
       const contents = this._$owner.getLast().getContents();
