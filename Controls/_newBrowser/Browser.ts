@@ -219,7 +219,10 @@ export default class Browser extends Control<IOptions, IReceivedState> {
             this._createTemplateControllers(newOptions.listConfiguration, newOptions);
         }
 
-        this._detailDataSource.updateOptions(detailOps);
+        const isChanged = this._detailDataSource.updateOptions(detailOps);
+        if (isChanged) {
+            this._detailDataSource.sourceController.reload();
+        }
         // Обязательно вызываем setFilter иначе фильтр в sourceController может
         // не обновиться при updateOptions. Потому что updateOptions сравнивает
         // не внутреннее поле _filter, фильтр который был передан в опциях при создании,
