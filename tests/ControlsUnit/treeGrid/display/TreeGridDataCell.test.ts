@@ -99,7 +99,6 @@ describe('Controls/_treeGridNew/display/TreeGridDataCell', () => {
          const expected = ' controls-Grid__row-cell controls-Grid__cell_default controls-Grid__row-cell_default controls-Grid__row-cell_default_min_height controls-TreeGrid__row-cell ' +
             'controls-TreeGrid__row-cell_default controls-TreeGrid__row-cell__node controls-Grid__no-rowSeparator controls-Grid__row-cell_withRowSeparator_size-null controls-Grid__cell_fit ' +
             'controls-Grid__row-cell-background-hover-default controls-background-default';
-
          const cell = treeGridCollection.at(0).getColumns()[1];
          CssClassesAssert.isSame(cell.getWrapperClasses('default', 'default'), expected);
       });
