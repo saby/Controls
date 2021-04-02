@@ -68,6 +68,7 @@ const WIDTH_CURSOR: number = 1;
 
 class Base<TBaseInputOptions extends IBaseInputOptions = {}> extends Control<TBaseInputOptions> {
 
+    protected _controlName: string = 'InputBase';
     /**
      * @type {Function} Control display template.
      * @protected
