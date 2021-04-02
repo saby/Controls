@@ -5,6 +5,7 @@ import {ValueInField} from './FixBugs/ValueInField';
 import {InsertFromDrop} from './FixBugs/InsertFromDrop';
 import {MinusProcessing} from './FixBugs/MinusProcessing';
 import {TUpdatePositionCallback, CarriagePositionWhenFocus} from './FixBugs/CarriagePositionWhenFocus';
+import HeightAfterInput from './FixBugs/SafariHeightAfterInput';
 
 interface IConfig {
     updatePositionCallback: TUpdatePositionCallback;
@@ -18,6 +19,7 @@ export class FixBugs {
     private _insertFromDropBug: InsertFromDrop;
     private _minusProcessingBug: MinusProcessing;
     private _carriagePositionBug: CarriagePositionWhenFocus;
+    private _heightAfterInputInSafari: HeightAfterInput;
 
     // TODO: добавить свойство с публичной информацией. Например, первый клик, фокус и т.д.
     // Испольлзовать её в полях ввода для уменьшения нагрузки на модули.
@@ -31,6 +33,7 @@ export class FixBugs {
         this._insertFromDropBug = new InsertFromDrop();
         this._minusProcessingBug = new MinusProcessing();
         this._carriagePositionBug = new CarriagePositionWhenFocus(config.updatePositionCallback);
+        this._heightAfterInputInSafari = new HeightAfterInput();
     }
 
     beforeMount(options: IControlOptions): void {
@@ -67,6 +70,9 @@ export class FixBugs {
         }
     }
 
+    inputHandler(field: HTMLInputElement, value: string): void {
+    }
+
     dataForInputProcessing(data: IInputData): IInputData {
         let processingResult: IInputData;
 
@@ -74,6 +80,8 @@ export class FixBugs {
         processingResult = this._minusProcessingBug.inputProcessing(processingResult);
 
         this._valueInFieldBug.startInputProcessing();
+
+        this._heightAfterInputInSafari.inputHandler(this._inst._getField(), data);
 
         return processingResult;
     }
