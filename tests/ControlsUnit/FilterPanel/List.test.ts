@@ -1,4 +1,6 @@
 import {ListEditor} from 'Controls/filterPanel';
+import {Model} from 'Types/entity';
+import {RecordSet} from 'Types/collection';
 import {assert} from 'chai';
 
 describe('Controls/filterPanel:ListEditor', () => {
@@ -26,6 +28,36 @@ describe('Controls/filterPanel:ListEditor', () => {
             options.multiSelect = true;
             listEditor._beforeUpdate(options);
             assert.notEqual(listEditor._filter['id'], newPropertyValue);
+        });
+    });
+
+    describe('_handleSelectorResult', () => {
+        const listEditor = new ListEditor({});
+        const options = {
+            propertyValue: [1],
+            filter: {},
+            keyProperty: 'id'
+        };
+        listEditor._items = new RecordSet({
+            rawData: [],
+            keyProperty: 'id'
+        });
+        listEditor._options = options;
+
+        it('filter changed', () => {
+            let filterChanged = false;
+            const result = new Model({
+                rawData: [
+                    {id: 1, title: 'Test'}
+                ],
+                keyProperty: 'id'
+            });
+
+            listEditor._setFilter = () => {
+                filterChanged = true;
+            };
+            listEditor._handleSelectorResult([result]);
+            assert.isTrue(filterChanged);
         });
     });
 });
