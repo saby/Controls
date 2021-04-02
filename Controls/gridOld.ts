@@ -76,8 +76,6 @@ export {
     GridLayoutUtil
 };
 
-export {IGridControl} from './_gridOld/interface/IGridControl';
-
 export {
     COLUMN_SCROLL_JS_SELECTORS,
     DRAG_SCROLL_JS_SELECTORS,
@@ -86,6 +84,7 @@ export {
 } from 'Controls/columnScroll';
 
 export {
+    IGridControl,
     TColumns,
     IColumn,
     IColspanParams,

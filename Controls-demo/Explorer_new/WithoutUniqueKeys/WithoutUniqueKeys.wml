@@ -1,5 +1,5 @@
 <div class="controlsDemo__wrapper controlsDemo_fixedWidth500 controlsDemo_wrapper-treeGrid-base-treeGridView">
-    <Controls.explorer:View
+    <Controls.explorer:View useOldModel="{{ true }}"
             source="{{_viewSource}}"
             bind:root="_root"
             uniqueKeys="{{true}}"

@@ -18,13 +18,16 @@ export default class CheckboxCell<T, TOwner extends DataRow<T>> extends Cell<T, 
             ' js-controls-ColumnScroll__notDraggable' +
             ` controls-GridView__checkbox_theme-${theme}` +
             ` controls-GridView__checkbox_position-default_theme-${theme}` +
-            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}_theme-${theme}`;
+            ` controls-Grid__row-checkboxCell_rowSpacingTop_${topPadding}_theme-${theme}` +
+            ` controls-Grid__row-cell_rowSpacingBottom_${this.getOwner().getBottomPadding()}_theme-${theme} ` +
+            ` controls-Grid__row-cell-checkbox_theme-${theme}`;
 
         if (this._$owner.isEditing()) {
             const editingBackgroundStyle = this._$owner.getEditingBackgroundStyle();
             wrapperClasses += ` controls-Grid__row-cell-editing_theme-${theme}`;
             wrapperClasses += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
         } else if (templateHighlightOnHover !== false) {
+            wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}`;
             wrapperClasses += ` controls-Grid__row-cell-background-hover-${hoverBackgroundStyle}_theme-${theme}`;
         }
 
