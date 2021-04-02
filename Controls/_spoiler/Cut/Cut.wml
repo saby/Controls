@@ -12,6 +12,7 @@
                      controls-background-{{_options.backgroundStyle}}_theme-{{_options.theme}}"
                     readOnly="{{ _options.readOnly }}"
                     buttonPosition="{{ _options.buttonPosition }}"
+                    backgroundStyle="{{ _options.backgroundStyle }}"
                     iconSize="{{ _options.iconSize }}"
                     lineHeight="{{ _options.lineHeight }}"
                     contrastBackground="{{ _options.contrastBackground }}"

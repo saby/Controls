@@ -1,4 +1,5 @@
 .controls-Area__fieldWrapper {
+   z-index: 1;
    height: auto;
    position: relative;
    word-wrap: break-word;
@@ -14,6 +15,31 @@
    left: 0;
    overflow: hidden;
    position: absolute;
+}
+
+.controls-Area__fieldContainer__border-partial {
+   border-bottom: var(--border-style_inputText) var(--border-thickness_inputText);
+}
+
+.controls-Area__fieldContainer__border-visible {
+   border-top: var(--border-style_inputText) var(--border-thickness_inputText);
+   border-bottom: var(--border-style_inputText) var(--border-thickness_inputText);
+}
+
+.controls-Area__fieldContainer {
+   border-color: var(--border-color_inputText);
+}
+
+.controls-Area__fieldContainer__border-readonly {
+   border-color: var(--readonly_border-color_inputArea);
+}
+
+.controls-Area__fieldContainer_background-contrast {
+   background: var(--background-color_inputText);
+}
+
+.controls-Area__fieldContainer_background-same {
+   background: transparent;
 }
 
 /**

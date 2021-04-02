@@ -10,7 +10,6 @@ export interface ICutButton {
     iconSize: TIconSize;
     contrastBackground: boolean;
     readOnly: boolean;
-    expanded: boolean;
     buttonPosition: TButtonPosition;
 }
 
