@@ -501,7 +501,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
     // region Аспект "Кнопка редактирования"
 
-    shouldDisplayEditArrow(): boolean {
+    shouldDisplayEditArrow(contentTemplate?: TemplateFunction): boolean {
         return false;
     }
 

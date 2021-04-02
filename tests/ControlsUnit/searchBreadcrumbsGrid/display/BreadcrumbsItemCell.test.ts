@@ -55,5 +55,9 @@ describe('Controls/_searchBreadcrumbsGrid/display/BreadcrumbsItemCell', () => {
          const cell = searchGridCollection.at(0).getColumns()[0];
          assert.isTrue(cell.shouldDisplayEditArrow());
       });
+      it('shouldDisplayEditArrow should not return true when custom contentTemplate is set', () => {
+         const cell = searchGridCollection.at(0).getColumns()[0];
+         assert.isFalse(cell.shouldDisplayEditArrow(() => ''));
+      });
    });
 });
