@@ -52,6 +52,7 @@ interface IViewPanelOptions {
     applyButtonCaption: string;
     collapsedGroups: string[] | number[];
     backgroundStyle: string;
+    viewMode: string;
 }
 
 export default class View extends Control<IViewPanelOptions> {
@@ -130,7 +131,8 @@ Object.defineProperty(View, 'defaultProps', {
 
     get(): Partial<IViewPanelOptions> {
         return {
-            backgroundStyle: 'default'
+            backgroundStyle: 'default',
+            viewMode: 'default'
         };
     }
 });
