@@ -72,7 +72,7 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
     protected _beforeMount(options?: ITabsAdaptiveButtonsOptions,
                            contexts?: object,
                            receivedState?: IReceivedState): Promise<IReceivedState> | void {
-        if (!options.containerWidth) {
+        if (options.containerWidth === undefined) {
             Logger.error('Option containerWidth is undefined');
         }
         if (receivedState) {
@@ -265,6 +265,9 @@ class AdaptiveButtons extends Control<ITabsAdaptiveButtonsOptions, IReceivedStat
             i--;
         }
         indexLast++;
+        if (indexLast < 0) {
+            indexLast = 0;
+        }
         const currentTextOfTab = this._getTextOfTabByIndex(options, items, indexLast);
         let currentMinWidth = this._getMinWidth(currentTextOfTab);
         width = width + this._moreButtonWidth + currentMinWidth + COUNT_OF_MARGIN * MARGIN + PADDING_OF_MORE_BUTTON;
