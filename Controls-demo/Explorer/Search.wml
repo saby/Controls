@@ -34,7 +34,7 @@
                   </div>
                </div>
                <Controls.list:Container>
-                  <Controls.explorer:View
+                  <Controls.explorer:View useOldModel="{{ true }}"
                      attr:class="demo-Explorer ControlsDemo-Explorer_search"
                      multiSelectVisibility="{{_multiselectVisibility}}"
                      displayProperty="title"
