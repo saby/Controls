@@ -31,7 +31,6 @@ interface IColumnScrollOptions {
 }
 
 interface IActualizeOptions {
-    isOnMount?: boolean,
     scrollBar: ScrollBar,
     containers: {
         header: HTMLElement,
@@ -179,7 +178,7 @@ export default class ColumnScroll {
                     this._options = this._updateOptions(options);
                     this._createColumnScroll(options);
                     this._columnScroll.updateSizes((newSizes) => {
-                        if (options.isOnMount && this._options.columnScrollStartPosition === 'end') {
+                        if (this._options.columnScrollStartPosition === 'end') {
                             this._columnScroll.setScrollPosition(newSizes.contentSize - newSizes.containerSize);
                         }
                         this._dragScroll?.updateScrollData({
