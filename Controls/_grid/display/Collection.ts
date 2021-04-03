@@ -38,7 +38,7 @@ export default class Collection<
         if (superResult) {
             if (this._$emptyTemplate) {
                 if (this._$emptyGridRow) {
-                    this._$emptyGridRow.setEmptyTemplate(this._$emptyTemplate);
+                    this._$emptyGridRow.setRowTemplate(this._$emptyTemplate);
                 } else {
                     this._initializeEmptyRow();
                 }
@@ -50,10 +50,13 @@ export default class Collection<
     }
 
     setEmptyTemplateOptions(options: object): boolean {
-        super.setEmptyTemplateOptions(options);
-        if (this.getEmptyGridRow()) {
-            this.getEmptyGridRow().setEmptyTemplateOptions(options);
+        if (super.setEmptyTemplateOptions(options)) {
+            if (this.getEmptyGridRow()) {
+                this.getEmptyGridRow().setRowTemplateOptions(options);
+            }
+            return true;
         }
+        return false;
     }
 
     setMultiSelectVisibility(visibility: string): void {
