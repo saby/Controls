@@ -33,12 +33,12 @@ interface ICellContentOrientation {
     valign: 'top' | 'center' | 'baseline' | 'bottom';
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/grid:HeaderContent';
-
 const FIXED_HEADER_Z_INDEX = 4;
 const STICKY_HEADER_Z_INDEX = 3;
 
 export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
+    protected readonly DEFAULT_CELL_TEMPLATE: string = 'Controls/grid:HeaderContent';
+
     protected _$owner: HeaderRow<T>;
     protected _$column: IHeaderCell;
     protected _$cellPadding: IItemPadding;
@@ -141,7 +141,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             rowspan: endRow - startRow
         };
     }
-    getRowspan(): string {
+    getRowspanStyles(): string {
         if (!this._$owner.isFullGridSupport()) {
             return '' + this._getRowspanParams().rowspan;
         }
@@ -153,7 +153,7 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
     getWrapperStyles(): string {
         let styles = super.getWrapperStyles();
         if (this._$owner.isFullGridSupport()) {
-            styles += this.getRowspan();
+            styles += this.getRowspanStyles();
         }
         styles += ` z-index: ${this.getZIndex()};`;
         return styles;
@@ -224,10 +224,6 @@ export default class HeaderCell<T> extends Cell<T, HeaderRow<T>> {
             }
         }
         return classes;
-    }
-
-    getTemplate(): TemplateFunction|string {
-        return this._$column.template || DEFAULT_CELL_TEMPLATE;
     }
 
     getCaption(): string {

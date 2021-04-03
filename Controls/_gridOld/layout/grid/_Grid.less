@@ -610,11 +610,20 @@
 
 .controls-GridView__footer__cell {
    box-sizing: border-box;
-}
-
-.controls-GridView__footer__cell {
    display: flex;
    align-items: baseline;
+}
+
+.controls-GridView__footer__cell__content {
+   min-height: var(--footer_min-height_list);
+   display: flex;
+   align-items: baseline;
+   flex-grow: 1;
+
+   &::before {
+      content: '\200b';
+      font-size: var(--footer_font-size_list);
+   }
 }
 
 .controls-GridView__newFooter__cell {
@@ -625,9 +634,6 @@
    }
 }
 
-.controls-GridView__footerRow {
-   display: contents;
-}
 
 .controls-Grid__cell_spacingFirstCol_default,
 .controls-GridView__footer__cell__paddingLeft_default,

@@ -10,7 +10,7 @@
         <td attr:class="{{ gridColumn.getWrapperClasses(theme, backgroundColorStyle, style, highlightOnHover) }}"
             attr:style="{{ gridColumn.getWrapperStyles(containerSize) }}"
             attr:colspan="{{ gridColumn.getColspan() }}"
-            attr:rowspan="{{ gridColumn.getRowspan() }}">
+            attr:rowspan="{{ gridColumn.getRowspanStyles() }}">
             <div class="{{ gridColumn.getRelativeCellWrapperClasses(theme) }}">
                 <div if="{{ gridColumn.Markable && gridColumn.shouldDisplayMarker(marker, markerPosition) }}"
                      attr:class="{{ gridColumn.getMarkerClasses(theme, style, markerPosition) }}"></div>

@@ -49,14 +49,14 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     VersionableMixin
 ) implements IInstantiable, IVersionable {
     readonly '[Types/_entity/IInstantiable]': boolean;
-    protected _$owner: TOwner;
-    protected _$column: IColumn;
+    protected readonly DEFAULT_CELL_TEMPLATE: string = DEFAULT_CELL_TEMPLATE;
+    protected readonly _$owner: TOwner;
+    protected readonly _$column: IColumn;
     protected _$hiddenForLadder: boolean;
-    protected _$startColumn: number;
-    protected _$endColumn: number;
     protected _$instanceId: string;
     protected _$colspan: number;
     protected _$isFixed: boolean;
+    protected _$isSingleCell: boolean;
     protected _$ladderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
@@ -66,8 +66,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         OptionsToPropertyMixin.call(this, options);
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
-        return this._$column.template || DEFAULT_CELL_TEMPLATE;
+    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
+        return this._$column.template || this.DEFAULT_CELL_TEMPLATE;
     }
 
     hasCellContentRender(): boolean {
@@ -111,10 +111,30 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         return this.getOwner().getSearchValue();
     }
 
-    // region Аспект "Объединение колонок"
-    _getColspanParams(): IColspanParams {
+    getRowSeparatorSize(): string {
+        return this._$rowSeparatorSize;
+    }
+
+    // region Аспект "Colspan. Объединение ячеек по горизонтали"
+
+    /**
+     * Получить значение колспана для данной ячейки.
+     * @return {Number} значение колспана для данной ячейки.
+     */
+    getColspan(): number {
+        return this._$colspan || 1;
+    }
+
+    /**
+     * Получить индексы начальной и конечной границы ячайки строки в контексте CssGridLayout.
+     * @remark В CssGridLayout индексы границ начинаются с единицы.
+     * @return {IColspanParams} индексы начальной и конечной границы ячайки.
+     */
+    // TODO: Нужно либо переименовать(чтобы было понятно что только для CssGrid),
+    //  либо изменить метод(чтобы валидно работал для всех браузеров).
+    protected _getColspanParams(): IColspanParams {
         if (this._$colspan) {
-            const startColumn = this.getColumnIndex() + 1;
+            const startColumn = this.getColumnIndex(true) + 1;
             const endColumn = startColumn + this._$colspan;
             return {
                 startColumn,
@@ -123,25 +143,28 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         }
     }
 
-    getColspan(): string {
+    /**
+     * Получить стиль для колспана ячейки в CSSGridLayout.
+     * @remark Для браузеров, не поддерживающих CSS Grid Layout, где Controls/grid:View для отрисовки использует HTMLTable,
+     * метод возвращает пустую строку. В таком случае, для растягивания ячеек следует использовать метод {@link getColspan}.
+     * @return {String} Стиль для колспана ячейки. Формат строки: gridColumn: x / y;
+     * @see getColspan
+     */
+    getColspanStyles(): string {
+        if (!this._$owner.isFullGridSupport()) {
+            return '';
+        }
         const colspanParams = this._getColspanParams();
         if (!colspanParams) {
             return '';
         }
-        if (!this._$owner.isFullGridSupport()) {
-            return '' + this._$colspan;
-        }
         return `grid-column: ${colspanParams.startColumn} / ${colspanParams.endColumn};`;
     }
+    // endregion
 
-    getRowSeparatorSize(): string {
-        return this._$rowSeparatorSize;
-    }
-
-    getRowspan(): string {
+    getRowspanStyles(): string {
         return '';
     }
-    // endregion
 
     // region Аспект "Лесенка"
     setHiddenForLadder(value: boolean): void {
@@ -241,7 +264,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     getWrapperStyles(): string {
         let styles = '';
         if (this._$owner.isFullGridSupport()) {
-            styles += this.getColspan();
+            styles += this.getColspanStyles();
         }
         return styles;
     }
@@ -437,15 +460,22 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     // endregion
 
     // region Аспект "Ячейка"
+
     get config(): IColumn {
         return this._$column;
     }
+
     getColumnConfig(): IColumn {
         return this.config;
     }
 
-    getColumnIndex(): number {
-        return this._$owner.getColumnIndex(this);
+    /**
+     * Получить индекс данной ячейки в строке.
+     * @param {Boolean} [takeIntoAccountColspans=false] - Учитывать ли колспаны ячеек, расположенных перед данной в строке.
+     * @returns {Number} Индекс ячейки в строке.
+     */
+    getColumnIndex(takeIntoAccountColspans?: boolean = false): number {
+        return this._$owner.getColumnIndex(this, takeIntoAccountColspans);
     }
 
     isFirstColumn(): boolean {
@@ -516,12 +546,11 @@ Object.assign(Cell.prototype, {
     _$owner: null,
     _$column: null,
     _$hiddenForLadder: null,
-    _$startColumn: null,
-    _$endColumn: null,
     _$colspan: null,
     _$isFixed: null,
     _$instanceId: null,
     _$ladderCell: null,
     _$columnSeparatorSize: null,
-    _$rowSeparatorSize: null
+    _$rowSeparatorSize: null,
+    _$isSingleCell: null
 });

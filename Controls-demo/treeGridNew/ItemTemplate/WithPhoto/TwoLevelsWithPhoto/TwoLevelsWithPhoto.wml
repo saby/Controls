@@ -11,7 +11,9 @@
             <ws:partial template="Controls/treeGridNew:ItemTemplate" withoutLevelPadding="{{true}}" itemData="{{itemData}}"/>
         </ws:itemTemplate>
         <ws:footerTemplate>
-            <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+            <ws:partial template="Controls/grid:FooterTemplate">
+                <div class="controlsDemo__hor-padding__list__footerContent">Подвал списка</div>
+            </ws:partial>
         </ws:footerTemplate>
     </Controls.treeGridNew:View>
 </div>

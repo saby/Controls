@@ -45,8 +45,8 @@ export default class HeaderRow<T> extends Row<T> {
         return 'header' as unknown as T;
     }
 
-    getItemClasses(params): string {
-        return `controls-Grid__header`;
+    getItemClasses(): string {
+        return 'controls-Grid__header';
     }
 
     protected _processStickyLadderCells(): void {

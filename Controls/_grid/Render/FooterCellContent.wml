@@ -1,6 +1,7 @@
-<div class="{{ column.getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
+<div if="{{ !!content || !!contentTemplate }}"
+     class="{{ column.getContentClasses(theme, backgroundColorStyle, cursor, highlightOnHover) }}"
      style="{{ column.getContentStyles() }}">
-    <ws:if data="{{ !!content || !!contentTemplate }}">
+    <div style="flex-grow: 1;">
         <ws:partial template="{{ content || contentTemplate }}" scope="{{ _options }}"/>
-    </ws:if>
+    </div>
 </div>

@@ -44,18 +44,6 @@ export default class TreeGridDataRow<T extends Model = Model>
     //  Проблема в том, что mixin не умеет объединять одинаковые методы, а логику Grid мы добавляем через mixin
     // region overrides
 
-    protected _initializeColumns(): void {
-        super._initializeColumns();
-
-        if (this._$columns && this.hasItemActionsSeparatedCell()) {
-            this._$columnItems.push(new GridItemActionsCell({
-                owner: this,
-                isFixed: true,
-                column: {}
-            }));
-        }
-    }
-
     setMultiSelectVisibility(multiSelectVisibility: string): boolean {
         const isChangedMultiSelectVisibility = super.setMultiSelectVisibility(multiSelectVisibility);
         if (isChangedMultiSelectVisibility) {
