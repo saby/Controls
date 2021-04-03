@@ -53,6 +53,25 @@ const SHOW_SELECT_COUNT = [
    }
 ];
 
+const SHOW_SELECT_COUNT_SELECTED_ITEMS = [
+   {
+      id: 'count-10',
+      title: '+10'
+   },
+   {
+      id: 'count-25',
+      title: '+25'
+   },
+   {
+      id: 'count-50',
+      title: '+50'
+   },
+   {
+      id: 'count-100',
+      title: '+100'
+   }
+];
+
 interface IMultiSelectorChildren {
    countIndicator: LoadingIndicator;
 }
@@ -129,7 +148,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
    }
 
    private _getAdditionalMenuItems(options: IMultiSelectorOptions): MultiSelectorMenuItems {
-      let additionalItems = [];
+      const additionalItems = [];
 
       if (options.selectionViewMode === 'selected') {
          additionalItems.push(SHOW_ALL_ITEM);
@@ -137,7 +156,11 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && !options.isAllSelected) {
          additionalItems.push(SHOW_SELECTED_ITEM);
       } else if (options.selectionViewMode === 'partial') {
-         additionalItems.push(...SHOW_SELECT_COUNT);
+         if (this._options.selectedKeys.length) {
+            additionalItems.push(...SHOW_SELECT_COUNT_SELECTED_ITEMS);
+         } else {
+            additionalItems.push(...SHOW_SELECT_COUNT);
+         }
       }
 
       return additionalItems;

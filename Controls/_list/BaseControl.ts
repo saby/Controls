@@ -2512,25 +2512,32 @@ const _private = {
 
         switch (typeName) {
             case 'selectAll':
+                selectionController.setLimit(0);
                 result = selectionController.selectAll();
                 break;
             case 'unselectAll':
+                selectionController.setLimit(0);
                 result = selectionController.unselectAll();
                 break;
             case 'toggleAll':
+                selectionController.setLimit(0);
                 result = selectionController.toggleAll();
                 break;
             case 'count-10':
-                result = selectionController.selectCount(10);
+                selectionController.setLimit(10);
+                result = selectionController.selectCount();
                 break;
             case 'count-25':
-                result = selectionController.selectCount(25);
+                selectionController.setLimit(25);
+                result = selectionController.selectCount();
                 break;
             case 'count-50':
-                result = selectionController.selectCount(50);
+                selectionController.setLimit(50);
+                result = selectionController.selectCount();
                 break;
             case 'count-100':
-                result = selectionController.selectCount(100);
+                selectionController.setLimit(100);
+                result = selectionController.selectCount();
                 break;
         }
 

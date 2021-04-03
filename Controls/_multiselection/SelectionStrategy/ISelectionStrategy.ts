@@ -65,10 +65,11 @@ export default interface ISelectionStrategy {
    /**
     * Выбирает число элементов указанных в count с начала списка
     *
+    * @param {ISelection} selection текущее состояние выбранных ключей
     * @param {number} count кололичество элементов
     * @return {ISelection} новое состояние выбранных элементов
     */
-   selectCount(count: number): ISelection;
+   selectCount(selection: ISelection, count: number): ISelection;
 
    /**
     * Возвращает состояние элементов для модели
