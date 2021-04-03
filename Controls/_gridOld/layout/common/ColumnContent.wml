@@ -42,11 +42,11 @@
     </ws:else>
 </ws:template>
 
-<div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_default_theme-{{_options.theme}}
+<div class="controls-Grid__row-cell__content controls-Grid__row-cell__content_baseline_default
             {{ itemData.getEditingClassList(editable) }}
             {{itemData.classList.padding.getAll()}} {{ itemData.classList.columnContent }} controls-Grid__row-cell_cursor-{{cursor || 'pointer'}}
-            {{(itemData.column.backgroundColorStyle || backgroundColorStyle) ? 'controls-Grid__row-cell__content_background_' + (itemData.column.backgroundColorStyle || backgroundColorStyle) + '_theme-' + _options.theme}}
-            {{( !itemData.isSingleCellEditingMode && (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle))  ? 'controls-Grid__item_background-hover_' + (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)  + '_theme-' + _options.theme}}
+            {{(itemData.column.backgroundColorStyle || backgroundColorStyle) ? 'controls-Grid__row-cell__content_background_' + (itemData.column.backgroundColorStyle || backgroundColorStyle)}}
+            {{( !itemData.isSingleCellEditingMode && (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle))  ? 'controls-Grid__item_background-hover_' + (itemData.column.hoverBackgroundStyle || itemData.hoverBackgroundStyle)}}
             js-controls-ListView__measurableContainer">
     <ws:if data="{{contentTemplate}}">
         <ws:partial
@@ -59,12 +59,12 @@
     </ws:if>
     <ws:else>
         <ws:if data="{{itemData.column.textOverflow}}">
-            <div class="controls-Grid__cell_{{itemData.column.textOverflow}} {{itemData.showEditArrow ? ('controls-Grid__editArrow-cellContent_theme-' + _options.theme + ' controls-Grid__editArrow-overflow-' + (itemData.column.textOverflow ? itemData.column.textOverflow + '_theme-' +_options.theme))}}" title="{{itemData.column.template || itemData.column.tooltipProperty ? '' : itemData.item[itemData.column.displayProperty] }}">
+            <div class="controls-Grid__cell_{{itemData.column.textOverflow}} {{itemData.showEditArrow ? ('controls-Grid__editArrow-cellContent controls-Grid__editArrow-overflow-' + (itemData.column.textOverflow ? itemData.column.textOverflow))}}" title="{{itemData.column.template || itemData.column.tooltipProperty ? '' : itemData.item[itemData.column.displayProperty] }}">
                 <ws:partial template="DEFAULT_CONTENT_WRAPPER"/>
             </div>
         </ws:if>
         <ws:else>
-            <ws:partial template="DEFAULT_CONTENT_WRAPPER" attr:class="{{itemData.showEditArrow ? 'controls-Grid__editArrow-cellContent_theme-' + _options.theme}}"></ws:partial>
+            <ws:partial template="DEFAULT_CONTENT_WRAPPER" attr:class="{{itemData.showEditArrow ? 'controls-Grid__editArrow-cellContent'}}"></ws:partial>
         </ws:else>
         <ws:if data="{{itemData.showEditArrow && itemData.columnIndex === 0}}">
             <ws:partial template="{{editArrowTemplate}}" itemData="{{itemData}}"/>
@@ -72,13 +72,13 @@
     </ws:else>
     <ws:if data="{{tagTemplate !== undefined}}">
         <ws:if data="{{tagStyle}}">
-            <div class="controls-Grid__cell_tag_theme-{{_options.theme}}">
+            <div class="controls-Grid__cell_tag">
                 <ws:partial template="{{tagTemplate}}" tagStyle="{{tagStyle}}" dispItem="{{itemData.dispItem}}" columnIndex="{{itemData.columnIndex}}"/>
             </div>
         </ws:if>
         <ws:else>
             <ws:if data="{{itemData.column.tagStyleProperty && itemData.item.get(itemData.column.tagStyleProperty)}}">
-                <div class="controls-Grid__cell_tag_theme-{{_options.theme}}">
+                <div class="controls-Grid__cell_tag">
                     <ws:partial template="{{tagTemplate}}" tagStyle="{{itemData.item.get(itemData.column.tagStyleProperty)}}" dispItem="{{itemData.dispItem}}" columnIndex="{{itemData.columnIndex}}"/>
                 </div>
             </ws:if>

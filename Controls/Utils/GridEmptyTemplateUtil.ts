@@ -57,40 +57,40 @@ function getEmptyColumnClasses(params: IPrepareEmptyEditingColumnsParams & {
     const theme = params.theme;
 
     if (params.emptyColumnIndex === 0 && params.hasMultiSelect) {
-        return `controls-GridView__emptyTemplate__checkBoxCell controls-Grid__row-cell-editing_theme-${theme}
-        controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
+        return `controls-GridView__emptyTemplate__checkBoxCell controls-Grid__row-cell-editing
+        controls-Grid__row-cell-background-editing_${editingBackgroundStyle}`;
     }
 
     let classes = 'controls-GridView__emptyTemplate__cell ';
-    classes += `controls-Grid__row-cell-editing_theme-${theme} `;
-    classes += `controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme} `;
+    classes += `controls-Grid__row-cell-editing `;
+    classes += `controls-Grid__row-cell-background-editing_${editingBackgroundStyle} `;
 
     if (params.isFullGridSupport) {
-        classes += `controls-Grid__row-cell__content_baseline_default_theme-${theme} `;
+        classes += `controls-Grid__row-cell__content_baseline_default `;
     }
 
     // Вертикальные отступы шаблона путого списка
-    classes +=  `controls-ListView__empty_topSpacing_${params.emptyTemplateSpacing.top || 'default'}_theme-${theme} `;
-    classes += `controls-ListView__empty_bottomSpacing_${params.emptyTemplateSpacing.bottom || 'default'}_theme-${theme} `;
+    classes +=  `controls-ListView__empty_topSpacing_${params.emptyTemplateSpacing.top || 'default'} `;
+    classes += `controls-ListView__empty_bottomSpacing_${params.emptyTemplateSpacing.bottom || 'default'} `;
 
     // Вертикальные отступы внутри ячеек
-    classes += `controls-Grid__row-cell_rowSpacingTop_${itemPadding.top}_theme-${theme} `;
-    classes += `controls-Grid__row-cell_rowSpacingBottom_${itemPadding.bottom}_theme-${theme} `;
+    classes += `controls-Grid__row-cell_rowSpacingTop_${itemPadding.top} `;
+    classes += `controls-Grid__row-cell_rowSpacingBottom_${itemPadding.bottom} `;
 
     // Левый отступ ячейки
     if (!(params.emptyColumnIndex < 2 && params.hasMultiSelect)) {
         if (isFirst) {
-            classes += `controls-Grid__cell_spacingFirstCol_${itemPadding.left}_theme-${theme} `;
+            classes += `controls-Grid__cell_spacingFirstCol_${itemPadding.left} `;
         } else {
-            classes += `controls-Grid__cell_spacingLeft${getCellPadding('left')}_theme-${theme} `;
+            classes += `controls-Grid__cell_spacingLeft${getCellPadding('left')} `;
         }
     }
 
     // Правый отступ ячейки
     if (isLast) {
-        classes += `controls-Grid__cell_spacingLastCol_${itemPadding.right}_theme-${theme}`;
+        classes += `controls-Grid__cell_spacingLastCol_${itemPadding.right}`;
     } else {
-        classes += `controls-Grid__cell_spacingRight${getCellPadding('right')}_theme-${theme}`;
+        classes += `controls-Grid__cell_spacingRight${getCellPadding('right')}`;
     }
 
     return classes;

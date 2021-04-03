@@ -17,7 +17,10 @@ import { Collection, Tree, TreeItem } from 'Controls/display';
 import { selectionToRecord } from 'Controls/operations';
 import { NewSourceController as SourceController, NewSourceController } from 'Controls/dataSource';
 import { MouseButtons, MouseUp } from 'Controls/popup';
-
+import 'css!Controls/list';
+import 'css!Controls/itemActions';
+import 'css!Controls/CommonClasses';
+import 'css!Controls/treeGrid';
 
 const HOT_KEYS = {
     expandMarkedItem: constants.key.right,
@@ -1317,8 +1320,6 @@ export class TreeControl<TOptions extends ITreeControlOptions = ITreeControlOpti
     private _isExpanded(item, model): boolean {
         return model.getExpandedItems().indexOf(item.getContents().get(this._keyProperty)) > -1;
     }
-
-    static _theme = [...BaseControl._theme, 'Controls/treeGrid'];
 
     static getDefaultOptions() {
         return {

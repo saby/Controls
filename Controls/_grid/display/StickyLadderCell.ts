@@ -46,7 +46,7 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
         const topPadding = this._$owner.getTopPadding();
         let contentClasses = super.getContentClasses(theme, cursor, false);
         contentClasses += ' controls-Grid__row-ladder-cell__content';
-        contentClasses += ` controls-Grid__row-ladder-cell__content_${topPadding}_theme-${theme}`;
+        contentClasses += ` controls-Grid__row-ladder-cell__content_${topPadding}`;
         return contentClasses;
     }
 
@@ -75,9 +75,9 @@ export default class StickyLadderCell<T, TOwner extends DataRow<T>> extends Data
         const hasTopResults = this._$owner.getResultsPosition() === 'top';
         const hasGroup = this._$owner.hasStickyGroup();
         if (!hasMainCell) {
-            classes += ` controls-Grid__row-cell__ladder-spacing${hasHeader ? '_withHeader' : ''}${hasTopResults ? '_withResults' : ''}${hasGroup ? '_withGroup' : ''}_theme-${theme}`;
+            classes += ` controls-Grid__row-cell__ladder-spacing${hasHeader ? '_withHeader' : ''}${hasTopResults ? '_withResults' : ''}${hasGroup ? '_withGroup' : ''}`;
         } else if (hasGroup) {
-            classes += ` controls-Grid__row-cell__ladder-main_spacing_withGroup_theme-${theme}`;
+            classes += ' controls-Grid__row-cell__ladder-main_spacing_withGroup';
         }
         return classes;
     }

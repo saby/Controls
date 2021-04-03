@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__noSeparatorLeftCaption">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/WithoutSeparator/Left/Index' }}">
             <a href="{{content.href}}">Заголовок слева</a>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 demo-ListGrouped__noSeparatorRightCaption">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/list_new/Grouped/WithoutSeparator/Right/Index' }}">
             <a href="{{content.href}}">Заголовок справа</a>

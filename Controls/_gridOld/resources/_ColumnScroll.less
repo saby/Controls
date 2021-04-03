@@ -1,11 +1,11 @@
 @import "../../_scroll/Scroll/_contentEnvironmentZIndex";
 
-.controls-ColumnScroll_theme-@{themeName} {
+.controls-ColumnScroll {
    position: absolute;
    top: 0;
    left: 0;
    right: 0;
-   z-index: @z-index_Scroll-contentEnviroment_horizontal;
+   z-index: var(--z-index_Scroll-contentEnvironment_horizontal);
    width: inherit;
 }
 
@@ -13,34 +13,34 @@
    position: relative;
 }
 
-.controls-ColumnScroll__shadow_theme-@{themeName} {
+.controls-ColumnScroll__shadow {
    top: 0;
-   z-index: @z-index_Scroll-shadow;
+   z-index: var(--z-index_Scroll-shadow);
    position: absolute;
    pointer-events: none;
-   width: @columnscroll_shadow-blur_grid;
+   width: var(--columnscroll_shadow-blur_grid);
    box-sizing: border-box;
 }
 
-.controls-ColumnScroll__shadow_without-bottom-padding_theme-@{themeName} {
+.controls-ColumnScroll__shadow_without-bottom-padding {
    bottom: 0;
 }
 
-.controls-ColumnScroll__shadow_with-bottom-padding_theme-@{themeName} {
-   bottom: @height_outside_itemActions;
+.controls-ColumnScroll__shadow_with-bottom-padding {
+   bottom: var(--height_outside_itemActions);
 }
 
 // Набор классов для установки градиента горизонтального скролла через backgroundStyle (default, transparent)
-.controls-horizontal-gradient-default_theme-@{themeName},
-.controls-horizontal-gradient-default_theme-@{themeName},
-.controls-horizontal-gradient-stack_theme-@{themeName},
-.controls-horizontal-gradient-stackHeader_theme-@{themeName},
-.controls-horizontal-infoBox-detail_theme-@{themeName} {
-   background: linear-gradient(to right, @columnscroll_shadow-start-color_grid, @columnscroll_shadow-end-color_grid);
-   border-left: @columnscroll_separator_thickness_grid solid @columnscroll_separator_color_grid;
+.controls-horizontal-gradient-default,
+.controls-horizontal-gradient-default,
+.controls-horizontal-gradient-stack,
+.controls-horizontal-gradient-stackHeader,
+.controls-horizontal-infoBox-detail {
+   background: linear-gradient(to right, var(--columnscroll_shadow-start-color_grid), var(--columnscroll_shadow-end-color_grid));
+   border-left: var(--columnscroll_separator_thickness_grid) solid var(--columnscroll_separator_color_grid);
 }
 
-.controls-ColumnScroll__shadow-end_theme-@{themeName} {
+.controls-ColumnScroll__shadow-end {
    right: 0;
    transform: scaleX(-1);
 }
@@ -80,6 +80,6 @@
    pointer-events: none;
 }
 
-.controls-Grid__ColumnScroll__shadow_withMultiselect_theme-@{themeName} {
-   margin-left: @click-area_width_checkbox;
+.controls-Grid__ColumnScroll__shadow_withMultiselect {
+   margin-left: var(--click-area_width_checkbox);
 }

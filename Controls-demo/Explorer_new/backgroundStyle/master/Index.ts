@@ -5,6 +5,8 @@ import {Memory} from 'Types/source';
 import * as MemorySource from 'Controls-demo/Explorer/ExplorerMemory';
 import { IColumn } from 'Controls/gridOld';
 import {TRoot, IHeader} from 'Controls-demo/types';
+import 'css!Controls/masterDetail';
+import 'css!Controls/CommonClasses';
 
 export default class extends Control {
    protected _template: TemplateFunction = Template;
@@ -57,7 +59,6 @@ export default class extends Control {
       });
    }
 
-   static _theme: string[] = ['Controls/Classes', 'Controls/masterDetail'];
    static _styles: string[] = [
       'Controls-demo/Controls-demo'
    ];

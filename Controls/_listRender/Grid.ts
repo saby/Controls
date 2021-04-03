@@ -4,6 +4,7 @@ import { TemplateFunction } from 'UI/Base';
 import { detection } from 'Env/Env';
 import { GridCollection } from 'Controls/display';
 import { Model } from 'Types/entity';
+import 'css!Controls/grid';
 
 export interface IGridRenderOptions extends IRenderOptions {
     listModel: GridCollection<Model>;
@@ -47,7 +48,7 @@ export default class GridRender extends BaseRender {
     }
 
     protected _getGridClasses(): string {
-        let classes = `controls-Grid controls-Grid_${this._options.style}_theme-${this._options.theme}`;
+        let classes = `controls-Grid controls-Grid_${this._options.style}`;
         if (!this._isFullGridSupport()) {
             classes += ' controls-Grid_table-layout controls-Grid_table-layout_fixed';
         }
@@ -77,8 +78,6 @@ export default class GridRender extends BaseRender {
             )
         );
     }
-
-    static _theme: string[] = ['Controls/grid'];
 
     static getDefaultOptions(): Partial<IGridRenderOptions> {
         return {};

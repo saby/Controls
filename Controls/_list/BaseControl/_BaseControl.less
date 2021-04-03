@@ -23,39 +23,39 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    }
 }
 
-.controls-BaseControl__loadMore_theme-@{themeName} {
-   height: @more_height_list;
+.controls-BaseControl__loadMore {
+   height: var(--more_height_list);
 }
 
 .controls-text-listMore {
-   color: @more_text-color_list;
+   color: var(--more_text-color_list);
 }
 
 .controls-BaseButton:active .controls-text-listMore {
-   color: @more_active_text-color_list;
+   color: var(--more_active_text-color_list);
 }
 
 .ws-is-hover {
    .controls-BaseButton:hover .controls-text-listMore {
-      color: @more_hover_text-color_list;
+      color: var(--more_hover_text-color_list);
    }
 }
 
 .controls-BaseControl__pagingContainer {
    pointer-events: none;
    position: absolute;
-   bottom: @scrollpaging_offset-vertical_list;
+   bottom: var(--scrollpaging_offset-vertical_list);
    // Должен отображаться выше элементов скрол контейнера
-   z-index: @z-index_Scroll-contentEnvironment + 1;
+   z-index: calc(var(--z-index_Scroll-contentEnvironment) + 1);
    display: flex;
 
    &_position-right {
-      right: @scrollpaging_offset-horizontal_list;
+      right: var(--scrollpaging_offset-horizontal_list);
       justify-content: flex-end;
    }
 
    &_position-left {
-      left: @scrollpaging_offset-horizontal_list;
+      left: var(--scrollpaging_offset-horizontal_list);
       justify-content: flex-start;
    }
 }
@@ -66,15 +66,15 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    .controls-BaseControl__pagingContainer {
       position: sticky;
       top: auto;
-      padding: @scrollpaging_offset-vertical_list 0;
+      padding: var(--scrollpaging_offset-vertical_list) 0;
       bottom: 0;
 
       &_position-right {
-         margin-right: @scrollpaging_offset-horizontal_list;
+         margin-right: var(--scrollpaging_offset-horizontal_list);
       }
 
       &_position-left {
-         margin-left: @scrollpaging_offset-horizontal_list;
+         margin-left: var(--scrollpaging_offset-horizontal_list);
       }
    }
 
@@ -87,20 +87,20 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
       padding: 0;
       > .controls-PagingV {
          position: absolute;
-         bottom: @scrollpaging_offset-vertical_list;
+         bottom: var(--scrollpaging_offset-vertical_list);
       }
    }
 }
 
-.controls-BaseControl_paging-Padding_theme-@{themeName} {
-   height: @item_height_paging + 2 * @scrollpaging_offset-vertical_list;
+.controls-BaseControl_paging-Padding {
+   height: calc(var(--item_height_paging) + 2 * var(--scrollpaging_offset-vertical_list));
 }
 
-.ws-is-mobile-safari .controls-BaseControl_paging-Padding_theme-@{themeName} {
+.ws-is-mobile-safari .controls-BaseControl_paging-Padding {
    margin-bottom: 0;
 }
 
-.controls-BaseControl__scrollPaging_theme-@{themeName} {
+.controls-BaseControl__scrollPaging {
    pointer-events: auto;
 }
 
@@ -138,7 +138,10 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 .controls-BaseControl__loadingIndicator__state-down {
    position: sticky;
    pointer-events: none;
+   padding-top: var(--continueSearch_padding-top_list);
+   bottom: var(--scrollpaging_offset-vertical_list);
 }
+
 
 // По стандарту индикатор загрузки данных вниз должен "прилипать" к нижней границе вьюпорта списка.
 // IE не поддерживает position: sticky, поэтому прижимаем индикатор загрузки к низу последней записи, тем самым урезая функционал в IE
@@ -149,25 +152,20 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
 }
 
 // IE не поддерживает position: sticky, положение sticky контейнера не нужно компенсировать на контейнер с пагинацией.
-.ws-is-ie .controls-BaseControl_withPaging__loadingIndicator__state-down_theme-@{themeName} {
+.ws-is-ie .controls-BaseControl_withPaging__loadingIndicator__state-down {
    margin-bottom: 0;
 }
 
-.controls-BaseControl__loadingIndicator__state-down_theme-@{themeName} {
-   padding-top: @continueSearch_padding-top_list;
-   bottom: @scrollpaging_offset-vertical_list;
-}
-
-.controls-BaseControl__loadingIndicator__state-up .controls-BaseControl__loadingIndicatorImg-wrapper_theme-@{themeName} {
+.controls-BaseControl__loadingIndicator__state-up .controls-BaseControl__loadingIndicatorImg-wrapper {
    position: absolute;
    top: 0;
 }
 
-.controls-BaseControl_empty__loadingIndicator__state-down_theme-@{themeName} {
-   min-height: @content_l_padding_loadingIndicator * 2 + @spinner_l_size_loadingIndicator;
+.controls-BaseControl_empty__loadingIndicator__state-down {
+   min-height: calc(var(--content_l_padding_loadingIndicator) * 2 + var(--spinner_l_size_loadingIndicator));
 }
 
-.controls-BaseControl_empty__loadingIndicator__state-down_theme-@{themeName} .controls-BaseControl__loadingIndicatorImg-wrapper_theme-@{themeName} {
+.controls-BaseControl_empty__loadingIndicator__state-down .controls-BaseControl__loadingIndicatorImg-wrapper {
    top: 0;
 }
 
@@ -179,41 +177,41 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    align-items: center;
 }
 
-.controls-BaseControl__loadingIndicatorImg-wrapper_theme-@{themeName} {
-   padding: @content_l_border_radius_loadingIndicator;
-   background-color: @content_background-color_loadingIndicator;
-   border-radius: @content_l_border_radius_loadingIndicator;
+.controls-BaseControl__loadingIndicatorImg-wrapper {
+   padding: var(--content_l_border_radius_loadingIndicator);
+   background-color: var(--content_background-color_loadingIndicator);
+   border-radius: var(--content_l_border_radius_loadingIndicator);
    z-index: 1;
    display: inline-flex;
    align-items: center;
    pointer-events: auto;
 }
 
-.controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch_theme-@{themeName} {
-   box-shadow: @loadingIndicator_iterativeSearch_box-shadow_list;
+.controls-BaseControl__loadingIndicatorImg-wrapper_style-portionedSearch {
+   box-shadow: var(--loadingIndicator_iterativeSearch_box-shadow_list);
 }
 
-.controls-BaseControl__loadingIndicatorImg_theme-@{themeName} {
-   background: @spinner_l_background-image_loadingIndicator 0 0 no-repeat;/**/
-   width: @spinner_l_size_loadingIndicator;
-   height: @spinner_l_size_loadingIndicator;
-   background-size: @spinner_l_size_loadingIndicator;
+.controls-BaseControl__loadingIndicatorImg {
+   background: var(--spinner_l_background-image_loadingIndicator) 0 0 no-repeat;/**/
+   width: var(--spinner_l_size_loadingIndicator);
+   height: var(--spinner_l_size_loadingIndicator);
+   background-size: var(--spinner_l_size_loadingIndicator);
 }
 
 .controls-BaseControl__trigger {
    position: relative;
 }
 
-.controls-BaseControl__footer-content_theme-@{themeName} {
-   min-height: @footer_min-height_list;
+.controls-BaseControl__footer-content {
+   min-height: var(--footer_min-height_list);
    display: flex;
    flex-grow: 1;
    align-items: baseline;
 }
 
-.controls-BaseControl__footer-content_theme-@{themeName}::before {
+.controls-BaseControl__footer-content::before {
    content: '\200b';
-   font-size: @footer_font-size_list;
+   font-size: var(--footer_font-size_list);
 }
 
 .controls-BaseControl__footerPaging_wrapper {
@@ -224,107 +222,104 @@ https://online.sbis.ru/opendoc.html?guid=16c81a19-f2a0-4b3f-a7e8-56d154b68e4c
    width: 100%;
 }
 
-.controls-BaseControl_paging-wrapper_theme-@{themeName} {
+.controls-BaseControl_paging-wrapper {
    position: sticky;
    right: 0;
    display: flex;
    flex-direction: row;
 }
 
-.controls-BaseControl_paging-label_theme-@{themeName} {
+.controls-BaseControl_paging-label {
    display: flex;
    align-items: baseline;
-   color: @pagesCounter_text-color_list;
-   font-size: @pagesCounter_font-size_list;
+   color: var(--pagesCounter_text-color_list);
+   font-size: var(--pagesCounter_font-size_list);
 }
 
-.controls-BaseControl_paging-pageSizeChooser_theme-@{themeName} {
-   margin-left: @pagesSelector_offset-left_list;
+.controls-BaseControl_paging-pageSizeChooser {
+   margin-left: var(--pagesSelector_offset-left_list);
 }
 
-.controls-BaseControl__abortSearch_theme-@{themeName} {
+.controls-BaseControl__abortSearch {
    display: inline-block;
-   color: @abortSearch_text-color_list;
-   margin-left: @content_l_padding_loadingIndicator;
-   font-size: @abortSearch_font-size_list;
+   color: var(--abortSearch_text-color_list);
+   margin-left: var(--content_l_padding_loadingIndicator);
+   font-size: var(--abortSearch_font-size_list);
 }
 
-.controls-BaseControl__loadingIndicator-footerTemplate_theme-@{themeName} {
-   margin-left: @content_l_padding_loadingIndicator;
-   color: @text-color_loadingIndicator;
-   font-size: @font-size_xs;
+.controls-BaseControl__loadingIndicator-footerTemplate {
+   margin-left: var(--content_l_padding_loadingIndicator);
+   color: var(--text-color_loadingIndicator);
+   font-size: var(--font-size_xs);
 }
 
-.ws-is-no-touch .controls-BaseControl__abortSearch_theme-@{themeName}:hover {
+.ws-is-no-touch .controls-BaseControl__abortSearch:hover {
    text-decoration: underline;
-   color: @abortSearch_hover_text-color_list;
+   color: var(--abortSearch_hover_text-color_list);
    cursor: pointer;
 }
 
-.controls-BaseControl__abortSearch_theme-@{themeName}:active {
+.controls-BaseControl__abortSearch:active {
    text-decoration: underline;
-   color: @abortSearch_active_text-color_list;
+   color: var(--abortSearch_active_text-color_list);
 }
 
 .controls-BaseControl__continueSearch {
    display: inline-flex;
    width: 100%;
    position: absolute;
-   bottom: 0px;
+   bottom: 0;
+   padding-top: calc(var(--continueSearch_padding-top_list) + var(--content_l_border_radius_loadingIndicator));
+   padding-bottom: var(--content_l_padding_loadingIndicator);
 }
 
-.controls-BaseControl__continueSearch_theme-@{themeName} {
-   padding-top: @continueSearch_padding-top_list + @content_l_border_radius_loadingIndicator;
-   padding-bottom: @content_l_padding_loadingIndicator;
-}
-
-.controls-BaseControl__continueSearch_wrapper_theme-@{themeName} {
-   color: @continueSearch_text-color_list;
+.controls-BaseControl__continueSearch_wrapper {
+   color: var(--continueSearch_text-color_list);
    cursor: pointer;
 }
 
-.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:hover {
-   color: @continueSearch_hover_text-color_list;
+.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover {
+   color: var(--continueSearch_hover_text-color_list);
    cursor: pointer;
 }
 
-.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:hover .controls-BaseControl__continueSearch_caption {
+.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover .controls-BaseControl__continueSearch_caption {
    text-decoration: underline;
 }
 
-.controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:active {
-   color: @continueSearch_active_text-color_list;
+.controls-BaseControl__continueSearch_wrapper:active {
+   color: var(--continueSearch_active_text-color_list);
 }
 
-.controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:active .controls-BaseControl__continueSearch_caption {
+.controls-BaseControl__continueSearch_wrapper:active .controls-BaseControl__continueSearch_caption {
    text-decoration: underline;
 }
 
 .controls-BaseControl__continueSearch_icon {
-   margin-right: @continueSearch_icon-offset_list;
-   color: @continueSearch_icon-color_list;
+   margin-right: var(--continueSearch_icon-offset_list);
+   color: var(--continueSearch_icon-color_list);
 }
 
-.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper_theme-@{themeName}:hover .controls-BaseControl__continueSearch_icon {
-   color: @continueSearch_hover_icon-color_list;
+.ws-is-no-touch .controls-BaseControl__continueSearch_wrapper:hover .controls-BaseControl__continueSearch_icon {
+   color: var(--continueSearch_hover_icon-color_list);
 }
 
 .controls-BaseControl__continueSearch_wrapper:active .controls-BaseControl__continueSearch_icon {
-   color: @continueSearch_hover_icon-color_list;
+   color: var(--continueSearch_hover_icon-color_list);
 }
 
-.controls-BaseControl__continueSearch_footerTemplate_theme-@{themeName} {
-   font-size: @font-size_xs;
+.controls-BaseControl__continueSearch_footerTemplate {
+   font-size: var(--font-size_xs);
 }
 
-.controls-BaseControl__cut-container_s_theme-@{themeName} {
-   padding: @cut_padding-top_s_list 0 @cut_padding-bottom_s_list;
+.controls-BaseControl__cut-container_s {
+   padding: var(--cut_padding-top_s_list) 0 var(--cut_padding-bottom_s_list);
 }
 
-.controls-BaseControl__cut-container_m_theme-@{themeName} {
-   padding: @cut_padding-top_m_list 0 @cut_padding-bottom_m_list;
+.controls-BaseControl__cut-container_m {
+   padding: var(--cut_padding-top_m_list) 0 var(--cut_padding-bottom_m_list);
 }
 
-.controls-BaseControl__cut-container_l_theme-@{themeName} {
-   padding: @cut_padding-top_l_list 0 @cut_padding-bottom_l_list;
+.controls-BaseControl__cut-container_l {
+   padding: var(--cut_padding-top_l_list) 0 var(--cut_padding-bottom_l_list);
 }

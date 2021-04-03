@@ -59,10 +59,10 @@ export default class GroupRow<T> extends mixin<
         if (side === 'left') {
             const spacing = this.getOwner().getLeftPadding().toLowerCase();
             const hasMultiSelect = this.hasMultiSelectColumn();
-            return `controls-ListView__groupContent__leftPadding_${hasMultiSelect ? 'withCheckboxes' : spacing}_theme-${theme}`;
+            return `controls-ListView__groupContent__leftPadding_${hasMultiSelect ? 'withCheckboxes' : spacing}`;
         } else {
             const spacing = this.getOwner().getRightPadding().toLowerCase();
-            return `controls-ListView__groupContent__rightPadding_${spacing}_theme-${theme}`;
+            return `controls-ListView__groupContent__rightPadding_${spacing}`;
         }
     }
 
@@ -96,7 +96,7 @@ export default class GroupRow<T> extends mixin<
     protected _getBaseItemClasses(style: string, theme: string): string {
         let itemClasses = 'controls-ListView__itemV';
         if (!this.isHiddenGroup()) {
-            itemClasses += ` controls-Grid__row controls-Grid__row_${style}_theme-${theme}`;
+            itemClasses += ` controls-Grid__row controls-Grid__row_${style}`;
         }
         return itemClasses;
     }

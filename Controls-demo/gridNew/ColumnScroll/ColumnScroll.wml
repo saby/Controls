@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell demo-ColumnScroll__base">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/Base/Index' }}">
             <a href="{{content.href}}">Базовая настройка скрола колонок</a>
@@ -10,7 +10,7 @@
 
 
     <div class="controlsDemo__cell controlsDemo__wrapper__padding-left demo-ColumnScroll__startPositionEnd">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/ScrollStartPositionEnd/Index' }}">
             <a href="{{content.href}}">Колонки проскролены в конец</a>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/WithItemActions/Index' }}">
             <a href="{{content.href}}">Операции над записью в списке с горизонтальным скроллом</a>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/ColspanFirstHeaderCell/Index' }}">
             <a href="{{content.href}}">Первая ячейка заголовка объединена со второй</a>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/AddColumns/Index' }}">
             <a href="{{content.href}}">Добавление колонки</a>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/WithEditing/Index' }}">
             <a href="{{content.href}}">С редактированием по месту</a>
@@ -56,7 +56,7 @@
 
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/DragScrolling/Index' }}">
             <a href="{{content.href}}">DragScrolling</a>
@@ -66,7 +66,7 @@
 
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/WithoutHeader/Index' }}">
             <a href="{{content.href}}">WithoutHeader</a>
@@ -76,7 +76,7 @@
 
 
     <div class="controlsDemo__cell">
-        <Router.router:Reference attr:class="controls-text-label_theme-{{_options.theme}}"
+        <Router.router:Reference attr:class="controls-text-label"
                                  state="/Controls-demo/app/:app"
                                  app="{{ 'Controls-demo/gridNew/ColumnScroll/WithFooter/Index' }}">
             <a href="{{content.href}}">С подвалом таблицы</a>

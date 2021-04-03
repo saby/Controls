@@ -5,12 +5,10 @@ import ItemsViewModel = require('Controls/_list/ItemsViewModel');
 import entityLib = require('Types/entity');
 import ItemsUtil = require('Controls/_list/resources/utils/ItemsUtil');
 import cInstance = require('Core/core-instance');
-import { Object as EventObject } from 'Env/Event';
 import {isEqual} from 'Types/object';
-import { IObservable } from 'Types/collection';
 import { Model } from 'Types/entity';
 import { CollectionItem, IEditingConfig, ISwipeConfig } from 'Controls/display';
-import { CssClassList } from "./resources/utils/CssClassList";
+import { CssClassList } from './resources/utils/CssClassList';
 import {Logger} from 'UI/Utils';
 import {IItemAction, IItemActionsTemplateConfig} from 'Controls/itemActions';
 import { IDragPosition, IItemPadding } from 'Controls/display';
@@ -28,7 +26,7 @@ interface IListSeparatorOptions {
  */
 
 const _private = {
-    updateIndexes: function(self, startIndex, stopIndex) {
+    updateIndexes(self, startIndex, stopIndex) {
         self._startIndex = startIndex;
         self._stopIndex = stopIndex;
     },
@@ -53,24 +51,24 @@ const _private = {
         const itemPadding = _private.getItemPadding(itemPaddingProperty);
         const style = !styleProperty ? 'default' : styleProperty;
 
-        classList += ` controls-ListView__itemContent controls-ListView__itemContent_${style}_theme-${theme}`;
-        classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}_theme-${theme}`;
-        classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}_theme-${theme}`;
-        classList += ` controls-ListView__item-rightPadding_${itemPadding.right}_theme-${theme}`;
+        classList += ` controls-ListView__itemContent controls-ListView__itemContent_${style}`;
+        classList += ` controls-ListView__item_${style}-topPadding_${itemPadding.top}`;
+        classList += ` controls-ListView__item_${style}-bottomPadding_${itemPadding.bottom}`;
+        classList += ` controls-ListView__item-rightPadding_${itemPadding.right}`;
 
         if (multiSelectVisibility !== 'hidden' && multiSelectPosition !== 'custom') {
-            classList += ' controls-ListView__itemContent_withCheckboxes' + `_theme-${theme}`;
+            classList += ' controls-ListView__itemContent_withCheckboxes' + '';
         } else {
-            classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase() + `_theme-${theme}`;
+            classList += ' controls-ListView__item-leftPadding_' + (itemPadding.left || 'default').toLowerCase();
         }
 
         if (rowSeparatorSize) {
-            classList += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}_theme-${theme}`;
+            classList += ` controls-ListView__rowSeparator_size-${rowSeparatorSize}`;
         }
 
         return classList;
     },
-    getItemByMarkedKey: function(self, markedKey) {
+    getItemByMarkedKey(self, markedKey) {
         if (markedKey === null) {
             return;
         }
@@ -85,15 +83,15 @@ const _private = {
                            .add(EDIT_IN_PLACE_JS_SELECTORS.NOT_EDITABLE)
                            .add('controls-List_DragNDrop__notDraggable')
                            .add('js-controls-ColumnScroll__notDraggable')
-                           .add(`controls-CheckboxMarker_inList_theme-${theme}`)
+                           .add('controls-CheckboxMarker_inList')
                            .add('controls-ListView__checkbox-onhover', checkboxOnHover && !checkboxVisible)
-                           .add(`controls-ListView__itemContent_dragging_theme-${theme}`, !!current.isDragging)
+                           .add('controls-ListView__itemContent_dragging', !!current.isDragging)
                            .compile();
     },
 
     getGroupPaddingClasses(current, theme: string): { left: string; right: string } {
-        const right = `controls-ListView__groupContent__rightPadding_${current.itemPadding.right}_theme-${theme}`;
-        const left =  `controls-ListView__groupContent__leftPadding_${current.hasMultiSelect ? 'withCheckboxes' : current.itemPadding.left}_theme-${theme}`;
+        const right = `controls-ListView__groupContent__rightPadding_${current.itemPadding.right}`;
+        const left =  `controls-ListView__groupContent__leftPadding_${current.hasMultiSelect ? 'withCheckboxes' : current.itemPadding.left}`;
         return {right, left};
     },
 
@@ -194,24 +192,23 @@ const _private = {
         const editingBackgroundStyle = this.getEditingBackgroundStyle();
         let wrapperClasses = `controls-ListView__itemV ${this.calcCursorClasses(cursor)}`;
         wrapperClasses += ` controls-ListView__item_${style}`;
-        wrapperClasses += ` controls-ListView__item_${style}_theme-${theme}`;
         wrapperClasses += ' controls-ListView__item_showActions';
         wrapperClasses += ' js-controls-ListView__measurableContainer';
-        wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}_theme-${theme}`;
+        wrapperClasses += ` controls-ListView__item__${this.isMarked() ? '' : 'un'}marked_${style}`;
         if (templateHighlightOnHover && !this.isEditing()) {
-            wrapperClasses += ` controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}_theme_${theme}`;
+            wrapperClasses += ` controls-ListView__item_highlightOnHover_${hoverBackgroundStyle}`;
         }
         if (this.isEditing()) {
-            wrapperClasses += ` controls-ListView__item_editing_theme-${theme} controls-ListView__item_background-editing_${editingBackgroundStyle}_theme-${theme}`;
+            wrapperClasses += ` controls-ListView__item_editing controls-ListView__item_background-editing_${editingBackgroundStyle}`;
         }
         if (this.isDragged()) {
-            wrapperClasses += ` controls-ListView__item_dragging_theme-${theme}`;
+            wrapperClasses += ' controls-ListView__item_dragging';
         }
         if (backgroundColorStyle) {
-            wrapperClasses += ` controls-ListView__item_background_${backgroundColorStyle}_theme-${theme}`;
+            wrapperClasses += ` controls-ListView__item_background_${backgroundColorStyle}`;
         }
         if (templateHighlightOnHover && this.isActive()) {
-            wrapperClasses += ` controls-ListView__item_active_theme-${theme}`;
+            wrapperClasses += ' controls-ListView__item_active';
         }
         return wrapperClasses;
     }
@@ -238,7 +235,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this.options = cfg;
         this.options.rowSeparatorSize = _private.getSeparatorSizes(this.options);
     },
-    setItemPadding: function(itemPadding, silent = false) {
+    setItemPadding(itemPadding, silent = false) {
         this._options.itemPadding = itemPadding;
         if (!silent) {
             this._nextModelVersion();
@@ -247,7 +244,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     getItemPadding(): object {
         return _private.getItemPadding(this._options.itemPadding);
     },
-    getItemDataByItem: function() {
+    getItemDataByItem() {
         const self = this;
         const itemsModelCurrent = ListViewModel.superclass.getItemDataByItem.apply(this, arguments);
         let dragItems;
@@ -294,11 +291,11 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         itemsModelCurrent.getMarkerClasses = (markerClassName = 'default'): string => {
             const style = this._options.style || 'default';
             return `controls-ListView__itemV_marker
-                    controls-ListView__itemV_marker_${style}_theme-${theme}
-                    controls-ListView__itemV_marker_${style}_topPadding-${itemsModelCurrent.itemPadding.top}_theme-${theme}
-                    controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}_theme-${theme}x
-                    controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (itemsModelCurrent.itemPadding.top || 'l') + '_' + markerClassName)}
-                    ${!!itemsModelCurrent.isDragging ? ' controls-ListView__itemContent_dragging_theme-' + itemsModelCurrent.theme : ''}`;
+                    controls-ListView__itemV_marker_${style}
+                    controls-ListView__itemV_marker_${style}_topPadding-${itemsModelCurrent.itemPadding.top}
+                    controls-ListView__itemV_marker_${style}_bottomPadding-${itemsModelCurrent.itemPadding.bottom}
+                    controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (itemsModelCurrent.itemPadding.top || 'l') + '_' + markerClassName)}
+                    ${!!itemsModelCurrent.isDragging ? ' controls-ListView__itemContent_dragging' : ''}`;
         };
 
         if (itemsModelCurrent.isGroup) {
@@ -370,12 +367,12 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return startIndex;
     },
 
-    isShouldBeDrawnItem: function(item) {
-        var isInRange = ListViewModel.superclass.isShouldBeDrawnItem.apply(this, arguments);
+    isShouldBeDrawnItem(item) {
+        let isInRange = ListViewModel.superclass.isShouldBeDrawnItem.apply(this, arguments);
         return isInRange || (item?.isGroup && item?.isStickyHeader) || item?.isStickedMasterItem;
     },
 
-    _calcCursorClasses: function(clickable, cursor) {
+    _calcCursorClasses(clickable, cursor) {
         const cursorStyle = cursor || (clickable === false ? 'default' : 'pointer');
         if (typeof clickable !== 'undefined') {
             Logger.warn('Controls/list:BaseItemTemplate', 'Option "clickable" is deprecated and will be removed in 20.3000. Use option "cursor" with value "default".');
@@ -383,8 +380,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return ` controls-ListView__itemV controls-ListView__itemV_cursor-${cursorStyle}`;
     },
 
-    _calcItemVersion: function(item, key) {
-        var version = ListViewModel.superclass._calcItemVersion.apply(this, arguments);
+    _calcItemVersion(item, key) {
+        let version = ListViewModel.superclass._calcItemVersion.apply(this, arguments);
 
         if (this._dragEntity && this._dragEntity.getItems().indexOf(key) !== -1) {
             version = 'DRAG_ITEM_' + version;
@@ -437,15 +434,15 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
     },
 
-    setMarkerVisibility: function(markerVisibility) {
+    setMarkerVisibility(markerVisibility) {
         this._options.markerVisibility = markerVisibility;
         this._nextModelVersion();
     },
 
-    getFirstItem: function() {
+    getFirstItem() {
         return ItemsUtil.getFirstItem(this._display);
     },
-    getLastItem: function() {
+    getLastItem() {
         return ItemsUtil.getLastItem(this._display);
     },
 
@@ -457,8 +454,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return this._display.getIndexByKey(key);
     },
 
-    getNextItemKey: function(key) {
-        var
+    getNextItemKey(key) {
+        let
             itemIdx = this.getIndexByKey(key),
             nextItemId = itemIdx + 1,
             nextItem,
@@ -471,8 +468,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             nextItemId++;
         }
     },
-    getPreviousItemKey: function(key) {
-        var
+    getPreviousItemKey(key) {
+        let
             itemIdx = this.getIndexByKey(key),
             prevItemId = itemIdx - 1,
             prevItem;
@@ -496,17 +493,17 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return this.getItemBySourceKey(nextKey);
     },
 
-    getMarkedKey: function() {
+    getMarkedKey() {
         return this._markedKey;
     },
-    getMarkedItem: function() {
+    getMarkedItem() {
         return _private.getItemByMarkedKey(this, this._markedKey);
     },
-    getSelectionStatus: function(key) {
+    getSelectionStatus(key) {
         return this.getItemBySourceKey(key)?.isSelected();
     },
 
-    getActiveItem: function() {
+    getActiveItem() {
         return this._activeItem;
     },
 
@@ -591,14 +588,14 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
 
     // endregion
 
-    setSwipeItem: function(itemData) {
+    setSwipeItem(itemData) {
         if (!this._swipeItem || !itemData || itemData.item !== this._swipeItem.item) {
            this._swipeItem = itemData;
            this._nextModelVersion(true);
         }
     },
 
-    setHoveredItem: function(item){
+    setHoveredItem(item) {
         const changedItems = [];
         if (this._hoveredItem && typeof this._hoveredItem.getId === 'function') {
             changedItems.push(this.getItemById(this._hoveredItem.getId()));
@@ -611,22 +608,22 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._nextModelVersion(true, 'hoveredItemChanged', '', changedItems);
     },
 
-    getHoveredItem: function () {
+    getHoveredItem() {
         return this._hoveredItem;
     },
 
-    updateIndexes: function(startIndex, stopIndex) {
+    updateIndexes(startIndex, stopIndex) {
         if ((this._startIndex !== startIndex) || (this._stopIndex !== stopIndex)) {
             _private.updateIndexes(self, startIndex, stopIndex);
             this._nextModelVersion();
         }
     },
 
-    getStartIndex: function() {
+    getStartIndex() {
         return this._startIndex;
     },
 
-    getStopIndex: function() {
+    getStopIndex() {
         return this._stopIndex;
     },
 
@@ -635,14 +632,14 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         this._nextModelVersion();
     },
 
-    _onBeginCollectionChange: function(action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
+    _onBeginCollectionChange(action, newItems, newItemsIndex, removedItems, removedItemsIndex) {
         _private.updateIndexes(this, 0, this.getCount());
     },
-    isValidItemForMarkedKey: function (item) {
+    isValidItemForMarkedKey(item) {
         return item && !this._isGroup(item) && item.getId;
     },
-    getPreviousItem: function (itemIndex) {
-        var prevIndex = itemIndex - 1, prevItem;
+    getPreviousItem(itemIndex) {
+        let prevIndex = itemIndex - 1, prevItem;
         while (prevIndex >= 0) {
             prevItem = this._display.at(prevIndex)?.getContents();
             if (this.isValidItemForMarkedKey(prevItem)) {
@@ -651,8 +648,8 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
             prevIndex--;
         }
     },
-    getNextItem: function (itemIndex) {
-        var nextIndex = itemIndex, nextItem, itemsCount = this._display.getCount();
+    getNextItem(itemIndex) {
+        let nextIndex = itemIndex, nextItem, itemsCount = this._display.getCount();
         while (nextIndex > -1 && nextIndex < itemsCount) {
             nextItem = this._display.at(nextIndex).getContents();
             if (this.isValidItemForMarkedKey(nextItem)) {
@@ -677,7 +674,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         return this.getDisplay().getIndexBySourceIndex(sourceIndex);
     },
 
-    hasItemById: function(id, keyProperty) {
+    hasItemById(id, keyProperty) {
         return !!this.getItemById(id, keyProperty);
     },
 
@@ -706,7 +703,7 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
     // New Model compatibility
     setActionsAssigned(assigned: boolean): void {
         if (this._display) {
-            this._display.setActionsAssigned(assigned)
+            this._display.setActionsAssigned(assigned);
         }
     },
 
@@ -819,36 +816,36 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
         }
     },
 
-    setItemTemplateProperty: function(itemTemplateProperty) {
+    setItemTemplateProperty(itemTemplateProperty) {
         this._options.itemTemplateProperty = itemTemplateProperty;
         this._nextModelVersion();
     },
 
-    setMultiSelectVisibility: function(multiSelectVisibility) {
+    setMultiSelectVisibility(multiSelectVisibility) {
         this._options.multiSelectVisibility = multiSelectVisibility;
         this._nextModelVersion();
     },
 
-    getMultiSelectVisibility: function() {
+    getMultiSelectVisibility() {
         return this._options.multiSelectVisibility;
     },
 
-    setSorting: function(sorting) {
+    setSorting(sorting) {
         this._options.sorting = sorting;
     },
 
-    getSorting: function() {
+    getSorting() {
         return this._options.sorting;
     },
 
-    setSearchValue: function(value) {
+    setSearchValue(value) {
         if (value !== this._options.searchValue) {
             this._options.searchValue = value;
             this._nextModelVersion();
         }
     },
 
-    __calcSelectedItem: function(display, selKey, keyProperty) {
+    __calcSelectedItem(display, selKey, keyProperty) {
 
         // TODO надо вычислить индекс
         /* if(!this._markedItem) {
@@ -862,10 +859,10 @@ const ListViewModel = ItemsViewModel.extend([entityLib.VersionableMixin], {
          } */
     },
 
-    clearReloadedMarks: function() {
+    clearReloadedMarks() {
         this._reloadedKeys = {};
     },
-    markItemReloaded: function(key) {
+    markItemReloaded(key) {
         this._reloadedKeys[key] = ++this._singleItemReloadCount;
     },
     setRowSeparatorSize(rowSeparatorSize: IListSeparatorOptions['rowSeparatorSize']): void {

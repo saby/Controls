@@ -162,7 +162,7 @@ class HorizontalMeasurer implements IMeasurer {
       // По стандарту, показываем не более трёх опций в свайпе.
       // Кроме всего прочего, это позволит не производить слишком много вычислений с DOM
       const itemActions = actions.slice(0, MAX_ACTIONS_COUNT);
-      const itemActionsContainerWidth = DOMUtil.getWidthForCssClass(`controls-Swipe_horizontal_theme-${theme}`);
+      const itemActionsContainerWidth = DOMUtil.getWidthForCssClass(`controls-Swipe_horizontal`);
       const itemActionsSizes = this._calculateActionsSizes(itemActions, templateConfig);
       let availableWidth = rowWidth - itemActionsContainerWidth;
       let menuItemAction: IItemAction;
