@@ -59,11 +59,6 @@
 </ws:template>
 
 <ws:template name="footerTemplateIf">
-    <ws:if data="{{_options.footerTemplate}}">
-        <div class="controls-BaseControl__footer-content">
-            <ws:partial template="{{_options.footerTemplate}}"/>
-        </div>
-    </ws:if>
     <ws:if data="{{_pagingNavigation && _pagingNavigationVisible}}">
         <div class="controls-BaseControl__footerPaging_wrapper">
             <ws:if data="{{_options.columnScroll}}">
@@ -171,9 +166,6 @@
             <ws:viewTemplate>
                 <ws:partial template="{{_options.viewName}}"/>
             </ws:viewTemplate>
-            <ws:footerTemplate>
-                <ws:partial template="footerTemplateIf"/>
-            </ws:footerTemplate>
             <ws:multiSelectTpl>
                 <ws:partial template="multiSelectTplIf"/>
             </ws:multiSelectTpl>
@@ -181,6 +173,9 @@
                 <ws:partial template="emptyTemplateIf"/>
             </ws:emptyTemplate>
         </ws:partial>
+
+        <ws:partial template="footerTemplateIf"/>
+
         <div name="bottomVirtualScrollTrigger" style="position: relative; bottom: 0;"></div>
         <ws:if data="{{_needScrollCalculation}}">
             <Controls._list.BaseControl.Scroll.Emitter on:emitListScroll="_observeScrollHandler()" name="scrollObserver"/>

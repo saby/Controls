@@ -49,6 +49,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     VersionableMixin
 ) implements IInstantiable, IVersionable {
     readonly '[Types/_entity/IInstantiable]': boolean;
+    protected readonly DEFAULT_CELL_TEMPLATE: string = DEFAULT_CELL_TEMPLATE;
     protected _$owner: TOwner;
     protected _$column: IColumn;
     protected _$hiddenForLadder: boolean;
@@ -57,6 +58,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected _$instanceId: string;
     protected _$colspan: number;
     protected _$isFixed: boolean;
+    protected _$isSingleCell: boolean;
     protected _$ladderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
@@ -66,8 +68,8 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
         OptionsToPropertyMixin.call(this, options);
     }
 
-    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction|string {
-        return this._$column.template || DEFAULT_CELL_TEMPLATE;
+    getTemplate(multiSelectTemplate?: TemplateFunction): TemplateFunction | string {
+        return this._$column.template || this.DEFAULT_CELL_TEMPLATE;
     }
 
     hasCellContentRender(): boolean {
@@ -523,5 +525,6 @@ Object.assign(Cell.prototype, {
     _$instanceId: null,
     _$ladderCell: null,
     _$columnSeparatorSize: null,
-    _$rowSeparatorSize: null
+    _$rowSeparatorSize: null,
+    _$isSingleCell: null
 });
