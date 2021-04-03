@@ -1,4 +1,4 @@
-<div class="controls-MoveDialog controls-MoveDialog_theme-{{_options.theme}}">
+<div class="controls-MoveDialog">
    <Controls.popupTemplate:Dialog
            headingCaption="{[Выбор раздела]}"
            headerContentTemplate="{{_options.headerContentTemplate}}">

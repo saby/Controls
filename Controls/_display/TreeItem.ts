@@ -287,8 +287,8 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         // expanderSize по дефолту undefined, т.к. есть логика, при которой если он задан,
         // то скрытый экспандер для отступа не рисуем, но по факту дефолтное значение 'default'
         const expanderSize = this.getExpanderSize(tmplExpanderSize) || 'default';
-        let expanderPaddingClasses = `controls-TreeGrid__row-expanderPadding controls-TreeGrid__row-expanderPadding_theme-${this.getTheme()}`;
-        expanderPaddingClasses += ` controls-TreeGrid__row-expanderPadding_size_${expanderSize}_theme-${this.getTheme()}`;
+        let expanderPaddingClasses = 'controls-TreeGrid__row-expanderPadding';
+        expanderPaddingClasses += ` controls-TreeGrid__row-expanderPadding_size_${expanderSize}`;
         expanderPaddingClasses += ' js-controls-ListView__notEditable';
         return expanderPaddingClasses;
     }
@@ -310,7 +310,7 @@ export default class TreeItem<T extends Model = Model> extends mixin<
             resultLevelIndentSize = expanderSize || levelIndentSize;
         }
 
-        return `controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_${resultLevelIndentSize}_theme-${this.getTheme()}`;
+        return `controls-TreeGrid__row-levelPadding controls-TreeGrid__row-levelPadding_size_${resultLevelIndentSize}`;
     }
 
     getExpanderClasses(tmplExpanderIcon?: string, tmplExpanderSize?: string): string {
@@ -318,18 +318,18 @@ export default class TreeItem<T extends Model = Model> extends mixin<
         const expanderSize = this.getExpanderSize(tmplExpanderSize);
         const expanderPosition = this._$owner.getExpanderPosition();
 
-        let expanderClasses = `js-controls-Tree__row-expander controls-TreeGrid__row-expander_theme-${this.getTheme()}`;
+        let expanderClasses = 'js-controls-Tree__row-expander controls-TreeGrid__row-expander';
         let expanderIconClass = '';
 
         if (expanderPosition === 'default') {
-            expanderClasses += ` controls-TreeGrid__row_${this.getStyle()}-expander_size_${(expanderSize || 'default')}_theme-${this.getTheme()} `;
+            expanderClasses += ` controls-TreeGrid__row_${this.getStyle()}-expander_size_${(expanderSize || 'default')} `;
         } else {
-            expanderClasses += ` controls-TreeGrid__row_expander_position_right_theme-${this.getTheme()} `;
+            expanderClasses += ' controls-TreeGrid__row_expander_position_right ';
         }
         expanderClasses += 'js-controls-ListView__notEditable';
 
-        expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${this.getOwner().getTopPadding()}_theme-${this.getTheme()}`;
-        expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${this.getOwner().getBottomPadding()}_theme-${this.getTheme()}`;
+        expanderClasses += ` controls-TreeGrid__row-expander__spacingTop_${this.getOwner().getTopPadding()}`;
+        expanderClasses += ` controls-TreeGrid__row-expander__spacingBottom_${this.getOwner().getBottomPadding()}`;
 
         if (expanderIcon) {
             expanderIconClass = ' controls-TreeGrid__row-expander_' + expanderIcon;
@@ -344,12 +344,12 @@ export default class TreeItem<T extends Model = Model> extends mixin<
                 + (this.getStyle() === 'master' || this.getStyle() === 'masterClassic' ? 'master' : 'default');
         }
 
-        expanderClasses += expanderIconClass + `_theme-${this.getTheme()}`;
+        expanderClasses += expanderIconClass;
 
         // добавляем класс свертнутости развернутости для тестов
         expanderClasses += ' controls-TreeGrid__row-expander' + (this.isExpanded() ? '_expanded' : '_collapsed');
         // добавляем класс свертнутости развернутости стилевой
-        expanderClasses += expanderIconClass + (this.isExpanded() ? '_expanded' : '_collapsed') + `_theme-${this.getTheme()}`;
+        expanderClasses += expanderIconClass + (this.isExpanded() ? '_expanded' : '_collapsed');
 
         return expanderClasses;
     }

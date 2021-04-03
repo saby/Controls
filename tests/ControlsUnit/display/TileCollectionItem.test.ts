@@ -243,7 +243,7 @@ describe('Controls/_display/TileCollectionItem', () => {
     it('.getTitleClasses()', () => {
         const item = new TileCollectionItem();
 
-        assert.strictEqual(item.getTitleClasses(true, theme), `controls-TileView__title controls-TileView__title_theme-${theme}`);
+        assert.strictEqual(item.getTitleClasses(true, theme), `controls-TileView__title`);
         assert.include(item.getTitleClasses(false, theme), 'controls-TileView__title_invisible');
     });
 

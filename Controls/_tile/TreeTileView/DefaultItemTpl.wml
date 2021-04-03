@@ -52,7 +52,7 @@
 </ws:template>
 
 <ws:if data="{{invisible}}">
-   <div attr:class="controls-TileView__item controls-TileView__item_theme-{{theme}} {{itemData.itemClasses}} controls-TileView__item_invisible"
+   <div attr:class="controls-TileView__item {{itemData.itemClasses}} controls-TileView__item_invisible"
         attr:style="{{'-ms-flex-preferred-size: ' + (type === 'leaf' ? (itemWidth || itemData.itemWidth || itemData.defaultItemWidth) : (folderWidth || itemData.itemWidth || itemData.defaultFolderWidth)) + 'px; ' +
                      'flex-basis: ' + (type === 'leaf' ? (itemWidth || itemData.itemWidth || itemData.defaultItemWidth) : (folderWidth || itemData.itemWidth || itemData.defaultFolderWidth)) + 'px;'}}"></div>
 </ws:if>

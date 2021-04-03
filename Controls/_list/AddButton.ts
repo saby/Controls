@@ -2,6 +2,7 @@ import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_list/AddButton/AddButton';
 import {descriptor} from 'Types/entity';
 import {SyntheticEvent} from 'Vdom/Vdom';
+import 'css!Controls/list';
 
 /**
  * Специализированный тип кнопки.
@@ -26,8 +27,6 @@ export default class AddButton extends Control<IControlOptions> {
             e.stopPropagation();
         }
     }
-
-    static _theme: string[] = ['Controls/list'];
 
     static getOptionTypes(): object {
         return {

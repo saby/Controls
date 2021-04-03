@@ -1,6 +1,6 @@
 <ws:template name="imageTemplate">
    <ws:partial template="wml!Controls/_listTemplates/DefaultImageTemplate"
-               class="{{_options.imageViewMode !== 'rectangle' ? 'controls-listTemplates__tileItemTemplate-image-spacing_theme-' + _options.theme }}"
+               class="{{_options.imageViewMode !== 'rectangle' ? 'controls-listTemplates__tileItemTemplate-image-spacing' }}"
                src="{{_options.itemData.item[_options.imageProperty]}}"
                width="{{_options.itemData.getTileSizes && _options.itemData.getTileSizes(_options.itemData.tileSize, _options.imagePosition, _options.imageViewMode).imageWidth}}"
                height="{{_options.itemData.getTileSizes && _options.itemData.getTileSizes(_options.itemData.tileSize, _options.imagePosition, _options.imageViewMode).imageHeight}}"
@@ -32,9 +32,9 @@
                      imageGradientColor="{{_options.imageGradientColor}}"
                      viewMode="{{_options.viewMode}}"/>
       </ws:if>
-      <div class="controls-listTemplates__tileItemTemplate__itemContent_theme-{{_options.theme}}" style="background-color: {{_options.imageGradientColor}}">
+      <div class="controls-listTemplates__tileItemTemplate__itemContent" style="background-color: {{_options.imageGradientColor}}">
          <ws:if data="{{_options.captionTemplate}}">
-            <div class="controls-listTemplates__tileItemTemplate-caption_theme-{{_options.theme}}">
+            <div class="controls-listTemplates__tileItemTemplate-caption">
                <ws:partial template="{{_options.captionTemplate}}"
                            itemData="{{_options.itemData}}"/>
             </div>

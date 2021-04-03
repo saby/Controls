@@ -1,5 +1,5 @@
 <ws:for data="columnIndex, column in showedActions">
-    <div class="controls-Swipe__action_columns_theme-{{ theme }}">
+    <div class="controls-Swipe__action_columns">
         <ws:for data="actionIndex, action in column">
             <ws:partial
                     template="wml!Controls/_itemActions/resources/templates/SwipeAction"
@@ -13,10 +13,10 @@
                     hasActionWithIcon="{{ itemData.hasActionWithIcon() }}"
                     on:mousedown="_onItemActionMouseDown(action, itemData)"
                     on:click="_onItemActionClick(action, itemData)"/>
-            <div if="{{actionIndex === 0}}" class="controls-Swipe__separator_theme-{{ theme }}
-                controls-Swipe__separator_columns_{{columnIndex === 0 ? 'first' : 'second'}}_theme-{{ theme }}"></div>
+            <div if="{{actionIndex === 0}}" class="controls-Swipe__separator
+                controls-Swipe__separator_columns_{{columnIndex === 0 ? 'first' : 'second'}}"></div>
         </ws:for>
     </div>
-    <div if="{{columnIndex === 0}}" class="controls-Swipe__separator_theme-{{ theme }}
-        controls-Swipe__separator_horizontal_theme-{{ theme }}"></div>
+    <div if="{{columnIndex === 0}}" class="controls-Swipe__separator
+        controls-Swipe__separator_horizontal"></div>
 </ws:for>

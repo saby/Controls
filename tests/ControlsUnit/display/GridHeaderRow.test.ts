@@ -7,7 +7,7 @@ describe('Controls/_display:GridHeaderRow', () => {
         const headerRow = new GridHeaderRow({});
         assert.equal(
             headerRow.getItemClasses({ theme: 'themeName' }),
-            'controls-Grid__header controls-Grid__header_theme-themeName'
+            'controls-Grid__header'
         )
     });
 

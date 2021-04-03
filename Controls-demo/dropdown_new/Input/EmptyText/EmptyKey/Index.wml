@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo_m">
-        <div class="controls-text-label_theme-{{_options.theme}}">Simple</div>
+        <div class="controls-text-label">Simple</div>
         <Controls.dropdown:Selector bind:selectedKeys="_selectedKeys"
                                  keyProperty="id"
                                  displayProperty="title"

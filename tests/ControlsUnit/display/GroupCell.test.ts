@@ -16,7 +16,7 @@ describe('Controls/_display/GroupCell', () => {
     function getGroupCell(): GroupCell<Model> {
         const owner = {
             hasMultiSelectColumn: () => hasMultiSelectColumn,
-            getGroupPaddingClasses: () => 'controls-ListView__groupContent__rightPadding_s_theme-default'
+            getGroupPaddingClasses: () => 'controls-ListView__groupContent__rightPadding_s'
         } as undefined as GroupItem<Model>;
         return new GroupCell({
             contents: {},
@@ -34,22 +34,22 @@ describe('Controls/_display/GroupCell', () => {
     describe('getRightTemplateClasses', () => {
         it('should not add rightPadding_s class', () => {
             const classes = getGroupCell().getRightTemplateClasses(true, undefined, 2, 'left', 'default');
-            CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent__rightPadding_s_theme-default']);
+            CssClassesAssert.notInclude(classes, ['controls-ListView__groupContent__rightPadding_s']);
         });
 
         it('should add rightPadding_st class when columnAlignGroup === columns.length', () => {
             const classes = getGroupCell().getRightTemplateClasses(true, undefined, 4, 'left', 'default');
-            CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s_theme-default']);
+            CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s']);
         });
 
         it('should add rightPadding_s class when columnAlignGroup is not defined', () => {
             const classes = getGroupCell().getRightTemplateClasses(true, undefined, undefined, 'left', 'default');
-            CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s_theme-default']);
+            CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s']);
         });
 
         it('should add rightPadding_s class when textVisible === false', () => {
             const classes = getGroupCell().getRightTemplateClasses(true, false, 2, 'left', 'default');
-            CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s_theme-default']);
+            CssClassesAssert.include(classes, ['controls-ListView__groupContent__rightPadding_s']);
         });
 
         it('should add separator placeholder when textVisible === false', () => {

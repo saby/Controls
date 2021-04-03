@@ -6,6 +6,8 @@ import {ICrudPlus, QueryWhereExpression} from 'Types/source';
 import {SyntheticEvent} from 'Vdom/Vdom';
 import rk = require('i18n!Controls');
 import {TKeysSelection, TColumns} from 'Controls/interface';
+import 'css!Controls/moverDialog';
+
 
 export interface IMoverDialogTemplateOptions extends IControlOptions {
     displayProperty: string;
@@ -112,8 +114,6 @@ export default class extends Control<IMoverDialogTemplateOptions> {
         this._notify('sendResult', [item], {bubbling: true});
         this._notify('close', [], {bubbling: true});
     }
-
-    static _theme: string[] = ['Controls/moverDialog'];
 
     static getDefaultOptions = (): object => {
         return {

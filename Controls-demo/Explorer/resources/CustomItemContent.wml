@@ -1,5 +1,5 @@
 <div class="controls-TileView__imageWrapper js-controls-ListView__measurableContainer">
-   <div class="{{hasTitle ? 'controls-TileView__resizer_theme-' + itemData.theme}}" style="{{'padding-top: ' + (itemData.itemsHeight / width) * 100 + '%;'}}"></div>
+   <div class="{{hasTitle ? 'controls-TileView__resizer'}}" style="{{'padding-top: ' + (itemData.itemsHeight / width) * 100 + '%;'}}"></div>
    <img class="controls-TileView__image controls-TileView__image_align_center" src="{{itemData.item[itemData.imageProperty]}}"/>
    <ws:partial if="{{itemData.isSwiped && itemData.drawActions}}"
                template="{{swipeTemplate}}"
@@ -12,4 +12,4 @@
    </ws:if>
    <div class="demo-Explorer__signature icon-medium icon-Signature icon-hover"></div>
 </div>
-<div class="controls-TileView__title controls-TileView__title_theme-{{itemData.theme}} controls-TileView__title_normal {{!hasTitle ? 'controls-TileView__title_invisible'}}" title="{{itemData.item.title}}">{{itemData.item.title}}</div>
+<div class="controls-TileView__title controls-TileView__title controls-TileView__title_normal {{!hasTitle ? 'controls-TileView__title_invisible'}}" title="{{itemData.item.title}}">{{itemData.item.title}}</div>

@@ -17,7 +17,7 @@
         </div>
         <div class="controlsDemo__inline-flex">
             <Controls.paging:Paging
-                    attr:class="controls-BaseControl__scrollPaging_theme-default"
+                    attr:class="controls-BaseControl__scrollPaging"
                     pagingMode="base"
                     showEndButton="{{true}}"
                     arrowState="{{_arrowState}}"

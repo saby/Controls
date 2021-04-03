@@ -1,44 +1,47 @@
 .controls-DigitButtons__digit {
    border: 0 solid transparent;
-   height: @item_height_paging;
+   height: var(--item_height_paging);
    cursor: pointer;
    box-sizing: border-box;
-}
-
-.controls-DigitButtons__ellipsis_theme-@{themeName} {
-   width: @ellipsis_width_paging;
-   color: @ellipsis_text-color_paging;
-   background-color: @ellipsis_background-color_paging;
-   font-size: @item_font-size_paging;
-}
-
-.controls-DigitButtons__digit_theme-@{themeName} {
    position: relative;
-   min-width: @item_min-width_paging;
-   padding: 0 @item_padding-horizontal_paging;
-   background-color: @item_background-color_paging;
-   color: @item_text-color_paging;
-   font-size: @item_font-size_paging;
+   padding: 0 var(--item_padding-horizontal_paging);
+   background-color: var(--item_background-color_paging);
+   color: var(--item_text-color_paging);
+   font-size: var(--item_font-size_paging);
 }
 
-.controls-DigitButtons__digit_theme-@{themeName}:before {
+.controls-DigitButtons__digit_btn {
+   min-width: var(--item_min-width_paging);
+}
+
+.controls-DigitButtons__ellipsis {
+   width: var(--ellipsis_width_paging);
+   color: var(--ellipsis_text-color_paging);
+   background-color: var(--ellipsis_background-color_paging);
+   font-size: var(--item_font-size_paging);
+}
+
+.controls-DigitButtons__digit:before {
    content: '\200b';
    font-size: 0;
    position: absolute;
    bottom: 0;
    left: 0;
    right: 0;
-   height: @marker_thickness_paging;
+   height: var(--marker_thickness_paging);
 }
-.ws-is-hover .controls-DigitButtons__digit_theme-@{themeName}:hover {
-   background-color: @item_hover_background-color_paging;
+
+.ws-is-hover .controls-DigitButtons__digit:hover {
+   background-color: var(--item_hover_background-color_paging);
    &:before {
-      background-color: @marker_hover_color_paging;
+      background-color: var(--marker_hover_color_paging);
    }
 }
-.ws-is-hover .controls-DigitButtons__digit__selected_theme-@{themeName}:hover:before {
-   background-color: @marker_color_paging;
+
+.ws-is-hover .controls-DigitButtons__digit__selected:hover:before {
+   background-color: var(--marker_color_paging);
 }
-.controls-DigitButtons__digit__selected_theme-@{themeName}:before {
-   background-color: @marker_color_paging;
+
+.controls-DigitButtons__digit__selected:before {
+   background-color: var(--marker_color_paging);
 }

@@ -149,34 +149,34 @@ var
 
             // Колонки
             if (params.hasMultiSelectColumn ? params.columnIndex > 1 : params.columnIndex > 0) {
-                classLists.left += ` controls-Grid__cell_spacingLeft${getCellPadding('left')}_theme-${theme}`;
+                classLists.left += ` controls-Grid__cell_spacingLeft${getCellPadding('left')}`;
             }
             if (params.columnIndex < params.columns.length - arrayLengthOffset) {
-                classLists.right += ` controls-Grid__cell_spacingRight${getCellPadding('right')}_theme-${theme}`;
+                classLists.right += ` controls-Grid__cell_spacingRight${getCellPadding('right')}`;
             }
 
             // Отступ для первой колонки.
             if (params.columnIndex === 0) {
                 // Если режим мультиселект, то отступ обеспечивается чекбоксом.
                 if (!params.hasMultiSelectColumn) {
-                    classLists.left += ` controls-Grid__cell_spacingFirstCol_${params.itemPadding.left}_theme-${theme}`;
+                    classLists.left += ` controls-Grid__cell_spacingFirstCol_${params.itemPadding.left}`;
                 }
             }
 
             // TODO: удалить isBreadcrumbs после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
             if (params.isBreadCrumbs) {
-                classLists.left += ` controls-Grid__cell_spacingFirstCol_null_theme-${theme}`;
+                classLists.left += ` controls-Grid__cell_spacingFirstCol_null`;
             }
 
             // Отступ для последней колонки
             if (params.columnIndex === params.columns.length - arrayLengthOffset) {
-                classLists.right += ` controls-Grid__cell_spacingLastCol_${params.itemPadding.right}_theme-${theme}`;
+                classLists.right += ` controls-Grid__cell_spacingLastCol_${params.itemPadding.right}`;
             }
 
             // У разделителя записей в поиске не должно быть стандартных отступов
             if (!isRootItemsSeparator && !params.isHeader && !params.isResult) {
-                classLists.top += ` controls-Grid__row-cell_rowSpacingTop_${params.itemPadding.top}_theme-${theme}`;
-                classLists.bottom += ` controls-Grid__row-cell_rowSpacingBottom_${params.itemPadding.bottom}_theme-${theme}`;
+                classLists.top += ` controls-Grid__row-cell_rowSpacingTop_${params.itemPadding.top}`;
+                classLists.bottom += ` controls-Grid__row-cell_rowSpacingBottom_${params.itemPadding.bottom}`;
             }
 
             return classLists;
@@ -226,17 +226,17 @@ var
             const getCellPadding = (side) => _private.getHeaderCellPadding(side, params);
             if (rowIndex === 0) {
                 if (hasMultiSelectColumn ? columnIndex > 1 : columnIndex > 0) {
-                    preparedClasses += ` controls-Grid__cell_spacingLeft${getCellPadding('left')}_theme-${theme}`;
+                    preparedClasses += ` controls-Grid__cell_spacingLeft${getCellPadding('left')}`;
                 }
             } else {
-                preparedClasses += ` controls-Grid__cell_spacingLeft${getCellPadding('left')}_theme-${theme}`;
+                preparedClasses += ` controls-Grid__cell_spacingLeft${getCellPadding('left')}`;
             }
 
             if (columnIndex < (columnsLengthExcludedActionCell - 1) || (maxEndColumn && endColumn < maxEndColumn)) {
-                preparedClasses += ` controls-Grid__cell_spacingRight${getCellPadding('right')}_theme-${theme}`;
+                preparedClasses += ` controls-Grid__cell_spacingRight${getCellPadding('right')}`;
             }
             // Отступ для последней колонки
-            const lastColClass = ' controls-Grid__cell_spacingLastCol_' + (itemPadding.right || 'default').toLowerCase() + `_theme-${theme}`;
+            const lastColClass = ' controls-Grid__cell_spacingLastCol_' + (itemPadding.right || 'default').toLowerCase();
             if (isMultiHeader && maxEndColumn) {
                 // у мультихэдера последняя ячейка определяется по endColumn, а не по последнему элементу массива.
                 if (maxEndColumn === endColumn) {
@@ -250,21 +250,21 @@ var
 
             // Отступ для первой колонки. Если режим мультиселект, то отступ обеспечивается чекбоксом.
             if (columnIndex === 0 && !hasMultiSelectColumn && rowIndex === 0 && !isBreadCrumbs) {
-                preparedClasses += ' controls-Grid__cell_spacingFirstCol_' + (itemPadding.left || 'default').toLowerCase() + `_theme-${theme}`;
+                preparedClasses += ' controls-Grid__cell_spacingFirstCol_' + (itemPadding.left || 'default').toLowerCase();
             }
 
             // TODO: удалить isBreadcrumbs после https://online.sbis.ru/opendoc.html?guid=b3647c3e-ac44-489c-958f-12fe6118892f
             if (isBreadCrumbs) {
-                preparedClasses += ' controls-Grid__cell_spacingFirstCol_null' + `_theme-${theme}`;
+                preparedClasses += ' controls-Grid__cell_spacingFirstCol_null';
                 if (hasMultiSelectColumn && GridLayoutUtil.isFullGridSupport()) {
-                    preparedClasses += ' controls-Grid__cell_spacingBackButton_with_multiSelection' + `_theme-${theme}`;
+                    preparedClasses += ' controls-Grid__cell_spacingBackButton_with_multiSelection';
                 }
             }
             // Стиль колонки
             preparedClasses += ' controls-Grid__cell_' + (style || 'default');
             if (!params.isHeader) {
-                preparedClasses += ' controls-Grid__row-cell_rowSpacingTop_' + (itemPadding.top || 'default').toLowerCase() + `_theme-${theme}`;
-                preparedClasses += ' controls-Grid__row-cell_rowSpacingBottom_' + (itemPadding.bottom || 'default').toLowerCase() + `_theme-${theme}`;
+                preparedClasses += ' controls-Grid__row-cell_rowSpacingTop_' + (itemPadding.top || 'default').toLowerCase();
+                preparedClasses += ' controls-Grid__row-cell_rowSpacingBottom_' + (itemPadding.bottom || 'default').toLowerCase();
             }
 
             return preparedClasses;
@@ -305,7 +305,7 @@ var
         },
 
         getColumnScrollCellClasses(params, theme): string {
-           return _private.isFixedCell(params) ? ` controls-Grid__cell_fixed controls-Grid__cell_fixed_theme-${theme}` : '';
+           return _private.isFixedCell(params) ? ` controls-Grid__cell_fixed controls-Grid__cell_fixed` : '';
         },
 
         /**
@@ -322,7 +322,6 @@ var
         getClassesLadderHeading(itemData, theme): String {
             let result = 'controls-Grid__row-ladder-cell__content controls-Grid__row-ladder-cell__content_';
             result += itemData.itemPadding && itemData.itemPadding.top ? itemData.itemPadding.top : 'default';
-            result += '_theme-' + theme;
             return result;
         },
 
@@ -337,11 +336,11 @@ var
             // Стиль колонки
             if (!isRootItemsSeparator) {
                 if (current.itemPadding.top === 'null' && current.itemPadding.bottom === 'null') {
-                    classLists.base += `controls-Grid__row-cell_small_min_height-theme-${theme} `;
+                    classLists.base += 'controls-Grid__row-cell_small_min_height ';
                 } else {
-                    classLists.base += `controls-Grid__row-cell_default_min_height-theme-${theme} `;
+                    classLists.base += `controls-Grid__row-cell_default_min_height `;
                 }
-                classLists.base += `controls-Grid__row-cell controls-Grid__cell_${style} controls-Grid__row-cell_${style}_theme-${theme}`;
+                classLists.base += `controls-Grid__row-cell controls-Grid__cell_${style} controls-Grid__row-cell_${style}`;
                 _private.prepareSeparatorClasses(current, classLists, theme);
 
                 if (backgroundColorStyle) {
@@ -359,11 +358,11 @@ var
             if (self.getEditingConfig()?.mode !== 'cell') {
                 if (current.isEditing()) {
                     const editingBackgroundStyle = current.editingBackgroundStyle || 'default';
-                    classLists.base += ` controls-Grid__row-cell-editing_theme-${theme}`;
-                    classLists.base += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}_theme-${theme}`;
+                    classLists.base += ' controls-Grid__row-cell-editing';
+                    classLists.base += ` controls-Grid__row-cell-background-editing_${editingBackgroundStyle}`;
                 } else {
                     let backgroundHoverStyle = current.hoverBackgroundStyle || 'default';
-                    classLists.base += ` controls-Grid__row-cell-background-hover-${backgroundHoverStyle} controls-Grid__row-cell-background-hover-${backgroundHoverStyle}_theme-${theme}`;
+                    classLists.base += ` controls-Grid__row-cell-background-hover-${backgroundHoverStyle} controls-Grid__row-cell-background-hover-${backgroundHoverStyle}`;
                 }
             }
 
@@ -373,26 +372,26 @@ var
 
             // Если включен множественный выбор и рендерится первая колонка с чекбоксом
             if (checkBoxCell) {
-                classLists.base += ` controls-Grid__row-cell-checkbox_theme-${theme}`;
+                classLists.base += ' controls-Grid__row-cell-checkbox';
                 classLists.padding = createClassListCollection('top', 'bottom');
-                classLists.padding.top = `controls-OldGrid__row-checkboxCell_rowSpacingTop_${current.itemPadding.top}_theme-${theme}`;
-                classLists.padding.bottom =  `controls-Grid__row-cell_rowSpacingBottom_${current.itemPadding.bottom}_theme-${theme}`;
+                classLists.padding.top = `controls-OldGrid__row-checkboxCell_rowSpacingTop_${current.itemPadding.top}`;
+                classLists.padding.bottom =  `controls-Grid__row-cell_rowSpacingBottom_${current.itemPadding.bottom}`;
             } else {
                 classLists.padding = _private.getPaddingCellClasses(current, theme);
             }
 
             if (current.dispItem.isMarked() && current.markerVisibility !== 'hidden') {
                 style = current.style || 'default';
-                classLists.marked = `controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}_theme-${theme}`;
+                classLists.marked = `controls-Grid__row-cell_selected controls-Grid__row-cell_selected-${style}`;
 
                 if (current.columnIndex === 0) {
-                    classLists.marked += ` controls-Grid__row-cell_selected__first-${style}_theme-${theme}`;
+                    classLists.marked += ` controls-Grid__row-cell_selected__first-${style}`;
                 }
                 if (current.columnIndex === current.getLastColumnIndex()) {
-                    classLists.marked += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}_theme-${theme}`;
+                    classLists.marked += ` controls-Grid__row-cell_selected__last controls-Grid__row-cell_selected__last-${style}`;
                 }
             } else if (current.columnIndex === current.getLastColumnIndex()) {
-                classLists.base += ` controls-Grid__row-cell__last controls-Grid__row-cell__last-${style}_theme-${theme}`;
+                classLists.base += ` controls-Grid__row-cell__last controls-Grid__row-cell__last-${style}`;
             }
 
             if (!GridLayoutUtil.isFullGridSupport() && !(current.columns.length === (current.hasMultiSelectColumn ? 2 : 1)) && self._options.fixIEAutoHeight) {
@@ -404,7 +403,7 @@ var
         getRelativeCellWrapperClasses(itemData, colspan, fixVerticalAlignment): string {
             let classes = 'controls-Grid__table__relative-cell-wrapper ';
             const _rowSeparatorSize = (itemData.rowSeparatorSize && itemData.rowSeparatorSize.toLowerCase()) === 'l' ? 'l' : 's';
-            classes += `controls-Grid__table__relative-cell-wrapper_rowSeparator-${_rowSeparatorSize}_theme-${itemData.theme} `;
+            classes += `controls-Grid__table__relative-cell-wrapper_rowSeparator-${_rowSeparatorSize} `;
 
             // Единственная ячейка с данными сама формирует высоту строки и не нужно применять хак для растягивания контента ячеек по высоте ячеек.
             // Подробнее искать по #grid_relativeCell_td.
@@ -517,12 +516,12 @@ var
         },
 
         getGroupPaddingClasses(current, theme): { left: string, right: string } {
-            let right = `controls-Grid__groupContent__spacingRight_${current.itemPadding.right}_theme-${theme}`;
+            let right = `controls-Grid__groupContent__spacingRight_${current.itemPadding.right}`;
             let left =  'controls-Grid__groupContent__spacingLeft_';
             if (current.hasMultiSelectColumn) {
-                left += `withCheckboxes_theme-${theme}`;
+                left += 'withCheckboxes';
             } else {
-                left += `${current.itemPadding.left}_theme-${theme}`;
+                left += `${current.itemPadding.left}`;
             }
             return { left, right };
         },
@@ -586,10 +585,10 @@ var
          */
         getBackgroundStyle(options: {theme: string, style?: string, backgroundStyle?: string, backgroundColorStyle?: string}, addSpace?: boolean): string {
             if (options.backgroundColorStyle) {
-                return `${addSpace ? ' ' : ''}controls-Grid__row-cell_background_${options.backgroundColorStyle}_theme-${options.theme}`
+                return `${addSpace ? ' ' : ''}controls-Grid__row-cell_background_${options.backgroundColorStyle}`
             }
 
-            return `${addSpace ? ' ' : ''}controls-background-${_private.getStylePrefix(options)}_theme-${options.theme}`;
+            return `${addSpace ? ' ' : ''}controls-background-${_private.getStylePrefix(options)}`;
         },
 
         getStickyColumn(self): GridLadderUtil.IStickyColumn {
@@ -667,8 +666,8 @@ var
                 classLists.base += ` controls-Grid__row-cell_withRowSeparator_size-${current.rowSeparatorSize}`;
                 classLists.base += ' controls-Grid__no-rowSeparator';
             } else {
-                classLists.base += ` controls-Grid__row-cell_withRowSeparator_size-${current.rowSeparatorSize}_theme-${theme}`;
-                classLists.base += ` controls-Grid__rowSeparator_size-${current.rowSeparatorSize}_theme-${theme}`;
+                classLists.base += ` controls-Grid__row-cell_withRowSeparator_size-${current.rowSeparatorSize}`;
+                classLists.base += ` controls-Grid__rowSeparator_size-${current.rowSeparatorSize}`;
             }
 
             if (current.columnIndex > (current.hasMultiSelectColumn ? 1 : 0)) {
@@ -676,7 +675,7 @@ var
 
                 if (columnSeparatorSize !== null) {
                     classLists.base += ' controls-Grid__row-cell_withColumnSeparator';
-                    classLists.columnContent += ` controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${theme}`;
+                    classLists.columnContent += ` controls-Grid__columnSeparator_size-${columnSeparatorSize}`;
                 }
             }
         },
@@ -684,7 +683,7 @@ var
             const style = itemData.style || 'default';
             const theme = itemData.theme || 'default';
 
-            itemData._staticRowClassses = `controls-Grid__row controls-Grid__row_${style}_theme-${theme} `;
+            itemData._staticRowClassses = `controls-Grid__row controls-Grid__row_${style} `;
             itemData._staticRowClassses += ' controls-ListView__item_showActions ';
 
             itemData.getRowClasses = (tmplParams: {
@@ -695,7 +694,7 @@ var
                 let classes = `${itemData.calcCursorClasses(tmplParams.clickable, tmplParams.cursor).trim()} `;
 
                 if (tmplParams.highlightOnHover !== false && !itemData.isEditing()) {
-                    classes += `controls-Grid__row_highlightOnHover_${style} controls-Grid__row_highlightOnHover_${style}_theme-${theme} `;
+                    classes += `controls-Grid__row_highlightOnHover_${style} `;
                 }
 
                 if (itemData.isLastRow) {
@@ -1078,8 +1077,8 @@ var
                 backgroundStyle: cell.ladderCell ? 'transparent' : '',
                 shadowVisibility: cell.ladderCell ? 'hidden' : 'visible'
             };
-            let cellClasses = `controls-Grid__header-cell controls-Grid__header-cell_theme-${theme}` +
-                ` controls-Grid__${this._isMultiHeader ? 'multi-' : ''}header-cell_min-height_theme-${theme}` +
+            let cellClasses = 'controls-Grid__header-cell' +
+                ` controls-Grid__${this._isMultiHeader ? 'multi-' : ''}header-cell_min-height` +
                 _private.getBackgroundStyle(this._options, true);
 
             if (this.isStickyHeader()) {
@@ -1121,7 +1120,7 @@ var
 
             // Если включен множественный выбор и рендерится первая колонка с чекбоксом
             if (hasMultiSelectColumn && columnIndex === 0 && !(cell.title || cell.caption)) {
-                cellClasses += ' controls-Grid__header-cell-checkbox' + `_theme-${theme}` + ` controls-Grid__header-cell-checkbox_min-width_theme-${theme}`;
+                cellClasses += ' controls-Grid__header-cell-checkbox' + ' controls-Grid__header-cell-checkbox_min-width';
 
                 // В grid-layout хлебные крошки нельзя расположить в первой ячейке, если в таблице включен множественный выбор,
                 // т.к. крошки растянут колонку, поэтому размещаем крошки во второй колонке и задаем отрицательный margin слева.
@@ -1158,7 +1157,7 @@ var
                     // В this._columns нет колонки под чекбокс, а в this._headerRows[N] есть, поэтому индекс может быть больше.
                     const columnSeparatorSize = _private.getSeparatorForColumn(this._columns, columnIndex - multiSelectOffset, this._options.columnSeparatorSize);
                     if (columnSeparatorSize !== null) {
-                        cellClasses += ` controls-Grid__row-cell_withColumnSeparator controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${theme}`;
+                        cellClasses += ` controls-Grid__row-cell_withColumnSeparator controls-Grid__columnSeparator_size-${columnSeparatorSize}`;
                     }
                 }
             }
@@ -1216,13 +1215,13 @@ var
 
                 }
                 cellClasses += endRow - startRow > 1 ? ' controls-Grid__header-cell_justify_content_center' : '';
-                cellContentClasses += rowIndex !== this._headerRows.length - 1 && endRow - startRow === 1 ? ` controls-Grid__cell_header-content_border-bottom_theme-${this._options.theme}` : '';
+                cellContentClasses += rowIndex !== this._headerRows.length - 1 && endRow - startRow === 1 ? ' controls-Grid__cell_header-content_border-bottom' : '';
 
                 // У первой колонки не рисуем вертикальные разделители. startColumn - конфигурация GridLayout, начинается с 1.
                 if (!cell.isActionCell && (startColumn - (hasMultiSelectColumn ? 2 : 1))) {
                     const columnSeparatorSize = _private.getSeparatorForColumn(this._columns, startColumn - 1, this._options.columnSeparatorSize);
                     if (columnSeparatorSize !== null) {
-                        cellClasses += ` controls-Grid__row-cell_withColumnSeparator controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${theme}`;
+                        cellClasses += ` controls-Grid__row-cell_withColumnSeparator controls-Grid__columnSeparator_size-${columnSeparatorSize}`;
                     }
                 }
             }
@@ -1340,7 +1339,7 @@ var
                    column: this._resultsColumns[columnIndex],
                    index: columnIndex
             };
-            let cellClasses = `controls-Grid__results-cell ${_private.getBackgroundStyle(this._options)} controls-Grid__cell_${this._options.style} controls-Grid__results-cell_theme-${this._options.theme}`;
+            let cellClasses = `controls-Grid__results-cell ${_private.getBackgroundStyle(this._options)} controls-Grid__cell_${this._options.style} `;
 
             if (resultsColumn.column?.align) {
                 cellClasses += ` controls-Grid__row-cell__content_halign_${resultsColumn.column.align}`;
@@ -1364,7 +1363,7 @@ var
 
                 if (columnSeparatorSize !== null) {
                     cellClasses += ' controls-Grid__row-cell_withColumnSeparator';
-                    cellClasses += ` controls-Grid__columnSeparator_size-${columnSeparatorSize}_theme-${this._options.theme}`;
+                    cellClasses += ` controls-Grid__columnSeparator_size-${columnSeparatorSize}`;
                 }
             }
 
@@ -1392,7 +1391,7 @@ var
 
             // Если включен множественный выбор и рендерится первая колонка с чекбоксом
             if (hasMultiSelectColumn && columnIndex === 0) {
-                cellClasses += ' controls-Grid__results-cell-checkbox' + `_theme-${this._options.theme}`;
+                cellClasses += ' controls-Grid__results-cell-checkbox';
             } else if (resultsColumn.column) {
                 cellClasses += ' ' + _private.getPaddingCellClasses({
                     style: this._options.style,
@@ -1670,7 +1669,7 @@ var
             current.rowSeparatorSize = this._options.rowSeparatorSize;
             current.columnSeparatorSize = this._options.columnSeparatorSize;
             if (current.hasMultiSelect) {
-                current.multiSelectClassList += ` controls-GridView__checkbox_theme-${current.theme} controls-GridView__checkbox_position-${current.multiSelectPosition}_theme-${current.theme}`;
+                current.multiSelectClassList += ` controls-GridView__checkbox controls-GridView__checkbox_position-${current.multiSelectPosition}`;
             }
             current.getSeparatorForColumn = _private.getSeparatorForColumn;
             current.isLastRow = (!navigation || navigation.view !== 'infinity' || !this.getHasMoreData()) &&
@@ -1702,13 +1701,13 @@ var
                 return false;
             };
 
-            current.getMarkerClasses = (markerClassName = 'default') => `controls-GridView__itemV_marker controls-GridView__itemV_marker_theme-${current.theme}
-            controls-GridView__itemV_marker-${style}_theme-${current.theme}
-            controls-GridView__itemV_marker-${style}_rowSpacingBottom-${current.itemPadding.bottom}_theme-${current.theme}
-            controls-GridView__itemV_marker-${style}_rowSpacingTop-${current.itemPadding.top}_theme-${current.theme}
-            controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'default' : ('padding-' + (current.itemPadding.top || 'l') + '_' + markerClassName)}
+            current.getMarkerClasses = (markerClassName = 'default') => `controls-GridView__itemV_marker
+            controls-GridView__itemV_marker-${style}
+            controls-GridView__itemV_marker-${style}_rowSpacingBottom-${current.itemPadding.bottom}
+            controls-GridView__itemV_marker-${style}_rowSpacingTop-${current.itemPadding.top}
+            controls-ListView__itemV_marker_${(markerClassName === 'default') ? 'height' : ('padding-' + (current.itemPadding.top || 'l') + '_' + markerClassName)}
             controls-ListView__itemV_marker-${current.markerPosition}
-            ${!!current.isDragging ? ' controls-ListView__itemContent_dragging_theme-' + current.theme : ''}`;
+            ${!!current.isDragging ? ' controls-ListView__itemContent_dragging' : ''}`;
 
             if (current.hasMultiSelectColumn) {
                 current.columns = [{}].concat(this._columns);
@@ -1818,7 +1817,7 @@ var
                     const hasHeader = !!self.getHeaderModel();
                     const hasTopResults = self.isDrawResults() && self.getResultsPosition() === 'top';
                     if (!hasMainCell) {
-                        result += ` controls-Grid__row-cell__ladder-spacing${hasHeader ? '_withHeader' : ''}${hasTopResults ? '_withResults' : ''}_theme-${current.theme}`;
+                        result += ` controls-Grid__row-cell__ladder-spacing${hasHeader ? '_withHeader' : ''}${hasTopResults ? '_withResults' : ''}`;
                     }
                 }
                 return result;
@@ -1928,14 +1927,14 @@ var
                 currentColumn.getEditingClassList = (tmplIsEditable) => {
                   let classList = '';
                   if (self.getEditingConfig()?.mode === 'cell') {
-                      classList += `controls-Grid__row-cell_editing-mode-single-cell_theme-${current.theme}`;
+                      classList += 'controls-Grid__row-cell_editing-mode-single-cell';
                       if (currentColumn.isEditing()) {
-                          classList += ` controls-Grid__row-cell_single-cell_editing_theme-${current.theme}`;
+                          classList += ' controls-Grid__row-cell_single-cell_editing';
                       } else {
                           if (currentColumn.column.editable !== false && tmplIsEditable !== false) {
-                              classList += ` controls-Grid__row-cell_single-cell_editable_theme-${current.theme}`;
+                              classList += ' controls-Grid__row-cell_single-cell_editable';
                           } else {
-                              classList += ` js-controls-ListView__notEditable controls-Grid__row-cell_single-cell_not-editable_theme-${current.theme}`;
+                              classList += ' js-controls-ListView__notEditable controls-Grid__row-cell_single-cell_not-editable';
                           }
                       }
                   }
@@ -1949,7 +1948,7 @@ var
                      * https://online.sbis.ru/opendoc.html?guid=4230f8f0-7fd1-4018-bd8c-08d703af3899
                      */
                     if (isColspaned) {
-                        columnData.classList.padding.right = `controls-Grid__cell_spacingLastCol_${current.itemPadding.right}_theme-${current.theme}`;
+                        columnData.classList.padding.right = `controls-Grid__cell_spacingLastCol_${current.itemPadding.right}`;
                     }
                     return columnData.classList.padding;
                 };
@@ -2076,28 +2075,28 @@ var
             prepared.forEach((column, index, columns) => {
                 column.isFullGridSupport = isFullGridSupport;
                 let styles = '';
-                let classes = `controls-GridView__footer__cell controls-GridView__footer__cell_theme-${theme}`;
+                let classes = 'controls-GridView__footer__cell';
 
                 if (this._options.footer) {
-                    classes += ` controls-GridView__newFooter__cell_theme-${theme}`;
+                    classes += ' controls-GridView__newFooter__cell';
                 }
 
                 if (!(index < 2 && hasMultiSelect)) {
                     if (index === 0) {
-                        classes += ` controls-GridView__footer__cell__paddingLeft_${itemPadding.left}_theme-${theme}`;
+                        classes += ` controls-GridView__footer__cell__paddingLeft_${itemPadding.left}`;
                     } else {
                         const dataColumnIndex = column.startColumn - +hasMultiSelect - 1;
                         const leftCellPadding = this._columns[dataColumnIndex].cellPadding?.left?.toLowerCase() || 'default';
-                        classes += ` controls-GridView__footer__cell__cellPaddingLeft_${leftCellPadding}_theme-${theme}`;
+                        classes += ` controls-GridView__footer__cell__cellPaddingLeft_${leftCellPadding}`;
                     }
                 }
                 if (!(index === 0 && hasMultiSelect)) {
                     if (index === columns.length - 1) {
-                        classes += ` controls-GridView__footer__cell__paddingRight_${itemPadding.right}_theme-${theme}`;
+                        classes += ` controls-GridView__footer__cell__paddingRight_${itemPadding.right}`;
                     } else {
                         const dataColumnIndex = column.endColumn - +hasMultiSelect - 2;
                         const rightCellPadding = this._columns[dataColumnIndex].cellPadding?.right?.toLowerCase() || 'default';
-                        classes += ` controls-GridView__footer__cell__cellPaddingRight_${rightCellPadding}_theme-${theme}`;
+                        classes += ` controls-GridView__footer__cell__cellPaddingRight_${rightCellPadding}`;
                     }
                 }
 
@@ -2131,8 +2130,8 @@ var
                         !needBottomPadding &&
                         this._options.resultsPosition !== 'bottom';
 
-                    return `${classes} controls-background-${backgroundStyle}_theme-${theme} ` +
-                           (shouldDrawBottomPadding ? `controls-GridView__footer__itemActionsV_outside_theme-${theme} ` : '');
+                    return `${classes} controls-background-${backgroundStyle} ` +
+                           (shouldDrawBottomPadding ? 'controls-GridView__footer__itemActionsV_outside ' : '');
                 };
 
                 column.getWrapperStyles = (containerSize: number) => {
@@ -2665,7 +2664,7 @@ var
 
             if (hasMultiSelectColumn) {
                 colgroupColumns.unshift({
-                    classes: 'controls-Grid__colgroup-column controls-Grid__colgroup-columnMultiSelect' + `_theme-${this._options.theme}`,
+                    classes: 'controls-Grid__colgroup-column controls-Grid__colgroup-columnMultiSelect',
                     // Ширина колонки чекбоксов задается через CSS класс
                     style: '',
                     index: 0

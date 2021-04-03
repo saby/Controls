@@ -1,6 +1,6 @@
 <div class="controlsDemo__wrapper controlsDemo__flexRow">
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label_theme-{{_options.theme}}">Настройка отступов</div>
+        <div class="controls-text-label">Настройка отступов</div>
         <Controls.treeGridOld:View
                 source="{{_viewSource}}"
                 keyProperty="id"
@@ -14,7 +14,7 @@
         </Controls.treeGridOld:View>
     </div>
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру S</div>
+        <div class="controls-text-label">Отступы соответствующие размеру S</div>
         <div class="controlsDemo__wrapper">
             <Controls.treeGridOld:View
                     source="{{_viewSource}}"
@@ -31,7 +31,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру M</div>
+        <div class="controls-text-label">Отступы соответствующие размеру M</div>
         <div class="controlsDemo__wrapper">
             <Controls.treeGridOld:View
                     source="{{_viewSource}}"
@@ -48,7 +48,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру L</div>
+        <div class="controls-text-label">Отступы соответствующие размеру L</div>
         <div class="controlsDemo__wrapper">
             <Controls.treeGridOld:View
                     source="{{_viewSource}}"
@@ -65,7 +65,7 @@
     </div>
 
     <div class="controlsDemo__cell controlsDemo__mr2 controlsDemo_fixedWidth300">
-        <div class="controls-text-label_theme-{{_options.theme}}">Отступы соответствующие размеру XL</div>
+        <div class="controls-text-label">Отступы соответствующие размеру XL</div>
         <div class="controlsDemo__wrapper">
             <Controls.treeGridOld:View
                     source="{{_viewSource}}"

@@ -145,21 +145,21 @@ describe('Controls/display:HeaderCell', () => {
             headerModel.setColumnSeparatorSize('s');
             const cells = headerModel.getRow().getColumns();
             const wrapperClasses = cells[1].getWrapperClasses('default', 'default', 'default', false);
-            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
         });
 
         it('should add separatorClass according to the column left columnSeparatorSize config', () => {
             columns[1].columnSeparatorSize = {left: 's', right: null};
             const cells = getGridHeader().getRow().getColumns();
             const wrapperClasses = cells[1].getWrapperClasses('default', 'default', 'default', false);
-            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
         });
 
         it('should add separatorClass according to the previous column right columnSeparatorSize config', () => {
             columns[1].columnSeparatorSize = {left: null, right: 's'};
             const cells = getGridHeader().getRow().getColumns();
             const wrapperClasses = cells[2].getWrapperClasses('default', 'default', 'default', false);
-            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default');
+            assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s');
         });
 
         it('should add separatorClass to the correct column when multiselect', () => {
@@ -172,12 +172,12 @@ describe('Controls/display:HeaderCell', () => {
             let wrapperClasses: string;
             [2, 3, 4, 6].forEach((index) => {
                 wrapperClasses = cells[index].getWrapperClasses('default', 'default', 'default', false);
-                assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default',
+                assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s',
                     `column at index ${index} should include separator`);
             });
             [1, 5].forEach((index) => {
                 wrapperClasses = cells[index].getWrapperClasses('default', 'default', 'default', false);
-                assert.notInclude(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default',
+                assert.notInclude(wrapperClasses, 'controls-Grid__columnSeparator_size-s',
                     `column at index ${index} should not include separator`);
             });
         });
@@ -191,12 +191,12 @@ describe('Controls/display:HeaderCell', () => {
             let wrapperClasses: string;
             [1, 2, 3, 5].forEach((index) => {
                 wrapperClasses = cells[index].getWrapperClasses('default', 'default', 'default', false);
-                assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default',
+                assert.include(wrapperClasses, 'controls-Grid__columnSeparator_size-s',
                     `column at index ${index} should include separator`);
             });
             [0, 4].forEach((index) => {
                 wrapperClasses = cells[index].getWrapperClasses('default', 'default', 'default', false);
-                assert.notInclude(wrapperClasses, 'controls-Grid__columnSeparator_size-s_theme-default',
+                assert.notInclude(wrapperClasses, 'controls-Grid__columnSeparator_size-s',
                     `column at index ${index} should not include separator`);
             });
         });
