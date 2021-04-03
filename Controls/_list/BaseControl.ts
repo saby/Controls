@@ -3356,8 +3356,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
 
     _continuationEditingDirection: 'top' | 'bottom' = null;
 
-    protected _lastCheckedItemKey: string;
-
     //#endregion
 
     constructor(options) {
@@ -4844,13 +4842,13 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
         if (!readOnly) {
             let newSelection;
 
-            if (e.hasOwnProperty('shiftKey') && e.nativeEvent.shiftKey && this._lastCheckedItemKey) {
-                newSelection = _private.getSelectionController(this).selectRange(key, this._lastCheckedItemKey);
+            if (e.nativeEvent.shiftKey) {
+                newSelection = _private.getSelectionController(this).selectRange(key);
             } else {
                 newSelection = _private.getSelectionController(this).toggleItem(key);
             }
 
-            this._lastCheckedItemKey = key;
+            _private.getSelectionController(this).setLastCheckedKey(key);
             this._notify('checkboxClick', [key, item.isSelected()]);
             _private.changeSelection(this, newSelection);
         }

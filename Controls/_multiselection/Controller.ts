@@ -30,6 +30,7 @@ export class Controller {
    private _searchValue: string;
    private _filter: any;
    private _filterChanged: boolean;
+   private _lastCheckedKey: string;
 
    private get _selection(): ISelection {
       return {
@@ -117,6 +118,16 @@ export class Controller {
     */
    setLimit(limit: number|undefined): void {
       this._limit = limit;
+   }
+
+   /**
+    * Установливает значение последнего выбранного ключа
+    * @param {number} limit Ограничение
+    * @void
+    * @public
+    */
+   setLastCheckedKey(key: string): void {
+      this._lastCheckedKey = key;
    }
 
    /**
@@ -234,21 +245,25 @@ export class Controller {
    }
 
    /**
-    * Выбирает элементы с firstKey до secondKey
+    * Выбирает элементы с переданного ключа до предыдущего выбранного
     * @return {ISelection}
     */
-   selectRange(firstKey: CrudEntityKey, secondKey: CrudEntityKey): ISelection {
-      if (firstKey === secondKey) {
+   selectRange(key: CrudEntityKey): ISelection {
+      if (key === this._lastCheckedKey) {
          return this._selection;
       }
 
-      const firstIndex = this._model.getIndexByKey(firstKey);
-      const secondIndex = this._model.getIndexByKey(secondKey);
-      const sliceStart = secondIndex > firstIndex ? firstIndex : secondIndex;
-      const sliceEnd = sliceStart === secondIndex ? firstIndex + 1 : secondIndex + 1;
-      const items = this._model.getItems().slice(sliceStart, sliceEnd);
+      if (!this._lastCheckedKey) {
+         return this.toggleItem(key);
+      } else {
+         const firstIndex = this._model.getIndexByKey(key);
+         const secondIndex = this._model.getIndexByKey(this._lastCheckedKey);
+         const sliceStart = secondIndex > firstIndex ? firstIndex : secondIndex;
+         const sliceEnd = sliceStart === secondIndex ? firstIndex + 1 : secondIndex + 1;
+         const items = this._model.getItems().slice(sliceStart, sliceEnd);
 
-      return this._strategy.selectRange(this._selection, items);
+         return this._strategy.selectRange(this._selection, items);
+      }
    }
 
    /**
