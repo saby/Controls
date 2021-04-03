@@ -79,7 +79,7 @@ export default class TreeGridCollection<
         if (superResult) {
             if (this._$emptyTemplate) {
                 if (this._$emptyGridRow) {
-                    this._$emptyGridRow.setEmptyTemplate(this._$emptyTemplate);
+                    this._$emptyGridRow.setRowTemplate(this._$emptyTemplate);
                 } else {
                     this._initializeEmptyRow();
                 }

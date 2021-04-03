@@ -1,28 +1,16 @@
-import { TemplateFunction } from 'UI/Base';
 import FooterRow from './FooterRow';
-import Cell, {IOptions as ICellOptions} from './Cell';
+import Cell from './Cell';
 import { IColspanParams } from 'Controls/interface';
 
-export interface IOptions<T> extends ICellOptions<T> {
-    owner: FooterRow<T>;
-    template?: TemplateFunction;
-    isSingleCell?: boolean;
-}
-
-const DEFAULT_CELL_TEMPLATE = 'Controls/grid:FooterColumnTemplate';
-
 export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
-    protected _$isSingleCell: boolean;
+    protected readonly DEFAULT_CELL_TEMPLATE: string = 'Controls/grid:FooterColumnTemplate';
 
-    constructor(options?: IOptions<T>) {
-        super(options);
-    }
-
+    // TODO: Не undefined, строка и индекс ячейки.
     getInstanceId(): string {
         return undefined;
     }
 
-    // region Аспект "Объединение колонок"
+    // TODO: Это что? Вроде не нужно нигде, нужно удалить.
     _getColspanParams(): IColspanParams {
         if (this._$column.startColumn && this._$column.endColumn) {
             const multiSelectOffset = this._$owner.hasMultiSelectColumn() ? 1 : 0;
@@ -33,7 +21,6 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
         }
         return super._getColspanParams();
     }
-    // endregion
 
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
         let wrapperClasses = 'controls-GridView__footer__cell';
@@ -62,15 +49,10 @@ export default class FooterCell<T> extends Cell<T, FooterRow<T>> {
     getContentClasses(theme: string): string {
         return 'controls-Grid__footer-cell__content';
     }
-
-    getTemplate(): TemplateFunction|string {
-        return this._$column.template || DEFAULT_CELL_TEMPLATE;
-    }
 }
 
 Object.assign(FooterCell.prototype, {
     '[Controls/_display/grid/FooterCell]': true,
     _moduleName: 'Controls/gridNew:GridFooterCell',
-    _instancePrefix: 'grid-footer-cell-',
-    _$isSingleCell: false
+    _instancePrefix: 'grid-footer-cell-'
 });

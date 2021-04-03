@@ -1,7 +1,7 @@
 import { TemplateFunction } from 'UI/Base';
 import { create } from 'Types/di';
 import { isEqual } from 'Types/object';
-import { Model as EntityModel } from 'Types/entity';
+import {Model as EntityModel} from 'Types/entity';
 
 import { THeader, IColumn, TColumns, IColspanParams, TColumnSeparatorSize } from 'Controls/interface';
 
@@ -17,6 +17,7 @@ import Cell, { IOptions as ICellOptions } from '../Cell';
 import { TResultsPosition } from '../ResultsRow';
 import StickyLadderCell from '../StickyLadderCell';
 import CheckboxCell from '../CheckboxCell';
+import ItemActionsCell from './../ItemActionsCell';
 import {TColspanCallback, TColspanCallbackResult} from './Grid';
 
 const DEFAULT_GRID_ROW_TEMPLATE = 'Controls/grid:ItemTemplate';
@@ -26,17 +27,28 @@ export interface IItemTemplateParams {
     style?: string;
     cursor?: 'default' | 'pointer';
     theme: string;
-    showItemActionsOnHover: boolean;
+    showItemActionsOnHover?: boolean;
 
     // Deprecated, use cursor
     clickable?: boolean;
 }
 
+interface IInitializeColumnsOptions {
+    shouldAddStickyLadderCells?: boolean;
+    shouldAddMultiSelectCell?: boolean;
+    addEmptyCellsForStickyLadder?: boolean;
+    extensionCellsConstructors?: {
+        stickyLadderCell: new () => object
+        multiSelectCell: new () => object
+    };
+}
+
 export interface IOptions<T> extends IBaseOptions<T> {
     columns: TColumns;
     colspanCallback?: TColspanCallback;
+    rowTemplate: TemplateFunction;
+    rowTemplateOptions: object;
     columnSeparatorSize?: TColumnSeparatorSize;
-    hasStickyGroup?: boolean;
 }
 
 export default abstract class Row<T> {
@@ -45,7 +57,6 @@ export default abstract class Row<T> {
     protected _$owner: Collection<T>;
     protected _cellModule: string;
 
-    protected _$columns: TColumns;
     protected _$columnItems: Array<Cell<T, Row<T>>>;
     protected _$colspanCallback: TColspanCallback;
     protected _$ladder: TLadderElement<ILadderConfig>;
@@ -53,10 +64,29 @@ export default abstract class Row<T> {
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
 
+    protected _$rowTemplate: TemplateFunction;
+    protected _$rowTemplateOptions: object;
+    protected _$columns: TColumns;
+    protected _savedColumns: TColumns;
+
+    constructor(options?: IOptions<T>) {
+        if (this._$rowTemplate) {
+            if (options.columns) {
+                this._savedColumns = options.columns;
+            }
+
+            this._$columns = [{
+                template: this._$rowTemplate,
+                templateOptions: this._$rowTemplateOptions
+            }];
+        }
+    }
+
     getDefaultTemplate(): string {
         return DEFAULT_GRID_ROW_TEMPLATE;
     }
 
+    // region Аспект "Стилевое оформление"
     getItemClasses(params: IItemTemplateParams = { theme: 'default' }): string {
         let itemClasses = `${this._getBaseItemClasses(params.style, params.theme)} `
                         + `${this._getCursorClasses(params.cursor, params.clickable)} `
@@ -87,6 +117,7 @@ export default abstract class Row<T> {
         }
         return '';
     }
+    // endregion
 
     isLastItem(): boolean {
         return (this.getOwner().getItems()[this.getOwner().getCount() - 1] === this);
@@ -248,10 +279,17 @@ export default abstract class Row<T> {
     }
 
     setColumns(newColumns: TColumns): void {
-        if (this._$columns !== newColumns) {
-            this._$columns = newColumns;
-            this._$columnItems = null;
-            this._nextVersion();
+        if (this._$rowTemplate) {
+            // В данный момент строка выводит контент из rowTemplate. Он актуален, перестроение не требуется.
+            // Однако, колонки сохраняются, чтобы при сбросе шаблона строки строка перерисовалась по ним.
+            if (this._savedColumns !== newColumns) {
+                this._savedColumns = newColumns;
+            }
+        } else {
+            if (this._$columns !== newColumns) {
+                this._$columns = newColumns;
+                this._reinitializeColumns(true);
+            }
         }
     }
 
@@ -293,11 +331,21 @@ export default abstract class Row<T> {
         return 'topbottom';
     }
 
-    protected _reinitializeColumns(): void {
+    protected _reinitializeColumns(lazy: boolean = false): void {
         if (this._$columnItems) {
-            this._initializeColumns();
+            this._$columnItems = null;
+            if (!lazy) {
+                this._initializeColumns();
+            }
             this._nextVersion();
         }
+    }
+
+    private _$getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
+        if (this._$rowTemplate) {
+            return 'end';
+        }
+        return this._getColspan(column, columnIndex);
     }
 
     protected _getColspan(column: IColumn, columnIndex: number): TColspanCallbackResult {
@@ -308,13 +356,24 @@ export default abstract class Row<T> {
         return undefined;
     }
 
-    protected _prepareColumnItems(columns: IColspanParams[], factory: (options: Partial<ICellOptions<T>>) => Cell<T, Row<T>>): Array<Cell<T, Row<T>>> {
+    protected _prepareColumnItems(columns: IColspanParams[],
+                                  factory: (options: Partial<ICellOptions<T>>) => Cell<T, Row<T>>,
+                                  shouldColspanWithMultiselect: boolean,
+                                  shouldColspanWithStickyLadderCells: boolean): Array<Cell<T, Row<T>>> {
         const creatingColumnsParams = [];
         for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
             const column = columns[columnIndex];
-            let colspan = this._getColspan(column, columnIndex);
+            let colspan = this._$getColspan(column, columnIndex);
             if (colspan === 'end') {
-                colspan = columns.length - columnIndex;
+                colspan = this.getColumnsConfig().length - columnIndex;
+                if (this.hasMultiSelectColumn() && shouldColspanWithMultiselect) {
+                    colspan++;
+                }
+                if (shouldColspanWithStickyLadderCells && this.isFullGridSupport()) {
+                    const stickyLadderProperties = this.getStickyLadderProperties(this.getColumnsConfig()[0]);
+                    const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
+                    colspan += stickyLadderCellsCount;
+                }
             }
             if (colspan === 1) {
                 colspan = 0;
@@ -345,26 +404,41 @@ export default abstract class Row<T> {
         };
     }
 
-    protected _processStickyLadderCells() {
+    protected _processStickyLadderCells(addEmptyCellsForStickyLadder: boolean = false,
+                                        stickyLadderCellCtor: (new () => Cell) = StickyLadderCell): void {
         // todo Множественный stickyProperties можно поддержать здесь:
-        const stickyLadderProperties = this.getStickyLadderProperties(this._$columns[0]);
-        const stickyLadderStyleForFirstProperty = stickyLadderProperties &&
-            this._getStickyLadderStyle(this._$columns[0], stickyLadderProperties[0]);
-        const stickyLadderStyleForSecondProperty = stickyLadderProperties && stickyLadderProperties.length === 2 &&
-            this._getStickyLadderStyle(this._$columns[0], stickyLadderProperties[1]);
+        const stickyLadderProperties = this.getStickyLadderProperties(this.getColumnsConfig()[0]);
+        const stickyLadderCellsCount = stickyLadderProperties && stickyLadderProperties.length || 0;
 
+        // Создание пустых ячеек, для строк, которые никогда не отображают лесенку, но обязаны выводить пустые ячейки
+        // для поддержания работоспособности грида
+        if (addEmptyCellsForStickyLadder) {
+            if (stickyLadderCellsCount) {
+                const params = {owner: this, ladderCell: true, column: {}};
+                this._$columnItems.splice(1, 0, new stickyLadderCellCtor(params));
+                if (stickyLadderCellsCount === 2) {
+                    this._$columnItems = ([new stickyLadderCellCtor(params)] as Array<Cell<T, Row<T>>>).concat(this._$columnItems);
+                }
+            }
+            return;
+        }
+
+        const stickyLadderStyleForFirstProperty = stickyLadderProperties &&
+            this._getStickyLadderStyle(this.getColumnsConfig()[0], stickyLadderProperties[0]);
+        const stickyLadderStyleForSecondProperty = stickyLadderProperties && stickyLadderProperties.length === 2 &&
+            this._getStickyLadderStyle(this.getColumnsConfig()[0], stickyLadderProperties[1]);
 
         if (stickyLadderStyleForSecondProperty || stickyLadderStyleForFirstProperty) {
             this._$columnItems[0].setHiddenForLadder(true);
         }
 
         if (stickyLadderStyleForSecondProperty) {
-            this._$columnItems.splice(1, 0, new StickyLadderCell({
-                ...this._getColumnFactoryParams(this._$columns[0], 0),
+            this._$columnItems.splice(1, 0, new stickyLadderCellCtor({
+                ...this._getColumnFactoryParams(this.getColumnsConfig()[0], 0),
                 owner: this,
                 instanceId: `${this.key}_column_secondSticky`,
                 wrapperStyle: stickyLadderStyleForSecondProperty,
-                contentStyle: `left: -${this._$columns[0].width}; right: 0;`,
+                contentStyle: `left: -${this.getColumnsConfig()[0].width}; right: 0;`,
                 stickyProperty: stickyLadderProperties[1],
                 stickyHeaderZIndex: 1
             }));
@@ -372,33 +446,59 @@ export default abstract class Row<T> {
 
         if (stickyLadderStyleForFirstProperty) {
             this._$columnItems = ([
-                new StickyLadderCell({
-                    ...this._getColumnFactoryParams(this._$columns[0], 0),
+                new stickyLadderCellCtor({
+                    ...this._getColumnFactoryParams(this.getColumnsConfig()[0], 0),
                     owner: this,
                     instanceId: `${this.key}_column_firstSticky`,
                     wrapperStyle: stickyLadderStyleForFirstProperty,
-                    contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this._$columns[0].width};` : '',
+                    contentStyle: stickyLadderStyleForSecondProperty ? `left: 0; right: -${this.getColumnsConfig()[0].width};` : '',
                     stickyProperty: stickyLadderProperties[0],
                     stickyHeaderZIndex: 2
                 })
             ] as Array<Cell<T, Row<T>>>).concat(this._$columnItems);
         }
-
     }
-    protected _initializeColumns(): void {
+
+    protected _initializeColumns(options: IInitializeColumnsOptions = {shouldAddStickyLadderCells: true, shouldAddMultiSelectCell: true}): void {
         if (this._$columns) {
-            this._$columnItems = this._prepareColumnItems(this._$columns, this.getColumnsFactory());
-            const createMultiSelectColumn = this.hasMultiSelectColumn();
-            this._processStickyLadderCells();
-            if (createMultiSelectColumn) {
-                this._$columnItems = ([
-                    new CheckboxCell({
-                        ...this._getColumnFactoryParams({}, 0),
-                        instanceId: `${this.key}_column_checkbox`,
-                        owner: this,
-                        isFixed: true
-                    })
-                ] as Array<Cell<T, Row<T>>>).concat(this._$columnItems);
+
+            // Заполняем основные ячейки строки (данные), учитывая колспаны.
+            this._$columnItems = this._prepareColumnItems(
+                this._$columns,
+                this.getColumnsFactory(),
+                options.shouldAddMultiSelectCell === false,
+                options.shouldAddStickyLadderCells === false
+            );
+
+            // Заполняем ячейки для лесенки.
+            // TODO: Не работает с колспаннутыми узлами. Нужно чтобы лесенка работала до колспана или сквозь него.
+            if (options.shouldAddStickyLadderCells !== false && this.isFullGridSupport()) {
+                this._processStickyLadderCells(options.addEmptyCellsForStickyLadder, options.extensionCellsConstructors?.stickyLadderCell);
+            }
+
+            // Ячейка под чекбокс множественного выбора.
+            if (options.shouldAddMultiSelectCell !== false && this.hasMultiSelectColumn()) {
+                const ctor = options.extensionCellsConstructors?.multiSelectCell || CheckboxCell;
+
+                this._$columnItems.unshift(new ctor({
+                    owner: this,
+                    isFixed: true,
+                    instanceId: `${this.key}_column_checkbox`,
+                    ...this._getColumnFactoryParams({}, 0)
+                }) as Array<Cell<T, Row<T>>>);
+            }
+
+            // Ячейка под операции над записью при горизонтальном скролле.
+            if (this.hasItemActionsSeparatedCell()) {
+                const ctor = options.extensionCellsConstructors?.separatedActionsCell || ItemActionsCell;
+
+                this._$columnItems.push(new ctor({
+                    owner: this,
+                    instanceId: `${this.key}_column_separated-actions`,
+                    // FIXME: Ну как же ноль, если это последняя ячейка.
+                    ...this._getColumnFactoryParams({}, 0),
+                    column: {}
+                }));
             }
         }
     }
@@ -424,13 +524,16 @@ export default abstract class Row<T> {
         }
     }
 
-    getColumnsFactory(): (options: Partial<ICellOptions<T>>) => Cell<T, Row<T>> {
+    getColumnsFactory(staticOptions?: object): (options: Partial<ICellOptions<T>>) => Cell<T, Row<T>> {
         if (!this._cellModule) {
             throw new Error('Controls/_display/Row:getColumnsFactory can not resolve cell module!');
         }
         return (options) => {
-            options.owner = this;
-            return create(this._cellModule, options as ICellOptions<T>);
+            return create(this._cellModule, {
+                owner: this,
+                ...(staticOptions || {}),
+                ...options
+            } as ICellOptions<T>);
         };
     }
 
@@ -454,6 +557,11 @@ export default abstract class Row<T> {
         return this._$owner.hasItemActionsSeparatedCell();
     }
 
+    getEditingConfig() {
+        return this.getOwner().getEditingConfig();
+    }
+
+    //region Разделители строк и ячеек
     getColumnSeparatorSize(): TColumnSeparatorSize {
         return this._$columnSeparatorSize;
     }
@@ -465,10 +573,6 @@ export default abstract class Row<T> {
             this._updateSeparatorSizeInColumns('Column');
         }
         this._nextVersion();
-    }
-
-    getEditingConfig() {
-        return this.getOwner().getEditingConfig();
     }
 
     protected _updateSeparatorSizeInColumns(separatorName: 'Column' | 'Row'): void {
@@ -505,6 +609,39 @@ export default abstract class Row<T> {
         return columnSeparatorSize;
     }
 
+    //endregion
+
+    //region Шаблон всей строки
+    setRowTemplate(rowTemplate: TemplateFunction): void {
+        if (rowTemplate) {
+            // Произошла установка шаблона стрки. Если строка рисовалась по колонкам, сохраним их,
+            // чтобы при сбросе шаблона строки вернуться к ним.
+            if (!this._$rowTemplate && this._$columns) {
+                this._savedColumns = this._$columns;
+            }
+            this._$rowTemplate = rowTemplate;
+            this._$columns = [{
+                template: this._$rowTemplate,
+                templateOptions: this._$rowTemplateOptions || {}
+            }];
+        } else if (this._$rowTemplate) {
+            this._$rowTemplate = rowTemplate;
+            this._$columns = this._savedColumns ? this._savedColumns : null;
+        } else {
+            return;
+        }
+
+        this._reinitializeColumns(true);
+    }
+
+    setRowTemplateOptions(rowTemplateOptions: object): void {
+        if (!isEqual(this._$rowTemplateOptions, rowTemplateOptions)) {
+            this._$rowTemplateOptions = rowTemplateOptions;
+            this._reinitializeColumns(true);
+        }
+    }
+    //endregion
+
     abstract getContents(): T;
 
     abstract getOwner(): Collection<T>;
@@ -518,10 +655,13 @@ export default abstract class Row<T> {
     protected abstract _nextVersion(): void;
 }
 
+// Статические свойства базовой строки и опции, которые будут переписаны из опций в всойства строки
 Object.assign(Row.prototype, {
     '[Controls/_display/grid/mixins/Row]': true,
     _cellModule: null,
     _$columns: null,
+    _$rowTemplate: null,
+    _$rowTemplateOptions: null,
     _$colspanCallback: null,
     _$columnItems: null,
     _$columnSeparatorSize: null,

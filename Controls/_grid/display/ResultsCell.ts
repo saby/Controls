@@ -1,5 +1,5 @@
-import { TemplateFunction } from 'UI/Base';
-import { Model as EntityModel } from 'Types/entity';
+import {TemplateFunction} from 'UI/Base';
+import {Model as EntityModel} from 'Types/entity';
 import ResultsRow from './ResultsRow';
 import Cell, {IOptions as ICellOptions} from './Cell';
 
@@ -11,12 +11,13 @@ export interface IOptions<T> extends ICellOptions<T> {
     metaResults?: EntityModel;
 }
 
-const DEFAULT_CELL_TEMPLATE = 'Controls/grid:ResultColumnTemplate';
 const FIXED_RESULTS_Z_INDEX = 4;
 const STICKY_RESULTS_Z_INDEX = 3;
 
-export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
-    protected _$data: string|number;
+export default class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
+    protected readonly DEFAULT_CELL_TEMPLATE: string = 'Controls/grid:ResultColumnTemplate';
+
+    protected _$data: string | number;
     protected _$format: string;
     protected _$metaResults: EntityModel;
 
@@ -25,6 +26,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         this._prepareDataAndFormat();
     }
 
+    //region Аспект "Данные и формат"
     get data(): string | number {
         return this._$data;
     }
@@ -43,11 +45,26 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         return this._$metaResults;
     }
 
-    getTemplate(): TemplateFunction|string {
-        return this._$column.resultTemplate || DEFAULT_CELL_TEMPLATE;
+    protected _prepareDataAndFormat(): void {
+        const results = this.getMetaResults();
+        const displayProperty = this._$column && this._$column.displayProperty;
+        if (results && displayProperty) {
+            const metaResultsFormat = results.getFormat();
+            const displayPropertyFormatIndex = metaResultsFormat.getIndexByValue('name', displayProperty);
+            this._$data = results.get(displayProperty);
+            if (displayPropertyFormatIndex !== -1) {
+                this._$format = metaResultsFormat.at(displayPropertyFormatIndex).getType() as string;
+            }
+        }
     }
 
-    getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
+    //endregion
+
+    //region Аспект "Стилевое оформление"
+    getWrapperClasses(theme: string,
+                      backgroundColorStyle: string,
+                      style: string = 'default',
+                      templateHighlightOnHover: boolean): string {
         const isMultiSelectColumn = this.isMultiSelectColumn();
 
         if (isMultiSelectColumn) {
@@ -115,6 +132,7 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
     getWrapperStyles(): string {
         return `${super.getWrapperStyles()} z-index: ${this.getZIndex()};`;
     }
+
     getZIndex(): number {
         let zIndex;
         if (this._$owner.hasColumnScroll()) {
@@ -124,22 +142,12 @@ export default class ResultsCell<T> extends Cell<T, ResultsRow<T>> {
         }
         return zIndex;
     }
+
     getContentClasses(theme: string): string {
         return `controls-Grid__results-cell__content controls-Grid__results-cell__content`;
     }
 
-    protected _prepareDataAndFormat(): void {
-        const results = this.getMetaResults();
-        const displayProperty = this._$column && this._$column.displayProperty;
-        if (results && displayProperty) {
-            const metaResultsFormat = results.getFormat();
-            const displayPropertyFormatIndex = metaResultsFormat.getIndexByValue('name', displayProperty);
-            this._$data = results.get(displayProperty);
-            if (displayPropertyFormatIndex !== -1) {
-                this._$format = metaResultsFormat.at(displayPropertyFormatIndex).getType() as string;
-            }
-        }
-    }
+    //endregion
 }
 
 Object.assign(ResultsCell.prototype, {
