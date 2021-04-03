@@ -30,7 +30,7 @@ export class Controller {
    private _searchValue: string;
    private _filter: any;
    private _filterChanged: boolean;
-   private _lastCheckedKey: string;
+   private _lastCheckedKey: CrudEntityKey;
 
    private get _selection(): ISelection {
       return {
@@ -121,16 +121,6 @@ export class Controller {
    }
 
    /**
-    * Установливает значение последнего выбранного ключа
-    * @param {number} limit Ограничение
-    * @void
-    * @public
-    */
-   setLastCheckedKey(key: string): void {
-      this._lastCheckedKey = key;
-   }
-
-   /**
     * Возвращается разнице между новым выбором newSelection и текущим
     * @param {ISelection} newSelection новый выбранные элементы
     * @return {ISelectionDifference}
@@ -215,6 +205,7 @@ export class Controller {
          }
       }
 
+      this._lastCheckedKey = key;
       return newSelection;
    }
 
@@ -253,8 +244,10 @@ export class Controller {
          return this._selection;
       }
 
+      let newSelection;
+
       if (!this._lastCheckedKey) {
-         return this.toggleItem(key);
+         newSelection =  this.toggleItem(key);
       } else {
          const firstIndex = this._model.getIndexByKey(key);
          const secondIndex = this._model.getIndexByKey(this._lastCheckedKey);
@@ -262,8 +255,11 @@ export class Controller {
          const sliceEnd = sliceStart === secondIndex ? firstIndex + 1 : secondIndex + 1;
          const items = this._model.getItems().slice(sliceStart, sliceEnd);
 
-         return this._strategy.selectRange(this._selection, items);
+         newSelection = this._strategy.selectRange(this._selection, items);
       }
+
+      this._lastCheckedKey = key;
+      return newSelection;
    }
 
    /**

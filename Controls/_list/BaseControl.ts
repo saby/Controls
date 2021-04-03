@@ -4848,7 +4848,6 @@ export default class BaseControl<TOptions extends IBaseControlOptions = IBaseCon
                 newSelection = _private.getSelectionController(this).toggleItem(key);
             }
 
-            _private.getSelectionController(this).setLastCheckedKey(key);
             this._notify('checkboxClick', [key, item.isSelected()]);
             _private.changeSelection(this, newSelection);
         }
