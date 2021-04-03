@@ -155,7 +155,7 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
          // Показываем кнопку если есть выбранные и невыбранные записи
       } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && !options.isAllSelected) {
          additionalItems.push(SHOW_SELECTED_ITEM);
-      } else if (options.selectionViewMode === 'partial') {
+      } else if (options.selectionViewMode === 'partial' && !options.isAllSelected) {
          if (this._options.selectedKeys.length) {
             additionalItems.push(...SHOW_SELECT_COUNT_SELECTED_ITEMS);
          } else {
@@ -286,7 +286,8 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       return {
          selectedKeys: [],
          excludedKeys: [],
-         fontColorStyle: 'link'
+         fontColorStyle: 'link',
+         selectionViewMode: 'partial'
       };
    }
 }
