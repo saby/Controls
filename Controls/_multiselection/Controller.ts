@@ -26,7 +26,7 @@ export class Controller {
    private _selectedKeys: TKeys = [];
    private _excludedKeys: TKeys = [];
    private _strategy: ISelectionStrategy;
-   private _limit: number|undefined;
+   private _limit: number|undefined = 0;
    private _searchValue: string;
    private _filter: any;
    private _filterChanged: boolean;
@@ -116,7 +116,9 @@ export class Controller {
     * @public
     */
    setLimit(limit: number|undefined): void {
-      this._limit = limit;
+      if (limit !== undefined) {
+         this._limit = limit;
+      }
    }
 
    /**
@@ -193,10 +195,6 @@ export class Controller {
             this._limit--;
          }
       } else {
-         if (this._limit) {
-            newSelection = this._increaseLimit(key);
-         }
-
          if (newSelection) {
             newSelection = this._strategy.select(newSelection, key);
          } else {
@@ -231,6 +229,14 @@ export class Controller {
     */
    unselectAll(): ISelection {
       return this._strategy.unselectAll(this._selection);
+   }
+
+   /**
+    * Выбирает число элементов указанных в count с начала списка
+    * @return {ISelection}
+    */
+   selectCount(): ISelection {
+      return this._strategy.selectCount(this._selection, this._limit);
    }
 
    /**
@@ -361,39 +367,6 @@ export class Controller {
       return items
           .filter((it) => it.SelectableItem)
           .map((item) => this._getKey(item));
-   }
-
-   /**
-    * Увеличивает лимит на количество выбранных записей, все предыдущие невыбранные записи при этом попадают в исключение
-    * @private
-    * @param toggledItemKey
-    */
-   private _increaseLimit(toggledItemKey: CrudEntityKey): ISelection {
-      const newSelection = clone(this._selection);
-      let selectedItemsCount = 0;
-      const limit = this._limit ? this._limit : 0;
-
-      let stopIncreasing = false;
-      this._model.each((item) => {
-         if (stopIncreasing) {
-            return;
-         }
-
-         if (selectedItemsCount < limit && item.isSelected() !== false) {
-            selectedItemsCount++;
-         } else {
-            const key = this._getKey(item);
-            if (toggledItemKey === key) {
-               selectedItemsCount++;
-               this._limit++;
-               stopIncreasing = true;
-            } else if (!newSelection.excluded.includes(key)) {
-               newSelection.excluded.push(key);
-            }
-         }
-      });
-
-      return newSelection;
    }
 
    private _updateModel(selection: ISelection, silent: boolean = false, items?: Array<CollectionItem<Model>>): void {

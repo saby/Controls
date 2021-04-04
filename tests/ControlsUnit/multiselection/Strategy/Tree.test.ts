@@ -311,6 +311,39 @@ describe('Controls/_multiselection/SelectionStrategy/Tree', () => {
       });
    });
 
+   describe('selectCount', () => {
+      it('count = 5, no expanded nodes', () => {
+         let selection = { selected: [], excluded: [] };
+         selection = strategy.selectCount(5);
+         assert.deepEqual(selection.selected, [1, 2, 3, 4, 5]);
+         assert.deepEqual(selection.excluded, []);
+      });
+      it('count = 10, no expanded nodes', () => {
+         let selection = { selected: [], excluded: [] };
+         selection = strategy.selectCount(10);
+         assert.deepEqual(selection.selected, [1, 2, 3, 4, 5, 6, 7]);
+         assert.deepEqual(selection.excluded, []);
+      });
+      it('count = 3, with expanded nodes', () => {
+         model.getItems()[0].setExpanded(true);
+         model.getItems()[1].setNode(true);
+         model.getItems()[1].setExpanded(true);
+         let selection = { selected: [], excluded: [] };
+         selection = strategy.selectCount(3);
+         assert.deepEqual(selection.selected, [3, 4, 5]);
+         assert.deepEqual(selection.excluded, []);
+      });
+      it('count = 10, with expanded nodes', () => {
+         model.getItems()[0].setExpanded(true);
+         model.getItems()[1].setNode(true);
+         model.getItems()[1].setExpanded(true);
+         let selection = { selected: [], excluded: [] };
+         selection = strategy.selectCount(10);
+         assert.deepEqual(selection.selected, [3, 4, 5, 6, 7]);
+         assert.deepEqual(selection.excluded, []);
+      });
+   });
+
    describe('getSelectionForModel', () => {
       it('not selected', () => {
          const selection = { selected: [], excluded: [] };

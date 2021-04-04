@@ -34,6 +34,44 @@ const SHOW_ALL_ITEM =  {
    title: rk('Показать все')
 };
 
+const SHOW_SELECT_COUNT = [
+   {
+      id: 'count-10',
+      title: '10'
+   },
+   {
+      id: 'count-25',
+      title: '25'
+   },
+   {
+      id: 'count-50',
+      title: '50'
+   },
+   {
+      id: 'count-100',
+      title: '100'
+   }
+];
+
+const SHOW_SELECT_COUNT_SELECTED_ITEMS = [
+   {
+      id: 'count-10',
+      title: '+10'
+   },
+   {
+      id: 'count-25',
+      title: '+25'
+   },
+   {
+      id: 'count-50',
+      title: '+50'
+   },
+   {
+      id: 'count-100',
+      title: '+100'
+   }
+];
+
 interface IMultiSelectorChildren {
    countIndicator: LoadingIndicator;
 }
@@ -52,7 +90,7 @@ export interface IMultiSelectorOptions extends IControlOptions {
    excludedKeys: TKeysSelection;
    selectedKeysCount: TCount;
    isAllSelected?: boolean;
-   selectionViewMode?: 'all'|'selected';
+   selectionViewMode?: 'all'|'selected'|'partial';
    selectedCountConfig?: IGetCountCallParams;
 }
 
@@ -117,6 +155,12 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
          // Показываем кнопку если есть выбранные и невыбранные записи
       } else if (options.selectionViewMode === 'all' && options.selectedKeys.length && !options.isAllSelected) {
          additionalItems.push(SHOW_SELECTED_ITEM);
+      } else if (options.selectionViewMode === 'partial' && !options.isAllSelected) {
+         if (this._options.selectedKeys.length) {
+            additionalItems.push(...SHOW_SELECT_COUNT_SELECTED_ITEMS);
+         } else {
+            additionalItems.push(...SHOW_SELECT_COUNT);
+         }
       }
 
       return additionalItems;
@@ -242,7 +286,8 @@ export default class MultiSelector extends Control<IMultiSelectorOptions> {
       return {
          selectedKeys: [],
          excludedKeys: [],
-         fontColorStyle: 'link'
+         fontColorStyle: 'link',
+         selectionViewMode: 'partial'
       };
    }
 }
