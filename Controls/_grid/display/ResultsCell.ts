@@ -100,7 +100,7 @@ class ResultsCell<T extends EntityModel<any>> extends Cell<T, ResultsRow<T>> {
     _getWrapperPaddingClasses(theme: string): string {
         // Для ячейки, создаваемой в связи с множественной лесенкой не нужны отступы, иначе будут проблемы с наложением
         // тени: https://online.sbis.ru/opendoc.html?guid=758f38c7-f5e7-447e-ab79-d81546b9f76e
-        if (this._$ladderCell) {
+        if (this._$isLadderCell) {
             return '';
         }
 

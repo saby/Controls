@@ -57,7 +57,7 @@ export default class HeaderRow<T> extends Row<T> {
         if (stickyLadderCellsCount) {
             this._$columnItems.splice(1, 0, new HeaderCell({
                 column: this._$header[0],
-                ladderCell: true,
+                isLadderCell: true,
                 owner: this,
                 backgroundStyle: 'transparent',
                 shadowVisibility: 'hidden'
@@ -68,7 +68,7 @@ export default class HeaderRow<T> extends Row<T> {
             this._$columnItems = ([
                 new HeaderCell({
                     column: this._$header[0],
-                    ladderCell: true,
+                    isLadderCell: true,
                     owner: this,
                     shadowVisibility: 'hidden',
                     backgroundStyle: 'transparent'

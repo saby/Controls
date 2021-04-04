@@ -27,12 +27,12 @@ export interface IOptions<T> extends IColspanParams {
     owner: Row<T>;
     column: IColumn;
     instanceId?: string;
-    hiddenForLadder?: boolean;
+    isHiddenForLadder?: boolean;
     startColumn?: number;
     endColumn?: number;
     colspan?: number;
     isFixed?: boolean;
-    ladderCell?: boolean;
+    isLadderCell?: boolean;
     columnSeparatorSize?: string;
     rowSeparatorSize?: string;
 }
@@ -52,12 +52,12 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     protected readonly DEFAULT_CELL_TEMPLATE: string = DEFAULT_CELL_TEMPLATE;
     protected readonly _$owner: TOwner;
     protected readonly _$column: IColumn;
-    protected _$hiddenForLadder: boolean;
+    protected _$isHiddenForLadder: boolean;
     protected _$instanceId: string;
     protected _$colspan: number;
     protected _$isFixed: boolean;
     protected _$isSingleCell: boolean;
-    protected _$ladderCell: boolean;
+    protected _$isLadderCell: boolean;
     protected _$columnSeparatorSize: TColumnSeparatorSize;
     protected _$rowSeparatorSize: string;
 
@@ -168,7 +168,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
 
     // region Аспект "Лесенка"
     setHiddenForLadder(value: boolean): void {
-        this._$hiddenForLadder = value;
+        this._$isHiddenForLadder = value;
     }
     // endregion
 
@@ -194,7 +194,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
     }
     // endregion
 
-    // region Аспект "Стилевое оформление"
+    // region Аспект "Стилевое оформление. Классы и стили"
     getWrapperClasses(theme: string, backgroundColorStyle: string, style: string = 'default', templateHighlightOnHover: boolean): string {
         const hasColumnScroll = this._$owner.hasColumnScroll();
         const hoverBackgroundStyle = this._$owner.getHoverBackgroundStyle();
@@ -293,7 +293,7 @@ export default class Cell<T extends Model, TOwner extends Row<T>> extends mixin<
             contentClasses += ` controls-Grid__cell_${this._$column.textOverflow}`;
         }
 
-        if (this._$hiddenForLadder) {
+        if (this._$isHiddenForLadder) {
             contentClasses += ' controls-Grid__row-cell__content_hiddenForLadder';
         }
 
@@ -545,12 +545,13 @@ Object.assign(Cell.prototype, {
     _instancePrefix: 'grid-cell-',
     _$owner: null,
     _$column: null,
-    _$hiddenForLadder: null,
     _$colspan: null,
-    _$isFixed: null,
     _$instanceId: null,
-    _$ladderCell: null,
-    _$columnSeparatorSize: null,
     _$rowSeparatorSize: null,
-    _$isSingleCell: null
+    _$columnSeparatorSize: null,
+
+    _$isFixed: null,
+    _$isSingleCell: null,
+    _$isLadderCell: null,
+    _$isHiddenForLadder: null
 });

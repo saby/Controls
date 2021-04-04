@@ -63,7 +63,7 @@ export default class DataCell<T extends Model, TOwner extends DataRow<T>> extend
                       tmplIsEditable: boolean = true): string {
         let classes = super.getContentClasses(theme, backgroundColorStyle, cursor, templateHighlightOnHover);
 
-        if (this._$hiddenForLadder) {
+        if (this._$isHiddenForLadder) {
             classes += ` controls-background-${this._$backgroundStyle}`;
         }
 
