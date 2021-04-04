@@ -26,7 +26,7 @@ export class Controller {
    private _selectedKeys: TKeys = [];
    private _excludedKeys: TKeys = [];
    private _strategy: ISelectionStrategy;
-   private _limit: number|undefined;
+   private _limit: number = 0;
    private _searchValue: string;
    private _filter: any;
    private _filterChanged: boolean;
@@ -116,7 +116,19 @@ export class Controller {
     * @public
     */
    setLimit(limit: number|undefined): void {
-      this._limit = limit;
+      if (!(limit === undefined)) {
+         this._limit = limit;
+      }
+   }
+
+   /**
+    * Увеличивает лимит на указанное количество
+    * @param {number} count Количество
+    * @void
+    * @public
+    */
+   increaseLimitByCount(count: number): void {
+      this._limit += count;
    }
 
    /**
