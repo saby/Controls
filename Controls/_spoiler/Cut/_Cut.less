@@ -23,25 +23,25 @@
    .for(@countSupportLines * length(@sizes), {
       @lines: mod(@_i - 1, @countSupportLines) + 1;
       @lineHeight: extract(@sizes, ceil(@_i / @countSupportLines));
-      @lineHeightVariable: "line-height_@{lineHeight}_inputArea";
-      @heightLines: (@lines + 1) * @@lineHeightVariable;
+      @lineHeightVariable: "--line-height_@{lineHeight}_inputArea";
+      @heightLines: "calc((@{lines} + 1) * val(@{lineHeightVariable}))";
 
-      .controls-Cut_lineHeight-@{lineHeight}_lines-@{lines}_maxHeight_theme-@{themeName} {
+      .controls-Cut_lineHeight-@{lineHeight}_lines-@{lines}_maxHeight {
          max-height: @heightLines;
       }
-      .controls-Cut_lineHeight-@{lineHeight}_lines-@{lines}_height_theme-@{themeName} {
+      .controls-Cut_lineHeight-@{lineHeight}_lines-@{lines}_height {
          height: @heightLines;
       }
    });
 
    .for(length(@sizes), {
       @lineHeight: extract(@sizes, @_i);
-      @lineHeightVariable: "line-height_@{lineHeight}_inputArea";
-      .controls-Cut__ellipsisWrapper_expanded_lineHeight-@{lineHeight}_theme-@{themeName} {
-         margin-top: @@lineHeightVariable;
+      @lineHeightVariable: "--line-height_@{lineHeight}_inputArea";
+      .controls-Cut__ellipsisWrapper_expanded_lineHeight-@{lineHeight} {
+         margin-top: "var(@{lineHeightVariable})";
       }
-      .controls-Cut_lineHeight-@{lineHeight}_theme-@{themeName} {
-         line-height: @@lineHeightVariable;
+      .controls-Cut_lineHeight-@{lineHeight} {
+         line-height: "var(@{lineHeightVariable})";
       }
    });
 }
