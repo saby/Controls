@@ -36,7 +36,7 @@
 
    .for(length(@sizes), {
       @lineHeight: extract(@sizes, @_i);
-      @lineHeightVariable: "--line-height_@{lineHeight}_inputArea";
+      @lineHeightVariable: ~"--line-height_@{lineHeight}_inputArea";
       .controls-Cut__ellipsisWrapper_expanded_lineHeight-@{lineHeight} {
          margin-top: var(@lineHeightVariable);
       }
