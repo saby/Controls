@@ -1430,14 +1430,18 @@ const _private = {
         }
 
         // hideIndicator вызывают после окончания порционного поиска и нужно пересчитать отображение ромашек(attachToNull)
+        // Ромашку нужно пересчитывать одновременно с отрисовкой новых элементов, иначе это вызовет лишний цикл синхронизации
+        // и из-за этого ромашка скроется раньше, чем отрисуются новые элементы. Поэтому появятся прыжки при подгрузке
         if (self._loadingState === 'down') {
-            _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
+            self._recountIndicatorAfterDrawItems = () => _private.attachLoadDownTriggerToNullIfNeed(self, self._options);
         } else if (self._loadingState === 'up') {
-            const scrollTop = self._scrollTop;
-            if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
-                self._needScrollToFirstItem = false;
-                self._scrollTop = scrollTop;
-            }
+             self._recountIndicatorAfterDrawItems = () => {
+                const scrollTop = self._scrollTop;
+                if (_private.attachLoadTopTriggerToNullIfNeed(self, self._options)) {
+                    self._needScrollToFirstItem = false;
+                    self._scrollTop = scrollTop;
+                }
+            };
         }
 
         self._loadingState = null;
@@ -4618,6 +4622,10 @@ const BaseControl = Control.extend(/** @lends Controls/_list/BaseControl.prototy
                 this.checkTriggerVisibilityAfterRedraw();
             }
 
+            if (this._recountIndicatorAfterDrawItems) {
+                this._recountIndicatorAfterDrawItems();
+                this._recountIndicatorAfterDrawItems = null;
+            }
         }
         this._actualPagingVisible = this._pagingVisible;
 
