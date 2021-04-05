@@ -1949,7 +1949,6 @@
   "--shift-top_fontSize-m_PeriodLiteDialog-selector": "calc(var(--shift-top_fontSize-s_PeriodLiteDialog-selector) + 1px)",
   "--shift-top_fontSize-l_PeriodLiteDialog-selector": "calc(var(--shift-top_fontSize-m_PeriodLiteDialog-selector) + 1px)",
   "--height_shortDatePicker": "564px",
-  "--annually_height_shortDatePicker": "calc(var(--height_shortDatePicker) - var(--footer_height_shortDatePicker))",
   "--width_shortDatePicker": "88px",
   "--monthly_width_shortDatePicker": "136px",
   "--quarterly_width_shortDatePicker": "160px",
