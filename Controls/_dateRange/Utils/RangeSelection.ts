@@ -50,7 +50,7 @@ const Utils = {
          return '';
       }
 
-      range = this.getRange(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue);
+      range = Utils.getRange(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue);
       start = range[0];
       end = range[1];
 
@@ -95,7 +95,7 @@ const Utils = {
 
    prepareHoveredClass: (itemValue: Date, hoveredStartValue: Date, hoveredEndValue: Date,
                          cfg: IPeriodConfig): string => {
-      if (this.isHovered(itemValue, hoveredStartValue, hoveredEndValue, cfg)) {
+      if (Utils.isHovered(itemValue, hoveredStartValue, hoveredEndValue, cfg)) {
          return Utils.buildCssClass(cfg, ['hovered']);
       }
       return '';
@@ -110,7 +110,7 @@ const Utils = {
 
    isSelected: (itemValue: Date, startValue: Date, endValue: Date, selectionProcessing: boolean,
                 baseSelectionValue: Date, hoveredSelectionValue: Date): boolean => {
-      const range = this.getRange(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue);
+      const range = Utils.getRange(startValue, endValue, selectionProcessing, baseSelectionValue, hoveredSelectionValue);
       const start = range[0];
       const end = range[1];
       return start && end && itemValue >= start && itemValue <= end;
