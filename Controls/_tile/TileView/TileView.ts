@@ -2,6 +2,7 @@ import {ListView} from 'Controls/list';
 import template = require('wml!Controls/_tile/TileView/TileView');
 import defaultItemTpl = require('wml!Controls/_tile/TileView/TileTpl');
 import {TILE_SCALING_MODE, ZOOM_COEFFICIENT, ZOOM_DELAY} from './resources/Constants';
+import {SyntheticEvent} from 'Vdom/Vdom';
 import {TouchContextField} from 'Controls/context';
 import { getItemSize } from 'Controls/tileNew';
 import 'css!Controls/tile';
@@ -103,13 +104,12 @@ var TileView = ListView.extend({
         TileView.superclass._afterMount.apply(this, arguments);
     },
 
-    _onResize: function () {
-       this._listModel.setHoveredItem(null);
-       if (this._options.initialWidth) {
-           const itemsContainerWidth = this.getItemsContainer().getBoundingClientRect().width;
-           if (itemsContainerWidth > 0) {
-               this._listModel.setCurrentWidth(itemsContainerWidth);
-           }
+    _onResize: function (event: SyntheticEvent<AnimationEvent>) {
+       /* FIXME: Если включены операции над записью с задержкой, то после завершения анимации попап стреляет Resize
+          TODO: https://online.sbis.ru/opendoc.html?guid=d8d0bf9e-fc25-4882-84d9-9ff5e20d52da
+        */
+       if (event?.type !== 'animationend') {
+           this._listModel.setHoveredItem(null);
        }
     },
 
