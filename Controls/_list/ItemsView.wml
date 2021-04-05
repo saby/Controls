@@ -5,4 +5,6 @@
    useNewModel="{{true}}"
    viewName="{{_viewName}}"
    viewModelConstructor="{{_viewModelConstructor}}"
+
+   on:markedKeyChanged="_notifyHandler('markedKeyChanged')"
 />
