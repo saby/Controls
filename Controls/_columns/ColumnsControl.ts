@@ -25,6 +25,19 @@ export default class ColumnsControl<TOptions extends IColumnsControlOptions = IC
     private _spacing: number = SPACING;
     protected _listViewModel: Collection<Model>;
 
+    protected _beforeMount(newOptions: TOptions, context?, receivedState: IReceivedState = {}): void | Promise<unknown> {
+        const superMountResult = super._beforeMount(newOptions, context, receivedState);
+        if (superMountResult instanceof Promise) {
+            superMountResult.then((result) => {
+                this._listViewModel?.setColumnsCount(this._columnsCount);
+                return result;
+            });
+        } else {
+            this._listViewModel?.setColumnsCount(this._columnsCount);
+        }
+        return superMountResult;
+    }
+
     protected _afterMount(): void {
         super._afterMount();
         this._resizeHandler();
@@ -41,7 +54,7 @@ export default class ColumnsControl<TOptions extends IColumnsControlOptions = IC
                 this._columnsCount = DEFAULT_COLUMNS_COUNT;
             }
         }
-        this._listViewModel.setColumnsCount(this._columnsCount);
+        this._listViewModel?.setColumnsCount(this._columnsCount);
     }
 
     protected _beforeUpdate(options: TOptions): void {
