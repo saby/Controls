@@ -1,5 +1,6 @@
-import BaseSelector from 'Controls/_dateRange/BaseSelector';
+import BaseSelector, {IBaseSelectorOptions} from 'Controls/_dateRange/BaseSelector';
 import ILinkView from './interfaces/ILinkView';
+import {IDateSelectorOptions} from './interfaces/IDateSelector';
 import componentTmpl = require('wml!Controls/_dateRange/DateSelector/DateSelector');
 import {Base as dateUtils, Popup as PopupUtil} from 'Controls/dateUtils';
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
@@ -48,21 +49,22 @@ import 'css!Controls/dateRange';
  *
  */
 
-export default class DateSelector extends BaseSelector<IControlOptions> {
+export default class DateSelector extends BaseSelector<IDateSelectorOptions> {
    protected _template: TemplateFunction = componentTmpl;
    private _state: string;
+   EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 
-   _beforeMount(options?: IControlOptions): Promise<void> | void {
+   _beforeMount(options?: IDateSelectorOptions): Promise<void> | void {
       this._updateValues(options);
       super._beforeMount(options);
    }
 
-   protected _beforeUpdate(options): void {
+   protected _beforeUpdate(options: IDateSelectorOptions): void {
       this._updateValues(options);
       super._beforeUpdate(options);
    }
 
-   _updateValues(options): void {
+   _updateValues(options: IDateSelectorOptions): void {
       this._startValue = options.value || this._rangeModel?.startValue;
       this._endValue = options.value || this._rangeModel?.endValue;
    }
@@ -113,8 +115,6 @@ export default class DateSelector extends BaseSelector<IControlOptions> {
    shiftForward(): void {
       this._children.linkView.shiftForward();
    }
-
-   EMPTY_CAPTIONS: object = ILinkView.EMPTY_CAPTIONS;
 
    static getDefaultOptions(): object {
       return {

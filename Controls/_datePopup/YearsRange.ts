@@ -1,12 +1,17 @@
 import {Control, IControlOptions, TemplateFunction} from 'UI/Base';
 import * as template from 'wml!Controls/_datePopup/YearsRange';
 import {Date as WSDate} from 'Types/entity';
-import {DateRangeModel, rangeSelection as rangeSelectionUtils} from 'Controls/dateRange';
+import {DateRangeModel, rangeSelection as rangeSelectionUtils, IDateRangeOptions} from 'Controls/dateRange';
 import {Base as dateUtils} from 'Controls/dateUtils';
 import {constants} from 'Env/Env';
 import 'css!Controls/datePopup';
+import {IDateConstructorOptions} from 'Controls/_interface/IDateConstructor';
 
 const BUTTONS_COUNT: number = 6;
+
+interface IYearsRangeOptions extends IControlOptions, IDateRangeOptions, IDateConstructorOptions {
+    year: Date;
+}
 /**
  * Component that allows you to select periods that are multiples of years.
  *
@@ -17,14 +22,14 @@ const BUTTONS_COUNT: number = 6;
  * @private
  */
 
-export default class YearsRange extends Control<IControlOptions> {
+export default class YearsRange extends Control<IYearsRangeOptions> {
     protected _template: TemplateFunction = template;
     _year: number;
     _rangeModel: DateRangeModel;
     _model: object[];
     _lastYear: number;
 
-    protected _beforeMount(options): void {
+    protected _beforeMount(options: IYearsRangeOptions): void {
         this._year = options.year ? options.year.getFullYear() : (new Date()).getFullYear();
         if (dateUtils.isValidDate(options.endValue) && dateUtils.isValidDate(options.startValue) &&
             options.startValue.getFullYear() === options.endValue.getFullYear()) {
@@ -46,7 +51,7 @@ export default class YearsRange extends Control<IControlOptions> {
         this._updateModel(options);
     }
 
-    protected _beforeUpdate(options): void {
+    protected _beforeUpdate(options: IYearsRangeOptions): void {
         if (!dateUtils.isYearsEqual(options.year, this._options.year)) {
             this._year = options.year.getFullYear();
             if (this._year > this._lastYear) {
@@ -83,15 +88,15 @@ export default class YearsRange extends Control<IControlOptions> {
         }
     }
 
-    protected _onItemMouseEnter(e, date): void {
+    protected _onItemMouseEnter(event: Event, date: Date): void {
         this._notify('itemMouseEnter', [date]);
     }
 
-    protected _onItemMouseLeave(e, date): void {
+    protected _onItemMouseLeave(event: Date, date: Date): void {
         this._notify('itemMouseLeave', [date]);
     }
 
-    protected _prepareItemClass(itemValue): string {
+    protected _prepareItemClass(itemValue: number): string {
         const css = [];
         const itemDate = new Date(itemValue, 0);
 
@@ -104,7 +109,7 @@ export default class YearsRange extends Control<IControlOptions> {
             this._options.selectionHoveredValue,
             this._options.hoveredStartValue,
             this._options.hoveredEndValue,
-            { periodQuantum: rangeSelectionUtils.PERIOD_TYPE.year, theme: this._options.theme }
+            { periodQuantum: rangeSelectionUtils.PERIOD_TYPE.year }
         ));
 
         if (itemValue === this._year) {
@@ -124,7 +129,7 @@ export default class YearsRange extends Control<IControlOptions> {
         this._updateModel();
     }
 
-    private _updateModel(options?): void {
+    private _updateModel(options?: IYearsRangeOptions): void {
         const items = [];
         const currentYear = (new Date()).getFullYear();
         const ots = options || this._options;

@@ -1,4 +1,6 @@
-export interface IDateSelectorOptions {
+import {IBaseSelectorOptions} from '../BaseSelector';
+
+export interface IDateSelectorOptions extends IBaseSelectorOptions {
     value?: Date;
 }
 
