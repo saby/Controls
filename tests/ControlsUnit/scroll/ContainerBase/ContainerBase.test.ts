@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+import {fake, assert as sinonAssert} from 'sinon';
 
 import {_ContainerBase as ContainerBase} from 'Controls/scroll';
 import {IContainerBaseOptions} from 'Controls/_scroll/ContainerBase';
@@ -645,6 +646,23 @@ describe('Controls/scroll:ContainerBase', () => {
          control._lockScrollPositionUntilKeyboardShown();
          assert.strictEqual(control._scrollLockedPosition, control._scrollModel.scrollTop);
       });
+   });
+
+   describe('_enableVirtualNavigationHandler, _disableVirtualNavigationHandler', () => {
+      [
+          '_enableVirtualNavigationHandler',
+          '_disableVirtualNavigationHandler'
+      ].forEach((method) => {
+         it('should stop event propagation', () => {
+            const control: ContainerBase = new ContainerBase(options);
+            control._beforeMount(options)
+            const event = {
+               stopImmediatePropagation: fake()
+            }
+            control[method](event);
+            sinonAssert.calledOnce(event.stopImmediatePropagation);
+         });
+      })
    });
 
 });
