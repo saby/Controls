@@ -323,6 +323,7 @@ define([
          explorer._beforeMount(explorerOptions);
          await explorer._itemsPromise;
       });
+
       describe('_beforeUpdate', function() {
          it('collapses and expands items as needed', async() => {
             const cfg = { viewMode: 'tree', root: null };
@@ -413,6 +414,113 @@ define([
          });
       });
 
+      describe('_onBreadcrumbsChanged', () => {
+         it('fill _restoredMarkedKeys by breadcrumbs', () => {
+            // Создаем explorer c с навигацией по курсору, т.к. в
+            // _restoredMarkedKeys курсор берется из крошек
+            const cfg = {
+               nodeProperty: 'type',
+               parentProperty: 'parent',
+               navigation: {
+                  source: 'position',
+                  sourceConfig: {
+                     field: ['title', 'id']
+                  }
+               }
+            };
+            const explorer = new explorerMod.View(cfg);
+            explorer.saveOptions(cfg);
+            explorer._navigation = cfg.navigation;
+
+            // Создаем данные крошек
+            const rootItem = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: 1,
+                  title: 'Title1',
+                  type: true,
+                  parent: null
+               }
+            });
+            const childItem = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: 2,
+                  title: 'Title2',
+                  type: true,
+                  parent: 1
+               }
+            });
+
+            // Эмулируем простановку новых крошек
+            explorer._onBreadcrumbsChanged(null, [rootItem, childItem]);
+            // _restoredMarkedKeys должен заполнится на основании переданных крошек
+            assert.deepEqual(
+               explorer._restoredMarkedKeys,
+               {
+                  null: {
+                     markedKey: 1,
+                     cursorPosition: ['Title1', 1]
+                  },
+                  1: {
+                     markedKey: 2,
+                     parent: null,
+                     cursorPosition: ['Title2', 2]
+                  },
+                  2: {
+                     markedKey: null,
+                     parent: 1
+                  }
+               }
+            );
+         });
+
+         it('set _potentialMarkedKey', () => {
+            // Создаем explorer и эмулируем состояние когда от показывает
+            // содержимое папки 2го уровня
+            const cfg = {
+               nodeProperty: 'type',
+               parentProperty: 'parent'
+            };
+            const explorer = new explorerMod.View(cfg);
+            explorer.saveOptions(cfg);
+            explorer._restoredMarkedKeys = {
+               null: {
+                  markedKey: 1,
+                  cursorPosition: ['Title1', 1]
+               },
+               1: {
+                  markedKey: 2,
+                  parent: null,
+                  cursorPosition: ['Title2', 2]
+               },
+               2: {
+                  markedKey: null,
+                  parent: 1
+               }
+            };
+            explorer._root = 2;
+
+            const rootItem = new entityLib.Model({
+               keyProperty: 'id',
+               rawData: {
+                  id: 1,
+                  title: 'Title1',
+                  type: true,
+                  parent: null
+               }
+            });
+
+            // Эмулируем простановку хлебных крошек после возврата назад
+            explorer._root = 1;
+            explorer._isGoingBack = true;
+            explorer._onBreadcrumbsChanged(null, [rootItem]);
+            // explorer на основании заданного выше _restoredMarkedKeys
+            // должен проставить корректный _potentialMarkedKey
+            assert.strictEqual(explorer._potentialMarkedKey, 2);
+         });
+      });
+
       it('_onBreadCrumbsClick', function() {
          const testBreadCrumbs = new collection.RecordSet({
             rawData: [
@@ -468,6 +576,7 @@ define([
          assert.equal(events[2].eventName, 'sortingChanged');
          assert.deepEqual(events[2].eventArgs, [{field: 'DESC'}]);
       });
+
       it('reloadItem', function() {
          let instance = new explorerMod.View();
          let reloadItemCalled = false;
@@ -481,6 +590,7 @@ define([
          instance.reloadItem();
          assert.isTrue(reloadItemCalled);
       });
+
       describe('_notify(rootChanged)', function() {
          var
             root,
@@ -519,7 +629,7 @@ define([
 
          });
 
-         it('should do nothing by item click with option wxpandByItemClick', () => {
+         it('should do nothing by item click with option ExpandByItemClick', () => {
             const cfg = {
                editingConfig: {},
                expandByItemClick: true
@@ -627,24 +737,25 @@ define([
                }
             };
             await (new Promise((res) => {
-               isEventResultReturns = explorer._onItemClick({
-                  stopPropagation: function() {
-                     isPropagationStopped = true;
-                  }
-               }, {
-                  get: function() {
-                     return true;
+               isEventResultReturns = explorer._onItemClick(
+                  {
+                     stopPropagation: function() {
+                        isPropagationStopped = true;
+                     }
                   },
-                  getKey: function() {
-                     return 'itemId';
-                  }
-               }, {
-                  nativeEvent: 123
-               }, 3);
-
-               assert.strictEqual(explorer._restoredMarkedKeys['null'].markedKey, 'itemId');
-               assert.strictEqual(explorer._restoredMarkedKeys['itemId'].parent, null);
-               assert.strictEqual(explorer._restoredMarkedKeys['itemId'].markedKey, null);
+                  {
+                     get: function() {
+                        return true;
+                     },
+                     getKey: function() {
+                        return 'itemId';
+                     }
+                  },
+                  {
+                     nativeEvent: 123
+                  },
+                  3
+               );
 
                setTimeout(() => {
                   res();
@@ -652,9 +763,6 @@ define([
             }));
 
             assert.isFalse(isEventResultReturns);
-            assert.strictEqual(explorer._restoredMarkedKeys['null'].markedKey, 'itemId');
-            assert.strictEqual(explorer._restoredMarkedKeys['itemId'].parent, null);
-            assert.strictEqual(explorer._restoredMarkedKeys['itemId'].markedKey, null);
             assert.isTrue(isPropagationStopped);
             // Click
             assert.isTrue(isWeNotified);
@@ -746,9 +854,9 @@ define([
 
          it('_onBreadCrumbsClick', function() {
             isNotified = false;
+            root = undefined;
 
-            var
-               explorer = new explorerMod.View({});
+            var explorer = new explorerMod.View({});
             explorer.saveOptions({});
             explorer._isMounted = true;
             explorer._notify = _notify;
@@ -763,31 +871,11 @@ define([
                   markedKey: null,
                   cursorPosition: '0'
                },
-               itemId: {parent: null, cursorPosition: '1', markedKey: null}
-            };
-
-            explorer._onBreadCrumbsClick({}, {
-               getKey: function() {
-                  return null;
-               }
-            });
-
-            assert.deepEqual({
-               null: {
-                  markedKey: null,
-                  cursorPosition: '0'
-               },
-            }, explorer._restoredMarkedKeys);
-
-            explorer._restoredMarkedKeys = {
-               null: {
-                  markedKey: null,
-                  cursorPosition: '0'
-               },
-               itemId: {parent: null, cursorPosition: '1', markedKey: 'itemId1'},
-               itemId1: {parent: 'itemId', cursorPosition: '2', markedKey: null}
+               itemId: { parent: null, cursorPosition: '1', markedKey: 'itemId1' },
+               itemId1: { parent: 'itemId', cursorPosition: '2', markedKey: null }
             };
             explorer._root = 'itemId1';
+            explorer._isGoingBack = false;
 
             explorer._onBreadCrumbsClick({}, {
                getKey: function() {
@@ -795,44 +883,15 @@ define([
                }
             });
 
-            assert.deepEqual({
-               null: {
-                  markedKey: null,
-                  cursorPosition: '0'
-               },
-               itemId: { parent: null, markedKey: 'itemId1', cursorPosition: '1' },
-            }, explorer._restoredMarkedKeys);
-
+            // После клика по хлебным крошкам должно:
+            // 1. Послаться событие rootChanged
             assert.isTrue(isNotified);
-         });
-
-         it('_pathCleaner', function() {
-            isNotified = false;
-
-            const explorer = new explorerMod.View({});
-            explorer.saveOptions({});
-            explorer._notify = _notify;
-            explorer._children = {
-               treeControl: {
-
-               }
-            };
-
-            explorer._restoredMarkedKeys = {
-               null: {
-                  markedKey: null
-               },
-               1: {parent: null, markedKey: 11},
-               11: {parent: 1, markedKey: 112},
-               112: {parent: 11, markedKey: null},
-            };
-            explorer._root = 112;
-            explorer._pathCleaner(1);
-
-            assert.deepEqual({
-               1: {parent: null, markedKey: 11},
-               null: {markedKey: null}
-            }, explorer._restoredMarkedKeys);
+            // 1.1 В событии должен быть root кликнутой хлебной крошки
+            assert.strictEqual(root, 'itemId');
+            // 2. explorer должен переключиться в режим _isGoingBack
+            assert.isTrue(explorer._isGoingBack);
+            // 3. root в самом explorer должен смениться на id крошки
+            assert.strictEqual(explorer._getRoot(explorer._options.root), 'itemId');
          });
       });
 
@@ -1101,30 +1160,7 @@ define([
             );
          });
 
-         it('step front', () => {
-
-            const cfg = {
-               nodeProperty: 'type',
-               parentProperty: 'parent',
-               navigation: {
-                  source: 'position',
-                  sourceConfig: {
-                     field: ['title', 'id']
-                  }
-               }
-            };
-            const explorer = new explorerMod.View(cfg);
-            explorer.saveOptions(cfg);
-            explorer._restoredMarkedKeys = {
-               null: {
-                  markedKey: null
-               }
-            };
-            explorer._children.treeControl = {
-               isEditing: () => false
-            };
-
-            const mockEvent = { stopPropagation: () => {} };
+         it('step back', () => {
             const rootItem = new entityLib.Model({
                keyProperty: 'id',
                rawData: {
@@ -1144,29 +1180,6 @@ define([
                }
             });
 
-
-            explorer._onItemClick(mockEvent, rootItem);
-            explorer._onItemClick(mockEvent, childItem);
-
-            assert.deepEqual(explorer._restoredMarkedKeys, {
-               null: {
-                  markedKey: 1,
-                  cursorPosition: ['Title1', 1]
-               },
-               1: {
-                  markedKey: 2,
-                  parent: null,
-                  cursorPosition: ['Title2', 2]
-               },
-               2: {
-                  markedKey: null,
-                  parent: 1
-               }
-            });
-         });
-
-         it('step back', () => {
-
             const cfg = {
                nodeProperty: 'type',
                parentProperty: 'parent',
@@ -1177,9 +1190,11 @@ define([
                   }
                }
             };
+            // Создаем explorer с навигацией по курсору и с текущим корнем в папке с id 2
             const explorer = new explorerMod.View(cfg);
             explorer.saveOptions(cfg);
             explorer._navigation = cfg.navigation;
+            explorer._root = childItem.getKey();
             explorer._restoredMarkedKeys = {
                null: {
                   markedKey: 1,
@@ -1195,42 +1210,53 @@ define([
                   parent: 1
                }
             };
-
-            const mockEvent = { stopPropagation: () => {} };
-            const rootItem = new entityLib.Model({
-               keyProperty: 'id',
-               rawData: {
-                  id: 1,
-                  title: 'Title1',
-                  type: true,
-                  parent: null
-               }
-            });
-            const childItem = new entityLib.Model({
-               keyProperty: 'id',
-               rawData: {
-                  id: 2,
-                  title: 'Title2',
-                  type: true,
-                  parent: 1
-               }
-            });
             explorer._viewMode = undefined;
             explorer._forceUpdate = () => {
                explorer._beforeUpdate(cfg);
             };
 
-            explorer._backByPath([rootItem, childItem]);
+            // Сразу из текущий папки возвращаемся в самый верхний корень
+            explorer._backByPath([rootItem]);
+            // В соответствии с _restoredMarkedKeys position должен выставиться в
+            // ['Title1', 1]
             assert.deepEqual(
                explorer._navigation.sourceConfig.position,
                ['Title1', 1]
             );
 
-
-            explorer._backByPath([rootItem]);
+            // Восстанавливаем состояние к исходному
+            explorer._root = childItem.getKey();
+            explorer._restoredMarkedKeys = {
+               null: {
+                  markedKey: 1,
+                  cursorPosition: ['Title1', 1]
+               },
+               1: {
+                  markedKey: 2,
+                  parent: null,
+                  cursorPosition: ['Title2', 2]
+               },
+               2: {
+                  markedKey: null,
+                  parent: 1
+               }
+            };
+            // Возвращаемся в rootItem
+            explorer._backByPath([rootItem, childItem]);
+            // В соответствии с _restoredMarkedKeys position должен выставиться в
+            // ['Title2', 2]
             assert.deepEqual(
                explorer._navigation.sourceConfig.position,
-               null
+               ['Title2', 2]
+            );
+
+            // Возвращаемся в самый верхний корень
+            explorer._backByPath([rootItem]);
+            // В соответствии с _restoredMarkedKeys position должен выставиться в
+            // ['Title1', 1]
+            assert.deepEqual(
+               explorer._navigation.sourceConfig.position,
+               ['Title1', 1]
             );
          });
       });
