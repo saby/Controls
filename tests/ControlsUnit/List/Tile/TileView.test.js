@@ -521,9 +521,17 @@ define(['Controls/_tile/TileView/TileView',
       });
 
       it('_onResize', function() {
+         const event = {
+            type: ''
+         };
          tileView._listModel.setHoveredItem({key: 1});
-         tileView._onResize();
+         tileView._onResize(event);
          assert.equal(tileView._listModel.getHoveredItem(), null);
+
+         tileView._listModel.setHoveredItem({key: 1});
+         event.type = 'animationend';
+         tileView._onResize(event);
+         assert.equal(tileView._listModel.getHoveredItem().key, 3);
       });
 
       it('_onScroll, _onItemWheel', function() {
