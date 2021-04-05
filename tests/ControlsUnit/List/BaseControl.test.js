@@ -8719,6 +8719,18 @@ define([
                assert.isFalse(notifySpy.withArgs('selectedKeysChanged').calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });
+
+            it('shift pressed', () => {
+               const notifySpy = sinon.spy(baseControl, '_notify');
+               const event = {
+                  nativeEvent: {
+                     shiftKey: true
+                  }
+               };
+               baseControl._onCheckBoxClick(event, baseControl._listViewModel.getItemBySourceKey(1));
+               assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
+               assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
+            });
          });
 
          it('spaceHandler', () => {

@@ -88,6 +88,21 @@ export class FlatSelectionStrategy implements ISelectionStrategy {
       return cloneSelection;
    }
 
+   selectRange(selection: ISelection, items: Array<CollectionItem<Model>>): ISelection {
+      let newSelection = selection;
+
+      items.forEach((elem) => {
+         if (elem.SelectableItem) {
+            const elemKey = this._getKey(elem);
+            if (!newSelection.selected.includes(elemKey)) {
+               newSelection = this.select(newSelection, elemKey);
+            }
+         }
+      });
+
+      return newSelection;
+   }
+
    getSelectionForModel(
        selection: ISelection,
        limit?: number,

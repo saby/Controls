@@ -9,7 +9,7 @@ import { IEntryPathItem, ITreeSelectionStrategyOptions, TKeys } from '../interfa
 // @ts-ignore
 import clone = require('Core/core-clone');
 import { CrudEntityKey } from 'Types/source';
-import { Tree, TreeItem } from 'Controls/display';
+import {CollectionItem, Tree, TreeItem} from 'Controls/display';
 
 const LEAF = null;
 
@@ -171,6 +171,21 @@ export class TreeSelectionStrategy implements ISelectionStrategy {
       }
 
       return cloneSelection;
+   }
+
+   selectRange(selection: ISelection, items: Array<CollectionItem<Model>>): ISelection {
+      let newSelection = selection;
+
+      items.forEach((elem) => {
+         if (elem.SelectableItem && (!elem.isNode() || elem.isNode() && !elem.isExpanded())) {
+            const elemKey = this._getKey(elem);
+            if (!newSelection.selected.includes(elemKey)) {
+               newSelection = this.select(newSelection, elemKey);
+            }
+         }
+      });
+
+      return newSelection;
    }
 
    getSelectionForModel(
