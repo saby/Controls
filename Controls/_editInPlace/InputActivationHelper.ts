@@ -139,6 +139,9 @@ export class InputActivationHelper {
         // return true; означает, что все что можно предпринять для активации контрола было сделано.
         if (target.closest('.controls-ComboBox')) {
             return true;
+        } else if (target.closest('.controls-Lookup')) {
+            target.focus();
+            return true;
         }
 
         // Выполняем корректировку выделения только в случае пустого выделения
