@@ -94,6 +94,14 @@ export interface IPreviewer {
  * @cfg {String|Function} Опции для контрола, переданного в {@link template}
  */
 
+/**
+ * @name Controls/_popup/interface/IPreviewer#actionOnScroll
+ * @cfg {String} Определяет реакцию всплывающего окна на скролл родительской области
+ * @variant close Всплывающее окно закрывается
+ * @variant none Всплывающее окно остается на месте расположения, вне зависимости от движения точки позиционнирования
+ * @default close
+ */
+
 /*
  * @name Controls/_popup/interface/IPreviewer#trigger
  * @cfg {String} Event name trigger the opening or closing of the template.
