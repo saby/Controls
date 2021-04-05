@@ -36,14 +36,14 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
     }
 
     update(options: IFilterViewModelOptions): void {
-        if (!isEqual(this._options.source, options.source)) {
+        if (options.source && !isEqual(this._options.source, options.source)) {
             this._source = this._getSource(options.source);
             this._editingObject = this._getEditingObjectBySource(this._source);
             this.setEditingObject(this._editingObject);
             this._nextVersion();
         }
 
-        if (!isEqual(this._options.collapsedGroups, options.collapsedGroups)) {
+        if (options.collapsedGroups && !isEqual(this._options.collapsedGroups, options.collapsedGroups)) {
             this._collapsedGroups = options.collapsedGroups;
             this._nextVersion();
         }
@@ -100,22 +100,25 @@ export default class FilterViewModel extends mixin<VersionableMixin>(Versionable
         this._source = object.clone(this._source);
         this._source.forEach((item) => {
             const editingItemProperty = editingObject[item.name];
-            item.value = editingItemProperty?.value === undefined ? editingItemProperty : editingItemProperty?.value;
-            if (editingItemProperty.textValue !== undefined) {
-                item.textValue = editingItemProperty.textValue;
-            }
-            if (editingItemProperty?.needCollapse) {
-                this.collapseGroup(item.group);
-            }
-            const newViewMode = editingItemProperty?.viewMode;
-            const viewModeChanged = newViewMode && newViewMode !== item.viewMode;
-            if (viewModeChanged) {
-                if (item.viewMode === 'basic') {
-                    item.value = item.resetValue;
+            if (editingItemProperty) {
+                item.value = editingItemProperty?.value === undefined ? editingItemProperty
+                             : editingItemProperty?.value;
+                if (editingItemProperty.textValue !== undefined) {
+                    item.textValue = editingItemProperty.textValue;
                 }
-                item.viewMode = newViewMode;
-            } else if (item.viewMode === 'extended' && !isEqual(item.value, item.resetValue)) {
-                item.viewMode = 'basic';
+                if (editingItemProperty?.needCollapse) {
+                    this.collapseGroup(item.group);
+                }
+                const newViewMode = editingItemProperty?.viewMode;
+                const viewModeChanged = newViewMode && newViewMode !== item.viewMode;
+                if (viewModeChanged) {
+                    if (item.viewMode === 'basic') {
+                        item.value = item.resetValue;
+                    }
+                    item.viewMode = newViewMode;
+                } else if (item.viewMode === 'extended' && !isEqual(item.value, item.resetValue)) {
+                    item.viewMode = 'basic';
+                }
             }
         });
         this._groupItems = this._getGroupItemsBySource(this._source);
