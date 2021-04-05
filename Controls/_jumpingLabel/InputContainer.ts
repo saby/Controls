@@ -12,8 +12,11 @@ export interface IInputContainerOptions extends IBaseOptions {
 
 /**
  * Контрол, отображающий подсказку рядом с полем ввода. Если в поле ввода нет данных, подсказка отображается как placeholder.
+ * Важно: При использовании прыгающей метки опцию value нужно задавать не на полях ввода, а на самой метке.
  * @remark
  * Используется с контролами, поддерживающими интерфейс {@link Controls/input:IValue}.
+ * Необходимо установливать опцию value в контроле, при этом отображаемое значение будет соответствовать её значению.
+ *
  * Полезные ссылки
  * * {@link /materials/Controls-demo/app/Controls-demo%2FJumpingLabel%2FStandard%2FIndex демо-пример}
  * * {@link http://axure.tensor.ru/StandardsV8/%D0%BF%D0%BE%D0%BB%D1%8F_%D0%B2%D0%B2%D0%BE%D0%B4%D0%B0.html Стандарт}
