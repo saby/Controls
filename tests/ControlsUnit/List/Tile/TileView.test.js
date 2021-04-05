@@ -531,7 +531,7 @@ define(['Controls/_tile/TileView/TileView',
          tileView._listModel.setHoveredItem({key: 1});
          event.type = 'animationend';
          tileView._onResize(event);
-         assert.equal(tileView._listModel.getHoveredItem().key, 3);
+         assert.equal(tileView._listModel.getHoveredItem().key, 1);
       });
 
       it('_onScroll, _onItemWheel', function() {
