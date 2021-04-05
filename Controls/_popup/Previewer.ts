@@ -142,7 +142,9 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
     }
 
     protected _scrollHandler(event: SyntheticEvent<MouseEvent>): void {
-        this._close(event);
+        if (this._options.actionOnScroll === 'close') {
+            this._close(event);
+        }
     }
 
     protected _contentMouseenterHandler(event: SyntheticEvent<MouseEvent>): void {
@@ -246,7 +248,8 @@ class PreviewerTarget extends Control<IPreviewerOptions> implements IPreviewer {
 
     static getDefaultOptions(): IPreviewerOptions {
         return {
-            trigger: 'hoverAndClick'
+            trigger: 'hoverAndClick',
+            actionOnScroll: 'close'
         };
     }
 }
