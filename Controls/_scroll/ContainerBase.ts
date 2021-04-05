@@ -236,11 +236,14 @@ export default class ContainerBase<T extends IContainerBaseOptions> extends Cont
         this._virtualNavigationRegistrar.unregister(event, registerType, component);
     }
 
-    protected _enableVirtualNavigationHandler(): void {
+    protected _enableVirtualNavigationHandler(event: SyntheticEvent): void {
+        event.stopImmediatePropagation()
         this._virtualNavigationRegistrar.start(true);
+
     }
 
-    protected _disableVirtualNavigationHandler(): void {
+    protected _disableVirtualNavigationHandler(event: SyntheticEvent): void {
+        event.stopImmediatePropagation()
         this._virtualNavigationRegistrar.start(false);
     }
 
