@@ -8728,7 +8728,7 @@ define([
                   }
                };
                baseControl._onCheckBoxClick(event, baseControl._listViewModel.getItemBySourceKey(1));
-               assert.isFalse(notifySpy.('selectedKeysChanged', [[1], [1], []]).calledOnce);
+               assert.isTrue(notifySpy.withArgs('selectedKeysChanged', [[1], [1], []]).calledOnce);
                assert.isFalse(notifySpy.withArgs('excludedKeysChanged').calledOnce);
             });
          });
